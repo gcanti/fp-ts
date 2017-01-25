@@ -1,0 +1,20 @@
+{
+  "name": "fp-ts",
+  "version": "0.0.1",
+  "description": "Functional programming in TypeScript",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gcanti/fp-ts.git"
+  },
+  "author": "Giulio Canti <giulio.canti@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gcanti/fp-ts/issues"
+  },
+  "homepage": "https://github.com/gcanti/fp-ts",
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^2.1.5"
+  }
+}
