@@ -10,6 +10,8 @@ export function prj<A>(as: Arr<A>): Array<A> {
   return as as any as Array<A>
 }
 
+export const empty: Arr<any> = inj([])
+
 export const monad: Monad<'Arr'> = {
   map<A, B>(f: (a: A) => B, fa: Arr<A>): Arr<B> {
     return inj(prj(fa).map(f))
@@ -22,7 +24,7 @@ export const monad: Monad<'Arr'> = {
     return inj(prj(fab).reduce((acc: Array<B>, f) => acc.concat(a.map(f)), []))
   },
   chain<A, B>(f: (a: A) => Arr<B>, fa: Arr<A>): Arr<B> {
-    throw new Error('not implemented')
+    return inj(prj(fa).reduce((acc: Array<B>, a) => acc.concat(prj(f(a))), []))
   }
 }
 
@@ -40,9 +42,8 @@ export const traversable: Traversable<'Arr'> = {
   map: monad.map,
   reduce: foldable.reduce,
   traverse<F, A, B>(applicative: Applicative<F>, f: (a: A) => HKT<F, B>, ta: Arr<A>): HKT<F, Arr<B>> {
-    const empty = applicative.of<Arr<B>>(inj([]))
     const snocA2 = liftA2<F, Arr<B>, B, Arr<B>>(applicative, snoc)
-    return foldable.reduce((fab: HKT<F, Arr<B>>, a) => snocA2(fab, f(a)), empty, ta)
+    return foldable.reduce((fab: HKT<F, Arr<B>>, a) => snocA2(fab, f(a)), applicative.of(empty), ta)
   }
 }
 

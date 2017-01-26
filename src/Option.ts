@@ -1,4 +1,4 @@
-import { HKT, Monad, Foldable, Traversable, Applicative } from './cats'
+import { HKT, Applicative, Monoid } from './cats'
 import { identity, constant } from './function'
 
 export abstract class Option<A> extends HKT<'Option', A> {
@@ -8,6 +8,7 @@ export abstract class Option<A> extends HKT<'Option', A> {
   abstract fold<B>(n: () => B, s: (a: A) => B): B
   abstract reduce<A, B>(f: (b: B, a: A) => B, b: B): B
   abstract traverse<F, B>(applicative: Applicative<F>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>>
+  abstract alt(fa: Option<A>): Option<A>
 }
 
 export class None extends Option<any> {
@@ -26,12 +27,21 @@ export class None extends Option<any> {
   traverse<F, B>(applicative: Applicative<F>, f: (a: any) => HKT<F, B>): HKT<F, Option<B>> {
     return applicative.of(none)
   }
+  alt<A>(fa: Option<A>): Option<A> {
+    return fa
+  }
   fold<B>(n: () => B, s: (a: any) => B): B {
     return n()
   }
 }
 
+export function fold<A, B>(n: () => B, s: (a: A) => B, fa: Option<A>): B {
+  return fa.fold(n, s)
+}
+
 export const none: Option<any> = new None
+
+export const empty = constant(none)
 
 export class Some<A> extends Option<A> {
   constructor(private value: A){ super() }
@@ -50,6 +60,9 @@ export class Some<A> extends Option<A> {
   traverse<F, B>(applicative: Applicative<F>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> {
     return applicative.map(b => new Some(b), f(this.value))
   }
+  alt(fa: Option<A>): Option<A> {
+    return this
+  }
   fold<B>(n: () => B, s: (a: A) => B): B {
     return s(this.value)
   }
@@ -59,31 +72,38 @@ export function fromNullable<A>(a: A | null | undefined): Option<A> {
   return a == null ? none : new Some(a)
 }
 
-export const monad: Monad<'Option'> = {
-  map<A, B>(f: (a: A) => B, fa: Option<A>): Option<B> {
-    return fa.map(f)
-  },
-  of<A>(a: A): Option<A> {
-    return new Some(a)
-  },
-  ap<A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> {
-    return fa.ap(fab)
-  },
-  chain<A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> {
-    return fa.chain(f)
-  }
+export function map<A, B>(f: (a: A) => B, fa: Option<A>): Option<B> {
+  return fa.map(f)
 }
 
-export const foldable: Foldable<'Option'> = {
-  reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B {
-    return fa.reduce(f, b)
-  }
+export function of<A>(a: A): Option<A> {
+  return new Some(a)
 }
 
-export const traversable: Traversable<'Option'> = {
-  map: monad.map,
-  reduce: foldable.reduce,
-  traverse<F, A, B>(applicative: Applicative<F>, f: (a: A) => HKT<F, B>, ta: Option<A>): HKT<F, Option<B>> {
-    return ta.traverse(applicative, f)
-  }
+export function ap<A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> {
+  return fa.ap(fab)
+}
+
+export function chain<A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> {
+  return fa.chain(f)
+}
+
+export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B {
+  return fa.reduce(f, b)
+}
+
+export function traverse<F, A, B>(applicative: Applicative<F>, f: (a: A) => HKT<F, B>, ta: Option<A>): HKT<F, Option<B>> {
+  return ta.traverse(applicative, f)
+}
+
+export function alt<A>(fx: Option<A>, fy: Option<A>): Option<A> {
+  return fx.alt(fy)
+}
+
+export const zero = constant(empty)
+
+/** Maybe monoid returning the leftmost non-Nothing value */
+export const monoidFirst: Monoid<Option<any>> = {
+  empty,
+  concat: alt
 }
