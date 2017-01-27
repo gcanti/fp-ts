@@ -1,4 +1,4 @@
 *.log
 node_modules
-build
+lib
 index.ts

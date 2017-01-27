@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./build",
+    "outDir": "./lib",
     "sourceMap": false,
     "module": "commonjs",
     "noImplicitAny": true,
@@ -18,5 +18,10 @@
   },
   "include": [
     "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "test"
   ]
 }

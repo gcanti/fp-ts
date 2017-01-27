@@ -1,4 +1,4 @@
-import { HKT, Semigroup, Apply, Applicative, Monoid } from './cats'
+import { HKT, Semigroup, Apply, Applicative, Monoid, Functor, Contravariant } from './cats'
 
 export class Const<A, B> extends HKT<HKT<'Const', A>, B> {
   constructor(public value: A){ super() }
@@ -29,11 +29,19 @@ export function getApply<A>(semigroup: Semigroup<A>): Apply<HKT<'Const', A>> {
 
 export function getApplicative<A>(monoid: Monoid<A>): Applicative<HKT<'Const', A>> {
   const { ap } = getApply(monoid)
+  const empty = new Const<A, any>(monoid.empty())
   return {
     map,
     ap,
     of<B>(b: B): Const<A, B> {
-      return new Const<A, B>(monoid.empty())
+      return empty
     }
   }
 }
+
+;(
+  { map, contramap } as (
+    Functor<HKT<'Const', any>> &
+    Contravariant<HKT<'Const', any>>
+  )
+)

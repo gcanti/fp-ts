@@ -1,4 +1,4 @@
-export function constant<A>(a: A): (..._: any[]) => A {
+export function constant<A>(a: A): () => A {
   return () => a
 }
 

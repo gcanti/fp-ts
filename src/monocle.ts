@@ -152,7 +152,7 @@ export class Traversal<S, A> {
   ){}
 
   modify(f: (a: A) => A, s: S): S {
-    return id.prj(this.modifyF(id, a => id.inj(f(a)), s))
+    return (this.modifyF(id, a => id.of(f(a)), s) as id.Identity<S>).extract()
   }
 
   set(a: A, s: S): S {

@@ -1,4 +1,4 @@
-import { HKT, Applicative, Monoid } from './cats'
+import { HKT, Applicative, Monoid, Monad, Foldable, Traversable, Alternative, Extend, Plus } from './cats'
 import { identity, constant } from './function'
 
 export abstract class Option<A> extends HKT<'Option', A> {
@@ -9,6 +9,7 @@ export abstract class Option<A> extends HKT<'Option', A> {
   abstract reduce<A, B>(f: (b: B, a: A) => B, b: B): B
   abstract traverse<F, B>(applicative: Applicative<F>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>>
   abstract alt(fa: Option<A>): Option<A>
+  abstract extend<B>(f: (ea: Option<A>) => B): Option<B>
 }
 
 export class None extends Option<any> {
@@ -29,6 +30,9 @@ export class None extends Option<any> {
   }
   alt<A>(fa: Option<A>): Option<A> {
     return fa
+  }
+  extend<B>(f: (ea: Option<any>) => B): Option<B> {
+    return none
   }
   fold<B>(n: () => B, s: (a: any) => B): B {
     return n()
@@ -62,6 +66,9 @@ export class Some<A> extends Option<A> {
   }
   alt(fa: Option<A>): Option<A> {
     return this
+  }
+  extend<B>(f: (ea: Option<A>) => B): Option<B> {
+    return new Some<B>(f(this))
   }
   fold<B>(n: () => B, s: (a: A) => B): B {
     return s(this.value)
@@ -100,10 +107,25 @@ export function alt<A>(fx: Option<A>, fy: Option<A>): Option<A> {
   return fx.alt(fy)
 }
 
-export const zero = constant(empty)
+export const zero = constant(none)
+
+export function extend<A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> {
+  return ea.extend(f)
+}
 
 /** Maybe monoid returning the leftmost non-Nothing value */
 export const monoidFirst: Monoid<Option<any>> = {
   empty,
   concat: alt
 }
+
+;(
+  { map, of, ap, chain, reduce, traverse, alt, extend, zero } as (
+    Monad<'Option'> &
+    Foldable<'Option'> &
+    Plus<'Option'> &
+    Traversable<'Option'> &
+    Alternative<'Option'> &
+    Extend<'Option'>
+  )
+)

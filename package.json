@@ -2,7 +2,9 @@
   "name": "fp-ts",
   "version": "0.0.1",
   "description": "Functional programming in TypeScript",
-  "scripts": {},
+  "scripts": {
+    "build": "rm -rf lib/* && tsc"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/gcanti/fp-ts.git"
@@ -16,5 +18,19 @@
   "dependencies": {},
   "devDependencies": {
     "typescript": "^2.1.5"
-  }
+  },
+  "tags": [
+    "typescript",
+    "static land",
+    "fantasy land",
+    "algebraic types",
+    "functional programming"
+  ],
+  "keywords": [
+    "typescript",
+    "static land",
+    "fantasy land",
+    "algebraic types",
+    "functional programming"
+  ]
 }

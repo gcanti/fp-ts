@@ -1,4 +1,4 @@
-import { identity } from './function'
+import { identity, constant } from './function'
 
 export abstract class HKT<F, A> {
   __hkt: F;
@@ -16,19 +16,19 @@ export interface Monoid<M> extends Semigroup<M> {
 }
 
 export const monoidArray: Monoid<Array<any>> = {
-  empty: () => [],
+  empty: constant([]),
   concat: (x, y) => x.concat(y)
 }
 
-// Boolean monoid under conjunction
+/** Boolean monoid under conjunction */
 export const monoidAll: Monoid<boolean> = {
-  empty: () => true,
+  empty: constant(true),
   concat: (x, y) => x && y
 }
 
-// Boolean monoid under disjunction
+/** Boolean monoid under disjunction */
 export const monoidAny: Monoid<boolean> = {
-  empty: () => false,
+  empty: constant(false),
   concat: (x, y) => x || y
 }
 
@@ -36,7 +36,7 @@ export interface Functor<F> {
   map<A, B>(f: (a: A) => B, fa: HKT<F, A>): HKT<F, B>
 }
 
-export interface Controvariant<F> {
+export interface Contravariant<F> {
   contramap<A, B>(f: (a: B) => A, fa: HKT<F, A>): HKT<F, B>
 }
 
@@ -46,6 +46,10 @@ export function lift<F, A, B>(functor: Functor<F>, f: (a: A) => B): (fa: HKT<F, 
 
 export interface PointedFunctor<F> extends Functor<F> {
   of<A>(a: A): HKT<F, A>
+}
+
+export interface Bifunctor<F> extends Functor<HKT<F, any>> {
+  bimap<A, B, C, D>(f: (a: A) => B, g: (c: C) => D, fac: HKT2<F, A, C>): HKT2<F, B, D>
 }
 
 export interface Apply<F> extends Functor<F> {
@@ -64,11 +68,21 @@ export interface Chain<F> extends Apply<F> {
 
 export interface Monad<F> extends Applicative<F>, Chain<F> {}
 
+export interface Copointed<F> extends Functor<F> {
+  extract<A>(ca: HKT<F, A>): A
+}
+
+export interface Extend<F> {
+  extend<A, B>(f: (ea: HKT<F, A>) => B, ea: HKT<F, A>): HKT<F, B>
+}
+
+export interface Comonad<F> extends Extend<F>, Copointed<F> {}
+
 export interface Foldable<F> {
   reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: HKT<F, A>): B
 }
 
-/* A default implementation of `foldMap` using `foldl`. */
+/** A default implementation of `foldMap` using `foldl`. */
 export function foldMap<F, M, A>(foldable: Foldable<F>, monoid: Monoid<M>, f: (a: A) => M, fa: HKT<F, A>): M {
   return foldable.reduce((acc, x) => monoid.concat(f(x), acc), monoid.empty(), fa)
 }
