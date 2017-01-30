@@ -1,6 +1,6 @@
 import { HKT, Applicative, liftA2 } from './cats'
 
-type Arr<A> = HKT<'Arr', A>
+export type Arr<A> = HKT<'Arr', A>
 
 export function inj<A>(as: Array<A>): Arr<A> {
   return as as any as Arr<A>

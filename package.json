@@ -2,8 +2,13 @@
   "name": "fp-ts",
   "version": "0.0.1",
   "description": "Functional programming in TypeScript",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
   "scripts": {
-    "build": "rm -rf lib/* && tsc"
+    "test": "mocha -r ts-node/register test/*.ts",
+    "build": "rm -rf lib/* && tsc -d"
   },
   "repository": {
     "type": "git",
@@ -17,6 +22,10 @@
   "homepage": "https://github.com/gcanti/fp-ts",
   "dependencies": {},
   "devDependencies": {
+    "@types/mocha": "^2.2.38",
+    "@types/node": "^7.0.4",
+    "mocha": "^3.2.0",
+    "ts-node": "^2.0.0",
     "typescript": "^2.1.5"
   },
   "tags": [
