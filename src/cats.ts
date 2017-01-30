@@ -7,6 +7,14 @@ export abstract class HKT<F, A> {
 
 export type HKT2<F, A, B> = HKT<HKT<F, A>, B>;
 
+export interface Setoid<M> {
+  equals(x: M, y: M): boolean
+}
+
+export const setoidPimitive: Setoid<any> = {
+  equals: (x, y) => x === y
+}
+
 export interface Semigroup<M> {
   concat(x: M, y: M): M
 }

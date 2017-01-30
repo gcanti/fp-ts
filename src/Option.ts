@@ -1,7 +1,9 @@
-import { HKT, Applicative, Monoid, Monad, Foldable, Traversable, Alternative, Extend, Plus } from './cats'
-import { identity, constant } from './function'
+import { HKT, Applicative, Monoid, Monad, Foldable, Traversable, Alternative, Extend, Plus, Semigroup, Setoid } from './cats'
+import { identity, constant, ffalse, ftrue } from './function'
 
 export abstract class Option<A> extends HKT<'Option', A> {
+  static of = of
+  static zero = zero
   abstract map<B>(f: (a: A) => B): Option<B>
   abstract ap<A, B>(fab: Option<(a: A) => B>): Option<B>
   abstract chain<B>(f: (a: any) => Option<B>): Option<B>
@@ -9,7 +11,7 @@ export abstract class Option<A> extends HKT<'Option', A> {
   abstract reduce<A, B>(f: (b: B, a: A) => B, b: B): B
   abstract traverse<F, B>(applicative: Applicative<F>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>>
   abstract alt(fa: Option<A>): Option<A>
-  abstract extend<B>(f: (ea: Option<A>) => B): Option<B>
+  abstract extend<B>(fy: (ea: Option<A>) => B): Option<B>
 }
 
 export class None extends Option<any> {
@@ -39,13 +41,11 @@ export class None extends Option<any> {
   }
 }
 
-export function fold<A, B>(n: () => B, s: (a: A) => B, fa: Option<A>): B {
-  return fa.fold(n, s)
-}
-
 export const none: Option<any> = new None
 
-export const empty = constant(none)
+export function zero(): Option<any> {
+  return none
+}
 
 export class Some<A> extends Option<A> {
   constructor(private value: A){ super() }
@@ -73,6 +73,17 @@ export class Some<A> extends Option<A> {
   fold<B>(n: () => B, s: (a: A) => B): B {
     return s(this.value)
   }
+}
+
+export function equals<A>(setoid: Setoid<A>, fx: Option<A>, fy: Option<A>): boolean {
+  return fx.fold(
+    () => fy.fold(ftrue, ffalse),
+    x => fy.fold(ffalse, y => setoid.equals(x, y))
+  )
+}
+
+export function fold<A, B>(n: () => B, s: (a: A) => B, fa: Option<A>): B {
+  return fa.fold(n, s)
 }
 
 export function fromNullable<A>(a: A | null | undefined): Option<A> {
@@ -107,16 +118,32 @@ export function alt<A>(fx: Option<A>, fy: Option<A>): Option<A> {
   return fx.alt(fy)
 }
 
-export const zero = constant(none)
-
 export function extend<A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> {
   return ea.extend(f)
 }
+
+const empty = constant(none)
 
 /** Maybe monoid returning the leftmost non-Nothing value */
 export const monoidFirst: Monoid<Option<any>> = {
   empty,
   concat: alt
+}
+
+export function concat<A>(semigroup: Semigroup<A>, fx: Option<A>, fy: Option<A>): Option<A> {
+  return fx.fold(
+    () => fy,
+    x => fy.fold(() => fx, y => of(semigroup.concat(x, y)))
+  )
+}
+
+export function getSemigroup<A>(semigroup: Semigroup<A>): Semigroup<Option<A>> {
+  return { concat: (fx, fy) => concat(semigroup, fx, fy) }
+}
+
+export function getMonoid<A>(semigroup: Semigroup<A>): Monoid<Option<A>> {
+  const { concat } = getSemigroup(semigroup)
+  return { empty, concat }
 }
 
 ;(

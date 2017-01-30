@@ -5,10 +5,10 @@ import { identity, constant } from './function'
 import * as id from './Identity'
 import * as con from './Const'
 
-type Get<S, A> = (s: S) => A
-type ReverseGet<S, A> = (a: A) => S
-type Set<S, A> = (a: A, s: S) => S
-type GetOption<S, A> = (s: S) => Option<A>
+export type Get<S, A> = (s: S) => A
+export type ReverseGet<S, A> = (a: A) => S
+export type Set<S, A> = (a: A, s: S) => S
+export type GetOption<S, A> = (s: S) => Option<A>
 
 /*
   Laws:
@@ -171,7 +171,7 @@ export class Traversal<S, A> {
   asFold(): Fold<S, A> {
     return new Fold(
       <M>(monoid: Monoid<M>, f: (a: A) => M, s: S): M =>
-        (this.modifyF(con.getApplicative(monoid), a => new con.Const<M, A>(f(a)), s) as con.Const<M, S>).value
+        (this.modifyF(con.getApplicative(monoid), a => new con.Const<M, A>(f(a)), s) as con.Const<M, S>).fold(identity)
     )
   }
 }

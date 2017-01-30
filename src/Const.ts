@@ -1,13 +1,21 @@
-import { HKT, Semigroup, Apply, Applicative, Monoid, Functor, Contravariant } from './cats'
+import { HKT, Semigroup, Apply, Applicative, Monoid, Functor, Contravariant, Setoid } from './cats'
+import { identity } from './function'
 
 export class Const<A, B> extends HKT<HKT<'Const', A>, B> {
-  constructor(public value: A){ super() }
+  constructor(private value: A){ super() }
   map<B, C>(f: (a: B) => C): Const<A, C> {
     return this as any as Const<A, C>
   }
   contramap<B, C>(f: (a: C) => B): Const<A, C> {
     return this as any as Const<A, C>
   }
+  fold<B>(f: (a: A) => B): B {
+    return f(this.value)
+  }
+}
+
+export function equals<A, B>(setoid: Setoid<A>, fx: Const<A, B>, fy: Const<A, B>): boolean {
+  return fx.fold(x => fy.fold(y => setoid.equals(x, y)))
 }
 
 export function map<A, B, C>(f: (a: B) => C, fa: Const<A, B>): Const<A, C> {
@@ -22,7 +30,7 @@ export function getApply<A>(semigroup: Semigroup<A>): Apply<HKT<'Const', A>> {
   return {
     map,
     ap<B, C>(fab: Const<A, (a: B) => C>, fa: Const<A, B>): Const<A, C> {
-      return new Const<A, C>(semigroup.concat(fab.value, fa.value))
+      return new Const<A, C>(semigroup.concat(fab.fold(identity), fa.fold(identity)))
     }
   }
 }
