@@ -1,5 +1,5 @@
-import { HKT, Applicative, Monad, Foldable, Traversable, Bifunctor, Alt, Extend } from './cats'
-import { identity } from './function'
+import { HKT, Applicative, Monad, Foldable, Traversable, Bifunctor, Alt, Extend, Setoid } from './cats'
+import { identity, ffalse, ftrue } from './function'
 
 export abstract class Either<L, A> extends HKT<HKT<'Either', L>, A> {
   static of = of
@@ -74,6 +74,13 @@ export class Right<L, A> extends Either<L, A> {
   fold<B>(l: (l: L) => B, r: (a: A) => B): B {
     return r(this.value)
   }
+}
+
+export function equals<L, A>(setoid: Setoid<A>, fx: Either<L, A>, fy: Either<L, A>): boolean {
+  return fx.fold(
+    () => fy.fold(ftrue, ffalse),
+    x => fy.fold(ffalse, y => setoid.equals(x, y))
+  )
 }
 
 export function map<L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> {

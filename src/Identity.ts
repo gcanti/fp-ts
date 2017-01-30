@@ -1,4 +1,4 @@
-import { HKT, Applicative, Monad, Comonad, Foldable, Traversable, Alt } from './cats'
+import { HKT, Applicative, Monad, Comonad, Foldable, Traversable, Alt, Setoid } from './cats'
 
 export class Identity<A> extends HKT<'Identity', A> {
   static of = of
@@ -31,6 +31,10 @@ export class Identity<A> extends HKT<'Identity', A> {
   fold<B>(f: (a: A) => B): B {
     return f(this.value)
   }
+}
+
+export function equals<A>(setoid: Setoid<A>, fx: Identity<A>, fy: Identity<A>): boolean {
+  return fx.fold(x => fy.fold(y => setoid.equals(x, y)))
 }
 
 export function map<A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B> {
