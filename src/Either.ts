@@ -2,6 +2,7 @@ import { HKT, Applicative, Monad, Foldable, Traversable, Bifunctor, Alt, Extend 
 import { identity } from './function'
 
 export abstract class Either<L, A> extends HKT<HKT<'Either', L>, A> {
+  static of = of
   abstract map<B>(f: (a: A) => B): Either<L, B>
   abstract ap<B>(fab: Either<L, (a: A) => B>): Either<L, B>
   abstract chain<B>(f: (a: A) => Either<L, B>): Either<L, B>

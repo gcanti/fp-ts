@@ -1,6 +1,8 @@
 import { HKT, Applicative, Monad, Comonad, Foldable, Traversable, Alt } from './cats'
 
 export class Identity<A> extends HKT<'Identity', A> {
+  static of = of
+  static extract = extract
   constructor(private value: A){ super() }
   map<B>(f: (a: A) => B): Identity<B> {
     return new Identity(f(this.value))

@@ -1,7 +1,13 @@
 import { HKT, Applicative, Monoid, Monad, Foldable, Traversable, Alternative, Extend, Plus } from './cats'
 import { identity, constant } from './function'
 
+export const none: Option<any> = new None
+
+export const zero = constant(none)
+
 export abstract class Option<A> extends HKT<'Option', A> {
+  static of = of
+  static zero = zero
   abstract map<B>(f: (a: A) => B): Option<B>
   abstract ap<A, B>(fab: Option<(a: A) => B>): Option<B>
   abstract chain<B>(f: (a: any) => Option<B>): Option<B>
@@ -42,10 +48,6 @@ export class None extends Option<any> {
 export function fold<A, B>(n: () => B, s: (a: A) => B, fa: Option<A>): B {
   return fa.fold(n, s)
 }
-
-export const none: Option<any> = new None
-
-export const empty = constant(none)
 
 export class Some<A> extends Option<A> {
   constructor(private value: A){ super() }
@@ -107,11 +109,11 @@ export function alt<A>(fx: Option<A>, fy: Option<A>): Option<A> {
   return fx.alt(fy)
 }
 
-export const zero = constant(none)
-
 export function extend<A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> {
   return ea.extend(f)
 }
+
+const empty = constant(none)
 
 /** Maybe monoid returning the leftmost non-Nothing value */
 export const monoidFirst: Monoid<Option<any>> = {
