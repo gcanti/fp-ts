@@ -13,10 +13,10 @@ import {
   fromNullable
 } from '../src/Option'
 
-import { setoidPimitive } from '../src/cats'
+import { setoidNumber } from '../src/cats'
 
 function assertEqual<A>(fx: Option<A>, fy: Option<A>) {
-  assert.strictEqual(equals(setoidPimitive, fx, fy), true)
+  assert.strictEqual(equals({ equals: (x, y) => x === y }, fx, fy), true)
 }
 
 describe('Option', () => {
@@ -28,10 +28,10 @@ describe('Option', () => {
   })
 
   it('equals', () => {
-    assert.strictEqual(equals(setoidPimitive, none, none), true)
-    assert.strictEqual(equals(setoidPimitive, none, of(1)), false)
-    assert.strictEqual(equals(setoidPimitive, of(2), of(1)), false)
-    assert.strictEqual(equals(setoidPimitive, of(2), of(2)), true)
+    assert.strictEqual(equals(setoidNumber, none, none), true)
+    assert.strictEqual(equals(setoidNumber, none, of(1)), false)
+    assert.strictEqual(equals(setoidNumber, of(2), of(1)), false)
+    assert.strictEqual(equals(setoidNumber, of(2), of(2)), true)
   })
 
   it('map', () => {
