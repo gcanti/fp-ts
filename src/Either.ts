@@ -15,7 +15,7 @@ export abstract class Either<L, A> extends HKT<HKT<'Either', L>, A> {
 }
 
 export class Left<L, A> extends Either<L, A> {
-  constructor(private value: L){ super() }
+  constructor(public value: L){ super() }
   map<B>(f: (a: A) => B): Either<L, B> {
     return this as any as Either<L, B>
   }
@@ -46,7 +46,7 @@ export class Left<L, A> extends Either<L, A> {
 }
 
 export class Right<L, A> extends Either<L, A> {
-  constructor(private value: A){ super() }
+  constructor(public value: A){ super() }
   map<B>(f: (a: A) => B): Either<L, B> {
     return new Right<L, B>(f(this.value))
   }
@@ -117,6 +117,14 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: Either<L, A>): B
 
 export function traverse<F, L, A, B>(applicative: Applicative<F>, f: (a: A) => HKT<F, B>, ta: Either<L, A>): HKT<F, Either<L, B>> {
   return ta.traverse(applicative, f)
+}
+
+export function isLeft<L, A>(fa: Either<L, A>): fa is Left<L, A> {
+  return fa instanceof Left
+}
+
+export function isRight<L, A>(fa: Either<L, A>): fa is Right<L, A> {
+  return fa instanceof Right
 }
 
 ;(
