@@ -19,13 +19,29 @@ export interface Semigroup<M> {
   concat(x: M, y: M): M
 }
 
+export function getProductSemigroup<A, B>(asemigroup: Semigroup<A>, bsemigroup: Semigroup<B>): Semigroup<[A, B]> {
+  return { concat: ([xa, xb], [ya, yb]) => [asemigroup.concat(xa, ya), bsemigroup.concat(xb, yb)] }
+}
+
+export function getDualSemigroup<A>(semigroup: Semigroup<A>): Semigroup<A> {
+  return { concat: (x, y) => semigroup.concat(y, x) }
+}
+
 export interface Monoid<M> extends Semigroup<M> {
   empty(): M
 }
 
-export const monoidArray: Monoid<Array<any>> = {
-  empty: constant([]),
-  concat: (x, y) => x.concat(y)
+export function getProductMonoid<A, B>(amonoid: Monoid<A>, bmonoid: Monoid<B>): Monoid<[A, B]> {
+  const empty: [A, B] = [amonoid.empty(), bmonoid.empty()]
+  return {
+    empty: constant(empty),
+    concat: getProductSemigroup(amonoid, bmonoid).concat
+  }
+}
+
+export function getDualMonoid<A>(monoid: Monoid<A>): Monoid<A> {
+  const { concat } = getDualSemigroup(monoid)
+  return { empty: monoid.empty, concat }
 }
 
 /** Boolean monoid under conjunction */
@@ -38,6 +54,29 @@ export const monoidAll: Monoid<boolean> = {
 export const monoidAny: Monoid<boolean> = {
   empty: constant(false),
   concat: (x, y) => x || y
+}
+
+/** Monoid under array concatenation */
+export const monoidArray: Monoid<Array<any>> = {
+  empty: constant([]),
+  concat: (x, y) => x.concat(y)
+}
+
+/** Monoid under addition */
+export const monoidSum: Monoid<number> = {
+  empty: constant(0),
+  concat: (x, y) => x + y
+}
+
+/** Monoid under multiplication */
+export const monoidProduct: Monoid<number> = {
+  empty: constant(1),
+  concat: (x, y) => x * y
+}
+
+export const monoidString: Monoid<string> = {
+  empty: constant(''),
+  concat: (x, y) => x + y
 }
 
 export interface Functor<F> {
@@ -115,3 +154,4 @@ export interface Plus<F> extends Alt<F> {
 }
 
 export interface Alternative<F> extends Applicative<F>, Plus<F> {}
+
