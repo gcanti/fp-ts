@@ -1,4 +1,6 @@
-import { HKT, Semigroup, Applicative } from './cats'
+import { HKT } from './HKT'
+import { Applicative } from './Applicative'
+import { Semigroup } from './Semigroup'
 import { Either, isLeft, Left, map, of } from './Either'
 
 export function getApplicative<L>(semigroup: Semigroup<L>): Applicative<HKT<'Either', any>> {

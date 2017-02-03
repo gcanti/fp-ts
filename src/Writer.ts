@@ -1,4 +1,6 @@
-import { HKT, Monad, Monoid } from './cats'
+import { HKT } from './HKT'
+import { Monoid } from './Monoid'
+import { Monad } from './Monad'
 
 export class Writer<W, A> extends HKT<HKT<'Writer', W>, A> {
   constructor(private value: () => [A, W]){ super() }

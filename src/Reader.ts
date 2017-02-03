@@ -1,4 +1,5 @@
-import { HKT, Monad } from './cats'
+import { HKT } from './HKT'
+import { Monad } from './Monad'
 import { identity } from './function'
 
 export class Reader<E, A> extends HKT<HKT<'Reader', E>, A> {

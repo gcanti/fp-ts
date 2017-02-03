@@ -13,7 +13,7 @@ import {
   fromNullable
 } from '../src/Option'
 
-import { setoidNumber } from '../src/cats'
+import { setoidNumber } from '../src/Setoid'
 
 function assertEqual<A>(fx: Option<A>, fy: Option<A>) {
   assert.strictEqual(equals({ equals: (x, y) => x === y }, fx, fy), true)

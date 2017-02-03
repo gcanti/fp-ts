@@ -1,4 +1,5 @@
-import { HKT, Monad } from './cats'
+import { HKT } from './HKT'
+import { Monad } from './Monad'
 
 export class State<S, A> extends HKT<HKT<'State', S>, A> {
   constructor(private value: (s: S) => [A, S]){ super() }

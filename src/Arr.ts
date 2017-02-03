@@ -1,4 +1,6 @@
-import { HKT, Applicative, liftA2 } from './cats'
+import { HKT } from './HKT'
+import { Applicative } from './Applicative'
+import { liftA2 } from './Apply'
 
 export type Arr<A> = HKT<'Arr', A>
 

@@ -1,4 +1,5 @@
-import { HKT, Chain } from './cats'
+import { HKT } from './HKT'
+import { Chain } from './Chain'
 import { Either, Right } from './Either'
 import { isLeft } from './Either'
 

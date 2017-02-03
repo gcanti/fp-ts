@@ -1,4 +1,11 @@
-import { HKT, Semigroup, Apply, Applicative, Monoid, Functor, Contravariant, Setoid } from './cats'
+import { HKT } from './HKT'
+import { Monoid } from './Monoid'
+import { Functor } from './Functor'
+import { Contravariant } from './Contravariant'
+import { Applicative } from './Applicative'
+import { Apply } from './Apply'
+import { Semigroup } from './Semigroup'
+import { Setoid } from './Setoid'
 import { identity } from './function'
 
 export class Const<A, B> extends HKT<HKT<'Const', A>, B> {

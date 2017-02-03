@@ -1,10 +1,10 @@
-import { Setoid } from './cats'
 import { Ordering } from './Ordering'
 import {
+  Setoid,
   setoidBoolean,
   setoidNumber,
   setoidString
-} from './cats'
+} from './Setoid'
 
 export type Comparator<A> = (x: A, y: A) => Ordering;
 

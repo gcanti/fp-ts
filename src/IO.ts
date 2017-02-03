@@ -1,4 +1,7 @@
-import { HKT, Monad, Semigroup, Monoid } from './cats'
+import { HKT } from './HKT'
+import { Monoid } from './Monoid'
+import { Semigroup } from './Semigroup'
+import { Monad } from './Monad'
 import { constant } from './function'
 
 export class IO<A> extends HKT<'IO', A> {

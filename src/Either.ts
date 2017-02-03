@@ -1,4 +1,12 @@
-import { HKT, Applicative, Monad, Foldable, Traversable, Bifunctor, Alt, Extend, Setoid } from './cats'
+import { HKT } from './HKT'
+import { Applicative } from './Applicative'
+import { Monad } from './Monad'
+import { Foldable } from './Foldable'
+import { Extend } from './Extend'
+import { Setoid } from './Setoid'
+import { Traversable } from './Traversable'
+import { Bifunctor } from './Bifunctor'
+import { Alt } from './Alt'
 import { identity, ffalse, ftrue } from './function'
 
 export abstract class Either<L, A> extends HKT<HKT<'Either', L>, A> {

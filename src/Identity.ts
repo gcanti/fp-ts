@@ -1,4 +1,11 @@
-import { HKT, Applicative, Monad, Comonad, Foldable, Traversable, Alt, Setoid } from './cats'
+import { HKT } from './HKT'
+import { Applicative } from './Applicative'
+import { Monad } from './Monad'
+import { Foldable } from './Foldable'
+import { Setoid } from './Setoid'
+import { Traversable } from './Traversable'
+import { Alt } from './Alt'
+import { Comonad } from './Comonad'
 
 export class Identity<A> extends HKT<'Identity', A> {
   static of = of

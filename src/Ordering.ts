@@ -1,4 +1,5 @@
-import { Setoid, Semigroup } from './cats'
+import { Setoid } from './Setoid'
+import { Semigroup } from './Semigroup'
 
 export type Ordering = 'LT' | 'EQ' | 'GT';
 

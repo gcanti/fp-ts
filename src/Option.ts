@@ -1,4 +1,14 @@
-import { HKT, Applicative, Monoid, Monad, Foldable, Traversable, Alternative, Extend, Plus, Semigroup, Setoid } from './cats'
+import { HKT } from './HKT'
+import { Monoid } from './Monoid'
+import { Applicative } from './Applicative'
+import { Semigroup } from './Semigroup'
+import { Monad } from './Monad'
+import { Foldable } from './Foldable'
+import { Plus } from './Plus'
+import { Alternative } from './Alternative'
+import { Extend } from './Extend'
+import { Setoid } from './Setoid'
+import { Traversable } from './Traversable'
 import { identity, constant, ffalse, ftrue } from './function'
 
 export abstract class Option<A> extends HKT<'Option', A> {
