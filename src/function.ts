@@ -1,3 +1,5 @@
+export type Predicate<A> = (a: A) => boolean;
+
 export function constant<A>(a: A): () => A {
   return () => a
 }

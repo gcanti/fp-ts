@@ -1,77 +1,73 @@
 import * as assert from 'assert'
 import {
-  Option,
   equals,
   fold,
   none,
   map,
-  of,
+  some,
   ap,
   chain,
   alt,
   getMonoid,
   fromNullable
 } from '../src/Option'
-
 import { setoidNumber } from '../src/Setoid'
-
-function assertEqual<A>(fx: Option<A>, fy: Option<A>) {
-  assert.strictEqual(equals({ equals: (x, y) => x === y }, fx, fy), true)
-}
+import { eqOptions as eq } from './helpers'
 
 describe('Option', () => {
 
   it('fold', () => {
-    const f = (s: string): number => s.length
-    assert.strictEqual(fold(() => 1, f, none), 1)
-    assert.strictEqual(fold(() => 1, f, of('abc')), 3)
+    const f = () => 'none'
+    const g = (s: string) => `some${s.length}`
+    assert.strictEqual(fold(f, g, none), 'none')
+    assert.strictEqual(fold(f, g, some('abc')), 'some3')
   })
 
   it('equals', () => {
     assert.strictEqual(equals(setoidNumber, none, none), true)
-    assert.strictEqual(equals(setoidNumber, none, of(1)), false)
-    assert.strictEqual(equals(setoidNumber, of(2), of(1)), false)
-    assert.strictEqual(equals(setoidNumber, of(2), of(2)), true)
+    assert.strictEqual(equals(setoidNumber, none, some(1)), false)
+    assert.strictEqual(equals(setoidNumber, some(2), some(1)), false)
+    assert.strictEqual(equals(setoidNumber, some(2), some(2)), true)
   })
 
   it('map', () => {
     const f = (n: number) => n * 2
-    assertEqual(map(f, of(2)), of(4))
+    eq(map(f, some(2)), some(4))
   })
 
   it('ap', () => {
     const f = (n: number) => n * 2
-    assertEqual(ap(of(f), of(2)), of(4))
-    assertEqual(ap(of(f), none), none)
-    assertEqual(ap(none, of(2)), none)
-    assertEqual(ap(of(f), of(2)), of(4))
+    eq(ap(some(f), some(2)), some(4))
+    eq(ap(some(f), none), none)
+    eq(ap(none, some(2)), none)
+    eq(ap(some(f), some(2)), some(4))
   })
 
   it('chain', () => {
-    const f = (n: number) => of(n * 2)
+    const f = (n: number) => some(n * 2)
     const g = () => none
-    assertEqual(chain(f, of(2)), of(4))
-    assertEqual(chain(g, of(2)), none)
+    eq(chain(f, some(2)), some(4))
+    eq(chain(g, some(2)), none)
   })
 
   it('getMonoid', () => {
     const { concat } = getMonoid({ concat(x: number, y: number){ return x + y } })
-    assertEqual(concat(none, of(1)), of(1))
-    assertEqual(concat(of(2), none), of(2))
-    assertEqual(concat(of(2), of(1)), of(3))
+    eq(concat(none, some(1)), some(1))
+    eq(concat(some(2), none), some(2))
+    eq(concat(some(2), some(1)), some(3))
   })
 
   it('alt', () => {
-    assertEqual(alt(of(1), of(2)), of(1))
-    assertEqual(alt(none, of(2)), of(2))
-    assertEqual(alt(of(1), none), of(1))
-    assertEqual(alt(none, none), none)
+    eq(alt(some(1), some(2)), some(1))
+    eq(alt(none, some(2)), some(2))
+    eq(alt(some(1), none), some(1))
+    eq(alt(none, none), none)
   })
 
   it('fromNullable', () => {
-    assertEqual(fromNullable(2), of(2))
-    assertEqual(fromNullable(null), none)
-    assertEqual(fromNullable(undefined), none)
+    eq(fromNullable(2), some(2))
+    eq(fromNullable(null), none)
+    eq(fromNullable(undefined), none)
   })
 
 })
