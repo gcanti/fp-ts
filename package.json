@@ -8,7 +8,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha -r ts-node/register test/*.ts",
-    "build": "rm -rf lib/* && tsc -d"
+    "build": "rm -rf lib/* && tsc"
   },
   "repository": {
     "type": "git",

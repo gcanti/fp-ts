@@ -1,4 +1,14 @@
-import { HKT, Applicative, Monoid, Monad, Foldable, Traversable, Alternative, Extend, Plus, Semigroup, Setoid } from './cats'
+import { HKT } from './HKT'
+import { Monoid } from './Monoid'
+import { Applicative } from './Applicative'
+import { Semigroup } from './Semigroup'
+import { Monad } from './Monad'
+import { Foldable } from './Foldable'
+import { Plus } from './Plus'
+import { Alternative } from './Alternative'
+import { Extend } from './Extend'
+import { Setoid } from './Setoid'
+import { Traversable } from './Traversable'
 import { identity, constant, ffalse, ftrue } from './function'
 
 export abstract class Option<A> extends HKT<'Option', A> {
@@ -14,7 +24,11 @@ export abstract class Option<A> extends HKT<'Option', A> {
   abstract extend<B>(fy: (ea: Option<A>) => B): Option<B>
 }
 
-export class None extends Option<any> {
+export function as<A>(x: HKT<'Option', A>): Option<A> {
+  return x as Option<A>
+}
+
+class None extends Option<any> {
   map<B>(f: (a: any) => B): Option<B> {
     return none
   }
@@ -48,7 +62,7 @@ export function zero(): Option<any> {
 }
 
 export class Some<A> extends Option<A> {
-  constructor(private value: A){ super() }
+  constructor(public value: A){ super() }
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))
   }
@@ -133,7 +147,7 @@ export const monoidFirst: Monoid<Option<any>> = {
 export function concat<A>(semigroup: Semigroup<A>, fx: Option<A>, fy: Option<A>): Option<A> {
   return fx.fold(
     () => fy,
-    x => fy.fold(() => fx, y => of(semigroup.concat(x, y)))
+    x => fy.fold(() => fx, y => some(semigroup.concat(x, y)))
   )
 }
 
@@ -145,6 +159,16 @@ export function getMonoid<A>(semigroup: Semigroup<A>): Monoid<Option<A>> {
   const { concat } = getSemigroup(semigroup)
   return { empty, concat }
 }
+
+export function isSome<A>(fa: Option<A>): fa is Some<A> {
+  return fa instanceof Some
+}
+
+export function isNone<A>(fa: Option<A>): boolean {
+  return fa === none
+}
+
+export const some = of
 
 ;(
   { map, of, ap, chain, reduce, traverse, alt, extend, zero } as (

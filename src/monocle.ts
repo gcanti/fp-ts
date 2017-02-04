@@ -1,4 +1,9 @@
-import { HKT, Applicative, Monoid, Traversable, monoidArray, monoidAny, monoidAll, Foldable, foldMap } from './cats'
+import { HKT } from './HKT'
+import { Monoid, monoidArray, monoidAll, monoidAny } from './Monoid'
+import { Applicative } from './Applicative'
+import { Foldable, foldMap } from './Foldable'
+import { Traversable } from './Traversable'
+
 import * as option from './Option'
 import { Some, Option } from './Option'
 import { identity, constant } from './function'

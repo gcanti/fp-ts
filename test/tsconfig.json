@@ -16,8 +16,5 @@
     "target": "es5",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true
-  },
-  "include": [
-    "./src/**/*"
-  ]
+  }
 }
