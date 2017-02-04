@@ -11,10 +11,10 @@ import { identity } from './function'
 export class Const<A, B> extends HKT<HKT<'Const', A>, B> {
   constructor(private value: A){ super() }
   map<B, C>(f: (a: B) => C): Const<A, C> {
-    return this as any as Const<A, C>
+    return this as any
   }
   contramap<B, C>(f: (a: C) => B): Const<A, C> {
-    return this as any as Const<A, C>
+    return this as any
   }
   fold<B>(f: (a: A) => B): B {
     return f(this.value)

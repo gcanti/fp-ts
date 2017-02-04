@@ -29,13 +29,13 @@ export function as<L, A>(x: HKT<HKT<'Either', L>, A>): Either<L, A> {
 export class Left<L, A> extends Either<L, A> {
   constructor(public value: L){ super() }
   map<B>(f: (a: A) => B): Either<L, B> {
-    return this as any as Either<L, B>
+    return this as any
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
-    return this as any as Either<L, B>
+    return this as any
   }
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
-    return this as any as Either<L, B>
+    return this as any
   }
   bimap<L2, B>(f: (l: L) => L2, g: (a: A) => B): Either<L2, B> {
     return new Left<L2, B>(f(this.value))
@@ -44,13 +44,13 @@ export class Left<L, A> extends Either<L, A> {
     return fy
   }
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {
-    return this as any as Either<L, B>
+    return this as any
   }
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
   traverse<F, B>(applicative: Applicative<F>, f: (a: A) => HKT<F, B>): HKT<F, Either<L, B>> {
-    return applicative.of(this as any as Either<L, B>)
+    return applicative.of(this as any)
   }
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return left(this.value)
@@ -66,7 +66,7 @@ export class Right<L, A> extends Either<L, A> {
     if (isRight(fab)) {
       return this.map(fab.value)
     }
-    return fab as any as Either<L, B>
+    return fab as any
   }
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
     return f(this.value)

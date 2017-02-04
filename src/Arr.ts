@@ -15,11 +15,11 @@ import { Predicate, identity } from './function'
 export type Arr<A> = HKT<'Arr', A>
 
 export function to<A>(as: Array<A>): Arr<A> {
-  return as as any as Arr<A>
+  return as as any
 }
 
 export function from<A>(as: Arr<A>): Array<A> {
-  return as as any as Array<A>
+  return as as any
 }
 
 export const empty: () => Arr<any> = () => to([])
