@@ -13,8 +13,7 @@ export function getProductMonoid<A, B>(amonoid: Monoid<A>, bmonoid: Monoid<B>): 
 }
 
 export function getDualMonoid<A>(monoid: Monoid<A>): Monoid<A> {
-  const { concat } = getDualSemigroup(monoid)
-  return { empty: monoid.empty, concat }
+  return { empty: monoid.empty, concat: getDualSemigroup(monoid).concat }
 }
 
 /** Boolean monoid under conjunction */

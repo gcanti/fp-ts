@@ -1,5 +1,5 @@
 import * as arr from '../src/Arr'
-import { Option, some, none } from '../src/Option'
+import { HKTOption, some, none } from '../src/Option'
 import * as option from '../src/Option'
 import * as assert from 'assert'
 import { numberOrd } from '../src/Ord'
@@ -12,11 +12,11 @@ describe('Arr', () => {
 
   it('traverse', () => {
     const tfanone = arr.to([1, 2])
-    const f = (n: number): Option<number> => n % 2 === 0 ? none : some(n)
-    const fasnone = option.as(arr.traverse(option, f, tfanone))
+    const f = (n: number): HKTOption<number> => n % 2 === 0 ? none : some(n)
+    const fasnone = arr.traverse(option, f, tfanone)
     assert.ok(option.isNone(fasnone))
     const tfa = arr.to([1, 3])
-    const fas = option.as(arr.traverse(option, f, tfa))
+    const fas = arr.traverse(option, f, tfa)
     eq(fas, some(arr.to([1, 3])))
   })
 
@@ -47,6 +47,10 @@ describe('Arr', () => {
 
   it('snoc', () => {
     assert.deepEqual(arr.snoc(as, 4), [1, 2, 3, 4])
+  })
+
+  it('curriedSnoc', () => {
+    assert.deepEqual(arr.curriedSnoc(as)(4), [1, 2, 3, 4])
   })
 
   it('head', () => {

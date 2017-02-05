@@ -1,5 +1,7 @@
+import { ClosedBinaryOperation } from './function'
+
 export interface Semigroup<M> {
-  concat(x: M, y: M): M
+  concat: ClosedBinaryOperation<M>
 }
 
 export function getProductSemigroup<A, B>(asemigroup: Semigroup<A>, bsemigroup: Semigroup<B>): Semigroup<[A, B]> {

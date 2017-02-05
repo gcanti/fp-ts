@@ -6,43 +6,50 @@ import { Applicative } from './Applicative'
 import { Apply } from './Apply'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { identity } from './function'
+import { identity, Function1 } from './function'
 
-export class Const<A, B> extends HKT<HKT<'Const', A>, B> {
+export type URI = 'Const';
+
+export type HKTConst<A, B> = HKT<HKT<URI, A>, B>;
+
+export class Const<A, B> extends HKT<HKT<URI, A>, B> {
   constructor(private value: A){ super() }
-  map<B, C>(f: (a: B) => C): Const<A, C> {
+  map<B, C>(f: Function1<B, C>): Const<A, C> {
     return this as any
   }
-  contramap<B, C>(f: (a: C) => B): Const<A, C> {
+  contramap<B, C>(f: Function1<C, B>): Const<A, C> {
     return this as any
   }
-  fold<B>(f: (a: A) => B): B {
+  fold<B>(f: Function1<A, B>): B {
     return f(this.value)
   }
+  equals(setoid: Setoid<A>, fy: Const<A, B>): boolean {
+    return this.fold(x => fy.fold(y => setoid.equals(x, y)))
+  }
 }
 
-export function equals<A, B>(setoid: Setoid<A>, fx: Const<A, B>, fy: Const<A, B>): boolean {
-  return fx.fold(x => fy.fold(y => setoid.equals(x, y)))
+export function equals<A, B>(setoid: Setoid<A>, fx: Const<A, B>, fy: HKTConst<A, B>): boolean {
+  return fx.equals(setoid, fy as Const<A, B>)
 }
 
-export function map<A, B, C>(f: (a: B) => C, fa: Const<A, B>): Const<A, C> {
-  return fa.map(f)
+export function map<A, B, C>(f: Function1<B, C>, fa: HKTConst<A, B>): Const<A, C> {
+  return (fa as Const<A, B>).map(f)
 }
 
-export function contramap<A, B, C>(f: (a: C) => B, fa: Const<A, B>): Const<A, C> {
-  return fa.contramap(f)
+export function contramap<A, B, C>(f: Function1<C, B>, fa: HKTConst<A, B>): Const<A, C> {
+  return (fa as Const<A, B>).contramap(f)
 }
 
-export function getApply<A>(semigroup: Semigroup<A>): Apply<HKT<'Const', A>> {
+export function getApply<A>(semigroup: Semigroup<A>): Apply<HKT<URI, A>> {
   return {
     map,
-    ap<B, C>(fab: Const<A, (a: B) => C>, fa: Const<A, B>): Const<A, C> {
+    ap<B, C>(fab: Const<A, Function1<B, C>>, fa: Const<A, B>): Const<A, C> {
       return new Const<A, C>(semigroup.concat(fab.fold(identity), fa.fold(identity)))
     }
   }
 }
 
-export function getApplicative<A>(monoid: Monoid<A>): Applicative<HKT<'Const', A>> {
+export function getApplicative<A>(monoid: Monoid<A>): Applicative<HKT<URI, A>> {
   const { ap } = getApply(monoid)
   const empty = new Const<A, any>(monoid.empty())
   return {
@@ -56,7 +63,7 @@ export function getApplicative<A>(monoid: Monoid<A>): Applicative<HKT<'Const', A
 
 ;(
   { map, contramap } as (
-    Functor<HKT<'Const', any>> &
-    Contravariant<HKT<'Const', any>>
+    Functor<HKT<URI, any>> &
+    Contravariant<HKT<URI, any>>
   )
 )

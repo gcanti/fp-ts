@@ -9,12 +9,12 @@ import { constant } from './function'
  * generalizing `unfoldr` on arrays.
  */
 export interface Unfoldable<T> {
-  unfoldr<A, B>(f: (b: B) => option.Option<[A, B]>, b: B): HKT<T, A>
+  unfoldr<A, B>(f: (b: B) => option.HKTOption<[A, B]>, b: B): HKT<T, A>
 }
 
 /** Replicate a value some natural number of times. */
 export function replicate<T, A>(unfoldable: Unfoldable<T>, n: number, a: A): HKT<T, A> {
-  function step(n: number): option.Option<[A, number]> {
+  function step(n: number): option.HKTOption<[A, number]> {
     return n <= 0 ? option.none : option.of([a, n - 1])
   }
   return unfoldable.unfoldr(step, n)

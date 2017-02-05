@@ -46,14 +46,14 @@ describe('function', () => {
   })
 
   it('curry', () => {
-    const h = curry((a: number, b: number, c: number): number => a + b + c)
-    assert.strictEqual(h(1)(2)(3), 6)
-    assert.strictEqual(h(1)(2, 3), 6)
-    assert.strictEqual(h(1, 2)(3), 6)
-    assert.strictEqual(h(1, 2, 3), 6)
-    const hh = curry((a: number, b: number, c: number, d: number, e: number): number => a + b + c + d + e)
-    assert.strictEqual(hh(1)(2)(3)(4)(5), 15)
-    assert.strictEqual(hh(1)(2, 3)(4)(5), 15)
+    const h2 = curry((a: number, b: number): number => a + b)
+    assert.strictEqual(h2(1)(2), 3)
+    const h3 = curry((a: number, b: number, c: number): number => a + b + c)
+    assert.strictEqual(h3(1)(2)(3), 6)
+    const h5 = curry((a: number, b: number, c: number, d: number, e: number): number => a + b + c + d + e)
+    assert.strictEqual(h5(1)(2)(3)(4)(5), 15)
+    const snoc = (as: Array<number>, a: number) => as.concat(a)
+    assert.deepEqual(curry(snoc)([1, 2, 3])(4), [1, 2, 3, 4])
   })
 
 })
