@@ -3,10 +3,9 @@ import { Monoid, monoidArray, monoidAll, monoidAny } from './Monoid'
 import { Applicative } from './Applicative'
 import { Foldable, foldMap } from './Foldable'
 import { Traversable } from './Traversable'
-
 import * as option from './Option'
 import { Some, Option } from './Option'
-import { identity, constant } from './function'
+import { identity, constant, Predicate } from './function'
 import * as id from './Identity'
 import * as con from './Const'
 
@@ -208,7 +207,7 @@ export class Fold<S, A> {
   }
 
   /** find the first target of a Fold matching the predicate */
-  find<S, A>(fold: Fold<S, A>, p: (a: A) => boolean, s: S): Option<A> {
+  find<S, A>(fold: Fold<S, A>, p: Predicate<A>, s: S): Option<A> {
     return fold.foldMap(option.monoidFirst, a => p(a) ? option.of(a) : option.none, s)
   }
 
@@ -218,12 +217,12 @@ export class Fold<S, A> {
   }
 
   /** check if at least one target satisfies the predicate */
-  exist<S, A>(fold: Fold<S, A>, p: (a: A) => boolean, s: S): boolean {
+  exist<S, A>(fold: Fold<S, A>, p: Predicate<A>, s: S): boolean {
     return fold.foldMap(monoidAny, p, s)
   }
 
   /** check if all targets satisfy the predicate */
-  all<S, A>(fold: Fold<S, A>, p: (a: A) => boolean, s: S): boolean {
+  all<S, A>(fold: Fold<S, A>, p: Predicate<A>, s: S): boolean {
     return fold.foldMap(monoidAll, p, s)
   }
 
