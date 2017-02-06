@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { HKTOption, isSome, none } from '../src/Option'
+import { HKTOption, isSome, isNone } from '../src/Option'
 import { HKTEither, isLeft, isRight } from '../src/Either'
 
 export function fromSome<A>(fa: HKTOption<A>): A {
@@ -27,7 +27,7 @@ export function eqOptions<A>(x: HKTOption<A>, y: HKTOption<A>) {
   if (isSome(y)) {
     assert.deepEqual(fromSome(x), y.value)
   } else {
-    assert.strictEqual(x, none)
+    assert.strictEqual(isNone(x), true)
   }
 }
 

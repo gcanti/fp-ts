@@ -28,48 +28,58 @@ export interface Option<A> extends HKTOption<A> {
   equals(setoid: Setoid<A>, fy: Option<A>): boolean
 }
 
-export class None implements Option<any> {
+export class None<A> implements Option<A> {
   __hkt: URI;
-  __hkta: any;
+  __hkta: A;
   static of = of
   static zero = zero
   static value: Option<any> = new None()
-  private constructor(){}
-  map<B>(f: Function1<any, B>): Option<B> {
+  constructor(){
+    if (none) {
+      return none as any
+    }
+  }
+  map<B>(f: Function1<A, B>): Option<B> {
     return none
   }
-  ap<B>(fab: Option<Function1<any, B>>): Option<B> {
+  ap<B>(fab: Option<Function1<A, B>>): Option<B> {
     return none
   }
-  chain<B>(f: Function1<any, Option<B>>): Option<B> {
+  chain<B>(f: Function1<A, Option<B>>): Option<B> {
     return none
   }
   reduce<A, B>(f: Function2<B, A, B>, b: B): B {
     return b
   }
-  traverse<F, B>(applicative: Applicative<F>, f: Function1<any, HKT<F, B>>): HKT<F, Option<B>> {
+  traverse<F, B>(applicative: Applicative<F>, f: Function1<A, HKT<F, B>>): HKT<F, Option<B>> {
     return applicative.of(none)
   }
   alt<A>(fa: Option<A>): Option<A> {
     return fa
   }
-  extend<B>(f: Function1<Option<any>, B>): Option<B> {
+  extend<B>(f: Function1<Option<A>, B>): Option<B> {
     return none
   }
-  fold<B>(n: Lazy<B>, s: Function1<any, B>): B {
+  fold<B>(n: Lazy<B>, s: Function1<A, B>): B {
     return n()
   }
-  concat(semigroup: Semigroup<any>, fy: Option<any>): Option<any> {
+  concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
     return fy
   }
-  equals(setoid: Setoid<any>, fy: Option<any>): boolean {
+  equals(setoid: Setoid<A>, fy: Option<A>): boolean {
     return fy.fold(constTrue, constFalse)
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return 'None'
   }
 }
 
 export const none = None.value
 
-export function zero(): Option<any> {
+export function zero<A>(): Option<A> {
   return none
 }
 
@@ -108,6 +118,12 @@ export class Some<A> implements Option<A> {
   }
   equals(setoid: Setoid<any>, fy: Option<any>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `Some(${this.value})`
   }
 }
 
@@ -155,7 +171,7 @@ export function extend<A, B>(f: Function1<HKTOption<A>, B>, ea: HKTOption<A>): O
   return (ea as Option<A>).extend(f)
 }
 
-const empty = constant(none)
+export const empty = zero
 
 /** Maybe monoid returning the leftmost non-Nothing value */
 export const monoidFirst: Monoid<Option<any>> = {
@@ -179,7 +195,7 @@ export function isSome<A>(fa: HKTOption<A>): fa is Some<A> {
   return fa instanceof Some
 }
 
-export function isNone<A>(fa: HKTOption<A>): fa is None {
+export function isNone<A>(fa: HKTOption<A>): fa is None<A> {
   return fa === none
 }
 
