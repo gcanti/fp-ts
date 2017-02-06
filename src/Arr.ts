@@ -10,21 +10,21 @@ import { liftA2 } from './Apply'
 import { HKTOption } from './Option'
 import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
-import { Predicate, identity, curry, Lazy, Function1, Function2, Endomorphism } from './function'
+import { Predicate, identity, constant, curry, Lazy, Function1, Function2, Endomorphism } from './function'
 
 export type URI = 'Arr';
 
 export type Arr<A> = HKT<URI, A>
 
-export function to<A>(as: Array<A>): Arr<A> {
-  return as as any
+export function to<A>(x: Array<A>): Arr<A> {
+  return x as any
 }
 
-export function from<A>(as: Arr<A>): Array<A> {
-  return as as any
+export function from<A>(x: Arr<A>): Array<A> {
+  return x as any
 }
 
-export const empty: Lazy<Arr<any>> = () => to([])
+export const empty: Lazy<Arr<any>> = constant(to([]))
 
 export function concat<A>(x: Arr<A>, y: Arr<A>): Arr<A> {
   return to(from(x).concat(from(y)))

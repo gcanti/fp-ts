@@ -8,9 +8,11 @@ export type URI = 'IO';
 
 export type HKTIO<A> = HKT<URI, A>;
 
-export class IO<A> extends HKT<URI, A> {
+export class IO<A> implements HKTIO<A> {
+  __hkt: URI;
+  __hkta: A;
   static of = of
-  constructor(private value: Lazy<A>){ super() }
+  constructor(private value: Lazy<A>){}
   run(): A {
     return this.value()
   }
@@ -59,6 +61,6 @@ export function getMonoid<A>(monoid: Monoid<A>): Monoid<IO<A>> {
 
 ;(
   { map, of, ap, chain } as (
-    Monad<'IO'>
+    Monad<URI>
   )
 )

@@ -6,9 +6,11 @@ export type URI = 'Reader';
 
 export type HKTReader<E, A> = HKT<HKT<URI, E>, A>;
 
-export class Reader<E, A> extends HKT<HKT<URI, E>, A> {
+export class Reader<E, A> implements HKTReader<E, A> {
+  __hkt: HKT<URI, E>;
+  __hkta: A;
   static of = of
-  constructor(private value: Function1<E, A>){ super() }
+  constructor(private value: Function1<E, A>){}
   run(e: E): A {
     return this.value(e)
   }
@@ -39,7 +41,7 @@ export function chain<E, A, B>(f: Function1<A, HKTReader<E, B>>, fa: HKTReader<E
   return (fa as Reader<E, A>).chain(f as Function1<A, Reader<E, B>>)
 }
 
-//** reads the current context */
+/** reads the current context */
 export function ask<E>(): Reader<E, E> {
   return new Reader<E, E>(identity)
 }

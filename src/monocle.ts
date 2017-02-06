@@ -152,6 +152,7 @@ export class Optional<S, A> {
 
 export class Traversal<S, A> {
   constructor(
+    // Van Laarhoven representation
     public modifyF: <F>(applicative: Applicative<F>, f: (a: A) => HKT<F, A>, s: S) => HKT<F, S>
   ){}
 

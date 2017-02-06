@@ -15,7 +15,7 @@ export type URI = 'Option';
 
 export type HKTOption<A> = HKT<URI, A>;
 
-export interface Option<A> extends HKT<URI, A> {
+export interface Option<A> extends HKTOption<A> {
   map<B>(f: Function1<A, B>): Option<B>
   ap<A, B>(fab: Option<Function1<A, B>>): Option<B>
   chain<B>(f: Function1<A, Option<B>>): Option<B>
@@ -28,9 +28,13 @@ export interface Option<A> extends HKT<URI, A> {
   equals(setoid: Setoid<A>, fy: Option<A>): boolean
 }
 
-class None extends HKT<URI, any> implements Option<any> {
+export class None implements Option<any> {
+  __hkt: URI;
+  __hkta: any;
   static of = of
   static zero = zero
+  static value: Option<any> = new None()
+  private constructor(){}
   map<B>(f: Function1<any, B>): Option<B> {
     return none
   }
@@ -63,16 +67,18 @@ class None extends HKT<URI, any> implements Option<any> {
   }
 }
 
-export const none: Option<any> = new None
+export const none = None.value
 
 export function zero(): Option<any> {
   return none
 }
 
-export class Some<A> extends HKT<URI, A> implements Option<A> {
+export class Some<A> implements Option<A> {
+  __hkt: URI;
+  __hkta: A;
   static of = of
   static zero = zero
-  constructor(public value: A){ super() }
+  constructor(public value: A){}
   map<B>(f: Function1<A, B>): Option<B> {
     return new Some(f(this.value))
   }
@@ -173,7 +179,7 @@ export function isSome<A>(fa: HKTOption<A>): fa is Some<A> {
   return fa instanceof Some
 }
 
-export function isNone<A>(fa: HKTOption<A>): boolean {
+export function isNone<A>(fa: HKTOption<A>): fa is None {
   return fa === none
 }
 

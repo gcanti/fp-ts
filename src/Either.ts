@@ -26,9 +26,11 @@ export interface Either<L, A> extends HKTEither<L, A> {
   equals(setoid: Setoid<A>, fy: Either<L, A>): boolean
 }
 
-export class Left<L, A> extends HKT<HKT<URI, L>, A> {
+export class Left<L, A> implements Either<L, A> {
+  __hkt: HKT<URI, L>;
+  __hkta: A;
   static of = of
-  constructor(public value: L){ super() }
+  constructor(public value: L){}
   map<B>(f: Function1<A, B>): Either<L, B> {
     return this as any
   }
@@ -61,9 +63,11 @@ export class Left<L, A> extends HKT<HKT<URI, L>, A> {
   }
 }
 
-export class Right<L, A> extends HKT<HKT<URI, L>, A> {
+export class Right<L, A> implements Either<L, A> {
+  __hkt: HKT<URI, L>;
+  __hkta: A;
   static of = of
-  constructor(public value: A){ super() }
+  constructor(public value: A){}
   map<B>(f: Function1<A, B>): Either<L, B> {
     return new Right<L, B>(f(this.value))
   }

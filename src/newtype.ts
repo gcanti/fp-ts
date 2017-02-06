@@ -2,9 +2,9 @@
 
   Usage:
 
-  type Fahrenheit = NewType<'com.mycompany.Fahrenheit'>;
+  type Fahrenheit = NewType<'Fahrenheit'>;
   const fahrenheit = newtype<Fahrenheit, number>()
-  type Celsius = NewType<'com.mycompany.Celsius'>;
+  type Celsius = NewType<'Celsius'>;
   const celsius = newtype<Celsius, number>()
 
   const hot = fahrenheit.to(100);
@@ -19,12 +19,11 @@
 
 */
 
-export class NewType<URI> {
-  private readonly URI: URI;
-  constructor(x: never) {}
+export interface NewType<URI> {
+  readonly __newtype: URI;
 }
 
-export function newtype<Brand extends NewType<any>, Carrier>() {
+export function newtype<Brand, Carrier>() {
   return {
     to(x: Carrier): Brand { return x as any },
     from(x: Brand): Carrier { return x as any }

@@ -12,10 +12,12 @@ export type URI = 'Identity';
 
 export type HKTIdentity<A> = HKT<URI, A>;
 
-export class Identity<A> extends HKT<URI, A> {
+export class Identity<A> implements HKTIdentity<A> {
+  __hkt: URI;
+  __hkta: A;
   static of = of
   static extract = extract
-  constructor(private value: A){ super() }
+  constructor(private value: A){}
   map<B>(f: Function1<A, B>): Identity<B> {
     return new Identity(f(this.value))
   }
@@ -90,10 +92,10 @@ export function extract<A>(fa: HKTIdentity<A>): A {
 
 ;(
   { map, of, ap, chain, reduce, traverse, alt, extract, extend } as (
-    Monad<'Identity'> &
-    Foldable<'Identity'> &
-    Traversable<'Identity'> &
-    Alt<'Identity'> &
-    Comonad<'Identity'>
+    Monad<URI> &
+    Foldable<URI> &
+    Traversable<URI> &
+    Alt<URI> &
+    Comonad<URI>
   )
 )
