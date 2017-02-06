@@ -48,6 +48,12 @@ export class Identity<A> implements HKTIdentity<A> {
   equals(setoid: Setoid<A>, fy: Identity<A>): boolean {
     return setoid.equals(this.value, fy.value)
   }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `Identity(${JSON.stringify(this.value)})`
+  }
 }
 
 export function equals<A>(setoid: Setoid<A>, fx: HKTIdentity<A>, fy: HKTIdentity<A>): boolean {

@@ -61,6 +61,12 @@ export class Left<L, A> implements Either<L, A> {
   equals(setoid: Setoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constTrue, constFalse)
   }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `Left(${this.value})`
+  }
 }
 
 export class Right<L, A> implements Either<L, A> {
@@ -100,6 +106,12 @@ export class Right<L, A> implements Either<L, A> {
   }
   equals(setoid: Setoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `Right(${this.value})`
   }
 }
 
