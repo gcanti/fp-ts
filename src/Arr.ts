@@ -7,7 +7,7 @@ import { Traversable } from './Traversable'
 import { Alternative } from './Alternative'
 import { Plus } from './Plus'
 import { liftA2 } from './Apply'
-import { HKTOption } from './Option'
+import { HKTOption, Option } from './Option'
 import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
 import { Predicate, identity, constant, curry, Lazy, Function1, Function2, Endomorphism } from './function'
@@ -93,7 +93,7 @@ export function isOutOfBound<A>(i: number, as: Arr<A>): boolean {
   return i < 0 || i >= from(as).length
 }
 
-export function index<A>(as: Arr<A>, i: number): HKTOption<A> {
+export function index<A>(as: Arr<A>, i: number): Option<A> {
   const xs = from(as)
   return isOutOfBound(i, as) ? option.none : option.some(xs[i])
 }
@@ -108,15 +108,15 @@ export function snoc<A>(as: Arr<A>, a: A): Arr<A> {
 
 export const curriedSnoc = curry(snoc)
 
-export function head<A>(as: Arr<A>): HKTOption<A> {
+export function head<A>(as: Arr<A>): Option<A> {
   return isEmpty(as) ? option.none : option.some(from(as)[0])
 }
 
-export function last<A>(as: Arr<A>): HKTOption<A> {
+export function last<A>(as: Arr<A>): Option<A> {
   return index(as, length(as) - 1)
 }
 
-export function tail<A>(as: Arr<A>): HKTOption<Arr<A>> {
+export function tail<A>(as: Arr<A>): Option<Arr<A>> {
   const xs = from(as)
   const len = xs.length
   return len === 0 ? option.none : option.some(to(xs.slice(1)))
@@ -126,7 +126,7 @@ export function slice<A>(start: number, end: number, as: Arr<A>): Arr<A> {
   return to(from(as).slice(start, end))
 }
 
-export function init<A>(as: Arr<A>): HKTOption<Arr<A>> {
+export function init<A>(as: Arr<A>): Option<Arr<A>> {
   const xs = from(as)
   const len = xs.length
   return len === 0 ? option.none : option.some(to(xs.slice(0, len - 1)))
@@ -148,7 +148,7 @@ export function dropWhile<A>(predicate: Predicate<A>, as: Arr<A>): Arr<A> {
   return takeWhile(a => !predicate(a), as)
 }
 
-export function findIndex<A>(predicate: Predicate<A>, as: Arr<A>): HKTOption<number> {
+export function findIndex<A>(predicate: Predicate<A>, as: Arr<A>): Option<number> {
   const xs = from(as)
   for (let i = 0, len = xs.length; i < len; i++) {
     if (predicate(xs[i])) {
@@ -172,7 +172,7 @@ export function unsafeInsertAt<A>(i: number, a: A, as: Arr<A>): Arr<A> {
   return to(xs)
 }
 
-export function insertAt<A>(i: number, a: A, as: Arr<A>): HKTOption<Arr<A>> {
+export function insertAt<A>(i: number, a: A, as: Arr<A>): Option<Arr<A>> {
   return i < 0 || i > from(as).length ? option.none : option.some(unsafeInsertAt(i, a, as))
 }
 
@@ -182,7 +182,7 @@ export function unsafeUpdateAt<A>(i: number, a: A, as: Arr<A>): Arr<A> {
   return to(xs)
 }
 
-export function updateAt<A>(i: number, a: A, as: Arr<A>): HKTOption<Arr<A>> {
+export function updateAt<A>(i: number, a: A, as: Arr<A>): Option<Arr<A>> {
   return isOutOfBound(i, as) ? option.none : option.some(unsafeUpdateAt(i, a, as))
 }
 
@@ -192,11 +192,11 @@ export function unsafeDeleteAt<A>(i: number, as: Arr<A>): Arr<A> {
   return to(xs)
 }
 
-export function deleteAt<A>(i: number, as: Arr<A>): HKTOption<Arr<A>> {
+export function deleteAt<A>(i: number, as: Arr<A>): Option<Arr<A>> {
   return isOutOfBound(i, as) ? option.none : option.some(unsafeDeleteAt(i, as))
 }
 
-export function modifyAt<A>(i: number, f: Endomorphism<A>, as: Arr<A>): HKTOption<Arr<A>> {
+export function modifyAt<A>(i: number, f: Endomorphism<A>, as: Arr<A>): Option<Arr<A>> {
   return isOutOfBound(i, as) ? option.none : updateAt(i, f(from(as)[i]), as)
 }
 
