@@ -3,12 +3,15 @@
   "version": "0.0.1",
   "description": "Functional programming in TypeScript",
   "files": [
-    "lib"
+    "lib",
+    "lib-jsnext"
   ],
   "main": "lib/index.js",
+  "jsnext:main": "lib-jsnext/index.js",
+  "typings": "lib/index.d.ts",
   "scripts": {
     "test": "mocha -r ts-node/register test/*.ts",
-    "build": "rm -rf lib/* && tsc"
+    "build": "rm -rf lib/* && tsc && tsc -m es6 --outDir lib-jsnext"
   },
   "repository": {
     "type": "git",

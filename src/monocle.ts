@@ -9,11 +9,6 @@ import { identity, constant, Predicate } from './function'
 import * as id from './Identity'
 import * as con from './Const'
 
-export type Get<S, A> = (s: S) => A
-export type ReverseGet<S, A> = (a: A) => S
-export type Set<S, A> = (a: A, s: S) => S
-export type GetOption<S, A> = (s: S) => Option<A>
-
 /*
   Laws:
   1. get . reverseGet = identity
@@ -21,8 +16,8 @@ export type GetOption<S, A> = (s: S) => Option<A>
 */
 export class Iso<S, A> {
   constructor(
-    public get: Get<S, A>,
-    public reverseGet: ReverseGet<S, A>
+    public get: (s: S) => A,
+    public reverseGet: (a: A) => S
   ) { }
 
   /** compose a Iso with a Iso */
@@ -54,10 +49,16 @@ export class Iso<S, A> {
   }
 }
 
+/*
+  Laws:
+  1. get(set(a, s)) = a
+  2. set(get(s), s) = s
+  3. set(a, set(a, s)) = set(a, s)
+*/
 export class Lens<S, A> {
   constructor(
-    public get: Get<S, A>,
-    public set: Set<S, A>
+    public get: (s: S) => A,
+    public set: (a: A, s: S) => S
   ) { }
 
   modify(f: (a: A) => A, s: S): S {
@@ -81,10 +82,15 @@ export class Lens<S, A> {
   }
 }
 
+/*
+  Laws:
+  1. getOption(s).fold(identity, reverseGet) = s
+  2. getOption(reverseGet(a)) = Some(a)
+*/
 export class Prism<S, A> {
   constructor(
-    public getOption: GetOption<S, A>,
-    public reverseGet: ReverseGet<S, A>
+    public getOption: (s: S) => Option<A>,
+    public reverseGet: (a: A) => S
   ) { }
 
   modify(f: (a: A) => A, s: S): S {
@@ -114,10 +120,16 @@ export class Prism<S, A> {
   }
 }
 
+/*
+  Laws:
+  1. getOption(s).fold(identity, set(_, s)) = s
+  2. getOption(set(a, s)) = getOption(s).map(_ => a)
+  3. set(a, set(a, s)) = set(a, s)
+*/
 export class Optional<S, A> {
   constructor(
-    public getOption: GetOption<S, A>,
-    public set: Set<S, A>
+    public getOption: (s: S) => Option<A>,
+    public set: (a: A, s: S) => S
   ){}
 
   modify(f: (a: A) => A, s: S): S {
@@ -208,23 +220,23 @@ export class Fold<S, A> {
   }
 
   /** find the first target of a Fold matching the predicate */
-  find<S, A>(fold: Fold<S, A>, p: Predicate<A>, s: S): Option<A> {
-    return fold.foldMap(option.monoidFirst, a => p(a) ? option.of(a) : option.none, s)
+  find(p: Predicate<A>, s: S): Option<A> {
+    return this.foldMap(option.monoidFirst, a => p(a) ? option.of(a) : option.none, s)
   }
 
   /** get the first target of a Fold */
-  headOption<S, A>(fold: Fold<S, A>, s: S): Option<A> {
-    return this.find(fold, () => true, s)
+  headOption(s: S): Option<A> {
+    return this.find(() => true, s)
   }
 
   /** check if at least one target satisfies the predicate */
-  exist<S, A>(fold: Fold<S, A>, p: Predicate<A>, s: S): boolean {
-    return fold.foldMap(monoidAny, p, s)
+  exist(p: Predicate<A>, s: S): boolean {
+    return this.foldMap(monoidAny, p, s)
   }
 
   /** check if all targets satisfy the predicate */
-  all<S, A>(fold: Fold<S, A>, p: Predicate<A>, s: S): boolean {
-    return fold.foldMap(monoidAll, p, s)
+  all(p: Predicate<A>, s: S): boolean {
+    return this.foldMap(monoidAll, p, s)
   }
 
 }
