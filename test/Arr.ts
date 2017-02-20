@@ -7,17 +7,17 @@ import { eqOptions as eq } from './helpers'
 
 describe('Arr', () => {
 
-  const as = arr.to([1, 2, 3])
+  const as = [1, 2, 3]
   const empty = arr.empty()
 
   it('traverse', () => {
-    const tfanone = arr.to([1, 2])
-    const f = (n: number) => n % 2 === 0 ? none : some(n)
+    const tfanone = [1, 2]
+    const f = (n: number): option.Option<number> => n % 2 === 0 ? none : some(n)
     const fasnone = arr.traverse(option, f, tfanone)
     assert.ok(option.isNone(fasnone))
-    const tfa = arr.to([1, 3])
+    const tfa = [1, 3]
     const fas = arr.traverse(option, f, tfa)
-    eq(fas, some(arr.to([1, 3])))
+    eq(fas, some([1, 3]))
   })
 
   it('unfoldr', () => {
@@ -61,7 +61,7 @@ describe('Arr', () => {
 
   it('tail', () => {
     assert.strictEqual(arr.tail(empty), none)
-    eq(arr.tail(as), some(arr.to([2, 3])))
+    eq(arr.tail(as), some([2, 3]))
   })
 
   it('take', () => {
@@ -83,11 +83,11 @@ describe('Arr', () => {
 
   it('init', () => {
     eq(arr.init(empty), none)
-    eq(arr.init(as), some(arr.to([1, 2])))
+    eq(arr.init(as), some([1, 2]))
   })
 
   it('slice', () => {
-    assert.deepEqual(arr.slice(1, 2, as), arr.to([2]))
+    assert.deepEqual(arr.slice(1, 2, as), [2])
   })
 
   it('findIndex', () => {
@@ -97,22 +97,22 @@ describe('Arr', () => {
 
   it('insertAt', () => {
     eq(arr.insertAt(1, 1, empty), none)
-    eq(arr.insertAt(0, 1, empty), some(arr.to([1])))
+    eq(arr.insertAt(0, 1, empty), some([1]))
   })
 
   it('updateAt', () => {
     eq(arr.updateAt(1, 1, empty), none)
-    eq(arr.updateAt(1, 1, as), some(arr.to([1, 1, 3])))
+    eq(arr.updateAt(1, 1, as), some([1, 1, 3]))
   })
 
   it('deleteAt', () => {
     eq(arr.deleteAt(1, empty), none)
-    eq(arr.deleteAt(0, as), some(arr.to([2, 3])))
+    eq(arr.deleteAt(0, as), some([2, 3]))
   })
 
   it('modifyAt', () => {
     eq(arr.modifyAt(1, x => 2 * x, empty), none)
-    eq(arr.modifyAt(1, x => 2 * x, as), some(arr.to([1, 4, 3])))
+    eq(arr.modifyAt(1, x => 2 * x, as), some([1, 4, 3]))
   })
 
   it('mapOption', () => {
@@ -121,12 +121,12 @@ describe('Arr', () => {
   })
 
   it('catOptions', () => {
-    assert.deepEqual(arr.catOptions(arr.to([some(1), some(2), some(3)])), [1, 2, 3])
-    assert.deepEqual(arr.catOptions(arr.to([some(1), none, some(3)])), [1, 3])
+    assert.deepEqual(arr.catOptions([some(1), some(2), some(3)]), [1, 2, 3])
+    assert.deepEqual(arr.catOptions([some(1), none, some(3)]), [1, 3])
   })
 
   it('sort', () => {
-    assert.deepEqual(arr.sort(numberOrd, arr.to([3, 2, 1])), [1, 2, 3])
+    assert.deepEqual(arr.sort(numberOrd, [3, 2, 1]), [1, 2, 3])
   })
 
 
