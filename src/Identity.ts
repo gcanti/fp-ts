@@ -8,16 +8,16 @@ import { Alt } from './Alt'
 import { Comonad } from './Comonad'
 import { Function1, Function2 } from './function'
 
-export type URI = 'Identity';
+export type URI = 'Identity'
 
-export type HKTIdentity<A> = HKT<URI, A>;
+export type HKTIdentity<A> = HKT<URI, A>
 
 export class Identity<A> implements HKTIdentity<A> {
-  __hkt: URI;
-  __hkta: A;
   static of = of
   static extract = extract
-  constructor(private value: A){}
+  __hkt: URI // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
+  constructor(private value: A) {}
   map<B>(f: Function1<A, B>): Identity<B> {
     return new Identity(f(this.value))
   }
@@ -96,6 +96,7 @@ export function extract<A>(fa: HKTIdentity<A>): A {
   return (fa as Identity<A>).extract()
 }
 
+// tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain, reduce, traverse, alt, extract, extend } as (
     Monad<URI> &

@@ -20,7 +20,7 @@
 */
 
 export interface NewType<URI> {
-  readonly __newtype: URI;
+  readonly __newtype: URI
 }
 
 export function newtype<Brand, Carrier>() {

@@ -6,7 +6,7 @@ import { Function1 } from './function'
 
 export interface ChainRec<M> extends Chain<M> {
   /** forall a b. (a -> m (Either a b)) -> a -> m b */
-  chainRec<A, B>(f: Function1<A, HKT<M, Either<A, B>>>, a: A): HKT<M, B>;
+  chainRec<A, B>(f: Function1<A, HKT<M, Either<A, B>>>, a: A): HKT<M, B>
 }
 
 /** forall a b. (a -> Either a b) -> a -> b */

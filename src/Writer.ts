@@ -4,14 +4,14 @@ import { Monad } from './Monad'
 import { deriveAp } from './Chain'
 import { Lazy, Function1 } from './function'
 
-export type URI = 'Writer';
+export type URI = 'Writer'
 
-export type HKTWriter<W, A> = HKT<HKT<URI, W>, A>;
+export type HKTWriter<W, A> = HKT<HKT<URI, W>, A>
 
 export class Writer<W, A> implements HKTWriter<W, A> {
-  __hkt: HKT<URI, W>;
-  __hkta: A;
-  constructor(private value: Lazy<[A, W]>){}
+  __hkt: HKT<URI, W> // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
+  constructor(private value: Lazy<[A, W]>) {}
   run(): [A, W] {
     return this.value()
   }

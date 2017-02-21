@@ -11,9 +11,9 @@ import { Setoid } from './Setoid'
 import { Traversable } from './Traversable'
 import { identity, constant, constFalse, constTrue, Lazy, Function1, Function2 } from './function'
 
-export type URI = 'Option';
+export type URI = 'Option'
 
-export type HKTOption<A> = HKT<URI, A>;
+export type HKTOption<A> = HKT<URI, A>
 
 export interface Option<A> extends HKTOption<A> {
   map<B>(f: Function1<A, B>): Option<B>
@@ -29,12 +29,12 @@ export interface Option<A> extends HKTOption<A> {
 }
 
 export class None<A> implements Option<A> {
-  __hkt: URI;
-  __hkta: A;
   static of = of
   static zero = zero
   static value: Option<any> = new None()
-  constructor(){
+  __hkt: URI // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
+  constructor() {
     if (none) {
       return none as any
     }
@@ -84,11 +84,11 @@ export function zero<A>(): Option<A> {
 }
 
 export class Some<A> implements Option<A> {
-  __hkt: URI;
-  __hkta: A;
   static of = of
   static zero = zero
-  constructor(public value: A){}
+  __hkt: URI // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
+  constructor(public value: A) {}
   map<B>(f: Function1<A, B>): Option<B> {
     return new Some(f(this.value))
   }
@@ -201,6 +201,7 @@ export function isNone<A>(fa: HKTOption<A>): fa is None<A> {
 
 export const some = of
 
+// tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain, reduce, traverse, alt, extend, zero } as (
     Monad<URI> &

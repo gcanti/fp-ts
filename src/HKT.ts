@@ -3,4 +3,4 @@ export interface HKT<F, A> {
   readonly __hkta: A
 }
 
-export type HKT2<F, A, B> = HKT<HKT<F, A>, B>;
+export type HKT2<F, A, B> = HKT<HKT<F, A>, B>

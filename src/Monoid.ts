@@ -50,4 +50,3 @@ export const monoidString: Monoid<string> = {
   empty: () => '',
   concat: (x, y) => x + y
 }
-
