@@ -16,6 +16,9 @@
 
 - **New Feature**
   - make Array<T> a HKT and deprecate `to`,`from` helper functions, fix #5 (@gcanti)
+  - add `Traced` comonad (@bumbleblym)
+- **Polish**
+  - add tslint
 
 # 0.0.2
 

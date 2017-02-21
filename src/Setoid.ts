@@ -11,4 +11,3 @@ export const setoidString: Setoid<string> = { equals }
 export const setoidNumber: Setoid<number> = { equals }
 
 export const setoidBoolean: Setoid<boolean> = { equals }
-

@@ -8,8 +8,8 @@ export type URI = 'Traced'
 export type HKTTraced<E, A> = HKT<HKT<URI, E>, A>
 
 export class Traced<E, A> implements HKTTraced<E, A> {
-  __hkt: HKT<URI, E>
-  __hkta: A
+  __hkt: HKT<URI, E> // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
   constructor(private value: Function1<E, A>) {
   }
   run(e: E): A {
@@ -44,6 +44,6 @@ export function getComonad<E>(monoid: Monoid<E>): Comonad<HKT<URI, E>> {
   return {
     extend,
     extract,
-    map,
+    map
   }
 }

@@ -11,4 +11,3 @@ export function getProductSemigroup<A, B>(asemigroup: Semigroup<A>, bsemigroup: 
 export function getDualSemigroup<A>(semigroup: Semigroup<A>): Semigroup<A> {
   return { concat: (x, y) => semigroup.concat(y, x) }
 }
-

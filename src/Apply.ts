@@ -2,7 +2,7 @@ import { HKT } from './HKT'
 import { Functor } from './Functor'
 import { Function1, Function2, Function3, Function4, Curried2, Curried3, Curried4 } from './function'
 
-export type Ap<F> = <A, B>(fab: HKT<F, Function1<A, B>>, fa: HKT<F, A>) => HKT<F, B>;
+export type Ap<F> = <A, B>(fab: HKT<F, Function1<A, B>>, fa: HKT<F, A>) => HKT<F, B>
 
 export interface Apply<F> extends Functor<F> {
   ap: Ap<F>

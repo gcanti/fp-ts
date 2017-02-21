@@ -13,12 +13,12 @@ import { Ord, toNativeComparator } from './Ord'
 import { Predicate, identity, constant, curry, Lazy, Function1, Function2, Endomorphism } from './function'
 
 // TODO(v0.1) replace with 'Array'
-export type URI = 'Arr';
+export type URI = 'Arr'
 
 declare global {
   interface Array<T> {
-    __hkt: URI;
-    __hkta: T;
+    __hkt: URI
+    __hkta: T
   }
 }
 
@@ -59,6 +59,8 @@ export function chain<A, B>(f: Function1<A, Array<B>>, fa: Array<A>): Array<B> {
 export function reduce<A, B>(f: Function2<B, A, B>, b: B, fa: Array<A>): B {
   return fa.reduce(f, b)
 }
+
+export const curriedSnoc = curry(snoc)
 
 export function traverse<F, A, B>(applicative: Applicative<F>, f: Function1<A, HKT<F, B>>, ta: Array<A>): HKT<F, Array<B>> {
   const snocA2 = liftA2(applicative, curriedSnoc)
@@ -113,8 +115,6 @@ export function snoc<A>(as: Array<A>, a: A): Array<A> {
   return as.concat(a)
 }
 
-export const curriedSnoc = curry(snoc)
-
 export function head<A>(as: Array<A>): Option<A> {
   return isEmpty(as) ? option.none : option.some(as[0])
 }
@@ -154,7 +154,8 @@ export function dropWhile<A>(predicate: Predicate<A>, as: Array<A>): Array<A> {
 }
 
 export function findIndex<A>(predicate: Predicate<A>, as: Array<A>): Option<number> {
-  for (let i = 0, len = as.length; i < len; i++) {
+  const len = as.length
+  for (let i = 0; i < len; i++) {
     if (predicate(as[i])) {
       return option.some(i)
     }
@@ -220,6 +221,7 @@ export function sort<A>(ord: Ord<A>, as: Array<A>): Array<A> {
   return copy(as).sort(toNativeComparator(ord.compare))
 }
 
+// tslint:disable-next-line no-unused-expression
 ;(
   { empty, concat, map, of, ap, chain, reduce, traverse, zero, alt } as (
     Monoid<Array<any>> &

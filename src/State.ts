@@ -2,14 +2,14 @@ import { HKT } from './HKT'
 import { Monad } from './Monad'
 import { Function1, Endomorphism } from './function'
 
-export type URI = 'State';
+export type URI = 'State'
 
-export type HKTState<S, A> = HKT<HKT<URI, S>, A>;
+export type HKTState<S, A> = HKT<HKT<URI, S>, A>
 
 export class State<S, A> implements HKTState<S, A> {
-  __hkt: HKT<URI, S>;
-  __hkta: A;
-  constructor(private value: Function1<S, [A, S]>){}
+  __hkt: HKT<URI, S> // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
+  constructor(private value: Function1<S, [A, S]>) {}
   run(s: S): [A, S] {
     return this.value(s)
   }
@@ -62,6 +62,7 @@ export function gets<S, A>(f: Function1<S, A>): State<S, A> {
   return get<S>().chain(s => of<S, A>(f(s)))
 }
 
+// tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain } as (
     Monad<HKT<URI, any>>

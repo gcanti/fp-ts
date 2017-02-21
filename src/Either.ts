@@ -9,9 +9,9 @@ import { Bifunctor } from './Bifunctor'
 import { Alt } from './Alt'
 import { constFalse, constTrue, Function1, Function2 } from './function'
 
-export type URI = 'Either';
+export type URI = 'Either'
 
-export type HKTEither<L, A> = HKT<HKT<URI, L>, A>;
+export type HKTEither<L, A> = HKT<HKT<URI, L>, A>
 
 export interface Either<L, A> extends HKTEither<L, A> {
   map<B>(f: Function1<A, B>): Either<L, B>
@@ -27,10 +27,10 @@ export interface Either<L, A> extends HKTEither<L, A> {
 }
 
 export class Left<L, A> implements Either<L, A> {
-  __hkt: HKT<URI, L>;
-  __hkta: A;
   static of = of
-  constructor(public value: L){}
+  __hkt: HKT<URI, L> // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
+  constructor(public value: L) {}
   map<B>(f: Function1<A, B>): Either<L, B> {
     return this as any
   }
@@ -70,10 +70,10 @@ export class Left<L, A> implements Either<L, A> {
 }
 
 export class Right<L, A> implements Either<L, A> {
-  __hkt: HKT<URI, L>;
-  __hkta: A;
   static of = of
-  constructor(public value: A){}
+  __hkt: HKT<URI, L> // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
+  constructor(public value: A) {}
   map<B>(f: Function1<A, B>): Either<L, B> {
     return new Right<L, B>(f(this.value))
   }
@@ -173,6 +173,7 @@ export function left<L, A>(l: L): Either<L, A> {
 
 export const right = of
 
+// tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain, reduce, traverse, bimap, alt, extend } as (
     Monad<HKT<URI, any>> &

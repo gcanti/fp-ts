@@ -4,15 +4,15 @@ import { Semigroup } from './Semigroup'
 import { Monad } from './Monad'
 import { constant, Lazy, Function1 } from './function'
 
-export type URI = 'IO';
+export type URI = 'IO'
 
-export type HKTIO<A> = HKT<URI, A>;
+export type HKTIO<A> = HKT<URI, A>
 
 export class IO<A> implements HKTIO<A> {
-  __hkt: URI;
-  __hkta: A;
   static of = of
-  constructor(private value: Lazy<A>){}
+  __hkt: URI // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
+  constructor(private value: Lazy<A>) {}
   run(): A {
     return this.value()
   }
@@ -59,6 +59,7 @@ export function getMonoid<A>(monoid: Monoid<A>): Monoid<IO<A>> {
   return { empty: constant(of(empty)), concat: getSemigroup(monoid).concat }
 }
 
+// tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain } as (
     Monad<URI>

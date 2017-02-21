@@ -2,15 +2,15 @@ import { HKT } from './HKT'
 import { Monad } from './Monad'
 import { identity, Function1, Endomorphism } from './function'
 
-export type URI = 'Reader';
+export type URI = 'Reader'
 
-export type HKTReader<E, A> = HKT<HKT<URI, E>, A>;
+export type HKTReader<E, A> = HKT<HKT<URI, E>, A>
 
 export class Reader<E, A> implements HKTReader<E, A> {
-  __hkt: HKT<URI, E>;
-  __hkta: A;
   static of = of
-  constructor(private value: Function1<E, A>){}
+  __hkt: HKT<URI, E> // tslint:disable-line variable-name
+  __hkta: A // tslint:disable-line variable-name
+  constructor(private value: Function1<E, A>) {}
   run(e: E): A {
     return this.value(e)
   }
@@ -56,6 +56,7 @@ export function local<E, A>(f: Endomorphism<E>, fa: HKTReader<E, A>): Reader<E, 
   return new Reader((e: E) => (fa as Reader<E, A>).run(f(e)))
 }
 
+// tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain } as (
     Monad<HKT<URI, any>>

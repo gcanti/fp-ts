@@ -7,9 +7,9 @@ import {
 } from './Setoid'
 import { Function2 } from './function'
 
-export type Comparator<A> = Function2<A, A, Ordering>;
+export type Comparator<A> = Function2<A, A, Ordering>
 
-export type NativeComparator<A> = Function2<A, A, number>;
+export type NativeComparator<A> = Function2<A, A, number>
 
 export interface Ord<A> extends Setoid<A> {
   compare(x: A, y: A): Ordering

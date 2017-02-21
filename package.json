@@ -10,7 +10,8 @@
   "jsnext:main": "lib-jsnext/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "test": "mocha -r ts-node/register test/*.ts",
+    "lint": "tslint src/**/*.ts",
+    "test": "npm run lint && mocha -r ts-node/register test/*.ts",
     "build": "rm -rf lib/* && tsc && tsc -m es6 --outDir lib-jsnext"
   },
   "repository": {
@@ -29,6 +30,8 @@
     "@types/node": "^7.0.4",
     "mocha": "^3.2.0",
     "ts-node": "^2.0.0",
+    "tslint": "^4.4.2",
+    "tslint-config-standard": "^4.0.0",
     "typescript": "^2.2.0"
   },
   "tags": [
