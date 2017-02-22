@@ -70,7 +70,7 @@ describe('Arr', () => {
   })
 
   it('takeWhile', () => {
-    assert.deepEqual(arr.takeWhile((n) => n % 2 == 0, as), [2])
+    assert.deepEqual(arr.takeWhile((n) => n % 2 === 0, as), [2])
   })
 
   it('drop', () => {
@@ -78,7 +78,7 @@ describe('Arr', () => {
   })
 
   it('dropWhile', () => {
-    assert.deepEqual(arr.dropWhile((n) => n % 2 == 0, as), [1, 3])
+    assert.deepEqual(arr.dropWhile((n) => n % 2 === 0, as), [1, 3])
   })
 
   it('init', () => {
@@ -128,6 +128,5 @@ describe('Arr', () => {
   it('sort', () => {
     assert.deepEqual(arr.sort(numberOrd, [3, 2, 1]), [1, 2, 3])
   })
-
 
 })

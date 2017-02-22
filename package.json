@@ -10,7 +10,7 @@
   "jsnext:main": "lib-jsnext/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "lint": "tslint src/**/*.ts",
+    "lint": "tslint src/**/*.ts test/**/*.ts",
     "test": "npm run lint && mocha -r ts-node/register test/*.ts",
     "build": "rm -rf lib/* && tsc && tsc -m es6 --outDir lib-jsnext"
   },

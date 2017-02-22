@@ -3,7 +3,7 @@ import { identity } from '../src/function'
 import { monoidSum } from '../src/Monoid'
 import {
   getComonad,
-  Traced,
+  Traced
 } from '../src/Traced'
 
 describe('Traced', () => {
@@ -68,7 +68,7 @@ describe('Traced', () => {
 
     assert.strictEqual(
       extract(extend(ea => extract(ea), t)),
-      extract(t),
+      extract(t)
     )
   })
 
@@ -81,7 +81,7 @@ describe('Traced', () => {
 
     assert.strictEqual(
       extract(extend(f , t)),
-      f(t),
+      f(t)
     )
   })
 })

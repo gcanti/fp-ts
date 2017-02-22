@@ -23,6 +23,11 @@ describe('Option', () => {
     assert.strictEqual(fold(f, g, some('abc')), 'some3')
   })
 
+  it('getOrElse', () => {
+    assert.strictEqual(some(1).getOrElse(() => 0), 1)
+    assert.strictEqual(none.getOrElse(() => 0), 0)
+  })
+
   it('equals', () => {
     assert.strictEqual(equals(setoidNumber, none, none), true)
     assert.strictEqual(equals(setoidNumber, none, some(1)), false)
@@ -51,7 +56,7 @@ describe('Option', () => {
   })
 
   it('getMonoid', () => {
-    const { concat } = getMonoid({ concat(x: number, y: number){ return x + y } })
+    const { concat } = getMonoid({ concat(x: number, y: number) { return x + y } })
     eq(concat(none, some(1)), some(1))
     eq(concat(some(2), none), some(2))
     eq(concat(some(2), some(1)), some(3))

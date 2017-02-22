@@ -24,6 +24,7 @@ export interface Option<A> extends HKTOption<A> {
   alt(fa: Option<A>): Option<A>
   extend<B>(fy: Function1<Option<A>, B>): Option<B>
   fold<B>(n: Lazy<B>, s: Function1<A, B>): B
+  getOrElse(f: Lazy<A>): A
   concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A>
   equals(setoid: Setoid<A>, fy: Option<A>): boolean
 }
@@ -62,6 +63,9 @@ export class None<A> implements Option<A> {
   }
   fold<B>(n: Lazy<B>, s: Function1<A, B>): B {
     return n()
+  }
+  getOrElse(f: Lazy<A>): A {
+    return f()
   }
   concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
     return fy
@@ -112,6 +116,9 @@ export class Some<A> implements Option<A> {
   }
   fold<B>(n: Lazy<B>, s: Function1<A, B>): B {
     return s(this.value)
+  }
+  getOrElse(f: Lazy<A>): A {
+    return this.value
   }
   concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
     return fy.fold(() => this, y => new Some(semigroup.concat(this.value, y)))
