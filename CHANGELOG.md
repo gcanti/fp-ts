@@ -21,6 +21,9 @@
   - add NonEmptyArray, fix #12 (@gcanti)
 - **Polish**
   - add tslint
+- **Bug Fix**
+  - fix `State` definition (@gcanti)
+
 
 # 0.0.2
 
