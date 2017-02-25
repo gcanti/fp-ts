@@ -18,6 +18,7 @@
   - make Array<T> a HKT and deprecate `to`,`from` helper functions, fix #5 (@gcanti)
   - add `Traced` comonad (@bumbleblym)
   - add `getOrElse` method to `Option` (@gcanti)
+  - add NonEmptyArray, fix #12 (@gcanti)
 - **Polish**
   - add tslint
 
