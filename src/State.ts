@@ -20,13 +20,19 @@ export class State<S, A> implements HKTState<S, A> {
     return this.run(s)[1]
   }
   map<B>(f: Function1<A, B>): State<S, B> {
-    return new State<S, B>(s => [f(this.eval(s)), s])
+    return new State<S, B>(s => {
+      const [a, s1] = this.run(s)
+      return [f(a), s1]
+    })
   }
   ap<B>(fab: State<S, Function1<A, B>>): State<S, B> {
     return fab.chain(f => map(f, this)) // <= derived
   }
   chain<B>(f: Function1<A, State<S, B>>): State<S, B> {
-    return new State<S, B>(s => (f(this.eval(s))).run(s))
+    return new State<S, B>(s => {
+      const [a, s1] = this.run(s)
+      return f(a).run(s1)
+    })
   }
 }
 
@@ -59,7 +65,7 @@ export function modify<S>(f: Endomorphism<S>): State<S, void> {
 }
 
 export function gets<S, A>(f: Function1<S, A>): State<S, A> {
-  return get<S>().chain(s => of<S, A>(f(s)))
+  return new State<S, A>(s => [f(s), s])
 }
 
 // tslint:disable-next-line no-unused-expression
