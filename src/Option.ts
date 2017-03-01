@@ -31,6 +31,7 @@ export interface Option<A> extends HKTOption<A> {
 
 export class None<A> implements Option<A> {
   static of = of
+  static empty = empty
   static zero = zero
   static value: Option<any> = new None()
   __hkt: URI // tslint:disable-line variable-name
@@ -87,8 +88,13 @@ export function zero<A>(): Option<A> {
   return none
 }
 
+export function empty<A>(): Option<A> {
+  return none
+}
+
 export class Some<A> implements Option<A> {
   static of = of
+  static empty = empty
   static zero = zero
   __hkt: URI // tslint:disable-line variable-name
   __hkta: A // tslint:disable-line variable-name
@@ -177,8 +183,6 @@ export function alt<A>(fx: HKTOption<A>, fy: HKTOption<A>): Option<A> {
 export function extend<A, B>(f: Function1<HKTOption<A>, B>, ea: HKTOption<A>): Option<B> {
   return (ea as Option<A>).extend(f)
 }
-
-export const empty = zero
 
 /** Maybe monoid returning the leftmost non-Nothing value */
 export const monoidFirst: Monoid<Option<any>> = {
