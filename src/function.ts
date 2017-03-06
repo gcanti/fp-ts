@@ -56,11 +56,11 @@ export function on<A, B, C>(op: BinaryOperation<B, C>, f: Function1<A, B>): Bina
 export function compose<A, B, C>(bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, C>
 export function compose<A, B, C, D>(cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, D>
 export function compose<A, B, C, D, E>(de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, E>
-export function compose<A, B, C, D, E, F>(fe: Function1<F, E>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, F>
-export function compose<A, B, C, D, E, F, G>(fg: Function1<F, G>, fe: Function1<F, E>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, G>
-export function compose<A, B, C, D, E, F, G, H>(fh: Function1<F, H>, fg: Function1<F, G>, fe: Function1<F, E>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, H>
-export function compose<A, B, C, D, E, F, G, H, I>(fi: Function1<H, I>, fh: Function1<F, H>, fg: Function1<F, G>, fe: Function1<F, E>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, I>
-export function compose<A, B, C, D, E, F, G, H, I, J>(fj: Function1<I, J>, fi: Function1<H, I>, fh: Function1<F, H>, fg: Function1<F, G>, fe: Function1<F, E>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, J>
+export function compose<A, B, C, D, E, F>(ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, F>
+export function compose<A, B, C, D, E, F, G>(fg: Function1<F, G>, ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, G>
+export function compose<A, B, C, D, E, F, G, H>(gh: Function1<G, H>, fg: Function1<F, G>, ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, H>
+export function compose<A, B, C, D, E, F, G, H, I>(hi: Function1<H, I>, gh: Function1<G, H>, fg: Function1<F, G>, ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, I>
+export function compose<A, B, C, D, E, F, G, H, I, J>(ij: Function1<I, J>, hi: Function1<H, I>, gh: Function1<G, H>, fg: Function1<F, G>, ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, J>
 export function compose(...fns: Array<Function>): Function {
   const len = fns.length - 1
   return function(this: any, x: any) {
@@ -105,7 +105,7 @@ export function curry<A, B, C, D, E, F>(f: Function5<A, B, C, D, E, F>): Curried
 export function curry<A, B, C, D, E, F, G>(f: Function6<A, B, C, D, E, F, G>): Curried6<A, B, C, D, E, F, G>
 export function curry<A, B, C, D, E, F, G, H>(f: Function7<A, B, C, D, E, F, G, H>): Curried7<A, B, C, D, E, F, G, H>
 export function curry<A, B, C, D, E, F, G, H, I>(f: Function8<A, B, C, D, E, F, G, H, I>): Curried8<A, B, C, D, E, F, G, H, I>
-export function curry<A, B, C, D, E, F, G, H, I, K>(f: Function9<A, B, C, D, E, F, G, H, I, K>): Curried9<A, B, C, D, E, F, G, H, I, K>
+export function curry<A, B, C, D, E, F, G, H, I, J>(f: Function9<A, B, C, D, E, F, G, H, I, J>): Curried9<A, B, C, D, E, F, G, H, I, J>
 export function curry(f: Function) {
   return curried(f, f.length - 1, [])
 }
