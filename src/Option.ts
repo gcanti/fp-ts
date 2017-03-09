@@ -15,27 +15,16 @@ export type URI = 'Option'
 
 export type HKTOption<A> = HKT<URI, A>
 
-export interface Option<A> extends HKTOption<A> {
-  map<B>(f: Function1<A, B>): Option<B>
-  ap<A, B>(fab: Option<Function1<A, B>>): Option<B>
-  chain<B>(f: Function1<A, Option<B>>): Option<B>
-  reduce<A, B>(f: Function2<B, A, B>, b: B): B
-  traverse<F, B>(applicative: Applicative<F>, f: Function1<A, HKT<F, B>>): HKT<F, Option<B>>
-  alt(fa: Option<A>): Option<A>
-  extend<B>(fy: Function1<Option<A>, B>): Option<B>
-  fold<B>(n: Lazy<B>, s: Function1<A, B>): B
-  getOrElse(f: Lazy<A>): A
-  concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A>
-  equals(setoid: Setoid<A>, fy: Option<A>): boolean
-}
+export type Option<A> = None<A> | Some<A>
 
-export class None<A> implements Option<A> {
+export class None<A> {
   static of = of
   static empty = empty
   static zero = zero
   static value: Option<any> = new None()
-  __hkt: URI // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+  __tag: 'None'
+  __hkt: URI
+  __hkta: A
   constructor() {
     if (none) {
       return none as any
@@ -50,13 +39,13 @@ export class None<A> implements Option<A> {
   chain<B>(f: Function1<A, Option<B>>): Option<B> {
     return none
   }
-  reduce<A, B>(f: Function2<B, A, B>, b: B): B {
+  reduce<B>(f: Function2<B, A, B>, b: B): B {
     return b
   }
   traverse<F, B>(applicative: Applicative<F>, f: Function1<A, HKT<F, B>>): HKT<F, Option<B>> {
     return applicative.of(none)
   }
-  alt<A>(fa: Option<A>): Option<A> {
+  alt(fa: Option<A>): Option<A> {
     return fa
   }
   extend<B>(f: Function1<Option<A>, B>): Option<B> {
@@ -92,12 +81,13 @@ export function empty<A>(): Option<A> {
   return none
 }
 
-export class Some<A> implements Option<A> {
+export class Some<A> {
   static of = of
   static empty = empty
   static zero = zero
-  __hkt: URI // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+  __tag: 'Some'
+  __hkt: URI
+  __hkta: A
   constructor(public value: A) {}
   map<B>(f: Function1<A, B>): Option<B> {
     return new Some(f(this.value))
@@ -108,7 +98,7 @@ export class Some<A> implements Option<A> {
   chain<B>(f: Function1<A, Option<B>>): Option<B> {
     return f(this.value)
   }
-  reduce<A, B>(f: Function2<B, A, B>, b: B): B {
+  reduce<B>(f: Function2<B, A, B>, b: B): B {
     return this.fold<B>(constant(b), identity)
   }
   traverse<F, B>(applicative: Applicative<F>, f: Function1<A, HKT<F, B>>): HKT<F, Option<B>> {
@@ -129,7 +119,7 @@ export class Some<A> implements Option<A> {
   concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
     return fy.fold(() => this, y => new Some(semigroup.concat(this.value, y)))
   }
-  equals(setoid: Setoid<any>, fy: Option<any>): boolean {
+  equals(setoid: Setoid<A>, fy: Option<A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
   }
   inspect() {
