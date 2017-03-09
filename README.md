@@ -9,8 +9,8 @@ The idea (faking higher kinded types in TypeScript) is based on the paper [Light
 
 # Algebraic types
 
-|                 | Array | Option | Either | NEA(*) | Task | Const | Identity | Validation |
-| --------------- | -- | -- | -- | -- | -- | -- | -- | -- |
+|     | Array | Option | Either | NEA(*) | Task | Const | Identity | Validation |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Setoid          | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
 | Semigroup       | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
 | Monoid          | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
