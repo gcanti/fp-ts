@@ -9,6 +9,7 @@ export type HKTTask<A> = HKT<URI, A>
 
 export class Task<A> {
   static of = of
+  static empty = empty
   __hkt: URI
   __hkta: A
   constructor(private value: Lazy<Promise<A>>) {}
