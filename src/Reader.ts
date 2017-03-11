@@ -6,10 +6,10 @@ export type URI = 'Reader'
 
 export type HKTReader<E, A> = HKT<HKT<URI, E>, A>
 
-export class Reader<E, A> implements HKTReader<E, A> {
+export class Reader<E, A> {
   static of = of
-  __hkt: HKT<URI, E> // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+  __hkt: HKT<URI, E>
+  __hkta: A
   constructor(private value: Function1<E, A>) {}
   run(e: E): A {
     return this.value(e)

@@ -12,9 +12,9 @@ export type URI = 'Const'
 
 export type HKTConst<A, B> = HKT<HKT<URI, A>, B>
 
-export class Const<A, B> implements HKTConst<A, B> {
-  __hkt: HKT<URI, A> // tslint:disable-line variable-name
-  __hkta: B // tslint:disable-line variable-name
+export class Const<A, B> {
+  __hkt: HKT<URI, A>
+  __hkta: B
   constructor(private value: A) {}
   map<B, C>(f: Function1<B, C>): Const<A, C> {
     return this as any

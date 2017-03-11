@@ -8,10 +8,10 @@ export type URI = 'IO'
 
 export type HKTIO<A> = HKT<URI, A>
 
-export class IO<A> implements HKTIO<A> {
+export class IO<A> {
   static of = of
-  __hkt: URI // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+  __hkt: URI
+  __hkta: A
   constructor(private value: Lazy<A>) {}
   run(): A {
     return this.value()

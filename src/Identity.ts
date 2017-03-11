@@ -12,11 +12,11 @@ export type URI = 'Identity'
 
 export type HKTIdentity<A> = HKT<URI, A>
 
-export class Identity<A> implements HKTIdentity<A> {
+export class Identity<A> {
   static of = of
   static extract = extract
-  __hkt: URI // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+  __hkt: URI
+  __hkta: A
   constructor(private value: A) {}
   map<B>(f: Function1<A, B>): Identity<B> {
     return new Identity(f(this.value))

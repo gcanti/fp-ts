@@ -7,9 +7,9 @@ export type URI = 'Traced'
 
 export type HKTTraced<E, A> = HKT<HKT<URI, E>, A>
 
-export class Traced<E, A> implements HKTTraced<E, A> {
-  __hkt: HKT<URI, E> // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+export class Traced<E, A> {
+  __hkt: HKT<URI, E>
+  __hkta: A
   constructor(private value: Function1<E, A>) {
   }
   run(e: E): A {
