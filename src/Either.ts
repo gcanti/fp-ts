@@ -13,23 +13,13 @@ export type URI = 'Either'
 
 export type HKTEither<L, A> = HKT<HKT<URI, L>, A>
 
-export interface Either<L, A> extends HKTEither<L, A> {
-  map<B>(f: Function1<A, B>): Either<L, B>
-  ap<B>(fab: Either<L, Function1<A, B>>): Either<L, B>
-  chain<B>(f: Function1<A, Either<L, B>>): Either<L, B>
-  bimap<L2, B>(f: Function1<L, L2>, g: Function1<A, B>): Either<L2, B>
-  alt(fy: Either<L, A>): Either<L, A>
-  extend<B>(f: Function1<Either<L, A>, B>): Either<L, B>
-  reduce<B>(f: Function2<B, A, B>, b: B): B
-  traverse<F, B>(applicative: Applicative<F>, f: Function1<A, HKT<F, B>>): HKT<F, Either<L, B>>
-  fold<B>(left: Function1<L, B>, right: Function1<A, B>): B
-  equals(setoid: Setoid<A>, fy: Either<L, A>): boolean
-}
+export type Either<L, A> = Left<L, A> | Right<L, A>
 
-export class Left<L, A> implements Either<L, A> {
+export class Left<L, A> {
   static of = of
-  __hkt: HKT<URI, L> // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+  __tag: 'Left'
+  __hkt: HKT<URI, L>
+  __hkta: A
   constructor(public value: L) {}
   map<B>(f: Function1<A, B>): Either<L, B> {
     return this as any
@@ -69,10 +59,11 @@ export class Left<L, A> implements Either<L, A> {
   }
 }
 
-export class Right<L, A> implements Either<L, A> {
+export class Right<L, A> {
   static of = of
-  __hkt: HKT<URI, L> // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+  __tag: 'Right'
+  __hkt: HKT<URI, L>
+  __hkta: A
   constructor(public value: A) {}
   map<B>(f: Function1<A, B>): Either<L, B> {
     return new Right<L, B>(f(this.value))

@@ -12,9 +12,9 @@ export type URI = 'NonEmptyArray'
 
 export type HKTNonEmptyArray<A> = HKT<URI, A>
 
-export class NonEmptyArray<A> implements HKTNonEmptyArray<A> {
-  __hkt: URI // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+export class NonEmptyArray<A> {
+  __hkt: URI
+  __hkta: A
   constructor(public head: A, public tail: Array<A>) {}
   toArray(): Array<A> {
     return [this.head].concat(this.tail)

@@ -6,9 +6,9 @@ export type URI = 'State'
 
 export type HKTState<S, A> = HKT<HKT<URI, S>, A>
 
-export class State<S, A> implements HKTState<S, A> {
-  __hkt: HKT<URI, S> // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+export class State<S, A> {
+  __hkt: HKT<URI, S>
+  __hkta: A
   constructor(private value: Function1<S, [A, S]>) {}
   run(s: S): [A, S] {
     return this.value(s)

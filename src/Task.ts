@@ -7,10 +7,10 @@ export type URI = 'Task'
 
 export type HKTTask<A> = HKT<URI, A>
 
-export class Task<A> implements HKTTask<A> {
+export class Task<A> {
   static of = of
-  __hkt: URI // tslint:disable-line variable-name
-  __hkta: A // tslint:disable-line variable-name
+  __hkt: URI
+  __hkta: A
   constructor(private value: Lazy<Promise<A>>) {}
   run(): Promise<A> {
     return this.value()
