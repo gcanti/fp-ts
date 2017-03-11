@@ -7,7 +7,7 @@ import { Setoid } from './Setoid'
 import { Traversable } from './Traversable'
 import { Bifunctor } from './Bifunctor'
 import { Alt } from './Alt'
-import { constFalse, constTrue, Function1, Function2 } from './function'
+import { constFalse, constTrue, Function1, Function2, Predicate } from './function'
 
 export type URI = 'Either'
 
@@ -164,6 +164,10 @@ export function left<L, A>(l: L): Either<L, A> {
 
 export function right<L, A>(a: A): Either<L, A> {
   return new Right<L, A>(a)
+}
+
+export function fromPredicate<L, A>(predicate: Predicate<A>, l: Function1<A, L>): (a: A) => Either<L, A> {
+  return a => predicate(a) ? right<L, A>(a) : left<L, A>(l(a))
 }
 
 // tslint:disable-next-line no-unused-expression

@@ -5,7 +5,8 @@ import {
   map,
   fold,
   ap,
-  chain
+  chain,
+  fromPredicate
 } from '../src/Either'
 import { eqEithers as eq } from './helpers'
 
@@ -35,6 +36,14 @@ describe('Either', () => {
     const f = (s: string) => right(s.length)
     eq(chain(f, right('abc')), right(3))
     eq(chain(f, left('s')), left('s'))
+  })
+
+  it('fromPredicate', () => {
+    const predicate = (n: number) => n >= 2
+    const handleError = (n: number) => `Invalid number ${n}`
+    const gt2 = fromPredicate(predicate, handleError)
+    eq(gt2(3), right(3))
+    eq(gt2(1), left('Invalid number 1'))
   })
 
 })
