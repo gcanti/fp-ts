@@ -55,7 +55,7 @@ export class Left<L, A> {
     return this.toString()
   }
   toString() {
-    return `Left(${this.value})`
+    return `Left(${JSON.stringify(this.value)})`
   }
 }
 
@@ -102,7 +102,7 @@ export class Right<L, A> {
     return this.toString()
   }
   toString() {
-    return `Right(${this.value})`
+    return `Right(${JSON.stringify(this.value)})`
   }
 }
 
@@ -162,7 +162,9 @@ export function left<L, A>(l: L): Either<L, A> {
   return new Left<L, A>(l)
 }
 
-export const right = of
+export function right<L, A>(a: A): Either<L, A> {
+  return new Right<L, A>(a)
+}
 
 // tslint:disable-next-line no-unused-expression
 ;(

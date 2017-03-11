@@ -126,7 +126,7 @@ export class Some<A> {
     return this.toString()
   }
   toString() {
-    return `Some(${this.value})`
+    return `Some(${JSON.stringify(this.value)})`
   }
 }
 
