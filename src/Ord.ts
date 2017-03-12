@@ -1,6 +1,6 @@
 import { Ordering } from './Ordering'
 import {
-  Setoid,
+  StaticSetoid,
   setoidBoolean,
   setoidNumber,
   setoidString
@@ -11,7 +11,7 @@ export type Comparator<A> = Function2<A, A, Ordering>
 
 export type NativeComparator<A> = Function2<A, A, number>
 
-export interface Ord<A> extends Setoid<A> {
+export interface StaticOrd<A> extends StaticSetoid<A> {
   compare(x: A, y: A): Ordering
 }
 
@@ -26,40 +26,40 @@ export function unsafeCompare(x: any, y: any): Ordering {
   return x < y ? 'LT' : x > y ? 'GT' : 'EQ'
 }
 
-export const stringOrd: Ord<string> = { compare: unsafeCompare, equals: setoidString.equals }
+export const stringOrd: StaticOrd<string> = { compare: unsafeCompare, equals: setoidString.equals }
 
-export const numberOrd: Ord<number> = { compare: unsafeCompare, equals: setoidNumber.equals }
+export const numberOrd: StaticOrd<number> = { compare: unsafeCompare, equals: setoidNumber.equals }
 
-export const booleanOrd: Ord<boolean> = { compare: unsafeCompare, equals: setoidBoolean.equals }
+export const booleanOrd: StaticOrd<boolean> = { compare: unsafeCompare, equals: setoidBoolean.equals }
 
-export function lessThan<A>(ord: Ord<A>, x: A, y: A): boolean {
+export function lessThan<A>(ord: StaticOrd<A>, x: A, y: A): boolean {
   return ord.compare(x, y) === 'LT'
 }
 
-export function greaterThan<A>(ord: Ord<A>, x: A, y: A): boolean {
+export function greaterThan<A>(ord: StaticOrd<A>, x: A, y: A): boolean {
   return ord.compare(x, y) === 'GT'
 }
 
-export function lessThanOrEq<A>(ord: Ord<A>, x: A, y: A): boolean {
+export function lessThanOrEq<A>(ord: StaticOrd<A>, x: A, y: A): boolean {
   return ord.compare(x, y) !== 'GT'
 }
 
-export function greaterThanOrEq<A>(ord: Ord<A>, x: A, y: A): boolean {
+export function greaterThanOrEq<A>(ord: StaticOrd<A>, x: A, y: A): boolean {
   return ord.compare(x, y) !== 'LT'
 }
 
-export function min<A>(ord: Ord<A>, x: A, y: A): A {
+export function min<A>(ord: StaticOrd<A>, x: A, y: A): A {
   return ord.compare(x, y) === 'GT' ? y : x
 }
 
-export function max<A>(ord: Ord<A>, x: A, y: A): A {
+export function max<A>(ord: StaticOrd<A>, x: A, y: A): A {
   return ord.compare(x, y) === 'LT' ? y : x
 }
 
-export function clamp<A>(ord: Ord<A>, low: A, hi: A, x: A): A {
+export function clamp<A>(ord: StaticOrd<A>, low: A, hi: A, x: A): A {
   return min(ord, hi, max(ord, low, x))
 }
 
-export function between<A>(ord: Ord<A>, low: A, hi: A, x: A): boolean {
+export function between<A>(ord: StaticOrd<A>, low: A, hi: A, x: A): boolean {
   return lessThan(ord, x, low) || greaterThan(ord, x, hi) ? false : true
 }

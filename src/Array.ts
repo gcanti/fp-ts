@@ -1,38 +1,28 @@
 import { HKT } from './HKT'
-import { Monoid } from './Monoid'
-import { Applicative } from './Applicative'
-import { Monad } from './Monad'
-import { Foldable } from './Foldable'
-import { Traversable } from './Traversable'
-import { Alternative } from './Alternative'
-import { Plus } from './Plus'
-import { liftA2 } from './Apply'
+import { StaticMonoid } from './Monoid'
+import { StaticApplicative } from './Applicative'
+import { FantasyFunctor } from './Functor'
+import { StaticMonad } from './Monad'
+import { StaticFoldable } from './Foldable'
+import { StaticTraversable } from './Traversable'
+import { StaticAlternative } from './Alternative'
+import { StaticPlus } from './Plus'
+import { ops } from './Apply'
 import { HKTOption, Option } from './Option'
 import * as option from './Option'
-import { Ord, toNativeComparator } from './Ord'
+import { StaticOrd, toNativeComparator } from './Ord'
 import { Predicate, identity, constant, curry, Lazy, Function1, Function2, Endomorphism } from './function'
 
-// TODO(v0.1) replace with 'Array'
-export type URI = 'Arr'
+export type URI = 'Array'
+
+export type HKTArray<A> = HKT<URI, A>
 
 declare global {
-  interface Array<T> {
+  interface Array<T> extends FantasyFunctor<URI, T> {
     __hkt: URI
     __hkta: T
   }
 }
-
-// TODO(v0.1) remove
-/** Deprecated. Use a raw array instead
- * @deprecated
- */
-export const to = identity
-
-// TODO(v0.1) remove
-/** Deprecated. Use a raw array instead
- * @deprecated
- */
-export const from = identity
 
 export const empty: Lazy<Array<any>> = constant([])
 
@@ -62,8 +52,8 @@ export function reduce<A, B>(f: Function2<B, A, B>, b: B, fa: Array<A>): B {
 
 export const curriedSnoc = curry(snoc)
 
-export function traverse<F, A, B>(applicative: Applicative<F>, f: Function1<A, HKT<F, B>>, ta: Array<A>): HKT<F, Array<B>> {
-  const snocA2 = liftA2(applicative, curriedSnoc)
+export function traverse<F, A, B>(applicative: StaticApplicative<F>, f: Function1<A, HKT<F, B>>, ta: Array<A>): HKT<F, Array<B>> {
+  const snocA2 = ops.liftA2(applicative, curriedSnoc)
   return reduce((fab, a) => snocA2(fab, f(a)), applicative.of(empty()), ta)
 }
 
@@ -217,18 +207,42 @@ export function catOptions<A>(as: Array<HKTOption<A>>): Array<A> {
   return mapOption<HKTOption<A>, A>(identity, as)
 }
 
-export function sort<A>(ord: Ord<A>, as: Array<A>): Array<A> {
+export function sort<A>(ord: StaticOrd<A>, as: Array<A>): Array<A> {
   return copy(as).sort(toNativeComparator(ord.compare))
+}
+
+declare module './Functor' {
+  interface FunctorOps {
+    map<A, B>(f: Function1<A, B>, fa: HKTArray<A>): Array<B>
+    lift<A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<Array<A>, Array<B>>
+  }
+}
+
+declare module './Foldable' {
+  interface FoldableOps {
+    reduce<A, B>(f: Function2<B, A, B>, b: B, fa: HKTArray<A>): B
+    foldMap<M, A>(monoid: StaticMonoid<M>, f: Function1<A, M>, fa: HKTArray<A>): M
+    foldMapS<M, A>(foldable: StaticFoldable<URI>, monoid: StaticMonoid<M>, f: Function1<A, M>, fa: HKTArray<A>): M
+  }
+}
+
+declare module './Traversable' {
+  interface TraversableOps {
+    sequenceS<F, A>(
+    applicative: StaticApplicative<F>,
+    traversable: StaticTraversable<URI>,
+    tfa: HKTArray<HKT<F, A>>): HKT<F, Array<A>>
+  }
 }
 
 // tslint:disable-next-line no-unused-expression
 ;(
   { empty, concat, map, of, ap, chain, reduce, traverse, zero, alt } as (
-    Monoid<Array<any>> &
-    Monad<URI> &
-    Foldable<URI> &
-    Traversable<URI> &
-    Alternative<URI> &
-    Plus<URI>
+    StaticMonoid<Array<any>> &
+    StaticMonad<URI> &
+    StaticFoldable<URI> &
+    StaticTraversable<URI> &
+    StaticAlternative<URI> &
+    StaticPlus<URI>
   )
 )
