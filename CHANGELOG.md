@@ -12,6 +12,15 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.1.0
+
+- **New Feature**
+  - add support for fantasy-land
+**Breaking Change**
+  - complete refactoring
+  - remove `data` module
+  - remove `newtype` module
+
 # 0.0.4
 
 - **Bug Fix**
