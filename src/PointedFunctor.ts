@@ -1,6 +1,6 @@
 import { HKT } from './HKT'
-import { Functor } from './Functor'
+import { StaticFunctor } from './Functor'
 
-export interface PointedFunctor<F> extends Functor<F> {
+export interface StaticPointedFunctor<F> extends StaticFunctor<F> {
   of<A>(a: A): HKT<F, A>
 }

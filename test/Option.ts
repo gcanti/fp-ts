@@ -8,9 +8,11 @@ import {
   ap,
   chain,
   alt,
-  getMonoid,
+  getStaticMonoid,
   fromNullable
 } from '../src/Option'
+import * as option from '../src/Option'
+import { ops } from '../src/Traversable'
 import { setoidNumber } from '../src/Setoid'
 import { eqOptions as eq } from './helpers'
 
@@ -56,7 +58,7 @@ describe('Option', () => {
   })
 
   it('getMonoid', () => {
-    const { concat } = getMonoid({ concat(x: number, y: number) { return x + y } })
+    const { concat } = getStaticMonoid({ concat(x: number, y: number) { return x + y } })
     eq(concat(none, some(1)), some(1))
     eq(concat(some(2), none), some(2))
     eq(concat(some(2), some(1)), some(3))
@@ -73,6 +75,13 @@ describe('Option', () => {
     eq(fromNullable(2), some(2))
     eq(fromNullable(null), none)
     eq(fromNullable(undefined), none)
+  })
+
+  it('traverse', () => {
+    const x = some('hello').traverse(option, s => some(s.length))
+    eq(x, some(some(5)))
+    const y = ops.traverse(option, s => some(s.length), some('hello'))
+    eq(y, some(some(5)))
   })
 
 })

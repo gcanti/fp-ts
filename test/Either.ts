@@ -6,7 +6,8 @@ import {
   fold,
   ap,
   chain,
-  fromPredicate
+  fromPredicate,
+  tryCatch
 } from '../src/Either'
 import { eqEithers as eq } from './helpers'
 
@@ -44,6 +45,17 @@ describe('Either', () => {
     const gt2 = fromPredicate(predicate, handleError)
     eq(gt2(3), right(3))
     eq(gt2(1), left('Invalid number 1'))
+  })
+
+  it('tryCatch', () => {
+    const e1 = tryCatch(() => {
+      return JSON.parse(`{}`)
+    })
+    eq(e1, right({}))
+    const e2 = tryCatch(() => {
+      return JSON.parse(``)
+    })
+    eq(e2, left({}))
   })
 
 })

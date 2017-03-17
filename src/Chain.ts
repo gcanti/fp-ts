@@ -1,16 +1,28 @@
 import { HKT } from './HKT'
-import { Apply, Ap } from './Apply'
-import { Function1, Kleisli } from './function'
-import { Functor } from './Functor'
+import { StaticApply } from './Apply'
+import { Kleisli, Function1, identity } from './function'
 
-export interface ChainedFunctor<F> extends Functor<F> {
+export interface StaticChain<F> extends StaticApply<F> {
   chain<A, B>(f: Kleisli<F, A, B>, fa: HKT<F, A>): HKT<F, B>
 }
 
-export interface Chain<F> extends Apply<F>, ChainedFunctor<F> {}
+export interface FantasyChain<F, A> {
+  map<B>(f: Function1<A, B>): FantasyChain<F, B>
+  of<B>(b: B): FantasyChain<F, B>
+  ap<B>(fab: FantasyChain<F, Function1<A, B>>): FantasyChain<F, B>
+  chain<B>(f: Kleisli<F, A, B>): FantasyChain<F, B>
+}
 
-export function deriveAp<F>(chain: ChainedFunctor<F>): Ap<F> {
-  return function ap<A, B>(fab: HKT<F, Function1<A, B>>, fa: HKT<F, A>): HKT<F, B> {
-    return chain.chain(f => chain.map(f, fa), fab)
+export class ChainOps {
+  chain<F, A, B>(f: Kleisli<F, A, B>, fa: FantasyChain<F, A>): FantasyChain<F, B>
+  chain<F, A, B>(f: Kleisli<F, A, B>, fa: FantasyChain<F, A>): FantasyChain<F, B> {
+    return fa.chain(f)
+  }
+
+  flatten<F, A>(mma: FantasyChain<F, FantasyChain<F, A>>): FantasyChain<F, A>
+  flatten<F, A>(mma: FantasyChain<F, FantasyChain<F, A>>): FantasyChain<F, A> {
+    return mma.chain(identity)
   }
 }
+
+export const ops = new ChainOps()

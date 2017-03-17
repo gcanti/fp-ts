@@ -1,15 +1,15 @@
-import { Setoid } from './Setoid'
-import { Semigroup } from './Semigroup'
+import { StaticSetoid } from './Setoid'
+import { StaticSemigroup } from './Semigroup'
 
 export type Ordering = 'LT' | 'EQ' | 'GT'
 
-export const orderingSetoid: Setoid<Ordering> = {
+export const orderingSetoid: StaticSetoid<Ordering> = {
   equals(a, b) {
     return a === b
   }
 }
 
-export const orderingSemigroup: Semigroup<Ordering> = {
+export const orderingSemigroup: StaticSemigroup<Ordering> = {
   concat(a, b) {
     if (a === 'LT') {
       return 'LT'

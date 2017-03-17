@@ -1,4 +1,4 @@
-import * as arr from '../src/Arr'
+import * as arr from '../src/Array'
 import { some, none } from '../src/Option'
 import * as option from '../src/Option'
 import * as assert from 'assert'
