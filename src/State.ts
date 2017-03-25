@@ -80,22 +80,22 @@ export function gets<S, A>(f: Function1<S, A>): State<S, A> {
 declare module './Functor' {
   interface FunctorOps {
     map<S, A, B>(f: Function1<A, B>, fa: FantasyFunctor<HKTURI<S>, A>): State<S, B>
-    lift<S, A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<State<S, A>, State<S, B>>
+    lift<S, A, B>(functor: StaticFunctor<HKTURI<S>>, f: Function1<A, B>): Function1<State<S, A>, State<S, B>>
   }
 }
 
 declare module './Apply' {
   interface ApplyOps {
     ap<S, A, B>(fab: State<S, Function1<A, B>>, fa: FantasyApply<HKTURI<S>, A>): State<S, B>
-    liftA2<S, A, B, C>(apply: StaticApply<URI>, f: Curried2<A, B, C>): Function2<State<S, A>, State<S, B>, State<S, C>>
-    liftA3<S, A, B, C, D>(apply: StaticApply<URI>, f: Curried3<A, B, C, D>): Function3<State<S, A>, State<S, B>, State<S, C>, State<S, D>>
-    liftA4<S, A, B, C, D, E>(apply: StaticApply<URI>, f: Curried4<A, B, C, D, E>): Function4<State<S, A>, State<S, B>, State<S, C>, State<S, D>, State<S, E>>
+    liftA2<S, A, B, C>(apply: StaticApply<HKTURI<S>>, f: Curried2<A, B, C>): Function2<State<S, A>, State<S, B>, State<S, C>>
+    liftA3<S, A, B, C, D>(apply: StaticApply<HKTURI<S>>, f: Curried3<A, B, C, D>): Function3<State<S, A>, State<S, B>, State<S, C>, State<S, D>>
+    liftA4<S, A, B, C, D, E>(apply: StaticApply<HKTURI<S>>, f: Curried4<A, B, C, D, E>): Function4<State<S, A>, State<S, B>, State<S, C>, State<S, D>, State<S, E>>
   }
 }
 
 declare module './Chain' {
   interface MonadOps {
-    chain<S, A, B>(f: Kleisli<URI, A, B>, fa: FantasyMonad<HKTURI<S>, A>): State<S, B>
+    chain<S, A, B>(f: Kleisli<HKTURI<S>, A, B>, fa: FantasyMonad<HKTURI<S>, A>): State<S, B>
     flatten<S, A>(mma: FantasyMonad<HKTURI<S>, FantasyMonad<HKTURI<S>, A>>): State<S, A>
   }
 }
@@ -103,6 +103,6 @@ declare module './Chain' {
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain } as (
-    StaticMonad<HKT<URI, any>>
+    StaticMonad<HKTURI<any>>
   )
 )

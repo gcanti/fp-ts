@@ -78,22 +78,22 @@ export function getMonadS<W>(monoid: StaticMonoid<W>): StaticMonad<HKTURI<W>> {
 declare module './Functor' {
   interface FunctorOps {
     map<W, A, B>(f: Function1<A, B>, fa: FantasyFunctor<HKTURI<W>, A>): Writer<W, B>
-    lift<W, A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<Writer<W, A>, Writer<W, B>>
+    lift<W, A, B>(functor: StaticFunctor<HKTURI<W>>, f: Function1<A, B>): Function1<Writer<W, A>, Writer<W, B>>
   }
 }
 
 declare module './Apply' {
   interface ApplyOps {
     ap<W, A, B>(fab: Writer<W, Function1<A, B>>, fa: FantasyApply<HKTURI<W>, A>): Writer<W, B>
-    liftA2<W, A, B, C>(apply: StaticApply<URI>, f: Curried2<A, B, C>): Function2<Writer<W, A>, Writer<W, B>, Writer<W, C>>
-    liftA3<W, A, B, C, D>(apply: StaticApply<URI>, f: Curried3<A, B, C, D>): Function3<Writer<W, A>, Writer<W, B>, Writer<W, C>, Writer<W, D>>
-    liftA4<W, A, B, C, D, F>(apply: StaticApply<URI>, f: Curried4<A, B, C, D, F>): Function4<Writer<W, A>, Writer<W, B>, Writer<W, C>, Writer<W, D>, Writer<W, F>>
+    liftA2<W, A, B, C>(apply: StaticApply<HKTURI<W>>, f: Curried2<A, B, C>): Function2<Writer<W, A>, Writer<W, B>, Writer<W, C>>
+    liftA3<W, A, B, C, D>(apply: StaticApply<HKTURI<W>>, f: Curried3<A, B, C, D>): Function3<Writer<W, A>, Writer<W, B>, Writer<W, C>, Writer<W, D>>
+    liftA4<W, A, B, C, D, F>(apply: StaticApply<HKTURI<W>>, f: Curried4<A, B, C, D, F>): Function4<Writer<W, A>, Writer<W, B>, Writer<W, C>, Writer<W, D>, Writer<W, F>>
   }
 }
 
 declare module './Chain' {
   interface MonadOps {
-    chain<W, A, B>(f: Kleisli<URI, A, B>, fa: FantasyMonad<HKTURI<W>, A>): Writer<W, B>
+    chain<W, A, B>(f: Kleisli<HKTURI<W>, A, B>, fa: FantasyMonad<HKTURI<W>, A>): Writer<W, B>
     flatten<W, A>(mma: FantasyMonad<HKTURI<W>, FantasyMonad<HKTURI<W>, A>>): Writer<W, A>
   }
 }

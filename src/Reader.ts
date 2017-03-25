@@ -68,22 +68,22 @@ export function local<E, A>(f: Endomorphism<E>, fa: HKTReader<E, A>): Reader<E, 
 declare module './Functor' {
   interface FunctorOps {
     map<E, A, B>(f: Function1<A, B>, fa: FantasyFunctor<HKTURI<E>, A>): Reader<E, B>
-    lift<E, A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<Reader<E, A>, Reader<E, B>>
+    lift<E, A, B>(functor: StaticFunctor<HKTURI<E>>, f: Function1<A, B>): Function1<Reader<E, A>, Reader<E, B>>
   }
 }
 
 declare module './Apply' {
   interface ApplyOps {
     ap<E, A, B>(fab: Reader<E, Function1<A, B>>, fa: FantasyApply<HKTURI<E>, A>): Reader<E, B>
-    liftA2<E, A, B, C>(apply: StaticApply<URI>, f: Curried2<A, B, C>): Function2<Reader<E, A>, Reader<E, B>, Reader<E, C>>
-    liftA3<E, A, B, C, D>(apply: StaticApply<URI>, f: Curried3<A, B, C, D>): Function3<Reader<E, A>, Reader<E, B>, Reader<E, C>, Reader<E, D>>
-    liftA4<E, A, B, C, D, F>(apply: StaticApply<URI>, f: Curried4<A, B, C, D, F>): Function4<Reader<E, A>, Reader<E, B>, Reader<E, C>, Reader<E, D>, Reader<E, F>>
+    liftA2<E, A, B, C>(apply: StaticApply<HKTURI<E>>, f: Curried2<A, B, C>): Function2<Reader<E, A>, Reader<E, B>, Reader<E, C>>
+    liftA3<E, A, B, C, D>(apply: StaticApply<HKTURI<E>>, f: Curried3<A, B, C, D>): Function3<Reader<E, A>, Reader<E, B>, Reader<E, C>, Reader<E, D>>
+    liftA4<E, A, B, C, D, F>(apply: StaticApply<HKTURI<E>>, f: Curried4<A, B, C, D, F>): Function4<Reader<E, A>, Reader<E, B>, Reader<E, C>, Reader<E, D>, Reader<E, F>>
   }
 }
 
 declare module './Chain' {
   interface MonadOps {
-    chain<E, A, B>(f: Kleisli<URI, A, B>, fa: FantasyMonad<HKTURI<E>, A>): Reader<E, B>
+    chain<E, A, B>(f: Kleisli<HKTURI<E>, A, B>, fa: FantasyMonad<HKTURI<E>, A>): Reader<E, B>
     flatten<E, A>(mma: FantasyMonad<HKTURI<E>, FantasyMonad<HKTURI<E>, A>>): Reader<E, A>
   }
 }

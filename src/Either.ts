@@ -240,22 +240,22 @@ export function tryCatch<A>(f: Lazy<A>): Either<Error, A> {
 declare module './Functor' {
   interface FunctorOps {
     map<L, A, B>(f: Function1<A, B>, fa: FantasyFunctor<HKTURI<L>, A>): Either<L, B>
-    lift<L, A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<Either<L, A>, Either<L, B>>
+    lift<L, A, B>(functor: StaticFunctor<HKTURI<L>>, f: Function1<A, B>): Function1<Either<L, A>, Either<L, B>>
   }
 }
 
 declare module './Apply' {
   interface ApplyOps {
     ap<L, A, B>(fab: FantasyApply<HKTURI<L>, Function1<A, B>>, fa: FantasyApply<HKTURI<L>, A>): Either<L, B>
-    liftA2<L, A, B, C>(apply: StaticApply<URI>, f: Curried2<A, B, C>): Function2<Either<L, A>, Either<L, B>, Either<L, C>>
-    liftA3<L, A, B, C, D>(apply: StaticApply<URI>, f: Curried3<A, B, C, D>): Function3<Either<L, A>, Either<L, B>, Either<L, C>, Either<L, D>>
-    liftA4<L, A, B, C, D, E>(apply: StaticApply<URI>, f: Curried4<A, B, C, D, E>): Function4<Either<L, A>, Either<L, B>, Either<L, C>, Either<L, D>, Either<L, E>>
+    liftA2<L, A, B, C>(apply: StaticApply<HKTURI<L>>, f: Curried2<A, B, C>): Function2<Either<L, A>, Either<L, B>, Either<L, C>>
+    liftA3<L, A, B, C, D>(apply: StaticApply<HKTURI<L>>, f: Curried3<A, B, C, D>): Function3<Either<L, A>, Either<L, B>, Either<L, C>, Either<L, D>>
+    liftA4<L, A, B, C, D, E>(apply: StaticApply<HKTURI<L>>, f: Curried4<A, B, C, D, E>): Function4<Either<L, A>, Either<L, B>, Either<L, C>, Either<L, D>, Either<L, E>>
   }
 }
 
 declare module './Chain' {
   interface MonadOps {
-    chain<L, A, B>(f: Kleisli<URI, A, B>, fa: FantasyMonad<HKTURI<L>, A>): Either<L, B>
+    chain<L, A, B>(f: Kleisli<HKTURI<L>, A, B>, fa: FantasyMonad<HKTURI<L>, A>): Either<L, B>
     flatten<L, A>(mma: FantasyMonad<HKTURI<L>, FantasyMonad<HKTURI<L>, A>>): Either<L, A>
   }
 }
@@ -277,7 +277,7 @@ declare module './Traversable' {
 
     sequenceS<L, F, A>(
     applicative: StaticApplicative<F>,
-    traversable: StaticTraversable<URI>,
+    traversable: StaticTraversable<HKTURI<L>>,
     tfa: HKTEither<L, HKT<F, A>>): HKT<F, Either<L, A>>
   }
 }
@@ -290,7 +290,7 @@ declare module './Alt' {
 
 declare module './Extend' {
   interface ExtendOps {
-    extend<L, A, B>(f: Cokleisli<URI, A, B>, ea: FantasyExtend<HKTURI<L>, A>): Either<L, B>
+    extend<L, A, B>(f: Cokleisli<HKTURI<L>, A, B>, ea: FantasyExtend<HKTURI<L>, A>): Either<L, B>
   }
 }
 
@@ -303,12 +303,12 @@ declare module './Bifunctor' {
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain, reduce, traverse, bimap, alt, extend, chainRec } as (
-    StaticMonad<HKT<URI, any>> &
-    StaticFoldable<HKT<URI, any>> &
-    StaticTraversable<HKT<URI, any>> &
+    StaticMonad<HKTURI<any>> &
+    StaticFoldable<HKTURI<any>> &
+    StaticTraversable<HKTURI<any>> &
     StaticBifunctor<URI> &
-    StaticAlt<HKT<URI, any>> &
-    StaticExtend<HKT<URI, any>> &
-    StaticChainRec<HKT<URI, any>>
+    StaticAlt<HKTURI<any>> &
+    StaticExtend<HKTURI<any>> &
+    StaticChainRec<HKTURI<any>>
   )
 )

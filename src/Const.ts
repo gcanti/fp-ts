@@ -75,14 +75,14 @@ export function getApplicative<L>(monoid: StaticMonoid<L>): StaticApplicative<HK
 declare module './Functor' {
   interface FunctorOps {
     map<L, A, B>(f: Function1<A, B>, fa: FantasyFunctor<HKTURI<L>, A>): Const<L, B>
-    lift<L, A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<Const<L, A>, Const<L, B>>
+    lift<L, A, B>(functor: StaticFunctor<HKTURI<L>>, f: Function1<A, B>): Function1<Const<L, A>, Const<L, B>>
   }
 }
 
 declare module './Contravariant' {
   interface ContravariantOps {
     contramap<L, A, B>(f: Function1<B, A>, fa: FantasyContravariant<HKTURI<L>, A>): Const<L, B>
-    lift<L, A, B>(functor: StaticContravariant<URI>, f: Function1<B, A>): Function1<Const<L, A>, Const<L, B>>
+    lift<L, A, B>(functor: StaticContravariant<HKTURI<L>>, f: Function1<B, A>): Function1<Const<L, A>, Const<L, B>>
   }
 }
 

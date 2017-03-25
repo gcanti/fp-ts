@@ -181,7 +181,7 @@ export function of<L, A>(a: A): Success<L, A> {
   return new Success<L, A>(a)
 }
 
-export function getApplicativeS<L>(semigroup: StaticSemigroup<L>): StaticApplicative<HKT<URI, any>> {
+export function getApplicativeS<L>(semigroup: StaticSemigroup<L>): StaticApplicative<HKTURI<any>> {
   function ap<A, B>(fab: HKTValidation<L, Function1<A, B>>, fa: HKTValidation<L, A>): Validation<L, B> {
     return (fa as Validation<L, A>).ap(fab as Validation<L, Function1<A, B>>)
   }
@@ -252,16 +252,16 @@ export function toValidationNea<L, A>(fa: HKTValidation<L, A>): Option<Validatio
 declare module './Functor' {
   interface FunctorOps {
     map<L, A, B>(f: Function1<A, B>, fa: FantasyFunctor<HKTURI<L>, A>): Validation<L, B>
-    lift<L, A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<Validation<L, A>, Validation<L, B>>
+    lift<L, A, B>(functor: StaticFunctor<HKTURI<L>>, f: Function1<A, B>): Function1<Validation<L, A>, Validation<L, B>>
   }
 }
 
 declare module './Apply' {
   interface ApplyOps {
     ap<L, A, B>(fab: Validation<L, Function1<A, B>>, fa: FantasyApply<HKTURI<L>, A>): Validation<L, B>
-    liftA2<L, A, B, C>(apply: StaticApply<URI>, f: Curried2<A, B, C>): Function2<Validation<L, A>, Validation<L, B>, Validation<L, C>>
-    liftA3<L, A, B, C, D>(apply: StaticApply<URI>, f: Curried3<A, B, C, D>): Function3<Validation<L, A>, Validation<L, B>, Validation<L, C>, Validation<L, D>>
-    liftA4<L, A, B, C, D, E>(apply: StaticApply<URI>, f: Curried4<A, B, C, D, E>): Function4<Validation<L, A>, Validation<L, B>, Validation<L, C>, Validation<L, D>, Validation<L, E>>
+    liftA2<L, A, B, C>(apply: StaticApply<HKTURI<L>>, f: Curried2<A, B, C>): Function2<Validation<L, A>, Validation<L, B>, Validation<L, C>>
+    liftA3<L, A, B, C, D>(apply: StaticApply<HKTURI<L>>, f: Curried3<A, B, C, D>): Function3<Validation<L, A>, Validation<L, B>, Validation<L, C>, Validation<L, D>>
+    liftA4<L, A, B, C, D, E>(apply: StaticApply<HKTURI<L>>, f: Curried4<A, B, C, D, E>): Function4<Validation<L, A>, Validation<L, B>, Validation<L, C>, Validation<L, D>, Validation<L, E>>
   }
 }
 
@@ -282,7 +282,7 @@ declare module './Traversable' {
 
     sequenceS<L, F, T, A>(
     applicative: StaticApplicative<F>,
-    traversable: StaticTraversable<URI>,
+    traversable: StaticTraversable<HKTURI<L>>,
     tfa: HKTValidation<L, HKT<F, A>>): HKT<F, HKT<T, A>>
   }
 }

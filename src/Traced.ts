@@ -56,13 +56,13 @@ export function extend<E, A, B>(f: Function1<HKTTraced<E, A>, B>, ea: HKTTraced<
 declare module './Functor' {
   interface FunctorOps {
     map<E, A, B>(f: Function1<A, B>, fa: FantasyFunctor<HKTURI<E>, A>): Traced<E, B>
-    lift<E, A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<Traced<E, A>, Traced<E, B>>
+    lift<E, A, B>(functor: StaticFunctor<HKTURI<E>>, f: Function1<A, B>): Function1<Traced<E, A>, Traced<E, B>>
   }
 }
 
 declare module './Extend' {
   interface ExtendOps {
-    extend<E, A, B>(f: Cokleisli<URI, A, B>, ea: FantasyExtend<HKTURI<E>, A>): Traced<E, B>
+    extend<E, A, B>(f: Cokleisli<HKTURI<E>, A, B>, ea: FantasyExtend<HKTURI<E>, A>): Traced<E, B>
   }
 }
 
