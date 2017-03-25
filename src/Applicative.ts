@@ -1,11 +1,7 @@
-import { StaticPointedFunctor } from './PointedFunctor'
-import { StaticApply } from './Apply'
-import { Function1 } from './function'
+import { HKTS } from './HKT'
+import { StaticPointed, FantasyPointed } from './Pointed'
+import { StaticApply, FantasyApply } from './Apply'
 
-export interface StaticApplicative<F> extends StaticPointedFunctor<F>, StaticApply<F> {}
+export interface StaticApplicative<F extends HKTS> extends StaticPointed<F>, StaticApply<F> {}
 
-export interface FantasyApplicative<F, A> {
-  map<B>(f: Function1<A, B>): FantasyApplicative<F, B>
-  of<B>(b: B): FantasyApplicative<F, B>
-  ap<B>(fab: FantasyApplicative<F, Function1<A, B>>): FantasyApplicative<F, B>
-}
+export interface FantasyApplicative<F extends HKTS, A> extends FantasyPointed<F, A>, FantasyApply<F, A> {}

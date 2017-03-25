@@ -1,19 +1,24 @@
-import { HKT } from './HKT'
 import { StaticMonoid } from './Monoid'
 import { StaticFunctor } from './Functor'
 import { StaticMonad, FantasyMonad } from './Monad'
-import { Lazy, Function1, Function2, Function3, Function4, Curried2, Curried3, Curried4, Kleisli } from './function'
+import { Lazy } from './function'
 
-export type URI = 'Writer'
+declare module './HKT' {
+  interface HKT<A> {
+    Writer: Writer<any, A>
+  }
+  interface HKT2<A, B> {
+    Writer: Writer<A, B>
+  }
+}
 
-export type HKTURI<W> = HKT<URI, W>
+export const URI = 'Writer'
 
-export type HKTWriter<W, A> = HKT<HKTURI<W>, A>
+export type URI = typeof URI
 
-export class Writer<W, A> implements FantasyMonad<HKTURI<W>, A> {
-  _hkt: HKTURI<W>
-  _hkta: A
-  of: Function1<A, Writer<W, A>>
+export class Writer<W, A> implements FantasyMonad<URI, A> {
+  readonly _URI: URI
+  of: (a: A) => Writer<W, A>
   constructor(public readonly monoid: StaticMonoid<W>, public readonly value: Lazy<[A, W]>) {
     this.of = of<W>(monoid)
   }
@@ -26,14 +31,14 @@ export class Writer<W, A> implements FantasyMonad<HKTURI<W>, A> {
   exec(): W {
     return this.run()[1]
   }
-  map<B>(f: Function1<A, B>): Writer<W, B> {
+  map<B>(f: (a: A) => B): Writer<W, B> {
     const [a, w] = this.run()
     return new Writer(this.monoid, () => [f(a), w])
   }
-  ap<B>(fab: Writer<W, Function1<A, B>>): Writer<W, B> {
+  ap<B>(fab: Writer<W, (a: A) => B>): Writer<W, B> {
     return fab.chain(f => this.map(f))
   }
-  chain<B>(f: Function1<A, Writer<W, B>>): Writer<W, B> {
+  chain<B>(f: (a: A) => Writer<W, B>): Writer<W, B> {
     return new Writer(this.monoid, () => {
       const [a, w1] = this.run()
       const [b, w2] = f(a).run()
@@ -42,32 +47,29 @@ export class Writer<W, A> implements FantasyMonad<HKTURI<W>, A> {
   }
 }
 
-export function to<W, A>(fa: HKTWriter<W, A>): Writer<W, A> {
-  return fa as Writer<W, A>
-}
-
-export function map<W, A, B>(f: Function1<A, B>, fa: HKTWriter<W, A>): Writer<W, B> {
-  return (fa as Writer<W, A>).map(f)
+export function map<W, A, B>(f: (a: A) => B, fa: Writer<W, A>): Writer<W, B> {
+  return fa.map(f)
 }
 
 export function of<W>(monoid: StaticMonoid<W>): <A>(a: A) => Writer<W, A> {
   return <A>(a: A) => new Writer<W, A>(monoid, () => [a, monoid.empty()])
 }
 
-export function ap<W, A, B>(fab: HKTWriter<W, Function1<A, B>>, fa: HKTWriter<W, A>): Writer<W, B> {
-  return (fa as Writer<W, A>).ap(fab as Writer<W, Function1<A, B>>)
+export function ap<W, A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writer<W, B> {
+  return fa.ap(fab)
 }
 
-export function chain<W, A, B>(f: Function1<A, HKTWriter<W, B>>, fa: HKTWriter<W, A>): Writer<W, B> {
-  return (fa as Writer<W, A>).chain(f as Function1<A, Writer<W, B>>)
+export function chain<W, A, B>(f: (a: A) => Writer<W, B>, fa: Writer<W, A>): Writer<W, B> {
+  return fa.chain(f)
 }
 
 export function tell<W>(monoid: StaticMonoid<W>): (w: W) => Writer<W, void> {
   return w => new Writer(monoid, () => [undefined, w])
 }
 
-export function getMonadS<W>(monoid: StaticMonoid<W>): StaticMonad<HKTURI<W>> {
+export function getMonadS<W>(monoid: StaticMonoid<W>): StaticMonad<URI> {
   return {
+    URI,
     map,
     of: of(monoid),
     ap,
@@ -75,32 +77,9 @@ export function getMonadS<W>(monoid: StaticMonoid<W>): StaticMonad<HKTURI<W>> {
   }
 }
 
-declare module './Functor' {
-  interface FunctorOps {
-    map<W, A, B>(f: Function1<A, B>, fa: FantasyFunctor<HKTURI<W>, A>): Writer<W, B>
-    lift<W, A, B>(functor: StaticFunctor<HKTURI<W>>, f: Function1<A, B>): Function1<Writer<W, A>, Writer<W, B>>
-  }
-}
-
-declare module './Apply' {
-  interface ApplyOps {
-    ap<W, A, B>(fab: Writer<W, Function1<A, B>>, fa: FantasyApply<HKTURI<W>, A>): Writer<W, B>
-    liftA2<W, A, B, C>(apply: StaticApply<HKTURI<W>>, f: Curried2<A, B, C>): Function2<Writer<W, A>, Writer<W, B>, Writer<W, C>>
-    liftA3<W, A, B, C, D>(apply: StaticApply<HKTURI<W>>, f: Curried3<A, B, C, D>): Function3<Writer<W, A>, Writer<W, B>, Writer<W, C>, Writer<W, D>>
-    liftA4<W, A, B, C, D, F>(apply: StaticApply<HKTURI<W>>, f: Curried4<A, B, C, D, F>): Function4<Writer<W, A>, Writer<W, B>, Writer<W, C>, Writer<W, D>, Writer<W, F>>
-  }
-}
-
-declare module './Chain' {
-  interface MonadOps {
-    chain<W, A, B>(f: Kleisli<HKTURI<W>, A, B>, fa: FantasyMonad<HKTURI<W>, A>): Writer<W, B>
-    flatten<W, A>(mma: FantasyMonad<HKTURI<W>, FantasyMonad<HKTURI<W>, A>>): Writer<W, A>
-  }
-}
-
 // tslint:disable-next-line no-unused-expression
 ;(
   { map } as (
-    StaticFunctor<HKTURI<any>>
+    StaticFunctor<URI>
   )
 )

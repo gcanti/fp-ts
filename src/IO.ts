@@ -1,31 +1,35 @@
-import { HKT } from './HKT'
 import { StaticMonoid } from './Monoid'
 import { StaticSemigroup } from './Semigroup'
 import { StaticMonad, FantasyMonad } from './Monad'
-import { constant, Lazy, Function1, Function2, Function3, Function4, Curried2, Curried3, Curried4, Kleisli } from './function'
+import { constant, Lazy } from './function'
 
-export type URI = 'IO'
+declare module './HKT' {
+  interface HKT<A> {
+    IO: IO<A>
+  }
+}
 
-export type HKTIO<A> = HKT<URI, A>
+export const URI = 'IO'
+
+export type URI = typeof URI
 
 export class IO<A> implements FantasyMonad<URI, A> {
   static of = of
-  readonly _hkt: URI
-  readonly _hkta: A
+  readonly _URI: URI
   constructor(public readonly value: Lazy<A>) {}
   run(): A {
     return this.value()
   }
-  map<B>(f: Function1<A, B>): IO<B> {
+  map<B>(f: (a: A) => B): IO<B> {
     return new IO(() => f(this.run()))
   }
   of<B>(b: B): IO<B> {
     return of(b)
   }
-  ap<B>(fab: IO<Function1<A, B>>): IO<B> {
+  ap<B>(fab: IO<(a: A) => B>): IO<B> {
     return new IO(() => fab.run()(this.run()))
   }
-  chain<B>(f: Function1<A, IO<B>>): IO<B> {
+  chain<B>(f: (a: A) => IO<B>): IO<B> {
     return new IO(() => f(this.run()).run())
   }
   concat(semigroup: StaticSemigroup<A>, fy: IO<A>): IO<A> {
@@ -33,28 +37,24 @@ export class IO<A> implements FantasyMonad<URI, A> {
   }
 }
 
-export function to<A>(fa: HKTIO<A>): IO<A> {
-  return fa as IO<A>
+export function map<A, B>(f: (a: A) => B, fa: IO<A>): IO<B> {
+  return fa.map(f)
 }
 
-export function map<A, B>(f: Function1<A, B>, fa: HKTIO<A>): IO<B> {
-  return (fa as IO<A>).map(f)
-}
-
-export function ap<A, B>(fab: IO<Function1<A, B>>, fa: HKTIO<A>): IO<B> {
-  return (fa as IO<A>).ap(fab)
+export function ap<A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> {
+  return fa.ap(fab)
 }
 
 export function of<A>(a: A): IO<A> {
   return new IO(() => a)
 }
 
-export function chain<A, B>(f: Function1<A, HKTIO<B>>, fa: HKTIO<A>): IO<B> {
-  return (fa as IO<A>).chain(f as Function1<A, IO<B>>)
+export function chain<A, B>(f: (a: A) => IO<B>, fa: IO<A>): IO<B> {
+  return fa.chain(f)
 }
 
-export function concat<A>(semigroup: StaticSemigroup<A>, fx: HKTIO<A>, fy: HKTIO<A>): IO<A> {
-  return (fx as IO<A>).concat(semigroup, fy as IO<A>)
+export function concat<A>(semigroup: StaticSemigroup<A>, fx: IO<A>, fy: IO<A>): IO<A> {
+  return fx.concat(semigroup, fy)
 }
 
 export function getSemigroup<A>(semigroup: StaticSemigroup<A>): StaticSemigroup<IO<A>> {
@@ -64,29 +64,6 @@ export function getSemigroup<A>(semigroup: StaticSemigroup<A>): StaticSemigroup<
 export function getMonoid<A>(monoid: StaticMonoid<A>): StaticMonoid<IO<A>> {
   const empty = monoid.empty()
   return { empty: constant(of(empty)), concat: getSemigroup(monoid).concat }
-}
-
-declare module './Functor' {
-  interface FunctorOps {
-    map<A, B>(f: Function1<A, B>, fa: FantasyFunctor<URI, A>): IO<B>
-    lift<A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<IO<A>, IO<B>>
-  }
-}
-
-declare module './Apply' {
-  interface ApplyOps {
-    ap<A, B>(fab: FantasyApply<URI, Function1<A, B>>, fa: FantasyApply<URI, A>): IO<B>
-    liftA2<A, B, C>(apply: StaticApply<URI>, f: Curried2<A, B, C>): Function2<IO<A>, IO<B>, IO<C>>
-    liftA3<A, B, C, D>(apply: StaticApply<URI>, f: Curried3<A, B, C, D>): Function3<IO<A>, IO<B>, IO<C>, IO<D>>
-    liftA4<A, B, C, D, E>(apply: StaticApply<URI>, f: Curried4<A, B, C, D, E>): Function4<IO<A>, IO<B>, IO<C>, IO<D>, IO<E>>
-  }
-}
-
-declare module './Chain' {
-  interface MonadOps {
-    chain<A, B>(f: Kleisli<URI, A, B>, fa: FantasyMonad<URI, A>): IO<B>
-    flatten<A>(mma: FantasyMonad<URI, FantasyMonad<URI, A>>): IO<A>
-  }
 }
 
 // tslint:disable-next-line no-unused-expression

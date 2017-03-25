@@ -1,42 +1,19 @@
-import { HKT } from './HKT'
-import { StaticFunctor } from './Functor'
+import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { StaticFunctor, FantasyFunctor } from './Functor'
 import { StaticFoldable, FantasyFoldable } from './Foldable'
 import { StaticApplicative } from './Applicative'
-import { identity, Function1 } from './function'
+import { identity } from './function'
 
-export interface StaticTraversable<T> extends StaticFunctor<T>, StaticFoldable<T> {
-  traverse<F, A, B>(applicative: StaticApplicative<F>, f: Function1<A, HKT<F, B>>, ta: HKT<T, A>): HKT<F, HKT<T, B>>
+export interface StaticTraversable<T extends HKTS> extends StaticFunctor<T>, StaticFoldable<T> {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>/*, x?: never*/): <A, B>(f: (a: A) => HKT<B>[F], ta: HKT<A>[T]) => HKT<HKT<B>[T]>[F]
 }
 
-export interface FantasyTraversable<T, A> extends FantasyFoldable<T, A> {
-  traverse<F, B>(applicative: StaticApplicative<F>, f: Function1<A, HKT<F, B>>): HKT<F, FantasyTraversable<T, B>>
+export interface FantasyTraversable<T extends HKTS, A> extends FantasyFunctor<T, A>, FantasyFoldable<A> {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>/*, x?: never*/): <B>(f: (a: A) => HKT<B>[F]) => HKT<HKT<B>[T]>[F]
 }
 
-export class TraversableOps {
-  traverse<F, T, A, B>(applicative: StaticApplicative<F>, f: Function1<A, HKT<F, B>>, ta: FantasyTraversable<T, A>): HKT<F, FantasyTraversable<T, B>>
-  traverse<F, T, A, B>(applicative: StaticApplicative<F>, f: Function1<A, HKT<F, B>>, ta: FantasyTraversable<T, A>): HKT<F, FantasyTraversable<T, B>> {
-    return ta.traverse(applicative, f)
-  }
-
-  sequence<F, T, A>(
-    applicative: StaticApplicative<F>,
-    tfa: FantasyTraversable<T, HKT<F, A>>): HKT<F, FantasyTraversable<T, A>>
-  sequence<F, T, A>(
-    applicative: StaticApplicative<F>,
-    tfa: FantasyTraversable<T, HKT<F, A>>): HKT<F, FantasyTraversable<T, A>> {
-    return tfa.traverse<F, A>(applicative, identity)
-  }
-
-  sequenceS<F, T, A>(
-    applicative: StaticApplicative<F>,
-    traversable: StaticTraversable<T>,
-    tfa: HKT<T, HKT<F, A>>): HKT<F, HKT<T, A>>
-  sequenceS<F, T, A>(
-    applicative: StaticApplicative<F>,
-    traversable: StaticTraversable<T>,
-    tfa: HKT<T, HKT<F, A>>): HKT<F, HKT<T, A>> {
-    return traversable.traverse<F, HKT<F, A>, A>(applicative, identity, tfa)
-  }
+export function sequence<F extends HKT2S, T extends HKTS>(applicative: StaticApplicative<F>, traversable: StaticTraversable<T>): <A, P1>(tfa: HKT<HKT2<P1, A>[F]>[T]) => HKT2<P1, HKT<A>[T]>[F]
+export function sequence<F extends HKTS, T extends HKTS>(applicative: StaticApplicative<F>, traversable: StaticTraversable<T>): <A>(tfa: HKT<HKT<A>[F]>[T]) => HKT<HKT<A>[T]>[F]
+export function sequence<F extends HKTS, T extends HKTS>(applicative: StaticApplicative<F>, traversable: StaticTraversable<T>): <A>(tfa: HKT<HKT<A>[F]>[T]) => HKT<HKT<A>[T]>[F] {
+  return <A>(tfa: HKT<HKT<A>[F]>[T]) => traversable.traverse<F>(applicative)<HKT<A>[F], A>(identity, tfa)
 }
-
-export const ops = new TraversableOps()

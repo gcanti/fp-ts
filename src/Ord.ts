@@ -5,17 +5,12 @@ import {
   setoidNumber,
   setoidString
 } from './Setoid'
-import { Function2 } from './function'
-
-export type Comparator<A> = Function2<A, A, Ordering>
-
-export type NativeComparator<A> = Function2<A, A, number>
 
 export interface StaticOrd<A> extends StaticSetoid<A> {
   compare(x: A, y: A): Ordering
 }
 
-export function toNativeComparator<A>(compare: Comparator<A>): NativeComparator<A> {
+export function toNativeComparator<A>(compare: (x: A, y: A) => Ordering): (x: A, y: A) => number {
   return (x, y) => {
     const c = compare(x, y)
     return c === 'GT' ? 1 : c === 'EQ' ? 0 : -1

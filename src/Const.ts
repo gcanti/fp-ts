@@ -1,4 +1,3 @@
-import { HKT } from './HKT'
 import { StaticMonoid } from './Monoid'
 import { StaticFunctor, FantasyFunctor } from './Functor'
 import { StaticContravariant, FantasyContravariant } from './Contravariant'
@@ -6,28 +5,34 @@ import { StaticApplicative } from './Applicative'
 import { StaticApply } from './Apply'
 import { StaticSemigroup } from './Semigroup'
 import { StaticSetoid } from './Setoid'
-import { identity, Function1 } from './function'
+import { identity } from './function'
 
-export type URI = 'Const'
+declare module './HKT' {
+  interface HKT<A> {
+    Const: Const<any, A>
+  }
+  interface HKT2<A, B> {
+    Const: Const<A, B>
+  }
+}
 
-export type HKTURI<L> = HKT<URI, L>
+export const URI = 'Const'
 
-export type HKTConst<L, A> = HKT<HKTURI<L>, A>
+export type URI = typeof URI
 
 export class Const<L, A> implements
-  FantasyFunctor<HKTURI<L>, A>,
-  FantasyContravariant<HKTURI<L>, A> {
+  FantasyFunctor<URI, A>,
+  FantasyContravariant<URI, A> {
 
-  readonly _hkt: HKTURI<L>
-  readonly _hkta: A
+  readonly _URI: URI
   constructor(public readonly value: L) {}
-  map<B, C>(f: Function1<B, C>): Const<L, C> {
+  map<B, C>(f: (b: B) => C): Const<L, C> {
     return this as any
   }
-  contramap<B, C>(f: Function1<C, B>): Const<L, C> {
+  contramap<B, C>(f: (c: C) => B): Const<L, C> {
     return this as any
   }
-  fold<B>(f: Function1<L, B>): B {
+  fold<B>(f: (l: L) => B): B {
     return f(this.value)
   }
   equals(setoid: StaticSetoid<L>, fy: Const<L, A>): boolean {
@@ -35,35 +40,33 @@ export class Const<L, A> implements
   }
 }
 
-export function to<L, A>(fa: HKTConst<L, A>): Const<L, A> {
-  return fa as Const<L, A>
+export function equals<L, A>(setoid: StaticSetoid<L>, fx: Const<L, A>, fy: Const<L, A>): boolean {
+  return fx.equals(setoid, fy)
 }
 
-export function equals<L, A>(setoid: StaticSetoid<L>, fx: Const<L, A>, fy: HKTConst<L, A>): boolean {
-  return fx.equals(setoid, fy as Const<L, A>)
+export function map<L, A, B>(f: (a: A) => B, fa: Const<L, A>): Const<L, B> {
+  return fa.map(f)
 }
 
-export function map<L, A, B>(f: Function1<A, B>, fa: HKTConst<L, A>): Const<L, B> {
-  return (fa as Const<L, A>).map(f)
+export function contramap<L, A, B>(f: (b: B) => A, fa: Const<L, A>): Const<L, B> {
+  return fa.contramap(f)
 }
 
-export function contramap<L, A, B>(f: Function1<B, A>, fa: HKTConst<L, A>): Const<L, B> {
-  return (fa as Const<L, A>).contramap(f)
-}
-
-export function getApply<L>(semigroup: StaticSemigroup<L>): StaticApply<HKTURI<L>> {
+export function getApply<L>(semigroup: StaticSemigroup<L>): StaticApply<URI> {
   return {
+    URI,
     map,
-    ap<A, B>(fab: Const<L, Function1<A, B>>, fa: Const<L, A>): Const<L, B> {
+    ap<A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> {
       return new Const<L, B>(semigroup.concat(fab.fold(identity), fa.fold(identity)))
     }
   }
 }
 
-export function getApplicative<L>(monoid: StaticMonoid<L>): StaticApplicative<HKTURI<L>> {
+export function getApplicative<L>(monoid: StaticMonoid<L>): StaticApplicative<URI> {
   const { ap } = getApply(monoid)
   const empty = new Const<L, any>(monoid.empty())
   return {
+    URI,
     map,
     ap,
     of<A>(b: A): Const<L, A> {
@@ -72,24 +75,10 @@ export function getApplicative<L>(monoid: StaticMonoid<L>): StaticApplicative<HK
   }
 }
 
-declare module './Functor' {
-  interface FunctorOps {
-    map<L, A, B>(f: Function1<A, B>, fa: FantasyFunctor<HKTURI<L>, A>): Const<L, B>
-    lift<L, A, B>(functor: StaticFunctor<HKTURI<L>>, f: Function1<A, B>): Function1<Const<L, A>, Const<L, B>>
-  }
-}
-
-declare module './Contravariant' {
-  interface ContravariantOps {
-    contramap<L, A, B>(f: Function1<B, A>, fa: FantasyContravariant<HKTURI<L>, A>): Const<L, B>
-    lift<L, A, B>(functor: StaticContravariant<HKTURI<L>>, f: Function1<B, A>): Function1<Const<L, A>, Const<L, B>>
-  }
-}
-
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, contramap } as (
-    StaticFunctor<HKTURI<any>> &
-    StaticContravariant<HKTURI<any>>
+    StaticFunctor<URI> &
+    StaticContravariant<URI>
   )
 )

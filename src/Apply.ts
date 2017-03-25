@@ -1,36 +1,29 @@
-import { HKT } from './HKT'
-import { StaticFunctor } from './Functor'
-import { Function1, Function2, Function3, Function4, Curried2, Curried3, Curried4 } from './function'
+import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { StaticFunctor, FantasyFunctor } from './Functor'
+import { Curried2, Curried3, Curried4 } from './function'
 
-export interface StaticApply<F> extends StaticFunctor<F> {
-  ap<A, B>(fab: HKT<F, Function1<A, B>>, fa: HKT<F, A>): HKT<F, B>
+export interface StaticApply<F extends HKTS> extends StaticFunctor<F> {
+  ap<A, B>(fab: HKT<(a: A) => B>[F], fa: HKT<A>[F]): HKT<B>[F]
 }
 
-export interface FantasyApply<F, A> {
-  map<B>(f: Function1<A, B>): FantasyApply<F, B>
-  ap<B>(fab: FantasyApply<F, Function1<A, B>>): FantasyApply<F, B>
+export interface FantasyApply<F extends HKTS, A> extends FantasyFunctor<F, A> {
+  ap<B>(fab: FantasyApply<F, (a: A) => B>): HKT<B>[F]
 }
 
-export class ApplyOps {
-  ap<F, A, B>(fab: FantasyApply<F, Function1<A, B>>, fa: FantasyApply<F, A>): FantasyApply<F, B>
-  ap<F, A, B>(fab: FantasyApply<F, Function1<A, B>>, fa: FantasyApply<F, A>): FantasyApply<F, B> {
-    return fa.ap(fab)
-  }
-
-  liftA2<F, A, B, C>(apply: StaticApply<F>, f: Curried2<A, B, C>): Function2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
-  liftA2<F, A, B, C>(apply: StaticApply<F>, f: Curried2<A, B, C>): Function2<HKT<F, A>, HKT<F, B>, HKT<F, C>> {
-    return (fa, fb) => apply.ap(apply.map(f, fa), fb)
-  }
-
-  liftA3<F, A, B, C, D>(apply: StaticApply<F>, f: Curried3<A, B, C, D>): Function3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
-  liftA3<F, A, B, C, D>(apply: StaticApply<F>, f: Curried3<A, B, C, D>): Function3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> {
-    return (fa, fb, fc) => apply.ap(apply.ap(apply.map(f, fa), fb), fc)
-  }
-
-  liftA4<F, A, B, C, D, E>(apply: StaticApply<F>, f: Curried4<A, B, C, D, E>): Function4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
-  liftA4<F, A, B, C, D, E>(apply: StaticApply<F>, f: Curried4<A, B, C, D, E>): Function4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> {
-    return (fa, fb, fc, fd) => apply.ap(apply.ap(apply.ap(apply.map(f, fa), fb), fc), fd)
-  }
+export function liftA2<F extends HKT2S, A, B, C>(apply: StaticApply<F>, f: Curried2<A, B, C>): <P1>(fa: HKT2<P1, A>[F], fb: HKT2<P1, B>[F]) => HKT2<P1, C>[F]
+export function liftA2<F extends HKTS, A, B, C>(apply: StaticApply<F>, f: Curried2<A, B, C>): (fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<C>[F]
+export function liftA2<F extends HKTS, A, B, C>(apply: StaticApply<F>, f: Curried2<A, B, C>): (fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<C>[F] {
+  return (fa, fb) => apply.ap<B, C>(apply.map(f, fa), fb)
 }
 
-export const ops = new ApplyOps()
+export function liftA3<F extends HKT2S, A, B, C, D>(apply: StaticApply<F>, f: Curried3<A, B, C, D>): <P1>(fa: HKT2<P1, A>[F], fb: HKT2<P1, B>[F], fc: HKT2<P1, C>[F]) => HKT2<P1, D>[F]
+export function liftA3<F extends HKTS, A, B, C, D>(apply: StaticApply<F>, f: Curried3<A, B, C, D>): (fa: HKT<A>[F], fb: HKT<B>[F], fc: HKT<C>[F]) => HKT<D>[F]
+export function liftA3<F extends HKTS, A, B, C, D>(apply: StaticApply<F>, f: Curried3<A, B, C, D>): (fa: HKT<A>[F], fb: HKT<B>[F], fc: HKT<C>[F]) => HKT<D>[F] {
+  return (fa, fb, fc) => apply.ap<C, D>(apply.ap<B, (c: C) => D>(apply.map(f, fa), fb), fc)
+}
+
+export function liftA4<F extends HKT2S, A, B, C, D, E>(apply: StaticApply<F>, f: Curried4<A, B, C, D, E>): <P1>(fa: HKT2<P1, A>[F], fb: HKT2<P1, B>[F], fc: HKT2<P1, C>[F], fd: HKT2<P1, D>[F]) => HKT2<P1, E>[F]
+export function liftA4<F extends HKTS, A, B, C, D, E>(apply: StaticApply<F>, f: Curried4<A, B, C, D, E>): (fa: HKT<A>[F], fb: HKT<B>[F], fc: HKT<C>[F], fd: HKT<D>[F]) => HKT<E>[F]
+export function liftA4<F extends HKTS, A, B, C, D, E>(apply: StaticApply<F>, f: Curried4<A, B, C, D, E>): (fa: HKT<A>[F], fb: HKT<B>[F], fc: HKT<C>[F], fd: HKT<D>[F]) => HKT<E>[F] {
+  return (fa, fb, fc, fd) => apply.ap<D, E>(apply.ap<C, (d: D) => E>(apply.ap<B, Curried2<C, D, E>>(apply.map(f, fa), fb), fc), fd)
+}
