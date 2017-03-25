@@ -9,8 +9,8 @@ export type HKTURI<S> = HKT<URI, S>
 export type HKTState<S, A> = HKT<HKTURI<S>, A>
 
 export class State<S, A> implements FantasyMonad<HKTURI<S>, A> {
-  readonly __hkt: HKTURI<S>
-  readonly __hkta: A
+  readonly _hkt: HKTURI<S>
+  readonly _hkta: A
   constructor(public readonly value: Function1<S, [A, S]>) {}
   run(s: S): [A, S] {
     return this.value(s)

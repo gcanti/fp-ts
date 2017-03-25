@@ -29,9 +29,9 @@ export class Failure<L, A> implements
   FantasyAlt<HKTURI<L>, A> {
 
   static of = of
-  readonly __tag: 'Failure'
-  readonly __hkt: HKTURI<L>
-  readonly __hkta: A
+  readonly _tag: 'Failure'
+  readonly _hkt: HKTURI<L>
+  readonly _hkta: A
   constructor(public readonly semigroup: StaticSemigroup<L>, public readonly value: L) {}
   map<B>(f: Function1<A, B>): Validation<L, B> {
     return this as any
@@ -100,9 +100,9 @@ export class Success<L, A> implements
   FantasyAlt<HKTURI<L>, A> {
 
   static of = of
-  readonly __tag: 'Success'
-  readonly __hkt: HKTURI<L>
-  readonly __hkta: A
+  readonly _tag: 'Success'
+  readonly _hkt: HKTURI<L>
+  readonly _hkta: A
   constructor(public readonly value: A) {}
   map<B>(f: Function1<A, B>): Validation<L, B> {
     return new Success<L, B>(f(this.value))

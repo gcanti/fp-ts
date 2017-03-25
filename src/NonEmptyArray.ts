@@ -18,8 +18,8 @@ export class NonEmptyArray<A> implements
   FantasyFoldable<URI, A>,
   FantasyTraversable<URI, A> {
 
-  readonly __hkt: URI
-  readonly __hkta: A
+  readonly _hkt: URI
+  readonly _hkta: A
   constructor(public readonly head: A, public readonly tail: Array<A>) {}
   toArray(): Array<A> {
     return [this.head].concat(this.tail)

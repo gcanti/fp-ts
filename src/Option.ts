@@ -29,9 +29,9 @@ export class None<A> implements
   static empty = empty
   static zero = zero
   static value: Option<any> = new None()
-  readonly __tag: 'None'
-  readonly __hkt: URI
-  readonly __hkta: A
+  readonly _tag: 'None'
+  readonly _hkt: URI
+  readonly _hkta: A
   constructor() {
     if (none) {
       return none as any
@@ -107,9 +107,9 @@ export class Some<A> implements
   static of = of
   static empty = empty
   static zero = zero
-  readonly __tag: 'Some'
-  readonly __hkt: URI
-  readonly __hkta: A
+  readonly _tag: 'Some'
+  readonly _hkt: URI
+  readonly _hkta: A
   constructor(public readonly value: A) {}
   map<B>(f: Function1<A, B>): Option<B> {
     return new Some(f(this.value))

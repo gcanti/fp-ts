@@ -10,8 +10,8 @@ export type HKTURI<E> = HKT<URI, E>
 export type HKTTraced<E, A> = HKT<HKTURI<E>, A>
 
 export class Traced<E, A> implements FantasyComonad<HKTURI<E>, A> {
-  readonly __hkt: HKTURI<E>
-  readonly __hkta: A
+  readonly _hkt: HKTURI<E>
+  readonly _hkta: A
   constructor(public readonly monoid: StaticMonoid<E>, public readonly value: Function1<E, A>) { }
   run(e: E): A {
     return this.value(e)

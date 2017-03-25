@@ -24,8 +24,8 @@ export class Identity<A> implements
 
   static of = of
   static extract = extract
-  readonly __hkt: URI
-  readonly __hkta: A
+  readonly _hkt: URI
+  readonly _hkta: A
   constructor(public readonly value: A) {}
   map<B>(f: Function1<A, B>): Identity<B> {
     return new Identity(f(this.value))

@@ -19,8 +19,8 @@ export type HKTArray<A> = HKT<URI, A>
 
 declare global {
   interface Array<T> extends FantasyFunctor<URI, T> {
-    __hkt: URI
-    __hkta: T
+    _hkt: URI
+    _hkta: T
   }
 }
 

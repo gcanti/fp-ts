@@ -18,8 +18,8 @@ export class Const<L, A> implements
   FantasyFunctor<HKTURI<L>, A>,
   FantasyContravariant<HKTURI<L>, A> {
 
-  readonly __hkt: HKTURI<L>
-  readonly __hkta: A
+  readonly _hkt: HKTURI<L>
+  readonly _hkta: A
   constructor(public readonly value: L) {}
   map<B, C>(f: Function1<B, C>): Const<L, C> {
     return this as any

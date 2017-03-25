@@ -10,8 +10,8 @@ export type HKTReader<E, A> = HKT<HKTURI<E>, A>
 
 export class Reader<E, A> implements FantasyMonad<HKTURI<E>, A> {
   static of = of
-  readonly __hkt: HKTURI<E>
-  readonly __hkta: A
+  readonly _hkt: HKTURI<E>
+  readonly _hkta: A
   constructor(public readonly value: Function1<E, A>) {}
   run(e: E): A {
     return this.value(e)

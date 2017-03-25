@@ -29,9 +29,9 @@ export class Left<L, A> implements
   FantasyBifunctor<URI, L, A> {
 
   static of = of
-  readonly __tag: 'Left'
-  readonly __hkt: HKTURI<L>
-  readonly __hkta: A
+  readonly _tag: 'Left'
+  readonly _hkt: HKTURI<L>
+  readonly _hkta: A
   constructor(public readonly value: L) {}
   map<B>(f: Function1<A, B>): Either<L, B> {
     return this as any
@@ -89,9 +89,9 @@ export class Right<L, A> implements
   FantasyBifunctor<URI, L, A> {
 
   static of = of
-  readonly __tag: 'Right'
-  readonly __hkt: HKTURI<L>
-  readonly __hkta: A
+  readonly _tag: 'Right'
+  readonly _hkt: HKTURI<L>
+  readonly _hkta: A
   constructor(public readonly value: A) {}
   map<B>(f: Function1<A, B>): Either<L, B> {
     return new Right<L, B>(f(this.value))

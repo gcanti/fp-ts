@@ -10,8 +10,8 @@ export type HKTIO<A> = HKT<URI, A>
 
 export class IO<A> implements FantasyMonad<URI, A> {
   static of = of
-  readonly __hkt: URI
-  readonly __hkta: A
+  readonly _hkt: URI
+  readonly _hkta: A
   constructor(public readonly value: Lazy<A>) {}
   run(): A {
     return this.value()

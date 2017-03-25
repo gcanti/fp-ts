@@ -11,8 +11,8 @@ export type HKTURI<W> = HKT<URI, W>
 export type HKTWriter<W, A> = HKT<HKTURI<W>, A>
 
 export class Writer<W, A> implements FantasyMonad<HKTURI<W>, A> {
-  __hkt: HKTURI<W>
-  __hkta: A
+  _hkt: HKTURI<W>
+  _hkta: A
   of: Function1<A, Writer<W, A>>
   constructor(public readonly monoid: StaticMonoid<W>, public readonly value: Lazy<[A, W]>) {
     this.of = of<W>(monoid)

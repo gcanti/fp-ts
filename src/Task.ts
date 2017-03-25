@@ -10,8 +10,8 @@ export type HKTTask<A> = HKT<URI, A>
 export class Task<A> implements FantasyMonad<URI, A> {
   static of = of
   static empty = empty
-  readonly __hkt: URI
-  readonly __hkta: A
+  readonly _hkt: URI
+  readonly _hkta: A
   constructor(public readonly value: Lazy<Promise<A>>) {}
   run(): Promise<A> {
     return this.value()
