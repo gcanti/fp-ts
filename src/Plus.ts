@@ -1,13 +1,10 @@
-import { HKT } from './HKT'
-import { StaticAlt } from './Alt'
-import { Function1 } from './function'
+import { HKT, HKTS } from './HKT'
+import { StaticAlt, FantasyAlt } from './Alt'
 
-export interface StaticPlus<F> extends StaticAlt<F> {
-  zero(): HKT<F, any>
+export interface StaticPlus<F extends HKTS> extends StaticAlt<F> {
+  zero(): HKT<any>[F]
 }
 
-export interface FantasyPlus<F, A> {
-  map<B>(f: Function1<A, B>): FantasyPlus<F, B>
-  alt(fy: FantasyPlus<F, A>): FantasyPlus<F, A>
+export interface FantasyPlus<F extends HKTS, A> extends FantasyAlt<F, A> {
   zero(): FantasyPlus<F, any>
 }

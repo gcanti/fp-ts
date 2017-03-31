@@ -1,4 +1,4 @@
-import { HKT } from './HKT'
+import { HKT, HKTS } from './HKT'
 
 export type Lazy<A> = () => A
 
@@ -21,16 +21,18 @@ export type Curried7<A, B, C, D, E, F, G, H> = (a: A) => (b: B) => (c: C) => (d:
 export type Curried8<A, B, C, D, E, F, G, H, I> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => I
 export type Curried9<A, B, C, D, E, F, G, H, I, J> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => (i: I) => J
 
-export type Predicate<A> = Function1<A, boolean>
+export type Predicate<A> = (a: A) => boolean
 
-export type Endomorphism<A> = Function1<A, A>
+export function not<A>(predicate: Predicate<A>): Predicate<A> {
+  return a => !predicate(a)
+}
+
+export type Endomorphism<A> = (a: A) => A
 
 export type BinaryOperation<A, B> = Function2<A, A, B>
 
-export type ClosedBinaryOperation<A> = BinaryOperation<A, A>
-
-export type Kleisli<F, A, B> = Function1<A, HKT<F, B>>
-export type Cokleisli<F, A, B> = Function1<HKT<F, A>, B>
+export type Kleisli<F extends HKTS, A, B> = (a: A) => HKT<B>[F]
+export type Cokleisli<F extends HKTS, A, B> = (fa: HKT<A>[F]) => B
 
 export function constant<A>(a: A): Lazy<A> {
   return () => a
@@ -49,18 +51,18 @@ export function flip<A, B, C>(f: Function2<A, B, C>): Function2<B, A, C> {
 }
 
 /** The `on` function is used to change the domain of a binary operator. */
-export function on<A, B, C>(op: BinaryOperation<B, C>, f: Function1<A, B>): BinaryOperation<A, C> {
+export function on<A, B, C>(op: BinaryOperation<B, C>, f: (a: A) => B): BinaryOperation<A, C> {
   return (x, y) => op(f(x), f(y))
 }
 
-export function compose<A, B, C>(bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, C>
-export function compose<A, B, C, D>(cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, D>
-export function compose<A, B, C, D, E>(de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, E>
-export function compose<A, B, C, D, E, F>(ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, F>
-export function compose<A, B, C, D, E, F, G>(fg: Function1<F, G>, ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, G>
-export function compose<A, B, C, D, E, F, G, H>(gh: Function1<G, H>, fg: Function1<F, G>, ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, H>
-export function compose<A, B, C, D, E, F, G, H, I>(hi: Function1<H, I>, gh: Function1<G, H>, fg: Function1<F, G>, ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, I>
-export function compose<A, B, C, D, E, F, G, H, I, J>(ij: Function1<I, J>, hi: Function1<H, I>, gh: Function1<G, H>, fg: Function1<F, G>, ef: Function1<E, F>, de: Function1<D, E>, cd: Function1<C, D>, bc: Function1<B, C>, ab: Function1<A, B>): Function1<A, J>
+export function compose<A, B, C>(bc: (b: B) => C, ab: (a: A) => B): (a: A) => C
+export function compose<A, B, C, D>(cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => D
+export function compose<A, B, C, D, E>(de: (d: D) => E, cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => E
+export function compose<A, B, C, D, E, F>(ef: (e: E) => F, de: (d: D) => E, cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => F
+export function compose<A, B, C, D, E, F, G>(fg: (f: F) => G, ef: (e: E) => F, de: (d: D) => E, cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => G
+export function compose<A, B, C, D, E, F, G, H>(gh: (g: G) => H, fg: (f: F) => G, ef: (e: E) => F, de: (d: D) => E, cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => H
+export function compose<A, B, C, D, E, F, G, H, I>(hi: (h: H) => I, gh: (g: G) => H, fg: (f: F) => G, ef: (e: E) => F, de: (d: D) => E, cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => I
+export function compose<A, B, C, D, E, F, G, H, I, J>(ij: (i: I) => J, hi: (h: H) => I, gh: (g: G) => H, fg: (f: F) => G, ef: (e: E) => F, de: (d: D) => E, cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => J
 export function compose(...fns: Array<Function>): Function {
   const len = fns.length - 1
   return function(this: any, x: any) {
@@ -72,14 +74,14 @@ export function compose(...fns: Array<Function>): Function {
   }
 }
 
-export function pipe<A, B, C>(ab: Function1<A, B>, bc: Function1<B, C>): Function1<A, C>
-export function pipe<A, B, C, D>(ab: Function1<A, B>, bc: Function1<B, C>, cd: Function1<C, D>): Function1<A, D>
-export function pipe<A, B, C, D, E>(ab: Function1<A, B>, bc: Function1<B, C>, cd: Function1<C, D>, de: Function1<D, E>): Function1<A, E>
-export function pipe<A, B, C, D, E, F>(ab: Function1<A, B>, bc: Function1<B, C>, cd: Function1<C, D>, de: Function1<D, E>, ef: Function1<E, F>): Function1<A, F>
-export function pipe<A, B, C, D, E, F, G>(ab: Function1<A, B>, bc: Function1<B, C>, cd: Function1<C, D>, de: Function1<D, E>, ef: Function1<E, F>, fg: Function1<F, G>): Function1<A, G>
-export function pipe<A, B, C, D, E, F, G, H>(ab: Function1<A, B>, bc: Function1<B, C>, cd: Function1<C, D>, de: Function1<D, E>, ef: Function1<E, F>, fg: Function1<F, G>, gh: Function1<G, H>): Function1<A, H>
-export function pipe<A, B, C, D, E, F, G, H, I>(ab: Function1<A, B>, bc: Function1<B, C>, cd: Function1<C, D>, de: Function1<D, E>, ef: Function1<E, F>, fg: Function1<F, G>, gh: Function1<G, H>, hi: Function1<H, I>): Function1<A, I>
-export function pipe<A, B, C, D, E, F, G, H, I, J>(ab: Function1<A, B>, bc: Function1<B, C>, cd: Function1<C, D>, de: Function1<D, E>, ef: Function1<E, F>, fg: Function1<F, G>, gh: Function1<G, H>, hi: Function1<H, I>, ij: Function1<I, J>): Function1<A, J>
+export function pipe<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
+export function pipe<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
+export function pipe<A, B, C, D, E>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): (a: A) => E
+export function pipe<A, B, C, D, E, F>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E, ef: (e: E) => F): (a: A) => F
+export function pipe<A, B, C, D, E, F, G>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E, ef: (e: E) => F, fg: (f: F) => G): (a: A) => G
+export function pipe<A, B, C, D, E, F, G, H>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E, ef: (e: E) => F, fg: (f: F) => G, gh: (g: G) => H): (a: A) => H
+export function pipe<A, B, C, D, E, F, G, H, I>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E, ef: (e: E) => F, fg: (f: F) => G, gh: (g: G) => H, hi: (h: H) => I): (a: A) => I
+export function pipe<A, B, C, D, E, F, G, H, I, J>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E, ef: (e: E) => F, fg: (f: F) => G, gh: (g: G) => H, hi: (h: H) => I, ij: (i: I) => J): (a: A) => J
 export function pipe(...fns: Array<Function>): Function {
   const len = fns.length - 1
   return function(this: any, x: any) {

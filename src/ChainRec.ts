@@ -1,14 +1,17 @@
-import { HKT } from './HKT'
-import { StaticChain } from './Chain'
+import { HKT, HKTS } from './HKT'
+import { StaticChain, FantasyChain } from './Chain'
 import { Either, Right } from './Either'
 import { isLeft } from './Either'
-import { Function1 } from './function'
 
-export interface StaticChainRec<M> extends StaticChain<M> {
-  chainRec<A, B>(f: Function1<A, HKT<M, Either<A, B>>>, a: A): HKT<M, B>
+export interface StaticChainRec<F extends HKTS> extends StaticChain<F> {
+  chainRec<A, B>(f: (a: A) => HKT<Either<A, B>>[F], a: A): HKT<B>[F]
 }
 
-export function tailRec<A, B>(f: Function1<A, Either<A, B>>, a: A): B {
+export interface FantasyChainRec<F extends HKTS, A> extends FantasyChain<F, A> {
+  chainRec<A, B>(f: (a: A) => HKT<Either<A, B>>[F]): HKT<B>[F]
+}
+
+export function tailRec<A, B>(f: (a: A) => Either<A, B>, a: A): B {
   let v = f(a)
   while (isLeft(v)) {
     v = f(v.value)

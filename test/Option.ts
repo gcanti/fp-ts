@@ -12,7 +12,6 @@ import {
   fromNullable
 } from '../src/Option'
 import * as option from '../src/Option'
-import { ops } from '../src/Traversable'
 import { setoidNumber } from '../src/Setoid'
 import { eqOptions as eq } from './helpers'
 
@@ -78,9 +77,9 @@ describe('Option', () => {
   })
 
   it('traverse', () => {
-    const x = some('hello').traverse(option, s => some(s.length))
+    const x = some('hello').traverse(option)(s => some(s.length))
     eq(x, some(some(5)))
-    const y = ops.traverse(option, s => some(s.length), some('hello'))
+    const y = some('hello').traverse(option)(s => some(s.length))
     eq(y, some(some(5)))
   })
 

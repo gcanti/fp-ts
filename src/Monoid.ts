@@ -1,7 +1,11 @@
-import { StaticSemigroup, getProductStaticSemigroup, getDualStaticSemigroup } from './Semigroup'
+import { StaticSemigroup, getProductStaticSemigroup, getDualStaticSemigroup, fold as foldSemigroup } from './Semigroup'
 
-export interface StaticMonoid<M> extends StaticSemigroup<M> {
-  empty(): M
+export interface StaticMonoid<A> extends StaticSemigroup<A> {
+  empty(): A
+}
+
+export function fold<A>(monoid: StaticMonoid<A>, as: Array<A>): A {
+  return foldSemigroup(monoid, monoid.empty(), as)
 }
 
 export function getProductStaticMonoid<A, B>(amonoid: StaticMonoid<A>, bmonoid: StaticMonoid<B>): StaticMonoid<[A, B]> {

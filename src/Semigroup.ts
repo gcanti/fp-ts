@@ -1,5 +1,9 @@
-export interface StaticSemigroup<M> {
-  concat(x: M, y: M): M
+export interface StaticSemigroup<A> {
+  concat(x: A, y: A): A
+}
+
+export function fold<A>(semigroup: StaticSemigroup<A>, a: A, as: Array<A>): A {
+  return as.reduce((acc, a) => semigroup.concat(acc, a), a)
 }
 
 export function getFirstStaticSemigroup<A>(): StaticSemigroup<A> {

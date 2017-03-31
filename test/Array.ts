@@ -13,10 +13,10 @@ describe('Arr', () => {
   it('traverse', () => {
     const tfanone = [1, 2]
     const f = (n: number): option.Option<number> => n % 2 === 0 ? none : some(n)
-    const fasnone = arr.traverse(option, f, tfanone)
+    const fasnone = arr.traverse(option)(f, tfanone)
     assert.ok(option.isNone(fasnone))
     const tfa = [1, 3]
-    const fas = arr.traverse(option, f, tfa)
+    const fas = arr.traverse(option)(f, tfa)
     eq(fas, some([1, 3]))
   })
 

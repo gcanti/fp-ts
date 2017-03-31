@@ -1,6 +1,7 @@
-export interface HKT<F, A> {
-  readonly _hkt: F
-  readonly _hkta: A
-}
+export interface HKT<A> {}
 
-export type HKT2<F, A, B> = HKT<HKT<F, A>, B>
+export interface HKT2<A, B> {}
+
+export type HKTS = keyof HKT<any>
+
+export type HKT2S = keyof HKT2<any, any>

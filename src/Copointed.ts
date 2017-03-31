@@ -1,12 +1,8 @@
-import { HKT } from './HKT'
-import { StaticFunctor } from './Functor'
-import { Function1 } from './function'
+import { HKT, HKTS } from './HKT'
+import { StaticFunctor, FantasyFunctor } from './Functor'
 
-export interface StaticCopointed<F> extends StaticFunctor<F> {
-  extract<A>(ca: HKT<F, A>): A
+export interface StaticCopointed<F extends HKTS> extends StaticFunctor<F> {
+  extract<A>(ca: HKT<A>[F]): A
 }
 
-export interface FantasyCopointed<F, A> {
-  map<B>(f: Function1<A, B>): FantasyCopointed<F, B>
-  extract(): A
-}
+export interface FantasyCopointed<F extends HKTS, A> extends FantasyFunctor<F, A> {}

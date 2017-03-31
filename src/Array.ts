@@ -1,28 +1,26 @@
-import { HKT } from './HKT'
+import { HKT, HKTS, HKT2, HKT2S } from './HKT'
 import { StaticMonoid } from './Monoid'
 import { StaticApplicative } from './Applicative'
-import { FantasyFunctor } from './Functor'
 import { StaticMonad } from './Monad'
 import { StaticFoldable } from './Foldable'
 import { StaticTraversable } from './Traversable'
 import { StaticAlternative } from './Alternative'
 import { StaticPlus } from './Plus'
-import { ops } from './Apply'
-import { HKTOption, Option } from './Option'
+import { liftA2 } from './Apply'
+import { Option } from './Option'
 import * as option from './Option'
 import { StaticOrd, toNativeComparator } from './Ord'
-import { Predicate, identity, constant, curry, Lazy, Function1, Function2, Endomorphism } from './function'
+import { Predicate, identity, constant, curry, Lazy, Endomorphism } from './function'
 
-export type URI = 'Array'
-
-export type HKTArray<A> = HKT<URI, A>
-
-declare global {
-  interface Array<T> extends FantasyFunctor<URI, T> {
-    _hkt: URI
-    _hkta: T
+declare module './HKT' {
+  interface HKT<A> {
+    Array: Array<A>
   }
 }
+
+export const URI = 'Array'
+
+export type URI = typeof URI
 
 export const empty: Lazy<Array<any>> = constant([])
 
@@ -30,7 +28,7 @@ export function concat<A>(x: Array<A>, y: Array<A>): Array<A> {
   return x.concat(y)
 }
 
-export function map<A, B>(f: Function1<A, B>, fa: Array<A>): Array<B> {
+export function map<A, B>(f: (a: A) => B, fa: Array<A>): Array<B> {
   return fa.map(f)
 }
 
@@ -38,30 +36,34 @@ export function of<A>(a: A): Array<A> {
   return [a]
 }
 
-export function ap<A, B>(fab: Array<Function1<A, B>>, fa: Array<A>): Array<B> {
+export function ap<A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> {
   return fab.reduce((acc: Array<B>, f) => acc.concat(fa.map(f)), [])
 }
 
-export function chain<A, B>(f: Function1<A, Array<B>>, fa: Array<A>): Array<B> {
+export function chain<A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B> {
   return fa.reduce((acc: Array<B>, a) => acc.concat(f(a)), [])
 }
 
-export function reduce<A, B>(f: Function2<B, A, B>, b: B, fa: Array<A>): B {
+export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B {
   return fa.reduce(f, b)
 }
 
 export const curriedSnoc = curry(snoc)
 
-export function traverse<F, A, B>(applicative: StaticApplicative<F>, f: Function1<A, HKT<F, B>>, ta: Array<A>): HKT<F, Array<B>> {
-  const snocA2 = ops.liftA2(applicative, curriedSnoc)
-  return reduce((fab, a) => snocA2(fab, f(a)), applicative.of(empty()), ta)
+export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT2<L, B>[F], ta: Array<A>) => HKT2<L, Array<B>>[F]
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Array<A>) => HKT<Array<B>>[F]
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Array<A>) => HKT<Array<B>>[F] {
+  return <A, B>(f: (a: A) => HKT<B>[F], ta: Array<A>) => {
+    const snocA2 = liftA2(applicative, curriedSnoc)
+    return reduce((fab, a) => snocA2(fab, f(a)), applicative.of(empty()), ta)
+  }
 }
 
 export const zero = empty
 
 export const alt = concat
 
-export function unfoldr<A, B>(f: Function1<B, HKTOption<[A, B]>>, b: B): Array<A> {
+export function unfoldr<A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> {
   const ret: Array<A> = []
   let bb = b
   while (true) {
@@ -199,40 +201,16 @@ export function reverse<A>(as: Array<A>): Array<A> {
   return copy(as).reverse()
 }
 
-export function mapOption<A, B>(f: Function1<A, HKTOption<B>>, as: Array<A>): Array<B> {
+export function mapOption<A, B>(f: (a: A) => Option<B>, as: Array<A>): Array<B> {
   return chain(a => option.fold(empty, of, f(a)), as)
 }
 
-export function catOptions<A>(as: Array<HKTOption<A>>): Array<A> {
-  return mapOption<HKTOption<A>, A>(identity, as)
+export function catOptions<A>(as: Array<Option<A>>): Array<A> {
+  return mapOption<Option<A>, A>(identity, as)
 }
 
 export function sort<A>(ord: StaticOrd<A>, as: Array<A>): Array<A> {
   return copy(as).sort(toNativeComparator(ord.compare))
-}
-
-declare module './Functor' {
-  interface FunctorOps {
-    map<A, B>(f: Function1<A, B>, fa: HKTArray<A>): Array<B>
-    lift<A, B>(functor: StaticFunctor<URI>, f: Function1<A, B>): Function1<Array<A>, Array<B>>
-  }
-}
-
-declare module './Foldable' {
-  interface FoldableOps {
-    reduce<A, B>(f: Function2<B, A, B>, b: B, fa: HKTArray<A>): B
-    foldMap<M, A>(monoid: StaticMonoid<M>, f: Function1<A, M>, fa: HKTArray<A>): M
-    foldMapS<M, A>(foldable: StaticFoldable<URI>, monoid: StaticMonoid<M>, f: Function1<A, M>, fa: HKTArray<A>): M
-  }
-}
-
-declare module './Traversable' {
-  interface TraversableOps {
-    sequenceS<F, A>(
-    applicative: StaticApplicative<F>,
-    traversable: StaticTraversable<URI>,
-    tfa: HKTArray<HKT<F, A>>): HKT<F, Array<A>>
-  }
 }
 
 // tslint:disable-next-line no-unused-expression

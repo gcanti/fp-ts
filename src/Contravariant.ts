@@ -1,24 +1,16 @@
-import { HKT } from './HKT'
-import { Function1 } from './function'
+import { HKT, HKTS, HKT2, HKT2S } from './HKT'
 
-export interface StaticContravariant<F> {
-  contramap<A, B>(f: Function1<B, A>, fa: HKT<F, A>): HKT<F, B>
+export interface StaticContravariant<F extends HKTS> {
+  readonly URI: F
+  contramap<A, B>(f: (b: B) => A, fa: HKT<A>[F]): HKT<B>[F]
 }
 
-export interface FantasyContravariant<F, A> extends HKT<F, A> {
-  contramap<B>(f: Function1<B, A>): FantasyContravariant<F, B>
+export interface FantasyContravariant<F extends HKTS, A> {
+  contramap<B>(f: (b: B) => A): HKT<B>[F]
 }
 
-export class ContravariantOps {
-  contramap<F, A, B>(f: Function1<B, A>, fa: FantasyContravariant<F, A>): FantasyContravariant<F, B>
-  contramap<F, A, B>(f: Function1<B, A>, fa: FantasyContravariant<F, A>): FantasyContravariant<F, B> {
-    return fa.contramap(f)
-  }
-
-  lift<F, A, B>(contravariant: StaticContravariant<F>, f: Function1<B, A>): Function1<HKT<F, A>, HKT<F, B>>
-  lift<F, A, B>(contravariant: StaticContravariant<F>, f: Function1<B, A>): Function1<HKT<F, A>, HKT<F, B>> {
-    return fa => contravariant.contramap(f, fa)
-  }
+export function lift<F extends HKT2S, A, B>(contravariant: StaticContravariant<F>, f: (b: B) => A): <L>(fa: HKT2<L, A>[F]) => HKT2<L, B>[F]
+export function lift<F extends HKTS, A, B>(contravariant: StaticContravariant<F>, f: (b: B) => A): (fa: HKT<A>[F]) => HKT<B>[F]
+export function lift<F extends HKTS, A, B>(contravariant: StaticContravariant<F>, f: (b: B) => A): (fa: HKT<A>[F]) => HKT<B>[F] {
+  return fa => contravariant.contramap(f, fa)
 }
-
-export const ops = new ContravariantOps()
