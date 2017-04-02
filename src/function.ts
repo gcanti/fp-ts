@@ -46,7 +46,7 @@ export function identity<A>(a: A): A {
 }
 
 /** Flips the order of the arguments to a function of two arguments. */
-export function flip<A, B, C>(f: Function2<A, B, C>): Function2<B, A, C> {
+export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
   return (b, a) => f(a, b)
 }
 
