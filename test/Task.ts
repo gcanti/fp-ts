@@ -8,6 +8,7 @@ const delay = <A>(n: number, a: A): Task<A> => new Task<A>(() => new Promise(res
 }))
 
 describe('Task', () => {
+
   it('concat', () => {
     const t1 = delay(10, 1)
     const t2 = delay(20, 2)

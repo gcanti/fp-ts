@@ -6,7 +6,7 @@ export function eqOptions<A>(x: Option<A>, y: Option<A>) {
   if (isSome(x) && isSome(y)) {
     assert.deepEqual(x.value, y.value)
   } else {
-    assert.strictEqual(isNone(x), isNone(y))
+    assert.strictEqual(isNone(x), isNone(y), `${x} != ${y}`)
   }
 }
 
@@ -16,6 +16,6 @@ export function eqEithers<L, A>(x: Either<L, A>, y: Either<L, A>) {
   } else if (isLeft(x) && isLeft(y)) {
     assert.deepEqual(x.value, y.value)
   } else {
-    assert.strictEqual(isLeft(x), isLeft(y))
+    assert.strictEqual(isLeft(x), isLeft(y), `${x} != ${y}`)
   }
 }
