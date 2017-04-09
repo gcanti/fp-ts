@@ -12,6 +12,16 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.2.1
+
+- **New Feature**
+  - `Semigroupoid` type class (@gcanti)
+  - `Rxjs` module (@gcanti)
+  - `Tuple` module (@gcanti)
+  - `Dictionary` module (@gcanti)
+  - add phantom types to all data structures in order to allow type extraction (@gcanti)
+  - add all exports for rollup (@gcanti)
+
 # 0.2
 
 - **Breaking Change**
