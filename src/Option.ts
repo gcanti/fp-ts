@@ -35,6 +35,7 @@ export class None<A> implements
   static zero = zero
   static value: Option<any> = new None()
   readonly _tag: 'None'
+  readonly _A: A
   readonly _URI: URI
   constructor() {
     if (none) {
@@ -114,6 +115,7 @@ export class Some<A> implements
   static empty = empty
   static zero = zero
   readonly _tag: 'Some'
+  readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Option<B> {

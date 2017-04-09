@@ -16,6 +16,8 @@ export type URI = typeof URI
 
 export class Reader<E, A> implements FantasyMonad<URI, A> {
   static of = of
+  readonly _E: E
+  readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: (e: E) => A) {}
   run(e: E): A {
