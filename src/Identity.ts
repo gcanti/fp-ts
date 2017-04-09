@@ -28,6 +28,7 @@ export class Identity<A> implements
 
   static of = of
   static extract = extract
+  readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Identity<B> {

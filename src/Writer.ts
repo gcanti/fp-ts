@@ -17,6 +17,8 @@ export const URI = 'Writer'
 export type URI = typeof URI
 
 export class Writer<W, A> implements FantasyMonad<URI, A> {
+  readonly _W: W
+  readonly _A: A
   readonly _URI: URI
   of: (a: A) => Writer<W, A>
   constructor(public readonly monoid: StaticMonoid<W>, public readonly value: Lazy<[A, W]>) {

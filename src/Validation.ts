@@ -36,6 +36,8 @@ export class Failure<L, A> implements
 
   static of = of
   readonly _tag: 'Failure'
+  readonly _L: L
+  readonly _A: A
   readonly _URI: URI
   constructor(public readonly semigroup: StaticSemigroup<L>, public readonly value: L) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
@@ -108,6 +110,8 @@ export class Success<L, A> implements
 
   static of = of
   readonly _tag: 'Success'
+  readonly _L: L
+  readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Validation<L, B> {

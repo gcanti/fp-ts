@@ -15,6 +15,8 @@ export const URI = 'Traced'
 export type URI = typeof URI
 
 export class Traced<E, A> implements FantasyComonad<URI, A> {
+  readonly _E: E
+  readonly _A: A
   readonly _URI: URI
   constructor(public readonly monoid: StaticMonoid<E>, public readonly value: (e: E) => A) { }
   run(e: E): A {

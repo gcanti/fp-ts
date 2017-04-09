@@ -15,6 +15,7 @@ export type URI = typeof URI
 export class Task<A> implements FantasyMonad<URI, A> {
   static of = of
   static empty = empty
+  readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: Lazy<Promise<A>>) {}
   run(): Promise<A> {

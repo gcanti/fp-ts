@@ -22,6 +22,7 @@ export class NonEmptyArray<A> implements
   FantasyFoldable<A>,
   FantasyTraversable<URI, A> {
 
+  readonly _A: A
   readonly _URI: URI
   constructor(public readonly head: A, public readonly tail: Array<A>) {}
   toArray(): Array<A> {
