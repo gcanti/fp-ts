@@ -9,7 +9,7 @@ import { StaticExtend, FantasyExtend } from './Extend'
 import { StaticSetoid } from './Setoid'
 import { StaticTraversable, FantasyTraversable } from './Traversable'
 import { StaticAlternative, FantasyAlternative } from './Alternative'
-import { identity, constant, constFalse, constTrue, Lazy, Predicate } from './function'
+import { constant, constFalse, constTrue, Lazy, Predicate } from './function'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -131,7 +131,7 @@ export class Some<A> implements
     return f(this.value)
   }
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
-    return this.fold<B>(constant(b), identity)
+    return this.fold<B>(constant(b), (a: A) => f(b, a))
   }
   traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, B>(f: (a: A) => HKT2<L, B>[F]) => HKT2<L, Option<B>>[F]
   traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Option<B>>[F]
