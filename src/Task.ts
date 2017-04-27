@@ -34,7 +34,7 @@ export class Task<A> implements FantasyMonad<URI, A> {
     return new Task(() => this.run().then(a => f(a).run()))
   }
   concat(fy: Task<A>): Task<A> {
-    return new Task(() => {
+    return new Task<A>(() => {
       return new Promise<A>(r => {
         let running = true
         const resolve = (a: A) => {
