@@ -39,7 +39,7 @@ export class Left<L, A> implements
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: L) {}
+  constructor(public readonly value: L) { }
   map<B>(f: (a: A) => B): Either<L, B> {
     return this as any
   }
@@ -72,6 +72,10 @@ export class Left<L, A> implements
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return left(this.value)
   }
+  getOrElse(f: Lazy<A>): A {
+    return f()
+  }
+
   equals(setoid: StaticSetoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constTrue, constFalse)
   }
@@ -102,7 +106,7 @@ export class Right<L, A> implements
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: A) {}
+  constructor(public readonly value: A) { }
   map<B>(f: (a: A) => B): Either<L, B> {
     return new Right<L, B>(f(this.value))
   }
@@ -138,6 +142,11 @@ export class Right<L, A> implements
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return right(this.value)
   }
+
+  getOrElse(f: Lazy<A>): A {
+    return this.value
+  }
+
   equals(setoid: StaticSetoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
   }
@@ -163,10 +172,13 @@ export function fold<L, A, B>(left: (l: L) => B, right: (a: A) => B, fa: Either<
   return fa.fold(left, right)
 }
 
+export function getOrElse<L, A>(f: () => A, fa: Either<L, A>): A {
+  return fa.getOrElse(f)
+}
+
 export function map<L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> {
   return fa.map(f)
 }
-
 export function of<L, A>(a: A): Right<L, A> {
   return new Right<L, A>(a)
 }
@@ -248,7 +260,7 @@ export function tryCatch<A>(f: Lazy<A>): Either<Error, A> {
 }
 
 // tslint:disable-next-line no-unused-expression
-;(
+; (
   { map, of, ap, chain, reduce, traverse, bimap, alt, extend, chainRec } as (
     StaticMonad<URI> &
     StaticFoldable<URI> &

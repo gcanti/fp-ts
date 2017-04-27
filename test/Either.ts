@@ -4,6 +4,7 @@ import {
   left,
   map,
   fold,
+  getOrElse,
   ap,
   chain,
   fromPredicate,
@@ -56,6 +57,11 @@ describe('Either', () => {
       return JSON.parse(``)
     })
     eq(e2, left({}))
+  })
+
+  it('getOrElse', () => {
+    assert.equal(getOrElse(() => 17, right(12)), 12)
+    assert.equal(getOrElse(() => 17, left(12)), 17)
   })
 
 })
