@@ -2,6 +2,7 @@ import { HKT, HKTS, HKT2, HKT2S } from './HKT'
 import { StaticFunctor } from './Functor'
 import { StaticPointed } from './Pointed'
 import { StaticApplicative } from './Applicative'
+import { StaticMonad, FantasyMonad } from './Monad'
 import { StaticSemigroup } from './Semigroup'
 import { FantasyApply } from './Apply'
 import { StaticFoldable, FantasyFoldable } from './Foldable'
@@ -29,6 +30,7 @@ export type URI = typeof URI
 export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
 export class Failure<L, A> implements
+  FantasyMonad<URI, A>,
   FantasyApply<URI, A>,
   FantasyFoldable<A>,
   FantasyTraversable<URI, A>,
@@ -39,7 +41,7 @@ export class Failure<L, A> implements
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly semigroup: StaticSemigroup<L>, public readonly value: L) {}
+  constructor(public readonly semigroup: StaticSemigroup<L>, public readonly value: L) { }
   map<B>(f: (a: A) => B): Validation<L, B> {
     return this as any
   }
@@ -52,6 +54,10 @@ export class Failure<L, A> implements
     }
     return this as any
   }
+  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B> {
+    return this as any
+  }
+
   bimap<L2, B>(semigroup: StaticSemigroup<L2>, f: (l: L) => L2, g: (a: A) => B): Validation<L2, B> {
     return failure<L2, B>(semigroup, f(this.value))
   }
@@ -103,6 +109,7 @@ export class Failure<L, A> implements
 }
 
 export class Success<L, A> implements
+  FantasyMonad<URI, A>,
   FantasyApply<URI, A>,
   FantasyFoldable<A>,
   FantasyTraversable<URI, A>,
@@ -113,7 +120,7 @@ export class Success<L, A> implements
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: A) {}
+  constructor(public readonly value: A) { }
   map<B>(f: (a: A) => B): Validation<L, B> {
     return new Success<L, B>(f(this.value))
   }
@@ -126,6 +133,10 @@ export class Success<L, A> implements
     }
     return fab as any
   }
+  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B> {
+    return f(this.value)
+  }
+
   bimap<L2, B>(semigroup: StaticSemigroup<L2>, f: (l: L) => L2, g: (a: A) => B): Validation<L2, B> {
     return new Success<L2, B>(g(this.value))
   }
@@ -187,6 +198,10 @@ export function map<L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L
 
 export function of<L, A>(a: A): Success<L, A> {
   return new Success<L, A>(a)
+}
+
+export function chain<L, A, B>(f: (a: A) => Validation<L, B>, fa: Validation<L, A>): Validation<L, B> {
+  return fa.chain(f)
 }
 
 export function getApplicativeS<L>(semigroup: StaticSemigroup<L>): StaticApplicative<URI> {
@@ -260,8 +275,9 @@ export function toEitherNea<L, A>(fa: Validation<L, A>): Option<Validation<nea.N
 }
 
 // tslint:disable-next-line no-unused-expression
-;(
-  { map, of, reduce, traverse, alt } as (
+; (
+  { map, chain, of, reduce, traverse, alt } as (
+    StaticMonad<URI> &
     StaticFunctor<URI> &
     StaticPointed<URI> &
     StaticFoldable<URI> &
