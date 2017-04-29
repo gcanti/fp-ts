@@ -189,13 +189,16 @@ export function of<L, A>(a: A): Success<L, A> {
   return new Success<L, A>(a)
 }
 
-export function getApplicativeS<L>(semigroup: StaticSemigroup<L>): StaticApplicative<URI> {
+export function getStaticApplicative<L>(semigroup: StaticSemigroup<L>): StaticApplicative<URI> {
   function ap<A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> {
-    return fa.ap(fab as Validation<L, (a: A) => B>)
+    return fa.ap(fab)
   }
 
   return { URI, map, of, ap }
 }
+
+/** deprecated, use getStaticApplicative instead */
+export const getApplicativeS = getStaticApplicative
 
 export function bimap<L, L2, A, B>(semigroup: StaticSemigroup<L2>, f: (l: L) => L2, g: (a: A) => B, fa: Validation<L, A>): Validation<L2, B> {
   return fa.bimap(semigroup, f, g)
