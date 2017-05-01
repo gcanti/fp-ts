@@ -12,6 +12,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.2.4
+
+- **Polish**
+  - deprecate `validation.getApplicativeS` / `validation.getStaticApplicative` (@gcanti)
+
 # 0.2.3
 
 - **Bug Fix**

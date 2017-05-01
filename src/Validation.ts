@@ -185,19 +185,20 @@ export function map<L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L
   return fa.map(f)
 }
 
-export function of<L, A>(a: A): Success<L, A> {
+export function of<L, A>(a: A): Validation<L, A> {
   return new Success<L, A>(a)
 }
 
-export function getStaticApplicative<L>(semigroup: StaticSemigroup<L>): StaticApplicative<URI> {
-  function ap<A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> {
-    return fa.ap(fab)
-  }
+export function ap<L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> {
+  return fa.ap(fab)
+}
 
+/** deprecated */
+export function getStaticApplicative<L>(semigroup: StaticSemigroup<L>): StaticApplicative<URI> {
   return { URI, map, of, ap }
 }
 
-/** deprecated, use getStaticApplicative instead */
+/** deprecated */
 export const getApplicativeS = getStaticApplicative
 
 export function bimap<L, L2, A, B>(semigroup: StaticSemigroup<L2>, f: (l: L) => L2, g: (a: A) => B, fa: Validation<L, A>): Validation<L2, B> {
@@ -230,9 +231,7 @@ export function failure<L, A>(semigroup: StaticSemigroup<L>, l: L): Validation<L
   return new Failure<L, A>(semigroup, l)
 }
 
-export function success<L, A>(a: A): Validation<L, A> {
-  return new Success<L, A>(a)
-}
+export const success = of
 
 export function fromPredicate<L, A>(semigroup: StaticSemigroup<L>, predicate: Predicate<A>, l: (a: A) => L): (a: A) => Validation<L, A> {
   return a => predicate(a) ? success<L, A>(a) : failure<L, A>(semigroup, l(a))

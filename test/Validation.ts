@@ -19,7 +19,7 @@ describe('Validation', () => {
       validation.failure<string, number>(monoidString, '[fail 2]')
     ]
 
-    const x = sequence(validation.getApplicativeS(monoidString), array)(success)
+    const x = sequence(validation, array)(success)
 
     if (validation.isSuccess(x)) {
       assert.deepEqual(x.value, [1, 2, 3])
@@ -27,7 +27,7 @@ describe('Validation', () => {
       assert.ok(false)
     }
 
-    const y = sequence(validation.getApplicativeS(monoidString), array)(failure)
+    const y = sequence(validation, array)(failure)
 
     if (validation.isFailure(y)) {
       assert.strictEqual(y.value, '[fail 1][fail 2]')
