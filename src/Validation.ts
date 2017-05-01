@@ -226,11 +226,11 @@ export function isSuccess<L, A>(fa: Validation<L, A>): fa is Success<L, A> {
   return fa instanceof Success
 }
 
-export function failure<L, A>(semigroup: StaticSemigroup<L>, l: L): Failure<L, A> {
+export function failure<L, A>(semigroup: StaticSemigroup<L>, l: L): Validation<L, A> {
   return new Failure<L, A>(semigroup, l)
 }
 
-export function success<L, A>(a: A): Success<L, A> {
+export function success<L, A>(a: A): Validation<L, A> {
   return new Success<L, A>(a)
 }
 
