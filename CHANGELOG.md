@@ -12,6 +12,17 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.2.5
+
+- **New Feature**
+  - add `getOrElse` to `Either`, fix #39 (@sledorze)
+- **Experimental**
+  - add `EitherT`, fix #36 (@gcanti)
+  - add `OptionT`, fix #37 (@gcanti)
+  - add `ReaderT`, fix #38 (@gcanti)
+  - add `Trans` typeclass (`liftT`), fix #40 (@gcanti)
+  - add `Free`, fix #42 (@gcanti)
+
 # 0.2.4
 
 - **Polish**
