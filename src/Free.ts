@@ -3,8 +3,7 @@
 import { HKT, HKTS } from './HKT'
 import { FantasyMonad, StaticMonad } from './Monad'
 import { identity as id } from './function'
-
-export type NaturalTransformation<F extends HKTS, G extends HKTS> = <A>(fa: HKT<A>[F]) => HKT<A>[G]
+import { NaturalTransformation } from './NaturalTransformation'
 
 declare module './HKT' {
   interface HKT<A> {
