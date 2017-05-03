@@ -30,6 +30,8 @@ import * as extend from './Extend'
 export { extend }
 import * as foldable from './Foldable'
 export { foldable }
+import * as free from './Free'
+export { free }
 import * as function_ from './function'
 export { function_ as function }
 import * as functor from './Functor'
