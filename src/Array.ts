@@ -21,8 +21,10 @@ declare module './HKT' {
 declare global {
   interface Array<T> {
     _A: T
+    _URI: URI
   }
 }
+
 export const URI = 'Array'
 
 export type URI = typeof URI
