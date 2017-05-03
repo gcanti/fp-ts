@@ -5,6 +5,8 @@
 Adapted from http://blog.scalac.io/2016/06/02/overview-of-free-monad-in-cats.html
 
 ```ts
+import {free, identity, option} from 'fp-ts'
+
 export class Degree {
   readonly value: number
   constructor(d: number) {
@@ -65,16 +67,16 @@ export class Show {
 
 export type Instruction = Forward | Backward | RotateRight | Show
 
-declare module './HKT' {
+declare module 'fp-ts/lib/HKT' {
   interface HKT<A> {
     Instruction: Instruction
   }
 }
 
-export const forward = (position: Position, length: number) => liftADT(new Forward(position, length))
-export const backward = (position: Position, length: number) => liftADT(new Backward(position, length))
-export const right = (position: Position, degree: Degree) => liftADT(new RotateRight(position, degree))
-export const show = (position: Position) => liftADT(new Show(position))
+export const forward = (position: Position, length: number) => free.liftADT(new Forward(position, length))
+export const backward = (position: Position, length: number) => free.liftADT(new Backward(position, length))
+export const right = (position: Position, degree: Degree) => free.liftADT(new RotateRight(position, degree))
+export const show = (position: Position) => free.liftADT(new Show(position))
 
 const computation = {
   forward(position: Position, length: number): Position {
@@ -101,9 +103,7 @@ const computation = {
   }
 }
 
-import * as identity from './Identity'
-
-export function interpretIdentity(fa: Instruction): identity.Identity<TypeOf<typeof fa>> {
+export function interpretIdentity(fa: Instruction): identity.Identity<free.TypeOf<typeof fa>> {
   switch (fa._tag) {
     case 'Forward' :
       return identity.of(computation.forward(fa.position, fa.length))
@@ -129,12 +129,10 @@ const program1 = (start: Position) => {
 console.log('--program1--')
 program1(start).foldMap(identity, (fa: Instruction) => interpretIdentity(fa)).value // => interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
 
-import * as option from './Option'
-
 const nonNegative = (position: Position): option.Option<Position> =>
   position.x >= 0 && position.y >= 0 ? option.some(position) : option.none
 
-export function interpretOption(fa: Instruction): option.Option<TypeOf<typeof fa>> {
+export function interpretOption(fa: Instruction): option.Option<free.TypeOf<typeof fa>> {
   switch (fa._tag) {
     case 'Forward' :
       return nonNegative(computation.forward(fa.position, fa.length))
@@ -186,20 +184,20 @@ export class PencilDown {
 
 export type PencilInstruction = PencilUp | PencilDown
 
-declare module './HKT' {
+declare module 'fp-ts/lib/HKT' {
   interface HKT<A> {
     PencilInstruction: PencilInstruction
   }
 }
 
-export const pencilUp = (position: Position) => liftADT(new PencilUp(position))
-export const pencilDown = (position: Position) => liftADT(new PencilDown(position))
+export const pencilUp = (position: Position) => free.liftADT(new PencilUp(position))
+export const pencilDown = (position: Position) => free.liftADT(new PencilDown(position))
 
 export type LogoAppURI = InstructionURI | PencilInstructionURI
 
 export type LogoApp = Instruction | PencilInstruction
 
-const inj = inject<LogoAppURI>()
+const inj = free.inject<LogoAppURI>()
 
 const program3 = (start: Position) => {
   return inj(forward(start, 10))
@@ -215,7 +213,7 @@ const program3 = (start: Position) => {
     })
 }
 
-export function penInterpretIdentity(fa: PencilInstruction): identity.Identity<TypeOf<typeof fa>> {
+export function penInterpretIdentity(fa: PencilInstruction): identity.Identity<free.TypeOf<typeof fa>> {
   if (fa instanceof PencilUp) {
     console.log(`stop drawing at position ${JSON.stringify(fa.position)}`)
     return identity.of(undefined)
@@ -225,7 +223,7 @@ export function penInterpretIdentity(fa: PencilInstruction): identity.Identity<T
   }
 }
 
-export function interpret(fa: LogoApp): identity.Identity<TypeOf<typeof fa>> {
+export function interpret(fa: LogoApp): identity.Identity<free.TypeOf<typeof fa>> {
   switch (fa._URI) {
     case InstructionURI :
       return interpretIdentity(fa)
