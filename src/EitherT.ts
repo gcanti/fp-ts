@@ -3,6 +3,7 @@ import { FantasyMonad, StaticMonad } from './Monad'
 import { Either } from './Either'
 import * as either from './Either'
 import { Option } from './Option'
+import { StaticTrans } from './Trans'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -62,6 +63,10 @@ export function of<M extends HKTS>(monad: StaticMonad<M>): <L, A>(a: A) => Eithe
   return <L, A>(a: A) => new EitherT<M, L, A>(monad, monad.of(either.of<L, A>(a)))
 }
 
+export function liftT<M extends HKTS>(monad: StaticMonad<M>): <L, A>(fa: HKT<A>[M]) => EitherT<M, L, A> {
+  return <L, A>(fa: HKT<A>[M]) => new EitherT<M, L, A>(monad, monad.map<A, Either<L, A>>(a => either.right<L, A>(a), fa))
+}
+
 export function map<M extends HKTS, L, A, B>(f: (a: A) => B, fa: EitherT<M, L, A>): EitherT<M, L, B> {
   return fa.map(f)
 }
@@ -88,3 +93,10 @@ export function right<M extends HKTS>(monad: StaticMonad<M>): <L, A>(ma: HKT<A>[
 export function left<M extends HKTS>(monad: StaticMonad<M>): <L, A>(ml: HKT<L>[M]) => EitherT<M, L, A> {
   return <L, A>(ml: HKT<L>[M]) => new EitherT<M, L, A>(monad, monad.map((l: L) => either.left<L, A>(l), ml))
 }
+
+// tslint:disable-next-line no-unused-expression
+;(
+  { liftT } as (
+    StaticTrans<URI>
+  )
+)

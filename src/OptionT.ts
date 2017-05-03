@@ -3,6 +3,7 @@ import { FantasyMonad, StaticMonad } from './Monad'
 import { Option } from './Option'
 import * as option from './Option'
 import { Lazy } from './function'
+import { StaticTrans } from './Trans'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -56,6 +57,10 @@ export function of<M extends HKTS>(monad: StaticMonad<M>): <A>(a: A) => OptionT<
   return <A>(a: A) => new OptionT<M, A>(monad, monad.of(option.of(a)))
 }
 
+export function liftT<M extends HKTS>(monad: StaticMonad<M>): <A>(fa: HKT<A>[M]) => OptionT<M, A> {
+  return <A>(fa: HKT<A>[M]) => new OptionT<M, A>(monad, monad.map<A, Option<A>>(a => option.some(a), fa))
+}
+
 export function map<M extends HKTS, A, B>(f: (a: A) => B, fa: OptionT<M, A>): OptionT<M, B> {
   return fa.map(f)
 }
@@ -72,12 +77,15 @@ export function fromOption<M extends HKTS>(monad: StaticMonad<M>): <A>(value: Op
   return <A>(value: Option<A>) => new OptionT<M, A>(monad, monad.of(value))
 }
 
-export function liftT<M extends HKTS>(monad: StaticMonad<M>): <A>(fa: HKT<A>[M]) => OptionT<M, A> {
-  return <A>(fa: HKT<A>[M]) => new OptionT<M, A>(monad, monad.map<A, Option<A>>(a => option.some(a), fa))
-}
-
 export const some = of
 
 export function none<M extends HKTS>(monad: StaticMonad<M>): OptionT<M, any> {
   return new OptionT<M, any>(monad, monad.of(option.none))
 }
+
+// tslint:disable-next-line no-unused-expression
+;(
+  { liftT } as (
+    StaticTrans<URI>
+  )
+)
