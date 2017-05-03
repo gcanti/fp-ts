@@ -1,6 +1,7 @@
 import { HKT, HKTS } from './HKT'
 import { FantasyMonad, StaticMonad } from './Monad'
 import { Kleisli, Endomorphism } from './function'
+import { StaticTrans } from './Trans'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -39,7 +40,7 @@ export class ReaderT<M extends HKTS, E, A> implements FantasyMonad<URI, A> {
   }
 }
 
-function flatten<M extends HKTS, E, A>(mma: ReaderT<M, E, ReaderT<M, E, A>>): ReaderT<M, E, A> {
+export function flatten<M extends HKTS, E, A>(mma: ReaderT<M, E, ReaderT<M, E, A>>): ReaderT<M, E, A> {
   const value = (e: E) => mma.monad.chain<ReaderT<M, E, A>, A>(r => r.run(e), mma.value(e))
   return new ReaderT<M, E, A>(mma.monad, value)
 }
@@ -48,6 +49,10 @@ export function of<M extends HKTS>(monad: StaticMonad<M>): <E, A>(a: A) => Reade
   return <E, A>(a: A) => {
     return new ReaderT<M, E, A>(monad, () => monad.of(a))
   }
+}
+
+export function liftT<M extends HKTS>(monad: StaticMonad<M>): <E, A>(fa: HKT<A>[M]) => ReaderT<M, E, A> {
+  return <E, A>(fa: HKT<A>[M]) => new ReaderT<M, E, A>(monad, () => fa)
 }
 
 export function map<M extends HKTS, E, A, B>(f: (a: A) => B, fa: ReaderT<M, E, A>): ReaderT<M, E, B> {
@@ -60,10 +65,6 @@ export function ap<M extends HKTS, E, A, B>(fab: ReaderT<M, E, (a: A) => B>, fa:
 
 export function chain<M extends HKTS, E, A, B>(f: (a: A) => ReaderT<M, E, B>, fa: ReaderT<M, E, A>): ReaderT<M, E, B> {
   return fa.chain(f)
-}
-
-export function liftT<M extends HKTS>(monad: StaticMonad<M>): <E, A>(fa: HKT<A>[M]) => ReaderT<M, E, A> {
-  return <E, A>(fa: HKT<A>[M]) => new ReaderT<M, E, A>(monad, () => fa)
 }
 
 /** reads the current context */
@@ -80,3 +81,10 @@ export function asks<M extends HKTS>(monad: StaticMonad<M>): <E, A>(f: (e: E) =>
 export function local<M extends HKTS>(monad: StaticMonad<M>): <E, A>(f: Endomorphism<E>, fa: ReaderT<M, E, A>) => ReaderT<M, E, A> {
   return <E, A>(f: Endomorphism<E>, fa: ReaderT<M, E, A>) => new ReaderT<M, E, A>(monad, (e: E) => fa.run(f(e)))
 }
+
+// tslint:disable-next-line no-unused-expression
+;(
+  { liftT } as (
+    StaticTrans<URI>
+  )
+)
