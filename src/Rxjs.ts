@@ -24,7 +24,7 @@ export function concat<A>(x: Observable<A>, y: Observable<A>): Observable<A> {
 }
 
 export function empty<A>(): Observable<A> {
-  return Observable.empty()
+  return Observable.empty<A>()
 }
 
 export function map<A, B>(f: (a: A) => B, fa: Observable<A>): Observable<B> {
@@ -48,7 +48,7 @@ export function alt<A>(x: Observable<A>, y: Observable<A>): Observable<A> {
 }
 
 export function zero<A>(): Observable<A> {
-  return Observable.empty()
+  return Observable.empty<A>()
 }
 
 // tslint:disable-next-line no-unused-expression
