@@ -7,6 +7,11 @@ A mix of
 
 See the section "Technical overview" below for an explanation of the technique.
 
+# Documentation
+
+- [OptionT](docs/OptionT.md)
+- [Free](docs/Free.md)
+
 # Algebraic types
 
 |     | Array | Option | Either | NEA(*) | Task | Const | Identity | Validation |
@@ -48,6 +53,12 @@ See the section "Technical overview" below for an explanation of the technique.
 
 - Identity
 - Traced
+
+# Monad transformers
+
+- EitherT
+- OptionT
+- ReaderT
 
 # Technical overview
 
