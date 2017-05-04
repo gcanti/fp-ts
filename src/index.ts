@@ -26,6 +26,8 @@ import * as dictionary from './Dictionary'
 export { dictionary }
 import * as either from './Either'
 export { either }
+import * as eitherT from './EitherT'
+export { eitherT }
 import * as extend from './Extend'
 export { extend }
 import * as foldable from './Foldable'
@@ -46,10 +48,14 @@ import * as monad from './Monad'
 export { monad }
 import * as monoid from './Monoid'
 export { monoid }
+import * as naturalTransformation from './NaturalTransformation'
+export { naturalTransformation }
 import * as nonEmptyArray from './NonEmptyArray'
 export { nonEmptyArray }
 import * as option from './Option'
 export { option }
+import * as optionT from './OptionT'
+export { optionT }
 import * as ord from './Ord'
 export { ord }
 import * as ordering from './Ordering'
@@ -60,6 +66,8 @@ import * as pointed from './Pointed'
 export { pointed }
 import * as reader from './Reader'
 export { reader }
+import * as readerT from './ReaderT'
+export { readerT }
 import * as rxjs from './Rxjs'
 export { rxjs }
 import * as semigroup from './Semigroup'
@@ -74,6 +82,8 @@ import * as task from './Task'
 export { task }
 import * as traced from './Traced'
 export { traced }
+import * as trans from './Trans'
+export { trans }
 import * as traversable from './Traversable'
 export { traversable }
 import * as tuple from './Tuple'

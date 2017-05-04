@@ -12,10 +12,16 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.2.6
+
+- **Polish**
+  - expose experimental modules (@danielepolencic, @gcanti)
+
 # 0.2.5
 
 - **New Feature**
   - add `getOrElse` to `Either`, fix #39 (@sledorze)
+  - add composition of functors, applicatives, foldables, traversables, fix #53 (@gcanti)
 - **Experimental**
   - add `EitherT`, fix #36 (@gcanti)
   - add `OptionT`, fix #37 (@gcanti)
