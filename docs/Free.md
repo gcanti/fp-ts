@@ -113,7 +113,7 @@ export function interpretIdentity(fa: Instruction): identity.Identity<free.TypeO
       return identity.of(computation.right(fa.position, fa.degree))
     case 'Show' :
       console.log('interpretIdentity', fa.position)
-      return identity.of(fa.position)
+      return identity.of(undefined)
   }
 }
 
@@ -142,7 +142,7 @@ export function interpretOption(fa: Instruction): option.Option<free.TypeOf<type
       return nonNegative(computation.right(fa.position, fa.degree))
     case 'Show' :
       console.log('interpretOption', fa.position)
-      return option.some(fa.position)
+      return option.some(undefined)
   }
 }
 
