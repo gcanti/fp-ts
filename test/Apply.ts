@@ -1,13 +1,23 @@
 import {
   liftA2,
   liftA3,
-  liftA4
+  liftA4,
+  applyFirst,
+  applySecond
 } from '../src/Apply'
 import * as option from '../src/Option'
 import * as either from '../src/Either'
 import { eqOptions, eqEithers } from './helpers'
 
 describe('Apply', () => {
+
+  it('applyFirst', () => {
+    eqOptions(applyFirst(option, option.some(5), option.some(6)), option.some(5))
+  })
+
+  it('applySecond', () => {
+    eqOptions(applySecond(option, option.some(5), option.some(6)), option.some(6))
+  })
 
   it('liftA2', () => {
     const f = (a: number) => (b: number) => a + b
