@@ -1,6 +1,6 @@
 import { HKT, HKTS, HKT2, HKT2S } from './HKT'
 import { StaticFunctor, FantasyFunctor } from './Functor'
-import { Curried2, Curried3, Curried4 } from './function'
+import { Curried2, Curried3, Curried4, identity } from './function'
 
 export interface StaticApply<F extends HKTS> extends StaticFunctor<F> {
   ap<A, B>(fab: HKT<(a: A) => B>[F], fa: HKT<A>[F]): HKT<B>[F]
@@ -8,6 +8,18 @@ export interface StaticApply<F extends HKTS> extends StaticFunctor<F> {
 
 export interface FantasyApply<F extends HKTS, A> extends FantasyFunctor<F, A> {
   ap<B>(fab: FantasyApply<F, (a: A) => B>): HKT<B>[F]
+}
+
+export function applySecond<F extends HKT2S>(apply: StaticApply<F>): <L, A, B>(fa: HKT2<L, A>[F], fb: HKT2<L, B>[F]) => HKT2<L, B>[F]
+export function applySecond<F extends HKTS>(apply: StaticApply<F>): <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<B>[F]
+export function applySecond<F extends HKTS>(apply: StaticApply<F>): <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<B>[F] {
+  return <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => apply.ap<B, B>(apply.map(() => identity, fa), fb)
+}
+
+export function applyFirst<F extends HKT2S>(apply: StaticApply<F>): <L, A, B>(fa: HKT2<L, A>[F], fb: HKT2<L, B>[F]) => HKT2<L, A>[F]
+export function applyFirst<F extends HKTS>(apply: StaticApply<F>): <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<A>[F]
+export function applyFirst<F extends HKTS>(apply: StaticApply<F>): <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<A>[F] {
+  return <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => apply.ap<A, A>(apply.map(() => identity, fb), fa)
 }
 
 export function liftA2<F extends HKT2S, A, B, C>(apply: StaticApply<F>, f: Curried2<A, B, C>): <P1>(fa: HKT2<P1, A>[F], fb: HKT2<P1, B>[F]) => HKT2<P1, C>[F]
