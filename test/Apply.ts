@@ -12,11 +12,11 @@ import { eqOptions, eqEithers } from './helpers'
 describe('Apply', () => {
 
   it('applyFirst', () => {
-    eqOptions(applyFirst(option, option.some(5), option.some(6)), option.some(5))
+    eqOptions(applyFirst(option)(option.some(5), option.some(6)), option.some(5))
   })
 
   it('applySecond', () => {
-    eqOptions(applySecond(option, option.some(5), option.some(6)), option.some(6))
+    eqOptions(applySecond(option)(option.some(5), option.some(6)), option.some(6))
   })
 
   it('liftA2', () => {

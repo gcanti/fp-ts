@@ -10,12 +10,16 @@ export interface FantasyApply<F extends HKTS, A> extends FantasyFunctor<F, A> {
   ap<B>(fab: FantasyApply<F, (a: A) => B>): HKT<B>[F]
 }
 
-export function applySecond<F extends HKTS, A, B>(apply: StaticApply<F>, a: HKT<A>[F], b: HKT<B>[F]): HKT<B>[F] {
-  return apply.ap<B, B>(apply.map<A, <X>(_x: X) => X>(() => identity, a), b)
+export function applySecond<F extends HKT2S>(apply: StaticApply<F>): <L, A, B>(fa: HKT2<L, A>[F], fb: HKT2<L, B>[F]) => HKT2<L, B>[F]
+export function applySecond<F extends HKTS>(apply: StaticApply<F>): <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<B>[F]
+export function applySecond<F extends HKTS>(apply: StaticApply<F>): <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<B>[F] {
+  return <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => apply.ap<B, B>(apply.map(() => identity, fa), fb)
 }
 
-export function applyFirst<F extends HKTS, A, B>(apply: StaticApply<F>, a: HKT<A>[F], b: HKT<B>[F]): HKT<A>[F] {
-  return apply.ap<A, A>(apply.map<B, <X>(_x: X) => X>(() => identity, b), a)
+export function applyFirst<F extends HKT2S>(apply: StaticApply<F>): <L, A, B>(fa: HKT2<L, A>[F], fb: HKT2<L, B>[F]) => HKT2<L, A>[F]
+export function applyFirst<F extends HKTS>(apply: StaticApply<F>): <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<A>[F]
+export function applyFirst<F extends HKTS>(apply: StaticApply<F>): <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => HKT<A>[F] {
+  return <A, B>(fa: HKT<A>[F], fb: HKT<B>[F]) => apply.ap<A, A>(apply.map(() => identity, fb), fa)
 }
 
 export function liftA2<F extends HKT2S, A, B, C>(apply: StaticApply<F>, f: Curried2<A, B, C>): <P1>(fa: HKT2<P1, A>[F], fb: HKT2<P1, B>[F]) => HKT2<P1, C>[F]
