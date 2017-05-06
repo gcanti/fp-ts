@@ -1,5 +1,5 @@
 import { Semigroup, getProductSemigroup, getDualSemigroup, fold as foldSemigroup } from './Semigroup'
-import { constant } from './function'
+import { constant, Endomorphism, identity, compose } from './function'
 
 export interface Monoid<A> extends Semigroup<A> {
   empty(): A
@@ -62,4 +62,11 @@ export function getFunctionMonoid<M>(monoid: Monoid<M>): <A>() => Monoid<(a: A) 
     empty,
     concat: (f, g) => a => monoid.concat(f(a), g(a))
   })
+}
+
+export function getEndomorphismMonoid<A>(): Monoid<Endomorphism<A>> {
+  return {
+    empty: () => identity,
+    concat: (x, y) => compose(x, y)
+  }
 }
