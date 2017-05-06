@@ -19,6 +19,7 @@ describe('Apply', () => {
     eqEithers(applyFirst(either)(either.right(1), either.right(2)), either.right(1))
     eqEithers(applyFirst(either)(either.left(3), either.right(4)), either.left(3))
     eqEithers(applyFirst(either)(either.right(5), either.left(6)), either.left(6))
+    eqEithers(applyFirst(either)(either.left(7), either.left(8)), either.left(7))
   })
 
   it('applySecond', () => {
@@ -29,6 +30,7 @@ describe('Apply', () => {
     eqEithers(applySecond(either)(either.right(1), either.right(2)), either.right(2))
     eqEithers(applySecond(either)(either.left(3), either.right(4)), either.left(3))
     eqEithers(applySecond(either)(either.right(5), either.left(6)), either.left(6))
+    eqEithers(applySecond(either)(either.left(7), either.left(8)), either.left(7))
   })
 
   it('liftA2', () => {

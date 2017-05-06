@@ -32,6 +32,7 @@ describe('Either', () => {
     eq(ap(right(f), right('abc')), right(3))
     eq(ap(right(f), left('s')), left('s'))
     eq(ap(left<any, any>(f), right('abc')), left(f))
+    eq(ap(left<any, any>(f), left('abc')), left(f))
   })
 
   it('chain', () => {
