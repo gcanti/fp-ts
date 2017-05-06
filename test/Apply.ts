@@ -13,10 +13,22 @@ describe('Apply', () => {
 
   it('applyFirst', () => {
     eqOptions(applyFirst(option)(option.some(5), option.some(6)), option.some(5))
+    eqOptions(applyFirst(option)(option.some(5), option.empty()), option.empty())
+    eqOptions(applyFirst(option)(option.empty(), option.some(6)), option.empty())
+
+    eqEithers(applyFirst(either)(either.right(1), either.right(2)), either.right(1))
+    eqEithers(applyFirst(either)(either.left(3), either.right(4)), either.left(3))
+    eqEithers(applyFirst(either)(either.right(5), either.left(6)), either.left(6))
   })
 
   it('applySecond', () => {
     eqOptions(applySecond(option)(option.some(5), option.some(6)), option.some(6))
+    eqOptions(applySecond(option)(option.some(5), option.empty()), option.empty())
+    eqOptions(applySecond(option)(option.empty(), option.some(6)), option.empty())
+
+    eqEithers(applySecond(either)(either.right(1), either.right(2)), either.right(2))
+    eqEithers(applySecond(either)(either.left(3), either.right(4)), either.left(3))
+    eqEithers(applySecond(either)(either.right(5), either.left(6)), either.left(6))
   })
 
   it('liftA2', () => {
