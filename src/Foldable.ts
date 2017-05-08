@@ -33,3 +33,18 @@ export function getFoldableComposition<FG extends HKTS>(URI: FG): <F extends HKT
     }
   }
 }
+
+/**
+ * Fold a data structure, accumulating values in some `Monoid`,
+ * combining adjacent elements using the specified separator
+ */
+export function intercalate<F extends HKTS, M>(foldable: StaticFoldable<F>, monoid: StaticMonoid<M>): (sep: M, fm: HKT<M>[F]) => M {
+  return (sep, fm) => {
+    function go({ init, acc }: { init: boolean, acc: M }, x: M): { init: boolean, acc: M } {
+      return init ?
+        { init: false, acc: x } :
+        { init: false, acc: monoid.concat(monoid.concat(acc, sep), x) }
+    }
+    return foldable.reduce(go, { init: true, acc: monoid.empty() }, fm).acc
+  }
+}
