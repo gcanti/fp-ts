@@ -47,7 +47,7 @@ export class Left<L, A> implements
     return of<L2, B>(b)
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
-    return this as any
+    return (isLeft(fab) ? fab : this) as any
   }
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
     return this as any
