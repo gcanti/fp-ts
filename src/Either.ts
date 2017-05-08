@@ -75,7 +75,6 @@ export class Left<L, A> implements
   getOrElse(f: Lazy<A>): A {
     return f()
   }
-
   equals(setoid: StaticSetoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constTrue, constFalse)
   }
@@ -142,11 +141,9 @@ export class Right<L, A> implements
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return right(this.value)
   }
-
   getOrElse(f: Lazy<A>): A {
     return this.value
   }
-
   equals(setoid: StaticSetoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
   }

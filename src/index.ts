@@ -80,6 +80,8 @@ import * as state from './State'
 export { state }
 import * as task from './Task'
 export { task }
+import * as these from './These'
+export { these }
 import * as traced from './Traced'
 export { traced }
 import * as trans from './Trans'
