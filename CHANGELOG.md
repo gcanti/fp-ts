@@ -12,6 +12,16 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.2.7
+
+- **New Feature**
+  - `Foldable` module: add `intercalate` function, fix #65 (@gcanti)
+  - Add `Profunctor` typeclass, fix #33 (@gcanti, @sledorze)
+  - Add `These`, fix #47 (@gcanti)
+  - `Apply` module: add `applyFirst` and `applySecond`, fix #60 (@sledorze)
+- **Bug Fix**
+  - fix `Either.ap` (@sledorze)
+
 # 0.2.6
 
 - **Polish**
