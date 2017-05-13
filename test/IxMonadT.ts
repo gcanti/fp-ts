@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import * as ixio from '../src/IxIO'
+import { IxMonadT } from '../src/IxMonadT'
 import * as io from '../src/IO'
 
 //
@@ -22,40 +22,46 @@ const log: Array<string> = []
 // A  represents the return type of the operation
 // I represents the input state (the precondition)
 // O represents output state (the postcondition)
-class Operation<I extends DoorState, O extends DoorState, A> extends ixio.IxIO<I, O, A> {
-  constructor(a: A, o: O) {
-    super(i => new io.IO(() => {
-      log.push(`The door was ${i} and now is ${o}`)
-      return [a, o] as [A, O]
-    }))
+class Operation<I extends DoorState, O extends DoorState, A> extends IxMonadT<io.URI, I, O, A> {
+  constructor(ma: io.IO<A>) {
+    super(io, ma)
   }
 }
 
 class Open extends Operation<'Closed', 'Open', void> {
   constructor() {
-    super(undefined, 'Open')
+    super(new io.IO(() => {
+      log.push(`Opening the door`)
+      return undefined
+    }))
   }
 }
 class Close extends Operation<'Open', 'Closed', void> {
   constructor() {
-    super(undefined, 'Closed')
+    super(new io.IO(() => {
+      log.push(`Closing the door`)
+      return undefined
+    }))
   }
 }
 class RingBell extends Operation<'Closed', 'Closed', void> {
   constructor() {
-    super(undefined, 'Closed')
+    super(new io.IO(() => {
+      log.push(`Ringing the bell`)
+      return undefined
+    }))
   }
 }
 
-describe('IxIO', () => {
+describe('IxMonadT', () => {
 
   it('should run', () => {
     const action = new Open().ichain(() => new Close()).ichain(() => new RingBell())
-    action.run('Closed').run()
+    action.value.run()
     assert.deepEqual(log, [
-      'The door was Closed and now is Open',
-      'The door was Open and now is Closed',
-      'The door was Closed and now is Closed'
+      'Opening the door',
+      'Closing the door',
+      'Ringing the bell'
     ])
   })
 
