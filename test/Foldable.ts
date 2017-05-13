@@ -2,10 +2,13 @@ import * as assert from 'assert'
 import {
   toArray,
   getFoldableComposition,
-  intercalate
+  intercalate,
+  traverse_,
+  sequence_
 } from '../src/Foldable'
 import * as array from '../src/Array'
 import * as option from '../src/Option'
+import * as io from '../src/IO'
 import { monoidString } from '../src/Monoid'
 
 export const ArrayOptionURI = 'ArrayOption'
@@ -39,6 +42,24 @@ describe('Foldable', () => {
       option.none,
       option.some('b')
     ]), 'a b')
+  })
+
+  it('traverse_', () => {
+    let counter = ''
+    const x = traverse_(io, array)(a => new io.IO(() => counter += a), ['a', 'b', 'c'])
+    x.run()
+    assert.strictEqual(counter, 'abc')
+  })
+
+  it('sequence_', () => {
+    let counter = ''
+    const x = sequence_(io, array)([
+      new io.IO(() => counter += 'a'),
+      new io.IO(() => counter += 'b'),
+      new io.IO(() => counter += 'c')
+    ])
+    x.run()
+    assert.strictEqual(counter, 'abc')
   })
 
 })
