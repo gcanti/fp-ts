@@ -21,7 +21,7 @@ declare module '../src/HKT' {
 describe('Foldable', () => {
 
   it('toArray', () => {
-    assert.deepEqual(toArray(array, [1, 2, 3]), [3, 2, 1])
+    assert.deepEqual(toArray(array, [1, 2, 3]), [1, 2, 3])
   })
 
   it('getFoldableComposition', () => {

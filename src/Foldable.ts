@@ -1,5 +1,5 @@
 import { HKT, HKTS } from './HKT'
-import { StaticMonoid, monoidArray } from './Monoid'
+import { StaticMonoid } from './Monoid'
 
 export interface StaticFoldable<F extends HKTS> {
   readonly URI: F
@@ -17,7 +17,7 @@ export function foldMap<F extends HKTS, M, A>(foldable: StaticFoldable<F>, monoi
 }
 
 export function toArray<F extends HKTS, A>(foldable: StaticFoldable<F>, fa: HKT<A>[F]): Array<A> {
-  return foldMap<F, Array<A>, A>(foldable, monoidArray, a => [a], fa)
+  return foldable.reduce<A, Array<A>>((b, a) => b.concat([a]), [], fa)
 }
 
 /** returns the composition of two foldables */
