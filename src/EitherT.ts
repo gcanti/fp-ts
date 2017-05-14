@@ -79,6 +79,16 @@ export function chain<M extends HKTS, L, A, B>(f: (a: A) => EitherT<M, L, B>, fa
   return fa.chain(f)
 }
 
+export function getStaticMonad<M extends HKTS>(monad: StaticMonad<M>): StaticMonad<URI> {
+  return {
+    URI,
+    of: of(monad),
+    map,
+    ap,
+    chain
+  }
+}
+
 export function bimap<M extends HKTS>(monad: StaticMonad<M>): <L, L2, A, B>(f: (l: L) => L2, g: (a: A) => B, fa: EitherT<M, L, A>) => EitherT<M, L2, B> {
   return <L, L2, A, B>(f: (l: L) => L2, g: (a: A) => B, fa: EitherT<M, L, A>) =>
     new EitherT(monad, monad.map<Either<L, A>, Either<L2, B>>(e => e.bimap(f, g), fa.value))

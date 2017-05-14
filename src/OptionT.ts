@@ -73,6 +73,16 @@ export function chain<M extends HKTS, A, B>(f: (a: A) => OptionT<M, B>, fa: Opti
   return fa.chain(f)
 }
 
+export function getStaticMonad<M extends HKTS>(monad: StaticMonad<M>): StaticMonad<URI> {
+  return {
+    URI,
+    of: of(monad),
+    map,
+    ap,
+    chain
+  }
+}
+
 export function fromOption<M extends HKTS>(monad: StaticMonad<M>): <A>(value: Option<A>) => OptionT<M, A> {
   return <A>(value: Option<A>) => new OptionT<M, A>(monad, monad.of(value))
 }
