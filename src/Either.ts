@@ -176,7 +176,8 @@ export function getOrElse<L, A>(f: () => A, fa: Either<L, A>): A {
 export function map<L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> {
   return fa.map(f)
 }
-export function of<L, A>(a: A): Right<L, A> {
+
+export function of<L, A>(a: A): Either<L, A> {
   return new Right<L, A>(a)
 }
 
