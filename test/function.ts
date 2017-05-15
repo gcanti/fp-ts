@@ -4,7 +4,9 @@ import {
   pipe,
   curry,
   flip,
-  on
+  on,
+  or,
+  and
 } from '../src/function'
 
 const f = (n: number) => n + 1
@@ -54,6 +56,48 @@ describe('function', () => {
     assert.strictEqual(h5(1)(2)(3)(4)(5), 15)
     const snoc = (as: Array<number>, a: number) => as.concat(a)
     assert.deepEqual(curry(snoc)([1, 2, 3])(4), [1, 2, 3, 4])
+  })
+
+  it('or', () => {
+    // as predicate
+    const gt3 = (n: number) => n > 3
+    const lt2 = (n: number) => n < 2
+    const outside2and3 = or(lt2, gt3)
+    assert.strictEqual(outside2and3(1), true)
+    assert.strictEqual(outside2and3(4), true)
+    assert.strictEqual(outside2and3(2.5), false)
+
+    // as custom guard
+    class A {
+    }
+    class B extends A {
+      _tag = 'B' as 'B'
+    }
+    class C extends A {
+      _tag = 'C' as 'C'
+    }
+    const isB = (a: A): a is B => a instanceof B
+    const isC = (a: A): a is C => a instanceof C
+    const isBOrC = or(isB, isC)
+    function f(a: any): 'B' | 'C' | 'else' {
+      if (isBOrC(a)) {
+        return a._tag
+      }
+      return 'else'
+    }
+    assert.strictEqual(f(new A()), 'else')
+    assert.strictEqual(f(new B()), 'B')
+    assert.strictEqual(f(new C()), 'C')
+  })
+
+  it('and', () => {
+    // as predicate
+    const lt3 = (n: number) => n < 3
+    const gt2 = (n: number) => n > 2
+    const between2and3 = and(gt2, lt3)
+    assert.strictEqual(between2and3(1), false)
+    assert.strictEqual(between2and3(4), false)
+    assert.strictEqual(between2and3(2.5), true)
   })
 
 })

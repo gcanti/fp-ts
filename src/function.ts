@@ -23,8 +23,20 @@ export type Curried9<A, B, C, D, E, F, G, H, I, J> = (a: A) => (b: B) => (c: C) 
 
 export type Predicate<A> = (a: A) => boolean
 
+export type Refinement<A, B extends A> = (a: A) => a is B
+
 export function not<A>(predicate: Predicate<A>): Predicate<A> {
   return a => !predicate(a)
+}
+
+export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
+export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
+export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
+  return a => p1(a) || p2(a)
+}
+
+export function and<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
+  return a => p1(a) && p2(a)
 }
 
 export type Endomorphism<A> = (a: A) => A
