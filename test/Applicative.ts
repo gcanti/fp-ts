@@ -1,13 +1,15 @@
 import * as assert from 'assert'
 
 import {
-  getApplicativeComposition
+  getApplicativeComposition,
+  when
 } from '../src/Applicative'
 import * as validation from '../src/Validation'
 import * as task from '../src/Task'
 import { monoidString } from '../src/Monoid'
 import { sequence } from '../src/Traversable'
 import * as array from '../src/Array'
+import * as io from '../src/IO'
 
 export const TaskValidationURI = 'TaskValidation'
 
@@ -55,6 +57,15 @@ describe('Applicative', () => {
         assert.ok(false)
       }
     })
+  })
+
+  it('when', () => {
+    const log: Array<string> = []
+    const action = new io.IO(() => { log.push('action called') })
+    when(io)(false, action).run()
+    assert.deepEqual(log, [])
+    when(io)(true, action).run()
+    assert.deepEqual(log, ['action called'])
   })
 
 })

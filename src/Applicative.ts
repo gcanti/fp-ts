@@ -27,3 +27,10 @@ export function getApplicativeComposition<FG extends HKTS>(URI: FG): <F extends 
     }
   }
 }
+
+/** Perform a applicative action when a condition is true */
+export function when<F extends HKTS>(applicative: StaticApplicative<F>): (condition: boolean, fu: HKT<void>[F]) => HKT<void>[F] {
+  return (condition: boolean, fu: HKT<void>[F]) => {
+    return condition ? fu : applicative.of(undefined)
+  }
+}
