@@ -67,6 +67,16 @@ export function chain<M extends HKTS, E, A, B>(f: (a: A) => ReaderT<M, E, B>, fa
   return fa.chain(f)
 }
 
+export function getStaticMonad<M extends HKTS>(monad: StaticMonad<M>): StaticMonad<URI> {
+  return {
+    URI,
+    of: of(monad),
+    map,
+    ap,
+    chain
+  }
+}
+
 /** reads the current context */
 export function ask<M extends HKTS, E>(monad: StaticMonad<M>): ReaderT<M, E, E> {
   return new ReaderT<M, E, E>(monad, e => monad.of(e))
