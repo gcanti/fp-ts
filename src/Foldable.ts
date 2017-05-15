@@ -1,5 +1,8 @@
 import { HKT, HKTS } from './HKT'
-import { StaticMonoid, monoidArray } from './Monoid'
+import { StaticMonoid } from './Monoid'
+import { StaticApplicative } from './Applicative'
+import { applyFirst } from './Apply'
+import { identity } from './function'
 
 export interface StaticFoldable<F extends HKTS> {
   readonly URI: F
@@ -17,7 +20,7 @@ export function foldMap<F extends HKTS, M, A>(foldable: StaticFoldable<F>, monoi
 }
 
 export function toArray<F extends HKTS, A>(foldable: StaticFoldable<F>, fa: HKT<A>[F]): Array<A> {
-  return foldMap<F, Array<A>, A>(foldable, monoidArray, a => [a], fa)
+  return foldable.reduce<A, Array<A>>((b, a) => b.concat([a]), [], fa)
 }
 
 /** returns the composition of two foldables */
@@ -47,4 +50,14 @@ export function intercalate<F extends HKTS, M>(foldable: StaticFoldable<F>, mono
     }
     return foldable.reduce(go, { init: true, acc: monoid.empty() }, fm).acc
   }
+}
+
+export function traverse_<M extends HKTS, F extends HKTS>(applicative: StaticApplicative<M>, foldable: StaticFoldable<F>): <A, B>(f: (a: A) => HKT<B>[M], fa: HKT<A>[F]) => HKT<void>[M] {
+  return <A, B>(f: (a: A) => HKT<B>[M], fa: HKT<A>[F]) => toArray<F, A>(foldable, fa)
+    .reduce((mu, a) => applyFirst(applicative)<undefined, B>(mu, f(a)), applicative.of(undefined))
+}
+
+export function sequence_<M extends HKTS, F extends HKTS>(applicative: StaticApplicative<M>, foldable: StaticFoldable<F>): <A>(fa: HKT<A>[F]) => HKT<void>[M] {
+  const t = traverse_(applicative, foldable)
+  return <A>(fa: HKT<A>[F]) => t(identity, fa)
 }
