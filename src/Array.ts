@@ -10,7 +10,7 @@ import { liftA2 } from './Apply'
 import { Option } from './Option'
 import * as option from './Option'
 import { StaticOrd, toNativeComparator } from './Ord'
-import { Predicate, identity, constant, curry, Lazy, Endomorphism } from './function'
+import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement } from './function'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -164,6 +164,10 @@ export function findIndex<A>(predicate: Predicate<A>, as: Array<A>): Option<numb
 
 export function filter<A>(predicate: Predicate<A>, as: Array<A>): Array<A> {
   return as.filter(predicate)
+}
+
+export function refine<A>(as: Array<A>): <B extends A>(refinement: Refinement<A, B>) => Array<B> {
+  return <B extends A>(refinement: Refinement<A, B>) => as.filter(refinement) as Array<B>
 }
 
 export function copy<A>(as: Array<A>): Array<A> {

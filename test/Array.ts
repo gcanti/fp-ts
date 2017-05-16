@@ -129,4 +129,11 @@ describe('Arr', () => {
     assert.deepEqual(arr.sort(numberOrd, [3, 2, 1]), [1, 2, 3])
   })
 
+  it('refine', () => {
+    const x = arr.refine([option.some(3), option.some(2), option.some(1)])(option.isSome)
+    assert.deepEqual(x, [option.some(3), option.some(2), option.some(1)])
+    const y = arr.refine([option.some(3), option.none, option.some(1)])(option.isSome)
+    assert.deepEqual(y, [option.some(3), option.some(1)])
+  })
+
 })
