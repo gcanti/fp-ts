@@ -12,6 +12,19 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.2.8
+
+- **New Feature**
+  - Monoid: add `getFunctionStaticMonoid`, closes #70 (@gcanti)
+  - Foldable: add `traverse_` and `sequence_`, closes #71 (@gcanti)
+  - add `getStaticMonad` to `EitherT`, `OptionT`, `ReaderT`, closes #81 (@gcanti)
+  - Applicative: add `when`, closes #77 (@gcanti)
+  - indexed monad type class and `IxMonadT`, closes #73 (@gcanti)
+  - Array / function: add refinements, closes #68 (@gcanti, @sledorze)
+- **Bug Fix**
+  - Either: `of` should return `Either`, fix #80 (@gcanti)
+  - fix `toArray` (@gcanti)
+
 # 0.2.7
 
 - **New Feature**
