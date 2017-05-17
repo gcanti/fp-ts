@@ -1,3 +1,7 @@
+[![build status](https://img.shields.io/travis/gcanti/fp-ts/master.svg?style=flat-square)](https://travis-ci.org/gcanti/fp-ts)
+[![dependency status](https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square)](https://david-dm.org/gcanti/fp-ts)
+![npm downloads](https://img.shields.io/npm/dm/fp-ts.svg)
+
 A mix of
 
 - [fantasy-land](https://github.com/fantasyland/fantasy-land)
