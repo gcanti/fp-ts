@@ -3,7 +3,7 @@ import {
   Task
 } from '../src/Task'
 
-const delay = <A>(n: number, a: A): Task<A> => new Task<A>(() => new Promise(resolve => {
+const delay = <A>(n: number, a: A): Task<A> => new Task<A>(() => new Promise<A>(resolve => {
   setTimeout(() => resolve(a), n)
 }))
 

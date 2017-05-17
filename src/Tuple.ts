@@ -135,6 +135,10 @@ export function swap<A, B>(ab: Tuple<A, B>): Tuple<B, A> {
   return [ab[1], ab[0]]
 }
 
+export function tuple<A>(a: A): <B>(b: B) => Tuple<A, B> {
+  return <B>(b: B) => [a, b] as [A, B]
+}
+
 // tslint:disable-next-line no-unused-expression
 ;(
   { compose, map, bimap, extract, extend, reduce } as (
