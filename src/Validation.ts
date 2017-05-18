@@ -193,14 +193,6 @@ export function ap<L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A
   return fa.ap(fab)
 }
 
-/** deprecated */
-export function getStaticApplicative<L>(semigroup: StaticSemigroup<L>): StaticApplicative<URI> {
-  return { URI, map, of, ap }
-}
-
-/** deprecated */
-export const getApplicativeS = getStaticApplicative
-
 export function bimap<L, L2, A, B>(semigroup: StaticSemigroup<L2>, f: (l: L) => L2, g: (a: A) => B, fa: Validation<L, A>): Validation<L2, B> {
   return fa.bimap(semigroup, f, g)
 }
