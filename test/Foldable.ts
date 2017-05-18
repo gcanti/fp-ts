@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import {
   toArray,
+  foldMap,
   getFoldableComposition,
   intercalate,
   traverse_,
@@ -10,6 +11,7 @@ import * as array from '../src/Array'
 import * as option from '../src/Option'
 import * as io from '../src/IO'
 import { monoidString } from '../src/Monoid'
+import { identity } from '../src/function'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -25,6 +27,10 @@ describe('Foldable', () => {
 
   it('toArray', () => {
     assert.deepEqual(toArray(array, [1, 2, 3]), [1, 2, 3])
+  })
+
+  it('foldMap', () => {
+    assert.deepEqual(foldMap(array, monoidString, identity, ['a', 'b', 'c']), 'abc')
   })
 
   it('getFoldableComposition', () => {
