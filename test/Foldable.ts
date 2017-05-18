@@ -26,11 +26,11 @@ declare module '../src/HKT' {
 describe('Foldable', () => {
 
   it('toArray', () => {
-    assert.deepEqual(toArray(array, [1, 2, 3]), [1, 2, 3])
+    assert.deepEqual(toArray(array)([1, 2, 3]), [1, 2, 3])
   })
 
   it('foldMap', () => {
-    assert.deepEqual(foldMap(array, monoidString, identity, ['a', 'b', 'c']), 'abc')
+    assert.deepEqual(foldMap(array, monoidString)(identity, ['a', 'b', 'c']), 'abc')
   })
 
   it('getFoldableComposition', () => {

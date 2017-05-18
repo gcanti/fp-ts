@@ -54,9 +54,9 @@ const t2 = sequence(either, array)([either.right<string, number>(1)])
 
 import { replicate, replicateA } from '../src/Unfoldable'
 
-const a3 = replicate(array, 2, 's')
-const o5 = replicate(array, 2, option.some(1))
-const e6 = replicate(array, 2, either.right<string, number>(1))
+const a3 = replicate(array)(2, 's')
+const o5 = replicate(array)(2, option.some(1))
+const e6 = replicate(array)(2, either.right<string, number>(1))
 const o6 = replicateA(option, array)(2, option.some(1))
 const e7 = replicateA(either, array)(2, either.right<string, number>(1))
 
