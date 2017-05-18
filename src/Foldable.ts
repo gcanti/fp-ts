@@ -14,7 +14,6 @@ export interface FantasyFoldable<A> {
 }
 
 /** A default implementation of `foldMap` using `foldl`. */
-export function foldMap<F extends HKTS, M, A>(foldable: StaticFoldable<F>, monoid: StaticMonoid<M>, f: (a: A) => M, fa: HKT<A>[F]): M
 export function foldMap<F extends HKTS, M, A>(foldable: StaticFoldable<F>, monoid: StaticMonoid<M>, f: (a: A) => M, fa: HKT<A>[F]): M {
   return foldable.reduce((acc, x: A) => monoid.concat(f(x), acc), monoid.empty(), fa)
 }
