@@ -1,4 +1,4 @@
-import { HKT, HKTS } from './HKT'
+import { HKT, HKTS, HKT2, HKT2S } from './HKT'
 import { getFunctorComposition } from './Functor'
 import { StaticPointed, FantasyPointed } from './Pointed'
 import { StaticApply, FantasyApply } from './Apply'
@@ -29,6 +29,8 @@ export function getApplicativeComposition<FG extends HKTS>(URI: FG): <F extends 
 }
 
 /** Perform a applicative action when a condition is true */
+export function when<F extends HKT2S>(applicative: StaticApplicative<F>): <L>(condition: boolean, fu: HKT2<L, void>[F]) => HKT2<L, void>[F]
+export function when<F extends HKTS>(applicative: StaticApplicative<F>): (condition: boolean, fu: HKT<void>[F]) => HKT<void>[F]
 export function when<F extends HKTS>(applicative: StaticApplicative<F>): (condition: boolean, fu: HKT<void>[F]) => HKT<void>[F] {
   return (condition: boolean, fu: HKT<void>[F]) => {
     return condition ? fu : applicative.of(undefined)
