@@ -1,5 +1,7 @@
 import * as assert from 'assert'
-import { IxMonadT } from '../src/IxMonadT'
+import { iapplyFirst, iapplySecond } from '../src/IxMonad'
+import { IxIO } from '../src/IxIO'
+import * as ixio from '../src/IxIO'
 import * as io from '../src/IO'
 
 //
@@ -17,22 +19,22 @@ type DoorState =
 // operations
 //
 
-const log: Array<string> = []
+let log: Array<string> = []
 
 // A  represents the return type of the operation
 // I represents the input state (the precondition)
 // O represents output state (the postcondition)
-class Operation<I extends DoorState, O extends DoorState, A> extends IxMonadT<io.URI, I, O, A> {
+class Operation<I extends DoorState, O extends DoorState, A> extends IxIO<I, O, A> {
   constructor(ma: io.IO<A>) {
-    super(io, ma)
+    super(ma)
   }
 }
 
-class Open extends Operation<'Closed', 'Open', void> {
+class Open extends Operation<'Closed', 'Open', number> {
   constructor() {
     super(new io.IO(() => {
       log.push(`Opening the door`)
-      return undefined
+      return 1
     }))
   }
 }
@@ -53,15 +55,36 @@ class RingBell extends Operation<'Closed', 'Closed', void> {
   }
 }
 
-describe('IxMonadT', () => {
+describe('IxIO', () => {
 
   it('should run', () => {
+    log = []
     const action = new Open().ichain(() => new Close()).ichain(() => new RingBell())
-    action.value.run()
+    action.run()
     assert.deepEqual(log, [
       'Opening the door',
       'Closing the door',
       'Ringing the bell'
+    ])
+  })
+
+  it('iapplyFirst', () => {
+    log = []
+    const action = iapplyFirst(ixio)(new Open(), new Close())
+    action.run()
+    assert.deepEqual(log, [
+      'Opening the door',
+      'Closing the door'
+    ])
+  })
+
+  it('iapplySecond', () => {
+    log = []
+    const action = iapplySecond(ixio)(new Open(), new Close())
+    action.run()
+    assert.deepEqual(log, [
+      'Opening the door',
+      'Closing the door'
     ])
   })
 

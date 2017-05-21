@@ -42,6 +42,10 @@ import * as identity from './Identity'
 export { identity }
 import * as io from './IO'
 export { io }
+import * as ixIO from './IxIO'
+export { ixIO }
+import * as ixMonad from './IxMonad'
+export { ixMonad }
 import * as monad from './Monad'
 export { monad }
 import * as monoid from './Monoid'
