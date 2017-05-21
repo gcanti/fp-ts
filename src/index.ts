@@ -20,8 +20,6 @@ import * as const_ from './Const'
 export { const_ as const }
 import * as contravariant from './Contravariant'
 export { contravariant }
-import * as copointed from './Copointed'
-export { copointed }
 import * as dictionary from './Dictionary'
 export { dictionary }
 import * as either from './Either'
@@ -62,8 +60,6 @@ import * as ordering from './Ordering'
 export { ordering }
 import * as plus from './Plus'
 export { plus }
-import * as pointed from './Pointed'
-export { pointed }
 import * as profunctor from './Profunctor'
 export { profunctor }
 import * as reader from './Reader'

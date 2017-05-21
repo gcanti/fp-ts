@@ -1,11 +1,12 @@
 import { HKT, HKTS, HKT2, HKT2S } from './HKT'
 import { Cokleisli, identity } from './function'
+import { StaticFunctor, FantasyFunctor } from './Functor'
 
-export interface StaticExtend<F extends HKTS> {
+export interface StaticExtend<F extends HKTS> extends StaticFunctor<F> {
   extend<A, B>(f: Cokleisli<F, A, B>, ea: HKT<A>[F]): HKT<B>[F]
 }
 
-export interface FantasyExtend<F extends HKTS, A> {
+export interface FantasyExtend<F extends HKTS, A> extends FantasyFunctor<F, A> {
   extend<B>(f: Cokleisli<F, A, B>): HKT<B>[F]
 }
 

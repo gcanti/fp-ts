@@ -1,6 +1,5 @@
 import { HKT, HKTS, HKT2, HKT2S } from './HKT'
 import { StaticFunctor } from './Functor'
-import { StaticPointed } from './Pointed'
 import { StaticApplicative } from './Applicative'
 import { StaticSemigroup } from './Semigroup'
 import { FantasyApply } from './Apply'
@@ -257,7 +256,7 @@ export function toEitherNea<L, A>(fa: Validation<L, A>): Option<Validation<nea.N
 ;(
   { map, of, reduce, traverse, alt } as (
     StaticFunctor<URI> &
-    StaticPointed<URI> &
+    StaticApplicative<URI> &
     StaticFoldable<URI> &
     StaticTraversable<URI> &
     StaticAlt<URI>

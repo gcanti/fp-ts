@@ -1,11 +1,14 @@
 import { HKT, HKTS, HKT2, HKT2S } from './HKT'
 import { getFunctorComposition } from './Functor'
-import { StaticPointed, FantasyPointed } from './Pointed'
 import { StaticApply, FantasyApply } from './Apply'
 
-export interface StaticApplicative<F extends HKTS> extends StaticPointed<F>, StaticApply<F> {}
+export interface StaticApplicative<F extends HKTS> extends StaticApply<F> {
+  of<A>(a: A): HKT<A>[F]
+}
 
-export interface FantasyApplicative<F extends HKTS, A> extends FantasyPointed<F, A>, FantasyApply<F, A> {}
+export interface FantasyApplicative<F extends HKTS, A> extends FantasyApply<F, A> {
+  of<A>(a: A): HKT<A>[F]
+}
 
 /** returns the composition of two applicatives */
 export function getApplicativeComposition<FG extends HKTS>(URI: FG): <F extends HKTS, G extends HKTS>(applicativeF: StaticApplicative<F>, applicativeG: StaticApplicative<G>) => StaticApplicative<FG> {
