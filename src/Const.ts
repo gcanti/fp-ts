@@ -8,8 +8,8 @@ import { StaticSetoid } from './Setoid'
 import { identity } from './function'
 
 declare module './HKT' {
-  interface HKT<A> {
-    Const: Const<any, A>
+  interface HKT<A, U> {
+    Const: Const<U, A>
   }
   interface HKT2<A, B> {
     Const: Const<A, B>

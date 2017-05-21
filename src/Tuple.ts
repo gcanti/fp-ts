@@ -17,8 +17,8 @@ import { Cokleisli } from './function'
 // https://github.com/purescript/purescript-tuples
 
 declare module './HKT' {
-  interface HKT<A> {
-    Tuple: Tuple<any, A>
+  interface HKT<A, U> {
+    Tuple: Tuple<U, A>
   }
   interface HKT2<A, B> {
     Tuple: Tuple<A, B>

@@ -9,8 +9,8 @@ import { constFalse } from './function'
 // adapted from https://github.com/purescript-contrib/purescript-these
 
 declare module './HKT' {
-  interface HKT<A> {
-    These: These<any, A>
+  interface HKT<A, U> {
+    These: These<U, A>
   }
   interface HKT2<A, B> {
     These: These<A, B>

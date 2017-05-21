@@ -13,8 +13,8 @@ import { Either, left, right } from './Either'
 import * as nea from './NonEmptyArray'
 
 declare module './HKT' {
-  interface HKT<A> {
-    Validation: Validation<any, A>
+  interface HKT<A, U> {
+    Validation: Validation<U, A>
   }
   interface HKT2<A, B> {
     Validation: Validation<A, B>

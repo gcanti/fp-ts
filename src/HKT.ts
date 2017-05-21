@@ -1,10 +1,11 @@
-export interface HKT<A> {}
+export interface HKT<A, U = any, V = any> {
+}
+
+export type HKTS = keyof HKT<any>
 
 export interface HKT2<A, B> {}
 
 export interface HKT3<A, B, C> {}
-
-export type HKTS = keyof HKT<any>
 
 export type HKT2S = keyof HKT2<any, any>
 

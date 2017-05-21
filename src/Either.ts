@@ -12,8 +12,8 @@ import { Option, none, some } from './Option'
 import { constFalse, constTrue, Predicate, Lazy } from './function'
 
 declare module './HKT' {
-  interface HKT<A> {
-    Either: Either<any, A>
+  interface HKT<A, U> {
+    Either: Either<U, A>
   }
   interface HKT2<A, B> {
     Either: Either<A, B>

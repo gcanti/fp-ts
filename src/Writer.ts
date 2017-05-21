@@ -4,8 +4,8 @@ import { StaticMonad, FantasyMonad } from './Monad'
 import { Lazy } from './function'
 
 declare module './HKT' {
-  interface HKT<A> {
-    Writer: Writer<any, A>
+  interface HKT<A, U> {
+    Writer: Writer<U, A>
   }
   interface HKT2<A, B> {
     Writer: Writer<A, B>
