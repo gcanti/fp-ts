@@ -15,9 +15,6 @@ declare module './HKT' {
   interface HKT<A, U> {
     Either: Either<U, A>
   }
-  interface HKT2<A, B> {
-    Either: Either<A, B>
-  }
 }
 
 export const URI = 'Either'

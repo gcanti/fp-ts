@@ -5,9 +5,6 @@ declare module './HKT' {
   interface HKT<A, U> {
     Reader: Reader<U, A>
   }
-  interface HKT2<A, B> {
-    Reader: Reader<A, B>
-  }
 }
 
 export const URI = 'Reader'

@@ -16,9 +16,6 @@ declare module './HKT' {
   interface HKT<A, U> {
     Validation: Validation<U, A>
   }
-  interface HKT2<A, B> {
-    Validation: Validation<A, B>
-  }
 }
 
 export const URI = 'Validation'

@@ -7,12 +7,6 @@ declare module './HKT' {
   interface HKT<A> {
     IxMonadT: IxMonadT<any, any, any, A>
   }
-  interface HKT2<A, B> {
-    IxMonadT: IxMonadT<any, any, A, B>
-  }
-  interface HKT3<A, B, C> {
-    IxMonadT: IxMonadT<any, A, B, C>
-  }
 }
 
 export const URI = 'IxMonadT'

@@ -9,9 +9,6 @@ declare module './HKT' {
   interface HKT<A> {
     EitherT: EitherT<any, any, A>
   }
-  interface HKT2<A, B> {
-    EitherT: EitherT<any, A, B>
-  }
 }
 
 export const URI = 'EitherT'

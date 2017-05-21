@@ -5,9 +5,6 @@ declare module './HKT' {
   interface HKT<A, U> {
     State: State<U, A>
   }
-  interface HKT2<A, B> {
-    State: State<A, B>
-  }
 }
 
 export const URI = 'State'

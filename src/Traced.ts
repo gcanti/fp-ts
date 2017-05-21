@@ -5,9 +5,6 @@ declare module './HKT' {
   interface HKT<A, U> {
     Traced: Traced<U, A>
   }
-  interface HKT2<A, B> {
-    Traced: Traced<A, B>
-  }
 }
 
 export const URI = 'Traced'

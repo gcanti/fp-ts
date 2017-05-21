@@ -11,9 +11,6 @@ declare module './HKT' {
   interface HKT<A, U> {
     Const: Const<U, A>
   }
-  interface HKT2<A, B> {
-    Const: Const<A, B>
-  }
 }
 
 export const URI = 'Const'

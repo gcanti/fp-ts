@@ -7,9 +7,6 @@ declare module './HKT' {
   interface HKT<A, U> {
     Writer: Writer<U, A>
   }
-  interface HKT2<A, B> {
-    Writer: Writer<A, B>
-  }
 }
 
 export const URI = 'Writer'

@@ -20,9 +20,6 @@ declare module './HKT' {
   interface HKT<A, U> {
     Tuple: Tuple<U, A>
   }
-  interface HKT2<A, B> {
-    Tuple: Tuple<A, B>
-  }
 }
 
 export const URI = 'Tuple'

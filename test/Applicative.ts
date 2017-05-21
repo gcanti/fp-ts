@@ -19,9 +19,6 @@ declare module '../src/HKT' {
   interface HKT<A> {
     TaskValidation: task.Task<validation.Validation<any, A>>
   }
-  interface HKT2<A, B> {
-    TaskValidation: task.Task<validation.Validation<A, B>>
-  }
 }
 
 describe('Applicative', () => {

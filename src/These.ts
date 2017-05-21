@@ -12,9 +12,6 @@ declare module './HKT' {
   interface HKT<A, U> {
     These: These<U, A>
   }
-  interface HKT2<A, B> {
-    These: These<A, B>
-  }
 }
 
 export const URI = 'These'
