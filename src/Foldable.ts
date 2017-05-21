@@ -23,7 +23,7 @@ export function toArray<F extends HKTS>(foldable: StaticFoldable<F>): <A>(fa: HK
 }
 
 /** returns the composition of two foldables */
-export function getFoldableComposition<FG extends HKTS>(URI: FG): <F extends HKTS, G extends HKTS>(foldableF: StaticFoldable<F>, foldableG: StaticFoldable<G>) => StaticFoldable<FG> {
+export function getStaticFoldableComposition<FG extends HKTS>(URI: FG): <F extends HKTS, G extends HKTS>(foldableF: StaticFoldable<F>, foldableG: StaticFoldable<G>) => StaticFoldable<FG> {
   return <F extends HKTS, G extends HKTS>(foldableF: StaticFoldable<F>, foldableG: StaticFoldable<G>) => {
     function reduce<A, B>(f: (b: B, a: A) => B, b: B, fga: HKT<HKT<A>[G]>[F]): B {
       return foldableF.reduce<HKT<A>[G], B>((b, ga) => foldableG.reduce(f, b, ga), b, fga)

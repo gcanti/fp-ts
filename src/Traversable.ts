@@ -1,6 +1,6 @@
 import { HKT, HKTS } from './HKT'
-import { StaticFunctor, FantasyFunctor, getFunctorComposition } from './Functor'
-import { StaticFoldable, FantasyFoldable, getFoldableComposition } from './Foldable'
+import { StaticFunctor, FantasyFunctor, getStaticFunctorComposition } from './Functor'
+import { StaticFoldable, FantasyFoldable, getStaticFoldableComposition } from './Foldable'
 import { StaticApplicative } from './Applicative'
 import { identity } from './function'
 
@@ -17,10 +17,10 @@ export function sequence<F extends HKTS, T extends HKTS>(applicative: StaticAppl
 }
 
 /** returns the composition of two traversables */
-export function getTraversableComposition<FG extends HKTS>(URI: FG): <F extends HKTS, G extends HKTS>(traversableF: StaticTraversable<F>, traversableG: StaticTraversable<G>) => StaticTraversable<FG> {
+export function getStaticTraversableComposition<FG extends HKTS>(URI: FG): <F extends HKTS, G extends HKTS>(traversableF: StaticTraversable<F>, traversableG: StaticTraversable<G>) => StaticTraversable<FG> {
   return <F extends HKTS, G extends HKTS>(traversableF: StaticTraversable<F>, traversableG: StaticTraversable<G>) => {
-    const functor = getFunctorComposition(URI)(traversableF, traversableG)
-    const foldable = getFoldableComposition(URI)(traversableF, traversableG)
+    const functor = getStaticFunctorComposition(URI)(traversableF, traversableG)
+    const foldable = getStaticFoldableComposition(URI)(traversableF, traversableG)
 
     function traverse<AP extends HKTS>(applicative: StaticApplicative<AP>): <A, B>(f: (a: A) => HKT<B>[AP], fga: HKT<HKT<A>[G]>[F]) => HKT<HKT<HKT<A>[G]>[F]>[AP] {
       return <A, B>(f: (a: A) => HKT<B>[AP], fga: HKT<HKT<A>[G]>[F]) =>
