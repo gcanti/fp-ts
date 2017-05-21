@@ -1,101 +1,49 @@
 import { HKT, HKTS } from './HKT'
-import { FantasyMonad, StaticMonad } from './Monad'
+import { StaticMonad } from './Monad'
+import { getStaticApplicativeComposition } from './Applicative'
 import { Option } from './Option'
 import * as option from './Option'
 import { Lazy } from './function'
-import { StaticTrans } from './Trans'
 
-declare module './HKT' {
-  interface HKT<A> {
-    OptionT: OptionT<any, A>
+export interface StaticOptionT<URI extends HKTS, M extends HKTS> extends StaticMonad<URI> {
+  some<A, U = any, V = any>(ma: HKT<A, U, V>[M]): HKT<Option<A>, U, V>[M]
+  none<U = any, V = any>(): HKT<Option<any>, U, V>[M]
+  fold<R, A, U = any, V = any>(none: Lazy<R>, some: (a: A) => R, fa: HKT<Option<A>, U, V>[M]): HKT<R, U, V>[M]
+  getOrElse<A, U = any, V = any>(f: Lazy<A>, fa: HKT<Option<A>, U, V>[M]): HKT<A, U, V>[M]
+}
+
+export function getStaticOptionT<URI extends HKTS, M extends HKTS>(URI: URI, monad: StaticMonad<M>): StaticOptionT<URI, M> {
+  const applicative = getStaticApplicativeComposition(URI)(monad, option)
+
+  function chain<A, B>(f: (a: A) => HKT<Option<B>>[M], fa: HKT<Option<A>>[M]): HKT<Option<B>>[M] {
+    return monad.chain<Option<A>, Option<B>>(e => e.fold<HKT<Option<B>>[M]>(
+      () => fa as any,
+      a => f(a)
+    ), fa)
   }
-}
 
-export const URI = 'OptionT'
-
-export type URI = typeof URI
-
-export class OptionT<M extends HKTS, A> implements FantasyMonad<URI, A> {
-  readonly _M: M
-  readonly _A: A
-  readonly _URI: URI
-  of: (a: A) => OptionT<M, A>
-  constructor(monad: StaticMonad<M>, value: FantasyMonad<M, Option<A>>)
-  constructor(monad: StaticMonad<M>, value: HKT<Option<A>>[M])
-  constructor(
-    public readonly monad: StaticMonad<M>,
-    public readonly value: HKT<Option<A>>[M]
-  ) {
-    this.of = of<M>(monad)
+  function some<A>(ma: HKT<A>[M]): HKT<Option<A>>[M] {
+    return monad.map((a: A) => option.some<A>(a), ma)
   }
-  map<B>(f: (a: A) => B): OptionT<M, B> {
-    return new OptionT<M, B>(this.monad, this.monad.map((o: Option<A>) => o.map(f), this.value))
+
+  function none(): HKT<Option<any>>[M] {
+    return monad.of(option.none)
   }
-  ap<B>(fab: OptionT<M, (a: A) => B>): OptionT<M, B> {
-    return fab.chain(f => this.map(f)) // <- derived
+
+  function fold<R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<Option<A>>[M]): HKT<R>[M] {
+    return monad.map<Option<A>, R>(o => o.fold(none, some), fa)
   }
-  chain<B>(f: (a: A) => OptionT<M, B>): OptionT<M, B> {
-    return flatten(this.map(f)) // <- derived
+
+  function getOrElse<A>(f: Lazy<A>, fa: HKT<Option<A>>[M]): HKT<A>[M] {
+    return monad.map<Option<A>, A>(o => o.getOrElse(f), fa)
   }
-  getOrElse(f: Lazy<A>): HKT<A>[M] {
-    return this.monad.map<Option<A>, A>(o => o.getOrElse(f), this.value)
-  }
-  fold<B>(n: Lazy<B>, s: (a: A) => B): HKT<B>[M] {
-    return this.monad.map<Option<A>, B>(o => o.fold(n, s), this.value)
-  }
-}
 
-export function flatten<M extends HKTS, A>(mma: OptionT<M, OptionT<M, A>>): OptionT<M, A> {
-  const value = mma.monad.chain<Option<OptionT<M, A>>, Option<A>>(o => o.fold(
-    () => mma.monad.of<Option<A>>(option.none),
-    x => x.value
-  ), mma.value)
-  return new OptionT<M, A>(mma.monad, value)
-}
-
-export function of<M extends HKTS>(monad: StaticMonad<M>): <A>(a: A) => OptionT<M, A> {
-  return <A>(a: A) => new OptionT<M, A>(monad, monad.of(option.of(a)))
-}
-
-export function liftT<M extends HKTS>(monad: StaticMonad<M>): <A>(fa: HKT<A>[M]) => OptionT<M, A> {
-  return <A>(fa: HKT<A>[M]) => new OptionT<M, A>(monad, monad.map<A, Option<A>>(a => option.some(a), fa))
-}
-
-export function map<M extends HKTS, A, B>(f: (a: A) => B, fa: OptionT<M, A>): OptionT<M, B> {
-  return fa.map(f)
-}
-
-export function ap<M extends HKTS, A, B>(fab: OptionT<M, (a: A) => B>, fa: OptionT<M, A>): OptionT<M, B> {
-  return fa.ap(fab)
-}
-
-export function chain<M extends HKTS, A, B>(f: (a: A) => OptionT<M, B>, fa: OptionT<M, A>): OptionT<M, B> {
-  return fa.chain(f)
-}
-
-export function getStaticMonad<M extends HKTS>(monad: StaticMonad<M>): StaticMonad<URI> {
   return {
-    URI,
-    of: of(monad),
-    map,
-    ap,
-    chain
+    ...applicative,
+    chain,
+    some,
+    none,
+    fold,
+    getOrElse
   }
 }
-
-export function fromOption<M extends HKTS>(monad: StaticMonad<M>): <A>(value: Option<A>) => OptionT<M, A> {
-  return <A>(value: Option<A>) => new OptionT<M, A>(monad, monad.of(value))
-}
-
-export const some = of
-
-export function none<M extends HKTS>(monad: StaticMonad<M>): OptionT<M, any> {
-  return new OptionT<M, any>(monad, monad.of(option.none))
-}
-
-// tslint:disable-next-line no-unused-expression
-;(
-  { liftT } as (
-    StaticTrans<URI>
-  )
-)

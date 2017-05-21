@@ -1,55 +1,60 @@
 import * as assert from 'assert'
 import {
-  of,
-  some,
-  none,
-  flatten
+  getStaticOptionT
 } from '../src/OptionT'
 import * as option from '../src/Option'
 import * as task from '../src/Task'
 import { eqOptions as eq } from './helpers'
 
+declare module '../src/HKT' {
+  interface HKT<A> {
+    'Task<Option>': task.Task<option.Option<A>>
+  }
+}
+
+const taskOption = getStaticOptionT('Task<Option>', task)
+
 describe('OptionT', () => {
 
   it('map', () => {
-    const greetingT = of(task)('welcome')
-    const excitedGreetingT = greetingT.map(s => s + '!')
-    return excitedGreetingT.value.run().then(s => {
-      eq(s, option.some('welcome!'))
+    const greetingT = taskOption.of('welcome')
+    const excitedGreetingT = taskOption.map(s => s + '!', greetingT)
+    return excitedGreetingT.run().then(o => {
+      eq(o, option.some('welcome!'))
     })
   })
 
   it('fold', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
-    const p1 = none(task).fold(f, g).run().then(s => {
+    const p1 = taskOption.fold(f, g, taskOption.none()).run().then(s => {
       assert.strictEqual(s, 'none')
     })
-    const p2 = some(task)('s').fold(f, g).run().then(s => {
+    const p2 = taskOption.fold(f, g, taskOption.of('s')).run().then(s => {
       assert.strictEqual(s, 'some1')
     })
     return Promise.all([p1, p2])
   })
 
   it('getOrElse', () => {
-    const greetingT = of(task)('welcome')
-    const p1 = greetingT.getOrElse(() => 'hello, there!').run().then(s => {
+    const greetingT = taskOption.of('welcome')
+    const p1 = taskOption.getOrElse(() => 'hello, there!', greetingT).run().then(s => {
       assert.strictEqual(s, 'welcome')
     })
-    const p2 = none(task).getOrElse(() => 'hello, there!').run().then(s => {
+    const p2 = taskOption.getOrElse(() => 'hello, there!', taskOption.none()).run().then(s => {
       assert.strictEqual(s, 'hello, there!')
     })
     return Promise.all([p1, p2])
   })
 
-  it('flatten', () => {
-    const p1 = flatten(of(task)(of(task)('welcome'))).value.run().then(s => {
-      eq(s, option.some('welcome'))
-    })
-    const p2 = flatten(of(task)(none(task))).value.run().then(s => {
-      eq(s, option.none)
-    })
-    return Promise.all([p1, p2])
-  })
+  // it('flatten', () => {
+  //   const p1 = flatten(of(task)(of(task)('welcome'))).value.run().then(s => {
+  //     eq(s, option.some('welcome'))
+  //   })
+  //   const p2 = flatten(of(task)(none(task))).value.run().then(s => {
+  //     eq(s, option.none)
+  //   })
+  //   return Promise.all([p1, p2])
+  // })
 
 })
