@@ -86,8 +86,6 @@ import * as these from './These'
 export { these }
 import * as traced from './Traced'
 export { traced }
-import * as trans from './Trans'
-export { trans }
 import * as traversable from './Traversable'
 export { traversable }
 import * as tuple from './Tuple'
