@@ -1,5 +1,5 @@
-import { HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 
-export interface StaticSemigroupoid<F extends HKT2S> {
-  compose<A, B, C>(bc: HKT2<B, C>[F], ab: HKT2<A, B>[F]): HKT2<A, C>[F]
+export interface StaticSemigroupoid<F extends HKTS> {
+  compose<A, B, C>(bc: HKT<C, B>[F], ab: HKT<B, A>[F]): HKT<C, A>[F]
 }

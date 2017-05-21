@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticApplicative } from './Applicative'
 import { StaticTraversable } from './Traversable'
 import * as option from './Option'
@@ -14,8 +14,6 @@ export interface StaticUnfoldable<F extends HKTS> {
 }
 
 /** Replicate a value some natural number of times. */
-export function replicate<F extends HKT2S>(unfoldable: StaticUnfoldable<F>): <L, A>(n: number, a: A) => HKT2<L, A>[F]
-export function replicate<F extends HKTS>(unfoldable: StaticUnfoldable<F>): <A>(n: number, a: A) => HKT<A>[F]
 export function replicate<F extends HKTS>(unfoldable: StaticUnfoldable<F>): <A>(n: number, a: A) => HKT<A>[F] {
   return <A>(n: number, a: A) => {
     function step(n: number): option.Option<[A, number]> {
@@ -26,8 +24,6 @@ export function replicate<F extends HKTS>(unfoldable: StaticUnfoldable<F>): <A>(
 }
 
 /** Perform an Applicative action `n` times, and accumulate all the results. */
-export function replicateA<F extends HKT2S, T extends HKTS>(applicative: StaticApplicative<F>, unfoldableTraversable: StaticUnfoldable<T> & StaticTraversable<T>): <L, A>(n: number, ma: HKT2<L, A>[F]) => HKT2<L, HKT<A>[T]>[F]
-export function replicateA<F extends HKTS, T extends HKTS>(applicative: StaticApplicative<F>, unfoldableTraversable: StaticUnfoldable<T> & StaticTraversable<T>): <A>(n: number, ma: HKT<A>[F]) => HKT<HKT<A>[T]>[F]
 export function replicateA<F extends HKTS, T extends HKTS>(applicative: StaticApplicative<F>, unfoldableTraversable: StaticUnfoldable<T> & StaticTraversable<T>): <A>(n: number, ma: HKT<A>[F]) => HKT<HKT<A>[T]>[F] {
   return <A>(n: number, ma: HKT<A>[F]) => sequence<F, T>(applicative, unfoldableTraversable)<A>(replicate(unfoldableTraversable)(n, ma))
 }

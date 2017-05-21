@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticMonoid } from './Monoid'
 import { StaticApplicative } from './Applicative'
 import { StaticSemigroup } from './Semigroup'
@@ -57,8 +57,6 @@ export class None<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, B>(f: (a: A) => HKT2<L, B>[F]) => HKT2<L, Option<B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Option<B>>[F]
   traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Option<B>>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(none)
   }
@@ -133,8 +131,6 @@ export class Some<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return this.fold<B>(constant(b), (a: A) => f(b, a))
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, B>(f: (a: A) => HKT2<L, B>[F]) => HKT2<L, Option<B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Option<B>>[F]
   traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Option<B>>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map<B, Option<B>>(some, f(this.value))
   }
@@ -206,8 +202,6 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B {
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT2<L, B>[F], ta: Option<A>) => HKT2<L, Option<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Option<A>) => HKT<Option<B>>[F]
 export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Option<A>) => HKT<Option<B>>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Option<A>) => ta.traverse<F>(applicative)<B>(f)
 }

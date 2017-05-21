@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticMonoid } from './Monoid'
 import { StaticFunctor } from './Functor'
 import { StaticApplicative } from './Applicative'
@@ -44,15 +44,11 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Dictionary<A>): B {
 
 export const curriedConcat = curry<Dictionary<any>, Dictionary<any>, Dictionary<any>>(concat)
 
-export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT2<L, B>[F], ta: Dictionary<A>) => HKT2<L, Dictionary<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F]
 export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F] {
   const traverse = traverseWithKey(applicative)
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Dictionary<A>) => traverse((_, a) => f(a), ta)
 }
 
-export function traverseWithKey<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B>(f: (k: string, a: A) => HKT2<L, B>[F], ta: Dictionary<A>) => HKT2<L, Dictionary<B>>[F]
-export function traverseWithKey<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (k: string, a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F]
 export function traverseWithKey<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (k: string, a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F] {
   return <A, B>(f: (k: string, a: A) => HKT<B>[F], ta: Dictionary<A>) => {
     const concatA2 = liftA2(applicative, curriedConcat)
