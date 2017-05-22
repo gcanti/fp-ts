@@ -6,7 +6,7 @@ import * as option from './Option'
 import { Lazy } from './function'
 
 export interface StaticOptionT<URI extends HKTS, M extends HKTS> extends StaticMonad<URI> {
-  some<A, U = any, V = any>(ma: HKT<A, U, V>[M]): HKT<Option<A>, U, V>[M]
+  some<A, U = any, V = any>(a: A): HKT<Option<A>, U, V>[M]
   none<U = any, V = any>(): HKT<Option<any>, U, V>[M]
   fold<R, A, U = any, V = any>(none: Lazy<R>, some: (a: A) => R, fa: HKT<Option<A>, U, V>[M]): HKT<R, U, V>[M]
   getOrElse<A, U = any, V = any>(f: Lazy<A>, fa: HKT<Option<A>, U, V>[M]): HKT<A, U, V>[M]
@@ -20,10 +20,6 @@ export function getStaticOptionT<URI extends HKTS, M extends HKTS>(URI: URI, mon
       () => fa as any,
       a => f(a)
     ), fa)
-  }
-
-  function some<A>(ma: HKT<A>[M]): HKT<Option<A>>[M] {
-    return monad.map((a: A) => option.some<A>(a), ma)
   }
 
   function none(): HKT<Option<any>>[M] {
@@ -41,7 +37,7 @@ export function getStaticOptionT<URI extends HKTS, M extends HKTS>(URI: URI, mon
   return {
     ...applicative,
     chain,
-    some,
+    some: applicative.of,
     none,
     fold,
     getOrElse

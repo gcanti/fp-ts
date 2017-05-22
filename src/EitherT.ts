@@ -6,7 +6,9 @@ import * as either from './Either'
 import { Option } from './Option'
 
 export interface StaticEitherT<URI extends HKTS, M extends HKTS> extends StaticMonad<URI> {
+  /** lifts `M<A>` to `M<EitherT<L, A>>` */
   right<L, A, U = any, V = any>(ma: HKT<A, U, V>[M]): HKT<Either<L, A>, U, V>[M]
+  /** lifts `M<L>` to `M<Either<L, A>>` */
   left<L, A, U = any, V = any>(ml: HKT<L, U, V>[M]): HKT<Either<L, A>, U, V>[M]
   fold<R, L, A, U = any, V = any>(left: (l: L) => R, right: (a: A) => R, fa: HKT<Either<L, A>, U, V>[M]): HKT<R, U, V>[M]
   mapLeft<L2, L, A, U = any, V = any>(f: (l: L) => L2, fa: HKT<Either<L, A>, U, V>[M]): HKT<Either<L2, A>, U, V>[M]

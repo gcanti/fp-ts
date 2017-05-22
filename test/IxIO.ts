@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { iapplyFirst, iapplySecond } from '../src/IxMonad'
-import { IxIO } from '../src/IxIO'
-import * as ixio from '../src/IxIO'
+import { IxIO } from '../examples/IxIO'
+import * as ixIO from '../examples/IxIO'
 import * as io from '../src/IO'
 
 //
@@ -70,7 +70,7 @@ describe('IxIO', () => {
 
   it('iapplyFirst', () => {
     log = []
-    const action = iapplyFirst(ixio)(new Open(), new Close())
+    const action = iapplyFirst(ixIO)(new Open(), new Close())
     action.run()
     assert.deepEqual(log, [
       'Opening the door',
@@ -80,7 +80,7 @@ describe('IxIO', () => {
 
   it('iapplySecond', () => {
     log = []
-    const action = iapplySecond(ixio)(new Open(), new Close())
+    const action = iapplySecond(ixIO)(new Open(), new Close())
     action.run()
     assert.deepEqual(log, [
       'Opening the door',

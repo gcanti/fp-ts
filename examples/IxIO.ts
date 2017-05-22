@@ -1,8 +1,8 @@
-import { StaticIxMonad, FantasyIxMonad } from './IxMonad'
-import { IO } from './IO'
-import * as io from './IO'
+import { StaticIxMonad, FantasyIxMonad } from '../src/IxMonad'
+import { IO } from '../src/IO'
+import * as io from '../src/IO'
 
-declare module './HKT' {
+declare module '../src/HKT' {
   interface HKT<A, U, V> {
     IxIO: IxIO<V, U, A>
   }
@@ -66,7 +66,7 @@ export function chain<I, A, B>(f: (a: A) => IxIO<I, I, B>, fa: IxIO<I, I, A>): I
 
 // tslint:disable-next-line no-unused-expression
 ;(
-  { iof, ichain, of, map, ap, chain } as (
+  { URI, iof, ichain, of, map, ap, chain } as (
     StaticIxMonad<URI>
   )
 )
