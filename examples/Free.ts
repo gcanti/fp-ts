@@ -1,10 +1,7 @@
-# Free(r)
+// code for docs/Free.md
 
-## Credits
+// ts-node -r tsconfig-paths/register Free.ts
 
-Adapted from http://blog.scalac.io/2016/06/02/overview-of-free-monad-in-cats.html
-
-```ts
 import { free, identity, option } from 'fp-ts'
 
 export class Degree {
@@ -213,4 +210,3 @@ interpretIdentity Position { x: -10, y: 10, heading: Degree { value: 180 } }
 
 // should raise an error
 // program3(start).foldMap(identity, (fa: LogoApp) => interpretIdentity(fa))
-```

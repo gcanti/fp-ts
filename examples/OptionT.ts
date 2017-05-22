@@ -1,6 +1,6 @@
 // code for docs/OptionT.md
 
-// ts-node -r tsconfig-paths/register index.ts
+// ts-node -r tsconfig-paths/register OptionT.ts
 
 import { Option } from 'fp-ts/lib/Option'
 import * as option from 'fp-ts/lib/Option'
