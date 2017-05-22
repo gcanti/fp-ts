@@ -141,7 +141,7 @@ export class Some<A> implements
     return this
   }
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
-    return some(f(this))
+    return new Some(f(this))
   }
   fold<B>(n: Lazy<B>, s: (a: A) => B): B {
     return s(this.value)
@@ -150,7 +150,7 @@ export class Some<A> implements
     return this.value
   }
   concat(semigroup: StaticSemigroup<A>, fy: Option<A>): Option<A> {
-    return fy.fold(() => this, y => some(semigroup.concat(this.value, y)))
+    return fy.fold(() => this, y => new Some(semigroup.concat(this.value, y)))
   }
   equals(setoid: StaticSetoid<A>, fy: Option<A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
@@ -175,7 +175,7 @@ export function fold<A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B {
 }
 
 export function fromNullable<A>(a: A | null | undefined): Option<A> {
-  return a == null ? none : some(a)
+  return a == null ? none : new Some(a)
 }
 
 export function toNullable<A>(fa: Option<A>): A | null {

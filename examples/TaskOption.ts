@@ -62,8 +62,14 @@ export function chain<A, B>(f: (a: A) => TaskOption<B>, fa: TaskOption<A>): Task
   return fa.chain(f)
 }
 
-export function some<A>(a: A): TaskOption<A> {
-  return new TaskOption(optionTTask.some(a))
-}
+export const some = of
 
 export const none = new TaskOption(optionTTask.none())
+
+export function fromOption<A>(oa: Option<A>): TaskOption<A> {
+  return new TaskOption(optionTTask.fromOption(oa))
+}
+
+export function liftT<A>(ma: Task<A>): TaskOption<A> {
+  return new TaskOption(optionTTask.liftT(ma))
+}

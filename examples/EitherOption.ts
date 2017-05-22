@@ -60,10 +60,16 @@ export function chain<L, A, B>(f: (a: A) => EitherOption<L, B>, fa: EitherOption
   return fa.chain(f)
 }
 
-export function some<L, A>(a: A): EitherOption<L, A> {
-  return new EitherOption(optionTEither.some(a))
-}
+export const some = of
 
 export function none<L>(): EitherOption<L, any> {
   return new EitherOption(optionTEither.none())
+}
+
+export function fromOption<L, A>(oa: Option<A>): EitherOption<L, A> {
+  return new EitherOption(optionTEither.fromOption(oa))
+}
+
+export function liftT<L, A>(ma: Either<L, A>): EitherOption<L, A> {
+  return new EitherOption(optionTEither.liftT(ma))
 }
