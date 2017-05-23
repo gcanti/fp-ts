@@ -9,7 +9,7 @@ export interface FantasyFunctor<F extends HKTS, A> {
   map<B, U = any, V = any>(f: (a: A) => B): HKT<B, U, V>[F]
 }
 
-export function lift<F extends HKTS, A, B>(functor: StaticFunctor<F>, f: (a: A) => B): <U, V>(fa: HKT<A, U, V>[F]) => HKT<B, U, V>[F] {
+export function lift<F extends HKTS, A, B>(functor: StaticFunctor<F>, f: (a: A) => B): <U = any, V = any>(fa: HKT<A, U, V>[F]) => HKT<B, U, V>[F] {
   return (fa: HKT<A>[F]) => functor.map(f, fa)
 }
 

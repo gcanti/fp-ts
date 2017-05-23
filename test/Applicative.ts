@@ -23,7 +23,7 @@ declare module '../src/HKT' {
 
 describe('Applicative', () => {
 
-  it('getApplicativeComposition', () => {
+  it('getStaticApplicativeComposition', () => {
 
     const taskValidationApplicative = getStaticApplicativeComposition(TaskValidationURI)(task, validation)
 
