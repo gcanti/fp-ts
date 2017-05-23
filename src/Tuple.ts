@@ -50,7 +50,7 @@ export function reduce<A, B, C>(f: (c: C, b: B) => C, c: C, fa: Tuple<A, B>): C 
   return f(c, fa[1])
 }
 
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, C>(f: (b: B) => HKT<C>[F], ta: Tuple<A, B>) => HKT<Tuple<A, C>>[F] {
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, C, U = any, V = any>(f: (b: B) => HKT<C, U, V>[F], ta: Tuple<A, B>) => HKT<Tuple<A, C>, U, V>[F] {
   return <A, B, C>(f: (b: B) => HKT<C>[F], ta: Tuple<A, B>) => applicative.map(c => [ta[0], c] as Tuple<A, C>, f(ta[1]))
 }
 

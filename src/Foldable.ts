@@ -51,12 +51,12 @@ export function intercalate<F extends HKTS, M>(foldable: StaticFoldable<F>, mono
   }
 }
 
-export function traverse_<M extends HKTS, F extends HKTS>(applicative: StaticApplicative<M>, foldable: StaticFoldable<F>): <A, B>(f: (a: A) => HKT<B>[M], fa: HKT<A>[F]) => HKT<void>[M] {
+export function traverse_<M extends HKTS, F extends HKTS>(applicative: StaticApplicative<M>, foldable: StaticFoldable<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[M], fa: HKT<A, U, V>[F]) => HKT<void, U, V>[M] {
   return <A, B>(f: (a: A) => HKT<B>[M], fa: HKT<A>[F]) => toArray(foldable)<A>(fa)
     .reduce((mu, a) => applyFirst(applicative)<undefined, B>(mu, f(a)), applicative.of(undefined))
 }
 
-export function sequence_<M extends HKTS, F extends HKTS>(applicative: StaticApplicative<M>, foldable: StaticFoldable<F>): <A>(fa: HKT<A>[F]) => HKT<void>[M] {
+export function sequence_<M extends HKTS, F extends HKTS>(applicative: StaticApplicative<M>, foldable: StaticFoldable<F>): <A, U = any, V = any>(fa: HKT<A, U, V>[F]) => HKT<void, U, V>[M] {
   const t = traverse_(applicative, foldable)
   return <A>(fa: HKT<A>[F]) => t(identity, fa)
 }

@@ -44,12 +44,12 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Dictionary<A>): B {
 
 export const curriedConcat = curry<Dictionary<any>, Dictionary<any>, Dictionary<any>>(concat)
 
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F] {
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Dictionary<A>) => HKT<Dictionary<B>, U, V>[F] {
   const traverse = traverseWithKey(applicative)
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Dictionary<A>) => traverse((_, a) => f(a), ta)
 }
 
-export function traverseWithKey<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (k: string, a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F] {
+export function traverseWithKey<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (k: string, a: A) => HKT<B, U, V>[F], ta: Dictionary<A>) => HKT<Dictionary<B>, U, V>[F] {
   return <A, B>(f: (k: string, a: A) => HKT<B>[F], ta: Dictionary<A>) => {
     const concatA2 = liftA2(applicative, curriedConcat)
     let out = applicative.of(empty())

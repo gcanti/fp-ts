@@ -4,11 +4,11 @@ import { Either, Right } from './Either'
 import { isLeft } from './Either'
 
 export interface StaticChainRec<F extends HKTS> extends StaticChain<F> {
-  chainRec<A, B>(f: (a: A) => HKT<Either<A, B>>[F], a: A): HKT<B>[F]
+  chainRec<A, B, U = any, V = any>(f: (a: A) => HKT<Either<A, B>, U, V>[F], a: A): HKT<B, U, V>[F]
 }
 
 export interface FantasyChainRec<F extends HKTS, A> extends FantasyChain<F, A> {
-  chainRec<A, B>(f: (a: A) => HKT<Either<A, B>>[F]): HKT<B>[F]
+  chainRec<A, B, U = any, V = any>(f: (a: A) => HKT<Either<A, B>, U, V>[F]): HKT<B, U, V>[F]
 }
 
 export function tailRec<A, B>(f: (a: A) => Either<A, B>, a: A): B {

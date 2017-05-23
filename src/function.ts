@@ -43,8 +43,8 @@ export type Endomorphism<A> = (a: A) => A
 
 export type BinaryOperation<A, B> = Function2<A, A, B>
 
-export type Kleisli<F extends HKTS, A, B> = (a: A) => HKT<B>[F]
-export type Cokleisli<F extends HKTS, A, B> = (fa: HKT<A>[F]) => B
+export type Kleisli<F extends HKTS, A, B, U = any, V = any> = (a: A) => HKT<B, U, V>[F]
+export type Cokleisli<F extends HKTS, A, B, U = any, V = any> = (fa: HKT<A, U, V>[F]) => B
 
 export function constant<A>(a: A): Lazy<A> {
   return () => a

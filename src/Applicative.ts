@@ -3,11 +3,11 @@ import { getStaticFunctorComposition } from './Functor'
 import { StaticApply, FantasyApply } from './Apply'
 
 export interface StaticApplicative<F extends HKTS> extends StaticApply<F> {
-  of<A>(a: A): HKT<A>[F]
+  of<A, U = any, V = any>(a: A): HKT<A, U, V>[F]
 }
 
 export interface FantasyApplicative<F extends HKTS, A> extends FantasyApply<F, A> {
-  of<A>(a: A): HKT<A>[F]
+  of<A, U = any, V = any>(a: A): HKT<A, U, V>[F]
 }
 
 /** returns the composition of two applicatives */
