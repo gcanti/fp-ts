@@ -35,7 +35,7 @@ export class Left<L, A> implements
   FantasyBifunctor<URI, L, A> {
 
   static of = of
-  readonly _tag: 'Left'
+  readonly _tag = 'Left'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -101,7 +101,7 @@ export class Right<L, A> implements
   FantasyBifunctor<URI, L, A> {
 
   static of = of
-  readonly _tag: 'Right'
+  readonly _tag = 'Right'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -222,11 +222,11 @@ export function chainRec<L, A, B>(f: (a: A) => Either<L, Either<A, B>>, a: A): E
 }
 
 export function isLeft<L, A>(fa: Either<L, A>): fa is Left<L, A> {
-  return fa instanceof Left
+  return fa._tag === 'Left'
 }
 
 export function isRight<L, A>(fa: Either<L, A>): fa is Right<L, A> {
-  return fa instanceof Right
+  return fa._tag === 'Right'
 }
 
 export function left<L, A>(l: L): Either<L, A> {

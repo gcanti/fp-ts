@@ -34,7 +34,7 @@ export class None<A> implements
   static empty = empty
   static zero = zero
   static value: Option<any> = new None()
-  readonly _tag: 'None'
+  readonly _tag = 'None'
   readonly _A: A
   readonly _URI: URI
   constructor() {
@@ -114,7 +114,7 @@ export class Some<A> implements
   static of = of
   static empty = empty
   static zero = zero
-  readonly _tag: 'Some'
+  readonly _tag = 'Some'
   readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: A) {}
@@ -238,7 +238,7 @@ export function getStaticMonoid<A>(semigroup: StaticSemigroup<A>): StaticMonoid<
 }
 
 export function isSome<A>(fa: Option<A>): fa is Some<A> {
-  return fa instanceof Some
+  return fa._tag === 'Some'
 }
 
 export function isNone<A>(fa: Option<A>): fa is None<A> {

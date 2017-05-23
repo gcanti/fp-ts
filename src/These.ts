@@ -25,7 +25,7 @@ export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 
 export class This<L, A> {
   static of = of
-  readonly _tag: 'This'
+  readonly _tag = 'This'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -75,7 +75,7 @@ export class This<L, A> {
 
 export class That<L, A> {
   static of = of
-  readonly _tag: 'That'
+  readonly _tag = 'That'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -125,7 +125,7 @@ export class That<L, A> {
 
 export class Both<L, A> {
   static of = of
-  readonly _tag: 'This'
+  readonly _tag = 'Both'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -219,15 +219,15 @@ export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <L,
 }
 
 export function isThis<L, A>(fa: These<L, A>): fa is This<L, A> {
-  return fa instanceof This
+  return fa._tag === 'This'
 }
 
 export function isThat<L, A>(fa: These<L, A>): fa is That<L, A> {
-  return fa instanceof That
+  return fa._tag === 'That'
 }
 
 export function isBoth<L, A>(fa: These<L, A>): fa is Both<L, A> {
-  return fa instanceof Both
+  return fa._tag === 'Both'
 }
 
 export function this_<L, A>(l: L): These<L, A> {
