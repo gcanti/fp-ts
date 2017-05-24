@@ -12,6 +12,14 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.2.9
+
+- **New Feature**
+  - add Monoidal type class (@gcanti)
+- **Bug Fix**
+  - fix `foldMap`, closes #89 (@gcanti)
+  - replace `instanceof` checks with valued `_tag`s, fix #96 (@gcanti, @sledorze)
+
 # 0.2.8
 
 - **New Feature**

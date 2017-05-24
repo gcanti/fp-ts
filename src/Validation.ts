@@ -35,7 +35,7 @@ export class Failure<L, A> implements
   FantasyAlt<URI, A> {
 
   static of = of
-  readonly _tag: 'Failure'
+  readonly _tag = 'Failure'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -109,7 +109,7 @@ export class Success<L, A> implements
   FantasyAlt<URI, A> {
 
   static of = of
-  readonly _tag: 'Success'
+  readonly _tag = 'Success'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -220,11 +220,11 @@ export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <L,
 }
 
 export function isFailure<L, A>(fa: Validation<L, A>): fa is Failure<L, A> {
-  return fa instanceof Failure
+  return fa._tag === 'Failure'
 }
 
 export function isSuccess<L, A>(fa: Validation<L, A>): fa is Success<L, A> {
-  return fa instanceof Success
+  return fa._tag === 'Success'
 }
 
 export function failure<L, A>(semigroup: StaticSemigroup<L>, l: L): Validation<L, A> {
