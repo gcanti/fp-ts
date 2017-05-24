@@ -68,8 +68,6 @@ import * as reader from './Reader'
 export { reader }
 import * as readerT from './ReaderT'
 export { readerT }
-import * as rxjs from './Rxjs'
-export { rxjs }
 import * as semigroup from './Semigroup'
 export { semigroup }
 import * as semigroupoid from './Semigroupoid'

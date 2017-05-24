@@ -28,7 +28,6 @@
   },
   "homepage": "https://github.com/gcanti/fp-ts",
   "dependencies": {
-    "rxjs": "^5.0.0"
   },
   "devDependencies": {
     "@types/mocha": "2.2.38",
