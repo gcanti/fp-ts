@@ -37,11 +37,7 @@ export class None<A> implements
   readonly _tag = 'None'
   readonly _A: A
   readonly _URI: URI
-  constructor() {
-    if (none) {
-      return none as any
-    }
-  }
+  private constructor() { }
   map<B>(f: (a: A) => B): Option<B> {
     return none
   }
