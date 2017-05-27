@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import {
   toArray,
   foldMap,
-  getFoldableComposition,
+  getStaticFoldableComposition,
   intercalate,
   traverse_,
   sequence_
@@ -26,21 +26,21 @@ declare module '../src/HKT' {
 describe('Foldable', () => {
 
   it('toArray', () => {
-    assert.deepEqual(toArray(array, [1, 2, 3]), [1, 2, 3])
+    assert.deepEqual(toArray(array)([1, 2, 3]), [1, 2, 3])
   })
 
   it('foldMap', () => {
-    assert.deepEqual(foldMap(array, monoidString, identity, ['a', 'b', 'c']), 'abc')
+    assert.deepEqual(foldMap(array, monoidString)(identity, ['a', 'b', 'c']), 'abc')
   })
 
-  it('getFoldableComposition', () => {
-    const arrayOptionFoldable = getFoldableComposition(ArrayOptionURI)(array, option)
+  it('getStaticFoldableComposition', () => {
+    const arrayOptionFoldable = getStaticFoldableComposition(ArrayOptionURI)(array, option)
     assert.strictEqual(arrayOptionFoldable.reduce((b, a) => b + a, 0, [option.some(1), option.some(2)]), 3)
     assert.strictEqual(arrayOptionFoldable.reduce((b, a) => b + a, 0, [option.none, option.some(2)]), 2)
   })
 
   it('intercalate', () => {
-    const join = intercalate(getFoldableComposition('ArrayOption')(array, option), monoidString)
+    const join = intercalate(getStaticFoldableComposition('ArrayOption')(array, option), monoidString)
     assert.strictEqual(join(' ', []), '')
     assert.strictEqual(join(' ', [option.some('a')]), 'a')
     assert.strictEqual(join(' ', [

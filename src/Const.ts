@@ -8,11 +8,8 @@ import { StaticSetoid } from './Setoid'
 import { identity } from './function'
 
 declare module './HKT' {
-  interface HKT<A> {
-    Const: Const<any, A>
-  }
-  interface HKT2<A, B> {
-    Const: Const<A, B>
+  interface HKT<A, U> {
+    Const: Const<U, A>
   }
 }
 
@@ -50,8 +47,8 @@ export function map<L, A, B>(f: (a: A) => B, fa: Const<L, A>): Const<L, B> {
   return fa.map(f)
 }
 
-export function contramap<L, A, B>(f: (b: B) => A, fa: Const<L, A>): Const<L, B> {
-  return fa.contramap(f)
+export function contramap<L, A>(fa: Const<L, A>): <B>(f: (b: B) => A) => Const<L, B> {
+  return <B>(f: (b: B) => A) => fa.contramap(f)
 }
 
 export function getApply<L>(semigroup: StaticSemigroup<L>): StaticApply<URI> {

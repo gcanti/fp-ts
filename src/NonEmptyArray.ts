@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticMonad, FantasyMonad } from './Monad'
 import { StaticSemigroup } from './Semigroup'
 import { StaticFoldable, FantasyFoldable } from './Foldable'
@@ -49,9 +49,7 @@ export class NonEmptyArray<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return array.reduce(f, b, this.toArray())
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, B>(f: (a: A) => HKT2<L, B>[F]) => HKT2<L, NonEmptyArray<B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<NonEmptyArray<B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<NonEmptyArray<B>>[F] {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<NonEmptyArray<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((bs: Array<B>) => unsafeFromArray(bs), array.traverse<F>(applicative)<A, B>(f, this.toArray()))
   }
 }
@@ -88,9 +86,7 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): 
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT2<L, B>[F], ta: NonEmptyArray<A>) => HKT2<L, NonEmptyArray<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: NonEmptyArray<A>) => HKT<NonEmptyArray<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: NonEmptyArray<A>) => HKT<NonEmptyArray<B>>[F] {
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: NonEmptyArray<A>) => HKT<NonEmptyArray<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: NonEmptyArray<A>) => ta.traverse<F>(applicative)<B>(f)
 }
 

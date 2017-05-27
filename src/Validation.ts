@@ -1,6 +1,5 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticFunctor } from './Functor'
-import { StaticPointed } from './Pointed'
 import { StaticApplicative } from './Applicative'
 import { StaticSemigroup } from './Semigroup'
 import { FantasyApply } from './Apply'
@@ -14,11 +13,8 @@ import { Either, left, right } from './Either'
 import * as nea from './NonEmptyArray'
 
 declare module './HKT' {
-  interface HKT<A> {
-    Validation: Validation<any, A>
-  }
-  interface HKT2<A, B> {
-    Validation: Validation<A, B>
+  interface HKT<A, U> {
+    Validation: Validation<U, A>
   }
 }
 
@@ -61,9 +57,7 @@ export class Failure<L, A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L2, B>(f: (a: A) => HKT2<L2, B>[F]) => HKT2<L2, Validation<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Validation<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Validation<L, B>>[F] {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Validation<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(this as any)
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
@@ -135,9 +129,7 @@ export class Success<L, A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L2, B>(f: (a: A) => HKT2<L2, B>[F]) => HKT2<L2, Validation<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Validation<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Validation<L, B>>[F] {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Validation<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((b: B) => of<L, B>(b), f(this.value))
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
@@ -193,14 +185,6 @@ export function ap<L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A
   return fa.ap(fab)
 }
 
-/** deprecated */
-export function getStaticApplicative<L>(semigroup: StaticSemigroup<L>): StaticApplicative<URI> {
-  return { URI, map, of, ap }
-}
-
-/** deprecated */
-export const getApplicativeS = getStaticApplicative
-
 export function bimap<L, L2, A, B>(semigroup: StaticSemigroup<L2>, f: (l: L) => L2, g: (a: A) => B, fa: Validation<L, A>): Validation<L2, B> {
   return fa.bimap(semigroup, f, g)
 }
@@ -213,9 +197,7 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L2, L, A, B>(f: (a: A) => HKT2<L2, B>[F], ta: Validation<L, A>) => HKT2<L2, Validation<L, B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT<B>[F], ta: Validation<L, A>) => HKT<Validation<L, B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT<B>[F], ta: Validation<L, A>) => HKT<Validation<L, B>>[F] {
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Validation<L, A>) => HKT<Validation<L, B>, U, V>[F] {
   return <L, A, B>(f: (a: A) => HKT<B>[F], ta: Validation<L, A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
@@ -265,7 +247,7 @@ export function toEitherNea<L, A>(fa: Validation<L, A>): Option<Validation<nea.N
 ;(
   { map, of, reduce, traverse, alt } as (
     StaticFunctor<URI> &
-    StaticPointed<URI> &
+    StaticApplicative<URI> &
     StaticFoldable<URI> &
     StaticTraversable<URI> &
     StaticAlt<URI>

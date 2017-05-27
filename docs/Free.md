@@ -5,7 +5,7 @@
 Adapted from http://blog.scalac.io/2016/06/02/overview-of-free-monad-in-cats.html
 
 ```ts
-import {free, identity, option} from 'fp-ts'
+import { free, identity, option } from 'fp-ts'
 
 export class Degree {
   readonly value: number
@@ -22,14 +22,8 @@ export class Position {
   ) {}
 }
 
-export const InstructionURI = 'Instruction'
-
-export type InstructionURI = typeof InstructionURI
-
 export class Forward {
   readonly _tag = 'Forward'
-  readonly _A: Position
-  readonly _URI = InstructionURI
   constructor(
     public readonly position: Position,
     public readonly length: number
@@ -38,8 +32,6 @@ export class Forward {
 
 export class Backward {
   readonly _tag = 'Backward'
-  readonly _A: Position
-  readonly _URI = InstructionURI
   constructor(
     public readonly position: Position,
     public readonly length: number
@@ -48,8 +40,6 @@ export class Backward {
 
 export class RotateRight {
   readonly _tag = 'RotateRight'
-  readonly _A: Position
-  readonly _URI = InstructionURI
   constructor(
     public readonly position: Position,
     public readonly degree: Degree
@@ -58,8 +48,6 @@ export class RotateRight {
 
 export class Show {
   readonly _tag = 'Show'
-  readonly _A: void
-  readonly _URI = InstructionURI
   constructor(
     public readonly position: Position
   ) { }
@@ -67,16 +55,10 @@ export class Show {
 
 export type Instruction = Forward | Backward | RotateRight | Show
 
-declare module 'fp-ts/lib/HKT' {
-  interface HKT<A> {
-    Instruction: Instruction
-  }
-}
-
-export const forward = (position: Position, length: number) => free.liftADT(new Forward(position, length))
-export const backward = (position: Position, length: number) => free.liftADT(new Backward(position, length))
-export const right = (position: Position, degree: Degree) => free.liftADT(new RotateRight(position, degree))
-export const show = (position: Position) => free.liftADT(new Show(position))
+export const forward = (position: Position, length: number) => free.liftF<Instruction, Position>(new Forward(position, length))
+export const backward = (position: Position, length: number) => free.liftF<Instruction, Position>(new Backward(position, length))
+export const right = (position: Position, degree: Degree) => free.liftF<Instruction, Position>(new RotateRight(position, degree))
+export const show = (position: Position) => free.liftF<Instruction, void>(new Show(position))
 
 const computation = {
   forward(position: Position, length: number): Position {
@@ -103,7 +85,7 @@ const computation = {
   }
 }
 
-export function interpretIdentity(fa: Instruction): identity.Identity<free.TypeOf<typeof fa>> {
+export function interpretIdentity(fa: Instruction): identity.Identity<Position | void> {
   switch (fa._tag) {
     case 'Forward' :
       return identity.of(computation.forward(fa.position, fa.length))
@@ -132,7 +114,7 @@ program1(start).foldMap(identity, (fa: Instruction) => interpretIdentity(fa)).va
 const nonNegative = (position: Position): option.Option<Position> =>
   position.x >= 0 && position.y >= 0 ? option.some(position) : option.none
 
-export function interpretOption(fa: Instruction): option.Option<free.TypeOf<typeof fa>> {
+export function interpretOption(fa: Instruction): option.Option<Position | void> {
   switch (fa._tag) {
     case 'Forward' :
       return nonNegative(computation.forward(fa.position, fa.length))
@@ -160,14 +142,8 @@ program2(start).foldMap(option, (fa: Instruction) => interpretOption(fa))
 
 // Composing
 
-export const PencilInstructionURI = 'PencilInstruction'
-
-export type PencilInstructionURI = typeof PencilInstructionURI
-
 export class PencilUp {
   readonly _tag = 'PencilUp'
-  readonly _A: void
-  readonly _URI = PencilInstructionURI
   constructor(
     public readonly position: Position
   ) { }
@@ -175,8 +151,6 @@ export class PencilUp {
 
 export class PencilDown {
   readonly _tag = 'PencilDown'
-  readonly _A: void
-  readonly _URI = PencilInstructionURI
   constructor(
     public readonly position: Position
   ) { }
@@ -184,20 +158,12 @@ export class PencilDown {
 
 export type PencilInstruction = PencilUp | PencilDown
 
-declare module 'fp-ts/lib/HKT' {
-  interface HKT<A> {
-    PencilInstruction: PencilInstruction
-  }
-}
-
-export const pencilUp = (position: Position) => free.liftADT(new PencilUp(position))
-export const pencilDown = (position: Position) => free.liftADT(new PencilDown(position))
-
-export type LogoAppURI = InstructionURI | PencilInstructionURI
+export const pencilUp = (position: Position) => free.liftF<PencilInstruction, void>(new PencilUp(position))
+export const pencilDown = (position: Position) => free.liftF<PencilInstruction, void>(new PencilDown(position))
 
 export type LogoApp = Instruction | PencilInstruction
 
-const inj = free.inject<LogoAppURI>()
+const inj = free.inject<LogoApp>()
 
 const program3 = (start: Position) => {
   return inj(forward(start, 10))
@@ -213,21 +179,26 @@ const program3 = (start: Position) => {
     })
 }
 
-export function penInterpretIdentity(fa: PencilInstruction): identity.Identity<free.TypeOf<typeof fa>> {
-  if (fa instanceof PencilUp) {
-    console.log(`stop drawing at position ${JSON.stringify(fa.position)}`)
-    return identity.of(undefined)
-  } else {
-    console.log(`start drawing at position ${JSON.stringify(fa.position)}`)
-    return identity.of(undefined)
+export function penInterpretIdentity(fa: PencilInstruction): identity.Identity<void> {
+  switch (fa._tag) {
+    case 'PencilUp' :
+      console.log(`stop drawing at position ${JSON.stringify(fa.position)}`)
+      return identity.of(undefined)
+    case 'PencilDown' :
+      console.log(`start drawing at position ${JSON.stringify(fa.position)}`)
+      return identity.of(undefined)
   }
 }
 
-export function interpret(fa: LogoApp): identity.Identity<free.TypeOf<typeof fa>> {
-  switch (fa._URI) {
-    case InstructionURI :
+export function interpret(fa: LogoApp): identity.Identity<Position | void> {
+  switch (fa._tag) {
+    case 'Forward' :
+    case 'Backward' :
+    case 'RotateRight' :
+    case 'Show' :
       return interpretIdentity(fa)
-    case PencilInstructionURI :
+    case 'PencilUp' :
+    case 'PencilDown' :
       return penInterpretIdentity(fa)
   }
 }

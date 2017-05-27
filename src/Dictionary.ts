@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticMonoid } from './Monoid'
 import { StaticFunctor } from './Functor'
 import { StaticApplicative } from './Applicative'
@@ -44,16 +44,12 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Dictionary<A>): B {
 
 export const curriedConcat = curry<Dictionary<any>, Dictionary<any>, Dictionary<any>>(concat)
 
-export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT2<L, B>[F], ta: Dictionary<A>) => HKT2<L, Dictionary<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F] {
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Dictionary<A>) => HKT<Dictionary<B>, U, V>[F] {
   const traverse = traverseWithKey(applicative)
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Dictionary<A>) => traverse((_, a) => f(a), ta)
 }
 
-export function traverseWithKey<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B>(f: (k: string, a: A) => HKT2<L, B>[F], ta: Dictionary<A>) => HKT2<L, Dictionary<B>>[F]
-export function traverseWithKey<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (k: string, a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F]
-export function traverseWithKey<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (k: string, a: A) => HKT<B>[F], ta: Dictionary<A>) => HKT<Dictionary<B>>[F] {
+export function traverseWithKey<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (k: string, a: A) => HKT<B, U, V>[F], ta: Dictionary<A>) => HKT<Dictionary<B>, U, V>[F] {
   return <A, B>(f: (k: string, a: A) => HKT<B>[F], ta: Dictionary<A>) => {
     const concatA2 = liftA2(applicative, curriedConcat)
     let out = applicative.of(empty())
@@ -105,8 +101,8 @@ export function lookup<A>(k: string, d: Dictionary<A>): Option<A> {
 /** Create a dictionary from a foldable collection of key/value pairs, using the
  * specified function to combine values for duplicate keys.
  */
-export function fromFoldable<F extends HKTS, A>(foldable: StaticFoldable<F>, f: (existing: A, a: A) => A, ta: HKT<[string, A]>[F]): Dictionary<A> {
-  return foldable.reduce((b, a: [string, A]) => {
+export function fromFoldable<F extends HKTS>(foldable: StaticFoldable<F>): <A>(f: (existing: A, a: A) => A, ta: HKT<[string, A]>[F]) => Dictionary<A> {
+  return <A>(f: (existing: A, a: A) => A, ta: HKT<[string, A]>[F]) => foldable.reduce((b, a: [string, A]) => {
     const k = a[0]
     b[k] = b.hasOwnProperty(k) ? f(b[k], a[1]) : a[1]
     return b
@@ -126,13 +122,15 @@ export function toArray<A>(d: Dictionary<A>): Array<[string, A]> {
 }
 
 /** Unfolds a dictionary into a list of key/value pairs */
-export function toUnfoldable<F extends HKTS, A>(unfoldable: StaticUnfoldable<F>, d: Dictionary<A>): HKT<[string, A]>[F] {
-  const arr = toArray(d)
-  if (unfoldable.URI === 'Array') {
-    return arr
+export function toUnfoldable<F extends HKTS>(unfoldable: StaticUnfoldable<F>): <A>(d: Dictionary<A>) => HKT<[string, A]>[F] {
+  return <A>(d: Dictionary<A>) => {
+    const arr = toArray(d)
+    if (unfoldable.URI === 'Array') {
+      return arr
+    }
+    const len = arr.length
+    return unfoldable.unfoldr<[string, A], number>(b => b < len ? some([arr[b], b + 1]) : none, 0)
   }
-  const len = arr.length
-  return unfoldable.unfoldr<[string, A], number>(b => b < len ? some([arr[b], b + 1]) : none, 0)
 }
 
 /** Apply a function of two arguments to each key/value pair, producing a new dictionary */

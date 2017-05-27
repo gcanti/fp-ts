@@ -11,8 +11,8 @@ import { constant } from './function'
  */
 export interface StaticMonoidal<F extends HKTS> extends StaticFunctor<F> {
   readonly URI: F
-  unit(): HKT<void>[F]
-  mult<A, B>(fa: HKT<A>[F], fb: HKT<B>[F]): HKT<[A, B]>[F]
+  unit<U = any, V = any>(): HKT<void, U, V>[F]
+  mult<A, B, U = any, V = any>(fa: HKT<A, U, V>[F], fb: HKT<B, U, V>[F]): HKT<[A, B], U, V>[F]
 }
 
 export function fromApplicative<F extends HKTS>(applicative: StaticApplicative<F>): StaticMonoidal<F> {

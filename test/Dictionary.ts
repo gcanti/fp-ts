@@ -60,8 +60,8 @@ describe('Dictionary', () => {
   })
 
   it('fromFoldable', () => {
-    assert.deepEqual(fromFoldable(array, (existing, a) => existing, [['a', 1]]), { a: 1 })
-    assert.deepEqual(fromFoldable(array, (existing, a) => existing, [['a', 1], ['a', 2]]), { a: 1 })
+    assert.deepEqual(fromFoldable(array)((existing, a) => existing, [['a', 1]]), { a: 1 })
+    assert.deepEqual(fromFoldable(array)((existing, a) => existing, [['a', 1], ['a', 2]]), { a: 1 })
   })
 
   it('toArray', () => {
@@ -69,7 +69,7 @@ describe('Dictionary', () => {
   })
 
   it('toUnfoldable', () => {
-    assert.deepEqual(toUnfoldable(array, { a: 1 }), [['a', 1]])
+    assert.deepEqual(toUnfoldable(array)({ a: 1 }), [['a', 1]])
   })
 
   it('mapWithKey', () => {

@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "declaration": true,
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "noImplicitReturns": false,
+    "noImplicitThis": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noFallthroughCasesInSwitch": true,
+    "noEmitOnError": false,
+    "allowJs": false,
+    "strictNullChecks": true,
+    "target": "es5",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "lib": [
+      "es6", "dom"
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "fp-ts/lib/*": ["../src/*"],
+      "fp-ts": ["../src/index"]
+    }
+  }
+}

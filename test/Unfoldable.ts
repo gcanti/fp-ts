@@ -11,7 +11,7 @@ import { eqOptions as eq } from './helpers'
 describe('Unfoldable', () => {
 
   it('replicate', () => {
-    assert.deepEqual(replicate(array, 2, 's'), ['s', 's'])
+    assert.deepEqual(replicate(array)(2, 's'), ['s', 's'])
   })
 
   it('replicateA', () => {

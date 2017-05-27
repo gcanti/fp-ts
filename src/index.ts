@@ -20,8 +20,6 @@ import * as const_ from './Const'
 export { const_ as const }
 import * as contravariant from './Contravariant'
 export { contravariant }
-import * as copointed from './Copointed'
-export { copointed }
 import * as dictionary from './Dictionary'
 export { dictionary }
 import * as either from './Either'
@@ -44,6 +42,8 @@ import * as identity from './Identity'
 export { identity }
 import * as io from './IO'
 export { io }
+import * as ixMonad from './IxMonad'
+export { ixMonad }
 import * as monad from './Monad'
 export { monad }
 import * as monoid from './Monoid'
@@ -62,16 +62,12 @@ import * as ordering from './Ordering'
 export { ordering }
 import * as plus from './Plus'
 export { plus }
-import * as pointed from './Pointed'
-export { pointed }
 import * as profunctor from './Profunctor'
 export { profunctor }
 import * as reader from './Reader'
 export { reader }
 import * as readerT from './ReaderT'
 export { readerT }
-import * as rxjs from './Rxjs'
-export { rxjs }
 import * as semigroup from './Semigroup'
 export { semigroup }
 import * as semigroupoid from './Semigroupoid'
@@ -86,8 +82,6 @@ import * as these from './These'
 export { these }
 import * as traced from './Traced'
 export { traced }
-import * as trans from './Trans'
-export { trans }
 import * as traversable from './Traversable'
 export { traversable }
 import * as tuple from './Tuple'

@@ -1,7 +1,10 @@
-import { HKTS } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticExtend, FantasyExtend } from './Extend'
-import { StaticCopointed, FantasyCopointed } from './Copointed'
 
-export interface StaticComonad<F extends HKTS> extends StaticExtend<F>, StaticCopointed<F> {}
+export interface StaticComonad<F extends HKTS> extends StaticExtend<F> {
+  extract<A>(ca: HKT<A>[F]): A
+}
 
-export interface FantasyComonad<F extends HKTS, A> extends FantasyExtend<F, A>, FantasyCopointed<F, A> {}
+export interface FantasyComonad<F extends HKTS, A> extends FantasyExtend<F, A> {
+  extract<A>(ca: HKT<A>[F]): A
+}

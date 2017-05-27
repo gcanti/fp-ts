@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticApplicative } from './Applicative'
 import { Option, none, some } from './Option'
 import { StaticSetoid } from './Setoid'
@@ -9,11 +9,8 @@ import { constFalse } from './function'
 // adapted from https://github.com/purescript-contrib/purescript-these
 
 declare module './HKT' {
-  interface HKT<A> {
-    These: These<any, A>
-  }
-  interface HKT2<A, B> {
-    These: These<A, B>
+  interface HKT<A, U> {
+    These: These<U, A>
   }
 }
 
@@ -49,9 +46,7 @@ export class This<L, A> {
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L2, B>(f: (a: A) => HKT2<L2, B>[F]) => HKT2<L2, These<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<These<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<These<L, B>>[F] {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<These<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(this)
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
@@ -99,9 +94,7 @@ export class That<L, A> {
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L2, B>(f: (a: A) => HKT2<L2, B>[F]) => HKT2<L2, These<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<These<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<These<L, B>>[F] {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<These<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((b: B) => that<L, B>(b), f(this.value))
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
@@ -153,9 +146,7 @@ export class Both<L, A> {
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.a)
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L2, B>(f: (a: A) => HKT2<L2, B>[F]) => HKT2<L2, These<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<These<L, B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<These<L, B>>[F] {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<These<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((b: B) => both(this.l, b), f(this.a))
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
@@ -212,9 +203,7 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: These<L, A>): B 
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L2, L, A, B>(f: (a: A) => HKT2<L2, B>[F], ta: These<L, A>) => HKT2<L2, These<L, B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT<B>[F], ta: These<L, A>) => HKT<These<L, B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT<B>[F], ta: These<L, A>) => HKT<These<L, B>>[F] {
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: These<L, A>) => HKT<These<L, B>, U, V>[F] {
   return <L, A, B>(f: (a: A) => HKT<B>[F], ta: These<L, A>) => ta.traverse<F>(applicative)<B>(f)
 }
 

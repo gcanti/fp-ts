@@ -1,16 +1,19 @@
 import { HKT, HKTS } from './HKT'
-import { getFunctorComposition } from './Functor'
-import { StaticPointed, FantasyPointed } from './Pointed'
+import { getStaticFunctorComposition } from './Functor'
 import { StaticApply, FantasyApply } from './Apply'
 
-export interface StaticApplicative<F extends HKTS> extends StaticPointed<F>, StaticApply<F> {}
+export interface StaticApplicative<F extends HKTS> extends StaticApply<F> {
+  of<A, U = any, V = any>(a: A): HKT<A, U, V>[F]
+}
 
-export interface FantasyApplicative<F extends HKTS, A> extends FantasyPointed<F, A>, FantasyApply<F, A> {}
+export interface FantasyApplicative<F extends HKTS, A> extends FantasyApply<F, A> {
+  of<A, U = any, V = any>(a: A): HKT<A, U, V>[F]
+}
 
 /** returns the composition of two applicatives */
-export function getApplicativeComposition<FG extends HKTS>(URI: FG): <F extends HKTS, G extends HKTS>(applicativeF: StaticApplicative<F>, applicativeG: StaticApplicative<G>) => StaticApplicative<FG> {
+export function getStaticApplicativeComposition<FG extends HKTS>(URI: FG): <F extends HKTS, G extends HKTS>(applicativeF: StaticApplicative<F>, applicativeG: StaticApplicative<G>) => StaticApplicative<FG> {
   return <F extends HKTS, G extends HKTS>(applicativeF: StaticApplicative<F>, applicativeG: StaticApplicative<G>) => {
-    const functor = getFunctorComposition(URI)(applicativeF, applicativeG)
+    const functor = getStaticFunctorComposition(URI)(applicativeF, applicativeG)
 
     function of<A>(a: A): HKT<HKT<A>[G]>[F] {
       return applicativeF.of(applicativeG.of(a))

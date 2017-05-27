@@ -2,11 +2,8 @@ import { StaticMonad, FantasyMonad } from './Monad'
 import { Endomorphism } from './function'
 
 declare module './HKT' {
-  interface HKT<A> {
-    State: State<any, A>
-  }
-  interface HKT2<A, B> {
-    State: State<A, B>
+  interface HKT<A, U> {
+    State: State<U, A>
   }
 }
 

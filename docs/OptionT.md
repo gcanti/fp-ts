@@ -29,27 +29,33 @@ As you can see, the implementations of all of these variations are very similar.
 `OptionT` can help remove some of this boilerplate. It exposes methods that look like those on `Option`, but it handles the outer map call on the `Task` so we don’t have to:
 
 ```ts
-import { OptionT } from 'fp-ts/lib/OptionT'
+import { getStaticOptionT } from 'fp-ts/lib/OptionT'
 
-// customGreetingT :: OptionT<"Task", string>
-const customGreetingT = new OptionT(task, customGreeting)
+declare module 'fp-ts/lib/HKT' {
+  interface HKT<A> {
+    'Task<Option>': Task<Option<A>>
+  }
+}
 
-// excitedGreetingT :: OptionT<"Task", string>
-const excitedGreetingT = customGreetingT.map(s => s + '!')
+const taskOption = getStaticOptionT('Task<Option>', task)
 
-// excitedGreetingT :: Task<String>
-const withFallbackT = customGreetingT.getOrElse(() => 'hello, there!')
+// customGreeting2 :: Task<Option<string>>
+const customGreeting2 = taskOption.of('welcome back, Lola')
+
+// excitedGreeting2 :: Task<Option<string>>
+const excitedGreeting2 = taskOption.map(s => s + '!', customGreeting2)
+
+// excitedGreeting2 :: Task<String>
+const withFallback2 = taskOption.getOrElse(() => 'hello, there!', excitedGreeting2)
 ```
 
 ## From `Option<A>` and/or `M<A>` to `OptionT<M, A>`
 
-Sometimes you may have an `Option<A>` and/or `M<A>` and want to *lift* them into an `OptionT<M, A>`. For this purpose `OptionT` exposes two useful methods, namely `fromOption` and `liftT`, respectively. E.g.:
+Sometimes you may have an `Option<A>` and/or `M<A>` and want to *lift* them into an `M<Option<A>>`. For this purpose `taskOption` exposes two useful methods, namely `fromOption` and `liftT`, respectively. E.g.:
 
 ```ts
-import { liftT, fromOption } from 'fp-ts/lib/OptionT'
-
 // greetingMO :: Task<Option<string>>
-const greetingMO = task.of(option.some('Hello'))
+const greetingMO = taskOption.of('Hello')
 
 // firstnameM :: Task<string>
 const firstnameM = task.of('Jane')
@@ -57,38 +63,28 @@ const firstnameM = task.of('Jane')
 // lastnameO :: Option<string>
 const lastnameO = option.some('Doe')
 
-const ot = new OptionT(task, greetingMO)
-  .chain(g => liftT(task)(firstnameM)
-    .chain(f => fromOption(task)(lastnameO)
-      .map(l => `${g} ${f} ${l}`)))
+const ot = taskOption.chain(g => {
+  return taskOption.chain(f => {
+    return taskOption.map(l => `${g} ${f} ${l}`, taskOption.fromOption(lastnameO))
+  }, taskOption.liftT(firstnameM))
+}, greetingMO)
 
-ot.value.run().then(x => console.log(x)) // => Some("Hello Jane Doe")
+ot.run().then(x => console.log(x)) // => Some("Hello Jane Doe")
 ```
 
 ## From `A` to `OptionT<M, A>`
 
-If you have only an `A` and you wish to *lift* it into an `OptionT<M, A>` assuming you have an Moand instance for `M` you can use `some` which is an alias for `of`. There also exists a `none` function which can be used to create an `OptionT<M, A>`, where the `Option` wrapped `A` type is actually a `None`:
+If you have only an `A` and you wish to *lift* it into an `M<Option<A>>` assuming you have a Monad instance for `M` you can use `some` which is an alias for `of`. There also exists a `none` function which can be used to create an `M<Option<A>>`, where the `Option` wrapped `A` type is actually a `None`:
 
 ```ts
-import { of, some, none } from 'fp-ts/lib/OptionT'
+// greet :: Task<Option<string>>
+const greet = taskOption.of('Hola!')
 
-// greet :: OptionT<"Task", string>
-const greet = of(task)('Hola!')
+// greetAlt :: Task<Option<string>>
+const greetAlt = taskOption.some('Hi!')
 
-// greetAlt :: OptionT<"Task", string>
-const greetAlt = some(task)('Hi!')
-
-// failedGreet :: OptionT<"Task", any>
-const failedGreet = none(task)
-```
-
-## Getting to the underlying instance
-
-If you want to get the `M<Option<A>>` value (in this case `Task<Option<String>>`) out of an `OptionT` instance, you can simply call `value`:
-
-```ts
-// customGreeting :: Task<Option<string>>
-const customGreeting = customGreetingT.value
+// failedGreet :: Task<Option<any>>
+const failedGreet = taskOption.none()
 ```
 
 ## Credits

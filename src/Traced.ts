@@ -2,11 +2,8 @@ import { StaticMonoid } from './Monoid'
 import { StaticComonad, FantasyComonad } from './Comonad'
 
 declare module './HKT' {
-  interface HKT<A> {
-    Traced: Traced<any, A>
-  }
-  interface HKT2<A, B> {
-    Traced: Traced<A, B>
+  interface HKT<A, U> {
+    Traced: Traced<U, A>
   }
 }
 

@@ -2,11 +2,8 @@ import { StaticMonad, FantasyMonad } from './Monad'
 import { identity, Endomorphism } from './function'
 
 declare module './HKT' {
-  interface HKT<A> {
-    Reader: Reader<any, A>
-  }
-  interface HKT2<A, B> {
-    Reader: Reader<A, B>
+  interface HKT<A, U> {
+    Reader: Reader<U, A>
   }
 }
 

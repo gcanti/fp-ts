@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticSetoid } from './Setoid'
 import { StaticOrd } from './Ord'
 import { StaticSemigroupoid } from './Semigroupoid'
@@ -17,11 +17,8 @@ import { Cokleisli } from './function'
 // https://github.com/purescript/purescript-tuples
 
 declare module './HKT' {
-  interface HKT<A> {
-    Tuple: Tuple<any, A>
-  }
-  interface HKT2<A, B> {
-    Tuple: Tuple<A, B>
+  interface HKT<A, U> {
+    Tuple: Tuple<U, A>
   }
 }
 
@@ -53,9 +50,7 @@ export function reduce<A, B, C>(f: (c: C, b: B) => C, c: C, fa: Tuple<A, B>): C 
   return f(c, fa[1])
 }
 
-export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B, C>(f: (b: B) => HKT2<L, C>[F], ta: Tuple<A, B>) => HKT2<L, Tuple<A, C>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, C>(f: (b: B) => HKT<C>[F], ta: Tuple<A, B>) => HKT<Tuple<A, C>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, C>(f: (b: B) => HKT<C>[F], ta: Tuple<A, B>) => HKT<Tuple<A, C>>[F] {
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, C, U = any, V = any>(f: (b: B) => HKT<C, U, V>[F], ta: Tuple<A, B>) => HKT<Tuple<A, C>, U, V>[F] {
   return <A, B, C>(f: (b: B) => HKT<C>[F], ta: Tuple<A, B>) => applicative.map(c => [ta[0], c] as Tuple<A, C>, f(ta[1]))
 }
 

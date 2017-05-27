@@ -1,10 +1,9 @@
 {
   "name": "fp-ts",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "Functional programming in TypeScript",
   "files": [
-    "lib",
-    "lib-jsnext"
+    "lib"
   ],
   "main": "lib/index.js",
   "jsnext:main": "lib-jsnext/index.js",
@@ -14,8 +13,8 @@
     "typings-checker": "typings-checker --allow-expect-error --project typings-checker/tsconfig.json typings-checker/index.ts",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "test": "npm run lint && npm run typings-checker && npm run mocha",
-    "clean": "rm -rf lib/* && rm -rf lib-jsnext/*",
-    "build": "npm run clean && tsc && tsc -m es6 --outDir lib-jsnext"
+    "clean": "rm -rf lib/*",
+    "build": "npm run clean && tsc"
   },
   "repository": {
     "type": "git",
@@ -28,7 +27,6 @@
   },
   "homepage": "https://github.com/gcanti/fp-ts",
   "dependencies": {
-    "rxjs": "^5.0.0"
   },
   "devDependencies": {
     "@types/mocha": "2.2.38",
@@ -37,7 +35,7 @@
     "ts-node": "3.0.2",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "2.2.2",
+    "typescript": "2.3.3",
     "typings-checker": "1.1.2"
   },
   "tags": [

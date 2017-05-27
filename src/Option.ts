@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticMonoid } from './Monoid'
 import { StaticApplicative } from './Applicative'
 import { StaticSemigroup } from './Semigroup'
@@ -37,11 +37,7 @@ export class None<A> implements
   readonly _tag = 'None'
   readonly _A: A
   readonly _URI: URI
-  constructor() {
-    if (none) {
-      return none as any
-    }
-  }
+  private constructor() { }
   map<B>(f: (a: A) => B): Option<B> {
     return none
   }
@@ -57,9 +53,7 @@ export class None<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, B>(f: (a: A) => HKT2<L, B>[F]) => HKT2<L, Option<B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Option<B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Option<B>>[F] {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(none)
   }
   zero<B>(): Option<B> {
@@ -133,9 +127,7 @@ export class Some<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return this.fold<B>(constant(b), (a: A) => f(b, a))
   }
-  traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, B>(f: (a: A) => HKT2<L, B>[F]) => HKT2<L, Option<B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Option<B>>[F]
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B>(f: (a: A) => HKT<B>[F]) => HKT<Option<B>>[F] {
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map<B, Option<B>>(some, f(this.value))
   }
   zero<B>(): Option<B> {
@@ -145,7 +137,7 @@ export class Some<A> implements
     return this
   }
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
-    return some(f(this))
+    return new Some(f(this))
   }
   fold<B>(n: Lazy<B>, s: (a: A) => B): B {
     return s(this.value)
@@ -154,7 +146,7 @@ export class Some<A> implements
     return this.value
   }
   concat(semigroup: StaticSemigroup<A>, fy: Option<A>): Option<A> {
-    return fy.fold(() => this, y => some(semigroup.concat(this.value, y)))
+    return fy.fold(() => this, y => new Some(semigroup.concat(this.value, y)))
   }
   equals(setoid: StaticSetoid<A>, fy: Option<A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
@@ -179,7 +171,7 @@ export function fold<A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B {
 }
 
 export function fromNullable<A>(a: A | null | undefined): Option<A> {
-  return a == null ? none : some(a)
+  return a == null ? none : new Some(a)
 }
 
 export function toNullable<A>(fa: Option<A>): A | null {
@@ -206,9 +198,7 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B {
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT2<L, B>[F], ta: Option<A>) => HKT2<L, Option<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Option<A>) => HKT<Option<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Option<A>) => HKT<Option<B>>[F] {
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Option<A>) => HKT<Option<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Option<A>) => ta.traverse<F>(applicative)<B>(f)
 }
 

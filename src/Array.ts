@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticMonoid } from './Monoid'
 import { StaticApplicative } from './Applicative'
 import { StaticMonad } from './Monad'
@@ -57,9 +57,7 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B {
 
 export const curriedSnoc = curry(snoc)
 
-export function traverse<F extends HKT2S>(applicative: StaticApplicative<F>): <L, A, B>(f: (a: A) => HKT2<L, B>[F], ta: Array<A>) => HKT2<L, Array<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Array<A>) => HKT<Array<B>>[F]
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B>(f: (a: A) => HKT<B>[F], ta: Array<A>) => HKT<Array<B>>[F] {
+export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Array<A>) => HKT<Array<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Array<A>) => {
     const snocA2 = liftA2(applicative, curriedSnoc)
     return reduce((fab, a) => snocA2(fab, f(a)), applicative.of(empty()), ta)

@@ -1,17 +1,15 @@
-import { HKT, HKTS, HKT2, HKT2S } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { StaticApply, FantasyApply } from './Apply'
 import { Kleisli, identity } from './function'
 
 export interface StaticChain<F extends HKTS> extends StaticApply<F> {
-  chain<A, B>(f: Kleisli<F, A, B>, fa: HKT<A>[F]): HKT<B>[F]
+  chain<A, B, U = any, V = any>(f: Kleisli<F, A, B, U, V>, fa: HKT<A, U, V>[F]): HKT<B, U, V>[F]
 }
 
 export interface FantasyChain<F extends HKTS, A> extends FantasyApply<F, A> {
-  chain<B>(f: Kleisli<F, A, B>): HKT<B>[F]
+  chain<B, U = any, V = any>(f: Kleisli<F, A, B, U, V>): HKT<B, U, V>[F]
 }
 
-export function flatten<F extends HKT2S>(chain: StaticChain<F>): <L, A>(mma: HKT2<L, HKT2<L, A>[F]>[F]) => HKT2<L, A>[F]
-export function flatten<F extends HKTS>(chain: StaticChain<F>): <A>(mma: HKT<HKT<A>[F]>[F]) => HKT<A>[F]
-export function flatten<F extends HKTS>(chain: StaticChain<F>): <A>(mma: HKT<HKT<A>[F]>[F]) => HKT<A>[F] {
+export function flatten<F extends HKTS>(chain: StaticChain<F>): <A, U = any, V = any>(mma: HKT<HKT<A, U, V>[F], U, V>[F]) => HKT<A, U, V>[F] {
   return <A>(mma: HKT<HKT<A>[F]>[F]) => chain.chain<HKT<A>[F], A>(identity, mma)
 }
