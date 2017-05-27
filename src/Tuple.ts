@@ -138,7 +138,6 @@ export function tuple<A>(a: A): <B>(b: B) => Tuple<A, B> {
 ;(
   { compose, map, bimap, extract, extend, reduce } as (
     StaticSemigroupoid<URI> &
-    StaticFunctor<URI> &
     StaticBifunctor<URI> &
     StaticComonad<URI> &
     StaticFoldable<URI> &
