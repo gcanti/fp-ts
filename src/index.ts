@@ -76,6 +76,8 @@ import * as setoid from './Setoid'
 export { setoid }
 import * as state from './State'
 export { state }
+import * as store from './Store'
+export { store }
 import * as task from './Task'
 export { task }
 import * as these from './These'
