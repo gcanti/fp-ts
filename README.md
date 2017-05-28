@@ -56,6 +56,7 @@ See the section "Technical overview" below for an explanation of the technique.
 # Comonads
 
 - Identity
+- Store
 - Traced
 
 # Monad transformers
