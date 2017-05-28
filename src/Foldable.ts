@@ -22,17 +22,17 @@ export function toArray<F extends HKTS>(foldable: StaticFoldable<F>): <A>(fa: HK
   return <A>(fa: HKT<A>[F]) => foldable.reduce<A, Array<A>>((b, a) => b.concat([a]), [], fa)
 }
 
-/** returns the composition of two foldables */
-export function getStaticFoldableComposition<FG extends HKTS>(URI: FG): <F extends HKTS, G extends HKTS>(foldableF: StaticFoldable<F>, foldableG: StaticFoldable<G>) => StaticFoldable<FG> {
-  return <F extends HKTS, G extends HKTS>(foldableF: StaticFoldable<F>, foldableG: StaticFoldable<G>) => {
-    function reduce<A, B>(f: (b: B, a: A) => B, b: B, fga: HKT<HKT<A>[G]>[F]): B {
-      return foldableF.reduce<HKT<A>[G], B>((b, ga) => foldableG.reduce(f, b, ga), b, fga)
-    }
+/** returns the composition of two foldables
+ * Note: requires an implicit proof that HKT<A>[FG] ~ HKT<HKT<A>[G]>[F]
+ */
+export function getStaticFoldableComposition<FG extends HKTS, F extends HKTS, G extends HKTS>(URI: FG, foldableF: StaticFoldable<F>, foldableG: StaticFoldable<G>): StaticFoldable<FG> {
+  function reduce<A, B>(f: (b: B, a: A) => B, b: B, fga: HKT<HKT<A>[G]>[F]): B {
+    return foldableF.reduce<HKT<A>[G], B>((b, ga) => foldableG.reduce(f, b, ga), b, fga)
+  }
 
-    return {
-      URI,
-      reduce
-    }
+  return {
+    URI,
+    reduce
   }
 }
 

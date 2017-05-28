@@ -25,7 +25,7 @@ describe('Applicative', () => {
 
   it('getStaticApplicativeComposition', () => {
 
-    const taskValidationApplicative = getStaticApplicativeComposition(TaskValidationURI)(task, validation)
+    const taskValidationApplicative = getStaticApplicativeComposition(TaskValidationURI, task, validation)
 
     const allsuccess = [
       validation.success<string, number>(1),

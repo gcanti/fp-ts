@@ -15,8 +15,9 @@ export interface StaticEitherT<URI extends HKTS, M extends HKTS> extends StaticM
   toOption<L, A, U = any, V = any>(fa: HKT<Either<L, A>, U, V>[M]): HKT<Option<A>, U, V>[M]
 }
 
+/** Note: requires an implicit proof that HKT<A>[URI] ~ HKT<Either<L, A>>[M] */
 export function getStaticEitherT<URI extends HKTS, M extends HKTS>(URI: URI, monad: StaticMonad<M>): StaticEitherT<URI, M> {
-  const applicative = getStaticApplicativeComposition(URI)(monad, either)
+  const applicative = getStaticApplicativeComposition(URI, monad, either)
 
   function chain<L, A, B>(f: (a: A) => HKT<Either<L, B>>[M], fa: HKT<Either<L, A>>[M]): HKT<Either<L, B>>[M] {
     return monad.chain<Either<L, A>, Either<L, B>>(e => e.fold<HKT<Either<L, B>>[M]>(

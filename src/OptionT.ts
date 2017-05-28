@@ -14,8 +14,9 @@ export interface StaticOptionT<URI extends HKTS, M extends HKTS> extends StaticM
   getOrElse<A, U = any, V = any>(f: Lazy<A>, fa: HKT<Option<A>, U, V>[M]): HKT<A, U, V>[M]
 }
 
+/** Note: requires an implicit proof that HKT<A>[URI] ~ HKT<Option<A>>[M] */
 export function getStaticOptionT<URI extends HKTS, M extends HKTS>(URI: URI, monad: StaticMonad<M>): StaticOptionT<URI, M> {
-  const applicative = getStaticApplicativeComposition(URI)(monad, option)
+  const applicative = getStaticApplicativeComposition(URI, monad, option)
 
   function chain<A, B>(f: (a: A) => HKT<Option<B>>[M], fa: HKT<Option<A>>[M]): HKT<Option<B>>[M] {
     return monad.chain<Option<A>, Option<B>>(e => e.fold<HKT<Option<B>>[M]>(
