@@ -5,14 +5,14 @@ import { StaticApplicative } from './Applicative'
 import { identity } from './function'
 
 export interface StaticTraversable<T extends HKTS> extends StaticFunctor<T>, StaticFoldable<T> {
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, UF = any, VF = any, UT = any, VT = any>(f: (a: A) => HKT<B, UF, VF>[F], ta: HKT<A, UT, VT>[T]) => HKT<HKT<B, UT, VT>[T], UF, VF>[F]
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, UF = any, UT = any, VF = any, VT = any>(f: (a: A) => HKT<B, UF, VF>[F], ta: HKT<A, UT, VT>[T]) => HKT<HKT<B, UT, VT>[T], UF, VF>[F]
 }
 
 export interface FantasyTraversable<T extends HKTS, A> extends FantasyFunctor<T, A>, FantasyFoldable<A> {
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, UF = any, VF = any, UT = any, VT = any>(f: (a: A) => HKT<B, UF, VF>[F]) => HKT<HKT<B, UT, VT>[T], UF, VF>[F]
+  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, UF = any, UT = any, VF = any, VT = any>(f: (a: A) => HKT<B, UF, VF>[F]) => HKT<HKT<B, UT, VT>[T], UF, VF>[F]
 }
 
-export function sequence<F extends HKTS, T extends HKTS>(applicative: StaticApplicative<F>, traversable: StaticTraversable<T>): <A, UF = any, VF = any, UT = any, VT = any>(tfa: HKT<HKT<A, UF, VF>[F], UT, VT>[T]) => HKT<HKT<A, UT, VT>[T], UF, VF>[F] {
+export function sequence<F extends HKTS, T extends HKTS>(applicative: StaticApplicative<F>, traversable: StaticTraversable<T>): <A, UF = any, UT = any, VF = any, VT = any>(tfa: HKT<HKT<A, UF, VF>[F], UT, VT>[T]) => HKT<HKT<A, UT, VT>[T], UF, VF>[F] {
   return <A>(tfa: HKT<HKT<A>[F]>[T]) => traversable.traverse<F>(applicative)<HKT<A>[F], A>(identity, tfa)
 }
 

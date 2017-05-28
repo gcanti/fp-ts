@@ -24,7 +24,7 @@ export function replicate<F extends HKTS>(unfoldable: StaticUnfoldable<F>): <A, 
 }
 
 /** Perform an Applicative action `n` times, and accumulate all the results. */
-export function replicateA<F extends HKTS, T extends HKTS>(applicative: StaticApplicative<F>, unfoldableTraversable: StaticUnfoldable<T> & StaticTraversable<T>): <A, UF = any, VF = any, UT = any, VT = any>(n: number, ma: HKT<A, UF, VF>[F]) => HKT<HKT<A, UT, VT>[T], UF, VF>[F] {
+export function replicateA<F extends HKTS, T extends HKTS>(applicative: StaticApplicative<F>, unfoldableTraversable: StaticUnfoldable<T> & StaticTraversable<T>): <A, UF = any, UT = any, VF = any, VT = any>(n: number, ma: HKT<A, UF, VF>[F]) => HKT<HKT<A, UT, VT>[T], UF, VF>[F] {
   return <A>(n: number, ma: HKT<A>[F]) => sequence<F, T>(applicative, unfoldableTraversable)<A>(replicate(unfoldableTraversable)(n, ma))
 }
 
