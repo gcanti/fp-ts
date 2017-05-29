@@ -1,7 +1,7 @@
-import { StaticOrd } from 'fp-ts/lib/Ord'
+import { Ord } from 'fp-ts/lib/Ord'
 import { greaterThan, numberOrd } from 'fp-ts/lib/Ord'
 
-export function isSorted<A>(xs: Array<A>, ord: StaticOrd<A>): boolean {
+export function isSorted<A>(xs: Array<A>, ord: Ord<A>): boolean {
   const len = xs.length
   function go(n: number): boolean {
     if (n >= len) {

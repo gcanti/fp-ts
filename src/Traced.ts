@@ -1,5 +1,5 @@
-import { StaticMonoid } from './Monoid'
-import { StaticComonad, FantasyComonad } from './Comonad'
+import { Monoid } from './Monoid'
+import { Comonad, FantasyComonad } from './Comonad'
 
 declare module './HKT' {
   interface HKT<A, U> {
@@ -15,7 +15,7 @@ export class Traced<E, A> implements FantasyComonad<URI, A> {
   readonly _E: E
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly monoid: StaticMonoid<E>, public readonly value: (e: E) => A) { }
+  constructor(public readonly monoid: Monoid<E>, public readonly value: (e: E) => A) { }
   run(e: E): A {
     return this.value(e)
   }
@@ -55,6 +55,6 @@ export function extend<E, A, B>(f: (ea: Traced<E, A>) => B, ea: Traced<E, A>): T
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, extract, extend } as (
-    StaticComonad<URI>
+    Comonad<URI>
   )
 )

@@ -1,9 +1,9 @@
 import { HKT, HKTS } from './HKT'
-import { StaticChain, FantasyChain } from './Chain'
+import { Chain, FantasyChain } from './Chain'
 import { Either, Right } from './Either'
 import { isLeft } from './Either'
 
-export interface StaticChainRec<F extends HKTS> extends StaticChain<F> {
+export interface ChainRec<F extends HKTS> extends Chain<F> {
   chainRec<A, B, U = any, V = any>(f: (a: A) => HKT<Either<A, B>, U, V>[F], a: A): HKT<B, U, V>[F]
 }
 

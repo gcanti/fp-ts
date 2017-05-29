@@ -1,7 +1,7 @@
 // adapted from http://okmij.org/ftp/Computation/free-monad.html
 
 import { HKT, HKTS } from './HKT'
-import { FantasyMonad, StaticMonad } from './Monad'
+import { FantasyMonad, Monad } from './Monad'
 import { identity as id } from './function'
 
 declare module './HKT' {
@@ -35,7 +35,7 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.a)
   }
-  foldMap<M extends HKTS, U = any, V = any>(monad: StaticMonad<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
+  foldMap<M extends HKTS, U = any, V = any>(monad: Monad<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
     return monad.of(this.a)
   }
 }
@@ -62,7 +62,7 @@ export class Impure<F, A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return new Impure<F, B>(this.fx, x => this.f(x).chain(f))
   }
-  foldMap<M extends HKTS, U = any, V = any>(monad: StaticMonad<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
+  foldMap<M extends HKTS, U = any, V = any>(monad: Monad<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
     return monad.chain<any, A>((x: any) => this.f(x).foldMap(monad, f), f(this.fx))
   }
 }

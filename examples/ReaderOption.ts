@@ -1,7 +1,7 @@
 import { Reader } from 'fp-ts/lib/Reader'
 import { Option } from 'fp-ts/lib/Option'
 import * as option from 'fp-ts/lib/Option'
-import { getStaticReaderT } from 'fp-ts/lib/ReaderT'
+import { getReaderT } from 'fp-ts/lib/ReaderT'
 import { FantasyMonad } from 'fp-ts/lib/Monad'
 import { Endomorphism } from 'fp-ts/lib/function'
 
@@ -13,7 +13,7 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-const readerTOption = getStaticReaderT(option)
+const readerTOption = getReaderT(option)
 
 export const URI = 'ReaderOption'
 

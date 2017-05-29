@@ -1,6 +1,6 @@
-import { StaticMonoid } from './Monoid'
-import { StaticFunctor } from './Functor'
-import { StaticMonad, FantasyMonad } from './Monad'
+import { Monoid } from './Monoid'
+import { Functor } from './Functor'
+import { Monad, FantasyMonad } from './Monad'
 import { Lazy } from './function'
 
 declare module './HKT' {
@@ -18,7 +18,7 @@ export class Writer<W, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _URI: URI
   of: (a: A) => Writer<W, A>
-  constructor(public readonly monoid: StaticMonoid<W>, public readonly value: Lazy<[A, W]>) {
+  constructor(public readonly monoid: Monoid<W>, public readonly value: Lazy<[A, W]>) {
     this.of = of<W>(monoid)
   }
   run(): [A, W] {
@@ -50,7 +50,7 @@ export function map<W, A, B>(f: (a: A) => B, fa: Writer<W, A>): Writer<W, B> {
   return fa.map(f)
 }
 
-export function of<W>(monoid: StaticMonoid<W>): <A>(a: A) => Writer<W, A> {
+export function of<W>(monoid: Monoid<W>): <A>(a: A) => Writer<W, A> {
   return <A>(a: A) => new Writer<W, A>(monoid, () => [a, monoid.empty()])
 }
 
@@ -62,11 +62,11 @@ export function chain<W, A, B>(f: (a: A) => Writer<W, B>, fa: Writer<W, A>): Wri
   return fa.chain(f)
 }
 
-export function tell<W>(monoid: StaticMonoid<W>): (w: W) => Writer<W, void> {
+export function tell<W>(monoid: Monoid<W>): (w: W) => Writer<W, void> {
   return w => new Writer(monoid, () => [undefined, w])
 }
 
-export function getMonadS<W>(monoid: StaticMonoid<W>): StaticMonad<URI> {
+export function getMonad<W>(monoid: Monoid<W>): Monad<URI> {
   return {
     URI,
     map,
@@ -79,6 +79,6 @@ export function getMonadS<W>(monoid: StaticMonoid<W>): StaticMonad<URI> {
 // tslint:disable-next-line no-unused-expression
 ;(
   { map } as (
-    StaticFunctor<URI>
+    Functor<URI>
   )
 )

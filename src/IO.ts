@@ -1,6 +1,6 @@
-import { StaticMonoid } from './Monoid'
-import { StaticSemigroup } from './Semigroup'
-import { StaticMonad, FantasyMonad } from './Monad'
+import { Monoid } from './Monoid'
+import { Semigroup } from './Semigroup'
+import { Monad, FantasyMonad } from './Monad'
 import { constant, Lazy } from './function'
 
 declare module './HKT' {
@@ -33,7 +33,7 @@ export class IO<A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => IO<B>): IO<B> {
     return new IO(() => f(this.run()).run())
   }
-  concat(semigroup: StaticSemigroup<A>, fy: IO<A>): IO<A> {
+  concat(semigroup: Semigroup<A>, fy: IO<A>): IO<A> {
     return new IO(() => semigroup.concat(this.run(), fy.run()))
   }
 }
@@ -54,15 +54,15 @@ export function chain<A, B>(f: (a: A) => IO<B>, fa: IO<A>): IO<B> {
   return fa.chain(f)
 }
 
-export function concat<A>(semigroup: StaticSemigroup<A>, fx: IO<A>, fy: IO<A>): IO<A> {
+export function concat<A>(semigroup: Semigroup<A>, fx: IO<A>, fy: IO<A>): IO<A> {
   return fx.concat(semigroup, fy)
 }
 
-export function getSemigroup<A>(semigroup: StaticSemigroup<A>): StaticSemigroup<IO<A>> {
+export function getSemigroup<A>(semigroup: Semigroup<A>): Semigroup<IO<A>> {
   return { concat: (fx, fy) => concat(semigroup, fx, fy) }
 }
 
-export function getMonoid<A>(monoid: StaticMonoid<A>): StaticMonoid<IO<A>> {
+export function getMonoid<A>(monoid: Monoid<A>): Monoid<IO<A>> {
   const empty = monoid.empty()
   return { empty: constant(of(empty)), concat: getSemigroup(monoid).concat }
 }
@@ -70,6 +70,6 @@ export function getMonoid<A>(monoid: StaticMonoid<A>): StaticMonoid<IO<A>> {
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain } as (
-    StaticMonad<URI>
+    Monad<URI>
   )
 )

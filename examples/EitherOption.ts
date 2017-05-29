@@ -2,7 +2,7 @@ import { Option } from 'fp-ts/lib/Option'
 import * as option from 'fp-ts/lib/Option'
 import { Either } from 'fp-ts/lib/Either'
 import * as either from 'fp-ts/lib/Either'
-import { getStaticOptionT } from 'fp-ts/lib/OptionT'
+import { getOptionT } from 'fp-ts/lib/OptionT'
 import { FantasyMonad } from 'fp-ts/lib/Monad'
 import { Lazy } from 'fp-ts/lib/function'
 
@@ -13,7 +13,7 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-const optionTEither = getStaticOptionT('Either<Option>', either)
+const optionTEither = getOptionT('Either<Option>', either)
 
 export const URI = 'EitherOption'
 

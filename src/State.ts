@@ -1,4 +1,4 @@
-import { StaticMonad, FantasyMonad } from './Monad'
+import { Monad, FantasyMonad } from './Monad'
 import { Endomorphism } from './function'
 
 declare module './HKT' {
@@ -80,6 +80,6 @@ export function gets<S, A>(f: (s: S) => A): State<S, A> {
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain } as (
-    StaticMonad<URI>
+    Monad<URI>
   )
 )

@@ -1,6 +1,6 @@
 import { HKT, HKTS } from './HKT'
-import { StaticComonad, FantasyComonad } from './Comonad'
-import { StaticFunctor } from './Functor'
+import { Comonad, FantasyComonad } from './Comonad'
+import { Functor } from './Functor'
 import { Endomorphism } from './function'
 
 export const URI = 'Store'
@@ -75,13 +75,13 @@ export function seeks<S, A>(f: Endomorphism<S>, sa: Store<S, A>): Store<S, A> {
 }
 
 /** Extract a collection of values from positions which depend on the current position */
-export function experiment<F extends HKTS, S, A, U = any, V = any>(functor: StaticFunctor<F>, f: (s: S) => HKT<S, U, V>[F], sa: Store<S, A>): HKT<A, U, V>[F] {
+export function experiment<F extends HKTS, S, A, U = any, V = any>(functor: Functor<F>, f: (s: S) => HKT<S, U, V>[F], sa: Store<S, A>): HKT<A, U, V>[F] {
   return functor.map<S, A>(s => sa.peek(s), f(sa.pos()))
 }
 
 // tslint:disable-next-line no-unused-expression
 ; (
   { map, extract, extend } as (
-    StaticComonad<URI>
+    Comonad<URI>
   )
 )

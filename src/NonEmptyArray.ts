@@ -1,9 +1,9 @@
 import { HKT, HKTS } from './HKT'
-import { StaticMonad, FantasyMonad } from './Monad'
-import { StaticSemigroup } from './Semigroup'
-import { StaticFoldable, FantasyFoldable } from './Foldable'
-import { StaticApplicative } from './Applicative'
-import { StaticTraversable, FantasyTraversable } from './Traversable'
+import { Monad, FantasyMonad } from './Monad'
+import { Semigroup } from './Semigroup'
+import { Foldable, FantasyFoldable } from './Foldable'
+import { Applicative } from './Applicative'
+import { Traversable, FantasyTraversable } from './Traversable'
 import * as array from './Array'
 import { Option, some, none } from './Option'
 
@@ -49,7 +49,7 @@ export class NonEmptyArray<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return array.reduce(f, b, this.toArray())
   }
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<NonEmptyArray<B>, U, V>[F] {
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<NonEmptyArray<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((bs: Array<B>) => unsafeFromArray(bs), array.traverse<F>(applicative)<A, B>(f, this.toArray()))
   }
 }
@@ -86,16 +86,16 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): 
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: NonEmptyArray<A>) => HKT<NonEmptyArray<B>, U, V>[F] {
+export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: NonEmptyArray<A>) => HKT<NonEmptyArray<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: NonEmptyArray<A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain, concat, reduce, traverse } as (
-    StaticMonad<URI> &
-    StaticSemigroup<any> &
-    StaticFoldable<URI> &
-    StaticTraversable<URI>
+    Monad<URI> &
+    Semigroup<any> &
+    Foldable<URI> &
+    Traversable<URI>
   )
 )

@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 
 import {
-  getStaticApplicativeComposition,
+  getCompositionApplicative,
   when
 } from '../src/Applicative'
 import * as validation from '../src/Validation'
@@ -23,9 +23,9 @@ declare module '../src/HKT' {
 
 describe('Applicative', () => {
 
-  it('getStaticApplicativeComposition', () => {
+  it('getCompositionApplicative', () => {
 
-    const taskValidationApplicative = getStaticApplicativeComposition(TaskValidationURI)(task, validation)
+    const taskValidationApplicative = getCompositionApplicative(TaskValidationURI, task, validation)
 
     const allsuccess = [
       validation.success<string, number>(1),

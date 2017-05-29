@@ -1,15 +1,15 @@
 import { HKT, HKTS } from './HKT'
-import { StaticMonoid } from './Monoid'
-import { StaticApplicative } from './Applicative'
-import { StaticMonad } from './Monad'
-import { StaticFoldable } from './Foldable'
-import { StaticTraversable } from './Traversable'
-import { StaticAlternative } from './Alternative'
-import { StaticPlus } from './Plus'
+import { Monoid } from './Monoid'
+import { Applicative } from './Applicative'
+import { Monad } from './Monad'
+import { Foldable } from './Foldable'
+import { Traversable } from './Traversable'
+import { Alternative } from './Alternative'
+import { Plus } from './Plus'
 import { liftA2 } from './Apply'
 import { Option } from './Option'
 import * as option from './Option'
-import { StaticOrd, toNativeComparator } from './Ord'
+import { Ord, toNativeComparator } from './Ord'
 import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement } from './function'
 
 declare module './HKT' {
@@ -57,7 +57,7 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B {
 
 export const curriedSnoc = curry(snoc)
 
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Array<A>) => HKT<Array<B>, U, V>[F] {
+export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Array<A>) => HKT<Array<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Array<A>) => {
     const snocA2 = liftA2(applicative, curriedSnoc)
     return reduce((fab, a) => snocA2(fab, f(a)), applicative.of(empty()), ta)
@@ -218,18 +218,18 @@ export function catOptions<A>(as: Array<Option<A>>): Array<A> {
   return mapOption<Option<A>, A>(identity, as)
 }
 
-export function sort<A>(ord: StaticOrd<A>, as: Array<A>): Array<A> {
+export function sort<A>(ord: Ord<A>, as: Array<A>): Array<A> {
   return copy(as).sort(toNativeComparator(ord.compare))
 }
 
 // tslint:disable-next-line no-unused-expression
 ;(
   { empty, concat, map, of, ap, chain, reduce, traverse, zero, alt } as (
-    StaticMonoid<Array<any>> &
-    StaticMonad<URI> &
-    StaticFoldable<URI> &
-    StaticTraversable<URI> &
-    StaticAlternative<URI> &
-    StaticPlus<URI>
+    Monoid<Array<any>> &
+    Monad<URI> &
+    Foldable<URI> &
+    Traversable<URI> &
+    Alternative<URI> &
+    Plus<URI>
   )
 )

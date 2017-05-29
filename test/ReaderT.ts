@@ -1,12 +1,12 @@
 import * as option from '../src/Option'
 import { Dictionary, lookup } from '../src/Dictionary'
-import { getStaticReaderT } from '../src/ReaderT'
+import { getReaderT } from '../src/ReaderT'
 import * as reader from '../src/Reader'
 import { eqOptions as eq } from './helpers'
 
 export type ReaderTOption<E, A> = reader.Reader<E, option.Option<A>>
 
-const readerOption = getStaticReaderT(option)
+const readerOption = getReaderT(option)
 
 describe('ReaderT', () => {
 

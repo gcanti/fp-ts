@@ -6,6 +6,6 @@
 
 */
 
-import { StaticOrd } from 'fp-ts/lib/Ord'
+import { Ord } from 'fp-ts/lib/Ord'
 
-declare function isSorted<A>(xs: Array<A>, ord: StaticOrd<A>): boolean
+declare function isSorted<A>(xs: Array<A>, ord: Ord<A>): boolean
