@@ -1,8 +1,11 @@
 import { Monad, FantasyMonad } from './Monad'
 import { Endomorphism } from './function'
+import { getStateT } from './StateT'
+import * as id from './Id'
 
 declare module './HKT' {
   interface HKT<A, U> {
+    'Kleisli<Id, S, [A, S]>': (u: U) => [A, U]
     State: State<U, A>
   }
 }
@@ -10,6 +13,8 @@ declare module './HKT' {
 export const URI = 'State'
 
 export type URI = typeof URI
+
+const stateTId = getStateT('Kleisli<Id, S, [A, S]>', id)
 
 export class State<S, A> implements FantasyMonad<URI, A> {
   readonly _S: S
@@ -26,22 +31,16 @@ export class State<S, A> implements FantasyMonad<URI, A> {
     return this.run(s)[1]
   }
   map<B>(f: (a: A) => B): State<S, B> {
-    return new State<S, B>(s => {
-      const [a, s1] = this.run(s)
-      return [f(a), s1]
-    })
+    return new State<S, B>(stateTId.map(f, this.value))
   }
   of<S2, B>(b: B): State<S2, B> {
     return of<S2, B>(b)
   }
   ap<B>(fab: State<S, (a: A) => B>): State<S, B> {
-    return fab.chain(f => this.map(f)) // <= derived
+    return new State(stateTId.ap(fab.value, this.value))
   }
   chain<B>(f: (a: A) => State<S, B>): State<S, B> {
-    return new State<S, B>(s => {
-      const [a, s1] = this.run(s)
-      return f(a).run(s1)
-    })
+    return new State<S, B>(stateTId.chain(a => f(a).value, this.value))
   }
 }
 
@@ -54,7 +53,7 @@ export function ap<S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<
 }
 
 export function of<S, A>(a: A): State<S, A> {
-  return new State<S, A>(s => [a, s])
+  return new State<S, A>(stateTId.of<A, S>(a))
 }
 
 export function chain<S, A, B>(f: (a: A) => State<S, B>, fa: State<S, A>): State<S, B> {
@@ -62,19 +61,19 @@ export function chain<S, A, B>(f: (a: A) => State<S, B>, fa: State<S, A>): State
 }
 
 export function get<S>(): State<S, S> {
-  return new State<S, S>(s => [s, s])
+  return new State<S, S>(stateTId.get<S>())
 }
 
 export function put<S>(s: S): State<S, void> {
-  return new State(() => [undefined, s])
+  return new State(stateTId.put<S>(s))
 }
 
 export function modify<S>(f: Endomorphism<S>): State<S, void> {
-  return new State<S, undefined>(s => [undefined, f(s)])
+  return new State<S, void>(stateTId.modify<S>(f))
 }
 
 export function gets<S, A>(f: (s: S) => A): State<S, A> {
-  return new State<S, A>(s => [f(s), s])
+  return new State<S, A>(stateTId.gets<S, A>(f))
 }
 
 // tslint:disable-next-line no-unused-expression
