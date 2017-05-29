@@ -12,6 +12,45 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.3.0
+
+- **New Feature**
+  - add `StateT` monad transformer, closes #104 (@gcanti)
+  - add `Store` comonad, closes #100 (@rilut)
+  - add `Last` monoid, closes #99 (@gcanti)
+  - add `Id` monadfunctor (@gcanti)
+  - Array: add extend instance (@gcanti)
+  - NonEmptyArray: add comonad instance (@gcanti)
+  - `examples` folder
+  - `exercises` folder
+- **Polish**
+  - Tuple: remove StaticFunctor checking (@rilut)
+- **Breaking Change** (@gcanti)
+  - required typescript version: **2.3.3**
+  - drop `Static` prefix in type classes
+  - Change contramap signature, closes #32
+  - Validation: remove deprecated functions
+  - Foldable/toArray
+  - Dictionary/fromFoldable
+  - Dictionary/toUnfoldable
+  - Profunctor/lmap
+  - Profunctor/rmap
+  - Unfoldable/replicate
+  - compositions: renaming and signature changes
+    - `getFunctorComposition` -> `getCompositionFunctor`
+    - `getApplicativeComposition` -> `getCompositionApplicative`
+    - `getFoldableComposition` -> `getCompositionFoldable`
+    - `getTraversableComposition` -> `getCompositionTraversable`
+  - `OptionT`, `EitherT`, `ReaderT` refactoring
+  - drop `IxMonadT`, move `IxIO` to the `examples` folder
+  - drop `Trans` module
+  - `Free` refactoring
+  - drop `rxjs` dependency
+  - drop `lib-jsnext` folder
+  - make `None` constructor private
+  - remove `Pointed` and `Copointed` type classes
+
+
 # 0.2.9
 
 - **New Feature**
