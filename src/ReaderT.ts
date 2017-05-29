@@ -1,53 +1,55 @@
 import { HKT, HKTS } from './HKT'
 import { Monad } from './Monad'
-import { Reader } from './Reader'
-import * as reader from './Reader'
-import { Endomorphism } from './function'
+import { Endomorphism, Kleisli } from './function'
 
-export interface ReaderT<M extends HKTS> {
-  of<E, A, U = any, V = any>(a: A): Reader<E, HKT<A, U, V>[M]>
-  map<E, A, B, U = any, V = any>(f: (a: A) => B, fa: Reader<E, HKT<A, U, V>[M]>): Reader<E, HKT<B, U, V>[M]>
-  ap<E, A, B, U = any, V = any>(fab: Reader<E, HKT<(a: A) => B, U, V>[M]>, fa: Reader<E, HKT<A, U, V>[M]>): Reader<E, HKT<B, U, V>[M]>
-  chain<E, A, B, U = any, V = any>(f: (a: A) => Reader<E, HKT<B, U, V>[M]>, fa: Reader<E, HKT<A, U, V>[M]>): Reader<E, HKT<B, U, V>[M]>
-  ask<E, U = any, V = any>(): Reader<E, HKT<E, U, V>[M]>
-  asks<E, A, U = any, V = any>(f: (e: E) => A): Reader<E, HKT<A, U, V>[M]>
-  local<E, A, U = any, V = any>(f: Endomorphism<E>, fa: Reader<E, HKT<A, U, V>[M]>): Reader<E, HKT<A, U, V>[M]>
+export interface ReaderT<URI extends HKTS, M extends HKTS> extends Monad<URI> {
+  run<E, A, U = any, V = any>(e: E, fa: Kleisli<M, E, A, U, V>): HKT<A, U, V>[M]
+  ask<E, U = any, V = any>(): Kleisli<M, E, E, U, V>
+  asks<E, A, U = any, V = any>(f: (e: E) => A): Kleisli<M, E, A, U, V>
+  local<E, A, U = any, V = any>(f: Endomorphism<E>, fa: Kleisli<M, E, A, U, V>): Kleisli<M, E, A, U, V>
 }
 
-export function getReaderT<M extends HKTS>(monad: Monad<M>): ReaderT<M> {
-  function of<E, A>(a: A): Reader<E, HKT<A>[M]> {
-    return reader.of<E, HKT<A>[M]>(monad.of(a))
+/** Note: requires an implicit proof that HKT<A, E>[URI] ~ (e: E) => HKT<A>[M] */
+export function getReaderT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Monad<M>): ReaderT<URI, M> {
+  function of<E, A>(a: A): Kleisli<M, E, A> {
+    return () => monad.of(a)
   }
 
-  function map<E, A, B>(f: (a: A) => B, fa: Reader<E, HKT<A>[M]>): Reader<E, HKT<B>[M]> {
-    return fa.map(ma => monad.map(f, ma))
+  function map<E, A, B>(f: (a: A) => B, fa: Kleisli<M, E, A>): Kleisli<M, E, B> {
+    return e => monad.map(f, fa(e))
   }
 
-  function ap<E, A, B>(fab: Reader<E, HKT<(a: A) => B>[M]>, fa: Reader<E, HKT<A>[M]>): Reader<E, HKT<B>[M]> {
-    return chain<E, (a: A) => B, B>(f => map(f, fa), fab) // <- derived
+  function ap<E, A, B>(fab: Kleisli<M, E, (a: A) => B>, fa: Kleisli<M, E, A>): Kleisli<M, E, B> {
+    return e => monad.ap<A, B>(fab(e), fa(e))
   }
 
-  function chain<E, A, B>(f: (a: A) => Reader<E, HKT<B>[M]>, fa: Reader<E, HKT<A>[M]>): Reader<E, HKT<B>[M]> {
-    return new reader.Reader((e: E) => monad.chain<A, B>(a => f(a).run(e), fa.run(e)))
+  function chain<E, A, B>(f: (a: A) => Kleisli<M, E, B>, fa: Kleisli<M, E, A>): Kleisli<M, E, B> {
+    return e => monad.chain<A, B>(a => f(a)(e), fa(e))
   }
 
-  function ask<E>(): Reader<E, HKT<E>[M]> {
-    return reader.ask<E>().map(e => monad.of(e))
+  function run<E, A>(e: E, fa: Kleisli<M, E, A>): HKT<A>[M] {
+    return fa(e)
   }
 
-  function asks<E, A>(f: (e: E) => A): Reader<E, HKT<A>[M]> {
-    return reader.asks(f).map(a => monad.of(a))
+  function ask<E>(): Kleisli<M, E, E> {
+    return e => monad.of(e)
   }
 
-  function local<E, A>(f: Endomorphism<E>, fa: Reader<E, HKT<A>[M]>): Reader<E, HKT<A>[M]> {
-    return reader.local(f, fa)
+  function asks<E, A>(f: (e: E) => A): Kleisli<M, E, A> {
+    return e => monad.of(f(e))
+  }
+
+  function local<E, A>(f: Endomorphism<E>, fa: Kleisli<M, E, A>): Kleisli<M, E, A> {
+    return e => fa(f(e))
   }
 
   return {
+    URI,
     of,
     map,
-    ap,
+    ap: ap as any,
     chain,
+    run,
     ask,
     asks,
     local
