@@ -9,7 +9,9 @@ import {
   chain,
   alt,
   getStaticMonoid,
-  fromNullable
+  fromNullable,
+  getFirstStaticMonoid,
+  getLastStaticMonoid
 } from '../src/Option'
 import * as option from '../src/Option'
 import { setoidNumber } from '../src/Setoid'
@@ -89,4 +91,21 @@ describe('Option', () => {
     const y = fromNullable(3).reduce((b, a) => a.toString(), '4')
     assert.strictEqual(y, '3')
   })
+
+  it('getFirstStaticMonoid', () => {
+    const first = getFirstStaticMonoid<number>()
+    assert.deepEqual(first.concat(none, some(1)), some(1))
+    assert.deepEqual(first.concat(some(1), none), some(1))
+    assert.deepEqual(first.concat(none, none), none)
+    assert.deepEqual(first.concat(some(1), some(2)), some(1))
+  })
+
+  it('getLastStaticMonoid', () => {
+    const last = getLastStaticMonoid<number>()
+    assert.deepEqual(last.concat(none, some(1)), some(1))
+    assert.deepEqual(last.concat(some(1), none), some(1))
+    assert.deepEqual(last.concat(none, none), none)
+    assert.deepEqual(last.concat(some(1), some(2)), some(2))
+  })
+
 })

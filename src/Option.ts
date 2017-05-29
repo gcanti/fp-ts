@@ -1,5 +1,5 @@
 import { HKT, HKTS } from './HKT'
-import { StaticMonoid } from './Monoid'
+import { StaticMonoid, getDualStaticMonoid } from './Monoid'
 import { StaticApplicative } from './Applicative'
 import { StaticSemigroup } from './Semigroup'
 import { StaticMonad, FantasyMonad } from './Monad'
@@ -210,9 +210,17 @@ export function extend<A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> 
   return ea.extend(f)
 }
 
-/** Maybe monoid returning the leftmost non-None value */
+const first = { empty, concat: alt }
+const last = getDualStaticMonoid(first)
+
+/** Maybe monoid returning the left-most non-None value */
 export function getFirstStaticMonoid<A>(): StaticMonoid<Option<A>> {
-  return { empty, concat: alt }
+  return first
+}
+
+/** Maybe monoid returning the right-most non-None value */
+export function getLastStaticMonoid<A>(): StaticMonoid<Option<A>> {
+  return last
 }
 
 export function concat<A>(semigroup: StaticSemigroup<A>, fx: Option<A>, fy: Option<A>): Option<A> {
