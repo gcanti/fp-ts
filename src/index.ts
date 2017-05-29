@@ -38,6 +38,8 @@ import * as functor from './Functor'
 export { functor }
 import * as hkt from './HKT'
 export { hkt }
+import * as id from './Id'
+export { id }
 import * as identity from './Identity'
 export { identity }
 import * as io from './IO'
