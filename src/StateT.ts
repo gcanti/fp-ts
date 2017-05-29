@@ -1,8 +1,11 @@
-import { HKTS } from './HKT'
+import { HKT, HKTS } from './HKT'
 import { Monad } from './Monad'
 import { Kleisli, Endomorphism } from './function'
 
 export interface StateT<URI extends HKTS, M extends HKTS> extends Monad<URI> {
+  run<S, A, U = any, V = any>(s: S, fa: Kleisli<M, S, [A, S], U, V>): HKT<[A, S], U, V>[M]
+  eval<S, A, U = any, V = any>(s: S, fa: Kleisli<M, S, [A, S], U, V>): HKT<A, U, V>[M]
+  exec<S, A, U = any, V = any>(s: S, fa: Kleisli<M, S, [A, S], U, V>): HKT<S, U, V>[M]
   get<S, U = any, V = any>(): Kleisli<M, S, [S, S], U, V>
   put<S, U = any, V = any>(s: S): Kleisli<M, S, [void, S], U, V>
   modify<S, U = any, V = any>(f: Endomorphism<S>): Kleisli<M, S, [void, S], U, V>
@@ -27,6 +30,18 @@ export function getStateT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Mon
     return s => monad.chain<[A, S], [B, S]>(([a, s1]) => f(a)(s1), fa(s))
   }
 
+  function run<S, A>(s: S, fa: Kleisli<M, S, [A, S]>): HKT<[A, S]>[M] {
+    return fa(s)
+  }
+
+  function eval_<S, A>(s: S, fa: Kleisli<M, S, [A, S]>): HKT<A>[M] {
+    return monad.map(([a, _]) => a, fa(s))
+  }
+
+  function exec<S, A>(s: S, fa: Kleisli<M, S, [A, S]>): HKT<S>[M] {
+    return monad.map(([_, s]) => s, fa(s))
+  }
+
   function get<S>(): Kleisli<M, S, [S, S]> {
     return s => monad.of<[S, S]>([s, s])
   }
@@ -49,6 +64,9 @@ export function getStateT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Mon
     map,
     ap: ap as any,
     chain,
+    run,
+    eval: eval_,
+    exec,
     get,
     put,
     modify,

@@ -22,13 +22,13 @@ export class State<S, A> implements FantasyMonad<URI, A> {
   readonly _URI: URI
   constructor(public readonly value: (s: S) => [A, S]) {}
   run(s: S): [A, S] {
-    return this.value(s)
+    return stateTId.run(s, this.value)
   }
   eval(s: S): A {
-    return this.run(s)[0]
+    return stateTId.eval(s, this.value)
   }
   exec(s: S): S {
-    return this.run(s)[1]
+    return stateTId.exec(s, this.value)
   }
   map<B>(f: (a: A) => B): State<S, B> {
     return new State<S, B>(stateTId.map(f, this.value))
