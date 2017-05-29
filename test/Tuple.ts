@@ -5,7 +5,7 @@ import {
   bimap,
   extract,
   extend,
-  getStaticSemigroup
+  getSemigroup
 } from '../src/Tuple'
 import { monoidString, monoidSum } from '../src/Monoid'
 
@@ -34,8 +34,8 @@ describe('Tuple', () => {
     assert.deepEqual(extend((t: [string, number]): number => t[0].length + t[1], ['s', 1]), ['s', 2])
   })
 
-  it('getStaticSemigroup', () => {
-    const semigroup = getStaticSemigroup(monoidString, monoidSum)
+  it('getSemigroup', () => {
+    const semigroup = getSemigroup(monoidString, monoidSum)
     assert.deepEqual(semigroup.concat(['a', 1], ['b', 2]), ['ab', 3])
   })
 

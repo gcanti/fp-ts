@@ -1,8 +1,8 @@
 import { HKT, HKTS } from './HKT'
-import { getCompositionStaticFunctor } from './Functor'
-import { StaticApply, FantasyApply } from './Apply'
+import { getCompositionFunctor } from './Functor'
+import { Apply, FantasyApply } from './Apply'
 
-export interface StaticApplicative<F extends HKTS> extends StaticApply<F> {
+export interface Applicative<F extends HKTS> extends Apply<F> {
   of<A, U = any, V = any>(a: A): HKT<A, U, V>[F]
 }
 
@@ -13,8 +13,8 @@ export interface FantasyApplicative<F extends HKTS, A> extends FantasyApply<F, A
 /** returns the composition of two applicatives
  * Note: requires an implicit proof that HKT<A>[FG] ~ HKT<HKT<A>[G]>[F]
  */
-export function getCompositionStaticApplicative<FG extends HKTS, F extends HKTS, G extends HKTS>(URI: FG, applicativeF: StaticApplicative<F>, applicativeG: StaticApplicative<G>): StaticApplicative<FG> {
-  const functor = getCompositionStaticFunctor(URI, applicativeF, applicativeG)
+export function getCompositionApplicative<FG extends HKTS, F extends HKTS, G extends HKTS>(URI: FG, applicativeF: Applicative<F>, applicativeG: Applicative<G>): Applicative<FG> {
+  const functor = getCompositionFunctor(URI, applicativeF, applicativeG)
 
   function of<A>(a: A): HKT<HKT<A>[G]>[F] {
     return applicativeF.of(applicativeG.of(a))
@@ -32,7 +32,7 @@ export function getCompositionStaticApplicative<FG extends HKTS, F extends HKTS,
 }
 
 /** Perform a applicative action when a condition is true */
-export function when<F extends HKTS>(applicative: StaticApplicative<F>): (condition: boolean, fu: HKT<void>[F]) => HKT<void>[F] {
+export function when<F extends HKTS>(applicative: Applicative<F>): (condition: boolean, fu: HKT<void>[F]) => HKT<void>[F] {
   return (condition: boolean, fu: HKT<void>[F]) => {
     return condition ? fu : applicative.of(undefined)
   }

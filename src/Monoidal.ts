@@ -1,6 +1,6 @@
 import { HKT, HKTS } from './HKT'
-import { StaticFunctor } from './Functor'
-import { StaticApplicative } from './Applicative'
+import { Functor } from './Functor'
+import { Applicative } from './Applicative'
 import { tuple } from './Tuple'
 import { constant } from './function'
 
@@ -9,13 +9,13 @@ import { constant } from './function'
  * - https://wiki.haskell.org/Typeclassopedia#Alternative_formulation
  * - https://bartoszmilewski.com/2017/02/06/applicative-functors/
  */
-export interface StaticMonoidal<F extends HKTS> extends StaticFunctor<F> {
+export interface Monoidal<F extends HKTS> extends Functor<F> {
   readonly URI: F
   unit<U = any, V = any>(): HKT<void, U, V>[F]
   mult<A, B, U = any, V = any>(fa: HKT<A, U, V>[F], fb: HKT<B, U, V>[F]): HKT<[A, B], U, V>[F]
 }
 
-export function fromApplicative<F extends HKTS>(applicative: StaticApplicative<F>): StaticMonoidal<F> {
+export function fromApplicative<F extends HKTS>(applicative: Applicative<F>): Monoidal<F> {
   return {
     URI: applicative.URI,
     map: applicative.map,
@@ -28,7 +28,7 @@ export function fromApplicative<F extends HKTS>(applicative: StaticApplicative<F
   }
 }
 
-export function toApplicative<F extends HKTS>(monoidal: StaticMonoidal<F>): StaticApplicative<F> {
+export function toApplicative<F extends HKTS>(monoidal: Monoidal<F>): Applicative<F> {
   return {
     URI: monoidal.URI,
     map: monoidal.map,

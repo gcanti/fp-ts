@@ -1,13 +1,13 @@
 import { HKT, HKTS } from './HKT'
-import { StaticApplicative } from './Applicative'
-import { StaticMonad, FantasyMonad } from './Monad'
-import { StaticFoldable, FantasyFoldable } from './Foldable'
-import { StaticExtend, FantasyExtend } from './Extend'
-import { StaticSetoid } from './Setoid'
-import { StaticTraversable, FantasyTraversable } from './Traversable'
-import { StaticBifunctor, FantasyBifunctor } from './Bifunctor'
-import { StaticAlt, FantasyAlt } from './Alt'
-import { StaticChainRec, tailRec } from './ChainRec'
+import { Applicative } from './Applicative'
+import { Monad, FantasyMonad } from './Monad'
+import { Foldable, FantasyFoldable } from './Foldable'
+import { Extend, FantasyExtend } from './Extend'
+import { Setoid } from './Setoid'
+import { Traversable, FantasyTraversable } from './Traversable'
+import { Bifunctor, FantasyBifunctor } from './Bifunctor'
+import { Alt, FantasyAlt } from './Alt'
+import { ChainRec, tailRec } from './ChainRec'
 import { Option, none, some } from './Option'
 import { constFalse, constTrue, Predicate, Lazy } from './function'
 
@@ -61,7 +61,7 @@ export class Left<L, A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Either<L, B>, U, V>[F] {
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Either<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(this as any)
   }
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
@@ -70,7 +70,7 @@ export class Left<L, A> implements
   getOrElse(f: Lazy<A>): A {
     return f()
   }
-  equals(setoid: StaticSetoid<A>, fy: Either<L, A>): boolean {
+  equals(setoid: Setoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constTrue, constFalse)
   }
   mapLeft<L2>(f: (l: L) => L2): Either<L2, A> {
@@ -128,7 +128,7 @@ export class Right<L, A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Either<L, B>, U, V>[F] {
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Either<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((b: B) => of<L, B>(b), f(this.value))
   }
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
@@ -137,7 +137,7 @@ export class Right<L, A> implements
   getOrElse(f: Lazy<A>): A {
     return this.value
   }
-  equals(setoid: StaticSetoid<A>, fy: Either<L, A>): boolean {
+  equals(setoid: Setoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
   }
   mapLeft<L2>(f: (l: L) => L2): Either<L2, A> {
@@ -154,7 +154,7 @@ export class Right<L, A> implements
   }
 }
 
-export function equals<L, A>(setoid: StaticSetoid<A>, fx: Either<L, A>, fy: Either<L, A>): boolean {
+export function equals<L, A>(setoid: Setoid<A>, fx: Either<L, A>, fy: Either<L, A>): boolean {
   return fx.equals(setoid, fy)
 }
 
@@ -198,7 +198,7 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: Either<L, A>): B
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Either<L, A>) => HKT<Either<L, B>, U, V>[F] {
+export function traverse<F extends HKTS>(applicative: Applicative<F>): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Either<L, A>) => HKT<Either<L, B>, U, V>[F] {
   return <L, A, B>(f: (a: A) => HKT<B>[F], ta: Either<L, A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
@@ -251,12 +251,12 @@ export function tryCatch<A>(f: Lazy<A>): Either<Error, A> {
 // tslint:disable-next-line no-unused-expression
 ; (
   { map, of, ap, chain, reduce, traverse, bimap, alt, extend, chainRec } as (
-    StaticMonad<URI> &
-    StaticFoldable<URI> &
-    StaticTraversable<URI> &
-    StaticBifunctor<URI> &
-    StaticAlt<URI> &
-    StaticExtend<URI> &
-    StaticChainRec<URI>
+    Monad<URI> &
+    Foldable<URI> &
+    Traversable<URI> &
+    Bifunctor<URI> &
+    Alt<URI> &
+    Extend<URI> &
+    ChainRec<URI>
   )
 )

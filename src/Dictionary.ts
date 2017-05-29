@@ -1,14 +1,14 @@
 import { HKT, HKTS } from './HKT'
-import { StaticMonoid } from './Monoid'
-import { StaticFunctor } from './Functor'
-import { StaticApplicative } from './Applicative'
-import { StaticFoldable } from './Foldable'
-import { StaticTraversable } from './Traversable'
+import { Monoid } from './Monoid'
+import { Functor } from './Functor'
+import { Applicative } from './Applicative'
+import { Foldable } from './Foldable'
+import { Traversable } from './Traversable'
 import { constant, Lazy, curry } from './function'
 import { liftA2 } from './Apply'
-import { StaticSetoid } from './Setoid'
+import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
-import { StaticUnfoldable } from './Unfoldable'
+import { Unfoldable } from './Unfoldable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -44,12 +44,12 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Dictionary<A>): B {
 
 export const curriedConcat = curry<Dictionary<any>, Dictionary<any>, Dictionary<any>>(concat)
 
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Dictionary<A>) => HKT<Dictionary<B>, U, V>[F] {
+export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Dictionary<A>) => HKT<Dictionary<B>, U, V>[F] {
   const traverse = traverseWithKey(applicative)
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Dictionary<A>) => traverse((_, a) => f(a), ta)
 }
 
-export function traverseWithKey<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (k: string, a: A) => HKT<B, U, V>[F], ta: Dictionary<A>) => HKT<Dictionary<B>, U, V>[F] {
+export function traverseWithKey<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (k: string, a: A) => HKT<B, U, V>[F], ta: Dictionary<A>) => HKT<Dictionary<B>, U, V>[F] {
   return <A, B>(f: (k: string, a: A) => HKT<B>[F], ta: Dictionary<A>) => {
     const concatA2 = liftA2(applicative, curriedConcat)
     let out = applicative.of(empty())
@@ -61,7 +61,7 @@ export function traverseWithKey<F extends HKTS>(applicative: StaticApplicative<F
 }
 
 /** Test whether one dictionary contains all of the keys and values contained in another dictionary */
-export function isSubdictionary<A>(setoid: StaticSetoid<A>, d1: Dictionary<A>, d2: Dictionary<A>): boolean {
+export function isSubdictionary<A>(setoid: Setoid<A>, d1: Dictionary<A>, d2: Dictionary<A>): boolean {
   for (let k in d1) {
     if (!d2.hasOwnProperty(k) || !setoid.equals(d1[k], d2[k])) {
       return false
@@ -80,7 +80,7 @@ export function isEmpty<A>(d: Dictionary<A>): boolean {
   return size(d) === 0
 }
 
-export function getStaticSetoid<A>(setoid: StaticSetoid<A>): StaticSetoid<Dictionary<A>> {
+export function getSetoid<A>(setoid: Setoid<A>): Setoid<Dictionary<A>> {
   return {
     equals(x, y) {
       return isSubdictionary(setoid, x, y) && isSubdictionary(setoid, y, x)
@@ -101,7 +101,7 @@ export function lookup<A>(k: string, d: Dictionary<A>): Option<A> {
 /** Create a dictionary from a foldable collection of key/value pairs, using the
  * specified function to combine values for duplicate keys.
  */
-export function fromFoldable<F extends HKTS>(foldable: StaticFoldable<F>): <A>(f: (existing: A, a: A) => A, ta: HKT<[string, A]>[F]) => Dictionary<A> {
+export function fromFoldable<F extends HKTS>(foldable: Foldable<F>): <A>(f: (existing: A, a: A) => A, ta: HKT<[string, A]>[F]) => Dictionary<A> {
   return <A>(f: (existing: A, a: A) => A, ta: HKT<[string, A]>[F]) => foldable.reduce((b, a: [string, A]) => {
     const k = a[0]
     b[k] = b.hasOwnProperty(k) ? f(b[k], a[1]) : a[1]
@@ -122,7 +122,7 @@ export function toArray<A>(d: Dictionary<A>): Array<[string, A]> {
 }
 
 /** Unfolds a dictionary into a list of key/value pairs */
-export function toUnfoldable<F extends HKTS>(unfoldable: StaticUnfoldable<F>): <A>(d: Dictionary<A>) => HKT<[string, A]>[F] {
+export function toUnfoldable<F extends HKTS>(unfoldable: Unfoldable<F>): <A>(d: Dictionary<A>) => HKT<[string, A]>[F] {
   return <A>(d: Dictionary<A>) => {
     const arr = toArray(d)
     if (unfoldable.URI === 'Array') {
@@ -145,9 +145,9 @@ export function mapWithKey<A, B>(f: (k: string, a: A) => B, fa: Dictionary<A>): 
 // tslint:disable-next-line no-unused-expression
 ;(
   { empty, concat, map } as (
-    StaticMonoid<Dictionary<any>> &
-    StaticFunctor<URI> &
-    StaticFoldable<URI> &
-    StaticTraversable<URI>
+    Monoid<Dictionary<any>> &
+    Functor<URI> &
+    Foldable<URI> &
+    Traversable<URI>
   )
 )

@@ -1,10 +1,10 @@
 import { HKT, HKTS } from './HKT'
-import { StaticMonad } from './Monad'
+import { Monad } from './Monad'
 import { Reader } from './Reader'
 import * as reader from './Reader'
 import { Endomorphism } from './function'
 
-export interface StaticReaderT<M extends HKTS> {
+export interface ReaderT<M extends HKTS> {
   of<E, A, U = any, V = any>(a: A): Reader<E, HKT<A, U, V>[M]>
   map<E, A, B, U = any, V = any>(f: (a: A) => B, fa: Reader<E, HKT<A, U, V>[M]>): Reader<E, HKT<B, U, V>[M]>
   ap<E, A, B, U = any, V = any>(fab: Reader<E, HKT<(a: A) => B, U, V>[M]>, fa: Reader<E, HKT<A, U, V>[M]>): Reader<E, HKT<B, U, V>[M]>
@@ -14,7 +14,7 @@ export interface StaticReaderT<M extends HKTS> {
   local<E, A, U = any, V = any>(f: Endomorphism<E>, fa: Reader<E, HKT<A, U, V>[M]>): Reader<E, HKT<A, U, V>[M]>
 }
 
-export function getStaticReaderT<M extends HKTS>(monad: StaticMonad<M>): StaticReaderT<M> {
+export function getReaderT<M extends HKTS>(monad: Monad<M>): ReaderT<M> {
   function of<E, A>(a: A): Reader<E, HKT<A>[M]> {
     return reader.of<E, HKT<A>[M]>(monad.of(a))
   }

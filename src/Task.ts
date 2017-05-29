@@ -1,5 +1,5 @@
-import { StaticMonoid } from './Monoid'
-import { StaticMonad, FantasyMonad } from './Monad'
+import { Monoid } from './Monoid'
+import { Monad, FantasyMonad } from './Monad'
 import { Lazy } from './function'
 
 declare module './HKT' {
@@ -82,7 +82,7 @@ export function empty<A>(): Task<A> {
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain, concat, empty } as (
-    StaticMonad<URI> &
-    StaticMonoid<Task<any>>
+    Monad<URI> &
+    Monoid<Task<any>>
   )
 )

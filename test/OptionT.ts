@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import {
-  getStaticOptionT
+  getOptionT
 } from '../src/OptionT'
 import * as option from '../src/Option'
 import * as task from '../src/Task'
@@ -12,7 +12,7 @@ declare module '../src/HKT' {
   }
 }
 
-const taskOption = getStaticOptionT('Task<Option>', task)
+const taskOption = getOptionT('Task<Option>', task)
 
 describe('OptionT', () => {
 

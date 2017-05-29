@@ -8,10 +8,10 @@ import {
   ap,
   chain,
   alt,
-  getStaticMonoid,
+  getMonoid,
   fromNullable,
-  getFirstStaticMonoid,
-  getLastStaticMonoid
+  getFirstMonoid,
+  getLastMonoid
 } from '../src/Option'
 import * as option from '../src/Option'
 import { setoidNumber } from '../src/Setoid'
@@ -59,7 +59,7 @@ describe('Option', () => {
   })
 
   it('getMonoid', () => {
-    const { concat } = getStaticMonoid({ concat(x: number, y: number) { return x + y } })
+    const { concat } = getMonoid({ concat(x: number, y: number) { return x + y } })
     eq(concat(none, some(1)), some(1))
     eq(concat(some(2), none), some(2))
     eq(concat(some(2), some(1)), some(3))
@@ -92,16 +92,16 @@ describe('Option', () => {
     assert.strictEqual(y, '3')
   })
 
-  it('getFirstStaticMonoid', () => {
-    const first = getFirstStaticMonoid<number>()
+  it('getFirstMonoid', () => {
+    const first = getFirstMonoid<number>()
     assert.deepEqual(first.concat(none, some(1)), some(1))
     assert.deepEqual(first.concat(some(1), none), some(1))
     assert.deepEqual(first.concat(none, none), none)
     assert.deepEqual(first.concat(some(1), some(2)), some(1))
   })
 
-  it('getLastStaticMonoid', () => {
-    const last = getLastStaticMonoid<number>()
+  it('getLastMonoid', () => {
+    const last = getLastMonoid<number>()
     assert.deepEqual(last.concat(none, some(1)), some(1))
     assert.deepEqual(last.concat(some(1), none), some(1))
     assert.deepEqual(last.concat(none, none), none)

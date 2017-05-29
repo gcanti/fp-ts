@@ -1,11 +1,11 @@
 import { HKT, HKTS } from './HKT'
-import { StaticMonad } from './Monad'
-import { getCompositionStaticApplicative } from './Applicative'
+import { Monad } from './Monad'
+import { getCompositionApplicative } from './Applicative'
 import { Option } from './Option'
 import * as option from './Option'
 import { Lazy } from './function'
 
-export interface StaticOptionT<URI extends HKTS, M extends HKTS> extends StaticMonad<URI> {
+export interface OptionT<URI extends HKTS, M extends HKTS> extends Monad<URI> {
   some<A, U = any, V = any>(a: A): HKT<Option<A>, U, V>[M]
   none<U = any, V = any>(): HKT<Option<any>, U, V>[M]
   fromOption<A, U = any, V = any>(oa: Option<A>): HKT<Option<A>, U, V>[M]
@@ -15,8 +15,8 @@ export interface StaticOptionT<URI extends HKTS, M extends HKTS> extends StaticM
 }
 
 /** Note: requires an implicit proof that HKT<A>[URI] ~ HKT<Option<A>>[M] */
-export function getStaticOptionT<URI extends HKTS, M extends HKTS>(URI: URI, monad: StaticMonad<M>): StaticOptionT<URI, M> {
-  const applicative = getCompositionStaticApplicative(URI, monad, option)
+export function getOptionT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Monad<M>): OptionT<URI, M> {
+  const applicative = getCompositionApplicative(URI, monad, option)
 
   function chain<A, B>(f: (a: A) => HKT<Option<B>>[M], fa: HKT<Option<A>>[M]): HKT<Option<B>>[M] {
     return monad.chain<Option<A>, Option<B>>(e => e.fold<HKT<Option<B>>[M]>(

@@ -1,16 +1,16 @@
 import { HKT, HKTS } from './HKT'
-import { StaticSetoid } from './Setoid'
-import { StaticOrd } from './Ord'
-import { StaticSemigroupoid } from './Semigroupoid'
-import { StaticSemigroup } from './Semigroup'
-import { StaticMonoid } from './Monoid'
-import { StaticBifunctor } from './Bifunctor'
-import { StaticComonad } from './Comonad'
-import { StaticApply } from './Apply'
-import { StaticMonad } from './Monad'
-import { StaticFoldable } from './Foldable'
-import { StaticApplicative } from './Applicative'
-import { StaticTraversable } from './Traversable'
+import { Setoid } from './Setoid'
+import { Ord } from './Ord'
+import { Semigroupoid } from './Semigroupoid'
+import { Semigroup } from './Semigroup'
+import { Monoid } from './Monoid'
+import { Bifunctor } from './Bifunctor'
+import { Comonad } from './Comonad'
+import { Apply } from './Apply'
+import { Monad } from './Monad'
+import { Foldable } from './Foldable'
+import { Applicative } from './Applicative'
+import { Traversable } from './Traversable'
 import { Cokleisli } from './function'
 
 // https://github.com/purescript/purescript-tuples
@@ -49,11 +49,11 @@ export function reduce<A, B, C>(f: (c: C, b: B) => C, c: C, fa: Tuple<A, B>): C 
   return f(c, fa[1])
 }
 
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, C, U = any, V = any>(f: (b: B) => HKT<C, U, V>[F], ta: Tuple<A, B>) => HKT<Tuple<A, C>, U, V>[F] {
+export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, C, U = any, V = any>(f: (b: B) => HKT<C, U, V>[F], ta: Tuple<A, B>) => HKT<Tuple<A, C>, U, V>[F] {
   return <A, B, C>(f: (b: B) => HKT<C>[F], ta: Tuple<A, B>) => applicative.map(c => [ta[0], c] as Tuple<A, C>, f(ta[1]))
 }
 
-export function getStaticSetoid<A, B>(setoidA: StaticSetoid<A>, setoidB: StaticSetoid<B>): StaticSetoid<Tuple<A, B>> {
+export function getSetoid<A, B>(setoidA: Setoid<A>, setoidB: Setoid<B>): Setoid<Tuple<A, B>> {
   return {
     equals([xa, xb], [ya, yb]) {
       return setoidA.equals(xa, ya) && setoidB.equals(xb, yb)
@@ -64,9 +64,9 @@ export function getStaticSetoid<A, B>(setoidA: StaticSetoid<A>, setoidB: StaticS
 /** To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
  * `snd`s are `compare`d.
  */
-export function getStaticOrd<A, B>(ordA: StaticOrd<A>, ordB: StaticOrd<B>): StaticOrd<Tuple<A, B>> {
+export function getOrd<A, B>(ordA: Ord<A>, ordB: Ord<B>): Ord<Tuple<A, B>> {
   return {
-    equals: getStaticSetoid(ordA, ordB).equals,
+    equals: getSetoid(ordA, ordB).equals,
     compare([xa, xb], [ya, yb]) {
       const ordering = ordA.compare(xa, ya)
       return ordering === 'EQ' ? ordB.compare(xb, yb) : ordering
@@ -74,7 +74,7 @@ export function getStaticOrd<A, B>(ordA: StaticOrd<A>, ordB: StaticOrd<B>): Stat
   }
 }
 
-export function getStaticSemigroup<A, B>(semigroupA: StaticSemigroup<A>, semigroupB: StaticSemigroup<B>): StaticSemigroup<Tuple<A, B>> {
+export function getSemigroup<A, B>(semigroupA: Semigroup<A>, semigroupB: Semigroup<B>): Semigroup<Tuple<A, B>> {
   return {
     concat([xa, xb], [ya, yb]) {
       return [semigroupA.concat(xa, ya), semigroupB.concat(xb, yb)]
@@ -82,15 +82,15 @@ export function getStaticSemigroup<A, B>(semigroupA: StaticSemigroup<A>, semigro
   }
 }
 
-export function getStaticMonoid<A, B>(monoidA: StaticMonoid<A>, monoidB: StaticMonoid<B>): StaticMonoid<Tuple<A, B>> {
+export function getMonoid<A, B>(monoidA: Monoid<A>, monoidB: Monoid<B>): Monoid<Tuple<A, B>> {
   const empty = [monoidA.empty(), monoidB.empty()] as Tuple<A, B>
   return {
-    concat: getStaticSemigroup(monoidA, monoidB).concat,
+    concat: getSemigroup(monoidA, monoidB).concat,
     empty: () => empty
   }
 }
 
-export function getStaticApply<A>(semigroupA: StaticSemigroup<A>): StaticApply<URI> {
+export function getApply<A>(semigroupA: Semigroup<A>): Apply<URI> {
   return {
     URI,
     map,
@@ -100,10 +100,10 @@ export function getStaticApply<A>(semigroupA: StaticSemigroup<A>): StaticApply<U
   }
 }
 
-export function getStaticMonad<A>(monoidA: StaticMonoid<A>): StaticMonad<URI> {
+export function getMonad<A>(monoidA: Monoid<A>): Monad<URI> {
   const empty = monoidA.empty()
   return {
-    ...getStaticApply(monoidA),
+    ...getApply(monoidA),
     of<B>(b: B): Tuple<A, B> {
       return [empty, b]
     },
@@ -136,10 +136,10 @@ export function tuple<A>(a: A): <B>(b: B) => Tuple<A, B> {
 // tslint:disable-next-line no-unused-expression
 ;(
   { compose, map, bimap, extract, extend, reduce } as (
-    StaticSemigroupoid<URI> &
-    StaticBifunctor<URI> &
-    StaticComonad<URI> &
-    StaticFoldable<URI> &
-    StaticTraversable<URI>
+    Semigroupoid<URI> &
+    Bifunctor<URI> &
+    Comonad<URI> &
+    Foldable<URI> &
+    Traversable<URI>
   )
 )

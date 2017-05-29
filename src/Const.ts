@@ -1,10 +1,10 @@
-import { StaticMonoid } from './Monoid'
-import { StaticFunctor, FantasyFunctor } from './Functor'
-import { StaticContravariant, FantasyContravariant } from './Contravariant'
-import { StaticApplicative } from './Applicative'
-import { StaticApply } from './Apply'
-import { StaticSemigroup } from './Semigroup'
-import { StaticSetoid } from './Setoid'
+import { Monoid } from './Monoid'
+import { Functor, FantasyFunctor } from './Functor'
+import { Contravariant, FantasyContravariant } from './Contravariant'
+import { Applicative } from './Applicative'
+import { Apply } from './Apply'
+import { Semigroup } from './Semigroup'
+import { Setoid } from './Setoid'
 import { identity } from './function'
 
 declare module './HKT' {
@@ -34,12 +34,12 @@ export class Const<L, A> implements
   fold<B>(f: (l: L) => B): B {
     return f(this.value)
   }
-  equals(setoid: StaticSetoid<L>, fy: Const<L, A>): boolean {
+  equals(setoid: Setoid<L>, fy: Const<L, A>): boolean {
     return this.fold(x => fy.fold(y => setoid.equals(x, y)))
   }
 }
 
-export function equals<L, A>(setoid: StaticSetoid<L>, fx: Const<L, A>, fy: Const<L, A>): boolean {
+export function equals<L, A>(setoid: Setoid<L>, fx: Const<L, A>, fy: Const<L, A>): boolean {
   return fx.equals(setoid, fy)
 }
 
@@ -51,7 +51,7 @@ export function contramap<L, A>(fa: Const<L, A>): <B>(f: (b: B) => A) => Const<L
   return <B>(f: (b: B) => A) => fa.contramap(f)
 }
 
-export function getStaticApply<L>(semigroup: StaticSemigroup<L>): StaticApply<URI> {
+export function getApply<L>(semigroup: Semigroup<L>): Apply<URI> {
   return {
     URI,
     map,
@@ -61,8 +61,8 @@ export function getStaticApply<L>(semigroup: StaticSemigroup<L>): StaticApply<UR
   }
 }
 
-export function getStaticApplicative<L>(monoid: StaticMonoid<L>): StaticApplicative<URI> {
-  const { ap } = getStaticApply(monoid)
+export function getApplicative<L>(monoid: Monoid<L>): Applicative<URI> {
+  const { ap } = getApply(monoid)
   const empty = new Const<L, any>(monoid.empty())
   return {
     URI,
@@ -77,7 +77,7 @@ export function getStaticApplicative<L>(monoid: StaticMonoid<L>): StaticApplicat
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, contramap } as (
-    StaticFunctor<URI> &
-    StaticContravariant<URI>
+    Functor<URI> &
+    Contravariant<URI>
   )
 )

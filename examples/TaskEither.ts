@@ -2,7 +2,7 @@ import { Either } from 'fp-ts/lib/Either'
 import * as either from 'fp-ts/lib/Either'
 import { Task } from 'fp-ts/lib/Task'
 import * as task from 'fp-ts/lib/Task'
-import { getStaticEitherT } from 'fp-ts/lib/EitherT'
+import { getEitherT } from 'fp-ts/lib/EitherT'
 import { FantasyMonad } from 'fp-ts/lib/Monad'
 import { Lazy } from 'fp-ts/lib/function'
 import { Option } from 'fp-ts/lib/Option'
@@ -14,7 +14,7 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-const eitherTTask = getStaticEitherT('Task<Either>', task)
+const eitherTTask = getEitherT('Task<Either>', task)
 
 export const URI = 'TaskEither'
 

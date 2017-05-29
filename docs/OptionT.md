@@ -29,7 +29,7 @@ As you can see, the implementations of all of these variations are very similar.
 `OptionT` can help remove some of this boilerplate. It exposes methods that look like those on `Option`, but it handles the outer map call on the `Task` so we don’t have to:
 
 ```ts
-import { getStaticOptionT } from 'fp-ts/lib/OptionT'
+import { getOptionT } from 'fp-ts/lib/OptionT'
 
 declare module 'fp-ts/lib/HKT' {
   interface HKT<A> {
@@ -37,7 +37,7 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-const taskOption = getStaticOptionT('Task<Option>', task)
+const taskOption = getOptionT('Task<Option>', task)
 
 // customGreeting2 :: Task<Option<string>>
 const customGreeting2 = taskOption.of('welcome back, Lola')

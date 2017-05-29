@@ -1,7 +1,7 @@
 import { HKTS } from './HKT'
-import { StaticApplicative, FantasyApplicative } from './Applicative'
-import { StaticPlus, FantasyPlus } from './Plus'
+import { Applicative, FantasyApplicative } from './Applicative'
+import { Plus, FantasyPlus } from './Plus'
 
-export interface StaticAlternative<F extends HKTS> extends StaticApplicative<F>, StaticPlus<F> {}
+export interface Alternative<F extends HKTS> extends Applicative<F>, Plus<F> {}
 
 export interface FantasyAlternative<F extends HKTS, A> extends FantasyApplicative<F, A>, FantasyPlus<F, A> {}

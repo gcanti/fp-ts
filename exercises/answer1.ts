@@ -1,7 +1,7 @@
-import { StaticOrd } from 'fp-ts/lib/Ord'
+import { Ord } from 'fp-ts/lib/Ord'
 import { numberOrd, stringOrd } from 'fp-ts/lib/Ord'
 
-export function binarySearch<A>(xs: Array<A>, x: A, ord: StaticOrd<A>): number {
+export function binarySearch<A>(xs: Array<A>, x: A, ord: Ord<A>): number {
   function go(low: number, mid: number, high: number): number {
     if (low > high) {
       return -mid - 1

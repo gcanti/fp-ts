@@ -5,7 +5,7 @@ import {
   map,
   reduce,
   traverse,
-  getStaticSetoid,
+  getSetoid,
   lookup,
   fromFoldable,
   toArray,
@@ -48,10 +48,10 @@ describe('Dictionary', () => {
     eq(t2, option.some({ k1: 2, k2: 3 }))
   })
 
-  it('getStaticSetoid', () => {
-    assert.strictEqual(getStaticSetoid(setoidNumber).equals({ a: 1 }, { a: 1 }), true)
-    assert.strictEqual(getStaticSetoid(setoidNumber).equals({ a: 1 }, { a: 2 }), false)
-    assert.strictEqual(getStaticSetoid(setoidNumber).equals({ a: 1 }, { b: 1 }), false)
+  it('getSetoid', () => {
+    assert.strictEqual(getSetoid(setoidNumber).equals({ a: 1 }, { a: 1 }), true)
+    assert.strictEqual(getSetoid(setoidNumber).equals({ a: 1 }, { a: 2 }), false)
+    assert.strictEqual(getSetoid(setoidNumber).equals({ a: 1 }, { b: 1 }), false)
   })
 
   it('lookup', () => {

@@ -1,14 +1,14 @@
 import { HKT, HKTS } from './HKT'
-import { StaticMonoid, getDualStaticMonoid } from './Monoid'
-import { StaticApplicative } from './Applicative'
-import { StaticSemigroup } from './Semigroup'
-import { StaticMonad, FantasyMonad } from './Monad'
-import { StaticFoldable, FantasyFoldable } from './Foldable'
-import { StaticPlus } from './Plus'
-import { StaticExtend, FantasyExtend } from './Extend'
-import { StaticSetoid } from './Setoid'
-import { StaticTraversable, FantasyTraversable } from './Traversable'
-import { StaticAlternative, FantasyAlternative } from './Alternative'
+import { Monoid, getDualMonoid } from './Monoid'
+import { Applicative } from './Applicative'
+import { Semigroup } from './Semigroup'
+import { Monad, FantasyMonad } from './Monad'
+import { Foldable, FantasyFoldable } from './Foldable'
+import { Plus } from './Plus'
+import { Extend, FantasyExtend } from './Extend'
+import { Setoid } from './Setoid'
+import { Traversable, FantasyTraversable } from './Traversable'
+import { Alternative, FantasyAlternative } from './Alternative'
 import { constant, constFalse, constTrue, Lazy, Predicate } from './function'
 
 declare module './HKT' {
@@ -53,7 +53,7 @@ export class None<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(none)
   }
   zero<B>(): Option<B> {
@@ -71,10 +71,10 @@ export class None<A> implements
   getOrElse(f: Lazy<A>): A {
     return f()
   }
-  concat(semigroup: StaticSemigroup<A>, fy: Option<A>): Option<A> {
+  concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
     return fy
   }
-  equals(setoid: StaticSetoid<A>, fy: Option<A>): boolean {
+  equals(setoid: Setoid<A>, fy: Option<A>): boolean {
     return fy.fold(constTrue, constFalse)
   }
   toNullable(): A | null {
@@ -127,7 +127,7 @@ export class Some<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return this.fold<B>(constant(b), (a: A) => f(b, a))
   }
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map<B, Option<B>>(some, f(this.value))
   }
   zero<B>(): Option<B> {
@@ -145,10 +145,10 @@ export class Some<A> implements
   getOrElse(f: Lazy<A>): A {
     return this.value
   }
-  concat(semigroup: StaticSemigroup<A>, fy: Option<A>): Option<A> {
+  concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
     return fy.fold(() => this, y => new Some(semigroup.concat(this.value, y)))
   }
-  equals(setoid: StaticSetoid<A>, fy: Option<A>): boolean {
+  equals(setoid: Setoid<A>, fy: Option<A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
   }
   toNullable(): A | null {
@@ -162,7 +162,7 @@ export class Some<A> implements
   }
 }
 
-export function equals<A>(setoid: StaticSetoid<A>, fx: Option<A>, fy: Option<A>): boolean {
+export function equals<A>(setoid: Setoid<A>, fx: Option<A>, fy: Option<A>): boolean {
   return fx.equals(setoid, fy)
 }
 
@@ -198,7 +198,7 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B {
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Option<A>) => HKT<Option<B>, U, V>[F] {
+export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Option<A>) => HKT<Option<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Option<A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
@@ -211,28 +211,28 @@ export function extend<A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> 
 }
 
 const first = { empty, concat: alt }
-const last = getDualStaticMonoid(first)
+const last = getDualMonoid(first)
 
 /** Maybe monoid returning the left-most non-None value */
-export function getFirstStaticMonoid<A>(): StaticMonoid<Option<A>> {
+export function getFirstMonoid<A>(): Monoid<Option<A>> {
   return first
 }
 
 /** Maybe monoid returning the right-most non-None value */
-export function getLastStaticMonoid<A>(): StaticMonoid<Option<A>> {
+export function getLastMonoid<A>(): Monoid<Option<A>> {
   return last
 }
 
-export function concat<A>(semigroup: StaticSemigroup<A>, fx: Option<A>, fy: Option<A>): Option<A> {
+export function concat<A>(semigroup: Semigroup<A>, fx: Option<A>, fy: Option<A>): Option<A> {
   return fx.concat(semigroup, fy)
 }
 
-export function getStaticSemigroup<A>(semigroup: StaticSemigroup<A>): StaticSemigroup<Option<A>> {
+export function getSemigroup<A>(semigroup: Semigroup<A>): Semigroup<Option<A>> {
   return { concat: (fx, fy) => concat(semigroup, fx, fy) }
 }
 
-export function getStaticMonoid<A>(semigroup: StaticSemigroup<A>): StaticMonoid<Option<A>> {
-  return { empty, concat: getStaticSemigroup(semigroup).concat }
+export function getMonoid<A>(semigroup: Semigroup<A>): Monoid<Option<A>> {
+  return { empty, concat: getSemigroup(semigroup).concat }
 }
 
 export function isSome<A>(fa: Option<A>): fa is Some<A> {
@@ -252,11 +252,11 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain, reduce, traverse, zero, alt, extend } as (
-    StaticMonad<URI> &
-    StaticFoldable<URI> &
-    StaticPlus<URI> &
-    StaticTraversable<URI> &
-    StaticAlternative<URI> &
-    StaticExtend<URI>
+    Monad<URI> &
+    Foldable<URI> &
+    Plus<URI> &
+    Traversable<URI> &
+    Alternative<URI> &
+    Extend<URI>
   )
 )

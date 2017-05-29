@@ -2,7 +2,7 @@ import { Option } from 'fp-ts/lib/Option'
 import * as option from 'fp-ts/lib/Option'
 import { Task } from 'fp-ts/lib/Task'
 import * as task from 'fp-ts/lib/Task'
-import { getStaticOptionT } from 'fp-ts/lib/OptionT'
+import { getOptionT } from 'fp-ts/lib/OptionT'
 import { FantasyMonad } from 'fp-ts/lib/Monad'
 import { Lazy } from 'fp-ts/lib/function'
 
@@ -13,7 +13,7 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-const optionTTask = getStaticOptionT('Task<Option>', task)
+const optionTTask = getOptionT('Task<Option>', task)
 
 export const URI = 'TaskOption'
 

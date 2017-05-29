@@ -1,5 +1,5 @@
 import { HKT } from 'fp-ts/lib/HKT'
-import { StaticFunctor } from 'fp-ts/lib/Functor'
+import { Functor } from 'fp-ts/lib/Functor'
 
 declare module 'fp-ts/lib/HKT' {
   interface HKT<A> {

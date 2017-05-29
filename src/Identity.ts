@@ -1,13 +1,13 @@
 import { HKT, HKTS } from './HKT'
-import { StaticApplicative } from './Applicative'
-import { StaticMonad, FantasyMonad } from './Monad'
-import { StaticFoldable, FantasyFoldable } from './Foldable'
-import { StaticSetoid } from './Setoid'
-import { StaticTraversable, FantasyTraversable } from './Traversable'
-import { StaticAlt, FantasyAlt } from './Alt'
-import { StaticComonad, FantasyComonad } from './Comonad'
+import { Applicative } from './Applicative'
+import { Monad, FantasyMonad } from './Monad'
+import { Foldable, FantasyFoldable } from './Foldable'
+import { Setoid } from './Setoid'
+import { Traversable, FantasyTraversable } from './Traversable'
+import { Alt, FantasyAlt } from './Alt'
+import { Comonad, FantasyComonad } from './Comonad'
 import { Either } from './Either'
-import { StaticChainRec, tailRec } from './ChainRec'
+import { ChainRec, tailRec } from './ChainRec'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -46,7 +46,7 @@ export class Identity<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKTS>(applicative: StaticApplicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Identity<B>, U, V>[F] {
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Identity<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map<B, Identity<B>>(of, f(this.value))
   }
   alt(fx: Identity<A>): Identity<A> {
@@ -61,7 +61,7 @@ export class Identity<A> implements
   fold<B>(f: (a: A) => B): B {
     return f(this.value)
   }
-  equals(setoid: StaticSetoid<A>, fy: Identity<A>): boolean {
+  equals(setoid: Setoid<A>, fy: Identity<A>): boolean {
     return setoid.equals(this.value, fy.value)
   }
   inspect() {
@@ -72,7 +72,7 @@ export class Identity<A> implements
   }
 }
 
-export function equals<A>(setoid: StaticSetoid<A>, fx: Identity<A>, fy: Identity<A>): boolean {
+export function equals<A>(setoid: Setoid<A>, fx: Identity<A>, fy: Identity<A>): boolean {
   return fx.equals(setoid, fy as Identity<A>)
 }
 
@@ -100,7 +100,7 @@ export function alt<A>(fx: Identity<A>, fy: Identity<A>): Identity<A> {
   return fx.alt(fy)
 }
 
-export function traverse<F extends HKTS>(applicative: StaticApplicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Identity<A>) => HKT<Identity<B>, U, V>[F] {
+export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Identity<A>) => HKT<Identity<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Identity<A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
@@ -119,11 +119,11 @@ export function chainRec<A, B>(f: (a: A) => Identity<Either<A, B>>, a: A): Ident
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain, reduce, traverse, alt, extract, extend, chainRec } as (
-    StaticMonad<URI> &
-    StaticFoldable<URI> &
-    StaticTraversable<URI> &
-    StaticAlt<URI> &
-    StaticComonad<URI> &
-    StaticChainRec<URI>
+    Monad<URI> &
+    Foldable<URI> &
+    Traversable<URI> &
+    Alt<URI> &
+    Comonad<URI> &
+    ChainRec<URI>
   )
 )

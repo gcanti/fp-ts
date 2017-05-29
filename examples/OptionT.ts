@@ -18,7 +18,7 @@ const withFallback = customGreeting.map(x => x.getOrElse(() => 'hello, there!'))
 
 // ====
 
-import { getStaticOptionT } from 'fp-ts/lib/OptionT'
+import { getOptionT } from 'fp-ts/lib/OptionT'
 
 declare module 'fp-ts/lib/HKT' {
   interface HKT<A> {
@@ -26,7 +26,7 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-const taskOption = getStaticOptionT('Task<Option>', task)
+const taskOption = getOptionT('Task<Option>', task)
 
 // customGreeting2 :: Task<Option<string>>
 const customGreeting2 = taskOption.of('welcome back, Lola')
