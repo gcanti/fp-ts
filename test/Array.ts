@@ -6,7 +6,7 @@ import { numberOrd } from '../src/Ord'
 import { eqOptions as eq } from './helpers'
 import { monoidSum, fold } from '../src/Monoid'
 
-describe('Arr', () => {
+describe('Array', () => {
 
   const as = [1, 2, 3]
   const empty = array.empty()

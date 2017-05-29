@@ -1,5 +1,6 @@
 import { HKT, HKTS } from './HKT'
 import { Monad, FantasyMonad } from './Monad'
+import { Comonad, FantasyComonad } from './Comonad'
 import { Semigroup } from './Semigroup'
 import { Foldable, FantasyFoldable } from './Foldable'
 import { Applicative } from './Applicative'
@@ -19,6 +20,7 @@ export type URI = typeof URI
 
 export class NonEmptyArray<A> implements
   FantasyMonad<URI, A>,
+  FantasyComonad<URI, A>,
   FantasyFoldable<A>,
   FantasyTraversable<URI, A> {
 
@@ -51,6 +53,12 @@ export class NonEmptyArray<A> implements
   }
   traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<NonEmptyArray<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((bs: Array<B>) => unsafeFromArray(bs), array.traverse<F>(applicative)<A, B>(f, this.toArray()))
+  }
+  extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> {
+    return unsafeFromArray(array.extend(as => f(unsafeFromArray(as)), this.toArray()))
+  }
+  extract(): A {
+    return this.head
   }
 }
 
@@ -90,10 +98,19 @@ export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U 
   return <A, B>(f: (a: A) => HKT<B>[F], ta: NonEmptyArray<A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
+export function extend<A, B>(f: (fa: NonEmptyArray<A>) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> {
+  return fa.extend(f)
+}
+
+export function extract<A>(fa: NonEmptyArray<A>): A {
+  return fa.extract()
+}
+
 // tslint:disable-next-line no-unused-expression
 ;(
   { map, of, ap, chain, concat, reduce, traverse } as (
     Monad<URI> &
+    Comonad<URI> &
     Semigroup<any> &
     Foldable<URI> &
     Traversable<URI>
