@@ -1,24 +1,29 @@
 import * as option from '../src/Option'
 import { Dictionary, lookup } from '../src/Dictionary'
 import { getReaderT } from '../src/ReaderT'
-import * as reader from '../src/Reader'
 import { eqOptions as eq } from './helpers'
 
-export type ReaderTOption<E, A> = reader.Reader<E, option.Option<A>>
+export type ReaderTOption<E, A> = (e: E) => option.Option<A>
 
-const readerOption = getReaderT(option)
+declare module '../src/HKT' {
+  interface HKT<A, U> {
+    'Kleisli<Option, E, A>': (u: U) => option.Option<A>
+  }
+}
+
+const readerTOption = getReaderT('Kleisli<Option, E, A>', option)
 
 describe('ReaderT', () => {
 
   it('ReaderOption', () => {
 
     function configure(key: string): ReaderTOption<Dictionary<string>, string> {
-      return new reader.Reader((e: Dictionary<string>) => lookup(key, e))
+      return (e: Dictionary<string>) => lookup(key, e)
     }
 
-    const setupConnection = readerOption.chain(host => {
-      return readerOption.chain(user => {
-        return readerOption.map(password => [host, user, password] as [string, string, string], configure('password'))
+    const setupConnection = readerTOption.chain(host => {
+      return readerTOption.chain(user => {
+        return readerTOption.map(password => [host, user, password] as [string, string, string], configure('password'))
       }, configure('user'))
     }, configure('host'))
 
@@ -28,14 +33,14 @@ describe('ReaderT', () => {
       password: 'password'
     }
 
-    eq(setupConnection.run(goodConfig), option.some(['myhost', 'giulio', 'password']))
+    eq(setupConnection(goodConfig), option.some(['myhost', 'giulio', 'password']))
 
     const badConfig = {
       host: 'myhost',
       user: 'giulio'
     }
 
-    eq(setupConnection.run(badConfig), option.none)
+    eq(setupConnection(badConfig), option.none)
 
   })
 

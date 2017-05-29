@@ -38,6 +38,8 @@ import * as functor from './Functor'
 export { functor }
 import * as hkt from './HKT'
 export { hkt }
+import * as id from './Id'
+export { id }
 import * as identity from './Identity'
 export { identity }
 import * as io from './IO'
@@ -76,6 +78,8 @@ import * as setoid from './Setoid'
 export { setoid }
 import * as state from './State'
 export { state }
+import * as stateT from './StateT'
+export { stateT }
 import * as store from './Store'
 export { store }
 import * as task from './Task'

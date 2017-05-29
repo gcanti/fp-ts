@@ -5,6 +5,7 @@ import {
   map,
   chain
 } from '../src/NonEmptyArray'
+import { monoidSum, fold } from '../src/Monoid'
 
 describe('NonEmptyArray', () => {
 
@@ -24,6 +25,15 @@ describe('NonEmptyArray', () => {
     const x = new NonEmptyArray(1, [2])
     const f = (a: number) => new NonEmptyArray(a, [4])
     assert.deepEqual(chain(f, x).toArray(), [1, 4, 2, 4])
+  })
+
+  it('extend', () => {
+    const sum = (as: NonEmptyArray<number>) => fold(monoidSum, as.toArray())
+    assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).extend(sum), new NonEmptyArray(10, [9, 7, 4]))
+  })
+
+  it('extract', () => {
+    assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
   })
 
 })

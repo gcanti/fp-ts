@@ -8,12 +8,12 @@ import { Lazy } from 'fp-ts/lib/function'
 
 declare module 'fp-ts/lib/HKT' {
   interface HKT<A> {
-    'Task<Option>': Task<Option<A>>
+    'Task . Option': Task<Option<A>>
     TaskOption: TaskOption<A>
   }
 }
 
-const optionTTask = getOptionT('Task<Option>', task)
+const optionTTask = getOptionT('Task . Option', task)
 
 export const URI = 'TaskOption'
 

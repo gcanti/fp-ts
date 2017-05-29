@@ -8,11 +8,11 @@ import { eqOptions as eq } from './helpers'
 
 declare module '../src/HKT' {
   interface HKT<A> {
-    'Task<Option>': task.Task<option.Option<A>>
+    'Task . Option': task.Task<option.Option<A>>
   }
 }
 
-const taskOption = getOptionT('Task<Option>', task)
+const taskOption = getOptionT('Task . Option', task)
 
 describe('OptionT', () => {
 

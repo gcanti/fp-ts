@@ -10,6 +10,7 @@ import { liftA2 } from './Apply'
 import { Option } from './Option'
 import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
+import { Extend } from './Extend'
 import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement } from './function'
 
 declare module './HKT' {
@@ -82,6 +83,10 @@ export function unfoldr<A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> {
     }
   }
   return ret
+}
+
+export function extend<A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B> {
+  return fa.map((_, i, as) => f(as.slice(i)))
 }
 
 export function fold<A, B>(nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B, as: Array<A>): B {
@@ -224,12 +229,13 @@ export function sort<A>(ord: Ord<A>, as: Array<A>): Array<A> {
 
 // tslint:disable-next-line no-unused-expression
 ;(
-  { empty, concat, map, of, ap, chain, reduce, traverse, zero, alt } as (
+  { empty, concat, map, of, ap, chain, reduce, traverse, zero, alt, extend } as (
     Monoid<Array<any>> &
     Monad<URI> &
     Foldable<URI> &
     Traversable<URI> &
     Alternative<URI> &
-    Plus<URI>
+    Plus<URI> &
+    Extend<URI>
   )
 )
