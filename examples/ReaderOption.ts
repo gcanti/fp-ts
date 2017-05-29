@@ -9,11 +9,12 @@ import { lift } from 'fp-ts/lib/Functor'
 
 declare module 'fp-ts/lib/HKT' {
   interface HKT<A, U> {
+    'Kleisli<Option, E, A>': (u: U) => option.Option<A>
     'ReaderOption': ReaderOption<U, A>
   }
 }
 
-const readerTOption = getReaderT(option)
+const readerTOption = getReaderT('Kleisli<Option, E, A>', option)
 
 export const URI = 'ReaderOption'
 
@@ -23,7 +24,7 @@ export class ReaderOption<E, A> implements FantasyMonad<URI, A> {
   readonly _E: E
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: Reader<E, Option<A>>) {}
+  constructor(public readonly value: (e: E) => Option<A>) {}
   map<B>(f: (a: A) => B): ReaderOption<E, B> {
     return new ReaderOption(readerTOption.map(f, this.value))
   }
@@ -43,7 +44,7 @@ export function map<E, A, B>(f: (a: A) => B, fa: ReaderOption<E, A>): ReaderOpti
 }
 
 export function of<E, A>(a: A): ReaderOption<E, A> {
-  return new ReaderOption(readerTOption.of<E, A>(a))
+  return new ReaderOption<E, A>(readerTOption.of(a))
 }
 
 export function ap<E, A, B>(fab: ReaderOption<E, (a: A) => B>, fa: ReaderOption<E, A>): ReaderOption<E, B> {

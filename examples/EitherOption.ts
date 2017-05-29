@@ -8,12 +8,12 @@ import { Lazy } from 'fp-ts/lib/function'
 
 declare module 'fp-ts/lib/HKT' {
   interface HKT<A, U> {
-    'Either<Option>': Either<U, Option<A>>
+    'Either . Option': Either<U, Option<A>>
     EitherOption: EitherOption<U, A>
   }
 }
 
-const optionTEither = getOptionT('Either<Option>', either)
+const optionTEither = getOptionT('Either . Option', either)
 
 export const URI = 'EitherOption'
 

@@ -9,12 +9,12 @@ import { Option } from 'fp-ts/lib/Option'
 
 declare module 'fp-ts/lib/HKT' {
   interface HKT<A, U> {
-    'Task<Either>': Task<Either<U, A>>
+    'Task . Either': Task<Either<U, A>>
     TaskEither: TaskEither<U, A>
   }
 }
 
-const eitherTTask = getEitherT('Task<Either>', task)
+const eitherTTask = getEitherT('Task . Either', task)
 
 export const URI = 'TaskEither'
 
