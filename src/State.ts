@@ -65,11 +65,11 @@ export function get<S>(): State<S, S> {
   return new State<S, S>(s => [s, s])
 }
 
-export function put<S>(s: S): State<S, undefined> {
+export function put<S>(s: S): State<S, void> {
   return new State(() => [undefined, s])
 }
 
-export function modify<S>(f: Endomorphism<S>): State<S, undefined> {
+export function modify<S>(f: Endomorphism<S>): State<S, void> {
   return new State<S, undefined>(s => [undefined, f(s)])
 }
 
