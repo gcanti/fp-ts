@@ -16,7 +16,7 @@ export function lift<F extends HKTS, A, B>(functor: StaticFunctor<F>, f: (a: A) 
 /** returns the composition of two functors
  * Note: requires an implicit proof that HKT<A>[FG] ~ HKT<HKT<A>[G]>[F]
  */
-export function getStaticFunctorComposition<FG extends HKTS, F extends HKTS, G extends HKTS>(URI: FG, functorF: StaticFunctor<F>, functorG: StaticFunctor<G>): StaticFunctor<FG> {
+export function getCompositionStaticFunctor<FG extends HKTS, F extends HKTS, G extends HKTS>(URI: FG, functorF: StaticFunctor<F>, functorG: StaticFunctor<G>): StaticFunctor<FG> {
   return {
     URI,
     map<A, B>(f: (a: A) => B, fa: HKT<HKT<A>[G]>[F]): HKT<HKT<B>[G]>[F] {

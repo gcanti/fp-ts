@@ -58,13 +58,13 @@ export function concat<A>(semigroup: StaticSemigroup<A>, fx: IO<A>, fy: IO<A>): 
   return fx.concat(semigroup, fy)
 }
 
-export function getSemigroup<A>(semigroup: StaticSemigroup<A>): StaticSemigroup<IO<A>> {
+export function getStaticSemigroup<A>(semigroup: StaticSemigroup<A>): StaticSemigroup<IO<A>> {
   return { concat: (fx, fy) => concat(semigroup, fx, fy) }
 }
 
-export function getMonoid<A>(monoid: StaticMonoid<A>): StaticMonoid<IO<A>> {
+export function getStaticMonoid<A>(monoid: StaticMonoid<A>): StaticMonoid<IO<A>> {
   const empty = monoid.empty()
-  return { empty: constant(of(empty)), concat: getSemigroup(monoid).concat }
+  return { empty: constant(of(empty)), concat: getStaticSemigroup(monoid).concat }
 }
 
 // tslint:disable-next-line no-unused-expression

@@ -66,7 +66,7 @@ export function tell<W>(monoid: StaticMonoid<W>): (w: W) => Writer<W, void> {
   return w => new Writer(monoid, () => [undefined, w])
 }
 
-export function getMonadS<W>(monoid: StaticMonoid<W>): StaticMonad<URI> {
+export function getStaticMonad<W>(monoid: StaticMonoid<W>): StaticMonad<URI> {
   return {
     URI,
     map,

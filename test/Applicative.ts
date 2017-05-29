@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 
 import {
-  getStaticApplicativeComposition,
+  getCompositionStaticApplicative,
   when
 } from '../src/Applicative'
 import * as validation from '../src/Validation'
@@ -25,7 +25,7 @@ describe('Applicative', () => {
 
   it('getStaticApplicativeComposition', () => {
 
-    const taskValidationApplicative = getStaticApplicativeComposition(TaskValidationURI, task, validation)
+    const taskValidationApplicative = getCompositionStaticApplicative(TaskValidationURI, task, validation)
 
     const allsuccess = [
       validation.success<string, number>(1),

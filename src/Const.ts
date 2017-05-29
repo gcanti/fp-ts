@@ -51,7 +51,7 @@ export function contramap<L, A>(fa: Const<L, A>): <B>(f: (b: B) => A) => Const<L
   return <B>(f: (b: B) => A) => fa.contramap(f)
 }
 
-export function getApply<L>(semigroup: StaticSemigroup<L>): StaticApply<URI> {
+export function getStaticApply<L>(semigroup: StaticSemigroup<L>): StaticApply<URI> {
   return {
     URI,
     map,
@@ -61,8 +61,8 @@ export function getApply<L>(semigroup: StaticSemigroup<L>): StaticApply<URI> {
   }
 }
 
-export function getApplicative<L>(monoid: StaticMonoid<L>): StaticApplicative<URI> {
-  const { ap } = getApply(monoid)
+export function getStaticApplicative<L>(monoid: StaticMonoid<L>): StaticApplicative<URI> {
+  const { ap } = getStaticApply(monoid)
   const empty = new Const<L, any>(monoid.empty())
   return {
     URI,

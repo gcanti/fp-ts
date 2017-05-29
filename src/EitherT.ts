@@ -1,6 +1,6 @@
 import { HKT, HKTS } from './HKT'
 import { StaticMonad } from './Monad'
-import { getStaticApplicativeComposition } from './Applicative'
+import { getCompositionStaticApplicative } from './Applicative'
 import { Either } from './Either'
 import * as either from './Either'
 import { Option } from './Option'
@@ -17,7 +17,7 @@ export interface StaticEitherT<URI extends HKTS, M extends HKTS> extends StaticM
 
 /** Note: requires an implicit proof that HKT<A>[URI] ~ HKT<Either<L, A>>[M] */
 export function getStaticEitherT<URI extends HKTS, M extends HKTS>(URI: URI, monad: StaticMonad<M>): StaticEitherT<URI, M> {
-  const applicative = getStaticApplicativeComposition(URI, monad, either)
+  const applicative = getCompositionStaticApplicative(URI, monad, either)
 
   function chain<L, A, B>(f: (a: A) => HKT<Either<L, B>>[M], fa: HKT<Either<L, A>>[M]): HKT<Either<L, B>>[M] {
     return monad.chain<Either<L, A>, Either<L, B>>(e => e.fold<HKT<Either<L, B>>[M]>(
