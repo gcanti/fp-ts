@@ -70,6 +70,8 @@ import * as reader from './Reader'
 export { reader }
 import * as readerT from './ReaderT'
 export { readerT }
+import * as ring from './Ring'
+export { ring }
 import * as semigroup from './Semigroup'
 export { semigroup }
 import * as semigroupoid from './Semigroupoid'
