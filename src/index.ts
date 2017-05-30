@@ -28,6 +28,8 @@ import * as eitherT from './EitherT'
 export { eitherT }
 import * as extend from './Extend'
 export { extend }
+import * as field from './Field'
+export { field }
 import * as foldable from './Foldable'
 export { foldable }
 import * as free from './Free'

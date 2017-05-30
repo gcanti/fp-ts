@@ -16,14 +16,6 @@ export interface Ring<A> extends Semiring<A> {
   sub(x: A, y: A): A
 }
 
-export const ringNumber: Ring<number> = {
-  add: (x, y) => x + y,
-  zero: () => 0,
-  mul: (x, y) => x * y,
-  one: () => 1,
-  sub: (x, y) => x - y
-}
-
 export function getFunctionRing<A, B>(ring: Ring<B>): Ring<Function1<A, B>> {
   const semiring = getFunctionSemiring(ring)
   return {
@@ -36,4 +28,3 @@ export function getFunctionRing<A, B>(ring: Ring<B>): Ring<Function1<A, B>> {
 export function negate<A>(ring: Ring<A>, a: A): A {
   return ring.sub(ring.zero(), a)
 }
-
