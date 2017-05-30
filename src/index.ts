@@ -32,6 +32,8 @@ import * as foldable from './Foldable'
 export { foldable }
 import * as free from './Free'
 export { free }
+import * as freeAp from './FreeAp'
+export { freeAp }
 import * as function_ from './function'
 export { function_ as function }
 import * as functor from './Functor'

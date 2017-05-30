@@ -2,7 +2,7 @@
 
 import { HKT, HKTS } from './HKT'
 import { FantasyMonad, Monad } from './Monad'
-import { identity as id } from './function'
+import { identity } from './function'
 
 declare module './HKT' {
   interface HKT<A, U> {
@@ -76,5 +76,5 @@ export function liftF<F, A>(fa: F): Free<F, A> {
 }
 
 export function inject<G>(): <F extends G, A>(free: Free<F, A>) => Free<G, A> {
-  return id
+  return identity
 }
