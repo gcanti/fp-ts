@@ -11,6 +11,14 @@ A mix of
 
 See the section "Technical overview" below for an explanation of the technique.
 
+# Installation
+
+To install the pre-release version (0.3):
+
+```
+npm install --save fp-ts@next
+```
+
 # Documentation
 
 - [OptionT](docs/OptionT.md)
@@ -64,6 +72,7 @@ See the section "Technical overview" below for an explanation of the technique.
 - EitherT
 - OptionT
 - ReaderT
+- StateT
 
 # Technical overview
 
@@ -124,7 +133,7 @@ Type classes are implemented following (when possible) both the [static-land](ht
  Here's the definition of the type class `Functor` (following the static-land spec)
 
 ```ts
-export interface StaticFunctor<F extends HKTS> {
+export interface Functor<F extends HKTS> {
   URI: F
   map<A, B>(f: (a: A) => B, fa: HKT<A>[F]): HKT<B>[F]
 }
