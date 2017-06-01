@@ -142,12 +142,11 @@ export function mapWithKey<A, B>(f: (k: string, a: A) => B, fa: Dictionary<A>): 
   return fb
 }
 
+const proof:
+  Monoid<Dictionary<any>> &
+  Functor<URI> &
+  Foldable<URI> &
+  Traversable<URI>
+= { URI, concat, empty, map, reduce, traverse }
 // tslint:disable-next-line no-unused-expression
-;(
-  { empty, concat, map } as (
-    Monoid<Dictionary<any>> &
-    Functor<URI> &
-    Foldable<URI> &
-    Traversable<URI>
-  )
-)
+{ proof }

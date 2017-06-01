@@ -248,15 +248,14 @@ export function tryCatch<A>(f: Lazy<A>): Either<Error, A> {
   }
 }
 
+const proof:
+  Monad<URI> &
+  Foldable<URI> &
+  Traversable<URI> &
+  Bifunctor<URI> &
+  Alt<URI> &
+  Extend<URI> &
+  ChainRec<URI>
+= { URI, map, of, ap, chain, reduce, traverse, bimap, alt, extend, chainRec }
 // tslint:disable-next-line no-unused-expression
-; (
-  { map, of, ap, chain, reduce, traverse, bimap, alt, extend, chainRec } as (
-    Monad<URI> &
-    Foldable<URI> &
-    Traversable<URI> &
-    Bifunctor<URI> &
-    Alt<URI> &
-    Extend<URI> &
-    ChainRec<URI>
-  )
-)
+{ proof }

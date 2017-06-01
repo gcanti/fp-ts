@@ -133,13 +133,12 @@ export function tuple<A>(a: A): <B>(b: B) => Tuple<A, B> {
   return <B>(b: B) => [a, b] as [A, B]
 }
 
+const proof:
+  Semigroupoid<URI> &
+  Bifunctor<URI> &
+  Comonad<URI> &
+  Foldable<URI> &
+  Traversable<URI>
+= { URI, compose, map, bimap, extract, extend, reduce, traverse }
 // tslint:disable-next-line no-unused-expression
-;(
-  { compose, map, bimap, extract, extend, reduce } as (
-    Semigroupoid<URI> &
-    Bifunctor<URI> &
-    Comonad<URI> &
-    Foldable<URI> &
-    Traversable<URI>
-  )
-)
+{ proof }

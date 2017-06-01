@@ -116,14 +116,13 @@ export function chainRec<A, B>(f: (a: A) => Identity<Either<A, B>>, a: A): Ident
   return new Identity(tailRec(a => f(a).extract(), a))
 }
 
+const proof:
+  Monad<URI> &
+  Foldable<URI> &
+  Traversable<URI> &
+  Alt<URI> &
+  Comonad<URI> &
+  ChainRec<URI>
+= { URI, map, of, ap, chain, reduce, traverse, alt, extract, extend, chainRec }
 // tslint:disable-next-line no-unused-expression
-;(
-  { map, of, ap, chain, reduce, traverse, alt, extract, extend, chainRec } as (
-    Monad<URI> &
-    Foldable<URI> &
-    Traversable<URI> &
-    Alt<URI> &
-    Comonad<URI> &
-    ChainRec<URI>
-  )
-)
+{ proof }

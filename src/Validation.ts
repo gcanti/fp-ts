@@ -243,13 +243,12 @@ export function toEitherNea<L, A>(fa: Validation<L, A>): Option<Validation<nea.N
   return fa.toEitherNea()
 }
 
+const proof:
+  Functor<URI> &
+  Applicative<URI> &
+  Foldable<URI> &
+  Traversable<URI> &
+  Alt<URI>
+= { URI, ap, map, of, reduce, traverse, alt }
 // tslint:disable-next-line no-unused-expression
-;(
-  { map, of, reduce, traverse, alt } as (
-    Functor<URI> &
-    Applicative<URI> &
-    Foldable<URI> &
-    Traversable<URI> &
-    Alt<URI>
-  )
-)
+{ proof }

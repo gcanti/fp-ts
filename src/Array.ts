@@ -227,15 +227,14 @@ export function sort<A>(ord: Ord<A>, as: Array<A>): Array<A> {
   return copy(as).sort(toNativeComparator(ord.compare))
 }
 
+const proof:
+  Monoid<Array<any>> &
+  Monad<URI> &
+  Foldable<URI> &
+  Traversable<URI> &
+  Alternative<URI> &
+  Plus<URI> &
+  Extend<URI>
+= { URI, empty, concat, map, of, ap, chain, reduce, traverse, zero, alt, extend }
 // tslint:disable-next-line no-unused-expression
-;(
-  { empty, concat, map, of, ap, chain, reduce, traverse, zero, alt, extend } as (
-    Monoid<Array<any>> &
-    Monad<URI> &
-    Foldable<URI> &
-    Traversable<URI> &
-    Alternative<URI> &
-    Plus<URI> &
-    Extend<URI>
-  )
-)
+{ proof }

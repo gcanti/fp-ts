@@ -249,14 +249,13 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
   return a => predicate(a) ? some<A>(a) : none
 }
 
+const proof:
+  Monad<URI> &
+  Foldable<URI> &
+  Plus<URI> &
+  Traversable<URI> &
+  Alternative<URI> &
+  Extend<URI>
+= { URI, map, of, ap, chain, reduce, traverse, zero, alt, extend }
 // tslint:disable-next-line no-unused-expression
-;(
-  { map, of, ap, chain, reduce, traverse, zero, alt, extend } as (
-    Monad<URI> &
-    Foldable<URI> &
-    Plus<URI> &
-    Traversable<URI> &
-    Alternative<URI> &
-    Extend<URI>
-  )
-)
+{ proof }
