@@ -28,6 +28,8 @@ import * as eitherT from './EitherT'
 export { eitherT }
 import * as extend from './Extend'
 export { extend }
+import * as field from './Field'
+export { field }
 import * as foldable from './Foldable'
 export { foldable }
 import * as free from './Free'
@@ -70,10 +72,14 @@ import * as reader from './Reader'
 export { reader }
 import * as readerT from './ReaderT'
 export { readerT }
+import * as ring from './Ring'
+export { ring }
 import * as semigroup from './Semigroup'
 export { semigroup }
 import * as semigroupoid from './Semigroupoid'
 export { semigroupoid }
+import * as semiring from './Semiring'
+export { semiring }
 import * as setoid from './Setoid'
 export { setoid }
 import * as state from './State'
