@@ -70,9 +70,8 @@ export function local<E, A>(f: Endomorphism<E>, fa: Reader<E, A>): Reader<E, A> 
   return new Reader(readerTId.local(f, fa.value))
 }
 
+const proof:
+  Monad<URI>
+= { map, of, ap, chain }
 // tslint:disable-next-line no-unused-expression
-;(
-  { map, of, ap, chain } as (
-    Monad<URI>
-  )
-)
+{ proof }

@@ -74,10 +74,9 @@ export function getApplicative<L>(monoid: Monoid<L>): Applicative<URI> {
   }
 }
 
+const proof:
+  Functor<URI> &
+  Contravariant<URI>
+= { map, contramap }
 // tslint:disable-next-line no-unused-expression
-;(
-  { map, contramap } as (
-    Functor<URI> &
-    Contravariant<URI>
-  )
-)
+{ proof }

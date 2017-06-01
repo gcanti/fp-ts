@@ -79,9 +79,8 @@ export function experiment<F extends HKTS, S, A, U = any, V = any>(functor: Func
   return functor.map<S, A>(s => sa.peek(s), f(sa.pos()))
 }
 
+const proof:
+  Comonad<URI>
+= { map, extract, extend }
 // tslint:disable-next-line no-unused-expression
-; (
-  { map, extract, extend } as (
-    Comonad<URI>
-  )
-)
+{ proof }

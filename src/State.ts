@@ -76,9 +76,8 @@ export function gets<S, A>(f: (s: S) => A): State<S, A> {
   return new State<S, A>(stateTId.gets<S, A>(f))
 }
 
+const proof:
+  Monad<URI>
+= { map, of, ap, chain }
 // tslint:disable-next-line no-unused-expression
-;(
-  { map, of, ap, chain } as (
-    Monad<URI>
-  )
-)
+{ proof }
