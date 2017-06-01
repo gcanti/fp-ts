@@ -13,10 +13,10 @@ See the section "Technical overview" below for an explanation of the technique.
 
 # Installation
 
-To install the pre-release version (0.3):
+To install the stable version:
 
 ```
-npm install --save fp-ts@next
+npm install --save fp-ts
 ```
 
 # Documentation
