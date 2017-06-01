@@ -78,6 +78,6 @@ export function gets<S, A>(f: (s: S) => A): State<S, A> {
 
 const proof:
   Monad<URI>
-= { map, of, ap, chain }
+= { URI, map, of, ap, chain }
 // tslint:disable-next-line no-unused-expression
 { proof }

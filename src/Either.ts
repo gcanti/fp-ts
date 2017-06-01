@@ -256,6 +256,6 @@ const proof:
   Alt<URI> &
   Extend<URI> &
   ChainRec<URI>
-= { map, of, ap, chain, reduce, traverse, bimap, alt, extend, chainRec }
+= { URI, map, of, ap, chain, reduce, traverse, bimap, alt, extend, chainRec }
 // tslint:disable-next-line no-unused-expression
 { proof }

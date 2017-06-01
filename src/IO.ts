@@ -69,6 +69,6 @@ export function getMonoid<A>(monoid: Monoid<A>): Monoid<IO<A>> {
 
 const proof:
   Monad<URI>
-= { map, of, ap, chain }
+= { URI, map, of, ap, chain }
 // tslint:disable-next-line no-unused-expression
 { proof }

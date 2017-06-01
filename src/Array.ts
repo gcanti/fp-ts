@@ -235,6 +235,6 @@ const proof:
   Alternative<URI> &
   Plus<URI> &
   Extend<URI>
-= { empty, concat, map, of, ap, chain, reduce, traverse, zero, alt, extend }
+= { URI, empty, concat, map, of, ap, chain, reduce, traverse, zero, alt, extend }
 // tslint:disable-next-line no-unused-expression
 { proof }

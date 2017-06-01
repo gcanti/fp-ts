@@ -81,6 +81,6 @@ export function experiment<F extends HKTS, S, A, U = any, V = any>(functor: Func
 
 const proof:
   Comonad<URI>
-= { map, extract, extend }
+= { URI, map, extract, extend }
 // tslint:disable-next-line no-unused-expression
 { proof }

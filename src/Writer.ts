@@ -78,6 +78,6 @@ export function getMonad<W>(monoid: Monoid<W>): Monad<URI> {
 
 const proof:
   Functor<URI>
-= { map }
+= { URI, map }
 // tslint:disable-next-line no-unused-expression
 { proof }

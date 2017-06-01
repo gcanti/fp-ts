@@ -256,6 +256,6 @@ const proof:
   Traversable<URI> &
   Alternative<URI> &
   Extend<URI>
-= { map, of, ap, chain, reduce, traverse, zero, alt, extend }
+= { URI, map, of, ap, chain, reduce, traverse, zero, alt, extend }
 // tslint:disable-next-line no-unused-expression
 { proof }

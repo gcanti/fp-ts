@@ -54,6 +54,6 @@ export function extend<E, A, B>(f: (ea: Traced<E, A>) => B, ea: Traced<E, A>): T
 
 const proof:
   Comonad<URI>
-= { map, extract, extend }
+= { URI, map, extract, extend }
 // tslint:disable-next-line no-unused-expression
 { proof }

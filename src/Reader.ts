@@ -72,6 +72,6 @@ export function local<E, A>(f: Endomorphism<E>, fa: Reader<E, A>): Reader<E, A> 
 
 const proof:
   Monad<URI>
-= { map, of, ap, chain }
+= { URI, map, of, ap, chain }
 // tslint:disable-next-line no-unused-expression
 { proof }

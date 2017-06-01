@@ -249,6 +249,6 @@ const proof:
   Foldable<URI> &
   Traversable<URI> &
   Alt<URI>
-= { map, of, reduce, traverse, alt }
+= { URI, ap, map, of, reduce, traverse, alt }
 // tslint:disable-next-line no-unused-expression
 { proof }

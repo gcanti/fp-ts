@@ -139,6 +139,6 @@ const proof:
   Comonad<URI> &
   Foldable<URI> &
   Traversable<URI>
-= { compose, map, bimap, extract, extend, reduce }
+= { URI, compose, map, bimap, extract, extend, reduce, traverse }
 // tslint:disable-next-line no-unused-expression
 { proof }

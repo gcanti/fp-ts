@@ -147,6 +147,6 @@ const proof:
   Functor<URI> &
   Foldable<URI> &
   Traversable<URI>
-= { empty, concat, map }
+= { URI, concat, empty, map, reduce, traverse }
 // tslint:disable-next-line no-unused-expression
 { proof }

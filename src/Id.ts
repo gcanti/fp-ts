@@ -70,6 +70,6 @@ const proof:
   Alt<URI> &
   Comonad<URI> &
   ChainRec<URI>
-= { map, of, ap, chain, reduce, traverse, alt, extract, extend, chainRec }
+= { URI, map, of, ap, chain, reduce, traverse, alt, extract, extend, chainRec }
 // tslint:disable-next-line no-unused-expression
 { proof }

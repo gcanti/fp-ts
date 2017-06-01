@@ -113,6 +113,6 @@ const proof:
   Semigroup<any> &
   Foldable<URI> &
   Traversable<URI>
-= { map, of, ap, chain, concat, reduce, traverse }
+= { URI, extend, extract, map, of, ap, chain, concat, reduce, traverse }
 // tslint:disable-next-line no-unused-expression
 { proof }
