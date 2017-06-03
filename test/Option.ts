@@ -18,7 +18,6 @@ import { setoidNumber } from '../src/Setoid'
 import { eqOptions as eq } from './helpers'
 
 describe('Option', () => {
-
   it('fold', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
@@ -59,7 +58,11 @@ describe('Option', () => {
   })
 
   it('getMonoid', () => {
-    const { concat } = getMonoid({ concat(x: number, y: number) { return x + y } })
+    const { concat } = getMonoid({
+      concat(x: number, y: number) {
+        return x + y
+      }
+    })
     eq(concat(none, some(1)), some(1))
     eq(concat(some(2), none), some(2))
     eq(concat(some(2), some(1)), some(3))
@@ -107,5 +110,4 @@ describe('Option', () => {
     assert.deepEqual(last.concat(none, none), none)
     assert.deepEqual(last.concat(some(1), some(2)), some(2))
   })
-
 })

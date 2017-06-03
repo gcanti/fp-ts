@@ -1,16 +1,8 @@
 import * as assert from 'assert'
-import {
-  compose,
-  map,
-  bimap,
-  extract,
-  extend,
-  getSemigroup
-} from '../src/Tuple'
+import { compose, map, bimap, extract, extend, getSemigroup } from '../src/Tuple'
 import { monoidString, monoidSum } from '../src/Monoid'
 
 describe('Tuple', () => {
-
   it('compose', () => {
     assert.deepEqual(compose([1, 's'], [true, 2]), [true, 's'])
   })
@@ -38,5 +30,4 @@ describe('Tuple', () => {
     const semigroup = getSemigroup(monoidString, monoidSum)
     assert.deepEqual(semigroup.concat(['a', 1], ['b', 2]), ['ab', 3])
   })
-
 })

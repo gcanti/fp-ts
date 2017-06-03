@@ -23,13 +23,12 @@ export type URI = typeof URI
 
 export type Option<A> = None<A> | Some<A>
 
-export class None<A> implements
-  FantasyMonad<URI, A>,
-  FantasyFoldable<A>,
-  FantasyTraversable<URI, A>,
-  FantasyAlternative<URI, A>,
-  FantasyExtend<URI, A> {
-
+export class None<A>
+  implements FantasyMonad<URI, A>,
+    FantasyFoldable<A>,
+    FantasyTraversable<URI, A>,
+    FantasyAlternative<URI, A>,
+    FantasyExtend<URI, A> {
   static of = of
   static empty = empty
   static zero = zero
@@ -37,7 +36,7 @@ export class None<A> implements
   readonly _tag = 'None'
   readonly _A: A
   readonly _URI: URI
-  private constructor() { }
+  private constructor() {}
   map<B>(f: (a: A) => B): Option<B> {
     return none
   }
@@ -53,7 +52,9 @@ export class None<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
+  traverse<F extends HKTS>(
+    applicative: Applicative<F>
+  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(none)
   }
   zero<B>(): Option<B> {
@@ -98,13 +99,12 @@ export function empty<A>(): Option<A> {
   return none
 }
 
-export class Some<A> implements
-  FantasyMonad<URI, A>,
-  FantasyFoldable<A>,
-  FantasyTraversable<URI, A>,
-  FantasyAlternative<URI, A>,
-  FantasyExtend<URI, A> {
-
+export class Some<A>
+  implements FantasyMonad<URI, A>,
+    FantasyFoldable<A>,
+    FantasyTraversable<URI, A>,
+    FantasyAlternative<URI, A>,
+    FantasyExtend<URI, A> {
   static of = of
   static empty = empty
   static zero = zero
@@ -127,7 +127,9 @@ export class Some<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return this.fold<B>(constant(b), (a: A) => f(b, a))
   }
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
+  traverse<F extends HKTS>(
+    applicative: Applicative<F>
+  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Option<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map<B, Option<B>>(some, f(this.value))
   }
   zero<B>(): Option<B> {
@@ -198,7 +200,9 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B {
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Option<A>) => HKT<Option<B>, U, V>[F] {
+export function traverse<F extends HKTS>(
+  applicative: Applicative<F>
+): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Option<A>) => HKT<Option<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Option<A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
@@ -246,16 +250,20 @@ export function isNone<A>(fa: Option<A>): fa is None<A> {
 export const some = of
 
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
-  return a => predicate(a) ? some<A>(a) : none
+  return a => (predicate(a) ? some<A>(a) : none)
 }
 
-const proof:
-  Monad<URI> &
-  Foldable<URI> &
-  Plus<URI> &
-  Traversable<URI> &
-  Alternative<URI> &
-  Extend<URI>
-= { URI, map, of, ap, chain, reduce, traverse, zero, alt, extend }
+const proof: Monad<URI> & Foldable<URI> & Plus<URI> & Traversable<URI> & Alternative<URI> & Extend<URI> = {
+  URI,
+  map,
+  of,
+  ap,
+  chain,
+  reduce,
+  traverse,
+  zero,
+  alt,
+  extend
+}
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

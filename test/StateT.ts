@@ -1,7 +1,5 @@
 import * as assert from 'assert'
-import {
-  getStateT
-} from '../src/StateT'
+import { getStateT } from '../src/StateT'
 import * as option from '../src/Option'
 
 declare module '../src/HKT' {
@@ -13,7 +11,6 @@ declare module '../src/HKT' {
 const stateTOption = getStateT('Kleisli<Option, S, [A, S]>', option)
 
 describe('StateT', () => {
-
   it('put', () => {
     assert.deepEqual(stateTOption.put(2)(1), option.some([undefined, 2]))
   })
@@ -43,5 +40,4 @@ describe('StateT', () => {
     const state = (s: number) => option.some<[number, number]>([s - 1, s + 1])
     assert.deepEqual(stateTOption.chain(f, state)(0), option.some([0, 2]))
   })
-
 })

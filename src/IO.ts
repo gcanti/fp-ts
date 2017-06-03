@@ -67,8 +67,6 @@ export function getMonoid<A>(monoid: Monoid<A>): Monoid<IO<A>> {
   return { empty: constant(of(empty)), concat: getSemigroup(monoid).concat }
 }
 
-const proof:
-  Monad<URI>
-= { URI, map, of, ap, chain }
+const proof: Monad<URI> = { URI, map, of, ap, chain }
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

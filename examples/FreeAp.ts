@@ -7,10 +7,7 @@ type Validator<A> = (s: string) => either.Either<string, A>
 
 class Field<A = any> {
   readonly _A: A
-  constructor(
-    public readonly name: string,
-    public readonly validator: Validator<A>
-  ) {}
+  constructor(public readonly name: string, public readonly validator: Validator<A>) {}
 }
 
 type Form<A> = freeAp.FreeAp<Field, A>
@@ -30,12 +27,13 @@ function fromString(s: string, message: string): either.Either<string, number> {
 const int = (name: string): Form<number> =>
   field<number>(name, s =>
     fromString(s, `${name}: Invalid int`).chain(
-      either.fromPredicate<string, number>(n => n % 1 === 0, () => `${name}: Invalid NES`))
+      either.fromPredicate<string, number>(n => n % 1 === 0, () => `${name}: Invalid NES`)
+    )
   )
 
 type User = {
-  firstName: string,
-  lastName: string,
+  firstName: string
+  lastName: string
   age: number
 }
 
@@ -48,11 +46,11 @@ const form: Form<User> = int('Age').ap(nes('Last name').ap(nes('First name').map
 function runForm(first: string, last: string, age: string): either.Either<string, User> {
   function validate<A>(name: string, validator: Validator<A>): either.Either<string, A> {
     switch (name) {
-      case 'First name' :
+      case 'First name':
         return validator(first)
-      case 'Last name' :
+      case 'Last name':
         return validator(last)
-      case 'Age' :
+      case 'Age':
         return validator(age)
     }
     throw new Error(`Unexpected field ${name}`)

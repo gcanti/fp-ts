@@ -1,19 +1,8 @@
 import * as assert from 'assert'
-import {
-  right,
-  left,
-  map,
-  fold,
-  getOrElse,
-  ap,
-  chain,
-  fromPredicate,
-  tryCatch
-} from '../src/Either'
+import { right, left, map, fold, getOrElse, ap, chain, fromPredicate, tryCatch } from '../src/Either'
 import { eqEithers as eq } from './helpers'
 
 describe('Either', () => {
-
   it('fold', () => {
     const f = (s: string) => `left${s.length}`
     const g = (s: string) => `right${s.length}`
@@ -64,5 +53,4 @@ describe('Either', () => {
     assert.equal(getOrElse(() => 17, right(12)), 12)
     assert.equal(getOrElse(() => 17, left(12)), 17)
   })
-
 })

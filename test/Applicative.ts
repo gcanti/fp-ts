@@ -1,9 +1,6 @@
 import * as assert from 'assert'
 
-import {
-  getCompositionApplicative,
-  when
-} from '../src/Applicative'
+import { getCompositionApplicative, when } from '../src/Applicative'
 import * as validation from '../src/Validation'
 import * as task from '../src/Task'
 import { monoidString } from '../src/Monoid'
@@ -22,9 +19,7 @@ declare module '../src/HKT' {
 }
 
 describe('Applicative', () => {
-
   it('getCompositionApplicative', () => {
-
     const taskValidationApplicative = getCompositionApplicative(TaskValidationURI, task, validation)
 
     const allsuccess = [
@@ -58,11 +53,12 @@ describe('Applicative', () => {
 
   it('when', () => {
     const log: Array<string> = []
-    const action = new io.IO(() => { log.push('action called') })
+    const action = new io.IO(() => {
+      log.push('action called')
+    })
     when(io)(false, action).run()
     assert.deepEqual(log, [])
     when(io)(true, action).run()
     assert.deepEqual(log, ['action called'])
   })
-
 })

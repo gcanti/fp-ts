@@ -1,14 +1,7 @@
 import * as assert from 'assert'
-import {
-  put,
-  get,
-  modify,
-  gets,
-  State
-} from '../src/State'
+import { put, get, modify, gets, State } from '../src/State'
 
 describe('State', () => {
-
   it('put', () => {
     assert.deepEqual(put(2).run(1), [undefined, 2])
   })
@@ -38,5 +31,4 @@ describe('State', () => {
     const state = new State<number, number>(s => [s - 1, s + 1])
     assert.deepEqual(state.chain(f).run(0), [0, 2])
   })
-
 })

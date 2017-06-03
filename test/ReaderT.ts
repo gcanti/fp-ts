@@ -14,9 +14,7 @@ declare module '../src/HKT' {
 const readerTOption = getReaderT('Kleisli<Option, E, A>', option)
 
 describe('ReaderT', () => {
-
   it('ReaderOption', () => {
-
     function configure(key: string): ReaderTOption<Dictionary<string>, string> {
       return (e: Dictionary<string>) => lookup(key, e)
     }
@@ -41,7 +39,5 @@ describe('ReaderT', () => {
     }
 
     eq(setupConnection(badConfig), option.none)
-
   })
-
 })

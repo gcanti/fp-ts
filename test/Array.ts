@@ -7,13 +7,12 @@ import { eqOptions as eq } from './helpers'
 import { monoidSum, fold } from '../src/Monoid'
 
 describe('Array', () => {
-
   const as = [1, 2, 3]
   const empty = array.empty()
 
   it('traverse', () => {
     const tfanone = [1, 2]
-    const f = (n: number): option.Option<number> => n % 2 === 0 ? none : some(n)
+    const f = (n: number): option.Option<number> => (n % 2 === 0 ? none : some(n))
     const fasnone = array.traverse(option)(f, tfanone)
     assert.ok(option.isNone(fasnone))
     const tfa = [1, 3]
@@ -22,7 +21,7 @@ describe('Array', () => {
   })
 
   it('unfoldr', () => {
-    const as = array.unfoldr(n => n > 0 ? some([n, n - 1]) : none, 5)
+    const as = array.unfoldr(n => (n > 0 ? some([n, n - 1]) : none), 5)
     assert.deepEqual(as, [5, 4, 3, 2, 1])
   })
 
@@ -71,7 +70,7 @@ describe('Array', () => {
   })
 
   it('takeWhile', () => {
-    assert.deepEqual(array.takeWhile((n) => n % 2 === 0, as), [2])
+    assert.deepEqual(array.takeWhile(n => n % 2 === 0, as), [2])
   })
 
   it('drop', () => {
@@ -79,7 +78,7 @@ describe('Array', () => {
   })
 
   it('dropWhile', () => {
-    assert.deepEqual(array.dropWhile((n) => n % 2 === 0, as), [1, 3])
+    assert.deepEqual(array.dropWhile(n => n % 2 === 0, as), [1, 3])
   })
 
   it('init', () => {
@@ -92,8 +91,8 @@ describe('Array', () => {
   })
 
   it('findIndex', () => {
-    eq(array.findIndex((x) => x === 2, empty), none)
-    eq(array.findIndex((x) => x === 2, as), some(1))
+    eq(array.findIndex(x => x === 2, empty), none)
+    eq(array.findIndex(x => x === 2, as), some(1))
   })
 
   it('insertAt', () => {
@@ -117,7 +116,7 @@ describe('Array', () => {
   })
 
   it('mapOption', () => {
-    const f = (a: number) => a % 2 === 0 ? none : some(a)
+    const f = (a: number) => (a % 2 === 0 ? none : some(a))
     assert.deepEqual(array.mapOption(f, as), [1, 3])
   })
 
@@ -141,5 +140,4 @@ describe('Array', () => {
     const sum = (as: Array<number>) => fold(monoidSum, as)
     assert.deepEqual(array.extend(sum, [1, 2, 3, 4]), [10, 9, 7, 4])
   })
-
 })

@@ -3,7 +3,6 @@ import * as field from '../src/Field'
 import * as setoid from '../src/Setoid'
 
 describe('Field', () => {
-
   it('gcd', () => {
     const gcd = field.gcd(setoid.setoidNumber, field.fieldNumber)
     assert.strictEqual(gcd(10, 5), 5)
@@ -15,5 +14,4 @@ describe('Field', () => {
     const lcm = field.lcm(setoid.setoidNumber, field.fieldNumber)
     assert.strictEqual(lcm(4, 6), 12)
   })
-
 })

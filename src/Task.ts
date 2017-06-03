@@ -79,9 +79,6 @@ export function empty<A>(): Task<A> {
   return never as Task<A>
 }
 
-const proof:
-    Monad<URI> &
-    Monoid<Task<any>>
-= { URI, map, of, ap, chain, concat, empty }
+const proof: Monad<URI> & Monoid<Task<any>> = { URI, map, of, ap, chain, concat, empty }
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

@@ -35,7 +35,10 @@ export class Pure<F, A> implements FantasyApplicative<URI, A> {
   ap<B>(fab: FreeAp<F, (a: A) => B>): FreeAp<F, B> {
     return fab.map(f => f(this.a))
   }
-  foldMap<M extends HKTS, U = any, V = any>(applicative: Applicative<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
+  foldMap<M extends HKTS, U = any, V = any>(
+    applicative: Applicative<M>,
+    f: <A>(fa: F) => HKT<A, U, V>[M]
+  ): HKT<A, U, V>[M] {
     return applicative.of(this.a)
   }
 }
@@ -46,10 +49,7 @@ export class Ap<F, A> implements FantasyApplicative<URI, A> {
   readonly _F: F
   readonly _A: A
   readonly _URI: URI
-  constructor(
-    public readonly fg: FreeAp<F, (x: any) => A>,
-    public readonly fx: any
-  ) {}
+  constructor(public readonly fg: FreeAp<F, (x: any) => A>, public readonly fx: any) {}
   map<B>(f: (a: A) => B): FreeAp<F, B> {
     return new Ap(this.fg.map(g => (x: any) => f(g(x))), this.fx)
   }
@@ -59,7 +59,10 @@ export class Ap<F, A> implements FantasyApplicative<URI, A> {
   ap<B>(fab: FreeAp<F, (a: A) => B>): FreeAp<F, B> {
     return new Ap<F, B>(this.fg.ap(fab.map(f => (g: any): any => (x: any) => f(g(x)))), this.fx)
   }
-  foldMap<M extends HKTS, U = any, V = any>(applicative: Applicative<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
+  foldMap<M extends HKTS, U = any, V = any>(
+    applicative: Applicative<M>,
+    f: <A>(fa: F) => HKT<A, U, V>[M]
+  ): HKT<A, U, V>[M] {
     const x = f<any>(this.fx)
     const y = this.fg.foldMap<M, U, V>(applicative, f)
     return applicative.ap<any, A, U, V>(y, x)

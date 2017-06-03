@@ -1,7 +1,5 @@
 import * as assert from 'assert'
-import {
-  getOptionT
-} from '../src/OptionT'
+import { getOptionT } from '../src/OptionT'
 import * as option from '../src/Option'
 import * as task from '../src/Task'
 import { eqOptions as eq } from './helpers'
@@ -15,7 +13,6 @@ declare module '../src/HKT' {
 const taskOption = getOptionT('Task . Option', task)
 
 describe('OptionT', () => {
-
   it('map', () => {
     const greetingT = taskOption.of('welcome')
     const excitedGreetingT = taskOption.map(s => s + '!', greetingT)
@@ -46,15 +43,4 @@ describe('OptionT', () => {
     })
     return Promise.all([p1, p2])
   })
-
-  // it('flatten', () => {
-  //   const p1 = flatten(of(task)(of(task)('welcome'))).value.run().then(s => {
-  //     eq(s, option.some('welcome'))
-  //   })
-  //   const p2 = flatten(of(task)(none(task))).value.run().then(s => {
-  //     eq(s, option.none)
-  //   })
-  //   return Promise.all([p1, p2])
-  // })
-
 })

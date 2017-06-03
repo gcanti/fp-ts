@@ -1,23 +1,27 @@
 import * as assert from 'assert'
-import {
-  this_,
-  that,
-  both,
-  fromThese
-} from '../src/These'
+import { this_, that, both, fromThese } from '../src/These'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { monoidSum, monoidString } from '../src/Monoid'
 
 describe('These', () => {
-
   it('equals', () => {
     assert.strictEqual(this_(2).equals(setoidNumber, setoidNumber, this_(2)), true)
     assert.strictEqual(this_(2).equals(setoidNumber, setoidNumber, this_(3)), false)
   })
 
   it('concat', () => {
-    assert.strictEqual(this_('a').concat(monoidString, monoidSum, this_('b')).equals(setoidString, setoidNumber, this_<string, number>('ab')), true)
-    assert.strictEqual(this_('a').concat(monoidString, monoidSum, that<string, number>(2)).equals(setoidString, setoidNumber, both<string, number>('a', 2)), true)
+    assert.strictEqual(
+      this_('a')
+        .concat(monoidString, monoidSum, this_('b'))
+        .equals(setoidString, setoidNumber, this_<string, number>('ab')),
+      true
+    )
+    assert.strictEqual(
+      this_('a')
+        .concat(monoidString, monoidSum, that<string, number>(2))
+        .equals(setoidString, setoidNumber, both<string, number>('a', 2)),
+      true
+    )
   })
 
   it('map', () => {
@@ -39,5 +43,4 @@ describe('These', () => {
     assert.strictEqual(this_('a').bimap(len, double).equals(setoidNumber, setoidNumber, this_<number, number>(1)), true)
     assert.strictEqual(that(2).bimap(len, double).equals(setoidNumber, setoidNumber, that<number, number>(4)), true)
   })
-
 })

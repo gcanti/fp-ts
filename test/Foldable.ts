@@ -1,12 +1,5 @@
 import * as assert from 'assert'
-import {
-  toArray,
-  foldMap,
-  getCompositionFoldable,
-  intercalate,
-  traverse_,
-  sequence_
-} from '../src/Foldable'
+import { toArray, foldMap, getCompositionFoldable, intercalate, traverse_, sequence_ } from '../src/Foldable'
 import * as array from '../src/Array'
 import * as option from '../src/Option'
 import * as io from '../src/IO'
@@ -24,7 +17,6 @@ declare module '../src/HKT' {
 }
 
 describe('Foldable', () => {
-
   it('toArray', () => {
     assert.deepEqual(toArray(array)([1, 2, 3]), [1, 2, 3])
   })
@@ -43,16 +35,12 @@ describe('Foldable', () => {
     const join = intercalate(getCompositionFoldable('ArrayOption', array, option), monoidString)
     assert.strictEqual(join(' ', []), '')
     assert.strictEqual(join(' ', [option.some('a')]), 'a')
-    assert.strictEqual(join(' ', [
-      option.some('a'),
-      option.none,
-      option.some('b')
-    ]), 'a b')
+    assert.strictEqual(join(' ', [option.some('a'), option.none, option.some('b')]), 'a b')
   })
 
   it('traverse_', () => {
     let counter = ''
-    const x = traverse_(io, array)(a => new io.IO(() => counter += a), ['a', 'b', 'c'])
+    const x = traverse_(io, array)(a => new io.IO(() => (counter += a)), ['a', 'b', 'c'])
     x.run()
     assert.strictEqual(counter, 'abc')
   })
@@ -60,12 +48,11 @@ describe('Foldable', () => {
   it('sequence_', () => {
     let counter = ''
     const x = sequence_(io, array)([
-      new io.IO(() => counter += 'a'),
-      new io.IO(() => counter += 'b'),
-      new io.IO(() => counter += 'c')
+      new io.IO(() => (counter += 'a')),
+      new io.IO(() => (counter += 'b')),
+      new io.IO(() => (counter += 'c'))
     ])
     x.run()
     assert.strictEqual(counter, 'abc')
   })
-
 })

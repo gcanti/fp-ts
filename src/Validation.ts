@@ -24,12 +24,8 @@ export type URI = typeof URI
 
 export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
-export class Failure<L, A> implements
-  FantasyApply<URI, A>,
-  FantasyFoldable<A>,
-  FantasyTraversable<URI, A>,
-  FantasyAlt<URI, A> {
-
+export class Failure<L, A>
+  implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
   static of = of
   readonly _tag = 'Failure'
   readonly _L: L
@@ -57,7 +53,9 @@ export class Failure<L, A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Validation<L, B>, U, V>[F] {
+  traverse<F extends HKTS>(
+    applicative: Applicative<F>
+  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Validation<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(this as any)
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
@@ -67,10 +65,7 @@ export class Failure<L, A> implements
     return fy.fold(constTrue, constFalse)
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
-    return fy.fold(
-      l => failure<L, A>(this.semigroup, this.semigroup.concat(l, this.value)),
-      () => this
-    )
+    return fy.fold(l => failure<L, A>(this.semigroup, this.semigroup.concat(l, this.value)), () => this)
   }
   mapFailure<L2>(semigroup: Semigroup<L2>, f: (l: L) => L2): Validation<L2, A> {
     return failure<L2, A>(semigroup, f(this.value))
@@ -96,12 +91,8 @@ export class Failure<L, A> implements
   }
 }
 
-export class Success<L, A> implements
-  FantasyApply<URI, A>,
-  FantasyFoldable<A>,
-  FantasyTraversable<URI, A>,
-  FantasyAlt<URI, A> {
-
+export class Success<L, A>
+  implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
   static of = of
   readonly _tag = 'Success'
   readonly _L: L
@@ -129,7 +120,9 @@ export class Success<L, A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Validation<L, B>, U, V>[F] {
+  traverse<F extends HKTS>(
+    applicative: Applicative<F>
+  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Validation<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((b: B) => of<L, B>(b), f(this.value))
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
@@ -185,7 +178,12 @@ export function ap<L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A
   return fa.ap(fab)
 }
 
-export function bimap<L, L2, A, B>(semigroup: Semigroup<L2>, f: (l: L) => L2, g: (a: A) => B, fa: Validation<L, A>): Validation<L2, B> {
+export function bimap<L, L2, A, B>(
+  semigroup: Semigroup<L2>,
+  f: (l: L) => L2,
+  g: (a: A) => B,
+  fa: Validation<L, A>
+): Validation<L2, B> {
   return fa.bimap(semigroup, f, g)
 }
 
@@ -197,7 +195,9 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(applicative: Applicative<F>): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Validation<L, A>) => HKT<Validation<L, B>, U, V>[F] {
+export function traverse<F extends HKTS>(
+  applicative: Applicative<F>
+): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Validation<L, A>) => HKT<Validation<L, B>, U, V>[F] {
   return <L, A, B>(f: (a: A) => HKT<B>[F], ta: Validation<L, A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
@@ -215,15 +215,23 @@ export function failure<L, A>(semigroup: Semigroup<L>, l: L): Validation<L, A> {
 
 export const success = of
 
-export function fromPredicate<L, A>(semigroup: Semigroup<L>, predicate: Predicate<A>, l: (a: A) => L): (a: A) => Validation<L, A> {
-  return a => predicate(a) ? success<L, A>(a) : failure<L, A>(semigroup, l(a))
+export function fromPredicate<L, A>(
+  semigroup: Semigroup<L>,
+  predicate: Predicate<A>,
+  l: (a: A) => L
+): (a: A) => Validation<L, A> {
+  return a => (predicate(a) ? success<L, A>(a) : failure<L, A>(semigroup, l(a)))
 }
 
 export function concat<L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> {
   return fx.concat(fy)
 }
 
-export function mapFailure<L, L2, A>(semigroup: Semigroup<L2>, f: (l: L) => L2, fa: Validation<L, A>): Validation<L2, A> {
+export function mapFailure<L, L2, A>(
+  semigroup: Semigroup<L2>,
+  f: (l: L) => L2,
+  fa: Validation<L, A>
+): Validation<L2, A> {
   return fa.mapFailure(semigroup, f)
 }
 
@@ -243,12 +251,14 @@ export function toEitherNea<L, A>(fa: Validation<L, A>): Option<Validation<nea.N
   return fa.toEitherNea()
 }
 
-const proof:
-  Functor<URI> &
-  Applicative<URI> &
-  Foldable<URI> &
-  Traversable<URI> &
-  Alt<URI>
-= { URI, ap, map, of, reduce, traverse, alt }
+const proof: Functor<URI> & Applicative<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> = {
+  URI,
+  ap,
+  map,
+  of,
+  reduce,
+  traverse,
+  alt
+}
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof
