@@ -1,5 +1,6 @@
 import { Monoid } from './Monoid'
 import { Comonad, FantasyComonad } from './Comonad'
+import { toString } from './function'
 
 declare module './HKT' {
   interface HKT<A, U> {
@@ -27,6 +28,12 @@ export class Traced<E, A> implements FantasyComonad<URI, A> {
   }
   extend<B>(f: (ea: Traced<E, A>) => B): Traced<E, B> {
     return new Traced(this.monoid, m1 => f(new Traced(this.monoid, m2 => this.run(this.monoid.concat(m1, m2)))))
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Traced(${toString(this.monoid)}, ${toString(this.value)})`
   }
 }
 

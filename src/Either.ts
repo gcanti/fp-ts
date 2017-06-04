@@ -9,7 +9,7 @@ import { Bifunctor, FantasyBifunctor } from './Bifunctor'
 import { Alt, FantasyAlt } from './Alt'
 import { ChainRec, tailRec } from './ChainRec'
 import { Option, none, some } from './Option'
-import { constFalse, constTrue, Predicate, Lazy } from './function'
+import { constFalse, constTrue, Predicate, Lazy, toString } from './function'
 
 declare module './HKT' {
   interface HKT<A, U> {
@@ -84,7 +84,7 @@ export class Left<L, A>
     return this.toString()
   }
   toString() {
-    return `Left(${JSON.stringify(this.value)})`
+    return `left(${toString(this.value)})`
   }
 }
 
@@ -152,7 +152,7 @@ export class Right<L, A>
     return this.toString()
   }
   toString() {
-    return `Right(${JSON.stringify(this.value)})`
+    return `right(${toString(this.value)})`
   }
 }
 

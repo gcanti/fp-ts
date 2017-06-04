@@ -2,7 +2,7 @@
 
 import { HKT, HKTS } from './HKT'
 import { Applicative, FantasyApplicative } from './Applicative'
-import { identity } from './function'
+import { identity, toString } from './function'
 
 // Adapted from https://ro-che.info/articles/2013-03-31-flavours-of-free-applicative-functors
 // Ørjan Johansen’s free applicative
@@ -41,6 +41,12 @@ export class Pure<F, A> implements FantasyApplicative<URI, A> {
   ): HKT<A, U, V>[M] {
     return applicative.of(this.a)
   }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Pure(${toString(this.a)})`
+  }
 }
 
 export class Ap<F, A> implements FantasyApplicative<URI, A> {
@@ -66,6 +72,12 @@ export class Ap<F, A> implements FantasyApplicative<URI, A> {
     const x = f<any>(this.fx)
     const y = this.fg.foldMap<M, U, V>(applicative, f)
     return applicative.ap<any, A, U, V>(y, x)
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Ap(${(toString(this.fg), toString(this.fx))})`
   }
 }
 

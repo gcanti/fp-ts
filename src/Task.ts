@@ -1,6 +1,6 @@
 import { Monoid } from './Monoid'
 import { Monad, FantasyMonad } from './Monad'
-import { Lazy } from './function'
+import { Lazy, toString } from './function'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -47,6 +47,12 @@ export class Task<A> implements FantasyMonad<URI, A> {
         fy.run().then(resolve)
       })
     })
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Task(${toString(this.value)})`
   }
 }
 

@@ -1,5 +1,5 @@
 import { Monad, FantasyMonad } from './Monad'
-import { Endomorphism } from './function'
+import { Endomorphism, toString } from './function'
 import { getReaderT } from './ReaderT'
 import * as id from './Id'
 
@@ -36,6 +36,12 @@ export class Reader<E, A> implements FantasyMonad<URI, A> {
   }
   chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B> {
     return new Reader(readerTId.chain(a => f(a).value, this.value))
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Reader(${toString(this.value)})`
   }
 }
 

@@ -7,6 +7,7 @@ import { Applicative } from './Applicative'
 import { Traversable, FantasyTraversable } from './Traversable'
 import * as array from './Array'
 import { Option, some, none } from './Option'
+import { toString } from './function'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -59,6 +60,12 @@ export class NonEmptyArray<A>
   }
   extract(): A {
     return this.head
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new NonEmptyArray(${toString(this.head)}, ${toString(this.tail)})`
   }
 }
 

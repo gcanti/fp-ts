@@ -3,7 +3,7 @@ import { Applicative } from './Applicative'
 import { Option, none, some } from './Option'
 import { Setoid } from './Setoid'
 import { Semigroup } from './Semigroup'
-import { constFalse } from './function'
+import { constFalse, toString } from './function'
 
 // Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
 // adapted from https://github.com/purescript-contrib/purescript-these
@@ -60,6 +60,12 @@ export class This<L, A> {
       (l, a) => both(semigroupL.concat(this.value, l), a)
     )
   }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `this_(${toString(this.value)})`
+  }
 }
 
 export class That<L, A> {
@@ -101,6 +107,12 @@ export class That<L, A> {
       a => that<L, A>(semigroupA.concat(this.value, a)),
       (l, a) => both(l, semigroupA.concat(this.value, a))
     )
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `that(${toString(this.value)})`
   }
 }
 
@@ -151,6 +163,12 @@ export class Both<L, A> {
       a => both(this.l, semigroupA.concat(this.a, a)),
       (l, a) => both(semigroupL.concat(this.l, l), semigroupA.concat(this.a, a))
     )
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `both(${toString(this.l)}, ${toString(this.a)})`
   }
 }
 
