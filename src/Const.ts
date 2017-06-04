@@ -17,10 +17,7 @@ export const URI = 'Const'
 
 export type URI = typeof URI
 
-export class Const<L, A> implements
-  FantasyFunctor<URI, A>,
-  FantasyContravariant<URI, A> {
-
+export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant<URI, A> {
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -74,9 +71,6 @@ export function getApplicative<L>(monoid: Monoid<L>): Applicative<URI> {
   }
 }
 
-const proof:
-  Functor<URI> &
-  Contravariant<URI>
-= { URI, map, contramap }
+const proof: Functor<URI> & Contravariant<URI> = { URI, map, contramap }
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

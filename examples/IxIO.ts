@@ -65,8 +65,4 @@ export function chain<I, A, B>(f: (a: A) => IxIO<I, I, B>, fa: IxIO<I, I, A>): I
 }
 
 // tslint:disable-next-line no-unused-expression
-;(
-  { URI, iof, ichain, of, map, ap, chain } as (
-    IxMonad<URI>
-  )
-)
+;({ URI, iof, ichain, of, map, ap, chain } as (IxMonad<URI>))

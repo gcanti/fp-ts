@@ -1,10 +1,5 @@
 import { Ordering } from './Ordering'
-import {
-  Setoid,
-  setoidBoolean,
-  setoidNumber,
-  setoidString
-} from './Setoid'
+import { Setoid, setoidBoolean, setoidNumber, setoidString } from './Setoid'
 
 export interface Ord<A> extends Setoid<A> {
   compare(x: A, y: A): Ordering

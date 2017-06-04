@@ -19,13 +19,12 @@ export const URI = 'Identity'
 
 export type URI = typeof URI
 
-export class Identity<A> implements
-  FantasyMonad<URI, A>,
-  FantasyFoldable<A>,
-  FantasyTraversable<URI, A>,
-  FantasyAlt<URI, A>,
-  FantasyComonad<URI, A> {
-
+export class Identity<A>
+  implements FantasyMonad<URI, A>,
+    FantasyFoldable<A>,
+    FantasyTraversable<URI, A>,
+    FantasyAlt<URI, A>,
+    FantasyComonad<URI, A> {
   static of = of
   static extract = extract
   readonly _A: A
@@ -46,7 +45,9 @@ export class Identity<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Identity<B>, U, V>[F] {
+  traverse<F extends HKTS>(
+    applicative: Applicative<F>
+  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Identity<B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map<B, Identity<B>>(of, f(this.value))
   }
   alt(fx: Identity<A>): Identity<A> {
@@ -100,7 +101,9 @@ export function alt<A>(fx: Identity<A>, fy: Identity<A>): Identity<A> {
   return fx.alt(fy)
 }
 
-export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Identity<A>) => HKT<Identity<B>, U, V>[F] {
+export function traverse<F extends HKTS>(
+  applicative: Applicative<F>
+): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Identity<A>) => HKT<Identity<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: Identity<A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
@@ -116,13 +119,18 @@ export function chainRec<A, B>(f: (a: A) => Identity<Either<A, B>>, a: A): Ident
   return new Identity(tailRec(a => f(a).extract(), a))
 }
 
-const proof:
-  Monad<URI> &
-  Foldable<URI> &
-  Traversable<URI> &
-  Alt<URI> &
-  Comonad<URI> &
-  ChainRec<URI>
-= { URI, map, of, ap, chain, reduce, traverse, alt, extract, extend, chainRec }
+const proof: Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> & Comonad<URI> & ChainRec<URI> = {
+  URI,
+  map,
+  of,
+  ap,
+  chain,
+  reduce,
+  traverse,
+  alt,
+  extract,
+  extend,
+  chainRec
+}
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

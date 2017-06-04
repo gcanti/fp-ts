@@ -19,7 +19,6 @@ import { setoidNumber } from '../src/Setoid'
 import * as array from '../src/Array'
 
 describe('Dictionary', () => {
-
   it('concat', () => {
     const d1: Dictionary<number> = { k1: 1 }
     const d2: Dictionary<number> = { k2: 2 }
@@ -41,10 +40,10 @@ describe('Dictionary', () => {
 
   it('traverse', () => {
     const d1: Dictionary<number> = { k1: 1, k2: 2 }
-    const t1 = traverse(option)((n): option.Option<number> => n >= 2 ? option.some(n) : option.none, d1)
+    const t1 = traverse(option)((n): option.Option<number> => (n >= 2 ? option.some(n) : option.none), d1)
     eq(t1, option.none)
     const d2: Dictionary<number> = { k1: 2, k2: 3 }
-    const t2 = traverse(option)((n): option.Option<number> => n >= 2 ? option.some(n) : option.none, d2)
+    const t2 = traverse(option)((n): option.Option<number> => (n >= 2 ? option.some(n) : option.none), d2)
     eq(t2, option.some({ k1: 2, k2: 3 }))
   })
 
@@ -55,8 +54,8 @@ describe('Dictionary', () => {
   })
 
   it('lookup', () => {
-    eq(lookup('a', { a: 1}), option.some(1))
-    eq(lookup('b', { a: 1}), option.none)
+    eq(lookup('a', { a: 1 }), option.some(1))
+    eq(lookup('b', { a: 1 }), option.none)
   })
 
   it('fromFoldable', () => {
@@ -78,11 +77,10 @@ describe('Dictionary', () => {
 
   it('traverseWithKey', () => {
     const d1: Dictionary<number> = { k1: 1, k2: 2 }
-    const t1 = traverseWithKey(option)((k, n): option.Option<number> => k !== 'k1' ? option.some(n) : option.none, d1)
+    const t1 = traverseWithKey(option)((k, n): option.Option<number> => (k !== 'k1' ? option.some(n) : option.none), d1)
     eq(t1, option.none)
     const d2: Dictionary<number> = { k1: 2, k2: 3 }
-    const t2 = traverseWithKey(option)((k, n): option.Option<number> => k !== 'k3' ? option.some(n) : option.none, d2)
+    const t2 = traverseWithKey(option)((k, n): option.Option<number> => (k !== 'k3' ? option.some(n) : option.none), d2)
     eq(t2, option.some({ k1: 2, k2: 3 }))
   })
-
 })

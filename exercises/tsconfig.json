@@ -15,12 +15,17 @@
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "lib": [
-      "es6", "dom"
+      "es6",
+      "dom"
     ],
     "baseUrl": ".",
     "paths": {
-      "fp-ts/lib/*": ["../src/*"],
-      "fp-ts": ["../src/index"]
+      "fp-ts/lib/*": [
+        "../src/*"
+      ],
+      "fp-ts": [
+        "../src/index"
+      ]
     }
   }
 }

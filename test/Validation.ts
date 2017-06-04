@@ -5,7 +5,6 @@ import { monoidString } from '../src/Monoid'
 import { sequence } from '../src/Traversable'
 
 describe('Validation', () => {
-
   it('traverse', () => {
     const success = [
       validation.success<string, number>(1),
@@ -35,5 +34,4 @@ describe('Validation', () => {
       assert.ok(false)
     }
   })
-
 })

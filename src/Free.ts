@@ -46,10 +46,7 @@ export class Impure<F, A> implements FantasyMonad<URI, A> {
   readonly _F: F
   readonly _A: A
   readonly _URI: URI
-  constructor(
-    public readonly fx: any,
-    public readonly f: (x: any) => Free<F, A>
-  ) {}
+  constructor(public readonly fx: any, public readonly f: (x: any) => Free<F, A>) {}
   map<B>(f: (a: A) => B): Free<F, B> {
     return new Impure<F, B>(this.fx, x => this.f(x).map(f))
   }

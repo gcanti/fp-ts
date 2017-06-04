@@ -1,20 +1,11 @@
 import * as assert from 'assert'
-import {
-  compose,
-  pipe,
-  curry,
-  flip,
-  on,
-  or,
-  and
-} from '../src/function'
+import { compose, pipe, curry, flip, on, or, and } from '../src/function'
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
 const h = (a: number, b: number) => a - b
 
 describe('function', () => {
-
   it('flip', () => {
     const flippedH = flip(h)
     assert.strictEqual(flippedH(5, 2), -3)
@@ -68,8 +59,7 @@ describe('function', () => {
     assert.strictEqual(outside2and3(2.5), false)
 
     // as custom guard
-    class A {
-    }
+    class A {}
     class B extends A {
       _tag = 'B' as 'B'
     }
@@ -99,5 +89,4 @@ describe('function', () => {
     assert.strictEqual(between2and3(4), false)
     assert.strictEqual(between2and3(2.5), true)
   })
-
 })

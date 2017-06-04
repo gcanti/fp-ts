@@ -26,16 +26,12 @@ export class This<L, A> {
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: L) { }
+  constructor(public readonly value: L) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return this as any
   }
   ap<B>(semigroupL: Semigroup<L>, fab: These<L, (a: A) => B>): These<L, B> {
-    return fab.fold(
-      () => fab as any,
-      () => this as any,
-      (l, _) => this_<L, B>(semigroupL.concat(l, this.value))
-    )
+    return fab.fold(() => fab as any, () => this as any, (l, _) => this_<L, B>(semigroupL.concat(l, this.value)))
   }
   chain<B>(semigroupL: Semigroup<L>, f: (a: A) => These<L, B>): These<L, B> {
     return this as any
@@ -46,18 +42,16 @@ export class This<L, A> {
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<These<L, B>, U, V>[F] {
+  traverse<F extends HKTS>(
+    applicative: Applicative<F>
+  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<These<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(this)
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return this_(this.value)
   }
   equals(setoidL: Setoid<L>, setoidA: Setoid<A>, fy: These<L, A>): boolean {
-    return fy.fold(
-      l => setoidL.equals(l, this.value),
-      constFalse,
-      constFalse
-    )
+    return fy.fold(l => setoidL.equals(l, this.value), constFalse, constFalse)
   }
   concat(semigroupL: Semigroup<L>, semigroupA: Semigroup<A>, fy: These<L, A>): These<L, A> {
     return fy.fold(
@@ -74,16 +68,12 @@ export class That<L, A> {
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: A) { }
+  constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return new That<L, B>(f(this.value))
   }
   ap<B>(semigroupL: Semigroup<L>, fab: These<L, (a: A) => B>): These<L, B> {
-    return fab.fold(
-      () => fab as any,
-      f => that(f(this.value)),
-      (l, f) => both(l, f(this.value))
-    )
+    return fab.fold(() => fab as any, f => that(f(this.value)), (l, f) => both(l, f(this.value)))
   }
   chain<B>(semigroupL: Semigroup<L>, f: (a: A) => These<L, B>): These<L, B> {
     return f(this.value)
@@ -94,18 +84,16 @@ export class That<L, A> {
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<These<L, B>, U, V>[F] {
+  traverse<F extends HKTS>(
+    applicative: Applicative<F>
+  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<These<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((b: B) => that<L, B>(b), f(this.value))
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return that(this.value)
   }
   equals(setoidL: Setoid<L>, setoidA: Setoid<A>, fy: These<L, A>): boolean {
-    return fy.fold(
-      constFalse,
-      a => setoidA.equals(a, this.value),
-      constFalse
-    )
+    return fy.fold(constFalse, a => setoidA.equals(a, this.value), constFalse)
   }
   concat(semigroupL: Semigroup<L>, semigroupA: Semigroup<A>, fy: These<L, A>): These<L, A> {
     return fy.fold(
@@ -122,7 +110,7 @@ export class Both<L, A> {
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly l: L, public readonly a: A) { }
+  constructor(public readonly l: L, public readonly a: A) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return new Both<L, B>(this.l, f(this.a))
   }
@@ -146,18 +134,16 @@ export class Both<L, A> {
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.a)
   }
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<These<L, B>, U, V>[F] {
+  traverse<F extends HKTS>(
+    applicative: Applicative<F>
+  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<These<L, B>, U, V>[F] {
     return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((b: B) => both(this.l, b), f(this.a))
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return both(this.l, this.a)
   }
   equals(setoidL: Setoid<L>, setoidA: Setoid<A>, fy: These<L, A>): boolean {
-    return fy.fold(
-      constFalse,
-      constFalse,
-      (l, a) => setoidL.equals(l, this.l) && setoidA.equals(a, this.a)
-    )
+    return fy.fold(constFalse, constFalse, (l, a) => setoidL.equals(l, this.l) && setoidA.equals(a, this.a))
   }
   concat(semigroupL: Semigroup<L>, semigroupA: Semigroup<A>, fy: These<L, A>): These<L, A> {
     return fy.fold(
@@ -172,7 +158,12 @@ export function equals<L, A>(setoidL: Setoid<L>, setoidA: Setoid<A>, fx: These<L
   return fx.equals(setoidL, setoidA, fy)
 }
 
-export function concat<L, A>(semigroupL: Semigroup<L>, semigroupA: Semigroup<A>, fx: These<L, A>, fy: These<L, A>): These<L, A> {
+export function concat<L, A>(
+  semigroupL: Semigroup<L>,
+  semigroupA: Semigroup<A>,
+  fx: These<L, A>,
+  fy: These<L, A>
+): These<L, A> {
   return fx.concat(semigroupL, semigroupA, fy)
 }
 
@@ -203,7 +194,9 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: These<L, A>): B 
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(applicative: Applicative<F>): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: These<L, A>) => HKT<These<L, B>, U, V>[F] {
+export function traverse<F extends HKTS>(
+  applicative: Applicative<F>
+): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: These<L, A>) => HKT<These<L, B>, U, V>[F] {
   return <L, A, B>(f: (a: A) => HKT<B>[F], ta: These<L, A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
@@ -232,25 +225,13 @@ export function both<L, A>(b: L, a: A): These<L, A> {
 }
 
 export function fromThese<L, A>(defaultThis: L, defaultThat: A, fa: These<L, A>): [L, A] {
-  return fa.fold<[L, A]>(
-    l => [l, defaultThat],
-    a => [defaultThis, a],
-    (l, a) => [l, a]
-  )
+  return fa.fold<[L, A]>(l => [l, defaultThat], a => [defaultThis, a], (l, a) => [l, a])
 }
 
 export function theseLeft<L, A>(fa: These<L, A>): Option<L> {
-  return fa.fold(
-    l => some(l),
-    () => none,
-    (l, _) => some(l)
-  )
+  return fa.fold(l => some(l), () => none, (l, _) => some(l))
 }
 
 export function theseRight<L, A>(fa: These<L, A>): Option<A> {
-  return fa.fold(
-    () => none,
-    a => some(a),
-    (_, a) => some(a)
-  )
+  return fa.fold(() => none, a => some(a), (_, a) => some(a))
 }

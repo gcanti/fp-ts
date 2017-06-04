@@ -1,9 +1,4 @@
-import {
-  Semigroup,
-  getProductSemigroup,
-  getDualSemigroup,
-  fold as foldSemigroup
-} from './Semigroup'
+import { Semigroup, getProductSemigroup, getDualSemigroup, fold as foldSemigroup } from './Semigroup'
 import { constant } from './function'
 
 export interface Monoid<A> extends Semigroup<A> {

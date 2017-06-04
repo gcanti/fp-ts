@@ -11,7 +11,6 @@ declare module '../src/HKT' {
 }
 
 describe('Functor', () => {
-
   it('lift', () => {
     const double = (a: number) => a * 2
     const f = lift(option, double)
@@ -24,5 +23,4 @@ describe('Functor', () => {
     const double = (a: number) => a * 2
     assert.deepEqual(arrayOption.map(double, [option.some(1)]), [option.some(2)])
   })
-
 })

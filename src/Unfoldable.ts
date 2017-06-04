@@ -14,7 +14,9 @@ export interface Unfoldable<F extends HKTS> {
 }
 
 /** Replicate a value some natural number of times. */
-export function replicate<F extends HKTS>(unfoldable: Unfoldable<F>): <A, U = any, V = any>(n: number, a: A) => HKT<A, U, V>[F] {
+export function replicate<F extends HKTS>(
+  unfoldable: Unfoldable<F>
+): <A, U = any, V = any>(n: number, a: A) => HKT<A, U, V>[F] {
   return <A>(n: number, a: A) => {
     function step(n: number): option.Option<[A, number]> {
       return n <= 0 ? option.none : option.of<[A, number]>([a, n - 1])
@@ -24,8 +26,12 @@ export function replicate<F extends HKTS>(unfoldable: Unfoldable<F>): <A, U = an
 }
 
 /** Perform an Applicative action `n` times, and accumulate all the results. */
-export function replicateA<F extends HKTS, T extends HKTS>(applicative: Applicative<F>, unfoldableTraversable: Unfoldable<T> & Traversable<T>): <A, UF = any, UT = any, VF = any, VT = any>(n: number, ma: HKT<A, UF, VF>[F]) => HKT<HKT<A, UT, VT>[T], UF, VF>[F] {
-  return <A>(n: number, ma: HKT<A>[F]) => sequence<F, T>(applicative, unfoldableTraversable)<A>(replicate(unfoldableTraversable)(n, ma))
+export function replicateA<F extends HKTS, T extends HKTS>(
+  applicative: Applicative<F>,
+  unfoldableTraversable: Unfoldable<T> & Traversable<T>
+): <A, UF = any, UT = any, VF = any, VT = any>(n: number, ma: HKT<A, UF, VF>[F]) => HKT<HKT<A, UT, VT>[T], UF, VF>[F] {
+  return <A>(n: number, ma: HKT<A>[F]) =>
+    sequence<F, T>(applicative, unfoldableTraversable)<A>(replicate(unfoldableTraversable)(n, ma))
 }
 
 /** The container with no elements - unfolded with zero iterations. */

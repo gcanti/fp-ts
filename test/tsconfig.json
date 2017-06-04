@@ -17,7 +17,8 @@
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "lib": [
-      "es6", "dom"
+      "es6",
+      "dom"
     ]
   }
 }

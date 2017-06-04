@@ -19,10 +19,7 @@ export function getOptionT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Mo
   const applicative = getCompositionApplicative(URI, monad, option)
 
   function chain<A, B>(f: (a: A) => HKT<Option<B>>[M], fa: HKT<Option<A>>[M]): HKT<Option<B>>[M] {
-    return monad.chain<Option<A>, Option<B>>(e => e.fold<HKT<Option<B>>[M]>(
-      () => fa as any,
-      a => f(a)
-    ), fa)
+    return monad.chain<Option<A>, Option<B>>(e => e.fold<HKT<Option<B>>[M]>(() => fa as any, a => f(a)), fa)
   }
 
   function none(): HKT<Option<any>>[M] {

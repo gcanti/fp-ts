@@ -7,10 +7,18 @@ import { Option } from './Option'
 
 export interface EitherT<URI extends HKTS, M extends HKTS> extends Monad<URI> {
   /** lifts `M<A>` to `M<EitherT<L, A>>` */
-  right<L, A, U = any, V = any>(ma: HKT<A, U, V>[M]): HKT<Either<L, A>, U, V>[M]
+  right<L, A, U = any, V = any>(
+    ma: HKT<A, U, V>[M]
+  ): HKT<Either<L, A>, U, V>[M]
   /** lifts `M<L>` to `M<Either<L, A>>` */
-  left<L, A, U = any, V = any>(ml: HKT<L, U, V>[M]): HKT<Either<L, A>, U, V>[M]
-  fold<R, L, A, U = any, V = any>(left: (l: L) => R, right: (a: A) => R, fa: HKT<Either<L, A>, U, V>[M]): HKT<R, U, V>[M]
+  left<L, A, U = any, V = any>(
+    ml: HKT<L, U, V>[M]
+  ): HKT<Either<L, A>, U, V>[M]
+  fold<R, L, A, U = any, V = any>(
+    left: (l: L) => R,
+    right: (a: A) => R,
+    fa: HKT<Either<L, A>, U, V>[M]
+  ): HKT<R, U, V>[M]
   mapLeft<L2, L, A, U = any, V = any>(f: (l: L) => L2, fa: HKT<Either<L, A>, U, V>[M]): HKT<Either<L2, A>, U, V>[M]
   toOption<L, A, U = any, V = any>(fa: HKT<Either<L, A>, U, V>[M]): HKT<Option<A>, U, V>[M]
 }
@@ -20,10 +28,7 @@ export function getEitherT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Mo
   const applicative = getCompositionApplicative(URI, monad, either)
 
   function chain<L, A, B>(f: (a: A) => HKT<Either<L, B>>[M], fa: HKT<Either<L, A>>[M]): HKT<Either<L, B>>[M] {
-    return monad.chain<Either<L, A>, Either<L, B>>(e => e.fold<HKT<Either<L, B>>[M]>(
-      () => fa as any,
-      a => f(a)
-    ), fa)
+    return monad.chain<Either<L, A>, Either<L, B>>(e => e.fold<HKT<Either<L, B>>[M]>(() => fa as any, a => f(a)), fa)
   }
 
   function right<L, A>(ma: HKT<A>[M]): HKT<Either<L, A>>[M] {

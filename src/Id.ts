@@ -47,7 +47,9 @@ export function alt<A>(fx: A, fy: A): A {
   return fx
 }
 
-export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: A) => HKT<B, U, V>[F] {
+export function traverse<F extends HKTS>(
+  applicative: Applicative<F>
+): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: A) => HKT<B, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: A) => applicative.map(of, f(ta))
 }
 
@@ -63,13 +65,18 @@ export function chainRec<A, B>(f: (a: A) => Either<A, B>, a: A): B {
   return tailRec(a => f(a), a)
 }
 
-const proof:
-  Monad<URI> &
-  Foldable<URI> &
-  Traversable<URI> &
-  Alt<URI> &
-  Comonad<URI> &
-  ChainRec<URI>
-= { URI, map, of, ap, chain, reduce, traverse, alt, extract, extend, chainRec }
+const proof: Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> & Comonad<URI> & ChainRec<URI> = {
+  URI,
+  map,
+  of,
+  ap,
+  chain,
+  reduce,
+  traverse,
+  alt,
+  extract,
+  extend,
+  chainRec
+}
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

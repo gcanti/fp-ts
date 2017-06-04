@@ -28,10 +28,7 @@ export class Nil<A> {
 }
 
 export class Cons<A> {
-  constructor(
-    public readonly head: A,
-    public readonly tail: List<A>
-  ) { }
+  constructor(public readonly head: A, public readonly tail: List<A>) {}
   map<B>(f: (a: A) => B): List<B> {
     return new Cons(f(this.head), this.tail.map(f))
   }

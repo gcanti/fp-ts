@@ -4,7 +4,6 @@ import * as option from '../src/Option'
 import * as either from '../src/Either'
 
 describe('Monoidal', () => {
-
   it('fromApplicative', () => {
     const monoidalOption = fromApplicative(option)
     assert.deepEqual(monoidalOption.mult(option.some(1), option.some('a')), option.some([1, 'a']))
@@ -21,5 +20,4 @@ describe('Monoidal', () => {
     assert.deepEqual(applicative.ap(option.of(double), option.some(1)), option.some(2))
     assert.deepEqual(applicative.ap(option.of(double), option.none), option.none)
   })
-
 })

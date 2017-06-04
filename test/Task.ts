@@ -1,14 +1,15 @@
 import * as assert from 'assert'
-import {
-  Task
-} from '../src/Task'
+import { Task } from '../src/Task'
 
-const delay = <A>(n: number, a: A): Task<A> => new Task<A>(() => new Promise<A>(resolve => {
-  setTimeout(() => resolve(a), n)
-}))
+const delay = <A>(n: number, a: A): Task<A> =>
+  new Task<A>(
+    () =>
+      new Promise<A>(resolve => {
+        setTimeout(() => resolve(a), n)
+      })
+  )
 
 describe('Task', () => {
-
   it('concat', () => {
     const t1 = delay(10, 1)
     const t2 = delay(20, 2)
@@ -33,5 +34,4 @@ describe('Task', () => {
     const t2 = delay(0, double)
     return t1.ap(t2).run().then(x => assert.strictEqual(x, 2))
   })
-
 })

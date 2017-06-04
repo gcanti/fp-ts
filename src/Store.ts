@@ -18,10 +18,7 @@ export class Store<S, A> implements FantasyComonad<URI, A> {
   readonly _A: A
   readonly _URI: URI
 
-  constructor(
-    public readonly peek: (s: S) => A,
-    public readonly s: S
-  ) { }
+  constructor(public readonly peek: (s: S) => A, public readonly s: S) {}
 
   pos(): S {
     return this.s
@@ -75,12 +72,14 @@ export function seeks<S, A>(f: Endomorphism<S>, sa: Store<S, A>): Store<S, A> {
 }
 
 /** Extract a collection of values from positions which depend on the current position */
-export function experiment<F extends HKTS, S, A, U = any, V = any>(functor: Functor<F>, f: (s: S) => HKT<S, U, V>[F], sa: Store<S, A>): HKT<A, U, V>[F] {
+export function experiment<F extends HKTS, S, A, U = any, V = any>(
+  functor: Functor<F>,
+  f: (s: S) => HKT<S, U, V>[F],
+  sa: Store<S, A>
+): HKT<A, U, V>[F] {
   return functor.map<S, A>(s => sa.peek(s), f(sa.pos()))
 }
 
-const proof:
-  Comonad<URI>
-= { URI, map, extract, extend }
+const proof: Comonad<URI> = { URI, map, extract, extend }
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

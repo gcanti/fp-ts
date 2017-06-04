@@ -49,7 +49,9 @@ export function reduce<A, B, C>(f: (c: C, b: B) => C, c: C, fa: Tuple<A, B>): C 
   return f(c, fa[1])
 }
 
-export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, C, U = any, V = any>(f: (b: B) => HKT<C, U, V>[F], ta: Tuple<A, B>) => HKT<Tuple<A, C>, U, V>[F] {
+export function traverse<F extends HKTS>(
+  applicative: Applicative<F>
+): <A, B, C, U = any, V = any>(f: (b: B) => HKT<C, U, V>[F], ta: Tuple<A, B>) => HKT<Tuple<A, C>, U, V>[F] {
   return <A, B, C>(f: (b: B) => HKT<C>[F], ta: Tuple<A, B>) => applicative.map(c => [ta[0], c] as Tuple<A, C>, f(ta[1]))
 }
 
@@ -133,12 +135,15 @@ export function tuple<A>(a: A): <B>(b: B) => Tuple<A, B> {
   return <B>(b: B) => [a, b] as [A, B]
 }
 
-const proof:
-  Semigroupoid<URI> &
-  Bifunctor<URI> &
-  Comonad<URI> &
-  Foldable<URI> &
-  Traversable<URI>
-= { URI, compose, map, bimap, extract, extend, reduce, traverse }
+const proof: Semigroupoid<URI> & Bifunctor<URI> & Comonad<URI> & Foldable<URI> & Traversable<URI> = {
+  URI,
+  compose,
+  map,
+  bimap,
+  extract,
+  extend,
+  reduce,
+  traverse
+}
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

@@ -3,6 +3,7 @@
   "rules": {
     "space-before-function-paren": false,
     "no-use-before-declare": false,
-    "variable-name": false
+    "variable-name": false,
+    "ter-indent": false
   }
 }

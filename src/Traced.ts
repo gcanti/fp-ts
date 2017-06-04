@@ -15,7 +15,7 @@ export class Traced<E, A> implements FantasyComonad<URI, A> {
   readonly _E: E
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly monoid: Monoid<E>, public readonly value: (e: E) => A) { }
+  constructor(public readonly monoid: Monoid<E>, public readonly value: (e: E) => A) {}
   run(e: E): A {
     return this.value(e)
   }
@@ -26,17 +26,7 @@ export class Traced<E, A> implements FantasyComonad<URI, A> {
     return this.run(this.monoid.empty())
   }
   extend<B>(f: (ea: Traced<E, A>) => B): Traced<E, B> {
-    return new Traced(
-      this.monoid,
-      m1 => f(
-        new Traced(
-          this.monoid,
-          m2 => this.run(
-            this.monoid.concat(m1, m2)
-          )
-        )
-      )
-    )
+    return new Traced(this.monoid, m1 => f(new Traced(this.monoid, m2 => this.run(this.monoid.concat(m1, m2)))))
   }
 }
 
@@ -52,8 +42,6 @@ export function extend<E, A, B>(f: (ea: Traced<E, A>) => B, ea: Traced<E, A>): T
   return ea.extend(f)
 }
 
-const proof:
-  Comonad<URI>
-= { URI, map, extract, extend }
+const proof: Comonad<URI> = { URI, map, extract, extend }
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

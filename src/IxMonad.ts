@@ -14,10 +14,15 @@ export interface FantasyIxMonad<F extends HKTS, A, O, I> extends FantasyMonad<F,
   ichain<Z, B>(f: (a: A) => HKT<B, Z, O>[F]): HKT<B, Z, I>[F]
 }
 
-export function iapplyFirst<F extends HKTS>(ixmonad: IxMonad<F>): <I, O, Z, A, B>(fa: HKT<A, O, I>[F], fb: HKT<B, Z, O>[F]) => HKT<A, Z, I>[F] {
-  return <I, O, Z, A, B>(fa: HKT<A, O, I>[F], fb: HKT<B, Z, O>[F]) => ixmonad.ichain(a => ixmonad.ichain(() => ixmonad.iof(a), fb), fa)
+export function iapplyFirst<F extends HKTS>(
+  ixmonad: IxMonad<F>
+): <I, O, Z, A, B>(fa: HKT<A, O, I>[F], fb: HKT<B, Z, O>[F]) => HKT<A, Z, I>[F] {
+  return <I, O, Z, A, B>(fa: HKT<A, O, I>[F], fb: HKT<B, Z, O>[F]) =>
+    ixmonad.ichain(a => ixmonad.ichain(() => ixmonad.iof(a), fb), fa)
 }
 
-export function iapplySecond<F extends HKTS>(ixmonad: IxMonad<F>): <I, O, Z, A, B>(fa: HKT<A, O, I>[F], fb: HKT<B, Z, O>[F]) => HKT<B, Z, I>[F] {
+export function iapplySecond<F extends HKTS>(
+  ixmonad: IxMonad<F>
+): <I, O, Z, A, B>(fa: HKT<A, O, I>[F], fb: HKT<B, Z, O>[F]) => HKT<B, Z, I>[F] {
   return <I, O, Z, A, B>(fa: HKT<A, O, I>[F], fb: HKT<B, Z, O>[F]) => ixmonad.ichain(constant(fb), fa)
 }

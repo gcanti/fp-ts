@@ -18,12 +18,8 @@ export const URI = 'NonEmptyArray'
 
 export type URI = typeof URI
 
-export class NonEmptyArray<A> implements
-  FantasyMonad<URI, A>,
-  FantasyComonad<URI, A>,
-  FantasyFoldable<A>,
-  FantasyTraversable<URI, A> {
-
+export class NonEmptyArray<A>
+  implements FantasyMonad<URI, A>, FantasyComonad<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
   static of = of
   readonly _A: A
   readonly _URI: URI
@@ -52,8 +48,11 @@ export class NonEmptyArray<A> implements
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return array.reduce(f, b, this.toArray())
   }
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<NonEmptyArray<B>, U, V>[F] {
-    return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((bs: Array<B>) => unsafeFromArray(bs), array.traverse<F>(applicative)<A, B>(f, this.toArray()))
+  traverse<F extends HKTS>(
+    applicative: Applicative<F>
+  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<NonEmptyArray<B>, U, V>[F] {
+    return <B>(f: (a: A) => HKT<B>[F]) =>
+      applicative.map((bs: Array<B>) => unsafeFromArray(bs), array.traverse<F>(applicative)<A, B>(f, this.toArray()))
   }
   extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> {
     return unsafeFromArray(array.extend(as => f(unsafeFromArray(as)), this.toArray()))
@@ -95,7 +94,9 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): 
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(applicative: Applicative<F>): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: NonEmptyArray<A>) => HKT<NonEmptyArray<B>, U, V>[F] {
+export function traverse<F extends HKTS>(
+  applicative: Applicative<F>
+): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: NonEmptyArray<A>) => HKT<NonEmptyArray<B>, U, V>[F] {
   return <A, B>(f: (a: A) => HKT<B>[F], ta: NonEmptyArray<A>) => ta.traverse<F>(applicative)<B>(f)
 }
 
@@ -107,12 +108,17 @@ export function extract<A>(fa: NonEmptyArray<A>): A {
   return fa.extract()
 }
 
-const proof:
-  Monad<URI> &
-  Comonad<URI> &
-  Semigroup<any> &
-  Foldable<URI> &
-  Traversable<URI>
-= { URI, extend, extract, map, of, ap, chain, concat, reduce, traverse }
+const proof: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traversable<URI> = {
+  URI,
+  extend,
+  extract,
+  map,
+  of,
+  ap,
+  chain,
+  concat,
+  reduce,
+  traverse
+}
 // tslint:disable-next-line no-unused-expression
-{ proof }
+proof

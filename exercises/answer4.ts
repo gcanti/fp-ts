@@ -26,4 +26,4 @@ export function elementAt<A>(xs: Array<A>, i: number): Either<string, A> {
 
 console.log(elementAt([1, 2, 3], -1)) // => Left('out of lower bound')
 console.log(elementAt([1, 2, 3], 10)) // => Left('out of upper bound')
-console.log(elementAt([1, 2, 3], 1))  // => Right(2)
+console.log(elementAt([1, 2, 3], 1)) // => Right(2)

@@ -1,14 +1,8 @@
 import * as assert from 'assert'
-import {
-  NonEmptyArray,
-  concat,
-  map,
-  chain
-} from '../src/NonEmptyArray'
+import { NonEmptyArray, concat, map, chain } from '../src/NonEmptyArray'
 import { monoidSum, fold } from '../src/Monoid'
 
 describe('NonEmptyArray', () => {
-
   it('concat', () => {
     const x = new NonEmptyArray(1, [2])
     const y = new NonEmptyArray(3, [4])
@@ -35,5 +29,4 @@ describe('NonEmptyArray', () => {
   it('extract', () => {
     assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
   })
-
 })
