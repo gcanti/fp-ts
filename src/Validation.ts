@@ -27,7 +27,7 @@ export type Validation<L, A> = Failure<L, A> | Success<L, A>
 export class Failure<L, A>
   implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
   static of = of
-  readonly _tag = 'Failure'
+  readonly _tag: 'Failure' = 'Failure'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -94,7 +94,7 @@ export class Failure<L, A>
 export class Success<L, A>
   implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
   static of = of
-  readonly _tag = 'Success'
+  readonly _tag: 'Success' = 'Success'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI

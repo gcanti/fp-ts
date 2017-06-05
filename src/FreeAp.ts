@@ -21,7 +21,7 @@ export type FreeAp<F, A> = Pure<F, A> | Ap<F, A>
 
 export class Pure<F, A> implements FantasyApplicative<URI, A> {
   static of = of
-  readonly _tag = 'Pure'
+  readonly _tag: 'Pure' = 'Pure'
   readonly _F: F
   readonly _A: A
   readonly _URI: URI
@@ -51,7 +51,7 @@ export class Pure<F, A> implements FantasyApplicative<URI, A> {
 
 export class Ap<F, A> implements FantasyApplicative<URI, A> {
   static of = of
-  readonly _tag = 'Ap'
+  readonly _tag: 'Ap' = 'Ap'
   readonly _F: F
   readonly _A: A
   readonly _URI: URI

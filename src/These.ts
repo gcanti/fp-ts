@@ -22,7 +22,7 @@ export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 
 export class This<L, A> {
   static of = of
-  readonly _tag = 'This'
+  readonly _tag: 'This' = 'This'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -70,7 +70,7 @@ export class This<L, A> {
 
 export class That<L, A> {
   static of = of
-  readonly _tag = 'That'
+  readonly _tag: 'That' = 'That'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -118,7 +118,7 @@ export class That<L, A> {
 
 export class Both<L, A> {
   static of = of
-  readonly _tag = 'Both'
+  readonly _tag: 'Both' = 'Both'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI

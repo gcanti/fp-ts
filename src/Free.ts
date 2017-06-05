@@ -18,7 +18,7 @@ export type Free<F, A> = Pure<F, A> | Impure<F, A>
 
 export class Pure<F, A> implements FantasyMonad<URI, A> {
   static of = of
-  readonly _tag = 'Pure'
+  readonly _tag: 'Pure' = 'Pure'
   readonly _F: F
   readonly _A: A
   readonly _URI: URI
@@ -48,7 +48,7 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
 
 export class Impure<F, A> implements FantasyMonad<URI, A> {
   static of = of
-  readonly _tag = 'Impure'
+  readonly _tag: 'Impure' = 'Impure'
   readonly _F: F
   readonly _A: A
   readonly _URI: URI
