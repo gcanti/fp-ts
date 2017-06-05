@@ -5,7 +5,7 @@ import { Applicative } from './Applicative'
 import { Apply } from './Apply'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { identity } from './function'
+import { identity, toString } from './function'
 
 declare module './HKT' {
   interface HKT<A, U> {
@@ -33,6 +33,12 @@ export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant
   }
   equals(setoid: Setoid<L>, fy: Const<L, A>): boolean {
     return this.fold(x => fy.fold(y => setoid.equals(x, y)))
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Const(${toString(this.value)})`
   }
 }
 

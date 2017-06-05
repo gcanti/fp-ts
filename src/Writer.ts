@@ -1,7 +1,7 @@
 import { Monoid } from './Monoid'
 import { Functor } from './Functor'
 import { Monad, FantasyMonad } from './Monad'
-import { Lazy } from './function'
+import { Lazy, toString } from './function'
 
 declare module './HKT' {
   interface HKT<A, U> {
@@ -43,6 +43,12 @@ export class Writer<W, A> implements FantasyMonad<URI, A> {
       const [b, w2] = f(a).run()
       return [b, this.monoid.concat(w1, w2)]
     })
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Writer(${toString(this.monoid)}, ${toString(this.value)})`
   }
 }
 

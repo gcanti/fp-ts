@@ -211,3 +211,16 @@ export function curry<A, B, C, D, E, F, G, H, I, J>(
 export function curry(f: Function) {
   return curried(f, f.length - 1, [])
 }
+
+export function toString(x: any): string {
+  if (typeof x === 'string') {
+    return JSON.stringify(x)
+  }
+  if (x instanceof Date) {
+    return `new Date('${x.toISOString()}')`
+  }
+  if (Array.isArray(x)) {
+    return `[${x.map(toString).join(', ')}]`
+  }
+  return x.toString()
+}

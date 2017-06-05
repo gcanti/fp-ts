@@ -7,7 +7,7 @@ import { Foldable, FantasyFoldable } from './Foldable'
 import { Setoid } from './Setoid'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Alt, FantasyAlt } from './Alt'
-import { constFalse, constTrue, Predicate } from './function'
+import { constFalse, constTrue, Predicate, toString } from './function'
 import { Option, some, none } from './Option'
 import { Either, left, right } from './Either'
 import * as nea from './NonEmptyArray'
@@ -87,7 +87,7 @@ export class Failure<L, A>
     return this.toString()
   }
   toString() {
-    return `Failure(${JSON.stringify(this.value)})`
+    return `failure(${toString(this.value)})`
   }
 }
 
@@ -154,7 +154,7 @@ export class Success<L, A>
     return this.toString()
   }
   toString() {
-    return `Success(${JSON.stringify(this.value)})`
+    return `success(${toString(this.value)})`
   }
 }
 

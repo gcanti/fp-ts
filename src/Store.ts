@@ -1,7 +1,7 @@
 import { HKT, HKTS } from './HKT'
 import { Comonad, FantasyComonad } from './Comonad'
 import { Functor } from './Functor'
-import { Endomorphism } from './function'
+import { Endomorphism, toString } from './function'
 
 export const URI = 'Store'
 
@@ -31,6 +31,12 @@ export class Store<S, A> implements FantasyComonad<URI, A> {
   }
   extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> {
     return new Store<S, B>(s => f(this), this.s)
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Store(${toString(this.peek)})`
   }
 }
 

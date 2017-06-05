@@ -8,6 +8,7 @@ import { Alt, FantasyAlt } from './Alt'
 import { Comonad, FantasyComonad } from './Comonad'
 import { Either } from './Either'
 import { ChainRec, tailRec } from './ChainRec'
+import { toString } from './function'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -69,7 +70,7 @@ export class Identity<A>
     return this.toString()
   }
   toString() {
-    return `Identity(${JSON.stringify(this.value)})`
+    return `new Identity(${toString(this.value)})`
   }
 }
 

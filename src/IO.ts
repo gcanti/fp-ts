@@ -1,7 +1,7 @@
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Monad, FantasyMonad } from './Monad'
-import { constant, Lazy } from './function'
+import { constant, Lazy, toString } from './function'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -35,6 +35,12 @@ export class IO<A> implements FantasyMonad<URI, A> {
   }
   concat(semigroup: Semigroup<A>, fy: IO<A>): IO<A> {
     return new IO(() => semigroup.concat(this.run(), fy.run()))
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new IO(${toString(this.value)})`
   }
 }
 

@@ -2,7 +2,7 @@
 
 import { HKT, HKTS } from './HKT'
 import { FantasyMonad, Monad } from './Monad'
-import { identity } from './function'
+import { identity, toString } from './function'
 
 declare module './HKT' {
   interface HKT<A, U> {
@@ -38,6 +38,12 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   foldMap<M extends HKTS, U = any, V = any>(monad: Monad<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
     return monad.of(this.a)
   }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Pure(${toString(this.a)})`
+  }
 }
 
 export class Impure<F, A> implements FantasyMonad<URI, A> {
@@ -61,6 +67,12 @@ export class Impure<F, A> implements FantasyMonad<URI, A> {
   }
   foldMap<M extends HKTS, U = any, V = any>(monad: Monad<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
     return monad.chain<any, A>((x: any) => this.f(x).foldMap(monad, f), f(this.fx))
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new Impure(${(toString(this.fx), toString(this.f))})`
   }
 }
 

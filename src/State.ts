@@ -1,5 +1,5 @@
 import { Monad, FantasyMonad } from './Monad'
-import { Endomorphism } from './function'
+import { Endomorphism, toString } from './function'
 import { getStateT } from './StateT'
 import * as id from './Id'
 
@@ -41,6 +41,12 @@ export class State<S, A> implements FantasyMonad<URI, A> {
   }
   chain<B>(f: (a: A) => State<S, B>): State<S, B> {
     return new State<S, B>(stateTId.chain(a => f(a).value, this.value))
+  }
+  inspect() {
+    return this.toString()
+  }
+  toString() {
+    return `new State(${toString(this.value)})`
   }
 }
 

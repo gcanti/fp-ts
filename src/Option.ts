@@ -9,7 +9,7 @@ import { Extend, FantasyExtend } from './Extend'
 import { Setoid } from './Setoid'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Alternative, FantasyAlternative } from './Alternative'
-import { constant, constFalse, constTrue, Lazy, Predicate } from './function'
+import { constant, constFalse, constTrue, Lazy, Predicate, toString } from './function'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -85,7 +85,7 @@ export class None<A>
     return this.toString()
   }
   toString() {
-    return 'None'
+    return 'none'
   }
 }
 
@@ -160,7 +160,7 @@ export class Some<A>
     return this.toString()
   }
   toString() {
-    return `Some(${JSON.stringify(this.value)})`
+    return `some(${toString(this.value)})`
   }
 }
 
