@@ -33,7 +33,7 @@ export class None<A>
   static empty = empty
   static zero = zero
   static value: Option<any> = new None()
-  readonly _tag = 'None'
+  readonly _tag: 'None' = 'None'
   readonly _A: A
   readonly _URI: URI
   private constructor() {}
@@ -108,7 +108,7 @@ export class Some<A>
   static of = of
   static empty = empty
   static zero = zero
-  readonly _tag = 'Some'
+  readonly _tag: 'Some' = 'Some'
   readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: A) {}

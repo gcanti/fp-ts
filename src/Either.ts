@@ -31,7 +31,7 @@ export class Left<L, A>
     FantasyExtend<URI, A>,
     FantasyBifunctor<URI, L, A> {
   static of = of
-  readonly _tag = 'Left'
+  readonly _tag: 'Left' = 'Left'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
@@ -96,7 +96,7 @@ export class Right<L, A>
     FantasyExtend<URI, A>,
     FantasyBifunctor<URI, L, A> {
   static of = of
-  readonly _tag = 'Right'
+  readonly _tag: 'Right' = 'Right'
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
