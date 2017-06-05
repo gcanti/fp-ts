@@ -12,6 +12,21 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.3.1
+
+- **New Feature**
+  - add `Free Applicative`, closes #106 (@gcanti)
+  - Add `Semiring`, closes #107 (@gcanti)
+  - Add `Ring`, closes #108 (@gcanti)
+  - Add `Field`, closes #109 (@gcanti)
+  - Improve `toString` methods, closes #116 (@gcanti)
+- **Bug Fix**
+  - NonEmptyArray: add missing static `of` (@gcanti)
+  - add `_tag` type annotations, closes #118 (@gcanti)
+- **Internal**
+  - Change `proof`s of implementation (@rilut)
+  - use prettier, closes #114 (@gcanti)
+
 # 0.3.0
 
 - **New Feature**
