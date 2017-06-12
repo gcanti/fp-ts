@@ -14,6 +14,7 @@ import { Extend } from './Extend'
 import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement } from './function'
 import { Filterable } from './Filterable'
 import { Either } from './Either'
+import { Witherable } from './Witherable'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -240,6 +241,20 @@ export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): 
   return { left, right }
 }
 
+export function wilt<M extends HKTS>(
+  applicative: Applicative<M>
+): <A, L, R, U1 = any, V1 = any>(
+  f: (a: A) => HKT<Either<L, R>, U1, V1>[M],
+  ta: Array<A>
+) => HKT<{ left: Array<L>; right: Array<R> }, U1, V1>[M] {
+  return <A, L, R, U1 = any, V1 = any>(f: (a: A) => HKT<Either<L, R>, U1, V1>[M], ta: Array<A>) => {
+    return applicative.map(
+      (es: Array<Either<L, R>>) => partitionMap(identity, es),
+      traverse(applicative)<A, Either<L, R>>(f, ta)
+    )
+  }
+}
+
 const proof: Monoid<Array<any>> &
   Monad<URI> &
   Foldable<URI> &
@@ -247,7 +262,8 @@ const proof: Monoid<Array<any>> &
   Alternative<URI> &
   Plus<URI> &
   Extend<URI> &
-  Filterable<URI> = {
+  Filterable<URI> &
+  Witherable<URI> = {
   URI,
   empty,
   concat,
@@ -260,7 +276,8 @@ const proof: Monoid<Array<any>> &
   zero,
   alt,
   extend,
-  partitionMap
+  partitionMap,
+  wilt
 }
 // tslint:disable-next-line no-unused-expression
 proof

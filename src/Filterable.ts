@@ -44,7 +44,7 @@ export function filter<F extends HKTS>(
 
 export function partitioned<F extends HKTS>(
   filterable: Filterable<F>
-): <L, A, U = any, V = any>(fa: HKT<Either<L, A>, U, V>[F]) => { left: HKT<L, U, V>[F]; right: HKT<A, U, V>[F] } {
+): <L, R, U = any, V = any>(fa: HKT<Either<L, R>, U, V>[F]) => { left: HKT<L, U, V>[F]; right: HKT<R, U, V>[F] } {
   return <L, A, U = any, V = any>(fa: HKT<Either<L, A>, U, V>[F]) => filterable.partitionMap(identity, fa)
 }
 

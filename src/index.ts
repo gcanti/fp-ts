@@ -108,5 +108,7 @@ import * as unfoldable from './Unfoldable'
 export { unfoldable }
 import * as validation from './Validation'
 export { validation }
+import * as witherable from './Witherable'
+export { witherable }
 import * as writer from './Writer'
 export { writer }
