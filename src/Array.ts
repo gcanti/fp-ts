@@ -12,6 +12,8 @@ import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
 import { Extend } from './Extend'
 import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement } from './function'
+import { Filterable } from './Filterable'
+import { Either } from './Either'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -229,13 +231,23 @@ export function sort<A>(ord: Ord<A>, as: Array<A>): Array<A> {
   return copy(as).sort(toNativeComparator(ord.compare))
 }
 
+export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): { left: Array<L>; right: Array<R> } {
+  const left: Array<L> = []
+  const right: Array<R> = []
+  for (let i = 0; i < fa.length; i++) {
+    f(fa[i]).fold(l => left.push(l), r => right.push(r))
+  }
+  return { left, right }
+}
+
 const proof: Monoid<Array<any>> &
   Monad<URI> &
   Foldable<URI> &
   Traversable<URI> &
   Alternative<URI> &
   Plus<URI> &
-  Extend<URI> = {
+  Extend<URI> &
+  Filterable<URI> = {
   URI,
   empty,
   concat,
@@ -247,7 +259,8 @@ const proof: Monoid<Array<any>> &
   traverse,
   zero,
   alt,
-  extend
+  extend,
+  partitionMap
 }
 // tslint:disable-next-line no-unused-expression
 proof

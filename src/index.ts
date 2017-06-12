@@ -30,6 +30,8 @@ import * as extend from './Extend'
 export { extend }
 import * as field from './Field'
 export { field }
+import * as filterable from './Filterable'
+export { filterable }
 import * as foldable from './Foldable'
 export { foldable }
 import * as free from './Free'

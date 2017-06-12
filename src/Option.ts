@@ -10,6 +10,8 @@ import { Setoid } from './Setoid'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Alternative, FantasyAlternative } from './Alternative'
 import { constant, constFalse, constTrue, Lazy, Predicate, toString } from './function'
+import { Filterable } from './Filterable'
+import { Either } from './Either'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -253,7 +255,24 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
   return a => (predicate(a) ? some<A>(a) : none)
 }
 
-const proof: Monad<URI> & Foldable<URI> & Plus<URI> & Traversable<URI> & Alternative<URI> & Extend<URI> = {
+export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Option<A>): { left: Option<L>; right: Option<R> } {
+  return fa.fold(
+    () => ({ left: none, right: none }),
+    a =>
+      f(a).fold<{ left: Option<L>; right: Option<R> }>(
+        l => ({ left: some(l), right: none }),
+        a => ({ left: none, right: some(a) })
+      )
+  )
+}
+
+const proof: Monad<URI> &
+  Foldable<URI> &
+  Plus<URI> &
+  Traversable<URI> &
+  Alternative<URI> &
+  Extend<URI> &
+  Filterable<URI> = {
   URI,
   map,
   of,
@@ -263,7 +282,8 @@ const proof: Monad<URI> & Foldable<URI> & Plus<URI> & Traversable<URI> & Alterna
   traverse,
   zero,
   alt,
-  extend
+  extend,
+  partitionMap
 }
 // tslint:disable-next-line no-unused-expression
 proof
