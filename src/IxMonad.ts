@@ -1,15 +1,15 @@
 import { HKT, HKTS } from './HKT'
-import { Monad, FantasyMonad } from './Monad'
 import { constant } from './function'
 
 // Adapted from https://github.com/garyb/purescript-indexed-monad
 
-export interface IxMonad<F extends HKTS> extends Monad<F> {
+export interface IxMonad<F extends HKTS> {
+  readonly URI: F
   iof<I, A>(a: A): HKT<A, I, I>[F]
   ichain<I, O, Z, A, B>(f: (a: A) => HKT<B, Z, O>[F], fa: HKT<A, O, I>[F]): HKT<B, Z, I>[F]
 }
 
-export interface FantasyIxMonad<F extends HKTS, A, O, I> extends FantasyMonad<F, A> {
+export interface FantasyIxMonad<F extends HKTS, A, O, I> {
   iof<I, B>(b: B): HKT<B, I, I>[F]
   ichain<Z, B>(f: (a: A) => HKT<B, Z, O>[F]): HKT<B, Z, I>[F]
 }
