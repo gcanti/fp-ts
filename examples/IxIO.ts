@@ -1,3 +1,4 @@
+import { Monad } from '../src/Monad'
 import { IxMonad, FantasyIxMonad } from '../src/IxMonad'
 import { IO } from '../src/IO'
 import * as io from '../src/IO'
@@ -64,8 +65,17 @@ export function chain<I, A, B>(f: (a: A) => IxIO<I, I, B>, fa: IxIO<I, I, A>): I
   return fa.chain(f)
 }
 
+const proof: Monad<URI> & IxMonad<URI> = {
+  URI,
+  map,
+  of,
+  ap,
+  chain,
+  iof,
+  ichain
+}
 // tslint:disable-next-line no-unused-expression
-;({ URI, iof, ichain, of, map, ap, chain } as (IxMonad<URI>))
+proof
 
 /*
 
