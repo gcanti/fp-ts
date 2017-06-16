@@ -12,6 +12,9 @@ import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
 import { Extend } from './Extend'
 import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement } from './function'
+import { Filterable } from './Filterable'
+import { Either } from './Either'
+import { Witherable } from './Witherable'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -229,13 +232,38 @@ export function sort<A>(ord: Ord<A>, as: Array<A>): Array<A> {
   return copy(as).sort(toNativeComparator(ord.compare))
 }
 
+export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): { left: Array<L>; right: Array<R> } {
+  const left: Array<L> = []
+  const right: Array<R> = []
+  for (let i = 0; i < fa.length; i++) {
+    f(fa[i]).fold(l => left.push(l), r => right.push(r))
+  }
+  return { left, right }
+}
+
+export function wilt<M extends HKTS>(
+  applicative: Applicative<M>
+): <A, L, R, U1 = any, V1 = any>(
+  f: (a: A) => HKT<Either<L, R>, U1, V1>[M],
+  ta: Array<A>
+) => HKT<{ left: Array<L>; right: Array<R> }, U1, V1>[M] {
+  return <A, L, R, U1 = any, V1 = any>(f: (a: A) => HKT<Either<L, R>, U1, V1>[M], ta: Array<A>) => {
+    return applicative.map(
+      (es: Array<Either<L, R>>) => partitionMap(identity, es),
+      traverse(applicative)<A, Either<L, R>>(f, ta)
+    )
+  }
+}
+
 const proof: Monoid<Array<any>> &
   Monad<URI> &
   Foldable<URI> &
   Traversable<URI> &
   Alternative<URI> &
   Plus<URI> &
-  Extend<URI> = {
+  Extend<URI> &
+  Filterable<URI> &
+  Witherable<URI> = {
   URI,
   empty,
   concat,
@@ -247,7 +275,9 @@ const proof: Monoid<Array<any>> &
   traverse,
   zero,
   alt,
-  extend
+  extend,
+  partitionMap,
+  wilt
 }
 // tslint:disable-next-line no-unused-expression
 proof

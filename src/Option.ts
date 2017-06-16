@@ -10,6 +10,9 @@ import { Setoid } from './Setoid'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Alternative, FantasyAlternative } from './Alternative'
 import { constant, constFalse, constTrue, Lazy, Predicate, toString } from './function'
+import { Filterable } from './Filterable'
+import { Either } from './Either'
+import { Witherable } from './Witherable'
 
 declare module './HKT' {
   interface HKT<A> {
@@ -253,7 +256,47 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
   return a => (predicate(a) ? some<A>(a) : none)
 }
 
-const proof: Monad<URI> & Foldable<URI> & Plus<URI> & Traversable<URI> & Alternative<URI> & Extend<URI> = {
+export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Option<A>): { left: Option<L>; right: Option<R> } {
+  return fa.fold(
+    () => ({ left: none, right: none }),
+    a =>
+      f(a).fold<{ left: Option<L>; right: Option<R> }>(
+        l => ({ left: some(l), right: none }),
+        a => ({ left: none, right: some(a) })
+      )
+  )
+}
+
+export function wilt<M extends HKTS>(
+  applicative: Applicative<M>
+): <A, L, R, U1 = any, V1 = any>(
+  f: (a: A) => HKT<Either<L, R>, U1, V1>[M],
+  ta: Option<A>
+) => HKT<{ left: Option<L>; right: Option<R> }, U1, V1>[M] {
+  return <A, L, R, U1 = any, V1 = any>(f: (a: A) => HKT<Either<L, R>, U1, V1>[M], ta: Option<A>) => {
+    return ta.fold(
+      () => applicative.of({ left: none, right: none }),
+      a =>
+        applicative.map(
+          (e: Either<L, R>) =>
+            e.fold<{ left: Option<L>; right: Option<R> }>(
+              l => ({ left: some(l), right: none }),
+              r => ({ left: none, right: some(r) })
+            ),
+          f(a)
+        )
+    )
+  }
+}
+
+const proof: Monad<URI> &
+  Foldable<URI> &
+  Plus<URI> &
+  Traversable<URI> &
+  Alternative<URI> &
+  Extend<URI> &
+  Filterable<URI> &
+  Witherable<URI> = {
   URI,
   map,
   of,
@@ -263,7 +306,9 @@ const proof: Monad<URI> & Foldable<URI> & Plus<URI> & Traversable<URI> & Alterna
   traverse,
   zero,
   alt,
-  extend
+  extend,
+  partitionMap,
+  wilt
 }
 // tslint:disable-next-line no-unused-expression
 proof

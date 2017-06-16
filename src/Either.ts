@@ -10,6 +10,9 @@ import { Alt, FantasyAlt } from './Alt'
 import { ChainRec, tailRec } from './ChainRec'
 import { Option, none, some } from './Option'
 import { constFalse, constTrue, Predicate, Lazy, toString } from './function'
+import { Monoid } from './Monoid'
+import { Filterable } from './Filterable'
+import { Witherable } from './Witherable'
 
 declare module './HKT' {
   interface HKT<A, U> {
@@ -250,6 +253,51 @@ export function tryCatch<A>(f: Lazy<A>): Either<Error, A> {
   } catch (e) {
     return left<Error, A>(e)
   }
+}
+
+export function getFilterable<M>(monoid: Monoid<M>): Filterable<URI> {
+  const empty = left<M, any>(monoid.empty())
+  function partitionMap<A, L, R>(
+    f: (a: A) => Either<L, R>,
+    fa: Either<M, A>
+  ): { left: Either<M, L>; right: Either<M, R> } {
+    return fa.fold(
+      l => ({ left: fa as any, right: fa as any }),
+      a =>
+        f(a).fold<{ left: Either<M, L>; right: Either<M, R> }>(
+          l => ({ left: right<M, L>(l), right: empty }),
+          a => ({ left: empty, right: right<M, R>(a) })
+        )
+    )
+  }
+  return { URI, map, partitionMap }
+}
+
+export function getWitherable<M>(monoid: Monoid<M>): Witherable<URI> {
+  const empty = left<any, any>(monoid.empty())
+  function wilt<M extends HKTS>(
+    applicative: Applicative<M>
+  ): <A, L, R, U1 = any, V1 = any>(
+    f: (a: A) => HKT<Either<L, R>, U1, V1>[M],
+    ta: Either<M, A>
+  ) => HKT<{ left: Either<M, L>; right: Either<M, R> }, U1, V1>[M] {
+    return <A, L, R, U1 = any, V1 = any>(f: (a: A) => HKT<Either<L, R>, U1, V1>[M], ta: Either<M, A>) => {
+      return ta.fold(
+        () => applicative.of({ left: ta as any, right: ta as any }),
+        a =>
+          applicative.map(
+            (e: Either<L, R>) =>
+              e.fold<{ left: Either<M, L>; right: Either<M, R> }>(
+                l => ({ left: right<M, L>(l), right: empty }),
+                r => ({ left: empty, right: right<M, R>(r) })
+              ),
+            f(a)
+          )
+      )
+    }
+  }
+  const filterable = getFilterable(monoid)
+  return { ...filterable, wilt, traverse, reduce }
 }
 
 const proof: Monad<URI> & Foldable<URI> & Traversable<URI> & Bifunctor<URI> & Alt<URI> & Extend<URI> & ChainRec<URI> = {
