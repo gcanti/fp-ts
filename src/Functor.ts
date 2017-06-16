@@ -1,4 +1,5 @@
 import { HKT, HKTS } from './HKT'
+import { constant } from './function'
 
 export interface Functor<F extends HKTS> {
   readonly URI: F
@@ -30,4 +31,22 @@ export function getCompositionFunctor<FG extends HKTS, F extends HKTS, G extends
       return functorF.map((ga: HKT<A>[G]) => functorG.map(f, ga), fa)
     }
   }
+}
+
+/** Ignore the return value of a computation, using the specified return value instead (`<$`) */
+export function voidRight<F extends HKTS, A, B, U = any, V = any>(
+  functor: Functor<F>,
+  a: A,
+  fb: HKT<B, U, V>[F]
+): HKT<A, U, V>[F] {
+  return functor.map(constant(a), fb)
+}
+
+/** A version of `voidRight` with its arguments flipped (`$>`) */
+export function voidLeft<F extends HKTS, A, B, U = any, V = any>(
+  functor: Functor<F>,
+  fa: HKT<A, U, V>[F],
+  b: B
+): HKT<B, U, V>[F] {
+  return functor.map(constant(b), fa)
 }
