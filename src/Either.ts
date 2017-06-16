@@ -230,9 +230,7 @@ export function left<L, A>(l: L): Either<L, A> {
   return new Left<L, A>(l)
 }
 
-export function right<L, A>(a: A): Either<L, A> {
-  return new Right<L, A>(a)
-}
+export const right = of
 
 export function fromPredicate<L, A>(predicate: Predicate<A>, l: (a: A) => L): (a: A) => Either<L, A> {
   return a => (predicate(a) ? right<L, A>(a) : left<L, A>(l(a)))
