@@ -50,6 +50,8 @@ import * as io from './IO'
 export { io }
 import * as ixMonad from './IxMonad'
 export { ixMonad }
+import * as mealy from './Mealy'
+export { mealy }
 import * as monad from './Monad'
 export { monad }
 import * as monoid from './Monoid'
