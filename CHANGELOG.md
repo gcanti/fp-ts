@@ -12,6 +12,18 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.3.3
+
+- **New Feature**
+  - Functor: add `voidRight` / `voidLeft`, closes #120 (@gcanti)
+  - Add `Mealy` machine, closes #122 (@gcanti)
+  - Add `Filterable`, closes #124 (@gcanti)
+  - Add `Witherable`, closes #125 (@gcanti)
+- **Polish**
+  - upgrade to ts 2.3.4
+  - Either: make `right` === `of\
+  - IxIO example: use new proof
+
 # 0.3.2
 
 - **Bug Fix**
