@@ -12,6 +12,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.3.4
+
+- **Bug Fix**
+  - `Array.snoc` returns wrong results with nested arrays, fix #133 (@gcanti)
+
 # 0.3.3
 
 - **New Feature**
