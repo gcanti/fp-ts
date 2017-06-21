@@ -40,6 +40,9 @@ export class NonEmptyArray<A>
   ap<B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B> {
     return fab.chain(f => this.map(f)) // <= derived
   }
+  ap_<B, C>(this: NonEmptyArray<(a: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B> {
     return f(this.head).concatArray(array.chain(a => f(a).toArray(), this.tail))
   }

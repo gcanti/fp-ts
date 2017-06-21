@@ -44,6 +44,9 @@ export class Failure<L, A>
     }
     return this as any
   }
+  ap_<B, C>(this: Validation<L, (a: B) => C>, fb: Validation<L, B>): Validation<L, C> {
+    return fb.ap(this)
+  }
   bimap<L2, B>(semigroup: Semigroup<L2>, f: (l: L) => L2, g: (a: A) => B): Validation<L2, B> {
     return failure<L2, B>(semigroup, f(this.value))
   }
@@ -110,6 +113,9 @@ export class Success<L, A>
       return this.map(fab.value)
     }
     return fab as any
+  }
+  ap_<B, C>(this: Validation<L, (a: B) => C>, fb: Validation<L, B>): Validation<L, C> {
+    return fb.ap(this)
   }
   bimap<L2, B>(semigroup: Semigroup<L2>, f: (l: L) => L2, g: (a: A) => B): Validation<L2, B> {
     return new Success<L2, B>(g(this.value))
