@@ -41,10 +41,12 @@ describe('Array', () => {
 
   it('cons', () => {
     assert.deepEqual(array.cons(0, as), [0, 1, 2, 3])
+    assert.deepEqual(array.cons([1], [[2]]), [[1], [2]])
   })
 
   it('snoc', () => {
     assert.deepEqual(array.snoc(as, 4), [1, 2, 3, 4])
+    assert.deepEqual(array.snoc([[1]], [2]), [[1], [2]])
   })
 
   it('curriedSnoc', () => {

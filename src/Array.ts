@@ -119,7 +119,7 @@ export function cons<A>(a: A, as: Array<A>): Array<A> {
 }
 
 export function snoc<A>(as: Array<A>, a: A): Array<A> {
-  return as.concat(a)
+  return as.concat([a])
 }
 
 export function head<A>(as: Array<A>): Option<A> {
