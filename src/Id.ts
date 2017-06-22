@@ -2,7 +2,6 @@ import { HKT, HKTS } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad } from './Monad'
 import { Foldable } from './Foldable'
-import { Setoid } from './Setoid'
 import { Traversable } from './Traversable'
 import { Alt } from './Alt'
 import { Comonad } from './Comonad'
@@ -18,10 +17,6 @@ declare module './HKT' {
 export const URI = 'Id'
 
 export type URI = typeof URI
-
-export function equals<A>(setoid: Setoid<A>, fx: A, fy: A): boolean {
-  return setoid.equals(fx, fy)
-}
 
 export function map<A, B>(f: (a: A) => B, fa: A): B {
   return f(fa)

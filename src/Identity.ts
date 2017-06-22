@@ -78,6 +78,12 @@ export function equals<A>(setoid: Setoid<A>, fx: Identity<A>, fy: Identity<A>): 
   return fx.equals(setoid, fy as Identity<A>)
 }
 
+export function getSetoid<A>(setoid: Setoid<A>): Setoid<Identity<A>> {
+  return {
+    equals: (x, y) => equals(setoid, x, y)
+  }
+}
+
 export function map<A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B> {
   return fa.map(f)
 }

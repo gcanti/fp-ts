@@ -46,6 +46,12 @@ export function equals<L, A>(setoid: Setoid<L>, fx: Const<L, A>, fy: Const<L, A>
   return fx.equals(setoid, fy)
 }
 
+export function getSetoid<L, A>(setoid: Setoid<L>): Setoid<Const<L, A>> {
+  return {
+    equals: (x, y) => equals(setoid, x, y)
+  }
+}
+
 export function map<L, A, B>(f: (a: A) => B, fa: Const<L, A>): Const<L, B> {
   return fa.map(f)
 }

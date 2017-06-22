@@ -176,6 +176,12 @@ export function equals<L, A>(setoidL: Setoid<L>, setoidA: Setoid<A>, fx: These<L
   return fx.equals(setoidL, setoidA, fy)
 }
 
+export function getSetoid<L, A>(setoidL: Setoid<L>, setoidA: Setoid<A>): Setoid<These<L, A>> {
+  return {
+    equals: (x, y) => equals(setoidL, setoidA, x, y)
+  }
+}
+
 export function concat<L, A>(
   semigroupL: Semigroup<L>,
   semigroupA: Semigroup<A>,
