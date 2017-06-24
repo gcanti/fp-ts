@@ -40,8 +40,8 @@ export class TaskEither<L, A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.chain(a => f(a).value, this.value))
   }
-  fold<R>(none: Lazy<R>, some: (a: A) => R): Task<R> {
-    return eitherTTask.fold(none, some, this.value)
+  fold<R>(left: (l: L) => R, right: (a: A) => R): Task<R> {
+    return eitherTTask.fold(left, right, this.value)
   }
   mapLeft<L2>(f: (l: L) => L2): TaskEither<L2, A> {
     return new TaskEither(eitherTTask.mapLeft(f, this.value))
