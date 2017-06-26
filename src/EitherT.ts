@@ -27,8 +27,8 @@ export interface EitherT<URI extends HKTS, M extends HKTS> extends Monad<URI> {
 export function getEitherT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Monad<M>): EitherT<URI, M> {
   const applicative = getCompositionApplicative(URI, monad, either)
 
-  function chain<L, A, B>(f: (a: A) => HKT<Either<L, B>>[M], fa: HKT<Either<L, A>>[M]): HKT<Either<L, B>>[M] {
-    return monad.chain<Either<L, A>, Either<L, B>>(e => e.fold<HKT<Either<L, B>>[M]>(() => fa as any, a => f(a)), fa)
+  function chain<L, L2, A, B>(f: (a: A) => HKT<Either<L2, B>>[M], fa: HKT<Either<L, A>>[M]): HKT<Either<L2 | L, B>>[M] {
+    return monad.chain<Either<L, A>, Either<L | L2, B>>(e => e.fold<HKT<Either<L | L2, B>>[M]>(() => fa as any, a => f(a)), fa)
   }
 
   function right<L, A>(ma: HKT<A>[M]): HKT<Either<L, A>>[M] {
