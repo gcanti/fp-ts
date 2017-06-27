@@ -35,6 +35,9 @@ export class Pure<F, A> implements FantasyApplicative<URI, A> {
   ap<B>(fab: FreeAp<F, (a: A) => B>): FreeAp<F, B> {
     return fab.map(f => f(this.a))
   }
+  ap_<B, C>(this: FreeAp<F, (a: B) => C>, fb: FreeAp<F, B>): FreeAp<F, C> {
+    return fb.ap(this)
+  }
   foldMap<M extends HKTS, U = any, V = any>(
     applicative: Applicative<M>,
     f: <A>(fa: F) => HKT<A, U, V>[M]
@@ -64,6 +67,9 @@ export class Ap<F, A> implements FantasyApplicative<URI, A> {
   }
   ap<B>(fab: FreeAp<F, (a: A) => B>): FreeAp<F, B> {
     return new Ap<F, B>(this.fg.ap(fab.map(f => (g: any): any => (x: any) => f(g(x)))), this.fx)
+  }
+  ap_<B, C>(this: FreeAp<F, (a: B) => C>, fb: FreeAp<F, B>): FreeAp<F, C> {
+    return fb.ap(this)
   }
   foldMap<M extends HKTS, U = any, V = any>(
     applicative: Applicative<M>,

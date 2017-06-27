@@ -40,6 +40,9 @@ export class Identity<A>
   ap<B>(fab: Identity<(a: A) => B>): Identity<B> {
     return this.map(fab.extract())
   }
+  ap_<B, C>(this: Identity<(a: B) => C>, fb: Identity<B>): Identity<C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => Identity<B>): Identity<B> {
     return f(this.extract())
   }

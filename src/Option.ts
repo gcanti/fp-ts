@@ -49,6 +49,9 @@ export class None<A>
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return none
   }
+  ap_<B, C>(this: Option<(a: B) => C>, fb: Option<B>): Option<C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => Option<B>): Option<B> {
     return none
   }
@@ -123,6 +126,9 @@ export class Some<A>
   }
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return fab.map(f => f(this.value))
+  }
+  ap_<B, C>(this: Option<(a: B) => C>, fb: Option<B>): Option<C> {
+    return fb.ap(this)
   }
   chain<B>(f: (a: A) => Option<B>): Option<B> {
     return f(this.value)
