@@ -6,7 +6,6 @@
     "lib"
   ],
   "main": "lib/index.js",
-  "jsnext:main": "lib-jsnext/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint src/**/*.ts test/**/*.ts",
