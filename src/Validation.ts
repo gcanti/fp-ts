@@ -162,6 +162,12 @@ export function equals<L, A>(setoid: Setoid<A>, fx: Validation<L, A>, fy: Valida
   return fx.equals(setoid, fy)
 }
 
+export function getSetoid<L, A>(setoid: Setoid<A>): Setoid<Validation<L, A>> {
+  return {
+    equals: (x, y) => equals(setoid, x, y)
+  }
+}
+
 export function fold<L, A, B>(failure: (l: L) => B, success: (a: A) => B, fa: Validation<L, A>): B {
   return fa.fold(failure, success)
 }

@@ -171,6 +171,12 @@ export function equals<A>(setoid: Setoid<A>, fx: Option<A>, fy: Option<A>): bool
   return fx.equals(setoid, fy)
 }
 
+export function getSetoid<A>(setoid: Setoid<A>): Setoid<Option<A>> {
+  return {
+    equals: (x, y) => equals(setoid, x, y)
+  }
+}
+
 export function fold<A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B {
   return fa.fold(n, s)
 }

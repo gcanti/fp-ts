@@ -163,6 +163,12 @@ export function equals<L, A>(setoid: Setoid<A>, fx: Either<L, A>, fy: Either<L, 
   return fx.equals(setoid, fy)
 }
 
+export function getSetoid<L, A>(setoid: Setoid<A>): Setoid<Either<L, A>> {
+  return {
+    equals: (x, y) => equals(setoid, x, y)
+  }
+}
+
 export function fold<L, A, B>(left: (l: L) => B, right: (a: A) => B, fa: Either<L, A>): B {
   return fa.fold(left, right)
 }
