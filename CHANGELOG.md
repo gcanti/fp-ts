@@ -12,6 +12,15 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.3.5
+
+- **New Feature**
+  - Functor: add `flap`, closes #129 (@gcanti)
+  - Add getSetoid instances, closes #131 (@gcanti)
+  - Add "flipped" ap method to FantasyApply instances, closes #132 (@gcanti)
+- **Polish**
+  - Examples: correct TaskEither fold method (@OliverJAsh)
+
 # 0.3.4
 
 - **Bug Fix**
