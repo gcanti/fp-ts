@@ -43,4 +43,9 @@ describe('Apply', () => {
     eqOptions(liftA4(option, f)(option.some(2), option.some(3), option.some(4), option.some(5)), option.some(14))
     eqEithers(liftA4(either, f)(either.right(2), either.right(3), either.right(4), either.right(5)), either.right(14))
   })
+
+  it('ap_', () => {
+    const f = (a: number) => (b: number) => a + b
+    eqOptions(option.of(f).ap_(option.some(2)).ap_(option.some(3)), option.some(5))
+  })
 })

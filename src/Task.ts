@@ -30,6 +30,9 @@ export class Task<A> implements FantasyMonad<URI, A> {
   ap<B>(fab: Task<(a: A) => B>): Task<B> {
     return new Task(() => Promise.all([fab.run(), this.run()]).then(([f, a]) => f(a)))
   }
+  ap_<B, C>(this: Task<(a: B) => C>, fb: Task<B>): Task<C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => Task<B>): Task<B> {
     return new Task(() => this.run().then(a => f(a).run()))
   }

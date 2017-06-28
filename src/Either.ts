@@ -48,7 +48,10 @@ export class Left<L, A>
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
     return (isLeft(fab) ? fab : this) as any
   }
-  chain<L2, B>(f: (a: A) => Either<L2, B>): Either<L2 | L, B> {
+  ap_<B, C>(this: Either<L, (a: B) => C>, fb: Either<L, B>): Either<L, C> {
+    return fb.ap(this)
+  }
+  chain<L2, B>(f: (a: A) => Either<L2, B>): Either<L | L2, B> {
     return this as any
   }
   bimap<L2, B>(f: (l: L) => L2, g: (a: A) => B): Either<L2, B> {
@@ -116,7 +119,10 @@ export class Right<L, A>
     }
     return fab as any
   }
-  chain<L2, B>(f: (a: A) => Either<L2, B>): Either<L2 | L, B> {
+  ap_<B, C>(this: Either<L, (a: B) => C>, fb: Either<L, B>): Either<L, C> {
+    return fb.ap(this)
+  }
+  chain<L2, B>(f: (a: A) => Either<L2, B>): Either<L | L2, B> {
     return f(this.value)
   }
   bimap<L2, B>(f: (l: L) => L2, g: (a: A) => B): Either<L2, B> {
@@ -163,6 +169,12 @@ export function equals<L, A>(setoid: Setoid<A>, fx: Either<L, A>, fy: Either<L, 
   return fx.equals(setoid, fy)
 }
 
+export function getSetoid<L, A>(setoid: Setoid<A>): Setoid<Either<L, A>> {
+  return {
+    equals: (x, y) => equals(setoid, x, y)
+  }
+}
+
 export function fold<L, A, B>(left: (l: L) => B, right: (a: A) => B, fa: Either<L, A>): B {
   return fa.fold(left, right)
 }
@@ -183,7 +195,7 @@ export function ap<L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Eith
   return fa.ap(fab)
 }
 
-export function chain<L, L2, A, B>(f: (a: A) => Either<L2, B>, fa: Either<L, A>): Either<L2 | L, B> {
+export function chain<L, L2, A, B>(f: (a: A) => Either<L2, B>, fa: Either<L, A>): Either<L | L2, B> {
   return fa.chain(f)
 }
 

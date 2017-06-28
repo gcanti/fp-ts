@@ -49,6 +49,9 @@ export class None<A>
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return none
   }
+  ap_<B, C>(this: Option<(a: B) => C>, fb: Option<B>): Option<C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => Option<B>): Option<B> {
     return none
   }
@@ -124,6 +127,9 @@ export class Some<A>
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return fab.map(f => f(this.value))
   }
+  ap_<B, C>(this: Option<(a: B) => C>, fb: Option<B>): Option<C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => Option<B>): Option<B> {
     return f(this.value)
   }
@@ -169,6 +175,12 @@ export class Some<A>
 
 export function equals<A>(setoid: Setoid<A>, fx: Option<A>, fy: Option<A>): boolean {
   return fx.equals(setoid, fy)
+}
+
+export function getSetoid<A>(setoid: Setoid<A>): Setoid<Option<A>> {
+  return {
+    equals: (x, y) => equals(setoid, x, y)
+  }
 }
 
 export function fold<A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B {

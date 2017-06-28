@@ -6,6 +6,13 @@ export interface Apply<F extends HKTS> extends Functor<F> {
   ap<A, B, U = any, V = any>(fab: HKT<(a: A) => B, U, V>[F], fa: HKT<A, U, V>[F]): HKT<B, U, V>[F]
 }
 
+/*
+
+  Implementations of FantasyApply may choose to also implement
+
+  ap_<B, C, U = any, V = any>(this: HKT<(a: A) => B, U, V>[F], fb: HKT<B, U, V>[F]): HKT<C, U, V>[F]
+
+*/
 export interface FantasyApply<F extends HKTS, A> extends FantasyFunctor<F, A> {
   ap<B, U = any, V = any>(fab: HKT<(a: A) => B, U, V>[F]): HKT<B, U, V>[F]
 }

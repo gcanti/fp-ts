@@ -1,12 +1,11 @@
 {
   "name": "fp-ts",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "Functional programming in TypeScript",
   "files": [
     "lib"
   ],
   "main": "lib/index.js",
-  "jsnext:main": "lib-jsnext/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint src/**/*.ts test/**/*.ts",
@@ -36,7 +35,7 @@
     "ts-node": "3.0.2",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "2.3.4",
+    "typescript": "2.4.0",
     "typings-checker": "1.1.2"
   },
   "tags": [

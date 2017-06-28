@@ -40,6 +40,9 @@ export class Identity<A>
   ap<B>(fab: Identity<(a: A) => B>): Identity<B> {
     return this.map(fab.extract())
   }
+  ap_<B, C>(this: Identity<(a: B) => C>, fb: Identity<B>): Identity<C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => Identity<B>): Identity<B> {
     return f(this.extract())
   }
@@ -76,6 +79,12 @@ export class Identity<A>
 
 export function equals<A>(setoid: Setoid<A>, fx: Identity<A>, fy: Identity<A>): boolean {
   return fx.equals(setoid, fy as Identity<A>)
+}
+
+export function getSetoid<A>(setoid: Setoid<A>): Setoid<Identity<A>> {
+  return {
+    equals: (x, y) => equals(setoid, x, y)
+  }
 }
 
 export function map<A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B> {

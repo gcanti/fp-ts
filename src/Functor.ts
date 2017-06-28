@@ -50,3 +50,12 @@ export function voidLeft<F extends HKTS, A, B, U = any, V = any>(
 ): HKT<B, U, V>[F] {
   return functor.map(constant(b), fa)
 }
+
+/** Apply a value in a computational context to a value in no context.
+ * Generalizes `flip`
+ */
+export function flap<F extends HKTS>(
+  functor: Functor<F>
+): <A, B, U = any, V = any>(ff: HKT<(a: A) => B, U, V>[F], a: A) => HKT<B, U, V>[F] {
+  return <A, B, U = any, V = any>(ff: HKT<(a: A) => B, U, V>[F], a: A) => functor.map<(a: A) => B, B>(f => f(a), ff)
+}

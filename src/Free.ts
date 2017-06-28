@@ -32,6 +32,9 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: Free<F, (a: A) => B>): Free<F, B> {
     return fab.chain(f => this.map(f)) // <- derived
   }
+  ap_<B, C>(this: Free<F, (a: B) => C>, fb: Free<F, B>): Free<F, C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.a)
   }
@@ -61,6 +64,9 @@ export class Impure<F, A> implements FantasyMonad<URI, A> {
   }
   ap<B>(fab: Free<F, (a: A) => B>): Free<F, B> {
     return fab.chain(f => this.map(f)) // <- derived
+  }
+  ap_<B, C>(this: Free<F, (a: B) => C>, fb: Free<F, B>): Free<F, C> {
+    return fb.ap(this)
   }
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return new Impure<F, B>(this.fx, x => this.f(x).chain(f))
