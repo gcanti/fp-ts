@@ -21,13 +21,18 @@ export interface EitherT<URI extends HKTS, M extends HKTS> extends Monad<URI> {
   ): HKT<R, U, V>[M]
   mapLeft<L2, L, A, U = any, V = any>(f: (l: L) => L2, fa: HKT<Either<L, A>, U, V>[M]): HKT<Either<L2, A>, U, V>[M]
   toOption<L, A, U = any, V = any>(fa: HKT<Either<L, A>, U, V>[M]): HKT<Option<A>, U, V>[M]
+  chain_<L, L2, A, B, U = any, V = any>(f: (a: A) => HKT<Either<L2, B>, U, V>[M], fa: HKT<Either<L, A>, U, V>[M]): HKT<Either<L2 | L, B>, U, V>[M]
 }
 
 /** Note: requires an implicit proof that HKT<A>[URI] ~ HKT<Either<L, A>>[M] */
 export function getEitherT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Monad<M>): EitherT<URI, M> {
   const applicative = getCompositionApplicative(URI, monad, either)
 
-  function chain<L, L2, A, B>(f: (a: A) => HKT<Either<L2, B>>[M], fa: HKT<Either<L, A>>[M]): HKT<Either<L2 | L, B>>[M] {
+  function chain<L, A, B>(f: (a: A) => HKT<Either<L, B>>[M], fa: HKT<Either<L, A>>[M]): HKT<Either<L, B>>[M] {
+    return monad.chain<Either<L, A>, Either<L, B>>(e => e.fold<HKT<Either<L, B>>[M]>(() => fa as any, a => f(a)), fa)
+  }
+
+  function chain_<L, L2, A, B>(f: (a: A) => HKT<Either<L2, B>>[M], fa: HKT<Either<L, A>>[M]): HKT<Either<L2 | L, B>>[M] {
     return monad.chain<Either<L, A>, Either<L | L2, B>>(e => e.fold<HKT<Either<L | L2, B>>[M]>(() => fa as any, a => f(a)), fa)
   }
 
@@ -54,6 +59,7 @@ export function getEitherT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Mo
   return {
     ...applicative,
     chain,
+    chain_,
     right,
     left,
     fold,
