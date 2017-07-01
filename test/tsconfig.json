@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noStrictGenericChecks": true,
     "outDir": "./lib",
     "sourceMap": true,
     "declaration": true,
@@ -16,9 +17,6 @@
     "target": "es5",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es6",
-      "dom"
-    ]
+    "lib": ["es6", "dom"]
   }
 }

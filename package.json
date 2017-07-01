@@ -2,9 +2,7 @@
   "name": "fp-ts",
   "version": "0.3.5",
   "description": "Functional programming in TypeScript",
-  "files": [
-    "lib"
-  ],
+  "files": ["lib"],
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -31,25 +29,13 @@
     "@types/mocha": "2.2.38",
     "@types/node": "7.0.4",
     "mocha": "3.2.0",
-    "prettier": "1.4.2",
-    "ts-node": "3.0.2",
+    "prettier": "1.5.2",
+    "ts-node": "3.1.0",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "2.4.0",
+    "typescript": "2.4.1",
     "typings-checker": "1.1.2"
   },
-  "tags": [
-    "typescript",
-    "static-land",
-    "fantasy-land",
-    "algebraic-data-types",
-    "functional-programming"
-  ],
-  "keywords": [
-    "typescript",
-    "static-land",
-    "fantasy-land",
-    "algebraic-data-types",
-    "functional-programming"
-  ]
+  "tags": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"],
+  "keywords": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"]
 }

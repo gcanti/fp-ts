@@ -7,13 +7,9 @@ import { Option } from './Option'
 
 export interface EitherT<URI extends HKTS, M extends HKTS> extends Monad<URI> {
   /** lifts `M<A>` to `M<EitherT<L, A>>` */
-  right<L, A, U = any, V = any>(
-    ma: HKT<A, U, V>[M]
-  ): HKT<Either<L, A>, U, V>[M]
+  right<L, A, U = any, V = any>(ma: HKT<A, U, V>[M]): HKT<Either<L, A>, U, V>[M]
   /** lifts `M<L>` to `M<Either<L, A>>` */
-  left<L, A, U = any, V = any>(
-    ml: HKT<L, U, V>[M]
-  ): HKT<Either<L, A>, U, V>[M]
+  left<L, A, U = any, V = any>(ml: HKT<L, U, V>[M]): HKT<Either<L, A>, U, V>[M]
   fold<R, L, A, U = any, V = any>(
     left: (l: L) => R,
     right: (a: A) => R,

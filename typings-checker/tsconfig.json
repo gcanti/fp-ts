@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noStrictGenericChecks": true,
     "noEmit": true,
     "noImplicitAny": true,
     "noImplicitReturns": false,

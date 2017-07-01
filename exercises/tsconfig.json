@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "noStrictGenericChecks": true,
     "declaration": true,
     "module": "commonjs",
     "noImplicitAny": true,
@@ -14,18 +15,11 @@
     "target": "es5",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom"],
     "baseUrl": ".",
     "paths": {
-      "fp-ts/lib/*": [
-        "../src/*"
-      ],
-      "fp-ts": [
-        "../src/index"
-      ]
+      "fp-ts/lib/*": ["../src/*"],
+      "fp-ts": ["../src/index"]
     }
   }
 }
