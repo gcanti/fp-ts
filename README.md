@@ -2,7 +2,9 @@
 [![dependency status](https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square)](https://david-dm.org/gcanti/fp-ts)
 ![npm downloads](https://img.shields.io/npm/dm/fp-ts.svg)
 
-A mix of
+**Important**: the current version of fp-ts is compatible with TypeScript 2.4.0. TypeScript 2.4.1 introduces new features that must be disabled with the flag `"noStrictGenericChecks": true`. A version of fp-ts fully compatible with 2.4.1 is in the works, you may want to take a look at this [issue](https://github.com/gcanti/fp-ts/issues/138).
+
+Inspired by
 
 - [fantasy-land](https://github.com/fantasyland/fantasy-land)
 - [static-land](https://github.com/rpominov/static-land)
