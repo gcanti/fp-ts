@@ -54,6 +54,9 @@ export class Left<L, A>
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
     return this as any
   }
+  chain_<L2, B>(f: (a: A) => Either<L2, B>): Either<L | L2, B> {
+    return this as any
+  }
   bimap<L2, B>(f: (l: L) => L2, g: (a: A) => B): Either<L2, B> {
     return new Left<L2, B>(f(this.value))
   }
@@ -123,6 +126,9 @@ export class Right<L, A>
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
+    return f(this.value)
+  }
+  chain_<L2, B>(f: (a: A) => Either<L2, B>): Either<L | L2, B> {
     return f(this.value)
   }
   bimap<L2, B>(f: (l: L) => L2, g: (a: A) => B): Either<L2, B> {
@@ -197,6 +203,10 @@ export function ap<L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Eith
 
 export function chain<L, A, B>(f: (a: A) => Either<L, B>, fa: Either<L, A>): Either<L, B> {
   return fa.chain(f)
+}
+
+export function chain_<L1, L2, A, B>(f: (a: A) => Either<L2, B>, fa: Either<L1, A>): Either<L1 | L2, B> {
+  return fa.chain_(f)
 }
 
 export function bimap<L, L2, A, B>(f: (l: L) => L2, g: (a: A) => B, fa: Either<L, A>): Either<L2, B> {
