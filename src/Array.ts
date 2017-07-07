@@ -1,4 +1,4 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { Monoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { Monad } from './Monad'
@@ -11,21 +11,16 @@ import { Option } from './Option'
 import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
 import { Extend } from './Extend'
-import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement } from './function'
 import { Filterable } from './Filterable'
 import { Either } from './Either'
 import { Witherable } from './Witherable'
-
-declare module './HKT' {
-  interface HKT<A> {
-    Array: Array<A>
-  }
-}
+import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement } from './function'
+import './overloadings'
 
 declare global {
   interface Array<T> {
-    _A: T
     _URI: URI
+    _A: T
   }
 }
 
@@ -59,16 +54,18 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B {
   return fa.reduce(f, b)
 }
 
-export const curriedSnoc = curry(snoc)
+export const curriedSnoc: <A>(a: Array<A>) => (b: A) => Array<A> = curry(snoc)
 
-export function traverse<F extends HKTS>(
-  applicative: Applicative<F>
-): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Array<A>) => HKT<Array<B>, U, V>[F] {
-  return <A, B>(f: (a: A) => HKT<B>[F], ta: Array<A>) => {
-    const snocA2 = liftA2(applicative, curriedSnoc)
-    return reduce((fab, a) => snocA2(fab, f(a)), applicative.of(empty()), ta)
+export class Ops {
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>>
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>> {
+    const snocA2: <A>(fa: HKT<F, Array<A>>, fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F, curriedSnoc)
+    return (f, ta) => reduce((fab, a) => snocA2(fab, f(a)), F.of(empty()), ta)
   }
 }
+
+const ops = new Ops()
+export const traverse: Ops['traverse'] = ops.traverse
 
 export const zero = empty
 
@@ -241,18 +238,10 @@ export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): 
   return { left, right }
 }
 
-export function wilt<M extends HKTS>(
-  applicative: Applicative<M>
-): <A, L, R, U1 = any, V1 = any>(
-  f: (a: A) => HKT<Either<L, R>, U1, V1>[M],
-  ta: Array<A>
-) => HKT<{ left: Array<L>; right: Array<R> }, U1, V1>[M] {
-  return <A, L, R, U1 = any, V1 = any>(f: (a: A) => HKT<Either<L, R>, U1, V1>[M], ta: Array<A>) => {
-    return applicative.map(
-      (es: Array<Either<L, R>>) => partitionMap(identity, es),
-      traverse(applicative)<A, Either<L, R>>(f, ta)
-    )
-  }
+export function wilt<M>(
+  M: Applicative<M>
+): <A, L, R>(f: (a: A) => HKT<M, Either<L, R>>, ta: Array<A>) => HKT<M, { left: Array<L>; right: Array<R> }> {
+  return (f, ta) => M.map(es => partitionMap(e => e, es), traverse(M)(f, ta))
 }
 
 const proof: Monoid<Array<any>> &

@@ -1,10 +1,10 @@
-import { HKT, HKTS } from './HKT'
+import { HKT2 } from './HKT'
 
-export interface Bifunctor<F extends HKTS> {
+export interface Bifunctor<F> {
   readonly URI: F
-  bimap<A, B, C, D, V = any>(f: (a: A) => B, g: (c: C) => D, fac: HKT<A, C, V>[F]): HKT<B, D, V>[F]
+  bimap<L, A, M, B>(f: (u: L) => M, g: (a: A) => B, fla: HKT2<F, L, A>): HKT2<F, M, B>
 }
 
-export interface FantasyBifunctor<F extends HKTS, A, C> {
-  bimap<B, D, V = any>(f: (a: A) => B, g: (c: C) => D): HKT<B, D, V>[F]
+export interface FantasyBifunctor<F, L, A> {
+  bimap<M, B>(f: (l: L) => M, g: (a: A) => B): HKT2<F, M, B>
 }

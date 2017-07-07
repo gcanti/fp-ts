@@ -1,4 +1,4 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad, FantasyMonad } from './Monad'
 import { Foldable, FantasyFoldable } from './Foldable'
@@ -9,12 +9,7 @@ import { Comonad, FantasyComonad } from './Comonad'
 import { Either } from './Either'
 import { ChainRec, tailRec } from './ChainRec'
 import { toString } from './function'
-
-declare module './HKT' {
-  interface HKT<A> {
-    Identity: Identity<A>
-  }
-}
+import './overloadings'
 
 export const URI = 'Identity'
 
@@ -49,10 +44,8 @@ export class Identity<A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKTS>(
-    applicative: Applicative<F>
-  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Identity<B>, U, V>[F] {
-    return <B>(f: (a: A) => HKT<B>[F]) => applicative.map<B, Identity<B>>(of, f(this.value))
+  traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
+    return f => applicative.map(a => of(a), f(this.value))
   }
   alt(fx: Identity<A>): Identity<A> {
     return this
@@ -111,11 +104,15 @@ export function alt<A>(fx: Identity<A>, fy: Identity<A>): Identity<A> {
   return fx.alt(fy)
 }
 
-export function traverse<F extends HKTS>(
-  applicative: Applicative<F>
-): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Identity<A>) => HKT<Identity<B>, U, V>[F] {
-  return <A, B>(f: (a: A) => HKT<B>[F], ta: Identity<A>) => ta.traverse<F>(applicative)<B>(f)
+export class Ops {
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>>
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>> {
+    return (f, ta) => ta.traverse(F)(f)
+  }
 }
+
+const ops = new Ops()
+export const traverse: Ops['traverse'] = ops.traverse
 
 export function extend<A, B>(f: (ea: Identity<A>) => B, ea: Identity<A>): Identity<B> {
   return ea.extend(f)

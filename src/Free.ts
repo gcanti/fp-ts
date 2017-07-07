@@ -1,14 +1,9 @@
 // adapted from http://okmij.org/ftp/Computation/free-monad.html
 
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { FantasyMonad, Monad } from './Monad'
-import { identity, toString } from './function'
-
-declare module './HKT' {
-  interface HKT<A, U> {
-    Free: Free<U, A>
-  }
-}
+import { NaturalTransformation } from './NaturalTransformation'
+import { toString } from './function'
 
 export const URI = 'Free'
 
@@ -19,15 +14,15 @@ export type Free<F, A> = Pure<F, A> | Impure<F, A>
 export class Pure<F, A> implements FantasyMonad<URI, A> {
   static of = of
   readonly _tag: 'Pure' = 'Pure'
-  readonly _F: F
   readonly _A: A
+  readonly _L: F
   readonly _URI: URI
   constructor(public readonly a: A) {}
   map<B>(f: (a: A) => B): Free<F, B> {
-    return new Pure<F, B>(f(this.a))
+    return new Pure(f(this.a))
   }
   of<B>(b: B): Free<F, B> {
-    return of<F, B>(b)
+    return of(b)
   }
   ap<B>(fab: Free<F, (a: A) => B>): Free<F, B> {
     return fab.chain(f => this.map(f)) // <- derived
@@ -38,7 +33,8 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.a)
   }
-  foldMap<M extends HKTS, U = any, V = any>(monad: Monad<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
+  foldMap<M>(monad: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A>
+  foldMap<M>(monad: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A> {
     return monad.of(this.a)
   }
   inspect() {
@@ -52,15 +48,15 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
 export class Impure<F, A> implements FantasyMonad<URI, A> {
   static of = of
   readonly _tag: 'Impure' = 'Impure'
-  readonly _F: F
   readonly _A: A
+  readonly _L: F
   readonly _URI: URI
-  constructor(public readonly fx: any, public readonly f: (x: any) => Free<F, A>) {}
+  constructor(public readonly fx: HKT<F, any>, public readonly f: (x: any) => Free<F, A>) {}
   map<B>(f: (a: A) => B): Free<F, B> {
-    return new Impure<F, B>(this.fx, x => this.f(x).map(f))
+    return new Impure(this.fx, x => this.f(x).map(f))
   }
   of<B>(b: B): Free<F, B> {
-    return of<F, B>(b)
+    return of(b)
   }
   ap<B>(fab: Free<F, (a: A) => B>): Free<F, B> {
     return fab.chain(f => this.map(f)) // <- derived
@@ -69,10 +65,11 @@ export class Impure<F, A> implements FantasyMonad<URI, A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
-    return new Impure<F, B>(this.fx, x => this.f(x).chain(f))
+    return new Impure(this.fx, x => this.f(x).chain(f))
   }
-  foldMap<M extends HKTS, U = any, V = any>(monad: Monad<M>, f: <A>(fa: F) => HKT<A, U, V>[M]): HKT<A, U, V>[M] {
-    return monad.chain<any, A>((x: any) => this.f(x).foldMap(monad, f), f(this.fx))
+  foldMap<M>(monad: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A>
+  foldMap<M>(monad: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A> {
+    return monad.chain(x => this.f(x).foldMap(monad, f), f(this.fx))
   }
   inspect() {
     return this.toString()
@@ -83,13 +80,40 @@ export class Impure<F, A> implements FantasyMonad<URI, A> {
 }
 
 export function of<F, A>(a: A): Free<F, A> {
-  return new Pure<F, A>(a)
+  return new Pure(a)
 }
 
-export function liftF<F, A>(fa: F): Free<F, A> {
+export function liftF<F, A>(fa: HKT<F, A>): Free<F, A> {
   return new Impure<F, A>(fa, of)
 }
 
-export function inject<G>(): <F extends G, A>(free: Free<F, A>) => Free<G, A> {
-  return identity
+export class Ops {
+  foldMap<F, A, M>(monad: Monad<M>, f: NaturalTransformation<F, M>, fa: Free<F, A>): HKT<M, A>
+  foldMap<F, A, M>(monad: Monad<M>, f: NaturalTransformation<F, M>, fa: Free<F, A>): HKT<M, A> {
+    return fa.foldMap(monad, f)
+  }
+}
+
+const ops = new Ops()
+export const foldMap: Ops['foldMap'] = ops.foldMap
+
+//
+// overladings
+//
+
+import { IdentityURI, Identity, OptionURI, Option } from './overloadings'
+
+export interface Pure<F, A> {
+  foldMap(monad: Monad<IdentityURI>, f: NaturalTransformation<F, IdentityURI>): Identity<A>
+  foldMap(monad: Monad<OptionURI>, f: NaturalTransformation<F, OptionURI>): Option<A>
+}
+
+export interface Impure<F, A> {
+  foldMap(monad: Monad<IdentityURI>, f: NaturalTransformation<F, IdentityURI>): Identity<A>
+  foldMap(monad: Monad<OptionURI>, f: NaturalTransformation<F, OptionURI>): Option<A>
+}
+
+export interface Ops {
+  foldMap<F, A>(monad: Monad<IdentityURI>, f: NaturalTransformation<F, IdentityURI>, fa: Free<F, A>): Identity<A>
+  foldMap<F, A>(monad: Monad<OptionURI>, f: NaturalTransformation<F, OptionURI>, fa: Free<F, A>): Option<A>
 }

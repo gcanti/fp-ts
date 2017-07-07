@@ -1,0 +1,94 @@
+import * as assert from 'assert'
+import {
+  StrMap,
+  concat,
+  map,
+  reduce,
+  traverse,
+  getSetoid,
+  lookup,
+  fromFoldable,
+  toArray,
+  toUnfoldable,
+  mapWithKey,
+  traverseWithKey
+} from '../src/StrMap'
+import * as option from '../src/Option'
+import { eqOptions as eq } from './helpers'
+import { setoidNumber } from '../src/Setoid'
+import * as array from '../src/Array'
+
+describe('StrMap', () => {
+  it('concat', () => {
+    const d1 = new StrMap<number>({ k1: 1 })
+    const d2 = new StrMap<number>({ k2: 2 })
+    assert.deepEqual(concat(d1, d2), new StrMap({ k1: 1, k2: 2 }))
+  })
+
+  it('map', () => {
+    const d1 = new StrMap<number>({ k1: 1, k2: 2 })
+    const double = (n: number): number => n * 2
+    const d2 = map(double, d1)
+    assert.deepEqual(d2, new StrMap({ k1: 2, k2: 4 }))
+  })
+
+  it('reduce', () => {
+    const d1 = new StrMap<number>({ k1: 1, k2: 2 })
+    const b = reduce((b, a) => b + a, 0, d1)
+    assert.strictEqual(b, 3)
+  })
+
+  it('traverse', () => {
+    const d1 = new StrMap<number>({ k1: 1, k2: 2 })
+    const t1 = traverse(option)((n): option.Option<number> => (n >= 2 ? option.some(n) : option.none), d1)
+    eq(t1, option.none)
+    const d2 = new StrMap<number>({ k1: 2, k2: 3 })
+    const t2 = traverse(option)((n): option.Option<number> => (n >= 2 ? option.some(n) : option.none), d2)
+    eq(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
+  })
+
+  it('getSetoid', () => {
+    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }), new StrMap({ a: 1 })), true)
+    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }), new StrMap({ a: 2 })), false)
+    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }), new StrMap({ b: 1 })), false)
+  })
+
+  it('lookup', () => {
+    eq(lookup('a', new StrMap({ a: 1 })), option.some(1))
+    eq(lookup('b', new StrMap({ a: 1 })), option.none)
+  })
+
+  it('fromFoldable', () => {
+    assert.deepEqual(
+      fromFoldable(array)((existing, a) => existing, [['a', 1]] as Array<[string, number]>),
+      new StrMap({ a: 1 })
+    )
+    assert.deepEqual(
+      fromFoldable(array)((existing, a) => existing, [['a', 1], ['a', 2]] as Array<[string, number]>),
+      new StrMap({
+        a: 1
+      })
+    )
+  })
+
+  it('toArray', () => {
+    assert.deepEqual(toArray(new StrMap({ a: 1 })), [['a', 1]])
+  })
+
+  it('toUnfoldable', () => {
+    assert.deepEqual(toUnfoldable(array)(new StrMap({ a: 1 })), [['a', 1]])
+  })
+
+  it('mapWithKey', () => {
+    assert.deepEqual(mapWithKey((k, a) => a + k.length, new StrMap({ aa: 1 })), new StrMap({ aa: 3 }))
+  })
+
+  it('traverseWithKey', () => {
+    const d1 = new StrMap({ k1: 1, k2: 2 })
+    const t1 = traverseWithKey(option)((k, n): option.Option<number> => (k !== 'k1' ? option.some(n) : option.none), d1)
+    eq(t1, option.none)
+    const d2 = new StrMap({ k1: 2, k2: 3 })
+    const t2 = traverseWithKey(option)((k, n): option.Option<number> => (k !== 'k3' ? option.some(n) : option.none), d2)
+    eq(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
+  })
+})

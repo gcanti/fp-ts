@@ -2,7 +2,7 @@
 [![dependency status](https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square)](https://david-dm.org/gcanti/fp-ts)
 ![npm downloads](https://img.shields.io/npm/dm/fp-ts.svg)
 
-**Important**: the current version of fp-ts is compatible with TypeScript 2.4.0. TypeScript 2.4.1 introduces new features that must be disabled with the flag `"noStrictGenericChecks": true`. A version of fp-ts fully compatible with 2.4.1 is in the works, you may want to take a look at this [issue](https://github.com/gcanti/fp-ts/issues/138).
+**Important**: the current version of fp-ts is compatible with TypeScript 2.4.1+ or 2.4.1- with `"noStrictGenericChecks": true`. For TypeScript 2.4.1- install version 0.3.x.
 
 Inspired by
 
@@ -10,8 +10,6 @@ Inspired by
 - [static-land](https://github.com/rpominov/static-land)
 - PureScript
 - Scala
-
-See the section "Technical overview" below for an explanation of the technique.
 
 # Installation
 
@@ -21,126 +19,16 @@ To install the stable version:
 npm install --save fp-ts
 ```
 
-# Documentation
-
-- [OptionT](docs/OptionT.md)
-- [Free](docs/Free.md)
-
-# Algebraic types
-
-|     | Array | Option | Either | NEA(*) | Task | Const | Identity | Validation |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| Setoid          | ❌ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ | ❌ |
-| Semigroup       | ✅ | ✅ | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ |
-| Monoid          | ✅ | ✅ | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ |
-| Functor         | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Contravariant   | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ | ❌ |
-| PointedFunctor  | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Apply           | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Applicative     | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Alt             | ✅ | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ✅ |
-| Plus            | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Alternative     | ✅ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Foldable        | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
-| Traversable     | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ | ✅ | ✅ |
-| Chain           | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ✅ | ❌ |
-| ChainRec        | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ |
-| Extract         | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| Extend          | ❌ | ✅ | ✅ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| Comonad         | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ | ❌ |
-| Bifunctor       | ❌ | ❌ | ✅ | ❌ | ❌ | ❌ | ❌ | ❌ |
-
-(*) NonEmptyArray
-
-# Monads
-
-- Array
-- Either
-- Identity
-- Option
-- Reader
-- State
-- Task
-- Writer
-
-# Comonads
-
-- Identity
-- Store
-- Traced
-
-# Monad transformers
-
-- EitherT
-- OptionT
-- ReaderT
-- StateT
-
 # Technical overview
 
-## Higher kinded types and type classes
+The idea (faking higher kinded types in TypeScript) is based on
 
-Higher kinded types are represented by a unique string literal (called `URI`).
-
-There's a central type dictionary where a mapping `URI` -> concrete type is stored
-
-```ts
-// file ./HTK.ts
-export interface HKT<A> {}
-```
-
-Instances can be defined (everywhere) using a feature called [Module Augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html) so there's no danger of name conflict (the typechecker checks for duplicates).
-
-Here's a mapping between the string literal `'Option'` and the concrete type `Option<A>`
-
-```ts
-// file ./Option.ts
-declare module './HKT' {
-  interface HKT<A> {
-    Option: Option<A>
-  }
-}
-
-export const URI = 'Option'
-export type URI = typeof URI
-export type Option<A> = None<A> | Some<A>
-
-export class None<A> {
-  readonly _URI: URI
-  map<B>(f: (a: A) => B): Option<B> {
-    return none
-  }
-  ...
-}
-
-export Some<A> {
-  readonly _URI: URI
-  // fantasy-land implementation
-  map<B>(f: (a: A) => B): Option<B> {
-    return new Some(f(this.value))
-  }
-  ...
-}
-
-// static-land implementation
-export function map<A, B>(f: (a: A) => B, fa: Option<A>): Option<B> {
-  return fa.map(f)
-}
-```
-
-Concrete types can be retrieved by their `URI` using a feature called [Index types](https://www.typescriptlang.org/docs/handbook/advanced-types.html).
-
-Type classes are implemented following (when possible) both the [static-land](https://github.com/rpominov/static-land) spec and the [fantasy-land](https://github.com/fantasyland/fantasy-land) spec.
-
- Here's the definition of the type class `Functor` (following the static-land spec)
-
-```ts
-export interface Functor<F extends HKTS> {
-  URI: F
-  map<A, B>(f: (a: A) => B, fa: HKT<A>[F]): HKT<B>[F]
-}
-```
+- [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf)
+- [elm-brands](https://github.com/joneshf/elm-brands)
+- [Higher kinded types in TypeScript, static and fantasy land](https://medium.com/@gcanti/higher-kinded-types-in-typescript-static-and-fantasy-land-d41c361d0dbe)
+- [flow-static-land](https://github.com/gcanti/flow-static-land)
 
 # License
 
 The MIT License (MIT)
+

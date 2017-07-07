@@ -1,53 +1,45 @@
-import { Either } from 'fp-ts/lib/Either'
+import { Applicative } from 'fp-ts/lib/Applicative'
+import * as eitherT from 'fp-ts/lib/EitherT'
 import * as either from 'fp-ts/lib/Either'
-import { Task } from 'fp-ts/lib/Task'
 import * as task from 'fp-ts/lib/Task'
-import { getEitherT } from 'fp-ts/lib/EitherT'
-import { FantasyMonad } from 'fp-ts/lib/Monad'
-import { Lazy } from 'fp-ts/lib/function'
+import { URI as URIArray } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
 
-declare module 'fp-ts/lib/HKT' {
-  interface HKT<A, U> {
-    'Task . Either': Task<Either<U, A>>
-    TaskEither: TaskEither<U, A>
-  }
-}
-
-const eitherTTask = getEitherT('Task . Either', task)
+const eitherTTask = eitherT.getEitherT(task)
 
 export const URI = 'TaskEither'
 
 export type URI = typeof URI
 
-export class TaskEither<L, A> implements FantasyMonad<URI, A> {
-  readonly _L: L
+export class TaskEither<L, A> {
+  static of = of
   readonly _A: A
+  readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: Task<Either<L, A>>) {}
-  run(): Promise<Either<L, A>> {
-    return this.value.run()
-  }
+  constructor(public readonly value: task.Task<either.Either<L, A>>) {}
   map<B>(f: (a: A) => B): TaskEither<L, B> {
     return new TaskEither(eitherTTask.map(f, this.value))
   }
-  of<L2, B>(b: B): TaskEither<L2, B> {
-    return of<L2, B>(b)
+  of<M, B>(b: B): TaskEither<M, B> {
+    return of(b)
   }
   ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.ap(fab.value, this.value))
   }
+  ap_<B, C>(this: TaskEither<L, (a: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.chain(a => f(a).value, this.value))
   }
-  fold<R>(left: (l: L) => R, right: (a: A) => R): Task<R> {
-    return eitherTTask.fold(left, right, this.value)
+  fold<R>(left: (l: L) => R, right: (a: A) => R): task.Task<R> {
+    return eitherT.fold(task)(left, right, this.value)
   }
-  mapLeft<L2>(f: (l: L) => L2): TaskEither<L2, A> {
-    return new TaskEither(eitherTTask.mapLeft(f, this.value))
+  mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
+    return new TaskEither(eitherT.mapLeft(task)(f, this.value))
   }
-  toOption(): Task<Option<A>> {
-    return eitherTTask.toOption(this.value)
+  toOption(): task.Task<Option<A>> {
+    return eitherT.toOption(task)(this.value)
   }
 }
 
@@ -67,10 +59,15 @@ export function chain<L, A, B>(f: (a: A) => TaskEither<L, B>, fa: TaskEither<L, 
   return fa.chain(f)
 }
 
-export function right<L, A>(ma: Task<A>): TaskEither<L, A> {
-  return new TaskEither(eitherTTask.right<L, A>(ma))
-}
+//
+// overloadings
+//
 
-export function left<L, A>(ml: Task<L>): TaskEither<L, A> {
-  return new TaskEither(eitherTTask.left<L, A>(ml))
+declare module 'fp-ts/lib/Traversable' {
+  interface Ops {
+    sequence(
+      applicative: Applicative<URI>,
+      traversable: Traversable<URIArray>
+    ): <L, A>(tfa: Array<TaskEither<L, A>>) => TaskEither<L, Array<A>>
+  }
 }

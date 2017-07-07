@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-    "noStrictGenericChecks": true,
     "noEmit": true,
     "noImplicitAny": true,
     "noImplicitReturns": false,
@@ -10,5 +9,6 @@
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
     "target": "es5"
-  }
+  },
+  "lib": ["es6", "dom"]
 }

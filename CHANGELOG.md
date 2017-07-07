@@ -12,6 +12,28 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.4.0
+
+- **Breaking Change**
+  - Tuple (wrapped)
+  - Dictionary (wrapped, renamed to StrMap)
+  - changed
+    - Applicative.getCompositionApplicative (also renamed to getApplicativeComposition)
+    - Foldable.getCompositionFoldable (also renamed to getFoldableComposition)
+    - Functor.getCompositionFunctor (also renamed to getFunctorComposition)
+    - Traversable.getCompositionTraversable (also renamed to getTraversableComposition)
+    - Free (usage)
+    - NaturalTransformation
+    - ReaderT
+    - StateT
+  - removed (temporarily or because the porting is not possible)
+    - Id (not possible)
+    - Traced
+    - IxMonad
+    - Mealy
+    - FreeAp
+
+
 # 0.3.5
 
 - **New Feature**

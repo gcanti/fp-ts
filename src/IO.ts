@@ -3,12 +3,6 @@ import { Semigroup } from './Semigroup'
 import { Monad, FantasyMonad } from './Monad'
 import { constant, Lazy, toString } from './function'
 
-declare module './HKT' {
-  interface HKT<A> {
-    IO: IO<A>
-  }
-}
-
 export const URI = 'IO'
 
 export type URI = typeof URI

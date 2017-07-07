@@ -1,110 +1,79 @@
-import * as either from '../src/Either'
-import * as option from '../src/Option'
-import * as id from '../src/Identity'
 import * as array from '../src/Array'
-import * as nea from '../src/NonEmptyArray'
-
-import { FantasyFunctor } from '../src/Functor'
-import { HKTS } from '../src/HKT'
-
-const len = (s: string): number => s.length
-const double = (n: number): number => n * 2
-const sum = (a: number) => (b: number): number => a + b
-
-//
-// Functor
-//
-
-import { lift } from '../src/Functor'
-
-const liftOption = lift(option, double)
-const liftEither = lift(either, len)
-
-declare function fantasyFunctor<F extends HKTS, A>(fanstasyFunctor: FantasyFunctor<F, A>): void
-
-//
-// Apply
-//
-
-import { liftA2 } from '../src/Apply'
-
-const liftA2Option = liftA2(option, sum)
-const liftA2Either = liftA2(either, sum)
-
-//
-// Chain
-//
-
-import { flatten } from '../src/Chain'
-
-const e5 = flatten(either)(either.right<string, either.Either<string, number>>(either.right<string, number>(1)))
-
-//
-// Traversable
-//
-
+import * as either from '../src/Either'
+import * as io from '../src/IO'
+import * as option from '../src/Option'
+import * as task from '../src/Task'
+import { lift, getFunctorComposition } from '../src/Functor'
+import { getApplicativeComposition } from '../src/Applicative'
 import { sequence } from '../src/Traversable'
+import { getOptionT } from '../src/OptionT'
+import { getEitherT } from '../src/EitherT'
+import '../src/overloadings'
 
-const t1 = sequence(option, array)([option.some(1)])
-const t2 = sequence(either, array)([either.right<string, number>(1)])
-
-//
-// Unfoldable
-//
-
-import { replicate, replicateA } from '../src/Unfoldable'
-
-const a3 = replicate(array)(2, 's')
-const o5 = replicate(array)(2, option.some(1))
-const e6 = replicate(array)(2, either.right<string, number>(1))
-const o6 = replicateA(option, array)(2, option.some(1))
-const e7 = replicateA(either, array)(2, either.right<string, number>(1))
+const length = (s: string): number => s.length
+const double = (n: number): number => n * 2
 
 //
-// Option
+// lift
 //
 
-const o1 = option.some('s').traverse(option)(s => option.some(s.length))
-const o2 = option.some('s').traverse(either)(s => either.right<number, number>(s.length))
-const o3 = option.traverse(option)(s => option.some(s.length), option.of('s'))
-const o4 = option.traverse(either)(s => either.right<string, number>(s.length), option.of('s'))
+const arrayLength = lift(array, length)
+const x1: Array<number> = array.map(double, arrayLength(['foo', 'bar']))
 
-fantasyFunctor(option.of(1))
+const eitherLength = lift(either, length)
+const x2: either.Either<boolean, number> = either.map(double, eitherLength(either.right<boolean, string>('foo')))
 
-//
-// Either
-//
+const ioLength = lift(io, length)
+const x3: io.IO<number> = io.map(double, ioLength(new io.IO(() => 'foo')))
 
-const e1 = either.right<boolean, string>('s').traverse(option)(s => option.some(s.length))
-const e2 = either.right<boolean, string>('s').traverse(either)(s => either.right<number, number>(s.length))
-const e3 = either.traverse(option)(s => option.some(s.length), either.right<boolean, string>('s')) // option.Option<either.Either<boolean, number>>
-const e4 = either.traverse(either)(s => either.right<string, number>(s.length), either.right<boolean, string>('s')) // either.Either<string, either.Either<boolean, number>>
-
-fantasyFunctor(either.of(1))
+const optionLength = lift(option, length)
+const x4: option.Option<number> = option.map(double, optionLength(option.some('foo')))
 
 //
-// Array
+// getFunctorComposition
 //
 
-const a1 = array.traverse(option)(s => option.some(s.length), array.of('s'))
-const a2 = array.traverse(either)(s => either.right<string, number>(s.length), array.of('s'))
+const arrayArrayFunctor = getFunctorComposition(array, array)
+const x5: Array<Array<number>> = arrayArrayFunctor.map(length, [['foo', 'bar']])
 
-fantasyFunctor([1, 2, 3])
-
-//
-// Identity
-//
-
-const i1 = id.traverse(option)(s => option.some(s.length), id.of('s'))
-const i2 = id.traverse(either)(s => either.right<string, number>(s.length), id.of('s'))
-
-fantasyFunctor(id.of(1))
+const arrayOptionFunctor = getFunctorComposition(array, option)
+const x6: Array<option.Option<number>> = arrayOptionFunctor.map(length, [option.some('foo'), option.some('bar')])
 
 //
-// NonEmptyArray
+// getApplicativeComposition
 //
 
-const nea1 = nea.traverse(option)(s => option.some(s.length), nea.of('s'))
-const nea2 = nea.traverse(either)(s => either.right<string, number>(s.length), nea.of('s'))
+const arrayOptionApplicative = getApplicativeComposition(array, option)
+const x7: Array<option.Option<number>> = arrayOptionApplicative.ap([option.some(length)], [option.some('foo')])
 
-fantasyFunctor(nea.of(1))
+const taskEitherApplicative = getApplicativeComposition(task, either)
+const x8: task.Task<either.Either<boolean, number>> = taskEitherApplicative.ap(
+  task.of(either.right<boolean, typeof length>(length)),
+  task.of(either.right<boolean, string>('foo'))
+)
+
+//
+// sequence
+//
+
+const x9: either.Either<string, number[]> = sequence(either, array)([either.right<string, number>(1)])
+
+//
+// getOptionT
+//
+
+const x10 = getOptionT(array)
+const x11: Array<option.Option<number>> = x10.map(length, [option.some('foo')])
+
+const x12 = getOptionT(task)
+const x13: task.Task<option.Option<number>> = x12.map(length, task.of(option.some('foo')))
+
+//
+// getEitherT
+//
+
+const x14 = getEitherT(array)
+const x15: Array<either.Either<boolean, number>> = x14.map(length, [either.right<boolean, string>('foo')])
+
+const x16 = getEitherT(task)
+const x17: task.Task<either.Either<boolean, number>> = x16.map(length, task.of(either.right<boolean, string>('foo')))

@@ -8,7 +8,7 @@ describe('Filterable', () => {
   it('partitionMap', () => {
     const isEven = (n: number) => n % 2 === 0
     const { left, right } = array.partitionMap(
-      (a: string) => (isEven(a.length) ? either.right<number, string>(a) : either.left<number, string>(a.length)),
+      (a: string): either.Either<number, string> => (isEven(a.length) ? either.right(a) : either.left(a.length)),
       ['a', 'bb', 'ccc']
     )
     assert.deepEqual(left, [1, 3])
@@ -46,7 +46,7 @@ describe('Filterable', () => {
   })
 
   it('filtered', () => {
-    const xs = filterable.filtered(array)([option.some(1), option.none])
+    const xs = filterable.filtered(array)([option.some(1), option.none] as Array<option.Option<number>>)
     assert.deepEqual(xs, [1])
   })
 })

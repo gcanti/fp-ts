@@ -1,4 +1,4 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad, FantasyMonad } from './Monad'
 import { Foldable, FantasyFoldable } from './Foldable'
@@ -9,16 +9,11 @@ import { Bifunctor, FantasyBifunctor } from './Bifunctor'
 import { Alt, FantasyAlt } from './Alt'
 import { ChainRec, tailRec } from './ChainRec'
 import { Option, none, some } from './Option'
-import { constFalse, constTrue, Predicate, Lazy, toString } from './function'
 import { Monoid } from './Monoid'
 import { Filterable } from './Filterable'
 import { Witherable } from './Witherable'
-
-declare module './HKT' {
-  interface HKT<A, U> {
-    Either: Either<U, A>
-  }
-}
+import { constFalse, constTrue, Predicate, Lazy, toString } from './function'
+import './overloadings'
 
 export const URI = 'Either'
 
@@ -35,15 +30,15 @@ export class Left<L, A>
     FantasyBifunctor<URI, L, A> {
   static of = of
   readonly _tag: 'Left' = 'Left'
-  readonly _L: L
   readonly _A: A
+  readonly _L: L
   readonly _URI: URI
   constructor(public readonly value: L) {}
   map<B>(f: (a: A) => B): Either<L, B> {
     return this as any
   }
-  of<L2, B>(b: B): Either<L2, B> {
-    return of<L2, B>(b)
+  of<M, B>(b: B): Either<M, B> {
+    return of(b)
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
     return (isLeft(fab) ? fab : this) as any
@@ -54,8 +49,8 @@ export class Left<L, A>
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
     return this as any
   }
-  bimap<L2, B>(f: (l: L) => L2, g: (a: A) => B): Either<L2, B> {
-    return new Left<L2, B>(f(this.value))
+  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B> {
+    return new Left(f(this.value))
   }
   alt(fy: Either<L, A>): Either<L, A> {
     return fy
@@ -66,10 +61,9 @@ export class Left<L, A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKTS>(
-    applicative: Applicative<F>
-  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Either<L, B>, U, V>[F] {
-    return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(this as any)
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
+    return f => F.of(this as any)
   }
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return left(this.value)
@@ -80,8 +74,8 @@ export class Left<L, A>
   equals(setoid: Setoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constTrue, constFalse)
   }
-  mapLeft<L2>(f: (l: L) => L2): Either<L2, A> {
-    return left<L2, A>(f(this.value))
+  mapLeft<M>(f: (l: L) => M): Either<M, A> {
+    return left(f(this.value))
   }
   toOption(): Option<A> {
     return none
@@ -99,16 +93,15 @@ export class Right<L, A>
     FantasyFoldable<A>,
     FantasyTraversable<URI, A>,
     FantasyAlt<URI, A>,
-    FantasyExtend<URI, A>,
-    FantasyBifunctor<URI, L, A> {
+    FantasyExtend<URI, A> {
   static of = of
   readonly _tag: 'Right' = 'Right'
-  readonly _L: L
   readonly _A: A
+  readonly _L: L
   readonly _URI: URI
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Either<L, B> {
-    return new Right<L, B>(f(this.value))
+    return new Right(f(this.value))
   }
   of<L2, B>(b: B): Either<L2, B> {
     return of<L2, B>(b)
@@ -125,22 +118,21 @@ export class Right<L, A>
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
     return f(this.value)
   }
-  bimap<L2, B>(f: (l: L) => L2, g: (a: A) => B): Either<L2, B> {
-    return new Right<L2, B>(g(this.value))
+  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B> {
+    return new Right(g(this.value))
   }
   alt(fy: Either<L, A>): Either<L, A> {
     return this
   }
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {
-    return new Right<L, B>(f(this))
+    return new Right(f(this))
   }
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKTS>(
-    applicative: Applicative<F>
-  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Either<L, B>, U, V>[F] {
-    return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((b: B) => of<L, B>(b), f(this.value))
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
+    return f => F.map(b => of(b), f(this.value))
   }
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return right(this.value)
@@ -151,7 +143,7 @@ export class Right<L, A>
   equals(setoid: Setoid<A>, fy: Either<L, A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
   }
-  mapLeft<L2>(f: (l: L) => L2): Either<L2, A> {
+  mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return this as any
   }
   toOption(): Option<A> {
@@ -188,7 +180,7 @@ export function map<L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> {
 }
 
 export function of<L, A>(a: A): Either<L, A> {
-  return new Right<L, A>(a)
+  return new Right(a)
 }
 
 export function ap<L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Either<L, B> {
@@ -199,8 +191,8 @@ export function chain<L, A, B>(f: (a: A) => Either<L, B>, fa: Either<L, A>): Eit
   return fa.chain(f)
 }
 
-export function bimap<L, L2, A, B>(f: (l: L) => L2, g: (a: A) => B, fa: Either<L, A>): Either<L2, B> {
-  return fa.bimap(f, g)
+export function bimap<L, V, A, B>(f: (u: L) => V, g: (a: A) => B, fau: Either<L, A>): Either<V, B> {
+  return fau.bimap(f, g)
 }
 
 export function alt<L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> {
@@ -215,22 +207,18 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: Either<L, A>): B
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(
-  applicative: Applicative<F>
-): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Either<L, A>) => HKT<Either<L, B>, U, V>[F] {
-  return <L, A, B>(f: (a: A) => HKT<B>[F], ta: Either<L, A>) => ta.traverse<F>(applicative)<B>(f)
+export class Ops {
+  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKT<F, Either<L, B>>
+  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKT<F, Either<L, B>> {
+    return (f, ta) => ta.traverse(F)(f)
+  }
 }
 
+const ops = new Ops()
+export const traverse: Ops['traverse'] = ops.traverse
+
 export function chainRec<L, A, B>(f: (a: A) => Either<L, Either<A, B>>, a: A): Either<L, B> {
-  return tailRec(
-    (e: Either<L, Either<A, B>>) =>
-      e.fold(
-        (l: L) => right(left<L, B>(l)),
-        (r: Either<A, B>) =>
-          r.fold((a: A) => left<Either<L, Either<A, B>>, Either<L, B>>(f(a)), (b: B) => right(right<L, B>(b)))
-      ),
-    f(a)
-  )
+  return tailRec(e => e.fold(l => right(left(l)), r => r.fold(a => left(f(a)), b => right(right(b)))), f(a))
 }
 
 export function isLeft<L, A>(fa: Either<L, A>): fa is Left<L, A> {
@@ -242,13 +230,13 @@ export function isRight<L, A>(fa: Either<L, A>): fa is Right<L, A> {
 }
 
 export function left<L, A>(l: L): Either<L, A> {
-  return new Left<L, A>(l)
+  return new Left(l)
 }
 
 export const right = of
 
 export function fromPredicate<L, A>(predicate: Predicate<A>, l: (a: A) => L): (a: A) => Either<L, A> {
-  return a => (predicate(a) ? right<L, A>(a) : left<L, A>(l(a)))
+  return a => (predicate(a) ? right(a) : left(l(a)))
 }
 
 export function mapLeft<L, L2, A>(f: (l: L) => L2, fa: Either<L, A>): Either<L2, A> {
@@ -261,25 +249,18 @@ export function toOption<L, A>(fa: Either<L, A>): Option<A> {
 
 export function tryCatch<A>(f: Lazy<A>): Either<Error, A> {
   try {
-    return right<Error, A>(f())
+    return right(f())
   } catch (e) {
-    return left<Error, A>(e)
+    return left(e)
   }
 }
 
-export function getFilterable<M>(monoid: Monoid<M>): Filterable<URI> {
-  const empty = left<M, any>(monoid.empty())
-  function partitionMap<A, L, R>(
-    f: (a: A) => Either<L, R>,
-    fa: Either<M, A>
-  ): { left: Either<M, L>; right: Either<M, R> } {
+export function getFilterable<M>(M: Monoid<M>): Filterable<URI> {
+  const empty = left<M, any>(M.empty())
+  function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Either<M, A>) {
     return fa.fold(
       l => ({ left: fa as any, right: fa as any }),
-      a =>
-        f(a).fold<{ left: Either<M, L>; right: Either<M, R> }>(
-          l => ({ left: right<M, L>(l), right: empty }),
-          a => ({ left: empty, right: right<M, R>(a) })
-        )
+      a => f(a).fold(l => ({ left: right(l), right: empty }), a => ({ left: empty, right: right<M, R>(a) }))
     )
   }
   return { URI, map, partitionMap }
@@ -287,26 +268,21 @@ export function getFilterable<M>(monoid: Monoid<M>): Filterable<URI> {
 
 export function getWitherable<M>(monoid: Monoid<M>): Witherable<URI> {
   const empty = left<any, any>(monoid.empty())
-  function wilt<M extends HKTS>(
+  function wilt<M>(
     applicative: Applicative<M>
-  ): <A, L, R, U1 = any, V1 = any>(
-    f: (a: A) => HKT<Either<L, R>, U1, V1>[M],
+  ): <A, L, R>(
+    f: (a: A) => HKT<M, Either<L, R>>,
     ta: Either<M, A>
-  ) => HKT<{ left: Either<M, L>; right: Either<M, R> }, U1, V1>[M] {
-    return <A, L, R, U1 = any, V1 = any>(f: (a: A) => HKT<Either<L, R>, U1, V1>[M], ta: Either<M, A>) => {
-      return ta.fold(
+  ) => HKT<M, { left: Either<M, L>; right: Either<M, R> }> {
+    return (f, ta) =>
+      ta.fold(
         () => applicative.of({ left: ta as any, right: ta as any }),
         a =>
           applicative.map(
-            (e: Either<L, R>) =>
-              e.fold<{ left: Either<M, L>; right: Either<M, R> }>(
-                l => ({ left: right<M, L>(l), right: empty }),
-                r => ({ left: empty, right: right<M, R>(r) })
-              ),
+            e => e.fold(l => ({ left: right(l), right: empty }), r => ({ left: empty, right: right(r) })),
             f(a)
           )
       )
-    }
   }
   const filterable = getFilterable(monoid)
   return { ...filterable, wilt, traverse, reduce }
@@ -327,3 +303,37 @@ const proof: Monad<URI> & Foldable<URI> & Traversable<URI> & Bifunctor<URI> & Al
 }
 // tslint:disable-next-line no-unused-expression
 proof
+
+//
+// overloadings
+//
+
+import {
+  ArrayURI,
+  OptionURI,
+  IdentityURI,
+  Identity,
+  IOURI,
+  IO,
+  NonEmptyArrayURI,
+  NonEmptyArray,
+  TaskURI,
+  Task
+} from './overloadings'
+
+export interface Left<L, A> {
+  traverse(F: Applicative<ArrayURI>): <B>(f: (a: A) => Array<B>) => Array<Either<L, B>>
+  traverse(F: Applicative<OptionURI>): <B>(f: (a: A) => Option<B>) => Option<Either<L, B>>
+  traverse(F: Applicative<IdentityURI>): <B>(f: (a: A) => Identity<B>) => Identity<Either<L, B>>
+  traverse(F: Applicative<IOURI>): <B>(f: (a: A) => IO<B>) => IO<Either<L, B>>
+  traverse(F: Applicative<NonEmptyArrayURI>): <B>(f: (a: A) => NonEmptyArray<B>) => NonEmptyArray<Either<L, B>>
+  traverse(F: Applicative<TaskURI>): <B>(f: (a: A) => Task<B>) => Task<Either<L, B>>
+}
+export interface Right<L, A> {
+  traverse(F: Applicative<ArrayURI>): <B>(f: (a: A) => Array<B>) => Array<Either<L, B>>
+  traverse(F: Applicative<OptionURI>): <B>(f: (a: A) => Option<B>) => Option<Either<L, B>>
+  traverse(F: Applicative<IdentityURI>): <B>(f: (a: A) => Identity<B>) => Identity<Either<L, B>>
+  traverse(F: Applicative<IOURI>): <B>(f: (a: A) => IO<B>) => IO<Either<L, B>>
+  traverse(F: Applicative<NonEmptyArrayURI>): <B>(f: (a: A) => NonEmptyArray<B>) => NonEmptyArray<Either<L, B>>
+  traverse(F: Applicative<TaskURI>): <B>(f: (a: A) => Task<B>) => Task<Either<L, B>>
+}

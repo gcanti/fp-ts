@@ -2,12 +2,6 @@ import { Monoid } from './Monoid'
 import { Monad, FantasyMonad } from './Monad'
 import { Lazy, toString } from './function'
 
-declare module './HKT' {
-  interface HKT<A> {
-    Task: Task<A>
-  }
-}
-
 export const URI = 'Task'
 
 export type URI = typeof URI
@@ -37,8 +31,8 @@ export class Task<A> implements FantasyMonad<URI, A> {
     return new Task(() => this.run().then(a => f(a).run()))
   }
   concat(fy: Task<A>): Task<A> {
-    return new Task<A>(() => {
-      return new Promise<A>(r => {
+    return new Task(() => {
+      return new Promise(r => {
         let running = true
         const resolve = (a: A) => {
           if (running) {

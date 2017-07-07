@@ -1,75 +1,100 @@
-import { HKT, HKTS } from './HKT'
+import { Functor } from './Functor'
+import { Applicative } from './Applicative'
+import { Chain } from './Chain'
 import { Monad } from './Monad'
-import { Kleisli, Endomorphism } from './function'
+import { Kleisli, Endomorphism, tuple } from './function'
 
-export interface StateT<URI extends HKTS, M extends HKTS> extends Monad<URI> {
-  run<S, A, U = any, V = any>(s: S, fa: Kleisli<M, S, [A, S], U, V>): HKT<[A, S], U, V>[M]
-  eval<S, A, U = any, V = any>(s: S, fa: Kleisli<M, S, [A, S], U, V>): HKT<A, U, V>[M]
-  exec<S, A, U = any, V = any>(s: S, fa: Kleisli<M, S, [A, S], U, V>): HKT<S, U, V>[M]
-  get<S, U = any, V = any>(): Kleisli<M, S, [S, S], U, V>
-  put<S, U = any, V = any>(s: S): Kleisli<M, S, [void, S], U, V>
-  modify<S, U = any, V = any>(f: Endomorphism<S>): Kleisli<M, S, [void, S], U, V>
-  gets<S, A, U = any, V = any>(f: (s: S) => A): Kleisli<M, S, [A, S], U, V>
+export interface StateT<M> {
+  map<S, A, B>(f: (a: A) => B, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]>
+  of<S, A>(a: A): Kleisli<M, S, [A, S]>
+  ap<S, A, B>(fab: Kleisli<M, S, [(a: A) => B, S]>, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]>
+  chain<S, A, B>(f: (a: A) => Kleisli<M, S, [B, S]>, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]>
 }
 
-/** Note: requires an implicit proof that HKT<A, S>[URI] ~ (s: S) => HKT<[A, S]>[M] */
-export function getStateT<URI extends HKTS, M extends HKTS>(URI: URI, monad: Monad<M>): StateT<URI, M> {
-  function of<S, A>(a: A): Kleisli<M, S, [A, S]> {
-    return s => monad.of<[A, S]>([a, s])
+export class Ops {
+  map<F>(F: Functor<F>): StateT<F>['map']
+  map<F>(F: Functor<F>): StateT<F>['map'] {
+    return (f, fa) => s => F.map(([a, s1]) => tuple(f(a), s1), fa(s))
   }
 
-  function map<S, A, B>(f: (a: A) => B, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]> {
-    return s => monad.map<[A, S], [B, S]>(([a, s1]) => [f(a), s1], fa(s))
+  of<F>(F: Applicative<F>): StateT<F>['of']
+  of<F>(F: Applicative<F>): StateT<F>['of'] {
+    return a => s => F.of(tuple(a, s))
   }
 
-  function ap<S, A, B>(fab: Kleisli<M, S, [(a: A) => B, S]>, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]> {
-    return chain<S, (a: A) => B, B>(f => map(f, fa), fab) // <- derived
+  ap<F>(F: Chain<F>): StateT<F>['ap']
+  ap<F>(F: Chain<F>): StateT<F>['ap'] {
+    return (fab, fa) => this.chain(F)(f => this.map(F)(f, fa), fab) // <- derived
   }
 
-  function chain<S, A, B>(f: (a: A) => Kleisli<M, S, [B, S]>, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]> {
-    return s => monad.chain<[A, S], [B, S]>(([a, s1]) => f(a)(s1), fa(s))
+  chain<F>(F: Chain<F>): StateT<F>['chain']
+  chain<F>(F: Chain<F>): StateT<F>['chain'] {
+    return (f, fa) => s => F.chain(([a, s1]) => f(a)(s1), fa(s))
   }
 
-  function run<S, A>(s: S, fa: Kleisli<M, S, [A, S]>): HKT<[A, S]>[M] {
-    return fa(s)
+  get<F>(F: Applicative<F>): <S>() => Kleisli<F, S, [S, S]>
+  get<F>(F: Applicative<F>): <S>() => Kleisli<F, S, [S, S]> {
+    return () => s => F.of(tuple(s, s))
   }
 
-  function eval_<S, A>(s: S, fa: Kleisli<M, S, [A, S]>): HKT<A>[M] {
-    return monad.map(([a, _]) => a, fa(s))
+  put<F>(F: Applicative<F>): <S>(s: S) => Kleisli<F, S, [void, S]>
+  put<F>(F: Applicative<F>): <S>(s: S) => Kleisli<F, S, [void, S]> {
+    return s => () => F.of(tuple(undefined, s))
   }
 
-  function exec<S, A>(s: S, fa: Kleisli<M, S, [A, S]>): HKT<S>[M] {
-    return monad.map(([_, s]) => s, fa(s))
+  modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => Kleisli<F, S, [void, S]>
+  modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => Kleisli<F, S, [void, S]> {
+    return f => s => F.of(tuple(undefined, f(s)))
   }
 
-  function get<S>(): Kleisli<M, S, [S, S]> {
-    return s => monad.of<[S, S]>([s, s])
+  gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => Kleisli<F, S, [A, S]>
+  gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => Kleisli<F, S, [A, S]> {
+    return f => s => F.of(tuple(f(s), s))
   }
 
-  function put<S>(s: S): Kleisli<M, S, [void, S]> {
-    return () => monad.of<[void, S]>([undefined, s])
+  getStateT<M>(M: Monad<M>): StateT<M>
+  getStateT<M>(M: Monad<M>): StateT<M> {
+    return {
+      map: this.map(M),
+      of: this.of(M),
+      ap: this.ap(M),
+      chain: this.chain(M)
+    }
   }
+}
 
-  function modify<S>(f: Endomorphism<S>): Kleisli<M, S, [void, S]> {
-    return s => monad.of<[void, S]>([undefined, f(s)])
-  }
+const ops = new Ops()
+export const map: Ops['map'] = ops.map
+export const of: Ops['of'] = ops.of
+export const ap: Ops['ap'] = ops.ap
+export const chain: Ops['chain'] = ops.chain
+export const get: Ops['get'] = ops.get
+export const put: Ops['put'] = ops.put
+export const modify: Ops['modify'] = ops.modify
+export const gets: Ops['gets'] = ops.gets
+export const getStateT: Ops['getStateT'] = ops.getStateT
 
-  function gets<S, A>(f: (s: S) => A): Kleisli<M, S, [A, S]> {
-    return s => monad.of<[A, S]>([f(s), s])
-  }
+//
+// overloadings
+//
 
-  return {
-    URI,
-    of,
-    map,
-    ap: ap as any,
-    chain,
-    run,
-    eval: eval_,
-    exec,
-    get,
-    put,
-    modify,
-    gets
-  }
+import { OptionURI, OptionKleisli } from './overloadings'
+
+export interface StateTOption {
+  map<S, A, B>(f: (a: A) => B, fa: OptionKleisli<S, [A, S]>): OptionKleisli<S, [B, S]>
+  of<S, A>(a: A): OptionKleisli<S, [A, S]>
+  ap<S, A, B>(fab: OptionKleisli<S, [(a: A) => B, S]>, fa: OptionKleisli<S, [A, S]>): OptionKleisli<S, [B, S]>
+  chain<S, A, B>(f: (a: A) => OptionKleisli<S, [B, S]>, fa: OptionKleisli<S, [A, S]>): OptionKleisli<S, [B, S]>
+}
+
+export interface Ops {
+  get(F: Applicative<OptionURI>): <S>() => OptionKleisli<S, [S, S]>
+
+  put(F: Applicative<OptionURI>): <S>(s: S) => OptionKleisli<S, [void, S]>
+
+  modify(F: Applicative<OptionURI>): <S>(f: Endomorphism<S>) => OptionKleisli<S, [void, S]>
+
+  gets(F: Applicative<OptionURI>): <S, A>(f: (s: S) => A) => OptionKleisli<S, [A, S]>
+
+  getStateT(M: Monad<OptionURI>): StateTOption
 }
