@@ -244,7 +244,7 @@ export function wilt<M>(
   return (f, ta) => M.map(es => partitionMap(e => e, es), traverse(M)(f, ta))
 }
 
-const proof: Monoid<Array<any>> &
+export const array: Monoid<Array<any>> &
   Monad<URI> &
   Foldable<URI> &
   Traversable<URI> &
@@ -268,5 +268,3 @@ const proof: Monoid<Array<any>> &
   partitionMap,
   wilt
 }
-// tslint:disable-next-line no-unused-expression
-proof

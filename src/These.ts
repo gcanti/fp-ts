@@ -255,12 +255,10 @@ export function theseRight<L, A>(fa: These<L, A>): Option<A> {
   return fa.fold(() => none, a => some(a), (_, a) => some(a))
 }
 
-const proof: Functor<URI> & Bifunctor<URI> & Foldable<URI> & Traversable<URI> = {
+export const these: Functor<URI> & Bifunctor<URI> & Foldable<URI> & Traversable<URI> = {
   URI,
   map,
   bimap,
   reduce,
   traverse
 }
-// tslint:disable-next-line no-unused-expression
-proof

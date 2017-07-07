@@ -168,7 +168,7 @@ export function swap<L, A>(fa: Tuple<L, A>): Tuple<A, L> {
   return new Tuple([fa.snd(), fa.fst()])
 }
 
-const proof: Semigroupoid<URI> & Bifunctor<URI> & Comonad<URI> & Foldable<URI> & Traversable<URI> = {
+export const tuple: Semigroupoid<URI> & Bifunctor<URI> & Comonad<URI> & Foldable<URI> & Traversable<URI> = {
   URI,
   compose,
   map,
@@ -178,5 +178,3 @@ const proof: Semigroupoid<URI> & Bifunctor<URI> & Comonad<URI> & Foldable<URI> &
   reduce,
   traverse
 }
-// tslint:disable-next-line no-unused-expression
-proof

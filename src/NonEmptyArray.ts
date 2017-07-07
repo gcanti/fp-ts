@@ -114,7 +114,7 @@ export function extract<A>(fa: NonEmptyArray<A>): A {
   return fa.extract()
 }
 
-const proof: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traversable<URI> = {
+export const nonEmptyArray: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traversable<URI> = {
   URI,
   extend,
   extract,
@@ -126,5 +126,3 @@ const proof: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traver
   reduce,
   traverse
 }
-// tslint:disable-next-line no-unused-expression
-proof

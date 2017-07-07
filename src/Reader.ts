@@ -59,12 +59,10 @@ export function local<E, A>(f: Endomorphism<E>, fa: Reader<E, A>): Reader<E, A> 
   return new Reader((e: E) => fa.run(f(e)))
 }
 
-const proof: Monad<URI> = {
+export const reader: Monad<URI> = {
   URI,
   map,
   of,
   ap,
   chain
 }
-// tslint:disable-next-line no-unused-expression
-proof

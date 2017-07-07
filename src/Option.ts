@@ -292,7 +292,7 @@ export function wilt<M>(
     )
 }
 
-const proof: Monad<URI> &
+export const option: Monad<URI> &
   Foldable<URI> &
   Plus<URI> &
   Traversable<URI> &
@@ -313,8 +313,6 @@ const proof: Monad<URI> &
   partitionMap,
   wilt
 }
-// tslint:disable-next-line no-unused-expression
-proof
 
 //
 // overloadings

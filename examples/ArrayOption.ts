@@ -1,5 +1,5 @@
 import * as optionT from 'fp-ts/lib/OptionT'
-import * as array from 'fp-ts/lib/Array'
+import { array } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
 import { Lazy } from 'fp-ts/lib/function'
 import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'

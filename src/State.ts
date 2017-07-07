@@ -71,12 +71,10 @@ export function gets<S, A>(f: (s: S) => A): State<S, A> {
   return new State(s => [f(s), s])
 }
 
-const proof: Monad<URI> = {
+export const state: Monad<URI> = {
   URI,
   map,
   of,
   ap,
   chain
 }
-// tslint:disable-next-line no-unused-expression
-proof

@@ -170,7 +170,7 @@ export function mapWithKey<A, B>(f: (k: string, a: A) => B, fa: StrMap<A>): StrM
   return fa.mapWithKey(f)
 }
 
-const proof: Monoid<StrMap<any>> & Functor<URI> & Foldable<URI> & Traversable<URI> = {
+export const strmap: Monoid<StrMap<any>> & Functor<URI> & Foldable<URI> & Traversable<URI> = {
   URI,
   concat,
   empty,
@@ -178,8 +178,6 @@ const proof: Monoid<StrMap<any>> & Functor<URI> & Foldable<URI> & Traversable<UR
   reduce,
   traverse
 }
-// tslint:disable-next-line no-unused-expression
-proof
 
 //
 // overloadings

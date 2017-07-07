@@ -80,6 +80,4 @@ export class Ops {
 const ops = new Ops()
 export const experiment: Ops['experiment'] = ops.experiment
 
-const proof: Comonad<URI> = { URI, map, extract, extend }
-// tslint:disable-next-line no-unused-expression
-proof
+export const store: Comonad<URI> = { URI, map, extract, extend }

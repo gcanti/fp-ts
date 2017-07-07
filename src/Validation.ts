@@ -10,7 +10,7 @@ import { Alt, FantasyAlt } from './Alt'
 import { constFalse, constTrue, Predicate, toString } from './function'
 import { Option, some, none } from './Option'
 import { Either, left, right } from './Either'
-import * as nea from './NonEmptyArray'
+import * as nonEmptyArray from './NonEmptyArray'
 import './overloadings'
 
 export const URI = 'Validation'
@@ -76,8 +76,8 @@ export class Failure<L, A>
     return left(this.value)
   }
   /** Lift the Invalid value into a NonEmptyArray */
-  toValidationNea(): Option<Validation<nea.NonEmptyArray<L>, A>> {
-    return some(failure(nea, nea.of(this.value)))
+  toValidationNea(): Option<Validation<nonEmptyArray.NonEmptyArray<L>, A>> {
+    return some(failure(nonEmptyArray, nonEmptyArray.of(this.value)))
   }
   inspect() {
     return this.toString()
@@ -144,7 +144,7 @@ export class Success<L, A>
     return right(this.value)
   }
   /** Lift the Invalid value into a NonEmptyArray */
-  toValidationNea(): Option<Validation<nea.NonEmptyArray<L>, A>> {
+  toValidationNea(): Option<Validation<nonEmptyArray.NonEmptyArray<L>, A>> {
     return none
   }
   inspect() {
@@ -250,11 +250,11 @@ export function toEither<L, A>(fa: Validation<L, A>): Either<L, A> {
   return fa.toEither()
 }
 
-export function toValidationNea<L, A>(fa: Validation<L, A>): Option<Validation<nea.NonEmptyArray<L>, A>> {
+export function toValidationNea<L, A>(fa: Validation<L, A>): Option<Validation<nonEmptyArray.NonEmptyArray<L>, A>> {
   return fa.toValidationNea()
 }
 
-const proof: Functor<URI> & Applicative<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> = {
+export const validation: Functor<URI> & Applicative<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> = {
   URI,
   ap,
   map,
@@ -263,5 +263,3 @@ const proof: Functor<URI> & Applicative<URI> & Foldable<URI> & Traversable<URI> 
   traverse,
   alt
 }
-// tslint:disable-next-line no-unused-expression
-proof

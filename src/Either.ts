@@ -288,7 +288,13 @@ export function getWitherable<M>(monoid: Monoid<M>): Witherable<URI> {
   return { ...filterable, wilt, traverse, reduce }
 }
 
-const proof: Monad<URI> & Foldable<URI> & Traversable<URI> & Bifunctor<URI> & Alt<URI> & Extend<URI> & ChainRec<URI> = {
+export const either: Monad<URI> &
+  Foldable<URI> &
+  Traversable<URI> &
+  Bifunctor<URI> &
+  Alt<URI> &
+  Extend<URI> &
+  ChainRec<URI> = {
   URI,
   map,
   of,
@@ -301,8 +307,6 @@ const proof: Monad<URI> & Foldable<URI> & Traversable<URI> & Bifunctor<URI> & Al
   extend,
   chainRec
 }
-// tslint:disable-next-line no-unused-expression
-proof
 
 //
 // overloadings
