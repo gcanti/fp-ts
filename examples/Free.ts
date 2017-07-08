@@ -1,7 +1,3 @@
-// code for docs/Free.md
-
-// ts-node -r tsconfig-paths/register Free.ts
-
 import * as free from 'fp-ts/lib/Free'
 import * as identity from 'fp-ts/lib/Identity'
 
@@ -110,7 +106,7 @@ const program1 = (start: Position) => {
 }
 
 console.log('--program1--')
-const result1 = program1(start).foldMap(identity, <A>(fa: InstructionF<A>) => interpretIdentity(fa)) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
+const result1 = program1(start).foldFree(identity, interpretIdentity) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
 console.log(result1.value) // undefined
 
 import * as option from 'fp-ts/lib/Option'
@@ -142,7 +138,7 @@ const program2 = (start: Position) => {
 }
 
 // console.log('--program2--')
-const result2 = program2(start).foldMap(option, <A>(fa: InstructionF<A>) => interpretOption(fa))
+const result2 = program2(start).foldFree(option, interpretOption)
 console.log(result2) // none
 
 // Composing
@@ -180,65 +176,55 @@ export class Instruction<A> {
   readonly _tag = InstructionFURI
   readonly _A: A
   readonly _URI: LogoAppFURI
-  constructor(public readonly instruction: InstructionF<A>) {}
+  constructor(public readonly value: InstructionF<A>) {}
 }
 
 export class PencilInstruction<A> {
   readonly _tag = PencilInstructionFURI
   readonly _A: A
   readonly _URI: LogoAppFURI
-  constructor(public readonly instruction: PencilInstructionF<A>) {}
+  constructor(public readonly value: PencilInstructionF<A>) {}
 }
 
 export type LogoAppF<A> = Instruction<A> | PencilInstruction<A>
 
-// const program3 = (start: Position) => {
-//   return forward(start, 10).chain(p1 => right(p1, new Degree(90))).chain(p2 => {
-//     return pencilUp(p2).chain(() => forward(p2, 10)).chain(p3 => {
-//       return pencilDown(p3).chain(() => backward(p3, 20)).chain(p4 => show(p4))
-//     })
-//   })
-// }
+const injectInstruction = free.hoistFree(<A>(fa: InstructionF<A>) => new Instruction(fa))
+const injectPencil = free.hoistFree(<A>(fa: PencilInstructionF<A>) => new PencilInstruction(fa))
 
-// const program3 = (start: Position) => {
-//   return inj(forward(start, 10)).chain(p1 => right(p1, new Degree(90))).chain(p2 => {
-//     return inj(pencilUp(p2)).chain(() => forward(p2, 10)).chain(p3 => {
-//       return inj(pencilDown(p3)).chain(() => backward(p3, 20)).chain(p4 => show(p4))
-//     })
-//   })
-// }
+const program3 = (start: Position) => {
+  return injectInstruction(forward(start, 10)).chain(p1 => injectInstruction(right(p1, new Degree(90)))).chain(p2 => {
+    return injectPencil(pencilUp(p2)).chain(() => injectInstruction(forward(p2, 10))).chain(p3 => {
+      return injectPencil(pencilDown(p3))
+        .chain(() => injectInstruction(backward(p3, 20)))
+        .chain(p4 => injectInstruction(show(p4)))
+    })
+  })
+}
 
-// export function penInterpretIdentity(fa: PencilInstruction): identity.Identity<void> {
-//   switch (fa._tag) {
-//     case 'PencilUp':
-//       console.log(`stop drawing at position ${JSON.stringify(fa.position)}`)
-//       return identity.of(undefined)
-//     case 'PencilDown':
-//       console.log(`start drawing at position ${JSON.stringify(fa.position)}`)
-//       return identity.of(undefined)
-//   }
-// }
+export function penInterpretIdentity<A>(fa: PencilInstructionF<A>): identity.Identity<A> {
+  switch (fa._tag) {
+    case 'PencilUp':
+      console.log(`stop drawing at position ${JSON.stringify(fa.position)}`)
+      return identity.of(fa.more)
+    case 'PencilDown':
+      console.log(`start drawing at position ${JSON.stringify(fa.position)}`)
+      return identity.of(fa.more)
+  }
+}
 
-// export function interpret(fa: LogoApp): identity.Identity<Position | void> {
-//   switch (fa._tag) {
-//     case 'Forward':
-//     case 'Backward':
-//     case 'RotateRight':
-//     case 'Show':
-//       return interpretIdentity(fa)
-//     case 'PencilUp':
-//     case 'PencilDown':
-//       return penInterpretIdentity(fa)
-//   }
-// }
+export function logoAppInterpretIdentity<A>(fa: LogoAppF<A>): identity.Identity<A> {
+  switch (fa._tag) {
+    case InstructionFURI:
+      return interpretIdentity(fa.value)
+    case PencilInstructionFURI:
+      return penInterpretIdentity(fa.value)
+  }
+}
 
-// console.log('--program3--')
-// program3(start).foldMap(identity, (fa: LogoApp) => interpret(fa))
-// /*
-// stop drawing at position {"x":0,"y":10,"heading":{"value":0}}
-// start drawing at position {"x":10,"y":10,"heading":{"value":0}}
-// interpretIdentity Position { x: -10, y: 10, heading: Degree { value: 180 } }
-// */
-
-// // should raise an error
-// // program3(start).foldMap(identity, (fa: LogoApp) => interpretIdentity(fa))
+console.log('--program3--')
+program3(start).foldFree(identity, logoAppInterpretIdentity)
+/*
+stop drawing at position {"x":0,"y":10,"heading":{"value":0}}
+start drawing at position {"x":10,"y":10,"heading":{"value":0}}
+interpretIdentity Position { x: -10, y: 10, heading: Degree { value: 180 } }
+*/
