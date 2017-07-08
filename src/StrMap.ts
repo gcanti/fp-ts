@@ -18,7 +18,6 @@ export type URI = typeof URI
 
 export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
   readonly _A: A
-  readonly _L: never
   readonly _URI: URI
   constructor(public readonly value: { [key: string]: A }) {}
   mapWithKey<B>(f: (k: string, a: A) => B): StrMap<B> {

@@ -33,7 +33,6 @@ export class None<A>
   static value: Option<any> = new None()
   readonly _tag: 'None' = 'None'
   readonly _A: A
-  readonly _L: never
   readonly _URI: URI
   private constructor() {}
   map<B>(f: (a: A) => B): Option<B> {
@@ -111,7 +110,6 @@ export class Some<A>
   static zero = zero
   readonly _tag: 'Some' = 'Some'
   readonly _A: A
-  readonly _L: never
   readonly _URI: URI
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Option<B> {
