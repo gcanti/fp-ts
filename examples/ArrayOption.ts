@@ -63,7 +63,7 @@ export function fromOption<A>(oa: Option<A>): ArrayOption<A> {
 }
 
 export function liftT<A>(ma: Array<A>): ArrayOption<A> {
-  return new ArrayOption(optionT.liftT(array)(ma))
+  return new ArrayOption(optionT.liftF(array)(ma))
 }
 
 const proof: Monad<URI> = {

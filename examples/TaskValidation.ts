@@ -48,6 +48,13 @@ export function ap<L, A, B>(fab: TaskValidation<L, (a: A) => B>, fa: TaskValidat
   return fa.ap(fab)
 }
 
+export const taskValidation: Applicative<URI> = {
+  URI,
+  map,
+  of,
+  ap
+}
+
 //
 // overloadings
 //

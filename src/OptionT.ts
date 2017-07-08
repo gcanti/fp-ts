@@ -27,14 +27,14 @@ export class Ops {
     return () => F.of(option.none)
   }
 
-  fromOption<F>(F: Applicative<F>): <A>(oa: Option<A>) => HKT<F, Option<A>>
-  fromOption<F>(F: Applicative<F>): <A>(oa: Option<A>) => HKT<F, Option<A>> {
+  fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
+  fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> {
     return oa => F.of(oa)
   }
 
-  liftT<F>(F: Functor<F>): <A>(ma: HKT<F, A>) => HKT<F, Option<A>>
-  liftT<F>(F: Functor<F>): <A>(ma: HKT<F, A>) => HKT<F, Option<A>> {
-    return ma => F.map(a => option.some(a), ma)
+  liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
+  liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> {
+    return fa => F.map(a => option.some(a), fa)
   }
 
   fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
@@ -63,7 +63,7 @@ export const chain: Ops['chain'] = ops.chain
 export const none: Ops['none'] = ops.none
 export const some: Ops['some'] = ops.some
 export const fromOption: Ops['fromOption'] = ops.fromOption
-export const liftT: Ops['liftT'] = ops.liftT
+export const liftF: Ops['liftF'] = ops.liftF
 export const fold: Ops['fold'] = ops.fold
 export const getOrElse: Ops['getOrElse'] = ops.getOrElse
 export const getOptionT: Ops['getOptionT'] = ops.getOptionT
@@ -124,11 +124,11 @@ export interface Ops {
   fromOption(F: Applicative<NonEmptyArrayURI>): <A>(oa: Option<A>) => NonEmptyArray<Option<A>>
   fromOption(F: Applicative<TaskURI>): <A>(oa: Option<A>) => Task<Option<A>>
 
-  liftT(F: Functor<ArrayURI>): <A>(ma: Array<A>) => Array<Option<A>>
-  liftT(F: Functor<EitherURI>): <L, A>(ma: Either<L, A>) => Either<L, Option<A>>
-  liftT(F: Functor<IOURI>): <A>(ma: IO<A>) => IO<Option<A>>
-  liftT(F: Functor<NonEmptyArrayURI>): <A>(ma: NonEmptyArray<A>) => NonEmptyArray<Option<A>>
-  liftT(F: Functor<TaskURI>): <A>(ma: Task<A>) => Task<Option<A>>
+  liftF(F: Functor<ArrayURI>): <A>(ma: Array<A>) => Array<Option<A>>
+  liftF(F: Functor<EitherURI>): <L, A>(ma: Either<L, A>) => Either<L, Option<A>>
+  liftF(F: Functor<IOURI>): <A>(ma: IO<A>) => IO<Option<A>>
+  liftF(F: Functor<NonEmptyArrayURI>): <A>(ma: NonEmptyArray<A>) => NonEmptyArray<Option<A>>
+  liftF(F: Functor<TaskURI>): <A>(ma: Task<A>) => Task<Option<A>>
 
   fold(F: Functor<ArrayURI>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: Array<Option<A>>) => Array<R>
   fold(F: Functor<EitherURI>): <L, R, A>(none: Lazy<R>, some: (a: A) => R, fa: Either<L, Option<A>>) => Either<L, R>
