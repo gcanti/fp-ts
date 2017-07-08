@@ -4,6 +4,7 @@ import * as either from 'fp-ts/lib/Either'
 import * as task from 'fp-ts/lib/Task'
 import { URI as URIArray } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
+import { Monad } from 'fp-ts/lib/Monad'
 
 const eitherTTask = eitherT.getEitherT(task)
 
@@ -57,6 +58,26 @@ export function ap<L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A
 
 export function chain<L, A, B>(f: (a: A) => TaskEither<L, B>, fa: TaskEither<L, A>): TaskEither<L, B> {
   return fa.chain(f)
+}
+
+export function right<L, A>(fa: task.Task<A>): TaskEither<L, A> {
+  return new TaskEither(eitherT.right(task)(fa))
+}
+
+export function left<L, A>(fa: task.Task<L>): TaskEither<L, A> {
+  return new TaskEither(eitherT.left(task)(fa))
+}
+
+export function fromEither<L, A>(fa: either.Either<L, A>): TaskEither<L, A> {
+  return new TaskEither(eitherT.fromEither(task)(fa))
+}
+
+export const taskEither: Monad<URI> = {
+  URI,
+  map,
+  of,
+  ap,
+  chain
 }
 
 //

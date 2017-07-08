@@ -6,14 +6,10 @@ import { getApplicativeComposition, ApplicativeComposition } from './Applicative
 import { Either, URI as URIEither } from './Either'
 import * as either from './Either'
 import { Option } from './Option'
+import { Applicative } from './Applicative'
 
 export interface EitherT<M> extends ApplicativeComposition<M, URIEither> {
   chain<L, A, B>(f: (a: A) => HKT<M, Either<L, B>>, fa: HKT<M, Either<L, A>>): HKT<M, Either<L, B>>
-  // right<L, A>(ma: HKT<M, A>): HKT<M, Either<L, A>>
-  // left<L, A>(ml: HKT<M, L>): HKT<M, Either<L, A>>
-  // fold<R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<M, Either<L, A>>): HKT<M, R>
-  // mapLeft<N, L, A>(f: (l: L) => N, fa: HKT<M, Either<L, A>>): HKT<M, Either<N, A>>
-  // toOption<L, A>(fa: HKT<M, Either<L, A>>): HKT<M, Option<A>>
 }
 
 export class Ops {
@@ -22,14 +18,19 @@ export class Ops {
     return (f, fa) => F.chain(e => e.fold(() => fa as any, a => f(a)), fa)
   }
 
-  right<F>(F: Functor<F>): <L, A>(ma: HKT<F, A>) => HKT<F, Either<L, A>>
-  right<F>(F: Functor<F>): <L, A>(ma: HKT<F, A>) => HKT<F, Either<L, A>> {
+  right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>
+  right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>> {
     return ma => F.map(a => either.right(a), ma)
   }
 
-  left<F>(F: Functor<F>): <L, A>(ml: HKT<F, L>) => HKT<F, Either<L, A>>
-  left<F>(F: Functor<F>): <L, A>(ml: HKT<F, L>) => HKT<F, Either<L, A>> {
+  left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
+  left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>> {
     return ml => F.map(l => either.left(l), ml)
+  }
+
+  fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>>
+  fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>> {
+    return oa => F.of(oa)
   }
 
   fold<F>(F: Functor<F>): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R>
@@ -62,6 +63,7 @@ const ops = new Ops()
 export const chain: Ops['chain'] = ops.chain
 export const right: Ops['right'] = ops.right
 export const left: Ops['left'] = ops.left
+export const fromEither: Ops['fromEither'] = ops.fromEither
 export const fold: Ops['fold'] = ops.fold
 export const mapLeft: Ops['mapLeft'] = ops.mapLeft
 export const toOption: Ops['toOption'] = ops.toOption
@@ -97,13 +99,17 @@ export interface EitherTTask extends ApplicativeCompositionTaskEither {
 }
 
 export interface Ops {
-  right(F: Functor<ArrayURI>): <L, A>(ma: Array<A>) => Array<Either<L, A>>
-  right(F: Functor<IOURI>): <L, A>(ma: IO<A>) => IO<Either<L, A>>
-  right(F: Functor<TaskURI>): <L, A>(ma: Task<A>) => Task<Either<L, A>>
+  right(F: Functor<ArrayURI>): <L, A>(fa: Array<A>) => Array<Either<L, A>>
+  right(F: Functor<IOURI>): <L, A>(fa: IO<A>) => IO<Either<L, A>>
+  right(F: Functor<TaskURI>): <L, A>(fa: Task<A>) => Task<Either<L, A>>
 
-  left(F: Functor<ArrayURI>): <L, A>(ml: Array<L>) => Array<Either<L, A>>
-  left(F: Functor<IOURI>): <L, A>(ml: IO<L>) => IO<Either<L, A>>
-  left(F: Functor<TaskURI>): <L, A>(ml: Task<L>) => Task<Either<L, A>>
+  left(F: Functor<ArrayURI>): <L, A>(fl: Array<L>) => Array<Either<L, A>>
+  left(F: Functor<IOURI>): <L, A>(fl: IO<L>) => IO<Either<L, A>>
+  left(F: Functor<TaskURI>): <L, A>(fl: Task<L>) => Task<Either<L, A>>
+
+  fromEither(F: Applicative<ArrayURI>): <L, A>(fa: Either<L, A>) => Array<Either<L, A>>
+  fromEither(F: Applicative<IOURI>): <L, A>(fa: Either<L, A>) => IO<Either<L, A>>
+  fromEither(F: Applicative<TaskURI>): <L, A>(fa: Either<L, A>) => Task<Either<L, A>>
 
   fold(F: Functor<ArrayURI>): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: Array<Either<L, A>>) => Array<R>
   fold(F: Functor<IOURI>): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: IO<Either<L, A>>) => IO<R>
