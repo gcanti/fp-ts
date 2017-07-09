@@ -10,7 +10,7 @@ export const URI = 'Free'
 
 export type URI = typeof URI
 
-export type Free<F, A> = Pure<F, A> | Impure<F, A>
+export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
 export class Pure<F, A> implements FantasyMonad<URI, A> {
   static of = of
@@ -46,13 +46,13 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   }
 }
 
-export class Impure<F, A> implements FantasyMonad<URI, A> {
+export class Impure<F, A, X> implements FantasyMonad<URI, A> {
   static of = of
   readonly _tag: 'Impure' = 'Impure'
   readonly _A: A
   readonly _L: F
   readonly _URI: URI
-  constructor(public readonly fx: HKT<F, any>, public readonly f: (x: any) => Free<F, A>) {}
+  constructor(public readonly fx: HKT<F, X>, public readonly f: (x: X) => Free<F, A>) {}
   map<B>(f: (a: A) => B): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).map(f))
   }
@@ -85,7 +85,7 @@ export function of<F, A>(a: A): Free<F, A> {
 }
 
 export function liftF<F, A>(fa: HKT<F, A>): Free<F, A> {
-  return new Impure<F, A>(fa, of)
+  return new Impure(fa, a => of(a))
 }
 
 export class Ops {
@@ -129,7 +129,7 @@ export interface Pure<F, A> {
   foldFree(monad: Monad<OptionURI>, f: NaturalTransformation<F, OptionURI>): Option<A>
 }
 
-export interface Impure<F, A> {
+export interface Impure<F, A, X> {
   foldFree(monad: Monad<IdentityURI>, f: NaturalTransformation<F, IdentityURI>): Identity<A>
   foldFree(monad: Monad<OptionURI>, f: NaturalTransformation<F, OptionURI>): Option<A>
 }

@@ -17,7 +17,7 @@ export class Position {
 }
 
 export class Forward<A> {
-  readonly _tag = 'Forward'
+  readonly _tag: 'Forward' = 'Forward'
   readonly _A: A
   readonly _URI: InstructionFURI
   constructor(
@@ -28,7 +28,7 @@ export class Forward<A> {
 }
 
 export class Backward<A> {
-  readonly _tag = 'Backward'
+  readonly _tag: 'Backward' = 'Backward'
   readonly _A: A
   readonly _URI: InstructionFURI
   constructor(
@@ -39,7 +39,7 @@ export class Backward<A> {
 }
 
 export class RotateRight<A> {
-  readonly _tag = 'RotateRight'
+  readonly _tag: 'RotateRight' = 'RotateRight'
   readonly _A: A
   readonly _URI: InstructionFURI
   constructor(
@@ -50,7 +50,7 @@ export class RotateRight<A> {
 }
 
 export class Show<A> {
-  readonly _tag = 'Show'
+  readonly _tag: 'Show' = 'Show'
   readonly _A: A
   readonly _URI: InstructionFURI
   constructor(public readonly position: Position, public readonly more: A) {}
@@ -148,14 +148,14 @@ export const PencilInstructionFURI = 'PencilInstruction'
 export type PencilInstructionFURI = typeof PencilInstructionFURI
 
 export class PencilUp<A> {
-  readonly _tag = 'PencilUp'
+  readonly _tag: 'PencilUp' = 'PencilUp'
   readonly _A: A
   readonly _URI: PencilInstructionFURI
   constructor(public readonly position: Position, public readonly more: A) {}
 }
 
 export class PencilDown<A> {
-  readonly _tag = 'PencilDown'
+  readonly _tag: 'PencilDown' = 'PencilDown'
   readonly _A: A
   readonly _URI: PencilInstructionFURI
   constructor(public readonly position: Position, public readonly more: A) {}
@@ -173,14 +173,14 @@ export const LogoAppFURI = 'LogoApp'
 export type LogoAppFURI = typeof LogoAppFURI
 
 export class Instruction<A> {
-  readonly _tag = InstructionFURI
+  readonly _tag: InstructionFURI = InstructionFURI
   readonly _A: A
   readonly _URI: LogoAppFURI
   constructor(public readonly value: InstructionF<A>) {}
 }
 
 export class PencilInstruction<A> {
-  readonly _tag = PencilInstructionFURI
+  readonly _tag: PencilInstructionFURI = PencilInstructionFURI
   readonly _A: A
   readonly _URI: LogoAppFURI
   constructor(public readonly value: PencilInstructionF<A>) {}
