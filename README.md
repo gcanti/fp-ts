@@ -2,7 +2,7 @@
 [![dependency status](https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square)](https://david-dm.org/gcanti/fp-ts)
 ![npm downloads](https://img.shields.io/npm/dm/fp-ts.svg)
 
-**Important**: the current version of fp-ts is compatible with TypeScript 2.4.1+ or 2.4.1- with `"noStrictGenericChecks": true`. For TypeScript 2.4.1- install version 0.3.x.
+**Important**: the latest version of fp-ts is compatible with TypeScript 2.4.1+ or 2.4.1- with `"noStrictGenericChecks": true`. For TypeScript 2.4.1- install version 0.3.x.
 
 Inspired by
 
@@ -12,6 +12,12 @@ Inspired by
 - Scala
 
 # Installation
+
+To install the latest version:
+
+```
+npm install --save fp-ts@next
+```
 
 To install the stable version:
 

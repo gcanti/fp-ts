@@ -119,7 +119,7 @@ export const substFree: Ops['substFree'] = ops.substFree
 export const hoistFree: Ops['hoistFree'] = ops.hoistFree
 
 //
-// overladings
+// overloadings
 //
 
 import { IdentityURI, Identity, OptionURI, Option } from './overloadings'
