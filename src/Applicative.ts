@@ -1,48 +1,48 @@
-import { HKT, HKTS } from './HKT'
-import { getCompositionFunctor } from './Functor'
+import { HKT } from './HKT'
 import { Apply, FantasyApply } from './Apply'
+import { getFunctorComposition, FunctorComposition } from './Functor'
+import './overloadings'
 
-export interface Applicative<F extends HKTS> extends Apply<F> {
-  of<A, U = any, V = any>(a: A): HKT<A, U, V>[F]
+export interface Applicative<F> extends Apply<F> {
+  of<A>(a: A): HKT<F, A>
 }
 
-export interface FantasyApplicative<F extends HKTS, A> extends FantasyApply<F, A> {
-  of<A, U = any, V = any>(a: A): HKT<A, U, V>[F]
+export interface FantasyApplicative<F, A> extends FantasyApply<F, A> {
+  of<A>(a: A): HKT<F, A>
 }
 
-/** returns the composition of two applicatives
- * Note: requires an implicit proof that HKT<A>[FG] ~ HKT<HKT<A>[G]>[F]
- */
-export function getCompositionApplicative<FG extends HKTS, F extends HKTS, G extends HKTS>(
-  URI: FG,
-  applicativeF: Applicative<F>,
-  applicativeG: Applicative<G>
-): Applicative<FG> {
-  const functor = getCompositionFunctor(URI, applicativeF, applicativeG)
+export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
+  of<A>(a: A): HKT<F, HKT<G, A>>
+  ap<A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>>
+}
 
-  function of<A>(a: A): HKT<HKT<A>[G]>[F] {
-    return applicativeF.of(applicativeG.of(a))
+export class Ops {
+  /** Perform a applicative action when a condition is true */
+  when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
+  when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> {
+    return (condition, fu) => (condition ? fu : F.of(undefined))
   }
 
-  function ap<A, B>(fgab: HKT<HKT<(a: A) => B>[G]>[F], fga: HKT<HKT<A>[G]>[F]): HKT<HKT<B>[G]>[F] {
-    return applicativeF.ap<HKT<A>[G], HKT<B>[G]>(
-      applicativeF.map((h: HKT<(a: A) => B>[G]) => (ga: HKT<A>[G]) => applicativeG.ap<A, B>(h, ga), fgab),
-      fga
-    )
-  }
+  getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
+  getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
+    const { map } = getFunctorComposition(F, G)
 
-  return {
-    ...functor,
-    of,
-    ap: ap as any
+    function of<A>(a: A): HKT<F, HKT<G, A>> {
+      return F.of(G.of(a))
+    }
+
+    function ap<A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>> {
+      return F.ap(F.map(h => (ga: HKT<G, A>) => G.ap<A, B>(h, ga), fgab), fga)
+    }
+
+    return {
+      map,
+      of,
+      ap
+    }
   }
 }
 
-/** Perform a applicative action when a condition is true */
-export function when<F extends HKTS>(
-  applicative: Applicative<F>
-): (condition: boolean, fu: HKT<void>[F]) => HKT<void>[F] {
-  return (condition: boolean, fu: HKT<void>[F]) => {
-    return condition ? fu : applicative.of(undefined)
-  }
-}
+const ops = new Ops()
+export const when: Ops['when'] = ops.when
+export const getApplicativeComposition: Ops['getApplicativeComposition'] = ops.getApplicativeComposition

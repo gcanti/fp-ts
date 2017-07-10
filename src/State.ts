@@ -1,20 +1,9 @@
 import { Monad, FantasyMonad } from './Monad'
-import { Endomorphism, toString } from './function'
-import { getStateT } from './StateT'
-import * as id from './Id'
-
-declare module './HKT' {
-  interface HKT<A, U> {
-    'Kleisli<Id, S, [A, S]>': (u: U) => [A, U]
-    State: State<U, A>
-  }
-}
+import { Endomorphism } from './function'
 
 export const URI = 'State'
 
 export type URI = typeof URI
-
-const stateTId = getStateT('Kleisli<Id, S, [A, S]>', id)
 
 export class State<S, A> implements FantasyMonad<URI, A> {
   readonly _S: S
@@ -22,34 +11,31 @@ export class State<S, A> implements FantasyMonad<URI, A> {
   readonly _URI: URI
   constructor(public readonly value: (s: S) => [A, S]) {}
   run(s: S): [A, S] {
-    return stateTId.run(s, this.value)
+    return this.value(s)
   }
   eval(s: S): A {
-    return stateTId.eval(s, this.value)
+    return this.run(s)[0]
   }
   exec(s: S): S {
-    return stateTId.exec(s, this.value)
+    return this.run(s)[1]
   }
   map<B>(f: (a: A) => B): State<S, B> {
-    return new State<S, B>(stateTId.map(f, this.value))
+    return new State(s => {
+      const [a, s1] = this.run(s)
+      return [f(a), s1]
+    })
   }
   of<S2, B>(b: B): State<S2, B> {
-    return of<S2, B>(b)
+    return of(b)
   }
   ap<B>(fab: State<S, (a: A) => B>): State<S, B> {
-    return new State(stateTId.ap(fab.value, this.value))
-  }
-  ap_<B, C>(this: State<S, (a: B) => C>, fb: State<S, B>): State<S, C> {
-    return fb.ap(this)
+    return fab.chain(f => this.map(f)) // <= derived
   }
   chain<B>(f: (a: A) => State<S, B>): State<S, B> {
-    return new State<S, B>(stateTId.chain(a => f(a).value, this.value))
-  }
-  inspect() {
-    return this.toString()
-  }
-  toString() {
-    return `new State(${toString(this.value)})`
+    return new State(s => {
+      const [a, s1] = this.run(s)
+      return f(a).run(s1)
+    })
   }
 }
 
@@ -62,7 +48,7 @@ export function ap<S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<
 }
 
 export function of<S, A>(a: A): State<S, A> {
-  return new State<S, A>(stateTId.of<A, S>(a))
+  return new State(s => [a, s])
 }
 
 export function chain<S, A, B>(f: (a: A) => State<S, B>, fa: State<S, A>): State<S, B> {
@@ -70,21 +56,25 @@ export function chain<S, A, B>(f: (a: A) => State<S, B>, fa: State<S, A>): State
 }
 
 export function get<S>(): State<S, S> {
-  return new State<S, S>(stateTId.get<S>())
+  return new State(s => [s, s])
 }
 
-export function put<S>(s: S): State<S, void> {
-  return new State(stateTId.put<S>(s))
+export function put<S>(s: S): State<S, undefined> {
+  return new State(() => [undefined, s])
 }
 
-export function modify<S>(f: Endomorphism<S>): State<S, void> {
-  return new State<S, void>(stateTId.modify<S>(f))
+export function modify<S>(f: Endomorphism<S>): State<S, undefined> {
+  return new State(s => [undefined, f(s)])
 }
 
 export function gets<S, A>(f: (s: S) => A): State<S, A> {
-  return new State<S, A>(stateTId.gets<S, A>(f))
+  return new State(s => [f(s), s])
 }
 
-const proof: Monad<URI> = { URI, map, of, ap, chain }
-// tslint:disable-next-line no-unused-expression
-proof
+export const state: Monad<URI> = {
+  URI,
+  map,
+  of,
+  ap,
+  chain
+}

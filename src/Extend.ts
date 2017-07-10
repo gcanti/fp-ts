@@ -1,17 +1,22 @@
-import { HKT, HKTS } from './HKT'
-import { Cokleisli, identity } from './function'
+import { HKT } from './HKT'
+import { Cokleisli } from './function'
 import { Functor, FantasyFunctor } from './Functor'
+import './overloadings'
 
-export interface Extend<F extends HKTS> extends Functor<F> {
-  extend<A, B, U = any, V = any>(f: Cokleisli<F, A, B, U, V>, ea: HKT<A, U, V>[F]): HKT<B, U, V>[F]
+export interface Extend<F> extends Functor<F> {
+  extend<A, B>(f: Cokleisli<F, A, B>, ea: HKT<F, A>): HKT<F, B>
 }
 
-export interface FantasyExtend<F extends HKTS, A> extends FantasyFunctor<F, A> {
-  extend<B, U = any, V = any>(f: Cokleisli<F, A, B, U, V>): HKT<B, U, V>[F]
+export interface FantasyExtend<F, A> extends FantasyFunctor<F, A> {
+  extend<B>(f: Cokleisli<F, A, B>): HKT<F, B>
 }
 
-export function duplicate<F extends HKTS>(
-  extend: Extend<F>
-): <A, U = any, V = any>(ma: HKT<A, U, V>[F]) => HKT<HKT<A, U, V>[F], U, V>[F] {
-  return <A>(ma: HKT<A>[F]) => extend.extend<A, HKT<A>[F]>(identity, ma)
+export class Ops {
+  duplicate<F>(extend: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>
+  duplicate<F>(extend: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>> {
+    return ma => extend.extend(ma => ma, ma)
+  }
 }
+
+const ops = new Ops()
+export const duplicate: Ops['duplicate'] = ops.duplicate

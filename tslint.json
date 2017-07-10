@@ -4,6 +4,7 @@
     "space-before-function-paren": false,
     "no-use-before-declare": false,
     "variable-name": false,
+    "quotemark": [true, "single", "jsx-double"],
     "ter-indent": false
   }
 }

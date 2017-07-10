@@ -1,4 +1,4 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { Functor } from './Functor'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
@@ -10,13 +10,8 @@ import { Alt, FantasyAlt } from './Alt'
 import { constFalse, constTrue, Predicate, toString } from './function'
 import { Option, some, none } from './Option'
 import { Either, left, right } from './Either'
-import * as nea from './NonEmptyArray'
-
-declare module './HKT' {
-  interface HKT<A, U> {
-    Validation: Validation<U, A>
-  }
-}
+import * as nonEmptyArray from './NonEmptyArray'
+import './overloadings'
 
 export const URI = 'Validation'
 
@@ -35,20 +30,20 @@ export class Failure<L, A>
   map<B>(f: (a: A) => B): Validation<L, B> {
     return this as any
   }
-  of<L2, B>(b: B): Validation<L2, B> {
-    return of<L2, B>(b)
+  of<M, B>(b: B): Validation<M, B> {
+    return of(b)
   }
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
     if (isFailure(fab)) {
-      return failure<L, B>(this.semigroup, this.semigroup.concat(fab.value, this.value))
+      return failure(this.semigroup, this.semigroup.concat(fab.value, this.value))
     }
     return this as any
   }
   ap_<B, C>(this: Validation<L, (a: B) => C>, fb: Validation<L, B>): Validation<L, C> {
     return fb.ap(this)
   }
-  bimap<L2, B>(semigroup: Semigroup<L2>, f: (l: L) => L2, g: (a: A) => B): Validation<L2, B> {
-    return failure<L2, B>(semigroup, f(this.value))
+  bimap<M, B>(S: Semigroup<M>, f: (l: L) => M, g: (a: A) => B): Validation<M, B> {
+    return failure(S, f(this.value))
   }
   alt(fy: Validation<L, A>): Validation<L, A> {
     return fy
@@ -56,35 +51,33 @@ export class Failure<L, A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKTS>(
-    applicative: Applicative<F>
-  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Validation<L, B>, U, V>[F] {
-    return <B>(f: (a: A) => HKT<B>[F]) => applicative.of(this as any)
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
+    return f => F.of(this as any)
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return failure(this.value)
   }
-  equals(setoid: Setoid<A>, fy: Validation<L, A>): boolean {
+  equals(S: Setoid<A>, fy: Validation<L, A>): boolean {
     return fy.fold(constTrue, constFalse)
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
     return fy.fold(l => failure<L, A>(this.semigroup, this.semigroup.concat(l, this.value)), () => this)
   }
-  mapFailure<L2>(semigroup: Semigroup<L2>, f: (l: L) => L2): Validation<L2, A> {
-    return failure<L2, A>(semigroup, f(this.value))
+  mapFailure<M>(S: Semigroup<M>, f: (l: L) => M): Validation<M, A> {
+    return failure(S, f(this.value))
   }
-  swap(semigroup: Semigroup<A>): Validation<A, L> {
-    return success<A, L>(this.value)
+  swap(S: Semigroup<A>): Validation<A, L> {
+    return success(this.value)
   }
   toOption(): Option<A> {
     return none
   }
   toEither(): Either<L, A> {
-    return left<L, A>(this.value)
+    return left(this.value)
   }
   /** Lift the Invalid value into a NonEmptyArray */
-  toEitherNea(): Option<Validation<nea.NonEmptyArray<L>, A>> {
-    return some(failure<nea.NonEmptyArray<L>, A>(nea, nea.of(this.value)))
+  toValidationNea(): Option<Validation<nonEmptyArray.NonEmptyArray<L>, A>> {
+    return some(failure(nonEmptyArray, nonEmptyArray.of(this.value)))
   }
   inspect() {
     return this.toString()
@@ -105,8 +98,8 @@ export class Success<L, A>
   map<B>(f: (a: A) => B): Validation<L, B> {
     return new Success<L, B>(f(this.value))
   }
-  of<L2, B>(b: B): Validation<L2, B> {
-    return of<L2, B>(b)
+  of<M, B>(b: B): Validation<M, B> {
+    return of(b)
   }
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
     if (isSuccess(fab)) {
@@ -117,8 +110,8 @@ export class Success<L, A>
   ap_<B, C>(this: Validation<L, (a: B) => C>, fb: Validation<L, B>): Validation<L, C> {
     return fb.ap(this)
   }
-  bimap<L2, B>(semigroup: Semigroup<L2>, f: (l: L) => L2, g: (a: A) => B): Validation<L2, B> {
-    return new Success<L2, B>(g(this.value))
+  bimap<M, B>(S: Semigroup<M>, f: (l: L) => M, g: (a: A) => B): Validation<M, B> {
+    return success(g(this.value))
   }
   alt(fy: Validation<L, A>): Validation<L, A> {
     return this
@@ -126,34 +119,32 @@ export class Success<L, A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKTS>(
-    applicative: Applicative<F>
-  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<Validation<L, B>, U, V>[F] {
-    return <B>(f: (a: A) => HKT<B>[F]) => applicative.map((b: B) => of<L, B>(b), f(this.value))
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
+    return f => F.map(b => of(b), f(this.value))
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return success(this.value)
   }
-  equals(setoid: Setoid<A>, fy: Validation<L, A>): boolean {
-    return fy.fold(constFalse, y => setoid.equals(this.value, y))
+  equals(S: Setoid<A>, fy: Validation<L, A>): boolean {
+    return fy.fold(constFalse, y => S.equals(this.value, y))
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
     return this
   }
-  mapFailure<L2>(semigroup: Semigroup<L2>, f: (l: L) => L2): Validation<L2, A> {
+  mapFailure<M>(S: Semigroup<M>, f: (l: L) => M): Validation<M, A> {
     return this as any
   }
-  swap(semigroup: Semigroup<A>): Validation<A, L> {
-    return failure<A, L>(semigroup, this.value)
+  swap(S: Semigroup<A>): Validation<A, L> {
+    return failure(S, this.value)
   }
   toOption(): Option<A> {
     return some(this.value)
   }
   toEither(): Either<L, A> {
-    return right<L, A>(this.value)
+    return right(this.value)
   }
   /** Lift the Invalid value into a NonEmptyArray */
-  toEitherNea(): Option<Validation<nea.NonEmptyArray<L>, A>> {
+  toValidationNea(): Option<Validation<nonEmptyArray.NonEmptyArray<L>, A>> {
     return none
   }
   inspect() {
@@ -164,13 +155,13 @@ export class Success<L, A>
   }
 }
 
-export function equals<L, A>(setoid: Setoid<A>, fx: Validation<L, A>, fy: Validation<L, A>): boolean {
-  return fx.equals(setoid, fy)
+export function equals<L, A>(S: Setoid<A>, fx: Validation<L, A>, fy: Validation<L, A>): boolean {
+  return fx.equals(S, fy)
 }
 
-export function getSetoid<L, A>(setoid: Setoid<A>): Setoid<Validation<L, A>> {
+export function getSetoid<L, A>(S: Setoid<A>): Setoid<Validation<L, A>> {
   return {
-    equals: (x, y) => equals(setoid, x, y)
+    equals: (x, y) => equals(S, x, y)
   }
 }
 
@@ -183,35 +174,39 @@ export function map<L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L
 }
 
 export function of<L, A>(a: A): Validation<L, A> {
-  return new Success<L, A>(a)
+  return new Success(a)
 }
 
 export function ap<L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> {
   return fa.ap(fab)
 }
 
-export function bimap<L, L2, A, B>(
-  semigroup: Semigroup<L2>,
-  f: (l: L) => L2,
+export function bimap<L, M, A, B>(
+  S: Semigroup<M>,
+  f: (l: L) => M,
   g: (a: A) => B,
   fa: Validation<L, A>
-): Validation<L2, B> {
-  return fa.bimap(semigroup, f, g)
+): Validation<M, B> {
+  return fa.bimap(S, f, g)
 }
 
 export function alt<L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> {
-  return fx.alt(fy as Validation<L, A>)
+  return fx.alt(fy)
 }
 
 export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>): B {
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(
-  applicative: Applicative<F>
-): <L, A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: Validation<L, A>) => HKT<Validation<L, B>, U, V>[F] {
-  return <L, A, B>(f: (a: A) => HKT<B>[F], ta: Validation<L, A>) => ta.traverse<F>(applicative)<B>(f)
+export class Ops {
+  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>>
+  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>> {
+    return (f, ta) => ta.traverse(F)(f)
+  }
 }
+
+const ops = new Ops()
+export const traverse: Ops['traverse'] = ops.traverse
 
 export function isFailure<L, A>(fa: Validation<L, A>): fa is Failure<L, A> {
   return fa._tag === 'Failure'
@@ -221,34 +216,30 @@ export function isSuccess<L, A>(fa: Validation<L, A>): fa is Success<L, A> {
   return fa._tag === 'Success'
 }
 
-export function failure<L, A>(semigroup: Semigroup<L>, l: L): Validation<L, A> {
-  return new Failure<L, A>(semigroup, l)
+export function failure<L, A>(L: Semigroup<L>, l: L): Validation<L, A> {
+  return new Failure(L, l)
 }
 
 export const success = of
 
 export function fromPredicate<L, A>(
-  semigroup: Semigroup<L>,
+  S: Semigroup<L>,
   predicate: Predicate<A>,
   l: (a: A) => L
 ): (a: A) => Validation<L, A> {
-  return a => (predicate(a) ? success<L, A>(a) : failure<L, A>(semigroup, l(a)))
+  return a => (predicate(a) ? success(a) : failure(S, l(a)))
 }
 
 export function concat<L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> {
   return fx.concat(fy)
 }
 
-export function mapFailure<L, L2, A>(
-  semigroup: Semigroup<L2>,
-  f: (l: L) => L2,
-  fa: Validation<L, A>
-): Validation<L2, A> {
-  return fa.mapFailure(semigroup, f)
+export function mapFailure<L, M, A>(S: Semigroup<M>, f: (l: L) => M, fa: Validation<L, A>): Validation<M, A> {
+  return fa.mapFailure(S, f)
 }
 
-export function swap<L, A>(semigroup: Semigroup<A>, fa: Validation<L, A>): Validation<A, L> {
-  return fa.swap(semigroup)
+export function swap<L, A>(S: Semigroup<A>, fa: Validation<L, A>): Validation<A, L> {
+  return fa.swap(S)
 }
 
 export function toOption<L, A>(fa: Validation<L, A>): Option<A> {
@@ -259,11 +250,11 @@ export function toEither<L, A>(fa: Validation<L, A>): Either<L, A> {
   return fa.toEither()
 }
 
-export function toEitherNea<L, A>(fa: Validation<L, A>): Option<Validation<nea.NonEmptyArray<L>, A>> {
-  return fa.toEitherNea()
+export function toValidationNea<L, A>(fa: Validation<L, A>): Option<Validation<nonEmptyArray.NonEmptyArray<L>, A>> {
+  return fa.toValidationNea()
 }
 
-const proof: Functor<URI> & Applicative<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> = {
+export const validation: Functor<URI> & Applicative<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> = {
   URI,
   ap,
   map,
@@ -272,5 +263,3 @@ const proof: Functor<URI> & Applicative<URI> & Foldable<URI> & Traversable<URI> 
   traverse,
   alt
 }
-// tslint:disable-next-line no-unused-expression
-proof

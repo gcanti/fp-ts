@@ -1,23 +1,17 @@
 import { Monoid } from './Monoid'
 import { Functor } from './Functor'
 import { Monad, FantasyMonad } from './Monad'
-import { Lazy, toString } from './function'
-
-declare module './HKT' {
-  interface HKT<A, U> {
-    Writer: Writer<U, A>
-  }
-}
+import { Lazy } from './function'
 
 export const URI = 'Writer'
 
 export type URI = typeof URI
 
 export class Writer<W, A> implements FantasyMonad<URI, A> {
-  readonly _W: W
+  readonly _L: W
   readonly _A: A
   readonly _URI: URI
-  of: (a: A) => Writer<W, A>
+  of: <A>(a: A) => Writer<W, A>
   constructor(public readonly monoid: Monoid<W>, public readonly value: Lazy<[A, W]>) {
     this.of = of<W>(monoid)
   }
@@ -37,9 +31,6 @@ export class Writer<W, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: Writer<W, (a: A) => B>): Writer<W, B> {
     return fab.chain(f => this.map(f))
   }
-  ap_<B, C>(this: Writer<W, (a: B) => C>, fb: Writer<W, B>): Writer<W, C> {
-    return fb.ap(this)
-  }
   chain<B>(f: (a: A) => Writer<W, B>): Writer<W, B> {
     return new Writer(this.monoid, () => {
       const [a, w1] = this.run()
@@ -47,20 +38,14 @@ export class Writer<W, A> implements FantasyMonad<URI, A> {
       return [b, this.monoid.concat(w1, w2)]
     })
   }
-  inspect() {
-    return this.toString()
-  }
-  toString() {
-    return `new Writer(${toString(this.monoid)}, ${toString(this.value)})`
-  }
 }
 
 export function map<W, A, B>(f: (a: A) => B, fa: Writer<W, A>): Writer<W, B> {
   return fa.map(f)
 }
 
-export function of<W>(monoid: Monoid<W>): <A>(a: A) => Writer<W, A> {
-  return <A>(a: A) => new Writer<W, A>(monoid, () => [a, monoid.empty()])
+export function of<W>(M: Monoid<W>): <A>(a: A) => Writer<W, A> {
+  return a => new Writer(M, () => [a, M.empty()])
 }
 
 export function ap<W, A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writer<W, B> {
@@ -71,8 +56,8 @@ export function chain<W, A, B>(f: (a: A) => Writer<W, B>, fa: Writer<W, A>): Wri
   return fa.chain(f)
 }
 
-export function tell<W>(monoid: Monoid<W>): (w: W) => Writer<W, void> {
-  return w => new Writer(monoid, () => [undefined, w])
+export function tell<W>(M: Monoid<W>): (w: W) => Writer<W, void> {
+  return w => new Writer(M, () => [undefined, w])
 }
 
 export function getMonad<W>(monoid: Monoid<W>): Monad<URI> {
@@ -85,6 +70,7 @@ export function getMonad<W>(monoid: Monoid<W>): Monad<URI> {
   }
 }
 
-const proof: Functor<URI> = { URI, map }
-// tslint:disable-next-line no-unused-expression
-proof
+export const writer: Functor<URI> = {
+  URI,
+  map
+}

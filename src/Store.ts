@@ -1,4 +1,4 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { Comonad, FantasyComonad } from './Comonad'
 import { Functor } from './Functor'
 import { Endomorphism, toString } from './function'
@@ -7,19 +7,11 @@ export const URI = 'Store'
 
 export type URI = typeof URI
 
-declare module './HKT' {
-  interface HKT<A, U> {
-    Store: Store<U, A>
-  }
-}
-
 export class Store<S, A> implements FantasyComonad<URI, A> {
   readonly _S: S
   readonly _A: A
   readonly _URI: URI
-
   constructor(public readonly peek: (s: S) => A, public readonly s: S) {}
-
   pos(): S {
     return this.s
   }
@@ -30,7 +22,7 @@ export class Store<S, A> implements FantasyComonad<URI, A> {
     return this.peek(this.s)
   }
   extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> {
-    return new Store<S, B>(s => f(this), this.s)
+    return new Store(s => f(this), this.s)
   }
   inspect() {
     return this.toString()
@@ -77,15 +69,15 @@ export function seeks<S, A>(f: Endomorphism<S>, sa: Store<S, A>): Store<S, A> {
   return new Store(sa.peek, f(sa.pos()))
 }
 
-/** Extract a collection of values from positions which depend on the current position */
-export function experiment<F extends HKTS, S, A, U = any, V = any>(
-  functor: Functor<F>,
-  f: (s: S) => HKT<S, U, V>[F],
-  sa: Store<S, A>
-): HKT<A, U, V>[F] {
-  return functor.map<S, A>(s => sa.peek(s), f(sa.pos()))
+export class Ops {
+  /** Extract a collection of values from positions which depend on the current position */
+  experiment<F, S, A>(functor: Functor<F>, f: (s: S) => HKT<F, S>, sa: Store<S, A>): HKT<F, A>
+  experiment<F, S, A>(functor: Functor<F>, f: (s: S) => HKT<F, S>, sa: Store<S, A>): HKT<F, A> {
+    return functor.map(s => sa.peek(s), f(sa.pos()))
+  }
 }
 
-const proof: Comonad<URI> = { URI, map, extract, extend }
-// tslint:disable-next-line no-unused-expression
-proof
+const ops = new Ops()
+export const experiment: Ops['experiment'] = ops.experiment
+
+export const store: Comonad<URI> = { URI, map, extract, extend }

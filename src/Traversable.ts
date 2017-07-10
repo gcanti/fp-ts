@@ -1,57 +1,51 @@
-import { HKT, HKTS } from './HKT'
-import { Functor, FantasyFunctor, getCompositionFunctor } from './Functor'
-import { Foldable, FantasyFoldable, getCompositionFoldable } from './Foldable'
+import { HKT } from './HKT'
+import { Functor, FantasyFunctor, FunctorComposition, getFunctorComposition } from './Functor'
+import { Foldable, FantasyFoldable, FoldableComposition, getFoldableComposition } from './Foldable'
 import { Applicative } from './Applicative'
 import { identity } from './function'
+import './overloadings'
 
-export interface Traversable<T extends HKTS> extends Functor<T>, Foldable<T> {
-  traverse<F extends HKTS>(
-    applicative: Applicative<F>
-  ): <A, B, UF = any, UT = any, VF = any, VT = any>(
-    f: (a: A) => HKT<B, UF, VF>[F],
-    ta: HKT<A, UT, VT>[T]
-  ) => HKT<HKT<B, UT, VT>[T], UF, VF>[F]
+export interface Traversable<T> extends Functor<T>, Foldable<T> {
+  traverse<F>(applicative: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<T, A>) => HKT<F, HKT<T, B>>
 }
 
-export interface FantasyTraversable<T extends HKTS, A> extends FantasyFunctor<T, A>, FantasyFoldable<A> {
-  traverse<F extends HKTS>(
-    applicative: Applicative<F>
-  ): <B, UF = any, UT = any, VF = any, VT = any>(f: (a: A) => HKT<B, UF, VF>[F]) => HKT<HKT<B, UT, VT>[T], UF, VF>[F]
+export interface FantasyTraversable<T, A> extends FantasyFunctor<T, A>, FantasyFoldable<A> {
+  traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 }
 
-export function sequence<F extends HKTS, T extends HKTS>(
-  applicative: Applicative<F>,
-  traversable: Traversable<T>
-): <A, UF = any, UT = any, VF = any, VT = any>(
-  tfa: HKT<HKT<A, UF, VF>[F], UT, VT>[T]
-) => HKT<HKT<A, UT, VT>[T], UF, VF>[F] {
-  return <A>(tfa: HKT<HKT<A>[F]>[T]) => traversable.traverse<F>(applicative)<HKT<A>[F], A>(identity, tfa)
+export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
+  traverse<H>(H: Applicative<H>): <A, B>(f: (a: A) => HKT<H, B>, fga: HKT<F, HKT<G, A>>) => HKT<H, HKT<F, HKT<G, B>>>
 }
 
-/** returns the composition of two traversables
- * Note: requires an implicit proof that HKT<A>[FG] ~ HKT<HKT<A>[G]>[F]
- */
-export function getCompositionTraversable<FG extends HKTS, F extends HKTS, G extends HKTS>(
-  URI: FG,
-  traversableF: Traversable<F>,
-  traversableG: Traversable<G>
-): Traversable<FG> {
-  const functor = getCompositionFunctor(URI, traversableF, traversableG)
-  const foldable = getCompositionFoldable(URI, traversableF, traversableG)
-
-  function traverse<AP extends HKTS>(
-    applicative: Applicative<AP>
-  ): <A, B>(f: (a: A) => HKT<B>[AP], fga: HKT<HKT<A>[G]>[F]) => HKT<HKT<HKT<A>[G]>[F]>[AP] {
-    return <A, B>(f: (a: A) => HKT<B>[AP], fga: HKT<HKT<A>[G]>[F]) =>
-      traversableF.traverse(applicative)<HKT<A>[G], HKT<B>[G]>(
-        (ga: HKT<A>[G]) => traversableG.traverse(applicative)<A, B>(f, ga),
-        fga
-      )
+export class Ops {
+  sequence<F, T>(
+    applicative: Applicative<F>,
+    traversable: Traversable<T>
+  ): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
+  sequence<F, T>(
+    applicative: Applicative<F>,
+    traversable: Traversable<T>
+  ): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>> {
+    return <A>(tfa: HKT<T, HKT<F, A>>) => traversable.traverse(applicative)<HKT<F, A>, A>(identity, tfa)
   }
 
-  return {
-    ...functor,
-    ...foldable,
-    traverse
+  getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
+    const { map } = getFunctorComposition(F, G)
+    const { reduce } = getFoldableComposition(F, G)
+
+    function traverse<H>(
+      H: Applicative<H>
+    ): <A, B>(f: (a: A) => HKT<H, B>, fga: HKT<F, HKT<G, A>>) => HKT<H, HKT<F, HKT<G, B>>> {
+      return (f, fga) => F.traverse(H)(ga => G.traverse(H)(a => f(a), ga), fga)
+    }
+
+    return {
+      map,
+      reduce,
+      traverse
+    }
   }
 }
+
+const ops = new Ops()
+export const sequence: Ops['sequence'] = ops.sequence

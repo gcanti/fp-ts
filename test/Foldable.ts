@@ -1,20 +1,13 @@
 import * as assert from 'assert'
-import { toArray, foldMap, getCompositionFoldable, intercalate, traverse_, sequence_ } from '../src/Foldable'
+import { Foldable, toArray, foldMap, getFoldableComposition, intercalate, traverse_, sequence_ } from '../src/Foldable'
 import * as array from '../src/Array'
 import * as option from '../src/Option'
 import * as io from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { identity } from '../src/function'
 
 export const ArrayOptionURI = 'ArrayOption'
 
 export type ArrayOptionURI = typeof ArrayOptionURI
-
-declare module '../src/HKT' {
-  interface HKT<A> {
-    ArrayOption: Array<option.Option<A>>
-  }
-}
 
 describe('Foldable', () => {
   it('toArray', () => {
@@ -22,20 +15,35 @@ describe('Foldable', () => {
   })
 
   it('foldMap', () => {
-    assert.deepEqual(foldMap(array, monoidString)(identity, ['a', 'b', 'c']), 'abc')
+    assert.deepEqual(foldMap(array, monoidString)(s => s, ['a', 'b', 'c']), 'abc')
   })
 
-  it('getCompositionFoldable', () => {
-    const arrayOptionFoldable = getCompositionFoldable(ArrayOptionURI, array, option)
-    assert.strictEqual(arrayOptionFoldable.reduce((b, a) => b + a, 0, [option.some(1), option.some(2)]), 3)
-    assert.strictEqual(arrayOptionFoldable.reduce((b, a) => b + a, 0, [option.none, option.some(2)]), 2)
+  it('getFoldableComposition', () => {
+    const arrayOptionFoldable = getFoldableComposition(array, option)
+    const sum = (b: number, a: number): number => b + a
+    assert.strictEqual(arrayOptionFoldable.reduce(sum, 0, [option.some(1), option.some(2)]), 3)
+    assert.strictEqual(arrayOptionFoldable.reduce(sum, 0, [option.none, option.some(2)]), 2)
   })
 
   it('intercalate', () => {
-    const join = intercalate(getCompositionFoldable('ArrayOption', array, option), monoidString)
-    assert.strictEqual(join(' ', []), '')
-    assert.strictEqual(join(' ', [option.some('a')]), 'a')
-    assert.strictEqual(join(' ', [option.some('a'), option.none, option.some('b')]), 'a b')
+    const arrayOptionFoldable = getFoldableComposition(array, option)
+    const URI = 'ArrayOption'
+    type URI = typeof URI
+    class ArrayOption<A> {
+      readonly _A: A
+      readonly _URI: URI
+      constructor(public readonly value: Array<option.Option<A>>) {}
+    }
+    const arrayOption: Foldable<URI> = {
+      URI,
+      reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: ArrayOption<A>): B {
+        return arrayOptionFoldable.reduce(f, b, fa.value)
+      }
+    }
+    const join = intercalate(arrayOption, monoidString)
+    assert.strictEqual(join(' ', new ArrayOption([])), '')
+    assert.strictEqual(join(' ', new ArrayOption([option.some('a')])), 'a')
+    assert.strictEqual(join(' ', new ArrayOption([option.some('a'), option.none, option.some('b')])), 'a b')
   })
 
   it('traverse_', () => {

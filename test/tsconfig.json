@@ -1,22 +1,18 @@
 {
   "compilerOptions": {
-    "noStrictGenericChecks": true,
     "outDir": "./lib",
     "sourceMap": true,
-    "declaration": true,
+    "declaration": false,
+    "target": "es5",
     "module": "commonjs",
-    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "strict": true,
     "noImplicitReturns": false,
-    "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
-    "noEmitOnError": false,
-    "allowJs": false,
-    "strictNullChecks": true,
-    "target": "es5",
-    "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6", "dom"]
-  }
+  },
+  "include": ["../src/**/*"]
 }

@@ -7,19 +7,13 @@ import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { identity, toString } from './function'
 
-declare module './HKT' {
-  interface HKT<A, U> {
-    Const: Const<U, A>
-  }
-}
-
 export const URI = 'Const'
 
 export type URI = typeof URI
 
 export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant<URI, A> {
-  readonly _L: L
   readonly _A: A
+  readonly _L: L
   readonly _URI: URI
   constructor(public readonly value: L) {}
   map<B, C>(f: (b: B) => C): Const<L, C> {
@@ -31,8 +25,8 @@ export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant
   fold<B>(f: (l: L) => B): B {
     return f(this.value)
   }
-  equals(setoid: Setoid<L>, fy: Const<L, A>): boolean {
-    return this.fold(x => fy.fold(y => setoid.equals(x, y)))
+  equals(S: Setoid<L>, fy: Const<L, A>): boolean {
+    return this.fold(x => fy.fold(y => S.equals(x, y)))
   }
   inspect() {
     return this.toString()
@@ -42,13 +36,13 @@ export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant
   }
 }
 
-export function equals<L, A>(setoid: Setoid<L>, fx: Const<L, A>, fy: Const<L, A>): boolean {
-  return fx.equals(setoid, fy)
+export function equals<L, A>(S: Setoid<L>, fx: Const<L, A>, fy: Const<L, A>): boolean {
+  return fx.equals(S, fy)
 }
 
-export function getSetoid<L, A>(setoid: Setoid<L>): Setoid<Const<L, A>> {
+export function getSetoid<L, A>(S: Setoid<L>): Setoid<Const<L, A>> {
   return {
-    equals: (x, y) => equals(setoid, x, y)
+    equals: (x, y) => equals(S, x, y)
   }
 }
 
@@ -60,29 +54,27 @@ export function contramap<L, A>(fa: Const<L, A>): <B>(f: (b: B) => A) => Const<L
   return <B>(f: (b: B) => A) => fa.contramap(f)
 }
 
-export function getApply<L>(semigroup: Semigroup<L>): Apply<URI> {
+export function getApply<L>(S: Semigroup<L>): Apply<URI> {
+  function ap<A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> {
+    return new Const(S.concat(fab.fold(identity), fa.fold(identity)))
+  }
   return {
     URI,
     map,
-    ap<A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> {
-      return new Const<L, B>(semigroup.concat(fab.fold(identity), fa.fold(identity)))
-    }
+    ap
   }
 }
 
-export function getApplicative<L>(monoid: Monoid<L>): Applicative<URI> {
-  const { ap } = getApply(monoid)
-  const empty = new Const<L, any>(monoid.empty())
+export function getApplicative<L>(M: Monoid<L>): Applicative<URI> {
+  const apply = getApply(M)
+  const empty = new Const<L, any>(M.empty())
+  function of<A>(b: A): Const<L, A> {
+    return empty
+  }
   return {
-    URI,
-    map,
-    ap,
-    of<A>(b: A): Const<L, A> {
-      return empty
-    }
+    ...apply,
+    of
   }
 }
 
-const proof: Functor<URI> & Contravariant<URI> = { URI, map, contramap }
-// tslint:disable-next-line no-unused-expression
-proof
+export const const_: Functor<URI> & Contravariant<URI> = { URI, map, contramap }

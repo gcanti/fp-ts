@@ -3,12 +3,6 @@ import { Semigroup } from './Semigroup'
 import { Monad, FantasyMonad } from './Monad'
 import { constant, Lazy, toString } from './function'
 
-declare module './HKT' {
-  interface HKT<A> {
-    IO: IO<A>
-  }
-}
-
 export const URI = 'IO'
 
 export type URI = typeof URI
@@ -76,6 +70,4 @@ export function getMonoid<A>(monoid: Monoid<A>): Monoid<IO<A>> {
   return { empty: constant(of(empty)), concat: getSemigroup(monoid).concat }
 }
 
-const proof: Monad<URI> = { URI, map, of, ap, chain }
-// tslint:disable-next-line no-unused-expression
-proof
+export const io: Monad<URI> = { URI, map, of, ap, chain }

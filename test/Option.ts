@@ -13,7 +13,7 @@ import {
   getFirstMonoid,
   getLastMonoid
 } from '../src/Option'
-import * as option from '../src/Option'
+import * as array from '../src/Array'
 import { setoidNumber } from '../src/Setoid'
 import { eqOptions as eq } from './helpers'
 
@@ -82,10 +82,8 @@ describe('Option', () => {
   })
 
   it('traverse', () => {
-    const x = some('hello').traverse(option)(s => some(s.length))
-    eq(x, some(some(5)))
-    const y = some('hello').traverse(option)(s => some(s.length))
-    eq(y, some(some(5)))
+    assert.deepEqual(some('hello').traverse(array)(s => [s.length]), [some(5)])
+    assert.deepEqual(none.traverse(array)(s => [s]), [none])
   })
 
   it('reduce', () => {

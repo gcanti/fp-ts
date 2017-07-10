@@ -1,4 +1,4 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { Monad, FantasyMonad } from './Monad'
 import { Comonad, FantasyComonad } from './Comonad'
 import { Semigroup } from './Semigroup'
@@ -8,12 +8,7 @@ import { Traversable, FantasyTraversable } from './Traversable'
 import * as array from './Array'
 import { Option, some, none } from './Option'
 import { toString } from './function'
-
-declare module './HKT' {
-  interface HKT<A> {
-    NonEmptyArray: NonEmptyArray<A>
-  }
-}
+import './overloadings'
 
 export const URI = 'NonEmptyArray'
 
@@ -52,11 +47,8 @@ export class NonEmptyArray<A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return array.reduce(f, b, this.toArray())
   }
-  traverse<F extends HKTS>(
-    applicative: Applicative<F>
-  ): <B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F]) => HKT<NonEmptyArray<B>, U, V>[F] {
-    return <B>(f: (a: A) => HKT<B>[F]) =>
-      applicative.map((bs: Array<B>) => unsafeFromArray(bs), array.traverse<F>(applicative)<A, B>(f, this.toArray()))
+  traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
+    return f => applicative.map(bs => unsafeFromArray(bs), array.traverse(applicative)(f, this.toArray()))
   }
   extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> {
     return unsafeFromArray(array.extend(as => f(unsafeFromArray(as)), this.toArray()))
@@ -104,11 +96,15 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): 
   return fa.reduce(f, b)
 }
 
-export function traverse<F extends HKTS>(
-  applicative: Applicative<F>
-): <A, B, U = any, V = any>(f: (a: A) => HKT<B, U, V>[F], ta: NonEmptyArray<A>) => HKT<NonEmptyArray<B>, U, V>[F] {
-  return <A, B>(f: (a: A) => HKT<B>[F], ta: NonEmptyArray<A>) => ta.traverse<F>(applicative)<B>(f)
+export class Ops {
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>>
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>> {
+    return (f, ta) => ta.traverse(F)(f)
+  }
 }
+
+const ops = new Ops()
+export const traverse: Ops['traverse'] = ops.traverse
 
 export function extend<A, B>(f: (fa: NonEmptyArray<A>) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> {
   return fa.extend(f)
@@ -118,7 +114,7 @@ export function extract<A>(fa: NonEmptyArray<A>): A {
   return fa.extract()
 }
 
-const proof: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traversable<URI> = {
+export const nonEmptyArray: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traversable<URI> = {
   URI,
   extend,
   extract,
@@ -130,5 +126,3 @@ const proof: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traver
   reduce,
   traverse
 }
-// tslint:disable-next-line no-unused-expression
-proof

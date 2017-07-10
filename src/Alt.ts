@@ -1,10 +1,10 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { Functor, FantasyFunctor } from './Functor'
 
-export interface Alt<F extends HKTS> extends Functor<F> {
-  alt<A, U = any, V = any>(fx: HKT<A, U, V>[F], fy: HKT<A, U, V>[F]): HKT<A, U, V>[F]
+export interface Alt<F> extends Functor<F> {
+  alt<A>(fx: HKT<F, A>, fy: HKT<F, A>): HKT<F, A>
 }
 
-export interface FantasyAlt<F extends HKTS, A> extends FantasyFunctor<F, A> {
-  alt<U = any, V = any>(fy: HKT<A, U, V>[F]): HKT<A, U, V>[F]
+export interface FantasyAlt<F, A> extends FantasyFunctor<F, A> {
+  alt(fy: HKT<F, A>): HKT<F, A>
 }

@@ -1,16 +1,11 @@
 import * as assert from 'assert'
-import { getOptionT } from '../src/OptionT'
+import * as optionT from '../src/OptionT'
 import * as option from '../src/Option'
 import * as task from '../src/Task'
 import { eqOptions as eq } from './helpers'
 
-declare module '../src/HKT' {
-  interface HKT<A> {
-    'Task . Option': task.Task<option.Option<A>>
-  }
-}
-
-const taskOption = getOptionT('Task . Option', task)
+const taskOption = optionT.getOptionT(task)
+const none = optionT.none(task)()
 
 describe('OptionT', () => {
   it('map', () => {
@@ -24,10 +19,10 @@ describe('OptionT', () => {
   it('fold', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
-    const p1 = taskOption.fold(f, g, taskOption.none()).run().then(s => {
+    const p1 = optionT.fold(task)(f, g, none).run().then(s => {
       assert.strictEqual(s, 'none')
     })
-    const p2 = taskOption.fold(f, g, taskOption.of('s')).run().then(s => {
+    const p2 = optionT.fold(task)(f, g, taskOption.of('s')).run().then(s => {
       assert.strictEqual(s, 'some1')
     })
     return Promise.all([p1, p2])
@@ -35,10 +30,10 @@ describe('OptionT', () => {
 
   it('getOrElse', () => {
     const greetingT = taskOption.of('welcome')
-    const p1 = taskOption.getOrElse(() => 'hello, there!', greetingT).run().then(s => {
+    const p1 = optionT.getOrElse(task)(() => 'hello, there!', greetingT).run().then(s => {
       assert.strictEqual(s, 'welcome')
     })
-    const p2 = taskOption.getOrElse(() => 'hello, there!', taskOption.none()).run().then(s => {
+    const p2 = optionT.getOrElse(task)(() => 'hello, there!', none).run().then(s => {
       assert.strictEqual(s, 'hello, there!')
     })
     return Promise.all([p1, p2])

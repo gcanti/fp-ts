@@ -1,42 +1,34 @@
 import * as option from '../src/Option'
-import { Dictionary, lookup } from '../src/Dictionary'
-import { getReaderT } from '../src/ReaderT'
+import { StrMap, lookup } from '../src/StrMap'
+import { getReaderT, OptionKleisli } from '../src/ReaderT'
 import { eqOptions as eq } from './helpers'
 
-export type ReaderTOption<E, A> = (e: E) => option.Option<A>
-
-declare module '../src/HKT' {
-  interface HKT<A, U> {
-    'Kleisli<Option, E, A>': (u: U) => option.Option<A>
-  }
-}
-
-const readerTOption = getReaderT('Kleisli<Option, E, A>', option)
+const readerOption = getReaderT(option)
 
 describe('ReaderT', () => {
   it('ReaderOption', () => {
-    function configure(key: string): ReaderTOption<Dictionary<string>, string> {
-      return (e: Dictionary<string>) => lookup(key, e)
+    function configure(key: string): OptionKleisli<StrMap<string>, string> {
+      return (e: StrMap<string>) => lookup(key, e)
     }
 
-    const setupConnection = readerTOption.chain(host => {
-      return readerTOption.chain(user => {
-        return readerTOption.map(password => [host, user, password] as [string, string, string], configure('password'))
+    const setupConnection = readerOption.chain(host => {
+      return readerOption.chain(user => {
+        return readerOption.map(password => [host, user, password] as [string, string, string], configure('password'))
       }, configure('user'))
     }, configure('host'))
 
-    const goodConfig = {
+    const goodConfig = new StrMap({
       host: 'myhost',
       user: 'giulio',
       password: 'password'
-    }
+    })
 
     eq(setupConnection(goodConfig), option.some(['myhost', 'giulio', 'password']))
 
-    const badConfig = {
+    const badConfig = new StrMap({
       host: 'myhost',
       user: 'giulio'
-    }
+    })
 
     eq(setupConnection(badConfig), option.none)
   })

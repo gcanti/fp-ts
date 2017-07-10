@@ -1,17 +1,21 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
+import './overloadings'
 
-export interface Contravariant<F extends HKTS> {
+export interface Contravariant<F> {
   readonly URI: F
-  contramap<A, U = any, V = any>(fa: HKT<A, U, V>[F]): <B>(f: (b: B) => A) => HKT<B, U, V>[F]
+  contramap<A>(fa: HKT<F, A>): <B>(f: (b: B) => A) => HKT<F, B>
 }
 
-export interface FantasyContravariant<F extends HKTS, A> {
-  contramap<B, U = any, V = any>(f: (b: B) => A): HKT<B, U, V>[F]
+export interface FantasyContravariant<F, A> {
+  contramap<B>(f: (b: B) => A): HKT<F, B>
 }
 
-export function lift<F extends HKTS, A, B>(
-  contravariant: Contravariant<F>,
-  f: (b: B) => A
-): <U = any, V = any>(fa: HKT<A, U, V>[F]) => HKT<B, U, V>[F] {
-  return (fa: HKT<A>[F]) => contravariant.contramap(fa)(f)
+export class Ops {
+  lift<F, A, B>(contravariant: Contravariant<F>, f: (b: B) => A): (fa: HKT<F, A>) => HKT<F, B>
+  lift<F, A, B>(contravariant: Contravariant<F>, f: (b: B) => A): (fa: HKT<F, A>) => HKT<F, B> {
+    return fa => contravariant.contramap(fa)(f)
+  }
 }
+
+const ops = new Ops()
+export const lift: Ops['lift'] = ops.lift

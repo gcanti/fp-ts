@@ -1,61 +1,59 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { constant } from './function'
+import './overloadings'
 
-export interface Functor<F extends HKTS> {
+export interface Functor<F> {
   readonly URI: F
-  map<A, B, U = any, V = any>(f: (a: A) => B, fa: HKT<A, U, V>[F]): HKT<B, U, V>[F]
+  map<A, B>(f: (a: A) => B, fa: HKT<F, A>): HKT<F, B>
 }
 
-export interface FantasyFunctor<F extends HKTS, A> {
-  map<B, U = any, V = any>(f: (a: A) => B): HKT<B, U, V>[F]
+export interface FantasyFunctor<F, A> {
+  map<B>(f: (a: A) => B): HKT<F, B>
 }
 
-export function lift<F extends HKTS, A, B>(
-  functor: Functor<F>,
-  f: (a: A) => B
-): <U = any, V = any>(fa: HKT<A, U, V>[F]) => HKT<B, U, V>[F] {
-  return (fa: HKT<A>[F]) => functor.map(f, fa)
+export interface FunctorComposition<F, G> {
+  map<A, B>(f: (a: A) => B, fa: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>>
 }
 
-/** returns the composition of two functors
- * Note: requires an implicit proof that HKT<A>[FG] ~ HKT<HKT<A>[G]>[F]
- */
-export function getCompositionFunctor<FG extends HKTS, F extends HKTS, G extends HKTS>(
-  URI: FG,
-  functorF: Functor<F>,
-  functorG: Functor<G>
-): Functor<FG> {
-  return {
-    URI,
-    map<A, B>(f: (a: A) => B, fa: HKT<HKT<A>[G]>[F]): HKT<HKT<B>[G]>[F] {
-      return functorF.map((ga: HKT<A>[G]) => functorG.map(f, ga), fa)
+export class Ops {
+  lift<F, A, B>(F: Functor<F>, f: (a: A) => B): (fa: HKT<F, A>) => HKT<F, B>
+  lift<F, A, B>(F: Functor<F>, f: (a: A) => B): (fa: HKT<F, A>) => HKT<F, B> {
+    return fa => F.map(f, fa)
+  }
+
+  /** Ignore the return value of a computation, using the specified return value instead (`<$`) */
+  voidRight<F, A, B>(F: Functor<F>, a: A, fb: HKT<F, B>): HKT<F, A>
+  voidRight<F, A, B>(F: Functor<F>, a: A, fb: HKT<F, B>): HKT<F, A> {
+    return F.map(constant(a), fb)
+  }
+
+  /** A version of `voidRight` with its arguments flipped (`$>`) */
+  voidLeft<F, A, B>(F: Functor<F>, fa: HKT<F, A>, b: B): HKT<F, B>
+  voidLeft<F, A, B>(F: Functor<F>, fa: HKT<F, A>, b: B): HKT<F, B> {
+    return F.map(constant(b), fa)
+  }
+
+  /** Apply a value in a computational context to a value in no context.
+   * Generalizes `flip`
+   */
+  flap<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>, a: A) => HKT<F, B>
+  flap<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>, a: A) => HKT<F, B> {
+    return (ff, a) => functor.map(f => f(a), ff)
+  }
+
+  getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>
+  getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> {
+    return {
+      map<A, B>(f: (a: A) => B, fa: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>> {
+        return F.map(ga => G.map(f, ga), fa)
+      }
     }
   }
 }
 
-/** Ignore the return value of a computation, using the specified return value instead (`<$`) */
-export function voidRight<F extends HKTS, A, B, U = any, V = any>(
-  functor: Functor<F>,
-  a: A,
-  fb: HKT<B, U, V>[F]
-): HKT<A, U, V>[F] {
-  return functor.map(constant(a), fb)
-}
-
-/** A version of `voidRight` with its arguments flipped (`$>`) */
-export function voidLeft<F extends HKTS, A, B, U = any, V = any>(
-  functor: Functor<F>,
-  fa: HKT<A, U, V>[F],
-  b: B
-): HKT<B, U, V>[F] {
-  return functor.map(constant(b), fa)
-}
-
-/** Apply a value in a computational context to a value in no context.
- * Generalizes `flip`
- */
-export function flap<F extends HKTS>(
-  functor: Functor<F>
-): <A, B, U = any, V = any>(ff: HKT<(a: A) => B, U, V>[F], a: A) => HKT<B, U, V>[F] {
-  return <A, B, U = any, V = any>(ff: HKT<(a: A) => B, U, V>[F], a: A) => functor.map<(a: A) => B, B>(f => f(a), ff)
-}
+const ops = new Ops()
+export const lift: Ops['lift'] = ops.lift
+export const voidRight: Ops['voidRight'] = ops.voidRight
+export const voidLeft: Ops['voidLeft'] = ops.voidLeft
+export const flap: Ops['flap'] = ops.flap
+export const getFunctorComposition: Ops['getFunctorComposition'] = ops.getFunctorComposition

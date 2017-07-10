@@ -1,3 +1,8 @@
-export interface HKT<A, U = any, V = any> {}
+export interface HKT<URI, A> {
+  readonly _URI: URI
+  readonly _A: A
+}
 
-export type HKTS = keyof HKT<any>
+export interface HKT2<URI, L, A> extends HKT<URI, A> {
+  readonly _L: L
+}

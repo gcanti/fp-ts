@@ -1,50 +1,30 @@
 import { Monad, FantasyMonad } from './Monad'
-import { Endomorphism, toString } from './function'
-import { getReaderT } from './ReaderT'
-import * as id from './Id'
-
-declare module './HKT' {
-  interface HKT<A, U> {
-    'Kleisli<Id, E, A>': (u: U) => A
-    Reader: Reader<U, A>
-  }
-}
+import { identity, Endomorphism } from './function'
 
 export const URI = 'Reader'
 
 export type URI = typeof URI
 
-const readerTId = getReaderT('Kleisli<Id, E, A>', id)
-
 export class Reader<E, A> implements FantasyMonad<URI, A> {
   static of = of
-  readonly _E: E
+  readonly _L: E
   readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: (e: E) => A) {}
   run(e: E): A {
-    return readerTId.run(e, this.value)
+    return this.value(e)
   }
   map<B>(f: (a: A) => B): Reader<E, B> {
-    return new Reader(readerTId.map(f, this.value))
+    return new Reader((e: E) => f(this.run(e)))
   }
   of<E2, B>(b: B): Reader<E2, B> {
-    return of<E2, B>(b)
+    return of(b)
   }
   ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B> {
-    return new Reader(readerTId.ap(fab.value, this.value))
-  }
-  ap_<B, C>(this: Reader<E, (a: B) => C>, fb: Reader<E, B>): Reader<E, C> {
-    return fb.ap(this)
+    return new Reader((e: E) => fab.run(e)(this.run(e)))
   }
   chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B> {
-    return new Reader(readerTId.chain(a => f(a).value, this.value))
-  }
-  inspect() {
-    return this.toString()
-  }
-  toString() {
-    return `new Reader(${toString(this.value)})`
+    return new Reader((e: E) => f(this.run(e)).run(e))
   }
 }
 
@@ -53,7 +33,7 @@ export function map<E, A, B>(f: (a: A) => B, fa: Reader<E, A>): Reader<E, B> {
 }
 
 export function of<E, A>(a: A): Reader<E, A> {
-  return new Reader(readerTId.of(a))
+  return new Reader((e: E) => a)
 }
 
 export function ap<E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> {
@@ -66,19 +46,23 @@ export function chain<E, A, B>(f: (a: A) => Reader<E, B>, fa: Reader<E, A>): Rea
 
 /** reads the current context */
 export function ask<E>(): Reader<E, E> {
-  return new Reader(readerTId.ask<E>())
+  return new Reader(identity)
 }
 
 /** Projects a value from the global context in a Reader */
 export function asks<E, A>(f: (e: E) => A): Reader<E, A> {
-  return new Reader(readerTId.asks(f))
+  return new Reader(f)
 }
 
 /** changes the value of the local context during the execution of the action `fa` */
 export function local<E, A>(f: Endomorphism<E>, fa: Reader<E, A>): Reader<E, A> {
-  return new Reader(readerTId.local(f, fa.value))
+  return new Reader((e: E) => fa.run(f(e)))
 }
 
-const proof: Monad<URI> = { URI, map, of, ap, chain }
-// tslint:disable-next-line no-unused-expression
-proof
+export const reader: Monad<URI> = {
+  URI,
+  map,
+  of,
+  ap,
+  chain
+}

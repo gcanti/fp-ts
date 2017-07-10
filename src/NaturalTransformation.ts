@@ -1,5 +1,3 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 
-export type NaturalTransformation<F extends HKTS, G extends HKTS> = <A, U = any, V = any>(
-  fa: HKT<A, U, V>[F]
-) => HKT<A, U, V>[G]
+export type NaturalTransformation<F, G> = <A>(fa: HKT<F, A>) => HKT<G, A>

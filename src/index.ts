@@ -20,8 +20,6 @@ import * as const_ from './Const'
 export { const_ as const }
 import * as contravariant from './Contravariant'
 export { contravariant }
-import * as dictionary from './Dictionary'
-export { dictionary }
 import * as either from './Either'
 export { either }
 import * as eitherT from './EitherT'
@@ -36,24 +34,16 @@ import * as foldable from './Foldable'
 export { foldable }
 import * as free from './Free'
 export { free }
-import * as freeAp from './FreeAp'
-export { freeAp }
 import * as function_ from './function'
 export { function_ as function }
 import * as functor from './Functor'
 export { functor }
 import * as hkt from './HKT'
 export { hkt }
-import * as id from './Id'
-export { id }
 import * as identity from './Identity'
 export { identity }
 import * as io from './IO'
 export { io }
-import * as ixMonad from './IxMonad'
-export { ixMonad }
-import * as mealy from './Mealy'
-export { mealy }
 import * as monad from './Monad'
 export { monad }
 import * as monoid from './Monoid'
@@ -94,12 +84,12 @@ import * as stateT from './StateT'
 export { stateT }
 import * as store from './Store'
 export { store }
+import * as strmap from './StrMap'
+export { strmap }
 import * as task from './Task'
 export { task }
 import * as these from './These'
 export { these }
-import * as traced from './Traced'
-export { traced }
 import * as traversable from './Traversable'
 export { traversable }
 import * as tuple from './Tuple'

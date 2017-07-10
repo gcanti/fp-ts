@@ -1,63 +1,74 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { Traversable } from './Traversable'
 import { Filterable } from './Filterable'
 import { Applicative } from './Applicative'
 import { Either, left, right } from './Either'
 import { Option } from './Option'
-import { identity } from './function'
 
-export interface Witherable<T extends HKTS> extends Traversable<T>, Filterable<T> {
-  wilt<M extends HKTS>(
-    applicative: Applicative<M>
-  ): <A, L, R, U1 = any, U2 = any, V1 = any, V2 = any>(
-    f: (a: A) => HKT<Either<L, R>, U1, V1>[M],
-    ta: HKT<A, U2, V2>[T]
-  ) => HKT<{ left: HKT<L, U2, V2>[T]; right: HKT<R, U2, V2>[T] }, U1, V1>[M]
+export type Wilt<T, L, R> = {
+  left: HKT<T, L>
+  right: HKT<T, R>
 }
 
-/**  A default implementation of `wither` using `wilt` */
-export function wither<T extends HKTS, M extends HKTS>(
-  witherable: Witherable<T>,
-  applicative: Applicative<M>
-): <A, B, U1 = any, U2 = any, V1 = any, V2 = any>(
-  f: (a: A) => HKT<Option<B>, U1, V1>[M],
-  ta: HKT<A, U2, V2>[T]
-) => HKT<HKT<B, U2, V2>[T], U1, V1>[M] {
-  return <A, B, U1 = any, U2 = any, V1 = any, V2 = any>(
-    f: (a: A) => HKT<Option<B>, U1, V1>[M],
-    ta: HKT<A, U2, V2>[T]
-  ) =>
-    witherable.map(
-      (x: { right: HKT<B>[T] }) => x.right,
-      witherable.wilt(applicative)<A, null, B>(
-        (a: A) =>
-          applicative.map<Option<B>, Either<null, B>>(
-            ob => ob.fold(() => left<null, B>(null), b => right<null, B>(b)),
-            f(a)
-          ),
+export interface Witherable<T> extends Traversable<T>, Filterable<T> {
+  wilt<M>(M: Applicative<M>): <A, L, R>(f: (a: A) => HKT<M, Either<L, R>>, ta: HKT<T, A>) => HKT<M, Wilt<T, L, R>>
+}
+
+export class Ops {
+  /**  A default implementation of `wither` using `wilt` */
+  wither<T, M>(
+    T: Witherable<T>,
+    M: Applicative<M>
+  ): <A, B>(f: (a: A) => HKT<M, Option<B>>, ta: HKT<T, A>) => HKT<M, HKT<T, B>>
+  wither<T, M>(
+    T: Witherable<T>,
+    M: Applicative<M>
+  ): <A, B>(f: (a: A) => HKT<M, Option<B>>, ta: HKT<T, A>) => HKT<M, HKT<T, B>> {
+    return <A, B>(f: (a: A) => HKT<M, Option<B>>, ta: HKT<T, A>): HKT<M, HKT<T, B>> => {
+      const mb: HKT<M, Wilt<T, null, B>> = T.wilt(M)(
+        a => M.map(ob => ob.fold(() => left(null), b => right(b)), f(a)),
         ta
       )
-    )
+      return M.map(w => w.right, mb)
+    }
+  }
+
+  /** Partition between `Left` and `Right` values - with effects in `m` */
+  wilted<T, M>(T: Witherable<T>, M: Applicative<M>): <L, R>(tm: HKT<T, HKT<M, Either<L, R>>>) => HKT<M, Wilt<T, L, R>>
+  wilted<T, M>(T: Witherable<T>, M: Applicative<M>): <L, R>(tm: HKT<T, HKT<M, Either<L, R>>>) => HKT<M, Wilt<T, L, R>> {
+    return tm => T.wilt(M)(me => me, tm)
+  }
+
+  /** Filter out all the `Nothing` values - with effects in `m` */
+  withered<T, M>(T: Witherable<T>, M: Applicative<M>): <A>(tm: HKT<T, HKT<M, Option<A>>>) => HKT<M, HKT<T, A>>
+  withered<T, M>(T: Witherable<T>, M: Applicative<M>): <A>(tm: HKT<T, HKT<M, Option<A>>>) => HKT<M, HKT<T, A>> {
+    return tm => this.wither(T, M)(moa => moa, tm)
+  }
 }
 
-/** Partition between `Left` and `Right` values - with effects in `m` */
-export function wilted<T extends HKTS, M extends HKTS>(
-  witherable: Witherable<T>,
-  applicative: Applicative<M>
-): <L, R, U1 = any, U2 = any, V1 = any, V2 = any>(
-  tm: HKT<HKT<Either<L, R>, U1, V1>[M], U2, V2>[T]
-) => HKT<{ left: HKT<L, U2, V2>[T]; right: HKT<R, U2, V2>[T] }, U1, V1>[M] {
-  return <L, R, U1 = any, U2 = any, V1 = any, V2 = any>(tm: HKT<HKT<Either<L, R>, U1, V1>[M], U2, V2>[T]) =>
-    witherable.wilt(applicative)(identity, tm)
-}
+const ops = new Ops()
+export const wither: Ops['wither'] = ops.wither
+export const wilted: Ops['wilted'] = ops.wilted
+export const withered: Ops['withered'] = ops.withered
 
-/** Filter out all the `Nothing` values - with effects in `m` */
-export function withered<T extends HKTS, M extends HKTS>(
-  witherable: Witherable<T>,
-  applicative: Applicative<M>
-): <A, U1 = any, U2 = any, V1 = any, V2 = any>(
-  tm: HKT<HKT<Option<A>, U1, V1>[M], U2, V2>[T]
-) => HKT<HKT<A, U2, V2>[T], U1, V1>[M] {
-  return <A, U1 = any, U2 = any, V1 = any, V2 = any>(tm: HKT<HKT<Option<A>, U1, V1>[M], U2, V2>[T]) =>
-    wither(witherable, applicative)(identity, tm)
+//
+// overloadings
+//
+
+import { Identity, IdentityURI, ArrayURI, OptionURI } from './overloadings'
+
+export interface Ops {
+  wither(
+    T: Witherable<ArrayURI>,
+    M: Applicative<IdentityURI>
+  ): <A, B>(f: (a: A) => Identity<Option<B>>, ta: Array<A>) => Identity<Array<B>>
+  wither(
+    T: Witherable<OptionURI>,
+    M: Applicative<IdentityURI>
+  ): <A, B>(f: (a: A) => Identity<Option<B>>, ta: Option<A>) => Identity<Option<B>>
+
+  withered(
+    T: Witherable<ArrayURI>,
+    M: Applicative<IdentityURI>
+  ): <A>(tm: Array<Identity<Option<A>>>) => Identity<Array<A>>
 }

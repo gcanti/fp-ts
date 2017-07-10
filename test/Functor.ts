@@ -1,14 +1,8 @@
 import * as assert from 'assert'
 import * as option from '../src/Option'
 import * as array from '../src/Array'
-import { lift, getCompositionFunctor, voidRight, voidLeft, flap } from '../src/Functor'
+import { lift, getFunctorComposition, voidRight, voidLeft, flap } from '../src/Functor'
 import { eqOptions as eq } from './helpers'
-
-declare module '../src/HKT' {
-  interface HKT<A> {
-    'Array<Option>': Array<option.Option<A>>
-  }
-}
 
 describe('Functor', () => {
   it('lift', () => {
@@ -18,8 +12,8 @@ describe('Functor', () => {
     eq(actual, option.some(4))
   })
 
-  it('getCompositionFunctor', () => {
-    const arrayOption = getCompositionFunctor('Array<Option>', array, option)
+  it('getFunctorComposition', () => {
+    const arrayOption = getFunctorComposition(array, option)
     const double = (a: number) => a * 2
     assert.deepEqual(arrayOption.map(double, [option.some(1)]), [option.some(2)])
   })

@@ -1,10 +1,10 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 import { Alt, FantasyAlt } from './Alt'
 
-export interface Plus<F extends HKTS> extends Alt<F> {
-  zero(): HKT<any>[F]
+export interface Plus<F> extends Alt<F> {
+  zero(): HKT<F, any>
 }
 
-export interface FantasyPlus<F extends HKTS, A> extends FantasyAlt<F, A> {
+export interface FantasyPlus<F, A> extends FantasyAlt<F, A> {
   zero(): FantasyPlus<F, any>
 }

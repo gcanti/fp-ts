@@ -1,4 +1,4 @@
-import { HKT, HKTS } from './HKT'
+import { HKT } from './HKT'
 
 export type Lazy<A> = () => A
 
@@ -47,8 +47,8 @@ export type Endomorphism<A> = (a: A) => A
 
 export type BinaryOperation<A, B> = Function2<A, A, B>
 
-export type Kleisli<F extends HKTS, A, B, U = any, V = any> = (a: A) => HKT<B, U, V>[F]
-export type Cokleisli<F extends HKTS, A, B, U = any, V = any> = (fa: HKT<A, U, V>[F]) => B
+export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
+export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 
 export function constant<A>(a: A): Lazy<A> {
   return () => a
@@ -222,5 +222,9 @@ export function toString(x: any): string {
   if (Array.isArray(x)) {
     return `[${x.map(toString).join(', ')}]`
   }
-  return x.toString()
+  return String(x)
+}
+
+export function tuple<A, B>(a: A, b: B): [A, B] {
+  return [a, b]
 }
