@@ -11,17 +11,15 @@ Inspired by
 
 # Installation
 
-To install the latest version (compatible with TypeScript **2.4.1**):
-
-```
-npm install --save fp-ts@next
-```
-
 To install the stable version:
 
 ```
 npm install --save fp-ts
 ```
+
+# TypeScript compatibility
+
+The stable version is tested against TypeScript 2.4.x, but should run with TypeScript 2.2.2+ too
 
 # Technical overview
 
