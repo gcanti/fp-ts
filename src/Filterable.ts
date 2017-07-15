@@ -3,6 +3,7 @@ import { Functor } from './Functor'
 import { Either, fromPredicate, left, right } from './Either'
 import { Option, fromPredicate as optionFromPredicate } from './Option'
 import { Predicate, identity } from './function'
+import './overloadings'
 
 export interface Filterable<F> extends Functor<F> {
   /** partition a data structure based on an either predicate */

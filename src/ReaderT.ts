@@ -3,6 +3,7 @@ import { Applicative } from './Applicative'
 import { Chain } from './Chain'
 import { Monad } from './Monad'
 import { Kleisli } from './function'
+import './overloadings'
 
 export interface ReaderT<M> {
   map<E, A, B>(f: (a: A) => B, fa: Kleisli<M, E, A>): Kleisli<M, E, B>

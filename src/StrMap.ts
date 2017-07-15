@@ -9,6 +9,7 @@ import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
 import { Unfoldable } from './Unfoldable'
+import './overloadings'
 
 // https://github.com/purescript/purescript-maps
 

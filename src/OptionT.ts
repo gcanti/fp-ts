@@ -6,6 +6,7 @@ import { Applicative, getApplicativeComposition, ApplicativeComposition } from '
 import { Option, URI as OptionURI } from './Option'
 import * as option from './Option'
 import { Lazy } from './function'
+import './overloadings'
 
 export interface OptionT<M> extends ApplicativeComposition<M, OptionURI> {
   chain<A, B>(f: (a: A) => HKT<M, Option<B>>, fa: HKT<M, Option<A>>): HKT<M, Option<B>>

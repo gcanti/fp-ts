@@ -7,6 +7,7 @@ import { Either, URI as URIEither } from './Either'
 import * as either from './Either'
 import { Option } from './Option'
 import { Applicative } from './Applicative'
+import './overloadings'
 
 export interface EitherT<M> extends ApplicativeComposition<M, URIEither> {
   chain<L, A, B>(f: (a: A) => HKT<M, Either<L, B>>, fa: HKT<M, Either<L, A>>): HKT<M, Either<L, B>>

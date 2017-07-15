@@ -3,6 +3,7 @@ import { Applicative } from './Applicative'
 import { Chain } from './Chain'
 import { Monad } from './Monad'
 import { Kleisli, Endomorphism, tuple } from './function'
+import './overloadings'
 
 export interface StateT<M> {
   map<S, A, B>(f: (a: A) => B, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]>

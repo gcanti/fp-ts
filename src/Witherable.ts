@@ -4,6 +4,7 @@ import { Filterable } from './Filterable'
 import { Applicative } from './Applicative'
 import { Either, left, right } from './Either'
 import { Option } from './Option'
+import './overloadings'
 
 export type Wilt<T, L, R> = {
   left: HKT<T, L>

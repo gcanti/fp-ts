@@ -5,6 +5,7 @@ import { HKT } from './HKT'
 import { FantasyMonad, Monad } from './Monad'
 import { NaturalTransformation } from './NaturalTransformation'
 import { toString } from './function'
+import './overloadings'
 
 export const URI = 'Free'
 

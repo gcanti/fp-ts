@@ -2,6 +2,7 @@ import { HKT } from './HKT'
 import { Comonad, FantasyComonad } from './Comonad'
 import { Functor } from './Functor'
 import { Endomorphism, toString } from './function'
+import './overloadings'
 
 export const URI = 'Store'
 

@@ -8,6 +8,7 @@ import { Option, none, some } from './Option'
 import { Setoid } from './Setoid'
 import { Semigroup } from './Semigroup'
 import { constFalse, toString } from './function'
+import './overloadings'
 
 // Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
 // adapted from https://github.com/purescript-contrib/purescript-these
