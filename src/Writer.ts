@@ -3,6 +3,12 @@ import { Functor } from './Functor'
 import { Monad, FantasyMonad } from './Monad'
 import { Lazy } from './function'
 
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    Writer: Writer<L, A>
+  }
+}
+
 export const URI = 'Writer'
 
 export type URI = typeof URI

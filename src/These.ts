@@ -1,4 +1,4 @@
-import { HKT } from './HKT'
+import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
 import { Applicative } from './Applicative'
 import { Functor, FantasyFunctor } from './Functor'
 import { Bifunctor, FantasyBifunctor } from './Bifunctor'
@@ -8,10 +8,15 @@ import { Option, none, some } from './Option'
 import { Setoid } from './Setoid'
 import { Semigroup } from './Semigroup'
 import { constFalse, toString } from './function'
-import './overloadings'
 
 // Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
 // adapted from https://github.com/purescript-contrib/purescript-these
+
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    These: These<L, A>
+  }
+}
 
 export const URI = 'These'
 
@@ -42,6 +47,9 @@ export class This<L, A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => URI2HKT2<M, B>[F]) => URI2HKT2<M, These<L, B>>[F]
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<These<L, B>>[F]
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.of(this as any)
   }
@@ -89,6 +97,9 @@ export class That<L, A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => URI2HKT2<M, B>[F]) => URI2HKT2<M, These<L, B>>[F]
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<These<L, B>>[F]
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.map(b => that(b), f(this.value))
   }
@@ -140,6 +151,9 @@ export class Both<L, A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.a)
   }
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => URI2HKT2<M, B>[F]) => URI2HKT2<M, These<L, B>>[F]
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<These<L, B>>[F]
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.map(b => both(this.l, b), f(this.a))
   }
@@ -213,6 +227,12 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: These<L, A>): B 
 }
 
 export class Ops {
+  traverse<F extends HKT2S>(
+    F: Applicative<F>
+  ): <M, L, A, B>(f: (a: A) => URI2HKT2<M, B>[F], ta: These<L, A>) => URI2HKT2<M, These<L, B>>[F]
+  traverse<F extends HKTS>(
+    F: Applicative<F>
+  ): <L, A, B>(f: (a: A) => URI2HKT<B>[F], ta: These<L, A>) => URI2HKT<These<L, B>>[F]
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: These<L, A>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: These<L, A>) => HKT<F, These<L, B>> {
     return <L, A, B>(f: (a: A) => HKT<F, B>, ta: These<L, A>) => ta.traverse(F)(f)

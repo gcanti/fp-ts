@@ -1,58 +1,134 @@
+import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
 import { Functor } from './Functor'
 import { Applicative } from './Applicative'
 import { Chain } from './Chain'
 import { Monad } from './Monad'
-import { Kleisli, Endomorphism, tuple } from './function'
-import './overloadings'
+import { Endomorphism, tuple } from './function'
 
 export interface StateT<M> {
-  map<S, A, B>(f: (a: A) => B, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]>
-  of<S, A>(a: A): Kleisli<M, S, [A, S]>
-  ap<S, A, B>(fab: Kleisli<M, S, [(a: A) => B, S]>, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]>
-  chain<S, A, B>(f: (a: A) => Kleisli<M, S, [B, S]>, fa: Kleisli<M, S, [A, S]>): Kleisli<M, S, [B, S]>
+  map<S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<M, [A, S]>): (s: S) => HKT<M, [B, S]>
+  of<S, A>(a: A): (s: S) => HKT<M, [A, S]>
+  ap<S, A, B>(fab: (s: S) => HKT<M, [(a: A) => B, S]>, fa: (s: S) => HKT<M, [A, S]>): (s: S) => HKT<M, [B, S]>
+  chain<S, A, B>(f: (a: A) => (s: S) => HKT<M, [B, S]>, fa: (s: S) => HKT<M, [A, S]>): (s: S) => HKT<M, [B, S]>
+}
+
+export interface StateT1<M extends HKTS> {
+  map<S, A, B>(f: (a: A) => B, fa: (s: S) => URI2HKT<[A, S]>[M]): (s: S) => URI2HKT<[B, S]>[M]
+  of<S, A>(a: A): (s: S) => URI2HKT<[A, S]>[M]
+  ap<S, A, B>(
+    fab: (s: S) => URI2HKT<[(a: A) => B, S]>[M],
+    fa: (s: S) => URI2HKT<[A, S]>[M]
+  ): (s: S) => URI2HKT<[B, S]>[M]
+  chain<S, A, B>(
+    f: (a: A) => (s: S) => URI2HKT<[B, S]>[M],
+    fa: (s: S) => URI2HKT<[A, S]>[M]
+  ): (s: S) => URI2HKT<[B, S]>[M]
+}
+
+export interface StateT2<M extends HKT2S> {
+  map<L, S, A, B>(f: (a: A) => B, fa: (s: S) => URI2HKT2<L, [A, S]>[M]): (s: S) => URI2HKT2<L, [B, S]>[M]
+  of<L, S, A>(a: A): (s: S) => URI2HKT2<L, [A, S]>[M]
+  ap<L, S, A, B>(
+    fab: (s: S) => URI2HKT2<L, [(a: A) => B, S]>[M],
+    fa: (s: S) => URI2HKT2<L, [A, S]>[M]
+  ): (s: S) => URI2HKT2<L, [B, S]>[M]
+  chain<L, S, A, B>(
+    f: (a: A) => (s: S) => URI2HKT2<L, [B, S]>[M],
+    fa: (s: S) => URI2HKT2<L, [A, S]>[M]
+  ): (s: S) => URI2HKT2<L, [B, S]>[M]
 }
 
 export class Ops {
-  map<F>(F: Functor<F>): StateT<F>['map']
-  map<F>(F: Functor<F>): StateT<F>['map'] {
+  map<F extends HKT2S>(
+    F: Functor<F>
+  ): <L, S, A, B>(f: (a: A) => B, fa: (s: S) => URI2HKT2<L, [A, S]>[F]) => (s: S) => URI2HKT2<L, [B, S]>[F]
+  map<F extends HKTS>(
+    F: Functor<F>
+  ): <S, A, B>(f: (a: A) => B, fa: (s: S) => URI2HKT<[A, S]>[F]) => (s: S) => URI2HKT<[B, S]>[F]
+  map<F>(F: Functor<F>): <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
+  map<F>(F: Functor<F>): <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
     return (f, fa) => s => F.map(([a, s1]) => tuple(f(a), s1), fa(s))
   }
 
-  of<F>(F: Applicative<F>): StateT<F>['of']
-  of<F>(F: Applicative<F>): StateT<F>['of'] {
+  of<F extends HKT2S>(F: Applicative<F>): <L, S, A>(a: A) => (s: S) => URI2HKT2<L, [A, S]>[F]
+  of<F extends HKTS>(F: Applicative<F>): <S, A>(a: A) => (s: S) => URI2HKT<[A, S]>[F]
+  of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]>
+  of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]> {
     return a => s => F.of(tuple(a, s))
   }
 
-  ap<F>(F: Chain<F>): StateT<F>['ap']
-  ap<F>(F: Chain<F>): StateT<F>['ap'] {
+  ap<F extends HKT2S>(
+    F: Chain<F>
+  ): <L, S, A, B>(
+    fab: (s: S) => URI2HKT2<L, [(a: A) => B, S]>[F],
+    fa: (s: S) => URI2HKT2<L, [A, S]>[F]
+  ) => (s: S) => URI2HKT2<L, [B, S]>[F]
+  ap<F extends HKTS>(
+    F: Chain<F>
+  ): <S, A, B>(
+    fab: (s: S) => URI2HKT<[(a: A) => B, S]>[F],
+    fa: (s: S) => URI2HKT<[A, S]>[F]
+  ) => (s: S) => URI2HKT<[B, S]>[F]
+  ap<F>(
+    F: Chain<F>
+  ): <S, A, B>(fab: (s: S) => HKT<F, [(a: A) => B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
+  ap<F>(
+    F: Chain<F>
+  ): <S, A, B>(fab: (s: S) => HKT<F, [(a: A) => B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
     return (fab, fa) => this.chain(F)(f => this.map(F)(f, fa), fab) // <- derived
   }
 
-  chain<F>(F: Chain<F>): StateT<F>['chain']
-  chain<F>(F: Chain<F>): StateT<F>['chain'] {
+  chain<F extends HKT2S>(
+    F: Chain<F>
+  ): <L, S, A, B>(
+    f: (a: A) => (s: S) => URI2HKT2<L, [B, S]>[F],
+    fa: (s: S) => URI2HKT2<L, [A, S]>[F]
+  ) => (s: S) => URI2HKT2<L, [B, S]>[F]
+  chain<F extends HKTS>(
+    F: Chain<F>
+  ): <S, A, B>(
+    f: (a: A) => (s: S) => URI2HKT<[B, S]>[F],
+    fa: (s: S) => URI2HKT<[A, S]>[F]
+  ) => (s: S) => URI2HKT<[B, S]>[F]
+  chain<F>(
+    F: Chain<F>
+  ): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
+  chain<F>(
+    F: Chain<F>
+  ): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
     return (f, fa) => s => F.chain(([a, s1]) => f(a)(s1), fa(s))
   }
 
-  get<F>(F: Applicative<F>): <S>() => Kleisli<F, S, [S, S]>
-  get<F>(F: Applicative<F>): <S>() => Kleisli<F, S, [S, S]> {
+  get<F extends HKT2S>(F: Applicative<F>): <L, S>() => (s: S) => URI2HKT2<L, [S, S]>[F]
+  get<F extends HKTS>(F: Applicative<F>): <S>() => (s: S) => URI2HKT<[S, S]>[F]
+  get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>
+  get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]> {
     return () => s => F.of(tuple(s, s))
   }
 
-  put<F>(F: Applicative<F>): <S>(s: S) => Kleisli<F, S, [void, S]>
-  put<F>(F: Applicative<F>): <S>(s: S) => Kleisli<F, S, [void, S]> {
+  put<F extends HKT2S>(F: Applicative<F>): <L, S>(s: S) => (s: S) => URI2HKT2<L, [void, S]>[F]
+  put<F extends HKTS>(F: Applicative<F>): <S>(s: S) => (s: S) => URI2HKT<[void, S]>[F]
+  put<F>(F: Applicative<F>): <S>(s: S) => (s: S) => HKT<F, [void, S]>
+  put<F>(F: Applicative<F>): <S>(s: S) => (s: S) => HKT<F, [void, S]> {
     return s => () => F.of(tuple(undefined, s))
   }
 
-  modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => Kleisli<F, S, [void, S]>
-  modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => Kleisli<F, S, [void, S]> {
+  modify<F extends HKT2S>(F: Applicative<F>): <L, S>(f: Endomorphism<S>) => (s: S) => URI2HKT2<L, [void, S]>[F]
+  modify<F extends HKTS>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => URI2HKT<[void, S]>[F]
+  modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]>
+  modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]> {
     return f => s => F.of(tuple(undefined, f(s)))
   }
 
-  gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => Kleisli<F, S, [A, S]>
-  gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => Kleisli<F, S, [A, S]> {
+  gets<F extends HKT2S>(F: Applicative<F>): <L, S, A>(f: (s: S) => A) => (s: S) => URI2HKT2<L, [A, S]>[F]
+  gets<F extends HKTS>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => URI2HKT<[A, S]>[F]
+  gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>
+  gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]> {
     return f => s => F.of(tuple(f(s), s))
   }
 
+  getStateT<M extends HKT2S>(M: Monad<M>): StateT2<M>
+  getStateT<M extends HKTS>(M: Monad<M>): StateT1<M>
   getStateT<M>(M: Monad<M>): StateT<M>
   getStateT<M>(M: Monad<M>): StateT<M> {
     return {
@@ -74,28 +150,3 @@ export const put: Ops['put'] = ops.put
 export const modify: Ops['modify'] = ops.modify
 export const gets: Ops['gets'] = ops.gets
 export const getStateT: Ops['getStateT'] = ops.getStateT
-
-//
-// overloadings
-//
-
-import { OptionURI, OptionKleisli } from './overloadings'
-
-export interface StateTOption {
-  map<S, A, B>(f: (a: A) => B, fa: OptionKleisli<S, [A, S]>): OptionKleisli<S, [B, S]>
-  of<S, A>(a: A): OptionKleisli<S, [A, S]>
-  ap<S, A, B>(fab: OptionKleisli<S, [(a: A) => B, S]>, fa: OptionKleisli<S, [A, S]>): OptionKleisli<S, [B, S]>
-  chain<S, A, B>(f: (a: A) => OptionKleisli<S, [B, S]>, fa: OptionKleisli<S, [A, S]>): OptionKleisli<S, [B, S]>
-}
-
-export interface Ops {
-  get(F: Applicative<OptionURI>): <S>() => OptionKleisli<S, [S, S]>
-
-  put(F: Applicative<OptionURI>): <S>(s: S) => OptionKleisli<S, [void, S]>
-
-  modify(F: Applicative<OptionURI>): <S>(f: Endomorphism<S>) => OptionKleisli<S, [void, S]>
-
-  gets(F: Applicative<OptionURI>): <S, A>(f: (s: S) => A) => OptionKleisli<S, [A, S]>
-
-  getStateT(M: Monad<OptionURI>): StateTOption
-}

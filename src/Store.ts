@@ -2,7 +2,12 @@ import { HKT } from './HKT'
 import { Comonad, FantasyComonad } from './Comonad'
 import { Functor } from './Functor'
 import { Endomorphism, toString } from './function'
-import './overloadings'
+
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    Store: Store<L, A>
+  }
+}
 
 export const URI = 'Store'
 

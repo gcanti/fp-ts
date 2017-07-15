@@ -1,4 +1,4 @@
-import { HKT } from './HKT'
+import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
 import { Monoid } from './Monoid'
 import { Functor, FantasyFunctor } from './Functor'
 import { Applicative } from './Applicative'
@@ -9,9 +9,14 @@ import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
 import { Unfoldable } from './Unfoldable'
-import './overloadings'
 
 // https://github.com/purescript/purescript-maps
+
+declare module './HKT' {
+  interface URI2HKT<A> {
+    StrMap: StrMap<A>
+  }
+}
 
 export const URI = 'StrMap'
 
@@ -38,6 +43,13 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
     }
     return out
   }
+  traverseWithKey<F extends HKT2S>(
+    F: Applicative<F>
+  ): <L, B>(f: (k: string, a: A) => URI2HKT2<L, B>[F]) => URI2HKT2<L, StrMap<B>>[F]
+  traverseWithKey<F extends HKTS>(
+    F: Applicative<F>
+  ): <B>(f: (k: string, a: A) => URI2HKT<B>[F]) => URI2HKT<StrMap<B>>[F]
+  traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     const concatA2 = liftA2(F, curriedConcat)
     return f => {
@@ -48,6 +60,9 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
       return out
     }
   }
+  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => URI2HKT2<L, B>[F]) => URI2HKT2<L, StrMap<B>>[F]
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<StrMap<B>>[F]
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     return f => this.traverseWithKey(F)((_, a) => f(a))
   }
@@ -70,20 +85,32 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: StrMap<A>): B {
 export const curriedConcat: <A>(x: StrMap<A>) => (y: StrMap<A>) => StrMap<A> = curry(concat)
 
 export class Ops {
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
-    return (f, ta) => ta.traverse(F)(f)
-  }
-
+  traverseWithKey<F extends HKT2S>(
+    F: Applicative<F>
+  ): <L, A, B>(f: (k: string, a: A) => URI2HKT2<L, B>[F], ta: StrMap<A>) => URI2HKT2<L, StrMap<B>>[F]
+  traverseWithKey<F extends HKTS>(
+    F: Applicative<F>
+  ): <A, B>(f: (k: string, a: A) => URI2HKT<B>[F], ta: StrMap<A>) => URI2HKT<StrMap<B>>[F]
   traverseWithKey<F>(F: Applicative<F>): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
     return (f, ta) => ta.traverseWithKey(F)(f)
   }
+
+  traverse<F extends HKT2S>(
+    F: Applicative<F>
+  ): <L, A, B>(f: (a: A) => URI2HKT2<L, B>[F], ta: StrMap<A>) => URI2HKT2<L, StrMap<B>>[F]
+  traverse<F extends HKTS>(
+    F: Applicative<F>
+  ): <A, B>(f: (a: A) => URI2HKT<B>[F], ta: StrMap<A>) => URI2HKT<StrMap<B>>[F]
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>>
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
+    return (f, ta) => ta.traverse(F)(f)
+  }
 }
 
 const ops = new Ops()
-export const traverse: Ops['traverse'] = ops.traverse
 export const traverseWithKey: Ops['traverseWithKey'] = ops.traverseWithKey
+export const traverse: Ops['traverse'] = ops.traverse
 
 /** Test whether one dictionary contains all of the keys and values contained in another dictionary */
 export function isSubdictionary<A>(setoid: Setoid<A>, d1: StrMap<A>, d2: StrMap<A>): boolean {
@@ -177,17 +204,4 @@ export const strmap: Monoid<StrMap<any>> & Functor<URI> & Foldable<URI> & Traver
   map,
   reduce,
   traverse
-}
-
-//
-// overloadings
-//
-
-import { OptionURI } from './overloadings'
-
-export interface Ops {
-  traverse(F: Applicative<OptionURI>): <A, B>(f: (a: A) => Option<B>, ta: StrMap<A>) => Option<StrMap<B>>
-  traverseWithKey(
-    F: Applicative<OptionURI>
-  ): <A, B>(f: (k: string, a: A) => Option<B>, ta: StrMap<A>) => Option<StrMap<B>>
 }

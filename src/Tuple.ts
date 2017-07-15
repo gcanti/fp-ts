@@ -15,6 +15,12 @@ import { Cokleisli } from './function'
 
 // https://github.com/purescript/purescript-tuples
 
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    Tuple: Tuple<L, A>
+  }
+}
+
 export const URI = 'Tuple'
 
 export type URI = typeof URI

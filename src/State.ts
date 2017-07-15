@@ -1,6 +1,12 @@
 import { Monad, FantasyMonad } from './Monad'
 import { Endomorphism } from './function'
 
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    State: State<L, A>
+  }
+}
+
 export const URI = 'State'
 
 export type URI = typeof URI

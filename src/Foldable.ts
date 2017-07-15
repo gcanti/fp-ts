@@ -1,8 +1,7 @@
-import { HKT } from './HKT'
+import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
 import { Monoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { applyFirst } from './Apply'
-import './overloadings'
 
 export interface Foldable<F> {
   readonly URI: F
@@ -50,11 +49,24 @@ export function intercalate<F, M>(foldable: Foldable<F>, monoid: Monoid<M>): (se
 }
 
 export class Ops {
+  traverse_<M extends HKT2S, F>(
+    M: Applicative<M>,
+    F: Foldable<F>
+  ): <L, A, B>(f: (a: A) => URI2HKT2<L, B>[M], fa: HKT<F, A>) => URI2HKT2<L, void>[M]
+  traverse_<M extends HKTS, F>(
+    M: Applicative<M>,
+    F: Foldable<F>
+  ): <A, B>(f: (a: A) => URI2HKT<B>[M], fa: HKT<F, A>) => URI2HKT<void>[M]
   traverse_<M, F>(M: Applicative<M>, F: Foldable<F>): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void>
   traverse_<M, F>(M: Applicative<M>, F: Foldable<F>): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void> {
     return (f, fa) => toArray(F)(fa).reduce((mu, a) => applyFirst(M)(mu, f(a)), M.of(undefined))
   }
 
+  sequence_<M extends HKT2S, F>(
+    M: Applicative<M>,
+    F: Foldable<F>
+  ): <L, A>(fa: HKT<F, URI2HKT2<L, A>[M]>) => URI2HKT2<L, void>[M]
+  sequence_<M extends HKTS, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, URI2HKT<A>[M]>) => URI2HKT<void>[M]
   sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
   sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
     return fa => this.traverse_(M, F)(x => x, fa)
