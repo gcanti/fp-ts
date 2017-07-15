@@ -14,8 +14,8 @@ export const URI = 'Store'
 export type URI = typeof URI
 
 export class Store<S, A> implements FantasyComonad<URI, A> {
-  readonly _S: S
   readonly _A: A
+  readonly _L: S
   readonly _URI: URI
   constructor(public readonly peek: (s: S) => A, public readonly s: S) {}
   pos(): S {

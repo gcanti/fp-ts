@@ -12,8 +12,8 @@ export const URI = 'State'
 export type URI = typeof URI
 
 export class State<S, A> implements FantasyMonad<URI, A> {
-  readonly _S: S
   readonly _A: A
+  readonly _L: S
   readonly _URI: URI
   constructor(public readonly value: (s: S) => [A, S]) {}
   run(s: S): [A, S] {
