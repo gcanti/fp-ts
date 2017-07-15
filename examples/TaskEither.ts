@@ -90,6 +90,48 @@ export const taskEither: Monad<URI> = {
 // overloadings
 //
 
+import { Curried2, Curried3, Curried4 } from 'fp-ts/lib/function'
+
+declare module 'fp-ts/lib/Functor' {
+  interface Ops {
+    lift<L, A, B>(functor: Functor<URI>, f: (a: A) => B): (fa: TaskEither<L, A>) => TaskEither<L, B>
+    voidRight<L, A, B>(functor: Functor<URI>, a: A, fb: TaskEither<L, B>): TaskEither<L, A>
+    voidLeft<L, A, B>(functor: Functor<URI>, fa: TaskEither<L, A>, b: B): TaskEither<L, B>
+    flap(functor: Functor<URI>): <L, A, B>(ff: TaskEither<L, (a: A) => B>, a: A) => TaskEither<L, B>
+  }
+}
+
+declare module 'fp-ts/lib/Apply' {
+  interface Ops {
+    applyFirst(apply: Apply<URI>): <L, A, B>(fa: TaskEither<L, A>, fb: TaskEither<L, B>) => TaskEither<L, A>
+    applySecond(apply: Apply<URI>): <L, A, B>(fa: TaskEither<L, A>, fb: TaskEither<L, B>) => TaskEither<L, B>
+    liftA2<A, B, C>(
+      apply: Apply<URI>,
+      f: Curried2<A, B, C>
+    ): <L>(fa: TaskEither<L, A>, fb: TaskEither<L, B>) => TaskEither<L, C>
+    liftA3<A, B, C, D>(
+      apply: Apply<URI>,
+      f: Curried3<A, B, C, D>
+    ): <L>(fa: TaskEither<L, A>, fb: TaskEither<L, B>, fc: TaskEither<L, C>) => TaskEither<L, D>
+    liftA4<A, B, C, D, E>(
+      apply: Apply<URI>,
+      f: Curried4<A, B, C, D, E>
+    ): <L>(fa: TaskEither<L, A>, fb: TaskEither<L, B>, fc: TaskEither<L, C>, fd: TaskEither<L, D>) => TaskEither<L, E>
+  }
+}
+
+declare module 'fp-ts/lib/Applicative' {
+  interface Ops {
+    when(applicative: Applicative<URI>): <L>(condition: boolean, fu: TaskEither<L, void>) => TaskEither<L, void>
+  }
+}
+
+declare module 'fp-ts/lib/Chain' {
+  interface Ops {
+    flatten(chain: Chain<URI>): <L, A>(mma: TaskEither<L, TaskEither<L, A>>) => TaskEither<L, A>
+  }
+}
+
 declare module 'fp-ts/lib/Traversable' {
   interface Ops {
     sequence(
