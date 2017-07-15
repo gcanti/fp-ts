@@ -30,6 +30,9 @@ export class Failure<L, A>
   map<B>(f: (a: A) => B): Validation<L, B> {
     return this as any
   }
+  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B> {
+    return this as any
+  }
   of<M, B>(b: B): Validation<M, B> {
     return of(b)
   }
@@ -97,6 +100,9 @@ export class Success<L, A>
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return new Success<L, B>(f(this.value))
+  }
+  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B> {
+    return f(this.value)
   }
   of<M, B>(b: B): Validation<M, B> {
     return of(b)
