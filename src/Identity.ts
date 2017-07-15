@@ -1,4 +1,4 @@
-import { HKT } from './HKT'
+import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad, FantasyMonad } from './Monad'
 import { Foldable, FantasyFoldable } from './Foldable'
@@ -9,7 +9,12 @@ import { Comonad, FantasyComonad } from './Comonad'
 import { Either } from './Either'
 import { ChainRec, tailRec } from './ChainRec'
 import { toString } from './function'
-import './overloadings'
+
+declare module './HKT' {
+  interface URI2HKT<A> {
+    Identity: Identity<A>
+  }
+}
 
 export const URI = 'Identity'
 
@@ -44,6 +49,11 @@ export class Identity<A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
+  traverse<F extends HKT2S>(
+    applicative: Applicative<F>
+  ): <L, B>(f: (a: A) => URI2HKT2<L, B>[F]) => URI2HKT2<L, Identity<B>>[F]
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<Identity<B>>[F]
+  traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
     return f => applicative.map(a => of(a), f(this.value))
   }
@@ -105,6 +115,12 @@ export function alt<A>(fx: Identity<A>, fy: Identity<A>): Identity<A> {
 }
 
 export class Ops {
+  traverse<F extends HKT2S>(
+    F: Applicative<F>
+  ): <L, A, B>(f: (a: A) => URI2HKT2<L, B>[F], ta: Identity<A>) => URI2HKT2<L, Identity<B>>[F]
+  traverse<F extends HKTS>(
+    F: Applicative<F>
+  ): <A, B>(f: (a: A) => URI2HKT<B>[F], ta: Identity<A>) => URI2HKT<Identity<B>>[F]
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>> {
     return (f, ta) => ta.traverse(F)(f)

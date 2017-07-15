@@ -1,4 +1,4 @@
-import { HKT } from './HKT'
+import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
 import { Monoid, getDualMonoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
@@ -13,7 +13,12 @@ import { Filterable } from './Filterable'
 import { Either } from './Either'
 import { Witherable } from './Witherable'
 import { constant, constFalse, constTrue, Lazy, Predicate, toString } from './function'
-import './overloadings'
+
+declare module './HKT' {
+  interface URI2HKT<A> {
+    Option: Option<A>
+  }
+}
 
 export const URI = 'Option'
 
@@ -53,6 +58,8 @@ export class None<A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
+  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => URI2HKT2<L, B>[F]) => URI2HKT2<L, Option<B>>[F]
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<Option<B>>[F]
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
     return f => F.of(none)
@@ -130,6 +137,8 @@ export class Some<A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return this.fold(constant(b), a => f(b, a))
   }
+  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => URI2HKT2<L, B>[F]) => URI2HKT2<L, Option<B>>[F]
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<Option<B>>[F]
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
     return f => F.map(b => some(b), f(this.value))
@@ -217,6 +226,12 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B {
 }
 
 export class Ops {
+  traverse<F extends HKT2S>(
+    F: Applicative<F>
+  ): <L, A, B>(f: (a: A) => URI2HKT2<L, B>[F], ta: Option<A>) => URI2HKT2<L, Option<B>>[F]
+  traverse<F extends HKTS>(
+    F: Applicative<F>
+  ): <A, B>(f: (a: A) => URI2HKT<B>[F], ta: Option<A>) => URI2HKT<Option<B>>[F]
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>> {
     return (f, ta) => ta.traverse(F)(f)
@@ -316,32 +331,32 @@ export const option: Monad<URI> &
 // overloadings
 //
 
-import {
-  ArrayURI,
-  EitherURI,
-  IdentityURI,
-  Identity,
-  IOURI,
-  IO,
-  NonEmptyArrayURI,
-  NonEmptyArray,
-  TaskURI,
-  Task
-} from './overloadings'
+// import {
+//   ArrayURI,
+//   EitherURI,
+//   IdentityURI,
+//   Identity,
+//   IOURI,
+//   IO,
+//   NonEmptyArrayURI,
+//   NonEmptyArray,
+//   TaskURI,
+//   Task
+// } from './overloadings'
 
-export interface None<A> {
-  traverse(F: Applicative<ArrayURI>): <B>(f: (a: A) => Array<B>) => Array<Option<B>>
-  traverse(F: Applicative<EitherURI>): <L, B>(f: (a: A) => Either<L, B>) => Either<L, Option<B>>
-  traverse(F: Applicative<IdentityURI>): <B>(f: (a: A) => Identity<B>) => Identity<Option<B>>
-  traverse(F: Applicative<IOURI>): <B>(f: (a: A) => IO<B>) => IO<Option<B>>
-  traverse(F: Applicative<NonEmptyArrayURI>): <B>(f: (a: A) => NonEmptyArray<B>) => NonEmptyArray<Option<B>>
-  traverse(F: Applicative<TaskURI>): <B>(f: (a: A) => Task<B>) => Task<Option<B>>
-}
-export interface Some<A> {
-  traverse(F: Applicative<ArrayURI>): <B>(f: (a: A) => Array<B>) => Array<Option<B>>
-  traverse(F: Applicative<EitherURI>): <L, B>(f: (a: A) => Either<L, B>) => Either<L, Option<B>>
-  traverse(F: Applicative<IdentityURI>): <B>(f: (a: A) => Identity<B>) => Identity<Option<B>>
-  traverse(F: Applicative<IOURI>): <B>(f: (a: A) => IO<B>) => IO<Option<B>>
-  traverse(F: Applicative<NonEmptyArrayURI>): <B>(f: (a: A) => NonEmptyArray<B>) => NonEmptyArray<Option<B>>
-  traverse(F: Applicative<TaskURI>): <B>(f: (a: A) => Task<B>) => Task<Option<B>>
-}
+// export interface None<A> {
+//   traverse(F: Applicative<ArrayURI>): <B>(f: (a: A) => Array<B>) => Array<Option<B>>
+//   traverse(F: Applicative<EitherURI>): <L, B>(f: (a: A) => Either<L, B>) => Either<L, Option<B>>
+//   traverse(F: Applicative<IdentityURI>): <B>(f: (a: A) => Identity<B>) => Identity<Option<B>>
+//   traverse(F: Applicative<IOURI>): <B>(f: (a: A) => IO<B>) => IO<Option<B>>
+//   traverse(F: Applicative<NonEmptyArrayURI>): <B>(f: (a: A) => NonEmptyArray<B>) => NonEmptyArray<Option<B>>
+//   traverse(F: Applicative<TaskURI>): <B>(f: (a: A) => Task<B>) => Task<Option<B>>
+// }
+// export interface Some<A> {
+//   traverse(F: Applicative<ArrayURI>): <B>(f: (a: A) => Array<B>) => Array<Option<B>>
+//   traverse(F: Applicative<EitherURI>): <L, B>(f: (a: A) => Either<L, B>) => Either<L, Option<B>>
+//   traverse(F: Applicative<IdentityURI>): <B>(f: (a: A) => Identity<B>) => Identity<Option<B>>
+//   traverse(F: Applicative<IOURI>): <B>(f: (a: A) => IO<B>) => IO<Option<B>>
+//   traverse(F: Applicative<NonEmptyArrayURI>): <B>(f: (a: A) => NonEmptyArray<B>) => NonEmptyArray<Option<B>>
+//   traverse(F: Applicative<TaskURI>): <B>(f: (a: A) => Task<B>) => Task<Option<B>>
+// }

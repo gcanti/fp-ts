@@ -1,13 +1,13 @@
 import * as option from '../src/Option'
 import { StrMap, lookup } from '../src/StrMap'
-import { getReaderT, OptionKleisli } from '../src/ReaderT'
+import { getReaderT } from '../src/ReaderT'
 import { eqOptions as eq } from './helpers'
 
 const readerOption = getReaderT(option)
 
 describe('ReaderT', () => {
   it('ReaderOption', () => {
-    function configure(key: string): OptionKleisli<StrMap<string>, string> {
+    function configure(key: string) {
       return (e: StrMap<string>) => lookup(key, e)
     }
 

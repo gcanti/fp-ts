@@ -7,6 +7,12 @@ import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { identity, toString } from './function'
 
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    Const: Const<L, A>
+  }
+}
+
 export const URI = 'Const'
 
 export type URI = typeof URI

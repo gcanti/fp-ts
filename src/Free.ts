@@ -1,11 +1,10 @@
 // adapted from http://okmij.org/ftp/Computation/free-monad.html
 // and https://github.com/purescript/purescript-free
 
-import { HKT } from './HKT'
+import { HKT, HKTS, URI2HKT } from './HKT'
 import { FantasyMonad, Monad } from './Monad'
 import { NaturalTransformation } from './NaturalTransformation'
 import { toString } from './function'
-import './overloadings'
 
 export const URI = 'Free'
 
@@ -35,6 +34,7 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.value)
   }
+  foldFree<M extends HKTS>(M: Monad<M>, f: NaturalTransformation<F, M>): URI2HKT<A>[M]
   foldFree<M>(M: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A>
   foldFree<M>(M: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A> {
     return M.of(this.value)
@@ -69,6 +69,7 @@ export class Impure<F, A, X> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).chain(f))
   }
+  foldFree<M extends HKTS>(M: Monad<M>, f: NaturalTransformation<F, M>): URI2HKT<A>[M]
   foldFree<M>(M: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A>
   foldFree<M>(M: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A> {
     return M.chain(x => this.f(x).foldFree(M, f), f(this.fx))
@@ -85,16 +86,20 @@ export function of<F, A>(a: A): Free<F, A> {
   return new Pure(a)
 }
 
-export function liftF<F, A>(fa: HKT<F, A>): Free<F, A> {
-  return new Impure(fa, a => of(a))
-}
-
 export class Ops {
+  liftF<F extends HKTS, A>(fa: HKT<F, A>): Free<F, A>
+  liftF<F, A>(fa: HKT<F, A>): Free<F, A>
+  liftF<F, A>(fa: HKT<F, A>): Free<F, A> {
+    return new Impure(fa, a => of(a))
+  }
+
+  foldFree<F, M extends HKTS, A>(M: Monad<M>, f: NaturalTransformation<F, M>, fa: Free<F, A>): URI2HKT<A>[M]
   foldFree<F, M, A>(M: Monad<M>, f: NaturalTransformation<F, M>, fa: Free<F, A>): HKT<M, A>
   foldFree<F, M, A>(M: Monad<M>, f: NaturalTransformation<F, M>, fa: Free<F, A>): HKT<M, A> {
     return fa.foldFree(M, f)
   }
 
+  substFree<F extends HKTS, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): <A>(fa: Free<F, A>) => Free<G, A>
   substFree<F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): <A>(fa: Free<F, A>) => Free<G, A>
   substFree<F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): <A>(fa: Free<F, A>) => Free<G, A> {
     function go<A>(fa: Free<F, A>): Free<G, A> {
@@ -110,32 +115,12 @@ export class Ops {
 
   hoistFree<F, G>(f: NaturalTransformation<F, G>): <A>(fa: Free<F, A>) => Free<G, A>
   hoistFree<F, G>(f: NaturalTransformation<F, G>): <A>(fa: Free<F, A>) => Free<G, A> {
-    return this.substFree(fa => liftF(f(fa)))
+    return this.substFree<F, G>(fa => this.liftF(f(fa)))
   }
 }
 
 const ops = new Ops()
+export const liftF: Ops['liftF'] = ops.liftF
 export const foldFree: Ops['foldFree'] = ops.foldFree
 export const substFree: Ops['substFree'] = ops.substFree
 export const hoistFree: Ops['hoistFree'] = ops.hoistFree
-
-//
-// overloadings
-//
-
-import { IdentityURI, Identity, OptionURI, Option } from './overloadings'
-
-export interface Pure<F, A> {
-  foldFree(monad: Monad<IdentityURI>, f: NaturalTransformation<F, IdentityURI>): Identity<A>
-  foldFree(monad: Monad<OptionURI>, f: NaturalTransformation<F, OptionURI>): Option<A>
-}
-
-export interface Impure<F, A, X> {
-  foldFree(monad: Monad<IdentityURI>, f: NaturalTransformation<F, IdentityURI>): Identity<A>
-  foldFree(monad: Monad<OptionURI>, f: NaturalTransformation<F, OptionURI>): Option<A>
-}
-
-export interface Ops {
-  foldFree<F, A>(monad: Monad<IdentityURI>, f: NaturalTransformation<F, IdentityURI>, fa: Free<F, A>): Identity<A>
-  foldFree<F, A>(monad: Monad<OptionURI>, f: NaturalTransformation<F, OptionURI>, fa: Free<F, A>): Option<A>
-}

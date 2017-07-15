@@ -2,6 +2,12 @@ import { Monoid } from './Monoid'
 import { Monad, FantasyMonad } from './Monad'
 import { Lazy, toString } from './function'
 
+declare module './HKT' {
+  interface URI2HKT<A> {
+    Task: Task<A>
+  }
+}
+
 export const URI = 'Task'
 
 export type URI = typeof URI
