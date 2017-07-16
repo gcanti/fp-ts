@@ -4,6 +4,12 @@ import { Option } from 'fp-ts/lib/Option'
 import { Lazy } from 'fp-ts/lib/function'
 import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
 
+declare module 'fp-ts/lib/HKT' {
+  interface URI2HKT1<A> {
+    ArrayOption: ArrayOption<A>
+  }
+}
+
 const optionTArray = optionT.getOptionT(array)
 
 export const URI = 'ArrayOption'
@@ -62,16 +68,14 @@ export function fromOption<A>(oa: Option<A>): ArrayOption<A> {
   return new ArrayOption(optionT.fromOption(array)(oa))
 }
 
-export function liftT<A>(ma: Array<A>): ArrayOption<A> {
+export function liftF<A>(ma: Array<A>): ArrayOption<A> {
   return new ArrayOption(optionT.liftF(array)(ma))
 }
 
-const proof: Monad<URI> = {
+export const arrayOption: Monad<URI> = {
   URI,
   map,
   of,
   ap,
   chain
 }
-// tslint:disable-next-line no-unused-expression
-proof

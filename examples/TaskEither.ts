@@ -6,6 +6,12 @@ import { URI as URIArray } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
 import { Monad } from 'fp-ts/lib/Monad'
 
+declare module 'fp-ts/lib/HKT' {
+  interface URI2HKT2<L, A> {
+    TaskEither: TaskEither<L, A>
+  }
+}
+
 const eitherTTask = eitherT.getEitherT(task)
 
 export const URI = 'TaskEither'
