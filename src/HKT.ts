@@ -23,5 +23,5 @@ export type HKT2S = keyof URI2HKT2<any, any>
 
 /* tslint:disable */
 (null! as URI2HKT<any>) as { [k in keyof URI2HKT<any>]: HKT<k, any> }
-(null! as URI2HKT2<any, any>) as { [k in keyof URI2HKT2<any, any>]: HKT<k, any> }
+(null! as URI2HKT2<any, any>) as { [k in keyof URI2HKT2<any, any>]: HKT2<k, any, any> }
 /* tslint:enable */
