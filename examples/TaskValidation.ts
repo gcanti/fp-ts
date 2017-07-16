@@ -4,7 +4,7 @@ import * as task from '../src/Task'
 import { URI as URIArray } from '../src/Array'
 import { Option } from '../src/Option'
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT2<L, A> {
     TaskValidation: TaskValidation<L, A>
   }
