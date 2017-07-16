@@ -326,37 +326,3 @@ export const option: Monad<URI> &
   partitionMap,
   wilt
 }
-
-//
-// overloadings
-//
-
-// import {
-//   ArrayURI,
-//   EitherURI,
-//   IdentityURI,
-//   Identity,
-//   IOURI,
-//   IO,
-//   NonEmptyArrayURI,
-//   NonEmptyArray,
-//   TaskURI,
-//   Task
-// } from './overloadings'
-
-// export interface None<A> {
-//   traverse(F: Applicative<ArrayURI>): <B>(f: (a: A) => Array<B>) => Array<Option<B>>
-//   traverse(F: Applicative<EitherURI>): <L, B>(f: (a: A) => Either<L, B>) => Either<L, Option<B>>
-//   traverse(F: Applicative<IdentityURI>): <B>(f: (a: A) => Identity<B>) => Identity<Option<B>>
-//   traverse(F: Applicative<IOURI>): <B>(f: (a: A) => IO<B>) => IO<Option<B>>
-//   traverse(F: Applicative<NonEmptyArrayURI>): <B>(f: (a: A) => NonEmptyArray<B>) => NonEmptyArray<Option<B>>
-//   traverse(F: Applicative<TaskURI>): <B>(f: (a: A) => Task<B>) => Task<Option<B>>
-// }
-// export interface Some<A> {
-//   traverse(F: Applicative<ArrayURI>): <B>(f: (a: A) => Array<B>) => Array<Option<B>>
-//   traverse(F: Applicative<EitherURI>): <L, B>(f: (a: A) => Either<L, B>) => Either<L, Option<B>>
-//   traverse(F: Applicative<IdentityURI>): <B>(f: (a: A) => Identity<B>) => Identity<Option<B>>
-//   traverse(F: Applicative<IOURI>): <B>(f: (a: A) => IO<B>) => IO<Option<B>>
-//   traverse(F: Applicative<NonEmptyArrayURI>): <B>(f: (a: A) => NonEmptyArray<B>) => NonEmptyArray<Option<B>>
-//   traverse(F: Applicative<TaskURI>): <B>(f: (a: A) => Task<B>) => Task<Option<B>>
-// }

@@ -1,7 +1,6 @@
 import { Applicative, getApplicativeComposition } from '../src/Applicative'
 import * as validation from '../src/Validation'
 import * as task from '../src/Task'
-import { URI as URIArray } from '../src/Array'
 import { Option } from '../src/Option'
 
 declare module '../src/HKT' {
@@ -59,17 +58,4 @@ export const taskValidation: Applicative<URI> = {
   map,
   of,
   ap
-}
-
-//
-// overloadings
-//
-
-declare module '../src/Traversable' {
-  interface Ops {
-    sequence(
-      applicative: Applicative<URI>,
-      traversable: Traversable<URIArray>
-    ): <L, A>(tfa: Array<TaskValidation<L, A>>) => TaskValidation<L, Array<A>>
-  }
 }
