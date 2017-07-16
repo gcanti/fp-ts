@@ -7,7 +7,6 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint src/**/*.ts test/**/*.ts examples/**/*.ts exercises/**/*.ts",
-    "typings-checker": "typings-checker --allow-expect-error --project typings-checker/tsconfig.json typings-checker/index.ts",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples,exercises}/**/*.ts\"",
@@ -34,8 +33,7 @@
     "ts-node": "3.1.0",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "2.4.1",
-    "typings-checker": "1.1.2"
+    "typescript": "2.4.1"
   },
   "tags": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"],
   "keywords": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"]
