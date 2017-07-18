@@ -1,4 +1,4 @@
-import { HKT, HKTS, URI2HKT } from './HKT'
+import { HKT, HKTS, HKTAs } from './HKT'
 import { Traversable } from './Traversable'
 import { Filterable } from './Filterable'
 import { Applicative } from './Applicative'
@@ -11,8 +11,8 @@ export type Wilt<T, L, R> = {
 }
 
 export type Wilt1<T extends HKTS, L, R> = {
-  left: URI2HKT<L>[T]
-  right: URI2HKT<R>[T]
+  left: HKTAs<T, L>
+  right: HKTAs<T, R>
 }
 
 export interface Witherable<T> extends Traversable<T>, Filterable<T> {
@@ -24,7 +24,7 @@ export class Ops {
   wither<F extends HKTS, T extends HKTS>(
     F: Applicative<F>,
     T: Witherable<T>
-  ): <A, B>(f: (a: A) => HKT<F, Option<B>>, ta: HKT<T, A>) => URI2HKT<URI2HKT<B>[T]>[F]
+  ): <A, B>(f: (a: A) => HKT<F, Option<B>>, ta: HKT<T, A>) => HKTAs<F, HKTAs<T, B>>
   wither<F, T>(
     F: Applicative<F>,
     T: Witherable<T>
@@ -46,7 +46,7 @@ export class Ops {
   wilted<F extends HKTS, T extends HKTS>(
     F: Applicative<F>,
     T: Witherable<T>
-  ): <L, R>(tm: HKT<T, HKT<F, Either<L, R>>>) => URI2HKT<Wilt1<T, L, R>>[F]
+  ): <L, R>(tm: HKT<T, HKT<F, Either<L, R>>>) => HKTAs<F, Wilt1<T, L, R>>
   wilted<F, T>(F: Applicative<F>, T: Witherable<T>): <L, R>(tm: HKT<T, HKT<F, Either<L, R>>>) => HKT<F, Wilt<T, L, R>>
   wilted<F, T>(F: Applicative<F>, T: Witherable<T>): <L, R>(tm: HKT<T, HKT<F, Either<L, R>>>) => HKT<F, Wilt<T, L, R>> {
     return tm => T.wilt(F)(me => me, tm)
@@ -56,7 +56,7 @@ export class Ops {
   withered<F extends HKTS, T extends HKTS>(
     F: Applicative<F>,
     T: Witherable<T>
-  ): <A>(tm: HKT<T, HKT<F, Option<A>>>) => URI2HKT<URI2HKT<A>[T]>[F]
+  ): <A>(tm: HKT<T, HKT<F, Option<A>>>) => HKTAs<F, HKTAs<T, A>>
   withered<F, T>(F: Applicative<F>, T: Witherable<T>): <A>(tm: HKT<T, HKT<F, Option<A>>>) => HKT<F, HKT<T, A>>
   withered<F, T>(F: Applicative<F>, T: Witherable<T>): <A>(tm: HKT<T, HKT<F, Option<A>>>) => HKT<F, HKT<T, A>> {
     return tm => this.wither(F, T)(moa => moa, tm)
