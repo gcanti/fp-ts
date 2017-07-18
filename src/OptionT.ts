@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Functor } from './Functor'
 import { Monad } from './Monad'
 import { Chain } from './Chain'
@@ -18,11 +18,11 @@ export interface OptionT<M> extends ApplicativeComposition<M, OptionURI> {
 }
 
 export interface OptionT1<M extends HKTS> extends ApplicativeComposition11<M, OptionURI> {
-  chain<A, B>(f: (a: A) => URI2HKT<Option<B>>[M], fa: URI2HKT<Option<A>>[M]): URI2HKT<Option<B>>[M]
+  chain<A, B>(f: (a: A) => HKTAs<M, Option<B>>, fa: HKTAs<M, Option<A>>): HKTAs<M, Option<B>>
 }
 
 export interface OptionT2<M extends HKT2S> extends ApplicativeComposition21<M, OptionURI> {
-  chain<L, A, B>(f: (a: A) => URI2HKT2<L, Option<B>>[M], fa: URI2HKT2<L, Option<A>>[M]): URI2HKT2<L, Option<B>>[M]
+  chain<L, A, B>(f: (a: A) => HKT2As<M, L, Option<B>>, fa: HKT2As<M, L, Option<A>>): HKT2As<M, L, Option<B>>
 }
 
 export class Ops {
@@ -33,29 +33,29 @@ export class Ops {
     return (f, fa) => F.chain(o => o.fold(() => fa as any, a => f(a)), fa)
   }
 
-  some<F extends HKT2S>(F: Applicative<F>): <L, A>(a: A) => URI2HKT2<L, Option<A>>[F]
-  some<F extends HKTS>(F: Applicative<F>): <A>(a: A) => URI2HKT<Option<A>>[F]
+  some<F extends HKT2S>(F: Applicative<F>): <L, A>(a: A) => HKT2As<F, L, Option<A>>
+  some<F extends HKTS>(F: Applicative<F>): <A>(a: A) => HKTAs<F, Option<A>>
   some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
   some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> {
     return a => F.of(option.some(a))
   }
 
-  none<F extends HKT2S>(F: Applicative<F>): <L>() => URI2HKT2<L, Option<any>>[F]
-  none<F extends HKTS>(F: Applicative<F>): () => URI2HKT<Option<any>>[F]
+  none<F extends HKT2S>(F: Applicative<F>): <L>() => HKT2As<F, L, Option<any>>
+  none<F extends HKTS>(F: Applicative<F>): () => HKTAs<F, Option<any>>
   none<F>(F: Applicative<F>): () => HKT<F, Option<any>>
   none<F>(F: Applicative<F>): () => HKT<F, Option<any>> {
     return () => F.of(option.none)
   }
 
-  fromOption<F extends HKT2S>(F: Applicative<F>): <L, A>(fa: Option<A>) => URI2HKT2<L, Option<A>>[F]
-  fromOption<F extends HKTS>(F: Applicative<F>): <A>(fa: Option<A>) => URI2HKT<Option<A>>[F]
+  fromOption<F extends HKT2S>(F: Applicative<F>): <L, A>(fa: Option<A>) => HKT2As<F, L, Option<A>>
+  fromOption<F extends HKTS>(F: Applicative<F>): <A>(fa: Option<A>) => HKTAs<F, Option<A>>
   fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
   fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> {
     return oa => F.of(oa)
   }
 
-  liftF<F extends HKT2S>(F: Functor<F>): <L, A>(fa: URI2HKT2<L, A>[F]) => URI2HKT2<L, Option<A>>[F]
-  liftF<F extends HKTS>(F: Functor<F>): <A>(fa: URI2HKT<A>[F]) => URI2HKT<Option<A>>[F]
+  liftF<F extends HKT2S>(F: Functor<F>): <L, A>(fa: HKT2As<F, L, A>) => HKT2As<F, L, Option<A>>
+  liftF<F extends HKTS>(F: Functor<F>): <A>(fa: HKTAs<F, A>) => HKTAs<F, Option<A>>
   liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
   liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> {
     return fa => F.map(a => option.some(a), fa)
@@ -63,17 +63,17 @@ export class Ops {
 
   fold<F extends HKT2S>(
     F: Functor<F>
-  ): <L, R, A>(none: Lazy<R>, some: (a: A) => R, fa: URI2HKT2<L, Option<A>>[F]) => URI2HKT2<L, R>[F]
+  ): <L, R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, R>
   fold<F extends HKTS>(
     F: Functor<F>
-  ): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: URI2HKT<Option<A>>[F]) => URI2HKT<R>[F]
+  ): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKTAs<F, Option<A>>) => HKTAs<F, R>
   fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
   fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
     return (none, some, fa) => F.map(o => o.fold(none, some), fa)
   }
 
-  getOrElse<F extends HKT2S>(F: Functor<F>): <L, A>(f: Lazy<A>, fa: URI2HKT2<L, Option<A>>[F]) => URI2HKT2<L, A>[F]
-  getOrElse<F extends HKTS>(F: Functor<F>): <A>(f: Lazy<A>, fa: URI2HKT<Option<A>>[F]) => URI2HKT<A>[F]
+  getOrElse<F extends HKT2S>(F: Functor<F>): <L, A>(f: Lazy<A>, fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
+  getOrElse<F extends HKTS>(F: Functor<F>): <A>(f: Lazy<A>, fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
   getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>, fa: HKT<F, Option<A>>) => HKT<F, A>
   getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>, fa: HKT<F, Option<A>>) => HKT<F, A> {
     return (f, fa) => F.map(o => o.getOrElse(f), fa)

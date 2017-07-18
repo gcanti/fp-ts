@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Monoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { applyFirst } from './Apply'
@@ -52,11 +52,11 @@ export class Ops {
   traverse_<M extends HKT2S, F>(
     M: Applicative<M>,
     F: Foldable<F>
-  ): <L, A, B>(f: (a: A) => URI2HKT2<L, B>[M], fa: HKT<F, A>) => URI2HKT2<L, void>[M]
+  ): <L, A, B>(f: (a: A) => HKT2As<M, L, B>, fa: HKT<F, A>) => HKT2As<M, L, void>
   traverse_<M extends HKTS, F>(
     M: Applicative<M>,
     F: Foldable<F>
-  ): <A, B>(f: (a: A) => URI2HKT<B>[M], fa: HKT<F, A>) => URI2HKT<void>[M]
+  ): <A, B>(f: (a: A) => HKTAs<M, B>, fa: HKT<F, A>) => HKTAs<M, void>
   traverse_<M, F>(M: Applicative<M>, F: Foldable<F>): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void>
   traverse_<M, F>(M: Applicative<M>, F: Foldable<F>): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void> {
     return (f, fa) => toArray(F)(fa).reduce((mu, a) => applyFirst(M)(mu, f(a)), M.of(undefined))
@@ -65,8 +65,8 @@ export class Ops {
   sequence_<M extends HKT2S, F>(
     M: Applicative<M>,
     F: Foldable<F>
-  ): <L, A>(fa: HKT<F, URI2HKT2<L, A>[M]>) => URI2HKT2<L, void>[M]
-  sequence_<M extends HKTS, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, URI2HKT<A>[M]>) => URI2HKT<void>[M]
+  ): <L, A>(fa: HKT<F, HKT2As<M, L, A>>) => HKT2As<M, L, void>
+  sequence_<M extends HKTS, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKTAs<M, A>>) => HKTAs<M, void>
   sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
   sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
     return fa => this.traverse_(M, F)(x => x, fa)

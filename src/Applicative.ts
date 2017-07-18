@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Apply, FantasyApply } from './Apply'
 import {
   getFunctorComposition,
@@ -23,38 +23,38 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
 }
 
 export interface ApplicativeComposition11<F extends HKTS, G extends HKTS> extends FunctorComposition11<F, G> {
-  of<A>(a: A): URI2HKT<URI2HKT<A>[G]>[F]
-  ap<A, B>(fgab: URI2HKT<URI2HKT<(a: A) => B>[G]>[F], fga: URI2HKT<URI2HKT<A>[G]>[F]): URI2HKT<URI2HKT<B>[G]>[F]
+  of<A>(a: A): HKTAs<F, HKTAs<G, A>>
+  ap<A, B>(fgab: HKTAs<F, HKTAs<G, (a: A) => B>>, fga: HKTAs<F, HKTAs<G, A>>): HKTAs<F, HKTAs<G, B>>
 }
 
 export interface ApplicativeComposition12<F extends HKTS, G extends HKT2S> extends FunctorComposition12<F, G> {
-  of<L, A>(a: A): URI2HKT<URI2HKT2<L, A>[G]>[F]
+  of<L, A>(a: A): HKTAs<F, HKT2As<G, L, A>>
   ap<L, A, B>(
-    fgab: URI2HKT<URI2HKT2<L, (a: A) => B>[G]>[F],
-    fga: URI2HKT<URI2HKT2<L, A>[G]>[F]
-  ): URI2HKT<URI2HKT2<L, B>[G]>[F]
+    fgab: HKTAs<F, HKT2As<G, L, (a: A) => B>>,
+    fga: HKTAs<F, HKT2As<G, L, A>>
+  ): HKTAs<F, HKT2As<G, L, B>>
 }
 
 export interface ApplicativeComposition21<F extends HKT2S, G extends HKTS> extends FunctorComposition21<F, G> {
-  of<L, A>(a: A): URI2HKT2<L, URI2HKT<A>[G]>[F]
+  of<L, A>(a: A): HKT2As<F, L, HKTAs<G, A>>
   ap<L, A, B>(
-    fgab: URI2HKT2<L, URI2HKT<(a: A) => B>[G]>[F],
-    fga: URI2HKT2<L, URI2HKT<A>[G]>[F]
-  ): URI2HKT2<L, URI2HKT<B>[G]>[F]
+    fgab: HKT2As<F, L, HKTAs<G, (a: A) => B>>,
+    fga: HKT2As<F, L, HKTAs<G, A>>
+  ): HKT2As<F, L, HKTAs<G, B>>
 }
 
 export interface ApplicativeComposition22<F extends HKT2S, G extends HKT2S> extends FunctorComposition22<F, G> {
-  of<L, M, A>(a: A): URI2HKT2<L, URI2HKT2<M, A>[G]>[F]
+  of<L, M, A>(a: A): HKT2As<F, L, HKT2As<G, M, A>>
   ap<L, M, A, B>(
-    fgab: URI2HKT2<L, URI2HKT2<M, (a: A) => B>[G]>[F],
-    fga: URI2HKT2<L, URI2HKT2<M, A>[G]>[F]
-  ): URI2HKT2<L, URI2HKT2<M, B>[G]>[F]
+    fgab: HKT2As<F, L, HKT2As<G, M, (a: A) => B>>,
+    fga: HKT2As<F, L, HKT2As<G, M, A>>
+  ): HKT2As<F, L, HKT2As<G, M, B>>
 }
 
 export class Ops {
   /** Perform a applicative action when a condition is true */
-  when<F extends HKT2S>(F: Applicative<F>): <L>(condition: boolean, fu: URI2HKT2<L, void>[F]) => URI2HKT2<L, void>[F]
-  when<F extends HKTS>(F: Applicative<F>): (condition: boolean, fu: URI2HKT<void>[F]) => URI2HKT<void>[F]
+  when<F extends HKT2S>(F: Applicative<F>): <L>(condition: boolean, fu: HKT2As<F, L, void>) => HKT2As<F, L, void>
+  when<F extends HKTS>(F: Applicative<F>): (condition: boolean, fu: HKTAs<F, void>) => HKTAs<F, void>
   when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
   when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> {
     return (condition, fu) => (condition ? fu : F.of(undefined))

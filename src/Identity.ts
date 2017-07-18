@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad, FantasyMonad } from './Monad'
 import { Foldable, FantasyFoldable } from './Foldable'
@@ -11,7 +11,7 @@ import { ChainRec, tailRec } from './ChainRec'
 import { toString } from './function'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URIHKT<A> {
     Identity: Identity<A>
   }
 }
@@ -51,8 +51,8 @@ export class Identity<A>
   }
   traverse<F extends HKT2S>(
     applicative: Applicative<F>
-  ): <L, B>(f: (a: A) => URI2HKT2<L, B>[F]) => URI2HKT2<L, Identity<B>>[F]
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<Identity<B>>[F]
+  ): <L, B>(f: (a: A) => HKT2As<F, L, B>) => HKT2As<F, L, Identity<B>>
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
     return f => applicative.map(a => of(a), f(this.value))
@@ -117,10 +117,10 @@ export function alt<A>(fx: Identity<A>, fy: Identity<A>): Identity<A> {
 export class Ops {
   traverse<F extends HKT2S>(
     F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => URI2HKT2<L, B>[F], ta: Identity<A>) => URI2HKT2<L, Identity<B>>[F]
+  ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Identity<A>) => HKT2As<F, L, Identity<B>>
   traverse<F extends HKTS>(
     F: Applicative<F>
-  ): <A, B>(f: (a: A) => URI2HKT<B>[F], ta: Identity<A>) => URI2HKT<Identity<B>>[F]
+  ): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Identity<A>) => HKTAs<F, Identity<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>> {
     return (f, ta) => ta.traverse(F)(f)

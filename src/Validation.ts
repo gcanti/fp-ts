@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Functor } from './Functor'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
@@ -58,8 +58,8 @@ export class Failure<L, A>
   }
   traverse<F extends HKT2S>(
     F: Applicative<F>
-  ): <M, B>(f: (a: A) => URI2HKT2<M, B>[F]) => URI2HKT2<M, Validation<L, B>>[F]
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<Validation<L, B>>[F]
+  ): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, Validation<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
     return f => F.of(this as any)
@@ -131,8 +131,8 @@ export class Success<L, A>
   }
   traverse<F extends HKT2S>(
     F: Applicative<F>
-  ): <M, B>(f: (a: A) => URI2HKT2<M, B>[F]) => URI2HKT2<M, Validation<L, B>>[F]
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<Validation<L, B>>[F]
+  ): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, Validation<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
     return f => F.map(b => of(b), f(this.value))
@@ -216,10 +216,10 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>
 export class Ops {
   traverse<F extends HKT2S>(
     F: Applicative<F>
-  ): <M, L, A, B>(f: (a: A) => URI2HKT2<M, B>[F], ta: Validation<L, A>) => URI2HKT2<M, Validation<L, B>>[F]
+  ): <M, L, A, B>(f: (a: A) => HKT2As<F, M, B>, ta: Validation<L, A>) => HKT2As<F, M, Validation<L, B>>
   traverse<F extends HKTS>(
     F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => URI2HKT<B>[F], ta: Validation<L, A>) => URI2HKT<Validation<L, B>>[F]
+  ): <L, A, B>(f: (a: A) => HKTAs<F, B>, ta: Validation<L, A>) => HKTAs<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>> {
     return (f, ta) => ta.traverse(F)(f)

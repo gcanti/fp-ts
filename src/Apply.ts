@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Functor, FantasyFunctor } from './Functor'
 import { Curried2, Curried3, Curried4, identity, constant } from './function'
 
@@ -22,8 +22,8 @@ const constIdentity = () => identity
 export class Ops {
   applyFirst<F extends HKT2S>(
     apply: Apply<F>
-  ): <L, A, B>(fa: URI2HKT2<L, A>[F], fb: URI2HKT2<L, B>[F]) => URI2HKT2<L, A>[F]
-  applyFirst<F extends HKTS>(apply: Apply<F>): <A, B>(fa: URI2HKT<A>[F], fb: URI2HKT<B>[F]) => URI2HKT<A>[F]
+  ): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, A>
+  applyFirst<F extends HKTS>(apply: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, A>
   applyFirst<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
   applyFirst<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
     return (fa, fb) => apply.ap(apply.map(a => constant(a), fa), fb)
@@ -31,8 +31,8 @@ export class Ops {
 
   applySecond<F extends HKT2S>(
     apply: Apply<F>
-  ): <L, A, B>(fa: URI2HKT2<L, A>[F], fb: URI2HKT2<L, B>[F]) => URI2HKT2<L, B>[F]
-  applySecond<F extends HKTS>(apply: Apply<F>): <A, B>(fa: URI2HKT<A>[F], fb: URI2HKT<B>[F]) => URI2HKT<B>[F]
+  ): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, B>
+  applySecond<F extends HKTS>(apply: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, B>
   applySecond<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
   applySecond<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
     return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => apply.ap(apply.map(constIdentity, fa), fb)
@@ -41,11 +41,11 @@ export class Ops {
   liftA2<F extends HKT2S, A, B, C>(
     apply: Apply<F>,
     f: Curried2<A, B, C>
-  ): <L>(fa: URI2HKT2<L, A>[F], fb: URI2HKT2<L, B>[F]) => URI2HKT2<L, C>[F]
+  ): <L>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, C>
   liftA2<F extends HKTS, A, B, C>(
     apply: Apply<F>,
     f: Curried2<A, B, C>
-  ): (fa: URI2HKT<A>[F], fb: URI2HKT<B>[F]) => URI2HKT<C>[F]
+  ): (fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, C>
   liftA2<F, A, B, C>(apply: Apply<F>, f: Curried2<A, B, C>): (fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, C>
   liftA2<F, A, B, C>(apply: Apply<F>, f: Curried2<A, B, C>): (fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, C> {
     return (fa, fb) => apply.ap(apply.map(f, fa), fb)
@@ -54,11 +54,11 @@ export class Ops {
   liftA3<F extends HKT2S, A, B, C, D>(
     apply: Apply<F>,
     f: Curried3<A, B, C, D>
-  ): <L>(fa: URI2HKT2<L, A>[F], fb: URI2HKT2<L, B>[F], fc: URI2HKT2<L, C>[F]) => URI2HKT2<L, D>[F]
+  ): <L>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>, fc: HKT2As<F, L, C>) => HKT2As<F, L, D>
   liftA3<F extends HKTS, A, B, C, D>(
     apply: Apply<F>,
     f: Curried3<A, B, C, D>
-  ): (fa: URI2HKT<A>[F], fb: URI2HKT<B>[F], fc: URI2HKT<C>[F]) => URI2HKT<D>[F]
+  ): (fa: HKTAs<F, A>, fb: HKTAs<F, B>, fc: HKTAs<F, C>) => HKTAs<F, D>
   liftA3<F, A, B, C, D>(
     apply: Apply<F>,
     f: Curried3<A, B, C, D>
@@ -74,15 +74,15 @@ export class Ops {
     apply: Apply<F>,
     f: Curried4<A, B, C, D, E>
   ): <L>(
-    fa: URI2HKT2<L, A>[F],
-    fb: URI2HKT2<L, B>[F],
-    fc: URI2HKT2<L, C>[F],
-    fd: URI2HKT2<L, D>[F]
-  ) => URI2HKT2<L, E>[F]
+    fa: HKT2As<F, L, A>,
+    fb: HKT2As<F, L, B>,
+    fc: HKT2As<F, L, C>,
+    fd: HKT2As<F, L, D>
+  ) => HKT2As<F, L, E>
   liftA4<F extends HKTS, A, B, C, D, E>(
     apply: Apply<F>,
     f: Curried4<A, B, C, D, E>
-  ): (fa: URI2HKT<A>[F], fb: URI2HKT<B>[F], fc: URI2HKT<C>[F], fd: URI2HKT<D>[F]) => URI2HKT<E>[F]
+  ): (fa: HKTAs<F, A>, fb: HKTAs<F, B>, fc: HKTAs<F, C>, fd: HKTAs<F, D>) => HKTAs<F, E>
   liftA4<F, A, B, C, D, E>(
     apply: Apply<F>,
     f: Curried4<A, B, C, D, E>
