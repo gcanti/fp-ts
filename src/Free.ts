@@ -1,7 +1,7 @@
 // adapted from http://okmij.org/ftp/Computation/free-monad.html
 // and https://github.com/purescript/purescript-free
 
-import { HKT, HKTS, URI2HKT } from './HKT'
+import { HKT, HKTS, HKTAs } from './HKT'
 import { FantasyMonad, Monad } from './Monad'
 import { NaturalTransformation } from './NaturalTransformation'
 import { toString } from './function'
@@ -34,7 +34,7 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.value)
   }
-  foldFree<M extends HKTS>(M: Monad<M>, f: NaturalTransformation<F, M>): URI2HKT<A>[M]
+  foldFree<M extends HKTS>(M: Monad<M>, f: NaturalTransformation<F, M>): HKTAs<M, A>
   foldFree<M>(M: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A>
   foldFree<M>(M: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A> {
     return M.of(this.value)
@@ -69,7 +69,7 @@ export class Impure<F, A, X> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).chain(f))
   }
-  foldFree<M extends HKTS>(M: Monad<M>, f: NaturalTransformation<F, M>): URI2HKT<A>[M]
+  foldFree<M extends HKTS>(M: Monad<M>, f: NaturalTransformation<F, M>): HKTAs<M, A>
   foldFree<M>(M: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A>
   foldFree<M>(M: Monad<M>, f: NaturalTransformation<F, M>): HKT<M, A> {
     return M.chain(x => this.f(x).foldFree(M, f), f(this.fx))
@@ -93,7 +93,7 @@ export class Ops {
     return new Impure(fa, a => of(a))
   }
 
-  foldFree<F, M extends HKTS, A>(M: Monad<M>, f: NaturalTransformation<F, M>, fa: Free<F, A>): URI2HKT<A>[M]
+  foldFree<F, M extends HKTS, A>(M: Monad<M>, f: NaturalTransformation<F, M>, fa: Free<F, A>): HKTAs<M, A>
   foldFree<F, M, A>(M: Monad<M>, f: NaturalTransformation<F, M>, fa: Free<F, A>): HKT<M, A>
   foldFree<F, M, A>(M: Monad<M>, f: NaturalTransformation<F, M>, fa: Free<F, A>): HKT<M, A> {
     return fa.foldFree(M, f)

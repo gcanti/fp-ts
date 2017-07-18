@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Monoid } from './Monoid'
 import { Functor, FantasyFunctor } from './Functor'
 import { Applicative } from './Applicative'
@@ -45,10 +45,10 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
   }
   traverseWithKey<F extends HKT2S>(
     F: Applicative<F>
-  ): <L, B>(f: (k: string, a: A) => URI2HKT2<L, B>[F]) => URI2HKT2<L, StrMap<B>>[F]
+  ): <L, B>(f: (k: string, a: A) => HKT2As<F, L, B>) => HKT2As<F, L, StrMap<B>>
   traverseWithKey<F extends HKTS>(
     F: Applicative<F>
-  ): <B>(f: (k: string, a: A) => URI2HKT<B>[F]) => URI2HKT<StrMap<B>>[F]
+  ): <B>(f: (k: string, a: A) => HKTAs<F, B>) => HKTAs<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     const concatA2 = liftA2(F, curriedConcat)
@@ -60,8 +60,8 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
       return out
     }
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => URI2HKT2<L, B>[F]) => URI2HKT2<L, StrMap<B>>[F]
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<StrMap<B>>[F]
+  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2As<F, L, B>) => HKT2As<F, L, StrMap<B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     return f => this.traverseWithKey(F)((_, a) => f(a))
@@ -87,10 +87,10 @@ export const curriedConcat: <A>(x: StrMap<A>) => (y: StrMap<A>) => StrMap<A> = c
 export class Ops {
   traverseWithKey<F extends HKT2S>(
     F: Applicative<F>
-  ): <L, A, B>(f: (k: string, a: A) => URI2HKT2<L, B>[F], ta: StrMap<A>) => URI2HKT2<L, StrMap<B>>[F]
+  ): <L, A, B>(f: (k: string, a: A) => HKT2As<F, L, B>, ta: StrMap<A>) => HKT2As<F, L, StrMap<B>>
   traverseWithKey<F extends HKTS>(
     F: Applicative<F>
-  ): <A, B>(f: (k: string, a: A) => URI2HKT<B>[F], ta: StrMap<A>) => URI2HKT<StrMap<B>>[F]
+  ): <A, B>(f: (k: string, a: A) => HKTAs<F, B>, ta: StrMap<A>) => HKTAs<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
     return (f, ta) => ta.traverseWithKey(F)(f)
@@ -98,10 +98,10 @@ export class Ops {
 
   traverse<F extends HKT2S>(
     F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => URI2HKT2<L, B>[F], ta: StrMap<A>) => URI2HKT2<L, StrMap<B>>[F]
+  ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: StrMap<A>) => HKT2As<F, L, StrMap<B>>
   traverse<F extends HKTS>(
     F: Applicative<F>
-  ): <A, B>(f: (a: A) => URI2HKT<B>[F], ta: StrMap<A>) => URI2HKT<StrMap<B>>[F]
+  ): <A, B>(f: (a: A) => HKTAs<F, B>, ta: StrMap<A>) => HKTAs<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
     return (f, ta) => ta.traverse(F)(f)

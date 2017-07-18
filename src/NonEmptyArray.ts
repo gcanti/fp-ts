@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Monad, FantasyMonad } from './Monad'
 import { Comonad, FantasyComonad } from './Comonad'
 import { Semigroup } from './Semigroup'
@@ -54,8 +54,8 @@ export class NonEmptyArray<A>
   }
   traverse<F extends HKT2S>(
     applicative: Applicative<F>
-  ): <L, B>(f: (a: A) => URI2HKT2<L, B>[F]) => URI2HKT2<L, NonEmptyArray<B>>[F]
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => URI2HKT<B>[F]) => URI2HKT<NonEmptyArray<B>>[F]
+  ): <L, B>(f: (a: A) => HKT2As<F, L, B>) => HKT2As<F, L, NonEmptyArray<B>>
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, NonEmptyArray<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
     return f => applicative.map(bs => unsafeFromArray(bs), array.traverse(applicative)(f, this.toArray()))
@@ -109,10 +109,10 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): 
 export class Ops {
   traverse<F extends HKT2S>(
     F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => URI2HKT2<L, B>[F], ta: NonEmptyArray<A>) => URI2HKT2<L, NonEmptyArray<B>>[F]
+  ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: NonEmptyArray<A>) => HKT2As<F, L, NonEmptyArray<B>>
   traverse<F extends HKTS>(
     F: Applicative<F>
-  ): <A, B>(f: (a: A) => URI2HKT<B>[F], ta: NonEmptyArray<A>) => URI2HKT<NonEmptyArray<B>>[F]
+  ): <A, B>(f: (a: A) => HKTAs<F, B>, ta: NonEmptyArray<A>) => HKTAs<F, NonEmptyArray<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>> {
     return (f, ta) => ta.traverse(F)(f)

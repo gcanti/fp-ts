@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKT2, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKT2, HKTAs, HKT2As } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad, FantasyMonad } from './Monad'
 import { Foldable, FantasyFoldable } from './Foldable'
@@ -66,8 +66,8 @@ export class Left<L, A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return b
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => URI2HKT2<M, Either<L, B>>[F]
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => URI2HKT<Either<L, B>>[F]
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Either<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
     return f => F.of(this as any)
@@ -137,8 +137,8 @@ export class Right<L, A>
   reduce<B>(f: (b: B, a: A) => B, b: B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => URI2HKT2<M, Either<L, B>>[F]
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => URI2HKT<Either<L, B>>[F]
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Either<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
     return f => F.map(b => of(b), f(this.value))
@@ -219,10 +219,10 @@ export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: Either<L, A>): B
 export class Ops {
   traverse<F extends HKT2S>(
     F: Applicative<F>
-  ): <M, L, A, B>(f: (a: A) => HKT2<F, M, B>, ta: Either<L, A>) => URI2HKT2<M, Either<L, B>>[F]
+  ): <M, L, A, B>(f: (a: A) => HKT2<F, M, B>, ta: Either<L, A>) => HKT2As<F, M, Either<L, B>>
   traverse<F extends HKTS>(
     F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => URI2HKT<Either<L, B>>[F]
+  ): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKTAs<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKT<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKT<F, Either<L, B>> {
     return (f, ta) => ta.traverse(F)(f)

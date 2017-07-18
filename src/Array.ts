@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, URI2HKT, URI2HKT2 } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Monoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { Monad } from './Monad'
@@ -64,8 +64,8 @@ export const curriedSnoc: <A>(a: Array<A>) => (b: A) => Array<A> = curry(snoc)
 export class Ops {
   traverse<F extends HKT2S>(
     F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => URI2HKT2<L, B>[F], ta: Array<A>) => URI2HKT2<L, Array<B>>[F]
-  traverse<F extends HKTS>(F: Applicative<F>): <A, B>(f: (a: A) => URI2HKT<B>[F], ta: Array<A>) => URI2HKT<Array<B>>[F]
+  ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Array<A>) => HKT2As<F, L, Array<B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Array<A>) => HKTAs<F, Array<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>> {
     const snocA2: <A>(fa: HKT<F, Array<A>>, fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F, curriedSnoc)
