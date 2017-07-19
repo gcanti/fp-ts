@@ -64,9 +64,7 @@ export class Ops {
   fold<F extends HKT2S>(
     F: Functor<F>
   ): <L, R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, R>
-  fold<F extends HKTS>(
-    F: Functor<F>
-  ): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKTAs<F, Option<A>>) => HKTAs<F, R>
+  fold<F extends HKTS>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKTAs<F, Option<A>>) => HKTAs<F, R>
   fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
   fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
     return (none, some, fa) => F.map(o => o.fold(none, some), fa)
