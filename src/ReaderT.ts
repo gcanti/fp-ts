@@ -21,14 +21,8 @@ export interface ReaderT1<M extends HKTS> {
 export interface ReaderT2<M extends HKT2S> {
   map<L, E, A, B>(f: (a: A) => B, fa: (e: E) => HKT2As<M, L, A>): (e: E) => HKT2As<M, L, B>
   of<L, E, A>(a: A): (e: E) => HKT2As<M, L, A>
-  ap<L, E, A, B>(
-    fab: (e: E) => HKT2As<M, L, (a: A) => B>,
-    fa: (e: E) => HKT2As<M, L, A>
-  ): (e: E) => HKT2As<M, L, B>
-  chain<L, E, A, B>(
-    f: (a: A) => (e: E) => HKT2As<M, L, B>,
-    fa: (e: E) => HKT2As<M, L, A>
-  ): (e: E) => HKT2As<M, L, B>
+  ap<L, E, A, B>(fab: (e: E) => HKT2As<M, L, (a: A) => B>, fa: (e: E) => HKT2As<M, L, A>): (e: E) => HKT2As<M, L, B>
+  chain<L, E, A, B>(f: (a: A) => (e: E) => HKT2As<M, L, B>, fa: (e: E) => HKT2As<M, L, A>): (e: E) => HKT2As<M, L, B>
 }
 
 export class Ops {
@@ -50,10 +44,7 @@ export class Ops {
 
   ap<F extends HKT2S>(
     F: Applicative<F>
-  ): <L, E, A, B>(
-    fab: (e: E) => HKT2As<F, L, (a: A) => B>,
-    fa: (e: E) => HKT2As<F, L, A>
-  ) => (e: E) => HKT2As<F, L, B>
+  ): <L, E, A, B>(fab: (e: E) => HKT2As<F, L, (a: A) => B>, fa: (e: E) => HKT2As<F, L, A>) => (e: E) => HKT2As<F, L, B>
   ap<F extends HKTS>(
     F: Applicative<F>
   ): <E, A, B>(fab: (e: E) => HKTAs<F, (a: A) => B>, fa: (e: E) => HKTAs<F, A>) => (e: E) => HKTAs<F, B>
@@ -68,10 +59,7 @@ export class Ops {
 
   chain<F extends HKT2S>(
     F: Chain<F>
-  ): <L, E, A, B>(
-    f: (a: A) => (e: E) => HKT2As<F, L, B>,
-    fa: (e: E) => HKT2As<F, L, A>
-  ) => (e: E) => HKT2As<F, L, B>
+  ): <L, E, A, B>(f: (a: A) => (e: E) => HKT2As<F, L, B>, fa: (e: E) => HKT2As<F, L, A>) => (e: E) => HKT2As<F, L, B>
   chain<F extends HKTS>(
     F: Chain<F>
   ): <E, A, B>(f: (a: A) => (e: E) => HKTAs<F, B>, fa: (e: E) => HKTAs<F, A>) => (e: E) => HKTAs<F, B>

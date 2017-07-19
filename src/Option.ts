@@ -229,9 +229,7 @@ export class Ops {
   traverse<F extends HKT2S>(
     F: Applicative<F>
   ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Option<A>) => HKT2As<F, L, Option<B>>
-  traverse<F extends HKTS>(
-    F: Applicative<F>
-  ): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Option<A>) => HKTAs<F, Option<B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Option<A>) => HKTAs<F, Option<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>> {
     return (f, ta) => ta.traverse(F)(f)
