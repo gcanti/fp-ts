@@ -20,18 +20,14 @@ export interface FantasyApply<F, A> extends FantasyFunctor<F, A> {
 const constIdentity = () => identity
 
 export class Ops {
-  applyFirst<F extends HKT2S>(
-    apply: Apply<F>
-  ): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, A>
+  applyFirst<F extends HKT2S>(apply: Apply<F>): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, A>
   applyFirst<F extends HKTS>(apply: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, A>
   applyFirst<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
   applyFirst<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
     return (fa, fb) => apply.ap(apply.map(a => constant(a), fa), fb)
   }
 
-  applySecond<F extends HKT2S>(
-    apply: Apply<F>
-  ): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, B>
+  applySecond<F extends HKT2S>(apply: Apply<F>): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, B>
   applySecond<F extends HKTS>(apply: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, B>
   applySecond<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
   applySecond<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
@@ -73,12 +69,7 @@ export class Ops {
   liftA4<F extends HKT2S, A, B, C, D, E>(
     apply: Apply<F>,
     f: Curried4<A, B, C, D, E>
-  ): <L>(
-    fa: HKT2As<F, L, A>,
-    fb: HKT2As<F, L, B>,
-    fc: HKT2As<F, L, C>,
-    fd: HKT2As<F, L, D>
-  ) => HKT2As<F, L, E>
+  ): <L>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>, fc: HKT2As<F, L, C>, fd: HKT2As<F, L, D>) => HKT2As<F, L, E>
   liftA4<F extends HKTS, A, B, C, D, E>(
     apply: Apply<F>,
     f: Curried4<A, B, C, D, E>

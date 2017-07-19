@@ -15,14 +15,8 @@ export interface StateT<M> {
 export interface StateT1<M extends HKTS> {
   map<S, A, B>(f: (a: A) => B, fa: (s: S) => HKTAs<M, [A, S]>): (s: S) => HKTAs<M, [B, S]>
   of<S, A>(a: A): (s: S) => HKTAs<M, [A, S]>
-  ap<S, A, B>(
-    fab: (s: S) => HKTAs<M, [(a: A) => B, S]>,
-    fa: (s: S) => HKTAs<M, [A, S]>
-  ): (s: S) => HKTAs<M, [B, S]>
-  chain<S, A, B>(
-    f: (a: A) => (s: S) => HKTAs<M, [B, S]>,
-    fa: (s: S) => HKTAs<M, [A, S]>
-  ): (s: S) => HKTAs<M, [B, S]>
+  ap<S, A, B>(fab: (s: S) => HKTAs<M, [(a: A) => B, S]>, fa: (s: S) => HKTAs<M, [A, S]>): (s: S) => HKTAs<M, [B, S]>
+  chain<S, A, B>(f: (a: A) => (s: S) => HKTAs<M, [B, S]>, fa: (s: S) => HKTAs<M, [A, S]>): (s: S) => HKTAs<M, [B, S]>
 }
 
 export interface StateT2<M extends HKT2S> {
@@ -65,10 +59,7 @@ export class Ops {
   ) => (s: S) => HKT2As<F, L, [B, S]>
   ap<F extends HKTS>(
     F: Chain<F>
-  ): <S, A, B>(
-    fab: (s: S) => HKTAs<F, [(a: A) => B, S]>,
-    fa: (s: S) => HKTAs<F, [A, S]>
-  ) => (s: S) => HKTAs<F, [B, S]>
+  ): <S, A, B>(fab: (s: S) => HKTAs<F, [(a: A) => B, S]>, fa: (s: S) => HKTAs<F, [A, S]>) => (s: S) => HKTAs<F, [B, S]>
   ap<F>(
     F: Chain<F>
   ): <S, A, B>(fab: (s: S) => HKT<F, [(a: A) => B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
@@ -86,10 +77,7 @@ export class Ops {
   ) => (s: S) => HKT2As<F, L, [B, S]>
   chain<F extends HKTS>(
     F: Chain<F>
-  ): <S, A, B>(
-    f: (a: A) => (s: S) => HKTAs<F, [B, S]>,
-    fa: (s: S) => HKTAs<F, [A, S]>
-  ) => (s: S) => HKTAs<F, [B, S]>
+  ): <S, A, B>(f: (a: A) => (s: S) => HKTAs<F, [B, S]>, fa: (s: S) => HKTAs<F, [A, S]>) => (s: S) => HKTAs<F, [B, S]>
   chain<F>(
     F: Chain<F>
   ): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>

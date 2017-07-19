@@ -22,10 +22,7 @@ export interface EitherT1<F extends HKTS> extends ApplicativeComposition12<F, UR
 }
 
 export interface EitherT2<F extends HKT2S> extends ApplicativeComposition22<F, URIEither> {
-  chain<L, M, A, B>(
-    f: (a: A) => HKT2As<F, M, Either<L, B>>,
-    fa: HKT2As<F, M, Either<L, A>>
-  ): HKT2As<F, M, Either<L, B>>
+  chain<L, M, A, B>(f: (a: A) => HKT2As<F, M, Either<L, B>>, fa: HKT2As<F, M, Either<L, A>>): HKT2As<F, M, Either<L, B>>
 }
 
 export class Ops {
