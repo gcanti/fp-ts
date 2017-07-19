@@ -11,7 +11,7 @@ import { ChainRec, tailRec } from './ChainRec'
 import { toString } from './function'
 
 declare module './HKT' {
-  interface URIHKT<A> {
+  interface URI2HKT<A> {
     Identity: Identity<A>
   }
 }
