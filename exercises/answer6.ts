@@ -1,15 +1,16 @@
 import * as array from 'fp-ts/lib/Array'
 import * as option from 'fp-ts/lib/Option'
 import * as tuple from 'fp-ts/lib/Tuple'
+import { tuple as createTuple } from 'fp-ts/lib/function'
 
 export function evens(count: number): Array<number> {
   let i = count
-  return array.unfoldr<number, number>(n => {
+  return array.unfoldr(n => {
     if (i <= 0) {
       return option.none
     }
     i--
-    return option.some([n, n + 2])
+    return option.some(createTuple(n, n + 2))
   }, 1)
 }
 

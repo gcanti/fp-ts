@@ -5,6 +5,7 @@ import * as assert from 'assert'
 import { numberOrd } from '../src/Ord'
 import { eqOptions as eq } from './helpers'
 import { monoidSum, fold } from '../src/Monoid'
+import { tuple } from '../src/function'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -21,7 +22,7 @@ describe('Array', () => {
   })
 
   it('unfoldr', () => {
-    const as = array.unfoldr(n => (n > 0 ? some([n, n - 1]) : none), 5)
+    const as = array.unfoldr(n => (n > 0 ? some(tuple(n, n - 1)) : none), 5)
     assert.deepEqual(as, [5, 4, 3, 2, 1])
   })
 
