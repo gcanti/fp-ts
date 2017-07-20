@@ -1,5 +1,6 @@
 import * as assert from 'assert'
-import { Task } from '../src/Task'
+import { Task, tryCatch } from '../src/Task'
+import { right, left } from '../src/Either'
 
 const delay = <A>(n: number, a: A): Task<A> =>
   new Task<A>(
@@ -33,5 +34,15 @@ describe('Task', () => {
     const t1 = delay(0, 1)
     const t2 = delay(0, double)
     return t1.ap(t2).run().then(x => assert.strictEqual(x, 2))
+  })
+
+  it('tryCatch', () => {
+    const onrejected = (e: any) => `Error is: ${String(e)}`
+    const t1 = tryCatch(() => Promise.resolve(1), onrejected)
+    const t2 = tryCatch(() => Promise.reject('ouch!'), onrejected)
+    return Promise.all([t1.run(), t2.run()]).then(([e1, e2]) => {
+      assert.deepEqual(e1, right(1))
+      assert.deepEqual(e2, left('Error is: ouch!'))
+    })
   })
 })
