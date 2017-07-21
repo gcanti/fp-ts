@@ -14,9 +14,9 @@ export interface URI2HKT2<L, A> {}
 
 // URI constraints with dictionary integrity constraint
 
-export type HKTS = URI2HKT<any>[keyof URI2HKT<any>]['_URI']
+export type HKTS = (URI2HKT<any> & { never: HKT<never, never> })[keyof URI2HKT<any> | 'never']['_URI']
 
-export type HKT2S = URI2HKT2<any, any>[keyof URI2HKT2<any, any>]['_URI']
+export type HKT2S = (URI2HKT2<any, any> & { never: HKT<never, never> })[keyof URI2HKT2<any, any> | 'never']['_URI']
 
 // HKTAs<U, A> is the same as URI2HKT<A>[U], but checks for URI constraints
 
