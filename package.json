@@ -33,7 +33,7 @@
     "ts-node": "3.1.0",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "2.4.1"
+    "typescript": "2.4.2"
   },
   "tags": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"],
   "keywords": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"]
