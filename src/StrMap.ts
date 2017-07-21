@@ -4,7 +4,7 @@ import { Functor, FantasyFunctor } from './Functor'
 import { Applicative } from './Applicative'
 import { Foldable, FantasyFoldable } from './Foldable'
 import { Traversable, FantasyTraversable } from './Traversable'
-import { constant, Lazy, curry } from './function'
+import { constant, Lazy, curry, tuple } from './function'
 import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
@@ -184,7 +184,7 @@ export function toUnfoldable<F extends string>(unfoldable: Unfoldable<F>): <A>(d
       return arr as any
     }
     const len = arr.length
-    return unfoldable.unfoldr<[string, A], number>(b => (b < len ? some([arr[b], b + 1]) : none), 0)
+    return unfoldable.unfoldr(b => (b < len ? some(tuple(arr[b], b + 1)) : none), 0)
   }
 }
 

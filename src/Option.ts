@@ -35,7 +35,7 @@ export class None<A>
   static of = of
   static empty = empty
   static zero = zero
-  static value: Option<any> = new None()
+  static value: Option<never> = new None()
   readonly _tag: 'None' = 'None'
   readonly _A: A
   readonly _URI: URI
@@ -289,17 +289,29 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
 export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Option<A>): { left: Option<L>; right: Option<R> } {
   return fa.fold(
     () => ({ left: none, right: none }),
-    a => f(a).fold(l => ({ left: some(l), right: none }), a => ({ left: none, right: some(a) }))
+    a =>
+      f(a).fold<{ left: Option<L>; right: Option<R> }>(
+        l => ({ left: some(l), right: none }),
+        a => ({ left: none, right: some(a) })
+      )
   )
 }
 
 export function wilt<M>(
   M: Applicative<M>
 ): <A, L, R>(f: (a: A) => HKT<M, Either<L, R>>, ta: Option<A>) => HKT<M, { left: Option<L>; right: Option<R> }> {
-  return (f, ta) =>
+  return <A, L, R>(f: (a: A) => HKT<M, Either<L, R>>, ta: Option<A>) =>
     ta.fold(
       () => M.of({ left: none, right: none }),
-      a => M.map(e => e.fold(l => ({ left: some(l), right: none }), r => ({ left: none, right: some(r) })), f(a))
+      a =>
+        M.map(
+          e =>
+            e.fold<{ left: Option<L>; right: Option<R> }>(
+              l => ({ left: some(l), right: none }),
+              r => ({ left: none, right: some(r) })
+            ),
+          f(a)
+        )
     )
 }
 

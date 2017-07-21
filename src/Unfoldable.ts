@@ -3,7 +3,7 @@ import { Applicative } from './Applicative'
 import { Traversable } from './Traversable'
 import * as option from './Option'
 import { sequence } from './Traversable'
-import { constant } from './function'
+import { constant, tuple } from './function'
 
 /** This class identifies data structures which can be _unfolded_,
  * generalizing `unfoldr` on arrays.
@@ -17,7 +17,7 @@ export interface Unfoldable<F> {
 export function replicate<F>(unfoldable: Unfoldable<F>): <A>(n: number, a: A) => HKT<F, A> {
   return (n, a) => {
     function step(n: number) {
-      return n <= 0 ? option.none : option.of([a, n - 1])
+      return n <= 0 ? option.none : option.of(tuple(a, n - 1))
     }
     return unfoldable.unfoldr(step, n)
   }
@@ -33,7 +33,7 @@ export function replicateA<F, T>(
 
 /** The container with no elements - unfolded with zero iterations. */
 export function none<F, A>(unfoldable: Unfoldable<F>): HKT<F, A> {
-  return unfoldable.unfoldr<A, void>(constant(option.none), undefined)
+  return unfoldable.unfoldr(constant(option.none), undefined)
 }
 
 export function singleton<F, A>(unfoldable: Unfoldable<F>, a: A): HKT<F, A> {

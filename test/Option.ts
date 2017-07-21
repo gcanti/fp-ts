@@ -11,7 +11,8 @@ import {
   getMonoid,
   fromNullable,
   getFirstMonoid,
-  getLastMonoid
+  getLastMonoid,
+  Option
 } from '../src/Option'
 import * as array from '../src/Array'
 import { setoidNumber } from '../src/Setoid'
@@ -26,8 +27,10 @@ describe('Option', () => {
   })
 
   it('getOrElse', () => {
-    assert.strictEqual(some(1).getOrElse(() => 0), 1)
-    assert.strictEqual(none.getOrElse(() => 0), 0)
+    const x: Option<number> = some(1)
+    assert.strictEqual(x.getOrElse(() => 0), 1)
+    const y: Option<number> = none
+    assert.strictEqual(y.getOrElse(() => 0), 0)
   })
 
   it('equals', () => {
