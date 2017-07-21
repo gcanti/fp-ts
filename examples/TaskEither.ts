@@ -5,6 +5,7 @@ import * as task from 'fp-ts/lib/Task'
 import { URI as URIArray } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
 import { Monad } from 'fp-ts/lib/Monad'
+import { Lazy } from 'fp-ts/lib/function'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT2<L, A> {
@@ -78,10 +79,8 @@ export function fromEither<L, A>(fa: either.Either<L, A>): TaskEither<L, A> {
   return new TaskEither(eitherT.fromEither(task)(fa))
 }
 
-export function fromPromise<L, A>(f: () => Promise<A>, onrejected: (reason: any) => L): TaskEither<L, A> {
-  return new TaskEither(
-    new task.Task(() => f().then(a => either.right<L, A>(a), reason => either.left<L, A>(onrejected(reason))))
-  )
+export function fromPromise<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: any) => L): TaskEither<L, A> {
+  return new TaskEither(task.fromPromise(f, onrejected))
 }
 
 export const taskEither: Monad<URI> = {
