@@ -64,6 +64,8 @@ import * as plus from './Plus'
 export { plus }
 import * as profunctor from './Profunctor'
 export { profunctor }
+import * as random from './Random'
+export { random }
 import * as reader from './Reader'
 export { reader }
 import * as readerT from './ReaderT'
