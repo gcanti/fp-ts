@@ -79,8 +79,8 @@ export function fromEither<L, A>(fa: either.Either<L, A>): TaskEither<L, A> {
   return new TaskEither(eitherT.fromEither(task)(fa))
 }
 
-export function fromPromise<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: any) => L): TaskEither<L, A> {
-  return new TaskEither(task.fromPromise(f, onrejected))
+export function tryCatch<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: any) => L): TaskEither<L, A> {
+  return new TaskEither(task.tryCatch(f, onrejected))
 }
 
 export const taskEither: Monad<URI> = {
