@@ -1,4 +1,4 @@
-import { Applicative, getApplicativeComposition } from '../src/Applicative'
+import { Applicative, getApplicativeComposition, FantasyApplicative } from '../src/Applicative'
 import * as validation from '../src/Validation'
 import * as task from '../src/Task'
 import { Option } from '../src/Option'
@@ -15,7 +15,7 @@ export const URI = 'TaskValidation'
 
 export type URI = typeof URI
 
-export class TaskValidation<L, A> {
+export class TaskValidation<L, A> implements FantasyApplicative<URI, A> {
   static of = of
   readonly _A: A
   readonly _L: L
