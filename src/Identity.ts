@@ -8,7 +8,9 @@ import { Alt, FantasyAlt } from './Alt'
 import { Comonad, FantasyComonad } from './Comonad'
 import { Either } from './Either'
 import { ChainRec, tailRec } from './ChainRec'
+import { Distributive } from './Distributive'
 import { toString } from './function'
+import { Functor } from './Functor'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -125,10 +127,17 @@ export class Ops {
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>> {
     return (f, ta) => ta.traverse(F)(f)
   }
+
+  distribute<G extends HKT2S>(G: Functor<G>): <L, A>(gfa: HKT2As<G, L, Identity<A>>) => Identity<HKT2As<G, L, A>>
+  distribute<G extends HKTS>(G: Functor<G>): <A>(gfa: HKTAs<G, Identity<A>>) => Identity<HKTAs<G, A>>
+  distribute<G>(G: Functor<G>): <A>(gfa: HKT<G, Identity<A>>) => Identity<HKT<G, A>> {
+    return gfa => new Identity(G.map(fa => fa.value, gfa))
+  }
 }
 
 const ops = new Ops()
 export const traverse: Ops['traverse'] = ops.traverse
+export const distribute: Ops['distribute'] = ops.distribute
 
 export function extend<A, B>(f: (ea: Identity<A>) => B, ea: Identity<A>): Identity<B> {
   return ea.extend(f)
@@ -142,7 +151,13 @@ export function chainRec<A, B>(f: (a: A) => Identity<Either<A, B>>, a: A): Ident
   return new Identity(tailRec(a => f(a).extract(), a))
 }
 
-export const identity: Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> & Comonad<URI> & ChainRec<URI> = {
+export const identity: Monad<URI> &
+  Foldable<URI> &
+  Traversable<URI> &
+  Alt<URI> &
+  Comonad<URI> &
+  ChainRec<URI> &
+  Distributive<URI> = {
   URI,
   map,
   of,
@@ -153,5 +168,6 @@ export const identity: Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> 
   alt,
   extract,
   extend,
-  chainRec
+  chainRec,
+  distribute
 }

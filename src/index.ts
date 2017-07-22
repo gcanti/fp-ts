@@ -20,6 +20,8 @@ import * as const_ from './Const'
 export { const_ as const }
 import * as contravariant from './Contravariant'
 export { contravariant }
+import * as distributive from './Distributive'
+export { distributive }
 import * as either from './Either'
 export { either }
 import * as eitherT from './EitherT'
