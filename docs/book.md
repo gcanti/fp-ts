@@ -126,3 +126,102 @@ const allFiles = (path: Path): Array<Path> => array.cons(path, array.chain(allFi
 
 path('./docs').map(allFiles).getOrElse(() => []) // [ Path(../docs), Path(Free.md), Path(OptionT.md), Path(book.md) ]
 ```
+
+## Pattern Matching
+
+The function `fold` provides a way to get a simple form of pattern matching in presence of coproducts
+
+### Arrays
+
+```ts
+import { array } from 'fp-ts'
+
+function isEmpty<A>(xs: Array<A>): boolean {
+  return array.fold(
+    () => true,  // called when xs is []
+    () => false, // otherwise
+    xs
+  )
+}
+```
+
+### Algebraic Data Types
+
+```ts
+// product
+type Point = {
+  x: number,
+  y: number
+}
+
+// coproduct
+type Shape =
+  | Circle
+  | Rectangle
+  | Line
+  | Text
+
+class Circle {
+  readonly _tag: 'Circle' = 'Circle'
+  constructor(
+    public readonly center: Point,
+    public readonly radius: number
+  ) {}
+}
+
+class Rectangle {
+  readonly _tag: 'Rectangle' = 'Rectangle'
+  constructor(
+    public readonly lowerLeft: Point,
+    public readonly width: number,
+    public readonly height: number
+  ) {}
+}
+
+class Line {
+  readonly _tag: 'Line' = 'Line'
+  constructor(
+    public readonly start: Point,
+    public readonly end: Point
+  ) {}
+}
+
+class Text {
+  readonly _tag: 'Text' = 'Text'
+  constructor(
+    public readonly loc: Point,
+    public readonly text: string
+  ) {}
+}
+
+function fold<R>(
+  circle: (center: Point, radius: number) => R,
+  rectangle: (lowerLeft: Point, width: number, height: number) => R,
+  line: (start: Point, end: Point) => R,
+  text: (loc: Point, text: string) => R): (shape: Shape) => R {
+
+  return shape => {
+    switch (shape._tag) {
+      case 'Circle' :
+        return circle(shape.center, shape.radius)
+      case 'Rectangle' :
+        return rectangle(shape.lowerLeft, shape.width, shape.height)
+      case 'Line' :
+        return line(shape.start, shape.end)
+      case 'Text' :
+        return text(shape.loc, shape.text)
+    }
+    throw 'err'
+  }
+}
+
+const showPoint = (point: Point) => `(${point.x}, ${point.y})`
+
+const showShape = (shape: Shape) => fold(
+  (center, radius) => ...,
+  (lowerLeft, width, height) => ...,
+  (start, end) => ...,
+  (loc, text) => ...
+)(shape)
+```
+
