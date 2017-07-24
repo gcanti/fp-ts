@@ -9,7 +9,7 @@ import { Extend, FantasyExtend } from './Extend'
 import { Setoid } from './Setoid'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Alternative, FantasyAlternative } from './Alternative'
-import { Filterable } from './Filterable'
+import { Filterable, FantasyFilterable } from "./Filterable";
 import { Either } from './Either'
 import { Witherable } from './Witherable'
 import { constant, constFalse, constTrue, Lazy, Predicate, toString } from './function'
@@ -30,6 +30,7 @@ export class None<A>
   implements FantasyMonad<URI, A>,
     FantasyFoldable<A>,
     FantasyTraversable<URI, A>,
+    FantasyFilterable<URI, A>,
     FantasyAlternative<URI, A>,
     FantasyExtend<URI, A> {
   static of = of
@@ -63,6 +64,9 @@ export class None<A>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
     return f => F.of(none)
+  }
+  partitionMap<L, R>(f: (a: A) => Either<L, R>): { left: Option<L>; right: Option<R> } {
+    return { left: none, right: none }
   }
   zero<B>(): Option<B> {
     return zero()
@@ -110,6 +114,7 @@ export class Some<A>
   implements FantasyMonad<URI, A>,
     FantasyFoldable<A>,
     FantasyTraversable<URI, A>,
+    FantasyFilterable<URI, A>,
     FantasyAlternative<URI, A>,
     FantasyExtend<URI, A> {
   static of = of
@@ -142,6 +147,12 @@ export class Some<A>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
     return f => F.map(b => some(b), f(this.value))
+  }
+  partitionMap<L, R>(f: (a: A) => Either<L, R>): { left: Option<L>; right: Option<R> } {
+    return f(this.value).fold<{ left: Option<L>; right: Option<R> }>(
+      l => ({ left: some(l), right: none }),
+      a => ({ left: none, right: some(a) })
+    )
   }
   zero<B>(): Option<B> {
     return zero<B>()
@@ -287,14 +298,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
 }
 
 export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Option<A>): { left: Option<L>; right: Option<R> } {
-  return fa.fold(
-    () => ({ left: none, right: none }),
-    a =>
-      f(a).fold<{ left: Option<L>; right: Option<R> }>(
-        l => ({ left: some(l), right: none }),
-        a => ({ left: none, right: some(a) })
-      )
-  )
+  return fa.partitionMap(f)
 }
 
 export function wilt<M>(

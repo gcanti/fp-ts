@@ -1,5 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
-import { Functor } from './Functor'
+import { Functor, FantasyFunctor } from './Functor'
 import { Either, fromPredicate, left, right } from './Either'
 import { Option, fromPredicate as optionFromPredicate } from './Option'
 import { Predicate, identity } from './function'
@@ -7,6 +7,11 @@ import { Predicate, identity } from './function'
 export interface Filterable<F> extends Functor<F> {
   /** partition a data structure based on an either predicate */
   partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: HKT<F, A>): { left: HKT<F, L>; right: HKT<F, R> }
+}
+
+export interface FantasyFilterable<F, A> extends FantasyFunctor<F, A> {
+  /** partition a data structure based on an either predicate */
+  partitionMap<L, R>(f: (a: A) => Either<L, R>): { left: HKT<F, L>; right: HKT<F, R> }
 }
 
 export class Ops {
