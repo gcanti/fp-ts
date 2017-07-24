@@ -16,6 +16,8 @@ import * as chainRec from './ChainRec'
 export { chainRec }
 import * as comonad from './Comonad'
 export { comonad }
+import * as console from './Console'
+export { console }
 import * as const_ from './Const'
 export { const_ as const }
 import * as contravariant from './Contravariant'
