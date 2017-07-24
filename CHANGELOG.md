@@ -12,6 +12,26 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.4.3
+
+- **New Feature**
+  - add type-level dictionaries in order to reduce the number of overloadings (@gcanti)
+  - add typechecks to the type-level HKT dictionary (@SimonMeskens)
+  - add Task.tryCatch, closes #159 (@gcanti)
+  - use the bottom `never` type for none, closes #160 (@gcanti)
+  - add Random module (@gcanti)
+  - add Console module (@gcanti)
+  - add FantasyFilterable (@SimonMeskens)
+  - add FantasyWitherable (@SimonMeskens)
+- **Documentation**
+  - add ReaderIO example (@gcanti)
+  - add EitherOption example (@gcanti)
+- **Polish**
+  - TaskEither: rename fromPromise to tryCatch (@gcanti)
+- **Internal**
+  - add fix-prettier task (@gcanti)
+  - remove typings-checker (doesn’t work with ts 2.4.1) (@gcanti)
+
 # 0.4.0
 
 - **Breaking Change**
