@@ -94,6 +94,8 @@ import * as task from './Task'
 export { task }
 import * as these from './These'
 export { these }
+import * as trace from './Trace'
+export { trace }
 import * as traversable from './Traversable'
 export { traversable }
 import * as tuple from './Tuple'
