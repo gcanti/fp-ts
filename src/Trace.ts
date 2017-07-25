@@ -9,8 +9,8 @@ import { Monad } from './Monad'
  * return a value. This will log the value's underlying representation for
  * low-level debugging
  */
-export function trace<A>(x: any, out: Lazy<A>): A {
-  console.log(x)
+export function trace<A>(message: any, out: Lazy<A>): A {
+  console.log(message)
   return out()
 }
 
@@ -23,10 +23,10 @@ export class Ops {
   /** Log a message to the console for debugging purposes and then return the
    * unit value of the Applicative `F`
    */
-  traceA<F extends HKT2S>(F: Applicative<F>): <L>(x: any) => HKT2As<F, L, void>
-  traceA<F extends HKTS>(F: Applicative<F>): (x: any) => HKTAs<F, void>
-  traceA<F>(F: Applicative<F>): (x: any) => HKT<F, void>
-  traceA<F>(F: Applicative<F>): (x: any) => HKT<F, void> {
+  traceA<F extends HKT2S>(F: Applicative<F>): <L>(message: any) => HKT2As<F, L, void>
+  traceA<F extends HKTS>(F: Applicative<F>): (message: any) => HKTAs<F, void>
+  traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void>
+  traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void> {
     return x => trace(x, () => F.of(undefined))
   }
 
