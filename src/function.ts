@@ -228,3 +228,18 @@ export function toString(x: any): string {
 export function tuple<A, B>(a: A, b: B): [A, B] {
   return [a, b]
 }
+
+export type NumberToString = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+export type GFunction<I extends number, A, R=void> = {
+    0: Lazy<R>;
+    1: Function1<A[0], R>
+    2: Function2<A[0], A[1], R>
+    3: Function3<A[0], A[1], A[2], R>
+    4: Function4<A[0], A[1], A[2], A[3], R>
+    5: Function5<A[0], A[1], A[2], A[3], A[4], R>
+    6: Function6<A[0], A[1], A[2], A[3], A[4], A[5], R>
+    7: Function7<A[0], A[1], A[2], A[3], A[4], A[5], A[6], R>
+    8: Function8<A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7], R>
+    9: Function9<A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7], A[8], R>
+    10: Function10<A[0], A[1], A[2], A[3], A[4], A[5], A[6], A[7], A[8], A[9], R>
+}[NumberToString[I]];
