@@ -15,6 +15,7 @@ import {
   Option
 } from '../src/Option'
 import * as array from '../src/Array'
+import { monoidSum } from '../src/Monoid'
 import { setoidNumber } from '../src/Setoid'
 import { eqOptions as eq } from './helpers'
 
@@ -110,5 +111,66 @@ describe('Option', () => {
     assert.deepEqual(last.concat(some(1), none), some(1))
     assert.deepEqual(last.concat(none, none), none)
     assert.deepEqual(last.concat(some(1), some(2)), some(2))
+  })
+
+  it('contains', () => {
+    const x: Option<number> = none
+    assert.equal(x.contains(setoidNumber, 2), false)
+    assert.equal(some(2).contains(setoidNumber, 2), true)
+    assert.equal(some(2).contains(setoidNumber, 1), false)
+  })
+
+  it('isEmpty', () => {
+    const x: Option<number> = none
+    assert.equal(x.isEmpty(), true)
+    assert.equal(some(1).isEmpty(), false)
+    assert.equal(some(null).isEmpty(), false)
+  })
+
+  it('isDefined', () => {
+    const x: Option<number> = none
+    assert.equal(x.isDefined(), false)
+    assert.equal(some(1).isDefined(), true)
+    assert.equal(some(null).isDefined(), true)
+  })
+
+  it('nonEmpty', () => {
+    const x: Option<number> = none
+    assert.equal(x.nonEmpty(), false)
+    assert.equal(some(1).nonEmpty(), true)
+    assert.equal(some(null).nonEmpty(), true)
+  })
+
+  it('forEach', () => {
+    let v = 0
+    // function will side-effect on v
+    const f = (a: number) => {
+      v = v + 1
+    }
+
+    const x: Option<number> = none
+
+    assert.equal(v, 0)
+    x.forEach(f)
+    assert.equal(v, 0)
+
+    some(1).forEach(f)
+    assert.equal(v, 1)
+  })
+
+  it('exists', () => {
+    const x: Option<number> = none
+    const is2 = (a: number) => a === 2
+
+    assert.equal(x.exists(is2), false)
+    assert.equal(some(1).exists(is2), false)
+    assert.equal(some(2).exists(is2), true)
+  })
+
+  it('orEmpty', () => {
+    const x: Option<number> = none
+    assert.equal(x.orEmpty(monoidSum), 0)
+    assert.equal(some(1).orEmpty(monoidSum), 1)
+    assert.equal(some(2).orEmpty(monoidSum), 2)
   })
 })

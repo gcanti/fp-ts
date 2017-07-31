@@ -104,6 +104,27 @@ export class None<A>
   toString() {
     return 'none'
   }
+  contains(setoid: Setoid<A>, a: A): boolean {
+    return false
+  }
+  isEmpty(): boolean {
+    return true
+  }
+  isDefined(): boolean {
+    return !this.isEmpty()
+  }
+  nonEmpty(): boolean {
+    return this.isDefined()
+  }
+  forEach<B>(f: (a: A) => B) {
+    // empty
+  }
+  exists(p: (a: A) => Boolean): boolean {
+    return false
+  }
+  orEmpty(monoid: Monoid<A>): A {
+    return monoid.empty()
+  }
 }
 
 export const none = None.value
@@ -203,6 +224,27 @@ export class Some<A>
   }
   toString() {
     return `some(${toString(this.value)})`
+  }
+  contains(setoid: Setoid<A>, a: A): boolean {
+    return setoid.equals(this.value, a)
+  }
+  isEmpty(): boolean {
+    return false
+  }
+  isDefined(): boolean {
+    return !this.isEmpty()
+  }
+  nonEmpty(): boolean {
+    return this.isDefined()
+  }
+  forEach<B>(f: (a: A) => B) {
+    f(this.value)
+  }
+  exists(p: (a: A) => Boolean) {
+    return !this.isEmpty() && p(this.value)
+  }
+  orEmpty(monoid: Monoid<A>): A {
+    return this.value
   }
 }
 
