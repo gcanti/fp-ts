@@ -15,7 +15,6 @@ import {
   Option
 } from '../src/Option'
 import * as array from '../src/Array'
-import { monoidSum } from '../src/Monoid'
 import { setoidNumber } from '../src/Setoid'
 import { eqOptions as eq } from './helpers'
 
@@ -120,42 +119,18 @@ describe('Option', () => {
     assert.equal(some(2).contains(setoidNumber, 1), false)
   })
 
-  it('isEmpty', () => {
+  it('isNone', () => {
     const x: Option<number> = none
-    assert.equal(x.isEmpty(), true)
-    assert.equal(some(1).isEmpty(), false)
-    assert.equal(some(null).isEmpty(), false)
+    assert.equal(x.isNone(), true)
+    assert.equal(some(1).isNone(), false)
+    assert.equal(some(null).isNone(), false)
   })
 
-  it('isDefined', () => {
+  it('isSome', () => {
     const x: Option<number> = none
-    assert.equal(x.isDefined(), false)
-    assert.equal(some(1).isDefined(), true)
-    assert.equal(some(null).isDefined(), true)
-  })
-
-  it('nonEmpty', () => {
-    const x: Option<number> = none
-    assert.equal(x.nonEmpty(), false)
-    assert.equal(some(1).nonEmpty(), true)
-    assert.equal(some(null).nonEmpty(), true)
-  })
-
-  it('forEach', () => {
-    let v = 0
-    // function will side-effect on v
-    const f = (a: number) => {
-      v = v + 1
-    }
-
-    const x: Option<number> = none
-
-    assert.equal(v, 0)
-    x.forEach(f)
-    assert.equal(v, 0)
-
-    some(1).forEach(f)
-    assert.equal(v, 1)
+    assert.equal(x.isSome(), false)
+    assert.equal(some(1).isSome(), true)
+    assert.equal(some(null).isSome(), true)
   })
 
   it('exists', () => {
@@ -165,12 +140,5 @@ describe('Option', () => {
     assert.equal(x.exists(is2), false)
     assert.equal(some(1).exists(is2), false)
     assert.equal(some(2).exists(is2), true)
-  })
-
-  it('orEmpty', () => {
-    const x: Option<number> = none
-    assert.equal(x.orEmpty(monoidSum), 0)
-    assert.equal(some(1).orEmpty(monoidSum), 1)
-    assert.equal(some(2).orEmpty(monoidSum), 2)
   })
 })

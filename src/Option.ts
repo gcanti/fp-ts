@@ -107,23 +107,14 @@ export class None<A>
   contains(setoid: Setoid<A>, a: A): boolean {
     return false
   }
-  isEmpty(): boolean {
+  isNone(): boolean {
     return true
   }
-  isDefined(): boolean {
-    return !this.isEmpty()
-  }
-  nonEmpty(): boolean {
-    return this.isDefined()
-  }
-  forEach<B>(f: (a: A) => B) {
-    // empty
-  }
-  exists(p: (a: A) => Boolean): boolean {
+  isSome(): boolean {
     return false
   }
-  orEmpty(monoid: Monoid<A>): A {
-    return monoid.empty()
+  exists(p: (a: A) => boolean): boolean {
+    return false
   }
 }
 
@@ -228,23 +219,14 @@ export class Some<A>
   contains(setoid: Setoid<A>, a: A): boolean {
     return setoid.equals(this.value, a)
   }
-  isEmpty(): boolean {
+  isNone(): boolean {
     return false
   }
-  isDefined(): boolean {
-    return !this.isEmpty()
+  isSome(): boolean {
+    return true
   }
-  nonEmpty(): boolean {
-    return this.isDefined()
-  }
-  forEach<B>(f: (a: A) => B) {
-    f(this.value)
-  }
-  exists(p: (a: A) => Boolean) {
-    return !this.isEmpty() && p(this.value)
-  }
-  orEmpty(monoid: Monoid<A>): A {
-    return this.value
+  exists(p: (a: A) => boolean): boolean {
+    return p(this.value)
   }
 }
 
