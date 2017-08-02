@@ -4,7 +4,7 @@ import * as either from 'fp-ts/lib/Either'
 import * as task from 'fp-ts/lib/Task'
 import { URI as URIArray } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
-import { Monad } from 'fp-ts/lib/Monad'
+import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
 import { Lazy } from 'fp-ts/lib/function'
 
 declare module 'fp-ts/lib/HKT' {
@@ -19,7 +19,7 @@ export const URI = 'TaskEither'
 
 export type URI = typeof URI
 
-export class TaskEither<L, A> {
+export class TaskEither<L, A> implements FantasyMonad<URI, A> {
   static of = of
   readonly _A: A
   readonly _L: L
