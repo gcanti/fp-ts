@@ -1,7 +1,7 @@
-import { Monad } from '../src/Monad'
-import { IxMonad, FantasyIxMonad } from '../src/IxMonad'
-import { IO } from '../src/IO'
-import * as io from '../src/IO'
+import { Monad } from './Monad'
+import { IxMonad, FantasyIxMonad } from './IxMonad'
+import { IO } from './IO'
+import * as io from './IO'
 
 declare module './HKT' {
   interface URI2HKT3<U, L, A> {

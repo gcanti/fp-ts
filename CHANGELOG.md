@@ -12,7 +12,7 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
-# 0.4.4
+# 0.4.5
 
 - **New Feature**
   - add `contains`, `isNone`, `isSome`, `exists` methods to `Option` (@alexandervanhecke)
