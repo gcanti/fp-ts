@@ -104,6 +104,18 @@ export class None<A>
   toString() {
     return 'none'
   }
+  contains(setoid: Setoid<A>, a: A): boolean {
+    return false
+  }
+  isNone(): boolean {
+    return true
+  }
+  isSome(): boolean {
+    return false
+  }
+  exists(p: (a: A) => boolean): boolean {
+    return false
+  }
 }
 
 export const none = None.value
@@ -203,6 +215,18 @@ export class Some<A>
   }
   toString() {
     return `some(${toString(this.value)})`
+  }
+  contains(setoid: Setoid<A>, a: A): boolean {
+    return setoid.equals(this.value, a)
+  }
+  isNone(): boolean {
+    return false
+  }
+  isSome(): boolean {
+    return true
+  }
+  exists(p: (a: A) => boolean): boolean {
+    return p(this.value)
   }
 }
 

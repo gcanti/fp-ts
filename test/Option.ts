@@ -111,4 +111,34 @@ describe('Option', () => {
     assert.deepEqual(last.concat(none, none), none)
     assert.deepEqual(last.concat(some(1), some(2)), some(2))
   })
+
+  it('contains', () => {
+    const x: Option<number> = none
+    assert.equal(x.contains(setoidNumber, 2), false)
+    assert.equal(some(2).contains(setoidNumber, 2), true)
+    assert.equal(some(2).contains(setoidNumber, 1), false)
+  })
+
+  it('isNone', () => {
+    const x: Option<number> = none
+    assert.equal(x.isNone(), true)
+    assert.equal(some(1).isNone(), false)
+    assert.equal(some(null).isNone(), false)
+  })
+
+  it('isSome', () => {
+    const x: Option<number> = none
+    assert.equal(x.isSome(), false)
+    assert.equal(some(1).isSome(), true)
+    assert.equal(some(null).isSome(), true)
+  })
+
+  it('exists', () => {
+    const x: Option<number> = none
+    const is2 = (a: number) => a === 2
+
+    assert.equal(x.exists(is2), false)
+    assert.equal(some(1).exists(is2), false)
+    assert.equal(some(2).exists(is2), true)
+  })
 })
