@@ -12,6 +12,20 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.4.4
+
+- **New Feature**
+  - add `contains`, `isNone`, `isSome`, `exists` methods to `Option` (@alexandervanhecke)
+  - add `Exception` module (@gcanti)
+  - add `Pair` module (@gcanti)
+  - add `Trace` module (@gcanti)
+  - add `IxMonad` module (@gcanti)
+  - add `IxIO` module (@gcanti)
+  - add `Either.fromOption` (@gcanti)
+- **Documentation**
+  - add `StateT` example (@gcanti)
+  - add `IxIO` example (@gcanti)
+
 # 0.4.3
 
 - **New Feature**
