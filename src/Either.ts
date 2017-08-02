@@ -258,6 +258,14 @@ export function mapLeft<L, L2, A>(f: (l: L) => L2, fa: Either<L, A>): Either<L2,
   return fa.mapLeft(f)
 }
 
+/**
+ * Takes a default and a `Option` value, if the value is a `Some`, turn it into
+ * a `Right`, if the value is a `None` use the provided default as a `Left`
+ */
+export function fromOption<L, A>(defaultValue: L, fa: Option<A>): Either<L, A> {
+  return fa.fold(() => left(defaultValue), a => right(a))
+}
+
 export function toOption<L, A>(fa: Either<L, A>): Option<A> {
   return fa.toOption()
 }
