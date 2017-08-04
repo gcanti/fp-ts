@@ -14,8 +14,15 @@
 
 # 0.4.6
 
+- **New Feature**
+  - add endomorphism monoid, fix #189 (@gcanti)
+  - add a default implementation of `foldr` using `foldMap` (@gcanti)
+  - add `insert`, `remove` and `pop` to `StrMap` (@gcanti)
+  - improve `voidLeft`, `voidRight` type inference, fix #191 (@gcanti)
 - **Bug Fix**
   - StrMap.size returns a wrong number of key/value pairs, fix #186 (@gcanti)
+- **Documentation**
+  - start book "fp-ts by examples"
 
 # 0.4.5
 
