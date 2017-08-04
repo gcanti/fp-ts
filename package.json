@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "description": "Functional programming in TypeScript",
   "files": ["lib"],
   "main": "lib/index.js",

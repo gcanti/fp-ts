@@ -12,6 +12,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.4.6
+
+- **Bug Fix**
+  - StrMap.size returns a wrong number of key/value pairs, fix #186 (@gcanti)
+
 # 0.4.5
 
 - **New Feature**
