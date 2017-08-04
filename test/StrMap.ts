@@ -11,7 +11,9 @@ import {
   toArray,
   toUnfoldable,
   mapWithKey,
-  traverseWithKey
+  traverseWithKey,
+  size,
+  isEmpty
 } from '../src/StrMap'
 import * as option from '../src/Option'
 import { eqOptions as eq } from './helpers'
@@ -90,5 +92,15 @@ describe('StrMap', () => {
     const d2 = new StrMap({ k1: 2, k2: 3 })
     const t2 = traverseWithKey(option)((k, n): option.Option<number> => (k !== 'k3' ? option.some(n) : option.none), d2)
     eq(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
+  })
+
+  it('size', () => {
+    assert.strictEqual(size(new StrMap({})), 0)
+    assert.strictEqual(size(new StrMap({ a: 1 })), 1)
+  })
+
+  it('isEmpty', () => {
+    assert.strictEqual(isEmpty(new StrMap({})), true)
+    assert.strictEqual(isEmpty(new StrMap({ a: 1 })), false)
   })
 })

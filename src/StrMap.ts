@@ -120,12 +120,15 @@ export function isSubdictionary<A>(setoid: Setoid<A>, d1: StrMap<A>, d2: StrMap<
 
 /** Calculate the number of key/value pairs in a dictionary */
 export function size<A>(d: StrMap<A>): number {
-  return Object.keys(d).length
+  return Object.keys(d.value).length
 }
 
 /** Test whether a dictionary is empty */
 export function isEmpty<A>(d: StrMap<A>): boolean {
-  return size(d) === 0
+  for (const k in d.value) {
+    return k === null
+  }
+  return true
 }
 
 export function getSetoid<A>(setoid: Setoid<A>): Setoid<StrMap<A>> {
