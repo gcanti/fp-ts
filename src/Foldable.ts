@@ -1,5 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
-import { Monoid } from './Monoid'
+import { Monoid, getEndomorphismMonoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { applyFirst } from './Apply'
 
@@ -31,6 +31,11 @@ export function foldMap<F, M>(foldable: Foldable<F>, monoid: Monoid<M>): <A>(f: 
 
 export function toArray<F>(foldable: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
   return fa => foldable.reduce((b, a) => b.concat([a]), [] as Array<any>, fa)
+}
+
+/** A default implementation of `foldr` using `foldMap` */
+export function foldr<F extends HKTS, A, B>(foldable: Foldable<F>, f: (a: A, b: B) => B, b: B, fa: HKT<F, A>): B {
+  return foldMap(foldable, getEndomorphismMonoid<B>())(a => b => f(a, b), fa)(b)
 }
 
 type Acc<M> = { init: boolean; acc: M }
