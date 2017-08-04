@@ -1,4 +1,4 @@
-import { HKT, HKTAs, HKTS, HKT2As, HKT2S } from './HKT'
+import { HKT, HKT2, HKTAs, HKTS, HKT2As, HKT2S } from './HKT'
 import { constant } from './function'
 
 export interface Functor<F> {
@@ -39,16 +39,16 @@ export class Ops {
   }
 
   /** Ignore the return value of a computation, using the specified return value instead (`<$`) */
-  voidRight<F extends HKT2S, L, A, B>(F: Functor<F>, a: A, fb: HKT2As<F, L, B>): HKT2As<F, L, A>
-  voidRight<F extends HKTS, A, B>(F: Functor<F>, a: A, fb: HKTAs<F, B>): HKTAs<F, A>
+  voidRight<F extends HKT2S, L, A, B>(F: Functor<F>, a: A, fb: HKT2<F, L, B>): HKT2As<F, L, A>
+  voidRight<F extends HKTS, A, B>(F: Functor<F>, a: A, fb: HKT<F, B>): HKTAs<F, A>
   voidRight<F, A, B>(F: Functor<F>, a: A, fb: HKT<F, B>): HKT<F, A>
   voidRight<F, A, B>(F: Functor<F>, a: A, fb: HKT<F, B>): HKT<F, A> {
     return F.map(constant(a), fb)
   }
 
   /** A version of `voidRight` with its arguments flipped (`$>`) */
-  voidLeft<F extends HKT2S, L, A, B>(F: Functor<F>, fa: HKT2As<F, L, A>, b: B): HKT2As<F, L, B>
-  voidLeft<F extends HKTS, A, B>(F: Functor<F>, fa: HKTAs<F, A>, b: B): HKTAs<F, B>
+  voidLeft<F extends HKT2S, L, A, B>(F: Functor<F>, fa: HKT2<F, L, A>, b: B): HKT2As<F, L, B>
+  voidLeft<F extends HKTS, A, B>(F: Functor<F>, fa: HKT<F, A>, b: B): HKTAs<F, B>
   voidLeft<F, A, B>(F: Functor<F>, fa: HKT<F, A>, b: B): HKT<F, B>
   voidLeft<F, A, B>(F: Functor<F>, fa: HKT<F, A>, b: B): HKT<F, B> {
     return F.map(constant(b), fa)
