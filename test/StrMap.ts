@@ -13,7 +13,10 @@ import {
   mapWithKey,
   traverseWithKey,
   size,
-  isEmpty
+  isEmpty,
+  insert,
+  remove,
+  pop
 } from '../src/StrMap'
 import * as option from '../src/Option'
 import { eqOptions as eq } from './helpers'
@@ -102,5 +105,18 @@ describe('StrMap', () => {
   it('isEmpty', () => {
     assert.strictEqual(isEmpty(new StrMap({})), true)
     assert.strictEqual(isEmpty(new StrMap({ a: 1 })), false)
+  })
+
+  it('insert', () => {
+    assert.deepEqual(insert('a', 1, new StrMap({})), new StrMap({ a: 1 }))
+  })
+
+  it('remove', () => {
+    assert.deepEqual(remove('a', new StrMap({ a: 1, b: 2 })), new StrMap({ b: 2 }))
+  })
+
+  it('pop', () => {
+    assert.deepEqual(pop('a', new StrMap({ a: 1, b: 2 })), option.some([1, new StrMap({ b: 2 })]))
+    assert.deepEqual(pop('c', new StrMap({ a: 1, b: 2 })), option.none)
   })
 })

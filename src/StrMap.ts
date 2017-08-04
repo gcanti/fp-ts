@@ -196,6 +196,25 @@ export function mapWithKey<A, B>(f: (k: string, a: A) => B, fa: StrMap<A>): StrM
   return fa.mapWithKey(f)
 }
 
+/** Insert or replace a key/value pair in a map */
+export function insert<A>(k: string, a: A, d: StrMap<A>): StrMap<A> {
+  const copy = Object.assign({}, d.value)
+  copy[k] = a
+  return new StrMap(copy)
+}
+
+/** Delete a key and value from a map */
+export function remove<A>(k: string, d: StrMap<A>): StrMap<A> {
+  const copy = Object.assign({}, d.value)
+  delete copy[k]
+  return new StrMap(copy)
+}
+
+/** Delete a key and value from a map, returning the value as well as the subsequent map */
+export function pop<A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> {
+  return lookup(k, d).fold(() => none, a => some(tuple(a, remove(k, d))))
+}
+
 export const strmap: Monoid<StrMap<any>> & Functor<URI> & Foldable<URI> & Traversable<URI> = {
   URI,
   concat,
