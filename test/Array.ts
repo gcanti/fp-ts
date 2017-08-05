@@ -143,4 +143,8 @@ describe('Array', () => {
     const sum = (as: Array<number>) => fold(monoidSum, as)
     assert.deepEqual(array.extend(sum, [1, 2, 3, 4]), [10, 9, 7, 4])
   })
+
+  it('zip', () => {
+    assert.deepEqual(array.zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+  })
 })

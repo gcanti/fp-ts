@@ -14,7 +14,9 @@ import { Extend } from './Extend'
 import { Filterable } from './Filterable'
 import { Either } from './Either'
 import { Witherable } from './Witherable'
-import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement } from './function'
+import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement, tuple } from './function'
+
+// Adapted from https://github.com/purescript/purescript-arrays
 
 declare global {
   interface Array<T> {
@@ -251,6 +253,28 @@ export function wilt<M>(
   M: Applicative<M>
 ): <A, L, R>(f: (a: A) => HKT<M, Either<L, R>>, ta: Array<A>) => HKT<M, { left: Array<L>; right: Array<R> }> {
   return (f, ta) => M.map(es => partitionMap(e => e, es), traverse(M)(f, ta))
+}
+
+/**
+ * Apply a function to pairs of elements at the same index in two arrays,
+ * collecting the results in a new array,
+ * If one input array is short, excess elements of the longer array are discarded
+ */
+export function zipWith<A, B, C>(f: (a: A, b: B) => C, fa: Array<A>, fb: Array<B>): Array<C> {
+  const fc = []
+  const len = Math.min(fa.length, fb.length)
+  for (let i = 0; i < len; i++) {
+    fc[i] = f(fa[i], fb[i])
+  }
+  return fc
+}
+
+/**
+ * Takes two arrays and returns an array of corresponding pairs.
+ * If one input array is short, excess elements of the longer array are discarded
+ */
+export function zip<A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> {
+  return zipWith<A, B, [A, B]>(tuple, fa, fb)
 }
 
 export const array: Monoid<Array<any>> &
