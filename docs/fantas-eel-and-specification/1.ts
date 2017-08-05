@@ -87,6 +87,8 @@ export function translateShape(deltaX: number, deltaY: number, deltaZ: number, s
 // Example: linked lists
 //
 
+export type List<A> = Nil<A> | Cons<A>
+
 export class Nil<A> {
   static value: List<never> = new Nil()
   private constructor() {}
@@ -114,8 +116,6 @@ export class Cons<A> {
     return `new Cons(${this.head}, ${this.tail})`
   }
 }
-
-export type List<A> = Nil<A> | Cons<A>
 
 export function fromArray<A>(xs: Array<A>): List<A> {
   return xs.reduceRight((acc, a) => new Cons(a, acc), Nil.value as List<A>)
