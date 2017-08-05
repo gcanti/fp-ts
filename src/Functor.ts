@@ -31,6 +31,10 @@ export interface FunctorComposition22<F extends HKT2S, G extends HKT2S> {
 }
 
 export class Ops {
+  /**
+   * Lift a function of one argument to a function which accepts and returns
+   * values wrapped with the type constructor `F`
+   */
   lift<F extends HKT2S, A, B>(F: Functor<F>, f: (a: A) => B): <L>(fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
   lift<F extends HKTS, A, B>(F: Functor<F>, f: (a: A) => B): (fa: HKTAs<F, A>) => HKTAs<F, B>
   lift<F, A, B>(F: Functor<F>, f: (a: A) => B): (fa: HKT<F, A>) => HKT<F, B>

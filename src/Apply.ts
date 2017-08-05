@@ -20,6 +20,7 @@ export interface FantasyApply<F, A> extends FantasyFunctor<F, A> {
 const constIdentity = () => identity
 
 export class Ops {
+  /** Combine two effectful actions, keeping only the result of the first */
   applyFirst<F extends HKT2S>(apply: Apply<F>): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, A>
   applyFirst<F extends HKTS>(apply: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, A>
   applyFirst<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
@@ -27,6 +28,7 @@ export class Ops {
     return (fa, fb) => apply.ap(apply.map(a => constant(a), fa), fb)
   }
 
+  /** Combine two effectful actions, keeping only the result of the second */
   applySecond<F extends HKT2S>(apply: Apply<F>): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, B>
   applySecond<F extends HKTS>(apply: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, B>
   applySecond<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
@@ -34,6 +36,10 @@ export class Ops {
     return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => apply.ap(apply.map(constIdentity, fa), fb)
   }
 
+  /**
+   * Lift a function of two arguments to a function which accepts and returns
+   * values wrapped with the type constructor `F`
+   */
   liftA2<F extends HKT2S, A, B, C>(
     apply: Apply<F>,
     f: Curried2<A, B, C>
@@ -47,6 +53,10 @@ export class Ops {
     return (fa, fb) => apply.ap(apply.map(f, fa), fb)
   }
 
+  /**
+   * Lift a function of three arguments to a function which accepts and returns
+   * values wrapped with the type constructor `F`
+   */
   liftA3<F extends HKT2S, A, B, C, D>(
     apply: Apply<F>,
     f: Curried3<A, B, C, D>
@@ -66,6 +76,10 @@ export class Ops {
     return (fa, fb, fc) => apply.ap(apply.ap(apply.map(f, fa), fb), fc)
   }
 
+  /**
+   * Lift a function of four arguments to a function which accepts and returns
+   * values wrapped with the type constructor `F`
+   */
   liftA4<F extends HKT2S, A, B, C, D, E>(
     apply: Apply<F>,
     f: Curried4<A, B, C, D, E>
