@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { fold, monoidSum, getFunctionMonoid, monoidAll, monoidAny } from '../src/Monoid'
+import { fold, monoidSum, getFunctionMonoid, monoidAll, monoidAny, monoidArray, getArrayMonoid } from '../src/Monoid'
 import { filter } from '../src/Array'
 
 describe('Monoid', () => {
@@ -21,5 +21,13 @@ describe('Monoid', () => {
       3,
       40
     ])
+  })
+
+  it('monoidArray', () => {
+    assert.deepEqual(monoidArray.concat([1], ['a']), [1, 'a'])
+  })
+
+  it('getArrayMonoid', () => {
+    assert.deepEqual(getArrayMonoid<number>().concat([1], [2]), [1, 2])
   })
 })

@@ -33,7 +33,7 @@ export const monoidAny: Monoid<boolean> = {
   concat: (x, y) => x || y
 }
 
-/** Monoid under array concatenation */
+/** Monoid under array concatenation (`Array<any>`) */
 export const monoidArray: Monoid<Array<any>> = {
   empty: () => [],
   concat: (x, y) => x.concat(y)
@@ -69,4 +69,8 @@ export function getEndomorphismMonoid<A>(): Monoid<Endomorphism<A>> {
     empty: () => identity,
     concat: (x, y) => compose(x, y)
   }
+}
+
+export function getArrayMonoid<A>(): Monoid<Array<A>> {
+  return monoidArray
 }
