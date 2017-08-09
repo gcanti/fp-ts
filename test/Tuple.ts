@@ -22,4 +22,8 @@ describe('Tuple', () => {
     const semigroup = getSemigroup(monoidString, monoidSum)
     assert.deepEqual(semigroup.concat(new Tuple(['a', 1]), new Tuple(['b', 2])), new Tuple(['ab', 3]))
   })
+
+  it('toString', () => {
+    assert.strictEqual(new Tuple(['a', 1]).toString(), `new Tuple(["a", 1])`)
+  })
 })

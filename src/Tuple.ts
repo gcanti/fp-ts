@@ -11,7 +11,7 @@ import { Foldable, FantasyFoldable } from './Foldable'
 import { Applicative } from './Applicative'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Semigroupoid, FantasySemigroupoid } from './Semigroupoid'
-import { Cokleisli } from './function'
+import { Cokleisli, toString } from './function'
 
 // https://github.com/purescript/purescript-tuples
 
@@ -31,7 +31,6 @@ export class Tuple<L, A>
     FantasyComonad<URI, A>,
     FantasyFoldable<A>,
     FantasyTraversable<URI, A> {
-  readonly _tag: 'Left' = 'Left'
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
@@ -62,6 +61,12 @@ export class Tuple<L, A>
   }
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
     return f => F.map(b => new Tuple([this.fst(), b]), f(this.snd()))
+  }
+  inspect(): string {
+    return this.toString()
+  }
+  toString(): string {
+    return `new Tuple(${toString(this.value)})`
   }
 }
 export function compose<L, A, B>(bc: Tuple<A, B>, fa: Tuple<L, A>): Tuple<L, B> {
