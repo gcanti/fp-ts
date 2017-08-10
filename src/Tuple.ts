@@ -150,6 +150,17 @@ export function getApply<L>(semigroupA: Semigroup<L>): Apply<URI> {
   }
 }
 
+export function getApplicative<L>(monoidA: Monoid<L>): Applicative<URI> {
+  const empty = monoidA.empty()
+  function of<A>(a: A): Tuple<L, A> {
+    return new Tuple([empty, a])
+  }
+  return {
+    ...getApply(monoidA),
+    of
+  }
+}
+
 export function getMonad<L>(M: Monoid<L>): Monad<URI> {
   const empty = M.empty()
   return {
