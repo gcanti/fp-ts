@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { compose, map, bimap, getSemigroup, Tuple } from '../src/Tuple'
+import { compose, map, bimap, getSemigroup, Tuple, getApplicative } from '../src/Tuple'
 import { monoidString, monoidSum } from '../src/Monoid'
 
 describe('Tuple', () => {
@@ -25,5 +25,10 @@ describe('Tuple', () => {
 
   it('toString', () => {
     assert.strictEqual(new Tuple(['a', 1]).toString(), `new Tuple(["a", 1])`)
+  })
+
+  it('getApplicative', () => {
+    const applicative = getApplicative(monoidString)
+    assert.strictEqual(applicative.of(1).toString(), `new Tuple(["", 1])`)
   })
 })
