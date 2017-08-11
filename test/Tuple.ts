@@ -1,6 +1,7 @@
 import * as assert from 'assert'
-import { compose, map, bimap, getSemigroup, Tuple, getApplicative } from '../src/Tuple'
-import { monoidString, monoidSum } from '../src/Monoid'
+import { compose, map, bimap, getSemigroup, Tuple, getApplicative, chainRec } from '../src/Tuple'
+import { monoidString, monoidSum, getArrayMonoid } from '../src/Monoid'
+import { left, right } from '../src/Either'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -30,5 +31,17 @@ describe('Tuple', () => {
   it('getApplicative', () => {
     const applicative = getApplicative(monoidString)
     assert.strictEqual(applicative.of(1).toString(), `new Tuple(["", 1])`)
+  })
+
+  it('getChainRec', () => {
+    const monoidArrayNumber = getArrayMonoid<number>()
+
+    function seqReq(upper: number): Tuple<Array<number>, number> {
+      return chainRec(monoidArrayNumber)(init => new Tuple([[init], init >= upper ? right(init) : left(init + 1)]), 1)
+    }
+    const xs = seqReq(10000).fst()
+    assert.strictEqual(xs.length, 10000)
+    assert.strictEqual(xs[0], 1)
+    assert.strictEqual(xs[xs.length - 1], 10000)
   })
 })
