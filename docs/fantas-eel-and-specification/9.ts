@@ -4,18 +4,23 @@
 
 import { liftA2 } from '../../src/Apply'
 import { Applicative } from '../../src/Applicative'
-import { HKT } from '../../src/HKT'
+import { HKT, HKTS, HKTAs } from '../../src/HKT'
 
 export const append = <A>(y: A) => (xs: Array<A>) => xs.concat([y])
 
-export const insideOut = <F, A>(F: Applicative<F>, xs: Array<HKT<F, A>>): HKT<F, Array<A>> =>
-  xs.reduce((acc, x) => liftA2<F, A, Array<A>, Array<A>>(F, append)(x, acc), F.of([]))
+// these overloadings are helpful for the 12.ts post
+export function insideOut<F extends HKTS>(F: Applicative<F>): <A>(xs: Array<HKTAs<F, A>>) => HKTAs<F, Array<A>>
+export function insideOut<F>(F: Applicative<F>): <A>(xs: Array<HKT<F, A>>) => HKT<F, Array<A>>
+export function insideOut<F>(F: Applicative<F>): <A>(xs: Array<HKT<F, A>>) => HKT<F, Array<A>> {
+  return <A>(xs: Array<HKT<F, A>>) =>
+    xs.reduce((acc, x) => liftA2<F, A, Array<A>, Array<A>>(F, append)(x, acc), F.of([]))
+}
 
 import * as option from '../../src/Option'
 
-console.log(insideOut(option, [option.some(2), option.some(10), option.some(3)])) // => some([2, 10, 3])
+console.log(insideOut(option)([option.some(2), option.some(10), option.some(3)])) // => some([2, 10, 3])
 
-console.log(insideOut(option, [option.some(2), option.none, option.some(3)])) // => none
+console.log(insideOut(option)([option.some(2), option.none, option.some(3)])) // => none
 
 //
 // Monoids from Applicatives
