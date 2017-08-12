@@ -17,18 +17,19 @@ export class Store<S, A> implements FantasyComonad<URI, A> {
   readonly _A: A
   readonly _L: S
   readonly _URI: URI
-  constructor(public readonly peek: (s: S) => A, public readonly s: S) {}
-  pos(): S {
-    return this.s
+  constructor(public readonly peek: (s: S) => A, public readonly pos: S) {}
+  /** Reposition the focus at the specified position */
+  seek(s: S): Store<S, A> {
+    return new Store(this.peek, s)
   }
   map<B>(f: (a: A) => B): Store<S, B> {
-    return new Store(s => f(this.peek(s)), this.s)
+    return new Store(s => f(this.peek(s)), this.pos)
   }
   extract(): A {
-    return this.peek(this.s)
+    return this.peek(this.pos)
   }
   extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> {
-    return new Store(s => f(this), this.s)
+    return new Store(s => f(this.seek(s)), this.pos)
   }
   inspect() {
     return this.toString()
@@ -50,11 +51,6 @@ export function extend<S, A, B>(f: (sa: Store<S, A>) => B, sa: Store<S, A>): Sto
   return sa.extend(f)
 }
 
-/** Reads the current position */
-export function pos<S, A>(sa: Store<S, A>): S {
-  return sa.pos()
-}
-
 /** Reads the value at the specified position in the specified context */
 export function peek<S, A>(sa: Store<S, A>, s: S): A {
   return sa.peek(s)
@@ -62,24 +58,24 @@ export function peek<S, A>(sa: Store<S, A>, s: S): A {
 
 /** Extract a value from a position which depends on the current position */
 export function peeks<S, A>(f: Endomorphism<S>, sa: Store<S, A>, s: S): A {
-  return sa.peek(f(sa.pos()))
+  return sa.peek(f(sa.pos))
 }
 
 /** Reposition the focus at the specified position */
 export function seek<S, A>(s: S, sa: Store<S, A>): Store<S, A> {
-  return new Store(sa.peek, s)
+  return sa.seek(s)
 }
 
 /** Reposition the focus at the specified position, which depends on the current position */
 export function seeks<S, A>(f: Endomorphism<S>, sa: Store<S, A>): Store<S, A> {
-  return new Store(sa.peek, f(sa.pos()))
+  return new Store(sa.peek, f(sa.pos))
 }
 
 export class Ops {
   /** Extract a collection of values from positions which depend on the current position */
   experiment<F, S, A>(functor: Functor<F>, f: (s: S) => HKT<F, S>, sa: Store<S, A>): HKT<F, A>
   experiment<F, S, A>(functor: Functor<F>, f: (s: S) => HKT<F, S>, sa: Store<S, A>): HKT<F, A> {
-    return functor.map(s => sa.peek(s), f(sa.pos()))
+    return functor.map(s => sa.peek(s), f(sa.pos))
   }
 }
 
