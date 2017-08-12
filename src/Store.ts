@@ -35,7 +35,7 @@ export class Store<S, A> implements FantasyComonad<URI, A> {
     return this.toString()
   }
   toString() {
-    return `new Store(${toString(this.peek)})`
+    return `new Store(${toString(this.peek)}, ${toString(this.pos)})`
   }
 }
 
