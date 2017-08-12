@@ -12,6 +12,9 @@ import { Applicative } from './Applicative'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Semigroupoid, FantasySemigroupoid } from './Semigroupoid'
 import { Cokleisli, toString } from './function'
+import { ChainRec } from './ChainRec'
+import { Chain } from './Chain'
+import { Either, isLeft, Right, Left } from './Either'
 
 // https://github.com/purescript/purescript-tuples
 
@@ -161,17 +164,43 @@ export function getApplicative<L>(monoidA: Monoid<L>): Applicative<URI> {
   }
 }
 
-export function getMonad<L>(M: Monoid<L>): Monad<URI> {
-  const empty = M.empty()
+export function getChain<L>(M: Monoid<L>): Chain<URI> {
   return {
     ...getApply(M),
-    of<B>(b: B): Tuple<L, B> {
-      return new Tuple([empty, b])
-    },
     chain<A, B>(f: (b: A) => Tuple<L, B>, fa: Tuple<L, A>): Tuple<L, B> {
       const lb = f(fa.snd())
       return new Tuple([M.concat(fa.fst(), lb.fst()), lb.snd()])
     }
+  }
+}
+
+export function getMonad<L>(M: Monoid<L>): Monad<URI> {
+  const empty = M.empty()
+  return {
+    ...getChain(M),
+    of<B>(b: B): Tuple<L, B> {
+      return new Tuple([empty, b])
+    }
+  }
+}
+
+export function chainRec<L>(M: Monoid<L>): <A, B>(f: (a: A) => Tuple<L, Either<A, B>>, a: A) => Tuple<L, B> {
+  function chainRec<A, B>(f: (a: A) => Tuple<L, Either<A, B>>, a: A): Tuple<L, B> {
+    let result = f(a)
+    let acc = M.empty()
+    while (isLeft(result.snd())) {
+      acc = M.concat(acc, result.fst())
+      result = f((result.snd() as Left<A, B>).value)
+    }
+    return new Tuple([M.concat(acc, result.fst()), (result.snd() as Right<A, B>).value])
+  }
+  return chainRec
+}
+
+export function getChainRec<L>(M: Monoid<L>): ChainRec<URI> {
+  return {
+    ...getChain(M),
+    chainRec: chainRec(M)
   }
 }
 
