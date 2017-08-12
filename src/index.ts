@@ -10,6 +10,8 @@ import * as array from './Array'
 export { array }
 import * as bifunctor from './Bifunctor'
 export { bifunctor }
+import * as category from './Category'
+export { category }
 import * as chain from './Chain'
 export { chain }
 import * as chainRec from './ChainRec'
