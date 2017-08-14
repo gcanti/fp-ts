@@ -1,5 +1,8 @@
 import { Monad, FantasyMonad } from './Monad'
 import { identity, Endomorphism } from './function'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { Functor } from './Functor'
+import { Distributive } from './Distributive'
 
 export const URI = 'Reader'
 
@@ -59,10 +62,22 @@ export function local<E, A>(f: Endomorphism<E>, fa: Reader<E, A>): Reader<E, A> 
   return new Reader((e: E) => fa.run(f(e)))
 }
 
-export const reader: Monad<URI> = {
+export class Ops {
+  distribute<G extends HKT2S>(G: Functor<G>): <L, E, A>(gfa: HKT2As<G, L, Reader<E, A>>) => Reader<E, HKT2As<G, L, A>>
+  distribute<G extends HKTS>(G: Functor<G>): <E, A>(gfa: HKTAs<G, Reader<E, A>>) => Reader<E, HKTAs<G, A>>
+  distribute<G>(G: Functor<G>): <E, A>(gfa: HKT<G, Reader<E, A>>) => Reader<E, HKT<G, A>> {
+    return gfa => new Reader(e => G.map(fa => fa.run(e), gfa))
+  }
+}
+
+const ops = new Ops()
+export const distribute: Ops['distribute'] = ops.distribute
+
+export const reader: Monad<URI> & Distributive<URI> = {
   URI,
   map,
   of,
   ap,
-  chain
+  chain,
+  distribute
 }
