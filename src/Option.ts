@@ -244,7 +244,8 @@ export function fold<A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B {
   return fa.fold(n, s)
 }
 
-/** Takes a default value, and a `Option` value. If the `Option` value is
+/**
+ * Takes a default value, and a `Option` value. If the `Option` value is
  * `None` the default value is returned, otherwise the value inside the
  * `Some` is returned
  */
@@ -252,6 +253,10 @@ export function fromOption<A>(a: A, fa: Option<A>): A {
   return fa.getOrElse(() => a)
 }
 
+/**
+ * Takes a nullable value and wraps it in either an `Option None`
+ * or `Option Some`
+ */
 export function fromNullable<A>(a: A | null | undefined): Option<A> {
   return a == null ? none : new Some(a)
 }
