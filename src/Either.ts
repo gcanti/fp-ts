@@ -150,7 +150,7 @@ export class Right<L, A>
     return this.value
   }
   equals(setoid: Setoid<A>, fy: Either<L, A>): boolean {
-    return fy.fold(constFalse, y => setoid.equals(this.value, y))
+    return fy.fold(constFalse, y => setoid.equals(this.value)(y))
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return this as any
@@ -172,7 +172,7 @@ export function equals<L, A>(setoid: Setoid<A>, fx: Either<L, A>, fy: Either<L, 
 
 export function getSetoid<L, A>(setoid: Setoid<A>): Setoid<Either<L, A>> {
   return {
-    equals: (x, y) => equals(setoid, x, y)
+    equals: x => y => equals(setoid, x, y)
   }
 }
 

@@ -205,7 +205,7 @@ export class Some<A>
     return fy.fold(() => this, y => new Some(semigroup.concat(this.value)(y)))
   }
   equals(setoid: Setoid<A>, fy: Option<A>): boolean {
-    return fy.fold(constFalse, y => setoid.equals(this.value, y))
+    return fy.fold(constFalse, y => setoid.equals(this.value)(y))
   }
   toNullable(): A | null {
     return this.value
@@ -217,7 +217,7 @@ export class Some<A>
     return `some(${toString(this.value)})`
   }
   contains(setoid: Setoid<A>, a: A): boolean {
-    return setoid.equals(this.value, a)
+    return setoid.equals(this.value)(a)
   }
   isNone(): boolean {
     return false
@@ -236,7 +236,7 @@ export function equals<A>(setoid: Setoid<A>, fx: Option<A>, fy: Option<A>): bool
 
 export function getSetoid<A>(setoid: Setoid<A>): Setoid<Option<A>> {
   return {
-    equals: (x, y) => equals(setoid, x, y)
+    equals: x => y => equals(setoid, x, y)
   }
 }
 

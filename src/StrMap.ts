@@ -109,7 +109,7 @@ export const traverse: Ops['traverse'] = ops.traverse
 /** Test whether one dictionary contains all of the keys and values contained in another dictionary */
 export function isSubdictionary<A>(setoid: Setoid<A>, d1: StrMap<A>, d2: StrMap<A>): boolean {
   for (let k in d1.value) {
-    if (!d2.value.hasOwnProperty(k) || !setoid.equals(d1.value[k], d2.value[k])) {
+    if (!d2.value.hasOwnProperty(k) || !setoid.equals(d1.value[k])(d2.value[k])) {
       return false
     }
   }
@@ -131,7 +131,7 @@ export function isEmpty<A>(d: StrMap<A>): boolean {
 
 export function getSetoid<A>(setoid: Setoid<A>): Setoid<StrMap<A>> {
   return {
-    equals(x, y) {
+    equals: x => y => {
       return isSubdictionary(setoid, x, y) && isSubdictionary(setoid, y, x)
     }
   }

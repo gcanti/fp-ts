@@ -57,7 +57,7 @@ export class This<L, A>
     return this_(this.value)
   }
   equals(setoidL: Setoid<L>, setoidA: Setoid<A>, fy: These<L, A>): boolean {
-    return fy.fold(l => setoidL.equals(l, this.value), constFalse, constFalse)
+    return fy.fold(l => setoidL.equals(l)(this.value), constFalse, constFalse)
   }
   concat(SL: Semigroup<L>, SA: Semigroup<A>, fy: These<L, A>): These<L, A> {
     return fy.fold(
@@ -107,7 +107,7 @@ export class That<L, A>
     return that(this.value)
   }
   equals(setoidL: Setoid<L>, setoidA: Setoid<A>, fy: These<L, A>): boolean {
-    return fy.fold(constFalse, a => setoidA.equals(a, this.value), constFalse)
+    return fy.fold(constFalse, a => setoidA.equals(a)(this.value), constFalse)
   }
   concat(SL: Semigroup<L>, SA: Semigroup<A>, fy: These<L, A>): These<L, A> {
     return fy.fold(
@@ -161,7 +161,7 @@ export class Both<L, A>
     return both(this.l, this.a)
   }
   equals(setoidL: Setoid<L>, setoidA: Setoid<A>, fy: These<L, A>): boolean {
-    return fy.fold(constFalse, constFalse, (l, a) => setoidL.equals(l, this.l) && setoidA.equals(a, this.a))
+    return fy.fold(constFalse, constFalse, (l, a) => setoidL.equals(l)(this.l) && setoidA.equals(a)(this.a))
   }
   concat(SL: Semigroup<L>, SA: Semigroup<A>, fy: These<L, A>): These<L, A> {
     return fy.fold(
@@ -178,8 +178,8 @@ export class Both<L, A>
   }
 }
 
-export function equals<L, A>(SL: Setoid<L>, SA: Setoid<A>): (fx: These<L, A>, fy: These<L, A>) => boolean {
-  return (fx, fy) => fx.equals(SL, SA, fy)
+export function equals<L, A>(SL: Setoid<L>, SA: Setoid<A>): ((fx: These<L, A>) => (fy: These<L, A>) => boolean) {
+  return fx => fy => fx.equals(SL, SA, fy)
 }
 
 export function getSetoid<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> {

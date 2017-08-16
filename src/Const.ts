@@ -32,7 +32,7 @@ export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant
     return f(this.value)
   }
   equals(S: Setoid<L>, fy: Const<L, A>): boolean {
-    return this.fold(x => fy.fold(y => S.equals(x, y)))
+    return this.fold(x => fy.fold(y => S.equals(x)(y)))
   }
   inspect() {
     return this.toString()
@@ -48,7 +48,7 @@ export function equals<L, A>(S: Setoid<L>, fx: Const<L, A>, fy: Const<L, A>): bo
 
 export function getSetoid<L, A>(S: Setoid<L>): Setoid<Const<L, A>> {
   return {
-    equals: (x, y) => equals(S, x, y)
+    equals: x => y => equals(S, x, y)
   }
 }
 

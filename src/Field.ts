@@ -24,7 +24,7 @@ export const fieldNumber: Field<number> = {
 export function gcd<A>(setoid: Setoid<A>, field: Field<A>): (x: A, y: A) => A {
   const zero = field.zero()
   function f(x: A, y: A): A {
-    if (setoid.equals(y, zero)) {
+    if (setoid.equals(y)(zero)) {
       return x
     }
     return f(y, field.mod(x, y))
@@ -36,7 +36,7 @@ export function gcd<A>(setoid: Setoid<A>, field: Field<A>): (x: A, y: A) => A {
 export function lcm<A>(setoid: Setoid<A>, field: Field<A>): (x: A, y: A) => A {
   const zero = field.zero()
   return (x, y) => {
-    if (setoid.equals(x, zero) || setoid.equals(y, zero)) {
+    if (setoid.equals(x)(zero) || setoid.equals(y)(zero)) {
       return zero
     }
     return field.div(field.mul(x)(y), gcd(setoid, field)(x, y))

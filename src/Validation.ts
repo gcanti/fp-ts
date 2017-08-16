@@ -137,7 +137,7 @@ export class Success<L, A>
     return success(this.value)
   }
   equals(S: Setoid<A>, fy: Validation<L, A>): boolean {
-    return fy.fold(constFalse, y => S.equals(this.value, y))
+    return fy.fold(constFalse, y => S.equals(this.value)(y))
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
     return this
@@ -172,7 +172,7 @@ export function equals<L, A>(S: Setoid<A>, fx: Validation<L, A>, fy: Validation<
 
 export function getSetoid<L, A>(S: Setoid<A>): Setoid<Validation<L, A>> {
   return {
-    equals: (x, y) => equals(S, x, y)
+    equals: x => y => equals(S, x, y)
   }
 }
 

@@ -103,10 +103,10 @@ export function traverse<F>(
 
 export function getSetoid<L, A>(setoidA: Setoid<L>, setoidB: Setoid<A>): Setoid<Tuple<L, A>> {
   return {
-    equals(x, y) {
+    equals: x => y => {
       const [xa, xb] = x.value
       const [ya, yb] = y.value
-      return setoidA.equals(xa, ya) && setoidB.equals(xb, yb)
+      return setoidA.equals(xa)(ya) && setoidB.equals(xb)(yb)
     }
   }
 }
