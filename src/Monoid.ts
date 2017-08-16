@@ -13,7 +13,7 @@ export function getProductMonoid<A, B>(amonoid: Monoid<A>, bmonoid: Monoid<B>): 
   const empty: [A, B] = [amonoid.empty(), bmonoid.empty()]
   return {
     empty: () => empty,
-    concat: getProductSemigroup(amonoid, bmonoid).concat
+    concat: getProductSemigroup(amonoid)(bmonoid).concat
   }
 }
 
