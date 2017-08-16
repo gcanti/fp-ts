@@ -4,7 +4,7 @@ import { Functor, FantasyFunctor } from './Functor'
 import { Applicative } from './Applicative'
 import { Foldable, FantasyFoldable } from './Foldable'
 import { Traversable, FantasyTraversable } from './Traversable'
-import { constant, Lazy, curry, tuple } from './function'
+import { constant, Lazy, tuple } from './function'
 import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
@@ -49,7 +49,7 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
   traverseWithKey<F extends HKTS>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKTAs<F, B>) => HKTAs<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-    const concatA2 = liftA2(F, curriedConcat)
+    const concatA2 = liftA2(F, concat)
     return f => {
       let out = F.of(empty())
       for (let k in this.value) {
@@ -68,7 +68,7 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
 
 export const empty: Lazy<StrMap<any>> = constant(new StrMap({}))
 
-export function concat<A>(x: StrMap<A>, y: StrMap<A>): StrMap<A> {
+export const concat = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => {
   return new StrMap(Object.assign({}, x.value, y.value))
 }
 
@@ -79,8 +79,6 @@ export function map<A, B>(f: (a: A) => B, fa: StrMap<A>): StrMap<B> {
 export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: StrMap<A>): B {
   return fa.reduce(f, b)
 }
-
-export const curriedConcat: <A>(x: StrMap<A>) => (y: StrMap<A>) => StrMap<A> = curry(concat)
 
 export class Ops {
   traverseWithKey<F extends HKT2S>(
@@ -111,7 +109,7 @@ export const traverse: Ops['traverse'] = ops.traverse
 /** Test whether one dictionary contains all of the keys and values contained in another dictionary */
 export function isSubdictionary<A>(setoid: Setoid<A>, d1: StrMap<A>, d2: StrMap<A>): boolean {
   for (let k in d1.value) {
-    if (!d2.value.hasOwnProperty(k) || !setoid.equals(d1.value[k], d2.value[k])) {
+    if (!d2.value.hasOwnProperty(k) || !setoid.equals(d1.value[k])(d2.value[k])) {
       return false
     }
   }
@@ -133,7 +131,7 @@ export function isEmpty<A>(d: StrMap<A>): boolean {
 
 export function getSetoid<A>(setoid: Setoid<A>): Setoid<StrMap<A>> {
   return {
-    equals(x, y) {
+    equals: x => y => {
       return isSubdictionary(setoid, x, y) && isSubdictionary(setoid, y, x)
     }
   }

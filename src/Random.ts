@@ -14,14 +14,14 @@ export function random(): IO<number> {
  * interval `[low, high]`. It is unspecified what happens if `low > high`,
  * or if either of `low` or `high` is not an integer.
  */
-export function randomInt(low: number, high: number): IO<number> {
+export const randomInt = (low: number) => (high: number): IO<number> => {
   return random().map(n => Math.floor((high - low + 1) * n + low))
 }
 
 /** Returns a random number between a minimum value (inclusive) and a maximum
  * value (exclusive). It is unspecified what happens if `maximum < minimum`.
  */
-export function randomRange(min: number, max: number): IO<number> {
+export const randomRange = (min: number) => (max: number): IO<number> => {
   return random().map(n => (max - min + 1) * n + min)
 }
 

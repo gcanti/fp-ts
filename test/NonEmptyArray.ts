@@ -6,7 +6,7 @@ describe('NonEmptyArray', () => {
   it('concat', () => {
     const x = new NonEmptyArray(1, [2])
     const y = new NonEmptyArray(3, [4])
-    assert.deepEqual(concat(x, y).toArray(), [1, 2, 3, 4])
+    assert.deepEqual(concat(x)(y).toArray(), [1, 2, 3, 4])
   })
 
   it('map', () => {
@@ -22,7 +22,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('extend', () => {
-    const sum = (as: NonEmptyArray<number>) => fold(monoidSum, as.toArray())
+    const sum = (as: NonEmptyArray<number>) => fold(monoidSum)(as.toArray())
     assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).extend(sum), new NonEmptyArray(10, [9, 7, 4]))
   })
 

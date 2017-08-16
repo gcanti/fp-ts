@@ -37,7 +37,7 @@ export class IO<A> implements FantasyMonad<URI, A> {
     return new IO(() => f(this.run()).run())
   }
   concat(semigroup: Semigroup<A>, fy: IO<A>): IO<A> {
-    return new IO(() => semigroup.concat(this.run(), fy.run()))
+    return new IO(() => semigroup.concat(this.run())(fy.run()))
   }
   inspect() {
     return this.toString()
@@ -68,7 +68,7 @@ export function concat<A>(semigroup: Semigroup<A>, fx: IO<A>, fy: IO<A>): IO<A> 
 }
 
 export function getSemigroup<A>(semigroup: Semigroup<A>): Semigroup<IO<A>> {
-  return { concat: (fx, fy) => concat(semigroup, fx, fy) }
+  return { concat: fx => fy => concat(semigroup, fx, fy) }
 }
 
 export function getMonoid<A>(monoid: Monoid<A>): Monoid<IO<A>> {

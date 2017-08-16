@@ -40,7 +40,7 @@ export class Failure<L, A>
   }
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
     if (isFailure(fab)) {
-      return failure(this.semigroup, this.semigroup.concat(fab.value, this.value))
+      return failure(this.semigroup, this.semigroup.concat(fab.value)(this.value))
     }
     return this as any
   }
@@ -69,7 +69,7 @@ export class Failure<L, A>
     return fy.fold(constTrue, constFalse)
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
-    return fy.fold(l => failure<L, A>(this.semigroup, this.semigroup.concat(l, this.value)), () => this)
+    return fy.fold(l => failure<L, A>(this.semigroup, this.semigroup.concat(l)(this.value)), () => this)
   }
   mapFailure<M>(S: Semigroup<M>, f: (l: L) => M): Validation<M, A> {
     return failure(S, f(this.value))
@@ -137,7 +137,7 @@ export class Success<L, A>
     return success(this.value)
   }
   equals(S: Setoid<A>, fy: Validation<L, A>): boolean {
-    return fy.fold(constFalse, y => S.equals(this.value, y))
+    return fy.fold(constFalse, y => S.equals(this.value)(y))
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
     return this
@@ -172,7 +172,7 @@ export function equals<L, A>(S: Setoid<A>, fx: Validation<L, A>, fy: Validation<
 
 export function getSetoid<L, A>(S: Setoid<A>): Setoid<Validation<L, A>> {
   return {
-    equals: (x, y) => equals(S, x, y)
+    equals: x => y => equals(S, x, y)
   }
 }
 
@@ -201,7 +201,7 @@ export function bimap<L, M, A, B>(
   return fa.bimap(S, f, g)
 }
 
-export function alt<L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> {
+export const alt = <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Validation<L, A> => {
   return fx.alt(fy)
 }
 

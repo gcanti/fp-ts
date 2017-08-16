@@ -37,7 +37,7 @@ export type URI = typeof URI
 
 export const empty: Lazy<Array<any>> = constant([])
 
-export function concat<A>(x: Array<A>, y: Array<A>): Array<A> {
+export const concat = <A>(x: Array<A>) => (y: Array<A>): Array<A> => {
   return x.concat(y)
 }
 
@@ -80,7 +80,7 @@ export const traverse: Ops['traverse'] = ops.traverse
 
 export const zero = empty
 
-export const alt = concat
+export const alt = <A>(x: Array<A>) => (y: Array<A>): Array<A> => x.concat(y)
 
 export function unfoldr<A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> {
   const ret: Array<A> = []

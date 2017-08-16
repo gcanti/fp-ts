@@ -115,8 +115,8 @@ export function extend<A, B>(f: (fb: Pair<A>) => B, fa: Pair<A>): Pair<B> {
 
 export function getSetoid<A>(S: Setoid<A>): Setoid<Pair<A>> {
   return {
-    equals(x, y) {
-      return S.equals(x.fst(), y.fst()) && S.equals(x.snd(), y.snd())
+    equals: x => y => {
+      return S.equals(x.fst())(y.fst()) && S.equals(x.snd())(y.snd())
     }
   }
 }
@@ -125,16 +125,16 @@ export function getOrd<A>(O: Ord<A>): Ord<Pair<A>> {
   const S = getSetoid(O)
   return {
     ...S,
-    compare(x, y) {
-      return orderingSemigroup.concat(O.compare(x.fst(), y.fst()), O.compare(x.snd(), y.snd()))
+    compare: x => y => {
+      return orderingSemigroup.concat(O.compare(x.fst())(y.fst()))(O.compare(x.snd())(y.snd()))
     }
   }
 }
 
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Pair<A>> {
   return {
-    concat(x, y) {
-      return new Pair([S.concat(x.fst(), y.fst()), S.concat(x.snd(), y.snd())])
+    concat: x => y => {
+      return new Pair([S.concat(x.fst())(y.fst()), S.concat(x.snd())(y.snd())])
     }
   }
 }

@@ -4,13 +4,13 @@ import { Semigroup } from './Semigroup'
 export type Ordering = 'LT' | 'EQ' | 'GT'
 
 export const orderingSetoid: Setoid<Ordering> = {
-  equals(a, b) {
+  equals: a => b => {
     return a === b
   }
 }
 
 export const orderingSemigroup: Semigroup<Ordering> = {
-  concat(a, b) {
+  concat: a => b => {
     if (a === 'LT') {
       return 'LT'
     }

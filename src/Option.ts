@@ -202,10 +202,10 @@ export class Some<A>
     return this.value
   }
   concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
-    return fy.fold(() => this, y => new Some(semigroup.concat(this.value, y)))
+    return fy.fold(() => this, y => new Some(semigroup.concat(this.value)(y)))
   }
   equals(setoid: Setoid<A>, fy: Option<A>): boolean {
-    return fy.fold(constFalse, y => setoid.equals(this.value, y))
+    return fy.fold(constFalse, y => setoid.equals(this.value)(y))
   }
   toNullable(): A | null {
     return this.value
@@ -217,7 +217,7 @@ export class Some<A>
     return `some(${toString(this.value)})`
   }
   contains(setoid: Setoid<A>, a: A): boolean {
-    return setoid.equals(this.value, a)
+    return setoid.equals(this.value)(a)
   }
   isNone(): boolean {
     return false
@@ -236,7 +236,7 @@ export function equals<A>(setoid: Setoid<A>, fx: Option<A>, fy: Option<A>): bool
 
 export function getSetoid<A>(setoid: Setoid<A>): Setoid<Option<A>> {
   return {
-    equals: (x, y) => equals(setoid, x, y)
+    equals: x => y => equals(setoid, x, y)
   }
 }
 
@@ -294,8 +294,10 @@ export class Ops {
 const ops = new Ops()
 export const traverse: Ops['traverse'] = ops.traverse
 
-export function alt<A>(fx: Option<A>, fy: Option<A>): Option<A> {
-  return fx.alt(fy)
+export function alt(fx: Option<never>): <A>(fy: Option<A>) => Option<A>
+export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A>
+export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A> {
+  return fy => fx.alt(fy)
 }
 
 export function extend<A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> {
@@ -320,7 +322,7 @@ export function concat<A>(semigroup: Semigroup<A>, fx: Option<A>, fy: Option<A>)
 }
 
 export function getSemigroup<A>(semigroup: Semigroup<A>): Semigroup<Option<A>> {
-  return { concat: (fx, fy) => concat(semigroup, fx, fy) }
+  return { concat: fx => fy => concat(semigroup, fx, fy) }
 }
 
 export function getMonoid<A>(semigroup: Semigroup<A>): Monoid<Option<A>> {

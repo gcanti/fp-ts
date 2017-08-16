@@ -70,7 +70,7 @@ export class Identity<A>
     return f(this.value)
   }
   equals(setoid: Setoid<A>, fy: Identity<A>): boolean {
-    return setoid.equals(this.value, fy.value)
+    return setoid.equals(this.value)(fy.value)
   }
   inspect() {
     return this.toString()
@@ -86,7 +86,7 @@ export function equals<A>(setoid: Setoid<A>, fx: Identity<A>, fy: Identity<A>): 
 
 export function getSetoid<A>(setoid: Setoid<A>): Setoid<Identity<A>> {
   return {
-    equals: (x, y) => equals(setoid, x, y)
+    equals: x => y => equals(setoid, x, y)
   }
 }
 
@@ -110,7 +110,7 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Identity<A>): B {
   return fa.reduce(f, b)
 }
 
-export function alt<A>(fx: Identity<A>, fy: Identity<A>): Identity<A> {
+export const alt = <A>(fx: Identity<A>) => (fy: Identity<A>): Identity<A> => {
   return fx.alt(fy)
 }
 
