@@ -294,15 +294,17 @@ export class Ops {
 const ops = new Ops()
 export const traverse: Ops['traverse'] = ops.traverse
 
-export function alt<A>(fx: Option<A>, fy: Option<A>): Option<A> {
-  return fx.alt(fy)
+export function alt(fx: Option<never>): <A>(fy: Option<A>) => Option<A>
+export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A>
+export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A> {
+  return fy => fx.alt(fy)
 }
 
 export function extend<A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> {
   return ea.extend(f)
 }
 
-const first = { empty, concat: alt }
+const first = { empty, concat: <A>(fx: Option<A>, fy: Option<A>) => alt(fx)(fy) }
 const last = getDualMonoid(first)
 
 /** Maybe monoid returning the left-most non-None value */

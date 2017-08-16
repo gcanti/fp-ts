@@ -204,7 +204,7 @@ export function bimap<L, V, A, B>(f: (u: L) => V, g: (a: A) => B, fau: Either<L,
   return fau.bimap(f, g)
 }
 
-export function alt<L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> {
+export const alt = <L, A>(fx: Either<L, A>) => (fy: Either<L, A>): Either<L, A> => {
   return fx.alt(fy)
 }
 

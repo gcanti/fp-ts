@@ -201,7 +201,7 @@ export function bimap<L, M, A, B>(
   return fa.bimap(S, f, g)
 }
 
-export function alt<L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> {
+export const alt = <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Validation<L, A> => {
   return fx.alt(fy)
 }
 

@@ -110,7 +110,7 @@ export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Identity<A>): B {
   return fa.reduce(f, b)
 }
 
-export function alt<A>(fx: Identity<A>, fy: Identity<A>): Identity<A> {
+export const alt = <A>(fx: Identity<A>) => (fy: Identity<A>): Identity<A> => {
   return fx.alt(fy)
 }
 
