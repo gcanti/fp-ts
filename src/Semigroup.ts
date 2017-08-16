@@ -14,7 +14,9 @@ export function getLastSemigroup<A>(): Semigroup<A> {
   return { concat: x => y => y }
 }
 
-export const getProductSemigroup = <A>(asemigroup: Semigroup<A>) => <B>(bsemigroup: Semigroup<B>): Semigroup<[A, B]> => {
+export const getProductSemigroup = <A>(asemigroup: Semigroup<A>) => <B>(
+  bsemigroup: Semigroup<B>
+): Semigroup<[A, B]> => {
   return {
     concat: ([xa, xb]) => ([ya, yb]) => [asemigroup.concat(xa)(ya), bsemigroup.concat(xb)(yb)]
   }
