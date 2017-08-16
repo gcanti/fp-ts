@@ -10,14 +10,13 @@ export interface FantasyContravariant<F, A> {
 }
 
 export class Ops {
-  lift<F extends HKT2S, A, B>(
-    contravariant: Contravariant<F>,
-    f: (b: B) => A
-  ): <L>(fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
-  lift<F extends HKTS, A, B>(contravariant: Contravariant<F>, f: (b: B) => A): (fa: HKTAs<F, A>) => HKTAs<F, B>
-  lift<F, A, B>(contravariant: Contravariant<F>, f: (b: B) => A): (fa: HKT<F, A>) => HKT<F, B>
-  lift<F, A, B>(contravariant: Contravariant<F>, f: (b: B) => A): (fa: HKT<F, A>) => HKT<F, B> {
-    return fa => contravariant.contramap(fa)(f)
+  lift<F extends HKT2S>(
+    contravariant: Contravariant<F>
+  ): <A, B>(f: (b: B) => A) => <L>(fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
+  lift<F extends HKTS>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKTAs<F, A>) => HKTAs<F, B>
+  lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
+  lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B> {
+    return f => fa => contravariant.contramap(fa)(f)
   }
 }
 
