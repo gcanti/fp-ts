@@ -139,7 +139,7 @@ function guessSession(answer: number): StateIO<number, void> {
   })
 }
 
-const program2 = randomInt(1, 100).chain(answer =>
+const program2 = randomInt(1)(100).chain(answer =>
   log(`I'm thinking of a number between 1 and 100, can you guess it? `).chain(() => {
     const guesses = guessSession(answer).exec(0)
     return log(`Success in ${guesses} tries.`)
