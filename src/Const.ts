@@ -42,13 +42,13 @@ export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant
   }
 }
 
-export function equals<L, A>(S: Setoid<L>, fx: Const<L, A>, fy: Const<L, A>): boolean {
+export const equals = <L>(S: Setoid<L>) => <A>(fx: Const<L, A>) => (fy: Const<L, A>): boolean => {
   return fx.equals(S, fy)
 }
 
 export function getSetoid<L, A>(S: Setoid<L>): Setoid<Const<L, A>> {
   return {
-    equals: x => y => equals(S, x, y)
+    equals: x => y => equals(S)(x)(y)
   }
 }
 
@@ -83,4 +83,8 @@ export function getApplicative<L>(M: Monoid<L>): Applicative<URI> {
   }
 }
 
-export const const_: Functor<URI> & Contravariant<URI> = { URI, map, contramap }
+export const const_: Functor<URI> & Contravariant<URI> = {
+  URI,
+  map,
+  contramap
+}
