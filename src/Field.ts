@@ -10,9 +10,9 @@ export interface Field<A> extends Ring<A> {
 }
 
 export const fieldNumber: Field<number> = {
-  add: (x, y) => x + y,
+  add: x => y => x + y,
   zero: () => 0,
-  mul: (x, y) => x * y,
+  mul: x => y => x * y,
   one: () => 1,
   sub: (x, y) => x - y,
   degree: () => 1,
@@ -39,6 +39,6 @@ export function lcm<A>(setoid: Setoid<A>, field: Field<A>): (x: A, y: A) => A {
     if (setoid.equals(x, zero) || setoid.equals(y, zero)) {
       return zero
     }
-    return field.div(field.mul(x, y), gcd(setoid, field)(x, y))
+    return field.div(field.mul(x)(y), gcd(setoid, field)(x, y))
   }
 }
