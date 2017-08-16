@@ -59,17 +59,17 @@ describe('StrMap', () => {
   })
 
   it('lookup', () => {
-    eq(lookup('a', new StrMap({ a: 1 })), option.some(1))
-    eq(lookup('b', new StrMap({ a: 1 })), option.none)
+    eq(lookup('a')(new StrMap({ a: 1 })), option.some(1))
+    eq(lookup('b')(new StrMap({ a: 1 })), option.none)
   })
 
   it('fromFoldable', () => {
     assert.deepEqual(
-      fromFoldable(array)((existing, a) => existing, [['a', 1]] as Array<[string, number]>),
+      fromFoldable(array)((existing, a) => existing)([['a', 1]] as Array<[string, number]>),
       new StrMap({ a: 1 })
     )
     assert.deepEqual(
-      fromFoldable(array)((existing, a) => existing, [['a', 1], ['a', 2]] as Array<[string, number]>),
+      fromFoldable(array)((existing, a) => existing)([['a', 1], ['a', 2]] as Array<[string, number]>),
       new StrMap({
         a: 1
       })
@@ -108,15 +108,15 @@ describe('StrMap', () => {
   })
 
   it('insert', () => {
-    assert.deepEqual(insert('a', 1, new StrMap({})), new StrMap({ a: 1 }))
+    assert.deepEqual(insert('a')(1)(new StrMap({})), new StrMap({ a: 1 }))
   })
 
   it('remove', () => {
-    assert.deepEqual(remove('a', new StrMap({ a: 1, b: 2 })), new StrMap({ b: 2 }))
+    assert.deepEqual(remove('a')(new StrMap({ a: 1, b: 2 })), new StrMap({ b: 2 }))
   })
 
   it('pop', () => {
-    assert.deepEqual(pop('a', new StrMap({ a: 1, b: 2 })), option.some([1, new StrMap({ b: 2 })]))
-    assert.deepEqual(pop('c', new StrMap({ a: 1, b: 2 })), option.none)
+    assert.deepEqual(pop('a')(new StrMap({ a: 1, b: 2 })), option.some([1, new StrMap({ b: 2 })]))
+    assert.deepEqual(pop('c')(new StrMap({ a: 1, b: 2 })), option.none)
   })
 })
