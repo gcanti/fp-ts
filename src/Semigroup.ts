@@ -2,7 +2,7 @@ export interface Semigroup<A> {
   concat: (x: A) => (y: A) => A
 }
 
-export function fold<A>(semigroup: Semigroup<A>, a: A, as: Array<A>): A {
+export const fold = <A>(semigroup: Semigroup<A>) => (a: A) => (as: Array<A>): A => {
   return as.reduce((acc, a) => semigroup.concat(acc)(a), a)
 }
 

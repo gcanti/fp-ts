@@ -6,7 +6,7 @@ export interface Monoid<A> extends Semigroup<A> {
 }
 
 export function fold<A>(monoid: Monoid<A>, as: Array<A>): A {
-  return foldSemigroup(monoid, monoid.empty(), as)
+  return foldSemigroup(monoid)(monoid.empty())(as)
 }
 
 export function getProductMonoid<A, B>(amonoid: Monoid<A>, bmonoid: Monoid<B>): Monoid<[A, B]> {
