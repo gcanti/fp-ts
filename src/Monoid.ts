@@ -5,11 +5,11 @@ export interface Monoid<A> extends Semigroup<A> {
   empty(): A
 }
 
-export function fold<A>(monoid: Monoid<A>, as: Array<A>): A {
+export const fold = <A>(monoid: Monoid<A>) => (as: Array<A>): A => {
   return foldSemigroup(monoid)(monoid.empty())(as)
 }
 
-export function getProductMonoid<A, B>(amonoid: Monoid<A>, bmonoid: Monoid<B>): Monoid<[A, B]> {
+export const getProductMonoid = <A>(amonoid: Monoid<A>) => <B>(bmonoid: Monoid<B>): Monoid<[A, B]> => {
   const empty: [A, B] = [amonoid.empty(), bmonoid.empty()]
   return {
     empty: () => empty,

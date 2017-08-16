@@ -140,7 +140,7 @@ describe('Array', () => {
   })
 
   it('extend', () => {
-    const sum = (as: Array<number>) => fold(monoidSum, as)
+    const sum = (as: Array<number>) => fold(monoidSum)(as)
     assert.deepEqual(array.extend(sum, [1, 2, 3, 4]), [10, 9, 7, 4])
   })
 
