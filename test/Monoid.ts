@@ -24,10 +24,10 @@ describe('Monoid', () => {
   })
 
   it('monoidArray', () => {
-    assert.deepEqual(monoidArray.concat([1], ['a']), [1, 'a'])
+    assert.deepEqual(monoidArray.concat([1])(['a']), [1, 'a'])
   })
 
   it('getArrayMonoid', () => {
-    assert.deepEqual(getArrayMonoid<number>().concat([1], [2]), [1, 2])
+    assert.deepEqual(getArrayMonoid<number>().concat([1])([2]), [1, 2])
   })
 })

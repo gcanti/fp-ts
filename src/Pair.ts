@@ -126,15 +126,15 @@ export function getOrd<A>(O: Ord<A>): Ord<Pair<A>> {
   return {
     ...S,
     compare(x, y) {
-      return orderingSemigroup.concat(O.compare(x.fst(), y.fst()), O.compare(x.snd(), y.snd()))
+      return orderingSemigroup.concat(O.compare(x.fst(), y.fst()))(O.compare(x.snd(), y.snd()))
     }
   }
 }
 
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Pair<A>> {
   return {
-    concat(x, y) {
-      return new Pair([S.concat(x.fst(), y.fst()), S.concat(x.snd(), y.snd())])
+    concat: x => y => {
+      return new Pair([S.concat(x.fst())(y.fst()), S.concat(x.snd())(y.snd())])
     }
   }
 }

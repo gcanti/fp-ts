@@ -37,7 +37,7 @@ export type URI = typeof URI
 
 export const empty: Lazy<Array<any>> = constant([])
 
-export function concat<A>(x: Array<A>, y: Array<A>): Array<A> {
+export const concat = <A>(x: Array<A>) => (y: Array<A>): Array<A> => {
   return x.concat(y)
 }
 

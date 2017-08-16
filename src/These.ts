@@ -36,7 +36,7 @@ export class This<L, A>
     return this as any
   }
   ap<B>(SL: Semigroup<L>, fab: These<L, (a: A) => B>): These<L, B> {
-    return fab.fold(() => fab as any, () => this as any, (l, _) => this_(SL.concat(l, this.value)))
+    return fab.fold(() => fab as any, () => this as any, (l, _) => this_(SL.concat(l)(this.value)))
   }
   chain<B>(SL: Semigroup<L>, f: (a: A) => These<L, B>): These<L, B> {
     return this as any
@@ -61,9 +61,9 @@ export class This<L, A>
   }
   concat(SL: Semigroup<L>, SA: Semigroup<A>, fy: These<L, A>): These<L, A> {
     return fy.fold(
-      l => this_(SL.concat(this.value, l)),
+      l => this_(SL.concat(this.value)(l)),
       a => both(this.value, a),
-      (l, a) => both(SL.concat(this.value, l), a)
+      (l, a) => both(SL.concat(this.value)(l), a)
     )
   }
   inspect() {
@@ -112,8 +112,8 @@ export class That<L, A>
   concat(SL: Semigroup<L>, SA: Semigroup<A>, fy: These<L, A>): These<L, A> {
     return fy.fold(
       l => both(l, this.value),
-      a => that(SA.concat(this.value, a)),
-      (l, a) => both(l, SA.concat(this.value, a))
+      a => that(SA.concat(this.value)(a)),
+      (l, a) => both(l, SA.concat(this.value)(a))
     )
   }
   inspect() {
@@ -136,13 +136,13 @@ export class Both<L, A>
     return new Both(this.l, f(this.a))
   }
   ap<B>(SL: Semigroup<L>, fab: These<L, (a: A) => B>): These<L, B> {
-    return fab.fold(() => fab as any, f => both(this.l, f(this.a)), (l, f) => both(SL.concat(l, this.l), f(this.a)))
+    return fab.fold(() => fab as any, f => both(this.l, f(this.a)), (l, f) => both(SL.concat(l)(this.l), f(this.a)))
   }
   chain<B>(SL: Semigroup<L>, f: (a: A) => These<L, B>): These<L, B> {
     return f(this.a).fold(
-      l => this_(SL.concat(this.l, l)),
+      l => this_(SL.concat(this.l)(l)),
       a => both(this.l, a),
-      (l, a) => both(SL.concat(this.l, l), a)
+      (l, a) => both(SL.concat(this.l)(l), a)
     )
   }
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
@@ -165,9 +165,9 @@ export class Both<L, A>
   }
   concat(SL: Semigroup<L>, SA: Semigroup<A>, fy: These<L, A>): These<L, A> {
     return fy.fold(
-      l => both(SL.concat(this.l, l), this.a),
-      a => both(this.l, SA.concat(this.a, a)),
-      (l, a) => both(SL.concat(this.l, l), SA.concat(this.a, a))
+      l => both(SL.concat(this.l)(l), this.a),
+      a => both(this.l, SA.concat(this.a)(a)),
+      (l, a) => both(SL.concat(this.l)(l), SA.concat(this.a)(a))
     )
   }
   inspect() {
@@ -188,8 +188,11 @@ export function getSetoid<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A
   }
 }
 
-export function concat<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): (fx: These<L, A>, fy: These<L, A>) => These<L, A> {
-  return (fx, fy) => fx.concat(SL, SA, fy)
+export function concat<L, A>(
+  SL: Semigroup<L>,
+  SA: Semigroup<A>
+): ((fx: These<L, A>) => (fy: These<L, A>) => These<L, A>) {
+  return fx => fy => fx.concat(SL, SA, fy)
 }
 
 export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> {

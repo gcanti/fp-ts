@@ -202,7 +202,7 @@ export class Some<A>
     return this.value
   }
   concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
-    return fy.fold(() => this, y => new Some(semigroup.concat(this.value, y)))
+    return fy.fold(() => this, y => new Some(semigroup.concat(this.value)(y)))
   }
   equals(setoid: Setoid<A>, fy: Option<A>): boolean {
     return fy.fold(constFalse, y => setoid.equals(this.value, y))
@@ -304,7 +304,7 @@ export function extend<A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> 
   return ea.extend(f)
 }
 
-const first = { empty, concat: <A>(fx: Option<A>, fy: Option<A>) => alt(fx)(fy) }
+const first = { empty, concat: alt }
 const last = getDualMonoid(first)
 
 /** Maybe monoid returning the left-most non-None value */
@@ -322,7 +322,7 @@ export function concat<A>(semigroup: Semigroup<A>, fx: Option<A>, fy: Option<A>)
 }
 
 export function getSemigroup<A>(semigroup: Semigroup<A>): Semigroup<Option<A>> {
-  return { concat: (fx, fy) => concat(semigroup, fx, fy) }
+  return { concat: fx => fy => concat(semigroup, fx, fy) }
 }
 
 export function getMonoid<A>(semigroup: Semigroup<A>): Monoid<Option<A>> {

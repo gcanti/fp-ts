@@ -76,7 +76,7 @@ export function chain<A, B>(f: (a: A) => Task<B>, fa: Task<A>): Task<B> {
   return fa.chain(f)
 }
 
-export function concat<A>(fx: Task<A>, fy: Task<A>): Task<A> {
+export const concat = <A>(fx: Task<A>) => (fy: Task<A>): Task<A> => {
   return fx.concat(fy)
 }
 
@@ -93,4 +93,12 @@ export function tryCatch<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: any) =>
   return new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))
 }
 
-export const task: Monad<URI> & Monoid<Task<any>> = { URI, map, of, ap, chain, concat, empty }
+export const task: Monad<URI> & Monoid<Task<any>> = {
+  URI,
+  map,
+  of,
+  ap,
+  chain,
+  concat,
+  empty
+}

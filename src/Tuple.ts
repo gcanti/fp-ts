@@ -127,10 +127,10 @@ export function getOrd<L, A>(ordA: Ord<L>, ordB: Ord<A>): Ord<Tuple<L, A>> {
 
 export function getSemigroup<L, A>(semigroupA: Semigroup<L>, semigroupB: Semigroup<A>): Semigroup<Tuple<L, A>> {
   return {
-    concat(x, y) {
+    concat: x => y => {
       const [xa, xb] = x.value
       const [ya, yb] = y.value
-      return new Tuple([semigroupA.concat(xa, ya), semigroupB.concat(xb, yb)])
+      return new Tuple([semigroupA.concat(xa)(ya), semigroupB.concat(xb)(yb)])
     }
   }
 }
@@ -148,7 +148,7 @@ export function getApply<L>(semigroupA: Semigroup<L>): Apply<URI> {
     URI,
     map,
     ap<A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<L, A>): Tuple<L, B> {
-      return new Tuple([semigroupA.concat(fa.fst(), fab.fst()), fab.snd()(fa.snd())])
+      return new Tuple([semigroupA.concat(fa.fst())(fab.fst()), fab.snd()(fa.snd())])
     }
   }
 }
@@ -169,7 +169,7 @@ export function getChain<L>(M: Monoid<L>): Chain<URI> {
     ...getApply(M),
     chain<A, B>(f: (b: A) => Tuple<L, B>, fa: Tuple<L, A>): Tuple<L, B> {
       const lb = f(fa.snd())
-      return new Tuple([M.concat(fa.fst(), lb.fst()), lb.snd()])
+      return new Tuple([M.concat(fa.fst())(lb.fst()), lb.snd()])
     }
   }
 }
@@ -189,10 +189,10 @@ export function chainRec<L>(M: Monoid<L>): <A, B>(f: (a: A) => Tuple<L, Either<A
     let result = f(a)
     let acc = M.empty()
     while (isLeft(result.snd())) {
-      acc = M.concat(acc, result.fst())
+      acc = M.concat(acc)(result.fst())
       result = f((result.snd() as Left<A, B>).value)
     }
-    return new Tuple([M.concat(acc, result.fst()), (result.snd() as Right<A, B>).value])
+    return new Tuple([M.concat(acc)(result.fst()), (result.snd() as Right<A, B>).value])
   }
   return chainRec
 }

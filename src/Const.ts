@@ -62,7 +62,7 @@ export function contramap<L, A>(fa: Const<L, A>): <B>(f: (b: B) => A) => Const<L
 
 export function getApply<L>(S: Semigroup<L>): Apply<URI> {
   function ap<A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> {
-    return new Const(S.concat(fab.fold(identity), fa.fold(identity)))
+    return new Const(S.concat(fab.fold(identity))(fa.fold(identity)))
   }
   return {
     URI,

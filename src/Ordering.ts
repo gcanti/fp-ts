@@ -10,7 +10,7 @@ export const orderingSetoid: Setoid<Ordering> = {
 }
 
 export const orderingSemigroup: Semigroup<Ordering> = {
-  concat(a, b) {
+  concat: a => b => {
     if (a === 'LT') {
       return 'LT'
     }

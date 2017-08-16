@@ -26,7 +26,7 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
 
 /** A default implementation of `foldMap` using `foldl`. */
 export function foldMap<F, M>(foldable: Foldable<F>, monoid: Monoid<M>): <A>(f: (a: A) => M, fa: HKT<F, A>) => M {
-  return (f, fa) => foldable.reduce((acc, x) => monoid.concat(acc, f(x)), monoid.empty(), fa)
+  return (f, fa) => foldable.reduce((acc, x) => monoid.concat(acc)(f(x)), monoid.empty(), fa)
 }
 
 export function toArray<F>(foldable: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
@@ -47,7 +47,7 @@ type Acc<M> = { init: boolean; acc: M }
 export function intercalate<F, M>(foldable: Foldable<F>, monoid: Monoid<M>): (sep: M, fm: HKT<F, M>) => M {
   return (sep, fm) => {
     function go({ init, acc }: Acc<M>, x: M): Acc<M> {
-      return init ? { init: false, acc: x } : { init: false, acc: monoid.concat(monoid.concat(acc, sep), x) }
+      return init ? { init: false, acc: x } : { init: false, acc: monoid.concat(monoid.concat(acc)(sep))(x) }
     }
     return foldable.reduce(go, { init: true, acc: monoid.empty() }, fm).acc
   }
