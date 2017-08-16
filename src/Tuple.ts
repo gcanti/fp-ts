@@ -72,7 +72,8 @@ export class Tuple<L, A>
     return `new Tuple(${toString(this.value)})`
   }
 }
-export function compose<L, A, B>(bc: Tuple<A, B>, fa: Tuple<L, A>): Tuple<L, B> {
+
+export const compose = <A, B>(bc: Tuple<A, B>) => <L>(fa: Tuple<L, A>): Tuple<L, B> => {
   return fa.compose(bc)
 }
 

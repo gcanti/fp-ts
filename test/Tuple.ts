@@ -5,7 +5,7 @@ import { left, right } from '../src/Either'
 
 describe('Tuple', () => {
   it('compose', () => {
-    assert.deepEqual(compose(new Tuple([1, 's']), new Tuple([true, 2])), new Tuple([true, 's']))
+    assert.deepEqual(compose(new Tuple([1, 's']))(new Tuple([true, 2])), new Tuple([true, 's']))
   })
 
   it('map', () => {
