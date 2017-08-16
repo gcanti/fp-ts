@@ -80,7 +80,7 @@ export function fromEither<L, A>(fa: either.Either<L, A>): TaskEither<L, A> {
 }
 
 export function tryCatch<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: any) => L): TaskEither<L, A> {
-  return new TaskEither(task.tryCatch(f, onrejected))
+  return new TaskEither(task.tryCatch(f)(onrejected))
 }
 
 export const taskEither: Monad<URI> = {

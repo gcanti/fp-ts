@@ -89,7 +89,7 @@ export function empty<A>(): Task<A> {
   return never as Task<A>
 }
 
-export function tryCatch<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: any) => L): Task<Either<L, A>> {
+export const tryCatch = <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: any) => L): Task<Either<L, A>> => {
   return new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))
 }
 
