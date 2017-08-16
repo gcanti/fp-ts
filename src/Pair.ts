@@ -125,8 +125,8 @@ export function getOrd<A>(O: Ord<A>): Ord<Pair<A>> {
   const S = getSetoid(O)
   return {
     ...S,
-    compare(x, y) {
-      return orderingSemigroup.concat(O.compare(x.fst(), y.fst()))(O.compare(x.snd(), y.snd()))
+    compare: x => y => {
+      return orderingSemigroup.concat(O.compare(x.fst())(y.fst()))(O.compare(x.snd())(y.snd()))
     }
   }
 }

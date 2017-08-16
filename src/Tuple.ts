@@ -117,11 +117,11 @@ export function getSetoid<L, A>(setoidA: Setoid<L>, setoidB: Setoid<A>): Setoid<
 export function getOrd<L, A>(ordA: Ord<L>, ordB: Ord<A>): Ord<Tuple<L, A>> {
   return {
     equals: getSetoid(ordA, ordB).equals,
-    compare(x, y) {
+    compare: x => y => {
       const [xa, xb] = x.value
       const [ya, yb] = y.value
-      const ordering = ordA.compare(xa, ya)
-      return ordering === 'EQ' ? ordB.compare(xb, yb) : ordering
+      const ordering = ordA.compare(xa)(ya)
+      return ordering === 'EQ' ? ordB.compare(xb)(yb) : ordering
     }
   }
 }
