@@ -64,7 +64,7 @@ export class Ops {
   ): <A, B>(f: (a: A) => HKTAs<M, B>, fa: HKT<F, A>) => HKTAs<M, void>
   traverse_<M, F>(M: Applicative<M>, F: Foldable<F>): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void>
   traverse_<M, F>(M: Applicative<M>, F: Foldable<F>): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void> {
-    return (f, fa) => toArray(F)(fa).reduce((mu, a) => applyFirst(M)(mu, f(a)), M.of(undefined))
+    return (f, fa) => toArray(F)(fa).reduce((mu, a) => applyFirst(M)(mu)(f(a)), M.of(undefined))
   }
 
   sequence_<M extends HKT2S, F>(

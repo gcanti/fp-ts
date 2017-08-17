@@ -21,82 +21,84 @@ const constIdentity = () => identity
 
 export class Ops {
   /** Combine two effectful actions, keeping only the result of the first */
-  applyFirst<F extends HKT2S>(apply: Apply<F>): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, A>
-  applyFirst<F extends HKTS>(apply: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, A>
-  applyFirst<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
-  applyFirst<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
-    return (fa, fb) => apply.ap(apply.map(a => constant(a), fa), fb)
+  applyFirst<F extends HKT2S>(
+    apply: Apply<F>
+  ): <L, A>(fa: HKT2As<F, L, A>) => <B>(fb: HKT2As<F, L, B>) => HKT2As<F, L, A>
+  applyFirst<F extends HKTS>(apply: Apply<F>): <A>(fa: HKTAs<F, A>) => <B>(fb: HKTAs<F, B>) => HKTAs<F, A>
+  applyFirst<F>(apply: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, A>
+  applyFirst<F>(apply: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, A> {
+    return fa => fb => apply.ap(apply.map(a => constant(a), fa), fb)
   }
 
   /** Combine two effectful actions, keeping only the result of the second */
-  applySecond<F extends HKT2S>(apply: Apply<F>): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, B>
-  applySecond<F extends HKTS>(apply: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, B>
-  applySecond<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
-  applySecond<F>(apply: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
-    return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => apply.ap(apply.map(constIdentity, fa), fb)
+  applySecond<F extends HKT2S>(
+    apply: Apply<F>
+  ): <L, A>(fa: HKT2As<F, L, A>) => <B>(fb: HKT2As<F, L, B>) => HKT2As<F, L, B>
+  applySecond<F extends HKTS>(apply: Apply<F>): <A>(fa: HKTAs<F, A>) => <B>(fb: HKTAs<F, B>) => HKTAs<F, B>
+  applySecond<F>(apply: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, B>
+  applySecond<F>(apply: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, B> {
+    return fa => fb => apply.ap(apply.map(constIdentity, fa), fb)
   }
 
   /**
    * Lift a function of two arguments to a function which accepts and returns
    * values wrapped with the type constructor `F`
    */
-  liftA2<F extends HKT2S, A, B, C>(
-    apply: Apply<F>,
-    f: Curried2<A, B, C>
-  ): <L>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, C>
-  liftA2<F extends HKTS, A, B, C>(
-    apply: Apply<F>,
-    f: Curried2<A, B, C>
-  ): (fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, C>
-  liftA2<F, A, B, C>(apply: Apply<F>, f: Curried2<A, B, C>): (fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, C>
-  liftA2<F, A, B, C>(apply: Apply<F>, f: Curried2<A, B, C>): (fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, C> {
-    return (fa, fb) => apply.ap(apply.map(f, fa), fb)
+  liftA2<F extends HKT2S>(
+    apply: Apply<F>
+  ): <A, B, C>(f: Curried2<A, B, C>) => <L>(fa: HKT2As<F, L, A>) => (fb: HKT2As<F, L, B>) => HKT2As<F, L, C>
+  liftA2<F extends HKTS>(
+    apply: Apply<F>
+  ): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKTAs<F, A>, HKTAs<F, B>, HKTAs<F, C>>
+  liftA2<F>(apply: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
+  liftA2<F>(apply: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> {
+    return f => fa => fb => apply.ap(apply.map(f, fa), fb)
   }
 
   /**
    * Lift a function of three arguments to a function which accepts and returns
    * values wrapped with the type constructor `F`
    */
-  liftA3<F extends HKT2S, A, B, C, D>(
-    apply: Apply<F>,
+  liftA3<F extends HKT2S>(
+    apply: Apply<F>
+  ): <A, B, C, D>(
     f: Curried3<A, B, C, D>
-  ): <L>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>, fc: HKT2As<F, L, C>) => HKT2As<F, L, D>
-  liftA3<F extends HKTS, A, B, C, D>(
-    apply: Apply<F>,
-    f: Curried3<A, B, C, D>
-  ): (fa: HKTAs<F, A>, fb: HKTAs<F, B>, fc: HKTAs<F, C>) => HKTAs<F, D>
-  liftA3<F, A, B, C, D>(
-    apply: Apply<F>,
-    f: Curried3<A, B, C, D>
-  ): (fa: HKT<F, A>, fb: HKT<F, B>, fc: HKT<F, C>) => HKT<F, D>
-  liftA3<F, A, B, C, D>(
-    apply: Apply<F>,
-    f: Curried3<A, B, C, D>
-  ): (fa: HKT<F, A>, fb: HKT<F, B>, fc: HKT<F, C>) => HKT<F, D> {
-    return (fa, fb, fc) => apply.ap(apply.ap(apply.map(f, fa), fb), fc)
+  ) => <L>(fa: HKT2As<F, L, A>) => (fb: HKT2As<F, L, B>) => (fc: HKT2As<F, L, C>) => HKT2As<F, L, D>
+  liftA3<F extends HKTS>(
+    apply: Apply<F>
+  ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKTAs<F, A>, HKTAs<F, B>, HKTAs<F, C>, HKTAs<F, D>>
+  liftA3<F>(
+    apply: Apply<F>
+  ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
+  liftA3<F>(
+    apply: Apply<F>
+  ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> {
+    return f => fa => fb => fc => apply.ap(apply.ap(apply.map(f, fa), fb), fc)
   }
 
   /**
    * Lift a function of four arguments to a function which accepts and returns
    * values wrapped with the type constructor `F`
    */
-  liftA4<F extends HKT2S, A, B, C, D, E>(
-    apply: Apply<F>,
+  liftA4<F extends HKT2S>(
+    apply: Apply<F>
+  ): <A, B, C, D, E>(
     f: Curried4<A, B, C, D, E>
-  ): <L>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>, fc: HKT2As<F, L, C>, fd: HKT2As<F, L, D>) => HKT2As<F, L, E>
-  liftA4<F extends HKTS, A, B, C, D, E>(
-    apply: Apply<F>,
+  ) => <L>(
+    fa: HKT2As<F, L, A>
+  ) => (fb: HKT2As<F, L, B>) => (fc: HKT2As<F, L, C>) => (fd: HKT2As<F, L, D>) => HKT2As<F, L, E>
+  liftA4<F extends HKTS>(
+    apply: Apply<F>
+  ): <A, B, C, D, E>(
     f: Curried4<A, B, C, D, E>
-  ): (fa: HKTAs<F, A>, fb: HKTAs<F, B>, fc: HKTAs<F, C>, fd: HKTAs<F, D>) => HKTAs<F, E>
-  liftA4<F, A, B, C, D, E>(
-    apply: Apply<F>,
-    f: Curried4<A, B, C, D, E>
-  ): (fa: HKT<F, A>, fb: HKT<F, B>, fc: HKT<F, C>, fd: HKT<F, D>) => HKT<F, E>
-  liftA4<F, A, B, C, D, E>(
-    apply: Apply<F>,
-    f: Curried4<A, B, C, D, E>
-  ): (fa: HKT<F, A>, fb: HKT<F, B>, fc: HKT<F, C>, fd: HKT<F, D>) => HKT<F, E> {
-    return (fa, fb, fc, fd) => apply.ap(apply.ap(apply.ap(apply.map(f, fa), fb), fc), fd)
+  ) => Curried4<HKTAs<F, A>, HKTAs<F, B>, HKTAs<F, C>, HKTAs<F, D>, HKTAs<F, E>>
+  liftA4<F>(
+    apply: Apply<F>
+  ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
+  liftA4<F>(
+    apply: Apply<F>
+  ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> {
+    return f => fa => fb => fc => fd => apply.ap(apply.ap(apply.ap(apply.map(f, fa), fb), fc), fd)
   }
 }
 

@@ -59,8 +59,8 @@ export class Ops {
   traverse<F extends HKTS>(F: Applicative<F>): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Array<A>) => HKTAs<F, Array<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>> {
-    const liftedSnoc: <A>(fa: HKT<F, Array<A>>, fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F, snoc)
-    return (f, ta) => reduce((fab, a) => liftedSnoc(fab, f(a)), F.of(empty()), ta)
+    const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(snoc)
+    return (f, ta) => reduce((fab, a) => liftedSnoc(fab)(f(a)), F.of(empty()), ta)
   }
 }
 

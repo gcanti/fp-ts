@@ -49,11 +49,11 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
   traverseWithKey<F extends HKTS>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKTAs<F, B>) => HKTAs<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-    const concatA2 = liftA2(F, concat)
+    const concatA2 = liftA2(F)(concat)
     return f => {
       let out = F.of(empty())
       for (let k in this.value) {
-        out = concatA2(out, F.map(b => singleton(k)(b), f(k, this.value[k])))
+        out = concatA2(out)(F.map(b => singleton(k)(b), f(k, this.value[k])))
       }
       return out
     }
