@@ -87,7 +87,7 @@ export class Ops {
   getEitherT<M extends HKTS>(M: Monad<M>): EitherT1<M>
   getEitherT<M>(M: Monad<M>): EitherT<M>
   getEitherT<M>(M: Monad<M>): EitherT<M> {
-    const applicativeComposition = getApplicativeComposition(M)(either)
+    const applicativeComposition = getApplicativeComposition(M, either)
 
     return {
       ...applicativeComposition,

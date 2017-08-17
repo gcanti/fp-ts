@@ -31,11 +31,11 @@ export class Ops {
   }
 
   /** map over a data structure and filter based on a maybe */
-  // filterMap<F extends HKT2S>(
-  //   F: Filterable<F>
-  // ): <L, A, B>(f: (a: A) => Option<B>, fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
-  // filterMap<F extends HKTS>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>, fa: HKTAs<F, A>) => HKTAs<F, B>
-  // filterMap<F>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>, fa: HKT<F, A>) => HKT<F, B>
+  filterMap<F extends HKT2S>(
+    F: Filterable<F>
+  ): <A, B>(f: (a: A) => Option<B>) => <L>(fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
+  filterMap<F extends HKTS>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>) => (fa: HKTAs<F, A>) => HKTAs<F, B>
+  filterMap<F>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B>
   filterMap<F>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B> {
     return <A, B>(f: (a: A) => Option<B>) => (fa: HKT<F, A>) =>
       F.partitionMap((a: A) => f(a).fold(() => left<null, B>(null), b => right<null, B>(b)), fa).right

@@ -9,7 +9,7 @@ declare module '../src/HKT' {
   }
 }
 
-const taskValidationApplicative = getApplicativeComposition(task)(validation)
+const taskValidationApplicative = getApplicativeComposition(task, validation)
 
 export const URI = 'TaskValidation'
 
