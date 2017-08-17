@@ -18,36 +18,35 @@ export class Ops {
   /** partition a data structure based on boolean predicate */
   partition<F extends HKT2S>(
     F: Filterable<F>
-  ): <L, A>(predicate: Predicate<A>, fa: HKT2As<F, L, A>) => { no: HKT2As<F, L, A>; yes: HKT2As<F, L, A> }
+  ): <A>(predicate: Predicate<A>) => <L>(fa: HKT2As<F, L, A>) => { no: HKT2As<F, L, A>; yes: HKT2As<F, L, A> }
   partition<F extends HKTS>(
     F: Filterable<F>
-  ): <A>(predicate: Predicate<A>, fa: HKTAs<F, A>) => { no: HKTAs<F, A>; yes: HKTAs<F, A> }
-  partition<F>(F: Filterable<F>): <A>(predicate: Predicate<A>, fa: HKT<F, A>) => { no: HKT<F, A>; yes: HKT<F, A> }
-  partition<F>(F: Filterable<F>): <A>(predicate: Predicate<A>, fa: HKT<F, A>) => { no: HKT<F, A>; yes: HKT<F, A> } {
-    return (predicate, fa) => {
+  ): <A>(predicate: Predicate<A>) => (fa: HKTAs<F, A>) => { no: HKTAs<F, A>; yes: HKTAs<F, A> }
+  partition<F>(F: Filterable<F>): <A>(predicate: Predicate<A>) => (fa: HKT<F, A>) => { no: HKT<F, A>; yes: HKT<F, A> }
+  partition<F>(F: Filterable<F>): <A>(predicate: Predicate<A>) => (fa: HKT<F, A>) => { no: HKT<F, A>; yes: HKT<F, A> } {
+    return predicate => fa => {
       const { left, right } = F.partitionMap(fromPredicate(predicate, identity), fa)
       return { no: left, yes: right }
     }
   }
 
   /** map over a data structure and filter based on a maybe */
-  filterMap<F extends HKT2S>(
-    F: Filterable<F>
-  ): <L, A, B>(f: (a: A) => Option<B>, fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
-  filterMap<F extends HKTS>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>, fa: HKTAs<F, A>) => HKTAs<F, B>
-  filterMap<F>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>, fa: HKT<F, A>) => HKT<F, B>
-  filterMap<F>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>, fa: HKT<F, A>) => HKT<F, B> {
-    return <A, B>(f: (a: A) => Option<B>, fa: HKT<F, A>) => {
-      return F.partitionMap((a: A) => f(a).fold(() => left<null, B>(null), b => right<null, B>(b)), fa).right
-    }
+  // filterMap<F extends HKT2S>(
+  //   F: Filterable<F>
+  // ): <L, A, B>(f: (a: A) => Option<B>, fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
+  // filterMap<F extends HKTS>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>, fa: HKTAs<F, A>) => HKTAs<F, B>
+  // filterMap<F>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>, fa: HKT<F, A>) => HKT<F, B>
+  filterMap<F>(F: Filterable<F>): <A, B>(f: (a: A) => Option<B>) => (fa: HKT<F, A>) => HKT<F, B> {
+    return <A, B>(f: (a: A) => Option<B>) => (fa: HKT<F, A>) =>
+      F.partitionMap((a: A) => f(a).fold(() => left<null, B>(null), b => right<null, B>(b)), fa).right
   }
 
   /** filter a data structure based on a boolean */
-  filter<F extends HKT2S>(F: Filterable<F>): <L, A>(predicate: Predicate<A>, fa: HKT2As<F, L, A>) => HKT2As<F, L, A>
-  filter<F extends HKTS>(F: Filterable<F>): <A>(predicate: Predicate<A>, fa: HKTAs<F, A>) => HKTAs<F, A>
-  filter<F>(F: Filterable<F>): <A>(predicate: Predicate<A>, fa: HKT<F, A>) => HKT<F, A>
-  filter<F>(F: Filterable<F>): <A>(predicate: Predicate<A>, fa: HKT<F, A>) => HKT<F, A> {
-    return <A>(predicate: Predicate<A>, fa: HKT<F, A>) => this.filterMap(F)(optionFromPredicate(predicate), fa)
+  filter<F extends HKT2S>(F: Filterable<F>): <A>(predicate: Predicate<A>) => <L>(fa: HKT2As<F, L, A>) => HKT2As<F, L, A>
+  filter<F extends HKTS>(F: Filterable<F>): <A>(predicate: Predicate<A>) => (fa: HKTAs<F, A>) => HKTAs<F, A>
+  filter<F>(F: Filterable<F>): <A>(predicate: Predicate<A>) => (fa: HKT<F, A>) => HKT<F, A>
+  filter<F>(F: Filterable<F>): <A>(predicate: Predicate<A>) => (fa: HKT<F, A>) => HKT<F, A> {
+    return <A>(predicate: Predicate<A>) => (fa: HKT<F, A>) => this.filterMap(F)(optionFromPredicate(predicate))(fa)
   }
 
   partitioned<F extends HKT2S>(
@@ -66,7 +65,7 @@ export class Ops {
   filtered<F extends HKTS>(F: Filterable<F>): <A>(fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
   filtered<F>(F: Filterable<F>): <A>(fa: HKT<F, Option<A>>) => HKT<F, A>
   filtered<F>(F: Filterable<F>): <A>(fa: HKT<F, Option<A>>) => HKT<F, A> {
-    return <A>(fa: HKT<F, Option<A>>) => this.filterMap(F)(a => a, fa)
+    return <A>(fa: HKT<F, Option<A>>) => this.filterMap(F)((oa: Option<A>) => oa)(fa)
   }
 }
 
