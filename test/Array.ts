@@ -37,21 +37,17 @@ describe('Array', () => {
   })
 
   it('index', () => {
-    eq(array.index(as, 1), some(2))
+    eq(array.index(1)(as), some(2))
   })
 
   it('cons', () => {
-    assert.deepEqual(array.cons(0, as), [0, 1, 2, 3])
-    assert.deepEqual(array.cons([1], [[2]]), [[1], [2]])
+    assert.deepEqual(array.cons(0)(as), [0, 1, 2, 3])
+    assert.deepEqual(array.cons([1])([[2]]), [[1], [2]])
   })
 
   it('snoc', () => {
-    assert.deepEqual(array.snoc(as, 4), [1, 2, 3, 4])
-    assert.deepEqual(array.snoc([[1]], [2]), [[1], [2]])
-  })
-
-  it('curriedSnoc', () => {
-    assert.deepEqual(array.curriedSnoc(as)(4), [1, 2, 3, 4])
+    assert.deepEqual(array.snoc(as)(4), [1, 2, 3, 4])
+    assert.deepEqual(array.snoc([[1]])([2]), [[1], [2]])
   })
 
   it('head', () => {
@@ -68,20 +64,20 @@ describe('Array', () => {
   })
 
   it('take', () => {
-    assert.deepEqual(array.take(2, empty), [])
-    assert.deepEqual(array.take(2, as), [1, 2])
+    assert.deepEqual(array.take(2)(empty), [])
+    assert.deepEqual(array.take(2)(as), [1, 2])
   })
 
   it('takeWhile', () => {
-    assert.deepEqual(array.takeWhile(n => n % 2 === 0, as), [2])
+    assert.deepEqual(array.takeWhile((n: number) => n % 2 === 0)(as), [2])
   })
 
   it('drop', () => {
-    assert.deepEqual(array.drop(2, as), [3])
+    assert.deepEqual(array.drop(2)(as), [3])
   })
 
   it('dropWhile', () => {
-    assert.deepEqual(array.dropWhile(n => n % 2 === 0, as), [1, 3])
+    assert.deepEqual(array.dropWhile((n: number) => n % 2 === 0)(as), [1, 3])
   })
 
   it('init', () => {
@@ -90,37 +86,38 @@ describe('Array', () => {
   })
 
   it('slice', () => {
-    assert.deepEqual(array.slice(1, 2, as), [2])
+    assert.deepEqual(array.slice(1, 2)(as), [2])
   })
 
   it('findIndex', () => {
-    eq(array.findIndex(x => x === 2, empty), none)
-    eq(array.findIndex(x => x === 2, as), some(1))
+    eq(array.findIndex(x => x === 2)(empty), none)
+    eq(array.findIndex(x => x === 2)(as), some(1))
   })
 
   it('insertAt', () => {
-    eq(array.insertAt(1, 1, empty), none)
-    eq(array.insertAt(0, 1, empty), some([1]))
+    eq(array.insertAt(1)(1)(empty), none)
+    eq(array.insertAt(0)(1)(empty), some([1]))
   })
 
   it('updateAt', () => {
-    eq(array.updateAt(1, 1, empty), none)
-    eq(array.updateAt(1, 1, as), some([1, 1, 3]))
+    eq(array.updateAt(1)(1)(empty), none)
+    eq(array.updateAt(1)(1)(as), some([1, 1, 3]))
   })
 
   it('deleteAt', () => {
-    eq(array.deleteAt(1, empty), none)
-    eq(array.deleteAt(0, as), some([2, 3]))
+    eq(array.deleteAt(1)(empty), none)
+    eq(array.deleteAt(0)(as), some([2, 3]))
   })
 
   it('modifyAt', () => {
-    eq(array.modifyAt(1, x => 2 * x, empty), none)
-    eq(array.modifyAt(1, x => 2 * x, as), some([1, 4, 3]))
+    const double = (x: number) => 2 * x
+    eq(array.modifyAt(1)(double)(empty), none)
+    eq(array.modifyAt(1)(double)(as), some([1, 4, 3]))
   })
 
   it('mapOption', () => {
     const f = (a: number) => (a % 2 === 0 ? none : some(a))
-    assert.deepEqual(array.mapOption(f, as), [1, 3])
+    assert.deepEqual(array.mapOption(f)(as), [1, 3])
   })
 
   it('catOptions', () => {
@@ -129,7 +126,7 @@ describe('Array', () => {
   })
 
   it('sort', () => {
-    assert.deepEqual(array.sort(numberOrd, [3, 2, 1]), [1, 2, 3])
+    assert.deepEqual(array.sort(numberOrd)([3, 2, 1]), [1, 2, 3])
   })
 
   it('refine', () => {
@@ -145,6 +142,6 @@ describe('Array', () => {
   })
 
   it('zip', () => {
-    assert.deepEqual(array.zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+    assert.deepEqual(array.zip([1, 2, 3])(['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
   })
 })
