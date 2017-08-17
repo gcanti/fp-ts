@@ -81,7 +81,7 @@ export class Ops {
   getOptionT<M extends HKTS>(M: Monad<M>): OptionT1<M>
   getOptionT<M>(M: Monad<M>): OptionT<M>
   getOptionT<M>(M: Monad<M>): OptionT<M> {
-    const applicativeComposition = getApplicativeComposition(M, option)
+    const applicativeComposition = getApplicativeComposition(M)(option)
 
     return {
       ...applicativeComposition,
