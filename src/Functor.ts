@@ -35,27 +35,27 @@ export class Ops {
    * Lift a function of one argument to a function which accepts and returns
    * values wrapped with the type constructor `F`
    */
-  lift<F extends HKT2S, A, B>(F: Functor<F>, f: (a: A) => B): <L>(fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
-  lift<F extends HKTS, A, B>(F: Functor<F>, f: (a: A) => B): (fa: HKTAs<F, A>) => HKTAs<F, B>
-  lift<F, A, B>(F: Functor<F>, f: (a: A) => B): (fa: HKT<F, A>) => HKT<F, B>
-  lift<F, A, B>(F: Functor<F>, f: (a: A) => B): (fa: HKT<F, A>) => HKT<F, B> {
-    return fa => F.map(f, fa)
+  lift<F extends HKT2S>(F: Functor<F>): <A, B>(f: (a: A) => B) => <L>(fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
+  lift<F extends HKTS>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKTAs<F, A>) => HKTAs<F, B>
+  lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
+  lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
+    return f => fa => F.map(f, fa)
   }
 
   /** Ignore the return value of a computation, using the specified return value instead (`<$`) */
-  voidRight<F extends HKT2S, L, A, B>(F: Functor<F>, a: A, fb: HKT2<F, L, B>): HKT2As<F, L, A>
-  voidRight<F extends HKTS, A, B>(F: Functor<F>, a: A, fb: HKT<F, B>): HKTAs<F, A>
-  voidRight<F, A, B>(F: Functor<F>, a: A, fb: HKT<F, B>): HKT<F, A>
-  voidRight<F, A, B>(F: Functor<F>, a: A, fb: HKT<F, B>): HKT<F, A> {
-    return F.map(constant(a), fb)
+  voidRight<F extends HKT2S>(F: Functor<F>): <A>(a: A) => <L, B>(fb: HKT2<F, L, B>) => HKT2As<F, L, A>
+  voidRight<F extends HKTS>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => HKTAs<F, A>
+  voidRight<F>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => HKT<F, A>
+  voidRight<F>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => HKT<F, A> {
+    return a => fb => F.map(constant(a), fb)
   }
 
   /** A version of `voidRight` with its arguments flipped (`$>`) */
-  voidLeft<F extends HKT2S, L, A, B>(F: Functor<F>, fa: HKT2<F, L, A>, b: B): HKT2As<F, L, B>
-  voidLeft<F extends HKTS, A, B>(F: Functor<F>, fa: HKT<F, A>, b: B): HKTAs<F, B>
-  voidLeft<F, A, B>(F: Functor<F>, fa: HKT<F, A>, b: B): HKT<F, B>
-  voidLeft<F, A, B>(F: Functor<F>, fa: HKT<F, A>, b: B): HKT<F, B> {
-    return F.map(constant(b), fa)
+  voidLeft<F extends HKT2S>(F: Functor<F>): <L, A>(fa: HKT2<F, L, A>) => <B>(b: B) => HKT2As<F, L, B>
+  voidLeft<F extends HKTS>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => HKTAs<F, B>
+  voidLeft<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => HKT<F, B>
+  voidLeft<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => HKT<F, B> {
+    return fa => b => F.map(constant(b), fa)
   }
 
   /** Apply a value in a computational context to a value in no context.
