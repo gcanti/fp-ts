@@ -17,22 +17,23 @@ describe('Filterable', () => {
 
   it('partition', () => {
     const isEven = (n: number) => n % 2 === 0
-    const { no, yes } = filterable.partition(array)(isEven, [1, 2, 3])
+    const { no, yes } = filterable.partition(array)(isEven)([1, 2, 3])
     assert.deepEqual(no, [1, 3])
     assert.deepEqual(yes, [2])
   })
 
   it('filterMap', () => {
-    const xs = filterable.filterMap(array)(
-      (s: string): option.Option<number> => (s.length >= 2 ? option.some(s.length) : option.none),
-      ['a', 'bb', 'ccc']
-    )
+    const xs = filterable.filterMap(array)((s: string) => (s.length >= 2 ? option.some(s.length) : option.none))([
+      'a',
+      'bb',
+      'ccc'
+    ])
     assert.deepEqual(xs, [2, 3])
   })
 
   it('filter', () => {
     const isEven = (n: number) => n % 2 === 0
-    const xs = filterable.filter(array)(isEven, [1, 2, 3])
+    const xs = filterable.filter(array)(isEven)([1, 2, 3])
     assert.deepEqual(xs, [2])
   })
 

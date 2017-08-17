@@ -16,7 +16,7 @@ export interface FoldableComposition<F, G> {
   reduce<A, B>(f: (b: B, a: A) => B, b: B, fga: HKT<F, HKT<G, A>>): B
 }
 
-export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> {
+export const getFoldableComposition = <F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> => {
   return {
     reduce<A, B>(f: (b: B, a: A) => B, b: B, fga: HKT<F, HKT<G, A>>): B {
       return F.reduce((b, ga) => G.reduce(f, b, ga), b, fga)
@@ -25,18 +25,15 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
 }
 
 /** A default implementation of `foldMap` using `foldl`. */
-export function foldMap<F, M>(foldable: Foldable<F>, monoid: Monoid<M>): <A>(f: (a: A) => M, fa: HKT<F, A>) => M {
-  return (f, fa) => foldable.reduce((acc, x) => monoid.concat(acc)(f(x)), monoid.empty(), fa)
-}
+export const foldMap = <F, M>(foldable: Foldable<F>, monoid: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, A>): M =>
+  foldable.reduce((acc, x) => monoid.concat(acc)(f(x)), monoid.empty(), fa)
 
-export function toArray<F>(foldable: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
-  return fa => foldable.reduce((b, a) => b.concat([a]), [] as Array<any>, fa)
-}
+export const toArray = <F>(foldable: Foldable<F>) => <A>(fa: HKT<F, A>): Array<A> =>
+  foldable.reduce((b, a) => b.concat([a]), [] as Array<any>, fa)
 
 /** A default implementation of `foldr` using `foldMap` */
-export function foldr<F extends HKTS, A, B>(foldable: Foldable<F>, f: (a: A, b: B) => B, b: B, fa: HKT<F, A>): B {
-  return foldMap(foldable, getEndomorphismMonoid<B>())(a => b => f(a, b), fa)(b)
-}
+export const foldr = <F>(foldable: Foldable<F>) => <A, B>(f: (a: A) => (b: B) => B, b: B) => (fa: HKT<F, A>): B =>
+  foldMap(foldable, getEndomorphismMonoid<B>())(f)(fa)(b)
 
 type Acc<M> = { init: boolean; acc: M }
 
@@ -44,13 +41,11 @@ type Acc<M> = { init: boolean; acc: M }
  * Fold a data structure, accumulating values in some `Monoid`,
  * combining adjacent elements using the specified separator
  */
-export function intercalate<F, M>(foldable: Foldable<F>, monoid: Monoid<M>): (sep: M, fm: HKT<F, M>) => M {
-  return (sep, fm) => {
-    function go({ init, acc }: Acc<M>, x: M): Acc<M> {
-      return init ? { init: false, acc: x } : { init: false, acc: monoid.concat(monoid.concat(acc)(sep))(x) }
-    }
-    return foldable.reduce(go, { init: true, acc: monoid.empty() }, fm).acc
+export const intercalate = <F, M>(foldable: Foldable<F>, monoid: Monoid<M>) => (sep: M) => (fm: HKT<F, M>): M => {
+  function go({ init, acc }: Acc<M>, x: M): Acc<M> {
+    return init ? { init: false, acc: x } : { init: false, acc: monoid.concat(monoid.concat(acc)(sep))(x) }
   }
+  return foldable.reduce(go, { init: true, acc: monoid.empty() }, fm).acc
 }
 
 export class Ops {
@@ -74,7 +69,7 @@ export class Ops {
   sequence_<M extends HKTS, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKTAs<M, A>>) => HKTAs<M, void>
   sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
   sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
-    return fa => this.traverse_(M, F)(x => x, fa)
+    return fa => this.traverse_(M, F)(ma => ma, fa)
   }
 }
 
