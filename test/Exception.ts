@@ -24,7 +24,7 @@ describe('Exception', () => {
 
   it('catchException', () => {
     const eio = exception.throwException<number>(new Error('bum!'))
-    const io = exception.catchException(e => new IO(() => 1), eio)
+    const io = exception.catchException(e => new IO(() => 1))(eio)
     assert.strictEqual(io.run(), 1)
   })
 

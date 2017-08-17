@@ -5,30 +5,23 @@ import { Either, left, right } from './Either'
 // Adapted from https://github.com/purescript/purescript-exceptions
 
 /** Create a JavaScript error, specifying a message */
-export function error(message: string): Error {
-  return new Error(message)
-}
+export const error = (message: string): Error => new Error(message)
 
 /** Get the error message from a JavaScript error */
-export function message(e: Error): string {
-  return e.message
-}
+export const message = (e: Error): string => e.message
 
 /** Get the stack trace from a JavaScript error */
-export function stack(e: Error): Option<string> {
-  return e.stack ? some(e.stack) : none
-}
+export const stack = (e: Error): Option<string> => (e.stack ? some(e.stack) : none)
 
 /** Throw an exception */
-export function throwException<A>(e: Error): IO<A> {
-  return new IO(() => {
+export const throwException = <A>(e: Error): IO<A> =>
+  new IO(() => {
     throw e
   })
-}
 
 /** Catch an exception by providing an exception handler */
-export function catchException<A>(handler: (e: Error) => IO<A>, action: IO<A>): IO<A> {
-  return new IO(() => {
+export const catchException = <A>(handler: (e: Error) => IO<A>) => (action: IO<A>): IO<A> =>
+  new IO(() => {
     try {
       return action.run()
     } catch (e) {
@@ -39,11 +32,9 @@ export function catchException<A>(handler: (e: Error) => IO<A>, action: IO<A>): 
       }
     }
   })
-}
 
 /** Runs an IO and returns eventual Exceptions as a `Left` value. If the
  * computation succeeds the result gets wrapped in a `Right`.
  */
-export function tryCatch<A>(action: IO<A>): IO<Either<Error, A>> {
-  return catchException(e => IO.of(left(e)), action.map(a => right(a)))
-}
+export const tryCatch = <A>(action: IO<A>): IO<Either<Error, A>> =>
+  catchException(e => IO.of(left<Error, A>(e)))(action.map(a => right(a)))
