@@ -66,7 +66,7 @@ export class Pair<A> {
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
     return <B>(f: (a: A) => HKT<F, B>) =>
-      liftA2(F, (b1: B) => (b2: B) => new Pair([b1, b2]))(f(this.fst()), f(this.snd()))
+      liftA2(F)((b1: B) => (b2: B) => new Pair([b1, b2]))(f(this.fst()))(f(this.snd()))
   }
   extract(): A {
     return this.fst()
