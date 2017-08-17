@@ -67,13 +67,13 @@ export class Ops {
 
   mapLeft<F extends HKT2S>(
     F: Functor<F>
-  ): <N, L, M, A>(f: (l: L) => N, fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, Either<N, A>>
+  ): <N, L, M>(f: (l: L) => N) => <A>(fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, Either<N, A>>
   mapLeft<F extends HKTS>(
     F: Functor<F>
-  ): <N, L, A>(f: (l: L) => N, fa: HKTAs<F, Either<L, A>>) => HKTAs<F, Either<N, A>>
-  mapLeft<F>(F: Functor<F>): <N, L, A>(f: (l: L) => N, fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>>
-  mapLeft<F>(F: Functor<F>): <N, L, A>(f: (l: L) => N, fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>> {
-    return (f, fa) => F.map(e => e.mapLeft(f), fa)
+  ): <N, L>(f: (l: L) => N) => <A>(fa: HKTAs<F, Either<L, A>>) => HKTAs<F, Either<N, A>>
+  mapLeft<F>(F: Functor<F>): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>>
+  mapLeft<F>(F: Functor<F>): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>> {
+    return f => fa => F.map(e => e.mapLeft(f), fa)
   }
 
   toOption<F extends HKT2S>(F: Functor<F>): <L, M, A>(fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, Option<A>>

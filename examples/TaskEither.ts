@@ -44,7 +44,7 @@ export class TaskEither<L, A> implements FantasyMonad<URI, A> {
     return eitherT.fold(task)(left, right, this.value)
   }
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
-    return new TaskEither(eitherT.mapLeft(task)(f, this.value))
+    return new TaskEither(eitherT.mapLeft(task)(f)(this.value))
   }
   toOption(): task.Task<Option<A>> {
     return eitherT.toOption(task)(this.value)
