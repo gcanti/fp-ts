@@ -15,7 +15,7 @@ describe('Foldable', () => {
   })
 
   it('foldMap', () => {
-    assert.deepEqual(foldMap(array, monoidString)(s => s, ['a', 'b', 'c']), 'abc')
+    assert.deepEqual(foldMap(array, monoidString)((s: string) => s)(['a', 'b', 'c']), 'abc')
   })
 
   it('getFoldableComposition', () => {
@@ -40,10 +40,10 @@ describe('Foldable', () => {
         return arrayOptionFoldable.reduce(f, b, fa.value)
       }
     }
-    const join = intercalate(arrayOption, monoidString)
-    assert.strictEqual(join(' ', new ArrayOption([])), '')
-    assert.strictEqual(join(' ', new ArrayOption([option.some('a')])), 'a')
-    assert.strictEqual(join(' ', new ArrayOption([option.some('a'), option.none, option.some('b')])), 'a b')
+    const join = intercalate(arrayOption, monoidString)(' ')
+    assert.strictEqual(join(new ArrayOption([])), '')
+    assert.strictEqual(join(new ArrayOption([option.some('a')])), 'a')
+    assert.strictEqual(join(new ArrayOption([option.some('a'), option.none, option.some('b')])), 'a b')
   })
 
   it('traverse_', () => {
