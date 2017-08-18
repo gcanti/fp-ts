@@ -14,8 +14,8 @@ describe('Validation', () => {
 
     const failure = [
       validation.success<string, number>(1),
-      validation.failure<string, number>(monoidString, '[fail 1]'),
-      validation.failure<string, number>(monoidString, '[fail 2]')
+      validation.failure(monoidString)<number>('[fail 1]'),
+      validation.failure(monoidString)<number>('[fail 2]')
     ]
 
     const x = sequence(validation, array)(success)
