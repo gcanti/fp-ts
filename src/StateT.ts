@@ -87,28 +87,28 @@ export class Ops {
     return (f, fa) => s => F.chain(([a, s1]) => f(a)(s1), fa(s))
   }
 
-  get<F extends HKT2S>(F: Applicative<F>): <L, S>() => (s: S) => HKT2As<F, L, [S, S]>
+  get<F extends HKT2S>(F: Applicative<F>): <S>() => <L>(s: S) => HKT2As<F, L, [S, S]>
   get<F extends HKTS>(F: Applicative<F>): <S>() => (s: S) => HKTAs<F, [S, S]>
   get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>
   get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]> {
     return () => s => F.of(tuple(s, s))
   }
 
-  put<F extends HKT2S>(F: Applicative<F>): <L, S>(s: S) => (s: S) => HKT2As<F, L, [void, S]>
-  put<F extends HKTS>(F: Applicative<F>): <S>(s: S) => (s: S) => HKTAs<F, [void, S]>
-  put<F>(F: Applicative<F>): <S>(s: S) => (s: S) => HKT<F, [void, S]>
-  put<F>(F: Applicative<F>): <S>(s: S) => (s: S) => HKT<F, [void, S]> {
+  put<F extends HKT2S>(F: Applicative<F>): <S>(s: S) => <L>() => HKT2As<F, L, [void, S]>
+  put<F extends HKTS>(F: Applicative<F>): <S>(s: S) => () => HKTAs<F, [void, S]>
+  put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]>
+  put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]> {
     return s => () => F.of(tuple(undefined, s))
   }
 
-  modify<F extends HKT2S>(F: Applicative<F>): <L, S>(f: Endomorphism<S>) => (s: S) => HKT2As<F, L, [void, S]>
+  modify<F extends HKT2S>(F: Applicative<F>): <S>(f: Endomorphism<S>) => <L>(s: S) => HKT2As<F, L, [void, S]>
   modify<F extends HKTS>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKTAs<F, [void, S]>
   modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]>
   modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]> {
     return f => s => F.of(tuple(undefined, f(s)))
   }
 
-  gets<F extends HKT2S>(F: Applicative<F>): <L, S, A>(f: (s: S) => A) => (s: S) => HKT2As<F, L, [A, S]>
+  gets<F extends HKT2S>(F: Applicative<F>): <S, A>(f: (s: S) => A) => <L>(s: S) => HKT2As<F, L, [A, S]>
   gets<F extends HKTS>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKTAs<F, [A, S]>
   gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>
   gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]> {
