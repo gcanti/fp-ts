@@ -38,7 +38,7 @@ export class EitherOption<L, A> implements FantasyMonad<URI, A> {
     return new EitherOption(optionTEither.chain(a => f(a).value, this.value))
   }
   getOrElse(f: Lazy<A>): either.Either<L, A> {
-    return optionT.getOrElse(either)(f, this.value)
+    return optionT.getOrElse(either)(f)(this.value)
   }
   fold<R>(none: Lazy<R>, some: (a: A) => R): either.Either<L, R> {
     return optionT.fold(either)(none, some, this.value)

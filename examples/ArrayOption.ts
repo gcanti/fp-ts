@@ -37,7 +37,7 @@ export class ArrayOption<A> implements FantasyMonad<URI, A> {
     return new ArrayOption(optionTArray.chain(a => f(a).value, this.value))
   }
   getOrElse(f: Lazy<A>): Array<A> {
-    return optionT.getOrElse(array)(f, this.value)
+    return optionT.getOrElse(array)(f)(this.value)
   }
   fold<R>(none: Lazy<R>, some: (a: A) => R): Array<R> {
     return optionT.fold(array)(none, some, this.value)

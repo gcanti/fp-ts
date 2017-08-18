@@ -2,7 +2,7 @@ import * as array from '../src/Array'
 import { some, none } from '../src/Option'
 import * as option from '../src/Option'
 import * as assert from 'assert'
-import { numberOrd } from '../src/Ord'
+import { ordNumber } from '../src/Ord'
 import { eqOptions as eq } from './helpers'
 import { monoidSum, fold } from '../src/Monoid'
 import { tuple } from '../src/function'
@@ -126,7 +126,7 @@ describe('Array', () => {
   })
 
   it('sort', () => {
-    assert.deepEqual(array.sort(numberOrd)([3, 2, 1]), [1, 2, 3])
+    assert.deepEqual(array.sort(ordNumber)([3, 2, 1]), [1, 2, 3])
   })
 
   it('refine', () => {
