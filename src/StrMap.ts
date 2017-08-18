@@ -9,6 +9,7 @@ import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
 import { Unfoldable } from './Unfoldable'
+import { URI as ArrayURI } from './Array'
 
 // https://github.com/purescript/purescript-maps
 
@@ -72,13 +73,9 @@ export const concat = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => {
   return new StrMap(Object.assign({}, x.value, y.value))
 }
 
-export function map<A, B>(f: (a: A) => B, fa: StrMap<A>): StrMap<B> {
-  return fa.map(f)
-}
+export const map = <A, B>(f: (a: A) => B, fa: StrMap<A>): StrMap<B> => fa.map(f)
 
-export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: StrMap<A>): B {
-  return fa.reduce(f, b)
-}
+export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: StrMap<A>): B => fa.reduce(f, b)
 
 export class Ops {
   traverseWithKey<F extends HKT2S>(
@@ -117,53 +114,43 @@ export const isSubdictionary = <A>(setoid: Setoid<A>) => (d1: StrMap<A>) => (d2:
 }
 
 /** Calculate the number of key/value pairs in a dictionary */
-export function size<A>(d: StrMap<A>): number {
-  return Object.keys(d.value).length
-}
+export const size = <A>(d: StrMap<A>): number => Object.keys(d.value).length
 
 /** Test whether a dictionary is empty */
-export function isEmpty<A>(d: StrMap<A>): boolean {
+export const isEmpty = <A>(d: StrMap<A>): boolean => {
   for (const k in d.value) {
     return k === null
   }
   return true
 }
 
-export function getSetoid<A>(setoid: Setoid<A>): Setoid<StrMap<A>> {
-  return {
-    equals: x => y => {
-      return isSubdictionary(setoid)(x)(y) && isSubdictionary(setoid)(y)(x)
-    }
-  }
-}
+export const getSetoid = <A>(setoid: Setoid<A>): Setoid<StrMap<A>> => ({
+  equals: x => y => isSubdictionary(setoid)(x)(y) && isSubdictionary(setoid)(y)(x)
+})
 
 /** Create a dictionary with one key/value pair */
-export const singleton = (k: string) => <A>(a: A): StrMap<A> => {
-  return new StrMap({ [k]: a })
-}
+export const singleton = (k: string) => <A>(a: A): StrMap<A> => new StrMap({ [k]: a })
 
 /** Lookup the value for a key in a dictionary */
-export const lookup = (k: string) => <A>(d: StrMap<A>): Option<A> => {
-  return d.value.hasOwnProperty(k) ? some(d.value[k]) : none
-}
+export const lookup = (k: string) => <A>(d: StrMap<A>): Option<A> =>
+  d.value.hasOwnProperty(k) ? some(d.value[k]) : none
 
-/** Create a dictionary from a foldable collection of key/value pairs, using the
+/**
+ * Create a dictionary from a foldable collection of key/value pairs, using the
  * specified function to combine values for duplicate keys.
  */
-export function fromFoldable<F>(
-  F: Foldable<F>
-): (<A>(f: (existing: A, a: A) => A) => (ta: HKT<F, [string, A]>) => StrMap<A>) {
-  return <A>(f: (existing: A, a: A) => A) => (ta: HKT<F, [string, A]>) =>
-    F.reduce(
-      (b, a) => {
-        const k = a[0]
-        b.value[k] = b.value.hasOwnProperty(k) ? f(b.value[k], a[1]) : a[1]
-        return b
-      },
-      new StrMap<A>({}),
-      ta
-    )
-}
+export const fromFoldable = <F>(F: Foldable<F>) => <A>(f: (existing: A) => (a: A) => A) => (
+  ta: HKT<F, [string, A]>
+): StrMap<A> =>
+  F.reduce(
+    (b, a) => {
+      const k = a[0]
+      b.value[k] = b.value.hasOwnProperty(k) ? f(b.value[k])(a[1]) : a[1]
+      return b
+    },
+    new StrMap<A>({}),
+    ta
+  )
 
 export const collect = <A, B>(f: (k: string, a: A) => B) => (d: StrMap<A>): Array<B> => {
   const out: Array<B> = []
@@ -173,27 +160,21 @@ export const collect = <A, B>(f: (k: string, a: A) => B) => (d: StrMap<A>): Arra
   return out
 }
 
-export function toArray<A>(d: StrMap<A>): Array<[string, A]> {
-  return collect((k, a) => [k, a] as [string, A])(d)
-}
+export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => collect((k, a: A) => tuple(k, a))(d)
 
 /** Unfolds a dictionary into a list of key/value pairs */
-export function toUnfoldable<F extends string>(unfoldable: Unfoldable<F>): <A>(d: StrMap<A>) => HKT<F, [string, A]> {
-  return <A>(d: StrMap<A>) => {
-    const arr = toArray(d)
-    if (unfoldable.URI === 'Array') {
-      return arr as any
-    }
-    const len = arr.length
-    return unfoldable.unfoldr(b => (b < len ? some(tuple(arr[b], b + 1)) : none), 0)
+export const toUnfoldable = <F extends string>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]> => {
+  const arr = toArray(d)
+  if (unfoldable.URI === ArrayURI) {
+    return arr as any
   }
+  const len = arr.length
+  return unfoldable.unfoldr(b => (b < len ? some(tuple(arr[b], b + 1)) : none), 0)
 }
 
 // cannot curry
 /** Apply a function of two arguments to each key/value pair, producing a new dictionary */
-export function mapWithKey<A, B>(f: (k: string, a: A) => B, fa: StrMap<A>): StrMap<B> {
-  return fa.mapWithKey(f)
-}
+export const mapWithKey = <A, B>(f: (k: string, a: A) => B, fa: StrMap<A>): StrMap<B> => fa.mapWithKey(f)
 
 /** Insert or replace a key/value pair in a map */
 export const insert = (k: string) => <A>(a: A) => (d: StrMap<A>): StrMap<A> => {
@@ -210,9 +191,8 @@ export const remove = (k: string) => <A>(d: StrMap<A>): StrMap<A> => {
 }
 
 /** Delete a key and value from a map, returning the value as well as the subsequent map */
-export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> => {
-  return lookup(k)(d).fold(() => none, a => some(tuple(a, remove(k)(d))))
-}
+export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> =>
+  lookup(k)(d).fold(() => none, a => some(tuple(a, remove(k)(d))))
 
 export const strmap: Monoid<StrMap<any>> & Functor<URI> & Foldable<URI> & Traversable<URI> = {
   URI,
