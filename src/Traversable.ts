@@ -2,7 +2,6 @@ import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Functor, FantasyFunctor, FunctorComposition, getFunctorComposition } from './Functor'
 import { Foldable, FantasyFoldable, FoldableComposition, getFoldableComposition } from './Foldable'
 import { Applicative } from './Applicative'
-// import './overloadings'
 
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<T, A>) => HKT<F, HKT<T, B>>

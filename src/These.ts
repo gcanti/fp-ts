@@ -223,7 +223,7 @@ export class Ops {
   ): <L, A, B>(f: (a: A) => HKTAs<F, B>, ta: These<L, A>) => HKTAs<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: These<L, A>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: These<L, A>) => HKT<F, These<L, B>> {
-    return <L, A, B>(f: (a: A) => HKT<F, B>, ta: These<L, A>) => ta.traverse(F)(f)
+    return (f, ta) => ta.traverse(F)(f)
   }
 }
 
