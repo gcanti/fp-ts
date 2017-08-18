@@ -34,10 +34,11 @@ describe('Option', () => {
   })
 
   it('equals', () => {
-    assert.strictEqual(equals(setoidNumber, none, none), true)
-    assert.strictEqual(equals(setoidNumber, none, some(1)), false)
-    assert.strictEqual(equals(setoidNumber, some(2), some(1)), false)
-    assert.strictEqual(equals(setoidNumber, some(2), some(2)), true)
+    const eq = equals(setoidNumber)
+    assert.strictEqual(eq(none)(none), true)
+    assert.strictEqual(eq(none)(some(1)), false)
+    assert.strictEqual(eq(some(2))(some(1)), false)
+    assert.strictEqual(eq(some(2))(some(2)), true)
   })
 
   it('map', () => {
@@ -73,7 +74,7 @@ describe('Option', () => {
 
   it('alt', () => {
     eq(alt(some(1))(some(2)), some(1))
-    eq(alt(none)(some(2)), some(2))
+    eq(alt(none as Option<number>)(some(2)), some(2))
     eq(alt(some(1))(none), some(1))
     eq(alt(none)(none), none)
   })

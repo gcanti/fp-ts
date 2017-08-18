@@ -26,6 +26,12 @@ export type URI = typeof URI
 
 export type Option<A> = None<A> | Some<A>
 
+export const of = <A>(a: A): Option<A> => new Some(a)
+
+export const zero = <A>(): Option<A> => none
+
+export const empty = zero
+
 export class None<A>
   implements FantasyMonad<URI, A>,
     FantasyFoldable<A>,
@@ -89,11 +95,11 @@ export class None<A>
   getOrElse(f: Lazy<A>): A {
     return f()
   }
-  concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
-    return fy
+  concat(S: Semigroup<A>): (fy: Option<A>) => Option<A> {
+    return fy => fy
   }
-  equals(setoid: Setoid<A>, fy: Option<A>): boolean {
-    return fy.fold(constTrue, constFalse)
+  equals(S: Setoid<A>): (fy: Option<A>) => boolean {
+    return fy => fy.fold(constTrue, constFalse)
   }
   toNullable(): A | null {
     return null
@@ -119,14 +125,6 @@ export class None<A>
 }
 
 export const none = None.value
-
-export function zero<A>(): Option<A> {
-  return none
-}
-
-export function empty<A>(): Option<A> {
-  return none
-}
 
 export class Some<A>
   implements FantasyMonad<URI, A>,
@@ -201,11 +199,11 @@ export class Some<A>
   getOrElse(f: Lazy<A>): A {
     return this.value
   }
-  concat(semigroup: Semigroup<A>, fy: Option<A>): Option<A> {
-    return fy.fold(() => this, y => new Some(semigroup.concat(this.value)(y)))
+  concat(S: Semigroup<A>): (fy: Option<A>) => Option<A> {
+    return fy => fy.fold(() => this, y => new Some(S.concat(this.value)(y)))
   }
-  equals(setoid: Setoid<A>, fy: Option<A>): boolean {
-    return fy.fold(constFalse, y => setoid.equals(this.value)(y))
+  equals(S: Setoid<A>): (fy: Option<A>) => boolean {
+    return fy => fy.fold(constFalse, y => S.equals(this.value)(y))
   }
   toNullable(): A | null {
     return this.value
@@ -230,55 +228,71 @@ export class Some<A>
   }
 }
 
-export function equals<A>(setoid: Setoid<A>, fx: Option<A>, fy: Option<A>): boolean {
-  return fx.equals(setoid, fy)
-}
+export const equals = <A>(S: Setoid<A>) => (fx: Option<A>) => (fy: Option<A>): boolean => fx.equals(S)(fy)
 
-export function getSetoid<A>(setoid: Setoid<A>): Setoid<Option<A>> {
-  return {
-    equals: x => y => equals(setoid, x, y)
-  }
-}
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => ({
+  equals: equals(S)
+})
 
-export function fold<A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B {
-  return fa.fold(n, s)
-}
+export const map = <A, B>(f: (a: A) => B, fa: Option<A>): Option<B> => fa.map(f)
 
-/** Takes a default value, and a `Option` value. If the `Option` value is
+export const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => fa.ap(fab)
+
+export const chain = <A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> => fa.chain(f)
+
+export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B => fa.reduce(f, b)
+
+export const alt = <A>(fx: Option<A>): ((fy: Option<A>) => Option<A>) => fy => fx.alt(fy)
+
+export const extend = <A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> => ea.extend(f)
+
+const first = { empty, concat: alt }
+const last = getDualMonoid(first)
+
+/** Maybe monoid returning the left-most non-None value */
+export const getFirstMonoid = <A>(): Monoid<Option<A>> => first
+
+/** Maybe monoid returning the right-most non-None value */
+export const getLastMonoid = <A>(): Monoid<Option<A>> => last
+
+export const concat = <A>(S: Semigroup<A>) => (fx: Option<A>) => (fy: Option<A>): Option<A> => fx.concat(S)(fy)
+
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => ({
+  concat: concat(S)
+})
+
+export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({ ...getSemigroup(S), empty })
+
+export const partitionMap = <A, L, R>(
+  f: (a: A) => Either<L, R>,
+  fa: Option<A>
+): { left: Option<L>; right: Option<R> } => fa.partitionMap(f)
+
+export const wilt = <M>(M: Applicative<M>) => <A, L, R>(
+  f: (a: A) => HKT<M, Either<L, R>>,
+  ta: Option<A>
+): HKT<M, { left: Option<L>; right: Option<R> }> => ta.wilt(M)(f)
+
+export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
+
+export const isNone = <A>(fa: Option<A>): fa is None<A> => fa === none
+
+export const fold = <A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B => fa.fold(n, s)
+
+/**
+ * Takes a default value, and a `Option` value. If the `Option` value is
  * `None` the default value is returned, otherwise the value inside the
  * `Some` is returned
  */
-export function fromOption<A>(a: A, fa: Option<A>): A {
-  return fa.getOrElse(() => a)
-}
+export const fromOption = <A>(a: A) => (fa: Option<A>): A => fa.getOrElse(() => a)
 
-export function fromNullable<A>(a: A | null | undefined): Option<A> {
-  return a == null ? none : new Some(a)
-}
+export const fromNullable = <A>(a: A | null | undefined): Option<A> => (a == null ? none : new Some(a))
 
-export function toNullable<A>(fa: Option<A>): A | null {
-  return fa.toNullable()
-}
+export const toNullable = <A>(fa: Option<A>): A | null => fa.toNullable()
 
-export function map<A, B>(f: (a: A) => B, fa: Option<A>): Option<B> {
-  return fa.map(f)
-}
+export const some = of
 
-export function of<A>(a: A): Option<A> {
-  return new Some(a)
-}
-
-export function ap<A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> {
-  return fa.ap(fab)
-}
-
-export function chain<A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> {
-  return fa.chain(f)
-}
-
-export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B {
-  return fa.reduce(f, b)
-}
+export const fromPredicate = <A>(predicate: Predicate<A>) => (a: A): Option<A> => (predicate(a) ? some(a) : none)
 
 export class Ops {
   traverse<F extends HKT2S>(
@@ -293,65 +307,6 @@ export class Ops {
 
 const ops = new Ops()
 export const traverse: Ops['traverse'] = ops.traverse
-
-export function alt(fx: Option<never>): <A>(fy: Option<A>) => Option<A>
-export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A>
-export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A> {
-  return fy => fx.alt(fy)
-}
-
-export function extend<A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> {
-  return ea.extend(f)
-}
-
-const first = { empty, concat: alt }
-const last = getDualMonoid(first)
-
-/** Maybe monoid returning the left-most non-None value */
-export function getFirstMonoid<A>(): Monoid<Option<A>> {
-  return first
-}
-
-/** Maybe monoid returning the right-most non-None value */
-export function getLastMonoid<A>(): Monoid<Option<A>> {
-  return last
-}
-
-export function concat<A>(semigroup: Semigroup<A>, fx: Option<A>, fy: Option<A>): Option<A> {
-  return fx.concat(semigroup, fy)
-}
-
-export function getSemigroup<A>(semigroup: Semigroup<A>): Semigroup<Option<A>> {
-  return { concat: fx => fy => concat(semigroup, fx, fy) }
-}
-
-export function getMonoid<A>(semigroup: Semigroup<A>): Monoid<Option<A>> {
-  return { empty, concat: getSemigroup(semigroup).concat }
-}
-
-export function isSome<A>(fa: Option<A>): fa is Some<A> {
-  return fa._tag === 'Some'
-}
-
-export function isNone<A>(fa: Option<A>): fa is None<A> {
-  return fa === none
-}
-
-export const some = of
-
-export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
-  return a => (predicate(a) ? some<A>(a) : none)
-}
-
-export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Option<A>): { left: Option<L>; right: Option<R> } {
-  return fa.partitionMap(f)
-}
-
-export function wilt<M>(
-  M: Applicative<M>
-): <A, L, R>(f: (a: A) => HKT<M, Either<L, R>>, ta: Option<A>) => HKT<M, { left: Option<L>; right: Option<R> }> {
-  return <A, L, R>(f: (a: A) => HKT<M, Either<L, R>>, ta: Option<A>) => ta.wilt(M)(f)
-}
 
 export const option: Monad<URI> &
   Foldable<URI> &
