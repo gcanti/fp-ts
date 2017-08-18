@@ -30,10 +30,11 @@ describe('OptionT', () => {
 
   it('getOrElse', () => {
     const greetingT = taskOption.of('welcome')
-    const p1 = optionT.getOrElse(task)(() => 'hello, there!', greetingT).run().then(s => {
+    const getOrElse = optionT.getOrElse(task)(() => 'hello, there!')
+    const p1 = getOrElse(greetingT).run().then(s => {
       assert.strictEqual(s, 'welcome')
     })
-    const p2 = optionT.getOrElse(task)(() => 'hello, there!', none).run().then(s => {
+    const p2 = getOrElse(none).run().then(s => {
       assert.strictEqual(s, 'hello, there!')
     })
     return Promise.all([p1, p2])
