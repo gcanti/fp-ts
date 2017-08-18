@@ -18,10 +18,7 @@ export class State<S, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: S
   readonly _URI: URI
-  constructor(public readonly value: (s: S) => [A, S]) {}
-  run(s: S): [A, S] {
-    return this.value(s)
-  }
+  constructor(public readonly run: (s: S) => [A, S]) {}
   eval(s: S): A {
     return this.run(s)[0]
   }

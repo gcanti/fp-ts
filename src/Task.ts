@@ -23,10 +23,7 @@ export class Task<A> implements FantasyMonad<URI, A> {
   static empty = empty
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: Lazy<Promise<A>>) {}
-  run(): Promise<A> {
-    return this.value()
-  }
+  constructor(public readonly run: Lazy<Promise<A>>) {}
   map<B>(f: (a: A) => B): Task<B> {
     return new Task(() => this.run().then(f))
   }
@@ -61,7 +58,7 @@ export class Task<A> implements FantasyMonad<URI, A> {
     return this.toString()
   }
   toString() {
-    return `new Task(${toString(this.value)})`
+    return `new Task(${toString(this.run)})`
   }
 }
 

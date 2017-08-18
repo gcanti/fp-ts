@@ -19,10 +19,7 @@ export class IO<A> implements FantasyMonad<URI, A> {
   static of = of
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: Lazy<A>) {}
-  run(): A {
-    return this.value()
-  }
+  constructor(public readonly run: Lazy<A>) {}
   map<B>(f: (a: A) => B): IO<B> {
     return new IO(() => f(this.run()))
   }
@@ -42,7 +39,7 @@ export class IO<A> implements FantasyMonad<URI, A> {
     return this.toString()
   }
   toString() {
-    return `new IO(${toString(this.value)})`
+    return `new IO(${toString(this.run)})`
   }
 }
 

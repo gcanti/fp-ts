@@ -74,7 +74,7 @@ export const x2: Operation<'Closed', 'Closed', void> = new Open().ichain(() => n
 // ok
 export const x4 = new Open().ichain(() => new Close()).ichain(() => new RingBell())
 
-x4.value.run()
+x4.run()
 /*
 Opening the door
 Closing the door
