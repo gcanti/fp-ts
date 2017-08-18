@@ -6,13 +6,9 @@ export const fold = <A>(semigroup: Semigroup<A>) => (a: A) => (as: Array<A>): A 
   return as.reduce((acc, a) => semigroup.concat(acc)(a), a)
 }
 
-export function getFirstSemigroup<A>(): Semigroup<A> {
-  return { concat: x => y => x }
-}
+export const getFirstSemigroup = <A>(): Semigroup<A> => ({ concat: x => y => x })
 
-export function getLastSemigroup<A>(): Semigroup<A> {
-  return { concat: x => y => y }
-}
+export const getLastSemigroup = <A>(): Semigroup<A> => ({ concat: x => y => y })
 
 export const getProductSemigroup = <A>(asemigroup: Semigroup<A>) => <B>(
   bsemigroup: Semigroup<B>
@@ -22,6 +18,6 @@ export const getProductSemigroup = <A>(asemigroup: Semigroup<A>) => <B>(
   }
 }
 
-export function getDualSemigroup<A>(semigroup: Semigroup<A>): Semigroup<A> {
-  return { concat: x => y => semigroup.concat(y)(x) }
-}
+export const getDualSemigroup = <A>(semigroup: Semigroup<A>): Semigroup<A> => ({
+  concat: x => y => semigroup.concat(y)(x)
+})

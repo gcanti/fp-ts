@@ -12,10 +12,8 @@ export const setoidNumber: Setoid<number> = { equals: strictEqual }
 
 export const setoidBoolean: Setoid<boolean> = { equals: strictEqual }
 
-export function getArraySetoid<A>(S: Setoid<A>): Setoid<Array<A>> {
-  return {
-    equals: xs => ys => {
-      return xs.length === ys.length && xs.every((x, i) => S.equals(x)(ys[i]))
-    }
+export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => ({
+  equals: xs => ys => {
+    return xs.length === ys.length && xs.every((x, i) => S.equals(x)(ys[i]))
   }
-}
+})

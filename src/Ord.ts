@@ -5,11 +5,9 @@ export interface Ord<A> extends Setoid<A> {
   compare: (x: A) => (y: A) => Ordering
 }
 
-export function toNativeComparator<A>(compare: (x: A) => (y: A) => Ordering): (x: A, y: A) => number {
-  return (x, y) => {
-    const c = compare(x)(y)
-    return c === 'GT' ? 1 : c === 'EQ' ? 0 : -1
-  }
+export const toNativeComparator = <A>(compare: (x: A) => (y: A) => Ordering): ((x: A, y: A) => number) => (x, y) => {
+  const c = compare(x)(y)
+  return c === 'GT' ? 1 : c === 'EQ' ? 0 : -1
 }
 
 export const unsafeCompare = (x: any) => (y: any): Ordering => {

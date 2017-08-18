@@ -178,12 +178,10 @@ export const chainRec = <L>(M: Monoid<L>) => <A, B>(f: (a: A) => Tuple<L, Either
   return new Tuple([M.concat(acc)(result.fst()), (result.snd() as Right<A, B>).value])
 }
 
-export function getChainRec<L>(M: Monoid<L>): ChainRec<URI> {
-  return {
-    ...getChain(M),
-    chainRec: chainRec(M)
-  }
-}
+export const getChainRec = <L>(M: Monoid<L>): ChainRec<URI> => ({
+  ...getChain(M),
+  chainRec: chainRec(M)
+})
 
 export class Ops {
   traverse<F extends HKT2S>(

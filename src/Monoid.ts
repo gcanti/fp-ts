@@ -17,9 +17,10 @@ export const getProductMonoid = <A>(amonoid: Monoid<A>) => <B>(bmonoid: Monoid<B
   }
 }
 
-export function getDualMonoid<A>(monoid: Monoid<A>): Monoid<A> {
-  return { empty: monoid.empty, concat: getDualSemigroup(monoid).concat }
-}
+export const getDualMonoid = <A>(monoid: Monoid<A>): Monoid<A> => ({
+  ...getDualSemigroup(monoid),
+  empty: monoid.empty
+})
 
 /** Boolean monoid under conjunction */
 export const monoidAll: Monoid<boolean> = {
@@ -56,21 +57,17 @@ export const monoidString: Monoid<string> = {
   concat: x => y => x + y
 }
 
-export function getFunctionMonoid<M>(monoid: Monoid<M>): <A>() => Monoid<(a: A) => M> {
+export const getFunctionMonoid = <M>(monoid: Monoid<M>): (<A>() => Monoid<(a: A) => M>) => {
   const empty = constant(constant(monoid.empty()))
-  return <A>(): Monoid<(a: A) => M> => ({
+  return () => ({
     empty,
     concat: f => g => a => monoid.concat(f(a))(g(a))
   })
 }
 
-export function getEndomorphismMonoid<A>(): Monoid<Endomorphism<A>> {
-  return {
-    empty: () => identity,
-    concat: x => y => compose(x, y)
-  }
-}
+export const getEndomorphismMonoid = <A>(): Monoid<Endomorphism<A>> => ({
+  empty: () => identity,
+  concat: x => y => compose(x, y)
+})
 
-export function getArrayMonoid<A>(): Monoid<Array<A>> {
-  return monoidArray
-}
+export const getArrayMonoid = <A>(): Monoid<Array<A>> => monoidArray

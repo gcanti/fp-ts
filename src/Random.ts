@@ -5,9 +5,7 @@ import { IO } from './IO'
 /** Returns a random number between 0 (inclusive) and 1 (exclusive). This is
  * a direct wrapper around JavaScript's `Math.random()`.
  */
-export function random(): IO<number> {
-  return new IO(() => Math.random())
-}
+export const random = (): IO<number> => new IO(() => Math.random())
 
 /** Takes a range specified by `low` (the first argument) and `high` (the
  * second), and returns a random integer uniformly distributed in the closed
@@ -26,6 +24,4 @@ export const randomRange = (min: number) => (max: number): IO<number> => {
 }
 
 /** Returns a random boolean value with an equal chance of being `true` or `false` */
-export function randomBool(): IO<boolean> {
-  return random().map(n => n < 0.5)
-}
+export const randomBool = (): IO<boolean> => random().map(n => n < 0.5)

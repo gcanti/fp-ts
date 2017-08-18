@@ -1,4 +1,3 @@
-import { Function1 } from './function'
 import { Semiring, getFunctionSemiring } from './Semiring'
 
 // adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Ring.purs
@@ -16,10 +15,9 @@ export interface Ring<A> extends Semiring<A> {
   sub: (x: A) => (y: A) => A
 }
 
-export function getFunctionRing<A, B>(ring: Ring<B>): Ring<Function1<A, B>> {
-  const semiring = getFunctionSemiring<A, B>(ring)
+export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
   return {
-    ...semiring,
+    ...getFunctionSemiring<A, B>(ring),
     sub: f => g => x => ring.sub(f(x))(g(x))
   }
 }

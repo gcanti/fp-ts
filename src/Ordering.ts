@@ -21,7 +21,7 @@ export const orderingSemigroup: Semigroup<Ordering> = {
   }
 }
 
-export function invert(a: Ordering): Ordering {
+export const invert = (a: Ordering): Ordering => {
   if (a === 'LT') {
     return 'GT'
   }

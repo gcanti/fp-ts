@@ -12,6 +12,8 @@ export type URI = typeof URI
 
 export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
+export const of = <F, A>(a: A): Free<F, A> => new Pure(a)
+
 export class Pure<F, A> implements FantasyMonad<URI, A> {
   static of = of
   readonly _tag: 'Pure' = 'Pure'
@@ -80,10 +82,6 @@ export class Impure<F, A, X> implements FantasyMonad<URI, A> {
   toString() {
     return `new Impure(${(toString(this.fx), toString(this.f))})`
   }
-}
-
-export function of<F, A>(a: A): Free<F, A> {
-  return new Pure(a)
 }
 
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => new Impure(fa, a => of(a))

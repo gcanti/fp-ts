@@ -21,24 +21,28 @@ export const fieldNumber: Field<number> = {
 }
 
 /** The *greatest common divisor* of two values */
-export function gcd<A>(setoid: Setoid<A>, field: Field<A>): (x: A, y: A) => A {
+export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A) => (y: A) => A) => {
   const zero = field.zero()
-  function f(x: A, y: A): A {
-    if (setoid.equals(y)(zero)) {
-      return x
+  function f(x: A): (y: A) => A {
+    return y => {
+      if (S.equals(y)(zero)) {
+        return x
+      } else {
+        return f(y)(field.mod(x)(y))
+      }
     }
-    return f(y, field.mod(x)(y))
   }
   return f
 }
 
 /** The *least common multiple* of two values */
-export function lcm<A>(setoid: Setoid<A>, field: Field<A>): (x: A, y: A) => A {
+export const lcm = <A>(setoid: Setoid<A>, field: Field<A>): ((x: A) => (y: A) => A) => {
   const zero = field.zero()
-  return (x, y) => {
+  return x => y => {
     if (setoid.equals(x)(zero) || setoid.equals(y)(zero)) {
       return zero
+    } else {
+      return field.div(field.mul(x)(y))(gcd(setoid, field)(x)(y))
     }
-    return field.div(field.mul(x)(y))(gcd(setoid, field)(x, y))
   }
 }
