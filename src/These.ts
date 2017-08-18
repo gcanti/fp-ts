@@ -221,8 +221,8 @@ export function chain<L, A, B>(SL: Semigroup<L>, f: (a: A) => These<L, B>, fa: T
   return fa.chain(SL, f)
 }
 
-export function bimap<L, M, A, B>(f: (l: L) => M, g: (a: A) => B, fa: These<L, A>): These<M, B> {
-  return fa.bimap(f, g)
+export function bimap<L, M, A, B>(f: (l: L) => M, g: (a: A) => B): (fla: These<L, A>) => These<M, B> {
+  return fla => fla.bimap(f, g)
 }
 
 export function reduce<L, A, B>(f: (b: B, a: A) => B, b: B, fa: These<L, A>): B {
@@ -263,8 +263,8 @@ export function this_<L, A>(l: L): These<L, A> {
 
 export const that = of
 
-export function both<L, A>(b: L, a: A): These<L, A> {
-  return new Both(b, a)
+export function both<L, A>(l: L, a: A): These<L, A> {
+  return new Both(l, a)
 }
 
 export function fromThese<L, A>(defaultThis: L, defaultThat: A, fa: These<L, A>): [L, A] {

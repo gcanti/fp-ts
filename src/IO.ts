@@ -1,7 +1,7 @@
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Monad, FantasyMonad } from './Monad'
-import { constant, Lazy, toString } from './function'
+import { Lazy, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -12,6 +12,8 @@ declare module './HKT' {
 export const URI = 'IO'
 
 export type URI = typeof URI
+
+export const of = <A>(a: A): IO<A> => new IO(() => a)
 
 export class IO<A> implements FantasyMonad<URI, A> {
   static of = of
@@ -36,9 +38,6 @@ export class IO<A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => IO<B>): IO<B> {
     return new IO(() => f(this.run()).run())
   }
-  concat(semigroup: Semigroup<A>, fy: IO<A>): IO<A> {
-    return new IO(() => semigroup.concat(this.run())(fy.run()))
-  }
   inspect() {
     return this.toString()
   }
@@ -47,33 +46,22 @@ export class IO<A> implements FantasyMonad<URI, A> {
   }
 }
 
-export function map<A, B>(f: (a: A) => B, fa: IO<A>): IO<B> {
-  return fa.map(f)
-}
+export const map = <A, B>(f: (a: A) => B, fa: IO<A>): IO<B> => fa.map(f)
 
-export function ap<A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> {
-  return fa.ap(fab)
-}
+export const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => fa.ap(fab)
 
-export function of<A>(a: A): IO<A> {
-  return new IO(() => a)
-}
+export const chain = <A, B>(f: (a: A) => IO<B>, fa: IO<A>): IO<B> => fa.chain(f)
 
-export function chain<A, B>(f: (a: A) => IO<B>, fa: IO<A>): IO<B> {
-  return fa.chain(f)
-}
+export const concat = <A>(S: Semigroup<A>) => (fx: IO<A>) => (fy: IO<A>): IO<A> =>
+  new IO(() => S.concat(fx.run())(fy.run()))
 
-export function concat<A>(semigroup: Semigroup<A>, fx: IO<A>, fy: IO<A>): IO<A> {
-  return fx.concat(semigroup, fy)
-}
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => ({
+  concat: concat(S)
+})
 
-export function getSemigroup<A>(semigroup: Semigroup<A>): Semigroup<IO<A>> {
-  return { concat: fx => fy => concat(semigroup, fx, fy) }
-}
-
-export function getMonoid<A>(monoid: Monoid<A>): Monoid<IO<A>> {
-  const empty = monoid.empty()
-  return { empty: constant(of(empty)), concat: getSemigroup(monoid).concat }
+export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
+  const empty = of(M.empty())
+  return { ...getSemigroup(M), empty: () => empty }
 }
 
 export const io: Monad<URI> = { URI, map, of, ap, chain }

@@ -184,7 +184,8 @@ export const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Eith
 
 export const chain = <L, A, B>(f: (a: A) => Either<L, B>, fa: Either<L, A>): Either<L, B> => fa.chain(f)
 
-export const bimap = <L, V, A, B>(f: (u: L) => V, g: (a: A) => B, fau: Either<L, A>): Either<V, B> => fau.bimap(f, g)
+export const bimap = <L, V, A, B>(f: (u: L) => V, g: (a: A) => B) => (fau: Either<L, A>): Either<V, B> =>
+  fau.bimap(f, g)
 
 export const alt = <L, A>(fx: Either<L, A>) => (fy: Either<L, A>): Either<L, A> => fx.alt(fy)
 
