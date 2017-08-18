@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { this_, that, both, fromThese } from '../src/These'
+import { this_, that, both, fromThese, bimap } from '../src/These'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { monoidSum, monoidString } from '../src/Monoid'
 
@@ -29,6 +29,12 @@ describe('These', () => {
     assert.strictEqual(this_(2).map(double).equals(setoidNumber, setoidNumber, this_<number, number>(2)), true)
     assert.strictEqual(that(2).map(double).equals(setoidNumber, setoidNumber, that<number, number>(4)), true)
     assert.strictEqual(both(1, 2).map(double).equals(setoidNumber, setoidNumber, both<number, number>(1, 4)), true)
+  })
+
+  it('bimap', () => {
+    const len = (s: string): number => s.length
+    const double = (n: number): number => n * 2
+    assert.deepEqual(bimap(len, double)(both('foo', 1)), both(3, 2))
   })
 
   it('fromThese', () => {

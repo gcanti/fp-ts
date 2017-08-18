@@ -81,8 +81,8 @@ export function map<L, A, B>(f: (b: A) => B, fa: Tuple<L, A>): Tuple<L, B> {
   return fa.map(f)
 }
 
-export function bimap<L, A, M, B>(f: (l: L) => M, g: (a: A) => B, fla: Tuple<L, A>): Tuple<M, B> {
-  return fla.bimap(f, g)
+export function bimap<L, A, M, B>(f: (l: L) => M, g: (a: A) => B): (fla: Tuple<L, A>) => Tuple<M, B> {
+  return fla => fla.bimap(f, g)
 }
 
 export const extract = snd
