@@ -5,6 +5,8 @@ export const URI = 'Reader'
 
 export type URI = typeof URI
 
+export const of = <E, A>(a: A): Reader<E, A> => new Reader((e: E) => a)
+
 export class Reader<E, A> implements FantasyMonad<URI, A> {
   static of = of
   readonly _L: E
@@ -28,36 +30,21 @@ export class Reader<E, A> implements FantasyMonad<URI, A> {
   }
 }
 
-export function map<E, A, B>(f: (a: A) => B, fa: Reader<E, A>): Reader<E, B> {
-  return fa.map(f)
-}
+export const map = <E, A, B>(f: (a: A) => B, fa: Reader<E, A>): Reader<E, B> => fa.map(f)
 
-export function of<E, A>(a: A): Reader<E, A> {
-  return new Reader((e: E) => a)
-}
+export const ap = <E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> => fa.ap(fab)
 
-export function ap<E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> {
-  return fa.ap(fab)
-}
-
-export function chain<E, A, B>(f: (a: A) => Reader<E, B>, fa: Reader<E, A>): Reader<E, B> {
-  return fa.chain(f)
-}
+export const chain = <E, A, B>(f: (a: A) => Reader<E, B>, fa: Reader<E, A>): Reader<E, B> => fa.chain(f)
 
 /** reads the current context */
-export function ask<E>(): Reader<E, E> {
-  return new Reader(identity)
-}
+export const ask = <E>(): Reader<E, E> => new Reader(identity)
 
 /** Projects a value from the global context in a Reader */
-export function asks<E, A>(f: (e: E) => A): Reader<E, A> {
-  return new Reader(f)
-}
+export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => new Reader(f)
 
 /** changes the value of the local context during the execution of the action `fa` */
-export function local<E, A>(f: Endomorphism<E>, fa: Reader<E, A>): Reader<E, A> {
-  return new Reader((e: E) => fa.run(f(e)))
-}
+export const local = <E>(f: Endomorphism<E>) => <A>(fa: Reader<E, A>): Reader<E, A> =>
+  new Reader((e: E) => fa.run(f(e)))
 
 export const reader: Monad<URI> = {
   URI,
