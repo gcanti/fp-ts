@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import * as witherable from '../src/Witherable'
 import * as array from '../src/Array'
-// import * as either from '../src/Either'
 import * as option from '../src/Option'
 import * as identity from '../src/Identity'
 

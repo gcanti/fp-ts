@@ -46,35 +46,23 @@ export class Writer<W, A> implements FantasyMonad<URI, A> {
   }
 }
 
-export function map<W, A, B>(f: (a: A) => B, fa: Writer<W, A>): Writer<W, B> {
-  return fa.map(f)
-}
+export const map = <W, A, B>(f: (a: A) => B, fa: Writer<W, A>): Writer<W, B> => fa.map(f)
 
-export function of<W>(M: Monoid<W>): <A>(a: A) => Writer<W, A> {
-  return a => new Writer(M, () => [a, M.empty()])
-}
+export const of = <W>(M: Monoid<W>) => <A>(a: A): Writer<W, A> => new Writer(M, () => [a, M.empty()])
 
-export function ap<W, A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writer<W, B> {
-  return fa.ap(fab)
-}
+export const ap = <W, A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writer<W, B> => fa.ap(fab)
 
-export function chain<W, A, B>(f: (a: A) => Writer<W, B>, fa: Writer<W, A>): Writer<W, B> {
-  return fa.chain(f)
-}
+export const chain = <W, A, B>(f: (a: A) => Writer<W, B>, fa: Writer<W, A>): Writer<W, B> => fa.chain(f)
 
-export function tell<W>(M: Monoid<W>): (w: W) => Writer<W, void> {
-  return w => new Writer(M, () => [undefined, w])
-}
+export const tell = <W>(M: Monoid<W>) => (w: W): Writer<W, void> => new Writer(M, () => [undefined, w])
 
-export function getMonad<W>(monoid: Monoid<W>): Monad<URI> {
-  return {
-    URI,
-    map,
-    of: of(monoid),
-    ap,
-    chain
-  }
-}
+export const getMonad = <W>(monoid: Monoid<W>): Monad<URI> => ({
+  URI,
+  map,
+  of: of(monoid),
+  ap,
+  chain
+})
 
 export const writer: Functor<URI> = {
   URI,
