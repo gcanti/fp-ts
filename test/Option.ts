@@ -74,7 +74,7 @@ describe('Option', () => {
 
   it('alt', () => {
     eq(alt(some(1))(some(2)), some(1))
-    eq(alt(none as Option<number>)(some(2)), some(2))
+    eq(alt(none)(some(2)), some(2))
     eq(alt(some(1))(none), some(1))
     eq(alt(none)(none), none)
   })

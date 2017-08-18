@@ -242,7 +242,12 @@ export const chain = <A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> =>
 
 export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B => fa.reduce(f, b)
 
-export const alt = <A>(fx: Option<A>): ((fy: Option<A>) => Option<A>) => fy => fx.alt(fy)
+// overload here to support 'none' as first argument
+export function alt(fx: Option<never>): <A>(fy: Option<A>) => Option<A>
+export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A>
+export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A> {
+  return fy => fx.alt(fy)
+}
 
 export const extend = <A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> => ea.extend(f)
 
