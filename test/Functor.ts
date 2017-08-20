@@ -30,6 +30,6 @@ describe('Functor', () => {
     const gt3 = (n: number) => n >= 3
     const lt5 = (n: number) => n <= 5
     const fs = [gt3, lt5]
-    assert.deepEqual(flap(array)(fs, 4), [true, true])
+    assert.deepEqual(flap(array)(fs)(4), [true, true])
   })
 })

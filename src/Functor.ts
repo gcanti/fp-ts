@@ -62,11 +62,11 @@ export class Ops {
    * Apply a value in a computational context to a value in no context.
    * Generalizes `flip`
    */
-  flap<F extends HKT2S>(functor: Functor<F>): <L, A, B>(ff: HKT2As<F, L, (a: A) => B>, a: A) => HKT2As<F, L, B>
-  flap<F extends HKTS>(functor: Functor<F>): <A, B>(ff: HKTAs<F, (a: A) => B>, a: A) => HKTAs<F, B>
-  flap<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>, a: A) => HKT<F, B>
-  flap<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>, a: A) => HKT<F, B> {
-    return (ff, a) => functor.map(f => f(a), ff)
+  flap<F extends HKT2S>(functor: Functor<F>): <L, A, B>(ff: HKT2As<F, L, (a: A) => B>) => (a: A) => HKT2As<F, L, B>
+  flap<F extends HKTS>(functor: Functor<F>): <A, B>(ff: HKTAs<F, (a: A) => B>) => (a: A) => HKTAs<F, B>
+  flap<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>) => (a: A) => HKT<F, B>
+  flap<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>) => (a: A) => HKT<F, B> {
+    return ff => a => functor.map(f => f(a), ff)
   }
 
   getFunctorComposition<F extends HKT2S, G extends HKT2S>(F: Functor<F>, G: Functor<G>): FunctorComposition22<F, G>
