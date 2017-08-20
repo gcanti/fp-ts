@@ -23,7 +23,7 @@ export class NonEmptyArray<A>
   implements FantasyMonad<URI, A>, FantasyComonad<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly head: A, public readonly tail: Array<A>) {}
+  constructor(readonly head: A, readonly tail: Array<A>) {}
   toArray(): Array<A> {
     return [this.head].concat(this.tail)
   }

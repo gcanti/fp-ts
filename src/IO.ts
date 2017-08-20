@@ -16,7 +16,7 @@ export type URI = typeof URI
 export class IO<A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly run: Lazy<A>) {}
+  constructor(readonly run: Lazy<A>) {}
   map<B>(f: (a: A) => B): IO<B> {
     return new IO(() => f(this.run()))
   }

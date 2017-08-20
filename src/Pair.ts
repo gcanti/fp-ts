@@ -26,7 +26,7 @@ export type URI = typeof URI
 export class Pair<A> {
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: [A, A]) {}
+  constructor(readonly value: [A, A]) {}
   fst(): A {
     return this.value[0]
   }

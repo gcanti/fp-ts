@@ -23,7 +23,7 @@ export class TaskEither<L, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: task.Task<either.Either<L, A>>) {}
+  constructor(readonly value: task.Task<either.Either<L, A>>) {}
   map<B>(f: (a: A) => B): TaskEither<L, B> {
     return new TaskEither(eitherTTask.map(f, this.value))
   }

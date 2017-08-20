@@ -30,7 +30,7 @@ export class Failure<L, A>
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly semigroup: Semigroup<L>, public readonly value: L) {}
+  constructor(readonly semigroup: Semigroup<L>, readonly value: L) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return this as any
   }
@@ -97,7 +97,7 @@ export class Success<L, A>
   readonly _L: L
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: A) {}
+  constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return new Success<L, B>(f(this.value))
   }

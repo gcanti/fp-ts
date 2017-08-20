@@ -19,7 +19,7 @@ export type URI = typeof URI
 export class ArrayOption<A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _URI = URI
-  constructor(public readonly value: Array<Option<A>>) {}
+  constructor(readonly value: Array<Option<A>>) {}
   map<B>(f: (a: A) => B): ArrayOption<B> {
     return new ArrayOption(optionTArray.map(f, this.value))
   }

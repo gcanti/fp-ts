@@ -37,7 +37,7 @@ export class Tuple<L, A>
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: [L, A]) {}
+  constructor(readonly value: [L, A]) {}
   fst(): L {
     return this.value[0]
   }

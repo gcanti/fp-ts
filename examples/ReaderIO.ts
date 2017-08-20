@@ -18,7 +18,7 @@ export class ReaderIO<E, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: E
   readonly _URI: URI
-  constructor(public readonly value: (e: E) => io.IO<A>) {}
+  constructor(readonly value: (e: E) => io.IO<A>) {}
   map<B>(f: (a: A) => B): ReaderIO<E, B> {
     return new ReaderIO(readerTIO.map(f, this.value))
   }

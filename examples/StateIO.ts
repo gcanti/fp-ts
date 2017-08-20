@@ -20,7 +20,7 @@ export class StateIO<S, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: S
   readonly _URI: URI
-  constructor(public readonly value: (s: S) => IO<[A, S]>) {}
+  constructor(readonly value: (s: S) => IO<[A, S]>) {}
   run(s: S): [A, S] {
     return this.value(s).run()
   }

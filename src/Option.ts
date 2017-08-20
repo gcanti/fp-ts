@@ -122,7 +122,7 @@ export class Some<A>
   readonly _tag: 'Some' = 'Some'
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: A) {}
+  constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))
   }

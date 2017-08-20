@@ -17,7 +17,7 @@ export class Store<S, A> implements FantasyComonad<URI, A> {
   readonly _A: A
   readonly _L: S
   readonly _URI: URI
-  constructor(public readonly peek: (s: S) => A, public readonly pos: S) {}
+  constructor(readonly peek: (s: S) => A, readonly pos: S) {}
   /** Reposition the focus at the specified position */
   seek(s: S): Store<S, A> {
     return new Store(this.peek, s)

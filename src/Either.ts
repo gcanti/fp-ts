@@ -37,7 +37,7 @@ export class Left<L, A>
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: L) {}
+  constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): Either<L, B> {
     return this as any
   }
@@ -101,7 +101,7 @@ export class Right<L, A>
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: A) {}
+  constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Either<L, B> {
     return new Right(f(this.value))
   }

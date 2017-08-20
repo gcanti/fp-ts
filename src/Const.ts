@@ -21,7 +21,7 @@ export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: L) {}
+  constructor(readonly value: L) {}
   map<B, C>(f: (b: B) => C): Const<L, C> {
     return this as any
   }

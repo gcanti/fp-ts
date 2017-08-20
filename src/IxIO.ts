@@ -18,7 +18,7 @@ export class IxIO<I, O, A> implements FantasyIxMonad<URI, A, O, I> {
   readonly _L: O
   readonly _U: I
   readonly _URI: URI
-  constructor(public readonly value: IO<A>) {}
+  constructor(readonly value: IO<A>) {}
   run(): A {
     return this.value.run()
   }

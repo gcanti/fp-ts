@@ -30,7 +30,7 @@ export class This<L, A>
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: L) {}
+  constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return this as any
   }
@@ -80,7 +80,7 @@ export class That<L, A>
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: A) {}
+  constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return new That(f(this.value))
   }
@@ -130,7 +130,7 @@ export class Both<L, A>
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly l: L, public readonly a: A) {}
+  constructor(readonly l: L, readonly a: A) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return new Both(this.l, f(this.a))
   }

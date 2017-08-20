@@ -17,7 +17,7 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: F
   readonly _URI: URI
-  constructor(public readonly value: A) {}
+  constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Free<F, B> {
     return new Pure(f(this.value))
   }
@@ -48,7 +48,7 @@ export class Impure<F, A, X> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: F
   readonly _URI: URI
-  constructor(public readonly fx: HKT<F, X>, public readonly f: (x: X) => Free<F, A>) {}
+  constructor(readonly fx: HKT<F, X>, readonly f: (x: X) => Free<F, A>) {}
   map<B>(f: (a: A) => B): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).map(f))
   }

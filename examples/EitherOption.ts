@@ -20,7 +20,7 @@ export class EitherOption<L, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: L
   readonly _URI = URI
-  constructor(public readonly value: either.Either<L, Option<A>>) {}
+  constructor(readonly value: either.Either<L, Option<A>>) {}
   map<B>(f: (a: A) => B): EitherOption<L, B> {
     return new EitherOption(optionTEither.map(f, this.value))
   }
