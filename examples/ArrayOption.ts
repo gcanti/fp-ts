@@ -40,33 +40,21 @@ export class ArrayOption<A> implements FantasyMonad<URI, A> {
   }
 }
 
-export function map<A, B>(f: (a: A) => B, fa: ArrayOption<A>): ArrayOption<B> {
-  return fa.map(f)
-}
+export const map = <A, B>(f: (a: A) => B, fa: ArrayOption<A>): ArrayOption<B> => fa.map(f)
 
-export function of<A>(a: A): ArrayOption<A> {
-  return new ArrayOption(optionT.some(array)(a))
-}
+export const of = <A>(a: A): ArrayOption<A> => new ArrayOption(optionT.some(array)(a))
 
-export function ap<A, B>(fab: ArrayOption<(a: A) => B>, fa: ArrayOption<A>): ArrayOption<B> {
-  return fa.ap(fab)
-}
+export const ap = <A, B>(fab: ArrayOption<(a: A) => B>, fa: ArrayOption<A>): ArrayOption<B> => fa.ap(fab)
 
-export function chain<A, B>(f: (a: A) => ArrayOption<B>, fa: ArrayOption<A>): ArrayOption<B> {
-  return fa.chain(f)
-}
+export const chain = <A, B>(f: (a: A) => ArrayOption<B>, fa: ArrayOption<A>): ArrayOption<B> => fa.chain(f)
 
 export const some = of
 
 export const none = new ArrayOption(optionT.none(array)())
 
-export function fromOption<A>(oa: Option<A>): ArrayOption<A> {
-  return new ArrayOption(optionT.fromOption(array)(oa))
-}
+export const fromOption = <A>(oa: Option<A>): ArrayOption<A> => new ArrayOption(optionT.fromOption(array)(oa))
 
-export function liftF<A>(ma: Array<A>): ArrayOption<A> {
-  return new ArrayOption(optionT.liftF(array)(ma))
-}
+export const liftF = <A>(ma: Array<A>): ArrayOption<A> => new ArrayOption(optionT.liftF(array)(ma))
 
 export const arrayOption: Monad<URI> = {
   URI,

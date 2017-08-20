@@ -37,17 +37,12 @@ export class TaskValidation<L, A> implements FantasyApplicative<URI, A> {
   }
 }
 
-export function map<L, A, B>(f: (a: A) => B, fa: TaskValidation<L, A>): TaskValidation<L, B> {
-  return fa.map(f)
-}
+export const map = <L, A, B>(f: (a: A) => B, fa: TaskValidation<L, A>): TaskValidation<L, B> => fa.map(f)
 
-export function of<L, A>(a: A): TaskValidation<L, A> {
-  return new TaskValidation(taskValidationApplicative.of(a))
-}
+export const of = <L, A>(a: A): TaskValidation<L, A> => new TaskValidation(taskValidationApplicative.of(a))
 
-export function ap<L, A, B>(fab: TaskValidation<L, (a: A) => B>, fa: TaskValidation<L, A>): TaskValidation<L, B> {
-  return fa.ap(fab)
-}
+export const ap = <L, A, B>(fab: TaskValidation<L, (a: A) => B>, fa: TaskValidation<L, A>): TaskValidation<L, B> =>
+  fa.ap(fab)
 
 export const taskValidation: Applicative<URI> = {
   URI,

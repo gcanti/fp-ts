@@ -47,41 +47,23 @@ export class StateIO<S, A> implements FantasyMonad<URI, A> {
   }
 }
 
-export function map<S, A, B>(f: (a: A) => B, fa: StateIO<S, A>): StateIO<S, B> {
-  return fa.map(f)
-}
+export const map = <S, A, B>(f: (a: A) => B, fa: StateIO<S, A>): StateIO<S, B> => fa.map(f)
 
-export function of<S, A>(a: A): StateIO<S, A> {
-  return new StateIO(stateTIO.of(a))
-}
+export const of = <S, A>(a: A): StateIO<S, A> => new StateIO(stateTIO.of(a))
 
-export function ap<S, A, B>(fab: StateIO<S, (a: A) => B>, fa: StateIO<S, A>): StateIO<S, B> {
-  return fa.ap(fab)
-}
+export const ap = <S, A, B>(fab: StateIO<S, (a: A) => B>, fa: StateIO<S, A>): StateIO<S, B> => fa.ap(fab)
 
-export function chain<S, A, B>(f: (a: A) => StateIO<S, B>, fa: StateIO<S, A>): StateIO<S, B> {
-  return fa.chain(f)
-}
+export const chain = <S, A, B>(f: (a: A) => StateIO<S, B>, fa: StateIO<S, A>): StateIO<S, B> => fa.chain(f)
 
-export function get<S>(): StateIO<S, S> {
-  return new StateIO(stateT.get(io)())
-}
+export const get = <S>(): StateIO<S, S> => new StateIO(stateT.get(io)())
 
-export function put<S>(s: S): StateIO<S, void> {
-  return new StateIO(stateT.put(io)(s))
-}
+export const put = <S>(s: S): StateIO<S, void> => new StateIO(stateT.put(io)(s))
 
-export function modify<S>(f: Endomorphism<S>): StateIO<S, void> {
-  return new StateIO(stateT.modify(io)(f))
-}
+export const modify = <S>(f: Endomorphism<S>): StateIO<S, void> => new StateIO(stateT.modify(io)(f))
 
-export function gets<S, A>(f: (s: S) => A): StateIO<S, A> {
-  return new StateIO(stateT.gets(io)(f))
-}
+export const gets = <S, A>(f: (s: S) => A): StateIO<S, A> => new StateIO(stateT.gets(io)(f))
 
-export function lift<S, A>(fa: IO<A>): StateIO<S, A> {
-  return new StateIO(s => new IO(() => tuple(fa.run(), s)))
-}
+export const lift = <S, A>(fa: IO<A>): StateIO<S, A> => new StateIO(s => new IO(() => tuple(fa.run(), s)))
 
 export const stateIO: Monad<URI> = {
   URI,
