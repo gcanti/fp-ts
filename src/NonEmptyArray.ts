@@ -19,11 +19,8 @@ export const URI = 'NonEmptyArray'
 
 export type URI = typeof URI
 
-export const of = <A>(a: A): NonEmptyArray<A> => new NonEmptyArray(a, [])
-
 export class NonEmptyArray<A>
   implements FantasyMonad<URI, A>, FantasyComonad<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
-  static of = of
   readonly _A: A
   readonly _URI: URI
   constructor(public readonly head: A, public readonly tail: Array<A>) {}
@@ -35,9 +32,6 @@ export class NonEmptyArray<A>
   }
   map<B>(f: (a: A) => B): NonEmptyArray<B> {
     return new NonEmptyArray(f(this.head), this.tail.map(f))
-  }
-  of<B>(b: B): NonEmptyArray<B> {
-    return of(b)
   }
   ap<B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B> {
     return fab.chain(f => this.map(f)) // <= derived
@@ -81,6 +75,8 @@ const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => new NonEmptyArray
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (as.length ? some(unsafeFromArray(as)) : none)
 
 export const map = <A, B>(f: (a: A) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.map(f)
+
+export const of = <A>(a: A): NonEmptyArray<A> => new NonEmptyArray(a, [])
 
 export const ap = <A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.ap(fab)
 

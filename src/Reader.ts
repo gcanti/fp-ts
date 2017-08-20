@@ -5,19 +5,13 @@ export const URI = 'Reader'
 
 export type URI = typeof URI
 
-export const of = <E, A>(a: A): Reader<E, A> => new Reader((e: E) => a)
-
 export class Reader<E, A> implements FantasyMonad<URI, A> {
-  static of = of
   readonly _L: E
   readonly _A: A
   readonly _URI: URI
   constructor(public readonly run: (e: E) => A) {}
   map<B>(f: (a: A) => B): Reader<E, B> {
     return new Reader((e: E) => f(this.run(e)))
-  }
-  of<E2, B>(b: B): Reader<E2, B> {
-    return of(b)
   }
   ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B> {
     return new Reader((e: E) => fab.run(e)(this.run(e)))
@@ -28,6 +22,8 @@ export class Reader<E, A> implements FantasyMonad<URI, A> {
 }
 
 export const map = <E, A, B>(f: (a: A) => B, fa: Reader<E, A>): Reader<E, B> => fa.map(f)
+
+export const of = <E, A>(a: A): Reader<E, A> => new Reader((e: E) => a)
 
 export const ap = <E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> => fa.ap(fab)
 

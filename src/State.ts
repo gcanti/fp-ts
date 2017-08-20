@@ -11,10 +11,7 @@ export const URI = 'State'
 
 export type URI = typeof URI
 
-export const of = <S, A>(a: A): State<S, A> => new State(s => [a, s])
-
 export class State<S, A> implements FantasyMonad<URI, A> {
-  static of = of
   readonly _A: A
   readonly _L: S
   readonly _URI: URI
@@ -31,9 +28,6 @@ export class State<S, A> implements FantasyMonad<URI, A> {
       return [f(a), s1]
     })
   }
-  of<S2, B>(b: B): State<S2, B> {
-    return of(b)
-  }
   ap<B>(fab: State<S, (a: A) => B>): State<S, B> {
     return fab.chain(f => this.map(f)) // <= derived
   }
@@ -46,6 +40,8 @@ export class State<S, A> implements FantasyMonad<URI, A> {
 }
 
 export const map = <S, A, B>(f: (a: A) => B, fa: State<S, A>): State<S, B> => fa.map(f)
+
+export const of = <S, A>(a: A): State<S, A> => new State(s => [a, s])
 
 export const ap = <S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<S, B> => fa.ap(fab)
 

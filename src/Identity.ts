@@ -20,8 +20,6 @@ export const URI = 'Identity'
 
 export type URI = typeof URI
 
-export const of = <A>(a: A): Identity<A> => new Identity(a)
-
 export const extract = <A>(fa: Identity<A>): A => fa.extract()
 
 export class Identity<A>
@@ -30,16 +28,11 @@ export class Identity<A>
     FantasyTraversable<URI, A>,
     FantasyAlt<URI, A>,
     FantasyComonad<URI, A> {
-  static of = of
-  static extract = extract
   readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Identity<B> {
     return new Identity(f(this.value))
-  }
-  of<B>(b: B): Identity<B> {
-    return of(b)
   }
   ap<B>(fab: Identity<(a: A) => B>): Identity<B> {
     return this.map(fab.extract())
@@ -89,6 +82,8 @@ export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => ({
 })
 
 export const map = <A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B> => fa.map(f)
+
+export const of = <A>(a: A): Identity<A> => new Identity(a)
 
 export const ap = <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>): Identity<B> => fa.ap(fab)
 

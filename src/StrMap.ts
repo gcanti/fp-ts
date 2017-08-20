@@ -4,7 +4,7 @@ import { Functor, FantasyFunctor } from './Functor'
 import { Applicative } from './Applicative'
 import { Foldable, FantasyFoldable } from './Foldable'
 import { Traversable, FantasyTraversable } from './Traversable'
-import { constant, Lazy, tuple } from './function'
+import { tuple } from './function'
 import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
@@ -50,9 +50,9 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
   traverseWithKey<F extends HKTS>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKTAs<F, B>) => HKTAs<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-    const concatA2 = liftA2(F)(concat)
-    return f => {
-      let out = F.of(empty())
+    const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concat)
+    return <B>(f: (k: string, a: A) => HKT<F, B>) => {
+      let out: HKT<F, StrMap<B>> = F.of(empty())
       for (let k in this.value) {
         out = concatA2(out)(F.map(b => singleton(k)(b), f(k, this.value[k])))
       }
@@ -67,7 +67,7 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
   }
 }
 
-export const empty: Lazy<StrMap<any>> = constant(new StrMap({}))
+export const empty = <A>(): StrMap<A> => new StrMap({})
 
 export const concat = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => {
   return new StrMap(Object.assign({}, x.value, y.value))

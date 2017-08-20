@@ -17,10 +17,7 @@ export class Writer<W, A> implements FantasyMonad<URI, A> {
   readonly _L: W
   readonly _A: A
   readonly _URI: URI
-  of: <A>(a: A) => Writer<W, A>
-  constructor(public readonly monoid: Monoid<W>, public readonly run: Lazy<[A, W]>) {
-    this.of = of<W>(monoid)
-  }
+  constructor(public readonly monoid: Monoid<W>, public readonly run: Lazy<[A, W]>) {}
   eval(): A {
     return this.run()[0]
   }

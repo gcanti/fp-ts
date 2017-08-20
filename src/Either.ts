@@ -26,8 +26,6 @@ export type URI = typeof URI
 
 export type Either<L, A> = Left<L, A> | Right<L, A>
 
-export const of = <L, A>(a: A): Either<L, A> => new Right(a)
-
 export class Left<L, A>
   implements FantasyMonad<URI, A>,
     FantasyFoldable<A>,
@@ -35,7 +33,6 @@ export class Left<L, A>
     FantasyAlt<URI, A>,
     FantasyExtend<URI, A>,
     FantasyBifunctor<URI, L, A> {
-  static of = of
   readonly _tag: 'Left' = 'Left'
   readonly _A: A
   readonly _L: L
@@ -43,9 +40,6 @@ export class Left<L, A>
   constructor(public readonly value: L) {}
   map<B>(f: (a: A) => B): Either<L, B> {
     return this as any
-  }
-  of<M, B>(b: B): Either<M, B> {
-    return of(b)
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
     return (isLeft(fab) ? fab : this) as any
@@ -103,7 +97,6 @@ export class Right<L, A>
     FantasyTraversable<URI, A>,
     FantasyAlt<URI, A>,
     FantasyExtend<URI, A> {
-  static of = of
   readonly _tag: 'Right' = 'Right'
   readonly _A: A
   readonly _L: L
@@ -111,9 +104,6 @@ export class Right<L, A>
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Either<L, B> {
     return new Right(f(this.value))
-  }
-  of<L2, B>(b: B): Either<L2, B> {
-    return of<L2, B>(b)
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
     if (isRight(fab)) {
@@ -179,6 +169,8 @@ export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B, fa: Either<
 export const getOrElse = <A>(f: () => A) => <L>(fa: Either<L, A>): A => fa.getOrElse(f)
 
 export const map = <L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> => fa.map(f)
+
+export const of = <L, A>(a: A): Either<L, A> => new Right(a)
 
 export const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Either<L, B> => fa.ap(fab)
 

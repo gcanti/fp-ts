@@ -13,9 +13,7 @@ export interface Applicative<F> extends Apply<F> {
   of: <A>(a: A) => HKT<F, A>
 }
 
-export interface FantasyApplicative<F, A> extends FantasyApply<F, A> {
-  of: <A>(a: A) => HKT<F, A>
-}
+export interface FantasyApplicative<F, A> extends FantasyApply<F, A> {}
 
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
   of: <A>(a: A) => HKT<F, HKT<G, A>>

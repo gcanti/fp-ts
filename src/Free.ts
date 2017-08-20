@@ -12,10 +12,7 @@ export type URI = typeof URI
 
 export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
-export const of = <F, A>(a: A): Free<F, A> => new Pure(a)
-
 export class Pure<F, A> implements FantasyMonad<URI, A> {
-  static of = of
   readonly _tag: 'Pure' = 'Pure'
   readonly _A: A
   readonly _L: F
@@ -23,9 +20,6 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Free<F, B> {
     return new Pure(f(this.value))
-  }
-  of<B>(b: B): Free<F, B> {
-    return of(b)
   }
   ap<B>(fab: Free<F, (a: A) => B>): Free<F, B> {
     return fab.chain(f => this.map(f)) // <- derived
@@ -50,7 +44,6 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
 }
 
 export class Impure<F, A, X> implements FantasyMonad<URI, A> {
-  static of = of
   readonly _tag: 'Impure' = 'Impure'
   readonly _A: A
   readonly _L: F
@@ -58,9 +51,6 @@ export class Impure<F, A, X> implements FantasyMonad<URI, A> {
   constructor(public readonly fx: HKT<F, X>, public readonly f: (x: X) => Free<F, A>) {}
   map<B>(f: (a: A) => B): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).map(f))
-  }
-  of<B>(b: B): Free<F, B> {
-    return of(b)
   }
   ap<B>(fab: Free<F, (a: A) => B>): Free<F, B> {
     return fab.chain(f => this.map(f)) // <- derived
@@ -83,6 +73,8 @@ export class Impure<F, A, X> implements FantasyMonad<URI, A> {
     return `new Impure(${(toString(this.fx), toString(this.f))})`
   }
 }
+
+export const of = <F, A>(a: A): Free<F, A> => new Pure(a)
 
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => new Impure(fa, a => of(a))
 

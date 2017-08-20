@@ -26,12 +26,6 @@ export type URI = typeof URI
 
 export type Option<A> = None<A> | Some<A>
 
-export const of = <A>(a: A): Option<A> => new Some(a)
-
-export const zero = <A>(): Option<A> => none
-
-export const empty = zero
-
 export class None<A>
   implements FantasyMonad<URI, A>,
     FantasyFoldable<A>,
@@ -40,9 +34,6 @@ export class None<A>
     FantasyWitherable<URI, A>,
     FantasyAlternative<URI, A>,
     FantasyExtend<URI, A> {
-  static of = of
-  static empty = empty
-  static zero = zero
   static value: Option<never> = new None()
   readonly _tag: 'None' = 'None'
   readonly _A: A
@@ -50,9 +41,6 @@ export class None<A>
   private constructor() {}
   map<B>(f: (a: A) => B): Option<B> {
     return none
-  }
-  of<B>(b: B): Option<B> {
-    return of(b)
   }
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return none
@@ -79,9 +67,6 @@ export class None<A>
     M: Applicative<M>
   ): <L, R>(f: (a: A) => HKT<M, Either<L, R>>) => HKT<M, { left: Option<L>; right: Option<R> }> {
     return <L, R>(f: (a: A) => HKT<M, Either<L, R>>) => M.of({ left: none, right: none })
-  }
-  zero<B>(): Option<B> {
-    return zero()
   }
   alt(fa: Option<A>): Option<A> {
     return fa
@@ -134,18 +119,12 @@ export class Some<A>
     FantasyWitherable<URI, A>,
     FantasyAlternative<URI, A>,
     FantasyExtend<URI, A> {
-  static of = of
-  static empty = empty
-  static zero = zero
   readonly _tag: 'Some' = 'Some'
   readonly _A: A
   readonly _URI: URI
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))
-  }
-  of<B>(b: B): Option<B> {
-    return of(b)
   }
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return fab.map(f => f(this.value))
@@ -183,9 +162,6 @@ export class Some<A>
           ),
         f(this.value)
       )
-  }
-  zero<B>(): Option<B> {
-    return zero<B>()
   }
   alt(fa: Option<A>): Option<A> {
     return this
@@ -236,6 +212,8 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => ({
 
 export const map = <A, B>(f: (a: A) => B, fa: Option<A>): Option<B> => fa.map(f)
 
+export const of = <A>(a: A): Option<A> => new Some(a)
+
 export const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => fa.ap(fab)
 
 export const chain = <A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> => fa.chain(f)
@@ -250,6 +228,10 @@ export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A> {
 }
 
 export const extend = <A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> => ea.extend(f)
+
+export const zero = <A>(): Option<A> => none
+
+export const empty = zero
 
 const first = { empty, concat: alt }
 const last = getDualMonoid(first)

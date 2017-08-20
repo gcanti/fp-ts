@@ -17,16 +17,12 @@ export const URI = 'EitherOption'
 export type URI = typeof URI
 
 export class EitherOption<L, A> implements FantasyMonad<URI, A> {
-  static of = of
   readonly _A: A
   readonly _L: L
   readonly _URI = URI
   constructor(public readonly value: either.Either<L, Option<A>>) {}
   map<B>(f: (a: A) => B): EitherOption<L, B> {
     return new EitherOption(optionTEither.map(f, this.value))
-  }
-  of<M, B>(b: B): EitherOption<M, B> {
-    return of(b)
   }
   ap<B>(fab: EitherOption<L, (a: A) => B>): EitherOption<L, B> {
     return new EitherOption(optionTEither.ap(fab.value, this.value))

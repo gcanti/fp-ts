@@ -24,11 +24,8 @@ export type URI = typeof URI
 
 export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 
-export const of = <L, A>(a: A): These<L, A> => new That(a)
-
 export class This<L, A>
   implements FantasyFunctor<URI, A>, FantasyBifunctor<URI, L, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
-  static of = of
   readonly _tag: 'This' = 'This'
   readonly _A: A
   readonly _L: L
@@ -79,7 +76,6 @@ export class This<L, A>
 
 export class That<L, A>
   implements FantasyFunctor<URI, A>, FantasyBifunctor<URI, L, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
-  static of = of
   readonly _tag: 'That' = 'That'
   readonly _A: A
   readonly _L: L
@@ -130,7 +126,6 @@ export class That<L, A>
 
 export class Both<L, A>
   implements FantasyFunctor<URI, A>, FantasyBifunctor<URI, L, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
-  static of = of
   readonly _tag: 'Both' = 'Both'
   readonly _A: A
   readonly _L: L
@@ -202,6 +197,8 @@ export const fold = <L, A, B>(that: (l: L) => B, this_: (a: A) => B, both: (l: L
   fa.fold(that, this_, both)
 
 export const map = <L, A, B>(f: (a: A) => B, fa: These<L, A>): These<L, B> => fa.map(f)
+
+export const of = <L, A>(a: A): These<L, A> => new That(a)
 
 export const ap = <L, A, B>(SL: Semigroup<L>, fab: These<L, (a: A) => B>, fa: These<L, A>): These<L, B> =>
   fa.ap(SL, fab)

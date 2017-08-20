@@ -16,16 +16,12 @@ export const URI = 'TaskValidation'
 export type URI = typeof URI
 
 export class TaskValidation<L, A> implements FantasyApplicative<URI, A> {
-  static of = of
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
   constructor(public readonly value: task.Task<validation.Validation<L, A>>) {}
   map<B>(f: (a: A) => B): TaskValidation<L, B> {
     return new TaskValidation(taskValidationApplicative.map(f, this.value))
-  }
-  of<M, B>(b: B): TaskValidation<M, B> {
-    return of(b)
   }
   ap<B>(fab: TaskValidation<L, (a: A) => B>): TaskValidation<L, B> {
     return new TaskValidation(taskValidationApplicative.ap(fab.value, this.value))

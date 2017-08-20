@@ -24,11 +24,8 @@ export type URI = typeof URI
 
 export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
-export const of = <L, A>(a: A): Validation<L, A> => new Success(a)
-
 export class Failure<L, A>
   implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
-  static of = of
   readonly _tag: 'Failure' = 'Failure'
   readonly _L: L
   readonly _A: A
@@ -36,9 +33,6 @@ export class Failure<L, A>
   constructor(public readonly semigroup: Semigroup<L>, public readonly value: L) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return this as any
-  }
-  of<M, B>(b: B): Validation<M, B> {
-    return of(b)
   }
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
     if (isFailure(fab)) {
@@ -99,7 +93,6 @@ export class Failure<L, A>
 
 export class Success<L, A>
   implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
-  static of = of
   readonly _tag: 'Success' = 'Success'
   readonly _L: L
   readonly _A: A
@@ -107,9 +100,6 @@ export class Success<L, A>
   constructor(public readonly value: A) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return new Success<L, B>(f(this.value))
-  }
-  of<M, B>(b: B): Validation<M, B> {
-    return of(b)
   }
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
     if (isSuccess(fab)) {
@@ -179,6 +169,8 @@ export const fold = <L, A, B>(failure: (l: L) => B, success: (a: A) => B, fa: Va
   fa.fold(failure, success)
 
 export const map = <L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L, B> => fa.map(f)
+
+export const of = <L, A>(a: A): Validation<L, A> => new Success(a)
 
 export const ap = <L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => fa.ap(fab)
 
