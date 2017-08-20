@@ -2,11 +2,11 @@ import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 
 export interface Contravariant<F> {
   readonly URI: F
-  contramap<A>(fa: HKT<F, A>): <B>(f: (b: B) => A) => HKT<F, B>
+  contramap: <A>(fa: HKT<F, A>) => <B>(f: (b: B) => A) => HKT<F, B>
 }
 
 export interface FantasyContravariant<F, A> {
-  contramap<B>(f: (b: B) => A): HKT<F, B>
+  contramap: <B>(f: (b: B) => A) => HKT<F, B>
 }
 
 export class Ops {

@@ -10,7 +10,7 @@ import { constant, tuple } from './function'
  */
 export interface Unfoldable<F> {
   readonly URI: F
-  unfoldr<A, B>(f: (b: B) => option.Option<[A, B]>, b: B): HKT<F, A>
+  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => HKT<F, A>
 }
 
 /** Replicate a value some natural number of times. */

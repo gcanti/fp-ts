@@ -10,11 +10,9 @@ export const getFirstSemigroup = <A>(): Semigroup<A> => ({ concat: x => y => x }
 
 export const getLastSemigroup = <A>(): Semigroup<A> => ({ concat: x => y => y })
 
-export const getProductSemigroup = <A>(S: Semigroup<A>) => <B>(bsemigroup: Semigroup<B>): Semigroup<[A, B]> => {
-  return {
-    concat: ([xa, xb]) => ([ya, yb]) => [S.concat(xa)(ya), bsemigroup.concat(xb)(yb)]
-  }
-}
+export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => ({
+  concat: ([xa, xb]) => ([ya, yb]) => [SA.concat(xa)(ya), SB.concat(xb)(yb)]
+})
 
 export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
   concat: x => y => S.concat(y)(x)

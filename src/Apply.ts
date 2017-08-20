@@ -3,21 +3,19 @@ import { Functor, FantasyFunctor } from './Functor'
 import { Curried2, Curried3, Curried4, identity, constant } from './function'
 
 export interface Apply<F> extends Functor<F> {
-  ap<A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>): HKT<F, B>
+  ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
 }
 
 /*
 
   Implementations of FantasyApply may choose to also implement
 
-  ap_<B, C>(this: HKT<F, (a: A) => B>, fb: HKT<F, B>): HKT<F, C>
+  ap_: <B, C>(this: HKT<F, (a: A) => B>, fb: HKT<F, B>) => HKT<F, C>
 
 */
 export interface FantasyApply<F, A> extends FantasyFunctor<F, A> {
-  ap<B>(fab: HKT<F, (a: A) => B>): HKT<F, B>
+  ap: <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
 }
-
-const constIdentity = () => identity
 
 export class Ops {
   /** Combine two effectful actions, keeping only the result of the first */
@@ -37,7 +35,7 @@ export class Ops {
   applySecond<F extends HKTS>(apply: Apply<F>): <A>(fa: HKTAs<F, A>) => <B>(fb: HKTAs<F, B>) => HKTAs<F, B>
   applySecond<F>(apply: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, B>
   applySecond<F>(apply: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, B> {
-    return fa => fb => apply.ap(apply.map(constIdentity, fa), fb)
+    return fa => fb => apply.ap(apply.map(() => identity, fa), fb)
   }
 
   /**

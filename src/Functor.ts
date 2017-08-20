@@ -3,31 +3,31 @@ import { constant } from './function'
 
 export interface Functor<F> {
   readonly URI: F
-  map<A, B>(f: (a: A) => B, fa: HKT<F, A>): HKT<F, B>
+  map: <A, B>(f: (a: A) => B, fa: HKT<F, A>) => HKT<F, B>
 }
 
 export interface FantasyFunctor<F, A> {
-  map<B>(f: (a: A) => B): HKT<F, B>
+  map: <B>(f: (a: A) => B) => HKT<F, B>
 }
 
 export interface FunctorComposition<F, G> {
-  map<A, B>(f: (a: A) => B, fa: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>>
+  map: <A, B>(f: (a: A) => B, fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
 }
 
 export interface FunctorComposition11<F extends HKTS, G extends HKTS> {
-  map<A, B>(f: (a: A) => B, fa: HKTAs<F, HKTAs<G, A>>): HKTAs<F, HKTAs<G, B>>
+  map: <A, B>(f: (a: A) => B, fa: HKTAs<F, HKTAs<G, A>>) => HKTAs<F, HKTAs<G, B>>
 }
 
 export interface FunctorComposition12<F extends HKTS, G extends HKT2S> {
-  map<L, A, B>(f: (a: A) => B, fa: HKTAs<F, HKT2As<G, L, A>>): HKTAs<F, HKT2As<G, L, B>>
+  map: <L, A, B>(f: (a: A) => B, fa: HKTAs<F, HKT2As<G, L, A>>) => HKTAs<F, HKT2As<G, L, B>>
 }
 
 export interface FunctorComposition21<F extends HKT2S, G extends HKTS> {
-  map<L, A, B>(f: (a: A) => B, fa: HKT2As<F, L, HKTAs<G, A>>): HKT2As<F, L, HKTAs<G, B>>
+  map: <L, A, B>(f: (a: A) => B, fa: HKT2As<F, L, HKTAs<G, A>>) => HKT2As<F, L, HKTAs<G, B>>
 }
 
 export interface FunctorComposition22<F extends HKT2S, G extends HKT2S> {
-  map<L, M, A, B>(f: (a: A) => B, fa: HKT2As<F, L, HKT2As<G, M, A>>): HKT2As<F, L, HKT2As<G, M, B>>
+  map: <L, M, A, B>(f: (a: A) => B, fa: HKT2As<F, L, HKT2As<G, M, A>>) => HKT2As<F, L, HKT2As<G, M, B>>
 }
 
 export class Ops {
@@ -58,7 +58,8 @@ export class Ops {
     return fa => b => F.map(constant(b), fa)
   }
 
-  /** Apply a value in a computational context to a value in no context.
+  /**
+   * Apply a value in a computational context to a value in no context.
    * Generalizes `flip`
    */
   flap<F extends HKT2S>(functor: Functor<F>): <L, A, B>(ff: HKT2As<F, L, (a: A) => B>, a: A) => HKT2As<F, L, B>
@@ -75,9 +76,7 @@ export class Ops {
   getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>
   getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> {
     return {
-      map<A, B>(f: (a: A) => B, fa: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>> {
-        return F.map(ga => G.map(f, ga), fa)
-      }
+      map: (f, fa) => F.map(ga => G.map(f, ga), fa)
     }
   }
 }

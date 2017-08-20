@@ -6,5 +6,5 @@ export interface Alt<F> extends Functor<F> {
 }
 
 export interface FantasyAlt<F, A> extends FantasyFunctor<F, A> {
-  alt(fy: HKT<F, A>): HKT<F, A>
+  alt: (fy: HKT<F, A>) => HKT<F, A>
 }
