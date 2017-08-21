@@ -17,7 +17,7 @@ export class Store<S, A> implements FantasyComonad<URI, A> {
   readonly _A: A
   readonly _L: S
   readonly _URI: URI
-  constructor(public readonly peek: (s: S) => A, public readonly pos: S) {}
+  constructor(readonly peek: (s: S) => A, readonly pos: S) {}
   /** Reposition the focus at the specified position */
   seek(s: S): Store<S, A> {
     return new Store(this.peek, s)
@@ -39,43 +39,29 @@ export class Store<S, A> implements FantasyComonad<URI, A> {
   }
 }
 
-export function map<S, A, B>(f: (a: A) => B, sa: Store<S, A>): Store<S, B> {
-  return sa.map(f)
-}
+export const map = <S, A, B>(f: (a: A) => B, sa: Store<S, A>): Store<S, B> => sa.map(f)
 
-export function extract<S, A>(sa: Store<S, A>): A {
-  return sa.extract()
-}
+export const extract = <S, A>(sa: Store<S, A>): A => sa.extract()
 
-export function extend<S, A, B>(f: (sa: Store<S, A>) => B, sa: Store<S, A>): Store<S, B> {
-  return sa.extend(f)
-}
+export const extend = <S, A, B>(f: (sa: Store<S, A>) => B, sa: Store<S, A>): Store<S, B> => sa.extend(f)
 
 /** Reads the value at the specified position in the specified context */
-export function peek<S, A>(sa: Store<S, A>, s: S): A {
-  return sa.peek(s)
-}
+export const peek = <S, A>(sa: Store<S, A>) => (s: S): A => sa.peek(s)
 
 /** Extract a value from a position which depends on the current position */
-export function peeks<S, A>(f: Endomorphism<S>, sa: Store<S, A>, s: S): A {
-  return sa.peek(f(sa.pos))
-}
+export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => sa.peek(f(sa.pos))
 
 /** Reposition the focus at the specified position */
-export function seek<S, A>(s: S, sa: Store<S, A>): Store<S, A> {
-  return sa.seek(s)
-}
+export const seek = <S>(s: S) => <A>(sa: Store<S, A>): Store<S, A> => sa.seek(s)
 
 /** Reposition the focus at the specified position, which depends on the current position */
-export function seeks<S, A>(f: Endomorphism<S>, sa: Store<S, A>): Store<S, A> {
-  return new Store(sa.peek, f(sa.pos))
-}
+export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => new Store(sa.peek, f(sa.pos))
 
 export class Ops {
   /** Extract a collection of values from positions which depend on the current position */
-  experiment<F, S, A>(functor: Functor<F>, f: (s: S) => HKT<F, S>, sa: Store<S, A>): HKT<F, A>
-  experiment<F, S, A>(functor: Functor<F>, f: (s: S) => HKT<F, S>, sa: Store<S, A>): HKT<F, A> {
-    return functor.map(s => sa.peek(s), f(sa.pos))
+  experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>
+  experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A> {
+    return f => sa => F.map(s => sa.peek(s), f(sa.pos))
   }
 }
 

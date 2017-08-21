@@ -1,5 +1,5 @@
 import { Ord } from 'fp-ts/lib/Ord'
-import { numberOrd, stringOrd } from 'fp-ts/lib/Ord'
+import { ordNumber, ordString } from 'fp-ts/lib/Ord'
 
 export function binarySearch<A>(xs: Array<A>, x: A, ord: Ord<A>): number {
   function go(low: number, mid: number, high: number): number {
@@ -19,5 +19,5 @@ export function binarySearch<A>(xs: Array<A>, x: A, ord: Ord<A>): number {
   return go(0, 0, xs.length - 1)
 }
 
-console.log(binarySearch([1, 2, 3, 4, 5, 6], 3, numberOrd)) // => 2
-console.log(binarySearch(['a', 'b', 'c', 'd', 'e', 'f'], 'c', stringOrd)) // => 2
+console.log(binarySearch([1, 2, 3, 4, 5, 6], 3, ordNumber)) // => 2
+console.log(binarySearch(['a', 'b', 'c', 'd', 'e', 'f'], 'c', ordString)) // => 2

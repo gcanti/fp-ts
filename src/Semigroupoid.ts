@@ -5,5 +5,5 @@ export interface Semigroupoid<F> {
 }
 
 export interface FantasySemigroupoid<F, L, A> {
-  compose<B>(bc: HKT2<F, A, B>): HKT2<F, L, B>
+  compose: <B>(bc: HKT2<F, A, B>) => HKT2<F, L, B>
 }

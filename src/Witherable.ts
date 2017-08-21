@@ -16,11 +16,11 @@ export type Wilt1<T extends HKTS, L, R> = {
 }
 
 export interface Witherable<T> extends Traversable<T>, Filterable<T> {
-  wilt<F>(F: Applicative<F>): <A, L, R>(f: (a: A) => HKT<F, Either<L, R>>, ta: HKT<T, A>) => HKT<F, Wilt<T, L, R>>
+  wilt: <F>(F: Applicative<F>) => <A, L, R>(f: (a: A) => HKT<F, Either<L, R>>, ta: HKT<T, A>) => HKT<F, Wilt<T, L, R>>
 }
 
 export interface FantasyWitherable<T, A> extends FantasyTraversable<T, A>, FantasyFilterable<T, A> {
-  wilt<F>(F: Applicative<F>): <L, R>(f: (a: A) => HKT<F, Either<L, R>>) => HKT<F, Wilt<T, L, R>>
+  wilt: <F>(F: Applicative<F>) => <L, R>(f: (a: A) => HKT<F, Either<L, R>>) => HKT<F, Wilt<T, L, R>>
 }
 
 export class Ops {

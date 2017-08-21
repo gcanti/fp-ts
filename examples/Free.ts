@@ -13,47 +13,35 @@ export const InstructionFURI = 'Instruction'
 export type InstructionFURI = typeof InstructionFURI
 
 export class Position {
-  constructor(public readonly x: number, public readonly y: number, public readonly heading: Degree) {}
+  constructor(readonly x: number, readonly y: number, readonly heading: Degree) {}
 }
 
 export class Forward<A> {
   readonly _tag: 'Forward' = 'Forward'
   readonly _A: A
   readonly _URI: InstructionFURI
-  constructor(
-    public readonly position: Position,
-    public readonly length: number,
-    public readonly more: (p: Position) => A
-  ) {}
+  constructor(readonly position: Position, readonly length: number, readonly more: (p: Position) => A) {}
 }
 
 export class Backward<A> {
   readonly _tag: 'Backward' = 'Backward'
   readonly _A: A
   readonly _URI: InstructionFURI
-  constructor(
-    public readonly position: Position,
-    public readonly length: number,
-    public readonly more: (p: Position) => A
-  ) {}
+  constructor(readonly position: Position, readonly length: number, readonly more: (p: Position) => A) {}
 }
 
 export class RotateRight<A> {
   readonly _tag: 'RotateRight' = 'RotateRight'
   readonly _A: A
   readonly _URI: InstructionFURI
-  constructor(
-    public readonly position: Position,
-    public readonly degree: Degree,
-    public readonly more: (p: Position) => A
-  ) {}
+  constructor(readonly position: Position, readonly degree: Degree, readonly more: (p: Position) => A) {}
 }
 
 export class Show<A> {
   readonly _tag: 'Show' = 'Show'
   readonly _A: A
   readonly _URI: InstructionFURI
-  constructor(public readonly position: Position, public readonly more: A) {}
+  constructor(readonly position: Position, readonly more: A) {}
 }
 
 export type InstructionF<A> = Forward<A> | Backward<A> | RotateRight<A> | Show<A>
@@ -151,14 +139,14 @@ export class PencilUp<A> {
   readonly _tag: 'PencilUp' = 'PencilUp'
   readonly _A: A
   readonly _URI: PencilInstructionFURI
-  constructor(public readonly position: Position, public readonly more: A) {}
+  constructor(readonly position: Position, readonly more: A) {}
 }
 
 export class PencilDown<A> {
   readonly _tag: 'PencilDown' = 'PencilDown'
   readonly _A: A
   readonly _URI: PencilInstructionFURI
-  constructor(public readonly position: Position, public readonly more: A) {}
+  constructor(readonly position: Position, readonly more: A) {}
 }
 
 export type PencilInstructionF<A> = PencilUp<A> | PencilDown<A>
@@ -176,14 +164,14 @@ export class Instruction<A> {
   readonly _tag: InstructionFURI = InstructionFURI
   readonly _A: A
   readonly _URI: LogoAppFURI
-  constructor(public readonly value: InstructionF<A>) {}
+  constructor(readonly value: InstructionF<A>) {}
 }
 
 export class PencilInstruction<A> {
   readonly _tag: PencilInstructionFURI = PencilInstructionFURI
   readonly _A: A
   readonly _URI: LogoAppFURI
-  constructor(public readonly value: PencilInstructionF<A>) {}
+  constructor(readonly value: PencilInstructionF<A>) {}
 }
 
 export type LogoAppF<A> = Instruction<A> | PencilInstruction<A>

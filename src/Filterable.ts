@@ -6,12 +6,12 @@ import { Predicate, identity } from './function'
 
 export interface Filterable<F> extends Functor<F> {
   /** partition a data structure based on an either predicate */
-  partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: HKT<F, A>): { left: HKT<F, L>; right: HKT<F, R> }
+  partitionMap: <A, L, R>(f: (a: A) => Either<L, R>, fa: HKT<F, A>) => { left: HKT<F, L>; right: HKT<F, R> }
 }
 
 export interface FantasyFilterable<F, A> extends FantasyFunctor<F, A> {
   /** partition a data structure based on an either predicate */
-  partitionMap<L, R>(f: (a: A) => Either<L, R>): { left: HKT<F, L>; right: HKT<F, R> }
+  partitionMap: <L, R>(f: (a: A) => Either<L, R>) => { left: HKT<F, L>; right: HKT<F, R> }
 }
 
 export class Ops {

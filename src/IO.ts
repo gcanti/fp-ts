@@ -13,21 +13,12 @@ export const URI = 'IO'
 
 export type URI = typeof URI
 
-export const of = <A>(a: A): IO<A> => new IO(() => a)
-
 export class IO<A> implements FantasyMonad<URI, A> {
-  static of = of
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: Lazy<A>) {}
-  run(): A {
-    return this.value()
-  }
+  constructor(readonly run: Lazy<A>) {}
   map<B>(f: (a: A) => B): IO<B> {
     return new IO(() => f(this.run()))
-  }
-  of<B>(b: B): IO<B> {
-    return of(b)
   }
   ap<B>(fab: IO<(a: A) => B>): IO<B> {
     return new IO(() => fab.run()(this.run()))
@@ -42,11 +33,13 @@ export class IO<A> implements FantasyMonad<URI, A> {
     return this.toString()
   }
   toString() {
-    return `new IO(${toString(this.value)})`
+    return `new IO(${toString(this.run)})`
   }
 }
 
 export const map = <A, B>(f: (a: A) => B, fa: IO<A>): IO<B> => fa.map(f)
+
+export const of = <A>(a: A): IO<A> => new IO(() => a)
 
 export const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => fa.ap(fab)
 

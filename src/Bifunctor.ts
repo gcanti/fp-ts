@@ -6,5 +6,5 @@ export interface Bifunctor<F> {
 }
 
 export interface FantasyBifunctor<F, L, A> {
-  bimap<M, B>(f: (l: L) => M, g: (a: A) => B): HKT2<F, M, B>
+  bimap: <M, B>(f: (l: L) => M, g: (a: A) => B) => HKT2<F, M, B>
 }

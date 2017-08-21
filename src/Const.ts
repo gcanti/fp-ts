@@ -21,7 +21,7 @@ export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: L) {}
+  constructor(readonly value: L) {}
   map<B, C>(f: (b: B) => C): Const<L, C> {
     return this as any
   }
@@ -46,40 +46,30 @@ export const equals = <L>(S: Setoid<L>) => <A>(fx: Const<L, A>) => (fy: Const<L,
   return fx.equals(S, fy)
 }
 
-export function getSetoid<L, A>(S: Setoid<L>): Setoid<Const<L, A>> {
-  return {
-    equals: x => y => equals(S)(x)(y)
-  }
-}
+export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
+  equals: x => y => equals(S)(x)(y)
+})
 
-export function map<L, A, B>(f: (a: A) => B, fa: Const<L, A>): Const<L, B> {
-  return fa.map(f)
-}
+export const map = <L, A, B>(f: (a: A) => B, fa: Const<L, A>): Const<L, B> => fa.map(f)
 
-export function contramap<L, A>(fa: Const<L, A>): <B>(f: (b: B) => A) => Const<L, B> {
-  return <B>(f: (b: B) => A) => fa.contramap(f)
-}
+export const contramap = <L, A>(fa: Const<L, A>): (<B>(f: (b: B) => A) => Const<L, B>) => <B>(f: (b: B) => A) =>
+  fa.contramap(f)
 
-export function getApply<L>(S: Semigroup<L>): Apply<URI> {
-  function ap<A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> {
+export const getApply = <L>(S: Semigroup<L>): Apply<URI> => ({
+  URI,
+  map,
+  ap<A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> {
     return new Const(S.concat(fab.fold(identity))(fa.fold(identity)))
   }
-  return {
-    URI,
-    map,
-    ap
-  }
-}
+})
 
-export function getApplicative<L>(M: Monoid<L>): Applicative<URI> {
-  const apply = getApply(M)
+export const getApplicative = <L>(M: Monoid<L>): Applicative<URI> => {
   const empty = new Const<L, any>(M.empty())
-  function of<A>(b: A): Const<L, A> {
-    return empty
-  }
   return {
-    ...apply,
-    of
+    ...getApply(M),
+    of<A>(b: A): Const<L, A> {
+      return empty
+    }
   }
 }
 

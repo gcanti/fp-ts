@@ -6,7 +6,7 @@ const stateTOption = stateT.getStateT(option)
 
 describe('StateT', () => {
   it('put', () => {
-    assert.deepEqual(stateT.put(option)(2)(1), option.some([undefined, 2]))
+    assert.deepEqual(stateT.put(option)(2)(), option.some([undefined, 2]))
   })
 
   it('get', () => {

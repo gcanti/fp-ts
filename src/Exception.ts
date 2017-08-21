@@ -1,4 +1,4 @@
-import { IO } from './IO'
+import { IO, of } from './IO'
 import { Option, some, none } from './Option'
 import { Either, left, right } from './Either'
 
@@ -37,4 +37,4 @@ export const catchException = <A>(handler: (e: Error) => IO<A>) => (action: IO<A
  * computation succeeds the result gets wrapped in a `Right`.
  */
 export const tryCatch = <A>(action: IO<A>): IO<Either<Error, A>> =>
-  catchException(e => IO.of(left<Error, A>(e)))(action.map(a => right(a)))
+  catchException(e => of(left<Error, A>(e)))(action.map(a => right(a)))

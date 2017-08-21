@@ -16,16 +16,12 @@ export const URI = 'TaskValidation'
 export type URI = typeof URI
 
 export class TaskValidation<L, A> implements FantasyApplicative<URI, A> {
-  static of = of
   readonly _A: A
   readonly _L: L
   readonly _URI: URI
-  constructor(public readonly value: task.Task<validation.Validation<L, A>>) {}
+  constructor(readonly value: task.Task<validation.Validation<L, A>>) {}
   map<B>(f: (a: A) => B): TaskValidation<L, B> {
     return new TaskValidation(taskValidationApplicative.map(f, this.value))
-  }
-  of<M, B>(b: B): TaskValidation<M, B> {
-    return of(b)
   }
   ap<B>(fab: TaskValidation<L, (a: A) => B>): TaskValidation<L, B> {
     return new TaskValidation(taskValidationApplicative.ap(fab.value, this.value))
@@ -41,17 +37,12 @@ export class TaskValidation<L, A> implements FantasyApplicative<URI, A> {
   }
 }
 
-export function map<L, A, B>(f: (a: A) => B, fa: TaskValidation<L, A>): TaskValidation<L, B> {
-  return fa.map(f)
-}
+export const map = <L, A, B>(f: (a: A) => B, fa: TaskValidation<L, A>): TaskValidation<L, B> => fa.map(f)
 
-export function of<L, A>(a: A): TaskValidation<L, A> {
-  return new TaskValidation(taskValidationApplicative.of(a))
-}
+export const of = <L, A>(a: A): TaskValidation<L, A> => new TaskValidation(taskValidationApplicative.of(a))
 
-export function ap<L, A, B>(fab: TaskValidation<L, (a: A) => B>, fa: TaskValidation<L, A>): TaskValidation<L, B> {
-  return fa.ap(fab)
-}
+export const ap = <L, A, B>(fab: TaskValidation<L, (a: A) => B>, fa: TaskValidation<L, A>): TaskValidation<L, B> =>
+  fa.ap(fab)
 
 export const taskValidation: Applicative<URI> = {
   URI,

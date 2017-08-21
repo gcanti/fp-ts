@@ -32,11 +32,9 @@ export interface Semiring<A> {
   one: () => A
 }
 
-export function getFunctionSemiring<A, B>(semiring: Semiring<B>): Semiring<Function1<A, B>> {
-  return {
-    add: f => g => x => semiring.add(f(x))(g(x)),
-    zero: () => () => semiring.zero(),
-    mul: f => g => x => semiring.mul(f(x))(g(x)),
-    one: () => () => semiring.one()
-  }
-}
+export const getFunctionSemiring = <A, B>(semiring: Semiring<B>): Semiring<Function1<A, B>> => ({
+  add: f => g => x => semiring.add(f(x))(g(x)),
+  zero: () => () => semiring.zero(),
+  mul: f => g => x => semiring.mul(f(x))(g(x)),
+  one: () => () => semiring.one()
+})

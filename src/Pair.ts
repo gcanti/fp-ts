@@ -23,13 +23,10 @@ export const URI = 'Pair'
 
 export type URI = typeof URI
 
-export const of = <A>(a: A): Pair<A> => new Pair([a, a])
-
 export class Pair<A> {
-  static of = of
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: [A, A]) {}
+  constructor(readonly value: [A, A]) {}
   fst(): A {
     return this.value[0]
   }
@@ -50,9 +47,6 @@ export class Pair<A> {
   }
   map<B>(f: (a: A) => B): Pair<B> {
     return new Pair([f(this.fst()), f(this.snd())])
-  }
-  of<B>(b: B): Pair<B> {
-    return of(b)
   }
   ap<B>(fab: Pair<(a: A) => B>): Pair<B> {
     return new Pair([fab.fst()(this.fst()), fab.snd()(this.snd())])
@@ -79,6 +73,8 @@ export class Pair<A> {
 }
 
 export const map = <A, B>(f: (a: A) => B, fa: Pair<A>): Pair<B> => fa.map(f)
+
+export const of = <A>(a: A): Pair<A> => new Pair([a, a])
 
 export const ap = <A, B>(fab: Pair<(a: A) => B>, fa: Pair<A>): Pair<B> => fa.ap(fab)
 

@@ -10,8 +10,7 @@ export interface IxMonad<F> {
 }
 
 export interface FantasyIxMonad<F, A, O, I> {
-  iof<I, B>(b: B): HKT3<F, I, I, B>
-  ichain<Z, B>(f: (a: A) => HKT3<F, O, Z, B>): HKT3<F, I, Z, B>
+  ichain: <Z, B>(f: (a: A) => HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
 }
 
 export class Ops {
