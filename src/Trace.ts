@@ -9,13 +9,13 @@ import { Monad } from './Monad'
  * return a value. This will log the value's underlying representation for
  * low-level debugging
  */
-export const trace = (message: any) => <A>(out: Lazy<A>): A => {
+export const trace = <A>(message: any, out: Lazy<A>): A => {
   console.log(message)
   return out()
 }
 
 /** Log any value and return it */
-export const spy = <A>(a: A): A => trace(a)(() => a)
+export const spy = <A>(a: A): A => trace(a, () => a)
 
 export class Ops {
   /** Log a message to the console for debugging purposes and then return the
@@ -25,7 +25,7 @@ export class Ops {
   traceA<F extends HKTS>(F: Applicative<F>): (message: any) => HKTAs<F, void>
   traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void>
   traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void> {
-    return x => trace(x)(() => F.of(undefined))
+    return x => trace(x, () => F.of(undefined))
   }
 
   /** Log any value to the console and return it in `Monad`
@@ -34,7 +34,7 @@ export class Ops {
   traceM<F extends HKT2S>(F: Monad<F>): <L, A>(a: A) => HKT2As<F, L, A>
   traceM<F extends HKTS>(F: Monad<F>): <A>(a: A) => HKTAs<F, A>
   traceM<F>(F: Monad<F>): <A>(a: A) => HKT<F, A> {
-    return a => trace(a)(() => F.of(a))
+    return a => trace(a, () => F.of(a))
   }
 }
 
