@@ -15,7 +15,7 @@ const bar = spy(foo.mapLeft(s => s.length))
 // trace
 //
 
-const bar2 = foo.mapLeft(s => trace('mapping the left side', () => s.length))
+const bar2 = foo.mapLeft(s => trace('mapping the left side')(() => s.length))
 // => 'mapping the left side'
 
 //
