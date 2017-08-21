@@ -25,7 +25,7 @@ export class Nil<A> implements FantasyFunctor<URI, A> {
 export class Cons<A> implements FantasyFunctor<URI, A> {
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly head: A, public readonly tail: List<A>) {}
+  constructor(readonly head: A, readonly tail: List<A>) {}
   map<B>(f: (a: A) => B): List<B> {
     return new Cons(f(this.head), this.tail.map(f))
   }

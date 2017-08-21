@@ -24,10 +24,9 @@ export const URI = 'Pair'
 export type URI = typeof URI
 
 export class Pair<A> {
-  static of = of
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: [A, A]) {}
+  constructor(readonly value: [A, A]) {}
   fst(): A {
     return this.value[0]
   }
@@ -49,9 +48,6 @@ export class Pair<A> {
   map<B>(f: (a: A) => B): Pair<B> {
     return new Pair([f(this.fst()), f(this.snd())])
   }
-  of<B>(b: B): Pair<B> {
-    return of(b)
-  }
   ap<B>(fab: Pair<(a: A) => B>): Pair<B> {
     return new Pair([fab.fst()(this.fst()), fab.snd()(this.snd())])
   }
@@ -66,7 +62,7 @@ export class Pair<A> {
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
     return <B>(f: (a: A) => HKT<F, B>) =>
-      liftA2(F, (b1: B) => (b2: B) => new Pair([b1, b2]))(f(this.fst()), f(this.snd()))
+      liftA2(F)((b1: B) => (b2: B) => new Pair([b1, b2]))(f(this.fst()))(f(this.snd()))
   }
   extract(): A {
     return this.fst()
@@ -76,21 +72,51 @@ export class Pair<A> {
   }
 }
 
-export function map<A, B>(f: (a: A) => B, fa: Pair<A>): Pair<B> {
-  return fa.map(f)
+export const map = <A, B>(f: (a: A) => B, fa: Pair<A>): Pair<B> => fa.map(f)
+
+export const of = <A>(a: A): Pair<A> => new Pair([a, a])
+
+export const ap = <A, B>(fab: Pair<(a: A) => B>, fa: Pair<A>): Pair<B> => fa.ap(fab)
+
+export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Pair<A>): B => fa.reduce(f, b)
+
+export const extract = <A>(fa: Pair<A>): A => fa.extract()
+
+export const extend = <A, B>(f: (fb: Pair<A>) => B, fa: Pair<A>): Pair<B> => fa.extend(f)
+
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => ({
+  equals: x => y => S.equals(x.fst())(y.fst()) && S.equals(x.snd())(y.snd())
+})
+
+export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => {
+  const S = getSetoid(O)
+  return {
+    ...S,
+    compare: x => y => orderingSemigroup.concat(O.compare(x.fst())(y.fst()))(O.compare(x.snd())(y.snd()))
+  }
 }
 
-export function of<A>(a: A): Pair<A> {
-  return new Pair([a, a])
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => ({
+  concat: x => y => new Pair([S.concat(x.fst())(y.fst()), S.concat(x.snd())(y.snd())])
+})
+
+export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
+  const S = getSemigroup(M)
+  const empty = new Pair([M.empty(), M.empty()])
+  return {
+    ...S,
+    empty: () => empty
+  }
 }
 
-export function ap<A, B>(fab: Pair<(a: A) => B>, fa: Pair<A>): Pair<B> {
-  return fa.ap(fab)
-}
+/** Map a function over the first field of a pair */
+export const first = <A>(f: Endomorphism<A>) => (fa: Pair<A>): Pair<A> => fa.first(f)
 
-export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Pair<A>): B {
-  return fa.reduce(f, b)
-}
+/** Map a function over the second field of a pair */
+export const second = <A>(f: Endomorphism<A>) => (fa: Pair<A>): Pair<A> => fa.second(f)
+
+/** Swaps the elements in a pair */
+export const swap = <A>(fa: Pair<A>): Pair<A> => fa.swap()
 
 export class Ops {
   traverse<F extends HKT2S>(
@@ -105,64 +131,6 @@ export class Ops {
 
 const ops = new Ops()
 export const traverse: Ops['traverse'] = ops.traverse
-
-export function extract<A>(fa: Pair<A>): A {
-  return fa.extract()
-}
-export function extend<A, B>(f: (fb: Pair<A>) => B, fa: Pair<A>): Pair<B> {
-  return fa.extend(f)
-}
-
-export function getSetoid<A>(S: Setoid<A>): Setoid<Pair<A>> {
-  return {
-    equals(x, y) {
-      return S.equals(x.fst(), y.fst()) && S.equals(x.snd(), y.snd())
-    }
-  }
-}
-
-export function getOrd<A>(O: Ord<A>): Ord<Pair<A>> {
-  const S = getSetoid(O)
-  return {
-    ...S,
-    compare(x, y) {
-      return orderingSemigroup.concat(O.compare(x.fst(), y.fst()), O.compare(x.snd(), y.snd()))
-    }
-  }
-}
-
-export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Pair<A>> {
-  return {
-    concat(x, y) {
-      return new Pair([S.concat(x.fst(), y.fst()), S.concat(x.snd(), y.snd())])
-    }
-  }
-}
-
-export function getMonoid<A>(M: Monoid<A>): Monoid<Pair<A>> {
-  const S = getSemigroup(M)
-  return {
-    ...S,
-    empty() {
-      return new Pair([M.empty(), M.empty()])
-    }
-  }
-}
-
-/** Map a function over the first field of a pair */
-export function first<A>(f: Endomorphism<A>, fa: Pair<A>): Pair<A> {
-  return fa.first(f)
-}
-
-/** Map a function over the second field of a pair */
-export function second<A>(f: Endomorphism<A>, fa: Pair<A>): Pair<A> {
-  return fa.second(f)
-}
-
-/** Swaps the elements in a pair */
-export function swap<A>(fa: Pair<A>): Pair<A> {
-  return fa.swap()
-}
 
 export const pair: Applicative<URI> & Foldable<URI> & Traversable<URI> & Comonad<URI> = {
   URI,

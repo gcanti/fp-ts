@@ -10,32 +10,25 @@ import { constant, tuple } from './function'
  */
 export interface Unfoldable<F> {
   readonly URI: F
-  unfoldr<A, B>(f: (b: B) => option.Option<[A, B]>, b: B): HKT<F, A>
+  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => HKT<F, A>
 }
 
 /** Replicate a value some natural number of times. */
-export function replicate<F>(unfoldable: Unfoldable<F>): <A>(n: number, a: A) => HKT<F, A> {
-  return (n, a) => {
-    function step(n: number) {
-      return n <= 0 ? option.none : option.of(tuple(a, n - 1))
-    }
-    return unfoldable.unfoldr(step, n)
+export const replicate = <F>(unfoldable: Unfoldable<F>) => (n: number) => <A>(a: A): HKT<F, A> => {
+  function step(n: number) {
+    return n <= 0 ? option.none : option.of(tuple(a, n - 1))
   }
+  return unfoldable.unfoldr(step, n)
 }
 
 /** Perform an Applicative action `n` times, and accumulate all the results. */
-export function replicateA<F, T>(
+export const replicateA = <F, T>(
   applicative: Applicative<F>,
   unfoldableTraversable: Unfoldable<T> & Traversable<T>
-): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>> {
-  return (n, ma) => sequence(applicative, unfoldableTraversable)(replicate(unfoldableTraversable)(n, ma))
-}
+) => (n: number) => <A>(ma: HKT<F, A>): HKT<F, HKT<T, A>> =>
+  sequence(applicative, unfoldableTraversable)(replicate(unfoldableTraversable)(n)(ma))
 
 /** The container with no elements - unfolded with zero iterations. */
-export function none<F, A>(unfoldable: Unfoldable<F>): HKT<F, A> {
-  return unfoldable.unfoldr(constant(option.none), undefined)
-}
+export const none = <F, A>(unfoldable: Unfoldable<F>): HKT<F, A> => unfoldable.unfoldr(constant(option.none), undefined)
 
-export function singleton<F, A>(unfoldable: Unfoldable<F>, a: A): HKT<F, A> {
-  return replicate(unfoldable)(1, a)
-}
+export const singleton = <F, A>(unfoldable: Unfoldable<F>, a: A): HKT<F, A> => replicate(unfoldable)(1)(a)

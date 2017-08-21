@@ -4,6 +4,6 @@ import { monoidString } from '../src/Monoid'
 
 describe('Semigroup', () => {
   it('fold', () => {
-    assert.strictEqual(fold(monoidString, '', ['a', 'b', 'c']), 'abc')
+    assert.strictEqual(fold(monoidString)('')(['a', 'b', 'c']), 'abc')
   })
 })

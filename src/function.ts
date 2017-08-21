@@ -228,3 +228,5 @@ export function toString(x: any): string {
 export function tuple<A, B>(a: A, b: B): [A, B] {
   return [a, b]
 }
+
+export const curriedTuple = <A>(a: A) => <B>(b: B): [A, B] => [a, b]

@@ -70,11 +70,11 @@ export class Ops {
     return (none, some, fa) => F.map(o => o.fold(none, some), fa)
   }
 
-  getOrElse<F extends HKT2S>(F: Functor<F>): <L, A>(f: Lazy<A>, fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
-  getOrElse<F extends HKTS>(F: Functor<F>): <A>(f: Lazy<A>, fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
-  getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>, fa: HKT<F, Option<A>>) => HKT<F, A>
-  getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>, fa: HKT<F, Option<A>>) => HKT<F, A> {
-    return (f, fa) => F.map(o => o.getOrElse(f), fa)
+  getOrElse<F extends HKT2S>(F: Functor<F>): <A>(f: Lazy<A>) => <L>(fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
+  getOrElse<F extends HKTS>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
+  getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+  getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
+    return f => fa => F.map(o => o.getOrElse(f), fa)
   }
 
   getOptionT<M extends HKT2S>(M: Monad<M>): OptionT2<M>

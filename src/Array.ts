@@ -3,6 +3,7 @@ import { Monoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { Monad } from './Monad'
 import { Foldable } from './Foldable'
+import { Unfoldable } from './Unfoldable'
 import { Traversable } from './Traversable'
 import { Alternative } from './Alternative'
 import { Plus } from './Plus'
@@ -14,7 +15,7 @@ import { Extend } from './Extend'
 import { Filterable } from './Filterable'
 import { Either } from './Either'
 import { Witherable } from './Witherable'
-import { Predicate, identity, constant, curry, Lazy, Endomorphism, Refinement, tuple } from './function'
+import { Predicate, identity, constant, Lazy, Endomorphism, Refinement, tuple, not } from './function'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -37,31 +38,19 @@ export type URI = typeof URI
 
 export const empty: Lazy<Array<any>> = constant([])
 
-export function concat<A>(x: Array<A>, y: Array<A>): Array<A> {
-  return x.concat(y)
-}
+export const concat = <A>(x: Array<A>) => (y: Array<A>): Array<A> => x.concat(y)
 
-export function map<A, B>(f: (a: A) => B, fa: Array<A>): Array<B> {
-  return fa.map(f)
-}
+export const map = <A, B>(f: (a: A) => B, fa: Array<A>): Array<B> => fa.map(f)
 
-export function of<A>(a: A): Array<A> {
-  return [a]
-}
+export const of = <A>(a: A): Array<A> => [a]
 
-export function ap<A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> {
-  return fab.reduce((acc: Array<B>, f) => acc.concat(fa.map(f)), [])
-}
+export const ap = <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> =>
+  fab.reduce((acc, f) => acc.concat(fa.map(f)), [] as Array<B>)
 
-export function chain<A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B> {
-  return fa.reduce((acc: Array<B>, a) => acc.concat(f(a)), [])
-}
+export const chain = <A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B> =>
+  fa.reduce((acc, a) => acc.concat(f(a)), [] as Array<B>)
 
-export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B {
-  return fa.reduce(f, b)
-}
-
-export const curriedSnoc: <A>(a: Array<A>) => (b: A) => Array<A> = curry(snoc)
+export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B => fa.reduce(f, b)
 
 export class Ops {
   traverse<F extends HKT2S>(
@@ -70,8 +59,8 @@ export class Ops {
   traverse<F extends HKTS>(F: Applicative<F>): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Array<A>) => HKTAs<F, Array<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>> {
-    const snocA2: <A>(fa: HKT<F, Array<A>>, fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F, curriedSnoc)
-    return (f, ta) => reduce((fab, a) => snocA2(fab, f(a)), F.of(empty()), ta)
+    const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(snoc)
+    return (f, ta) => reduce((fab, a) => liftedSnoc(fab)(f(a)), F.of(empty()), ta)
   }
 }
 
@@ -80,9 +69,9 @@ export const traverse: Ops['traverse'] = ops.traverse
 
 export const zero = empty
 
-export const alt = concat
+export const alt = <A>(x: Array<A>) => (y: Array<A>): Array<A> => x.concat(y)
 
-export function unfoldr<A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> {
+export const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
   const ret: Array<A> = []
   let bb = b
   while (true) {
@@ -98,77 +87,92 @@ export function unfoldr<A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> {
   return ret
 }
 
-export function extend<A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B> {
-  return fa.map((_, i, as) => f(as.slice(i)))
+export const extend = <A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B> => fa.map((_, i, as) => f(as.slice(i)))
+
+export const partitionMap = <A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): { left: Array<L>; right: Array<R> } => {
+  const left: Array<L> = []
+  const right: Array<R> = []
+  for (let i = 0; i < fa.length; i++) {
+    f(fa[i]).fold(l => left.push(l), r => right.push(r))
+  }
+  return { left, right }
 }
 
-export function fold<A, B>(nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B, as: Array<A>): B {
-  return as.length === 0 ? nil() : cons(as[0], as.slice(1))
-}
+export const wilt = <M>(M: Applicative<M>) => <A, L, R>(
+  f: (a: A) => HKT<M, Either<L, R>>,
+  ta: Array<A>
+): HKT<M, { left: Array<L>; right: Array<R> }> => M.map(es => partitionMap(e => e, es), traverse(M)(f, ta))
 
-export function length<A>(as: Array<A>): number {
-  return as.length
-}
+/** Break an array into its first element and remaining elements */
+export const fold = <A, B>(nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B, as: Array<A>): B =>
+  as.length === 0 ? nil() : cons(as[0], as.slice(1))
 
-export function isEmpty<A>(as: Array<A>): boolean {
-  return length(as) === 0
-}
+/** Get the number of elements in an array */
+export const length = <A>(as: Array<A>): number => as.length
 
-export function isOutOfBound<A>(i: number, as: Array<A>): boolean {
-  return i < 0 || i >= as.length
-}
+/** Test whether an array is empty */
+export const isEmpty = <A>(as: Array<A>): boolean => length(as) === 0
 
-export function index<A>(as: Array<A>, i: number): Option<A> {
-  return isOutOfBound(i, as) ? option.none : option.some(as[i])
-}
+/** Test whether an array contains a particular index */
+export const isOutOfBound = (i: number) => <A>(as: Array<A>): boolean => i < 0 || i >= as.length
 
-export function cons<A>(a: A, as: Array<A>): Array<A> {
-  return [a].concat(as)
-}
+/** This function provides a safe way to read a value at a particular index from an array */
+export const index = (i: number) => <A>(as: Array<A>): Option<A> =>
+  isOutOfBound(i)(as) ? option.none : option.some(as[i])
 
-export function snoc<A>(as: Array<A>, a: A): Array<A> {
-  return as.concat([a])
-}
+/** Attaches an element to the front of an array, creating a new array */
+export const cons = <A>(a: A) => (as: Array<A>): Array<A> => [a].concat(as)
 
-export function head<A>(as: Array<A>): Option<A> {
-  return isEmpty(as) ? option.none : option.some(as[0])
-}
+/** Append an element to the end of an array, creating a new array */
+export const snoc = <A>(as: Array<A>) => (a: A): Array<A> => as.concat([a])
 
-export function last<A>(as: Array<A>): Option<A> {
-  return index(as, length(as) - 1)
-}
+/** Get the first element in an array, or `None` if the array is empty */
+export const head = <A>(as: Array<A>): Option<A> => (isEmpty(as) ? option.none : option.some(as[0]))
 
-export function tail<A>(as: Array<A>): Option<Array<A>> {
+/** Get the last element in an array, or `None` if the array is empty */
+export const last = <A>(as: Array<A>): Option<A> => index(length(as) - 1)(as)
+
+/**
+ * Get all but the first element of an array, creating a new array, or
+ * `None` if the array is empty
+ */
+export const tail = <A>(as: Array<A>): Option<Array<A>> => {
   const len = as.length
   return len === 0 ? option.none : option.some(as.slice(1))
 }
 
-export function slice<A>(start: number, end: number, as: Array<A>): Array<A> {
-  return as.slice(start, end)
-}
+/** Extract a subarray by a start and end index */
+export const slice = (start: number, end: number) => <A>(as: Array<A>): Array<A> => as.slice(start, end)
 
-export function init<A>(as: Array<A>): Option<Array<A>> {
+/**
+ * Get all but the last element of an array, creating a new array, or
+ * `None` if the array is empty
+ */
+export const init = <A>(as: Array<A>): Option<Array<A>> => {
   const len = as.length
   return len === 0 ? option.none : option.some(as.slice(0, len - 1))
 }
 
-export function take<A>(n: number, as: Array<A>): Array<A> {
-  return slice(0, n, as)
-}
+/** Keep only a number of elements from the start of an array, creating a new array */
+export const take = (n: number) => <A>(as: Array<A>): Array<A> => slice(0, n)(as)
 
-export function takeWhile<A>(predicate: Predicate<A>, as: Array<A>): Array<A> {
-  return as.slice().filter(predicate)
-}
+/**
+ * Calculate the longest initial subarray for which all element satisfy the
+ * specified predicate, creating a new array
+ */
+export const takeWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => as.slice().filter(predicate)
 
-export function drop<A>(n: number, as: Array<A>): Array<A> {
-  return slice(n, length(as), as)
-}
+/** Drop a number of elements from the start of an array, creating a new array */
+export const drop = (n: number) => <A>(as: Array<A>): Array<A> => slice(n, length(as))(as)
 
-export function dropWhile<A>(predicate: Predicate<A>, as: Array<A>): Array<A> {
-  return takeWhile(a => !predicate(a), as)
-}
+/**
+ * Remove the longest initial subarray for which all element satisfy the
+ * specified predicate, creating a new array
+ */
+export const dropWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => takeWhile(not(predicate))(as)
 
-export function findIndex<A>(predicate: Predicate<A>, as: Array<A>): Option<number> {
+/** Find the first index for which a predicate holds */
+export const findIndex = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<number> => {
   const len = as.length
   for (let i = 0; i < len; i++) {
     if (predicate(as[i])) {
@@ -178,89 +182,85 @@ export function findIndex<A>(predicate: Predicate<A>, as: Array<A>): Option<numb
   return option.none
 }
 
-export function filter<A>(predicate: Predicate<A>, as: Array<A>): Array<A> {
-  return as.filter(predicate)
-}
+/** Filter an array, keeping the elements which satisfy a predicate function, creating a new array */
+export const filter = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => as.filter(predicate)
 
-export function refine<A>(as: Array<A>): <B extends A>(refinement: Refinement<A, B>) => Array<B> {
-  return <B extends A>(refinement: Refinement<A, B>) => as.filter(refinement) as Array<B>
-}
+export const refine = <A>(as: Array<A>) => <B extends A>(refinement: Refinement<A, B>): Array<B> =>
+  as.filter(refinement)
 
-export function copy<A>(as: Array<A>): Array<A> {
-  return as.slice()
-}
+export const copy = <A>(as: Array<A>): Array<A> => as.slice()
 
-export function unsafeInsertAt<A>(i: number, a: A, as: Array<A>): Array<A> {
+export const unsafeInsertAt = (i: number) => <A>(a: A) => (as: Array<A>): Array<A> => {
   const xs = copy(as)
   xs.splice(i, 0, a)
   return xs
 }
 
-export function insertAt<A>(i: number, a: A, as: Array<A>): Option<Array<A>> {
-  return i < 0 || i > as.length ? option.none : option.some(unsafeInsertAt(i, a, as))
-}
+/**
+ * Insert an element at the specified index, creating a new array, or
+ * returning `None` if the index is out of bounds
+ */
+export const insertAt = (i: number) => <A>(a: A) => (as: Array<A>): Option<Array<A>> =>
+  i < 0 || i > as.length ? option.none : option.some(unsafeInsertAt(i)(a)(as))
 
-export function unsafeUpdateAt<A>(i: number, a: A, as: Array<A>): Array<A> {
+export const unsafeUpdateAt = (i: number) => <A>(a: A) => (as: Array<A>): Array<A> => {
   const xs = copy(as)
   xs[i] = a
   return xs
 }
 
-export function updateAt<A>(i: number, a: A, as: Array<A>): Option<Array<A>> {
-  return isOutOfBound(i, as) ? option.none : option.some(unsafeUpdateAt(i, a, as))
-}
+/**
+ * Change the element at the specified index, creating a new array, or
+ * returning `None` if the index is out of bounds
+ */
+export const updateAt = (i: number) => <A>(a: A) => (as: Array<A>): Option<Array<A>> =>
+  isOutOfBound(i)(as) ? option.none : option.some(unsafeUpdateAt(i)(a)(as))
 
-export function unsafeDeleteAt<A>(i: number, as: Array<A>): Array<A> {
+export const unsafeDeleteAt = (i: number) => <A>(as: Array<A>): Array<A> => {
   const xs = copy(as)
   xs.splice(i, 1)
   return xs
 }
 
-export function deleteAt<A>(i: number, as: Array<A>): Option<Array<A>> {
-  return isOutOfBound(i, as) ? option.none : option.some(unsafeDeleteAt(i, as))
-}
+/**
+ * Delete the element at the specified index, creating a new array, or
+ * returning `None` if the index is out of bounds
+ */
+export const deleteAt = (i: number) => <A>(as: Array<A>): Option<Array<A>> =>
+  isOutOfBound(i)(as) ? option.none : option.some(unsafeDeleteAt(i)(as))
 
-export function modifyAt<A>(i: number, f: Endomorphism<A>, as: Array<A>): Option<Array<A>> {
-  return isOutOfBound(i, as) ? option.none : updateAt(i, f(as[i]), as)
-}
+/**
+ * Apply a function to the element at the specified index, creating a new
+ * array, or returning `Nothing` if the index is out of bounds
+ */
+export const modifyAt = (i: number) => <A>(f: Endomorphism<A>) => (as: Array<A>): Option<Array<A>> =>
+  isOutOfBound(i)(as) ? option.none : updateAt(i)(f(as[i]))(as)
 
-export function reverse<A>(as: Array<A>): Array<A> {
-  return copy(as).reverse()
-}
+/** Reverse an array, creating a new array */
+export const reverse = <A>(as: Array<A>): Array<A> => copy(as).reverse()
 
-export function mapOption<A, B>(f: (a: A) => Option<B>, as: Array<A>): Array<B> {
-  return chain(a => option.fold(empty, of, f(a)), as)
-}
+/**
+ * Apply a function to each element in an array, keeping only the results
+ * which contain a value, creating a new array
+ */
+export const mapOption = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Array<B> =>
+  chain(a => option.fold(empty, of, f(a)), as)
 
-export function catOptions<A>(as: Array<Option<A>>): Array<A> {
-  return mapOption<Option<A>, A>(identity, as)
-}
+/**
+ * Filter an array of optional values, keeping only the elements which contain
+ * a value, creating a new array
+ */
+export const catOptions = <A>(as: Array<Option<A>>): Array<A> => mapOption<Option<A>, A>(identity)(as)
 
-export function sort<A>(ord: Ord<A>, as: Array<A>): Array<A> {
-  return copy(as).sort(toNativeComparator(ord.compare))
-}
-
-export function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): { left: Array<L>; right: Array<R> } {
-  const left: Array<L> = []
-  const right: Array<R> = []
-  for (let i = 0; i < fa.length; i++) {
-    f(fa[i]).fold(l => left.push(l), r => right.push(r))
-  }
-  return { left, right }
-}
-
-export function wilt<M>(
-  M: Applicative<M>
-): <A, L, R>(f: (a: A) => HKT<M, Either<L, R>>, ta: Array<A>) => HKT<M, { left: Array<L>; right: Array<R> }> {
-  return (f, ta) => M.map(es => partitionMap(e => e, es), traverse(M)(f, ta))
-}
+/** Sort the elements of an array in increasing order, creating a new array */
+export const sort = <A>(ord: Ord<A>) => (as: Array<A>): Array<A> => copy(as).sort(toNativeComparator(ord.compare))
 
 /**
  * Apply a function to pairs of elements at the same index in two arrays,
  * collecting the results in a new array,
  * If one input array is short, excess elements of the longer array are discarded
  */
-export function zipWith<A, B, C>(f: (a: A, b: B) => C, fa: Array<A>, fb: Array<B>): Array<C> {
+export const zipWith = <A, B, C>(f: (a: A, b: B) => C) => (fa: Array<A>) => (fb: Array<B>): Array<C> => {
   const fc = []
   const len = Math.min(fa.length, fb.length)
   for (let i = 0; i < len; i++) {
@@ -273,13 +273,12 @@ export function zipWith<A, B, C>(f: (a: A, b: B) => C, fa: Array<A>, fb: Array<B
  * Takes two arrays and returns an array of corresponding pairs.
  * If one input array is short, excess elements of the longer array are discarded
  */
-export function zip<A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> {
-  return zipWith<A, B, [A, B]>(tuple, fa, fb)
-}
+export const zip = <A>(fa: Array<A>) => <B>(fb: Array<B>): Array<[A, B]> => zipWith<A, B, [A, B]>(tuple)(fa)(fb)
 
 export const array: Monoid<Array<any>> &
   Monad<URI> &
   Foldable<URI> &
+  Unfoldable<URI> &
   Traversable<URI> &
   Alternative<URI> &
   Plus<URI> &
@@ -294,6 +293,7 @@ export const array: Monoid<Array<any>> &
   ap,
   chain,
   reduce,
+  unfoldr,
   traverse,
   zero,
   alt,

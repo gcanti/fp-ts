@@ -21,10 +21,9 @@ export type URI = typeof URI
 
 export class NonEmptyArray<A>
   implements FantasyMonad<URI, A>, FantasyComonad<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
-  static of = of
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly head: A, public readonly tail: Array<A>) {}
+  constructor(readonly head: A, readonly tail: Array<A>) {}
   toArray(): Array<A> {
     return [this.head].concat(this.tail)
   }
@@ -33,9 +32,6 @@ export class NonEmptyArray<A>
   }
   map<B>(f: (a: A) => B): NonEmptyArray<B> {
     return new NonEmptyArray(f(this.head), this.tail.map(f))
-  }
-  of<B>(b: B): NonEmptyArray<B> {
-    return of(b)
   }
   ap<B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B> {
     return fab.chain(f => this.map(f)) // <= derived
@@ -74,37 +70,25 @@ export class NonEmptyArray<A>
   }
 }
 
-function unsafeFromArray<A>(as: Array<A>): NonEmptyArray<A> {
-  return new NonEmptyArray(as[0], as.slice(1))
-}
+const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => new NonEmptyArray(as[0], as.slice(1))
 
-export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
-  return as.length ? some(unsafeFromArray(as)) : none
-}
+export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (as.length ? some(unsafeFromArray(as)) : none)
 
-export function map<A, B>(f: (a: A) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> {
-  return fa.map(f)
-}
+export const map = <A, B>(f: (a: A) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.map(f)
 
-export function ap<A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>): NonEmptyArray<B> {
-  return fa.ap(fab)
-}
+export const of = <A>(a: A): NonEmptyArray<A> => new NonEmptyArray(a, [])
 
-export function of<A>(a: A): NonEmptyArray<A> {
-  return new NonEmptyArray(a, [])
-}
+export const ap = <A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.ap(fab)
 
-export function chain<A, B>(f: (a: A) => NonEmptyArray<B>, fa: NonEmptyArray<A>): NonEmptyArray<B> {
-  return fa.chain(f)
-}
+export const chain = <A, B>(f: (a: A) => NonEmptyArray<B>, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.chain(f)
 
-export function concat<A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A> {
-  return fx.concat(fy)
-}
+export const concat = <A>(fx: NonEmptyArray<A>) => (fy: NonEmptyArray<A>): NonEmptyArray<A> => fx.concat(fy)
 
-export function reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): B {
-  return fa.reduce(f, b)
-}
+export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): B => fa.reduce(f, b)
+
+export const extend = <A, B>(f: (fa: NonEmptyArray<A>) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.extend(f)
+
+export const extract = <A>(fa: NonEmptyArray<A>): A => fa.extract()
 
 export class Ops {
   traverse<F extends HKT2S>(
@@ -121,14 +105,6 @@ export class Ops {
 
 const ops = new Ops()
 export const traverse: Ops['traverse'] = ops.traverse
-
-export function extend<A, B>(f: (fa: NonEmptyArray<A>) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> {
-  return fa.extend(f)
-}
-
-export function extract<A>(fa: NonEmptyArray<A>): A {
-  return fa.extract()
-}
 
 export const nonEmptyArray: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traversable<URI> = {
   URI,

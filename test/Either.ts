@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { right, left, map, fold, getOrElse, ap, chain, fromPredicate, tryCatch, fromOption } from '../src/Either'
+import { right, left, map, fold, getOrElse, ap, chain, fromPredicate, tryCatch, fromOption, bimap } from '../src/Either'
 import { eqEithers as eq } from './helpers'
 import { none, some } from '../src/Option'
 
@@ -15,6 +15,12 @@ describe('Either', () => {
     const f = (s: string): number => s.length
     eq(map(f, right('abc')), right(3))
     eq(map(f, left('s')), left('s'))
+  })
+
+  it('bimap', () => {
+    const f = (s: string): number => s.length
+    const g = (n: number): boolean => n > 2
+    eq(bimap(f, g)(right(1)), right(false))
   })
 
   it('ap', () => {
@@ -51,12 +57,12 @@ describe('Either', () => {
   })
 
   it('getOrElse', () => {
-    assert.equal(getOrElse(() => 17, right(12)), 12)
-    assert.equal(getOrElse(() => 17, left(12)), 17)
+    assert.equal(getOrElse(() => 17)(right(12)), 12)
+    assert.equal(getOrElse(() => 17)(left(12)), 17)
   })
 
   it('fromOption', () => {
-    assert.deepEqual(fromOption('default', none), left('default'))
-    assert.deepEqual(fromOption('default', some(1)), right(1))
+    assert.deepEqual(fromOption('default')(none), left('default'))
+    assert.deepEqual(fromOption('default')(some(1)), right(1))
   })
 })

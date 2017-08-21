@@ -9,15 +9,13 @@ import { Monad } from './Monad'
  * return a value. This will log the value's underlying representation for
  * low-level debugging
  */
-export function trace<A>(message: any, out: Lazy<A>): A {
+export const trace = <A>(message: any, out: Lazy<A>): A => {
   console.log(message)
   return out()
 }
 
 /** Log any value and return it */
-export function spy<A>(a: A): A {
-  return trace(a, () => a)
-}
+export const spy = <A>(a: A): A => trace(a, () => a)
 
 export class Ops {
   /** Log a message to the console for debugging purposes and then return the

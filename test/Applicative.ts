@@ -18,8 +18,8 @@ describe('Applicative', () => {
 
     const somefailure = [
       validation.success<string, number>(1),
-      validation.failure<string, number>(monoidString, '[fail 1]'),
-      validation.failure<string, number>(monoidString, '[fail 2]')
+      validation.failure(monoidString)('[fail 1]'),
+      validation.failure(monoidString)('[fail 2]')
     ].map(a => new taskValidation.TaskValidation(task.of(a)))
 
     const p1 = sequence(taskValidation, array)(allsuccess).value.run()
@@ -44,9 +44,9 @@ describe('Applicative', () => {
     const action = new io.IO(() => {
       log.push('action called')
     })
-    when(io)(false, action).run()
+    when(io)(false)(action).run()
     assert.deepEqual(log, [])
-    when(io)(true, action).run()
+    when(io)(true)(action).run()
     assert.deepEqual(log, ['action called'])
   })
 })
