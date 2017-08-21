@@ -8,14 +8,14 @@ import * as option from '../../src/Option'
 
 const sum = (x: number) => (y: number) => x + y
 
-const identitySum = liftA2(identity, sum)
+const identitySum = liftA2(identity)(sum)
 
-console.log(identitySum(new identity.Identity(2), new identity.Identity(3))) // => new Identity(5)
+console.log(identitySum(new identity.Identity(2))(new identity.Identity(3))) // => new Identity(5)
 
-const optionSum = liftA2(option, sum)
+const optionSum = liftA2(option)(sum)
 
-console.log(optionSum(option.some(2), option.some(2))) // => some(4)
-console.log(optionSum(option.some(2), option.none)) // => none
+console.log(optionSum(option.some(2))(option.some(2))) // => some(4)
+console.log(optionSum(option.some(2))(option.none)) // => none
 
 import * as array from '../../src/Array'
 
@@ -28,7 +28,7 @@ console.log(array.ap([(x: number) => x + '!'], [1, 2, 3]))
 console.log(array.ap([(x: number) => x + '!', (x: number) => x + '?'], [1, 2, 3]))
 // => [ '1!', '2!', '3!', '1?', '2?', '3?' ]
 
-console.log(liftA2(array, sum)([1, 2], [3, 4]))
+console.log(liftA2(array)(sum)([1, 2])([3, 4]))
 // => [ 4, 5, 5, 6 ]
 
 //
@@ -62,4 +62,4 @@ export const getJSON = (url: string): task.Task<string> => new task.Task(() => f
 export const renderPage = (users: string) => (posts: string) => 'html...'
 
 // A Task of a web page
-export const page = liftA2(task, renderPage)(getJSON('/users'), getJSON('/posts'))
+export const page = liftA2(task)(renderPage)(getJSON('/users'))(getJSON('/posts'))

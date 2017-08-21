@@ -8,12 +8,12 @@ import { Tuple, getMonad, chainRec } from '../../src/Tuple'
 const monoidArrayNumber = getArrayMonoid<number>()
 const monad = getMonad(monoidArrayNumber)
 
-export function seq(upper: number): Tuple<Array<number>, number> {
-  function seq_(init: number): Tuple<Array<number>, number> {
-    return init >= upper
+export const seq = (upper: number): Tuple<Array<number>, number> => {
+  const seq_ = (init: number): Tuple<Array<number>, number> =>
+    init >= upper
       ? new Tuple([[init], upper])
       : monad.chain(seq_, new Tuple([[init], init + 1])) as Tuple<Array<number>, number>
-  }
+
   return seq_(1)
 }
 
@@ -24,8 +24,8 @@ console.log(seq(5).fst())
 
 import { left, right } from '../../src/Either'
 
-function seqReq(upper: number): Tuple<Array<number>, number> {
-  return chainRec(monoidArrayNumber)(init => new Tuple([[init], init >= upper ? right(init) : left(init + 1)]), 1)
-}
+const seqReq = (upper: number): Tuple<Array<number>, number> =>
+  chainRec(monoidArrayNumber)(init => new Tuple([[init], init >= upper ? right(init) : left(init + 1)]), 1)
+
 console.log(seqReq(10000).fst())
 // => [1, 2, 3, ..., 10000]

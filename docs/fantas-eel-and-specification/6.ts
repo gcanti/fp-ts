@@ -19,12 +19,10 @@ export type URI = typeof URI
 export class MyType<A> {
   readonly _A: A
   readonly _URI: URI
-  constructor(public readonly value: A) {}
+  constructor(readonly value: A) {}
 }
 
-export function map<A, B>(f: (a: A) => B, fa: MyType<A>): MyType<B> {
-  return new MyType(f(fa.value))
-}
+export const map = <A, B>(f: (a: A) => B, fa: MyType<A>): MyType<B> => new MyType(f(fa.value))
 
 export const functor: Functor<URI> = {
   URI,

@@ -25,7 +25,7 @@ export type Line = {
 
 export class Coord {
   /** A coordinate in 3D space */
-  constructor(public readonly x: number, public readonly y: number, public readonly z: number) {}
+  constructor(readonly x: number, readonly y: number, readonly z: number) {}
   translate(deltaX: number, deltaY: number, deltaZ: number) {
     return new Coord(this.x + deltaX, this.y + deltaY, this.x + deltaZ)
   }
@@ -33,7 +33,7 @@ export class Coord {
 
 export class Line {
   /** A line between two coordinates */
-  constructor(public readonly from: Coord, public readonly to: Coord) {}
+  constructor(readonly from: Coord, readonly to: Coord) {}
 }
 
 const origin = new Coord(0, 0, 0)
@@ -56,17 +56,17 @@ export type Shape = Square | Circle
 
 export class Square {
   readonly _tag: 'Square' = 'Square'
-  constructor(public readonly topleft: Coord, public readonly bottomright: Coord) {}
+  constructor(readonly topleft: Coord, readonly bottomright: Coord) {}
 }
 
 export class Circle {
   readonly _tag: 'Circle' = 'Circle'
-  constructor(public readonly centre: Coord, public readonly radius: number) {}
+  constructor(readonly centre: Coord, readonly radius: number) {}
 }
 
 export type Shape = Square | Circle
 
-export function cata<R>(whenSquare: (s: Square) => R, whenCircle: (c: Circle) => R, s: Shape): R {
+export const cata = <R>(whenSquare: (s: Square) => R, whenCircle: (c: Circle) => R) => (s: Shape): R => {
   switch (s._tag) {
     case 'Square':
       return whenSquare(s)
@@ -75,13 +75,13 @@ export function cata<R>(whenSquare: (s: Square) => R, whenCircle: (c: Circle) =>
   }
 }
 
-export function translateShape(deltaX: number, deltaY: number, deltaZ: number, shape: Shape): Shape {
-  return cata<Shape>(
+import { Endomorphism } from '../../src/function'
+
+export const translateShape = (deltaX: number, deltaY: number, deltaZ: number): Endomorphism<Shape> =>
+  cata<Shape>(
     s => new Square(s.topleft.translate(deltaX, deltaY, deltaZ), s.bottomright.translate(deltaX, deltaY, deltaZ)),
-    c => new Circle(c.centre.translate(deltaX, deltaY, deltaZ), c.radius),
-    shape
+    c => new Circle(c.centre.translate(deltaX, deltaY, deltaZ), c.radius)
   )
-}
 
 //
 // Example: linked lists
@@ -105,7 +105,7 @@ export class Nil<A> {
 }
 
 export class Cons<A> {
-  constructor(public readonly head: A, public readonly tail: List<A>) {}
+  constructor(readonly head: A, readonly tail: List<A>) {}
   fold<R>(whenNil: () => R, whenCons: (head: A, tail: List<A>) => R): R {
     return whenCons(this.head, this.tail)
   }
@@ -117,13 +117,10 @@ export class Cons<A> {
   }
 }
 
-export function fromArray<A>(xs: Array<A>): List<A> {
-  return xs.reduceRight((acc, a) => new Cons(a, acc), Nil.value as List<A>)
-}
+export const fromArray = <A>(xs: Array<A>): List<A> =>
+  xs.reduceRight((acc, a) => new Cons(a, acc), Nil.value as List<A>)
 
-export function toArray<A>(xs: List<A>): Array<A> {
-  return xs.fold(() => [], (head, tail) => [head, ...toArray(tail)])
-}
+export const toArray = <A>(xs: List<A>): Array<A> => xs.fold(() => [], (head, tail) => [head, ...toArray(tail)])
 
 console.log(toArray(fromArray([1, 2, 3]).map(x => x + 2)))
 // => [3, 4, 5]

@@ -7,13 +7,9 @@ import { pipe } from '../../src/function'
 
 type User = { name: string }
 
-function isValid(user: User): boolean {
-  return user.name !== ''
-}
+const isValid = (user: User): boolean => user.name !== ''
 
-export function login(user: User): Either<string, User> {
-  return isValid(user) ? right(user) : left('BOO')
-}
+export const login = (user: User): Either<string, User> => (isValid(user) ? right(user) : left('BOO'))
 
 export const failureStream = pipe((x: string) => x.toUpperCase(), x => x + '!', x => '<em>' + x + '</em>')
 
@@ -30,7 +26,7 @@ import { HKT } from '../../src/HKT'
 import { Functor } from '../../src/Functor'
 
 export class Costar<F, B, C> {
-  constructor(public readonly F: Functor<F>, public readonly run: (fl: HKT<F, B>) => C) {}
+  constructor(readonly F: Functor<F>, readonly run: (fl: HKT<F, B>) => C) {}
   promap<A, D>(f: (a: A) => B, g: (c: C) => D): Costar<F, A, D> {
     return new Costar(this.F, fa => g(this.run(this.F.map(f, fa))))
   }

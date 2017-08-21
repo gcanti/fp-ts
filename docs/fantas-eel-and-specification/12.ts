@@ -6,16 +6,13 @@ import * as task from '../../src/Task'
 
 export type User = { name: string }
 
-export function getById(id: number): task.Task<User> {
-  return task.of({ name: `name-${id}` })
-}
+export const getById = (id: number): task.Task<User> => task.of({ name: `name-${id}` })
 
 import { sequence } from '../../src/Traversable'
 import * as array from '../../src/Array'
 
-export function paralleliseTaskArray(ids: Array<number>): task.Task<Array<User>> {
-  return sequence(task, array)(ids.map(getById))
-}
+export const paralleliseTaskArray = (ids: Array<number>): task.Task<Array<User>> =>
+  sequence(task, array)(ids.map(getById))
 
 paralleliseTaskArray([1, 2, 3]).run().then(x => console.log(x))
 // => [ { name: 'name-1' }, { name: 'name-2' }, { name: 'name-3' } ]

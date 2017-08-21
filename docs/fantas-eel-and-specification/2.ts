@@ -4,12 +4,14 @@
 
 import { zipWith } from '../../src/Array'
 
-console.log(zipWith((x, y) => x + y, [1, 2], [4, 5, 6]))
+const sum = (x: number, y: number) => x + y
+console.log(zipWith(sum)([1, 2])([4, 5, 6]))
 // => [5, 7]
 
 import { filter } from '../../src/Array'
 
-console.log(filter(n => n > 2, [1, 2, 3]))
+const gt2 = (n: number) => n > 2
+console.log(filter(gt2)([1, 2, 3]))
 // => [3]
 
 //
@@ -24,9 +26,8 @@ export function naiveEquals<A>(xs: Array<A>, ys: Array<A>): boolean {
 
 import { Setoid } from '../../src/Setoid'
 
-export function equals<A>(S: Setoid<A>): (xs: Array<A>, ys: Array<A>) => boolean {
-  return (xs, ys) => xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])) // <- this too restrictive
-}
+export const equals = <A>(S: Setoid<A>) => (xs: Array<A>) => (ys: Array<A>): boolean =>
+  xs.length === ys.length && xs.every((x, i) => S.equals(x)(ys[i])) // <- this too restrictive
 
 // so type constraints are encoded as additional arguments (usually in first position)
 
@@ -36,23 +37,19 @@ export function equals<A>(S: Setoid<A>): (xs: Array<A>, ys: Array<A>) => boolean
 
 /** `Setoid` instance for `number` */
 const setoidNumber: Setoid<number> = {
-  equals(x, y) {
-    return x === y
-  }
+  equals: x => y => x === y
 }
 
-console.log(equals(setoidNumber)([1, 2], [1, 2]))
+console.log(equals(setoidNumber)([1, 2])([1, 2]))
 // => true
 
 /** `Setoid` instance for `Date` */
 const setoidDate: Setoid<Date> = {
-  equals(x, y) {
-    return x.getTime() === y.getTime()
-  }
+  equals: x => y => x.getTime() === y.getTime()
 }
 
 const d1 = new Date(1973, 10, 30)
 const d2 = new Date()
 
-console.log(equals(setoidDate)([d1, d2], [d1, d2]))
+console.log(equals(setoidDate)([d1, d2])([d1, d2]))
 // => true

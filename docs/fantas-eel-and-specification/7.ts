@@ -3,7 +3,7 @@
 //
 
 export class Predicate<A> {
-  constructor(public readonly run: (a: A) => boolean) {}
+  constructor(readonly run: (a: A) => boolean) {}
   static empty = () => new Predicate(() => true)
   contramap<B>(f: (b: B) => A): Predicate<B> {
     return new Predicate(b => this.run(f(b)))
@@ -18,7 +18,7 @@ export const isEven = new Predicate((x: number) => x % 2 === 0)
 export const lengthIsEven = isEven.contramap((x: string) => x.length)
 
 export class ToString<A> {
-  constructor(public readonly run: (a: A) => string) {}
+  constructor(readonly run: (a: A) => string) {}
   contramap<B>(f: (b: B) => A): ToString<B> {
     return new ToString(b => this.run(f(b)))
   }
@@ -34,9 +34,7 @@ export const stringArrayToString = new ToString((x: string) => '[ ' + x + ' ]').
 
 // Given a ToString instance for a type,
 // convert an array of a type to a string
-export function arrayToString<A>(t: ToString<A>): ToString<Array<A>> {
-  return stringArrayToString.contramap(x => x.map(t.run))
-}
+export const arrayToString = <A>(t: ToString<A>): ToString<Array<A>> => stringArrayToString.contramap(x => x.map(t.run))
 
 // Convert an integer array to a string
 export const intsToString = arrayToString(intToString)
@@ -48,7 +46,7 @@ console.log(matrixToString.run([[1, 3, 4]]))
 // => [ [ int(1), int(3), int(4) ] ]
 
 export class Equivalence<A> {
-  constructor(public readonly run: (x: A, y: A) => boolean) {}
+  constructor(readonly run: (x: A, y: A) => boolean) {}
   static empty = () => new Equivalence(() => true)
   contramap<B>(f: (b: B) => A): Equivalence<B> {
     return new Equivalence((x, y) => this.run(f(x), f(y)))

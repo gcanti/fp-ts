@@ -12,8 +12,7 @@ export const append = <A>(y: A) => (xs: Array<A>) => xs.concat([y])
 export function insideOut<F extends HKTS>(F: Applicative<F>): <A>(xs: Array<HKTAs<F, A>>) => HKTAs<F, Array<A>>
 export function insideOut<F>(F: Applicative<F>): <A>(xs: Array<HKT<F, A>>) => HKT<F, Array<A>>
 export function insideOut<F>(F: Applicative<F>): <A>(xs: Array<HKT<F, A>>) => HKT<F, Array<A>> {
-  return <A>(xs: Array<HKT<F, A>>) =>
-    xs.reduce((acc, x) => liftA2<F, A, Array<A>, Array<A>>(F, append)(x, acc), F.of([]))
+  return <A>(xs: Array<HKT<F, A>>) => xs.reduce((acc, x) => liftA2(F)<A, Array<A>, Array<A>>(append)(x)(acc), F.of([]))
 }
 
 import * as option from '../../src/Option'
@@ -28,35 +27,29 @@ console.log(insideOut(option)([option.some(2), option.none, option.some(3)])) //
 
 import { Monoid } from '../../src/Monoid'
 
-export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): Monoid<HKT<F, A>> {
-  return {
-    concat(x, y) {
-      return liftA2(F, (x: A) => (y: A) => M.concat(x, y))(x, y)
-    },
-    empty() {
-      return F.of(M.empty())
-    }
-  }
-}
+export const getMonoid = <F, A>(F: Applicative<F>, M: Monoid<A>): Monoid<HKT<F, A>> => ({
+  concat: x => y => liftA2(F)((x: A) => (y: A) => M.concat(x)(y))(x)(y),
+  empty: () => F.of(M.empty())
+})
 
 import { getArrayMonoid } from '../../src/Monoid'
 
 const monoidArrayNumber = getArrayMonoid<number>()
 
 // Usual implementation:
-console.log(option.concat(monoidArrayNumber, option.some([2]), option.some([3]))) // => some([2, 3])
-console.log(option.concat(monoidArrayNumber, option.some([2]), option.none)) // => some([2])
-console.log(option.concat(monoidArrayNumber, option.none, option.some([3]))) // => some([3])
-console.log(option.concat(monoidArrayNumber, option.none, option.none)) // => none
+console.log(option.concat(monoidArrayNumber)(option.some([2]))(option.some([3]))) // => some([2, 3])
+console.log(option.concat(monoidArrayNumber)(option.some([2]))(option.none)) // => some([2])
+console.log(option.concat(monoidArrayNumber)(option.none)(option.some([3]))) // => some([3])
+console.log(option.concat(monoidArrayNumber)(option.none)(option.none)) // => none
 
 // With the above implementation
 
 const monoid = getMonoid(option, monoidArrayNumber)
 
-console.log(monoid.concat(option.some([2]), option.some([3]))) // => some([2, 3])
-console.log(monoid.concat(option.some([2]), option.none)) // => none
-console.log(monoid.concat(option.none, option.some([3]))) // => none
-console.log(monoid.concat(option.none, option.none)) // => none
+console.log(monoid.concat(option.some([2]))(option.some([3]))) // => some([2, 3])
+console.log(monoid.concat(option.some([2]))(option.none)) // => none
+console.log(monoid.concat(option.none)(option.some([3]))) // => none
+console.log(monoid.concat(option.none)(option.none)) // => none
 
 //
 // Tuple

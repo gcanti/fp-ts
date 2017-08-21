@@ -7,9 +7,9 @@ export const URI = 'RoseTree'
 export type URI = typeof URI
 
 export class RoseTree<A> {
-  public readonly _A: A
-  public readonly _URI: URI
-  constructor(public readonly root: A, public readonly forest: Array<RoseTree<A>>) {}
+  readonly _A: A
+  readonly _URI: URI
+  constructor(readonly root: A, readonly forest: Array<RoseTree<A>>) {}
   map<B>(f: (a: A) => B): RoseTree<B> {
     return new RoseTree(f(this.root), this.forest.map(rt => rt.map(f)))
   }

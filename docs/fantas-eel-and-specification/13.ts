@@ -5,16 +5,12 @@
 import { StrMap, lookup } from '../../src/StrMap'
 import * as option from '../../src/Option'
 
-export function prop(k: string): <A>(xs: StrMap<A>) => option.Option<A> {
-  return xs => lookup(k, xs)
-}
-
 const data = new StrMap({ a: new StrMap({ b: new StrMap({ c: 2 }) }) })
 
-console.log(prop('a')(data).map(prop('b')).map(o => o.map(prop('c'))))
+console.log(lookup('a')(data).map(lookup('b')).map(o => o.map(lookup('c'))))
 // => some(some(some(2)))
 
-console.log(prop('a')(data).map(prop('badger')).map(o => o.map(prop('c'))))
+console.log(lookup('a')(data).map(lookup('badger')).map(o => o.map(lookup('c'))))
 // => some(none)
 
 //
@@ -25,17 +21,17 @@ import { flatten as generalflatten } from '../../src/Chain'
 
 const flatten = generalflatten(option)
 
-console.log(flatten(flatten(prop('a')(data).map(prop('b'))).map(prop('c'))))
+console.log(flatten(flatten(lookup('a')(data).map(lookup('b'))).map(lookup('c'))))
 // => some(2)
 
-console.log(flatten(flatten(prop('a')(data).map(prop('badger'))).map(prop('c'))))
+console.log(flatten(flatten(lookup('a')(data).map(lookup('badger'))).map(lookup('c'))))
 // => none
 
 //
 // using chain
 //
 
-console.log(prop('a')(data).chain(prop('b')).chain(prop('c')))
+console.log(lookup('a')(data).chain(lookup('b')).chain(lookup('c')))
 // => some(2)
 
 //

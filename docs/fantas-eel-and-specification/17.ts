@@ -10,25 +10,20 @@ console.log(new NonEmptyArray(1, [2, 3, 4]).extract())
 import { Store } from '../../src/Store'
 import { Tuple } from '../../src/Tuple'
 import { Option, some, none } from '../../src/Option'
-import { between, numberOrd } from '../../src/Ord'
+import { between, ordNumber } from '../../src/Ord'
 
 export type Board = Array<Array<boolean>>
 
-export function inBounds(i: number, j: number): boolean {
-  return between(numberOrd, 0, 3, i) && between(numberOrd, 0, 3, j)
-}
+export const inBounds = (i: number, j: number): boolean => between(ordNumber)(0)(3)(i) && between(ordNumber)(0)(3)(j)
 
-export function getBoardValue(board: Board, i: number, j: number): Option<boolean> {
-  return inBounds(i, j) ? some(board[i][j]) : none
-}
+export const getBoardValue = (board: Board, i: number, j: number): Option<boolean> =>
+  inBounds(i, j) ? some(board[i][j]) : none
 
-export function showBoard(board: Board): string {
-  return board.map(row => row.map(b => (b ? 'X' : 'O')).join(' ')).join('\n')
-}
+export const showBoard = (board: Board): string => board.map(row => row.map(b => (b ? 'X' : 'O')).join(' ')).join('\n')
 
 type Game = Store<Tuple<number, number>, boolean>
 
-export function neighbours(game: Game): number {
+export const neighbours = (game: Game): number => {
   const [x, y] = game.pos.value
   return [
     new Tuple([x - 1, y - 1]), // NW
@@ -46,20 +41,20 @@ export function neighbours(game: Game): number {
     .filter(x => x).length // Ignore false cells
 }
 
-export function isSurvivor(game: Game): boolean {
+export const isSurvivor = (game: Game): boolean => {
   const c = game.extract()
   const n = neighbours(game)
   return (!c && n === 3) || (c && (n === 2 || n === 3))
 }
 
-export function fromBoard(board: Board): Game {
+export const fromBoard = (board: Board): Game => {
   return new Store(pointer => {
     const [x, y] = pointer.value
     return getBoardValue(board, x, y).getOrElse(() => false)
   }, new Tuple([0, 0]))
 }
 
-export function toBoard(game: Game): Board {
+export const toBoard = (game: Game): Board => {
   const board: Board = []
   for (let i = 0; i <= 3; i++) {
     board[i] = []
@@ -72,7 +67,7 @@ export function toBoard(game: Game): Board {
 
 import { IO } from '../../src/IO'
 
-export function generateBoard(): IO<Board> {
+export const generateBoard = (): IO<Board> => {
   return new IO(() => {
     const board: Board = []
     for (let i = 0; i <= 3; i++) {
@@ -93,7 +88,7 @@ export function generateBoard(): IO<Board> {
   // })
 }
 
-export function drawBoard(board: Board): IO<string> {
+export const drawBoard = (board: Board): IO<string> => {
   return new IO(() => {
     const s = showBoard(board)
     console.log('--------')
@@ -102,11 +97,9 @@ export function drawBoard(board: Board): IO<string> {
   })
 }
 
-export function step(board: Board): Board {
-  return toBoard(fromBoard(board).extend(isSurvivor))
-}
+export const step = (board: Board): Board => toBoard(fromBoard(board).extend(isSurvivor))
 
-export function loop(board: Board): IO<void> {
+export const loop = (board: Board): IO<void> => {
   return drawBoard(board).chain(
     () =>
       new IO(() => {
