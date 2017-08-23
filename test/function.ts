@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { compose, pipe, curry, flip, on, or, and } from '../src/function'
+import { compose, pipe, curry, flip, on, or, and, apply, applyFlipped } from '../src/function'
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
@@ -88,5 +88,14 @@ describe('function', () => {
     assert.strictEqual(between2and3(1), false)
     assert.strictEqual(between2and3(4), false)
     assert.strictEqual(between2and3(2.5), true)
+  })
+
+  it('apply', () => {
+    const double = (n: number) => n * 2
+    assert.strictEqual(apply(double)(2), 4)
+  })
+
+  it('applyFlipped', () => {
+    assert.strictEqual(applyFlipped(2)(n => n * 2), 4)
   })
 })

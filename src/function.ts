@@ -219,3 +219,9 @@ export const toString = (x: any): string => {
 export const tuple = <A, B>(a: A, b: B): [A, B] => [a, b]
 
 export const curriedTuple = <A>(a: A) => <B>(b: B): [A, B] => [a, b]
+
+/** Applies a function to an argument ($) */
+export const apply = <A, B>(f: (a: A) => B) => (a: A): B => f(a)
+
+/** Applies an argument to a function (#) */
+export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => f(a)
