@@ -3,17 +3,17 @@ import { compose, pipe, curry, flip, on, or, and } from '../src/function'
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
-const h = (a: number, b: number) => a - b
+const h = (a: number) => (b: number) => a - b
 
 describe('function', () => {
   it('flip', () => {
     const flippedH = flip(h)
-    assert.strictEqual(flippedH(5, 2), -3)
+    assert.strictEqual(flippedH(5)(2), -3)
   })
 
   it('on', () => {
-    const stringH = on(h, (s: string) => s.length)
-    assert.strictEqual(stringH('abcde', 'ab'), 3)
+    const stringH = on(h)((s: string) => s.length)
+    assert.strictEqual(stringH('abcde')('ab'), 3)
   })
 
   it('compose', () => {
@@ -53,7 +53,7 @@ describe('function', () => {
     // as predicate
     const gt3 = (n: number) => n > 3
     const lt2 = (n: number) => n < 2
-    const outside2and3 = or(lt2, gt3)
+    const outside2and3 = or(lt2)(gt3)
     assert.strictEqual(outside2and3(1), true)
     assert.strictEqual(outside2and3(4), true)
     assert.strictEqual(outside2and3(2.5), false)
@@ -68,7 +68,7 @@ describe('function', () => {
     }
     const isB = (a: A): a is B => a instanceof B
     const isC = (a: A): a is C => a instanceof C
-    const isBOrC = or(isB, isC)
+    const isBOrC = or(isB)(isC)
     function f(a: any): 'B' | 'C' | 'else' {
       if (isBOrC(a)) {
         return a._tag
