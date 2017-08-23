@@ -29,47 +29,38 @@ export type Predicate<A> = (a: A) => boolean
 
 export type Refinement<A, B extends A> = (a: A) => a is B
 
-export function not<A>(predicate: Predicate<A>): Predicate<A> {
-  return a => !predicate(a)
+export const not = <A>(predicate: Predicate<A>): Predicate<A> => a => !predicate(a)
+
+export function or<A, B1 extends A>(
+  p1: Refinement<A, B1>
+): <B2 extends A>(p2: Refinement<A, B2>) => Refinement<A, B1 | B2>
+export function or<A>(p1: Predicate<A>): (p2: Predicate<A>) => Predicate<A>
+export function or<A>(p1: Predicate<A>): (p2: Predicate<A>) => Predicate<A> {
+  return p2 => a => p1(a) || p2(a)
 }
 
-export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
-export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
-export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
-  return a => p1(a) || p2(a)
-}
-
-export function and<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
-  return a => p1(a) && p2(a)
-}
+export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => a => p1(a) && p2(a)
 
 export type Endomorphism<A> = (a: A) => A
 
-export type BinaryOperation<A, B> = Function2<A, A, B>
+export type BinaryOperation<A, B> = (a1: A) => (a2: A) => B
 
 export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
 export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 
-export function constant<A>(a: A): Lazy<A> {
-  return () => a
-}
+export const constant = <A>(a: A): Lazy<A> => () => a
 
 export const constFalse = constant(false)
 export const constTrue = constant(true)
 
-export function identity<A>(a: A): A {
-  return a
-}
+export const identity = <A>(a: A): A => a
 
 /** Flips the order of the arguments to a function of two arguments. */
-export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
-  return (b, a) => f(a, b)
-}
+export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => b => a => f(a)(b)
 
 /** The `on` function is used to change the domain of a binary operator. */
-export function on<A, B, C>(op: BinaryOperation<B, C>, f: (a: A) => B): BinaryOperation<A, C> {
-  return (x, y) => op(f(x), f(y))
-}
+export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => x => y =>
+  op(f(x))(f(y))
 
 export function compose<A, B, C>(bc: (b: B) => C, ab: (a: A) => B): (a: A) => C
 export function compose<A, B, C, D>(cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => D
@@ -212,7 +203,7 @@ export function curry(f: Function) {
   return curried(f, f.length - 1, [])
 }
 
-export function toString(x: any): string {
+export const toString = (x: any): string => {
   if (typeof x === 'string') {
     return JSON.stringify(x)
   }
@@ -225,8 +216,6 @@ export function toString(x: any): string {
   return String(x)
 }
 
-export function tuple<A, B>(a: A, b: B): [A, B] {
-  return [a, b]
-}
+export const tuple = <A, B>(a: A, b: B): [A, B] => [a, b]
 
 export const curriedTuple = <A>(a: A) => <B>(b: B): [A, B] => [a, b]
