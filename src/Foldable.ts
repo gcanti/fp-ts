@@ -30,7 +30,7 @@ export const toArray = <F>(foldable: Foldable<F>) => <A>(fa: HKT<F, A>): Array<A
   foldable.reduce((b, a) => b.concat([a]), [] as Array<any>, fa)
 
 /** A default implementation of `foldr` using `foldMap` */
-export const foldr = <F>(foldable: Foldable<F>) => <A, B>(f: (a: A) => (b: B) => B, b: B) => (fa: HKT<F, A>): B =>
+export const foldr = <F>(foldable: Foldable<F>) => <A, B>(f: (a: A) => (b: B) => B) => (b: B) => (fa: HKT<F, A>): B =>
   foldMap(foldable, getEndomorphismMonoid<B>())(f)(fa)(b)
 
 type Acc<M> = { init: boolean; acc: M }
