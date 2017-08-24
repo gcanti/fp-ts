@@ -22,7 +22,7 @@ export const ordNumber: Ord<number> = {
   compare: unsafeCompare
 }
 
-export const ordBooleanOrd: Ord<boolean> = {
+export const ordBoolean: Ord<boolean> = {
   ...setoidBoolean,
   compare: unsafeCompare
 }
