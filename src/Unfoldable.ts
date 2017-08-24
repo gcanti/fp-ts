@@ -31,4 +31,4 @@ export const replicateA = <F, T>(
 /** The container with no elements - unfolded with zero iterations. */
 export const none = <F, A>(unfoldable: Unfoldable<F>): HKT<F, A> => unfoldable.unfoldr(constant(option.none), undefined)
 
-export const singleton = <F, A>(unfoldable: Unfoldable<F>, a: A): HKT<F, A> => replicate(unfoldable)(1)(a)
+export const singleton = <F>(unfoldable: Unfoldable<F>) => <A>(a: A): HKT<F, A> => replicate(unfoldable)(1)(a)
