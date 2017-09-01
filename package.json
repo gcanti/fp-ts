@@ -1,7 +1,7 @@
 {
-  "name": "fp-ts",
-  "version": "0.5.1",
-  "description": "Functional programming in TypeScript",
+  "name": "nfma-fp-ts",
+  "version": "0.0.1",
+  "description": "temp copy of Functional programming in TypeScript by Giulio Canti",
   "files": ["lib"],
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gcanti/fp-ts.git"
+    "url": "https://github.com/nfma/fp-ts.git"
   },
   "author": "Giulio Canti <giulio.canti@gmail.com>",
   "license": "MIT",

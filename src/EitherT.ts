@@ -26,11 +26,11 @@ export interface EitherT2<F extends HKT2S> extends ApplicativeComposition22<F, U
 }
 
 export class Ops {
-  chain<F extends HKT2S>(F: Chain<F>): EitherT2<F>['chain']
-  chain<F extends HKTS>(F: Chain<F>): EitherT1<F>['chain']
-  chain<F>(F: Chain<F>): EitherT<F>['chain']
-  chain<F>(F: Chain<F>): EitherT<F>['chain'] {
-    return (f, fa) => F.chain(e => e.fold(() => fa as any, a => f(a)), fa)
+  chain<F extends HKT2S>(F: Chain<F> & Applicative<F>): EitherT2<F>['chain']
+  chain<F extends HKTS>(F: Chain<F> & Applicative<F>): EitherT1<F>['chain']
+  chain<F>(F: Chain<F> & Applicative<F>): EitherT<F>['chain']
+  chain<F>(F: Chain<F> & Applicative<F>): EitherT<F>['chain'] {
+    return (f, fa) => F.chain(e => e.fold(a => F.of(either.left(a)), a => f(a)), fa)
   }
 
   right<F extends HKT2S>(F: Functor<F>): <L, M, A>(fa: HKT2As<F, M, A>) => HKT2As<F, M, Either<L, A>>
