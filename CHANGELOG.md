@@ -12,6 +12,26 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.5.1
+
+- **Breaking Change**
+  - migrate to curried APIs when possible (@raveclassic, @gcanti)
+  - remove useless static `of`s (@gcanti)
+- **New Feature**
+  - Array: add zip and zipWith (@gcanti)
+  - Monoid: add getArrayMonoid (@gcanti)
+  - Tuple
+    - add toString (@gcanti)
+    - add getApplicative (@gcanti)
+    - add getChainRec (@gcanti)
+  - Setoid: add getArraySetoid (@gcanti)
+- **Bug fix**
+  - Store
+    - fix extend implementation (@gcanti)
+    - fix toString (@gcanti)
+- **Polish**
+  - Plus: remove any from signatures (@gcanti)
+
 # 0.4.6
 
 - **New Feature**
