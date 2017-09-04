@@ -16,6 +16,7 @@
 
 - **Bug Fix**
   - fixed EitherT to only run code on the left once, closes #219 (@nfma)
+  - fixed OptionT to only run code on none once (@gcanti)
 
 # 0.5.1
 
