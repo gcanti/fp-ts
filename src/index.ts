@@ -1,3 +1,5 @@
+import * as aio from './AIO'
+export { aio }
 import * as alt from './Alt'
 export { alt }
 import * as alternative from './Alternative'
