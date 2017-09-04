@@ -1,6 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Functor } from './Functor'
-import { Chain } from './Chain'
 import { Monad } from './Monad'
 import {
   getApplicativeComposition,
@@ -30,7 +29,7 @@ export class Ops {
   chain<F extends HKTS>(F: Monad<F>): EitherT1<F>['chain']
   chain<F>(F: Monad<F>): EitherT<F>['chain']
   chain<F>(F: Monad<F>): EitherT<F>['chain'] {
-    return (f, fa) => F.chain(e => e.fold(a => F.of(either.left(a)), a => f(a)), fa)
+    return (f, fa) => F.chain(e => e.fold(l => F.of(either.left(l)), a => f(a)), fa)
   }
 
   right<F extends HKT2S>(F: Functor<F>): <L, M, A>(fa: HKT2As<F, M, A>) => HKT2As<F, M, Either<L, A>>

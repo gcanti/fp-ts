@@ -12,6 +12,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.5.2
+
+- **Bug Fix**
+  - fixed EitherT to only run code on the left once, closes #219 (@nfma)
+
 # 0.5.1
 
 - **Breaking Change**
