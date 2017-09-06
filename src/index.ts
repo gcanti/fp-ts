@@ -48,6 +48,8 @@ import * as hkt from './HKT'
 export { hkt }
 import * as identity from './Identity'
 export { identity }
+import * as invariant from './Invariant'
+export { invariant }
 import * as io from './IO'
 export { io }
 import * as ixIo from './IxIO'
