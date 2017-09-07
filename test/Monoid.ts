@@ -1,5 +1,15 @@
 import * as assert from 'assert'
-import { fold, monoidSum, getFunctionMonoid, monoidAll, monoidAny, monoidArray, getArrayMonoid } from '../src/Monoid'
+import {
+  fold,
+  monoidSum,
+  getFunctionMonoid,
+  monoidAll,
+  monoidAny,
+  monoidArray,
+  getArrayMonoid,
+  getRecordMonoid,
+  monoidString
+} from '../src/Monoid'
 import { filter } from '../src/Array'
 
 describe('Monoid', () => {
@@ -29,5 +39,13 @@ describe('Monoid', () => {
 
   it('getArrayMonoid', () => {
     assert.deepEqual(getArrayMonoid<number>().concat([1])([2]), [1, 2])
+  })
+
+  it('getRecordMonoid', () => {
+    const M = getRecordMonoid({
+      a: monoidAll,
+      b: monoidString
+    })
+    assert.deepEqual(M.concat({ a: true, b: 'foo' })(M.empty()), { a: true, b: 'foo' })
   })
 })

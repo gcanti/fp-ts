@@ -1,4 +1,10 @@
-import { Semigroup, getProductSemigroup, getDualSemigroup, fold as foldSemigroup } from './Semigroup'
+import {
+  Semigroup,
+  getProductSemigroup,
+  getDualSemigroup,
+  fold as foldSemigroup,
+  getRecordSemigroup
+} from './Semigroup'
 import { constant, Endomorphism, identity, compose } from './function'
 
 export interface Monoid<A> extends Semigroup<A> {
@@ -71,3 +77,16 @@ export const getEndomorphismMonoid = <A>(): Monoid<Endomorphism<A>> => ({
 })
 
 export const getArrayMonoid = <A>(): Monoid<Array<A>> => monoidArray
+
+export const getRecordMonoid = <O extends { [key: string]: any }>(
+  monoids: { [K in keyof O]: Monoid<O[K]> }
+): Monoid<{ [K in keyof O]: O[K] }> => {
+  const empty: any = {}
+  for (const k in monoids) {
+    empty[k] = monoids[k].empty()
+  }
+  return {
+    ...getRecordSemigroup<O>(monoids),
+    empty: () => empty
+  }
+}
