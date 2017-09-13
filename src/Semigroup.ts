@@ -1,3 +1,5 @@
+import { Ord, min, max } from './Ord'
+
 export interface Semigroup<A> {
   concat: (x: A) => (y: A) => A
 }
@@ -28,4 +30,12 @@ export const getRecordSemigroup = <O extends { [key: string]: any }>(
     }
     return r
   }
+})
+
+export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
+  concat: min(O)
+})
+
+export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
+  concat: max(O)
 })
