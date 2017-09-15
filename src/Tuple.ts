@@ -1,6 +1,6 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Setoid } from './Setoid'
-import { Ord } from './Ord'
+import { Ord, getSemigroup as getOrdSemigroup, contramap as contramapOrd } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
 import { Bifunctor, FantasyBifunctor } from './Bifunctor'
@@ -106,15 +106,8 @@ export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A
  * To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
  * `snd`s are `compare`d.
  */
-export const getOrd = <L, A>(OA: Ord<L>, OB: Ord<A>): Ord<Tuple<L, A>> => ({
-  ...getSetoid(OA, OB),
-  compare: x => y => {
-    const [xa, xb] = x.value
-    const [ya, yb] = y.value
-    const ordering = OA.compare(xa)(ya)
-    return ordering === 'EQ' ? OB.compare(xb)(yb) : ordering
-  }
-})
+export const getOrd = <L, A>(OA: Ord<L>, OB: Ord<A>): Ord<Tuple<L, A>> =>
+  getOrdSemigroup<Tuple<L, A>>().concat(contramapOrd(fst, OA))(contramapOrd(snd, OB))
 
 export const getSemigroup = <L, A>(SA: Semigroup<L>, SB: Semigroup<A>): Semigroup<Tuple<L, A>> => ({
   concat: x => y => {
