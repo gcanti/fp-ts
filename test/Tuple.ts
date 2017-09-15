@@ -1,7 +1,9 @@
 import * as assert from 'assert'
-import { compose, map, bimap, getSemigroup, Tuple, getApplicative, chainRec } from '../src/Tuple'
+import { compose, map, bimap, getSemigroup, Tuple, getApplicative, chainRec, getOrd } from '../src/Tuple'
 import { monoidString, monoidSum, getArrayMonoid } from '../src/Monoid'
 import { left, right } from '../src/Either'
+import { ordNumber, ordString } from '../src/Ord'
+import { sort } from '../src/Array'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -43,5 +45,21 @@ describe('Tuple', () => {
     assert.strictEqual(xs.length, 10000)
     assert.strictEqual(xs[0], 1)
     assert.strictEqual(xs[xs.length - 1], 10000)
+  })
+
+  it('getOrd', () => {
+    const tuples: Array<Tuple<number, string>> = [
+      new Tuple([2, 'c']),
+      new Tuple([1, 'b']),
+      new Tuple([2, 'a']),
+      new Tuple([1, 'c'])
+    ]
+    const O = getOrd(ordNumber, ordString)
+    assert.deepEqual(sort(O)(tuples), [
+      new Tuple([1, 'b']),
+      new Tuple([1, 'c']),
+      new Tuple([2, 'a']),
+      new Tuple([2, 'c'])
+    ])
   })
 })
