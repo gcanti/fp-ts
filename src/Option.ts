@@ -89,6 +89,9 @@ export class None<A>
   toNullable(): A | null {
     return null
   }
+  toUndefined(): A | undefined {
+    return undefined
+  }
   inspect() {
     return this.toString()
   }
@@ -184,6 +187,9 @@ export class Some<A>
   toNullable(): A | null {
     return this.value
   }
+  toUndefined(): A | undefined {
+    return this.value
+  }
   inspect() {
     return this.toString()
   }
@@ -276,6 +282,8 @@ export const fromOption = <A>(a: A) => (fa: Option<A>): A => fa.getOrElse(() => 
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => (a == null ? none : new Some(a))
 
 export const toNullable = <A>(fa: Option<A>): A | null => fa.toNullable()
+
+export const toUndefined = <A>(fa: Option<A>): A | undefined => fa.toUndefined()
 
 export const some = of
 
