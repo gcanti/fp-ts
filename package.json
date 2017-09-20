@@ -11,8 +11,9 @@
     "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples,exercises}/**/*.ts\"",
     "test": "npm run lint && npm run prettier && npm run mocha",
-    "clean": "rm -rf lib/*",
-    "build": "npm run clean && tsc"
+    "clean": "rm -rf lib/* && rm -rf docs/typedoc",
+    "build": "npm run clean && tsc",
+    "typedoc": "typedoc --gitRevision $(git rev-list -n 1 $(git describe --abbrev=0 --tags)) --out ./docs/typedoc"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "ts-node": "3.1.0",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
+    "typedoc": "0.8.0",
     "typescript": "2.4.2"
   },
   "tags": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"],
