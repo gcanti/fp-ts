@@ -69,7 +69,7 @@ const neverPromise = new Promise(resolve => undefined)
 const neverLazyPromise = () => neverPromise
 const never = new Task(neverLazyPromise)
 
-export const tryCatch = <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: any) => L): Task<Either<L, A>> =>
+export const tryCatch = <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L): Task<Either<L, A>> =>
   new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))
 
 export const task: Monad<URI> & Monoid<Task<any>> = {
