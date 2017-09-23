@@ -85,7 +85,9 @@ const monadFBTask: MonadFB<TaskURI> = {
   }
 }
 
-likePost(task, monadUserTask, monadFBTask)('session123')('https://me.com/1').run().then(result => console.log(result))
+likePost(task, monadUserTask, monadFBTask)('session123')('https://me.com/1')
+  .run()
+  .then(result => console.log(result))
 // => string(session123) after 1.002
 // => FBToken(string(session123)) after 1.503
 // => FBPost(https://me.com/1) after 2.002
