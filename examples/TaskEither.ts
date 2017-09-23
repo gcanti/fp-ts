@@ -1,8 +1,6 @@
-import { Applicative } from 'fp-ts/lib/Applicative'
 import * as eitherT from 'fp-ts/lib/EitherT'
 import * as either from 'fp-ts/lib/Either'
 import * as task from 'fp-ts/lib/Task'
-import { URI as URIArray } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
 import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
 import { Lazy } from 'fp-ts/lib/function'
