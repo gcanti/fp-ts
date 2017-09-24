@@ -48,6 +48,12 @@ describe('Apply', () => {
 
   it('ap_', () => {
     const f = (a: number) => (b: number) => a + b
-    eqOptions(option.of(f).ap_(option.some(2)).ap_(option.some(3)), option.some(5))
+    eqOptions(
+      option
+        .of(f)
+        .ap_(option.some(2))
+        .ap_(option.some(3)),
+      option.some(5)
+    )
   })
 })
