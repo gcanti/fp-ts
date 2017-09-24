@@ -8,6 +8,7 @@ import { Option, none, some } from './Option'
 import { Setoid } from './Setoid'
 import { Semigroup } from './Semigroup'
 import { constFalse, toString } from './function'
+import { Monad } from './Monad'
 
 // Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
 // adapted from https://github.com/purescript-contrib/purescript-these
@@ -200,11 +201,21 @@ export const map = <L, A, B>(f: (a: A) => B, fa: These<L, A>): These<L, B> => fa
 
 export const of = <L, A>(a: A): These<L, A> => new That(a)
 
+/** deprecated */
 export const ap = <L, A, B>(SL: Semigroup<L>, fab: These<L, (a: A) => B>, fa: These<L, A>): These<L, B> =>
   fa.ap(SL, fab)
 
+/** deprecated */
 export const chain = <L, A, B>(SL: Semigroup<L>, f: (a: A) => These<L, B>, fa: These<L, A>): These<L, B> =>
   fa.chain(SL, f)
+
+export const getMonad = <L>(SL: Semigroup<L>): Monad<URI> => ({
+  URI,
+  map,
+  of,
+  ap: <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => fa.ap(SL, fab),
+  chain: <A, B>(f: (a: A) => These<L, B>, fa: These<L, A>) => fa.chain(SL, f)
+})
 
 export const bimap = <L, M, A, B>(f: (l: L) => M, g: (a: A) => B): ((fla: These<L, A>) => These<M, B>) => fla =>
   fla.bimap(f, g)
