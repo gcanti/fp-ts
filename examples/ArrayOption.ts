@@ -5,7 +5,7 @@ import { Lazy } from 'fp-ts/lib/function'
 import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
 
 declare module 'fp-ts/lib/HKT' {
-  interface URI2HKT1<A> {
+  interface URI2HKT<A> {
     ArrayOption: ArrayOption<A>
   }
 }
