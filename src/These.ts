@@ -194,8 +194,8 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
   concat: concat(SL, SA)
 })
 
-export const fold = <L, A, B>(that: (l: L) => B, this_: (a: A) => B, both: (l: L, a: A) => B, fa: These<L, A>): B =>
-  fa.fold(that, this_, both)
+export const fold = <L, A, B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B, fa: These<L, A>): B =>
+  fa.fold(this_, that, both)
 
 export const map = <L, A, B>(f: (a: A) => B, fa: These<L, A>): These<L, B> => fa.map(f)
 
@@ -217,8 +217,7 @@ export const getMonad = <L>(SL: Semigroup<L>): Monad<URI> => ({
   chain: <A, B>(f: (a: A) => These<L, B>, fa: These<L, A>) => fa.chain(SL, f)
 })
 
-export const bimap = <L, M, A, B>(f: (l: L) => M, g: (a: A) => B): ((fla: These<L, A>) => These<M, B>) => fla =>
-  fla.bimap(f, g)
+export const bimap = <L, M, A, B>(f: (l: L) => M, g: (a: A) => B) => (fla: These<L, A>): These<M, B> => fla.bimap(f, g)
 
 export const reduce = <L, A, B>(f: (b: B, a: A) => B, b: B, fa: These<L, A>): B => fa.reduce(f, b)
 
