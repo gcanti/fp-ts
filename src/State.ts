@@ -1,5 +1,4 @@
 import { Monad, FantasyMonad } from './Monad'
-import { Endomorphism } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -51,7 +50,7 @@ export const get = <S>(): State<S, S> => new State(s => [s, s])
 
 export const put = <S>(s: S): State<S, undefined> => new State(() => [undefined, s])
 
-export const modify = <S>(f: Endomorphism<S>): State<S, undefined> => new State(s => [undefined, f(s)])
+export const modify = <S>(f: (s: S) => S): State<S, undefined> => new State(s => [undefined, f(s)])
 
 export const gets = <S, A>(f: (s: S) => A): State<S, A> => new State(s => [f(s), s])
 
