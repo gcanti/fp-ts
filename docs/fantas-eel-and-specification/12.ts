@@ -14,7 +14,9 @@ import * as array from '../../src/Array'
 export const paralleliseTaskArray = (ids: Array<number>): task.Task<Array<User>> =>
   sequence(task, array)(ids.map(getById))
 
-paralleliseTaskArray([1, 2, 3]).run().then(x => console.log(x))
+paralleliseTaskArray([1, 2, 3])
+  .run()
+  .then(x => console.log(x))
 // => [ { name: 'name-1' }, { name: 'name-2' }, { name: 'name-3' } ]
 
 import * as either from '../../src/Either'

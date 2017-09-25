@@ -7,10 +7,18 @@ import * as option from '../../src/Option'
 
 const data = new StrMap({ a: new StrMap({ b: new StrMap({ c: 2 }) }) })
 
-console.log(lookup('a')(data).map(lookup('b')).map(o => o.map(lookup('c'))))
+console.log(
+  lookup('a')(data)
+    .map(lookup('b'))
+    .map(o => o.map(lookup('c')))
+)
 // => some(some(some(2)))
 
-console.log(lookup('a')(data).map(lookup('badger')).map(o => o.map(lookup('c'))))
+console.log(
+  lookup('a')(data)
+    .map(lookup('badger'))
+    .map(o => o.map(lookup('c')))
+)
 // => some(none)
 
 //
@@ -31,7 +39,11 @@ console.log(flatten(flatten(lookup('a')(data).map(lookup('badger'))).map(lookup(
 // using chain
 //
 
-console.log(lookup('a')(data).chain(lookup('b')).chain(lookup('c')))
+console.log(
+  lookup('a')(data)
+    .chain(lookup('b'))
+    .chain(lookup('c'))
+)
 // => some(2)
 
 //
@@ -43,10 +55,22 @@ import * as either from '../../src/Either'
 export const sqrt = (x: number): either.Either<string, number> =>
   x < 0 ? either.left('Hey, no!') : either.right(Math.sqrt(x))
 
-console.log(either.right(16).chain(sqrt).chain(sqrt))
+console.log(
+  either
+    .right(16)
+    .chain(sqrt)
+    .chain(sqrt)
+)
 // => right(2)
 
-console.log(either.right(81).chain(sqrt).map(x => -x).chain(sqrt).map(x => -x))
+console.log(
+  either
+    .right(81)
+    .chain(sqrt)
+    .map(x => -x)
+    .chain(sqrt)
+    .map(x => -x)
+)
 // => left("Hey, no!")
 
 console.log(either.left('eep').chain(sqrt))
@@ -93,5 +117,8 @@ type User = { name: string }
 
 const getFriends = (id: number): task.Task<Array<User>> => task.of([{ name: `Friends of ${id}` }])
 
-getUser('test@test.com').chain(getFriends).run().then(x => console.log(x))
+getUser('test@test.com')
+  .chain(getFriends)
+  .run()
+  .then(x => console.log(x))
 // => [ { name: 'Friends of 13' } ]

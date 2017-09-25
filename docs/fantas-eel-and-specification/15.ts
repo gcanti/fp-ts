@@ -28,22 +28,24 @@ const speak = (message: string) =>
 // MyApp :: Task<string>
 const MyApp =
   // Get the name...
-  speak('What is your name?').chain(_ => prompt).chain(name =>
-    // Get the age...
-    speak('And what is your age?')
-      .chain(_ => prompt)
-      .chain(
-        age =>
-          // Do the logic...
-          parseInt(age, 10) > 30
-            ? speak('Seriously, ' + name + '?!').chain(_ =>
-                speak(`You don't look a day over ` + (parseInt(age, 10) - 10) + '!')
-              )
-            : speak('Hmm, I can believe that!')
-      )
-      // Return the name!
-      .chain(_ => of(name))
-  )
+  speak('What is your name?')
+    .chain(_ => prompt)
+    .chain(name =>
+      // Get the age...
+      speak('And what is your age?')
+        .chain(_ => prompt)
+        .chain(
+          age =>
+            // Do the logic...
+            parseInt(age, 10) > 30
+              ? speak('Seriously, ' + name + '?!').chain(_ =>
+                  speak(`You don't look a day over ` + (parseInt(age, 10) - 10) + '!')
+                )
+              : speak('Hmm, I can believe that!')
+        )
+        // Return the name!
+        .chain(_ => of(name))
+    )
 
 MyApp.run().then(name => {
   console.log('FLATTERED ' + name)
