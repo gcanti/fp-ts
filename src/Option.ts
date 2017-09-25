@@ -242,10 +242,10 @@ export const empty = zero
 const first = { empty, concat: alt }
 const last = getDualMonoid(first)
 
-/** Maybe monoid returning the left-most non-None value */
+/** Option monoid returning the left-most non-None value */
 export const getFirstMonoid = <A>(): Monoid<Option<A>> => first
 
-/** Maybe monoid returning the right-most non-None value */
+/** Option monoid returning the right-most non-None value */
 export const getLastMonoid = <A>(): Monoid<Option<A>> => last
 
 export const concat = <A>(S: Semigroup<A>) => (fx: Option<A>) => (fy: Option<A>): Option<A> => fx.concat(S)(fy)
