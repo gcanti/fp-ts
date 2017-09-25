@@ -2,6 +2,7 @@ import { HKT } from './HKT'
 import { Functor } from './Functor'
 import { Applicative } from './Applicative'
 import { constant, tupleCurried } from './function'
+import { liftA2 } from './Apply'
 
 /**
  * Applicative functors are equivalent to strong lax monoidal functors
@@ -18,7 +19,7 @@ export const fromApplicative = <F>(applicative: Applicative<F>): Monoidal<F> => 
   URI: applicative.URI,
   map: applicative.map,
   unit: () => applicative.of(undefined),
-  mult: fa => fb => applicative.ap(applicative.ap(applicative.of(tupleCurried), fa), fb)
+  mult: liftA2(applicative)(tupleCurried)
 })
 
 export const toApplicative = <F>(monoidal: Monoidal<F>): Applicative<F> => ({
