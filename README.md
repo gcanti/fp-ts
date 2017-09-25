@@ -19,7 +19,7 @@ npm install --save fp-ts
 
 # TypeScript compatibility
 
-The stable version is tested against TypeScript 2.4.x, but should run with TypeScript 2.2.2+ too
+The stable version is tested against TypeScript 2.5.x, but should run with TypeScript 2.2.2+ too
 
 # Technical overview
 
