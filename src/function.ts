@@ -50,8 +50,11 @@ export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 
 export const constant = <A>(a: A): Lazy<A> => () => a
 
-export const constFalse = constant(false)
-export const constTrue = constant(true)
+/** A thunk that returns always `true` */
+export const constTrue: Lazy<boolean> = constant(true)
+
+/** A thunk that returns always `false` */
+export const constFalse: Lazy<boolean> = constant(false)
 
 export const identity = <A>(a: A): A => a
 

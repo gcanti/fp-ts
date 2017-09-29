@@ -1,0 +1,95 @@
+{
+  "type": "module",
+  "module": "Monoid",
+  "types": [
+    {
+      "type": "type",
+      "name": "Monoid",
+      "signature": "interface Monoid<A> extends Semigroup<A> {\n  empty: () => A\n}"
+    }
+  ],
+  "datas": [],
+  "functions": [
+    {
+      "type": "function",
+      "name": "fold",
+      "signature": "<A>(M: Monoid<A>) => (as: Array<A>): A",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "getProductMonoid",
+      "signature": "<A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "getDualMonoid",
+      "signature": "<A>(M: Monoid<A>): Monoid<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "getFunctionMonoid",
+      "signature": "<M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) => M>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "getEndomorphismMonoid",
+      "signature": "<A>(): Monoid<Endomorphism<A>>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "getArrayMonoid",
+      "signature": "<A>(): Monoid<Array<A>>",
+      "description": "Returns a monoid under array concatenation"
+    },
+    {
+      "type": "function",
+      "name": "getRecordMonoid",
+      "signature":
+        "<O extends { [key: string]: any }>(monoids: { [K in keyof O]: Monoid<O[K]> }): Monoid<{ [K in keyof O]: O[K] }>",
+      "description": null
+    }
+  ],
+  "consts": [
+    {
+      "type": "const",
+      "name": "monoidAll",
+      "signature": "Monoid<boolean>",
+      "description": "Boolean monoid under conjunction"
+    },
+    {
+      "type": "const",
+      "name": "monoidAny",
+      "signature": "Monoid<boolean>",
+      "description": "Boolean monoid under disjunction"
+    },
+    {
+      "type": "const",
+      "name": "monoidArray",
+      "signature": "Monoid<Array<any>>",
+      "description": "Monoid under array concatenation (`Array<any>`)"
+    },
+    {
+      "type": "const",
+      "name": "monoidSum",
+      "signature": "Monoid<number>",
+      "description": "Number monoid under addition"
+    },
+    {
+      "type": "const",
+      "name": "monoidProduct",
+      "signature": "Monoid<number>",
+      "description": "Number monoid under multiplication"
+    },
+    {
+      "type": "const",
+      "name": "monoidString",
+      "signature": "Monoid<string>",
+      "description": null
+    }
+  ]
+}

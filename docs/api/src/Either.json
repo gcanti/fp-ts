@@ -1,0 +1,237 @@
+{
+  "type": "module",
+  "module": "Either",
+  "types": [
+    {
+      "type": "type",
+      "name": "URI",
+      "signature": "type URI = 'Either'"
+    }
+  ],
+  "datas": [
+    {
+      "type": "data",
+      "name": "Either",
+      "signature": "type Either<L, A> = Left<L, A> | Right<L, A>",
+      "description": null,
+      "instances": [
+        {
+          "type": "instance",
+          "name": "Monad",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Foldable",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Traversable",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Bifunctor",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Alt",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Extend",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "ChainRec",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Filterable",
+          "signature": "getFilterable = <M>(M: Monoid<M>): Filterable<URI>",
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Witherable",
+          "signature": "getWitherable = <M>(monoid: Monoid<M>): Witherable<URI>",
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Setoid",
+          "signature": "getSetoid = <L, A>(S: Setoid<A>): Setoid<Either<L, A>>",
+          "description": null
+        }
+      ],
+      "methods": [
+        {
+          "type": "method",
+          "name": "map",
+          "signature": "<B>(f: (a: A) => B): Either<L, B>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "ap",
+          "signature": "<B>(fab: Either<L, (a: A) => B>): Either<L, B>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "ap_",
+          "signature": "<B, C>(this: Either<L, (a: B) => C>, fb: Either<L, B>): Either<L, C>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "chain",
+          "signature": "<B>(f: (a: A) => Either<L, B>): Either<L, B>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "bimap",
+          "signature": "<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "alt",
+          "signature": "fy: Either<L, A>): Either<L, A>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "extend",
+          "signature": "<B>(f: (ea: Either<L, A>) => B): Either<L, B>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "reduce",
+          "signature": "<B>(f: (b: B, a: A) => B, b: B): B",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "traverse",
+          "signature": "<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "fold",
+          "signature": "<B>(left: (l: L) => B, right: (a: A) => B): B",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "getOrElse",
+          "signature": "(f: Lazy<A>): A",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "equals",
+          "signature": "(S: Setoid<A>): (fy: Either<L, A>) => boolean",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "mapLeft",
+          "signature": "<M>(f: (l: L) => M): Either<M, A>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "toOption",
+          "signature": "(): Option<A>",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "type": "function",
+      "name": "fold",
+      "signature": "<L, A, B>(left: (l: L) => B, right: (a: A) => B, fa: Either<L, A>): B",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "getOrElse",
+      "signature": "<A>(f: () => A) => <L>(fa: Either<L, A>): A",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "isLeft",
+      "signature": "<L, A>(fa: Either<L, A>): fa is Left<L, A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "isRight",
+      "signature": "<L, A>(fa: Either<L, A>): fa is Right<L, A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "left",
+      "signature": "<L, A>(l: L): Either<L, A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "right",
+      "signature": "<L, A>(a: A): Either<L, A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "fromPredicate",
+      "signature": "<L, A>(predicate: Predicate<A>, l: (a: A) => L) => (a: A): Either<L, A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "mapLeft",
+      "signature": "<L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>): Either<M, A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "fromOption",
+      "signature": "<L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A>",
+      "description":
+        "Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use the provided default as a `Left`"
+    },
+    {
+      "type": "function",
+      "name": "toOption",
+      "signature": "<L, A>(fa: Either<L, A>): Option<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "tryCatch",
+      "signature": "<A>(f: Lazy<A>): Either<Error, A>",
+      "description": null
+    }
+  ],
+  "consts": []
+}

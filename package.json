@@ -14,7 +14,8 @@
       "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples,exercises}/**/*.ts\"",
     "test": "npm run lint && npm run prettier && npm run mocha",
     "clean": "rm -rf lib/*",
-    "build": "npm run clean && tsc"
+    "build": "npm run clean && tsc",
+    "docs": "rm -rf docs/api/md/* && ts-node docs/api/toMarkdown.ts"
   },
   "repository": {
     "type": "git",

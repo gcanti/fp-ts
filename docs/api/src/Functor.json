@@ -1,0 +1,58 @@
+{
+  "type": "module",
+  "module": "Functor",
+  "types": [
+    {
+      "type": "type",
+      "name": "Functor",
+      "signature":
+        "interface Functor<F> {\n  readonly URI: F\n  map: <A, B>(f: (a: A) => B, fa: HKT<F, A>) => HKT<F, B>\n}"
+    },
+    {
+      "type": "type",
+      "name": "FantasyFunctor",
+      "signature": "interface FantasyFunctor<F, A> {\n  map: <B>(f: (a: A) => B) => HKT<F, B>\n}"
+    },
+    {
+      "type": "type",
+      "name": "FunctorComposition",
+      "signature":
+        "interface FunctorComposition<F, G> {\n  map: <A, B>(f: (a: A) => B, fa: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>\n}"
+    }
+  ],
+  "datas": [],
+  "functions": [
+    {
+      "type": "function",
+      "name": "lift",
+      "signature": "<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>): HKT<F, B>",
+      "description":
+        "Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`"
+    },
+    {
+      "type": "function",
+      "name": "voidRight",
+      "signature": "<F>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>): HKT<F, A>",
+      "description": "Ignore the return value of a computation, using the specified return value instead (`<$`)"
+    },
+    {
+      "type": "function",
+      "name": "voidLeft",
+      "signature": "<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B): HKT<F, B>",
+      "description": "A version of `voidRight` with its arguments flipped (`$>`)"
+    },
+    {
+      "type": "function",
+      "name": "flap",
+      "signature": "<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>) => (a: A): HKT<F, B>",
+      "description": "Apply a value in a computational context to a value in no context. Generalizes `flip`"
+    },
+    {
+      "type": "function",
+      "name": "getFunctorComposition",
+      "signature": "<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>",
+      "description": "Ignore the return value of a computation, using the specified return value instead (`<$`)"
+    }
+  ],
+  "consts": []
+}

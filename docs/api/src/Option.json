@@ -1,0 +1,281 @@
+{
+  "type": "module",
+  "module": "Option",
+  "types": [
+    {
+      "type": "type",
+      "name": "URI",
+      "signature": "type URI = 'Option'"
+    }
+  ],
+  "datas": [
+    {
+      "type": "data",
+      "name": "Option",
+      "signature": "type Option<A> = None<A> | Some<A>",
+      "description":
+        "The `Option` type is used to represent optional values and can be seen as something like a type-safe `null`, where `None` is `null` and `Some(x)` is the non-null value `x`.",
+      "instances": [
+        {
+          "type": "instance",
+          "name": "Setoid",
+          "signature": "getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>>",
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Semigroup",
+          "signature": "getSemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>>",
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Monoid",
+          "signature": "getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>>",
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Monoid",
+          "signature": "getFirstMonoid = <A>(): Monoid<Option<A>>",
+          "description": "Option monoid returning the left-most non-None value"
+        },
+        {
+          "type": "instance",
+          "name": "Monoid",
+          "signature": "getLastMonoid = <A>(): Monoid<Option<A>>",
+          "description": "Option monoid returning the right-most non-None value"
+        },
+        {
+          "type": "instance",
+          "name": "Monad",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Foldable",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Plus",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Traversable",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Alternative",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Extend",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Filterable",
+          "signature": null,
+          "description": null
+        },
+        {
+          "type": "instance",
+          "name": "Witherable",
+          "signature": null,
+          "description": null
+        }
+      ],
+      "methods": [
+        {
+          "type": "method",
+          "name": "map",
+          "signature": "<B>(f: (a: A) => B): Option<B>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "ap",
+          "signature": "<B>(fab: Option<(a: A) => B>): Option<B>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "ap_",
+          "signature": "<B, C>(this: Option<(a: B) => C>, fb: Option<B>): Option<C>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "chain",
+          "signature": "<B>(f: (a: A) => Option<B>): Option<B>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "fold",
+          "signature": "<B>(n: Lazy<B>, s: (a: A) => B): B",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "getOrElse",
+          "signature": "(f: Lazy<A>): A",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "reduce",
+          "signature": "<B>(f: (b: B, a: A) => B, b: B): B",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "traverse",
+          "signature": "<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "partitionMap",
+          "signature": "<L, R>(f: (a: A) => Either<L, R>): { left: Option<L>; right: Option<R> }",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "wilt",
+          "signature":
+            "<M>(M: Applicative<M>): <L, R>(f: (a: A) => HKT<M, Either<L, R>>) => HKT<M, { left: Option<L>; right: Option<R> }>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "alt",
+          "signature": "(fa: Option<A>): Option<A>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "extend",
+          "signature": "<B>(f: (ea: Option<A>) => B): Option<B>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "concat",
+          "signature": "(S: Semigroup<A>): (fy: Option<A>) => Option<A>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "equals",
+          "signature": "(S: Setoid<A>): (fy: Option<A>) => boolean",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "toNullable",
+          "signature": "(): A | null",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "toUndefined",
+          "signature": "(): A | undefined",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "contains",
+          "signature": "(setoid: Setoid<A>, a: A): boolean",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "isNone",
+          "signature": "(): boolean",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "isSome",
+          "signature": "(): boolean",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "exists",
+          "signature": "(p: (a: A) => boolean): boolean",
+          "description": null
+        }
+      ]
+    }
+  ],
+  "functions": [
+    {
+      "type": "function",
+      "name": "fromOption",
+      "signature": "<A>(a: A) => (fa: Option<A>): A",
+      "description":
+        "Takes a default value, and a `Option` value. If the `Option` value is `None` the default value is returned, otherwise the value inside the `Some` is returned"
+    },
+    {
+      "type": "function",
+      "name": "isSome",
+      "signature": "<A>(fa: Option<A>): fa is Some<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "isNone",
+      "signature": "<A>(fa: Option<A>): fa is None<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "fold",
+      "signature": "<A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "fromNullable",
+      "signature": "<A>(a: A | null | undefined): Option<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "toNullable",
+      "signature": "<A>(fa: Option<A>): A | null",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "toUndefined",
+      "signature": "<A>(fa: Option<A>): A | undefined",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "fromPredicate",
+      "signature": "<A>(predicate: Predicate<A>) => (a: A): Option<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "traverse",
+      "signature": "<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>>",
+      "description": null
+    }
+  ],
+  "consts": []
+}

@@ -22,6 +22,7 @@ export const URI = 'Validation'
 
 export type URI = typeof URI
 
+/** A data-type like Either but with an accumulating Applicative */
 export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
 export class Failure<L, A>

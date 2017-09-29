@@ -46,13 +46,13 @@ export const monoidArray: Monoid<Array<any>> = {
   empty: () => []
 }
 
-/** Monoid under addition */
+/** Number monoid under addition */
 export const monoidSum: Monoid<number> = {
   concat: x => y => x + y,
   empty: () => 0
 }
 
-/** Monoid under multiplication */
+/** Number monoid under multiplication */
 export const monoidProduct: Monoid<number> = {
   concat: x => y => x * y,
   empty: () => 1
@@ -63,12 +63,12 @@ export const monoidString: Monoid<string> = {
   empty: () => ''
 }
 
-export const getFunctionMonoid = <M>(monoid: Monoid<M>): (<A>() => Monoid<(a: A) => M>) => {
+export const getFunctionMonoid = <M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) => M> => {
   const empty = constant(constant(monoid.empty()))
-  return () => ({
+  return {
     concat: f => g => a => monoid.concat(f(a))(g(a)),
     empty
-  })
+  }
 }
 
 export const getEndomorphismMonoid = <A>(): Monoid<Endomorphism<A>> => ({
@@ -76,6 +76,7 @@ export const getEndomorphismMonoid = <A>(): Monoid<Endomorphism<A>> => ({
   empty: () => identity
 })
 
+/** Returns a monoid under array concatenation */
 export const getArrayMonoid = <A>(): Monoid<Array<A>> => monoidArray
 
 export const getRecordMonoid = <O extends { [key: string]: any }>(

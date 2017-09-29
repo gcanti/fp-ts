@@ -1,0 +1,242 @@
+{
+  "type": "module",
+  "module": "function",
+  "types": [
+    {
+      "type": "type",
+      "name": "Lazy",
+      "signature": "type Lazy<A> = () => A"
+    },
+    {
+      "type": "type",
+      "name": "Function1",
+      "signature": "type Function1<A, B> = (a: A) => B"
+    },
+    {
+      "type": "type",
+      "name": "Function2",
+      "signature": "type Function2<A, B, C> = (a: A, b: B) => C"
+    },
+    {
+      "type": "type",
+      "name": "Function3",
+      "signature": "type Function3<A, B, C, D> = (a: A, b: B, c: C) => D"
+    },
+    {
+      "type": "type",
+      "name": "Function4",
+      "signature": "type Function4<A, B, C, D, E> = (a: A, b: B, c: C, d: D) => E"
+    },
+    {
+      "type": "type",
+      "name": "Function5",
+      "signature": "type Function5<A, B, C, D, E, F> = (a: A, b: B, c: C, d: D, e: E) => F"
+    },
+    {
+      "type": "type",
+      "name": "Function6",
+      "signature": "type Function6<A, B, C, D, E, F, G> = (a: A, b: B, c: C, d: D, e: E, f: F) => G"
+    },
+    {
+      "type": "type",
+      "name": "Function7",
+      "signature": "type Function7<A, B, C, D, E, F, G, H> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G) => H"
+    },
+    {
+      "type": "type",
+      "name": "Function8",
+      "signature": "type Function8<A, B, C, D, E, F, G, H, I> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H) => I"
+    },
+    {
+      "type": "type",
+      "name": "Function9",
+      "signature":
+        "type Function9<A, B, C, D, E, F, G, H, I, J> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I) => J"
+    },
+    {
+      "type": "type",
+      "name": "Lazy",
+      "signature": "type Lazy<A> = () => A"
+    },
+    {
+      "type": "type",
+      "name": "Curried2",
+      "signature": "type Curried2<A, B, C> = (a: A) => (b: B) => C"
+    },
+    {
+      "type": "type",
+      "name": "Curried3",
+      "signature": "type Curried3<A, B, C, D> = (a: A) => (b: B) => (c: C) => D"
+    },
+    {
+      "type": "type",
+      "name": "Curried4",
+      "signature": "type Curried4<A, B, C, D, E> = (a: A) => (b: B) => (c: C) => (d: D) => E"
+    },
+    {
+      "type": "type",
+      "name": "Curried5",
+      "signature": "type Curried5<A, B, C, D, E, F> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => F"
+    },
+    {
+      "type": "type",
+      "name": "Curried6",
+      "signature": "type Curried6<A, B, C, D, E, F, G> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => G"
+    },
+    {
+      "type": "type",
+      "name": "Curried7",
+      "signature":
+        "type Curried7<A, B, C, D, E, F, G, H> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => H"
+    },
+    {
+      "type": "type",
+      "name": "Curried8",
+      "signature":
+        "type Curried8<A, B, C, D, E, F, G, H, I> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => I"
+    },
+    {
+      "type": "type",
+      "name": "Curried9",
+      "signature":
+        "type Curried9<A, B, C, D, E, F, G, H, I, J> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => (i: I) => J"
+    },
+    {
+      "type": "type",
+      "name": "Predicate",
+      "signature": "type Predicate<A> = (a: A) => boolean"
+    },
+    {
+      "type": "type",
+      "name": "Refinement",
+      "signature": "type Refinement<A, B extends A> = (a: A) => a is B"
+    },
+    {
+      "type": "type",
+      "name": "Endomorphism",
+      "signature": "type Endomorphism<A> = (a: A) => A"
+    },
+    {
+      "type": "type",
+      "name": "BinaryOperation",
+      "signature": "type BinaryOperation<A, B> = (a1: A) => (a2: A) => B"
+    },
+    {
+      "type": "type",
+      "name": "Kleisli",
+      "signature": "type Kleisli<F, A, B> = (a: A) => HKT<F, B>"
+    },
+    {
+      "type": "type",
+      "name": "Cokleisli",
+      "signature": "type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B"
+    }
+  ],
+  "datas": [],
+  "functions": [
+    {
+      "type": "function",
+      "name": "not",
+      "signature": "<A>(predicate: Predicate<A>): Predicate<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "or",
+      "signature": "<A>(p1: Predicate<A>) => (p2: Predicate<A>): Predicate<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "and",
+      "signature": "<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "constant",
+      "signature": "<A>(a: A): Lazy<A>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "identity",
+      "signature": "<A>(a: A): A",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "flip",
+      "signature": "<A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C>",
+      "description": "Flips the order of the arguments to a function of two arguments."
+    },
+    {
+      "type": "function",
+      "name": "on",
+      "signature": "<B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C>",
+      "description": "The `on` function is used to change the domain of a binary operator."
+    },
+    {
+      "type": "function",
+      "name": "compose",
+      "signature": "<A, B, C>(bc: (b: B) => C, ab: (a: A) => B): (a: A) => C",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "pipe",
+      "signature": "<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "curry",
+      "signature": "<A, B, C>(f: Function2<A, B, C>): Curried2<A, B, C>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "toString",
+      "signature": "(x: any): string",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "tuple",
+      "signature": "<A, B>(a: A, b: B): [A, B]",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "tupleCurried",
+      "signature": "<A>(a: A) => <B>(b: B): [A, B]",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "apply",
+      "signature": "<A, B>(f: (a: A) => B) => (a: A): B",
+      "description": "Applies a function to an argument ($)"
+    },
+    {
+      "type": "function",
+      "name": "applyFlipped",
+      "signature": "<A>(a: A) => <B>(f: (a: A) => B): B",
+      "description": "Applies an argument to a function (#)"
+    }
+  ],
+  "consts": [
+    {
+      "type": "const",
+      "name": "constTrue",
+      "signature": "Lazy<boolean>",
+      "description": "A thunk that returns always `true`"
+    },
+    {
+      "type": "const",
+      "name": "constFalse",
+      "signature": "Lazy<boolean>",
+      "description": "A thunk that returns always `false`"
+    }
+  ]
+}
