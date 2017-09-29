@@ -94,6 +94,20 @@ describe('Array', () => {
     eq(array.findIndex(x => x === 2)(as), some(1))
   })
 
+  it('findFirst', () => {
+    eq(array.findFirst(x => x === 2)(empty), none)
+    eq(
+      array.findFirst<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+      some({ a: 1, b: 1 })
+    )
+  })
+
+  it('findLast', () => {
+    eq(array.findLast(x => x === 2)(empty), none)
+    eq(array.findLast<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 2 }))
+    eq(array.findLast<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 2 }, { a: 2, b: 1 }]), some({ a: 1, b: 2 }))
+  })
+
   it('insertAt', () => {
     eq(array.insertAt(1)(1)(empty), none)
     eq(array.insertAt(0)(1)(empty), some([1]))
