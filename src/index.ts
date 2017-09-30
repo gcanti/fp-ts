@@ -104,6 +104,8 @@ import * as strmap from './StrMap'
 export { strmap }
 import * as task from './Task'
 export { task }
+import * as taskEither from './TaskEither'
+export { taskEither }
 import * as these from './These'
 export { these }
 import * as trace from './Trace'
