@@ -1,11 +1,11 @@
-import * as eitherT from 'fp-ts/lib/EitherT'
-import * as either from 'fp-ts/lib/Either'
-import * as task from 'fp-ts/lib/Task'
-import { Option } from 'fp-ts/lib/Option'
-import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
-import { Lazy } from 'fp-ts/lib/function'
+import * as eitherT from './EitherT'
+import * as either from './Either'
+import * as task from './Task'
+import { Option } from './Option'
+import { Monad, FantasyMonad } from './Monad'
+import { Lazy } from './function'
 
-declare module 'fp-ts/lib/HKT' {
+declare module './HKT' {
   interface URI2HKT2<L, A> {
     TaskEither: TaskEither<L, A>
   }
@@ -60,7 +60,7 @@ export const left = <L, A>(fa: task.Task<L>): TaskEither<L, A> => new TaskEither
 export const fromEither = <L, A>(fa: either.Either<L, A>): TaskEither<L, A> =>
   new TaskEither(eitherT.fromEither(task)(fa))
 
-export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: any) => L): TaskEither<L, A> =>
+export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A> =>
   new TaskEither(task.tryCatch(f)(onrejected))
 
 export const taskEither: Monad<URI> = {
