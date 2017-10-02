@@ -210,6 +210,11 @@ export const fromPredicate = <L>(S: Semigroup<L>) => <A>(predicate: Predicate<A>
   a: A
 ): Validation<L, A> => (predicate(a) ? success(a) : failure(S)(f(a)))
 
+export const fromEither = <L>(S: Semigroup<L>): (<A>(e: Either<L, A>) => Validation<L, A>) => {
+  const f = failure(S)
+  return e => e.fold(l => f(l), a => success(a))
+}
+
 export const concat = <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Validation<L, A> => fx.concat(fy)
 
 export const mapFailure = <M>(S: Semigroup<M>) => <L>(f: (l: L) => M) => <A>(fa: Validation<L, A>): Validation<M, A> =>

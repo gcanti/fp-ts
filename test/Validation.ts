@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import * as array from '../src/Array'
 import * as validation from '../src/Validation'
+import * as either from '../src/Either'
 import { monoidString } from '../src/Monoid'
 import { sequence } from '../src/Traversable'
 
@@ -33,5 +34,11 @@ describe('Validation', () => {
     } else {
       assert.ok(false)
     }
+  })
+
+  it('fromEither', () => {
+    const fromEither = validation.fromEither(monoidString)
+    assert.deepEqual(fromEither(either.right<string, number>(1)), validation.success(1))
+    assert.deepEqual(fromEither(either.left<string, number>('error')), validation.failure(monoidString)('error'))
   })
 })
