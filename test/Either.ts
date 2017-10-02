@@ -59,6 +59,7 @@ describe('Either', () => {
   it('getOrElse', () => {
     assert.equal(getOrElse(() => 17)(right(12)), 12)
     assert.equal(getOrElse(() => 17)(left(12)), 17)
+    assert.equal(getOrElse((l: number) => l + 1)(left(12)), 13)
   })
 
   it('fromOption', () => {
