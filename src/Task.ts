@@ -2,6 +2,7 @@ import { Monoid } from './Monoid'
 import { Monad, FantasyMonad } from './Monad'
 import { Lazy, toString } from './function'
 import { Either, left, right } from './Either'
+import { IO } from './IO'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -71,6 +72,9 @@ const never = new Task(neverLazyPromise)
 
 export const tryCatch = <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L): Task<Either<L, A>> =>
   new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))
+
+/** Lifts an IO action into a Task */
+export const fromIO = <A>(io: IO<A>): Task<A> => new Task(() => Promise.resolve(io.run()))
 
 export const task: Monad<URI> & Monoid<Task<any>> = {
   URI,
