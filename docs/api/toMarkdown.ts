@@ -157,7 +157,7 @@ const modules: Array<ModuleDoc> = [
   { name: 'Option', docs: true },
   { name: 'OptionT', docs: false },
   { name: 'Ord', docs: true },
-  { name: 'Ordering', docs: false },
+  { name: 'Ordering', docs: true },
   { name: 'Pair', docs: false },
   { name: 'Plus', docs: false },
   { name: 'Profunctor', docs: false },

@@ -37,7 +37,7 @@
 - [Option](./Option.md)
 - OptionT (TODO)
 - [Ord](./Ord.md)
-- Ordering (TODO)
+- [Ordering](./Ordering.md)
 - Pair (TODO)
 - Plus (TODO)
 - Profunctor (TODO)
