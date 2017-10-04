@@ -7,7 +7,7 @@
 - Array (TODO)
 - Bifunctor (TODO)
 - Category (TODO)
-- Chain (TODO)
+- [Chain](./Chain.md)
 - ChainRec (TODO)
 - Comonad (TODO)
 - Console (TODO)

@@ -127,7 +127,7 @@ const modules: Array<ModuleDoc> = [
   { name: 'Array', docs: false },
   { name: 'Bifunctor', docs: false },
   { name: 'Category', docs: false },
-  { name: 'Chain', docs: false },
+  { name: 'Chain', docs: true },
   { name: 'ChainRec', docs: false },
   { name: 'Comonad', docs: false },
   { name: 'Console', docs: false },
