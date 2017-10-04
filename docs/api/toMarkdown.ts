@@ -149,7 +149,7 @@ const modules: Array<ModuleDoc> = [
   { name: 'IO', docs: false },
   { name: 'IxIO', docs: false },
   { name: 'IxMonad', docs: false },
-  { name: 'Monad', docs: false },
+  { name: 'Monad', docs: true },
   { name: 'Monoid', docs: true },
   { name: 'Monoidal', docs: false },
   { name: 'NaturalTransformation', docs: false },

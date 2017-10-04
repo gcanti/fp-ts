@@ -29,7 +29,7 @@
 - IO (TODO)
 - IxIO (TODO)
 - IxMonad (TODO)
-- Monad (TODO)
+- [Monad](./Monad.md)
 - [Monoid](./Monoid.md)
 - Monoidal (TODO)
 - NaturalTransformation (TODO)
