@@ -71,6 +71,7 @@ export class Left<L, A>
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return left(this.value)
   }
+  /** Returns the value from this `Right` or the given argument if this is a `Left` */
   getOrElse(f: (l: L) => A): A {
     return f(this.value)
   }
@@ -138,6 +139,7 @@ export class Right<L, A>
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return right(this.value)
   }
+  /** Returns the value from this `Right` or the given argument if this is a `Left` */
   getOrElse(f: (l: L) => A): A {
     return this.value
   }
@@ -166,6 +168,7 @@ export const getSetoid = <L, A>(S: Setoid<A>): Setoid<Either<L, A>> => ({
 
 export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B, fa: Either<L, A>): B => fa.fold(left, right)
 
+/** Returns the value from this `Right` or the given argument if this is a `Left` */
 export const getOrElse = <L, A>(f: (l: L) => A) => (fa: Either<L, A>): A => fa.getOrElse(f)
 
 export const map = <L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> => fa.map(f)

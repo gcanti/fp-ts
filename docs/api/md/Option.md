@@ -67,6 +67,7 @@ getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>>
 ```ts
 (setoid: Setoid<A>, a: A): boolean
 ```
+Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise
 ### equals
 ```ts
 (S: Setoid<A>): (fy: Option<A>) => boolean
@@ -75,6 +76,7 @@ getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>>
 ```ts
 (p: (a: A) => boolean): boolean
 ```
+Returns `true` if this option is non empty and the predicate `p` returns `true` when applied to this Option's value
 ### extend
 ```ts
 <B>(f: (ea: Option<A>) => B): Option<B>
@@ -91,10 +93,12 @@ getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>>
 ```ts
 (): boolean
 ```
+Returns `true` if the option is `None`, false otherwise
 ### isSome
 ```ts
 (): boolean
 ```
+Returns `true` if the option is an instance of `Some`, `false` otherwise
 ### map
 ```ts
 <B>(f: (a: A) => B): Option<B>

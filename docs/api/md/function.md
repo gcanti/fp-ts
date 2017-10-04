@@ -87,10 +87,6 @@ type Kleisli<F, A, B> = (a: A) => HKT<F, B>
 ```ts
 type Lazy<A> = () => A
 ```
-# Lazy
-```ts
-type Lazy<A> = () => A
-```
 # Predicate
 ```ts
 type Predicate<A> = (a: A) => boolean

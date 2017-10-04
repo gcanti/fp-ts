@@ -3,7 +3,7 @@
 - Alt (TODO)
 - Alternative (TODO)
 - Applicative (TODO)
-- Apply (TODO)
+- [Apply](./Apply.md)
 - Array (TODO)
 - Bifunctor (TODO)
 - Category (TODO)

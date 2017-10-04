@@ -67,6 +67,7 @@ fy: Either<L, A>): Either<L, A>
 ```ts
 (f: Lazy<A>): A
 ```
+Returns the value from this `Right` or the given argument if this is a `Left`
 ### map
 ```ts
 <B>(f: (a: A) => B): Either<L, B>
@@ -104,6 +105,7 @@ Takes a default and a `Option` value, if the value is a `Some`, turn it into a `
 ```ts
 <A>(f: () => A) => <L>(fa: Either<L, A>): A
 ```
+Returns the value from this `Right` or the given argument if this is a `Left`
 # isLeft
 ```ts
 <L, A>(fa: Either<L, A>): fa is Left<L, A>

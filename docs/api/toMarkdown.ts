@@ -123,7 +123,7 @@ const modules: Array<ModuleDoc> = [
   { name: 'Alt', docs: false },
   { name: 'Alternative', docs: false },
   { name: 'Applicative', docs: false },
-  { name: 'Apply', docs: false },
+  { name: 'Apply', docs: true },
   { name: 'Array', docs: false },
   { name: 'Bifunctor', docs: false },
   { name: 'Category', docs: false },

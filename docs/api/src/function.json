@@ -4,11 +4,6 @@
   "types": [
     {
       "type": "type",
-      "name": "Lazy",
-      "signature": "type Lazy<A> = () => A"
-    },
-    {
-      "type": "type",
       "name": "Function1",
       "signature": "type Function1<A, B> = (a: A) => B"
     },

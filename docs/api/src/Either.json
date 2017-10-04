@@ -141,7 +141,7 @@
           "type": "method",
           "name": "getOrElse",
           "signature": "(f: Lazy<A>): A",
-          "description": null
+          "description": "Returns the value from this `Right` or the given argument if this is a `Left`"
         },
         {
           "type": "method",
@@ -175,7 +175,7 @@
       "type": "function",
       "name": "getOrElse",
       "signature": "<A>(f: () => A) => <L>(fa: Either<L, A>): A",
-      "description": null
+      "description": "Returns the value from this `Right` or the given argument if this is a `Left`"
     },
     {
       "type": "function",
