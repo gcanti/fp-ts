@@ -1,6 +1,6 @@
 # API
 
-- Alt (TODO)
+- [Alt](./Alt.md)
 - Alternative (TODO)
 - [Applicative](./Applicative.md)
 - [Apply](./Apply.md)

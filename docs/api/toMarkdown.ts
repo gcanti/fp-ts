@@ -120,7 +120,7 @@ type ModuleDoc = {
 }
 
 const modules: Array<ModuleDoc> = [
-  { name: 'Alt', docs: false },
+  { name: 'Alt', docs: true },
   { name: 'Alternative', docs: false },
   { name: 'Applicative', docs: true },
   { name: 'Apply', docs: true },
