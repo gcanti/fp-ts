@@ -36,7 +36,7 @@
 - NonEmptyArray (TODO)
 - [Option](./Option.md)
 - OptionT (TODO)
-- Ord (TODO)
+- [Ord](./Ord.md)
 - Ordering (TODO)
 - Pair (TODO)
 - Plus (TODO)
