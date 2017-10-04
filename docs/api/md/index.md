@@ -2,7 +2,7 @@
 
 - Alt (TODO)
 - Alternative (TODO)
-- Applicative (TODO)
+- [Applicative](./Applicative.md)
 - [Apply](./Apply.md)
 - Array (TODO)
 - Bifunctor (TODO)
