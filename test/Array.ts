@@ -68,8 +68,15 @@ describe('Array', () => {
     assert.deepEqual(array.take(2)(as), [1, 2])
   })
 
+  it('span', () => {
+    assert.deepEqual(array.span((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+  })
+
   it('takeWhile', () => {
-    assert.deepEqual(array.takeWhile((n: number) => n % 2 === 0)(as), [2])
+    assert.deepEqual(array.takeWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
+    assert.deepEqual(array.takeWhile((n: number) => n % 2 === 0)([]), [])
+    assert.deepEqual(array.takeWhile((n: number) => n % 2 === 0)([1, 2, 4]), [])
+    assert.deepEqual(array.takeWhile((n: number) => n % 2 === 0)([2, 4]), [2, 4])
   })
 
   it('drop', () => {
@@ -77,7 +84,11 @@ describe('Array', () => {
   })
 
   it('dropWhile', () => {
-    assert.deepEqual(array.dropWhile((n: number) => n % 2 === 0)(as), [1, 3])
+    assert.deepEqual(array.dropWhile((n: number) => n % 2 === 0)([1, 3, 2, 4, 5]), [1, 3, 2, 4, 5])
+    assert.deepEqual(array.dropWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
+    assert.deepEqual(array.dropWhile((n: number) => n % 2 === 0)([]), [])
+    assert.deepEqual(array.dropWhile((n: number) => n % 2 === 0)([2, 4, 1]), [1])
+    assert.deepEqual(array.dropWhile((n: number) => n % 2 === 0)([2, 4]), [])
   })
 
   it('init', () => {
