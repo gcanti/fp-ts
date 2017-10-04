@@ -4,7 +4,7 @@
 - Alternative (TODO)
 - [Applicative](./Applicative.md)
 - [Apply](./Apply.md)
-- Array (TODO)
+- [Array](./Array.md)
 - Bifunctor (TODO)
 - Category (TODO)
 - [Chain](./Chain.md)

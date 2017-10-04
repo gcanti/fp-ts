@@ -249,7 +249,7 @@ export const deleteAt = (i: number) => <A>(as: Array<A>): Option<Array<A>> =>
 
 /**
  * Apply a function to the element at the specified index, creating a new
- * array, or returning `Nothing` if the index is out of bounds
+ * array, or returning `None` if the index is out of bounds
  */
 export const modifyAt = (i: number) => <A>(f: Endomorphism<A>) => (as: Array<A>): Option<Array<A>> =>
   isOutOfBound(i)(as) ? option.none : updateAt(i)(f(as[i]))(as)
@@ -275,8 +275,8 @@ export const sort = <A>(ord: Ord<A>) => (as: Array<A>): Array<A> => copy(as).sor
 
 /**
  * Apply a function to pairs of elements at the same index in two arrays,
- * collecting the results in a new array,
- * If one input array is short, excess elements of the longer array are discarded
+ * collecting the results in a new array.
+ * If one input array is short, excess elements of the longer array are discarded.
  */
 export const zipWith = <A, B, C>(f: (a: A, b: B) => C) => (fa: Array<A>) => (fb: Array<B>): Array<C> => {
   const fc = []

@@ -124,7 +124,7 @@ const modules: Array<ModuleDoc> = [
   { name: 'Alternative', docs: false },
   { name: 'Applicative', docs: true },
   { name: 'Apply', docs: true },
-  { name: 'Array', docs: false },
+  { name: 'Array', docs: true },
   { name: 'Bifunctor', docs: false },
   { name: 'Category', docs: false },
   { name: 'Chain', docs: true },
