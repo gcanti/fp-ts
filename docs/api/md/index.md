@@ -56,7 +56,7 @@
 - Task (TODO)
 - These (TODO)
 - Trace (TODO)
-- Traversable (TODO)
+- [Traversable](./Traversable.md)
 - Tuple (TODO)
 - Unfoldable (TODO)
 - Validation (TODO)

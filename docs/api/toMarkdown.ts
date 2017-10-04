@@ -176,7 +176,7 @@ const modules: Array<ModuleDoc> = [
   { name: 'Task', docs: false },
   { name: 'These', docs: false },
   { name: 'Trace', docs: false },
-  { name: 'Traversable', docs: false },
+  { name: 'Traversable', docs: true },
   { name: 'Tuple', docs: false },
   { name: 'Unfoldable', docs: false },
   { name: 'Validation', docs: false },
