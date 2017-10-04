@@ -281,6 +281,13 @@
       "signature": "<A>(fa: Array<A>) => <B>(fb: Array<B>): Array<[A, B]>",
       "description":
         "Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the longer array are discarded"
+    },
+    {
+      "type": "function",
+      "name": "span",
+      "signature": "<A>(predicate: Predicate<A>) => (as: Array<A>): { init: Array<A>; rest: Array<A> }",
+      "description":
+        "Split an array into two parts:\n1. the longest initial subarray for which all elements satisfy the specified predicate\n2. the remaining elements"
     }
   ],
   "consts": []

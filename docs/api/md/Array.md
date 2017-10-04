@@ -164,6 +164,13 @@ Append an element to the end of an array, creating a new array
 <A>(ord: Ord<A>) => (as: Array<A>): Array<A>
 ```
 Sort the elements of an array in increasing order, creating a new array
+# span
+```ts
+<A>(predicate: Predicate<A>) => (as: Array<A>): { init: Array<A>; rest: Array<A> }
+```
+Split an array into two parts:
+1. the longest initial subarray for which all elements satisfy the specified predicate
+2. the remaining elements
 # tail
 ```ts
 <A>(as: Array<A>): Option<Array<A>>
