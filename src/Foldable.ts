@@ -49,6 +49,10 @@ export const intercalate = <F, M>(F: Foldable<F>, M: Monoid<M>) => (sep: M) => (
 }
 
 export class Ops {
+  /**
+   * Traverse a data structure, performing some effects encoded by an
+   * `Applicative` functor at each value, ignoring the final result.
+   */
   traverse_<M extends HKT2S, F>(
     M: Applicative<M>,
     F: Foldable<F>
@@ -62,6 +66,10 @@ export class Ops {
     return (f, fa) => toArray(F)(fa).reduce((mu, a) => applyFirst(M)(mu)(f(a)), M.of(undefined))
   }
 
+  /**
+   * Perform all of the effects in some data structure in the order
+   * given by the `Foldable` instance, ignoring the final result.
+   */
   sequence_<M extends HKT2S, F>(
     M: Applicative<M>,
     F: Foldable<F>

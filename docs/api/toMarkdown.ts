@@ -139,7 +139,7 @@ const modules: Array<ModuleDoc> = [
   { name: 'Extend', docs: false },
   { name: 'Field', docs: false },
   { name: 'Filterable', docs: false },
-  { name: 'Foldable', docs: false },
+  { name: 'Foldable', docs: true },
   { name: 'Free', docs: false },
   { name: 'function', docs: true },
   { name: 'Functor', docs: true },

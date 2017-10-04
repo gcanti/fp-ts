@@ -19,7 +19,7 @@
 - Extend (TODO)
 - Field (TODO)
 - Filterable (TODO)
-- Foldable (TODO)
+- [Foldable](./Foldable.md)
 - Free (TODO)
 - [function](./function.md)
 - [Functor](./Functor.md)
