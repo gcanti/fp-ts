@@ -29,20 +29,28 @@ export const ordBoolean: Ord<boolean> = {
   compare: unsafeCompare
 }
 
+/** Test whether one value is _strictly less than_ another */
 export const lessThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => ord.compare(x)(y) === 'LT'
 
+/** Test whether one value is _strictly greater than_ another */
 export const greaterThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => ord.compare(x)(y) === 'GT'
 
+/** Test whether one value is _non-strictly less than_ another */
 export const lessThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => ord.compare(x)(y) !== 'GT'
 
+/** Test whether one value is _non-strictly greater than_ another */
 export const greaterThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => ord.compare(x)(y) !== 'LT'
 
+/** Take the minimum of two values. If they are considered equal, the first argument is chosen */
 export const min = <A>(ord: Ord<A>) => (x: A) => (y: A): A => (ord.compare(x)(y) === 'GT' ? y : x)
 
+/** Take the maximum of two values. If they are considered equal, the first argument is chosen */
 export const max = <A>(ord: Ord<A>) => (x: A) => (y: A): A => (ord.compare(x)(y) === 'LT' ? y : x)
 
+/** Clamp a value between a minimum and a maximum */
 export const clamp = <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): A => min(ord)(hi)(max(ord)(low)(x))
 
+/** Test whether a value is between a minimum and a maximum (inclusive) */
 export const between = <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): boolean =>
   lessThan(ord)(x)(low) || greaterThan(ord)(x)(hi) ? false : true
 

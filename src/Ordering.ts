@@ -13,11 +13,11 @@ export const orderingSemigroup: Semigroup<Ordering> = {
   concat: a => b => (a === 'LT' || a === 'GT' ? a : b)
 }
 
-export const invert = (a: Ordering): Ordering => {
-  if (a === 'LT') {
+export const invert = (O: Ordering): Ordering => {
+  if (O === 'LT') {
     return 'GT'
   }
-  if (a === 'GT') {
+  if (O === 'GT') {
     return 'LT'
   }
   return 'EQ'
