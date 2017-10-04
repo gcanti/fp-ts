@@ -53,7 +53,7 @@
 - StateT (TODO)
 - Store (TODO)
 - StrMap (TODO)
-- Task (TODO)
+- [Task](./Task.md)
 - These (TODO)
 - Trace (TODO)
 - [Traversable](./Traversable.md)
