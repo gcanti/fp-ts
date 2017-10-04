@@ -12,6 +12,37 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.5.3
+
+- **New Feature**
+  - add `Invariant` (@gcanti)
+  - `Semigroup`: add `getRecordSemigroup`, `getRecordMonoid`, `getMeetSemigroup`, `getJoinSemigroup` (@gcanti)
+  - `Ord`: add `getSemigroup`, `fromCompare`, `contramap` (@gcanti)
+  - `Option`: add `toUndefined` method (@vegansk)
+  - `These`: add `getMonad` (@gcanti)
+  - `Foldable`: add `fold` (@gcanti)
+  - add `TaskEither` (@gcanti)
+  - `Validation`: add `fromEither` (@gcanti)
+  - `Task`: add `fromIO` (@gcanti)
+  - `Either`: pass value to `getOrElse` (@jiayihu)
+  - `Array`: add `span` function (@gcanti)
+- **Bug Fix**
+  - `Array`: fix `takeWhile`, `dropWhile` (@gcanti)
+- **Documentation**
+  - add `Moore` machine example (@gcanti)
+  - add MTL style example (@gcanti)
+  - starting API documentation (@gcanti)
+- **Internal**
+  - fix `Semigroupoid` definition (@gcanti)
+- **Polish**
+  - `Ordering`: shorten `orderingSemigroup` definition (@gcanti)
+  - `Task`: prefer `{}` to `any`, fix #231 (@OliverJAsh)
+  - upgrade to `prettier@1.7.0` (@gcanti)
+  - `These`: fix `fold` and `bimap` definitions (@gcanti)
+  - fix `ArrayOption` example (@gcanti)
+  - `State`: remove `Endomorphism` type alias (@gcanti)
+  - `Monoidal`: use `liftA2` (@gcanti)
+
 # 0.5.2
 
 - **Bug Fix**
