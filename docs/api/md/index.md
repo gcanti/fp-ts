@@ -45,7 +45,7 @@
 - Reader (TODO)
 - ReaderT (TODO)
 - Ring (TODO)
-- Semigroup (TODO)
+- [Semigroup](./Semigroup.md)
 - Semigroupoid (TODO)
 - Semiring (TODO)
 - Setoid (TODO)

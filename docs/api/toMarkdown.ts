@@ -165,7 +165,7 @@ const modules: Array<ModuleDoc> = [
   { name: 'Reader', docs: false },
   { name: 'ReaderT', docs: false },
   { name: 'Ring', docs: false },
-  { name: 'Semigroup', docs: false },
+  { name: 'Semigroup', docs: true },
   { name: 'Semigroupoid', docs: false },
   { name: 'Semiring', docs: false },
   { name: 'Setoid', docs: false },
