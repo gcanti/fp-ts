@@ -15,7 +15,7 @@ import { Extend } from './Extend'
 import { Filterable } from './Filterable'
 import { Either } from './Either'
 import { Witherable } from './Witherable'
-import { Predicate, identity, constant, Lazy, Endomorphism, Refinement, tuple, not } from './function'
+import { Predicate, identity, constant, Lazy, Endomorphism, Refinement, tuple } from './function'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -157,10 +157,28 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => {
 export const take = (n: number) => <A>(as: Array<A>): Array<A> => slice(0, n)(as)
 
 /**
+ * Split an array into two parts:
+ * 1. the longest initial subarray for which all elements satisfy the specified predicate
+ * 2. the remaining elements
+ */
+export const span = <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Array<A>; rest: Array<A> } => {
+  const init: Array<A> = []
+  let i = 0
+  for (; i < as.length; i++) {
+    if (predicate(as[i])) {
+      init.push(as[i])
+    } else {
+      break
+    }
+  }
+  return { init, rest: as.slice(i) }
+}
+
+/**
  * Calculate the longest initial subarray for which all element satisfy the
  * specified predicate, creating a new array
  */
-export const takeWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => as.slice().filter(predicate)
+export const takeWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => span(predicate)(as).init
 
 /** Drop a number of elements from the start of an array, creating a new array */
 export const drop = (n: number) => <A>(as: Array<A>): Array<A> => slice(n, length(as))(as)
@@ -169,7 +187,7 @@ export const drop = (n: number) => <A>(as: Array<A>): Array<A> => slice(n, lengt
  * Remove the longest initial subarray for which all element satisfy the
  * specified predicate, creating a new array
  */
-export const dropWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => takeWhile(not(predicate))(as)
+export const dropWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => span(predicate)(as).rest
 
 /** Find the first index for which a predicate holds */
 export const findIndex = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<number> => {
