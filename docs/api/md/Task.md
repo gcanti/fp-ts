@@ -36,6 +36,11 @@ class Task<A> {
 ```ts
 <B>(f: (a: A) => B): Task<B>
 ```
+# fromIO
+```ts
+<A>(io: IO<A>): Task<A>
+```
+Lifts an IO action into a Task
 # tryCatch
 ```ts
 <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L): Task<Either<L, A>>

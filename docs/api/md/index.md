@@ -54,6 +54,7 @@
 - Store (TODO)
 - StrMap (TODO)
 - [Task](./Task.md)
+- TaskEither (TODO)
 - These (TODO)
 - Trace (TODO)
 - [Traversable](./Traversable.md)
