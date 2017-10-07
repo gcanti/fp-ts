@@ -76,6 +76,13 @@ export class Ops {
     return f => fa => F.map(o => o.getOrElse(f), fa)
   }
 
+  getOrElseValue<F extends HKT2S>(F: Functor<F>): <A>(value: A) => <L>(fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
+  getOrElseValue<F extends HKTS>(F: Functor<F>): <A>(value: A) => (fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
+  getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+  getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
+    return value => fa => F.map(o => o.getOrElseValue(value), fa)
+  }
+
   getOptionT<M extends HKT2S>(M: Monad<M>): OptionT2<M>
   getOptionT<M extends HKTS>(M: Monad<M>): OptionT1<M>
   getOptionT<M>(M: Monad<M>): OptionT<M>
@@ -97,4 +104,5 @@ export const fromOption: Ops['fromOption'] = ops.fromOption
 export const liftF: Ops['liftF'] = ops.liftF
 export const fold: Ops['fold'] = ops.fold
 export const getOrElse: Ops['getOrElse'] = ops.getOrElse
+export const getOrElseValue: Ops['getOrElseValue'] = ops.getOrElseValue
 export const getOptionT: Ops['getOptionT'] = ops.getOptionT

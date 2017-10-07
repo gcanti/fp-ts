@@ -153,10 +153,7 @@ function mods<A>([gf, uf]: Selector<A>, mfun: Endomorphism<A>): MyState<void> {
   return gf.chain(st => uf(mfun(st)))
 }
 
-const program3 = sel(s1)
-  .chain(a => mods(s2, n => n * a))
-  .chain(() => sel(s2))
-  .chain(b => lift(log(b)))
+const program3 = sel(s1).chain(a => mods(s2, n => n * a)).chain(() => sel(s2)).chain(b => lift(log(b)))
 
 program3.run({ var1: 2, var2: 1.3 })
 // => 2.6

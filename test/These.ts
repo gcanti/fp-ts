@@ -26,24 +26,9 @@ describe('These', () => {
 
   it('map', () => {
     const double = (n: number) => n * 2
-    assert.strictEqual(
-      this_(2)
-        .map(double)
-        .equals(setoidNumber, setoidNumber)(this_<number, number>(2)),
-      true
-    )
-    assert.strictEqual(
-      that(2)
-        .map(double)
-        .equals(setoidNumber, setoidNumber)(that<number, number>(4)),
-      true
-    )
-    assert.strictEqual(
-      both(1, 2)
-        .map(double)
-        .equals(setoidNumber, setoidNumber)(both<number, number>(1, 4)),
-      true
-    )
+    assert.strictEqual(this_(2).map(double).equals(setoidNumber, setoidNumber)(this_<number, number>(2)), true)
+    assert.strictEqual(that(2).map(double).equals(setoidNumber, setoidNumber)(that<number, number>(4)), true)
+    assert.strictEqual(both(1, 2).map(double).equals(setoidNumber, setoidNumber)(both<number, number>(1, 4)), true)
   })
 
   it('bimap', () => {
@@ -62,17 +47,7 @@ describe('These', () => {
   it('bimap', () => {
     const double = (n: number) => n * 2
     const len = (s: string) => s.length
-    assert.strictEqual(
-      this_('a')
-        .bimap(len, double)
-        .equals(setoidNumber, setoidNumber)(this_<number, number>(1)),
-      true
-    )
-    assert.strictEqual(
-      that(2)
-        .bimap(len, double)
-        .equals(setoidNumber, setoidNumber)(that<number, number>(4)),
-      true
-    )
+    assert.strictEqual(this_('a').bimap(len, double).equals(setoidNumber, setoidNumber)(this_<number, number>(1)), true)
+    assert.strictEqual(that(2).bimap(len, double).equals(setoidNumber, setoidNumber)(that<number, number>(4)), true)
   })
 })

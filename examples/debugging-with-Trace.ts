@@ -24,9 +24,7 @@ const bar2 = foo.mapLeft(s => trace('mapping the left side', () => s.length))
 
 const traceAOption = traceA(option)
 
-traceAOption('start computation')
-  .chain(() => option.some(1))
-  .chain(() => traceAOption('end computation'))
+traceAOption('start computation').chain(() => option.some(1)).chain(() => traceAOption('end computation'))
 // => start computation
 // => end computation
 
@@ -36,10 +34,6 @@ traceAOption('start computation')
 
 const traceMOption = traceM(option)
 
-const baz: option.Option<number> = option
-  .some([1, 2, 3])
-  .chain(traceMOption)
-  .chain(array.head)
-  .chain(traceMOption)
+const baz: option.Option<number> = option.some([1, 2, 3]).chain(traceMOption).chain(array.head).chain(traceMOption)
 // => [1, 2, 3]
 // => 1
