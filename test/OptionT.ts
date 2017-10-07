@@ -19,36 +19,48 @@ describe('OptionT', () => {
   it('fold', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
-    const p1 = optionT.fold(task)(f, g, none).run().then(s => {
-      assert.strictEqual(s, 'none')
-    })
-    const p2 = optionT.fold(task)(f, g, taskOption.of('s')).run().then(s => {
-      assert.strictEqual(s, 'some1')
-    })
+    const p1 = optionT.fold(task)(f, g, none)
+      .run()
+      .then(s => {
+        assert.strictEqual(s, 'none')
+      })
+    const p2 = optionT.fold(task)(f, g, taskOption.of('s'))
+      .run()
+      .then(s => {
+        assert.strictEqual(s, 'some1')
+      })
     return Promise.all([p1, p2])
   })
 
   it('getOrElse', () => {
     const greetingT = taskOption.of('welcome')
     const getOrElse = optionT.getOrElse(task)(() => 'hello, there!')
-    const p1 = getOrElse(greetingT).run().then(s => {
-      assert.strictEqual(s, 'welcome')
-    })
-    const p2 = getOrElse(none).run().then(s => {
-      assert.strictEqual(s, 'hello, there!')
-    })
+    const p1 = getOrElse(greetingT)
+      .run()
+      .then(s => {
+        assert.strictEqual(s, 'welcome')
+      })
+    const p2 = getOrElse(none)
+      .run()
+      .then(s => {
+        assert.strictEqual(s, 'hello, there!')
+      })
     return Promise.all([p1, p2])
   })
 
   it('getOrElseValue', () => {
     const greetingT = taskOption.of('welcome')
     const getOrElseValue = optionT.getOrElseValue(task)('hello, there!')
-    const p1 = getOrElseValue(greetingT).run().then(s => {
-      assert.strictEqual(s, 'welcome')
-    })
-    const p2 = getOrElseValue(none).run().then(s => {
-      assert.strictEqual(s, 'hello, there!')
-    })
+    const p1 = getOrElseValue(greetingT)
+      .run()
+      .then(s => {
+        assert.strictEqual(s, 'welcome')
+      })
+    const p2 = getOrElseValue(none)
+      .run()
+      .then(s => {
+        assert.strictEqual(s, 'hello, there!')
+      })
     return Promise.all([p1, p2])
   })
 })

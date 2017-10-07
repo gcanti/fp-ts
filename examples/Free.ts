@@ -90,7 +90,10 @@ export function interpretIdentity<A>(fa: InstructionF<A>): identity.Identity<A> 
 const start = new Position(0, 0, new Degree(90))
 
 const program1 = (start: Position) => {
-  return forward(start, 10).chain(p1 => right(p1, new Degree(90))).chain(p2 => forward(p2, 10)).chain(p3 => show(p3))
+  return forward(start, 10)
+    .chain(p1 => right(p1, new Degree(90)))
+    .chain(p2 => forward(p2, 10))
+    .chain(p3 => show(p3))
 }
 
 console.log('--program1--')
@@ -180,13 +183,17 @@ const injectInstruction = free.hoistFree(<A>(fa: InstructionF<A>) => new Instruc
 const injectPencil = free.hoistFree(<A>(fa: PencilInstructionF<A>) => new PencilInstruction(fa))
 
 const program3 = (start: Position) => {
-  return injectInstruction(forward(start, 10)).chain(p1 => injectInstruction(right(p1, new Degree(90)))).chain(p2 => {
-    return injectPencil(pencilUp(p2)).chain(() => injectInstruction(forward(p2, 10))).chain(p3 => {
-      return injectPencil(pencilDown(p3))
-        .chain(() => injectInstruction(backward(p3, 20)))
-        .chain(p4 => injectInstruction(show(p4)))
+  return injectInstruction(forward(start, 10))
+    .chain(p1 => injectInstruction(right(p1, new Degree(90))))
+    .chain(p2 => {
+      return injectPencil(pencilUp(p2))
+        .chain(() => injectInstruction(forward(p2, 10)))
+        .chain(p3 => {
+          return injectPencil(pencilDown(p3))
+            .chain(() => injectInstruction(backward(p3, 20)))
+            .chain(p4 => injectInstruction(show(p4)))
+        })
     })
-  })
 }
 
 export function penInterpretIdentity<A>(fa: PencilInstructionF<A>): identity.Identity<A> {
