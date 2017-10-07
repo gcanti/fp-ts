@@ -11,7 +11,8 @@ import {
   fromPredicate,
   tryCatch,
   fromOption,
-  bimap
+  bimap,
+  fromNullable
 } from '../src/Either'
 import { eqEithers as eq } from './helpers'
 import { none, some } from '../src/Option'
@@ -83,5 +84,11 @@ describe('Either', () => {
   it('fromOption', () => {
     assert.deepEqual(fromOption('default')(none), left('default'))
     assert.deepEqual(fromOption('default')(some(1)), right(1))
+  })
+
+  it('fromNullable', () => {
+    assert.deepEqual(fromNullable('default')(null), left('default'))
+    assert.deepEqual(fromNullable('default')(undefined), left('default'))
+    assert.deepEqual(fromNullable('default')(1), right(1))
   })
 })

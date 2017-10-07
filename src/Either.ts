@@ -235,6 +235,13 @@ export const mapLeft = <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>): Either<M
 export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> =>
   fa.fold(() => left(defaultValue), a => right(a))
 
+/**
+ * Takes a default and a nullable value, if the value is not nully, turn it into
+ * a `Right`, if the value is nully use the provided default as a `Left`
+ */
+export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> =>
+  a == null ? left(defaultValue) : right(a)
+
 export const toOption = <L, A>(fa: Either<L, A>): Option<A> => fa.toOption()
 
 export const tryCatch = <A>(f: Lazy<A>): Either<Error, A> => {
