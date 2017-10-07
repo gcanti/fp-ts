@@ -8,7 +8,7 @@ import { Traversable } from './Traversable'
 import { Alternative } from './Alternative'
 import { Plus } from './Plus'
 import { liftA2 } from './Apply'
-import { Option } from './Option'
+import { Option, fromNullable } from './Option'
 import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
 import { Extend } from './Extend'
@@ -198,6 +198,22 @@ export const findIndex = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<
     }
   }
   return option.none
+}
+
+/** Find the first element which satisfies a predicate function */
+export const findFirst = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<A> => fromNullable(as.find(predicate))
+
+/** Find the last element which satisfies a predicate function */
+export const findLast = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<A> => {
+  const len = as.length
+  let a: A | null = null
+  for (let i = len - 1; i >= 0; i--) {
+    if (predicate(as[i])) {
+      a = as[i]
+      break
+    }
+  }
+  return fromNullable(a)
 }
 
 /** Filter an array, keeping the elements which satisfy a predicate function, creating a new array */

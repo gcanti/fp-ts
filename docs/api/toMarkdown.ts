@@ -174,6 +174,7 @@ const modules: Array<ModuleDoc> = [
   { name: 'Store', docs: false },
   { name: 'StrMap', docs: false },
   { name: 'Task', docs: true },
+  { name: 'TaskEither', docs: false },
   { name: 'These', docs: false },
   { name: 'Trace', docs: false },
   { name: 'Traversable', docs: true },

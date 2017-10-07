@@ -68,6 +68,12 @@
       "name": "tryCatch",
       "signature": "<A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L): Task<Either<L, A>>",
       "description": null
+    },
+    {
+      "type": "function",
+      "name": "fromIO",
+      "signature": "<A>(io: IO<A>): Task<A>",
+      "description": "Lifts an IO action into a Task"
     }
   ],
   "consts": []
