@@ -2,16 +2,16 @@
   "name": "fp-ts",
   "version": "0.5.3",
   "description": "Functional programming in TypeScript",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint src/**/*.ts test/**/*.ts examples/**/*.ts exercises/**/*.ts",
     "mocha": "mocha -r ts-node/register test/*.ts",
-    "prettier":
-      "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
-    "fix-prettier":
-      "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples,exercises}/**/*.ts\"",
+    "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
+    "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples,exercises}/**/*.ts\"",
     "test": "npm run lint && npm run prettier && npm run mocha",
     "clean": "rm -rf lib/*",
     "build": "npm run clean && tsc",
@@ -38,6 +38,18 @@
     "tslint-config-standard": "4.0.0",
     "typescript": "2.5.2"
   },
-  "tags": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"],
-  "keywords": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"]
+  "tags": [
+    "typescript",
+    "static-land",
+    "fantasy-land",
+    "algebraic-data-types",
+    "functional-programming"
+  ],
+  "keywords": [
+    "typescript",
+    "static-land",
+    "fantasy-land",
+    "algebraic-data-types",
+    "functional-programming"
+  ]
 }
