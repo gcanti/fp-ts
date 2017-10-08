@@ -1,5 +1,18 @@
 import * as assert from 'assert'
-import { right, left, map, fold, getOrElse, ap, chain, fromPredicate, tryCatch, fromOption, bimap } from '../src/Either'
+import {
+  right,
+  left,
+  map,
+  fold,
+  getOrElse,
+  getOrElseValue,
+  ap,
+  chain,
+  fromPredicate,
+  tryCatch,
+  fromOption,
+  bimap
+} from '../src/Either'
 import { eqEithers as eq } from './helpers'
 import { none, some } from '../src/Option'
 
@@ -60,6 +73,11 @@ describe('Either', () => {
     assert.equal(getOrElse(() => 17)(right(12)), 12)
     assert.equal(getOrElse(() => 17)(left(12)), 17)
     assert.equal(getOrElse((l: number) => l + 1)(left(12)), 13)
+  })
+
+  it('getOrElseValue', () => {
+    assert.equal(getOrElseValue(17)(right(12)), 12)
+    assert.equal(getOrElseValue(17)(left(12)), 17)
   })
 
   it('fromOption', () => {

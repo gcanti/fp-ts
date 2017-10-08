@@ -80,6 +80,9 @@ export class None<A>
   getOrElse(f: Lazy<A>): A {
     return f()
   }
+  getOrElseValue(value: A): A {
+    return value
+  }
   concat(S: Semigroup<A>): (fy: Option<A>) => Option<A> {
     return fy => fy
   }
@@ -180,6 +183,9 @@ export class Some<A>
     return s(this.value)
   }
   getOrElse(f: Lazy<A>): A {
+    return this.value
+  }
+  getOrElseValue(value: A): A {
     return this.value
   }
   concat(S: Semigroup<A>): (fy: Option<A>) => Option<A> {
@@ -285,7 +291,7 @@ export const fold = <A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B => fa.f
  * `None` the default value is returned, otherwise the value inside the
  * `Some` is returned
  */
-export const fromOption = <A>(a: A) => (fa: Option<A>): A => fa.getOrElse(() => a)
+export const fromOption = <A>(a: A) => (fa: Option<A>): A => fa.getOrElseValue(a)
 
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => (a == null ? none : new Some(a))
 
