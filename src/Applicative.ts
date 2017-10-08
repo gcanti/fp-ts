@@ -9,6 +9,7 @@ import {
   FunctorComposition22
 } from './Functor'
 
+/** @typeclass */
 export interface Applicative<F> extends Apply<F> {
   of: <A>(a: A) => HKT<F, A>
 }
