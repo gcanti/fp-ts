@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
 import { Functor, FantasyFunctor, FunctorComposition, getFunctorComposition } from './Functor'
 import { Foldable, FantasyFoldable, FoldableComposition, getFoldableComposition } from './Foldable'
 import { Applicative } from './Applicative'
@@ -29,6 +29,10 @@ export interface TraversableComposition11<F extends HKTS, G extends HKTS>
 }
 
 export class Ops {
+  sequence<F extends HKT3S, T extends HKTS>(
+    F: Applicative<F>,
+    T: Traversable<T>
+  ): <U, L, A>(tfa: HKTAs<T, HKT3As<F, U, L, A>>) => HKT3As<F, U, L, HKTAs<T, A>>
   sequence<F extends HKT2S, T extends HKTS>(
     F: Applicative<F>,
     T: Traversable<T>

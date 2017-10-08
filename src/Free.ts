@@ -1,7 +1,7 @@
 // adapted from http://okmij.org/ftp/Computation/free-monad.html
 // and https://github.com/purescript/purescript-free
 
-import { HKT, HKTS, HKTAs, HKT2S, HKT2As } from './HKT'
+import { HKT, HKTS, HKTAs, HKT2S, HKT2As, HKT3S, HKT3As } from './HKT'
 import { FantasyMonad, Monad } from './Monad'
 import { NaturalTransformation } from './NaturalTransformation'
 import { toString } from './function'
@@ -94,6 +94,9 @@ export const hoistFree = <F, G>(f: NaturalTransformation<F, G>): (<A>(fa: Free<F
   substFree(fa => liftF(f(fa)))
 
 export class Ops {
+  foldFree<M extends HKT3S>(
+    M: Monad<M>
+  ): <F>(f: NaturalTransformation<F, M>) => <U, L, A>(fa: Free<F, A>) => HKT3As<M, U, L, A>
   foldFree<M extends HKT2S>(
     M: Monad<M>
   ): <F>(f: NaturalTransformation<F, M>) => <L, A>(fa: Free<F, A>) => HKT2As<M, L, A>

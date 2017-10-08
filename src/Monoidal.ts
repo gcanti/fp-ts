@@ -10,21 +10,20 @@ import { liftA2 } from './Apply'
  * - https://bartoszmilewski.com/2017/02/06/applicative-functors/
  */
 export interface Monoidal<F> extends Functor<F> {
-  readonly URI: F
-  unit: () => HKT<F, void>
-  mult: <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, [A, B]>
+  unit(): HKT<F, void>
+  mult<A, B>(fa: HKT<F, A>, fb: HKT<F, B>): HKT<F, [A, B]>
 }
 
 export const fromApplicative = <F>(applicative: Applicative<F>): Monoidal<F> => ({
   URI: applicative.URI,
   map: applicative.map,
   unit: () => applicative.of(undefined),
-  mult: liftA2(applicative)(tupleCurried)
+  mult: <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => liftA2(applicative)<A, B, [A, B]>(tupleCurried)(fa)(fb)
 })
 
 export const toApplicative = <F>(monoidal: Monoidal<F>): Applicative<F> => ({
   URI: monoidal.URI,
   map: monoidal.map,
   of: a => monoidal.map(constant(a), monoidal.unit()),
-  ap: (fab, fa) => monoidal.map(([f, a]) => f(a), monoidal.mult(fab)(fa))
+  ap: (fab, fa) => monoidal.map(([f, a]) => f(a), monoidal.mult(fab, fa))
 })

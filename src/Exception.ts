@@ -33,7 +33,8 @@ export const catchException = <A>(handler: (e: Error) => IO<A>) => (action: IO<A
     }
   })
 
-/** Runs an IO and returns eventual Exceptions as a `Left` value. If the
+/**
+ * Runs an IO and returns eventual Exceptions as a `Left` value. If the
  * computation succeeds the result gets wrapped in a `Right`.
  */
 export const tryCatch = <A>(action: IO<A>): IO<Either<Error, A>> =>

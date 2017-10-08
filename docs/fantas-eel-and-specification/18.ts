@@ -35,7 +35,9 @@ export class Costar<F, B, C> {
 import * as array from '../../src/Array'
 
 // Takes a list of ints to the sum
-export const sum = new Costar<'Array', number, number>(array, (xs: Array<number>) => xs.reduce((acc, x) => acc + x, 0))
+export const sum = new Costar<'Array', number, number>(array, (xs: HKT<'Array', number>) =>
+  (xs as Array<number>).reduce((acc, x) => acc + x, 0)
+)
 
 // Make every element 1, then sum them!
 export const length = sum.promap<any, number>(() => 1, x => x)

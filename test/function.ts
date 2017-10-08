@@ -53,7 +53,7 @@ describe('function', () => {
     // as predicate
     const gt3 = (n: number) => n > 3
     const lt2 = (n: number) => n < 2
-    const outside2and3 = or(lt2)(gt3)
+    const outside2and3 = or(lt2, gt3)
     assert.strictEqual(outside2and3(1), true)
     assert.strictEqual(outside2and3(4), true)
     assert.strictEqual(outside2and3(2.5), false)
@@ -68,7 +68,7 @@ describe('function', () => {
     }
     const isB = (a: A): a is B => a instanceof B
     const isC = (a: A): a is C => a instanceof C
-    const isBOrC = or(isB)(isC)
+    const isBOrC = or(isB, isC)
     function f(a: any): 'B' | 'C' | 'else' {
       if (isBOrC(a)) {
         return a._tag

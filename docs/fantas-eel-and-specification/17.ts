@@ -50,7 +50,7 @@ export const isSurvivor = (game: Game): boolean => {
 export const fromBoard = (board: Board): Game => {
   return new Store(pointer => {
     const [x, y] = pointer.value
-    return getBoardValue(board, x, y).getOrElse(() => false)
+    return getBoardValue(board, x, y).getOrElseValue(false)
   }, new Tuple([0, 0]))
 }
 

@@ -11,12 +11,12 @@ import { Foldable, FantasyFoldable } from './Foldable'
 import { Applicative } from './Applicative'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Semigroupoid, FantasySemigroupoid } from './Semigroupoid'
-import { Cokleisli, toString } from './function'
+import { toString } from './function'
 import { ChainRec } from './ChainRec'
 import { Chain } from './Chain'
 import { Either, isLeft, Right, Left } from './Either'
 
-// https://github.com/purescript/purescript-tuples
+// Adapted from https://github.com/purescript/purescript-tuples
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -56,7 +56,7 @@ export class Tuple<L, A>
   extract(): A {
     return this.snd()
   }
-  extend<B>(f: Cokleisli<URI, A, B>): Tuple<L, B> {
+  extend<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B> {
     return new Tuple([this.fst(), f(this)])
   }
   reduce<B>(f: (c: B, b: A) => B, c: B): B {
@@ -79,18 +79,17 @@ export const fst = <L, A>(fa: Tuple<L, A>): L => fa.fst()
 /** Returns the second component of a tuple. */
 export const snd = <L, A>(fa: Tuple<L, A>): A => fa.snd()
 
-export const compose = <A, B>(bc: Tuple<A, B>) => <L>(fa: Tuple<L, A>): Tuple<L, B> => {
+export const compose = <L, A, B>(bc: Tuple<A, B>, fa: Tuple<L, A>): Tuple<L, B> => {
   return fa.compose(bc)
 }
 
 export const map = <L, A, B>(f: (b: A) => B, fa: Tuple<L, A>): Tuple<L, B> => fa.map(f)
 
-export const bimap = <L, A, M, B>(f: (l: L) => M, g: (a: A) => B): ((fla: Tuple<L, A>) => Tuple<M, B>) => fla =>
-  fla.bimap(f, g)
+export const bimap = <L, A, M, B>(f: (l: L) => M, g: (a: A) => B, fla: Tuple<L, A>): Tuple<M, B> => fla.bimap(f, g)
 
 export const extract = snd
 
-export const extend = <L, A, B>(f: Cokleisli<URI, A, B>, fa: Tuple<L, A>): Tuple<L, B> => fa.extend(f)
+export const extend = <L, A, B>(f: (fa: Tuple<L, A>) => B, fa: Tuple<L, A>): Tuple<L, B> => fa.extend(f)
 
 export const reduce = <L, A, B>(f: (c: B, b: A) => B, c: B, fa: Tuple<L, A>): B => fa.reduce(f, c)
 
@@ -106,60 +105,55 @@ export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A
  * To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
  * `snd`s are `compare`d.
  */
-export const getOrd = <L, A>(OA: Ord<L>, OB: Ord<A>): Ord<Tuple<L, A>> =>
-  getOrdSemigroup<Tuple<L, A>>().concat(contramapOrd(fst, OA))(contramapOrd(snd, OB))
+export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> =>
+  getOrdSemigroup<Tuple<L, A>>().concat(contramapOrd(fst, OL))(contramapOrd(snd, OA))
 
-export const getSemigroup = <L, A>(SA: Semigroup<L>, SB: Semigroup<A>): Semigroup<Tuple<L, A>> => ({
+export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => ({
   concat: x => y => {
     const [xa, xb] = x.value
     const [ya, yb] = y.value
-    return new Tuple([SA.concat(xa)(ya), SB.concat(xb)(yb)])
+    return new Tuple([SL.concat(xa)(ya), SA.concat(xb)(yb)])
   }
 })
 
-export const getMonoid = <L, A>(MA: Monoid<L>, MB: Monoid<A>): Monoid<Tuple<L, A>> => {
-  const empty = new Tuple([MA.empty(), MB.empty()])
+export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => {
+  const empty = new Tuple([ML.empty(), MA.empty()])
   return {
-    ...getSemigroup(MA, MB),
+    ...getSemigroup(ML, MA),
     empty: () => empty
   }
 }
 
+export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<L, A>): Tuple<L, B> =>
+  new Tuple([S.concat(fa.fst())(fab.fst()), fab.snd()(fa.snd())])
+
 export const getApply = <L>(S: Semigroup<L>): Apply<URI> => ({
   URI,
   map,
-  ap<A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<L, A>): Tuple<L, B> {
-    return new Tuple([S.concat(fa.fst())(fab.fst()), fab.snd()(fa.snd())])
-  }
+  ap: ap(S)
 })
 
-export const getApplicative = <L>(monoidA: Monoid<L>): Applicative<URI> => {
-  const empty = monoidA.empty()
-  return {
-    ...getApply(monoidA),
-    of<A>(a: A): Tuple<L, A> {
-      return new Tuple([empty, a])
-    }
-  }
+export const of = <L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A> => new Tuple([M.empty(), a])
+
+export const getApplicative = <L>(M: Monoid<L>): Applicative<URI> => ({
+  ...getApply(M),
+  of: of(M)
+})
+
+export const chain = <L>(M: Monoid<L>) => <A, B>(f: (b: A) => Tuple<L, B>, fa: Tuple<L, A>): Tuple<L, B> => {
+  const lb = f(fa.snd())
+  return new Tuple([M.concat(fa.fst())(lb.fst()), lb.snd()])
 }
 
 export const getChain = <L>(M: Monoid<L>): Chain<URI> => ({
   ...getApply(M),
-  chain<A, B>(f: (b: A) => Tuple<L, B>, fa: Tuple<L, A>): Tuple<L, B> {
-    const lb = f(fa.snd())
-    return new Tuple([M.concat(fa.fst())(lb.fst()), lb.snd()])
-  }
+  chain: chain(M)
 })
 
-export const getMonad = <L>(M: Monoid<L>): Monad<URI> => {
-  const empty = M.empty()
-  return {
-    ...getChain(M),
-    of<B>(b: B): Tuple<L, B> {
-      return new Tuple([empty, b])
-    }
-  }
-}
+export const getMonad = <L>(M: Monoid<L>): Monad<URI> => ({
+  ...getChain(M),
+  of: of(M)
+})
 
 export const chainRec = <L>(M: Monoid<L>) => <A, B>(f: (a: A) => Tuple<L, Either<A, B>>, a: A): Tuple<L, B> => {
   let result = f(a)
@@ -183,7 +177,7 @@ export class Ops {
   traverse<F extends HKTS>(
     F: Applicative<F>
   ): <L, A, B>(f: (a: A) => HKTAs<F, B>, ta: Tuple<L, A>) => HKTAs<F, Tuple<L, B>>
-  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Tuple<L, A>) => HKT<F, Tuple<L, B>>
+  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Tuple<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Tuple<L, A>) => HKT<F, Tuple<L, B>> {
     return (f, ta) => ta.traverse(F)(f)
   }

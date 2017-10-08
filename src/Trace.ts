@@ -5,7 +5,8 @@ import { Monad } from './Monad'
 
 // Adapted from https://github.com/garyb/purescript-debug
 
-/** Log any value to the console for debugging purposes and then
+/**
+ * Log any value to the console for debugging purposes and then
  * return a value. This will log the value's underlying representation for
  * low-level debugging
  */
@@ -18,7 +19,8 @@ export const trace = <A>(message: any, out: Lazy<A>): A => {
 export const spy = <A>(a: A): A => trace(a, () => a)
 
 export class Ops {
-  /** Log a message to the console for debugging purposes and then return the
+  /**
+   * Log a message to the console for debugging purposes and then return the
    * unit value of the Applicative `F`
    */
   traceA<F extends HKT2S>(F: Applicative<F>): <L>(message: any) => HKT2As<F, L, void>
@@ -28,7 +30,8 @@ export class Ops {
     return x => trace(x, () => F.of(undefined))
   }
 
-  /** Log any value to the console and return it in `Monad`
+  /**
+   * Log any value to the console and return it in `Monad`
    * useful when one has monadic chains
    */
   traceM<F extends HKT2S>(F: Monad<F>): <L, A>(a: A) => HKT2As<F, L, A>

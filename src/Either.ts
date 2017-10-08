@@ -9,9 +9,6 @@ import { Bifunctor, FantasyBifunctor } from './Bifunctor'
 import { Alt, FantasyAlt } from './Alt'
 import { ChainRec, tailRec } from './ChainRec'
 import { Option, none, some } from './Option'
-import { Monoid } from './Monoid'
-import { Filterable } from './Filterable'
-import { Witherable } from './Witherable'
 import { constFalse, Predicate, Lazy, toString } from './function'
 
 declare module './HKT' {
@@ -71,15 +68,12 @@ export class Left<L, A>
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return left(this.value)
   }
+  getOrElseValue(a: A): A {
+    return a
+  }
   /** Returns the value from this `Right` or the given argument if this is a `Left` */
   getOrElse(f: (l: L) => A): A {
     return f(this.value)
-  }
-  getOrElseValue(value: A): A {
-    return value
-  }
-  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Either<L, A>) => boolean {
-    return fy => fy.fold(SL.equals(this.value), constFalse)
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return left(f(this.value))
@@ -142,15 +136,12 @@ export class Right<L, A>
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return right(this.value)
   }
+  getOrElseValue(a: A): A {
+    return this.value
+  }
   /** Returns the value from this `Right` or the given argument if this is a `Left` */
   getOrElse(f: (l: L) => A): A {
     return this.value
-  }
-  getOrElseValue(value: A): A {
-    return this.value
-  }
-  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Either<L, A>) => boolean {
-    return fy => fy.fold(constFalse, y => SA.equals(this.value)(y))
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return this as any
@@ -166,19 +157,18 @@ export class Right<L, A>
   }
 }
 
-export const equals = <L, A>(SL: Setoid<L>, SA: Setoid<A>) => (fx: Either<L, A>) => (fy: Either<L, A>): boolean =>
-  fx.equals(SL, SA)(fy)
+export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B) => (fa: Either<L, A>): B => fa.fold(left, right)
 
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => ({
-  equals: equals(SL, SA)
+  equals: x => y =>
+    x.fold(lx => y.fold(ly => SL.equals(lx)(ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax)(ay)))
 })
 
-export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B, fa: Either<L, A>): B => fa.fold(left, right)
+/** Returns the value from this `Right` or the given argument if this is a `Left` */
+export const getOrElseValue = <L, A>(a: A) => (fa: Either<L, A>): A => fa.getOrElseValue(a)
 
 /** Returns the value from this `Right` or the given argument if this is a `Left` */
 export const getOrElse = <L, A>(f: (l: L) => A) => (fa: Either<L, A>): A => fa.getOrElse(f)
-
-export const getOrElseValue = <A>(value: A) => <L>(fa: Either<L, A>): A => fa.getOrElseValue(value)
 
 export const map = <L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> => fa.map(f)
 
@@ -188,10 +178,9 @@ export const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Eith
 
 export const chain = <L, A, B>(f: (a: A) => Either<L, B>, fa: Either<L, A>): Either<L, B> => fa.chain(f)
 
-export const bimap = <L, V, A, B>(f: (u: L) => V, g: (a: A) => B) => (fau: Either<L, A>): Either<V, B> =>
-  fau.bimap(f, g)
+export const bimap = <L, V, A, B>(f: (u: L) => V, g: (a: A) => B, fla: Either<L, A>): Either<V, B> => fla.bimap(f, g)
 
-export const alt = <L, A>(fx: Either<L, A>) => (fy: Either<L, A>): Either<L, A> => fx.alt(fy)
+export const alt = <L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => fx.alt(fy)
 
 export const extend = <L, A, B>(f: (ea: Either<L, A>) => B, ea: Either<L, A>): Either<L, B> => ea.extend(f)
 
@@ -204,7 +193,7 @@ export class Ops {
   traverse<F extends HKTS>(
     F: Applicative<F>
   ): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKTAs<F, Either<L, B>>
-  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKT<F, Either<L, B>>
+  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKT<F, Either<L, B>> {
     return (f, ta) => ta.traverse(F)(f)
   }
@@ -251,39 +240,6 @@ export const tryCatch = <A>(f: Lazy<A>): Either<Error, A> => {
   } catch (e) {
     return left(e)
   }
-}
-
-export const getFilterable = <M>(M: Monoid<M>): Filterable<URI> => {
-  const empty = left<M, any>(M.empty())
-  function partitionMap<A, L, R>(f: (a: A) => Either<L, R>, fa: Either<M, A>) {
-    return fa.fold(
-      l => ({ left: fa as any, right: fa as any }),
-      a => f(a).fold(l => ({ left: right(l), right: empty }), a => ({ left: empty, right: right<M, R>(a) }))
-    )
-  }
-  return { URI, map, partitionMap }
-}
-
-export const getWitherable = <M>(monoid: Monoid<M>): Witherable<URI> => {
-  const empty = left<any, any>(monoid.empty())
-  function wilt<M>(
-    applicative: Applicative<M>
-  ): <A, L, R>(
-    f: (a: A) => HKT<M, Either<L, R>>,
-    ta: Either<M, A>
-  ) => HKT<M, { left: Either<M, L>; right: Either<M, R> }> {
-    return (f, ta) =>
-      ta.fold(
-        () => applicative.of({ left: ta as any, right: ta as any }),
-        a =>
-          applicative.map(
-            e => e.fold(l => ({ left: right(l), right: empty }), r => ({ left: empty, right: right(r) })),
-            f(a)
-          )
-      )
-  }
-  const filterable = getFilterable(monoid)
-  return { ...filterable, wilt, traverse, reduce }
 }
 
 export const either: Monad<URI> &

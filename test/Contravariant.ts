@@ -17,7 +17,7 @@ class Predicate<A> {
   constructor(public readonly run: (a: A) => boolean) {}
 }
 
-const contramap = <A>(fa: Predicate<A>) => <B>(f: (b: B) => A): Predicate<B> => new Predicate(b => fa.run(f(b)))
+const contramap = <A, B>(f: (b: B) => A, fa: Predicate<A>): Predicate<B> => new Predicate(b => fa.run(f(b)))
 
 const predicate: Contravariant<URI> = {
   URI,

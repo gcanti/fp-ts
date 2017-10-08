@@ -97,7 +97,7 @@ export class Ops {
   traverse<F extends HKTS>(
     F: Applicative<F>
   ): <A, B>(f: (a: A) => HKTAs<F, B>, ta: NonEmptyArray<A>) => HKTAs<F, NonEmptyArray<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>>
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, NonEmptyArray<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>> {
     return (f, ta) => ta.traverse(F)(f)
   }

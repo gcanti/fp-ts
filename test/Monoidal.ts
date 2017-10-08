@@ -6,11 +6,11 @@ import * as either from '../src/Either'
 describe('Monoidal', () => {
   it('fromApplicative', () => {
     const monoidalOption = fromApplicative(option)
-    assert.deepEqual(monoidalOption.mult(option.some(1))(option.some('a')), option.some([1, 'a']))
-    assert.deepEqual(monoidalOption.mult(option.some(1))(option.none), option.none)
+    assert.deepEqual(monoidalOption.mult(option.some(1), option.some('a')), option.some([1, 'a']))
+    assert.deepEqual(monoidalOption.mult(option.some(1), option.none), option.none)
     const monoidalEither = fromApplicative(either)
-    assert.deepEqual(monoidalEither.mult(either.right(1))(either.right('a')), either.right([1, 'a']))
-    assert.deepEqual(monoidalEither.mult(either.right(1))(either.left('error')), either.left('error'))
+    assert.deepEqual(monoidalEither.mult(either.right(1), either.right('a')), either.right([1, 'a']))
+    assert.deepEqual(monoidalEither.mult(either.right(1), either.left('error')), either.left('error'))
   })
 
   it('toApplicative', () => {

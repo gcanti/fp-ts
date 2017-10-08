@@ -57,7 +57,7 @@ export const sqrt = (x: number): either.Either<string, number> =>
 
 console.log(
   either
-    .right(16)
+    .right<string, number>(16)
     .chain(sqrt)
     .chain(sqrt)
 )
@@ -65,7 +65,7 @@ console.log(
 
 console.log(
   either
-    .right(81)
+    .right<string, number>(81)
     .chain(sqrt)
     .map(x => -x)
     .chain(sqrt)
@@ -73,7 +73,7 @@ console.log(
 )
 // => left("Hey, no!")
 
-console.log(either.left('eep').chain(sqrt))
+console.log(either.left<string, number>('eep').chain(sqrt))
 // => left("eep")
 
 //
@@ -90,7 +90,9 @@ const flights = {
   JFK: ['LAX', 'DEN']
 }
 
-const whereNext = (x: keyof typeof flights): Array<string> => flights[x] || []
+type FLIGHT = keyof typeof flights
+
+const whereNext = (x: FLIGHT): Array<FLIGHT> => (flights[x] || []) as Array<FLIGHT>
 
 console.log(array.chain(whereNext, array.chain(whereNext, whereNext('LAX'))))
 // => [ 'JFK', 'ATL', 'ATL', 'ORD', 'DFW', 'JFK', 'ATL' ]

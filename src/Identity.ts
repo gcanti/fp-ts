@@ -74,11 +74,8 @@ export class Identity<A>
   }
 }
 
-export const equals = <A>(setoid: Setoid<A>) => (fx: Identity<A>) => (fy: Identity<A>): boolean =>
-  setoid.equals(fx.value)(fy.value)
-
 export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => ({
-  equals: equals(setoid)
+  equals: x => y => setoid.equals(x.value)(y.value)
 })
 
 export const map = <A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B> => fa.map(f)
@@ -91,7 +88,7 @@ export const chain = <A, B>(f: (a: A) => Identity<B>, fa: Identity<A>): Identity
 
 export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Identity<A>): B => fa.reduce(f, b)
 
-export const alt = <A>(fx: Identity<A>) => (fy: Identity<A>): Identity<A> => {
+export const alt = <A>(fx: Identity<A>, fy: Identity<A>): Identity<A> => {
   return fx.alt(fy)
 }
 
@@ -107,7 +104,7 @@ export class Ops {
   traverse<F extends HKTS>(
     F: Applicative<F>
   ): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Identity<A>) => HKTAs<F, Identity<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>>
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Identity<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>> {
     return (f, ta) => ta.traverse(F)(f)
   }

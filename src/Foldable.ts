@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
 import { Monoid, getEndomorphismMonoid, monoidArray } from './Monoid'
 import { Applicative } from './Applicative'
 import { applyFirst } from './Apply'
@@ -6,15 +6,15 @@ import { identity } from './function'
 
 export interface Foldable<F> {
   readonly URI: F
-  reduce: <A, B>(f: (b: B, a: A) => B, b: B, fa: HKT<F, A>) => B
+  reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: HKT<F, A>): B
 }
 
 export interface FantasyFoldable<A> {
-  reduce: <B>(f: (b: B, a: A) => B, b: B) => B
+  reduce<B>(f: (b: B, a: A) => B, b: B): B
 }
 
 export interface FoldableComposition<F, G> {
-  reduce: <A, B>(f: (b: B, a: A) => B, b: B, fga: HKT<F, HKT<G, A>>) => B
+  reduce<A, B>(f: (b: B, a: A) => B, b: B, fga: HKT<F, HKT<G, A>>): B
 }
 
 export const getFoldableComposition = <F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> => {
@@ -53,6 +53,10 @@ export class Ops {
    * Traverse a data structure, performing some effects encoded by an
    * `Applicative` functor at each value, ignoring the final result.
    */
+  traverse_<M extends HKT3S, F>(
+    M: Applicative<M>,
+    F: Foldable<F>
+  ): <U, L, A, B>(f: (a: A) => HKT3As<M, U, L, B>, fa: HKT<F, A>) => HKT3As<M, U, L, void>
   traverse_<M extends HKT2S, F>(
     M: Applicative<M>,
     F: Foldable<F>
@@ -70,6 +74,10 @@ export class Ops {
    * Perform all of the effects in some data structure in the order
    * given by the `Foldable` instance, ignoring the final result.
    */
+  sequence_<M extends HKT3S, F>(
+    M: Applicative<M>,
+    F: Foldable<F>
+  ): <U, L, A>(fa: HKT<F, HKT3As<M, U, L, A>>) => HKT3As<M, U, L, void>
   sequence_<M extends HKT2S, F>(
     M: Applicative<M>,
     F: Foldable<F>

@@ -34,8 +34,6 @@ import * as extend from './Extend'
 export { extend }
 import * as field from './Field'
 export { field }
-import * as filterable from './Filterable'
-export { filterable }
 import * as foldable from './Foldable'
 export { foldable }
 import * as free from './Free'
@@ -118,7 +116,5 @@ import * as unfoldable from './Unfoldable'
 export { unfoldable }
 import * as validation from './Validation'
 export { validation }
-import * as witherable from './Witherable'
-export { witherable }
 import * as writer from './Writer'
 export { writer }
