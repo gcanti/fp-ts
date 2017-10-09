@@ -117,6 +117,11 @@ export class None<A>
   exists(p: (a: A) => boolean): boolean {
     return false
   }
+
+  /** Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none. */
+  filter(p: Predicate<A>): Option<A> {
+    return none
+  }
 }
 
 export const none = None.value
@@ -222,6 +227,11 @@ export class Some<A>
   exists(p: (a: A) => boolean): boolean {
     return p(this.value)
   }
+
+  /** Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none. */
+  filter(p: Predicate<A>): Option<A> {
+    return this.exists(p) ? this : none
+  }
 }
 
 export const equals = <A>(S: Setoid<A>) => (fx: Option<A>) => (fy: Option<A>): boolean => fx.equals(S)(fy)
@@ -239,6 +249,8 @@ export const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => 
 export const chain = <A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> => fa.chain(f)
 
 export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B => fa.reduce(f, b)
+
+export const filter = <A>(p: Predicate<A>) => (fa: Option<A>): Option<A> => fa.filter(p)
 
 // overload here to support 'none' as first argument
 export function alt(fx: Option<never>): <A>(fy: Option<A>) => Option<A>

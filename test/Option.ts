@@ -149,4 +149,13 @@ describe('Option', () => {
     assert.equal(some(1).exists(is2), false)
     assert.equal(some(2).exists(is2), true)
   })
+
+  it('filter', () => {
+    const x: Option<number> = none
+    const is2 = (a: number) => a === 2
+    assert.equal(x.filter(is2), x)
+    assert.equal(some(1).filter(is2), none)
+    const some2 = some(2)
+    assert.equal(some2.filter(is2), some2)
+  })
 })
