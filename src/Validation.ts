@@ -7,7 +7,7 @@ import { Foldable, FantasyFoldable } from './Foldable'
 import { Setoid } from './Setoid'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Alt, FantasyAlt } from './Alt'
-import { constFalse, constTrue, Predicate, toString } from './function'
+import { constFalse, Predicate, toString } from './function'
 import { Option, some, none } from './Option'
 import { Either, left, right } from './Either'
 import * as nonEmptyArray from './NonEmptyArray'
@@ -62,8 +62,8 @@ export class Failure<L, A>
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return failure(this.value)
   }
-  equals(S: Setoid<A>): (fy: Validation<L, A>) => boolean {
-    return fy => fy.fold(constTrue, constFalse)
+  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean {
+    return fy => fy.fold(SL.equals(this.value), constFalse)
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
     return fy.fold(l => failure<L>(this.semigroup)<A>(this.semigroup.concat(l)(this.value)), () => this)
@@ -129,8 +129,8 @@ export class Success<L, A>
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return success(this.value)
   }
-  equals(S: Setoid<A>): (fy: Validation<L, A>) => boolean {
-    return fy => fy.fold(constFalse, y => S.equals(this.value)(y))
+  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean {
+    return fy => fy.fold(constFalse, y => SA.equals(this.value)(y))
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
     return this
@@ -159,11 +159,12 @@ export class Success<L, A>
   }
 }
 
-export const equals = <L, A>(S: Setoid<A>) => (fx: Validation<L, A>) => (fy: Validation<L, A>): boolean =>
-  fx.equals(S)(fy)
+export const equals = <L, A>(SL: Setoid<L>, SA: Setoid<A>) => (fx: Validation<L, A>) => (
+  fy: Validation<L, A>
+): boolean => fx.equals(SL, SA)(fy)
 
-export const getSetoid = <L, A>(S: Setoid<A>): Setoid<Validation<L, A>> => ({
-  equals: equals(S)
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => ({
+  equals: equals(SL, SA)
 })
 
 export const fold = <L, A, B>(failure: (l: L) => B, success: (a: A) => B, fa: Validation<L, A>): B =>

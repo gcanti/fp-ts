@@ -12,7 +12,7 @@ import { Option, none, some } from './Option'
 import { Monoid } from './Monoid'
 import { Filterable } from './Filterable'
 import { Witherable } from './Witherable'
-import { constFalse, constTrue, Predicate, Lazy, toString } from './function'
+import { constFalse, Predicate, Lazy, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -78,8 +78,8 @@ export class Left<L, A>
   getOrElseValue(value: A): A {
     return value
   }
-  equals(S: Setoid<A>): (fy: Either<L, A>) => boolean {
-    return fy => fy.fold(constTrue, constFalse)
+  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Either<L, A>) => boolean {
+    return fy => fy.fold(SL.equals(this.value), constFalse)
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return left(f(this.value))
@@ -149,8 +149,8 @@ export class Right<L, A>
   getOrElseValue(value: A): A {
     return this.value
   }
-  equals(S: Setoid<A>): (fy: Either<L, A>) => boolean {
-    return fy => fy.fold(constFalse, y => S.equals(this.value)(y))
+  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Either<L, A>) => boolean {
+    return fy => fy.fold(constFalse, y => SA.equals(this.value)(y))
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return this as any
@@ -166,10 +166,11 @@ export class Right<L, A>
   }
 }
 
-export const equals = <A>(S: Setoid<A>) => <L>(fx: Either<L, A>): ((fy: Either<L, A>) => boolean) => fx.equals(S)
+export const equals = <L, A>(SL: Setoid<L>, SA: Setoid<A>) => (fx: Either<L, A>) => (fy: Either<L, A>): boolean =>
+  fx.equals(SL, SA)(fy)
 
-export const getSetoid = <L, A>(S: Setoid<A>): Setoid<Either<L, A>> => ({
-  equals: equals(S)
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => ({
+  equals: equals(SL, SA)
 })
 
 export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B, fa: Either<L, A>): B => fa.fold(left, right)
