@@ -12,10 +12,12 @@ import {
   tryCatch,
   fromOption,
   bimap,
-  fromNullable
+  fromNullable,
+  equals
 } from '../src/Either'
 import { eqEithers as eq } from './helpers'
 import { none, some } from '../src/Option'
+import { setoidNumber, setoidString } from '../src/Setoid'
 
 describe('Either', () => {
   it('fold', () => {
@@ -90,5 +92,13 @@ describe('Either', () => {
     assert.deepEqual(fromNullable('default')(null), left('default'))
     assert.deepEqual(fromNullable('default')(undefined), left('default'))
     assert.deepEqual(fromNullable('default')(1), right(1))
+  })
+
+  it('equals', () => {
+    const eq = equals(setoidString, setoidNumber)
+    assert.strictEqual(eq(right(1))(right(1)), true)
+    assert.strictEqual(eq(right(1))(right(2)), false)
+    assert.strictEqual(eq(left('foo'))(left('foo')), true)
+    assert.strictEqual(eq(left('foo'))(left('bar')), false)
   })
 })
