@@ -12,6 +12,17 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.5.4
+
+- **New Feature**
+  - `Array`: add `findFirst` and `findLast` functions (@chasent)
+  - `Option`: add `getOrElseValue` (@raveclassic)
+  - `Either`: add `getOrElseValue` (@raveclassic)
+  - `Either`: add `fromNullable` (@gcanti)
+- **Bug Fix**
+  - `Either`: `equals` now accepts a `Setoid<L>` other than `Setoid<A>`, fix #247 (@gcanti)
+  - `Validation`: `equals` now accepts a `Setoid<L>` other than `Setoid<A>`, fix #247 (@gcanti)
+
 # 0.5.3
 
 - **New Feature**

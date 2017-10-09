@@ -72,7 +72,7 @@
         {
           "type": "instance",
           "name": "Setoid",
-          "signature": "getSetoid = <L, A>(S: Setoid<A>): Setoid<Either<L, A>>",
+          "signature": "getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>>",
           "description": null
         }
       ],
@@ -146,7 +146,7 @@
         {
           "type": "method",
           "name": "equals",
-          "signature": "(S: Setoid<A>): (fy: Either<L, A>) => boolean",
+          "signature": "(SL: Setoid<L>, SA: Setoid<A>): (fy: Either<L, A>) => boolean",
           "description": null
         },
         {
@@ -159,6 +159,12 @@
           "type": "method",
           "name": "toOption",
           "signature": "(): Option<A>",
+          "description": null
+        },
+        {
+          "type": "method",
+          "name": "getOrElseValue",
+          "signature": "(value: A): A",
           "description": null
         }
       ]
@@ -231,6 +237,13 @@
       "name": "tryCatch",
       "signature": "<A>(f: Lazy<A>): Either<Error, A>",
       "description": null
+    },
+    {
+      "type": "function",
+      "name": "fromNullable",
+      "signature": "<L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A>",
+      "description":
+        "Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use the provided default as a `Left`"
     }
   ],
   "consts": []

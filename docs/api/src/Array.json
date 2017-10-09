@@ -288,6 +288,18 @@
       "signature": "<A>(predicate: Predicate<A>) => (as: Array<A>): { init: Array<A>; rest: Array<A> }",
       "description":
         "Split an array into two parts:\n1. the longest initial subarray for which all elements satisfy the specified predicate\n2. the remaining elements"
+    },
+    {
+      "type": "function",
+      "name": "findFirst",
+      "signature": "<A>(predicate: Predicate<A>) => (as: Array<A>): Option<A>",
+      "description": "Find the first element which satisfies a predicate function"
+    },
+    {
+      "type": "function",
+      "name": "findLast",
+      "signature": "<A>(predicate: Predicate<A>) => (as: Array<A>): Option<A>",
+      "description": "Find the last element which satisfies a predicate function"
     }
   ],
   "consts": []

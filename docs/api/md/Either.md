@@ -22,7 +22,7 @@ getFilterable = <M>(M: Monoid<M>): Filterable<URI>
 ### Monad
 ### Setoid
 ```ts
-getSetoid = <L, A>(S: Setoid<A>): Setoid<Either<L, A>>
+getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>>
 ```
 ### Traversable
 ### Witherable
@@ -53,7 +53,7 @@ fy: Either<L, A>): Either<L, A>
 ```
 ### equals
 ```ts
-(S: Setoid<A>): (fy: Either<L, A>) => boolean
+(SL: Setoid<L>, SA: Setoid<A>): (fy: Either<L, A>) => boolean
 ```
 ### extend
 ```ts
@@ -68,6 +68,10 @@ fy: Either<L, A>): Either<L, A>
 (f: (l: L) => A): A
 ```
 Returns the value from this `Right` or the given argument if this is a `Left`
+### getOrElseValue
+```ts
+(value: A): A
+```
 ### map
 ```ts
 <B>(f: (a: A) => B): Either<L, B>
@@ -92,6 +96,11 @@ Returns the value from this `Right` or the given argument if this is a `Left`
 ```ts
 <L, A, B>(left: (l: L) => B, right: (a: A) => B, fa: Either<L, A>): B
 ```
+# fromNullable
+```ts
+<L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A>
+```
+Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use the provided default as a `Left`
 # fromOption
 ```ts
 <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A>

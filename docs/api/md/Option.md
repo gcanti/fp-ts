@@ -89,6 +89,10 @@ Returns `true` if this option is non empty and the predicate `p` returns `true` 
 ```ts
 (f: Lazy<A>): A
 ```
+### getOrElseValue
+```ts
+(value: A): A
+```
 ### isNone
 ```ts
 (): boolean
@@ -143,6 +147,10 @@ Takes a default value, and a `Option` value. If the `Option` value is `None` the
 # fromPredicate
 ```ts
 <A>(predicate: Predicate<A>) => (a: A): Option<A>
+```
+# getOrElseValue
+```ts
+<A>(value: A) => <L>(fa: Either<L, A>): A
 ```
 # isNone
 ```ts

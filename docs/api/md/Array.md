@@ -80,11 +80,21 @@ Remove the longest initial subarray for which all element satisfy the specified 
 <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A>
 ```
 Filter an array, keeping the elements which satisfy a predicate function, creating a new array
+# findFirst
+```ts
+<A>(predicate: Predicate<A>) => (as: Array<A>): Option<A>
+```
+Find the first element which satisfies a predicate function
 # findIndex
 ```ts
 <A>(predicate: Predicate<A>) => (as: Array<A>): Option<number>
 ```
 Find the first index for which a predicate holds
+# findLast
+```ts
+<A>(predicate: Predicate<A>) => (as: Array<A>): Option<A>
+```
+Find the last element which satisfies a predicate function
 # fold
 ```ts
 <A, B>(nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B, as: Array<A>): B

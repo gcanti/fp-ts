@@ -218,6 +218,12 @@
           "signature": "(p: (a: A) => boolean): boolean",
           "description":
             "Returns `true` if this option is non empty and the predicate `p` returns `true` when applied to this Option's value"
+        },
+        {
+          "type": "method",
+          "name": "getOrElseValue",
+          "signature": "(value: A): A",
+          "description": null
         }
       ]
     }
@@ -276,6 +282,12 @@
       "type": "function",
       "name": "traverse",
       "signature": "<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>>",
+      "description": null
+    },
+    {
+      "type": "function",
+      "name": "getOrElseValue",
+      "signature": "<A>(value: A) => <L>(fa: Either<L, A>): A",
       "description": null
     }
   ],
