@@ -19,6 +19,7 @@
   - `Option`: add `getOrElseValue` (@raveclassic)
   - `Either`: add `getOrElseValue` (@raveclassic)
   - `Either`: add `fromNullable` (@gcanti)
+  - `Option`: add `filter` (@raveclassic)
 - **Bug Fix**
   - `Either`: `equals` now accepts a `Setoid<L>` other than `Setoid<A>`, fix #247 (@gcanti)
   - `Validation`: `equals` now accepts a `Setoid<L>` other than `Setoid<A>`, fix #247 (@gcanti)

@@ -81,6 +81,11 @@ Returns `true` if this option is non empty and the predicate `p` returns `true` 
 ```ts
 <B>(f: (ea: Option<A>) => B): Option<B>
 ```
+### filter
+```ts
+(p: Predicate<A>): Option<A>
+```
+Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none
 ### fold
 ```ts
 <B>(n: Lazy<B>, s: (a: A) => B): B
@@ -131,6 +136,11 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 ```ts
 <M>(M: Applicative<M>): <L, R>(f: (a: A) => HKT<M, Either<L, R>>) => HKT<M, { left: Option<L>; right: Option<R> }>
 ```
+# filter
+```ts
+<A>(p: Predicate<A>) => (fa: Option<A>): Option<A>
+```
+Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none
 # fold
 ```ts
 <A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B

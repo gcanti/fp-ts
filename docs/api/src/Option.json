@@ -224,6 +224,13 @@
           "name": "getOrElseValue",
           "signature": "(value: A): A",
           "description": null
+        },
+        {
+          "type": "method",
+          "name": "filter",
+          "signature": "(p: Predicate<A>): Option<A>",
+          "description":
+            "Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none"
         }
       ]
     }
@@ -289,6 +296,13 @@
       "name": "getOrElseValue",
       "signature": "<A>(value: A) => <L>(fa: Either<L, A>): A",
       "description": null
+    },
+    {
+      "type": "function",
+      "name": "filter",
+      "signature": "<A>(p: Predicate<A>) => (fa: Option<A>): Option<A>",
+      "description":
+        "Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none"
     }
   ],
   "consts": []
