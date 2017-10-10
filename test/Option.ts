@@ -17,6 +17,7 @@ import {
 import * as array from '../src/Array'
 import { setoidNumber } from '../src/Setoid'
 import { eqOptions as eq } from './helpers'
+import { identity } from '../src/function'
 
 describe('Option', () => {
   it('fold', () => {
@@ -51,6 +52,23 @@ describe('Option', () => {
   it('map', () => {
     const f = (n: number) => n * 2
     eq(map(f, some(2)), some(4))
+  })
+
+  it('mapNullable', () => {
+    type Nested = {
+      foo?: number
+      foo2: {
+        bar2?: string
+      }
+    }
+    const nested: Nested = {
+      foo2: {}
+    }
+    const nestedOption = some(nested)
+    assert.deepEqual(nestedOption.mapNullable(value => value.foo), none)
+    assert.deepEqual(nestedOption.mapNullable(value => value.foo2), some(nested.foo2))
+    assert.deepEqual(nestedOption.mapNullable(value => value.foo2.bar2), none)
+    assert.deepEqual(none.mapNullable(identity), none)
   })
 
   it('ap', () => {

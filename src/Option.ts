@@ -42,6 +42,12 @@ export class None<A>
   map<B>(f: (a: A) => B): Option<B> {
     return none
   }
+  /**
+   * Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns none.
+   */
+  mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> {
+    return none
+  }
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return none
   }
@@ -139,6 +145,13 @@ export class Some<A>
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))
+  }
+
+  /**
+   * Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns none.
+   */
+  mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> {
+    return this.map(f).chain(fromNullable)
   }
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return fab.map(f => f(this.value))
@@ -239,6 +252,8 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => ({
 })
 
 export const map = <A, B>(f: (a: A) => B, fa: Option<A>): Option<B> => fa.map(f)
+
+export const mapNullable = <A, B>(f: (a: A) => B | null | undefined, fa: Option<A>): Option<B> => fa.mapNullable(f)
 
 export const of = <A>(a: A): Option<A> => new Some(a)
 
