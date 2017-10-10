@@ -16,10 +16,9 @@
 
 - **New Feature**
   - `Array`: add `findFirst` and `findLast` functions (@chasent)
-  - `Option`: add `getOrElseValue` (@raveclassic)
+  - `Option`: add `getOrElseValue`, `filter`, `mapNullable` (@raveclassic)
   - `Either`: add `getOrElseValue` (@raveclassic)
   - `Either`: add `fromNullable` (@gcanti)
-  - `Option`: add `filter` (@raveclassic)
 - **Bug Fix**
   - `Either`: `equals` now accepts a `Setoid<L>` other than `Setoid<A>`, fix #247 (@gcanti)
   - `Validation`: `equals` now accepts a `Setoid<L>` other than `Setoid<A>`, fix #247 (@gcanti)

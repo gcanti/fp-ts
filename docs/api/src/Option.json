@@ -38,13 +38,13 @@
           "type": "instance",
           "name": "Monoid",
           "signature": "getFirstMonoid = <A>(): Monoid<Option<A>>",
-          "description": "Option monoid returning the left-most non-None value"
+          "description": "Option monoid returning the left-most non-`None` value"
         },
         {
           "type": "instance",
           "name": "Monoid",
           "signature": "getLastMonoid = <A>(): Monoid<Option<A>>",
-          "description": "Option monoid returning the right-most non-None value"
+          "description": "Option monoid returning the right-most non-`None` value"
         },
         {
           "type": "instance",
@@ -230,7 +230,14 @@
           "name": "filter",
           "signature": "(p: Predicate<A>): Option<A>",
           "description":
-            "Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none"
+            "Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns `None`"
+        },
+        {
+          "type": "method",
+          "name": "mapNullable",
+          "signature": "<B>(f: (a: A) => B | null | undefined): Option<B>",
+          "description":
+            "Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None`"
         }
       ]
     }
@@ -302,7 +309,14 @@
       "name": "filter",
       "signature": "<A>(p: Predicate<A>) => (fa: Option<A>): Option<A>",
       "description":
-        "Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none"
+        "Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns `None`"
+    },
+    {
+      "type": "function",
+      "name": "mapNullable",
+      "signature": "<A, B>(f: (a: A) => B | null | undefined, fa: Option<A>): Option<B>",
+      "description":
+        "Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None`"
     }
   ],
   "consts": []

@@ -42,9 +42,7 @@ export class None<A>
   map<B>(f: (a: A) => B): Option<B> {
     return none
   }
-  /**
-   * Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns none.
-   */
+  /** Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None` */
   mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> {
     return none
   }
@@ -123,7 +121,7 @@ export class None<A>
   exists(p: (a: A) => boolean): boolean {
     return false
   }
-  /** Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none */
+  /** Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns `None` */
   filter(p: Predicate<A>): Option<A> {
     return none
   }
@@ -146,12 +144,9 @@ export class Some<A>
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))
   }
-
-  /**
-   * Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns none.
-   */
+  /** Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None` */
   mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> {
-    return this.map(f).chain(fromNullable)
+    return fromNullable(f(this.value))
   }
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return fab.map(f => f(this.value))
@@ -239,7 +234,7 @@ export class Some<A>
   exists(p: (a: A) => boolean): boolean {
     return p(this.value)
   }
-  /** Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none */
+  /** Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns `None` */
   filter(p: Predicate<A>): Option<A> {
     return this.exists(p) ? this : none
   }
@@ -253,6 +248,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => ({
 
 export const map = <A, B>(f: (a: A) => B, fa: Option<A>): Option<B> => fa.map(f)
 
+/** Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None` */
 export const mapNullable = <A, B>(f: (a: A) => B | null | undefined, fa: Option<A>): Option<B> => fa.mapNullable(f)
 
 export const of = <A>(a: A): Option<A> => new Some(a)
@@ -266,7 +262,7 @@ export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B => fa
 /** Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none */
 export const filter = <A>(p: Predicate<A>) => (fa: Option<A>): Option<A> => fa.filter(p)
 
-// overload here to support 'none' as first argument
+// overload here to support 'None' as first argument
 export function alt(fx: Option<never>): <A>(fy: Option<A>) => Option<A>
 export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A>
 export function alt<A>(fx: Option<A>): (fy: Option<A>) => Option<A> {
@@ -282,10 +278,10 @@ export const empty = zero
 const first = { empty, concat: alt }
 const last = getDualMonoid(first)
 
-/** Option monoid returning the left-most non-None value */
+/** Option monoid returning the left-most non-`None` value */
 export const getFirstMonoid = <A>(): Monoid<Option<A>> => first
 
-/** Option monoid returning the right-most non-None value */
+/** Option monoid returning the right-most non-`None` value */
 export const getLastMonoid = <A>(): Monoid<Option<A>> => last
 
 export const concat = <A>(S: Semigroup<A>) => (fx: Option<A>) => (fy: Option<A>): Option<A> => fx.concat(S)(fy)

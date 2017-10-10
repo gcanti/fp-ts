@@ -24,12 +24,12 @@ getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>>
 ```ts
 getFirstMonoid = <A>(): Monoid<Option<A>>
 ```
-Option monoid returning the left-most non-None value
+Option monoid returning the left-most non-`None` value
 ### Monoid
 ```ts
 getLastMonoid = <A>(): Monoid<Option<A>>
 ```
-Option monoid returning the right-most non-None value
+Option monoid returning the right-most non-`None` value
 ### Plus
 ### Semigroup
 ```ts
@@ -85,7 +85,7 @@ Returns `true` if this option is non empty and the predicate `p` returns `true` 
 ```ts
 (p: Predicate<A>): Option<A>
 ```
-Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none
+Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns `None`
 ### fold
 ```ts
 <B>(n: Lazy<B>, s: (a: A) => B): B
@@ -112,6 +112,11 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 ```ts
 <B>(f: (a: A) => B): Option<B>
 ```
+### mapNullable
+```ts
+<B>(f: (a: A) => B | null | undefined): Option<B>
+```
+Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None`
 ### partitionMap
 ```ts
 <L, R>(f: (a: A) => Either<L, R>): { left: Option<L>; right: Option<R> }
@@ -140,7 +145,7 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 ```ts
 <A>(p: Predicate<A>) => (fa: Option<A>): Option<A>
 ```
-Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none
+Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns `None`
 # fold
 ```ts
 <A, B>(n: Lazy<B>, s: (a: A) => B, fa: Option<A>): B
@@ -170,6 +175,11 @@ Takes a default value, and a `Option` value. If the `Option` value is `None` the
 ```ts
 <A>(fa: Option<A>): fa is Some<A>
 ```
+# mapNullable
+```ts
+<A, B>(f: (a: A) => B | null | undefined, fa: Option<A>): Option<B>
+```
+Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None`
 # toNullable
 ```ts
 <A>(fa: Option<A>): A | null
