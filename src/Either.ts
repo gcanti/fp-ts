@@ -21,6 +21,11 @@ export const URI = 'Either'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor Left
+ * @constructor Right
+ */
 export type Either<L, A> = Left<L, A> | Right<L, A>
 
 export class Left<L, A>
@@ -81,10 +86,10 @@ export class Left<L, A>
   toOption(): Option<A> {
     return none
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `left(${toString(this.value)})`
   }
 }
@@ -149,91 +154,158 @@ export class Right<L, A>
   toOption(): Option<A> {
     return some(this.value)
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `right(${toString(this.value)})`
   }
 }
 
-export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B) => (fa: Either<L, A>): B => fa.fold(left, right)
+/** @function */
+export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B) => (fa: Either<L, A>): B => {
+  return fa.fold(left, right)
+}
 
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => ({
-  equals: x => y =>
-    x.fold(lx => y.fold(ly => SL.equals(lx)(ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax)(ay)))
-})
-
-/** Returns the value from this `Right` or the given argument if this is a `Left` */
-export const getOrElseValue = <L, A>(a: A) => (fa: Either<L, A>): A => fa.getOrElseValue(a)
-
-/** Returns the value from this `Right` or the given argument if this is a `Left` */
-export const getOrElse = <L, A>(f: (l: L) => A) => (fa: Either<L, A>): A => fa.getOrElse(f)
-
-export const map = <L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> => fa.map(f)
-
-export const of = <L, A>(a: A): Either<L, A> => new Right(a)
-
-export const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Either<L, B> => fa.ap(fab)
-
-export const chain = <L, A, B>(f: (a: A) => Either<L, B>, fa: Either<L, A>): Either<L, B> => fa.chain(f)
-
-export const bimap = <L, V, A, B>(f: (u: L) => V, g: (a: A) => B, fla: Either<L, A>): Either<V, B> => fla.bimap(f, g)
-
-export const alt = <L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => fx.alt(fy)
-
-export const extend = <L, A, B>(f: (ea: Either<L, A>) => B, ea: Either<L, A>): Either<L, B> => ea.extend(f)
-
-export const reduce = <L, A, B>(f: (b: B, a: A) => B, b: B, fa: Either<L, A>): B => fa.reduce(f, b)
-
-export class Ops {
-  traverse<F extends HKT2S>(
-    F: Applicative<F>
-  ): <M, L, A, B>(f: (a: A) => HKT2<F, M, B>, ta: Either<L, A>) => HKT2As<F, M, Either<L, B>>
-  traverse<F extends HKTS>(
-    F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKTAs<F, Either<L, B>>
-  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Either<L, B>>
-  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKT<F, Either<L, B>> {
-    return (f, ta) => ta.traverse(F)(f)
+/** @function */
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
+  return {
+    equals: x => y =>
+      x.fold(lx => y.fold(ly => SL.equals(lx)(ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax)(ay)))
   }
 }
 
-const ops = new Ops()
-export const traverse: Ops['traverse'] = ops.traverse
+/**
+ * Returns the value from this `Right` or the given argument if this is a `Left`
+ * @function
+ */
+export const getOrElseValue = <L, A>(a: A) => (fa: Either<L, A>): A => {
+  return fa.getOrElseValue(a)
+}
 
-export const chainRec = <L, A, B>(f: (a: A) => Either<L, Either<A, B>>, a: A): Either<L, B> =>
-  tailRec(e => e.fold(l => right(left(l)), r => r.fold(a => left(f(a)), b => right(right(b)))), f(a))
+/**
+ * Returns the value from this `Right` or the given argument if this is a `Left`
+ * @function
+ */
+export const getOrElse = <L, A>(f: (l: L) => A) => (fa: Either<L, A>): A => {
+  return fa.getOrElse(f)
+}
 
-export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => fa._tag === 'Left'
+/** @function */
+export const map = <L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> => {
+  return fa.map(f)
+}
 
-export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => fa._tag === 'Right'
+/** @function */
+export const of = <L, A>(a: A): Either<L, A> => {
+  return new Right(a)
+}
 
-export const left = <L, A>(l: L): Either<L, A> => new Left(l)
+/** @function */
+export const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Either<L, B> => {
+  return fa.ap(fab)
+}
 
+/** @function */
+export const chain = <L, A, B>(f: (a: A) => Either<L, B>, fa: Either<L, A>): Either<L, B> => {
+  return fa.chain(f)
+}
+
+/** @function */
+export const bimap = <L, V, A, B>(f: (u: L) => V, g: (a: A) => B, fla: Either<L, A>): Either<V, B> => {
+  return fla.bimap(f, g)
+}
+
+/** @function */
+export const alt = <L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => {
+  return fx.alt(fy)
+}
+
+/** @function */
+export const extend = <L, A, B>(f: (ea: Either<L, A>) => B, ea: Either<L, A>): Either<L, B> => {
+  return ea.extend(f)
+}
+
+/** @function */
+export const reduce = <L, A, B>(f: (b: B, a: A) => B, b: B, fa: Either<L, A>): B => {
+  return fa.reduce(f, b)
+}
+
+export function traverse<F extends HKT2S>(
+  F: Applicative<F>
+): <M, L, A, B>(f: (a: A) => HKT2<F, M, B>, ta: Either<L, A>) => HKT2As<F, M, Either<L, B>>
+export function traverse<F extends HKTS>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKTAs<F, Either<L, B>>
+export function traverse<F>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Either<L, B>>
+export function traverse<F>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKT<F, Either<L, B>> {
+  return (f, ta) => ta.traverse(F)(f)
+}
+
+/** @function */
+export const chainRec = <L, A, B>(f: (a: A) => Either<L, Either<A, B>>, a: A): Either<L, B> => {
+  return tailRec(e => e.fold(l => right(left(l)), r => r.fold(a => left(f(a)), b => right(right(b)))), f(a))
+}
+
+/** @function */
+export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
+  return fa._tag === 'Left'
+}
+
+/** @function */
+export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
+  return fa._tag === 'Right'
+}
+
+/** @function */
+export const left = <L, A>(l: L): Either<L, A> => {
+  return new Left(l)
+}
+
+/**
+ * @function
+ * @alias of
+ */
 export const right = of
 
-export const fromPredicate = <L, A>(predicate: Predicate<A>, l: (a: A) => L) => (a: A): Either<L, A> =>
-  predicate(a) ? right(a) : left(l(a))
+/** @function */
+export const fromPredicate = <L, A>(predicate: Predicate<A>, l: (a: A) => L) => (a: A): Either<L, A> => {
+  return predicate(a) ? right(a) : left(l(a))
+}
 
-export const mapLeft = <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>): Either<M, A> => fa.mapLeft(f)
+/** @function */
+export const mapLeft = <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>): Either<M, A> => {
+  return fa.mapLeft(f)
+}
 
 /**
  * Takes a default and a `Option` value, if the value is a `Some`, turn it into
  * a `Right`, if the value is a `None` use the provided default as a `Left`
+ * @function
  */
-export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> =>
-  fa.fold(() => left(defaultValue), a => right(a))
+export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => {
+  return fa.fold(() => left(defaultValue), a => right(a))
+}
 
 /**
  * Takes a default and a nullable value, if the value is not nully, turn it into
  * a `Right`, if the value is nully use the provided default as a `Left`
+ * @function
  */
-export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> =>
-  a == null ? left(defaultValue) : right(a)
+export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> => {
+  return a == null ? left(defaultValue) : right(a)
+}
 
-export const toOption = <L, A>(fa: Either<L, A>): Option<A> => fa.toOption()
+/** @function */
+export const toOption = <L, A>(fa: Either<L, A>): Option<A> => {
+  return fa.toOption()
+}
 
+/** @function */
 export const tryCatch = <A>(f: Lazy<A>): Either<Error, A> => {
   try {
     return right(f())
@@ -242,6 +314,7 @@ export const tryCatch = <A>(f: Lazy<A>): Either<Error, A> => {
   }
 }
 
+/** @instance */
 export const either: Monad<URI> &
   Foldable<URI> &
   Traversable<URI> &

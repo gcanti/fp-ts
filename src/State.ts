@@ -10,6 +10,10 @@ export const URI = 'State'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor State
+ */
 export class State<S, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: S
@@ -38,22 +42,47 @@ export class State<S, A> implements FantasyMonad<URI, A> {
   }
 }
 
-export const map = <S, A, B>(f: (a: A) => B, fa: State<S, A>): State<S, B> => fa.map(f)
+/** @function */
+export const map = <S, A, B>(f: (a: A) => B, fa: State<S, A>): State<S, B> => {
+  return fa.map(f)
+}
 
-export const of = <S, A>(a: A): State<S, A> => new State(s => [a, s])
+/** @function */
+export const of = <S, A>(a: A): State<S, A> => {
+  return new State(s => [a, s])
+}
 
-export const ap = <S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<S, B> => fa.ap(fab)
+/** @function */
+export const ap = <S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<S, B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <S, A, B>(f: (a: A) => State<S, B>, fa: State<S, A>): State<S, B> => fa.chain(f)
+/** @function */
+export const chain = <S, A, B>(f: (a: A) => State<S, B>, fa: State<S, A>): State<S, B> => {
+  return fa.chain(f)
+}
 
-export const get = <S>(): State<S, S> => new State(s => [s, s])
+/** @function */
+export const get = <S>(): State<S, S> => {
+  return new State(s => [s, s])
+}
 
-export const put = <S>(s: S): State<S, undefined> => new State(() => [undefined, s])
+/** @function */
+export const put = <S>(s: S): State<S, undefined> => {
+  return new State(() => [undefined, s])
+}
 
-export const modify = <S>(f: (s: S) => S): State<S, undefined> => new State(s => [undefined, f(s)])
+/** @function */
+export const modify = <S>(f: (s: S) => S): State<S, undefined> => {
+  return new State(s => [undefined, f(s)])
+}
 
-export const gets = <S, A>(f: (s: S) => A): State<S, A> => new State(s => [f(s), s])
+/** @function */
+export const gets = <S, A>(f: (s: S) => A): State<S, A> => {
+  return new State(s => [f(s), s])
+}
 
+/** @instance */
 export const state: Monad<URI> = {
   URI,
   map,

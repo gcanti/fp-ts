@@ -5,6 +5,10 @@ export const URI = 'Reader'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor Reader
+ */
 export class Reader<E, A> implements FantasyMonad<URI, A> {
   readonly _L: E
   readonly _A: A
@@ -21,23 +25,51 @@ export class Reader<E, A> implements FantasyMonad<URI, A> {
   }
 }
 
-export const map = <E, A, B>(f: (a: A) => B, fa: Reader<E, A>): Reader<E, B> => fa.map(f)
+/** @function */
+export const map = <E, A, B>(f: (a: A) => B, fa: Reader<E, A>): Reader<E, B> => {
+  return fa.map(f)
+}
 
-export const of = <E, A>(a: A): Reader<E, A> => new Reader((e: E) => a)
+/** @function */
+export const of = <E, A>(a: A): Reader<E, A> => {
+  return new Reader((e: E) => a)
+}
 
-export const ap = <E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> => fa.ap(fab)
+/** @function */
+export const ap = <E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <E, A, B>(f: (a: A) => Reader<E, B>, fa: Reader<E, A>): Reader<E, B> => fa.chain(f)
+/** @function */
+export const chain = <E, A, B>(f: (a: A) => Reader<E, B>, fa: Reader<E, A>): Reader<E, B> => {
+  return fa.chain(f)
+}
 
-/** reads the current context */
-export const ask = <E>(): Reader<E, E> => new Reader(identity)
+/**
+ * reads the current context
+ * @function
+ */
+export const ask = <E>(): Reader<E, E> => {
+  return new Reader(identity)
+}
 
-/** Projects a value from the global context in a Reader */
-export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => new Reader(f)
+/**
+ * Projects a value from the global context in a Reader
+ * @function
+ */
+export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
+  return new Reader(f)
+}
 
-/** changes the value of the local context during the execution of the action `fa` */
-export const local = <E>(f: (e: E) => E) => <A>(fa: Reader<E, A>): Reader<E, A> => new Reader((e: E) => fa.run(f(e)))
+/**
+ * changes the value of the local context during the execution of the action `fa`
+ * @function
+ */
+export const local = <E>(f: (e: E) => E) => <A>(fa: Reader<E, A>): Reader<E, A> => {
+  return new Reader((e: E) => fa.run(f(e)))
+}
 
+/** @instance */
 export const reader: Monad<URI> = {
   URI,
   map,

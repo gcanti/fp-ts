@@ -21,7 +21,12 @@ export const URI = 'Validation'
 
 export type URI = typeof URI
 
-/** A data-type like Either but with an accumulating Applicative */
+/**
+ * A data-type like Either but with an accumulating `Applicative`
+ * @data
+ * @constructor Failure
+ * @constructor Success
+ */
 export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
 export class Failure<L, A>
@@ -79,10 +84,10 @@ export class Failure<L, A>
   toEither(): Either<L, A> {
     return left(this.value)
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `failure(${toString(this.value)})`
   }
 }
@@ -142,80 +147,137 @@ export class Success<L, A>
   toEither(): Either<L, A> {
     return right(this.value)
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `success(${toString(this.value)})`
   }
 }
 
-export const fold = <L, A, B>(failure: (l: L) => B, success: (a: A) => B) => (fa: Validation<L, A>): B =>
-  fa.fold(failure, success)
+/** @function */
+export const fold = <L, A, B>(failure: (l: L) => B, success: (a: A) => B) => (fa: Validation<L, A>): B => {
+  return fa.fold(failure, success)
+}
 
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => ({
-  equals: x => y =>
-    x.fold(lx => y.fold(ly => SL.equals(lx)(ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax)(ay)))
-})
-
-export const map = <L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L, B> => fa.map(f)
-
-export const of = <L, A>(a: A): Validation<L, A> => new Success(a)
-
-export const ap = <L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => fa.ap(fab)
-
-export const bimap = <M>(S: Semigroup<M>) => <L, A, B>(f: (l: L) => M, g: (a: A) => B) => (
-  fa: Validation<L, A>
-): Validation<M, B> => fa.bimap(S)(f, g)
-
-export const alt = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => fx.alt(fy)
-
-export const reduce = <L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>): B => fa.reduce(f, b)
-
-export class Ops {
-  traverse<F extends HKT2S>(
-    F: Applicative<F>
-  ): <M, L, A, B>(f: (a: A) => HKT2As<F, M, B>, ta: Validation<L, A>) => HKT2As<F, M, Validation<L, B>>
-  traverse<F extends HKTS>(
-    F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => HKTAs<F, B>, ta: Validation<L, A>) => HKTAs<F, Validation<L, B>>
-  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Validation<L, B>>
-  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>> {
-    return (f, ta) => ta.traverse(F)(f)
+/** @function */
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
+  return {
+    equals: x => y =>
+      x.fold(lx => y.fold(ly => SL.equals(lx)(ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax)(ay)))
   }
 }
 
-const ops = new Ops()
-export const traverse: Ops['traverse'] = ops.traverse
+/** @function */
+export const map = <L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L, B> => {
+  return fa.map(f)
+}
 
-export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => fa._tag === 'Failure'
+/** @function */
+export const of = <L, A>(a: A): Validation<L, A> => {
+  return new Success(a)
+}
 
-export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => fa._tag === 'Success'
+/** @function */
+export const ap = <L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => {
+  return fa.ap(fab)
+}
 
-export const failure = <L>(L: Semigroup<L>) => <A>(l: L): Validation<L, A> => new Failure(L, l)
+/** @function */
+export const bimap = <M>(S: Semigroup<M>) => <L, A, B>(f: (l: L) => M, g: (a: A) => B) => (
+  fa: Validation<L, A>
+): Validation<M, B> => {
+  return fa.bimap(S)(f, g)
+}
 
+/** @function */
+export const alt = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
+  return fx.alt(fy)
+}
+
+/** @function */
+export const reduce = <L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>): B => {
+  return fa.reduce(f, b)
+}
+
+export function traverse<F extends HKT2S>(
+  F: Applicative<F>
+): <M, L, A, B>(f: (a: A) => HKT2As<F, M, B>, ta: Validation<L, A>) => HKT2As<F, M, Validation<L, B>>
+export function traverse<F extends HKTS>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKTAs<F, B>, ta: Validation<L, A>) => HKTAs<F, Validation<L, B>>
+export function traverse<F>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Validation<L, B>>
+/** @function */
+export function traverse<F>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>> {
+  return (f, ta) => ta.traverse(F)(f)
+}
+
+/** @function */
+export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
+  return fa._tag === 'Failure'
+}
+
+/** @function */
+export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
+  return fa._tag === 'Success'
+}
+
+/** @function */
+export const failure = <L>(L: Semigroup<L>) => <A>(l: L): Validation<L, A> => {
+  return new Failure(L, l)
+}
+
+/**
+ * @function
+ * @alias of
+ */
 export const success = of
 
+/** @function */
 export const fromPredicate = <L>(S: Semigroup<L>) => <A>(predicate: Predicate<A>, f: (a: A) => L) => (
   a: A
-): Validation<L, A> => (predicate(a) ? success(a) : failure(S)(f(a)))
+): Validation<L, A> => {
+  return predicate(a) ? success(a) : failure(S)(f(a))
+}
 
+/** @function */
 export const fromEither = <L>(S: Semigroup<L>): (<A>(e: Either<L, A>) => Validation<L, A>) => {
   const f = failure(S)
   return e => e.fold(l => f(l), a => success(a))
 }
 
-export const concat = <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Validation<L, A> => fx.concat(fy)
+/** @function */
+export const concat = <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Validation<L, A> => {
+  return fx.concat(fy)
+}
 
-export const mapFailure = <M>(S: Semigroup<M>) => <L>(f: (l: L) => M) => <A>(fa: Validation<L, A>): Validation<M, A> =>
-  fa.mapFailure(S)(f)
+/** @function */
+export const mapFailure = <M>(S: Semigroup<M>) => <L>(f: (l: L) => M) => <A>(
+  fa: Validation<L, A>
+): Validation<M, A> => {
+  return fa.mapFailure(S)(f)
+}
 
-export const swap = <L, A>(S: Semigroup<A>) => (fa: Validation<L, A>): Validation<A, L> => fa.swap(S)
+/** @function */
+export const swap = <L, A>(S: Semigroup<A>) => (fa: Validation<L, A>): Validation<A, L> => {
+  return fa.swap(S)
+}
 
-export const toOption = <L, A>(fa: Validation<L, A>): Option<A> => fa.toOption()
+/** @function */
+export const toOption = <L, A>(fa: Validation<L, A>): Option<A> => {
+  return fa.toOption()
+}
 
-export const toEither = <L, A>(fa: Validation<L, A>): Either<L, A> => fa.toEither()
+/** @function */
+export const toEither = <L, A>(fa: Validation<L, A>): Either<L, A> => {
+  return fa.toEither()
+}
 
+/** @instance */
 export const validation: Semigroup<Validation<any, any>> &
   Functor<URI> &
   Applicative<URI> &

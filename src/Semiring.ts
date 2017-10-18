@@ -24,6 +24,7 @@ import { Function1 } from './function'
  * members of this class hierarchy due to the potential for arithmetic
  * overflows, and in the case of `Number`, the presence of `NaN` and
  * `Infinity` values. The behaviour is unspecified in these cases.
+ * @typeclass
  */
 export interface Semiring<A> {
   add: (x: A) => (y: A) => A
@@ -32,9 +33,12 @@ export interface Semiring<A> {
   one: () => A
 }
 
-export const getFunctionSemiring = <A, B>(semiring: Semiring<B>): Semiring<Function1<A, B>> => ({
-  add: f => g => x => semiring.add(f(x))(g(x)),
-  zero: () => () => semiring.zero(),
-  mul: f => g => x => semiring.mul(f(x))(g(x)),
-  one: () => () => semiring.one()
-})
+/** @function */
+export const getFunctionSemiring = <A, B>(semiring: Semiring<B>): Semiring<Function1<A, B>> => {
+  return {
+    add: f => g => x => semiring.add(f(x))(g(x)),
+    zero: () => () => semiring.zero(),
+    mul: f => g => x => semiring.mul(f(x))(g(x)),
+    one: () => () => semiring.one()
+  }
+}

@@ -19,6 +19,10 @@ export const URI = 'NonEmptyArray'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor NonEmptyArray
+ */
 export class NonEmptyArray<A>
   implements FantasyMonad<URI, A>, FantasyComonad<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
   readonly _A: A
@@ -62,50 +66,79 @@ export class NonEmptyArray<A>
   extract(): A {
     return this.head
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `new NonEmptyArray(${toString(this.head)}, ${toString(this.tail)})`
   }
 }
 
-const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => new NonEmptyArray(as[0], as.slice(1))
-
-export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => (as.length ? some(unsafeFromArray(as)) : none)
-
-export const map = <A, B>(f: (a: A) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.map(f)
-
-export const of = <A>(a: A): NonEmptyArray<A> => new NonEmptyArray(a, [])
-
-export const ap = <A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.ap(fab)
-
-export const chain = <A, B>(f: (a: A) => NonEmptyArray<B>, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.chain(f)
-
-export const concat = <A>(fx: NonEmptyArray<A>) => (fy: NonEmptyArray<A>): NonEmptyArray<A> => fx.concat(fy)
-
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): B => fa.reduce(f, b)
-
-export const extend = <A, B>(f: (fa: NonEmptyArray<A>) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> => fa.extend(f)
-
-export const extract = <A>(fa: NonEmptyArray<A>): A => fa.extract()
-
-export class Ops {
-  traverse<F extends HKT2S>(
-    F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: NonEmptyArray<A>) => HKT2As<F, L, NonEmptyArray<B>>
-  traverse<F extends HKTS>(
-    F: Applicative<F>
-  ): <A, B>(f: (a: A) => HKTAs<F, B>, ta: NonEmptyArray<A>) => HKTAs<F, NonEmptyArray<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, NonEmptyArray<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>> {
-    return (f, ta) => ta.traverse(F)(f)
-  }
+const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
+  return new NonEmptyArray(as[0], as.slice(1))
 }
 
-const ops = new Ops()
-export const traverse: Ops['traverse'] = ops.traverse
+/** @function */
+export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => {
+  return as.length ? some(unsafeFromArray(as)) : none
+}
 
+/** @function */
+export const map = <A, B>(f: (a: A) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> => {
+  return fa.map(f)
+}
+
+/** @function */
+export const of = <A>(a: A): NonEmptyArray<A> => {
+  return new NonEmptyArray(a, [])
+}
+
+/** @function */
+export const ap = <A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>): NonEmptyArray<B> => {
+  return fa.ap(fab)
+}
+
+/** @function */
+export const chain = <A, B>(f: (a: A) => NonEmptyArray<B>, fa: NonEmptyArray<A>): NonEmptyArray<B> => {
+  return fa.chain(f)
+}
+
+/** @function */
+export const concat = <A>(fx: NonEmptyArray<A>) => (fy: NonEmptyArray<A>): NonEmptyArray<A> => {
+  return fx.concat(fy)
+}
+
+/** @function */
+export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): B => {
+  return fa.reduce(f, b)
+}
+
+/** @function */
+export const extend = <A, B>(f: (fa: NonEmptyArray<A>) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> => {
+  return fa.extend(f)
+}
+
+/** @function */
+export const extract = <A>(fa: NonEmptyArray<A>): A => {
+  return fa.extract()
+}
+
+export function traverse<F extends HKT2S>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: NonEmptyArray<A>) => HKT2As<F, L, NonEmptyArray<B>>
+export function traverse<F extends HKTS>(
+  F: Applicative<F>
+): <A, B>(f: (a: A) => HKTAs<F, B>, ta: NonEmptyArray<A>) => HKTAs<F, NonEmptyArray<B>>
+export function traverse<F>(
+  F: Applicative<F>
+): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, NonEmptyArray<B>>
+export function traverse<F>(
+  F: Applicative<F>
+): <A, B>(f: (a: A) => HKT<F, B>, ta: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>> {
+  return (f, ta) => ta.traverse(F)(f)
+}
+
+/** @instance */
 export const nonEmptyArray: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traversable<URI> = {
   URI,
   extend,

@@ -14,6 +14,10 @@ export const URI = 'Task'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor Task
+ */
 export class Task<A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _URI: URI
@@ -45,37 +49,65 @@ export class Task<A> implements FantasyMonad<URI, A> {
       })
     })
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `new Task(${toString(this.run)})`
   }
 }
 
-export const map = <A, B>(f: (a: A) => B, fa: Task<A>): Task<B> => fa.map(f)
+/** @function */
+export const map = <A, B>(f: (a: A) => B, fa: Task<A>): Task<B> => {
+  return fa.map(f)
+}
 
-export const of = <A>(a: A): Task<A> => new Task(() => Promise.resolve(a))
+/** @function */
+export const of = <A>(a: A): Task<A> => {
+  return new Task(() => Promise.resolve(a))
+}
 
-export const ap = <A, B>(fab: Task<(a: A) => B>, fa: Task<A>): Task<B> => fa.ap(fab)
+/** @function */
+export const ap = <A, B>(fab: Task<(a: A) => B>, fa: Task<A>): Task<B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <A, B>(f: (a: A) => Task<B>, fa: Task<A>): Task<B> => fa.chain(f)
+/** @function */
+export const chain = <A, B>(f: (a: A) => Task<B>, fa: Task<A>): Task<B> => {
+  return fa.chain(f)
+}
 
-/** returns a task that never completes */
-export const empty = <A>(): Task<A> => never as Task<A>
+/**
+ * returns a task that never completes
+ * @function
+ */
+export const empty = <A>(): Task<A> => {
+  return never as Task<A>
+}
 
-export const concat = <A>(fx: Task<A>) => (fy: Task<A>): Task<A> => fx.concat(fy)
+/** @function */
+export const concat = <A>(fx: Task<A>) => (fy: Task<A>): Task<A> => {
+  return fx.concat(fy)
+}
 
 const neverPromise = new Promise(resolve => undefined)
 const neverLazyPromise = () => neverPromise
 const never = new Task(neverLazyPromise)
 
-export const tryCatch = <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L): Task<Either<L, A>> =>
-  new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))
+/** @function */
+export const tryCatch = <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L): Task<Either<L, A>> => {
+  return new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))
+}
 
-/** Lifts an IO action into a Task */
-export const fromIO = <A>(io: IO<A>): Task<A> => new Task(() => Promise.resolve(io.run()))
+/**
+ * Lifts an IO action into a Task
+ * @function
+ */
+export const fromIO = <A>(io: IO<A>): Task<A> => {
+  return new Task(() => Promise.resolve(io.run()))
+}
 
+/** @instance */
 export const task: Monad<URI> & Monoid<Task<any>> = {
   URI,
   map,

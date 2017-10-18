@@ -23,6 +23,10 @@ export const URI = 'StrMap'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor StrMap
+ */
 export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
   readonly _A: A
   readonly _URI: URI
@@ -67,43 +71,58 @@ export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, Fa
   }
 }
 
-export const empty = <A>(): StrMap<A> => new StrMap({})
+/** @function */
+export const empty = <A>(): StrMap<A> => {
+  return new StrMap({})
+}
 
+/** @function */
 export const concat = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => {
   return new StrMap(Object.assign({}, x.value, y.value))
 }
 
-export const map = <A, B>(f: (a: A) => B, fa: StrMap<A>): StrMap<B> => fa.map(f)
-
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: StrMap<A>): B => fa.reduce(f, b)
-
-export class Ops {
-  traverseWithKey<F extends HKT2S>(
-    F: Applicative<F>
-  ): <L, A, B>(f: (k: string, a: A) => HKT2As<F, L, B>, ta: StrMap<A>) => HKT2As<F, L, StrMap<B>>
-  traverseWithKey<F extends HKTS>(
-    F: Applicative<F>
-  ): <A, B>(f: (k: string, a: A) => HKTAs<F, B>, ta: StrMap<A>) => HKTAs<F, StrMap<B>>
-  traverseWithKey<F>(F: Applicative<F>): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>>
-  traverseWithKey<F>(F: Applicative<F>): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
-    return (f, ta) => ta.traverseWithKey(F)(f)
-  }
-
-  traverse<F extends HKT2S>(
-    F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: StrMap<A>) => HKT2As<F, L, StrMap<B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <A, B>(f: (a: A) => HKTAs<F, B>, ta: StrMap<A>) => HKTAs<F, StrMap<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, StrMap<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
-    return (f, ta) => ta.traverse(F)(f)
-  }
+/** @function */
+export const map = <A, B>(f: (a: A) => B, fa: StrMap<A>): StrMap<B> => {
+  return fa.map(f)
 }
 
-const ops = new Ops()
-export const traverseWithKey: Ops['traverseWithKey'] = ops.traverseWithKey
-export const traverse: Ops['traverse'] = ops.traverse
+/** @function */
+export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: StrMap<A>): B => {
+  return fa.reduce(f, b)
+}
 
-/** Test whether one dictionary contains all of the keys and values contained in another dictionary */
+export function traverseWithKey<F extends HKT2S>(
+  F: Applicative<F>
+): <L, A, B>(f: (k: string, a: A) => HKT2As<F, L, B>, ta: StrMap<A>) => HKT2As<F, L, StrMap<B>>
+export function traverseWithKey<F extends HKTS>(
+  F: Applicative<F>
+): <A, B>(f: (k: string, a: A) => HKTAs<F, B>, ta: StrMap<A>) => HKTAs<F, StrMap<B>>
+export function traverseWithKey<F>(
+  F: Applicative<F>
+): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>>
+/** @function */
+export function traverseWithKey<F>(
+  F: Applicative<F>
+): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
+  return (f, ta) => ta.traverseWithKey(F)(f)
+}
+
+export function traverse<F extends HKT2S>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: StrMap<A>) => HKT2As<F, L, StrMap<B>>
+export function traverse<F extends HKTS>(
+  F: Applicative<F>
+): <A, B>(f: (a: A) => HKTAs<F, B>, ta: StrMap<A>) => HKTAs<F, StrMap<B>>
+export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, StrMap<B>>
+/** @function */
+export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
+  return (f, ta) => ta.traverse(F)(f)
+}
+
+/**
+ * Test whether one dictionary contains all of the keys and values contained in another dictionary
+ * @function
+ */
 export const isSubdictionary = <A>(setoid: Setoid<A>) => (d1: StrMap<A>) => (d2: StrMap<A>): boolean => {
   for (let k in d1.value) {
     if (!d2.value.hasOwnProperty(k) || !setoid.equals(d1.value[k])(d2.value[k])) {
@@ -113,10 +132,18 @@ export const isSubdictionary = <A>(setoid: Setoid<A>) => (d1: StrMap<A>) => (d2:
   return true
 }
 
-/** Calculate the number of key/value pairs in a dictionary */
-export const size = <A>(d: StrMap<A>): number => Object.keys(d.value).length
+/**
+ * Calculate the number of key/value pairs in a dictionary
+ * @function
+ */
+export const size = <A>(d: StrMap<A>): number => {
+  return Object.keys(d.value).length
+}
 
-/** Test whether a dictionary is empty */
+/**
+ * Test whether a dictionary is empty
+ * @function
+ */
 export const isEmpty = <A>(d: StrMap<A>): boolean => {
   for (const k in d.value) {
     return k === null
@@ -124,25 +151,38 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
   return true
 }
 
-export const getSetoid = <A>(setoid: Setoid<A>): Setoid<StrMap<A>> => ({
-  equals: x => y => isSubdictionary(setoid)(x)(y) && isSubdictionary(setoid)(y)(x)
-})
+/** @function */
+export const getSetoid = <A>(setoid: Setoid<A>): Setoid<StrMap<A>> => {
+  return {
+    equals: x => y => isSubdictionary(setoid)(x)(y) && isSubdictionary(setoid)(y)(x)
+  }
+}
 
-/** Create a dictionary with one key/value pair */
-export const singleton = (k: string) => <A>(a: A): StrMap<A> => new StrMap({ [k]: a })
+/**
+ * Create a dictionary with one key/value pair
+ * @function
+ */
+export const singleton = (k: string) => <A>(a: A): StrMap<A> => {
+  return new StrMap({ [k]: a })
+}
 
-/** Lookup the value for a key in a dictionary */
-export const lookup = (k: string) => <A>(d: StrMap<A>): Option<A> =>
-  d.value.hasOwnProperty(k) ? some(d.value[k]) : none
+/**
+ * Lookup the value for a key in a dictionary
+ * @function
+ */
+export const lookup = (k: string) => <A>(d: StrMap<A>): Option<A> => {
+  return d.value.hasOwnProperty(k) ? some(d.value[k]) : none
+}
 
 /**
  * Create a dictionary from a foldable collection of key/value pairs, using the
  * specified function to combine values for duplicate keys.
+ * @function
  */
 export const fromFoldable = <F>(F: Foldable<F>) => <A>(f: (existing: A) => (a: A) => A) => (
   ta: HKT<F, [string, A]>
-): StrMap<A> =>
-  F.reduce(
+): StrMap<A> => {
+  return F.reduce(
     (b, a) => {
       const k = a[0]
       b.value[k] = b.value.hasOwnProperty(k) ? f(b.value[k])(a[1]) : a[1]
@@ -151,7 +191,9 @@ export const fromFoldable = <F>(F: Foldable<F>) => <A>(f: (existing: A) => (a: A
     new StrMap<A>({}),
     ta
   )
+}
 
+/** @function */
 export const collect = <A, B>(f: (k: string, a: A) => B) => (d: StrMap<A>): Array<B> => {
   const out: Array<B> = []
   for (let k in d.value) {
@@ -160,9 +202,15 @@ export const collect = <A, B>(f: (k: string, a: A) => B) => (d: StrMap<A>): Arra
   return out
 }
 
-export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => collect((k, a: A) => tuple(k, a))(d)
+/** @function */
+export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
+  return collect((k, a: A) => tuple(k, a))(d)
+}
 
-/** Unfolds a dictionary into a list of key/value pairs */
+/**
+ * Unfolds a dictionary into a list of key/value pairs
+ * @function
+ */
 export const toUnfoldable = <F extends string>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]> => {
   const arr = toArray(d)
   if (unfoldable.URI === ArrayURI) {
@@ -172,28 +220,43 @@ export const toUnfoldable = <F extends string>(unfoldable: Unfoldable<F>) => <A>
   return unfoldable.unfoldr(b => (b < len ? some(tuple(arr[b], b + 1)) : none), 0)
 }
 
-// cannot curry
-/** Apply a function of two arguments to each key/value pair, producing a new dictionary */
-export const mapWithKey = <A, B>(f: (k: string, a: A) => B, fa: StrMap<A>): StrMap<B> => fa.mapWithKey(f)
+/**
+ * Apply a function of two arguments to each key/value pair, producing a new dictionary
+ * @function
+ */
+export const mapWithKey = <A, B>(f: (k: string, a: A) => B, fa: StrMap<A>): StrMap<B> => {
+  return fa.mapWithKey(f)
+}
 
-/** Insert or replace a key/value pair in a map */
+/**
+ * Insert or replace a key/value pair in a map
+ * @function
+ */
 export const insert = (k: string) => <A>(a: A) => (d: StrMap<A>): StrMap<A> => {
   const copy = Object.assign({}, d.value)
   copy[k] = a
   return new StrMap(copy)
 }
 
-/** Delete a key and value from a map */
+/**
+ * Delete a key and value from a map
+ * @function
+ */
 export const remove = (k: string) => <A>(d: StrMap<A>): StrMap<A> => {
   const copy = Object.assign({}, d.value)
   delete copy[k]
   return new StrMap(copy)
 }
 
-/** Delete a key and value from a map, returning the value as well as the subsequent map */
-export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> =>
-  lookup(k)(d).fold(() => none, a => some(tuple(a, remove(k)(d))))
+/**
+ * Delete a key and value from a map, returning the value as well as the subsequent map
+ * @function
+ */
+export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> => {
+  return lookup(k)(d).fold(() => none, a => some(tuple(a, remove(k)(d))))
+}
 
+/** @instance */
 export const strmap: Monoid<StrMap<any>> & Functor<URI> & Foldable<URI> & Traversable<URI> = {
   URI,
   concat,

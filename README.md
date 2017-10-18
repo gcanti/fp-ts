@@ -30,9 +30,9 @@ The idea (faking higher kinded types in TypeScript) is based on
 - [Higher kinded types in TypeScript, static and fantasy land](https://medium.com/@gcanti/higher-kinded-types-in-typescript-static-and-fantasy-land-d41c361d0dbe)
 - [flow-static-land](https://github.com/gcanti/flow-static-land)
 
-# API
+# Documentation
 
-[index](docs/api/md/index.md)
+- [API](docs/api/md/index.md)
 
 # License
 

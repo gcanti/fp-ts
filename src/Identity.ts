@@ -20,8 +20,10 @@ export const URI = 'Identity'
 
 export type URI = typeof URI
 
-export const extract = <A>(fa: Identity<A>): A => fa.extract()
-
+/**
+ * @data
+ * @constructor Identity
+ */
 export class Identity<A>
   implements FantasyMonad<URI, A>,
     FantasyFoldable<A>,
@@ -66,53 +68,79 @@ export class Identity<A>
   fold<B>(f: (a: A) => B): B {
     return f(this.value)
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `new Identity(${toString(this.value)})`
   }
 }
 
-export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => ({
-  equals: x => y => setoid.equals(x.value)(y.value)
-})
+/** @function */
+export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => {
+  return {
+    equals: x => y => setoid.equals(x.value)(y.value)
+  }
+}
 
-export const map = <A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B> => fa.map(f)
+/** @function */
+export const map = <A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B> => {
+  return fa.map(f)
+}
 
-export const of = <A>(a: A): Identity<A> => new Identity(a)
+/** @function */
+export const of = <A>(a: A): Identity<A> => {
+  return new Identity(a)
+}
 
-export const ap = <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>): Identity<B> => fa.ap(fab)
+/** @function */
+export const ap = <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>): Identity<B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <A, B>(f: (a: A) => Identity<B>, fa: Identity<A>): Identity<B> => fa.chain(f)
+/** @function */
+export const chain = <A, B>(f: (a: A) => Identity<B>, fa: Identity<A>): Identity<B> => {
+  return fa.chain(f)
+}
 
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Identity<A>): B => fa.reduce(f, b)
+/** @function */
+export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Identity<A>): B => {
+  return fa.reduce(f, b)
+}
 
+/** @function */
 export const alt = <A>(fx: Identity<A>, fy: Identity<A>): Identity<A> => {
   return fx.alt(fy)
 }
 
-export const extend = <A, B>(f: (ea: Identity<A>) => B, ea: Identity<A>): Identity<B> => ea.extend(f)
-
-export const chainRec = <A, B>(f: (a: A) => Identity<Either<A, B>>, a: A): Identity<B> =>
-  new Identity(tailRec(a => f(a).extract(), a))
-
-export class Ops {
-  traverse<F extends HKT2S>(
-    F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Identity<A>) => HKT2As<F, L, Identity<B>>
-  traverse<F extends HKTS>(
-    F: Applicative<F>
-  ): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Identity<A>) => HKTAs<F, Identity<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Identity<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>> {
-    return (f, ta) => ta.traverse(F)(f)
-  }
+/** @function */
+export const extend = <A, B>(f: (ea: Identity<A>) => B, ea: Identity<A>): Identity<B> => {
+  return ea.extend(f)
 }
 
-const ops = new Ops()
-export const traverse: Ops['traverse'] = ops.traverse
+/** @function */
+export const extract = <A>(fa: Identity<A>): A => {
+  return fa.extract()
+}
 
+/** @function */
+export const chainRec = <A, B>(f: (a: A) => Identity<Either<A, B>>, a: A): Identity<B> => {
+  return new Identity(tailRec(a => f(a).extract(), a))
+}
+
+export function traverse<F extends HKT2S>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Identity<A>) => HKT2As<F, L, Identity<B>>
+export function traverse<F extends HKTS>(
+  F: Applicative<F>
+): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Identity<A>) => HKTAs<F, Identity<B>>
+export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Identity<B>>
+/** @function */
+export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>> {
+  return (f, ta) => ta.traverse(F)(f)
+}
+
+/** @instance */
 export const identity: Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> & Comonad<URI> & ChainRec<URI> = {
   URI,
   map,

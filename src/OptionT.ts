@@ -24,85 +24,87 @@ export interface OptionT2<M extends HKT2S> extends ApplicativeComposition21<M, O
   chain<L, A, B>(f: (a: A) => HKT2As<M, L, Option<B>>, fa: HKT2As<M, L, Option<A>>): HKT2As<M, L, Option<B>>
 }
 
-export class Ops {
-  chain<F extends HKT2S>(F: Monad<F>): OptionT2<F>['chain']
-  chain<F extends HKTS>(F: Monad<F>): OptionT1<F>['chain']
-  chain<F>(F: Monad<F>): OptionT<F>['chain']
-  chain<F>(F: Monad<F>): OptionT<F>['chain'] {
-    return (f, fa) => F.chain(o => o.fold(() => F.of(option.none), a => f(a)), fa)
-  }
-
-  some<F extends HKT2S>(F: Applicative<F>): <L, A>(a: A) => HKT2As<F, L, Option<A>>
-  some<F extends HKTS>(F: Applicative<F>): <A>(a: A) => HKTAs<F, Option<A>>
-  some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
-  some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> {
-    return a => F.of(option.some(a))
-  }
-
-  none<F extends HKT2S>(F: Applicative<F>): <L>() => HKT2As<F, L, Option<any>>
-  none<F extends HKTS>(F: Applicative<F>): () => HKTAs<F, Option<any>>
-  none<F>(F: Applicative<F>): () => HKT<F, Option<any>>
-  none<F>(F: Applicative<F>): () => HKT<F, Option<any>> {
-    return () => F.of(option.none)
-  }
-
-  fromOption<F extends HKT2S>(F: Applicative<F>): <L, A>(fa: Option<A>) => HKT2As<F, L, Option<A>>
-  fromOption<F extends HKTS>(F: Applicative<F>): <A>(fa: Option<A>) => HKTAs<F, Option<A>>
-  fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
-  fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> {
-    return oa => F.of(oa)
-  }
-
-  liftF<F extends HKT2S>(F: Functor<F>): <L, A>(fa: HKT2As<F, L, A>) => HKT2As<F, L, Option<A>>
-  liftF<F extends HKTS>(F: Functor<F>): <A>(fa: HKTAs<F, A>) => HKTAs<F, Option<A>>
-  liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
-  liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> {
-    return fa => F.map(a => option.some(a), fa)
-  }
-
-  fold<F extends HKT2S>(
-    F: Functor<F>
-  ): <L, R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, R>
-  fold<F extends HKTS>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKTAs<F, Option<A>>) => HKTAs<F, R>
-  fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
-  fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
-    return (none, some, fa) => F.map(o => o.fold(none, some), fa)
-  }
-
-  getOrElse<F extends HKT2S>(F: Functor<F>): <A>(f: Lazy<A>) => <L>(fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
-  getOrElse<F extends HKTS>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
-  getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A>
-  getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
-    return f => fa => F.map(o => o.getOrElse(f), fa)
-  }
-
-  getOrElseValue<F extends HKT2S>(F: Functor<F>): <A>(value: A) => <L>(fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
-  getOrElseValue<F extends HKTS>(F: Functor<F>): <A>(value: A) => (fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
-  getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
-  getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
-    return value => fa => F.map(o => o.getOrElseValue(value), fa)
-  }
-
-  getOptionT<M extends HKT2S>(M: Monad<M>): OptionT2<M>
-  getOptionT<M extends HKTS>(M: Monad<M>): OptionT1<M>
-  getOptionT<M>(M: Monad<M>): OptionT<M>
-  getOptionT<M>(M: Monad<M>): OptionT<M> {
-    const applicativeComposition = getApplicativeComposition(M, option)
-
-    return {
-      ...applicativeComposition,
-      chain: this.chain(M)
-    }
-  }
+export function chain<F extends HKT2S>(F: Monad<F>): OptionT2<F>['chain']
+export function chain<F extends HKTS>(F: Monad<F>): OptionT1<F>['chain']
+export function chain<F>(F: Monad<F>): OptionT<F>['chain']
+/** @function */
+export function chain<F>(F: Monad<F>): OptionT<F>['chain'] {
+  return (f, fa) => F.chain(o => o.fold(() => F.of(option.none), a => f(a)), fa)
 }
 
-const ops = new Ops()
-export const chain: Ops['chain'] = ops.chain
-export const none: Ops['none'] = ops.none
-export const some: Ops['some'] = ops.some
-export const fromOption: Ops['fromOption'] = ops.fromOption
-export const liftF: Ops['liftF'] = ops.liftF
-export const fold: Ops['fold'] = ops.fold
-export const getOrElse: Ops['getOrElse'] = ops.getOrElse
-export const getOrElseValue: Ops['getOrElseValue'] = ops.getOrElseValue
-export const getOptionT: Ops['getOptionT'] = ops.getOptionT
+export function some<F extends HKT2S>(F: Applicative<F>): <L, A>(a: A) => HKT2As<F, L, Option<A>>
+export function some<F extends HKTS>(F: Applicative<F>): <A>(a: A) => HKTAs<F, Option<A>>
+export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
+/** @function */
+export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> {
+  return a => F.of(option.some(a))
+}
+
+export function none<F extends HKT2S>(F: Applicative<F>): <L>() => HKT2As<F, L, Option<any>>
+export function none<F extends HKTS>(F: Applicative<F>): () => HKTAs<F, Option<any>>
+export function none<F>(F: Applicative<F>): () => HKT<F, Option<any>>
+/** @function */
+export function none<F>(F: Applicative<F>): () => HKT<F, Option<any>> {
+  return () => F.of(option.none)
+}
+
+export function fromOption<F extends HKT2S>(F: Applicative<F>): <L, A>(fa: Option<A>) => HKT2As<F, L, Option<A>>
+export function fromOption<F extends HKTS>(F: Applicative<F>): <A>(fa: Option<A>) => HKTAs<F, Option<A>>
+export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
+/** @function */
+export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> {
+  return oa => F.of(oa)
+}
+
+export function liftF<F extends HKT2S>(F: Functor<F>): <L, A>(fa: HKT2As<F, L, A>) => HKT2As<F, L, Option<A>>
+export function liftF<F extends HKTS>(F: Functor<F>): <A>(fa: HKTAs<F, A>) => HKTAs<F, Option<A>>
+export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
+/** @function */
+export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> {
+  return fa => F.map(a => option.some(a), fa)
+}
+
+export function fold<F extends HKT2S>(
+  F: Functor<F>
+): <L, R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, R>
+export function fold<F extends HKTS>(
+  F: Functor<F>
+): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKTAs<F, Option<A>>) => HKTAs<F, R>
+export function fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
+/** @function */
+export function fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
+  return (none, some, fa) => F.map(o => o.fold(none, some), fa)
+}
+
+export function getOrElse<F extends HKT2S>(
+  F: Functor<F>
+): <A>(f: Lazy<A>) => <L>(fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
+export function getOrElse<F extends HKTS>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
+export function getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+/** @function */
+export function getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
+  return f => fa => F.map(o => o.getOrElse(f), fa)
+}
+
+export function getOrElseValue<F extends HKT2S>(
+  F: Functor<F>
+): <A>(value: A) => <L>(fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
+export function getOrElseValue<F extends HKTS>(F: Functor<F>): <A>(value: A) => (fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
+export function getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+/** @function */
+export function getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
+  return value => fa => F.map(o => o.getOrElseValue(value), fa)
+}
+
+export function getOptionT<M extends HKT2S>(M: Monad<M>): OptionT2<M>
+export function getOptionT<M extends HKTS>(M: Monad<M>): OptionT1<M>
+export function getOptionT<M>(M: Monad<M>): OptionT<M>
+/** @function */
+export function getOptionT<M>(M: Monad<M>): OptionT<M> {
+  const applicativeComposition = getApplicativeComposition(M, option)
+
+  return {
+    ...applicativeComposition,
+    chain: chain(M)
+  }
+}

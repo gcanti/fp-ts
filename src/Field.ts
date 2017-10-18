@@ -3,6 +3,7 @@ import { Setoid } from './Setoid'
 
 // adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
 
+/** @typeclass */
 export interface Field<A> extends Ring<A> {
   degree: (a: A) => number
   div: (x: A) => (y: A) => A
@@ -20,14 +21,20 @@ export const fieldNumber: Field<number> = {
   mod: x => y => x % y
 }
 
-/** The *greatest common divisor* of two values */
+/**
+ * The *greatest common divisor* of two values
+ * @function
+ */
 export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A) => (y: A) => A) => {
   const zero = field.zero()
   const f = (x: A) => (y: A): A => (S.equals(y)(zero) ? x : f(y)(field.mod(x)(y)))
   return f
 }
 
-/** The *least common multiple* of two values */
+/**
+ * The *least common multiple* of two values
+ * @function
+ */
 export const lcm = <A>(setoid: Setoid<A>, field: Field<A>): ((x: A) => (y: A) => A) => {
   const zero = field.zero()
   return x => y =>

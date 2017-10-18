@@ -13,6 +13,10 @@ export const URI = 'IxIO'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor IxIO
+ */
 export class IxIO<I, O, A> implements FantasyIxMonad<URI, A, O, I> {
   readonly _A: A
   readonly _L: O
@@ -36,18 +40,38 @@ export class IxIO<I, O, A> implements FantasyIxMonad<URI, A, O, I> {
   }
 }
 
-export const iof = <I, A>(a: A): IxIO<I, I, A> => new IxIO<I, I, A>(io.of(a))
+/** @function */
+export const iof = <I, A>(a: A): IxIO<I, I, A> => {
+  return new IxIO<I, I, A>(io.of(a))
+}
 
-export const ichain = <I, O, Z, A, B>(f: (a: A) => IxIO<O, Z, B>, fa: IxIO<I, O, A>): IxIO<I, Z, B> => fa.ichain(f)
+/** @function */
+export const ichain = <I, O, Z, A, B>(f: (a: A) => IxIO<O, Z, B>, fa: IxIO<I, O, A>): IxIO<I, Z, B> => {
+  return fa.ichain(f)
+}
 
-export const map = <I, A, B>(f: (a: A) => B, fa: IxIO<I, I, A>): IxIO<I, I, B> => fa.map(f)
+/** @function */
+export const map = <I, A, B>(f: (a: A) => B, fa: IxIO<I, I, A>): IxIO<I, I, B> => {
+  return fa.map(f)
+}
 
+/**
+ * @function
+ * @alias iof
+ */
 export const of = iof
 
-export const ap = <I, A, B>(fab: IxIO<I, I, (a: A) => B>, fa: IxIO<I, I, A>): IxIO<I, I, B> => fa.ap(fab)
+/** @function */
+export const ap = <I, A, B>(fab: IxIO<I, I, (a: A) => B>, fa: IxIO<I, I, A>): IxIO<I, I, B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <I, A, B>(f: (a: A) => IxIO<I, I, B>, fa: IxIO<I, I, A>): IxIO<I, I, B> => fa.chain(f)
+/** @function */
+export const chain = <I, A, B>(f: (a: A) => IxIO<I, I, B>, fa: IxIO<I, I, A>): IxIO<I, I, B> => {
+  return fa.chain(f)
+}
 
+/** @instance */
 export const ixIO: Monad<URI> & IxMonad<URI> = {
   URI,
   map,
