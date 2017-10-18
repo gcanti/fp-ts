@@ -18,21 +18,21 @@ export class ReaderIO<E, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: E
   readonly _URI: URI
-  constructor(readonly value: (e: E) => io.IO<A>) {}
+  constructor(readonly run: (e: E) => io.IO<A>) {}
   map<B>(f: (a: A) => B): ReaderIO<E, B> {
-    return new ReaderIO(readerTIO.map(f, this.value))
+    return new ReaderIO(readerTIO.map(f, this.run))
   }
   of<E, B>(b: B): ReaderIO<E, B> {
     return of(b)
   }
   ap<B>(fab: ReaderIO<E, (a: A) => B>): ReaderIO<E, B> {
-    return new ReaderIO(readerTIO.ap(fab.value, this.value))
+    return new ReaderIO(readerTIO.ap(fab.run, this.run))
   }
   ap_<B, C>(this: ReaderIO<E, (a: B) => C>, fb: ReaderIO<E, B>): ReaderIO<E, C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => ReaderIO<E, B>): ReaderIO<E, B> {
-    return new ReaderIO(readerTIO.chain(a => f(a).value, this.value))
+    return new ReaderIO(readerTIO.chain(a => f(a).run, this.run))
   }
 }
 
@@ -47,6 +47,8 @@ export const chain = <E, A, B>(f: (a: A) => ReaderIO<E, B>, fa: ReaderIO<E, A>):
 export const ask = <E>(e: E): ReaderIO<E, E> => new ReaderIO(readerT.ask(io)())
 
 export const asks = <E, A>(f: (e: E) => A): ReaderIO<E, A> => new ReaderIO(readerT.asks(io)(f))
+
+export const local = <E>(f: (e: E) => E) => <A>(fa: ReaderIO<E, A>): ReaderIO<E, A> => new ReaderIO(e => fa.run(f(e)))
 
 export const readerIO: Monad<URI> = {
   URI,

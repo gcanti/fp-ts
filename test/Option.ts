@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import {
-  equals,
+  getSetoid,
   fold,
   none,
   map,
@@ -23,8 +23,8 @@ describe('Option', () => {
   it('fold', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
-    assert.strictEqual(fold(f, g, none), 'none')
-    assert.strictEqual(fold(f, g, some('abc')), 'some3')
+    assert.strictEqual(fold(f, g)(none), 'none')
+    assert.strictEqual(fold(f, g)(some('abc')), 'some3')
   })
 
   it('getOrElse', () => {
@@ -42,11 +42,11 @@ describe('Option', () => {
   })
 
   it('equals', () => {
-    const eq = equals(setoidNumber)
-    assert.strictEqual(eq(none)(none), true)
-    assert.strictEqual(eq(none)(some(1)), false)
-    assert.strictEqual(eq(some(2))(some(1)), false)
-    assert.strictEqual(eq(some(2))(some(2)), true)
+    const { equals } = getSetoid(setoidNumber)
+    assert.strictEqual(equals(none)(none), true)
+    assert.strictEqual(equals(none)(some(1)), false)
+    assert.strictEqual(equals(some(2))(some(1)), false)
+    assert.strictEqual(equals(some(2))(some(2)), true)
   })
 
   it('map', () => {
@@ -98,10 +98,10 @@ describe('Option', () => {
   })
 
   it('alt', () => {
-    eq(alt(some(1))(some(2)), some(1))
-    eq(alt(none)(some(2)), some(2))
-    eq(alt(some(1))(none), some(1))
-    eq(alt(none)(none), none)
+    eq(alt(some(1), some(2)), some(1))
+    eq(alt(none, some(2)), some(2))
+    eq(alt(some(1), none), some(1))
+    eq(alt(none, none), none)
   })
 
   it('fromNullable', () => {

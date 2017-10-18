@@ -45,11 +45,8 @@ export const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => fa.ap(fab)
 
 export const chain = <A, B>(f: (a: A) => IO<B>, fa: IO<A>): IO<B> => fa.chain(f)
 
-export const concat = <A>(S: Semigroup<A>) => (fx: IO<A>) => (fy: IO<A>): IO<A> =>
-  new IO(() => S.concat(fx.run())(fy.run()))
-
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => ({
-  concat: concat(S)
+  concat: x => y => new IO(() => S.concat(x.run())(y.run()))
 })
 
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {

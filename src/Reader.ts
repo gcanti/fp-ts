@@ -1,5 +1,5 @@
 import { Monad, FantasyMonad } from './Monad'
-import { identity, Endomorphism } from './function'
+import { identity } from './function'
 
 export const URI = 'Reader'
 
@@ -36,8 +36,7 @@ export const ask = <E>(): Reader<E, E> => new Reader(identity)
 export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => new Reader(f)
 
 /** changes the value of the local context during the execution of the action `fa` */
-export const local = <E>(f: Endomorphism<E>) => <A>(fa: Reader<E, A>): Reader<E, A> =>
-  new Reader((e: E) => fa.run(f(e)))
+export const local = <E>(f: (e: E) => E) => <A>(fa: Reader<E, A>): Reader<E, A> => new Reader((e: E) => fa.run(f(e)))
 
 export const reader: Monad<URI> = {
   URI,

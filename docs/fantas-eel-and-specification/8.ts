@@ -47,9 +47,9 @@ console.log(option.none.ap(option.none)) // => none
 import * as either from '../../src/Either'
 
 console.log(either.right(2).ap(either.right((x: number) => -x))) // => right(-2)
-console.log(either.left('halp').ap(either.right((x: number) => -x))) // => left("halp")
-console.log(either.right(2).ap(either.left('eek'))) // => left("eek")
-console.log(either.left('halp').ap(either.left('eek'))) // => left("eek")
+console.log(either.left<string, number>('halp').ap(either.right((x: number) => -x))) // => left("halp")
+console.log(either.right<string, number>(2).ap(either.left<string, (x: number) => number>('eek'))) // => left("eek")
+console.log(either.left<string, number>('halp').ap(either.left<string, (x: number) => number>('eek'))) // => left("eek")
 
 //
 // Task

@@ -67,8 +67,7 @@ export const extract = <L, A>(fa: Moore<L, A>): A => fa.extract()
 
 export const extend = <L, A, B>(f: (fa: Moore<L, A>) => B, fa: Moore<L, A>): Moore<L, B> => fa.extend(f)
 
-export const promap = <A, B, C, D>(f: (a: A) => B, g: (c: C) => D) => (fla: Moore<B, C>): Moore<A, D> =>
-  fla.promap(f, g)
+export const promap = <A, B, C, D>(f: (a: A) => B, g: (c: C) => D, fla: Moore<B, C>): Moore<A, D> => fla.promap(f, g)
 
 /** Construct a Moore machine from a state valuation and transition function */
 export const unfoldMoore = <S, L, A>(f: (s: S) => [A, (l: L) => S]) => (s: S): Moore<L, A> => {

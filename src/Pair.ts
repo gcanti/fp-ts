@@ -88,23 +88,19 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => ({
   equals: x => y => S.equals(x.fst())(y.fst()) && S.equals(x.snd())(y.snd())
 })
 
-export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => {
-  const S = getSetoid(O)
-  return {
-    ...S,
-    compare: x => y => orderingSemigroup.concat(O.compare(x.fst())(y.fst()))(O.compare(x.snd())(y.snd()))
-  }
-}
+export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => ({
+  ...getSetoid(O),
+  compare: x => y => orderingSemigroup.concat(O.compare(x.fst())(y.fst()))(O.compare(x.snd())(y.snd()))
+})
 
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => ({
   concat: x => y => new Pair([S.concat(x.fst())(y.fst()), S.concat(x.snd())(y.snd())])
 })
 
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
-  const S = getSemigroup(M)
   const empty = new Pair([M.empty(), M.empty()])
   return {
-    ...S,
+    ...getSemigroup(M),
     empty: () => empty
   }
 }
@@ -123,7 +119,7 @@ export class Ops {
     F: Applicative<F>
   ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Pair<A>) => HKT2As<F, L, Pair<B>>
   traverse<F extends HKTS>(F: Applicative<F>): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Pair<A>) => HKTAs<F, Pair<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Pair<A>) => HKT<F, Pair<B>>
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Pair<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Pair<A>) => HKT<F, Pair<B>> {
     return (f, ta) => ta.traverse(F)(f)
   }

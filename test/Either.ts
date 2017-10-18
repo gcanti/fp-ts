@@ -11,9 +11,9 @@ import {
   fromPredicate,
   tryCatch,
   fromOption,
-  bimap,
   fromNullable,
-  equals
+  bimap,
+  getSetoid
 } from '../src/Either'
 import { eqEithers as eq } from './helpers'
 import { none, some } from '../src/Option'
@@ -23,8 +23,8 @@ describe('Either', () => {
   it('fold', () => {
     const f = (s: string) => `left${s.length}`
     const g = (s: string) => `right${s.length}`
-    assert.strictEqual(fold(f, g, left('abc')), 'left3')
-    assert.strictEqual(fold(f, g, right('abc')), 'right3')
+    assert.strictEqual(fold(f, g)(left('abc')), 'left3')
+    assert.strictEqual(fold(f, g)(right('abc')), 'right3')
   })
 
   it('map', () => {
@@ -36,21 +36,21 @@ describe('Either', () => {
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    eq(bimap(f, g)(right(1)), right(false))
+    eq(bimap(f, g, right(1)), right(false))
   })
 
   it('ap', () => {
     const f = (s: string): number => s.length
-    eq(ap(right(f), right('abc')), right(3))
-    eq(ap(right(f), left('s')), left('s'))
-    eq(ap(left<any, any>(f), right('abc')), left(f))
-    eq(ap(left<any, any>(f), left('abc')), left(f))
+    eq(ap(right<string, (s: string) => number>(f), right<string, string>('abc')), right(3))
+    eq(ap(right<string, (s: string) => number>(f), left<string, string>('a')), left<string, number>('a'))
+    eq(ap(left<string, (s: string) => number>('a'), right<string, string>('abc')), left<string, number>('a'))
+    eq(ap(left<string, (s: string) => number>('a'), left<string, string>('b')), left<string, number>('a'))
   })
 
   it('chain', () => {
-    const f = (s: string) => right(s.length)
-    eq(chain(f, right('abc')), right(3))
-    eq(chain(f, left('s')), left('s'))
+    const f = (s: string) => right<string, number>(s.length)
+    eq(chain(f, right<string, string>('abc')), right(3))
+    eq(chain(f, left<string, string>('a')), left('a'))
   })
 
   it('fromPredicate', () => {
@@ -69,12 +69,12 @@ describe('Either', () => {
     const e2 = tryCatch(() => {
       return JSON.parse(``)
     })
-    eq(e2, left({}))
+    eq(e2, left<Error, any>(new Error()))
   })
 
   it('getOrElse', () => {
-    assert.equal(getOrElse(() => 17)(right(12)), 12)
-    assert.equal(getOrElse(() => 17)(left(12)), 17)
+    assert.equal(getOrElse((l: number) => 17)(right(12)), 12)
+    assert.equal(getOrElse((l: number) => 17)(left(12)), 17)
     assert.equal(getOrElse((l: number) => l + 1)(left(12)), 13)
   })
 
@@ -95,7 +95,7 @@ describe('Either', () => {
   })
 
   it('equals', () => {
-    const eq = equals(setoidString, setoidNumber)
+    const eq = getSetoid(setoidString, setoidNumber).equals
     assert.strictEqual(eq(right(1))(right(1)), true)
     assert.strictEqual(eq(right(1))(right(2)), false)
     assert.strictEqual(eq(left('foo'))(left('foo')), true)

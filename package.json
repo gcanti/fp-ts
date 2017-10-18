@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "0.5.4",
+  "version": "0.6.0-dev.20171016",
   "description": "Functional programming in TypeScript",
   "files": ["lib"],
   "main": "lib/index.js",
@@ -36,7 +36,7 @@
     "ts-node": "3.1.0",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "^2.5.2"
+    "typescript": "2.6.0-rc"
   },
   "tags": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"],
   "keywords": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"]

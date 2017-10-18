@@ -12,9 +12,6 @@ import { Option, fromNullable } from './Option'
 import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
 import { Extend } from './Extend'
-import { Filterable } from './Filterable'
-import { Either } from './Either'
-import { Witherable } from './Witherable'
 import { Predicate, identity, constant, Lazy, Endomorphism, Refinement, tuple } from './function'
 
 // Adapted from https://github.com/purescript/purescript-arrays
@@ -57,7 +54,7 @@ export class Ops {
     F: Applicative<F>
   ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Array<A>) => HKT2As<F, L, Array<B>>
   traverse<F extends HKTS>(F: Applicative<F>): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Array<A>) => HKTAs<F, Array<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>>
+  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Array<B>>
   traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>> {
     const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(snoc)
     return (f, ta) => reduce((fab, a) => liftedSnoc(fab)(f(a)), F.of(empty()), ta)
@@ -69,7 +66,7 @@ export const traverse: Ops['traverse'] = ops.traverse
 
 export const zero = empty
 
-export const alt = <A>(x: Array<A>) => (y: Array<A>): Array<A> => x.concat(y)
+export const alt = <A>(x: Array<A>, y: Array<A>): Array<A> => x.concat(y)
 
 export const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
   const ret: Array<A> = []
@@ -88,20 +85,6 @@ export const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
 }
 
 export const extend = <A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B> => fa.map((_, i, as) => f(as.slice(i)))
-
-export const partitionMap = <A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): { left: Array<L>; right: Array<R> } => {
-  const left: Array<L> = []
-  const right: Array<R> = []
-  for (let i = 0; i < fa.length; i++) {
-    f(fa[i]).fold(l => left.push(l), r => right.push(r))
-  }
-  return { left, right }
-}
-
-export const wilt = <M>(M: Applicative<M>) => <A, L, R>(
-  f: (a: A) => HKT<M, Either<L, R>>,
-  ta: Array<A>
-): HKT<M, { left: Array<L>; right: Array<R> }> => M.map(es => partitionMap(e => e, es), traverse(M)(f, ta))
 
 /** Break an array into its first element and remaining elements */
 export const fold = <A, B>(nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B, as: Array<A>): B =>
@@ -278,7 +261,7 @@ export const reverse = <A>(as: Array<A>): Array<A> => copy(as).reverse()
  * which contain a value, creating a new array
  */
 export const mapOption = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Array<B> =>
-  chain(a => option.fold(empty, of, f(a)), as)
+  chain(a => f(a).fold(empty, of), as)
 
 /**
  * Filter an array of optional values, keeping only the elements which contain
@@ -316,9 +299,7 @@ export const array: Monoid<Array<any>> &
   Traversable<URI> &
   Alternative<URI> &
   Plus<URI> &
-  Extend<URI> &
-  Filterable<URI> &
-  Witherable<URI> = {
+  Extend<URI> = {
   URI,
   empty,
   concat,
@@ -331,7 +312,5 @@ export const array: Monoid<Array<any>> &
   traverse,
   zero,
   alt,
-  extend,
-  partitionMap,
-  wilt
+  extend
 }

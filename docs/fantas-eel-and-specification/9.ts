@@ -12,7 +12,8 @@ export const append = <A>(y: A) => (xs: Array<A>) => xs.concat([y])
 export function insideOut<F extends HKTS>(F: Applicative<F>): <A>(xs: Array<HKTAs<F, A>>) => HKTAs<F, Array<A>>
 export function insideOut<F>(F: Applicative<F>): <A>(xs: Array<HKT<F, A>>) => HKT<F, Array<A>>
 export function insideOut<F>(F: Applicative<F>): <A>(xs: Array<HKT<F, A>>) => HKT<F, Array<A>> {
-  return <A>(xs: Array<HKT<F, A>>) => xs.reduce((acc, x) => liftA2(F)<A, Array<A>, Array<A>>(append)(x)(acc), F.of([]))
+  return <A>(xs: Array<HKT<F, A>>) =>
+    xs.reduce((acc, x) => liftA2(F)<A, Array<A>, Array<A>>(append)(x)(acc), F.of<A[]>([]))
 }
 
 import * as option from '../../src/Option'
@@ -37,10 +38,13 @@ import { getArrayMonoid } from '../../src/Monoid'
 const monoidArrayNumber = getArrayMonoid<number>()
 
 // Usual implementation:
-console.log(option.concat(monoidArrayNumber)(option.some([2]))(option.some([3]))) // => some([2, 3])
-console.log(option.concat(monoidArrayNumber)(option.some([2]))(option.none)) // => some([2])
-console.log(option.concat(monoidArrayNumber)(option.none)(option.some([3]))) // => some([3])
-console.log(option.concat(monoidArrayNumber)(option.none)(option.none)) // => none
+
+const { concat } = option.getSemigroup(monoidArrayNumber)
+
+console.log(concat(option.some([2]))(option.some([3]))) // => some([2, 3])
+console.log(concat(option.some([2]))(option.none)) // => some([2])
+console.log(concat(option.none)(option.some([3]))) // => some([3])
+console.log(concat(option.none)(option.none)) // => none
 
 // With the above implementation
 

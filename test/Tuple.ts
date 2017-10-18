@@ -7,7 +7,7 @@ import { sort } from '../src/Array'
 
 describe('Tuple', () => {
   it('compose', () => {
-    assert.deepEqual(compose(new Tuple([1, 's']))(new Tuple([true, 2])), new Tuple([true, 's']))
+    assert.deepEqual(compose(new Tuple([1, 's']), new Tuple([true, 2])), new Tuple([true, 's']))
   })
 
   it('map', () => {
@@ -18,7 +18,7 @@ describe('Tuple', () => {
   it('bimap', () => {
     const double = (n: number): number => n * 2
     const len = (s: string): number => s.length
-    assert.deepEqual(bimap(len, double)(new Tuple(['s', 1])), new Tuple([1, 2]))
+    assert.deepEqual(bimap(len, double, new Tuple(['s', 1])), new Tuple([1, 2]))
   })
 
   it('getSemigroup', () => {

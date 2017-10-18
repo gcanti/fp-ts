@@ -10,7 +10,6 @@ import { Alt, FantasyAlt } from './Alt'
 import { constFalse, Predicate, toString } from './function'
 import { Option, some, none } from './Option'
 import { Either, left, right } from './Either'
-import * as nonEmptyArray from './NonEmptyArray'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -80,10 +79,6 @@ export class Failure<L, A>
   toEither(): Either<L, A> {
     return left(this.value)
   }
-  /** Lift the Invalid value into a NonEmptyArray */
-  toValidationNea(): Option<Validation<nonEmptyArray.NonEmptyArray<L>, A>> {
-    return some(failure(nonEmptyArray)(nonEmptyArray.of(this.value)))
-  }
   inspect() {
     return this.toString()
   }
@@ -147,10 +142,6 @@ export class Success<L, A>
   toEither(): Either<L, A> {
     return right(this.value)
   }
-  /** Lift the Invalid value into a NonEmptyArray */
-  toValidationNea(): Option<Validation<nonEmptyArray.NonEmptyArray<L>, A>> {
-    return none
-  }
   inspect() {
     return this.toString()
   }
@@ -159,16 +150,13 @@ export class Success<L, A>
   }
 }
 
-export const equals = <L, A>(SL: Setoid<L>, SA: Setoid<A>) => (fx: Validation<L, A>) => (
-  fy: Validation<L, A>
-): boolean => fx.equals(SL, SA)(fy)
+export const fold = <L, A, B>(failure: (l: L) => B, success: (a: A) => B) => (fa: Validation<L, A>): B =>
+  fa.fold(failure, success)
 
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => ({
-  equals: equals(SL, SA)
+  equals: x => y =>
+    x.fold(lx => y.fold(ly => SL.equals(lx)(ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax)(ay)))
 })
-
-export const fold = <L, A, B>(failure: (l: L) => B, success: (a: A) => B, fa: Validation<L, A>): B =>
-  fa.fold(failure, success)
 
 export const map = <L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L, B> => fa.map(f)
 
@@ -180,7 +168,7 @@ export const bimap = <M>(S: Semigroup<M>) => <L, A, B>(f: (l: L) => M, g: (a: A)
   fa: Validation<L, A>
 ): Validation<M, B> => fa.bimap(S)(f, g)
 
-export const alt = <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Validation<L, A> => fx.alt(fy)
+export const alt = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => fx.alt(fy)
 
 export const reduce = <L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>): B => fa.reduce(f, b)
 
@@ -191,7 +179,7 @@ export class Ops {
   traverse<F extends HKTS>(
     F: Applicative<F>
   ): <L, A, B>(f: (a: A) => HKTAs<F, B>, ta: Validation<L, A>) => HKTAs<F, Validation<L, B>>
-  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>>
+  traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>> {
     return (f, ta) => ta.traverse(F)(f)
   }
@@ -227,9 +215,6 @@ export const swap = <L, A>(S: Semigroup<A>) => (fa: Validation<L, A>): Validatio
 export const toOption = <L, A>(fa: Validation<L, A>): Option<A> => fa.toOption()
 
 export const toEither = <L, A>(fa: Validation<L, A>): Either<L, A> => fa.toEither()
-
-export const toValidationNea = <L, A>(fa: Validation<L, A>): Option<Validation<nonEmptyArray.NonEmptyArray<L>, A>> =>
-  fa.toValidationNea()
 
 export const validation: Semigroup<Validation<any, any>> &
   Functor<URI> &

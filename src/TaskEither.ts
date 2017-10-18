@@ -17,6 +17,10 @@ export const URI = 'TaskEither'
 
 export type URI = typeof URI
 
+const eitherTfold = eitherT.fold(task)
+const eitherTmapLeft = eitherT.mapLeft(task)
+const eitherTtoOption = eitherT.toOption(task)
+
 export class TaskEither<L, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: L
@@ -35,13 +39,13 @@ export class TaskEither<L, A> implements FantasyMonad<URI, A> {
     return new TaskEither(eitherTTask.chain(a => f(a).value, this.value))
   }
   fold<R>(left: (l: L) => R, right: (a: A) => R): task.Task<R> {
-    return eitherT.fold(task)(left, right, this.value)
+    return eitherTfold(left, right, this.value)
   }
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
-    return new TaskEither(eitherT.mapLeft(task)(f)(this.value))
+    return new TaskEither(eitherTmapLeft(f)(this.value))
   }
   toOption(): task.Task<Option<A>> {
-    return eitherT.toOption(task)(this.value)
+    return eitherTtoOption(this.value)
   }
 }
 
@@ -53,12 +57,14 @@ export const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A
 
 export const chain = <L, A, B>(f: (a: A) => TaskEither<L, B>, fa: TaskEither<L, A>): TaskEither<L, B> => fa.chain(f)
 
-export const right = <L, A>(fa: task.Task<A>): TaskEither<L, A> => new TaskEither(eitherT.right(task)(fa))
+const eitherTright = eitherT.right(task)
+export const right = <L, A>(fa: task.Task<A>): TaskEither<L, A> => new TaskEither(eitherTright(fa))
 
-export const left = <L, A>(fa: task.Task<L>): TaskEither<L, A> => new TaskEither(eitherT.left(task)(fa))
+const eitherTleft = eitherT.left(task)
+export const left = <L, A>(fa: task.Task<L>): TaskEither<L, A> => new TaskEither(eitherTleft(fa))
 
-export const fromEither = <L, A>(fa: either.Either<L, A>): TaskEither<L, A> =>
-  new TaskEither(eitherT.fromEither(task)(fa))
+const eitherTfromEither = eitherT.fromEither(task)
+export const fromEither = <L, A>(fa: either.Either<L, A>): TaskEither<L, A> => new TaskEither(eitherTfromEither(fa))
 
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A> =>
   new TaskEither(task.tryCatch(f)(onrejected))
