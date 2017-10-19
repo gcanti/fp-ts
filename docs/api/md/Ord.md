@@ -1,110 +1,110 @@
 MODULE [Ord](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts)
 # Ord
-Type class
+*type class*
 ```ts
 interface Ord<A> extends Setoid<A> {
   compare: (x: A) => (y: A) => Ordering
 }
 ```
 # ordBoolean
-instance
+*instance*
 ```ts
 Ord<boolean>
 ```
 
 # ordNumber
-instance
+*instance*
 ```ts
 Ord<number>
 ```
 
 # ordString
-instance
+*instance*
 ```ts
 Ord<string>
 ```
 # between
-function
+*function*
 ```ts
 <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): boolean
 ```
 Test whether a value is between a minimum and a maximum (inclusive)
 
 # clamp
-function
+*function*
 ```ts
 <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): A
 ```
 Clamp a value between a minimum and a maximum
 
 # contramap
-function
+*function*
 ```ts
 <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B>
 ```
 
 # fromCompare
-function
+*function*
 ```ts
 <A>(compare: (x: A) => (y: A) => Ordering): Ord<A>
 ```
 
 # getSemigroup
-function
+*function*
 ```ts
 <A>(): Semigroup<Ord<A>>
 ```
 
 # greaterThan
-function
+*function*
 ```ts
 <A>(ord: Ord<A>) => (x: A) => (y: A): boolean
 ```
 Test whether one value is _strictly greater than_ another
 
 # greaterThanOrEq
-function
+*function*
 ```ts
 <A>(ord: Ord<A>) => (x: A) => (y: A): boolean
 ```
 Test whether one value is _non-strictly greater than_ another
 
 # lessThan
-function
+*function*
 ```ts
 <A>(ord: Ord<A>) => (x: A) => (y: A): boolean
 ```
 Test whether one value is _strictly less than_ another
 
 # lessThanOrEq
-function
+*function*
 ```ts
 <A>(ord: Ord<A>) => (x: A) => (y: A): boolean
 ```
 Test whether one value is _non-strictly less than_ another
 
 # max
-function
+*function*
 ```ts
 <A>(ord: Ord<A>) => (x: A) => (y: A): A
 ```
 Take the maximum of two values. If they are considered equal, the first argument is chosen
 
 # min
-function
+*function*
 ```ts
 <A>(ord: Ord<A>) => (x: A) => (y: A): A
 ```
 Take the minimum of two values. If they are considered equal, the first argument is chosen
 
 # toNativeComparator
-function
+*function*
 ```ts
 <A>(compare: (x: A) => (y: A) => Ordering): ((x: A, y: A) => number)
 ```
 
 # unsafeCompare
-function
+*function*
 ```ts
 (x: any) => (y: any): Ordering
 ```

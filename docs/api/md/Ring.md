@@ -1,6 +1,6 @@
 MODULE [Ring](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts)
 # Ring
-Type class
+*type class*
 ```ts
 interface Ring<A> extends Semiring<A> {
   sub: (x: A) => (y: A) => A
@@ -14,13 +14,13 @@ laws:
 
 - Additive inverse: `a - a = (zero - a) + a = zero`
 # getFunctionRing
-function
+*function*
 ```ts
 <A, B>(ring: Ring<B>): Ring<(a: A) => B>
 ```
 
 # negate
-function
+*function*
 ```ts
 <A>(ring: Ring<A>) => (a: A): A
 ```

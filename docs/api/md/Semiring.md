@@ -1,6 +1,6 @@
 MODULE [Semiring](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts)
 # Semiring
-Type class
+*type class*
 ```ts
 interface Semiring<A> {
   add: (x: A) => (y: A) => A
@@ -31,7 +31,7 @@ members of this class hierarchy due to the potential for arithmetic
 overflows, and in the case of `Number`, the presence of `NaN` and
 `Infinity` values. The behaviour is unspecified in these cases.
 # getFunctionSemiring
-function
+*function*
 ```ts
 <A, B>(semiring: Semiring<B>): Semiring<Function1<A, B>>
 ```

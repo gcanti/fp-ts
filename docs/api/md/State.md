@@ -1,6 +1,6 @@
 MODULE [State](https://github.com/gcanti/fp-ts/blob/master/src/State.ts)
 # State
-data
+*data*
 ```ts
 constructor(readonly run: (s: S) => [A, S]) {}
 ```
@@ -27,54 +27,54 @@ constructor(readonly run: (s: S) => [A, S]) {}
 <B>(f: (a: A) => B): State<S, B> 
 ```
 # state
-instance
+*instance*
 ```ts
 Monad<URI>
 ```
 # ap
-function
+*function*
 ```ts
 <S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<S, B>
 ```
 
 # chain
-function
+*function*
 ```ts
 <S, A, B>(f: (a: A) => State<S, B>, fa: State<S, A>): State<S, B>
 ```
 
 # get
-function
+*function*
 ```ts
 <S>(): State<S, S>
 ```
 
 # gets
-function
+*function*
 ```ts
 <S, A>(f: (s: S) => A): State<S, A>
 ```
 
 # map
-function
+*function*
 ```ts
 <S, A, B>(f: (a: A) => B, fa: State<S, A>): State<S, B>
 ```
 
 # modify
-function
+*function*
 ```ts
 <S>(f: (s: S) => S): State<S, undefined>
 ```
 
 # of
-function
+*function*
 ```ts
 <S, A>(a: A): State<S, A>
 ```
 
 # put
-function
+*function*
 ```ts
 <S>(s: S): State<S, undefined>
 ```

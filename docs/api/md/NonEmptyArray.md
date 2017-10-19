@@ -1,6 +1,6 @@
 MODULE [NonEmptyArray](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts)
 # NonEmptyArray
-data
+*data*
 ```ts
 constructor(readonly head: A, readonly tail: Array<A>) {}
 ```
@@ -59,60 +59,60 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 <F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> 
 ```
 # nonEmptyArray
-instance
+*instance*
 ```ts
 Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traversable<URI>
 ```
 # ap
-function
+*function*
 ```ts
 <A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>): NonEmptyArray<B>
 ```
 
 # chain
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => NonEmptyArray<B>, fa: NonEmptyArray<A>): NonEmptyArray<B>
 ```
 
 # concat
-function
+*function*
 ```ts
 <A>(fx: NonEmptyArray<A>) => (fy: NonEmptyArray<A>): NonEmptyArray<A>
 ```
 
 # extend
-function
+*function*
 ```ts
 <A, B>(f: (fa: NonEmptyArray<A>) => B, fa: NonEmptyArray<A>): NonEmptyArray<B>
 ```
 
 # extract
-function
+*function*
 ```ts
 <A>(fa: NonEmptyArray<A>): A
 ```
 
 # fromArray
-function
+*function*
 ```ts
 <A>(as: Array<A>): Option<NonEmptyArray<A>>
 ```
 
 # map
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => B, fa: NonEmptyArray<A>): NonEmptyArray<B>
 ```
 
 # of
-function
+*function*
 ```ts
 <A>(a: A): NonEmptyArray<A>
 ```
 
 # reduce
-function
+*function*
 ```ts
 <A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): B
 ```

@@ -1,6 +1,6 @@
 MODULE [Either](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts)
 # Either
-data
+*data*
 ```ts
 type Either<L, A> = Left<L, A> | Right<L, A>
 ```
@@ -72,7 +72,7 @@ Returns the value from this `Right` or the given argument if this is a `Left`
 <F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> 
 ```
 # either
-instance
+*instance*
 ```ts
 Monad<URI> &
   Foldable<URI> &
@@ -83,49 +83,49 @@ Monad<URI> &
   ChainRec<URI>
 ```
 # alt
-function
+*function*
 ```ts
 <L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A>
 ```
 
 # ap
-function
+*function*
 ```ts
 <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Either<L, B>
 ```
 
 # bimap
-function
+*function*
 ```ts
 <L, V, A, B>(f: (u: L) => V, g: (a: A) => B, fla: Either<L, A>): Either<V, B>
 ```
 
 # chain
-function
+*function*
 ```ts
 <L, A, B>(f: (a: A) => Either<L, B>, fa: Either<L, A>): Either<L, B>
 ```
 
 # chainRec
-function
+*function*
 ```ts
 <L, A, B>(f: (a: A) => Either<L, Either<A, B>>, a: A): Either<L, B>
 ```
 
 # extend
-function
+*function*
 ```ts
 <L, A, B>(f: (ea: Either<L, A>) => B, ea: Either<L, A>): Either<L, B>
 ```
 
 # fold
-function
+*function*
 ```ts
 <L, A, B>(left: (l: L) => B, right: (a: A) => B) => (fa: Either<L, A>): B
 ```
 
 # fromNullable
-function
+*function*
 ```ts
 <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A>
 ```
@@ -133,7 +133,7 @@ Takes a default and a nullable value, if the value is not nully, turn it into
 a `Right`, if the value is nully use the provided default as a `Left`
 
 # fromOption
-function
+*function*
 ```ts
 <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A>
 ```
@@ -141,88 +141,88 @@ Takes a default and a `Option` value, if the value is a `Some`, turn it into
 a `Right`, if the value is a `None` use the provided default as a `Left`
 
 # fromPredicate
-function
+*function*
 ```ts
 <L, A>(predicate: Predicate<A>, l: (a: A) => L) => (a: A): Either<L, A>
 ```
 
 # getOrElse
-function
+*function*
 ```ts
 <L, A>(f: (l: L) => A) => (fa: Either<L, A>): A
 ```
 Returns the value from this `Right` or the given argument if this is a `Left`
 
 # getOrElseValue
-function
+*function*
 ```ts
 <L, A>(a: A) => (fa: Either<L, A>): A
 ```
 Returns the value from this `Right` or the given argument if this is a `Left`
 
 # getSetoid
-function
+*function*
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>>
 ```
 
 # isLeft
-function
+*function*
 ```ts
 <L, A>(fa: Either<L, A>): fa is Left<L, A>
 ```
 
 # isRight
-function
+*function*
 ```ts
 <L, A>(fa: Either<L, A>): fa is Right<L, A>
 ```
 
 # left
-function
+*function*
 ```ts
 <L, A>(l: L): Either<L, A>
 ```
 
 # map
-function
+*function*
 ```ts
 <L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B>
 ```
 
 # mapLeft
-function
+*function*
 ```ts
 <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>): Either<M, A>
 ```
 
 # of
-function
+*function*
 ```ts
 <L, A>(a: A): Either<L, A>
 ```
 
 # reduce
-function
+*function*
 ```ts
 <L, A, B>(f: (b: B, a: A) => B, b: B, fa: Either<L, A>): B
 ```
 
 # right
-function
+*function*
 Alias of
 ```ts
 of
 ```
 
 # toOption
-function
+*function*
 ```ts
 <L, A>(fa: Either<L, A>): Option<A>
 ```
 
 # tryCatch
-function
+*function*
 ```ts
 <A>(f: Lazy<A>): Either<Error, A>
 ```

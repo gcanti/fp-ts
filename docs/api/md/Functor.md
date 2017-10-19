@@ -1,6 +1,6 @@
 MODULE [Functor](https://github.com/gcanti/fp-ts/blob/master/src/Functor.ts)
 # Functor
-Type class
+*type class*
 ```ts
 interface Functor<F> {
   readonly URI: F
@@ -8,14 +8,14 @@ interface Functor<F> {
 }
 ```
 # flap
-function
+*function*
 ```ts
 flap<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>) => (a: A) => HKT<F, B> 
 ```
 Apply a value in a computational context to a value in no context. Generalizes `flip`
 
 # getFunctorComposition
-function
+*function*
 ```ts
 getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> 
 ```

@@ -1,6 +1,6 @@
 MODULE [Unfoldable](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts)
 # Unfoldable
-Type class
+*type class*
 ```ts
 interface Unfoldable<F> {
   readonly URI: F
@@ -9,21 +9,21 @@ interface Unfoldable<F> {
 ```
 This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
 # none
-function
+*function*
 ```ts
 <F, A>(unfoldable: Unfoldable<F>): HKT<F, A>
 ```
 The container with no elements - unfolded with zero iterations.
 
 # replicate
-function
+*function*
 ```ts
 <F>(unfoldable: Unfoldable<F>) => (n: number) => <A>(a: A): HKT<F, A>
 ```
 Replicate a value some natural number of times.
 
 # replicateA
-function
+*function*
 ```ts
 replicateA<F, T>(
   applicative: Applicative<F>,
@@ -33,7 +33,7 @@ replicateA<F, T>(
 Perform an Applicative action `n` times, and accumulate all the results
 
 # singleton
-function
+*function*
 ```ts
 <F>(unfoldable: Unfoldable<F>) => <A>(a: A): HKT<F, A>
 ```

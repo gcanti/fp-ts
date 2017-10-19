@@ -1,6 +1,6 @@
 MODULE [StateT](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts)
 # ap
-function
+*function*
 ```ts
 ap<F>(
   F: Chain<F>
@@ -8,7 +8,7 @@ ap<F>(
 ```
 
 # chain
-function
+*function*
 ```ts
 chain<F>(
   F: Chain<F>
@@ -16,25 +16,25 @@ chain<F>(
 ```
 
 # get
-function
+*function*
 ```ts
 get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]> 
 ```
 
 # getStateT
-function
+*function*
 ```ts
 getStateT<M>(M: Monad<M>): StateT<M> 
 ```
 
 # gets
-function
+*function*
 ```ts
 gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]> 
 ```
 
 # map
-function
+*function*
 ```ts
 map<F>(
   F: Functor<F>
@@ -42,19 +42,19 @@ map<F>(
 ```
 
 # modify
-function
+*function*
 ```ts
 modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]> 
 ```
 
 # of
-function
+*function*
 ```ts
 of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]> 
 ```
 
 # put
-function
+*function*
 ```ts
 put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]> 
 ```

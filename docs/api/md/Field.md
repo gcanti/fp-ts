@@ -1,6 +1,6 @@
 MODULE [Field](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts)
 # Field
-Type class
+*type class*
 ```ts
 interface Field<A> extends Ring<A> {
   degree: (a: A) => number
@@ -9,14 +9,14 @@ interface Field<A> extends Ring<A> {
 }
 ```
 # gcd
-function
+*function*
 ```ts
 <A>(S: Setoid<A>, field: Field<A>): ((x: A) => (y: A) => A)
 ```
 The *greatest common divisor* of two values
 
 # lcm
-function
+*function*
 ```ts
 <A>(setoid: Setoid<A>, field: Field<A>): ((x: A) => (y: A) => A)
 ```

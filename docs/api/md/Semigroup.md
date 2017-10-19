@@ -1,55 +1,55 @@
 MODULE [Semigroup](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts)
 # Semigroup
-Type class
+*type class*
 ```ts
 interface Semigroup<A> {
   concat: (x: A) => (y: A) => A
 }
 ```
 # fold
-function
+*function*
 ```ts
 <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A
 ```
 
 # getDualSemigroup
-function
+*function*
 ```ts
 <A>(S: Semigroup<A>): Semigroup<A>
 ```
 
 # getFirstSemigroup
-function
+*function*
 ```ts
 <A>(): Semigroup<A>
 ```
 
 # getJoinSemigroup
-function
+*function*
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
 # getLastSemigroup
-function
+*function*
 ```ts
 <A>(): Semigroup<A>
 ```
 
 # getMeetSemigroup
-function
+*function*
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
 # getProductSemigroup
-function
+*function*
 ```ts
 <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]>
 ```
 
 # getRecordSemigroup
-function
+*function*
 ```ts
 <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }

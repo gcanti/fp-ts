@@ -1,6 +1,6 @@
 MODULE [Identity](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts)
 # Identity
-data
+*data*
 ```ts
 constructor(readonly value: A) {}
 ```
@@ -55,72 +55,72 @@ constructor(readonly value: A) {}
 <F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> 
 ```
 # identity
-instance
+*instance*
 ```ts
 Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> & Comonad<URI> & ChainRec<URI>
 ```
 # alt
-function
+*function*
 ```ts
 <A>(fx: Identity<A>, fy: Identity<A>): Identity<A>
 ```
 
 # ap
-function
+*function*
 ```ts
 <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>): Identity<B>
 ```
 
 # chain
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => Identity<B>, fa: Identity<A>): Identity<B>
 ```
 
 # chainRec
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => Identity<Either<A, B>>, a: A): Identity<B>
 ```
 
 # extend
-function
+*function*
 ```ts
 <A, B>(f: (ea: Identity<A>) => B, ea: Identity<A>): Identity<B>
 ```
 
 # extract
-function
+*function*
 ```ts
 <A>(fa: Identity<A>): A
 ```
 
 # getSetoid
-function
+*function*
 ```ts
 <A>(setoid: Setoid<A>): Setoid<Identity<A>>
 ```
 
 # map
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B>
 ```
 
 # of
-function
+*function*
 ```ts
 <A>(a: A): Identity<A>
 ```
 
 # reduce
-function
+*function*
 ```ts
 <A, B>(f: (b: B, a: A) => B, b: B, fa: Identity<A>): B
 ```
 
 # traverse
-function
+*function*
 ```ts
 traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>> 
 ```

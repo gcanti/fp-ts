@@ -1,18 +1,18 @@
 MODULE [Array](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts)
 # alt
-function
+*function*
 ```ts
 <A>(x: Array<A>, y: Array<A>): Array<A>
 ```
 
 # ap
-function
+*function*
 ```ts
 <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B>
 ```
 
 # catOptions
-function
+*function*
 ```ts
 <A>(as: Array<Option<A>>): Array<A>
 ```
@@ -20,25 +20,25 @@ Filter an array of optional values, keeping only the elements which contain
 a value, creating a new array
 
 # chain
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B>
 ```
 
 # concat
-function
+*function*
 ```ts
 <A>(x: Array<A>) => (y: Array<A>): Array<A>
 ```
 
 # copy
-function
+*function*
 ```ts
 <A>(as: Array<A>): Array<A>
 ```
 
 # deleteAt
-function
+*function*
 ```ts
 (i: number) => <A>(as: Array<A>): Option<Array<A>>
 ```
@@ -46,14 +46,14 @@ Delete the element at the specified index, creating a new array, or
 returning `None` if the index is out of bounds
 
 # drop
-function
+*function*
 ```ts
 (n: number) => <A>(as: Array<A>): Array<A>
 ```
 Drop a number of elements from the start of an array, creating a new array
 
 # dropWhile
-function
+*function*
 ```ts
 <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A>
 ```
@@ -61,47 +61,47 @@ Remove the longest initial subarray for which all element satisfy the
 specified predicate, creating a new array
 
 # empty
-function
+*function*
 ```ts
 (): Array<any>
 ```
 
 # extend
-function
+*function*
 ```ts
 <A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B>
 ```
 
 # filter
-function
+*function*
 ```ts
 <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A>
 ```
 Filter an array, keeping the elements which satisfy a predicate function, creating a new array
 
 # findFirst
-function
+*function*
 ```ts
 <A>(predicate: Predicate<A>) => (as: Array<A>): Option<A>
 ```
 Find the first element which satisfies a predicate function
 
 # findIndex
-function
+*function*
 ```ts
 <A>(predicate: Predicate<A>) => (as: Array<A>): Option<number>
 ```
 Find the first index for which a predicate holds
 
 # findLast
-function
+*function*
 ```ts
 <A>(predicate: Predicate<A>) => (as: Array<A>): Option<A>
 ```
 Find the last element which satisfies a predicate function
 
 # fold
-function
+*function*
 ```ts
 <A, B>(nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B, as: Array<A>): B
 ```
@@ -114,28 +114,28 @@ const length = <A>(xs: Array<A>): number => fold(() => 0, (head, tail) => 1 + le
 ```
 
 # head
-function
+*function*
 ```ts
 <A>(as: Array<A>): Option<A>
 ```
 Get the first element in an array, or `None` if the array is empty
 
 # index
-function
+*function*
 ```ts
 (i: number) => <A>(as: Array<A>): Option<A>
 ```
 This function provides a safe way to read a value at a particular index from an array
 
 # init
-function
+*function*
 ```ts
 <A>(as: Array<A>): Option<Array<A>>
 ```
 Get all but the last element of an array, creating a new array, or `None` if the array is empty
 
 # insertAt
-function
+*function*
 ```ts
 (i: number) => <A>(a: A) => (as: Array<A>): Option<Array<A>>
 ```
@@ -143,41 +143,41 @@ Insert an element at the specified index, creating a new array, or
 returning `None` if the index is out of bounds
 
 # isEmpty
-function
+*function*
 ```ts
 <A>(as: Array<A>): boolean
 ```
 Test whether an array is empty
 
 # isOutOfBound
-function
+*function*
 ```ts
 (i: number) => <A>(as: Array<A>): boolean
 ```
 Test whether an array contains a particular index
 
 # last
-function
+*function*
 ```ts
 <A>(as: Array<A>): Option<A>
 ```
 Get the last element in an array, or `None` if the array is empty
 
 # length
-function
+*function*
 ```ts
 <A>(as: Array<A>): number
 ```
 Get the number of elements in an array
 
 # map
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => B, fa: Array<A>): Array<B>
 ```
 
 # mapOption
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Array<B>
 ```
@@ -185,7 +185,7 @@ Apply a function to each element in an array, keeping only the results
 which contain a value, creating a new array
 
 # modifyAt
-function
+*function*
 ```ts
 (i: number) => <A>(f: Endomorphism<A>) => (as: Array<A>): Option<Array<A>>
 ```
@@ -193,53 +193,53 @@ Apply a function to the element at the specified index, creating a new
 array, or returning `None` if the index is out of bounds
 
 # of
-function
+*function*
 ```ts
 <A>(a: A): Array<A>
 ```
 
 # reduce
-function
+*function*
 ```ts
 <A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B
 ```
 
 # refine
-function
+*function*
 ```ts
 <A>(as: Array<A>) => <B extends A>(refinement: Refinement<A, B>): Array<B>
 ```
 
 # reverse
-function
+*function*
 ```ts
 <A>(as: Array<A>): Array<A>
 ```
 Reverse an array, creating a new array
 
 # slice
-function
+*function*
 ```ts
 (start: number, end: number) => <A>(as: Array<A>): Array<A>
 ```
 Extract a subarray by a start and end index
 
 # snoc
-function
+*function*
 ```ts
 <A>(as: Array<A>) => (a: A): Array<A>
 ```
 Append an element to the end of an array, creating a new array
 
 # sort
-function
+*function*
 ```ts
 <A>(ord: Ord<A>) => (as: Array<A>): Array<A>
 ```
 Sort the elements of an array in increasing order, creating a new array
 
 # span
-function
+*function*
 ```ts
 <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Array<A>; rest: Array<A> }
 ```
@@ -248,21 +248,21 @@ Split an array into two parts:
 2. the remaining elements
 
 # tail
-function
+*function*
 ```ts
 <A>(as: Array<A>): Option<Array<A>>
 ```
 Get all but the first element of an array, creating a new array, or `None` if the array is empty
 
 # take
-function
+*function*
 ```ts
 (n: number) => <A>(as: Array<A>): Array<A>
 ```
 Keep only a number of elements from the start of an array, creating a new array
 
 # takeWhile
-function
+*function*
 ```ts
 <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A>
 ```
@@ -270,37 +270,37 @@ Calculate the longest initial subarray for which all element satisfy the
 specified predicate, creating a new array
 
 # traverse
-function
+*function*
 ```ts
 traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>> 
 ```
 
 # unfoldr
-function
+*function*
 ```ts
 <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A>
 ```
 
 # unsafeDeleteAt
-function
+*function*
 ```ts
 (i: number) => <A>(as: Array<A>): Array<A>
 ```
 
 # unsafeInsertAt
-function
+*function*
 ```ts
 (i: number) => <A>(a: A) => (as: Array<A>): Array<A>
 ```
 
 # unsafeUpdateAt
-function
+*function*
 ```ts
 (i: number) => <A>(a: A) => (as: Array<A>): Array<A>
 ```
 
 # updateAt
-function
+*function*
 ```ts
 (i: number) => <A>(a: A) => (as: Array<A>): Option<Array<A>>
 ```
@@ -308,14 +308,14 @@ Change the element at the specified index, creating a new array, or
 returning `None` if the index is out of bounds
 
 # zero
-function
+*function*
 Alias of
 ```ts
 empty
 ```
 
 # zip
-function
+*function*
 ```ts
 <A>(fa: Array<A>) => <B>(fb: Array<B>): Array<[A, B]>
 ```
@@ -323,7 +323,7 @@ Takes two arrays and returns an array of corresponding pairs.
 If one input array is short, excess elements of the longer array are discarded
 
 # zipWith
-function
+*function*
 ```ts
 <A, B, C>(f: (a: A, b: B) => C) => (fa: Array<A>) => (fb: Array<B>): Array<C>
 ```

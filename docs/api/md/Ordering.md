@@ -1,17 +1,17 @@
 MODULE [Ordering](https://github.com/gcanti/fp-ts/blob/master/src/Ordering.ts)
 # semigroupOrdering
-instance
+*instance*
 ```ts
 Semigroup<Ordering>
 ```
 
 # setoidOrdering
-instance
+*instance*
 ```ts
 Setoid<Ordering>
 ```
 # invert
-function
+*function*
 ```ts
 (O: Ordering): Ordering
 ```

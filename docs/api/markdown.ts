@@ -11,6 +11,7 @@ export const fence = (language: string) => (code: string): string => '```' + lan
 export const code = (code: string) => '`' + code + '`'
 export const link = (text: string, href: string) => `[${text}](${href})`
 export const ts = fence('ts')
+export const italic = (code: string) => '*' + code + '*'
 
 const sortByName = <T extends { name: string }>(): ((xs: T[]) => T[]) =>
   array.sort(contramap((x: T) => x.name, ordString))
@@ -32,7 +33,7 @@ const printMethod = (m: Method): string => {
 
 const printData = (d: Data): string => {
   let s = `\n${h1(d.name)}`
-  s += CRLF + 'data'
+  s += CRLF + italic('data')
   s += CRLF + ts(d.signature)
   s += printDescription(d.description)
   if (d.constructors.length > 0 && d.constructors[0].methods.length) {
@@ -48,7 +49,7 @@ const printData = (d: Data): string => {
 
 const printInstance = (f: Instance): string => {
   let s = `\n${h1(f.name)}`
-  s += CRLF + 'instance'
+  s += CRLF + italic('instance')
   s += CRLF + ts(f.signature)
   s += printDescription(f.description)
   return s
@@ -56,7 +57,7 @@ const printInstance = (f: Instance): string => {
 
 const printFunc = (f: Func): string => {
   let s = `\n${h1(f.name)}`
-  s += CRLF + 'function'
+  s += CRLF + italic('function')
   if (f.isAlias) {
     s += CRLF + 'Alias of'
   }
@@ -67,7 +68,7 @@ const printFunc = (f: Func): string => {
 
 const printTypeclass = (tc: Typeclass): string => {
   let s = `\n${h1(tc.name)}`
-  s += CRLF + 'Type class'
+  s += CRLF + italic('type class')
   s += CRLF + ts(tc.signature)
   s += printDescription(tc.description)
   return s

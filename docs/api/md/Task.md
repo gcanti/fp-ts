@@ -1,6 +1,6 @@
 MODULE [Task](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts)
 # Task
-data
+*data*
 ```ts
 constructor(readonly run: Lazy<Promise<A>>) {}
 ```
@@ -35,56 +35,56 @@ constructor(readonly run: Lazy<Promise<A>>) {}
 (): string 
 ```
 # task
-instance
+*instance*
 ```ts
 Monad<URI> & Monoid<Task<any>>
 ```
 # ap
-function
+*function*
 ```ts
 <A, B>(fab: Task<(a: A) => B>, fa: Task<A>): Task<B>
 ```
 
 # chain
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => Task<B>, fa: Task<A>): Task<B>
 ```
 
 # concat
-function
+*function*
 ```ts
 <A>(fx: Task<A>) => (fy: Task<A>): Task<A>
 ```
 
 # empty
-function
+*function*
 ```ts
 <A>(): Task<A>
 ```
 returns a task that never completes
 
 # fromIO
-function
+*function*
 ```ts
 <A>(io: IO<A>): Task<A>
 ```
 Lifts an IO action into a Task
 
 # map
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => B, fa: Task<A>): Task<B>
 ```
 
 # of
-function
+*function*
 ```ts
 <A>(a: A): Task<A>
 ```
 
 # tryCatch
-function
+*function*
 ```ts
 <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L): Task<Either<L, A>>
 ```

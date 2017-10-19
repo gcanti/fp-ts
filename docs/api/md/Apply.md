@@ -1,27 +1,27 @@
 MODULE [Apply](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts)
 # Apply
-Type class
+*type class*
 ```ts
 interface Apply<F> extends Functor<F> {
   ap<A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>): HKT<F, B>
 }
 ```
 # applyFirst
-function
+*function*
 ```ts
 applyFirst<F>(apply: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, A> 
 ```
 Combine two effectful actions, keeping only the result of the first
 
 # applySecond
-function
+*function*
 ```ts
 applySecond<F>(apply: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, B> 
 ```
 Combine two effectful actions, keeping only the result of the second
 
 # liftA2
-function
+*function*
 ```ts
 liftA2<F>(
   apply: Apply<F>
@@ -30,7 +30,7 @@ liftA2<F>(
 Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
 
 # liftA3
-function
+*function*
 ```ts
 liftA3<F>(
   apply: Apply<F>
@@ -39,7 +39,7 @@ liftA3<F>(
 Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor `F`
 
 # liftA4
-function
+*function*
 ```ts
 liftA4<F>(
   apply: Apply<F>

@@ -1,6 +1,6 @@
 MODULE [TaskEither](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts)
 # TaskEither
-data
+*data*
 ```ts
 constructor(readonly value: task.Task<either.Either<L, A>>) {}
 ```
@@ -35,54 +35,54 @@ constructor(readonly value: task.Task<either.Either<L, A>>) {}
 (): task.Task<Option<A>> 
 ```
 # taskEither
-instance
+*instance*
 ```ts
 Monad<URI>
 ```
 # ap
-function
+*function*
 ```ts
 <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): TaskEither<L, B>
 ```
 
 # chain
-function
+*function*
 ```ts
 <L, A, B>(f: (a: A) => TaskEither<L, B>, fa: TaskEither<L, A>): TaskEither<L, B>
 ```
 
 # fromEither
-function
+*function*
 ```ts
 <L, A>(fa: either.Either<L, A>): TaskEither<L, A>
 ```
 
 # left
-function
+*function*
 ```ts
 <L, A>(fa: task.Task<L>): TaskEither<L, A>
 ```
 
 # map
-function
+*function*
 ```ts
 <L, A, B>(f: (a: A) => B, fa: TaskEither<L, A>): TaskEither<L, B>
 ```
 
 # of
-function
+*function*
 ```ts
 <L, A>(a: A): TaskEither<L, A>
 ```
 
 # right
-function
+*function*
 ```ts
 <L, A>(fa: task.Task<A>): TaskEither<L, A>
 ```
 
 # tryCatch
-function
+*function*
 ```ts
 <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A>
 ```

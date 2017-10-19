@@ -1,90 +1,90 @@
 MODULE [Monoid](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts)
 # Monoid
-Type class
+*type class*
 ```ts
 interface Monoid<A> extends Semigroup<A> {
   empty: () => A
 }
 ```
 # monoidAll
-instance
+*instance*
 ```ts
 Monoid<boolean>
 ```
 Boolean monoid under conjunction
 
 # monoidAny
-instance
+*instance*
 ```ts
 Monoid<boolean>
 ```
 Boolean monoid under disjunction
 
 # monoidArray
-instance
+*instance*
 ```ts
 Monoid<Array<any>>
 ```
 Monoid under array concatenation (`Array<any>`)
 
 # monoidProduct
-instance
+*instance*
 ```ts
 Monoid<number>
 ```
 Number monoid under multiplication
 
 # monoidString
-instance
+*instance*
 ```ts
 Monoid<string>
 ```
 
 # monoidSum
-instance
+*instance*
 ```ts
 Monoid<number>
 ```
 Number monoid under addition
 # fold
-function
+*function*
 ```ts
 <A>(M: Monoid<A>) => (as: Array<A>): A
 ```
 
 # getArrayMonoid
-function
+*function*
 ```ts
 <A>(): Monoid<Array<A>>
 ```
 Returns a monoid under array concatenation
 
 # getDualMonoid
-function
+*function*
 ```ts
 <A>(M: Monoid<A>): Monoid<A>
 ```
 
 # getEndomorphismMonoid
-function
+*function*
 ```ts
 <A>(): Monoid<Endomorphism<A>>
 ```
 
 # getFunctionMonoid
-function
+*function*
 ```ts
 <M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) => M>
 ```
 
 # getProductMonoid
-function
+*function*
 ```ts
 <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]>
 ```
 
 # getRecordMonoid
-function
+*function*
 ```ts
 <O extends { [key: string]: any }>(
   monoids: { [K in keyof O]: Monoid<O[K]> }

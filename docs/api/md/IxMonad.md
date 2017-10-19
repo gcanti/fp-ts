@@ -1,6 +1,6 @@
 MODULE [IxMonad](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts)
 # IxMonad
-Type class
+*type class*
 ```ts
 interface IxMonad<F> {
   readonly URI: F
@@ -9,7 +9,7 @@ interface IxMonad<F> {
 }
 ```
 # iapplyFirst
-function
+*function*
 ```ts
 iapplyFirst<F>(
   ixmonad: IxMonad<F>
@@ -17,7 +17,7 @@ iapplyFirst<F>(
 ```
 
 # iapplySecond
-function
+*function*
 ```ts
 iapplySecond<F>(
   ixmonad: IxMonad<F>

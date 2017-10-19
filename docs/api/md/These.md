@@ -1,6 +1,6 @@
 MODULE [These](https://github.com/gcanti/fp-ts/blob/master/src/These.ts)
 # These
-data
+*data*
 ```ts
 type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 ```
@@ -35,36 +35,36 @@ type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 <F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> 
 ```
 # these
-instance
+*instance*
 ```ts
 Functor<URI> & Bifunctor<URI> & Foldable<URI> & Traversable<URI>
 ```
 # ap
-function
+*function*
 ```ts
 <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>)
 ```
 
 # bimap
-function
+*function*
 ```ts
 <L, M, A, B>(f: (l: L) => M, g: (a: A) => B, fla: These<L, A>): These<M, B>
 ```
 
 # both
-function
+*function*
 ```ts
 <L, A>(l: L, a: A): These<L, A>
 ```
 
 # chain
-function
+*function*
 ```ts
 <L>(S: Semigroup<L>) => <A, B>(f: (a: A) => These<L, B>, fa: These<L, A>): These<L, B>
 ```
 
 # fold
-function
+*function*
 ```ts
 <L, A, B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B) => (
   fa: These<L, A>
@@ -72,92 +72,92 @@ function
 ```
 
 # fromThese
-function
+*function*
 ```ts
 <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A]
 ```
 
 # getMonad
-function
+*function*
 ```ts
 <L>(S: Semigroup<L>): Monad<URI>
 ```
 
 # getSemigroup
-function
+*function*
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>>
 ```
 
 # getSetoid
-function
+*function*
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>>
 ```
 
 # isBoth
-function
+*function*
 ```ts
 <L, A>(fa: These<L, A>): fa is Both<L, A>
 ```
 
 # isThat
-function
+*function*
 ```ts
 <L, A>(fa: These<L, A>): fa is That<L, A>
 ```
 
 # isThis
-function
+*function*
 ```ts
 <L, A>(fa: These<L, A>): fa is This<L, A>
 ```
 
 # map
-function
+*function*
 ```ts
 <L, A, B>(f: (a: A) => B, fa: These<L, A>): These<L, B>
 ```
 
 # of
-function
+*function*
 ```ts
 <L, A>(a: A): These<L, A>
 ```
 
 # reduce
-function
+*function*
 ```ts
 <L, A, B>(f: (b: B, a: A) => B, b: B, fa: These<L, A>): B
 ```
 
 # that
-function
+*function*
 Alias of
 ```ts
 of
 ```
 
 # theseLeft
-function
+*function*
 ```ts
 <L, A>(fa: These<L, A>): Option<L>
 ```
 
 # theseRight
-function
+*function*
 ```ts
 <L, A>(fa: These<L, A>): Option<A>
 ```
 
 # this_
-function
+*function*
 ```ts
 <L, A>(l: L): These<L, A>
 ```
 
 # traverse
-function
+*function*
 ```ts
 traverse<F>(
   F: Applicative<F>

@@ -1,13 +1,13 @@
 MODULE [ChainRec](https://github.com/gcanti/fp-ts/blob/master/src/ChainRec.ts)
 # ChainRec
-Type class
+*type class*
 ```ts
 interface ChainRec<F> extends Chain<F> {
   chainRec<A, B>(f: (a: A) => HKT<F, Either<A, B>>, a: A): HKT<F, B>
 }
 ```
 # tailRec
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => Either<A, B>, a: A): B
 ```

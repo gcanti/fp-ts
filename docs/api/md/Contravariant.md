@@ -1,6 +1,6 @@
 MODULE [Contravariant](https://github.com/gcanti/fp-ts/blob/master/src/Contravariant.ts)
 # Contravariant
-Type class
+*type class*
 ```ts
 interface Contravariant<F> {
   readonly URI: F
@@ -8,7 +8,7 @@ interface Contravariant<F> {
 }
 ```
 # lift
-function
+*function*
 ```ts
 lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B> 
 ```

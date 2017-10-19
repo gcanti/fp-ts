@@ -1,6 +1,6 @@
 MODULE [Option](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts)
 # Option
-data
+*data*
 ```ts
 type Option<A> = None<A> | Some<A>
 ```
@@ -97,82 +97,82 @@ Maps `f` over this Option's value. If the value returned from `f` is null or und
 <F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> 
 ```
 # option
-instance
+*instance*
 ```ts
 Monad<URI> & Foldable<URI> & Plus<URI> & Traversable<URI> & Alternative<URI> & Extend<URI>
 ```
 # alt
-function
+*function*
 ```ts
 <A>(fx: Option<A>, fy: Option<A>): Option<A>
 ```
 
 # empty
-function
+*function*
 Alias of
 ```ts
 zero
 ```
 
 # extend
-function
+*function*
 ```ts
 <A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B>
 ```
 
 # filter
-function
+*function*
 ```ts
 <A>(p: Predicate<A>) => (fa: Option<A>): Option<A>
 ```
 Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none
 
 # fold
-function
+*function*
 ```ts
 <A, B>(n: Lazy<B>, s: (a: A) => B) => (fa: Option<A>): B
 ```
 
 # fromNullable
-function
+*function*
 ```ts
 <A>(a: A | null | undefined): Option<A>
 ```
 
 # fromPredicate
-function
+*function*
 ```ts
 <A>(predicate: Predicate<A>) => (a: A): Option<A>
 ```
 
 # getFirstMonoid
-function
+*function*
 ```ts
 <A>(): Monoid<Option<A>>
 ```
 Option monoid returning the left-most non-None value
 
 # getLastMonoid
-function
+*function*
 ```ts
 <A>(): Monoid<Option<A>>
 ```
 Option monoid returning the right-most non-None value
 
 # getMonoid
-function
+*function*
 ```ts
 <A>(S: Semigroup<A>): Monoid<Option<A>>
 ```
 
 # getOrElse
-function
+*function*
 ```ts
 <A>(f: Lazy<A>) => (fa: Option<A>): A
 ```
 
 # getOrElseValue
-function
+*function*
 ```ts
 <A>(a: A) => (fa: Option<A>): A
 ```
@@ -181,81 +181,81 @@ Takes a default value, and a `Option` value. If the `Option` value is
 `Some` is returned
 
 # getSemigroup
-function
+*function*
 ```ts
 <A>(S: Semigroup<A>): Semigroup<Option<A>>
 ```
 
 # getSetoid
-function
+*function*
 ```ts
 <A>(S: Setoid<A>): Setoid<Option<A>>
 ```
 
 # isNone
-function
+*function*
 ```ts
 <A>(fa: Option<A>): fa is None<A>
 ```
 
 # isSome
-function
+*function*
 ```ts
 <A>(fa: Option<A>): fa is Some<A>
 ```
 
 # map
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => B, fa: Option<A>): Option<B>
 ```
 
 # mapNullable
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => B | null | undefined, fa: Option<A>): Option<B>
 ```
 Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None`
 
 # of
-function
+*function*
 ```ts
 <A>(a: A): Option<A>
 ```
 
 # reduce
-function
+*function*
 ```ts
 <A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B
 ```
 
 # some
-function
+*function*
 Alias of
 ```ts
 of
 ```
 
 # toNullable
-function
+*function*
 ```ts
 <A>(fa: Option<A>): A | null
 ```
 
 # toUndefined
-function
+*function*
 ```ts
 <A>(fa: Option<A>): A | undefined
 ```
 
 # traverse
-function
+*function*
 ```ts
 traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>> 
 ```
 
 # zero
-function
+*function*
 ```ts
 <A>(): Option<A>
 ```

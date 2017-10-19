@@ -1,6 +1,6 @@
 MODULE [IO](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts)
 # IO
-data
+*data*
 ```ts
 constructor(readonly run: Lazy<A>) {}
 ```
@@ -31,42 +31,42 @@ constructor(readonly run: Lazy<A>) {}
 (): string 
 ```
 # io
-instance
+*instance*
 ```ts
 Monad<URI>
 ```
 # ap
-function
+*function*
 ```ts
 <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B>
 ```
 
 # chain
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => IO<B>, fa: IO<A>): IO<B>
 ```
 
 # getMonoid
-function
+*function*
 ```ts
 <A>(M: Monoid<A>): Monoid<IO<A>>
 ```
 
 # getSemigroup
-function
+*function*
 ```ts
 <A>(S: Semigroup<A>): Semigroup<IO<A>>
 ```
 
 # map
-function
+*function*
 ```ts
 <A, B>(f: (a: A) => B, fa: IO<A>): IO<B>
 ```
 
 # of
-function
+*function*
 ```ts
 <A>(a: A): IO<A>
 ```

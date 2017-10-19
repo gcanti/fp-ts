@@ -1,54 +1,54 @@
 MODULE [OptionT](https://github.com/gcanti/fp-ts/blob/master/src/OptionT.ts)
 # chain
-function
+*function*
 ```ts
 chain<F>(F: Monad<F>): OptionT<F>['chain'] 
 ```
 
 # fold
-function
+*function*
 ```ts
 fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> 
 ```
 
 # fromOption
-function
+*function*
 ```ts
 fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> 
 ```
 
 # getOptionT
-function
+*function*
 ```ts
 getOptionT<M>(M: Monad<M>): OptionT<M> 
 ```
 
 # getOrElse
-function
+*function*
 ```ts
 getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A> 
 ```
 
 # getOrElseValue
-function
+*function*
 ```ts
 getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> 
 ```
 
 # liftF
-function
+*function*
 ```ts
 liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> 
 ```
 
 # none
-function
+*function*
 ```ts
 none<F>(F: Applicative<F>): () => HKT<F, Option<any>> 
 ```
 
 # some
-function
+*function*
 ```ts
 some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> 
 ```

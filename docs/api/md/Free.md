@@ -1,6 +1,6 @@
 MODULE [Free](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts)
 # Free
-data
+*data*
 ```ts
 type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 ```
@@ -35,33 +35,33 @@ type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 (): string 
 ```
 # foldFree
-function
+*function*
 ```ts
 foldFree<M>(M: Monad<M>): <F>(f: NaturalTransformation<F, M>) => <A>(fa: Free<F, A>) => HKT<M, A> 
 ```
 
 # hoistFree
-function
+*function*
 ```ts
 <F, G>(nt: NaturalTransformation<F, G>): (<A>(fa: Free<F, A>) => Free<G, A>)
 ```
 Use a natural transformation to change the generating type constructor of a free monad
 
 # liftF
-function
+*function*
 ```ts
 <F, A>(fa: HKT<F, A>): Free<F, A>
 ```
 Lift an impure value described by the generating type constructor `F` into the free monad
 
 # of
-function
+*function*
 ```ts
 <F, A>(a: A): Free<F, A>
 ```
 
 # substFree
-function
+*function*
 ```ts
 <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
 ```

@@ -1,6 +1,6 @@
 MODULE [Semigroupoid](https://github.com/gcanti/fp-ts/blob/master/src/Semigroupoid.ts)
 # Semigroupoid
-Type class
+*type class*
 ```ts
 interface Semigroupoid<F> {
   readonly URI: F

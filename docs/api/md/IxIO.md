@@ -1,6 +1,6 @@
 MODULE [IxIO](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts)
 # IxIO
-data
+*data*
 ```ts
 constructor(readonly value: IO<A>) {}
 ```
@@ -27,42 +27,42 @@ constructor(readonly value: IO<A>) {}
 (): A 
 ```
 # ixIO
-instance
+*instance*
 ```ts
 Monad<URI> & IxMonad<URI>
 ```
 # ap
-function
+*function*
 ```ts
 <I, A, B>(fab: IxIO<I, I, (a: A) => B>, fa: IxIO<I, I, A>): IxIO<I, I, B>
 ```
 
 # chain
-function
+*function*
 ```ts
 <I, A, B>(f: (a: A) => IxIO<I, I, B>, fa: IxIO<I, I, A>): IxIO<I, I, B>
 ```
 
 # ichain
-function
+*function*
 ```ts
 <I, O, Z, A, B>(f: (a: A) => IxIO<O, Z, B>, fa: IxIO<I, O, A>): IxIO<I, Z, B>
 ```
 
 # iof
-function
+*function*
 ```ts
 <I, A>(a: A): IxIO<I, I, A>
 ```
 
 # map
-function
+*function*
 ```ts
 <I, A, B>(f: (a: A) => B, fa: IxIO<I, I, A>): IxIO<I, I, B>
 ```
 
 # of
-function
+*function*
 Alias of
 ```ts
 iof

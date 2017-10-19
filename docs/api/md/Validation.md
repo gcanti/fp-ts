@@ -1,6 +1,6 @@
 MODULE [Validation](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts)
 # Validation
-data
+*data*
 ```ts
 type Validation<L, A> = Failure<L, A> | Success<L, A>
 ```
@@ -72,7 +72,7 @@ A data-type like Either but with an accumulating `Applicative`
 <F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> 
 ```
 # validation
-instance
+*instance*
 ```ts
 Semigroup<Validation<any, any>> &
   Functor<URI> &
@@ -82,19 +82,19 @@ Semigroup<Validation<any, any>> &
   Alt<URI>
 ```
 # alt
-function
+*function*
 ```ts
 <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A>
 ```
 
 # ap
-function
+*function*
 ```ts
 <L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B>
 ```
 
 # bimap
-function
+*function*
 ```ts
 <M>(S: Semigroup<M>) => <L, A, B>(f: (l: L) => M, g: (a: A) => B) => (
   fa: Validation<L, A>
@@ -102,31 +102,31 @@ function
 ```
 
 # concat
-function
+*function*
 ```ts
 <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Validation<L, A>
 ```
 
 # failure
-function
+*function*
 ```ts
 <L>(L: Semigroup<L>) => <A>(l: L): Validation<L, A>
 ```
 
 # fold
-function
+*function*
 ```ts
 <L, A, B>(failure: (l: L) => B, success: (a: A) => B) => (fa: Validation<L, A>): B
 ```
 
 # fromEither
-function
+*function*
 ```ts
 <L>(S: Semigroup<L>): (<A>(e: Either<L, A>) => Validation<L, A>)
 ```
 
 # fromPredicate
-function
+*function*
 ```ts
 <L>(S: Semigroup<L>) => <A>(predicate: Predicate<A>, f: (a: A) => L) => (
   a: A
@@ -134,31 +134,31 @@ function
 ```
 
 # getSetoid
-function
+*function*
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>>
 ```
 
 # isFailure
-function
+*function*
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Failure<L, A>
 ```
 
 # isSuccess
-function
+*function*
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Success<L, A>
 ```
 
 # map
-function
+*function*
 ```ts
 <L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L, B>
 ```
 
 # mapFailure
-function
+*function*
 ```ts
 <M>(S: Semigroup<M>) => <L>(f: (l: L) => M) => <A>(
   fa: Validation<L, A>
@@ -166,44 +166,44 @@ function
 ```
 
 # of
-function
+*function*
 ```ts
 <L, A>(a: A): Validation<L, A>
 ```
 
 # reduce
-function
+*function*
 ```ts
 <L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>): B
 ```
 
 # success
-function
+*function*
 Alias of
 ```ts
 of
 ```
 
 # swap
-function
+*function*
 ```ts
 <L, A>(S: Semigroup<A>) => (fa: Validation<L, A>): Validation<A, L>
 ```
 
 # toEither
-function
+*function*
 ```ts
 <L, A>(fa: Validation<L, A>): Either<L, A>
 ```
 
 # toOption
-function
+*function*
 ```ts
 <L, A>(fa: Validation<L, A>): Option<A>
 ```
 
 # traverse
-function
+*function*
 ```ts
 traverse<F>(
   F: Applicative<F>
