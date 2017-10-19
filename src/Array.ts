@@ -13,6 +13,7 @@ import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
 import { Extend } from './Extend'
 import { Predicate, identity, Lazy, Endomorphism, Refinement, tuple } from './function'
+import { Either } from './Either'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -61,6 +62,11 @@ export const ap = <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> => {
 /** @function */
 export const chain = <A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B> => {
   return fa.reduce((acc, a) => acc.concat(f(a)), [] as Array<B>)
+}
+
+/** @function */
+export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
+  return chain(as => as, ffa)
 }
 
 /** @function */
@@ -408,6 +414,22 @@ export const mapOption = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Array
  */
 export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
   return mapOption<Option<A>, A>(identity)(as)
+}
+
+/**
+ * Extracts from a list of `Either` all the `Right` elements. All the `Right` elements are extracted in order
+ * @function
+ */
+export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
+  return chain(a => a.fold(empty, of), as)
+}
+
+/**
+ * Extracts from a list of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+ * @function
+ */
+export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
+  return chain(a => a.fold(of, empty), as)
 }
 
 /**

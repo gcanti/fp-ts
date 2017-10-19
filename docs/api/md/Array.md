@@ -100,6 +100,12 @@ Find the first index for which a predicate holds
 ```
 Find the last element which satisfies a predicate function
 
+# flatten
+*function*
+```ts
+<A>(ffa: Array<Array<A>>): Array<A>
+```
+
 # fold
 *function*
 ```ts
@@ -163,6 +169,13 @@ Test whether an array contains a particular index
 ```
 Get the last element in an array, or `None` if the array is empty
 
+# lefts
+*function*
+```ts
+<L, A>(as: Array<Either<L, A>>): Array<L>
+```
+Extracts from a list of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+
 # length
 *function*
 ```ts
@@ -216,6 +229,13 @@ array, or returning `None` if the index is out of bounds
 <A>(as: Array<A>): Array<A>
 ```
 Reverse an array, creating a new array
+
+# rights
+*function*
+```ts
+<L, A>(as: Array<Either<L, A>>): Array<A>
+```
+Extracts from a list of `Either` all the `Right` elements. All the `Right` elements are extracted in order
 
 # slice
 *function*
