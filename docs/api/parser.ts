@@ -54,7 +54,7 @@ const kos = (errors: Array<ParseError>): ParseResult<never> => {
 
 const notFound: ParseResult<never> = ko(new NotFound())
 
-const parseJSDoc = (source: string) => {
+const parseJSDoc = (source: string): Annotation => {
   return parse(source, { unwrap: true })
 }
 
@@ -62,9 +62,12 @@ const getSourceFile = (name: string, source: string): SourceFile => {
   return new Ast().addSourceFileFromText(`${name}.ts`, source)
 }
 
+const notEmpty = (s: string): boolean => {
+  return s !== ''
+}
+
 const fromJSDocDescription = (description: string | null): Option<string> => {
-  const d = description ? description.trim() : ''
-  return d === '' ? none : some(d)
+  return fromNullable(description).filter(notEmpty)
 }
 
 const getMethod = (md: MethodDeclaration): Method => {
@@ -90,15 +93,15 @@ const getAnnotation = (jsdocs: Array<JSDoc>): Annotation => {
   return parseJSDoc(jsdocs.map(doc => doc.getText()).join('\n'))
 }
 
+const isConstructorTag = (tag: Tag): boolean => {
+  return tag.title === 'constructor'
+}
+
 const hasTag = (title: string) => (annotation: Annotation): boolean => {
   return annotation.tags.some(tag => tag.title === title)
 }
 
 const isData = hasTag('data')
-
-const isConstructor = (tag: Tag) => {
-  return tag.title === 'constructor'
-}
 
 const isFunc = hasTag('function')
 
@@ -118,7 +121,7 @@ const parseTypeAliasDeclarationData = (
     const dataName = tad.getName()
     const signature = tad.getText().substring('export '.length)
     const description = fromJSDocDescription(annotation.description)
-    const eitherConstructors = annotation.tags.filter(tag => isConstructor(tag)).map(tag => {
+    const eitherConstructors = annotation.tags.filter(isConstructorTag).map(tag => {
       const name = tag.name
       if (typeof name === 'undefined') {
         return ko(new DataMissingConstructorName(module, dataName))
