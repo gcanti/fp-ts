@@ -1,41 +1,64 @@
 import { Ord, min, max } from './Ord'
 
+/** @typeclass */
 export interface Semigroup<A> {
   concat: (x: A) => (y: A) => A
 }
 
+/** @function */
 export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => {
   return as.reduce((acc, a) => S.concat(acc)(a), a)
 }
 
-export const getFirstSemigroup = <A>(): Semigroup<A> => ({ concat: x => y => x })
+/** @function */
+export const getFirstSemigroup = <A>(): Semigroup<A> => {
+  return { concat: x => y => x }
+}
 
-export const getLastSemigroup = <A>(): Semigroup<A> => ({ concat: x => y => y })
+/** @function */
+export const getLastSemigroup = <A>(): Semigroup<A> => {
+  return { concat: x => y => y }
+}
 
-export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => ({
-  concat: ([xa, xb]) => ([ya, yb]) => [SA.concat(xa)(ya), SB.concat(xb)(yb)]
-})
+/** @function */
+export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => {
+  return {
+    concat: ([xa, xb]) => ([ya, yb]) => [SA.concat(xa)(ya), SB.concat(xb)(yb)]
+  }
+}
 
-export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ({
-  concat: x => y => S.concat(y)(x)
-})
+/** @function */
+export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => {
+  return {
+    concat: x => y => S.concat(y)(x)
+  }
+}
 
+/** @function */
 export const getRecordSemigroup = <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<{ [K in keyof O]: O[K] }> => ({
-  concat: x => y => {
-    const r: any = {}
-    for (const k in semigroups) {
-      r[k] = semigroups[k].concat(x[k])(y[k])
+): Semigroup<{ [K in keyof O]: O[K] }> => {
+  return {
+    concat: x => y => {
+      const r: any = {}
+      for (const k in semigroups) {
+        r[k] = semigroups[k].concat(x[k])(y[k])
+      }
+      return r
     }
-    return r
   }
-})
+}
 
-export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
-  concat: min(O)
-})
+/** @function */
+export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
+  return {
+    concat: min(O)
+  }
+}
 
-export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ({
-  concat: max(O)
-})
+/** @function */
+export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
+  return {
+    concat: max(O)
+  }
+}

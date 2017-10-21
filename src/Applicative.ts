@@ -9,6 +9,7 @@ import {
   FunctorComposition22
 } from './Functor'
 
+/** @typeclass */
 export interface Applicative<F> extends Apply<F> {
   of: <A>(a: A) => HKT<F, A>
 }
@@ -43,45 +44,46 @@ export interface ApplicativeComposition22<F extends HKT2S, G extends HKT2S> exte
   ): HKT2As<F, L, HKT2As<G, M, B>>
 }
 
-export class Ops {
-  /** Perform a applicative action when a condition is true */
-  when<F extends HKT3S>(
-    F: Applicative<F>
-  ): <U, L>(condition: boolean, fu: HKT3As<F, U, L, void>) => HKT3As<F, U, L, void>
-  when<F extends HKT2S>(F: Applicative<F>): <L>(condition: boolean, fu: HKT2As<F, L, void>) => HKT2As<F, L, void>
-  when<F extends HKTS>(F: Applicative<F>): (condition: boolean, fu: HKTAs<F, void>) => HKTAs<F, void>
-  when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
-  when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> {
-    return (condition, fu) => (condition ? fu : F.of(undefined))
-  }
-
-  getApplicativeComposition<F extends HKT2S, G extends HKT2S>(
-    F: Applicative<F>,
-    G: Applicative<G>
-  ): ApplicativeComposition22<F, G>
-  getApplicativeComposition<F extends HKT2S, G extends HKTS>(
-    F: Applicative<F>,
-    G: Applicative<G>
-  ): ApplicativeComposition21<F, G>
-  getApplicativeComposition<F extends HKTS, G extends HKT2S>(
-    F: Applicative<F>,
-    G: Applicative<G>
-  ): ApplicativeComposition12<F, G>
-  getApplicativeComposition<F extends HKTS, G extends HKTS>(
-    F: Applicative<F>,
-    G: Applicative<G>
-  ): ApplicativeComposition11<F, G>
-  getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
-  getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
-    return {
-      ...getFunctorComposition(F, G),
-      of: a => F.of(G.of(a)),
-      ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>> =>
-        F.ap(F.map(h => (ga: HKT<G, A>) => G.ap<A, B>(h, ga), fgab), fga)
-    }
-  }
+/** Perform a applicative action when a condition is true */
+export function when<F extends HKT3S>(
+  F: Applicative<F>
+): <U, L>(condition: boolean, fu: HKT3As<F, U, L, void>) => HKT3As<F, U, L, void>
+export function when<F extends HKT2S>(
+  F: Applicative<F>
+): <L>(condition: boolean, fu: HKT2As<F, L, void>) => HKT2As<F, L, void>
+export function when<F extends HKTS>(F: Applicative<F>): (condition: boolean, fu: HKTAs<F, void>) => HKTAs<F, void>
+export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
+/**
+ * Perform a applicative action when a condition is true
+ * @function
+ */
+export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> {
+  return (condition, fu) => (condition ? fu : F.of(undefined))
 }
 
-const ops = new Ops()
-export const when: Ops['when'] = ops.when
-export const getApplicativeComposition: Ops['getApplicativeComposition'] = ops.getApplicativeComposition
+export function getApplicativeComposition<F extends HKT2S, G extends HKT2S>(
+  F: Applicative<F>,
+  G: Applicative<G>
+): ApplicativeComposition22<F, G>
+export function getApplicativeComposition<F extends HKT2S, G extends HKTS>(
+  F: Applicative<F>,
+  G: Applicative<G>
+): ApplicativeComposition21<F, G>
+export function getApplicativeComposition<F extends HKTS, G extends HKT2S>(
+  F: Applicative<F>,
+  G: Applicative<G>
+): ApplicativeComposition12<F, G>
+export function getApplicativeComposition<F extends HKTS, G extends HKTS>(
+  F: Applicative<F>,
+  G: Applicative<G>
+): ApplicativeComposition11<F, G>
+export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
+/** @function */
+export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
+  return {
+    ...getFunctorComposition(F, G),
+    of: a => F.of(G.of(a)),
+    ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>> =>
+      F.ap(F.map(h => (ga: HKT<G, A>) => G.ap<A, B>(h, ga), fgab), fga)
+  }
+}

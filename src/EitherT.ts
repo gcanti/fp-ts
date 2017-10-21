@@ -24,83 +24,83 @@ export interface EitherT2<F extends HKT2S> extends ApplicativeComposition22<F, U
   chain<L, M, A, B>(f: (a: A) => HKT2As<F, M, Either<L, B>>, fa: HKT2As<F, M, Either<L, A>>): HKT2As<F, M, Either<L, B>>
 }
 
-export class Ops {
-  chain<F extends HKT2S>(F: Monad<F>): EitherT2<F>['chain']
-  chain<F extends HKTS>(F: Monad<F>): EitherT1<F>['chain']
-  chain<F>(F: Monad<F>): EitherT<F>['chain']
-  chain<F>(F: Monad<F>): EitherT<F>['chain'] {
-    return (f, fa) => F.chain(e => e.fold(l => F.of(either.left(l)), a => f(a)), fa)
-  }
-
-  right<F extends HKT2S>(F: Functor<F>): <L, M, A>(fa: HKT2As<F, M, A>) => HKT2As<F, M, Either<L, A>>
-  right<F extends HKTS>(F: Functor<F>): <L, A>(fa: HKTAs<F, A>) => HKTAs<F, Either<L, A>>
-  right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>
-  right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>> {
-    return ma => F.map(a => either.right(a), ma)
-  }
-
-  left<F extends HKT2S>(F: Functor<F>): <L, M, A>(fl: HKT2As<F, M, L>) => HKT2As<F, M, Either<L, A>>
-  left<F extends HKTS>(F: Functor<F>): <L, A>(fl: HKTAs<F, L>) => HKTAs<F, Either<L, A>>
-  left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
-  left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>> {
-    return ml => F.map(l => either.left(l), ml)
-  }
-
-  fromEither<F extends HKT2S>(F: Applicative<F>): <L, M, A>(fa: Either<L, A>) => HKT2As<F, M, Either<L, A>>
-  fromEither<F extends HKTS>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKTAs<F, Either<L, A>>
-  fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>>
-  fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>> {
-    return oa => F.of(oa)
-  }
-
-  fold<F extends HKT2S>(
-    F: Functor<F>
-  ): <R, L, M, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, R>
-  fold<F extends HKTS>(
-    F: Functor<F>
-  ): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKTAs<F, Either<L, A>>) => HKTAs<F, R>
-  fold<F>(F: Functor<F>): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R>
-  fold<F>(F: Functor<F>): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R> {
-    return (left, right, fa) => F.map(e => e.fold(left, right), fa)
-  }
-
-  mapLeft<F extends HKT2S>(
-    F: Functor<F>
-  ): <N, L, M>(f: (l: L) => N) => <A>(fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, Either<N, A>>
-  mapLeft<F extends HKTS>(
-    F: Functor<F>
-  ): <N, L>(f: (l: L) => N) => <A>(fa: HKTAs<F, Either<L, A>>) => HKTAs<F, Either<N, A>>
-  mapLeft<F>(F: Functor<F>): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>>
-  mapLeft<F>(F: Functor<F>): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>> {
-    return f => fa => F.map(e => e.mapLeft(f), fa)
-  }
-
-  toOption<F extends HKT2S>(F: Functor<F>): <L, M, A>(fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, Option<A>>
-  toOption<F extends HKTS>(F: Functor<F>): <L, A>(fa: HKTAs<F, Either<L, A>>) => HKTAs<F, Option<A>>
-  toOption<F>(F: Functor<F>): <L, A>(fa: HKT<F, Either<L, A>>) => HKT<F, Option<A>>
-  toOption<F>(F: Functor<F>): <L, A>(fa: HKT<F, Either<L, A>>) => HKT<F, Option<A>> {
-    return fa => F.map(e => e.toOption(), fa)
-  }
-
-  getEitherT<M extends HKT2S>(M: Monad<M>): EitherT2<M>
-  getEitherT<M extends HKTS>(M: Monad<M>): EitherT1<M>
-  getEitherT<M>(M: Monad<M>): EitherT<M>
-  getEitherT<M>(M: Monad<M>): EitherT<M> {
-    const applicativeComposition = getApplicativeComposition(M, either)
-
-    return {
-      ...applicativeComposition,
-      chain: this.chain(M)
-    }
-  }
+export function chain<F extends HKT2S>(F: Monad<F>): EitherT2<F>['chain']
+export function chain<F extends HKTS>(F: Monad<F>): EitherT1<F>['chain']
+export function chain<F>(F: Monad<F>): EitherT<F>['chain']
+export function chain<F>(F: Monad<F>): EitherT<F>['chain'] {
+  return (f, fa) => F.chain(e => e.fold(l => F.of(either.left(l)), a => f(a)), fa)
 }
 
-const ops = new Ops()
-export const chain: Ops['chain'] = ops.chain
-export const right: Ops['right'] = ops.right
-export const left: Ops['left'] = ops.left
-export const fromEither: Ops['fromEither'] = ops.fromEither
-export const fold: Ops['fold'] = ops.fold
-export const mapLeft: Ops['mapLeft'] = ops.mapLeft
-export const toOption: Ops['toOption'] = ops.toOption
-export const getEitherT: Ops['getEitherT'] = ops.getEitherT
+export function right<F extends HKT2S>(F: Functor<F>): <L, M, A>(fa: HKT2As<F, M, A>) => HKT2As<F, M, Either<L, A>>
+export function right<F extends HKTS>(F: Functor<F>): <L, A>(fa: HKTAs<F, A>) => HKTAs<F, Either<L, A>>
+export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>
+export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>> {
+  return ma => F.map(a => either.right(a), ma)
+}
+
+export function left<F extends HKT2S>(F: Functor<F>): <L, M, A>(fl: HKT2As<F, M, L>) => HKT2As<F, M, Either<L, A>>
+export function left<F extends HKTS>(F: Functor<F>): <L, A>(fl: HKTAs<F, L>) => HKTAs<F, Either<L, A>>
+export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
+export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>> {
+  return ml => F.map(l => either.left(l), ml)
+}
+
+export function fromEither<F extends HKT2S>(
+  F: Applicative<F>
+): <L, M, A>(fa: Either<L, A>) => HKT2As<F, M, Either<L, A>>
+export function fromEither<F extends HKTS>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKTAs<F, Either<L, A>>
+export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>>
+export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>> {
+  return oa => F.of(oa)
+}
+
+export function fold<F extends HKT2S>(
+  F: Functor<F>
+): <R, L, M, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, R>
+export function fold<F extends HKTS>(
+  F: Functor<F>
+): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKTAs<F, Either<L, A>>) => HKTAs<F, R>
+export function fold<F>(
+  F: Functor<F>
+): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R>
+export function fold<F>(
+  F: Functor<F>
+): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R> {
+  return (left, right, fa) => F.map(e => e.fold(left, right), fa)
+}
+
+export function mapLeft<F extends HKT2S>(
+  F: Functor<F>
+): <N, L, M>(f: (l: L) => N) => <A>(fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, Either<N, A>>
+export function mapLeft<F extends HKTS>(
+  F: Functor<F>
+): <N, L>(f: (l: L) => N) => <A>(fa: HKTAs<F, Either<L, A>>) => HKTAs<F, Either<N, A>>
+export function mapLeft<F>(
+  F: Functor<F>
+): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>>
+export function mapLeft<F>(
+  F: Functor<F>
+): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>> {
+  return f => fa => F.map(e => e.mapLeft(f), fa)
+}
+
+export function toOption<F extends HKT2S>(
+  F: Functor<F>
+): <L, M, A>(fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, Option<A>>
+export function toOption<F extends HKTS>(F: Functor<F>): <L, A>(fa: HKTAs<F, Either<L, A>>) => HKTAs<F, Option<A>>
+export function toOption<F>(F: Functor<F>): <L, A>(fa: HKT<F, Either<L, A>>) => HKT<F, Option<A>>
+export function toOption<F>(F: Functor<F>): <L, A>(fa: HKT<F, Either<L, A>>) => HKT<F, Option<A>> {
+  return fa => F.map(e => e.toOption(), fa)
+}
+
+export function getEitherT<M extends HKT2S>(M: Monad<M>): EitherT2<M>
+export function getEitherT<M extends HKTS>(M: Monad<M>): EitherT1<M>
+export function getEitherT<M>(M: Monad<M>): EitherT<M>
+export function getEitherT<M>(M: Monad<M>): EitherT<M> {
+  const applicativeComposition = getApplicativeComposition(M, either)
+
+  return {
+    ...applicativeComposition,
+    chain: chain(M)
+  }
+}

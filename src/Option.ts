@@ -21,6 +21,11 @@ export const URI = 'Option'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor None
+ * @constructor Some
+ */
 export type Option<A> = None<A> | Some<A>
 
 export class None<A>
@@ -80,10 +85,10 @@ export class None<A>
   toUndefined(): A | undefined {
     return undefined
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return 'none'
   }
   /** Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise */
@@ -108,7 +113,7 @@ export class None<A>
   }
 }
 
-export const none = None.value
+export const none: Option<never> = None.value
 
 export class Some<A>
   implements FantasyMonad<URI, A>,
@@ -166,116 +171,198 @@ export class Some<A>
   toUndefined(): A | undefined {
     return this.value
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `some(${toString(this.value)})`
   }
-  /** Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise */
   contains(S: Setoid<A>, a: A): boolean {
     return S.equals(this.value)(a)
   }
-  /** Returns `true` if the option is `None`, false otherwise */
   isNone(): boolean {
     return false
   }
-  /** Returns `true` if the option is an instance of `Some`, `false` otherwise */
   isSome(): boolean {
     return true
   }
-  /** Returns `true` if this option is non empty and the predicate `p` returns `true` when applied to this Option's value */
   exists(p: (a: A) => boolean): boolean {
     return p(this.value)
   }
-  /** Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns `None` */
   filter(p: Predicate<A>): Option<A> {
     return this.exists(p) ? this : none
   }
 }
 
-export const fold = <A, B>(n: Lazy<B>, s: (a: A) => B) => (fa: Option<A>): B => fa.fold(n, s)
+/** @function */
+export const fold = <A, B>(n: Lazy<B>, s: (a: A) => B) => (fa: Option<A>): B => {
+  return fa.fold(n, s)
+}
 
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => ({
-  equals: x => y => x.fold(() => y.isNone(), ax => y.fold(() => false, ay => S.equals(ax)(ay)))
-})
+/** @function */
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
+  return {
+    equals: x => y => x.fold(() => y.isNone(), ax => y.fold(() => false, ay => S.equals(ax)(ay)))
+  }
+}
 
-export const map = <A, B>(f: (a: A) => B, fa: Option<A>): Option<B> => fa.map(f)
+/** @function */
+export const map = <A, B>(f: (a: A) => B, fa: Option<A>): Option<B> => {
+  return fa.map(f)
+}
 
-/** Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None` */
-export const mapNullable = <A, B>(f: (a: A) => B | null | undefined, fa: Option<A>): Option<B> => fa.mapNullable(f)
+/**
+ * Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None`
+ * @function
+ */
+export const mapNullable = <A, B>(f: (a: A) => B | null | undefined, fa: Option<A>): Option<B> => {
+  return fa.mapNullable(f)
+}
 
-export const of = <A>(a: A): Option<A> => new Some(a)
+/** @function */
+export const of = <A>(a: A): Option<A> => {
+  return new Some(a)
+}
 
-export const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => fa.ap(fab)
+export const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => {
+  return fa.ap(fab)
+}
+/** @function */
 
-export const chain = <A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> => fa.chain(f)
+/** @function */
+export const chain = <A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> => {
+  return fa.chain(f)
+}
 
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B => fa.reduce(f, b)
+/** @function */
+export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Option<A>): B => {
+  return fa.reduce(f, b)
+}
 
-/** Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none */
-export const filter = <A>(p: Predicate<A>) => (fa: Option<A>): Option<A> => fa.filter(p)
+/**
+ * Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns none
+ * @function
+ */
+export const filter = <A>(p: Predicate<A>) => (fa: Option<A>): Option<A> => {
+  return fa.filter(p)
+}
 
-export const alt = <A>(fx: Option<A>, fy: Option<A>): Option<A> => fx.alt(fy)
+/** @function */
+export const alt = <A>(fx: Option<A>, fy: Option<A>): Option<A> => {
+  return fx.alt(fy)
+}
 
-export const extend = <A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> => ea.extend(f)
+/** @function */
+export const extend = <A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> => {
+  return ea.extend(f)
+}
 
-export const zero = <A>(): Option<A> => none
+/** @function */
+export const zero = <A>(): Option<A> => {
+  return none
+}
 
+/**
+ * @function
+ * @alias zero
+ */
 export const empty = zero
 
-/** Option monoid returning the left-most non-None value */
-export const getFirstMonoid = <A>(): Monoid<Option<A>> => ({
-  concat: x => y => alt(x, y),
-  empty
-})
+/**
+ * Option monoid returning the left-most non-None value
+ * @function
+ */
+export const getFirstMonoid = <A>(): Monoid<Option<A>> => {
+  return {
+    concat: x => y => alt(x, y),
+    empty
+  }
+}
 
-/** Option monoid returning the right-most non-None value */
-export const getLastMonoid = <A>(): Monoid<Option<A>> => getDualMonoid(getFirstMonoid())
+/**
+ * Option monoid returning the right-most non-None value
+ * @function
+ */
+export const getLastMonoid = <A>(): Monoid<Option<A>> => {
+  return getDualMonoid(getFirstMonoid())
+}
 
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => ({
-  concat: x => y => x.fold(() => y, ax => y.fold(() => x, ay => some(S.concat(ax)(ay))))
-})
+/** @function */
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
+  return {
+    concat: x => y => x.fold(() => y, ax => y.fold(() => x, ay => some(S.concat(ax)(ay))))
+  }
+}
 
-export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ({ ...getSemigroup(S), empty })
+/** @function */
+export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
+  return { ...getSemigroup(S), empty }
+}
 
-export const isSome = <A>(fa: Option<A>): fa is Some<A> => fa._tag === 'Some'
+/** @function */
+export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
+  return fa._tag === 'Some'
+}
 
-export const isNone = <A>(fa: Option<A>): fa is None<A> => fa === none
+/** @function */
+export const isNone = <A>(fa: Option<A>): fa is None<A> => {
+  return fa === none
+}
 
 /**
  * Takes a default value, and a `Option` value. If the `Option` value is
  * `None` the default value is returned, otherwise the value inside the
  * `Some` is returned
+ * @function
  */
-export const getOrElseValue = <A>(a: A) => (fa: Option<A>): A => fa.getOrElseValue(a)
-
-export const getOrElse = <A>(f: Lazy<A>) => (fa: Option<A>): A => fa.getOrElse(f)
-
-export const fromNullable = <A>(a: A | null | undefined): Option<A> => (a == null ? none : new Some(a))
-
-export const toNullable = <A>(fa: Option<A>): A | null => fa.toNullable()
-
-export const toUndefined = <A>(fa: Option<A>): A | undefined => fa.toUndefined()
-
-export const some = of
-
-export const fromPredicate = <A>(predicate: Predicate<A>) => (a: A): Option<A> => (predicate(a) ? some(a) : none)
-
-export class Ops {
-  traverse<F extends HKT2S>(
-    F: Applicative<F>
-  ): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Option<A>) => HKT2As<F, L, Option<B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Option<A>) => HKTAs<F, Option<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Option<B>>
-  traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>> {
-    return (f, ta) => ta.traverse(F)(f)
-  }
+export const getOrElseValue = <A>(a: A) => (fa: Option<A>): A => {
+  return fa.getOrElseValue(a)
 }
 
-const ops = new Ops()
-export const traverse: Ops['traverse'] = ops.traverse
+/** @function */
+export const getOrElse = <A>(f: Lazy<A>) => (fa: Option<A>): A => {
+  return fa.getOrElse(f)
+}
 
+/** @function */
+export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
+  return a == null ? none : new Some(a)
+}
+
+/** @function */
+export const toNullable = <A>(fa: Option<A>): A | null => {
+  return fa.toNullable()
+}
+
+/** @function */
+export const toUndefined = <A>(fa: Option<A>): A | undefined => {
+  return fa.toUndefined()
+}
+
+/**
+ * @function
+ * @alias of
+ */
+export const some = of
+
+/** @function */
+export const fromPredicate = <A>(predicate: Predicate<A>) => (a: A): Option<A> => {
+  return predicate(a) ? some(a) : none
+}
+
+export function traverse<F extends HKT2S>(
+  F: Applicative<F>
+): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Option<A>) => HKT2As<F, L, Option<B>>
+export function traverse<F extends HKTS>(
+  F: Applicative<F>
+): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Option<A>) => HKTAs<F, Option<B>>
+export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Option<B>>
+/** @function */
+export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>> {
+  return (f, ta) => ta.traverse(F)(f)
+}
+
+/** @instance */
 export const option: Monad<URI> & Foldable<URI> & Plus<URI> & Traversable<URI> & Alternative<URI> & Extend<URI> = {
   URI,
   map,

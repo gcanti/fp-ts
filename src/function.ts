@@ -29,15 +29,22 @@ export type Predicate<A> = (a: A) => boolean
 
 export type Refinement<A, B extends A> = (a: A) => a is B
 
-export const not = <A>(predicate: Predicate<A>): Predicate<A> => a => !predicate(a)
+/** @function */
+export const not = <A>(predicate: Predicate<A>): Predicate<A> => {
+  return a => !predicate(a)
+}
 
 export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
+/** @function */
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
   return a => p1(a) || p2(a)
 }
 
-export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => a => p1(a) && p2(a)
+/** @function */
+export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => {
+  return a => p1(a) && p2(a)
+}
 
 export type Endomorphism<A> = (a: A) => A
 
@@ -46,7 +53,10 @@ export type BinaryOperation<A, B> = (a1: A) => (a2: A) => B
 export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
 export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 
-export const constant = <A>(a: A): Lazy<A> => () => a
+/** @function */
+export const constant = <A>(a: A): Lazy<A> => {
+  return () => a
+}
 
 /** A thunk that returns always `true` */
 export const constTrue: Lazy<boolean> = constant(true)
@@ -54,14 +64,26 @@ export const constTrue: Lazy<boolean> = constant(true)
 /** A thunk that returns always `false` */
 export const constFalse: Lazy<boolean> = constant(false)
 
-export const identity = <A>(a: A): A => a
+/** @function */
+export const identity = <A>(a: A): A => {
+  return a
+}
 
-/** Flips the order of the arguments to a function of two arguments. */
-export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => b => a => f(a)(b)
+/**
+ * Flips the order of the arguments to a function of two arguments.
+ * @function
+ */
+export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => {
+  return b => a => f(a)(b)
+}
 
-/** The `on` function is used to change the domain of a binary operator. */
-export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => x => y =>
-  op(f(x))(f(y))
+/**
+ * The `on` function is used to change the domain of a binary operator.
+ * @function
+ */
+export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => {
+  return x => y => op(f(x))(f(y))
+}
 
 export function compose<A, B, C>(bc: (b: B) => C, ab: (a: A) => B): (a: A) => C
 export function compose<A, B, C, D>(cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => D
@@ -111,6 +133,7 @@ export function compose<A, B, C, D, E, F, G, H, I, J>(
   bc: (b: B) => C,
   ab: (a: A) => B
 ): (a: A) => J
+/** @function */
 export function compose(...fns: Array<Function>): Function {
   const len = fns.length - 1
   return function(this: any, x: any) {
@@ -170,6 +193,7 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): (a: A) => J
+/** @function */
 export function pipe(...fns: Array<Function>): Function {
   const len = fns.length - 1
   return function(this: any, x: any) {
@@ -200,10 +224,12 @@ export function curry<A, B, C, D, E, F, G, H, I>(
 export function curry<A, B, C, D, E, F, G, H, I, J>(
   f: Function9<A, B, C, D, E, F, G, H, I, J>
 ): Curried9<A, B, C, D, E, F, G, H, I, J>
+/** @function */
 export function curry(f: Function) {
   return curried(f, f.length - 1, [])
 }
 
+/** @function */
 export const toString = (x: any): string => {
   if (typeof x === 'string') {
     return JSON.stringify(x)
@@ -217,12 +243,28 @@ export const toString = (x: any): string => {
   return String(x)
 }
 
-export const tuple = <A, B>(a: A, b: B): [A, B] => [a, b]
+/** @function */
+export const tuple = <A, B>(a: A, b: B): [A, B] => {
+  return [a, b]
+}
 
-export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => [a, b]
+/** @function */
+export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => {
+  return [a, b]
+}
 
-/** Applies a function to an argument ($) */
-export const apply = <A, B>(f: (a: A) => B) => (a: A): B => f(a)
+/**
+ * Applies a function to an argument ($)
+ * @function
+ */
+export const apply = <A, B>(f: (a: A) => B) => (a: A): B => {
+  return f(a)
+}
 
-/** Applies an argument to a function (#) */
-export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => f(a)
+/**
+ * Applies an argument to a function (#)
+ * @function
+ */
+export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => {
+  return f(a)
+}

@@ -17,6 +17,10 @@ export const URI = 'Const'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor Const
+ */
 export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant<URI, A> {
   readonly _A: A
   readonly _L: L
@@ -31,38 +35,57 @@ export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant
   fold<B>(f: (l: L) => B): B {
     return f(this.value)
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `new Const(${toString(this.value)})`
   }
 }
 
+/** @function */
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
   equals: x => y => x.fold(ax => y.fold(ay => S.equals(ax)(ay)))
 })
 
-export const map = <L, A, B>(f: (a: A) => B, fa: Const<L, A>): Const<L, B> => fa.map(f)
+/** @function */
+export const map = <L, A, B>(f: (a: A) => B, fa: Const<L, A>): Const<L, B> => {
+  return fa.map(f)
+}
 
-export const contramap = <L, A, B>(f: (b: B) => A, fa: Const<L, A>): Const<L, B> => fa.contramap(f)
+/** @function */
+export const contramap = <L, A, B>(f: (b: B) => A, fa: Const<L, A>): Const<L, B> => {
+  return fa.contramap(f)
+}
 
-export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> =>
-  new Const(S.concat(fab.fold(identity))(fa.fold(identity)))
+/** @function */
+export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
+  return new Const(S.concat(fab.fold(identity))(fa.fold(identity)))
+}
 
-export const getApply = <L>(S: Semigroup<L>): Apply<URI> => ({
-  URI,
-  map,
-  ap: ap(S)
-})
+/** @function */
+export const getApply = <L>(S: Semigroup<L>): Apply<URI> => {
+  return {
+    URI,
+    map,
+    ap: ap(S)
+  }
+}
 
-export const of = <L>(M: Monoid<L>) => <A>(b: A): Const<L, A> => new Const<L, any>(M.empty())
+/** @function */
+export const of = <L>(M: Monoid<L>) => <A>(b: A): Const<L, A> => {
+  return new Const<L, any>(M.empty())
+}
 
-export const getApplicative = <L>(M: Monoid<L>): Applicative<URI> => ({
-  ...getApply(M),
-  of: of(M)
-})
+/** @function */
+export const getApplicative = <L>(M: Monoid<L>): Applicative<URI> => {
+  return {
+    ...getApply(M),
+    of: of(M)
+  }
+}
 
+/** @instance */
 export const const_: Functor<URI> & Contravariant<URI> = {
   URI,
   map,

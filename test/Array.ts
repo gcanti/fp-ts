@@ -6,6 +6,7 @@ import { ordNumber } from '../src/Ord'
 import { eqOptions as eq } from './helpers'
 import { monoidSum, fold } from '../src/Monoid'
 import { tuple } from '../src/function'
+import { left, right } from '../src/Either'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -169,5 +170,20 @@ describe('Array', () => {
 
   it('zip', () => {
     assert.deepEqual(array.zip([1, 2, 3])(['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+  })
+
+  it('rights', () => {
+    const eithers = [right(1), left('foo'), right(2)]
+    assert.deepEqual(array.rights(eithers), [1, 2])
+  })
+
+  it('lefts', () => {
+    const eithers = [right(1), left('foo'), right(2)]
+    assert.deepEqual(array.lefts(eithers), ['foo'])
+  })
+
+  it('flatten', () => {
+    const as = [[1], [2], [3]]
+    assert.deepEqual(array.flatten(as), [1, 2, 3])
   })
 })

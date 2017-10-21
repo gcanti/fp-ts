@@ -21,6 +21,10 @@ const eitherTfold = eitherT.fold(task)
 const eitherTmapLeft = eitherT.mapLeft(task)
 const eitherTtoOption = eitherT.toOption(task)
 
+/**
+ * @data
+ * @constructor TaskEither
+ */
 export class TaskEither<L, A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _L: L
@@ -49,26 +53,50 @@ export class TaskEither<L, A> implements FantasyMonad<URI, A> {
   }
 }
 
-export const map = <L, A, B>(f: (a: A) => B, fa: TaskEither<L, A>): TaskEither<L, B> => fa.map(f)
+/** @function */
+export const map = <L, A, B>(f: (a: A) => B, fa: TaskEither<L, A>): TaskEither<L, B> => {
+  return fa.map(f)
+}
 
-export const of = <L, A>(a: A): TaskEither<L, A> => new TaskEither(eitherTTask.of(a))
+/** @function */
+export const of = <L, A>(a: A): TaskEither<L, A> => {
+  return new TaskEither(eitherTTask.of(a))
+}
 
-export const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): TaskEither<L, B> => fa.ap(fab)
+/** @function */
+export const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): TaskEither<L, B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <L, A, B>(f: (a: A) => TaskEither<L, B>, fa: TaskEither<L, A>): TaskEither<L, B> => fa.chain(f)
+/** @function */
+export const chain = <L, A, B>(f: (a: A) => TaskEither<L, B>, fa: TaskEither<L, A>): TaskEither<L, B> => {
+  return fa.chain(f)
+}
 
 const eitherTright = eitherT.right(task)
-export const right = <L, A>(fa: task.Task<A>): TaskEither<L, A> => new TaskEither(eitherTright(fa))
+/** @function */
+export const right = <L, A>(fa: task.Task<A>): TaskEither<L, A> => {
+  return new TaskEither(eitherTright(fa))
+}
 
 const eitherTleft = eitherT.left(task)
-export const left = <L, A>(fa: task.Task<L>): TaskEither<L, A> => new TaskEither(eitherTleft(fa))
+/** @function */
+export const left = <L, A>(fa: task.Task<L>): TaskEither<L, A> => {
+  return new TaskEither(eitherTleft(fa))
+}
 
 const eitherTfromEither = eitherT.fromEither(task)
-export const fromEither = <L, A>(fa: either.Either<L, A>): TaskEither<L, A> => new TaskEither(eitherTfromEither(fa))
+/** @function */
+export const fromEither = <L, A>(fa: either.Either<L, A>): TaskEither<L, A> => {
+  return new TaskEither(eitherTfromEither(fa))
+}
 
-export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A> =>
-  new TaskEither(task.tryCatch(f)(onrejected))
+/** @function */
+export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A> => {
+  return new TaskEither(task.tryCatch(f)(onrejected))
+}
 
+/** @instance */
 export const taskEither: Monad<URI> = {
   URI,
   map,

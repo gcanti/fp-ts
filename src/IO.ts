@@ -13,6 +13,10 @@ export const URI = 'IO'
 
 export type URI = typeof URI
 
+/**
+ * @data
+ * @constructor IO
+ */
 export class IO<A> implements FantasyMonad<URI, A> {
   readonly _A: A
   readonly _URI: URI
@@ -29,29 +33,46 @@ export class IO<A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => IO<B>): IO<B> {
     return new IO(() => f(this.run()).run())
   }
-  inspect() {
+  inspect(): string {
     return this.toString()
   }
-  toString() {
+  toString(): string {
     return `new IO(${toString(this.run)})`
   }
 }
 
-export const map = <A, B>(f: (a: A) => B, fa: IO<A>): IO<B> => fa.map(f)
+/** @function */
+export const map = <A, B>(f: (a: A) => B, fa: IO<A>): IO<B> => {
+  return fa.map(f)
+}
 
-export const of = <A>(a: A): IO<A> => new IO(() => a)
+/** @function */
+export const of = <A>(a: A): IO<A> => {
+  return new IO(() => a)
+}
 
-export const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => fa.ap(fab)
+/** @function */
+export const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <A, B>(f: (a: A) => IO<B>, fa: IO<A>): IO<B> => fa.chain(f)
+/** @function */
+export const chain = <A, B>(f: (a: A) => IO<B>, fa: IO<A>): IO<B> => {
+  return fa.chain(f)
+}
 
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => ({
-  concat: x => y => new IO(() => S.concat(x.run())(y.run()))
-})
+/** @function */
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
+  return {
+    concat: x => y => new IO(() => S.concat(x.run())(y.run()))
+  }
+}
 
+/** @function */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
   const empty = of(M.empty())
   return { ...getSemigroup(M), empty: () => empty }
 }
 
+/** @instance */
 export const io: Monad<URI> = { URI, map, of, ap, chain }
