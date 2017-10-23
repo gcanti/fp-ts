@@ -39,6 +39,16 @@ A data-type like Either but with an accumulating `Applicative`
 ```ts
 (): string 
 ```
+### isFailure
+```ts
+(): boolean 
+```
+Returns `true` if the validation is an instance of `Failure`, `false` otherwise
+### isSuccess
+```ts
+(): boolean 
+```
+Returns `true` if the validation is an instance of `Success`, `false` otherwise
 ### map
 ```ts
 <B>(f: (a: A) => B): Validation<L, B> 
@@ -144,12 +154,14 @@ Semigroup<Validation<any, any>> &
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Failure<L, A>
 ```
+Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 
 # isSuccess
 *function*
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Success<L, A>
 ```
+Returns `true` if the validation is an instance of `Success`, `false` otherwise
 
 # map
 *function*
