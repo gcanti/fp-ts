@@ -22,6 +22,7 @@ constructor(readonly run: Lazy<Promise<A>>) {}
 ```ts
 (fy: Task<A>): Task<A> 
 ```
+Selects the earlier of two Tasks
 ### inspect
 ```ts
 (): string 
@@ -56,13 +57,14 @@ Monad<URI> & Monoid<Task<any>>
 ```ts
 <A>(fx: Task<A>) => (fy: Task<A>): Task<A>
 ```
+Selects the earlier of two Tasks
 
 # empty
 *function*
 ```ts
 <A>(): Task<A>
 ```
-returns a task that never completes
+Returns a task that never completes
 
 # fromIO
 *function*

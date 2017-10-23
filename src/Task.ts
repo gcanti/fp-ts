@@ -34,6 +34,7 @@ export class Task<A> implements FantasyMonad<URI, A> {
   chain<B>(f: (a: A) => Task<B>): Task<B> {
     return new Task(() => this.run().then(a => f(a).run()))
   }
+  /** Selects the earlier of two Tasks */
   concat(fy: Task<A>): Task<A> {
     return new Task(() => {
       return new Promise(r => {
@@ -78,14 +79,17 @@ export const chain = <A, B>(f: (a: A) => Task<B>, fa: Task<A>): Task<B> => {
 }
 
 /**
- * returns a task that never completes
+ * Returns a task that never completes
  * @function
  */
 export const empty = <A>(): Task<A> => {
   return never as Task<A>
 }
 
-/** @function */
+/**
+ * Selects the earlier of two Tasks
+ * @function
+ */
 export const concat = <A>(fx: Task<A>) => (fy: Task<A>): Task<A> => {
   return fx.concat(fy)
 }
