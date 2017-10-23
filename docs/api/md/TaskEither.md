@@ -2,7 +2,7 @@ MODULE [TaskEither](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.t
 # TaskEither
 *data*
 ```ts
-constructor(readonly value: task.Task<either.Either<L, A>>) {}
+constructor(readonly value: Task<Either<L, A>>) {}
 ```
 ## Methods
 
@@ -20,7 +20,7 @@ constructor(readonly value: task.Task<either.Either<L, A>>) {}
 ```
 ### fold
 ```ts
-<R>(left: (l: L) => R, right: (a: A) => R): task.Task<R> 
+<R>(left: (l: L) => R, right: (a: A) => R): Task<R> 
 ```
 ### map
 ```ts
@@ -30,9 +30,19 @@ constructor(readonly value: task.Task<either.Either<L, A>>) {}
 ```ts
 <M>(f: (l: L) => M): TaskEither<M, A> 
 ```
+### orElse
+```ts
+<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> 
+```
+Transforms the failure value of the `TaskEither` into a new `TaskEither`
+### run
+```ts
+(): Promise<Either<L, A>> 
+```
+Runs the inner task
 ### toOption
 ```ts
-(): task.Task<Option<A>> 
+(): Task<Option<A>> 
 ```
 # taskEither
 *instance*
@@ -54,13 +64,13 @@ Monad<URI>
 # fromEither
 *function*
 ```ts
-<L, A>(fa: either.Either<L, A>): TaskEither<L, A>
+<L, A>(fa: Either<L, A>): TaskEither<L, A>
 ```
 
 # left
 *function*
 ```ts
-<L, A>(fa: task.Task<L>): TaskEither<L, A>
+<L, A>(fa: Task<L>): TaskEither<L, A>
 ```
 
 # map
@@ -75,10 +85,17 @@ Monad<URI>
 <L, A>(a: A): TaskEither<L, A>
 ```
 
+# orElse
+*function*
+```ts
+<L, M, A>(f: (l: L) => TaskEither<M, A>) => (fa: TaskEither<L, A>): TaskEither<M, A>
+```
+Transforms the failure value of the `TaskEither` into a new `TaskEither`
+
 # right
 *function*
 ```ts
-<L, A>(fa: task.Task<A>): TaskEither<L, A>
+<L, A>(fa: Task<A>): TaskEither<L, A>
 ```
 
 # tryCatch
