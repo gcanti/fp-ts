@@ -105,6 +105,11 @@ Find the last element which satisfies a predicate function
 ```ts
 <A>(ffa: Array<Array<A>>): Array<A>
 ```
+Example
+
+```ts
+flatten([[1], [2], [3]]) // [1, 2, 3]
+```
 
 # fold
 *function*
@@ -209,6 +214,12 @@ array, or returning `None` if the index is out of bounds
 *function*
 ```ts
 <A>(a: A): Array<A>
+```
+
+# partitionMap
+*function*
+```ts
+<A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): { left: Array<L>; right: Array<R> }
 ```
 
 # reduce

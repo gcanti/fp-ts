@@ -65,11 +65,6 @@ export const chain = <A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B> => {
 }
 
 /** @function */
-export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
-  return chain(as => as, ffa)
-}
-
-/** @function */
 export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B => {
   return fa.reduce(f, b)
 }
@@ -118,6 +113,29 @@ export const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
 /** @function */
 export const extend = <A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B> => {
   return fa.map((_, i, as) => f(as.slice(i)))
+}
+
+/** @function */
+export const partitionMap = <A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): { left: Array<L>; right: Array<R> } => {
+  const left: Array<L> = []
+  const right: Array<R> = []
+  for (let i = 0; i < fa.length; i++) {
+    f(fa[i]).fold(l => left.push(l), r => right.push(r))
+  }
+  return { left, right }
+}
+
+/**
+ * Example
+ *
+ * ```ts
+ * flatten([[1], [2], [3]]) // [1, 2, 3]
+ * ```
+ *
+ * @function
+ */
+export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
+  return chain(as => as, ffa)
 }
 
 /**
@@ -203,8 +221,7 @@ export const last = <A>(as: Array<A>): Option<A> => {
  * @function
  */
 export const tail = <A>(as: Array<A>): Option<Array<A>> => {
-  const len = as.length
-  return len === 0 ? option.none : option.some(as.slice(1))
+  return as.length === 0 ? option.none : option.some(as.slice(1))
 }
 
 /**

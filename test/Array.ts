@@ -183,7 +183,11 @@ describe('Array', () => {
   })
 
   it('flatten', () => {
-    const as = [[1], [2], [3]]
-    assert.deepEqual(array.flatten(as), [1, 2, 3])
+    assert.deepEqual(array.flatten([[1], [2], [3]]), [1, 2, 3])
+  })
+
+  it('partitionMap', () => {
+    const eithers = [right(1), left('foo'), right(2)]
+    assert.deepEqual(array.partitionMap(x => x, eithers), { left: ['foo'], right: [1, 2] })
   })
 })
