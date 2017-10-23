@@ -453,8 +453,9 @@ export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
  * Sort the elements of an array in increasing order, creating a new array
  * @function
  */
-export const sort = <A>(ord: Ord<A>) => (as: Array<A>): Array<A> => {
-  return copy(as).sort(toNativeComparator(ord.compare))
+export const sort = <A>(ord: Ord<A>): ((as: Array<A>) => Array<A>) => {
+  const comparator = toNativeComparator(ord.compare)
+  return as => copy(as).sort(comparator)
 }
 
 /**
