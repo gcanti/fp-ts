@@ -41,15 +41,17 @@ export class Instance {
   constructor(readonly name: string, readonly signature: string, readonly description: Option<string>) {}
 }
 
-export type Export = Data | Func | Instance
+export const isTypeclass = (e: Export): e is Typeclass => e.type === 'Typeclass'
 
 export class Typeclass {
   type: 'Typeclass' = 'Typeclass'
   constructor(readonly name: string, readonly signature: string, readonly description: Option<string>) {}
 }
 
+export type Export = Data | Func | Instance | Typeclass
+
 export class Module {
-  constructor(readonly name: string, readonly exports: Array<Export>, readonly typeclasses: Array<Typeclass>) {}
+  constructor(readonly name: string, readonly exports: Array<Export>) {}
 }
 
 export type ModuleEntry = {

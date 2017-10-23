@@ -4,9 +4,11 @@ import { sequence_ } from '../../src/Foldable'
 import { log } from '../../src/Console'
 import { printIndex, printModule } from './markdown'
 import { modules } from './domain'
-import { parseModule, ParseError } from './parser'
+import { Env, parseModule, ParseError } from './parser'
 import { write, indexOutputPath, readModule, writeModule } from './fs'
 import chalk from 'chalk'
+import Ast from 'ts-simple-ast'
+import { SourceFile } from 'ts-simple-ast'
 
 const printError = (error: ParseError): string => {
   switch (error._tag) {
@@ -21,15 +23,26 @@ const printError = (error: ParseError): string => {
 
 const fail = new io.IO(() => process.exit(1))
 
-const processModule = (name: string): io.IO<void> =>
-  readModule(name)
-    .map(source => parseModule(name, source))
+const getSourceFile = (name: string, source: string): SourceFile => {
+  return new Ast().addSourceFileFromText(`${name}.ts`, source)
+}
+
+const processModule = (name: string): io.IO<void> => {
+  return readModule(name)
+    .map(source => {
+      const e: Env = {
+        currentSourceFile: getSourceFile(name, source),
+        currentModuleName: name
+      }
+      return parseModule.run(e)
+    })
     .chain(em =>
       em.fold(
-        errors => log(errors.map(e => printError(e)).join('\n')).chain(() => fail),
+        errors => log(errors.map(err => printError(err)).join('\n')).chain(() => fail),
         markdown => writeModule(name, printModule(markdown))
       )
     )
+}
 
 const processIndex: io.IO<void> = write(indexOutputPath, printIndex(modules))
 
