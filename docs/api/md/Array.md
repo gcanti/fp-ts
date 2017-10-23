@@ -265,7 +265,7 @@ Append an element to the end of an array, creating a new array
 # sort
 *function*
 ```ts
-<A>(ord: Ord<A>) => (as: Array<A>): Array<A>
+<A>(ord: Ord<A>): ((as: Array<A>) => Array<A>)
 ```
 Sort the elements of an array in increasing order, creating a new array
 
