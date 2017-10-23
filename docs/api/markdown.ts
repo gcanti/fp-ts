@@ -1,4 +1,16 @@
-import { Module, ModuleEntry, Data, Method, Func, isData, isFunc, Typeclass, isInstance, Instance } from './domain'
+import {
+  Module,
+  ModuleEntry,
+  Data,
+  Method,
+  Func,
+  isData,
+  isFunc,
+  Typeclass,
+  isInstance,
+  Instance,
+  isTypeclass
+} from './domain'
 import * as array from '../../src/Array'
 import { contramap, ordString } from '../../src/Ord'
 import { Option } from '../../src/Option'
@@ -76,10 +88,11 @@ const printTypeclass = (tc: Typeclass): string => {
 
 export const printModule = (module: Module): string => {
   let s = 'MODULE ' + link(module.name, `https://github.com/gcanti/fp-ts/blob/master/src/${module.name}.ts`)
+  const typeclasses = module.exports.filter(isTypeclass)
   const datas = module.exports.filter(isData)
   const instances = sortInstances(module.exports.filter(isInstance))
   const funcs = sortFuncs(module.exports.filter(isFunc))
-  s += module.typeclasses.map(tc => printTypeclass(tc)).join('\n')
+  s += typeclasses.map(tc => printTypeclass(tc)).join('\n')
   s += datas.map(d => printData(d)).join('\n')
   s += instances.map(i => printInstance(i)).join('\n')
   s += funcs.map(d => printFunc(d)).join('\n')
