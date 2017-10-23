@@ -90,6 +90,14 @@ export class Failure<L, A>
   toString(): string {
     return `failure(${toString(this.value)})`
   }
+  /** Returns `true` if the validation is an instance of `Failure`, `false` otherwise */
+  isFailure(): boolean {
+    return true
+  }
+  /** Returns `true` if the validation is an instance of `Success`, `false` otherwise */
+  isSuccess(): boolean {
+    return false
+  }
 }
 
 export class Success<L, A>
@@ -152,6 +160,12 @@ export class Success<L, A>
   }
   toString(): string {
     return `success(${toString(this.value)})`
+  }
+  isFailure(): boolean {
+    return false
+  }
+  isSuccess(): boolean {
+    return true
   }
 }
 
@@ -216,14 +230,20 @@ export function traverse<F>(
   return (f, ta) => ta.traverse(F)(f)
 }
 
-/** @function */
+/**
+ * Returns `true` if the validation is an instance of `Failure`, `false` otherwise
+ * @function
+ */
 export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
-  return fa._tag === 'Failure'
+  return fa.isFailure()
 }
 
-/** @function */
+/**
+ * Returns `true` if the validation is an instance of `Success`, `false` otherwise
+ * @function
+ */
 export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
-  return fa._tag === 'Success'
+  return fa.isSuccess()
 }
 
 /** @function */
