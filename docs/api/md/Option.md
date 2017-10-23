@@ -45,6 +45,7 @@ Returns this option if it is non empty and the predicate `p` return `true` when 
 ```ts
 <B>(n: Lazy<B>, s: (a: A) => B): B 
 ```
+Applies a function to each case in the data structure
 ### getOrElse
 ```ts
 (f: Lazy<A>): A 
@@ -61,7 +62,7 @@ Returns this option if it is non empty and the predicate `p` return `true` when 
 ```ts
 (): boolean 
 ```
-Returns `true` if the option is `None`, false otherwise.
+Returns `true` if the option is `None`, `false` otherwise
 ### isSome
 ```ts
 (): boolean 
@@ -132,12 +133,15 @@ Returns this option if it is non empty and the predicate `p` return `true` when 
 ```ts
 <A, B>(n: Lazy<B>, s: (a: A) => B) => (fa: Option<A>): B
 ```
+Applies a function to each case in the data structure
 
 # fromNullable
 *function*
 ```ts
 <A>(a: A | null | undefined): Option<A>
 ```
+Constructs a new `Option` from a nullable type.
+If the value is `null` or `undefined`, returns `None`, otherwise returns the value wrapped in a `Some`
 
 # fromPredicate
 *function*
@@ -197,12 +201,14 @@ Takes a default value, and a `Option` value. If the `Option` value is
 ```ts
 <A>(fa: Option<A>): fa is None<A>
 ```
+Returns `true` if the option is `None`, `false` otherwise
 
 # isSome
 *function*
 ```ts
 <A>(fa: Option<A>): fa is Some<A>
 ```
+Returns `true` if the option is an instance of `Some`, `false` otherwise
 
 # map
 *function*

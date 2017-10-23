@@ -70,6 +70,7 @@ export class None<A>
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
     return none
   }
+  /** Applies a function to each case in the data structure */
   fold<B>(n: Lazy<B>, s: (a: A) => B): B {
     return n()
   }
@@ -95,7 +96,7 @@ export class None<A>
   contains(S: Setoid<A>, a: A): boolean {
     return false
   }
-  /** Returns `true` if the option is `None`, false otherwise. */
+  /** Returns `true` if the option is `None`, `false` otherwise */
   isNone(): boolean {
     return true
   }
@@ -128,7 +129,6 @@ export class Some<A>
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))
   }
-  /** Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None` */
   mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> {
     return fromNullable(f(this.value))
   }
@@ -194,7 +194,10 @@ export class Some<A>
   }
 }
 
-/** @function */
+/**
+ * Applies a function to each case in the data structure
+ * @function
+ */
 export const fold = <A, B>(n: Lazy<B>, s: (a: A) => B) => (fa: Option<A>): B => {
   return fa.fold(n, s)
 }
@@ -299,14 +302,20 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
   return { ...getSemigroup(S), empty }
 }
 
-/** @function */
+/**
+ * Returns `true` if the option is an instance of `Some`, `false` otherwise
+ * @function
+ */
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
-  return fa._tag === 'Some'
+  return fa.isSome()
 }
 
-/** @function */
+/**
+ * Returns `true` if the option is `None`, `false` otherwise
+ * @function
+ */
 export const isNone = <A>(fa: Option<A>): fa is None<A> => {
-  return fa === none
+  return fa.isNone()
 }
 
 /**
@@ -324,7 +333,11 @@ export const getOrElse = <A>(f: Lazy<A>) => (fa: Option<A>): A => {
   return fa.getOrElse(f)
 }
 
-/** @function */
+/**
+ * Constructs a new `Option` from a nullable type.
+ * If the value is `null` or `undefined`, returns `None`, otherwise returns the value wrapped in a `Some`
+ * @function
+ */
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
   return a == null ? none : new Some(a)
 }
