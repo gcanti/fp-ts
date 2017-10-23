@@ -34,19 +34,31 @@ type Either<L, A> = Left<L, A> | Right<L, A>
 ```ts
 <B>(left: (l: L) => B, right: (a: A) => B): B 
 ```
+Applies a function to each case in the data structure
 ### getOrElse
 ```ts
 (f: (l: L) => A): A 
 ```
-Returns the value from this `Right` or the given argument if this is a `Left`
+Returns the value from this `Right` or the result of given argument if this is a `Left`
 ### getOrElseValue
 ```ts
 (a: A): A 
 ```
+Returns the value from this `Right` or the given argument if this is a `Left`
 ### inspect
 ```ts
 (): string 
 ```
+### isLeft
+```ts
+(): boolean 
+```
+Returns `true` if the either is an instance of `Left`, `false` otherwise
+### isRight
+```ts
+(): boolean 
+```
+Returns `true` if the either is an instance of `Right`, `false` otherwise
 ### map
 ```ts
 <B>(f: (a: A) => B): Either<L, B> 
@@ -55,10 +67,16 @@ Returns the value from this `Right` or the given argument if this is a `Left`
 ```ts
 <M>(f: (l: L) => M): Either<M, A> 
 ```
+Maps the left side of the disjunction
 ### reduce
 ```ts
 <B>(f: (b: B, a: A) => B, b: B): B 
 ```
+### swap
+```ts
+(): Either<A, L> 
+```
+Swaps the disjunction values
 ### toOption
 ```ts
 (): Option<A> 
@@ -123,6 +141,7 @@ Monad<URI> &
 ```ts
 <L, A, B>(left: (l: L) => B, right: (a: A) => B) => (fa: Either<L, A>): B
 ```
+Applies a function to each case in the data structure
 
 # fromNullable
 *function*
@@ -151,12 +170,12 @@ a `Right`, if the value is a `None` use the provided default as a `Left`
 ```ts
 <L, A>(f: (l: L) => A) => (fa: Either<L, A>): A
 ```
-Returns the value from this `Right` or the given argument if this is a `Left`
+Returns the value from this `Right` or the result of given argument if this is a `Left`
 
 # getOrElseValue
 *function*
 ```ts
-<L, A>(a: A) => (fa: Either<L, A>): A
+<A>(a: A) => <L>(fa: Either<L, A>): A
 ```
 Returns the value from this `Right` or the given argument if this is a `Left`
 
@@ -171,18 +190,22 @@ Returns the value from this `Right` or the given argument if this is a `Left`
 ```ts
 <L, A>(fa: Either<L, A>): fa is Left<L, A>
 ```
+Returns `true` if the either is an instance of `Left`, `false` otherwise
 
 # isRight
 *function*
 ```ts
 <L, A>(fa: Either<L, A>): fa is Right<L, A>
 ```
+Returns `true` if the either is an instance of `Right`, `false` otherwise
 
 # left
 *function*
 ```ts
 <L, A>(l: L): Either<L, A>
 ```
+Constructs a new `Either` holding a `Left` value.
+This usually represents a failure, due to the right-bias of this structure
 
 # map
 *function*
@@ -195,6 +218,7 @@ Returns the value from this `Right` or the given argument if this is a `Left`
 ```ts
 <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>): Either<M, A>
 ```
+Maps the left side of the disjunction
 
 # of
 *function*
@@ -214,6 +238,15 @@ Alias of
 ```ts
 of
 ```
+Constructs a new `Either` holding a `Right` value.
+This usually represents a successful value due to the right bias of this structure
+
+# swap
+*function*
+```ts
+<L, A>(fa: Either<L, A>): Either<A, L>
+```
+Swaps the disjunction values
 
 # toOption
 *function*

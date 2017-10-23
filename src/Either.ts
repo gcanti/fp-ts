@@ -70,16 +70,19 @@ export class Left<L, A>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
     return f => F.of(this as any)
   }
+  /** Applies a function to each case in the data structure */
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return left(this.value)
   }
+  /** Returns the value from this `Right` or the given argument if this is a `Left` */
   getOrElseValue(a: A): A {
     return a
   }
-  /** Returns the value from this `Right` or the given argument if this is a `Left` */
+  /** Returns the value from this `Right` or the result of given argument if this is a `Left` */
   getOrElse(f: (l: L) => A): A {
     return f(this.value)
   }
+  /** Maps the left side of the disjunction */
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return left(f(this.value))
   }
@@ -91,6 +94,18 @@ export class Left<L, A>
   }
   toString(): string {
     return `left(${toString(this.value)})`
+  }
+  /** Returns `true` if the either is an instance of `Left`, `false` otherwise */
+  isLeft(): boolean {
+    return true
+  }
+  /** Returns `true` if the either is an instance of `Right`, `false` otherwise */
+  isRight(): boolean {
+    return false
+  }
+  /** Swaps the disjunction values */
+  swap(): Either<A, L> {
+    return right(this.value)
   }
 }
 
@@ -144,7 +159,6 @@ export class Right<L, A>
   getOrElseValue(a: A): A {
     return this.value
   }
-  /** Returns the value from this `Right` or the given argument if this is a `Left` */
   getOrElse(f: (l: L) => A): A {
     return this.value
   }
@@ -160,9 +174,21 @@ export class Right<L, A>
   toString(): string {
     return `right(${toString(this.value)})`
   }
+  isLeft(): boolean {
+    return false
+  }
+  isRight(): boolean {
+    return true
+  }
+  swap(): Either<A, L> {
+    return left(this.value)
+  }
 }
 
-/** @function */
+/**
+ * Applies a function to each case in the data structure
+ * @function
+ */
 export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B) => (fa: Either<L, A>): B => {
   return fa.fold(left, right)
 }
@@ -179,12 +205,12 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
  * Returns the value from this `Right` or the given argument if this is a `Left`
  * @function
  */
-export const getOrElseValue = <L, A>(a: A) => (fa: Either<L, A>): A => {
+export const getOrElseValue = <A>(a: A) => <L>(fa: Either<L, A>): A => {
   return fa.getOrElseValue(a)
 }
 
 /**
- * Returns the value from this `Right` or the given argument if this is a `Left`
+ * Returns the value from this `Right` or the result of given argument if this is a `Left`
  * @function
  */
 export const getOrElse = <L, A>(f: (l: L) => A) => (fa: Either<L, A>): A => {
@@ -251,22 +277,34 @@ export const chainRec = <L, A, B>(f: (a: A) => Either<L, Either<A, B>>, a: A): E
   return tailRec(e => e.fold(l => right(left(l)), r => r.fold(a => left(f(a)), b => right(right(b)))), f(a))
 }
 
-/** @function */
+/**
+ * Returns `true` if the either is an instance of `Left`, `false` otherwise
+ * @function
+ */
 export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
-  return fa._tag === 'Left'
+  return fa.isLeft()
 }
 
-/** @function */
+/**
+ * Returns `true` if the either is an instance of `Right`, `false` otherwise
+ * @function
+ */
 export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
-  return fa._tag === 'Right'
+  return fa.isRight()
 }
 
-/** @function */
+/**
+ * Constructs a new `Either` holding a `Left` value.
+ * This usually represents a failure, due to the right-bias of this structure
+ * @function
+ */
 export const left = <L, A>(l: L): Either<L, A> => {
   return new Left(l)
 }
 
 /**
+ * Constructs a new `Either` holding a `Right` value.
+ * This usually represents a successful value due to the right bias of this structure
  * @function
  * @alias of
  */
@@ -277,7 +315,10 @@ export const fromPredicate = <L, A>(predicate: Predicate<A>, l: (a: A) => L) => 
   return predicate(a) ? right(a) : left(l(a))
 }
 
-/** @function */
+/**
+ * Maps the left side of the disjunction
+ * @function
+ */
 export const mapLeft = <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>): Either<M, A> => {
   return fa.mapLeft(f)
 }
@@ -312,6 +353,14 @@ export const tryCatch = <A>(f: Lazy<A>): Either<Error, A> => {
   } catch (e) {
     return left(e)
   }
+}
+
+/**
+ * Swaps the disjunction values
+ * @function
+ */
+export const swap = <L, A>(fa: Either<L, A>): Either<A, L> => {
+  return fa.swap()
 }
 
 /** @instance */
