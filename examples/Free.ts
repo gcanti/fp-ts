@@ -1,5 +1,6 @@
-import * as free from 'fp-ts/lib/Free'
-import * as identity from 'fp-ts/lib/Identity'
+import * as free from '../src/Free'
+import * as identity from '../src/Identity'
+import { HKT } from '../src/HKT'
 
 export class Degree {
   readonly value: number
@@ -73,7 +74,8 @@ const computation = {
   }
 }
 
-export function interpretIdentity<A>(fa: InstructionF<A>): identity.Identity<A> {
+export function interpretIdentity<A>(hktfa: HKT<InstructionFURI, A>): identity.Identity<A> {
+  const fa = hktfa as InstructionF<A>
   switch (fa._tag) {
     case 'Forward':
       return identity.of(fa.more(computation.forward(fa.position, fa.length)))
@@ -100,12 +102,13 @@ console.log('--program1--')
 const result1 = program1(start).foldFree(identity)(interpretIdentity) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
 console.log(result1.value) // undefined
 
-import * as option from 'fp-ts/lib/Option'
+import * as option from '../src/Option'
 
 const nonNegative = (position: Position): option.Option<Position> =>
   position.x >= 0 && position.y >= 0 ? option.some(position) : option.none
 
-export function interpretOption<A>(fa: InstructionF<A>): option.Option<A> {
+export function interpretOption<A>(hktfa: HKT<InstructionFURI, A>): option.Option<A> {
+  const fa = hktfa as InstructionF<A>
   switch (fa._tag) {
     case 'Forward':
       return nonNegative(computation.forward(fa.position, fa.length)).map(fa.more)
@@ -179,10 +182,14 @@ export class PencilInstruction<A> {
 
 export type LogoAppF<A> = Instruction<A> | PencilInstruction<A>
 
-const injectInstruction = free.hoistFree(<A>(fa: InstructionF<A>) => new Instruction(fa))
-const injectPencil = free.hoistFree(<A>(fa: PencilInstructionF<A>) => new PencilInstruction(fa))
+const injectInstruction = free.hoistFree(
+  <A>(hktfa: HKT<InstructionFURI, A>) => new Instruction(hktfa as InstructionF<A>)
+)
+const injectPencil = free.hoistFree(
+  <A>(hktfa: HKT<PencilInstructionFURI, A>) => new PencilInstruction(hktfa as PencilInstructionF<A>)
+)
 
-const program3 = (start: Position) => {
+const program3 = (start: Position): free.Free<LogoAppFURI, void> => {
   return injectInstruction(forward(start, 10))
     .chain(p1 => injectInstruction(right(p1, new Degree(90))))
     .chain(p2 => {
@@ -207,7 +214,8 @@ export function penInterpretIdentity<A>(fa: PencilInstructionF<A>): identity.Ide
   }
 }
 
-export function logoAppInterpretIdentity<A>(fa: LogoAppF<A>): identity.Identity<A> {
+export function logoAppInterpretIdentity<A>(hktfa: HKT<LogoAppFURI, A>): identity.Identity<A> {
+  const fa = hktfa as LogoAppF<A>
   switch (fa._tag) {
     case InstructionFURI:
       return interpretIdentity(fa.value)

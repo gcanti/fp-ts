@@ -1,17 +1,14 @@
 {
   "compilerOptions": {
-    "noStrictGenericChecks": true,
     "declaration": true,
     "module": "commonjs",
-    "noImplicitAny": true,
+    "strict": true,
     "noImplicitReturns": false,
-    "noImplicitThis": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "noEmitOnError": false,
     "allowJs": false,
-    "strictNullChecks": true,
     "target": "es5",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
