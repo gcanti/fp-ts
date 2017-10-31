@@ -12,6 +12,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases.
 **Note**: A feature tagged as Experimental is in a high state of flux, you're at risk of it changing without notice.
 
+# 0.6.1
+
+- **Breaking Change**
+  - upgrade to latest TypeScript (2.6.1), fix #244 (@gcanti)
+
 # 0.5.4
 
 - **New Feature**
