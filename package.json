@@ -42,7 +42,7 @@
     "ts-simple-ast": "0.74.0",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "2.6.0-rc"
+    "typescript": "2.6.1"
   },
   "tags": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"],
   "keywords": ["typescript", "static-land", "fantasy-land", "algebraic-data-types", "functional-programming"]
