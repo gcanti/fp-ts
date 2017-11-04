@@ -121,7 +121,10 @@ export function hoistFree<F extends HKT2S, G>(
 ): (<A>(fa: Free<F, A>) => Free<G, A>)
 export function hoistFree<F extends HKTS, G>(nt: <A>(fa: HKTAs<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
 export function hoistFree<F, G>(nt: NaturalTransformation<F, G>): (<A>(fa: Free<F, A>) => Free<G, A>)
-/** @function */
+/**
+ * Use a natural transformation to change the generating type constructor of a free monad
+ * @function
+ */
 export function hoistFree<F, G>(nt: NaturalTransformation<F, G>): (<A>(fa: Free<F, A>) => Free<G, A>) {
   return substFree(fa => liftF(nt(fa)))
 }
@@ -136,7 +139,12 @@ export function foldFree<M extends HKTS>(
   M: Monad<M>
 ): <F extends HKTS>(f: <A>(fa: HKTAs<F, A>) => HKT<M, A>) => <A>(fa: Free<F, A>) => HKTAs<M, A>
 export function foldFree<M>(M: Monad<M>): <F>(f: NaturalTransformation<F, M>) => <A>(fa: Free<F, A>) => HKT<M, A>
-/** @function */
-export function foldFree<M>(M: Monad<M>): <F extends HKTS>(f: any) => <A>(fa: Free<F, A>) => HKT<M, A> {
+/**
+ * Note. This function is overloaded so, despite the argument `f` being ill-typed, is type safe
+ * @function
+ */
+export function foldFree<M>(
+  M: Monad<M>
+): <F>(f: any /* NaturalTransformation<F, M> */) => <A>(fa: Free<F, A>) => HKT<M, A> {
   return f => fa => fa.foldFree(M)(f)
 }

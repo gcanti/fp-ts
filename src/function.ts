@@ -58,17 +58,37 @@ export const constant = <A>(a: A): Lazy<A> => {
   return () => a
 }
 
-/** A thunk that returns always `true` */
-export const constTrue: Lazy<boolean> = constant(true)
+/**
+ * A thunk that returns always `true`
+ * @function
+ */
+export const constTrue = (): boolean => {
+  return true
+}
 
-/** A thunk that returns always `false` */
-export const constFalse: Lazy<boolean> = constant(false)
+/**
+ * A thunk that returns always `false`
+ * @function
+ */
+export const constFalse = (): boolean => {
+  return false
+}
 
-/** A thunk that returns always `null` */
-export const constNull: Lazy<null> = constant(null)
+/**
+ * A thunk that returns always `null`
+ * @function
+ */
+export const constNull = (): null => {
+  return null
+}
 
-/** A thunk that returns always `undefined` */
-export const constUndefined: Lazy<undefined> = constant(undefined)
+/**
+ * A thunk that returns always `undefined`
+ * @function
+ */
+export const constUndefined = (): undefined => {
+  return undefined
+}
 
 /** @function */
 export const identity = <A>(a: A): A => {
