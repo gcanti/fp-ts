@@ -59,6 +59,7 @@ The idea (faking higher kinded types in TypeScript) is based on
   - [Type safe finite state machines with `IxIO`](examples/ixIO.ts)
   - [Moore machine](examples/Moore.ts)
   - [Debugging with `Trace`](examples/debugging-with-Trace.ts)
+- [fantas-eel-and-specification](docs/fantas-eel-and-specification) - Code for the [Fantas, Eel, and Specification](http://www.tomharding.me/2017/03/03/fantas-eel-and-specification/) blog series on functional programming by Tom Harding
 
 # License
 
