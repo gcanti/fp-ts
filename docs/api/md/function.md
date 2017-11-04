@@ -25,6 +25,34 @@ Applies an argument to a function (#)
 compose(...fns: Array<Function>): Function 
 ```
 
+# constFalse
+*function*
+```ts
+(): boolean
+```
+A thunk that returns always `false`
+
+# constNull
+*function*
+```ts
+(): null
+```
+A thunk that returns always `null`
+
+# constTrue
+*function*
+```ts
+(): boolean
+```
+A thunk that returns always `true`
+
+# constUndefined
+*function*
+```ts
+(): undefined
+```
+A thunk that returns always `undefined`
+
 # constant
 *function*
 ```ts

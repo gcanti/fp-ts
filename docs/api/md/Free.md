@@ -37,13 +37,16 @@ type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 # foldFree
 *function*
 ```ts
-foldFree<M>(M: Monad<M>): <F>(f: NaturalTransformation<F, M>) => <A>(fa: Free<F, A>) => HKT<M, A> 
+foldFree<M>(
+  M: Monad<M>
+): <F>(f: any /* NaturalTransformation<F, M> */) => <A>(fa: Free<F, A>) => HKT<M, A> 
 ```
+Note. This function is overloaded so, despite the argument `f` being ill-typed, is type safe
 
 # hoistFree
 *function*
 ```ts
-<F, G>(nt: NaturalTransformation<F, G>): (<A>(fa: Free<F, A>) => Free<G, A>)
+hoistFree<F, G>(nt: NaturalTransformation<F, G>): (<A>(fa: Free<F, A>) => Free<G, A>) 
 ```
 Use a natural transformation to change the generating type constructor of a free monad
 
