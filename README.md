@@ -2,6 +2,10 @@
 [![dependency status](https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square)](https://david-dm.org/gcanti/fp-ts)
 ![npm downloads](https://img.shields.io/npm/dm/fp-ts.svg)
 
+<a href="docs/api/md/index.md">
+  <img src="fp-ts-logo.png">
+</a>
+
 Inspired by
 
 - [PureScript](http://www.purescript.org)
