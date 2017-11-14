@@ -6,6 +6,46 @@ interface Semigroup<A> {
   concat: (x: A) => (y: A) => A
 }
 ```
+# semigroupAll
+*instance*
+```ts
+Semigroup<boolean>
+```
+Boolean semigroup under conjunction
+
+# semigroupAny
+*instance*
+```ts
+Semigroup<boolean>
+```
+Boolean semigroup under disjunction
+
+# semigroupArray
+*instance*
+```ts
+Semigroup<Array<any>>
+```
+Semigroup under array concatenation (`Array<any>`)
+
+# semigroupProduct
+*instance*
+```ts
+Semigroup<number>
+```
+Number Semigroup under multiplication
+
+# semigroupString
+*instance*
+```ts
+Semigroup<string>
+```
+
+# semigroupSum
+*instance*
+```ts
+Semigroup<number>
+```
+Number Semigroup under addition
 # fold
 *function*
 ```ts
