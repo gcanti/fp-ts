@@ -62,3 +62,48 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
     concat: max(O)
   }
 }
+
+/**
+ * Boolean semigroup under conjunction
+ * @instance
+ */
+export const semigroupAll: Semigroup<boolean> = {
+  concat: x => y => x && y
+}
+
+/**
+ * Boolean semigroup under disjunction
+ * @instance
+ */
+export const semigroupAny: Semigroup<boolean> = {
+  concat: x => y => x || y
+}
+
+/**
+ * Semigroup under array concatenation (`Array<any>`)
+ * @instance
+ */
+export const semigroupArray: Semigroup<Array<any>> = {
+  concat: x => y => x.concat(y)
+}
+
+/**
+ * Number Semigroup under addition
+ * @instance
+ */
+export const semigroupSum: Semigroup<number> = {
+  concat: x => y => x + y
+}
+
+/**
+ * Number Semigroup under multiplication
+ * @instance
+ */
+export const semigroupProduct: Semigroup<number> = {
+  concat: x => y => x * y
+}
+
+/** @instance */
+export const semigroupString: Semigroup<string> = {
+  concat: x => y => x + y
+}

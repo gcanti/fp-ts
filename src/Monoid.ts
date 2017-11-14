@@ -3,7 +3,13 @@ import {
   getProductSemigroup,
   getDualSemigroup,
   fold as foldSemigroup,
-  getRecordSemigroup
+  getRecordSemigroup,
+  semigroupAll,
+  semigroupString,
+  semigroupProduct,
+  semigroupSum,
+  semigroupArray,
+  semigroupAny
 } from './Semigroup'
 import { constant, Endomorphism, identity, compose } from './function'
 
@@ -39,7 +45,7 @@ export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
  * @instance
  */
 export const monoidAll: Monoid<boolean> = {
-  concat: x => y => x && y,
+  ...semigroupAll,
   empty: () => true
 }
 
@@ -48,7 +54,7 @@ export const monoidAll: Monoid<boolean> = {
  * @instance
  */
 export const monoidAny: Monoid<boolean> = {
-  concat: x => y => x || y,
+  ...semigroupAny,
   empty: () => false
 }
 
@@ -57,7 +63,7 @@ export const monoidAny: Monoid<boolean> = {
  * @instance
  */
 export const monoidArray: Monoid<Array<any>> = {
-  concat: x => y => x.concat(y),
+  ...semigroupArray,
   empty: () => []
 }
 
@@ -66,7 +72,7 @@ export const monoidArray: Monoid<Array<any>> = {
  * @instance
  */
 export const monoidSum: Monoid<number> = {
-  concat: x => y => x + y,
+  ...semigroupSum,
   empty: () => 0
 }
 
@@ -75,13 +81,13 @@ export const monoidSum: Monoid<number> = {
  * @instance
  */
 export const monoidProduct: Monoid<number> = {
-  concat: x => y => x * y,
+  ...semigroupProduct,
   empty: () => 1
 }
 
 /** @instance */
 export const monoidString: Monoid<string> = {
-  concat: x => y => x + y,
+  ...semigroupString,
   empty: () => ''
 }
 
