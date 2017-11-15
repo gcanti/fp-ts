@@ -1,4 +1,4 @@
-# HKT, URI2HKT, HKTS, HKTAs
+# How `HKT`, `URI2HKT`, `HKTS` and `HKTAs` work
 
 ## Introduction
 
