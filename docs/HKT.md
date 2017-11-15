@@ -38,8 +38,8 @@ export const URI = 'Identity'
 export type URI = typeof URI
 
 export class Identity<A> {
-  readonly _A: A
-  readonly _URI: URI
+  readonly _A: A     // --> these make Identity an HKT
+  readonly _URI: URI // ----^
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Identity<B> {
     return new Identity(f(this.value))
@@ -85,7 +85,7 @@ x.value // static error: Property 'value' does not exist on type 'HKT<"Identity"
 
 ## The solution
 
-We must somehow teach TypeScript that `HKT<"Identity", number>` is really `Identity<number>`, or more generally that `HKT<"Identity", A>` is `Identity<number>` for all `A`.
+We must somehow teach TypeScript that `HKT<"Identity", number>` is really `Identity<number>`, or more generally that `HKT<"Identity", A>` is `Identity<A>` for all `A`.
 
 ### First step: build a type level map `URI -> Type constructor`
 
@@ -104,10 +104,12 @@ Adding an entry means to leverage the module augmentation feature
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    Identity: Identity<A> // maps the URI "Identity" to the type constructor `Identity`
+    Identity: Identity<A> // maps the key "Identity" to the type constructor `Identity`
   }
 }
 ```
+
+**Note**. The value of the key must be the same value used to define the `URI` constant and type in the file `Identity.ts`.
 
 ### Second step: add a specialized overloading to `lift`
 
@@ -142,8 +144,11 @@ In order to make easier to define an overloading, we can write some type aliases
 ```ts
 // HKT.ts
 
+// HKTS contains all the URIs registered via module augmentation
 export type HKTS = keyof URI2HKT<any>
 
+// HKTAs extracts the actual registered type constructor from the type-level storage,
+// using the provided type and URI arguments.
 export type HKTAs<F extends HKTS, A> = URI2HKT<A>[F]
 ```
 
