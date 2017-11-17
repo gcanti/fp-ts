@@ -14,6 +14,7 @@ import { Ord, toNativeComparator } from './Ord'
 import { Extend } from './Extend'
 import { Predicate, identity, Lazy, Endomorphism, Refinement, tuple } from './function'
 import { Either } from './Either'
+import { Semigroup } from './Semigroup'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -42,6 +43,21 @@ export const empty = (): Array<any> => {
 /** @function */
 export const concat = <A>(x: Array<A>) => (y: Array<A>): Array<A> => {
   return x.concat(y)
+}
+
+/** @function */
+export const getSemigroup = <A>(): Semigroup<Array<A>> => {
+  return {
+    concat: array.concat
+  }
+}
+
+/** @function */
+export const getMonoid = <A>(): Monoid<Array<A>> => {
+  return {
+    ...getSemigroup<A>(),
+    empty
+  }
 }
 
 /** @function */
