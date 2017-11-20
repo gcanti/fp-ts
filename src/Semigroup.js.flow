@@ -1,0 +1,37 @@
+// @flow
+import type { Ord } from './Ord'
+import { min, max } from './Ord'
+
+export interface Semigroup<A> {
+  concat: (x: A) => (y: A) => A;
+}
+
+declare export var fold: <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>) => A
+
+declare export var getFirstSemigroup: <A>() => Semigroup<A>
+
+declare export var getLastSemigroup: <A>() => Semigroup<A>
+
+declare export var getProductSemigroup: <A, B>(SA: Semigroup<A>, SB: Semigroup<B>) => Semigroup<[A, B]>
+
+declare export var getDualSemigroup: <A>(S: Semigroup<A>) => Semigroup<A>
+
+declare export var getRecordSemigroup: <O: { [key: string]: Semigroup<any> }>(
+  semigroups: O
+) => Semigroup<$ObjMap<O, <A>(S: Semigroup<A>) => A>>
+
+declare export var getMeetSemigroup: <A>(O: Ord<A>) => Semigroup<A>
+
+declare export var getJoinSemigroup: <A>(O: Ord<A>) => Semigroup<A>
+
+declare export var semigroupAll: Semigroup<boolean>
+
+declare export var semigroupAny: Semigroup<boolean>
+
+declare export var semigroupArray: Semigroup<Array<any>>
+
+declare export var semigroupSum: Semigroup<number>
+
+declare export var semigroupProduct: Semigroup<number>
+
+declare export var semigroupString: Semigroup<string>

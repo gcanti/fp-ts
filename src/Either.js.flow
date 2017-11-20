@@ -1,0 +1,101 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Setoid } from './Setoid'
+import type { Option } from './Option'
+import type { Applicative } from './Applicative'
+import type { Monad } from './Monad'
+import type { Foldable } from './Foldable'
+import type { Traversable } from './Traversable'
+import type { Bifunctor } from './Bifunctor'
+import type { Alt } from './Alt'
+import type { Extend } from './Extend'
+import type { ChainRec } from './ChainRec'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => Either<L, A>
+
+export type Either<L, A> = Left<L, A> | Right<L, A>
+
+declare export class Left<L, A> {
+  +_tag: 'Left';
+  +value: L;
+  constructor(value: L): Left<L>;
+  fold<R>(left: (l: L) => R, right: (a: A) => R): R;
+  map<B>(f: (a: A) => B): Either<L, B>;
+  ap<B>(fab: Either<L, (a: A) => B>): Either<L, B>;
+  chain<B>(f: (a: A) => Either<L, B>): Either<L, B>;
+  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B>;
+  alt(fy: Either<L, A>): Either<L, A>;
+  extend<B>(f: (ea: Either<L, A>) => B): Either<L, B>;
+  reduce<B>(f: (b: B, a: A) => B, b: B): B;
+  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Either<L, B>>;
+  fold<B>(left: (l: L) => B, right: (a: A) => B): B;
+  getOrElseValue(a: A): A;
+  getOrElse(f: (l: L) => A): A;
+  mapLeft<M>(f: (l: L) => M): Either<M, A>;
+  toOption(): Option<A>;
+  inspect(): string;
+  toString(): string;
+  isLeft(): boolean;
+  isRight(): boolean;
+  swap(): Either<A, L>;
+}
+
+declare export class Right<L, A> {
+  +_tag: 'Right';
+  +value: A;
+  constructor(value: A): Right<A>;
+  fold<R>(left: (l: L) => R, right: (a: A) => R): R;
+  map<B>(f: (a: A) => B): Either<L, B>;
+  ap<B>(fab: Either<L, (a: A) => B>): Either<L, B>;
+  chain<B>(f: (a: A) => Either<L, B>): Either<L, B>;
+  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B>;
+  alt(fy: Either<L, A>): Either<L, A>;
+  extend<B>(f: (ea: Either<L, A>) => B): Either<L, B>;
+  reduce<B>(f: (b: B, a: A) => B, b: B): B;
+  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Either<L, B>>;
+  fold<B>(left: (l: L) => B, right: (a: A) => B): B;
+  getOrElseValue(a: A): A;
+  getOrElse(f: (l: L) => A): A;
+  mapLeft<M>(f: (l: L) => M): Either<M, A>;
+  toOption(): Option<A>;
+  inspect(): string;
+  toString(): string;
+  isLeft(): boolean;
+  isRight(): boolean;
+  swap(): Either<A, L>;
+}
+
+declare export var fold: <L, A, B>(left: (l: L) => B, right: (a: A) => B) => (fa: Either<L, A>) => B
+
+declare export var getSetoid: <L, A>(SL: Setoid<L>, SA: Setoid<A>) => Setoid<Either<L, A>>
+
+declare export var getOrElseValue: <A>(a: A) => <L>(fa: Either<L, A>) => A
+
+declare export var getOrElse: <L, A>(f: (l: L) => A) => (fa: Either<L, A>) => A
+
+declare export var isLeft: <L, A>(fa: Either<L, A>) => boolean
+
+declare export var isRight: <L, A>(fa: Either<L, A>) => boolean
+
+declare export var right: <L, A>(a: A) => Either<L, A>
+
+declare export var left: <L, A>(l: L) => Either<L, A>
+
+declare export var fromPredicate: <L, A>(predicate: (a: A) => boolean, l: (a: A) => L) => (a: A) => Either<L, A>
+
+declare export var mapLeft: <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>) => Either<M, A>
+
+declare export var fromOption: <L>(defaultValue: L) => <A>(fa: Option<A>) => Either<L, A>
+
+declare export var fromNullable: <L>(defaultValue: L) => <A>(a: A | null | void) => Either<L, A>
+
+declare export var toOption: <L, A>(fa: Either<L, A>) => Option<A>
+
+declare export var tryCatch: <A>(f: () => A) => Either<Error, A>
+
+declare export var swap: <L, A>(fa: Either<L, A>) => Either<A, L>
+
+export interface Instances
+  extends Monad<URIT>, Foldable<URIT>, Traversable<URIT>, Bifunctor<URIT>, Alt<URIT>, Extend<URIT>, ChainRec<URIT> {}
+
+declare export var either: Instances

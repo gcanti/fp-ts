@@ -1,0 +1,4 @@
+// @flow
+import type { HKT } from './HKT'
+
+export type NaturalTransformation<F, G> = <U, L, A>(fa: HKT<F, U, L, A>) => HKT<G, U, L, A>

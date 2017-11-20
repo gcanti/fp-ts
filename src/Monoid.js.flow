@@ -1,0 +1,34 @@
+// @flow
+import type { Semigroup } from './Semigroup'
+
+export interface Monoid<A> extends Semigroup<A> {
+  empty: () => A;
+}
+
+declare export var fold: <A>(M: Monoid<A>) => (as: Array<A>) => A
+
+declare export var getProductMonoid: <A, B>(MA: Monoid<A>, MB: Monoid<B>) => Monoid<[A, B]>
+
+declare export var getDualMonoid: <A>(M: Monoid<A>) => Monoid<A>
+
+declare export var monoidAll: Monoid<boolean>
+
+declare export var monoidAny: Monoid<boolean>
+
+declare export var monoidArray: Monoid<Array<any>>
+
+declare export var monoidSum: Monoid<number>
+
+declare export var monoidProduct: Monoid<number>
+
+declare export var monoidString: Monoid<string>
+
+declare export var getFunctionMonoid: <M>(monoid: Monoid<M>) => <A>() => Monoid<(a: A) => M>
+
+declare export var getEndomorphismMonoid: <A>() => Monoid<(a: A) => A>
+
+declare export var getArrayMonoid: <A>() => Monoid<Array<A>>
+
+declare export var getRecordMonoid: <O: { [key: string]: Monoid<any> }>(
+  monoids: O
+) => Monoid<$ObjMap<O, <A>(S: Monoid<A>) => A>>

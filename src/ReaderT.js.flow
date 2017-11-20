@@ -1,0 +1,36 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Functor } from './Functor'
+import type { Applicative } from './Applicative'
+import type { Chain } from './Chain'
+import type { Monad } from './Monad'
+
+export interface ReaderT<M> {
+  map<E, A, B, U, L>(f: (a: A) => B, fa: (e: E) => HKT<M, U, L, A>): (e: E) => HKT<M, U, L, B>;
+  of<E, A, U, L>(a: A): (e: E) => HKT<M, U, L, A>;
+  ap<E, A, B, U, L>(fab: (e: E) => HKT<M, U, L, (a: A) => B>, fa: (e: E) => HKT<M, U, L, A>): (e: E) => HKT<M, U, L, B>;
+  chain<E, A, B, U, L>(
+    f: (a: A) => (e: E) => HKT<M, U, L, B>,
+    fa: (e: E) => HKT<M, U, L, A>
+  ): (e: E) => HKT<M, U, L, B>;
+}
+
+declare export var map: <F, E, A, B, U, L>(
+  F: Functor<F>
+) => (f: (a: A) => B, fa: (e: E) => HKT<F, U, L, A>) => (e: E) => HKT<F, U, L, B>
+
+declare export var of: <F, E, A, U, L>(F: Applicative<F>) => (a: A) => (e: E) => HKT<F, U, L, A>
+
+declare export var ap: <F, E, A, B, U, L>(
+  F: Applicative<F>
+) => (fab: (e: E) => HKT<F, U, L, (a: A) => B>, fa: (e: E) => HKT<F, U, L, A>) => (e: E) => HKT<F, U, L, B>
+
+declare export var chain: <F, E, A, B, U, L>(
+  F: Chain<F>
+) => (f: (a: A) => (e: E) => HKT<F, U, L, B>, fa: (e: E) => HKT<F, U, L, A>) => (e: E) => HKT<F, U, L, B>
+
+declare export var ask: <F, E, U, L>(F: Applicative<F>) => () => (e: E) => HKT<F, U, L, E>
+
+declare export var asks: <F, E, A, U, L>(F: Applicative<F>) => (f: (e: E) => A) => (e: E) => HKT<F, U, L, A>
+
+declare export var getReaderT: <M>(M: Monad<M>) => ReaderT<M>

@@ -1,0 +1,65 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Monoid } from './Monoid'
+import type { Functor } from './Functor'
+import type { Applicative } from './Applicative'
+import type { Foldable } from './Foldable'
+import type { Traversable } from './Traversable'
+import type { Setoid } from './Setoid'
+import type { Option } from './Option'
+import type { Unfoldable } from './Unfoldable'
+import type { Semigroup } from './Semigroup'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => StrMap<A>
+
+declare export class StrMap<A> {
+  +value: { [key: string]: A };
+  constructor(value: { [key: string]: A }): StrMap<A>;
+  mapWithKey<B>(f: (k: string, a: A) => B): StrMap<B>;
+  map<B>(f: (a: A) => B): StrMap<B>;
+  reduce<B>(f: (b: B, a: A) => B, b: B): B;
+  traverseWithKey<F, B, U, L>(F: Applicative<F>): (f: (k: string, a: A) => HKT<F, U, L, B>) => HKT<F, U, L, StrMap<B>>;
+  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, StrMap<B>>;
+}
+
+declare export var getSemigroup: <A>() => Semigroup<StrMap<A>>
+
+declare export var getMonoid: <A>() => Monoid<StrMap<A>>
+
+declare export var traverseWithKey: <F, A, B, U, L>(
+  F: Applicative<F>
+) => (f: (k: string, a: A) => HKT<F, U, L, B>, ta: StrMap<A>) => HKT<F, U, L, StrMap<B>>
+
+declare export var isSubdictionary: <A>(setoid: Setoid<A>) => (d1: StrMap<A>) => (d2: StrMap<A>) => boolean
+
+declare export var size: <A>(d: StrMap<A>) => number
+
+declare export var isEmpty: <A>(d: StrMap<A>) => boolean
+
+declare export var getSetoid: <A>(setoid: Setoid<A>) => Setoid<StrMap<A>>
+
+declare export var singleton: (k: string) => <A>(a: A) => StrMap<A>
+
+declare export var lookup: (k: string) => <A>(d: StrMap<A>) => Option<A>
+
+declare export var fromFoldable: <F, A>(
+  F: Foldable<F>
+) => (f: (existing: A) => (a: A) => A) => (ta: HKT<F, [string, A]>) => StrMap<A>
+
+declare export var collect: <A, B>(f: (k: string, a: A) => B) => (d: StrMap<A>) => Array<B>
+
+declare export var toArray: <A>(d: StrMap<A>) => Array<[string, A]>
+
+declare export var toUnfoldable: <F, A, U, L>(unfoldable: Unfoldable<F>) => (d: StrMap<A>) => HKT<F, U, L, [string, A]>
+
+declare export var mapWithKey: <A, B>(f: (k: string, a: A) => B, fa: StrMap<A>) => StrMap<B>
+
+declare export var insert: (k: string) => <A>(a: A) => (d: StrMap<A>) => StrMap<A>
+
+declare export var remove: (k: string) => <A>(d: StrMap<A>) => StrMap<A>
+
+declare export var pop: (k: string) => <A>(d: StrMap<A>) => Option<[A, StrMap<A>]>
+
+export interface Instances extends Functor<URIT>, Foldable<URIT>, Traversable<URIT> {}
+
+declare export var strmap: Instances

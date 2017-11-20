@@ -1,0 +1,47 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Functor } from './Functor'
+import type { Applicative } from './Applicative'
+import type { Chain } from './Chain'
+import type { Monad } from './Monad'
+import type { Endomorphism } from './function'
+
+export interface StateT<M> {
+  map<S, A, B, U, L>(f: (a: A) => B, fa: (s: S) => HKT<M, U, L, [A, S]>): (s: S) => HKT<M, U, L, [B, S]>;
+  of<S, A, U, L>(a: A): (s: S) => HKT<M, U, L, [A, S]>;
+  ap<S, A, B, U, L>(
+    fab: (s: S) => HKT<M, U, L, [(a: A) => B, S]>,
+    fa: (s: S) => HKT<M, U, L, [A, S]>
+  ): (s: S) => HKT<M, U, L, [B, S]>;
+  chain<S, A, B, U, L>(
+    f: (a: A) => (s: S) => HKT<M, U, L, [B, S]>,
+    fa: (s: S) => HKT<M, U, L, [A, S]>
+  ): (s: S) => HKT<M, U, L, [B, S]>;
+}
+
+declare export var map: <F, S, A, B, U, L>(
+  F: Functor<F>
+) => (f: (a: A) => B, fa: (s: S) => HKT<F, U, L, [A, S]>) => (s: S) => HKT<F, U, L, [B, S]>
+
+declare export var of: <F, S, A, U, L>(F: Applicative<F>) => (a: A) => (s: S) => HKT<F, U, L, [A, S]>
+
+declare export var ap: <F, S, A, B, U, L>(
+  F: Chain<F>
+) => (
+  fab: (s: S) => HKT<F, U, L, [(a: A) => B, S]>,
+  fa: (s: S) => HKT<F, U, L, [A, S]>
+) => (s: S) => HKT<F, U, L, [B, S]>
+
+declare export var chain: <F, S, A, B, U, L>(
+  F: Chain<F>
+) => (f: (a: A) => (s: S) => HKT<F, U, L, [B, S]>, fa: (s: S) => HKT<F, U, L, [A, S]>) => (s: S) => HKT<F, U, L, [B, S]>
+
+declare export var get: <F, S, U, L>(F: Applicative<F>) => () => (s: S) => HKT<F, U, L, [S, S]>
+
+declare export var put: <F, S, U, L>(F: Applicative<F>) => (s: S) => () => HKT<F, U, L, [void, S]>
+
+declare export var modify: <F, S, U, L>(F: Applicative<F>) => (f: Endomorphism<S>) => (s: S) => HKT<F, U, L, [void, S]>
+
+declare export var gets: <F, S, A, U, L>(F: Applicative<F>) => (f: (s: S) => A) => (s: S) => HKT<F, U, L, [A, S]>
+
+declare export var getStateT: <M>(M: Monad<M>) => StateT<M>

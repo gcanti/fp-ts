@@ -1,0 +1,14 @@
+// @flow
+export interface Setoid<A> {
+  equals: (x: A) => (y: A) => boolean;
+}
+
+declare export var strictEqual: (a: any) => (b: any) => boolean
+
+declare export var setoidString: Setoid<string>
+
+declare export var setoidNumber: Setoid<number>
+
+declare export var setoidBoolean: Setoid<boolean>
+
+declare export var getArraySetoid: <A>(S: Setoid<A>) => Setoid<Array<A>>

@@ -1,0 +1,99 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Functor } from './Functor'
+import type { Applicative } from './Applicative'
+import type { Semigroup } from './Semigroup'
+import type { Foldable } from './Foldable'
+import type { Setoid } from './Setoid'
+import type { Traversable } from './Traversable'
+import type { Alt } from './Alt'
+import type { Predicate } from './function'
+import type { Option } from './Option'
+import type { Either } from './Either'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => Validation<L, A>
+
+export type Validation<L, A> = Failure<L, A> | Success<L, A>
+
+declare export class Failure<L, A> {
+  +_tag: 'Failure';
+  +semigroup: Semigroup<L>;
+  +value: L;
+  constructor(semigroup: Semigroup<L>, value: L): Failure<L, A>;
+  map<B>(f: (a: A) => B): Validation<L, B>;
+  ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B>;
+  bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B>;
+  alt(fy: Validation<L, A>): Validation<L, A>;
+  reduce<B>(f: (b: B, a: A) => B, b: B): B;
+  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Validation<L, B>>;
+  fold<B>(failure: (l: L) => B, success: (a: A) => B): B;
+  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean;
+  concat(fy: Validation<L, A>): Validation<L, A>;
+  mapFailure<M>(S: Semigroup<M>): (f: (l: L) => M) => Validation<M, A>;
+  swap(S: Semigroup<A>): Validation<A, L>;
+  toOption(): Option<A>;
+  toEither(): Either<L, A>;
+  inspect(): string;
+  toString(): string;
+  isFailure(): boolean;
+  isSuccess(): boolean;
+}
+
+declare export class Success<+L, +A> {
+  +_tag: 'Success';
+  +value: A;
+  constructor(value: A): Success<L, A>;
+  map<B>(f: (a: A) => B): Validation<L, B>;
+  ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B>;
+  bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B>;
+  alt(fy: Validation<L, A>): Validation<L, A>;
+  reduce<B>(f: (b: B, a: A) => B, b: B): B;
+  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Validation<L, B>>;
+  fold<B>(failure: (l: L) => B, success: (a: A) => B): B;
+  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean;
+  concat(fy: Validation<L, A>): Validation<L, A>;
+  mapFailure<M>(S: Semigroup<M>): (f: (l: L) => M) => Validation<M, A>;
+  swap(S: Semigroup<A>): Validation<A, L>;
+  toOption(): Option<A>;
+  toEither(): Either<L, A>;
+  inspect(): string;
+  toString(): string;
+  isFailure(): boolean;
+  isSuccess(): boolean;
+}
+
+declare export var fold: <L, A, B>(failure: (l: L) => B, success: (a: A) => B) => (fa: Validation<L, A>) => B
+
+declare export var getSetoid: <L, A>(SL: Setoid<L>, SA: Setoid<A>) => Setoid<Validation<L, A>>
+
+declare export var isFailure: <L, A>(fa: Validation<L, A>) => boolean
+
+declare export var isSuccess: <L, A>(fa: Validation<L, A>) => boolean
+
+declare export var failure: <L>(L: Semigroup<L>) => <A>(l: L) => Validation<L, A>
+
+declare export var success: <L, A>(a: A) => Validation<L, A>
+
+declare export var fromPredicate: <L, A>(
+  S: Semigroup<L>
+) => (predicate: Predicate<A>, f: (a: A) => L) => (a: A) => Validation<L, A>
+
+declare export var fromEither: <L, A>(S: Semigroup<L>) => (e: Either<L, A>) => Validation<L, A>
+
+declare export var concat: <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>) => Validation<L, A>
+
+declare export var getSemigroup: <L, A>() => Semigroup<Validation<L, A>>
+
+declare export var mapFailure: <M, L>(
+  S: Semigroup<M>
+) => (f: (l: L) => M) => <A>(fa: Validation<L, A>) => Validation<M, A>
+
+declare export var swap: <L, A>(S: Semigroup<A>) => (fa: Validation<L, A>) => Validation<A, L>
+
+declare export var toOption: <L, A>(fa: Validation<L, A>) => Option<A>
+
+declare export var toEither: <L, A>(fa: Validation<L, A>) => Either<L, A>
+
+export interface Instances extends Functor<URIT>, Applicative<URIT>, Foldable<URIT>, Traversable<URIT>, Alt<URIT> {}
+
+declare export var validation: Instances

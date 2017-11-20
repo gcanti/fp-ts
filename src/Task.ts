@@ -94,6 +94,11 @@ export const concat = <A>(fx: Task<A>) => (fy: Task<A>): Task<A> => {
   return fx.concat(fy)
 }
 
+/** @function */
+export const getMonoid = <A>(): Monoid<Task<A>> => {
+  return { empty, concat }
+}
+
 const neverPromise = new Promise(resolve => undefined)
 const neverLazyPromise = () => neverPromise
 const never = new Task(neverLazyPromise)

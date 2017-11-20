@@ -1,0 +1,10 @@
+// @flow
+import type { HKT } from './HKT'
+
+export interface Contravariant<F> {
+  contramap<A, B, U, L>(f: (b: B) => A, fa: HKT<F, U, L, A>): HKT<F, U, L, B>;
+}
+
+declare export function lift<F, A, B, U, L>(
+  F: Contravariant<F>
+): (f: (b: B) => A) => (fa: HKT<F, U, L, A>) => HKT<F, U, L, B>

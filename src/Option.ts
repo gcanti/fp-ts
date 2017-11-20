@@ -227,10 +227,10 @@ export const of = <A>(a: A): Option<A> => {
   return new Some(a)
 }
 
+/** @function */
 export const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => {
   return fa.ap(fab)
 }
-/** @function */
 
 /** @function */
 export const chain = <A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> => {

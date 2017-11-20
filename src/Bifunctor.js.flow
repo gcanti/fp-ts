@@ -1,0 +1,6 @@
+// @flow
+import type { HKT } from './HKT'
+
+export interface Bifunctor<F> {
+  bimap<L, A, M, B, U>(f: (l: L) => M, g: (a: A) => B, fla: HKT<F, U, L, A>): HKT<F, U, M, B>;
+}

@@ -1,0 +1,25 @@
+// @flow
+import type { Monoid } from './Monoid'
+import type { Semigroup } from './Semigroup'
+import type { Monad } from './Monad'
+import type { Lazy } from './function'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => IO<A>
+
+declare export class IO<A> {
+  +run: Lazy<A>;
+  constructor(run: Lazy<A>): IO<A>;
+  map<B>(f: (a: A) => B): IO<B>;
+  ap<B>(fab: IO<(a: A) => B>): IO<B>;
+  chain<B>(f: (a: A) => IO<B>): IO<B>;
+  inspect(): string;
+  toString(): string;
+}
+
+declare export var getSemigroup: <A>(S: Semigroup<A>) => Semigroup<IO<A>>
+
+declare export var getMonoid: <A>(M: Monoid<A>) => Monoid<IO<A>>
+
+export interface Instances extends Monad<URIT> {}
+
+declare export var io: Instances

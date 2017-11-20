@@ -1,0 +1,26 @@
+// @flow
+import type { Monad } from './Monad'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => State<L, A>
+
+declare export class State<S, A> {
+  +run: (s: S) => [A, S];
+  constructor(run: (s: S) => [A, S]): State<S, A>;
+  eval(s: S): A;
+  exec(s: S): S;
+  map<B>(f: (a: A) => B): State<S, B>;
+  ap<B>(fab: State<S, (a: A) => B>): State<S, B>;
+  chain<B>(f: (a: A) => State<S, B>): State<S, B>;
+}
+
+declare export var get: <S>() => State<S, S>
+
+declare export var put: <S>(s: S) => State<S, void>
+
+declare export var modify: <S>(f: (s: S) => S) => State<S, void>
+
+declare export var gets: <S, A>(f: (s: S) => A) => State<S, A>
+
+export interface Instances extends Monad<URIT> {}
+
+declare export var state: Instances

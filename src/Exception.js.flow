@@ -1,0 +1,16 @@
+// @flow
+import type { IO } from './IO'
+import type { Option } from './Option'
+import type { Either } from './Either'
+
+declare export var error: (message: string) => Error
+
+declare export var message: (e: Error) => string
+
+declare export var stack: (e: Error) => Option<string>
+
+declare export var throwException: <A>(e: Error) => IO<A>
+
+declare export var catchException: <A>(handler: (e: Error) => IO<A>) => (action: IO<A>) => IO<A>
+
+declare export var tryCatch: <A>(action: IO<A>) => IO<Either<Error, A>>

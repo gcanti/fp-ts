@@ -1,0 +1,30 @@
+// @flow
+import type { Monoid } from './Monoid'
+import type { Functor } from './Functor'
+import type { Contravariant } from './Contravariant'
+import type { Applicative } from './Applicative'
+import type { Apply } from './Apply'
+import type { Semigroup } from './Semigroup'
+import type { Setoid } from './Setoid'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => Const<L, A>
+
+declare export class Const<L, A> {
+  +value: L;
+  constructor(value: L): Const<L, A>;
+  map<B, C>(f: (b: B) => C): Const<L, C>;
+  contramap<B, C>(f: (c: C) => B): Const<L, C>;
+  fold<B>(f: (l: L) => B): B;
+  inspect(): string;
+  toString(): string;
+}
+
+declare export var getSetoid: <L, A>(S: Setoid<L>) => Setoid<Const<L, A>>
+
+declare export var getApply: <L>(S: Semigroup<L>) => Apply<URIT>
+
+declare export var getApplicative: <L>(M: Monoid<L>) => Applicative<URIT>
+
+export interface Instances extends Functor<URIT>, Contravariant<URIT> {}
+
+declare export var const_: Instances

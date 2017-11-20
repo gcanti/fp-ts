@@ -40,11 +40,11 @@ export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> {
   return a => F.of(option.some(a))
 }
 
-export function none<F extends HKT2S>(F: Applicative<F>): <L>() => HKT2As<F, L, Option<any>>
-export function none<F extends HKTS>(F: Applicative<F>): () => HKTAs<F, Option<any>>
-export function none<F>(F: Applicative<F>): () => HKT<F, Option<any>>
+export function none<F extends HKT2S>(F: Applicative<F>): <L>() => HKT2As<F, L, Option<never>>
+export function none<F extends HKTS>(F: Applicative<F>): () => HKTAs<F, Option<never>>
+export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
 /** @function */
-export function none<F>(F: Applicative<F>): () => HKT<F, Option<any>> {
+export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>> {
   return () => F.of(option.none)
 }
 

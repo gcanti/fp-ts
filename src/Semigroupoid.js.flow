@@ -1,0 +1,6 @@
+// @flow
+import type { HKT } from './HKT'
+
+export interface Semigroupoid<F> {
+  compose<L, A, B, U>(bc: HKT<F, U, A, B>, ab: HKT<F, U, L, A>): HKT<F, U, L, B>;
+}

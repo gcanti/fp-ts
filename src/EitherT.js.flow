@@ -1,0 +1,37 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Functor } from './Functor'
+import type { Monad } from './Monad'
+import type { ApplicativeComposition } from './Applicative'
+import type { Either, URIT } from './Either'
+import type { Option } from './Option'
+import type { Applicative } from './Applicative'
+
+export interface EitherT<F> extends ApplicativeComposition<F, URIT> {
+  chain<L, A, B, U, L>(
+    f: (a: A) => HKT<F, U, L, Either<L, B>>,
+    fa: HKT<F, U, L, Either<L, A>>
+  ): HKT<F, U, L, Either<L, B>>;
+}
+
+declare export var chain: <F, L, A, B, U, L>(
+  F: Monad<F>
+) => (f: (a: A) => HKT<F, U, L, Either<L, B>>, fa: HKT<F, U, L, Either<L, A>>) => HKT<F, U, L, Either<L, B>>
+
+declare export var right: <F, L, A>(F: Functor<F>) => (fa: HKT<F, A>) => HKT<F, Either<L, A>>
+
+declare export var left: <F, L, A>(F: Functor<F>) => (fl: HKT<F, L>) => HKT<F, Either<L, A>>
+
+declare export var fromEither: <F, L, A>(F: Applicative<F>) => (fa: Either<L, A>) => HKT<F, Either<L, A>>
+
+declare export var fold: <F, R, L, A>(
+  F: Functor<F>
+) => (left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R>
+
+declare export var mapLeft: <F, N, L>(
+  F: Functor<F>
+) => (f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>>
+
+declare export var toOption: <F, L, A>(F: Functor<F>) => (fa: HKT<F, Either<L, A>>) => HKT<F, Option<A>>
+
+declare export var getEitherT: <M>(M: Monad<M>) => EitherT<M>
