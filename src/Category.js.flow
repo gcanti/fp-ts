@@ -1,0 +1,7 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Semigroupoid } from './Semigroupoid'
+
+export interface Category<F> extends Semigroupoid<F> {
+  id: <A, U>() => HKT<F, U, A, A>;
+}

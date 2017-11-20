@@ -1,0 +1,16 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Functor } from './Functor'
+import type { Foldable } from './Foldable'
+import type { Applicative } from './Applicative'
+
+export interface Traversable<T> extends Functor<T>, Foldable<T> {
+  traverse: <F, A, B, UF, LF, UT, LT>(
+    F: Applicative<F>
+  ) => (f: (a: A) => HKT<F, UF, LF, B>, ta: HKT<T, UT, LT, A>) => HKT<F, UF, LF, HKT<T, UT, LT, B>>;
+}
+
+declare export var sequence: <F, T, A, FU, FL, TU, TL>(
+  F: Applicative<F>,
+  T: Traversable<T>
+) => (tfa: HKT<T, TU, TL, HKT<F, FU, FL, A>>) => HKT<F, FU, FL, HKT<T, TU, TL, A>>

@@ -276,6 +276,13 @@ export const concat = <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Va
 }
 
 /** @function */
+export const getSemigroup = <L, A>(): Semigroup<Validation<L, A>> => {
+  return {
+    concat
+  }
+}
+
+/** @function */
 export const mapFailure = <M>(S: Semigroup<M>) => <L>(f: (l: L) => M) => <A>(
   fa: Validation<L, A>
 ): Validation<M, A> => {

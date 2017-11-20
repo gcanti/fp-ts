@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "0.6.3",
+  "version": "0.6.4-dev.20171121.2",
   "description": "Functional programming in TypeScript",
   "files": ["lib"],
   "main": "lib/index.js",
@@ -12,9 +12,13 @@
       "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier":
       "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples,exercises}/**/*.ts\"",
+    "flow-copy-definition-files": "cp src/*.js.flow lib",
+    "flow-test": "flow status",
+    "flow-fix-prettier":
+      "prettier --no-semi --single-quote --print-width 120 --parser flow --write \"{src,test,examples,exercises}/**/*.js.flow\"",
     "test": "npm run lint && npm run prettier && npm run mocha",
     "clean": "rm -rf lib/*",
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc && npm run flow-copy-definition-files",
     "docs-incremental": "ts-node docs/api/main.ts",
     "docs": "rm -rf docs/api/md/* && npm run docs-incremental"
   },

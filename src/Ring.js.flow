@@ -1,0 +1,10 @@
+// @flow
+import type { Semiring } from './Semiring'
+
+export interface Ring<A> extends Semiring<A> {
+  sub: (x: A) => (y: A) => A;
+}
+
+declare export var getFunctionRing: <A, B>(ring: Ring<B>) => Ring<(a: A) => B>
+
+declare export var negate: <A>(ring: Ring<A>) => (a: A) => A

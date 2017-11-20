@@ -1,0 +1,20 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Applicative } from './Applicative'
+import type { Traversable } from './Traversable'
+import type { Option } from './Option'
+
+export interface Unfoldable<F> {
+  unfoldr: <A, B, U, L>(f: (b: B) => Option<[A, B]>, b: B) => HKT<F, U, L, A>;
+}
+
+declare export var replicate: <F, A>(unfoldable: Unfoldable<F>) => (n: number) => (a: A) => HKT<F, A>
+
+declare export var none: <F, A>(unfoldable: Unfoldable<F>) => HKT<F, A>
+
+declare export var singleton: <F, A>(unfoldable: Unfoldable<F>) => (a: A) => HKT<F, A>
+
+declare export var replicateA: <F, T, A>(
+  applicative: Applicative<F>,
+  unfoldableTraversable: Unfoldable<T> & Traversable<T>
+) => (n: number) => (ma: HKT<F, A>) => HKT<F, HKT<T, A>>

@@ -109,6 +109,11 @@ export const concat = <A>(fx: NonEmptyArray<A>) => (fy: NonEmptyArray<A>): NonEm
 }
 
 /** @function */
+export const getSemigroup = <A>(): Semigroup<NonEmptyArray<A>> => {
+  return { concat }
+}
+
+/** @function */
 export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): B => {
   return fa.reduce(f, b)
 }

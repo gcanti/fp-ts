@@ -1,5 +1,3 @@
-import { Function1 } from './function'
-
 // adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Semiring.purs
 
 /**
@@ -34,11 +32,11 @@ export interface Semiring<A> {
 }
 
 /** @function */
-export const getFunctionSemiring = <A, B>(semiring: Semiring<B>): Semiring<Function1<A, B>> => {
+export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => {
   return {
-    add: f => g => x => semiring.add(f(x))(g(x)),
-    zero: () => () => semiring.zero(),
-    mul: f => g => x => semiring.mul(f(x))(g(x)),
-    one: () => () => semiring.one()
+    add: f => g => x => S.add(f(x))(g(x)),
+    zero: () => () => S.zero(),
+    mul: f => g => x => S.mul(f(x))(g(x)),
+    one: () => () => S.one()
   }
 }

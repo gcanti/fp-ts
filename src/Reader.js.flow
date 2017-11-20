@@ -1,0 +1,22 @@
+// @flow
+import type { Monad } from './Monad'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => Reader<L, A>
+
+declare export class Reader<E, A> {
+  +run: (e: E) => A;
+  constructor(run: (e: E) => A): Reader<E, A>;
+  map<B>(f: (a: A) => B): Reader<E, B>;
+  ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B>;
+  chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B>;
+}
+
+declare export var ask: <E>() => Reader<E, E>
+
+declare export var asks: <E, A>(f: (e: E) => A) => Reader<E, A>
+
+declare export var local: <E, A>(f: (e: E) => E) => (fa: Reader<E, A>) => Reader<E, A>
+
+export interface Instances extends Monad<URIT> {}
+
+declare export var reader: Instances

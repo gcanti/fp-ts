@@ -1,0 +1,35 @@
+// @flow
+import type { Either } from './Either'
+import type { Task } from './Task'
+import type { Option } from './Option'
+import type { Monad } from './Monad'
+import type { Lazy } from './function'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => TaskEither<L, A>
+
+declare export class TaskEither<L, A> {
+  +value: Task<Either<L, A>>;
+  constructor(value: Task<Either<L, A>>): TaskEither<L, A>;
+  run(): Promise<Either<L, A>>;
+  map<B>(f: (a: A) => B): TaskEither<L, B>;
+  ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B>;
+  chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B>;
+  fold<R>(left: (l: L) => R, right: (a: A) => R): Task<R>;
+  mapLeft<M>(f: (l: L) => M): TaskEither<M, A>;
+  toOption(): Task<Option<A>>;
+  orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A>;
+}
+
+declare export var right: <L, A>(fa: Task<A>) => TaskEither<L, A>
+
+declare export var left: <L, A>(fa: Task<L>) => TaskEither<L, A>
+
+declare export var fromEither: <L, A>(fa: Either<L, A>) => TaskEither<L, A>
+
+declare export var tryCatch: <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L) => TaskEither<L, A>
+
+declare export var orElse: <L, M, A>(f: (l: L) => TaskEither<M, A>) => (fa: TaskEither<L, A>) => TaskEither<M, A>
+
+export interface Instances extends Monad<URIT> {}
+
+declare export var taskEither: Instances

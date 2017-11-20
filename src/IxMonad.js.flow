@@ -1,0 +1,15 @@
+// @flow
+import type { HKT } from './HKT'
+
+export interface IxMonad<F> {
+  iof<I, A>(a: A): HKT<F, I, I, A>;
+  ichain<I, O, Z, A, B>(f: (a: A) => HKT<F, O, Z, B>, fa: HKT<F, I, O, A>): HKT<F, I, Z, B>;
+}
+
+declare export var iapplyFirst: <F, I, O, A>(
+  ixmonad: IxMonad<F>
+) => (fa: HKT<F, I, O, A>) => <Z, B>(fb: HKT<F, O, Z, B>) => HKT<F, I, Z, A>
+
+declare export var iapplySecond: <F, I, O, A>(
+  ixmonad: IxMonad<F>
+) => (fa: HKT<F, I, O, A>) => <Z, B>(fb: HKT<F, O, Z, B>) => HKT<F, I, Z, B>

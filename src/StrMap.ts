@@ -9,7 +9,7 @@ import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
 import { Unfoldable } from './Unfoldable'
-import { URI as ArrayURI } from './Array'
+import { Semigroup } from './Semigroup'
 
 // https://github.com/purescript/purescript-maps
 
@@ -79,6 +79,16 @@ export const empty = <A>(): StrMap<A> => {
 /** @function */
 export const concat = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => {
   return new StrMap(Object.assign({}, x.value, y.value))
+}
+
+/** @function */
+export const getSemigroup = <A>(): Semigroup<StrMap<A>> => {
+  return { concat }
+}
+
+/** @function */
+export const getMonoid = <A>(): Monoid<StrMap<A>> => {
+  return { ...getSemigroup(), empty }
 }
 
 /** @function */
@@ -211,11 +221,8 @@ export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
  * Unfolds a dictionary into a list of key/value pairs
  * @function
  */
-export const toUnfoldable = <F extends string>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]> => {
+export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]> => {
   const arr = toArray(d)
-  if (unfoldable.URI === ArrayURI) {
-    return arr as any
-  }
   const len = arr.length
   return unfoldable.unfoldr(b => (b < len ? some(tuple(arr[b], b + 1)) : none), 0)
 }

@@ -1,0 +1,11 @@
+// @flow
+import type { Identity } from './Identity'
+import type { Either } from './Either'
+import type { Option } from './Option'
+
+//
+// hallettj's encoding
+// https://twitter.com/hallettj/status/932674096659419143
+//
+
+export type HKT<F, U, L, A> = $PropertyType<$ObjMap<{ Self: [U, L, A] }, F>, 'Self'>

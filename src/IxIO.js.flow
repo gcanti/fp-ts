@@ -1,0 +1,20 @@
+// @flow
+import type { Monad } from './Monad'
+import type { IxMonad } from './IxMonad'
+import { IO } from './IO'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => IxIO<U, L, A>
+
+declare export class IxIO<I, O, A> {
+  +value: IO<A>;
+  constructor(value: IO<A>): IxIO<A>;
+  run(): A;
+  ichain<Z, B>(f: (a: A) => IxIO<O, Z, B>): IxIO<I, Z, B>;
+  map<B>(f: (a: A) => B): IxIO<I, O, B>;
+  ap<B>(fab: IxIO<I, I, (a: A) => B>): IxIO<I, I, B>;
+  chain<B>(f: (a: A) => IxIO<I, I, B>): IxIO<I, I, B>;
+}
+
+export interface Instances extends Monad<URIT>, IxMonad<URIT> {}
+
+declare export var ixIO: Instances

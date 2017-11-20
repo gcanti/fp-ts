@@ -1,0 +1,11 @@
+// @flow
+import type { Setoid } from './Setoid'
+import type { Semigroup } from './Semigroup'
+
+export type Ordering = 'LT' | 'EQ' | 'GT'
+
+declare export var setoidOrdering: Setoid<Ordering>
+
+declare export var semigroupOrdering: Semigroup<Ordering>
+
+declare export var invert: (O: Ordering) => Ordering

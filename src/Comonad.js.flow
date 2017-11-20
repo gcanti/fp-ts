@@ -1,0 +1,7 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Extend } from './Extend'
+
+export interface Comonad<F> extends Extend<F> {
+  extract<A, U, L>(ca: HKT<F, U, L, A>): A;
+}

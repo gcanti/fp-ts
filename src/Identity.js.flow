@@ -1,0 +1,37 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Setoid } from './Setoid'
+import type { Functor } from './Functor'
+import type { Applicative } from './Applicative'
+import type { Monad } from './Monad'
+import type { Foldable } from './Foldable'
+import type { Traversable } from './Traversable'
+import type { Alt } from './Alt'
+import type { Comonad } from './Comonad'
+import type { ChainRec } from './ChainRec'
+import type { Either } from './Either'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => Identity<A>
+
+declare export class Identity<A> {
+  +value: A;
+  constructor(value: A): Identity<A>;
+  map<B>(f: (a: A) => B): Identity<B>;
+  ap<B>(fab: Identity<(a: A) => B>): Identity<B>;
+  chain<B>(f: (a: A) => Identity<B>): Identity<B>;
+  reduce<B>(f: (b: B, a: A) => B, b: B): B;
+  traverse<F, B, U, L>(applicative: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Identity<B>>;
+  alt(fx: Identity<A>): Identity<A>;
+  extract(): A;
+  extend<B>(f: (ea: Identity<A>) => B): Identity<B>;
+  fold<B>(f: (a: A) => B): B;
+  inspect(): string;
+  toString(): string;
+}
+
+declare export var getSetoid: <A>(setoid: Setoid<A>) => Setoid<Identity<A>>
+
+export interface Instances
+  extends Monad<URIT>, Foldable<URIT>, Traversable<URIT>, Alt<URIT>, Comonad<URIT>, ChainRec<URIT> {}
+
+declare export var identity: Instances

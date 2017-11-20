@@ -1,0 +1,46 @@
+// @flow
+import type { HKT } from './HKT'
+import type { Endomorphism } from './function'
+import type { Setoid } from './Setoid'
+import type { Ord } from './Ord'
+import type { Applicative } from './Applicative'
+import type { Semigroup } from './Semigroup'
+import type { Monoid } from './Monoid'
+import type { Foldable } from './Foldable'
+import type { Traversable } from './Traversable'
+import type { Comonad } from './Comonad'
+
+export type URIT = <U, L, A>(x: [U, L, A]) => Pair<A>
+
+declare export class Pair<+A> {
+  constructor(value: [A, A]): Pair<A, A>;
+  fst(): A;
+  snd(): A;
+  first(f: Endomorphism<A>): Pair<A>;
+  second(f: Endomorphism<A>): Pair<A>;
+  swap(): Pair<A>;
+  map<B>(f: (a: A) => B): Pair<B>;
+  ap<B>(fab: Pair<(a: A) => B>): Pair<B>;
+  reduce<B>(f: (b: B, a: A) => B, b: B): B;
+  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Pair<B>>;
+  extract(): A;
+  extend<B>(f: (fb: Pair<A>) => B): Pair<B>;
+}
+
+declare export var getSetoid: <A>(S: Setoid<A>) => Setoid<Pair<A>>
+
+declare export var getOrd: <A>(O: Ord<A>) => Ord<Pair<A>>
+
+declare export var getSemigroup: <A>(S: Semigroup<A>) => Semigroup<Pair<A>>
+
+declare export var getMonoid: <A>(M: Monoid<A>) => Monoid<Pair<A>>
+
+declare export var first: <A>(f: Endomorphism<A>) => (fa: Pair<A>) => Pair<A>
+
+declare export var second: <A>(f: Endomorphism<A>) => (fa: Pair<A>) => Pair<A>
+
+declare export var swap: <A>(fa: Pair<A>) => Pair<A>
+
+export interface Instances extends Applicative<URIT>, Foldable<URIT>, Traversable<URIT>, Comonad<URIT> {}
+
+declare export var pair: Instances

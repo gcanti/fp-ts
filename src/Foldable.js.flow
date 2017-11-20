@@ -1,0 +1,6 @@
+// @flow
+import type { HKT } from './HKT'
+
+export interface Foldable<F> {
+  reduce<A, B, U, L>(f: (b: B, a: A) => B, b: B, fa: HKT<F, U, L, A>): B;
+}
