@@ -55,7 +55,7 @@ export class Pair<A> {
   ap<B>(fab: Pair<(a: A) => B>): Pair<B> {
     return new Pair([fab.fst()(this.fst()), fab.snd()(this.snd())])
   }
-  ap_<B, C>(this: Pair<(a: B) => C>, fb: Pair<B>): Pair<C> {
+  ap_<B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C> {
     return fb.ap(this)
   }
   reduce<B>(f: (b: B, a: A) => B, b: B): B {

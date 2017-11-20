@@ -46,7 +46,7 @@ export class Left<L, A>
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
     return (isLeft(fab) ? fab : this) as any
   }
-  ap_<B, C>(this: Either<L, (a: B) => C>, fb: Either<L, B>): Either<L, C> {
+  ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
@@ -129,7 +129,7 @@ export class Right<L, A>
     }
     return fab as any
   }
-  ap_<B, C>(this: Either<L, (a: B) => C>, fb: Either<L, B>): Either<L, C> {
+  ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {

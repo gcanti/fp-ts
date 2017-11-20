@@ -27,7 +27,7 @@ export class IO<A> implements FantasyMonad<URI, A> {
   ap<B>(fab: IO<(a: A) => B>): IO<B> {
     return new IO(() => fab.run()(this.run()))
   }
-  ap_<B, C>(this: IO<(a: B) => C>, fb: IO<B>): IO<C> {
+  ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => IO<B>): IO<B> {

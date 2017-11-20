@@ -41,7 +41,7 @@ export class TaskEither<L, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.ap(fab.value, this.value))
   }
-  ap_<B, C>(this: TaskEither<L, (a: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> {
+  ap_<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {

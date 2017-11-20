@@ -12,7 +12,7 @@ constructor(readonly run: Lazy<A>) {}
 ```
 ### ap_
 ```ts
-<B, C>(this: IO<(a: B) => C>, fb: IO<B>): IO<C> 
+<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C> 
 ```
 ### chain
 ```ts

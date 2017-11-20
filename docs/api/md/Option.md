@@ -16,7 +16,7 @@ type Option<A> = None<A> | Some<A>
 ```
 ### ap_
 ```ts
-<B, C>(this: Option<(a: B) => C>, fb: Option<B>): Option<C> 
+<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> 
 ```
 ### chain
 ```ts

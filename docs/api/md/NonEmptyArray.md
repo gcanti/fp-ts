@@ -12,7 +12,7 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 ```
 ### ap_
 ```ts
-<B, C>(this: NonEmptyArray<(a: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C> 
+<B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C> 
 ```
 ### chain
 ```ts

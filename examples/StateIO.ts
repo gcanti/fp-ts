@@ -39,7 +39,7 @@ export class StateIO<S, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: StateIO<S, (a: A) => B>): StateIO<S, B> {
     return new StateIO(stateTIO.ap(fab.value, this.value))
   }
-  ap_<B, C>(this: StateIO<S, (a: B) => C>, fb: StateIO<S, B>): StateIO<S, C> {
+  ap_<B, C>(this: StateIO<S, (b: B) => C>, fb: StateIO<S, B>): StateIO<S, C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => StateIO<S, B>): StateIO<S, B> {

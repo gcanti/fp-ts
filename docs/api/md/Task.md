@@ -12,7 +12,7 @@ constructor(readonly run: Lazy<Promise<A>>) {}
 ```
 ### ap_
 ```ts
-<B, C>(this: Task<(a: B) => C>, fb: Task<B>): Task<C> 
+<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C> 
 ```
 ### chain
 ```ts

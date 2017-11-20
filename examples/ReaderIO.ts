@@ -28,7 +28,7 @@ export class ReaderIO<E, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: ReaderIO<E, (a: A) => B>): ReaderIO<E, B> {
     return new ReaderIO(readerTIO.ap(fab.run, this.run))
   }
-  ap_<B, C>(this: ReaderIO<E, (a: B) => C>, fb: ReaderIO<E, B>): ReaderIO<E, C> {
+  ap_<B, C>(this: ReaderIO<E, (b: B) => C>, fb: ReaderIO<E, B>): ReaderIO<E, C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => ReaderIO<E, B>): ReaderIO<E, B> {

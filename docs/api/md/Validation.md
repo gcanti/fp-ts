@@ -17,7 +17,7 @@ A data-type like Either but with an accumulating `Applicative`
 ```
 ### ap_
 ```ts
-<B, C>(this: Validation<L, (a: B) => C>, fb: Validation<L, B>): Validation<L, C> 
+<B, C>(this: Validation<L, (b: B) => C>, fb: Validation<L, B>): Validation<L, C> 
 ```
 ### bimap
 ```ts

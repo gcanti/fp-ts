@@ -16,7 +16,7 @@ constructor(readonly value: A) {}
 ```
 ### ap_
 ```ts
-<B, C>(this: Identity<(a: B) => C>, fb: Identity<B>): Identity<C> 
+<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C> 
 ```
 ### chain
 ```ts

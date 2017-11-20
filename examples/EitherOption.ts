@@ -27,7 +27,7 @@ export class EitherOption<L, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: EitherOption<L, (a: A) => B>): EitherOption<L, B> {
     return new EitherOption(optionTEither.ap(fab.value, this.value))
   }
-  ap_<B, C>(this: EitherOption<L, (a: B) => C>, fb: EitherOption<L, B>): EitherOption<L, C> {
+  ap_<B, C>(this: EitherOption<L, (b: B) => C>, fb: EitherOption<L, B>): EitherOption<L, C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => EitherOption<L, B>): EitherOption<L, B> {
