@@ -12,7 +12,7 @@ constructor(readonly value: Task<Either<L, A>>) {}
 ```
 ### ap_
 ```ts
-<B, C>(this: TaskEither<L, (a: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> 
+<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> 
 ```
 ### chain
 ```ts

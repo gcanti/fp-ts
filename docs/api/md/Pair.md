@@ -12,7 +12,7 @@ constructor(readonly value: [A, A]) {}
 ```
 ### ap_
 ```ts
-<B, C>(this: Pair<(a: B) => C>, fb: Pair<B>): Pair<C> 
+<B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C> 
 ```
 ### extend
 ```ts

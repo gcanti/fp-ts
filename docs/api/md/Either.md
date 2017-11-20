@@ -16,7 +16,7 @@ type Either<L, A> = Left<L, A> | Right<L, A>
 ```
 ### ap_
 ```ts
-<B, C>(this: Either<L, (a: B) => C>, fb: Either<L, B>): Either<L, C> 
+<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> 
 ```
 ### bimap
 ```ts

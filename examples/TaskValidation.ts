@@ -26,7 +26,7 @@ export class TaskValidation<L, A> implements FantasyApplicative<URI, A> {
   ap<B>(fab: TaskValidation<L, (a: A) => B>): TaskValidation<L, B> {
     return new TaskValidation(taskValidationApplicative.ap(fab.value, this.value))
   }
-  ap_<B, C>(this: TaskValidation<L, (a: B) => C>, fb: TaskValidation<L, B>): TaskValidation<L, C> {
+  ap_<B, C>(this: TaskValidation<L, (b: B) => C>, fb: TaskValidation<L, B>): TaskValidation<L, C> {
     return fb.ap(this)
   }
   fold<R>(left: (l: L) => R, right: (a: A) => R): task.Task<R> {

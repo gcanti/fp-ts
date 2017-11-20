@@ -12,7 +12,7 @@ type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 ```
 ### ap_
 ```ts
-<B, C>(this: Free<F, (a: B) => C>, fb: Free<F, B>): Free<F, C> 
+<B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C> 
 ```
 ### chain
 ```ts

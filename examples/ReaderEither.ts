@@ -29,7 +29,7 @@ export class ReaderEither<E, L, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: ReaderEither<E, L, (a: A) => B>): ReaderEither<E, L, B> {
     return new ReaderEither(readerTEither.ap(fab.run, this.run))
   }
-  ap_<B, C>(this: ReaderEither<E, L, (a: B) => C>, fb: ReaderEither<E, L, B>): ReaderEither<E, L, C> {
+  ap_<B, C>(this: ReaderEither<E, L, (b: B) => C>, fb: ReaderEither<E, L, B>): ReaderEither<E, L, C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => ReaderEither<E, L, B>): ReaderEither<E, L, B> {

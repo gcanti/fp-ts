@@ -116,7 +116,7 @@ export class Success<L, A>
     }
     return fab as any
   }
-  ap_<B, C>(this: Validation<L, (a: B) => C>, fb: Validation<L, B>): Validation<L, C> {
+  ap_<B, C>(this: Validation<L, (b: B) => C>, fb: Validation<L, B>): Validation<L, C> {
     return fb.ap(this)
   }
   bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B> {
