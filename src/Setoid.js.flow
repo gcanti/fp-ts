@@ -12,3 +12,7 @@ declare export var setoidNumber: Setoid<number>
 declare export var setoidBoolean: Setoid<boolean>
 
 declare export var getArraySetoid: <A>(S: Setoid<A>) => Setoid<Array<A>>
+
+declare export var getRecordSetoid: <O: { [key: string]: Setoid<any> }>(
+  setoids: O
+) => Setoid<$ObjMap<O, <A>(S: Setoid<A>) => A>>
