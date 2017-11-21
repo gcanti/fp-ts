@@ -42,7 +42,11 @@ describe('Monoid', () => {
   })
 
   it('getRecordMonoid', () => {
-    const M = getRecordMonoid({
+    interface T {
+      a: boolean
+      b: string
+    }
+    const M = getRecordMonoid<T>({
       a: monoidAll,
       b: monoidString
     })

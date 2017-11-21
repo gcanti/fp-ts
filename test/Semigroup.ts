@@ -9,7 +9,11 @@ describe('Semigroup', () => {
   })
 
   it('getRecordSemigroup', () => {
-    const S = getRecordSemigroup({
+    interface T {
+      a: boolean
+      b: string
+    }
+    const S = getRecordSemigroup<T>({
       a: monoidAll,
       b: monoidString
     })

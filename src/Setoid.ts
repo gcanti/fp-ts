@@ -23,3 +23,19 @@ export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
     equals: xs => ys => xs.length === ys.length && xs.every((x, i) => S.equals(x)(ys[i]))
   }
 }
+
+/** @function */
+export const getRecordSetoid = <O extends { [key: string]: any }>(
+  setoids: { [K in keyof O]: Setoid<O[K]> }
+): Setoid<O> => {
+  return {
+    equals: x => y => {
+      for (const k in setoids) {
+        if (!setoids[k].equals(x[k])(y[k])) {
+          return false
+        }
+      }
+      return true
+    }
+  }
+}
