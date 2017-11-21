@@ -37,7 +37,7 @@ export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => {
 /** @function */
 export const getRecordSemigroup = <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<{ [K in keyof O]: O[K] }> => {
+): Semigroup<O> => {
   return {
     concat: x => y => {
       const r: any = {}

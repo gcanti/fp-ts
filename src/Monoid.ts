@@ -119,7 +119,7 @@ export const getArrayMonoid = <A>(): Monoid<Array<A>> => {
 /** @function */
 export const getRecordMonoid = <O extends { [key: string]: any }>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<{ [K in keyof O]: O[K] }> => {
+): Monoid<O> => {
   const empty: any = {}
   for (const k in monoids) {
     empty[k] = monoids[k].empty()

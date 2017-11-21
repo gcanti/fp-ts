@@ -19,12 +19,14 @@ describe('OptionT', () => {
   it('fold', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
-    const p1 = optionT.fold(task)(f, g, none)
+    const p1 = optionT
+      .fold(task)(f, g, none)
       .run()
       .then(s => {
         assert.strictEqual(s, 'none')
       })
-    const p2 = optionT.fold(task)(f, g, taskOption.of('s'))
+    const p2 = optionT
+      .fold(task)(f, g, taskOption.of('s'))
       .run()
       .then(s => {
         assert.strictEqual(s, 'some1')
