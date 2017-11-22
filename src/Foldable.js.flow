@@ -1,6 +1,41 @@
 // @flow
 import type { HKT } from './HKT'
+import type { Monoid } from './Monoid'
+import type { Applicative } from './Applicative'
 
 export interface Foldable<F> {
   reduce<A, B, U, L>(f: (b: B, a: A) => B, b: B, fa: HKT<F, U, L, A>): B;
 }
+
+export interface FoldableComposition<F, G> {
+  reduce<A, B, UF, LF, UG, LG>(f: (b: B, a: A) => B, b: B, fga: HKT<F, UF, LF, HKT<G, UG, LG, A>>): B;
+}
+
+declare export var getFoldableComposition: <F, G>(F: Foldable<F>, G: Foldable<G>) => FoldableComposition<F, G>
+
+declare export var foldMap: <F, M>(
+  F: Foldable<F>,
+  M: Monoid<M>
+) => <A>(f: (a: A) => M) => <U, L>(fa: HKT<F, U, L, A>) => M
+
+declare export var fold: <F, M>(F: Foldable<F>, M: Monoid<M>) => <U, L>(fa: HKT<F, U, L, M>) => M
+
+declare export var toArray: <F>(F: Foldable<F>) => <A, U, L>(fa: HKT<F, U, L, A>) => Array<A>
+
+declare export var foldr: <F>(
+  F: Foldable<F>
+) => <A, B>(f: (a: A) => (b: B) => B) => (b: B) => <U, L>(fa: HKT<F, U, L, A>) => B
+
+export type Acc<M> = { init: boolean, acc: M }
+
+declare export var intercalate: <F, M>(F: Foldable<F>, M: Monoid<M>) => (sep: M) => <U, L>(fm: HKT<F, U, L, M>) => M
+
+declare export var traverse_: <M, F>(
+  M: Applicative<M>,
+  F: Foldable<F>
+) => <A, B, UM, LM, UF, LF>(f: (a: A) => HKT<M, UM, LM, B>, fa: HKT<F, UF, LF, A>) => HKT<M, UM, LM, void>
+
+declare export var sequence_: <M, F>(
+  M: Applicative<M>,
+  F: Foldable<F>
+) => <A, UF, LF, UM, LM>(fa: HKT<F, UF, LF, HKT<M, UM, LM, A>>) => HKT<M, UM, LM, void>
