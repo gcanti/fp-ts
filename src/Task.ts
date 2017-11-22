@@ -103,6 +103,7 @@ const neverPromise = new Promise(resolve => undefined)
 const neverLazyPromise = () => neverPromise
 const never = new Task(neverLazyPromise)
 
+// TODO uncurry
 /** @function */
 export const tryCatch = <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L): Task<Either<L, A>> => {
   return new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))

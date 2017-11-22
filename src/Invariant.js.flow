@@ -2,5 +2,5 @@
 import type { HKT } from './HKT'
 
 export interface Invariant<F> {
-  imap<A, B>(f: (a: A) => B, g: (b: B) => A, fa: HKT<F, A>): HKT<F, B>;
+  imap<A, B, U, L>(f: (a: A) => B, g: (b: B) => A, fa: HKT<F, U, L, A>): HKT<F, U, L, B>;
 }

@@ -1,12 +1,10 @@
 // @flow
-import { semigroupOrdering } from './Ordering'
 import type { Ordering } from './Ordering'
-import { setoidBoolean, setoidNumber, setoidString } from './Setoid'
 import type { Setoid } from './Setoid'
 import type { Semigroup } from './Semigroup'
 
 export interface Ord<A> extends Setoid<A> {
-  compare: (x: A) => (y: A) => Ordering;
+  compare(x: A): (y: A) => Ordering;
 }
 
 declare export var toNativeComparator: <A>(compare: (x: A) => (y: A) => Ordering) => (x: A, y: A) => number

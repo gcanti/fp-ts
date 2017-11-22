@@ -21,7 +21,7 @@ declare export class This<L, A> {
   map<B>(f: (a: A) => B): These<L, B>;
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, These<L, B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, These<L, B>>;
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B;
   inspect(): string;
   toString(): string;
@@ -34,7 +34,7 @@ declare export class That<L, A> {
   map<B>(f: (a: A) => B): These<L, B>;
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, These<L, B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, These<L, B>>;
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B;
   inspect(): string;
   toString(): string;
@@ -48,7 +48,7 @@ declare export class Both<L, A> {
   map<B>(f: (a: A) => B): These<L, B>;
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, These<L, B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, These<L, B>>;
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B;
   inspect(): string;
   toString(): string;

@@ -19,29 +19,32 @@ export interface StateT<M> {
   ): (s: S) => HKT<M, U, L, [B, S]>;
 }
 
-declare export var map: <F, S, A, B, U, L>(
+declare export var map: <F>(
   F: Functor<F>
-) => (f: (a: A) => B, fa: (s: S) => HKT<F, U, L, [A, S]>) => (s: S) => HKT<F, U, L, [B, S]>
+) => <S, A, B, U, L>(f: (a: A) => B, fa: (s: S) => HKT<F, U, L, [A, S]>) => (s: S) => HKT<F, U, L, [B, S]>
 
-declare export var of: <F, S, A, U, L>(F: Applicative<F>) => (a: A) => (s: S) => HKT<F, U, L, [A, S]>
+declare export var of: <F>(F: Applicative<F>) => <A>(a: A) => <S, U, L>(s: S) => HKT<F, U, L, [A, S]>
 
-declare export var ap: <F, S, A, B, U, L>(
+declare export var ap: <F>(
   F: Chain<F>
-) => (
+) => <S, A, B, U, L>(
   fab: (s: S) => HKT<F, U, L, [(a: A) => B, S]>,
   fa: (s: S) => HKT<F, U, L, [A, S]>
 ) => (s: S) => HKT<F, U, L, [B, S]>
 
-declare export var chain: <F, S, A, B, U, L>(
+declare export var chain: <F>(
   F: Chain<F>
-) => (f: (a: A) => (s: S) => HKT<F, U, L, [B, S]>, fa: (s: S) => HKT<F, U, L, [A, S]>) => (s: S) => HKT<F, U, L, [B, S]>
+) => <S, A, B, U, L>(
+  f: (a: A) => (s: S) => HKT<F, U, L, [B, S]>,
+  fa: (s: S) => HKT<F, U, L, [A, S]>
+) => (s: S) => HKT<F, U, L, [B, S]>
 
-declare export var get: <F, S, U, L>(F: Applicative<F>) => () => (s: S) => HKT<F, U, L, [S, S]>
+declare export var get: <F>(F: Applicative<F>) => () => <S, U, L>(s: S) => HKT<F, U, L, [S, S]>
 
-declare export var put: <F, S, U, L>(F: Applicative<F>) => (s: S) => () => HKT<F, U, L, [void, S]>
+declare export var put: <F>(F: Applicative<F>) => <S>(s: S) => <U, L>() => HKT<F, U, L, [void, S]>
 
-declare export var modify: <F, S, U, L>(F: Applicative<F>) => (f: Endomorphism<S>) => (s: S) => HKT<F, U, L, [void, S]>
+declare export var modify: <F>(F: Applicative<F>) => <S>(f: Endomorphism<S>) => <U, L>(s: S) => HKT<F, U, L, [void, S]>
 
-declare export var gets: <F, S, A, U, L>(F: Applicative<F>) => (f: (s: S) => A) => (s: S) => HKT<F, U, L, [A, S]>
+declare export var gets: <F>(F: Applicative<F>) => <S, A>(f: (s: S) => A) => <U, L>(s: S) => HKT<F, U, L, [A, S]>
 
 declare export var getStateT: <M>(M: Monad<M>) => StateT<M>

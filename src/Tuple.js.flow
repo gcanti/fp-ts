@@ -29,7 +29,7 @@ declare export class Tuple<L, A> {
   extract(): A;
   extend<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B>;
   reduce<B>(f: (c: B, b: A) => B, c: B): B;
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Tuple<L, B>>;
   inspect(): string;
   toString(): string;
 }

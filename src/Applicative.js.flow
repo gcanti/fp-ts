@@ -4,7 +4,7 @@ import type { FunctorComposition } from './Functor'
 import type { Apply } from './Apply'
 
 export interface Applicative<F> extends Apply<F> {
-  of: <A, U, L>(a: A) => HKT<F, U, L, A>;
+  of<A, U, L>(a: A): HKT<F, U, L, A>;
 }
 
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
@@ -15,9 +15,9 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
   ): HKT<F, UF, LF, HKT<G, UG, LG, B>>;
 }
 
-declare export var when: <F, U, L>(
+declare export var when: <F>(
   F: Applicative<F>
-) => (condition: boolean, fu: HKT<F, U, L, void>) => HKT<F, U, L, void>
+) => <U, L>(condition: boolean, fu: HKT<F, U, L, void>) => HKT<F, U, L, void>
 
 declare export var getApplicativeComposition: <F, G>(
   F: Applicative<F>,

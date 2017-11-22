@@ -28,8 +28,6 @@ export type Curried2<A, B, C> = (a: A) => (b: B) => C
 
 export type Predicate<A> = (a: A) => boolean
 
-export type Refinement<A, B: A> = (a: A) => boolean
-
 declare export var not: <A>(predicate: Predicate<A>) => Predicate<A>
 
 declare export var or: <A>(p1: Predicate<A>, p2: Predicate<A>) => Predicate<A>
@@ -40,8 +38,8 @@ export type Endomorphism<A> = (a: A) => A
 
 export type BinaryOperation<A, B> = (a1: A) => (a2: A) => B
 
-export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
-export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
+export type Kleisli<F, A, B, U, L> = (a: A) => HKT<F, U, L, B>
+export type Cokleisli<F, A, B, U, L> = (fa: HKT<F, U, L, A>) => B
 
 declare export var constant: <A>(a: A) => Lazy<A>
 
@@ -186,7 +184,7 @@ declare export var toString: (x: any) => string
 
 declare export var tuple: <A, B>(a: A, b: B) => [A, B]
 
-declare export var tupleCurried: <A, B>(a: A) => (b: B) => [A, B]
+declare export var tupleCurried: <A>(a: A) => <B>(b: B) => [A, B]
 
 declare export var apply: <A, B>(f: (a: A) => B) => (a: A) => B
 

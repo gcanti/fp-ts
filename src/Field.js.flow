@@ -3,9 +3,9 @@ import type { Ring } from './Ring'
 import type { Setoid } from './Setoid'
 
 export interface Field<A> extends Ring<A> {
-  degree: (a: A) => number;
-  div: (x: A) => (y: A) => A;
-  mod: (x: A) => (y: A) => A;
+  degree(a: A): number;
+  div(x: A): (y: A) => A;
+  mod(x: A): (y: A) => A;
 }
 
 declare export var fieldNumber: Field<number>

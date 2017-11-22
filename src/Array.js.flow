@@ -10,9 +10,9 @@ import type { Plus } from './Plus'
 import type { Option } from './Option'
 import type { Ord } from './Ord'
 import type { Extend } from './Extend'
-import type { Predicate, Lazy, Endomorphism, Refinement } from './function'
+import type { Predicate, Lazy, Endomorphism } from './function'
 import type { Either } from './Either'
-import { Semigroup } from './Semigroup'
+import type { Semigroup } from './Semigroup'
 
 export type URIT = <U, L, A>(x: [U, L, A]) => Array<A>
 
@@ -69,8 +69,6 @@ declare export var findLast: <A>(predicate: Predicate<A>) => (as: Array<A>) => O
 
 declare export var filter: <A>(predicate: Predicate<A>) => (as: Array<A>) => Array<A>
 
-declare export var refine: <A, B: A>(as: Array<A>) => (refinement: Refinement<A, B>) => Array<B>
-
 declare export var copy: <A>(as: Array<A>) => Array<A>
 
 declare export var unsafeInsertAt: (i: number) => <A>(a: A) => (as: Array<A>) => Array<A>
@@ -101,7 +99,7 @@ declare export var sort: <A>(ord: Ord<A>) => (as: Array<A>) => Array<A>
 
 declare export var zipWith: <A, B, C>(f: (a: A, b: B) => C) => (fa: Array<A>) => (fb: Array<B>) => Array<C>
 
-declare export var zip: <A, B>(fa: Array<A>) => (fb: Array<B>) => Array<[A, B]>
+declare export var zip: <A>(fa: Array<A>) => <B>(fb: Array<B>) => Array<[A, B]>
 
 export interface Instances
   extends Monad<URIT>, Foldable<URIT>, Unfoldable<URIT>, Traversable<URIT>, Alternative<URIT>, Plus<URIT>, Extend<

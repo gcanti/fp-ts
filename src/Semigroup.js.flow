@@ -1,9 +1,8 @@
 // @flow
 import type { Ord } from './Ord'
-import { min, max } from './Ord'
 
 export interface Semigroup<A> {
-  concat: (x: A) => (y: A) => A;
+  concat(x: A): (y: A) => A;
 }
 
 declare export var fold: <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>) => A

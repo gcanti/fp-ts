@@ -27,7 +27,7 @@ declare export class Left<L, A> {
   alt(fy: Either<L, A>): Either<L, A>;
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Either<L, B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Either<L, B>>;
   fold<B>(left: (l: L) => B, right: (a: A) => B): B;
   getOrElseValue(a: A): A;
   getOrElse(f: (l: L) => A): A;
@@ -52,7 +52,7 @@ declare export class Right<L, A> {
   alt(fy: Either<L, A>): Either<L, A>;
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Either<L, B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Either<L, B>>;
   fold<B>(left: (l: L) => B, right: (a: A) => B): B;
   getOrElseValue(a: A): A;
   getOrElse(f: (l: L) => A): A;

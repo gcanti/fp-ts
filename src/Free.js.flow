@@ -12,7 +12,7 @@ declare export class Pure<F, A> {
   map<B>(f: (a: A) => B): Free<F, B>;
   ap<B>(fab: Free<F, (a: A) => B>): Free<F, B>;
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B>;
-  foldFree<M, U, L>(M: Monad<M>): (f: <A>(fa: HKT<F, U, L, A>) => HKT<M, U, L, A>) => HKT<M, U, L, A>;
+  foldFree<M>(M: Monad<M>): <UM, LM>(f: <A, UF, LF>(fa: HKT<F, UF, LF, A>) => HKT<M, UM, LM, A>) => HKT<M, UM, LM, A>;
   inspect(): string;
   toString(): string;
 }
@@ -25,16 +25,18 @@ declare export class Impure<F, A, X> {
   map<B>(f: (a: A) => B): Free<F, B>;
   ap<B>(fab: Free<F, (a: A) => B>): Free<F, B>;
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B>;
-  foldFree<M, U, L>(M: Monad<M>): (f: <A>(fa: HKT<F, U, L, A>) => HKT<M, U, L, A>) => HKT<M, U, L, A>;
+  foldFree<M>(M: Monad<M>): <UM, LM>(f: <A, UF, LF>(fa: HKT<F, UF, LF, A>) => HKT<M, UM, LM, A>) => HKT<M, UM, LM, A>;
   inspect(): string;
   toString(): string;
 }
 
 declare export var of: <F, A>(a: A) => Free<F, A>
 
-declare export var liftF: <F, A>(fa: HKT<F, A>) => Free<F, A>
+declare export var liftF: <F, A, U, L>(fa: HKT<F, U, L, A>) => Free<F, A>
 
-declare export var substFree: <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>) => <A>(fa: Free<F, A>) => Free<G, A>
+declare export var substFree: <F, G>(
+  f: <A, U, L>(fa: HKT<F, U, L, A>) => Free<G, A>
+) => <A>(fa: Free<F, A>) => Free<G, A>
 
 declare export var hoistFree: <F, G>(
   nt: <U, L, A>(fa: HKT<F, U, L, A>) => HKT<G, A>
@@ -42,4 +44,4 @@ declare export var hoistFree: <F, G>(
 
 declare export var foldFree: <M>(
   M: Monad<M>
-) => <F>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <U, L, A>(fa: Free<F, A>) => HKT<M, U, L, A>
+) => <F, UM, LM>(f: <A, UF, LF>(fa: HKT<F, UF, LF, A>) => HKT<M, UM, LM, A>) => <A>(fa: Free<F, A>) => HKT<M, UM, LM, A>

@@ -25,7 +25,7 @@ declare export class Failure<L, A> {
   bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B>;
   alt(fy: Validation<L, A>): Validation<L, A>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Validation<L, B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Validation<L, B>>;
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B;
   equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean;
   concat(fy: Validation<L, A>): Validation<L, A>;
@@ -48,7 +48,7 @@ declare export class Success<+L, +A> {
   bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B>;
   alt(fy: Validation<L, A>): Validation<L, A>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Validation<L, B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Validation<L, B>>;
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B;
   equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean;
   concat(fy: Validation<L, A>): Validation<L, A>;
@@ -74,21 +74,21 @@ declare export var failure: <L>(L: Semigroup<L>) => <A>(l: L) => Validation<L, A
 
 declare export var success: <L, A>(a: A) => Validation<L, A>
 
-declare export var fromPredicate: <L, A>(
+declare export var fromPredicate: <L>(
   S: Semigroup<L>
-) => (predicate: Predicate<A>, f: (a: A) => L) => (a: A) => Validation<L, A>
+) => <A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A) => Validation<L, A>
 
-declare export var fromEither: <L, A>(S: Semigroup<L>) => (e: Either<L, A>) => Validation<L, A>
+declare export var fromEither: <L>(S: Semigroup<L>) => <A>(e: Either<L, A>) => Validation<L, A>
 
 declare export var concat: <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>) => Validation<L, A>
 
 declare export var getSemigroup: <L, A>() => Semigroup<Validation<L, A>>
 
-declare export var mapFailure: <M, L>(
+declare export var mapFailure: <M>(
   S: Semigroup<M>
-) => (f: (l: L) => M) => <A>(fa: Validation<L, A>) => Validation<M, A>
+) => <L>(f: (l: L) => M) => <A>(fa: Validation<L, A>) => Validation<M, A>
 
-declare export var swap: <L, A>(S: Semigroup<A>) => (fa: Validation<L, A>) => Validation<A, L>
+declare export var swap: <A>(S: Semigroup<A>) => <L>(fa: Validation<L, A>) => Validation<A, L>
 
 declare export var toOption: <L, A>(fa: Validation<L, A>) => Option<A>
 

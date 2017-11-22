@@ -58,6 +58,8 @@ import * as monad from './Monad'
 export { monad }
 import * as monoid from './Monoid'
 export { monoid }
+import * as monoidal from './Monoidal'
+export { monoidal }
 import * as naturalTransformation from './NaturalTransformation'
 export { naturalTransformation }
 import * as nonEmptyArray from './NonEmptyArray'

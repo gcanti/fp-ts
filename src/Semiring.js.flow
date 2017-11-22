@@ -1,9 +1,9 @@
 // @flow
 export interface Semiring<A> {
-  add: (x: A) => (y: A) => A;
-  zero: () => A;
-  mul: (x: A) => (y: A) => A;
-  one: () => A;
+  add(x: A): (y: A) => A;
+  zero(): A;
+  mul(x: A): (y: A) => A;
+  one(): A;
 }
 
 declare export var getFunctionSemiring: <A, B>(S: Semiring<B>) => Semiring<(a: A) => B>

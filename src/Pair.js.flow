@@ -22,7 +22,7 @@ declare export class Pair<+A> {
   map<B>(f: (a: A) => B): Pair<B>;
   ap<B>(fab: Pair<(a: A) => B>): Pair<B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Pair<B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Pair<B>>;
   extract(): A;
   extend<B>(f: (fb: Pair<A>) => B): Pair<B>;
 }

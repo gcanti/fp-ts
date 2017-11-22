@@ -15,7 +15,7 @@ declare export var ask: <E>() => Reader<E, E>
 
 declare export var asks: <E, A>(f: (e: E) => A) => Reader<E, A>
 
-declare export var local: <E, A>(f: (e: E) => E) => (fa: Reader<E, A>) => Reader<E, A>
+declare export var local: <E>(f: (e: E) => E) => <A>(fa: Reader<E, A>) => Reader<E, A>
 
 export interface Instances extends Monad<URIT> {}
 
