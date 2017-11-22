@@ -1,6 +1,6 @@
 // @flow
 export interface Setoid<A> {
-  equals: (x: A) => (y: A) => boolean;
+  equals(x: A): (y: A) => boolean;
 }
 
 declare export var strictEqual: (a: any) => (b: any) => boolean

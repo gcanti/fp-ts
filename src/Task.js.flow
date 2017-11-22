@@ -24,7 +24,7 @@ declare export var concat: <A>(fx: Task<A>) => (fy: Task<A>) => Task<A>
 
 declare export var getMonoid: <A>() => Monoid<Task<A>>
 
-declare export var tryCatch: <A, L>(f: Lazy<Promise<A>>) => (onrejected: (reason: {}) => L) => Task<Either<L, A>>
+declare export var tryCatch: <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L) => Task<Either<L, A>>
 
 declare export var fromIO: <A>(io: IO<A>) => Task<A>
 

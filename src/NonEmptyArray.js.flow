@@ -21,7 +21,7 @@ declare export class NonEmptyArray<A> {
   chain<B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B>;
   concat(y: NonEmptyArray<A>): NonEmptyArray<A>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(applicative: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, NonEmptyArray<B>>;
+  traverse<F>(applicative: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, NonEmptyArray<B>>;
   extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B>;
   extract(): A;
   inspect(): string;

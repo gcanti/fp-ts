@@ -6,10 +6,10 @@ export interface Profunctor<F> extends Functor<F> {
   promap<A, B, C, D, U>(f: (a: A) => B, g: (c: C) => D, fbc: HKT<F, U, B, C>): HKT<F, U, A, D>;
 }
 
-declare export var lmap: <F, A, B, U>(
+declare export var lmap: <F>(
   profunctor: Profunctor<F>
-) => (f: (a: A) => B) => <C>(fbc: HKT<F, U, B, C>) => HKT<F, U, A, C>
+) => <A, B>(f: (a: A) => B) => <C, U>(fbc: HKT<F, U, B, C>) => HKT<F, U, A, C>
 
-declare export var rmap: <F, C, D, U>(
+declare export var rmap: <F>(
   profunctor: Profunctor<F>
-) => (g: (c: C) => D) => <B>(fbc: HKT<F, U, B, C>) => HKT<F, U, B, D>
+) => <C, D>(g: (c: C) => D) => <B, U>(fbc: HKT<F, U, B, C>) => HKT<F, U, B, D>

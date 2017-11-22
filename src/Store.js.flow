@@ -20,15 +20,15 @@ declare export class Store<S, A> {
 
 declare export var peek: <S, A>(sa: Store<S, A>) => (s: S) => A
 
-declare export var peeks: <S, A>(f: Endomorphism<S>) => (sa: Store<S, A>) => (s: S) => A
+declare export var peeks: <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S) => A
 
-declare export var seek: <S, A>(s: S) => (sa: Store<S, A>) => Store<S, A>
+declare export var seek: <S>(s: S) => <A>(sa: Store<S, A>) => Store<S, A>
 
-declare export var seeks: <S, A>(f: Endomorphism<S>) => (sa: Store<S, A>) => Store<S, A>
+declare export var seeks: <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => Store<S, A>
 
-declare export var experiment: <F, S, A, U, L>(
+declare export var experiment: <F>(
   F: Functor<F>
-) => (f: (s: S) => HKT<F, U, L, S>) => (sa: Store<S, A>) => HKT<F, U, L, A>
+) => <S, U, L>(f: (s: S) => HKT<F, U, L, S>) => <A>(sa: Store<S, A>) => HKT<F, U, L, A>
 
 export interface Instances extends Comonad<URIT> {}
 

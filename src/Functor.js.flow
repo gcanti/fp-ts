@@ -9,14 +9,14 @@ export interface FunctorComposition<F, G> {
   map<A, B, UF, LF, UG, LG>(f: (a: A) => B, fa: HKT<F, UF, LF, HKT<G, UG, LG, A>>): HKT<F, UF, LF, HKT<G, UG, LG, B>>;
 }
 
-declare export var lift: <F, A, B, U, L>(F: Functor<F>) => (f: (a: A) => B) => (fa: HKT<F, U, L, A>) => HKT<F, U, L, B>
+declare export var lift: <F>(F: Functor<F>) => <A, B>(f: (a: A) => B) => <U, L>(fa: HKT<F, U, L, A>) => HKT<F, U, L, B>
 
-declare export var voidRight: <F, A, B, U, L>(F: Functor<F>) => (a: A) => (fb: HKT<F, U, L, B>) => HKT<F, U, L, A>
+declare export var voidRight: <F>(F: Functor<F>) => <A>(a: A) => <B, U, L>(fb: HKT<F, U, L, B>) => HKT<F, U, L, A>
 
-declare export var voidLeft: <F, A, B, U, L>(F: Functor<F>) => (fa: HKT<F, U, L, A>) => (b: B) => HKT<F, U, L, B>
+declare export var voidLeft: <F>(F: Functor<F>) => <A, U, L>(fa: HKT<F, U, L, A>) => <B>(b: B) => HKT<F, U, L, B>
 
-declare export var flap: <F, A, B, U, L>(
+declare export var flap: <F>(
   functor: Functor<F>
-) => (ff: HKT<F, U, L, (a: A) => B>) => (a: A) => HKT<F, U, L, B>
+) => <A, B, U, L>(ff: HKT<F, U, L, (a: A) => B>) => (a: A) => HKT<F, U, L, B>
 
 declare export var getFunctorComposition: <F, G>(F: Functor<F>, G: Functor<G>) => FunctorComposition<F, G>

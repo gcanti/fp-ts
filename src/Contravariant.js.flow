@@ -5,6 +5,6 @@ export interface Contravariant<F> {
   contramap<A, B, U, L>(f: (b: B) => A, fa: HKT<F, U, L, A>): HKT<F, U, L, B>;
 }
 
-declare export function lift<F, A, B, U, L>(
+declare export var lift: <F>(
   F: Contravariant<F>
-): (f: (b: B) => A) => (fa: HKT<F, U, L, A>) => HKT<F, U, L, B>
+) => <A, B>(f: (b: B) => A) => <U, L>(fa: HKT<F, U, L, A>) => HKT<F, U, L, B>

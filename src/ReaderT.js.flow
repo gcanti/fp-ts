@@ -15,22 +15,25 @@ export interface ReaderT<M> {
   ): (e: E) => HKT<M, U, L, B>;
 }
 
-declare export var map: <F, E, A, B, U, L>(
+declare export var map: <F>(
   F: Functor<F>
-) => (f: (a: A) => B, fa: (e: E) => HKT<F, U, L, A>) => (e: E) => HKT<F, U, L, B>
+) => <E, A, B, U, L>(f: (a: A) => B, fa: (e: E) => HKT<F, U, L, A>) => (e: E) => HKT<F, U, L, B>
 
-declare export var of: <F, E, A, U, L>(F: Applicative<F>) => (a: A) => (e: E) => HKT<F, U, L, A>
+declare export var of: <F>(F: Applicative<F>) => <A>(a: A) => <E, U, L>(e: E) => HKT<F, U, L, A>
 
-declare export var ap: <F, E, A, B, U, L>(
+declare export var ap: <F>(
   F: Applicative<F>
-) => (fab: (e: E) => HKT<F, U, L, (a: A) => B>, fa: (e: E) => HKT<F, U, L, A>) => (e: E) => HKT<F, U, L, B>
+) => <E, A, B, U, L>(
+  fab: (e: E) => HKT<F, U, L, (a: A) => B>,
+  fa: (e: E) => HKT<F, U, L, A>
+) => (e: E) => HKT<F, U, L, B>
 
-declare export var chain: <F, E, A, B, U, L>(
+declare export var chain: <F>(
   F: Chain<F>
-) => (f: (a: A) => (e: E) => HKT<F, U, L, B>, fa: (e: E) => HKT<F, U, L, A>) => (e: E) => HKT<F, U, L, B>
+) => <E, A, B, U, L>(f: (a: A) => (e: E) => HKT<F, U, L, B>, fa: (e: E) => HKT<F, U, L, A>) => (e: E) => HKT<F, U, L, B>
 
-declare export var ask: <F, E, U, L>(F: Applicative<F>) => () => (e: E) => HKT<F, U, L, E>
+declare export var ask: <F>(F: Applicative<F>) => () => <E, U, L>(e: E) => HKT<F, U, L, E>
 
-declare export var asks: <F, E, A, U, L>(F: Applicative<F>) => (f: (e: E) => A) => (e: E) => HKT<F, U, L, A>
+declare export var asks: <F>(F: Applicative<F>) => <E, A>(f: (e: E) => A) => <U, L>(e: E) => HKT<F, U, L, A>
 
 declare export var getReaderT: <M>(M: Monad<M>) => ReaderT<M>

@@ -290,7 +290,7 @@ export const mapFailure = <M>(S: Semigroup<M>) => <L>(f: (l: L) => M) => <A>(
 }
 
 /** @function */
-export const swap = <L, A>(S: Semigroup<A>) => (fa: Validation<L, A>): Validation<A, L> => {
+export const swap = <A>(S: Semigroup<A>) => <L>(fa: Validation<L, A>): Validation<A, L> => {
   return fa.swap(S)
 }
 

@@ -1,9 +1,9 @@
 // @flow
 import type { HKT } from './HKT'
-import { Setoid } from './Setoid'
-import { Semigroup } from './Semigroup'
-import { Applicative } from './Applicative'
-import { Monoid } from './Monoid'
+import type { Setoid } from './Setoid'
+import type { Semigroup } from './Semigroup'
+import type { Applicative } from './Applicative'
+import type { Monoid } from './Monoid'
 import type { Monad } from './Monad'
 import type { Foldable } from './Foldable'
 import type { Plus } from './Plus'
@@ -25,7 +25,7 @@ declare export class None<A> {
   ap<B>(fab: Option<(a: A) => B>): Option<B>;
   chain<B>(f: (a: A) => Option<B>): Option<B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Option<B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Option<B>>;
   alt(fa: Option<A>): Option<A>;
   extend<B>(f: (ea: Option<A>) => B): Option<B>;
   fold<B>(n: () => B, s: (a: A) => B): B;
@@ -51,7 +51,7 @@ declare export class Some<A> {
   ap<B>(fab: Option<(a: A) => B>): Option<B>;
   chain<B>(f: (a: A) => Option<B>): Option<B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(F: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Option<B>>;
+  traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Option<B>>;
   alt(fa: Option<A>): Option<A>;
   extend<B>(f: (ea: Option<A>) => B): Option<B>;
   fold<B>(n: () => B, s: (a: A) => B): B;

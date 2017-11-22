@@ -20,7 +20,7 @@ declare export class Identity<A> {
   ap<B>(fab: Identity<(a: A) => B>): Identity<B>;
   chain<B>(f: (a: A) => Identity<B>): Identity<B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
-  traverse<F, B, U, L>(applicative: Applicative<F>): (f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Identity<B>>;
+  traverse<F>(applicative: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Identity<B>>;
   alt(fx: Identity<A>): Identity<A>;
   extract(): A;
   extend<B>(f: (ea: Identity<A>) => B): Identity<B>;

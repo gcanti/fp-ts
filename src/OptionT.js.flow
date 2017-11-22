@@ -10,24 +10,28 @@ export interface OptionT<M> extends ApplicativeComposition<M, URIT> {
   chain<A, B, U, L>(f: (a: A) => HKT<M, U, L, Option<B>>, fa: HKT<M, U, L, Option<A>>): HKT<M, U, L, Option<B>>;
 }
 
-declare export var chain: <F, A, B, U, L>(
+declare export var chain: <F>(
   F: Monad<F>
-) => (f: (a: A) => HKT<F, U, L, Option<B>>, fa: HKT<F, U, L, Option<A>>) => HKT<F, U, L, Option<B>>
+) => <A, B, U, L>(f: (a: A) => HKT<F, U, L, Option<B>>, fa: HKT<F, U, L, Option<A>>) => HKT<F, U, L, Option<B>>
 
-declare export var some: <F, A>(F: Applicative<F>) => (a: A) => HKT<F, Option<A>>
+declare export var some: <F>(F: Applicative<F>) => <A, U, L>(a: A) => HKT<F, U, L, Option<A>>
 
-declare export var none: <F>(F: Applicative<F>) => () => HKT<F, Option<empty>>
+declare export var none: <F>(F: Applicative<F>) => <U, L>() => HKT<F, U, L, Option<empty>>
 
-declare export var fromOption: <F, A>(F: Applicative<F>) => <A>(fa: Option<A>) => HKT<F, Option<A>>
+declare export var fromOption: <F>(F: Applicative<F>) => <A, U, L>(fa: Option<A>) => HKT<F, U, L, Option<A>>
 
-declare export var liftF: <F, A>(F: Functor<F>) => (fa: HKT<F, A>) => HKT<F, Option<A>>
+declare export var liftF: <F>(F: Functor<F>) => <A, U, L>(fa: HKT<F, U, L, A>) => HKT<F, U, L, Option<A>>
 
-declare export var fold: <F, R, A>(
+declare export var fold: <F>(
   F: Functor<F>
-) => (none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
+) => <R, A, U, L>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, U, L, Option<A>>) => HKT<F, U, L, R>
 
-declare export var getOrElse: <F, A>(F: Functor<F>) => (f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+declare export var getOrElse: <F>(
+  F: Functor<F>
+) => <A>(f: Lazy<A>) => <U, L>(fa: HKT<F, U, L, Option<A>>) => HKT<F, U, L, A>
 
-declare export var getOrElseValue: <F, A>(F: Functor<F>) => <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+declare export var getOrElseValue: <F>(
+  F: Functor<F>
+) => <A>(value: A) => <U, L>(fa: HKT<F, U, L, Option<A>>) => HKT<F, U, L, A>
 
 declare export var getOptionT: <M>(M: Monad<M>) => OptionT<M>
