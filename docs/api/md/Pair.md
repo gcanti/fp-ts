@@ -1,150 +1,215 @@
 MODULE [Pair](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts)
+
 # Pair
-*data*
+
+_data_
+
 ```ts
 constructor(readonly value: [A, A]) {}
 ```
+
 ## Methods
 
 ### ap
+
 ```ts
-<B>(fab: Pair<(a: A) => B>): Pair<B> 
+<B>(fab: Pair<(a: A) => B>): Pair<B>
 ```
+
 ### ap_
+
 ```ts
-<B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C> 
+<B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C>
 ```
+
 ### extend
+
 ```ts
-<B>(f: (fb: Pair<A>) => B): Pair<B> 
+<B>(f: (fb: Pair<A>) => B): Pair<B>
 ```
+
 ### extract
+
 ```ts
-(): A 
+(): A
 ```
+
 ### first
+
 ```ts
-(f: Endomorphism<A>): Pair<A> 
+(f: Endomorphism<A>): Pair<A>
 ```
+
 Map a function over the first field of a pair
+
 ### fst
+
 ```ts
-(): A 
+(): A
 ```
+
 ### map
+
 ```ts
-<B>(f: (a: A) => B): Pair<B> 
+<B>(f: (a: A) => B): Pair<B>
 ```
+
 ### reduce
+
 ```ts
-<B>(f: (b: B, a: A) => B, b: B): B 
+<B>(f: (b: B, a: A) => B, b: B): B
 ```
+
 ### second
+
 ```ts
-(f: Endomorphism<A>): Pair<A> 
+(f: Endomorphism<A>): Pair<A>
 ```
+
 Map a function over the second field of a pair
+
 ### snd
+
 ```ts
-(): A 
+(): A
 ```
+
 ### swap
+
 ```ts
-(): Pair<A> 
+(): Pair<A>
 ```
+
 Swaps the elements in a pair
+
 ### traverse
+
 ```ts
-<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> 
+<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
 ```
+
 # pair
-*instance*
+
+_instance_
+
 ```ts
 Applicative<URI> & Foldable<URI> & Traversable<URI> & Comonad<URI>
 ```
+
 # ap
-*function*
+
+_function_
+
 ```ts
 <A, B>(fab: Pair<(a: A) => B>, fa: Pair<A>): Pair<B>
 ```
 
 # extend
-*function*
+
+_function_
+
 ```ts
 <A, B>(f: (fb: Pair<A>) => B, fa: Pair<A>): Pair<B>
 ```
 
 # extract
-*function*
+
+_function_
+
 ```ts
 <A>(fa: Pair<A>): A
 ```
 
 # first
-*function*
+
+_function_
+
 ```ts
 <A>(f: Endomorphism<A>) => (fa: Pair<A>): Pair<A>
 ```
+
 Map a function over the first field of a pair
 
 # getMonoid
-*function*
+
+_function_
+
 ```ts
 <A>(M: Monoid<A>): Monoid<Pair<A>>
 ```
 
 # getOrd
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>): Ord<Pair<A>>
 ```
 
 # getSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(S: Semigroup<A>): Semigroup<Pair<A>>
 ```
 
 # getSetoid
-*function*
+
+_function_
+
 ```ts
 <A>(S: Setoid<A>): Setoid<Pair<A>>
 ```
 
 # map
-*function*
+
+_function_
+
 ```ts
 <A, B>(f: (a: A) => B, fa: Pair<A>): Pair<B>
 ```
 
 # of
-*function*
+
+_function_
+
 ```ts
 <A>(a: A): Pair<A>
 ```
 
 # reduce
-*function*
+
+_function_
+
 ```ts
 <A, B>(f: (b: B, a: A) => B, b: B, fa: Pair<A>): B
 ```
 
 # second
-*function*
+
+_function_
+
 ```ts
 <A>(f: Endomorphism<A>) => (fa: Pair<A>): Pair<A>
 ```
+
 Map a function over the second field of a pair
 
 # swap
-*function*
+
+_function_
+
 ```ts
 <A>(fa: Pair<A>): Pair<A>
 ```
+
 Swaps the elements in a pair
 
 # traverse
-*function*
+
+_function_
+
 ```ts
-traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Pair<A>) => HKT<F, Pair<B>> 
+traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Pair<A>) => HKT<F, Pair<B>>
 ```

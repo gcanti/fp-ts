@@ -1,36 +1,61 @@
 MODULE [Setoid](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts)
+
 # Setoid
-*type class*
+
+_type class_
+
 ```ts
 interface Setoid<A> {
   equals: (x: A) => (y: A) => boolean
 }
 ```
+
 # setoidBoolean
-*instance*
+
+_instance_
+
 ```ts
 Setoid<boolean>
 ```
 
 # setoidNumber
-*instance*
+
+_instance_
+
 ```ts
 Setoid<number>
 ```
 
 # setoidString
-*instance*
+
+_instance_
+
 ```ts
 Setoid<string>
 ```
+
 # getArraySetoid
-*function*
+
+_function_
+
 ```ts
 <A>(S: Setoid<A>): Setoid<Array<A>>
 ```
 
+# getRecordSetoid
+
+_function_
+
+```ts
+<O extends { [key: string]: any }>(
+  setoids: { [K in keyof O]: Setoid<O[K]> }
+): Setoid<O>
+```
+
 # strictEqual
-*function*
+
+_function_
+
 ```ts
 (a: any) => (b: any): boolean
 ```

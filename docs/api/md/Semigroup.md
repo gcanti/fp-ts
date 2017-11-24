@@ -1,97 +1,135 @@
 MODULE [Semigroup](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts)
+
 # Semigroup
-*type class*
+
+_type class_
+
 ```ts
 interface Semigroup<A> {
   concat: (x: A) => (y: A) => A
 }
 ```
+
 # semigroupAll
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<boolean>
 ```
+
 Boolean semigroup under conjunction
 
 # semigroupAny
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<boolean>
 ```
+
 Boolean semigroup under disjunction
 
 # semigroupArray
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<Array<any>>
 ```
+
 Semigroup under array concatenation (`Array<any>`)
 
 # semigroupProduct
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<number>
 ```
+
 Number Semigroup under multiplication
 
 # semigroupString
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<string>
 ```
 
 # semigroupSum
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<number>
 ```
+
 Number Semigroup under addition
+
 # fold
-*function*
+
+_function_
+
 ```ts
 <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A
 ```
 
 # getDualSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(S: Semigroup<A>): Semigroup<A>
 ```
 
 # getFirstSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(): Semigroup<A>
 ```
 
 # getJoinSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
 # getLastSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(): Semigroup<A>
 ```
 
 # getMeetSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
 # getProductSemigroup
-*function*
+
+_function_
+
 ```ts
 <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]>
 ```
 
 # getRecordSemigroup
-*function*
+
+_function_
+
 ```ts
 <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<{ [K in keyof O]: O[K] }>
+): Semigroup<O>
 ```

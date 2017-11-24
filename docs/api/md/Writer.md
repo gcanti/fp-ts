@@ -1,68 +1,97 @@
 MODULE [Writer](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts)
+
 # Writer
-*data*
+
+_data_
+
 ```ts
 constructor(readonly monoid: Monoid<W>, readonly run: Lazy<[A, W]>) {}
 ```
+
 ## Methods
 
 ### ap
+
 ```ts
-<B>(fab: Writer<W, (a: A) => B>): Writer<W, B> 
+<B>(fab: Writer<W, (a: A) => B>): Writer<W, B>
 ```
+
 ### chain
+
 ```ts
-<B>(f: (a: A) => Writer<W, B>): Writer<W, B> 
+<B>(f: (a: A) => Writer<W, B>): Writer<W, B>
 ```
+
 ### eval
+
 ```ts
-(): A 
+(): A
 ```
+
 ### exec
+
 ```ts
-(): W 
+(): W
 ```
+
 ### map
+
 ```ts
-<B>(f: (a: A) => B): Writer<W, B> 
+<B>(f: (a: A) => B): Writer<W, B>
 ```
+
 # writer
-*instance*
+
+_instance_
+
 ```ts
 Functor<URI>
 ```
+
 # ap
-*function*
+
+_function_
+
 ```ts
 <W, A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writer<W, B>
 ```
 
 # chain
-*function*
+
+_function_
+
 ```ts
 <W, A, B>(f: (a: A) => Writer<W, B>, fa: Writer<W, A>): Writer<W, B>
 ```
 
 # getMonad
-*function*
+
+_function_
+
 ```ts
 <W>(monoid: Monoid<W>): Monad<URI>
 ```
 
 # map
-*function*
+
+_function_
+
 ```ts
 <W, A, B>(f: (a: A) => B, fa: Writer<W, A>): Writer<W, B>
 ```
 
 # of
-*function*
+
+_function_
+
 ```ts
 <W>(M: Monoid<W>) => <A>(a: A): Writer<W, A>
 ```
 
 # tell
-*function*
+
+_function_
+
 ```ts
 <W>(M: Monoid<W>) => (w: W): Writer<W, void>
 ```
