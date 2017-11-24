@@ -42,6 +42,10 @@ export function lift<F extends HKT2S>(
 ): <A, B>(f: (a: A) => B) => <L>(fa: HKT2As<F, L, A>) => HKT2As<F, L, B>
 export function lift<F extends HKTS>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKTAs<F, A>) => HKTAs<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
+/**
+ * Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
+ * @function
+ */
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
   return f => fa => F.map(f, fa)
 }
@@ -53,6 +57,10 @@ export function voidRight<F extends HKT3S>(
 export function voidRight<F extends HKT2S>(F: Functor<F>): <A>(a: A) => <L, B>(fb: HKT2<F, L, B>) => HKT2As<F, L, A>
 export function voidRight<F extends HKTS>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => HKTAs<F, A>
 export function voidRight<F>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => HKT<F, A>
+/**
+ * Ignore the return value of a computation, using the specified return value instead (`<$`)
+ * @function
+ */
 export function voidRight<F>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => HKT<F, A> {
   return a => fb => F.map(constant(a), fb)
 }
@@ -64,6 +72,10 @@ export function voidLeft<F extends HKT3S>(
 export function voidLeft<F extends HKT2S>(F: Functor<F>): <L, A>(fa: HKT2<F, L, A>) => <B>(b: B) => HKT2As<F, L, B>
 export function voidLeft<F extends HKTS>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => HKTAs<F, B>
 export function voidLeft<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => HKT<F, B>
+/**
+ * A version of `voidRight` with its arguments flipped (`$>`)
+ * @function
+ */
 export function voidLeft<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => HKT<F, B> {
   return fa => b => F.map(constant(b), fa)
 }

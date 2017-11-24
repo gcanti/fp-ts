@@ -70,11 +70,11 @@ export const tell = <W>(M: Monoid<W>) => (w: W): Writer<W, void> => {
 }
 
 /** @function */
-export const getMonad = <W>(monoid: Monoid<W>): Monad<URI> => {
+export const getMonad = <W>(M: Monoid<W>): Monad<URI> => {
   return {
     URI,
     map,
-    of: of(monoid),
+    of: of(M),
     ap,
     chain
   }

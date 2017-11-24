@@ -25,6 +25,10 @@ npm install --save fp-ts
 
 The stable version is tested against TypeScript 2.6.x, but should run with TypeScript 2.2.2+ too
 
+# Flowtype compatibility
+
+The shadow files are tested against 0.59.0
+
 # Technical overview
 
 The idea (faking higher kinded types in TypeScript) is based on
@@ -43,14 +47,13 @@ The idea (faking higher kinded types in TypeScript) is based on
 * [logging-ts](https://github.com/gcanti/logging-ts) - Composable loggers for TypeScript
 * [fp-ts-routing](https://github.com/gcanti/fp-ts-routing) - A type-safe bidirectional routing library for TypeScript
 * [parser-ts](https://github.com/gcanti/parser-ts) - String parser combinators for TypeScript
-* [recursion-schemes-ts](https://github.com/gcanti/recursion-schemes-ts) - Recursion schemes in TypeScript
 
 ## Bindings
 
 * [fp-ts-rxjs](https://github.com/gcanti/fp-ts-rxjs) - fp-ts bindings for RxJS
 * [fp-ts-fluture](https://github.com/gcanti/fp-ts-fluture) - fp-ts bindings for Fluture
 
-# Documentation
+# Documentation (TypeScript)
 
 * [API](docs/api/md/index.md)
 * [How `HKT`, `URI2HKT`, `HKTS` and `HKTAs` work](docs/HKT.md)
