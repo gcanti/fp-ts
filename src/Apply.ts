@@ -7,15 +7,6 @@ export interface Apply<F> extends Functor<F> {
   ap<A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>): HKT<F, B>
 }
 
-/*
-
-  Implementations of FantasyApply may choose to also implement
-
-  ```ts
-  ap_: <B, C>(this: HKT<F, (a: A) => B>, fb: HKT<F, B>) => HKT<F, C>
-  ```
-
-*/
 export interface FantasyApply<F, A> extends FantasyFunctor<F, A> {
   ap<B>(fab: HKT<F, (a: A) => B>): HKT<F, B>
 }

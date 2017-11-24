@@ -19,7 +19,7 @@ declare export class Writer<W, A> {
 
 declare export var tell: <W>(M: Monoid<W>) => (w: W) => Writer<W, void>
 
-declare export var getMonad: <W>(monoid: Monoid<W>) => Monad<URIT>
+declare export var getMonad: <W>(M: Monoid<W>) => Monad<URIT>
 
 export interface Instances extends Functor<URIT> {}
 
