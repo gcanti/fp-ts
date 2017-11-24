@@ -1,6 +1,9 @@
 MODULE [Invariant](https://github.com/gcanti/fp-ts/blob/master/src/Invariant.ts)
+
 # Invariant
-*type class*
+
+_type class_
+
 ```ts
 interface Invariant<F> {
   readonly URI: F
