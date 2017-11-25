@@ -20,6 +20,9 @@ export class Reader<E, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B> {
     return new Reader((e: E) => fab.run(e)(this.run(e)))
   }
+  ap_<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B> {
     return new Reader((e: E) => f(this.run(e)).run(e))
   }

@@ -34,6 +34,9 @@ export class State<S, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: State<S, (a: A) => B>): State<S, B> {
     return fab.chain(f => this.map(f)) // <= derived
   }
+  ap_<B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => State<S, B>): State<S, B> {
     return new State(s => {
       const [a, s1] = this.run(s)
