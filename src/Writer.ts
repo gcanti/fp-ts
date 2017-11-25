@@ -35,6 +35,9 @@ export class Writer<W, A> implements FantasyMonad<URI, A> {
   ap<B>(fab: Writer<W, (a: A) => B>): Writer<W, B> {
     return fab.chain(f => this.map(f))
   }
+  ap_<B, C>(this: Writer<W, (b: B) => C>, fb: Writer<W, B>): Writer<W, C> {
+    return fb.ap(this)
+  }
   chain<B>(f: (a: A) => Writer<W, B>): Writer<W, B> {
     return new Writer(this.monoid, () => {
       const [a, w1] = this.run()
