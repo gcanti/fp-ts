@@ -13,6 +13,22 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 0.6.4
+
+* **New Feature**
+  * Array: add `getSemigroup` / `getMonoid`, fix #272 (@gcanti)
+  * Setoid: add `getRecordSetoid` (@gcanti)
+  * add missing `ap_` methods (Reader, State, Writer) (@gcanti)
+  * type `is*` methods as type guards (Option, Either, Validation, These) (@gcanti)
+* **Experimental**
+  * add Flowtype support (@gcanti)
+* **Polish**
+  * Correct `ap_` parameter name (@OliverJAsh)
+  * update Prettier version (@gcanti)
+  * fix `getRecordSemigroup` signature (@gcanti)
+  * fix `getRecordMonoid` signature (@gcanti)
+  * format markdown files with prettier (@gcanti)
+
 # 0.6.3
 
 * **New Feature**
