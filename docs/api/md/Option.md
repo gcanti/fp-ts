@@ -106,7 +106,7 @@ Returns the value from this `Some` or the given argument if this is a `None`
 ### isNone
 
 ```ts
-(): boolean
+(): this is None<A>
 ```
 
 Returns `true` if the option is `None`, `false` otherwise
@@ -114,7 +114,7 @@ Returns `true` if the option is `None`, `false` otherwise
 ### isSome
 
 ```ts
-(): boolean
+(): this is Some<A>
 ```
 
 Returns `true` if the option is an instance of `Some`, `false` otherwise

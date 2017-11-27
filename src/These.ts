@@ -53,6 +53,7 @@ export class This<L, A>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.of(this as any)
   }
+  /** Applies a function to each case in the data structure */
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return this_(this.value)
   }
@@ -61,6 +62,18 @@ export class This<L, A>
   }
   toString(): string {
     return `this_(${toString(this.value)})`
+  }
+  /** Returns `true` if the these is `This`, `false` otherwise */
+  isThis(): this is This<L, A> {
+    return true
+  }
+  /** Returns `true` if the these is `That`, `false` otherwise */
+  isThat(): this is That<L, A> {
+    return false
+  }
+  /** Returns `true` if the these is `Both`, `false` otherwise */
+  isBoth(): this is Both<L, A> {
+    return false
   }
 }
 
@@ -95,6 +108,15 @@ export class That<L, A>
   toString(): string {
     return `that(${toString(this.value)})`
   }
+  isThis(): this is This<L, A> {
+    return false
+  }
+  isThat(): this is That<L, A> {
+    return true
+  }
+  isBoth(): this is Both<L, A> {
+    return false
+  }
 }
 
 export class Both<L, A>
@@ -127,6 +149,15 @@ export class Both<L, A>
   }
   toString(): string {
     return `both(${toString(this.l)}, ${toString(this.a)})`
+  }
+  isThis(): this is This<L, A> {
+    return false
+  }
+  isThat(): this is That<L, A> {
+    return false
+  }
+  isBoth(): this is Both<L, A> {
+    return true
   }
 }
 
@@ -227,19 +258,28 @@ export function traverse<F>(
   return (f, ta) => ta.traverse(F)(f)
 }
 
-/** @function */
+/**
+ * Returns `true` if the these is an instance of `This`, `false` otherwise
+ * @function
+ */
 export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => {
-  return fa._tag === 'This'
+  return fa.isThis()
 }
 
-/** @function */
+/**
+ * Returns `true` if the these is an instance of `That`, `false` otherwise
+ * @function
+ */
 export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
-  return fa._tag === 'That'
+  return fa.isThat()
 }
 
-/** @function */
+/**
+ * Returns `true` if the these is an instance of `Both`, `false` otherwise
+ * @function
+ */
 export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
-  return fa._tag === 'Both'
+  return fa.isBoth()
 }
 
 /** @function */

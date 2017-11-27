@@ -106,7 +106,7 @@ Returns the value from this `Right` or the given argument if this is a `Left`
 ### isLeft
 
 ```ts
-(): boolean
+(): this is Left<L, A>
 ```
 
 Returns `true` if the either is an instance of `Left`, `false` otherwise
@@ -114,7 +114,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 ### isRight
 
 ```ts
-(): boolean
+(): this is Right<L, A>
 ```
 
 Returns `true` if the either is an instance of `Right`, `false` otherwise

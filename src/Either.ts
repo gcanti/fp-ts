@@ -125,11 +125,11 @@ export class Left<L, A>
     return `left(${toString(this.value)})`
   }
   /** Returns `true` if the either is an instance of `Left`, `false` otherwise */
-  isLeft(): boolean {
+  isLeft(): this is Left<L, A> {
     return true
   }
   /** Returns `true` if the either is an instance of `Right`, `false` otherwise */
-  isRight(): boolean {
+  isRight(): this is Right<L, A> {
     return false
   }
   /** Swaps the disjunction values */
@@ -203,10 +203,10 @@ export class Right<L, A>
   toString(): string {
     return `right(${toString(this.value)})`
   }
-  isLeft(): boolean {
+  isLeft(): this is Left<L, A> {
     return false
   }
-  isRight(): boolean {
+  isRight(): this is Right<L, A> {
     return true
   }
   swap(): Either<A, L> {

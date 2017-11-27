@@ -22,11 +22,37 @@ type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 <B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B
 ```
 
+Applies a function to each case in the data structure
+
 ### inspect
 
 ```ts
 (): string
 ```
+
+### isBoth
+
+```ts
+(): this is Both<L, A>
+```
+
+Returns `true` if the these is `Both`, `false` otherwise
+
+### isThat
+
+```ts
+(): this is That<L, A>
+```
+
+Returns `true` if the these is `That`, `false` otherwise
+
+### isThis
+
+```ts
+(): this is This<L, A>
+```
+
+Returns `true` if the these is `This`, `false` otherwise
 
 ### map
 
@@ -142,6 +168,8 @@ _function_
 <L, A>(fa: These<L, A>): fa is Both<L, A>
 ```
 
+Returns `true` if the these is an instance of `Both`, `false` otherwise
+
 # isThat
 
 _function_
@@ -150,6 +178,8 @@ _function_
 <L, A>(fa: These<L, A>): fa is That<L, A>
 ```
 
+Returns `true` if the these is an instance of `That`, `false` otherwise
+
 # isThis
 
 _function_
@@ -157,6 +187,8 @@ _function_
 ```ts
 <L, A>(fa: These<L, A>): fa is This<L, A>
 ```
+
+Returns `true` if the these is an instance of `This`, `false` otherwise
 
 # map
 

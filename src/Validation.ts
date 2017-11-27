@@ -91,11 +91,11 @@ export class Failure<L, A>
     return `failure(${toString(this.value)})`
   }
   /** Returns `true` if the validation is an instance of `Failure`, `false` otherwise */
-  isFailure(): boolean {
+  isFailure(): this is Failure<L, A> {
     return true
   }
   /** Returns `true` if the validation is an instance of `Success`, `false` otherwise */
-  isSuccess(): boolean {
+  isSuccess(): this is Success<L, A> {
     return false
   }
 }
@@ -161,10 +161,10 @@ export class Success<L, A>
   toString(): string {
     return `success(${toString(this.value)})`
   }
-  isFailure(): boolean {
+  isFailure(): this is Failure<L, A> {
     return false
   }
-  isSuccess(): boolean {
+  isSuccess(): this is Success<L, A> {
     return true
   }
 }

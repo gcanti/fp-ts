@@ -110,11 +110,11 @@ export class None<A>
     return false
   }
   /** Returns `true` if the option is `None`, `false` otherwise */
-  isNone(): boolean {
+  isNone(): this is None<A> {
     return true
   }
   /** Returns `true` if the option is an instance of `Some`, `false` otherwise */
-  isSome(): boolean {
+  isSome(): this is Some<A> {
     return false
   }
   /** Returns `true` if this option is non empty and the predicate `p` returns `true` when applied to this Option's value */
@@ -193,10 +193,10 @@ export class Some<A>
   contains(S: Setoid<A>, a: A): boolean {
     return S.equals(this.value)(a)
   }
-  isNone(): boolean {
+  isNone(): this is None<A> {
     return false
   }
-  isSome(): boolean {
+  isSome(): this is Some<A> {
     return true
   }
   exists(p: (a: A) => boolean): boolean {

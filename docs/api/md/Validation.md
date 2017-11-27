@@ -63,7 +63,7 @@ A data-type like Either but with an accumulating `Applicative`
 ### isFailure
 
 ```ts
-(): boolean
+(): this is Failure<L, A>
 ```
 
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
@@ -71,7 +71,7 @@ Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 ### isSuccess
 
 ```ts
-(): boolean
+(): this is Success<L, A>
 ```
 
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
