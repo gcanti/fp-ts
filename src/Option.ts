@@ -22,6 +22,10 @@ export const URI = 'Option'
 export type URI = typeof URI
 
 /**
+ * Represents optional values. Instances of `Option` are either an instance of `Some` or `None`
+ *
+ * The most idiomatic way to use an `Option` instance is to treat it as a collection or monad and use `map`, `flatMap` or `filter`.
+ *
  * @data
  * @constructor None
  * @constructor Some
@@ -52,6 +56,11 @@ export class None<A>
   ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> {
     return fb.ap(this)
   }
+  /**
+   * Returns the result of applying f to this `Option`'s value if this `Option` is nonempty.
+   * Returns `None` if this `Option` is empty. Slightly different from `map` in that `f` is expected to return an
+   * `Option` (which could be `None`)
+   */
   chain<B>(f: (a: A) => Option<B>): Option<B> {
     return none
   }
@@ -74,15 +83,19 @@ export class None<A>
   fold<B>(n: Lazy<B>, s: (a: A) => B): B {
     return n()
   }
+  /** Returns the value from this `Some` or the given argument if this is a `None` */
   getOrElseValue(a: A): A {
     return a
   }
+  /** Returns the value from this `Some` or the result of given argument if this is a `None` */
   getOrElse(f: Lazy<A>): A {
     return f()
   }
+  /** Returns the value from this `Some` or `null` if this is a `None` */
   toNullable(): A | null {
     return null
   }
+  /** Returns the value from this `Some` or `undefined` if this is a `None` */
   toUndefined(): A | undefined {
     return undefined
   }

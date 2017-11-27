@@ -16,6 +16,12 @@ constructor(readonly run: (e: E) => A) {}
 <B>(fab: Reader<E, (a: A) => B>): Reader<E, B>
 ```
 
+### ap_
+
+```ts
+<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C>
+```
+
 ### chain
 
 ```ts

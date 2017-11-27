@@ -16,6 +16,12 @@ constructor(readonly monoid: Monoid<W>, readonly run: Lazy<[A, W]>) {}
 <B>(fab: Writer<W, (a: A) => B>): Writer<W, B>
 ```
 
+### ap_
+
+```ts
+<B, C>(this: Writer<W, (b: B) => C>, fb: Writer<W, B>): Writer<W, C>
+```
+
 ### chain
 
 ```ts
@@ -69,7 +75,7 @@ _function_
 _function_
 
 ```ts
-<W>(monoid: Monoid<W>): Monad<URI>
+<W>(M: Monoid<W>): Monad<URI>
 ```
 
 # map
