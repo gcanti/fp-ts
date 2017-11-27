@@ -25,6 +25,9 @@ declare export class This<L, A> {
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B;
   inspect(): string;
   toString(): string;
+  isThis(): boolean;
+  isThat(): boolean;
+  isBoth(): boolean;
 }
 
 declare export class That<L, A> {
@@ -38,6 +41,9 @@ declare export class That<L, A> {
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B;
   inspect(): string;
   toString(): string;
+  isThis(): boolean;
+  isThat(): boolean;
+  isBoth(): boolean;
 }
 
 declare export class Both<L, A> {
@@ -52,6 +58,9 @@ declare export class Both<L, A> {
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B;
   inspect(): string;
   toString(): string;
+  isThis(): boolean;
+  isThat(): boolean;
+  isBoth(): boolean;
 }
 
 declare export var fold: <L, A, B>(
