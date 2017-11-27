@@ -22,6 +22,32 @@ export const URI = 'Either'
 export type URI = typeof URI
 
 /**
+ * Represents a value of one of two possible types (a disjoint union).
+ *
+ * An instance of `Either` is either an instance of `Left` or `Right`.
+ *
+ * A common use of `Either` is as an alternative to `Option` for dealing with possible missing values.
+ * In this usage, `None` is replaced with a `Left` which can contain useful information.
+ * `Right` takes the place of `Some`.
+ * Convention dictates that `Left` is used for failure and `Right` is used for success.
+ *
+ * For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
+ *
+ * ```ts
+ * const parse = (errorMessage: string) => (input: string): Either<string, number> => {
+ *   const n = parseInt(input, 10)
+ *   return isNaN(n) ? left(errorMessage) : right(n)
+ * }
+ * ```
+ *
+ * `Either` is right-biased, which means that `Right` is assumed to be the default case to operate on.
+ * If it is `Left`, operations like `map`, `chain`, ... return the `Left` value unchanged:
+ *
+ * ```ts
+ * right(12).map(double) // right(24)
+ * left(23).map(double)  // left(23)
+ * ```
+ *
  * @data
  * @constructor Left
  * @constructor Right
@@ -40,6 +66,7 @@ export class Left<L, A>
   readonly _L: L
   readonly _URI: URI
   constructor(readonly value: L) {}
+  /** The given function is applied if this is a `Right` */
   map<B>(f: (a: A) => B): Either<L, B> {
     return this as any
   }
@@ -49,6 +76,7 @@ export class Left<L, A>
   ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
     return fb.ap(this)
   }
+  /** Binds the given function across `Right` */
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
     return this as any
   }
@@ -86,6 +114,7 @@ export class Left<L, A>
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return left(f(this.value))
   }
+  /** Returns a `Some` containing the `Right` value if it exists or a `None` if this is a `Left` */
   toOption(): Option<A> {
     return none
   }

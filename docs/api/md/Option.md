@@ -8,6 +8,11 @@ _data_
 type Option<A> = None<A> | Some<A>
 ```
 
+Represents optional values. Instances of `Option` are either an instance of `Some` or `None`
+
+The most idiomatic way to use an `Option` instance is to treat it as a collection or monad and use `map`, `flatMap` or
+`filter`.
+
 ## Methods
 
 ### alt
@@ -33,6 +38,9 @@ type Option<A> = None<A> | Some<A>
 ```ts
 <B>(f: (a: A) => Option<B>): Option<B>
 ```
+
+Returns the result of applying f to this `Option`'s value if this `Option` is nonempty. Returns `None` if this `Option`
+is empty. Slightly different from `map` in that `f` is expected to return an `Option` (which could be `None`)
 
 ### contains
 
@@ -79,11 +87,15 @@ Applies a function to each case in the data structure
 (f: Lazy<A>): A
 ```
 
+Returns the value from this `Some` or the result of given argument if this is a `None`
+
 ### getOrElseValue
 
 ```ts
 (a: A): A
 ```
+
+Returns the value from this `Some` or the given argument if this is a `None`
 
 ### inspect
 
@@ -133,6 +145,8 @@ Maps `f` over this Option's value. If the value returned from `f` is null or und
 (): A | null
 ```
 
+Returns the value from this `Some` or `null` if this is a `None`
+
 ### toString
 
 ```ts
@@ -144,6 +158,8 @@ Maps `f` over this Option's value. If the value returned from `f` is null or und
 ```ts
 (): A | undefined
 ```
+
+Returns the value from this `Some` or `undefined` if this is a `None`
 
 ### traverse
 
