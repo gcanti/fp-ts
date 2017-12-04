@@ -19,7 +19,6 @@ declare export class Left<L, A> {
   +_tag: 'Left';
   +value: L;
   constructor(value: L): Left<L>;
-  fold<R>(left: (l: L) => R, right: (a: A) => R): R;
   map<B>(f: (a: A) => B): Either<L, B>;
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B>;
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B>;
@@ -44,7 +43,6 @@ declare export class Right<L, A> {
   +_tag: 'Right';
   +value: A;
   constructor(value: A): Right<A>;
-  fold<R>(left: (l: L) => R, right: (a: A) => R): R;
   map<B>(f: (a: A) => B): Either<L, B>;
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B>;
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B>;
