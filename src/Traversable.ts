@@ -41,6 +41,10 @@ export function sequence<F extends HKTS, T extends HKTS>(
   F: Applicative<F>,
   T: Traversable<T>
 ): <A>(tfa: HKTAs<T, HKTAs<F, A>>) => HKTAs<F, HKTAs<T, A>>
+export function sequence<F, T extends HKTS>(
+  F: Applicative<F>,
+  T: Traversable<T>
+): <A>(tfa: HKTAs<T, HKT<F, A>>) => HKT<F, HKTAs<T, A>>
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 /** @function */
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>> {
