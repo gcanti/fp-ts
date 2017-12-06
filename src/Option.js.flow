@@ -21,7 +21,7 @@ declare export class None<A> {
   +_tag: 'None';
   constructor(): None<A>;
   map<B>(f: (a: A) => B): Option<B>;
-  mapNullable<B>(f: (a: A) => B | null | void): Option<B>;
+  mapNullable<B>(f: (a: A) => B | null | void): Option<$NonMaybeType<B>>;
   ap<B>(fab: Option<(a: A) => B>): Option<B>;
   chain<B>(f: (a: A) => Option<B>): Option<B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
@@ -47,7 +47,7 @@ declare export class Some<A> {
   +value: A;
   constructor(value: A): Some<A>;
   map<B>(f: (a: A) => B): Option<B>;
-  mapNullable<B>(f: (a: A) => B | null | void): Option<B>;
+  mapNullable<B>(f: (a: A) => B | null | void): Option<$NonMaybeType<B>>;
   ap<B>(fab: Option<(a: A) => B>): Option<B>;
   chain<B>(f: (a: A) => Option<B>): Option<B>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
@@ -72,7 +72,7 @@ declare export var fold: <A, B>(n: Lazy<B>, s: (a: A) => B) => (fa: Option<A>) =
 
 declare export var getSetoid: <A>(S: Setoid<A>) => Setoid<Option<A>>
 
-declare export var mapNullable: <A, B>(f: (a: A) => B | null | void, fa: Option<A>) => Option<B>
+declare export var mapNullable: <A, B>(f: (a: A) => B | null | void, fa: Option<A>) => Option<$NonMaybeType<B>>
 
 declare export var filter: <A>(p: Predicate<A>) => (fa: Option<A>) => Option<A>
 
@@ -100,7 +100,7 @@ declare export var toNullable: <A>(fa: Option<A>) => A | null
 
 declare export var toUndefined: <A>(fa: Option<A>) => A | void
 
-declare export var fromNullable: <A>(a: A | null | void) => Option<A>
+declare export var fromNullable: <A>(a: A | null | void) => Option<$NonMaybeType<A>>
 
 declare export var none: Option<any>
 
