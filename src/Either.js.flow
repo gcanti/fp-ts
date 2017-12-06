@@ -85,7 +85,7 @@ declare export var mapLeft: <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>) => E
 
 declare export var fromOption: <L>(defaultValue: L) => <A>(fa: Option<A>) => Either<L, A>
 
-declare export var fromNullable: <L>(defaultValue: L) => <A>(a: A | null | void) => Either<L, A>
+declare export var fromNullable: <L>(defaultValue: L) => <A>(a: A | null | void) => Either<L, $NonMaybeType<A>>
 
 declare export var toOption: <L, A>(fa: Either<L, A>) => Option<A>
 

@@ -1,9 +1,9 @@
 // @flow
 import { Identity, identity } from './lib/Identity'
 import type { Option } from './lib/Option'
-import { option, some, none } from './lib/Option'
+import { option, some, none, fromNullable, mapNullable } from './lib/Option'
 import type { Either } from './lib/Either'
-import { right, either } from './lib/Either'
+import { right, either, fromNullable as fromNullableEither } from './lib/Either'
 import { IO, io } from './lib/IO'
 import { array } from './lib/Array'
 import type { Validation } from './lib/Validation'
@@ -16,12 +16,11 @@ import { semigroupSum } from './lib/Semigroup'
 const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
 
-
 //
 // Identity
 //
 ;(identity.traverse(either)(a => (right(a): Either<string, number>), new Identity(1)): Either<string, Identity<number>>)
-;(new Identity(1).traverse(either)(a => (right(a) : Either<string, number>)): Either<string, Identity<number>>)
+;(new Identity(1).traverse(either)(a => (right(a): Either<string, number>)): Either<string, Identity<number>>)
 
 //
 // Option
@@ -31,11 +30,21 @@ const len = (s: string): number => s.length
 ;(some(1).map(double): Option<string>)
 ;(some(1).map(double): Option<number>)
 
+declare var o1: ?number
+fromNullable(o1).map(n => n * 2)
+declare var fo1: number => ?number
+some(1)
+  .mapNullable(fo1)
+  .map(n => n * 2)
+
 //
 // Either
 //
 const e1: Either<string, number> = right(1)
 ;(e1.toOption(): Option<number>)
+
+declare var e2: ?number
+fromNullableEither('foo')(e2).map(n => n * 2)
 
 //
 // Functor
@@ -116,8 +125,12 @@ const arrayOptionApplicative = getApplicativeComposition(array, option)
 ;(arrayOptionApplicative.map(double, arrayOptionApplicative.of(1)): Array<Option<number>>)
 const arrayEitherApplicative = getApplicativeComposition(array, either)
 // $FlowFixMe
-;(arrayEitherApplicative.map(len, (arrayEitherApplicative.of('foo'): Array<Either<string, string>>)): Array<Either<boolean, number>>)
-;(arrayEitherApplicative.map(len, (arrayEitherApplicative.of('foo'): Array<Either<string, string>>)): Array<Either<string, number>>)
+;(arrayEitherApplicative.map(len, (arrayEitherApplicative.of('foo'): Array<Either<string, string>>)): Array<
+  Either<boolean, number>
+>)
+;(arrayEitherApplicative.map(len, (arrayEitherApplicative.of('foo'): Array<Either<string, string>>)): Array<
+  Either<string, number>
+>)
 
 //
 // Traversable
@@ -131,4 +144,7 @@ const sequenceOptions = sequence(option, array)([some(1), none])
 ;(sequenceOptions: Option<Array<number>>)
 
 const arrayOptionTraversable = getTraversableComposition(array, option)
-;(arrayOptionTraversable.traverse(either)(a => (right(len(a)): Either<string, number>), [some('foo'), none]): Either<string, Array<Option<number>>>)
+;(arrayOptionTraversable.traverse(either)(a => (right(len(a)): Either<string, number>), [some('foo'), none]): Either<
+  string,
+  Array<Option<number>>
+>)
