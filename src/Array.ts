@@ -498,6 +498,21 @@ export const zip = <A>(fa: Array<A>) => <B>(fb: Array<B>): Array<[A, B]> => {
   return zipWith<A, B, [A, B]>(tuple)(fa)(fb)
 }
 
+/**
+ * Rotate an array to the right by `n` steps
+ * @function
+ */
+export const rotate = (n: number) => <A>(xs: Array<A>): Array<A> => {
+  const len = xs.length
+  if (n === 0 || len <= 1 || len === Math.abs(n)) {
+    return xs
+  } else if (n < 0) {
+    return rotate(len + n)(xs)
+  } else {
+    return xs.slice(-n).concat(xs.slice(0, len - n))
+  }
+}
+
 export const array: Monoid<Array<any>> &
   Monad<URI> &
   Foldable<URI> &

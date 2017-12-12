@@ -190,4 +190,16 @@ describe('Array', () => {
     const eithers = [right(1), left('foo'), right(2)]
     assert.deepEqual(array.partitionMap(x => x, eithers), { left: ['foo'], right: [1, 2] })
   })
+
+  it('rotate', () => {
+    assert.deepEqual(array.rotate(1)([]), [])
+    assert.deepEqual(array.rotate(1)([1]), [1])
+    assert.deepEqual(array.rotate(1)([1, 2]), [2, 1])
+    assert.deepEqual(array.rotate(2)([1, 2]), [1, 2])
+    assert.deepEqual(array.rotate(0)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepEqual(array.rotate(1)([1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
+    assert.deepEqual(array.rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    assert.deepEqual(array.rotate(-1)([1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
+    assert.deepEqual(array.rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+  })
 })
