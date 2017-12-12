@@ -101,6 +101,8 @@ declare export var zipWith: <A, B, C>(f: (a: A, b: B) => C) => (fa: Array<A>) =>
 
 declare export var zip: <A>(fa: Array<A>) => <B>(fb: Array<B>) => Array<[A, B]>
 
+declare export var rotate: (n: number) => <A>(xs: Array<A>) => Array<A>
+
 export interface Instances
   extends Monad<URIT>, Foldable<URIT>, Unfoldable<URIT>, Traversable<URIT>, Alternative<URIT>, Plus<URIT>, Extend<
     URIT
