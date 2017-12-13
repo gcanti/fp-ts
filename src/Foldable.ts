@@ -2,7 +2,13 @@ import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
 import { Monoid, getEndomorphismMonoid, monoidArray } from './Monoid'
 import { Applicative } from './Applicative'
 import { applyFirst } from './Apply'
-import { identity } from './function'
+import { identity, Predicate } from './function'
+import { Ord, min, max } from './Ord'
+import { Option, none, some } from './Option'
+import { Semiring } from './Semiring'
+import { Monad } from './Monad'
+import { Plus } from './Plus'
+import { Setoid } from './Setoid'
 
 /** @typeclass */
 export interface Foldable<F> {
@@ -33,16 +39,6 @@ export const foldMap = <F, M>(F: Foldable<F>, M: Monoid<M>) => <A>(f: (a: A) => 
   return F.reduce((acc, x) => M.concat(acc)(f(x)), M.empty(), fa)
 }
 
-/** @function */
-export const fold = <F, M>(F: Foldable<F>, M: Monoid<M>) => (fa: HKT<F, M>): M => {
-  return foldMap(F, M)<M>(identity)(fa)
-}
-
-/** @function */
-export const toArray = <F>(F: Foldable<F>) => <A>(fa: HKT<F, A>): Array<A> => {
-  return foldMap(F, monoidArray)(a => [a])(fa)
-}
-
 /**
  * A default implementation of `foldr` using `foldMap`
  * @function
@@ -51,17 +47,45 @@ export const foldr = <F>(F: Foldable<F>) => <A, B>(f: (a: A) => (b: B) => B) => 
   return foldMap(F, getEndomorphismMonoid<B>())(f)(fa)(b)
 }
 
-type Acc<M> = { init: boolean; acc: M }
+/** @function */
+export const fold = <F, M>(F: Foldable<F>, M: Monoid<M>) => (fa: HKT<F, M>): M => {
+  return foldMap(F, M)<M>(identity)(fa)
+}
 
 /**
- * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
+ * Similar to 'reduce', but the result is encapsulated in a monad.
+ *
+ * Note: this function is not generally stack-safe, e.g., for monads which
+ * build up thunks a la `IO`.
+ */
+export function foldM<F, M extends HKT3S>(
+  F: Foldable<F>,
+  M: Monad<M>
+): <U, L, A, B>(f: (b: B, a: A) => HKT3As<M, U, L, B>, b: B, fa: HKT<F, A>) => HKT3As<M, U, L, B>
+export function foldM<F, M extends HKT2S>(
+  F: Foldable<F>,
+  M: Monad<M>
+): <L, A, B>(f: (b: B, a: A) => HKT2As<M, L, B>, b: B, fa: HKT<F, A>) => HKT2As<M, L, B>
+export function foldM<F, M extends HKTS>(
+  F: Foldable<F>,
+  M: Monad<M>
+): <A, B>(f: (b: B, a: A) => HKTAs<M, B>, b: B, fa: HKT<F, A>) => HKTAs<M, B>
+export function foldM<F, M>(
+  F: Foldable<F>,
+  M: Monad<M>
+): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => HKT<M, B>
+/**
+ * Similar to 'reduce', but the result is encapsulated in a monad.
+ *
+ * Note: this function is not generally stack-safe, e.g., for monads which
+ * build up thunks a la `IO`.
  * @function
  */
-export const intercalate = <F, M>(F: Foldable<F>, M: Monoid<M>) => (sep: M) => (fm: HKT<F, M>): M => {
-  function go({ init, acc }: Acc<M>, x: M): Acc<M> {
-    return init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc)(sep))(x) }
-  }
-  return F.reduce(go, { init: true, acc: M.empty() }, fm).acc
+export function foldM<F, M>(
+  F: Foldable<F>,
+  M: Monad<M>
+): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => HKT<M, B> {
+  return (f, b, fa) => F.reduce((mb, a) => M.chain(b => f(b, a), mb), M.of(b), fa)
 }
 
 /**
@@ -116,4 +140,99 @@ export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<
  */
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
   return fa => traverse_(M, F)(ma => ma, fa)
+}
+
+/**
+ * Combines a collection of elements using the `Alt` operation
+ */
+export function oneOf<F, P extends HKT3S>(
+  F: Foldable<F>,
+  P: Plus<P>
+): <U, L, A>(fga: HKT<F, HKT3As<P, U, L, A>>) => HKT3As<P, U, L, A>
+export function oneOf<F, P extends HKT2S>(
+  F: Foldable<F>,
+  P: Plus<P>
+): <L, A>(fga: HKT<F, HKT2As<P, L, A>>) => HKT2As<P, L, A>
+export function oneOf<F, P extends HKTS>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKTAs<P, A>>) => HKTAs<P, A>
+export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>
+export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> {
+  return foldr(F)((a: HKT<P, any>) => (b: HKT<P, any>) => P.alt(a, b))(P.zero())
+}
+
+type Acc<M> = { init: boolean; acc: M }
+
+/**
+ * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
+ * @function
+ */
+export const intercalate = <F, M>(F: Foldable<F>, M: Monoid<M>) => (sep: M) => (fm: HKT<F, M>): M => {
+  function go({ init, acc }: Acc<M>, x: M): Acc<M> {
+    return init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc)(sep))(x) }
+  }
+  return F.reduce(go, { init: true, acc: M.empty() }, fm).acc
+}
+
+/**
+ * Find the sum of the numeric values in a data structure
+ * @function
+ */
+export const sum = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A => {
+  return F.reduce((b, a) => S.add(b)(a), S.zero(), fa)
+}
+
+/**
+ * Find the product of the numeric values in a data structure
+ * @function
+ */
+export const product = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A => {
+  return F.reduce((b, a) => S.mul(b)(a), S.one(), fa)
+}
+
+/**
+ * Test whether a value is an element of a data structure
+ * @function
+ */
+export const elem = <F, A>(F: Foldable<F>, S: Setoid<A>) => (a: A) => (fa: HKT<F, A>): boolean => {
+  return F.reduce((b, x) => b || S.equals(x)(a), false, fa)
+}
+
+/**
+ * Try to find an element in a data structure which satisfies a predicate
+ * @function
+ */
+export const find = <F>(F: Foldable<F>) => <A>(p: Predicate<A>) => (fa: HKT<F, A>): Option<A> => {
+  return F.reduce(
+    (b: Option<A>, a) => {
+      if (b.isNone() && p(a)) {
+        return some(a)
+      } else {
+        return b
+      }
+    },
+    none,
+    fa
+  )
+}
+
+/**
+ * Find the smallest element of a structure, according to its `Ord` instance
+ * @function
+ */
+export const minimum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A> => {
+  const min_ = min(O)
+  return F.reduce((b: Option<A>, a) => b.fold(() => some(a), b => some(min_(b)(a))), none, fa)
+}
+
+/**
+ * Find the largest element of a structure, according to its `Ord` instance
+ * @function
+ */
+export const maximum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A> => {
+  const max_ = max(O)
+  return F.reduce((b: Option<A>, a) => b.fold(() => some(a), b => some(max_(b)(a))), none, fa)
+}
+
+/** @function */
+export const toArray = <F>(F: Foldable<F>) => <A>(fa: HKT<F, A>): Array<A> => {
+  return foldMap(F, monoidArray)(a => [a])(fa)
 }
