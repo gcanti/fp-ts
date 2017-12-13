@@ -11,7 +11,7 @@ const cons1 = a => as => {
 
 const cons2 = a => as => {
   const len = as.length
-  const r = Array(len + 1)
+  const r = Array(len)
   for (let i = 0; i < len; i++) {
     r[i] = as[i]
   }
