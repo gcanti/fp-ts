@@ -334,8 +334,7 @@ export const span = <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Arra
   const l = as.length
   let i = 0
   for (; i < l; i++) {
-    if (predicate(as[i])) {
-    } else {
+    if (!predicate(as[i])) {
       break
     }
   }
