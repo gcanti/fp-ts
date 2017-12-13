@@ -2,6 +2,13 @@
 import type { HKT } from './HKT'
 import type { Monoid } from './Monoid'
 import type { Applicative } from './Applicative'
+import type { Ord } from './Ord'
+import type { Option } from './Option'
+import type { Semiring } from './Semiring'
+import type { Monad } from './Monad'
+import type { Plus } from './Plus'
+import type { Setoid } from './Setoid'
+import type { Predicate } from './function'
 
 export interface Foldable<F> {
   reduce<A, B, U, L>(f: (b: B, a: A) => B, b: B, fa: HKT<F, U, L, A>): B;
@@ -39,3 +46,25 @@ declare export var sequence_: <M, F>(
   M: Applicative<M>,
   F: Foldable<F>
 ) => <A, UF, LF, UM, LM>(fa: HKT<F, UF, LF, HKT<M, UM, LM, A>>) => HKT<M, UM, LM, void>
+
+declare export var minimum: <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>) => Option<A>
+
+declare export var maximum: <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>) => Option<A>
+
+declare export var sum: <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>) => A
+
+declare export var product: <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>) => A
+
+declare export var foldM: <F, M>(
+  F: Foldable<F>,
+  M: Monad<M>
+) => <A, B, UF, LF, UM, LM>(f: (b: B, a: A) => HKT<M, UM, LM, B>, b: B, fa: HKT<F, UF, LF, A>) => HKT<M, UM, LM, B>
+
+declare export var oneOf: <F, P>(
+  F: Foldable<F>,
+  P: Plus<P>
+) => <A, UF, LF, UP, LP>(fga: HKT<F, UF, LF, HKT<P, UP, LP, A>>) => HKT<P, UP, LP, A>
+
+declare export var elem: <F, A>(F: Foldable<F>, S: Setoid<A>) => (a: A) => (fa: HKT<F, A>) => boolean
+
+declare export var find: <F>(F: Foldable<F>) => <A>(p: Predicate<A>) => (fa: HKT<F, A>) => Option<A>

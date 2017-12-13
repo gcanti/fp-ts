@@ -1,9 +1,28 @@
 import * as assert from 'assert'
-import { Foldable, toArray, foldMap, getFoldableComposition, intercalate, traverse_, sequence_ } from '../src/Foldable'
+import {
+  Foldable,
+  toArray,
+  foldMap,
+  getFoldableComposition,
+  intercalate,
+  traverse_,
+  sequence_,
+  minimum,
+  maximum,
+  sum,
+  product,
+  foldM,
+  oneOf,
+  elem,
+  find
+} from '../src/Foldable'
 import * as array from '../src/Array'
 import * as option from '../src/Option'
 import * as io from '../src/IO'
 import { monoidString } from '../src/Monoid'
+import { ordNumber } from '../src/Ord'
+import { fieldNumber } from '../src/Field'
+import { setoidNumber } from '../src/Setoid'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -62,5 +81,44 @@ describe('Foldable', () => {
     ])
     x.run()
     assert.strictEqual(counter, 'abc')
+  })
+
+  it('minimum', () => {
+    assert.deepEqual(minimum(array, ordNumber)([1, 2, 3, 4, 5]), option.some(1))
+  })
+
+  it('maximum', () => {
+    assert.deepEqual(maximum(array, ordNumber)([1, 2, 3, 4, 5]), option.some(5))
+  })
+
+  it('sum', () => {
+    assert.strictEqual(sum(array, fieldNumber)([1, 2, 3, 4, 5]), 15)
+  })
+
+  it('product', () => {
+    assert.strictEqual(product(array, fieldNumber)([1, 2, 3, 4, 5]), 120)
+  })
+
+  it('foldM', () => {
+    assert.deepEqual(foldM(array, option)((b, a) => option.none, 1, []), option.some(1))
+    assert.deepEqual(foldM(array, option)((b, a) => option.none, 1, [2]), option.none)
+    assert.deepEqual(foldM(array, option)((b, a) => option.some(b + a), 1, [2]), option.some(3))
+  })
+
+  it('oneOf', () => {
+    assert.deepEqual(oneOf(array, option)([]), option.none)
+    assert.deepEqual(oneOf(array, option)([option.none]), option.none)
+    assert.deepEqual(oneOf(array, option)([option.none, option.some(1)]), option.some(1))
+    assert.deepEqual(oneOf(array, option)([option.some(2), option.some(1)]), option.some(2))
+  })
+
+  it('elem', () => {
+    assert.strictEqual(elem(array, setoidNumber)(1)([1, 2, 3]), true)
+    assert.strictEqual(elem(array, setoidNumber)(4)([1, 2, 3]), false)
+  })
+
+  it('find', () => {
+    assert.deepEqual(find(array)((a: number) => a > 4)([1, 2, 3]), option.none)
+    assert.deepEqual(find(array)((a: number) => a > 4)([1, 2, 3, 5]), option.some(5))
   })
 })
