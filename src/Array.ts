@@ -331,16 +331,24 @@ export const take = (n: number) => <A>(as: Array<A>): Array<A> => {
  * @function
  */
 export const span = <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Array<A>; rest: Array<A> } => {
-  const init: Array<A> = []
+  const l = as.length
   let i = 0
-  for (; i < as.length; i++) {
+  for (; i < l; i++) {
     if (predicate(as[i])) {
-      init.push(as[i])
     } else {
       break
     }
   }
-  return { init, rest: as.slice(i) }
+
+  const init = Array(i)
+  for (let j = 0; j < i; j++) {
+    init[j] = as[j]
+  }
+  const rest = Array(l - i)
+  for (let j = i; j < l; j++) {
+    rest[j - i] = as[j]
+  }
+  return { init, rest }
 }
 
 /**
