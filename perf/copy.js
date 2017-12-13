@@ -5,25 +5,25 @@ const suite = new Benchmark.Suite()
 var { replicateUntil } = require('./helper.js')
 const arr = replicateUntil([1, 2, 3, 4, 5], 10)
 
-const reduce = (arr, f, i) => {
-  return arr.reduce(f, i)
+const copy = arr => {
+  return arr.slice()
 }
 
-const reduce2 = (arr, f, i) => {
-  const len = arr.length
-  let res = i
-  for (let i = 0; i < len; i++) {
-    res = f(res, arr[i])
+const copy2 = arr => {
+  const l = arr.length
+  const r = Array(l)
+  for (let i = 0; i < l; i++) {
+    r[i] = arr[i]
   }
-  return res
+  return r
 }
 
 suite
-  .add('reduce', function() {
-    reduce(arr, (acc, e) => acc + e, 0)
+  .add('copy1', function() {
+    copy(arr)
   })
-  .add('reduce2', function() {
-    reduce2(arr, (acc, e) => acc + e, 0)
+  .add('copy2', function() {
+    copy2(arr)
   })
   .on('cycle', function(event) {
     console.log(String(event.target))
