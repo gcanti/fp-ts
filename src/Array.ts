@@ -64,12 +64,12 @@ export const getMonoid = <A>(): Monoid<Array<A>> => {
 
 /** @function */
 export const map = <A, B>(f: (a: A) => B, fa: Array<A>): Array<B> => {
-  const len = fa.length
-  const res = new Array(len)
-  for (let i = 0; i < len; i++) {
-    res[i] = f(fa[i])
+  const l = fa.length
+  const r = new Array(l)
+  for (let i = 0; i < l; i++) {
+    r[i] = f(fa[i])
   }
-  return res
+  return r
 }
 
 /** @function */
@@ -79,41 +79,41 @@ export const of = <A>(a: A): Array<A> => {
 
 /** @function */
 export const ap = <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> => {
-  return reduce((acc, f) => uncurriedConcat(acc, fa.map(f)), [] as Array<B>, fab)
+  return flatten(map(f => map(f, fa), fab))
 }
 
 /** @function */
 export const chain = <A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B> => {
   let resLen = 0
-  const len = fa.length
-  const temp = new Array(len)
-  for (let i = 0; i < len; i++) {
+  const l = fa.length
+  const temp = new Array(l)
+  for (let i = 0; i < l; i++) {
     const e = fa[i]
     const arr = f(e)
     resLen += arr.length
     temp[i] = arr
   }
-  const res = Array(resLen)
+  const r = Array(resLen)
   let start = 0
-  for (let i = 0; i < len; i++) {
+  for (let i = 0; i < l; i++) {
     const arr = temp[i]
     const l = arr.length
     for (let j = 0; j < l; j++) {
-      res[j + start] = arr[j]
+      r[j + start] = arr[j]
     }
     start += l
   }
-  return res
+  return r
 }
 
 /** @function */
 export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B => {
-  const len = fa.length
-  let res = b
-  for (let i = 0; i < len; i++) {
-    res = f(res, fa[i])
+  const l = fa.length
+  let r = b
+  for (let i = 0; i < l; i++) {
+    r = f(r, fa[i])
   }
-  return res
+  return r
 }
 
 export function traverse<F extends HKT2S>(
@@ -166,7 +166,8 @@ export const extend = <A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B> => 
 export const partitionMap = <A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): { left: Array<L>; right: Array<R> } => {
   const left: Array<L> = []
   const right: Array<R> = []
-  for (let i = 0; i < fa.length; i++) {
+  const len = fa.length
+  for (let i = 0; i < len; i++) {
     f(fa[i]).fold(l => left.push(l), r => right.push(r))
   }
   return { left, right }
@@ -182,22 +183,22 @@ export const partitionMap = <A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): 
  * @function
  */
 export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
-  let resLen = 0
+  let rLen = 0
   const len = ffa.length
   for (let i = 0; i < len; i++) {
-    resLen += ffa[i].length
+    rLen += ffa[i].length
   }
-  const res = Array(resLen)
+  const r = Array(rLen)
   let start = 0
   for (let i = 0; i < len; i++) {
     const arr = ffa[i]
     const l = arr.length
     for (let j = 0; j < l; j++) {
-      res[j + start] = arr[j]
+      r[j + start] = arr[j]
     }
     start += l
   }
-  return res
+  return r
 }
 
 /**

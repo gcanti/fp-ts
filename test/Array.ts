@@ -1,16 +1,23 @@
 import * as array from '../src/Array'
-import { some, none } from '../src/Option'
-import * as option from '../src/Option'
 import * as assert from 'assert'
-import { ordNumber } from '../src/Ord'
-import { eqOptions as eq } from './helpers'
-import { monoidSum, fold } from '../src/Monoid'
-import { tuple } from '../src/function'
+import * as option from '../src/Option'
+
+import { fold, monoidSum } from '../src/Monoid'
 import { left, right } from '../src/Either'
+import { none, some } from '../src/Option'
+
+import { eqOptions as eq } from './helpers'
+import { ordNumber } from '../src/Ord'
+import { tuple } from '../src/function'
 
 describe('Array', () => {
   const as = [1, 2, 3]
   const empty = array.empty()
+
+  it('ap', () => {
+    const as = array.ap([x => x * 2, x => x * 3], [1, 2, 3])
+    assert.deepEqual(as, [2, 4, 6, 3, 6, 9])
+  })
 
   it('traverse', () => {
     const tfanone = [1, 2]
