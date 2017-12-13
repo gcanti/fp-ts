@@ -1,23 +1,25 @@
 import * as assert from 'assert'
+
 import {
-  right,
-  left,
-  map,
+  ap,
+  bimap,
+  chain,
   fold,
+  fromNullable,
+  fromOption,
+  fromPredicate,
   getOrElse,
   getOrElseValue,
-  ap,
-  chain,
-  fromPredicate,
-  tryCatch,
-  fromOption,
-  fromNullable,
-  bimap,
-  getSetoid
+  getSetoid,
+  left,
+  map,
+  right,
+  tryCatch
 } from '../src/Either'
-import { eqEithers as eq } from './helpers'
 import { none, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
+
+import { eqEithers as eq } from './helpers'
 
 describe('Either', () => {
   it('fold', () => {
@@ -69,7 +71,7 @@ describe('Either', () => {
     const e2 = tryCatch(() => {
       return JSON.parse(``)
     })
-    eq(e2, left<Error, any>(new Error()))
+    eq(e2, left<Error, any>(new SyntaxError('Unexpected end of JSON input')))
   })
 
   it('getOrElse', () => {
