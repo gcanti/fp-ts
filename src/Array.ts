@@ -1,20 +1,22 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
-import { Monoid } from './Monoid'
-import { Applicative } from './Applicative'
-import { Monad } from './Monad'
-import { Foldable } from './Foldable'
-import { Unfoldable } from './Unfoldable'
-import { Traversable } from './Traversable'
-import { Alternative } from './Alternative'
-import { Plus } from './Plus'
-import { liftA2 } from './Apply'
-import { Option, fromNullable } from './Option'
 import * as option from './Option'
+
+import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat as uncurriedConcat } from './function'
+import { HKT, HKT2As, HKT2S, HKTAs, HKTS } from './HKT'
+import { Option, fromNullable } from './Option'
 import { Ord, toNativeComparator } from './Ord'
-import { Extend } from './Extend'
-import { Predicate, identity, Lazy, Endomorphism, Refinement, tuple, concat as uncurriedConcat } from './function'
+
+import { Alternative } from './Alternative'
+import { Applicative } from './Applicative'
 import { Either } from './Either'
+import { Extend } from './Extend'
+import { Foldable } from './Foldable'
+import { Monad } from './Monad'
+import { Monoid } from './Monoid'
+import { Plus } from './Plus'
 import { Semigroup } from './Semigroup'
+import { Traversable } from './Traversable'
+import { Unfoldable } from './Unfoldable'
+import { liftA2 } from './Apply'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -62,7 +64,12 @@ export const getMonoid = <A>(): Monoid<Array<A>> => {
 
 /** @function */
 export const map = <A, B>(f: (a: A) => B, fa: Array<A>): Array<B> => {
-  return fa.map(f)
+  const len = fa.length
+  const res = new Array(len)
+  for (let i = 0; i < len; i++) {
+    res[i] = f(fa[i])
+  }
+  return res
 }
 
 /** @function */
@@ -72,17 +79,41 @@ export const of = <A>(a: A): Array<A> => {
 
 /** @function */
 export const ap = <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> => {
-  return fab.reduce((acc, f) => uncurriedConcat(acc, fa.map(f)), [] as Array<B>)
+  return reduce((acc, f) => uncurriedConcat(acc, fa.map(f)), [] as Array<B>, fab)
 }
 
 /** @function */
 export const chain = <A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B> => {
-  return fa.reduce((acc, a) => uncurriedConcat(acc, f(a)), [] as Array<B>)
+  let resLen = 0
+  const len = fa.length
+  const temp = new Array(len)
+  for (let i = 0; i < len; i++) {
+    const e = fa[i]
+    const arr = f(e)
+    resLen += arr.length
+    temp[i] = arr
+  }
+  const res = Array(resLen)
+  let start = 0
+  for (let i = 0; i < len; i++) {
+    const arr = temp[i]
+    const l = arr.length
+    for (let j = 0; j < l; j++) {
+      res[j + start] = arr[j]
+    }
+    start += l
+  }
+  return res
 }
 
 /** @function */
 export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B => {
-  return fa.reduce(f, b)
+  const len = fa.length
+  let res = b
+  for (let i = 0; i < len; i++) {
+    res = f(res, fa[i])
+  }
+  return res
 }
 
 export function traverse<F extends HKT2S>(
@@ -151,7 +182,22 @@ export const partitionMap = <A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): 
  * @function
  */
 export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
-  return chain(as => as, ffa)
+  let resLen = 0
+  const len = ffa.length
+  for (let i = 0; i < len; i++) {
+    resLen += ffa[i].length
+  }
+  const res = Array(resLen)
+  let start = 0
+  for (let i = 0; i < len; i++) {
+    const arr = ffa[i]
+    const l = arr.length
+    for (let j = 0; j < l; j++) {
+      res[j + start] = arr[j]
+    }
+    start += l
+  }
+  return res
 }
 
 /**
