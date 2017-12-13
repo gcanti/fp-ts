@@ -27,13 +27,6 @@ const flatten2 = arr => {
   return res
 }
 
-const copy = (from, to, at) => {
-  const len = from.length
-  for (let j = 0; j < len; j++) {
-    to[j + at] = from[j]
-  }
-}
-
 const concatRef = x => y => {
   const lenx = x.length
   const leny = y.length
