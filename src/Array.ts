@@ -324,13 +324,7 @@ export const take = (n: number) => <A>(as: Array<A>): Array<A> => {
   return slice(0, n)(as)
 }
 
-/**
- * Split an array into two parts:
- * 1. the longest initial subarray for which all elements satisfy the specified predicate
- * 2. the remaining elements
- * @function
- */
-export const span = <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Array<A>; rest: Array<A> } => {
+const spanIndexUncurry = <A>(predicate: Predicate<A>, as: Array<A>): number => {
   const l = as.length
   let i = 0
   for (; i < l; i++) {
@@ -338,11 +332,22 @@ export const span = <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Arra
       break
     }
   }
+  return i
+}
 
+/**
+ * Split an array into two parts:
+ * 1. the longest initial subarray for which all elements satisfy the specified predicate
+ * 2. the remaining elements
+ * @function
+ */
+export const span = <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Array<A>; rest: Array<A> } => {
+  const i = spanIndexUncurry(predicate, as)
   const init = Array(i)
   for (let j = 0; j < i; j++) {
     init[j] = as[j]
   }
+  const l = as.length
   const rest = Array(l - i)
   for (let j = i; j < l; j++) {
     rest[j - i] = as[j]
@@ -356,7 +361,12 @@ export const span = <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Arra
  * @function
  */
 export const takeWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
-  return span(predicate)(as).init
+  const i = spanIndexUncurry(predicate, as)
+  const init = Array(i)
+  for (let j = 0; j < i; j++) {
+    init[j] = as[j]
+  }
+  return init
 }
 
 /**
@@ -373,7 +383,13 @@ export const drop = (n: number) => <A>(as: Array<A>): Array<A> => {
  * @function
  */
 export const dropWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
-  return span(predicate)(as).rest
+  const i = spanIndexUncurry(predicate, as)
+  const l = as.length
+  const rest = Array(l - i)
+  for (let j = i; j < l; j++) {
+    rest[j - i] = as[j]
+  }
+  return rest
 }
 
 /**
@@ -419,17 +435,36 @@ export const findLast = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<A
  * @function
  */
 export const filter = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
-  return as.filter(predicate)
+  const l = as.length
+  const tmp = Array(l)
+  let j = 0
+  for (let i = 0; i < l; i++) {
+    const v = as[i]
+    if (predicate(v)) {
+      tmp[j] = v
+      j++
+    }
+  }
+  const r = Array(j)
+  for (let i = 0; i < j; i++) {
+    r[i] = tmp[i]
+  }
+  return r
 }
 
 /** @function */
 export const refine = <A>(as: Array<A>) => <B extends A>(refinement: Refinement<A, B>): Array<B> => {
-  return as.filter(refinement)
+  return filter(refinement as Predicate<A>)(as) as Array<B>
 }
 
 /** @function */
 export const copy = <A>(as: Array<A>): Array<A> => {
-  return as.slice()
+  const l = as.length
+  const r = Array(l)
+  for (let i = 0; i < l; i++) {
+    r[i] = as[i]
+  }
+  return r
 }
 
 /** @function */
