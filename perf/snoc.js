@@ -1,5 +1,4 @@
 var Benchmark = require('benchmark')
-var t = require('../lib/index')
 
 const suite = new Benchmark.Suite()
 
