@@ -7,7 +7,7 @@ import { Applicative } from './Applicative'
 import { Traversable, FantasyTraversable } from './Traversable'
 import * as array from './Array'
 import { Option, some, none } from './Option'
-import { toString } from './function'
+import { toString, concat as uncurriedConcat } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -29,10 +29,10 @@ export class NonEmptyArray<A>
   readonly _URI: URI
   constructor(readonly head: A, readonly tail: Array<A>) {}
   toArray(): Array<A> {
-    return [this.head].concat(this.tail)
+    return uncurriedConcat([this.head], this.tail)
   }
   concatArray(as: Array<A>): NonEmptyArray<A> {
-    return new NonEmptyArray(this.head, this.tail.concat(as))
+    return new NonEmptyArray(this.head, uncurriedConcat(this.tail, as))
   }
   map<B>(f: (a: A) => B): NonEmptyArray<B> {
     return new NonEmptyArray(f(this.head), this.tail.map(f))
