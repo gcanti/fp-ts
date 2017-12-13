@@ -2,7 +2,8 @@ var Benchmark = require('benchmark')
 
 const suite = new Benchmark.Suite()
 
-const arr = [1, 1, 2, 2, 3, 3, 4, 4, 5, 5]
+var { replicateUntil } = require('./helper.js')
+const arr = replicateUntil([1, 2, 3, 4, 5], 10)
 
 const span = (predicate, as) => {
   const init = []
