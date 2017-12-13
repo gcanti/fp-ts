@@ -165,6 +165,8 @@ declare export function pipe<A, B, C, D, E>(
 declare export function pipe<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
 declare export function pipe<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
 
+declare export var concat: <A>(x: Array<A>, y: Array<A>) => Array<A>
+
 declare export function curry<A, B, C, D, E, F, G, H, I, J>(
   f: Function9<A, B, C, D, E, F, G, H, I, J>
 ): Curried9<A, B, C, D, E, F, G, H, I, J>

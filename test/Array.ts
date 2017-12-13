@@ -51,6 +51,10 @@ describe('Array', () => {
     assert.deepEqual(array.snoc([[1]])([2]), [[1], [2]])
   })
 
+  it('concat', () => {
+    assert.deepEqual(array.concat([1, 2, 3])([4, 5]), [1, 2, 3, 4, 5])
+  })
+
   it('head', () => {
     eq(array.head(as), some(1))
   })

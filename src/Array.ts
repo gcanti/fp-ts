@@ -12,7 +12,7 @@ import { Option, fromNullable } from './Option'
 import * as option from './Option'
 import { Ord, toNativeComparator } from './Ord'
 import { Extend } from './Extend'
-import { Predicate, identity, Lazy, Endomorphism, Refinement, tuple } from './function'
+import { Predicate, identity, Lazy, Endomorphism, Refinement, tuple, concat as uncurriedConcat } from './function'
 import { Either } from './Either'
 import { Semigroup } from './Semigroup'
 
@@ -42,13 +42,13 @@ export const empty = (): Array<any> => {
 
 /** @function */
 export const concat = <A>(x: Array<A>) => (y: Array<A>): Array<A> => {
-  return x.concat(y)
+  return uncurriedConcat(x, y)
 }
 
 /** @function */
 export const getSemigroup = <A>(): Semigroup<Array<A>> => {
   return {
-    concat: array.concat
+    concat
   }
 }
 
@@ -72,12 +72,12 @@ export const of = <A>(a: A): Array<A> => {
 
 /** @function */
 export const ap = <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> => {
-  return fab.reduce((acc, f) => acc.concat(fa.map(f)), [] as Array<B>)
+  return fab.reduce((acc, f) => uncurriedConcat(acc, fa.map(f)), [] as Array<B>)
 }
 
 /** @function */
 export const chain = <A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B> => {
-  return fa.reduce((acc, a) => acc.concat(f(a)), [] as Array<B>)
+  return fa.reduce((acc, a) => uncurriedConcat(acc, f(a)), [] as Array<B>)
 }
 
 /** @function */
@@ -106,7 +106,7 @@ export const zero = empty
 
 /** @function */
 export const alt = <A>(x: Array<A>, y: Array<A>): Array<A> => {
-  return x.concat(y)
+  return uncurriedConcat(x, y)
 }
 
 /** @function */
@@ -205,7 +205,13 @@ export const index = (i: number) => <A>(as: Array<A>): Option<A> => {
  * Attaches an element to the front of an array, creating a new array
  */
 export const cons = <A>(a: A) => (as: Array<A>): Array<A> => {
-  return [a].concat(as)
+  const len = as.length
+  const r = Array(len + 1)
+  for (let i = 0; i < len; i++) {
+    r[i + 1] = as[i]
+  }
+  r[0] = a
+  return r
 }
 
 /**
@@ -213,7 +219,13 @@ export const cons = <A>(a: A) => (as: Array<A>): Array<A> => {
  * @function
  */
 export const snoc = <A>(as: Array<A>) => (a: A): Array<A> => {
-  return as.concat([a])
+  const len = as.length
+  const r = Array(len + 1)
+  for (let i = 0; i < len; i++) {
+    r[i] = as[i]
+  }
+  r[len] = a
+  return r
 }
 
 /**
