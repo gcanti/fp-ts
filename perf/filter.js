@@ -27,12 +27,27 @@ const filter2 = (arr, f) => {
   return res
 }
 
+const filter3 = (arr, f) => {
+  const l = arr.length
+  const r = []
+  for (let i = 0; i < l; i++) {
+    const v = arr[i]
+    if (f(v)) {
+      r.push(v)
+    }
+  }
+  return r
+}
+
 suite
   .add('filter1', function() {
     filter(arr, x => (x & 1) === 0)
   })
   .add('filter2', function() {
     filter2(arr, x => (x & 1) === 0)
+  })
+  .add('filter3', function() {
+    filter3(arr, x => (x & 1) === 0)
   })
   .on('cycle', function(event) {
     console.log(String(event.target))
