@@ -2,7 +2,8 @@ var Benchmark = require('benchmark')
 
 const suite = new Benchmark.Suite()
 
-const arr = [1, 2, 3]
+var { replicateUntil } = require('./helper.js')
+const arr = replicateUntil([1, 2, 3], 50)
 
 const chain = (arr, f) => {
   return arr.reduce((acc, a) => concatRef(acc, f(a)), [])
@@ -44,28 +45,12 @@ const concatRef = x => y => {
   return r
 }
 
-const chain3 = (arr, f) => {
-  const r = []
-  const l = arr.length
-  for (let i = 0; i < l; i++) {
-    const v = f(arr[i])
-    const lv = v.length
-    for (let j = 0; j < lv; j++) {
-      r.push(v[j])
-    }
-  }
-  return r
-}
-
 suite
   .add('chain1', function() {
     chain(arr, x => arr)
   })
   .add('chain2', function() {
     chain2(arr, x => arr)
-  })
-  .add('chain3', function() {
-    chain3(arr, x => arr)
   })
   .on('cycle', function(event) {
     console.log(String(event.target))
