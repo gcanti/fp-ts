@@ -32,7 +32,7 @@ const chain2 = (arr, f) => {
   return res
 }
 
-const concatRef = x => y => {
+const concatRef = (x, y) => {
   const lenx = x.length
   const leny = y.length
   const r = Array(lenx + leny)
