@@ -3,19 +3,19 @@ var Benchmark = require('benchmark')
 const suite = new Benchmark.Suite()
 
 var { replicateUntil } = require('./helper.js')
-const arr = replicateUntil([1, 2, 3, 4, 5], 100)
+const arr = replicateUntil([1, 2, 3, 4, 5], 5)
 
-const filter = (arr, f) => {
-  return arr.filter(f)
+const filter = (as, predicate) => {
+  return as.filter(predicate)
 }
 
-const filter2 = (arr, f) => {
-  const l = arr.length
+const filter2 = (as, predicate) => {
+  const l = as.length
   const r = Array(l)
   let index = 0
   for (let i = 0; i < l; i++) {
-    const v = arr[i]
-    if (f(v)) {
+    const v = as[i]
+    if (predicate(v)) {
       r[index] = v
       index++
     }
@@ -27,12 +27,12 @@ const filter2 = (arr, f) => {
   return res
 }
 
-const filter3 = (arr, f) => {
-  const l = arr.length
+const filter3 = (as, predicate) => {
+  const l = as.length
   const r = []
   for (let i = 0; i < l; i++) {
-    const v = arr[i]
-    if (f(v)) {
+    const v = as[i]
+    if (predicate(v)) {
       r.push(v)
     }
   }

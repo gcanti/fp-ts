@@ -436,25 +436,19 @@ export const findLast = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<A
  */
 export const filter = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
   const l = as.length
-  const tmp = Array(l)
-  let j = 0
+  const r = []
   for (let i = 0; i < l; i++) {
     const v = as[i]
     if (predicate(v)) {
-      tmp[j] = v
-      j++
+      r.push(v)
     }
-  }
-  const r = Array(j)
-  for (let i = 0; i < j; i++) {
-    r[i] = tmp[i]
   }
   return r
 }
 
 /** @function */
 export const refine = <A>(as: Array<A>) => <B extends A>(refinement: Refinement<A, B>): Array<B> => {
-  return filter(refinement as Predicate<A>)(as) as Array<B>
+  return filter(refinement)(as) as Array<B>
 }
 
 /** @function */

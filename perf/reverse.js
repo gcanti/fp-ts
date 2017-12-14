@@ -3,7 +3,7 @@ var Benchmark = require('benchmark')
 const suite = new Benchmark.Suite()
 
 var { replicateUntil } = require('./helper.js')
-const arr = replicateUntil([1, 2, 3, 4, 5], 10000000)
+const arr = replicateUntil([1, 2, 3, 4, 5], 10)
 
 const reverse = arr => {
   return arr.reverse()
