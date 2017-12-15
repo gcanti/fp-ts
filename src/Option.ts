@@ -388,6 +388,15 @@ export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, t
   return (f, ta) => ta.traverse(F)(f)
 }
 
+/** @function */
+export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
+  try {
+    return some(f())
+  } catch (e) {
+    return none
+  }
+}
+
 /** @instance */
 export const option: Monad<URI> & Foldable<URI> & Plus<URI> & Traversable<URI> & Alternative<URI> & Extend<URI> = {
   URI,

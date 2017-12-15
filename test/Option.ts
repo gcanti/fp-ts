@@ -12,6 +12,7 @@ import {
   fromNullable,
   getFirstMonoid,
   getLastMonoid,
+  tryCatch,
   Option
 } from '../src/Option'
 import * as array from '../src/Array'
@@ -175,5 +176,10 @@ describe('Option', () => {
     assert.equal(some(1).filter(is2), none)
     const some2 = some(2)
     assert.equal(some2.filter(is2), some2)
+  })
+
+  it('tryCatch', () => {
+    assert.deepEqual(tryCatch(() => JSON.parse('2')), some(2))
+    assert.deepEqual(tryCatch(() => JSON.parse('(')), none)
   })
 })
