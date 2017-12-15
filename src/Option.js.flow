@@ -108,6 +108,8 @@ declare export var some: <A>(a: A) => Option<A>
 
 declare export var fromPredicate: <A>(predicate: (a: A) => boolean) => (a: A) => Option<A>
 
+declare export var tryCatch: <A>(f: Lazy<A>) => Option<A>
+
 export interface Instances
   extends Monad<URIT>, Foldable<URIT>, Plus<URIT>, Traversable<URIT>, Alternative<URIT>, Extend<URIT> {}
 
