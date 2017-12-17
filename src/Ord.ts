@@ -1,5 +1,5 @@
 import { Ordering, semigroupOrdering } from './Ordering'
-import { Setoid, setoidBoolean, setoidNumber, setoidString } from './Setoid'
+import { Setoid, setoidBoolean, setoidNumber, setoidString, getProductSetoid } from './Setoid'
 import { Semigroup } from './Semigroup'
 import { on } from './function'
 
@@ -120,5 +120,17 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
 export const getSemigroup = <A>(): Semigroup<Ord<A>> => {
   return {
     concat: x => y => fromCompare(a => b => semigroupOrdering.concat(x.compare(a)(b))(y.compare(a)(b)))
+  }
+}
+
+/** @function */
+export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
+  const S = getProductSetoid(OA, OB)
+  return {
+    ...S,
+    compare: ([xa, xb]) => ([ya, yb]) => {
+      const r = OA.compare(xa)(ya)
+      return r === 'EQ' ? OB.compare(xb)(yb) : r
+    }
   }
 }
