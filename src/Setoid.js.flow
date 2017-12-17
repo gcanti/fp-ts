@@ -16,3 +16,5 @@ declare export var getArraySetoid: <A>(S: Setoid<A>) => Setoid<Array<A>>
 declare export var getRecordSetoid: <O: { [key: string]: Setoid<any> }>(
   setoids: O
 ) => Setoid<$ObjMap<O, <A>(S: Setoid<A>) => A>>
+
+declare export var getProductSetoid: <A, B>(SA: Setoid<A>, SB: Setoid<B>) => Setoid<[A, B]>

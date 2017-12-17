@@ -39,3 +39,10 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
     }
   }
 }
+
+/** @function */
+export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
+  return {
+    equals: ([xa, xb]) => ([ya, yb]) => SA.equals(xa)(ya) && SB.equals(xb)(yb)
+  }
+}
