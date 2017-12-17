@@ -38,3 +38,5 @@ declare export var fromCompare: <A>(compare: (x: A) => (y: A) => Ordering) => Or
 declare export var contramap: <A, B>(f: (b: B) => A, fa: Ord<A>) => Ord<B>
 
 declare export var getSemigroup: <A>() => Semigroup<Ord<A>>
+
+declare export var getProductOrd: <A, B>(OA: Ord<A>, OB: Ord<B>) => Ord<[A, B]>
