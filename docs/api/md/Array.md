@@ -353,6 +353,16 @@ _function_
 
 Extracts from a list of `Either` all the `Right` elements. All the `Right` elements are extracted in order
 
+# rotate
+
+_function_
+
+```ts
+(n: number) => <A>(xs: Array<A>): Array<A>
+```
+
+Rotate an array to the right by `n` steps
+
 # slice
 
 _function_

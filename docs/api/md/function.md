@@ -36,6 +36,14 @@ _function_
 compose(...fns: Array<Function>): Function
 ```
 
+# concat
+
+_function_
+
+```ts
+<A>(x: Array<A>, y: Array<A>): Array<A>
+```
+
 # constFalse
 
 _function_

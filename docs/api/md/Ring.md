@@ -22,6 +22,14 @@ Instances must satisfy the following law in addition to the `Semiring` laws:
 <A, B>(ring: Ring<B>): Ring<(a: A) => B>
 ```
 
+# getProductRing
+
+_function_
+
+```ts
+<A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]>
+```
+
 # negate
 
 _function_

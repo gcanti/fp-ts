@@ -11,6 +11,26 @@ interface Foldable<F> {
 }
 ```
 
+# elem
+
+_function_
+
+```ts
+<F, A>(F: Foldable<F>, S: Setoid<A>) => (a: A) => (fa: HKT<F, A>): boolean
+```
+
+Test whether a value is an element of a data structure
+
+# find
+
+_function_
+
+```ts
+<F>(F: Foldable<F>) => <A>(p: Predicate<A>) => (fa: HKT<F, A>): Option<A>
+```
+
+Try to find an element in a data structure which satisfies a predicate
+
 # fold
 
 _function_
@@ -18,6 +38,21 @@ _function_
 ```ts
 <F, M>(F: Foldable<F>, M: Monoid<M>) => (fa: HKT<F, M>): M
 ```
+
+# foldM
+
+_function_
+
+```ts
+foldM<F, M>(
+  F: Foldable<F>,
+  M: Monad<M>
+): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => HKT<M, B>
+```
+
+Similar to 'reduce', but the result is encapsulated in a monad.
+
+Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
 
 # foldMap
 
@@ -57,6 +92,36 @@ _function_
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
 
+# maximum
+
+_function_
+
+```ts
+<F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A>
+```
+
+Find the largest element of a structure, according to its `Ord` instance
+
+# minimum
+
+_function_
+
+```ts
+<F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A>
+```
+
+Find the smallest element of a structure, according to its `Ord` instance
+
+# product
+
+_function_
+
+```ts
+<F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A
+```
+
+Find the product of the numeric values in a data structure
+
 # sequence_
 
 _function_
@@ -67,6 +132,16 @@ sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) =
 
 Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final
 result.
+
+# sum
+
+_function_
+
+```ts
+<F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A
+```
+
+Find the sum of the numeric values in a data structure
 
 # toArray
 

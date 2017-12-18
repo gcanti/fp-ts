@@ -12,6 +12,14 @@ interface Field<A> extends Ring<A> {
 }
 ```
 
+# fieldNumber
+
+_instance_
+
+```ts
+Field<number>
+```
+
 # gcd
 
 _function_

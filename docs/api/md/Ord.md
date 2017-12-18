@@ -70,6 +70,14 @@ _function_
 <A>(compare: (x: A) => (y: A) => Ordering): Ord<A>
 ```
 
+# getProductOrd
+
+_function_
+
+```ts
+<A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]>
+```
+
 # getSemigroup
 
 _function_

@@ -404,6 +404,14 @@ _function_
 traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Option<A>) => HKT<F, Option<B>>
 ```
 
+# tryCatch
+
+_function_
+
+```ts
+<A>(f: Lazy<A>): Option<A>
+```
+
 # zero
 
 _function_

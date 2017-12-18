@@ -42,6 +42,14 @@ _function_
 <A>(S: Setoid<A>): Setoid<Array<A>>
 ```
 
+# getProductSetoid
+
+_function_
+
+```ts
+<A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]>
+```
+
 # getRecordSetoid
 
 _function_

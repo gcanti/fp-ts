@@ -13,6 +13,27 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 0.6.6
+
+* **New Feature**
+  * `Array`: add `rotate` (@gcanti)
+  * add some `Foldable` functions (@gcanti)
+    * `minimum`
+    * `maximum`
+    * `sum`
+    * `product`
+    * `foldM`
+    * `oneOf`
+    * `elem`
+    * `find`
+  * `Option`: add `tryCatch` (@gcanti)
+  * `Ring`: add `getProductRing` (@gcanti)
+  * `Setoid`: add `getProductSetoid` (@gcanti)
+  * `Ord`: add `getProductOrd` (@gcanti)
+* **Internal**
+  * perf optimizations (@sledorze, @gcanti)
+  * travis: use node 8 (@gcanti)
+
 # 0.6.5
 
 * **Bug Fix**
