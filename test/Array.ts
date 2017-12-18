@@ -213,4 +213,35 @@ describe('Array', () => {
     assert.deepEqual(array.rotate(-1)([1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
     assert.deepEqual(array.rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
   })
+
+  it('filter', () => {
+    assert.deepEqual(array.filter((n: number) => n % 2 === 1)([1, 2, 3]), [1, 3])
+  })
+
+  it('map', () => {
+    assert.deepEqual(array.map((n: number) => n * 2, [1, 2, 3]), [2, 4, 6])
+  })
+
+  it('ap', () => {
+    assert.deepEqual(array.ap([(n: number) => n * 2, (n: number) => n + 1], [1, 2, 3]), [2, 4, 6, 2, 3, 4])
+  })
+
+  it('copy', () => {
+    const xs = [1, 2, 3]
+    const ys = array.copy([1, 2, 3])
+    assert.deepEqual(xs, ys)
+    assert.strictEqual(xs !== ys, true)
+  })
+
+  it('chain', () => {
+    assert.deepEqual(array.chain(n => [n, n + 1], [1, 2, 3]), [1, 2, 2, 3, 3, 4])
+  })
+
+  it('reverse', () => {
+    assert.deepEqual(array.reverse([1, 2, 3]), [3, 2, 1])
+  })
+
+  it('reduce', () => {
+    assert.deepEqual(array.reduce((acc, a) => acc + a, 0, [1, 2, 3]), 6)
+  })
 })
