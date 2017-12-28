@@ -9,7 +9,7 @@ export const fromNumber = (n: number): Ordering => {
 }
 
 /** @function */
-export const toNumber = (o: Ordering): number => {
+export const toNumber = (o: Ordering): -1 | 0 | 1 => {
   return o === 'LT' ? -1 : o === 'GT' ? 1 : 0
 }
 
