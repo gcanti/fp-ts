@@ -1,6 +1,6 @@
 import * as assert from 'assert'
-import { fold, getRecordSemigroup, getMeetSemigroup, getJoinSemigroup } from '../src/Semigroup'
-import { monoidString, monoidAll } from '../src/Monoid'
+import { fold, getRecordSemigroup, getMeetSemigroup, getJoinSemigroup, getProductSemigroup } from '../src/Semigroup'
+import { monoidString, monoidAll, monoidSum } from '../src/Monoid'
 import { ordNumber } from '../src/Ord'
 
 describe('Semigroup', () => {
@@ -26,5 +26,9 @@ describe('Semigroup', () => {
 
   it('getJoinSemigroup', () => {
     assert.strictEqual(getJoinSemigroup(ordNumber).concat(1)(2), 2)
+  })
+
+  it('getProductSemigroup', () => {
+    assert.deepEqual(getProductSemigroup(monoidString, monoidSum).concat(['a', 2])(['b', 3]), ['ab', 5])
   })
 })
