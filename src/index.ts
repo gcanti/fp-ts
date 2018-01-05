@@ -92,6 +92,8 @@ import * as semigroupoid from './Semigroupoid'
 export { semigroupoid }
 import * as semiring from './Semiring'
 export { semiring }
+import * as set from './Set'
+export { set }
 import * as setoid from './Setoid'
 export { setoid }
 import * as state from './State'
