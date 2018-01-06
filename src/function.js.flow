@@ -1,6 +1,8 @@
 // @flow
 import type { HKT } from './HKT'
 
+declare export var unsafeCoerce: <A, B>(a: A) => B
+
 export type Lazy<A> = () => A
 
 export type Function9<A, B, C, D, E, F, G, H, I, J> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I) => J

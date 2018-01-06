@@ -1,5 +1,8 @@
 import { HKT } from './HKT'
 
+/** @function */
+export const unsafeCoerce = <A, B>(a: A): B => a as any
+
 export type Lazy<A> = () => A
 
 export type Function1<A, B> = (a: A) => B
