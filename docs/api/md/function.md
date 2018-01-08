@@ -175,3 +175,11 @@ _function_
 ```ts
 <A>(a: A) => <B>(b: B): [A, B]
 ```
+
+# unsafeCoerce
+
+_function_
+
+```ts
+;<A, B>(a: A): B => a as any
+```

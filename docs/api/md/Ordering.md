@@ -16,10 +16,26 @@ _instance_
 Setoid<Ordering>
 ```
 
+# fromNumber
+
+_function_
+
+```ts
+(n: number): Ordering
+```
+
 # invert
 
 _function_
 
 ```ts
 (O: Ordering): Ordering
+```
+
+# toNumber
+
+_function_
+
+```ts
+(o: Ordering): -1 | 0 | 1
 ```

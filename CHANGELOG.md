@@ -13,6 +13,13 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 0.6.7
+
+* **New Feature**
+  * Ordering: add fromNumber, toNumber (@gcanti)
+  * function: add unsafeCoerce (@gcanti)
+  * add Set module, closes #161 (@gcanti)
+
 # 0.6.6
 
 * **New Feature**
