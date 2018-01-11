@@ -1,5 +1,4 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
-import { Functor } from './Functor'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
 import { FantasyApply } from './Apply'
@@ -10,6 +9,7 @@ import { Alt, FantasyAlt } from './Alt'
 import { constFalse, Predicate, toString } from './function'
 import { Option, some, none } from './Option'
 import { Either, left, right } from './Either'
+import { Monad } from './Monad'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -50,6 +50,10 @@ export class Failure<L, A>
   }
   ap_<B, C>(this: Validation<L, (b: B) => C>, fb: Validation<L, B>): Validation<L, C> {
     return fb.ap(this)
+  }
+  /** Binds the given function across `Success` */
+  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B> {
+    return this as any
   }
   bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B> {
     return (f, g) => failure(S)(f(this.value))
@@ -133,6 +137,9 @@ export class Success<L, A>
   ap_<B, C>(this: Validation<L, (b: B) => C>, fb: Validation<L, B>): Validation<L, C> {
     return fb.ap(this)
   }
+  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B> {
+    return f(this.value)
+  }
   bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B> {
     return (f, g) => success(g(this.value))
   }
@@ -215,6 +222,11 @@ export const of = <L, A>(a: A): Validation<L, A> => {
 /** @function */
 export const ap = <L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => {
   return fa.ap(fab)
+}
+
+/** @function */
+export const chain = <L, A, B>(f: (a: A) => Validation<L, B>, fa: Validation<L, A>): Validation<L, B> => {
+  return fa.chain(f)
 }
 
 /** @function */
@@ -341,16 +353,12 @@ export const getOrElse = <L, A>(f: (l: L) => A) => (fa: Validation<L, A>): A => 
 }
 
 /** @instance */
-export const validation: Semigroup<Validation<any, any>> &
-  Functor<URI> &
-  Applicative<URI> &
-  Foldable<URI> &
-  Traversable<URI> &
-  Alt<URI> = {
+export const validation: Semigroup<Validation<any, any>> & Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> = {
   URI,
-  ap,
   map,
   of,
+  ap,
+  chain,
   concat,
   reduce,
   traverse,

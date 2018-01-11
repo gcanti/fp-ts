@@ -1,6 +1,6 @@
 // @flow
 import type { HKT } from './HKT'
-import type { Functor } from './Functor'
+import type { Monad } from './Monad'
 import type { Applicative } from './Applicative'
 import type { Semigroup } from './Semigroup'
 import type { Foldable } from './Foldable'
@@ -22,6 +22,7 @@ declare export class Failure<L, A> {
   constructor(semigroup: Semigroup<L>, value: L): Failure<L, A>;
   map<B>(f: (a: A) => B): Validation<L, B>;
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B>;
+  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B>;
   bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B>;
   alt(fy: Validation<L, A>): Validation<L, A>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
@@ -47,6 +48,7 @@ declare export class Success<+L, +A> {
   constructor(value: A): Success<L, A>;
   map<B>(f: (a: A) => B): Validation<L, B>;
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B>;
+  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B>;
   bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B>;
   alt(fy: Validation<L, A>): Validation<L, A>;
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
@@ -102,6 +104,6 @@ declare export var toOption: <L, A>(fa: Validation<L, A>) => Option<A>
 
 declare export var toEither: <L, A>(fa: Validation<L, A>) => Either<L, A>
 
-export interface Instances extends Functor<URIT>, Applicative<URIT>, Foldable<URIT>, Traversable<URIT>, Alt<URIT> {}
+export interface Instances extends Monad<URIT>, Foldable<URIT>, Traversable<URIT>, Alt<URIT> {}
 
 declare export var validation: Instances

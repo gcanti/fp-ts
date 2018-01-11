@@ -7,6 +7,13 @@ import { sequence } from '../src/Traversable'
 import { setoidNumber, setoidString } from '../src/Setoid'
 
 describe('Validation', () => {
+  it('chain', () => {
+    const failure = validation.failure(monoidString)
+    const f = (s: string) => validation.success<string, number>(s.length)
+    assert.deepEqual(validation.chain(f, validation.success<string, string>('abc')), validation.success(3))
+    assert.deepEqual(validation.chain(f, failure('a')), failure('a'))
+  })
+
   it('traverse', () => {
     const success = [
       validation.success<string, number>(1),
