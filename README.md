@@ -60,7 +60,9 @@ The idea (faking higher kinded types in TypeScript) is based on
 * Examples
   * [Free monad](examples/Free.ts)
   * [MTL-style](examples/mtl.ts)
-  * [OptionT monad transformer](examples/ArrayOption.ts)
+  * OptionT monad transformer
+    * [ArrayOption](examples/ArrayOption.ts)
+    * [TaskOption](examples/TaskOption.ts)
   * [EitherT monad transformer](examples/EitherOption.ts)
   * StateT monad transformer
     * [StateIO](examples/StateIO.ts)

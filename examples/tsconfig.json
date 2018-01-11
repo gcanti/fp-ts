@@ -1,10 +1,11 @@
 {
   "compilerOptions": {
+    "noEmit": true,
     "declaration": true,
     "module": "commonjs",
     "strict": true,
     "noImplicitReturns": false,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "noEmitOnError": false,
@@ -12,11 +13,22 @@
     "target": "es5",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es6", "dom"],
+    "lib": [
+      "es6",
+      "dom"
+    ],
     "baseUrl": ".",
     "paths": {
-      "fp-ts/lib/*": ["../src/*"],
-      "fp-ts": ["../src/index"]
+      "fp-ts/lib/*": [
+        "../src/*"
+      ],
+      "fp-ts": [
+        "../src/index"
+      ]
     }
-  }
+  },
+  "include": [
+    "../src/**/*",
+    "./**/*"
+  ]
 }
