@@ -27,6 +27,8 @@ declare export class Failure<L, A> {
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
   traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Validation<L, B>>;
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B;
+  getOrElseValue(a: A): A;
+  getOrElse(f: (l: L) => A): A;
   equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean;
   concat(fy: Validation<L, A>): Validation<L, A>;
   mapFailure<M>(S: Semigroup<M>): (f: (l: L) => M) => Validation<M, A>;
@@ -50,6 +52,8 @@ declare export class Success<+L, +A> {
   reduce<B>(f: (b: B, a: A) => B, b: B): B;
   traverse<F>(F: Applicative<F>): <B, U, L>(f: (a: A) => HKT<F, U, L, B>) => HKT<F, U, L, Validation<L, B>>;
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B;
+  getOrElseValue(a: A): A;
+  getOrElse(f: (l: L) => A): A;
   equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean;
   concat(fy: Validation<L, A>): Validation<L, A>;
   mapFailure<M>(S: Semigroup<M>): (f: (l: L) => M) => Validation<M, A>;
@@ -65,6 +69,10 @@ declare export class Success<+L, +A> {
 declare export var fold: <L, A, B>(failure: (l: L) => B, success: (a: A) => B) => (fa: Validation<L, A>) => B
 
 declare export var getSetoid: <L, A>(SL: Setoid<L>, SA: Setoid<A>) => Setoid<Validation<L, A>>
+
+declare export var getOrElseValue: <A>(a: A) => <L>(fa: Validation<L, A>) => A
+
+declare export var getOrElse: <L, A>(f: (l: L) => A) => (fa: Validation<L, A>) => A
 
 declare export var isFailure: <L, A>(fa: Validation<L, A>) => boolean
 

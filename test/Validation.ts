@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as array from '../src/Array'
 import * as validation from '../src/Validation'
 import * as either from '../src/Either'
-import { monoidString } from '../src/Monoid'
+import { monoidString, monoidSum } from '../src/Monoid'
 import { sequence } from '../src/Traversable'
 import { setoidNumber, setoidString } from '../src/Setoid'
 
@@ -50,5 +50,18 @@ describe('Validation', () => {
     assert.strictEqual(eq(validation.success(1))(validation.success(2)), false)
     assert.strictEqual(eq(failure('foo'))(failure('foo')), true)
     assert.strictEqual(eq(failure('foo'))(failure('bar')), false)
+  })
+
+  it('getOrElse', () => {
+    const failure = validation.failure(monoidSum)
+    assert.equal(validation.getOrElse((l: number) => 17)(validation.success(12)), 12)
+    assert.equal(validation.getOrElse((l: number) => 17)(failure(12)), 17)
+    assert.equal(validation.getOrElse((l: number) => l + 1)(failure(12)), 13)
+  })
+
+  it('validation.getOrElseValue', () => {
+    const failure = validation.failure(monoidSum)
+    assert.equal(validation.getOrElseValue(17)(validation.success(12)), 12)
+    assert.equal(validation.getOrElseValue(17)(failure(12)), 17)
   })
 })

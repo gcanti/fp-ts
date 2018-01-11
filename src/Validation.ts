@@ -69,6 +69,14 @@ export class Failure<L, A>
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return failure(this.value)
   }
+  /** Returns the value from this `Success` or the given argument if this is a `Failure` */
+  getOrElseValue(a: A): A {
+    return a
+  }
+  /** Returns the value from this `Success` or the result of given argument if this is a `Failure` */
+  getOrElse(f: (l: L) => A): A {
+    return f(this.value)
+  }
   equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean {
     return fy => fy.fold(SL.equals(this.value), constFalse)
   }
@@ -142,6 +150,12 @@ export class Success<L, A>
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return success(this.value)
+  }
+  getOrElseValue(a: A): A {
+    return this.value
+  }
+  getOrElse(f: (l: L) => A): A {
+    return this.value
   }
   equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean {
     return fy => fy.fold(constFalse, y => SA.equals(this.value)(y))
@@ -308,6 +322,22 @@ export const toOption = <L, A>(fa: Validation<L, A>): Option<A> => {
 /** @function */
 export const toEither = <L, A>(fa: Validation<L, A>): Either<L, A> => {
   return fa.toEither()
+}
+
+/**
+ * Returns the value from this `Success` or the given argument if this is a `Failure`
+ * @function
+ */
+export const getOrElseValue = <A>(a: A) => <L>(fa: Validation<L, A>): A => {
+  return fa.getOrElseValue(a)
+}
+
+/**
+ * Returns the value from this `Success` or the result of given argument if this is a `Failure`
+ * @function
+ */
+export const getOrElse = <L, A>(f: (l: L) => A) => (fa: Validation<L, A>): A => {
+  return fa.getOrElse(f)
 }
 
 /** @instance */
