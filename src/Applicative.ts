@@ -1,5 +1,5 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
-import { Apply, FantasyApply } from './Apply'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
+import { Apply, Apply2, Apply3, FantasyApply } from './Apply'
 import {
   getFunctorComposition,
   FunctorComposition,
@@ -12,6 +12,16 @@ import {
 /** @typeclass */
 export interface Applicative<F> extends Apply<F> {
   of: <A>(a: A) => HKT<F, A>
+}
+
+/** Applicative interface specialized for kind * -> * -> * */
+export interface Applicative2<M, L> extends Apply2<M, L> {
+  of<A>(a: A): HKT2<M, L, A>
+}
+
+/** Applicative interface specialized for kind * -> * -> * -> * */
+export interface Applicative3<M, U, L> extends Apply3<M, U, L> {
+  of<A>(a: A): HKT3<M, U, L, A>
 }
 
 export interface FantasyApplicative<F, A> extends FantasyApply<F, A> {}

@@ -7,6 +7,18 @@ export interface Functor<F> {
   map<A, B>(f: (a: A) => B, fa: HKT<F, A>): HKT<F, B>
 }
 
+/** Functor interface specialized for kind * -> * -> * */
+export interface Functor2<M, L> {
+  readonly URI: M
+  map<A, B>(f: (a: A) => B, fa: HKT2<M, L, A>): HKT2<M, L, B>
+}
+
+/** Functor interface specialized for kind * -> * -> * -> * */
+export interface Functor3<M, U, L> {
+  readonly URI: M
+  map<A, B>(f: (a: A) => B, fa: HKT3<M, U, L, A>): HKT3<M, U, L, B>
+}
+
 export interface FantasyFunctor<F, A> {
   map<B>(f: (a: A) => B): HKT<F, B>
 }

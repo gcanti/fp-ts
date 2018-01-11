@@ -1,10 +1,20 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
-import { Functor, FantasyFunctor } from './Functor'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
+import { Functor, Functor2, Functor3, FantasyFunctor } from './Functor'
 import { Curried2, Curried3, Curried4, constant } from './function'
 
 /** @typeclass */
 export interface Apply<F> extends Functor<F> {
   ap<A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>): HKT<F, B>
+}
+
+/** Apply interface specialized for kind * -> * -> * */
+export interface Apply2<M, L> extends Functor2<M, L> {
+  ap<A, B>(fab: HKT2<M, L, (a: A) => B>, fa: HKT2<M, L, A>): HKT2<M, L, B>
+}
+
+/** Apply interface specialized for kind * -> * -> * -> * */
+export interface Apply3<M, U, L> extends Functor3<M, U, L> {
+  ap<A, B>(fab: HKT3<M, U, L, (a: A) => B>, fa: HKT3<M, U, L, A>): HKT3<M, U, L, B>
 }
 
 export interface FantasyApply<F, A> extends FantasyFunctor<F, A> {

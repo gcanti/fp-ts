@@ -18,8 +18,10 @@ export const URI = 'TaskOption'
 export type URI = typeof URI
 
 export class TaskOption<A> implements FantasyMonad<URI, A> {
-  readonly _A: A
-  readonly _URI = URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly value: Task<Option<A>>) {}
   run(): Promise<Option<A>> {
     return this.value.run()
