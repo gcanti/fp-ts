@@ -62,9 +62,12 @@ export class Left<L, A>
     FantasyExtend<URI, A>,
     FantasyBifunctor<URI, L, A> {
   readonly _tag: 'Left' = 'Left'
-  readonly _A: A
-  readonly _L: L
-  readonly _URI: URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_L': L
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly value: L) {}
   /** The given function is applied if this is a `Right` */
   map<B>(f: (a: A) => B): Either<L, B> {
@@ -145,9 +148,12 @@ export class Right<L, A>
     FantasyAlt<URI, A>,
     FantasyExtend<URI, A> {
   readonly _tag: 'Right' = 'Right'
-  readonly _A: A
-  readonly _L: L
-  readonly _URI: URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_L': L
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Either<L, B> {
     return new Right(f(this.value))
@@ -165,7 +171,7 @@ export class Right<L, A>
     return f(this.value)
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B> {
-    return new Right(g(this.value))
+    return new Right<V, B>(g(this.value))
   }
   alt(fy: Either<L, A>): Either<L, A> {
     return this
@@ -253,7 +259,7 @@ export const map = <L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> => 
 
 /** @function */
 export const of = <L, A>(a: A): Either<L, A> => {
-  return new Right(a)
+  return new Right<L, A>(a)
 }
 
 /** @function */

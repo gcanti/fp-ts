@@ -22,9 +22,12 @@ export type URI = typeof URI
  * @constructor Const
  */
 export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant<URI, A> {
-  readonly _A: A
-  readonly _L: L
-  readonly _URI: URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_L': L
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly value: L) {}
   map<B, C>(f: (b: B) => C): Const<L, C> {
     return this as any

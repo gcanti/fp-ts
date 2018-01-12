@@ -28,8 +28,10 @@ export type URI = typeof URI
  * @constructor Pair
  */
 export class Pair<A> {
-  readonly _A: A
-  readonly _URI: URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly value: [A, A]) {}
   fst(): A {
     return this.value[0]

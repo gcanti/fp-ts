@@ -18,10 +18,14 @@ export const URI = 'ReaderTaskEither'
 export type URI = typeof URI
 
 export class ReaderTaskEither<E, L, A> implements FantasyMonad<URI, A> {
-  readonly _A: A
-  readonly _L: L
-  readonly _U: E
-  readonly _URI: URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_L': L
+  // prettier-ignore
+  readonly '_U': E
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly run: (e: E) => TaskEither<L, A>) {}
   map<B>(f: (a: A) => B): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.map(f, this.run))

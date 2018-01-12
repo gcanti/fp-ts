@@ -57,7 +57,7 @@ describe('Set', () => {
   it('member', () => {
     assert.strictEqual(member(setoidNumber)(new Set([1, 2, 3]))(1), true)
     assert.strictEqual(member(setoidNumber)(new Set([1, 2, 3]))(4), false)
-    assert.strictEqual(member(setoidNumber)(new Set([]))(4), false)
+    assert.strictEqual(member(setoidNumber)(new Set<number>([]))(4), false)
   })
 
   it('union', () => {
