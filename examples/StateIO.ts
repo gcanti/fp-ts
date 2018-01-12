@@ -36,9 +36,6 @@ export class StateIO<S, A> implements FantasyMonad<URI, A> {
   map<B>(f: (a: A) => B): StateIO<S, B> {
     return new StateIO(stateTIO.map(f, this.value))
   }
-  of<T, B>(b: B): StateIO<T, B> {
-    return of(b)
-  }
   ap<B>(fab: StateIO<S, (a: A) => B>): StateIO<S, B> {
     return new StateIO(stateTIO.ap(fab.value, this.value))
   }
@@ -66,7 +63,7 @@ export const modify = <S>(f: Endomorphism<S>): StateIO<S, void> => new StateIO(s
 
 export const gets = <S, A>(f: (s: S) => A): StateIO<S, A> => new StateIO(stateT.gets(io)(f))
 
-export const lift = <S, A>(fa: IO<A>): StateIO<S, A> => new StateIO(s => new IO(() => tuple(fa.run(), s)))
+export const lift = <S, A>(fa: IO<A>): StateIO<S, A> => new StateIO(s => fa.map(a => tuple(a, s)))
 
 export const stateIO: Monad<URI> = {
   URI,

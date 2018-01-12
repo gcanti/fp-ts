@@ -62,7 +62,9 @@ The idea (faking higher kinded types in TypeScript) is based on
   * [MTL-style](examples/mtl.ts)
   * [OptionT monad transformer](examples/ArrayOption.ts)
   * [EitherT monad transformer](examples/EitherOption.ts)
-  * [StateT monad transformer](examples/StateIO.ts)
+  * StateT monad transformer
+    * [StateIO](examples/StateIO.ts)
+    * [StateTaskEither](examples/StateTaskEither.ts)
   * [ReaderT monad transformer](examples/ReaderIO.ts)
   * [Applicative composition](examples/TaskValidation.ts)
   * [Type safe finite state machines with `IxIO`](examples/ixIO.ts)
