@@ -15,9 +15,12 @@ export type URI = typeof URI
  * @constructor State
  */
 export class State<S, A> implements FantasyMonad<URI, A> {
-  readonly _A: A
-  readonly _L: S
-  readonly _URI: URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_L': S
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly run: (s: S) => [A, S]) {}
   eval(s: S): A {
     return this.run(s)[0]

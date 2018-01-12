@@ -25,8 +25,10 @@ export type URI = typeof URI
  */
 export class NonEmptyArray<A>
   implements FantasyMonad<URI, A>, FantasyComonad<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
-  readonly _A: A
-  readonly _URI: URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly head: A, readonly tail: Array<A>) {}
   toArray(): Array<A> {
     return uncurriedConcat([this.head], this.tail)

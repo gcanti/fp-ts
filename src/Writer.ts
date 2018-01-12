@@ -18,9 +18,12 @@ export type URI = typeof URI
  * @constructor Writer
  */
 export class Writer<W, A> implements FantasyMonad<URI, A> {
-  readonly _L: W
-  readonly _A: A
-  readonly _URI: URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_L': W
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly monoid: Monoid<W>, readonly run: Lazy<[A, W]>) {}
   eval(): A {
     return this.run()[0]

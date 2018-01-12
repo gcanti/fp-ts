@@ -19,29 +19,37 @@ export class Position {
 
 export class Forward<A> {
   readonly _tag: 'Forward' = 'Forward'
-  readonly _A: A
-  readonly _URI: InstructionFURI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': InstructionFURI
   constructor(readonly position: Position, readonly length: number, readonly more: (p: Position) => A) {}
 }
 
 export class Backward<A> {
   readonly _tag: 'Backward' = 'Backward'
-  readonly _A: A
-  readonly _URI: InstructionFURI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': InstructionFURI
   constructor(readonly position: Position, readonly length: number, readonly more: (p: Position) => A) {}
 }
 
 export class RotateRight<A> {
   readonly _tag: 'RotateRight' = 'RotateRight'
-  readonly _A: A
-  readonly _URI: InstructionFURI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': InstructionFURI
   constructor(readonly position: Position, readonly degree: Degree, readonly more: (p: Position) => A) {}
 }
 
 export class Show<A> {
   readonly _tag: 'Show' = 'Show'
-  readonly _A: A
-  readonly _URI: InstructionFURI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': InstructionFURI
   constructor(readonly position: Position, readonly more: A) {}
 }
 
@@ -143,15 +151,19 @@ export type PencilInstructionFURI = typeof PencilInstructionFURI
 
 export class PencilUp<A> {
   readonly _tag: 'PencilUp' = 'PencilUp'
-  readonly _A: A
-  readonly _URI: PencilInstructionFURI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': PencilInstructionFURI
   constructor(readonly position: Position, readonly more: A) {}
 }
 
 export class PencilDown<A> {
   readonly _tag: 'PencilDown' = 'PencilDown'
-  readonly _A: A
-  readonly _URI: PencilInstructionFURI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': PencilInstructionFURI
   constructor(readonly position: Position, readonly more: A) {}
 }
 
@@ -168,15 +180,19 @@ export type LogoAppFURI = typeof LogoAppFURI
 
 export class Instruction<A> {
   readonly _tag: InstructionFURI = InstructionFURI
-  readonly _A: A
-  readonly _URI: LogoAppFURI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': LogoAppFURI
   constructor(readonly value: InstructionF<A>) {}
 }
 
 export class PencilInstruction<A> {
   readonly _tag: PencilInstructionFURI = PencilInstructionFURI
-  readonly _A: A
-  readonly _URI: LogoAppFURI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': LogoAppFURI
   constructor(readonly value: PencilInstructionF<A>) {}
 }
 
