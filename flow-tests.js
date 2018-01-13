@@ -148,3 +148,22 @@ const arrayOptionTraversable = getTraversableComposition(array, option)
   string,
   Array<Option<number>>
 >)
+
+import { compose, pipe, curry } from './lib/function'
+
+const fun1 = (s: string): number => s.length
+const fun2 = (n: number): number => n * 2
+const fun3 = (n: number): boolean => n >= 2
+
+const fun4 = compose(fun2, fun1)
+const fun4x1: number = fun4('foo')
+const fun5 = compose(fun3, fun2, fun1)
+const fun5x1: boolean = fun5('foo')
+
+const fun6 = pipe(fun1, fun2)
+const fun6x1: number = fun6('foo')
+const fun7 = pipe(fun1, fun2, fun3)
+const fun7x1: boolean = fun7('foo')
+
+const fun8 = (a: number, b: string, c: boolean) => a >= 2 && b.length < 2 && c
+const fun8x1: boolean = curry(fun8)(2)('a')(true)
