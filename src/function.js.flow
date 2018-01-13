@@ -169,20 +169,20 @@ declare export function pipe<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) 
 
 declare export var concat: <A>(x: Array<A>, y: Array<A>) => Array<A>
 
-declare export function curry<A, B, C, D, E, F, G, H, I, J>(
-  f: Function9<A, B, C, D, E, F, G, H, I, J>
-): Curried9<A, B, C, D, E, F, G, H, I, J>
-declare export function curry<A, B, C, D, E, F, G, H, I>(
-  f: Function8<A, B, C, D, E, F, G, H, I>
-): Curried8<A, B, C, D, E, F, G, H, I>
+declare export function curry<A, B, C>(f: Function2<A, B, C>): Curried2<A, B, C>
+declare export function curry<A, B, C, D>(f: Function3<A, B, C, D>): Curried3<A, B, C, D>
+declare export function curry<A, B, C, D, E>(f: Function4<A, B, C, D, E>): Curried4<A, B, C, D, E>
+declare export function curry<A, B, C, D, E, F>(f: Function5<A, B, C, D, E, F>): Curried5<A, B, C, D, E, F>
+declare export function curry<A, B, C, D, E, F, G>(f: Function6<A, B, C, D, E, F, G>): Curried6<A, B, C, D, E, F, G>
 declare export function curry<A, B, C, D, E, F, G, H>(
   f: Function7<A, B, C, D, E, F, G, H>
 ): Curried7<A, B, C, D, E, F, G, H>
-declare export function curry<A, B, C, D, E, F, G>(f: Function6<A, B, C, D, E, F, G>): Curried6<A, B, C, D, E, F, G>
-declare export function curry<A, B, C, D, E, F>(f: Function5<A, B, C, D, E, F>): Curried5<A, B, C, D, E, F>
-declare export function curry<A, B, C, D, E>(f: Function4<A, B, C, D, E>): Curried4<A, B, C, D, E>
-declare export function curry<A, B, C, D>(f: Function3<A, B, C, D>): Curried3<A, B, C, D>
-declare export function curry<A, B, C>(f: Function2<A, B, C>): Curried2<A, B, C>
+declare export function curry<A, B, C, D, E, F, G, H, I>(
+  f: Function8<A, B, C, D, E, F, G, H, I>
+): Curried8<A, B, C, D, E, F, G, H, I>
+declare export function curry<A, B, C, D, E, F, G, H, I, J>(
+  f: Function9<A, B, C, D, E, F, G, H, I, J>
+): Curried9<A, B, C, D, E, F, G, H, I, J>
 
 declare export var toString: (x: any) => string
 
