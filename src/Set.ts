@@ -2,12 +2,13 @@ import { Setoid } from './Setoid'
 import { Predicate, not } from './function'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
+import { Ord, toNativeComparator } from './Ord'
 
 /** @function */
-export const toArray = <A>(x: Set<A>): Array<A> => {
+export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
   const r: Array<A> = []
   x.forEach(e => r.push(e))
-  return r
+  return r.sort(toNativeComparator(O.compare))
 }
 
 /** @function */
@@ -71,10 +72,18 @@ export const member = <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean => {
  * Form the union of two sets
  * @function
  */
-export const union = <A>(x: Set<A>) => (y: Set<A>): Set<A> => {
-  const r = new Set(x)
-  y.forEach(e => r.add(e))
-  return r
+export const union = <A>(S: Setoid<A>): ((x: Set<A>) => (y: Set<A>) => Set<A>) => {
+  const hasS = member(S)
+  return x => y => {
+    const xhas = hasS(x)
+    const r = new Set(x)
+    y.forEach(e => {
+      if (!xhas(e)) {
+        r.add(e)
+      }
+    })
+    return r
+  }
 }
 
 /**
@@ -106,9 +115,9 @@ export const difference = <A>(S: Setoid<A>) => (x: Set<A>): ((y: Set<A>) => Set<
 const emptySet: Set<never> = new Set<never>()
 
 /** @function */
-export const getUnionMonoid = <A>(): Monoid<Set<A>> => {
+export const getUnionMonoid = <A>(S: Setoid<A>): Monoid<Set<A>> => {
   return {
-    concat: union,
+    concat: union(S),
     empty: () => emptySet
   }
 }
@@ -121,8 +130,8 @@ export const getIntersectionSemigroup = <A>(S: Setoid<A>): Semigroup<Set<A>> => 
 }
 
 /** @function */
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Set<A>): B => {
-  return toArray(fa).reduce(f, b)
+export const reduce = <A>(O: Ord<A>) => <B>(f: (b: B, a: A) => B, b: B, fa: Set<A>): B => {
+  return toArray(O)(fa).reduce(f, b)
 }
 
 /**
@@ -137,10 +146,17 @@ export const singleton = <A>(a: A): Set<A> => {
  * Insert a value into a set
  * @function
  */
-export const insert = <A>(a: A) => (x: Set<A>): Set<A> => {
-  const r = new Set(x)
-  r.add(a)
-  return r
+export const insert = <A>(S: Setoid<A>): ((a: A) => (x: Set<A>) => Set<A>) => {
+  const hasS = member(S)
+  return a => x => {
+    if (!hasS(x)(a)) {
+      const r = new Set(x)
+      r.add(a)
+      return r
+    } else {
+      return x
+    }
+  }
 }
 
 /**
