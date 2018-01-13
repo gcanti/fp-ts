@@ -18,13 +18,15 @@ import {
   remove
 } from '../src/Set'
 import { setoidNumber } from '../src/Setoid'
+import { ordNumber } from '../src/Ord'
 
 const gte2 = (n: number) => n >= 2
 
 describe('Set', () => {
   it('toArray', () => {
-    assert.deepEqual(toArray(new Set()), [])
-    assert.deepEqual(toArray(new Set([1, 2, 3])), [1, 2, 3])
+    assert.deepEqual(toArray(ordNumber)(new Set()), [])
+    assert.deepEqual(toArray(ordNumber)(new Set([1, 2, 3])), [1, 2, 3])
+    assert.deepEqual(toArray(ordNumber)(new Set([3, 2, 1])), [1, 2, 3])
   })
 
   it('getSetoid', () => {
@@ -61,7 +63,7 @@ describe('Set', () => {
   })
 
   it('union', () => {
-    assert.deepEqual(union(new Set([1, 2]))(new Set([1, 3])), new Set([1, 2, 3]))
+    assert.deepEqual(union(setoidNumber)(new Set([1, 2]))(new Set([1, 3])), new Set([1, 2, 3]))
   })
 
   it('intersection', () => {
@@ -69,7 +71,7 @@ describe('Set', () => {
   })
 
   it('getUnionMonoid', () => {
-    const M = getUnionMonoid()
+    const M = getUnionMonoid(setoidNumber)
     assert.deepEqual(M.concat(new Set([1, 2]))(new Set([1, 3])), new Set([1, 2, 3]))
     assert.deepEqual(M.concat(new Set([1, 2]))(M.empty()), new Set([1, 2]))
     assert.deepEqual(M.concat(M.empty())(new Set([1, 3])), new Set([1, 3]))
@@ -85,7 +87,8 @@ describe('Set', () => {
   })
 
   it('reduce', () => {
-    assert.deepEqual(reduce((b, a) => b + a, 0, new Set([1, 2, 3])), 6)
+    assert.deepEqual(reduce(ordNumber)((b, a) => b + a, '', new Set([1, 2, 3])), '123')
+    assert.deepEqual(reduce(ordNumber)((b, a) => b + a, '', new Set([3, 2, 1])), '123')
   })
 
   it('singleton', () => {
@@ -93,7 +96,7 @@ describe('Set', () => {
   })
 
   it('insert', () => {
-    assert.deepEqual(insert(3)(new Set([1, 2])), new Set([1, 2, 3]))
+    assert.deepEqual(insert(setoidNumber)(3)(new Set([1, 2])), new Set([1, 2, 3]))
   })
 
   it('remove', () => {
