@@ -13,6 +13,22 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 0.6.8
+
+* **New Feature**
+  * `Validation`: add `getOrElse`, `getOrElseValue`, closes #278 (@gcanti)
+  * add `Functor2`, `Functor3`, `Apply2`, `Apply3`, `Applicative2`, `Applicative3`, `Chain2`, `Chain3`, `Monad2`,
+    `Monad3` in order to better support MTL style (@gcanti)
+* **Bug Fix**
+  * Flow: reverse order of overloadings in curry declaration, fix #299 (@gcanti)
+  * `Set`: fix `union` / `insert` / `toArray` / `reduce` definitions (@gcanti)
+* **Experimental**
+  * `Validation`: add `chain` (@gcanti)
+* **Internal**
+  * fix typescript@next errors (@gcanti)
+* **Documentation**
+  * add `StateTaskEither`, `TaskOption` examples (@gcanti)
+
 # 0.6.7
 
 * **New Feature**
