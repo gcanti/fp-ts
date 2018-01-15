@@ -36,6 +36,14 @@ A data-type like Either but with an accumulating `Applicative`
 <M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B>
 ```
 
+### chain
+
+```ts
+<B>(f: (a: A) => Validation<L, B>): Validation<L, B>
+```
+
+Binds the given function across `Success`
+
 ### concat
 
 ```ts
@@ -53,6 +61,22 @@ A data-type like Either but with an accumulating `Applicative`
 ```ts
 <B>(failure: (l: L) => B, success: (a: A) => B): B
 ```
+
+### getOrElse
+
+```ts
+(f: (l: L) => A): A
+```
+
+Returns the value from this `Success` or the result of given argument if this is a `Failure`
+
+### getOrElseValue
+
+```ts
+(a: A): A
+```
+
+Returns the value from this `Success` or the given argument if this is a `Failure`
 
 ### inspect
 
@@ -129,12 +153,7 @@ Returns `true` if the validation is an instance of `Success`, `false` otherwise
 _instance_
 
 ```ts
-Semigroup<Validation<any, any>> &
-  Functor<URI> &
-  Applicative<URI> &
-  Foldable<URI> &
-  Traversable<URI> &
-  Alt<URI>
+Semigroup<Validation<any, any>> & Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI>
 ```
 
 # alt
@@ -161,6 +180,14 @@ _function_
 <M>(S: Semigroup<M>) => <L, A, B>(f: (l: L) => M, g: (a: A) => B) => (
   fa: Validation<L, A>
 ): Validation<M, B>
+```
+
+# chain
+
+_function_
+
+```ts
+<L, A, B>(f: (a: A) => Validation<L, B>, fa: Validation<L, A>): Validation<L, B>
 ```
 
 # concat
@@ -204,6 +231,26 @@ _function_
   a: A
 ): Validation<L, A>
 ```
+
+# getOrElse
+
+_function_
+
+```ts
+<L, A>(f: (l: L) => A) => (fa: Validation<L, A>): A
+```
+
+Returns the value from this `Success` or the result of given argument if this is a `Failure`
+
+# getOrElseValue
+
+_function_
+
+```ts
+<A>(a: A) => <L>(fa: Validation<L, A>): A
+```
+
+Returns the value from this `Success` or the given argument if this is a `Failure`
 
 # getSemigroup
 
