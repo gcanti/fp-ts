@@ -117,7 +117,10 @@ export class Left<L, A>
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return left(f(this.value))
   }
-  /** Returns a `Some` containing the `Right` value if it exists or a `None` if this is a `Left` */
+  /**
+   * Returns a `Some` containing the `Right` value if it exists or a `None` if this is a `Left`
+   * @deprecated
+   */
   toOption(): Option<A> {
     return none
   }
@@ -376,7 +379,10 @@ export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined)
   return a == null ? left(defaultValue) : right(a)
 }
 
-/** @function */
+/**
+ * @function
+ * @deprecated
+ */
 export const toOption = <L, A>(fa: Either<L, A>): Option<A> => {
   return fa.toOption()
 }
