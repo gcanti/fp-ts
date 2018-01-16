@@ -283,7 +283,11 @@ export const toString = (x: any): string => {
   if (Array.isArray(x)) {
     return `[${x.map(toString).join(', ')}]`
   }
-  return String(x)
+  try {
+    return JSON.stringify(x, null, 2)
+  } catch (e) {
+    return String(x)
+  }
 }
 
 /** @function */
