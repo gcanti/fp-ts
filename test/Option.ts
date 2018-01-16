@@ -13,12 +13,14 @@ import {
   getFirstMonoid,
   getLastMonoid,
   tryCatch,
-  Option
+  Option,
+  fromEither
 } from '../src/Option'
 import * as array from '../src/Array'
 import { setoidNumber } from '../src/Setoid'
 import { eqOptions as eq } from './helpers'
 import { identity } from '../src/function'
+import { left, right } from '../src/Either'
 
 describe('Option', () => {
   it('fold', () => {
@@ -181,5 +183,10 @@ describe('Option', () => {
   it('tryCatch', () => {
     assert.deepEqual(tryCatch(() => JSON.parse('2')), some(2))
     assert.deepEqual(tryCatch(() => JSON.parse('(')), none)
+  })
+
+  it('fromEither', () => {
+    assert.deepEqual(fromEither(left('foo')), none)
+    assert.deepEqual(fromEither(right(1)), some(1))
   })
 })

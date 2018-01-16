@@ -10,6 +10,7 @@ import { Setoid } from './Setoid'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Alternative, FantasyAlternative } from './Alternative'
 import { constant, Lazy, Predicate, toString } from './function'
+import { Either } from './Either'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -399,6 +400,11 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
   } catch (e) {
     return none
   }
+}
+
+/** @function */
+export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
+  return fa.fold(() => none, some)
 }
 
 /** @instance */

@@ -11,6 +11,7 @@ import type { Traversable } from './Traversable'
 import type { Alternative } from './Alternative'
 import type { Extend } from './Extend'
 import type { Lazy, Predicate } from './function'
+import type { Either } from './Either'
 
 export type URIT = <U, L, A>(x: [U, L, A]) => Option<A>
 
@@ -109,6 +110,8 @@ declare export var some: <A>(a: A) => Option<A>
 declare export var fromPredicate: <A>(predicate: (a: A) => boolean) => (a: A) => Option<A>
 
 declare export var tryCatch: <A>(f: Lazy<A>) => Option<A>
+
+declare export var fromEither: <L, A>(fa: Either<L, A>) => Option<A>
 
 export interface Instances
   extends Monad<URIT>, Foldable<URIT>, Plus<URIT>, Traversable<URIT>, Alternative<URIT>, Extend<URIT> {}
