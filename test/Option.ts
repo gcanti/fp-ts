@@ -189,4 +189,11 @@ describe('Option', () => {
     assert.deepEqual(fromEither(left('foo')), none)
     assert.deepEqual(fromEither(right(1)), some(1))
   })
+
+  it('toString', () => {
+    assert.strictEqual(some(2).toString(), 'some(2)')
+    const d = new Date()
+    assert.strictEqual(some(new Date()).toString(), `some(new Date('${d.toISOString()}'))`)
+    assert.strictEqual(some({ a: 1 }).toString(), 'some({\n  "a": 1\n})')
+  })
 })
