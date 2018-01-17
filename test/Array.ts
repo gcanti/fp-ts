@@ -1,12 +1,11 @@
-import * as array from '../src/Array'
 import * as assert from 'assert'
+import * as array from '../src/Array'
 import * as option from '../src/Option'
 
 import { fold, monoidSum } from '../src/Monoid'
 import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
 
-import { eqOptions as eq } from './helpers'
 import { ordNumber } from '../src/Ord'
 import { tuple } from '../src/function'
 
@@ -26,7 +25,7 @@ describe('Array', () => {
     assert.ok(option.isNone(fasnone))
     const tfa = [1, 3]
     const fas = array.traverse(option)(f, tfa)
-    eq(fas, some([1, 3]))
+    assert.deepEqual(fas, some([1, 3]))
   })
 
   it('unfoldr', () => {
@@ -45,7 +44,7 @@ describe('Array', () => {
   })
 
   it('index', () => {
-    eq(array.index(1)(as), some(2))
+    assert.deepEqual(array.index(1)(as), some(2))
   })
 
   it('cons', () => {
@@ -63,16 +62,16 @@ describe('Array', () => {
   })
 
   it('head', () => {
-    eq(array.head(as), some(1))
+    assert.deepEqual(array.head(as), some(1))
   })
 
   it('last', () => {
-    eq(array.last(as), some(3))
+    assert.deepEqual(array.last(as), some(3))
   })
 
   it('tail', () => {
     assert.strictEqual(array.tail(empty), none)
-    eq(array.tail(as), some([2, 3]))
+    assert.deepEqual(array.tail(as), some([2, 3]))
   })
 
   it('take', () => {
@@ -104,8 +103,8 @@ describe('Array', () => {
   })
 
   it('init', () => {
-    eq(array.init(empty), none)
-    eq(array.init(as), some([1, 2]))
+    assert.deepEqual(array.init(empty), none)
+    assert.deepEqual(array.init(as), some([1, 2]))
   })
 
   it('slice', () => {
@@ -113,43 +112,49 @@ describe('Array', () => {
   })
 
   it('findIndex', () => {
-    eq(array.findIndex(x => x === 2)(empty), none)
-    eq(array.findIndex(x => x === 2)(as), some(1))
+    assert.deepEqual(array.findIndex(x => x === 2)(empty), none)
+    assert.deepEqual(array.findIndex(x => x === 2)(as), some(1))
   })
 
   it('findFirst', () => {
-    eq(array.findFirst(x => x === 2)(empty), none)
-    eq(
+    assert.deepEqual(array.findFirst(x => x === 2)(empty), none)
+    assert.deepEqual(
       array.findFirst<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
       some({ a: 1, b: 1 })
     )
   })
 
   it('findLast', () => {
-    eq(array.findLast(x => x === 2)(empty), none)
-    eq(array.findLast<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 2 }))
-    eq(array.findLast<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 2 }, { a: 2, b: 1 }]), some({ a: 1, b: 2 }))
+    assert.deepEqual(array.findLast(x => x === 2)(empty), none)
+    assert.deepEqual(
+      array.findLast<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
+      some({ a: 1, b: 2 })
+    )
+    assert.deepEqual(
+      array.findLast<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 2 }, { a: 2, b: 1 }]),
+      some({ a: 1, b: 2 })
+    )
   })
 
   it('insertAt', () => {
-    eq(array.insertAt(1)(1)(empty), none)
-    eq(array.insertAt(0)(1)(empty), some([1]))
+    assert.deepEqual(array.insertAt(1)(1)(empty), none)
+    assert.deepEqual(array.insertAt(0)(1)(empty), some([1]))
   })
 
   it('updateAt', () => {
-    eq(array.updateAt(1)(1)(empty), none)
-    eq(array.updateAt(1)(1)(as), some([1, 1, 3]))
+    assert.deepEqual(array.updateAt(1)(1)(empty), none)
+    assert.deepEqual(array.updateAt(1)(1)(as), some([1, 1, 3]))
   })
 
   it('deleteAt', () => {
-    eq(array.deleteAt(1)(empty), none)
-    eq(array.deleteAt(0)(as), some([2, 3]))
+    assert.deepEqual(array.deleteAt(1)(empty), none)
+    assert.deepEqual(array.deleteAt(0)(as), some([2, 3]))
   })
 
   it('modifyAt', () => {
     const double = (x: number) => 2 * x
-    eq(array.modifyAt(1)(double)(empty), none)
-    eq(array.modifyAt(1)(double)(as), some([1, 4, 3]))
+    assert.deepEqual(array.modifyAt(1)(double)(empty), none)
+    assert.deepEqual(array.modifyAt(1)(double)(as), some([1, 4, 3]))
   })
 
   it('mapOption', () => {

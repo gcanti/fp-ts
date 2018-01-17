@@ -19,7 +19,6 @@ import {
   pop
 } from '../src/StrMap'
 import * as option from '../src/Option'
-import { eqOptions as eq } from './helpers'
 import { setoidNumber } from '../src/Setoid'
 import * as array from '../src/Array'
 
@@ -46,10 +45,10 @@ describe('StrMap', () => {
   it('traverse', () => {
     const d1 = new StrMap<number>({ k1: 1, k2: 2 })
     const t1 = traverse(option)((n): option.Option<number> => (n >= 2 ? option.some(n) : option.none), d1)
-    eq(t1, option.none)
+    assert.deepEqual(t1, option.none)
     const d2 = new StrMap<number>({ k1: 2, k2: 3 })
     const t2 = traverse(option)((n): option.Option<number> => (n >= 2 ? option.some(n) : option.none), d2)
-    eq(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
+    assert.deepEqual(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
   })
 
   it('getSetoid', () => {
@@ -59,8 +58,8 @@ describe('StrMap', () => {
   })
 
   it('lookup', () => {
-    eq(lookup('a')(new StrMap({ a: 1 })), option.some(1))
-    eq(lookup('b')(new StrMap({ a: 1 })), option.none)
+    assert.deepEqual(lookup('a')(new StrMap({ a: 1 })), option.some(1))
+    assert.deepEqual(lookup('b')(new StrMap({ a: 1 })), option.none)
   })
 
   it('fromFoldable', () => {
@@ -91,10 +90,10 @@ describe('StrMap', () => {
   it('traverseWithKey', () => {
     const d1 = new StrMap({ k1: 1, k2: 2 })
     const t1 = traverseWithKey(option)((k, n): option.Option<number> => (k !== 'k1' ? option.some(n) : option.none), d1)
-    eq(t1, option.none)
+    assert.deepEqual(t1, option.none)
     const d2 = new StrMap({ k1: 2, k2: 3 })
     const t2 = traverseWithKey(option)((k, n): option.Option<number> => (k !== 'k3' ? option.some(n) : option.none), d2)
-    eq(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
+    assert.deepEqual(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
   })
 
   it('size', () => {
