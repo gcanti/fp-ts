@@ -1,5 +1,4 @@
 import * as assert from 'assert'
-
 import {
   ap,
   bimap,
@@ -19,8 +18,6 @@ import {
 import { none, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
 
-import { eqEithers as eq } from './helpers'
-
 describe('Either', () => {
   it('fold', () => {
     const f = (s: string) => `left${s.length}`
@@ -31,47 +28,50 @@ describe('Either', () => {
 
   it('map', () => {
     const f = (s: string): number => s.length
-    eq(map(f, right('abc')), right(3))
-    eq(map(f, left('s')), left('s'))
+    assert.deepEqual(map(f, right('abc')), right(3))
+    assert.deepEqual(map(f, left('s')), left('s'))
   })
 
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    eq(bimap(f, g, right(1)), right(false))
+    assert.deepEqual(bimap(f, g, right(1)), right(false))
   })
 
   it('ap', () => {
     const f = (s: string): number => s.length
-    eq(ap(right<string, (s: string) => number>(f), right<string, string>('abc')), right(3))
-    eq(ap(right<string, (s: string) => number>(f), left<string, string>('a')), left<string, number>('a'))
-    eq(ap(left<string, (s: string) => number>('a'), right<string, string>('abc')), left<string, number>('a'))
-    eq(ap(left<string, (s: string) => number>('a'), left<string, string>('b')), left<string, number>('a'))
+    assert.deepEqual(ap(right<string, (s: string) => number>(f), right<string, string>('abc')), right(3))
+    assert.deepEqual(ap(right<string, (s: string) => number>(f), left<string, string>('a')), left<string, number>('a'))
+    assert.deepEqual(
+      ap(left<string, (s: string) => number>('a'), right<string, string>('abc')),
+      left<string, number>('a')
+    )
+    assert.deepEqual(ap(left<string, (s: string) => number>('a'), left<string, string>('b')), left<string, number>('a'))
   })
 
   it('chain', () => {
     const f = (s: string) => right<string, number>(s.length)
-    eq(chain(f, right<string, string>('abc')), right(3))
-    eq(chain(f, left<string, string>('a')), left('a'))
+    assert.deepEqual(chain(f, right<string, string>('abc')), right(3))
+    assert.deepEqual(chain(f, left<string, string>('a')), left('a'))
   })
 
   it('fromPredicate', () => {
     const predicate = (n: number) => n >= 2
     const handleError = (n: number) => `Invalid number ${n}`
     const gt2 = fromPredicate(predicate, handleError)
-    eq(gt2(3), right(3))
-    eq(gt2(1), left('Invalid number 1'))
+    assert.deepEqual(gt2(3), right(3))
+    assert.deepEqual(gt2(1), left('Invalid number 1'))
   })
 
   it('tryCatch', () => {
     const e1 = tryCatch(() => {
       return JSON.parse(`{}`)
     })
-    eq(e1, right({}))
+    assert.deepEqual(e1, right({}))
     const e2 = tryCatch(() => {
       return JSON.parse(``)
     })
-    eq(e2, left<Error, any>(new SyntaxError('Unexpected end of JSON input')))
+    assert.deepEqual(e2, left<Error, any>(new SyntaxError('Unexpected end of JSON input')))
   })
 
   it('getOrElse', () => {
@@ -97,10 +97,10 @@ describe('Either', () => {
   })
 
   it('equals', () => {
-    const eq = getSetoid(setoidString, setoidNumber).equals
-    assert.strictEqual(eq(right(1))(right(1)), true)
-    assert.strictEqual(eq(right(1))(right(2)), false)
-    assert.strictEqual(eq(left('foo'))(left('foo')), true)
-    assert.strictEqual(eq(left('foo'))(left('bar')), false)
+    const equals = getSetoid(setoidString, setoidNumber).equals
+    assert.strictEqual(equals(right(1))(right(1)), true)
+    assert.strictEqual(equals(right(1))(right(2)), false)
+    assert.strictEqual(equals(left('foo'))(left('foo')), true)
+    assert.strictEqual(equals(left('foo'))(left('bar')), false)
   })
 })

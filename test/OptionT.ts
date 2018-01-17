@@ -2,7 +2,6 @@ import * as assert from 'assert'
 import * as optionT from '../src/OptionT'
 import * as option from '../src/Option'
 import * as task from '../src/Task'
-import { eqOptions as eq } from './helpers'
 
 const taskOption = optionT.getOptionT(task)
 const none = optionT.none(task)()
@@ -12,7 +11,7 @@ describe('OptionT', () => {
     const greetingT = taskOption.of('welcome')
     const excitedGreetingT = taskOption.map(s => s + '!', greetingT)
     return excitedGreetingT.run().then(o => {
-      eq(o, option.some('welcome!'))
+      assert.deepEqual(o, option.some('welcome!'))
     })
   })
 

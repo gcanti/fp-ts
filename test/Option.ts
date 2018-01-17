@@ -18,7 +18,6 @@ import {
 } from '../src/Option'
 import * as array from '../src/Array'
 import { setoidNumber } from '../src/Setoid'
-import { eqOptions as eq } from './helpers'
 import { identity } from '../src/function'
 import { left, right } from '../src/Either'
 
@@ -54,7 +53,7 @@ describe('Option', () => {
 
   it('map', () => {
     const f = (n: number) => n * 2
-    eq(map(f, some(2)), some(4))
+    assert.deepEqual(map(f, some(2)), some(4))
   })
 
   it('mapNullable', () => {
@@ -76,17 +75,17 @@ describe('Option', () => {
 
   it('ap', () => {
     const f = (n: number) => n * 2
-    eq(ap(some(f), some(2)), some(4))
-    eq(ap(some(f), none), none)
-    eq(ap(none, some(2)), none)
-    eq(ap(some(f), some(2)), some(4))
+    assert.deepEqual(ap(some(f), some(2)), some(4))
+    assert.deepEqual(ap(some(f), none), none)
+    assert.deepEqual(ap(none, some(2)), none)
+    assert.deepEqual(ap(some(f), some(2)), some(4))
   })
 
   it('chain', () => {
     const f = (n: number) => some(n * 2)
     const g = () => none
-    eq(chain(f, some(2)), some(4))
-    eq(chain(g, some(2)), none)
+    assert.deepEqual(chain(f, some(2)), some(4))
+    assert.deepEqual(chain(g, some(2)), none)
   })
 
   it('getMonoid', () => {
@@ -95,22 +94,22 @@ describe('Option', () => {
         return x + y
       }
     })
-    eq(concat(none)(some(1)), some(1))
-    eq(concat(some(2))(none), some(2))
-    eq(concat(some(2))(some(1)), some(3))
+    assert.deepEqual(concat(none)(some(1)), some(1))
+    assert.deepEqual(concat(some(2))(none), some(2))
+    assert.deepEqual(concat(some(2))(some(1)), some(3))
   })
 
   it('alt', () => {
-    eq(alt(some(1), some(2)), some(1))
-    eq(alt(none, some(2)), some(2))
-    eq(alt(some(1), none), some(1))
-    eq(alt(none, none), none)
+    assert.deepEqual(alt(some(1), some(2)), some(1))
+    assert.deepEqual(alt(none, some(2)), some(2))
+    assert.deepEqual(alt(some(1), none), some(1))
+    assert.deepEqual(alt(none, none), none)
   })
 
   it('fromNullable', () => {
-    eq(fromNullable(2), some(2))
-    eq(fromNullable(null), none)
-    eq(fromNullable(undefined), none)
+    assert.deepEqual(fromNullable(2), some(2))
+    assert.deepEqual(fromNullable(null), none)
+    assert.deepEqual(fromNullable(undefined), none)
   })
 
   it('traverse', () => {

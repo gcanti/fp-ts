@@ -1,7 +1,7 @@
+import * as assert from 'assert'
 import * as option from '../src/Option'
 import { StrMap, lookup } from '../src/StrMap'
 import { getReaderT } from '../src/ReaderT'
-import { eqOptions as eq } from './helpers'
 
 const readerOption = getReaderT(option)
 
@@ -23,13 +23,13 @@ describe('ReaderT', () => {
       password: 'password'
     })
 
-    eq(setupConnection(goodConfig), option.some(['myhost', 'giulio', 'password']))
+    assert.deepEqual(setupConnection(goodConfig), option.some(['myhost', 'giulio', 'password']))
 
     const badConfig = new StrMap({
       host: 'myhost',
       user: 'giulio'
     })
 
-    eq(setupConnection(badConfig), option.none)
+    assert.deepEqual(setupConnection(badConfig), option.none)
   })
 })
