@@ -62,6 +62,15 @@ export const monoidAny: Monoid<boolean> = {
  * Monoid under array concatenation (`Array<any>`)
  * @instance
  */
+export const getArrayMonoid = <A>(): Monoid<Array<A>> => {
+  return monoidArray
+}
+
+/**
+ * Monoid under array concatenation (`Array<any>`)
+ * @instance
+ * @deprecated
+ */
 export const monoidArray: Monoid<Array<any>> = {
   ...semigroupArray,
   empty: () => []
@@ -106,14 +115,6 @@ export const getEndomorphismMonoid = <A>(): Monoid<Endomorphism<A>> => {
     concat: x => y => compose(x, y),
     empty: () => identity
   }
-}
-
-/**
- * Returns a monoid under array concatenation
- * @function
- */
-export const getArrayMonoid = <A>(): Monoid<Array<A>> => {
-  return monoidArray
 }
 
 /** @function */

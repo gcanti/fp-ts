@@ -1,4 +1,5 @@
 import { Ord, min, max } from './Ord'
+import { concat } from './function'
 
 /** @typeclass */
 export interface Semigroup<A> {
@@ -80,11 +81,22 @@ export const semigroupAny: Semigroup<boolean> = {
 }
 
 /**
+ * Semigroup under array concatenation
+ * @function
+ */
+export const getArraySemigroup = <A>(): Semigroup<Array<A>> => {
+  return {
+    concat: x => y => concat(x, y)
+  }
+}
+
+/**
  * Semigroup under array concatenation (`Array<any>`)
  * @instance
+ * @deprecated
  */
 export const semigroupArray: Semigroup<Array<any>> = {
-  concat: x => y => x.concat(y)
+  concat: x => y => concat(x, y)
 }
 
 /**
