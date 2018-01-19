@@ -27,6 +27,8 @@ declare export var semigroupAll: Semigroup<boolean>
 
 declare export var semigroupAny: Semigroup<boolean>
 
+declare export var getArraySemigroup: <A>() => Semigroup<Array<A>>
+
 declare export var semigroupArray: Semigroup<Array<any>>
 
 declare export var semigroupSum: Semigroup<number>
