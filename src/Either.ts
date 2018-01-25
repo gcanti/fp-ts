@@ -10,6 +10,7 @@ import { Alt, FantasyAlt } from './Alt'
 import { ChainRec, tailRec } from './ChainRec'
 import { Option, none, some } from './Option'
 import { constFalse, Predicate, Lazy, toString } from './function'
+import { Validation } from './Validation'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -402,6 +403,11 @@ export const tryCatch = <A>(f: Lazy<A>): Either<Error, A> => {
  */
 export const swap = <L, A>(fa: Either<L, A>): Either<A, L> => {
   return fa.swap()
+}
+
+/** @function */
+export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
+  return fa.fold<Either<L, A>>(left, right)
 }
 
 /** @instance */
