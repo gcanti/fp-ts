@@ -13,10 +13,13 @@ import {
   left,
   map,
   right,
-  tryCatch
+  tryCatch,
+  fromValidation
 } from '../src/Either'
 import { none, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
+import { failure, success } from '../src/Validation'
+import { semigroupString } from '../src/Semigroup'
 
 describe('Either', () => {
   it('fold', () => {
@@ -102,5 +105,11 @@ describe('Either', () => {
     assert.strictEqual(equals(right(1))(right(2)), false)
     assert.strictEqual(equals(left('foo'))(left('foo')), true)
     assert.strictEqual(equals(left('foo'))(left('bar')), false)
+  })
+
+  it('fromValidation', () => {
+    const f = failure(semigroupString)
+    assert.deepEqual(fromValidation(success(1)), right(1))
+    assert.deepEqual(fromValidation(f('a')), left('a'))
   })
 })

@@ -96,6 +96,7 @@ export class Failure<L, A>
   toOption(): Option<A> {
     return none
   }
+  /** @deprecated */
   toEither(): Either<L, A> {
     return left(this.value)
   }
@@ -298,8 +299,7 @@ export const fromPredicate = <L>(S: Semigroup<L>) => <A>(predicate: Predicate<A>
 
 /** @function */
 export const fromEither = <L>(S: Semigroup<L>): (<A>(e: Either<L, A>) => Validation<L, A>) => {
-  const f = failure(S)
-  return e => e.fold(l => f(l), a => success(a))
+  return <A>(e: Either<L, A>) => e.fold<Validation<L, A>>(failure(S), success)
 }
 
 /** @function */
@@ -331,7 +331,10 @@ export const toOption = <L, A>(fa: Validation<L, A>): Option<A> => {
   return fa.toOption()
 }
 
-/** @function */
+/**
+ * @function
+ * @deprecated
+ */
 export const toEither = <L, A>(fa: Validation<L, A>): Either<L, A> => {
   return fa.toEither()
 }
