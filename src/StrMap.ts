@@ -135,9 +135,9 @@ export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, t
  * Test whether one dictionary contains all of the keys and values contained in another dictionary
  * @function
  */
-export const isSubdictionary = <A>(setoid: Setoid<A>) => (d1: StrMap<A>) => (d2: StrMap<A>): boolean => {
+export const isSubdictionary = <A>(S: Setoid<A>) => (d1: StrMap<A>, d2: StrMap<A>): boolean => {
   for (let k in d1.value) {
-    if (!d2.value.hasOwnProperty(k) || !setoid.equals(d1.value[k], d2.value[k])) {
+    if (!d2.value.hasOwnProperty(k) || !S.equals(d1.value[k], d2.value[k])) {
       return false
     }
   }
@@ -167,7 +167,7 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
   const isSubdictionaryS = isSubdictionary(S)
   return {
-    equals: (x, y) => isSubdictionaryS(x)(y) && isSubdictionaryS(y)(x)
+    equals: (x, y) => isSubdictionaryS(x, y) && isSubdictionaryS(y, x)
   }
 }
 
