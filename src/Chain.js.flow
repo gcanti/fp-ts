@@ -1,9 +1,0 @@
-// @flow
-import type { HKT } from './HKT'
-import type { Apply } from './Apply'
-
-export interface Chain<F> extends Apply<F> {
-  chain<A, B, U, L>(f: (a: A) => HKT<F, U, L, B>, fa: HKT<F, U, L, A>): HKT<F, U, L, B>;
-}
-
-declare export var flatten: <F>(chain: Chain<F>) => <A, U, L>(mma: HKT<F, U, L, HKT<F, U, L, A>>) => HKT<F, U, L, A>

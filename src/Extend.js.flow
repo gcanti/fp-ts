@@ -1,7 +1,0 @@
-// @flow
-import type { HKT } from './HKT'
-import type { Functor } from './Functor'
-
-export interface Extend<F> extends Functor<F> {
-  extend<A, B, U, L>(f: (fa: HKT<F, U, L, A>) => B, ea: HKT<F, U, L, A>): HKT<F, U, L, B>;
-}

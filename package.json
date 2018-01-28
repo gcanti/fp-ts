@@ -1,7 +1,7 @@
 {
   "name": "fp-ts",
-  "version": "0.6.8",
-  "description": "Functional programming in TypeScript / Flow",
+  "version": "0.7.0",
+  "description": "Functional programming in TypeScript",
   "files": ["lib"],
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -12,16 +12,13 @@
       "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier":
       "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples,exercises}/**/*.ts\"",
-    "flow-fix-prettier":
-      "prettier --no-semi --single-quote --print-width 120 --parser flow --write \"{src,test,examples,exercises}/**/*.js.flow\"",
-    "flow-copy-definition-files": "cp src/*.js.flow lib",
     "test": "npm run lint && npm run prettier && npm run mocha",
     "clean": "rm -rf lib/*",
-    "build": "npm run clean && tsc && npm run flow-copy-definition-files",
+    "build": "npm run clean && tsc",
     "docs-incremental": "ts-node docs/api/main.ts",
     "docs-fix-prettier":
       "prettier --no-semi --single-quote --print-width 120 --parser markdown --write \"docs/**/*.md\"",
-    "docs": "rm -rf docs/api/md/* && npm run docs-incremental && npm run docs-fix-prettier"
+    "docs": "rm -rf docs/api/md/* && npm run docs-incremental"
   },
   "repository": {
     "type": "git",
@@ -49,6 +46,6 @@
     "tslint-config-standard": "4.0.0",
     "typescript": "^2.7.1"
   },
-  "tags": ["typescript", "flowtype", "algebraic-data-types", "functional-programming"],
-  "keywords": ["typescript", "flowtype", "algebraic-data-types", "functional-programming"]
+  "tags": ["typescript", "algebraic-data-types", "functional-programming"],
+  "keywords": ["typescript", "algebraic-data-types", "functional-programming"]
 }
