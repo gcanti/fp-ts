@@ -16,7 +16,7 @@ describe('OptionT', () => {
   })
 
   it('fold', () => {
-    const f = () => 'none'
+    const f = 'none'
     const g = (s: string) => `some${s.length}`
     const p1 = optionT
       .fold(task)(f, g, none)

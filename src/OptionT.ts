@@ -29,7 +29,7 @@ export function chain<F extends HKTS>(F: Monad<F>): OptionT1<F>['chain']
 export function chain<F>(F: Monad<F>): OptionT<F>['chain']
 /** @function */
 export function chain<F>(F: Monad<F>): OptionT<F>['chain'] {
-  return (f, fa) => F.chain(fa, o => o.fold(() => F.of(option.none), a => f(a)))
+  return (f, fa) => F.chain(fa, o => o.fold(F.of(option.none), a => f(a)))
 }
 
 export function some<F extends HKT2S>(F: Applicative<F>): <L, A>(a: A) => HKT2As<F, L, Option<A>>
@@ -66,14 +66,14 @@ export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
 
 export function fold<F extends HKT2S>(
   F: Functor<F>
-): <L, R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, R>
+): <L, R, A>(r: R, some: (a: A) => R, fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, R>
 export function fold<F extends HKTS>(
   F: Functor<F>
-): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKTAs<F, Option<A>>) => HKTAs<F, R>
-export function fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
+): <R, A>(r: R, some: (a: A) => R, fa: HKTAs<F, Option<A>>) => HKTAs<F, R>
+export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
 /** @function */
-export function fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
-  return (none, some, fa) => F.map(fa, o => o.fold(none, some))
+export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
+  return (r, some, fa) => F.map(fa, o => o.fold(r, some))
 }
 
 export function getOrElse<F extends HKT2S>(

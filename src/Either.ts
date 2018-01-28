@@ -341,7 +341,7 @@ export const mapLeft = <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>): Either<M
  * @function
  */
 export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa.fold(() => left(defaultValue), a => right(a))
+  return fa.fold(left(defaultValue), a => right(a))
 }
 
 /**

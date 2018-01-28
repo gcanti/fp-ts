@@ -9,7 +9,7 @@ import { Extend } from './Extend'
 import { Setoid } from './Setoid'
 import { Traversable } from './Traversable'
 import { Alternative } from './Alternative'
-import { constant, Lazy, Predicate, toString } from './function'
+import { Lazy, Predicate, toString } from './function'
 import { Either } from './Either'
 
 declare module './HKT' {
@@ -81,8 +81,8 @@ export class None<A> {
     return none
   }
   /** Applies a function to each case in the data structure */
-  fold<B>(n: Lazy<B>, s: (a: A) => B): B {
-    return n()
+  fold<B>(b: B, some: (a: A) => B): B {
+    return b
   }
   /** Returns the value from this `Some` or the given argument if this is a `None` */
   getOrElseValue(a: A): A {
@@ -151,7 +151,7 @@ export class Some<A> {
     return f(this.value)
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return this.fold(constant(b), a => f(b, a))
+    return this.fold(b, a => f(b, a))
   }
   traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2As<F, L, B>) => HKT2As<F, L, Option<B>>
   traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Option<B>>
@@ -165,8 +165,8 @@ export class Some<A> {
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
     return new Some(f(this))
   }
-  fold<B>(n: Lazy<B>, s: (a: A) => B): B {
-    return s(this.value)
+  fold<B>(b: B, some: (a: A) => B): B {
+    return some(this.value)
   }
   getOrElseValue(a: A): A {
     return this.value
@@ -207,14 +207,14 @@ export class Some<A> {
  * Applies a function to each case in the data structure
  * @function
  */
-export const fold = <A, B>(n: Lazy<B>, s: (a: A) => B) => (fa: Option<A>): B => {
-  return fa.fold(n, s)
+export const fold = <A, B>(b: B, s: (a: A) => B) => (fa: Option<A>): B => {
+  return fa.fold(b, s)
 }
 
 /** @function */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
   return {
-    equals: (x, y) => x.fold(() => y.isNone(), ax => y.fold(() => false, ay => S.equals(ax, ay)))
+    equals: (x, y) => x.fold(y.isNone(), ax => y.fold(false, ay => S.equals(ax, ay)))
   }
 }
 
@@ -302,7 +302,7 @@ export const getLastMonoid = <A>(): Monoid<Option<A>> => {
 /** @function */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
   return {
-    concat: (x, y) => x.fold(() => y, ax => y.fold(() => x, ay => some(S.concat(ax, ay))))
+    concat: (x, y) => x.fold(y, ax => y.fold(x, ay => some(S.concat(ax, ay))))
   }
 }
 

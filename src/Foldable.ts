@@ -212,7 +212,7 @@ export const find = <F>(F: Foldable<F>) => <A>(p: Predicate<A>) => (fa: HKT<F, A
  */
 export const minimum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A> => {
   const minO = min(O)
-  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(() => some(a), b => some(minO(b, a))))
+  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(some(a), b => some(minO(b, a))))
 }
 
 /**
@@ -221,7 +221,7 @@ export const minimum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Opt
  */
 export const maximum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A> => {
   const maxO = max(O)
-  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(() => some(a), b => some(maxO(b, a))))
+  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(some(a), b => some(maxO(b, a))))
 }
 
 /** @function */
