@@ -18,7 +18,7 @@ describe('Tuple', () => {
   it('bimap', () => {
     const double = (n: number): number => n * 2
     const len = (s: string): number => s.length
-    assert.deepEqual(bimap(len, double, new Tuple(['s', 1])), new Tuple([1, 2]))
+    assert.deepEqual(bimap(new Tuple(['s', 1]), len, double), new Tuple([1, 2]))
   })
 
   it('getSemigroup', () => {

@@ -242,7 +242,7 @@ export const chain = <L, A, B>(fa: Either<L, A>, f: (a: A) => Either<L, B>): Eit
 }
 
 /** @function */
-export const bimap = <L, V, A, B>(f: (u: L) => V, g: (a: A) => B, fla: Either<L, A>): Either<V, B> => {
+export const bimap = <L, V, A, B>(fla: Either<L, A>, f: (u: L) => V, g: (a: A) => B): Either<V, B> => {
   return fla.bimap(f, g)
 }
 

@@ -230,7 +230,7 @@ export const getMonad = <L>(S: Semigroup<L>): Monad<URI> => {
 }
 
 /** @function */
-export const bimap = <L, M, A, B>(f: (l: L) => M, g: (a: A) => B, fla: These<L, A>): These<M, B> => {
+export const bimap = <L, M, A, B>(fla: These<L, A>, f: (l: L) => M, g: (a: A) => B): These<M, B> => {
   return fla.bimap(f, g)
 }
 
