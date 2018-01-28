@@ -40,7 +40,7 @@ export class ReaderTaskEither<E, L, A> {
   }
 }
 
-export const map = <E, L, A, B>(f: (a: A) => B, fa: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, B> => fa.map(f)
+export const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderTaskEither<E, L, B> => fa.map(f)
 
 export const of = <E, L, A>(a: A): ReaderTaskEither<E, L, A> => new ReaderTaskEither(readerTTaskEither.of(a))
 

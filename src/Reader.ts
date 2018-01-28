@@ -29,7 +29,7 @@ export class Reader<E, A> {
 }
 
 /** @function */
-export const map = <E, A, B>(f: (a: A) => B, fa: Reader<E, A>): Reader<E, B> => {
+export const map = <E, A, B>(fa: Reader<E, A>, f: (a: A) => B): Reader<E, B> => {
   return fa.map(f)
 }
 

@@ -49,7 +49,7 @@ export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
 })
 
 /** @function */
-export const map = <L, A, B>(f: (a: A) => B, fa: Const<L, A>): Const<L, B> => {
+export const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
   return fa.map(f)
 }
 

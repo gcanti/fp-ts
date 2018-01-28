@@ -30,7 +30,7 @@ export const toApplicative = <F>(monoidal: Monoidal<F>): Applicative<F> => {
   return {
     URI: monoidal.URI,
     map: monoidal.map,
-    of: a => monoidal.map(constant(a), monoidal.unit()),
-    ap: (fab, fa) => monoidal.map(([f, a]) => f(a), monoidal.mult(fab, fa))
+    of: a => monoidal.map(monoidal.unit(), constant(a)),
+    ap: (fab, fa) => monoidal.map(monoidal.mult(fab, fa), ([f, a]) => f(a))
   }
 }

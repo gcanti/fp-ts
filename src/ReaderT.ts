@@ -34,7 +34,7 @@ export function map<F extends HKTS>(
 export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
 /** @function */
 export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B> {
-  return (f, fa) => e => F.map(f, fa(e))
+  return (f, fa) => e => F.map(fa(e), f)
 }
 
 export function of<F extends HKT2S>(F: Applicative<F>): <L, E, A>(a: A) => (e: E) => HKT2As<F, L, A>

@@ -63,7 +63,7 @@ export const getMonoid = <A>(): Monoid<Array<A>> => {
 }
 
 /** @function */
-export const map = <A, B>(f: (a: A) => B, fa: Array<A>): Array<B> => {
+export const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
   const l = fa.length
   const r = new Array(l)
   for (let i = 0; i < l; i++) {
@@ -79,7 +79,7 @@ export const of = <A>(a: A): Array<A> => {
 
 /** @function */
 export const ap = <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> => {
-  return flatten(map(f => map(f, fa), fab))
+  return flatten(map(fab, f => map(fa, f)))
 }
 
 /** @function */

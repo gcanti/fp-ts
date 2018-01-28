@@ -95,7 +95,7 @@ export class That<L, A> {
   traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
-    return f => F.map(b => that(b), f(this.value))
+    return f => F.map(f(this.value), b => that(b))
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return that(this.value)
@@ -136,7 +136,7 @@ export class Both<L, A> {
   traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
-    return f => F.map(b => both(this.l, b), f(this.a))
+    return f => F.map(f(this.a), b => both(this.l, b))
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return both(this.l, this.a)
@@ -195,7 +195,7 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
 }
 
 /** @function */
-export const map = <L, A, B>(f: (a: A) => B, fa: These<L, A>): These<L, B> => {
+export const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
   return fa.map(f)
 }
 
@@ -206,7 +206,7 @@ export const of = <L, A>(a: A): These<L, A> => {
 
 /** @function */
 export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => {
-  return chain(S)(f => map(f, fa), fab)
+  return chain(S)(f => map(fa, f), fab)
 }
 
 /** @function */

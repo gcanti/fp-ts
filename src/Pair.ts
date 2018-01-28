@@ -77,7 +77,7 @@ export class Pair<A> {
 }
 
 /** @function */
-export const map = <A, B>(f: (a: A) => B, fa: Pair<A>): Pair<B> => {
+export const map = <A, B>(fa: Pair<A>, f: (a: A) => B): Pair<B> => {
   return fa.map(f)
 }
 

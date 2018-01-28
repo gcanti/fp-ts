@@ -32,7 +32,7 @@ describe('StrMap', () => {
   it('map', () => {
     const d1 = new StrMap<number>({ k1: 1, k2: 2 })
     const double = (n: number): number => n * 2
-    const d2 = map(double, d1)
+    const d2 = map(d1, double)
     assert.deepEqual(d2, new StrMap({ k1: 2, k2: 4 }))
   })
 
@@ -84,7 +84,7 @@ describe('StrMap', () => {
   })
 
   it('mapWithKey', () => {
-    assert.deepEqual(mapWithKey((k, a) => a + k.length, new StrMap({ aa: 1 })), new StrMap({ aa: 3 }))
+    assert.deepEqual(mapWithKey(new StrMap({ aa: 1 }), (k, a) => a + k.length), new StrMap({ aa: 3 }))
   })
 
   it('traverseWithKey', () => {

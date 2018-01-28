@@ -22,7 +22,7 @@ export class EitherOption<L, A> {
   readonly '-URI': URI
   constructor(readonly value: either.Either<L, Option<A>>) {}
   map<B>(f: (a: A) => B): EitherOption<L, B> {
-    return new EitherOption(optionTEither.map(f, this.value))
+    return new EitherOption(optionTEither.map(this.value, f))
   }
   ap<B>(fab: EitherOption<L, (a: A) => B>): EitherOption<L, B> {
     return new EitherOption(optionTEither.ap(fab.value, this.value))
@@ -41,7 +41,7 @@ export class EitherOption<L, A> {
   }
 }
 
-export const map = <L, A, B>(f: (a: A) => B, fa: EitherOption<L, A>): EitherOption<L, B> => fa.map(f)
+export const map = <L, A, B>(fa: EitherOption<L, A>, f: (a: A) => B): EitherOption<L, B> => fa.map(f)
 
 export const of = <L, A>(a: A): EitherOption<L, A> => new EitherOption(optionT.some(either)(a))
 

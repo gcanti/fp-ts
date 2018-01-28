@@ -39,6 +39,11 @@ export class None<A> {
   readonly '-A': A
   readonly '-URI': URI
   private constructor() {}
+  /**
+   * Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors.
+   * If it maps on `Some` then it will apply the
+   * `f` on `Some`'s value, if it maps on `None` it will return `None`.
+   */
   map<B>(f: (a: A) => B): Option<B> {
     return none
   }
@@ -152,7 +157,7 @@ export class Some<A> {
   traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
-    return f => F.map(b => some(b), f(this.value))
+    return f => F.map(f(this.value), some)
   }
   alt(fa: Option<A>): Option<A> {
     return this
@@ -213,13 +218,8 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
   }
 }
 
-/**
- * Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors.
- * If it maps on `Some` then it will apply the
- * `f` on `Some`'s value, if it maps on `None` it will return `None`.
- * @function
- */
-export const map = <A, B>(f: (a: A) => B, fa: Option<A>): Option<B> => {
+/** @function */
+export const map = <A, B>(fa: Option<A>, f: (a: A) => B): Option<B> => {
   return fa.map(f)
 }
 

@@ -58,7 +58,7 @@ export class StrMap<A> {
     return <B>(f: (k: string, a: A) => HKT<F, B>) => {
       let out: HKT<F, StrMap<B>> = F.of(empty())
       for (let k in this.value) {
-        out = concatA2(out)(F.map(b => singleton(k)(b), f(k, this.value[k])))
+        out = concatA2(out)(F.map(f(k, this.value[k]), b => singleton(k)(b)))
       }
       return out
     }
@@ -92,7 +92,7 @@ export const getMonoid = <A>(): Monoid<StrMap<A>> => {
 }
 
 /** @function */
-export const map = <A, B>(f: (a: A) => B, fa: StrMap<A>): StrMap<B> => {
+export const map = <A, B>(fa: StrMap<A>, f: (a: A) => B): StrMap<B> => {
   return fa.map(f)
 }
 
@@ -231,7 +231,7 @@ export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>):
  * Apply a function of two arguments to each key/value pair, producing a new dictionary
  * @function
  */
-export const mapWithKey = <A, B>(f: (k: string, a: A) => B, fa: StrMap<A>): StrMap<B> => {
+export const mapWithKey = <A, B>(fa: StrMap<A>, f: (k: string, a: A) => B): StrMap<B> => {
   return fa.mapWithKey(f)
 }
 

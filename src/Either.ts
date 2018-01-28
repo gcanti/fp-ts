@@ -166,7 +166,7 @@ export class Right<L, A> {
   traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
-    return f => F.map(b => of(b), f(this.value))
+    return f => F.map(f(this.value), b => of(b))
   }
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return right(this.value)
@@ -230,7 +230,7 @@ export const getOrElse = <L, A>(f: (l: L) => A) => (fa: Either<L, A>): A => {
 }
 
 /** @function */
-export const map = <L, A, B>(f: (a: A) => B, fa: Either<L, A>): Either<L, B> => {
+export const map = <L, A, B>(fa: Either<L, A>, f: (a: A) => B): Either<L, B> => {
   return fa.map(f)
 }
 

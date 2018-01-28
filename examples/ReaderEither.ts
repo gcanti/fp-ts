@@ -37,7 +37,7 @@ export class ReaderEither<E, L, A> {
   }
 }
 
-export const map = <E, L, A, B>(f: (a: A) => B, fa: ReaderEither<E, L, A>): ReaderEither<E, L, B> => {
+export const map = <E, L, A, B>(fa: ReaderEither<E, L, A>, f: (a: A) => B): ReaderEither<E, L, B> => {
   return fa.map(f)
 }
 

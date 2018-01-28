@@ -34,14 +34,14 @@ export function right<F extends HKT2S>(F: Functor<F>): <L, M, A>(fa: HKT2As<F, M
 export function right<F extends HKTS>(F: Functor<F>): <L, A>(fa: HKTAs<F, A>) => HKTAs<F, Either<L, A>>
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>> {
-  return ma => F.map(a => either.right(a), ma)
+  return ma => F.map(ma, a => either.right(a))
 }
 
 export function left<F extends HKT2S>(F: Functor<F>): <L, M, A>(fl: HKT2As<F, M, L>) => HKT2As<F, M, Either<L, A>>
 export function left<F extends HKTS>(F: Functor<F>): <L, A>(fl: HKTAs<F, L>) => HKTAs<F, Either<L, A>>
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>> {
-  return ml => F.map(l => either.left(l), ml)
+  return ml => F.map(ml, l => either.left(l))
 }
 
 export function fromEither<F extends HKT2S>(
@@ -65,7 +65,7 @@ export function fold<F>(
 export function fold<F>(
   F: Functor<F>
 ): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R> {
-  return (left, right, fa) => F.map(e => e.fold(left, right), fa)
+  return (left, right, fa) => F.map(fa, e => e.fold(left, right))
 }
 
 export function mapLeft<F extends HKT2S>(
@@ -80,7 +80,7 @@ export function mapLeft<F>(
 export function mapLeft<F>(
   F: Functor<F>
 ): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>> {
-  return f => fa => F.map(e => e.mapLeft(f), fa)
+  return f => fa => F.map(fa, e => e.mapLeft(f))
 }
 
 export function getEitherT<M extends HKT2S>(M: Monad<M>): EitherT2<M>

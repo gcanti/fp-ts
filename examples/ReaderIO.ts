@@ -1,5 +1,5 @@
 import * as readerT from 'fp-ts/lib/ReaderT'
-import * as io from 'fp-ts/lib/IO'
+import { IO, io } from 'fp-ts/lib/IO'
 import { Monad } from 'fp-ts/lib/Monad'
 
 const readerTIO = readerT.getReaderT(io)
@@ -18,7 +18,7 @@ export class ReaderIO<E, A> {
   readonly '-A': A
   readonly '-L': E
   readonly '-URI': URI
-  constructor(readonly run: (e: E) => io.IO<A>) {}
+  constructor(readonly run: (e: E) => IO<A>) {}
   map<B>(f: (a: A) => B): ReaderIO<E, B> {
     return new ReaderIO(readerTIO.map(f, this.run))
   }
@@ -36,7 +36,7 @@ export class ReaderIO<E, A> {
   }
 }
 
-export const map = <E, A, B>(f: (a: A) => B, fa: ReaderIO<E, A>): ReaderIO<E, B> => fa.map(f)
+export const map = <E, A, B>(fa: ReaderIO<E, A>, f: (a: A) => B): ReaderIO<E, B> => fa.map(f)
 
 export const of = <E, A>(a: A): ReaderIO<E, A> => new ReaderIO(readerTIO.of(a))
 

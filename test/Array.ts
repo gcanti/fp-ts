@@ -224,7 +224,7 @@ describe('Array', () => {
   })
 
   it('map', () => {
-    assert.deepEqual(array.map((n: number) => n * 2, [1, 2, 3]), [2, 4, 6])
+    assert.deepEqual(array.map([1, 2, 3], n => n * 2), [2, 4, 6])
   })
 
   it('ap', () => {

@@ -48,7 +48,7 @@ export class Writer<W, A> {
 }
 
 /** @function */
-export const map = <W, A, B>(f: (a: A) => B, fa: Writer<W, A>): Writer<W, B> => {
+export const map = <W, A, B>(fa: Writer<W, A>, f: (a: A) => B): Writer<W, B> => {
   return fa.map(f)
 }
 

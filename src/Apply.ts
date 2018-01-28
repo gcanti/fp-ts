@@ -31,7 +31,7 @@ export function applyFirst<F>(F: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F,
  * @function
  */
 export function applyFirst<F>(F: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, A> {
-  return fa => fb => F.ap(F.map(a => constant(a), fa), fb)
+  return fa => fb => F.ap(F.map(fa, a => constant(a)), fb)
 }
 
 /** Combine two effectful actions, keeping only the result of the second */
@@ -48,7 +48,7 @@ export function applySecond<F>(F: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F
  * @function
  */
 export function applySecond<F>(F: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, B> {
-  return <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => F.ap(F.map(() => (b: B) => b, fa), fb)
+  return <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => F.ap(F.map(fa, () => (b: B) => b), fb)
 }
 
 /**
@@ -69,7 +69,7 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
  * @function
  */
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> {
-  return f => fa => fb => F.ap(F.map(f, fa), fb)
+  return f => fa => fb => F.ap(F.map(fa, f), fb)
 }
 
 /**
@@ -98,7 +98,7 @@ export function liftA3<F>(
 export function liftA3<F>(
   F: Apply<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> {
-  return f => fa => fb => fc => F.ap(F.ap(F.map(f, fa), fb), fc)
+  return f => fa => fb => fc => F.ap(F.ap(F.map(fa, f), fb), fc)
 }
 
 /**
@@ -133,5 +133,5 @@ export function liftA4<F>(
 export function liftA4<F>(
   F: Apply<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> {
-  return f => fa => fb => fc => fd => F.ap(F.ap(F.ap(F.map(f, fa), fb), fc), fd)
+  return f => fa => fb => fc => fd => F.ap(F.ap(F.ap(F.map(fa, f), fb), fc), fd)
 }

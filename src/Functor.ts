@@ -4,39 +4,39 @@ import { constant } from './function'
 /** @typeclass */
 export interface Functor<F> {
   readonly URI: F
-  map<A, B>(f: (a: A) => B, fa: HKT<F, A>): HKT<F, B>
+  map<A, B>(fa: HKT<F, A>, f: (a: A) => B): HKT<F, B>
 }
 
 /** Functor interface specialized for kind * -> * -> * */
 export interface Functor2<M, L> {
   readonly URI: M
-  map<A, B>(f: (a: A) => B, fa: HKT2<M, L, A>): HKT2<M, L, B>
+  map<A, B>(fa: HKT2<M, L, A>, f: (a: A) => B): HKT2<M, L, B>
 }
 
 /** Functor interface specialized for kind * -> * -> * -> * */
 export interface Functor3<M, U, L> {
   readonly URI: M
-  map<A, B>(f: (a: A) => B, fa: HKT3<M, U, L, A>): HKT3<M, U, L, B>
+  map<A, B>(fa: HKT3<M, U, L, A>, f: (a: A) => B): HKT3<M, U, L, B>
 }
 
 export interface FunctorComposition<F, G> {
-  map<A, B>(f: (a: A) => B, fa: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>>
+  map<A, B>(fa: HKT<F, HKT<G, A>>, f: (a: A) => B): HKT<F, HKT<G, B>>
 }
 
 export interface FunctorComposition11<F extends HKTS, G extends HKTS> {
-  map<A, B>(f: (a: A) => B, fa: HKTAs<F, HKTAs<G, A>>): HKTAs<F, HKTAs<G, B>>
+  map<A, B>(fa: HKTAs<F, HKTAs<G, A>>, f: (a: A) => B): HKTAs<F, HKTAs<G, B>>
 }
 
 export interface FunctorComposition12<F extends HKTS, G extends HKT2S> {
-  map<L, A, B>(f: (a: A) => B, fa: HKTAs<F, HKT2As<G, L, A>>): HKTAs<F, HKT2As<G, L, B>>
+  map<L, A, B>(fa: HKTAs<F, HKT2As<G, L, A>>, f: (a: A) => B): HKTAs<F, HKT2As<G, L, B>>
 }
 
 export interface FunctorComposition21<F extends HKT2S, G extends HKTS> {
-  map<L, A, B>(f: (a: A) => B, fa: HKT2As<F, L, HKTAs<G, A>>): HKT2As<F, L, HKTAs<G, B>>
+  map<L, A, B>(fa: HKT2As<F, L, HKTAs<G, A>>, f: (a: A) => B): HKT2As<F, L, HKTAs<G, B>>
 }
 
 export interface FunctorComposition22<F extends HKT2S, G extends HKT2S> {
-  map<L, M, A, B>(f: (a: A) => B, fa: HKT2As<F, L, HKT2As<G, M, A>>): HKT2As<F, L, HKT2As<G, M, B>>
+  map<L, M, A, B>(fa: HKT2As<F, L, HKT2As<G, M, A>>, f: (a: A) => B): HKT2As<F, L, HKT2As<G, M, B>>
 }
 
 /**
@@ -55,7 +55,7 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
  * @function
  */
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => F.map(f, fa)
+  return f => fa => F.map(fa, f)
 }
 
 /** Ignore the return value of a computation, using the specified return value instead (`<$`) */
@@ -70,7 +70,7 @@ export function voidRight<F>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => 
  * @function
  */
 export function voidRight<F>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => HKT<F, A> {
-  return a => fb => F.map(constant(a), fb)
+  return a => fb => F.map(fb, constant(a))
 }
 
 /** A version of `voidRight` with its arguments flipped (`$>`) */
@@ -85,7 +85,7 @@ export function voidLeft<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => H
  * @function
  */
 export function voidLeft<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => HKT<F, B> {
-  return fa => b => F.map(constant(b), fa)
+  return fa => b => F.map(fa, constant(b))
 }
 
 /** Apply a value in a computational context to a value in no context. Generalizes `flip` */
@@ -102,7 +102,7 @@ export function flap<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>) =>
  * @function
  */
 export function flap<F>(functor: Functor<F>): <A, B>(ff: HKT<F, (a: A) => B>) => (a: A) => HKT<F, B> {
-  return ff => a => functor.map(f => f(a), ff)
+  return ff => a => functor.map(ff, f => f(a))
 }
 
 export function getFunctorComposition<F extends HKT2S, G extends HKT2S>(
@@ -125,6 +125,6 @@ export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): Funct
 /** @function */
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> {
   return {
-    map: (f, fa) => F.map(ga => G.map(f, ga), fa)
+    map: (fa, f) => F.map(fa, ga => G.map(ga, f))
   }
 }
