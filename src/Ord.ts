@@ -1,4 +1,4 @@
-import { Ordering, semigroupOrdering, toNumber } from './Ordering'
+import { Ordering, semigroupOrdering, sign } from './Ordering'
 import { Setoid, setoidBoolean, setoidNumber, setoidString, getProductSetoid } from './Setoid'
 import { Semigroup } from './Semigroup'
 import { on } from './function'
@@ -10,12 +10,12 @@ export interface Ord<A> extends Setoid<A> {
 
 /** @function */
 export const toNativeComparator = <A>(compare: (x: A) => (y: A) => Ordering): ((x: A, y: A) => number) => {
-  return (x, y) => toNumber(compare(x)(y))
+  return (x, y) => sign(compare(x)(y))
 }
 
 /** @function */
 export const unsafeCompare = (x: any) => (y: any): Ordering => {
-  return x < y ? 'LT' : x > y ? 'GT' : 'EQ'
+  return x < y ? -1 : x > y ? 1 : 0
 }
 
 /** @instance */
@@ -41,7 +41,7 @@ export const ordBoolean: Ord<boolean> = {
  * @function
  */
 export const lessThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
-  return ord.compare(x)(y) === 'LT'
+  return ord.compare(x)(y) === -1
 }
 
 /**
@@ -49,7 +49,7 @@ export const lessThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
  * @function
  */
 export const greaterThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
-  return ord.compare(x)(y) === 'GT'
+  return ord.compare(x)(y) === 1
 }
 
 /**
@@ -57,7 +57,7 @@ export const greaterThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
  * @function
  */
 export const lessThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
-  return ord.compare(x)(y) !== 'GT'
+  return ord.compare(x)(y) !== 1
 }
 
 /**
@@ -65,7 +65,7 @@ export const lessThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
  * @function
  */
 export const greaterThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
-  return ord.compare(x)(y) !== 'LT'
+  return ord.compare(x)(y) !== -1
 }
 
 /**
@@ -73,7 +73,7 @@ export const greaterThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => 
  * @function
  */
 export const min = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
-  return ord.compare(x)(y) === 'GT' ? y : x
+  return ord.compare(x)(y) === 1 ? y : x
 }
 
 /**
@@ -81,7 +81,7 @@ export const min = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
  * @function
  */
 export const max = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
-  return ord.compare(x)(y) === 'LT' ? y : x
+  return ord.compare(x)(y) === -1 ? y : x
 }
 
 /**
@@ -103,7 +103,7 @@ export const between = <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): boolea
 /** @function */
 export const fromCompare = <A>(compare: (x: A) => (y: A) => Ordering): Ord<A> => {
   return {
-    equals: x => y => compare(x)(y) === 'EQ',
+    equals: x => y => compare(x)(y) === 0,
     compare
   }
 }
@@ -127,7 +127,7 @@ export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
     ...S,
     compare: ([xa, xb]) => ([ya, yb]) => {
       const r = OA.compare(xa)(ya)
-      return r === 'EQ' ? OB.compare(xb)(yb) : r
+      return r === 0 ? OB.compare(xb)(yb) : r
     }
   }
 }
