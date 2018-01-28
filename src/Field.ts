@@ -16,7 +16,7 @@ export const fieldNumber: Field<number> = {
   zero: 0,
   mul: (x, y) => x * y,
   one: 1,
-  sub: x => y => x - y,
+  sub: (x, y) => x - y,
   degree: _ => 1,
   div: x => y => x / y,
   mod: x => y => x % y

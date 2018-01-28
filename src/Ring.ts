@@ -13,14 +13,14 @@ import { Semiring, getFunctionSemiring } from './Semiring'
  * @typeclass
  */
 export interface Ring<A> extends Semiring<A> {
-  sub: (x: A) => (y: A) => A
+  sub: (x: A, y: A) => A
 }
 
 /** @function */
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
   return {
     ...getFunctionSemiring(ring),
-    sub: f => g => x => ring.sub(f(x))(g(x))
+    sub: (f, g) => x => ring.sub(f(x), g(x))
   }
 }
 
@@ -29,7 +29,7 @@ export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
  * @function
  */
 export const negate = <A>(ring: Ring<A>) => (a: A): A => {
-  return ring.sub(ring.zero)(a)
+  return ring.sub(ring.zero, a)
 }
 
 /** @function */
@@ -39,6 +39,6 @@ export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => 
     zero: [RA.zero, RB.zero],
     mul: ([a1, b1], [a2, b2]) => [RA.mul(a1, a2), RB.mul(b1, b2)],
     one: [RA.one, RB.one],
-    sub: ([a1, b1]) => ([a2, b2]) => [RA.sub(a1)(a2), RB.sub(b1)(b2)]
+    sub: ([a1, b1], [a2, b2]) => [RA.sub(a1, a2), RB.sub(b1, b2)]
   }
 }
