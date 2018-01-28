@@ -59,16 +59,16 @@ describe('Validation', () => {
     assert.strictEqual(eq(failure('foo'), failure('bar')), false)
   })
 
-  it('getOrElse', () => {
+  it('catchFailure', () => {
     const failure = validation.failure(monoidSum)
-    assert.equal(validation.getOrElse((l: number) => 17)(validation.success(12)), 12)
-    assert.equal(validation.getOrElse((l: number) => 17)(failure(12)), 17)
-    assert.equal(validation.getOrElse((l: number) => l + 1)(failure(12)), 13)
+    assert.equal(validation.catchFailure(validation.success(12), () => 17), 12)
+    assert.equal(validation.catchFailure(failure(12), () => 17), 17)
+    assert.equal(validation.catchFailure(failure(12), (l: number) => l + 1), 13)
   })
 
-  it('validation.getOrElseValue', () => {
+  it('getOrElse', () => {
     const failure = validation.failure(monoidSum)
-    assert.equal(validation.getOrElseValue(17)(validation.success(12)), 12)
-    assert.equal(validation.getOrElseValue(17)(failure(12)), 17)
+    assert.equal(validation.success(12).getOrElse(17), 12)
+    assert.equal(failure(12).getOrElse(17), 17)
   })
 })
