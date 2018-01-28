@@ -3,7 +3,7 @@ import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
 /** @typeclass */
 export interface Contravariant<F> {
   readonly URI: F
-  contramap<A, B>(f: (b: B) => A, fa: HKT<F, A>): HKT<F, B>
+  contramap<A, B>(fa: HKT<F, A>, f: (b: B) => A): HKT<F, B>
 }
 
 export function lift<F extends HKT3S>(
@@ -18,5 +18,5 @@ export function lift<F extends HKTS>(
 export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
 /** @function */
 export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => contravariant.contramap(f, fa)
+  return f => fa => contravariant.contramap(fa, f)
 }

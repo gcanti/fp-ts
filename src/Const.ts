@@ -54,7 +54,7 @@ export const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
 }
 
 /** @function */
-export const contramap = <L, A, B>(f: (b: B) => A, fa: Const<L, A>): Const<L, B> => {
+export const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
   return fa.contramap(f)
 }
 
