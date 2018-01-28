@@ -18,14 +18,13 @@ export type URI = typeof URI
  * @constructor IxIO
  */
 export class IxIO<I, O, A> implements FantasyIxMonad<URI, A, O, I> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': O
-  // prettier-ignore
-  readonly '_U': I
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+
+  readonly '-L': O
+
+  readonly '-U': I
+
+  readonly '-URI': URI
   constructor(readonly value: IO<A>) {}
   run(): A {
     return this.value.run()

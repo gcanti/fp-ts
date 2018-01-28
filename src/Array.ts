@@ -22,8 +22,8 @@ import { liftA2 } from './Apply'
 
 declare global {
   interface Array<T> {
-    _URI: URI
-    _A: T
+    '-URI': URI
+    '-A': T
   }
 }
 

@@ -1,5 +1,5 @@
 import { Task } from 'fp-ts/lib/Task'
-import { Option } from 'fp-ts/lib/Option'
+import { Option, fromEither } from 'fp-ts/lib/Option'
 import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
 import * as optionT from 'fp-ts/lib/OptionT'
 import * as task from 'fp-ts/lib/Task'
@@ -18,10 +18,8 @@ export const URI = 'TaskOption'
 export type URI = typeof URI
 
 export class TaskOption<A> implements FantasyMonad<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-URI': URI
   constructor(readonly value: Task<Option<A>>) {}
   run(): Promise<Option<A>> {
     return this.value.run()
@@ -73,7 +71,7 @@ export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => {
   return new TaskOption(
     task
       .tryCatch(f)(() => undefined)
-      .map(e => e.toOption())
+      .map(e => fromEither(e))
   )
 }
 

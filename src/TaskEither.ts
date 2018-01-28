@@ -2,7 +2,6 @@ import * as eitherT from './EitherT'
 import { Either } from './Either'
 import * as task from './Task'
 import { Task } from './Task'
-import { Option } from './Option'
 import { Monad, FantasyMonad } from './Monad'
 import { Lazy } from './function'
 
@@ -20,19 +19,15 @@ export type URI = typeof URI
 
 const eitherTfold = eitherT.fold(task)
 const eitherTmapLeft = eitherT.mapLeft(task)
-const eitherTtoOption = eitherT.toOption(task)
 
 /**
  * @data
  * @constructor TaskEither
  */
 export class TaskEither<L, A> implements FantasyMonad<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-URI': URI
   constructor(readonly value: Task<Either<L, A>>) {}
   /** Runs the inner task */
   run(): Promise<Either<L, A>> {
@@ -55,9 +50,6 @@ export class TaskEither<L, A> implements FantasyMonad<URI, A> {
   }
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
     return new TaskEither(eitherTmapLeft(f)(this.value))
-  }
-  toOption(): Task<Option<A>> {
-    return eitherTtoOption(this.value)
   }
   /** Transforms the failure value of the `TaskEither` into a new `TaskEither` */
   orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> {

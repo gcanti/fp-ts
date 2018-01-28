@@ -21,13 +21,9 @@ export const of = <L, A>(a: A): Moore<L, A> => {
 }
 
 export class Moore<L, A> {
-  static of = of
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-URI': URI
   constructor(public readonly a: A, public readonly step: (l: L) => Moore<L, A>) {}
   map<B>(f: (a: A) => B): Moore<L, B> {
     return new Moore(f(this.a), l => this.step(l).map(f))

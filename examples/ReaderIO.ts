@@ -15,12 +15,9 @@ export const URI = 'ReaderIO'
 export type URI = typeof URI
 
 export class ReaderIO<E, A> implements FantasyMonad<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': E
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': E
+  readonly '-URI': URI
   constructor(readonly run: (e: E) => io.IO<A>) {}
   map<B>(f: (a: A) => B): ReaderIO<E, B> {
     return new ReaderIO(readerTIO.map(f, this.run))
