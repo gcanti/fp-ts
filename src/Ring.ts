@@ -29,16 +29,16 @@ export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
  * @function
  */
 export const negate = <A>(ring: Ring<A>) => (a: A): A => {
-  return ring.sub(ring.zero())(a)
+  return ring.sub(ring.zero)(a)
 }
 
 /** @function */
 export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => {
   return {
-    add: ([a1, b1]) => ([a2, b2]) => [RA.add(a1)(a2), RB.add(b1)(b2)],
-    zero: () => [RA.zero(), RB.zero()],
-    mul: ([a1, b1]) => ([a2, b2]) => [RA.mul(a1)(a2), RB.mul(b1)(b2)],
-    one: () => [RA.one(), RB.one()],
+    add: ([a1, b1], [a2, b2]) => [RA.add(a1, a2), RB.add(b1, b2)],
+    zero: [RA.zero, RB.zero],
+    mul: ([a1, b1], [a2, b2]) => [RA.mul(a1, a2), RB.mul(b1, b2)],
+    one: [RA.one, RB.one],
     sub: ([a1, b1]) => ([a2, b2]) => [RA.sub(a1)(a2), RB.sub(b1)(b2)]
   }
 }

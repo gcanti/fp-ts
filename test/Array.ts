@@ -11,7 +11,6 @@ import { tuple } from '../src/function'
 
 describe('Array', () => {
   const as = [1, 2, 3]
-  const empty = array.empty()
 
   it('ap', () => {
     const as = array.ap([x => x * 2, x => x * 3], [1, 2, 3])
@@ -35,12 +34,12 @@ describe('Array', () => {
 
   it('isEmpty', () => {
     assert.strictEqual(array.isEmpty(as), false)
-    assert.strictEqual(array.isEmpty(empty), true)
+    assert.strictEqual(array.isEmpty([]), true)
   })
 
   it('length', () => {
     assert.strictEqual(array.length(as), 3)
-    assert.strictEqual(array.length(empty), 0)
+    assert.strictEqual(array.length([]), 0)
   })
 
   it('index', () => {
@@ -57,10 +56,6 @@ describe('Array', () => {
     assert.deepEqual(array.snoc([[1]])([2]), [[1], [2]])
   })
 
-  it('concat', () => {
-    assert.deepEqual(array.concat([1, 2, 3], [4, 5]), [1, 2, 3, 4, 5])
-  })
-
   it('head', () => {
     assert.deepEqual(array.head(as), some(1))
   })
@@ -70,12 +65,12 @@ describe('Array', () => {
   })
 
   it('tail', () => {
-    assert.strictEqual(array.tail(empty), none)
+    assert.strictEqual(array.tail([]), none)
     assert.deepEqual(array.tail(as), some([2, 3]))
   })
 
   it('take', () => {
-    assert.deepEqual(array.take(2)(empty), [])
+    assert.deepEqual(array.take(2)([]), [])
     assert.deepEqual(array.take(2)(as), [1, 2])
   })
 
@@ -103,7 +98,7 @@ describe('Array', () => {
   })
 
   it('init', () => {
-    assert.deepEqual(array.init(empty), none)
+    assert.deepEqual(array.init([]), none)
     assert.deepEqual(array.init(as), some([1, 2]))
   })
 
@@ -112,12 +107,12 @@ describe('Array', () => {
   })
 
   it('findIndex', () => {
-    assert.deepEqual(array.findIndex(x => x === 2)(empty), none)
+    assert.deepEqual(array.findIndex(x => x === 2)([]), none)
     assert.deepEqual(array.findIndex(x => x === 2)(as), some(1))
   })
 
   it('findFirst', () => {
-    assert.deepEqual(array.findFirst(x => x === 2)(empty), none)
+    assert.deepEqual(array.findFirst(x => x === 2)([]), none)
     assert.deepEqual(
       array.findFirst<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
       some({ a: 1, b: 1 })
@@ -125,7 +120,7 @@ describe('Array', () => {
   })
 
   it('findLast', () => {
-    assert.deepEqual(array.findLast(x => x === 2)(empty), none)
+    assert.deepEqual(array.findLast(x => x === 2)([]), none)
     assert.deepEqual(
       array.findLast<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
       some({ a: 1, b: 2 })
@@ -137,29 +132,29 @@ describe('Array', () => {
   })
 
   it('insertAt', () => {
-    assert.deepEqual(array.insertAt(1)(1)(empty), none)
-    assert.deepEqual(array.insertAt(0)(1)(empty), some([1]))
+    assert.deepEqual(array.insertAt(1)(1)([]), none)
+    assert.deepEqual(array.insertAt(0)(1)([]), some([1]))
   })
 
   it('updateAt', () => {
-    assert.deepEqual(array.updateAt(1)(1)(empty), none)
+    assert.deepEqual(array.updateAt(1)(1)([]), none)
     assert.deepEqual(array.updateAt(1)(1)(as), some([1, 1, 3]))
   })
 
   it('deleteAt', () => {
-    assert.deepEqual(array.deleteAt(1)(empty), none)
+    assert.deepEqual(array.deleteAt(1)([]), none)
     assert.deepEqual(array.deleteAt(0)(as), some([2, 3]))
   })
 
   it('modifyAt', () => {
     const double = (x: number) => 2 * x
-    assert.deepEqual(array.modifyAt(1)(double)(empty), none)
+    assert.deepEqual(array.modifyAt(1)(double)([]), none)
     assert.deepEqual(array.modifyAt(1)(double)(as), some([1, 4, 3]))
   })
 
   it('mapOption', () => {
     const f = (a: number) => (a % 2 === 0 ? none : some(a))
-    assert.deepEqual(array.mapOption(f)(as), [1, 3])
+    assert.deepEqual(array.mapOption(as, f), [1, 3])
   })
 
   it('catOptions', () => {
