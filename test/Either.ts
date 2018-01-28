@@ -37,7 +37,7 @@ describe('Either', () => {
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    assert.deepEqual(bimap(f, g, right(1)), right(false))
+    assert.deepEqual(bimap(right<string, number>(1), f, g), right(false))
   })
 
   it('ap', () => {

@@ -28,7 +28,7 @@ describe('These', () => {
   it('bimap', () => {
     const len = (s: string): number => s.length
     const double = (n: number): number => n * 2
-    assert.deepEqual(bimap(len, double, both('foo', 1)), both(3, 2))
+    assert.deepEqual(bimap(both('foo', 1), len, double), both(3, 2))
   })
 
   it('fromThese', () => {
