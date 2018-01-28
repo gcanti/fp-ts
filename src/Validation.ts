@@ -203,7 +203,7 @@ export const ap = <L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A
 }
 
 /** @function */
-export const chain = <L, A, B>(f: (a: A) => Validation<L, B>, fa: Validation<L, A>): Validation<L, B> => {
+export const chain = <L, A, B>(fa: Validation<L, A>, f: (a: A) => Validation<L, B>): Validation<L, B> => {
   return fa.chain(f)
 }
 

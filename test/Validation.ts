@@ -10,8 +10,8 @@ describe('Validation', () => {
   it('chain', () => {
     const failure = validation.failure(monoidString)
     const f = (s: string) => validation.success<string, number>(s.length)
-    assert.deepEqual(validation.chain(f, validation.success<string, string>('abc')), validation.success(3))
-    assert.deepEqual(validation.chain(f, failure('a')), failure('a'))
+    assert.deepEqual(validation.chain(validation.success<string, string>('abc'), f), validation.success(3))
+    assert.deepEqual(validation.chain(failure<string>('a'), f), failure('a'))
   })
 
   it('traverse', () => {

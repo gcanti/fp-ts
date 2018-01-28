@@ -47,7 +47,7 @@ export const of = <L, A>(a: A): EitherOption<L, A> => new EitherOption(optionT.s
 
 export const ap = <L, A, B>(fab: EitherOption<L, (a: A) => B>, fa: EitherOption<L, A>): EitherOption<L, B> => fa.ap(fab)
 
-export const chain = <L, A, B>(f: (a: A) => EitherOption<L, B>, fa: EitherOption<L, A>): EitherOption<L, B> =>
+export const chain = <L, A, B>(fa: EitherOption<L, A>, f: (a: A) => EitherOption<L, B>): EitherOption<L, B> =>
   fa.chain(f)
 
 export const some = of

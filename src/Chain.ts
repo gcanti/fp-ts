@@ -3,17 +3,17 @@ import { Apply, Apply2, Apply3 } from './Apply'
 
 /** @typeclass */
 export interface Chain<F> extends Apply<F> {
-  chain<A, B>(f: (a: A) => HKT<F, B>, fa: HKT<F, A>): HKT<F, B>
+  chain<A, B>(fa: HKT<F, A>, f: (a: A) => HKT<F, B>): HKT<F, B>
 }
 
 /** Chain interface specialized for kind * -> * -> * */
 export interface Chain2<M, L> extends Apply2<M, L> {
-  chain<A, B>(f: (a: A) => HKT2<M, L, B>, fa: HKT2<M, L, A>): HKT2<M, L, B>
+  chain<A, B>(fa: HKT2<M, L, A>, f: (a: A) => HKT2<M, L, B>): HKT2<M, L, B>
 }
 
 /** Chain interface specialized for kind * -> * -> * -> * */
 export interface Chain3<M, U, L> extends Apply3<M, U, L> {
-  chain<A, B>(f: (a: A) => HKT3<M, U, L, B>, fa: HKT3<M, U, L, A>): HKT3<M, U, L, B>
+  chain<A, B>(fa: HKT3<M, U, L, A>, f: (a: A) => HKT3<M, U, L, B>): HKT3<M, U, L, B>
 }
 
 export function flatten<F extends HKT3S>(
@@ -24,5 +24,5 @@ export function flatten<F extends HKTS>(chain: Chain<F>): <A>(mma: HKTAs<F, HKTA
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
 /** @function */
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A> {
-  return mma => chain.chain(ma => ma, mma)
+  return mma => chain.chain(mma, ma => ma)
 }

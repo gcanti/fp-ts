@@ -29,7 +29,7 @@ export function chain<F extends HKTS>(F: Monad<F>): OptionT1<F>['chain']
 export function chain<F>(F: Monad<F>): OptionT<F>['chain']
 /** @function */
 export function chain<F>(F: Monad<F>): OptionT<F>['chain'] {
-  return (f, fa) => F.chain(o => o.fold(() => F.of(option.none), a => f(a)), fa)
+  return (f, fa) => F.chain(fa, o => o.fold(() => F.of(option.none), a => f(a)))
 }
 
 export function some<F extends HKT2S>(F: Applicative<F>): <L, A>(a: A) => HKT2As<F, L, Option<A>>

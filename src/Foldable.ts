@@ -81,7 +81,7 @@ export function foldM<F, M>(
   F: Foldable<F>,
   M: Monad<M>
 ): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => HKT<M, B> {
-  return (f, b, fa) => F.reduce((mb, a) => M.chain(b => f(b, a), mb), M.of(b), fa)
+  return (f, b, fa) => F.reduce((mb, a) => M.chain(mb, b => f(b, a)), M.of(b), fa)
 }
 
 /**

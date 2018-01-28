@@ -61,7 +61,7 @@ export const ap = <S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<
 }
 
 /** @function */
-export const chain = <S, A, B>(f: (a: A) => State<S, B>, fa: State<S, A>): State<S, B> => {
+export const chain = <S, A, B>(fa: State<S, A>, f: (a: A) => State<S, B>): State<S, B> => {
   return fa.chain(f)
 }
 

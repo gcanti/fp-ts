@@ -83,7 +83,7 @@ export const ap = <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> => {
 }
 
 /** @function */
-export const chain = <A, B>(f: (a: A) => Array<B>, fa: Array<A>): Array<B> => {
+export const chain = <A, B>(fa: Array<A>, f: (a: A) => Array<B>): Array<B> => {
   let resLen = 0
   const l = fa.length
   const temp = new Array(l)
@@ -532,7 +532,7 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
  * @function
  */
 export const mapOption = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Array<B> => {
-  return chain(a => f(a).fold(empty, of), as)
+  return chain(as, a => f(a).fold(empty, of))
 }
 
 /**
@@ -549,7 +549,7 @@ export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
  * @function
  */
 export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
-  return chain(a => a.fold(empty, of), as)
+  return chain(as, a => a.fold(empty, of))
 }
 
 /**
@@ -557,7 +557,7 @@ export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
  * @function
  */
 export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
-  return chain(a => a.fold(of, empty), as)
+  return chain(as, a => a.fold(of, empty))
 }
 
 /**

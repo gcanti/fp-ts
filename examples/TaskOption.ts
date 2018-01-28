@@ -53,7 +53,7 @@ export const of = <A>(a: A): TaskOption<A> => new TaskOption(optionT.some(task)(
 
 export const ap = <A, B>(fab: TaskOption<(a: A) => B>, fa: TaskOption<A>): TaskOption<B> => fa.ap(fab)
 
-export const chain = <A, B>(f: (a: A) => TaskOption<B>, fa: TaskOption<A>): TaskOption<B> => fa.chain(f)
+export const chain = <A, B>(fa: TaskOption<A>, f: (a: A) => TaskOption<B>): TaskOption<B> => fa.chain(f)
 
 export const some = of
 

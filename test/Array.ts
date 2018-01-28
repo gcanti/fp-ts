@@ -239,7 +239,7 @@ describe('Array', () => {
   })
 
   it('chain', () => {
-    assert.deepEqual(array.chain(n => [n, n + 1], [1, 2, 3]), [1, 2, 2, 3, 3, 4])
+    assert.deepEqual(array.chain([1, 2, 3], n => [n, n + 1]), [1, 2, 2, 3, 3, 4])
   })
 
   it('reverse', () => {

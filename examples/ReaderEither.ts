@@ -53,8 +53,8 @@ export const ap = <E, L, A, B>(
 }
 
 export const chain = <E, L, A, B>(
-  f: (a: A) => ReaderEither<E, L, B>,
-  fa: ReaderEither<E, L, A>
+  fa: ReaderEither<E, L, A>,
+  f: (a: A) => ReaderEither<E, L, B>
 ): ReaderEither<E, L, B> => {
   return fa.chain(f)
 }

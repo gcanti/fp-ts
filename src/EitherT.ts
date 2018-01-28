@@ -27,7 +27,7 @@ export function chain<F extends HKT2S>(F: Monad<F>): EitherT2<F>['chain']
 export function chain<F extends HKTS>(F: Monad<F>): EitherT1<F>['chain']
 export function chain<F>(F: Monad<F>): EitherT<F>['chain']
 export function chain<F>(F: Monad<F>): EitherT<F>['chain'] {
-  return (f, fa) => F.chain(e => e.fold(l => F.of(either.left(l)), a => f(a)), fa)
+  return (f, fa) => F.chain(fa, e => e.fold(l => F.of(either.left(l)), a => f(a)))
 }
 
 export function right<F extends HKT2S>(F: Functor<F>): <L, M, A>(fa: HKT2As<F, M, A>) => HKT2As<F, M, Either<L, A>>

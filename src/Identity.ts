@@ -94,7 +94,7 @@ export const ap = <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>): Identity<
 }
 
 /** @function */
-export const chain = <A, B>(f: (a: A) => Identity<B>, fa: Identity<A>): Identity<B> => {
+export const chain = <A, B>(fa: Identity<A>, f: (a: A) => Identity<B>): Identity<B> => {
   return fa.chain(f)
 }
 

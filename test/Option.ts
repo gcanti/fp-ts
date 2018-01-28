@@ -85,8 +85,8 @@ describe('Option', () => {
   it('chain', () => {
     const f = (n: number) => some(n * 2)
     const g = () => none
-    assert.deepEqual(chain(f, some(2)), some(4))
-    assert.deepEqual(chain(g, some(2)), none)
+    assert.deepEqual(chain(some(2), f), some(4))
+    assert.deepEqual(chain(some(2), g), none)
   })
 
   it('getMonoid', () => {

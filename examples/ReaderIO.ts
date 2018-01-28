@@ -42,7 +42,7 @@ export const of = <E, A>(a: A): ReaderIO<E, A> => new ReaderIO(readerTIO.of(a))
 
 export const ap = <E, A, B>(fab: ReaderIO<E, (a: A) => B>, fa: ReaderIO<E, A>): ReaderIO<E, B> => fa.ap(fab)
 
-export const chain = <E, A, B>(f: (a: A) => ReaderIO<E, B>, fa: ReaderIO<E, A>): ReaderIO<E, B> => fa.chain(f)
+export const chain = <E, A, B>(fa: ReaderIO<E, A>, f: (a: A) => ReaderIO<E, B>): ReaderIO<E, B> => fa.chain(f)
 
 export const ask = <E>(e: E): ReaderIO<E, E> => new ReaderIO(readerT.ask(io)())
 

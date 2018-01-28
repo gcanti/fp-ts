@@ -63,7 +63,7 @@ export const ap = <W, A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writ
 }
 
 /** @function */
-export const chain = <W, A, B>(f: (a: A) => Writer<W, B>, fa: Writer<W, A>): Writer<W, B> => {
+export const chain = <W, A, B>(fa: Writer<W, A>, f: (a: A) => Writer<W, B>): Writer<W, B> => {
   return fa.chain(f)
 }
 

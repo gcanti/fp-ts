@@ -50,7 +50,7 @@ export const of = <S, A>(a: A): StateIO<S, A> => new StateIO(stateTIO.of(a))
 
 export const ap = <S, A, B>(fab: StateIO<S, (a: A) => B>, fa: StateIO<S, A>): StateIO<S, B> => fa.ap(fab)
 
-export const chain = <S, A, B>(f: (a: A) => StateIO<S, B>, fa: StateIO<S, A>): StateIO<S, B> => fa.chain(f)
+export const chain = <S, A, B>(fa: StateIO<S, A>, f: (a: A) => StateIO<S, B>): StateIO<S, B> => fa.chain(f)
 
 export const get = <S>(): StateIO<S, S> => new StateIO(stateT.get(io)())
 

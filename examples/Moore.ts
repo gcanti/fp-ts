@@ -60,7 +60,7 @@ export const map = <L, A, B>(fa: Moore<L, A>, f: (a: A) => B): Moore<L, B> => fa
 
 export const ap = <L, A, B>(fab: Moore<L, (a: A) => B>, fa: Moore<L, A>): Moore<L, B> => fa.ap(fab)
 
-export const chain = <L, A, B>(f: (a: A) => Moore<L, B>, fa: Moore<L, A>): Moore<L, B> => fa.chain(f)
+export const chain = <L, A, B>(fa: Moore<L, A>, f: (a: A) => Moore<L, B>): Moore<L, B> => fa.chain(f)
 
 export const extract = <L, A>(fa: Moore<L, A>): A => fa.extract()
 
