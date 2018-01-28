@@ -90,7 +90,7 @@ export const empty = <A>(): Task<A> => {
  * Selects the earlier of two Tasks
  * @function
  */
-export const concat = <A>(fx: Task<A>) => (fy: Task<A>): Task<A> => {
+export const concat = <A>(fx: Task<A>, fy: Task<A>): Task<A> => {
   return fx.concat(fy)
 }
 

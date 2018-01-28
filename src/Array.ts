@@ -43,7 +43,7 @@ export const empty = (): Array<any> => {
 }
 
 /** @function */
-export const concat = <A>(x: Array<A>) => (y: Array<A>): Array<A> => {
+export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
   return uncurriedConcat(x, y)
 }
 

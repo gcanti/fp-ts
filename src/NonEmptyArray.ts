@@ -103,7 +103,7 @@ export const chain = <A, B>(fa: NonEmptyArray<A>, f: (a: A) => NonEmptyArray<B>)
 }
 
 /** @function */
-export const concat = <A>(fx: NonEmptyArray<A>) => (fy: NonEmptyArray<A>): NonEmptyArray<A> => {
+export const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A> => {
   return fx.concat(fy)
 }
 

@@ -6,7 +6,7 @@ describe('NonEmptyArray', () => {
   it('concat', () => {
     const x = new NonEmptyArray(1, [2])
     const y = new NonEmptyArray(3, [4])
-    assert.deepEqual(concat(x)(y).toArray(), [1, 2, 3, 4])
+    assert.deepEqual(concat(x, y).toArray(), [1, 2, 3, 4])
   })
 
   it('map', () => {

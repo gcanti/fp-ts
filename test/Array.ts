@@ -58,7 +58,7 @@ describe('Array', () => {
   })
 
   it('concat', () => {
-    assert.deepEqual(array.concat([1, 2, 3])([4, 5]), [1, 2, 3, 4, 5])
+    assert.deepEqual(array.concat([1, 2, 3], [4, 5]), [1, 2, 3, 4, 5])
   })
 
   it('head', () => {

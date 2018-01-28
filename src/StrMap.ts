@@ -54,7 +54,7 @@ export class StrMap<A> {
   traverseWithKey<F extends HKTS>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKTAs<F, B>) => HKTAs<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-    const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concat)
+    const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concatCurried)
     return <B>(f: (k: string, a: A) => HKT<F, B>) => {
       let out: HKT<F, StrMap<B>> = F.of(empty())
       for (let k in this.value) {
@@ -77,9 +77,11 @@ export const empty = <A>(): StrMap<A> => {
 }
 
 /** @function */
-export const concat = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => {
+export const concat = <A>(x: StrMap<A>, y: StrMap<A>): StrMap<A> => {
   return new StrMap(Object.assign({}, x.value, y.value))
 }
+
+const concatCurried = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => concat(x, y)
 
 /** @function */
 export const getSemigroup = <A>(): Semigroup<StrMap<A>> => {

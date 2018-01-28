@@ -63,23 +63,23 @@ describe('Set', () => {
   })
 
   it('union', () => {
-    assert.deepEqual(union(setoidNumber)(new Set([1, 2]))(new Set([1, 3])), new Set([1, 2, 3]))
+    assert.deepEqual(union(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([1, 2, 3]))
   })
 
   it('intersection', () => {
-    assert.deepEqual(intersection(setoidNumber)(new Set([1, 2]))(new Set([1, 3])), new Set([1]))
+    assert.deepEqual(intersection(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([1]))
   })
 
   it('getUnionMonoid', () => {
     const M = getUnionMonoid(setoidNumber)
-    assert.deepEqual(M.concat(new Set([1, 2]))(new Set([1, 3])), new Set([1, 2, 3]))
-    assert.deepEqual(M.concat(new Set([1, 2]))(M.empty()), new Set([1, 2]))
-    assert.deepEqual(M.concat(M.empty())(new Set([1, 3])), new Set([1, 3]))
+    assert.deepEqual(M.concat(new Set([1, 2]), new Set([1, 3])), new Set([1, 2, 3]))
+    assert.deepEqual(M.concat(new Set([1, 2]), M.empty()), new Set([1, 2]))
+    assert.deepEqual(M.concat(M.empty(), new Set([1, 3])), new Set([1, 3]))
   })
 
   it('getIntersectionSemigroup', () => {
     const S = getIntersectionSemigroup(setoidNumber)
-    assert.deepEqual(S.concat(new Set([1, 2]))(new Set([1, 3])), new Set([1]))
+    assert.deepEqual(S.concat(new Set([1, 2]), new Set([1, 3])), new Set([1]))
   })
 
   it('difference', () => {
