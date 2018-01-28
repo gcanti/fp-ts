@@ -6,8 +6,8 @@ import { Setoid } from './Setoid'
 /** @typeclass */
 export interface Field<A> extends Ring<A> {
   degree: (a: A) => number
-  div: (x: A) => (y: A) => A
-  mod: (x: A) => (y: A) => A
+  div: (x: A, y: A) => A
+  mod: (x: A, y: A) => A
 }
 
 /** @instance */
@@ -18,8 +18,8 @@ export const fieldNumber: Field<number> = {
   one: 1,
   sub: (x, y) => x - y,
   degree: _ => 1,
-  div: x => y => x / y,
-  mod: x => y => x % y
+  div: (x, y) => x / y,
+  mod: (x, y) => x % y
 }
 
 /**
@@ -28,7 +28,7 @@ export const fieldNumber: Field<number> = {
  */
 export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => {
   const zero = field.zero
-  const f = (x: A, y: A): A => (S.equals(y, zero) ? x : f(y, field.mod(x)(y)))
+  const f = (x: A, y: A): A => (S.equals(y, zero) ? x : f(y, field.mod(x, y)))
   return f
 }
 
@@ -39,5 +39,5 @@ export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => {
 export const lcm = <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A) => {
   const zero = F.zero
   const gcdSF = gcd(S, F)
-  return (x, y) => (S.equals(x, zero) || S.equals(y, zero) ? zero : F.div(F.mul(x, y))(gcdSF(x, y)))
+  return (x, y) => (S.equals(x, zero) || S.equals(y, zero) ? zero : F.div(F.mul(x, y), gcdSF(x, y)))
 }
