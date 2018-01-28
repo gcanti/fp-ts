@@ -57,7 +57,7 @@ export class NonEmptyArray<A> {
   traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, NonEmptyArray<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
-    return f => applicative.map(bs => unsafeFromArray(bs), array.traverse(applicative)(f, this.toArray()))
+    return f => applicative.map(array.traverse(applicative)(f, this.toArray()), unsafeFromArray)
   }
   extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> {
     return unsafeFromArray(array.extend(as => f(unsafeFromArray(as)), this.toArray()))
@@ -83,7 +83,7 @@ export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => {
 }
 
 /** @function */
-export const map = <A, B>(f: (a: A) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> => {
+export const map = <A, B>(fa: NonEmptyArray<A>, f: (a: A) => B): NonEmptyArray<B> => {
   return fa.map(f)
 }
 

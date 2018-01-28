@@ -54,7 +54,7 @@ export const ichain = <I, O, Z, A, B>(f: (a: A) => IxIO<O, Z, B>, fa: IxIO<I, O,
 }
 
 /** @function */
-export const map = <I, A, B>(f: (a: A) => B, fa: IxIO<I, I, A>): IxIO<I, I, B> => {
+export const map = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => B): IxIO<I, I, B> => {
   return fa.map(f)
 }
 

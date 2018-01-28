@@ -62,7 +62,7 @@ export class Tuple<L, A> {
     return f(c, this.snd())
   }
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
-    return f => F.map(b => new Tuple([this.fst(), b]), f(this.snd()))
+    return f => F.map(f(this.snd()), b => new Tuple([this.fst(), b]))
   }
   inspect(): string {
     return this.toString()
@@ -94,7 +94,7 @@ export const compose = <L, A, B>(bc: Tuple<A, B>, fa: Tuple<L, A>): Tuple<L, B> 
 }
 
 /** @function */
-export const map = <L, A, B>(f: (b: A) => B, fa: Tuple<L, A>): Tuple<L, B> => {
+export const map = <L, A, B>(fa: Tuple<L, A>, f: (a: A) => B): Tuple<L, B> => {
   return fa.map(f)
 }
 

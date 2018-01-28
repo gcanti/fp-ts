@@ -53,7 +53,8 @@ describe('Option', () => {
 
   it('map', () => {
     const f = (n: number) => n * 2
-    assert.deepEqual(map(f, some(2)), some(4))
+    assert.deepEqual(map(some(2), f), some(4))
+    assert.deepEqual(map(none, f), none)
   })
 
   it('mapNullable', () => {

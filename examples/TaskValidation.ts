@@ -20,7 +20,7 @@ export class TaskValidation<L, A> {
   readonly '-URI': URI
   constructor(readonly value: task.Task<validation.Validation<L, A>>) {}
   map<B>(f: (a: A) => B): TaskValidation<L, B> {
-    return new TaskValidation(taskValidationApplicative.map(f, this.value))
+    return new TaskValidation(taskValidationApplicative.map(this.value, f))
   }
   ap<B>(fab: TaskValidation<L, (a: A) => B>): TaskValidation<L, B> {
     return new TaskValidation(taskValidationApplicative.ap(fab.value, this.value))
@@ -33,7 +33,7 @@ export class TaskValidation<L, A> {
   }
 }
 
-export const map = <L, A, B>(f: (a: A) => B, fa: TaskValidation<L, A>): TaskValidation<L, B> => fa.map(f)
+export const map = <L, A, B>(fa: TaskValidation<L, A>, f: (a: A) => B): TaskValidation<L, B> => fa.map(f)
 
 export const of = <L, A>(a: A): TaskValidation<L, A> => new TaskValidation(taskValidationApplicative.of(a))
 

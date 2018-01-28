@@ -21,7 +21,7 @@ export class ArrayOption<A> {
   readonly '-URI' = URI
   constructor(readonly value: Array<Option<A>>) {}
   map<B>(f: (a: A) => B): ArrayOption<B> {
-    return new ArrayOption(optionTArray.map(f, this.value))
+    return new ArrayOption(optionTArray.map(this.value, f))
   }
   ap<B>(fab: ArrayOption<(a: A) => B>): ArrayOption<B> {
     return new ArrayOption(optionTArray.ap(fab.value, this.value))
@@ -40,7 +40,7 @@ export class ArrayOption<A> {
   }
 }
 
-export const map = <A, B>(f: (a: A) => B, fa: ArrayOption<A>): ArrayOption<B> => fa.map(f)
+export const map = <A, B>(fa: ArrayOption<A>, f: (a: A) => B): ArrayOption<B> => fa.map(f)
 
 export const of = <A>(a: A): ArrayOption<A> => new ArrayOption(optionT.some(array)(a))
 

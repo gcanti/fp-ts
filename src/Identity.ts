@@ -49,7 +49,7 @@ export class Identity<A> {
   traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
-    return f => applicative.map(a => of(a), f(this.value))
+    return f => applicative.map(f(this.value), a => of(a))
   }
   alt(fx: Identity<A>): Identity<A> {
     return this
@@ -79,7 +79,7 @@ export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => {
 }
 
 /** @function */
-export const map = <A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B> => {
+export const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {
   return fa.map(f)
 }
 

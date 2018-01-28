@@ -12,7 +12,7 @@ describe('Tuple', () => {
 
   it('map', () => {
     const double = (n: number): number => n * 2
-    assert.deepEqual(map(double, new Tuple(['s', 1])), new Tuple(['s', 2]))
+    assert.deepEqual(map(new Tuple(['s', 1]), double), new Tuple(['s', 2]))
   })
 
   it('bimap', () => {

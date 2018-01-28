@@ -44,7 +44,7 @@ export class Store<S, A> {
 }
 
 /** @function */
-export const map = <S, A, B>(f: (a: A) => B, sa: Store<S, A>): Store<S, B> => {
+export const map = <S, A, B>(sa: Store<S, A>, f: (a: A) => B): Store<S, B> => {
   return sa.map(f)
 }
 
@@ -103,7 +103,7 @@ export function experiment<F extends HKTS>(
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>
 /** @function */
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A> {
-  return f => sa => F.map(s => sa.peek(s), f(sa.pos))
+  return f => sa => F.map(f(sa.pos), s => sa.peek(s))
 }
 
 /** @instance */

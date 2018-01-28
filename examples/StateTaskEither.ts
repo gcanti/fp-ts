@@ -48,7 +48,7 @@ export class StateTaskEither<S, L, A> {
   }
 }
 
-export const map = <S, L, A, B>(f: (a: A) => B, fa: StateTaskEither<S, L, A>): StateTaskEither<S, L, B> => fa.map(f)
+export const map = <S, L, A, B>(fa: StateTaskEither<S, L, A>, f: (a: A) => B): StateTaskEither<S, L, B> => fa.map(f)
 
 export const of = <S, L, A>(a: A): StateTaskEither<S, L, A> => new StateTaskEither(stateTIO.of(a))
 

@@ -9,7 +9,7 @@ const none = optionT.none(task)()
 describe('OptionT', () => {
   it('map', () => {
     const greetingT = taskOption.of('welcome')
-    const excitedGreetingT = taskOption.map(s => s + '!', greetingT)
+    const excitedGreetingT = taskOption.map(greetingT, s => s + '!')
     return excitedGreetingT.run().then(o => {
       assert.deepEqual(o, option.some('welcome!'))
     })

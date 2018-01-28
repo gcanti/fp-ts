@@ -46,7 +46,7 @@ export class State<S, A> {
 }
 
 /** @function */
-export const map = <S, A, B>(f: (a: A) => B, fa: State<S, A>): State<S, B> => {
+export const map = <S, A, B>(fa: State<S, A>, f: (a: A) => B): State<S, B> => {
   return fa.map(f)
 }
 

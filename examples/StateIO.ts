@@ -44,7 +44,7 @@ export class StateIO<S, A> {
   }
 }
 
-export const map = <S, A, B>(f: (a: A) => B, fa: StateIO<S, A>): StateIO<S, B> => fa.map(f)
+export const map = <S, A, B>(fa: StateIO<S, A>, f: (a: A) => B): StateIO<S, B> => fa.map(f)
 
 export const of = <S, A>(a: A): StateIO<S, A> => new StateIO(stateTIO.of(a))
 

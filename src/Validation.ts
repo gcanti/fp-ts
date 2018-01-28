@@ -137,7 +137,7 @@ export class Success<L, A> {
   traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
-    return f => F.map(b => of(b), f(this.value))
+    return f => F.map(f(this.value), b => of(b))
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return success(this.value)
@@ -188,7 +188,7 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation
 }
 
 /** @function */
-export const map = <L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L, B> => {
+export const map = <L, A, B>(fa: Validation<L, A>, f: (a: A) => B): Validation<L, B> => {
   return fa.map(f)
 }
 

@@ -59,7 +59,7 @@ export class Task<A> {
 }
 
 /** @function */
-export const map = <A, B>(f: (a: A) => B, fa: Task<A>): Task<B> => {
+export const map = <A, B>(fa: Task<A>, f: (a: A) => B): Task<B> => {
   return fa.map(f)
 }
 

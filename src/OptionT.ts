@@ -61,7 +61,7 @@ export function liftF<F extends HKTS>(F: Functor<F>): <A>(fa: HKTAs<F, A>) => HK
 export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
 /** @function */
 export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> {
-  return fa => F.map(a => option.some(a), fa)
+  return fa => F.map(fa, a => option.some(a))
 }
 
 export function fold<F extends HKT2S>(
@@ -73,7 +73,7 @@ export function fold<F extends HKTS>(
 export function fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
 /** @function */
 export function fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
-  return (none, some, fa) => F.map(o => o.fold(none, some), fa)
+  return (none, some, fa) => F.map(fa, o => o.fold(none, some))
 }
 
 export function getOrElse<F extends HKT2S>(
@@ -83,7 +83,7 @@ export function getOrElse<F extends HKTS>(F: Functor<F>): <A>(f: Lazy<A>) => (fa
 export function getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A>
 /** @function */
 export function getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
-  return f => fa => F.map(o => o.getOrElse(f), fa)
+  return f => fa => F.map(fa, o => o.getOrElse(f))
 }
 
 export function getOrElseValue<F extends HKT2S>(
@@ -93,7 +93,7 @@ export function getOrElseValue<F extends HKTS>(F: Functor<F>): <A>(value: A) => 
 export function getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
 /** @function */
 export function getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
-  return value => fa => F.map(o => o.getOrElseValue(value), fa)
+  return value => fa => F.map(fa, o => o.getOrElseValue(value))
 }
 
 export function getOptionT<M extends HKT2S>(M: Monad<M>): OptionT2<M>
@@ -101,7 +101,7 @@ export function getOptionT<M extends HKTS>(M: Monad<M>): OptionT1<M>
 export function getOptionT<M>(M: Monad<M>): OptionT<M>
 /** @function */
 export function getOptionT<M>(M: Monad<M>): OptionT<M> {
-  const applicativeComposition = getApplicativeComposition(M, option)
+  const applicativeComposition = getApplicativeComposition(M, option.option)
 
   return {
     ...applicativeComposition,

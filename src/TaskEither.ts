@@ -34,7 +34,7 @@ export class TaskEither<L, A> {
     return this.value.run()
   }
   map<B>(f: (a: A) => B): TaskEither<L, B> {
-    return new TaskEither(eitherTTask.map(f, this.value))
+    return new TaskEither(eitherTTask.map(this.value, f))
   }
   ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.ap(fab.value, this.value))
@@ -58,7 +58,7 @@ export class TaskEither<L, A> {
 }
 
 /** @function */
-export const map = <L, A, B>(f: (a: A) => B, fa: TaskEither<L, A>): TaskEither<L, B> => {
+export const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> => {
   return fa.map(f)
 }
 

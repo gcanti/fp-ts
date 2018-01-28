@@ -42,7 +42,7 @@ export class IO<A> {
 }
 
 /** @function */
-export const map = <A, B>(f: (a: A) => B, fa: IO<A>): IO<B> => {
+export const map = <A, B>(fa: IO<A>, f: (a: A) => B): IO<B> => {
   return fa.map(f)
 }
 

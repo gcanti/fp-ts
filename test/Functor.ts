@@ -14,7 +14,7 @@ describe('Functor', () => {
   it('getFunctorComposition', () => {
     const arrayOption = getFunctorComposition(array, option)
     const double = (a: number) => a * 2
-    assert.deepEqual(arrayOption.map(double, [option.some(1)]), [option.some(2)])
+    assert.deepEqual(arrayOption.map([option.some(1)], double), [option.some(2)])
   })
 
   it('voidRight', () => {

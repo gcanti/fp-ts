@@ -56,7 +56,7 @@ export class Moore<L, A> {
   }
 }
 
-export const map = <L, A, B>(f: (a: A) => B, fa: Moore<L, A>): Moore<L, B> => fa.map(f)
+export const map = <L, A, B>(fa: Moore<L, A>, f: (a: A) => B): Moore<L, B> => fa.map(f)
 
 export const ap = <L, A, B>(fab: Moore<L, (a: A) => B>, fa: Moore<L, A>): Moore<L, B> => fa.ap(fab)
 

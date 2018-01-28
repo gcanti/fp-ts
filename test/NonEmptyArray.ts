@@ -12,7 +12,7 @@ describe('NonEmptyArray', () => {
   it('map', () => {
     const x = new NonEmptyArray(1, [2])
     const double = (n: number) => n * 2
-    assert.deepEqual(map(double, x).toArray(), [2, 4])
+    assert.deepEqual(map(x, double).toArray(), [2, 4])
   })
 
   it('chain', () => {

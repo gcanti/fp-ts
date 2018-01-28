@@ -31,8 +31,8 @@ describe('Either', () => {
 
   it('map', () => {
     const f = (s: string): number => s.length
-    assert.deepEqual(map(f, right('abc')), right(3))
-    assert.deepEqual(map(f, left('s')), left('s'))
+    assert.deepEqual(map(right('abc'), f), right(3))
+    assert.deepEqual(map(left<string, string>('s'), f), left('s'))
   })
 
   it('bimap', () => {

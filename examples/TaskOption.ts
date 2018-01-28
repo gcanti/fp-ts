@@ -25,7 +25,7 @@ export class TaskOption<A> {
     return this.value.run()
   }
   map<B>(f: (a: A) => B): TaskOption<B> {
-    return new TaskOption(optionTTask.map(f, this.value))
+    return new TaskOption(optionTTask.map(this.value, f))
   }
   ap<B>(fab: TaskOption<(a: A) => B>): TaskOption<B> {
     return new TaskOption(optionTTask.ap(fab.value, this.value))
@@ -47,7 +47,7 @@ export class TaskOption<A> {
   }
 }
 
-export const map = <A, B>(f: (a: A) => B, fa: TaskOption<A>): TaskOption<B> => fa.map(f)
+export const map = <A, B>(fa: TaskOption<A>, f: (a: A) => B): TaskOption<B> => fa.map(f)
 
 export const of = <A>(a: A): TaskOption<A> => new TaskOption(optionT.some(task)(a))
 
