@@ -1,6 +1,6 @@
 import * as option from './Option'
 
-import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat as uncurriedConcat } from './function'
+import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat } from './function'
 import { HKT, HKT2As, HKT2S, HKTAs, HKTS } from './HKT'
 import { Option, fromNullable } from './Option'
 import { Ord, toNativeComparator } from './Ord'
@@ -36,16 +36,6 @@ declare module './HKT' {
 export const URI = 'Array'
 
 export type URI = typeof URI
-
-/** @function */
-export const empty = (): Array<any> => {
-  return []
-}
-
-/** @function */
-export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
-  return uncurriedConcat(x, y)
-}
 
 /** @function */
 export const getSemigroup = <A>(): Semigroup<Array<A>> => {
@@ -126,19 +116,17 @@ export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, t
 /** @function */
 export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>> {
   const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(snoc)
-  return (f, ta) => reduce(ta, F.of(empty()), (fab, a) => liftedSnoc(fab)(f(a)))
+  return (f, ta) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
 }
 
 /**
  * @function
  * @alias empty
  */
-export const zero = empty
+export const zero = <A>(): Array<A> => []
 
 /** @function */
-export const alt = <A>(x: Array<A>, y: Array<A>): Array<A> => {
-  return uncurriedConcat(x, y)
-}
+export const alt = concat
 
 /** @function */
 export const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
@@ -531,8 +519,8 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
  * which contain a value, creating a new array
  * @function
  */
-export const mapOption = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Array<B> => {
-  return chain(as, a => f(a).fold(empty, of))
+export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
+  return chain(as, a => f(a).fold(() => [], of))
 }
 
 /**
@@ -541,7 +529,7 @@ export const mapOption = <A, B>(f: (a: A) => Option<B>) => (as: Array<A>): Array
  * @function
  */
 export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
-  return mapOption<Option<A>, A>(identity)(as)
+  return mapOption(as, identity)
 }
 
 /**
@@ -549,7 +537,7 @@ export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
  * @function
  */
 export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
-  return chain(as, a => a.fold(empty, of))
+  return chain(as, a => a.fold(() => [], of))
 }
 
 /**
@@ -557,7 +545,7 @@ export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
  * @function
  */
 export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
-  return chain(as, a => a.fold(of, empty))
+  return chain(as, a => a.fold(of, () => []))
 }
 
 /**

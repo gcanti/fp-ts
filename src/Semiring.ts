@@ -25,18 +25,18 @@
  * @typeclass
  */
 export interface Semiring<A> {
-  add: (x: A) => (y: A) => A
-  zero: () => A
-  mul: (x: A) => (y: A) => A
-  one: () => A
+  add: (x: A, y: A) => A
+  zero: A
+  mul: (x: A, y: A) => A
+  one: A
 }
 
 /** @function */
 export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => {
   return {
-    add: f => g => x => S.add(f(x))(g(x)),
-    zero: () => () => S.zero(),
-    mul: f => g => x => S.mul(f(x))(g(x)),
-    one: () => () => S.one()
+    add: (f, g) => x => S.add(f(x), g(x)),
+    zero: () => S.zero,
+    mul: (f, g) => x => S.mul(f(x), g(x)),
+    one: () => S.one
   }
 }

@@ -173,7 +173,7 @@ export const intercalate = <F, M>(F: Foldable<F>, M: Monoid<M>) => (sep: M) => (
  * @function
  */
 export const sum = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A => {
-  return F.reduce(fa, S.zero(), (b, a) => S.add(b)(a))
+  return F.reduce(fa, S.zero, (b, a) => S.add(b, a))
 }
 
 /**
@@ -181,7 +181,7 @@ export const sum = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A 
  * @function
  */
 export const product = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A => {
-  return F.reduce(fa, S.one(), (b, a) => S.mul(b)(a))
+  return F.reduce(fa, S.one, (b, a) => S.mul(b, a))
 }
 
 /**
