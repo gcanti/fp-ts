@@ -119,9 +119,9 @@ describe('Option', () => {
   })
 
   it('reduce', () => {
-    const x = fromNullable<number>(null).reduce((b, a) => 1, 2)
+    const x = fromNullable<number>(null).reduce(2, (b, a) => 1)
     assert.strictEqual(x, 2)
-    const y = fromNullable(3).reduce((b, a) => a.toString(), '4')
+    const y = fromNullable(3).reduce('4', (b, a) => a.toString())
     assert.strictEqual(y, '3')
   })
 

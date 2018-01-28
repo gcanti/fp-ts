@@ -48,8 +48,8 @@ export class NonEmptyArray<A> {
   concat(y: NonEmptyArray<A>): NonEmptyArray<A> {
     return this.concatArray(y.toArray())
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
-    return array.reduce(f, b, this.toArray())
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
+    return array.reduce(this.toArray(), b, f)
   }
   traverse<F extends HKT2S>(
     applicative: Applicative<F>
@@ -113,8 +113,8 @@ export const getSemigroup = <A>(): Semigroup<NonEmptyArray<A>> => {
 }
 
 /** @function */
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: NonEmptyArray<A>): B => {
-  return fa.reduce(f, b)
+export const reduce = <A, B>(fa: NonEmptyArray<A>, b: B, f: (b: B, a: A) => B): B => {
+  return fa.reduce(b, f)
 }
 
 /** @function */

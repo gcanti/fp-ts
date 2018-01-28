@@ -13,17 +13,17 @@ import { Setoid } from './Setoid'
 /** @typeclass */
 export interface Foldable<F> {
   readonly URI: F
-  reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: HKT<F, A>): B
+  reduce<A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => B): B
 }
 
 export interface FoldableComposition<F, G> {
-  reduce<A, B>(f: (b: B, a: A) => B, b: B, fga: HKT<F, HKT<G, A>>): B
+  reduce<A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (b: B, a: A) => B): B
 }
 
 /** @function */
 export const getFoldableComposition = <F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> => {
   return {
-    reduce: (f, b, fga) => F.reduce((b, ga) => G.reduce(f, b, ga), b, fga)
+    reduce: (fga, b, f) => F.reduce(fga, b, (b, ga) => G.reduce(ga, b, f))
   }
 }
 
@@ -32,7 +32,7 @@ export const getFoldableComposition = <F, G>(F: Foldable<F>, G: Foldable<G>): Fo
  * @function
  */
 export const foldMap = <F, M>(F: Foldable<F>, M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, A>): M => {
-  return F.reduce((acc, x) => M.concat(acc)(f(x)), M.empty(), fa)
+  return F.reduce(fa, M.empty(), (acc, x) => M.concat(acc)(f(x)))
 }
 
 /**
@@ -81,7 +81,7 @@ export function foldM<F, M>(
   F: Foldable<F>,
   M: Monad<M>
 ): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => HKT<M, B> {
-  return (f, b, fa) => F.reduce((mb, a) => M.chain(mb, b => f(b, a)), M.of(b), fa)
+  return (f, b, fa) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, b => f(b, a)))
 }
 
 /**
@@ -165,7 +165,7 @@ export const intercalate = <F, M>(F: Foldable<F>, M: Monoid<M>) => (sep: M) => (
   function go({ init, acc }: Acc<M>, x: M): Acc<M> {
     return init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc)(sep))(x) }
   }
-  return F.reduce(go, { init: true, acc: M.empty() }, fm).acc
+  return F.reduce(fm, { init: true, acc: M.empty() }, go).acc
 }
 
 /**
@@ -173,7 +173,7 @@ export const intercalate = <F, M>(F: Foldable<F>, M: Monoid<M>) => (sep: M) => (
  * @function
  */
 export const sum = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A => {
-  return F.reduce((b, a) => S.add(b)(a), S.zero(), fa)
+  return F.reduce(fa, S.zero(), (b, a) => S.add(b)(a))
 }
 
 /**
@@ -181,7 +181,7 @@ export const sum = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A 
  * @function
  */
 export const product = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>): A => {
-  return F.reduce((b, a) => S.mul(b)(a), S.one(), fa)
+  return F.reduce(fa, S.one(), (b, a) => S.mul(b)(a))
 }
 
 /**
@@ -189,7 +189,7 @@ export const product = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>)
  * @function
  */
 export const elem = <F, A>(F: Foldable<F>, S: Setoid<A>) => (a: A) => (fa: HKT<F, A>): boolean => {
-  return F.reduce((b, x) => b || S.equals(x)(a), false, fa)
+  return F.reduce(fa, false, (b, x) => b || S.equals(x)(a))
 }
 
 /**
@@ -197,17 +197,13 @@ export const elem = <F, A>(F: Foldable<F>, S: Setoid<A>) => (a: A) => (fa: HKT<F
  * @function
  */
 export const find = <F>(F: Foldable<F>) => <A>(p: Predicate<A>) => (fa: HKT<F, A>): Option<A> => {
-  return F.reduce(
-    (b: Option<A>, a) => {
-      if (b.isNone() && p(a)) {
-        return some(a)
-      } else {
-        return b
-      }
-    },
-    none,
-    fa
-  )
+  return F.reduce(fa, none, (b: Option<A>, a) => {
+    if (b.isNone() && p(a)) {
+      return some(a)
+    } else {
+      return b
+    }
+  })
 }
 
 /**
@@ -216,7 +212,7 @@ export const find = <F>(F: Foldable<F>) => <A>(p: Predicate<A>) => (fa: HKT<F, A
  */
 export const minimum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A> => {
   const min_ = min(O)
-  return F.reduce((b: Option<A>, a) => b.fold(() => some(a), b => some(min_(b)(a))), none, fa)
+  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(() => some(a), b => some(min_(b)(a))))
 }
 
 /**
@@ -225,7 +221,7 @@ export const minimum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Opt
  */
 export const maximum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A> => {
   const max_ = max(O)
-  return F.reduce((b: Option<A>, a) => b.fold(() => some(a), b => some(max_(b)(a))), none, fa)
+  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(() => some(a), b => some(max_(b)(a))))
 }
 
 /** @function */

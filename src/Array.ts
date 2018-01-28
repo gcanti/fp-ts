@@ -107,7 +107,7 @@ export const chain = <A, B>(fa: Array<A>, f: (a: A) => Array<B>): Array<B> => {
 }
 
 /** @function */
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Array<A>): B => {
+export const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
   const l = fa.length
   let r = b
   for (let i = 0; i < l; i++) {
@@ -126,7 +126,7 @@ export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, t
 /** @function */
 export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>> {
   const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(snoc)
-  return (f, ta) => reduce((fab, a) => liftedSnoc(fab)(f(a)), F.of(empty()), ta)
+  return (f, ta) => reduce(ta, F.of(empty()), (fab, a) => liftedSnoc(fab)(f(a)))
 }
 
 /**

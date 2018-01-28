@@ -41,7 +41,7 @@ export class StrMap<A> {
   map<B>(f: (a: A) => B): StrMap<B> {
     return this.mapWithKey((_, a) => f(a))
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     let out: B = b
     for (let k in this.value) {
       out = f(out, this.value[k])
@@ -97,8 +97,8 @@ export const map = <A, B>(fa: StrMap<A>, f: (a: A) => B): StrMap<B> => {
 }
 
 /** @function */
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: StrMap<A>): B => {
-  return fa.reduce(f, b)
+export const reduce = <A, B>(fa: StrMap<A>, b: B, f: (b: B, a: A) => B): B => {
+  return fa.reduce(b, f)
 }
 
 export function traverseWithKey<F extends HKT2S>(
@@ -192,15 +192,11 @@ export const lookup = (k: string) => <A>(d: StrMap<A>): Option<A> => {
 export const fromFoldable = <F>(F: Foldable<F>) => <A>(f: (existing: A) => (a: A) => A) => (
   ta: HKT<F, [string, A]>
 ): StrMap<A> => {
-  return F.reduce(
-    (b, a) => {
-      const k = a[0]
-      b.value[k] = b.value.hasOwnProperty(k) ? f(b.value[k])(a[1]) : a[1]
-      return b
-    },
-    new StrMap<A>({}),
-    ta
-  )
+  return F.reduce(ta, new StrMap<A>({}), (b, a) => {
+    const k = a[0]
+    b.value[k] = b.value.hasOwnProperty(k) ? f(b.value[k])(a[1]) : a[1]
+    return b
+  })
 }
 
 /** @function */

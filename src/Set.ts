@@ -130,8 +130,9 @@ export const getIntersectionSemigroup = <A>(S: Setoid<A>): Semigroup<Set<A>> => 
 }
 
 /** @function */
-export const reduce = <A>(O: Ord<A>) => <B>(f: (b: B, a: A) => B, b: B, fa: Set<A>): B => {
-  return toArray(O)(fa).reduce(f, b)
+export const reduce = <A>(O: Ord<A>): (<B>(fa: Set<A>, b: B, f: (b: B, a: A) => B) => B) => {
+  const toArrayO = toArray(O)
+  return (fa, b, f) => toArrayO(fa).reduce(f, b)
 }
 
 /**

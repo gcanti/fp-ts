@@ -38,7 +38,7 @@ describe('StrMap', () => {
 
   it('reduce', () => {
     const d1 = new StrMap<number>({ k1: 1, k2: 2 })
-    const b = reduce((b, a) => b + a, 0, d1)
+    const b = reduce(d1, 0, (b, a) => b + a)
     assert.strictEqual(b, 3)
   })
 

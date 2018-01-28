@@ -40,8 +40,8 @@ describe('Foldable', () => {
   it('getFoldableComposition', () => {
     const arrayOptionFoldable = getFoldableComposition(array, option)
     const sum = (b: number, a: number): number => b + a
-    assert.strictEqual(arrayOptionFoldable.reduce(sum, 0, [option.some(1), option.some(2)]), 3)
-    assert.strictEqual(arrayOptionFoldable.reduce(sum, 0, [option.none, option.some(2)]), 2)
+    assert.strictEqual(arrayOptionFoldable.reduce([option.some(1), option.some(2)], 0, sum), 3)
+    assert.strictEqual(arrayOptionFoldable.reduce([option.none, option.some(2)], 0, sum), 2)
   })
 
   it('intercalate', () => {
@@ -55,8 +55,8 @@ describe('Foldable', () => {
     }
     const arrayOption: Foldable<URI> = {
       URI,
-      reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: ArrayOption<A>): B {
-        return arrayOptionFoldable.reduce(f, b, fa.value)
+      reduce<A, B>(fa: ArrayOption<A>, b: B, f: (b: B, a: A) => B): B {
+        return arrayOptionFoldable.reduce(fa.value, b, f)
       }
     }
     const join = intercalate(arrayOption, monoidString)(' ')

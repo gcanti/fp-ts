@@ -40,7 +40,7 @@ export class Identity<A> {
   chain<B>(f: (a: A) => Identity<B>): Identity<B> {
     return f(this.extract())
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
   traverse<F extends HKT2S>(
@@ -99,8 +99,8 @@ export const chain = <A, B>(fa: Identity<A>, f: (a: A) => Identity<B>): Identity
 }
 
 /** @function */
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Identity<A>): B => {
-  return fa.reduce(f, b)
+export const reduce = <A, B>(fa: Identity<A>, b: B, f: (b: B, a: A) => B): B => {
+  return fa.reduce(b, f)
 }
 
 /** @function */

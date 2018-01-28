@@ -43,7 +43,7 @@ export class This<L, A> {
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
     return this_(f(this.value))
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
   traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, These<L, B>>
@@ -88,7 +88,7 @@ export class That<L, A> {
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
     return that(g(this.value))
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
   traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, These<L, B>>
@@ -129,7 +129,7 @@ export class Both<L, A> {
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
     return both(f(this.l), g(this.a))
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.a)
   }
   traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, These<L, B>>
@@ -235,8 +235,8 @@ export const bimap = <L, M, A, B>(f: (l: L) => M, g: (a: A) => B, fla: These<L, 
 }
 
 /** @function */
-export const reduce = <L, A, B>(f: (b: B, a: A) => B, b: B, fa: These<L, A>): B => {
-  return fa.reduce(f, b)
+export const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
+  return fa.reduce(b, f)
 }
 
 export function traverse<F extends HKT2S>(

@@ -55,7 +55,7 @@ export class Failure<L, A> {
   alt(fy: Validation<L, A>): Validation<L, A> {
     return fy
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
   traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, Validation<L, B>>
@@ -130,7 +130,7 @@ export class Success<L, A> {
   alt(fy: Validation<L, A>): Validation<L, A> {
     return this
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
   traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, Validation<L, B>>
@@ -220,8 +220,8 @@ export const alt = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validatio
 }
 
 /** @function */
-export const reduce = <L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>): B => {
-  return fa.reduce(f, b)
+export const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B): B => {
+  return fa.reduce(b, f)
 }
 
 export function traverse<F extends HKT2S>(

@@ -87,8 +87,8 @@ describe('Set', () => {
   })
 
   it('reduce', () => {
-    assert.deepEqual(reduce(ordNumber)((b, a) => b + a, '', new Set([1, 2, 3])), '123')
-    assert.deepEqual(reduce(ordNumber)((b, a) => b + a, '', new Set([3, 2, 1])), '123')
+    assert.deepEqual(reduce(ordNumber)(new Set([1, 2, 3]), '', (b, a) => b + a), '123')
+    assert.deepEqual(reduce(ordNumber)(new Set([3, 2, 1]), '', (b, a) => b + a), '123')
   })
 
   it('singleton', () => {

@@ -247,6 +247,6 @@ describe('Array', () => {
   })
 
   it('reduce', () => {
-    assert.deepEqual(array.reduce((acc, a) => acc + a, 0, [1, 2, 3]), 6)
+    assert.deepEqual(array.reduce([1, 2, 3], 0, (acc, a) => acc + a), 6)
   })
 })
