@@ -32,7 +32,7 @@ export const getFoldableComposition = <F, G>(F: Foldable<F>, G: Foldable<G>): Fo
  * @function
  */
 export const foldMap = <F, M>(F: Foldable<F>, M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, A>): M => {
-  return F.reduce(fa, M.empty(), (acc, x) => M.concat(acc, f(x)))
+  return F.reduce(fa, M.empty, (acc, x) => M.concat(acc, f(x)))
 }
 
 /**
@@ -165,7 +165,7 @@ export const intercalate = <F, M>(F: Foldable<F>, M: Monoid<M>) => (sep: M) => (
   function go({ init, acc }: Acc<M>, x: M): Acc<M> {
     return init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc, sep), x) }
   }
-  return F.reduce(fm, { init: true, acc: M.empty() }, go).acc
+  return F.reduce(fm, { init: true, acc: M.empty }, go).acc
 }
 
 /**

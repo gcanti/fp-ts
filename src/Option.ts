@@ -287,7 +287,7 @@ export const empty = zero
 export const getFirstMonoid = <A>(): Monoid<Option<A>> => {
   return {
     concat: alt,
-    empty
+    empty: none
   }
 }
 
@@ -308,7 +308,7 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
 
 /** @function */
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
-  return { ...getSemigroup(S), empty }
+  return { ...getSemigroup(S), empty: none }
 }
 
 /**

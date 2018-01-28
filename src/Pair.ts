@@ -130,10 +130,9 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => {
 
 /** @function */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
-  const empty = new Pair([M.empty(), M.empty()])
   return {
     ...getSemigroup(M),
-    empty: () => empty
+    empty: new Pair([M.empty, M.empty])
   }
 }
 

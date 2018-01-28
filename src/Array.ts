@@ -58,7 +58,7 @@ export const getSemigroup = <A>(): Semigroup<Array<A>> => {
 export const getMonoid = <A>(): Monoid<Array<A>> => {
   return {
     ...getSemigroup<A>(),
-    empty
+    empty: []
   }
 }
 
@@ -608,8 +608,7 @@ export const rotate = (n: number) => <A>(xs: Array<A>): Array<A> => {
   }
 }
 
-export const array: Monoid<Array<any>> &
-  Monad<URI> &
+export const array: Monad<URI> &
   Foldable<URI> &
   Unfoldable<URI> &
   Traversable<URI> &
@@ -617,8 +616,6 @@ export const array: Monoid<Array<any>> &
   Plus<URI> &
   Extend<URI> = {
   URI,
-  empty,
-  concat,
   map,
   of,
   ap,

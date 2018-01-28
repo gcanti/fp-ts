@@ -112,13 +112,11 @@ export const difference = <A>(S: Setoid<A>) => (x: Set<A>): ((y: Set<A>) => Set<
   return filter(not(member(S)(x)))
 }
 
-const emptySet: Set<never> = new Set<never>()
-
 /** @function */
 export const getUnionMonoid = <A>(S: Setoid<A>): Monoid<Set<A>> => {
   return {
     concat: union(S),
-    empty: () => emptySet
+    empty: new Set<never>()
   }
 }
 

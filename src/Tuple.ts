@@ -152,10 +152,9 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
 
 /** @function */
 export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => {
-  const empty = new Tuple([ML.empty(), MA.empty()])
   return {
     ...getSemigroup(ML, MA),
-    empty: () => empty
+    empty: new Tuple([ML.empty, MA.empty])
   }
 }
 
@@ -175,7 +174,7 @@ export const getApply = <L>(S: Semigroup<L>): Apply<URI> => {
 
 /** @function */
 export const of = <L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A> => {
-  return new Tuple([M.empty(), a])
+  return new Tuple([M.empty, a])
 }
 
 /** @function */
@@ -211,7 +210,7 @@ export const getMonad = <L>(M: Monoid<L>): Monad<URI> => {
 /** @function */
 export const chainRec = <L>(M: Monoid<L>) => <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
   let result = f(a)
-  let acc = M.empty()
+  let acc = M.empty
   while (isLeft(result.snd())) {
     acc = M.concat(acc, result.fst())
     result = f((result.snd() as Left<A, B>).value)

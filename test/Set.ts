@@ -73,8 +73,8 @@ describe('Set', () => {
   it('getUnionMonoid', () => {
     const M = getUnionMonoid(setoidNumber)
     assert.deepEqual(M.concat(new Set([1, 2]), new Set([1, 3])), new Set([1, 2, 3]))
-    assert.deepEqual(M.concat(new Set([1, 2]), M.empty()), new Set([1, 2]))
-    assert.deepEqual(M.concat(M.empty(), new Set([1, 3])), new Set([1, 3]))
+    assert.deepEqual(M.concat(new Set([1, 2]), M.empty), new Set([1, 2]))
+    assert.deepEqual(M.concat(M.empty, new Set([1, 3])), new Set([1, 3]))
   })
 
   it('getIntersectionSemigroup', () => {
