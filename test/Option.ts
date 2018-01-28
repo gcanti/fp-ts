@@ -23,7 +23,7 @@ import { left, right } from '../src/Either'
 
 describe('Option', () => {
   it('fold', () => {
-    const f = () => 'none'
+    const f = 'none'
     const g = (s: string) => `some${s.length}`
     assert.strictEqual(fold(f, g)(none), 'none')
     assert.strictEqual(fold(f, g)(some('abc')), 'some3')

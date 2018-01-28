@@ -259,7 +259,7 @@ export const remove = (k: string) => <A>(d: StrMap<A>): StrMap<A> => {
  * @function
  */
 export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> => {
-  return lookup(k)(d).fold(() => none, a => some(tuple(a, remove(k)(d))))
+  return lookup(k)(d).fold(none, a => some(tuple(a, remove(k)(d))))
 }
 
 /** @instance */

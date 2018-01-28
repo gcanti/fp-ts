@@ -520,7 +520,7 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
  * @function
  */
 export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
-  return chain(as, a => f(a).fold(() => [], of))
+  return chain(as, a => f(a).fold([], of))
 }
 
 /**
