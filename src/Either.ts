@@ -84,7 +84,7 @@ export class Left<L, A> {
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {
     return this as any
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
   traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Either<L, B>>
@@ -159,7 +159,7 @@ export class Right<L, A> {
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {
     return new Right(f(this))
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
   traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Either<L, B>>
@@ -265,8 +265,8 @@ export const extend = <L, A, B>(f: (ea: Either<L, A>) => B, ea: Either<L, A>): E
 }
 
 /** @function */
-export const reduce = <L, A, B>(f: (b: B, a: A) => B, b: B, fa: Either<L, A>): B => {
-  return fa.reduce(f, b)
+export const reduce = <L, A, B>(fa: Either<L, A>, b: B, f: (b: B, a: A) => B): B => {
+  return fa.reduce(b, f)
 }
 
 export function traverse<F extends HKT2S>(

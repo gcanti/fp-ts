@@ -58,7 +58,7 @@ export class Pair<A> {
   ap_<B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C> {
     return fb.ap(this)
   }
-  reduce<B>(f: (b: B, a: A) => B, b: B): B {
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(f(b, this.fst()), this.snd())
   }
   traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2As<F, L, B>) => HKT2As<F, L, Pair<B>>
@@ -92,8 +92,8 @@ export const ap = <A, B>(fab: Pair<(a: A) => B>, fa: Pair<A>): Pair<B> => {
 }
 
 /** @function */
-export const reduce = <A, B>(f: (b: B, a: A) => B, b: B, fa: Pair<A>): B => {
-  return fa.reduce(f, b)
+export const reduce = <A, B>(fa: Pair<A>, b: B, f: (b: B, a: A) => B): B => {
+  return fa.reduce(b, f)
 }
 
 /** @function */

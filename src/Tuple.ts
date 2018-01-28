@@ -58,8 +58,8 @@ export class Tuple<L, A> {
   extend<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B> {
     return new Tuple([this.fst(), f(this)])
   }
-  reduce<B>(f: (c: B, b: A) => B, c: B): B {
-    return f(c, this.snd())
+  reduce<B>(b: B, f: (b: B, a: A) => B): B {
+    return f(b, this.snd())
   }
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
     return f => F.map(f(this.snd()), b => new Tuple([this.fst(), b]))
@@ -115,8 +115,8 @@ export const extend = <L, A, B>(f: (fa: Tuple<L, A>) => B, fa: Tuple<L, A>): Tup
 }
 
 /** @function */
-export const reduce = <L, A, B>(f: (c: B, b: A) => B, c: B, fa: Tuple<L, A>): B => {
-  return fa.reduce(f, c)
+export const reduce = <L, A, B>(fa: Tuple<L, A>, b: B, f: (b: B, a: A) => B): B => {
+  return fa.reduce(b, f)
 }
 
 /** @function */
