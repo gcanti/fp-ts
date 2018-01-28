@@ -7,8 +7,7 @@ import {
   fromNullable,
   fromOption,
   fromPredicate,
-  getOrElse,
-  getOrElseValue,
+  catchLeft,
   getSetoid,
   left,
   map,
@@ -77,15 +76,15 @@ describe('Either', () => {
     assert.deepEqual(e2, left<Error, any>(new SyntaxError('Unexpected end of JSON input')))
   })
 
-  it('getOrElse', () => {
-    assert.equal(getOrElse((l: number) => 17)(right(12)), 12)
-    assert.equal(getOrElse((l: number) => 17)(left(12)), 17)
-    assert.equal(getOrElse((l: number) => l + 1)(left(12)), 13)
+  it('catchLeft', () => {
+    assert.equal(catchLeft(right(12), () => 17), 12)
+    assert.equal(catchLeft(left(12), () => 17), 17)
+    assert.equal(catchLeft(left(12), (l: number) => l + 1), 13)
   })
 
-  it('getOrElseValue', () => {
-    assert.equal(getOrElseValue(17)(right(12)), 12)
-    assert.equal(getOrElseValue(17)(left(12)), 17)
+  it('getOrElse', () => {
+    assert.equal(right(12).getOrElse(17), 12)
+    assert.equal(left(12).getOrElse(17), 17)
   })
 
   it('fromOption', () => {

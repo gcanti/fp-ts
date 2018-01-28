@@ -98,11 +98,11 @@ export class Left<L, A> {
     return left(this.value)
   }
   /** Returns the value from this `Right` or the given argument if this is a `Left` */
-  getOrElseValue(a: A): A {
+  getOrElse(a: A): A {
     return a
   }
   /** Returns the value from this `Right` or the result of given argument if this is a `Left` */
-  getOrElse(f: (l: L) => A): A {
+  catchLeft(f: (l: L) => A): A {
     return f(this.value)
   }
   /** Maps the left side of the disjunction */
@@ -171,10 +171,10 @@ export class Right<L, A> {
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return right(this.value)
   }
-  getOrElseValue(a: A): A {
+  getOrElse(a: A): A {
     return this.value
   }
-  getOrElse(f: (l: L) => A): A {
+  catchLeft(f: (l: L) => A): A {
     return this.value
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
@@ -214,19 +214,11 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
 }
 
 /**
- * Returns the value from this `Right` or the given argument if this is a `Left`
- * @function
- */
-export const getOrElseValue = <A>(a: A) => <L>(fa: Either<L, A>): A => {
-  return fa.getOrElseValue(a)
-}
-
-/**
  * Returns the value from this `Right` or the result of given argument if this is a `Left`
  * @function
  */
-export const getOrElse = <L, A>(f: (l: L) => A) => (fa: Either<L, A>): A => {
-  return fa.getOrElse(f)
+export const catchLeft = <L, A>(fa: Either<L, A>, f: (l: L) => A): A => {
+  return fa.catchLeft(f)
 }
 
 /** @function */
