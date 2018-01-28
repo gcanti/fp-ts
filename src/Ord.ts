@@ -72,7 +72,7 @@ export const greaterThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => 
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
  * @function
  */
-export const min = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
+export const min = <A>(ord: Ord<A>) => (x: A, y: A): A => {
   return ord.compare(x, y) === 1 ? y : x
 }
 
@@ -80,7 +80,7 @@ export const min = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
  * Take the maximum of two values. If they are considered equal, the first argument is chosen
  * @function
  */
-export const max = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
+export const max = <A>(ord: Ord<A>) => (x: A, y: A): A => {
   return ord.compare(x, y) === -1 ? y : x
 }
 
@@ -88,8 +88,10 @@ export const max = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
  * Clamp a value between a minimum and a maximum
  * @function
  */
-export const clamp = <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): A => {
-  return min(ord)(hi)(max(ord)(low)(x))
+export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
+  const minO = min(O)
+  const maxO = max(O)
+  return (low, hi) => x => maxO(minO(x, hi), low)
 }
 
 /**
@@ -116,7 +118,7 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
 /** @function */
 export const getSemigroup = <A>(): Semigroup<Ord<A>> => {
   return {
-    concat: x => y => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b))(y.compare(a, b)))
+    concat: (x, y) => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b), y.compare(a, b)))
   }
 }
 

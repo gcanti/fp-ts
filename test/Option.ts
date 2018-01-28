@@ -91,13 +91,13 @@ describe('Option', () => {
 
   it('getMonoid', () => {
     const { concat } = getMonoid({
-      concat: (x: number) => (y: number) => {
+      concat: (x: number, y: number) => {
         return x + y
       }
     })
-    assert.deepEqual(concat(none)(some(1)), some(1))
-    assert.deepEqual(concat(some(2))(none), some(2))
-    assert.deepEqual(concat(some(2))(some(1)), some(3))
+    assert.deepEqual(concat(none, some(1)), some(1))
+    assert.deepEqual(concat(some(2), none), some(2))
+    assert.deepEqual(concat(some(2), some(1)), some(3))
   })
 
   it('alt', () => {
@@ -127,18 +127,18 @@ describe('Option', () => {
 
   it('getFirstMonoid', () => {
     const first = getFirstMonoid<number>()
-    assert.deepEqual(first.concat(none)(some(1)), some(1))
-    assert.deepEqual(first.concat(some(1))(none), some(1))
-    assert.deepEqual(first.concat(none)(none), none)
-    assert.deepEqual(first.concat(some(1))(some(2)), some(1))
+    assert.deepEqual(first.concat(none, some(1)), some(1))
+    assert.deepEqual(first.concat(some(1), none), some(1))
+    assert.deepEqual(first.concat(none, none), none)
+    assert.deepEqual(first.concat(some(1), some(2)), some(1))
   })
 
   it('getLastMonoid', () => {
     const last = getLastMonoid<number>()
-    assert.deepEqual(last.concat(none)(some(1)), some(1))
-    assert.deepEqual(last.concat(some(1))(none), some(1))
-    assert.deepEqual(last.concat(none)(none), none)
-    assert.deepEqual(last.concat(some(1))(some(2)), some(2))
+    assert.deepEqual(last.concat(none, some(1)), some(1))
+    assert.deepEqual(last.concat(some(1), none), some(1))
+    assert.deepEqual(last.concat(none, none), none)
+    assert.deepEqual(last.concat(some(1), some(2)), some(2))
   })
 
   it('contains', () => {

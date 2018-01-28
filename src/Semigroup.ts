@@ -3,35 +3,35 @@ import { concat } from './function'
 
 /** @typeclass */
 export interface Semigroup<A> {
-  concat: (x: A) => (y: A) => A
+  concat: (x: A, y: A) => A
 }
 
 /** @function */
 export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => {
-  return as.reduce((acc, a) => S.concat(acc)(a), a)
+  return as.reduce((acc, a) => S.concat(acc, a), a)
 }
 
 /** @function */
 export const getFirstSemigroup = <A>(): Semigroup<A> => {
-  return { concat: x => y => x }
+  return { concat: x => x }
 }
 
 /** @function */
 export const getLastSemigroup = <A>(): Semigroup<A> => {
-  return { concat: x => y => y }
+  return { concat: (_, y) => y }
 }
 
 /** @function */
 export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => {
   return {
-    concat: ([xa, xb]) => ([ya, yb]) => [SA.concat(xa)(ya), SB.concat(xb)(yb)]
+    concat: ([xa, xb], [ya, yb]) => [SA.concat(xa, ya), SB.concat(xb, yb)]
   }
 }
 
 /** @function */
 export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => {
   return {
-    concat: x => y => S.concat(y)(x)
+    concat: (x, y) => S.concat(y, x)
   }
 }
 
@@ -40,10 +40,10 @@ export const getRecordSemigroup = <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
 ): Semigroup<O> => {
   return {
-    concat: x => y => {
+    concat: (x, y) => {
       const r: any = {}
       for (const k in semigroups) {
-        r[k] = semigroups[k].concat(x[k])(y[k])
+        r[k] = semigroups[k].concat(x[k], y[k])
       }
       return r
     }
@@ -69,7 +69,7 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
  * @instance
  */
 export const semigroupAll: Semigroup<boolean> = {
-  concat: x => y => x && y
+  concat: (x, y) => x && y
 }
 
 /**
@@ -77,7 +77,7 @@ export const semigroupAll: Semigroup<boolean> = {
  * @instance
  */
 export const semigroupAny: Semigroup<boolean> = {
-  concat: x => y => x || y
+  concat: (x, y) => x || y
 }
 
 /**
@@ -86,7 +86,7 @@ export const semigroupAny: Semigroup<boolean> = {
  */
 export const getArraySemigroup = <A>(): Semigroup<Array<A>> => {
   return {
-    concat: x => y => concat(x, y)
+    concat: (x, y) => concat(x, y)
   }
 }
 
@@ -95,7 +95,7 @@ export const getArraySemigroup = <A>(): Semigroup<Array<A>> => {
  * @instance
  */
 export const semigroupSum: Semigroup<number> = {
-  concat: x => y => x + y
+  concat: (x, y) => x + y
 }
 
 /**
@@ -103,10 +103,10 @@ export const semigroupSum: Semigroup<number> = {
  * @instance
  */
 export const semigroupProduct: Semigroup<number> = {
-  concat: x => y => x * y
+  concat: (x, y) => x * y
 }
 
 /** @instance */
 export const semigroupString: Semigroup<string> = {
-  concat: x => y => x + y
+  concat: (x, y) => x + y
 }

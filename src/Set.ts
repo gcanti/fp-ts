@@ -72,9 +72,9 @@ export const member = <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean => {
  * Form the union of two sets
  * @function
  */
-export const union = <A>(S: Setoid<A>): ((x: Set<A>) => (y: Set<A>) => Set<A>) => {
+export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
   const hasS = member(S)
-  return x => y => {
+  return (x, y) => {
     const xhas = hasS(x)
     const r = new Set(x)
     y.forEach(e => {
@@ -90,9 +90,9 @@ export const union = <A>(S: Setoid<A>): ((x: Set<A>) => (y: Set<A>) => Set<A>) =
  * The set of elements which are in both the first and second set
  * @function
  */
-export const intersection = <A>(S: Setoid<A>): ((x: Set<A>) => (y: Set<A>) => Set<A>) => {
+export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
   const hasS = member(S)
-  return x => y => {
+  return (x, y) => {
     const yhas = hasS(y)
     const r = new Set()
     x.forEach(e => {

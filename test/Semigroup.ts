@@ -24,22 +24,22 @@ describe('Semigroup', () => {
       a: monoidAll,
       b: monoidString
     })
-    assert.deepEqual(S.concat({ a: true, b: 'foo' })({ a: false, b: 'bar' }), { a: false, b: 'foobar' })
+    assert.deepEqual(S.concat({ a: true, b: 'foo' }, { a: false, b: 'bar' }), { a: false, b: 'foobar' })
   })
 
   it('getMeetSemigroup', () => {
-    assert.strictEqual(getMeetSemigroup(ordNumber).concat(1)(2), 1)
+    assert.strictEqual(getMeetSemigroup(ordNumber).concat(1, 2), 1)
   })
 
   it('getJoinSemigroup', () => {
-    assert.strictEqual(getJoinSemigroup(ordNumber).concat(1)(2), 2)
+    assert.strictEqual(getJoinSemigroup(ordNumber).concat(1, 2), 2)
   })
 
   it('getProductSemigroup', () => {
-    assert.deepEqual(getProductSemigroup(monoidString, monoidSum).concat(['a', 2])(['b', 3]), ['ab', 5])
+    assert.deepEqual(getProductSemigroup(monoidString, monoidSum).concat(['a', 2], ['b', 3]), ['ab', 5])
   })
 
   it('getArraySemigroup', () => {
-    assert.deepEqual(getArraySemigroup<number>().concat([1])([2]), [1, 2])
+    assert.deepEqual(getArraySemigroup<number>().concat([1], [2]), [1, 2])
   })
 })

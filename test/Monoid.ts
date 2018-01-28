@@ -33,7 +33,7 @@ describe('Monoid', () => {
   })
 
   it('getArrayMonoid', () => {
-    assert.deepEqual(getArrayMonoid<number>().concat([1])([2]), [1, 2])
+    assert.deepEqual(getArrayMonoid<number>().concat([1], [2]), [1, 2])
   })
 
   it('getRecordMonoid', () => {
@@ -45,6 +45,6 @@ describe('Monoid', () => {
       a: monoidAll,
       b: monoidString
     })
-    assert.deepEqual(M.concat({ a: true, b: 'foo' })(M.empty()), { a: true, b: 'foo' })
+    assert.deepEqual(M.concat({ a: true, b: 'foo' }, M.empty()), { a: true, b: 'foo' })
   })
 })

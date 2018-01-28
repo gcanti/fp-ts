@@ -42,7 +42,7 @@ export class Writer<W, A> {
     return new Writer(this.monoid, () => {
       const [a, w1] = this.run()
       const [b, w2] = f(a).run()
-      return [b, this.monoid.concat(w1)(w2)]
+      return [b, this.monoid.concat(w1, w2)]
     })
   }
 }

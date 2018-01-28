@@ -13,8 +13,8 @@ describe('These', () => {
   it('concat', () => {
     const { equals } = getSetoid(setoidString, setoidNumber)
     const { concat } = getSemigroup(monoidString, monoidSum)
-    assert.strictEqual(equals(concat(this_('a'))(this_('b')), this_('ab')), true)
-    assert.strictEqual(equals(concat(this_('a'))(that(2)), both('a', 2)), true)
+    assert.strictEqual(equals(concat(this_('a'), this_('b')), this_('ab')), true)
+    assert.strictEqual(equals(concat(this_('a'), that(2)), both('a', 2)), true)
   })
 
   it('map', () => {

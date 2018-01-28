@@ -26,7 +26,7 @@ describe('StrMap', () => {
   it('concat', () => {
     const d1 = new StrMap<number>({ k1: 1 })
     const d2 = new StrMap<number>({ k2: 2 })
-    assert.deepEqual(concat(d1)(d2), new StrMap({ k1: 1, k2: 2 }))
+    assert.deepEqual(concat(d1, d2), new StrMap({ k1: 1, k2: 2 }))
   })
 
   it('map', () => {

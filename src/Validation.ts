@@ -38,7 +38,7 @@ export class Failure<L, A> {
   }
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
     if (isFailure(fab)) {
-      return failure(this.semigroup)(this.semigroup.concat(fab.value)(this.value))
+      return failure(this.semigroup)(this.semigroup.concat(fab.value, this.value))
     }
     return this as any
   }
@@ -79,7 +79,7 @@ export class Failure<L, A> {
     return fy => fy.fold(a => SL.equals(this.value, a), constFalse)
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
-    return fy.fold(l => failure<L>(this.semigroup)<A>(this.semigroup.concat(l)(this.value)), () => this)
+    return fy.fold(l => failure<L>(this.semigroup)<A>(this.semigroup.concat(l, this.value)), () => this)
   }
   mapFailure<M>(S: Semigroup<M>): (f: (l: L) => M) => Validation<M, A> {
     return f => failure(S)(f(this.value))
@@ -280,7 +280,7 @@ export const fromEither = <L>(S: Semigroup<L>): (<A>(e: Either<L, A>) => Validat
 }
 
 /** @function */
-export const concat = <L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Validation<L, A> => {
+export const concat = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
   return fx.concat(fy)
 }
 

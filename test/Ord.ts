@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getSemigroup, contramap, ordNumber, ordString, getProductOrd, toNativeComparator } from '../src/Ord'
+import { getSemigroup, contramap, ordNumber, ordString, getProductOrd, toNativeComparator, clamp } from '../src/Ord'
 import { sort } from '../src/Array'
 
 describe('Ord', () => {
@@ -9,9 +9,9 @@ describe('Ord', () => {
     const S = getSemigroup<T>()
     const sortByFst = contramap((x: T) => x[0], ordNumber)
     const sortBySnd = contramap((x: T) => x[1], ordString)
-    const O1 = S.concat(sortByFst)(sortBySnd)
+    const O1 = S.concat(sortByFst, sortBySnd)
     assert.deepEqual(sort(O1)(tuples), [[1, 'b'], [1, 'c'], [2, 'a'], [2, 'c']])
-    const O2 = S.concat(sortBySnd)(sortByFst)
+    const O2 = S.concat(sortBySnd, sortByFst)
     assert.deepEqual(sort(O2)(tuples), [[2, 'a'], [1, 'b'], [1, 'c'], [2, 'c']])
   })
 
@@ -33,5 +33,14 @@ describe('Ord', () => {
     assert.strictEqual(nativeComparator(1, 2), -1)
     assert.strictEqual(nativeComparator(2, 1), 1)
     assert.strictEqual(nativeComparator(2, 2), 0)
+  })
+
+  it('clamp', () => {
+    const clampNumber = clamp(ordNumber)
+    assert.strictEqual(clampNumber(1, 10)(2), 2)
+    assert.strictEqual(clampNumber(1, 10)(10), 10)
+    assert.strictEqual(clampNumber(1, 10)(20), 10)
+    assert.strictEqual(clampNumber(1, 10)(1), 1)
+    assert.strictEqual(clampNumber(1, 10)(-10), 1)
   })
 })

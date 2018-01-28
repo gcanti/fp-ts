@@ -180,15 +180,15 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A
 /** @function */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => {
   return {
-    concat: x => y =>
+    concat: (x, y) =>
       x.fold(
-        lx => y.fold(ly => this_(SL.concat(lx)(ly)), ay => both(lx, ay), (ly, ay) => both(SL.concat(lx)(ly), ay)),
-        ax => y.fold(lx => both(lx, ax), ay => that(SA.concat(ax)(ay)), (ly, ay) => both(ly, SA.concat(ax)(ay))),
+        lx => y.fold(ly => this_(SL.concat(lx, ly)), ay => both(lx, ay), (ly, ay) => both(SL.concat(lx, ly), ay)),
+        ax => y.fold(lx => both(lx, ax), ay => that(SA.concat(ax, ay)), (ly, ay) => both(ly, SA.concat(ax, ay))),
         (lx, ax) =>
           y.fold(
-            ly => both(SL.concat(lx)(ly), ax),
-            ay => both(lx, SA.concat(ax)(ay)),
-            (ly, ay) => both(SL.concat(lx)(ly), SA.concat(ax)(ay))
+            ly => both(SL.concat(lx, ly), ax),
+            ay => both(lx, SA.concat(ax, ay)),
+            (ly, ay) => both(SL.concat(lx, ly), SA.concat(ax, ay))
           )
       )
   }
@@ -214,7 +214,7 @@ export const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) =
   return fa.fold(
     () => fa as any,
     a => f(a),
-    (l1, a) => f(a).fold(l2 => this_(S.concat(l1)(l2)), b => both(l1, b), (l2, b) => both(S.concat(l1)(l2), b))
+    (l1, a) => f(a).fold(l2 => this_(S.concat(l1, l2)), b => both(l1, b), (l2, b) => both(S.concat(l1, l2), b))
   )
 }
 

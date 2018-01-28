@@ -100,7 +100,7 @@ export const monoidString: Monoid<string> = {
 export const getFunctionMonoid = <M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) => M> => {
   const empty = constant(constant(monoid.empty()))
   return {
-    concat: f => g => a => monoid.concat(f(a))(g(a)),
+    concat: (f, g) => a => monoid.concat(f(a), g(a)),
     empty
   }
 }
@@ -108,7 +108,7 @@ export const getFunctionMonoid = <M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) 
 /** @function */
 export const getEndomorphismMonoid = <A>(): Monoid<Endomorphism<A>> => {
   return {
-    concat: x => y => compose(x, y),
+    concat: (x, y) => compose(x, y),
     empty: () => identity
   }
 }

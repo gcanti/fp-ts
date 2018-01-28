@@ -136,16 +136,16 @@ export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A
  * @function
  */
 export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => {
-  return getOrdSemigroup<Tuple<L, A>>().concat(contramapOrd(fst, OL))(contramapOrd(snd, OA))
+  return getOrdSemigroup<Tuple<L, A>>().concat(contramapOrd(fst, OL), contramapOrd(snd, OA))
 }
 
 /** @function */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => {
   return {
-    concat: x => y => {
+    concat: (x, y) => {
       const [xa, xb] = x.value
       const [ya, yb] = y.value
-      return new Tuple([SL.concat(xa)(ya), SA.concat(xb)(yb)])
+      return new Tuple([SL.concat(xa, ya), SA.concat(xb, yb)])
     }
   }
 }
@@ -161,7 +161,7 @@ export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A
 
 /** @function */
 export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
-  return new Tuple([S.concat(fa.fst())(fab.fst()), fab.snd()(fa.snd())])
+  return new Tuple([S.concat(fa.fst(), fab.fst()), fab.snd()(fa.snd())])
 }
 
 /** @function */
@@ -189,7 +189,7 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative<URI> => {
 /** @function */
 export const chain = <L>(M: Monoid<L>) => <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
   const lb = f(fa.snd())
-  return new Tuple([M.concat(fa.fst())(lb.fst()), lb.snd()])
+  return new Tuple([M.concat(fa.fst(), lb.fst()), lb.snd()])
 }
 
 /** @function */
@@ -213,10 +213,10 @@ export const chainRec = <L>(M: Monoid<L>) => <A, B>(a: A, f: (a: A) => Tuple<L, 
   let result = f(a)
   let acc = M.empty()
   while (isLeft(result.snd())) {
-    acc = M.concat(acc)(result.fst())
+    acc = M.concat(acc, result.fst())
     result = f((result.snd() as Left<A, B>).value)
   }
-  return new Tuple([M.concat(acc)(result.fst()), (result.snd() as Right<A, B>).value])
+  return new Tuple([M.concat(acc, result.fst()), (result.snd() as Right<A, B>).value])
 }
 
 /** @function */

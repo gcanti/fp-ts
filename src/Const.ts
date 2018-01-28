@@ -60,7 +60,7 @@ export const contramap = <L, A, B>(f: (b: B) => A, fa: Const<L, A>): Const<L, B>
 
 /** @function */
 export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
-  return new Const(S.concat(fab.fold(identity))(fa.fold(identity)))
+  return new Const(S.concat(fab.fold(identity), fa.fold(identity)))
 }
 
 /** @function */

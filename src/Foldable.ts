@@ -32,7 +32,7 @@ export const getFoldableComposition = <F, G>(F: Foldable<F>, G: Foldable<G>): Fo
  * @function
  */
 export const foldMap = <F, M>(F: Foldable<F>, M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: HKT<F, A>): M => {
-  return F.reduce(fa, M.empty(), (acc, x) => M.concat(acc)(f(x)))
+  return F.reduce(fa, M.empty(), (acc, x) => M.concat(acc, f(x)))
 }
 
 /**
@@ -163,7 +163,7 @@ type Acc<M> = { init: boolean; acc: M }
  */
 export const intercalate = <F, M>(F: Foldable<F>, M: Monoid<M>) => (sep: M) => (fm: HKT<F, M>): M => {
   function go({ init, acc }: Acc<M>, x: M): Acc<M> {
-    return init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc)(sep))(x) }
+    return init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc, sep), x) }
   }
   return F.reduce(fm, { init: true, acc: M.empty() }, go).acc
 }
@@ -211,8 +211,8 @@ export const find = <F>(F: Foldable<F>) => <A>(p: Predicate<A>) => (fa: HKT<F, A
  * @function
  */
 export const minimum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A> => {
-  const min_ = min(O)
-  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(() => some(a), b => some(min_(b)(a))))
+  const minO = min(O)
+  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(() => some(a), b => some(minO(b, a))))
 }
 
 /**
@@ -220,8 +220,8 @@ export const minimum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Opt
  * @function
  */
 export const maximum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Option<A> => {
-  const max_ = max(O)
-  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(() => some(a), b => some(max_(b)(a))))
+  const maxO = max(O)
+  return F.reduce(fa, none, (b: Option<A>, a) => b.fold(() => some(a), b => some(maxO(b, a))))
 }
 
 /** @function */

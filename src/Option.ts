@@ -286,7 +286,7 @@ export const empty = zero
  */
 export const getFirstMonoid = <A>(): Monoid<Option<A>> => {
   return {
-    concat: x => y => alt(x, y),
+    concat: alt,
     empty
   }
 }
@@ -302,7 +302,7 @@ export const getLastMonoid = <A>(): Monoid<Option<A>> => {
 /** @function */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
   return {
-    concat: x => y => x.fold(() => y, ax => y.fold(() => x, ay => some(S.concat(ax)(ay))))
+    concat: (x, y) => x.fold(() => y, ax => y.fold(() => x, ay => some(S.concat(ax, ay))))
   }
 }
 

@@ -15,7 +15,7 @@ export const setoidOrdering: Setoid<Ordering> = {
 
 /** @instance */
 export const semigroupOrdering: Semigroup<Ordering> = {
-  concat: a => b => (a !== 0 ? a : b)
+  concat: (x, y) => (x !== 0 ? x : y)
 }
 
 /** @function */
