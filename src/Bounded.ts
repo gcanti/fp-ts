@@ -10,13 +10,13 @@ import { Ord, ordNumber } from './Ord'
  * @typeclass
  */
 export interface Bounded<A> extends Ord<A> {
-  top: () => A
-  bottom: () => A
+  top: A
+  bottom: A
 }
 
 /** @instance */
 export const boundedNumber: Bounded<number> = {
   ...ordNumber,
-  top: () => Infinity,
-  bottom: () => -Infinity
+  top: Infinity,
+  bottom: -Infinity
 }
