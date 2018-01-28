@@ -8,8 +8,8 @@ import {
   semigroupString,
   semigroupProduct,
   semigroupSum,
-  semigroupArray,
-  semigroupAny
+  semigroupAny,
+  getArraySemigroup
 } from './Semigroup'
 import { constant, Endomorphism, identity, compose } from './function'
 
@@ -58,22 +58,18 @@ export const monoidAny: Monoid<boolean> = {
   empty: () => false
 }
 
-/**
- * Monoid under array concatenation (`Array<any>`)
- * @instance
- */
-export const getArrayMonoid = <A>(): Monoid<Array<A>> => {
-  return monoidArray
+/** @instance */
+export const unsafeMonoidArray: Monoid<Array<any>> = {
+  ...getArraySemigroup(),
+  empty: () => []
 }
 
 /**
  * Monoid under array concatenation (`Array<any>`)
  * @instance
- * @deprecated
  */
-export const monoidArray: Monoid<Array<any>> = {
-  ...semigroupArray,
-  empty: () => []
+export const getArrayMonoid = <A>(): Monoid<Array<A>> => {
+  return unsafeMonoidArray
 }
 
 /**

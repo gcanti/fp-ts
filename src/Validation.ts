@@ -7,8 +7,7 @@ import { Setoid } from './Setoid'
 import { Traversable, FantasyTraversable } from './Traversable'
 import { Alt, FantasyAlt } from './Alt'
 import { constFalse, Predicate, toString } from './function'
-import { Option, some, none } from './Option'
-import { Either, left, right } from './Either'
+import { Either } from './Either'
 import { Monad } from './Monad'
 
 declare module './HKT' {
@@ -93,13 +92,6 @@ export class Failure<L, A>
   swap(S: Semigroup<A>): Validation<A, L> {
     return success(this.value)
   }
-  toOption(): Option<A> {
-    return none
-  }
-  /** @deprecated */
-  toEither(): Either<L, A> {
-    return left(this.value)
-  }
   inspect(): string {
     return this.toString()
   }
@@ -176,12 +168,6 @@ export class Success<L, A>
   }
   swap(S: Semigroup<A>): Validation<A, L> {
     return failure(S)(this.value)
-  }
-  toOption(): Option<A> {
-    return some(this.value)
-  }
-  toEither(): Either<L, A> {
-    return right(this.value)
   }
   inspect(): string {
     return this.toString()
@@ -324,19 +310,6 @@ export const mapFailure = <M>(S: Semigroup<M>) => <L>(f: (l: L) => M) => <A>(
 /** @function */
 export const swap = <A>(S: Semigroup<A>) => <L>(fa: Validation<L, A>): Validation<A, L> => {
   return fa.swap(S)
-}
-
-/** @function */
-export const toOption = <L, A>(fa: Validation<L, A>): Option<A> => {
-  return fa.toOption()
-}
-
-/**
- * @function
- * @deprecated
- */
-export const toEither = <L, A>(fa: Validation<L, A>): Either<L, A> => {
-  return fa.toEither()
 }
 
 /**

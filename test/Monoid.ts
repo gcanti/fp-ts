@@ -5,7 +5,6 @@ import {
   getFunctionMonoid,
   monoidAll,
   monoidAny,
-  monoidArray,
   getArrayMonoid,
   getRecordMonoid,
   monoidString
@@ -31,10 +30,6 @@ describe('Monoid', () => {
       3,
       40
     ])
-  })
-
-  it('monoidArray', () => {
-    assert.deepEqual(monoidArray.concat([1])(['a']), [1, 'a'])
   })
 
   it('getArrayMonoid', () => {
