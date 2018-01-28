@@ -35,29 +35,13 @@ describe('OptionT', () => {
 
   it('getOrElse', () => {
     const greetingT = taskOption.of('welcome')
-    const getOrElse = optionT.getOrElse(task)(() => 'hello, there!')
+    const getOrElse = optionT.getOrElse(task)('hello, there!')
     const p1 = getOrElse(greetingT)
       .run()
       .then(s => {
         assert.strictEqual(s, 'welcome')
       })
     const p2 = getOrElse(none)
-      .run()
-      .then(s => {
-        assert.strictEqual(s, 'hello, there!')
-      })
-    return Promise.all([p1, p2])
-  })
-
-  it('getOrElseValue', () => {
-    const greetingT = taskOption.of('welcome')
-    const getOrElseValue = optionT.getOrElseValue(task)('hello, there!')
-    const p1 = getOrElseValue(greetingT)
-      .run()
-      .then(s => {
-        assert.strictEqual(s, 'welcome')
-      })
-    const p2 = getOrElseValue(none)
       .run()
       .then(s => {
         assert.strictEqual(s, 'hello, there!')
