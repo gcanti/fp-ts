@@ -57,7 +57,7 @@ export const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => {
 }
 
 /** @function */
-export const chain = <A, B>(f: (a: A) => IO<B>, fa: IO<A>): IO<B> => {
+export const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
   return fa.chain(f)
 }
 

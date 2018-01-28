@@ -73,7 +73,7 @@ export class Impure<F, A, X> {
   foldFree<M extends HKTS>(M: Monad<M>): (f: NaturalTransformation<F, M>) => HKTAs<M, A>
   foldFree<M>(M: Monad<M>): (f: NaturalTransformation<F, M>) => HKT<M, A>
   foldFree<M>(M: Monad<M>): (f: NaturalTransformation<F, M>) => HKT<M, A> {
-    return f => M.chain(x => this.f(x).foldFree(M)(f), f(this.fx))
+    return f => M.chain(f(this.fx), x => this.f(x).foldFree(M)(f))
   }
   inspect(): string {
     return this.toString()

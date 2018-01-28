@@ -18,7 +18,7 @@ describe('NonEmptyArray', () => {
   it('chain', () => {
     const x = new NonEmptyArray(1, [2])
     const f = (a: number) => new NonEmptyArray(a, [4])
-    assert.deepEqual(chain(f, x).toArray(), [1, 4, 2, 4])
+    assert.deepEqual(chain(x, f).toArray(), [1, 4, 2, 4])
   })
 
   it('extend', () => {

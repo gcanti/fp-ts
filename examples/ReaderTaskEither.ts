@@ -50,8 +50,8 @@ export const ap = <E, L, A, B>(
 ): ReaderTaskEither<E, L, B> => fa.ap(fab)
 
 export const chain = <E, L, A, B>(
-  f: (a: A) => ReaderTaskEither<E, L, B>,
-  fa: ReaderTaskEither<E, L, A>
+  fa: ReaderTaskEither<E, L, A>,
+  f: (a: A) => ReaderTaskEither<E, L, B>
 ): ReaderTaskEither<E, L, B> => fa.chain(f)
 
 export const ask = <E, L>(e: E): ReaderTaskEither<E, L, E> => new ReaderTaskEither(readerT.ask(taskEither)())

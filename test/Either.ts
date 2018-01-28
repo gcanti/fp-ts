@@ -54,8 +54,8 @@ describe('Either', () => {
 
   it('chain', () => {
     const f = (s: string) => right<string, number>(s.length)
-    assert.deepEqual(chain(f, right<string, string>('abc')), right(3))
-    assert.deepEqual(chain(f, left<string, string>('a')), left('a'))
+    assert.deepEqual(chain(right<string, string>('abc'), f), right(3))
+    assert.deepEqual(chain(left<string, string>('a'), f), left('a'))
   })
 
   it('fromPredicate', () => {

@@ -74,7 +74,7 @@ export const ap = <A, B>(fab: Task<(a: A) => B>, fa: Task<A>): Task<B> => {
 }
 
 /** @function */
-export const chain = <A, B>(f: (a: A) => Task<B>, fa: Task<A>): Task<B> => {
+export const chain = <A, B>(fa: Task<A>, f: (a: A) => Task<B>): Task<B> => {
   return fa.chain(f)
 }
 

@@ -91,7 +91,7 @@ export function chain<F>(
 export function chain<F>(
   F: Chain<F>
 ): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
-  return (f, fa) => s => F.chain(([a, s1]) => f(a)(s1), fa(s))
+  return (f, fa) => s => F.chain(fa(s), ([a, s1]) => f(a)(s1))
 }
 
 export function get<F extends HKT2S>(F: Applicative<F>): <S>() => <L>(s: S) => HKT2As<F, L, [S, S]>

@@ -43,7 +43,7 @@ export class NonEmptyArray<A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B> {
-    return f(this.head).concatArray(array.chain(a => f(a).toArray(), this.tail))
+    return f(this.head).concatArray(array.chain(this.tail, a => f(a).toArray()))
   }
   concat(y: NonEmptyArray<A>): NonEmptyArray<A> {
     return this.concatArray(y.toArray())
@@ -98,7 +98,7 @@ export const ap = <A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>):
 }
 
 /** @function */
-export const chain = <A, B>(f: (a: A) => NonEmptyArray<B>, fa: NonEmptyArray<A>): NonEmptyArray<B> => {
+export const chain = <A, B>(fa: NonEmptyArray<A>, f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B> => {
   return fa.chain(f)
 }
 

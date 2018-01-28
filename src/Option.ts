@@ -242,7 +242,7 @@ export const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => 
 }
 
 /** @function */
-export const chain = <A, B>(f: (a: A) => Option<B>, fa: Option<A>): Option<B> => {
+export const chain = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => {
   return fa.chain(f)
 }
 

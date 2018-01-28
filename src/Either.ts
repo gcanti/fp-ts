@@ -245,7 +245,7 @@ export const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Eith
 }
 
 /** @function */
-export const chain = <L, A, B>(f: (a: A) => Either<L, B>, fa: Either<L, A>): Either<L, B> => {
+export const chain = <L, A, B>(fa: Either<L, A>, f: (a: A) => Either<L, B>): Either<L, B> => {
   return fa.chain(f)
 }
 

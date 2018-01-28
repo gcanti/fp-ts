@@ -22,7 +22,7 @@ function likePost<M extends HKTS>(
 ): (token: string) => (url: string) => HKTAs<M, boolean>
 function likePost<M>(M: Monad<M>, U: MonadUser<M>, F: MonadFB<M>): (token: string) => (url: string) => HKT<M, boolean> {
   return token => url => {
-    const mToken = M.chain(uid => U.facebookToken(uid), U.validateUser(token))
+    const mToken = M.chain(U.validateUser(token), uid => U.facebookToken(uid))
     const mPost = F.findPost(url)
     const mmResult = liftA2(M)(F.sendLike)(mToken)(mPost)
     return flatten(M)(mmResult)

@@ -187,7 +187,7 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative<URI> => {
 }
 
 /** @function */
-export const chain = <L>(M: Monoid<L>) => <A, B>(f: (b: A) => Tuple<L, B>, fa: Tuple<L, A>): Tuple<L, B> => {
+export const chain = <L>(M: Monoid<L>) => <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
   const lb = f(fa.snd())
   return new Tuple([M.concat(fa.fst())(lb.fst()), lb.snd()])
 }

@@ -206,11 +206,11 @@ export const of = <L, A>(a: A): These<L, A> => {
 
 /** @function */
 export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => {
-  return chain(S)(f => map(fa, f), fab)
+  return chain(S)(fab, f => map(fa, f))
 }
 
 /** @function */
-export const chain = <L>(S: Semigroup<L>) => <A, B>(f: (a: A) => These<L, B>, fa: These<L, A>): These<L, B> => {
+export const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These<L, B>): These<L, B> => {
   return fa.fold(
     () => fa as any,
     a => f(a),

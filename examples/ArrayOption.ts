@@ -46,7 +46,7 @@ export const of = <A>(a: A): ArrayOption<A> => new ArrayOption(optionT.some(arra
 
 export const ap = <A, B>(fab: ArrayOption<(a: A) => B>, fa: ArrayOption<A>): ArrayOption<B> => fa.ap(fab)
 
-export const chain = <A, B>(f: (a: A) => ArrayOption<B>, fa: ArrayOption<A>): ArrayOption<B> => fa.chain(f)
+export const chain = <A, B>(fa: ArrayOption<A>, f: (a: A) => ArrayOption<B>): ArrayOption<B> => fa.chain(f)
 
 export const some = of
 

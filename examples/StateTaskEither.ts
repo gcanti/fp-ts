@@ -58,8 +58,8 @@ export const ap = <S, L, A, B>(
 ): StateTaskEither<S, L, B> => fa.ap(fab)
 
 export const chain = <S, L, A, B>(
-  f: (a: A) => StateTaskEither<S, L, B>,
-  fa: StateTaskEither<S, L, A>
+  fa: StateTaskEither<S, L, A>,
+  f: (a: A) => StateTaskEither<S, L, B>
 ): StateTaskEither<S, L, B> => fa.chain(f)
 
 export const get = <L, S>(): StateTaskEither<S, L, S> => new StateTaskEither<S, L, S>(stateT.get(taskEither)())
