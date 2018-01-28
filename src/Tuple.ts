@@ -3,14 +3,14 @@ import { Setoid } from './Setoid'
 import { Ord, getSemigroup as getOrdSemigroup, contramap as contramapOrd } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
-import { Bifunctor, FantasyBifunctor } from './Bifunctor'
-import { Comonad, FantasyComonad } from './Comonad'
+import { Bifunctor } from './Bifunctor'
+import { Comonad } from './Comonad'
 import { Apply } from './Apply'
 import { Monad } from './Monad'
-import { Foldable, FantasyFoldable } from './Foldable'
+import { Foldable } from './Foldable'
 import { Applicative } from './Applicative'
-import { Traversable, FantasyTraversable } from './Traversable'
-import { Semigroupoid, FantasySemigroupoid } from './Semigroupoid'
+import { Traversable } from './Traversable'
+import { Semigroupoid } from './Semigroupoid'
 import { toString } from './function'
 import { ChainRec } from './ChainRec'
 import { Chain } from './Chain'
@@ -32,12 +32,7 @@ export type URI = typeof URI
  * @data
  * @constructor Tuple
  */
-export class Tuple<L, A>
-  implements FantasySemigroupoid<URI, L, A>,
-    FantasyBifunctor<URI, L, A>,
-    FantasyComonad<URI, A>,
-    FantasyFoldable<A>,
-    FantasyTraversable<URI, A> {
+export class Tuple<L, A> {
   readonly '-A': A
   readonly '-L': L
   readonly '-URI': URI

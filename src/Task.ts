@@ -1,5 +1,5 @@
 import { Monoid } from './Monoid'
-import { Monad, FantasyMonad } from './Monad'
+import { Monad } from './Monad'
 import { Lazy, toString } from './function'
 import { Either, left, right } from './Either'
 import { IO } from './IO'
@@ -18,7 +18,7 @@ export type URI = typeof URI
  * @data
  * @constructor Task
  */
-export class Task<A> implements FantasyMonad<URI, A> {
+export class Task<A> {
   readonly '-A': A
   readonly '-URI': URI
   constructor(readonly run: Lazy<Promise<A>>) {}

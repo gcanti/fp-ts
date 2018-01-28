@@ -1,6 +1,6 @@
 import { Monoid } from './Monoid'
-import { Functor, FantasyFunctor } from './Functor'
-import { Contravariant, FantasyContravariant } from './Contravariant'
+import { Functor } from './Functor'
+import { Contravariant } from './Contravariant'
 import { Applicative } from './Applicative'
 import { Apply } from './Apply'
 import { Semigroup } from './Semigroup'
@@ -21,7 +21,7 @@ export type URI = typeof URI
  * @data
  * @constructor Const
  */
-export class Const<L, A> implements FantasyFunctor<URI, A>, FantasyContravariant<URI, A> {
+export class Const<L, A> {
   readonly '-A': A
   readonly '-L': L
   readonly '-URI': URI

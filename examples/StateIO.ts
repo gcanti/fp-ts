@@ -1,6 +1,6 @@
 import * as stateT from 'fp-ts/lib/StateT'
 import { io, IO } from 'fp-ts/lib/IO'
-import { FantasyMonad, Monad } from 'fp-ts/lib/Monad'
+import { Monad } from 'fp-ts/lib/Monad'
 import { Endomorphism, tuple } from 'fp-ts/lib/function'
 import * as array from 'fp-ts/lib/Array'
 
@@ -16,7 +16,7 @@ export const URI = 'StateIO'
 
 export type URI = typeof URI
 
-export class StateIO<S, A> implements FantasyMonad<URI, A> {
+export class StateIO<S, A> {
   readonly '-A': A
   readonly '-L': S
   readonly '-URI': URI

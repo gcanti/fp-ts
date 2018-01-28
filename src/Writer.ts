@@ -1,6 +1,6 @@
 import { Monoid } from './Monoid'
 import { Functor } from './Functor'
-import { Monad, FantasyMonad } from './Monad'
+import { Monad } from './Monad'
 import { Lazy } from './function'
 
 declare module './HKT' {
@@ -17,7 +17,7 @@ export type URI = typeof URI
  * @data
  * @constructor Writer
  */
-export class Writer<W, A> implements FantasyMonad<URI, A> {
+export class Writer<W, A> {
   readonly '-A': A
   readonly '-L': W
   readonly '-URI': URI

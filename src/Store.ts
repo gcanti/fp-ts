@@ -1,5 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
-import { Comonad, FantasyComonad } from './Comonad'
+import { Comonad } from './Comonad'
 import { Functor } from './Functor'
 import { Endomorphism, toString } from './function'
 
@@ -17,7 +17,7 @@ export type URI = typeof URI
  * @data
  * @constructor Store
  */
-export class Store<S, A> implements FantasyComonad<URI, A> {
+export class Store<S, A> {
   readonly '-A': A
   readonly '-L': S
   readonly '-URI': URI

@@ -1,5 +1,5 @@
 import { Monad } from './Monad'
-import { IxMonad, FantasyIxMonad } from './IxMonad'
+import { IxMonad } from './IxMonad'
 import { IO } from './IO'
 import * as io from './IO'
 
@@ -17,7 +17,7 @@ export type URI = typeof URI
  * @data
  * @constructor IxIO
  */
-export class IxIO<I, O, A> implements FantasyIxMonad<URI, A, O, I> {
+export class IxIO<I, O, A> {
   readonly '-A': A
 
   readonly '-L': O

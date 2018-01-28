@@ -1,11 +1,11 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Applicative } from './Applicative'
-import { Monad, FantasyMonad } from './Monad'
-import { Foldable, FantasyFoldable } from './Foldable'
+import { Monad } from './Monad'
+import { Foldable } from './Foldable'
 import { Setoid } from './Setoid'
-import { Traversable, FantasyTraversable } from './Traversable'
-import { Alt, FantasyAlt } from './Alt'
-import { Comonad, FantasyComonad } from './Comonad'
+import { Traversable } from './Traversable'
+import { Alt } from './Alt'
+import { Comonad } from './Comonad'
 import { Either } from './Either'
 import { ChainRec, tailRec } from './ChainRec'
 import { toString } from './function'
@@ -24,12 +24,7 @@ export type URI = typeof URI
  * @data
  * @constructor Identity
  */
-export class Identity<A>
-  implements FantasyMonad<URI, A>,
-    FantasyFoldable<A>,
-    FantasyTraversable<URI, A>,
-    FantasyAlt<URI, A>,
-    FantasyComonad<URI, A> {
+export class Identity<A> {
   readonly '-A': A
   readonly '-URI': URI
   constructor(readonly value: A) {}

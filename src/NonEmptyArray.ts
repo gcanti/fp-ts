@@ -1,10 +1,10 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
-import { Monad, FantasyMonad } from './Monad'
-import { Comonad, FantasyComonad } from './Comonad'
+import { Monad } from './Monad'
+import { Comonad } from './Comonad'
 import { Semigroup } from './Semigroup'
-import { Foldable, FantasyFoldable } from './Foldable'
+import { Foldable } from './Foldable'
 import { Applicative } from './Applicative'
-import { Traversable, FantasyTraversable } from './Traversable'
+import { Traversable } from './Traversable'
 import * as array from './Array'
 import { Option, some, none } from './Option'
 import { toString, concat as uncurriedConcat } from './function'
@@ -23,8 +23,7 @@ export type URI = typeof URI
  * @data
  * @constructor NonEmptyArray
  */
-export class NonEmptyArray<A>
-  implements FantasyMonad<URI, A>, FantasyComonad<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
+export class NonEmptyArray<A> {
   readonly '-A': A
   readonly '-URI': URI
   constructor(readonly head: A, readonly tail: Array<A>) {}

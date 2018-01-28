@@ -1,6 +1,6 @@
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Monad, FantasyMonad } from './Monad'
+import { Monad } from './Monad'
 import { Lazy, toString } from './function'
 
 declare module './HKT' {
@@ -17,7 +17,7 @@ export type URI = typeof URI
  * @data
  * @constructor IO
  */
-export class IO<A> implements FantasyMonad<URI, A> {
+export class IO<A> {
   readonly '-A': A
   readonly '-URI': URI
   constructor(readonly run: Lazy<A>) {}

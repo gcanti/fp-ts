@@ -1,4 +1,4 @@
-import { Monad, FantasyMonad } from './Monad'
+import { Monad } from './Monad'
 import { identity } from './function'
 
 export const URI = 'Reader'
@@ -9,7 +9,7 @@ export type URI = typeof URI
  * @data
  * @constructor Reader
  */
-export class Reader<E, A> implements FantasyMonad<URI, A> {
+export class Reader<E, A> {
   readonly '-A': A
   readonly '-L': E
   readonly '-URI': URI

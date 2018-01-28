@@ -2,13 +2,13 @@ import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Monoid, getDualMonoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
-import { Monad, FantasyMonad } from './Monad'
-import { Foldable, FantasyFoldable } from './Foldable'
+import { Monad } from './Monad'
+import { Foldable } from './Foldable'
 import { Plus } from './Plus'
-import { Extend, FantasyExtend } from './Extend'
+import { Extend } from './Extend'
 import { Setoid } from './Setoid'
-import { Traversable, FantasyTraversable } from './Traversable'
-import { Alternative, FantasyAlternative } from './Alternative'
+import { Traversable } from './Traversable'
+import { Alternative } from './Alternative'
 import { constant, Lazy, Predicate, toString } from './function'
 import { Either } from './Either'
 
@@ -33,12 +33,7 @@ export type URI = typeof URI
  */
 export type Option<A> = None<A> | Some<A>
 
-export class None<A>
-  implements FantasyMonad<URI, A>,
-    FantasyFoldable<A>,
-    FantasyTraversable<URI, A>,
-    FantasyAlternative<URI, A>,
-    FantasyExtend<URI, A> {
+export class None<A> {
   static value: Option<never> = new None()
   readonly _tag: 'None' = 'None'
   readonly '-A': A
@@ -130,12 +125,7 @@ export class None<A>
 
 export const none: Option<never> = None.value
 
-export class Some<A>
-  implements FantasyMonad<URI, A>,
-    FantasyFoldable<A>,
-    FantasyTraversable<URI, A>,
-    FantasyAlternative<URI, A>,
-    FantasyExtend<URI, A> {
+export class Some<A> {
   readonly _tag: 'Some' = 'Some'
   readonly '-A': A
   readonly '-URI': URI

@@ -1,5 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
-import { Apply, Apply2, Apply3, FantasyApply } from './Apply'
+import { Apply, Apply2, Apply3 } from './Apply'
 
 /** @typeclass */
 export interface Chain<F> extends Apply<F> {
@@ -14,10 +14,6 @@ export interface Chain2<M, L> extends Apply2<M, L> {
 /** Chain interface specialized for kind * -> * -> * -> * */
 export interface Chain3<M, U, L> extends Apply3<M, U, L> {
   chain<A, B>(f: (a: A) => HKT3<M, U, L, B>, fa: HKT3<M, U, L, A>): HKT3<M, U, L, B>
-}
-
-export interface FantasyChain<F, A> extends FantasyApply<F, A> {
-  chain<B>(f: (a: A) => HKT<F, B>): HKT<F, B>
 }
 
 export function flatten<F extends HKT3S>(

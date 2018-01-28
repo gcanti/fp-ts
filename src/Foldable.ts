@@ -16,10 +16,6 @@ export interface Foldable<F> {
   reduce<A, B>(f: (b: B, a: A) => B, b: B, fa: HKT<F, A>): B
 }
 
-export interface FantasyFoldable<A> {
-  reduce<B>(f: (b: B, a: A) => B, b: B): B
-}
-
 export interface FoldableComposition<F, G> {
   reduce<A, B>(f: (b: B, a: A) => B, b: B, fga: HKT<F, HKT<G, A>>): B
 }

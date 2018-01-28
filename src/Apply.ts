@@ -1,5 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
-import { Functor, Functor2, Functor3, FantasyFunctor } from './Functor'
+import { Functor, Functor2, Functor3 } from './Functor'
 import { Curried2, Curried3, Curried4, constant } from './function'
 
 /** @typeclass */
@@ -15,10 +15,6 @@ export interface Apply2<M, L> extends Functor2<M, L> {
 /** Apply interface specialized for kind * -> * -> * -> * */
 export interface Apply3<M, U, L> extends Functor3<M, U, L> {
   ap<A, B>(fab: HKT3<M, U, L, (a: A) => B>, fa: HKT3<M, U, L, A>): HKT3<M, U, L, B>
-}
-
-export interface FantasyApply<F, A> extends FantasyFunctor<F, A> {
-  ap<B>(fab: HKT<F, (a: A) => B>): HKT<F, B>
 }
 
 /** Combine two effectful actions, keeping only the result of the first */

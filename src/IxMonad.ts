@@ -10,10 +10,6 @@ export interface IxMonad<F> {
   ichain<I, O, Z, A, B>(f: (a: A) => HKT3<F, O, Z, B>, fa: HKT3<F, I, O, A>): HKT3<F, I, Z, B>
 }
 
-export interface FantasyIxMonad<F, A, O, I> {
-  ichain<Z, B>(f: (a: A) => HKT3<F, O, Z, B>): HKT3<F, I, Z, B>
-}
-
 export function iapplyFirst<F extends HKT3S>(
   ixmonad: IxMonad<F>
 ): <I, O, A>(fa: HKT3As<F, I, O, A>) => <Z, B>(fb: HKT3As<F, O, Z, B>) => HKT3As<F, I, Z, A>

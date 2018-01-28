@@ -1,6 +1,6 @@
 import * as readerT from '../src/ReaderT'
 import * as either from '../src/Either'
-import { Monad, FantasyMonad } from '../src/Monad'
+import { Monad } from '../src/Monad'
 
 const readerTEither = readerT.getReaderT(either)
 
@@ -14,7 +14,7 @@ export const URI = 'ReaderEither'
 
 export type URI = typeof URI
 
-export class ReaderEither<E, L, A> implements FantasyMonad<URI, A> {
+export class ReaderEither<E, L, A> {
   readonly '-A': A
   readonly '-L': L
   readonly '-U': E

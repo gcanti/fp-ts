@@ -6,10 +6,6 @@ export interface Contravariant<F> {
   contramap<A, B>(f: (b: B) => A, fa: HKT<F, A>): HKT<F, B>
 }
 
-export interface FantasyContravariant<F, A> {
-  contramap<B>(f: (b: B) => A): HKT<F, B>
-}
-
 export function lift<F extends HKT3S>(
   contravariant: Contravariant<F>
 ): <A, B>(f: (b: B) => A) => <U, L>(fa: HKT3As<F, U, L, A>) => HKT3As<F, U, L, B>

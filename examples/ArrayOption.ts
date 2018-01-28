@@ -2,7 +2,7 @@ import * as optionT from 'fp-ts/lib/OptionT'
 import { array } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
 import { Lazy } from 'fp-ts/lib/function'
-import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
+import { Monad } from 'fp-ts/lib/Monad'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT<A> {
@@ -16,7 +16,7 @@ export const URI = 'ArrayOption'
 
 export type URI = typeof URI
 
-export class ArrayOption<A> implements FantasyMonad<URI, A> {
+export class ArrayOption<A> {
   readonly '-A': A
   readonly '-URI' = URI
   constructor(readonly value: Array<Option<A>>) {}

@@ -1,6 +1,6 @@
 import { Task } from 'fp-ts/lib/Task'
 import { Option, fromEither } from 'fp-ts/lib/Option'
-import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
+import { Monad } from 'fp-ts/lib/Monad'
 import * as optionT from 'fp-ts/lib/OptionT'
 import * as task from 'fp-ts/lib/Task'
 import { Lazy } from 'fp-ts/lib/function'
@@ -17,7 +17,7 @@ export const URI = 'TaskOption'
 
 export type URI = typeof URI
 
-export class TaskOption<A> implements FantasyMonad<URI, A> {
+export class TaskOption<A> {
   readonly '-A': A
   readonly '-URI': URI
   constructor(readonly value: Task<Option<A>>) {}
