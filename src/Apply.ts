@@ -37,18 +37,18 @@ export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>)
 /** Combine two effectful actions, keeping only the result of the second */
 export function applySecond<F extends HKT3S>(
   F: Apply<F>
-): <U, L, A>(fa: HKT3As<F, U, L, A>) => <B>(fb: HKT3As<F, U, L, B>) => HKT3As<F, U, L, B>
+): <U, L, A, B>(fa: HKT3As<F, U, L, A>, fb: HKT3As<F, U, L, B>) => HKT3As<F, U, L, B>
 export function applySecond<F extends HKT2S>(
   F: Apply<F>
-): <L, A>(fa: HKT2As<F, L, A>) => <B>(fb: HKT2As<F, L, B>) => HKT2As<F, L, B>
-export function applySecond<F extends HKTS>(F: Apply<F>): <A>(fa: HKTAs<F, A>) => <B>(fb: HKTAs<F, B>) => HKTAs<F, B>
-export function applySecond<F>(F: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, B>
+): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, B>
+export function applySecond<F extends HKTS>(F: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, B>
+export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
 /**
  * Combine two effectful actions, keeping only the result of the second
  * @function
  */
-export function applySecond<F>(F: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, B> {
-  return <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => F.ap(F.map(fa, () => (b: B) => b), fb)
+export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
+  return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => F.ap(F.map(fa, () => (b: B) => b), fb)
 }
 
 /**
