@@ -60,8 +60,6 @@ import * as monoid from './Monoid'
 export { monoid }
 import * as monoidal from './Monoidal'
 export { monoidal }
-import * as naturalTransformation from './NaturalTransformation'
-export { naturalTransformation }
 import * as nonEmptyArray from './NonEmptyArray'
 export { nonEmptyArray }
 import * as option from './Option'
