@@ -106,7 +106,7 @@ function guessSession(answer: number): StateIO<number, void> {
   return lift<number, string>(readLine('')).chain(gs => {
     const g = parseInt(gs, 10)
     return modify<number>(s => s + 1).chain(() => {
-      switch (ordNumber.compare(g)(answer)) {
+      switch (ordNumber.compare(g, answer)) {
         case -1:
           return lift<number, void>(log('Too low')).chain(() => guessSession(answer))
         case 1:

@@ -51,7 +51,7 @@ export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => {
 
 export type Endomorphism<A> = (a: A) => A
 
-export type BinaryOperation<A, B> = (a1: A) => (a2: A) => B
+export type BinaryOperation<A, B> = (a1: A, a2: A) => B
 
 export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
 export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
@@ -111,7 +111,7 @@ export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => {
  * @function
  */
 export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => {
-  return x => y => op(f(x))(f(y))
+  return (x, y) => op(f(x), f(y))
 }
 
 export function compose<A, B, C>(bc: (b: B) => C, ab: (a: A) => B): (a: A) => C

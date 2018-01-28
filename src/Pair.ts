@@ -117,7 +117,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => {
 export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => {
   return {
     ...getSetoid(O),
-    compare: x => y => semigroupOrdering.concat(O.compare(x.fst())(y.fst()))(O.compare(x.snd())(y.snd()))
+    compare: (x, y) => semigroupOrdering.concat(O.compare(x.fst(), y.fst()))(O.compare(x.snd(), y.snd()))
   }
 }
 

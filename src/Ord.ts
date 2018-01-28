@@ -5,16 +5,16 @@ import { on } from './function'
 
 /** @typeclass */
 export interface Ord<A> extends Setoid<A> {
-  compare: (x: A) => (y: A) => Ordering
+  compare: (x: A, y: A) => Ordering
 }
 
 /** @function */
-export const toNativeComparator = <A>(compare: (x: A) => (y: A) => Ordering): ((x: A, y: A) => number) => {
-  return (x, y) => sign(compare(x)(y))
+export const toNativeComparator = <A>(compare: (x: A, y: A) => Ordering): ((x: A, y: A) => number) => {
+  return (x, y) => sign(compare(x, y))
 }
 
 /** @function */
-export const unsafeCompare = (x: any) => (y: any): Ordering => {
+export const unsafeCompare = (x: any, y: any): Ordering => {
   return x < y ? -1 : x > y ? 1 : 0
 }
 
@@ -41,7 +41,7 @@ export const ordBoolean: Ord<boolean> = {
  * @function
  */
 export const lessThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
-  return ord.compare(x)(y) === -1
+  return ord.compare(x, y) === -1
 }
 
 /**
@@ -49,7 +49,7 @@ export const lessThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
  * @function
  */
 export const greaterThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
-  return ord.compare(x)(y) === 1
+  return ord.compare(x, y) === 1
 }
 
 /**
@@ -57,7 +57,7 @@ export const greaterThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
  * @function
  */
 export const lessThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
-  return ord.compare(x)(y) !== 1
+  return ord.compare(x, y) !== 1
 }
 
 /**
@@ -65,7 +65,7 @@ export const lessThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
  * @function
  */
 export const greaterThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
-  return ord.compare(x)(y) !== -1
+  return ord.compare(x, y) !== -1
 }
 
 /**
@@ -73,7 +73,7 @@ export const greaterThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => 
  * @function
  */
 export const min = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
-  return ord.compare(x)(y) === 1 ? y : x
+  return ord.compare(x, y) === 1 ? y : x
 }
 
 /**
@@ -81,7 +81,7 @@ export const min = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
  * @function
  */
 export const max = <A>(ord: Ord<A>) => (x: A) => (y: A): A => {
-  return ord.compare(x)(y) === -1 ? y : x
+  return ord.compare(x, y) === -1 ? y : x
 }
 
 /**
@@ -101,9 +101,9 @@ export const between = <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): boolea
 }
 
 /** @function */
-export const fromCompare = <A>(compare: (x: A) => (y: A) => Ordering): Ord<A> => {
+export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
   return {
-    equals: (x, y) => compare(x)(y) === 0,
+    equals: (x, y) => compare(x, y) === 0,
     compare
   }
 }
@@ -116,7 +116,7 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
 /** @function */
 export const getSemigroup = <A>(): Semigroup<Ord<A>> => {
   return {
-    concat: x => y => fromCompare(a => b => semigroupOrdering.concat(x.compare(a)(b))(y.compare(a)(b)))
+    concat: x => y => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b))(y.compare(a, b)))
   }
 }
 
@@ -125,9 +125,9 @@ export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
   const S = getProductSetoid(OA, OB)
   return {
     ...S,
-    compare: ([xa, xb]) => ([ya, yb]) => {
-      const r = OA.compare(xa)(ya)
-      return r === 0 ? OB.compare(xb)(yb) : r
+    compare: ([xa, xb], [ya, yb]) => {
+      const r = OA.compare(xa, ya)
+      return r === 0 ? OB.compare(xb, yb) : r
     }
   }
 }
