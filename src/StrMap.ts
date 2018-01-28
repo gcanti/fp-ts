@@ -58,7 +58,7 @@ export class StrMap<A> {
     return <B>(f: (k: string, a: A) => HKT<F, B>) => {
       let out: HKT<F, StrMap<B>> = F.of(empty())
       for (let k in this.value) {
-        out = concatA2(out)(F.map(f(k, this.value[k]), b => singleton(k)(b)))
+        out = concatA2(out)(F.map(f(k, this.value[k]), b => singleton(k, b)))
       }
       return out
     }
@@ -175,7 +175,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
  * Create a dictionary with one key/value pair
  * @function
  */
-export const singleton = (k: string) => <A>(a: A): StrMap<A> => {
+export const singleton = <A>(k: string, a: A): StrMap<A> => {
   return new StrMap({ [k]: a })
 }
 
