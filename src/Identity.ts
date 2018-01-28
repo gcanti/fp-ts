@@ -119,7 +119,7 @@ export const extract = <A>(fa: Identity<A>): A => {
 }
 
 /** @function */
-export const chainRec = <A, B>(f: (a: A) => Identity<Either<A, B>>, a: A): Identity<B> => {
+export const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> => {
   return new Identity(tailRec(a => f(a).extract(), a))
 }
 
