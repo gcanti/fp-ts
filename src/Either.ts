@@ -1,12 +1,12 @@
 import { HKT, HKTS, HKT2S, HKT2, HKTAs, HKT2As } from './HKT'
 import { Applicative } from './Applicative'
-import { Monad, FantasyMonad } from './Monad'
-import { Foldable, FantasyFoldable } from './Foldable'
-import { Extend, FantasyExtend } from './Extend'
+import { Monad } from './Monad'
+import { Foldable } from './Foldable'
+import { Extend } from './Extend'
 import { Setoid } from './Setoid'
-import { Traversable, FantasyTraversable } from './Traversable'
-import { Bifunctor, FantasyBifunctor } from './Bifunctor'
-import { Alt, FantasyAlt } from './Alt'
+import { Traversable } from './Traversable'
+import { Bifunctor } from './Bifunctor'
+import { Alt } from './Alt'
 import { ChainRec, tailRec } from './ChainRec'
 import { Option } from './Option'
 import { constFalse, Predicate, Lazy, toString } from './function'
@@ -55,13 +55,7 @@ export type URI = typeof URI
  */
 export type Either<L, A> = Left<L, A> | Right<L, A>
 
-export class Left<L, A>
-  implements FantasyMonad<URI, A>,
-    FantasyFoldable<A>,
-    FantasyTraversable<URI, A>,
-    FantasyAlt<URI, A>,
-    FantasyExtend<URI, A>,
-    FantasyBifunctor<URI, L, A> {
+export class Left<L, A> {
   readonly _tag: 'Left' = 'Left'
   readonly '-A': A
   readonly '-L': L
@@ -135,12 +129,7 @@ export class Left<L, A>
   }
 }
 
-export class Right<L, A>
-  implements FantasyMonad<URI, A>,
-    FantasyFoldable<A>,
-    FantasyTraversable<URI, A>,
-    FantasyAlt<URI, A>,
-    FantasyExtend<URI, A> {
+export class Right<L, A> {
   readonly _tag: 'Right' = 'Right'
   readonly '-A': A
   readonly '-L': L

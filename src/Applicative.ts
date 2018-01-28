@@ -1,5 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
-import { Apply, Apply2, Apply3, FantasyApply } from './Apply'
+import { Apply, Apply2, Apply3 } from './Apply'
 import {
   getFunctorComposition,
   FunctorComposition,
@@ -23,8 +23,6 @@ export interface Applicative2<M, L> extends Apply2<M, L> {
 export interface Applicative3<M, U, L> extends Apply3<M, U, L> {
   of<A>(a: A): HKT3<M, U, L, A>
 }
-
-export interface FantasyApplicative<F, A> extends FantasyApply<F, A> {}
 
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
   of: <A>(a: A) => HKT<F, HKT<G, A>>

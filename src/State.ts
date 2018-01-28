@@ -1,4 +1,4 @@
-import { Monad, FantasyMonad } from './Monad'
+import { Monad } from './Monad'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -14,7 +14,7 @@ export type URI = typeof URI
  * @data
  * @constructor State
  */
-export class State<S, A> implements FantasyMonad<URI, A> {
+export class State<S, A> {
   readonly '-A': A
   readonly '-L': S
   readonly '-URI': URI

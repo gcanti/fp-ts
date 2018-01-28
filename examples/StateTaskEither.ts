@@ -1,6 +1,6 @@
 import * as stateT from 'fp-ts/lib/StateT'
 import { TaskEither, taskEither } from 'fp-ts/lib/TaskEither'
-import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
+import { Monad } from 'fp-ts/lib/Monad'
 import { Endomorphism, tuple } from 'fp-ts/lib/function'
 import { Either } from 'fp-ts/lib/Either'
 
@@ -16,7 +16,7 @@ export const URI = 'StateTaskEither'
 
 export type URI = typeof URI
 
-export class StateTaskEither<S, L, A> implements FantasyMonad<URI, A> {
+export class StateTaskEither<S, L, A> {
   readonly '-A': A
   readonly '-L': L
   readonly '-U': S

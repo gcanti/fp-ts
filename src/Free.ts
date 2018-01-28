@@ -2,7 +2,7 @@
 // and https://github.com/purescript/purescript-free
 
 import { HKT, HKT2, HKT3, HKTS, HKTAs, HKT2S, HKT2As, HKT3S, HKT3As } from './HKT'
-import { FantasyMonad, Monad } from './Monad'
+import { Monad } from './Monad'
 import { NaturalTransformation } from './NaturalTransformation'
 import { toString } from './function'
 
@@ -17,7 +17,7 @@ export type URI = typeof URI
  */
 export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
-export class Pure<F, A> implements FantasyMonad<URI, A> {
+export class Pure<F, A> {
   readonly _tag: 'Pure' = 'Pure'
   readonly '-A': A
   readonly '-L': F
@@ -50,7 +50,7 @@ export class Pure<F, A> implements FantasyMonad<URI, A> {
   }
 }
 
-export class Impure<F, A, X> implements FantasyMonad<URI, A> {
+export class Impure<F, A, X> {
   readonly _tag: 'Impure' = 'Impure'
   readonly '-A': A
   readonly '-L': F

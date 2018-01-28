@@ -1,9 +1,9 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Applicative } from './Applicative'
-import { Functor, FantasyFunctor } from './Functor'
-import { Bifunctor, FantasyBifunctor } from './Bifunctor'
-import { Foldable, FantasyFoldable } from './Foldable'
-import { Traversable, FantasyTraversable } from './Traversable'
+import { Functor } from './Functor'
+import { Bifunctor } from './Bifunctor'
+import { Foldable } from './Foldable'
+import { Traversable } from './Traversable'
 import { Option, none, some } from './Option'
 import { Setoid } from './Setoid'
 import { Semigroup } from './Semigroup'
@@ -31,8 +31,7 @@ export type URI = typeof URI
  */
 export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 
-export class This<L, A>
-  implements FantasyFunctor<URI, A>, FantasyBifunctor<URI, L, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
+export class This<L, A> {
   readonly _tag: 'This' = 'This'
   readonly '-A': A
   readonly '-L': L
@@ -77,8 +76,7 @@ export class This<L, A>
   }
 }
 
-export class That<L, A>
-  implements FantasyFunctor<URI, A>, FantasyBifunctor<URI, L, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
+export class That<L, A> {
   readonly _tag: 'That' = 'That'
   readonly '-A': A
   readonly '-L': L
@@ -119,8 +117,7 @@ export class That<L, A>
   }
 }
 
-export class Both<L, A>
-  implements FantasyFunctor<URI, A>, FantasyBifunctor<URI, L, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
+export class Both<L, A> {
   readonly _tag: 'Both' = 'Both'
   readonly '-A': A
   readonly '-L': L

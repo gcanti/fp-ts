@@ -1,11 +1,10 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
-import { FantasyApply } from './Apply'
-import { Foldable, FantasyFoldable } from './Foldable'
+import { Foldable } from './Foldable'
 import { Setoid } from './Setoid'
-import { Traversable, FantasyTraversable } from './Traversable'
-import { Alt, FantasyAlt } from './Alt'
+import { Traversable } from './Traversable'
+import { Alt } from './Alt'
 import { constFalse, Predicate, toString } from './function'
 import { Either } from './Either'
 import { Monad } from './Monad'
@@ -28,8 +27,7 @@ export type URI = typeof URI
  */
 export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
-export class Failure<L, A>
-  implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
+export class Failure<L, A> {
   readonly _tag: 'Failure' = 'Failure'
   readonly '-A': A
   readonly '-L': L
@@ -105,8 +103,7 @@ export class Failure<L, A>
   }
 }
 
-export class Success<L, A>
-  implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
+export class Success<L, A> {
   readonly _tag: 'Success' = 'Success'
   readonly '-A': A
   readonly '-L': L

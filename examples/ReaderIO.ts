@@ -1,6 +1,6 @@
 import * as readerT from 'fp-ts/lib/ReaderT'
 import * as io from 'fp-ts/lib/IO'
-import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
+import { Monad } from 'fp-ts/lib/Monad'
 
 const readerTIO = readerT.getReaderT(io)
 
@@ -14,7 +14,7 @@ export const URI = 'ReaderIO'
 
 export type URI = typeof URI
 
-export class ReaderIO<E, A> implements FantasyMonad<URI, A> {
+export class ReaderIO<E, A> {
   readonly '-A': A
   readonly '-L': E
   readonly '-URI': URI

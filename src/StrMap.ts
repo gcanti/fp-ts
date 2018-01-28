@@ -1,9 +1,9 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
 import { Monoid } from './Monoid'
-import { Functor, FantasyFunctor } from './Functor'
+import { Functor } from './Functor'
 import { Applicative } from './Applicative'
-import { Foldable, FantasyFoldable } from './Foldable'
-import { Traversable, FantasyTraversable } from './Traversable'
+import { Foldable } from './Foldable'
+import { Traversable } from './Traversable'
 import { tuple } from './function'
 import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
@@ -27,7 +27,7 @@ export type URI = typeof URI
  * @data
  * @constructor StrMap
  */
-export class StrMap<A> implements FantasyFunctor<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
+export class StrMap<A> {
   readonly '-A': A
   readonly '-URI': URI
   constructor(readonly value: { [key: string]: A }) {}

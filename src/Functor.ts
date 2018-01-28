@@ -19,10 +19,6 @@ export interface Functor3<M, U, L> {
   map<A, B>(f: (a: A) => B, fa: HKT3<M, U, L, A>): HKT3<M, U, L, B>
 }
 
-export interface FantasyFunctor<F, A> {
-  map<B>(f: (a: A) => B): HKT<F, B>
-}
-
 export interface FunctorComposition<F, G> {
   map<A, B>(f: (a: A) => B, fa: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>>
 }

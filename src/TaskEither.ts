@@ -2,7 +2,7 @@ import * as eitherT from './EitherT'
 import { Either } from './Either'
 import * as task from './Task'
 import { Task } from './Task'
-import { Monad, FantasyMonad } from './Monad'
+import { Monad } from './Monad'
 import { Lazy } from './function'
 
 declare module './HKT' {
@@ -24,7 +24,7 @@ const eitherTmapLeft = eitherT.mapLeft(task)
  * @data
  * @constructor TaskEither
  */
-export class TaskEither<L, A> implements FantasyMonad<URI, A> {
+export class TaskEither<L, A> {
   readonly '-A': A
   readonly '-L': L
   readonly '-URI': URI

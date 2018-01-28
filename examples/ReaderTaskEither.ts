@@ -1,7 +1,7 @@
 import * as readerT from 'fp-ts/lib/ReaderT'
 import * as taskEither from 'fp-ts/lib/TaskEither'
 import { TaskEither } from 'fp-ts/lib/TaskEither'
-import { Monad, FantasyMonad } from 'fp-ts/lib/Monad'
+import { Monad } from 'fp-ts/lib/Monad'
 import { Task } from 'fp-ts/lib/Task'
 import { Either } from 'fp-ts/lib/Either'
 
@@ -17,7 +17,7 @@ export const URI = 'ReaderTaskEither'
 
 export type URI = typeof URI
 
-export class ReaderTaskEither<E, L, A> implements FantasyMonad<URI, A> {
+export class ReaderTaskEither<E, L, A> {
   readonly '-A': A
   readonly '-L': L
   readonly '-U': E
