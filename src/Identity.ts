@@ -74,7 +74,7 @@ export class Identity<A> {
 /** @function */
 export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => {
   return {
-    equals: x => y => setoid.equals(x.value)(y.value)
+    equals: (x, y) => setoid.equals(x.value, y.value)
   }
 }
 

@@ -26,9 +26,9 @@ export const fieldNumber: Field<number> = {
  * The *greatest common divisor* of two values
  * @function
  */
-export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A) => (y: A) => A) => {
+export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => {
   const zero = field.zero()
-  const f = (x: A) => (y: A): A => (S.equals(y)(zero) ? x : f(y)(field.mod(x)(y)))
+  const f = (x: A, y: A): A => (S.equals(y, zero) ? x : f(y, field.mod(x)(y)))
   return f
 }
 
@@ -36,8 +36,8 @@ export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A) => (y: A) => A) =
  * The *least common multiple* of two values
  * @function
  */
-export const lcm = <A>(setoid: Setoid<A>, field: Field<A>): ((x: A) => (y: A) => A) => {
-  const zero = field.zero()
-  return x => y =>
-    setoid.equals(x)(zero) || setoid.equals(y)(zero) ? zero : field.div(field.mul(x)(y))(gcd(setoid, field)(x)(y))
+export const lcm = <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A) => {
+  const zero = F.zero()
+  const gcdSF = gcd(S, F)
+  return (x, y) => (S.equals(x, zero) || S.equals(y, zero) ? zero : F.div(F.mul(x)(y))(gcdSF(x, y)))
 }

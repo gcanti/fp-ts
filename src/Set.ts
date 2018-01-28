@@ -15,7 +15,7 @@ export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => {
   const sub = subset(S)
   return {
-    equals: x => y => sub(x)(y) && sub(y)(x)
+    equals: (x, y) => sub(x)(y) && sub(y)(x)
   }
 }
 
@@ -65,7 +65,7 @@ export const filter = <A>(predicate: Predicate<A>) => (x: Set<A>): Set<A> => {
  * @function
  */
 export const member = <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean => {
-  return some(S.equals(a))(x)
+  return some((ax: A) => S.equals(a, ax))(x)
 }
 
 /**
@@ -165,5 +165,5 @@ export const insert = <A>(S: Setoid<A>): ((a: A) => (x: Set<A>) => Set<A>) => {
  * @function
  */
 export const remove = <A>(S: Setoid<A>) => (a: A) => (x: Set<A>): Set<A> => {
-  return filter<A>(not(S.equals(a)))(x)
+  return filter((ax: A) => !S.equals(a, ax))(x)
 }

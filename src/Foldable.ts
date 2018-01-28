@@ -189,7 +189,7 @@ export const product = <F, A>(F: Foldable<F>, S: Semiring<A>) => (fa: HKT<F, A>)
  * @function
  */
 export const elem = <F, A>(F: Foldable<F>, S: Setoid<A>) => (a: A) => (fa: HKT<F, A>): boolean => {
-  return F.reduce(fa, false, (b, x) => b || S.equals(x)(a))
+  return F.reduce(fa, false, (b, x) => b || S.equals(x, a))
 }
 
 /**

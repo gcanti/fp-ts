@@ -122,10 +122,10 @@ export const reduce = <L, A, B>(fa: Tuple<L, A>, b: B, f: (b: B, a: A) => B): B 
 /** @function */
 export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => {
   return {
-    equals: x => y => {
+    equals: (x, y) => {
       const [xa, xb] = x.value
       const [ya, yb] = y.value
-      return SA.equals(xa)(ya) && SB.equals(xb)(yb)
+      return SA.equals(xa, ya) && SB.equals(xb, yb)
     }
   }
 }

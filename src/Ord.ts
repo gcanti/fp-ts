@@ -103,7 +103,7 @@ export const between = <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): boolea
 /** @function */
 export const fromCompare = <A>(compare: (x: A) => (y: A) => Ordering): Ord<A> => {
   return {
-    equals: x => y => compare(x)(y) === 0,
+    equals: (x, y) => compare(x)(y) === 0,
     compare
   }
 }

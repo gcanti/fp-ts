@@ -76,7 +76,7 @@ export class Failure<L, A> {
     return f(this.value)
   }
   equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean {
-    return fy => fy.fold(SL.equals(this.value), constFalse)
+    return fy => fy.fold(a => SL.equals(this.value, a), constFalse)
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
     return fy.fold(l => failure<L>(this.semigroup)<A>(this.semigroup.concat(l)(this.value)), () => this)
@@ -149,7 +149,7 @@ export class Success<L, A> {
     return this.value
   }
   equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean {
-    return fy => fy.fold(constFalse, y => SA.equals(this.value)(y))
+    return fy => fy.fold(constFalse, y => SA.equals(this.value, y))
   }
   concat(fy: Validation<L, A>): Validation<L, A> {
     return this
@@ -182,8 +182,8 @@ export const fold = <L, A, B>(failure: (l: L) => B, success: (a: A) => B) => (fa
 /** @function */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
   return {
-    equals: x => y =>
-      x.fold(lx => y.fold(ly => SL.equals(lx)(ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax)(ay)))
+    equals: (x, y) =>
+      x.fold(lx => y.fold(ly => SL.equals(lx, ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax, ay)))
   }
 }
 

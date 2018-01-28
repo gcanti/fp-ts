@@ -208,8 +208,8 @@ export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B) => (fa: Eit
 /** @function */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
   return {
-    equals: x => y =>
-      x.fold(lx => y.fold(ly => SL.equals(lx)(ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax)(ay)))
+    equals: (x, y) =>
+      x.fold(lx => y.fold(ly => SL.equals(lx, ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax, ay)))
   }
 }
 
