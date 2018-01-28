@@ -39,7 +39,7 @@ describe('Tuple', () => {
     const monoidArrayNumber = getArrayMonoid<number>()
 
     function seqReq(upper: number): Tuple<Array<number>, number> {
-      return chainRec(monoidArrayNumber)(init => new Tuple([[init], init >= upper ? right(init) : left(init + 1)]), 1)
+      return chainRec(monoidArrayNumber)(1, init => new Tuple([[init], init >= upper ? right(init) : left(init + 1)]))
     }
     const xs = seqReq(10000).fst()
     assert.strictEqual(xs.length, 10000)
