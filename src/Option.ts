@@ -85,12 +85,8 @@ export class None<A> {
     return b
   }
   /** Returns the value from this `Some` or the given argument if this is a `None` */
-  getOrElseValue(a: A): A {
+  getOrElse(a: A): A {
     return a
-  }
-  /** Returns the value from this `Some` or the result of given argument if this is a `None` */
-  getOrElse(f: Lazy<A>): A {
-    return f()
   }
   /** Returns the value from this `Some` or `null` if this is a `None` */
   toNullable(): A | null {
@@ -168,10 +164,7 @@ export class Some<A> {
   fold<B>(b: B, some: (a: A) => B): B {
     return some(this.value)
   }
-  getOrElseValue(a: A): A {
-    return this.value
-  }
-  getOrElse(f: Lazy<A>): A {
+  getOrElse(a: A): A {
     return this.value
   }
   toNullable(): A | null {
@@ -325,21 +318,6 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
  */
 export const isNone = <A>(fa: Option<A>): fa is None<A> => {
   return fa.isNone()
-}
-
-/**
- * Takes a default value, and a `Option` value. If the `Option` value is
- * `None` the default value is returned, otherwise the value inside the
- * `Some` is returned
- * @function
- */
-export const getOrElseValue = <A>(a: A) => (fa: Option<A>): A => {
-  return fa.getOrElseValue(a)
-}
-
-/** @function */
-export const getOrElse = <A>(f: Lazy<A>) => (fa: Option<A>): A => {
-  return fa.getOrElse(f)
 }
 
 /**

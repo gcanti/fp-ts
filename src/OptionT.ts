@@ -10,7 +10,6 @@ import {
 } from './Applicative'
 import { Option, URI as OptionURI } from './Option'
 import * as option from './Option'
-import { Lazy } from './function'
 
 export interface OptionT<M> extends ApplicativeComposition<M, OptionURI> {
   chain<A, B>(f: (a: A) => HKT<M, Option<B>>, fa: HKT<M, Option<A>>): HKT<M, Option<B>>
@@ -78,22 +77,12 @@ export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<
 
 export function getOrElse<F extends HKT2S>(
   F: Functor<F>
-): <A>(f: Lazy<A>) => <L>(fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
-export function getOrElse<F extends HKTS>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
-export function getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+): <A>(a: A) => <L>(fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
+export function getOrElse<F extends HKTS>(F: Functor<F>): <A>(a: A) => (fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
+export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
 /** @function */
-export function getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
-  return f => fa => F.map(fa, o => o.getOrElse(f))
-}
-
-export function getOrElseValue<F extends HKT2S>(
-  F: Functor<F>
-): <A>(value: A) => <L>(fa: HKT2As<F, L, Option<A>>) => HKT2As<F, L, A>
-export function getOrElseValue<F extends HKTS>(F: Functor<F>): <A>(value: A) => (fa: HKTAs<F, Option<A>>) => HKTAs<F, A>
-export function getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
-/** @function */
-export function getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
-  return value => fa => F.map(fa, o => o.getOrElseValue(value))
+export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
+  return a => fa => F.map(fa, o => o.getOrElse(a))
 }
 
 export function getOptionT<M extends HKT2S>(M: Monad<M>): OptionT2<M>
