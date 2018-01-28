@@ -21,14 +21,14 @@ describe('Apply', () => {
   })
 
   it('applySecond', () => {
-    assert.deepEqual(applySecond(option)(option.some(5))(option.some(6)), option.some(6))
-    assert.deepEqual(applySecond(option)(option.some(5))(option.empty()), option.empty())
-    assert.deepEqual(applySecond(option)(option.empty())(option.some(6)), option.empty())
+    assert.deepEqual(applySecond(option)(option.some(5), option.some(6)), option.some(6))
+    assert.deepEqual(applySecond(option)(option.some(5), option.empty()), option.empty())
+    assert.deepEqual(applySecond(option)(option.empty(), option.some(6)), option.empty())
 
-    assert.deepEqual(applySecond(either)(r1)(r2), r2)
-    assert.deepEqual(applySecond(either)(foo)(r1), foo)
-    assert.deepEqual(applySecond(either)(r1)(foo), foo)
-    assert.deepEqual(applySecond(either)(foo)(bar), foo)
+    assert.deepEqual(applySecond(either)(r1, r2), r2)
+    assert.deepEqual(applySecond(either)(foo, r1), foo)
+    assert.deepEqual(applySecond(either)(r1, foo), foo)
+    assert.deepEqual(applySecond(either)(foo, bar), foo)
   })
 
   it('liftA2', () => {
