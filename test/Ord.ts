@@ -17,15 +17,15 @@ describe('Ord', () => {
 
   it('getProductOrd', () => {
     const O = getProductOrd(ordString, ordNumber)
-    assert.strictEqual(O.compare(['a', 1])(['b', 2]), -1)
-    assert.strictEqual(O.compare(['a', 1])(['a', 2]), -1)
-    assert.strictEqual(O.compare(['a', 1])(['a', 1]), 0)
+    assert.strictEqual(O.compare(['a', 1], ['b', 2]), -1)
+    assert.strictEqual(O.compare(['a', 1], ['a', 2]), -1)
+    assert.strictEqual(O.compare(['a', 1], ['a', 1]), 0)
   })
 
   it('ordNumber', () => {
-    assert.strictEqual(ordNumber.compare(1)(2), -1)
-    assert.strictEqual(ordNumber.compare(2)(1), 1)
-    assert.strictEqual(ordNumber.compare(2)(2), 0)
+    assert.strictEqual(ordNumber.compare(1, 2), -1)
+    assert.strictEqual(ordNumber.compare(2, 1), 1)
+    assert.strictEqual(ordNumber.compare(2, 2), 0)
   })
 
   it('toNativeComparator', () => {

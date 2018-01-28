@@ -7,13 +7,12 @@ const h = (a: number) => (b: number) => a - b
 
 describe('function', () => {
   it('flip', () => {
-    const flippedH = flip(h)
-    assert.strictEqual(flippedH(5)(2), -3)
+    assert.strictEqual(flip(h)(5)(2), -3)
   })
 
   it('on', () => {
-    const stringH = on(h)((s: string) => s.length)
-    assert.strictEqual(stringH('abcde')('ab'), 3)
+    const stringH = on((a: number, b: number) => a - b)((s: string) => s.length)
+    assert.strictEqual(stringH('abcde', 'ab'), 3)
   })
 
   it('compose', () => {
