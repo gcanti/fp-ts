@@ -15,20 +15,19 @@ import { constant, Endomorphism, identity, compose } from './function'
 
 /** @typeclass */
 export interface Monoid<A> extends Semigroup<A> {
-  empty: () => A
+  empty: A
 }
 
 /** @function */
 export const fold = <A>(M: Monoid<A>) => (as: Array<A>): A => {
-  return foldSemigroup(M)(M.empty())(as)
+  return foldSemigroup(M)(M.empty)(as)
 }
 
 /** @function */
 export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => {
-  const empty: [A, B] = [MA.empty(), MB.empty()]
   return {
     ...getProductSemigroup(MA, MB),
-    empty: () => empty
+    empty: [MA.empty, MB.empty]
   }
 }
 
@@ -46,7 +45,7 @@ export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
  */
 export const monoidAll: Monoid<boolean> = {
   ...semigroupAll,
-  empty: () => true
+  empty: true
 }
 
 /**
@@ -55,13 +54,13 @@ export const monoidAll: Monoid<boolean> = {
  */
 export const monoidAny: Monoid<boolean> = {
   ...semigroupAny,
-  empty: () => false
+  empty: false
 }
 
 /** @instance */
 export const unsafeMonoidArray: Monoid<Array<any>> = {
   ...getArraySemigroup(),
-  empty: () => []
+  empty: []
 }
 
 /**
@@ -78,7 +77,7 @@ export const getArrayMonoid = <A>(): Monoid<Array<A>> => {
  */
 export const monoidSum: Monoid<number> = {
   ...semigroupSum,
-  empty: () => 0
+  empty: 0
 }
 
 /**
@@ -87,21 +86,20 @@ export const monoidSum: Monoid<number> = {
  */
 export const monoidProduct: Monoid<number> = {
   ...semigroupProduct,
-  empty: () => 1
+  empty: 1
 }
 
 /** @instance */
 export const monoidString: Monoid<string> = {
   ...semigroupString,
-  empty: () => ''
+  empty: ''
 }
 
 /** @function */
 export const getFunctionMonoid = <M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) => M> => {
-  const empty = constant(constant(monoid.empty()))
   return {
     concat: (f, g) => a => monoid.concat(f(a), g(a)),
-    empty
+    empty: constant(monoid.empty)
   }
 }
 
@@ -109,7 +107,7 @@ export const getFunctionMonoid = <M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) 
 export const getEndomorphismMonoid = <A>(): Monoid<Endomorphism<A>> => {
   return {
     concat: (x, y) => compose(x, y),
-    empty: () => identity
+    empty: identity
   }
 }
 
@@ -119,10 +117,10 @@ export const getRecordMonoid = <O extends { [key: string]: any }>(
 ): Monoid<O> => {
   const empty: any = {}
   for (const k in monoids) {
-    empty[k] = monoids[k].empty()
+    empty[k] = monoids[k].empty
   }
   return {
     ...getRecordSemigroup<O>(monoids),
-    empty: () => empty
+    empty
   }
 }

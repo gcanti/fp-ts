@@ -90,7 +90,7 @@ export const getSemigroup = <A>(): Semigroup<StrMap<A>> => {
 
 /** @function */
 export const getMonoid = <A>(): Monoid<StrMap<A>> => {
-  return { ...getSemigroup(), empty }
+  return { ...getSemigroup(), empty: new StrMap({}) }
 }
 
 /** @function */
@@ -263,10 +263,8 @@ export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> => {
 }
 
 /** @instance */
-export const strmap: Monoid<StrMap<any>> & Functor<URI> & Foldable<URI> & Traversable<URI> = {
+export const strmap: Functor<URI> & Foldable<URI> & Traversable<URI> = {
   URI,
-  concat,
-  empty,
   map,
   reduce,
   traverse

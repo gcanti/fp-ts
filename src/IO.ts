@@ -70,8 +70,7 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
 
 /** @function */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
-  const empty = of(M.empty())
-  return { ...getSemigroup(M), empty: () => empty }
+  return { ...getSemigroup(M), empty: of(M.empty) }
 }
 
 /** @instance */

@@ -96,12 +96,10 @@ export const concat = <A>(fx: Task<A>, fy: Task<A>): Task<A> => {
 
 /** @function */
 export const getMonoid = <A>(): Monoid<Task<A>> => {
-  return { empty, concat }
+  return { concat, empty: never }
 }
 
-const neverPromise = new Promise(resolve => undefined)
-const neverLazyPromise = () => neverPromise
-const never = new Task(neverLazyPromise)
+const never = new Task(() => new Promise<never>(resolve => undefined))
 
 // TODO uncurry
 /** @function */
@@ -118,12 +116,10 @@ export const fromIO = <A>(io: IO<A>): Task<A> => {
 }
 
 /** @instance */
-export const task: Monad<URI> & Monoid<Task<any>> = {
+export const task: Monad<URI> = {
   URI,
   map,
   of,
   ap,
-  chain,
-  concat,
-  empty
+  chain
 }

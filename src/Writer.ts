@@ -54,7 +54,7 @@ export const map = <W, A, B>(fa: Writer<W, A>, f: (a: A) => B): Writer<W, B> => 
 
 /** @function */
 export const of = <W>(M: Monoid<W>) => <A>(a: A): Writer<W, A> => {
-  return new Writer(M, () => [a, M.empty()])
+  return new Writer(M, () => [a, M.empty])
 }
 
 /** @function */
