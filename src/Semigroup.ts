@@ -91,15 +91,6 @@ export const getArraySemigroup = <A>(): Semigroup<Array<A>> => {
 }
 
 /**
- * Semigroup under array concatenation (`Array<any>`)
- * @instance
- * @deprecated
- */
-export const semigroupArray: Semigroup<Array<any>> = {
-  concat: x => y => concat(x, y)
-}
-
-/**
  * Number Semigroup under addition
  * @instance
  */

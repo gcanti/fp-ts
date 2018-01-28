@@ -8,7 +8,7 @@ import { Traversable, FantasyTraversable } from './Traversable'
 import { Bifunctor, FantasyBifunctor } from './Bifunctor'
 import { Alt, FantasyAlt } from './Alt'
 import { ChainRec, tailRec } from './ChainRec'
-import { Option, none, some } from './Option'
+import { Option } from './Option'
 import { constFalse, Predicate, Lazy, toString } from './function'
 import { Validation } from './Validation'
 
@@ -118,13 +118,6 @@ export class Left<L, A>
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return left(f(this.value))
   }
-  /**
-   * Returns a `Some` containing the `Right` value if it exists or a `None` if this is a `Left`
-   * @deprecated
-   */
-  toOption(): Option<A> {
-    return none
-  }
   inspect(): string {
     return this.toString()
   }
@@ -203,9 +196,6 @@ export class Right<L, A>
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return this as any
-  }
-  toOption(): Option<A> {
-    return some(this.value)
   }
   inspect(): string {
     return this.toString()
@@ -378,14 +368,6 @@ export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, 
  */
 export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> => {
   return a == null ? left(defaultValue) : right(a)
-}
-
-/**
- * @function
- * @deprecated
- */
-export const toOption = <L, A>(fa: Either<L, A>): Option<A> => {
-  return fa.toOption()
 }
 
 /** @function */

@@ -1,5 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
-import { Monoid, getEndomorphismMonoid, monoidArray } from './Monoid'
+import { Monoid, getEndomorphismMonoid, unsafeMonoidArray } from './Monoid'
 import { Applicative } from './Applicative'
 import { applyFirst } from './Apply'
 import { identity, Predicate } from './function'
@@ -233,6 +233,6 @@ export const maximum = <F, A>(F: Foldable<F>, O: Ord<A>) => (fa: HKT<F, A>): Opt
 }
 
 /** @function */
-export const toArray = <F>(F: Foldable<F>) => <A>(fa: HKT<F, A>): Array<A> => {
-  return foldMap(F, monoidArray)(a => [a])(fa)
+export const toArray = <F>(F: Foldable<F>): (<A>(fa: HKT<F, A>) => Array<A>) => {
+  return foldMap(F, unsafeMonoidArray)(a => [a])
 }
