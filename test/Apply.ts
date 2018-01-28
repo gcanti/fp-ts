@@ -10,14 +10,14 @@ describe('Apply', () => {
   const bar = either.left<string, number>('bar')
 
   it('applyFirst', () => {
-    assert.deepEqual(applyFirst(option)(option.some(5))(option.some(6)), option.some(5))
-    assert.deepEqual(applyFirst(option)(option.some(5))(option.empty()), option.empty())
-    assert.deepEqual(applyFirst(option)(option.empty())(option.some(6)), option.empty())
+    assert.deepEqual(applyFirst(option)(option.some(5), option.some(6)), option.some(5))
+    assert.deepEqual(applyFirst(option)(option.some(5), option.empty()), option.empty())
+    assert.deepEqual(applyFirst(option)(option.empty(), option.some(6)), option.empty())
 
-    assert.deepEqual(applyFirst(either)(r1)(r2), r1)
-    assert.deepEqual(applyFirst(either)(foo)(r1), foo)
-    assert.deepEqual(applyFirst(either)(r1)(foo), foo)
-    assert.deepEqual(applyFirst(either)(foo)(bar), foo)
+    assert.deepEqual(applyFirst(either)(r1, r2), r1)
+    assert.deepEqual(applyFirst(either)(foo, r1), foo)
+    assert.deepEqual(applyFirst(either)(r1, foo), foo)
+    assert.deepEqual(applyFirst(either)(foo, bar), foo)
   })
 
   it('applySecond', () => {
