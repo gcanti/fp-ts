@@ -45,7 +45,7 @@ export class Const<L, A> {
 
 /** @function */
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
-  equals: x => y => x.fold(ax => y.fold(ay => S.equals(ax)(ay)))
+  equals: (x, y) => x.fold(ax => y.fold(ay => S.equals(ax, ay)))
 })
 
 /** @function */

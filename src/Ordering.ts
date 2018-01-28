@@ -10,7 +10,7 @@ export const sign = (n: number): Ordering => {
 
 /** @instance */
 export const setoidOrdering: Setoid<Ordering> = {
-  equals: a => b => a === b
+  equals: (x, y) => x === y
 }
 
 /** @instance */

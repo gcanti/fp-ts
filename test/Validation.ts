@@ -53,10 +53,10 @@ describe('Validation', () => {
   it('equals', () => {
     const failure = validation.failure(monoidString)
     const eq = validation.getSetoid(setoidString, setoidNumber).equals
-    assert.strictEqual(eq(validation.success(1))(validation.success(1)), true)
-    assert.strictEqual(eq(validation.success(1))(validation.success(2)), false)
-    assert.strictEqual(eq(failure('foo'))(failure('foo')), true)
-    assert.strictEqual(eq(failure('foo'))(failure('bar')), false)
+    assert.strictEqual(eq(validation.success(1), validation.success(1)), true)
+    assert.strictEqual(eq(validation.success(1), validation.success(2)), false)
+    assert.strictEqual(eq(failure('foo'), failure('foo')), true)
+    assert.strictEqual(eq(failure('foo'), failure('bar')), false)
   })
 
   it('getOrElse', () => {

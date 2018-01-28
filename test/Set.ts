@@ -31,9 +31,9 @@ describe('Set', () => {
 
   it('getSetoid', () => {
     const S = getSetoid(setoidNumber)
-    assert.strictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2, 3])), true)
-    assert.strictEqual(S.equals(new Set([1, 2, 3]))(new Set([1, 2])), false)
-    assert.strictEqual(S.equals(new Set([1, 2]))(new Set([1, 2, 3])), false)
+    assert.strictEqual(S.equals(new Set([1, 2, 3]), new Set([1, 2, 3])), true)
+    assert.strictEqual(S.equals(new Set([1, 2, 3]), new Set([1, 2])), false)
+    assert.strictEqual(S.equals(new Set([1, 2]), new Set([1, 2, 3])), false)
   })
 
   it('some', () => {

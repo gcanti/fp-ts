@@ -135,7 +135,7 @@ export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, t
  */
 export const isSubdictionary = <A>(setoid: Setoid<A>) => (d1: StrMap<A>) => (d2: StrMap<A>): boolean => {
   for (let k in d1.value) {
-    if (!d2.value.hasOwnProperty(k) || !setoid.equals(d1.value[k])(d2.value[k])) {
+    if (!d2.value.hasOwnProperty(k) || !setoid.equals(d1.value[k], d2.value[k])) {
       return false
     }
   }
@@ -162,9 +162,10 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
 }
 
 /** @function */
-export const getSetoid = <A>(setoid: Setoid<A>): Setoid<StrMap<A>> => {
+export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
+  const isSubdictionaryS = isSubdictionary(S)
   return {
-    equals: x => y => isSubdictionary(setoid)(x)(y) && isSubdictionary(setoid)(y)(x)
+    equals: (x, y) => isSubdictionaryS(x)(y) && isSubdictionaryS(y)(x)
   }
 }
 

@@ -52,9 +52,9 @@ describe('StrMap', () => {
   })
 
   it('getSetoid', () => {
-    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }))(new StrMap({ a: 1 })), true)
-    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }))(new StrMap({ a: 2 })), false)
-    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }))(new StrMap({ b: 1 })), false)
+    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }), new StrMap({ a: 1 })), true)
+    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }), new StrMap({ a: 2 })), false)
+    assert.strictEqual(getSetoid(setoidNumber).equals(new StrMap({ a: 1 }), new StrMap({ b: 1 })), false)
   })
 
   it('lookup', () => {

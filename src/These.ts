@@ -168,11 +168,11 @@ export const fold = <L, A, B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L
 /** @function */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
   return {
-    equals: x => y =>
+    equals: (x, y) =>
       x.fold(
-        lx => y.fold(ly => SL.equals(lx)(ly), constFalse, constFalse),
-        ax => y.fold(constFalse, ay => SA.equals(ax)(ay), constFalse),
-        (lx, ax) => y.fold(constFalse, constFalse, (ly, ay) => SL.equals(lx)(ly) && SA.equals(ax)(ay))
+        lx => y.fold(ly => SL.equals(lx, ly), constFalse, constFalse),
+        ax => y.fold(constFalse, ay => SA.equals(ax, ay), constFalse),
+        (lx, ax) => y.fold(constFalse, constFalse, (ly, ay) => SL.equals(lx, ly) && SA.equals(ax, ay))
       )
   }
 }

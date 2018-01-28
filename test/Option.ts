@@ -45,10 +45,10 @@ describe('Option', () => {
 
   it('equals', () => {
     const { equals } = getSetoid(setoidNumber)
-    assert.strictEqual(equals(none)(none), true)
-    assert.strictEqual(equals(none)(some(1)), false)
-    assert.strictEqual(equals(some(2))(some(1)), false)
-    assert.strictEqual(equals(some(2))(some(2)), true)
+    assert.strictEqual(equals(none, none), true)
+    assert.strictEqual(equals(none, some(1)), false)
+    assert.strictEqual(equals(some(2), some(1)), false)
+    assert.strictEqual(equals(some(2), some(2)), true)
   })
 
   it('map', () => {

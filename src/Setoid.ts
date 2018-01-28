@@ -1,10 +1,10 @@
 /** @typeclass */
 export interface Setoid<A> {
-  equals: (x: A) => (y: A) => boolean
+  equals: (x: A, y: A) => boolean
 }
 
 /** @function */
-export const strictEqual = (a: any) => (b: any): boolean => {
+export const strictEqual = (a: any, b: any): boolean => {
   return a === b
 }
 
@@ -20,7 +20,7 @@ export const setoidBoolean: Setoid<boolean> = { equals: strictEqual }
 /** @function */
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
   return {
-    equals: xs => ys => xs.length === ys.length && xs.every((x, i) => S.equals(x)(ys[i]))
+    equals: (xs, ys) => xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i]))
   }
 }
 
@@ -29,9 +29,9 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
   setoids: { [K in keyof O]: Setoid<O[K]> }
 ): Setoid<O> => {
   return {
-    equals: x => y => {
+    equals: (x, y) => {
       for (const k in setoids) {
-        if (!setoids[k].equals(x[k])(y[k])) {
+        if (!setoids[k].equals(x[k], y[k])) {
           return false
         }
       }
@@ -43,6 +43,6 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
 /** @function */
 export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
   return {
-    equals: ([xa, xb]) => ([ya, yb]) => SA.equals(xa)(ya) && SB.equals(xb)(yb)
+    equals: ([xa, xb], [ya, yb]) => SA.equals(xa, ya) && SB.equals(xb, yb)
   }
 }

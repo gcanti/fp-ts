@@ -101,10 +101,10 @@ describe('Either', () => {
 
   it('equals', () => {
     const equals = getSetoid(setoidString, setoidNumber).equals
-    assert.strictEqual(equals(right(1))(right(1)), true)
-    assert.strictEqual(equals(right(1))(right(2)), false)
-    assert.strictEqual(equals(left('foo'))(left('foo')), true)
-    assert.strictEqual(equals(left('foo'))(left('bar')), false)
+    assert.strictEqual(equals(right(1), right(1)), true)
+    assert.strictEqual(equals(right(1), right(2)), false)
+    assert.strictEqual(equals(left('foo'), left('foo')), true)
+    assert.strictEqual(equals(left('foo'), left('bar')), false)
   })
 
   it('fromValidation', () => {

@@ -187,7 +187,7 @@ export class Some<A> {
     return `some(${toString(this.value)})`
   }
   contains(S: Setoid<A>, a: A): boolean {
-    return S.equals(this.value)(a)
+    return S.equals(this.value, a)
   }
   isNone(): this is None<A> {
     return false
@@ -214,7 +214,7 @@ export const fold = <A, B>(n: Lazy<B>, s: (a: A) => B) => (fa: Option<A>): B => 
 /** @function */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
   return {
-    equals: x => y => x.fold(() => y.isNone(), ax => y.fold(() => false, ay => S.equals(ax)(ay)))
+    equals: (x, y) => x.fold(() => y.isNone(), ax => y.fold(() => false, ay => S.equals(ax, ay)))
   }
 }
 
