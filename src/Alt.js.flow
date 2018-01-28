@@ -1,7 +1,0 @@
-// @flow
-import type { HKT } from './HKT'
-import type { Functor } from './Functor'
-
-export interface Alt<F> extends Functor<F> {
-  alt<A, U, L>(fx: HKT<F, U, L, A>, fy: HKT<F, U, L, A>): HKT<F, U, L, A>;
-}
