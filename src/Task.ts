@@ -19,10 +19,8 @@ export type URI = typeof URI
  * @constructor Task
  */
 export class Task<A> implements FantasyMonad<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-URI': URI
   constructor(readonly run: Lazy<Promise<A>>) {}
   map<B>(f: (a: A) => B): Task<B> {
     return new Task(() => this.run().then(f))

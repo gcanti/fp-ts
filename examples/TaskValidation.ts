@@ -1,7 +1,6 @@
 import { Applicative, getApplicativeComposition, FantasyApplicative } from '../src/Applicative'
 import * as validation from '../src/Validation'
 import * as task from '../src/Task'
-import { Option } from '../src/Option'
 
 declare module '../src/HKT' {
   interface URI2HKT2<L, A> {
@@ -16,12 +15,9 @@ export const URI = 'TaskValidation'
 export type URI = typeof URI
 
 export class TaskValidation<L, A> implements FantasyApplicative<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-URI': URI
   constructor(readonly value: task.Task<validation.Validation<L, A>>) {}
   map<B>(f: (a: A) => B): TaskValidation<L, B> {
     return new TaskValidation(taskValidationApplicative.map(f, this.value))
@@ -34,9 +30,6 @@ export class TaskValidation<L, A> implements FantasyApplicative<URI, A> {
   }
   fold<R>(left: (l: L) => R, right: (a: A) => R): task.Task<R> {
     return this.value.map(v => v.fold(left, right))
-  }
-  toOption(): task.Task<Option<A>> {
-    return this.value.map(v => v.toOption())
   }
 }
 

@@ -38,12 +38,9 @@ export class Tuple<L, A>
     FantasyComonad<URI, A>,
     FantasyFoldable<A>,
     FantasyTraversable<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-URI': URI
   constructor(readonly value: [L, A]) {}
   fst(): L {
     return this.value[0]

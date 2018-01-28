@@ -18,10 +18,8 @@ export type URI = typeof URI
  * @constructor IO
  */
 export class IO<A> implements FantasyMonad<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-URI': URI
   constructor(readonly run: Lazy<A>) {}
   map<B>(f: (a: A) => B): IO<B> {
     return new IO(() => f(this.run()))

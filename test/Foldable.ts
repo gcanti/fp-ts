@@ -49,10 +49,8 @@ describe('Foldable', () => {
     const URI = 'ArrayOption'
     type URI = typeof URI
     class ArrayOption<A> {
-      // prettier-ignore
-      readonly '_A': A
-      // prettier-ignore
-      readonly '_URI': URI
+      readonly '-A': A
+      readonly '-URI': URI
       constructor(public readonly value: Array<option.Option<A>>) {}
     }
     const arrayOption: Foldable<URI> = {

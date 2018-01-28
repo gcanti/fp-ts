@@ -17,10 +17,8 @@ export const URI = 'ArrayOption'
 export type URI = typeof URI
 
 export class ArrayOption<A> implements FantasyMonad<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI' = URI
+  readonly '-A': A
+  readonly '-URI' = URI
   constructor(readonly value: Array<Option<A>>) {}
   map<B>(f: (a: A) => B): ArrayOption<B> {
     return new ArrayOption(optionTArray.map(f, this.value))

@@ -34,12 +34,9 @@ export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 export class This<L, A>
   implements FantasyFunctor<URI, A>, FantasyBifunctor<URI, L, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
   readonly _tag: 'This' = 'This'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-URI': URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return this as any
@@ -83,12 +80,9 @@ export class This<L, A>
 export class That<L, A>
   implements FantasyFunctor<URI, A>, FantasyBifunctor<URI, L, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
   readonly _tag: 'That' = 'That'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-URI': URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return new That(f(this.value))
@@ -128,12 +122,9 @@ export class That<L, A>
 export class Both<L, A>
   implements FantasyFunctor<URI, A>, FantasyBifunctor<URI, L, A>, FantasyFoldable<A>, FantasyTraversable<URI, A> {
   readonly _tag: 'Both' = 'Both'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-URI': URI
   constructor(readonly l: L, readonly a: A) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return new Both(this.l, f(this.a))

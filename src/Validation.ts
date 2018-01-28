@@ -31,12 +31,9 @@ export type Validation<L, A> = Failure<L, A> | Success<L, A>
 export class Failure<L, A>
   implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
   readonly _tag: 'Failure' = 'Failure'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-URI': URI
   constructor(readonly semigroup: Semigroup<L>, readonly value: L) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return this as any
@@ -111,12 +108,9 @@ export class Failure<L, A>
 export class Success<L, A>
   implements FantasyApply<URI, A>, FantasyFoldable<A>, FantasyTraversable<URI, A>, FantasyAlt<URI, A> {
   readonly _tag: 'Success' = 'Success'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-URI': URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return new Success<L, B>(f(this.value))

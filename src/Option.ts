@@ -41,10 +41,8 @@ export class None<A>
     FantasyExtend<URI, A> {
   static value: Option<never> = new None()
   readonly _tag: 'None' = 'None'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-URI': URI
   private constructor() {}
   map<B>(f: (a: A) => B): Option<B> {
     return none
@@ -139,10 +137,8 @@ export class Some<A>
     FantasyAlternative<URI, A>,
     FantasyExtend<URI, A> {
   readonly _tag: 'Some' = 'Some'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-URI': URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))

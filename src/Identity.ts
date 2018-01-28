@@ -30,10 +30,8 @@ export class Identity<A>
     FantasyTraversable<URI, A>,
     FantasyAlt<URI, A>,
     FantasyComonad<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-URI': URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Identity<B> {
     return new Identity(f(this.value))

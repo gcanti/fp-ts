@@ -9,7 +9,6 @@ import {
 } from './Applicative'
 import { Either, URI as URIEither } from './Either'
 import * as either from './Either'
-import { Option } from './Option'
 import { Applicative } from './Applicative'
 
 export interface EitherT<F> extends ApplicativeComposition<F, URIEither> {
@@ -82,15 +81,6 @@ export function mapLeft<F>(
   F: Functor<F>
 ): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>> {
   return f => fa => F.map(e => e.mapLeft(f), fa)
-}
-
-export function toOption<F extends HKT2S>(
-  F: Functor<F>
-): <L, M, A>(fa: HKT2As<F, M, Either<L, A>>) => HKT2As<F, M, Option<A>>
-export function toOption<F extends HKTS>(F: Functor<F>): <L, A>(fa: HKTAs<F, Either<L, A>>) => HKTAs<F, Option<A>>
-export function toOption<F>(F: Functor<F>): <L, A>(fa: HKT<F, Either<L, A>>) => HKT<F, Option<A>>
-export function toOption<F>(F: Functor<F>): <L, A>(fa: HKT<F, Either<L, A>>) => HKT<F, Option<A>> {
-  return fa => F.map(e => e.toOption(), fa)
 }
 
 export function getEitherT<M extends HKT2S>(M: Monad<M>): EitherT2<M>

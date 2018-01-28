@@ -17,14 +17,10 @@ export const URI = 'StateTaskEither'
 export type URI = typeof URI
 
 export class StateTaskEither<S, L, A> implements FantasyMonad<URI, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_U': S
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly '-A': A
+  readonly '-L': L
+  readonly '-U': S
+  readonly '-URI': URI
   constructor(readonly value: (s: S) => TaskEither<L, [A, S]>) {}
   run(s: S): Promise<Either<L, [A, S]>> {
     return this.value(s).run()
