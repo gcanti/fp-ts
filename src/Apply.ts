@@ -20,18 +20,18 @@ export interface Apply3<M, U, L> extends Functor3<M, U, L> {
 /** Combine two effectful actions, keeping only the result of the first */
 export function applyFirst<F extends HKT3S>(
   F: Apply<F>
-): <U, L, A>(fa: HKT3As<F, U, L, A>) => <B>(fb: HKT3As<F, U, L, B>) => HKT3As<F, U, L, A>
+): <U, L, A, B>(fa: HKT3As<F, U, L, A>, fb: HKT3As<F, U, L, B>) => HKT3As<F, U, L, A>
 export function applyFirst<F extends HKT2S>(
   F: Apply<F>
-): <L, A>(fa: HKT2As<F, L, A>) => <B>(fb: HKT2As<F, L, B>) => HKT2As<F, L, A>
-export function applyFirst<F extends HKTS>(F: Apply<F>): <A>(fa: HKTAs<F, A>) => <B>(fb: HKTAs<F, B>) => HKTAs<F, A>
-export function applyFirst<F>(F: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, A>
+): <L, A, B>(fa: HKT2As<F, L, A>, fb: HKT2As<F, L, B>) => HKT2As<F, L, A>
+export function applyFirst<F extends HKTS>(F: Apply<F>): <A, B>(fa: HKTAs<F, A>, fb: HKTAs<F, B>) => HKTAs<F, A>
+export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
 /**
  * Combine two effectful actions, keeping only the result of the first
  * @function
  */
-export function applyFirst<F>(F: Apply<F>): <A>(fa: HKT<F, A>) => <B>(fb: HKT<F, B>) => HKT<F, A> {
-  return fa => fb => F.ap(F.map(fa, a => constant(a)), fb)
+export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
+  return (fa, fb) => F.ap(F.map(fa, a => constant(a)), fb)
 }
 
 /** Combine two effectful actions, keeping only the result of the second */
