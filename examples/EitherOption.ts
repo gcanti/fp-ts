@@ -1,7 +1,6 @@
 import * as optionT from 'fp-ts/lib/OptionT'
 import * as either from 'fp-ts/lib/Either'
 import { Option } from 'fp-ts/lib/Option'
-import { Lazy } from 'fp-ts/lib/function'
 import { Monad } from 'fp-ts/lib/Monad'
 
 declare module 'fp-ts/lib/HKT' {
@@ -33,11 +32,8 @@ export class EitherOption<L, A> {
   chain<B>(f: (a: A) => EitherOption<L, B>): EitherOption<L, B> {
     return new EitherOption(optionTEither.chain(a => f(a).value, this.value))
   }
-  getOrElseValue(a: A): either.Either<L, A> {
-    return optionT.getOrElseValue(either)(a)(this.value)
-  }
-  fold<R>(none: Lazy<R>, some: (a: A) => R): either.Either<L, R> {
-    return optionT.fold(either)(none, some, this.value)
+  fold<R>(r: R, some: (a: A) => R): either.Either<L, R> {
+    return optionT.fold(either)(r, some, this.value)
   }
 }
 
