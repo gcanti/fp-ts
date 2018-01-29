@@ -7,7 +7,7 @@ import { constant } from './function'
 export interface IxMonad<F> {
   readonly URI: F
   iof<I, A>(a: A): HKT3<F, I, I, A>
-  ichain<I, O, Z, A, B>(f: (a: A) => HKT3<F, O, Z, B>, fa: HKT3<F, I, O, A>): HKT3<F, I, Z, B>
+  ichain<I, O, Z, A, B>(fa: HKT3<F, I, O, A>, f: (a: A) => HKT3<F, O, Z, B>): HKT3<F, I, Z, B>
 }
 
 export function iapplyFirst<F extends HKT3S>(
@@ -20,7 +20,7 @@ export function iapplyFirst<F>(
 export function iapplyFirst<F>(
   ixmonad: IxMonad<F>
 ): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A> {
-  return fa => fb => ixmonad.ichain(a => ixmonad.ichain(() => ixmonad.iof(a), fb), fa)
+  return fa => fb => ixmonad.ichain(fa, a => ixmonad.ichain(fb, () => ixmonad.iof(a)))
 }
 
 export function iapplySecond<F extends HKT3S>(
@@ -33,5 +33,5 @@ export function iapplySecond<F>(
 export function iapplySecond<F>(
   ixmonad: IxMonad<F>
 ): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B> {
-  return fa => fb => ixmonad.ichain(constant(fb), fa)
+  return fa => fb => ixmonad.ichain(fa, constant(fb))
 }

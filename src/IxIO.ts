@@ -49,7 +49,7 @@ export const iof = <I, A>(a: A): IxIO<I, I, A> => {
 }
 
 /** @function */
-export const ichain = <I, O, Z, A, B>(f: (a: A) => IxIO<O, Z, B>, fa: IxIO<I, O, A>): IxIO<I, Z, B> => {
+export const ichain = <I, O, Z, A, B>(fa: IxIO<I, O, A>, f: (a: A) => IxIO<O, Z, B>): IxIO<I, Z, B> => {
   return fa.ichain(f)
 }
 
