@@ -36,14 +36,11 @@ export class TaskOption<A> {
   chain<B>(f: (a: A) => TaskOption<B>): TaskOption<B> {
     return new TaskOption(optionTTask.chain(a => f(a).value, this.value))
   }
-  getOrElseValue(a: A): Task<A> {
-    return optionT.getOrElseValue(task)(a)(this.value)
-  }
-  fold<R>(none: Lazy<R>, some: (a: A) => R): Task<R> {
-    return optionT.fold(task)(none, some, this.value)
+  fold<R>(r: R, some: (a: A) => R): Task<R> {
+    return optionT.fold(task)(r, some, this.value)
   }
   orElse(f: () => TaskOption<A>): TaskOption<A> {
-    return new TaskOption(this.value.chain(e => e.fold(() => f().value, a => optionTTask.of(a))))
+    return new TaskOption(this.value.chain(e => e.fold(f().value, a => optionTTask.of(a))))
   }
 }
 

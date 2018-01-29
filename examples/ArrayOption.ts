@@ -1,7 +1,6 @@
 import * as optionT from 'fp-ts/lib/OptionT'
 import { array } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
-import { Lazy } from 'fp-ts/lib/function'
 import { Monad } from 'fp-ts/lib/Monad'
 
 declare module 'fp-ts/lib/HKT' {
@@ -32,11 +31,8 @@ export class ArrayOption<A> {
   chain<B>(f: (a: A) => ArrayOption<B>): ArrayOption<B> {
     return new ArrayOption(optionTArray.chain(a => f(a).value, this.value))
   }
-  getOrElseValue(a: A): Array<A> {
-    return optionT.getOrElseValue(array)(a)(this.value)
-  }
-  fold<R>(none: Lazy<R>, some: (a: A) => R): Array<R> {
-    return optionT.fold(array)(none, some, this.value)
+  fold<R>(r: R, some: (a: A) => R): Array<R> {
+    return optionT.fold(array)(r, some, this.value)
   }
 }
 
