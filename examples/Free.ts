@@ -99,7 +99,7 @@ const program1 = (start: Position) => {
 }
 
 console.log('--program1--')
-const result1 = program1(start).foldFree(identity)(interpretIdentity) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
+const result1 = program1(start).foldFree(identity.identity)(interpretIdentity) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
 console.log(result1.value) // undefined
 
 import * as option from '../src/Option'
@@ -132,7 +132,7 @@ const program2 = (start: Position) => {
 }
 
 // console.log('--program2--')
-const result2 = program2(start).foldFree(option)(interpretOption)
+const result2 = program2(start).foldFree(option.option)(interpretOption)
 console.log(result2) // none
 
 // Composing
@@ -225,7 +225,7 @@ export function logoAppInterpretIdentity<A>(hktfa: HKT<LogoAppFURI, A>): identit
 }
 
 console.log('--program3--')
-program3(start).foldFree(identity)(logoAppInterpretIdentity)
+program3(start).foldFree(identity.identity)(logoAppInterpretIdentity)
 /*
 stop drawing at position {"x":0,"y":10,"heading":{"value":0}}
 start drawing at position {"x":10,"y":10,"heading":{"value":0}}

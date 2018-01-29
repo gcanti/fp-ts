@@ -9,7 +9,7 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-const optionTEither = optionT.getOptionT(either)
+const optionTEither = optionT.getOptionT(either.either)
 
 export const URI = 'EitherOption'
 
@@ -33,13 +33,13 @@ export class EitherOption<L, A> {
     return new EitherOption(optionTEither.chain(a => f(a).value, this.value))
   }
   fold<R>(r: R, some: (a: A) => R): either.Either<L, R> {
-    return optionT.fold(either)(r, some, this.value)
+    return optionT.fold(either.either)(r, some, this.value)
   }
 }
 
 export const map = <L, A, B>(fa: EitherOption<L, A>, f: (a: A) => B): EitherOption<L, B> => fa.map(f)
 
-export const of = <L, A>(a: A): EitherOption<L, A> => new EitherOption(optionT.some(either)(a))
+export const of = <L, A>(a: A): EitherOption<L, A> => new EitherOption(optionT.some(either.either)(a))
 
 export const ap = <L, A, B>(fab: EitherOption<L, (a: A) => B>, fa: EitherOption<L, A>): EitherOption<L, B> => fa.ap(fab)
 
@@ -48,11 +48,13 @@ export const chain = <L, A, B>(fa: EitherOption<L, A>, f: (a: A) => EitherOption
 
 export const some = of
 
-export const none = new EitherOption(optionT.none(either)())
+export const none = new EitherOption(optionT.none(either.either)())
 
-export const fromOption = <L, A>(oa: Option<A>): EitherOption<L, A> => new EitherOption(optionT.fromOption(either)(oa))
+export const fromOption = <L, A>(oa: Option<A>): EitherOption<L, A> =>
+  new EitherOption(optionT.fromOption(either.either)(oa))
 
-export const liftF = <L, A>(ma: either.Either<L, A>): EitherOption<L, A> => new EitherOption(optionT.liftF(either)(ma))
+export const liftF = <L, A>(ma: either.Either<L, A>): EitherOption<L, A> =>
+  new EitherOption(optionT.liftF(either.either)(ma))
 
 export const eitherOption: Monad<URI> = {
   URI,

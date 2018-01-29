@@ -3,7 +3,7 @@ import * as option from '../src/Option'
 import { StrMap, lookup } from '../src/StrMap'
 import { getReaderT } from '../src/ReaderT'
 
-const readerOption = getReaderT(option)
+const readerOption = getReaderT(option.option)
 
 describe('ReaderT', () => {
   it('ReaderOption', () => {

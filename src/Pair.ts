@@ -77,8 +77,7 @@ export class Pair<A> {
   }
 }
 
-/** @function */
-export const map = <A, B>(fa: Pair<A>, f: (a: A) => B): Pair<B> => {
+const map = <A, B>(fa: Pair<A>, f: (a: A) => B): Pair<B> => {
   return fa.map(f)
 }
 
@@ -87,23 +86,19 @@ export const of = <A>(a: A): Pair<A> => {
   return new Pair([a, a])
 }
 
-/** @function */
-export const ap = <A, B>(fab: Pair<(a: A) => B>, fa: Pair<A>): Pair<B> => {
+const ap = <A, B>(fab: Pair<(a: A) => B>, fa: Pair<A>): Pair<B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const reduce = <A, B>(fa: Pair<A>, b: B, f: (b: B, a: A) => B): B => {
+const reduce = <A, B>(fa: Pair<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-/** @function */
-export const extract = <A>(fa: Pair<A>): A => {
+const extract = <A>(fa: Pair<A>): A => {
   return fa.extract()
 }
 
-/** @function */
-export const extend = <A, B>(f: (fb: Pair<A>) => B, fa: Pair<A>): Pair<B> => {
+const extend = <A, B>(f: (fb: Pair<A>) => B, fa: Pair<A>): Pair<B> => {
   return fa.extend(f)
 }
 
@@ -137,33 +132,8 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
   }
 }
 
-/**
- * Map a function over the first field of a pair
- * @function
- */
-export const first = <A>(f: Endomorphism<A>) => (fa: Pair<A>): Pair<A> => {
-  return fa.first(f)
-}
-
-/**
- * Map a function over the second field of a pair
- * @function
- */
-export const second = <A>(f: Endomorphism<A>) => (fa: Pair<A>): Pair<A> => {
-  return fa.second(f)
-}
-
-/**
- * Swaps the elements in a pair
- * @function
- */
-export const swap = <A>(fa: Pair<A>): Pair<A> => {
-  return fa.swap()
-}
-
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
-/** @function */
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
+function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
+function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
 

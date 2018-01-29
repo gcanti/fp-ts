@@ -2,7 +2,7 @@ import * as readerT from '../src/ReaderT'
 import * as either from '../src/Either'
 import { Monad } from '../src/Monad'
 
-const readerTEither = readerT.getReaderT(either)
+const readerTEither = readerT.getReaderT(either.either)
 
 declare module '../src/HKT' {
   interface URI2HKT3<U, L, A> {
@@ -60,11 +60,11 @@ export const chain = <E, L, A, B>(
 }
 
 export const ask = <E, L>(e: E): ReaderEither<E, L, E> => {
-  return new ReaderEither(readerT.ask(either)())
+  return new ReaderEither(readerT.ask(either.either)())
 }
 
 export const asks = <E, L, A>(f: (e: E) => A): ReaderEither<E, L, A> => {
-  return new ReaderEither(readerT.asks(either)(f))
+  return new ReaderEither(readerT.asks(either.either)(f))
 }
 
 export const local = <E>(f: (e: E) => E) => <L, A>(fa: ReaderEither<E, L, A>): ReaderEither<E, L, A> => {

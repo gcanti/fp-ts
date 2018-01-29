@@ -1,13 +1,8 @@
 import * as assert from 'assert'
 import {
   getSetoid,
-  fold,
   none,
-  map,
   some,
-  ap,
-  chain,
-  alt,
   getMonoid,
   fromNullable,
   getFirstMonoid,
@@ -25,8 +20,8 @@ describe('Option', () => {
   it('fold', () => {
     const f = 'none'
     const g = (s: string) => `some${s.length}`
-    assert.strictEqual(fold(f, g)(none), 'none')
-    assert.strictEqual(fold(f, g)(some('abc')), 'some3')
+    assert.strictEqual(none.fold(f, g), 'none')
+    assert.strictEqual(some('abc').fold(f, g), 'some3')
   })
 
   it('getOrElse', () => {
@@ -46,8 +41,8 @@ describe('Option', () => {
 
   it('map', () => {
     const f = (n: number) => n * 2
-    assert.deepEqual(map(some(2), f), some(4))
-    assert.deepEqual(map(none, f), none)
+    assert.deepEqual(some(2).map(f), some(4))
+    assert.deepEqual(none.map(f), none)
   })
 
   it('mapNullable', () => {
@@ -69,17 +64,18 @@ describe('Option', () => {
 
   it('ap', () => {
     const f = (n: number) => n * 2
-    assert.deepEqual(ap(some(f), some(2)), some(4))
-    assert.deepEqual(ap(some(f), none), none)
-    assert.deepEqual(ap(none, some(2)), none)
-    assert.deepEqual(ap(some(f), some(2)), some(4))
+    assert.deepEqual(some(2).ap(some(f)), some(4))
+    assert.deepEqual(none.ap(some(f)), none)
+    assert.deepEqual(some(2).ap(none), none)
+    assert.deepEqual(some(2).ap(some(f)), some(4))
   })
 
   it('chain', () => {
     const f = (n: number) => some(n * 2)
     const g = () => none
-    assert.deepEqual(chain(some(2), f), some(4))
-    assert.deepEqual(chain(some(2), g), none)
+    assert.deepEqual(some(2).chain(f), some(4))
+    assert.deepEqual(some(2).chain(g), none)
+    assert.deepEqual(none.chain(f), none)
   })
 
   it('getMonoid', () => {
@@ -94,10 +90,10 @@ describe('Option', () => {
   })
 
   it('alt', () => {
-    assert.deepEqual(alt(some(1), some(2)), some(1))
-    assert.deepEqual(alt(none, some(2)), some(2))
-    assert.deepEqual(alt(some(1), none), some(1))
-    assert.deepEqual(alt(none, none), none)
+    assert.deepEqual(some(1).alt(some(2)), some(1))
+    assert.deepEqual(some(2).alt(none), some(2))
+    assert.deepEqual((none as Option<number>).alt(some(1)), some(1))
+    assert.deepEqual(none.alt(none), none)
   })
 
   it('fromNullable', () => {

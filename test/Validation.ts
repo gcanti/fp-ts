@@ -10,8 +10,8 @@ describe('Validation', () => {
   it('chain', () => {
     const failure = validation.failure(monoidString)
     const f = (s: string) => validation.success<string, number>(s.length)
-    assert.deepEqual(validation.chain(validation.success<string, string>('abc'), f), validation.success(3))
-    assert.deepEqual(validation.chain(failure<string>('a'), f), failure('a'))
+    assert.deepEqual(validation.success<string, string>('abc').chain(f), validation.success(3))
+    assert.deepEqual(failure<string>('a').chain(f), failure('a'))
   })
 
   it('traverse', () => {
@@ -27,7 +27,7 @@ describe('Validation', () => {
       validation.failure(monoidString)<number>('[fail 2]')
     ]
 
-    const x = sequence(validation, array)(success)
+    const x = sequence(validation.validation, array)(success)
 
     if (validation.isSuccess(x)) {
       assert.deepEqual(x.value, [1, 2, 3])
@@ -35,7 +35,7 @@ describe('Validation', () => {
       assert.ok(false)
     }
 
-    const y = sequence(validation, array)(failure)
+    const y = sequence(validation.validation, array)(failure)
 
     if (validation.isFailure(y)) {
       assert.strictEqual(y.value, '[fail 1][fail 2]')

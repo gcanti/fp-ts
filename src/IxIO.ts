@@ -19,11 +19,8 @@ export type URI = typeof URI
  */
 export class IxIO<I, O, A> {
   readonly '-A': A
-
   readonly '-L': O
-
   readonly '-U': I
-
   readonly '-URI': URI
   constructor(readonly value: IO<A>) {}
   run(): A {
@@ -48,13 +45,11 @@ export const iof = <I, A>(a: A): IxIO<I, I, A> => {
   return new IxIO<I, I, A>(io.of(a))
 }
 
-/** @function */
-export const ichain = <I, O, Z, A, B>(fa: IxIO<I, O, A>, f: (a: A) => IxIO<O, Z, B>): IxIO<I, Z, B> => {
+const ichain = <I, O, Z, A, B>(fa: IxIO<I, O, A>, f: (a: A) => IxIO<O, Z, B>): IxIO<I, Z, B> => {
   return fa.ichain(f)
 }
 
-/** @function */
-export const map = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => B): IxIO<I, I, B> => {
+const map = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => B): IxIO<I, I, B> => {
   return fa.map(f)
 }
 
@@ -64,13 +59,11 @@ export const map = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => B): IxIO<I, I, B> =
  */
 export const of = iof
 
-/** @function */
-export const ap = <I, A, B>(fab: IxIO<I, I, (a: A) => B>, fa: IxIO<I, I, A>): IxIO<I, I, B> => {
+const ap = <I, A, B>(fab: IxIO<I, I, (a: A) => B>, fa: IxIO<I, I, A>): IxIO<I, I, B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => IxIO<I, I, B>): IxIO<I, I, B> => {
+const chain = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => IxIO<I, I, B>): IxIO<I, I, B> => {
   return fa.chain(f)
 }
 

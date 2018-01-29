@@ -81,8 +81,7 @@ export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => {
   }
 }
 
-/** @function */
-export const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {
+const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {
   return fa.map(f)
 }
 
@@ -91,33 +90,27 @@ export const of = <A>(a: A): Identity<A> => {
   return new Identity(a)
 }
 
-/** @function */
-export const ap = <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>): Identity<B> => {
+const ap = <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>): Identity<B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <A, B>(fa: Identity<A>, f: (a: A) => Identity<B>): Identity<B> => {
+const chain = <A, B>(fa: Identity<A>, f: (a: A) => Identity<B>): Identity<B> => {
   return fa.chain(f)
 }
 
-/** @function */
-export const reduce = <A, B>(fa: Identity<A>, b: B, f: (b: B, a: A) => B): B => {
+const reduce = <A, B>(fa: Identity<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-/** @function */
-export const alt = <A>(fx: Identity<A>, fy: Identity<A>): Identity<A> => {
+const alt = <A>(fx: Identity<A>, fy: Identity<A>): Identity<A> => {
   return fx.alt(fy)
 }
 
-/** @function */
-export const extend = <A, B>(f: (ea: Identity<A>) => B, ea: Identity<A>): Identity<B> => {
+const extend = <A, B>(f: (ea: Identity<A>) => B, ea: Identity<A>): Identity<B> => {
   return ea.extend(f)
 }
 
-/** @function */
-export const extract = <A>(fa: Identity<A>): A => {
+const extract = <A>(fa: Identity<A>): A => {
   return fa.extract()
 }
 
@@ -126,9 +119,8 @@ export const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Ident
   return new Identity(tailRec(a => f(a).extract(), a))
 }
 
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
-/** @function */
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
+function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
+function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
 

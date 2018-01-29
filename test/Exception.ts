@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import * as exception from '../src/Exception'
 import { IO } from '../src/IO'
-import { isLeft, isRight } from '../src/Either'
 
 describe('Exception', () => {
   it('error', () => {
@@ -30,8 +29,8 @@ describe('Exception', () => {
 
   it('tryCatch', () => {
     const eiol = exception.tryCatch(exception.throwException<number>(new Error('bum!')))
-    assert.strictEqual(isLeft(eiol.run()), true)
+    assert.strictEqual(eiol.run().isLeft(), true)
     const eior = exception.tryCatch(new IO(() => 1))
-    assert.strictEqual(isRight(eior.run()), true)
+    assert.strictEqual(eior.run().isRight(), true)
   })
 })

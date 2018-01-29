@@ -66,7 +66,7 @@ export class Left<L, A> {
     return this as any
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
-    return (isLeft(fab) ? fab : this) as any
+    return (fab.isLeft() ? fab : this) as any
   }
   ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
     return fb.ap(this)
@@ -142,7 +142,7 @@ export class Right<L, A> {
     return new Right(f(this.value))
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
-    if (isRight(fab)) {
+    if (fab.isRight()) {
       return this.map(fab.value)
     }
     return fab as any
@@ -203,14 +203,6 @@ export class Right<L, A> {
   }
 }
 
-/**
- * Applies a function to each case in the data structure
- * @function
- */
-export const fold = <L, A, B>(left: (l: L) => B, right: (a: A) => B) => (fa: Either<L, A>): B => {
-  return fa.fold(left, right)
-}
-
 /** @function */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
   return {
@@ -227,8 +219,7 @@ export const catchLeft = <L, A>(fa: Either<L, A>, f: (l: L) => A): A => {
   return fa.catchLeft(f)
 }
 
-/** @function */
-export const map = <L, A, B>(fa: Either<L, A>, f: (a: A) => B): Either<L, B> => {
+const map = <L, A, B>(fa: Either<L, A>, f: (a: A) => B): Either<L, B> => {
   return fa.map(f)
 }
 
@@ -237,64 +228,38 @@ export const of = <L, A>(a: A): Either<L, A> => {
   return new Right<L, A>(a)
 }
 
-/** @function */
-export const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Either<L, B> => {
+const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Either<L, B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <L, A, B>(fa: Either<L, A>, f: (a: A) => Either<L, B>): Either<L, B> => {
+const chain = <L, A, B>(fa: Either<L, A>, f: (a: A) => Either<L, B>): Either<L, B> => {
   return fa.chain(f)
 }
 
-/** @function */
-export const bimap = <L, V, A, B>(fla: Either<L, A>, f: (u: L) => V, g: (a: A) => B): Either<V, B> => {
+const bimap = <L, V, A, B>(fla: Either<L, A>, f: (u: L) => V, g: (a: A) => B): Either<V, B> => {
   return fla.bimap(f, g)
 }
 
-/** @function */
-export const alt = <L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => {
+const alt = <L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => {
   return fx.alt(fy)
 }
 
-/** @function */
-export const extend = <L, A, B>(f: (ea: Either<L, A>) => B, ea: Either<L, A>): Either<L, B> => {
+const extend = <L, A, B>(f: (ea: Either<L, A>) => B, ea: Either<L, A>): Either<L, B> => {
   return ea.extend(f)
 }
 
-/** @function */
-export const reduce = <L, A, B>(fa: Either<L, A>, b: B, f: (b: B, a: A) => B): B => {
+const reduce = <L, A, B>(fa: Either<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-export function traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
-export function traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
 
 /** @function */
 export const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
   return tailRec(e => e.fold(l => right(left(l)), r => r.fold(a => left(f(a)), b => right(right(b)))), f(a))
-}
-
-/**
- * Returns `true` if the either is an instance of `Left`, `false` otherwise
- * @function
- */
-export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
-  return fa.isLeft()
-}
-
-/**
- * Returns `true` if the either is an instance of `Right`, `false` otherwise
- * @function
- */
-export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
-  return fa.isRight()
 }
 
 /**
@@ -315,16 +280,8 @@ export const left = <L, A>(l: L): Either<L, A> => {
 export const right = of
 
 /** @function */
-export const fromPredicate = <L, A>(predicate: Predicate<A>, l: (a: A) => L) => (a: A): Either<L, A> => {
-  return predicate(a) ? right(a) : left(l(a))
-}
-
-/**
- * Maps the left side of the disjunction
- * @function
- */
-export const mapLeft = <L, M>(f: (l: L) => M) => <A>(fa: Either<L, A>): Either<M, A> => {
-  return fa.mapLeft(f)
+export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): Either<L, A> => {
+  return predicate(a) ? right(a) : left(whenFalse(a))
 }
 
 /**
@@ -354,17 +311,25 @@ export const tryCatch = <A>(f: Lazy<A>): Either<Error, A> => {
   }
 }
 
-/**
- * Swaps the disjunction values
- * @function
- */
-export const swap = <L, A>(fa: Either<L, A>): Either<A, L> => {
-  return fa.swap()
-}
-
 /** @function */
 export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
   return fa.fold<Either<L, A>>(left, right)
+}
+
+/**
+ * Returns `true` if the either is an instance of `Left`, `false` otherwise
+ * @function
+ */
+export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
+  return fa.isLeft()
+}
+
+/**
+ * Returns `true` if the either is an instance of `Right`, `false` otherwise
+ * @function
+ */
+export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
+  return fa.isRight()
 }
 
 /** @instance */
