@@ -34,7 +34,7 @@ const sortInstances = sortByName<Instance>()
 
 const sortFuncs = sortByName<Func>()
 
-const printDescription = (description: Option<string>): string => description.fold(() => '', d => CRLF + d)
+const printDescription = (description: Option<string>): string => description.fold('', d => CRLF + d)
 
 const printMethod = (m: Method): string => {
   let s = CRLF + h3(m.name)

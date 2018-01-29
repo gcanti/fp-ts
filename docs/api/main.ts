@@ -48,7 +48,7 @@ const processIndex: io.IO<void> = write(indexOutputPath, printIndex(modules))
 
 const main = log('- DOCUMENTATION -')
   .chain(_ => log('generating modules...'))
-  .chain(_ => sequence_(io, array)(modules.filter(m => m.docs).map(m => processModule(m.name))))
+  .chain(_ => sequence_(io.io, array)(modules.filter(m => m.docs).map(m => processModule(m.name))))
   .chain(_ => log('generating index...'))
   .chain(_ => processIndex)
   .chain(_ => log('generation ok'))

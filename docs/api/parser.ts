@@ -209,7 +209,7 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
           const text = vd.getText()
           const start = text.indexOf(' = ') + ' = '.length
           const end = indexOf(text, ' => {')
-          const signature = text.substring(start, end.getOrElseValue(text.length))
+          const signature = text.substring(start, end.getOrElse(text.length))
           return ok(new Func(name, signature, description, isAlias(annotation)))
         }
       }
