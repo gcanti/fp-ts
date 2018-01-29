@@ -38,7 +38,7 @@ export class Failure<L, A> {
     return this as any
   }
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
-    if (isFailure(fab)) {
+    if (fab.isFailure()) {
       return failure(this.semigroup)(this.semigroup.concat(fab.value, this.value))
     }
     return this as any
@@ -117,7 +117,7 @@ export class Success<L, A> {
     return new Success<L, B>(f(this.value))
   }
   ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
-    if (isSuccess(fab)) {
+    if (fab.isSuccess()) {
       return this.map(fab.value)
     }
     return fab as any
@@ -235,22 +235,6 @@ function traverse<F>(
   F: Applicative<F>
 ): <L, A, B>(ta: Validation<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
-}
-
-/**
- * Returns `true` if the validation is an instance of `Failure`, `false` otherwise
- * @function
- */
-export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
-  return fa.isFailure()
-}
-
-/**
- * Returns `true` if the validation is an instance of `Success`, `false` otherwise
- * @function
- */
-export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
-  return fa.isSuccess()
 }
 
 /** @function */

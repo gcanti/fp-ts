@@ -29,7 +29,7 @@ describe('Validation', () => {
 
     const x = sequence(validation.validation, array)(success)
 
-    if (validation.isSuccess(x)) {
+    if (x.isSuccess()) {
       assert.deepEqual(x.value, [1, 2, 3])
     } else {
       assert.ok(false)
@@ -37,7 +37,7 @@ describe('Validation', () => {
 
     const y = sequence(validation.validation, array)(failure)
 
-    if (validation.isFailure(y)) {
+    if (y.isFailure()) {
       assert.strictEqual(y.value, '[fail 1][fail 2]')
     } else {
       assert.ok(false)

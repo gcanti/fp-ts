@@ -266,30 +266,6 @@ export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
   return fa.fold(() => none, a => some(a), (_, a) => some(a))
 }
 
-/**
- * Returns `true` if the these is an instance of `This`, `false` otherwise
- * @function
- */
-export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => {
-  return fa.isThis()
-}
-
-/**
- * Returns `true` if the these is an instance of `That`, `false` otherwise
- * @function
- */
-export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
-  return fa.isThat()
-}
-
-/**
- * Returns `true` if the these is an instance of `Both`, `false` otherwise
- * @function
- */
-export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
-  return fa.isBoth()
-}
-
 /** @instance */
 export const these: Functor<URI> & Bifunctor<URI> & Foldable<URI> & Traversable<URI> = {
   URI,
