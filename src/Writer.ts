@@ -47,8 +47,7 @@ export class Writer<W, A> {
   }
 }
 
-/** @function */
-export const map = <W, A, B>(fa: Writer<W, A>, f: (a: A) => B): Writer<W, B> => {
+const map = <W, A, B>(fa: Writer<W, A>, f: (a: A) => B): Writer<W, B> => {
   return fa.map(f)
 }
 
@@ -57,13 +56,11 @@ export const of = <W>(M: Monoid<W>) => <A>(a: A): Writer<W, A> => {
   return new Writer(M, () => [a, M.empty])
 }
 
-/** @function */
-export const ap = <W, A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writer<W, B> => {
+const ap = <W, A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writer<W, B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <W, A, B>(fa: Writer<W, A>, f: (a: A) => Writer<W, B>): Writer<W, B> => {
+const chain = <W, A, B>(fa: Writer<W, A>, f: (a: A) => Writer<W, B>): Writer<W, B> => {
   return fa.chain(f)
 }
 

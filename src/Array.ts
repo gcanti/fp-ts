@@ -135,7 +135,7 @@ export const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
   let bb = b
   while (true) {
     const mt = f(bb)
-    if (option.isSome(mt)) {
+    if (mt.isSome()) {
       const [a, b] = mt.value
       ret.push(a)
       bb = b

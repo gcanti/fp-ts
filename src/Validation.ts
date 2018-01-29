@@ -8,6 +8,7 @@ import { Alt } from './Alt'
 import { constFalse, Predicate, toString } from './function'
 import { Either } from './Either'
 import { Monad } from './Monad'
+import { Bifunctor } from './Bifunctor'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -181,11 +182,6 @@ export class Success<L, A> {
 }
 
 /** @function */
-export const fold = <L, A, B>(failure: (l: L) => B, success: (a: A) => B) => (fa: Validation<L, A>): B => {
-  return fa.fold(failure, success)
-}
-
-/** @function */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
   return {
     equals: (x, y) =>
@@ -193,8 +189,7 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation
   }
 }
 
-/** @function */
-export const map = <L, A, B>(fa: Validation<L, A>, f: (a: A) => B): Validation<L, B> => {
+const map = <L, A, B>(fa: Validation<L, A>, f: (a: A) => B): Validation<L, B> => {
   return fa.map(f)
 }
 
@@ -203,38 +198,40 @@ export const of = <L, A>(a: A): Validation<L, A> => {
   return new Success<L, A>(a)
 }
 
-/** @function */
-export const ap = <L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => {
+const ap = <L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <L, A, B>(fa: Validation<L, A>, f: (a: A) => Validation<L, B>): Validation<L, B> => {
+const chain = <L, A, B>(fa: Validation<L, A>, f: (a: A) => Validation<L, B>): Validation<L, B> => {
   return fa.chain(f)
 }
 
-/** @function */
-export const bimap = <M>(S: Semigroup<M>) => <L, A, B>(f: (l: L) => M, g: (a: A) => B) => (
-  fa: Validation<L, A>
+const bimap = <M>(M: Semigroup<M>) => <L, A, B>(
+  fla: Validation<L, A>,
+  f: (l: L) => M,
+  g: (a: A) => B
 ): Validation<M, B> => {
-  return fa.bimap(S)(f, g)
+  return fla.bimap(M)(f, g)
 }
 
 /** @function */
-export const alt = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
+export const getBifunctor = <M>(M: Semigroup<M>): Bifunctor<URI> => {
+  return {
+    URI,
+    bimap: bimap(M) as any // TODO
+  }
+}
+
+const alt = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
   return fx.alt(fy)
 }
 
-/** @function */
-export const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B): B => {
+const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-export function traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
-/** @function */
-export function traverse<F>(
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
+function traverse<F>(
   F: Applicative<F>
 ): <L, A, B>(ta: Validation<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
@@ -279,8 +276,7 @@ export const fromEither = <L>(S: Semigroup<L>): (<A>(e: Either<L, A>) => Validat
   return <A>(e: Either<L, A>) => e.fold<Validation<L, A>>(failure(S), success)
 }
 
-/** @function */
-export const concat = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
+const concat = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
   return fx.concat(fy)
 }
 
@@ -289,18 +285,6 @@ export const getSemigroup = <L, A>(): Semigroup<Validation<L, A>> => {
   return {
     concat
   }
-}
-
-/** @function */
-export const mapFailure = <M>(S: Semigroup<M>) => <L>(f: (l: L) => M) => <A>(
-  fa: Validation<L, A>
-): Validation<M, A> => {
-  return fa.mapFailure(S)(f)
-}
-
-/** @function */
-export const swap = <A>(S: Semigroup<A>) => <L>(fa: Validation<L, A>): Validation<A, L> => {
-  return fa.swap(S)
 }
 
 /**

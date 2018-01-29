@@ -41,8 +41,7 @@ export class IO<A> {
   }
 }
 
-/** @function */
-export const map = <A, B>(fa: IO<A>, f: (a: A) => B): IO<B> => {
+const map = <A, B>(fa: IO<A>, f: (a: A) => B): IO<B> => {
   return fa.map(f)
 }
 
@@ -51,13 +50,11 @@ export const of = <A>(a: A): IO<A> => {
   return new IO(() => a)
 }
 
-/** @function */
-export const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => {
+const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
+const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
   return fa.chain(f)
 }
 

@@ -20,10 +20,10 @@ describe('Array', () => {
   it('traverse', () => {
     const tfanone = [1, 2]
     const f = (n: number): option.Option<number> => (n % 2 === 0 ? none : some(n))
-    const fasnone = array.traverse(option)(f, tfanone)
-    assert.ok(option.isNone(fasnone))
+    const fasnone = array.traverse(option.option)(tfanone, f)
+    assert.ok(fasnone.isNone())
     const tfa = [1, 3]
-    const fas = array.traverse(option)(f, tfa)
+    const fas = array.traverse(option.option)(tfa, f)
     assert.deepEqual(fas, some([1, 3]))
   })
 

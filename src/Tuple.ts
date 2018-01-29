@@ -14,7 +14,7 @@ import { Semigroupoid } from './Semigroupoid'
 import { toString } from './function'
 import { ChainRec } from './ChainRec'
 import { Chain } from './Chain'
-import { Either, isLeft, Right, Left } from './Either'
+import { Either, Right, Left } from './Either'
 
 // Adapted from https://github.com/purescript/purescript-tuples
 
@@ -68,6 +68,10 @@ export class Tuple<L, A> {
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
     return f => F.map(f(this.snd()), b => new Tuple([this.fst(), b]))
   }
+  /** Exchange the first and second components of a tuple */
+  swap(): Tuple<A, L> {
+    return new Tuple([this.snd(), this.fst()])
+  }
   inspect(): string {
     return this.toString()
   }
@@ -76,50 +80,33 @@ export class Tuple<L, A> {
   }
 }
 
-/**
- * Returns the first component of a tuple.
- * @function
- */
-export const fst = <L, A>(fa: Tuple<L, A>): L => {
+const fst = <L, A>(fa: Tuple<L, A>): L => {
   return fa.fst()
 }
 
-/**
- * Returns the second component of a tuple.
- * @function
- */
-export const snd = <L, A>(fa: Tuple<L, A>): A => {
+const snd = <L, A>(fa: Tuple<L, A>): A => {
   return fa.snd()
 }
 
-/** @function */
-export const compose = <L, A, B>(bc: Tuple<A, B>, fa: Tuple<L, A>): Tuple<L, B> => {
+const compose = <L, A, B>(bc: Tuple<A, B>, fa: Tuple<L, A>): Tuple<L, B> => {
   return fa.compose(bc)
 }
 
-/** @function */
-export const map = <L, A, B>(fa: Tuple<L, A>, f: (a: A) => B): Tuple<L, B> => {
+const map = <L, A, B>(fa: Tuple<L, A>, f: (a: A) => B): Tuple<L, B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const bimap = <L, A, M, B>(fla: Tuple<L, A>, f: (l: L) => M, g: (a: A) => B): Tuple<M, B> => {
+const bimap = <L, A, M, B>(fla: Tuple<L, A>, f: (l: L) => M, g: (a: A) => B): Tuple<M, B> => {
   return fla.bimap(f, g)
 }
 
-/**
- * @function
- * @alias snd
- */
-export const extract = snd
+const extract = snd
 
-/** @function */
-export const extend = <L, A, B>(f: (fa: Tuple<L, A>) => B, fa: Tuple<L, A>): Tuple<L, B> => {
+const extend = <L, A, B>(f: (fa: Tuple<L, A>) => B, fa: Tuple<L, A>): Tuple<L, B> => {
   return fa.extend(f)
 }
 
-/** @function */
-export const reduce = <L, A, B>(fa: Tuple<L, A>, b: B, f: (b: B, a: A) => B): B => {
+const reduce = <L, A, B>(fa: Tuple<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
@@ -162,8 +149,7 @@ export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A
   }
 }
 
-/** @function */
-export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
+const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
   return new Tuple([S.concat(fa.fst(), fab.fst()), fab.snd()(fa.snd())])
 }
 
@@ -176,8 +162,7 @@ export const getApply = <L>(S: Semigroup<L>): Apply<URI> => {
   }
 }
 
-/** @function */
-export const of = <L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A> => {
+const of = <L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A> => {
   return new Tuple([M.empty, a])
 }
 
@@ -189,8 +174,7 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative<URI> => {
   }
 }
 
-/** @function */
-export const chain = <L>(M: Monoid<L>) => <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
+const chain = <L>(M: Monoid<L>) => <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
   const lb = f(fa.snd())
   return new Tuple([M.concat(fa.fst(), lb.fst()), lb.snd()])
 }
@@ -215,7 +199,7 @@ export const getMonad = <L>(M: Monoid<L>): Monad<URI> => {
 export const chainRec = <L>(M: Monoid<L>) => <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
   let result = f(a)
   let acc = M.empty
-  while (isLeft(result.snd())) {
+  while (result.snd().isLeft()) {
     acc = M.concat(acc, result.fst())
     result = f((result.snd() as Left<A, B>).value)
   }
@@ -230,22 +214,9 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec<URI> => {
   }
 }
 
-export function traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
-/** @function */
-export function traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(ta: Tuple<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Tuple<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
-}
-
-/**
- * Exchange the first and second components of a tuple.
- * @function
- */
-export const swap = <L, A>(fa: Tuple<L, A>): Tuple<A, L> => {
-  return new Tuple([fa.snd(), fa.fst()])
 }
 
 /** @instance */

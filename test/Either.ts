@@ -1,16 +1,11 @@
 import * as assert from 'assert'
 import {
-  ap,
-  bimap,
-  chain,
-  fold,
   fromNullable,
   fromOption,
   fromPredicate,
   catchLeft,
   getSetoid,
   left,
-  map,
   right,
   tryCatch,
   fromValidation
@@ -24,37 +19,37 @@ describe('Either', () => {
   it('fold', () => {
     const f = (s: string) => `left${s.length}`
     const g = (s: string) => `right${s.length}`
-    assert.strictEqual(fold(f, g)(left('abc')), 'left3')
-    assert.strictEqual(fold(f, g)(right('abc')), 'right3')
+    assert.strictEqual(left<string, string>('abc').fold(f, g), 'left3')
+    assert.strictEqual(right<string, string>('abc').fold(f, g), 'right3')
   })
 
   it('map', () => {
     const f = (s: string): number => s.length
-    assert.deepEqual(map(right('abc'), f), right(3))
-    assert.deepEqual(map(left<string, string>('s'), f), left('s'))
+    assert.deepEqual(right('abc').map(f), right(3))
+    assert.deepEqual(left<string, string>('s').map(f), left('s'))
   })
 
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    assert.deepEqual(bimap(right<string, number>(1), f, g), right(false))
+    assert.deepEqual(right<string, number>(1).bimap(f, g), right(false))
   })
 
   it('ap', () => {
     const f = (s: string): number => s.length
-    assert.deepEqual(ap(right<string, (s: string) => number>(f), right<string, string>('abc')), right(3))
-    assert.deepEqual(ap(right<string, (s: string) => number>(f), left<string, string>('a')), left<string, number>('a'))
+    assert.deepEqual(right<string, string>('abc').ap(right<string, (s: string) => number>(f)), right(3))
+    assert.deepEqual(left<string, string>('a').ap(right<string, (s: string) => number>(f)), left<string, number>('a'))
     assert.deepEqual(
-      ap(left<string, (s: string) => number>('a'), right<string, string>('abc')),
+      right<string, string>('abc').ap(left<string, (s: string) => number>('a')),
       left<string, number>('a')
     )
-    assert.deepEqual(ap(left<string, (s: string) => number>('a'), left<string, string>('b')), left<string, number>('a'))
+    assert.deepEqual(left<string, string>('b').ap(left<string, (s: string) => number>('a')), left<string, number>('a'))
   })
 
   it('chain', () => {
     const f = (s: string) => right<string, number>(s.length)
-    assert.deepEqual(chain(right<string, string>('abc'), f), right(3))
-    assert.deepEqual(chain(left<string, string>('a'), f), left('a'))
+    assert.deepEqual(right<string, string>('abc').chain(f), right(3))
+    assert.deepEqual(left<string, string>('a').chain(f), left('a'))
   })
 
   it('fromPredicate', () => {

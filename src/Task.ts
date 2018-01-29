@@ -58,8 +58,7 @@ export class Task<A> {
   }
 }
 
-/** @function */
-export const map = <A, B>(fa: Task<A>, f: (a: A) => B): Task<B> => {
+const map = <A, B>(fa: Task<A>, f: (a: A) => B): Task<B> => {
   return fa.map(f)
 }
 
@@ -68,42 +67,26 @@ export const of = <A>(a: A): Task<A> => {
   return new Task(() => Promise.resolve(a))
 }
 
-/** @function */
-export const ap = <A, B>(fab: Task<(a: A) => B>, fa: Task<A>): Task<B> => {
+const ap = <A, B>(fab: Task<(a: A) => B>, fa: Task<A>): Task<B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <A, B>(fa: Task<A>, f: (a: A) => Task<B>): Task<B> => {
+const chain = <A, B>(fa: Task<A>, f: (a: A) => Task<B>): Task<B> => {
   return fa.chain(f)
-}
-
-/**
- * Returns a task that never completes
- * @function
- */
-export const empty = <A>(): Task<A> => {
-  return never as Task<A>
-}
-
-/**
- * Selects the earlier of two Tasks
- * @function
- */
-export const concat = <A>(fx: Task<A>, fy: Task<A>): Task<A> => {
-  return fx.concat(fy)
 }
 
 /** @function */
 export const getMonoid = <A>(): Monoid<Task<A>> => {
-  return { concat, empty: never }
+  return {
+    concat: (x, y) => x.concat(y),
+    empty: never
+  }
 }
 
 const never = new Task(() => new Promise<never>(resolve => undefined))
 
-// TODO uncurry
 /** @function */
-export const tryCatch = <A>(f: Lazy<Promise<A>>) => <L>(onrejected: (reason: {}) => L): Task<Either<L, A>> => {
+export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): Task<Either<L, A>> => {
   return new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))
 }
 

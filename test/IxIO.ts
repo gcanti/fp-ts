@@ -69,14 +69,14 @@ describe('IxIO', () => {
 
   it('iapplyFirst', () => {
     log = []
-    const action = iapplyFirst(ixIO)(new Open())(new Close())
+    const action = iapplyFirst(ixIO.ixIO)(new Open())(new Close())
     action.run()
     assert.deepEqual(log, ['Opening the door', 'Closing the door'])
   })
 
   it('iapplySecond', () => {
     log = []
-    const action = iapplySecond(ixIO)(new Open())(new Close())
+    const action = iapplySecond(ixIO.ixIO)(new Open())(new Close())
     action.run()
     assert.deepEqual(log, ['Opening the door', 'Closing the door'])
   })

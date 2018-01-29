@@ -162,13 +162,6 @@ export class Both<L, A> {
 }
 
 /** @function */
-export const fold = <L, A, B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B) => (
-  fa: These<L, A>
-): B => {
-  return fa.fold(this_, that, both)
-}
-
-/** @function */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
   return {
     equals: (x, y) =>
@@ -197,8 +190,7 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
   }
 }
 
-/** @function */
-export const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
+const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
   return fa.map(f)
 }
 
@@ -207,13 +199,11 @@ export const of = <L, A>(a: A): These<L, A> => {
   return new That<L, A>(a)
 }
 
-/** @function */
-export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => {
+const ap = <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => {
   return chain(S)(fab, f => map(fa, f))
 }
 
-/** @function */
-export const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These<L, B>): These<L, B> => {
+const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These<L, B>): These<L, B> => {
   return fa.fold(
     () => fa as any,
     a => f(a),
@@ -232,48 +222,17 @@ export const getMonad = <L>(S: Semigroup<L>): Monad<URI> => {
   }
 }
 
-/** @function */
-export const bimap = <L, M, A, B>(fla: These<L, A>, f: (l: L) => M, g: (a: A) => B): These<M, B> => {
+const bimap = <L, M, A, B>(fla: These<L, A>, f: (l: L) => M, g: (a: A) => B): These<M, B> => {
   return fla.bimap(f, g)
 }
 
-/** @function */
-export const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
+const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-export function traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
-/** @function */
-export function traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
-}
-
-/**
- * Returns `true` if the these is an instance of `This`, `false` otherwise
- * @function
- */
-export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => {
-  return fa.isThis()
-}
-
-/**
- * Returns `true` if the these is an instance of `That`, `false` otherwise
- * @function
- */
-export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
-  return fa.isThat()
-}
-
-/**
- * Returns `true` if the these is an instance of `Both`, `false` otherwise
- * @function
- */
-export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
-  return fa.isBoth()
 }
 
 /** @function */
@@ -305,6 +264,30 @@ export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => {
 /** @function */
 export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
   return fa.fold(() => none, a => some(a), (_, a) => some(a))
+}
+
+/**
+ * Returns `true` if the these is an instance of `This`, `false` otherwise
+ * @function
+ */
+export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => {
+  return fa.isThis()
+}
+
+/**
+ * Returns `true` if the these is an instance of `That`, `false` otherwise
+ * @function
+ */
+export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
+  return fa.isThat()
+}
+
+/**
+ * Returns `true` if the these is an instance of `Both`, `false` otherwise
+ * @function
+ */
+export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
+  return fa.isBoth()
 }
 
 /** @instance */

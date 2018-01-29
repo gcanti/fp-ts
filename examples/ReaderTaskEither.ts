@@ -5,7 +5,7 @@ import { Monad } from 'fp-ts/lib/Monad'
 import { Task } from 'fp-ts/lib/Task'
 import { Either } from 'fp-ts/lib/Either'
 
-const readerTTaskEither = readerT.getReaderT(taskEither)
+const readerTTaskEither = readerT.getReaderT(taskEither.taskEither)
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT3<U, L, A> {
@@ -54,10 +54,10 @@ export const chain = <E, L, A, B>(
   f: (a: A) => ReaderTaskEither<E, L, B>
 ): ReaderTaskEither<E, L, B> => fa.chain(f)
 
-export const ask = <E, L>(e: E): ReaderTaskEither<E, L, E> => new ReaderTaskEither(readerT.ask(taskEither)())
+export const ask = <E, L>(e: E): ReaderTaskEither<E, L, E> => new ReaderTaskEither(readerT.ask(taskEither.taskEither)())
 
 export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> =>
-  new ReaderTaskEither(readerT.asks(taskEither)(f))
+  new ReaderTaskEither(readerT.asks(taskEither.taskEither)(f))
 
 export const local = <E>(f: (e: E) => E) => <L, A>(fa: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> =>
   new ReaderTaskEither(e => fa.run(f(e)))

@@ -38,14 +38,14 @@ describe('Foldable', () => {
   })
 
   it('getFoldableComposition', () => {
-    const arrayOptionFoldable = getFoldableComposition(array, option)
+    const arrayOptionFoldable = getFoldableComposition(array, option.option)
     const sum = (b: number, a: number): number => b + a
     assert.strictEqual(arrayOptionFoldable.reduce([option.some(1), option.some(2)], 0, sum), 3)
     assert.strictEqual(arrayOptionFoldable.reduce([option.none, option.some(2)], 0, sum), 2)
   })
 
   it('intercalate', () => {
-    const arrayOptionFoldable = getFoldableComposition(array, option)
+    const arrayOptionFoldable = getFoldableComposition(array, option.option)
     const URI = 'ArrayOption'
     type URI = typeof URI
     class ArrayOption<A> {
@@ -67,14 +67,14 @@ describe('Foldable', () => {
 
   it('traverse_', () => {
     let counter = ''
-    const x = traverse_(io, array)(a => new io.IO(() => (counter += a)), ['a', 'b', 'c'])
+    const x = traverse_(io.io, array)(a => new io.IO(() => (counter += a)), ['a', 'b', 'c'])
     x.run()
     assert.strictEqual(counter, 'abc')
   })
 
   it('sequence_', () => {
     let counter = ''
-    const x = sequence_(io, array)([
+    const x = sequence_(io.io, array)([
       new io.IO(() => (counter += 'a')),
       new io.IO(() => (counter += 'b')),
       new io.IO(() => (counter += 'c'))
@@ -100,16 +100,16 @@ describe('Foldable', () => {
   })
 
   it('foldM', () => {
-    assert.deepEqual(foldM(array, option)((b, a) => option.none, 1, []), option.some(1))
-    assert.deepEqual(foldM(array, option)((b, a) => option.none, 1, [2]), option.none)
-    assert.deepEqual(foldM(array, option)((b, a) => option.some(b + a), 1, [2]), option.some(3))
+    assert.deepEqual(foldM(array, option.option)((b, a) => option.none, 1, []), option.some(1))
+    assert.deepEqual(foldM(array, option.option)((b, a) => option.none, 1, [2]), option.none)
+    assert.deepEqual(foldM(array, option.option)((b, a) => option.some(b + a), 1, [2]), option.some(3))
   })
 
   it('oneOf', () => {
-    assert.deepEqual(oneOf(array, option)([]), option.none)
-    assert.deepEqual(oneOf(array, option)([option.none]), option.none)
-    assert.deepEqual(oneOf(array, option)([option.none, option.some(1)]), option.some(1))
-    assert.deepEqual(oneOf(array, option)([option.some(2), option.some(1)]), option.some(2))
+    assert.deepEqual(oneOf(array, option.option)([]), option.none)
+    assert.deepEqual(oneOf(array, option.option)([option.none]), option.none)
+    assert.deepEqual(oneOf(array, option.option)([option.none, option.some(1)]), option.some(1))
+    assert.deepEqual(oneOf(array, option.option)([option.some(2), option.some(1)]), option.some(2))
   })
 
   it('elem', () => {

@@ -26,10 +26,10 @@ export class Const<L, A> {
   readonly '-L': L
   readonly '-URI': URI
   constructor(readonly value: L) {}
-  map<B, C>(f: (b: B) => C): Const<L, C> {
+  map<B>(f: (a: A) => B): Const<L, B> {
     return this as any
   }
-  contramap<B, C>(f: (c: C) => B): Const<L, C> {
+  contramap<B>(f: (b: B) => A): Const<L, B> {
     return this as any
   }
   fold<B>(f: (l: L) => B): B {
@@ -48,18 +48,15 @@ export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
   equals: (x, y) => x.fold(ax => y.fold(ay => S.equals(ax, ay)))
 })
 
-/** @function */
-export const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
+const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
+const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
   return fa.contramap(f)
 }
 
-/** @function */
-export const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
+const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
   return new Const(S.concat(fab.fold(identity), fa.fold(identity)))
 }
 
@@ -72,8 +69,7 @@ export const getApply = <L>(S: Semigroup<L>): Apply<URI> => {
   }
 }
 
-/** @function */
-export const of = <L>(M: Monoid<L>) => <A>(b: A): Const<L, A> => {
+const of = <L>(M: Monoid<L>) => <A>(b: A): Const<L, A> => {
   return new Const<L, any>(M.empty)
 }
 

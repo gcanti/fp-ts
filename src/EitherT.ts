@@ -87,7 +87,7 @@ export function getEitherT<M extends HKT2S>(M: Monad<M>): EitherT2<M>
 export function getEitherT<M extends HKTS>(M: Monad<M>): EitherT1<M>
 export function getEitherT<M>(M: Monad<M>): EitherT<M>
 export function getEitherT<M>(M: Monad<M>): EitherT<M> {
-  const applicativeComposition = getApplicativeComposition(M, either)
+  const applicativeComposition = getApplicativeComposition(M, either.either)
 
   return {
     ...applicativeComposition,

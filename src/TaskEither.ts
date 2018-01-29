@@ -11,14 +11,14 @@ declare module './HKT' {
   }
 }
 
-const eitherTTask = eitherT.getEitherT(task)
+const eitherTTask = eitherT.getEitherT(task.task)
 
 export const URI = 'TaskEither'
 
 export type URI = typeof URI
 
-const eitherTfold = eitherT.fold(task)
-const eitherTmapLeft = eitherT.mapLeft(task)
+const eitherTfold = eitherT.fold(task.task)
+const eitherTmapLeft = eitherT.mapLeft(task.task)
 
 /**
  * @data
@@ -57,8 +57,7 @@ export class TaskEither<L, A> {
   }
 }
 
-/** @function */
-export const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> => {
+const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> => {
   return fa.map(f)
 }
 
@@ -67,29 +66,27 @@ export const of = <L, A>(a: A): TaskEither<L, A> => {
   return new TaskEither(eitherTTask.of(a))
 }
 
-/** @function */
-export const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): TaskEither<L, B> => {
+const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): TaskEither<L, B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => TaskEither<L, B>): TaskEither<L, B> => {
+const chain = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => TaskEither<L, B>): TaskEither<L, B> => {
   return fa.chain(f)
 }
 
-const eitherTright = eitherT.right(task)
+const eitherTright = eitherT.right(task.task)
 /** @function */
 export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
   return new TaskEither(eitherTright(fa))
 }
 
-const eitherTleft = eitherT.left(task)
+const eitherTleft = eitherT.left(task.task)
 /** @function */
 export const left = <L, A>(fa: Task<L>): TaskEither<L, A> => {
   return new TaskEither(eitherTleft(fa))
 }
 
-const eitherTfromEither = eitherT.fromEither(task)
+const eitherTfromEither = eitherT.fromEither(task.task)
 /** @function */
 export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
   return new TaskEither(eitherTfromEither(fa))
@@ -97,15 +94,7 @@ export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
 
 /** @function */
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A> => {
-  return new TaskEither(task.tryCatch(f)(onrejected))
-}
-
-/**
- * Transforms the failure value of the `TaskEither` into a new `TaskEither`
- * @function
- */
-export const orElse = <L, M, A>(f: (l: L) => TaskEither<M, A>) => (fa: TaskEither<L, A>): TaskEither<M, A> => {
-  return fa.orElse(f)
+  return new TaskEither(task.tryCatch(f, onrejected))
 }
 
 /** @instance */

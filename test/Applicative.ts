@@ -44,9 +44,9 @@ describe('Applicative', () => {
     const action = new io.IO(() => {
       log.push('action called')
     })
-    when(io)(false, action).run()
+    when(io.io)(false, action).run()
     assert.deepEqual(log, [])
-    when(io)(true, action).run()
+    when(io.io)(true, action).run()
     assert.deepEqual(log, ['action called'])
   })
 })

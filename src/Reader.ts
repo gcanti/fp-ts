@@ -28,8 +28,7 @@ export class Reader<E, A> {
   }
 }
 
-/** @function */
-export const map = <E, A, B>(fa: Reader<E, A>, f: (a: A) => B): Reader<E, B> => {
+const map = <E, A, B>(fa: Reader<E, A>, f: (a: A) => B): Reader<E, B> => {
   return fa.map(f)
 }
 
@@ -38,13 +37,11 @@ export const of = <E, A>(a: A): Reader<E, A> => {
   return new Reader((e: E) => a)
 }
 
-/** @function */
-export const ap = <E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> => {
+const ap = <E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <E, A, B>(fa: Reader<E, A>, f: (a: A) => Reader<E, B>): Reader<E, B> => {
+const chain = <E, A, B>(fa: Reader<E, A>, f: (a: A) => Reader<E, B>): Reader<E, B> => {
   return fa.chain(f)
 }
 

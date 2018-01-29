@@ -43,27 +43,16 @@ export class Store<S, A> {
   }
 }
 
-/** @function */
-export const map = <S, A, B>(sa: Store<S, A>, f: (a: A) => B): Store<S, B> => {
+const map = <S, A, B>(sa: Store<S, A>, f: (a: A) => B): Store<S, B> => {
   return sa.map(f)
 }
 
-/** @function */
-export const extract = <S, A>(sa: Store<S, A>): A => {
+const extract = <S, A>(sa: Store<S, A>): A => {
   return sa.extract()
 }
 
-/** @function */
-export const extend = <S, A, B>(f: (sa: Store<S, A>) => B, sa: Store<S, A>): Store<S, B> => {
+const extend = <S, A, B>(f: (sa: Store<S, A>) => B, sa: Store<S, A>): Store<S, B> => {
   return sa.extend(f)
-}
-
-/**
- * Reads the value at the specified position in the specified context
- * @function
- */
-export const peek = <S, A>(sa: Store<S, A>) => (s: S): A => {
-  return sa.peek(s)
 }
 
 /**
@@ -72,14 +61,6 @@ export const peek = <S, A>(sa: Store<S, A>) => (s: S): A => {
  */
 export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => {
   return sa.peek(f(sa.pos))
-}
-
-/**
- * Reposition the focus at the specified position
- * @function
- */
-export const seek = <S>(s: S) => <A>(sa: Store<S, A>): Store<S, A> => {
-  return sa.seek(s)
 }
 
 /**
@@ -101,7 +82,10 @@ export function experiment<F extends HKTS>(
   F: Functor<F>
 ): <S>(f: (s: S) => HKTAs<F, S>) => <A>(sa: Store<S, A>) => HKTAs<F, A>
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>
-/** @function */
+/**
+ * Extract a collection of values from positions which depend on the current position
+ * @function
+ */
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A> {
   return f => sa => F.map(f(sa.pos), s => sa.peek(s))
 }

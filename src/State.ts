@@ -45,8 +45,7 @@ export class State<S, A> {
   }
 }
 
-/** @function */
-export const map = <S, A, B>(fa: State<S, A>, f: (a: A) => B): State<S, B> => {
+const map = <S, A, B>(fa: State<S, A>, f: (a: A) => B): State<S, B> => {
   return fa.map(f)
 }
 
@@ -55,13 +54,11 @@ export const of = <S, A>(a: A): State<S, A> => {
   return new State(s => [a, s])
 }
 
-/** @function */
-export const ap = <S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<S, B> => {
+const ap = <S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<S, B> => {
   return fa.ap(fab)
 }
 
-/** @function */
-export const chain = <S, A, B>(fa: State<S, A>, f: (a: A) => State<S, B>): State<S, B> => {
+const chain = <S, A, B>(fa: State<S, A>, f: (a: A) => State<S, B>): State<S, B> => {
   return fa.chain(f)
 }
 

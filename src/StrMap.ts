@@ -59,7 +59,7 @@ export class StrMap<A> {
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concatCurried)
     return <B>(f: (k: string, a: A) => HKT<F, B>) => {
-      let out: HKT<F, StrMap<B>> = F.of(empty())
+      let out: HKT<F, StrMap<B>> = F.of(empty)
       for (let k in this.value) {
         out = concatA2(out)(F.map(f(k, this.value[k]), b => singleton(k, b)))
       }
@@ -75,13 +75,9 @@ export class StrMap<A> {
   }
 }
 
-/** @function */
-export const empty = <A>(): StrMap<A> => {
-  return new StrMap({})
-}
+const empty: StrMap<never> = new StrMap({})
 
-/** @function */
-export const concat = <A>(x: StrMap<A>, y: StrMap<A>): StrMap<A> => {
+const concat = <A>(x: StrMap<A>, y: StrMap<A>): StrMap<A> => {
   return new StrMap(Object.assign({}, x.value, y.value))
 }
 
@@ -94,22 +90,19 @@ export const getSemigroup = <A>(): Semigroup<StrMap<A>> => {
 
 /** @function */
 export const getMonoid = <A>(): Monoid<StrMap<A>> => {
-  return { ...getSemigroup(), empty: new StrMap({}) }
+  return { ...getSemigroup(), empty }
 }
 
-/** @function */
-export const map = <A, B>(fa: StrMap<A>, f: (a: A) => B): StrMap<B> => {
+const map = <A, B>(fa: StrMap<A>, f: (a: A) => B): StrMap<B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const reduce = <A, B>(fa: StrMap<A>, b: B, f: (b: B, a: A) => B): B => {
+const reduce = <A, B>(fa: StrMap<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
-/** @function */
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: StrMap<A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
+function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
+function traverse<F>(F: Applicative<F>): <A, B>(ta: StrMap<A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
 
@@ -206,14 +199,6 @@ export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>):
   const arr = toArray(d)
   const len = arr.length
   return unfoldable.unfoldr(b => (b < len ? some(tuple(arr[b], b + 1)) : none), 0)
-}
-
-/**
- * Apply a function of two arguments to each key/value pair, producing a new dictionary
- * @function
- */
-export const mapWithKey = <A, B>(fa: StrMap<A>, f: (k: string, a: A) => B): StrMap<B> => {
-  return fa.mapWithKey(f)
 }
 
 /**
