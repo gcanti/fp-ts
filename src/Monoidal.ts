@@ -1,5 +1,5 @@
-import { HKT } from './HKT'
-import { Functor } from './Functor'
+import { HKT, HKT2, HKT3 } from './HKT'
+import { Functor, Functor2, Functor3, Functor2C, Functor3C } from './Functor'
 import { Applicative } from './Applicative'
 import { constant, tupleCurried } from './function'
 import { liftA2 } from './Apply'
@@ -11,8 +11,28 @@ import { liftA2 } from './Apply'
  * @typeclass
  */
 export interface Monoidal<F> extends Functor<F> {
-  unit(): HKT<F, void>
+  unit: () => HKT<F, void>
   mult<A, B>(fa: HKT<F, A>, fb: HKT<F, B>): HKT<F, [A, B]>
+}
+
+export interface Monoidal2<F> extends Functor2<F> {
+  unit: <L>() => HKT2<F, L, void>
+  mult<L, A, B>(fa: HKT2<F, L, A>, fb: HKT2<F, L, B>): HKT2<F, L, [A, B]>
+}
+
+export interface Monoidal3<F> extends Functor3<F> {
+  unit: <U, L>() => HKT3<F, U, L, void>
+  mult<U, L, A, B>(fa: HKT3<F, U, L, A>, fb: HKT3<F, U, L, B>): HKT3<F, U, L, [A, B]>
+}
+
+export interface Monoidal2C<F, L> extends Functor2C<F, L> {
+  unit: () => HKT2<F, L, void>
+  mult<A, B>(fa: HKT2<F, L, A>, fb: HKT2<F, L, B>): HKT2<F, L, [A, B]>
+}
+
+export interface Monoidal3C<F, U, L> extends Functor3C<F, U, L> {
+  unit: () => HKT3<F, U, L, void>
+  mult<A, B>(fa: HKT3<F, U, L, A>, fb: HKT3<F, U, L, B>): HKT3<F, U, L, [A, B]>
 }
 
 /** @function */

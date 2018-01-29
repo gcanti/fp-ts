@@ -1,13 +1,13 @@
 import { HKT, HKTS, HKT2S, HKT2, HKTAs, HKT2As, HKT3, HKT3S, HKT3As } from './HKT'
 import { Applicative } from './Applicative'
-import { Monad } from './Monad'
+import { Monad2 } from './Monad'
 import { Foldable } from './Foldable'
-import { Extend } from './Extend'
+import { Extend2 } from './Extend'
 import { Setoid } from './Setoid'
-import { Traversable } from './Traversable'
+import { Traversable2 } from './Traversable'
 import { Bifunctor } from './Bifunctor'
-import { Alt } from './Alt'
-import { ChainRec, tailRec } from './ChainRec'
+import { Alt2 } from './Alt'
+import { tailRec, ChainRec2 } from './ChainRec'
 import { Option } from './Option'
 import { constFalse, Predicate, Lazy, toString } from './function'
 import { Validation } from './Validation'
@@ -252,7 +252,7 @@ const reduce = <L, A, B>(fa: Either<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT2<URI, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
 function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
@@ -317,13 +317,13 @@ export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
 }
 
 /** @instance */
-export const either: Monad<URI> &
+export const either: Monad2<URI> &
   Foldable<URI> &
-  Traversable<URI> &
+  Traversable2<URI> &
   Bifunctor<URI> &
-  Alt<URI> &
-  Extend<URI> &
-  ChainRec<URI> = {
+  Alt2<URI> &
+  Extend2<URI> &
+  ChainRec2<URI> = {
   URI,
   map,
   of,

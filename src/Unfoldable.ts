@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKTAs, HKT2S, HKT2As, HKT3S, HKT3As } from './HKT'
+import { HKT, HKT2, HKT3, HKTS, HKTAs, HKT2S, HKT2As, HKT3S, HKT3As } from './HKT'
 import { Applicative } from './Applicative'
 import { Traversable } from './Traversable'
 import * as option from './Option'
@@ -12,6 +12,16 @@ import { constant, tuple } from './function'
 export interface Unfoldable<F> {
   readonly URI: F
   unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => HKT<F, A>
+}
+
+export interface Unfoldable2<F, L> {
+  readonly URI: F
+  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => HKT2<F, L, A>
+}
+
+export interface Unfoldable3<F, U, L> {
+  readonly URI: F
+  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => HKT3<F, U, L, A>
 }
 
 /**

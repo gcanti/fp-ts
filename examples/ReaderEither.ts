@@ -1,6 +1,6 @@
 import * as readerT from '../src/ReaderT'
 import * as either from '../src/Either'
-import { Monad } from '../src/Monad'
+import { Monad3 } from '../src/Monad'
 
 const readerTEither = readerT.getReaderT(either.either)
 
@@ -79,7 +79,7 @@ export const fromEither = <E, L, A>(fa: either.Either<L, A>): ReaderEither<E, L,
   return new ReaderEither(() => fa)
 }
 
-export const readerEither: Monad<URI> = {
+export const readerEither: Monad3<URI> = {
   URI,
   map,
   of,

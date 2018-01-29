@@ -10,7 +10,6 @@ import { Foldable } from './Foldable'
 import { Monad } from './Monad'
 import { Monoid } from './Monoid'
 import { Plus } from './Plus'
-import { Semigroup } from './Semigroup'
 import { Traversable } from './Traversable'
 import { Unfoldable } from './Unfoldable'
 import { liftA2 } from './Apply'
@@ -36,16 +35,9 @@ export const URI = 'Array'
 export type URI = typeof URI
 
 /** @function */
-export const getSemigroup = <A>(): Semigroup<Array<A>> => {
-  return {
-    concat
-  }
-}
-
-/** @function */
 export const getMonoid = <A>(): Monoid<Array<A>> => {
   return {
-    ...getSemigroup<A>(),
+    concat,
     empty: []
   }
 }

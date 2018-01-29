@@ -7,16 +7,24 @@ export interface Functor<F> {
   map<A, B>(fa: HKT<F, A>, f: (a: A) => B): HKT<F, B>
 }
 
-/** Functor interface specialized for kind * -> * -> * */
-export interface Functor2<M, L> {
-  readonly URI: M
-  map<A, B>(fa: HKT2<M, L, A>, f: (a: A) => B): HKT2<M, L, B>
+export interface Functor2<F> {
+  readonly URI: F
+  map<L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B): HKT2<F, L, B>
 }
 
-/** Functor interface specialized for kind * -> * -> * -> * */
-export interface Functor3<M, U, L> {
-  readonly URI: M
-  map<A, B>(fa: HKT3<M, U, L, A>, f: (a: A) => B): HKT3<M, U, L, B>
+export interface Functor3<F> {
+  readonly URI: F
+  map<U, L, A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B): HKT3<F, U, L, B>
+}
+
+export interface Functor2C<F, L> {
+  readonly URI: F
+  map<A, B>(fa: HKT2<F, L, A>, f: (a: A) => B): HKT2<F, L, B>
+}
+
+export interface Functor3C<F, U, L> {
+  readonly URI: F
+  map<A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B): HKT3<F, U, L, B>
 }
 
 export interface FunctorComposition<F, G> {

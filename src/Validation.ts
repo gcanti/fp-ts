@@ -3,12 +3,11 @@ import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
 import { Foldable } from './Foldable'
 import { Setoid } from './Setoid'
-import { Traversable } from './Traversable'
-import { Alt } from './Alt'
+import { Traversable2 } from './Traversable'
+import { Alt2 } from './Alt'
 import { constFalse, Predicate, toString } from './function'
 import { Either } from './Either'
-import { Monad } from './Monad'
-import { Bifunctor } from './Bifunctor'
+import { Monad2 } from './Monad'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -206,22 +205,6 @@ const chain = <L, A, B>(fa: Validation<L, A>, f: (a: A) => Validation<L, B>): Va
   return fa.chain(f)
 }
 
-const bimap = <M>(M: Semigroup<M>) => <L, A, B>(
-  fla: Validation<L, A>,
-  f: (l: L) => M,
-  g: (a: A) => B
-): Validation<M, B> => {
-  return fla.bimap(M)(f, g)
-}
-
-/** @function */
-export const getBifunctor = <M>(M: Semigroup<M>): Bifunctor<URI> => {
-  return {
-    URI,
-    bimap: bimap(M) as any // TODO
-  }
-}
-
 const alt = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
   return fx.alt(fy)
 }
@@ -230,7 +213,9 @@ const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B): B =>
   return fa.reduce(b, f)
 }
 
-function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
+function traverse<F>(
+  F: Applicative<F>
+): <L, A, B>(ta: HKT2<URI, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
 function traverse<F>(
   F: Applicative<F>
 ): <L, A, B>(ta: Validation<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
@@ -280,7 +265,11 @@ export const catchFailure = <L, A>(fa: Validation<L, A>, f: (l: L) => A): A => {
 }
 
 /** @instance */
-export const validation: Semigroup<Validation<any, any>> & Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> = {
+export const validation: Semigroup<Validation<any, any>> &
+  Monad2<URI> &
+  Foldable<URI> &
+  Traversable2<URI> &
+  Alt2<URI> = {
   URI,
   map,
   of,

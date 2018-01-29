@@ -1,6 +1,6 @@
 import * as stateT from 'fp-ts/lib/StateT'
 import { TaskEither, taskEither } from 'fp-ts/lib/TaskEither'
-import { Monad } from 'fp-ts/lib/Monad'
+import { Monad3 } from 'fp-ts/lib/Monad'
 import { Endomorphism, tuple } from 'fp-ts/lib/function'
 import { Either } from 'fp-ts/lib/Either'
 
@@ -76,7 +76,7 @@ export const gets = <S, L, A>(f: (s: S) => A): StateTaskEither<S, L, A> =>
 export const lift = <S, L, A>(fa: TaskEither<L, A>): StateTaskEither<S, L, A> =>
   new StateTaskEither(s => fa.map(a => tuple(a, s)))
 
-export const stateTaskEither: Monad<URI> = {
+export const stateTaskEither: Monad3<URI> = {
   URI,
   map,
   of,

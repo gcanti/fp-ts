@@ -1,8 +1,8 @@
 import { Monoid } from './Monoid'
 import { Functor } from './Functor'
 import { Contravariant } from './Contravariant'
-import { Applicative } from './Applicative'
-import { Apply } from './Apply'
+import { Applicative2C } from './Applicative'
+import { Apply2C } from './Apply'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { identity, toString } from './function'
@@ -61,7 +61,7 @@ const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Const<L, (a: A) => B>, fa: Const<
 }
 
 /** @function */
-export const getApply = <L>(S: Semigroup<L>): Apply<URI> => {
+export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   return {
     URI,
     map,
@@ -74,7 +74,7 @@ const of = <L>(M: Monoid<L>) => <A>(b: A): Const<L, A> => {
 }
 
 /** @function */
-export const getApplicative = <L>(M: Monoid<L>): Applicative<URI> => {
+export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
   return {
     ...getApply(M),
     of: of(M)

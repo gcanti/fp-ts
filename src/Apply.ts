@@ -1,5 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
-import { Functor, Functor2, Functor3 } from './Functor'
+import { Functor, Functor2, Functor3, Functor2C, Functor3C } from './Functor'
 import { Curried2, Curried3, Curried4, constant } from './function'
 
 /** @typeclass */
@@ -7,14 +7,20 @@ export interface Apply<F> extends Functor<F> {
   ap<A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>): HKT<F, B>
 }
 
-/** Apply interface specialized for kind * -> * -> * */
-export interface Apply2<M, L> extends Functor2<M, L> {
-  ap<A, B>(fab: HKT2<M, L, (a: A) => B>, fa: HKT2<M, L, A>): HKT2<M, L, B>
+export interface Apply2<F> extends Functor2<F> {
+  ap<L, A, B>(fab: HKT2<F, L, (a: A) => B>, fa: HKT2<F, L, A>): HKT2<F, L, B>
 }
 
-/** Apply interface specialized for kind * -> * -> * -> * */
-export interface Apply3<M, U, L> extends Functor3<M, U, L> {
-  ap<A, B>(fab: HKT3<M, U, L, (a: A) => B>, fa: HKT3<M, U, L, A>): HKT3<M, U, L, B>
+export interface Apply3<F> extends Functor3<F> {
+  ap<U, L, A, B>(fab: HKT3<F, U, L, (a: A) => B>, fa: HKT3<F, U, L, A>): HKT3<F, U, L, B>
+}
+
+export interface Apply2C<F, L> extends Functor2C<F, L> {
+  ap<A, B>(fab: HKT2<F, L, (a: A) => B>, fa: HKT2<F, L, A>): HKT2<F, L, B>
+}
+
+export interface Apply3C<F, U, L> extends Functor3C<F, U, L> {
+  ap<A, B>(fab: HKT3<F, U, L, (a: A) => B>, fa: HKT3<F, U, L, A>): HKT3<F, U, L, B>
 }
 
 /** Combine two effectful actions, keeping only the result of the first */

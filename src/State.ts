@@ -1,4 +1,4 @@
-import { Monad } from './Monad'
+import { Monad2 } from './Monad'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -83,7 +83,7 @@ export const gets = <S, A>(f: (s: S) => A): State<S, A> => {
 }
 
 /** @instance */
-export const state: Monad<URI> = {
+export const state: Monad2<URI> = {
   URI,
   map,
   of,

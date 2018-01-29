@@ -1,19 +1,25 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
-import { Apply, Apply2, Apply3 } from './Apply'
+import { Apply, Apply2, Apply3, Apply2C, Apply3C } from './Apply'
 
 /** @typeclass */
 export interface Chain<F> extends Apply<F> {
   chain<A, B>(fa: HKT<F, A>, f: (a: A) => HKT<F, B>): HKT<F, B>
 }
 
-/** Chain interface specialized for kind * -> * -> * */
-export interface Chain2<M, L> extends Apply2<M, L> {
-  chain<A, B>(fa: HKT2<M, L, A>, f: (a: A) => HKT2<M, L, B>): HKT2<M, L, B>
+export interface Chain2<F> extends Apply2<F> {
+  chain<L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => HKT2<F, L, B>): HKT2<F, L, B>
 }
 
-/** Chain interface specialized for kind * -> * -> * -> * */
-export interface Chain3<M, U, L> extends Apply3<M, U, L> {
-  chain<A, B>(fa: HKT3<M, U, L, A>, f: (a: A) => HKT3<M, U, L, B>): HKT3<M, U, L, B>
+export interface Chain3<F> extends Apply3<F> {
+  chain<U, L, A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => HKT3<F, U, L, B>): HKT3<F, U, L, B>
+}
+
+export interface Chain2C<F, L> extends Apply2C<F, L> {
+  chain<A, B>(fa: HKT2<F, L, A>, f: (a: A) => HKT2<F, L, B>): HKT2<F, L, B>
+}
+
+export interface Chain3C<F, U, L> extends Apply3C<F, U, L> {
+  chain<A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => HKT3<F, U, L, B>): HKT3<F, U, L, B>
 }
 
 export function flatten<F extends HKT3S>(

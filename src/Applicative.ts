@@ -1,5 +1,5 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
-import { Apply, Apply2, Apply3 } from './Apply'
+import { Apply, Apply2, Apply3, Apply2C, Apply3C } from './Apply'
 import {
   getFunctorComposition,
   FunctorComposition,
@@ -14,14 +14,20 @@ export interface Applicative<F> extends Apply<F> {
   of: <A>(a: A) => HKT<F, A>
 }
 
-/** Applicative interface specialized for kind * -> * -> * */
-export interface Applicative2<M, L> extends Apply2<M, L> {
-  of: <A>(a: A) => HKT2<M, L, A>
+export interface Applicative2<F> extends Apply2<F> {
+  of: <L, A>(a: A) => HKT2<F, L, A>
 }
 
-/** Applicative interface specialized for kind * -> * -> * -> * */
-export interface Applicative3<M, U, L> extends Apply3<M, U, L> {
-  of: <A>(a: A) => HKT3<M, U, L, A>
+export interface Applicative3<F> extends Apply3<F> {
+  of: <U, L, A>(a: A) => HKT3<F, U, L, A>
+}
+
+export interface Applicative2C<F, L> extends Apply2C<F, L> {
+  of: <A>(a: A) => HKT2<F, L, A>
+}
+
+export interface Applicative3C<F, U, L> extends Apply3C<F, U, L> {
+  of: <A>(a: A) => HKT3<F, U, L, A>
 }
 
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
