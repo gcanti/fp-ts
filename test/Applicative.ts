@@ -26,12 +26,12 @@ describe('Applicative', () => {
     const p2 = sequence(taskValidation, array)(somefailure).value.run()
 
     return Promise.all([p1, p2]).then(([s, f]) => {
-      if (validation.isSuccess(s)) {
+      if (s.isSuccess()) {
         assert.deepEqual(s.value, [1, 2, 3])
       } else {
         assert.ok(false)
       }
-      if (validation.isFailure(f)) {
+      if (f.isFailure()) {
         assert.deepEqual(f.value, '[fail 1][fail 2]')
       } else {
         assert.ok(false)

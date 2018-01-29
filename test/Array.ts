@@ -167,9 +167,11 @@ describe('Array', () => {
   })
 
   it('refine', () => {
-    const x = array.refine([option.some(3), option.some(2), option.some(1)])(option.isSome)
+    const x = array.refine([option.some(3), option.some(2), option.some(1)])((o): o is option.Option<number> =>
+      o.isSome()
+    )
     assert.deepEqual(x, [option.some(3), option.some(2), option.some(1)])
-    const y = array.refine([option.some(3), option.none, option.some(1)])(option.isSome)
+    const y = array.refine([option.some(3), option.none, option.some(1)])((o): o is option.Option<number> => o.isSome())
     assert.deepEqual(y, [option.some(3), option.some(1)])
   })
 
