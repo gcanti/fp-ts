@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
 import { Monad } from './Monad'
 import { Comonad } from './Comonad'
 import { Semigroup } from './Semigroup'
@@ -51,13 +51,16 @@ export class NonEmptyArray<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return array.reduce(this.toArray(), b, f)
   }
+  traverse<F extends HKT3S>(
+    applicative: Applicative<F>
+  ): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, NonEmptyArray<B>>
   traverse<F extends HKT2S>(
     applicative: Applicative<F>
-  ): <L, B>(f: (a: A) => HKT2As<F, L, B>) => HKT2As<F, L, NonEmptyArray<B>>
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, NonEmptyArray<B>>
+  ): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, NonEmptyArray<B>>
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, NonEmptyArray<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
-    return f => applicative.map(array.traverse(applicative)(f, this.toArray()), unsafeFromArray)
+    return f => applicative.map(array.traverse(applicative)(this.toArray(), f), unsafeFromArray)
   }
   extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> {
     return unsafeFromArray(array.extend(as => f(unsafeFromArray(as)), this.toArray()))
@@ -127,19 +130,13 @@ export const extract = <A>(fa: NonEmptyArray<A>): A => {
   return fa.extract()
 }
 
-export function traverse<F extends HKT2S>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: NonEmptyArray<A>) => HKT2As<F, L, NonEmptyArray<B>>
-export function traverse<F extends HKTS>(
-  F: Applicative<F>
-): <A, B>(f: (a: A) => HKTAs<F, B>, ta: NonEmptyArray<A>) => HKTAs<F, NonEmptyArray<B>>
 export function traverse<F>(
   F: Applicative<F>
-): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, NonEmptyArray<B>>
+): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>
 export function traverse<F>(
   F: Applicative<F>
-): <A, B>(f: (a: A) => HKT<F, B>, ta: NonEmptyArray<A>) => HKT<F, NonEmptyArray<B>> {
-  return (f, ta) => ta.traverse(F)(f)
+): <A, B>(ta: NonEmptyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
+  return (ta, f) => ta.traverse(F)(f)
 }
 
 /** @instance */

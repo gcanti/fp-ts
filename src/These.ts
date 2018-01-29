@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
 import { Applicative } from './Applicative'
 import { Functor } from './Functor'
 import { Bifunctor } from './Bifunctor'
@@ -46,8 +46,9 @@ export class This<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, These<L, B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, These<L, B>>
+  traverse<F extends HKT3S>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, These<L, B>>
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, These<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.of(this as any)
@@ -91,8 +92,9 @@ export class That<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, These<L, B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, These<L, B>>
+  traverse<F extends HKT3S>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, These<L, B>>
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, These<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.map(f(this.value), b => that(b))
@@ -132,8 +134,9 @@ export class Both<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.a)
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, These<L, B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, These<L, B>>
+  traverse<F extends HKT3S>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, These<L, B>>
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, These<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.map(f(this.a), b => both(this.l, b))
@@ -239,20 +242,14 @@ export const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B 
   return fa.reduce(b, f)
 }
 
-export function traverse<F extends HKT2S>(
-  F: Applicative<F>
-): <M, L, A, B>(f: (a: A) => HKT2As<F, M, B>, ta: These<L, A>) => HKT2As<F, M, These<L, B>>
-export function traverse<F extends HKTS>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKTAs<F, B>, ta: These<L, A>) => HKTAs<F, These<L, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, These<L, B>>
+): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
 /** @function */
 export function traverse<F>(
   F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: These<L, A>) => HKT<F, These<L, B>> {
-  return (f, ta) => ta.traverse(F)(f)
+): <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
+  return (ta, f) => ta.traverse(F)(f)
 }
 
 /**

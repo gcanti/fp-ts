@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
 import { Monoid } from './Monoid'
 import { Functor } from './Functor'
 import { Applicative } from './Applicative'
@@ -48,10 +48,13 @@ export class StrMap<A> {
     }
     return out
   }
+  traverseWithKey<F extends HKT3S>(
+    F: Applicative<F>
+  ): <U, L, B>(f: (k: string, a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, StrMap<B>>
   traverseWithKey<F extends HKT2S>(
     F: Applicative<F>
-  ): <L, B>(f: (k: string, a: A) => HKT2As<F, L, B>) => HKT2As<F, L, StrMap<B>>
-  traverseWithKey<F extends HKTS>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKTAs<F, B>) => HKTAs<F, StrMap<B>>
+  ): <L, B>(f: (k: string, a: A) => HKT2<F, L, B>) => HKT2As<F, L, StrMap<B>>
+  traverseWithKey<F extends HKTS>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKTAs<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concatCurried)
@@ -63,7 +66,8 @@ export class StrMap<A> {
       return out
     }
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2As<F, L, B>) => HKT2As<F, L, StrMap<B>>
+  traverse<F extends HKT3S>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, StrMap<B>>
+  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, StrMap<B>>
   traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
@@ -103,32 +107,10 @@ export const reduce = <A, B>(fa: StrMap<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-export function traverseWithKey<F extends HKT2S>(
-  F: Applicative<F>
-): <L, A, B>(f: (k: string, a: A) => HKT2As<F, L, B>, ta: StrMap<A>) => HKT2As<F, L, StrMap<B>>
-export function traverseWithKey<F extends HKTS>(
-  F: Applicative<F>
-): <A, B>(f: (k: string, a: A) => HKTAs<F, B>, ta: StrMap<A>) => HKTAs<F, StrMap<B>>
-export function traverseWithKey<F>(
-  F: Applicative<F>
-): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>>
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
 /** @function */
-export function traverseWithKey<F>(
-  F: Applicative<F>
-): <A, B>(f: (k: string, a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
-  return (f, ta) => ta.traverseWithKey(F)(f)
-}
-
-export function traverse<F extends HKT2S>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: StrMap<A>) => HKT2As<F, L, StrMap<B>>
-export function traverse<F extends HKTS>(
-  F: Applicative<F>
-): <A, B>(f: (a: A) => HKTAs<F, B>, ta: StrMap<A>) => HKTAs<F, StrMap<B>>
-export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, StrMap<B>>
-/** @function */
-export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: StrMap<A>) => HKT<F, StrMap<B>> {
-  return (f, ta) => ta.traverse(F)(f)
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: StrMap<A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
+  return (ta, f) => ta.traverse(F)(f)
 }
 
 /**

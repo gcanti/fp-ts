@@ -5,24 +5,21 @@ import { Applicative } from './Applicative'
 
 /** @typeclass */
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
-  traverse: <F>(F: Applicative<F>) => <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<T, A>) => HKT<F, HKT<T, B>>
+  traverse: <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 }
 
 export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
   traverse: <H>(
     H: Applicative<H>
-  ) => <A, B>(f: (a: A) => HKT<H, B>, fga: HKT<F, HKT<G, A>>) => HKT<H, HKT<F, HKT<G, B>>>
+  ) => <A, B>(fga: HKT<F, HKT<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, HKT<F, HKT<G, B>>>
 }
 
 export interface TraversableComposition11<F extends HKTS, G extends HKTS>
   extends FoldableComposition<F, G>,
     FunctorComposition<F, G> {
-  traverse<H extends HKTS>(
-    H: Applicative<H>
-  ): <A, B>(f: (a: A) => HKT<H, B>, fga: HKTAs<F, HKTAs<G, A>>) => HKTAs<H, HKTAs<F, HKTAs<G, B>>>
   traverse<H>(
     H: Applicative<H>
-  ): <A, B>(f: (a: A) => HKT<H, B>, fga: HKTAs<F, HKTAs<G, A>>) => HKT<H, HKTAs<F, HKTAs<G, B>>>
+  ): <A, B>(fga: HKTAs<F, HKTAs<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, HKTAs<F, HKTAs<G, B>>>
 }
 
 export function sequence<F extends HKT3S, T extends HKTS>(
@@ -44,7 +41,7 @@ export function sequence<F, T extends HKTS>(
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 /** @function */
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>> {
-  return tfa => T.traverse(F)(fa => fa, tfa)
+  return tfa => T.traverse(F)(tfa, fa => fa)
 }
 
 export function getTraversableComposition<F extends HKTS, G extends HKTS>(
@@ -57,6 +54,6 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
   return {
     ...getFunctorComposition(F, G),
     ...getFoldableComposition(F, G),
-    traverse: H => (f, fga) => F.traverse(H)(ga => G.traverse(H)(a => f(a), ga), fga)
+    traverse: H => (fga, f) => F.traverse(H)(fga, ga => G.traverse(H)(ga, a => f(a)))
   }
 }

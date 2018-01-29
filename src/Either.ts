@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKT2, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKT2, HKTAs, HKT2As, HKT3, HKT3S, HKT3As } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad } from './Monad'
 import { Foldable } from './Foldable'
@@ -87,6 +87,9 @@ export class Left<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
+  traverse<F extends HKT3S>(
+    F: Applicative<F>
+  ): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, Either<L, B>>
   traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Either<L, B>>
   traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
@@ -162,6 +165,9 @@ export class Right<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
+  traverse<F extends HKT3S>(
+    F: Applicative<F>
+  ): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, Either<L, B>>
   traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Either<L, B>>
   traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
@@ -261,19 +267,13 @@ export const reduce = <L, A, B>(fa: Either<L, A>, b: B, f: (b: B, a: A) => B): B
   return fa.reduce(b, f)
 }
 
-export function traverse<F extends HKT2S>(
-  F: Applicative<F>
-): <M, L, A, B>(f: (a: A) => HKT2<F, M, B>, ta: Either<L, A>) => HKT2As<F, M, Either<L, B>>
-export function traverse<F extends HKTS>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKTAs<F, Either<L, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Either<L, B>>
+): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Either<L, A>) => HKT<F, Either<L, B>> {
-  return (f, ta) => ta.traverse(F)(f)
+): <L, A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
+  return (ta, f) => ta.traverse(F)(f)
 }
 
 /** @function */

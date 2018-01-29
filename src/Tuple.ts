@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
 import { Setoid } from './Setoid'
 import { Ord, getSemigroup as getOrdSemigroup, contramap as contramapOrd } from './Ord'
 import { Semigroup } from './Semigroup'
@@ -61,6 +61,10 @@ export class Tuple<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.snd())
   }
+  traverse<F extends HKT3S>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, Tuple<L, B>>
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Tuple<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Tuple<L, B>>
+  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
     return f => F.map(f(this.snd()), b => new Tuple([this.fst(), b]))
   }
@@ -226,20 +230,14 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec<URI> => {
   }
 }
 
-export function traverse<F extends HKT2S>(
-  F: Applicative<F>
-): <M, L, A, B>(f: (a: A) => HKT2As<F, M, B>, ta: Tuple<L, A>) => HKT2As<F, M, Tuple<L, B>>
-export function traverse<F extends HKTS>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKTAs<F, B>, ta: Tuple<L, A>) => HKTAs<F, Tuple<L, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Tuple<L, B>>
+): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
 /** @function */
 export function traverse<F>(
   F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Tuple<L, A>) => HKT<F, Tuple<L, B>> {
-  return (f, ta) => ta.traverse(F)(f)
+): <L, A, B>(ta: Tuple<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
+  return (ta, f) => ta.traverse(F)(f)
 }
 
 /**

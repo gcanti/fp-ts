@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKT2, HKTAs, HKT2As, HKT3, HKT3S, HKT3As } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad } from './Monad'
 import { Foldable } from './Foldable'
@@ -43,10 +43,13 @@ export class Identity<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
+  traverse<F extends HKT3S>(
+    applicative: Applicative<F>
+  ): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, Identity<B>>
   traverse<F extends HKT2S>(
     applicative: Applicative<F>
-  ): <L, B>(f: (a: A) => HKT2As<F, L, B>) => HKT2As<F, L, Identity<B>>
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Identity<B>>
+  ): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, Identity<B>>
+  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
     return f => applicative.map(f(this.value), a => of(a))
@@ -123,16 +126,10 @@ export const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Ident
   return new Identity(tailRec(a => f(a).extract(), a))
 }
 
-export function traverse<F extends HKT2S>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Identity<A>) => HKT2As<F, L, Identity<B>>
-export function traverse<F extends HKTS>(
-  F: Applicative<F>
-): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Identity<A>) => HKTAs<F, Identity<B>>
-export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Identity<B>>
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
 /** @function */
-export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Identity<A>) => HKT<F, Identity<B>> {
-  return (f, ta) => ta.traverse(F)(f)
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
+  return (ta, f) => ta.traverse(F)(f)
 }
 
 /** @instance */
