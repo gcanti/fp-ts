@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
 import { Endomorphism } from './function'
 import { Setoid } from './Setoid'
 import { Ord } from './Ord'
@@ -61,8 +61,9 @@ export class Pair<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(f(b, this.fst()), this.snd())
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2As<F, L, B>) => HKT2As<F, L, Pair<B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Pair<B>>
+  traverse<F extends HKT3S>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, Pair<B>>
+  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, Pair<B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Pair<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
     return <B>(f: (a: A) => HKT<F, B>) =>
@@ -160,16 +161,10 @@ export const swap = <A>(fa: Pair<A>): Pair<A> => {
   return fa.swap()
 }
 
-export function traverse<F extends HKT2S>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Pair<A>) => HKT2As<F, L, Pair<B>>
-export function traverse<F extends HKTS>(
-  F: Applicative<F>
-): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Pair<A>) => HKTAs<F, Pair<B>>
-export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Pair<B>>
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
 /** @function */
-export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Pair<A>) => HKT<F, Pair<B>> {
-  return (f, ta) => ta.traverse(F)(f)
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
+  return (ta, f) => ta.traverse(F)(f)
 }
 
 /** @instance */

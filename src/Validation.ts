@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT2, HKT3, HKT3As } from './HKT'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
 import { Foldable } from './Foldable'
@@ -58,8 +58,11 @@ export class Failure<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, Validation<L, B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Validation<L, B>>
+  traverse<F extends HKT3S>(
+    F: Applicative<F>
+  ): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, Validation<L, B>>
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Validation<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
     return f => F.of(this as any)
@@ -133,8 +136,11 @@ export class Success<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2As<F, M, B>) => HKT2As<F, M, Validation<L, B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, Validation<L, B>>
+  traverse<F extends HKT3S>(
+    F: Applicative<F>
+  ): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, Validation<L, B>>
+  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Validation<L, B>>
+  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
     return f => F.map(f(this.value), b => of(b))
@@ -224,20 +230,14 @@ export const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B
   return fa.reduce(b, f)
 }
 
-export function traverse<F extends HKT2S>(
-  F: Applicative<F>
-): <M, L, A, B>(f: (a: A) => HKT2As<F, M, B>, ta: Validation<L, A>) => HKT2As<F, M, Validation<L, B>>
-export function traverse<F extends HKTS>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKTAs<F, B>, ta: Validation<L, A>) => HKTAs<F, Validation<L, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Validation<L, B>>
+): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
 /** @function */
 export function traverse<F>(
   F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>> {
-  return (f, ta) => ta.traverse(F)(f)
+): <L, A, B>(ta: Validation<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
+  return (ta, f) => ta.traverse(F)(f)
 }
 
 /**

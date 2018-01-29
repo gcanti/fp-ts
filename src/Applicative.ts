@@ -16,12 +16,12 @@ export interface Applicative<F> extends Apply<F> {
 
 /** Applicative interface specialized for kind * -> * -> * */
 export interface Applicative2<M, L> extends Apply2<M, L> {
-  of<A>(a: A): HKT2<M, L, A>
+  of: <A>(a: A) => HKT2<M, L, A>
 }
 
 /** Applicative interface specialized for kind * -> * -> * -> * */
 export interface Applicative3<M, U, L> extends Apply3<M, U, L> {
-  of<A>(a: A): HKT3<M, U, L, A>
+  of: <A>(a: A) => HKT3<M, U, L, A>
 }
 
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {

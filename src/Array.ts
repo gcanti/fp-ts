@@ -1,10 +1,7 @@
-import * as option from './Option'
-
+import { HKT, HKT2As, HKT2S, HKTAs, HKTS, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
 import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat } from './function'
-import { HKT, HKT2As, HKT2S, HKTAs, HKTS } from './HKT'
 import { Option, fromNullable } from './Option'
 import { Ord, toNativeComparator } from './Ord'
-
 import { Alternative } from './Alternative'
 import { Applicative } from './Applicative'
 import { Either } from './Either'
@@ -17,6 +14,7 @@ import { Semigroup } from './Semigroup'
 import { Traversable } from './Traversable'
 import { Unfoldable } from './Unfoldable'
 import { liftA2 } from './Apply'
+import * as option from './Option'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -106,17 +104,20 @@ export const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
   return r
 }
 
+export function traverse<F extends HKT3S>(
+  F: Applicative<F>
+): <U, L, A, B>(ta: Array<A>, f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, Array<B>>
 export function traverse<F extends HKT2S>(
   F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT2As<F, L, B>, ta: Array<A>) => HKT2As<F, L, Array<B>>
+): <L, A, B>(ta: Array<A>, f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, Array<B>>
 export function traverse<F extends HKTS>(
   F: Applicative<F>
-): <A, B>(f: (a: A) => HKTAs<F, B>, ta: Array<A>) => HKTAs<F, Array<B>>
-export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: HKT<URI, A>) => HKT<F, Array<B>>
+): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKTAs<F, Array<B>>
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
 /** @function */
-export function traverse<F>(F: Applicative<F>): <A, B>(f: (a: A) => HKT<F, B>, ta: Array<A>) => HKT<F, Array<B>> {
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
   const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(snoc)
-  return (f, ta) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
+  return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
 }
 
 /**
