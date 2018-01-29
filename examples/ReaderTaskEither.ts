@@ -1,7 +1,7 @@
 import * as readerT from 'fp-ts/lib/ReaderT'
 import * as taskEither from 'fp-ts/lib/TaskEither'
 import { TaskEither } from 'fp-ts/lib/TaskEither'
-import { Monad } from 'fp-ts/lib/Monad'
+import { Monad3 } from 'fp-ts/lib/Monad'
 import { Task } from 'fp-ts/lib/Task'
 import { Either } from 'fp-ts/lib/Either'
 
@@ -73,7 +73,7 @@ export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A>
 export const tryCatch = <E, L, A>(f: (e: E) => Promise<A>, onrejected: (reason: {}) => L): ReaderTaskEither<E, L, A> =>
   new ReaderTaskEither(e => taskEither.tryCatch(() => f(e), onrejected))
 
-export const readerTaskEither: Monad<URI> = {
+export const readerTaskEither: Monad3<URI> = {
   URI,
   map,
   of,

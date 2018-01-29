@@ -91,4 +91,9 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
 }
 
 /** @instance */
-export const store: Comonad<URI> = { URI, map, extract, extend }
+export const store: Comonad<URI> = {
+  URI,
+  map,
+  extract,
+  extend
+}

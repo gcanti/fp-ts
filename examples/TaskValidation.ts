@@ -1,4 +1,4 @@
-import { Applicative, getApplicativeComposition } from '../src/Applicative'
+import { getApplicativeComposition, Applicative2 } from '../src/Applicative'
 import * as validation from '../src/Validation'
 import * as task from '../src/Task'
 
@@ -40,7 +40,7 @@ export const of = <L, A>(a: A): TaskValidation<L, A> => new TaskValidation(taskV
 export const ap = <L, A, B>(fab: TaskValidation<L, (a: A) => B>, fa: TaskValidation<L, A>): TaskValidation<L, B> =>
   fa.ap(fab)
 
-export const taskValidation: Applicative<URI> = {
+export const taskValidation: Applicative2<URI> = {
   URI,
   map,
   of,

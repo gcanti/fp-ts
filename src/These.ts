@@ -1,14 +1,14 @@
 import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
 import { Applicative } from './Applicative'
-import { Functor } from './Functor'
+import { Functor2 } from './Functor'
 import { Bifunctor } from './Bifunctor'
 import { Foldable } from './Foldable'
-import { Traversable } from './Traversable'
+import { Traversable2 } from './Traversable'
 import { Option, none, some } from './Option'
 import { Setoid } from './Setoid'
 import { Semigroup } from './Semigroup'
 import { toString, constFalse } from './function'
-import { Monad } from './Monad'
+import { Monad2C } from './Monad'
 
 // Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
 // adapted from https://github.com/purescript-contrib/purescript-these
@@ -212,7 +212,7 @@ const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These
 }
 
 /** @function */
-export const getMonad = <L>(S: Semigroup<L>): Monad<URI> => {
+export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
   return {
     URI,
     map,
@@ -230,7 +230,7 @@ const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT2<URI, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
 function traverse<F>(F: Applicative<F>): <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
@@ -267,7 +267,7 @@ export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
 }
 
 /** @instance */
-export const these: Functor<URI> & Bifunctor<URI> & Foldable<URI> & Traversable<URI> = {
+export const these: Functor2<URI> & Bifunctor<URI> & Foldable<URI> & Traversable2<URI> = {
   URI,
   map,
   bimap,

@@ -1,4 +1,4 @@
-import { Monad } from './Monad'
+import { Monad2 } from './Monad'
 import { identity } from './function'
 
 export const URI = 'Reader'
@@ -70,7 +70,7 @@ export const local = <E>(f: (e: E) => E) => <A>(fa: Reader<E, A>): Reader<E, A> 
 }
 
 /** @instance */
-export const reader: Monad<URI> = {
+export const reader: Monad2<URI> = {
   URI,
   map,
   of,

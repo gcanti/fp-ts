@@ -2,7 +2,7 @@ import * as eitherT from './EitherT'
 import { Either } from './Either'
 import * as task from './Task'
 import { Task } from './Task'
-import { Monad } from './Monad'
+import { Monad2 } from './Monad'
 import { Lazy } from './function'
 
 declare module './HKT' {
@@ -98,7 +98,7 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => 
 }
 
 /** @instance */
-export const taskEither: Monad<URI> = {
+export const taskEither: Monad2<URI> = {
   URI,
   map,
   of,

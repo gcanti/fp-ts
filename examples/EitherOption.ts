@@ -1,7 +1,7 @@
 import * as optionT from 'fp-ts/lib/OptionT'
 import * as either from 'fp-ts/lib/Either'
 import { Option } from 'fp-ts/lib/Option'
-import { Monad } from 'fp-ts/lib/Monad'
+import { Monad2 } from 'fp-ts/lib/Monad'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT2<L, A> {
@@ -56,7 +56,7 @@ export const fromOption = <L, A>(oa: Option<A>): EitherOption<L, A> =>
 export const liftF = <L, A>(ma: either.Either<L, A>): EitherOption<L, A> =>
   new EitherOption(optionT.liftF(either.either)(ma))
 
-export const eitherOption: Monad<URI> = {
+export const eitherOption: Monad2<URI> = {
   URI,
   map,
   of,

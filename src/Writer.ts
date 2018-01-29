@@ -1,6 +1,6 @@
 import { Monoid } from './Monoid'
-import { Functor } from './Functor'
-import { Monad } from './Monad'
+import { Functor2 } from './Functor'
+import { Monad2C } from './Monad'
 import { Lazy } from './function'
 
 declare module './HKT' {
@@ -70,7 +70,7 @@ export const tell = <W>(M: Monoid<W>) => (w: W): Writer<W, void> => {
 }
 
 /** @function */
-export const getMonad = <W>(M: Monoid<W>): Monad<URI> => {
+export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
   return {
     URI,
     map,
@@ -81,7 +81,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad<URI> => {
 }
 
 /** @instance */
-export const writer: Functor<URI> = {
+export const writer: Functor2<URI> = {
   URI,
   map
 }

@@ -1,7 +1,7 @@
 import { Comonad } from '../src/Comonad'
 import { Profunctor } from '../src/Profunctor'
 import { compose } from '../src/function'
-import { Monad } from '../src/Monad'
+import { Monad2 } from '../src/Monad'
 
 // Adapted from https://hackage.haskell.org/package/machines-0.6.3/docs/src/Data-Machine-Moore.html
 
@@ -77,7 +77,7 @@ export const unfoldMoore = <S, L, A>(f: (s: S) => [A, (l: L) => S]) => (s: S): M
   return go(s)
 }
 
-export const moore: Monad<URI> & Comonad<URI> & Profunctor<URI> = {
+export const moore: Monad2<URI> & Comonad<URI> & Profunctor<URI> = {
   URI,
   map,
   of,

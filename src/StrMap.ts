@@ -9,7 +9,6 @@ import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
 import { Unfoldable } from './Unfoldable'
-import { Semigroup } from './Semigroup'
 
 // https://github.com/purescript/purescript-maps
 
@@ -84,13 +83,11 @@ const concat = <A>(x: StrMap<A>, y: StrMap<A>): StrMap<A> => {
 const concatCurried = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => concat(x, y)
 
 /** @function */
-export const getSemigroup = <A>(): Semigroup<StrMap<A>> => {
-  return { concat }
-}
-
-/** @function */
 export const getMonoid = <A>(): Monoid<StrMap<A>> => {
-  return { ...getSemigroup(), empty }
+  return {
+    concat,
+    empty
+  }
 }
 
 const map = <A, B>(fa: StrMap<A>, f: (a: A) => B): StrMap<B> => {

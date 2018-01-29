@@ -5,15 +5,15 @@ import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
 import { Bifunctor } from './Bifunctor'
 import { Comonad } from './Comonad'
-import { Apply } from './Apply'
-import { Monad } from './Monad'
+import { Apply2C } from './Apply'
+import { Monad2C } from './Monad'
 import { Foldable } from './Foldable'
-import { Applicative } from './Applicative'
-import { Traversable } from './Traversable'
+import { Applicative, Applicative2C } from './Applicative'
+import { Traversable2 } from './Traversable'
 import { Semigroupoid } from './Semigroupoid'
 import { toString } from './function'
-import { ChainRec } from './ChainRec'
-import { Chain } from './Chain'
+import { ChainRec2C } from './ChainRec'
+import { Chain2C } from './Chain'
 import { Either, Right, Left } from './Either'
 
 // Adapted from https://github.com/purescript/purescript-tuples
@@ -154,7 +154,7 @@ const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<
 }
 
 /** @function */
-export const getApply = <L>(S: Semigroup<L>): Apply<URI> => {
+export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   return {
     URI,
     map,
@@ -167,7 +167,7 @@ const of = <L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A> => {
 }
 
 /** @function */
-export const getApplicative = <L>(M: Monoid<L>): Applicative<URI> => {
+export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
   return {
     ...getApply(M),
     of: of(M)
@@ -180,15 +180,15 @@ const chain = <L>(M: Monoid<L>) => <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L,
 }
 
 /** @function */
-export const getChain = <L>(M: Monoid<L>): Chain<URI> => {
+export const getChain = <L>(M: Monoid<L>): Chain2C<URI, L> => {
   return {
     ...getApply(M),
     chain: chain(M)
-  }
+  } as any
 }
 
 /** @function */
-export const getMonad = <L>(M: Monoid<L>): Monad<URI> => {
+export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => {
   return {
     ...getChain(M),
     of: of(M)
@@ -207,20 +207,20 @@ export const chainRec = <L>(M: Monoid<L>) => <A, B>(a: A, f: (a: A) => Tuple<L, 
 }
 
 /** @function */
-export const getChainRec = <L>(M: Monoid<L>): ChainRec<URI> => {
+export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
   return {
     ...getChain(M),
     chainRec: chainRec(M)
   }
 }
 
-function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
+function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT2<URI, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
 function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Tuple<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
 
 /** @instance */
-export const tuple: Semigroupoid<URI> & Bifunctor<URI> & Comonad<URI> & Foldable<URI> & Traversable<URI> = {
+export const tuple: Semigroupoid<URI> & Bifunctor<URI> & Comonad<URI> & Foldable<URI> & Traversable2<URI> = {
   URI,
   compose,
   map,
