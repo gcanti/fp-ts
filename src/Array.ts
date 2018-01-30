@@ -2,16 +2,16 @@ import { HKT, Type2, URIS2, Type, URIS, URIS3, Type3, HKT2, HKT3 } from './HKT'
 import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat } from './function'
 import { Option, fromNullable } from './Option'
 import { Ord, toNativeComparator } from './Ord'
-import { Alternative } from './Alternative'
+import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Either } from './Either'
-import { Extend } from './Extend'
+import { Extend1 } from './Extend'
 import { Foldable } from './Foldable'
-import { Monad } from './Monad'
+import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { Plus } from './Plus'
-import { Traversable } from './Traversable'
-import { Unfoldable } from './Unfoldable'
+import { Plus1 } from './Plus'
+import { Traversable1 } from './Traversable'
+import { Unfoldable1 } from './Unfoldable'
 import { liftA2 } from './Apply'
 import * as option from './Option'
 
@@ -589,13 +589,13 @@ export const rotate = (n: number) => <A>(xs: Array<A>): Array<A> => {
   }
 }
 
-export const array: Monad<URI> &
+export const array: Monad1<URI> &
   Foldable<URI> &
-  Unfoldable<URI> &
-  Traversable<URI> &
-  Alternative<URI> &
-  Plus<URI> &
-  Extend<URI> = {
+  Unfoldable1<URI> &
+  Traversable1<URI> &
+  Alternative1<URI> &
+  Plus1<URI> &
+  Extend1<URI> = {
   URI,
   map,
   of,

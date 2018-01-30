@@ -1,6 +1,6 @@
 import { Monoid } from './Monoid'
-import { Functor } from './Functor'
-import { Contravariant } from './Contravariant'
+import { Functor2 } from './Functor'
+import { Contravariant2 } from './Contravariant'
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Semigroup } from './Semigroup'
@@ -82,7 +82,7 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
 }
 
 /** @instance */
-export const const_: Functor<URI> & Contravariant<URI> = {
+export const const_: Functor2<URI> & Contravariant2<URI> = {
   URI,
   map,
   contramap

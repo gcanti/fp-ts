@@ -1,7 +1,7 @@
 import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
 import { Applicative } from './Applicative'
 import { Functor2 } from './Functor'
-import { Bifunctor } from './Bifunctor'
+import { Bifunctor2 } from './Bifunctor'
 import { Foldable } from './Foldable'
 import { Traversable2 } from './Traversable'
 import { Option, none, some } from './Option'
@@ -267,7 +267,7 @@ export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
 }
 
 /** @instance */
-export const these: Functor2<URI> & Bifunctor<URI> & Foldable<URI> & Traversable2<URI> = {
+export const these: Functor2<URI> & Bifunctor2<URI> & Foldable<URI> & Traversable2<URI> = {
   URI,
   map,
   bimap,

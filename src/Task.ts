@@ -1,5 +1,5 @@
 import { Monoid } from './Monoid'
-import { Monad } from './Monad'
+import { Monad1 } from './Monad'
 import { Lazy, toString } from './function'
 import { Either, left, right } from './Either'
 import { IO } from './IO'
@@ -99,7 +99,7 @@ export const fromIO = <A>(io: IO<A>): Task<A> => {
 }
 
 /** @instance */
-export const task: Monad<URI> = {
+export const task: Monad1<URI> = {
   URI,
   map,
   of,

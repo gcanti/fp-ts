@@ -5,7 +5,7 @@ import { Foldable } from './Foldable'
 import { Extend2 } from './Extend'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
-import { Bifunctor } from './Bifunctor'
+import { Bifunctor2 } from './Bifunctor'
 import { Alt2 } from './Alt'
 import { tailRec, ChainRec2 } from './ChainRec'
 import { Option } from './Option'
@@ -253,8 +253,7 @@ function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Either<L, A>, f: (a: A) =
   return (ta, f) => ta.traverse(F)(f)
 }
 
-/** @function */
-export const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
+const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
   return tailRec(e => e.fold(l => right(left(l)), r => r.fold(a => left(f(a)), b => right(right(b)))), f(a))
 }
 
@@ -316,7 +315,7 @@ export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
 export const either: Monad2<URI> &
   Foldable<URI> &
   Traversable2<URI> &
-  Bifunctor<URI> &
+  Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
   ChainRec2<URI> = {

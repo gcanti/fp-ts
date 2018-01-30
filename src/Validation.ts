@@ -265,17 +265,12 @@ export const catchFailure = <L, A>(fa: Validation<L, A>, f: (l: L) => A): A => {
 }
 
 /** @instance */
-export const validation: Semigroup<Validation<any, any>> &
-  Monad2<URI> &
-  Foldable<URI> &
-  Traversable2<URI> &
-  Alt2<URI> = {
+export const validation: Monad2<URI> & Foldable<URI> & Traversable2<URI> & Alt2<URI> = {
   URI,
   map,
   of,
   ap,
   chain,
-  concat,
   reduce,
   traverse,
   alt

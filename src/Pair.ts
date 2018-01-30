@@ -3,11 +3,11 @@ import { Endomorphism } from './function'
 import { Setoid } from './Setoid'
 import { Ord } from './Ord'
 import { semigroupOrdering } from './Ordering'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative1 } from './Applicative'
 import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
 import { Foldable } from './Foldable'
-import { Traversable } from './Traversable'
+import { Traversable1 } from './Traversable'
 import { liftA2 } from './Apply'
 import { Comonad } from './Comonad'
 
@@ -138,7 +138,7 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F,
 }
 
 /** @instance */
-export const pair: Applicative<URI> & Foldable<URI> & Traversable<URI> & Comonad<URI> = {
+export const pair: Applicative1<URI> & Foldable<URI> & Traversable1<URI> & Comonad<URI> = {
   URI,
   map,
   of,

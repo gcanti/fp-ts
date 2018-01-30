@@ -1,6 +1,6 @@
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Monad } from './Monad'
+import { Monad1 } from './Monad'
 import { Lazy, toString } from './function'
 
 declare module './HKT' {
@@ -71,4 +71,10 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
 }
 
 /** @instance */
-export const io: Monad<URI> = { URI, map, of, ap, chain }
+export const io: Monad1<URI> = {
+  URI,
+  map,
+  of,
+  ap,
+  chain
+}
