@@ -1,14 +1,19 @@
 import { HKT2, HKT3, URIS2, Type2, URIS3, Type3 } from './HKT'
+import { Functor2, Functor3 } from './Functor'
 
 /** @typeclass */
 export interface Profunctor<F> {
+  readonly URI: F
   map<L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B): HKT2<F, L, B>
   promap<A, B, C, D>(fbc: HKT2<F, B, C>, f: (a: A) => B, g: (c: C) => D): HKT2<F, A, D>
 }
 
-export interface Profunctor3<F, U> {
-  map<U, L, A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B): HKT3<F, U, L, B>
-  promap<A, B, C, D>(fbc: HKT3<F, U, B, C>, f: (a: A) => B, g: (c: C) => D): HKT3<F, U, A, D>
+export interface Profunctor2<F extends URIS2> extends Functor2<F> {
+  promap<A, B, C, D>(fbc: HKT2<F, B, C>, f: (a: A) => B, g: (c: C) => D): Type2<F, A, D>
+}
+
+export interface Profunctor3<F extends URIS3> extends Functor3<F> {
+  promap<U, A, B, C, D>(fbc: HKT3<F, U, B, C>, f: (a: A) => B, g: (c: C) => D): Type3<F, U, A, D>
 }
 
 export function lmap<F extends URIS3>(
