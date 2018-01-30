@@ -1,10 +1,10 @@
 import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
-import { Monad } from './Monad'
+import { Monad1 } from './Monad'
 import { Comonad } from './Comonad'
 import { Semigroup } from './Semigroup'
 import { Foldable } from './Foldable'
 import { Applicative } from './Applicative'
-import { Traversable } from './Traversable'
+import { Traversable1 } from './Traversable'
 import * as array from './Array'
 import { Option, some, none } from './Option'
 import { toString, concat as uncurriedConcat } from './function'
@@ -131,7 +131,7 @@ function traverse<F>(
 }
 
 /** @instance */
-export const nonEmptyArray: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldable<URI> & Traversable<URI> = {
+export const nonEmptyArray: Monad1<URI> & Comonad<URI> & Foldable<URI> & Traversable1<URI> = {
   URI,
   extend,
   extract,
@@ -139,7 +139,6 @@ export const nonEmptyArray: Monad<URI> & Comonad<URI> & Semigroup<any> & Foldabl
   of,
   ap,
   chain,
-  concat,
   reduce,
   traverse
 }

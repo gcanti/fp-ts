@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getSemigroup, Tuple, getApplicative, getOrd, chainRec } from '../src/Tuple'
+import { getSemigroup, Tuple, getApplicative, getOrd, getChainRec } from '../src/Tuple'
 import { monoidString, monoidSum, getArrayMonoid } from '../src/Monoid'
 import { left, right } from '../src/Either'
 import { ordNumber, ordString } from '../src/Ord'
@@ -32,12 +32,13 @@ describe('Tuple', () => {
 
   it('getApplicative', () => {
     const applicative = getApplicative(monoidString)
-    assert.strictEqual(applicative.of(1).toString(), `new Tuple(["", 1])`)
+    assert.deepEqual(applicative.of(1), new Tuple(['', 1]))
   })
 
   it('chainRec', () => {
+    const { chainRec } = getChainRec(getArrayMonoid<number>())
     function seqReq(upper: number): Tuple<Array<number>, number> {
-      return chainRec(getArrayMonoid<number>())(
+      return chainRec(
         1,
         init => new Tuple([[init], init >= upper ? right<number, number>(init) : left<number, number>(init + 1)])
       )

@@ -195,8 +195,7 @@ export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => {
   }
 }
 
-/** @function */
-export const chainRec = <L>(M: Monoid<L>) => <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
+const chainRec = <L>(M: Monoid<L>) => <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
   let result = f(a)
   let acc = M.empty
   while (result.snd().isLeft()) {

@@ -1,13 +1,13 @@
 import { HKT, URIS, URIS2, HKT2, Type, Type2, HKT3, URIS3, Type3 } from './HKT'
 import { Applicative } from './Applicative'
-import { Monad } from './Monad'
+import { Monad1 } from './Monad'
 import { Foldable } from './Foldable'
 import { Setoid } from './Setoid'
-import { Traversable } from './Traversable'
-import { Alt } from './Alt'
+import { Traversable1 } from './Traversable'
+import { Alt1 } from './Alt'
 import { Comonad } from './Comonad'
 import { Either } from './Either'
-import { ChainRec, tailRec } from './ChainRec'
+import { ChainRec1, tailRec } from './ChainRec'
 import { toString } from './function'
 
 declare module './HKT' {
@@ -112,8 +112,7 @@ const extract = <A>(fa: Identity<A>): A => {
   return fa.extract()
 }
 
-/** @function */
-export const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> => {
+const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> => {
   return new Identity(tailRec(a => f(a).extract(), a))
 }
 
@@ -123,7 +122,7 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HK
 }
 
 /** @instance */
-export const identity: Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI> & Comonad<URI> & ChainRec<URI> = {
+export const identity: Monad1<URI> & Foldable<URI> & Traversable1<URI> & Alt1<URI> & Comonad<URI> & ChainRec1<URI> = {
   URI,
   map,
   of,

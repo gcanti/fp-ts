@@ -1,6 +1,12 @@
 import { Monad2 } from './Monad'
 import { identity } from './function'
 
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    Reader: Reader<L, A>
+  }
+}
+
 export const URI = 'Reader'
 
 export type URI = typeof URI

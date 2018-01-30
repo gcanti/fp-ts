@@ -2,13 +2,13 @@ import { HKT, URIS, URIS2, Type, Type2, HKT2, URIS3, HKT3, Type3 } from './HKT'
 import { Monoid, getDualMonoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
-import { Monad } from './Monad'
+import { Monad1 } from './Monad'
 import { Foldable } from './Foldable'
-import { Plus } from './Plus'
-import { Extend } from './Extend'
+import { Plus1 } from './Plus'
+import { Extend1 } from './Extend'
 import { Setoid } from './Setoid'
-import { Traversable } from './Traversable'
-import { Alternative } from './Alternative'
+import { Traversable1 } from './Traversable'
+import { Alternative1 } from './Alternative'
 import { Lazy, Predicate, toString } from './function'
 import { Either } from './Either'
 
@@ -305,7 +305,7 @@ export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
 }
 
 /** @instance */
-export const option: Monad<URI> & Foldable<URI> & Plus<URI> & Traversable<URI> & Alternative<URI> & Extend<URI> = {
+export const option: Monad1<URI> & Foldable<URI> & Plus1<URI> & Traversable1<URI> & Alternative1<URI> & Extend1<URI> = {
   URI,
   map,
   of,
