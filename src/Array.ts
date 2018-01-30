@@ -1,4 +1,4 @@
-import { HKT, HKT2As, HKT2S, HKTAs, HKTS, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
+import { HKT, Type2, URIS2, Type, URIS, URIS3, Type3, HKT2, HKT3 } from './HKT'
 import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat } from './function'
 import { Option, fromNullable } from './Option'
 import { Ord, toNativeComparator } from './Ord'
@@ -96,15 +96,15 @@ export const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
   return r
 }
 
-export function traverse<F extends HKT3S>(
+export function traverse<F extends URIS3>(
   F: Applicative<F>
-): <U, L, A, B>(ta: Array<A>, f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, Array<B>>
-export function traverse<F extends HKT2S>(
+): <U, L, A, B>(ta: Array<A>, f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Array<B>>
+export function traverse<F extends URIS2>(
   F: Applicative<F>
-): <L, A, B>(ta: Array<A>, f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, Array<B>>
-export function traverse<F extends HKTS>(
+): <L, A, B>(ta: Array<A>, f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Array<B>>
+export function traverse<F extends URIS>(
   F: Applicative<F>
-): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKTAs<F, Array<B>>
+): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => Type<F, Array<B>>
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
 /** @function */
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {

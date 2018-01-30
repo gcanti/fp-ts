@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKT2, HKTAs, HKT2As, HKT3, HKT3S, HKT3As } from './HKT'
+import { HKT, URIS, URIS2, HKT2, Type, Type2, HKT3, URIS3, Type3 } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad } from './Monad'
 import { Foldable } from './Foldable'
@@ -43,13 +43,11 @@ export class Identity<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKT3S>(
+  traverse<F extends URIS3>(
     applicative: Applicative<F>
-  ): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, Identity<B>>
-  traverse<F extends HKT2S>(
-    applicative: Applicative<F>
-  ): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, Identity<B>>
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Identity<B>>
+  ): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Identity<B>>
+  traverse<F extends URIS2>(applicative: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Identity<B>>
+  traverse<F extends URIS>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
     return f => applicative.map(f(this.value), a => of(a))

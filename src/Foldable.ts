@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
+import { HKT, HKT2, HKT3, URIS, URIS2, Type, Type2, URIS3, Type3 } from './HKT'
 import { Monoid, getEndomorphismMonoid, unsafeMonoidArray } from './Monoid'
 import { Applicative } from './Applicative'
 import { applyFirst } from './Apply'
@@ -54,18 +54,18 @@ export const fold = <F, M>(F: Foldable<F>, M: Monoid<M>) => (fa: HKT<F, M>): M =
  * Note: this function is not generally stack-safe, e.g., for monads which
  * build up thunks a la `IO`.
  */
-export function foldM<F, M extends HKT3S>(
+export function foldM<F, M extends URIS3>(
   F: Foldable<F>,
   M: Monad<M>
-): <U, L, A, B>(f: (b: B, a: A) => HKT3As<M, U, L, B>, b: B, fa: HKT<F, A>) => HKT3As<M, U, L, B>
-export function foldM<F, M extends HKT2S>(
+): <U, L, A, B>(f: (b: B, a: A) => HKT3<M, U, L, B>, b: B, fa: HKT<F, A>) => Type3<M, U, L, B>
+export function foldM<F, M extends URIS2>(
   F: Foldable<F>,
   M: Monad<M>
-): <L, A, B>(f: (b: B, a: A) => HKT2As<M, L, B>, b: B, fa: HKT<F, A>) => HKT2As<M, L, B>
-export function foldM<F, M extends HKTS>(
+): <L, A, B>(f: (b: B, a: A) => HKT2<M, L, B>, b: B, fa: HKT<F, A>) => Type2<M, L, B>
+export function foldM<F, M extends URIS>(
   F: Foldable<F>,
   M: Monad<M>
-): <A, B>(f: (b: B, a: A) => HKTAs<M, B>, b: B, fa: HKT<F, A>) => HKTAs<M, B>
+): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => Type<M, B>
 export function foldM<F, M>(
   F: Foldable<F>,
   M: Monad<M>
@@ -87,18 +87,18 @@ export function foldM<F, M>(
 /**
  * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the final result.
  */
-export function traverse_<M extends HKT3S, F>(
+export function traverse_<M extends URIS3, F>(
   M: Applicative<M>,
   F: Foldable<F>
-): <U, L, A, B>(f: (a: A) => HKT3As<M, U, L, B>, fa: HKT<F, A>) => HKT3As<M, U, L, void>
-export function traverse_<M extends HKT2S, F>(
+): <U, L, A, B>(f: (a: A) => HKT3<M, U, L, B>, fa: HKT<F, A>) => Type3<M, U, L, void>
+export function traverse_<M extends URIS2, F>(
   M: Applicative<M>,
   F: Foldable<F>
-): <L, A, B>(f: (a: A) => HKT2As<M, L, B>, fa: HKT<F, A>) => HKT2As<M, L, void>
-export function traverse_<M extends HKTS, F>(
+): <L, A, B>(f: (a: A) => HKT2<M, L, B>, fa: HKT<F, A>) => Type2<M, L, void>
+export function traverse_<M extends URIS, F>(
   M: Applicative<M>,
   F: Foldable<F>
-): <A, B>(f: (a: A) => HKTAs<M, B>, fa: HKT<F, A>) => HKTAs<M, void>
+): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => Type<M, void>
 export function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable<F>
@@ -117,18 +117,18 @@ export function traverse_<M, F>(
 /**
  * Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final result.
  */
-export function sequence_<M extends HKT3S, F>(
+export function sequence_<M extends URIS3, F>(
   M: Applicative<M>,
   F: Foldable<F>
-): <U, L, A>(fa: HKT<F, HKT3As<M, U, L, A>>) => HKT3As<M, U, L, void>
-export function sequence_<M extends HKT2S, F>(
+): <U, L, A>(fa: HKT<F, HKT3<M, U, L, A>>) => Type3<M, U, L, void>
+export function sequence_<M extends URIS2, F>(
   M: Applicative<M>,
   F: Foldable<F>
-): <L, A>(fa: HKT<F, HKT2As<M, L, A>>) => HKT2As<M, L, void>
-export function sequence_<M extends HKTS, F>(
+): <L, A>(fa: HKT<F, HKT2<M, L, A>>) => Type2<M, L, void>
+export function sequence_<M extends URIS, F>(
   M: Applicative<M>,
   F: Foldable<F>
-): <A>(fa: HKT<F, HKTAs<M, A>>) => HKTAs<M, void>
+): <A>(fa: HKT<F, HKT<M, A>>) => Type<M, void>
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
 /**
  * Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final result.
@@ -141,15 +141,15 @@ export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<
 /**
  * Combines a collection of elements using the `Alt` operation
  */
-export function oneOf<F, P extends HKT3S>(
+export function oneOf<F, P extends URIS3>(
   F: Foldable<F>,
   P: Plus<P>
-): <U, L, A>(fga: HKT<F, HKT3As<P, U, L, A>>) => HKT3As<P, U, L, A>
-export function oneOf<F, P extends HKT2S>(
+): <U, L, A>(fga: HKT<F, HKT3<P, U, L, A>>) => Type3<P, U, L, A>
+export function oneOf<F, P extends URIS2>(
   F: Foldable<F>,
   P: Plus<P>
-): <L, A>(fga: HKT<F, HKT2As<P, L, A>>) => HKT2As<P, L, A>
-export function oneOf<F, P extends HKTS>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKTAs<P, A>>) => HKTAs<P, A>
+): <L, A>(fga: HKT<F, HKT2<P, L, A>>) => Type2<P, L, A>
+export function oneOf<F, P extends URIS>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => Type<P, A>
 export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>
 export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> {
   return foldr(F)((a: HKT<P, any>) => (b: HKT<P, any>) => P.alt(a, b))(P.zero())

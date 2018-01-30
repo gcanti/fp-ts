@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
 import { Setoid } from './Setoid'
 import { Ord, getSemigroup as getOrdSemigroup, contramap as contramapOrd } from './Ord'
 import { Semigroup } from './Semigroup'
@@ -61,9 +61,9 @@ export class Tuple<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.snd())
   }
-  traverse<F extends HKT3S>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, Tuple<L, B>>
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Tuple<L, B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Tuple<L, B>>
+  traverse<F extends URIS3>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => Type3<F, U, M, Tuple<L, B>>
+  traverse<F extends URIS2>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => Type2<F, M, Tuple<L, B>>
+  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Tuple<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
     return f => F.map(f(this.snd()), b => new Tuple([this.fst(), b]))

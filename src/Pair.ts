@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
 import { Endomorphism } from './function'
 import { Setoid } from './Setoid'
 import { Ord } from './Ord'
@@ -61,9 +61,9 @@ export class Pair<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(f(b, this.fst()), this.snd())
   }
-  traverse<F extends HKT3S>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, Pair<B>>
-  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, Pair<B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Pair<B>>
+  traverse<F extends URIS3>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Pair<B>>
+  traverse<F extends URIS2>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Pair<B>>
+  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Pair<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
     return <B>(f: (a: A) => HKT<F, B>) =>

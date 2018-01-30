@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKT2, HKTAs, HKT2As, HKT3, HKT3S, HKT3As } from './HKT'
+import { HKT, URIS, URIS2, HKT2, Type, Type2, HKT3, URIS3, Type3 } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad2 } from './Monad'
 import { Foldable } from './Foldable'
@@ -87,11 +87,9 @@ export class Left<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F extends HKT3S>(
-    F: Applicative<F>
-  ): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, Either<L, B>>
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Either<L, B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Either<L, B>>
+  traverse<F extends URIS3>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => Type3<F, U, M, Either<L, B>>
+  traverse<F extends URIS2>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => Type2<F, M, Either<L, B>>
+  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
     return f => F.of(this as any)
@@ -165,11 +163,9 @@ export class Right<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  traverse<F extends HKT3S>(
-    F: Applicative<F>
-  ): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => HKT3As<F, U, M, Either<L, B>>
-  traverse<F extends HKT2S>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => HKT2As<F, M, Either<L, B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Either<L, B>>
+  traverse<F extends URIS3>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => Type3<F, U, M, Either<L, B>>
+  traverse<F extends URIS2>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => Type2<F, M, Either<L, B>>
+  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
     return f => F.map(f(this.value), b => of(b))

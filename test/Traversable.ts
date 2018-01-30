@@ -8,19 +8,19 @@ export const ArrayOptionURI = 'ArrayOption'
 export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Traversable', () => {
-  it('getCompositionTraversable', () => {
+  it('getTraversableComposition', () => {
     const arrayOptionTraversable = getTraversableComposition(array, option.option)
     assert.deepEqual(
       arrayOptionTraversable.traverse(option.option)(
         [option.some(1), option.some(2)],
-        n => (n <= 2 ? option.some(n * 2) : option.none)
+        (n: number) => (n <= 2 ? option.some(n * 2) : option.none)
       ),
       option.some([option.some(2), option.some(4)])
     )
     assert.deepEqual(
       arrayOptionTraversable.traverse(option.option)(
         [option.some(1), option.some(3)],
-        n => (n <= 2 ? option.some(n * 2) : option.none)
+        (n: number) => (n <= 2 ? option.some(n * 2) : option.none)
       ),
       option.none
     )

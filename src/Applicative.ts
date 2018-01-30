@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2, URIS3, Type3, HKT2, HKT3 } from './HKT'
 import { Apply, Apply2, Apply3, Apply2C, Apply3C } from './Apply'
 import {
   getFunctorComposition,
@@ -35,37 +35,37 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
   ap<A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>>
 }
 
-export interface ApplicativeComposition11<F extends HKTS, G extends HKTS> extends FunctorComposition11<F, G> {
-  of: <A>(a: A) => HKTAs<F, HKTAs<G, A>>
-  ap<A, B>(fgab: HKTAs<F, HKTAs<G, (a: A) => B>>, fga: HKTAs<F, HKTAs<G, A>>): HKTAs<F, HKTAs<G, B>>
+export interface ApplicativeComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
+  of: <A>(a: A) => Type<F, Type<G, A>>
+  ap<A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): Type<F, Type<G, B>>
 }
 
-export interface ApplicativeComposition12<F extends HKTS, G extends HKT2S> extends FunctorComposition12<F, G> {
-  of: <L, A>(a: A) => HKTAs<F, HKT2As<G, L, A>>
-  ap<L, A, B>(fgab: HKTAs<F, HKT2As<G, L, (a: A) => B>>, fga: HKTAs<F, HKT2As<G, L, A>>): HKTAs<F, HKT2As<G, L, B>>
+export interface ApplicativeComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
+  of: <L, A>(a: A) => Type<F, Type2<G, L, A>>
+  ap<L, A, B>(fgab: HKT<F, HKT2<G, L, (a: A) => B>>, fga: HKT<F, HKT2<G, L, A>>): Type<F, Type2<G, L, B>>
 }
 
-export interface ApplicativeComposition21<F extends HKT2S, G extends HKTS> extends FunctorComposition21<F, G> {
-  of: <L, A>(a: A) => HKT2As<F, L, HKTAs<G, A>>
-  ap<L, A, B>(fgab: HKT2As<F, L, HKTAs<G, (a: A) => B>>, fga: HKT2As<F, L, HKTAs<G, A>>): HKT2As<F, L, HKTAs<G, B>>
+export interface ApplicativeComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
+  of: <L, A>(a: A) => Type2<F, L, Type<G, A>>
+  ap<L, A, B>(fgab: HKT2<F, L, HKT<G, (a: A) => B>>, fga: HKT2<F, L, HKT<G, A>>): Type2<F, L, Type<G, B>>
 }
 
-export interface ApplicativeComposition22<F extends HKT2S, G extends HKT2S> extends FunctorComposition22<F, G> {
-  of: <L, M, A>(a: A) => HKT2As<F, L, HKT2As<G, M, A>>
+export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
+  of: <L, M, A>(a: A) => Type2<F, L, Type2<G, M, A>>
   ap<L, M, A, B>(
-    fgab: HKT2As<F, L, HKT2As<G, M, (a: A) => B>>,
-    fga: HKT2As<F, L, HKT2As<G, M, A>>
-  ): HKT2As<F, L, HKT2As<G, M, B>>
+    fgab: HKT2<F, L, Type2<G, M, (a: A) => B>>, // TODO why Type2 here?
+    fga: HKT2<F, L, HKT2<G, M, A>>
+  ): Type2<F, L, Type2<G, M, B>>
 }
 
 /** Perform a applicative action when a condition is true */
-export function when<F extends HKT3S>(
+export function when<F extends URIS3>(
   F: Applicative<F>
-): <U, L>(condition: boolean, fu: HKT3As<F, U, L, void>) => HKT3As<F, U, L, void>
-export function when<F extends HKT2S>(
+): <U, L>(condition: boolean, fu: HKT3<F, U, L, void>) => Type3<F, U, L, void>
+export function when<F extends URIS2>(
   F: Applicative<F>
-): <L>(condition: boolean, fu: HKT2As<F, L, void>) => HKT2As<F, L, void>
-export function when<F extends HKTS>(F: Applicative<F>): (condition: boolean, fu: HKTAs<F, void>) => HKTAs<F, void>
+): <L>(condition: boolean, fu: HKT2<F, L, void>) => Type2<F, L, void>
+export function when<F extends URIS>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => Type<F, void>
 export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
 /**
  * Perform a applicative action when a condition is true
@@ -75,19 +75,19 @@ export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void
   return (condition, fu) => (condition ? fu : F.of(undefined))
 }
 
-export function getApplicativeComposition<F extends HKT2S, G extends HKT2S>(
+export function getApplicativeComposition<F extends URIS2, G extends URIS2>(
   F: Applicative<F>,
   G: Applicative<G>
 ): ApplicativeComposition22<F, G>
-export function getApplicativeComposition<F extends HKT2S, G extends HKTS>(
+export function getApplicativeComposition<F extends URIS2, G extends URIS>(
   F: Applicative<F>,
   G: Applicative<G>
 ): ApplicativeComposition21<F, G>
-export function getApplicativeComposition<F extends HKTS, G extends HKT2S>(
+export function getApplicativeComposition<F extends URIS, G extends URIS2>(
   F: Applicative<F>,
   G: Applicative<G>
 ): ApplicativeComposition12<F, G>
-export function getApplicativeComposition<F extends HKTS, G extends HKTS>(
+export function getApplicativeComposition<F extends URIS, G extends URIS>(
   F: Applicative<F>,
   G: Applicative<G>
 ): ApplicativeComposition11<F, G>
