@@ -12,26 +12,26 @@ export interface IxMonad<F> {
 
 export function iapplyFirst<F extends URIS3>(
   ixmonad: IxMonad<F>
-): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: Type3<F, O, Z, B>) => Type3<F, I, Z, A>
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: Type3<F, O, Z, B>) => Type3<F, I, Z, A>
 export function iapplyFirst<F>(
   ixmonad: IxMonad<F>
-): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A>
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A>
 /** @function */
 export function iapplyFirst<F>(
   ixmonad: IxMonad<F>
-): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A> {
-  return fa => fb => ixmonad.ichain(fa, a => ixmonad.ichain(fb, () => ixmonad.iof(a)))
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A> {
+  return (fa, fb) => ixmonad.ichain(fa, a => ixmonad.ichain(fb, () => ixmonad.iof(a)))
 }
 
 export function iapplySecond<F extends URIS3>(
   ixmonad: IxMonad<F>
-): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: Type3<F, O, Z, B>) => Type3<F, I, Z, B>
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: Type3<F, O, Z, B>) => Type3<F, I, Z, B>
 export function iapplySecond<F>(
   ixmonad: IxMonad<F>
-): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
 /** @function */
 export function iapplySecond<F>(
   ixmonad: IxMonad<F>
-): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B> {
-  return fa => fb => ixmonad.ichain(fa, constant(fb))
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B> {
+  return (fa, fb) => ixmonad.ichain(fa, constant(fb))
 }
