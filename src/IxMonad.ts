@@ -1,4 +1,4 @@
-import { HKT3, HKT3S, HKT3As } from './HKT'
+import { HKT3, URIS3, Type3 } from './HKT'
 import { constant } from './function'
 
 // Adapted from https://github.com/garyb/purescript-indexed-monad
@@ -10,9 +10,9 @@ export interface IxMonad<F> {
   ichain<I, O, Z, A, B>(fa: HKT3<F, I, O, A>, f: (a: A) => HKT3<F, O, Z, B>): HKT3<F, I, Z, B>
 }
 
-export function iapplyFirst<F extends HKT3S>(
+export function iapplyFirst<F extends URIS3>(
   ixmonad: IxMonad<F>
-): <I, O, A>(fa: HKT3As<F, I, O, A>) => <Z, B>(fb: HKT3As<F, O, Z, B>) => HKT3As<F, I, Z, A>
+): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: Type3<F, O, Z, B>) => Type3<F, I, Z, A>
 export function iapplyFirst<F>(
   ixmonad: IxMonad<F>
 ): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A>
@@ -23,9 +23,9 @@ export function iapplyFirst<F>(
   return fa => fb => ixmonad.ichain(fa, a => ixmonad.ichain(fb, () => ixmonad.iof(a)))
 }
 
-export function iapplySecond<F extends HKT3S>(
+export function iapplySecond<F extends URIS3>(
   ixmonad: IxMonad<F>
-): <I, O, A>(fa: HKT3As<F, I, O, A>) => <Z, B>(fb: HKT3As<F, O, Z, B>) => HKT3As<F, I, Z, B>
+): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: Type3<F, O, Z, B>) => Type3<F, I, Z, B>
 export function iapplySecond<F>(
   ixmonad: IxMonad<F>
 ): <I, O, A>(fa: HKT3<F, I, O, A>) => <Z, B>(fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>

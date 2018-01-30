@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2 } from './HKT'
 import { Applicative } from './Applicative'
 import { Lazy } from './function'
 import { Monad } from './Monad'
@@ -27,8 +27,8 @@ export const spy = <A>(a: A): A => {
 /**
  * Log a message to the console for debugging purposes and then return the unit value of the Applicative `F`
  */
-export function traceA<F extends HKT2S>(F: Applicative<F>): <L>(message: any) => HKT2As<F, L, void>
-export function traceA<F extends HKTS>(F: Applicative<F>): (message: any) => HKTAs<F, void>
+export function traceA<F extends URIS2>(F: Applicative<F>): <L>(message: any) => Type2<F, L, void>
+export function traceA<F extends URIS>(F: Applicative<F>): (message: any) => Type<F, void>
 export function traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void>
 /**
  * Log a message to the console for debugging purposes and then return the unit value of the Applicative `F`
@@ -41,8 +41,8 @@ export function traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void> {
 /**
  * Log any value to the console and return it in `Monad` useful when one has monadic chains
  */
-export function traceM<F extends HKT2S>(F: Monad<F>): <L, A>(a: A) => HKT2As<F, L, A>
-export function traceM<F extends HKTS>(F: Monad<F>): <A>(a: A) => HKTAs<F, A>
+export function traceM<F extends URIS2>(F: Monad<F>): <L, A>(a: A) => Type2<F, L, A>
+export function traceM<F extends URIS>(F: Monad<F>): <A>(a: A) => Type<F, A>
 /**
  * Log any value to the console and return it in `Monad` useful when one has monadic chains
  * @function

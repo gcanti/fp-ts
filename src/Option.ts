@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3S, HKT3, HKT3As } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2, HKT2, URIS3, HKT3, Type3 } from './HKT'
 import { Monoid, getDualMonoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
@@ -68,9 +68,9 @@ export class None<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F extends HKT3S>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, Option<B>>
-  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, Option<B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Option<B>>
+  traverse<F extends URIS3>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Option<B>>
+  traverse<F extends URIS2>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Option<B>>
+  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
     return f => F.of(none)
@@ -150,9 +150,9 @@ export class Some<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return this.fold(b, a => f(b, a))
   }
-  traverse<F extends HKT3S>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, Option<B>>
-  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, Option<B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, Option<B>>
+  traverse<F extends URIS3>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Option<B>>
+  traverse<F extends URIS2>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Option<B>>
+  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
     return f => F.map(f(this.value), some)

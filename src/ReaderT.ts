@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As } from './HKT'
+import { HKT, HKT2, URIS, URIS2, Type, Type2 } from './HKT'
 import { Functor } from './Functor'
 import { Applicative } from './Applicative'
 import { Chain } from './Chain'
@@ -11,46 +11,46 @@ export interface ReaderT<M> {
   chain<E, A, B>(f: (a: A) => (e: E) => HKT<M, B>, fa: (e: E) => HKT<M, A>): (e: E) => HKT<M, B>
 }
 
-export interface ReaderT1<M extends HKTS> {
-  map<E, A, B>(f: (a: A) => B, fa: (e: E) => HKTAs<M, A>): (e: E) => HKTAs<M, B>
-  of<E, A>(a: A): (e: E) => HKTAs<M, A>
-  ap<E, A, B>(fab: (e: E) => HKTAs<M, (a: A) => B>, fa: (e: E) => HKTAs<M, A>): (e: E) => HKTAs<M, B>
-  chain<E, A, B>(f: (a: A) => (e: E) => HKTAs<M, B>, fa: (e: E) => HKTAs<M, A>): (e: E) => HKTAs<M, B>
+export interface ReaderT1<M extends URIS> {
+  map<E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<M, A>): (e: E) => Type<M, B>
+  of<E, A>(a: A): (e: E) => Type<M, A>
+  ap<E, A, B>(fab: (e: E) => HKT<M, (a: A) => B>, fa: (e: E) => HKT<M, A>): (e: E) => Type<M, B>
+  chain<E, A, B>(f: (a: A) => (e: E) => HKT<M, B>, fa: (e: E) => HKT<M, A>): (e: E) => Type<M, B>
 }
 
-export interface ReaderT2<M extends HKT2S> {
-  map<L, E, A, B>(f: (a: A) => B, fa: (e: E) => HKT2As<M, L, A>): (e: E) => HKT2As<M, L, B>
-  of<L, E, A>(a: A): (e: E) => HKT2As<M, L, A>
-  ap<L, E, A, B>(fab: (e: E) => HKT2As<M, L, (a: A) => B>, fa: (e: E) => HKT2As<M, L, A>): (e: E) => HKT2As<M, L, B>
-  chain<L, E, A, B>(f: (a: A) => (e: E) => HKT2As<M, L, B>, fa: (e: E) => HKT2As<M, L, A>): (e: E) => HKT2As<M, L, B>
+export interface ReaderT2<M extends URIS2> {
+  map<L, E, A, B>(f: (a: A) => B, fa: (e: E) => HKT2<M, L, A>): (e: E) => Type2<M, L, B>
+  of<L, E, A>(a: A): (e: E) => Type2<M, L, A>
+  ap<L, E, A, B>(fab: (e: E) => HKT2<M, L, (a: A) => B>, fa: (e: E) => HKT2<M, L, A>): (e: E) => Type2<M, L, B>
+  chain<L, E, A, B>(f: (a: A) => (e: E) => HKT2<M, L, B>, fa: (e: E) => HKT2<M, L, A>): (e: E) => Type2<M, L, B>
 }
 
-export function map<F extends HKT2S>(
+export function map<F extends URIS2>(
   F: Functor<F>
-): <L, E, A, B>(f: (a: A) => B, fa: (e: E) => HKT2As<F, L, A>) => (e: E) => HKT2As<F, L, B>
-export function map<F extends HKTS>(
+): <L, E, A, B>(f: (a: A) => B, fa: (e: E) => HKT2<F, L, A>) => (e: E) => Type2<F, L, B>
+export function map<F extends URIS>(
   F: Functor<F>
-): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKTAs<F, A>) => (e: E) => HKTAs<F, B>
+): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => Type<F, B>
 export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
 /** @function */
 export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B> {
   return (f, fa) => e => F.map(fa(e), f)
 }
 
-export function of<F extends HKT2S>(F: Applicative<F>): <L, E, A>(a: A) => (e: E) => HKT2As<F, L, A>
-export function of<F extends HKTS>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKTAs<F, A>
+export function of<F extends URIS2>(F: Applicative<F>): <L, E, A>(a: A) => (e: E) => Type2<F, L, A>
+export function of<F extends URIS>(F: Applicative<F>): <E, A>(a: A) => (e: E) => Type<F, A>
 export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A>
 /** @function */
 export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A> {
   return <A>(a: A) => <E>(e: E) => F.of(a)
 }
 
-export function ap<F extends HKT2S>(
+export function ap<F extends URIS2>(
   F: Applicative<F>
-): <L, E, A, B>(fab: (e: E) => HKT2As<F, L, (a: A) => B>, fa: (e: E) => HKT2As<F, L, A>) => (e: E) => HKT2As<F, L, B>
-export function ap<F extends HKTS>(
+): <L, E, A, B>(fab: (e: E) => HKT2<F, L, (a: A) => B>, fa: (e: E) => HKT2<F, L, A>) => (e: E) => Type2<F, L, B>
+export function ap<F extends URIS>(
   F: Applicative<F>
-): <E, A, B>(fab: (e: E) => HKTAs<F, (a: A) => B>, fa: (e: E) => HKTAs<F, A>) => (e: E) => HKTAs<F, B>
+): <E, A, B>(fab: (e: E) => HKT<F, (a: A) => B>, fa: (e: E) => HKT<F, A>) => (e: E) => Type<F, B>
 export function ap<F>(
   F: Applicative<F>
 ): <E, A, B>(fab: (e: E) => HKT<F, (a: A) => B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
@@ -61,12 +61,12 @@ export function ap<F>(
   return (fab, fa) => e => F.ap(fab(e), fa(e))
 }
 
-export function chain<F extends HKT2S>(
+export function chain<F extends URIS2>(
   F: Chain<F>
-): <L, E, A, B>(f: (a: A) => (e: E) => HKT2As<F, L, B>, fa: (e: E) => HKT2As<F, L, A>) => (e: E) => HKT2As<F, L, B>
-export function chain<F extends HKTS>(
+): <L, E, A, B>(f: (a: A) => (e: E) => HKT2<F, L, B>, fa: (e: E) => HKT2<F, L, A>) => (e: E) => Type2<F, L, B>
+export function chain<F extends URIS>(
   F: Chain<F>
-): <E, A, B>(f: (a: A) => (e: E) => HKTAs<F, B>, fa: (e: E) => HKTAs<F, A>) => (e: E) => HKTAs<F, B>
+): <E, A, B>(f: (a: A) => (e: E) => HKT<F, B>, fa: (e: E) => HKT<F, A>) => (e: E) => Type<F, B>
 export function chain<F>(
   F: Chain<F>
 ): <E, A, B>(f: (a: A) => (e: E) => HKT<F, B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
@@ -77,24 +77,24 @@ export function chain<F>(
   return (f, fa) => e => F.chain(fa(e), a => f(a)(e))
 }
 
-export function ask<F extends HKT2S>(F: Applicative<F>): <L, E>() => (e: E) => HKT2As<F, L, E>
-export function ask<F extends HKTS>(F: Applicative<F>): <E>() => (e: E) => HKTAs<F, E>
+export function ask<F extends URIS2>(F: Applicative<F>): <L, E>() => (e: E) => Type2<F, L, E>
+export function ask<F extends URIS>(F: Applicative<F>): <E>() => (e: E) => Type<F, E>
 export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E>
 /** @function */
 export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E> {
   return () => e => F.of(e)
 }
 
-export function asks<F extends HKT2S>(F: Applicative<F>): <L, E, A>(f: (e: E) => A) => (e: E) => HKT2As<F, L, A>
-export function asks<F extends HKTS>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKTAs<F, A>
+export function asks<F extends URIS2>(F: Applicative<F>): <L, E, A>(f: (e: E) => A) => (e: E) => Type2<F, L, A>
+export function asks<F extends URIS>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => Type<F, A>
 export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A>
 /** @function */
 export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A> {
   return f => e => F.of(f(e))
 }
 
-export function getReaderT<M extends HKT2S>(M: Monad<M>): ReaderT2<M>
-export function getReaderT<M extends HKTS>(M: Monad<M>): ReaderT1<M>
+export function getReaderT<M extends URIS2>(M: Monad<M>): ReaderT2<M>
+export function getReaderT<M extends URIS>(M: Monad<M>): ReaderT1<M>
 export function getReaderT<M>(M: Monad<M>): ReaderT<M>
 /** @function */
 export function getReaderT<M>(M: Monad<M>): ReaderT<M> {

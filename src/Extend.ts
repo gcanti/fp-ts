@@ -1,4 +1,4 @@
-import { HKT, HKT2, HKT3, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As } from './HKT'
+import { HKT, HKT2, HKT3, URIS, URIS2, Type, Type2, URIS3, Type3 } from './HKT'
 import { Functor, Functor2, Functor3, Functor2C, Functor3C } from './Functor'
 
 /** @typeclass */
@@ -22,13 +22,11 @@ export interface Extend3C<F, U, L> extends Functor3C<F, U, L> {
   extend<A, B>(f: (fa: HKT3<F, U, L, A>) => B, ea: HKT3<F, U, L, A>): HKT3<F, U, L, B>
 }
 
-export function duplicate<F extends HKT3S>(
+export function duplicate<F extends URIS3>(
   extend: Extend<F>
-): <U, L, A>(ma: HKT3As<F, U, L, A>) => HKT3As<F, U, L, HKT3As<F, U, L, A>>
-export function duplicate<F extends HKT2S>(
-  extend: Extend<F>
-): <L, A>(ma: HKT2As<F, L, A>) => HKT2As<F, L, HKT2As<F, L, A>>
-export function duplicate<F extends HKTS>(extend: Extend<F>): <A>(ma: HKTAs<F, A>) => HKTAs<F, HKTAs<F, A>>
+): <U, L, A>(ma: HKT3<F, U, L, A>) => Type3<F, U, L, Type3<F, U, L, A>>
+export function duplicate<F extends URIS2>(extend: Extend<F>): <L, A>(ma: HKT2<F, L, A>) => Type2<F, L, Type2<F, L, A>>
+export function duplicate<F extends URIS>(extend: Extend<F>): <A>(ma: HKT<F, A>) => Type<F, Type<F, A>>
 export function duplicate<F>(extend: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>
 /** @function */
 export function duplicate<F>(extend: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>> {

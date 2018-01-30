@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
 import { Monad } from './Monad'
 import { Comonad } from './Comonad'
 import { Semigroup } from './Semigroup'
@@ -51,13 +51,13 @@ export class NonEmptyArray<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return array.reduce(this.toArray(), b, f)
   }
-  traverse<F extends HKT3S>(
+  traverse<F extends URIS3>(
     applicative: Applicative<F>
-  ): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, NonEmptyArray<B>>
-  traverse<F extends HKT2S>(
+  ): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, NonEmptyArray<B>>
+  traverse<F extends URIS2>(
     applicative: Applicative<F>
-  ): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, NonEmptyArray<B>>
-  traverse<F extends HKTS>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKTAs<F, NonEmptyArray<B>>
+  ): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, NonEmptyArray<B>>
+  traverse<F extends URIS>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, NonEmptyArray<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
     return f => applicative.map(array.traverse(applicative)(this.toArray(), f), unsafeFromArray)

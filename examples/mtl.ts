@@ -1,5 +1,5 @@
 import { Monad } from 'fp-ts/lib/Monad'
-import { HKT, HKTS, HKTAs } from 'fp-ts/lib/HKT'
+import { HKT, URIS, Type } from 'fp-ts/lib/HKT'
 import { liftA2 } from 'fp-ts/lib/Apply'
 import { flatten } from 'fp-ts/lib/Chain'
 
@@ -15,11 +15,11 @@ interface MonadFB<M> {
   sendLike: (fbToken: string) => (post: string) => HKT<M, boolean>
 }
 
-function likePost<M extends HKTS>(
+function likePost<M extends URIS>(
   M: Monad<M>,
   U: MonadUser<M>,
   F: MonadFB<M>
-): (token: string) => (url: string) => HKTAs<M, boolean>
+): (token: string) => (url: string) => Type<M, boolean>
 function likePost<M>(M: Monad<M>, U: MonadUser<M>, F: MonadFB<M>): (token: string) => (url: string) => HKT<M, boolean> {
   return token => url => {
     const mToken = M.chain(U.validateUser(token), uid => U.facebookToken(uid))

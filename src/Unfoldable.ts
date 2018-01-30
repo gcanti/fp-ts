@@ -1,4 +1,4 @@
-import { HKT, HKT2, HKT3, HKTS, HKTAs, HKT2S, HKT2As, HKT3S, HKT3As } from './HKT'
+import { HKT, HKT2, HKT3, URIS, Type, URIS2, Type2, URIS3, Type3 } from './HKT'
 import { Applicative } from './Applicative'
 import { Traversable } from './Traversable'
 import * as option from './Option'
@@ -49,18 +49,18 @@ export const singleton = <F>(unfoldable: Unfoldable<F>) => <A>(a: A): HKT<F, A> 
 }
 
 /** Perform an Applicative action `n` times, and accumulate all the results */
-export function replicateA<F extends HKT3S, T>(
+export function replicateA<F extends URIS3, T>(
   applicative: Applicative<F>,
   unfoldableTraversable: Unfoldable<T> & Traversable<T>
-): (n: number) => <U, L, A>(ma: HKT3As<F, U, L, A>) => HKT3As<F, U, L, HKT<T, A>>
-export function replicateA<F extends HKT2S, T>(
+): (n: number) => <U, L, A>(ma: HKT3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
+export function replicateA<F extends URIS2, T>(
   applicative: Applicative<F>,
   unfoldableTraversable: Unfoldable<T> & Traversable<T>
-): (n: number) => <L, A>(ma: HKT2As<F, L, A>) => HKT2As<F, L, HKT<T, A>>
-export function replicateA<F extends HKTS, T>(
+): (n: number) => <L, A>(ma: HKT2<F, L, A>) => Type2<F, L, HKT<T, A>>
+export function replicateA<F extends URIS, T>(
   applicative: Applicative<F>,
   unfoldableTraversable: Unfoldable<T> & Traversable<T>
-): (n: number) => <A>(ma: HKTAs<F, A>) => HKTAs<F, HKT<T, A>>
+): (n: number) => <A>(ma: HKT<F, A>) => Type<F, HKT<T, A>>
 /**
  * Perform an Applicative action `n` times, and accumulate all the results
  * @function

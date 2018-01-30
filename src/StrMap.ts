@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT2, HKT3, HKT3As, HKT3S } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Functor } from './Functor'
 import { Applicative } from './Applicative'
@@ -47,13 +47,13 @@ export class StrMap<A> {
     }
     return out
   }
-  traverseWithKey<F extends HKT3S>(
+  traverseWithKey<F extends URIS3>(
     F: Applicative<F>
-  ): <U, L, B>(f: (k: string, a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, StrMap<B>>
-  traverseWithKey<F extends HKT2S>(
+  ): <U, L, B>(f: (k: string, a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
+  traverseWithKey<F extends URIS2>(
     F: Applicative<F>
-  ): <L, B>(f: (k: string, a: A) => HKT2<F, L, B>) => HKT2As<F, L, StrMap<B>>
-  traverseWithKey<F extends HKTS>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKTAs<F, StrMap<B>>
+  ): <L, B>(f: (k: string, a: A) => HKT2<F, L, B>) => Type2<F, L, StrMap<B>>
+  traverseWithKey<F extends URIS>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => Type<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concatCurried)
@@ -65,9 +65,9 @@ export class StrMap<A> {
       return out
     }
   }
-  traverse<F extends HKT3S>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => HKT3As<F, U, L, StrMap<B>>
-  traverse<F extends HKT2S>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => HKT2As<F, L, StrMap<B>>
-  traverse<F extends HKTS>(F: Applicative<F>): <B>(f: (a: A) => HKTAs<F, B>) => HKTAs<F, StrMap<B>>
+  traverse<F extends URIS3>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
+  traverse<F extends URIS2>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, StrMap<B>>
+  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     return f => this.traverseWithKey(F)((_, a) => f(a))

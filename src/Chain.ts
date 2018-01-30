@@ -1,4 +1,4 @@
-import { HKT, HKTS, HKT2S, HKTAs, HKT2As, HKT3S, HKT3As, HKT2, HKT3 } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2, URIS3, Type3, HKT2, HKT3 } from './HKT'
 import { Apply, Apply2, Apply3, Apply2C, Apply3C } from './Apply'
 
 /** @typeclass */
@@ -22,11 +22,11 @@ export interface Chain3C<F, U, L> extends Apply3C<F, U, L> {
   chain<A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => HKT3<F, U, L, B>): HKT3<F, U, L, B>
 }
 
-export function flatten<F extends HKT3S>(
+export function flatten<F extends URIS3>(
   chain: Chain<F>
-): <U, L, A>(mma: HKT3As<F, U, L, HKT3As<F, U, L, A>>) => HKT3As<F, U, L, A>
-export function flatten<F extends HKT2S>(chain: Chain<F>): <L, A>(mma: HKT2As<F, L, HKT2As<F, L, A>>) => HKT2As<F, L, A>
-export function flatten<F extends HKTS>(chain: Chain<F>): <A>(mma: HKTAs<F, HKTAs<F, A>>) => HKTAs<F, A>
+): <U, L, A>(mma: HKT3<F, U, L, HKT3<F, U, L, A>>) => Type3<F, U, L, A>
+export function flatten<F extends URIS2>(chain: Chain<F>): <L, A>(mma: HKT2<F, L, HKT2<F, L, A>>) => Type2<F, L, A>
+export function flatten<F extends URIS>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => Type<F, A>
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
 /** @function */
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A> {

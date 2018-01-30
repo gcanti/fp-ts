@@ -1,7 +1,7 @@
 // adapted from http://okmij.org/ftp/Computation/free-monad.html
 // and https://github.com/purescript/purescript-free
 
-import { HKT, HKT2, HKT3, HKTS, HKTAs, HKT2S, HKT2As, HKT3S, HKT3As } from './HKT'
+import { HKT, HKT2, HKT3, URIS, Type, URIS2, Type2, URIS3, Type3 } from './HKT'
 import { Monad } from './Monad'
 import { toString } from './function'
 
@@ -34,9 +34,9 @@ export class Pure<F, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.value)
   }
-  foldFree<M extends HKT3S>(M: Monad<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => HKT3As<M, U, L, A>
-  foldFree<M extends HKT2S>(M: Monad<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => HKT2As<M, L, A>
-  foldFree<M extends HKTS>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKTAs<M, A>
+  foldFree<M extends URIS3>(M: Monad<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => Type3<M, U, L, A>
+  foldFree<M extends URIS2>(M: Monad<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => Type2<M, L, A>
+  foldFree<M extends URIS>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => Type<M, A>
   foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A>
   foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A> {
     return () => M.of(this.value)
@@ -67,9 +67,9 @@ export class Impure<F, A, X> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).chain(f))
   }
-  foldFree<M extends HKT3S>(M: Monad<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => HKT3As<M, U, L, A>
-  foldFree<M extends HKT2S>(M: Monad<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => HKT2As<M, L, A>
-  foldFree<M extends HKTS>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKTAs<M, A>
+  foldFree<M extends URIS3>(M: Monad<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => Type3<M, U, L, A>
+  foldFree<M extends URIS2>(M: Monad<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => Type2<M, L, A>
+  foldFree<M extends URIS>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => Type<M, A>
   foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A>
   foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A> {
     return f => M.chain(f(this.fx), x => this.f(x).foldFree(M)(f))
@@ -112,13 +112,13 @@ export const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: F
  * Use a natural transformation to change the generating type constructor of a free monad
  * @function
  */
-export function hoistFree<F extends HKT3S, G>(
-  nt: <U, L, A>(fa: HKT3As<F, U, L, A>) => HKT<G, A>
+export function hoistFree<F extends URIS3, G>(
+  nt: <U, L, A>(fa: Type3<F, U, L, A>) => HKT<G, A> // TODO why Type3 here?
 ): (<A>(fa: Free<F, A>) => Free<G, A>)
-export function hoistFree<F extends HKT2S, G>(
-  nt: <L, A>(fa: HKT2As<F, L, A>) => HKT<G, A>
+export function hoistFree<F extends URIS2, G>(
+  nt: <L, A>(fa: Type2<F, L, A>) => HKT<G, A>
 ): (<A>(fa: Free<F, A>) => Free<G, A>)
-export function hoistFree<F extends HKTS, G>(nt: <A>(fa: HKTAs<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
+export function hoistFree<F extends URIS, G>(nt: <A>(fa: Type<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
 /**
  * Use a natural transformation to change the generating type constructor of a free monad
@@ -128,22 +128,17 @@ export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: F
   return substFree(fa => liftF(nt(fa)))
 }
 
-export function foldFree<M extends HKT3S>(
+export function foldFree<M extends URIS3>(
   M: Monad<M>
-): <F extends HKTS>(f: <A>(fa: HKTAs<F, A>) => HKT<M, A>) => <U, L, A>(fa: Free<F, A>) => HKT3As<M, U, L, A>
-export function foldFree<M extends HKT2S>(
+): <F extends URIS>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <U, L, A>(fa: Free<F, A>) => Type3<M, U, L, A>
+export function foldFree<M extends URIS2>(
   M: Monad<M>
-): <F extends HKTS>(f: <A>(fa: HKTAs<F, A>) => HKT<M, A>) => <L, A>(fa: Free<F, A>) => HKT2As<M, L, A>
-export function foldFree<M extends HKTS>(
+): <F extends URIS>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <L, A>(fa: Free<F, A>) => Type2<M, L, A>
+export function foldFree<M extends URIS>(
   M: Monad<M>
-): <F extends HKTS>(f: <A>(fa: HKTAs<F, A>) => HKT<M, A>) => <A>(fa: Free<F, A>) => HKTAs<M, A>
+): <F extends URIS>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <A>(fa: Free<F, A>) => Type<M, A>
 export function foldFree<M>(M: Monad<M>): <F>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <A>(fa: Free<F, A>) => HKT<M, A>
-/**
- * Note. This function is overloaded so, despite the argument `f` being ill-typed, is type safe
- * @function
- */
-export function foldFree<M>(
-  M: Monad<M>
-): <F>(f: any /* <A>(fa: HKT<F, A>) => HKT<M, A> */) => <A>(fa: Free<F, A>) => HKT<M, A> {
+/** @function */
+export function foldFree<M>(M: Monad<M>): <F>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <A>(fa: Free<F, A>) => HKT<M, A> {
   return f => fa => fa.foldFree(M)(f)
 }
