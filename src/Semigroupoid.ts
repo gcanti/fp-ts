@@ -1,4 +1,4 @@
-import { HKT2, HKT3 } from './HKT'
+import { HKT2, HKT3, URIS2, URIS3, Type2, Type3 } from './HKT'
 
 /** @typeclass */
 export interface Semigroupoid<F> {
@@ -6,7 +6,17 @@ export interface Semigroupoid<F> {
   compose<L, A, B>(bc: HKT2<F, A, B>, ab: HKT2<F, L, A>): HKT2<F, L, B>
 }
 
-export interface Semigroupoid3<F, U> {
+export interface Semigroupoid2<F extends URIS2> {
   readonly URI: F
-  compose<L, A, B>(bc: HKT3<F, U, A, B>, ab: HKT3<F, U, L, A>): HKT3<F, U, L, B>
+  compose<L, A, B>(bc: HKT2<F, A, B>, ab: HKT2<F, L, A>): Type2<F, L, B>
+}
+
+export interface Semigroupoid3<F extends URIS3> {
+  readonly URI: F
+  compose<U, L, A, B>(bc: HKT3<F, U, A, B>, ab: HKT3<F, U, L, A>): Type3<F, U, L, B>
+}
+
+export interface Semigroupoid3C<F extends URIS3, U> {
+  readonly URI: F
+  compose<L, A, B>(bc: HKT3<F, U, A, B>, ab: HKT3<F, U, L, A>): Type3<F, U, L, B>
 }

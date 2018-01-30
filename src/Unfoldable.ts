@@ -14,14 +14,29 @@ export interface Unfoldable<F> {
   unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => HKT<F, A>
 }
 
-export interface Unfoldable2<F, L> {
+export interface Unfoldable1<F extends URIS> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => HKT2<F, L, A>
+  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type<F, A>
 }
 
-export interface Unfoldable3<F, U, L> {
+export interface Unfoldable2<F extends URIS2> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => HKT3<F, U, L, A>
+  unfoldr: <L, A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type2<F, L, A>
+}
+
+export interface Unfoldable3<F extends URIS3> {
+  readonly URI: F
+  unfoldr: <U, L, A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type3<F, U, L, A>
+}
+
+export interface Unfoldable2C<F extends URIS2, L> {
+  readonly URI: F
+  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type2<F, L, A>
+}
+
+export interface Unfoldable3C<F extends URIS3, U, L> {
+  readonly URI: F
+  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type3<F, U, L, A>
 }
 
 /**

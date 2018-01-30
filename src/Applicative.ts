@@ -1,5 +1,5 @@
 import { HKT, URIS, URIS2, Type, Type2, URIS3, Type3, HKT2, HKT3 } from './HKT'
-import { Apply, Apply2, Apply3, Apply2C, Apply3C } from './Apply'
+import { Apply, Apply2, Apply3, Apply2C, Apply3C, Apply1 } from './Apply'
 import {
   getFunctorComposition,
   FunctorComposition,
@@ -14,20 +14,24 @@ export interface Applicative<F> extends Apply<F> {
   of: <A>(a: A) => HKT<F, A>
 }
 
-export interface Applicative2<F> extends Apply2<F> {
-  of: <L, A>(a: A) => HKT2<F, L, A>
+export interface Applicative1<F extends URIS> extends Apply1<F> {
+  of: <A>(a: A) => Type<F, A>
 }
 
-export interface Applicative3<F> extends Apply3<F> {
-  of: <U, L, A>(a: A) => HKT3<F, U, L, A>
+export interface Applicative2<F extends URIS2> extends Apply2<F> {
+  of: <L, A>(a: A) => Type2<F, L, A>
 }
 
-export interface Applicative2C<F, L> extends Apply2C<F, L> {
-  of: <A>(a: A) => HKT2<F, L, A>
+export interface Applicative3<F extends URIS3> extends Apply3<F> {
+  of: <U, L, A>(a: A) => Type3<F, U, L, A>
 }
 
-export interface Applicative3C<F, U, L> extends Apply3C<F, U, L> {
-  of: <A>(a: A) => HKT3<F, U, L, A>
+export interface Applicative2C<F extends URIS2, L> extends Apply2C<F, L> {
+  of: <A>(a: A) => Type2<F, L, A>
+}
+
+export interface Applicative3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
+  of: <A>(a: A) => Type3<F, U, L, A>
 }
 
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {

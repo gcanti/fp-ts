@@ -7,24 +7,29 @@ export interface Functor<F> {
   map<A, B>(fa: HKT<F, A>, f: (a: A) => B): HKT<F, B>
 }
 
-export interface Functor2<F> {
+export interface Functor1<F extends URIS> {
   readonly URI: F
-  map<L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B): HKT2<F, L, B>
+  map<A, B>(fa: HKT<F, A>, f: (a: A) => B): Type<F, B>
 }
 
-export interface Functor3<F> {
+export interface Functor2<F extends URIS2> {
   readonly URI: F
-  map<U, L, A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B): HKT3<F, U, L, B>
+  map<L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B): Type2<F, L, B>
 }
 
-export interface Functor2C<F, L> {
+export interface Functor3<F extends URIS3> {
   readonly URI: F
-  map<A, B>(fa: HKT2<F, L, A>, f: (a: A) => B): HKT2<F, L, B>
+  map<U, L, A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B): Type3<F, U, L, B>
 }
 
-export interface Functor3C<F, U, L> {
+export interface Functor2C<F extends URIS2, L> {
   readonly URI: F
-  map<A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B): HKT3<F, U, L, B>
+  map<A, B>(fa: HKT2<F, L, A>, f: (a: A) => B): Type2<F, L, B>
+}
+
+export interface Functor3C<F extends URIS3, U, L> {
+  readonly URI: F
+  map<A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B): Type3<F, U, L, B>
 }
 
 export interface FunctorComposition<F, G> {
