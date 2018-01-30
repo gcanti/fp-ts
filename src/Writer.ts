@@ -1,7 +1,7 @@
 import { Monoid } from './Monoid'
 import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
-import { Lazy } from './function'
+import { Semigroup } from './Semigroup'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -21,7 +21,7 @@ export class Writer<W, A> {
   readonly '-A': A
   readonly '-L': W
   readonly '-URI': URI
-  constructor(readonly monoid: Monoid<W>, readonly run: Lazy<[A, W]>) {}
+  constructor(readonly run: () => [A, W]) {}
   eval(): A {
     return this.run()[0]
   }
@@ -30,20 +30,7 @@ export class Writer<W, A> {
   }
   map<B>(f: (a: A) => B): Writer<W, B> {
     const [a, w] = this.run()
-    return new Writer(this.monoid, () => [f(a), w])
-  }
-  ap<B>(fab: Writer<W, (a: A) => B>): Writer<W, B> {
-    return fab.chain(f => this.map(f))
-  }
-  ap_<B, C>(this: Writer<W, (b: B) => C>, fb: Writer<W, B>): Writer<W, C> {
-    return fb.ap(this)
-  }
-  chain<B>(f: (a: A) => Writer<W, B>): Writer<W, B> {
-    return new Writer(this.monoid, () => {
-      const [a, w1] = this.run()
-      const [b, w2] = f(a).run()
-      return [b, this.monoid.concat(w1, w2)]
-    })
+    return new Writer(() => [f(a), w])
   }
 }
 
@@ -51,22 +38,29 @@ const map = <W, A, B>(fa: Writer<W, A>, f: (a: A) => B): Writer<W, B> => {
   return fa.map(f)
 }
 
+const of = <W>(M: Monoid<W>) => <A>(a: A): Writer<W, A> => {
+  return new Writer(() => [a, M.empty])
+}
+
+const ap = <W>(S: Semigroup<W>) => <A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writer<W, B> => {
+  return new Writer(() => {
+    const [f, w1] = fab.run()
+    const [a, w2] = fa.run()
+    return [f(a), S.concat(w1, w2)]
+  })
+}
+
+const chain = <W>(S: Semigroup<W>) => <A, B>(fa: Writer<W, A>, f: (a: A) => Writer<W, B>): Writer<W, B> => {
+  return new Writer(() => {
+    const [a, w1] = fa.run()
+    const [b, w2] = f(a).run()
+    return [b, S.concat(w1, w2)]
+  })
+}
+
 /** @function */
-export const of = <W>(M: Monoid<W>) => <A>(a: A): Writer<W, A> => {
-  return new Writer(M, () => [a, M.empty])
-}
-
-const ap = <W, A, B>(fab: Writer<W, (a: A) => B>, fa: Writer<W, A>): Writer<W, B> => {
-  return fa.ap(fab)
-}
-
-const chain = <W, A, B>(fa: Writer<W, A>, f: (a: A) => Writer<W, B>): Writer<W, B> => {
-  return fa.chain(f)
-}
-
-/** @function */
-export const tell = <W>(M: Monoid<W>) => (w: W): Writer<W, void> => {
-  return new Writer(M, () => [undefined, w])
+export const tell = <W>(w: W): Writer<W, void> => {
+  return new Writer(() => [undefined, w])
 }
 
 /** @function */
@@ -75,8 +69,8 @@ export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
     URI,
     map,
     of: of(M),
-    ap,
-    chain
+    ap: ap(M),
+    chain: chain(M)
   }
 }
 
