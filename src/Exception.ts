@@ -32,7 +32,7 @@ export const stack = (e: Error): Option<string> => {
  * Throw an exception
  * @function
  */
-export const throwException = <A>(e: Error): IO<A> => {
+export const throwError = <A>(e: Error): IO<A> => {
   return new IO(() => {
     throw e
   })
@@ -42,10 +42,10 @@ export const throwException = <A>(e: Error): IO<A> => {
  * Catch an exception by providing an exception handler
  * @function
  */
-export const catchException = <A>(handler: (e: Error) => IO<A>) => (action: IO<A>): IO<A> => {
+export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> => {
   return new IO(() => {
     try {
-      return action.run()
+      return ma.run()
     } catch (e) {
       if (e instanceof Error) {
         return handler(e).run()
@@ -61,6 +61,6 @@ export const catchException = <A>(handler: (e: Error) => IO<A>) => (action: IO<A
  * computation succeeds the result gets wrapped in a `Right`.
  * @function
  */
-export const tryCatch = <A>(action: IO<A>): IO<Either<Error, A>> => {
-  return catchException(e => io.of(left<Error, A>(e)))(action.map(a => right(a)))
+export const tryCatch = <A>(ma: IO<A>): IO<Either<Error, A>> => {
+  return catchError(ma.map(a => right(a)), e => io.of(left<Error, A>(e)))
 }
