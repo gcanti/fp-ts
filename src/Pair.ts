@@ -81,8 +81,7 @@ const map = <A, B>(fa: Pair<A>, f: (a: A) => B): Pair<B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <A>(a: A): Pair<A> => {
+const of = <A>(a: A): Pair<A> => {
   return new Pair([a, a])
 }
 

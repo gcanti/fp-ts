@@ -1,5 +1,5 @@
 import * as free from '../src/Free'
-import * as identity from '../src/Identity'
+import { Identity, identity } from '../src/Identity'
 import { HKT } from '../src/HKT'
 
 export class Degree {
@@ -74,7 +74,7 @@ const computation = {
   }
 }
 
-export function interpretIdentity<A>(hktfa: HKT<InstructionFURI, A>): identity.Identity<A> {
+export function interpretIdentity<A>(hktfa: HKT<InstructionFURI, A>): Identity<A> {
   const fa = hktfa as InstructionF<A>
   switch (fa._tag) {
     case 'Forward':
@@ -99,7 +99,7 @@ const program1 = (start: Position) => {
 }
 
 console.log('--program1--')
-const result1 = program1(start).foldFree(identity.identity)(interpretIdentity) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
+const result1 = program1(start).foldFree(identity)(interpretIdentity) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
 console.log(result1.value) // undefined
 
 import * as option from '../src/Option'
@@ -203,7 +203,7 @@ const program3 = (start: Position): free.Free<LogoAppFURI, void> => {
     })
 }
 
-export function penInterpretIdentity<A>(fa: PencilInstructionF<A>): identity.Identity<A> {
+export function penInterpretIdentity<A>(fa: PencilInstructionF<A>): Identity<A> {
   switch (fa._tag) {
     case 'PencilUp':
       console.log(`stop drawing at position ${JSON.stringify(fa.position)}`)
@@ -214,7 +214,7 @@ export function penInterpretIdentity<A>(fa: PencilInstructionF<A>): identity.Ide
   }
 }
 
-export function logoAppInterpretIdentity<A>(hktfa: HKT<LogoAppFURI, A>): identity.Identity<A> {
+export function logoAppInterpretIdentity<A>(hktfa: HKT<LogoAppFURI, A>): Identity<A> {
   const fa = hktfa as LogoAppF<A>
   switch (fa._tag) {
     case InstructionFURI:
@@ -225,7 +225,7 @@ export function logoAppInterpretIdentity<A>(hktfa: HKT<LogoAppFURI, A>): identit
 }
 
 console.log('--program3--')
-program3(start).foldFree(identity.identity)(logoAppInterpretIdentity)
+program3(start).foldFree(identity)(logoAppInterpretIdentity)
 /*
 stop drawing at position {"x":0,"y":10,"heading":{"value":0}}
 start drawing at position {"x":10,"y":10,"heading":{"value":0}}

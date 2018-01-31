@@ -38,8 +38,7 @@ const map = <E, A, B>(fa: Reader<E, A>, f: (a: A) => B): Reader<E, B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <E, A>(a: A): Reader<E, A> => {
+const of = <E, A>(a: A): Reader<E, A> => {
   return new Reader((e: E) => a)
 }
 

@@ -52,8 +52,7 @@ export const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
   return r
 }
 
-/** @function */
-export const of = <A>(a: A): Array<A> => {
+const of = <A>(a: A): Array<A> => {
   return [a]
 }
 

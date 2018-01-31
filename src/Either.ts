@@ -219,8 +219,7 @@ const map = <L, A, B>(fa: Either<L, A>, f: (a: A) => B): Either<L, B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <L, A>(a: A): Either<L, A> => {
+const of = <L, A>(a: A): Either<L, A> => {
   return new Right<L, A>(a)
 }
 

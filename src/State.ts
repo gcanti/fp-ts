@@ -49,8 +49,7 @@ const map = <S, A, B>(fa: State<S, A>, f: (a: A) => B): State<S, B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <S, A>(a: A): State<S, A> => {
+const of = <S, A>(a: A): State<S, A> => {
   return new State(s => [a, s])
 }
 

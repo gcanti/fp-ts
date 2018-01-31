@@ -11,7 +11,7 @@ import {
   Option,
   fromEither
 } from '../src/Option'
-import * as array from '../src/Array'
+import { array } from '../src/Array'
 import { setoidNumber } from '../src/Setoid'
 import { identity } from '../src/function'
 import { left, right } from '../src/Either'

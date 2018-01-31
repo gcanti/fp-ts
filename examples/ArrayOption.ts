@@ -23,7 +23,7 @@ export class ArrayOption<A> {
     return new ArrayOption(optionTArray.map(this.value, f))
   }
   ap<B>(fab: ArrayOption<(a: A) => B>): ArrayOption<B> {
-    return new ArrayOption(optionTArray.ap(fab.value, this.value))
+    return new ArrayOption(optionTArray.ap<A, B>(fab.value, this.value))
   }
   ap_<B, C>(this: ArrayOption<(b: B) => C>, fb: ArrayOption<B>): ArrayOption<C> {
     return fb.ap(this)

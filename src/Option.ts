@@ -209,8 +209,7 @@ const map = <A, B>(fa: Option<A>, f: (a: A) => B): Option<B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <A>(a: A): Option<A> => {
+const of = <A>(a: A): Option<A> => {
   return new Some(a)
 }
 

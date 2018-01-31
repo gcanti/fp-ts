@@ -89,8 +89,7 @@ const map = <A, B>(fa: NonEmptyArray<A>, f: (a: A) => B): NonEmptyArray<B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <A>(a: A): NonEmptyArray<A> => {
+const of = <A>(a: A): NonEmptyArray<A> => {
   return new NonEmptyArray(a, [])
 }
 
