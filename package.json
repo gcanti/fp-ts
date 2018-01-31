@@ -47,7 +47,7 @@
     "ts-simple-ast": "0.74.0",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "2.6.2"
+    "typescript": "^2.7.1"
   },
   "tags": ["typescript", "flowtype", "algebraic-data-types", "functional-programming"],
   "keywords": ["typescript", "flowtype", "algebraic-data-types", "functional-programming"]

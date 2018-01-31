@@ -23,7 +23,7 @@ npm install --save fp-ts
 
 # TypeScript compatibility
 
-The stable version is tested against TypeScript 2.6.x, but should run with TypeScript 2.2.2+ too
+The stable version is tested against TypeScript 2.7.x, but should run with TypeScript 2.2.2+ too
 
 # Flowtype compatibility
 
