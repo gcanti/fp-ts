@@ -62,8 +62,7 @@ const map = <A, B>(fa: Task<A>, f: (a: A) => B): Task<B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <A>(a: A): Task<A> => {
+const of = <A>(a: A): Task<A> => {
   return new Task(() => Promise.resolve(a))
 }
 

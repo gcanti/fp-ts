@@ -28,7 +28,7 @@ export class TaskOption<A> {
     return new TaskOption(optionTTask.map(this.value, f))
   }
   ap<B>(fab: TaskOption<(a: A) => B>): TaskOption<B> {
-    return new TaskOption(optionTTask.ap(fab.value, this.value))
+    return new TaskOption(optionTTask.ap<A, B>(fab.value, this.value))
   }
   ap_<B, C>(this: TaskOption<(b: B) => C>, fb: TaskOption<B>): TaskOption<C> {
     return fb.ap(this)

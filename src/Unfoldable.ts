@@ -1,7 +1,7 @@
 import { HKT, HKT2, HKT3, URIS, Type, URIS2, Type2, URIS3, Type3 } from './HKT'
 import { Applicative } from './Applicative'
 import { Traversable } from './Traversable'
-import * as option from './Option'
+import { Option, option, none } from './Option'
 import { sequence } from './Traversable'
 import { constant, tuple } from './function'
 
@@ -11,32 +11,32 @@ import { constant, tuple } from './function'
  */
 export interface Unfoldable<F> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => HKT<F, A>
+  unfoldr: <A, B>(f: (b: B) => Option<[A, B]>, b: B) => HKT<F, A>
 }
 
 export interface Unfoldable1<F extends URIS> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type<F, A>
+  unfoldr: <A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type<F, A>
 }
 
 export interface Unfoldable2<F extends URIS2> {
   readonly URI: F
-  unfoldr: <L, A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type2<F, L, A>
+  unfoldr: <L, A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type2<F, L, A>
 }
 
 export interface Unfoldable3<F extends URIS3> {
   readonly URI: F
-  unfoldr: <U, L, A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type3<F, U, L, A>
+  unfoldr: <U, L, A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type3<F, U, L, A>
 }
 
 export interface Unfoldable2C<F extends URIS2, L> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type2<F, L, A>
+  unfoldr: <A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type2<F, L, A>
 }
 
 export interface Unfoldable3C<F extends URIS3, U, L> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => option.Option<[A, B]>, b: B) => Type3<F, U, L, A>
+  unfoldr: <A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type3<F, U, L, A>
 }
 
 /**
@@ -45,7 +45,7 @@ export interface Unfoldable3C<F extends URIS3, U, L> {
  */
 export const replicate = <F>(unfoldable: Unfoldable<F>) => (n: number) => <A>(a: A): HKT<F, A> => {
   function step(n: number) {
-    return n <= 0 ? option.none : option.of(tuple(a, n - 1))
+    return n <= 0 ? none : option.of(tuple(a, n - 1))
   }
   return unfoldable.unfoldr(step, n)
 }
@@ -54,8 +54,8 @@ export const replicate = <F>(unfoldable: Unfoldable<F>) => (n: number) => <A>(a:
  * The container with no elements - unfolded with zero iterations.
  * @function
  */
-export const none = <F, A>(unfoldable: Unfoldable<F>): HKT<F, A> => {
-  return unfoldable.unfoldr(constant(option.none), undefined)
+export const empty = <F, A>(unfoldable: Unfoldable<F>): HKT<F, A> => {
+  return unfoldable.unfoldr(constant(none), undefined)
 }
 
 /** @function */

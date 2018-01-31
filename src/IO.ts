@@ -45,8 +45,7 @@ const map = <A, B>(fa: IO<A>, f: (a: A) => B): IO<B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <A>(a: A): IO<A> => {
+const of = <A>(a: A): IO<A> => {
   return new IO(() => a)
 }
 

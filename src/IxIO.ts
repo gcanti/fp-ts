@@ -1,7 +1,6 @@
 import { Monad } from './Monad'
 import { IxMonad } from './IxMonad'
-import { IO } from './IO'
-import * as io from './IO'
+import { IO, io } from './IO'
 
 declare module './HKT' {
   interface URI2HKT3<U, L, A> {
@@ -53,11 +52,7 @@ const map = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => B): IxIO<I, I, B> => {
   return fa.map(f)
 }
 
-/**
- * @function
- * @alias iof
- */
-export const of = iof
+const of = iof
 
 const ap = <I, A, B>(fab: IxIO<I, I, (a: A) => B>, fa: IxIO<I, I, A>): IxIO<I, I, B> => {
   return fa.ap(fab)

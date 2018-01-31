@@ -194,8 +194,7 @@ const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <L, A>(a: A): These<L, A> => {
+const of = <L, A>(a: A): These<L, A> => {
   return new That<L, A>(a)
 }
 

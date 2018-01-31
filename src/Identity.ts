@@ -83,8 +83,7 @@ const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {
   return fa.map(f)
 }
 
-/** @function */
-export const of = <A>(a: A): Identity<A> => {
+const of = <A>(a: A): Identity<A> => {
   return new Identity(a)
 }
 

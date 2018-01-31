@@ -61,8 +61,7 @@ const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> =>
   return fa.map(f)
 }
 
-/** @function */
-export const of = <L, A>(a: A): TaskEither<L, A> => {
+const of = <L, A>(a: A): TaskEither<L, A> => {
   return new TaskEither(eitherTTask.of(a))
 }
 
