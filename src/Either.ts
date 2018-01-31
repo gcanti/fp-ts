@@ -102,6 +102,10 @@ export class Left<L, A> {
   getOrElse(a: A): A {
     return a
   }
+  /** Lazy version of `getOrElse` */
+  getOrElseL(f: () => A): A {
+    return f()
+  }
   /** Returns the value from this `Right` or the result of given argument if this is a `Left` */
   catchLeft(f: (l: L) => A): A {
     return f(this.value)
@@ -174,6 +178,9 @@ export class Right<L, A> {
     return right(this.value)
   }
   getOrElse(a: A): A {
+    return this.value
+  }
+  getOrElseL(f: () => A): A {
     return this.value
   }
   catchLeft(f: (l: L) => A): A {

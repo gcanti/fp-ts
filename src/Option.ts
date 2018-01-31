@@ -85,9 +85,17 @@ export class None<A> {
   fold<B>(b: B, some: (a: A) => B): B {
     return b
   }
+  /** Lazy verion of `fold` */
+  foldL<B>(none: () => B, some: (a: A) => B): B {
+    return none()
+  }
   /** Returns the value from this `Some` or the given argument if this is a `None` */
   getOrElse(a: A): A {
     return a
+  }
+  /** Lazy version of `getOrElse` */
+  getOrElseL(f: () => A): A {
+    return f()
   }
   /** Returns the value from this `Some` or `null` if this is a `None` */
   toNullable(): A | null {
@@ -166,7 +174,13 @@ export class Some<A> {
   fold<B>(b: B, some: (a: A) => B): B {
     return some(this.value)
   }
+  foldL<B>(none: () => B, some: (a: A) => B): B {
+    return some(this.value)
+  }
   getOrElse(a: A): A {
+    return this.value
+  }
+  getOrElseL(f: () => A): A {
     return this.value
   }
   toNullable(): A | null {
