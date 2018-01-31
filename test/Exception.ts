@@ -16,19 +16,19 @@ describe('Exception', () => {
     assert.strictEqual(exception.message(e), message)
   })
 
-  it('throwException', () => {
-    const eio = exception.throwException<number>(new Error('bum!'))
+  it('throwError', () => {
+    const eio = exception.throwError<number>(new Error('bum!'))
     assert.throws(() => eio.run())
   })
 
-  it('catchException', () => {
-    const eio = exception.throwException<number>(new Error('bum!'))
-    const io = exception.catchException(e => new IO(() => 1))(eio)
+  it('catchError', () => {
+    const eio = exception.throwError<number>(new Error('bum!'))
+    const io = exception.catchError(eio, e => new IO(() => 1))
     assert.strictEqual(io.run(), 1)
   })
 
   it('tryCatch', () => {
-    const eiol = exception.tryCatch(exception.throwException<number>(new Error('bum!')))
+    const eiol = exception.tryCatch(exception.throwError<number>(new Error('bum!')))
     assert.strictEqual(eiol.run().isLeft(), true)
     const eior = exception.tryCatch(new IO(() => 1))
     assert.strictEqual(eior.run().isRight(), true)
