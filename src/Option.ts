@@ -255,7 +255,7 @@ const zero = <A>(): Option<A> => {
  * Option monoid returning the left-most non-None value
  * @function
  */
-export const getFirstMonoid = <A>(): Monoid<Option<A>> => {
+export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
   return {
     concat: alt,
     empty: none
@@ -266,7 +266,7 @@ export const getFirstMonoid = <A>(): Monoid<Option<A>> => {
  * Option monoid returning the right-most non-None value
  * @function
  */
-export const getLastMonoid = <A>(): Monoid<Option<A>> => {
+export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
   return getDualMonoid(getFirstMonoid())
 }
 

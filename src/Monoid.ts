@@ -67,7 +67,7 @@ export const unsafeMonoidArray: Monoid<Array<any>> = {
  * Monoid under array concatenation (`Array<any>`)
  * @instance
  */
-export const getArrayMonoid = <A>(): Monoid<Array<A>> => {
+export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
   return unsafeMonoidArray
 }
 
@@ -96,7 +96,7 @@ export const monoidString: Monoid<string> = {
 }
 
 /** @function */
-export const getFunctionMonoid = <M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) => M> => {
+export const getFunctionMonoid = <M>(monoid: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => {
   return {
     concat: (f, g) => a => monoid.concat(f(a), g(a)),
     empty: constant(monoid.empty)
@@ -104,7 +104,7 @@ export const getFunctionMonoid = <M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) 
 }
 
 /** @function */
-export const getEndomorphismMonoid = <A>(): Monoid<Endomorphism<A>> => {
+export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
   return {
     concat: (x, y) => compose(x, y),
     empty: identity

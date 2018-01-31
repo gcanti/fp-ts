@@ -83,7 +83,7 @@ const concat = <A>(x: StrMap<A>, y: StrMap<A>): StrMap<A> => {
 const concatCurried = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => concat(x, y)
 
 /** @function */
-export const getMonoid = <A>(): Monoid<StrMap<A>> => {
+export const getMonoid = <A = never>(): Monoid<StrMap<A>> => {
   return {
     concat,
     empty

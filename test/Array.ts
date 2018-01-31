@@ -12,6 +12,11 @@ import { tuple } from '../src/function'
 describe('Array', () => {
   const as = [1, 2, 3]
 
+  it('getMonoid', () => {
+    const M = array.getMonoid<number>()
+    assert.deepEqual(M.concat([1], [2]), [1, 2])
+  })
+
   it('ap', () => {
     const as = array.ap([x => x * 2, x => x * 3], [1, 2, 3])
     assert.deepEqual(as, [2, 4, 6, 3, 6, 9])
