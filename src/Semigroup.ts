@@ -12,12 +12,12 @@ export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => {
 }
 
 /** @function */
-export const getFirstSemigroup = <A>(): Semigroup<A> => {
+export const getFirstSemigroup = <A = never>(): Semigroup<A> => {
   return { concat: x => x }
 }
 
 /** @function */
-export const getLastSemigroup = <A>(): Semigroup<A> => {
+export const getLastSemigroup = <A = never>(): Semigroup<A> => {
   return { concat: (_, y) => y }
 }
 
@@ -84,7 +84,7 @@ export const semigroupAny: Semigroup<boolean> = {
  * Semigroup under array concatenation
  * @function
  */
-export const getArraySemigroup = <A>(): Semigroup<Array<A>> => {
+export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
   return {
     concat: (x, y) => concat(x, y)
   }

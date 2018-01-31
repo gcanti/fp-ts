@@ -35,7 +35,7 @@ export const URI = 'Array'
 export type URI = typeof URI
 
 /** @function */
-export const getMonoid = <A>(): Monoid<Array<A>> => {
+export const getMonoid = <A = never>(): Monoid<Array<A>> => {
   return {
     concat,
     empty: []
@@ -113,7 +113,6 @@ export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) =
 
 /**
  * @function
- * @alias empty
  */
 export const zero = <A>(): Array<A> => []
 

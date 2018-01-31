@@ -116,7 +116,7 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
 }
 
 /** @function */
-export const getSemigroup = <A>(): Semigroup<Ord<A>> => {
+export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
   return {
     concat: (x, y) => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b), y.compare(a, b)))
   }

@@ -75,7 +75,7 @@ const chain = <A, B>(fa: Task<A>, f: (a: A) => Task<B>): Task<B> => {
 }
 
 /** @function */
-export const getMonoid = <A>(): Monoid<Task<A>> => {
+export const getMonoid = <A = never>(): Monoid<Task<A>> => {
   return {
     concat: (x, y) => x.concat(y),
     empty: never
