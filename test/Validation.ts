@@ -65,4 +65,9 @@ describe('Validation', () => {
     assert.equal(success(12).getOrElse(17), 12)
     assert.equal(failure(12).getOrElse(17), 17)
   })
+
+  it('getOrElseL', () => {
+    assert.equal(success(12).getOrElseL(() => 17), 12)
+    assert.equal(failure(12).getOrElseL(() => 17), 17)
+  })
 })

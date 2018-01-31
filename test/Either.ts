@@ -81,6 +81,11 @@ describe('Either', () => {
     assert.equal(left(12).getOrElse(17), 17)
   })
 
+  it('getOrElseL', () => {
+    assert.equal(right(12).getOrElseL(() => 17), 12)
+    assert.equal(left(12).getOrElseL(() => 17), 17)
+  })
+
   it('fromOption', () => {
     assert.deepEqual(fromOption('default')(none), left('default'))
     assert.deepEqual(fromOption('default')(some(1)), right(1))

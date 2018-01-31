@@ -31,6 +31,13 @@ describe('Option', () => {
     assert.strictEqual(y.getOrElse(0), 0)
   })
 
+  it('getOrElseL', () => {
+    const x: Option<number> = some(1)
+    assert.strictEqual(x.getOrElseL(() => 0), 1)
+    const y: Option<number> = none
+    assert.strictEqual(y.getOrElseL(() => 0), 0)
+  })
+
   it('equals', () => {
     const { equals } = getSetoid(setoidNumber)
     assert.strictEqual(equals(none, none), true)

@@ -66,6 +66,10 @@ export class Failure<L, A> {
   getOrElse(a: A): A {
     return a
   }
+  /** Lazy version of `getOrElse` */
+  getOrElseL(f: () => A): A {
+    return f()
+  }
   /** Returns the value from this `Success` or the result of given argument if this is a `Failure` */
   catchFailure(f: (l: L) => A): A {
     return f(this.value)
@@ -120,6 +124,9 @@ export class Success<L, A> {
     return success(this.value)
   }
   getOrElse(a: A): A {
+    return this.value
+  }
+  getOrElseL(f: () => A): A {
     return this.value
   }
   catchFailure(f: (l: L) => A): A {
