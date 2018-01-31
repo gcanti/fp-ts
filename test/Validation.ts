@@ -1,33 +1,31 @@
 import * as assert from 'assert'
 import * as array from '../src/Array'
-import * as validation from '../src/Validation'
+import { failure, success, getMonad, getApplicative, fromEither, getSetoid } from '../src/Validation'
 import * as either from '../src/Either'
-import { monoidString, monoidSum } from '../src/Monoid'
+import { monoidString } from '../src/Monoid'
 import { sequence } from '../src/Traversable'
 import { setoidNumber, setoidString } from '../src/Setoid'
 
 describe('Validation', () => {
   it('chain', () => {
-    const failure = validation.failure(monoidString)
-    const f = (s: string) => validation.success<string, number>(s.length)
-    assert.deepEqual(validation.success<string, string>('abc').chain(f), validation.success(3))
-    assert.deepEqual(failure<string>('a').chain(f), failure('a'))
+    const M = getMonad(monoidString)
+    const f = (s: string) => success<string, number>(s.length)
+    assert.deepEqual(M.chain(success<string, string>('abc'), f), success(3))
+    assert.deepEqual(M.chain(failure<string, string>('a'), f), failure('a'))
   })
 
   it('traverse', () => {
-    const success = [
-      validation.success<string, number>(1),
-      validation.success<string, number>(2),
-      validation.success<string, number>(3)
+    const asuccess = [success<string, number>(1), success<string, number>(2), success<string, number>(3)]
+
+    const afailure = [
+      success<string, number>(1),
+      failure<string, number>('[fail 1]'),
+      failure<string, number>('[fail 2]')
     ]
 
-    const failure = [
-      validation.success<string, number>(1),
-      validation.failure(monoidString)<number>('[fail 1]'),
-      validation.failure(monoidString)<number>('[fail 2]')
-    ]
+    const applicative = getApplicative(monoidString)
 
-    const x = sequence(validation.validation, array)(success)
+    const x = sequence(applicative, array)(asuccess)
 
     if (x.isSuccess()) {
       assert.deepEqual(x.value, [1, 2, 3])
@@ -35,7 +33,7 @@ describe('Validation', () => {
       assert.ok(false)
     }
 
-    const y = sequence(validation.validation, array)(failure)
+    const y = sequence(applicative, array)(afailure)
 
     if (y.isFailure()) {
       assert.strictEqual(y.value, '[fail 1][fail 2]')
@@ -45,30 +43,26 @@ describe('Validation', () => {
   })
 
   it('fromEither', () => {
-    const fromEither = validation.fromEither(monoidString)
-    assert.deepEqual(fromEither(either.right<string, number>(1)), validation.success(1))
-    assert.deepEqual(fromEither(either.left<string, number>('error')), validation.failure(monoidString)('error'))
+    assert.deepEqual(fromEither(either.right<string, number>(1)), success(1))
+    assert.deepEqual(fromEither(either.left<string, number>('error')), failure('error'))
   })
 
   it('equals', () => {
-    const failure = validation.failure(monoidString)
-    const eq = validation.getSetoid(setoidString, setoidNumber).equals
-    assert.strictEqual(eq(validation.success(1), validation.success(1)), true)
-    assert.strictEqual(eq(validation.success(1), validation.success(2)), false)
+    const eq = getSetoid(setoidString, setoidNumber).equals
+    assert.strictEqual(eq(success(1), success(1)), true)
+    assert.strictEqual(eq(success(1), success(2)), false)
     assert.strictEqual(eq(failure('foo'), failure('foo')), true)
     assert.strictEqual(eq(failure('foo'), failure('bar')), false)
   })
 
   it('catchFailure', () => {
-    const failure = validation.failure(monoidSum)
-    assert.equal(validation.catchFailure(validation.success(12), () => 17), 12)
-    assert.equal(validation.catchFailure(failure(12), () => 17), 17)
-    assert.equal(validation.catchFailure(failure(12), (l: number) => l + 1), 13)
+    assert.equal(success(12).catchFailure(() => 17), 12)
+    assert.equal(failure(12).catchFailure(() => 17), 17)
+    assert.equal(failure(12).catchFailure(l => l + 1), 13)
   })
 
   it('getOrElse', () => {
-    const failure = validation.failure(monoidSum)
-    assert.equal(validation.success(12).getOrElse(17), 12)
+    assert.equal(success(12).getOrElse(17), 12)
     assert.equal(failure(12).getOrElse(17), 17)
   })
 })

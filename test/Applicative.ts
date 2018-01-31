@@ -3,10 +3,10 @@ import * as taskValidation from '../examples/TaskValidation'
 import * as task from '../src/Task'
 import { when } from '../src/Applicative'
 import * as validation from '../src/Validation'
-import { monoidString } from '../src/Monoid'
 import { sequence } from '../src/Traversable'
 import * as array from '../src/Array'
 import * as io from '../src/IO'
+import { monoidString } from '../src/Monoid'
 
 describe('Applicative', () => {
   it('getApplicativeComposition', () => {
@@ -18,12 +18,14 @@ describe('Applicative', () => {
 
     const somefailure = [
       validation.success<string, number>(1),
-      validation.failure(monoidString)<number>('[fail 1]'),
-      validation.failure(monoidString)<number>('[fail 2]')
+      validation.failure<string, number>('[fail 1]'),
+      validation.failure<string, number>('[fail 2]')
     ].map(a => new taskValidation.TaskValidation(task.of(a)))
 
-    const p1 = sequence(taskValidation, array)(allsuccess).value.run()
-    const p2 = sequence(taskValidation, array)(somefailure).value.run()
+    const taskValidationApplicative = taskValidation.getApplicative(monoidString)
+
+    const p1 = sequence(taskValidationApplicative, array)(allsuccess).value.run()
+    const p2 = sequence(taskValidationApplicative, array)(somefailure).value.run()
 
     return Promise.all([p1, p2]).then(([s, f]) => {
       if (s.isSuccess()) {

@@ -13,7 +13,6 @@ import {
 import { none, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { failure, success } from '../src/Validation'
-import { semigroupString } from '../src/Semigroup'
 
 describe('Either', () => {
   it('fold', () => {
@@ -102,8 +101,7 @@ describe('Either', () => {
   })
 
   it('fromValidation', () => {
-    const f = failure(semigroupString)
     assert.deepEqual(fromValidation(success(1)), right(1))
-    assert.deepEqual(fromValidation(f('a')), left('a'))
+    assert.deepEqual(fromValidation(failure('a')), left('a'))
   })
 })

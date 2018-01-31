@@ -1,13 +1,17 @@
 import { HKT, URIS, URIS2, Type, Type2, URIS3, HKT2, HKT3, Type3 } from './HKT'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative2C } from './Applicative'
 import { Semigroup } from './Semigroup'
 import { Foldable } from './Foldable'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
-import { Alt2 } from './Alt'
+import { Functor2 } from './Functor'
 import { constFalse, Predicate, toString } from './function'
 import { Either } from './Either'
-import { Monad2 } from './Monad'
+import { Monad2C } from './Monad'
+import { Monoid } from './Monoid'
+import { Alt2C } from './Alt'
+
+// Adapeted from https://github.com/purescript/purescript-validation
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -20,7 +24,11 @@ export const URI = 'Validation'
 export type URI = typeof URI
 
 /**
- * A data-type like Either but with an accumulating `Applicative`
+ * The `Validation` functor, used for applicative validation
+ *
+ * The `Applicative` instance collects multiple failures in
+ * an arbitrary `Semigroup`.
+ *
  * @data
  * @constructor Failure
  * @constructor Success
@@ -32,28 +40,12 @@ export class Failure<L, A> {
   readonly '-A': A
   readonly '-L': L
   readonly '-URI': URI
-  constructor(readonly semigroup: Semigroup<L>, readonly value: L) {}
+  constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return this as any
   }
-  ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
-    if (fab.isFailure()) {
-      return failure(this.semigroup)(this.semigroup.concat(fab.value, this.value))
-    }
-    return this as any
-  }
-  ap_<B, C>(this: Validation<L, (b: B) => C>, fb: Validation<L, B>): Validation<L, C> {
-    return fb.ap(this)
-  }
-  /** Binds the given function across `Success` */
-  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B> {
-    return this as any
-  }
-  bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B> {
-    return (f, g) => failure(S)(f(this.value))
-  }
-  alt(fy: Validation<L, A>): Validation<L, A> {
-    return fy
+  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> {
+    return failure(f(this.value))
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
@@ -78,16 +70,10 @@ export class Failure<L, A> {
   catchFailure(f: (l: L) => A): A {
     return f(this.value)
   }
-  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean {
-    return fy => fy.fold(a => SL.equals(this.value, a), constFalse)
+  mapFailure<M>(f: (l: L) => M): Validation<M, A> {
+    return failure(f(this.value))
   }
-  concat(fy: Validation<L, A>): Validation<L, A> {
-    return fy.fold(l => failure<L>(this.semigroup)<A>(this.semigroup.concat(l, this.value)), () => this)
-  }
-  mapFailure<M>(S: Semigroup<M>): (f: (l: L) => M) => Validation<M, A> {
-    return f => failure(S)(f(this.value))
-  }
-  swap(S: Semigroup<A>): Validation<A, L> {
+  swap(): Validation<A, L> {
     return success(this.value)
   }
   inspect(): string {
@@ -115,23 +101,8 @@ export class Success<L, A> {
   map<B>(f: (a: A) => B): Validation<L, B> {
     return new Success<L, B>(f(this.value))
   }
-  ap<B>(fab: Validation<L, (a: A) => B>): Validation<L, B> {
-    if (fab.isSuccess()) {
-      return this.map(fab.value)
-    }
-    return fab as any
-  }
-  ap_<B, C>(this: Validation<L, (b: B) => C>, fb: Validation<L, B>): Validation<L, C> {
-    return fb.ap(this)
-  }
-  chain<B>(f: (a: A) => Validation<L, B>): Validation<L, B> {
-    return f(this.value)
-  }
-  bimap<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B> {
-    return (f, g) => success(g(this.value))
-  }
-  alt(fy: Validation<L, A>): Validation<L, A> {
-    return this
+  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> {
+    return new Success<V, B>(g(this.value))
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
@@ -154,17 +125,11 @@ export class Success<L, A> {
   catchFailure(f: (l: L) => A): A {
     return this.value
   }
-  equals(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean {
-    return fy => fy.fold(constFalse, y => SA.equals(this.value, y))
+  mapFailure<M>(f: (l: L) => M): Validation<M, A> {
+    return this as any
   }
-  concat(fy: Validation<L, A>): Validation<L, A> {
-    return this
-  }
-  mapFailure<M>(S: Semigroup<M>): (f: (l: L) => M) => Validation<M, A> {
-    return f => this as any
-  }
-  swap(S: Semigroup<A>): Validation<A, L> {
-    return failure(S)(this.value)
+  swap(): Validation<A, L> {
+    return failure(this.value)
   }
   inspect(): string {
     return this.toString()
@@ -192,21 +157,37 @@ const map = <L, A, B>(fa: Validation<L, A>, f: (a: A) => B): Validation<L, B> =>
   return fa.map(f)
 }
 
-/** @function */
-export const of = <L, A>(a: A): Validation<L, A> => {
+const of = <L, A>(a: A): Validation<L, A> => {
   return new Success<L, A>(a)
 }
 
-const ap = <L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => {
-  return fa.ap(fab)
+/** @function */
+export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
+  const ap = <A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => {
+    return fab.fold(
+      l1 => fa.fold(l2 => failure(S.concat(l1, l2)), () => failure(l1)),
+      f => fa.fold(l2 => failure(l2), a => success(f(a)))
+    )
+  }
+
+  return {
+    URI,
+    map,
+    of,
+    ap
+  }
 }
 
-const chain = <L, A, B>(fa: Validation<L, A>, f: (a: A) => Validation<L, B>): Validation<L, B> => {
-  return fa.chain(f)
-}
+/** @function */
+export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
+  const chain = <A, B>(fa: Validation<L, A>, f: (a: A) => Validation<L, B>): Validation<L, B> => {
+    return fa.fold(l1 => failure(l1), f)
+  }
 
-const alt = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
-  return fx.alt(fy)
+  return {
+    ...getApplicative(S),
+    chain
+  }
 }
 
 const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B): B => {
@@ -223,8 +204,8 @@ function traverse<F>(
 }
 
 /** @function */
-export const failure = <L>(L: Semigroup<L>) => <A>(l: L): Validation<L, A> => {
-  return new Failure(L, l)
+export const failure = <L, A>(l: L): Validation<L, A> => {
+  return new Failure(l)
 }
 
 /**
@@ -234,44 +215,52 @@ export const failure = <L>(L: Semigroup<L>) => <A>(l: L): Validation<L, A> => {
 export const success = of
 
 /** @function */
-export const fromPredicate = <L>(S: Semigroup<L>) => <A>(predicate: Predicate<A>, f: (a: A) => L) => (
-  a: A
-): Validation<L, A> => {
-  return predicate(a) ? success(a) : failure(S)(f(a))
+export const fromPredicate = <L, A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A): Validation<L, A> => {
+  return predicate(a) ? success(a) : failure(f(a))
 }
 
 /** @function */
-export const fromEither = <L>(S: Semigroup<L>): (<A>(e: Either<L, A>) => Validation<L, A>) => {
-  return <A>(e: Either<L, A>) => e.fold<Validation<L, A>>(failure(S), success)
-}
-
-const concat = <L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
-  return fx.concat(fy)
+export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => {
+  return e.fold<Validation<L, A>>(failure, success)
 }
 
 /** @function */
-export const getSemigroup = <L, A>(): Semigroup<Validation<L, A>> => {
+export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>> => {
+  const concat = (fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
+    return fx.fold(
+      l1 => fy.fold(l2 => failure(SL.concat(l1, l2)), () => failure(l1)),
+      a1 => fy.fold(l2 => failure(l2), a2 => success(SA.concat(a1, a2)))
+    )
+  }
   return {
     concat
   }
 }
 
-/**
- * Returns the value from this `Success` or the result of given argument if this is a `Failure`
- * @function
- */
-export const catchFailure = <L, A>(fa: Validation<L, A>, f: (l: L) => A): A => {
-  return fa.catchFailure(f)
+/** @function */
+export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>> => {
+  return {
+    ...getSemigroup(SL, SA),
+    empty: success(SA.empty)
+  }
+}
+
+/** @function */
+export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
+  const alt = <A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
+    return fx.fold(l1 => fx.fold(l2 => failure(S.concat(l1, l2)), () => fx), () => fy)
+  }
+  return {
+    URI,
+    map,
+    alt
+  }
 }
 
 /** @instance */
-export const validation: Monad2<URI> & Foldable<URI> & Traversable2<URI> & Alt2<URI> = {
+export const validation: Functor2<URI> & Foldable<URI> & Traversable2<URI> = {
   URI,
   map,
-  of,
-  ap,
-  chain,
   reduce,
-  traverse,
-  alt
+  traverse
 }
