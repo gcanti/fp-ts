@@ -47,19 +47,6 @@ export class StrMap<A> {
     }
     return out
   }
-  traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-    const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concatCurried)
-    return <B>(f: (k: string, a: A) => HKT<F, B>) => {
-      let out: HKT<F, StrMap<B>> = F.of(empty)
-      for (let k in this.value) {
-        out = concatA2(out)(F.map(f(k, this.value[k]), b => singleton(k, b)))
-      }
-      return out
-    }
-  }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-    return f => this.traverseWithKey(F)((_, a) => f(a))
-  }
 }
 
 const empty: StrMap<never> = new StrMap({})
@@ -102,11 +89,18 @@ export function traverseWithKey<F>(
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-  return (ta, f) => ta.traverseWithKey(F)(f)
+  return <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => {
+    const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concatCurried)
+    let out: HKT<F, StrMap<B>> = F.of(empty)
+    for (let k in ta.value) {
+      out = concatA2(out)(F.map(f(k, ta.value[k]), b => singleton(k, b)))
+    }
+    return out
+  }
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: StrMap<A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-  return (ta, f) => ta.traverse(F)(f)
+  return (ta, f) => traverseWithKey(F)(ta, (_, a) => f(a))
 }
 
 /**

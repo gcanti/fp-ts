@@ -9,12 +9,14 @@ import {
   getLastMonoid,
   tryCatch,
   Option,
-  fromEither
+  fromEither,
+  option
 } from '../src/Option'
 import { array } from '../src/Array'
 import { setoidNumber } from '../src/Setoid'
 import { identity } from '../src/function'
 import { left, right } from '../src/Either'
+import { traverse } from '../src/Traversable'
 
 describe('Option', () => {
   it('fold', () => {
@@ -110,8 +112,8 @@ describe('Option', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(some('hello').traverse(array)(s => [s.length]), [some(5)])
-    assert.deepEqual(none.traverse(array)(s => [s]), [none])
+    assert.deepEqual(traverse(array, option)(some('hello'), s => [s.length]), [some(5)])
+    assert.deepEqual(traverse(array, option)(none, s => [s]), [none])
   })
 
   it('reduce', () => {

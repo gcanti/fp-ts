@@ -1,9 +1,9 @@
-import { HKT } from './HKT'
+import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
 import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat } from './function'
 import { Option, fromNullable } from './Option'
 import { Ord, toNativeComparator } from './Ord'
 import { Alternative1 } from './Alternative'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
@@ -91,7 +91,23 @@ const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
   return r
 }
 
-function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
+export function traverse<F extends URIS3, U, L>(
+  F: Applicative3C<F, U, L>
+): <A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
+export function traverse<F extends URIS3>(
+  F: Applicative3<F>
+): <U, L, A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
+export function traverse<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>
+export function traverse<F extends URIS2>(
+  F: Applicative2<F>
+): <L, A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>
+export function traverse<F extends URIS>(
+  F: Applicative1<F>
+): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
+export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
   const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(snoc)
   return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
 }

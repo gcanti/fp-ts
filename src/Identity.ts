@@ -43,9 +43,6 @@ export class Identity<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
-    return f => applicative.map(f(this.value), a => of(a))
-  }
   alt(fx: Identity<A>): Identity<A> {
     return this
   }
@@ -110,7 +107,7 @@ const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> 
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
-  return (ta, f) => ta.traverse(F)(f)
+  return (ta, f) => F.map(f(ta.value), of)
 }
 
 /** @instance */

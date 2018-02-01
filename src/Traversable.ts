@@ -64,6 +64,18 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
   ) => <A, B>(fga: Type<F, Type<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, Type<F, Type<G, B>>>
 }
 
+export function traverse<F extends URIS3, T extends URIS2>(
+  F: Applicative3<F>,
+  T: Traversable2<T>
+): <UF, LF, LT, A, B>(ta: Type2<T, LT, A>, f: (a: A) => Type3<F, UF, LF, B>) => Type3<F, UF, LF, Type2<T, LT, B>>
+export function traverse<F extends URIS2, T extends URIS2>(
+  F: Applicative2<F>,
+  T: Traversable2<T>
+): <LF, LT, A, B>(ta: Type2<T, LT, A>, f: (a: A) => Type2<F, LF, B>) => Type2<F, LF, Type2<T, LT, B>>
+export function traverse<F extends URIS, T extends URIS2>(
+  F: Applicative1<F>,
+  T: Traversable2<T>
+): <LT, A, B>(ta: Type2<T, LT, A>, f: (a: A) => Type<F, B>) => Type<F, Type2<T, LT, B>>
 export function traverse<F extends URIS3, T extends URIS>(
   F: Applicative3<F>,
   T: Traversable1<T>

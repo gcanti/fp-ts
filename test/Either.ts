@@ -8,11 +8,13 @@ import {
   left,
   right,
   tryCatch,
-  fromValidation
+  fromValidation,
+  either
 } from '../src/Either'
-import { none, some } from '../src/Option'
+import { none, some, option } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { failure, success } from '../src/Validation'
+import { traverse } from '../src/Traversable'
 
 describe('Either', () => {
   it('fold', () => {
@@ -108,5 +110,10 @@ describe('Either', () => {
   it('fromValidation', () => {
     assert.deepEqual(fromValidation(success(1)), right(1))
     assert.deepEqual(fromValidation(failure('a')), left('a'))
+  })
+
+  it('traverse', () => {
+    assert.deepEqual(traverse(option, either)(right(1), a => (a >= 2 ? some(a) : none)), none)
+    assert.deepEqual(traverse(option, either)(right(3), a => (a >= 2 ? some(a) : none)), some(right(3)))
   })
 })
