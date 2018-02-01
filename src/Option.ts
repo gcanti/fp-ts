@@ -1,9 +1,9 @@
-import { HKT, URIS, URIS2, Type, Type2, HKT2, URIS3, HKT3, Type3 } from './HKT'
+import { HKT } from './HKT'
 import { Monoid, getDualMonoid } from './Monoid'
 import { Applicative } from './Applicative'
 import { Semigroup } from './Semigroup'
 import { Monad1 } from './Monad'
-import { Foldable } from './Foldable'
+import { Foldable1 } from './Foldable'
 import { Plus1 } from './Plus'
 import { Extend1 } from './Extend'
 import { Setoid } from './Setoid'
@@ -68,10 +68,6 @@ export class None<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F extends URIS3>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Option<B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Option<B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Option<B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
     return f => F.of(none)
   }
@@ -158,10 +154,6 @@ export class Some<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return this.fold(b, a => f(b, a))
   }
-  traverse<F extends URIS3>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Option<B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Option<B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Option<B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
     return f => F.map(f(this.value), some)
   }
@@ -298,7 +290,6 @@ export const fromPredicate = <A>(predicate: Predicate<A>) => (a: A): Option<A> =
   return predicate(a) ? some(a) : none
 }
 
-function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>>
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
@@ -318,7 +309,12 @@ export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
 }
 
 /** @instance */
-export const option: Monad1<URI> & Foldable<URI> & Plus1<URI> & Traversable1<URI> & Alternative1<URI> & Extend1<URI> = {
+export const option: Monad1<URI> &
+  Foldable1<URI> &
+  Plus1<URI> &
+  Traversable1<URI> &
+  Alternative1<URI> &
+  Extend1<URI> = {
   URI,
   map,
   of,

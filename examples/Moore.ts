@@ -1,5 +1,5 @@
-import { Comonad } from '../src/Comonad'
-import { Profunctor } from '../src/Profunctor'
+import { Comonad2 } from '../src/Comonad'
+import { Profunctor2 } from '../src/Profunctor'
 import { compose } from '../src/function'
 import { Monad2 } from '../src/Monad'
 
@@ -77,7 +77,7 @@ export const unfoldMoore = <S, L, A>(f: (s: S) => [A, (l: L) => S]) => (s: S): M
   return go(s)
 }
 
-export const moore: Monad2<URI> & Comonad<URI> & Profunctor<URI> = {
+export const moore: Monad2<URI> & Comonad2<URI> & Profunctor2<URI> = {
   URI,
   map,
   of,

@@ -1,4 +1,4 @@
-import { HKT, Type2, URIS2, Type, URIS, URIS3, Type3, HKT2, HKT3 } from './HKT'
+import { HKT } from './HKT'
 import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat } from './function'
 import { Option, fromNullable } from './Option'
 import { Ord, toNativeComparator } from './Ord'
@@ -6,7 +6,7 @@ import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
-import { Foldable } from './Foldable'
+import { Foldable1 } from './Foldable'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Plus1 } from './Plus'
@@ -42,8 +42,7 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
   }
 }
 
-/** @function */
-export const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
+const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
   const l = fa.length
   const r = new Array(l)
   for (let i = 0; i < l; i++) {
@@ -56,13 +55,11 @@ const of = <A>(a: A): Array<A> => {
   return [a]
 }
 
-/** @function */
-export const ap = <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> => {
+const ap = <A, B>(fab: Array<(a: A) => B>, fa: Array<A>): Array<B> => {
   return flatten(map(fab, f => map(fa, f)))
 }
 
-/** @function */
-export const chain = <A, B>(fa: Array<A>, f: (a: A) => Array<B>): Array<B> => {
+const chain = <A, B>(fa: Array<A>, f: (a: A) => Array<B>): Array<B> => {
   let resLen = 0
   const l = fa.length
   const temp = new Array(l)
@@ -85,8 +82,7 @@ export const chain = <A, B>(fa: Array<A>, f: (a: A) => Array<B>): Array<B> => {
   return r
 }
 
-/** @function */
-export const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
+const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
   const l = fa.length
   let r = b
   for (let i = 0; i < l; i++) {
@@ -95,32 +91,16 @@ export const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
   return r
 }
 
-export function traverse<F extends URIS3>(
-  F: Applicative<F>
-): <U, L, A, B>(ta: Array<A>, f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Array<B>>
-export function traverse<F extends URIS2>(
-  F: Applicative<F>
-): <L, A, B>(ta: Array<A>, f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Array<B>>
-export function traverse<F extends URIS>(
-  F: Applicative<F>
-): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => Type<F, Array<B>>
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
-/** @function */
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
+function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
   const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(snoc)
   return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
 }
 
-/**
- * @function
- */
-export const zero = <A>(): Array<A> => []
+const zero = <A>(): Array<A> => []
 
-/** @function */
-export const alt = concat
+const alt = concat
 
-/** @function */
-export const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
+const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
   const ret: Array<A> = []
   let bb = b
   while (true) {
@@ -136,8 +116,7 @@ export const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
   return ret
 }
 
-/** @function */
-export const extend = <A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B> => {
+const extend = <A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B> => {
   return fa.map((_, i, as) => f(as.slice(i)))
 }
 
@@ -279,14 +258,6 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => {
 }
 
 /**
- * Extract a subarray by a start and end index
- * @function
- */
-export const slice = (start: number, end: number) => <A>(as: Array<A>): Array<A> => {
-  return as.slice(start, end)
-}
-
-/**
  * Get all but the last element of an array, creating a new array, or `None` if the array is empty
  * @function
  */
@@ -300,7 +271,7 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => {
  * @function
  */
 export const take = (n: number) => <A>(as: Array<A>): Array<A> => {
-  return slice(0, n)(as)
+  return as.slice(0, n)
 }
 
 const spanIndexUncurry = <A>(predicate: Predicate<A>, as: Array<A>): number => {
@@ -353,7 +324,7 @@ export const takeWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A
  * @function
  */
 export const drop = (n: number) => <A>(as: Array<A>): Array<A> => {
-  return slice(n, length(as))(as)
+  return as.slice(n, as.length)
 }
 
 /**
@@ -588,7 +559,7 @@ export const rotate = (n: number) => <A>(xs: Array<A>): Array<A> => {
 }
 
 export const array: Monad1<URI> &
-  Foldable<URI> &
+  Foldable1<URI> &
   Unfoldable1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &

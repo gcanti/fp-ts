@@ -1,7 +1,7 @@
 import * as optionT from 'fp-ts/lib/OptionT'
 import { array } from 'fp-ts/lib/Array'
 import { Option } from 'fp-ts/lib/Option'
-import { Monad } from 'fp-ts/lib/Monad'
+import { Monad1 } from 'fp-ts/lib/Monad'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT<A> {
@@ -52,7 +52,7 @@ export const fromOption = <A>(oa: Option<A>): ArrayOption<A> => new ArrayOption(
 
 export const liftF = <A>(ma: Array<A>): ArrayOption<A> => new ArrayOption(optionT.liftF(array)(ma))
 
-export const arrayOption: Monad<URI> = {
+export const arrayOption: Monad1<URI> = {
   URI,
   map,
   of,

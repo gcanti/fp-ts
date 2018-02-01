@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as option from '../src/Option'
-import * as array from '../src/Array'
+import { array } from '../src/Array'
 import { lift, getFunctorComposition, voidRight, voidLeft, flap } from '../src/Functor'
 
 describe('Functor', () => {

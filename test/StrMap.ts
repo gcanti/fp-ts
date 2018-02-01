@@ -11,11 +11,14 @@ import {
   insert,
   remove,
   pop,
-  getMonoid
+  getMonoid,
+  strmap,
+  traverseWithKey
 } from '../src/StrMap'
 import * as option from '../src/Option'
 import { setoidNumber } from '../src/Setoid'
-import * as array from '../src/Array'
+import { array } from '../src/Array'
+import { traverse } from '../src/Traversable'
 
 describe('StrMap', () => {
   it('concat', () => {
@@ -40,10 +43,16 @@ describe('StrMap', () => {
 
   it('traverse', () => {
     const d1 = new StrMap<number>({ k1: 1, k2: 2 })
-    const t1 = d1.traverse(option.option)((n): option.Option<number> => (n >= 2 ? option.some(n) : option.none))
+    const t1 = traverse(option.option, strmap)(
+      d1,
+      (n): option.Option<number> => (n >= 2 ? option.some(n) : option.none)
+    )
     assert.deepEqual(t1, option.none)
     const d2 = new StrMap<number>({ k1: 2, k2: 3 })
-    const t2 = d2.traverse(option.option)((n): option.Option<number> => (n >= 2 ? option.some(n) : option.none))
+    const t2 = traverse(option.option, strmap)(
+      d2,
+      (n): option.Option<number> => (n >= 2 ? option.some(n) : option.none)
+    )
     assert.deepEqual(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
   })
 
@@ -59,12 +68,9 @@ describe('StrMap', () => {
   })
 
   it('fromFoldable', () => {
+    assert.deepEqual(fromFoldable(array)([['a', 1]], (existing, a) => existing), new StrMap({ a: 1 }))
     assert.deepEqual(
-      fromFoldable(array)(existing => a => existing)([['a', 1]] as Array<[string, number]>),
-      new StrMap({ a: 1 })
-    )
-    assert.deepEqual(
-      fromFoldable(array)(existing => a => existing)([['a', 1], ['a', 2]] as Array<[string, number]>),
+      fromFoldable(array)([['a', 1], ['a', 2]], (existing, a) => existing),
       new StrMap({
         a: 1
       })
@@ -85,12 +91,14 @@ describe('StrMap', () => {
 
   it('traverseWithKey', () => {
     const d1 = new StrMap({ k1: 1, k2: 2 })
-    const t1 = d1.traverseWithKey(option.option)(
+    const t1 = traverseWithKey(option.option)(
+      d1,
       (k, n): option.Option<number> => (k !== 'k1' ? option.some(n) : option.none)
     )
     assert.deepEqual(t1, option.none)
     const d2 = new StrMap({ k1: 2, k2: 3 })
-    const t2 = d2.traverseWithKey(option.option)(
+    const t2 = traverseWithKey(option.option)(
+      d2,
       (k, n): option.Option<number> => (k !== 'k3' ? option.some(n) : option.none)
     )
     assert.deepEqual(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))

@@ -1,7 +1,7 @@
-import { HKT, URIS, URIS2, Type, Type2, URIS3, HKT2, HKT3, Type3 } from './HKT'
+import { HKT } from './HKT'
 import { Applicative, Applicative2C } from './Applicative'
 import { Semigroup } from './Semigroup'
-import { Foldable } from './Foldable'
+import { Foldable2 } from './Foldable'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
 import { Functor2 } from './Functor'
@@ -50,12 +50,6 @@ export class Failure<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F extends URIS3>(
-    F: Applicative<F>
-  ): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => Type3<F, U, M, Validation<L, B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => Type2<F, M, Validation<L, B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Validation<L, B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
     return f => F.of(this as any)
   }
@@ -111,12 +105,6 @@ export class Success<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  traverse<F extends URIS3>(
-    F: Applicative<F>
-  ): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => Type3<F, U, M, Validation<L, B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => Type2<F, M, Validation<L, B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Validation<L, B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
     return f => F.map(f(this.value), b => of(b))
   }
@@ -203,9 +191,6 @@ const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B): B =>
 
 function traverse<F>(
   F: Applicative<F>
-): <L, A, B>(ta: HKT2<URI, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
-function traverse<F>(
-  F: Applicative<F>
 ): <L, A, B>(ta: Validation<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
@@ -265,7 +250,7 @@ export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
 }
 
 /** @instance */
-export const validation: Functor2<URI> & Foldable<URI> & Traversable2<URI> = {
+export const validation: Functor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   map,
   reduce,

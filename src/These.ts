@@ -1,8 +1,8 @@
-import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
+import { HKT } from './HKT'
 import { Applicative } from './Applicative'
 import { Functor2 } from './Functor'
 import { Bifunctor2 } from './Bifunctor'
-import { Foldable } from './Foldable'
+import { Foldable2 } from './Foldable'
 import { Traversable2 } from './Traversable'
 import { Option, none, some } from './Option'
 import { Setoid } from './Setoid'
@@ -46,10 +46,6 @@ export class This<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F extends URIS3>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => Type3<F, U, M, These<L, B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => Type2<F, M, These<L, B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, These<L, B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.of(this as any)
   }
@@ -92,10 +88,6 @@ export class That<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  traverse<F extends URIS3>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => Type3<F, U, M, These<L, B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => Type2<F, M, These<L, B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, These<L, B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.map(f(this.value), b => that(b))
   }
@@ -134,10 +126,6 @@ export class Both<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.a)
   }
-  traverse<F extends URIS3>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => Type3<F, U, M, These<L, B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => Type2<F, M, These<L, B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, These<L, B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
     return f => F.map(f(this.a), b => both(this.l, b))
   }
@@ -229,7 +217,6 @@ const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT2<URI, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
 function traverse<F>(F: Applicative<F>): <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
@@ -266,7 +253,7 @@ export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
 }
 
 /** @instance */
-export const these: Functor2<URI> & Bifunctor2<URI> & Foldable<URI> & Traversable2<URI> = {
+export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   map,
   bimap,

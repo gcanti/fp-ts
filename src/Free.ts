@@ -2,7 +2,7 @@
 // and https://github.com/purescript/purescript-free
 
 import { HKT, HKT2, HKT3, URIS, Type, URIS2, Type2, URIS3, Type3 } from './HKT'
-import { Monad } from './Monad'
+import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { toString } from './function'
 
 export const URI = 'Free'
@@ -34,9 +34,9 @@ export class Pure<F, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.value)
   }
-  foldFree<M extends URIS3>(M: Monad<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => Type3<M, U, L, A>
-  foldFree<M extends URIS2>(M: Monad<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => Type2<M, L, A>
-  foldFree<M extends URIS>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => Type<M, A>
+  foldFree<M extends URIS3>(M: Monad3<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => Type3<M, U, L, A>
+  foldFree<M extends URIS2>(M: Monad2<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => Type2<M, L, A>
+  foldFree<M extends URIS>(M: Monad1<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => Type<M, A>
   foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A>
   foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A> {
     return () => M.of(this.value)
@@ -67,9 +67,9 @@ export class Impure<F, A, X> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).chain(f))
   }
-  foldFree<M extends URIS3>(M: Monad<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => Type3<M, U, L, A>
-  foldFree<M extends URIS2>(M: Monad<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => Type2<M, L, A>
-  foldFree<M extends URIS>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => Type<M, A>
+  foldFree<M extends URIS3>(M: Monad3<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => Type3<M, U, L, A>
+  foldFree<M extends URIS2>(M: Monad2<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => Type2<M, L, A>
+  foldFree<M extends URIS>(M: Monad1<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => Type<M, A>
   foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A>
   foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A> {
     return f => M.chain(f(this.fx), x => this.f(x).foldFree(M)(f))

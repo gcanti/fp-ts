@@ -1,4 +1,4 @@
-import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
+import { HKT } from './HKT'
 import { Endomorphism } from './function'
 import { Setoid } from './Setoid'
 import { Ord } from './Ord'
@@ -6,10 +6,10 @@ import { semigroupOrdering } from './Ordering'
 import { Applicative, Applicative1 } from './Applicative'
 import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
-import { Foldable } from './Foldable'
+import { Foldable1 } from './Foldable'
 import { Traversable1 } from './Traversable'
 import { liftA2 } from './Apply'
-import { Comonad } from './Comonad'
+import { Comonad1 } from './Comonad'
 
 // Adapted from https://github.com/parsonsmatt/purescript-pair
 
@@ -61,10 +61,6 @@ export class Pair<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(f(b, this.fst()), this.snd())
   }
-  traverse<F extends URIS3>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Pair<B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Pair<B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Pair<B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
     return <B>(f: (a: A) => HKT<F, B>) =>
       liftA2(F)((b1: B) => (b2: B) => new Pair([b1, b2]))(f(this.fst()))(f(this.snd()))
@@ -131,13 +127,12 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
   }
 }
 
-function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>>
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
 
 /** @instance */
-export const pair: Applicative1<URI> & Foldable<URI> & Traversable1<URI> & Comonad<URI> = {
+export const pair: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map,
   of,

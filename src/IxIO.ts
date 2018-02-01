@@ -1,5 +1,5 @@
-import { Monad } from './Monad'
-import { IxMonad } from './IxMonad'
+import { Monad3C } from './Monad'
+import { IxMonad3 } from './IxMonad'
 import { IO, io } from './IO'
 
 declare module './HKT' {
@@ -62,13 +62,20 @@ const chain = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => IxIO<I, I, B>): IxIO<I, 
   return fa.chain(f)
 }
 
+/** @function */
+export const getMonad = <I = never>(): Monad3C<URI, I, I> => {
+  return {
+    URI,
+    map,
+    of,
+    ap,
+    chain
+  }
+}
+
 /** @instance */
-export const ixIO: Monad<URI> & IxMonad<URI> = {
+export const ixIO: IxMonad3<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
   iof,
   ichain
 }

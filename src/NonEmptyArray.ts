@@ -1,11 +1,11 @@
-import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
+import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { Comonad } from './Comonad'
+import { Comonad1 } from './Comonad'
 import { Semigroup } from './Semigroup'
-import { Foldable } from './Foldable'
+import { Foldable1 } from './Foldable'
 import { Applicative } from './Applicative'
 import { Traversable1 } from './Traversable'
-import * as array from './Array'
+import { array } from './Array'
 import { Option, some, none } from './Option'
 import { toString, concat as uncurriedConcat } from './function'
 
@@ -51,14 +51,6 @@ export class NonEmptyArray<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return array.reduce(this.toArray(), b, f)
   }
-  traverse<F extends URIS3>(
-    applicative: Applicative<F>
-  ): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, NonEmptyArray<B>>
-  traverse<F extends URIS2>(
-    applicative: Applicative<F>
-  ): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, NonEmptyArray<B>>
-  traverse<F extends URIS>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, NonEmptyArray<B>>
-  traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
     return f => applicative.map(array.traverse(applicative)(this.toArray(), f), unsafeFromArray)
   }
@@ -122,7 +114,6 @@ const extract = <A>(fa: NonEmptyArray<A>): A => {
   return fa.extract()
 }
 
-function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>
 function traverse<F>(
   F: Applicative<F>
 ): <A, B>(ta: NonEmptyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
@@ -130,7 +121,7 @@ function traverse<F>(
 }
 
 /** @instance */
-export const nonEmptyArray: Monad1<URI> & Comonad<URI> & Foldable<URI> & Traversable1<URI> = {
+export const nonEmptyArray: Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI> = {
   URI,
   extend,
   extract,

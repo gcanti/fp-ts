@@ -1,9 +1,9 @@
-import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2, Type3, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
-import { Functor } from './Functor'
-import { Applicative } from './Applicative'
-import { Foldable } from './Foldable'
-import { Traversable } from './Traversable'
+import { Functor1 } from './Functor'
+import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
+import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { Traversable1 } from './Traversable'
 import { tuple } from './function'
 import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
@@ -47,14 +47,6 @@ export class StrMap<A> {
     }
     return out
   }
-  traverseWithKey<F extends URIS3>(
-    F: Applicative<F>
-  ): <U, L, B>(f: (k: string, a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
-  traverseWithKey<F extends URIS2>(
-    F: Applicative<F>
-  ): <L, B>(f: (k: string, a: A) => HKT2<F, L, B>) => Type2<F, L, StrMap<B>>
-  traverseWithKey<F extends URIS>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => Type<F, StrMap<B>>
-  traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverseWithKey<F>(F: Applicative<F>): <B>(f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concatCurried)
     return <B>(f: (k: string, a: A) => HKT<F, B>) => {
@@ -65,10 +57,6 @@ export class StrMap<A> {
       return out
     }
   }
-  traverse<F extends URIS3>(F: Applicative<F>): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, StrMap<B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, StrMap<B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
     return f => this.traverseWithKey(F)((_, a) => f(a))
   }
@@ -98,7 +86,25 @@ const reduce = <A, B>(fa: StrMap<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
+/** @function */
+export function traverseWithKey<F extends URIS3>(
+  F: Applicative3<F>
+): <U, L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
+export function traverseWithKey<F extends URIS2>(
+  F: Applicative2<F>
+): <L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type2<F, L, B>) => Type2<F, L, StrMap<B>>
+export function traverseWithKey<F extends URIS>(
+  F: Applicative1<F>
+): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type<F, B>) => Type<F, StrMap<B>>
+export function traverseWithKey<F>(
+  F: Applicative<F>
+): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
+export function traverseWithKey<F>(
+  F: Applicative<F>
+): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
+  return (ta, f) => ta.traverseWithKey(F)(f)
+}
+
 function traverse<F>(F: Applicative<F>): <A, B>(ta: StrMap<A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
@@ -164,14 +170,25 @@ export const lookup = (k: string) => <A>(d: StrMap<A>): Option<A> => {
  * specified function to combine values for duplicate keys.
  * @function
  */
-export const fromFoldable = <F>(F: Foldable<F>) => <A>(f: (existing: A) => (a: A) => A) => (
-  ta: HKT<F, [string, A]>
-): StrMap<A> => {
-  return F.reduce(ta, new StrMap<A>({}), (b, a) => {
-    const k = a[0]
-    b.value[k] = b.value.hasOwnProperty(k) ? f(b.value[k])(a[1]) : a[1]
-    return b
-  })
+export function fromFoldable<F extends URIS3>(
+  F: Foldable3<F>
+): <U, L, A>(ta: Type3<F, U, L, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
+export function fromFoldable<F extends URIS2>(
+  F: Foldable2<F>
+): <L, A>(ta: Type2<F, L, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
+export function fromFoldable<F extends URIS>(
+  F: Foldable1<F>
+): <A>(ta: Type<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
+export function fromFoldable<F>(F: Foldable<F>): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
+export function fromFoldable<F>(
+  F: Foldable<F>
+): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A> {
+  return (ta, f) =>
+    F.reduce(ta, new StrMap({}), (b, a) => {
+      const k = a[0]
+      b.value[k] = b.value.hasOwnProperty(k) ? f(b.value[k], a[1]) : a[1]
+      return b
+    })
 }
 
 /** @function */
@@ -227,7 +244,7 @@ export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> => {
 }
 
 /** @instance */
-export const strmap: Functor<URI> & Foldable<URI> & Traversable<URI> = {
+export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
   URI,
   map,
   reduce,

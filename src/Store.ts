@@ -1,5 +1,5 @@
 import { HKT, HKT2, HKT3, URIS, URIS2, Type, Type2, URIS3, Type3 } from './HKT'
-import { Comonad } from './Comonad'
+import { Comonad2 } from './Comonad'
 import { Functor } from './Functor'
 import { Endomorphism, toString } from './function'
 
@@ -91,7 +91,7 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
 }
 
 /** @instance */
-export const store: Comonad<URI> = {
+export const store: Comonad2<URI> = {
   URI,
   map,
   extract,

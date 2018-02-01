@@ -1,16 +1,16 @@
-import { HKT, URIS, URIS2, Type, Type2, HKT2, HKT3, Type3, URIS3 } from './HKT'
+import { HKT } from './HKT'
 import { Setoid } from './Setoid'
 import { Ord, getSemigroup as getOrdSemigroup, contramap as contramapOrd } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
-import { Bifunctor } from './Bifunctor'
-import { Comonad } from './Comonad'
+import { Bifunctor2 } from './Bifunctor'
+import { Comonad2 } from './Comonad'
 import { Apply2C } from './Apply'
 import { Monad2C } from './Monad'
-import { Foldable } from './Foldable'
+import { Foldable2 } from './Foldable'
 import { Applicative, Applicative2C } from './Applicative'
 import { Traversable2 } from './Traversable'
-import { Semigroupoid } from './Semigroupoid'
+import { Semigroupoid2 } from './Semigroupoid'
 import { toString } from './function'
 import { ChainRec2C } from './ChainRec'
 import { Chain2C } from './Chain'
@@ -61,10 +61,6 @@ export class Tuple<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.snd())
   }
-  traverse<F extends URIS3>(F: Applicative<F>): <U, M, B>(f: (a: A) => HKT3<F, U, M, B>) => Type3<F, U, M, Tuple<L, B>>
-  traverse<F extends URIS2>(F: Applicative<F>): <M, B>(f: (a: A) => HKT2<F, M, B>) => Type2<F, M, Tuple<L, B>>
-  traverse<F extends URIS>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Tuple<L, B>>
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
   traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
     return f => F.map(f(this.snd()), b => new Tuple([this.fst(), b]))
   }
@@ -213,13 +209,12 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
   }
 }
 
-function traverse<F>(F: Applicative<F>): <L, A, B>(ta: HKT2<URI, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
 function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Tuple<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
 
 /** @instance */
-export const tuple: Semigroupoid<URI> & Bifunctor<URI> & Comonad<URI> & Foldable<URI> & Traversable2<URI> = {
+export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   compose,
   map,
