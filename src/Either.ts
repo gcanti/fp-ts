@@ -87,9 +87,6 @@ export class Left<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
-    return f => F.of(this as any)
-  }
   /** Applies a function to each case in the data structure */
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return left(this.value)
@@ -162,9 +159,6 @@ export class Right<L, A> {
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
-  }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
-    return f => F.map(f(this.value), b => of(b))
   }
   fold<B>(left: (l: L) => B, right: (a: A) => B): B {
     return right(this.value)
@@ -247,7 +241,7 @@ const reduce = <L, A, B>(fa: Either<L, A>, b: B, f: (b: B, a: A) => B): B => {
 }
 
 function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
-  return (ta, f) => ta.traverse(F)(f)
+  return (ta, f) => ta.fold(l => F.of(left(l)), a => F.map(f(a), b => of(b)))
 }
 
 const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {

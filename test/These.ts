@@ -1,7 +1,9 @@
 import * as assert from 'assert'
-import { this_, that, both, fromThese, getSetoid, getSemigroup } from '../src/These'
+import { this_, that, both, fromThese, getSetoid, getSemigroup, these } from '../src/These'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { monoidSum, monoidString } from '../src/Monoid'
+import { option, none, some } from '../src/Option'
+import { traverse } from '../src/Traversable'
 
 describe('These', () => {
   it('equals', () => {
@@ -44,5 +46,14 @@ describe('These', () => {
     const len = (s: string) => s.length
     assert.strictEqual(equals(this_<string, number>('a').bimap(len, double), this_(1)), true)
     assert.strictEqual(equals(that<string, number>(2).bimap(len, double), that(4)), true)
+  })
+
+  it('traverse', () => {
+    assert.deepEqual(traverse(option, these)(this_(2), n => (n >= 2 ? some(n) : none)), some(this_(2)))
+    assert.deepEqual(traverse(option, these)(this_(1), n => (n >= 2 ? some(n) : none)), some(this_(1)))
+    assert.deepEqual(traverse(option, these)(that(2), n => (n >= 2 ? some(n) : none)), some(that(2)))
+    assert.deepEqual(traverse(option, these)(that(1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepEqual(traverse(option, these)(both('a', 2), n => (n >= 2 ? some(n) : none)), some(both('a', 2)))
+    assert.deepEqual(traverse(option, these)(both('a', 1), n => (n >= 2 ? some(n) : none)), none)
   })
 })

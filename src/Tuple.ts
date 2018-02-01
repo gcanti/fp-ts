@@ -61,9 +61,6 @@ export class Tuple<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.snd())
   }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
-    return f => F.map(f(this.snd()), b => new Tuple([this.fst(), b]))
-  }
   /** Exchange the first and second components of a tuple */
   swap(): Tuple<A, L> {
     return new Tuple([this.snd(), this.fst()])
@@ -210,7 +207,7 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
 }
 
 function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Tuple<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
-  return (ta, f) => ta.traverse(F)(f)
+  return (ta, f) => F.map(f(ta.snd()), b => new Tuple([ta.fst(), b]))
 }
 
 /** @instance */

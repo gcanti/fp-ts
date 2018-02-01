@@ -46,9 +46,6 @@ export class This<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
-    return f => F.of(this as any)
-  }
   /** Applies a function to each case in the data structure */
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return this_(this.value)
@@ -88,9 +85,6 @@ export class That<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
-    return f => F.map(f(this.value), b => that(b))
-  }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return that(this.value)
   }
@@ -125,9 +119,6 @@ export class Both<L, A> {
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.a)
-  }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
-    return f => F.map(f(this.a), b => both(this.l, b))
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return both(this.l, this.a)
@@ -218,7 +209,7 @@ const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
 }
 
 function traverse<F>(F: Applicative<F>): <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
-  return (ta, f) => ta.traverse(F)(f)
+  return (ta, f) => ta.fold(l => F.of(this_(l)), a => F.map(f(a), b => that(b)), (l, a) => F.map(f(a), b => both(l, b)))
 }
 
 /** @function */

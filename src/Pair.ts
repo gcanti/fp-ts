@@ -61,10 +61,6 @@ export class Pair<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(f(b, this.fst()), this.snd())
   }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
-    return <B>(f: (a: A) => HKT<F, B>) =>
-      liftA2(F)((b1: B) => (b2: B) => new Pair([b1, b2]))(f(this.fst()))(f(this.snd()))
-  }
   extract(): A {
     return this.fst()
   }
@@ -128,7 +124,8 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
-  return (ta, f) => ta.traverse(F)(f)
+  return <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) =>
+    liftA2(F)((b1: B) => (b2: B) => new Pair([b1, b2]))(f(ta.fst()))(f(ta.snd()))
 }
 
 /** @instance */

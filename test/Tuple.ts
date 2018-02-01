@@ -1,9 +1,11 @@
 import * as assert from 'assert'
-import { getSemigroup, Tuple, getApplicative, getOrd, getChainRec } from '../src/Tuple'
+import { getSemigroup, Tuple, getApplicative, getOrd, getChainRec, tuple } from '../src/Tuple'
 import { monoidString, monoidSum, getArrayMonoid } from '../src/Monoid'
 import { left, right } from '../src/Either'
 import { ordNumber, ordString } from '../src/Ord'
 import { sort } from '../src/Array'
+import { option, none, some } from '../src/Option'
+import { traverse } from '../src/Traversable'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -63,5 +65,13 @@ describe('Tuple', () => {
       new Tuple([2, 'a']),
       new Tuple([2, 'c'])
     ])
+  })
+
+  it('traverse', () => {
+    assert.deepEqual(
+      traverse(option, tuple)(new Tuple([1, 2]), n => (n >= 2 ? some(n) : none)),
+      some(new Tuple([1, 2]))
+    )
+    assert.deepEqual(traverse(option, tuple)(new Tuple([1, 1]), n => (n >= 2 ? some(n) : none)), none)
   })
 })

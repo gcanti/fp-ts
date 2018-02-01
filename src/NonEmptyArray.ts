@@ -51,9 +51,6 @@ export class NonEmptyArray<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return array.reduce(this.toArray(), b, f)
   }
-  traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
-    return f => applicative.map(array.traverse(applicative)(this.toArray(), f), unsafeFromArray)
-  }
   extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> {
     return unsafeFromArray(array.extend(as => f(unsafeFromArray(as)), this.toArray()))
   }
@@ -117,7 +114,7 @@ const extract = <A>(fa: NonEmptyArray<A>): A => {
 function traverse<F>(
   F: Applicative<F>
 ): <A, B>(ta: NonEmptyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
-  return (ta, f) => ta.traverse(F)(f)
+  return (ta, f) => F.map(array.traverse(F)(ta.toArray(), f), unsafeFromArray)
 }
 
 /** @instance */

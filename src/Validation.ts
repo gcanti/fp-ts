@@ -50,9 +50,6 @@ export class Failure<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
-    return f => F.of(this as any)
-  }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return failure(this.value)
   }
@@ -104,9 +101,6 @@ export class Success<L, A> {
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
-  }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
-    return f => F.map(f(this.value), b => of(b))
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
     return success(this.value)
@@ -192,7 +186,7 @@ const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B): B =>
 function traverse<F>(
   F: Applicative<F>
 ): <L, A, B>(ta: Validation<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>> {
-  return (ta, f) => ta.traverse(F)(f)
+  return (ta, f) => ta.fold(l => F.of(failure(l)), a => F.map(f(a), b => of(b)))
 }
 
 /** @function */

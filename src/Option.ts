@@ -68,9 +68,6 @@ export class None<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
-    return f => F.of(none)
-  }
   alt(fa: Option<A>): Option<A> {
     return fa
   }
@@ -153,9 +150,6 @@ export class Some<A> {
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return this.fold(b, a => f(b, a))
-  }
-  traverse<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
-    return f => F.map(f(this.value), some)
   }
   alt(fa: Option<A>): Option<A> {
     return this
@@ -291,7 +285,7 @@ export const fromPredicate = <A>(predicate: Predicate<A>) => (a: A): Option<A> =
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
-  return (ta, f) => ta.traverse(F)(f)
+  return (ta, f) => ta.foldL(() => F.of(none), a => F.map(f(a), some))
 }
 
 /** @function */

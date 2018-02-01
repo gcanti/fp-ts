@@ -1,6 +1,8 @@
 import * as assert from 'assert'
-import { NonEmptyArray } from '../src/NonEmptyArray'
+import { NonEmptyArray, nonEmptyArray } from '../src/NonEmptyArray'
 import { monoidSum, fold } from '../src/Monoid'
+import { traverse } from '../src/Traversable'
+import { none, some, option } from '../src/Option'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -28,5 +30,16 @@ describe('NonEmptyArray', () => {
 
   it('extract', () => {
     assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
+  })
+
+  it('traverse', () => {
+    assert.deepEqual(
+      traverse(option, nonEmptyArray)(new NonEmptyArray(1, [2, 3]), n => (n >= 0 ? some(n) : none)),
+      some(new NonEmptyArray(1, [2, 3]))
+    )
+    assert.deepEqual(
+      traverse(option, nonEmptyArray)(new NonEmptyArray(1, [2, 3]), n => (n >= 2 ? some(n) : none)),
+      none
+    )
   })
 })

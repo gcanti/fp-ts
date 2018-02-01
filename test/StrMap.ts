@@ -15,10 +15,10 @@ import {
   strmap,
   traverseWithKey
 } from '../src/StrMap'
-import * as option from '../src/Option'
 import { setoidNumber } from '../src/Setoid'
 import { array } from '../src/Array'
 import { traverse } from '../src/Traversable'
+import { Option, none, some, option } from '../src/Option'
 
 describe('StrMap', () => {
   it('concat', () => {
@@ -42,18 +42,14 @@ describe('StrMap', () => {
   })
 
   it('traverse', () => {
-    const d1 = new StrMap<number>({ k1: 1, k2: 2 })
-    const t1 = traverse(option.option, strmap)(
-      d1,
-      (n): option.Option<number> => (n >= 2 ? option.some(n) : option.none)
+    assert.deepEqual(
+      traverse(option, strmap)(new StrMap<number>({ k1: 1, k2: 2 }), n => (n <= 2 ? some(n) : none)),
+      some(new StrMap<number>({ k1: 1, k2: 2 }))
     )
-    assert.deepEqual(t1, option.none)
-    const d2 = new StrMap<number>({ k1: 2, k2: 3 })
-    const t2 = traverse(option.option, strmap)(
-      d2,
-      (n): option.Option<number> => (n >= 2 ? option.some(n) : option.none)
+    assert.deepEqual(
+      traverse(option, strmap)(new StrMap<number>({ k1: 1, k2: 2 }), n => (n >= 2 ? some(n) : none)),
+      none
     )
-    assert.deepEqual(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
   })
 
   it('getSetoid', () => {
@@ -63,8 +59,8 @@ describe('StrMap', () => {
   })
 
   it('lookup', () => {
-    assert.deepEqual(lookup('a')(new StrMap({ a: 1 })), option.some(1))
-    assert.deepEqual(lookup('b')(new StrMap({ a: 1 })), option.none)
+    assert.deepEqual(lookup('a')(new StrMap({ a: 1 })), some(1))
+    assert.deepEqual(lookup('b')(new StrMap({ a: 1 })), none)
   })
 
   it('fromFoldable', () => {
@@ -91,17 +87,11 @@ describe('StrMap', () => {
 
   it('traverseWithKey', () => {
     const d1 = new StrMap({ k1: 1, k2: 2 })
-    const t1 = traverseWithKey(option.option)(
-      d1,
-      (k, n): option.Option<number> => (k !== 'k1' ? option.some(n) : option.none)
-    )
-    assert.deepEqual(t1, option.none)
+    const t1 = traverseWithKey(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
+    assert.deepEqual(t1, none)
     const d2 = new StrMap({ k1: 2, k2: 3 })
-    const t2 = traverseWithKey(option.option)(
-      d2,
-      (k, n): option.Option<number> => (k !== 'k3' ? option.some(n) : option.none)
-    )
-    assert.deepEqual(t2, option.some(new StrMap<number>({ k1: 2, k2: 3 })))
+    const t2 = traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
+    assert.deepEqual(t2, some(new StrMap<number>({ k1: 2, k2: 3 })))
   })
 
   it('size', () => {
@@ -123,7 +113,7 @@ describe('StrMap', () => {
   })
 
   it('pop', () => {
-    assert.deepEqual(pop('a')(new StrMap({ a: 1, b: 2 })), option.some([1, new StrMap({ b: 2 })]))
-    assert.deepEqual(pop('c')(new StrMap({ a: 1, b: 2 })), option.none)
+    assert.deepEqual(pop('a')(new StrMap({ a: 1, b: 2 })), some([1, new StrMap({ b: 2 })]))
+    assert.deepEqual(pop('c')(new StrMap({ a: 1, b: 2 })), none)
   })
 })
