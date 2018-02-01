@@ -1,11 +1,11 @@
-import { HKT, URIS, URIS2, HKT2, Type, Type2, HKT3, URIS3, Type3 } from './HKT'
+import { HKT } from './HKT'
 import { Applicative } from './Applicative'
 import { Monad1 } from './Monad'
-import { Foldable } from './Foldable'
+import { Foldable1 } from './Foldable'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Alt1 } from './Alt'
-import { Comonad } from './Comonad'
+import { Comonad1 } from './Comonad'
 import { Either } from './Either'
 import { ChainRec1, tailRec } from './ChainRec'
 import { toString } from './function'
@@ -43,12 +43,6 @@ export class Identity<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  traverse<F extends URIS3>(
-    applicative: Applicative<F>
-  ): <U, L, B>(f: (a: A) => HKT3<F, U, L, B>) => Type3<F, U, L, Identity<B>>
-  traverse<F extends URIS2>(applicative: Applicative<F>): <L, B>(f: (a: A) => HKT2<F, L, B>) => Type2<F, L, Identity<B>>
-  traverse<F extends URIS>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => Type<F, Identity<B>>
-  traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
   traverse<F>(applicative: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
     return f => applicative.map(f(this.value), a => of(a))
   }
@@ -115,13 +109,12 @@ const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> 
   return new Identity(tailRec(a => f(a).extract(), a))
 }
 
-function traverse<F>(F: Applicative<F>): <A, B>(ta: HKT<URI, A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>>
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
   return (ta, f) => ta.traverse(F)(f)
 }
 
 /** @instance */
-export const identity: Monad1<URI> & Foldable<URI> & Traversable1<URI> & Alt1<URI> & Comonad<URI> & ChainRec1<URI> = {
+export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
   URI,
   map,
   of,

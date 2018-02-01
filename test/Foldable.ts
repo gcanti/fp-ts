@@ -1,6 +1,5 @@
 import * as assert from 'assert'
 import {
-  Foldable,
   toArray,
   foldMap,
   getFoldableComposition,
@@ -16,9 +15,9 @@ import {
   elem,
   find
 } from '../src/Foldable'
-import * as array from '../src/Array'
+import { array } from '../src/Array'
 import * as option from '../src/Option'
-import * as io from '../src/IO'
+import { IO, io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { ordNumber } from '../src/Ord'
 import { fieldNumber } from '../src/Field'
@@ -34,7 +33,7 @@ describe('Foldable', () => {
   })
 
   it('foldMap', () => {
-    assert.deepEqual(foldMap(array, monoidString)((s: string) => s)(['a', 'b', 'c']), 'abc')
+    assert.deepEqual(foldMap(array, monoidString)(['a', 'b', 'c'], s => s), 'abc')
   })
 
   it('getFoldableComposition', () => {
@@ -45,39 +44,22 @@ describe('Foldable', () => {
   })
 
   it('intercalate', () => {
-    const arrayOptionFoldable = getFoldableComposition(array, option.option)
-    const URI = 'ArrayOption'
-    type URI = typeof URI
-    class ArrayOption<A> {
-      readonly '-A': A
-      readonly '-URI': URI
-      constructor(public readonly value: Array<option.Option<A>>) {}
-    }
-    const arrayOption: Foldable<URI> = {
-      URI,
-      reduce<A, B>(fa: ArrayOption<A>, b: B, f: (b: B, a: A) => B): B {
-        return arrayOptionFoldable.reduce(fa.value, b, f)
-      }
-    }
-    const join = intercalate(arrayOption, monoidString)(' ')
-    assert.strictEqual(join(new ArrayOption([])), '')
-    assert.strictEqual(join(new ArrayOption([option.some('a')])), 'a')
-    assert.strictEqual(join(new ArrayOption([option.some('a'), option.none, option.some('b')])), 'a b')
+    assert.strictEqual(intercalate(array, monoidString)(',')(['a', 'b', 'c']), 'a,b,c')
   })
 
   it('traverse_', () => {
     let counter = ''
-    const x = traverse_(io.io, array)(a => new io.IO(() => (counter += a)), ['a', 'b', 'c'])
+    const x = traverse_(io, array)(a => new IO(() => (counter += a)), ['a', 'b', 'c'])
     x.run()
     assert.strictEqual(counter, 'abc')
   })
 
   it('sequence_', () => {
     let counter = ''
-    const x = sequence_(io.io, array)([
-      new io.IO(() => (counter += 'a')),
-      new io.IO(() => (counter += 'b')),
-      new io.IO(() => (counter += 'c'))
+    const x = sequence_(io, array)([
+      new IO(() => (counter += 'a')),
+      new IO(() => (counter += 'b')),
+      new IO(() => (counter += 'c'))
     ])
     x.run()
     assert.strictEqual(counter, 'abc')
@@ -113,12 +95,12 @@ describe('Foldable', () => {
   })
 
   it('elem', () => {
-    assert.strictEqual(elem(array, setoidNumber)(1)([1, 2, 3]), true)
-    assert.strictEqual(elem(array, setoidNumber)(4)([1, 2, 3]), false)
+    assert.strictEqual(elem(array, setoidNumber)(1, [1, 2, 3]), true)
+    assert.strictEqual(elem(array, setoidNumber)(4, [1, 2, 3]), false)
   })
 
   it('find', () => {
-    assert.deepEqual(find(array)((a: number) => a > 4)([1, 2, 3]), option.none)
-    assert.deepEqual(find(array)((a: number) => a > 4)([1, 2, 3, 5]), option.some(5))
+    assert.deepEqual(find(array)([1, 2, 3], a => a > 4), option.none)
+    assert.deepEqual(find(array)([1, 2, 3, 5], a => a > 4), option.some(5))
   })
 })

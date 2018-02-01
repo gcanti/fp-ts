@@ -1,6 +1,6 @@
 import { Task } from 'fp-ts/lib/Task'
 import { Option, fromEither } from 'fp-ts/lib/Option'
-import { Monad } from 'fp-ts/lib/Monad'
+import { Monad1 } from 'fp-ts/lib/Monad'
 import * as optionT from 'fp-ts/lib/OptionT'
 import * as task from 'fp-ts/lib/Task'
 import { Lazy } from 'fp-ts/lib/function'
@@ -68,7 +68,7 @@ export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => {
   return new TaskOption(task.tryCatch(f, () => undefined).map(e => fromEither(e)))
 }
 
-export const taskOption: Monad<URI> = {
+export const taskOption: Monad1<URI> = {
   URI,
   map,
   of,

@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import * as array from '../src/Array'
+import { array } from '../src/Array'
 import { failure, success, getMonad, getApplicative, fromEither, getSetoid } from '../src/Validation'
 import * as either from '../src/Either'
 import { monoidString } from '../src/Monoid'

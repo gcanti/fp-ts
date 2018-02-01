@@ -1,4 +1,4 @@
-import { Monad } from 'fp-ts/lib/Monad'
+import { Monad, Monad1 } from 'fp-ts/lib/Monad'
 import { HKT, URIS, Type } from 'fp-ts/lib/HKT'
 import { liftA2 } from 'fp-ts/lib/Apply'
 import { flatten } from 'fp-ts/lib/Chain'
@@ -16,7 +16,7 @@ interface MonadFB<M> {
 }
 
 function likePost<M extends URIS>(
-  M: Monad<M>,
+  M: Monad1<M>,
   U: MonadUser<M>,
   F: MonadFB<M>
 ): (token: string) => (url: string) => Type<M, boolean>
