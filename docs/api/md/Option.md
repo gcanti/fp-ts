@@ -236,6 +236,14 @@ _function_
 
 Applies a function to each case in the data structure
 
+# fromEither
+
+_function_
+
+```ts
+<L, A>(fa: Either<L, A>): Option<A>
+```
+
 # fromNullable
 
 _function_
@@ -345,6 +353,9 @@ _function_
 ```ts
 <A, B>(f: (a: A) => B, fa: Option<A>): Option<B>
 ```
+
+Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors. If it maps
+on `Some` then it will apply the `f` on `Some`'s value, if it maps on `None` it will return `None`.
 
 # mapNullable
 

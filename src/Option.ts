@@ -227,7 +227,12 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
   }
 }
 
-/** @function */
+/**
+ * Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors.
+ * If it maps on `Some` then it will apply the
+ * `f` on `Some`'s value, if it maps on `None` it will return `None`.
+ * @function
+ */
 export const map = <A, B>(f: (a: A) => B, fa: Option<A>): Option<B> => {
   return fa.map(f)
 }
