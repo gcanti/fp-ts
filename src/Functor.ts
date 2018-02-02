@@ -59,9 +59,15 @@ export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
 /**
  * Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
  */
+export function lift<F extends URIS3, U, L>(
+  F: Functor3C<F, U, L>
+): <A, B>(f: (a: A) => B) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
 export function lift<F extends URIS3>(
   F: Functor3<F>
 ): <A, B>(f: (a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+export function lift<F extends URIS2, L>(
+  F: Functor2C<F, L>
+): <A, B>(f: (a: A) => B) => (fa: Type2<F, L, A>) => Type2<F, L, B>
 export function lift<F extends URIS2>(
   F: Functor2<F>
 ): <A, B>(f: (a: A) => B) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
@@ -76,9 +82,15 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
 }
 
 /** Ignore the return value of a computation, using the specified return value instead (`<$`) */
+export function voidRight<F extends URIS3, U, L>(
+  F: Functor3C<F, U, L>
+): <A>(a: A) => <B>(fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
 export function voidRight<F extends URIS3>(
   F: Functor3<F>
 ): <A>(a: A) => <U, L, B>(fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
+export function voidRight<F extends URIS2, L>(
+  F: Functor2C<F, L>
+): <A>(a: A) => <B>(fb: Type2<F, L, B>) => Type2<F, L, A>
 export function voidRight<F extends URIS2>(F: Functor2<F>): <A>(a: A) => <L, B>(fb: Type2<F, L, B>) => Type2<F, L, A>
 export function voidRight<F extends URIS>(F: Functor1<F>): <A>(a: A) => <B>(fb: Type<F, B>) => Type<F, A>
 export function voidRight<F>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => HKT<F, A>
@@ -91,9 +103,13 @@ export function voidRight<F>(F: Functor<F>): <A>(a: A) => <B>(fb: HKT<F, B>) => 
 }
 
 /** A version of `voidRight` with its arguments flipped (`$>`) */
+export function voidLeft<F extends URIS3, U, L>(
+  F: Functor3C<F, U, L>
+): <A>(fa: Type3<F, U, L, A>) => <B>(b: B) => Type3<F, U, L, B>
 export function voidLeft<F extends URIS3>(
   F: Functor3<F>
 ): <U, L, A>(fa: Type3<F, U, L, A>) => <B>(b: B) => Type3<F, U, L, B>
+export function voidLeft<F extends URIS2, L>(F: Functor2C<F, L>): <A>(fa: Type2<F, L, A>) => <B>(b: B) => Type2<F, L, B>
 export function voidLeft<F extends URIS2>(F: Functor2<F>): <L, A>(fa: Type2<F, L, A>) => <B>(b: B) => Type2<F, L, B>
 export function voidLeft<F extends URIS>(F: Functor1<F>): <A>(fa: Type<F, A>) => <B>(b: B) => Type<F, B>
 export function voidLeft<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => HKT<F, B>
@@ -106,9 +122,15 @@ export function voidLeft<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <B>(b: B) => H
 }
 
 /** Apply a value in a computational context to a value in no context. Generalizes `flip` */
+export function flap<F extends URIS3, U, L>(
+  functor: Functor3C<F, U, L>
+): <A, B>(ff: Type3<F, U, L, (a: A) => B>) => (a: A) => Type3<F, U, L, B>
 export function flap<F extends URIS3>(
   functor: Functor3<F>
 ): <U, L, A, B>(ff: Type3<F, U, L, (a: A) => B>) => (a: A) => Type3<F, U, L, B>
+export function flap<F extends URIS2, L>(
+  functor: Functor2C<F, L>
+): <A, B>(ff: Type2<F, L, (a: A) => B>) => (a: A) => Type2<F, L, B>
 export function flap<F extends URIS2>(
   functor: Functor2<F>
 ): <L, A, B>(ff: Type2<F, L, (a: A) => B>) => (a: A) => Type2<F, L, B>

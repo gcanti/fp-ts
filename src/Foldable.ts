@@ -1,13 +1,13 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
 import { Monoid, getEndomorphismMonoid, unsafeMonoidArray } from './Monoid'
-import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
 import { applyFirst } from './Apply'
 import { identity, Predicate } from './function'
 import { Ord, min, max } from './Ord'
 import { Option, none, some } from './Option'
 import { Semiring } from './Semiring'
-import { Monad, Monad1, Monad2, Monad3 } from './Monad'
-import { Plus, Plus1, Plus2, Plus3 } from './Plus'
+import { Monad, Monad1, Monad2, Monad3, Monad2C, Monad3C } from './Monad'
+import { Plus, Plus1, Plus2, Plus3, Plus2C, Plus3C } from './Plus'
 import { Setoid } from './Setoid'
 
 /** @typeclass */
@@ -89,10 +89,18 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
  * A default implementation of `foldMap` using `foldl`
  * @function
  */
+export function foldMap<F extends URIS3, M, U, L>(
+  F: Foldable3C<F, U, L>,
+  M: Monoid<M>
+): <A>(fa: Type3<F, U, L, A>, f: (a: A) => M) => M
 export function foldMap<F extends URIS3, M>(
   F: Foldable3<F>,
   M: Monoid<M>
 ): <U, L, A>(fa: Type3<F, U, L, A>, f: (a: A) => M) => M
+export function foldMap<F extends URIS2, M, L>(
+  F: Foldable2C<F, L>,
+  M: Monoid<M>
+): <A>(fa: Type2<F, L, A>, f: (a: A) => M) => M
 export function foldMap<F extends URIS2, M>(
   F: Foldable2<F>,
   M: Monoid<M>
@@ -107,9 +115,15 @@ export function foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, 
  * A default implementation of `foldr` using `foldMap`
  * @function
  */
+export function foldr<F extends URIS3, U, L>(
+  F: Foldable3C<F, U, L>
+): <A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A) => (b: B) => B) => B
 export function foldr<F extends URIS3>(
   F: Foldable3<F>
 ): <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A) => (b: B) => B) => B
+export function foldr<F extends URIS2, L>(
+  F: Foldable2C<F, L>
+): <A, B>(fa: Type2<F, L, A>, b: B, f: (a: A) => (b: B) => B) => B
 export function foldr<F extends URIS2>(
   F: Foldable2<F>
 ): <L, A, B>(fa: Type2<F, L, A>, b: B, f: (a: A) => (b: B) => B) => B
@@ -120,8 +134,14 @@ export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A) 
 }
 
 /** @function */
-export const fold = <F, M>(F: Foldable<F>, M: Monoid<M>) => (fa: HKT<F, M>): M => {
-  return foldMap(F, M)(fa, identity)
+export function fold<F extends URIS3, M, U, L>(F: Foldable3C<F, U, L>, M: Monoid<M>): (fa: Type3<F, U, L, M>) => M
+export function fold<F extends URIS3, M>(F: Foldable3<F>, M: Monoid<M>): <U, L>(fa: Type3<F, U, L, M>) => M
+export function fold<F extends URIS2, M, L>(F: Foldable2C<F, L>, M: Monoid<M>): (fa: Type2<F, L, M>) => M
+export function fold<F extends URIS2, M>(F: Foldable2<F>, M: Monoid<M>): <L>(fa: Type2<F, L, M>) => M
+export function fold<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): (fa: Type<F, M>) => M
+export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M
+export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M {
+  return fa => foldMap(F, M)(fa, identity)
 }
 
 /**
@@ -130,10 +150,18 @@ export const fold = <F, M>(F: Foldable<F>, M: Monoid<M>) => (fa: HKT<F, M>): M =
  * Note: this function is not generally stack-safe, e.g., for monads which
  * build up thunks a la `IO`.
  */
+export function foldM<F extends URIS, M extends URIS3, U, L>(
+  F: Foldable1<F>,
+  M: Monad3C<M, U, L>
+): <A, B>(f: (b: B, a: A) => Type3<M, U, L, B>, b: B, fa: Type<F, A>) => Type3<M, U, L, B>
 export function foldM<F extends URIS, M extends URIS3>(
   F: Foldable1<F>,
   M: Monad3<M>
 ): <U, L, A, B>(f: (b: B, a: A) => Type3<M, U, L, B>, b: B, fa: Type<F, A>) => Type3<M, U, L, B>
+export function foldM<F extends URIS, M extends URIS2, L>(
+  F: Foldable1<F>,
+  M: Monad2C<M, L>
+): <A, B>(f: (b: B, a: A) => Type2<M, L, B>, b: B, fa: Type<F, A>) => Type2<M, L, B>
 export function foldM<F extends URIS, M extends URIS2>(
   F: Foldable1<F>,
   M: Monad2<M>
@@ -163,10 +191,18 @@ export function foldM<F, M>(
 /**
  * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the final result.
  */
+export function traverse_<M extends URIS3, F extends URIS, U, L>(
+  M: Applicative3C<M, U, L>,
+  F: Foldable1<F>
+): <A, B>(f: (a: A) => Type3<M, U, L, B>, fa: Type<F, A>) => Type3<M, U, L, void>
 export function traverse_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
   F: Foldable1<F>
 ): <U, L, A, B>(f: (a: A) => Type3<M, U, L, B>, fa: Type<F, A>) => Type3<M, U, L, void>
+export function traverse_<M extends URIS2, F extends URIS, L>(
+  M: Applicative2C<M, L>,
+  F: Foldable1<F>
+): <A, B>(f: (a: A) => Type2<M, L, B>, fa: Type<F, A>) => Type2<M, L, void>
 export function traverse_<M extends URIS2, F extends URIS>(
   M: Applicative2<M>,
   F: Foldable1<F>
@@ -193,10 +229,18 @@ export function traverse_<M, F>(
 /**
  * Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final result.
  */
+export function sequence_<M extends URIS3, F extends URIS, U, L>(
+  M: Applicative3C<M, U, L>,
+  F: Foldable1<F>
+): <A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
 export function sequence_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
   F: Foldable1<F>
 ): <U, L, A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
+export function sequence_<M extends URIS2, F extends URIS, L>(
+  M: Applicative2C<M, L>,
+  F: Foldable1<F>
+): <A>(fa: Type<F, Type2<M, L, A>>) => Type2<M, L, void>
 export function sequence_<M extends URIS2, F extends URIS>(
   M: Applicative2<M>,
   F: Foldable1<F>
@@ -217,10 +261,18 @@ export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<
 /**
  * Combines a collection of elements using the `Alt` operation
  */
+export function oneOf<F extends URIS, P extends URIS3, U, L>(
+  F: Foldable1<F>,
+  P: Plus3C<P, U, L>
+): <A>(fga: Type<F, Type3<P, U, L, A>>) => Type3<P, U, L, A>
 export function oneOf<F extends URIS, P extends URIS3>(
   F: Foldable1<F>,
   P: Plus3<P>
 ): <U, L, A>(fga: Type<F, Type3<P, U, L, A>>) => Type3<P, U, L, A>
+export function oneOf<F extends URIS, P extends URIS2, L>(
+  F: Foldable1<F>,
+  P: Plus2C<P, L>
+): <A>(fga: Type<F, Type2<P, L, A>>) => Type2<P, L, A>
 export function oneOf<F extends URIS, P extends URIS2>(
   F: Foldable1<F>,
   P: Plus2<P>
@@ -240,10 +292,18 @@ type Acc<M> = { init: boolean; acc: M }
  * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
  * @function
  */
+export function intercalate<F extends URIS3, M, U, L>(
+  F: Foldable3C<F, U, L>,
+  M: Monoid<M>
+): (sep: M) => (fm: Type3<F, U, L, M>) => M
 export function intercalate<F extends URIS3, M>(
   F: Foldable3<F>,
   M: Monoid<M>
 ): (sep: M) => <U, L>(fm: Type3<F, U, L, M>) => M
+export function intercalate<F extends URIS2, M, L>(
+  F: Foldable2C<F, L>,
+  M: Monoid<M>
+): (sep: M) => (fm: Type2<F, L, M>) => M
 export function intercalate<F extends URIS2, M>(F: Foldable2<F>, M: Monoid<M>): (sep: M) => <L>(fm: Type2<F, L, M>) => M
 export function intercalate<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): (sep: M) => (fm: Type<F, M>) => M
 export function intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm: HKT<F, M>) => M
@@ -260,7 +320,9 @@ export function intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm
  * Find the sum of the numeric values in a data structure
  * @function
  */
+export function sum<F extends URIS3, A, U, L>(F: Foldable3C<F, U, L>, S: Semiring<A>): (fa: Type3<F, U, L, A>) => A
 export function sum<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Type3<F, U, L, A>) => A
+export function sum<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Semiring<A>): (fa: Type2<F, L, A>) => A
 export function sum<F extends URIS2, A>(F: Foldable2<F>, S: Semiring<A>): <L>(fa: Type2<F, L, A>) => A
 export function sum<F extends URIS, A>(F: Foldable1<F>, S: Semiring<A>): (fa: Type<F, A>) => A
 export function sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A
@@ -272,7 +334,9 @@ export function sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A 
  * Find the product of the numeric values in a data structure
  * @function
  */
+export function product<F extends URIS3, A, U, L>(F: Foldable3C<F, U, L>, S: Semiring<A>): (fa: Type3<F, U, L, A>) => A
 export function product<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Type3<F, U, L, A>) => A
+export function product<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Semiring<A>): (fa: Type2<F, L, A>) => A
 export function product<F extends URIS2, A>(F: Foldable2<F>, S: Semiring<A>): <L>(fa: Type2<F, L, A>) => A
 export function product<F extends URIS, A>(F: Foldable1<F>, S: Semiring<A>): (fa: Type<F, A>) => A
 export function product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A
@@ -284,7 +348,12 @@ export function product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) =
  * Test whether a value is an element of a data structure
  * @function
  */
+export function elem<F extends URIS3, A, U, L>(
+  F: Foldable3C<F, U, L>,
+  S: Setoid<A>
+): (a: A, fa: Type3<F, U, L, A>) => boolean
 export function elem<F extends URIS3, A>(F: Foldable3<F>, S: Setoid<A>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
+export function elem<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Setoid<A>): (a: A, fa: Type2<F, L, A>) => boolean
 export function elem<F extends URIS2, A>(F: Foldable2<F>, S: Setoid<A>): <L>(a: A, fa: Type2<F, L, A>) => boolean
 export function elem<F extends URIS, A>(F: Foldable1<F>, S: Setoid<A>): (a: A, fa: Type<F, A>) => boolean
 export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean
@@ -296,7 +365,11 @@ export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) 
  * Try to find an element in a data structure which satisfies a predicate
  * @function
  */
+export function find<F extends URIS3, U, L>(
+  F: Foldable3C<F, U, L>
+): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
 export function find<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
+export function find<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
 export function find<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
 export function find<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Option<A>
 export function find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>
@@ -315,7 +388,12 @@ export function find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => 
  * Find the smallest element of a structure, according to its `Ord` instance
  * @function
  */
+export function minimum<F extends URIS3, A, U, L>(
+  F: Foldable3C<F, U, L>,
+  O: Ord<A>
+): (fa: Type3<F, U, L, A>) => Option<A>
 export function minimum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
+export function minimum<F extends URIS2, A, L>(F: Foldable2C<F, L>, O: Ord<A>): (fa: Type2<F, L, A>) => Option<A>
 export function minimum<F extends URIS2, A>(F: Foldable2<F>, O: Ord<A>): <L>(fa: Type2<F, L, A>) => Option<A>
 export function minimum<F extends URIS, A>(F: Foldable1<F>, O: Ord<A>): (fa: Type<F, A>) => Option<A>
 export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A>
@@ -328,7 +406,12 @@ export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Opt
  * Find the largest element of a structure, according to its `Ord` instance
  * @function
  */
+export function maximum<F extends URIS3, A, U, L>(
+  F: Foldable3C<F, U, L>,
+  O: Ord<A>
+): (fa: Type3<F, U, L, A>) => Option<A>
 export function maximum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
+export function maximum<F extends URIS2, A, L>(F: Foldable2C<F, L>, O: Ord<A>): (fa: Type2<F, L, A>) => Option<A>
 export function maximum<F extends URIS2, A>(F: Foldable2<F>, O: Ord<A>): <L>(fa: Type2<F, L, A>) => Option<A>
 export function maximum<F extends URIS, A>(F: Foldable1<F>, O: Ord<A>): (fa: Type<F, A>) => Option<A>
 export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A>
@@ -338,10 +421,12 @@ export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Opt
 }
 
 /** @function */
-export function toArray<F extends URIS3>(F: Foldable3<F>): (<U, L, A>(fa: Type3<F, U, L, A>) => Array<A>)
-export function toArray<F extends URIS2>(F: Foldable2<F>): (<L, A>(fa: Type2<F, L, A>) => Array<A>)
-export function toArray<F extends URIS>(F: Foldable1<F>): (<A>(fa: Type<F, A>) => Array<A>)
-export function toArray<F>(F: Foldable<F>): (<A>(fa: HKT<F, A>) => Array<A>)
-export function toArray<F>(F: Foldable<F>): (<A>(fa: HKT<F, A>) => Array<A>) {
+export function toArray<F extends URIS3, U, L>(F: Foldable3C<F, U, L>): <A>(fa: Type3<F, U, L, A>) => Array<A>
+export function toArray<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => Array<A>
+export function toArray<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>) => Array<A>
+export function toArray<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>) => Array<A>
+export function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>) => Array<A>
+export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
+export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
   return fa => foldMap(F, unsafeMonoidArray)(fa, a => [a])
 }

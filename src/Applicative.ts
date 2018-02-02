@@ -69,9 +69,15 @@ export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> exte
 }
 
 /** Perform a applicative action when a condition is true */
+export function when<F extends URIS3, U, L>(
+  F: Applicative3C<F, U, L>
+): (condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
 export function when<F extends URIS3>(
   F: Applicative3<F>
 ): <U, L>(condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
+export function when<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): (condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
 export function when<F extends URIS2>(
   F: Applicative2<F>
 ): <L>(condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
