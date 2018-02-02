@@ -49,7 +49,31 @@ export interface FoldableComposition11<F extends URIS, G extends URIS> {
   reduce: <A, B>(fga: Type<F, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 
+export interface FoldableComposition12<F extends URIS, G extends URIS2> {
+  reduce: <L, A, B>(fga: Type<F, Type2<G, L, A>>, b: B, f: (b: B, a: A) => B) => B
+}
+
+export interface FoldableComposition21<F extends URIS2, G extends URIS> {
+  reduce: <L, A, B>(fga: Type2<F, L, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
+}
+
+export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
+  reduce: <LF, LG, A, B>(fga: Type2<F, LF, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
+}
+
 /** @function */
+export function getFoldableComposition<F extends URIS2, G extends URIS2>(
+  F: Foldable2<F>,
+  G: Foldable2<G>
+): FoldableComposition22<F, G>
+export function getFoldableComposition<F extends URIS2, G extends URIS>(
+  F: Foldable2<F>,
+  G: Foldable1<G>
+): FoldableComposition21<F, G>
+export function getFoldableComposition<F extends URIS, G extends URIS2>(
+  F: Foldable1<F>,
+  G: Foldable2<G>
+): FoldableComposition12<F, G>
 export function getFoldableComposition<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
