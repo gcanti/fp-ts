@@ -61,11 +61,11 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
 }
 
 export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
-  of: <L, M, A>(a: A) => Type2<F, L, Type2<G, M, A>>
-  ap<L, M, A, B>(
-    fgab: Type2<F, L, Type2<G, M, (a: A) => B>>,
-    fga: Type2<F, L, Type2<G, M, A>>
-  ): Type2<F, L, Type2<G, M, B>>
+  of: <LF, LG, A>(a: A) => Type2<F, LF, Type2<G, LG, A>>
+  ap<LF, LG, A, B>(
+    fgab: Type2<F, LF, Type2<G, LG, (a: A) => B>>,
+    fga: Type2<F, LF, Type2<G, LG, A>>
+  ): Type2<F, LF, Type2<G, LG, B>>
 }
 
 /** Perform a applicative action when a condition is true */
