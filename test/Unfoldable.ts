@@ -9,6 +9,6 @@ describe('Unfoldable', () => {
   })
 
   it('replicateA', () => {
-    assert.deepEqual(replicateA(option, array)(2)(some(1)), some([1, 1]))
+    assert.deepEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
   })
 })
