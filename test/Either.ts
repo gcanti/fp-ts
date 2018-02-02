@@ -3,7 +3,6 @@ import {
   fromNullable,
   fromOption,
   fromPredicate,
-  catchLeft,
   getSetoid,
   left,
   right,
@@ -72,12 +71,6 @@ describe('Either', () => {
     assert.deepEqual(e2, left<Error, any>(new SyntaxError('Unexpected end of JSON input')))
   })
 
-  it('catchLeft', () => {
-    assert.equal(catchLeft(right(12), () => 17), 12)
-    assert.equal(catchLeft(left(12), () => 17), 17)
-    assert.equal(catchLeft(left(12), (l: number) => l + 1), 13)
-  })
-
   it('getOrElse', () => {
     assert.equal(right(12).getOrElse(17), 12)
     assert.equal(left(12).getOrElse(17), 17)
@@ -86,6 +79,7 @@ describe('Either', () => {
   it('getOrElseL', () => {
     assert.equal(right(12).getOrElseL(() => 17), 12)
     assert.equal(left(12).getOrElseL(() => 17), 17)
+    assert.equal(left(12).getOrElseL((l: number) => l + 1), 13)
   })
 
   it('fromOption', () => {

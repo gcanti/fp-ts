@@ -55,15 +55,10 @@ describe('Validation', () => {
     assert.strictEqual(eq(failure('foo'), failure('bar')), false)
   })
 
-  it('catchFailure', () => {
-    assert.equal(success(12).catchFailure(() => 17), 12)
-    assert.equal(failure(12).catchFailure(() => 17), 17)
-    assert.equal(failure(12).catchFailure(l => l + 1), 13)
-  })
-
   it('getOrElse', () => {
     assert.equal(success(12).getOrElse(17), 12)
     assert.equal(failure(12).getOrElse(17), 17)
+    assert.equal(failure(12).getOrElseL((l: number) => l + 1), 13)
   })
 
   it('getOrElseL', () => {

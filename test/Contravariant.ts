@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { Contravariant, lift } from '../src/Contravariant'
+import { Contravariant1, lift } from '../src/Contravariant'
 
 const URI = 'Predicate'
 
@@ -19,7 +19,7 @@ class Predicate<A> {
 
 const contramap = <A, B>(fa: Predicate<A>, f: (b: B) => A): Predicate<B> => new Predicate(b => fa.run(f(b)))
 
-const predicate: Contravariant<URI> = {
+const predicate: Contravariant1<URI> = {
   URI,
   contramap
 }
