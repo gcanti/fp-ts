@@ -1,4 +1,10 @@
-import { Functor, FantasyFunctor } from 'fp-ts/lib/Functor'
+import { Functor1 } from 'fp-ts/lib/Functor'
+
+declare module 'fp-ts/lib/HKT' {
+  interface URI2HKT<A> {
+    List: List<A>
+  }
+}
 
 export const URI = 'List'
 
@@ -6,8 +12,8 @@ export type URI = typeof URI
 
 export type List<A> = Nil<A> | Cons<A>
 
-export class Nil<A> implements FantasyFunctor<URI, A> {
-  static value = new Nil<any>()
+export class Nil<A> {
+  static value = new Nil<never>()
   readonly _A: A
   readonly _URI: URI
   private constructor() {}
@@ -22,7 +28,7 @@ export class Nil<A> implements FantasyFunctor<URI, A> {
   }
 }
 
-export class Cons<A> implements FantasyFunctor<URI, A> {
+export class Cons<A> {
   readonly _A: A
   readonly _URI: URI
   constructor(readonly head: A, readonly tail: List<A>) {}
@@ -43,15 +49,13 @@ export function cons<A>(head: A, tail: List<A>): List<A> {
   return new Cons(head, tail)
 }
 
-export function map<A, B>(f: (a: A) => B, fa: List<A>): List<B> {
+export function map<A, B>(fa: List<A>, f: (a: A) => B): List<B> {
   return fa.map(f)
 }
 
-const proof: Functor<URI> = {
+const proof: Functor1<URI> = {
   URI,
   map
 }
-// tslint:disable-next-line no-unused-expression
-proof
 
 console.log(cons(1, cons(2, nil)).map(n => n * 2)) // => cons(2, cons(4, nil))

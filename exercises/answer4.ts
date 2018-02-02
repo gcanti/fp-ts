@@ -1,11 +1,10 @@
-import { Option } from 'fp-ts/lib/Option'
-import * as option from 'fp-ts/lib/Option'
+import { Option, none, option } from 'fp-ts/lib/Option'
 
 export function head<A>(xs: Array<A>): Option<A> {
   if (xs.length) {
     return option.of(xs[0])
   }
-  return option.none
+  return none
 }
 
 console.log(head([1, 2, 3])) // => some(1)
