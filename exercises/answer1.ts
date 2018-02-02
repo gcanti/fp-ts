@@ -8,10 +8,10 @@ export function binarySearch<A>(xs: Array<A>, x: A, ord: Ord<A>): number {
     }
     const mid2 = Math.floor((low + high) / 2)
     const d = xs[mid2]
-    if (ord.equals(d)(x)) {
+    if (ord.equals(d, x)) {
       return mid2
     }
-    if (ord.compare(d)(x) === 1) {
+    if (ord.compare(d, x) === 1) {
       return go(low, mid2, mid2 - 1)
     }
     return go(mid2 + 1, mid2, high)
