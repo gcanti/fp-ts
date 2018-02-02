@@ -43,7 +43,7 @@ import { fold, monoidSum } from '../src/Monoid'
 import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { tuple } from '../src/function'
+import { tuple, identity } from '../src/function'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -212,8 +212,8 @@ describe('Array', () => {
 
   it('extend', () => {
     const sum = (as: Array<number>) => fold(monoidSum)(as)
-    assert.deepEqual(array.extend(sum, [1, 2, 3, 4]), [10, 9, 7, 4])
-    assert.deepEqual(array.extend(a => a, [1, 2, 3, 4]), [[1, 2, 3, 4], [2, 3, 4], [3, 4], [4]])
+    assert.deepEqual(array.extend([1, 2, 3, 4], sum), [10, 9, 7, 4])
+    assert.deepEqual(array.extend([1, 2, 3, 4], identity), [[1, 2, 3, 4], [2, 3, 4], [3, 4], [4]])
   })
 
   it('zip', () => {

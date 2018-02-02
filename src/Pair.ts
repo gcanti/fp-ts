@@ -89,7 +89,7 @@ const extract = <A>(fa: Pair<A>): A => {
   return fa.extract()
 }
 
-const extend = <A, B>(f: (fb: Pair<A>) => B, fa: Pair<A>): Pair<B> => {
+const extend = <A, B>(fa: Pair<A>, f: (fb: Pair<A>) => B): Pair<B> => {
   return fa.extend(f)
 }
 

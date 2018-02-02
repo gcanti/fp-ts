@@ -52,7 +52,7 @@ export class NonEmptyArray<A> {
     return array.reduce(this.toArray(), b, f)
   }
   extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> {
-    return unsafeFromArray(array.extend(as => f(unsafeFromArray(as)), this.toArray()))
+    return unsafeFromArray(array.extend(this.toArray(), as => f(unsafeFromArray(as))))
   }
   extract(): A {
     return this.head
@@ -103,7 +103,7 @@ const reduce = <A, B>(fa: NonEmptyArray<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-const extend = <A, B>(f: (fa: NonEmptyArray<A>) => B, fa: NonEmptyArray<A>): NonEmptyArray<B> => {
+const extend = <A, B>(fa: NonEmptyArray<A>, f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> => {
   return fa.extend(f)
 }
 

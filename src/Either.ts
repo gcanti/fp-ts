@@ -217,7 +217,7 @@ const alt = <L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => {
   return fx.alt(fy)
 }
 
-const extend = <L, A, B>(f: (ea: Either<L, A>) => B, ea: Either<L, A>): Either<L, B> => {
+const extend = <L, A, B>(ea: Either<L, A>, f: (ea: Either<L, A>) => B): Either<L, B> => {
   return ea.extend(f)
 }
 

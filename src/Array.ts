@@ -132,7 +132,7 @@ const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
   return ret
 }
 
-const extend = <A, B>(f: (fa: Array<A>) => B, fa: Array<A>): Array<B> => {
+const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
   return fa.map((_, i, as) => f(as.slice(i)))
 }
 

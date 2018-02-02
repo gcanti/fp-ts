@@ -51,7 +51,7 @@ const extract = <S, A>(sa: Store<S, A>): A => {
   return sa.extract()
 }
 
-const extend = <S, A, B>(f: (sa: Store<S, A>) => B, sa: Store<S, A>): Store<S, B> => {
+const extend = <S, A, B>(sa: Store<S, A>, f: (sa: Store<S, A>) => B): Store<S, B> => {
   return sa.extend(f)
 }
 

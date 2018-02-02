@@ -229,7 +229,7 @@ const alt = <A>(fx: Option<A>, fy: Option<A>): Option<A> => {
   return fx.alt(fy)
 }
 
-const extend = <A, B>(f: (ea: Option<A>) => B, ea: Option<A>): Option<B> => {
+const extend = <A, B>(ea: Option<A>, f: (ea: Option<A>) => B): Option<B> => {
   return ea.extend(f)
 }
 
