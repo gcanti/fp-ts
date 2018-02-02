@@ -65,13 +65,13 @@ export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>
  * Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
  */
 export function liftA2<F extends URIS3>(
-  F: Apply<F>
+  F: Apply3<F>
 ): <A, B, C>(f: Curried2<A, B, C>) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
 export function liftA2<F extends URIS2>(
-  F: Apply<F>
+  F: Apply2<F>
 ): <A, B, C>(f: Curried2<A, B, C>) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
 export function liftA2<F extends URIS>(
-  F: Apply<F>
+  F: Apply1<F>
 ): <A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
 /**
@@ -86,17 +86,17 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
  * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor `F`
  */
 export function liftA3<F extends URIS3>(
-  F: Apply<F>
+  F: Apply3<F>
 ): <A, B, C, D>(
   f: Curried3<A, B, C, D>
 ) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => Type3<F, U, L, D>
 export function liftA3<F extends URIS2>(
-  F: Apply<F>
+  F: Apply2<F>
 ): <A, B, C, D>(
   f: Curried3<A, B, C, D>
 ) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => Type2<F, L, D>
 export function liftA3<F extends URIS>(
-  F: Apply<F>
+  F: Apply1<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>>
 export function liftA3<F>(
   F: Apply<F>
@@ -115,19 +115,19 @@ export function liftA3<F>(
  * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor `F`
  */
 export function liftA4<F extends URIS3>(
-  F: Apply<F>
+  F: Apply3<F>
 ): <A, B, C, D, E>(
   f: Curried4<A, B, C, D, E>
 ) => <U, L>(
   fa: Type3<F, U, L, A>
 ) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => (fd: Type3<F, U, L, D>) => Type3<F, U, L, E>
 export function liftA4<F extends URIS2>(
-  F: Apply<F>
+  F: Apply2<F>
 ): <A, B, C, D, E>(
   f: Curried4<A, B, C, D, E>
 ) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => (fd: Type2<F, L, D>) => Type2<F, L, E>
 export function liftA4<F extends URIS>(
-  F: Apply<F>
+  F: Apply1<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>, Type<F, E>>
 export function liftA4<F>(
   F: Apply<F>
