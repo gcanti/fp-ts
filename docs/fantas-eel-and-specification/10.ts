@@ -11,6 +11,6 @@ import { Plus } from '../../src/Plus'
 import { Monoid } from '../../src/Monoid'
 
 export const getMonoid = <F>(plus: Plus<F>) => <A>(): Monoid<HKT<F, A>> => ({
-  concat: x => y => plus.alt(x, y),
-  empty: plus.zero
+  concat: (x, y) => plus.alt(x, y),
+  empty: plus.zero()
 })

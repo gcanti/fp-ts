@@ -54,7 +54,7 @@ export class Cons<A> {
     return `new Cons(${this.head}, ${this.tail})`
   }
   equals(S: Setoid<A>, that: List<A>): boolean {
-    return that.fold(() => false, (head, tail) => S.equals(this.head)(head) && this.tail.equals(S, tail))
+    return that.fold(() => false, (head, tail) => S.equals(this.head, head) && this.tail.equals(S, tail))
   }
 }
 
@@ -66,7 +66,7 @@ export const equals = <A>(S: Setoid<A>) => (xs: List<A>) => (ys: List<A>): boole
 // derivations
 //
 
-export const notEquals = <A>(S: Setoid<A>) => (x: A) => (y: A): boolean => !S.equals(x)(y)
+export const notEquals = <A>(S: Setoid<A>) => (x: A) => (y: A): boolean => !S.equals(x, y)
 
 //
 // nub implementation
@@ -76,7 +76,7 @@ import { findIndex } from '../../src/Array'
 import { setoidNumber } from '../../src/Setoid'
 
 const nub = <A>(S: Setoid<A>) => (xs: Array<A>): Array<A> =>
-  xs.filter((x, i) => findIndex((a: A) => S.equals(x)(a))(xs).exists(j => i === j))
+  xs.filter((x, i) => findIndex((a: A) => S.equals(x, a))(xs).exists(j => i === j))
 
 console.log(nub(setoidNumber)([1, 2, 3, 4, 2, 3]))
 // => [ 1, 2, 3, 4 ]

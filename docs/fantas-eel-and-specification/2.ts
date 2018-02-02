@@ -27,7 +27,7 @@ export function naiveEquals<A>(xs: Array<A>, ys: Array<A>): boolean {
 import { Setoid } from '../../src/Setoid'
 
 export const equals = <A>(S: Setoid<A>) => (xs: Array<A>) => (ys: Array<A>): boolean =>
-  xs.length === ys.length && xs.every((x, i) => S.equals(x)(ys[i])) // <- this too restrictive
+  xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])) // <- this too restrictive
 
 // so type constraints are encoded as additional arguments (usually in first position)
 
@@ -37,7 +37,7 @@ export const equals = <A>(S: Setoid<A>) => (xs: Array<A>) => (ys: Array<A>): boo
 
 /** `Setoid` instance for `number` */
 const setoidNumber: Setoid<number> = {
-  equals: x => y => x === y
+  equals: (x, y) => x === y
 }
 
 console.log(equals(setoidNumber)([1, 2])([1, 2]))
@@ -45,7 +45,7 @@ console.log(equals(setoidNumber)([1, 2])([1, 2]))
 
 /** `Setoid` instance for `Date` */
 const setoidDate: Setoid<Date> = {
-  equals: x => y => x.getTime() === y.getTime()
+  equals: (x, y) => x.getTime() === y.getTime()
 }
 
 const d1 = new Date(1973, 10, 30)

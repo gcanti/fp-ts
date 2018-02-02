@@ -2,7 +2,7 @@
 // Code for http://www.tomharding.me/2017/06/05/fantas-eel-and-specification-15/
 //
 
-import { Task, of } from '../../src/Task'
+import { Task, task } from '../../src/Task'
 import { createInterface } from 'readline'
 
 const rl = createInterface({
@@ -44,7 +44,7 @@ const MyApp =
               : speak('Hmm, I can believe that!')
         )
         // Return the name!
-        .chain(_ => of(name))
+        .chain(_ => task.of(name))
     )
 
 MyApp.run().then(name => {
