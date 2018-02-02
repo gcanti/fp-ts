@@ -1,8 +1,8 @@
 // adapted from http://okmij.org/ftp/Computation/free-monad.html
 // and https://github.com/purescript/purescript-free
 
-import { HKT, HKT2, HKT3, URIS, Type, URIS2, Type2, URIS3, Type3 } from './HKT'
-import { Monad, Monad1, Monad2, Monad3 } from './Monad'
+import { HKT, URIS, Type, URIS2, Type2, URIS3, Type3 } from './HKT'
+import { Monad, Monad1, Monad2C, Monad3C } from './Monad'
 import { toString } from './function'
 
 export const URI = 'Free'
@@ -34,18 +34,17 @@ export class Pure<F, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.value)
   }
-  foldFree<M extends URIS3>(M: Monad3<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => Type3<M, U, L, A>
-  foldFree<M extends URIS2>(M: Monad2<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => Type2<M, L, A>
-  foldFree<M extends URIS>(M: Monad1<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => Type<M, A>
-  foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A>
-  foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A> {
-    return () => M.of(this.value)
-  }
   inspect(): string {
     return this.toString()
   }
   toString(): string {
     return `new Pure(${toString(this.value)})`
+  }
+  isPure(): this is Pure<F, A> {
+    return true
+  }
+  isImpure(): this is Impure<F, A, any> {
+    return false
   }
 }
 
@@ -67,18 +66,17 @@ export class Impure<F, A, X> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).chain(f))
   }
-  foldFree<M extends URIS3>(M: Monad3<M>): <U, L>(f: <A>(fa: HKT<F, A>) => HKT3<M, U, L, A>) => Type3<M, U, L, A>
-  foldFree<M extends URIS2>(M: Monad2<M>): <L>(f: <A>(fa: HKT<F, A>) => HKT2<M, L, A>) => Type2<M, L, A>
-  foldFree<M extends URIS>(M: Monad1<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => Type<M, A>
-  foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A>
-  foldFree<M>(M: Monad<M>): (f: <A>(fa: HKT<F, A>) => HKT<M, A>) => HKT<M, A> {
-    return f => M.chain(f(this.fx), x => this.f(x).foldFree(M)(f))
-  }
   inspect(): string {
     return this.toString()
   }
   toString(): string {
     return `new Impure(${(toString(this.fx), toString(this.f))})`
+  }
+  isPure(): this is Pure<F, A> {
+    return false
+  }
+  isImpure(): this is Impure<F, A, X> {
+    return true
   }
 }
 
@@ -95,8 +93,7 @@ export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => {
   return new Impure(fa, a => of(a))
 }
 
-/** @function */
-export const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>) => {
+const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>) => {
   function go<A>(fa: Free<F, A>): Free<G, A> {
     switch (fa._tag) {
       case 'Pure':
@@ -112,13 +109,15 @@ export const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: F
  * Use a natural transformation to change the generating type constructor of a free monad
  * @function
  */
-export function hoistFree<F extends URIS3, G>(
-  nt: <U, L, A>(fa: Type3<F, U, L, A>) => HKT<G, A> // TODO why Type3 here?
+export function hoistFree<F extends URIS3 = never, G extends URIS3 = never>(
+  nt: <U, L, A>(fa: Type3<F, U, L, A>) => Type3<G, U, L, A>
 ): (<A>(fa: Free<F, A>) => Free<G, A>)
-export function hoistFree<F extends URIS2, G>(
-  nt: <L, A>(fa: Type2<F, L, A>) => HKT<G, A>
+export function hoistFree<F extends URIS2 = never, G extends URIS2 = never>(
+  nt: <L, A>(fa: Type2<F, L, A>) => Type2<G, L, A>
 ): (<A>(fa: Free<F, A>) => Free<G, A>)
-export function hoistFree<F extends URIS, G>(nt: <A>(fa: Type<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
+export function hoistFree<F extends URIS = never, G extends URIS = never>(
+  nt: <A>(fa: Type<F, A>) => Type<G, A>
+): (<A>(fa: Free<F, A>) => Free<G, A>)
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
 /**
  * Use a natural transformation to change the generating type constructor of a free monad
@@ -128,17 +127,23 @@ export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: F
   return substFree(fa => liftF(nt(fa)))
 }
 
-export function foldFree<M extends URIS3>(
-  M: Monad<M>
-): <F extends URIS>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <U, L, A>(fa: Free<F, A>) => Type3<M, U, L, A>
-export function foldFree<M extends URIS2>(
-  M: Monad<M>
-): <F extends URIS>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <L, A>(fa: Free<F, A>) => Type2<M, L, A>
+export function foldFree<M extends URIS3, U, L>(
+  M: Monad3C<M, U, L>
+): <F extends URIS3, A>(nt: <X>(fa: Type3<F, U, L, X>) => Type3<M, U, L, X>, fa: Free<F, A>) => Type3<M, U, L, A>
+export function foldFree<M extends URIS2, L>(
+  M: Monad2C<M, L>
+): <F extends URIS2, A>(nt: <X>(fa: Type2<F, L, X>) => Type2<M, L, X>, fa: Free<F, A>) => Type2<M, L, A>
 export function foldFree<M extends URIS>(
-  M: Monad<M>
-): <F extends URIS>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <A>(fa: Free<F, A>) => Type<M, A>
-export function foldFree<M>(M: Monad<M>): <F>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <A>(fa: Free<F, A>) => HKT<M, A>
+  M: Monad1<M>
+): <F extends URIS, A>(nt: <X>(fa: Type<F, X>) => Type<M, X>, fa: Free<F, A>) => Type<M, A>
+export function foldFree<M>(M: Monad<M>): <F, A>(nt: <X>(fa: HKT<F, X>) => HKT<M, X>, fa: Free<F, A>) => HKT<M, A>
 /** @function */
-export function foldFree<M>(M: Monad<M>): <F>(f: <A>(fa: HKT<F, A>) => HKT<M, A>) => <A>(fa: Free<F, A>) => HKT<M, A> {
-  return f => fa => fa.foldFree(M)(f)
+export function foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A> {
+  return (nt, fa) => {
+    if (fa.isPure()) {
+      return M.of(fa.value)
+    } else {
+      return M.chain(nt(fa.fx), x => foldFree(M)(nt, fa.f(x)))
+    }
+  }
 }

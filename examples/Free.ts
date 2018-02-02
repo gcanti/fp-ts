@@ -1,11 +1,16 @@
 import * as free from '../src/Free'
 import { Identity, identity } from '../src/Identity'
-import { HKT } from '../src/HKT'
 
 export class Degree {
   readonly value: number
   constructor(d: number) {
     this.value = (d + 360) % 360
+  }
+}
+
+declare module '../src/HKT' {
+  interface URI2HKT<A> {
+    Instruction: InstructionF<A>
   }
 }
 
@@ -74,8 +79,7 @@ const computation = {
   }
 }
 
-export function interpretIdentity<A>(hktfa: HKT<InstructionFURI, A>): Identity<A> {
-  const fa = hktfa as InstructionF<A>
+export function interpretIdentity<A>(fa: InstructionF<A>): Identity<A> {
   switch (fa._tag) {
     case 'Forward':
       return identity.of(fa.more(computation.forward(fa.position, fa.length)))
@@ -99,7 +103,7 @@ const program1 = (start: Position) => {
 }
 
 console.log('--program1--')
-const result1 = program1(start).foldFree(identity)(interpretIdentity) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
+const result1 = free.foldFree(identity)(interpretIdentity, program1(start)) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
 console.log(result1.value) // undefined
 
 import * as option from '../src/Option'
@@ -107,8 +111,7 @@ import * as option from '../src/Option'
 const nonNegative = (position: Position): option.Option<Position> =>
   position.x >= 0 && position.y >= 0 ? option.some(position) : option.none
 
-export function interpretOption<A>(hktfa: HKT<InstructionFURI, A>): option.Option<A> {
-  const fa = hktfa as InstructionF<A>
+export function interpretOption<A>(fa: InstructionF<A>): option.Option<A> {
   switch (fa._tag) {
     case 'Forward':
       return nonNegative(computation.forward(fa.position, fa.length)).map(fa.more)
@@ -131,11 +134,17 @@ const program2 = (start: Position) => {
     .chain(p3 => show(p3))
 }
 
-// console.log('--program2--')
-const result2 = program2(start).foldFree(option.option)(interpretOption)
+console.log('--program2--')
+const result2 = free.foldFree(option.option)(interpretOption, program2(start))
 console.log(result2) // none
 
 // Composing
+
+declare module '../src/HKT' {
+  interface URI2HKT<A> {
+    PencilInstruction: PencilInstructionF<A>
+  }
+}
 
 export const PencilInstructionFURI = 'PencilInstruction'
 
@@ -162,6 +171,12 @@ export const pencilDown = (position: Position) => free.liftF(new PencilDown(posi
 
 export type LogoApp<A> = InstructionF<A> | PencilInstructionF<A>
 
+declare module '../src/HKT' {
+  interface URI2HKT<A> {
+    LogoApp: LogoAppF<A>
+  }
+}
+
 export const LogoAppFURI = 'LogoApp'
 
 export type LogoAppFURI = typeof LogoAppFURI
@@ -182,11 +197,9 @@ export class PencilInstruction<A> {
 
 export type LogoAppF<A> = Instruction<A> | PencilInstruction<A>
 
-const injectInstruction = free.hoistFree(
-  <A>(hktfa: HKT<InstructionFURI, A>) => new Instruction(hktfa as InstructionF<A>)
-)
-const injectPencil = free.hoistFree(
-  <A>(hktfa: HKT<PencilInstructionFURI, A>) => new PencilInstruction(hktfa as PencilInstructionF<A>)
+const injectInstruction = free.hoistFree<InstructionFURI, LogoAppFURI>(<A>(fa: InstructionF<A>) => new Instruction(fa))
+const injectPencil = free.hoistFree<PencilInstructionFURI, LogoAppFURI>(
+  <A>(fa: PencilInstructionF<A>) => new PencilInstruction(fa)
 )
 
 const program3 = (start: Position): free.Free<LogoAppFURI, void> => {
@@ -214,8 +227,7 @@ export function penInterpretIdentity<A>(fa: PencilInstructionF<A>): Identity<A> 
   }
 }
 
-export function logoAppInterpretIdentity<A>(hktfa: HKT<LogoAppFURI, A>): Identity<A> {
-  const fa = hktfa as LogoAppF<A>
+export function logoAppInterpretIdentity<A>(fa: LogoAppF<A>): Identity<A> {
   switch (fa._tag) {
     case InstructionFURI:
       return interpretIdentity(fa.value)
@@ -225,7 +237,7 @@ export function logoAppInterpretIdentity<A>(hktfa: HKT<LogoAppFURI, A>): Identit
 }
 
 console.log('--program3--')
-program3(start).foldFree(identity)(logoAppInterpretIdentity)
+free.foldFree(identity)(logoAppInterpretIdentity, program3(start))
 /*
 stop drawing at position {"x":0,"y":10,"heading":{"value":0}}
 start drawing at position {"x":10,"y":10,"heading":{"value":0}}
