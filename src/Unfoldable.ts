@@ -87,23 +87,23 @@ export function singleton<F>(unfoldable: Unfoldable<F>): <A>(a: A) => HKT<F, A> 
 export function replicateA<F extends URIS3, T extends URIS, U, L>(
   applicative: Applicative3C<F, U, L>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): (n: number) => <A>(ma: Type3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
+): <A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
 export function replicateA<F extends URIS3, T extends URIS>(
   applicative: Applicative3<F>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): (n: number) => <U, L, A>(ma: Type3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
+): <U, L, A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
 export function replicateA<F extends URIS2, T extends URIS, L>(
   applicative: Applicative2C<F, L>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): (n: number) => <A>(ma: Type2<F, L, A>) => Type2<F, L, HKT<T, A>>
+): <A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, HKT<T, A>>
 export function replicateA<F extends URIS2, T extends URIS>(
   applicative: Applicative2<F>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): (n: number) => <L, A>(ma: Type2<F, L, A>) => Type2<F, L, HKT<T, A>>
+): <L, A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, HKT<T, A>>
 export function replicateA<F extends URIS, T extends URIS>(
   applicative: Applicative1<F>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): (n: number) => <A>(ma: Type<F, A>) => Type<F, HKT<T, A>>
+): <A>(n: number, ma: Type<F, A>) => Type<F, HKT<T, A>>
 /**
  * Perform an Applicative action `n` times, and accumulate all the results
  * @function
@@ -111,6 +111,6 @@ export function replicateA<F extends URIS, T extends URIS>(
 export function replicateA<F, T>(
   applicative: Applicative<F>,
   unfoldableTraversable: Unfoldable<T> & Traversable<T>
-): (n: number) => <A>(ma: HKT<F, A>) => HKT<F, HKT<T, A>> {
-  return n => ma => sequence(applicative, unfoldableTraversable)(replicate(unfoldableTraversable)(ma, n))
+): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>> {
+  return (n, ma) => sequence(applicative, unfoldableTraversable)(replicate(unfoldableTraversable)(ma, n))
 }
