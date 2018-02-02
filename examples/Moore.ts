@@ -64,7 +64,7 @@ export const chain = <L, A, B>(fa: Moore<L, A>, f: (a: A) => Moore<L, B>): Moore
 
 export const extract = <L, A>(fa: Moore<L, A>): A => fa.extract()
 
-export const extend = <L, A, B>(f: (fa: Moore<L, A>) => B, fa: Moore<L, A>): Moore<L, B> => fa.extend(f)
+export const extend = <L, A, B>(fa: Moore<L, A>, f: (fa: Moore<L, A>) => B): Moore<L, B> => fa.extend(f)
 
 export const promap = <A, B, C, D>(fla: Moore<B, C>, f: (a: A) => B, g: (c: C) => D): Moore<A, D> => fla.promap(f, g)
 
