@@ -18,17 +18,17 @@ describe('Functor', () => {
   })
 
   it('voidRight', () => {
-    assert.deepEqual(voidRight(option.option)(1)(option.some('a')), option.some(1))
+    assert.deepEqual(voidRight(option.option)(1, option.some('a')), option.some(1))
   })
 
   it('voidLeft', () => {
-    assert.deepEqual(voidLeft(option.option)(option.some(1))('a'), option.some('a'))
+    assert.deepEqual(voidLeft(option.option)(option.some(1), 'a'), option.some('a'))
   })
 
   it('flap', () => {
     const gt3 = (n: number) => n >= 3
     const lt5 = (n: number) => n <= 5
     const fs = [gt3, lt5]
-    assert.deepEqual(flap(array)(fs)(4), [true, true])
+    assert.deepEqual(flap(array)(4, fs), [true, true])
   })
 })
