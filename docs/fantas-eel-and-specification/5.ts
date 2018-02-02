@@ -7,10 +7,10 @@ import { monoidSum } from '../../src/Monoid'
 
 const firstMonoid = getFirstMonoid<number>()
 
-console.log(firstMonoid.concat(none)(some(1)))
+console.log(firstMonoid.concat(none, some(1)))
 // => some(1)
 
-console.log(firstMonoid.concat(some(1))(some(2)))
+console.log(firstMonoid.concat(some(1), some(2)))
 // => some(1)
 
 import { fold } from '../../src/Monoid'
@@ -28,7 +28,7 @@ import { monoidString } from '../../src/Monoid'
 
 const monoidTuple = getMonoid(monoidSum, monoidString)
 
-console.log(monoidTuple.empty())
+console.log(monoidTuple.empty)
 // => new Tuple([0, ""])
 
 import { getFunctionMonoid, monoidAll } from '../../src/Monoid'
@@ -38,7 +38,7 @@ export const monoidFunction = getFunctionMonoid(monoidAll)<string>()
 export const gt2 = (s: string) => s.length > 2
 export const lt4 = (s: string) => s.length < 4
 
-export const between2and4 = monoidFunction.concat(gt2)(lt4)
+export const between2and4 = monoidFunction.concat(gt2, lt4)
 
 console.log(between2and4('foo')) // => true
 console.log(between2and4('')) // => false

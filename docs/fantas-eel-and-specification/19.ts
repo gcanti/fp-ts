@@ -16,7 +16,7 @@ import { HKT } from '../../src/HKT'
 export class MCompose<M, A, B> {
   constructor(readonly M: Monad<M>, readonly run: (a: A) => HKT<M, B>) {}
   compose<C>(that: MCompose<M, B, C>): MCompose<M, A, C> {
-    return new MCompose(this.M, a => this.M.chain(b => that.run(b), this.run(a)))
+    return new MCompose(this.M, a => this.M.chain(this.run(a), b => that.run(b)))
   }
 }
 

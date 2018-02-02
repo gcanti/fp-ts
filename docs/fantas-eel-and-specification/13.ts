@@ -3,7 +3,7 @@
 //
 
 import { StrMap, lookup } from '../../src/StrMap'
-import * as option from '../../src/Option'
+import { option } from '../../src/Option'
 
 const data = new StrMap({ a: new StrMap({ b: new StrMap({ c: 2 }) }) })
 
@@ -25,14 +25,14 @@ console.log(
 // using flatten (= join)
 //
 
-import { flatten as generalflatten } from '../../src/Chain'
+import { flatten } from '../../src/Chain'
 
-const flatten = generalflatten(option)
+const flattenOption = flatten(option)
 
-console.log(flatten(flatten(lookup('a')(data).map(lookup('b'))).map(lookup('c'))))
+console.log(flattenOption(flattenOption(lookup('a')(data).map(lookup('b'))).map(lookup('c'))))
 // => some(2)
 
-console.log(flatten(flatten(lookup('a')(data).map(lookup('badger'))).map(lookup('c'))))
+console.log(flattenOption(flattenOption(lookup('a')(data).map(lookup('badger'))).map(lookup('c'))))
 // => none
 
 //
@@ -50,22 +50,19 @@ console.log(
 // Either
 //
 
-import * as either from '../../src/Either'
+import { Either, right, left } from '../../src/Either'
 
-export const sqrt = (x: number): either.Either<string, number> =>
-  x < 0 ? either.left('Hey, no!') : either.right(Math.sqrt(x))
+export const sqrt = (x: number): Either<string, number> => (x < 0 ? left('Hey, no!') : right(Math.sqrt(x)))
 
 console.log(
-  either
-    .right<string, number>(16)
+  right<string, number>(16)
     .chain(sqrt)
     .chain(sqrt)
 )
 // => right(2)
 
 console.log(
-  either
-    .right<string, number>(81)
+  right<string, number>(81)
     .chain(sqrt)
     .map(x => -x)
     .chain(sqrt)
@@ -73,14 +70,14 @@ console.log(
 )
 // => left("Hey, no!")
 
-console.log(either.left<string, number>('eep').chain(sqrt))
+console.log(left<string, number>('eep').chain(sqrt))
 // => left("eep")
 
 //
 // Array
 //
 
-import * as array from '../../src/Array'
+import { array } from '../../src/Array'
 
 const flights = {
   ATL: ['LAX', 'DFW'],
@@ -94,7 +91,7 @@ type FLIGHT = keyof typeof flights
 
 const whereNext = (x: FLIGHT): Array<FLIGHT> => (flights[x] || []) as Array<FLIGHT>
 
-console.log(array.chain(whereNext, array.chain(whereNext, whereNext('LAX'))))
+console.log(array.chain(array.chain(whereNext('LAX'), whereNext), whereNext))
 // => [ 'JFK', 'ATL', 'ATL', 'ORD', 'DFW', 'JFK', 'ATL' ]
 
 const range = (from: number, to: number): Array<number> => [...new Array(to - from).fill(1)].map((_, i) => i + from)
@@ -102,7 +99,7 @@ const range = (from: number, to: number): Array<number> => [...new Array(to - fr
 import { tuple } from '../../src/function'
 
 const factors = (n: number): Array<[number, number]> =>
-  array.chain(a => array.chain(b => (a * b !== n ? [] : [tuple(a, b)]), range(1, a)), range(1, n))
+  array.chain(range(1, n), a => array.chain(range(1, a), b => (a * b !== n ? [] : [tuple(a, b)])))
 
 console.log(factors(20))
 // => [ [ 5, 4 ], [ 10, 2 ] ]
@@ -111,13 +108,13 @@ console.log(factors(20))
 // Task
 //
 
-import * as task from '../../src/Task'
+import { Task, task } from '../../src/Task'
 
-const getUser = (email: string): task.Task<number> => task.of(email.length)
+const getUser = (email: string): Task<number> => task.of(email.length)
 
 type User = { name: string }
 
-const getFriends = (id: number): task.Task<Array<User>> => task.of([{ name: `Friends of ${id}` }])
+const getFriends = (id: number): Task<Array<User>> => task.of([{ name: `Friends of ${id}` }])
 
 getUser('test@test.com')
   .chain(getFriends)

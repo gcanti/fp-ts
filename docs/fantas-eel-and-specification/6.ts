@@ -4,7 +4,7 @@
 
 // Let's see how to define a functor instance
 
-import { Functor } from '../../src/Functor'
+import { Functor1 } from '../../src/Functor'
 
 declare module '../../src/HKT' {
   interface URI2HKT<A> {
@@ -17,14 +17,14 @@ export const URI = 'MyType'
 export type URI = typeof URI
 
 export class MyType<A> {
-  readonly _A: A
-  readonly _URI: URI
+  readonly '-A': A
+  readonly '-URI': URI
   constructor(readonly value: A) {}
 }
 
-export const map = <A, B>(f: (a: A) => B, fa: MyType<A>): MyType<B> => new MyType(f(fa.value))
+export const map = <A, B>(fa: MyType<A>, f: (a: A) => B): MyType<B> => new MyType(f(fa.value))
 
-export const functor: Functor<URI> = {
+export const functor: Functor1<URI> = {
   URI,
   map
 }

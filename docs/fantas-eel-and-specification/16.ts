@@ -7,8 +7,8 @@ export const URI = 'RoseTree'
 export type URI = typeof URI
 
 export class RoseTree<A> {
-  readonly _A: A
-  readonly _URI: URI
+  readonly '-A': A
+  readonly '-URI': URI
   constructor(readonly root: A, readonly forest: Array<RoseTree<A>>) {}
   map<B>(f: (a: A) => B): RoseTree<B> {
     return new RoseTree(f(this.root), this.forest.map(rt => rt.map(f)))
@@ -64,14 +64,13 @@ console.log(
 }
 */
 
-import { extend, fold } from '../../src/Array'
+import { array, fold } from '../../src/Array'
 
 const temperatures = [23, 19, 19, 18, 18, 20, 24]
 
 console.log(
-  extend(
-    as => fold(() => '???', (prev, tail) => fold(() => '???', (next, _) => (next <= prev ? 'YAY' : 'BOO'), tail), as),
-    temperatures
+  array.extend(temperatures, as =>
+    fold(() => '???', (prev, tail) => fold(() => '???', (next, _) => (next <= prev ? 'YAY' : 'BOO'), tail), as)
   )
 )
 // => [ 'YAY', 'YAY', 'YAY', 'YAY', 'BOO', 'BOO', '???' ]

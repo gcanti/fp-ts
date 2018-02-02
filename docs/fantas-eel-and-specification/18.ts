@@ -22,17 +22,17 @@ console.log(login({ name: 'Giulio' }).bimap(failureStream, successStream))
 // Costar
 //
 
-import { HKT } from '../../src/HKT'
-import { Functor } from '../../src/Functor'
+import { HKT, Type, URIS } from '../../src/HKT'
+import { Functor1 } from '../../src/Functor'
 
-export class Costar<F, B, C> {
-  constructor(readonly F: Functor<F>, readonly run: (fl: HKT<F, B>) => C) {}
+export class Costar<F extends URIS, B, C> {
+  constructor(readonly F: Functor1<F>, readonly run: (fl: Type<F, B>) => C) {}
   promap<A, D>(f: (a: A) => B, g: (c: C) => D): Costar<F, A, D> {
-    return new Costar(this.F, fa => g(this.run(this.F.map(f, fa))))
+    return new Costar(this.F, fa => g(this.run(this.F.map(fa, f))))
   }
 }
 
-import * as array from '../../src/Array'
+import { array } from '../../src/Array'
 
 // Takes a list of ints to the sum
 export const sum = new Costar<'Array', number, number>(array, (xs: HKT<'Array', number>) =>

@@ -3,21 +3,21 @@
 //
 
 import { liftA2 } from '../../src/Apply'
-import * as identity from '../../src/Identity'
-import * as option from '../../src/Option'
+import { Identity, identity } from '../../src/Identity'
+import { option, some, none } from '../../src/Option'
 
 const sum = (x: number) => (y: number) => x + y
 
 const identitySum = liftA2(identity)(sum)
 
-console.log(identitySum(new identity.Identity(2))(new identity.Identity(3))) // => new Identity(5)
+console.log(identitySum(new Identity(2))(new Identity(3))) // => new Identity(5)
 
 const optionSum = liftA2(option)(sum)
 
-console.log(optionSum(option.some(2))(option.some(2))) // => some(4)
-console.log(optionSum(option.some(2))(option.none)) // => none
+console.log(optionSum(some(2))(some(2))) // => some(4)
+console.log(optionSum(some(2))(none)) // => none
 
-import * as array from '../../src/Array'
+import { array } from '../../src/Array'
 
 console.log(array.ap([], [1, 2, 3]))
 // => []
@@ -35,10 +35,10 @@ console.log(liftA2(array)(sum)([1, 2])([3, 4]))
 // Option
 //
 
-console.log(option.some(3).ap(option.some((x: number) => -x))) // => some(-3)
-console.log(option.none.ap(option.some((x: number) => -x))) // => none
-console.log(option.some(3).ap(option.none)) // => none
-console.log(option.none.ap(option.none)) // => none
+console.log(some(3).ap(some((x: number) => -x))) // => some(-3)
+console.log(none.ap(some((x: number) => -x))) // => none
+console.log(some(3).ap(none)) // => none
+console.log(none.ap(none)) // => none
 
 //
 // Either
@@ -55,9 +55,9 @@ console.log(either.left<string, number>('halp').ap(either.left<string, (x: numbe
 // Task
 //
 
-import * as task from '../../src/Task'
+import { Task, task } from '../../src/Task'
 
-export const getJSON = (url: string): task.Task<string> => new task.Task(() => fetch(url).then(res => res.text()))
+export const getJSON = (url: string): Task<string> => new Task(() => fetch(url).then(res => res.text()))
 
 export const renderPage = (users: string) => (posts: string) => 'html...'
 

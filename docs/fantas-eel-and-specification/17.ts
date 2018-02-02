@@ -24,18 +24,18 @@ export const showBoard = (board: Board): string => board.map(row => row.map(b =>
 type Game = Store<Tuple<number, number>, boolean>
 
 export const neighbours = (game: Game): number => {
-  const [x, y] = game.pos.value
+  const [x, y] = game.pos.toTuple()
   return [
-    new Tuple([x - 1, y - 1]), // NW
-    new Tuple([x, y - 1]), // N
-    new Tuple([x + 1, y - 1]), // NE
+    new Tuple(x - 1, y - 1), // NW
+    new Tuple(x, y - 1), // N
+    new Tuple(x + 1, y - 1), // NE
 
-    new Tuple([x - 1, y]), // W
-    new Tuple([x + 1, y]), // E
+    new Tuple(x - 1, y), // W
+    new Tuple(x + 1, y), // E
 
-    new Tuple([x - 1, y + 1]), // SW
-    new Tuple([x, y + 1]), // S
-    new Tuple([x + 1, y + 1]) // SE
+    new Tuple(x - 1, y + 1), // SW
+    new Tuple(x, y + 1), // S
+    new Tuple(x + 1, y + 1) // SE
   ]
     .map(x => game.peek(x)) // Look up!
     .filter(x => x).length // Ignore false cells
@@ -49,9 +49,9 @@ export const isSurvivor = (game: Game): boolean => {
 
 export const fromBoard = (board: Board): Game => {
   return new Store(pointer => {
-    const [x, y] = pointer.value
-    return getBoardValue(board, x, y).getOrElseValue(false)
-  }, new Tuple([0, 0]))
+    const [x, y] = pointer.toTuple()
+    return getBoardValue(board, x, y).getOrElse(false)
+  }, new Tuple(0, 0))
 }
 
 export const toBoard = (game: Game): Board => {
@@ -59,7 +59,7 @@ export const toBoard = (game: Game): Board => {
   for (let i = 0; i <= 3; i++) {
     board[i] = []
     for (let j = 0; j <= 3; j++) {
-      board[i][j] = game.peek(new Tuple([i, j]))
+      board[i][j] = game.peek(new Tuple(i, j))
     }
   }
   return board

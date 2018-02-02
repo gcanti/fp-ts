@@ -4,6 +4,12 @@
 
 import { toString } from '../../src/function'
 
+declare module '../../src/HKT' {
+  interface URI2HKT<A> {
+    BTree: BTree<A>
+  }
+}
+
 export const URI = 'BTree'
 
 export type URI = typeof URI
@@ -11,8 +17,8 @@ export type URI = typeof URI
 export class Leaf<A> {
   static value = new Leaf<never>()
   readonly _tag: 'Leaf' = 'Leaf'
-  readonly _A: A
-  readonly _URI = URI
+  readonly '-A': A
+  readonly '-URI' = URI
   private constructor() {}
   inspect(): string {
     return this.toString()
@@ -24,8 +30,8 @@ export class Leaf<A> {
 
 export class Node<A> {
   readonly _tag: 'Node' = 'Node'
-  readonly _A: A
-  readonly _URI = URI
+  readonly '-A': A
+  readonly '-URI' = URI
   constructor(readonly left: BTree<A>, readonly value: A, readonly right: BTree<A>) {}
   inspect(): string {
     return this.toString()
@@ -55,29 +61,29 @@ const myTree = node(node(leaf, 1, new Node<number>(leaf, 2, leaf)), 3, node(node
 console.log(myTree)
 // => node(node(leaf, 1, node(leaf, 2, leaf)), 3, node(node(leaf, 4, leaf), 5, leaf))
 
-export const reduce = <A, B>(f: (acc: B, a: A) => B, b: B, fa: BTree<A>): B =>
+export const reduce = <A, B>(fa: BTree<A>, b: B, f: (acc: B, a: A) => B): B =>
   fold(
     () => b,
     (l, v, r) => {
       // Reduce the tree on the left...
-      const left = reduce(f, b, l)
+      const left = reduce(l, b, f)
       // Plus the middle element...
       const leftAndMiddle = f(left, v)
       // And then the right tree...
-      return reduce(f, leftAndMiddle, r)
+      return reduce(r, leftAndMiddle, f)
     },
     fa
   )
 
-console.log(reduce((acc, a) => acc + a, 0, myTree)) // => 15
+console.log(reduce(myTree, 0, (acc, a) => acc + a)) // => 15
 
-import { Foldable, foldMap } from '../../src/Foldable'
+import { Foldable1, foldMap } from '../../src/Foldable'
 
-export const btree: Foldable<URI> = {
+export const btree: Foldable1<URI> = {
   URI,
   reduce
 }
 
 import { monoidSum } from '../../src/Monoid'
 
-console.log(foldMap(btree, monoidSum)((a: number) => a)(myTree)) // => 15
+console.log(foldMap(btree, monoidSum)(myTree, (a: number) => a)) // => 15
