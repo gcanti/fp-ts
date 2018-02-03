@@ -362,7 +362,7 @@ export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> =>
  * Find the first index for which a predicate holds
  * @function
  */
-export const findIndex = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<number> => {
+export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<number> => {
   const len = as.length
   for (let i = 0; i < len; i++) {
     if (predicate(as[i])) {

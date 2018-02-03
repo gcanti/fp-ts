@@ -145,8 +145,8 @@ describe('Array', () => {
   })
 
   it('findIndex', () => {
-    assert.deepEqual(findIndex(x => x === 2)([]), none)
-    assert.deepEqual(findIndex(x => x === 2)(as), some(1))
+    assert.deepEqual(findIndex([], x => x === 2), none)
+    assert.deepEqual(findIndex(as, x => x === 2), some(1))
   })
 
   it('findFirst', () => {
