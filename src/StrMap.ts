@@ -229,7 +229,7 @@ export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
  * Delete a key and value from a map, returning the value as well as the subsequent map
  * @function
  */
-export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> => {
+export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return lookup(k, d).fold(none, a => some(tuple(a, remove(k, d))))
 }
 
