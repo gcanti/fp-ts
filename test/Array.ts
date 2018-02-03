@@ -244,7 +244,7 @@ describe('Array', () => {
   })
 
   it('filter', () => {
-    assert.deepEqual(filter((n: number) => n % 2 === 1)([1, 2, 3]), [1, 3])
+    assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
   })
 
   it('map', () => {
