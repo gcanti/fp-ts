@@ -11,32 +11,32 @@ import { constant, tuple } from './function'
  */
 export interface Unfoldable<F> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => Option<[A, B]>, b: B) => HKT<F, A>
+  unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => HKT<F, A>
 }
 
 export interface Unfoldable1<F extends URIS> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type<F, A>
+  unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type<F, A>
 }
 
 export interface Unfoldable2<F extends URIS2> {
   readonly URI: F
-  unfoldr: <L, A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type2<F, L, A>
+  unfoldr: <L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
 }
 
 export interface Unfoldable3<F extends URIS3> {
   readonly URI: F
-  unfoldr: <U, L, A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type3<F, U, L, A>
+  unfoldr: <U, L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
 }
 
 export interface Unfoldable2C<F extends URIS2, L> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type2<F, L, A>
+  unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
 }
 
 export interface Unfoldable3C<F extends URIS3, U, L> {
   readonly URI: F
-  unfoldr: <A, B>(f: (b: B) => Option<[A, B]>, b: B) => Type3<F, U, L, A>
+  unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
 }
 
 /**
@@ -56,7 +56,7 @@ export function replicate<F>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) =>
     function step(n: number) {
       return n <= 0 ? none : option.of(tuple(a, n - 1))
     }
-    return unfoldable.unfoldr(step, n)
+    return unfoldable.unfoldr(n, step)
   }
 }
 
@@ -69,7 +69,7 @@ export function empty<F extends URIS2, L, A>(unfoldable: Unfoldable2<F>): Type2<
 export function empty<F extends URIS, A>(unfoldable: Unfoldable1<F>): Type<F, A>
 export function empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A>
 export function empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A> {
-  return unfoldable.unfoldr(constant(none), undefined)
+  return unfoldable.unfoldr(undefined, constant(none))
 }
 
 /** @function */
