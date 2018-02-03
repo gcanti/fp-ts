@@ -563,12 +563,12 @@ export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
  * Rotate an array to the right by `n` steps
  * @function
  */
-export const rotate = (n: number) => <A>(xs: Array<A>): Array<A> => {
+export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
   const len = xs.length
   if (n === 0 || len <= 1 || len === Math.abs(n)) {
     return xs
   } else if (n < 0) {
-    return rotate(len + n)(xs)
+    return rotate(len + n, xs)
   } else {
     return xs.slice(-n).concat(xs.slice(0, len - n))
   }

@@ -232,15 +232,15 @@ describe('Array', () => {
   })
 
   it('rotate', () => {
-    assert.deepEqual(rotate(1)([]), [])
-    assert.deepEqual(rotate(1)([1]), [1])
-    assert.deepEqual(rotate(1)([1, 2]), [2, 1])
-    assert.deepEqual(rotate(2)([1, 2]), [1, 2])
-    assert.deepEqual(rotate(0)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    assert.deepEqual(rotate(1)([1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
-    assert.deepEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
-    assert.deepEqual(rotate(-1)([1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
-    assert.deepEqual(rotate(-2)([1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
+    assert.deepEqual(rotate(1, []), [])
+    assert.deepEqual(rotate(1, [1]), [1])
+    assert.deepEqual(rotate(1, [1, 2]), [2, 1])
+    assert.deepEqual(rotate(2, [1, 2]), [1, 2])
+    assert.deepEqual(rotate(0, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepEqual(rotate(1, [1, 2, 3, 4, 5]), [5, 1, 2, 3, 4])
+    assert.deepEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+    assert.deepEqual(rotate(-1, [1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
+    assert.deepEqual(rotate(-2, [1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
   })
 
   it('filter', () => {
