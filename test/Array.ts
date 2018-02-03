@@ -89,8 +89,8 @@ describe('Array', () => {
   })
 
   it('cons', () => {
-    assert.deepEqual(cons(0)(as), [0, 1, 2, 3])
-    assert.deepEqual(cons([1])([[2]]), [[1], [2]])
+    assert.deepEqual(cons(0, as), [0, 1, 2, 3])
+    assert.deepEqual(cons([1], [[2]]), [[1], [2]])
   })
 
   it('snoc', () => {

@@ -225,7 +225,7 @@ export const index = <A>(i: number, as: Array<A>): Option<A> => {
 /**
  * Attaches an element to the front of an array, creating a new array
  */
-export const cons = <A>(a: A) => (as: Array<A>): Array<A> => {
+export const cons = <A>(a: A, as: Array<A>): Array<A> => {
   const len = as.length
   const r = Array(len + 1)
   for (let i = 0; i < len; i++) {
