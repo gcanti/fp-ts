@@ -132,11 +132,11 @@ describe('Array', () => {
   })
 
   it('dropWhile', () => {
-    assert.deepEqual(dropWhile((n: number) => n % 2 === 0)([1, 3, 2, 4, 5]), [1, 3, 2, 4, 5])
-    assert.deepEqual(dropWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
-    assert.deepEqual(dropWhile((n: number) => n % 2 === 0)([]), [])
-    assert.deepEqual(dropWhile((n: number) => n % 2 === 0)([2, 4, 1]), [1])
-    assert.deepEqual(dropWhile((n: number) => n % 2 === 0)([2, 4]), [])
+    assert.deepEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 0), [1, 3, 2, 4, 5])
+    assert.deepEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
+    assert.deepEqual(dropWhile([], n => n % 2 === 0), [])
+    assert.deepEqual(dropWhile([2, 4, 1], n => n % 2 === 0), [1])
+    assert.deepEqual(dropWhile([2, 4], n => n % 2 === 0), [])
   })
 
   it('init', () => {
