@@ -182,7 +182,7 @@ export function fromFoldable<F>(
 }
 
 /** @function */
-export const collect = <A, B>(f: (k: string, a: A) => B) => (d: StrMap<A>): Array<B> => {
+export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B> => {
   const out: Array<B> = []
   for (let k in d.value) {
     out.push(f(k, d.value[k]))
@@ -192,7 +192,7 @@ export const collect = <A, B>(f: (k: string, a: A) => B) => (d: StrMap<A>): Arra
 
 /** @function */
 export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
-  return collect((k, a: A) => tuple(k, a))(d)
+  return collect(d, (k, a: A) => tuple(k, a))
 }
 
 /**
