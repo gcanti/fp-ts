@@ -150,11 +150,8 @@ describe('Array', () => {
   })
 
   it('findFirst', () => {
-    assert.deepEqual(findFirst(x => x === 2)([]), none)
-    assert.deepEqual(
-      findFirst<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
-      some({ a: 1, b: 1 })
-    )
+    assert.deepEqual(findFirst([], x => x === 2), none)
+    assert.deepEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
   })
 
   it('findLast', () => {
