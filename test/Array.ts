@@ -94,8 +94,8 @@ describe('Array', () => {
   })
 
   it('snoc', () => {
-    assert.deepEqual(snoc(as)(4), [1, 2, 3, 4])
-    assert.deepEqual(snoc([[1]])([2]), [[1], [2]])
+    assert.deepEqual(snoc(as, 4), [1, 2, 3, 4])
+    assert.deepEqual(snoc([[1]], [2]), [[1], [2]])
   })
 
   it('head', () => {
