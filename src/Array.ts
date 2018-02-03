@@ -460,7 +460,7 @@ export const updateAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => 
 }
 
 /** @function */
-export const unsafeDeleteAt = (i: number) => <A>(as: Array<A>): Array<A> => {
+export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
   const xs = copy(as)
   xs.splice(i, 1)
   return xs
@@ -472,7 +472,7 @@ export const unsafeDeleteAt = (i: number) => <A>(as: Array<A>): Array<A> => {
  * @function
  */
 export const deleteAt = (i: number) => <A>(as: Array<A>): Option<Array<A>> => {
-  return isOutOfBound(i, as) ? option.none : option.some(unsafeDeleteAt(i)(as))
+  return isOutOfBound(i, as) ? option.none : option.some(unsafeDeleteAt(i, as))
 }
 
 /**
