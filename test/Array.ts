@@ -161,8 +161,8 @@ describe('Array', () => {
   })
 
   it('insertAt', () => {
-    assert.deepEqual(insertAt(1)(1)([]), none)
-    assert.deepEqual(insertAt(0)(1)([]), some([1]))
+    assert.deepEqual(insertAt(1, 1, []), none)
+    assert.deepEqual(insertAt(0, 1, []), some([1]))
   })
 
   it('updateAt', () => {

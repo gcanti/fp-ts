@@ -439,7 +439,7 @@ export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
  * returning `None` if the index is out of bounds
  * @function
  */
-export const insertAt = (i: number) => <A>(a: A) => (as: Array<A>): Option<Array<A>> => {
+export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => {
   return i < 0 || i > as.length ? option.none : option.some(unsafeInsertAt(i, a, as))
 }
 
