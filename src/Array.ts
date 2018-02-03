@@ -471,7 +471,7 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
  * returning `None` if the index is out of bounds
  * @function
  */
-export const deleteAt = (i: number) => <A>(as: Array<A>): Option<Array<A>> => {
+export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
   return isOutOfBound(i, as) ? option.none : option.some(unsafeDeleteAt(i, as))
 }
 
