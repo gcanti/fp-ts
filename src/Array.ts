@@ -376,7 +376,7 @@ export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<numb
  * Find the first element which satisfies a predicate function
  * @function
  */
-export const findFirst = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<A> => {
+export const findFirst = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> => {
   return fromNullable(as.find(predicate))
 }
 
