@@ -8,7 +8,7 @@ const readerOption = getReaderT(option.option)
 describe('ReaderT', () => {
   it('ReaderOption', () => {
     function configure(key: string) {
-      return (e: StrMap<string>) => lookup(key)(e)
+      return (e: StrMap<string>) => lookup(key, e)
     }
 
     const setupConnection = readerOption.chain(host => {
