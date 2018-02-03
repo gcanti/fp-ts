@@ -236,7 +236,7 @@ describe('Array', () => {
 
   it('partitionMap', () => {
     const eithers = [right(1), left('foo'), right(2)]
-    assert.deepEqual(partitionMap(x => x, eithers), { left: ['foo'], right: [1, 2] })
+    assert.deepEqual(partitionMap(eithers, x => x), { left: ['foo'], right: [1, 2] })
   })
 
   it('rotate', () => {

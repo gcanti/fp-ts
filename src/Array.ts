@@ -137,7 +137,7 @@ const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
 }
 
 /** @function */
-export const partitionMap = <A, L, R>(f: (a: A) => Either<L, R>, fa: Array<A>): { left: Array<L>; right: Array<R> } => {
+export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): { left: Array<L>; right: Array<R> } => {
   const left: Array<L> = []
   const right: Array<R> = []
   const len = fa.length
