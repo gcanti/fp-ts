@@ -177,8 +177,8 @@ describe('Array', () => {
 
   it('modifyAt', () => {
     const double = (x: number) => 2 * x
-    assert.deepEqual(modifyAt(1)(double)([]), none)
-    assert.deepEqual(modifyAt(1)(double)(as), some([1, 4, 3]))
+    assert.deepEqual(modifyAt(1, double, []), none)
+    assert.deepEqual(modifyAt(1, double, as), some([1, 4, 3]))
   })
 
   it('mapOption', () => {
