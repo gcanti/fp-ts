@@ -11,7 +11,7 @@ import {
   semigroupAny,
   getArraySemigroup
 } from './Semigroup'
-import { constant, Endomorphism, identity, compose } from './function'
+import { Endomorphism, identity, compose } from './function'
 
 /** @typeclass */
 export interface Monoid<A> extends Semigroup<A> {
@@ -19,8 +19,8 @@ export interface Monoid<A> extends Semigroup<A> {
 }
 
 /** @function */
-export const fold = <A>(M: Monoid<A>) => (as: Array<A>): A => {
-  return foldSemigroup(M)(M.empty)(as)
+export function fold<A>(M: Monoid<A>): (as: Array<A>) => A {
+  return foldSemigroup(M)(M.empty)
 }
 
 /** @function */
@@ -96,31 +96,29 @@ export const monoidString: Monoid<string> = {
 }
 
 /** @function */
-export const getFunctionMonoid = <M>(monoid: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => {
+export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => {
   return {
-    concat: (f, g) => a => monoid.concat(f(a), g(a)),
-    empty: constant(monoid.empty)
+    concat: (f, g) => a => M.concat(f(a), g(a)),
+    empty: () => M.empty
   }
 }
 
 /** @function */
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
   return {
-    concat: (x, y) => compose(x, y),
+    concat: compose,
     empty: identity
   }
 }
 
 /** @function */
-export const getRecordMonoid = <O extends { [key: string]: any }>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O> => {
+export const getRecordMonoid = <O>(Ms: { [K in keyof O]: Monoid<O[K]> }): Monoid<O> => {
   const empty: any = {}
-  for (const k in monoids) {
-    empty[k] = monoids[k].empty
+  for (const k in Ms) {
+    empty[k] = Ms[k].empty
   }
   return {
-    ...getRecordSemigroup<O>(monoids),
+    ...getRecordSemigroup<O>(Ms),
     empty
   }
 }
