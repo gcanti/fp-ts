@@ -339,7 +339,7 @@ export const takeWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> =>
  * Drop a number of elements from the start of an array, creating a new array
  * @function
  */
-export const drop = (n: number) => <A>(as: Array<A>): Array<A> => {
+export const drop = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(n, as.length)
 }
 
