@@ -413,7 +413,7 @@ export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
 }
 
 /** @function */
-export const refine = <A>(as: Array<A>) => <B extends A>(refinement: Refinement<A, B>): Array<B> => {
+export const refine = <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B> => {
   return filter(as, refinement) as Array<B>
 }
 
