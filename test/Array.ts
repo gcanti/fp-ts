@@ -155,15 +155,9 @@ describe('Array', () => {
   })
 
   it('findLast', () => {
-    assert.deepEqual(findLast(x => x === 2)([]), none)
-    assert.deepEqual(
-      findLast<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]),
-      some({ a: 1, b: 2 })
-    )
-    assert.deepEqual(
-      findLast<{ a: number; b: number }>(x => x.a === 1)([{ a: 1, b: 2 }, { a: 2, b: 1 }]),
-      some({ a: 1, b: 2 })
-    )
+    assert.deepEqual(findLast([], x => x === 2), none)
+    assert.deepEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
+    assert.deepEqual(findLast([{ a: 1, b: 2 }, { a: 2, b: 1 }], x => x.a === 1), some({ a: 1, b: 2 }))
   })
 
   it('insertAt', () => {

@@ -384,7 +384,7 @@ export const findFirst = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> =
  * Find the last element which satisfies a predicate function
  * @function
  */
-export const findLast = <A>(predicate: Predicate<A>) => (as: Array<A>): Option<A> => {
+export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> => {
   const len = as.length
   let a: A | null = null
   for (let i = len - 1; i >= 0; i--) {
