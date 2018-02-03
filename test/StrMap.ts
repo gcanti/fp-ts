@@ -105,7 +105,7 @@ describe('StrMap', () => {
   })
 
   it('insert', () => {
-    assert.deepEqual(insert('a')(1)(new StrMap({})), new StrMap({ a: 1 }))
+    assert.deepEqual(insert('a', 1, new StrMap({})), new StrMap({ a: 1 }))
   })
 
   it('remove', () => {
@@ -115,5 +115,9 @@ describe('StrMap', () => {
   it('pop', () => {
     assert.deepEqual(pop('a')(new StrMap({ a: 1, b: 2 })), some([1, new StrMap({ b: 2 })]))
     assert.deepEqual(pop('c')(new StrMap({ a: 1, b: 2 })), none)
+  })
+
+  it('insert', () => {
+    assert.deepEqual(insert('c', 3, new StrMap({ a: 1, b: 2 })), new StrMap({ a: 1, b: 2, c: 3 }))
   })
 })
