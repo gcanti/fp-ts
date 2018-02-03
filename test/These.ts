@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { this_, that, both, fromThese, getSetoid, getSemigroup, these } from '../src/These'
+import { this_, that, both, fromThese, getSetoid, getSemigroup, these, getMonad } from '../src/These'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { monoidSum, monoidString } from '../src/Monoid'
 import { option, none, some } from '../src/Option'
@@ -55,5 +55,15 @@ describe('These', () => {
     assert.deepEqual(traverse(option, these)(that(1), n => (n >= 2 ? some(n) : none)), none)
     assert.deepEqual(traverse(option, these)(both('a', 2), n => (n >= 2 ? some(n) : none)), some(both('a', 2)))
     assert.deepEqual(traverse(option, these)(both('a', 1), n => (n >= 2 ? some(n) : none)), none)
+  })
+
+  it('chain', () => {
+    const M = getMonad(monoidString)
+    const f = (n: number) => (n >= 2 ? that<string, number>(n * 2) : this_<string, number>('bar'))
+    assert.deepEqual(M.chain(this_<string, number>('foo'), f), this_('foo'))
+    assert.deepEqual(M.chain(that<string, number>(2), f), that(4))
+    assert.deepEqual(M.chain(that<string, number>(1), f), this_('bar'))
+    assert.deepEqual(M.chain(both<string, number>('foo', 2), f), both('foo', 4))
+    assert.deepEqual(M.chain(both<string, number>('foo', 1), f), this_('foobar'))
   })
 })

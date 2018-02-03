@@ -42,7 +42,7 @@ export class Failure<L, A> {
   readonly '-URI': URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
-    return this as any
+    return failure(this.value)
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> {
     return failure(f(this.value))
@@ -108,7 +108,7 @@ export class Success<L, A> {
     return this.value
   }
   mapFailure<M>(f: (l: L) => M): Validation<M, A> {
-    return this as any
+    return success(this.value)
   }
   swap(): Validation<A, L> {
     return failure(this.value)

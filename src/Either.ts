@@ -63,17 +63,17 @@ export class Left<L, A> {
   constructor(readonly value: L) {}
   /** The given function is applied if this is a `Right` */
   map<B>(f: (a: A) => B): Either<L, B> {
-    return this as any
+    return left(this.value)
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
-    return (fab.isLeft() ? fab : this) as any
+    return left(fab.isLeft() ? fab.value : this.value)
   }
   ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
     return fb.ap(this)
   }
   /** Binds the given function across `Right` */
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
-    return this as any
+    return left(this.value)
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B> {
     return new Left(f(this.value))
@@ -82,7 +82,7 @@ export class Left<L, A> {
     return fy
   }
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {
-    return this as any
+    return left(this.value)
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
@@ -133,10 +133,7 @@ export class Right<L, A> {
     return new Right(f(this.value))
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
-    if (fab.isRight()) {
-      return this.map(fab.value)
-    }
-    return fab as any
+    return fab.isRight() ? this.map(fab.value) : left(fab.value)
   }
   ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
     return fb.ap(this)
@@ -166,7 +163,7 @@ export class Right<L, A> {
     return this.value
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
-    return this as any
+    return right(this.value)
   }
   inspect(): string {
     return this.toString()

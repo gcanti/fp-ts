@@ -20,5 +20,12 @@ export const semigroupOrdering: Semigroup<Ordering> = {
 
 /** @function */
 export const invert = (O: Ordering): Ordering => {
-  return (-1 * O) as any
+  switch (O) {
+    case -1:
+      return 1
+    case 1:
+      return -1
+    default:
+      return 0
+  }
 }
