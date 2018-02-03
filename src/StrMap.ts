@@ -209,7 +209,7 @@ export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>):
  * Insert or replace a key/value pair in a map
  * @function
  */
-export const insert = (k: string) => <A>(a: A) => (d: StrMap<A>): StrMap<A> => {
+export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
   const copy = Object.assign({}, d.value)
   copy[k] = a
   return new StrMap(copy)
