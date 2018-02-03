@@ -428,7 +428,7 @@ export const copy = <A>(as: Array<A>): Array<A> => {
 }
 
 /** @function */
-export const unsafeInsertAt = (i: number) => <A>(a: A) => (as: Array<A>): Array<A> => {
+export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
   const xs = copy(as)
   xs.splice(i, 0, a)
   return xs
@@ -440,7 +440,7 @@ export const unsafeInsertAt = (i: number) => <A>(a: A) => (as: Array<A>): Array<
  * @function
  */
 export const insertAt = (i: number) => <A>(a: A) => (as: Array<A>): Option<Array<A>> => {
-  return i < 0 || i > as.length ? option.none : option.some(unsafeInsertAt(i)(a)(as))
+  return i < 0 || i > as.length ? option.none : option.some(unsafeInsertAt(i, a, as))
 }
 
 /** @function */
