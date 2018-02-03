@@ -186,7 +186,7 @@ export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
  *
  * @function
  */
-export const fold = <A, B>(nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B, as: Array<A>): B => {
+export const fold = <A, B>(as: Array<A>, nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B): B => {
   return as.length === 0 ? nil() : cons(as[0], as.slice(1))
 }
 

@@ -35,11 +35,12 @@ import {
   copy,
   reverse,
   drop,
-  flatten
+  flatten,
+  fold
 } from '../src/Array'
 import * as option from '../src/Option'
 import { traverse } from '../src/Traversable'
-import { fold, monoidSum } from '../src/Monoid'
+import { fold as foldMonoid, monoidSum } from '../src/Monoid'
 import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
@@ -211,7 +212,7 @@ describe('Array', () => {
   })
 
   it('extend', () => {
-    const sum = (as: Array<number>) => fold(monoidSum)(as)
+    const sum = (as: Array<number>) => foldMonoid(monoidSum)(as)
     assert.deepEqual(array.extend([1, 2, 3, 4], sum), [10, 9, 7, 4])
     assert.deepEqual(array.extend([1, 2, 3, 4], identity), [[1, 2, 3, 4], [2, 3, 4], [3, 4], [4]])
   })
@@ -280,5 +281,10 @@ describe('Array', () => {
 
   it('reduce', () => {
     assert.deepEqual(array.reduce([1, 2, 3], 0, (acc, a) => acc + a), 6)
+  })
+
+  it('fold', () => {
+    const len = <A>(as: Array<A>): number => fold(as, () => 0, (_, tail) => 1 + len(tail))
+    assert.strictEqual(len([1, 2, 3]), 3)
   })
 })
