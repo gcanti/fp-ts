@@ -27,10 +27,10 @@ export class Const<L, A> {
   readonly '-URI': URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): Const<L, B> {
-    return this as any
+    return new Const(this.value)
   }
   contramap<B>(f: (b: B) => A): Const<L, B> {
-    return this as any
+    return new Const(this.value)
   }
   fold<B>(f: (l: L) => B): B {
     return f(this.value)

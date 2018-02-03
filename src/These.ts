@@ -38,7 +38,7 @@ export class This<L, A> {
   readonly '-URI': URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): These<L, B> {
-    return this as any
+    return this_(this.value)
   }
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
     return this_(f(this.value))
@@ -183,7 +183,7 @@ const ap = <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<
 
 const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These<L, B>): These<L, B> => {
   return fa.fold(
-    () => fa as any,
+    l => this_(l),
     a => f(a),
     (l1, a) => f(a).fold(l2 => this_(S.concat(l1, l2)), b => both(l1, b), (l2, b) => both(S.concat(l1, l2), b))
   )

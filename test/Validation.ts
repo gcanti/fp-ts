@@ -65,4 +65,9 @@ describe('Validation', () => {
     assert.equal(success(12).getOrElseL(() => 17), 12)
     assert.equal(failure(12).getOrElseL(() => 17), 17)
   })
+
+  it('mapFailure', () => {
+    assert.deepEqual(success<string, number>(12).mapFailure(s => s.length), success(12))
+    assert.deepEqual(failure<string, number>('foo').mapFailure(s => s.length), failure(3))
+  })
 })
