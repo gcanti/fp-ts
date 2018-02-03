@@ -69,7 +69,7 @@ describe('Array', () => {
   })
 
   it('unfoldr', () => {
-    const as = array.unfoldr(n => (n > 0 ? some(tuple(n, n - 1)) : none), 5)
+    const as = array.unfoldr(5, n => (n > 0 ? some(tuple(n, n - 1)) : none))
     assert.deepEqual(as, [5, 4, 3, 2, 1])
   })
 

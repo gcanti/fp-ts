@@ -116,7 +116,7 @@ const zero = <A>(): Array<A> => []
 
 const alt = concat
 
-const unfoldr = <A, B>(f: (b: B) => Option<[A, B]>, b: B): Array<A> => {
+const unfoldr = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
   const ret: Array<A> = []
   let bb = b
   while (true) {

@@ -202,7 +202,7 @@ export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
 export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]> => {
   const arr = toArray(d)
   const len = arr.length
-  return unfoldable.unfoldr(b => (b < len ? some(tuple(arr[b], b + 1)) : none), 0)
+  return unfoldable.unfoldr(0, b => (b < len ? some(tuple(arr[b], b + 1)) : none))
 }
 
 /**
