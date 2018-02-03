@@ -166,8 +166,8 @@ describe('Array', () => {
   })
 
   it('updateAt', () => {
-    assert.deepEqual(updateAt(1)(1)([]), none)
-    assert.deepEqual(updateAt(1)(1)(as), some([1, 1, 3]))
+    assert.deepEqual(updateAt(1, 1, []), none)
+    assert.deepEqual(updateAt(1, 1, as), some([1, 1, 3]))
   })
 
   it('deleteAt', () => {
