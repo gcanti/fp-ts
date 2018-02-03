@@ -555,7 +555,7 @@ export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
  * If one input array is short, excess elements of the longer array are discarded
  * @function
  */
-export const zip = <A>(fa: Array<A>) => <B>(fb: Array<B>): Array<[A, B]> => {
+export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
   return zipWith(fa, fb, tuple)
 }
 
