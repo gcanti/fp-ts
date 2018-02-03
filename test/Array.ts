@@ -117,7 +117,7 @@ describe('Array', () => {
   })
 
   it('span', () => {
-    assert.deepEqual(span((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
+    assert.deepEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
   })
 
   it('takeWhile', () => {

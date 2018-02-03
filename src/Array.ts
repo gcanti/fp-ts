@@ -290,7 +290,7 @@ export const take = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(0, n)
 }
 
-const spanIndexUncurry = <A>(predicate: Predicate<A>, as: Array<A>): number => {
+const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
   const l = as.length
   let i = 0
   for (; i < l; i++) {
@@ -307,8 +307,8 @@ const spanIndexUncurry = <A>(predicate: Predicate<A>, as: Array<A>): number => {
  * 2. the remaining elements
  * @function
  */
-export const span = <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Array<A>; rest: Array<A> } => {
-  const i = spanIndexUncurry(predicate, as)
+export const span = <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> } => {
+  const i = spanIndexUncurry(as, predicate)
   const init = Array(i)
   for (let j = 0; j < i; j++) {
     init[j] = as[j]
@@ -327,7 +327,7 @@ export const span = <A>(predicate: Predicate<A>) => (as: Array<A>): { init: Arra
  * @function
  */
 export const takeWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
-  const i = spanIndexUncurry(predicate, as)
+  const i = spanIndexUncurry(as, predicate)
   const init = Array(i)
   for (let j = 0; j < i; j++) {
     init[j] = as[j]
@@ -349,7 +349,7 @@ export const drop = (n: number) => <A>(as: Array<A>): Array<A> => {
  * @function
  */
 export const dropWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
-  const i = spanIndexUncurry(predicate, as)
+  const i = spanIndexUncurry(as, predicate)
   const l = as.length
   const rest = Array(l - i)
   for (let j = i; j < l; j++) {
