@@ -59,8 +59,8 @@ describe('StrMap', () => {
   })
 
   it('lookup', () => {
-    assert.deepEqual(lookup('a')(new StrMap({ a: 1 })), some(1))
-    assert.deepEqual(lookup('b')(new StrMap({ a: 1 })), none)
+    assert.deepEqual(lookup('a', new StrMap({ a: 1 })), some(1))
+    assert.deepEqual(lookup('b', new StrMap({ a: 1 })), none)
   })
 
   it('fromFoldable', () => {

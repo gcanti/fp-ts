@@ -151,7 +151,7 @@ export const singleton = <A>(k: string, a: A): StrMap<A> => {
  * Lookup the value for a key in a dictionary
  * @function
  */
-export const lookup = (k: string) => <A>(d: StrMap<A>): Option<A> => {
+export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => {
   return d.value.hasOwnProperty(k) ? some(d.value[k]) : none
 }
 
@@ -230,7 +230,7 @@ export const remove = (k: string) => <A>(d: StrMap<A>): StrMap<A> => {
  * @function
  */
 export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> => {
-  return lookup(k)(d).fold(none, a => some(tuple(a, remove(k)(d))))
+  return lookup(k, d).fold(none, a => some(tuple(a, remove(k)(d))))
 }
 
 /** @instance */
