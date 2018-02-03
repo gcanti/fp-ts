@@ -108,7 +108,7 @@ export function traverse<F extends URIS>(
 ): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
-  const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(snoc)
+  const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(as => a => snoc(as, a))
   return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
 }
 
@@ -239,7 +239,7 @@ export const cons = <A>(a: A, as: Array<A>): Array<A> => {
  * Append an element to the end of an array, creating a new array
  * @function
  */
-export const snoc = <A>(as: Array<A>) => (a: A): Array<A> => {
+export const snoc = <A>(as: Array<A>, a: A): Array<A> => {
   const len = as.length
   const r = Array(len + 1)
   for (let i = 0; i < len; i++) {
