@@ -128,7 +128,7 @@ describe('Array', () => {
   })
 
   it('drop', () => {
-    assert.deepEqual(drop(2)(as), [3])
+    assert.deepEqual(drop(2, as), [3])
   })
 
   it('dropWhile', () => {
