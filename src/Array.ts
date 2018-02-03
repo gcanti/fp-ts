@@ -348,7 +348,7 @@ export const drop = <A>(n: number, as: Array<A>): Array<A> => {
  * specified predicate, creating a new array
  * @function
  */
-export const dropWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
+export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
   const i = spanIndexUncurry(as, predicate)
   const l = as.length
   const rest = Array(l - i)
