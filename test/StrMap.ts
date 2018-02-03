@@ -109,7 +109,7 @@ describe('StrMap', () => {
   })
 
   it('remove', () => {
-    assert.deepEqual(remove('a')(new StrMap({ a: 1, b: 2 })), new StrMap({ b: 2 }))
+    assert.deepEqual(remove('a', new StrMap({ a: 1, b: 2 })), new StrMap({ b: 2 }))
   })
 
   it('pop', () => {

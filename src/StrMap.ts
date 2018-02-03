@@ -219,7 +219,7 @@ export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
  * Delete a key and value from a map
  * @function
  */
-export const remove = (k: string) => <A>(d: StrMap<A>): StrMap<A> => {
+export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
   const copy = Object.assign({}, d.value)
   delete copy[k]
   return new StrMap(copy)
@@ -230,7 +230,7 @@ export const remove = (k: string) => <A>(d: StrMap<A>): StrMap<A> => {
  * @function
  */
 export const pop = (k: string) => <A>(d: StrMap<A>): Option<[A, StrMap<A>]> => {
-  return lookup(k, d).fold(none, a => some(tuple(a, remove(k)(d))))
+  return lookup(k, d).fold(none, a => some(tuple(a, remove(k, d))))
 }
 
 /** @instance */
