@@ -400,7 +400,7 @@ export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> =>
  * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
  * @function
  */
-export const filter = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
+export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
   const l = as.length
   const r = []
   for (let i = 0; i < l; i++) {
@@ -414,7 +414,7 @@ export const filter = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> =
 
 /** @function */
 export const refine = <A>(as: Array<A>) => <B extends A>(refinement: Refinement<A, B>): Array<B> => {
-  return filter(refinement)(as) as Array<B>
+  return filter(as, refinement) as Array<B>
 }
 
 /** @function */
