@@ -444,7 +444,7 @@ export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => 
 }
 
 /** @function */
-export const unsafeUpdateAt = (i: number) => <A>(a: A) => (as: Array<A>): Array<A> => {
+export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
   const xs = copy(as)
   xs[i] = a
   return xs
@@ -456,7 +456,7 @@ export const unsafeUpdateAt = (i: number) => <A>(a: A) => (as: Array<A>): Array<
  * @function
  */
 export const updateAt = (i: number) => <A>(a: A) => (as: Array<A>): Option<Array<A>> => {
-  return isOutOfBound(i, as) ? option.none : option.some(unsafeUpdateAt(i)(a)(as))
+  return isOutOfBound(i, as) ? option.none : option.some(unsafeUpdateAt(i, a, as))
 }
 
 /** @function */
