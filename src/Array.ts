@@ -286,7 +286,7 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => {
  * Keep only a number of elements from the start of an array, creating a new array
  * @function
  */
-export const take = (n: number) => <A>(as: Array<A>): Array<A> => {
+export const take = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(0, n)
 }
 

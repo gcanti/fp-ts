@@ -112,8 +112,8 @@ describe('Array', () => {
   })
 
   it('take', () => {
-    assert.deepEqual(take(2)([]), [])
-    assert.deepEqual(take(2)(as), [1, 2])
+    assert.deepEqual(take(2, []), [])
+    assert.deepEqual(take(2, as), [1, 2])
   })
 
   it('span', () => {
