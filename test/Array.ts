@@ -85,7 +85,7 @@ describe('Array', () => {
   })
 
   it('index', () => {
-    assert.deepEqual(index(1)(as), some(2))
+    assert.deepEqual(index(1, as), some(2))
   })
 
   it('cons', () => {

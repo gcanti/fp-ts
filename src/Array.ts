@@ -218,7 +218,7 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
  * This function provides a safe way to read a value at a particular index from an array
  * @function
  */
-export const index = (i: number) => <A>(as: Array<A>): Option<A> => {
+export const index = <A>(i: number, as: Array<A>): Option<A> => {
   return isOutOfBound(i, as) ? option.none : option.some(as[i])
 }
 
@@ -262,7 +262,7 @@ export const head = <A>(as: Array<A>): Option<A> => {
  * @function
  */
 export const last = <A>(as: Array<A>): Option<A> => {
-  return index(length(as) - 1)(as)
+  return index(length(as) - 1, as)
 }
 
 /**
