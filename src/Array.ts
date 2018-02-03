@@ -210,7 +210,7 @@ export const isEmpty = <A>(as: Array<A>): boolean => {
  * Test whether an array contains a particular index
  * @function
  */
-export const isOutOfBound = (i: number) => <A>(as: Array<A>): boolean => {
+export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
   return i < 0 || i >= as.length
 }
 
@@ -219,7 +219,7 @@ export const isOutOfBound = (i: number) => <A>(as: Array<A>): boolean => {
  * @function
  */
 export const index = (i: number) => <A>(as: Array<A>): Option<A> => {
-  return isOutOfBound(i)(as) ? option.none : option.some(as[i])
+  return isOutOfBound(i, as) ? option.none : option.some(as[i])
 }
 
 /**
@@ -456,7 +456,7 @@ export const unsafeUpdateAt = (i: number) => <A>(a: A) => (as: Array<A>): Array<
  * @function
  */
 export const updateAt = (i: number) => <A>(a: A) => (as: Array<A>): Option<Array<A>> => {
-  return isOutOfBound(i)(as) ? option.none : option.some(unsafeUpdateAt(i)(a)(as))
+  return isOutOfBound(i, as) ? option.none : option.some(unsafeUpdateAt(i)(a)(as))
 }
 
 /** @function */
@@ -472,7 +472,7 @@ export const unsafeDeleteAt = (i: number) => <A>(as: Array<A>): Array<A> => {
  * @function
  */
 export const deleteAt = (i: number) => <A>(as: Array<A>): Option<Array<A>> => {
-  return isOutOfBound(i)(as) ? option.none : option.some(unsafeDeleteAt(i)(as))
+  return isOutOfBound(i, as) ? option.none : option.some(unsafeDeleteAt(i)(as))
 }
 
 /**
@@ -481,7 +481,7 @@ export const deleteAt = (i: number) => <A>(as: Array<A>): Option<Array<A>> => {
  * @function
  */
 export const modifyAt = (i: number) => <A>(f: Endomorphism<A>) => (as: Array<A>): Option<Array<A>> => {
-  return isOutOfBound(i)(as) ? option.none : updateAt(i)(f(as[i]))(as)
+  return isOutOfBound(i, as) ? option.none : updateAt(i)(f(as[i]))(as)
 }
 
 /**
