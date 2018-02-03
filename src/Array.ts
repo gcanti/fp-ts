@@ -541,7 +541,7 @@ export const sort = <A>(ord: Ord<A>): ((as: Array<A>) => Array<A>) => {
  * If one input array is short, excess elements of the longer array are discarded.
  * @function
  */
-export const zipWith = <A, B, C>(f: (a: A, b: B) => C) => (fa: Array<A>) => (fb: Array<B>): Array<C> => {
+export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C> => {
   const fc = []
   const len = Math.min(fa.length, fb.length)
   for (let i = 0; i < len; i++) {
@@ -556,7 +556,7 @@ export const zipWith = <A, B, C>(f: (a: A, b: B) => C) => (fa: Array<A>) => (fb:
  * @function
  */
 export const zip = <A>(fa: Array<A>) => <B>(fb: Array<B>): Array<[A, B]> => {
-  return zipWith<A, B, [A, B]>(tuple)(fa)(fb)
+  return zipWith(fa, fb, tuple)
 }
 
 /**
