@@ -4,7 +4,7 @@ import { Functor1 } from './Functor'
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Traversable1 } from './Traversable'
-import { tuple } from './function'
+import { tuple, mapWithKey } from './function'
 import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
@@ -31,11 +31,7 @@ export class StrMap<A> {
   readonly '-URI': URI
   constructor(readonly value: { [key: string]: A }) {}
   mapWithKey<B>(f: (k: string, a: A) => B): StrMap<B> {
-    const fb: { [key: string]: B } = {}
-    for (let k in this.value) {
-      fb[k] = f(k, this.value[k])
-    }
-    return new StrMap(fb)
+    return new StrMap(mapWithKey(this.value, f))
   }
   map<B>(f: (a: A) => B): StrMap<B> {
     return this.mapWithKey((_, a) => f(a))
