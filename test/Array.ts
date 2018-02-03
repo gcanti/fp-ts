@@ -121,10 +121,10 @@ describe('Array', () => {
   })
 
   it('takeWhile', () => {
-    assert.deepEqual(takeWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
-    assert.deepEqual(takeWhile((n: number) => n % 2 === 0)([]), [])
-    assert.deepEqual(takeWhile((n: number) => n % 2 === 0)([1, 2, 4]), [])
-    assert.deepEqual(takeWhile((n: number) => n % 2 === 0)([2, 4]), [2, 4])
+    assert.deepEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
+    assert.deepEqual(takeWhile([], n => n % 2 === 0), [])
+    assert.deepEqual(takeWhile([1, 2, 4], n => n % 2 === 0), [])
+    assert.deepEqual(takeWhile([2, 4], n => n % 2 === 0), [2, 4])
   })
 
   it('drop', () => {

@@ -326,7 +326,7 @@ export const span = <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>
  * specified predicate, creating a new array
  * @function
  */
-export const takeWhile = <A>(predicate: Predicate<A>) => (as: Array<A>): Array<A> => {
+export const takeWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
   const i = spanIndexUncurry(as, predicate)
   const init = Array(i)
   for (let j = 0; j < i; j++) {
