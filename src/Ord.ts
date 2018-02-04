@@ -51,7 +51,7 @@ export const greaterThan = <A>(ord: Ord<A>) => (x: A, y: A): boolean => {
  * Test whether one value is _non-strictly less than_ another
  * @function
  */
-export const lessThanOrEq = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
+export const lessThanOrEq = <A>(ord: Ord<A>) => (x: A, y: A): boolean => {
   return ord.compare(x, y) !== 1
 }
 
