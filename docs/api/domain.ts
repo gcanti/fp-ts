@@ -91,7 +91,6 @@ export const modules: Array<ModuleEntry> = [
   { name: 'Monad', docs: true },
   { name: 'Monoid', docs: true },
   { name: 'Monoidal', docs: true },
-  { name: 'NaturalTransformation', docs: true },
   { name: 'NonEmptyArray', docs: true },
   { name: 'Option', docs: true },
   { name: 'OptionT', docs: true },

@@ -11,7 +11,7 @@ import {
   Instance,
   isTypeclass
 } from './domain'
-import * as array from '../../src/Array'
+import { sort } from '../../src/Array'
 import { contramap, ordString } from '../../src/Ord'
 import { Option } from '../../src/Option'
 
@@ -25,8 +25,7 @@ export const link = (text: string, href: string) => `[${text}](${href})`
 export const ts = fence('ts')
 export const italic = (code: string) => '*' + code + '*'
 
-const sortByName = <T extends { name: string }>(): ((xs: T[]) => T[]) =>
-  array.sort(contramap((x: T) => x.name, ordString))
+const sortByName = <T extends { name: string }>(): ((xs: T[]) => T[]) => sort(contramap((x: T) => x.name, ordString))
 
 const sortMethods = sortByName<Method>()
 
