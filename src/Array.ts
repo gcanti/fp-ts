@@ -1,7 +1,7 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
 import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat } from './function'
 import { Option, fromNullable } from './Option'
-import { Ord, toNativeComparator } from './Ord'
+import { Ord } from './Ord'
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
 import { Either } from './Either'
@@ -531,8 +531,7 @@ export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
  * @function
  */
 export const sort = <A>(ord: Ord<A>): ((as: Array<A>) => Array<A>) => {
-  const comparator = toNativeComparator(ord.compare)
-  return as => copy(as).sort(comparator)
+  return as => copy(as).sort(ord.compare)
 }
 
 /**

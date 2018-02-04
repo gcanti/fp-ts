@@ -1,4 +1,4 @@
-import { Ordering, semigroupOrdering, sign } from './Ordering'
+import { Ordering, semigroupOrdering } from './Ordering'
 import { Setoid, setoidBoolean, setoidNumber, setoidString, getProductSetoid } from './Setoid'
 import { Semigroup } from './Semigroup'
 import { on } from './function'
@@ -6,11 +6,6 @@ import { on } from './function'
 /** @typeclass */
 export interface Ord<A> extends Setoid<A> {
   compare: (x: A, y: A) => Ordering
-}
-
-/** @function */
-export const toNativeComparator = <A>(compare: (x: A, y: A) => Ordering): ((x: A, y: A) => number) => {
-  return (x, y) => sign(compare(x, y))
 }
 
 /** @function */
