@@ -20,7 +20,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => {
 }
 
 /** @function */
-export const some = <A>(predicate: Predicate<A>) => (x: Set<A>): boolean => {
+export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
   const values = x.values()
   let e: IteratorResult<A>
   let found = false
@@ -33,7 +33,7 @@ export const some = <A>(predicate: Predicate<A>) => (x: Set<A>): boolean => {
 
 /** @function */
 export const every = <A>(predicate: Predicate<A>) => (x: Set<A>): boolean => {
-  return !some(not(predicate))(x)
+  return !some(x, not(predicate))
 }
 
 /**
@@ -65,7 +65,7 @@ export const filter = <A>(predicate: Predicate<A>) => (x: Set<A>): Set<A> => {
  * @function
  */
 export const member = <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean => {
-  return some((ax: A) => S.equals(a, ax))(x)
+  return some(x, (ax: A) => S.equals(a, ax))
 }
 
 /**
