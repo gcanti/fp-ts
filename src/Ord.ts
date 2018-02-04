@@ -35,7 +35,7 @@ export const ordBoolean: Ord<boolean> = {
  * Test whether one value is _strictly less than_ another
  * @function
  */
-export const lessThan = <A>(ord: Ord<A>) => (x: A) => (y: A): boolean => {
+export const lessThan = <A>(ord: Ord<A>) => (x: A, y: A): boolean => {
   return ord.compare(x, y) === -1
 }
 
@@ -94,7 +94,7 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
  * @function
  */
 export const between = <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): boolean => {
-  return lessThan(ord)(x)(low) || greaterThan(ord)(x)(hi) ? false : true
+  return lessThan(ord)(x, low) || greaterThan(ord)(x)(hi) ? false : true
 }
 
 /** @function */
