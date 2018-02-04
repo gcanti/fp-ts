@@ -162,6 +162,6 @@ export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => {
  * Delete a value from a set
  * @function
  */
-export const remove = <A>(S: Setoid<A>) => (a: A) => (x: Set<A>): Set<A> => {
+export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => {
   return filter(x, (ax: A) => !S.equals(a, ax))
 }
