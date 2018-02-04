@@ -13,9 +13,9 @@ export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
 
 /** @function */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => {
-  const sub = subset(S)
+  const subsetS = subset(S)
   return {
-    equals: (x, y) => sub(x, y) && sub(y, x)
+    equals: (x, y) => subsetS(x, y) && subsetS(y, x)
   }
 }
 
@@ -73,9 +73,9 @@ export const member = <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean => {
  * @function
  */
 export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const hasS = member(S)
+  const memberS = member(S)
   return (x, y) => {
-    const xhas = hasS(x)
+    const xhas = memberS(x)
     const r = new Set(x)
     y.forEach(e => {
       if (!xhas(e)) {
@@ -91,9 +91,9 @@ export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
  * @function
  */
 export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const hasS = member(S)
+  const memberS = member(S)
   return (x, y) => {
-    const yhas = hasS(y)
+    const yhas = memberS(y)
     const r = new Set()
     x.forEach(e => {
       if (yhas(e)) {
@@ -146,9 +146,9 @@ export const singleton = <A>(a: A): Set<A> => {
  * @function
  */
 export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => {
-  const hasS = member(S)
+  const memberS = member(S)
   return (a, x) => {
-    if (!hasS(x)(a)) {
+    if (!memberS(x)(a)) {
       const r = new Set(x)
       r.add(a)
       return r
