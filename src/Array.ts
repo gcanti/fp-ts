@@ -480,7 +480,7 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
  * array, or returning `None` if the index is out of bounds
  * @function
  */
-export const modifyAt = <A>(i: number, f: Endomorphism<A>, as: Array<A>): Option<Array<A>> => {
+export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> => {
   return isOutOfBound(i, as) ? option.none : updateAt(i, f(as[i]), as)
 }
 
