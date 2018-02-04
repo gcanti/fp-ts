@@ -35,48 +35,48 @@ export const ordBoolean: Ord<boolean> = {
  * Test whether one value is _strictly less than_ another
  * @function
  */
-export const lessThan = <A>(ord: Ord<A>) => (x: A, y: A): boolean => {
-  return ord.compare(x, y) === -1
+export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
+  return O.compare(x, y) === -1
 }
 
 /**
  * Test whether one value is _strictly greater than_ another
  * @function
  */
-export const greaterThan = <A>(ord: Ord<A>) => (x: A, y: A): boolean => {
-  return ord.compare(x, y) === 1
+export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
+  return O.compare(x, y) === 1
 }
 
 /**
  * Test whether one value is _non-strictly less than_ another
  * @function
  */
-export const lessThanOrEq = <A>(ord: Ord<A>) => (x: A, y: A): boolean => {
-  return ord.compare(x, y) !== 1
+export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
+  return O.compare(x, y) !== 1
 }
 
 /**
  * Test whether one value is _non-strictly greater than_ another
  * @function
  */
-export const greaterThanOrEq = <A>(ord: Ord<A>) => (x: A, y: A): boolean => {
-  return ord.compare(x, y) !== -1
+export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
+  return O.compare(x, y) !== -1
 }
 
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
  * @function
  */
-export const min = <A>(ord: Ord<A>) => (x: A, y: A): A => {
-  return ord.compare(x, y) === 1 ? y : x
+export const min = <A>(O: Ord<A>) => (x: A, y: A): A => {
+  return O.compare(x, y) === 1 ? y : x
 }
 
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen
  * @function
  */
-export const max = <A>(ord: Ord<A>) => (x: A, y: A): A => {
-  return ord.compare(x, y) === -1 ? y : x
+export const max = <A>(O: Ord<A>) => (x: A, y: A): A => {
+  return O.compare(x, y) === -1 ? y : x
 }
 
 /**
