@@ -108,8 +108,8 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
  * Form the set difference (`y` - `x`)
  * @function
  */
-export const difference = <A>(S: Setoid<A>) => (x: Set<A>): ((y: Set<A>) => Set<A>) => {
-  return y => filter(y, not(member(S)(x)))
+export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
+  return (x, y) => filter(y, not(member(S)(x)))
 }
 
 /** @function */

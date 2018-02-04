@@ -83,7 +83,7 @@ describe('Set', () => {
   })
 
   it('difference', () => {
-    assert.deepEqual(difference(setoidNumber)(new Set([1, 2]))(new Set([1, 3])), new Set([3]))
+    assert.deepEqual(difference(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([3]))
   })
 
   it('reduce', () => {
