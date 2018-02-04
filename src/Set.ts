@@ -145,9 +145,9 @@ export const singleton = <A>(a: A): Set<A> => {
  * Insert a value into a set
  * @function
  */
-export const insert = <A>(S: Setoid<A>): ((a: A) => (x: Set<A>) => Set<A>) => {
+export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => {
   const hasS = member(S)
-  return a => x => {
+  return (a, x) => {
     if (!hasS(x)(a)) {
       const r = new Set(x)
       r.add(a)
