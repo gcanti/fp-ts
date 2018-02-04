@@ -187,15 +187,7 @@ export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
  * @function
  */
 export const fold = <A, B>(as: Array<A>, nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B): B => {
-  return as.length === 0 ? nil() : cons(as[0], as.slice(1))
-}
-
-/**
- * Get the number of elements in an array
- * @function
- */
-export const length = <A>(as: Array<A>): number => {
-  return as.length
+  return isEmpty(as) ? nil() : cons(as[0], as.slice(1))
 }
 
 /**
@@ -203,7 +195,7 @@ export const length = <A>(as: Array<A>): number => {
  * @function
  */
 export const isEmpty = <A>(as: Array<A>): boolean => {
-  return length(as) === 0
+  return as.length === 0
 }
 
 /**
@@ -262,7 +254,7 @@ export const head = <A>(as: Array<A>): Option<A> => {
  * @function
  */
 export const last = <A>(as: Array<A>): Option<A> => {
-  return index(length(as) - 1, as)
+  return index(as.length - 1, as)
 }
 
 /**
@@ -270,7 +262,7 @@ export const last = <A>(as: Array<A>): Option<A> => {
  * @function
  */
 export const tail = <A>(as: Array<A>): Option<Array<A>> => {
-  return as.length === 0 ? option.none : option.some(as.slice(1))
+  return isEmpty(as) ? option.none : option.some(as.slice(1))
 }
 
 /**
