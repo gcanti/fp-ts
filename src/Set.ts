@@ -46,7 +46,7 @@ export const subset = <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean => {
 }
 
 /** @function */
-export const filter = <A>(predicate: Predicate<A>) => (x: Set<A>): Set<A> => {
+export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
   const values = x.values()
   let e: IteratorResult<A>
   let r = new Set()
@@ -109,7 +109,7 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
  * @function
  */
 export const difference = <A>(S: Setoid<A>) => (x: Set<A>): ((y: Set<A>) => Set<A>) => {
-  return filter(not(member(S)(x)))
+  return y => filter(y, not(member(S)(x)))
 }
 
 /** @function */
@@ -163,5 +163,5 @@ export const insert = <A>(S: Setoid<A>): ((a: A) => (x: Set<A>) => Set<A>) => {
  * @function
  */
 export const remove = <A>(S: Setoid<A>) => (a: A) => (x: Set<A>): Set<A> => {
-  return filter((ax: A) => !S.equals(a, ax))(x)
+  return filter(x, (ax: A) => !S.equals(a, ax))
 }

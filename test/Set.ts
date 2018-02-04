@@ -53,7 +53,7 @@ describe('Set', () => {
   })
 
   it('filter', () => {
-    assert.deepEqual(filter(gte2)(new Set([1, 2, 3])), new Set([2, 3]))
+    assert.deepEqual(filter(new Set([1, 2, 3]), gte2), new Set([2, 3]))
   })
 
   it('member', () => {
