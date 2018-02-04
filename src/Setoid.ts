@@ -4,18 +4,20 @@ export interface Setoid<A> {
 }
 
 /** @function */
-export const strictEqual = (a: any, b: any): boolean => {
+export const strictEqual = <A>(a: A, b: A): boolean => {
   return a === b
 }
 
-/** @instance */
-export const setoidString: Setoid<string> = { equals: strictEqual }
+const setoidStrict = { equals: strictEqual }
 
 /** @instance */
-export const setoidNumber: Setoid<number> = { equals: strictEqual }
+export const setoidString: Setoid<string> = setoidStrict
 
 /** @instance */
-export const setoidBoolean: Setoid<boolean> = { equals: strictEqual }
+export const setoidNumber: Setoid<number> = setoidStrict
+
+/** @instance */
+export const setoidBoolean: Setoid<boolean> = setoidStrict
 
 /** @function */
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
