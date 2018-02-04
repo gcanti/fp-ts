@@ -2,13 +2,13 @@ import { Setoid } from './Setoid'
 import { Predicate, not } from './function'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Ord, toNativeComparator } from './Ord'
+import { Ord } from './Ord'
 
 /** @function */
 export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
   const r: Array<A> = []
   x.forEach(e => r.push(e))
-  return r.sort(toNativeComparator(O.compare))
+  return r.sort(O.compare)
 }
 
 /** @function */

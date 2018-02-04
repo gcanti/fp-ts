@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getSemigroup, contramap, ordNumber, ordString, getProductOrd, toNativeComparator, clamp } from '../src/Ord'
+import { getSemigroup, contramap, ordNumber, ordString, getProductOrd, clamp } from '../src/Ord'
 import { sort } from '../src/Array'
 
 describe('Ord', () => {
@@ -26,13 +26,6 @@ describe('Ord', () => {
     assert.strictEqual(ordNumber.compare(1, 2), -1)
     assert.strictEqual(ordNumber.compare(2, 1), 1)
     assert.strictEqual(ordNumber.compare(2, 2), 0)
-  })
-
-  it('toNativeComparator', () => {
-    const nativeComparator = toNativeComparator(ordNumber.compare)
-    assert.strictEqual(nativeComparator(1, 2), -1)
-    assert.strictEqual(nativeComparator(2, 1), 1)
-    assert.strictEqual(nativeComparator(2, 2), 0)
   })
 
   it('clamp', () => {
