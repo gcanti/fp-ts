@@ -1,5 +1,5 @@
-import * as io from '../../src/IO'
-import * as array from '../../src/Array'
+import { IO, io } from '../../src/IO'
+import { array } from '../../src/Array'
 import { sequence_ } from '../../src/Foldable'
 import { log } from '../../src/Console'
 import { printIndex, printModule } from './markdown'
@@ -21,13 +21,13 @@ const printError = (error: ParseError): string => {
   }
 }
 
-const fail = new io.IO(() => process.exit(1))
+const fail = new IO(() => process.exit(1))
 
 const getSourceFile = (name: string, source: string): SourceFile => {
   return new Ast().addSourceFileFromText(`${name}.ts`, source)
 }
 
-const processModule = (name: string): io.IO<void> => {
+const processModule = (name: string): IO<void> => {
   return readModule(name)
     .map(source => {
       const e: Env = {
@@ -44,11 +44,11 @@ const processModule = (name: string): io.IO<void> => {
     )
 }
 
-const processIndex: io.IO<void> = write(indexOutputPath, printIndex(modules))
+const processIndex: IO<void> = write(indexOutputPath, printIndex(modules))
 
 const main = log('- DOCUMENTATION -')
   .chain(_ => log('generating modules...'))
-  .chain(_ => sequence_(io.io, array)(modules.filter(m => m.docs).map(m => processModule(m.name))))
+  .chain(_ => sequence_(io, array)(modules.filter(m => m.docs).map(m => processModule(m.name))))
   .chain(_ => log('generating index...'))
   .chain(_ => processIndex)
   .chain(_ => log('generation ok'))
