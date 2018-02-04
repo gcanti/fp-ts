@@ -48,8 +48,8 @@ describe('Set', () => {
   })
 
   it('subset', () => {
-    assert.strictEqual(subset(setoidNumber)(new Set([1, 2]))(new Set([1, 2, 3])), true)
-    assert.strictEqual(subset(setoidNumber)(new Set([1, 2, 4]))(new Set([1, 2, 3])), false)
+    assert.strictEqual(subset(setoidNumber)(new Set([1, 2]), new Set([1, 2, 3])), true)
+    assert.strictEqual(subset(setoidNumber)(new Set([1, 2, 4]), new Set([1, 2, 3])), false)
   })
 
   it('filter', () => {

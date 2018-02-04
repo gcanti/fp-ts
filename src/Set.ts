@@ -15,7 +15,7 @@ export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => {
   const sub = subset(S)
   return {
-    equals: (x, y) => sub(x)(y) && sub(y)(x)
+    equals: (x, y) => sub(x, y) && sub(y, x)
   }
 }
 
@@ -41,7 +41,7 @@ export const every = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
  * is an element of the second set
  * @function
  */
-export const subset = <A>(S: Setoid<A>) => (x: Set<A>) => (y: Set<A>): boolean => {
+export const subset = <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean => {
   return every(x, member(S)(y))
 }
 
