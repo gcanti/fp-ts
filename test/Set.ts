@@ -43,8 +43,8 @@ describe('Set', () => {
   })
 
   it('every', () => {
-    assert.strictEqual(every(gte2)(new Set([1, 2, 3])), false)
-    assert.strictEqual(every(gte2)(new Set([2, 3])), true)
+    assert.strictEqual(every(new Set([1, 2, 3]), gte2), false)
+    assert.strictEqual(every(new Set([2, 3]), gte2), true)
   })
 
   it('subset', () => {

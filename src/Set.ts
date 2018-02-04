@@ -32,7 +32,7 @@ export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
 }
 
 /** @function */
-export const every = <A>(predicate: Predicate<A>) => (x: Set<A>): boolean => {
+export const every = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
   return !some(x, not(predicate))
 }
 
@@ -42,7 +42,7 @@ export const every = <A>(predicate: Predicate<A>) => (x: Set<A>): boolean => {
  * @function
  */
 export const subset = <A>(S: Setoid<A>) => (x: Set<A>) => (y: Set<A>): boolean => {
-  return every(member(S)(y))(x)
+  return every(x, member(S)(y))
 }
 
 /** @function */
