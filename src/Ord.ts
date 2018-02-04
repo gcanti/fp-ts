@@ -93,8 +93,10 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
  * Test whether a value is between a minimum and a maximum (inclusive)
  * @function
  */
-export const between = <A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): boolean => {
-  return lessThan(ord)(x, low) || greaterThan(ord)(x, hi) ? false : true
+export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => {
+  const lessThanO = lessThan(O)
+  const greaterThanO = greaterThan(O)
+  return (low, hi) => x => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
 }
 
 /** @function */
