@@ -3,7 +3,6 @@ import {
   array,
   getMonoid,
   isEmpty,
-  length,
   index,
   cons,
   snoc,
@@ -77,11 +76,6 @@ describe('Array', () => {
   it('isEmpty', () => {
     assert.strictEqual(isEmpty(as), false)
     assert.strictEqual(isEmpty([]), true)
-  })
-
-  it('length', () => {
-    assert.strictEqual(length(as), 3)
-    assert.strictEqual(length([]), 0)
   })
 
   it('index', () => {
