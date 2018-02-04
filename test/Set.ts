@@ -96,7 +96,7 @@ describe('Set', () => {
   })
 
   it('insert', () => {
-    assert.deepEqual(insert(setoidNumber)(3)(new Set([1, 2])), new Set([1, 2, 3]))
+    assert.deepEqual(insert(setoidNumber)(3, new Set([1, 2])), new Set([1, 2, 3]))
   })
 
   it('remove', () => {
