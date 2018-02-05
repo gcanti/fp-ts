@@ -26,7 +26,7 @@ export interface OptionT2<M extends URIS2> extends ApplicativeComposition21<M, O
 }
 
 export function chain<F extends URIS2>(F: Monad2<F>): OptionT2<F>['chain']
-export function chain<F extends URIS>(F: Monad<F>): OptionT1<F>['chain']
+export function chain<F extends URIS>(F: Monad1<F>): OptionT1<F>['chain']
 export function chain<F>(F: Monad<F>): OptionT<F>['chain']
 /** @function */
 export function chain<F>(F: Monad<F>): OptionT<F>['chain'] {

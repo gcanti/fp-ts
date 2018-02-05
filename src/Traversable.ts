@@ -100,22 +100,22 @@ export function traverse<F, T>(
   return T.traverse(F)
 }
 
-export function sequence<F extends URIS3, T extends URIS, U, L>(
-  F: Applicative3C<F, U, L>,
-  T: Traversable1<T>
-): <A>(tfa: Type<T, Type3<F, U, L, A>>) => Type3<F, U, L, Type<T, A>>
 export function sequence<F extends URIS3, T extends URIS>(
   F: Applicative3<F>,
   T: Traversable1<T>
 ): <U, L, A>(tfa: Type<T, Type3<F, U, L, A>>) => Type3<F, U, L, Type<T, A>>
-export function sequence<F extends URIS2, T extends URIS, L>(
-  F: Applicative2C<F, L>,
+export function sequence<F extends URIS3, T extends URIS, U, L>(
+  F: Applicative3C<F, U, L>,
   T: Traversable1<T>
-): <A>(tfa: Type<T, Type2<F, L, A>>) => Type2<F, L, Type<T, A>>
+): <A>(tfa: Type<T, Type3<F, U, L, A>>) => Type3<F, U, L, Type<T, A>>
 export function sequence<F extends URIS2, T extends URIS>(
   F: Applicative2<F>,
   T: Traversable1<T>
 ): <L, A>(tfa: Type<T, Type2<F, L, A>>) => Type2<F, L, Type<T, A>>
+export function sequence<F extends URIS2, T extends URIS, L>(
+  F: Applicative2C<F, L>,
+  T: Traversable1<T>
+): <A>(tfa: Type<T, Type2<F, L, A>>) => Type2<F, L, Type<T, A>>
 export function sequence<F extends URIS, T extends URIS>(
   F: Applicative1<F>,
   T: Traversable1<T>

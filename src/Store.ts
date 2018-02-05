@@ -1,6 +1,6 @@
 import { HKT, HKT2, HKT3, URIS, URIS2, Type, Type2, URIS3, Type3 } from './HKT'
 import { Comonad2 } from './Comonad'
-import { Functor } from './Functor'
+import { Functor, Functor2, Functor3 } from './Functor'
 import { Endomorphism, toString } from './function'
 
 declare module './HKT' {
@@ -73,10 +73,10 @@ export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A
 
 /** Extract a collection of values from positions which depend on the current position */
 export function experiment<F extends URIS3>(
-  F: Functor<F>
+  F: Functor3<F>
 ): <U, L, S>(f: (s: S) => HKT3<F, U, L, S>) => <A>(sa: Store<S, A>) => Type3<F, U, L, A>
 export function experiment<F extends URIS2>(
-  F: Functor<F>
+  F: Functor2<F>
 ): <L, S>(f: (s: S) => HKT2<F, L, S>) => <A>(sa: Store<S, A>) => Type2<F, L, A>
 export function experiment<F extends URIS>(
   F: Functor<F>
