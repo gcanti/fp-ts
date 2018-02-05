@@ -85,7 +85,7 @@ const never = new Task(() => new Promise<never>(resolve => undefined))
 /** @function */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => {
   return {
-    concat: (x, y) => y.ap(x.ap(of((a1: A) => (a2: A) => M.concat(a1, a2)))),
+    concat: (x, y) => x.chain(rx => y.chain(ry => of(M.concat(rx, ry)))),
     empty: of(M.empty)
   }
 }
