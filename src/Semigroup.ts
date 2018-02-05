@@ -110,3 +110,8 @@ export const semigroupProduct: Semigroup<number> = {
 export const semigroupString: Semigroup<string> = {
   concat: (x, y) => x + y
 }
+
+/** @instance */
+export const semigroupVoid: Semigroup<void> = {
+  concat: () => undefined
+}

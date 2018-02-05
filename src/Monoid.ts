@@ -9,7 +9,8 @@ import {
   semigroupProduct,
   semigroupSum,
   semigroupAny,
-  getArraySemigroup
+  getArraySemigroup,
+  semigroupVoid
 } from './Semigroup'
 import { Endomorphism, identity, compose } from './function'
 
@@ -93,6 +94,12 @@ export const monoidProduct: Monoid<number> = {
 export const monoidString: Monoid<string> = {
   ...semigroupString,
   empty: ''
+}
+
+/** @instance */
+export const monoidVoid: Monoid<void> = {
+  ...semigroupVoid,
+  empty: undefined
 }
 
 /** @function */
