@@ -1,7 +1,8 @@
 import * as assert from 'assert'
-import { Task, tryCatch, fromIO } from '../src/Task'
+import { Task, tryCatch, fromIO, getRaceMonoid, getMonoid } from '../src/Task'
 import { right, left } from '../src/Either'
 import { IO } from '../src/IO'
+import { monoidString } from '../src/Monoid'
 
 const delay = <A>(n: number, a: A): Task<A> =>
   new Task<A>(
@@ -12,13 +13,42 @@ const delay = <A>(n: number, a: A): Task<A> =>
   )
 
 describe('Task', () => {
-  it('concat', () => {
-    const t1 = delay(10, 1)
-    const t2 = delay(20, 2)
-    return t1
-      .concat(t2)
-      .run()
-      .then(x => assert.strictEqual(x, 1))
+  describe('getRaceMonoid', () => {
+    const M = getRaceMonoid<number>()
+    it('concat', () => {
+      return M.concat(delay(10, 1), delay(10, 2))
+        .run()
+        .then(x => assert.strictEqual(x, 1))
+    })
+    it('empty (right)', () => {
+      return M.concat(delay(10, 1), M.empty)
+        .run()
+        .then(x => assert.strictEqual(x, 1))
+    })
+    it('empty (left)', () => {
+      return M.concat(M.empty, delay(10, 1))
+        .run()
+        .then(x => assert.strictEqual(x, 1))
+    })
+  })
+
+  describe('getMonoid', () => {
+    const M = getMonoid(monoidString)
+    it('concat', () => {
+      return M.concat(delay(10, 'a'), delay(10, 'b'))
+        .run()
+        .then(x => assert.strictEqual(x, 'ab'))
+    })
+    it('empty (right)', () => {
+      return M.concat(delay(10, 'a'), M.empty)
+        .run()
+        .then(x => assert.strictEqual(x, 'a'))
+    })
+    it('empty (left)', () => {
+      return M.concat(M.empty, delay(10, 'a'))
+        .run()
+        .then(x => assert.strictEqual(x, 'a'))
+    })
   })
 
   it('map', () => {

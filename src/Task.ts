@@ -34,22 +34,6 @@ export class Task<A> {
   chain<B>(f: (a: A) => Task<B>): Task<B> {
     return new Task(() => this.run().then(a => f(a).run()))
   }
-  /** Selects the earlier of two Tasks */
-  concat(fy: Task<A>): Task<A> {
-    return new Task(() => {
-      return new Promise(r => {
-        let running = true
-        const resolve = (a: A) => {
-          if (running) {
-            running = false
-            r(a)
-          }
-        }
-        this.run().then(resolve)
-        fy.run().then(resolve)
-      })
-    })
-  }
   inspect(): string {
     return this.toString()
   }
@@ -75,14 +59,36 @@ const chain = <A, B>(fa: Task<A>, f: (a: A) => Task<B>): Task<B> => {
 }
 
 /** @function */
-export const getMonoid = <A = never>(): Monoid<Task<A>> => {
+export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
   return {
-    concat: (x, y) => x.concat(y),
+    concat: (x, y) =>
+      new Task(
+        () =>
+          new Promise(r => {
+            let running = true
+            const resolve = (a: A) => {
+              if (running) {
+                running = false
+                r(a)
+              }
+            }
+            x.run().then(resolve)
+            y.run().then(resolve)
+          })
+      ),
     empty: never
   }
 }
 
 const never = new Task(() => new Promise<never>(resolve => undefined))
+
+/** @function */
+export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => {
+  return {
+    concat: (x, y) => y.ap(x.ap(of((a1: A) => (a2: A) => M.concat(a1, a2)))),
+    empty: of(M.empty)
+  }
+}
 
 /** @function */
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): Task<Either<L, A>> => {
