@@ -60,7 +60,7 @@ const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
 /** @function */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
   return {
-    concat: (x, y) => new IO(() => S.concat(x.run(), y.run()))
+    concat: (x, y) => x.chain(xr => y.chain(yr => of(S.concat(xr, yr))))
   }
 }
 
