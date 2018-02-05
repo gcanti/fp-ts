@@ -25,8 +25,8 @@ export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, U
   chain<L, M, A, B>(f: (a: A) => HKT2<F, M, Either<L, B>>, fa: HKT2<F, M, Either<L, A>>): Type2<F, M, Either<L, B>>
 }
 
-export function chain<F extends URIS2>(F: Monad<F>): EitherT2<F>['chain']
-export function chain<F extends URIS>(F: Monad<F>): EitherT1<F>['chain']
+export function chain<F extends URIS2>(F: Monad2<F>): EitherT2<F>['chain']
+export function chain<F extends URIS>(F: Monad1<F>): EitherT1<F>['chain']
 export function chain<F>(F: Monad<F>): EitherT<F>['chain']
 export function chain<F>(F: Monad<F>): EitherT<F>['chain'] {
   return (f, fa) => F.chain(fa, e => e.fold(l => F.of(either.left(l)), a => f(a)))

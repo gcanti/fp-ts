@@ -19,7 +19,7 @@ export interface Monoid<A> extends Semigroup<A> {
 }
 
 /** @function */
-export function fold<A>(M: Monoid<A>): (as: Array<A>) => A {
+export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => {
   return foldSemigroup(M)(M.empty)
 }
 

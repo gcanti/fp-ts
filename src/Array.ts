@@ -91,18 +91,18 @@ const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
   return r
 }
 
-export function traverse<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <U, L, A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
-export function traverse<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>
+export function traverse<F extends URIS3, U, L>(
+  F: Applicative3C<F, U, L>
+): <A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
 export function traverse<F extends URIS2>(
   F: Applicative2<F>
 ): <L, A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>
+export function traverse<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>
 export function traverse<F extends URIS>(
   F: Applicative1<F>
 ): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>

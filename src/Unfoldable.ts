@@ -43,12 +43,12 @@ export interface Unfoldable3C<F extends URIS3, U, L> {
  * Replicate a value some natural number of times.
  * @function
  */
+export function replicate<F extends URIS3>(unfoldable: Unfoldable3<F>): <U, L, A>(a: A, n: number) => Type3<F, U, L, A>
 export function replicate<F extends URIS3, U, L>(
   unfoldable: Unfoldable3C<F, U, L>
 ): <A>(a: A, n: number) => Type3<F, U, L, A>
-export function replicate<F extends URIS3>(unfoldable: Unfoldable3<F>): <U, L, A>(a: A, n: number) => Type3<F, U, L, A>
-export function replicate<F extends URIS2, L>(unfoldable: Unfoldable2C<F, L>): <A>(a: A, n: number) => Type2<F, L, A>
 export function replicate<F extends URIS2>(unfoldable: Unfoldable2<F>): <L, A>(a: A, n: number) => Type2<F, L, A>
+export function replicate<F extends URIS2, L>(unfoldable: Unfoldable2C<F, L>): <A>(a: A, n: number) => Type2<F, L, A>
 export function replicate<F extends URIS>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) => Type<F, A>
 export function replicate<F>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
 export function replicate<F>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A> {
@@ -65,7 +65,9 @@ export function replicate<F>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) =>
  * @function
  */
 export function empty<F extends URIS3, U, L, A>(unfoldable: Unfoldable3<F>): Type3<F, U, L, A>
+export function empty<F extends URIS3, U, L, A>(unfoldable: Unfoldable3C<F, U, L>): Type3<F, U, L, A>
 export function empty<F extends URIS2, L, A>(unfoldable: Unfoldable2<F>): Type2<F, L, A>
+export function empty<F extends URIS2, L, A>(unfoldable: Unfoldable2C<F, L>): Type2<F, L, A>
 export function empty<F extends URIS, A>(unfoldable: Unfoldable1<F>): Type<F, A>
 export function empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A>
 export function empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A> {
@@ -73,10 +75,10 @@ export function empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A> {
 }
 
 /** @function */
-export function singleton<F extends URIS3, U, L>(unfoldable: Unfoldable3C<F, U, L>): <A>(a: A) => Type3<F, U, L, A>
 export function singleton<F extends URIS3>(unfoldable: Unfoldable3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>
-export function singleton<F extends URIS2, L>(unfoldable: Unfoldable2C<F, L>): <A>(a: A) => Type2<F, L, A>
+export function singleton<F extends URIS3, U, L>(unfoldable: Unfoldable3C<F, U, L>): <A>(a: A) => Type3<F, U, L, A>
 export function singleton<F extends URIS2>(unfoldable: Unfoldable2<F>): <L, A>(a: A) => Type2<F, L, A>
+export function singleton<F extends URIS2, L>(unfoldable: Unfoldable2C<F, L>): <A>(a: A) => Type2<F, L, A>
 export function singleton<F extends URIS>(unfoldable: Unfoldable1<F>): <A>(a: A) => Type<F, A>
 export function singleton<F>(unfoldable: Unfoldable<F>): <A>(a: A) => HKT<F, A>
 export function singleton<F>(unfoldable: Unfoldable<F>): <A>(a: A) => HKT<F, A> {
@@ -84,22 +86,22 @@ export function singleton<F>(unfoldable: Unfoldable<F>): <A>(a: A) => HKT<F, A> 
 }
 
 /** Perform an Applicative action `n` times, and accumulate all the results */
-export function replicateA<F extends URIS3, T extends URIS, U, L>(
-  applicative: Applicative3C<F, U, L>,
-  unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): <A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
 export function replicateA<F extends URIS3, T extends URIS>(
   applicative: Applicative3<F>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
 ): <U, L, A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
-export function replicateA<F extends URIS2, T extends URIS, L>(
-  applicative: Applicative2C<F, L>,
+export function replicateA<F extends URIS3, T extends URIS, U, L>(
+  applicative: Applicative3C<F, U, L>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): <A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, HKT<T, A>>
+): <A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
 export function replicateA<F extends URIS2, T extends URIS>(
   applicative: Applicative2<F>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
 ): <L, A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, HKT<T, A>>
+export function replicateA<F extends URIS2, T extends URIS, L>(
+  applicative: Applicative2C<F, L>,
+  unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
+): <A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, HKT<T, A>>
 export function replicateA<F extends URIS, T extends URIS>(
   applicative: Applicative1<F>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
