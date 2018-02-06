@@ -2,7 +2,7 @@ import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
 import { Monoid, getEndomorphismMonoid, unsafeMonoidArray } from './Monoid'
 import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
 import { applyFirst } from './Apply'
-import { identity, Predicate } from './function'
+import { Predicate } from './function'
 import { Ord, min, max } from './Ord'
 import { Option, none, some } from './Option'
 import { Semiring } from './Semiring'
@@ -144,7 +144,7 @@ export function fold<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): (fa: Typ
 export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M
 /** @function */
 export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M {
-  return fa => foldMap(F, M)(fa, identity)
+  return fa => F.reduce(fa, M.empty, M.concat)
 }
 
 /**
