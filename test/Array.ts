@@ -35,7 +35,8 @@ import {
   reverse,
   drop,
   flatten,
-  fold
+  fold,
+  foldL
 } from '../src/Array'
 import * as option from '../src/Option'
 import { traverse } from '../src/Traversable'
@@ -269,7 +270,12 @@ describe('Array', () => {
   })
 
   it('fold', () => {
-    const len = <A>(as: Array<A>): number => fold(as, () => 0, (_, tail) => 1 + len(tail))
+    const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
+    assert.strictEqual(len([1, 2, 3]), 3)
+  })
+
+  it('foldL', () => {
+    const len = <A>(as: Array<A>): number => foldL(as, () => 0, (_, tail) => 1 + len(tail))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 })

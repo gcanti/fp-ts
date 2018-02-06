@@ -1,5 +1,5 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Endomorphism, Lazy, Predicate, Refinement, identity, tuple, concat } from './function'
+import { Endomorphism, Predicate, Refinement, identity, tuple, concat } from './function'
 import { Option, fromNullable } from './Option'
 import { Ord } from './Ord'
 import { Alternative1 } from './Alternative'
@@ -177,16 +177,17 @@ export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
 
 /**
  * Break an array into its first element and remaining elements
- *
- * Example
- *
- * ```ts
- * const length = <A>(xs: Array<A>): number => fold(() => 0, (head, tail) => 1 + length(tail), xs)
- * ```
- *
  * @function
  */
-export const fold = <A, B>(as: Array<A>, nil: Lazy<B>, cons: (head: A, tail: Array<A>) => B): B => {
+export const fold = <A, B>(as: Array<A>, b: B, cons: (head: A, tail: Array<A>) => B): B => {
+  return isEmpty(as) ? b : cons(as[0], as.slice(1))
+}
+
+/**
+ * Lazy version of `fold`
+ * @function
+ */
+export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Array<A>) => B): B => {
   return isEmpty(as) ? nil() : cons(as[0], as.slice(1))
 }
 
