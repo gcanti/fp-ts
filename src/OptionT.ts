@@ -58,7 +58,7 @@ export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, O
 }
 
 export function liftF<F extends URIS2>(F: Functor2<F>): <L, A>(fa: Type2<F, L, A>) => Type2<F, L, Option<A>>
-export function liftF<F extends URIS>(F: Functor1<F>): <A>(fa: HKT<F, A>) => Type<F, Option<A>>
+export function liftF<F extends URIS>(F: Functor1<F>): <A>(fa: Type<F, A>) => Type<F, Option<A>>
 export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
 /** @function */
 export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> {
@@ -70,7 +70,7 @@ export function fold<F extends URIS2>(
 ): <L, R, A>(r: R, some: (a: A) => R, fa: Type2<F, L, Option<A>>) => Type2<F, L, R>
 export function fold<F extends URIS>(
   F: Functor1<F>
-): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => Type<F, R>
+): <R, A>(r: R, some: (a: A) => R, fa: Type<F, Option<A>>) => Type<F, R>
 export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
 /** @function */
 export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
@@ -80,7 +80,7 @@ export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<
 export function getOrElse<F extends URIS2>(
   F: Functor2<F>
 ): <A>(a: A) => <L>(fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
-export function getOrElse<F extends URIS>(F: Functor1<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => Type<F, A>
+export function getOrElse<F extends URIS>(F: Functor1<F>): <A>(a: A) => (fa: Type<F, Option<A>>) => Type<F, A>
 export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
 /** @function */
 export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
