@@ -8,16 +8,16 @@ import { option } from '../../src/Option'
 const data = new StrMap({ a: new StrMap({ b: new StrMap({ c: 2 }) }) })
 
 console.log(
-  lookup('a')(data)
-    .map(lookup('b'))
-    .map(o => o.map(lookup('c')))
+  lookup('a', data)
+    .map(d => lookup('b', d))
+    .map(o => o.map(d => lookup('c', d)))
 )
 // => some(some(some(2)))
 
 console.log(
-  lookup('a')(data)
-    .map(lookup('badger'))
-    .map(o => o.map(lookup('c')))
+  lookup('a', data)
+    .map(d => lookup('badger', d))
+    .map(o => o.map(d => lookup('c', d)))
 )
 // => some(none)
 
@@ -29,10 +29,10 @@ import { flatten } from '../../src/Chain'
 
 const flattenOption = flatten(option)
 
-console.log(flattenOption(flattenOption(lookup('a')(data).map(lookup('b'))).map(lookup('c'))))
+console.log(flattenOption(flattenOption(lookup('a', data).map(d => lookup('b', d))).map(d => lookup('c', d))))
 // => some(2)
 
-console.log(flattenOption(flattenOption(lookup('a')(data).map(lookup('badger'))).map(lookup('c'))))
+console.log(flattenOption(flattenOption(lookup('a', data).map(d => lookup('badger', d))).map(d => lookup('c', d))))
 // => none
 
 //
@@ -40,9 +40,9 @@ console.log(flattenOption(flattenOption(lookup('a')(data).map(lookup('badger')))
 //
 
 console.log(
-  lookup('a')(data)
-    .chain(lookup('b'))
-    .chain(lookup('c'))
+  lookup('a', data)
+    .chain(d => lookup('b', d))
+    .chain(d => lookup('c', d))
 )
 // => some(2)
 

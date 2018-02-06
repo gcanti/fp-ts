@@ -7,7 +7,7 @@ export function isSorted<A>(xs: Array<A>, ord: Ord<A>): boolean {
     if (n >= len) {
       return true
     }
-    if (greaterThan(ord)(xs[n])(xs[n + 1])) {
+    if (greaterThan(ord)(xs[n], xs[n + 1])) {
       return false
     }
     return go(n + 1)

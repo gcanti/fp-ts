@@ -14,7 +14,9 @@ import { between, ordNumber } from '../../src/Ord'
 
 export type Board = Array<Array<boolean>>
 
-export const inBounds = (i: number, j: number): boolean => between(ordNumber)(0)(3)(i) && between(ordNumber)(0)(3)(j)
+const betweenNumber = between(ordNumber)(0, 3)
+
+export const inBounds = (i: number, j: number): boolean => betweenNumber(i) && betweenNumber(j)
 
 export const getBoardValue = (board: Board, i: number, j: number): Option<boolean> =>
   inBounds(i, j) ? some(board[i][j]) : none

@@ -76,7 +76,7 @@ import { findIndex } from '../../src/Array'
 import { setoidNumber } from '../../src/Setoid'
 
 const nub = <A>(S: Setoid<A>) => (xs: Array<A>): Array<A> =>
-  xs.filter((x, i) => findIndex((a: A) => S.equals(x, a))(xs).exists(j => i === j))
+  xs.filter((x, i) => findIndex(xs, (a: A) => S.equals(x, a)).exists(j => i === j))
 
 console.log(nub(setoidNumber)([1, 2, 3, 4, 2, 3]))
 // => [ 1, 2, 3, 4 ]
