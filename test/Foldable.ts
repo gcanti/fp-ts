@@ -13,7 +13,8 @@ import {
   foldM,
   oneOf,
   elem,
-  find
+  find,
+  fold
 } from '../src/Foldable'
 import { array } from '../src/Array'
 import * as option from '../src/Option'
@@ -102,5 +103,9 @@ describe('Foldable', () => {
   it('find', () => {
     assert.deepEqual(find(array)([1, 2, 3], a => a > 4), option.none)
     assert.deepEqual(find(array)([1, 2, 3, 5], a => a > 4), option.some(5))
+  })
+
+  it('fold', () => {
+    assert.deepEqual(fold(array, monoidString)(['a', 'b', 'c']), 'abc')
   })
 })
