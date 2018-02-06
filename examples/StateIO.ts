@@ -80,7 +80,7 @@ import { log } from 'fp-ts/lib/Console'
 
 /** pop the next unique off the stack */
 const pop: StateIO<Array<number>, number> = get<Array<number>>().chain(ns =>
-  array.fold(() => of(0), (h, t) => put(t).chain(() => of(h)), ns)
+  array.foldL(ns, () => of(0), (h, t) => put(t).chain(() => of(h)))
 )
 
 const program1: StateIO<Array<number>, void> = pop

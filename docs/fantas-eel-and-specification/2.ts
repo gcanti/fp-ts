@@ -5,13 +5,13 @@
 import { zipWith } from '../../src/Array'
 
 const sum = (x: number, y: number) => x + y
-console.log(zipWith(sum)([1, 2])([4, 5, 6]))
+console.log(zipWith([1, 2], [4, 5, 6], sum))
 // => [5, 7]
 
 import { filter } from '../../src/Array'
 
 const gt2 = (n: number) => n > 2
-console.log(filter(gt2)([1, 2, 3]))
+console.log(filter([1, 2, 3], gt2))
 // => [3]
 
 //

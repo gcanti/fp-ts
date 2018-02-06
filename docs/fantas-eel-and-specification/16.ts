@@ -70,7 +70,7 @@ const temperatures = [23, 19, 19, 18, 18, 20, 24]
 
 console.log(
   array.extend(temperatures, as =>
-    fold(() => '???', (prev, tail) => fold(() => '???', (next, _) => (next <= prev ? 'YAY' : 'BOO'), tail), as)
+    fold(as, '???', (prev, tail) => fold(tail, '???', (next, _) => (next <= prev ? 'YAY' : 'BOO')))
   )
 )
 // => [ 'YAY', 'YAY', 'YAY', 'YAY', 'BOO', 'BOO', '???' ]
