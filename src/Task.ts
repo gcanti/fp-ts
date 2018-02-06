@@ -3,6 +3,7 @@ import { Monad1 } from './Monad'
 import { Lazy, toString } from './function'
 import { Either, left, right } from './Either'
 import { IO } from './IO'
+import { Semigroup } from './Semigroup'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -64,16 +65,16 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
     concat: (x, y) =>
       new Task(
         () =>
-          new Promise(r => {
+          new Promise(resolve => {
             let running = true
-            const resolve = (a: A) => {
+            const resolveFirst = (a: A) => {
               if (running) {
                 running = false
-                r(a)
+                resolve(a)
               }
             }
-            x.run().then(resolve)
-            y.run().then(resolve)
+            x.run().then(resolveFirst)
+            y.run().then(resolveFirst)
           })
       ),
     empty: never
@@ -83,9 +84,16 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
 const never = new Task(() => new Promise<never>(resolve => undefined))
 
 /** @function */
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => {
+  return {
+    concat: (x, y) => new Task(() => x.run().then(rx => y.run().then(ry => S.concat(rx, ry))))
+  }
+}
+
+/** @function */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => {
   return {
-    concat: (x, y) => x.chain(rx => y.chain(ry => of(M.concat(rx, ry)))),
+    ...getSemigroup(M),
     empty: of(M.empty)
   }
 }
