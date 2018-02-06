@@ -1,18 +1,16 @@
 {
   "compilerOptions": {
-    "outDir": "./lib",
-    "sourceMap": true,
-    "declaration": true,
+    "noEmit": true,
     "target": "es5",
     "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
     "noImplicitReturns": false,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6"]
   },
-  "include": ["./src/**/*"]
+  "include": ["../src/**/*"]
 }

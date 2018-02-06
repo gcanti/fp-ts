@@ -1,13 +1,13 @@
-import * as readerT from 'fp-ts/lib/ReaderT'
-import * as taskEither from 'fp-ts/lib/TaskEither'
-import { TaskEither } from 'fp-ts/lib/TaskEither'
-import { Monad3 } from 'fp-ts/lib/Monad'
-import { Task } from 'fp-ts/lib/Task'
-import { Either } from 'fp-ts/lib/Either'
+import * as readerT from '../src/ReaderT'
+import * as taskEither from '../src/TaskEither'
+import { TaskEither } from '../src/TaskEither'
+import { Monad3 } from '../src/Monad'
+import { Task } from '../src/Task'
+import { Either } from '../src/Either'
 
 const readerTTaskEither = readerT.getReaderT(taskEither.taskEither)
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT3<U, L, A> {
     ReaderTaskEither: ReaderTaskEither<U, L, A>
   }
