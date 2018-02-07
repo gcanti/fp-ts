@@ -27,8 +27,10 @@ export type URI = typeof URI
  * @constructor StrMap
  */
 export class StrMap<A> {
-  readonly '-A': A
-  readonly '-URI': URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly value: { [key: string]: A }) {}
   mapWithKey<B>(f: (k: string, a: A) => B): StrMap<B> {
     const o = this.value

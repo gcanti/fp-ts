@@ -19,8 +19,8 @@ import * as option from './Option'
 
 declare global {
   interface Array<T> {
-    '-URI': URI
-    '-A': T
+    _URI: URI
+    _A: T
   }
 }
 

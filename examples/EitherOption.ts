@@ -16,9 +16,12 @@ export const URI = 'EitherOption'
 export type URI = typeof URI
 
 export class EitherOption<L, A> {
-  readonly '-A': A
-  readonly '-L': L
-  readonly '-URI': URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_L': L
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly value: either.Either<L, Option<A>>) {}
   map<B>(f: (a: A) => B): EitherOption<L, B> {
     return new EitherOption(optionTEither.map(this.value, f))

@@ -25,9 +25,12 @@ const eitherTmapLeft = eitherT.mapLeft(task.task)
  * @constructor TaskEither
  */
 export class TaskEither<L, A> {
-  readonly '-A': A
-  readonly '-L': L
-  readonly '-URI': URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_L': L
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly value: Task<Either<L, A>>) {}
   /** Runs the inner task */
   run(): Promise<Either<L, A>> {
