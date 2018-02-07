@@ -12,8 +12,10 @@ declare module '../src/HKT' {
 }
 
 class Predicate<A> {
-  readonly '-A': A
-  readonly '-URI': URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(public readonly run: (a: A) => boolean) {}
 }
 

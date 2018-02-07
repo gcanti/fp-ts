@@ -1,14 +1,14 @@
 export interface HKT<URI, A> {
-  readonly '-URI': URI
-  readonly '-A': A
+  readonly _URI: URI
+  readonly _A: A
 }
 
 export interface HKT2<URI, L, A> extends HKT<URI, A> {
-  readonly '-L': L
+  readonly _L: L
 }
 
 export interface HKT3<URI, U, L, A> extends HKT2<URI, L, A> {
-  readonly '-U': U
+  readonly _U: U
 }
 
 // type-level dictionaries for HKTs
@@ -19,11 +19,11 @@ export interface URI2HKT3<U, L, A> {}
 
 // URI constraints with dictionary integrity constraint
 
-export type URIS = (URI2HKT<any> & { never: HKT<never, never> })[keyof URI2HKT<any> | 'never']['-URI']
-export type URIS2 = (URI2HKT2<any, any> & { never: HKT<never, never> })[keyof URI2HKT2<any, any> | 'never']['-URI']
+export type URIS = (URI2HKT<any> & { never: HKT<never, never> })[keyof URI2HKT<any> | 'never']['_URI']
+export type URIS2 = (URI2HKT2<any, any> & { never: HKT<never, never> })[keyof URI2HKT2<any, any> | 'never']['_URI']
 export type URIS3 = (URI2HKT3<any, any, any> & { never: HKT<never, never> })[
   | keyof URI2HKT3<any, any, any>
-  | 'never']['-URI']
+  | 'never']['_URI']
 
 // HKTAs<U, A> is the same as URI2HKT<A>[U], but checks for URI constraints
 

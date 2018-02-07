@@ -33,9 +33,12 @@ export type URI = typeof URI
  * @constructor Tuple
  */
 export class Tuple<L, A> {
-  readonly '-A': A
-  readonly '-L': L
-  readonly '-URI': URI
+  // prettier-ignore
+  readonly '_A': A
+  // prettier-ignore
+  readonly '_L': L
+  // prettier-ignore
+  readonly '_URI': URI
   constructor(readonly fst: L, readonly snd: A) {}
   compose<B>(ab: Tuple<A, B>): Tuple<L, B> {
     return new Tuple(this.fst, ab.snd)
