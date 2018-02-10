@@ -306,6 +306,22 @@ export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
   return fa.fold(() => none, some)
 }
 
+/**
+ * Returns `true` if the option is an instance of `Some`, `false` otherwise
+ * @function
+ */
+export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
+  return fa.isSome()
+}
+
+/**
+ * Returns `true` if the option is `None`, `false` otherwise
+ * @function
+ */
+export const isNone = <A>(fa: Option<A>): fa is None<A> => {
+  return fa.isNone()
+}
+
 /** @instance */
 export const option: Monad1<URI> &
   Foldable1<URI> &

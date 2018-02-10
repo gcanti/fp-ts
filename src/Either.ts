@@ -290,6 +290,22 @@ export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
   return fa.fold<Either<L, A>>(left, right)
 }
 
+/**
+ * Returns `true` if the either is an instance of `Left`, `false` otherwise
+ * @function
+ */
+export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
+  return fa.isLeft()
+}
+
+/**
+ * Returns `true` if the either is an instance of `Right`, `false` otherwise
+ * @function
+ */
+export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
+  return fa.isRight()
+}
+
 /** @instance */
 export const either: Monad2<URI> &
   Foldable2<URI> &
