@@ -13,6 +13,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.0.0
+
+* **Breaking Change**
+  * see https://github.com/gcanti/fp-ts/pull/312 (@gcanti)
+
 # 0.6.8
 
 * **New Feature**
