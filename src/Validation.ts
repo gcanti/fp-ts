@@ -242,6 +242,22 @@ export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
   }
 }
 
+/**
+ * Returns `true` if the validation is an instance of `Failure`, `false` otherwise
+ * @function
+ */
+export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
+  return fa.isFailure()
+}
+
+/**
+ * Returns `true` if the validation is an instance of `Success`, `false` otherwise
+ * @function
+ */
+export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
+  return fa.isSuccess()
+}
+
 /** @instance */
 export const validation: Functor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,

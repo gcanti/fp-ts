@@ -47,7 +47,7 @@ export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>)
  * @function
  */
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
-  return (fa, fb) => F.ap(F.map(fa, a => constant(a)), fb)
+  return (fa, fb) => F.ap(F.map(fa, constant), fb)
 }
 
 /** Combine two effectful actions, keeping only the result of the second */
