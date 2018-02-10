@@ -1,4 +1,4 @@
-# How `HKT`, `URI2HKT`, `HKTS` and `HKTAs` work
+# How `HKT`, `URI2HKT`, `URIS` and `Type` work
 
 ## Introduction
 
@@ -17,14 +17,15 @@ and `Functor`
 
 ```ts
 // Functor.ts
+import { HKT } from 'fp-ts/lib/HKT'
 
 export interface Functor<F> {
   readonly URI: F
-  map<A, B>(f: (a: A) => B, fa: HKT<F, A>): HKT<F, B>
+  map: <A, B>(fa: HKT<F, A>, f: (a: A) => B) => HKT<F, B>
 }
 
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => F.map(f, fa)
+  return f => fa => F.map(fa, f)
 }
 ```
 
@@ -32,6 +33,7 @@ We can define an instance of `Functor` for `Identity`
 
 ```ts
 // Identity.ts
+import { Functor } from 'fp-ts/lib/Functor'
 
 export const URI = 'Identity'
 
@@ -46,7 +48,7 @@ export class Identity<A> {
   }
 }
 
-export const map = <A, B>(f: (a: A) => B, fa: Identity<A>): Identity<B> => {
+const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {
   return fa.map(f)
 }
 
@@ -64,7 +66,7 @@ export const identity: Functor<URI> = {
 const double = (n: number): number => n * 2
 
 // x: Identity<number>
-const x = map(double, new Identity(1))
+const x = Identity(1).map(double)
 ```
 
 However there's a problem with functions which abstracts over `Functor` like `lift`
@@ -118,14 +120,26 @@ declare module './HKT' {
 If `F` is an `URI` which corresponds to a key in `URI2HKT` then we can add a specialized overloading for it to `lift`
 
 ```ts
+import { HKT, URIS, Type } from 'fp-ts/lib/HKT'
+
 // specialized overloading
-export function lift<F extends keyof URI2HKT<any>>(
-  F: Functor<F>
-): <A, B>(f: (a: A) => B) => (fa: URI2HKT<A>[F]) => URI2HKT<B>[F]
+export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Type<F, A>) => Type<F, B>
 // keep the generic signature
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
   return f => fa => F.map(f, fa)
+}
+```
+
+### Third step: change the Identity instance
+
+```ts
+// Identity.ts
+import { Functor1 } from 'fp-ts/lib/Functor'
+
+export const identity: Functor1<URI> = {
+  URI,
+  map
 }
 ```
 
@@ -141,36 +155,10 @@ const x = liftedDouble(new Identity(1))
 x.value // ok
 ```
 
-In order to make easier to define an overloading, we can write some type aliases
-
-```ts
-// HKT.ts
-
-// HKTS contains all the URIs registered via module augmentation
-export type HKTS = keyof URI2HKT<any>
-
-// HKTAs extracts the actual registered type constructor from the type-level storage,
-// using the provided type and URI arguments.
-export type HKTAs<F extends HKTS, A> = URI2HKT<A>[F]
-```
-
-The specialized overloading for `lift` now becomes
-
-```ts
-// specialized overloading
-export function lift<F extends HKTS>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKTAs<F, A>) => HKTAs<F, B>
-// keep the generic signature
-export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
-export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => F.map(f, fa)
-}
-```
-
 ## Higher kinded types
 
 Those steps handle type constructors of kind `* -> *`, we must repeat the process for type constructors with higher
 kind, leading to
 
-* `HKT2`, `URI2HKT2`, `HKT2S`, `HKT2As` for type constructors with kind `* -> * -> *`
-* `HKT3`, `URI2HKT3`, `HKT3S`, `HKT3As` for type constructors with kind `* -> * -> * -> *`
-* etc...
+* `HKT2`, `URI2HKT2`, `URIS2`, `Type2` for type constructors with kind `* -> * -> *`
+* `HKT3`, `URI2HKT3`, `URIS3`, `Type3` for type constructors with kind `* -> * -> * -> *`
