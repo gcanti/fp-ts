@@ -1,129 +1,95 @@
 MODULE [Monoid](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts)
-
 # Monoid
-
-_type class_
-
+*type class*
 ```ts
 interface Monoid<A> extends Semigroup<A> {
-  empty: () => A
+  empty: A
 }
 ```
+# getArrayMonoid
+*instance*
+```ts
+getArrayMonoid = <A = never>(): 
+```
+Monoid under array concatenation (`Array<any>`)
 
 # monoidAll
-
-_instance_
-
+*instance*
 ```ts
 Monoid<boolean>
 ```
-
 Boolean monoid under conjunction
 
 # monoidAny
-
-_instance_
-
+*instance*
 ```ts
 Monoid<boolean>
 ```
-
 Boolean monoid under disjunction
 
-# monoidArray
-
-_instance_
-
-```ts
-Monoid<Array<any>>
-```
-
-Monoid under array concatenation (`Array<any>`)
-
 # monoidProduct
-
-_instance_
-
+*instance*
 ```ts
 Monoid<number>
 ```
-
 Number monoid under multiplication
 
 # monoidString
-
-_instance_
-
+*instance*
 ```ts
 Monoid<string>
 ```
 
 # monoidSum
-
-_instance_
-
+*instance*
 ```ts
 Monoid<number>
 ```
-
 Number monoid under addition
 
+# monoidVoid
+*instance*
+```ts
+Monoid<void>
+```
+
+# unsafeMonoidArray
+*instance*
+```ts
+Monoid<Array<any>>
+```
 # fold
-
-_function_
-
+*function*
 ```ts
-<A>(M: Monoid<A>) => (as: Array<A>): A
+<A>(M: Monoid<A>): ((as: Array<A>) => A)
 ```
-
-# getArrayMonoid
-
-_function_
-
-```ts
-<A>(): Monoid<Array<A>>
-```
-
-Returns a monoid under array concatenation
 
 # getDualMonoid
-
-_function_
-
+*function*
 ```ts
 <A>(M: Monoid<A>): Monoid<A>
 ```
 
 # getEndomorphismMonoid
-
-_function_
-
+*function*
 ```ts
-<A>(): Monoid<Endomorphism<A>>
+<A = never>(): Monoid<Endomorphism<A>>
 ```
 
 # getFunctionMonoid
-
-_function_
-
+*function*
 ```ts
-<M>(monoid: Monoid<M>) => <A>(): Monoid<(a: A) => M>
+<M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M>
 ```
 
 # getProductMonoid
-
-_function_
-
+*function*
 ```ts
 <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]>
 ```
 
 # getRecordMonoid
-
-_function_
-
+*function*
 ```ts
-<O extends { [key: string]: any }>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O>
+<O>(Ms: { [K in keyof O]: Monoid<O[K]> }): Monoid<O>
 ```

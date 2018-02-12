@@ -1,133 +1,107 @@
 MODULE [Semigroup](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts)
-
 # Semigroup
-
-_type class_
-
+*type class*
 ```ts
 interface Semigroup<A> {
-  concat: (x: A) => (y: A) => A
+  concat: (x: A, y: A) => A
 }
 ```
-
 # semigroupAll
-
-_instance_
-
+*instance*
 ```ts
 Semigroup<boolean>
 ```
-
 Boolean semigroup under conjunction
 
 # semigroupAny
-
-_instance_
-
+*instance*
 ```ts
 Semigroup<boolean>
 ```
-
 Boolean semigroup under disjunction
 
-# semigroupArray
-
-_instance_
-
-```ts
-Semigroup<Array<any>>
-```
-
-Semigroup under array concatenation (`Array<any>`)
-
 # semigroupProduct
-
-_instance_
-
+*instance*
 ```ts
 Semigroup<number>
 ```
-
 Number Semigroup under multiplication
 
 # semigroupString
-
-_instance_
-
+*instance*
 ```ts
 Semigroup<string>
 ```
 
 # semigroupSum
-
-_instance_
-
+*instance*
 ```ts
 Semigroup<number>
 ```
-
 Number Semigroup under addition
 
+# semigroupVoid
+*instance*
+```ts
+Semigroup<void>
+```
 # fold
-
-_function_
-
+*function*
 ```ts
 <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A
 ```
 
+# getArraySemigroup
+*function*
+```ts
+<A = never>(): Semigroup<Array<A>>
+```
+Semigroup under array concatenation
+
 # getDualSemigroup
-
-_function_
-
+*function*
 ```ts
 <A>(S: Semigroup<A>): Semigroup<A>
 ```
 
 # getFirstSemigroup
-
-_function_
-
+*function*
 ```ts
-<A>(): Semigroup<A>
+<A = never>(): Semigroup<A>
+```
+
+# getFunctionSemigroup
+*function*
+```ts
+<S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S>
 ```
 
 # getJoinSemigroup
-
-_function_
-
+*function*
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
 # getLastSemigroup
-
-_function_
-
+*function*
 ```ts
-<A>(): Semigroup<A>
+<A = never>(): Semigroup<A>
 ```
 
 # getMeetSemigroup
-
-_function_
-
+*function*
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
 # getProductSemigroup
-
-_function_
-
+*function*
 ```ts
 <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]>
 ```
 
 # getRecordSemigroup
-
-_function_
-
+*function*
 ```ts
 <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }

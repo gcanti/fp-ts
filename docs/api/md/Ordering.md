@@ -1,41 +1,23 @@
 MODULE [Ordering](https://github.com/gcanti/fp-ts/blob/master/src/Ordering.ts)
-
 # semigroupOrdering
-
-_instance_
-
+*instance*
 ```ts
 Semigroup<Ordering>
 ```
 
 # setoidOrdering
-
-_instance_
-
+*instance*
 ```ts
 Setoid<Ordering>
 ```
-
-# fromNumber
-
-_function_
-
-```ts
-(n: number): Ordering
-```
-
 # invert
-
-_function_
-
+*function*
 ```ts
 (O: Ordering): Ordering
 ```
 
-# toNumber
-
-_function_
-
+# sign
+*function*
 ```ts
-(o: Ordering): -1 | 0 | 1
+(n: number): Ordering
 ```

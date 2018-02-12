@@ -1,19 +1,13 @@
 MODULE [Extend](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts)
-
 # Extend
-
-_type class_
-
+*type class*
 ```ts
 interface Extend<F> extends Functor<F> {
-  extend<A, B>(f: (fa: HKT<F, A>) => B, ea: HKT<F, A>): HKT<F, B>
+  extend: <A, B>(ea: HKT<F, A>, f: (fa: HKT<F, A>) => B) => HKT<F, B>
 }
 ```
-
 # duplicate
-
-_function_
-
+*function*
 ```ts
-duplicate<F>(extend: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>
+duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>> 
 ```

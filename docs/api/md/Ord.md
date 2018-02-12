@@ -1,163 +1,110 @@
 MODULE [Ord](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts)
-
 # Ord
-
-_type class_
-
+*type class*
 ```ts
 interface Ord<A> extends Setoid<A> {
-  compare: (x: A) => (y: A) => Ordering
+  compare: (x: A, y: A) => Ordering
 }
 ```
-
 # ordBoolean
-
-_instance_
-
+*instance*
 ```ts
 Ord<boolean>
 ```
 
 # ordNumber
-
-_instance_
-
+*instance*
 ```ts
 Ord<number>
 ```
 
 # ordString
-
-_instance_
-
+*instance*
 ```ts
 Ord<string>
 ```
-
 # between
-
-_function_
-
+*function*
 ```ts
-<A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): boolean
+<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean)
 ```
-
 Test whether a value is between a minimum and a maximum (inclusive)
 
 # clamp
-
-_function_
-
+*function*
 ```ts
-<A>(ord: Ord<A>) => (low: A) => (hi: A) => (x: A): A
+<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A)
 ```
-
 Clamp a value between a minimum and a maximum
 
 # contramap
-
-_function_
-
+*function*
 ```ts
 <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B>
 ```
 
 # fromCompare
-
-_function_
-
+*function*
 ```ts
-<A>(compare: (x: A) => (y: A) => Ordering): Ord<A>
+<A>(compare: (x: A, y: A) => Ordering): Ord<A>
 ```
 
 # getProductOrd
-
-_function_
-
+*function*
 ```ts
 <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]>
 ```
 
 # getSemigroup
-
-_function_
-
+*function*
 ```ts
-<A>(): Semigroup<Ord<A>>
+<A = never>(): Semigroup<Ord<A>>
 ```
 
 # greaterThan
-
-_function_
-
+*function*
 ```ts
-<A>(ord: Ord<A>) => (x: A) => (y: A): boolean
+<A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
-
 Test whether one value is _strictly greater than_ another
 
 # greaterThanOrEq
-
-_function_
-
+*function*
 ```ts
-<A>(ord: Ord<A>) => (x: A) => (y: A): boolean
+<A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
-
 Test whether one value is _non-strictly greater than_ another
 
 # lessThan
-
-_function_
-
+*function*
 ```ts
-<A>(ord: Ord<A>) => (x: A) => (y: A): boolean
+<A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
-
 Test whether one value is _strictly less than_ another
 
 # lessThanOrEq
-
-_function_
-
+*function*
 ```ts
-<A>(ord: Ord<A>) => (x: A) => (y: A): boolean
+<A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
-
 Test whether one value is _non-strictly less than_ another
 
 # max
-
-_function_
-
+*function*
 ```ts
-<A>(ord: Ord<A>) => (x: A) => (y: A): A
+<A>(O: Ord<A>) => (x: A, y: A): A
 ```
-
 Take the maximum of two values. If they are considered equal, the first argument is chosen
 
 # min
-
-_function_
-
+*function*
 ```ts
-<A>(ord: Ord<A>) => (x: A) => (y: A): A
+<A>(O: Ord<A>) => (x: A, y: A): A
 ```
-
 Take the minimum of two values. If they are considered equal, the first argument is chosen
 
-# toNativeComparator
-
-_function_
-
-```ts
-<A>(compare: (x: A) => (y: A) => Ordering): ((x: A, y: A) => number)
-```
-
 # unsafeCompare
-
-_function_
-
+*function*
 ```ts
-(x: any) => (y: any): Ordering
+(x: any, y: any): Ordering
 ```

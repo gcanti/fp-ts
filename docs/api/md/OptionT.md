@@ -1,73 +1,48 @@
 MODULE [OptionT](https://github.com/gcanti/fp-ts/blob/master/src/OptionT.ts)
-
 # chain
-
-_function_
-
+*function*
 ```ts
-chain<F>(F: Monad<F>): OptionT<F>['chain']
+chain<F>(F: Monad<F>): OptionT<F>['chain'] 
 ```
 
 # fold
-
-_function_
-
+*function*
 ```ts
-fold<F>(F: Functor<F>): <R, A>(none: Lazy<R>, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
+fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> 
 ```
 
 # fromOption
-
-_function_
-
+*function*
 ```ts
-fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
+fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> 
 ```
 
 # getOptionT
-
-_function_
-
+*function*
 ```ts
-getOptionT<M>(M: Monad<M>): OptionT<M>
+getOptionT<M>(M: Monad<M>): OptionT<M> 
 ```
 
 # getOrElse
-
-_function_
-
+*function*
 ```ts
-getOrElse<F>(F: Functor<F>): <A>(f: Lazy<A>) => (fa: HKT<F, Option<A>>) => HKT<F, A>
-```
-
-# getOrElseValue
-
-_function_
-
-```ts
-getOrElseValue<F>(F: Functor<F>): <A>(value: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> 
 ```
 
 # liftF
-
-_function_
-
+*function*
 ```ts
-liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
+liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> 
 ```
 
 # none
-
-_function_
-
+*function*
 ```ts
-none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
+none<F>(F: Applicative<F>): () => HKT<F, Option<never>> 
 ```
 
 # some
-
-_function_
-
+*function*
 ```ts
-some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
+some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> 
 ```

@@ -1,257 +1,128 @@
 MODULE [These](https://github.com/gcanti/fp-ts/blob/master/src/These.ts)
-
 # These
-
-_data_
-
+*data*
 ```ts
 type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 ```
-
 ## Methods
 
 ### bimap
-
 ```ts
-<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B>
+<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> 
 ```
-
 ### fold
-
 ```ts
-<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B
+<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B 
 ```
-
 Applies a function to each case in the data structure
-
 ### inspect
-
 ```ts
-(): string
+(): string 
 ```
-
 ### isBoth
-
 ```ts
-(): this is Both<L, A>
+(): this is Both<L, A> 
 ```
-
 Returns `true` if the these is `Both`, `false` otherwise
-
 ### isThat
-
 ```ts
-(): this is That<L, A>
+(): this is That<L, A> 
 ```
-
 Returns `true` if the these is `That`, `false` otherwise
-
 ### isThis
-
 ```ts
-(): this is This<L, A>
+(): this is This<L, A> 
 ```
-
 Returns `true` if the these is `This`, `false` otherwise
-
 ### map
-
 ```ts
-<B>(f: (a: A) => B): These<L, B>
+<B>(f: (a: A) => B): These<L, B> 
 ```
-
 ### reduce
-
 ```ts
-<B>(f: (b: B, a: A) => B, b: B): B
+<B>(b: B, f: (b: B, a: A) => B): B 
 ```
-
 ### toString
-
 ```ts
-(): string
+(): string 
 ```
-
-### traverse
-
-```ts
-<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>>
-```
-
 # these
-
-_instance_
-
+*instance*
 ```ts
-Functor<URI> & Bifunctor<URI> & Foldable<URI> & Traversable<URI>
+Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
-
-# ap
-
-_function_
-
-```ts
-<L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>)
-```
-
-# bimap
-
-_function_
-
-```ts
-<L, M, A, B>(f: (l: L) => M, g: (a: A) => B, fla: These<L, A>): These<M, B>
-```
-
 # both
-
-_function_
-
+*function*
 ```ts
 <L, A>(l: L, a: A): These<L, A>
 ```
 
-# chain
-
-_function_
-
-```ts
-<L>(S: Semigroup<L>) => <A, B>(f: (a: A) => These<L, B>, fa: These<L, A>): These<L, B>
-```
-
-# fold
-
-_function_
-
-```ts
-<L, A, B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B) => (
-  fa: These<L, A>
-): B
-```
-
 # fromThese
-
-_function_
-
+*function*
 ```ts
 <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A]
 ```
 
 # getMonad
-
-_function_
-
+*function*
 ```ts
-<L>(S: Semigroup<L>): Monad<URI>
+<L>(S: Semigroup<L>): Monad2C<URI, L>
 ```
 
 # getSemigroup
-
-_function_
-
+*function*
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>>
 ```
 
 # getSetoid
-
-_function_
-
+*function*
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>>
 ```
 
 # isBoth
-
-_function_
-
+*function*
 ```ts
 <L, A>(fa: These<L, A>): fa is Both<L, A>
 ```
-
 Returns `true` if the these is an instance of `Both`, `false` otherwise
 
 # isThat
-
-_function_
-
+*function*
 ```ts
 <L, A>(fa: These<L, A>): fa is That<L, A>
 ```
-
 Returns `true` if the these is an instance of `That`, `false` otherwise
 
 # isThis
-
-_function_
-
+*function*
 ```ts
 <L, A>(fa: These<L, A>): fa is This<L, A>
 ```
-
 Returns `true` if the these is an instance of `This`, `false` otherwise
 
-# map
-
-_function_
-
-```ts
-<L, A, B>(f: (a: A) => B, fa: These<L, A>): These<L, B>
-```
-
-# of
-
-_function_
-
-```ts
-<L, A>(a: A): These<L, A>
-```
-
-# reduce
-
-_function_
-
-```ts
-<L, A, B>(f: (b: B, a: A) => B, b: B, fa: These<L, A>): B
-```
-
 # that
-
-_function_ Alias of
-
+*function*
+Alias of
 ```ts
 of
 ```
 
 # theseLeft
-
-_function_
-
+*function*
 ```ts
 <L, A>(fa: These<L, A>): Option<L>
 ```
 
 # theseRight
-
-_function_
-
+*function*
 ```ts
 <L, A>(fa: These<L, A>): Option<A>
 ```
 
 # this_
-
-_function_
-
+*function*
 ```ts
 <L, A>(l: L): These<L, A>
-```
-
-# traverse
-
-_function_
-
-```ts
-traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: These<L, A>) => HKT<F, These<L, B>>
 ```

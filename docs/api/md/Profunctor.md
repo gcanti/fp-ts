@@ -1,27 +1,21 @@
 MODULE [Profunctor](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.ts)
-
 # Profunctor
-
-_type class_
-
+*type class*
 ```ts
-interface Profunctor<F> extends Functor<F> {
-  promap<A, B, C, D>(f: (a: A) => B, g: (c: C) => D, fbc: HKT2<F, B, C>): HKT2<F, A, D>
+interface Profunctor<F> {
+  readonly URI: F
+  map: <L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B) => HKT2<F, L, B>
+  promap: <A, B, C, D>(fbc: HKT2<F, B, C>, f: (a: A) => B, g: (c: C) => D) => HKT2<F, A, D>
 }
 ```
-
 # lmap
-
-_function_
-
+*function*
 ```ts
-lmap<F>(profunctor: Profunctor<F>): <A, B>(f: (a: A) => B) => <C>(fbc: HKT2<F, B, C>) => HKT2<F, A, C>
+lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C> 
 ```
 
 # rmap
-
-_function_
-
+*function*
 ```ts
-rmap<F>(profunctor: Profunctor<F>): <C, D>(g: (c: C) => D) => <B>(fbc: HKT2<F, B, C>) => HKT2<F, B, D>
+rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D> 
 ```

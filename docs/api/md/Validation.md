@@ -1,365 +1,143 @@
 MODULE [Validation](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts)
-
 # Validation
-
-_data_
-
+*data*
 ```ts
 type Validation<L, A> = Failure<L, A> | Success<L, A>
 ```
+The `Validation` functor, used for applicative validation
 
-A data-type like Either but with an accumulating `Applicative`
-
+The `Applicative` instance collects multiple failures in
+an arbitrary `Semigroup`.
 ## Methods
 
-### alt
-
-```ts
-(fy: Validation<L, A>): Validation<L, A>
-```
-
-### ap
-
-```ts
-<B>(fab: Validation<L, (a: A) => B>): Validation<L, B>
-```
-
-### ap_
-
-```ts
-<B, C>(this: Validation<L, (b: B) => C>, fb: Validation<L, B>): Validation<L, C>
-```
-
 ### bimap
-
 ```ts
-<M>(S: Semigroup<M>): <B>(f: (l: L) => M, g: (a: A) => B) => Validation<M, B>
+<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> 
 ```
-
-### chain
-
-```ts
-<B>(f: (a: A) => Validation<L, B>): Validation<L, B>
-```
-
-Binds the given function across `Success`
-
-### concat
-
-```ts
-(fy: Validation<L, A>): Validation<L, A>
-```
-
-### equals
-
-```ts
-(SL: Setoid<L>, SA: Setoid<A>): (fy: Validation<L, A>) => boolean
-```
-
 ### fold
-
 ```ts
-<B>(failure: (l: L) => B, success: (a: A) => B): B
+<B>(failure: (l: L) => B, success: (a: A) => B): B 
 ```
-
 ### getOrElse
-
 ```ts
-(f: (l: L) => A): A
+(a: A): A 
 ```
-
-Returns the value from this `Success` or the result of given argument if this is a `Failure`
-
-### getOrElseValue
-
-```ts
-(a: A): A
-```
-
 Returns the value from this `Success` or the given argument if this is a `Failure`
-
+### getOrElseL
+```ts
+(f: (l: L) => A): A 
+```
+Returns the value from this `Success` or the result of given argument if this is a `Failure`
 ### inspect
-
 ```ts
-(): string
+(): string 
 ```
-
 ### isFailure
-
 ```ts
-(): this is Failure<L, A>
+(): this is Failure<L, A> 
 ```
-
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
-
 ### isSuccess
-
 ```ts
-(): this is Success<L, A>
+(): this is Success<L, A> 
 ```
-
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
-
 ### map
-
 ```ts
-<B>(f: (a: A) => B): Validation<L, B>
+<B>(f: (a: A) => B): Validation<L, B> 
 ```
-
 ### mapFailure
-
 ```ts
-<M>(S: Semigroup<M>): (f: (l: L) => M) => Validation<M, A>
+<M>(f: (l: L) => M): Validation<M, A> 
 ```
-
 ### reduce
-
 ```ts
-<B>(f: (b: B, a: A) => B, b: B): B
+<B>(b: B, f: (b: B, a: A) => B): B 
 ```
-
 ### swap
-
 ```ts
-(S: Semigroup<A>): Validation<A, L>
+(): Validation<A, L> 
 ```
-
-### toEither
-
-```ts
-(): Either<L, A>
-```
-
-### toOption
-
-```ts
-(): Option<A>
-```
-
 ### toString
-
 ```ts
-(): string
+(): string 
 ```
-
-### traverse
-
-```ts
-<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Validation<L, B>>
-```
-
 # validation
-
-_instance_
-
+*instance*
 ```ts
-Semigroup<Validation<any, any>> & Monad<URI> & Foldable<URI> & Traversable<URI> & Alt<URI>
+Functor2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
-
-# alt
-
-_function_
-
-```ts
-<L, A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A>
-```
-
-# ap
-
-_function_
-
-```ts
-<L, A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B>
-```
-
-# bimap
-
-_function_
-
-```ts
-<M>(S: Semigroup<M>) => <L, A, B>(f: (l: L) => M, g: (a: A) => B) => (
-  fa: Validation<L, A>
-): Validation<M, B>
-```
-
-# chain
-
-_function_
-
-```ts
-<L, A, B>(f: (a: A) => Validation<L, B>, fa: Validation<L, A>): Validation<L, B>
-```
-
-# concat
-
-_function_
-
-```ts
-<L, A>(fx: Validation<L, A>) => (fy: Validation<L, A>): Validation<L, A>
-```
-
 # failure
-
-_function_
-
+*function*
 ```ts
-<L>(L: Semigroup<L>) => <A>(l: L): Validation<L, A>
-```
-
-# fold
-
-_function_
-
-```ts
-<L, A, B>(failure: (l: L) => B, success: (a: A) => B) => (fa: Validation<L, A>): B
+<L, A>(l: L): Validation<L, A>
 ```
 
 # fromEither
-
-_function_
-
+*function*
 ```ts
-<L>(S: Semigroup<L>): (<A>(e: Either<L, A>) => Validation<L, A>)
+<L, A>(e: Either<L, A>): Validation<L, A>
 ```
 
 # fromPredicate
-
-_function_
-
+*function*
 ```ts
-<L>(S: Semigroup<L>) => <A>(predicate: Predicate<A>, f: (a: A) => L) => (
-  a: A
-): Validation<L, A>
+<L, A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A): Validation<L, A>
 ```
 
-# getOrElse
-
-_function_
-
+# getAlt
+*function*
 ```ts
-<L, A>(f: (l: L) => A) => (fa: Validation<L, A>): A
+<L>(S: Semigroup<L>): Alt2C<URI, L>
 ```
 
-Returns the value from this `Success` or the result of given argument if this is a `Failure`
-
-# getOrElseValue
-
-_function_
-
+# getApplicative
+*function*
 ```ts
-<A>(a: A) => <L>(fa: Validation<L, A>): A
+<L>(S: Semigroup<L>): Applicative2C<URI, L>
 ```
 
-Returns the value from this `Success` or the given argument if this is a `Failure`
+# getMonad
+*function*
+```ts
+<L>(S: Semigroup<L>): Monad2C<URI, L>
+```
+
+# getMonoid
+*function*
+```ts
+<L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>>
+```
 
 # getSemigroup
-
-_function_
-
+*function*
 ```ts
-<L, A>(): Semigroup<Validation<L, A>>
+<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>>
 ```
 
 # getSetoid
-
-_function_
-
+*function*
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>>
 ```
 
 # isFailure
-
-_function_
-
+*function*
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Failure<L, A>
 ```
-
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 
 # isSuccess
-
-_function_
-
+*function*
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Success<L, A>
 ```
-
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
 
-# map
-
-_function_
-
-```ts
-<L, A, B>(f: (a: A) => B, fa: Validation<L, A>): Validation<L, B>
-```
-
-# mapFailure
-
-_function_
-
-```ts
-<M>(S: Semigroup<M>) => <L>(f: (l: L) => M) => <A>(
-  fa: Validation<L, A>
-): Validation<M, A>
-```
-
-# of
-
-_function_
-
-```ts
-<L, A>(a: A): Validation<L, A>
-```
-
-# reduce
-
-_function_
-
-```ts
-<L, A, B>(f: (b: B, a: A) => B, b: B, fa: Validation<L, A>): B
-```
-
 # success
-
-_function_ Alias of
-
+*function*
+Alias of
 ```ts
 of
-```
-
-# swap
-
-_function_
-
-```ts
-<A>(S: Semigroup<A>) => <L>(fa: Validation<L, A>): Validation<A, L>
-```
-
-# toEither
-
-_function_
-
-```ts
-<L, A>(fa: Validation<L, A>): Either<L, A>
-```
-
-# toOption
-
-_function_
-
-```ts
-<L, A>(fa: Validation<L, A>): Option<A>
-```
-
-# traverse
-
-_function_
-
-```ts
-traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Validation<L, A>) => HKT<F, Validation<L, B>>
 ```

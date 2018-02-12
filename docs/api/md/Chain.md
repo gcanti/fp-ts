@@ -1,19 +1,13 @@
 MODULE [Chain](https://github.com/gcanti/fp-ts/blob/master/src/Chain.ts)
-
 # Chain
-
-_type class_
-
+*type class*
 ```ts
 interface Chain<F> extends Apply<F> {
-  chain<A, B>(f: (a: A) => HKT<F, B>, fa: HKT<F, A>): HKT<F, B>
+  chain: <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<F, B>) => HKT<F, B>
 }
 ```
-
 # flatten
-
-_function_
-
+*function*
 ```ts
-flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
+flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A> 
 ```

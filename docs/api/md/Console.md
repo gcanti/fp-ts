@@ -1,33 +1,24 @@
 MODULE [Console](https://github.com/gcanti/fp-ts/blob/master/src/Console.ts)
-
 # error
-
-_function_
-
+*function*
 ```ts
 (s: any): IO<void>
 ```
 
 # info
-
-_function_
-
+*function*
 ```ts
 (s: any): IO<void>
 ```
 
 # log
-
-_function_
-
+*function*
 ```ts
 (s: any): IO<void>
 ```
 
 # warn
-
-_function_
-
+*function*
 ```ts
 (s: any): IO<void>
 ```

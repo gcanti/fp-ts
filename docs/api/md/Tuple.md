@@ -1,279 +1,109 @@
 MODULE [Tuple](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts)
-
 # Tuple
-
-_data_
-
+*data*
 ```ts
-constructor(readonly value: [L, A]) {}
+constructor(readonly fst: L, readonly snd: A) {}
 ```
-
 ## Methods
 
 ### bimap
-
 ```ts
-<M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B>
+<M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B> 
 ```
-
 ### compose
-
 ```ts
-<B>(ab: Tuple<A, B>): Tuple<L, B>
+<B>(ab: Tuple<A, B>): Tuple<L, B> 
 ```
-
 ### extend
-
 ```ts
-<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B>
+<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B> 
 ```
-
 ### extract
-
 ```ts
-(): A
+(): A 
 ```
-
-### fst
-
-```ts
-(): L
-```
-
 ### inspect
-
 ```ts
-(): string
+(): string 
 ```
-
 ### map
-
 ```ts
-<B>(f: (a: A) => B): Tuple<L, B>
+<B>(f: (a: A) => B): Tuple<L, B> 
 ```
-
 ### reduce
-
 ```ts
-<B>(f: (c: B, b: A) => B, c: B): B
+<B>(b: B, f: (b: B, a: A) => B): B 
 ```
-
-### snd
-
+### swap
 ```ts
-(): A
+(): Tuple<A, L> 
 ```
-
+Exchange the first and second components of a tuple
 ### toString
-
 ```ts
-(): string
+(): string 
 ```
-
-### traverse
-
+### toTuple
 ```ts
-<F>(F: Applicative<F>): <B>(f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>>
+(): [L, A] 
 ```
-
 # tuple
-
-_instance_
-
+*instance*
 ```ts
-Semigroupoid<URI> & Bifunctor<URI> & Comonad<URI> & Foldable<URI> & Traversable<URI>
+Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
-
-# ap
-
-_function_
-
-```ts
-<L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<L, A>): Tuple<L, B>
-```
-
-# bimap
-
-_function_
-
-```ts
-<L, A, M, B>(f: (l: L) => M, g: (a: A) => B, fla: Tuple<L, A>): Tuple<M, B>
-```
-
-# chain
-
-_function_
-
-```ts
-<L>(M: Monoid<L>) => <A, B>(f: (b: A) => Tuple<L, B>, fa: Tuple<L, A>): Tuple<L, B>
-```
-
-# chainRec
-
-_function_
-
-```ts
-<L>(M: Monoid<L>) => <A, B>(f: (a: A) => Tuple<L, Either<A, B>>, a: A): Tuple<L, B>
-```
-
-# compose
-
-_function_
-
-```ts
-<L, A, B>(bc: Tuple<A, B>, fa: Tuple<L, A>): Tuple<L, B>
-```
-
-# extend
-
-_function_
-
-```ts
-<L, A, B>(f: (fa: Tuple<L, A>) => B, fa: Tuple<L, A>): Tuple<L, B>
-```
-
-# extract
-
-_function_ Alias of
-
-```ts
-snd
-```
-
-# fst
-
-_function_
-
-```ts
-<L, A>(fa: Tuple<L, A>): L
-```
-
-Returns the first component of a tuple.
-
 # getApplicative
-
-_function_
-
+*function*
 ```ts
-<L>(M: Monoid<L>): Applicative<URI>
+<L>(M: Monoid<L>): Applicative2C<URI, L>
 ```
 
 # getApply
-
-_function_
-
+*function*
 ```ts
-<L>(S: Semigroup<L>): Apply<URI>
+<L>(S: Semigroup<L>): Apply2C<URI, L>
 ```
 
 # getChain
-
-_function_
-
+*function*
 ```ts
-<L>(M: Monoid<L>): Chain<URI>
+<L>(M: Monoid<L>): Chain2C<URI, L>
 ```
 
 # getChainRec
-
-_function_
-
+*function*
 ```ts
-<L>(M: Monoid<L>): ChainRec<URI>
+<L>(M: Monoid<L>): ChainRec2C<URI, L>
 ```
 
 # getMonad
-
-_function_
-
+*function*
 ```ts
-<L>(M: Monoid<L>): Monad<URI>
+<L>(M: Monoid<L>): Monad2C<URI, L>
 ```
 
 # getMonoid
-
-_function_
-
+*function*
 ```ts
 <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>>
 ```
 
 # getOrd
-
-_function_
-
+*function*
 ```ts
 <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>>
 ```
-
-To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the `snd`s are `compare`d.
+To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
+`snd`s are `compare`d.
 
 # getSemigroup
-
-_function_
-
+*function*
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>>
 ```
 
 # getSetoid
-
-_function_
-
+*function*
 ```ts
 <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>>
-```
-
-# map
-
-_function_
-
-```ts
-<L, A, B>(f: (b: A) => B, fa: Tuple<L, A>): Tuple<L, B>
-```
-
-# of
-
-_function_
-
-```ts
-<L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A>
-```
-
-# reduce
-
-_function_
-
-```ts
-<L, A, B>(f: (c: B, b: A) => B, c: B, fa: Tuple<L, A>): B
-```
-
-# snd
-
-_function_
-
-```ts
-<L, A>(fa: Tuple<L, A>): A
-```
-
-Returns the second component of a tuple.
-
-# swap
-
-_function_
-
-```ts
-<L, A>(fa: Tuple<L, A>): Tuple<A, L>
-```
-
-Exchange the first and second components of a tuple.
-
-# traverse
-
-_function_
-
-```ts
-traverse<F>(
-  F: Applicative<F>
-): <L, A, B>(f: (a: A) => HKT<F, B>, ta: Tuple<L, A>) => HKT<F, Tuple<L, B>>
 ```
