@@ -10,7 +10,8 @@ import {
   semigroupSum,
   semigroupAny,
   getArraySemigroup,
-  semigroupVoid
+  semigroupVoid,
+  getFunctionSemigroup
 } from './Semigroup'
 import { Endomorphism, identity, compose } from './function'
 
@@ -105,7 +106,7 @@ export const monoidVoid: Monoid<void> = {
 /** @function */
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => {
   return {
-    concat: (f, g) => a => M.concat(f(a), g(a)),
+    ...getFunctionSemigroup(M)<A>(),
     empty: () => M.empty
   }
 }
