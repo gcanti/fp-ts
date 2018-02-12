@@ -7,7 +7,7 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint src/**/*.ts test/**/*.ts examples/**/*.ts exercises/**/*.ts",
-    "mocha": "mocha -r ts-node/register test/*.ts",
+    "mocha": "TS_NODE_CACHE=false mocha -r ts-node/register test/*.ts",
     "prettier":
       "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier":
