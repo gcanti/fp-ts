@@ -56,7 +56,7 @@ The idea (faking higher kinded types in TypeScript) is based on
 # Documentation (TypeScript)
 
 * [API](docs/api/md/index.md)
-* [How `HKT`, `URI2HKT`, `HKTS` and `HKTAs` work](docs/HKT.md)
+* [How `HKT`, `URI2HKT`, `URIS` and `Type` work](docs/HKT.md)
 * Examples
   * [Free monad](examples/Free.ts)
   * [MTL-style](examples/mtl.ts)
