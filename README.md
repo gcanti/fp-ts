@@ -25,10 +25,6 @@ npm install --save fp-ts
 
 The stable version is tested against TypeScript 2.7.x, but should run with TypeScript 2.2.2+ too
 
-# Flowtype compatibility
-
-The shadow files are tested against 0.59.0
-
 # Technical overview
 
 The idea (faking higher kinded types in TypeScript) is based on
