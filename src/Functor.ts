@@ -24,11 +24,14 @@ export interface Functor3<F extends URIS3> {
 
 export interface Functor2C<F extends URIS2, L> {
   readonly URI: F
+  readonly _L: L
   map: <A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
 }
 
 export interface Functor3C<F extends URIS3, U, L> {
   readonly URI: F
+  readonly _L: L
+  readonly _U: U
   map: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => B) => Type3<F, U, L, B>
 }
 

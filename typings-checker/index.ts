@@ -24,3 +24,12 @@ const liftedGD: (fa: ReaderTaskEither<string, boolean, number>) => ReaderTaskEit
 )(double)
 
 const seq = sequence(either, array)
+
+import { semigroupString } from '../src/Semigroup'
+import { Validation, getApplicative } from '../src/Validation'
+import { liftA2 } from '../src/Apply'
+
+const F = getApplicative(semigroupString)
+const f1: <A, B, C>(
+  f: (a: A) => (b: B) => C
+) => (fa: Validation<string, A>) => (fb: Validation<string, B>) => Validation<string, C> = liftA2(F)

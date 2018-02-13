@@ -315,3 +315,6 @@ export const apply = <A, B>(f: (a: A) => B) => (a: A): B => {
 export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => {
   return f(a)
 }
+
+/** For use with phantom fields */
+export const phantom: any = undefined

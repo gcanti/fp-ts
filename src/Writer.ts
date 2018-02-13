@@ -2,6 +2,7 @@ import { Monoid } from './Monoid'
 import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Semigroup } from './Semigroup'
+import { phantom } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -70,6 +71,7 @@ export const tell = <W>(w: W): Writer<W, void> => {
 export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
   return {
     URI,
+    _L: phantom,
     map,
     of: of(M),
     ap: ap(M),

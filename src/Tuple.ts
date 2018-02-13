@@ -11,7 +11,7 @@ import { Foldable2 } from './Foldable'
 import { Applicative, Applicative2C } from './Applicative'
 import { Traversable2 } from './Traversable'
 import { Semigroupoid2 } from './Semigroupoid'
-import { toString } from './function'
+import { toString, phantom } from './function'
 import { ChainRec2C } from './ChainRec'
 import { Chain2C } from './Chain'
 import { Either, Right, Left } from './Either'
@@ -142,6 +142,7 @@ const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   return {
     URI,
+    _L: phantom,
     map,
     ap: ap(S)
   }

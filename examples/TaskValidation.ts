@@ -3,6 +3,7 @@ import * as validation from '../src/Validation'
 import * as task from '../src/Task'
 import { Semigroup } from '../src/Semigroup'
 import { Functor2, getFunctorComposition } from '../src/Functor'
+import { phantom } from '../src/function'
 
 declare module '../src/HKT' {
   interface URI2HKT2<L, A> {
@@ -44,6 +45,7 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
   }
   return {
     URI,
+    _L: phantom,
     map,
     of,
     ap

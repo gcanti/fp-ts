@@ -18,5 +18,6 @@ export interface Bifunctor3<F extends URIS3> {
 
 export interface Bifunctor3C<F extends URIS3, U> {
   readonly URI: F
+  readonly _U: U
   bimap: <L, A, M, B>(fla: Type3<F, U, L, A>, f: (l: L) => M, g: (a: A) => B) => HKT3<F, U, M, B>
 }
