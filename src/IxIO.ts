@@ -1,6 +1,7 @@
 import { Monad3C } from './Monad'
 import { IxMonad3 } from './IxMonad'
 import { IO, io } from './IO'
+import { phantom } from './function'
 
 declare module './HKT' {
   interface URI2HKT3<U, L, A> {
@@ -70,6 +71,8 @@ const chain = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => IxIO<I, I, B>): IxIO<I, 
 export const getMonad = <I = never>(): Monad3C<URI, I, I> => {
   return {
     URI,
+    _L: phantom,
+    _U: phantom,
     map,
     of,
     ap,

@@ -5,7 +5,7 @@ import { Foldable2 } from './Foldable'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
 import { Functor2 } from './Functor'
-import { constFalse, Predicate, toString } from './function'
+import { constFalse, Predicate, toString, phantom } from './function'
 import { Either } from './Either'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
@@ -160,6 +160,7 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
 
   return {
     URI,
+    _L: phantom,
     map,
     of,
     ap
@@ -237,6 +238,7 @@ export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
   }
   return {
     URI,
+    _L: phantom,
     map,
     alt
   }

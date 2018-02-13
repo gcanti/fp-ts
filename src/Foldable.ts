@@ -33,11 +33,14 @@ export interface Foldable3<F extends URIS3> {
 
 export interface Foldable2C<F extends URIS2, L> {
   readonly URI: F
+  readonly _L: L
   reduce: <A, B>(fa: Type2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface Foldable3C<F extends URIS3, U, L> {
   readonly URI: F
+  readonly _L: L
+  readonly _U: U
   reduce: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 

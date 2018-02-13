@@ -31,11 +31,14 @@ export interface Unfoldable3<F extends URIS3> {
 
 export interface Unfoldable2C<F extends URIS2, L> {
   readonly URI: F
+  readonly _L: L
   unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
 }
 
 export interface Unfoldable3C<F extends URIS3, U, L> {
   readonly URI: F
+  readonly _L: L
+  readonly _U: U
   unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
 }
 

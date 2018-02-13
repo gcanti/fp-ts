@@ -7,7 +7,7 @@ import { Traversable2 } from './Traversable'
 import { Option, none, some } from './Option'
 import { Setoid } from './Setoid'
 import { Semigroup } from './Semigroup'
-import { toString, constFalse } from './function'
+import { toString, constFalse, phantom } from './function'
 import { Monad2C } from './Monad'
 
 // Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
@@ -202,6 +202,7 @@ const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
   return {
     URI,
+    _L: phantom,
     map,
     of,
     ap: ap(S),
