@@ -1,143 +1,203 @@
 MODULE [Validation](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts)
+
 # Validation
-*data*
+
+_data_
+
 ```ts
 type Validation<L, A> = Failure<L, A> | Success<L, A>
 ```
+
 The `Validation` functor, used for applicative validation
 
-The `Applicative` instance collects multiple failures in
-an arbitrary `Semigroup`.
+The `Applicative` instance collects multiple failures in an arbitrary `Semigroup`.
+
 ## Methods
 
 ### bimap
+
 ```ts
-<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> 
+<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B>
 ```
+
 ### fold
+
 ```ts
-<B>(failure: (l: L) => B, success: (a: A) => B): B 
+<B>(failure: (l: L) => B, success: (a: A) => B): B
 ```
+
 ### getOrElse
+
 ```ts
-(a: A): A 
+(a: A): A
 ```
+
 Returns the value from this `Success` or the given argument if this is a `Failure`
+
 ### getOrElseL
+
 ```ts
-(f: (l: L) => A): A 
+(f: (l: L) => A): A
 ```
+
 Returns the value from this `Success` or the result of given argument if this is a `Failure`
+
 ### inspect
+
 ```ts
-(): string 
+(): string
 ```
+
 ### isFailure
+
 ```ts
-(): this is Failure<L, A> 
+(): this is Failure<L, A>
 ```
+
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
+
 ### isSuccess
+
 ```ts
-(): this is Success<L, A> 
+(): this is Success<L, A>
 ```
+
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
+
 ### map
+
 ```ts
-<B>(f: (a: A) => B): Validation<L, B> 
+<B>(f: (a: A) => B): Validation<L, B>
 ```
+
 ### mapFailure
+
 ```ts
-<M>(f: (l: L) => M): Validation<M, A> 
+<M>(f: (l: L) => M): Validation<M, A>
 ```
+
 ### reduce
+
 ```ts
-<B>(b: B, f: (b: B, a: A) => B): B 
+<B>(b: B, f: (b: B, a: A) => B): B
 ```
+
 ### swap
+
 ```ts
-(): Validation<A, L> 
+(): Validation<A, L>
 ```
+
 ### toString
+
 ```ts
-(): string 
+(): string
 ```
+
 # validation
-*instance*
+
+_instance_
+
 ```ts
 Functor2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
+
 # failure
-*function*
+
+_function_
+
 ```ts
 <L, A>(l: L): Validation<L, A>
 ```
 
 # fromEither
-*function*
+
+_function_
+
 ```ts
 <L, A>(e: Either<L, A>): Validation<L, A>
 ```
 
 # fromPredicate
-*function*
+
+_function_
+
 ```ts
 <L, A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A): Validation<L, A>
 ```
 
 # getAlt
-*function*
+
+_function_
+
 ```ts
 <L>(S: Semigroup<L>): Alt2C<URI, L>
 ```
 
 # getApplicative
-*function*
+
+_function_
+
 ```ts
 <L>(S: Semigroup<L>): Applicative2C<URI, L>
 ```
 
 # getMonad
-*function*
+
+_function_
+
 ```ts
 <L>(S: Semigroup<L>): Monad2C<URI, L>
 ```
 
 # getMonoid
-*function*
+
+_function_
+
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>>
 ```
 
 # getSemigroup
-*function*
+
+_function_
+
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>>
 ```
 
 # getSetoid
-*function*
+
+_function_
+
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>>
 ```
 
 # isFailure
-*function*
+
+_function_
+
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Failure<L, A>
 ```
+
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 
 # isSuccess
-*function*
+
+_function_
+
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Success<L, A>
 ```
+
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
 
 # success
-*function*
-Alias of
+
+_function_ Alias of
+
 ```ts
 of
 ```

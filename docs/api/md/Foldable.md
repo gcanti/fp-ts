@@ -1,119 +1,166 @@
 MODULE [Foldable](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts)
+
 # Foldable
-*type class*
+
+_type class_
+
 ```ts
 interface Foldable<F> {
   readonly URI: F
   reduce: <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
+
 # elem
-*function*
+
+_function_
+
 ```ts
-elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean 
+elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean
 ```
+
 Test whether a value is an element of a data structure
 
 # find
-*function*
+
+_function_
+
 ```ts
-find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A> 
+find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>
 ```
+
 Try to find an element in a data structure which satisfies a predicate
 
 # fold
-*function*
+
+_function_
+
 ```ts
-fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M 
+fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M
 ```
 
 # foldM
-*function*
+
+_function_
+
 ```ts
 foldM<F, M>(
   F: Foldable<F>,
   M: Monad<M>
-): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => HKT<M, B> 
+): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => HKT<M, B>
 ```
+
 Similar to 'reduce', but the result is encapsulated in a monad.
 
-Note: this function is not generally stack-safe, e.g., for monads which
-build up thunks a la `IO`.
+Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
 
 # foldMap
-*function*
+
+_function_
+
 ```ts
-foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, f: (a: A) => M) => M 
+foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, f: (a: A) => M) => M
 ```
+
 A default implementation of `foldMap` using `foldl`
 
 # getFoldableComposition
-*function*
+
+_function_
+
 ```ts
-getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> 
+getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G>
 ```
 
 # intercalate
-*function*
+
+_function_
+
 ```ts
-intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm: HKT<F, M>) => M 
+intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm: HKT<F, M>) => M
 ```
+
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
 
 # maximum
-*function*
+
+_function_
+
 ```ts
-maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A> 
+maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A>
 ```
+
 Find the largest element of a structure, according to its `Ord` instance
 
 # minimum
-*function*
+
+_function_
+
 ```ts
-minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A> 
+minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A>
 ```
+
 Find the smallest element of a structure, according to its `Ord` instance
 
 # oneOf
-*function*
+
+_function_
+
 ```ts
-oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> 
+oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>
 ```
+
 Combines a collection of elements using the `Alt` operation
 
 # product
-*function*
+
+_function_
+
 ```ts
-product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A 
+product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A
 ```
+
 Find the product of the numeric values in a data structure
 
 # sequence_
-*function*
+
+_function_
+
 ```ts
-sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> 
+sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
 ```
-Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final result.
+
+Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final
+result.
 
 # sum
-*function*
+
+_function_
+
 ```ts
-sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A 
+sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A
 ```
+
 Find the sum of the numeric values in a data structure
 
 # toArray
-*function*
+
+_function_
+
 ```ts
-toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> 
+toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
 ```
 
 # traverse_
-*function*
+
+_function_
+
 ```ts
 traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable<F>
-): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void> 
+): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void>
 ```
-Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the final result.
+
+Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the final
+result.

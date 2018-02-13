@@ -1,110 +1,155 @@
 MODULE [Ord](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts)
+
 # Ord
-*type class*
+
+_type class_
+
 ```ts
 interface Ord<A> extends Setoid<A> {
   compare: (x: A, y: A) => Ordering
 }
 ```
+
 # ordBoolean
-*instance*
+
+_instance_
+
 ```ts
 Ord<boolean>
 ```
 
 # ordNumber
-*instance*
+
+_instance_
+
 ```ts
 Ord<number>
 ```
 
 # ordString
-*instance*
+
+_instance_
+
 ```ts
 Ord<string>
 ```
+
 # between
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean)
 ```
+
 Test whether a value is between a minimum and a maximum (inclusive)
 
 # clamp
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A)
 ```
+
 Clamp a value between a minimum and a maximum
 
 # contramap
-*function*
+
+_function_
+
 ```ts
 <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B>
 ```
 
 # fromCompare
-*function*
+
+_function_
+
 ```ts
 <A>(compare: (x: A, y: A) => Ordering): Ord<A>
 ```
 
 # getProductOrd
-*function*
+
+_function_
+
 ```ts
 <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]>
 ```
 
 # getSemigroup
-*function*
+
+_function_
+
 ```ts
 <A = never>(): Semigroup<Ord<A>>
 ```
 
 # greaterThan
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
+
 Test whether one value is _strictly greater than_ another
 
 # greaterThanOrEq
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
+
 Test whether one value is _non-strictly greater than_ another
 
 # lessThan
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
+
 Test whether one value is _strictly less than_ another
 
 # lessThanOrEq
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
+
 Test whether one value is _non-strictly less than_ another
 
 # max
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): A
 ```
+
 Take the maximum of two values. If they are considered equal, the first argument is chosen
 
 # min
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): A
 ```
+
 Take the minimum of two values. If they are considered equal, the first argument is chosen
 
 # unsafeCompare
-*function*
+
+_function_
+
 ```ts
 (x: any, y: any): Ordering
 ```

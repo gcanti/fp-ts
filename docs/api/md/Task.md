@@ -1,67 +1,97 @@
 MODULE [Task](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts)
+
 # Task
-*data*
+
+_data_
+
 ```ts
 constructor(readonly run: Lazy<Promise<A>>) {}
 ```
+
 ## Methods
 
 ### ap
+
 ```ts
-<B>(fab: Task<(a: A) => B>): Task<B> 
+<B>(fab: Task<(a: A) => B>): Task<B>
 ```
+
 ### ap_
+
 ```ts
-<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C> 
+<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C>
 ```
+
 ### chain
+
 ```ts
-<B>(f: (a: A) => Task<B>): Task<B> 
+<B>(f: (a: A) => Task<B>): Task<B>
 ```
+
 ### inspect
+
 ```ts
-(): string 
+(): string
 ```
+
 ### map
+
 ```ts
-<B>(f: (a: A) => B): Task<B> 
+<B>(f: (a: A) => B): Task<B>
 ```
+
 ### toString
+
 ```ts
-(): string 
+(): string
 ```
+
 # task
-*instance*
+
+_instance_
+
 ```ts
 Monad1<URI>
 ```
+
 # fromIO
-*function*
+
+_function_
+
 ```ts
 <A>(io: IO<A>): Task<A>
 ```
+
 Lifts an IO action into a Task
 
 # getMonoid
-*function*
+
+_function_
+
 ```ts
 <A>(M: Monoid<A>): Monoid<Task<A>>
 ```
 
 # getRaceMonoid
-*function*
+
+_function_
+
 ```ts
 <A = never>(): Monoid<Task<A>>
 ```
 
 # getSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(S: Semigroup<A>): Semigroup<Task<A>>
 ```
 
 # tryCatch
-*function*
+
+_function_
+
 ```ts
 <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): Task<Either<L, A>>
 ```

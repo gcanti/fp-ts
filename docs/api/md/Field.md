@@ -1,6 +1,9 @@
 MODULE [Field](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts)
+
 # Field
-*type class*
+
+_type class_
+
 ```ts
 interface Field<A> extends Ring<A> {
   degree: (a: A) => number
@@ -8,21 +11,31 @@ interface Field<A> extends Ring<A> {
   mod: (x: A, y: A) => A
 }
 ```
+
 # fieldNumber
-*instance*
+
+_instance_
+
 ```ts
 Field<number>
 ```
+
 # gcd
-*function*
+
+_function_
+
 ```ts
 <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A)
 ```
-The *greatest common divisor* of two values
+
+The _greatest common divisor_ of two values
 
 # lcm
-*function*
+
+_function_
+
 ```ts
 <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A)
 ```
-The *least common multiple* of two values
+
+The _least common multiple_ of two values

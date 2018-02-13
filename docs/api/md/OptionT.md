@@ -1,48 +1,65 @@
 MODULE [OptionT](https://github.com/gcanti/fp-ts/blob/master/src/OptionT.ts)
+
 # chain
-*function*
+
+_function_
+
 ```ts
-chain<F>(F: Monad<F>): OptionT<F>['chain'] 
+chain<F>(F: Monad<F>): OptionT<F>['chain']
 ```
 
 # fold
-*function*
+
+_function_
+
 ```ts
-fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> 
+fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
 ```
 
 # fromOption
-*function*
+
+_function_
+
 ```ts
-fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> 
+fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
 ```
 
 # getOptionT
-*function*
+
+_function_
+
 ```ts
-getOptionT<M>(M: Monad<M>): OptionT<M> 
+getOptionT<M>(M: Monad<M>): OptionT<M>
 ```
 
 # getOrElse
-*function*
+
+_function_
+
 ```ts
-getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> 
+getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
 ```
 
 # liftF
-*function*
+
+_function_
+
 ```ts
-liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> 
+liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
 ```
 
 # none
-*function*
+
+_function_
+
 ```ts
-none<F>(F: Applicative<F>): () => HKT<F, Option<never>> 
+none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
 ```
 
 # some
-*function*
+
+_function_
+
 ```ts
-some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> 
+some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
 ```

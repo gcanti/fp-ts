@@ -1,95 +1,133 @@
 MODULE [Monoid](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts)
+
 # Monoid
-*type class*
+
+_type class_
+
 ```ts
 interface Monoid<A> extends Semigroup<A> {
   empty: A
 }
 ```
+
 # getArrayMonoid
-*instance*
+
+_instance_
+
 ```ts
-getArrayMonoid = <A = never>(): 
+getArrayMonoid = <A = never>():
 ```
+
 Monoid under array concatenation (`Array<any>`)
 
 # monoidAll
-*instance*
+
+_instance_
+
 ```ts
 Monoid<boolean>
 ```
+
 Boolean monoid under conjunction
 
 # monoidAny
-*instance*
+
+_instance_
+
 ```ts
 Monoid<boolean>
 ```
+
 Boolean monoid under disjunction
 
 # monoidProduct
-*instance*
+
+_instance_
+
 ```ts
 Monoid<number>
 ```
+
 Number monoid under multiplication
 
 # monoidString
-*instance*
+
+_instance_
+
 ```ts
 Monoid<string>
 ```
 
 # monoidSum
-*instance*
+
+_instance_
+
 ```ts
 Monoid<number>
 ```
+
 Number monoid under addition
 
 # monoidVoid
-*instance*
+
+_instance_
+
 ```ts
 Monoid<void>
 ```
 
 # unsafeMonoidArray
-*instance*
+
+_instance_
+
 ```ts
 Monoid<Array<any>>
 ```
+
 # fold
-*function*
+
+_function_
+
 ```ts
 <A>(M: Monoid<A>): ((as: Array<A>) => A)
 ```
 
 # getDualMonoid
-*function*
+
+_function_
+
 ```ts
 <A>(M: Monoid<A>): Monoid<A>
 ```
 
 # getEndomorphismMonoid
-*function*
+
+_function_
+
 ```ts
 <A = never>(): Monoid<Endomorphism<A>>
 ```
 
 # getFunctionMonoid
-*function*
+
+_function_
+
 ```ts
 <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M>
 ```
 
 # getProductMonoid
-*function*
+
+_function_
+
 ```ts
 <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]>
 ```
 
 # getRecordMonoid
-*function*
+
+_function_
+
 ```ts
 <O>(Ms: { [K in keyof O]: Monoid<O[K]> }): Monoid<O>
 ```

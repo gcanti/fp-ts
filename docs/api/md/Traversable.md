@@ -1,28 +1,38 @@
 MODULE [Traversable](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts)
+
 # Traversable
-*type class*
+
+_type class_
+
 ```ts
 interface Traversable<T> extends Functor<T>, Foldable<T> {
   traverse: <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 }
 ```
+
 # getTraversableComposition
-*function*
+
+_function_
+
 ```ts
-getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> 
+getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
 ```
 
 # sequence
-*function*
+
+_function_
+
 ```ts
-sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>> 
+sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 ```
 
 # traverse
-*function*
+
+_function_
+
 ```ts
 traverse<F, T>(
   F: Applicative<F>,
   T: Traversable<T>
-): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>> 
+): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 ```

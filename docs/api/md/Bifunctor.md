@@ -1,6 +1,9 @@
 MODULE [Bifunctor](https://github.com/gcanti/fp-ts/blob/master/src/Bifunctor.ts)
+
 # Bifunctor
-*type class*
+
+_type class_
+
 ```ts
 interface Bifunctor<F> {
   readonly URI: F

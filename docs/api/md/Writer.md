@@ -1,36 +1,53 @@
 MODULE [Writer](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts)
+
 # Writer
-*data*
+
+_data_
+
 ```ts
 constructor(readonly run: () => [A, W]) {}
 ```
+
 ## Methods
 
 ### eval
+
 ```ts
-(): A 
+(): A
 ```
+
 ### exec
+
 ```ts
-(): W 
+(): W
 ```
+
 ### map
+
 ```ts
-<B>(f: (a: A) => B): Writer<W, B> 
+<B>(f: (a: A) => B): Writer<W, B>
 ```
+
 # writer
-*instance*
+
+_instance_
+
 ```ts
 Functor2<URI>
 ```
+
 # getMonad
-*function*
+
+_function_
+
 ```ts
 <W>(M: Monoid<W>): Monad2C<URI, W>
 ```
 
 # tell
-*function*
+
+_function_
+
 ```ts
 <W>(w: W): Writer<W, void>
 ```

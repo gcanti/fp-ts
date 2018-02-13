@@ -1,52 +1,75 @@
 MODULE [Const](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts)
+
 # Const
-*data*
+
+_data_
+
 ```ts
 constructor(readonly value: L) {}
 ```
+
 ## Methods
 
 ### contramap
+
 ```ts
-<B>(f: (b: B) => A): Const<L, B> 
+<B>(f: (b: B) => A): Const<L, B>
 ```
+
 ### fold
+
 ```ts
-<B>(f: (l: L) => B): B 
+<B>(f: (l: L) => B): B
 ```
+
 ### inspect
+
 ```ts
-(): string 
+(): string
 ```
+
 ### map
+
 ```ts
-<B>(f: (a: A) => B): Const<L, B> 
+<B>(f: (a: A) => B): Const<L, B>
 ```
+
 ### toString
+
 ```ts
-(): string 
+(): string
 ```
+
 # const_
-*instance*
+
+_instance_
+
 ```ts
 Functor2<URI> & Contravariant2<URI>
 ```
+
 # getApplicative
-*function*
+
+_function_
+
 ```ts
 <L>(M: Monoid<L>): Applicative2C<URI, L>
 ```
 
 # getApply
-*function*
+
+_function_
+
 ```ts
 <L>(S: Semigroup<L>): Apply2C<URI, L>
 ```
 
 # getSetoid
-*function*
+
+_function_
+
 ```ts
-<L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
+;<L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
   equals: (x, y) => x.fold(ax => y.fold(ay => S.equals(ax, ay)))
 })
 ```

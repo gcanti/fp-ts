@@ -1,107 +1,149 @@
 MODULE [Semigroup](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts)
+
 # Semigroup
-*type class*
+
+_type class_
+
 ```ts
 interface Semigroup<A> {
   concat: (x: A, y: A) => A
 }
 ```
+
 # semigroupAll
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<boolean>
 ```
+
 Boolean semigroup under conjunction
 
 # semigroupAny
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<boolean>
 ```
+
 Boolean semigroup under disjunction
 
 # semigroupProduct
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<number>
 ```
+
 Number Semigroup under multiplication
 
 # semigroupString
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<string>
 ```
 
 # semigroupSum
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<number>
 ```
+
 Number Semigroup under addition
 
 # semigroupVoid
-*instance*
+
+_instance_
+
 ```ts
 Semigroup<void>
 ```
+
 # fold
-*function*
+
+_function_
+
 ```ts
 <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A
 ```
 
 # getArraySemigroup
-*function*
+
+_function_
+
 ```ts
 <A = never>(): Semigroup<Array<A>>
 ```
+
 Semigroup under array concatenation
 
 # getDualSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(S: Semigroup<A>): Semigroup<A>
 ```
 
 # getFirstSemigroup
-*function*
+
+_function_
+
 ```ts
 <A = never>(): Semigroup<A>
 ```
 
 # getFunctionSemigroup
-*function*
+
+_function_
+
 ```ts
 <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S>
 ```
 
 # getJoinSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
 # getLastSemigroup
-*function*
+
+_function_
+
 ```ts
 <A = never>(): Semigroup<A>
 ```
 
 # getMeetSemigroup
-*function*
+
+_function_
+
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
 # getProductSemigroup
-*function*
+
+_function_
+
 ```ts
 <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]>
 ```
 
 # getRecordSemigroup
-*function*
+
+_function_
+
 ```ts
 <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }

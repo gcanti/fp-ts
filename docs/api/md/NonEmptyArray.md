@@ -1,72 +1,107 @@
 MODULE [NonEmptyArray](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts)
+
 # NonEmptyArray
-*data*
+
+_data_
+
 ```ts
 constructor(readonly head: A, readonly tail: Array<A>) {}
 ```
+
 ## Methods
 
 ### ap
+
 ```ts
-<B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B> 
+<B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B>
 ```
+
 ### ap_
+
 ```ts
-<B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C> 
+<B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C>
 ```
+
 ### chain
+
 ```ts
-<B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B> 
+<B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B>
 ```
+
 ### concat
+
 ```ts
-(y: NonEmptyArray<A>): NonEmptyArray<A> 
+(y: NonEmptyArray<A>): NonEmptyArray<A>
 ```
+
 ### concatArray
+
 ```ts
-(as: Array<A>): NonEmptyArray<A> 
+(as: Array<A>): NonEmptyArray<A>
 ```
+
 ### extend
+
 ```ts
-<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> 
+<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B>
 ```
+
 ### extract
+
 ```ts
-(): A 
+(): A
 ```
+
 ### inspect
+
 ```ts
-(): string 
+(): string
 ```
+
 ### map
+
 ```ts
-<B>(f: (a: A) => B): NonEmptyArray<B> 
+<B>(f: (a: A) => B): NonEmptyArray<B>
 ```
+
 ### reduce
+
 ```ts
-<B>(b: B, f: (b: B, a: A) => B): B 
+<B>(b: B, f: (b: B, a: A) => B): B
 ```
+
 ### toArray
+
 ```ts
-(): Array<A> 
+(): Array<A>
 ```
+
 ### toString
+
 ```ts
-(): string 
+(): string
 ```
+
 # nonEmptyArray
-*instance*
+
+_instance_
+
 ```ts
 Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI>
 ```
+
 # fromArray
-*function*
+
+_function_
+
 ```ts
 <A>(as: Array<A>): Option<NonEmptyArray<A>>
 ```
 
 # getSemigroup
-*function*
+
+_function_
+
 ```ts
 <A = never>(): Semigroup<NonEmptyArray<A>>
 ```

@@ -1,6 +1,9 @@
 MODULE [IxMonad](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts)
+
 # IxMonad
-*type class*
+
+_type class_
+
 ```ts
 interface IxMonad<F> {
   readonly URI: F
@@ -8,18 +11,23 @@ interface IxMonad<F> {
   ichain: <I, O, Z, A, B>(fa: HKT3<F, I, O, A>, f: (a: A) => HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
 }
 ```
+
 # iapplyFirst
-*function*
+
+_function_
+
 ```ts
 iapplyFirst<F>(
   ixmonad: IxMonad<F>
-): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A> 
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A>
 ```
 
 # iapplySecond
-*function*
+
+_function_
+
 ```ts
 iapplySecond<F>(
   ixmonad: IxMonad<F>
-): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B> 
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
 ```

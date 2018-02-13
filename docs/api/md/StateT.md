@@ -1,60 +1,79 @@
 MODULE [StateT](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts)
+
 # ap
-*function*
+
+_function_
+
 ```ts
 ap<F>(
   F: Chain<F>
-): <S, A, B>(fab: (s: S) => HKT<F, [(a: A) => B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> 
+): <S, A, B>(fab: (s: S) => HKT<F, [(a: A) => B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
 ```
 
 # chain
-*function*
+
+_function_
+
 ```ts
 chain<F>(
   F: Chain<F>
-): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> 
+): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
 ```
 
 # get
-*function*
+
+_function_
+
 ```ts
-get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]> 
+get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>
 ```
 
 # getStateT
-*function*
+
+_function_
+
 ```ts
-getStateT<M>(M: Monad<M>): StateT<M> 
+getStateT<M>(M: Monad<M>): StateT<M>
 ```
 
 # gets
-*function*
+
+_function_
+
 ```ts
-gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]> 
+gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>
 ```
 
 # map
-*function*
+
+_function_
+
 ```ts
 map<F>(
   F: Functor<F>
-): <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> 
+): <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
 ```
 
 # modify
-*function*
+
+_function_
+
 ```ts
-modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]> 
+modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]>
 ```
 
 # of
-*function*
+
+_function_
+
 ```ts
-of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]> 
+of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]>
 ```
 
 # put
-*function*
+
+_function_
+
 ```ts
-put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]> 
+put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]>
 ```
