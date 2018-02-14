@@ -92,23 +92,23 @@ export function singleton<F>(unfoldable: Unfoldable<F>): <A>(a: A) => HKT<F, A> 
 export function replicateA<F extends URIS3, T extends URIS>(
   applicative: Applicative3<F>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): <U, L, A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
+): <U, L, A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, Type<T, A>>
 export function replicateA<F extends URIS3, T extends URIS, U, L>(
   applicative: Applicative3C<F, U, L>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): <A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, HKT<T, A>>
+): <A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, Type<T, A>>
 export function replicateA<F extends URIS2, T extends URIS>(
   applicative: Applicative2<F>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): <L, A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, HKT<T, A>>
+): <L, A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, Type<T, A>>
 export function replicateA<F extends URIS2, T extends URIS, L>(
   applicative: Applicative2C<F, L>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): <A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, HKT<T, A>>
+): <A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, Type<T, A>>
 export function replicateA<F extends URIS, T extends URIS>(
   applicative: Applicative1<F>,
   unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
-): <A>(n: number, ma: Type<F, A>) => Type<F, HKT<T, A>>
+): <A>(n: number, ma: Type<F, A>) => Type<F, Type<T, A>>
 /**
  * Perform an Applicative action `n` times, and accumulate all the results
  * @function

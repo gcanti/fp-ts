@@ -23,13 +23,32 @@ const liftedGD: (fa: ReaderTaskEither<string, boolean, number>) => ReaderTaskEit
   ReaderTaskEitherFunctor3C
 )(double)
 
-const seq = sequence(either, array)
+//
+// Traversable
+//
+
+const sequenceEither: <L, A>(tfa: Either<L, A>[]) => Either<L, A[]> = sequence(either, array)
+
+//
+// Apply
+//
 
 import { semigroupString } from '../src/Semigroup'
 import { Validation, getApplicative } from '../src/Validation'
 import { liftA2 } from '../src/Apply'
 
-const F = getApplicative(semigroupString)
+const F1 = getApplicative(semigroupString)
 const f1: <A, B, C>(
   f: (a: A) => (b: B) => C
-) => (fa: Validation<string, A>) => (fb: Validation<string, B>) => Validation<string, C> = liftA2(F)
+) => (fa: Validation<string, A>) => (fb: Validation<string, B>) => Validation<string, C> = liftA2(F1)
+
+//
+// Unfoldable
+//
+
+import { replicateA } from '../src/Unfoldable'
+
+const replicateValidation: <A>(n: number, ma: Validation<string, A>) => Validation<string, Array<A>> = replicateA(
+  F1,
+  array
+)
