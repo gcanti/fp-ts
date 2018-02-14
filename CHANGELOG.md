@@ -18,6 +18,11 @@ high state of flux, you're at risk of it changing without notice.
 * **Bug Fix**
   * add phantom fields to curried type classes, fix #316 (@gcanti)
   * fix `Unfoldable.replicateA` signatures (@gcanti)
+* **Internal**
+  * optimize Foldable.oneOf (@gcanti)
+  * optimize Foldable.traverse_ (@gcanti)
+  * optimize Foldable.sequence_ (@gcanti)
+  * optimize Foldable.foldr (@gcanti)
 
 # 1.0.0
 
