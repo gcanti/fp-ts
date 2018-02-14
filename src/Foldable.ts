@@ -264,7 +264,8 @@ export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<
  * @function
  */
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
-  return fa => traverse_(M, F)(ma => ma, fa)
+  const traverse_MF = traverse_(M, F)
+  return fa => traverse_MF(ma => ma, fa)
 }
 
 /**
