@@ -1,5 +1,5 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Monoid, getEndomorphismMonoid, unsafeMonoidArray } from './Monoid'
+import { Monoid, unsafeMonoidArray } from './Monoid'
 import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
 import { applyFirst } from './Apply'
 import { Predicate } from './function'
@@ -123,20 +123,19 @@ export function foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, 
  */
 export function foldr<F extends URIS3>(
   F: Foldable3<F>
-): <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A) => (b: B) => B) => B
+): <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
 export function foldr<F extends URIS3, U, L>(
   F: Foldable3C<F, U, L>
-): <A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A) => (b: B) => B) => B
-export function foldr<F extends URIS2>(
-  F: Foldable2<F>
-): <L, A, B>(fa: Type2<F, L, A>, b: B, f: (a: A) => (b: B) => B) => B
+): <A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
+export function foldr<F extends URIS2>(F: Foldable2<F>): <L, A, B>(fa: Type2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
 export function foldr<F extends URIS2, L>(
   F: Foldable2C<F, L>
-): <A, B>(fa: Type2<F, L, A>, b: B, f: (a: A) => (b: B) => B) => B
-export function foldr<F extends URIS>(F: Foldable1<F>): <A, B>(fa: Type<F, A>, b: B, f: (a: A) => (b: B) => B) => B
-export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A) => (b: B) => B) => B
-export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A) => (b: B) => B) => B {
-  return <A, B>(fa: HKT<F, A>, b: B, f: (a: A) => (b: B) => B) => foldMap(F, getEndomorphismMonoid<B>())(fa, f)(b)
+): <A, B>(fa: Type2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
+export function foldr<F extends URIS>(F: Foldable1<F>): <A, B>(fa: Type<F, A>, b: B, f: (a: A, b: B) => B) => B
+export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B
+export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B {
+  const toArrayF = toArray(F)
+  return (fa, b, f) => toArrayF(fa).reduceRight((acc, a) => f(a, acc), b)
 }
 
 export function fold<F extends URIS3, M>(F: Foldable3<F>, M: Monoid<M>): <U, L>(fa: Type3<F, U, L, M>) => M
