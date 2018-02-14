@@ -293,7 +293,7 @@ export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, 
  * @function
  */
 export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> {
-  return fga => foldr(F)(fga, P.zero(), a => b => P.alt(a, b))
+  return fga => F.reduce(fga, P.zero(), (acc, a) => P.alt(acc, a))
 }
 
 type Acc<M> = { init: boolean; acc: M }
