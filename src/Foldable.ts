@@ -229,7 +229,10 @@ export function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable<F>
 ): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void> {
-  return (f, fa) => toArray(F)(fa).reduce((mu, a) => applyFirst(M)(mu, f(a)), M.of(undefined))
+  const toArrayF = toArray(F)
+  const applyFirstM = applyFirst(M)
+  const initialValue = M.of(undefined)
+  return (f, fa) => toArrayF(fa).reduce((mu, a) => applyFirstM(mu, f(a)), initialValue)
 }
 
 /**
