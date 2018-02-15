@@ -192,6 +192,30 @@ export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Ar
 }
 
 /**
+ * Same as `reduce` but it carries over the intermediate steps
+ * @function
+ */
+export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> => {
+  const l = as.length
+  let r = new Array(l + 1)
+  r[0] = b
+  for (let i = 0; i < l; i++) {
+    r[i + 1] = f(r[i], as[i])
+  }
+  return r
+}
+
+export const scanRight = <A, B>(as: Array<A>, b: B, f: ((a: A, b: B) => B)): Array<B> => {
+  const l = as.length
+  let r = new Array(l + 1)
+  r[l] = b
+  for (let i = l - 1; i >= 0; i--) {
+    r[i] = f(as[i], r[i + 1])
+  }
+  return r
+}
+
+/**
  * Test whether an array is empty
  * @function
  */
