@@ -193,6 +193,7 @@ export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Ar
 
 /**
  * Same as `fold` but it carries over the intermediate steps
+ * @function
  */
 export const scan = <A, B>(f: ((b: B, a: A) => B), b: B, as: Array<A>): Array<B> => {
   return isEmpty(as) ? [b] : cons(b, scan(f, f(b, as[0]), as.slice(1)))

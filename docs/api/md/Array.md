@@ -122,6 +122,15 @@ _function_
 
 Lazy version of `fold`
 
+# scan
+
+_function_
+
+```ts
+<A, B>(f: ((b: B, a: A) => B), b: B, as: Array<A>): Array<B>
+```
+Same as `fold` but it carries over the intermediate steps
+
 # getMonoid
 
 _function_
