@@ -193,11 +193,16 @@ export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Ar
 
 /**
  * Same as `reduce` but it carries over the intermediate steps
+ *
+ * ```ts
+ * scanLeft([1, 2, 3], 10, (b, a) => b - a) // [ 10, 9, 7, 4 ]
+ * ```
+ *
  * @function
  */
 export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> => {
   const l = as.length
-  let r = new Array(l + 1)
+  const r: Array<B> = new Array(l + 1)
   r[0] = b
   for (let i = 0; i < l; i++) {
     r[i + 1] = f(r[i], as[i])
@@ -205,9 +210,19 @@ export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Arra
   return r
 }
 
-export const scanRight = <A, B>(as: Array<A>, b: B, f: ((a: A, b: B) => B)): Array<B> => {
+/**
+ * Fold an array from the right, keeping all intermediate results
+ * instead of only the final result
+ *
+ * ```ts
+ * scanRight([1, 2, 3], 10, (a, b) => b - a) // [ 4, 5, 7, 10 ]
+ * ```
+ *
+ * @function
+ */
+export const scanRight = <A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array<B> => {
   const l = as.length
-  let r = new Array(l + 1)
+  const r: Array<B> = new Array(l + 1)
   r[l] = b
   for (let i = l - 1; i >= 0; i--) {
     r[i] = f(as[i], r[i + 1])
