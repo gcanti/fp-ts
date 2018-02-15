@@ -122,16 +122,6 @@ _function_
 
 Lazy version of `fold`
 
-# scan
-
-_function_
-
-```ts
-<A, B>(f: ((b: B, a: A) => B), b: B, as: Array<A>): Array<B>
-```
-
-Same as `reduce` but it carries over the intermediate steps
-
 # getMonoid
 
 _function_
@@ -286,6 +276,34 @@ _function_
 ```
 
 Rotate an array to the right by `n` steps
+
+# scanLeft
+
+_function_
+
+```ts
+<A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B>
+```
+
+Same as `reduce` but it carries over the intermediate steps
+
+```ts
+scanLeft([1, 2, 3], 10, (b, a) => b - a) // [ 10, 9, 7, 4 ]
+```
+
+# scanRight
+
+_function_
+
+```ts
+<A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array<B>
+```
+
+Fold an array from the right, keeping all intermediate results instead of only the final result
+
+```ts
+scanRight([1, 2, 3], 10, (a, b) => b - a) // [ 4, 5, 7, 10 ]
+```
 
 # snoc
 
