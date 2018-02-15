@@ -197,7 +197,7 @@ export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Ar
  */
 export const scan = <A, B>(f: ((b: B, a: A) => B), b: B, as: Array<A>): Array<B> => {
   const l = as.length
-  let r = [b]
+  let r = new Array(l)
   for (let i = 0; i < l; i++) {
     r.push(f(r[i], as[i]))
   }
