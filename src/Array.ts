@@ -205,6 +205,16 @@ export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Arra
   return r
 }
 
+export const scanRight = <A, B>(as: Array<A>, b: B, f: ((a: A, b: B) => B)): Array<B> => {
+  const l = as.length
+  let r = new Array(l + 1)
+  r[l] = b
+  for (let i = l - 1; i >= 0; i--) {
+    r[i] = f(as[i], r[i + 1])
+  }
+  return r
+}
+
 /**
  * Test whether an array is empty
  * @function
