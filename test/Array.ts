@@ -282,8 +282,8 @@ describe('Array', () => {
 
   it('scan', () => {
     const f = (b: number, a: number) => b - a
-    assert.deepEqual(scan(f, 10, [1, 2, 3]), [10, 9, 7, 4])
-    assert.deepEqual(scan(f, 10, [0]), [10, 10])
-    assert.deepEqual(scan(f, 10, []), [10])
+    assert.deepEqual(scan([1, 2, 3], 10, f), [10, 9, 7, 4])
+    assert.deepEqual(scan([0], 10, f), [10, 10])
+    assert.deepEqual(scan([], 10, f), [10])
   })
 })
