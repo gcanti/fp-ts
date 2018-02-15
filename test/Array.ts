@@ -36,7 +36,8 @@ import {
   drop,
   flatten,
   fold,
-  foldL
+  foldL,
+  scan
 } from '../src/Array'
 import * as option from '../src/Option'
 import { traverse } from '../src/Traversable'
@@ -277,5 +278,9 @@ describe('Array', () => {
   it('foldL', () => {
     const len = <A>(as: Array<A>): number => foldL(as, () => 0, (_, tail) => 1 + len(tail))
     assert.strictEqual(len([1, 2, 3]), 3)
+  })
+
+  it('scan', () => {
+    assert.deepEqual(scan((b, a) => b - a, 10, [1, 2, 3]), [10, 9, 7, 4])
   })
 })
