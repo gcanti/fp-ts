@@ -195,7 +195,7 @@ export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Ar
  * Same as `reduce` but it carries over the intermediate steps
  * @function
  */
-export const scan = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> => {
+export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> => {
   const l = as.length
   let r = new Array(l + 1)
   r[0] = b
