@@ -17,6 +17,8 @@ high state of flux, you're at risk of it changing without notice.
 
 * **New Feature**
   * add `scanLeft`, `scanRight` (@PaNaVTEC)
+* **Internal**
+  * add `FunctorComposition22C`, `ApplicativeComposition22C` (@gcanti)
 
 # 1.0.1
 

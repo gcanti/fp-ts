@@ -59,6 +59,10 @@ export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
   map: <L, M, A, B>(fa: Type2<F, L, Type2<G, M, A>>, f: (a: A) => B) => Type2<F, L, Type2<G, M, B>>
 }
 
+export interface FunctorComposition22C<F extends URIS2, G extends URIS2, M> {
+  map: <L, A, B>(fa: Type2<F, L, Type2<G, M, A>>, f: (a: A) => B) => Type2<F, L, Type2<G, M, B>>
+}
+
 /**
  * Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
  */
