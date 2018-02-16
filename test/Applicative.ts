@@ -1,42 +1,21 @@
 import * as assert from 'assert'
-import { TaskValidation, getApplicative } from '../examples/TaskValidation'
-import { task } from '../src/Task'
-import { when } from '../src/Applicative'
-import { success, failure } from '../src/Validation'
-import { sequence } from '../src/Traversable'
+import { when, getApplicativeComposition } from '../src/Applicative'
 import { array } from '../src/Array'
 import { IO, io } from '../src/IO'
-import { monoidString } from '../src/Monoid'
+import { option, some, none } from '../src/Option'
 
 describe('Applicative', () => {
   it('getApplicativeComposition', () => {
-    const allsuccess = [success<string, number>(1), success<string, number>(2), success<string, number>(3)].map(
-      a => new TaskValidation(task.of(a))
-    )
-
-    const somefailure = [
-      success<string, number>(1),
-      failure<string, number>('[fail 1]'),
-      failure<string, number>('[fail 2]')
-    ].map(a => new TaskValidation(task.of(a)))
-
-    const taskValidationApplicative = getApplicative(monoidString)
-
-    const p1 = sequence(taskValidationApplicative, array)(allsuccess).value.run()
-    const p2 = sequence(taskValidationApplicative, array)(somefailure).value.run()
-
-    return Promise.all([p1, p2]).then(([s, f]) => {
-      if (s.isSuccess()) {
-        assert.deepEqual(s.value, [1, 2, 3])
-      } else {
-        assert.ok(false)
-      }
-      if (f.isFailure()) {
-        assert.deepEqual(f.value, '[fail 1][fail 2]')
-      } else {
-        assert.ok(false)
-      }
-    })
+    const arrayOption = getApplicativeComposition(array, option)
+    const double = (n: number) => n * 2
+    const inc = (n: number) => n + 1
+    assert.deepEqual(arrayOption.ap([some(double), some(inc)], [some(1), some(2)]), [
+      some(2),
+      some(4),
+      some(2),
+      some(3)
+    ])
+    assert.deepEqual(arrayOption.ap([some(double), none], [some(1), some(2)]), [some(2), some(4), none, none])
   })
 
   it('when', () => {
