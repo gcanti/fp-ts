@@ -7,7 +7,8 @@ import {
   FunctorComposition12,
   FunctorComposition21,
   FunctorComposition22,
-  FunctorComposition12C
+  FunctorComposition12C,
+  FunctorComposition22C
 } from './Functor'
 
 /** @typeclass */
@@ -57,15 +58,23 @@ export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, L> e
 
 export interface ApplicativeComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
   of: <L, A>(a: A) => Type2<F, L, Type<G, A>>
-  ap<L, A, B>(fgab: Type2<F, L, Type<G, (a: A) => B>>, fga: Type2<F, L, Type<G, A>>): Type2<F, L, Type<G, B>>
+  ap: <L, A, B>(fgab: Type2<F, L, Type<G, (a: A) => B>>, fga: Type2<F, L, Type<G, A>>) => Type2<F, L, Type<G, B>>
 }
 
 export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
-  of: <LF, LG, A>(a: A) => Type2<F, LF, Type2<G, LG, A>>
-  ap<LF, LG, A, B>(
-    fgab: Type2<F, LF, Type2<G, LG, (a: A) => B>>,
-    fga: Type2<F, LF, Type2<G, LG, A>>
-  ): Type2<F, LF, Type2<G, LG, B>>
+  of: <L, M, A>(a: A) => Type2<F, L, Type2<G, M, A>>
+  ap: <L, M, A, B>(
+    fgab: Type2<F, L, Type2<G, M, (a: A) => B>>,
+    fga: Type2<F, L, Type2<G, M, A>>
+  ) => Type2<F, L, Type2<G, M, B>>
+}
+
+export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, M> extends FunctorComposition22C<F, G, M> {
+  of: <L, A>(a: A) => Type2<F, L, Type2<G, M, A>>
+  ap: <L, A, B>(
+    fgab: Type2<F, L, Type2<G, M, (a: A) => B>>,
+    fga: Type2<F, L, Type2<G, M, A>>
+  ) => Type2<F, L, Type2<G, M, B>>
 }
 
 /** Perform a applicative action when a condition is true */
@@ -95,6 +104,10 @@ export function getApplicativeComposition<F extends URIS2, G extends URIS2>(
   F: Applicative2<F>,
   G: Applicative2<G>
 ): ApplicativeComposition22<F, G>
+export function getApplicativeComposition<F extends URIS2, G extends URIS2, L>(
+  F: Applicative2<F>,
+  G: Applicative2C<G, L>
+): ApplicativeComposition22C<F, G, L>
 export function getApplicativeComposition<F extends URIS2, G extends URIS>(
   F: Applicative2<F>,
   G: Applicative1<G>

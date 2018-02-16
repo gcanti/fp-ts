@@ -37,10 +37,10 @@ import { semigroupString } from '../src/Semigroup'
 import { Validation, getApplicative } from '../src/Validation'
 import { liftA2 } from '../src/Apply'
 
-const F1 = getApplicative(semigroupString)
+const applicativeValidation = getApplicative(semigroupString)
 const f1: <A, B, C>(
   f: (a: A) => (b: B) => C
-) => (fa: Validation<string, A>) => (fb: Validation<string, B>) => Validation<string, C> = liftA2(F1)
+) => (fa: Validation<string, A>) => (fb: Validation<string, B>) => Validation<string, C> = liftA2(applicativeValidation)
 
 //
 // Unfoldable
@@ -49,6 +49,17 @@ const f1: <A, B, C>(
 import { replicateA } from '../src/Unfoldable'
 
 const replicateValidation: <A>(n: number, ma: Validation<string, A>) => Validation<string, Array<A>> = replicateA(
-  F1,
+  applicativeValidation,
   array
 )
+
+//
+// Applicative
+//
+
+import { getApplicativeComposition } from '../src/Applicative'
+import { Reader, reader } from '../src/Reader'
+
+const AC1 = getApplicativeComposition(reader, applicativeValidation)
+const AC1map: <L, A, B>(fa: Reader<L, Validation<string, A>>, f: (a: A) => B) => Reader<L, Validation<string, B>> =
+  AC1.map
