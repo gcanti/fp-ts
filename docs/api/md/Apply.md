@@ -10,9 +10,15 @@ interface Apply<F> extends Functor<F> {
 }
 ```
 
-# applyFirst
+The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
 
-_function_
+`Apply` can be used to lift functions of two or more arguments to work on values wrapped with the type constructor `f`.
+
+Instances must satisfy the following law in addition to the `Functor` laws:
+
+1. Associative composition: `F.ap(F.ap(F.map(f => g => x => f(g(x)), fbc), fab), fa) = F.ap(fbc, F.ap(fab, fa))`
+   # applyFirst
+   _function_
 
 ```ts
 applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>

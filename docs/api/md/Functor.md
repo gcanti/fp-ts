@@ -11,9 +11,17 @@ interface Functor<F> {
 }
 ```
 
-# flap
+A `Functor` is a type constructor which supports a mapping operation `map`.
 
-_function_
+`map` can be used to turn functions `a -> b` into functions `f a -> f b` whose argument and return types use the type
+constructor `f` to represent some computational context.
+
+Instances must satisfy the following laws:
+
+1. Identity: `F.map(fa, x => x) = fa`
+2. Composition: `F.map(fa, x => f(g(x))) = F.map(F.map(fa, g), f)`
+   # flap
+   _function_
 
 ```ts
 flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => B>) => HKT<F, B>
