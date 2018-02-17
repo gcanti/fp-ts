@@ -63,3 +63,11 @@ import { Reader, reader } from '../src/Reader'
 const AC1 = getApplicativeComposition(reader, applicativeValidation)
 const AC1map: <L, A, B>(fa: Reader<L, Validation<string, A>>, f: (a: A) => B) => Reader<L, Validation<string, B>> =
   AC1.map
+
+//
+// Contravariant
+//
+
+import { Const, const_ } from '../src/Const'
+
+const const1: Const<boolean, string> = const_.contramap(new Const<boolean, number>(true), (s: string) => s.length)
