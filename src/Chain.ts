@@ -8,7 +8,7 @@ import { Apply, Apply1, Apply2, Apply3, Apply2C, Apply3C } from './Apply'
  *
  * Instances must satisfy the following law in addition to the `Apply` laws:
  *
- * 1. Associativity: `F.chain(g, F.chain(f, fa)) <-> F.chain(x => F.chain(g, f(x)), fa)`
+ * 1. Associativity: `F.chain(F.chain(fa, f), g) <-> F.chain(fa, x => F.chain(f(x), g))`
  *
  * Note. `Apply`'s `ap` can be derived: `(ff, fa) => F.chain(f => F.map(f, fa), ff)`
  *
