@@ -7,3 +7,14 @@ _type class_
 ```ts
 interface Monad<F> extends Applicative<F>, Chain<F> {}
 ```
+
+The `Monad` type class combines the operations of the `Bind` and `Applicative` type classes. Therefore, `Monad`
+instances represent type constructors which support sequential composition, and also lifting of functions of arbitrary
+arity.
+
+Instances must satisfy the following laws in addition to the `Applicative` and `Bind` laws:
+
+1. Left identity: `M.chain(f, M.of(a)) <-> f(a)`
+2. Right identity: `M.chain(M.of, u) <-> u`
+
+Note. `Functor`'s `map` can be derived: `A.map = (f, u) => A.chain(x => A.of(f(x)), u)`

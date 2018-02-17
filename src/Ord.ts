@@ -3,7 +3,18 @@ import { Setoid, setoidBoolean, setoidNumber, setoidString, getProductSetoid } f
 import { Semigroup } from './Semigroup'
 import { on } from './function'
 
-/** @typeclass */
+/**
+ * The `Ord` type class represents types which support comparisons with a
+ * _total order_.
+ *
+ * Instances should satisfy the laws of total orderings:
+ *
+ * 1. Reflexivity: `S.compare(a, a) <= 0`
+ * 2. Antisymmetry: if `S.compare(a, b) <= 0` and `S.compare(b, a) <= 0` then `a <-> b`
+ * 3. Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
+ *
+ * @typeclass
+ */
 export interface Ord<A> extends Setoid<A> {
   compare: (x: A, y: A) => Ordering
 }

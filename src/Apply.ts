@@ -2,7 +2,19 @@ import { HKT, URIS, URIS2, Type, Type2, URIS3, Type3 } from './HKT'
 import { Functor, Functor1, Functor2, Functor3, Functor2C, Functor3C } from './Functor'
 import { Curried2, Curried3, Curried4, constant } from './function'
 
-/** @typeclass */
+/**
+ * The `Apply` class provides the `ap` which is used to apply a function
+ * to an argument under a type constructor.
+ *
+ * `Apply` can be used to lift functions of two or more arguments to work on
+ * values wrapped with the type constructor `f`.
+ *
+ * Instances must satisfy the following law in addition to the `Functor` laws:
+ *
+ * 1. Associative composition: `F.ap(F.ap(F.map(f => g => x => f(g(x)), fbc), fab), fa) = F.ap(fbc, F.ap(fab, fa))`
+ *
+ * @typeclass
+ */
 export interface Apply<F> extends Functor<F> {
   ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
 }
