@@ -1,7 +1,19 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
 import { Functor, Functor1, Functor2, Functor3, Functor2C, Functor3C } from './Functor'
 
-/** @typeclass */
+/**
+ * The `Alt` type class identifies an associative operation on a type
+ * constructor.  It is similar to `Semigroup`, except that it applies to
+ * types of kind `* -> *`, like `Array` or `Option`, rather than concrete types
+ * `string` or `number`.
+ *
+ * `Alt` instances are required to satisfy the following laws:
+ *
+ * 1. Associativity: `A.alt(A.alt(x, y), z) = A.alt(x, A.alt(y, z))`
+ * 2. Distributivity: `A.map(A.alt(x, y), f) = A.alt(A.map(x, f), A.map(y, f))`
+ *
+ * @typeclass
+ */
 export interface Alt<F> extends Functor<F> {
   alt: <A>(fx: HKT<F, A>, fy: HKT<F, A>) => HKT<F, A>
 }
