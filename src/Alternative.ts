@@ -8,8 +8,8 @@ import { Plus, Plus1, Plus2, Plus3, Plus2C, Plus3C } from './Plus'
  *
  * Types which have `Alternative` instances should also satisfy the following laws:
  *
- * 1. Distributivity: `A.ap(A.alt(f, g), x) = A.alt(A.ap(f, x), A.ap(g, x))`
- * 2. Annihilation: `A.ap(zero, f) = zero`
+ * 1. Distributivity: `A.ap(A.alt(fab, gab), fa) = A.alt(A.ap(fab, fa), A.ap(gab, fa))`
+ * 2. Annihilation: `A.ap(zero, fa) = zero`
  *
  * @typeclass
  */

@@ -16,9 +16,13 @@ The `Apply` class provides the `ap` which is used to apply a function to an argu
 
 Instances must satisfy the following law in addition to the `Functor` laws:
 
-1. Associative composition: `F.ap(F.ap(F.map(f => g => x => f(g(x)), fbc), fab), fa) = F.ap(fbc, F.ap(fab, fa))`
-   # applyFirst
-   _function_
+1. Associative composition: `F.ap(F.ap(F.map(fbc, bc => ab => a => bc(ab(a))), fab), fa) = F.ap(fbc, F.ap(fab, fa))`
+
+Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
+
+# applyFirst
+
+_function_
 
 ```ts
 applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>

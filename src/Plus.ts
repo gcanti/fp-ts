@@ -11,9 +11,9 @@ import { Alt, Alt1, Alt2, Alt3, Alt2C, Alt3C } from './Alt'
  *
  * `Plus` instances should satisfy the following laws:
  *
- * 1. Left identity: `A.alt(zero, x) == x`
- * 2. Right identity: `A.alt(x, zero) == x`
- * 3. Annihilation: `A.map(zerp, f) == zero`
+ * 1. Left identity: `A.alt(zero, fa) == fa`
+ * 2. Right identity: `A.alt(fa, zero) == fa`
+ * 3. Annihilation: `A.map(zero, fa) == zero`
  *
  * @typeclass
  */

@@ -11,9 +11,9 @@ import { Chain, Chain1, Chain2, Chain3, Chain2C, Chain3C } from './Chain'
  * Instances must satisfy the following laws in addition to the `Applicative` and `Bind` laws:
  *
  * 1. Left identity: `M.chain(M.of(a), f) = f(a)`
- * 2. Right identity: `M.chain(u, M.of) = u`
+ * 2. Right identity: `M.chain(fa, M.of) = fa`
  *
- * Note. `Functor`'s `map` can be derived: `A.map = (u, f) => A.chain(u, x => A.of(f(x)))`
+ * Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
  *
  * @typeclass
  */

@@ -14,7 +14,7 @@ arity.
 
 Instances must satisfy the following laws in addition to the `Applicative` and `Bind` laws:
 
-1. Left identity: `M.chain(f, M.of(a)) <-> f(a)`
-2. Right identity: `M.chain(M.of, u) <-> u`
+1. Left identity: `M.chain(M.of(a), f) = f(a)`
+2. Right identity: `M.chain(fa, M.of) = fa`
 
-Note. `Functor`'s `map` can be derived: `A.map = (f, u) => A.chain(x => A.of(f(x)), u)`
+Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
