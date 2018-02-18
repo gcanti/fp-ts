@@ -9,6 +9,7 @@ const read = (path: string): IO<string> => {
 export const write = (path: string, contents: string): IO<void> => {
   return new IO(() => fs.writeFileSync(path, contents, { encoding: 'utf-8' }))
 }
+
 const moduleSourcePath = (name: string): string => {
   return path.join(__dirname, `/../../src/${name}.ts`)
 }

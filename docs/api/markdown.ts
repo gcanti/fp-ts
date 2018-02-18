@@ -14,6 +14,7 @@ import {
 import { sort } from '../../src/Array'
 import { contramap, ordString } from '../../src/Ord'
 import { Option } from '../../src/Option'
+import * as prettier from 'prettier'
 
 export const CRLF = '\n'
 export const h1 = (title: string) => `# ${title}`
@@ -85,6 +86,15 @@ const printTypeclass = (tc: Typeclass): string => {
   return s
 }
 
+const prettierOptions: prettier.Options = {
+  parser: 'markdown',
+  semi: false,
+  singleQuote: true,
+  printWidth: 120
+}
+
+const formatMarkdown = (markdown: string): string => prettier.format(markdown, prettierOptions)
+
 export const printModule = (module: Module): string => {
   let s = 'MODULE ' + link(module.name, `https://github.com/gcanti/fp-ts/blob/master/src/${module.name}.ts`)
   const typeclasses = module.exports.filter(isTypeclass)
@@ -95,11 +105,11 @@ export const printModule = (module: Module): string => {
   s += datas.map(d => printData(d)).join('\n')
   s += instances.map(i => printInstance(i)).join('\n')
   s += funcs.map(d => printFunc(d)).join('\n')
-  return s
+  return formatMarkdown(s)
 }
 
 export const printIndex = (modules: Array<ModuleEntry>): string => {
   let s = '# API\n\n'
   s += modules.map(m => `- ${link(m.name + (m.docs ? '' : ' (TODO)'), `./${m.name}.md`)}`).join(CRLF)
-  return s
+  return formatMarkdown(s)
 }

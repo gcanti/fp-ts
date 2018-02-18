@@ -16,10 +16,7 @@
     "test": "npm run lint && npm run prettier && npm run typings && npm run mocha",
     "clean": "rm -rf lib/*",
     "build": "npm run clean && tsc",
-    "docs-incremental": "ts-node docs/api/main.ts",
-    "docs-fix-prettier":
-      "prettier --no-semi --single-quote --print-width 120 --parser markdown --write \"docs/**/*.md\"",
-    "docs": "rm -rf docs/api/md/* && npm run docs-incremental"
+    "docs": "rm -rf docs/api/md/* && ts-node docs/api/main.ts"
   },
   "repository": {
     "type": "git",
@@ -36,6 +33,7 @@
     "@types/doctrine": "0.0.3",
     "@types/mocha": "2.2.38",
     "@types/node": "7.0.4",
+    "@types/prettier": "^1.10.0",
     "benchmark": "2.1.4",
     "chalk": "2.2.0",
     "doctrine": "2.0.0",
