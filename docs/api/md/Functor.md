@@ -18,8 +18,8 @@ constructor `f` to represent some computational context.
 
 Instances must satisfy the following laws:
 
-1. Identity: `F.map(fa, x => x) = fa`
-2. Composition: `F.map(fa, x => f(g(x))) = F.map(F.map(fa, g), f)`
+1. Identity: `F.map(fa, a => a) = fa`
+2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
    # flap
    _function_
 
