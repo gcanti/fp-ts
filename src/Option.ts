@@ -76,11 +76,11 @@ export class None<A> {
    * both are `None` then it will return `none`.
    *
    * For example
-   * `const someFn = (o: option.Option<number>) => o.alt(option.some(4))`
+   * `const someFn = (o: Option<number>) => o.alt(some(4))`
    *
-   * `someFn(option.some(2))` will return `some(2)`.
+   * `someFn(some(2))` will return `some(2)`.
    *
-   * `someFn(option.none)` will return `some(4)`.
+   * `someFn(none)` will return `some(4)`.
    */
   alt(fa: Option<A>): Option<A> {
     return fa
