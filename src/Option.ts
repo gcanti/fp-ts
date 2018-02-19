@@ -70,6 +70,18 @@ export class None<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
+  /**
+   * `alt` short for alternative, takes another `Option`. If this `Option` is a `Some` type
+   * then it will be returned, if it is a `None` then it will return the next `Some` if it exist. If
+   * both are `None` then it will return `none`.
+   *
+   * For example
+   * `const someFn = (o: Option<number>) => o.alt(some(4))`
+   *
+   * `someFn(some(2))` will return `some(2)`.
+   *
+   * `someFn(none)` will return `some(4)`.
+   */
   alt(fa: Option<A>): Option<A> {
     return fa
   }
