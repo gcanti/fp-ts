@@ -281,7 +281,11 @@ export const tryCatch = <A>(f: Lazy<A>): Either<Error, A> => {
   try {
     return right(f())
   } catch (e) {
-    return left(e)
+    if (e instanceof Error) {
+      return left(e)
+    } else {
+      return left(new Error(String(e)))
+    }
   }
 }
 

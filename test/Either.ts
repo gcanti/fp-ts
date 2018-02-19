@@ -68,7 +68,11 @@ describe('Either', () => {
     const e2 = tryCatch(() => {
       return JSON.parse(``)
     })
-    assert.deepEqual(e2, left<Error, any>(new SyntaxError('Unexpected end of JSON input')))
+    assert.deepEqual(e2, left(new SyntaxError('Unexpected end of JSON input')))
+    const e3 = tryCatch(() => {
+      throw 'a string'
+    })
+    assert.deepEqual(e3, left(new Error('a string')))
   })
 
   it('getOrElse', () => {
