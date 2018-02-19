@@ -43,7 +43,7 @@
     "ts-simple-ast": "0.74.0",
     "tslint": "4.4.2",
     "tslint-config-standard": "4.0.0",
-    "typescript": "^2.7.1",
+    "typescript": "^2.7.2",
     "typings-checker": "^2.0.0"
   },
   "tags": ["typescript", "algebraic-data-types", "functional-programming"],
