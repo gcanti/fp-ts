@@ -65,14 +65,33 @@ describe('Either', () => {
       return JSON.parse(`{}`)
     })
     assert.deepEqual(e1, right({}))
+
     const e2 = tryCatch(() => {
       return JSON.parse(``)
     })
     assert.deepEqual(e2, left(new SyntaxError('Unexpected end of JSON input')))
+
     const e3 = tryCatch(() => {
       throw 'a string'
     })
     assert.deepEqual(e3, left(new Error('a string')))
+
+    type ObjectWithStatusCode = { statusCode: number }
+    const thrownIsObjectWithStatusCode = (thrown: {}): thrown is ObjectWithStatusCode =>
+      typeof thrown === 'object' && 'statusCode' in thrown
+    const onerror = (thrown: {}): Error => {
+      if (thrownIsObjectWithStatusCode(thrown)) {
+        return new Error(`Bad response: ${thrown.statusCode}`)
+      } else if (thrown instanceof Error) {
+        return thrown
+      } else {
+        return new Error('Unexpected error')
+      }
+    }
+    const e4 = tryCatch(() => {
+      throw { statusCode: 404 }
+    }, onerror)
+    assert.deepEqual(e4, left(new Error('Bad response: 404')))
   })
 
   it('getOrElse', () => {
