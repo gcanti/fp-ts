@@ -276,7 +276,11 @@ export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined)
   return a == null ? left(defaultValue) : right(a)
 }
 
-const toError = (e: {}): Error => {
+/**
+ * Default value for the optional `onerror` argument of `tryCatch`
+ * @function
+ */
+export const toError = (e: {}): Error => {
   if (e instanceof Error) {
     return e
   } else {
