@@ -276,16 +276,20 @@ export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined)
   return a == null ? left(defaultValue) : right(a)
 }
 
+const toError = (e: {}): Error => {
+  if (e instanceof Error) {
+    return e
+  } else {
+    return new Error(String(e))
+  }
+}
+
 /** @function */
-export const tryCatch = <A>(f: Lazy<A>): Either<Error, A> => {
+export const tryCatch = <A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Either<Error, A> => {
   try {
     return right(f())
   } catch (e) {
-    if (e instanceof Error) {
-      return left(e)
-    } else {
-      return left(new Error(String(e)))
-    }
+    return left(onerror(e))
   }
 }
 
