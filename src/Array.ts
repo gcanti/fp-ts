@@ -1,5 +1,5 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Endomorphism, Predicate, Refinement, identity, tuple, concat } from './function'
+import { Endomorphism, Predicate, Refinement, identity, tuple, concat, not } from './function'
 import { Option, fromNullable } from './Option'
 import { Ord } from './Ord'
 import { Alternative1 } from './Alternative'
@@ -322,17 +322,6 @@ export const take = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(0, n)
 }
 
-const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
-  const l = as.length
-  let i = 0
-  for (; i < l; i++) {
-    if (!predicate(as[i])) {
-      break
-    }
-  }
-  return i
-}
-
 /**
  * Split an array into two parts:
  * 1. the longest initial subarray for which all elements satisfy the specified predicate
@@ -340,17 +329,20 @@ const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
  * @function
  */
 export const span = <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> } => {
-  const i = spanIndexUncurry(as, predicate)
-  const init = Array(i)
-  for (let j = 0; j < i; j++) {
-    init[j] = as[j]
-  }
-  const l = as.length
-  const rest = Array(l - i)
-  for (let j = i; j < l; j++) {
-    rest[j - i] = as[j]
-  }
-  return { init, rest }
+  return findIndex(as, not(predicate))
+    .map(i => {
+      const init = Array(i)
+      for (let j = 0; j < i; j++) {
+        init[j] = as[j]
+      }
+      const l = as.length
+      const rest = Array(l - i)
+      for (let j = i; j < l; j++) {
+        rest[j - i] = as[j]
+      }
+      return { init, rest }
+    })
+    .getOrElse({ init: as, rest: [] })
 }
 
 /**
@@ -359,12 +351,15 @@ export const span = <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>
  * @function
  */
 export const takeWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
-  const i = spanIndexUncurry(as, predicate)
-  const init = Array(i)
-  for (let j = 0; j < i; j++) {
-    init[j] = as[j]
-  }
-  return init
+  return findIndex(as, not(predicate))
+    .map(i => {
+      const init = Array(i)
+      for (let j = 0; j < i; j++) {
+        init[j] = as[j]
+      }
+      return init
+    })
+    .getOrElse(as)
 }
 
 /**
@@ -381,13 +376,16 @@ export const drop = <A>(n: number, as: Array<A>): Array<A> => {
  * @function
  */
 export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
-  const i = spanIndexUncurry(as, predicate)
-  const l = as.length
-  const rest = Array(l - i)
-  for (let j = i; j < l; j++) {
-    rest[j - i] = as[j]
-  }
-  return rest
+  return findIndex(as, not(predicate))
+    .map(i => {
+      const l = as.length
+      const rest = Array(l - i)
+      for (let j = i; j < l; j++) {
+        rest[j - i] = as[j]
+      }
+      return rest
+    })
+    .getOrElse([])
 }
 
 /**
