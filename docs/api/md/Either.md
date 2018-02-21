@@ -257,10 +257,20 @@ of
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias of
 this structure
 
+# toError
+
+_function_
+
+```ts
+(e: {}): Error
+```
+
+Default value for the optional `onerror` argument of `tryCatch`
+
 # tryCatch
 
 _function_
 
 ```ts
-<A>(f: Lazy<A>): Either<Error, A>
+<A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Either<Error, A>
 ```

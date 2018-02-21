@@ -17,8 +17,15 @@ high state of flux, you're at risk of it changing without notice.
 
 * **New Feature**
   * add `scanLeft`, `scanRight` (@PaNaVTEC)
+  * add an optional `onerror` argument to `Either.tryCatch`, fix #323 (@gcanti)
+* **Bug Fix**
+  * `Either.tryCatch` now refines the error (@gcanti)
+* **Docs**
+  * Option, alt method (@piq9117)
+  * add laws for `Setoid`, `Ord`, `Functor`, `Apply`, `Applicative`, `Chain`, `Monad`, `Alt`, `Alternative`, `Plus`
+    (@gcanti)
 * **Internal**
-  * add `FunctorComposition22C`, `ApplicativeComposition22C` (@gcanti)
+  * upgrade to `typescript@2.7.2` (@gcanti)
 
 # 1.0.1
 
