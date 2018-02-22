@@ -3,6 +3,16 @@ import { right, left } from '../src/Either'
 import { fromEither } from '../src/TaskEither'
 
 describe('TaskEither', () => {
+  it('bimap', () => {
+    const f = (s: string): number => s.length
+    const g = (n: number): boolean => n > 2
+    const actual = fromEither(right<string, number>(1)).bimap(f, g)
+    const expected = fromEither(right(false))
+    return Promise.all([actual.run(), expected.run()]).then(([a, e]) => {
+      assert.deepEqual(a, e)
+    })
+  })
+
   it('orElse', () => {
     const l = fromEither<string, number>(left('foo'))
     const r = fromEither<string, number>(right(1))
