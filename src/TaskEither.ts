@@ -4,6 +4,7 @@ import * as task from './Task'
 import { Task } from './Task'
 import { Monad2 } from './Monad'
 import { Lazy } from './function'
+import { Bifunctor2 } from './Bifunctor'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -58,6 +59,9 @@ export class TaskEither<L, A> {
   orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> {
     return new TaskEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTTask.of(a))))
   }
+  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> {
+    return new TaskEither(this.value.map(e => e.bimap(f, g)))
+  }
 }
 
 const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> => {
@@ -74,6 +78,9 @@ const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): Tas
 
 const chain = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => TaskEither<L, B>): TaskEither<L, B> => {
   return fa.chain(f)
+}
+const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> => {
+  return fa.bimap(f, g)
 }
 
 const eitherTright = eitherT.right(task.task)
@@ -100,8 +107,9 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => 
 }
 
 /** @instance */
-export const taskEither: Monad2<URI> = {
+export const taskEither: Monad2<URI> & Bifunctor2<URI> = {
   URI,
+  bimap,
   map,
   of,
   ap,
