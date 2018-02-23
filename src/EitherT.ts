@@ -85,6 +85,21 @@ export function mapLeft<F>(
   return f => fa => F.map(fa, e => e.mapLeft(f))
 }
 
+export function bimap<F extends URIS2>(
+  F: Functor2<F>
+): <M, L, V, A, B>(fa: Type2<F, M, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => Type2<F, M, Either<V, B>>
+export function bimap<F extends URIS>(
+  F: Functor1<F>
+): <L, V, A, B>(fa: Type<F, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => Type<F, Either<V, B>>
+export function bimap<F>(
+  F: Functor<F>
+): <L, V, A, B>(fa: HKT<F, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => HKT<F, Either<V, B>>
+export function bimap<F>(
+  F: Functor<F>
+): <L, V, A, B>(fa: HKT<F, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => HKT<F, Either<V, B>> {
+  return (fa, f, g) => F.map(fa, e => e.bimap(f, g))
+}
+
 export function getEitherT<M extends URIS2>(M: Monad2<M>): EitherT2<M>
 export function getEitherT<M extends URIS>(M: Monad1<M>): EitherT1<M>
 export function getEitherT<M>(M: Monad<M>): EitherT<M>
