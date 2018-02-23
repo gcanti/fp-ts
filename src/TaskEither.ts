@@ -20,6 +20,7 @@ export type URI = typeof URI
 
 const eitherTfold = eitherT.fold(task.task)
 const eitherTmapLeft = eitherT.mapLeft(task.task)
+const eitherTbimap = eitherT.bimap(task.task)
 
 /**
  * @data
@@ -60,7 +61,7 @@ export class TaskEither<L, A> {
     return new TaskEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTTask.of(a))))
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> {
-    return new TaskEither(this.value.map(e => e.bimap(f, g)))
+    return new TaskEither(eitherTbimap(this.value, f, g))
   }
 }
 
