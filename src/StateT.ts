@@ -1,8 +1,8 @@
-import { HKT, URIS, URIS2, Type, Type2 } from './HKT'
-import { Functor, Functor1, Functor2 } from './Functor'
-import { Applicative, Applicative1, Applicative2 } from './Applicative'
-import { Chain, Chain1, Chain2 } from './Chain'
-import { Monad, Monad1, Monad2 } from './Monad'
+import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
+import { Functor, Functor1, Functor2, Functor3 } from './Functor'
+import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
+import { Chain, Chain1, Chain2, Chain3 } from './Chain'
+import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { Endomorphism, tuple } from './function'
 import { State } from './State'
 
@@ -33,6 +33,22 @@ export interface StateT2<M extends URIS2> {
   ) => (s: S) => Type2<M, L, [B, S]>
 }
 
+export interface StateT3<M extends URIS3> {
+  map: <U, L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type3<M, U, L, [A, S]>) => (s: S) => Type3<M, U, L, [B, S]>
+  of: <U, L, S, A>(a: A) => (s: S) => Type3<M, U, L, [A, S]>
+  ap: <U, L, S, A, B>(
+    fab: (s: S) => Type3<M, U, L, [(a: A) => B, S]>,
+    fa: (s: S) => Type3<M, U, L, [A, S]>
+  ) => (s: S) => Type3<M, U, L, [B, S]>
+  chain: <U, L, S, A, B>(
+    f: (a: A) => (s: S) => Type3<M, U, L, [B, S]>,
+    fa: (s: S) => Type3<M, U, L, [A, S]>
+  ) => (s: S) => Type3<M, U, L, [B, S]>
+}
+
+export function map<F extends URIS3>(
+  F: Functor3<F>
+): <U, L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type3<F, U, L, [A, S]>) => (s: S) => Type3<F, U, L, [B, S]>
 export function map<F extends URIS2>(
   F: Functor2<F>
 ): <L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type2<F, L, [A, S]>) => (s: S) => Type2<F, L, [B, S]>
@@ -49,6 +65,7 @@ export function map<F>(
   return (f, fa) => s => F.map(fa(s), ([a, s1]) => tuple(f(a), s1))
 }
 
+export function of<F extends URIS3>(F: Applicative3<F>): <U, L, S, A>(a: A) => (s: S) => Type3<F, U, L, [A, S]>
 export function of<F extends URIS2>(F: Applicative2<F>): <L, S, A>(a: A) => (s: S) => Type2<F, L, [A, S]>
 export function of<F extends URIS>(F: Applicative1<F>): <S, A>(a: A) => (s: S) => Type<F, [A, S]>
 export function of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]>
@@ -57,6 +74,12 @@ export function of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S
   return a => s => F.of(tuple(a, s))
 }
 
+export function ap<F extends URIS3>(
+  F: Chain3<F>
+): <U, L, S, A, B>(
+  fab: (s: S) => Type3<F, U, L, [(a: A) => B, S]>,
+  fa: (s: S) => Type3<F, U, L, [A, S]>
+) => (s: S) => Type3<F, U, L, [B, S]>
 export function ap<F extends URIS2>(
   F: Chain2<F>
 ): <L, S, A, B>(
@@ -73,9 +96,17 @@ export function ap<F>(
 export function ap<F>(
   F: Chain<F>
 ): <S, A, B>(fab: (s: S) => HKT<F, [(a: A) => B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
-  return (fab, fa) => chain(F)(f => map(F)(f, fa), fab) // <- derived
+  const mapF = map(F)
+  const chainF = chain(F)
+  return (fab, fa) => chainF(f => mapF(f, fa), fab) // <- derived
 }
 
+export function chain<F extends URIS3>(
+  F: Chain3<F>
+): <U, L, S, A, B>(
+  f: (a: A) => (s: S) => Type3<F, U, L, [B, S]>,
+  fa: (s: S) => Type3<F, U, L, [A, S]>
+) => (s: S) => Type3<F, U, L, [B, S]>
 export function chain<F extends URIS2>(
   F: Chain2<F>
 ): <L, S, A, B>(
@@ -95,6 +126,7 @@ export function chain<F>(
   return (f, fa) => s => F.chain(fa(s), ([a, s1]) => f(a)(s1))
 }
 
+export function get<F extends URIS3>(F: Applicative3<F>): <S>() => <U, L>(s: S) => Type3<F, U, L, [S, S]>
 export function get<F extends URIS2>(F: Applicative2<F>): <S>() => <L>(s: S) => Type2<F, L, [S, S]>
 export function get<F extends URIS>(F: Applicative1<F>): <S>() => (s: S) => Type<F, [S, S]>
 export function get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>
@@ -103,6 +135,7 @@ export function get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]> {
   return () => s => F.of(tuple(s, s))
 }
 
+export function put<F extends URIS3>(F: Applicative3<F>): <S>(s: S) => <U, L>() => Type3<F, U, L, [void, S]>
 export function put<F extends URIS2>(F: Applicative2<F>): <S>(s: S) => <L>() => Type2<F, L, [void, S]>
 export function put<F extends URIS>(F: Applicative1<F>): <S>(s: S) => () => Type<F, [void, S]>
 export function put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]>
@@ -111,6 +144,9 @@ export function put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]> 
   return s => () => F.of(tuple(undefined, s))
 }
 
+export function modify<F extends URIS3>(
+  F: Applicative3<F>
+): <S>(f: Endomorphism<S>) => <U, L>(s: S) => Type3<F, U, L, [void, S]>
 export function modify<F extends URIS2>(
   F: Applicative2<F>
 ): <S>(f: Endomorphism<S>) => <L>(s: S) => Type2<F, L, [void, S]>
@@ -121,6 +157,9 @@ export function modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) 
   return f => s => F.of(tuple(undefined, f(s)))
 }
 
+export function gets<F extends URIS3>(
+  F: Applicative3<F>
+): <S, A>(f: (s: S) => A) => <U, L>(s: S) => Type3<F, U, L, [A, S]>
 export function gets<F extends URIS2>(F: Applicative2<F>): <S, A>(f: (s: S) => A) => <L>(s: S) => Type2<F, L, [A, S]>
 export function gets<F extends URIS>(F: Applicative1<F>): <S, A>(f: (s: S) => A) => (s: S) => Type<F, [A, S]>
 export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>
@@ -129,6 +168,9 @@ export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => 
   return f => s => F.of(tuple(f(s), s))
 }
 
+export function fromState<F extends URIS3>(
+  F: Applicative3<F>
+): <S, A, U, L>(fa: State<S, A>) => (s: S) => Type3<F, U, L, [A, S]>
 export function fromState<F extends URIS2>(
   F: Applicative2<F>
 ): <S, A, L>(fa: State<S, A>) => (s: S) => Type2<F, L, [A, S]>
@@ -139,14 +181,18 @@ export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: 
   return fa => s => F.of(fa.run(s))
 }
 
-export function liftF<F extends URIS2>(F: Functor2<F>): <L, A>(fa: Type2<F, L, A>) => <S>(s: S) => Type2<F, L, [A, S]>
-export function liftF<F extends URIS>(F: Functor1<F>): <A>(fa: Type<F, A>) => <S>(s: S) => Type<F, [A, S]>
-export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <S>(s: S) => HKT<F, [A, S]>
+export function liftF<F extends URIS3>(
+  F: Functor3<F>
+): <U, L, S, A>(fa: Type3<F, U, L, A>) => (s: S) => Type3<F, U, L, [A, S]>
+export function liftF<F extends URIS2>(F: Functor2<F>): <L, S, A>(fa: Type2<F, L, A>) => (s: S) => Type2<F, L, [A, S]>
+export function liftF<F extends URIS>(F: Functor1<F>): <S, A>(fa: Type<F, A>) => (s: S) => Type<F, [A, S]>
+export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]>
 /** @function */
-export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <S>(s: S) => HKT<F, [A, S]> {
+export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]> {
   return fa => s => F.map(fa, a => tuple(a, s))
 }
 
+export function getStateT<M extends URIS3>(M: Monad3<M>): StateT3<M>
 export function getStateT<M extends URIS2>(M: Monad2<M>): StateT2<M>
 export function getStateT<M extends URIS>(M: Monad1<M>): StateT1<M>
 export function getStateT<M>(M: Monad<M>): StateT<M>

@@ -44,6 +44,6 @@ describe('StateT', () => {
 
   it('liftF', () => {
     const liftF = stateT.liftF(option.option)
-    assert.deepEqual(liftF(option.some(1))(undefined), option.some([1, undefined]))
+    assert.deepEqual(liftF<void, number>(option.some(1))(undefined), option.some([1, undefined]))
   })
 })
