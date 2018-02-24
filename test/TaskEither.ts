@@ -32,10 +32,11 @@ describe('TaskEither', () => {
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    const actual = fromEither(right<string, number>(1)).bimap(f, g)
-    const expected = fromEither(right(false))
-    return Promise.all([actual.run(), expected.run()]).then(([a, e]) => {
-      assert.deepEqual(a, e)
+    const teRight = fromEither(right<string, number>(1)).bimap(f, g)
+    const teLeft = fromEither(left<string, number>('foo')).bimap(f, g)
+    return Promise.all([teRight.run(), teLeft.run()]).then(([e1, e2]) => {
+      assert.deepEqual(e1, right(false))
+      assert.deepEqual(e2, left(3))
     })
   })
 
