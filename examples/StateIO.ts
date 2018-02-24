@@ -1,7 +1,7 @@
 import * as stateT from 'fp-ts/lib/StateT'
 import { io, IO } from 'fp-ts/lib/IO'
 import { Monad2 } from 'fp-ts/lib/Monad'
-import { Endomorphism, tuple } from 'fp-ts/lib/function'
+import { Endomorphism } from 'fp-ts/lib/function'
 import * as array from 'fp-ts/lib/Array'
 import { State } from 'fp-ts/lib/State'
 
@@ -84,8 +84,9 @@ export const gets = <S, A>(f: (s: S) => A): StateIO<S, A> => {
   return new StateIO(stateTgets(f))
 }
 
+const stateTliftF = stateT.liftF(io)
 export const fromIO = <S, A>(fa: IO<A>): StateIO<S, A> => {
-  return new StateIO(s => fa.map(a => tuple(a, s)))
+  return new StateIO(stateTliftF(fa))
 }
 
 const stateTfromState = stateT.fromState(io)

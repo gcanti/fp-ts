@@ -139,6 +139,14 @@ export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: 
   return fa => s => F.of(fa.run(s))
 }
 
+export function liftF<F extends URIS2>(F: Functor2<F>): <L, A>(fa: Type2<F, L, A>) => <S>(s: S) => Type2<F, L, [A, S]>
+export function liftF<F extends URIS>(F: Functor1<F>): <A>(fa: Type<F, A>) => <S>(s: S) => Type<F, [A, S]>
+export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <S>(s: S) => HKT<F, [A, S]>
+/** @function */
+export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => <S>(s: S) => HKT<F, [A, S]> {
+  return fa => s => F.map(fa, a => tuple(a, s))
+}
+
 export function getStateT<M extends URIS2>(M: Monad2<M>): StateT2<M>
 export function getStateT<M extends URIS>(M: Monad1<M>): StateT1<M>
 export function getStateT<M>(M: Monad<M>): StateT<M>
