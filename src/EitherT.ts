@@ -14,15 +14,15 @@ import { Either, URI as URIEither } from './Either'
 import * as either from './Either'
 
 export interface EitherT<F> extends ApplicativeComposition<F, URIEither> {
-  chain<L, A, B>(f: (a: A) => HKT<F, Either<L, B>>, fa: HKT<F, Either<L, A>>): HKT<F, Either<L, B>>
+  chain: <L, A, B>(f: (a: A) => HKT<F, Either<L, B>>, fa: HKT<F, Either<L, A>>) => HKT<F, Either<L, B>>
 }
 
 export interface EitherT1<F extends URIS> extends ApplicativeComposition12<F, URIEither> {
-  chain<L, A, B>(f: (a: A) => HKT<F, Either<L, B>>, fa: HKT<F, Either<L, A>>): Type<F, Either<L, B>>
+  chain: <L, A, B>(f: (a: A) => HKT<F, Either<L, B>>, fa: HKT<F, Either<L, A>>) => Type<F, Either<L, B>>
 }
 
 export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, URIEither> {
-  chain<L, M, A, B>(f: (a: A) => HKT2<F, M, Either<L, B>>, fa: HKT2<F, M, Either<L, A>>): Type2<F, M, Either<L, B>>
+  chain: <L, M, A, B>(f: (a: A) => HKT2<F, M, Either<L, B>>, fa: HKT2<F, M, Either<L, A>>) => Type2<F, M, Either<L, B>>
 }
 
 export function chain<F extends URIS2>(F: Monad2<F>): EitherT2<F>['chain']
