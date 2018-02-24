@@ -3,6 +3,7 @@ import { io, IO } from 'fp-ts/lib/IO'
 import { Monad2 } from 'fp-ts/lib/Monad'
 import { Endomorphism, tuple } from 'fp-ts/lib/function'
 import * as array from 'fp-ts/lib/Array'
+import { State } from 'fp-ts/lib/State'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT2<L, A> {
@@ -85,6 +86,11 @@ export const gets = <S, A>(f: (s: S) => A): StateIO<S, A> => {
 
 export const fromIO = <S, A>(fa: IO<A>): StateIO<S, A> => {
   return new StateIO(s => fa.map(a => tuple(a, s)))
+}
+
+const stateTfromState = stateT.fromState(io)
+export const fromState = <S, A>(fa: State<S, A>): StateIO<S, A> => {
+  return new StateIO(stateTfromState(fa))
 }
 
 export const stateIO: Monad2<URI> = {

@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import * as stateT from '../src/StateT'
 import * as option from '../src/Option'
+import { state } from '../src/State'
 
 const stateTOption = stateT.getStateT(option.option)
 
@@ -33,5 +34,11 @@ describe('StateT', () => {
     const f = (n: number) => (s: number) => option.some<[number, number]>([s - 1, s + 1])
     const state = (s: number) => option.some<[number, number]>([s - 1, s + 1])
     assert.deepEqual(stateTOption.chain(f, state)(0), option.some([0, 2]))
+  })
+
+  it('fromState', () => {
+    const fromState = stateT.fromState(option.option)
+    const f = fromState(state.of<void, number>(1))
+    assert.deepEqual(f(undefined), option.some([1, undefined]))
   })
 })
