@@ -22,6 +22,12 @@ constructor(readonly value: Task<Either<L, A>>) {}
 <B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C>
 ```
 
+### bimap
+
+```ts
+<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B>
+```
+
 ### chain
 
 ```ts
@@ -67,7 +73,7 @@ Runs the inner task
 _instance_
 
 ```ts
-Monad2<URI>
+Monad2<URI> & Bifunctor2<URI>
 ```
 
 # fromEither
