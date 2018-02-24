@@ -52,33 +52,51 @@ export class StateTaskEither<S, L, A> {
   }
 }
 
-export const map = <S, L, A, B>(fa: StateTaskEither<S, L, A>, f: (a: A) => B): StateTaskEither<S, L, B> => fa.map(f)
+const map = <S, L, A, B>(fa: StateTaskEither<S, L, A>, f: (a: A) => B): StateTaskEither<S, L, B> => {
+  return fa.map(f)
+}
 
-export const of = <S, L, A>(a: A): StateTaskEither<S, L, A> => new StateTaskEither(stateTIO.of(a))
+const of = <S, L, A>(a: A): StateTaskEither<S, L, A> => {
+  return new StateTaskEither(stateTIO.of(a))
+}
 
-export const ap = <S, L, A, B>(
+const ap = <S, L, A, B>(
   fab: StateTaskEither<S, L, (a: A) => B>,
   fa: StateTaskEither<S, L, A>
-): StateTaskEither<S, L, B> => fa.ap(fab)
+): StateTaskEither<S, L, B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <S, L, A, B>(
+const chain = <S, L, A, B>(
   fa: StateTaskEither<S, L, A>,
   f: (a: A) => StateTaskEither<S, L, B>
-): StateTaskEither<S, L, B> => fa.chain(f)
+): StateTaskEither<S, L, B> => {
+  return fa.chain(f)
+}
 
-export const get = <L, S>(): StateTaskEither<S, L, S> => new StateTaskEither<S, L, S>(stateT.get(taskEither)())
+const stateTget = stateT.get(taskEither)
+export const get = <L, S>(): StateTaskEither<S, L, S> => {
+  return new StateTaskEither<S, L, S>(stateTget())
+}
 
-export const put = <L, S>(s: S): StateTaskEither<S, L, void> =>
-  new StateTaskEither<S, L, void>(stateT.put(taskEither)(s))
+const stateTput = stateT.put(taskEither)
+export const put = <L, S>(s: S): StateTaskEither<S, L, void> => {
+  return new StateTaskEither<S, L, void>(stateTput(s))
+}
 
-export const modify = <L, S>(f: Endomorphism<S>): StateTaskEither<S, L, void> =>
-  new StateTaskEither<S, L, void>(stateT.modify(taskEither)(f))
+const stateTmodify = stateT.modify(taskEither)
+export const modify = <L, S>(f: Endomorphism<S>): StateTaskEither<S, L, void> => {
+  return new StateTaskEither<S, L, void>(stateTmodify(f))
+}
 
-export const gets = <S, L, A>(f: (s: S) => A): StateTaskEither<S, L, A> =>
-  new StateTaskEither<S, L, A>(stateT.gets(taskEither)(f))
+const stateTgets = stateT.gets(taskEither)
+export const gets = <S, L, A>(f: (s: S) => A): StateTaskEither<S, L, A> => {
+  return new StateTaskEither<S, L, A>(stateTgets(f))
+}
 
-export const lift = <S, L, A>(fa: TaskEither<L, A>): StateTaskEither<S, L, A> =>
-  new StateTaskEither(s => fa.map(a => tuple(a, s)))
+export const fromTaskEither = <S, L, A>(fa: TaskEither<L, A>): StateTaskEither<S, L, A> => {
+  return new StateTaskEither(s => fa.map(a => tuple(a, s)))
+}
 
 export const stateTaskEither: Monad3<URI> = {
   URI,

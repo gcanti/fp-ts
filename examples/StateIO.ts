@@ -47,23 +47,45 @@ export class StateIO<S, A> {
   }
 }
 
-export const map = <S, A, B>(fa: StateIO<S, A>, f: (a: A) => B): StateIO<S, B> => fa.map(f)
+const map = <S, A, B>(fa: StateIO<S, A>, f: (a: A) => B): StateIO<S, B> => {
+  return fa.map(f)
+}
 
-export const of = <S, A>(a: A): StateIO<S, A> => new StateIO(stateTIO.of(a))
+const of = <S, A>(a: A): StateIO<S, A> => {
+  return new StateIO(stateTIO.of(a))
+}
 
-export const ap = <S, A, B>(fab: StateIO<S, (a: A) => B>, fa: StateIO<S, A>): StateIO<S, B> => fa.ap(fab)
+const ap = <S, A, B>(fab: StateIO<S, (a: A) => B>, fa: StateIO<S, A>): StateIO<S, B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <S, A, B>(fa: StateIO<S, A>, f: (a: A) => StateIO<S, B>): StateIO<S, B> => fa.chain(f)
+const chain = <S, A, B>(fa: StateIO<S, A>, f: (a: A) => StateIO<S, B>): StateIO<S, B> => {
+  return fa.chain(f)
+}
 
-export const get = <S>(): StateIO<S, S> => new StateIO(stateT.get(io)())
+const stateTget = stateT.get(io)
+export const get = <S>(): StateIO<S, S> => {
+  return new StateIO(stateTget())
+}
 
-export const put = <S>(s: S): StateIO<S, void> => new StateIO(stateT.put(io)(s))
+const stateTput = stateT.put(io)
+export const put = <S>(s: S): StateIO<S, void> => {
+  return new StateIO(stateTput(s))
+}
 
-export const modify = <S>(f: Endomorphism<S>): StateIO<S, void> => new StateIO(stateT.modify(io)(f))
+const stateTmodify = stateT.modify(io)
+export const modify = <S>(f: Endomorphism<S>): StateIO<S, void> => {
+  return new StateIO(stateTmodify(f))
+}
 
-export const gets = <S, A>(f: (s: S) => A): StateIO<S, A> => new StateIO(stateT.gets(io)(f))
+const stateTgets = stateT.gets(io)
+export const gets = <S, A>(f: (s: S) => A): StateIO<S, A> => {
+  return new StateIO(stateTgets(f))
+}
 
-export const lift = <S, A>(fa: IO<A>): StateIO<S, A> => new StateIO(s => fa.map(a => tuple(a, s)))
+export const fromIO = <S, A>(fa: IO<A>): StateIO<S, A> => {
+  return new StateIO(s => fa.map(a => tuple(a, s)))
+}
 
 export const stateIO: Monad2<URI> = {
   URI,
@@ -87,9 +109,9 @@ const pop: StateIO<Array<number>, number> = get<Array<number>>().chain(ns =>
 )
 
 const program1: StateIO<Array<number>, void> = pop
-  .chain(x => lift(log(x)))
+  .chain(x => fromIO(log(x)))
   .chain(() => pop)
-  .chain(y => lift(log(y)))
+  .chain(y => fromIO(log(y)))
   .chain(() => of(undefined))
 
 program1.run([1, 2, 3])
@@ -106,16 +128,16 @@ function readLine(s: string): IO<string> {
 }
 
 function guessSession(answer: number): StateIO<number, void> {
-  return lift<number, string>(readLine('')).chain(gs => {
+  return fromIO<number, string>(readLine('')).chain(gs => {
     const g = parseInt(gs, 10)
     return modify<number>(s => s + 1).chain(() => {
       switch (ordNumber.compare(g, answer)) {
         case -1:
-          return lift<number, void>(log('Too low')).chain(() => guessSession(answer))
+          return fromIO<number, void>(log('Too low')).chain(() => guessSession(answer))
         case 1:
-          return lift<number, void>(log('Too high')).chain(() => guessSession(answer))
+          return fromIO<number, void>(log('Too high')).chain(() => guessSession(answer))
         case 0:
-          return lift<number, void>(log('Got it!'))
+          return fromIO<number, void>(log('Got it!'))
       }
     })
   })
@@ -156,7 +178,7 @@ function mods<A>([gf, uf]: Selector<A>, mfun: Endomorphism<A>): MyState<void> {
 const program3 = sel(s1)
   .chain(a => mods(s2, n => n * a))
   .chain(() => sel(s2))
-  .chain(b => lift(log(b)))
+  .chain(b => fromIO(log(b)))
 
 program3.run({ var1: 2, var2: 1.3 })
 // => 2.6

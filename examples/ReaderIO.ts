@@ -39,19 +39,39 @@ export class ReaderIO<E, A> {
   }
 }
 
-export const map = <E, A, B>(fa: ReaderIO<E, A>, f: (a: A) => B): ReaderIO<E, B> => fa.map(f)
+const map = <E, A, B>(fa: ReaderIO<E, A>, f: (a: A) => B): ReaderIO<E, B> => {
+  return fa.map(f)
+}
 
-export const of = <E, A>(a: A): ReaderIO<E, A> => new ReaderIO(readerTIO.of(a))
+const of = <E, A>(a: A): ReaderIO<E, A> => {
+  return new ReaderIO(readerTIO.of(a))
+}
 
-export const ap = <E, A, B>(fab: ReaderIO<E, (a: A) => B>, fa: ReaderIO<E, A>): ReaderIO<E, B> => fa.ap(fab)
+const ap = <E, A, B>(fab: ReaderIO<E, (a: A) => B>, fa: ReaderIO<E, A>): ReaderIO<E, B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <E, A, B>(fa: ReaderIO<E, A>, f: (a: A) => ReaderIO<E, B>): ReaderIO<E, B> => fa.chain(f)
+const chain = <E, A, B>(fa: ReaderIO<E, A>, f: (a: A) => ReaderIO<E, B>): ReaderIO<E, B> => {
+  return fa.chain(f)
+}
 
-export const ask = <E>(e: E): ReaderIO<E, E> => new ReaderIO(readerT.ask(io)())
+const readerTask = readerT.ask(io)
+export const ask = <E>(): ReaderIO<E, E> => {
+  return new ReaderIO(readerTask())
+}
 
-export const asks = <E, A>(f: (e: E) => A): ReaderIO<E, A> => new ReaderIO(readerT.asks(io)(f))
+const readerTasks = readerT.asks(io)
+export const asks = <E, A>(f: (e: E) => A): ReaderIO<E, A> => {
+  return new ReaderIO(readerTasks(f))
+}
 
-export const local = <E>(f: (e: E) => E) => <A>(fa: ReaderIO<E, A>): ReaderIO<E, A> => new ReaderIO(e => fa.run(f(e)))
+export const local = <E>(f: (e: E) => E) => <A>(fa: ReaderIO<E, A>): ReaderIO<E, A> => {
+  return new ReaderIO(e => fa.run(f(e)))
+}
+
+export const fromIO = <E, A>(fa: IO<A>): ReaderIO<E, A> => {
+  return new ReaderIO(() => fa)
+}
 
 export const readerIO: Monad2<URI> = {
   URI,

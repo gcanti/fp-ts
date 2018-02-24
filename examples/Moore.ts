@@ -59,17 +59,29 @@ export class Moore<L, A> {
   }
 }
 
-export const map = <L, A, B>(fa: Moore<L, A>, f: (a: A) => B): Moore<L, B> => fa.map(f)
+const map = <L, A, B>(fa: Moore<L, A>, f: (a: A) => B): Moore<L, B> => {
+  return fa.map(f)
+}
 
-export const ap = <L, A, B>(fab: Moore<L, (a: A) => B>, fa: Moore<L, A>): Moore<L, B> => fa.ap(fab)
+const ap = <L, A, B>(fab: Moore<L, (a: A) => B>, fa: Moore<L, A>): Moore<L, B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <L, A, B>(fa: Moore<L, A>, f: (a: A) => Moore<L, B>): Moore<L, B> => fa.chain(f)
+const chain = <L, A, B>(fa: Moore<L, A>, f: (a: A) => Moore<L, B>): Moore<L, B> => {
+  return fa.chain(f)
+}
 
-export const extract = <L, A>(fa: Moore<L, A>): A => fa.extract()
+const extract = <L, A>(fa: Moore<L, A>): A => {
+  return fa.extract()
+}
 
-export const extend = <L, A, B>(fa: Moore<L, A>, f: (fa: Moore<L, A>) => B): Moore<L, B> => fa.extend(f)
+const extend = <L, A, B>(fa: Moore<L, A>, f: (fa: Moore<L, A>) => B): Moore<L, B> => {
+  return fa.extend(f)
+}
 
-export const promap = <A, B, C, D>(fla: Moore<B, C>, f: (a: A) => B, g: (c: C) => D): Moore<A, D> => fla.promap(f, g)
+const promap = <A, B, C, D>(fla: Moore<B, C>, f: (a: A) => B, g: (c: C) => D): Moore<A, D> => {
+  return fla.promap(f, g)
+}
 
 /** Construct a Moore machine from a state valuation and transition function */
 export const unfoldMoore = <S, L, A>(f: (s: S) => [A, (l: L) => S]) => (s: S): Moore<L, A> => {

@@ -44,38 +44,64 @@ export class ReaderTaskEither<E, L, A> {
   }
 }
 
-export const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderTaskEither<E, L, B> => fa.map(f)
+const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderTaskEither<E, L, B> => {
+  return fa.map(f)
+}
 
-export const of = <E, L, A>(a: A): ReaderTaskEither<E, L, A> => new ReaderTaskEither(readerTTaskEither.of(a))
+const of = <E, L, A>(a: A): ReaderTaskEither<E, L, A> => {
+  return new ReaderTaskEither(readerTTaskEither.of(a))
+}
 
-export const ap = <E, L, A, B>(
+const ap = <E, L, A, B>(
   fab: ReaderTaskEither<E, L, (a: A) => B>,
   fa: ReaderTaskEither<E, L, A>
-): ReaderTaskEither<E, L, B> => fa.ap(fab)
+): ReaderTaskEither<E, L, B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <E, L, A, B>(
+const chain = <E, L, A, B>(
   fa: ReaderTaskEither<E, L, A>,
   f: (a: A) => ReaderTaskEither<E, L, B>
-): ReaderTaskEither<E, L, B> => fa.chain(f)
+): ReaderTaskEither<E, L, B> => {
+  return fa.chain(f)
+}
 
-export const ask = <E, L>(e: E): ReaderTaskEither<E, L, E> => new ReaderTaskEither(readerT.ask(taskEither.taskEither)())
+const readerTask = readerT.ask(taskEither.taskEither)
+export const ask = <E, L>(e: E): ReaderTaskEither<E, L, E> => {
+  return new ReaderTaskEither(readerTask())
+}
 
-export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> =>
-  new ReaderTaskEither(readerT.asks(taskEither.taskEither)(f))
+const readerTasks = readerT.asks(taskEither.taskEither)
+export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => {
+  return new ReaderTaskEither(readerTasks(f))
+}
 
-export const local = <E>(f: (e: E) => E) => <L, A>(fa: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> =>
-  new ReaderTaskEither(e => fa.run(f(e)))
+export const local = <E>(f: (e: E) => E) => <L, A>(fa: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> => {
+  return new ReaderTaskEither(e => fa.run(f(e)))
+}
 
-export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> =>
-  new ReaderTaskEither(() => taskEither.right(fa))
+export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => {
+  return new ReaderTaskEither(() => taskEither.right(fa))
+}
 
-export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => new ReaderTaskEither(() => taskEither.left(fa))
+export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => {
+  return new ReaderTaskEither(() => taskEither.left(fa))
+}
 
-export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A> =>
-  new ReaderTaskEither(() => taskEither.fromEither(fa))
+export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<E, L, A> => {
+  return new ReaderTaskEither(() => fa)
+}
 
-export const tryCatch = <E, L, A>(f: (e: E) => Promise<A>, onrejected: (reason: {}) => L): ReaderTaskEither<E, L, A> =>
-  new ReaderTaskEither(e => taskEither.tryCatch(() => f(e), onrejected))
+export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A> => {
+  return new ReaderTaskEither(() => taskEither.fromEither(fa))
+}
+
+export const tryCatch = <E, L, A>(
+  f: (e: E) => Promise<A>,
+  onrejected: (reason: {}) => L
+): ReaderTaskEither<E, L, A> => {
+  return new ReaderTaskEither(e => taskEither.tryCatch(() => f(e), onrejected))
+}
 
 export const readerTaskEither: Monad3<URI> = {
   URI,

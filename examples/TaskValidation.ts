@@ -28,12 +28,14 @@ export class TaskValidation<L, A> {
   map<B>(f: (a: A) => B): TaskValidation<L, B> {
     return new TaskValidation(taskValidationFunctor.map(this.value, f))
   }
-  fold<R>(left: (l: L) => R, right: (a: A) => R): task.Task<R> {
-    return this.value.map(v => v.fold(left, right))
+  fold<R>(failure: (l: L) => R, success: (a: A) => R): task.Task<R> {
+    return this.value.map(v => v.fold(failure, success))
   }
 }
 
-const map = <L, A, B>(fa: TaskValidation<L, A>, f: (a: A) => B): TaskValidation<L, B> => fa.map(f)
+const map = <L, A, B>(fa: TaskValidation<L, A>, f: (a: A) => B): TaskValidation<L, B> => {
+  return fa.map(f)
+}
 
 export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
   const taskValidationApplicative = getApplicativeComposition(task.task, validation.getApplicative(S))

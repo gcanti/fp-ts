@@ -1,8 +1,8 @@
 import * as readerT from '../src/ReaderT'
-import * as either from '../src/Either'
+import { Either, either } from '../src/Either'
 import { Monad3 } from '../src/Monad'
 
-const readerTEither = readerT.getReaderT(either.either)
+const readerTEither = readerT.getReaderT(either)
 
 declare module '../src/HKT' {
   interface URI2HKT3<U, L, A> {
@@ -23,7 +23,7 @@ export class ReaderEither<E, L, A> {
   readonly '_U': E
   // prettier-ignore
   readonly '_URI': URI
-  constructor(readonly run: (e: E) => either.Either<L, A>) {}
+  constructor(readonly run: (e: E) => Either<L, A>) {}
   map<B>(f: (a: A) => B): ReaderEither<E, L, B> {
     return new ReaderEither(readerTEither.map(f, this.run))
   }
@@ -41,46 +41,42 @@ export class ReaderEither<E, L, A> {
   }
 }
 
-export const map = <E, L, A, B>(fa: ReaderEither<E, L, A>, f: (a: A) => B): ReaderEither<E, L, B> => {
+const map = <E, L, A, B>(fa: ReaderEither<E, L, A>, f: (a: A) => B): ReaderEither<E, L, B> => {
   return fa.map(f)
 }
 
-export const of = <E, L, A>(a: A): ReaderEither<E, L, A> => {
+const of = <E, L, A>(a: A): ReaderEither<E, L, A> => {
   return new ReaderEither(readerTEither.of(a))
 }
 
-export const ap = <E, L, A, B>(
-  fab: ReaderEither<E, L, (a: A) => B>,
-  fa: ReaderEither<E, L, A>
-): ReaderEither<E, L, B> => {
+const ap = <E, L, A, B>(fab: ReaderEither<E, L, (a: A) => B>, fa: ReaderEither<E, L, A>): ReaderEither<E, L, B> => {
   return fa.ap(fab)
 }
 
-export const chain = <E, L, A, B>(
-  fa: ReaderEither<E, L, A>,
-  f: (a: A) => ReaderEither<E, L, B>
-): ReaderEither<E, L, B> => {
+const chain = <E, L, A, B>(fa: ReaderEither<E, L, A>, f: (a: A) => ReaderEither<E, L, B>): ReaderEither<E, L, B> => {
   return fa.chain(f)
 }
 
-export const ask = <E, L>(e: E): ReaderEither<E, L, E> => {
-  return new ReaderEither(readerT.ask(either.either)())
+const readerTask = readerT.ask(either)
+export const ask = <E, L>(): ReaderEither<E, L, E> => {
+  return new ReaderEither(readerTask())
 }
 
+const readerTasks = readerT.asks(either)
 export const asks = <E, L, A>(f: (e: E) => A): ReaderEither<E, L, A> => {
-  return new ReaderEither(readerT.asks(either.either)(f))
+  return new ReaderEither(readerTasks(f))
 }
 
 export const local = <E>(f: (e: E) => E) => <L, A>(fa: ReaderEither<E, L, A>): ReaderEither<E, L, A> => {
   return new ReaderEither(e => fa.run(f(e)))
 }
 
-export const alt = <E, L, A>(fx: ReaderEither<E, L, A>, fy: ReaderEither<E, L, A>): ReaderEither<E, L, A> => {
-  return new ReaderEither(e => fx.run(e).alt(fy.run(e)))
+export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderEither<E, L, A> => {
+  return new ReaderEither(() => fa)
 }
 
-export const fromEither = <E, L, A>(fa: either.Either<L, A>): ReaderEither<E, L, A> => {
-  return new ReaderEither(() => fa)
+export const alt = <E, L, A>(fx: ReaderEither<E, L, A>, fy: ReaderEither<E, L, A>): ReaderEither<E, L, A> => {
+  return new ReaderEither(e => fx.run(e).alt(fy.run(e)))
 }
 
 export const readerEither: Monad3<URI> = {

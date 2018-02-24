@@ -1,8 +1,7 @@
-import { Task } from 'fp-ts/lib/Task'
+import { Task, task, tryCatch as tryCatchTask } from 'fp-ts/lib/Task'
 import { Option, fromEither } from 'fp-ts/lib/Option'
 import { Monad1 } from 'fp-ts/lib/Monad'
 import * as optionT from 'fp-ts/lib/OptionT'
-import * as task from 'fp-ts/lib/Task'
 import { Lazy } from 'fp-ts/lib/function'
 
 declare module 'fp-ts/lib/HKT' {
@@ -11,11 +10,13 @@ declare module 'fp-ts/lib/HKT' {
   }
 }
 
-const optionTTask = optionT.getOptionT(task.task)
+const optionTTask = optionT.getOptionT(task)
 
 export const URI = 'TaskOption'
 
 export type URI = typeof URI
+
+const optionTfold = optionT.fold(task)
 
 export class TaskOption<A> {
   // prettier-ignore
@@ -39,35 +40,48 @@ export class TaskOption<A> {
     return new TaskOption(optionTTask.chain(a => f(a).value, this.value))
   }
   fold<R>(r: R, some: (a: A) => R): Task<R> {
-    return optionT.fold(task.task)(r, some, this.value)
+    return optionTfold(r, some, this.value)
   }
   orElse(f: () => TaskOption<A>): TaskOption<A> {
     return new TaskOption(this.value.chain(e => e.fold(f().value, a => optionTTask.of(a))))
   }
 }
 
-export const map = <A, B>(fa: TaskOption<A>, f: (a: A) => B): TaskOption<B> => fa.map(f)
+const map = <A, B>(fa: TaskOption<A>, f: (a: A) => B): TaskOption<B> => {
+  return fa.map(f)
+}
 
-export const of = <A>(a: A): TaskOption<A> => new TaskOption(optionT.some(task.task)(a))
+const optionTsome = optionT.some(task)
+const of = <A>(a: A): TaskOption<A> => new TaskOption(optionTsome(a))
 
-export const ap = <A, B>(fab: TaskOption<(a: A) => B>, fa: TaskOption<A>): TaskOption<B> => fa.ap(fab)
+const ap = <A, B>(fab: TaskOption<(a: A) => B>, fa: TaskOption<A>): TaskOption<B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <A, B>(fa: TaskOption<A>, f: (a: A) => TaskOption<B>): TaskOption<B> => fa.chain(f)
+const chain = <A, B>(fa: TaskOption<A>, f: (a: A) => TaskOption<B>): TaskOption<B> => {
+  return fa.chain(f)
+}
 
 export const some = of
 
-export const none = new TaskOption(optionT.none(task.task)())
+export const none = new TaskOption(optionT.none(task)())
 
-export const fromOption = <A>(oa: Option<A>): TaskOption<A> => new TaskOption(optionT.fromOption(task.task)(oa))
+const optionTfromOption = optionT.fromOption(task)
+export const fromOption = <A>(oa: Option<A>): TaskOption<A> => {
+  return new TaskOption(optionTfromOption(oa))
+}
 
-export const liftF = <A>(ma: Task<A>): TaskOption<A> => new TaskOption(optionT.liftF(task.task)(ma))
+const optionTliftF = optionT.liftF(task)
+export const fromTask = <A>(ma: Task<A>): TaskOption<A> => {
+  return new TaskOption(optionTliftF(ma))
+}
 
 export const orElse = <A>(f: () => TaskOption<A>) => (fa: TaskOption<A>): TaskOption<A> => {
   return fa.orElse(f)
 }
 
 export const tryCatch = <A>(f: Lazy<Promise<A>>): TaskOption<A> => {
-  return new TaskOption(task.tryCatch(f, () => undefined).map(e => fromEither(e)))
+  return new TaskOption(tryCatchTask(f, () => undefined).map(e => fromEither(e)))
 }
 
 export const taskOption: Monad1<URI> = {

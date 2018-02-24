@@ -15,6 +15,8 @@ export const URI = 'ArrayOption'
 
 export type URI = typeof URI
 
+const optionTfold = optionT.fold(array)
+
 export class ArrayOption<A> {
   // prettier-ignore
   readonly '_A': A
@@ -34,25 +36,38 @@ export class ArrayOption<A> {
     return new ArrayOption(optionTArray.chain(a => f(a).value, this.value))
   }
   fold<R>(r: R, some: (a: A) => R): Array<R> {
-    return optionT.fold(array)(r, some, this.value)
+    return optionTfold(r, some, this.value)
   }
 }
 
-export const map = <A, B>(fa: ArrayOption<A>, f: (a: A) => B): ArrayOption<B> => fa.map(f)
+const map = <A, B>(fa: ArrayOption<A>, f: (a: A) => B): ArrayOption<B> => {
+  return fa.map(f)
+}
 
-export const of = <A>(a: A): ArrayOption<A> => new ArrayOption(optionT.some(array)(a))
+const optionTsome = optionT.some(array)
+const of = <A>(a: A): ArrayOption<A> => {
+  return new ArrayOption(optionTsome(a))
+}
 
-export const ap = <A, B>(fab: ArrayOption<(a: A) => B>, fa: ArrayOption<A>): ArrayOption<B> => fa.ap(fab)
+const ap = <A, B>(fab: ArrayOption<(a: A) => B>, fa: ArrayOption<A>): ArrayOption<B> => {
+  return fa.ap(fab)
+}
 
-export const chain = <A, B>(fa: ArrayOption<A>, f: (a: A) => ArrayOption<B>): ArrayOption<B> => fa.chain(f)
+const chain = <A, B>(fa: ArrayOption<A>, f: (a: A) => ArrayOption<B>): ArrayOption<B> => {
+  return fa.chain(f)
+}
 
 export const some = of
 
 export const none = new ArrayOption(optionT.none(array)())
 
-export const fromOption = <A>(oa: Option<A>): ArrayOption<A> => new ArrayOption(optionT.fromOption(array)(oa))
+const optionTfromOption = optionT.fromOption(array)
+export const fromOption = <A>(oa: Option<A>): ArrayOption<A> => {
+  return new ArrayOption(optionTfromOption(oa))
+}
 
-export const liftF = <A>(ma: Array<A>): ArrayOption<A> => new ArrayOption(optionT.liftF(array)(ma))
+const optionTliftF = optionT.liftF(array)
+export const fromArray = <A>(ma: Array<A>): ArrayOption<A> => new ArrayOption(optionTliftF(ma))
 
 export const arrayOption: Monad1<URI> = {
   URI,
