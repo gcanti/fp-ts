@@ -3,6 +3,7 @@ import { TaskEither, taskEither } from 'fp-ts/lib/TaskEither'
 import { Monad3 } from 'fp-ts/lib/Monad'
 import { Endomorphism, tuple } from 'fp-ts/lib/function'
 import { Either } from 'fp-ts/lib/Either'
+import { State } from 'fp-ts/lib/State'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT3<U, L, A> {
@@ -96,6 +97,11 @@ export const gets = <S, L, A>(f: (s: S) => A): StateTaskEither<S, L, A> => {
 
 export const fromTaskEither = <S, L, A>(fa: TaskEither<L, A>): StateTaskEither<S, L, A> => {
   return new StateTaskEither(s => fa.map(a => tuple(a, s)))
+}
+
+const stateTfromState = stateT.fromState(taskEither)
+export const fromState = <S, A, L>(fa: State<S, A>): StateTaskEither<S, L, A> => {
+  return new StateTaskEither(stateTfromState(fa))
 }
 
 export const stateTaskEither: Monad3<URI> = {

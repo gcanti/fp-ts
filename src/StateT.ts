@@ -4,6 +4,7 @@ import { Applicative, Applicative1, Applicative2 } from './Applicative'
 import { Chain, Chain1, Chain2 } from './Chain'
 import { Monad, Monad1, Monad2 } from './Monad'
 import { Endomorphism, tuple } from './function'
+import { State } from './State'
 
 export interface StateT<M> {
   map: <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => HKT<M, [B, S]>
@@ -126,6 +127,16 @@ export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => 
 /** @function */
 export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]> {
   return f => s => F.of(tuple(f(s), s))
+}
+
+export function fromState<F extends URIS2>(
+  F: Applicative2<F>
+): <S, A, L>(fa: State<S, A>) => (s: S) => Type2<F, L, [A, S]>
+export function fromState<F extends URIS>(F: Applicative1<F>): <S, A>(fa: State<S, A>) => (s: S) => Type<F, [A, S]>
+export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]>
+/** @function */
+export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]> {
+  return fa => s => F.of(fa.run(s))
 }
 
 export function getStateT<M extends URIS2>(M: Monad2<M>): StateT2<M>
