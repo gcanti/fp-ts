@@ -1,4 +1,4 @@
-import { HKT, HKT2, URIS, URIS2, Type, Type2 } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2 } from './HKT'
 import { Functor, Functor1, Functor2 } from './Functor'
 import { Applicative, Applicative1, Applicative2 } from './Applicative'
 import { Chain, Chain1, Chain2 } from './Chain'
@@ -14,22 +14,22 @@ export interface StateT<M> {
 }
 
 export interface StateT1<M extends URIS> {
-  map: <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => Type<M, [B, S]>
+  map: <S, A, B>(f: (a: A) => B, fa: (s: S) => Type<M, [A, S]>) => (s: S) => Type<M, [B, S]>
   of: <S, A>(a: A) => (s: S) => Type<M, [A, S]>
-  ap: <S, A, B>(fab: (s: S) => HKT<M, [(a: A) => B, S]>, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => Type<M, [B, S]>
-  chain: <S, A, B>(f: (a: A) => (s: S) => HKT<M, [B, S]>, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => Type<M, [B, S]>
+  ap: <S, A, B>(fab: (s: S) => Type<M, [(a: A) => B, S]>, fa: (s: S) => Type<M, [A, S]>) => (s: S) => Type<M, [B, S]>
+  chain: <S, A, B>(f: (a: A) => (s: S) => Type<M, [B, S]>, fa: (s: S) => Type<M, [A, S]>) => (s: S) => Type<M, [B, S]>
 }
 
 export interface StateT2<M extends URIS2> {
-  map: <L, S, A, B>(f: (a: A) => B, fa: (s: S) => HKT2<M, L, [A, S]>) => (s: S) => Type2<M, L, [B, S]>
+  map: <L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type2<M, L, [A, S]>) => (s: S) => Type2<M, L, [B, S]>
   of: <L, S, A>(a: A) => (s: S) => Type2<M, L, [A, S]>
   ap: <L, S, A, B>(
-    fab: (s: S) => HKT2<M, L, [(a: A) => B, S]>,
-    fa: (s: S) => HKT2<M, L, [A, S]>
+    fab: (s: S) => Type2<M, L, [(a: A) => B, S]>,
+    fa: (s: S) => Type2<M, L, [A, S]>
   ) => (s: S) => Type2<M, L, [B, S]>
   chain: <L, S, A, B>(
-    f: (a: A) => (s: S) => HKT2<M, L, [B, S]>,
-    fa: (s: S) => HKT2<M, L, [A, S]>
+    f: (a: A) => (s: S) => Type2<M, L, [B, S]>,
+    fa: (s: S) => Type2<M, L, [A, S]>
   ) => (s: S) => Type2<M, L, [B, S]>
 }
 
