@@ -4,6 +4,7 @@ import { TaskEither } from '../src/TaskEither'
 import { Monad3 } from '../src/Monad'
 import { Task } from '../src/Task'
 import { Either } from '../src/Either'
+import { Reader } from '../src/Reader'
 
 const readerTTaskEither = readerT.getReaderT(taskEither.taskEither)
 
@@ -92,8 +93,13 @@ export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<
   return new ReaderTaskEither(() => fa)
 }
 
+const readerTfromReader = readerT.fromReader(taskEither.taskEither)
+export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A> => {
+  return new ReaderTaskEither(readerTfromReader(fa))
+}
+
 export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A> => {
-  return new ReaderTaskEither(() => taskEither.fromEither(fa))
+  return fromTaskEither(taskEither.fromEither(fa))
 }
 
 export const tryCatch = <E, L, A>(

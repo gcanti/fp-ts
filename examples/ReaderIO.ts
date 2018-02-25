@@ -1,6 +1,7 @@
 import * as readerT from 'fp-ts/lib/ReaderT'
 import { IO, io } from 'fp-ts/lib/IO'
 import { Monad2 } from 'fp-ts/lib/Monad'
+import { Reader } from 'fp-ts/lib/Reader'
 
 const readerTIO = readerT.getReaderT(io)
 
@@ -71,6 +72,11 @@ export const local = <E>(f: (e: E) => E) => <A>(fa: ReaderIO<E, A>): ReaderIO<E,
 
 export const fromIO = <E, A>(fa: IO<A>): ReaderIO<E, A> => {
   return new ReaderIO(() => fa)
+}
+
+const readerTfromReader = readerT.fromReader(io)
+export const fromReader = <E, A>(fa: Reader<E, A>): ReaderIO<E, A> => {
+  return new ReaderIO(readerTfromReader(fa))
 }
 
 export const readerIO: Monad2<URI> = {
