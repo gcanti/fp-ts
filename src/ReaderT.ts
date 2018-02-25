@@ -1,4 +1,4 @@
-import { HKT, HKT2, URIS, URIS2, Type, Type2 } from './HKT'
+import { HKT, URIS, URIS2, Type, Type2 } from './HKT'
 import { Functor, Functor2, Functor1 } from './Functor'
 import { Applicative, Applicative1, Applicative2 } from './Applicative'
 import { Chain, Chain1, Chain2 } from './Chain'
@@ -12,17 +12,17 @@ export interface ReaderT<M> {
 }
 
 export interface ReaderT1<M extends URIS> {
-  map: <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<M, A>) => (e: E) => Type<M, B>
+  map: <E, A, B>(f: (a: A) => B, fa: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
   of: <E, A>(a: A) => (e: E) => Type<M, A>
-  ap: <E, A, B>(fab: (e: E) => HKT<M, (a: A) => B>, fa: (e: E) => HKT<M, A>) => (e: E) => Type<M, B>
-  chain: <E, A, B>(f: (a: A) => (e: E) => HKT<M, B>, fa: (e: E) => HKT<M, A>) => (e: E) => Type<M, B>
+  ap: <E, A, B>(fab: (e: E) => Type<M, (a: A) => B>, fa: (e: E) => HKT<M, A>) => (e: E) => Type<M, B>
+  chain: <E, A, B>(f: (a: A) => (e: E) => Type<M, B>, fa: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
 }
 
 export interface ReaderT2<M extends URIS2> {
-  map: <L, E, A, B>(f: (a: A) => B, fa: (e: E) => HKT2<M, L, A>) => (e: E) => Type2<M, L, B>
+  map: <L, E, A, B>(f: (a: A) => B, fa: (e: E) => Type2<M, L, A>) => (e: E) => Type2<M, L, B>
   of: <L, E, A>(a: A) => (e: E) => Type2<M, L, A>
-  ap: <L, E, A, B>(fab: (e: E) => HKT2<M, L, (a: A) => B>, fa: (e: E) => HKT2<M, L, A>) => (e: E) => Type2<M, L, B>
-  chain: <L, E, A, B>(f: (a: A) => (e: E) => HKT2<M, L, B>, fa: (e: E) => HKT2<M, L, A>) => (e: E) => Type2<M, L, B>
+  ap: <L, E, A, B>(fab: (e: E) => Type2<M, L, (a: A) => B>, fa: (e: E) => Type2<M, L, A>) => (e: E) => Type2<M, L, B>
+  chain: <L, E, A, B>(f: (a: A) => (e: E) => Type2<M, L, B>, fa: (e: E) => Type2<M, L, A>) => (e: E) => Type2<M, L, B>
 }
 
 export function map<F extends URIS2>(
