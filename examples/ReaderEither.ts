@@ -1,6 +1,7 @@
 import * as readerT from '../src/ReaderT'
 import { Either, either } from '../src/Either'
 import { Monad3 } from '../src/Monad'
+import { Reader } from '../src/Reader'
 
 const readerTEither = readerT.getReaderT(either)
 
@@ -73,6 +74,11 @@ export const local = <E>(f: (e: E) => E) => <L, A>(fa: ReaderEither<E, L, A>): R
 
 export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderEither<E, L, A> => {
   return new ReaderEither(() => fa)
+}
+
+const readerTfromReader = readerT.fromReader(either)
+export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderEither<E, L, A> => {
+  return new ReaderEither(readerTfromReader(fa))
 }
 
 export const alt = <E, L, A>(fx: ReaderEither<E, L, A>, fy: ReaderEither<E, L, A>): ReaderEither<E, L, A> => {

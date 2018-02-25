@@ -3,6 +3,7 @@ import { Functor, Functor1, Functor2, Functor3 } from './Functor'
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { Chain, Chain1, Chain2, Chain3 } from './Chain'
 import { Monad, Monad1, Monad2, Monad3 } from './Monad'
+import { Reader } from './Reader'
 
 export interface ReaderT<M> {
   map: <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<M, A>) => (e: E) => HKT<M, B>
@@ -122,6 +123,16 @@ export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => 
 /** @function */
 export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A> {
   return f => e => F.of(f(e))
+}
+
+export function fromReader<F extends URIS3>(
+  F: Applicative3<F>
+): <E, U, L, A>(fa: Reader<E, A>) => (e: E) => Type3<F, U, L, A>
+export function fromReader<F extends URIS2>(F: Applicative2<F>): <E, L, A>(fa: Reader<E, A>) => (e: E) => Type2<F, L, A>
+export function fromReader<F extends URIS>(F: Applicative1<F>): <E, A>(fa: Reader<E, A>) => (e: E) => Type<F, A>
+export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A>
+export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A> {
+  return fa => e => F.of(fa.run(e))
 }
 
 export function getReaderT<M extends URIS3>(M: Monad3<M>): ReaderT3<M>

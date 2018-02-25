@@ -1,11 +1,17 @@
 import * as assert from 'assert'
-import * as option from '../src/Option'
+import { option, some, none } from '../src/Option'
 import { StrMap, lookup } from '../src/StrMap'
-import { getReaderT } from '../src/ReaderT'
+import { getReaderT, fromReader } from '../src/ReaderT'
+import { reader } from '../src/Reader'
 
-const readerOption = getReaderT(option.option)
+const readerOption = getReaderT(option)
 
 describe('ReaderT', () => {
+  it('fromState', () => {
+    const f = fromReader(option)(reader.of<void, number>(1))
+    assert.deepEqual(f(undefined), some(1))
+  })
+
   it('ReaderOption', () => {
     function configure(key: string) {
       return (e: StrMap<string>) => lookup(key, e)
@@ -23,13 +29,13 @@ describe('ReaderT', () => {
       password: 'password'
     })
 
-    assert.deepEqual(setupConnection(goodConfig), option.some(['myhost', 'giulio', 'password']))
+    assert.deepEqual(setupConnection(goodConfig), some(['myhost', 'giulio', 'password']))
 
     const badConfig = new StrMap({
       host: 'myhost',
       user: 'giulio'
     })
 
-    assert.deepEqual(setupConnection(badConfig), option.none)
+    assert.deepEqual(setupConnection(badConfig), none)
   })
 })
