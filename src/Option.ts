@@ -53,9 +53,30 @@ export class None<A> {
   mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> {
     return none
   }
+
+  /**
+   * `ap`, some may also call it "apply". Takes a function `fab` that is in the context of `Option`, and applies that
+   * function to this `Option`'s value. If the `Option` calling `ap` is `none` it will return `none`.
+   *
+   * For example:
+   *
+   * `const someFn = some(2).ap(some(x => x + 1))` will return `some(3)`.
+   *
+   * `const someFn = none.ap(some(x => x + 1))` will return `none`.
+   */
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return none
   }
+  /**
+   * Similar to `ap` but instead of taking a function it takes `some` value or `none`, then applies this `Option`'s
+   * wrapped function to the `some` or `none`. If the `Option` calling `ap_` is `none` it will return `none`.
+   *
+   * For example:
+   *
+   * `const someFn = some(x => x + 1).ap_(some(2))` will return `some(3)`.
+   *
+   * `const someFn = none.ap_(some(2))` will return `none`.
+   */
   ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> {
     return fb.ap(this)
   }
@@ -75,7 +96,8 @@ export class None<A> {
    * then it will be returned, if it is a `None` then it will return the next `Some` if it exist. If
    * both are `None` then it will return `none`.
    *
-   * For example
+   * For example:
+   *
    * `const someFn = (o: Option<number>) => o.alt(some(4))`
    *
    * `someFn(some(2))` will return `some(2)`.
