@@ -24,10 +24,8 @@ export type URI = typeof URI
  * @constructor NonEmptyArray
  */
 export class NonEmptyArray<A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _URI!: URI
   constructor(readonly head: A, readonly tail: Array<A>) {}
   toArray(): Array<A> {
     return uncurriedConcat([this.head], this.tail)

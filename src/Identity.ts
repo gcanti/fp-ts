@@ -25,10 +25,8 @@ export type URI = typeof URI
  * @constructor Identity
  */
 export class Identity<A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _URI!: URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Identity<B> {
     return new Identity(f(this.value))

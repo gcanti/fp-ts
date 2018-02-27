@@ -18,12 +18,9 @@ export type URI = typeof URI
  * @constructor Store
  */
 export class Store<S, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': S
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: S
+  readonly _URI!: URI
   constructor(readonly peek: (s: S) => A, readonly pos: S) {}
   /** Reposition the focus at the specified position */
   seek(s: S): Store<S, A> {
