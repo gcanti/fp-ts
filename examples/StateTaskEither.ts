@@ -18,14 +18,10 @@ export const URI = 'StateTaskEither'
 export type URI = typeof URI
 
 export class StateTaskEither<S, L, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_U': S
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: L
+  readonly _U!: S
+  readonly _URI!: URI
   constructor(readonly value: (s: S) => TaskEither<L, [A, S]>) {}
   run(s: S): Promise<Either<L, [A, S]>> {
     return this.value(s).run()

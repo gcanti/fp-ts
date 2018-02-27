@@ -57,12 +57,9 @@ export type Either<L, A> = Left<L, A> | Right<L, A>
 
 export class Left<L, A> {
   readonly _tag: 'Left' = 'Left'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: L
+  readonly _URI!: URI
   constructor(readonly value: L) {}
   /** The given function is applied if this is a `Right` */
   map<B>(f: (a: A) => B): Either<L, B> {
@@ -128,12 +125,9 @@ export class Left<L, A> {
 
 export class Right<L, A> {
   readonly _tag: 'Right' = 'Right'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: L
+  readonly _URI!: URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Either<L, B> {
     return new Right(f(this.value))

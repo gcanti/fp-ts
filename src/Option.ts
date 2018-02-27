@@ -37,10 +37,8 @@ export type Option<A> = None<A> | Some<A>
 export class None<A> {
   static value: Option<never> = new None()
   readonly _tag: 'None' = 'None'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _URI!: URI
   private constructor() {}
   /**
    * Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors.
@@ -167,10 +165,8 @@ export const none: Option<never> = None.value
 
 export class Some<A> {
   readonly _tag: 'Some' = 'Some'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _URI!: URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))

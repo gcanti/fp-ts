@@ -16,12 +16,9 @@ export const URI = 'ReaderIO'
 export type URI = typeof URI
 
 export class ReaderIO<E, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': E
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: E
+  readonly _URI!: URI
   constructor(readonly run: (e: E) => IO<A>) {}
   map<B>(f: (a: A) => B): ReaderIO<E, B> {
     return new ReaderIO(readerTIO.map(f, this.run))

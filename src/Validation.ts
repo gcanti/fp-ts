@@ -37,12 +37,9 @@ export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
 export class Failure<L, A> {
   readonly _tag: 'Failure' = 'Failure'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: L
+  readonly _URI!: URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return failure(this.value)
@@ -88,12 +85,9 @@ export class Failure<L, A> {
 
 export class Success<L, A> {
   readonly _tag: 'Success' = 'Success'
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: L
+  readonly _URI!: URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return new Success<L, B>(f(this.value))

@@ -18,10 +18,8 @@ export type URI = typeof URI
 const optionTfold = optionT.fold(array)
 
 export class ArrayOption<A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _URI!: URI
   constructor(readonly value: Array<Option<A>>) {}
   map<B>(f: (a: A) => B): ArrayOption<B> {
     return new ArrayOption(optionTArray.map(this.value, f))

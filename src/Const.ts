@@ -22,12 +22,9 @@ export type URI = typeof URI
  * @constructor Const
  */
 export class Const<L, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: L
+  readonly _URI!: URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): Const<L, B> {
     return new Const(this.value)

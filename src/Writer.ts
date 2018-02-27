@@ -19,12 +19,9 @@ export type URI = typeof URI
  * @constructor Writer
  */
 export class Writer<W, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': W
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: W
+  readonly _URI!: URI
   constructor(readonly run: () => [A, W]) {}
   eval(): A {
     return this.run()[0]

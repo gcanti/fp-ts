@@ -16,12 +16,9 @@ export type URI = typeof URI
  * @constructor Reader
  */
 export class Reader<E, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': E
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: E
+  readonly _URI!: URI
   constructor(readonly run: (e: E) => A) {}
   map<B>(f: (a: A) => B): Reader<E, B> {
     return new Reader((e: E) => f(this.run(e)))

@@ -18,12 +18,9 @@ export const URI = 'StateIO'
 export type URI = typeof URI
 
 export class StateIO<S, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': S
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: S
+  readonly _URI!: URI
   constructor(readonly value: (s: S) => IO<[A, S]>) {}
   run(s: S): [A, S] {
     return this.value(s).run()

@@ -28,10 +28,8 @@ export type URI = typeof URI
  * @constructor Pair
  */
 export class Pair<A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _URI!: URI
   constructor(readonly fst: A, readonly snd: A) {}
   /** Map a function over the first field of a pair */
   first(f: Endomorphism<A>): Pair<A> {

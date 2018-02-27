@@ -18,12 +18,9 @@ export const URI = 'TaskValidation'
 export type URI = typeof URI
 
 export class TaskValidation<L, A> {
-  // prettier-ignore
-  readonly '_A': A
-  // prettier-ignore
-  readonly '_L': L
-  // prettier-ignore
-  readonly '_URI': URI
+  readonly _A!: A
+  readonly _L!: L
+  readonly _URI!: URI
   constructor(readonly value: task.Task<validation.Validation<L, A>>) {}
   map<B>(f: (a: A) => B): TaskValidation<L, B> {
     return new TaskValidation(taskValidationFunctor.map(this.value, f))
