@@ -19,13 +19,22 @@ import {
   partitionMap,
   partition,
   chain,
+  fromArray,
   map
 } from '../src/Set'
-import { setoidNumber, setoidString } from '../src/Setoid'
+import { setoidNumber, setoidString, Setoid } from '../src/Setoid'
 import { ordNumber } from '../src/Ord'
 import { left, right } from '../src/Either'
 
 const gte2 = (n: number) => n >= 2
+
+interface Foo {
+  x: string
+}
+const foo = (x: string): Foo => ({ x })
+const fooSetoid: Setoid<Foo> = {
+  equals: (a: Foo, b: Foo) => a.x === b.x
+}
 
 describe('Set', () => {
   it('toArray', () => {
@@ -140,5 +149,14 @@ describe('Set', () => {
   it('remove', () => {
     assert.deepEqual(remove(setoidNumber)(3, new Set([1, 2])), new Set([1, 2]))
     assert.deepEqual(remove(setoidNumber)(1, new Set([1, 2])), new Set([2]))
+  })
+
+  it('fromArray', () => {
+    assert.deepEqual(fromArray(setoidNumber)([]), new Set([]))
+    assert.deepEqual(fromArray(setoidNumber)([1]), new Set([1]))
+    assert.deepEqual(fromArray(setoidNumber)([1, 1]), new Set([1]))
+    assert.deepEqual(fromArray(setoidNumber)([1, 2]), new Set([1, 2]))
+
+    assert.deepEqual(fromArray(fooSetoid)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
   })
 })
