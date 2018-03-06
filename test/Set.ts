@@ -16,7 +16,8 @@ import {
   singleton,
   insert,
   remove,
-  partitionMap
+  partitionMap,
+  partition
 } from '../src/Set'
 import { setoidNumber } from '../src/Setoid'
 import { ordNumber } from '../src/Ord'
@@ -56,6 +57,16 @@ describe('Set', () => {
 
   it('filter', () => {
     assert.deepEqual(filter(new Set([1, 2, 3]), gte2), new Set([2, 3]))
+  })
+
+  it('partition', () => {
+    assert.deepEqual(partition(new Set([]), x => true), { true: new Set([]), false: new Set([]) })
+    assert.deepEqual(partition(new Set([1]), x => true), { true: new Set([1]), false: new Set([]) })
+    assert.deepEqual(partition(new Set([1]), x => false), { true: new Set([]), false: new Set([1]) })
+    assert.deepEqual(partition(new Set([1, 2, 3, 4]), x => x % 2 === 0), {
+      true: new Set([2, 4]),
+      false: new Set([1, 3])
+    })
   })
 
   it('member', () => {

@@ -61,6 +61,24 @@ export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
   return r
 }
 
+/** @function */
+export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { true: Set<A>; false: Set<A> } => {
+  const values = x.values()
+  let e: IteratorResult<A>
+  let t = new Set()
+  let f = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const value = e.value
+    if (predicate(value)) {
+      t.add(value)
+    } else {
+      f.add(value)
+    }
+  }
+  return { true: t, false: f }
+}
+
 /**
  * Test if a value is a member of a set
  * @function
