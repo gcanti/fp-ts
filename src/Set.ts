@@ -32,6 +32,21 @@ export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
   return found
 }
 
+/**
+  * Projects a Set through a function
+  *  @function */
+export const map = <A, B>(x: Set<A>, bset: Setoid<B>, f: (x: A) => B): Set<B> => {
+  const ismember = member(bset)
+  const r = new Set<B>()
+  x.forEach(e => {
+    const v = f(e)
+    if (!ismember(r)(v)) {
+      r.add(v)
+    }
+  })
+  return r
+}
+
 /** @function */
 export const every = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
   return !some(x, not(predicate))
