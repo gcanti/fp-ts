@@ -40,9 +40,13 @@ export const every = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
 /** @function */
 export const chain = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => Set<B>): Set<B> => {
   let r = new Set<B>()
-  const setUnion = union(bset)
+  const rhas = member(bset)(r)
   x.forEach(e => {
-    r = setUnion(f(e), r)
+    f(e).forEach(e => {
+      if (!rhas(e)) {
+        r.add(e)
+      }
+    })
   })
   return r
 }
