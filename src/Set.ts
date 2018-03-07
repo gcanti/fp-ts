@@ -241,10 +241,10 @@ export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => {
 export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
   const len = as.length
   const r = new Set<A>()
-  const equals = S.equals
+  const isMember = member(S)(r)
   for (let i = 0; i < len; i++) {
     const a = as[i]
-    if (!some(r, x => equals(x, a))) {
+    if (!isMember(a)) {
       r.add(a)
     }
   }
