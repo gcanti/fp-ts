@@ -52,9 +52,9 @@ describe('Set', () => {
   })
 
   it('chain', () => {
-    assert.deepEqual(chain(new Set<number>([]), setoidString, x => new Set([x.toString()])), new Set([]))
-    assert.deepEqual(chain(new Set([1, 2]), setoidString, x => new Set([])), new Set([]))
-    assert.deepEqual(chain(new Set([1, 2]), setoidString, x => new Set([`${x}`, `${x + 1}`])), new Set(['1', '2', '3']))
+    assert.deepEqual(chain(setoidString)(new Set<number>([]), x => new Set([x.toString()])), new Set([]))
+    assert.deepEqual(chain(setoidString)(new Set([1, 2]), x => new Set([])), new Set([]))
+    assert.deepEqual(chain(setoidString)(new Set([1, 2]), x => new Set([`${x}`, `${x + 1}`])), new Set(['1', '2', '3']))
   })
 
   it('subset', () => {
