@@ -128,7 +128,9 @@ export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { l
  * @function
  */
 export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  return (x, y) => filter(y, not(member(S)(x)))
+  const has = member(S)
+  const notHas = (x: Set<A>) => not(has(x))
+  return (x, y) => filter(y, notHas(x))
 }
 
 /** @function */
