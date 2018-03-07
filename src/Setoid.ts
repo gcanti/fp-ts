@@ -62,11 +62,8 @@ export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A,
 }
 
 /** @function */
-export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => ({
-  equals
-})
-
-/** @function */
 export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
-  return fromEquals(on(fa.equals)(f))
+  return {
+    equals: on(fa.equals)(f)
+  }
 }
