@@ -48,9 +48,9 @@ describe('Set', () => {
   })
 
   it('map', () => {
-    assert.deepEqual(map(new Set([]), setoidNumber, x => x % 2), new Set([]))
-    assert.deepEqual(map(new Set([1, 2, 3, 4]), setoidNumber, x => x % 2), new Set([0, 1]))
-    assert.deepEqual(map(new Set([1, 2, 3, 4]), setoidString, x => `${x % 2}`), new Set(['0', '1']))
+    assert.deepEqual(map(setoidNumber)(new Set([]), x => x % 2), new Set([]))
+    assert.deepEqual(map(setoidNumber)(new Set([1, 2, 3, 4]), x => x % 2), new Set([0, 1]))
+    assert.deepEqual(map(setoidString)(new Set([1, 2, 3, 4]), x => `${x % 2}`), new Set(['0', '1']))
   })
 
   it('every', () => {
