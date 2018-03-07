@@ -37,11 +37,11 @@ export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
  * @function
  */
 export const map = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => B): Set<B> => {
-  const ismember = member(bset)
   const r = new Set<B>()
+  const ismember = member(bset)(r)
   x.forEach(e => {
     const v = f(e)
-    if (!ismember(r)(v)) {
+    if (!ismember(v)) {
       r.add(v)
     }
   })
