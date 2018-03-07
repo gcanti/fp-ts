@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getRecordSetoid, setoidString, setoidNumber, getProductSetoid, fromEquals, contramap } from '../src/Setoid'
+import { getRecordSetoid, setoidString, setoidNumber, getProductSetoid, contramap } from '../src/Setoid'
 
 describe('Setoid', () => {
   interface Person {
@@ -22,12 +22,6 @@ describe('Setoid', () => {
     assert.strictEqual(S.equals(['a', 1], ['a', 1]), true)
     assert.strictEqual(S.equals(['a', 1], ['b', 1]), false)
     assert.strictEqual(S.equals(['a', 1], ['a', 2]), false)
-  })
-
-  it('fromEquals', () => {
-    const S = fromEquals((a: number, b: number) => a === b)
-    assert.strictEqual(S.equals(1, 1), true)
-    assert.strictEqual(S.equals(1, 0), false)
   })
 
   it('contramap', () => {
