@@ -15,10 +15,12 @@ import {
   reduce,
   singleton,
   insert,
-  remove
+  remove,
+  partitionMap
 } from '../src/Set'
 import { setoidNumber } from '../src/Setoid'
 import { ordNumber } from '../src/Ord'
+import { left, right } from '../src/Either'
 
 const gte2 = (n: number) => n >= 2
 
@@ -68,6 +70,17 @@ describe('Set', () => {
 
   it('intersection', () => {
     assert.deepEqual(intersection(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([1]))
+  })
+
+  it('partitionMap', () => {
+    assert.deepEqual(partitionMap(new Set([]), left), {
+      left: new Set([]),
+      right: new Set([])
+    })
+    assert.deepEqual(partitionMap(new Set([1, 2, 3]), x => (x % 2 === 0 ? left(x) : right(`${x}`))), {
+      left: new Set([2]),
+      right: new Set(['1', '3'])
+    })
   })
 
   it('getUnionMonoid', () => {

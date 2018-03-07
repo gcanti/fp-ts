@@ -3,6 +3,7 @@ import { Predicate, not } from './function'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Ord } from './Ord'
+import { Either } from './Either'
 
 /** @function */
 export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
@@ -102,6 +103,24 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
     })
     return r
   }
+}
+
+/** @function */
+export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { left: Set<L>; right: Set<R> } => {
+  const values = x.values()
+  let e: IteratorResult<A>
+  let l = new Set()
+  let r = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const v = f(e.value)
+    if (v.isLeft()) {
+      l.add(v.value)
+    } else {
+      r.add(v.value)
+    }
+  }
+  return { left: l, right: r }
 }
 
 /**
