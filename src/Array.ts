@@ -1,7 +1,7 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
 import { Endomorphism, Predicate, Refinement, identity, tuple, concat } from './function'
 import { Option, fromNullable } from './Option'
-import { Ord } from './Ord'
+import { Ord, ordNumber } from './Ord'
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
 import { Either } from './Either'
@@ -14,6 +14,8 @@ import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { liftA2 } from './Apply'
 import * as option from './Option'
+import { Ordering } from './Ordering'
+import { getArraySetoid, Setoid } from './Setoid'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -41,6 +43,27 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
     empty: []
   }
 }
+
+export const getSetoid: <A>(S: Setoid<A>) => Setoid<A[]> = getArraySetoid
+
+export const getOrd = <T>(O: Ord<T>): Ord<Array<T>> => ({
+  ...getSetoid(O),
+  compare: (a: Array<T>, b: Array<T>): Ordering => {
+    const lengthOrder = ordNumber.compare(a.length, b.length)
+    if (lengthOrder !== 0) {
+      return lengthOrder
+    } else {
+      const len = a.length
+      for (let i = 0; i < len; i++) {
+        const order = O.compare(a[i], b[i])
+        if (order !== 0) {
+          return order
+        }
+      }
+      return 0
+    }
+  }
+})
 
 const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
   const l = fa.length
