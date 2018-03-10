@@ -46,15 +46,15 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
 
 export const getSetoid: <A>(S: Setoid<A>) => Setoid<A[]> = getArraySetoid
 
-export const getOrd = <T>(O: Ord<T>): Ord<Array<T>> => ({
+export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => ({
   ...getSetoid(O),
-  compare: (a: Array<T>, b: Array<T>): Ordering => {
-    const lengthOrder = ordNumber.compare(a.length, b.length)
+  compare: (a: Array<A>, b: Array<A>): Ordering => {
+    const aLen = a.length
+    const lengthOrder = ordNumber.compare(aLen, b.length)
     if (lengthOrder !== 0) {
       return lengthOrder
     } else {
-      const len = a.length
-      for (let i = 0; i < len; i++) {
+      for (let i = 0; i < aLen; i++) {
         const order = O.compare(a[i], b[i])
         if (order !== 0) {
           return order
