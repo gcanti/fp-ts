@@ -81,7 +81,7 @@ describe('Array', () => {
     assert.deepEqual(O.compare(['a'], []), 1, '[a] []')
     assert.deepEqual(O.compare([], ['a']), -1, '[], [a]')
     assert.deepEqual(O.compare(['a', 'a'], ['a']), 1, '[a, a], [a]')
-    assert.deepEqual(O.compare(['a', 'a'], ['b']), 1, '[a, a], [a]')
+    assert.deepEqual(O.compare(['a', 'a'], ['b']), -1, '[a, a], [a]')
 
     assert.deepEqual(O.compare(['a', 'a'], ['a', 'a']), 0, '[a, a], [a, a]')
     assert.deepEqual(O.compare(['a', 'b'], ['a', 'b']), 0, '[a, b], [a, b]')
