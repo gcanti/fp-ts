@@ -178,7 +178,12 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
   const right: Array<R> = []
   const len = fa.length
   for (let i = 0; i < len; i++) {
-    f(fa[i]).fold(l => left.push(l), r => right.push(r))
+    const v = f(fa[i])
+    if (v.isLeft()) {
+      left.push(v.value)
+    } else {
+      right.push(v.value)
+    }
   }
   return { left, right }
 }
@@ -566,7 +571,15 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
  * @function
  */
 export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
-  return chain(as, a => f(a).fold([], of))
+  const r: Array<B> = []
+  const len = as.length
+  for (let i = 0; i < len; i++) {
+    const v = f(as[i])
+    if (v.isSome()) {
+      r.push(v.value)
+    }
+  }
+  return r
 }
 
 /**
@@ -583,7 +596,15 @@ export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
  * @function
  */
 export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
-  return chain(as, a => a.fold(() => [], of))
+  const r: Array<A> = []
+  const len = as.length
+  for (let i = 0; i < len; i++) {
+    const a = as[i]
+    if (a.isRight()) {
+      r.push(a.value)
+    }
+  }
+  return r
 }
 
 /**
@@ -591,7 +612,15 @@ export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
  * @function
  */
 export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
-  return chain(as, a => a.fold(of, () => []))
+  const r: Array<L> = []
+  const len = as.length
+  for (let i = 0; i < len; i++) {
+    const a = as[i]
+    if (a.isLeft()) {
+      r.push(a.value)
+    }
+  }
+  return r
 }
 
 /**
