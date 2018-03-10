@@ -44,8 +44,24 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
   }
 }
 
+/**
+ * Derives a Setoid over the Array of a given element type from the Setoid of that type.
+ * The derived setoid defines two arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid 'S'.
+ * In case of arrays of different lengths, the result is non equality.
+ *
+ * @function
+ */
 export const getSetoid: <A>(S: Setoid<A>) => Setoid<A[]> = getArraySetoid
 
+/**
+ * Derives an Order over the Array of a given element type from the Order, 'O', of that type.
+ * The ordering between two such arrays is equal to:
+ * the first non equal comparison of each arrays elements taken pairwise in increasing order,
+ * in case of equality over all the pairwise elements; the longest array is considered the greatest,
+ * if both arrays have the same length, the result is equality.
+ *
+ * @function
+ */
 export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => ({
   ...getSetoid(O),
   compare: (a: Array<A>, b: Array<A>): Ordering => {
