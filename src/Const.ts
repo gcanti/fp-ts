@@ -48,7 +48,7 @@ export class Const<L, A> {
 
 /** @function */
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
-  equals: (x, y) => x.fold(ax => y.fold(ay => S.equals(ax, ay)))
+  equals: (x, y) => S.equals(x.value, y.value)
 })
 
 const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
@@ -60,7 +60,7 @@ const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
 }
 
 const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
-  return new Const(S.concat(fab.fold(identity), fa.fold(identity)))
+  return new Const(S.concat(fab.value, fa.value))
 }
 
 /** @function */

@@ -82,7 +82,7 @@ export function ask<F extends URIS>(F: Applicative1<F>): <E>() => (e: E) => Type
 export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E>
 /** @function */
 export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E> {
-  return () => e => F.of(e)
+  return () => F.of
 }
 
 export function asks<F extends URIS2>(F: Applicative2<F>): <L, E, A>(f: (e: E) => A) => (e: E) => Type2<F, L, A>

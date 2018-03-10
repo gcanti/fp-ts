@@ -187,7 +187,7 @@ export class Some<A> {
     return f(this.value)
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return this.fold(b, a => f(b, a))
+    return f(b, this.value)
   }
   alt(fa: Option<A>): Option<A> {
     return this
@@ -239,7 +239,7 @@ export class Some<A> {
 /** @function */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
   return {
-    equals: (x, y) => x.fold(y.isNone(), ax => y.fold(false, ay => S.equals(ax, ay)))
+    equals: (x, y) => (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value))
   }
 }
 
@@ -297,7 +297,7 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
 /** @function */
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
   return {
-    concat: (x, y) => x.fold(y, ax => y.fold(x, ay => some(S.concat(ax, ay)))),
+    concat: (x, y) => (x.isNone() ? y : y.isNone() ? x : some(S.concat(x.value, y.value))),
     empty: none
   }
 }
@@ -323,7 +323,7 @@ export const fromPredicate = <A>(predicate: Predicate<A>) => (a: A): Option<A> =
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
-  return (ta, f) => ta.foldL(() => F.of(none), a => F.map(f(a), some))
+  return (ta, f) => (ta.isNone() ? F.of(none) : F.map(f(ta.value), some))
 }
 
 /** @function */
@@ -337,7 +337,7 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
 
 /** @function */
 export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
-  return fa.fold(() => none, some)
+  return fa.isLeft() ? none : some(fa.value)
 }
 
 /**

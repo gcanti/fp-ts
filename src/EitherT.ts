@@ -29,7 +29,7 @@ export function chain<F extends URIS2>(F: Monad2<F>): EitherT2<F>['chain']
 export function chain<F extends URIS>(F: Monad1<F>): EitherT1<F>['chain']
 export function chain<F>(F: Monad<F>): EitherT<F>['chain']
 export function chain<F>(F: Monad<F>): EitherT<F>['chain'] {
-  return (f, fa) => F.chain(fa, e => e.fold(l => F.of(either.left(l)), a => f(a)))
+  return (f, fa) => F.chain(fa, e => (e.isLeft() ? F.of(either.left(e.value)) : f(e.value)))
 }
 
 export function right<F extends URIS2>(F: Functor2<F>): <L, M, A>(fa: Type2<F, M, A>) => Type2<F, M, Either<L, A>>
@@ -67,7 +67,7 @@ export function fold<F>(
 export function fold<F>(
   F: Functor<F>
 ): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R> {
-  return (left, right, fa) => F.map(fa, e => e.fold(left, right))
+  return (left, right, fa) => F.map(fa, e => (e.isLeft() ? left(e.value) : right(e.value)))
 }
 
 export function mapLeft<F extends URIS2>(
