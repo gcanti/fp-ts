@@ -50,18 +50,15 @@ export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => ({
   ...getSetoid(O),
   compare: (a: Array<A>, b: Array<A>): Ordering => {
     const aLen = a.length
-    const lengthOrder = ordNumber.compare(aLen, b.length)
-    if (lengthOrder !== 0) {
-      return lengthOrder
-    } else {
-      for (let i = 0; i < aLen; i++) {
-        const order = O.compare(a[i], b[i])
-        if (order !== 0) {
-          return order
-        }
+    const bLen = b.length
+    const len = Math.min(aLen, bLen)
+    for (let i = 0; i < len; i++) {
+      const order = O.compare(a[i], b[i])
+      if (order !== 0) {
+        return order
       }
-      return 0
     }
+    return ordNumber.compare(aLen, bLen)
   }
 })
 
