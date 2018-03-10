@@ -430,7 +430,7 @@ export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Opt
  */
 export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A> {
   const minO = min(O)
-  return fa => F.reduce(fa, none, (b: Option<A>, a) => b.fold(some(a), b => some(minO(b, a))))
+  return fa => F.reduce(fa, none, (b: Option<A>, a) => (b.isNone() ? some(a) : some(minO(b.value, a))))
 }
 
 /**
@@ -451,7 +451,7 @@ export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Opt
  */
 export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A> {
   const maxO = max(O)
-  return fa => F.reduce(fa, none, (b: Option<A>, a) => b.fold(some(a), b => some(maxO(b, a))))
+  return fa => F.reduce(fa, none, (b: Option<A>, a) => (b.isNone() ? some(a) : some(maxO(b.value, a))))
 }
 
 export function toArray<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => Array<A>

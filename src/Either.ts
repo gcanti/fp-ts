@@ -9,7 +9,7 @@ import { Bifunctor2 } from './Bifunctor'
 import { Alt2 } from './Alt'
 import { tailRec, ChainRec2 } from './ChainRec'
 import { Option } from './Option'
-import { constFalse, Predicate, Lazy, toString } from './function'
+import { Predicate, Lazy, toString } from './function'
 import { Validation } from './Validation'
 
 declare module './HKT' {
@@ -192,7 +192,7 @@ export class Right<L, A> {
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
   return {
     equals: (x, y) =>
-      x.fold(lx => y.fold(ly => SL.equals(lx, ly), constFalse), ax => y.fold(constFalse, ay => SA.equals(ax, ay)))
+      x.isLeft() ? y.isLeft() && SL.equals(x.value, y.value) : y.isRight() && SA.equals(x.value, y.value)
   }
 }
 
@@ -228,12 +228,22 @@ const reduce = <L, A, B>(fa: Either<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Either<L, B>> {
-  return (ta, f) => ta.fold(l => F.of(left(l)), a => F.map(f(a), b => of(b)))
+const traverse = <F>(F: Applicative<F>) => <L, A, B>(
+  ta: Either<L, A>,
+  f: (a: A) => HKT<F, B>
+): HKT<F, Either<L, B>> => {
+  return ta.isLeft() ? F.of(left(ta.value)) : F.map(f(ta.value), of as ((a: B) => Either<L, B>))
 }
 
 const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
-  return tailRec(e => e.fold(l => right(left(l)), r => r.fold(a => left(f(a)), b => right(right(b)))), f(a))
+  return tailRec(e => {
+    if (e.isLeft()) {
+      return right(left(e.value))
+    } else {
+      const r = e.value
+      return r.isLeft() ? left(f(r.value)) : right(right(r.value))
+    }
+  }, f(a))
 }
 
 /**
@@ -264,7 +274,7 @@ export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) =
  * @function
  */
 export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa.fold(left(defaultValue), a => right(a))
+  return fa.isNone() ? left(defaultValue) : right(fa.value)
 }
 
 /**
@@ -299,7 +309,7 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Ei
 
 /** @function */
 export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
-  return fa.fold<Either<L, A>>(left, right)
+  return fa.isFailure() ? left(fa.value) : right(fa.value)
 }
 
 /**

@@ -7,7 +7,7 @@ import { Traversable2 } from './Traversable'
 import { Option, none, some } from './Option'
 import { Setoid } from './Setoid'
 import { Semigroup } from './Semigroup'
-import { toString, constFalse, phantom } from './function'
+import { toString, phantom } from './function'
 import { Monad2C } from './Monad'
 
 // Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
@@ -153,11 +153,11 @@ export class Both<L, A> {
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
   return {
     equals: (x, y) =>
-      x.fold(
-        lx => y.fold(ly => SL.equals(lx, ly), constFalse, constFalse),
-        ax => y.fold(constFalse, ay => SA.equals(ax, ay), constFalse),
-        (lx, ax) => y.fold(constFalse, constFalse, (ly, ay) => SL.equals(lx, ly) && SA.equals(ax, ay))
-      )
+      x.isThis()
+        ? y.isThis() && SL.equals(x.value, y.value)
+        : x.isThat()
+          ? y.isThat() && SA.equals(x.value, y.value)
+          : y.isBoth() && SL.equals(x.l, y.l) && SA.equals(x.a, y.a)
   }
 }
 
@@ -165,16 +165,17 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => {
   return {
     concat: (x, y) =>
-      x.fold(
-        lx => y.fold(ly => this_(SL.concat(lx, ly)), ay => both(lx, ay), (ly, ay) => both(SL.concat(lx, ly), ay)),
-        ax => y.fold(lx => both(lx, ax), ay => that(SA.concat(ax, ay)), (ly, ay) => both(ly, SA.concat(ax, ay))),
-        (lx, ax) =>
-          y.fold(
-            ly => both(SL.concat(lx, ly), ax),
-            ay => both(lx, SA.concat(ax, ay)),
-            (ly, ay) => both(SL.concat(lx, ly), SA.concat(ax, ay))
-          )
-      )
+      x.isThis()
+        ? y.isThis()
+          ? this_(SL.concat(x.value, y.value))
+          : y.isThat() ? both(x.value, y.value) : both(SL.concat(x.value, y.l), y.a)
+        : x.isThat()
+          ? y.isThis()
+            ? both(y.value, x.value)
+            : y.isThat() ? that(SA.concat(x.value, y.value)) : both(y.l, SA.concat(x.value, y.a))
+          : y.isThis()
+            ? both(SL.concat(x.l, y.value), x.a)
+            : y.isThat() ? both(x.l, SA.concat(x.a, y.value)) : both(SL.concat(x.l, y.l), SA.concat(x.a, y.a))
   }
 }
 
@@ -191,11 +192,16 @@ const ap = <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<
 }
 
 const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These<L, B>): These<L, B> => {
-  return fa.fold(
-    l => this_(l),
-    a => f(a),
-    (l1, a) => f(a).fold(l2 => this_(S.concat(l1, l2)), b => both(l1, b), (l2, b) => both(S.concat(l1, l2), b))
-  )
+  if (fa.isThis()) {
+    return this_(fa.value)
+  } else if (fa.isThat()) {
+    return f(fa.value)
+  } else {
+    const fb = f(fa.a)
+    return fb.isThis()
+      ? this_(S.concat(fa.l, fb.value))
+      : fb.isThat() ? both(fa.l, fb.value) : both(S.concat(fa.l, fb.l), fb.a)
+  }
 }
 
 /** @function */
@@ -218,8 +224,10 @@ const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-function traverse<F>(F: Applicative<F>): <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, These<L, B>> {
-  return (ta, f) => ta.fold(l => F.of(this_(l)), a => F.map(f(a), b => that(b)), (l, a) => F.map(f(a), b => both(l, b)))
+const traverse = <F>(F: Applicative<F>) => <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>): HKT<F, These<L, B>> => {
+  return ta.isThis()
+    ? F.of(this_(ta.value))
+    : ta.isThat() ? F.map(f(ta.value), that as (a: B) => These<L, B>) : F.map(f(ta.a), b => both(ta.l, b))
 }
 
 /** @function */
@@ -240,17 +248,17 @@ export const both = <L, A>(l: L, a: A): These<L, A> => {
 
 /** @function */
 export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A] => {
-  return fa.fold<[L, A]>(l => [l, defaultThat], a => [defaultThis, a], (l, a) => [l, a])
+  return fa.isThis() ? [fa.value, defaultThat] : fa.isThat() ? [defaultThis, fa.value] : [fa.l, fa.a]
 }
 
 /** @function */
 export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => {
-  return fa.fold(l => some(l), () => none, (l, _) => some(l))
+  return fa.isThis() ? some(fa.value) : fa.isThat() ? none : some(fa.l)
 }
 
 /** @function */
 export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
-  return fa.fold(() => none, a => some(a), (_, a) => some(a))
+  return fa.isThis() ? none : fa.isThat() ? some(fa.value) : some(fa.a)
 }
 
 /**

@@ -1,11 +1,12 @@
 import * as assert from 'assert'
-import { array } from '../src/Array'
-import { failure, success, getMonad, getApplicative, fromEither, getSetoid, getSemigroup } from '../src/Validation'
+import { failure, success, getMonad, getApplicative, fromEither, getSetoid, getAlt, getSemigroup } from '../src/Validation'
 import * as either from '../src/Either'
 import { monoidString } from '../src/Monoid'
 import { sequence } from '../src/Traversable'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { semigroupString } from '../src/Semigroup'
+import { getArraySemigroup } from '../src/Semigroup'
+import { array } from '../src/Array'
 
 describe('Validation', () => {
   it('chain', () => {
@@ -84,5 +85,12 @@ describe('Validation', () => {
   it('mapFailure', () => {
     assert.deepEqual(success<string, number>(12).mapFailure(s => s.length), success(12))
     assert.deepEqual(failure<string, number>('foo').mapFailure(s => s.length), failure(3))
+  })
+
+  it('getAlt', () => {
+    const alt = getAlt(getArraySemigroup<number>())
+    assert.deepEqual(alt.alt(failure([1]), success('a')), success('a'))
+    assert.deepEqual(alt.alt(success('a'), failure([1])), success('a'))
+    assert.deepEqual(alt.alt(failure([1]), failure([2])), failure([1, 2]))
   })
 })

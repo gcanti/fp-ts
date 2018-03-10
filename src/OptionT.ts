@@ -30,7 +30,7 @@ export function chain<F extends URIS>(F: Monad1<F>): OptionT1<F>['chain']
 export function chain<F>(F: Monad<F>): OptionT<F>['chain']
 /** @function */
 export function chain<F>(F: Monad<F>): OptionT<F>['chain'] {
-  return (f, fa) => F.chain(fa, o => o.fold(F.of(option.none), a => f(a)))
+  return (f, fa) => F.chain(fa, o => (o.isNone() ? F.of(option.none) : f(o.value)))
 }
 
 export function some<F extends URIS2>(F: Applicative2<F>): <L, A>(a: A) => Type2<F, L, Option<A>>
@@ -74,7 +74,7 @@ export function fold<F extends URIS>(
 export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
 /** @function */
 export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
-  return (r, some, fa) => F.map(fa, o => o.fold(r, some))
+  return (r, some, fa) => F.map(fa, o => (o.isNone() ? r : some(o.value)))
 }
 
 export function getOrElse<F extends URIS2>(
