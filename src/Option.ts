@@ -250,6 +250,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
  * the type the `Option` contains.
  *
  * `None` is considered to be less than any `Some` value.
+ * @function
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
   return {
