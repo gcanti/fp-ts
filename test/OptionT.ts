@@ -15,6 +15,15 @@ describe('OptionT', () => {
     })
   })
 
+  it('chain', () => {
+    const to1 = taskOption.chain(a => taskOption.of(a.length), taskOption.of('foo'))
+    const to2 = taskOption.chain((a: string) => taskOption.of(a.length), none)
+    return Promise.all([to1.run(), to2.run()]).then(([o1, o2]) => {
+      assert.deepEqual(o1, option.some(3))
+      assert.deepEqual(o2, option.none)
+    })
+  })
+
   it('fold', () => {
     const f = 'none'
     const g = (s: string) => `some${s.length}`

@@ -68,10 +68,12 @@ describe('Foldable', () => {
   })
 
   it('minimum', () => {
+    assert.deepEqual(minimum(array, ordNumber)([]), option.none)
     assert.deepEqual(minimum(array, ordNumber)([1, 2, 3, 4, 5]), option.some(1))
   })
 
   it('maximum', () => {
+    assert.deepEqual(maximum(array, ordNumber)([]), option.none)
     assert.deepEqual(maximum(array, ordNumber)([1, 2, 3, 4, 5]), option.some(5))
   })
 

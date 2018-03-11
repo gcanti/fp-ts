@@ -1,22 +1,48 @@
 import * as assert from 'assert'
-import { this_, that, both, fromThese, getSetoid, getSemigroup, these, getMonad } from '../src/These'
-import { setoidNumber, setoidString } from '../src/Setoid'
+import {
+  this_,
+  that,
+  both,
+  fromThese,
+  getSetoid,
+  getSemigroup,
+  these,
+  getMonad,
+  theseLeft,
+  theseRight
+} from '../src/These'
+import { setoidNumber } from '../src/Setoid'
 import { monoidSum, monoidString } from '../src/Monoid'
 import { option, none, some } from '../src/Option'
 import { traverse } from '../src/Traversable'
 
 describe('These', () => {
-  it('equals', () => {
+  it('getSetoid', () => {
     const { equals } = getSetoid(setoidNumber, setoidNumber)
     assert.strictEqual(equals(this_(2), this_(2)), true)
     assert.strictEqual(equals(this_(2), this_(3)), false)
+    assert.strictEqual(equals(this_(3), this_(2)), false)
+    assert.strictEqual(equals(this_(2), that(2)), false)
+    assert.strictEqual(equals(this_(2), both(2, 2)), false)
+    assert.strictEqual(equals(that(2), that(2)), true)
+    assert.strictEqual(equals(that(2), that(3)), false)
+    assert.strictEqual(equals(that(3), that(2)), false)
+    assert.strictEqual(equals(that(2), both(2, 2)), false)
+    assert.strictEqual(equals(both(2, 2), both(2, 2)), true)
+    assert.strictEqual(equals(both(2, 3), both(3, 2)), false)
   })
 
-  it('concat', () => {
-    const { equals } = getSetoid(setoidString, setoidNumber)
+  it('getSemigroup', () => {
     const { concat } = getSemigroup(monoidString, monoidSum)
-    assert.strictEqual(equals(concat(this_('a'), this_('b')), this_('ab')), true)
-    assert.strictEqual(equals(concat(this_('a'), that(2)), both('a', 2)), true)
+    assert.deepEqual(concat(this_('a'), this_('b')), this_('ab'))
+    assert.deepEqual(concat(this_('a'), that(2)), both('a', 2))
+    assert.deepEqual(concat(that(2), this_('a')), both('a', 2))
+    assert.deepEqual(concat(this_('a'), both('b', 2)), both('ab', 2))
+    assert.deepEqual(concat(both('b', 2), this_('a')), both('ba', 2))
+    assert.deepEqual(concat(that(3), that(2)), that(5))
+    assert.deepEqual(concat(that(3), both('b', 2)), both('b', 5))
+    assert.deepEqual(concat(both('b', 2), that(3)), both('b', 5))
+    assert.deepEqual(concat(both('a', 3), both('b', 2)), both('ab', 5))
   })
 
   it('map', () => {
@@ -59,11 +85,26 @@ describe('These', () => {
 
   it('chain', () => {
     const M = getMonad(monoidString)
-    const f = (n: number) => (n >= 2 ? that<string, number>(n * 2) : this_<string, number>('bar'))
+    const f = (n: number) =>
+      n >= 2 ? (n <= 5 ? that<string, number>(n * 2) : both('bar', n)) : this_<string, number>('bar')
     assert.deepEqual(M.chain(this_<string, number>('foo'), f), this_('foo'))
     assert.deepEqual(M.chain(that<string, number>(2), f), that(4))
     assert.deepEqual(M.chain(that<string, number>(1), f), this_('bar'))
+    assert.deepEqual(M.chain(that<string, number>(6), f), both('bar', 6))
     assert.deepEqual(M.chain(both<string, number>('foo', 2), f), both('foo', 4))
     assert.deepEqual(M.chain(both<string, number>('foo', 1), f), this_('foobar'))
+    assert.deepEqual(M.chain(both<string, number>('foo', 6), f), both('foobar', 6))
+  })
+
+  it('theseLeft', () => {
+    assert.deepEqual(theseLeft(this_(1)), some(1))
+    assert.deepEqual(theseLeft(that(1)), none)
+    assert.deepEqual(theseLeft(both('foo', 1)), some('foo'))
+  })
+
+  it('theseRight', () => {
+    assert.deepEqual(theseRight(this_(1)), none)
+    assert.deepEqual(theseRight(that(1)), some(1))
+    assert.deepEqual(theseRight(both('foo', 1)), some(1))
   })
 })

@@ -180,10 +180,12 @@ describe('Array', () => {
 
   it('mapOption', () => {
     const f = (a: number) => (a % 2 === 0 ? none : some(a))
+    assert.deepEqual(mapOption([], f), [])
     assert.deepEqual(mapOption(as, f), [1, 3])
   })
 
   it('catOptions', () => {
+    assert.deepEqual(catOptions([]), [])
     assert.deepEqual(catOptions([some(1), some(2), some(3)]), [1, 2, 3])
     assert.deepEqual(catOptions([some(1), none, some(3)]), [1, 3])
   })
@@ -210,13 +212,13 @@ describe('Array', () => {
   })
 
   it('rights', () => {
-    const eithers = [right(1), left('foo'), right(2)]
-    assert.deepEqual(rights(eithers), [1, 2])
+    assert.deepEqual(rights([]), [])
+    assert.deepEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
   })
 
   it('lefts', () => {
-    const eithers = [right(1), left('foo'), right(2)]
-    assert.deepEqual(lefts(eithers), ['foo'])
+    assert.deepEqual(lefts([]), [])
+    assert.deepEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
   })
 
   it('flatten', () => {
@@ -224,8 +226,8 @@ describe('Array', () => {
   })
 
   it('partitionMap', () => {
-    const eithers = [right(1), left('foo'), right(2)]
-    assert.deepEqual(partitionMap(eithers, x => x), { left: ['foo'], right: [1, 2] })
+    assert.deepEqual(partitionMap([], x => x), { left: [], right: [] })
+    assert.deepEqual(partitionMap([right(1), left('foo'), right(2)], x => x), { left: ['foo'], right: [1, 2] })
   })
 
   it('rotate', () => {

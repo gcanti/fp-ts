@@ -1,5 +1,6 @@
 import * as assert from 'assert'
 import {
+  Either,
   fromNullable,
   fromOption,
   fromPredicate,
@@ -116,12 +117,14 @@ describe('Either', () => {
     assert.deepEqual(fromNullable('default')(1), right(1))
   })
 
-  it('equals', () => {
+  it('getSetoid', () => {
     const equals = getSetoid(setoidString, setoidNumber).equals
     assert.strictEqual(equals(right(1), right(1)), true)
     assert.strictEqual(equals(right(1), right(2)), false)
+    assert.strictEqual(equals(right(1), left('foo')), false)
     assert.strictEqual(equals(left('foo'), left('foo')), true)
     assert.strictEqual(equals(left('foo'), left('bar')), false)
+    assert.strictEqual(equals(left('foo'), right(1)), false)
   })
 
   it('fromValidation', () => {
@@ -130,7 +133,24 @@ describe('Either', () => {
   })
 
   it('traverse', () => {
+    assert.deepEqual(traverse(option, either)(left('foo'), a => (a >= 2 ? some(a) : none)), some(left('foo')))
     assert.deepEqual(traverse(option, either)(right(1), a => (a >= 2 ? some(a) : none)), none)
     assert.deepEqual(traverse(option, either)(right(3), a => (a >= 2 ? some(a) : none)), some(right(3)))
+  })
+
+  it('chainRec', () => {
+    const chainRec = either.chainRec
+    assert.deepEqual(chainRec(1, a => left<string, Either<number, number>>('foo')), left('foo'))
+    assert.deepEqual(chainRec(1, a => right<string, Either<number, number>>(right(1))), right(1))
+    assert.deepEqual(
+      chainRec(1, a => {
+        if (a < 5) {
+          return right<string, Either<number, number>>(left(a + 1))
+        } else {
+          return right<string, Either<number, number>>(right(a))
+        }
+      }),
+      right(5)
+    )
   })
 })
