@@ -5,7 +5,7 @@ import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { identity, toString, phantom } from './function'
+import { toString, phantom } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
