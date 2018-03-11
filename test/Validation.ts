@@ -1,5 +1,14 @@
 import * as assert from 'assert'
-import { failure, success, getMonad, getApplicative, fromEither, getSetoid, getAlt, getSemigroup } from '../src/Validation'
+import {
+  failure,
+  success,
+  getMonad,
+  getApplicative,
+  fromEither,
+  getSetoid,
+  getAlt,
+  getSemigroup
+} from '../src/Validation'
 import * as either from '../src/Either'
 import { monoidString } from '../src/Monoid'
 import { sequence } from '../src/Traversable'
