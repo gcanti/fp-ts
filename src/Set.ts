@@ -62,7 +62,7 @@ export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
 }
 
 /** @function */
-export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { true: Set<A>; false: Set<A> } => {
+export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A>; left: Set<A> } => {
   const values = x.values()
   let e: IteratorResult<A>
   let t = new Set()
@@ -76,7 +76,7 @@ export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { true: Set<A>
       f.add(value)
     }
   }
-  return { true: t, false: f }
+  return { right: t, left: f }
 }
 
 /**

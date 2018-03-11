@@ -60,12 +60,12 @@ describe('Set', () => {
   })
 
   it('partition', () => {
-    assert.deepEqual(partition(new Set([]), x => true), { true: new Set([]), false: new Set([]) })
-    assert.deepEqual(partition(new Set([1]), x => true), { true: new Set([1]), false: new Set([]) })
-    assert.deepEqual(partition(new Set([1]), x => false), { true: new Set([]), false: new Set([1]) })
+    assert.deepEqual(partition(new Set([]), x => true), { right: new Set([]), left: new Set([]) })
+    assert.deepEqual(partition(new Set([1]), x => true), { right: new Set([1]), left: new Set([]) })
+    assert.deepEqual(partition(new Set([1]), x => false), { right: new Set([]), left: new Set([1]) })
     assert.deepEqual(partition(new Set([1, 2, 3, 4]), x => x % 2 === 0), {
-      true: new Set([2, 4]),
-      false: new Set([1, 3])
+      right: new Set([2, 4]),
+      left: new Set([1, 3])
     })
   })
 
