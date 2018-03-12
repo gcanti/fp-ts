@@ -1,7 +1,7 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
 import { Endomorphism, Predicate, Refinement, identity, tuple, concat } from './function'
 import { Option, fromNullable } from './Option'
-import { Ord } from './Ord'
+import { Ord, ordNumber } from './Ord'
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
 import { Either } from './Either'
@@ -14,6 +14,8 @@ import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { liftA2 } from './Apply'
 import * as option from './Option'
+import { Ordering } from './Ordering'
+import { getArraySetoid, Setoid } from './Setoid'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -41,6 +43,40 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
     empty: []
   }
 }
+
+/**
+ * Derives a Setoid over the Array of a given element type from the Setoid of that type.
+ * The derived setoid defines two arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid 'S'.
+ * In case of arrays of different lengths, the result is non equality.
+ *
+ * @function
+ */
+export const getSetoid: <A>(S: Setoid<A>) => Setoid<A[]> = getArraySetoid
+
+/**
+ * Derives an Order over the Array of a given element type from the Order, 'O', of that type.
+ * The ordering between two such arrays is equal to:
+ * the first non equal comparison of each arrays elements taken pairwise in increasing order,
+ * in case of equality over all the pairwise elements; the longest array is considered the greatest,
+ * if both arrays have the same length, the result is equality.
+ *
+ * @function
+ */
+export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => ({
+  ...getSetoid(O),
+  compare: (a: Array<A>, b: Array<A>): Ordering => {
+    const aLen = a.length
+    const bLen = b.length
+    const len = Math.min(aLen, bLen)
+    for (let i = 0; i < len; i++) {
+      const order = O.compare(a[i], b[i])
+      if (order !== 0) {
+        return order
+      }
+    }
+    return ordNumber.compare(aLen, bLen)
+  }
+})
 
 const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
   const l = fa.length

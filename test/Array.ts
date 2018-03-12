@@ -38,15 +38,17 @@ import {
   fold,
   foldL,
   scanLeft,
-  scanRight
+  scanRight,
+  getOrd
 } from '../src/Array'
 import * as option from '../src/Option'
 import { traverse } from '../src/Traversable'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
 import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
-import { ordNumber } from '../src/Ord'
+import { ordNumber, ordString } from '../src/Ord'
 import { tuple, identity } from '../src/function'
+import { getArraySetoid } from '../src/Setoid'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -54,6 +56,44 @@ describe('Array', () => {
   it('getMonoid', () => {
     const M = getMonoid<number>()
     assert.deepEqual(M.concat([1], [2]), [1, 2])
+  })
+
+  it('getSetoid', () => {
+    const O = getArraySetoid(ordString)
+    assert.deepEqual(O.equals([], []), true, '[] ]')
+    assert.deepEqual(O.equals(['a'], ['a']), true, '[a], [a]')
+    assert.deepEqual(O.equals(['a', 'b'], ['a', 'b']), true, '[a, b], [a, b]')
+    assert.deepEqual(O.equals(['a'], []), false, '[a] []')
+    assert.deepEqual(O.equals([], ['a']), false, '[], [a]')
+    assert.deepEqual(O.equals(['a'], ['b']), false, '[a], [b]')
+    assert.deepEqual(O.equals(['a', 'b'], ['b', 'a']), false, '[a, b], [b, a]')
+    assert.deepEqual(O.equals(['a', 'a'], ['a']), false, '[a, a], [a]')
+  })
+
+  it('getOrd', () => {
+    const O = getOrd(ordString)
+    assert.deepEqual(O.compare([], []), 0, '[] ]')
+    assert.deepEqual(O.compare(['a'], ['a']), 0, '[a], [a]')
+
+    assert.deepEqual(O.compare(['b'], ['a']), 1, '[b], [a]')
+    assert.deepEqual(O.compare(['a'], ['b']), -1, '[a], [b]')
+
+    assert.deepEqual(O.compare(['a'], []), 1, '[a] []')
+    assert.deepEqual(O.compare([], ['a']), -1, '[], [a]')
+    assert.deepEqual(O.compare(['a', 'a'], ['a']), 1, '[a, a], [a]')
+    assert.deepEqual(O.compare(['a', 'a'], ['b']), -1, '[a, a], [a]')
+
+    assert.deepEqual(O.compare(['a', 'a'], ['a', 'a']), 0, '[a, a], [a, a]')
+    assert.deepEqual(O.compare(['a', 'b'], ['a', 'b']), 0, '[a, b], [a, b]')
+
+    assert.deepEqual(O.compare(['a', 'a'], ['a', 'b']), -1, '[a, a], [a, b]')
+    assert.deepEqual(O.compare(['a', 'b'], ['a', 'a']), 1, '[a, b], [a, a]')
+
+    assert.deepEqual(O.compare(['a', 'b'], ['b', 'a']), -1, '[a, b], [b, a]')
+    assert.deepEqual(O.compare(['b', 'a'], ['a', 'a']), 1, '[b, a], [a, a]')
+    assert.deepEqual(O.compare(['b', 'a'], ['a', 'b']), 1, '[b, b], [a, a]')
+    assert.deepEqual(O.compare(['b', 'b'], ['b', 'a']), 1, '[b, b], [b, a]')
+    assert.deepEqual(O.compare(['b', 'a'], ['b', 'b']), -1, '[b, a], [b, b]')
   })
 
   it('ap', () => {
@@ -180,10 +220,12 @@ describe('Array', () => {
 
   it('mapOption', () => {
     const f = (a: number) => (a % 2 === 0 ? none : some(a))
+    assert.deepEqual(mapOption([], f), [])
     assert.deepEqual(mapOption(as, f), [1, 3])
   })
 
   it('catOptions', () => {
+    assert.deepEqual(catOptions([]), [])
     assert.deepEqual(catOptions([some(1), some(2), some(3)]), [1, 2, 3])
     assert.deepEqual(catOptions([some(1), none, some(3)]), [1, 3])
   })
@@ -210,13 +252,13 @@ describe('Array', () => {
   })
 
   it('rights', () => {
-    const eithers = [right(1), left('foo'), right(2)]
-    assert.deepEqual(rights(eithers), [1, 2])
+    assert.deepEqual(rights([]), [])
+    assert.deepEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
   })
 
   it('lefts', () => {
-    const eithers = [right(1), left('foo'), right(2)]
-    assert.deepEqual(lefts(eithers), ['foo'])
+    assert.deepEqual(lefts([]), [])
+    assert.deepEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
   })
 
   it('flatten', () => {
@@ -224,8 +266,8 @@ describe('Array', () => {
   })
 
   it('partitionMap', () => {
-    const eithers = [right(1), left('foo'), right(2)]
-    assert.deepEqual(partitionMap(eithers, x => x), { left: ['foo'], right: [1, 2] })
+    assert.deepEqual(partitionMap([], x => x), { left: [], right: [] })
+    assert.deepEqual(partitionMap([right(1), left('foo'), right(2)], x => x), { left: ['foo'], right: [1, 2] })
   })
 
   it('rotate', () => {

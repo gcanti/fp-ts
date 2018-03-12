@@ -1,3 +1,5 @@
+import { on } from './function'
+
 /**
  * The `Setoid` type class represents types which support decidable equality.
  *
@@ -56,5 +58,12 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
 export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
   return {
     equals: ([xa, xb], [ya, yb]) => SA.equals(xa, ya) && SB.equals(xb, yb)
+  }
+}
+
+/** @function */
+export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
+  return {
+    equals: on(fa.equals)(f)
   }
 }

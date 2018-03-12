@@ -61,6 +61,24 @@ export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
   return r
 }
 
+/** @function */
+export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A>; left: Set<A> } => {
+  const values = x.values()
+  let e: IteratorResult<A>
+  let t = new Set()
+  let f = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const value = e.value
+    if (predicate(value)) {
+      t.add(value)
+    } else {
+      f.add(value)
+    }
+  }
+  return { right: t, left: f }
+}
+
 /**
  * Test if a value is a member of a set
  * @function
@@ -128,7 +146,8 @@ export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { l
  * @function
  */
 export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  return (x, y) => filter(y, not(member(S)(x)))
+  const has = member(S)
+  return (x, y) => filter(y, not(has(x)))
 }
 
 /** @function */

@@ -19,6 +19,7 @@ import { identity } from '../src/function'
 import { left, right } from '../src/Either'
 import { traverse } from '../src/Traversable'
 import { ordString } from '../src/Ord'
+import { semigroupString } from '../src/Semigroup'
 
 describe('Option', () => {
   it('fold', () => {
@@ -46,7 +47,9 @@ describe('Option', () => {
     const { equals } = getSetoid(setoidNumber)
     assert.strictEqual(equals(none, none), true)
     assert.strictEqual(equals(none, some(1)), false)
+    assert.strictEqual(equals(some(1), none), false)
     assert.strictEqual(equals(some(2), some(1)), false)
+    assert.strictEqual(equals(some(1), some(2)), false)
     assert.strictEqual(equals(some(2), some(2)), true)
   })
 
@@ -109,14 +112,12 @@ describe('Option', () => {
   })
 
   it('getMonoid', () => {
-    const { concat } = getMonoid({
-      concat: (x: number, y: number) => {
-        return x + y
-      }
-    })
-    assert.deepEqual(concat(none, some(1)), some(1))
-    assert.deepEqual(concat(some(2), none), some(2))
-    assert.deepEqual(concat(some(2), some(1)), some(3))
+    const { concat } = getMonoid(semigroupString)
+    assert.deepEqual(concat(none, none), none)
+    assert.deepEqual(concat(none, some('a')), some('a'))
+    assert.deepEqual(concat(some('a'), none), some('a'))
+    assert.deepEqual(concat(some('b'), some('a')), some('ba'))
+    assert.deepEqual(concat(some('a'), some('b')), some('ab'))
   })
 
   it('alt', () => {
@@ -133,15 +134,14 @@ describe('Option', () => {
   })
 
   it('traverse', () => {
+    assert.deepEqual(traverse(array, option)(some('hello'), s => []), [])
     assert.deepEqual(traverse(array, option)(some('hello'), s => [s.length]), [some(5)])
     assert.deepEqual(traverse(array, option)(none, s => [s]), [none])
   })
 
   it('reduce', () => {
-    const x = fromNullable<number>(null).reduce(2, (b, a) => 1)
-    assert.strictEqual(x, 2)
-    const y = fromNullable(3).reduce('4', (b, a) => a.toString())
-    assert.strictEqual(y, '3')
+    assert.strictEqual(none.reduce(2, (b, a) => b + a), 2)
+    assert.strictEqual(some(3).reduce(2, (b, a) => b + a), 5)
   })
 
   it('getFirstMonoid', () => {
