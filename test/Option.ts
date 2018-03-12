@@ -10,13 +10,15 @@ import {
   tryCatch,
   Option,
   fromEither,
-  option
+  option,
+  getOrd
 } from '../src/Option'
 import { array } from '../src/Array'
 import { setoidNumber } from '../src/Setoid'
 import { identity } from '../src/function'
 import { left, right } from '../src/Either'
 import { traverse } from '../src/Traversable'
+import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
 
 describe('Option', () => {
@@ -55,6 +57,25 @@ describe('Option', () => {
     const f = (n: number) => n * 2
     assert.deepEqual(some(2).map(f), some(4))
     assert.deepEqual(none.map(f), none)
+  })
+
+  it('getSetoid', () => {
+    const O = getSetoid(ordString)
+    assert.deepEqual(O.equals(none, none), true, 'none === none')
+    assert.deepEqual(O.equals(some('a'), none), false, 'some(a) !== none')
+    assert.deepEqual(O.equals(none, some('a')), false, 'none !== some(a)')
+    assert.deepEqual(O.equals(some('a'), some('a')), true, 'some(a) === some(a)')
+    assert.deepEqual(O.equals(some('a'), some('b')), false, 'some(a) !== some(b)')
+  })
+
+  it('getOptionOrd', () => {
+    const O = getOrd(ordString)
+    assert.deepEqual(O.compare(none, none), 0, 'none ? none')
+    assert.deepEqual(O.compare(some('a'), none), 1, 'some(a) ? none')
+    assert.deepEqual(O.compare(none, some('a')), -1, 'none ? some(a)')
+    assert.deepEqual(O.compare(some('a'), some('a')), 0, 'some(a) ? some(a)')
+    assert.deepEqual(O.compare(some('a'), some('b')), -1, 'some(a) ? some(b)')
+    assert.deepEqual(O.compare(some('b'), some('a')), 1, 'some(b) ? some(a)')
   })
 
   it('mapNullable', () => {

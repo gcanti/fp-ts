@@ -11,6 +11,7 @@ import { Traversable1 } from './Traversable'
 import { Alternative1 } from './Alternative'
 import { Lazy, Predicate, toString } from './function'
 import { Either } from './Either'
+import { Ord } from './Ord'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -240,6 +241,21 @@ export class Some<A> {
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
   return {
     equals: (x, y) => (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value))
+  }
+}
+
+/**
+ * The `Ord` instance allows `Option` values to be compared with
+ * `compare`, whenever there is an `Ord` instance for
+ * the type the `Option` contains.
+ *
+ * `None` is considered to be less than any `Some` value.
+ * @function
+ */
+export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
+  return {
+    ...getSetoid(O),
+    compare: (x, y) => (x.isSome() ? (y.isSome() ? O.compare(x.value, y.value) : 1) : y.isSome() ? -1 : 0)
   }
 }
 
