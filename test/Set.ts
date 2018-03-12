@@ -18,7 +18,8 @@ import {
   remove,
   partitionMap,
   partition,
-  chain
+  chain,
+  map
 } from '../src/Set'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { ordNumber } from '../src/Ord'
@@ -44,6 +45,12 @@ describe('Set', () => {
     assert.strictEqual(some(new Set(), (s: string) => s.trim() === ''), false)
     assert.strictEqual(some(new Set([1, 2, 3]), gte2), true)
     assert.strictEqual(some(new Set([1]), gte2), false)
+  })
+
+  it('map', () => {
+    assert.deepEqual(map(setoidNumber)(new Set([]), x => x % 2), new Set([]))
+    assert.deepEqual(map(setoidNumber)(new Set([1, 2, 3, 4]), x => x % 2), new Set([0, 1]))
+    assert.deepEqual(map(setoidString)(new Set([1, 2, 3, 4]), x => `${x % 2}`), new Set(['0', '1']))
   })
 
   it('every', () => {
