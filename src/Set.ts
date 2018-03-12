@@ -233,3 +233,20 @@ export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => {
 export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => {
   return filter(x, (ax: A) => !S.equals(a, ax))
 }
+
+/**
+ * Create a set from an array
+ * @function
+ */
+export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
+  const len = as.length
+  const r = new Set<A>()
+  const isMember = member(S)(r)
+  for (let i = 0; i < len; i++) {
+    const a = as[i]
+    if (!isMember(a)) {
+      r.add(a)
+    }
+  }
+  return r
+}
