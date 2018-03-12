@@ -37,6 +37,20 @@ export const every = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
   return !some(x, not(predicate))
 }
 
+/** @function */
+export const chain = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => Set<B>): Set<B> => {
+  let r = new Set<B>()
+  const rhas = member(bset)(r)
+  x.forEach(e => {
+    f(e).forEach(e => {
+      if (!rhas(e)) {
+        r.add(e)
+      }
+    })
+  })
+  return r
+}
+
 /**
  * `true` if and only if every element in the first set
  * is an element of the second set
