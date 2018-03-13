@@ -11,35 +11,35 @@ import { constant, tuple } from './function'
  */
 export interface Unfoldable<F> {
   readonly URI: F
-  unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => HKT<F, A>
+  readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => HKT<F, A>
 }
 
 export interface Unfoldable1<F extends URIS> {
   readonly URI: F
-  unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type<F, A>
+  readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type<F, A>
 }
 
 export interface Unfoldable2<F extends URIS2> {
   readonly URI: F
-  unfoldr: <L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
+  readonly unfoldr: <L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
 }
 
 export interface Unfoldable3<F extends URIS3> {
   readonly URI: F
-  unfoldr: <U, L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
+  readonly unfoldr: <U, L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
 }
 
 export interface Unfoldable2C<F extends URIS2, L> {
   readonly URI: F
   readonly _L: L
-  unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
+  readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
 }
 
 export interface Unfoldable3C<F extends URIS3, U, L> {
   readonly URI: F
   readonly _L: L
   readonly _U: U
-  unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
+  readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
 }
 
 /**

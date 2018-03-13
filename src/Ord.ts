@@ -16,7 +16,7 @@ import { on } from './function'
  * @typeclass
  */
 export interface Ord<A> extends Setoid<A> {
-  compare: (x: A, y: A) => Ordering
+  readonly compare: (x: A, y: A) => Ordering
 }
 
 /** @function */

@@ -5,9 +5,9 @@ import { Setoid } from './Setoid'
 
 /** @typeclass */
 export interface Field<A> extends Ring<A> {
-  degree: (a: A) => number
-  div: (x: A, y: A) => A
-  mod: (x: A, y: A) => A
+  readonly degree: (a: A) => number
+  readonly div: (x: A, y: A) => A
+  readonly mod: (x: A, y: A) => A
 }
 
 /** @instance */

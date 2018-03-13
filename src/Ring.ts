@@ -13,7 +13,7 @@ import { Semiring, getFunctionSemiring } from './Semiring'
  * @typeclass
  */
 export interface Ring<A> extends Semiring<A> {
-  sub: (x: A, y: A) => A
+  readonly sub: (x: A, y: A) => A
 }
 
 /** @function */

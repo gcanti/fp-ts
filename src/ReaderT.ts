@@ -6,34 +6,40 @@ import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { Reader } from './Reader'
 
 export interface ReaderT<M> {
-  map: <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<M, A>) => (e: E) => HKT<M, B>
-  of: <E, A>(a: A) => (e: E) => HKT<M, A>
-  ap: <E, A, B>(fab: (e: E) => HKT<M, (a: A) => B>, fa: (e: E) => HKT<M, A>) => (e: E) => HKT<M, B>
-  chain: <E, A, B>(f: (a: A) => (e: E) => HKT<M, B>, fa: (e: E) => HKT<M, A>) => (e: E) => HKT<M, B>
+  readonly map: <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<M, A>) => (e: E) => HKT<M, B>
+  readonly of: <E, A>(a: A) => (e: E) => HKT<M, A>
+  readonly ap: <E, A, B>(fab: (e: E) => HKT<M, (a: A) => B>, fa: (e: E) => HKT<M, A>) => (e: E) => HKT<M, B>
+  readonly chain: <E, A, B>(f: (a: A) => (e: E) => HKT<M, B>, fa: (e: E) => HKT<M, A>) => (e: E) => HKT<M, B>
 }
 
 export interface ReaderT1<M extends URIS> {
-  map: <E, A, B>(f: (a: A) => B, fa: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
-  of: <E, A>(a: A) => (e: E) => Type<M, A>
-  ap: <E, A, B>(fab: (e: E) => Type<M, (a: A) => B>, fa: (e: E) => HKT<M, A>) => (e: E) => Type<M, B>
-  chain: <E, A, B>(f: (a: A) => (e: E) => Type<M, B>, fa: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
+  readonly map: <E, A, B>(f: (a: A) => B, fa: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
+  readonly of: <E, A>(a: A) => (e: E) => Type<M, A>
+  readonly ap: <E, A, B>(fab: (e: E) => Type<M, (a: A) => B>, fa: (e: E) => HKT<M, A>) => (e: E) => Type<M, B>
+  readonly chain: <E, A, B>(f: (a: A) => (e: E) => Type<M, B>, fa: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
 }
 
 export interface ReaderT2<M extends URIS2> {
-  map: <L, E, A, B>(f: (a: A) => B, fa: (e: E) => Type2<M, L, A>) => (e: E) => Type2<M, L, B>
-  of: <L, E, A>(a: A) => (e: E) => Type2<M, L, A>
-  ap: <L, E, A, B>(fab: (e: E) => Type2<M, L, (a: A) => B>, fa: (e: E) => Type2<M, L, A>) => (e: E) => Type2<M, L, B>
-  chain: <L, E, A, B>(f: (a: A) => (e: E) => Type2<M, L, B>, fa: (e: E) => Type2<M, L, A>) => (e: E) => Type2<M, L, B>
+  readonly map: <L, E, A, B>(f: (a: A) => B, fa: (e: E) => Type2<M, L, A>) => (e: E) => Type2<M, L, B>
+  readonly of: <L, E, A>(a: A) => (e: E) => Type2<M, L, A>
+  readonly ap: <L, E, A, B>(
+    fab: (e: E) => Type2<M, L, (a: A) => B>,
+    fa: (e: E) => Type2<M, L, A>
+  ) => (e: E) => Type2<M, L, B>
+  readonly chain: <L, E, A, B>(
+    f: (a: A) => (e: E) => Type2<M, L, B>,
+    fa: (e: E) => Type2<M, L, A>
+  ) => (e: E) => Type2<M, L, B>
 }
 
 export interface ReaderT3<M extends URIS3> {
-  map: <U, L, E, A, B>(f: (a: A) => B, fa: (e: E) => Type3<M, U, L, A>) => (e: E) => Type3<M, U, L, B>
-  of: <U, L, E, A>(a: A) => (e: E) => Type3<M, U, L, A>
-  ap: <U, L, E, A, B>(
+  readonly map: <U, L, E, A, B>(f: (a: A) => B, fa: (e: E) => Type3<M, U, L, A>) => (e: E) => Type3<M, U, L, B>
+  readonly of: <U, L, E, A>(a: A) => (e: E) => Type3<M, U, L, A>
+  readonly ap: <U, L, E, A, B>(
     fab: (e: E) => Type3<M, U, L, (a: A) => B>,
     fa: (e: E) => Type3<M, U, L, A>
   ) => (e: E) => Type3<M, U, L, B>
-  chain: <U, L, E, A, B>(
+  readonly chain: <U, L, E, A, B>(
     f: (a: A) => (e: E) => Type3<M, U, L, B>,
     fa: (e: E) => Type3<M, U, L, A>
   ) => (e: E) => Type3<M, U, L, B>

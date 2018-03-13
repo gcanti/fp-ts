@@ -12,7 +12,7 @@ import { on } from './function'
  * @typeclass
  */
 export interface Setoid<A> {
-  equals: (x: A, y: A) => boolean
+  readonly equals: (x: A, y: A) => boolean
 }
 
 /** @function */

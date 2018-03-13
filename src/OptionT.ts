@@ -14,15 +14,15 @@ import { Option, URI as OptionURI } from './Option'
 import * as option from './Option'
 
 export interface OptionT<M> extends ApplicativeComposition<M, OptionURI> {
-  chain: <A, B>(f: (a: A) => HKT<M, Option<B>>, fa: HKT<M, Option<A>>) => HKT<M, Option<B>>
+  readonly chain: <A, B>(f: (a: A) => HKT<M, Option<B>>, fa: HKT<M, Option<A>>) => HKT<M, Option<B>>
 }
 
 export interface OptionT1<M extends URIS> extends ApplicativeComposition11<M, OptionURI> {
-  chain: <A, B>(f: (a: A) => Type<M, Option<B>>, fa: Type<M, Option<A>>) => Type<M, Option<B>>
+  readonly chain: <A, B>(f: (a: A) => Type<M, Option<B>>, fa: Type<M, Option<A>>) => Type<M, Option<B>>
 }
 
 export interface OptionT2<M extends URIS2> extends ApplicativeComposition21<M, OptionURI> {
-  chain: <L, A, B>(f: (a: A) => Type2<M, L, Option<B>>, fa: Type2<M, L, Option<A>>) => Type2<M, L, Option<B>>
+  readonly chain: <L, A, B>(f: (a: A) => Type2<M, L, Option<B>>, fa: Type2<M, L, Option<A>>) => Type2<M, L, Option<B>>
 }
 
 export function chain<F extends URIS2>(F: Monad2<F>): OptionT2<F>['chain']

@@ -7,40 +7,55 @@ import { Endomorphism, tuple } from './function'
 import { State } from './State'
 
 export interface StateT<M> {
-  map: <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => HKT<M, [B, S]>
-  of: <S, A>(a: A) => (s: S) => HKT<M, [A, S]>
-  ap: <S, A, B>(fab: (s: S) => HKT<M, [(a: A) => B, S]>, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => HKT<M, [B, S]>
-  chain: <S, A, B>(f: (a: A) => (s: S) => HKT<M, [B, S]>, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => HKT<M, [B, S]>
+  readonly map: <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => HKT<M, [B, S]>
+  readonly of: <S, A>(a: A) => (s: S) => HKT<M, [A, S]>
+  readonly ap: <S, A, B>(
+    fab: (s: S) => HKT<M, [(a: A) => B, S]>,
+    fa: (s: S) => HKT<M, [A, S]>
+  ) => (s: S) => HKT<M, [B, S]>
+  readonly chain: <S, A, B>(
+    f: (a: A) => (s: S) => HKT<M, [B, S]>,
+    fa: (s: S) => HKT<M, [A, S]>
+  ) => (s: S) => HKT<M, [B, S]>
 }
 
 export interface StateT1<M extends URIS> {
-  map: <S, A, B>(f: (a: A) => B, fa: (s: S) => Type<M, [A, S]>) => (s: S) => Type<M, [B, S]>
-  of: <S, A>(a: A) => (s: S) => Type<M, [A, S]>
-  ap: <S, A, B>(fab: (s: S) => Type<M, [(a: A) => B, S]>, fa: (s: S) => Type<M, [A, S]>) => (s: S) => Type<M, [B, S]>
-  chain: <S, A, B>(f: (a: A) => (s: S) => Type<M, [B, S]>, fa: (s: S) => Type<M, [A, S]>) => (s: S) => Type<M, [B, S]>
+  readonly map: <S, A, B>(f: (a: A) => B, fa: (s: S) => Type<M, [A, S]>) => (s: S) => Type<M, [B, S]>
+  readonly of: <S, A>(a: A) => (s: S) => Type<M, [A, S]>
+  readonly ap: <S, A, B>(
+    fab: (s: S) => Type<M, [(a: A) => B, S]>,
+    fa: (s: S) => Type<M, [A, S]>
+  ) => (s: S) => Type<M, [B, S]>
+  readonly chain: <S, A, B>(
+    f: (a: A) => (s: S) => Type<M, [B, S]>,
+    fa: (s: S) => Type<M, [A, S]>
+  ) => (s: S) => Type<M, [B, S]>
 }
 
 export interface StateT2<M extends URIS2> {
-  map: <L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type2<M, L, [A, S]>) => (s: S) => Type2<M, L, [B, S]>
-  of: <L, S, A>(a: A) => (s: S) => Type2<M, L, [A, S]>
-  ap: <L, S, A, B>(
+  readonly map: <L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type2<M, L, [A, S]>) => (s: S) => Type2<M, L, [B, S]>
+  readonly of: <L, S, A>(a: A) => (s: S) => Type2<M, L, [A, S]>
+  readonly ap: <L, S, A, B>(
     fab: (s: S) => Type2<M, L, [(a: A) => B, S]>,
     fa: (s: S) => Type2<M, L, [A, S]>
   ) => (s: S) => Type2<M, L, [B, S]>
-  chain: <L, S, A, B>(
+  readonly chain: <L, S, A, B>(
     f: (a: A) => (s: S) => Type2<M, L, [B, S]>,
     fa: (s: S) => Type2<M, L, [A, S]>
   ) => (s: S) => Type2<M, L, [B, S]>
 }
 
 export interface StateT3<M extends URIS3> {
-  map: <U, L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type3<M, U, L, [A, S]>) => (s: S) => Type3<M, U, L, [B, S]>
-  of: <U, L, S, A>(a: A) => (s: S) => Type3<M, U, L, [A, S]>
-  ap: <U, L, S, A, B>(
+  readonly map: <U, L, S, A, B>(
+    f: (a: A) => B,
+    fa: (s: S) => Type3<M, U, L, [A, S]>
+  ) => (s: S) => Type3<M, U, L, [B, S]>
+  readonly of: <U, L, S, A>(a: A) => (s: S) => Type3<M, U, L, [A, S]>
+  readonly ap: <U, L, S, A, B>(
     fab: (s: S) => Type3<M, U, L, [(a: A) => B, S]>,
     fa: (s: S) => Type3<M, U, L, [A, S]>
   ) => (s: S) => Type3<M, U, L, [B, S]>
-  chain: <U, L, S, A, B>(
+  readonly chain: <U, L, S, A, B>(
     f: (a: A) => (s: S) => Type3<M, U, L, [B, S]>,
     fa: (s: S) => Type3<M, U, L, [A, S]>
   ) => (s: S) => Type3<M, U, L, [B, S]>

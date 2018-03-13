@@ -17,7 +17,7 @@ import { Endomorphism, identity, compose } from './function'
 
 /** @typeclass */
 export interface Monoid<A> extends Semigroup<A> {
-  empty: A
+  readonly empty: A
 }
 
 /** @function */

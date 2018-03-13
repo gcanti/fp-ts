@@ -25,10 +25,10 @@
  * @typeclass
  */
 export interface Semiring<A> {
-  add: (x: A, y: A) => A
-  zero: A
-  mul: (x: A, y: A) => A
-  one: A
+  readonly add: (x: A, y: A) => A
+  readonly zero: A
+  readonly mul: (x: A, y: A) => A
+  readonly one: A
 }
 
 /** @function */
