@@ -6,7 +6,7 @@ _type class_
 
 ```ts
 interface Monoid<A> extends Semigroup<A> {
-  empty: A
+  readonly empty: A
 }
 ```
 

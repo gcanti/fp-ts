@@ -22,7 +22,7 @@ constructor(readonly value: A) {}
 <B>(fab: Identity<(a: A) => B>): Identity<B>
 ```
 
-### ap_
+### ap\_
 
 ```ts
 <B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C>

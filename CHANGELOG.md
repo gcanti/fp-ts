@@ -13,6 +13,39 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.2.0
+
+* **New Feature**
+  * Make `TaskEither` an instance of `BiFunctor` (@teves-castro)
+  * add `EitherT.bimap` (@teves-castro)
+  * add `partitionMap` to `Set` (@sledorze)
+  * add `getOrd` to `Option` (@sledorze)
+  * add `partition` to `Set` (@sledorze)
+  * add `contramap` to `Setoid` (@sledorze)
+  * add `getOrd` to `Array` (@sledorze)
+  * add `chain` to `Set` (@sledorze)
+  * add `map` to `Set` (@sledorze)
+  * add `fromArray` to `Set` (@sledorze)
+  * add `StateT.fromState` (@gcanti)
+  * add `StateT.liftF` (@gcanti)
+  * add `ReaderT.fromReader` (@gcanti)
+* **Bug Fix**
+  * fix `Alt` instance of `Validation` (@sledorze)
+  * fix `EitherT.chain` signature (@gcanti)
+  * use `Type*` in `EitherT1`, `EitherT2` (@gcanti)
+  * use `Type*` in `StateT1`, `StateT2` (@gcanti)
+  * use `Type*` in `ReaderT1`, `ReaderT2` (@gcanti)
+  * Add `readonly` modifier to type classes properties (@gcanti)
+* **Internal**
+  * make 'Set.difference' do less work (@sledorze)
+  * remove unecessary closure creation in `lefts`, `rights` and `mapOption` (@sledorze)
+  * remove unnecessary closures (mainly `fold`s) (@sledorze)
+  * remove closure creation of Option 'ap' function (@sledorze)
+  * add `URIS3` overloadings to `StateT` (@gcanti)
+  * add `URIS3` overloadings to `ReaderT` (@gcanti)
+  * use definite assignement assertion for phantom fields (@gcanti)
+  * upgrade to prettier@1.11.0 (@gcanti)
+
 # 1.1.0
 
 * **New Feature**
@@ -34,8 +67,8 @@ high state of flux, you're at risk of it changing without notice.
   * fix `Unfoldable.replicateA` signatures (@gcanti)
 * **Internal**
   * optimize Foldable.oneOf (@gcanti)
-  * optimize Foldable.traverse_ (@gcanti)
-  * optimize Foldable.sequence_ (@gcanti)
+  * optimize Foldable.traverse\_ (@gcanti)
+  * optimize Foldable.sequence\_ (@gcanti)
   * optimize Foldable.foldr (@gcanti)
 
 # 1.0.0

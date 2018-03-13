@@ -8,7 +8,8 @@ _function_
 <A>(as: Array<Option<A>>): Array<A>
 ```
 
-Filter an array of optional values, keeping only the elements which contain a value, creating a new array
+Filter an array of optional values, keeping only the elements which contain
+a value, creating a new array
 
 # copy
 
@@ -26,7 +27,8 @@ _function_
 <A>(i: number, as: Array<A>): Option<Array<A>>
 ```
 
-Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+Delete the element at the specified index, creating a new array, or
+returning `None` if the index is out of bounds
 
 # drop
 
@@ -46,7 +48,8 @@ _function_
 <A>(as: Array<A>, predicate: Predicate<A>): Array<A>
 ```
 
-Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+Remove the longest initial subarray for which all element satisfy the
+specified predicate, creating a new array
 
 # filter
 
@@ -130,6 +133,34 @@ _function_
 <A = never>(): Monoid<Array<A>>
 ```
 
+# getOrd
+
+_function_
+
+```ts
+<A>(O: Ord<A>): Ord<Array<A>> => ({
+  ...getSetoid(O),
+  compare: (a: Array<A>, b: Array<A>): Ordering
+```
+
+Derives an Order over the Array of a given element type from the Order, 'O', of that type.
+The ordering between two such arrays is equal to:
+the first non equal comparison of each arrays elements taken pairwise in increasing order,
+in case of equality over all the pairwise elements; the longest array is considered the greatest,
+if both arrays have the same length, the result is equality.
+
+# getSetoid
+
+_function_
+
+```ts
+getArraySetoid
+```
+
+Derives a Setoid over the Array of a given element type from the Setoid of that type.
+The derived setoid defines two arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid 'S'.
+In case of arrays of different lengths, the result is non equality.
+
 # head
 
 _function_
@@ -168,7 +199,8 @@ _function_
 <A>(i: number, a: A, as: Array<A>): Option<Array<A>>
 ```
 
-Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+Insert an element at the specified index, creating a new array, or
+returning `None` if the index is out of bounds
 
 # isEmpty
 
@@ -218,7 +250,8 @@ _function_
 <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B>
 ```
 
-Apply a function to each element in an array, keeping only the results which contain a value, creating a new array
+Apply a function to each element in an array, keeping only the results
+which contain a value, creating a new array
 
 # modifyAt
 
@@ -228,8 +261,8 @@ _function_
 <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>>
 ```
 
-Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out of
-bounds
+Apply a function to the element at the specified index, creating a new
+array, or returning `None` if the index is out of bounds
 
 # partitionMap
 
@@ -299,7 +332,8 @@ _function_
 <A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array<B>
 ```
 
-Fold an array from the right, keeping all intermediate results instead of only the final result
+Fold an array from the right, keeping all intermediate results
+instead of only the final result
 
 ```ts
 scanRight([1, 2, 3], 10, (a, b) => b - a) // [ 4, 5, 7, 10 ]
@@ -335,8 +369,8 @@ _function_
 
 Split an array into two parts:
 
-1. the longest initial subarray for which all elements satisfy the specified predicate
-2. the remaining elements
+1.  the longest initial subarray for which all elements satisfy the specified predicate
+2.  the remaining elements
 
 # tail
 
@@ -366,7 +400,8 @@ _function_
 <A>(as: Array<A>, predicate: Predicate<A>): Array<A>
 ```
 
-Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+Calculate the longest initial subarray for which all element satisfy the
+specified predicate, creating a new array
 
 # unsafeDeleteAt
 
@@ -400,7 +435,8 @@ _function_
 <A>(i: number, a: A, as: Array<A>): Option<Array<A>>
 ```
 
-Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+Change the element at the specified index, creating a new array, or
+returning `None` if the index is out of bounds
 
 # zip
 
@@ -410,8 +446,8 @@ _function_
 <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]>
 ```
 
-Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the longer
-array are discarded
+Takes two arrays and returns an array of corresponding pairs.
+If one input array is short, excess elements of the longer array are discarded
 
 # zipWith
 
@@ -421,5 +457,6 @@ _function_
 <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C>
 ```
 
-Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
-input array is short, excess elements of the longer array are discarded.
+Apply a function to pairs of elements at the same index in two arrays,
+collecting the results in a new array.
+If one input array is short, excess elements of the longer array are discarded.

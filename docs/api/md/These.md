@@ -152,7 +152,8 @@ Returns `true` if the these is an instance of `This`, `false` otherwise
 
 # that
 
-_function_ Alias of
+_function_
+Alias of
 
 ```ts
 of
@@ -174,7 +175,7 @@ _function_
 <L, A>(fa: These<L, A>): Option<A>
 ```
 
-# this_
+# this\_
 
 _function_
 

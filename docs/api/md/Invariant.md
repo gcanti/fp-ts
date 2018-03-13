@@ -7,6 +7,6 @@ _type class_
 ```ts
 interface Invariant<F> {
   readonly URI: F
-  imap: <A, B>(fa: HKT<F, A>, f: (a: A) => B, g: (b: B) => A) => HKT<F, B>
+  readonly imap: <A, B>(fa: HKT<F, A>, f: (a: A) => B, g: (b: B) => A) => HKT<F, B>
 }
 ```

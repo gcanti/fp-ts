@@ -16,7 +16,7 @@ constructor(readonly fst: A, readonly snd: A) {}
 <B>(fab: Pair<(a: A) => B>): Pair<B>
 ```
 
-### ap_
+### ap\_
 
 ```ts
 <B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C>

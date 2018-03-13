@@ -20,6 +20,14 @@ chain<F>(
 ): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
 ```
 
+# fromState
+
+_function_
+
+```ts
+fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]>
+```
+
 # get
 
 _function_
@@ -42,6 +50,14 @@ _function_
 
 ```ts
 gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>
+```
+
+# liftF
+
+_function_
+
+```ts
+liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]>
 ```
 
 # map

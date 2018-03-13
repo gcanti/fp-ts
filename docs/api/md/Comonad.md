@@ -6,6 +6,6 @@ _type class_
 
 ```ts
 interface Comonad<F> extends Extend<F> {
-  extract: <A>(ca: HKT<F, A>) => A
+  readonly extract: <A>(ca: HKT<F, A>) => A
 }
 ```

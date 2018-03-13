@@ -6,17 +6,19 @@ _type class_
 
 ```ts
 interface Apply<F> extends Functor<F> {
-  ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
+  readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
 }
 ```
 
-The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
+The `Apply` class provides the `ap` which is used to apply a function
+to an argument under a type constructor.
 
-`Apply` can be used to lift functions of two or more arguments to work on values wrapped with the type constructor `f`.
+`Apply` can be used to lift functions of two or more arguments to work on
+values wrapped with the type constructor `f`.
 
 Instances must satisfy the following law in addition to the `Functor` laws:
 
-1. Associative composition: `F.ap(F.ap(F.map(fbc, bc => ab => a => bc(ab(a))), fab), fa) = F.ap(fbc, F.ap(fab, fa))`
+1.  Associative composition: `F.ap(F.ap(F.map(fbc, bc => ab => a => bc(ab(a))), fab), fa) = F.ap(fbc, F.ap(fab, fa))`
 
 Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 

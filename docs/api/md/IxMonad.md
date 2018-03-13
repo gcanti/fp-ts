@@ -7,8 +7,8 @@ _type class_
 ```ts
 interface IxMonad<F> {
   readonly URI: F
-  iof: <I, A>(a: A) => HKT3<F, I, I, A>
-  ichain: <I, O, Z, A, B>(fa: HKT3<F, I, O, A>, f: (a: A) => HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
+  readonly iof: <I, A>(a: A) => HKT3<F, I, I, A>
+  readonly ichain: <I, O, Z, A, B>(fa: HKT3<F, I, O, A>, f: (a: A) => HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
 }
 ```
 

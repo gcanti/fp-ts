@@ -16,7 +16,7 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 <B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B>
 ```
 
-### ap_
+### ap\_
 
 ```ts
 <B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C>

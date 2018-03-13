@@ -16,7 +16,7 @@ constructor(readonly run: (s: S) => [A, S]) {}
 <B>(fab: State<S, (a: A) => B>): State<S, B>
 ```
 
-### ap_
+### ap\_
 
 ```ts
 <B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C>

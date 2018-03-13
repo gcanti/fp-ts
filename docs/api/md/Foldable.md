@@ -7,7 +7,7 @@ _type class_
 ```ts
 interface Foldable<F> {
   readonly URI: F
-  reduce: <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
 
@@ -52,7 +52,8 @@ foldM<F, M>(
 
 Similar to 'reduce', but the result is encapsulated in a monad.
 
-Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
+Note: this function is not generally stack-safe, e.g., for monads which
+build up thunks a la `IO`.
 
 # foldMap
 
@@ -122,7 +123,7 @@ product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A
 
 Find the product of the numeric values in a data structure
 
-# sequence_
+# sequence\_
 
 _function_
 
@@ -130,8 +131,7 @@ _function_
 sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
 ```
 
-Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final
-result.
+Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final result.
 
 # sum
 
@@ -151,7 +151,7 @@ _function_
 toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
 ```
 
-# traverse_
+# traverse\_
 
 _function_
 
@@ -162,5 +162,4 @@ traverse_<M, F>(
 ): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void>
 ```
 
-Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the final
-result.
+Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the final result.

@@ -16,7 +16,7 @@ constructor(readonly run: Lazy<A>) {}
 <B>(fab: IO<(a: A) => B>): IO<B>
 ```
 
-### ap_
+### ap\_
 
 ```ts
 <B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C>

@@ -40,7 +40,7 @@ constructor(readonly value: L) {}
 (): string
 ```
 
-# const_
+# const\_
 
 _instance_
 
@@ -70,6 +70,6 @@ _function_
 
 ```ts
 ;<L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
-  equals: (x, y) => x.fold(ax => y.fold(ay => S.equals(ax, ay)))
+  equals: (x, y) => S.equals(x.value, y.value)
 })
 ```

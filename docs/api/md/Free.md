@@ -16,7 +16,7 @@ type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 <B>(fab: Free<F, (a: A) => B>): Free<F, B>
 ```
 
-### ap_
+### ap\_
 
 ```ts
 <B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C>

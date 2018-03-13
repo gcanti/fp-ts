@@ -6,19 +6,22 @@ _type class_
 
 ```ts
 interface Ord<A> extends Setoid<A> {
-  compare: (x: A, y: A) => Ordering
+  readonly compare: (x: A, y: A) => Ordering
 }
 ```
 
-The `Ord` type class represents types which support comparisons with a _total order_.
+The `Ord` type class represents types which support comparisons with a
+_total order_.
 
 Instances should satisfy the laws of total orderings:
 
-1. Reflexivity: `S.compare(a, a) <= 0`
-2. Antisymmetry: if `S.compare(a, b) <= 0` and `S.compare(b, a) <= 0` then `a <-> b`
-3. Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
-   # ordBoolean
-   _instance_
+1.  Reflexivity: `S.compare(a, a) <= 0`
+2.  Antisymmetry: if `S.compare(a, b) <= 0` and `S.compare(b, a) <= 0` then `a <-> b`
+3.  Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
+
+# ordBoolean
+
+_instance_
 
 ```ts
 Ord<boolean>

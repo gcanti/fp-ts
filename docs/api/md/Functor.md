@@ -7,21 +7,24 @@ _type class_
 ```ts
 interface Functor<F> {
   readonly URI: F
-  map: <A, B>(fa: HKT<F, A>, f: (a: A) => B) => HKT<F, B>
+  readonly map: <A, B>(fa: HKT<F, A>, f: (a: A) => B) => HKT<F, B>
 }
 ```
 
 A `Functor` is a type constructor which supports a mapping operation `map`.
 
-`map` can be used to turn functions `a -> b` into functions `f a -> f b` whose argument and return types use the type
-constructor `f` to represent some computational context.
+`map` can be used to turn functions `a -> b` into functions
+`f a -> f b` whose argument and return types use the type constructor `f`
+to represent some computational context.
 
 Instances must satisfy the following laws:
 
-1. Identity: `F.map(fa, a => a) = fa`
-2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
-   # flap
-   _function_
+1.  Identity: `F.map(fa, a => a) = fa`
+2.  Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
+
+# flap
+
+_function_
 
 ```ts
 flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => B>) => HKT<F, B>
