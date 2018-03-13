@@ -3,7 +3,7 @@ import { concat } from './function'
 
 /** @typeclass */
 export interface Semigroup<A> {
-  concat: (x: A, y: A) => A
+  readonly concat: (x: A, y: A) => A
 }
 
 /** @function */

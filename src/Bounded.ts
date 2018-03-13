@@ -10,8 +10,8 @@ import { Ord, ordNumber } from './Ord'
  * @typeclass
  */
 export interface Bounded<A> extends Ord<A> {
-  top: A
-  bottom: A
+  readonly top: A
+  readonly bottom: A
 }
 
 /** @instance */

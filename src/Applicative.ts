@@ -34,65 +34,71 @@ import {
  * @typeclass
  */
 export interface Applicative<F> extends Apply<F> {
-  of: <A>(a: A) => HKT<F, A>
+  readonly of: <A>(a: A) => HKT<F, A>
 }
 
 export interface Applicative1<F extends URIS> extends Apply1<F> {
-  of: <A>(a: A) => Type<F, A>
+  readonly of: <A>(a: A) => Type<F, A>
 }
 
 export interface Applicative2<F extends URIS2> extends Apply2<F> {
-  of: <L, A>(a: A) => Type2<F, L, A>
+  readonly of: <L, A>(a: A) => Type2<F, L, A>
 }
 
 export interface Applicative3<F extends URIS3> extends Apply3<F> {
-  of: <U, L, A>(a: A) => Type3<F, U, L, A>
+  readonly of: <U, L, A>(a: A) => Type3<F, U, L, A>
 }
 
 export interface Applicative2C<F extends URIS2, L> extends Apply2C<F, L> {
-  of: <A>(a: A) => Type2<F, L, A>
+  readonly of: <A>(a: A) => Type2<F, L, A>
 }
 
 export interface Applicative3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
-  of: <A>(a: A) => Type3<F, U, L, A>
+  readonly of: <A>(a: A) => Type3<F, U, L, A>
 }
 
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
-  of: <A>(a: A) => HKT<F, HKT<G, A>>
-  ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
+  readonly of: <A>(a: A) => HKT<F, HKT<G, A>>
+  readonly ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>) => HKT<F, HKT<G, B>>
 }
 
 export interface ApplicativeComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
-  of: <A>(a: A) => Type<F, Type<G, A>>
-  ap: <A, B>(fgab: Type<F, Type<G, (a: A) => B>>, fga: Type<F, Type<G, A>>) => Type<F, Type<G, B>>
+  readonly of: <A>(a: A) => Type<F, Type<G, A>>
+  readonly ap: <A, B>(fgab: Type<F, Type<G, (a: A) => B>>, fga: Type<F, Type<G, A>>) => Type<F, Type<G, B>>
 }
 
 export interface ApplicativeComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
-  of: <L, A>(a: A) => Type<F, Type2<G, L, A>>
-  ap: <L, A, B>(fgab: Type<F, Type2<G, L, (a: A) => B>>, fga: Type<F, Type2<G, L, A>>) => Type<F, Type2<G, L, B>>
+  readonly of: <L, A>(a: A) => Type<F, Type2<G, L, A>>
+  readonly ap: <L, A, B>(
+    fgab: Type<F, Type2<G, L, (a: A) => B>>,
+    fga: Type<F, Type2<G, L, A>>
+  ) => Type<F, Type2<G, L, B>>
 }
 
 export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, L> extends FunctorComposition12C<F, G, L> {
-  of: <A>(a: A) => Type<F, Type2<G, L, A>>
-  ap: <A, B>(fgab: Type<F, Type2<G, L, (a: A) => B>>, fga: Type<F, Type2<G, L, A>>) => Type<F, Type2<G, L, B>>
+  readonly of: <A>(a: A) => Type<F, Type2<G, L, A>>
+  readonly ap: <A, B>(fgab: Type<F, Type2<G, L, (a: A) => B>>, fga: Type<F, Type2<G, L, A>>) => Type<F, Type2<G, L, B>>
 }
 
 export interface ApplicativeComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
-  of: <L, A>(a: A) => Type2<F, L, Type<G, A>>
-  ap: <L, A, B>(fgab: Type2<F, L, Type<G, (a: A) => B>>, fga: Type2<F, L, Type<G, A>>) => Type2<F, L, Type<G, B>>
+  readonly of: <L, A>(a: A) => Type2<F, L, Type<G, A>>
+  readonly ap: <L, A, B>(
+    fgab: Type2<F, L, Type<G, (a: A) => B>>,
+    fga: Type2<F, L, Type<G, A>>
+  ) => Type2<F, L, Type<G, B>>
 }
 
 export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
-  of: <L, M, A>(a: A) => Type2<F, L, Type2<G, M, A>>
-  ap: <L, M, A, B>(
+  readonly of: <L, M, A>(a: A) => Type2<F, L, Type2<G, M, A>>
+  readonly ap: <L, M, A, B>(
     fgab: Type2<F, L, Type2<G, M, (a: A) => B>>,
     fga: Type2<F, L, Type2<G, M, A>>
   ) => Type2<F, L, Type2<G, M, B>>
 }
 
 export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, M> extends FunctorComposition22C<F, G, M> {
-  of: <L, A>(a: A) => Type2<F, L, Type2<G, M, A>>
-  ap: <L, A, B>(
+  readonly of: <L, A>(a: A) => Type2<F, L, Type2<G, M, A>>
+  readonly ap: <L, A, B>(
     fgab: Type2<F, L, Type2<G, M, (a: A) => B>>,
     fga: Type2<F, L, Type2<G, M, A>>
   ) => Type2<F, L, Type2<G, M, B>>

@@ -13,55 +13,55 @@ import { Setoid } from './Setoid'
 /** @typeclass */
 export interface Foldable<F> {
   readonly URI: F
-  reduce: <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface Foldable1<F extends URIS> {
   readonly URI: F
-  reduce: <A, B>(fa: Type<F, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fa: Type<F, A>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface Foldable2<F extends URIS2> {
   readonly URI: F
-  reduce: <L, A, B>(fa: Type2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <L, A, B>(fa: Type2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface Foldable3<F extends URIS3> {
   readonly URI: F
-  reduce: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface Foldable2C<F extends URIS2, L> {
   readonly URI: F
   readonly _L: L
-  reduce: <A, B>(fa: Type2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fa: Type2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface Foldable3C<F extends URIS3, U, L> {
   readonly URI: F
   readonly _L: L
   readonly _U: U
-  reduce: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface FoldableComposition<F, G> {
-  reduce: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface FoldableComposition11<F extends URIS, G extends URIS> {
-  reduce: <A, B>(fga: Type<F, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <A, B>(fga: Type<F, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface FoldableComposition12<F extends URIS, G extends URIS2> {
-  reduce: <L, A, B>(fga: Type<F, Type2<G, L, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <L, A, B>(fga: Type<F, Type2<G, L, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface FoldableComposition21<F extends URIS2, G extends URIS> {
-  reduce: <L, A, B>(fga: Type2<F, L, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <L, A, B>(fga: Type2<F, L, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
-  reduce: <LF, LG, A, B>(fga: Type2<F, LF, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
+  readonly reduce: <LF, LG, A, B>(fga: Type2<F, LF, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
 }
 
 export function getFoldableComposition<F extends URIS2, G extends URIS2>(

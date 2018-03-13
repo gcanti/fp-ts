@@ -25,33 +25,39 @@ import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, A
 
 /** @typeclass */
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
-  traverse: <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
+  readonly traverse: <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 }
 
 export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
-  traverse: <F>(F: Applicative<F>) => <A, B>(ta: Type<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type<T, B>>
+  readonly traverse: <F>(F: Applicative<F>) => <A, B>(ta: Type<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type<T, B>>
 }
 
 export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
-  traverse: <F>(F: Applicative<F>) => <L, A, B>(ta: Type2<T, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, L, B>>
+  readonly traverse: <F>(
+    F: Applicative<F>
+  ) => <L, A, B>(ta: Type2<T, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, L, B>>
 }
 
 export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
-  traverse: <F>(
+  readonly traverse: <F>(
     F: Applicative<F>
   ) => <U, L, A, B>(ta: Type3<T, U, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, U, L, B>>
 }
 
 export interface Traversable2C<T extends URIS2, L> extends Functor2C<T, L>, Foldable2C<T, L> {
-  traverse: <F>(F: Applicative<F>) => <A, B>(ta: HKT2<T, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, L, B>>
+  readonly traverse: <F>(
+    F: Applicative<F>
+  ) => <A, B>(ta: HKT2<T, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, L, B>>
 }
 
 export interface Traversable3C<T extends URIS3, U, L> extends Functor3C<T, U, L>, Foldable3C<T, U, L> {
-  traverse: <F>(F: Applicative<F>) => <A, B>(ta: HKT3<T, U, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, U, L, B>>
+  readonly traverse: <F>(
+    F: Applicative<F>
+  ) => <A, B>(ta: HKT3<T, U, L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, U, L, B>>
 }
 
 export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
-  traverse: <H>(
+  readonly traverse: <H>(
     H: Applicative<H>
   ) => <A, B>(fga: HKT<F, HKT<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, HKT<F, HKT<G, B>>>
 }
@@ -59,7 +65,7 @@ export interface TraversableComposition<F, G> extends FoldableComposition<F, G>,
 export interface TraversableComposition11<F extends URIS, G extends URIS>
   extends FoldableComposition11<F, G>,
     FunctorComposition11<F, G> {
-  traverse: <H>(
+  readonly traverse: <H>(
     H: Applicative<H>
   ) => <A, B>(fga: Type<F, Type<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, Type<F, Type<G, B>>>
 }
