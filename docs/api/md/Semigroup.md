@@ -6,7 +6,7 @@ _type class_
 
 ```ts
 interface Semigroup<A> {
-  concat: (x: A, y: A) => A
+  readonly concat: (x: A, y: A) => A
 }
 ```
 

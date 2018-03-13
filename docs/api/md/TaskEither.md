@@ -16,7 +16,7 @@ constructor(readonly value: Task<Either<L, A>>) {}
 <B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B>
 ```
 
-### ap_
+### ap\_
 
 ```ts
 <B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C>

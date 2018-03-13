@@ -7,7 +7,7 @@ _type class_
 ```ts
 interface Unfoldable<F> {
   readonly URI: F
-  unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => HKT<F, A>
+  readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => HKT<F, A>
 }
 ```
 

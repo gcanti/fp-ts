@@ -6,7 +6,7 @@ _type class_
 
 ```ts
 interface Extend<F> extends Functor<F> {
-  extend: <A, B>(ea: HKT<F, A>, f: (fa: HKT<F, A>) => B) => HKT<F, B>
+  readonly extend: <A, B>(ea: HKT<F, A>, f: (fa: HKT<F, A>) => B) => HKT<F, B>
 }
 ```
 

@@ -12,9 +12,10 @@ Represents a value of one of two possible types (a disjoint union).
 
 An instance of `Either` is either an instance of `Left` or `Right`.
 
-A common use of `Either` is as an alternative to `Option` for dealing with possible missing values. In this usage,
-`None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
-dictates that `Left` is used for failure and `Right` is used for success.
+A common use of `Either` is as an alternative to `Option` for dealing with possible missing values.
+In this usage, `None` is replaced with a `Left` which can contain useful information.
+`Right` takes the place of `Some`.
+Convention dictates that `Left` is used for failure and `Right` is used for success.
 
 For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
 
@@ -25,8 +26,8 @@ const parse = (errorMessage: string) => (input: string): Either<string, number> 
 }
 ```
 
-`Either` is right-biased, which means that `Right` is assumed to be the default case to operate on. If it is `Left`,
-operations like `map`, `chain`, ... return the `Left` value unchanged:
+`Either` is right-biased, which means that `Right` is assumed to be the default case to operate on.
+If it is `Left`, operations like `map`, `chain`, ... return the `Left` value unchanged:
 
 ```ts
 right(12).map(double) // right(24)
@@ -47,7 +48,7 @@ left(23).map(double) // left(23)
 <B>(fab: Either<L, (a: A) => B>): Either<L, B>
 ```
 
-### ap_
+### ap\_
 
 ```ts
 <B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C>
@@ -177,8 +178,8 @@ _function_
 <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A>
 ```
 
-Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use the
-provided default as a `Left`
+Takes a default and a nullable value, if the value is not nully, turn it into
+a `Right`, if the value is nully use the provided default as a `Left`
 
 # fromOption
 
@@ -188,8 +189,8 @@ _function_
 <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A>
 ```
 
-Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use the
-provided default as a `Left`
+Takes a default and a `Option` value, if the value is a `Some`, turn it into
+a `Right`, if the value is a `None` use the provided default as a `Left`
 
 # fromPredicate
 
@@ -243,19 +244,20 @@ _function_
 <L, A>(l: L): Either<L, A>
 ```
 
-Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
-structure
+Constructs a new `Either` holding a `Left` value.
+This usually represents a failure, due to the right-bias of this structure
 
 # right
 
-_function_ Alias of
+_function_
+Alias of
 
 ```ts
 of
 ```
 
-Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias of
-this structure
+Constructs a new `Either` holding a `Right` value.
+This usually represents a successful value due to the right bias of this structure
 
 # toError
 

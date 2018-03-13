@@ -7,7 +7,7 @@ _type class_
 ```ts
 interface Contravariant<F> {
   readonly URI: F
-  contramap: <A, B>(fa: HKT<F, A>, f: (b: B) => A) => HKT<F, B>
+  readonly contramap: <A, B>(fa: HKT<F, A>, f: (b: B) => A) => HKT<F, B>
 }
 ```
 

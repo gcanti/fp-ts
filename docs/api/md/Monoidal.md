@@ -6,8 +6,8 @@ _type class_
 
 ```ts
 interface Monoidal<F> extends Functor<F> {
-  unit: () => HKT<F, void>
-  mult<A, B>(fa: HKT<F, A>, fb: HKT<F, B>): HKT<F, [A, B]>
+  readonly unit: () => HKT<F, void>
+  readonly mult: <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, [A, B]>
 }
 ```
 

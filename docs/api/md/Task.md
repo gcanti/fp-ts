@@ -16,7 +16,7 @@ constructor(readonly run: Lazy<Promise<A>>) {}
 <B>(fab: Task<(a: A) => B>): Task<B>
 ```
 
-### ap_
+### ap\_
 
 ```ts
 <B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C>

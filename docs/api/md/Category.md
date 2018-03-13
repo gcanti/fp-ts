@@ -6,6 +6,6 @@ _type class_
 
 ```ts
 interface Category<F> extends Semigroupoid<F> {
-  id: <A>() => HKT2<F, A, A>
+  readonly id: <A>() => HKT2<F, A, A>
 }
 ```

@@ -58,5 +58,5 @@ _function_
 <A>(ma: IO<A>): IO<Either<Error, A>>
 ```
 
-Runs an IO and returns eventual Exceptions as a `Left` value. If the computation succeeds the result gets wrapped in a
-`Right`.
+Runs an IO and returns eventual Exceptions as a `Left` value. If the
+computation succeeds the result gets wrapped in a `Right`.

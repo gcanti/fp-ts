@@ -10,8 +10,7 @@ type Option<A> = None<A> | Some<A>
 
 Represents optional values. Instances of `Option` are either an instance of `Some` or `None`
 
-The most idiomatic way to use an `Option` instance is to treat it as a collection or monad and use `map`, `flatMap` or
-`filter`.
+The most idiomatic way to use an `Option` instance is to treat it as a collection or monad and use `map`, `flatMap` or `filter`.
 
 ## Methods
 
@@ -21,10 +20,13 @@ The most idiomatic way to use an `Option` instance is to treat it as a collectio
 (fa: Option<A>): Option<A>
 ```
 
-`alt` short for alternative, takes another `Option`. If this `Option` is a `Some` type then it will be returned, if it
-is a `None` then it will return the next `Some` if it exist. If both are `None` then it will return `none`.
+`alt` short for alternative, takes another `Option`. If this `Option` is a `Some` type
+then it will be returned, if it is a `None` then it will return the next `Some` if it exist. If
+both are `None` then it will return `none`.
 
-For example `const someFn = (o: Option<number>) => o.alt(some(4))`
+For example:
+
+`const someFn = (o: Option<number>) => o.alt(some(4))`
 
 `someFn(some(2))` will return `some(2)`.
 
@@ -36,11 +38,29 @@ For example `const someFn = (o: Option<number>) => o.alt(some(4))`
 <B>(fab: Option<(a: A) => B>): Option<B>
 ```
 
-### ap_
+`ap`, some may also call it "apply". Takes a function `fab` that is in the context of `Option`, and applies that
+function to this `Option`'s value. If the `Option` calling `ap` is `none` it will return `none`.
+
+For example:
+
+`const someFn = some(2).ap(some(x => x + 1))` will return `some(3)`.
+
+`const someFn = none.ap(some(x => x + 1))` will return `none`.
+
+### ap\_
 
 ```ts
 <B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C>
 ```
+
+Similar to `ap` but instead of taking a function it takes `some` value or `none`, then applies this `Option`'s
+wrapped function to the `some` or `none`. If the `Option` calling `ap_` is `none` it will return `none`.
+
+For example:
+
+`const someFn = some(x => x + 1).ap_(some(2))` will return `some(3)`.
+
+`const someFn = none.ap_(some(2))` will return `none`.
 
 ### chain
 
@@ -48,8 +68,9 @@ For example `const someFn = (o: Option<number>) => o.alt(some(4))`
 <B>(f: (a: A) => Option<B>): Option<B>
 ```
 
-Returns the result of applying f to this `Option`'s value if this `Option` is nonempty. Returns `None` if this `Option`
-is empty. Slightly different from `map` in that `f` is expected to return an `Option` (which could be `None`)
+Returns the result of applying f to this `Option`'s value if this `Option` is nonempty.
+Returns `None` if this `Option` is empty. Slightly different from `map` in that `f` is expected to return an
+`Option` (which could be `None`)
 
 ### contains
 
@@ -79,8 +100,7 @@ Returns `true` if this option is non empty and the predicate `p` returns `true` 
 (p: Predicate<A>): Option<A>
 ```
 
-Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value.
-Otherwise returns `None`
+Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns `None`
 
 ### fold
 
@@ -142,8 +162,9 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 <B>(f: (a: A) => B): Option<B>
 ```
 
-Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors. If it maps
-on `Some` then it will apply the `f` on `Some`'s value, if it maps on `None` it will return `None`.
+Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors.
+If it maps on `Some` then it will apply the
+`f` on `Some`'s value, if it maps on `None` it will return `None`.
 
 ### mapNullable
 
@@ -210,8 +231,8 @@ _function_
 <A>(a: A | null | undefined): Option<A>
 ```
 
-Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise returns
-the value wrapped in a `Some`
+Constructs a new `Option` from a nullable type.
+If the value is `null` or `undefined`, returns `None`, otherwise returns the value wrapped in a `Some`
 
 # fromPredicate
 
@@ -249,6 +270,20 @@ _function_
 <A>(S: Semigroup<A>): Monoid<Option<A>>
 ```
 
+# getOrd
+
+_function_
+
+```ts
+<A>(O: Ord<A>): Ord<Option<A>>
+```
+
+The `Ord` instance allows `Option` values to be compared with
+`compare`, whenever there is an `Ord` instance for
+the type the `Option` contains.
+
+`None` is considered to be less than any `Some` value.
+
 # getSetoid
 
 _function_
@@ -279,7 +314,8 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 
 # some
 
-_function_ Alias of
+_function_
+Alias of
 
 ```ts
 of

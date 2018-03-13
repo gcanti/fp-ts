@@ -6,14 +6,15 @@ _type class_
 
 ```ts
 interface Semiring<A> {
-  add: (x: A, y: A) => A
-  zero: A
-  mul: (x: A, y: A) => A
-  one: A
+  readonly add: (x: A, y: A) => A
+  readonly zero: A
+  readonly mul: (x: A, y: A) => A
+  readonly one: A
 }
 ```
 
-The `Semiring` class is for types that support an addition and multiplication operation.
+The `Semiring` class is for types that support an addition and
+multiplication operation.
 
 Instances must satisfy the following laws:
 
@@ -29,9 +30,10 @@ Instances must satisfy the following laws:
   * Right distributivity: `(a + b) * c = (a * c) + (b * c)`
 * Annihilation: `zero * a = a * zero = zero`
 
-**Note:** The `Number` and `Int` types are not fully law abiding members of this class hierarchy due to the potential
-for arithmetic overflows, and in the case of `Number`, the presence of `NaN` and `Infinity` values. The behaviour is
-unspecified in these cases.
+**Note:** The `Number` and `Int` types are not fully law abiding
+members of this class hierarchy due to the potential for arithmetic
+overflows, and in the case of `Number`, the presence of `NaN` and
+`Infinity` values. The behaviour is unspecified in these cases.
 
 # getFunctionSemiring
 

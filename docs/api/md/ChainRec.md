@@ -6,7 +6,7 @@ _type class_
 
 ```ts
 interface ChainRec<F> extends Chain<F> {
-  chainRec: <A, B>(a: A, f: (a: A) => HKT<F, Either<A, B>>) => HKT<F, B>
+  readonly chainRec: <A, B>(a: A, f: (a: A) => HKT<F, Either<A, B>>) => HKT<F, B>
 }
 ```
 

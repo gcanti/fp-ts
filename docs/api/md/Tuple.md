@@ -136,7 +136,8 @@ _function_
 <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>>
 ```
 
-To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the `snd`s are `compare`d.
+To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
+`snd`s are `compare`d.
 
 # getSemigroup
 
