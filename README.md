@@ -43,6 +43,7 @@ The idea (faking higher kinded types in TypeScript) is based on
 * [logging-ts](https://github.com/gcanti/logging-ts) - Composable loggers for TypeScript
 * [fp-ts-routing](https://github.com/gcanti/fp-ts-routing) - A type-safe bidirectional routing library for TypeScript
 * [parser-ts](https://github.com/gcanti/parser-ts) - String parser combinators for TypeScript
+* [remote-data-ts](https://github.com/devex-web-frontend/remote-data-ts) - RemoteData type (check [this article](https://medium.com/@gcanti/slaying-a-ui-antipattern-with-flow-5eed0cfb627b))
 
 ## Bindings
 
