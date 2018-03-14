@@ -16,6 +16,7 @@ This class identifies data structures which can be _unfolded_, generalizing `unf
 # empty
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -27,6 +28,7 @@ The container with no elements - unfolded with zero iterations.
 # replicate
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -38,6 +40,7 @@ Replicate a value some natural number of times.
 # replicateA
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -52,6 +55,7 @@ Perform an Applicative action `n` times, and accumulate all the results
 # singleton
 
 _function_
+
 _since 1.0.0_
 
 ```ts

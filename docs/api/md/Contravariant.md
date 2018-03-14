@@ -14,6 +14,7 @@ interface Contravariant<F> {
 # lift
 
 _function_
+
 _since 1.0.0_
 
 ```ts

@@ -3,6 +3,7 @@ MODULE [Free](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts)
 # Free
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### ap\_
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### chain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### isImpure
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ _since 1.0.0_
 ### isPure
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -68,6 +75,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -77,6 +85,7 @@ _since 1.0.0_
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -86,6 +95,7 @@ _since 1.0.0_
 # foldFree
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -95,6 +105,7 @@ foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A>
 # hoistFree
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -106,6 +117,7 @@ Use a natural transformation to change the generating type constructor of a free
 # liftF
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -117,6 +129,7 @@ Lift an impure value described by the generating type constructor `F` into the f
 # of
 
 _function_
+
 _since 1.0.0_
 
 ```ts

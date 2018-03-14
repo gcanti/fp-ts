@@ -3,6 +3,7 @@ MODULE [Console](https://github.com/gcanti/fp-ts/blob/master/src/Console.ts)
 # error
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -12,6 +13,7 @@ _since 1.0.0_
 # info
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -21,6 +23,7 @@ _since 1.0.0_
 # log
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -30,6 +33,7 @@ _since 1.0.0_
 # warn
 
 _function_
+
 _since 1.0.0_
 
 ```ts

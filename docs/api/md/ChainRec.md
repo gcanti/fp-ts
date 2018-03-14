@@ -13,6 +13,7 @@ interface ChainRec<F> extends Chain<F> {
 # tailRec
 
 _function_
+
 _since 1.0.0_
 
 ```ts

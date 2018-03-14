@@ -3,6 +3,7 @@ MODULE [TaskEither](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.t
 # TaskEither
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly value: Task<Either<L, A>>) {}
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### ap\_
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### bimap
 
 _method_
+
 _since 1.2.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.2.0_
 ### chain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### fold
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -68,6 +75,7 @@ _since 1.0.0_
 ### mapLeft
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -77,6 +85,7 @@ _since 1.0.0_
 ### orElse
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -88,6 +97,7 @@ Transforms the failure value of the `TaskEither` into a new `TaskEither`
 ### run
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -99,6 +109,7 @@ Runs the inner task
 # taskEither
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -108,6 +119,7 @@ Monad2<URI> & Bifunctor2<URI>
 # fromEither
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -117,6 +129,7 @@ _since 1.0.0_
 # left
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -126,6 +139,7 @@ _since 1.0.0_
 # right
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -135,6 +149,7 @@ _since 1.0.0_
 # tryCatch
 
 _function_
+
 _since 1.0.0_
 
 ```ts

@@ -3,6 +3,7 @@ MODULE [Array](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts)
 # catOptions
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -15,6 +16,7 @@ a value, creating a new array
 # cons
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -26,6 +28,7 @@ Attaches an element to the front of an array, creating a new array
 # copy
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -35,6 +38,7 @@ _since 1.0.0_
 # deleteAt
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -47,6 +51,7 @@ returning `None` if the index is out of bounds
 # drop
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -58,6 +63,7 @@ Drop a number of elements from the start of an array, creating a new array
 # dropWhile
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -70,6 +76,7 @@ specified predicate, creating a new array
 # filter
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -81,6 +88,7 @@ Filter an array, keeping the elements which satisfy a predicate function, creati
 # findFirst
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -92,6 +100,7 @@ Find the first element which satisfies a predicate function
 # findIndex
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -103,6 +112,7 @@ Find the first index for which a predicate holds
 # findLast
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -114,6 +124,7 @@ Find the last element which satisfies a predicate function
 # flatten
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -129,6 +140,7 @@ flatten([[1], [2], [3]]) // [1, 2, 3]
 # fold
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -140,6 +152,7 @@ Break an array into its first element and remaining elements
 # foldL
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -151,6 +164,7 @@ Lazy version of `fold`
 # getMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -160,6 +174,7 @@ _since 1.0.0_
 # getOrd
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -177,6 +192,7 @@ if both arrays have the same length, the result is equality.
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -190,6 +206,7 @@ In case of arrays of different lengths, the result is non equality.
 # head
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -201,6 +218,7 @@ Get the first element in an array, or `None` if the array is empty
 # index
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -212,6 +230,7 @@ This function provides a safe way to read a value at a particular index from an 
 # init
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -223,6 +242,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 # insertAt
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -235,6 +255,7 @@ returning `None` if the index is out of bounds
 # isEmpty
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -246,6 +267,7 @@ Test whether an array is empty
 # isOutOfBound
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -257,6 +279,7 @@ Test whether an array contains a particular index
 # last
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -268,6 +291,7 @@ Get the last element in an array, or `None` if the array is empty
 # lefts
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -279,6 +303,7 @@ Extracts from a list of `Either` all the `Left` elements. All the `Left` element
 # mapOption
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -291,6 +316,7 @@ which contain a value, creating a new array
 # modifyAt
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -303,6 +329,7 @@ array, or returning `None` if the index is out of bounds
 # partitionMap
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -312,6 +339,7 @@ _since 1.0.0_
 # refine
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -321,6 +349,7 @@ _since 1.0.0_
 # reverse
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -332,6 +361,7 @@ Reverse an array, creating a new array
 # rights
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -343,6 +373,7 @@ Extracts from a list of `Either` all the `Right` elements. All the `Right` eleme
 # rotate
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -354,6 +385,7 @@ Rotate an array to the right by `n` steps
 # scanLeft
 
 _function_
+
 _since 1.1.0_
 
 ```ts
@@ -369,6 +401,7 @@ scanLeft([1, 2, 3], 10, (b, a) => b - a) // [ 10, 9, 7, 4 ]
 # scanRight
 
 _function_
+
 _since 1.1.0_
 
 ```ts
@@ -385,6 +418,7 @@ scanRight([1, 2, 3], 10, (a, b) => b - a) // [ 4, 5, 7, 10 ]
 # snoc
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -396,6 +430,7 @@ Append an element to the end of an array, creating a new array
 # sort
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -407,6 +442,7 @@ Sort the elements of an array in increasing order, creating a new array
 # span
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -421,6 +457,7 @@ Split an array into two parts:
 # tail
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -432,6 +469,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 # take
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -443,6 +481,7 @@ Keep only a number of elements from the start of an array, creating a new array
 # takeWhile
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -455,6 +494,7 @@ specified predicate, creating a new array
 # traverse
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -464,6 +504,7 @@ traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => 
 # unsafeDeleteAt
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -473,6 +514,7 @@ _since 1.0.0_
 # unsafeInsertAt
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -482,6 +524,7 @@ _since 1.0.0_
 # unsafeUpdateAt
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -491,6 +534,7 @@ _since 1.0.0_
 # updateAt
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -503,6 +547,7 @@ returning `None` if the index is out of bounds
 # zip
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -515,6 +560,7 @@ If one input array is short, excess elements of the longer array are discarded
 # zipWith
 
 _function_
+
 _since 1.0.0_
 
 ```ts

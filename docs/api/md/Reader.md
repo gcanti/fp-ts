@@ -3,6 +3,7 @@ MODULE [Reader](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts)
 # Reader
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly run: (e: E) => A) {}
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### ap\_
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### chain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 # reader
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ Monad2<URI>
 # ask
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -70,6 +77,7 @@ reads the current context
 # asks
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -81,6 +89,7 @@ Projects a value from the global context in a Reader
 # local
 
 _function_
+
 _since 1.0.0_
 
 ```ts

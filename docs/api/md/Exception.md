@@ -3,6 +3,7 @@ MODULE [Exception](https://github.com/gcanti/fp-ts/blob/master/src/Exception.ts)
 # catchError
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ Catch an exception by providing an exception handler
 # error
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -25,6 +27,7 @@ Create a JavaScript error, specifying a message
 # message
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -36,6 +39,7 @@ Get the error message from a JavaScript error
 # stack
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -47,6 +51,7 @@ Get the stack trace from a JavaScript error
 # throwError
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -58,6 +63,7 @@ Throw an exception
 # tryCatch
 
 _function_
+
 _since 1.0.0_
 
 ```ts

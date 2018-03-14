@@ -3,6 +3,7 @@ MODULE [Either](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts)
 # Either
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -40,6 +41,7 @@ left(23).map(double) // left(23)
 ### alt
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -49,6 +51,7 @@ _since 1.0.0_
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -58,6 +61,7 @@ _since 1.0.0_
 ### ap\_
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -67,6 +71,7 @@ _since 1.0.0_
 ### bimap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -76,6 +81,7 @@ _since 1.0.0_
 ### chain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -87,6 +93,7 @@ Binds the given function across `Right`
 ### extend
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -96,6 +103,7 @@ _since 1.0.0_
 ### fold
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -107,6 +115,7 @@ Applies a function to each case in the data structure
 ### getOrElse
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -118,6 +127,7 @@ Returns the value from this `Right` or the given argument if this is a `Left`
 ### getOrElseL
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -129,6 +139,7 @@ Returns the value from this `Right` or the result of given argument if this is a
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -138,6 +149,7 @@ _since 1.0.0_
 ### isLeft
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -149,6 +161,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 ### isRight
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -160,6 +173,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -171,6 +185,7 @@ The given function is applied if this is a `Right`
 ### mapLeft
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -182,6 +197,7 @@ Maps the left side of the disjunction
 ### reduce
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -191,6 +207,7 @@ _since 1.0.0_
 ### swap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -202,6 +219,7 @@ Swaps the disjunction values
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -211,6 +229,7 @@ _since 1.0.0_
 # either
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -226,6 +245,7 @@ Monad2<URI> &
 # fromNullable
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -238,6 +258,7 @@ a `Right`, if the value is nully use the provided default as a `Left`
 # fromOption
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -250,6 +271,7 @@ a `Right`, if the value is a `None` use the provided default as a `Left`
 # fromPredicate
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -259,6 +281,7 @@ _since 1.0.0_
 # fromValidation
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -268,6 +291,7 @@ _since 1.0.0_
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -277,6 +301,7 @@ _since 1.0.0_
 # isLeft
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -288,6 +313,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 # isRight
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -299,6 +325,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 # left
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -311,6 +338,7 @@ This usually represents a failure, due to the right-bias of this structure
 # right
 
 _function_
+
 _since 1.0.0_
 Alias of
 
@@ -324,6 +352,7 @@ This usually represents a successful value due to the right bias of this structu
 # toError
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -335,6 +364,7 @@ Default value for the optional `onerror` argument of `tryCatch`
 # tryCatch
 
 _function_
+
 _since 1.0.0_
 
 ```ts

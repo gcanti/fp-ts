@@ -3,6 +3,7 @@ MODULE [Set](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts)
 # chain
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -12,6 +13,7 @@ _since 1.2.0_
 # difference
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ Form the set difference (`y` - `x`)
 # every
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 # filter
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 # fromArray
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -52,6 +57,7 @@ Create a set from an array
 # getIntersectionSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -61,6 +67,7 @@ _since 1.0.0_
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -70,6 +77,7 @@ _since 1.0.0_
 # getUnionMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -79,6 +87,7 @@ _since 1.0.0_
 # insert
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -90,6 +99,7 @@ Insert a value into a set
 # intersection
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -101,6 +111,7 @@ The set of elements which are in both the first and second set
 # map
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -112,6 +123,7 @@ Projects a Set through a function
 # member
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -123,6 +135,7 @@ Test if a value is a member of a set
 # partition
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -132,6 +145,7 @@ _since 1.2.0_
 # partitionMap
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -141,6 +155,7 @@ _since 1.2.0_
 # reduce
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -150,6 +165,7 @@ _since 1.0.0_
 # remove
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -161,6 +177,7 @@ Delete a value from a set
 # singleton
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -172,6 +189,7 @@ Create a set with one element
 # some
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -181,6 +199,7 @@ _since 1.0.0_
 # subset
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -193,6 +212,7 @@ is an element of the second set
 # toArray
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -202,6 +222,7 @@ _since 1.0.0_
 # union
 
 _function_
+
 _since 1.0.0_
 
 ```ts

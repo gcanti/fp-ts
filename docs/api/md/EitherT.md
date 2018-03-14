@@ -3,6 +3,7 @@ MODULE [EitherT](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts)
 # bimap
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -14,6 +15,7 @@ bimap<F>(
 # chain
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ chain<F>(F: Monad<F>): EitherT<F>['chain']
 # fold
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -34,6 +37,7 @@ fold<F>(
 # fromEither
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -43,6 +47,7 @@ fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A
 # getEitherT
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -52,6 +57,7 @@ getEitherT<M>(M: Monad<M>): EitherT<M>
 # left
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -61,6 +67,7 @@ left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
 # mapLeft
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -72,6 +79,7 @@ mapLeft<F>(
 # right
 
 _function_
+
 _since 1.0.0_
 
 ```ts

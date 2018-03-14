@@ -22,6 +22,7 @@ Instances should satisfy the laws of total orderings:
 # ordBoolean
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -31,6 +32,7 @@ Ord<boolean>
 # ordNumber
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -40,6 +42,7 @@ Ord<number>
 # ordString
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -49,6 +52,7 @@ Ord<string>
 # between
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -60,6 +64,7 @@ Test whether a value is between a minimum and a maximum (inclusive)
 # clamp
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -71,6 +76,7 @@ Clamp a value between a minimum and a maximum
 # contramap
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -80,6 +86,7 @@ _since 1.0.0_
 # fromCompare
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -89,6 +96,7 @@ _since 1.0.0_
 # getProductOrd
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -98,6 +106,7 @@ _since 1.0.0_
 # getSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -107,6 +116,7 @@ _since 1.0.0_
 # greaterThan
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -118,6 +128,7 @@ Test whether one value is _strictly greater than_ another
 # greaterThanOrEq
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -129,6 +140,7 @@ Test whether one value is _non-strictly greater than_ another
 # lessThan
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -140,6 +152,7 @@ Test whether one value is _strictly less than_ another
 # lessThanOrEq
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -151,6 +164,7 @@ Test whether one value is _non-strictly less than_ another
 # max
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -162,6 +176,7 @@ Take the maximum of two values. If they are considered equal, the first argument
 # min
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -173,6 +188,7 @@ Take the minimum of two values. If they are considered equal, the first argument
 # unsafeCompare
 
 _function_
+
 _since 1.0.0_
 
 ```ts

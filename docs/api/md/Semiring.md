@@ -38,6 +38,7 @@ overflows, and in the case of `Number`, the presence of `NaN` and
 # getFunctionSemiring
 
 _function_
+
 _since 1.0.0_
 
 ```ts

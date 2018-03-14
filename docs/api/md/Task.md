@@ -3,6 +3,7 @@ MODULE [Task](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts)
 # Task
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly run: Lazy<Promise<A>>) {}
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### ap\_
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### chain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ _since 1.0.0_
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -68,6 +75,7 @@ _since 1.0.0_
 # task
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -77,6 +85,7 @@ Monad1<URI>
 # fromIO
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -88,6 +97,7 @@ Lifts an IO action into a Task
 # getMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -97,6 +107,7 @@ _since 1.0.0_
 # getRaceMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -106,6 +117,7 @@ _since 1.0.0_
 # getSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -115,6 +127,7 @@ _since 1.0.0_
 # tryCatch
 
 _function_
+
 _since 1.0.0_
 
 ```ts

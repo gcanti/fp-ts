@@ -3,6 +3,7 @@ MODULE [Pair](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts)
 # Pair
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly fst: A, readonly snd: A) {}
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### ap\_
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### extend
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### extract
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### first
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -61,6 +67,7 @@ Map a function over the first field of a pair
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -70,6 +77,7 @@ _since 1.0.0_
 ### reduce
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -79,6 +87,7 @@ _since 1.0.0_
 ### second
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -90,6 +99,7 @@ Map a function over the second field of a pair
 ### swap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -101,6 +111,7 @@ Swaps the elements in a pair
 # pair
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -110,6 +121,7 @@ Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI>
 # getMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -119,6 +131,7 @@ _since 1.0.0_
 # getOrd
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -128,6 +141,7 @@ _since 1.0.0_
 # getSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -137,6 +151,7 @@ _since 1.0.0_
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts

@@ -15,6 +15,7 @@ interface Profunctor<F> {
 # lmap
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -24,6 +25,7 @@ lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B
 # rmap
 
 _function_
+
 _since 1.0.0_
 
 ```ts

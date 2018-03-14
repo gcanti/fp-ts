@@ -27,7 +27,7 @@ const printDescription = (description: Option<string>): string => description.fo
 const printMethod = (m: Method): string => {
   let s = CRLF + h3(m.name)
   s += CRLF + italic('method')
-  s += CRLF + italic(`since ${m.since}`)
+  s += CRLF + CRLF + italic(`since ${m.since}`)
   s += CRLF + ts(m.signature)
   s += printDescription(m.description)
   return s
@@ -36,7 +36,7 @@ const printMethod = (m: Method): string => {
 const printData = (d: Data): string => {
   let s = `\n${h1(d.name)}`
   s += CRLF + italic('data')
-  s += CRLF + italic(`since ${d.since}`)
+  s += CRLF + CRLF + italic(`since ${d.since}`)
   s += CRLF + ts(d.signature)
   s += printDescription(d.description)
   if (d.constructors.length > 0 && d.constructors[0].methods.length) {
@@ -53,7 +53,7 @@ const printData = (d: Data): string => {
 const printInstance = (i: Instance): string => {
   let s = `\n${h1(i.name)}`
   s += CRLF + italic('instance')
-  s += CRLF + italic(`since ${i.since}`)
+  s += CRLF + CRLF + italic(`since ${i.since}`)
   s += CRLF + ts(i.signature)
   s += printDescription(i.description)
   return s
@@ -62,7 +62,7 @@ const printInstance = (i: Instance): string => {
 const printFunc = (f: Func): string => {
   let s = `\n${h1(f.name)}`
   s += CRLF + italic('function')
-  s += CRLF + italic(`since ${f.since}`)
+  s += CRLF + CRLF + italic(`since ${f.since}`)
   if (f.isAlias) {
     s += CRLF + 'Alias of'
   }

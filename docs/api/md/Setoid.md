@@ -21,6 +21,7 @@ Instances must satisfy the following laws:
 # setoidBoolean
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -30,6 +31,7 @@ setoidBoolean:
 # setoidNumber
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -39,6 +41,7 @@ setoidNumber:
 # setoidString
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -48,6 +51,7 @@ setoidString:
 # contramap
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -57,6 +61,7 @@ _since 1.2.0_
 # getArraySetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -66,6 +71,7 @@ _since 1.0.0_
 # getProductSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -75,6 +81,7 @@ _since 1.0.0_
 # getRecordSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -86,6 +93,7 @@ _since 1.0.0_
 # strictEqual
 
 _function_
+
 _since 1.0.0_
 
 ```ts

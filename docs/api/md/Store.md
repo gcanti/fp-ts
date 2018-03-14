@@ -3,6 +3,7 @@ MODULE [Store](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts)
 # Store
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly peek: (s: S) => A, readonly pos: S) {}
 ### extend
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### extract
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### seek
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -61,6 +67,7 @@ Reposition the focus at the specified position
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -70,6 +77,7 @@ _since 1.0.0_
 # store
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -79,6 +87,7 @@ Comonad2<URI>
 # experiment
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -90,6 +99,7 @@ Extract a collection of values from positions which depend on the current positi
 # peeks
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -101,6 +111,7 @@ Extract a value from a position which depends on the current position
 # seeks
 
 _function_
+
 _since 1.0.0_
 
 ```ts

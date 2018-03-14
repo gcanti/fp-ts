@@ -3,6 +3,7 @@ MODULE [Random](https://github.com/gcanti/fp-ts/blob/master/src/Random.ts)
 # randomInt
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -17,6 +18,7 @@ or if either of `low` or `high` is not an integer.
 # randomRange
 
 _function_
+
 _since 1.0.0_
 
 ```ts

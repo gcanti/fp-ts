@@ -13,6 +13,7 @@ interface Semigroup<A> {
 # semigroupAll
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -24,6 +25,7 @@ Boolean semigroup under conjunction
 # semigroupAny
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -35,6 +37,7 @@ Boolean semigroup under disjunction
 # semigroupProduct
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -46,6 +49,7 @@ Number Semigroup under multiplication
 # semigroupString
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -55,6 +59,7 @@ Semigroup<string>
 # semigroupSum
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -66,6 +71,7 @@ Number Semigroup under addition
 # semigroupVoid
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -75,6 +81,7 @@ Semigroup<void>
 # fold
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -84,6 +91,7 @@ _since 1.0.0_
 # getArraySemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -95,6 +103,7 @@ Semigroup under array concatenation
 # getDualSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -104,6 +113,7 @@ _since 1.0.0_
 # getFirstSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -113,6 +123,7 @@ _since 1.0.0_
 # getFunctionSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -122,6 +133,7 @@ _since 1.0.0_
 # getJoinSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -131,6 +143,7 @@ _since 1.0.0_
 # getLastSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -140,6 +153,7 @@ _since 1.0.0_
 # getMeetSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -149,6 +163,7 @@ _since 1.0.0_
 # getProductSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -158,6 +173,7 @@ _since 1.0.0_
 # getRecordSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts

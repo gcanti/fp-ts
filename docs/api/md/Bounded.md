@@ -21,6 +21,7 @@ Instances should satisfy the following law in addition to the `Ord` laws:
 # boundedNumber
 
 _instance_
+
 _since 1.0.0_
 
 ```ts

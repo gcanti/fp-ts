@@ -3,6 +3,7 @@ MODULE [StateT](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts)
 # ap
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ ap<F>(
 # chain
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -25,6 +27,7 @@ chain<F>(
 # fromState
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -34,6 +37,7 @@ fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A,
 # get
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -43,6 +47,7 @@ get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>
 # getStateT
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -52,6 +57,7 @@ getStateT<M>(M: Monad<M>): StateT<M>
 # gets
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -61,6 +67,7 @@ gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>
 # liftF
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -70,6 +77,7 @@ liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]>
 # map
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -81,6 +89,7 @@ map<F>(
 # modify
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -90,6 +99,7 @@ modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void,
 # of
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -99,6 +109,7 @@ of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]>
 # put
 
 _function_
+
 _since 1.0.0_
 
 ```ts

@@ -3,6 +3,7 @@ MODULE [IxIO](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts)
 # IxIO
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly value: IO<A>) {}
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### chain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### ichain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### run
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ _since 1.0.0_
 # ixIO
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -68,6 +75,7 @@ IxMonad3<URI>
 # getMonad
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -77,6 +85,7 @@ _since 1.0.0_
 # iof
 
 _function_
+
 _since 1.0.0_
 
 ```ts

@@ -3,6 +3,7 @@ MODULE [NonEmptyArray](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyA
 # NonEmptyArray
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### ap\_
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### chain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### concat
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### concatArray
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ _since 1.0.0_
 ### extend
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -68,6 +75,7 @@ _since 1.0.0_
 ### extract
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -77,6 +85,7 @@ _since 1.0.0_
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -86,6 +95,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -95,6 +105,7 @@ _since 1.0.0_
 ### reduce
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -104,6 +115,7 @@ _since 1.0.0_
 ### toArray
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -113,6 +125,7 @@ _since 1.0.0_
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -122,6 +135,7 @@ _since 1.0.0_
 # nonEmptyArray
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -131,6 +145,7 @@ Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI>
 # fromArray
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -140,6 +155,7 @@ _since 1.0.0_
 # getSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts

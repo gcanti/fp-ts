@@ -21,6 +21,7 @@ laws:
 # getFunctionRing
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -30,6 +31,7 @@ _since 1.0.0_
 # getProductRing
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -39,6 +41,7 @@ _since 1.0.0_
 # negate
 
 _function_
+
 _since 1.0.0_
 
 ```ts

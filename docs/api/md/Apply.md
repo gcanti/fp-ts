@@ -25,6 +25,7 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 # applyFirst
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -36,6 +37,7 @@ Combine two effectful actions, keeping only the result of the first
 # applySecond
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -47,6 +49,7 @@ Combine two effectful actions, keeping only the result of the second
 # liftA2
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -58,6 +61,7 @@ Lift a function of two arguments to a function which accepts and returns values 
 # liftA3
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -71,6 +75,7 @@ Lift a function of three arguments to a function which accepts and returns value
 # liftA4
 
 _function_
+
 _since 1.0.0_
 
 ```ts

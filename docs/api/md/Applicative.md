@@ -32,6 +32,7 @@ Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 # getApplicativeComposition
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +42,7 @@ getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): Applicati
 # when
 
 _function_
+
 _since 1.0.0_
 
 ```ts

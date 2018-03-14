@@ -3,6 +3,7 @@ MODULE [Option](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts)
 # Option
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -18,6 +19,7 @@ The most idiomatic way to use an `Option` instance is to treat it as a collectio
 ### alt
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -39,6 +41,7 @@ For example:
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -57,6 +60,7 @@ For example:
 ### ap\_
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -75,6 +79,7 @@ For example:
 ### chain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -88,6 +93,7 @@ Returns `None` if this `Option` is empty. Slightly different from `map` in that 
 ### contains
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -99,6 +105,7 @@ Returns `true` if the option has an element that is equal (as determined by `S`)
 ### exists
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -110,6 +117,7 @@ Returns `true` if this option is non empty and the predicate `p` returns `true` 
 ### extend
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -119,6 +127,7 @@ _since 1.0.0_
 ### filter
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -130,6 +139,7 @@ Returns this option if it is non empty and the predicate `p` return `true` when 
 ### fold
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -141,6 +151,7 @@ Applies a function to each case in the data structure
 ### foldL
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -152,6 +163,7 @@ Lazy verion of `fold`
 ### getOrElse
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -163,6 +175,7 @@ Returns the value from this `Some` or the given argument if this is a `None`
 ### getOrElseL
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -174,6 +187,7 @@ Lazy version of `getOrElse`
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -183,6 +197,7 @@ _since 1.0.0_
 ### isNone
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -194,6 +209,7 @@ Returns `true` if the option is `None`, `false` otherwise
 ### isSome
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -205,6 +221,7 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -218,6 +235,7 @@ If it maps on `Some` then it will apply the
 ### mapNullable
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -229,6 +247,7 @@ Maps `f` over this Option's value. If the value returned from `f` is null or und
 ### reduce
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -238,6 +257,7 @@ _since 1.0.0_
 ### toNullable
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -249,6 +269,7 @@ Returns the value from this `Some` or `null` if this is a `None`
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -258,6 +279,7 @@ _since 1.0.0_
 ### toUndefined
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -269,6 +291,7 @@ Returns the value from this `Some` or `undefined` if this is a `None`
 # option
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -283,6 +306,7 @@ Monad1<URI> &
 # fromEither
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -292,6 +316,7 @@ _since 1.0.0_
 # fromNullable
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -304,6 +329,7 @@ If the value is `null` or `undefined`, returns `None`, otherwise returns the val
 # fromPredicate
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -313,6 +339,7 @@ _since 1.0.0_
 # getFirstMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -324,6 +351,7 @@ Option monoid returning the left-most non-None value
 # getLastMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -335,6 +363,7 @@ Option monoid returning the right-most non-None value
 # getMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -344,6 +373,7 @@ _since 1.0.0_
 # getOrd
 
 _function_
+
 _since 1.2.0_
 
 ```ts
@@ -359,6 +389,7 @@ the type the `Option` contains.
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -368,6 +399,7 @@ _since 1.0.0_
 # isNone
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -379,6 +411,7 @@ Returns `true` if the option is `None`, `false` otherwise
 # isSome
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -390,6 +423,7 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 # some
 
 _function_
+
 _since 1.0.0_
 Alias of
 
@@ -400,6 +434,7 @@ of
 # tryCatch
 
 _function_
+
 _since 1.0.0_
 
 ```ts
