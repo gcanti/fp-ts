@@ -13,6 +13,7 @@ interface Extend<F> extends Functor<F> {
 # duplicate
 
 _function_
+_since 1.0.0_
 
 ```ts
 duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>

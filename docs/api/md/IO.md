@@ -77,6 +77,7 @@ Monad1<URI>
 # getMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(M: Monoid<A>): Monoid<IO<A>>
@@ -85,6 +86,7 @@ _function_
 # getSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<IO<A>>

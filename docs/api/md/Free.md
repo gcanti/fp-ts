@@ -86,6 +86,7 @@ _since 1.0.0_
 # foldFree
 
 _function_
+_since 1.0.0_
 
 ```ts
 foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A>
@@ -94,6 +95,7 @@ foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A>
 # hoistFree
 
 _function_
+_since 1.0.0_
 
 ```ts
 hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
@@ -104,6 +106,7 @@ Use a natural transformation to change the generating type constructor of a free
 # liftF
 
 _function_
+_since 1.0.0_
 
 ```ts
 <F, A>(fa: HKT<F, A>): Free<F, A>
@@ -114,6 +117,7 @@ Lift an impure value described by the generating type constructor `F` into the f
 # of
 
 _function_
+_since 1.0.0_
 
 ```ts
 <F, A>(a: A): Free<F, A>

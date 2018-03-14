@@ -23,6 +23,7 @@ Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa
 # flatten
 
 _function_
+_since 1.0.0_
 
 ```ts
 flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>

@@ -144,6 +144,7 @@ Functor2<URI> & Foldable2<URI> & Traversable2<URI>
 # failure
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(l: L): Validation<L, A>
@@ -152,6 +153,7 @@ _function_
 # fromEither
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(e: Either<L, A>): Validation<L, A>
@@ -160,6 +162,7 @@ _function_
 # fromPredicate
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A): Validation<L, A>
@@ -168,6 +171,7 @@ _function_
 # getAlt
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(S: Semigroup<L>): Alt2C<URI, L>
@@ -176,6 +180,7 @@ _function_
 # getApplicative
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(S: Semigroup<L>): Applicative2C<URI, L>
@@ -184,6 +189,7 @@ _function_
 # getMonad
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(S: Semigroup<L>): Monad2C<URI, L>
@@ -192,6 +198,7 @@ _function_
 # getMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>>
@@ -200,6 +207,7 @@ _function_
 # getSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>>
@@ -208,6 +216,7 @@ _function_
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>>
@@ -216,6 +225,7 @@ _function_
 # isFailure
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Failure<L, A>
@@ -226,6 +236,7 @@ Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 # isSuccess
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Success<L, A>
@@ -236,6 +247,7 @@ Returns `true` if the validation is an instance of `Success`, `false` otherwise
 # success
 
 _function_
+_since 1.0.0_
 Alias of
 
 ```ts

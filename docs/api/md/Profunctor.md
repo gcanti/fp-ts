@@ -15,6 +15,7 @@ interface Profunctor<F> {
 # lmap
 
 _function_
+_since 1.0.0_
 
 ```ts
 lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C>
@@ -23,6 +24,7 @@ lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B
 # rmap
 
 _function_
+_since 1.0.0_
 
 ```ts
 rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D>

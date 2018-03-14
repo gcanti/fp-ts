@@ -24,6 +24,7 @@ Field<number>
 # gcd
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A)
@@ -34,6 +35,7 @@ The _greatest common divisor_ of two values
 # lcm
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A)

@@ -75,6 +75,7 @@ Semigroup<void>
 # fold
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A
@@ -83,6 +84,7 @@ _function_
 # getArraySemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A = never>(): Semigroup<Array<A>>
@@ -93,6 +95,7 @@ Semigroup under array concatenation
 # getDualSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<A>
@@ -101,6 +104,7 @@ _function_
 # getFirstSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A = never>(): Semigroup<A>
@@ -109,6 +113,7 @@ _function_
 # getFunctionSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S>
@@ -117,6 +122,7 @@ _function_
 # getJoinSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
@@ -125,6 +131,7 @@ _function_
 # getLastSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A = never>(): Semigroup<A>
@@ -133,6 +140,7 @@ _function_
 # getMeetSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
@@ -141,6 +149,7 @@ _function_
 # getProductSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]>
@@ -149,6 +158,7 @@ _function_
 # getRecordSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <O extends { [key: string]: any }>(

@@ -48,6 +48,7 @@ setoidString:
 # contramap
 
 _function_
+_since 1.2.0_
 
 ```ts
 <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B>
@@ -56,6 +57,7 @@ _function_
 # getArraySetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Array<A>>
@@ -64,6 +66,7 @@ _function_
 # getProductSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]>
@@ -72,6 +75,7 @@ _function_
 # getRecordSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <O extends { [key: string]: any }>(
@@ -82,6 +86,7 @@ _function_
 # strictEqual
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(a: A, b: A): boolean

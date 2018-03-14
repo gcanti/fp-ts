@@ -131,6 +131,7 @@ Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI>
 # fromArray
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>): Option<NonEmptyArray<A>>
@@ -139,6 +140,7 @@ _function_
 # getSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A = never>(): Semigroup<NonEmptyArray<A>>

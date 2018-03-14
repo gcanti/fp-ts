@@ -77,6 +77,7 @@ Monad1<URI>
 # fromIO
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(io: IO<A>): Task<A>
@@ -87,6 +88,7 @@ Lifts an IO action into a Task
 # getMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(M: Monoid<A>): Monoid<Task<A>>
@@ -95,6 +97,7 @@ _function_
 # getRaceMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A = never>(): Monoid<Task<A>>
@@ -103,6 +106,7 @@ _function_
 # getSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<Task<A>>
@@ -111,6 +115,7 @@ _function_
 # tryCatch
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): Task<Either<L, A>>

@@ -62,6 +62,7 @@ const printInstance = (i: Instance): string => {
 const printFunc = (f: Func): string => {
   let s = `\n${h1(f.name)}`
   s += CRLF + italic('function')
+  s += CRLF + italic(`since ${f.since}`)
   if (f.isAlias) {
     s += CRLF + 'Alias of'
   }

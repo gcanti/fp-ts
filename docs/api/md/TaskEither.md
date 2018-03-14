@@ -108,6 +108,7 @@ Monad2<URI> & Bifunctor2<URI>
 # fromEither
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: Either<L, A>): TaskEither<L, A>
@@ -116,6 +117,7 @@ _function_
 # left
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: Task<L>): TaskEither<L, A>
@@ -124,6 +126,7 @@ _function_
 # right
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: Task<A>): TaskEither<L, A>
@@ -132,6 +135,7 @@ _function_
 # tryCatch
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A>

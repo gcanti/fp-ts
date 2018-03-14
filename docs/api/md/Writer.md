@@ -50,6 +50,7 @@ Functor2<URI>
 # getMonad
 
 _function_
+_since 1.0.0_
 
 ```ts
 <W>(M: Monoid<W>): Monad2C<URI, W>
@@ -58,6 +59,7 @@ _function_
 # tell
 
 _function_
+_since 1.0.0_
 
 ```ts
 <W>(w: W): Writer<W, void>

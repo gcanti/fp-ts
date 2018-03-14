@@ -21,6 +21,7 @@ laws:
 # getFunctionRing
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B>(ring: Ring<B>): Ring<(a: A) => B>
@@ -29,6 +30,7 @@ _function_
 # getProductRing
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]>
@@ -37,6 +39,7 @@ _function_
 # negate
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(ring: Ring<A>) => (a: A): A

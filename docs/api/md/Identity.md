@@ -122,6 +122,7 @@ Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & C
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(setoid: Setoid<A>): Setoid<Identity<A>>

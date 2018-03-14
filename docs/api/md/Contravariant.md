@@ -14,6 +14,7 @@ interface Contravariant<F> {
 # lift
 
 _function_
+_since 1.0.0_
 
 ```ts
 lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
