@@ -27,3 +27,13 @@ export const writeModule = (name: string, markdown: string): IO<void> => {
 }
 
 export const indexOutputPath: string = path.join(__dirname, '/md/index.md')
+
+export const getModuleNames = (): Array<string> => {
+  const files: Array<string> = []
+  fs.readdirSync(path.join(__dirname, '../../src')).forEach(file => {
+    if (file !== 'index.ts' && file !== '.DS_Store') {
+      files.push(path.parse(file).name)
+    }
+  })
+  return files.sort()
+}

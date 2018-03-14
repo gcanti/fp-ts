@@ -3,12 +3,13 @@ import { array } from '../../src/Array'
 import { sequence_ } from '../../src/Foldable'
 import { log } from '../../src/Console'
 import { printIndex, printModule } from './markdown'
-import { modules } from './domain'
 import { Env, parseModule, ParseError } from './parser'
-import { write, indexOutputPath, readModule, writeModule } from './fs'
+import { write, indexOutputPath, readModule, writeModule, getModuleNames } from './fs'
 import chalk from 'chalk'
 import Ast from 'ts-simple-ast'
 import { SourceFile } from 'ts-simple-ast'
+
+const modules = getModuleNames()
 
 const printError = (error: ParseError): string => {
   switch (error._tag) {
@@ -50,7 +51,7 @@ const processIndex: IO<void> = write(indexOutputPath, printIndex(modules))
 
 const main = log('- DOCUMENTATION -')
   .chain(_ => log('generating modules...'))
-  .chain(_ => sequence_(io, array)(modules.filter(m => m.docs).map(m => processModule(m.name))))
+  .chain(_ => sequence_(io, array)(modules.map(processModule)))
   .chain(_ => log('generating index...'))
   .chain(_ => processIndex)
   .chain(_ => log('generation ok'))
