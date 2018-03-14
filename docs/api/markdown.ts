@@ -1,16 +1,4 @@
-import {
-  Module,
-  ModuleEntry,
-  Data,
-  Method,
-  Func,
-  isData,
-  isFunc,
-  Typeclass,
-  isInstance,
-  Instance,
-  isTypeclass
-} from './domain'
+import { Module, Data, Method, Func, isData, isFunc, Typeclass, isInstance, Instance, isTypeclass } from './domain'
 import { sort } from '../../src/Array'
 import { contramap, ordString } from '../../src/Ord'
 import { Option } from '../../src/Option'
@@ -112,8 +100,8 @@ export const printModule = (module: Module): string => {
   return formatMarkdown(s)
 }
 
-export const printIndex = (modules: Array<ModuleEntry>): string => {
+export const printIndex = (modules: Array<string>): string => {
   let s = '# API\n\n'
-  s += modules.map(m => `- ${link(m.name + (m.docs ? '' : ' (TODO)'), `./${m.name}.md`)}`).join(CRLF)
+  s += modules.map(m => `- ${link(m, `./${m}.md`)}`).join(CRLF)
   return formatMarkdown(s)
 }
