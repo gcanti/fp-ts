@@ -3,6 +3,7 @@ MODULE [Const](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts)
 # Const
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly value: L) {}
 ### contramap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### fold
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ _since 1.0.0_
 # const\_
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -68,6 +75,7 @@ Functor2<URI> & Contravariant2<URI>
 # getApplicative
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -77,6 +85,7 @@ _since 1.0.0_
 # getApply
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -86,6 +95,7 @@ _since 1.0.0_
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts

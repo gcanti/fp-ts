@@ -3,6 +3,7 @@ MODULE [State](https://github.com/gcanti/fp-ts/blob/master/src/State.ts)
 # State
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly run: (s: S) => [A, S]) {}
 ### ap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### ap\_
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### chain
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### eval
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### exec
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -68,6 +75,7 @@ _since 1.0.0_
 # state
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -77,6 +85,7 @@ Monad2<URI>
 # get
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -86,6 +95,7 @@ _since 1.0.0_
 # gets
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -95,6 +105,7 @@ _since 1.0.0_
 # modify
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -104,6 +115,7 @@ _since 1.0.0_
 # put
 
 _function_
+
 _since 1.0.0_
 
 ```ts

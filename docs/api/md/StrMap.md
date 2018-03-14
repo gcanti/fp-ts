@@ -3,6 +3,7 @@ MODULE [StrMap](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts)
 # StrMap
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly value: { [key: string]: A }) {}
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### mapWithKey
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### reduce
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 # strmap
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ Functor1<URI> & Foldable1<URI> & Traversable1<URI>
 # collect
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ _since 1.0.0_
 # fromFoldable
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -73,6 +80,7 @@ specified function to combine values for duplicate keys.
 # getMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -82,6 +90,7 @@ _since 1.0.0_
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -91,6 +100,7 @@ _since 1.0.0_
 # insert
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -102,6 +112,7 @@ Insert or replace a key/value pair in a map
 # isEmpty
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -113,6 +124,7 @@ Test whether a dictionary is empty
 # isSubdictionary
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -124,6 +136,7 @@ Test whether one dictionary contains all of the keys and values contained in ano
 # lookup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -135,6 +148,7 @@ Lookup the value for a key in a dictionary
 # pop
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -146,6 +160,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 # remove
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -157,6 +172,7 @@ Delete a key and value from a map
 # singleton
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -168,6 +184,7 @@ Create a dictionary with one key/value pair
 # size
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -179,6 +196,7 @@ Calculate the number of key/value pairs in a dictionary
 # toArray
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -188,6 +206,7 @@ _since 1.0.0_
 # toUnfoldable
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -199,6 +218,7 @@ Unfolds a dictionary into a list of key/value pairs
 # traverseWithKey
 
 _function_
+
 _since 1.0.0_
 
 ```ts

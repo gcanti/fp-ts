@@ -15,6 +15,7 @@ interface Field<A> extends Ring<A> {
 # fieldNumber
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -24,6 +25,7 @@ Field<number>
 # gcd
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -35,6 +37,7 @@ The _greatest common divisor_ of two values
 # lcm
 
 _function_
+
 _since 1.0.0_
 
 ```ts

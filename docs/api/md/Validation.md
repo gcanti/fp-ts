@@ -3,6 +3,7 @@ MODULE [Validation](https://github.com/gcanti/fp-ts/blob/master/src/Validation.t
 # Validation
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -19,6 +20,7 @@ an arbitrary `Semigroup`.
 ### bimap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -28,6 +30,7 @@ _since 1.0.0_
 ### fold
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -37,6 +40,7 @@ _since 1.0.0_
 ### getOrElse
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -48,6 +52,7 @@ Returns the value from this `Success` or the given argument if this is a `Failur
 ### getOrElseL
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +64,7 @@ Returns the value from this `Success` or the result of given argument if this is
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -68,6 +74,7 @@ _since 1.0.0_
 ### isFailure
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -79,6 +86,7 @@ Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 ### isSuccess
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -90,6 +98,7 @@ Returns `true` if the validation is an instance of `Success`, `false` otherwise
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -99,6 +108,7 @@ _since 1.0.0_
 ### mapFailure
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -108,6 +118,7 @@ _since 1.0.0_
 ### reduce
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -117,6 +128,7 @@ _since 1.0.0_
 ### swap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -126,6 +138,7 @@ _since 1.0.0_
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -135,6 +148,7 @@ _since 1.0.0_
 # validation
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -144,6 +158,7 @@ Functor2<URI> & Foldable2<URI> & Traversable2<URI>
 # failure
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -153,6 +168,7 @@ _since 1.0.0_
 # fromEither
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -162,6 +178,7 @@ _since 1.0.0_
 # fromPredicate
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -171,6 +188,7 @@ _since 1.0.0_
 # getAlt
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -180,6 +198,7 @@ _since 1.0.0_
 # getApplicative
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -189,6 +208,7 @@ _since 1.0.0_
 # getMonad
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -198,6 +218,7 @@ _since 1.0.0_
 # getMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -207,6 +228,7 @@ _since 1.0.0_
 # getSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -216,6 +238,7 @@ _since 1.0.0_
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -225,6 +248,7 @@ _since 1.0.0_
 # isFailure
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -236,6 +260,7 @@ Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 # isSuccess
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -247,6 +272,7 @@ Returns `true` if the validation is an instance of `Success`, `false` otherwise
 # success
 
 _function_
+
 _since 1.0.0_
 Alias of
 

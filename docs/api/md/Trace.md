@@ -3,6 +3,7 @@ MODULE [Trace](https://github.com/gcanti/fp-ts/blob/master/src/Trace.ts)
 # spy
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ Log any value and return it
 # trace
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -27,6 +29,7 @@ low-level debugging
 # traceA
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -38,6 +41,7 @@ Log a message to the console for debugging purposes and then return the unit val
 # traceM
 
 _function_
+
 _since 1.0.0_
 
 ```ts

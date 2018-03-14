@@ -3,6 +3,7 @@ MODULE [function](https://github.com/gcanti/fp-ts/blob/master/src/function.ts)
 # and
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -12,6 +13,7 @@ _since 1.0.0_
 # apply
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ Applies a function to an argument ($)
 # applyFlipped
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -34,6 +37,7 @@ Applies an argument to a function (#)
 # compose
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -43,6 +47,7 @@ compose(...fns: Array<Function>): Function
 # concat
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -52,6 +57,7 @@ _since 1.0.0_
 # constFalse
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -63,6 +69,7 @@ A thunk that returns always `false`
 # constNull
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -74,6 +81,7 @@ A thunk that returns always `null`
 # constTrue
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -85,6 +93,7 @@ A thunk that returns always `true`
 # constUndefined
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -96,6 +105,7 @@ A thunk that returns always `undefined`
 # constant
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -105,6 +115,7 @@ _since 1.0.0_
 # curry
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -114,6 +125,7 @@ curry(f: Function)
 # flip
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -125,6 +137,7 @@ Flips the order of the arguments to a function of two arguments.
 # identity
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -134,6 +147,7 @@ _since 1.0.0_
 # not
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -143,6 +157,7 @@ _since 1.0.0_
 # on
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -154,6 +169,7 @@ The `on` function is used to change the domain of a binary operator.
 # or
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -163,6 +179,7 @@ or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
 # pipe
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -172,6 +189,7 @@ pipe(...fns: Array<Function>): Function
 # toString
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -181,6 +199,7 @@ _since 1.0.0_
 # tuple
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -190,6 +209,7 @@ _since 1.0.0_
 # tupleCurried
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -199,6 +219,7 @@ _since 1.0.0_
 # unsafeCoerce
 
 _function_
+
 _since 1.0.0_
 
 ```ts

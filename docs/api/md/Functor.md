@@ -25,6 +25,7 @@ Instances must satisfy the following laws:
 # flap
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -36,6 +37,7 @@ Apply a value in a computational context to a value in no context. Generalizes `
 # getFunctorComposition
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -45,6 +47,7 @@ getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F,
 # lift
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -56,6 +59,7 @@ Lift a function of one argument to a function which accepts and returns values w
 # voidLeft
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -67,6 +71,7 @@ A version of `voidRight` with its arguments flipped (`$>`)
 # voidRight
 
 _function_
+
 _since 1.0.0_
 
 ```ts

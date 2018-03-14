@@ -3,6 +3,7 @@ MODULE [These](https://github.com/gcanti/fp-ts/blob/master/src/These.ts)
 # These
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 ### bimap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### fold
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -34,6 +37,7 @@ Applies a function to each case in the data structure
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -43,6 +47,7 @@ _since 1.0.0_
 ### isBoth
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -54,6 +59,7 @@ Returns `true` if the these is `Both`, `false` otherwise
 ### isThat
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -65,6 +71,7 @@ Returns `true` if the these is `That`, `false` otherwise
 ### isThis
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -76,6 +83,7 @@ Returns `true` if the these is `This`, `false` otherwise
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -85,6 +93,7 @@ _since 1.0.0_
 ### reduce
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -94,6 +103,7 @@ _since 1.0.0_
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -103,6 +113,7 @@ _since 1.0.0_
 # these
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -112,6 +123,7 @@ Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 # both
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -121,6 +133,7 @@ _since 1.0.0_
 # fromThese
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -130,6 +143,7 @@ _since 1.0.0_
 # getMonad
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -139,6 +153,7 @@ _since 1.0.0_
 # getSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -148,6 +163,7 @@ _since 1.0.0_
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -157,6 +173,7 @@ _since 1.0.0_
 # isBoth
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -168,6 +185,7 @@ Returns `true` if the these is an instance of `Both`, `false` otherwise
 # isThat
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -179,6 +197,7 @@ Returns `true` if the these is an instance of `That`, `false` otherwise
 # isThis
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -190,6 +209,7 @@ Returns `true` if the these is an instance of `This`, `false` otherwise
 # that
 
 _function_
+
 _since 1.0.0_
 Alias of
 
@@ -200,6 +220,7 @@ of
 # theseLeft
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -209,6 +230,7 @@ _since 1.0.0_
 # theseRight
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -218,6 +240,7 @@ _since 1.0.0_
 # this\_
 
 _function_
+
 _since 1.0.0_
 
 ```ts

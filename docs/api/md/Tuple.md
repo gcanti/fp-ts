@@ -3,6 +3,7 @@ MODULE [Tuple](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts)
 # Tuple
 
 _data_
+
 _since 1.0.0_
 
 ```ts
@@ -14,6 +15,7 @@ constructor(readonly fst: L, readonly snd: A) {}
 ### bimap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -23,6 +25,7 @@ _since 1.0.0_
 ### compose
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -32,6 +35,7 @@ _since 1.0.0_
 ### extend
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -41,6 +45,7 @@ _since 1.0.0_
 ### extract
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -50,6 +55,7 @@ _since 1.0.0_
 ### inspect
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -59,6 +65,7 @@ _since 1.0.0_
 ### map
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -68,6 +75,7 @@ _since 1.0.0_
 ### reduce
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -77,6 +85,7 @@ _since 1.0.0_
 ### swap
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -88,6 +97,7 @@ Exchange the first and second components of a tuple
 ### toString
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -97,6 +107,7 @@ _since 1.0.0_
 ### toTuple
 
 _method_
+
 _since 1.0.0_
 
 ```ts
@@ -106,6 +117,7 @@ _since 1.0.0_
 # tuple
 
 _instance_
+
 _since 1.0.0_
 
 ```ts
@@ -115,6 +127,7 @@ Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversa
 # getApplicative
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -124,6 +137,7 @@ _since 1.0.0_
 # getApply
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -133,6 +147,7 @@ _since 1.0.0_
 # getChain
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -142,6 +157,7 @@ _since 1.0.0_
 # getChainRec
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -151,6 +167,7 @@ _since 1.0.0_
 # getMonad
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -160,6 +177,7 @@ _since 1.0.0_
 # getMonoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -169,6 +187,7 @@ _since 1.0.0_
 # getOrd
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -181,6 +200,7 @@ To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
 # getSemigroup
 
 _function_
+
 _since 1.0.0_
 
 ```ts
@@ -190,6 +210,7 @@ _since 1.0.0_
 # getSetoid
 
 _function_
+
 _since 1.0.0_
 
 ```ts
