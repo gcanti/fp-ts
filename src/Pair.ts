@@ -26,6 +26,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor Pair
+ * @since 1.0.0
  */
 export class Pair<A> {
   readonly _A!: A
@@ -87,14 +88,20 @@ const extend = <A, B>(fa: Pair<A>, f: (fb: Pair<A>) => B): Pair<B> => {
   return fa.extend(f)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => {
   return {
     equals: (x, y) => S.equals(x.fst, y.fst) && S.equals(x.snd, y.snd)
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => {
   return {
     ...getSetoid(O),
@@ -102,14 +109,20 @@ export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => {
   return {
     concat: (x, y) => new Pair(S.concat(x.fst, y.fst), S.concat(x.snd, y.snd))
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
   return {
     ...getSemigroup(M),
@@ -122,7 +135,10 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F,
     liftA2(F)((b1: B) => (b2: B) => new Pair(b1, b2))(f(ta.fst))(f(ta.snd))
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const pair: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map,

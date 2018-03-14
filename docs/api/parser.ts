@@ -14,7 +14,7 @@ import { Option, none, some, fromNullable } from '../../src/Option'
 import { Either, left, right } from '../../src/Either'
 import { rights, lefts, flatten } from '../../src/Array'
 import { parse, Tag, Annotation } from 'doctrine'
-import { ReaderEither, alt } from '../../examples/ReaderEither'
+import { ReaderEither } from '../../examples/ReaderEither'
 
 // TODO: avoid comment duplication in overloaded function declarations
 
@@ -36,7 +36,12 @@ export class DataInvalidConstructorName {
   constructor(readonly module: string, readonly name: string) {}
 }
 
-export type ParseError = DataMissingConstructorName | DataInvalidConstructorName | NotFound
+export class SinceMissing {
+  _tag: 'SinceMissing' = 'SinceMissing'
+  constructor(readonly module: string, readonly name: string) {}
+}
+
+export type ParseError = DataMissingConstructorName | DataInvalidConstructorName | SinceMissing | NotFound
 
 export type ParseErrors = Array<ParseError>
 
@@ -80,11 +85,14 @@ const getMethod = (md: MethodDeclaration): Method => {
   const end = text.indexOf('{')
   const signature = text.substring(start, end)
   const description = fromNullable(md.getDocumentationComment()).filter(s => s.trim() !== '')
+  const annotation = getAnnotation(md.getDocumentationCommentNodes())
+  const since = getSince(annotation)
   return {
     type: 'method',
     name,
     signature,
-    description
+    description,
+    since: since.getOrElse('1.0.0')
   }
 }
 
@@ -114,7 +122,16 @@ const isAlias = hasTag('alias')
 
 const isTypeclass = hasTag('typeclass')
 
-const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<Data> => {
+const isSinceTag = (tag: Tag): boolean => {
+  return tag.title === 'since'
+}
+
+const getSince = (annotation: Annotation): Option<string> => {
+  return fromNullable(annotation.tags.filter(isSinceTag)[0]).mapNullable(tag => tag.description)
+}
+
+/** parses data types which are unions */
+const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
     const annotation = getAnnotation(tad.getDocumentationCommentNodes())
     if (isData(annotation)) {
@@ -138,18 +155,20 @@ const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<D
         return kos(errors)
       }
       const constructors = rights(eitherConstructors)
-      return ok(new Data(dataName, signature, description, constructors))
+      const since = getSince(annotation)
+      if (since.isNone()) {
+        return ko(new SinceMissing(e.currentModuleName, dataName))
+      } else {
+        return ok(new Data(dataName, signature, description, constructors, since.value))
+      }
     }
     return notFound
   })
 }
 
-const parseTypeAlias = (tad: TypeAliasDeclaration): ParseResult<Export> => {
-  return parseTypeAliasDeclarationData(tad)
-}
-
+/** parses data types which are a single class */
 const parseClassDeclarationData = (c: ClassDeclaration): ParseResult<Export> => {
-  return new ReaderEither(() => {
+  return new ReaderEither(e => {
     const annotation = getAnnotation(c.getDocumentationCommentNodes())
     if (isData(annotation)) {
       const dataName = c.getName()
@@ -157,14 +176,15 @@ const parseClassDeclarationData = (c: ClassDeclaration): ParseResult<Export> => 
       const description = fromJSDocDescription(annotation.description)
       const methods = getClassMethods(c)
       const constructors = [new Constructor(dataName, methods)]
-      return ok(new Data(dataName, signature, description, constructors))
+      const since = getSince(annotation)
+      if (since.isNone()) {
+        return ko(new SinceMissing(e.currentModuleName, dataName))
+      } else {
+        return ok(new Data(dataName, signature, description, constructors, since.value))
+      }
     }
     return notFound
   })
-}
-
-const parseClass = (c: ClassDeclaration): ParseResult<Export> => {
-  return parseClassDeclarationData(c)
 }
 
 const indexOf = (big: string, small: string) => {
@@ -173,7 +193,7 @@ const indexOf = (big: string, small: string) => {
 }
 
 const parseInstanceVariableDeclaration = (vd: VariableDeclaration): ParseResult<Export> => {
-  return new ReaderEither(() => {
+  return new ReaderEither(e => {
     const p = vd.getParent()
     if (p) {
       const pp = p.getParent()
@@ -187,7 +207,12 @@ const parseInstanceVariableDeclaration = (vd: VariableDeclaration): ParseResult<
           const start = text.indexOf(': ') + ': '.length
           const end = text.indexOf(' = {')
           const signature = text.substring(start, end)
-          return ok(new Instance(name, signature, description))
+          const since = getSince(annotation)
+          if (since.isNone()) {
+            return ko(new SinceMissing(e.currentModuleName, name))
+          } else {
+            return ok(new Instance(name, signature, description, since.value))
+          }
         }
       }
     }
@@ -196,7 +221,7 @@ const parseInstanceVariableDeclaration = (vd: VariableDeclaration): ParseResult<
 }
 
 const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<Export> => {
-  return new ReaderEither(() => {
+  return new ReaderEither(e => {
     const p = vd.getParent()
     if (p) {
       const pp = p.getParent()
@@ -210,16 +235,17 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
           const start = text.indexOf(' = ') + ' = '.length
           const end = indexOf(text, ' => {')
           const signature = text.substring(start, end.getOrElse(text.length))
-          return ok(new Func(name, signature, description, isAlias(annotation)))
+          const since = getSince(annotation)
+          if (since.isNone()) {
+            return ko(new SinceMissing(e.currentModuleName, name))
+          } else {
+            return ok(new Func(name, signature, description, isAlias(annotation), since.value))
+          }
         }
       }
     }
     return notFound
   })
-}
-
-const parseVariableDeclaration = (vd: VariableDeclaration): ParseResult<Export> => {
-  return alt(parseFunctionVariableDeclaration(vd), parseInstanceVariableDeclaration(vd))
 }
 
 const parseTypeclassInterface = (i: InterfaceDeclaration): ParseResult<Export> => {
@@ -236,7 +262,7 @@ const parseTypeclassInterface = (i: InterfaceDeclaration): ParseResult<Export> =
 }
 
 const parseFunctionDeclaration = (f: FunctionDeclaration): ParseResult<Export> => {
-  return new ReaderEither(() => {
+  return new ReaderEither(e => {
     const annotation = getAnnotation(f.getDocumentationCommentNodes())
     if (isFunc(annotation)) {
       const name = f.getName()
@@ -245,7 +271,12 @@ const parseFunctionDeclaration = (f: FunctionDeclaration): ParseResult<Export> =
       const start = 'export function '.length
       const end = text.indexOf('{')
       const signature = text.substring(start, end === -1 ? text.length : end)
-      return ok(new Func(name, signature, description, false))
+      const since = getSince(annotation)
+      if (since.isNone()) {
+        return ko(new SinceMissing(e.currentModuleName, name))
+      } else {
+        return ok(new Func(name, signature, description, false, since.value))
+      }
     }
     return notFound
   })
@@ -254,19 +285,25 @@ const parseFunctionDeclaration = (f: FunctionDeclaration): ParseResult<Export> =
 export const parseModule: ParseResult<Module> = new ReaderEither(e => {
   const sf = e.currentSourceFile
 
-  const eitherTypeAliasesExports = sf.getTypeAliases().map(tad => parseTypeAlias(tad).run(e))
-  const eitherClassExports = sf.getClasses().map(c => parseClass(c).run(e))
-  const eitherVariableDeclarationExports = sf.getVariableDeclarations().map(vd => parseVariableDeclaration(vd).run(e))
+  const eitherTypeAliasesExports = sf.getTypeAliases().map(tad => parseTypeAliasDeclarationData(tad).run(e))
+  const eitherClassExports = sf.getClasses().map(c => parseClassDeclarationData(c).run(e))
+  const eitherFunctionVariableDeclarationExports = sf
+    .getVariableDeclarations()
+    .map(vd => parseFunctionVariableDeclaration(vd).run(e))
+  const eitherInstanceVariableDeclarationExports = sf
+    .getVariableDeclarations()
+    .map(vd => parseInstanceVariableDeclaration(vd).run(e))
   const eitherFunctionDeclarationExports = sf.getFunctions().map(f => parseFunctionDeclaration(f).run(e))
   const eitherTypeClasses = sf.getInterfaces().map(i => parseTypeclassInterface(i).run(e))
 
   const eitherExports = eitherTypeAliasesExports
     .concat(eitherClassExports)
-    .concat(eitherVariableDeclarationExports)
+    .concat(eitherFunctionVariableDeclarationExports)
+    .concat(eitherInstanceVariableDeclarationExports)
     .concat(eitherFunctionDeclarationExports)
     .concat(eitherTypeClasses)
 
-  const errors = flatten(lefts(eitherExports)).filter(x => !isNotFound(x))
+  const errors = flatten(lefts(eitherExports)).filter(error => !isNotFound(error))
 
   if (errors.length > 0) {
     return kos(errors)

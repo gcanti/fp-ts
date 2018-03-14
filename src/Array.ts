@@ -36,7 +36,10 @@ export const URI = 'Array'
 
 export type URI = typeof URI
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonoid = <A = never>(): Monoid<Array<A>> => {
   return {
     concat,
@@ -50,6 +53,7 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
  * In case of arrays of different lengths, the result is non equality.
  *
  * @function
+ * @since 1.0.0
  */
 export const getSetoid: <A>(S: Setoid<A>) => Setoid<A[]> = getArraySetoid
 
@@ -61,6 +65,7 @@ export const getSetoid: <A>(S: Setoid<A>) => Setoid<A[]> = getArraySetoid
  * if both arrays have the same length, the result is equality.
  *
  * @function
+ * @since 1.2.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => ({
   ...getSetoid(O),
@@ -143,6 +148,10 @@ export function traverse<F extends URIS>(
   F: Applicative1<F>
 ): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
   const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(as => a => snoc(as, a))
   return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
@@ -172,7 +181,10 @@ const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
   return fa.map((_, i, as) => f(as.slice(i)))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): { left: Array<L>; right: Array<R> } => {
   const left: Array<L> = []
   const right: Array<R> = []
@@ -196,6 +208,7 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
  * ```
  *
  * @function
+ * @since 1.0.0
  */
 export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
   let rLen = 0
@@ -219,6 +232,7 @@ export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
 /**
  * Break an array into its first element and remaining elements
  * @function
+ * @since 1.0.0
  */
 export const fold = <A, B>(as: Array<A>, b: B, cons: (head: A, tail: Array<A>) => B): B => {
   return isEmpty(as) ? b : cons(as[0], as.slice(1))
@@ -227,6 +241,7 @@ export const fold = <A, B>(as: Array<A>, b: B, cons: (head: A, tail: Array<A>) =
 /**
  * Lazy version of `fold`
  * @function
+ * @since 1.0.0
  */
 export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Array<A>) => B): B => {
   return isEmpty(as) ? nil() : cons(as[0], as.slice(1))
@@ -240,6 +255,7 @@ export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Ar
  * ```
  *
  * @function
+ * @since 1.1.0
  */
 export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> => {
   const l = as.length
@@ -260,6 +276,7 @@ export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Arra
  * ```
  *
  * @function
+ * @since 1.1.0
  */
 export const scanRight = <A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array<B> => {
   const l = as.length
@@ -274,6 +291,7 @@ export const scanRight = <A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array
 /**
  * Test whether an array is empty
  * @function
+ * @since 1.0.0
  */
 export const isEmpty = <A>(as: Array<A>): boolean => {
   return as.length === 0
@@ -282,6 +300,7 @@ export const isEmpty = <A>(as: Array<A>): boolean => {
 /**
  * Test whether an array contains a particular index
  * @function
+ * @since 1.0.0
  */
 export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
   return i < 0 || i >= as.length
@@ -290,6 +309,7 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
 /**
  * This function provides a safe way to read a value at a particular index from an array
  * @function
+ * @since 1.0.0
  */
 export const index = <A>(i: number, as: Array<A>): Option<A> => {
   return isOutOfBound(i, as) ? option.none : option.some(as[i])
@@ -297,6 +317,8 @@ export const index = <A>(i: number, as: Array<A>): Option<A> => {
 
 /**
  * Attaches an element to the front of an array, creating a new array
+ * @function
+ * @since 1.0.0
  */
 export const cons = <A>(a: A, as: Array<A>): Array<A> => {
   const len = as.length
@@ -311,6 +333,7 @@ export const cons = <A>(a: A, as: Array<A>): Array<A> => {
 /**
  * Append an element to the end of an array, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const snoc = <A>(as: Array<A>, a: A): Array<A> => {
   const len = as.length
@@ -325,6 +348,7 @@ export const snoc = <A>(as: Array<A>, a: A): Array<A> => {
 /**
  * Get the first element in an array, or `None` if the array is empty
  * @function
+ * @since 1.0.0
  */
 export const head = <A>(as: Array<A>): Option<A> => {
   return isEmpty(as) ? option.none : option.some(as[0])
@@ -333,6 +357,7 @@ export const head = <A>(as: Array<A>): Option<A> => {
 /**
  * Get the last element in an array, or `None` if the array is empty
  * @function
+ * @since 1.0.0
  */
 export const last = <A>(as: Array<A>): Option<A> => {
   return index(as.length - 1, as)
@@ -341,6 +366,7 @@ export const last = <A>(as: Array<A>): Option<A> => {
 /**
  * Get all but the first element of an array, creating a new array, or `None` if the array is empty
  * @function
+ * @since 1.0.0
  */
 export const tail = <A>(as: Array<A>): Option<Array<A>> => {
   return isEmpty(as) ? option.none : option.some(as.slice(1))
@@ -349,6 +375,7 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => {
 /**
  * Get all but the last element of an array, creating a new array, or `None` if the array is empty
  * @function
+ * @since 1.0.0
  */
 export const init = <A>(as: Array<A>): Option<Array<A>> => {
   const len = as.length
@@ -358,6 +385,7 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => {
 /**
  * Keep only a number of elements from the start of an array, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const take = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(0, n)
@@ -379,6 +407,7 @@ const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
  * 1. the longest initial subarray for which all elements satisfy the specified predicate
  * 2. the remaining elements
  * @function
+ * @since 1.0.0
  */
 export const span = <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> } => {
   const i = spanIndexUncurry(as, predicate)
@@ -398,6 +427,7 @@ export const span = <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>
  * Calculate the longest initial subarray for which all element satisfy the
  * specified predicate, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const takeWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
   const i = spanIndexUncurry(as, predicate)
@@ -411,6 +441,7 @@ export const takeWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> =>
 /**
  * Drop a number of elements from the start of an array, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const drop = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(n, as.length)
@@ -420,6 +451,7 @@ export const drop = <A>(n: number, as: Array<A>): Array<A> => {
  * Remove the longest initial subarray for which all element satisfy the
  * specified predicate, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
   const i = spanIndexUncurry(as, predicate)
@@ -434,6 +466,7 @@ export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> =>
 /**
  * Find the first index for which a predicate holds
  * @function
+ * @since 1.0.0
  */
 export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<number> => {
   const len = as.length
@@ -448,6 +481,7 @@ export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<numb
 /**
  * Find the first element which satisfies a predicate function
  * @function
+ * @since 1.0.0
  */
 export const findFirst = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> => {
   return fromNullable(as.find(predicate))
@@ -456,6 +490,7 @@ export const findFirst = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> =
 /**
  * Find the last element which satisfies a predicate function
  * @function
+ * @since 1.0.0
  */
 export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> => {
   const len = as.length
@@ -472,6 +507,7 @@ export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> =>
 /**
  * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
   const l = as.length
@@ -485,12 +521,18 @@ export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
   return r
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const refine = <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B> => {
   return filter(as, refinement) as Array<B>
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const copy = <A>(as: Array<A>): Array<A> => {
   const l = as.length
   const r = Array(l)
@@ -500,7 +542,10 @@ export const copy = <A>(as: Array<A>): Array<A> => {
   return r
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
   const xs = copy(as)
   xs.splice(i, 0, a)
@@ -511,12 +556,16 @@ export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
  * Insert an element at the specified index, creating a new array, or
  * returning `None` if the index is out of bounds
  * @function
+ * @since 1.0.0
  */
 export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => {
   return i < 0 || i > as.length ? option.none : option.some(unsafeInsertAt(i, a, as))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
   const xs = copy(as)
   xs[i] = a
@@ -527,12 +576,16 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
  * Change the element at the specified index, creating a new array, or
  * returning `None` if the index is out of bounds
  * @function
+ * @since 1.0.0
  */
 export const updateAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => {
   return isOutOfBound(i, as) ? option.none : option.some(unsafeUpdateAt(i, a, as))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
   const xs = copy(as)
   xs.splice(i, 1)
@@ -543,6 +596,7 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
  * Delete the element at the specified index, creating a new array, or
  * returning `None` if the index is out of bounds
  * @function
+ * @since 1.0.0
  */
 export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
   return isOutOfBound(i, as) ? option.none : option.some(unsafeDeleteAt(i, as))
@@ -552,6 +606,7 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
  * Apply a function to the element at the specified index, creating a new
  * array, or returning `None` if the index is out of bounds
  * @function
+ * @since 1.0.0
  */
 export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> => {
   return isOutOfBound(i, as) ? option.none : updateAt(i, f(as[i]), as)
@@ -560,6 +615,7 @@ export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option
 /**
  * Reverse an array, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const reverse = <A>(as: Array<A>): Array<A> => {
   return copy(as).reverse()
@@ -569,6 +625,7 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
  * Apply a function to each element in an array, keeping only the results
  * which contain a value, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
   const r: Array<B> = []
@@ -586,6 +643,7 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
  * Filter an array of optional values, keeping only the elements which contain
  * a value, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
   return mapOption(as, identity)
@@ -594,6 +652,7 @@ export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
 /**
  * Extracts from a list of `Either` all the `Right` elements. All the `Right` elements are extracted in order
  * @function
+ * @since 1.0.0
  */
 export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
   const r: Array<A> = []
@@ -610,6 +669,7 @@ export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
 /**
  * Extracts from a list of `Either` all the `Left` elements. All the `Left` elements are extracted in order
  * @function
+ * @since 1.0.0
  */
 export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
   const r: Array<L> = []
@@ -626,6 +686,7 @@ export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
 /**
  * Sort the elements of an array in increasing order, creating a new array
  * @function
+ * @since 1.0.0
  */
 export const sort = <A>(ord: Ord<A>): ((as: Array<A>) => Array<A>) => {
   return as => copy(as).sort(ord.compare)
@@ -636,6 +697,7 @@ export const sort = <A>(ord: Ord<A>): ((as: Array<A>) => Array<A>) => {
  * collecting the results in a new array.
  * If one input array is short, excess elements of the longer array are discarded.
  * @function
+ * @since 1.0.0
  */
 export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C> => {
   const fc = []
@@ -650,6 +712,7 @@ export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
  * Takes two arrays and returns an array of corresponding pairs.
  * If one input array is short, excess elements of the longer array are discarded
  * @function
+ * @since 1.0.0
  */
 export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
   return zipWith(fa, fb, tuple)
@@ -658,6 +721,7 @@ export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
 /**
  * Rotate an array to the right by `n` steps
  * @function
+ * @since 1.0.0
  */
 export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
   const len = xs.length

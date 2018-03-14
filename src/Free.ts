@@ -13,6 +13,7 @@ export type URI = typeof URI
  * @data
  * @constructor Pure
  * @constructor Impure
+ * @since 1.0.0
  */
 export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
@@ -80,7 +81,10 @@ export class Impure<F, A, X> {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const of = <F, A>(a: A): Free<F, A> => {
   return new Pure(a)
 }
@@ -88,6 +92,7 @@ export const of = <F, A>(a: A): Free<F, A> => {
 /**
  * Lift an impure value described by the generating type constructor `F` into the free monad
  * @function
+ * @since 1.0.0
  */
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => {
   return new Impure(fa, a => of(a))
@@ -107,7 +112,6 @@ const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: Free<F, 
 
 /**
  * Use a natural transformation to change the generating type constructor of a free monad
- * @function
  */
 export function hoistFree<F extends URIS3 = never, G extends URIS3 = never>(
   nt: <U, L, A>(fa: Type3<F, U, L, A>) => Type3<G, U, L, A>
@@ -122,6 +126,7 @@ export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: F
 /**
  * Use a natural transformation to change the generating type constructor of a free monad
  * @function
+ * @since 1.0.0
  */
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>) {
   return substFree(fa => liftF(nt(fa)))
@@ -137,7 +142,10 @@ export function foldFree<M extends URIS>(
   M: Monad1<M>
 ): <F extends URIS, A>(nt: <X>(fa: Type<F, X>) => Type<M, X>, fa: Free<F, A>) => Type<M, A>
 export function foldFree<M>(M: Monad<M>): <F, A>(nt: <X>(fa: HKT<F, X>) => HKT<M, X>, fa: Free<F, A>) => HKT<M, A>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A> {
   return (nt, fa) => {
     if (fa.isPure()) {

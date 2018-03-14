@@ -31,7 +31,10 @@ export interface Semiring<A> {
   readonly one: A
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => {
   return {
     add: (f, g) => x => S.add(f(x), g(x)),

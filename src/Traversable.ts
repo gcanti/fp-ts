@@ -98,7 +98,10 @@ export function traverse<F, T>(
   F: Applicative<F>,
   T: Traversable<T>
 ): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function traverse<F, T>(
   F: Applicative<F>,
   T: Traversable<T>
@@ -127,7 +130,10 @@ export function sequence<F extends URIS, T extends URIS>(
   T: Traversable1<T>
 ): <A>(tfa: Type<T, Type<F, A>>) => Type<F, Type<T, A>>
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>> {
   return tfa => T.traverse(F)(tfa, fa => fa)
 }
@@ -137,7 +143,10 @@ export function getTraversableComposition<F extends URIS, G extends URIS>(
   G: Traversable1<G>
 ): TraversableComposition11<F, G>
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
   return {
     ...getFunctorComposition(F, G),

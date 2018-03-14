@@ -14,7 +14,10 @@ export interface Bounded<A> extends Ord<A> {
   readonly bottom: A
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const boundedNumber: Bounded<number> = {
   ...ordNumber,
   top: Infinity,

@@ -3,6 +3,7 @@ MODULE [Writer](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts)
 # Writer
 
 _data_
+_since 1.0.0_
 
 ```ts
 constructor(readonly run: () => [A, W]) {}
@@ -12,17 +13,26 @@ constructor(readonly run: () => [A, W]) {}
 
 ### eval
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): A
 ```
 
 ### exec
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): W
 ```
 
 ### map
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(f: (a: A) => B): Writer<W, B>
@@ -31,6 +41,7 @@ constructor(readonly run: () => [A, W]) {}
 # writer
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Functor2<URI>

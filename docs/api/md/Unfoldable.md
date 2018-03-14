@@ -13,6 +13,26 @@ interface Unfoldable<F> {
 
 This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
 
+# empty
+
+_function_
+
+```ts
+empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A>
+```
+
+The container with no elements - unfolded with zero iterations.
+
+# replicate
+
+_function_
+
+```ts
+replicate<F>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
+```
+
+Replicate a value some natural number of times.
+
 # replicateA
 
 _function_
@@ -25,3 +45,11 @@ replicateA<F, T>(
 ```
 
 Perform an Applicative action `n` times, and accumulate all the results
+
+# singleton
+
+_function_
+
+```ts
+singleton<F>(unfoldable: Unfoldable<F>): <A>(a: A) => HKT<F, A>
+```

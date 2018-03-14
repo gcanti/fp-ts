@@ -3,6 +3,7 @@ MODULE [IO](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts)
 # IO
 
 _data_
+_since 1.0.0_
 
 ```ts
 constructor(readonly run: Lazy<A>) {}
@@ -12,11 +13,17 @@ constructor(readonly run: Lazy<A>) {}
 
 ### ap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(fab: IO<(a: A) => B>): IO<B>
 ```
 
 ### ap\_
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C>
@@ -24,11 +31,17 @@ constructor(readonly run: Lazy<A>) {}
 
 ### chain
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => IO<B>): IO<B>
 ```
 
 ### inspect
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): string
@@ -36,11 +49,17 @@ constructor(readonly run: Lazy<A>) {}
 
 ### map
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => B): IO<B>
 ```
 
 ### toString
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): string
@@ -49,6 +68,7 @@ constructor(readonly run: Lazy<A>) {}
 # io
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monad1<URI>

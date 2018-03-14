@@ -16,6 +16,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor IxIO
+ * @since 1.0.0
  */
 export class IxIO<I, O, A> {
   readonly _A!: A
@@ -40,7 +41,10 @@ export class IxIO<I, O, A> {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const iof = <I, A>(a: A): IxIO<I, I, A> => {
   return new IxIO<I, I, A>(io.of(a))
 }
@@ -63,7 +67,10 @@ const chain = <I, A, B>(fa: IxIO<I, I, A>, f: (a: A) => IxIO<I, I, B>): IxIO<I, 
   return fa.chain(f)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonad = <I = never>(): Monad3C<URI, I, I> => {
   return {
     URI,
@@ -76,7 +83,10 @@ export const getMonad = <I = never>(): Monad3C<URI, I, I> => {
   }
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const ixIO: IxMonad3<URI> = {
   URI,
   iof,

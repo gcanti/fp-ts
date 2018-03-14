@@ -3,6 +3,7 @@ MODULE [These](https://github.com/gcanti/fp-ts/blob/master/src/These.ts)
 # These
 
 _data_
+_since 1.0.0_
 
 ```ts
 type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
@@ -12,11 +13,17 @@ type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 
 ### bimap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B>
 ```
 
 ### fold
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B
@@ -26,11 +33,17 @@ Applies a function to each case in the data structure
 
 ### inspect
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
 
 ### isBoth
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): this is Both<L, A>
@@ -40,6 +53,9 @@ Returns `true` if the these is `Both`, `false` otherwise
 
 ### isThat
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): this is That<L, A>
 ```
@@ -47,6 +63,9 @@ Returns `true` if the these is `Both`, `false` otherwise
 Returns `true` if the these is `That`, `false` otherwise
 
 ### isThis
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): this is This<L, A>
@@ -56,17 +75,26 @@ Returns `true` if the these is `This`, `false` otherwise
 
 ### map
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => B): These<L, B>
 ```
 
 ### reduce
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
 ### toString
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): string
@@ -75,6 +103,7 @@ Returns `true` if the these is `This`, `false` otherwise
 # these
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>

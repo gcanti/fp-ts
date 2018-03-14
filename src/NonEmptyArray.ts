@@ -22,6 +22,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor NonEmptyArray
+ * @since 1.0.0
  */
 export class NonEmptyArray<A> {
   readonly _A!: A
@@ -69,7 +70,10 @@ const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
   return new NonEmptyArray(as[0], as.slice(1))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => {
   return as.length ? some(unsafeFromArray(as)) : none
 }
@@ -94,7 +98,10 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
   return fx.concat(fy)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
   return { concat }
 }
@@ -117,7 +124,10 @@ function traverse<F>(
   return (ta, f) => F.map(array.traverse(F)(ta.toArray(), f), unsafeFromArray)
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const nonEmptyArray: Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI> = {
   URI,
   extend,

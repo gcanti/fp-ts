@@ -3,6 +3,7 @@ MODULE [State](https://github.com/gcanti/fp-ts/blob/master/src/State.ts)
 # State
 
 _data_
+_since 1.0.0_
 
 ```ts
 constructor(readonly run: (s: S) => [A, S]) {}
@@ -12,11 +13,17 @@ constructor(readonly run: (s: S) => [A, S]) {}
 
 ### ap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(fab: State<S, (a: A) => B>): State<S, B>
 ```
 
 ### ap\_
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C>
@@ -24,11 +31,17 @@ constructor(readonly run: (s: S) => [A, S]) {}
 
 ### chain
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => State<S, B>): State<S, B>
 ```
 
 ### eval
+
+_method_
+_since 1.0.0_
 
 ```ts
 (s: S): A
@@ -36,11 +49,17 @@ constructor(readonly run: (s: S) => [A, S]) {}
 
 ### exec
 
+_method_
+_since 1.0.0_
+
 ```ts
 (s: S): S
 ```
 
 ### map
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(f: (a: A) => B): State<S, B>
@@ -49,6 +68,7 @@ constructor(readonly run: (s: S) => [A, S]) {}
 # state
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monad2<URI>

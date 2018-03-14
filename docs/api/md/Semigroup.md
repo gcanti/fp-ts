@@ -13,6 +13,7 @@ interface Semigroup<A> {
 # semigroupAll
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Semigroup<boolean>
@@ -23,6 +24,7 @@ Boolean semigroup under conjunction
 # semigroupAny
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Semigroup<boolean>
@@ -33,6 +35,7 @@ Boolean semigroup under disjunction
 # semigroupProduct
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Semigroup<number>
@@ -43,6 +46,7 @@ Number Semigroup under multiplication
 # semigroupString
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Semigroup<string>
@@ -51,6 +55,7 @@ Semigroup<string>
 # semigroupSum
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Semigroup<number>
@@ -61,6 +66,7 @@ Number Semigroup under addition
 # semigroupVoid
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Semigroup<void>

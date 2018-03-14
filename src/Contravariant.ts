@@ -50,7 +50,10 @@ export function lift<F extends URIS>(
   contravariant: Contravariant1<F>
 ): <A, B>(f: (b: B) => A) => (fa: Type<F, A>) => Type<F, B>
 export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B> {
   return f => fa => contravariant.contramap(fa, f)
 }

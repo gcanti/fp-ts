@@ -3,6 +3,7 @@ MODULE [Tuple](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts)
 # Tuple
 
 _data_
+_since 1.0.0_
 
 ```ts
 constructor(readonly fst: L, readonly snd: A) {}
@@ -12,11 +13,17 @@ constructor(readonly fst: L, readonly snd: A) {}
 
 ### bimap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B>
 ```
 
 ### compose
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(ab: Tuple<A, B>): Tuple<L, B>
@@ -24,11 +31,17 @@ constructor(readonly fst: L, readonly snd: A) {}
 
 ### extend
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B>
 ```
 
 ### extract
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): A
@@ -36,11 +49,17 @@ constructor(readonly fst: L, readonly snd: A) {}
 
 ### inspect
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
 
 ### map
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(f: (a: A) => B): Tuple<L, B>
@@ -48,11 +67,17 @@ constructor(readonly fst: L, readonly snd: A) {}
 
 ### reduce
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
 ### swap
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): Tuple<A, L>
@@ -62,11 +87,17 @@ Exchange the first and second components of a tuple
 
 ### toString
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
 
 ### toTuple
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): [L, A]
@@ -75,6 +106,7 @@ Exchange the first and second components of a tuple
 # tuple
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI>

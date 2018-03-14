@@ -3,6 +3,7 @@ MODULE [Option](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts)
 # Option
 
 _data_
+_since 1.0.0_
 
 ```ts
 type Option<A> = None<A> | Some<A>
@@ -15,6 +16,9 @@ The most idiomatic way to use an `Option` instance is to treat it as a collectio
 ## Methods
 
 ### alt
+
+_method_
+_since 1.0.0_
 
 ```ts
 (fa: Option<A>): Option<A>
@@ -34,6 +38,9 @@ For example:
 
 ### ap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(fab: Option<(a: A) => B>): Option<B>
 ```
@@ -48,6 +55,9 @@ For example:
 `const someFn = none.ap(some(x => x + 1))` will return `none`.
 
 ### ap\_
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C>
@@ -64,6 +74,9 @@ For example:
 
 ### chain
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => Option<B>): Option<B>
 ```
@@ -74,6 +87,9 @@ Returns `None` if this `Option` is empty. Slightly different from `map` in that 
 
 ### contains
 
+_method_
+_since 1.0.0_
+
 ```ts
 (S: Setoid<A>, a: A): boolean
 ```
@@ -81,6 +97,9 @@ Returns `None` if this `Option` is empty. Slightly different from `map` in that 
 Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise
 
 ### exists
+
+_method_
+_since 1.0.0_
 
 ```ts
 (p: (a: A) => boolean): boolean
@@ -90,11 +109,17 @@ Returns `true` if this option is non empty and the predicate `p` returns `true` 
 
 ### extend
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (ea: Option<A>) => B): Option<B>
 ```
 
 ### filter
+
+_method_
+_since 1.0.0_
 
 ```ts
 (p: Predicate<A>): Option<A>
@@ -104,6 +129,9 @@ Returns this option if it is non empty and the predicate `p` return `true` when 
 
 ### fold
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(b: B, some: (a: A) => B): B
 ```
@@ -111,6 +139,9 @@ Returns this option if it is non empty and the predicate `p` return `true` when 
 Applies a function to each case in the data structure
 
 ### foldL
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(none: () => B, some: (a: A) => B): B
@@ -120,6 +151,9 @@ Lazy verion of `fold`
 
 ### getOrElse
 
+_method_
+_since 1.0.0_
+
 ```ts
 (a: A): A
 ```
@@ -127,6 +161,9 @@ Lazy verion of `fold`
 Returns the value from this `Some` or the given argument if this is a `None`
 
 ### getOrElseL
+
+_method_
+_since 1.0.0_
 
 ```ts
 (f: () => A): A
@@ -136,11 +173,17 @@ Lazy version of `getOrElse`
 
 ### inspect
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
 
 ### isNone
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): this is None<A>
@@ -150,6 +193,9 @@ Returns `true` if the option is `None`, `false` otherwise
 
 ### isSome
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): this is Some<A>
 ```
@@ -157,6 +203,9 @@ Returns `true` if the option is `None`, `false` otherwise
 Returns `true` if the option is an instance of `Some`, `false` otherwise
 
 ### map
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(f: (a: A) => B): Option<B>
@@ -168,6 +217,9 @@ If it maps on `Some` then it will apply the
 
 ### mapNullable
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => B | null | undefined): Option<B>
 ```
@@ -176,11 +228,17 @@ Maps `f` over this Option's value. If the value returned from `f` is null or und
 
 ### reduce
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
 ### toNullable
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): A | null
@@ -190,11 +248,17 @@ Returns the value from this `Some` or `null` if this is a `None`
 
 ### toString
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
 
 ### toUndefined
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): A | undefined
@@ -205,6 +269,7 @@ Returns the value from this `Some` or `undefined` if this is a `None`
 # option
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monad1<URI> &

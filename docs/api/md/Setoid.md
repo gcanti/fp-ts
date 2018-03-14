@@ -21,6 +21,7 @@ Instances must satisfy the following laws:
 # setoidBoolean
 
 _instance_
+_since 1.0.0_
 
 ```ts
 setoidBoolean:
@@ -29,6 +30,7 @@ setoidBoolean:
 # setoidNumber
 
 _instance_
+_since 1.0.0_
 
 ```ts
 setoidNumber:
@@ -37,6 +39,7 @@ setoidNumber:
 # setoidString
 
 _instance_
+_since 1.0.0_
 
 ```ts
 setoidString:

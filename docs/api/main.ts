@@ -16,6 +16,8 @@ const printError = (error: ParseError): string => {
       return chalk.red.bold(`Missing constructor name "${error.name}" in module "${error.module}"`)
     case 'DataInvalidConstructorName':
       return chalk.red.bold(`Invalid constructor name "${error.name}" in module "${error.module}"`)
+    case 'SinceMissing':
+      return chalk.red.bold(`@since tag missing in "${error.name}" in module "${error.module}"`)
     case 'NotFound':
       return ''
   }

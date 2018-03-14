@@ -14,6 +14,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor Reader
+ * @since 1.0.0
  */
 export class Reader<E, A> {
   readonly _A!: A
@@ -53,6 +54,7 @@ const chain = <E, A, B>(fa: Reader<E, A>, f: (a: A) => Reader<E, B>): Reader<E, 
 /**
  * reads the current context
  * @function
+ * @since 1.0.0
  */
 export const ask = <E>(): Reader<E, E> => {
   return new Reader(identity)
@@ -61,6 +63,7 @@ export const ask = <E>(): Reader<E, E> => {
 /**
  * Projects a value from the global context in a Reader
  * @function
+ * @since 1.0.0
  */
 export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
   return new Reader(f)
@@ -69,12 +72,16 @@ export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
 /**
  * changes the value of the local context during the execution of the action `fa`
  * @function
+ * @since 1.0.0
  */
 export const local = <E>(f: (e: E) => E) => <A>(fa: Reader<E, A>): Reader<E, A> => {
   return new Reader((e: E) => fa.run(f(e)))
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const reader: Monad2<URI> = {
   URI,
   map,

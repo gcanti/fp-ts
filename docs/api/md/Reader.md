@@ -3,6 +3,7 @@ MODULE [Reader](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts)
 # Reader
 
 _data_
+_since 1.0.0_
 
 ```ts
 constructor(readonly run: (e: E) => A) {}
@@ -12,11 +13,17 @@ constructor(readonly run: (e: E) => A) {}
 
 ### ap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(fab: Reader<E, (a: A) => B>): Reader<E, B>
 ```
 
 ### ap\_
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C>
@@ -24,11 +31,17 @@ constructor(readonly run: (e: E) => A) {}
 
 ### chain
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => Reader<E, B>): Reader<E, B>
 ```
 
 ### map
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(f: (a: A) => B): Reader<E, B>
@@ -37,6 +50,7 @@ constructor(readonly run: (e: E) => A) {}
 # reader
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monad2<URI>

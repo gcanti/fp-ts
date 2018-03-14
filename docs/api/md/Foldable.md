@@ -65,6 +65,16 @@ foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, f: (a: A) => M) 
 
 A default implementation of `foldMap` using `foldl`
 
+# foldr
+
+_function_
+
+```ts
+foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B
+```
+
+A default implementation of `foldr` using `foldMap`
+
 # getFoldableComposition
 
 _function_

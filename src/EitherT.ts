@@ -31,7 +31,10 @@ export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, U
 export function chain<F extends URIS2>(F: Monad2<F>): EitherT2<F>['chain']
 export function chain<F extends URIS>(F: Monad1<F>): EitherT1<F>['chain']
 export function chain<F>(F: Monad<F>): EitherT<F>['chain']
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function chain<F>(F: Monad<F>): EitherT<F>['chain'] {
   return (f, fa) => F.chain(fa, e => (e.isLeft() ? F.of(either.left(e.value)) : f(e.value)))
 }
@@ -39,7 +42,10 @@ export function chain<F>(F: Monad<F>): EitherT<F>['chain'] {
 export function right<F extends URIS2>(F: Functor2<F>): <L, M, A>(fa: Type2<F, M, A>) => Type2<F, M, Either<L, A>>
 export function right<F extends URIS>(F: Functor1<F>): <L, A>(fa: Type<F, A>) => Type<F, Either<L, A>>
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>> {
   return ma => F.map(ma, a => either.right(a))
 }
@@ -47,7 +53,10 @@ export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<
 export function left<F extends URIS2>(F: Functor2<F>): <L, M, A>(fl: Type2<F, M, L>) => Type2<F, M, Either<L, A>>
 export function left<F extends URIS>(F: Functor1<F>): <L, A>(fl: Type<F, L>) => Type<F, Either<L, A>>
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>> {
   return ml => F.map(ml, l => either.left(l))
 }
@@ -57,7 +66,10 @@ export function fromEither<F extends URIS2>(
 ): <L, M, A>(fa: Either<L, A>) => Type2<F, M, Either<L, A>>
 export function fromEither<F extends URIS>(F: Applicative1<F>): <L, A>(fa: Either<L, A>) => Type<F, Either<L, A>>
 export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>> {
   return oa => F.of(oa)
 }
@@ -71,7 +83,10 @@ export function fold<F extends URIS>(
 export function fold<F>(
   F: Functor<F>
 ): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function fold<F>(
   F: Functor<F>
 ): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R> {
@@ -87,7 +102,10 @@ export function mapLeft<F extends URIS>(
 export function mapLeft<F>(
   F: Functor<F>
 ): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function mapLeft<F>(
   F: Functor<F>
 ): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>> {
@@ -103,7 +121,10 @@ export function bimap<F extends URIS>(
 export function bimap<F>(
   F: Functor<F>
 ): <L, V, A, B>(fa: HKT<F, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => HKT<F, Either<V, B>>
-/** @function */
+/**
+ * @function
+ * @since 1.2.0
+ */
 export function bimap<F>(
   F: Functor<F>
 ): <L, V, A, B>(fa: HKT<F, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => HKT<F, Either<V, B>> {
@@ -113,7 +134,10 @@ export function bimap<F>(
 export function getEitherT<M extends URIS2>(M: Monad2<M>): EitherT2<M>
 export function getEitherT<M extends URIS>(M: Monad1<M>): EitherT1<M>
 export function getEitherT<M>(M: Monad<M>): EitherT<M>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function getEitherT<M>(M: Monad<M>): EitherT<M> {
   const applicativeComposition = getApplicativeComposition(M, either.either)
 

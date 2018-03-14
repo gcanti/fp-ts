@@ -3,6 +3,7 @@ MODULE [StrMap](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts)
 # StrMap
 
 _data_
+_since 1.0.0_
 
 ```ts
 constructor(readonly value: { [key: string]: A }) {}
@@ -12,17 +13,26 @@ constructor(readonly value: { [key: string]: A }) {}
 
 ### map
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => B): StrMap<B>
 ```
 
 ### mapWithKey
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (k: string, a: A) => B): StrMap<B>
 ```
 
 ### reduce
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
@@ -31,6 +41,7 @@ constructor(readonly value: { [key: string]: A }) {}
 # strmap
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Functor1<URI> & Foldable1<URI> & Traversable1<URI>
@@ -43,6 +54,19 @@ _function_
 ```ts
 <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B>
 ```
+
+# fromFoldable
+
+_function_
+
+```ts
+fromFoldable<F>(
+  F: Foldable<F>
+): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
+```
+
+Create a dictionary from a foldable collection of key/value pairs, using the
+specified function to combine values for duplicate keys.
 
 # getMonoid
 
@@ -157,3 +181,13 @@ _function_
 ```
 
 Unfolds a dictionary into a list of key/value pairs
+
+# traverseWithKey
+
+_function_
+
+```ts
+traverseWithKey<F>(
+  F: Applicative<F>
+): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
+```

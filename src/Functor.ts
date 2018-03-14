@@ -96,6 +96,7 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
 /**
  * Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
  * @function
+ * @since 1.0.0
  */
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
   return f => fa => F.map(fa, f)
@@ -115,6 +116,7 @@ export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<
 /**
  * Ignore the return value of a computation, using the specified return value instead (`<$`)
  * @function
+ * @since 1.0.0
  */
 export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<F, A> {
   return (a, fb) => F.map(fb, constant(a))
@@ -134,6 +136,7 @@ export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F
 /**
  * A version of `voidRight` with its arguments flipped (`$>`)
  * @function
+ * @since 1.0.0
  */
 export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F, B> {
   return (fa, b) => F.map(fa, constant(b))
@@ -157,6 +160,7 @@ export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => 
 /**
  * Apply a value in a computational context to a value in no context. Generalizes `flip`
  * @function
+ * @since 1.0.0
  */
 export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => B>) => HKT<F, B> {
   return (a, ff) => functor.map(ff, f => f(a))
@@ -179,7 +183,10 @@ export function getFunctorComposition<F extends URIS, G extends URIS>(
   G: Functor1<G>
 ): FunctorComposition11<F, G>
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> {
   return {
     map: (fa, f) => F.map(fa, ga => G.map(ga, f))

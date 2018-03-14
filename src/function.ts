@@ -1,6 +1,9 @@
 import { HKT } from './HKT'
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const unsafeCoerce = <A, B>(a: A): B => a as any
 
 export type Lazy<A> = () => A
@@ -32,19 +35,28 @@ export type Predicate<A> = (a: A) => boolean
 
 export type Refinement<A, B extends A> = (a: A) => a is B
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const not = <A>(predicate: Predicate<A>): Predicate<A> => {
   return a => !predicate(a)
 }
 
 export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
   return a => p1(a) || p2(a)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => {
   return a => p1(a) && p2(a)
 }
@@ -56,7 +68,10 @@ export type BinaryOperation<A, B> = (a1: A, a2: A) => B
 export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
 export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const constant = <A>(a: A): Lazy<A> => {
   return () => a
 }
@@ -64,6 +79,7 @@ export const constant = <A>(a: A): Lazy<A> => {
 /**
  * A thunk that returns always `true`
  * @function
+ * @since 1.0.0
  */
 export const constTrue = (): boolean => {
   return true
@@ -72,6 +88,7 @@ export const constTrue = (): boolean => {
 /**
  * A thunk that returns always `false`
  * @function
+ * @since 1.0.0
  */
 export const constFalse = (): boolean => {
   return false
@@ -80,6 +97,7 @@ export const constFalse = (): boolean => {
 /**
  * A thunk that returns always `null`
  * @function
+ * @since 1.0.0
  */
 export const constNull = (): null => {
   return null
@@ -88,12 +106,16 @@ export const constNull = (): null => {
 /**
  * A thunk that returns always `undefined`
  * @function
+ * @since 1.0.0
  */
 export const constUndefined = (): undefined => {
   return undefined
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const identity = <A>(a: A): A => {
   return a
 }
@@ -101,6 +123,7 @@ export const identity = <A>(a: A): A => {
 /**
  * Flips the order of the arguments to a function of two arguments.
  * @function
+ * @since 1.0.0
  */
 export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => {
   return b => a => f(a)(b)
@@ -109,6 +132,7 @@ export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => {
 /**
  * The `on` function is used to change the domain of a binary operator.
  * @function
+ * @since 1.0.0
  */
 export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => {
   return (x, y) => op(f(x), f(y))
@@ -162,7 +186,10 @@ export function compose<A, B, C, D, E, F, G, H, I, J>(
   bc: (b: B) => C,
   ab: (a: A) => B
 ): (a: A) => J
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function compose(...fns: Array<Function>): Function {
   const len = fns.length - 1
   return function(this: any, x: any) {
@@ -222,7 +249,10 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): (a: A) => J
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function pipe(...fns: Array<Function>): Function {
   const len = fns.length - 1
   return function(this: any, x: any) {
@@ -234,7 +264,10 @@ export function pipe(...fns: Array<Function>): Function {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
   const lenx = x.length
   const leny = y.length
@@ -267,12 +300,18 @@ export function curry<A, B, C, D, E, F, G, H, I>(
 export function curry<A, B, C, D, E, F, G, H, I, J>(
   f: Function9<A, B, C, D, E, F, G, H, I, J>
 ): Curried9<A, B, C, D, E, F, G, H, I, J>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function curry(f: Function) {
   return curried(f, f.length - 1, [])
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const toString = (x: any): string => {
   if (typeof x === 'string') {
     return JSON.stringify(x)
@@ -290,12 +329,18 @@ export const toString = (x: any): string => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const tuple = <A, B>(a: A, b: B): [A, B] => {
   return [a, b]
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => {
   return [a, b]
 }
@@ -303,6 +348,7 @@ export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => {
 /**
  * Applies a function to an argument ($)
  * @function
+ * @since 1.0.0
  */
 export const apply = <A, B>(f: (a: A) => B) => (a: A): B => {
   return f(a)
@@ -311,6 +357,7 @@ export const apply = <A, B>(f: (a: A) => B) => (a: A): B => {
 /**
  * Applies an argument to a function (#)
  * @function
+ * @since 1.0.0
  */
 export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => {
   return f(a)

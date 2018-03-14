@@ -3,6 +3,7 @@ MODULE [Const](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts)
 # Const
 
 _data_
+_since 1.0.0_
 
 ```ts
 constructor(readonly value: L) {}
@@ -12,11 +13,17 @@ constructor(readonly value: L) {}
 
 ### contramap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (b: B) => A): Const<L, B>
 ```
 
 ### fold
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(f: (l: L) => B): B
@@ -24,17 +31,26 @@ constructor(readonly value: L) {}
 
 ### inspect
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
 
 ### map
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => B): Const<L, B>
 ```
 
 ### toString
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): string
@@ -43,6 +59,7 @@ constructor(readonly value: L) {}
 # const\_
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Functor2<URI> & Contravariant2<URI>
