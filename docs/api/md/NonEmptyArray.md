@@ -3,6 +3,7 @@ MODULE [NonEmptyArray](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyA
 # NonEmptyArray
 
 _data_
+_since 1.0.0_
 
 ```ts
 constructor(readonly head: A, readonly tail: Array<A>) {}
@@ -12,11 +13,17 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 
 ### ap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B>
 ```
 
 ### ap\_
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C>
@@ -24,11 +31,17 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 
 ### chain
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B>
 ```
 
 ### concat
+
+_method_
+_since 1.0.0_
 
 ```ts
 (y: NonEmptyArray<A>): NonEmptyArray<A>
@@ -36,11 +49,17 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 
 ### concatArray
 
+_method_
+_since 1.0.0_
+
 ```ts
 (as: Array<A>): NonEmptyArray<A>
 ```
 
 ### extend
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B>
@@ -48,11 +67,17 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 
 ### extract
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): A
 ```
 
 ### inspect
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): string
@@ -60,11 +85,17 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 
 ### map
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => B): NonEmptyArray<B>
 ```
 
 ### reduce
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
@@ -72,11 +103,17 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 
 ### toArray
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): Array<A>
 ```
 
 ### toString
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): string
@@ -85,6 +122,7 @@ constructor(readonly head: A, readonly tail: Array<A>) {}
 # nonEmptyArray
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI>

@@ -27,7 +27,10 @@ export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
   readonly chainRec: <A, B>(a: A, f: (a: A) => Type3<F, U, L, Either<A, B>>) => Type3<F, U, L, B>
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const tailRec = <A, B>(f: (a: A) => Either<A, B>, a: A): B => {
   let v = f(a)
   while (v.isLeft()) {

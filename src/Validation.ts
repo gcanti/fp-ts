@@ -32,6 +32,7 @@ export type URI = typeof URI
  * @data
  * @constructor Failure
  * @constructor Success
+ * @since 1.0.0
  */
 export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
@@ -127,7 +128,10 @@ export class Success<L, A> {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
   return {
     equals: (x, y) =>
@@ -143,7 +147,10 @@ const of = <L, A>(a: A): Validation<L, A> => {
   return new Success<L, A>(a)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
   const ap = <A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => {
     return fab.isFailure()
@@ -160,7 +167,10 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
   const chain = <A, B>(fa: Validation<L, A>, f: (a: A) => Validation<L, B>): Validation<L, B> => {
     return fa.isFailure() ? failure(fa.value) : f(fa.value)
@@ -183,28 +193,41 @@ const traverse = <F>(F: Applicative<F>) => <L, A, B>(
   return ta.isFailure() ? F.of(failure(ta.value)) : F.map(f(ta.value), of as (a: B) => Validation<L, B>)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const failure = <L, A>(l: L): Validation<L, A> => {
   return new Failure(l)
 }
 
 /**
  * @function
+ * @since 1.0.0
  * @alias of
  */
 export const success = of
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromPredicate = <L, A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A): Validation<L, A> => {
   return predicate(a) ? success(a) : failure(f(a))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => {
   return e.isLeft() ? failure(e.value) : success(e.value)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>> => {
   const concat = (fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
     return fx.isFailure()
@@ -216,7 +239,10 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>> => {
   return {
     ...getSemigroup(SL, SA),
@@ -224,7 +250,10 @@ export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validat
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
   const alt = <A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
     return fx.isFailure() ? (fy.isFailure() ? failure(S.concat(fx.value, fy.value)) : fy) : fx
@@ -240,6 +269,7 @@ export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
 /**
  * Returns `true` if the validation is an instance of `Failure`, `false` otherwise
  * @function
+ * @since 1.0.0
  */
 export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
   return fa.isFailure()
@@ -248,12 +278,16 @@ export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
 /**
  * Returns `true` if the validation is an instance of `Success`, `false` otherwise
  * @function
+ * @since 1.0.0
  */
 export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
   return fa.isSuccess()
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const validation: Functor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   map,

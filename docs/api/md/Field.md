@@ -15,6 +15,7 @@ interface Field<A> extends Ring<A> {
 # fieldNumber
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Field<number>

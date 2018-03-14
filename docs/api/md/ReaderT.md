@@ -36,6 +36,14 @@ chain<F>(
 ): <E, A, B>(f: (a: A) => (e: E) => HKT<F, B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
 ```
 
+# fromReader
+
+_function_
+
+```ts
+fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A>
+```
+
 # getReaderT
 
 _function_

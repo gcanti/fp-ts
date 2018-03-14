@@ -13,6 +13,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor State
+ * @since 1.0.0
  */
 export class State<S, A> {
   readonly _A!: A
@@ -61,27 +62,42 @@ const chain = <S, A, B>(fa: State<S, A>, f: (a: A) => State<S, B>): State<S, B> 
   return fa.chain(f)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const get = <S>(): State<S, S> => {
   return new State(s => [s, s])
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const put = <S>(s: S): State<S, undefined> => {
   return new State(() => [undefined, s])
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const modify = <S>(f: (s: S) => S): State<S, undefined> => {
   return new State(s => [undefined, f(s)])
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const gets = <S, A>(f: (s: S) => A): State<S, A> => {
   return new State(s => [f(s), s])
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const state: Monad2<URI> = {
   URI,
   map,

@@ -31,6 +31,7 @@ export type URI = typeof URI
  * @data
  * @constructor None
  * @constructor Some
+ * @since 1.0.0
  */
 export type Option<A> = None<A> | Some<A>
 
@@ -233,7 +234,10 @@ export class Some<A> {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
   return {
     equals: (x, y) => (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value))
@@ -247,6 +251,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
  *
  * `None` is considered to be less than any `Some` value.
  * @function
+ * @since 1.2.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
   return {
@@ -290,6 +295,7 @@ const zero = <A>(): Option<A> => {
 /**
  * Option monoid returning the left-most non-None value
  * @function
+ * @since 1.0.0
  */
 export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
   return {
@@ -301,12 +307,16 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
 /**
  * Option monoid returning the right-most non-None value
  * @function
+ * @since 1.0.0
  */
 export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
   return getDualMonoid(getFirstMonoid())
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
   return {
     concat: (x, y) => (x.isNone() ? y : y.isNone() ? x : some(S.concat(x.value, y.value))),
@@ -318,6 +328,7 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
  * Constructs a new `Option` from a nullable type.
  * If the value is `null` or `undefined`, returns `None`, otherwise returns the value wrapped in a `Some`
  * @function
+ * @since 1.0.0
  */
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
   return a == null ? none : new Some(a)
@@ -325,11 +336,15 @@ export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
 
 /**
  * @function
+ * @since 1.0.0
  * @alias of
  */
 export const some = of
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromPredicate = <A>(predicate: Predicate<A>) => (a: A): Option<A> => {
   return predicate(a) ? some(a) : none
 }
@@ -338,7 +353,10 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Option<A>, f: (a: A) => HKT<
   return (ta, f) => (ta.isNone() ? F.of(none) : F.map(f(ta.value), some))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
   try {
     return some(f())
@@ -347,7 +365,10 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
   return fa.isLeft() ? none : some(fa.value)
 }
@@ -355,6 +376,7 @@ export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
 /**
  * Returns `true` if the option is an instance of `Some`, `false` otherwise
  * @function
+ * @since 1.0.0
  */
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
   return fa.isSome()
@@ -363,12 +385,16 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
 /**
  * Returns `true` if the option is `None`, `false` otherwise
  * @function
+ * @since 1.0.0
  */
 export const isNone = <A>(fa: Option<A>): fa is None<A> => {
   return fa.isNone()
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const option: Monad1<URI> &
   Foldable1<URI> &
   Plus1<URI> &

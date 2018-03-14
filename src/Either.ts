@@ -52,6 +52,7 @@ export type URI = typeof URI
  * @data
  * @constructor Left
  * @constructor Right
+ * @since 1.0.0
  */
 export type Either<L, A> = Left<L, A> | Right<L, A>
 
@@ -182,7 +183,10 @@ export class Right<L, A> {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
   return {
     equals: (x, y) =>
@@ -244,6 +248,7 @@ const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L
  * Constructs a new `Either` holding a `Left` value.
  * This usually represents a failure, due to the right-bias of this structure
  * @function
+ * @since 1.0.0
  */
 export const left = <L, A>(l: L): Either<L, A> => {
   return new Left(l)
@@ -253,11 +258,15 @@ export const left = <L, A>(l: L): Either<L, A> => {
  * Constructs a new `Either` holding a `Right` value.
  * This usually represents a successful value due to the right bias of this structure
  * @function
+ * @since 1.0.0
  * @alias of
  */
 export const right = of
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): Either<L, A> => {
   return predicate(a) ? right(a) : left(whenFalse(a))
 }
@@ -266,6 +275,7 @@ export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) =
  * Takes a default and a `Option` value, if the value is a `Some`, turn it into
  * a `Right`, if the value is a `None` use the provided default as a `Left`
  * @function
+ * @since 1.0.0
  */
 export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => {
   return fa.isNone() ? left(defaultValue) : right(fa.value)
@@ -275,6 +285,7 @@ export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, 
  * Takes a default and a nullable value, if the value is not nully, turn it into
  * a `Right`, if the value is nully use the provided default as a `Left`
  * @function
+ * @since 1.0.0
  */
 export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> => {
   return a == null ? left(defaultValue) : right(a)
@@ -283,6 +294,7 @@ export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined)
 /**
  * Default value for the optional `onerror` argument of `tryCatch`
  * @function
+ * @since 1.0.0
  */
 export const toError = (e: {}): Error => {
   if (e instanceof Error) {
@@ -292,7 +304,10 @@ export const toError = (e: {}): Error => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const tryCatch = <A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Either<Error, A> => {
   try {
     return right(f())
@@ -301,7 +316,10 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Ei
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
   return fa.isFailure() ? left(fa.value) : right(fa.value)
 }
@@ -309,6 +327,7 @@ export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
 /**
  * Returns `true` if the either is an instance of `Left`, `false` otherwise
  * @function
+ * @since 1.0.0
  */
 export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
   return fa.isLeft()
@@ -317,12 +336,16 @@ export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise
  * @function
+ * @since 1.0.0
  */
 export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
   return fa.isRight()
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const either: Monad2<URI> &
   Foldable2<URI> &
   Traversable2<URI> &

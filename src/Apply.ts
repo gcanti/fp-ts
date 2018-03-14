@@ -59,6 +59,7 @@ export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>)
 /**
  * Combine two effectful actions, keeping only the result of the first
  * @function
+ * @since 1.0.0
  */
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
   return (fa, fb) => F.ap(F.map(fa, constant), fb)
@@ -82,6 +83,7 @@ export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>
 /**
  * Combine two effectful actions, keeping only the result of the second
  * @function
+ * @since 1.0.0
  */
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
   return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => F.ap(F.map(fa, () => (b: B) => b), fb)
@@ -109,6 +111,7 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
 /**
  * Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
  * @function
+ * @since 1.0.0
  */
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> {
   return f => fa => fb => F.ap(F.map(fa, f), fb)
@@ -146,6 +149,7 @@ export function liftA3<F>(
 /**
  * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor `F`
  * @function
+ * @since 1.0.0
  */
 export function liftA3<F>(
   F: Apply<F>
@@ -189,6 +193,7 @@ export function liftA4<F>(
 /**
  * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor `F`
  * @function
+ * @since 1.0.0
  */
 export function liftA4<F>(
   F: Apply<F>

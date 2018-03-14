@@ -20,12 +20,18 @@ export interface Monoid<A> extends Semigroup<A> {
   readonly empty: A
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => {
   return foldSemigroup(M)(M.empty)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => {
   return {
     ...getProductSemigroup(MA, MB),
@@ -33,7 +39,10 @@ export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A,
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
   return {
     ...getDualSemigroup(M),
@@ -44,6 +53,7 @@ export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
 /**
  * Boolean monoid under conjunction
  * @instance
+ * @since 1.0.0
  */
 export const monoidAll: Monoid<boolean> = {
   ...semigroupAll,
@@ -53,13 +63,17 @@ export const monoidAll: Monoid<boolean> = {
 /**
  * Boolean monoid under disjunction
  * @instance
+ * @since 1.0.0
  */
 export const monoidAny: Monoid<boolean> = {
   ...semigroupAny,
   empty: false
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const unsafeMonoidArray: Monoid<Array<any>> = {
   ...getArraySemigroup(),
   empty: []
@@ -68,6 +82,7 @@ export const unsafeMonoidArray: Monoid<Array<any>> = {
 /**
  * Monoid under array concatenation (`Array<any>`)
  * @instance
+ * @since 1.0.0
  */
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
   return unsafeMonoidArray
@@ -76,6 +91,7 @@ export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
 /**
  * Number monoid under addition
  * @instance
+ * @since 1.0.0
  */
 export const monoidSum: Monoid<number> = {
   ...semigroupSum,
@@ -85,25 +101,35 @@ export const monoidSum: Monoid<number> = {
 /**
  * Number monoid under multiplication
  * @instance
+ * @since 1.0.0
  */
 export const monoidProduct: Monoid<number> = {
   ...semigroupProduct,
   empty: 1
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const monoidString: Monoid<string> = {
   ...semigroupString,
   empty: ''
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const monoidVoid: Monoid<void> = {
   ...semigroupVoid,
   empty: undefined
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => {
   return {
     ...getFunctionSemigroup(M)<A>(),
@@ -111,7 +137,10 @@ export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: 
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
   return {
     concat: compose,
@@ -119,7 +148,10 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getRecordMonoid = <O>(Ms: { [K in keyof O]: Monoid<O[K]> }): Monoid<O> => {
   const empty: any = {}
   for (const k in Ms) {

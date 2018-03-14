@@ -2,7 +2,12 @@ import { Option } from '../../src/Option'
 
 export class Method {
   type = 'Method'
-  constructor(readonly name: string, readonly signature: string, readonly description: Option<string>) {}
+  constructor(
+    readonly name: string,
+    readonly signature: string,
+    readonly description: Option<string>,
+    readonly since: string
+  ) {}
 }
 
 export class Constructor {
@@ -18,7 +23,8 @@ export class Data {
     readonly name: string,
     readonly signature: string,
     readonly description: Option<string>,
-    readonly constructors: Array<Constructor>
+    readonly constructors: Array<Constructor>,
+    readonly since: string
   ) {}
 }
 
@@ -30,7 +36,8 @@ export class Func {
     readonly name: string,
     readonly signature: string,
     readonly description: Option<string>,
-    readonly isAlias: boolean
+    readonly isAlias: boolean,
+    readonly since: string
   ) {}
 }
 
@@ -38,7 +45,12 @@ export const isInstance = (e: Export): e is Instance => e.type === 'Instance'
 
 export class Instance {
   type: 'Instance' = 'Instance'
-  constructor(readonly name: string, readonly signature: string, readonly description: Option<string>) {}
+  constructor(
+    readonly name: string,
+    readonly signature: string,
+    readonly description: Option<string>,
+    readonly since: string
+  ) {}
 }
 
 export const isTypeclass = (e: Export): e is Typeclass => e.type === 'Typeclass'
@@ -66,6 +78,7 @@ export const modules: Array<ModuleEntry> = [
   { name: 'Apply', docs: true },
   { name: 'Array', docs: true },
   { name: 'Bifunctor', docs: true },
+  { name: 'Bounded', docs: true },
   { name: 'Category', docs: true },
   { name: 'Chain', docs: true },
   { name: 'ChainRec', docs: true },
@@ -106,6 +119,7 @@ export const modules: Array<ModuleEntry> = [
   { name: 'Semigroup', docs: true },
   { name: 'Semigroupoid', docs: true },
   { name: 'Semiring', docs: true },
+  { name: 'Set', docs: true },
   { name: 'Setoid', docs: true },
   { name: 'State', docs: true },
   { name: 'StateT', docs: true },

@@ -122,6 +122,7 @@ export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void
 /**
  * Perform a applicative action when a condition is true
  * @function
+ * @since 1.0.0
  */
 export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> {
   return (condition, fu) => (condition ? fu : F.of(undefined))
@@ -160,7 +161,10 @@ export function getApplicativeComposition<F, G extends URIS>(
   G: Applicative1<G>
 ): ApplicativeComposition<F, G>
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
   return {
     ...getFunctorComposition(F, G),

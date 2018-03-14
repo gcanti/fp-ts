@@ -18,6 +18,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor Task
+ * @since 1.0.0
  */
 export class Task<A> {
   readonly _A!: A
@@ -59,7 +60,10 @@ const chain = <A, B>(fa: Task<A>, f: (a: A) => Task<B>): Task<B> => {
   return fa.chain(f)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
   return {
     concat: (x, y) =>
@@ -83,14 +87,20 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
 
 const never = new Task(() => new Promise<never>(resolve => undefined))
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => {
   return {
     concat: (x, y) => new Task(() => x.run().then(rx => y.run().then(ry => S.concat(rx, ry))))
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => {
   return {
     ...getSemigroup(M),
@@ -98,7 +108,10 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): Task<Either<L, A>> => {
   return new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))
 }
@@ -106,12 +119,16 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => 
 /**
  * Lifts an IO action into a Task
  * @function
+ * @since 1.0.0
  */
 export const fromIO = <A>(io: IO<A>): Task<A> => {
   return new Task(() => Promise.resolve(io.run()))
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const task: Monad1<URI> = {
   URI,
   map,

@@ -10,7 +10,10 @@ export interface Field<A> extends Ring<A> {
   readonly mod: (x: A, y: A) => A
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const fieldNumber: Field<number> = {
   add: (x, y) => x + y,
   zero: 0,
@@ -25,6 +28,7 @@ export const fieldNumber: Field<number> = {
 /**
  * The *greatest common divisor* of two values
  * @function
+ * @since 1.0.0
  */
 export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => {
   const zero = field.zero
@@ -35,6 +39,7 @@ export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => {
 /**
  * The *least common multiple* of two values
  * @function
+ * @since 1.0.0
  */
 export const lcm = <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A) => {
   const zero = F.zero

@@ -6,43 +6,64 @@ export interface Semigroup<A> {
   readonly concat: (x: A, y: A) => A
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => {
   return as.reduce((acc, a) => S.concat(acc, a), a)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getFirstSemigroup = <A = never>(): Semigroup<A> => {
   return { concat: x => x }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getLastSemigroup = <A = never>(): Semigroup<A> => {
   return { concat: (_, y) => y }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => {
   return {
     concat: ([xa, xb], [ya, yb]) => [SA.concat(xa, ya), SB.concat(xb, yb)]
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => {
   return {
     concat: (x, y) => S.concat(y, x)
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => {
   return {
     concat: (f, g) => a => S.concat(f(a), g(a))
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getRecordSemigroup = <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
 ): Semigroup<O> => {
@@ -57,14 +78,20 @@ export const getRecordSemigroup = <O extends { [key: string]: any }>(
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
   return {
     concat: min(O)
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
   return {
     concat: max(O)
@@ -74,6 +101,7 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
 /**
  * Boolean semigroup under conjunction
  * @instance
+ * @since 1.0.0
  */
 export const semigroupAll: Semigroup<boolean> = {
   concat: (x, y) => x && y
@@ -82,6 +110,7 @@ export const semigroupAll: Semigroup<boolean> = {
 /**
  * Boolean semigroup under disjunction
  * @instance
+ * @since 1.0.0
  */
 export const semigroupAny: Semigroup<boolean> = {
   concat: (x, y) => x || y
@@ -90,6 +119,7 @@ export const semigroupAny: Semigroup<boolean> = {
 /**
  * Semigroup under array concatenation
  * @function
+ * @since 1.0.0
  */
 export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
   return {
@@ -100,6 +130,7 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
 /**
  * Number Semigroup under addition
  * @instance
+ * @since 1.0.0
  */
 export const semigroupSum: Semigroup<number> = {
   concat: (x, y) => x + y
@@ -108,17 +139,24 @@ export const semigroupSum: Semigroup<number> = {
 /**
  * Number Semigroup under multiplication
  * @instance
+ * @since 1.0.0
  */
 export const semigroupProduct: Semigroup<number> = {
   concat: (x, y) => x * y
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const semigroupString: Semigroup<string> = {
   concat: (x, y) => x + y
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const semigroupVoid: Semigroup<void> = {
   concat: () => undefined
 }

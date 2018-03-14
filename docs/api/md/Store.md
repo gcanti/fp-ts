@@ -3,6 +3,7 @@ MODULE [Store](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts)
 # Store
 
 _data_
+_since 1.0.0_
 
 ```ts
 constructor(readonly peek: (s: S) => A, readonly pos: S) {}
@@ -12,11 +13,17 @@ constructor(readonly peek: (s: S) => A, readonly pos: S) {}
 
 ### extend
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (sa: Store<S, A>) => B): Store<S, B>
 ```
 
 ### extract
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): A
@@ -24,17 +31,26 @@ constructor(readonly peek: (s: S) => A, readonly pos: S) {}
 
 ### inspect
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
 
 ### map
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => B): Store<S, B>
 ```
 
 ### seek
+
+_method_
+_since 1.0.0_
 
 ```ts
 (s: S): Store<S, A>
@@ -44,6 +60,9 @@ Reposition the focus at the specified position
 
 ### toString
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
@@ -51,6 +70,7 @@ Reposition the focus at the specified position
 # store
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Comonad2<URI>

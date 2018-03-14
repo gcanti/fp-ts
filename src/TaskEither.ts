@@ -25,6 +25,7 @@ const eitherTbimap = eitherT.bimap(task.task)
 /**
  * @data
  * @constructor TaskEither
+ * @since 1.0.0
  */
 export class TaskEither<L, A> {
   readonly _A!: A
@@ -57,6 +58,9 @@ export class TaskEither<L, A> {
   orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> {
     return new TaskEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTTask.of(a))))
   }
+  /**
+   * @since 1.2.0
+   */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> {
     return new TaskEither(eitherTbimap(this.value, f, g))
   }
@@ -82,29 +86,44 @@ const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B)
 }
 
 const eitherTright = eitherT.right(task.task)
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
   return new TaskEither(eitherTright(fa))
 }
 
 const eitherTleft = eitherT.left(task.task)
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const left = <L, A>(fa: Task<L>): TaskEither<L, A> => {
   return new TaskEither(eitherTleft(fa))
 }
 
 const eitherTfromEither = eitherT.fromEither(task.task)
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
   return new TaskEither(eitherTfromEither(fa))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A> => {
   return new TaskEither(task.tryCatch(f, onrejected))
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const taskEither: Monad2<URI> & Bifunctor2<URI> = {
   URI,
   bimap,

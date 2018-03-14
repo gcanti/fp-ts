@@ -13,6 +13,7 @@ interface Monoid<A> extends Semigroup<A> {
 # getArrayMonoid
 
 _instance_
+_since 1.0.0_
 
 ```ts
 getArrayMonoid = <A = never>():
@@ -23,6 +24,7 @@ Monoid under array concatenation (`Array<any>`)
 # monoidAll
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monoid<boolean>
@@ -33,6 +35,7 @@ Boolean monoid under conjunction
 # monoidAny
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monoid<boolean>
@@ -43,6 +46,7 @@ Boolean monoid under disjunction
 # monoidProduct
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monoid<number>
@@ -53,6 +57,7 @@ Number monoid under multiplication
 # monoidString
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monoid<string>
@@ -61,6 +66,7 @@ Monoid<string>
 # monoidSum
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monoid<number>
@@ -71,6 +77,7 @@ Number monoid under addition
 # monoidVoid
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monoid<void>
@@ -79,6 +86,7 @@ Monoid<void>
 # unsafeMonoidArray
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monoid<Array<any>>

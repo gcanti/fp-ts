@@ -28,6 +28,7 @@ export type URI = typeof URI
  * @constructor This
  * @constructor That
  * @constructor Both
+ * @since 1.0.0
  */
 export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 
@@ -140,7 +141,10 @@ export class Both<L, A> {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
   return {
     equals: (x, y) =>
@@ -152,7 +156,10 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => {
   return {
     concat: (x, y) =>
@@ -195,7 +202,10 @@ const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
   return {
     URI,
@@ -221,33 +231,49 @@ const traverse = <F>(F: Applicative<F>) => <L, A, B>(ta: These<L, A>, f: (a: A) 
     : ta.isThat() ? F.map(f(ta.value), that as (a: B) => These<L, B>) : F.map(f(ta.a), b => both(ta.l, b))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const this_ = <L, A>(l: L): These<L, A> => {
   return new This(l)
 }
 
 /**
  * @function
+ * @since 1.0.0
  * @alias of
  */
 export const that = of
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const both = <L, A>(l: L, a: A): These<L, A> => {
   return new Both(l, a)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A] => {
   return fa.isThis() ? [fa.value, defaultThat] : fa.isThat() ? [defaultThis, fa.value] : [fa.l, fa.a]
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => {
   return fa.isThis() ? some(fa.value) : fa.isThat() ? none : some(fa.l)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
   return fa.isThis() ? none : fa.isThat() ? some(fa.value) : some(fa.a)
 }
@@ -255,6 +281,7 @@ export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
 /**
  * Returns `true` if the these is an instance of `This`, `false` otherwise
  * @function
+ * @since 1.0.0
  */
 export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => {
   return fa.isThis()
@@ -263,6 +290,7 @@ export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => {
 /**
  * Returns `true` if the these is an instance of `That`, `false` otherwise
  * @function
+ * @since 1.0.0
  */
 export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
   return fa.isThat()
@@ -271,12 +299,16 @@ export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
 /**
  * Returns `true` if the these is an instance of `Both`, `false` otherwise
  * @function
+ * @since 1.0.0
  */
 export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
   return fa.isBoth()
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   map,

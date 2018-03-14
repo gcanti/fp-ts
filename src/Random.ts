@@ -14,6 +14,7 @@ export const random: IO<number> = new IO(() => Math.random())
  * interval `[low, high]`. It is unspecified what happens if `low > high`,
  * or if either of `low` or `high` is not an integer.
  * @function
+ * @since 1.0.0
  */
 export const randomInt = (low: number, high: number): IO<number> =>
   random.map(n => Math.floor((high - low + 1) * n + low))
@@ -22,6 +23,7 @@ export const randomInt = (low: number, high: number): IO<number> =>
  * Returns a random number between a minimum value (inclusive) and a maximum
  * value (exclusive). It is unspecified what happens if `maximum < minimum`.
  * @function
+ * @since 1.0.0
  */
 export const randomRange = (min: number, max: number): IO<number> => random.map(n => (max - min + 1) * n + min)
 

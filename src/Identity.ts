@@ -23,6 +23,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor Identity
+ * @since 1.0.0
  */
 export class Identity<A> {
   readonly _A!: A
@@ -63,7 +64,10 @@ export class Identity<A> {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => {
   return {
     equals: (x, y) => setoid.equals(x.value, y.value)
@@ -110,7 +114,10 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HK
   return (ta, f) => F.map(f(ta.value), of)
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
   URI,
   map,

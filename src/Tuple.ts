@@ -31,6 +31,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor Tuple
+ * @since 1.0.0
  */
 export class Tuple<L, A> {
   readonly _A!: A
@@ -100,7 +101,10 @@ const reduce = <L, A, B>(fa: Tuple<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => {
   return {
     equals: (x, y) => SA.equals(x.fst, y.fst) && SB.equals(x.snd, y.snd)
@@ -111,19 +115,26 @@ export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A
  * To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
  * `snd`s are `compare`d.
  * @function
+ * @since 1.0.0
  */
 export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => {
   return getOrdSemigroup<Tuple<L, A>>().concat(contramapOrd(fst, OL), contramapOrd(snd, OA))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => {
   return {
     concat: (x, y) => new Tuple(SL.concat(x.fst, y.fst), SA.concat(x.snd, y.snd))
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => {
   return {
     ...getSemigroup(ML, MA),
@@ -135,7 +146,10 @@ const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<
   return new Tuple(S.concat(fa.fst, fab.fst), fab.snd(fa.snd))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   return {
     URI,
@@ -149,7 +163,10 @@ const of = <L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A> => {
   return new Tuple(M.empty, a)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
   return {
     ...getApply(M),
@@ -162,7 +179,10 @@ const chain = <L>(M: Monoid<L>) => <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L,
   return new Tuple(M.concat(fa.fst, fst), snd)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getChain = <L>(M: Monoid<L>): Chain2C<URI, L> => {
   return {
     ...getApply(M),
@@ -170,7 +190,10 @@ export const getChain = <L>(M: Monoid<L>): Chain2C<URI, L> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => {
   return {
     ...getChain(M),
@@ -188,7 +211,10 @@ const chainRec = <L>(M: Monoid<L>) => <A, B>(a: A, f: (a: A) => Tuple<L, Either<
   return new Tuple(M.concat(acc, result.fst), (result.snd as Right<A, B>).value)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
   return {
     ...getChain(M),
@@ -200,7 +226,10 @@ function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Tuple<L, A>, f: (a: A) =>
   return (ta, f) => F.map(f(ta.snd), b => new Tuple(ta.fst, b))
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   compose,

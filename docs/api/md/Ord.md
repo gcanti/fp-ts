@@ -22,6 +22,7 @@ Instances should satisfy the laws of total orderings:
 # ordBoolean
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Ord<boolean>
@@ -30,6 +31,7 @@ Ord<boolean>
 # ordNumber
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Ord<number>
@@ -38,6 +40,7 @@ Ord<number>
 # ordString
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Ord<string>

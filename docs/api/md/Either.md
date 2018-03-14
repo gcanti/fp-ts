@@ -3,6 +3,7 @@ MODULE [Either](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts)
 # Either
 
 _data_
+_since 1.0.0_
 
 ```ts
 type Either<L, A> = Left<L, A> | Right<L, A>
@@ -38,11 +39,17 @@ left(23).map(double) // left(23)
 
 ### alt
 
+_method_
+_since 1.0.0_
+
 ```ts
 (fy: Either<L, A>): Either<L, A>
 ```
 
 ### ap
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(fab: Either<L, (a: A) => B>): Either<L, B>
@@ -50,17 +57,26 @@ left(23).map(double) // left(23)
 
 ### ap\_
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C>
 ```
 
 ### bimap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B>
 ```
 
 ### chain
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(f: (a: A) => Either<L, B>): Either<L, B>
@@ -70,11 +86,17 @@ Binds the given function across `Right`
 
 ### extend
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (ea: Either<L, A>) => B): Either<L, B>
 ```
 
 ### fold
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(left: (l: L) => B, right: (a: A) => B): B
@@ -84,6 +106,9 @@ Applies a function to each case in the data structure
 
 ### getOrElse
 
+_method_
+_since 1.0.0_
+
 ```ts
 (a: A): A
 ```
@@ -91,6 +116,9 @@ Applies a function to each case in the data structure
 Returns the value from this `Right` or the given argument if this is a `Left`
 
 ### getOrElseL
+
+_method_
+_since 1.0.0_
 
 ```ts
 (f: (l: L) => A): A
@@ -100,11 +128,17 @@ Returns the value from this `Right` or the result of given argument if this is a
 
 ### inspect
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
 
 ### isLeft
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): this is Left<L, A>
@@ -114,6 +148,9 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 
 ### isRight
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): this is Right<L, A>
 ```
@@ -121,6 +158,9 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 Returns `true` if the either is an instance of `Right`, `false` otherwise
 
 ### map
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B>(f: (a: A) => B): Either<L, B>
@@ -130,6 +170,9 @@ The given function is applied if this is a `Right`
 
 ### mapLeft
 
+_method_
+_since 1.0.0_
+
 ```ts
 <M>(f: (l: L) => M): Either<M, A>
 ```
@@ -138,11 +181,17 @@ Maps the left side of the disjunction
 
 ### reduce
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
 ### swap
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): Either<A, L>
@@ -152,6 +201,9 @@ Swaps the disjunction values
 
 ### toString
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): string
 ```
@@ -159,6 +211,7 @@ Swaps the disjunction values
 # either
 
 _instance_
+_since 1.0.0_
 
 ```ts
 Monad2<URI> &

@@ -16,6 +16,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor IO
+ * @since 1.0.0
  */
 export class IO<A> {
   readonly _A!: A
@@ -57,7 +58,10 @@ const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
   return fa.chain(f)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
   return {
     concat: (x, y) =>
@@ -69,12 +73,18 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
   return { ...getSemigroup(M), empty: of(M.empty) }
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const io: Monad1<URI> = {
   URI,
   map,

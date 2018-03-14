@@ -17,6 +17,7 @@ export type URI = typeof URI
 /**
  * @data
  * @constructor Writer
+ * @since 1.0.0
  */
 export class Writer<W, A> {
   readonly _A!: A
@@ -59,12 +60,18 @@ const chain = <W>(S: Semigroup<W>) => <A, B>(fa: Writer<W, A>, f: (a: A) => Writ
   })
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const tell = <W>(w: W): Writer<W, void> => {
   return new Writer(() => [undefined, w])
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
   return {
     URI,
@@ -76,7 +83,10 @@ export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
   }
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const writer: Functor2<URI> = {
   URI,
   map

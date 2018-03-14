@@ -19,24 +19,36 @@ export interface Ord<A> extends Setoid<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const unsafeCompare = (x: any, y: any): Ordering => {
   return x < y ? -1 : x > y ? 1 : 0
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const ordString: Ord<string> = {
   ...setoidString,
   compare: unsafeCompare
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const ordNumber: Ord<number> = {
   ...setoidNumber,
   compare: unsafeCompare
 }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const ordBoolean: Ord<boolean> = {
   ...setoidBoolean,
   compare: unsafeCompare
@@ -45,6 +57,7 @@ export const ordBoolean: Ord<boolean> = {
 /**
  * Test whether one value is _strictly less than_ another
  * @function
+ * @since 1.0.0
  */
 export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) === -1
@@ -53,6 +66,7 @@ export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 /**
  * Test whether one value is _strictly greater than_ another
  * @function
+ * @since 1.0.0
  */
 export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) === 1
@@ -61,6 +75,7 @@ export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 /**
  * Test whether one value is _non-strictly less than_ another
  * @function
+ * @since 1.0.0
  */
 export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) !== 1
@@ -69,6 +84,7 @@ export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 /**
  * Test whether one value is _non-strictly greater than_ another
  * @function
+ * @since 1.0.0
  */
 export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) !== -1
@@ -77,6 +93,7 @@ export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
  * @function
+ * @since 1.0.0
  */
 export const min = <A>(O: Ord<A>) => (x: A, y: A): A => {
   return O.compare(x, y) === 1 ? y : x
@@ -85,6 +102,7 @@ export const min = <A>(O: Ord<A>) => (x: A, y: A): A => {
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen
  * @function
+ * @since 1.0.0
  */
 export const max = <A>(O: Ord<A>) => (x: A, y: A): A => {
   return O.compare(x, y) === -1 ? y : x
@@ -93,6 +111,7 @@ export const max = <A>(O: Ord<A>) => (x: A, y: A): A => {
 /**
  * Clamp a value between a minimum and a maximum
  * @function
+ * @since 1.0.0
  */
 export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
   const minO = min(O)
@@ -103,6 +122,7 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
 /**
  * Test whether a value is between a minimum and a maximum (inclusive)
  * @function
+ * @since 1.0.0
  */
 export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => {
   const lessThanO = lessThan(O)
@@ -110,7 +130,10 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) =>
   return (low, hi) => x => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
   return {
     equals: (x, y) => compare(x, y) === 0,
@@ -118,19 +141,28 @@ export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
   return fromCompare(on(fa.compare)(f))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
   return {
     concat: (x, y) => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b), y.compare(a, b)))
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
   const S = getProductSetoid(OA, OB)
   return {

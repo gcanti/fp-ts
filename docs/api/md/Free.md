@@ -3,6 +3,7 @@ MODULE [Free](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts)
 # Free
 
 _data_
+_since 1.0.0_
 
 ```ts
 type Free<F, A> = Pure<F, A> | Impure<F, A, any>
@@ -12,11 +13,17 @@ type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
 ### ap
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(fab: Free<F, (a: A) => B>): Free<F, B>
 ```
 
 ### ap\_
+
+_method_
+_since 1.0.0_
 
 ```ts
 <B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C>
@@ -24,11 +31,17 @@ type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
 ### chain
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => Free<F, B>): Free<F, B>
 ```
 
 ### inspect
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): string
@@ -36,11 +49,17 @@ type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
 ### isImpure
 
+_method_
+_since 1.0.0_
+
 ```ts
 (): this is Impure<F, A, any>
 ```
 
 ### isPure
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): this is Pure<F, A>
@@ -48,11 +67,17 @@ type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
 ### map
 
+_method_
+_since 1.0.0_
+
 ```ts
 <B>(f: (a: A) => B): Free<F, B>
 ```
 
 ### toString
+
+_method_
+_since 1.0.0_
 
 ```ts
 (): string

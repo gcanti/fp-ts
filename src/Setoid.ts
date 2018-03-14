@@ -15,30 +15,48 @@ export interface Setoid<A> {
   readonly equals: (x: A, y: A) => boolean
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const strictEqual = <A>(a: A, b: A): boolean => {
   return a === b
 }
 
 const setoidStrict = { equals: strictEqual }
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const setoidString: Setoid<string> = setoidStrict
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const setoidNumber: Setoid<number> = setoidStrict
 
-/** @instance */
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const setoidBoolean: Setoid<boolean> = setoidStrict
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
   return {
     equals: (xs, ys) => xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i]))
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getRecordSetoid = <O extends { [key: string]: any }>(
   setoids: { [K in keyof O]: Setoid<O[K]> }
 ): Setoid<O> => {
@@ -54,14 +72,20 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
   return {
     equals: ([xa, xb], [ya, yb]) => SA.equals(xa, ya) && SB.equals(xb, yb)
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.2.0
+ */
 export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
   return {
     equals: on(fa.equals)(f)

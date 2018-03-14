@@ -5,14 +5,20 @@ import { Semigroup } from './Semigroup'
 import { Ord } from './Ord'
 import { Either } from './Either'
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
   const r: Array<A> = []
   x.forEach(e => r.push(e))
   return r.sort(O.compare)
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => {
   const subsetS = subset(S)
   return {
@@ -20,7 +26,10 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
   const values = x.values()
   let e: IteratorResult<A>
@@ -35,6 +44,7 @@ export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
 /**
  * Projects a Set through a function
  * @function
+ * @since 1.2.0
  */
 export const map = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => B): Set<B> => {
   const r = new Set<B>()
@@ -48,12 +58,18 @@ export const map = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => B): Set<B
   return r
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const every = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
   return !some(x, not(predicate))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.2.0
+ */
 export const chain = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => Set<B>): Set<B> => {
   let r = new Set<B>()
   const rhas = member(bset)(r)
@@ -71,12 +87,16 @@ export const chain = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => Set<B>)
  * `true` if and only if every element in the first set
  * is an element of the second set
  * @function
+ * @since 1.0.0
  */
 export const subset = <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean => {
   return every(x, member(S)(y))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
   const values = x.values()
   let e: IteratorResult<A>
@@ -91,7 +111,10 @@ export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
   return r
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.2.0
+ */
 export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A>; left: Set<A> } => {
   const values = x.values()
   let e: IteratorResult<A>
@@ -112,6 +135,7 @@ export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A
 /**
  * Test if a value is a member of a set
  * @function
+ * @since 1.0.0
  */
 export const member = <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean => {
   return some(x, (ax: A) => S.equals(a, ax))
@@ -120,6 +144,7 @@ export const member = <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean => {
 /**
  * Form the union of two sets
  * @function
+ * @since 1.0.0
  */
 export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
   const memberS = member(S)
@@ -138,6 +163,7 @@ export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
 /**
  * The set of elements which are in both the first and second set
  * @function
+ * @since 1.0.0
  */
 export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
   const memberS = member(S)
@@ -153,7 +179,10 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.2.0
+ */
 export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { left: Set<L>; right: Set<R> } => {
   const values = x.values()
   let e: IteratorResult<A>
@@ -174,13 +203,17 @@ export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { l
 /**
  * Form the set difference (`y` - `x`)
  * @function
+ * @since 1.0.0
  */
 export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
   const has = member(S)
   return (x, y) => filter(y, not(has(x)))
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getUnionMonoid = <A>(S: Setoid<A>): Monoid<Set<A>> => {
   return {
     concat: union(S),
@@ -188,14 +221,20 @@ export const getUnionMonoid = <A>(S: Setoid<A>): Monoid<Set<A>> => {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const getIntersectionSemigroup = <A>(S: Setoid<A>): Semigroup<Set<A>> => {
   return {
     concat: intersection(S)
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export const reduce = <A>(O: Ord<A>): (<B>(fa: Set<A>, b: B, f: (b: B, a: A) => B) => B) => {
   const toArrayO = toArray(O)
   return (fa, b, f) => toArrayO(fa).reduce(f, b)
@@ -204,6 +243,7 @@ export const reduce = <A>(O: Ord<A>): (<B>(fa: Set<A>, b: B, f: (b: B, a: A) => 
 /**
  * Create a set with one element
  * @function
+ * @since 1.0.0
  */
 export const singleton = <A>(a: A): Set<A> => {
   return new Set([a])
@@ -212,6 +252,7 @@ export const singleton = <A>(a: A): Set<A> => {
 /**
  * Insert a value into a set
  * @function
+ * @since 1.0.0
  */
 export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => {
   const memberS = member(S)
@@ -229,6 +270,7 @@ export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => {
 /**
  * Delete a value from a set
  * @function
+ * @since 1.0.0
  */
 export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => {
   return filter(x, (ax: A) => !S.equals(a, ax))
@@ -237,6 +279,7 @@ export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => {
 /**
  * Create a set from an array
  * @function
+ * @since 1.2.0
  */
 export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
   const len = as.length

@@ -11,6 +11,16 @@ _function_
 Filter an array of optional values, keeping only the elements which contain
 a value, creating a new array
 
+# cons
+
+_function_
+
+```ts
+<A>(a: A, as: Array<A>): Array<A>
+```
+
+Attaches an element to the front of an array, creating a new array
+
 # copy
 
 _function_
@@ -402,6 +412,14 @@ _function_
 
 Calculate the longest initial subarray for which all element satisfy the
 specified predicate, creating a new array
+
+# traverse
+
+_function_
+
+```ts
+traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
+```
 
 # unsafeDeleteAt
 
