@@ -79,6 +79,7 @@ Comonad2<URI>
 # experiment
 
 _function_
+_since 1.0.0_
 
 ```ts
 experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>
@@ -89,6 +90,7 @@ Extract a collection of values from positions which depend on the current positi
 # peeks
 
 _function_
+_since 1.0.0_
 
 ```ts
 <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A
@@ -99,6 +101,7 @@ Extract a value from a position which depends on the current position
 # seeks
 
 _function_
+_since 1.0.0_
 
 ```ts
 <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A>

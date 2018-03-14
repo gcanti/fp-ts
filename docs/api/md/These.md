@@ -112,6 +112,7 @@ Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 # both
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(l: L, a: A): These<L, A>
@@ -120,6 +121,7 @@ _function_
 # fromThese
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A]
@@ -128,6 +130,7 @@ _function_
 # getMonad
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(S: Semigroup<L>): Monad2C<URI, L>
@@ -136,6 +139,7 @@ _function_
 # getSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>>
@@ -144,6 +148,7 @@ _function_
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>>
@@ -152,6 +157,7 @@ _function_
 # isBoth
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: These<L, A>): fa is Both<L, A>
@@ -162,6 +168,7 @@ Returns `true` if the these is an instance of `Both`, `false` otherwise
 # isThat
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: These<L, A>): fa is That<L, A>
@@ -172,6 +179,7 @@ Returns `true` if the these is an instance of `That`, `false` otherwise
 # isThis
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: These<L, A>): fa is This<L, A>
@@ -182,6 +190,7 @@ Returns `true` if the these is an instance of `This`, `false` otherwise
 # that
 
 _function_
+_since 1.0.0_
 Alias of
 
 ```ts
@@ -191,6 +200,7 @@ of
 # theseLeft
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: These<L, A>): Option<L>
@@ -199,6 +209,7 @@ _function_
 # theseRight
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: These<L, A>): Option<A>
@@ -207,6 +218,7 @@ _function_
 # this\_
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(l: L): These<L, A>

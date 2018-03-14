@@ -15,6 +15,7 @@ interface IxMonad<F> {
 # iapplyFirst
 
 _function_
+_since 1.0.0_
 
 ```ts
 iapplyFirst<F>(
@@ -25,6 +26,7 @@ iapplyFirst<F>(
 # iapplySecond
 
 _function_
+_since 1.0.0_
 
 ```ts
 iapplySecond<F>(

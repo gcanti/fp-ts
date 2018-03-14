@@ -110,6 +110,7 @@ Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI>
 # getMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(M: Monoid<A>): Monoid<Pair<A>>
@@ -118,6 +119,7 @@ _function_
 # getOrd
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(O: Ord<A>): Ord<Pair<A>>
@@ -126,6 +128,7 @@ _function_
 # getSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<Pair<A>>
@@ -134,6 +137,7 @@ _function_
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Pair<A>>

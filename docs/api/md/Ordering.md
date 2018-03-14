@@ -21,6 +21,7 @@ Setoid<Ordering>
 # invert
 
 _function_
+_since 1.0.0_
 
 ```ts
 (O: Ordering): Ordering
@@ -29,6 +30,7 @@ _function_
 # sign
 
 _function_
+_since 1.0.0_
 
 ```ts
 (n: number): Ordering

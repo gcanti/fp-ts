@@ -13,6 +13,7 @@ interface Traversable<T> extends Functor<T>, Foldable<T> {
 # getTraversableComposition
 
 _function_
+_since 1.0.0_
 
 ```ts
 getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
@@ -21,6 +22,7 @@ getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): Traversab
 # sequence
 
 _function_
+_since 1.0.0_
 
 ```ts
 sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
@@ -29,6 +31,7 @@ sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>
 # traverse
 
 _function_
+_since 1.0.0_
 
 ```ts
 traverse<F, T>(

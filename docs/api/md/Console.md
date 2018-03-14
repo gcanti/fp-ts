@@ -3,6 +3,7 @@ MODULE [Console](https://github.com/gcanti/fp-ts/blob/master/src/Console.ts)
 # error
 
 _function_
+_since 1.0.0_
 
 ```ts
 (s: any): IO<void>
@@ -11,6 +12,7 @@ _function_
 # info
 
 _function_
+_since 1.0.0_
 
 ```ts
 (s: any): IO<void>
@@ -19,6 +21,7 @@ _function_
 # log
 
 _function_
+_since 1.0.0_
 
 ```ts
 (s: any): IO<void>
@@ -27,6 +30,7 @@ _function_
 # warn
 
 _function_
+_since 1.0.0_
 
 ```ts
 (s: any): IO<void>

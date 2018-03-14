@@ -77,6 +77,7 @@ Monad2<URI>
 # get
 
 _function_
+_since 1.0.0_
 
 ```ts
 <S>(): State<S, S>
@@ -85,6 +86,7 @@ _function_
 # gets
 
 _function_
+_since 1.0.0_
 
 ```ts
 <S, A>(f: (s: S) => A): State<S, A>
@@ -93,6 +95,7 @@ _function_
 # modify
 
 _function_
+_since 1.0.0_
 
 ```ts
 <S>(f: (s: S) => S): State<S, undefined>
@@ -101,6 +104,7 @@ _function_
 # put
 
 _function_
+_since 1.0.0_
 
 ```ts
 <S>(s: S): State<S, undefined>

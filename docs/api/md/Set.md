@@ -3,6 +3,7 @@ MODULE [Set](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts)
 # chain
 
 _function_
+_since 1.2.0_
 
 ```ts
 <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => Set<B>): Set<B>
@@ -11,6 +12,7 @@ _function_
 # difference
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>)
@@ -21,6 +23,7 @@ Form the set difference (`y` - `x`)
 # every
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(x: Set<A>, predicate: Predicate<A>): boolean
@@ -29,6 +32,7 @@ _function_
 # filter
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(x: Set<A>, predicate: Predicate<A>): Set<A>
@@ -37,6 +41,7 @@ _function_
 # fromArray
 
 _function_
+_since 1.2.0_
 
 ```ts
 <A>(S: Setoid<A>) => (as: A[]): Set<A>
@@ -47,6 +52,7 @@ Create a set from an array
 # getIntersectionSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): Semigroup<Set<A>>
@@ -55,6 +61,7 @@ _function_
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Set<A>>
@@ -63,6 +70,7 @@ _function_
 # getUnionMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): Monoid<Set<A>>
@@ -71,6 +79,7 @@ _function_
 # insert
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>)
@@ -81,6 +90,7 @@ Insert a value into a set
 # intersection
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>)
@@ -91,6 +101,7 @@ The set of elements which are in both the first and second set
 # map
 
 _function_
+_since 1.2.0_
 
 ```ts
 <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => B): Set<B>
@@ -101,6 +112,7 @@ Projects a Set through a function
 # member
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean
@@ -111,6 +123,7 @@ Test if a value is a member of a set
 # partition
 
 _function_
+_since 1.2.0_
 
 ```ts
 <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A>; left: Set<A> }
@@ -119,6 +132,7 @@ _function_
 # partitionMap
 
 _function_
+_since 1.2.0_
 
 ```ts
 <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { left: Set<L>; right: Set<R> }
@@ -127,6 +141,7 @@ _function_
 # reduce
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(O: Ord<A>): (<B>(fa: Set<A>, b: B, f: (b: B, a: A) => B) => B)
@@ -135,6 +150,7 @@ _function_
 # remove
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A>
@@ -145,6 +161,7 @@ Delete a value from a set
 # singleton
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(a: A): Set<A>
@@ -155,6 +172,7 @@ Create a set with one element
 # some
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(x: Set<A>, predicate: Predicate<A>): boolean
@@ -163,6 +181,7 @@ _function_
 # subset
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean
@@ -174,6 +193,7 @@ is an element of the second set
 # toArray
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(O: Ord<A>) => (x: Set<A>): Array<A>
@@ -182,6 +202,7 @@ _function_
 # union
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>)

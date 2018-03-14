@@ -115,6 +115,7 @@ Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversa
 # getApplicative
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(M: Monoid<L>): Applicative2C<URI, L>
@@ -123,6 +124,7 @@ _function_
 # getApply
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(S: Semigroup<L>): Apply2C<URI, L>
@@ -131,6 +133,7 @@ _function_
 # getChain
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(M: Monoid<L>): Chain2C<URI, L>
@@ -139,6 +142,7 @@ _function_
 # getChainRec
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(M: Monoid<L>): ChainRec2C<URI, L>
@@ -147,6 +151,7 @@ _function_
 # getMonad
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(M: Monoid<L>): Monad2C<URI, L>
@@ -155,6 +160,7 @@ _function_
 # getMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>>
@@ -163,6 +169,7 @@ _function_
 # getOrd
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>>
@@ -174,6 +181,7 @@ To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
 # getSemigroup
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>>
@@ -182,6 +190,7 @@ _function_
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>>

@@ -283,6 +283,7 @@ Monad1<URI> &
 # fromEither
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: Either<L, A>): Option<A>
@@ -291,6 +292,7 @@ _function_
 # fromNullable
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(a: A | null | undefined): Option<A>
@@ -302,6 +304,7 @@ If the value is `null` or `undefined`, returns `None`, otherwise returns the val
 # fromPredicate
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(predicate: Predicate<A>) => (a: A): Option<A>
@@ -310,6 +313,7 @@ _function_
 # getFirstMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A = never>(): Monoid<Option<A>>
@@ -320,6 +324,7 @@ Option monoid returning the left-most non-None value
 # getLastMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A = never>(): Monoid<Option<A>>
@@ -330,6 +335,7 @@ Option monoid returning the right-most non-None value
 # getMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Semigroup<A>): Monoid<Option<A>>
@@ -338,6 +344,7 @@ _function_
 # getOrd
 
 _function_
+_since 1.2.0_
 
 ```ts
 <A>(O: Ord<A>): Ord<Option<A>>
@@ -352,6 +359,7 @@ the type the `Option` contains.
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Option<A>>
@@ -360,6 +368,7 @@ _function_
 # isNone
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(fa: Option<A>): fa is None<A>
@@ -370,6 +379,7 @@ Returns `true` if the option is `None`, `false` otherwise
 # isSome
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(fa: Option<A>): fa is Some<A>
@@ -380,6 +390,7 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 # some
 
 _function_
+_since 1.0.0_
 Alias of
 
 ```ts
@@ -389,6 +400,7 @@ of
 # tryCatch
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(f: Lazy<A>): Option<A>

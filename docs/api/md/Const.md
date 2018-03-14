@@ -68,6 +68,7 @@ Functor2<URI> & Contravariant2<URI>
 # getApplicative
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(M: Monoid<L>): Applicative2C<URI, L>
@@ -76,6 +77,7 @@ _function_
 # getApply
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(S: Semigroup<L>): Apply2C<URI, L>
@@ -84,6 +86,7 @@ _function_
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 ;<L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({

@@ -226,6 +226,7 @@ Monad2<URI> &
 # fromNullable
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A>
@@ -237,6 +238,7 @@ a `Right`, if the value is nully use the provided default as a `Left`
 # fromOption
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A>
@@ -248,6 +250,7 @@ a `Right`, if the value is a `None` use the provided default as a `Left`
 # fromPredicate
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): Either<L, A>
@@ -256,6 +259,7 @@ _function_
 # fromValidation
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: Validation<L, A>): Either<L, A>
@@ -264,6 +268,7 @@ _function_
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>>
@@ -272,6 +277,7 @@ _function_
 # isLeft
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: Either<L, A>): fa is Left<L, A>
@@ -282,6 +288,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 # isRight
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(fa: Either<L, A>): fa is Right<L, A>
@@ -292,6 +299,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 # left
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(l: L): Either<L, A>
@@ -303,6 +311,7 @@ This usually represents a failure, due to the right-bias of this structure
 # right
 
 _function_
+_since 1.0.0_
 Alias of
 
 ```ts
@@ -315,6 +324,7 @@ This usually represents a successful value due to the right bias of this structu
 # toError
 
 _function_
+_since 1.0.0_
 
 ```ts
 (e: {}): Error
@@ -325,6 +335,7 @@ Default value for the optional `onerror` argument of `tryCatch`
 # tryCatch
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Either<Error, A>

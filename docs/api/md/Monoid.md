@@ -95,6 +95,7 @@ Monoid<Array<any>>
 # fold
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(M: Monoid<A>): ((as: Array<A>) => A)
@@ -103,6 +104,7 @@ _function_
 # getDualMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(M: Monoid<A>): Monoid<A>
@@ -111,6 +113,7 @@ _function_
 # getEndomorphismMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A = never>(): Monoid<Endomorphism<A>>
@@ -119,6 +122,7 @@ _function_
 # getFunctionMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M>
@@ -127,6 +131,7 @@ _function_
 # getProductMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]>
@@ -135,6 +140,7 @@ _function_
 # getRecordMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <O>(Ms: { [K in keyof O]: Monoid<O[K]> }): Monoid<O>

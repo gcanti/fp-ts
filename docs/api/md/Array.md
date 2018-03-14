@@ -3,6 +3,7 @@ MODULE [Array](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts)
 # catOptions
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<Option<A>>): Array<A>
@@ -14,6 +15,7 @@ a value, creating a new array
 # cons
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(a: A, as: Array<A>): Array<A>
@@ -24,6 +26,7 @@ Attaches an element to the front of an array, creating a new array
 # copy
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>): Array<A>
@@ -32,6 +35,7 @@ _function_
 # deleteAt
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(i: number, as: Array<A>): Option<Array<A>>
@@ -43,6 +47,7 @@ returning `None` if the index is out of bounds
 # drop
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(n: number, as: Array<A>): Array<A>
@@ -53,6 +58,7 @@ Drop a number of elements from the start of an array, creating a new array
 # dropWhile
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>, predicate: Predicate<A>): Array<A>
@@ -64,6 +70,7 @@ specified predicate, creating a new array
 # filter
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>, predicate: Predicate<A>): Array<A>
@@ -74,6 +81,7 @@ Filter an array, keeping the elements which satisfy a predicate function, creati
 # findFirst
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>, predicate: Predicate<A>): Option<A>
@@ -84,6 +92,7 @@ Find the first element which satisfies a predicate function
 # findIndex
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>, predicate: Predicate<A>): Option<number>
@@ -94,6 +103,7 @@ Find the first index for which a predicate holds
 # findLast
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>, predicate: Predicate<A>): Option<A>
@@ -104,6 +114,7 @@ Find the last element which satisfies a predicate function
 # flatten
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(ffa: Array<Array<A>>): Array<A>
@@ -118,6 +129,7 @@ flatten([[1], [2], [3]]) // [1, 2, 3]
 # fold
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B>(as: Array<A>, b: B, cons: (head: A, tail: Array<A>) => B): B
@@ -128,6 +140,7 @@ Break an array into its first element and remaining elements
 # foldL
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Array<A>) => B): B
@@ -138,6 +151,7 @@ Lazy version of `fold`
 # getMonoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A = never>(): Monoid<Array<A>>
@@ -146,6 +160,7 @@ _function_
 # getOrd
 
 _function_
+_since 1.2.0_
 
 ```ts
 <A>(O: Ord<A>): Ord<Array<A>> => ({
@@ -162,6 +177,7 @@ if both arrays have the same length, the result is equality.
 # getSetoid
 
 _function_
+_since 1.0.0_
 
 ```ts
 getArraySetoid
@@ -174,6 +190,7 @@ In case of arrays of different lengths, the result is non equality.
 # head
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>): Option<A>
@@ -184,6 +201,7 @@ Get the first element in an array, or `None` if the array is empty
 # index
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(i: number, as: Array<A>): Option<A>
@@ -194,6 +212,7 @@ This function provides a safe way to read a value at a particular index from an 
 # init
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>): Option<Array<A>>
@@ -204,6 +223,7 @@ Get all but the last element of an array, creating a new array, or `None` if the
 # insertAt
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(i: number, a: A, as: Array<A>): Option<Array<A>>
@@ -215,6 +235,7 @@ returning `None` if the index is out of bounds
 # isEmpty
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>): boolean
@@ -225,6 +246,7 @@ Test whether an array is empty
 # isOutOfBound
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(i: number, as: Array<A>): boolean
@@ -235,6 +257,7 @@ Test whether an array contains a particular index
 # last
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>): Option<A>
@@ -245,6 +268,7 @@ Get the last element in an array, or `None` if the array is empty
 # lefts
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(as: Array<Either<L, A>>): Array<L>
@@ -255,6 +279,7 @@ Extracts from a list of `Either` all the `Left` elements. All the `Left` element
 # mapOption
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B>
@@ -266,6 +291,7 @@ which contain a value, creating a new array
 # modifyAt
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>>
@@ -277,6 +303,7 @@ array, or returning `None` if the index is out of bounds
 # partitionMap
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): { left: Array<L>; right: Array<R> }
@@ -285,6 +312,7 @@ _function_
 # refine
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B>
@@ -293,6 +321,7 @@ _function_
 # reverse
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>): Array<A>
@@ -303,6 +332,7 @@ Reverse an array, creating a new array
 # rights
 
 _function_
+_since 1.0.0_
 
 ```ts
 <L, A>(as: Array<Either<L, A>>): Array<A>
@@ -313,6 +343,7 @@ Extracts from a list of `Either` all the `Right` elements. All the `Right` eleme
 # rotate
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(n: number, xs: Array<A>): Array<A>
@@ -323,6 +354,7 @@ Rotate an array to the right by `n` steps
 # scanLeft
 
 _function_
+_since 1.1.0_
 
 ```ts
 <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B>
@@ -337,6 +369,7 @@ scanLeft([1, 2, 3], 10, (b, a) => b - a) // [ 10, 9, 7, 4 ]
 # scanRight
 
 _function_
+_since 1.1.0_
 
 ```ts
 <A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array<B>
@@ -352,6 +385,7 @@ scanRight([1, 2, 3], 10, (a, b) => b - a) // [ 4, 5, 7, 10 ]
 # snoc
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>, a: A): Array<A>
@@ -362,6 +396,7 @@ Append an element to the end of an array, creating a new array
 # sort
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(ord: Ord<A>): ((as: Array<A>) => Array<A>)
@@ -372,6 +407,7 @@ Sort the elements of an array in increasing order, creating a new array
 # span
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> }
@@ -385,6 +421,7 @@ Split an array into two parts:
 # tail
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>): Option<Array<A>>
@@ -395,6 +432,7 @@ Get all but the first element of an array, creating a new array, or `None` if th
 # take
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(n: number, as: Array<A>): Array<A>
@@ -405,6 +443,7 @@ Keep only a number of elements from the start of an array, creating a new array
 # takeWhile
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(as: Array<A>, predicate: Predicate<A>): Array<A>
@@ -416,6 +455,7 @@ specified predicate, creating a new array
 # traverse
 
 _function_
+_since 1.0.0_
 
 ```ts
 traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
@@ -424,6 +464,7 @@ traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => 
 # unsafeDeleteAt
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(i: number, as: Array<A>): Array<A>
@@ -432,6 +473,7 @@ _function_
 # unsafeInsertAt
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(i: number, a: A, as: Array<A>): Array<A>
@@ -440,6 +482,7 @@ _function_
 # unsafeUpdateAt
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(i: number, a: A, as: Array<A>): Array<A>
@@ -448,6 +491,7 @@ _function_
 # updateAt
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A>(i: number, a: A, as: Array<A>): Option<Array<A>>
@@ -459,6 +503,7 @@ returning `None` if the index is out of bounds
 # zip
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]>
@@ -470,6 +515,7 @@ If one input array is short, excess elements of the longer array are discarded
 # zipWith
 
 _function_
+_since 1.0.0_
 
 ```ts
 <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C>

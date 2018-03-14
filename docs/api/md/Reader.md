@@ -59,6 +59,7 @@ Monad2<URI>
 # ask
 
 _function_
+_since 1.0.0_
 
 ```ts
 <E>(): Reader<E, E>
@@ -69,6 +70,7 @@ reads the current context
 # asks
 
 _function_
+_since 1.0.0_
 
 ```ts
 <E, A>(f: (e: E) => A): Reader<E, A>
@@ -79,6 +81,7 @@ Projects a value from the global context in a Reader
 # local
 
 _function_
+_since 1.0.0_
 
 ```ts
 <E>(f: (e: E) => E) => <A>(fa: Reader<E, A>): Reader<E, A>

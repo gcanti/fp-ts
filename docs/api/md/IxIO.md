@@ -68,6 +68,7 @@ IxMonad3<URI>
 # getMonad
 
 _function_
+_since 1.0.0_
 
 ```ts
 <I = never>(): Monad3C<URI, I, I>
@@ -76,6 +77,7 @@ _function_
 # iof
 
 _function_
+_since 1.0.0_
 
 ```ts
 <I, A>(a: A): IxIO<I, I, A>
