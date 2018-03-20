@@ -50,25 +50,33 @@ The idea (faking higher kinded types in TypeScript) is based on
 * [fp-ts-rxjs](https://github.com/gcanti/fp-ts-rxjs) - fp-ts bindings for RxJS
 * [fp-ts-fluture](https://github.com/gcanti/fp-ts-fluture) - fp-ts bindings for Fluture
 
-# Documentation (TypeScript)
+# Documentation
 
 * [API](docs/api/md/index.md)
+
+## Internals
+
 * [How `HKT`, `URI2HKT`, `URIS` and `Type` work](docs/HKT.md)
-* Examples
-  * [Free monad](examples/Free.ts)
-  * [MTL-style](examples/mtl.ts)
-  * OptionT monad transformer
-    * [ArrayOption](examples/ArrayOption.ts)
-    * [TaskOption](examples/TaskOption.ts)
-  * [EitherT monad transformer](examples/EitherOption.ts)
-  * StateT monad transformer
-    * [StateIO](examples/StateIO.ts)
-    * [StateTaskEither](examples/StateTaskEither.ts)
-  * [ReaderT monad transformer](examples/ReaderIO.ts)
-  * [Applicative composition](examples/TaskValidation.ts)
-  * [Type safe finite state machines with `IxIO`](examples/ixIO.ts)
-  * [Moore machine](examples/Moore.ts)
-  * [Debugging with `Trace`](examples/debugging-with-Trace.ts)
+
+## Examples
+
+* [Free monad](examples/Free.ts)
+* [MTL-style](examples/mtl.ts)
+* OptionT monad transformer
+  * [ArrayOption](examples/ArrayOption.ts)
+  * [TaskOption](examples/TaskOption.ts)
+* EitherT monad transformer
+  * [EitherOption](examples/EitherOption.ts)
+* StateT monad transformer
+  * [StateIO](examples/StateIO.ts)
+  * [StateTaskEither](examples/StateTaskEither.ts)
+* ReaderT monad transformer
+  * [ReaderIO](examples/ReaderIO.ts)
+* Applicative composition
+  * [TaskValidation](examples/TaskValidation.ts)
+* [Type safe finite state machines with `IxIO`](examples/ixIO.ts)
+* [Moore machines](examples/Moore.ts)
+* [Debugging with `Trace`](examples/debugging-with-Trace.ts)
 * [fantas-eel-and-specification](docs/fantas-eel-and-specification) - Code for the
   [Fantas, Eel, and Specification](http://www.tomharding.me/2017/03/03/fantas-eel-and-specification/) blog series on
   functional programming by Tom Harding
