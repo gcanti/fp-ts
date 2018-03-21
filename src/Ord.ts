@@ -173,3 +173,11 @@ export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
     }
   }
 }
+
+/**
+ * @function
+ * @since 1.3.0
+ */
+export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
+  return fromCompare((x, y) => O.compare(y, x))
+}
