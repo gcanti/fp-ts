@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getSemigroup, contramap, ordNumber, ordString, getProductOrd, clamp, between } from '../src/Ord'
+import { getSemigroup, contramap, ordNumber, ordString, getProductOrd, clamp, between, getDualOrd } from '../src/Ord'
 import { sort } from '../src/Array'
 
 describe('Ord', () => {
@@ -44,5 +44,12 @@ describe('Ord', () => {
     assert.strictEqual(betweenNumber(1, 10)(20), false)
     assert.strictEqual(betweenNumber(1, 10)(1), true)
     assert.strictEqual(betweenNumber(1, 10)(-10), false)
+  })
+
+  it('getDualOrd', () => {
+    const O = getDualOrd(ordNumber)
+    assert.strictEqual(O.compare(1, 2), 1)
+    assert.strictEqual(O.compare(2, 1), -1)
+    assert.strictEqual(O.compare(2, 2), 0)
   })
 })
