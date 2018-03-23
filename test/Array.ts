@@ -39,7 +39,8 @@ import {
   foldL,
   scanLeft,
   scanRight,
-  getOrd
+  getOrd,
+  uniq
 } from '../src/Array'
 import * as option from '../src/Option'
 import { traverse } from '../src/Traversable'
@@ -48,7 +49,7 @@ import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { tuple, identity } from '../src/function'
-import { getArraySetoid } from '../src/Setoid'
+import { getArraySetoid, setoidNumber, setoidBoolean, setoidString } from '../src/Setoid'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -335,5 +336,21 @@ describe('Array', () => {
     assert.deepEqual(scanRight([1, 2, 3], 10, f), [-8, 9, -7, 10])
     assert.deepEqual(scanRight([0], 10, f), [-10, 10])
     assert.deepEqual(scanRight([], 10, f), [10])
+  })
+
+  it('uniq', () => {
+    assert.deepEqual(uniq([true, false, true, false], setoidBoolean), [true, false])
+    assert.deepEqual(uniq([], setoidNumber), [])
+    assert.deepEqual(uniq([-0, -0], setoidNumber), [-0])
+    assert.deepEqual(uniq([0, -0], setoidNumber), [0])
+    assert.deepStrictEqual(uniq([NaN, NaN], setoidNumber), [NaN])
+    assert.deepEqual(uniq([1], setoidNumber), [1])
+    assert.deepEqual(uniq([2, 1, 2], setoidNumber), [2, 1])
+    assert.deepEqual(uniq([1, 2, 1], setoidNumber), [1, 2])
+    assert.deepEqual(uniq([1, 2, 3, 4, 5], setoidNumber), [1, 2, 3, 4, 5])
+    assert.deepEqual(uniq([1, 1, 2, 2, 3, 3, 4, 4, 5, 5], setoidNumber), [1, 2, 3, 4, 5])
+    assert.deepEqual(uniq([1, 2, 3, 4, 5, 1, 2, 3, 4, 5], setoidNumber), [1, 2, 3, 4, 5])
+    assert.deepEqual(uniq(['a', 'b', 'a'], setoidString), ['a', 'b'])
+    assert.deepEqual(uniq(['a', 'b', 'A'], setoidString), ['a', 'b', 'A'])
   })
 })
