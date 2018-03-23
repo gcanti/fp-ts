@@ -343,7 +343,7 @@ describe('Array', () => {
     assert.deepEqual(uniq([], setoidNumber), [])
     assert.deepEqual(uniq([-0, -0], setoidNumber), [-0])
     assert.deepEqual(uniq([0, -0], setoidNumber), [0])
-    assert.deepStrictEqual(uniq([NaN, NaN], setoidNumber), [NaN])
+    assert.deepEqual(uniq([NaN, NaN], setoidNumber).length, 1)
     assert.deepEqual(uniq([1], setoidNumber), [1])
     assert.deepEqual(uniq([2, 1, 2], setoidNumber), [2, 1])
     assert.deepEqual(uniq([1, 2, 1], setoidNumber), [1, 2])
