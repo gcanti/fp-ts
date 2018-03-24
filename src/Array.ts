@@ -15,7 +15,6 @@ import { Unfoldable1 } from './Unfoldable'
 import { liftA2 } from './Apply'
 import * as option from './Option'
 import { Ordering } from './Ordering'
-import { fromArray } from './Set'
 import { getArraySetoid, Setoid } from './Setoid'
 
 // Adapted from https://github.com/purescript/purescript-arrays
@@ -736,13 +735,13 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
 }
 
 /**
- * Remove duplicate entries from an array, keeping the first found item.
+ * Remove duplicates from an array, keeping the first occurance of an element.
  * @function
  * @since 1.3.0
  */
-export const uniq = <A>(as: Array<A>, S: Setoid<A>): Array<A> => {
+export const uniq = <A>(S: Setoid<A>) => (as: Array<A>): Array<A> => {
   const r: Array<A> = []
-  fromArray(S)(as).forEach(a => r.push(a))
+  new Set(as).forEach(a => r.push(a))
   return r
 }
 
