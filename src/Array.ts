@@ -15,6 +15,7 @@ import { Unfoldable1 } from './Unfoldable'
 import { liftA2 } from './Apply'
 import * as option from './Option'
 import { Ordering } from './Ordering'
+import { member } from './Set'
 import { getArraySetoid, Setoid } from './Setoid'
 
 // Adapted from https://github.com/purescript/purescript-arrays
@@ -741,7 +742,21 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
  */
 export const uniq = <A>(S: Setoid<A>) => (as: Array<A>): Array<A> => {
   const r: Array<A> = []
-  new Set(as).forEach(a => r.push(a))
+  const set: Set<A> = new Set()
+  const isMember = member(S)(set)
+  const l = as.length
+  let i = 0
+  while (i < l) {
+    const a = as[i]
+    if (!isMember(a)) {
+      set.add(a)
+    }
+    i += 1
+  }
+  if (l === set.size) {
+    return as
+  }
+  set.forEach(a => r.push(a))
   return r
 }
 

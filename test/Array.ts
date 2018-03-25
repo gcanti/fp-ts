@@ -49,7 +49,7 @@ import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { tuple, identity } from '../src/function'
-import { getArraySetoid, setoidNumber, setoidBoolean, setoidString } from '../src/Setoid'
+import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -339,6 +339,22 @@ describe('Array', () => {
   })
 
   it('uniq', () => {
+    interface A {
+      a: string
+      b: number
+    }
+
+    const setoidA = contramap((f: A) => f.b, ordNumber)
+    const arrA: A = { a: 'a', b: 1 }
+    const arrB: A = { a: 'b', b: 1 }
+    const arrC: A = { a: 'c', b: 2 }
+    const arrD: A = { a: 'd', b: 2 }
+    const arrUniq = [arrA, arrC]
+
+    assert.equal(uniq(setoidA)(arrUniq), arrUniq, 'Preserve original array')
+    assert.deepEqual(uniq(setoidA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
+    assert.deepEqual(uniq(setoidA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
+    assert.deepEqual(uniq(setoidA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
     assert.deepEqual(uniq(setoidBoolean)([true, false, true, false]), [true, false])
     assert.deepEqual(uniq(setoidNumber)([]), [])
     assert.deepEqual(uniq(setoidNumber)([-0, -0]), [-0])
