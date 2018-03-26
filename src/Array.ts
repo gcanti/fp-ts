@@ -740,7 +740,15 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
  * @since 1.3.0
  */
 export const member = <A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean => {
-  return findIndex(as, e => S.equals(e, a)).isSome()
+  const predicate = (e: A) => S.equals(e, a)
+  let i = 0
+  const len = as.length
+  for (; i < len; i++) {
+    if (predicate(as[i])) {
+      return true
+    }
+  }
+  return false
 }
 
 /**
