@@ -40,7 +40,8 @@ import {
   scanLeft,
   scanRight,
   getOrd,
-  uniq
+  uniq,
+  member
 } from '../src/Array'
 import * as option from '../src/Option'
 import { traverse } from '../src/Traversable'
@@ -338,6 +339,12 @@ describe('Array', () => {
     assert.deepEqual(scanRight([], 10, f), [10])
   })
 
+  it('member', () => {
+    assert.strictEqual(member(setoidNumber)([1, 2, 3], 1), true)
+    assert.strictEqual(member(setoidNumber)([1, 2, 3], 4), false)
+    assert.strictEqual(member(setoidNumber)([], 4), false)
+  })
+
   it('uniq', () => {
     interface A {
       a: string
@@ -355,11 +362,12 @@ describe('Array', () => {
     assert.deepEqual(uniq(setoidA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
     assert.deepEqual(uniq(setoidA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
     assert.deepEqual(uniq(setoidA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
+    assert.deepEqual(uniq(setoidA)([arrA, arrC]), [arrA, arrC])
+    assert.deepEqual(uniq(setoidA)([arrC, arrA]), [arrC, arrA])
     assert.deepEqual(uniq(setoidBoolean)([true, false, true, false]), [true, false])
     assert.deepEqual(uniq(setoidNumber)([]), [])
     assert.deepEqual(uniq(setoidNumber)([-0, -0]), [-0])
     assert.deepEqual(uniq(setoidNumber)([0, -0]), [0])
-    assert.deepEqual(uniq(setoidNumber)([NaN, NaN]).length, 1)
     assert.deepEqual(uniq(setoidNumber)([1]), [1])
     assert.deepEqual(uniq(setoidNumber)([2, 1, 2]), [2, 1])
     assert.deepEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])

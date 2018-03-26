@@ -15,7 +15,6 @@ import { Unfoldable1 } from './Unfoldable'
 import { liftA2 } from './Apply'
 import * as option from './Option'
 import { Ordering } from './Ordering'
-import { member } from './Set'
 import { getArraySetoid, Setoid } from './Setoid'
 
 // Adapted from https://github.com/purescript/purescript-arrays
@@ -736,28 +735,33 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
 }
 
 /**
+ * Test if a value is a member of an array
+ * @function
+ * @since 1.3.0
+ */
+export const member = <A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean => {
+  return findIndex(as, e => S.equals(e, a)).isSome()
+}
+
+/**
  * Remove duplicates from an array, keeping the first occurance of an element.
  * @function
  * @since 1.3.0
  */
-export const uniq = <A>(S: Setoid<A>) => (as: Array<A>): Array<A> => {
-  const r: Array<A> = []
-  const set: Set<A> = new Set()
-  const isMember = member(S)(set)
-  const l = as.length
-  let i = 0
-  while (i < l) {
-    const a = as[i]
-    if (!isMember(a)) {
-      set.add(a)
+export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
+  const memberS = member(S)
+  return as => {
+    const r: Array<A> = []
+    const len = as.length
+    let i = 0
+    for (; i < len; i++) {
+      const a = as[i]
+      if (!memberS(r, a)) {
+        r.push(a)
+      }
     }
-    i += 1
+    return len === r.length ? as : r
   }
-  if (l === set.size) {
-    return as
-  }
-  set.forEach(a => r.push(a))
-  return r
 }
 
 export const array: Monad1<URI> &
