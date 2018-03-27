@@ -14,7 +14,7 @@ import { Semigroupoid2 } from './Semigroupoid'
 import { toString, phantom } from './function'
 import { ChainRec2C } from './ChainRec'
 import { Chain2C } from './Chain'
-import { Either, Right, Left } from './Either'
+import { Either } from './Either'
 
 // Adapted from https://github.com/purescript/purescript-tuples
 
@@ -206,9 +206,9 @@ const chainRec = <L>(M: Monoid<L>) => <A, B>(a: A, f: (a: A) => Tuple<L, Either<
   let acc = M.empty
   while (result.snd.isLeft()) {
     acc = M.concat(acc, result.fst)
-    result = f((result.snd as Left<A, B>).value)
+    result = f(result.snd.value)
   }
-  return new Tuple(M.concat(acc, result.fst), (result.snd as Right<A, B>).value)
+  return new Tuple(M.concat(acc, result.fst), result.snd.value)
 }
 
 /**

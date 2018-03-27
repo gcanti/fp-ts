@@ -28,7 +28,7 @@ export const message = (e: Error): string => {
  * @since 1.0.0
  */
 export const stack = (e: Error): Option<string> => {
-  return e.stack ? some(e.stack) : none
+  return typeof e.stack === 'string' ? some(e.stack) : none
 }
 
 /**

@@ -109,7 +109,7 @@ export const constNull = (): null => {
  * @since 1.0.0
  */
 export const constUndefined = (): undefined => {
-  return undefined
+  return
 }
 
 /**

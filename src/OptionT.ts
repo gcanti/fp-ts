@@ -10,18 +10,17 @@ import {
   ApplicativeComposition11,
   ApplicativeComposition21
 } from './Applicative'
-import { Option, URI as OptionURI } from './Option'
-import * as option from './Option'
+import { Option, URI, none as optionNone, some as optionSome, option } from './Option'
 
-export interface OptionT<M> extends ApplicativeComposition<M, OptionURI> {
+export interface OptionT<M> extends ApplicativeComposition<M, URI> {
   readonly chain: <A, B>(f: (a: A) => HKT<M, Option<B>>, fa: HKT<M, Option<A>>) => HKT<M, Option<B>>
 }
 
-export interface OptionT1<M extends URIS> extends ApplicativeComposition11<M, OptionURI> {
+export interface OptionT1<M extends URIS> extends ApplicativeComposition11<M, URI> {
   readonly chain: <A, B>(f: (a: A) => Type<M, Option<B>>, fa: Type<M, Option<A>>) => Type<M, Option<B>>
 }
 
-export interface OptionT2<M extends URIS2> extends ApplicativeComposition21<M, OptionURI> {
+export interface OptionT2<M extends URIS2> extends ApplicativeComposition21<M, URI> {
   readonly chain: <L, A, B>(f: (a: A) => Type2<M, L, Option<B>>, fa: Type2<M, L, Option<A>>) => Type2<M, L, Option<B>>
 }
 
@@ -33,7 +32,7 @@ export function chain<F>(F: Monad<F>): OptionT<F>['chain']
  * @since 1.0.0
  */
 export function chain<F>(F: Monad<F>): OptionT<F>['chain'] {
-  return (f, fa) => F.chain(fa, o => (o.isNone() ? F.of(option.none) : f(o.value)))
+  return (f, fa) => F.chain(fa, o => (o.isNone() ? F.of(optionNone) : f(o.value)))
 }
 
 export function some<F extends URIS2>(F: Applicative2<F>): <L, A>(a: A) => Type2<F, L, Option<A>>
@@ -44,7 +43,7 @@ export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
  * @since 1.0.0
  */
 export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> {
-  return a => F.of(option.some(a))
+  return a => F.of(optionSome(a))
 }
 
 export function none<F extends URIS2>(F: Applicative2<F>): <L>() => Type2<F, L, Option<never>>
@@ -55,7 +54,7 @@ export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
  * @since 1.0.0
  */
 export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>> {
-  return () => F.of(option.none)
+  return () => F.of(optionNone)
 }
 
 export function fromOption<F extends URIS2>(F: Applicative2<F>): <L, A>(fa: Option<A>) => Type2<F, L, Option<A>>
@@ -77,7 +76,7 @@ export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
  * @since 1.0.0
  */
 export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> {
-  return fa => F.map(fa, a => option.some(a))
+  return fa => F.map(fa, a => optionSome(a))
 }
 
 export function fold<F extends URIS2>(
@@ -116,7 +115,7 @@ export function getOptionT<M>(M: Monad<M>): OptionT<M>
  * @since 1.0.0
  */
 export function getOptionT<M>(M: Monad<M>): OptionT<M> {
-  const applicativeComposition = getApplicativeComposition(M, option.option)
+  const applicativeComposition = getApplicativeComposition(M, option)
 
   return {
     ...applicativeComposition,

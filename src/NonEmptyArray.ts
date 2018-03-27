@@ -75,7 +75,7 @@ const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
  * @since 1.0.0
  */
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => {
-  return as.length ? some(unsafeFromArray(as)) : none
+  return as.length > 0 ? some(unsafeFromArray(as)) : none
 }
 
 const map = <A, B>(fa: NonEmptyArray<A>, f: (a: A) => B): NonEmptyArray<B> => {
