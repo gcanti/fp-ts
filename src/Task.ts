@@ -69,7 +69,7 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
     concat: (x, y) =>
       new Task(
         () =>
-          new Promise(resolve => {
+          new Promise((resolve, reject) => {
             let running = true
             const resolveFirst = (a: A) => {
               if (running) {
@@ -77,8 +77,14 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
                 resolve(a)
               }
             }
-            x.run().then(resolveFirst)
-            y.run().then(resolveFirst)
+            const rejectFirst = (e: any) => {
+              if (running) {
+                running = false
+                reject(e)
+              }
+            }
+            x.run().then(resolveFirst, rejectFirst)
+            y.run().then(resolveFirst, rejectFirst)
           })
       ),
     empty: never

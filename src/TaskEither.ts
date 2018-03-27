@@ -1,7 +1,6 @@
 import * as eitherT from './EitherT'
 import { Either } from './Either'
-import * as task from './Task'
-import { Task } from './Task'
+import { Task, task, tryCatch as taskTryCatch } from './Task'
 import { Monad2 } from './Monad'
 import { Lazy } from './function'
 import { Bifunctor2 } from './Bifunctor'
@@ -12,15 +11,15 @@ declare module './HKT' {
   }
 }
 
-const eitherTTask = eitherT.getEitherT(task.task)
+const eitherTTask = eitherT.getEitherT(task)
 
 export const URI = 'TaskEither'
 
 export type URI = typeof URI
 
-const eitherTfold = eitherT.fold(task.task)
-const eitherTmapLeft = eitherT.mapLeft(task.task)
-const eitherTbimap = eitherT.bimap(task.task)
+const eitherTfold = eitherT.fold(task)
+const eitherTmapLeft = eitherT.mapLeft(task)
+const eitherTbimap = eitherT.bimap(task)
 
 /**
  * @data
@@ -85,7 +84,7 @@ const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B)
   return fa.bimap(f, g)
 }
 
-const eitherTright = eitherT.right(task.task)
+const eitherTright = eitherT.right(task)
 /**
  * @function
  * @since 1.0.0
@@ -94,7 +93,7 @@ export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
   return new TaskEither(eitherTright(fa))
 }
 
-const eitherTleft = eitherT.left(task.task)
+const eitherTleft = eitherT.left(task)
 /**
  * @function
  * @since 1.0.0
@@ -103,7 +102,7 @@ export const left = <L, A>(fa: Task<L>): TaskEither<L, A> => {
   return new TaskEither(eitherTleft(fa))
 }
 
-const eitherTfromEither = eitherT.fromEither(task.task)
+const eitherTfromEither = eitherT.fromEither(task)
 /**
  * @function
  * @since 1.0.0
@@ -117,7 +116,7 @@ export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
  * @since 1.0.0
  */
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A> => {
-  return new TaskEither(task.tryCatch(f, onrejected))
+  return new TaskEither(taskTryCatch(f, onrejected))
 }
 
 /**

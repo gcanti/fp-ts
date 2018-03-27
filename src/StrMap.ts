@@ -140,8 +140,8 @@ export const size = <A>(d: StrMap<A>): number => {
  * @since 1.0.0
  */
 export const isEmpty = <A>(d: StrMap<A>): boolean => {
-  for (const k in d.value) {
-    return k === null
+  for (const _ in d.value) {
+    return false
   }
   return true
 }

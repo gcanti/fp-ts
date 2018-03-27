@@ -1,8 +1,7 @@
 import { HKT, URIS, Type, URIS2, Type2, URIS3, Type3 } from './HKT'
 import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
-import { Traversable, Traversable1 } from './Traversable'
+import { Traversable, Traversable1, sequence } from './Traversable'
 import { Option, option, none } from './Option'
-import { sequence } from './Traversable'
 import { constant, tuple } from './function'
 
 /**
@@ -70,10 +69,8 @@ export function replicate<F>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) =>
 /**
  * The container with no elements - unfolded with zero iterations.
  */
-export function empty<F extends URIS3, U, L, A>(unfoldable: Unfoldable3<F>): Type3<F, U, L, A>
-export function empty<F extends URIS3, U, L, A>(unfoldable: Unfoldable3C<F, U, L>): Type3<F, U, L, A>
-export function empty<F extends URIS2, L, A>(unfoldable: Unfoldable2<F>): Type2<F, L, A>
-export function empty<F extends URIS2, L, A>(unfoldable: Unfoldable2C<F, L>): Type2<F, L, A>
+export function empty<F extends URIS3, U, L, A>(unfoldable: Unfoldable3<F> | Unfoldable3C<F, U, L>): Type3<F, U, L, A>
+export function empty<F extends URIS2, L, A>(unfoldable: Unfoldable2<F> | Unfoldable2C<F, L>): Type2<F, L, A>
 export function empty<F extends URIS, A>(unfoldable: Unfoldable1<F>): Type<F, A>
 export function empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A>
 /**

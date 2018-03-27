@@ -1,6 +1,6 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
 import { Endomorphism, Predicate, Refinement, identity, tuple, concat } from './function'
-import { Option, fromNullable } from './Option'
+import { Option, fromNullable, none, some } from './Option'
 import { Ord, ordNumber } from './Ord'
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
@@ -13,7 +13,6 @@ import { Plus1 } from './Plus'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { liftA2 } from './Apply'
-import * as option from './Option'
 import { Ordering } from './Ordering'
 import { getArraySetoid, Setoid } from './Setoid'
 
@@ -312,7 +311,7 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
  * @since 1.0.0
  */
 export const index = <A>(i: number, as: Array<A>): Option<A> => {
-  return isOutOfBound(i, as) ? option.none : option.some(as[i])
+  return isOutOfBound(i, as) ? none : some(as[i])
 }
 
 /**
@@ -351,7 +350,7 @@ export const snoc = <A>(as: Array<A>, a: A): Array<A> => {
  * @since 1.0.0
  */
 export const head = <A>(as: Array<A>): Option<A> => {
-  return isEmpty(as) ? option.none : option.some(as[0])
+  return isEmpty(as) ? none : some(as[0])
 }
 
 /**
@@ -369,7 +368,7 @@ export const last = <A>(as: Array<A>): Option<A> => {
  * @since 1.0.0
  */
 export const tail = <A>(as: Array<A>): Option<Array<A>> => {
-  return isEmpty(as) ? option.none : option.some(as.slice(1))
+  return isEmpty(as) ? none : some(as.slice(1))
 }
 
 /**
@@ -379,7 +378,7 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => {
  */
 export const init = <A>(as: Array<A>): Option<Array<A>> => {
   const len = as.length
-  return len === 0 ? option.none : option.some(as.slice(0, len - 1))
+  return len === 0 ? none : some(as.slice(0, len - 1))
 }
 
 /**
@@ -472,10 +471,10 @@ export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<numb
   const len = as.length
   for (let i = 0; i < len; i++) {
     if (predicate(as[i])) {
-      return option.some(i)
+      return some(i)
     }
   }
-  return option.none
+  return none
 }
 
 /**
@@ -559,7 +558,7 @@ export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
  * @since 1.0.0
  */
 export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => {
-  return i < 0 || i > as.length ? option.none : option.some(unsafeInsertAt(i, a, as))
+  return i < 0 || i > as.length ? none : some(unsafeInsertAt(i, a, as))
 }
 
 /**
@@ -579,7 +578,7 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
  * @since 1.0.0
  */
 export const updateAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => {
-  return isOutOfBound(i, as) ? option.none : option.some(unsafeUpdateAt(i, a, as))
+  return isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, a, as))
 }
 
 /**
@@ -599,7 +598,7 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
  * @since 1.0.0
  */
 export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
-  return isOutOfBound(i, as) ? option.none : option.some(unsafeDeleteAt(i, as))
+  return isOutOfBound(i, as) ? none : some(unsafeDeleteAt(i, as))
 }
 
 /**
@@ -609,7 +608,7 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
  * @since 1.0.0
  */
 export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> => {
-  return isOutOfBound(i, as) ? option.none : updateAt(i, f(as[i]), as)
+  return isOutOfBound(i, as) ? none : updateAt(i, f(as[i]), as)
 }
 
 /**

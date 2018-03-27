@@ -10,18 +10,17 @@ import {
   ApplicativeComposition12,
   ApplicativeComposition22
 } from './Applicative'
-import { Either, URI as URIEither } from './Either'
-import * as either from './Either'
+import { Either, URI, either, right as eitherRight, left as eitherLeft } from './Either'
 
-export interface EitherT<F> extends ApplicativeComposition<F, URIEither> {
+export interface EitherT<F> extends ApplicativeComposition<F, URI> {
   readonly chain: <L, A, B>(f: (a: A) => HKT<F, Either<L, B>>, fa: HKT<F, Either<L, A>>) => HKT<F, Either<L, B>>
 }
 
-export interface EitherT1<F extends URIS> extends ApplicativeComposition12<F, URIEither> {
+export interface EitherT1<F extends URIS> extends ApplicativeComposition12<F, URI> {
   readonly chain: <L, A, B>(f: (a: A) => Type<F, Either<L, B>>, fa: Type<F, Either<L, A>>) => Type<F, Either<L, B>>
 }
 
-export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, URIEither> {
+export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, URI> {
   readonly chain: <L, M, A, B>(
     f: (a: A) => Type2<F, M, Either<L, B>>,
     fa: Type2<F, M, Either<L, A>>
@@ -36,7 +35,7 @@ export function chain<F>(F: Monad<F>): EitherT<F>['chain']
  * @since 1.0.0
  */
 export function chain<F>(F: Monad<F>): EitherT<F>['chain'] {
-  return (f, fa) => F.chain(fa, e => (e.isLeft() ? F.of(either.left(e.value)) : f(e.value)))
+  return (f, fa) => F.chain(fa, e => (e.isLeft() ? F.of(eitherLeft(e.value)) : f(e.value)))
 }
 
 export function right<F extends URIS2>(F: Functor2<F>): <L, M, A>(fa: Type2<F, M, A>) => Type2<F, M, Either<L, A>>
@@ -47,7 +46,7 @@ export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<
  * @since 1.0.0
  */
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>> {
-  return ma => F.map(ma, a => either.right(a))
+  return ma => F.map(ma, a => eitherRight(a))
 }
 
 export function left<F extends URIS2>(F: Functor2<F>): <L, M, A>(fl: Type2<F, M, L>) => Type2<F, M, Either<L, A>>
@@ -58,7 +57,7 @@ export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L
  * @since 1.0.0
  */
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>> {
-  return ml => F.map(ml, l => either.left(l))
+  return ml => F.map(ml, l => eitherLeft(l))
 }
 
 export function fromEither<F extends URIS2>(
@@ -139,7 +138,7 @@ export function getEitherT<M>(M: Monad<M>): EitherT<M>
  * @since 1.0.0
  */
 export function getEitherT<M>(M: Monad<M>): EitherT<M> {
-  const applicativeComposition = getApplicativeComposition(M, either.either)
+  const applicativeComposition = getApplicativeComposition(M, either)
 
   return {
     ...applicativeComposition,

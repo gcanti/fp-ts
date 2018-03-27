@@ -5,6 +5,7 @@
     "no-use-before-declare": false,
     "variable-name": false,
     "quotemark": [true, "single", "jsx-double"],
-    "ter-indent": false
+    "ter-indent": false,
+    "strict-boolean-expressions": true
   }
 }
