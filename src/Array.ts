@@ -734,6 +734,44 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
   }
 }
 
+/**
+ * Test if a value is a member of an array
+ * @function
+ * @since 1.3.0
+ */
+export const member = <A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean => {
+  const predicate = (e: A) => S.equals(e, a)
+  let i = 0
+  const len = as.length
+  for (; i < len; i++) {
+    if (predicate(as[i])) {
+      return true
+    }
+  }
+  return false
+}
+
+/**
+ * Remove duplicates from an array, keeping the first occurance of an element.
+ * @function
+ * @since 1.3.0
+ */
+export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
+  const memberS = member(S)
+  return as => {
+    const r: Array<A> = []
+    const len = as.length
+    let i = 0
+    for (; i < len; i++) {
+      const a = as[i]
+      if (!memberS(r, a)) {
+        r.push(a)
+      }
+    }
+    return len === r.length ? as : r
+  }
+}
+
 export const array: Monad1<URI> &
   Foldable1<URI> &
   Unfoldable1<URI> &

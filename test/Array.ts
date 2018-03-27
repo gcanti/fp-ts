@@ -39,7 +39,9 @@ import {
   foldL,
   scanLeft,
   scanRight,
-  getOrd
+  getOrd,
+  uniq,
+  member
 } from '../src/Array'
 import * as option from '../src/Option'
 import { traverse } from '../src/Traversable'
@@ -48,7 +50,7 @@ import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { tuple, identity } from '../src/function'
-import { getArraySetoid } from '../src/Setoid'
+import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -335,5 +337,44 @@ describe('Array', () => {
     assert.deepEqual(scanRight([1, 2, 3], 10, f), [-8, 9, -7, 10])
     assert.deepEqual(scanRight([0], 10, f), [-10, 10])
     assert.deepEqual(scanRight([], 10, f), [10])
+  })
+
+  it('member', () => {
+    assert.strictEqual(member(setoidNumber)([1, 2, 3], 1), true)
+    assert.strictEqual(member(setoidNumber)([1, 2, 3], 4), false)
+    assert.strictEqual(member(setoidNumber)([], 4), false)
+  })
+
+  it('uniq', () => {
+    interface A {
+      a: string
+      b: number
+    }
+
+    const setoidA = contramap((f: A) => f.b, ordNumber)
+    const arrA: A = { a: 'a', b: 1 }
+    const arrB: A = { a: 'b', b: 1 }
+    const arrC: A = { a: 'c', b: 2 }
+    const arrD: A = { a: 'd', b: 2 }
+    const arrUniq = [arrA, arrC]
+
+    assert.equal(uniq(setoidA)(arrUniq), arrUniq, 'Preserve original array')
+    assert.deepEqual(uniq(setoidA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
+    assert.deepEqual(uniq(setoidA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
+    assert.deepEqual(uniq(setoidA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
+    assert.deepEqual(uniq(setoidA)([arrA, arrC]), [arrA, arrC])
+    assert.deepEqual(uniq(setoidA)([arrC, arrA]), [arrC, arrA])
+    assert.deepEqual(uniq(setoidBoolean)([true, false, true, false]), [true, false])
+    assert.deepEqual(uniq(setoidNumber)([]), [])
+    assert.deepEqual(uniq(setoidNumber)([-0, -0]), [-0])
+    assert.deepEqual(uniq(setoidNumber)([0, -0]), [0])
+    assert.deepEqual(uniq(setoidNumber)([1]), [1])
+    assert.deepEqual(uniq(setoidNumber)([2, 1, 2]), [2, 1])
+    assert.deepEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
+    assert.deepEqual(uniq(setoidNumber)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepEqual(uniq(setoidNumber)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
+    assert.deepEqual(uniq(setoidNumber)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepEqual(uniq(setoidString)(['a', 'b', 'a']), ['a', 'b'])
+    assert.deepEqual(uniq(setoidString)(['a', 'b', 'A']), ['a', 'b', 'A'])
   })
 })
