@@ -33,7 +33,7 @@ const sequenceEither: <L, A>(tfa: Either<L, A>[]) => Either<L, A[]> = sequence(e
 // Apply
 //
 
-import { semigroupString } from '../src/Semigroup'
+import { semigroupString, getArraySemigroup } from '../src/Semigroup'
 import { Validation, getApplicative } from '../src/Validation'
 import { liftA2 } from '../src/Apply'
 
@@ -71,3 +71,18 @@ const AC1map: <L, A, B>(fa: Reader<L, Validation<string, A>>, f: (a: A) => B) =>
 import { Const, const_ } from '../src/Const'
 
 const const1: Const<boolean, string> = const_.contramap(new Const<boolean, number>(true), (s: string) => s.length)
+
+//
+// OptionT
+//
+
+// Monad2C
+import * as optionT from '../src/OptionT'
+import { getMonad as getTheseMonad } from '../src/These'
+
+const these: optionT.OptionT2C<'These', string[]> = optionT.getOptionT(getTheseMonad(getArraySemigroup<string>()))
+
+// Monad3C
+import { getMonad as getIxIOMonad } from '../src/IxIO'
+
+const ixIO: optionT.OptionT3C<'IxIO', string, string> = optionT.getOptionT(getIxIOMonad<string>())

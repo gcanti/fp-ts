@@ -6,9 +6,11 @@ import {
   FunctorComposition11,
   FunctorComposition12,
   FunctorComposition21,
+  FunctorComposition2C1,
   FunctorComposition22,
   FunctorComposition12C,
-  FunctorComposition22C
+  FunctorComposition22C,
+  FunctorComposition3C1
 } from './Functor'
 
 /**
@@ -88,6 +90,11 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
   ) => Type2<F, L, Type<G, B>>
 }
 
+export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, L> extends FunctorComposition2C1<F, G, L> {
+  readonly of: <A>(a: A) => Type2<F, L, Type<G, A>>
+  readonly ap: <A, B>(fgab: Type2<F, L, Type<G, (a: A) => B>>, fga: Type2<F, L, Type<G, A>>) => Type2<F, L, Type<G, B>>
+}
+
 export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
   readonly of: <L, M, A>(a: A) => Type2<F, L, Type2<G, M, A>>
   readonly ap: <L, M, A, B>(
@@ -102,6 +109,15 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, M> 
     fgab: Type2<F, L, Type2<G, M, (a: A) => B>>,
     fga: Type2<F, L, Type2<G, M, A>>
   ) => Type2<F, L, Type2<G, M, B>>
+}
+
+export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, U, L>
+  extends FunctorComposition3C1<F, G, U, L> {
+  readonly of: <A>(a: A) => Type3<F, U, L, Type<G, A>>
+  readonly ap: <A, B>(
+    fgab: Type3<F, U, L, Type<G, (a: A) => B>>,
+    fga: Type3<F, U, L, Type<G, A>>
+  ) => Type3<F, U, L, Type<G, B>>
 }
 
 /** Perform a applicative action when a condition is true */
