@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "noEmit": true,
+    "outDir": "./dist",
     "declaration": true,
     "module": "commonjs",
     "strict": true,
@@ -17,15 +17,7 @@
       "es6",
       "dom"
     ],
-    "baseUrl": ".",
-    "paths": {
-      "fp-ts/lib/*": [
-        "../src/*"
-      ],
-      "fp-ts": [
-        "../src/index"
-      ]
-    }
+    "baseUrl": "."
   },
   "include": [
     "../src/**/*",

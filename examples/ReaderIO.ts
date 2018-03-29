@@ -1,11 +1,11 @@
-import * as readerT from 'fp-ts/lib/ReaderT'
-import { IO, io } from 'fp-ts/lib/IO'
-import { Monad2 } from 'fp-ts/lib/Monad'
-import { Reader } from 'fp-ts/lib/Reader'
+import * as readerT from '../src/ReaderT'
+import { IO, io } from '../src/IO'
+import { Monad2 } from '../src/Monad'
+import { Reader } from '../src/Reader'
 
 const readerTIO = readerT.getReaderT(io)
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT2<L, A> {
     ReaderIO: ReaderIO<L, A>
   }

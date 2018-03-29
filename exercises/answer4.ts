@@ -1,4 +1,4 @@
-import { Option, none, option } from 'fp-ts/lib/Option'
+import { Option, none, option } from '../src/Option'
 
 export function head<A>(xs: Array<A>): Option<A> {
   if (xs.length) {
@@ -10,8 +10,8 @@ export function head<A>(xs: Array<A>): Option<A> {
 console.log(head([1, 2, 3])) // => some(1)
 console.log(head([])) // => none
 
-import { Either } from 'fp-ts/lib/Either'
-import * as either from 'fp-ts/lib/Either'
+import { Either } from '../src/Either'
+import * as either from '../src/Either'
 
 export function elementAt<A>(xs: Array<A>, i: number): Either<string, A> {
   if (i < 0) {

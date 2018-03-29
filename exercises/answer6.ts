@@ -1,6 +1,6 @@
-import { array } from 'fp-ts/lib/Array'
-import { some, none } from 'fp-ts/lib/Option'
-import { tuple } from 'fp-ts/lib/function'
+import { array } from '../src/Array'
+import { some, none } from '../src/Option'
+import { tuple } from '../src/function'
 
 export function evens(count: number): Array<number> {
   let i = count

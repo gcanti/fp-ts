@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "./dist",
     "noStrictGenericChecks": true,
     "declaration": true,
     "module": "commonjs",
@@ -16,10 +17,6 @@
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6", "dom"],
-    "baseUrl": ".",
-    "paths": {
-      "fp-ts/lib/*": ["../src/*"],
-      "fp-ts": ["../src/index"]
-    }
+    "baseUrl": "."
   }
 }

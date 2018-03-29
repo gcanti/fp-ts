@@ -1,7 +1,7 @@
-import { Monad, Monad1 } from 'fp-ts/lib/Monad'
-import { HKT, URIS, Type } from 'fp-ts/lib/HKT'
-import { liftA2 } from 'fp-ts/lib/Apply'
-import { flatten } from 'fp-ts/lib/Chain'
+import { Monad, Monad1 } from '../src/Monad'
+import { HKT, URIS, Type } from '../src/HKT'
+import { liftA2 } from '../src/Apply'
+import { flatten } from '../src/Chain'
 
 // Adapted from https://tech.iheart.com/why-fp-its-the-composition-f585d17b01d3
 
@@ -33,7 +33,7 @@ function likePost<M>(M: Monad<M>, U: MonadUser<M>, F: MonadFB<M>): (token: strin
 // IO
 //
 
-import { URI as IOURI, io, IO } from 'fp-ts/lib/IO'
+import { URI as IOURI, io, IO } from '../src/IO'
 
 const monadUserIO: MonadUser<IOURI> = {
   validateUser: token => io.of(`string(${token})`),
@@ -58,7 +58,7 @@ console.log(likePost(io, monadUserIO, monadFBIO)('session123')('https://me.com/1
 // Task
 //
 
-import { URI as TaskURI, task, Task } from 'fp-ts/lib/Task'
+import { URI as TaskURI, task, Task } from '../src/Task'
 
 const now = Date.now()
 const delay = <A>(a: A) => (n: number): Task<A> =>

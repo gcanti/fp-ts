@@ -1,10 +1,10 @@
-import { Task, task, tryCatch as tryCatchTask } from 'fp-ts/lib/Task'
-import { Option, fromEither } from 'fp-ts/lib/Option'
-import { Monad1 } from 'fp-ts/lib/Monad'
-import * as optionT from 'fp-ts/lib/OptionT'
-import { Lazy } from 'fp-ts/lib/function'
+import { Task, task, tryCatch as tryCatchTask } from '../src/Task'
+import { Option, fromEither } from '../src/Option'
+import { Monad1 } from '../src/Monad'
+import * as optionT from '../src/OptionT'
+import { Lazy } from '../src/function'
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT<A> {
     TaskOption: TaskOption<A>
   }
