@@ -1,9 +1,9 @@
-import * as optionT from 'fp-ts/lib/OptionT'
-import * as either from 'fp-ts/lib/Either'
-import { Option } from 'fp-ts/lib/Option'
-import { Monad2 } from 'fp-ts/lib/Monad'
+import * as optionT from '../src/OptionT'
+import * as either from '../src/Either'
+import { Option } from '../src/Option'
+import { Monad2 } from '../src/Monad'
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT2<L, A> {
     EitherOption: EitherOption<L, A>
   }

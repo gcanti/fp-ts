@@ -1,6 +1,6 @@
-import { Functor1 } from 'fp-ts/lib/Functor'
+import { Functor1 } from '../src/Functor'
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT<A> {
     List: List<A>
   }

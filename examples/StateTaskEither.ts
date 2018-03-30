@@ -1,11 +1,11 @@
-import * as stateT from 'fp-ts/lib/StateT'
-import { TaskEither, taskEither } from 'fp-ts/lib/TaskEither'
-import { Monad3 } from 'fp-ts/lib/Monad'
-import { Endomorphism } from 'fp-ts/lib/function'
-import { Either } from 'fp-ts/lib/Either'
-import { State } from 'fp-ts/lib/State'
+import * as stateT from '../src/StateT'
+import { TaskEither, taskEither } from '../src/TaskEither'
+import { Monad3 } from '../src/Monad'
+import { Endomorphism } from '../src/function'
+import { Either } from '../src/Either'
+import { State } from '../src/State'
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT3<U, L, A> {
     StateTaskEither: StateTaskEither<U, L, A>
   }

@@ -1,5 +1,5 @@
-import { Ord } from 'fp-ts/lib/Ord'
-import { ordNumber, ordString } from 'fp-ts/lib/Ord'
+import { Ord } from '../src/Ord'
+import { ordNumber, ordString } from '../src/Ord'
 
 export function binarySearch<A>(xs: Array<A>, x: A, ord: Ord<A>): number {
   function go(low: number, mid: number, high: number): number {
