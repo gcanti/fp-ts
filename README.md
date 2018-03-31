@@ -81,6 +81,13 @@ The idea (faking higher kinded types in TypeScript) is based on
   [Fantas, Eel, and Specification](http://www.tomharding.me/2017/03/03/fantas-eel-and-specification/) blog series on
   functional programming by Tom Harding
 
+**Note**. You can run the examples using `ts-node` with `tsconfig-paths`
+
+```sh
+$ cd examples
+$ ts-node -r tsconfig-paths/register debugging-with-Trace.ts
+```
+
 # License
 
 The MIT License (MIT)
