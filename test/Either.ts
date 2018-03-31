@@ -159,4 +159,16 @@ describe('Either', () => {
     assert.deepEqual(fromOptionL(() => 'default')(none), left('default'))
     assert.deepEqual(fromOptionL(() => 'default')(some(1)), right(1))
   })
+
+  it('filterOrElse', () => {
+    assert.deepEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
+    assert.deepEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
+    assert.deepEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
+  })
+
+  it('filterOrElseL', () => {
+    assert.deepEqual(right(12).filterOrElseL(n => n > 10, () => -1), right(12))
+    assert.deepEqual(right(7).filterOrElseL(n => n > 10, () => -1), left(-1))
+    assert.deepEqual(left(12).filterOrElseL(n => n > 10, () => -1), left(12))
+  })
 })
