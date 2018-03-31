@@ -122,6 +122,24 @@ export class Left<L, A> {
   swap(): Either<A, L> {
     return right(this.value)
   }
+  /**
+   * Returns `Right` with the existing value of `Right` if this is a `Right` and the given predicate `p` holds for the right value,
+   * returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right value,
+   * returns `Left` with the existing value of `Left` if this is a `Left`.
+   *
+   * ```ts
+   * right(12).filterOrElse(n => n > 10, -1) // right(12)
+   * right(7).filterOrElse(n => n > 10, -1)  // left(-1)
+   * left(12).filterOrElse(n => n > 10, -1)  // left(12)
+   * ```
+   */
+  filterOrElse(p: Predicate<A>, zero: L): Either<L, A> {
+    return this
+  }
+  /** Lazy version of `filterOrElse` */
+  filterOrElseL(p: Predicate<A>, zero: () => L): Either<L, A> {
+    return this
+  }
 }
 
 export class Right<L, A> {
@@ -180,6 +198,12 @@ export class Right<L, A> {
   }
   swap(): Either<A, L> {
     return left(this.value)
+  }
+  filterOrElse(p: Predicate<A>, zero: L): Either<L, A> {
+    return p(this.value) ? this : left(zero)
+  }
+  filterOrElseL(p: Predicate<A>, zero: () => L): Either<L, A> {
+    return p(this.value) ? this : left(zero())
   }
 }
 
