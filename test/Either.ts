@@ -9,7 +9,8 @@ import {
   right,
   tryCatch,
   fromValidation,
-  either
+  either,
+  fromOptionL
 } from '../src/Either'
 import { none, some, option } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
@@ -152,5 +153,10 @@ describe('Either', () => {
       }),
       right(5)
     )
+  })
+
+  it('fromOptionL', () => {
+    assert.deepEqual(fromOptionL(() => 'default')(none), left('default'))
+    assert.deepEqual(fromOptionL(() => 'default')(some(1)), right(1))
   })
 })
