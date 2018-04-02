@@ -282,6 +282,15 @@ export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, 
 }
 
 /**
+ * Lazy version of `fromOption`
+ * @function
+ * @since 1.3.0
+ */
+export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => {
+  return fa.isNone() ? left(defaultValue()) : right(fa.value)
+}
+
+/**
  * Takes a default and a nullable value, if the value is not nully, turn it into
  * a `Right`, if the value is nully use the provided default as a `Left`
  * @function
