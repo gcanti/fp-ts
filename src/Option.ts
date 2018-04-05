@@ -402,6 +402,14 @@ export const isNone = <A>(fa: Option<A>): fa is None<A> => {
 }
 
 /**
+ * @function
+ * @since 1.3.0
+ */
+export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => {
+  return refinement(a) ? some(a) : none
+}
+
+/**
  * @instance
  * @since 1.0.0
  */

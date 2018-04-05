@@ -11,7 +11,8 @@ import {
   Option,
   fromEither,
   option,
-  getOrd
+  getOrd,
+  fromRefinement
 } from '../src/Option'
 import { array } from '../src/Array'
 import { setoidNumber } from '../src/Setoid'
@@ -225,5 +226,12 @@ describe('Option', () => {
   it('toString', () => {
     assert.strictEqual(some(2).toString(), 'some(2)')
     assert.strictEqual(some({ a: 1 }).toString(), 'some({\n  "a": 1\n})')
+  })
+
+  it('fromRefinement', () => {
+    type Direction = 'asc' | 'desc'
+    const parseDirection = fromRefinement((s: string): s is Direction => s === 'asc' || s === 'desc')
+    assert.deepEqual(parseDirection('asc'), some('asc'))
+    assert.deepEqual(parseDirection('foo'), none)
   })
 })
