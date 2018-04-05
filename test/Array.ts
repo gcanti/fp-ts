@@ -41,14 +41,15 @@ import {
   scanRight,
   getOrd,
   uniq,
-  member
+  member,
+  sortBy1
 } from '../src/Array'
 import * as option from '../src/Option'
 import { traverse } from '../src/Traversable'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
 import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
-import { ordNumber, ordString } from '../src/Ord'
+import { ordNumber, ordString, contramap as contramapOrd } from '../src/Ord'
 import { tuple, identity } from '../src/function'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
 
@@ -376,5 +377,29 @@ describe('Array', () => {
     assert.deepEqual(uniq(setoidNumber)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
     assert.deepEqual(uniq(setoidString)(['a', 'b', 'a']), ['a', 'b'])
     assert.deepEqual(uniq(setoidString)(['a', 'b', 'A']), ['a', 'b', 'A'])
+  })
+
+  it('sortBy1', () => {
+    interface Person {
+      name: string
+      age: number
+    }
+    const byName = contramapOrd((p: Person) => p.name, ordString)
+    const byAge = contramapOrd((p: Person) => p.age, ordNumber)
+    const sortByNameByAge = sortBy1(byName, [byAge])
+    const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
+    assert.deepEqual(sortByNameByAge(persons), [
+      { name: 'a', age: 1 },
+      { name: 'b', age: 2 },
+      { name: 'b', age: 3 },
+      { name: 'c', age: 2 }
+    ])
+    const sortByAgeByName = sortBy1(byAge, [byName])
+    assert.deepEqual(sortByAgeByName(persons), [
+      { name: 'a', age: 1 },
+      { name: 'b', age: 2 },
+      { name: 'c', age: 2 },
+      { name: 'b', age: 3 }
+    ])
   })
 })

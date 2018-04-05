@@ -1,7 +1,7 @@
 import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
 import { Endomorphism, Predicate, Refinement, identity, tuple, concat } from './function'
 import { Option, fromNullable, none, some } from './Option'
-import { Ord, ordNumber } from './Ord'
+import { Ord, ordNumber, getSemigroup } from './Ord'
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
 import { Either } from './Either'
@@ -769,6 +769,25 @@ export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
     }
     return len === r.length ? as : r
   }
+}
+
+/**
+ * Sort the elements of an array in increasing order, where elements are
+ * compared using first `ords[0]`, then `ords[1]`, etc...
+ * @function
+ * @since 1.3.0
+ */
+export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> => {
+  return fold(ords, none, (head, tail) => some(sortBy1(head, tail)))
+}
+
+/**
+ * Non failing version of `sortBy`
+ * @function
+ * @since 1.3.0
+ */
+export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Array<A>> => {
+  return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
 export const array: Monad1<URI> &
