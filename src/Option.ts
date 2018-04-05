@@ -9,7 +9,7 @@ import { Extend1 } from './Extend'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Alternative1 } from './Alternative'
-import { Lazy, Predicate, toString } from './function'
+import { Lazy, Predicate, toString, Refinement } from './function'
 import { Either } from './Either'
 import { Ord } from './Ord'
 
@@ -389,6 +389,14 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
  */
 export const isNone = <A>(fa: Option<A>): fa is None<A> => {
   return fa.isNone()
+}
+
+/**
+ * @function
+ * @since 1.3.0
+ */
+export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => {
+  return refinement(a) ? some(a) : none
 }
 
 /**
