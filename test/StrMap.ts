@@ -36,9 +36,10 @@ describe('StrMap', () => {
   })
 
   it('reduce', () => {
-    const d1 = new StrMap<number>({ k1: 1, k2: 2 })
-    const b = d1.reduce(0, (b, a) => b + a)
-    assert.strictEqual(b, 3)
+    const d1 = new StrMap({ k1: 'a', k2: 'b' })
+    assert.strictEqual(d1.reduce('', (b, a) => b + a), 'ab')
+    const d2 = new StrMap({ k2: 'b', k1: 'a' })
+    assert.strictEqual(d2.reduce('', (b, a) => b + a), 'ab')
   })
 
   it('traverse', () => {

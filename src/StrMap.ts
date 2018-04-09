@@ -44,8 +44,11 @@ export class StrMap<A> {
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     let out: B = b
-    for (let k in this.value) {
-      out = f(out, this.value[k])
+    const value = this.value
+    const keys = Object.keys(value).sort()
+    const len = keys.length
+    for (let i = 0; i < len; i++) {
+      out = f(out, value[keys[i]])
     }
     return out
   }
