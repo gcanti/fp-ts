@@ -132,11 +132,15 @@ export class Left<L, A> {
    * right(7).filterOrElse(n => n > 10, -1)  // left(-1)
    * left(12).filterOrElse(n => n > 10, -1)  // left(12)
    * ```
+   * @since 1.3.0
    */
   filterOrElse(p: Predicate<A>, zero: L): Either<L, A> {
     return this
   }
-  /** Lazy version of `filterOrElse` */
+  /**
+   * Lazy version of `filterOrElse`
+   * @since 1.3.0
+   */
   filterOrElseL(p: Predicate<A>, zero: () => L): Either<L, A> {
     return this
   }
