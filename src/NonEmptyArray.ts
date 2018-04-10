@@ -65,9 +65,27 @@ export class NonEmptyArray<A> {
   toString(): string {
     return `new NonEmptyArray(${toString(this.head)}, ${toString(this.tail)})`
   }
+
+  /**
+   * Gets minimum of this {@link NonEmptyArray} using specified {@link Ord} instance
+   * @since 1.3.0
+   * @param ord - {@link Ord} instance
+   * @example
+   * const minimum = new NonEmptyArray(1, [2, 3]).max(ordNumber) // 1
+   * @returns {A}
+   */
   min(ord: Ord<A>): A {
     return fold(getMeetSemigroup(ord))(this.head)(this.tail)
   }
+
+  /**
+   * Gets maximum of this {@link NonEmptyArray} using specified {@link Ord} instance
+   * @since 1.3.0
+   * @param ord - {@link Ord} instance
+   * @example
+   * const maximum = new NonEmptyArray(1, [2, 3]).max(ordNumber) // 3
+   * @returns {A}
+   */
   max(ord: Ord<A>): A {
     return fold(getJoinSemigroup(ord))(this.head)(this.tail)
   }
