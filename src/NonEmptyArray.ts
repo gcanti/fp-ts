@@ -71,7 +71,7 @@ export class NonEmptyArray<A> {
    * @since 1.3.0
    * @param ord - {@link Ord} instance
    * @example
-   * const minimum = new NonEmptyArray(1, [2, 3]).max(ordNumber) // 1
+   * const minimum = new NonEmptyArray(1, [2, 3]).min(ordNumber) // 1
    * @returns {A}
    */
   min(ord: Ord<A>): A {
