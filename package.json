@@ -2,16 +2,16 @@
   "name": "fp-ts",
   "version": "1.2.0",
   "description": "Functional programming in TypeScript",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint -p tsconfig.json src/**/*.ts test/**/*.ts examples/**/*.ts exercises/**/*.ts",
-    "mocha": "TS_NODE_CACHE=false mocha -r ts-node/register test/*.ts",
-    "prettier":
-      "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
-    "fix-prettier":
-      "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples,exercises}/**/*.ts\"",
+    "mocha": "cross-env TS_NODE_CACHE=false mocha -r ts-node/register test/*.ts",
+    "prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
+    "fix-prettier": "prettier --no-semi --single-quote --print-width 120 --parser typescript --write \"{src,test,examples,exercises}/**/*.ts\"",
     "typings": "typings-checker --project ./typings-checker/tsconfig.json ./typings-checker/index.ts",
     "test": "npm run lint && npm run prettier && npm run typings && npm run mocha",
     "clean": "rm -rf lib/*",
@@ -36,6 +36,7 @@
     "@types/prettier": "^1.10.0",
     "benchmark": "2.1.4",
     "chalk": "2.2.0",
+    "cross-env": "^5.1.4",
     "doctrine": "2.0.0",
     "mocha": "3.2.0",
     "prettier": "1.11.1",
@@ -46,6 +47,14 @@
     "typescript": "^2.7.2",
     "typings-checker": "^2.0.0"
   },
-  "tags": ["typescript", "algebraic-data-types", "functional-programming"],
-  "keywords": ["typescript", "algebraic-data-types", "functional-programming"]
+  "tags": [
+    "typescript",
+    "algebraic-data-types",
+    "functional-programming"
+  ],
+  "keywords": [
+    "typescript",
+    "algebraic-data-types",
+    "functional-programming"
+  ]
 }
