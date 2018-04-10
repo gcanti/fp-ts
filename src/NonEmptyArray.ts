@@ -1,13 +1,14 @@
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Comonad1 } from './Comonad'
-import { Semigroup } from './Semigroup'
+import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Foldable1 } from './Foldable'
 import { Applicative } from './Applicative'
 import { Traversable1 } from './Traversable'
 import { array } from './Array'
 import { Option, some, none } from './Option'
 import { toString, concat as uncurriedConcat } from './function'
+import { Ord } from './Ord'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -63,6 +64,12 @@ export class NonEmptyArray<A> {
   }
   toString(): string {
     return `new NonEmptyArray(${toString(this.head)}, ${toString(this.tail)})`
+  }
+  min(ord: Ord<A>): A {
+    return fold(getMeetSemigroup(ord))(this.head)(this.tail)
+  }
+  max(ord: Ord<A>): A {
+    return fold(getJoinSemigroup(ord))(this.head)(this.tail)
   }
 }
 

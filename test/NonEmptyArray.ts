@@ -3,6 +3,7 @@ import { NonEmptyArray, nonEmptyArray } from '../src/NonEmptyArray'
 import { monoidSum, fold } from '../src/Monoid'
 import { traverse } from '../src/Traversable'
 import { none, some, option } from '../src/Option'
+import { ordNumber } from '../src/Ord'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -41,5 +42,15 @@ describe('NonEmptyArray', () => {
       traverse(option, nonEmptyArray)(new NonEmptyArray(1, [2, 3]), n => (n >= 2 ? some(n) : none)),
       none
     )
+  })
+
+  it('min', () => {
+    assert.deepEqual(new NonEmptyArray(1, [2, 3]).min(ordNumber), 1)
+    assert.deepEqual(new NonEmptyArray(3, []).min(ordNumber), 3)
+  })
+
+  it('max', () => {
+    assert.deepEqual(new NonEmptyArray(1, [2, 3]).max(ordNumber), 3)
+    assert.deepEqual(new NonEmptyArray(1, []).max(ordNumber), 1)
   })
 })
