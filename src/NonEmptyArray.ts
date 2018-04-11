@@ -1,13 +1,14 @@
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Comonad1 } from './Comonad'
-import { Semigroup } from './Semigroup'
+import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Foldable1 } from './Foldable'
 import { Applicative } from './Applicative'
 import { Traversable1 } from './Traversable'
 import { array } from './Array'
 import { Option, some, none } from './Option'
 import { toString, concat as uncurriedConcat } from './function'
+import { Ord } from './Ord'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -63,6 +64,30 @@ export class NonEmptyArray<A> {
   }
   toString(): string {
     return `new NonEmptyArray(${toString(this.head)}, ${toString(this.tail)})`
+  }
+
+  /**
+   * Gets minimum of this {@link NonEmptyArray} using specified {@link Ord} instance
+   * @since 1.3.0
+   * @param ord - {@link Ord} instance
+   * @example
+   * const minimum = new NonEmptyArray(1, [2, 3]).min(ordNumber) // 1
+   * @returns {A}
+   */
+  min(ord: Ord<A>): A {
+    return fold(getMeetSemigroup(ord))(this.head)(this.tail)
+  }
+
+  /**
+   * Gets maximum of this {@link NonEmptyArray} using specified {@link Ord} instance
+   * @since 1.3.0
+   * @param ord - {@link Ord} instance
+   * @example
+   * const maximum = new NonEmptyArray(1, [2, 3]).max(ordNumber) // 3
+   * @returns {A}
+   */
+  max(ord: Ord<A>): A {
+    return fold(getJoinSemigroup(ord))(this.head)(this.tail)
   }
 }
 
