@@ -1,5 +1,5 @@
 import * as eitherT from './EitherT'
-import { Either } from './Either'
+import { Either, left as eitherLeft } from './Either'
 import { Task, task, tryCatch as taskTryCatch } from './Task'
 import { Monad2 } from './Monad'
 import { Lazy } from './function'
@@ -80,6 +80,7 @@ const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): Tas
 const chain = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => TaskEither<L, B>): TaskEither<L, B> => {
   return fa.chain(f)
 }
+
 const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> => {
   return fa.bimap(f, g)
 }
@@ -109,6 +110,14 @@ const eitherTfromEither = eitherT.fromEither(task)
  */
 export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
   return new TaskEither(eitherTfromEither(fa))
+}
+
+/**
+ * @function
+ * @since 1.3.0
+ */
+export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
+  return fromEither(eitherLeft(l))
 }
 
 /**
