@@ -40,8 +40,8 @@ export const URI = 'Identity'
 export type URI = typeof URI
 
 export class Identity<A> {
-  readonly _A: A // --> these phantom fields make `Identity` an `HKT`, note that both `A` and `URI` here are types
-  readonly _URI: URI // ----^
+  readonly _A!: A // --> these phantom fields make `Identity` an `HKT`, note that both `A` and `URI` here are types
+  readonly _URI!: URI // ----^
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Identity<B> {
     return new Identity(f(this.value))
