@@ -199,6 +199,19 @@ describe('Option', () => {
     assert.equal(some2.filter(is2), some2)
   })
 
+  it('refine', () => {
+    const x: Option<number | string> = none
+    const isString = (a: any): a is string => typeof a === 'string'
+    assert.equal(x.refine(isString), x)
+    const some1 = some<number | string>(1)
+    assert.equal(some1.refine(isString), none)
+    const someHello = some<number | string>('hello')
+    // explicitly type refinedOption as Option<string> to prove typings work
+    // typing as Option<number> will cause typescript to error
+    const refinedOption: Option<string> = someHello.refine(isString)
+    assert.equal(refinedOption, someHello)
+  })
+
   it('tryCatch', () => {
     assert.deepEqual(tryCatch(() => JSON.parse('2')), some(2))
     assert.deepEqual(tryCatch(() => JSON.parse('(')), none)

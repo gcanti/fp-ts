@@ -254,6 +254,18 @@ _since 1.0.0_
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
+### refine
+
+_method_
+
+_since 1.0.0_
+
+```ts
+<B extends A>(refinement: Refinement<A, B>): Option<B>
+```
+
+Returns this option refined as Option<B> if it is non empty and the `refinement` returns `true` when applied to this Option's value. Otherwise returns `None`
+
 ### toNullable
 
 _method_
