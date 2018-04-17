@@ -9,7 +9,7 @@ import { Extend1 } from './Extend'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Alternative1 } from './Alternative'
-import { Lazy, Predicate, toString } from './function'
+import { Lazy, Predicate, toString, Refinement } from './function'
 import { Either } from './Either'
 import { Ord } from './Ord'
 
@@ -160,6 +160,10 @@ export class None<A> {
   filter(p: Predicate<A>): Option<A> {
     return none
   }
+  /** Returns this option refined as Option<B> if it is non empty and the `refinement` returns `true` when applied to this Option's value. Otherwise returns `None` */
+  refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
+    return none
+  }
 }
 
 export const none: Option<never> = None.value
@@ -231,6 +235,9 @@ export class Some<A> {
   }
   filter(p: Predicate<A>): Option<A> {
     return this.exists(p) ? this : none
+  }
+  refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
+    return this.filter(refinement) as Option<B>
   }
 }
 
