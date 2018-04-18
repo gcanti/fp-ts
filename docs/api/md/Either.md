@@ -100,6 +100,38 @@ _since 1.0.0_
 <B>(f: (ea: Either<L, A>) => B): Either<L, B>
 ```
 
+### filterOrElse
+
+_method_
+
+_since 1.3.0_
+
+```ts
+(p: Predicate<A>, zero: L): Either<L, A>
+```
+
+Returns `Right` with the existing value of `Right` if this is a `Right` and the given predicate `p` holds for the right value,
+returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right value,
+returns `Left` with the existing value of `Left` if this is a `Left`.
+
+```ts
+right(12).filterOrElse(n => n > 10, -1) // right(12)
+right(7).filterOrElse(n => n > 10, -1) // left(-1)
+left(12).filterOrElse(n => n > 10, -1) // left(12)
+```
+
+### filterOrElseL
+
+_method_
+
+_since 1.3.0_
+
+```ts
+(p: Predicate<A>, zero: () => L): Either<L, A>
+```
+
+Lazy version of `filterOrElse`
+
 ### fold
 
 _method_
@@ -267,6 +299,18 @@ _since 1.0.0_
 
 Takes a default and a `Option` value, if the value is a `Some`, turn it into
 a `Right`, if the value is a `None` use the provided default as a `Left`
+
+# fromOptionL
+
+_function_
+
+_since 1.3.0_
+
+```ts
+<L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A>
+```
+
+Lazy version of `fromOption`
 
 # fromPredicate
 

@@ -92,6 +92,8 @@ _since 1.0.0_
 <S>(): State<S, S>
 ```
 
+Get the current state
+
 # gets
 
 _function_
@@ -101,6 +103,8 @@ _since 1.0.0_
 ```ts
 <S, A>(f: (s: S) => A): State<S, A>
 ```
+
+Get a value which depends on the current state
 
 # modify
 
@@ -112,6 +116,8 @@ _since 1.0.0_
 <S>(f: (s: S) => S): State<S, undefined>
 ```
 
+Modify the state by applying a function to the current state
+
 # put
 
 _function_
@@ -121,3 +127,5 @@ _since 1.0.0_
 ```ts
 <S>(s: S): State<S, undefined>
 ```
+
+Set the state

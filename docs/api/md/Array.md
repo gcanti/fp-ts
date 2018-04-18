@@ -313,6 +313,18 @@ _since 1.0.0_
 Apply a function to each element in an array, keeping only the results
 which contain a value, creating a new array
 
+# member
+
+_function_
+
+_since 1.3.0_
+
+```ts
+<A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean
+```
+
+Test if a value is a member of an array
+
 # modifyAt
 
 _function_
@@ -439,6 +451,31 @@ _since 1.0.0_
 
 Sort the elements of an array in increasing order, creating a new array
 
+# sortBy
+
+_function_
+
+_since 1.3.0_
+
+```ts
+<A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>>
+```
+
+Sort the elements of an array in increasing order, where elements are
+compared using first `ords[0]`, then `ords[1]`, etc...
+
+# sortBy1
+
+_function_
+
+_since 1.3.0_
+
+```ts
+<A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Array<A>>
+```
+
+Non failing version of `sortBy`
+
 # span
 
 _function_
@@ -500,6 +537,18 @@ _since 1.0.0_
 ```ts
 traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
 ```
+
+# uniq
+
+_function_
+
+_since 1.3.0_
+
+```ts
+<A>(S: Setoid<A>): ((as: Array<A>) => Array<A>)
+```
+
+Remove duplicates from an array, keeping the first occurance of an element.
 
 # unsafeDeleteAt
 

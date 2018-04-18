@@ -102,6 +102,30 @@ _since 1.0.0_
 <B>(f: (a: A) => B): NonEmptyArray<B>
 ```
 
+### max
+
+_method_
+
+_since 1.3.0_
+
+```ts
+(ord: Ord<A>): A
+```
+
+Gets maximum of this {@link NonEmptyArray} using specified {@link Ord} instance
+
+### min
+
+_method_
+
+_since 1.3.0_
+
+```ts
+(ord: Ord<A>): A
+```
+
+Gets minimum of this {@link NonEmptyArray} using specified {@link Ord} instance
+
 ### reduce
 
 _method_
