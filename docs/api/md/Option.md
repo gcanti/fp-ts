@@ -258,7 +258,7 @@ _since 1.0.0_
 
 _method_
 
-_since 1.0.0_
+_since 1.3.0_
 
 ```ts
 <B extends A>(refinement: Refinement<A, B>): Option<B>

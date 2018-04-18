@@ -160,7 +160,10 @@ export class None<A> {
   filter(p: Predicate<A>): Option<A> {
     return none
   }
-  /** Returns this option refined as Option<B> if it is non empty and the `refinement` returns `true` when applied to this Option's value. Otherwise returns `None` */
+  /**
+   * Returns this option refined as Option<B> if it is non empty and the `refinement` returns `true` when applied to this Option's value. Otherwise returns `None`
+   * @since 1.3.0
+   */
   refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
     return none
   }
