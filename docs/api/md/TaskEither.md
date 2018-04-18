@@ -126,6 +126,16 @@ _since 1.0.0_
 <L, A>(fa: Either<L, A>): TaskEither<L, A>
 ```
 
+# fromLeft
+
+_function_
+
+_since 1.3.0_
+
+```ts
+<L, A>(l: L): TaskEither<L, A>
+```
+
 # left
 
 _function_

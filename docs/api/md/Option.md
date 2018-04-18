@@ -348,6 +348,16 @@ _since 1.0.0_
 <A>(predicate: Predicate<A>) => (a: A): Option<A>
 ```
 
+# fromRefinement
+
+_function_
+
+_since 1.3.0_
+
+```ts
+<A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B>
+```
+
 # getFirstMonoid
 
 _function_

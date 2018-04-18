@@ -13,6 +13,29 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.3.0
+
+* **New Feature**
+  * add `Array.uniq` (@alex-ketch)
+  * add `NonEmptyArray.prototype.min` and `NonEmptyArray.prototype.max` (@raveclassic)
+  * add `refine` method to `Option`, closes #396 (@wmaurer)
+  * add `Ord.getDualOrd` (@gcanti)
+  * add support for `Monad2C` and `Monad3C` to `OptionT`, closes #379 (@gcanti)
+  * add `TaskEither.fromLeft` (@gcanti)
+  * add `listen`, `pass`, `listens`, `censor` to `Writer` (@gcanti)
+  * add `Option.fromRefinement` (@gcanti)
+  * add `Array.sortBy`, `Array.sortBy1` (@gcanti)
+  * add `Either.fromOptionL`, closes #384 (@gcanti)
+  * add `Either.filterOrElse`, `Either.filterOrElseL`, closes #382 (@gcanti)
+* **Bug Fix**
+  * sort keys in `StrMap.reduce` (@gcanti)
+* **Internal**
+  * added rimraf and updated npm scripts (@wmaurer)
+  * upgrade to tslint@5.9.1, tslint-config-standard@7.0.0 (@gcanti)
+  * add issue template (@gcanti)
+* **Polish**
+  * optimize `Semigroup.fold` (@gcanti)
+
 # 1.2.0
 
 * **New Feature**

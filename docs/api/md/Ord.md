@@ -93,6 +93,16 @@ _since 1.0.0_
 <A>(compare: (x: A, y: A) => Ordering): Ord<A>
 ```
 
+# getDualOrd
+
+_function_
+
+_since 1.3.0_
+
+```ts
+<A>(O: Ord<A>): Ord<A>
+```
+
 # getProductOrd
 
 _function_
