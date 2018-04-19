@@ -61,7 +61,8 @@ describe('Monoid', () => {
 
   it('monoidObject', () => {
     const foo = {
-      foo: 123
+      foo: 123,
+      bar: '000'
     }
     const bar = {
       bar: '123'
