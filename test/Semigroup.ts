@@ -6,7 +6,7 @@ import {
   getJoinSemigroup,
   getProductSemigroup,
   getArraySemigroup,
-  semigroupObject
+  getObjectSemigroup
 } from '../src/Semigroup'
 import { monoidString, monoidAll, monoidSum } from '../src/Monoid'
 import { ordNumber } from '../src/Ord'
@@ -51,6 +51,7 @@ describe('Semigroup', () => {
     const bar = {
       bar: '123'
     }
+    const semigroupObject = getObjectSemigroup<object>()
     assert.deepEqual(semigroupObject.concat(foo, bar), Object.assign({}, foo, bar))
   })
 })

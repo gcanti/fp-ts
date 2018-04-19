@@ -9,7 +9,7 @@ import {
   getRecordMonoid,
   monoidString,
   getEndomorphismMonoid,
-  monoidObject
+  getObjectMonoid
 } from '../src/Monoid'
 import { filter } from '../src/Array'
 
@@ -66,6 +66,7 @@ describe('Monoid', () => {
     const bar = {
       bar: '123'
     }
+    const monoidObject = getObjectMonoid<object>()
     const result = fold(monoidObject)([foo, bar])
     const expected = Object.assign({}, foo, bar)
     assert.deepEqual(result, expected)

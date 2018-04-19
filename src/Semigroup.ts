@@ -1,5 +1,5 @@
 import { Ord, min, max } from './Ord'
-import { concat } from './function'
+import { concat, identity } from './function'
 
 /** @typeclass */
 export interface Semigroup<A> {
@@ -19,7 +19,7 @@ export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => {
  * @since 1.0.0
  */
 export const getFirstSemigroup = <A = never>(): Semigroup<A> => {
-  return { concat: x => x }
+  return { concat: identity }
 }
 
 /**
@@ -128,6 +128,15 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
 }
 
 /**
+ * Semigroup under object assignment
+ * @function
+ * @since 1.4.0
+ */
+export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => ({
+  concat: (x, y) => Object.assign({}, x, y)
+})
+
+/**
  * Number Semigroup under addition
  * @instance
  * @since 1.0.0
@@ -159,12 +168,4 @@ export const semigroupString: Semigroup<string> = {
  */
 export const semigroupVoid: Semigroup<void> = {
   concat: () => undefined
-}
-
-/**
- * @instance
- * @since 1.4.0
- */
-export const semigroupObject: Semigroup<object> = {
-  concat: (x, y) => Object.assign({}, x, y)
 }
