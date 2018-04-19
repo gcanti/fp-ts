@@ -160,3 +160,11 @@ export const semigroupString: Semigroup<string> = {
 export const semigroupVoid: Semigroup<void> = {
   concat: () => undefined
 }
+
+/**
+ * @instance
+ * @since 1.4.0
+ */
+export const semigroupObject: Semigroup<object> = {
+  concat: (x, y) => Object.assign({}, x, y)
+}

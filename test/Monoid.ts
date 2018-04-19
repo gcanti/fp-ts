@@ -8,7 +8,8 @@ import {
   getArrayMonoid,
   getRecordMonoid,
   monoidString,
-  getEndomorphismMonoid
+  getEndomorphismMonoid,
+  monoidObject
 } from '../src/Monoid'
 import { filter } from '../src/Array'
 
@@ -56,5 +57,17 @@ describe('Monoid', () => {
     const inc = (n: number) => n + 1
     const f = M.concat(double, inc)
     assert.strictEqual(f(3), 8)
+  })
+
+  it('monoidObject', () => {
+    const foo = {
+      foo: 123
+    }
+    const bar = {
+      bar: '123'
+    }
+    const result = fold(monoidObject)([foo, bar])
+    const expected = Object.assign({}, foo, bar)
+    assert.deepEqual(result, expected)
   })
 })

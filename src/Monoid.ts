@@ -11,7 +11,8 @@ import {
   semigroupAny,
   getArraySemigroup,
   semigroupVoid,
-  getFunctionSemigroup
+  getFunctionSemigroup,
+  semigroupObject
 } from './Semigroup'
 import { Endomorphism, identity, compose } from './function'
 
@@ -70,13 +71,15 @@ export const monoidAny: Monoid<boolean> = {
   empty: false
 }
 
+const emptyArray: any[] = []
+
 /**
  * @instance
  * @since 1.0.0
  */
 export const unsafeMonoidArray: Monoid<Array<any>> = {
   ...getArraySemigroup(),
-  empty: []
+  empty: emptyArray
 }
 
 /**
@@ -124,6 +127,17 @@ export const monoidString: Monoid<string> = {
 export const monoidVoid: Monoid<void> = {
   ...semigroupVoid,
   empty: undefined
+}
+
+const emptyObject = {}
+
+/**
+ * @instance
+ * @since 1.4.0
+ */
+export const monoidObject: Monoid<object> = {
+  ...semigroupObject,
+  empty: emptyObject
 }
 
 /**
