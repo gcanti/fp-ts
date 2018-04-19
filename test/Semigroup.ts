@@ -44,7 +44,7 @@ describe('Semigroup', () => {
     assert.deepEqual(getArraySemigroup<number>().concat([1], [2]), [1, 2])
   })
 
-  it('semigroupObject', () => {
+  it('getObjectSemigroup', () => {
     const foo = {
       foo: 123
     }

@@ -94,7 +94,8 @@ export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
 const emptyObject = {}
 
 /**
- * @instance
+ * Monoid under object assignment
+ * @function
  * @since 1.4.0
  */
 export const getObjectMonoid = <A extends object = never>(): Monoid<A> => ({

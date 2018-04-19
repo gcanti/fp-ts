@@ -59,7 +59,7 @@ describe('Monoid', () => {
     assert.strictEqual(f(3), 8)
   })
 
-  it('monoidObject', () => {
+  it('getObjectMonoid', () => {
     const foo = {
       foo: 123,
       bar: '000'
