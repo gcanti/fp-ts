@@ -264,7 +264,7 @@ _since 1.3.0_
 <B extends A>(refinement: Refinement<A, B>): Option<B>
 ```
 
-Returns this option refined as Option<B> if it is non empty and the `refinement` returns `true` when applied to this Option's value. Otherwise returns `None`
+Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to this Option's value. Otherwise returns `None`
 
 ### toNullable
 
