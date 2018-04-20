@@ -148,7 +148,37 @@ const of = <L, A>(a: A): Validation<L, A> => {
 }
 
 /**
+ * Example
+ *
+ * ```ts
+ * import { Validation, success, failure, getApplicative } from 'fp-ts/lib/Validation'
+ * import { getArraySemigroup } from 'fp-ts/lib/Semigroup'
+ *
+ * interface Person {
+ *   name: string
+ *   age: number
+ * }
+ *
+ * const person = (name: string) => (age: number): Person => ({ name, age })
+ *
+ * const validateName = (name: string): Validation<string[], string> =>
+ *   name.length === 0 ? failure(['invalid name']) : success(name)
+ *
+ * const validateAge = (age: number): Validation<string[], number> =>
+ *   age > 0 && age % 1 === 0 ? success(age) : failure(['invalid age'])
+ *
+ * const A = getApplicative(getArraySemigroup<string>())
+ *
+ * const validatePerson = (name: string, age: number): Validation<string[], Person> =>
+ *   A.ap(A.map(validateName(name), person), validateAge(age))
+ *
+ * console.log(validatePerson('Nicolas Bourbaki', 45)) // success({ "name": "Nicolas Bourbaki", "age": 45 })
+ * console.log(validatePerson('Nicolas Bourbaki', -1)) // failure(["invalid age"])
+ * console.log(validatePerson('', 0)) // failure(["invalid name", "invalid age"])
+ * ```
+ *
  * @function
+ *
  * @since 1.0.0
  */
 export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
