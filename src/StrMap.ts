@@ -4,7 +4,7 @@ import { Functor1 } from './Functor'
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Traversable1 } from './Traversable'
-import { tuple } from './function'
+import { tuple, Predicate } from './function'
 import { liftA2 } from './Apply'
 import { Setoid } from './Setoid'
 import { Option, none, some } from './Option'
@@ -51,6 +51,16 @@ export class StrMap<A> {
       out = f(out, value[keys[i]])
     }
     return out
+  }
+  filter(p: Predicate<A>): StrMap<A> {
+    const o = this.value
+    const r: { [key: string]: A } = {}
+    for (const k in o) {
+      if (p(o[k])) {
+        r[k] = o[k]
+      }
+    }
+    return new StrMap(r)
   }
 }
 
@@ -270,6 +280,14 @@ export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   const a = lookup(k, d)
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
+}
+
+/**
+ * @function
+ * @since 1.4.0
+ */
+export const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => {
+  return fa.filter(p)
 }
 
 /**
