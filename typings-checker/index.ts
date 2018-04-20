@@ -4,6 +4,8 @@ import { array } from '../src/Array'
 import { Option, option } from '../src/Option'
 import { Either, either } from '../src/Either'
 import { ReaderTaskEither, readerTaskEither } from '../examples/ReaderTaskEither'
+import { task } from '../src/Task'
+import { validation } from '../src/Validation'
 
 const double = (n: number) => n * 2
 
@@ -27,7 +29,10 @@ const liftedGD: (fa: ReaderTaskEither<string, boolean, number>) => ReaderTaskEit
 // Traversable
 //
 
-const sequenceEither: <L, A>(tfa: Either<L, A>[]) => Either<L, A[]> = sequence(either, array)
+const sequenceEitherArray: <L, A>(tfa: Either<L, A>[]) => Either<L, A[]> = sequence(either, array)
+const sequenceTaskValidation = sequence(task, validation)
+const sequenceEitherValidation = sequence(either, validation)
+const sequenceValidationEither = sequence(getApplicative(semigroupString), either)
 
 //
 // Apply
