@@ -91,3 +91,9 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
     equals: on(fa.equals)(f)
   }
 }
+
+/**
+ * @Instance
+ * @since 1.4.0
+ */
+export const setoidDate: Setoid<Date> = contramap(date => date.valueOf(), setoidNumber)

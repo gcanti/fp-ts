@@ -180,3 +180,9 @@ export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
   return fromCompare((x, y) => O.compare(y, x))
 }
+
+/**
+ * @Instance
+ * @since 1.4.0
+ */
+export const ordDate: Ord<Date> = contramap(date => date.valueOf(), ordNumber)

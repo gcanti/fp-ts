@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getRecordSetoid, setoidString, setoidNumber, getProductSetoid, contramap } from '../src/Setoid'
+import { getRecordSetoid, setoidString, setoidNumber, getProductSetoid, contramap, setoidDate } from '../src/Setoid'
 
 describe('Setoid', () => {
   interface Person {
@@ -30,5 +30,11 @@ describe('Setoid', () => {
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'b', age: 2 }), false)
+  })
+
+  it('setoidDate', () => {
+    assert.strictEqual(setoidDate.equals(new Date(0), new Date(0)), true)
+    assert.strictEqual(setoidDate.equals(new Date(0), new Date(1)), false)
+    assert.strictEqual(setoidDate.equals(new Date(1), new Date(0)), false)
   })
 })
