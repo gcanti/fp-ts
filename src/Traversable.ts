@@ -109,6 +109,18 @@ export function traverse<F, T>(
   return T.traverse(F)
 }
 
+export function sequence<F extends URIS2, T extends URIS2>(
+  F: Applicative2<F>,
+  T: Traversable2<T>
+): <LF, LT, A>(tfa: Type2<T, LT, Type2<F, LF, A>>) => Type2<F, LF, Type2<T, LT, A>>
+export function sequence<F extends URIS2, T extends URIS2, LF>(
+  F: Applicative2C<F, LF>,
+  T: Traversable2<T>
+): <LT, A>(tfa: Type2<T, LT, Type2<F, LF, A>>) => Type2<F, LF, Type2<T, LT, A>>
+export function sequence<F extends URIS, T extends URIS2>(
+  F: Applicative1<F>,
+  T: Traversable2<T>
+): <L, A>(tfa: Type2<T, L, Type<F, A>>) => Type<F, Type2<T, L, A>>
 export function sequence<F extends URIS3, T extends URIS>(
   F: Applicative3<F>,
   T: Traversable1<T>
