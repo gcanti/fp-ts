@@ -1,5 +1,15 @@
 import * as assert from 'assert'
-import { getSemigroup, contramap, ordNumber, ordString, getProductOrd, clamp, between, getDualOrd } from '../src/Ord'
+import {
+  getSemigroup,
+  contramap,
+  ordNumber,
+  ordString,
+  getProductOrd,
+  clamp,
+  between,
+  getDualOrd,
+  ordDate
+} from '../src/Ord'
 import { sort } from '../src/Array'
 
 describe('Ord', () => {
@@ -51,5 +61,11 @@ describe('Ord', () => {
     assert.strictEqual(O.compare(1, 2), 1)
     assert.strictEqual(O.compare(2, 1), -1)
     assert.strictEqual(O.compare(2, 2), 0)
+  })
+
+  it('ordDate', () => {
+    assert.strictEqual(ordDate.compare(new Date(0), new Date(0)), 0)
+    assert.strictEqual(ordDate.compare(new Date(0), new Date(1)), -1)
+    assert.strictEqual(ordDate.compare(new Date(1), new Date(0)), 1)
   })
 })
