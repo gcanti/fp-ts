@@ -32,11 +32,11 @@ both are `None` then it will return `none`.
 
 For example:
 
-`const someFn = (o: Option<number>) => o.alt(some(4))`
-
-`someFn(some(2))` will return `some(2)`.
-
-`someFn(none)` will return `some(4)`.
+```ts
+const someFn = (o: Option<number>) => o.alt(some(4))
+assert.deepEqual(someFn(some(2)), some(2))
+assert.deepEqual(someFn(none), none)
+```
 
 ### ap
 
@@ -51,11 +51,12 @@ _since 1.0.0_
 `ap`, some may also call it "apply". Takes a function `fab` that is in the context of `Option`, and applies that
 function to this `Option`'s value. If the `Option` calling `ap` is `none` it will return `none`.
 
-For example:
+Example
 
-`const someFn = some(2).ap(some(x => x + 1))` will return `some(3)`.
-
-`const someFn = none.ap(some(x => x + 1))` will return `none`.
+```ts
+assert.deepEqual(some(2).ap(some(x => x + 1)), some(3))
+assert.deepEqual(none.ap(some(x => x + 1)), none)
+```
 
 ### ap\_
 
@@ -70,11 +71,12 @@ _since 1.0.0_
 Similar to `ap` but instead of taking a function it takes `some` value or `none`, then applies this `Option`'s
 wrapped function to the `some` or `none`. If the `Option` calling `ap_` is `none` it will return `none`.
 
-For example:
+Example
 
-`const someFn = some(x => x + 1).ap_(some(2))` will return `some(3)`.
-
-`const someFn = none.ap_(some(2))` will return `none`.
+```ts
+assert.deepEqual(some(x => x + 1).ap_(some(2)), some(3))
+assert.deepEqual(none.ap_(some(2)), none)
+```
 
 ### chain
 
@@ -148,6 +150,15 @@ _since 1.0.0_
 
 Applies a function to each case in the data structure
 
+Example
+
+```ts
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.strictEqual(some(1).fold('none', a => `some: ${a}`), 'some: 1')
+assert.strictEqual(none.fold('none', a => `some: ${a}`), 'none')
+```
+
 ### foldL
 
 _method_
@@ -171,6 +182,15 @@ _since 1.0.0_
 ```
 
 Returns the value from this `Some` or the given argument if this is a `None`
+
+Example
+
+```ts
+import { Option, none, some } from 'fp-ts/lib/Option'
+
+assert.strictEqual(some(1).getOrElse(0), 1)
+assert.strictEqual((none as Option<number>).getOrElse(0), 0)
+```
 
 ### getOrElseL
 
@@ -232,6 +252,12 @@ Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`
 If it maps on `Some` then it will apply the
 `f` on `Some`'s value, if it maps on `None` it will return `None`.
 
+Example
+
+```ts
+assert.deepEqual(some(1).map(n => n * 2), some(2))
+```
+
 ### mapNullable
 
 _method_
@@ -242,7 +268,38 @@ _since 1.0.0_
 <B>(f: (a: A) => B | null | undefined): Option<B>
 ```
 
-Maps `f` over this Option's value. If the value returned from `f` is null or undefined, returns `None`
+Maps `f` over this `Option`'s value. If the value returned from `f` is null or undefined, returns `None`
+
+Example
+
+```ts
+import { none, some } from 'fp-ts/lib/Option'
+
+interface Foo {
+  bar?: {
+    baz?: string
+  }
+}
+
+assert.deepEqual(
+  some<Foo>({ bar: { baz: 'quux' } })
+    .mapNullable(foo => foo.bar)
+    .mapNullable(bar => bar.baz),
+  some('quux')
+)
+assert.deepEqual(
+  some<Foo>({ bar: {} })
+    .mapNullable(foo => foo.bar)
+    .mapNullable(bar => bar.baz),
+  none
+)
+assert.deepEqual(
+  some<Foo>({})
+    .mapNullable(foo => foo.bar)
+    .mapNullable(bar => bar.baz),
+  none
+)
+```
 
 ### reduce
 
@@ -325,6 +382,20 @@ _since 1.0.0_
 <L, A>(fa: Either<L, A>): Option<A>
 ```
 
+Constructs a new `Option` from a `Either`.
+If the value is a `Left`, returns `None`,
+otherwise returns the inner value wrapped in a `Some`
+
+Example
+
+```ts
+import { none, some, fromEither } from 'fp-ts/lib/Option'
+import { left, right } from 'fp-ts/lib/Either'
+
+assert.deepEqual(fromEither(left(1)), none)
+assert.deepEqual(fromEither(right(1)), some(1))
+```
+
 # fromNullable
 
 _function_
@@ -336,7 +407,18 @@ _since 1.0.0_
 ```
 
 Constructs a new `Option` from a nullable type.
-If the value is `null` or `undefined`, returns `None`, otherwise returns the value wrapped in a `Some`
+If the value is `null` or `undefined`, returns `None`,
+otherwise returns the value wrapped in a `Some`
+
+Example
+
+```ts
+import { none, some, fromNullable } from 'fp-ts/lib/Option'
+
+assert.deepEqual(fromNullable(undefined), none)
+assert.deepEqual(fromNullable(null), none)
+assert.deepEqual(fromNullable(1), some(1))
+```
 
 # fromPredicate
 
@@ -346,6 +428,17 @@ _since 1.0.0_
 
 ```ts
 <A>(predicate: Predicate<A>) => (a: A): Option<A>
+```
+
+Example
+
+```ts
+import { none, some, fromPredicate } from 'fp-ts/lib/Option'
+
+const positive = fromPredicate((n: number) => n >= 0)
+
+assert.deepEqual(positive(-1), none)
+assert.deepEqual(positive(1), some(1))
 ```
 
 # fromRefinement
@@ -358,6 +451,8 @@ _since 1.3.0_
 <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B>
 ```
 
+Refinement version of `fromPredicate`
+
 # getFirstMonoid
 
 _function_
@@ -368,7 +463,7 @@ _since 1.0.0_
 <A = never>(): Monoid<Option<A>>
 ```
 
-Option monoid returning the left-most non-None value
+`Option` monoid returning the left-most non-`None` value
 
 # getLastMonoid
 
@@ -380,7 +475,7 @@ _since 1.0.0_
 <A = never>(): Monoid<Option<A>>
 ```
 
-Option monoid returning the right-most non-None value
+`Option` monoid returning the right-most non-`None` value
 
 # getMonoid
 
@@ -392,30 +487,21 @@ _since 1.0.0_
 <A>(S: Semigroup<A>): Monoid<Option<A>>
 ```
 
-# getOrd
+`Option` monoid returning the left-most non-None value.
+If both operands are `Some`s then the inner values are
+appended using the provided `Semigroup`
 
-_function_
-
-_since 1.2.0_
-
-```ts
-<A>(O: Ord<A>): Ord<Option<A>>
-```
-
-The `Ord` instance allows `Option` values to be compared with
-`compare`, whenever there is an `Ord` instance for
-the type the `Option` contains.
-
-`None` is considered to be less than any `Some` value.
-
-# getSetoid
-
-_function_
-
-_since 1.0.0_
+Example
 
 ```ts
-<A>(S: Setoid<A>): Setoid<Option<A>>
+import { none, some, getMonoid } from 'fp-ts/lib/Option'
+import { semigroupSum } from 'fp-ts/lib/Semigroup'
+
+const M = getMonoid(semigroupSum)
+assert.deepEqual(M.concat(none, none), none)
+assert.deepEqual(M.concat(none, some(1)), some(1))
+assert.deepEqual(M.concat(some(1), none), some(1))
+assert.deepEqual(M.concat(some(1), some(2)), some(3))
 ```
 
 # isNone
@@ -461,4 +547,22 @@ _since 1.0.0_
 
 ```ts
 <A>(f: Lazy<A>): Option<A>
+```
+
+Transforms an exception into an `Option`.
+If `f` throws, returns `None`,
+otherwise returns the output wrapped in `Some`
+
+Example
+
+```ts
+import { none, some, tryCatch } from 'fp-ts/lib/Option'
+
+assert.deepEqual(
+  tryCatch(() => {
+    throw new Error()
+  }),
+  none
+)
+assert.deepEqual(tryCatch(() => 1), some(1))
 ```
