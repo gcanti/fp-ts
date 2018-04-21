@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Functional programming in TypeScript",
   "files": ["lib"],
   "main": "lib/index.js",
@@ -45,7 +45,7 @@
     "ts-simple-ast": "0.74.0",
     "tslint": "5.9.1",
     "tslint-config-standard": "7.0.0",
-    "typescript": "^2.7.2",
+    "typescript": "^2.8.3",
     "typings-checker": "^2.0.0"
   },
   "tags": ["typescript", "algebraic-data-types", "functional-programming"],
