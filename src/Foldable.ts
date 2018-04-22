@@ -163,8 +163,7 @@ export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M {
 /**
  * Similar to 'reduce', but the result is encapsulated in a monad.
  *
- * Note: this function is not generally stack-safe, e.g., for monads which
- * build up thunks a la `IO`.
+ * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
  */
 export function foldM<F extends URIS, M extends URIS3>(
   F: Foldable1<F>,
@@ -193,8 +192,7 @@ export function foldM<F, M>(
 /**
  * Similar to 'reduce', but the result is encapsulated in a monad.
  *
- * Note: this function is not generally stack-safe, e.g., for monads which
- * build up thunks a la `IO`.
+ * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
  * @function
  * @since 1.0.0
  */
@@ -206,7 +204,8 @@ export function foldM<F, M>(
 }
 
 /**
- * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the final result.
+ * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
+ * final result.
  */
 export function traverse_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
@@ -233,7 +232,8 @@ export function traverse_<M, F>(
   F: Foldable<F>
 ): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void>
 /**
- * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the final result.
+ * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
+ * final result.
  * @function
  * @since 1.0.0
  */

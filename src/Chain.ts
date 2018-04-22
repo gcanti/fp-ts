@@ -2,9 +2,8 @@ import { HKT, URIS, URIS2, Type, Type2, URIS3, Type3 } from './HKT'
 import { Apply, Apply1, Apply2, Apply3, Apply2C, Apply3C } from './Apply'
 
 /**
- * The `Chain` type class extends the `Apply` type class with a
- * "chain" operation which composes computations in sequence, using
- * the return value of one computation to determine the next computation.
+ * The `Chain` type class extends the `Apply` type class with a "chain" operation which composes computations in
+ * sequence, using the return value of one computation to determine the next computation.
  *
  * Instances must satisfy the following law in addition to the `Apply` laws:
  *

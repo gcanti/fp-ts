@@ -26,8 +26,7 @@ export type URI = typeof URI
 /**
  * The `Validation` functor, used for applicative validation
  *
- * The `Applicative` instance collects multiple failures in
- * an arbitrary `Semigroup`.
+ * The `Applicative` instance collects multiple failures in an arbitrary `Semigroup`.
  *
  * @data
  * @constructor Failure

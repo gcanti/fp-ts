@@ -22,9 +22,8 @@ _since 1.0.0_
 <A>(message: any, out: Lazy<A>): A
 ```
 
-Log any value to the console for debugging purposes and then
-return a value. This will log the value's underlying representation for
-low-level debugging
+Log any value to the console for debugging purposes and then return a value. This will log the value's underlying
+representation for low-level debugging
 
 # traceA
 

@@ -12,7 +12,8 @@ type Option<A> = None<A> | Some<A>
 
 Represents optional values. Instances of `Option` are either an instance of `Some` or `None`
 
-The most idiomatic way to use an `Option` instance is to treat it as a collection or monad and use `map`, `flatMap` or `filter`.
+The most idiomatic way to use an `Option` instance is to treat it as a collection or monad and use `map`, `flatMap`
+or `filter`.
 
 ## Methods
 
@@ -26,9 +27,8 @@ _since 1.0.0_
 (fa: Option<A>): Option<A>
 ```
 
-`alt` short for alternative, takes another `Option`. If this `Option` is a `Some` type
-then it will be returned, if it is a `None` then it will return the next `Some` if it exist. If
-both are `None` then it will return `none`.
+`alt` short for alternative, takes another `Option`. If this `Option` is a `Some` type then it will be returned, if
+it is a `None` then it will return the next `Some` if it exist. If both are `None` then it will return `none`.
 
 For example:
 
@@ -88,9 +88,9 @@ _since 1.0.0_
 <B>(f: (a: A) => Option<B>): Option<B>
 ```
 
-Returns the result of applying f to this `Option`'s value if this `Option` is nonempty.
-Returns `None` if this `Option` is empty. Slightly different from `map` in that `f` is expected to return an
-`Option` (which could be `None`)
+Returns the result of applying f to this `Option`'s value if this `Option` is nonempty. Returns `None` if this
+`Option` is empty. Slightly different from `map` in that `f` is expected to return an `Option` (which could be
+`None`)
 
 ### contains
 
@@ -136,7 +136,8 @@ _since 1.0.0_
 (p: Predicate<A>): Option<A>
 ```
 
-Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value. Otherwise returns `None`
+Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value.
+Otherwise returns `None`
 
 ### fold
 
@@ -248,9 +249,8 @@ _since 1.0.0_
 <B>(f: (a: A) => B): Option<B>
 ```
 
-Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors.
-If it maps on `Some` then it will apply the
-`f` on `Some`'s value, if it maps on `None` it will return `None`.
+Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors. If it
+maps on `Some` then it will apply the `f` on `Some`'s value, if it maps on `None` it will return `None`.
 
 Example
 
@@ -321,7 +321,8 @@ _since 1.3.0_
 <B extends A>(refinement: Refinement<A, B>): Option<B>
 ```
 
-Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to this Option's value. Otherwise returns `None`
+Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
+this Option's value. Otherwise returns `None`
 
 ### toNullable
 
@@ -382,9 +383,8 @@ _since 1.0.0_
 <L, A>(fa: Either<L, A>): Option<A>
 ```
 
-Constructs a new `Option` from a `Either`.
-If the value is a `Left`, returns `None`,
-otherwise returns the inner value wrapped in a `Some`
+Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
+value wrapped in a `Some`
 
 Example
 
@@ -406,9 +406,8 @@ _since 1.0.0_
 <A>(a: A | null | undefined): Option<A>
 ```
 
-Constructs a new `Option` from a nullable type.
-If the value is `null` or `undefined`, returns `None`,
-otherwise returns the value wrapped in a `Some`
+Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
+returns the value wrapped in a `Some`
 
 Example
 
@@ -487,8 +486,7 @@ _since 1.0.0_
 <A>(S: Semigroup<A>): Monoid<Option<A>>
 ```
 
-`Option` monoid returning the left-most non-None value.
-If both operands are `Some`s then the inner values are
+`Option` monoid returning the left-most non-None value. If both operands are `Some`s then the inner values are
 appended using the provided `Semigroup`
 
 Example
@@ -549,9 +547,8 @@ _since 1.0.0_
 <A>(f: Lazy<A>): Option<A>
 ```
 
-Transforms an exception into an `Option`.
-If `f` throws, returns `None`,
-otherwise returns the output wrapped in `Some`
+Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
+`Some`
 
 Example
 

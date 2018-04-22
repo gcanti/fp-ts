@@ -3,5 +3,5 @@
   "prettier.printWidth": 120,
   "prettier.semi": false,
   "prettier.singleQuote": true,
-  "tslint.enable": true
+  "rewrap.wrappingColumn": 120
 }

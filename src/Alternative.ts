@@ -3,8 +3,8 @@ import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, A
 import { Plus, Plus1, Plus2, Plus3, Plus2C, Plus3C } from './Plus'
 
 /**
- * The `Alternative` type class has no members of its own; it just specifies
- * that the type constructor has both `Applicative` and `Plus` instances.
+ * The `Alternative` type class has no members of its own; it just specifies that the type constructor has both
+ * `Applicative` and `Plus` instances.
  *
  * Types which have `Alternative` instances should also satisfy the following laws:
  *

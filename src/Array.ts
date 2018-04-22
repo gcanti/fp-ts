@@ -47,9 +47,9 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
 }
 
 /**
- * Derives a Setoid over the Array of a given element type from the Setoid of that type.
- * The derived setoid defines two arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid 'S'.
- * In case of arrays of different lengths, the result is non equality.
+ * Derives a Setoid over the Array of a given element type from the Setoid of that type. The derived setoid defines two
+ * arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid 'S'. In case of
+ * arrays of different lengths, the result is non equality.
  *
  * @function
  * @since 1.0.0
@@ -57,11 +57,10 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
 export const getSetoid: <A>(S: Setoid<A>) => Setoid<A[]> = getArraySetoid
 
 /**
- * Derives an Order over the Array of a given element type from the Order, 'O', of that type.
- * The ordering between two such arrays is equal to:
- * the first non equal comparison of each arrays elements taken pairwise in increasing order,
- * in case of equality over all the pairwise elements; the longest array is considered the greatest,
- * if both arrays have the same length, the result is equality.
+ * Derives an Order over the Array of a given element type from the Order, 'O', of that type. The ordering between two
+ * such arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order,
+ * in case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
+ * the same length, the result is equality.
  *
  * @function
  * @since 1.2.0
@@ -267,8 +266,7 @@ export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Arra
 }
 
 /**
- * Fold an array from the right, keeping all intermediate results
- * instead of only the final result
+ * Fold an array from the right, keeping all intermediate results instead of only the final result
  *
  * ```ts
  * scanRight([1, 2, 3], 10, (a, b) => b - a) // [ 4, 5, 7, 10 ]
@@ -423,8 +421,7 @@ export const span = <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>
 }
 
 /**
- * Calculate the longest initial subarray for which all element satisfy the
- * specified predicate, creating a new array
+ * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
  * @function
  * @since 1.0.0
  */
@@ -447,8 +444,7 @@ export const drop = <A>(n: number, as: Array<A>): Array<A> => {
 }
 
 /**
- * Remove the longest initial subarray for which all element satisfy the
- * specified predicate, creating a new array
+ * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
  * @function
  * @since 1.0.0
  */
@@ -552,8 +548,7 @@ export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
 }
 
 /**
- * Insert an element at the specified index, creating a new array, or
- * returning `None` if the index is out of bounds
+ * Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  * @function
  * @since 1.0.0
  */
@@ -572,8 +567,7 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
 }
 
 /**
- * Change the element at the specified index, creating a new array, or
- * returning `None` if the index is out of bounds
+ * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  * @function
  * @since 1.0.0
  */
@@ -592,8 +586,7 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
 }
 
 /**
- * Delete the element at the specified index, creating a new array, or
- * returning `None` if the index is out of bounds
+ * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
  * @function
  * @since 1.0.0
  */
@@ -602,8 +595,8 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
 }
 
 /**
- * Apply a function to the element at the specified index, creating a new
- * array, or returning `None` if the index is out of bounds
+ * Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
+ * of bounds
  * @function
  * @since 1.0.0
  */
@@ -639,8 +632,7 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
 }
 
 /**
- * Filter an array of optional values, keeping only the elements which contain
- * a value, creating a new array
+ * Filter an array of optional values, keeping only the elements which contain a value, creating a new array
  * @function
  * @since 1.0.0
  */
@@ -692,9 +684,8 @@ export const sort = <A>(ord: Ord<A>): ((as: Array<A>) => Array<A>) => {
 }
 
 /**
- * Apply a function to pairs of elements at the same index in two arrays,
- * collecting the results in a new array.
- * If one input array is short, excess elements of the longer array are discarded.
+ * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
+ * input array is short, excess elements of the longer array are discarded.
  * @function
  * @since 1.0.0
  */
@@ -708,8 +699,8 @@ export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
 }
 
 /**
- * Takes two arrays and returns an array of corresponding pairs.
- * If one input array is short, excess elements of the longer array are discarded
+ * Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
+ * longer array are discarded
  * @function
  * @since 1.0.0
  */
@@ -772,8 +763,8 @@ export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
 }
 
 /**
- * Sort the elements of an array in increasing order, where elements are
- * compared using first `ords[0]`, then `ords[1]`, etc...
+ * Sort the elements of an array in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
+ * etc...
  * @function
  * @since 1.3.0
  */

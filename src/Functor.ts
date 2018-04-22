@@ -4,9 +4,8 @@ import { constant } from './function'
 /**
  * A `Functor` is a type constructor which supports a mapping operation `map`.
  *
- * `map` can be used to turn functions `a -> b` into functions
- * `f a -> f b` whose argument and return types use the type constructor `f`
- * to represent some computational context.
+ * `map` can be used to turn functions `a -> b` into functions `f a -> f b` whose argument and return types use the type
+ * constructor `f` to represent some computational context.
  *
  * Instances must satisfy the following laws:
  *

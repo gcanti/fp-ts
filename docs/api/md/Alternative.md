@@ -8,8 +8,8 @@ _type class_
 interface Alternative<F> extends Applicative<F>, Plus<F> {}
 ```
 
-The `Alternative` type class has no members of its own; it just specifies
-that the type constructor has both `Applicative` and `Plus` instances.
+The `Alternative` type class has no members of its own; it just specifies that the type constructor has both
+`Applicative` and `Plus` instances.
 
 Types which have `Alternative` instances should also satisfy the following laws:
 

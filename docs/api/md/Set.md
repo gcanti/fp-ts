@@ -206,8 +206,7 @@ _since 1.0.0_
 <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean
 ```
 
-`true` if and only if every element in the first set
-is an element of the second set
+`true` if and only if every element in the first set is an element of the second set
 
 # toArray
 

@@ -84,8 +84,7 @@ export const chain = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => Set<B>)
 }
 
 /**
- * `true` if and only if every element in the first set
- * is an element of the second set
+ * `true` if and only if every element in the first set is an element of the second set
  * @function
  * @since 1.0.0
  */

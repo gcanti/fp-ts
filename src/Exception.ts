@@ -62,8 +62,8 @@ export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> =>
 }
 
 /**
- * Runs an IO and returns eventual Exceptions as a `Left` value. If the
- * computation succeeds the result gets wrapped in a `Right`.
+ * Runs an IO and returns eventual Exceptions as a `Left` value. If the computation succeeds the result gets wrapped in
+ * a `Right`.
  * @function
  * @since 1.0.0
  */

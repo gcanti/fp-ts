@@ -60,8 +60,7 @@ foldM<F, M>(
 
 Similar to 'reduce', but the result is encapsulated in a monad.
 
-Note: this function is not generally stack-safe, e.g., for monads which
-build up thunks a la `IO`.
+Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
 
 # foldMap
 
@@ -204,4 +203,5 @@ traverse_<M, F>(
 ): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void>
 ```
 
-Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the final result.
+Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
+final result.

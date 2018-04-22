@@ -179,8 +179,8 @@ export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => {
 }
 
 /**
- * Create a dictionary from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
+ * Create a dictionary from a foldable collection of key/value pairs, using the specified function to combine values for
+ * duplicate keys.
  */
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>

@@ -6,9 +6,8 @@ import { Monad, Monad1, Monad2, Monad3, Monad2C, Monad3C } from './Monad'
 // Adapted from https://github.com/garyb/purescript-debug
 
 /**
- * Log any value to the console for debugging purposes and then
- * return a value. This will log the value's underlying representation for
- * low-level debugging
+ * Log any value to the console for debugging purposes and then return a value. This will log the value's underlying
+ * representation for low-level debugging
  * @function
  * @since 1.0.0
  */

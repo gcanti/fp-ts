@@ -3,11 +3,10 @@ import { Functor, Functor1, Functor2, Functor3, Functor2C, Functor3C } from './F
 import { Curried2, Curried3, Curried4, constant } from './function'
 
 /**
- * The `Apply` class provides the `ap` which is used to apply a function
- * to an argument under a type constructor.
+ * The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
  *
- * `Apply` can be used to lift functions of two or more arguments to work on
- * values wrapped with the type constructor `f`.
+ * `Apply` can be used to lift functions of two or more arguments to work on values wrapped with the type constructor
+ * `f`.
  *
  * Instances must satisfy the following law in addition to the `Functor` laws:
  *
@@ -118,7 +117,8 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
 }
 
 /**
- * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor `F`
+ * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
+ * `F`
  */
 export function liftA3<F extends URIS3>(
   F: Apply3<F>
@@ -147,7 +147,8 @@ export function liftA3<F>(
   F: Apply<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
 /**
- * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor `F`
+ * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
+ * `F`
  * @function
  * @since 1.0.0
  */
@@ -158,7 +159,8 @@ export function liftA3<F>(
 }
 
 /**
- * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor `F`
+ * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
+ * `F`
  */
 export function liftA4<F extends URIS3>(
   F: Apply3<F>
@@ -191,7 +193,8 @@ export function liftA4<F>(
   F: Apply<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
 /**
- * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor `F`
+ * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
+ * `F`
  * @function
  * @since 1.0.0
  */

@@ -1,8 +1,7 @@
 // adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Semiring.purs
 
 /**
- * The `Semiring` class is for types that support an addition and
- * multiplication operation.
+ * The `Semiring` class is for types that support an addition and multiplication operation.
  *
  * Instances must satisfy the following laws:
  *
@@ -18,10 +17,9 @@
  *   - Right distributivity: `(a + b) * c = (a * c) + (b * c)`
  * - Annihilation: `zero * a = a * zero = zero`
  *
- * **Note:** The `Number` and `Int` types are not fully law abiding
- * members of this class hierarchy due to the potential for arithmetic
- * overflows, and in the case of `Number`, the presence of `NaN` and
- * `Infinity` values. The behaviour is unspecified in these cases.
+ * **Note:** The `Number` and `Int` types are not fully law abiding members of this class hierarchy due to the potential
+ * for arithmetic overflows, and in the case of `Number`, the presence of `NaN` and `Infinity` values. The behaviour is
+ * unspecified in these cases.
  * @typeclass
  */
 export interface Semiring<A> {

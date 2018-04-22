@@ -12,8 +12,7 @@ type Validation<L, A> = Failure<L, A> | Success<L, A>
 
 The `Validation` functor, used for applicative validation
 
-The `Applicative` instance collects multiple failures in
-an arbitrary `Semigroup`.
+The `Applicative` instance collects multiple failures in an arbitrary `Semigroup`.
 
 ## Methods
 

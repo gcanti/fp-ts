@@ -27,10 +27,9 @@ export type URI = typeof URI
  *
  * An instance of `Either` is either an instance of `Left` or `Right`.
  *
- * A common use of `Either` is as an alternative to `Option` for dealing with possible missing values.
- * In this usage, `None` is replaced with a `Left` which can contain useful information.
- * `Right` takes the place of `Some`.
- * Convention dictates that `Left` is used for failure and `Right` is used for success.
+ * A common use of `Either` is as an alternative to `Option` for dealing with possible missing values. In this usage,
+ * `None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
+ * dictates that `Left` is used for failure and `Right` is used for success.
  *
  * For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
  *
@@ -41,8 +40,8 @@ export type URI = typeof URI
  * }
  * ```
  *
- * `Either` is right-biased, which means that `Right` is assumed to be the default case to operate on.
- * If it is `Left`, operations like `map`, `chain`, ... return the `Left` value unchanged:
+ * `Either` is right-biased, which means that `Right` is assumed to be the default case to operate on. If it is `Left`,
+ * operations like `map`, `chain`, ... return the `Left` value unchanged:
  *
  * ```ts
  * right(12).map(double) // right(24)
@@ -123,9 +122,9 @@ export class Left<L, A> {
     return right(this.value)
   }
   /**
-   * Returns `Right` with the existing value of `Right` if this is a `Right` and the given predicate `p` holds for the right value,
-   * returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right value,
-   * returns `Left` with the existing value of `Left` if this is a `Left`.
+   * Returns `Right` with the existing value of `Right` if this is a `Right` and the given predicate `p` holds for the
+   * right value, returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right
+   * value, returns `Left` with the existing value of `Left` if this is a `Left`.
    *
    * ```ts
    * right(12).filterOrElse(n => n > 10, -1) // right(12)
@@ -273,8 +272,8 @@ const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L
 }
 
 /**
- * Constructs a new `Either` holding a `Left` value.
- * This usually represents a failure, due to the right-bias of this structure
+ * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
+ * structure
  * @function
  * @since 1.0.0
  */
@@ -283,8 +282,8 @@ export const left = <L, A>(l: L): Either<L, A> => {
 }
 
 /**
- * Constructs a new `Either` holding a `Right` value.
- * This usually represents a successful value due to the right bias of this structure
+ * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
+ * of this structure
  * @function
  * @since 1.0.0
  * @alias of
@@ -300,8 +299,8 @@ export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) =
 }
 
 /**
- * Takes a default and a `Option` value, if the value is a `Some`, turn it into
- * a `Right`, if the value is a `None` use the provided default as a `Left`
+ * Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
+ * the provided default as a `Left`
  * @function
  * @since 1.0.0
  */
@@ -319,8 +318,8 @@ export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Eit
 }
 
 /**
- * Takes a default and a nullable value, if the value is not nully, turn it into
- * a `Right`, if the value is nully use the provided default as a `Left`
+ * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
+ * the provided default as a `Left`
  * @function
  * @since 1.0.0
  */

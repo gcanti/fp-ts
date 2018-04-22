@@ -10,8 +10,7 @@ interface Ord<A> extends Setoid<A> {
 }
 ```
 
-The `Ord` type class represents types which support comparisons with a
-_total order_.
+The `Ord` type class represents types which support comparisons with a _total order_.
 
 Instances should satisfy the laws of total orderings:
 

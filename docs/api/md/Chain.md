@@ -10,9 +10,8 @@ interface Chain<F> extends Apply<F> {
 }
 ```
 
-The `Chain` type class extends the `Apply` type class with a
-"chain" operation which composes computations in sequence, using
-the return value of one computation to determine the next computation.
+The `Chain` type class extends the `Apply` type class with a "chain" operation which composes computations in
+sequence, using the return value of one computation to determine the next computation.
 
 Instances must satisfy the following law in addition to the `Apply` laws:
 
