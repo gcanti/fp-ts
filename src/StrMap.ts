@@ -52,12 +52,16 @@ export class StrMap<A> {
     }
     return out
   }
+  /**
+   * @since 1.4.0
+   */
   filter(p: Predicate<A>): StrMap<A> {
     const o = this.value
     const r: { [key: string]: A } = {}
     for (const k in o) {
-      if (p(o[k])) {
-        r[k] = o[k]
+      const value = o[k]
+      if (p(value)) {
+        r[k] = value
       }
     }
     return new StrMap(r)
@@ -280,14 +284,6 @@ export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   const a = lookup(k, d)
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
-}
-
-/**
- * @function
- * @since 1.4.0
- */
-export const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => {
-  return fa.filter(p)
 }
 
 /**
