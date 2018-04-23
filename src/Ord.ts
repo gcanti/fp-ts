@@ -183,7 +183,7 @@ export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
 }
 
 /**
- * @Instance
+ * @instance
  * @since 1.4.0
  */
 export const ordDate: Ord<Date> = contramap(date => date.valueOf(), ordNumber)
