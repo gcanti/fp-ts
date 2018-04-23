@@ -13,8 +13,7 @@ import {
   pop,
   getMonoid,
   strmap,
-  traverseWithKey,
-  filter
+  traverseWithKey
 } from '../src/StrMap'
 import { setoidNumber } from '../src/Setoid'
 import { array } from '../src/Array'
@@ -124,6 +123,7 @@ describe('StrMap', () => {
   })
 
   it('filter', () => {
-    assert.deepEqual(filter(new StrMap({ a: 1, b: 2 }), a => a === 1), new StrMap({ a: 1 }))
+    const d = new StrMap({ a: 1, b: 2 })
+    assert.deepEqual(d.filter(a => a === 1), new StrMap({ a: 1 }))
   })
 })
