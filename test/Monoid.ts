@@ -8,9 +8,11 @@ import {
   getArrayMonoid,
   getRecordMonoid,
   monoidString,
-  getEndomorphismMonoid
+  getEndomorphismMonoid,
+  getDictionaryMonoid
 } from '../src/Monoid'
 import { filter } from '../src/Array'
+import { semigroupSum } from '../src/Semigroup'
 
 describe('Monoid', () => {
   it('fold', () => {
@@ -56,5 +58,24 @@ describe('Monoid', () => {
     const inc = (n: number) => n + 1
     const f = M.concat(double, inc)
     assert.strictEqual(f(3), 8)
+  })
+
+  it('getDictionaryMonoid', () => {
+    const foo = {
+      foo: 123,
+      bar: 123
+    }
+    const bar = {
+      foo: 456,
+      fff: 456
+    }
+    const M = getDictionaryMonoid(semigroupSum)
+    const result = fold(M)([foo, bar])
+    const expected = {
+      bar: foo.bar,
+      foo: foo.foo + bar.foo,
+      fff: bar.fff
+    }
+    assert.deepEqual(result, expected)
   })
 })

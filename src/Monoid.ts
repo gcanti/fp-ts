@@ -11,7 +11,8 @@ import {
   semigroupAny,
   getArraySemigroup,
   semigroupVoid,
-  getFunctionSemigroup
+  getFunctionSemigroup,
+  getDictionarySemigroup
 } from './Semigroup'
 import { Endomorphism, identity, compose } from './function'
 
@@ -70,13 +71,15 @@ export const monoidAny: Monoid<boolean> = {
   empty: false
 }
 
+const emptyArray: any[] = []
+
 /**
  * @instance
  * @since 1.0.0
  */
 export const unsafeMonoidArray: Monoid<Array<any>> = {
   ...getArraySemigroup(),
-  empty: []
+  empty: emptyArray
 }
 
 /**
@@ -87,6 +90,22 @@ export const unsafeMonoidArray: Monoid<Array<any>> = {
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
   return unsafeMonoidArray
 }
+
+const emptyObject = {}
+
+/**
+ * Gets {@link Monoid} instance for dictionaries given {@link Semigroup} instance for their values
+ * @function
+ * @since 1.4.0
+ * @param S - {@link Semigroup} instance for dictionary values
+ * @example
+ * const M = getDictionaryMonoid(semigroupSum)
+ * const result = fold(M)([{ foo: 123 }, { foo: 456 }]) // { foo: 123 + 456 }
+ */
+export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => ({
+  ...getDictionarySemigroup(S),
+  empty: emptyObject
+})
 
 /**
  * Number monoid under addition

@@ -1,5 +1,5 @@
 import { Ord, min, max } from './Ord'
-import { concat } from './function'
+import { concat, identity } from './function'
 
 /** @typeclass */
 export interface Semigroup<A> {
@@ -19,7 +19,7 @@ export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => {
  * @since 1.0.0
  */
 export const getFirstSemigroup = <A = never>(): Semigroup<A> => {
-  return { concat: x => x }
+  return { concat: identity }
 }
 
 /**
@@ -126,6 +126,42 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
     concat: (x, y) => concat(x, y)
   }
 }
+
+/**
+ * Gets {@link Semigroup} instance for dictionaries given {@link Semigroup} instance for their values
+ * @function
+ * @since 1.4.0
+ * @example
+ * const S = getDictionarySemigroup(semigroupSum)
+ * const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 123 + 456 }
+ * @param S - {@link Semigroup} instance for dictionary values
+ */
+export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> => {
+  return {
+    concat: (x, y) => {
+      const r: { [key: string]: A } = { ...x }
+      const keys = Object.keys(y)
+      const len = keys.length
+      for (let i = 0; i < len; i++) {
+        const k = keys[i]
+        r[k] = x.hasOwnProperty(k) ? S.concat(x[k], y[k]) : y[k]
+      }
+      return r
+    }
+  }
+}
+
+const semigroupAnyDictionary = getDictionarySemigroup(getLastSemigroup())
+
+/**
+ * Gets {@link Semigroup} instance for objects of given type preserving their type
+ * @function
+ * @since 1.4.0
+ * @example
+ * const S = getObjectSemigroup<{ foo: number }>()
+ * const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 456 }
+ */
+export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => semigroupAnyDictionary as any
 
 /**
  * Number Semigroup under addition
