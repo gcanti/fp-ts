@@ -152,7 +152,7 @@ export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: st
 }
 
 /**
- * Gets {@link Semigroup} instance for objects of given type
+ * Gets {@link Semigroup} instance for objects of given type preserving their type
  * @function
  * @since 1.4.0
  * @example

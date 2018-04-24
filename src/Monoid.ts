@@ -109,7 +109,7 @@ export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]:
 })
 
 /**
- * Gets {@link Monoid} instance for objects of given type
+ * Gets {@link Monoid} instance for objects of given type preserving their type
  * @function
  * @since 1.4.0
  * @example
