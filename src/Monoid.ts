@@ -113,7 +113,7 @@ export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]:
  * @function
  * @since 1.4.0
  * @example
- * const S = getObjectMonoid<{foo: number}>()
+ * const S = getObjectMonoid<{ foo: number }>()
  * const result = fold(M)([{ foo: 123 }, { foo: 456 }]) // { foo: 456 }
  */
 export const getObjectMonoid = <A extends object = never>(): Monoid<A> => ({

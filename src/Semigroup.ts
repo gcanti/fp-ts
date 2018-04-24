@@ -156,7 +156,7 @@ export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: st
  * @function
  * @since 1.4.0
  * @example
- * const S = getObjectSemigroup<{foo: number}>()
+ * const S = getObjectSemigroup<{ foo: number }>()
  * const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 456 }
  */
 export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> =>
