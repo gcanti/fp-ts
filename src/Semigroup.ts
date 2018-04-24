@@ -128,13 +128,39 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
 }
 
 /**
- * Semigroup under object assignment
+ * Gets {@link Semigroup} instance for dictionaries given {@link Semigroup} instance for their values
  * @function
  * @since 1.4.0
+ * @example
+ * const S = getDictionarySemigroup(semigroupSum)
+ * const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 123 + 456 }
+ * @param S - {@link Semigroup} instance for dictionary values
  */
-export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => ({
-  concat: (x, y) => Object.assign({}, x, y)
-})
+export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> => {
+  return {
+    concat: (x, y) => {
+      const r: { [key: string]: A } = { ...x }
+      const keys = Object.keys(y)
+      const len = keys.length
+      for (let i = 0; i < len; i++) {
+        const k = keys[i]
+        r[k] = x.hasOwnProperty(k) ? S.concat(x[k], y[k]) : y[k]
+      }
+      return r
+    }
+  }
+}
+
+/**
+ * Gets {@link Semigroup} instance for objects of given type
+ * @function
+ * @since 1.4.0
+ * @example
+ * const S = getObjectSemigroup<{foo: number}>()
+ * const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 456 }
+ */
+export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> =>
+  getDictionarySemigroup(getLastSemigroup()) as any
 
 /**
  * Number Semigroup under addition

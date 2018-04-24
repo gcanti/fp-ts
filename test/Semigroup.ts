@@ -6,7 +6,9 @@ import {
   getJoinSemigroup,
   getProductSemigroup,
   getArraySemigroup,
-  getObjectSemigroup
+  getDictionarySemigroup,
+  getObjectSemigroup,
+  semigroupSum
 } from '../src/Semigroup'
 import { monoidString, monoidAll, monoidSum } from '../src/Monoid'
 import { ordNumber } from '../src/Ord'
@@ -44,14 +46,42 @@ describe('Semigroup', () => {
     assert.deepEqual(getArraySemigroup<number>().concat([1], [2]), [1, 2])
   })
 
-  it('getObjectSemigroup', () => {
-    const foo = {
-      foo: 123
+  it('getDictionarySemigroup', () => {
+    type NumberDictionary = { [key: string]: number }
+    const foo: NumberDictionary = {
+      foo: 123,
+      bar: 123
     }
-    const bar = {
+    const bar: NumberDictionary = {
+      foo: 456,
+      fff: 456
+    }
+    const S = getDictionarySemigroup(semigroupSum)
+    const result = S.concat(foo, bar)
+    const expected = {
+      bar: foo.bar,
+      foo: foo.foo + bar.foo,
+      fff: bar.fff
+    }
+    assert.deepEqual(result, expected)
+  })
+
+  it('getObjectSemigroup', () => {
+    type T = {
+      foo?: number
+      bar: string
+    }
+    const foo: T = {
+      foo: 123,
+      bar: '456'
+    }
+    const bar: T = {
       bar: '123'
     }
-    const semigroupObject = getObjectSemigroup<object>()
-    assert.deepEqual(semigroupObject.concat(foo, bar), Object.assign({}, foo, bar))
+    const S = getObjectSemigroup<T>()
+    const result = S.concat(foo, bar)
+    const expected = Object.assign({}, foo, bar)
+    assert.strictEqual(result.foo, expected.foo)
+    assert.strictEqual(result.bar, expected.bar)
   })
 })

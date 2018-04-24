@@ -9,9 +9,11 @@ import {
   getRecordMonoid,
   monoidString,
   getEndomorphismMonoid,
-  getObjectMonoid
+  getObjectMonoid,
+  getDictionaryMonoid
 } from '../src/Monoid'
 import { filter } from '../src/Array'
+import { semigroupSum } from '../src/Semigroup'
 
 describe('Monoid', () => {
   it('fold', () => {
@@ -59,17 +61,41 @@ describe('Monoid', () => {
     assert.strictEqual(f(3), 8)
   })
 
-  it('getObjectMonoid', () => {
+  it('getDictionaryMonoid', () => {
     const foo = {
+      foo: 123,
+      bar: 123
+    }
+    const bar = {
+      foo: 456,
+      fff: 456
+    }
+    const M = getDictionaryMonoid(semigroupSum)
+    const result = fold(M)([foo, bar])
+    const expected = {
+      bar: foo.bar,
+      foo: foo.foo + bar.foo,
+      fff: bar.fff
+    }
+    assert.deepEqual(result, expected)
+  })
+
+  it('getObjectMonoid', () => {
+    type T = {
+      foo?: number
+      bar: string
+    }
+    const foo: T = {
       foo: 123,
       bar: '000'
     }
-    const bar = {
+    const bar: T = {
       bar: '123'
     }
-    const monoidObject = getObjectMonoid<object>()
-    const result = fold(monoidObject)([foo, bar])
+    const M = getObjectMonoid<T>()
+    const result = fold(M)([foo, bar])
     const expected = Object.assign({}, foo, bar)
-    assert.deepEqual(result, expected)
+    assert.strictEqual(result.bar, expected.bar)
+    assert.strictEqual(result.foo, expected.foo)
   })
 })
