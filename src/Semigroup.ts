@@ -151,6 +151,8 @@ export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: st
   }
 }
 
+const semigroupAnyDictionary = getDictionarySemigroup(getLastSemigroup())
+
 /**
  * Gets {@link Semigroup} instance for objects of given type preserving their type
  * @function
@@ -159,8 +161,7 @@ export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: st
  * const S = getObjectSemigroup<{ foo: number }>()
  * const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 456 }
  */
-export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> =>
-  getDictionarySemigroup(getLastSemigroup()) as any
+export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => semigroupAnyDictionary as any
 
 /**
  * Number Semigroup under addition

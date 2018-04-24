@@ -9,7 +9,6 @@ import {
   getRecordMonoid,
   monoidString,
   getEndomorphismMonoid,
-  getObjectMonoid,
   getDictionaryMonoid
 } from '../src/Monoid'
 import { filter } from '../src/Array'
@@ -78,24 +77,5 @@ describe('Monoid', () => {
       fff: bar.fff
     }
     assert.deepEqual(result, expected)
-  })
-
-  it('getObjectMonoid', () => {
-    type T = {
-      foo?: number
-      bar: string
-    }
-    const foo: T = {
-      foo: 123,
-      bar: '000'
-    }
-    const bar: T = {
-      bar: '123'
-    }
-    const M = getObjectMonoid<T>()
-    const result = fold(M)([foo, bar])
-    const expected = Object.assign({}, foo, bar)
-    assert.strictEqual(result.bar, expected.bar)
-    assert.strictEqual(result.foo, expected.foo)
   })
 })
