@@ -44,87 +44,136 @@ export interface Unfoldable3C<F extends URIS3, U, L> {
 /**
  * Replicate a value some natural number of times.
  */
-export function replicate<F extends URIS3>(unfoldable: Unfoldable3<F>): <U, L, A>(a: A, n: number) => Type3<F, U, L, A>
-export function replicate<F extends URIS3, U, L>(
-  unfoldable: Unfoldable3C<F, U, L>
-): <A>(a: A, n: number) => Type3<F, U, L, A>
-export function replicate<F extends URIS2>(unfoldable: Unfoldable2<F>): <L, A>(a: A, n: number) => Type2<F, L, A>
-export function replicate<F extends URIS2, L>(unfoldable: Unfoldable2C<F, L>): <A>(a: A, n: number) => Type2<F, L, A>
-export function replicate<F extends URIS>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) => Type<F, A>
-export function replicate<F>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
+export function replicate<F extends URIS3>(U: Unfoldable3<F>): <U, L, A>(a: A, n: number) => Type3<F, U, L, A>
+export function replicate<F extends URIS3, U, L>(U: Unfoldable3C<F, U, L>): <A>(a: A, n: number) => Type3<F, U, L, A>
+export function replicate<F extends URIS2>(U: Unfoldable2<F>): <L, A>(a: A, n: number) => Type2<F, L, A>
+export function replicate<F extends URIS2, L>(U: Unfoldable2C<F, L>): <A>(a: A, n: number) => Type2<F, L, A>
+export function replicate<F extends URIS>(U: Unfoldable<F>): <A>(a: A, n: number) => Type<F, A>
+export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
 /**
  * Replicate a value some natural number of times.
+ *
+ * Example
+ *
+ * ```ts
+ * import { replicate } from 'fp-ts/lib/Unfoldable'
+ * import { array } from 'fp-ts/lib/Array'
+ *
+ * assert.deepEqual(replicate(array)('s', 2), ['s', 's'])
+ * ```
+ *
  * @function
  * @since 1.0.0
  */
-export function replicate<F>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A> {
+export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A> {
   return (a, n) => {
     function step(n: number) {
       return n <= 0 ? none : option.of(tuple(a, n - 1))
     }
-    return unfoldable.unfoldr(n, step)
+    return U.unfoldr(n, step)
   }
 }
 
 /**
  * The container with no elements - unfolded with zero iterations.
  */
-export function empty<F extends URIS3, U, L, A>(unfoldable: Unfoldable3<F> | Unfoldable3C<F, U, L>): Type3<F, U, L, A>
-export function empty<F extends URIS2, L, A>(unfoldable: Unfoldable2<F> | Unfoldable2C<F, L>): Type2<F, L, A>
-export function empty<F extends URIS, A>(unfoldable: Unfoldable1<F>): Type<F, A>
-export function empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A>
+export function empty<F extends URIS3, U, L, A>(U: Unfoldable3<F> | Unfoldable3C<F, U, L>): Type3<F, U, L, A>
+export function empty<F extends URIS2, L, A>(U: Unfoldable2<F> | Unfoldable2C<F, L>): Type2<F, L, A>
+export function empty<F extends URIS, A>(U: Unfoldable1<F>): Type<F, A>
+export function empty<F, A>(U: Unfoldable<F>): HKT<F, A>
 /**
  * The container with no elements - unfolded with zero iterations.
+ *
+ * Example
+ *
+ * ```ts
+ * import { empty } from 'fp-ts/lib/Unfoldable'
+ * import { array } from 'fp-ts/lib/Array'
+ *
+ * assert.deepEqual(empty(array), [])
+ * ```
+ *
  * @function
  * @since 1.0.0
  */
-export function empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A> {
-  return unfoldable.unfoldr(undefined, constant(none))
+export function empty<F, A>(U: Unfoldable<F>): HKT<F, A> {
+  return U.unfoldr(undefined, constant(none))
 }
 
-export function singleton<F extends URIS3>(unfoldable: Unfoldable3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>
-export function singleton<F extends URIS3, U, L>(unfoldable: Unfoldable3C<F, U, L>): <A>(a: A) => Type3<F, U, L, A>
-export function singleton<F extends URIS2>(unfoldable: Unfoldable2<F>): <L, A>(a: A) => Type2<F, L, A>
-export function singleton<F extends URIS2, L>(unfoldable: Unfoldable2C<F, L>): <A>(a: A) => Type2<F, L, A>
-export function singleton<F extends URIS>(unfoldable: Unfoldable1<F>): <A>(a: A) => Type<F, A>
-export function singleton<F>(unfoldable: Unfoldable<F>): <A>(a: A) => HKT<F, A>
 /**
+ * Contain a single value
+ */
+export function singleton<F extends URIS3>(U: Unfoldable3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>
+export function singleton<F extends URIS3, U, L>(U: Unfoldable3C<F, U, L>): <A>(a: A) => Type3<F, U, L, A>
+export function singleton<F extends URIS2>(U: Unfoldable2<F>): <L, A>(a: A) => Type2<F, L, A>
+export function singleton<F extends URIS2, L>(U: Unfoldable2C<F, L>): <A>(a: A) => Type2<F, L, A>
+export function singleton<F extends URIS>(U: Unfoldable1<F>): <A>(a: A) => Type<F, A>
+export function singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A>
+/**
+ * Contain a single value
+ *
+ * Example
+ *
+ * ```ts
+ * import { singleton } from 'fp-ts/lib/Unfoldable'
+ * import { array } from 'fp-ts/lib/Array'
+ *
+ * assert.deepEqual(singleton(array)(1), [1])
+ * ```
+ *
  * @function
  * @since 1.0.0
  */
-export function singleton<F>(unfoldable: Unfoldable<F>): <A>(a: A) => HKT<F, A> {
-  return a => replicate(unfoldable)(a, 1)
+export function singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A> {
+  const replicateU = replicate(U)
+  return a => replicateU(a, 1)
 }
 
-/** Perform an Applicative action `n` times, and accumulate all the results */
+/**
+ * Perform an Applicative action `n` times, and accumulate all the results
+ */
 export function replicateA<F extends URIS3, T extends URIS>(
-  applicative: Applicative3<F>,
-  unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
+  A: Applicative3<F>,
+  UT: Unfoldable1<T> & Traversable1<T>
 ): <U, L, A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, Type<T, A>>
 export function replicateA<F extends URIS3, T extends URIS, U, L>(
-  applicative: Applicative3C<F, U, L>,
-  unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
+  A: Applicative3C<F, U, L>,
+  UT: Unfoldable1<T> & Traversable1<T>
 ): <A>(n: number, ma: Type3<F, U, L, A>) => Type3<F, U, L, Type<T, A>>
 export function replicateA<F extends URIS2, T extends URIS>(
-  applicative: Applicative2<F>,
-  unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
+  A: Applicative2<F>,
+  UT: Unfoldable1<T> & Traversable1<T>
 ): <L, A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, Type<T, A>>
 export function replicateA<F extends URIS2, T extends URIS, L>(
-  applicative: Applicative2C<F, L>,
-  unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
+  A: Applicative2C<F, L>,
+  UT: Unfoldable1<T> & Traversable1<T>
 ): <A>(n: number, ma: Type2<F, L, A>) => Type2<F, L, Type<T, A>>
 export function replicateA<F extends URIS, T extends URIS>(
-  applicative: Applicative1<F>,
-  unfoldableTraversable: Unfoldable1<T> & Traversable1<T>
+  F: Applicative1<F>,
+  UT: Unfoldable1<T> & Traversable1<T>
 ): <A>(n: number, ma: Type<F, A>) => Type<F, Type<T, A>>
 /**
  * Perform an Applicative action `n` times, and accumulate all the results
+ *
+ * Example
+ *
+ * ```ts
+ * import { replicateA } from 'fp-ts/lib/Unfoldable'
+ * import { array } from 'fp-ts/lib/Array'
+ * import { option, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
+ * assert.deepEqual(replicateA(option, array)(2, none), none)
+ * ```
+ *
  * @function
  * @since 1.0.0
  */
 export function replicateA<F, T>(
-  applicative: Applicative<F>,
-  unfoldableTraversable: Unfoldable<T> & Traversable<T>
+  F: Applicative<F>,
+  UT: Unfoldable<T> & Traversable<T>
 ): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>> {
-  return (n, ma) => sequence(applicative, unfoldableTraversable)(replicate(unfoldableTraversable)(ma, n))
+  const sequenceFUT = sequence(F, UT)
+  const replicateUT = replicate(UT)
+  return (n, ma) => sequenceFUT(replicateUT(ma, n))
 }

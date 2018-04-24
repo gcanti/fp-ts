@@ -20,10 +20,19 @@ _function_
 _since 1.0.0_
 
 ```ts
-empty<F, A>(unfoldable: Unfoldable<F>): HKT<F, A>
+empty<F, A>(U: Unfoldable<F>): HKT<F, A>
 ```
 
 The container with no elements - unfolded with zero iterations.
+
+Example
+
+```ts
+import { empty } from 'fp-ts/lib/Unfoldable'
+import { array } from 'fp-ts/lib/Array'
+
+assert.deepEqual(empty(array), [])
+```
 
 # replicate
 
@@ -32,10 +41,19 @@ _function_
 _since 1.0.0_
 
 ```ts
-replicate<F>(unfoldable: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
+replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
 ```
 
 Replicate a value some natural number of times.
+
+Example
+
+```ts
+import { replicate } from 'fp-ts/lib/Unfoldable'
+import { array } from 'fp-ts/lib/Array'
+
+assert.deepEqual(replicate(array)('s', 2), ['s', 's'])
+```
 
 # replicateA
 
@@ -45,12 +63,23 @@ _since 1.0.0_
 
 ```ts
 replicateA<F, T>(
-  applicative: Applicative<F>,
-  unfoldableTraversable: Unfoldable<T> & Traversable<T>
+  F: Applicative<F>,
+  UT: Unfoldable<T> & Traversable<T>
 ): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>>
 ```
 
 Perform an Applicative action `n` times, and accumulate all the results
+
+Example
+
+```ts
+import { replicateA } from 'fp-ts/lib/Unfoldable'
+import { array } from 'fp-ts/lib/Array'
+import { option, some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
+assert.deepEqual(replicateA(option, array)(2, none), none)
+```
 
 # singleton
 
@@ -59,5 +88,16 @@ _function_
 _since 1.0.0_
 
 ```ts
-singleton<F>(unfoldable: Unfoldable<F>): <A>(a: A) => HKT<F, A>
+singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A>
+```
+
+Contain a single value
+
+Example
+
+```ts
+import { singleton } from 'fp-ts/lib/Unfoldable'
+import { array } from 'fp-ts/lib/Array'
+
+assert.deepEqual(singleton(array)(1), [1])
 ```
