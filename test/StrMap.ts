@@ -21,11 +21,11 @@ import { traverse } from '../src/Traversable'
 import { Option, none, some, option } from '../src/Option'
 
 describe('StrMap', () => {
-  it('concat', () => {
-    const d1 = new StrMap<number>({ k1: 1 })
-    const d2 = new StrMap<number>({ k2: 2 })
+  it('getMonoid', () => {
+    const d1 = new StrMap<number>({ k1: 1, k2: 3 })
+    const d2 = new StrMap<number>({ k2: 2, k3: 4 })
     const S = getMonoid<number>()
-    assert.deepEqual(S.concat(d1, d2), new StrMap({ k1: 1, k2: 2 }))
+    assert.deepEqual(S.concat(d1, d2), new StrMap({ k1: 1, k2: 2, k3: 4 }))
   })
 
   it('map', () => {
