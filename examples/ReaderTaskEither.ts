@@ -85,6 +85,10 @@ export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => {
   return new ReaderTaskEither(() => taskEither.left(fa))
 }
 
+export const fromTask = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => {
+  return fromTaskEither(taskEither.right(fa))
+}
+
 export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<E, L, A> => {
   return new ReaderTaskEither(() => fa)
 }

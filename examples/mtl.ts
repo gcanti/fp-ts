@@ -1,5 +1,5 @@
-import { Monad, Monad1 } from 'fp-ts/lib/Monad'
-import { HKT, URIS, Type } from 'fp-ts/lib/HKT'
+import { Monad, Monad1, Monad3 } from 'fp-ts/lib/Monad'
+import { HKT, URIS, URIS3, Type, Type3 } from 'fp-ts/lib/HKT'
 import { liftA2 } from 'fp-ts/lib/Apply'
 import { flatten } from 'fp-ts/lib/Chain'
 
@@ -10,11 +10,26 @@ interface MonadUser<M> {
   facebookToken: (uid: string) => HKT<M, string>
 }
 
+interface MonadUser1<M extends URIS> {
+  validateUser: (token: string) => Type<M, string>
+  facebookToken: (uid: string) => Type<M, string>
+}
+
 interface MonadFB<M> {
   findPost: (url: string) => HKT<M, string>
   sendLike: (fbToken: string) => (post: string) => HKT<M, boolean>
 }
 
+interface MonadFB1<M extends URIS> {
+  findPost: (url: string) => Type<M, string>
+  sendLike: (fbToken: string) => (post: string) => Type<M, boolean>
+}
+
+function likePost<M extends URIS3>(
+  M: Monad3<M>,
+  U: MonadUser<M>,
+  F: MonadFB<M>
+): <U, L>(token: string) => (url: string) => Type3<M, U, L, boolean>
 function likePost<M extends URIS>(
   M: Monad1<M>,
   U: MonadUser<M>,
@@ -35,12 +50,12 @@ function likePost<M>(M: Monad<M>, U: MonadUser<M>, F: MonadFB<M>): (token: strin
 
 import { URI as IOURI, io, IO } from 'fp-ts/lib/IO'
 
-const monadUserIO: MonadUser<IOURI> = {
+const monadUserIO: MonadUser1<IOURI> = {
   validateUser: token => io.of(`string(${token})`),
   facebookToken: uid => io.of(`FBToken(${uid})`)
 }
 
-const monadFBIO: MonadFB<IOURI> = {
+const monadFBIO: MonadFB1<IOURI> = {
   findPost: url => io.of(`FBPost(${url})`),
   sendLike: token => (post: string) => {
     return new IO(() => {
@@ -72,12 +87,12 @@ const delay = <A>(a: A) => (n: number): Task<A> =>
       })
   )
 
-const monadUserTask: MonadUser<TaskURI> = {
+const monadUserTask: MonadUser1<TaskURI> = {
   validateUser: token => delay(`string(${token})`)(1000),
   facebookToken: uid => delay(`FBToken(${uid})`)(500)
 }
 
-const monadFBTask: MonadFB<TaskURI> = {
+const monadFBTask: MonadFB1<TaskURI> = {
   findPost: url => delay(`FBPost(${url})`)(2000),
   sendLike: token => (post: string) => {
     console.log(`sending like with fbToken "${token}" and post "${post}"`)
@@ -94,3 +109,36 @@ likePost(task, monadUserTask, monadFBTask)('session123')('https://me.com/1')
 // => sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
 // => true after 3.004
 // => true
+
+//
+// ReaderTaskEither
+//
+
+import { URI as ReaderTaskEitherURI, readerTaskEither, fromTask } from './ReaderTaskEither'
+
+const monadUserReaderTaskEither: MonadUser<ReaderTaskEitherURI> = {
+  validateUser: token => fromTask(monadUserTask.validateUser(token)),
+  facebookToken: uid => fromTask(monadUserTask.facebookToken(uid))
+}
+
+const monadFBReaderTaskEither: MonadFB<ReaderTaskEitherURI> = {
+  findPost: url => fromTask(monadFBTask.findPost(url)),
+  sendLike: token => (post: string) => fromTask(monadFBTask.sendLike(token)(post))
+}
+
+type Env = void
+type Error = void
+likePost(readerTaskEither, monadUserReaderTaskEither, monadFBReaderTaskEither)<Env, Error>('session123')(
+  'https://me.com/1'
+)
+  .run(undefined)
+  .run()
+  .then(result => console.log(result))
+/*
+string(session123) after 1.238
+FBToken(string(session123)) after 1.742
+FBPost(https://me.com/1) after 2.236
+sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
+true after 3.237
+right(true)
+*/
