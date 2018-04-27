@@ -83,6 +83,7 @@ export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A,
 }
 
 /**
+ * Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
  * @function
  * @since 1.2.0
  */
