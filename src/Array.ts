@@ -679,8 +679,8 @@ export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
  * @function
  * @since 1.0.0
  */
-export const sort = <A>(ord: Ord<A>): ((as: Array<A>) => Array<A>) => {
-  return as => copy(as).sort(ord.compare)
+export const sort = <A>(O: Ord<A>) => (as: Array<A>): Array<A> => {
+  return copy(as).sort(O.compare)
 }
 
 /**
