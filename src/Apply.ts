@@ -1,6 +1,7 @@
 import { HKT, URIS, URIS2, Type, Type2, URIS3, Type3 } from './HKT'
 import { Functor, Functor1, Functor2, Functor3, Functor2C, Functor3C } from './Functor'
 import { Curried2, Curried3, Curried4, constant } from './function'
+import { Semigroup } from './Semigroup'
 
 /**
  * The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
@@ -202,4 +203,46 @@ export function liftA4<F>(
   F: Apply<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> {
   return f => fa => fb => fc => fd => F.ap(F.ap(F.ap(F.map(fa, f), fb), fc), fd)
+}
+
+/**
+ * If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Semigroup` over `A` as well
+ *
+ * Example
+ *
+ * ```ts
+ * import { getSemigroup } from 'fp-ts/lib/Apply'
+ * import { option, some, none } from 'fp-ts/lib/Option'
+ * import { monoidSum } from 'fp-ts/lib/Monoid'
+ *
+ * const S = getSemigroup(option, monoidSum)()
+ * assert.deepEqual(S.concat(none, none), none)
+ * assert.deepEqual(S.concat(some(1), none), none)
+ * assert.deepEqual(S.concat(none, some(2)), none)
+ * assert.deepEqual(S.concat(some(1), some(2)), some(3))
+ * ```
+ *
+ * @function
+ * @since 1.4.0
+ */
+export function getSemigroup<F extends URIS3, A>(
+  F: Apply3<F>,
+  S: Semigroup<A>
+): <U = never, L = never>() => Semigroup<Type3<F, U, L, A>>
+export function getSemigroup<F extends URIS3, U, L, A>(
+  F: Apply3C<F, U, L>,
+  S: Semigroup<A>
+): () => Semigroup<Type3<F, U, L, A>>
+export function getSemigroup<F extends URIS2, A>(
+  F: Apply2<F>,
+  S: Semigroup<A>
+): <L = never>() => Semigroup<Type2<F, L, A>>
+export function getSemigroup<F extends URIS2, L, A>(F: Apply2C<F, L>, S: Semigroup<A>): () => Semigroup<Type2<F, L, A>>
+export function getSemigroup<F extends URIS, A>(F: Apply1<F>, S: Semigroup<A>): () => Semigroup<Type<F, A>>
+export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>>
+export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>> {
+  const concatLifted = liftA2(F)((a: A) => (b: A) => S.concat(a, b))
+  return () => ({
+    concat: (x, y) => concatLifted(x)(y)
+  })
 }

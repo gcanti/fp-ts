@@ -78,7 +78,7 @@ export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
 }
 
 const of = <L>(M: Monoid<L>) => <A>(b: A): Const<L, A> => {
-  return new Const<L, any>(M.empty)
+  return new Const(M.empty)
 }
 
 /**
