@@ -1,8 +1,12 @@
 import * as assert from 'assert'
-import { when, getApplicativeComposition } from '../src/Applicative'
+import { when, getApplicativeComposition, getMonoid } from '../src/Applicative'
 import { array } from '../src/Array'
 import { IO, io } from '../src/IO'
 import { option, some, none } from '../src/Option'
+import { either, right, left } from '../src/Either'
+import { getApplicative, success, failure } from '../src/Validation'
+import { monoidSum } from '../src/Monoid'
+import { semigroupString } from '../src/Semigroup'
 
 describe('Applicative', () => {
   it('getApplicativeComposition', () => {
@@ -27,5 +31,26 @@ describe('Applicative', () => {
     assert.deepEqual(log, [])
     when(io)(true, action).run()
     assert.deepEqual(log, ['action called'])
+  })
+
+  it('getMonoid', () => {
+    const MOption = getMonoid(option, monoidSum)()
+    assert.deepEqual(MOption.concat(none, none), none)
+    assert.deepEqual(MOption.concat(some(1), none), none)
+    assert.deepEqual(MOption.concat(none, some(2)), none)
+    assert.deepEqual(MOption.concat(some(1), some(2)), some(3))
+
+    const MEither = getMonoid(either, monoidSum)<string>()
+    assert.deepEqual(MEither.concat(left('a'), left('b')), left('a'))
+    assert.deepEqual(MEither.concat(right(1), left('b')), left('b'))
+    assert.deepEqual(MEither.concat(left('a'), right(2)), left('a'))
+    assert.deepEqual(MEither.concat(right(1), right(2)), right(3))
+
+    const validation = getApplicative(semigroupString)
+    const MValidation = getMonoid(validation, monoidSum)()
+    assert.deepEqual(MValidation.concat(failure('a'), failure('b')), failure('ab'))
+    assert.deepEqual(MValidation.concat(success(1), failure('b')), failure('b'))
+    assert.deepEqual(MValidation.concat(failure('a'), success(2)), failure('a'))
+    assert.deepEqual(MValidation.concat(success(1), success(2)), success(3))
   })
 })
