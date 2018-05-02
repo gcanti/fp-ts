@@ -13,6 +13,29 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.4.0
+
+* **New Feature**
+  * add `getDictionarySemigroup`, `getObjectSemigroup` to `Semigroup` (@raveclassic)
+  * add `getDictionaryMonoid` to `Monoid` (@raveclassic)
+  * add `Setoid.setoidDate` and `Ord.ordDate` (@mlegenhausen)
+  * add `StrMap#filter` (@mlegenhausen)
+  * add `Apply.getSemigroup`, `Applicative.getMonoid` (@gcanti)
+  * add lattice typeclass hierarchy, closes #412 (@gcanti)
+    * `BooleanAlgebra`
+    * `BoundedDistributiveLattice`
+    * `BoundedJoinSemilattice`
+    * `BoundedLattice`
+    * `BoundedMeetSemilattice`
+    * `DistributiveLattice`
+    * `HeytingAlgebra`
+    * `JoinSemilattice`
+    * `MeetSemilattice`
+* **Internal**
+  * add more `Travserable.sequence` overloadings (@gcanti)
+  * upgrade to typescript@2.8.3 (@gcanti)
+  * use `getObjectSemigroup` in `StrMap.concat` (@gcanti)
+
 # 1.3.0
 
 * **New Feature**
