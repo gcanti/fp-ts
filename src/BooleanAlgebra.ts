@@ -57,7 +57,7 @@ export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never
 }
 
 /**
- * Every boolean algebras has a dual algebra, which involves reversing true/false as well as and/or.
+ * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
  * @function
  * @since 1.4.0
  */

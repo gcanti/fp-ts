@@ -3,7 +3,7 @@ import { JoinSemilattice } from './JoinSemilattice'
 /**
  * A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinSemilattice` laws:
  *
- * - Bottom (Unitary Element): `a ∨ 0 == a`
+ * - `a ∨ 0 == a`
  *
  * @typeclass
  * @since 1.4.0

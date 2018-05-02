@@ -3,7 +3,7 @@ import { DistributiveLattice, getMinMaxDistributiveLattice } from './Distributiv
 import { Ord } from './Ord'
 
 /**
- * A bounded distributive lattice is a lattice that both bounded and distributive
+ * A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
  *
  * @typeclass
  * @since 1.4.0

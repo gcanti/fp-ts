@@ -13,9 +13,6 @@ import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
  *
  * A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistributiveLattice` laws:
  *
- * - Identity:
- *   - `a ∨ 0 = a`
- *   - `a ∧ 1 = a`
  * - Implication:
  *   - `a → a = 1`
  *   - `a ∧ (a → b) = a ∧ b`
