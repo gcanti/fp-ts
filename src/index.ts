@@ -10,6 +10,18 @@ import * as array from './Array'
 export { array }
 import * as bifunctor from './Bifunctor'
 export { bifunctor }
+import * as booleanAlgebra from './BooleanAlgebra'
+export { booleanAlgebra }
+import * as bounded from './Bounded'
+export { bounded }
+import * as boundedDistributiveLattice from './BoundedDistributiveLattice'
+export { boundedDistributiveLattice }
+import * as boundedJoinSemilattice from './BoundedJoinSemilattice'
+export { boundedJoinSemilattice }
+import * as boundedLattice from './BoundedLattice'
+export { boundedLattice }
+import * as boundedMeetSemilattice from './BoundedMeetSemilattice'
+export { boundedMeetSemilattice }
 import * as category from './Category'
 export { category }
 import * as chain from './Chain'
@@ -24,6 +36,8 @@ import * as const_ from './Const'
 export { const_ as const }
 import * as contravariant from './Contravariant'
 export { contravariant }
+import * as distributiveLattice from './DistributiveLattice'
+export { distributiveLattice }
 import * as either from './Either'
 export { either }
 import * as eitherT from './EitherT'
@@ -42,6 +56,8 @@ import * as function_ from './function'
 export { function_ as function }
 import * as functor from './Functor'
 export { functor }
+import * as heytingAlgebra from './HeytingAlgebra'
+export { heytingAlgebra }
 import * as hkt from './HKT'
 export { hkt }
 import * as identity from './Identity'
@@ -54,6 +70,12 @@ import * as ixIo from './IxIO'
 export { ixIo }
 import * as ixMonad from './IxMonad'
 export { ixMonad }
+import * as joinSemiLattice from './JoinSemilattice'
+export { joinSemiLattice }
+import * as lattice from './Lattice'
+export { lattice }
+import * as meetSemiLattice from './MeetSemilattice'
+export { meetSemiLattice }
 import * as monad from './Monad'
 export { monad }
 import * as monoid from './Monoid'
