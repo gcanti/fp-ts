@@ -55,7 +55,7 @@ export type URI = typeof URI
  */
 export type Either<L, A> = Left<L, A> | Right<L, A>
 
-export class Left<L, A> {
+export class Left<L, A> implements PromiseLike<A> {
   readonly _tag: 'Left' = 'Left'
   readonly _A!: A
   readonly _L!: L
@@ -143,9 +143,20 @@ export class Left<L, A> {
   filterOrElseL(p: Predicate<A>, zero: () => L): Either<L, A> {
     return this
   }
+  then<TResult1 = A, TResult2 = never>(
+    onfulfilled?: ((value: A) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+    onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+  ): PromiseLike<TResult1 | TResult2> {
+    if (onrejected instanceof Function) {
+      const result = onrejected(this.value)
+      if (result instanceof Right || result instanceof Left) return result
+      else return new Left(result)
+    }
+    return this as any
+  }
 }
 
-export class Right<L, A> {
+export class Right<L, A> implements PromiseLike<A> {
   readonly _tag: 'Right' = 'Right'
   readonly _A!: A
   readonly _L!: L
@@ -207,6 +218,17 @@ export class Right<L, A> {
   }
   filterOrElseL(p: Predicate<A>, zero: () => L): Either<L, A> {
     return p(this.value) ? this : left(zero())
+  }
+  then<TResult1 = A, TResult2 = never>(
+    onfulfilled?: ((value: A) => TResult1 | PromiseLike<TResult1>) | undefined | null,
+    onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null
+  ): PromiseLike<TResult1 | TResult2> {
+    if (onfulfilled instanceof Function) {
+      const result = onfulfilled(this.value)
+      if (result instanceof Right || result instanceof Left) return result
+      else return new Right(result) as any
+    }
+    return this as any
   }
 }
 

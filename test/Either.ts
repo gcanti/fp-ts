@@ -171,4 +171,15 @@ describe('Either', () => {
     assert.deepEqual(right(7).filterOrElseL(n => n > 10, () => -1), left(-1))
     assert.deepEqual(left(12).filterOrElseL(n => n > 10, () => -1), left(12))
   })
+
+  it('works with await', async () => {
+    const x: number = await right(10)
+    assert.deepEqual(x, 10)
+    try {
+      await left(9)
+      assert(false, 'should be unreachable')
+    } catch (e) {
+      assert.deepEqual(e, 9)
+    }
+  })
 })
