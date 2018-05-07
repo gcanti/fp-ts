@@ -365,3 +365,10 @@ export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => {
 
 /** For use with phantom fields */
 export const phantom: any = undefined
+
+/**
+ * A thunk that returns always the `identity` function.
+ * For use with `applySecond` methods.
+ * @since 1.5.0
+ */
+export const constIdentity = () => identity

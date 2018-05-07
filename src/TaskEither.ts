@@ -3,7 +3,7 @@ import { Either, left as eitherLeft } from './Either'
 import * as eitherT from './EitherT'
 import { Monad2 } from './Monad'
 import { Task, task, tryCatch as taskTryCatch } from './Task'
-import { Lazy } from './function'
+import { Lazy, constIdentity } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -43,6 +43,13 @@ export class TaskEither<L, A> {
   }
   ap_<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> {
     return fb.ap(this)
+  }
+  /**
+   * Combine two effectful actions, keeping only the result of the second
+   * @since 1.5.0
+   */
+  applySecond<B>(fb: TaskEither<L, B>): TaskEither<L, B> {
+    return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.chain(a => f(a).value, this.value))

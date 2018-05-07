@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import { fromLeft, taskEither } from '../src/TaskEither'
+import { Task } from '../src/Task'
+import { TaskEither, fromLeft, right as fromTask, taskEither } from '../src/TaskEither'
 
 describe('TaskEither', () => {
   it('chain', () => {
@@ -49,5 +50,18 @@ describe('TaskEither', () => {
       assert.deepEqual(el, right(3))
       assert.deepEqual(er, right(1))
     })
+  })
+
+  it('applySecond', () => {
+    const log: Array<string> = []
+    const append = (message: string): TaskEither<string, number> =>
+      fromTask(new Task(() => Promise.resolve(log.push(message))))
+    return append('a')
+      .applySecond(append('b'))
+      .run()
+      .then(e => {
+        assert.deepEqual(e, right(2))
+        assert.deepEqual(log, ['a', 'b'])
+      })
   })
 })
