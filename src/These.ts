@@ -39,10 +39,10 @@ export class This<L, A> {
   readonly _URI!: URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): These<L, B> {
-    return this_(this.value)
+    return this as any
   }
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
-    return this_(f(this.value))
+    return new This(f(this.value))
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
@@ -81,7 +81,7 @@ export class That<L, A> {
     return new That(f(this.value))
   }
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
-    return that(g(this.value))
+    return new That(g(this.value))
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
@@ -116,7 +116,7 @@ export class Both<L, A> {
     return new Both(this.l, f(this.a))
   }
   bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
-    return both(f(this.l), g(this.a))
+    return new Both(f(this.l), g(this.a))
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.a)
