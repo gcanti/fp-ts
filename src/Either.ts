@@ -63,17 +63,17 @@ export class Left<L, A> {
   constructor(readonly value: L) {}
   /** The given function is applied if this is a `Right` */
   map<B>(f: (a: A) => B): Either<L, B> {
-    return left(this.value)
+    return this as any
   }
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
-    return left(fab.isLeft() ? fab.value : this.value)
+    return (fab.isLeft() ? fab : this) as any
   }
   ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
     return fb.ap(this)
   }
   /** Binds the given function across `Right` */
   chain<B>(f: (a: A) => Either<L, B>): Either<L, B> {
-    return left(this.value)
+    return this as any
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B> {
     return new Left(f(this.value))
@@ -82,7 +82,7 @@ export class Left<L, A> {
     return fy
   }
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {
-    return left(this.value)
+    return this as any
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
@@ -101,7 +101,7 @@ export class Left<L, A> {
   }
   /** Maps the left side of the disjunction */
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
-    return left(f(this.value))
+    return new Left(f(this.value))
   }
   inspect(): string {
     return this.toString()
@@ -119,7 +119,7 @@ export class Left<L, A> {
   }
   /** Swaps the disjunction values */
   swap(): Either<A, L> {
-    return right(this.value)
+    return new Right(this.value)
   }
   /**
    * Returns `Right` with the existing value of `Right` if this is a `Right` and the given predicate `p` holds for the
@@ -185,7 +185,7 @@ export class Right<L, A> {
     return this.value
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
-    return right(this.value)
+    return new Right(this.value)
   }
   inspect(): string {
     return this.toString()
@@ -200,7 +200,7 @@ export class Right<L, A> {
     return true
   }
   swap(): Either<A, L> {
-    return left(this.value)
+    return new Left(this.value)
   }
   filterOrElse(p: Predicate<A>, zero: L): Either<L, A> {
     return p(this.value) ? this : left(zero)
