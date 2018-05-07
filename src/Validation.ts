@@ -42,16 +42,16 @@ export class Failure<L, A> {
   readonly _URI!: URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
-    return failure(this.value)
+    return this as any
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> {
-    return failure(f(this.value))
+    return new Failure(f(this.value))
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
-    return failure(this.value)
+    return this as any
   }
   /** Returns the value from this `Success` or the given argument if this is a `Failure` */
   getOrElse(a: A): A {
@@ -62,10 +62,10 @@ export class Failure<L, A> {
     return f(this.value)
   }
   mapFailure<M>(f: (l: L) => M): Validation<M, A> {
-    return failure(f(this.value))
+    return new Failure(f(this.value))
   }
   swap(): Validation<A, L> {
-    return success(this.value)
+    return new Success(this.value)
   }
   inspect(): string {
     return this.toString()
@@ -90,10 +90,10 @@ export class Success<L, A> {
   readonly _URI!: URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
-    return new Success<L, B>(f(this.value))
+    return new Success(f(this.value))
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> {
-    return new Success<V, B>(g(this.value))
+    return new Success(g(this.value))
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
@@ -108,10 +108,10 @@ export class Success<L, A> {
     return this.value
   }
   mapFailure<M>(f: (l: L) => M): Validation<M, A> {
-    return success(this.value)
+    return this as any
   }
   swap(): Validation<A, L> {
-    return failure(this.value)
+    return new Failure(this.value)
   }
   inspect(): string {
     return this.toString()
