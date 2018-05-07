@@ -1,20 +1,20 @@
-import { HKT } from './HKT'
-import { Setoid } from './Setoid'
-import { Ord, getSemigroup as getOrdSemigroup, contramap as contramapOrd } from './Ord'
-import { Semigroup } from './Semigroup'
-import { Monoid } from './Monoid'
-import { Bifunctor2 } from './Bifunctor'
-import { Comonad2 } from './Comonad'
-import { Apply2C } from './Apply'
-import { Monad2C } from './Monad'
-import { Foldable2 } from './Foldable'
 import { Applicative, Applicative2C } from './Applicative'
-import { Traversable2 } from './Traversable'
-import { Semigroupoid2 } from './Semigroupoid'
-import { toString, phantom } from './function'
-import { ChainRec2C } from './ChainRec'
+import { Apply2C } from './Apply'
+import { Bifunctor2 } from './Bifunctor'
 import { Chain2C } from './Chain'
+import { ChainRec2C } from './ChainRec'
+import { Comonad2 } from './Comonad'
 import { Either } from './Either'
+import { Foldable2 } from './Foldable'
+import { HKT } from './HKT'
+import { Monad2C } from './Monad'
+import { Monoid } from './Monoid'
+import { Ord, contramap as contramapOrd, getSemigroup as getOrdSemigroup } from './Ord'
+import { Semigroup } from './Semigroup'
+import { Semigroupoid2 } from './Semigroupoid'
+import { Setoid } from './Setoid'
+import { Traversable2 } from './Traversable'
+import { phantom, toString } from './function'
 
 // Adapted from https://github.com/purescript/purescript-tuples
 
@@ -142,7 +142,7 @@ export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A
   }
 }
 
-const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (b: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
+const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (a: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
   return new Tuple(S.concat(fa.fst, fab.fst), fab.snd(fa.snd))
 }
 

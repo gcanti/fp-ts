@@ -1,6 +1,6 @@
-import { Monad3C } from './Monad'
-import { IxMonad3 } from './IxMonad'
 import { IO, io } from './IO'
+import { IxMonad3 } from './IxMonad'
+import { Monad3C } from './Monad'
 import { phantom } from './function'
 
 declare module './HKT' {

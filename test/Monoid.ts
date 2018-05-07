@@ -1,17 +1,17 @@
 import * as assert from 'assert'
+import { filter } from '../src/Array'
 import {
   fold,
-  monoidSum,
+  getArrayMonoid,
+  getDictionaryMonoid,
+  getEndomorphismMonoid,
   getFunctionMonoid,
+  getRecordMonoid,
   monoidAll,
   monoidAny,
-  getArrayMonoid,
-  getRecordMonoid,
   monoidString,
-  getEndomorphismMonoid,
-  getDictionaryMonoid
+  monoidSum
 } from '../src/Monoid'
-import { filter } from '../src/Array'
 import { semigroupSum } from '../src/Semigroup'
 
 describe('Monoid', () => {

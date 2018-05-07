@@ -1,9 +1,9 @@
+import { Either } from './Either'
+import { Monoid } from './Monoid'
+import { Ord } from './Ord'
+import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Predicate, not } from './function'
-import { Monoid } from './Monoid'
-import { Semigroup } from './Semigroup'
-import { Ord } from './Ord'
-import { Either } from './Either'
 
 /**
  * @function

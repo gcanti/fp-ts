@@ -1,6 +1,6 @@
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { URIS, URIS2, URIS3 } from './HKT'
-import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
-import { Plus, Plus1, Plus2, Plus3, Plus2C, Plus3C } from './Plus'
+import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 
 /**
  * The `Alternative` type class has no members of its own; it just specifies that the type constructor has both

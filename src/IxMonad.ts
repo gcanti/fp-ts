@@ -1,4 +1,4 @@
-import { HKT3, URIS3, Type3 } from './HKT'
+import { HKT3, Type3, URIS3 } from './HKT'
 import { constant } from './function'
 
 // Adapted from https://github.com/garyb/purescript-indexed-monad

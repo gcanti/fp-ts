@@ -1,5 +1,5 @@
-import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Functor, Functor1, Functor2, Functor3, Functor2C, Functor3C } from './Functor'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { identity } from './function'
 
 /** @typeclass */

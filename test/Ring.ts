@@ -1,6 +1,6 @@
 import * as assert from 'assert'
-import { getProductRing } from '../src/Ring'
 import { fieldNumber } from '../src/Field'
+import { getProductRing } from '../src/Ring'
 
 describe('Ring', () => {
   it('getProductRing', () => {

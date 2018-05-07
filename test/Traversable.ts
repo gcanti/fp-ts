@@ -1,8 +1,8 @@
 import * as assert from 'assert'
-import { getTraversableComposition } from '../src/Traversable'
-import { array } from '../src/Array'
-import { option, some, none } from '../src/Option'
 import { Applicative } from '../src/Applicative'
+import { array } from '../src/Array'
+import { none, option, some } from '../src/Option'
+import { getTraversableComposition } from '../src/Traversable'
 
 export const ArrayOptionURI = 'ArrayOption'
 

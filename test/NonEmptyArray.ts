@@ -1,9 +1,9 @@
 import * as assert from 'assert'
+import { fold, monoidSum } from '../src/Monoid'
 import { NonEmptyArray, nonEmptyArray } from '../src/NonEmptyArray'
-import { monoidSum, fold } from '../src/Monoid'
-import { traverse } from '../src/Traversable'
-import { none, some, option } from '../src/Option'
+import { none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
+import { traverse } from '../src/Traversable'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {

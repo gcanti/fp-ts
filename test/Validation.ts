@@ -1,21 +1,20 @@
 import * as assert from 'assert'
-import {
-  failure,
-  success,
-  getMonad,
-  getApplicative,
-  fromEither,
-  getSetoid,
-  getAlt,
-  getSemigroup
-} from '../src/Validation'
+import { array } from '../src/Array'
 import * as either from '../src/Either'
 import { monoidString } from '../src/Monoid'
-import { sequence } from '../src/Traversable'
+import { getArraySemigroup, semigroupString } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
-import { semigroupString } from '../src/Semigroup'
-import { getArraySemigroup } from '../src/Semigroup'
-import { array } from '../src/Array'
+import { sequence } from '../src/Traversable'
+import {
+  failure,
+  fromEither,
+  getAlt,
+  getApplicative,
+  getMonad,
+  getSemigroup,
+  getSetoid,
+  success
+} from '../src/Validation'
 
 describe('Validation', () => {
   it('chain', () => {

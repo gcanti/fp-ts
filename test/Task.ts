@@ -1,8 +1,8 @@
 import * as assert from 'assert'
-import { Task, tryCatch, fromIO, getRaceMonoid, getMonoid } from '../src/Task'
-import { right, left } from '../src/Either'
+import { left, right } from '../src/Either'
 import { IO } from '../src/IO'
 import { monoidString } from '../src/Monoid'
+import { Task, fromIO, getMonoid, getRaceMonoid, tryCatch } from '../src/Task'
 
 const delay = <A>(n: number, a: A): Task<A> =>
   new Task<A>(

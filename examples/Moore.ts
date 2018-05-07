@@ -1,7 +1,7 @@
 import { Comonad2 } from '../src/Comonad'
+import { Monad2 } from '../src/Monad'
 import { Profunctor2 } from '../src/Profunctor'
 import { compose } from '../src/function'
-import { Monad2 } from '../src/Monad'
 
 // Adapted from https://hackage.haskell.org/package/machines-0.6.3/docs/src/Data-Machine-Moore.html
 

@@ -1,8 +1,8 @@
 import * as assert from 'assert'
-import { iapplyFirst, iapplySecond } from '../src/IxMonad'
-import { IxIO } from '../src/IxIO'
-import * as ixIO from '../src/IxIO'
 import * as io from '../src/IO'
+import * as ixIO from '../src/IxIO'
+import { IxIO } from '../src/IxIO'
+import { iapplyFirst, iapplySecond } from '../src/IxMonad'
 
 //
 // finite state machine

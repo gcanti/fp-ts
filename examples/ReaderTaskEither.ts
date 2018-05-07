@@ -1,10 +1,10 @@
+import { Either } from '../src/Either'
+import { Monad3 } from '../src/Monad'
+import { Reader } from '../src/Reader'
 import * as readerT from '../src/ReaderT'
+import { Task } from '../src/Task'
 import * as taskEither from '../src/TaskEither'
 import { TaskEither } from '../src/TaskEither'
-import { Monad3 } from '../src/Monad'
-import { Task } from '../src/Task'
-import { Either } from '../src/Either'
-import { Reader } from '../src/Reader'
 
 const readerTTaskEither = readerT.getReaderT(taskEither.taskEither)
 

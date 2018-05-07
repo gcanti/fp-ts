@@ -1,4 +1,4 @@
-import { HKT2, URIS2, URIS3, Type2, Type3 } from './HKT'
+import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
 import { Semigroupoid, Semigroupoid2, Semigroupoid3, Semigroupoid3C } from './Semigroupoid'
 
 /** @typeclass */

@@ -1,14 +1,14 @@
-import { HKT } from './HKT'
 import { Applicative } from './Applicative'
-import { Functor2 } from './Functor'
 import { Bifunctor2 } from './Bifunctor'
 import { Foldable2 } from './Foldable'
-import { Traversable2 } from './Traversable'
-import { Option, none, some } from './Option'
-import { Setoid } from './Setoid'
-import { Semigroup } from './Semigroup'
-import { toString, phantom } from './function'
+import { Functor2 } from './Functor'
+import { HKT } from './HKT'
 import { Monad2C } from './Monad'
+import { Option, none, some } from './Option'
+import { Semigroup } from './Semigroup'
+import { Setoid } from './Setoid'
+import { Traversable2 } from './Traversable'
+import { phantom, toString } from './function'
 
 // Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
 // adapted from https://github.com/purescript-contrib/purescript-these

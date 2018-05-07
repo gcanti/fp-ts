@@ -1,5 +1,5 @@
-import { Setoid } from './Setoid'
 import { Semigroup } from './Semigroup'
+import { Setoid } from './Setoid'
 
 export type Ordering = -1 | 0 | 1
 

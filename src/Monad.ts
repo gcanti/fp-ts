@@ -1,6 +1,6 @@
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
 import { URIS, URIS2, URIS3 } from './HKT'
-import { Applicative, Applicative2, Applicative3, Applicative2C, Applicative3C, Applicative1 } from './Applicative'
-import { Chain, Chain1, Chain2, Chain3, Chain2C, Chain3C } from './Chain'
 
 /**
  * The `Monad` type class combines the operations of the `Bind` and

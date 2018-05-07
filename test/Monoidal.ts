@@ -1,7 +1,7 @@
 import * as assert from 'assert'
+import { either, left, right } from '../src/Either'
 import { fromApplicative, toApplicative } from '../src/Monoidal'
-import { option, some, none } from '../src/Option'
-import { either, right, left } from '../src/Either'
+import { none, option, some } from '../src/Option'
 
 describe('Monoidal', () => {
   it('fromApplicative', () => {

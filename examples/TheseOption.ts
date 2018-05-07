@@ -1,8 +1,8 @@
-import { These, URI as TheseURI } from 'fp-ts/lib/These'
-import { Option } from 'fp-ts/lib/Option'
 import { Monad2C } from 'fp-ts/lib/Monad'
-import { phantom } from 'fp-ts/lib/function'
+import { Option } from 'fp-ts/lib/Option'
 import * as optionT from 'fp-ts/lib/OptionT'
+import { These, URI as TheseURI } from 'fp-ts/lib/These'
+import { phantom } from 'fp-ts/lib/function'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT2<L, A> {

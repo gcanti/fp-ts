@@ -1,7 +1,7 @@
 import * as assert from 'assert'
-import { liftA2, liftA3, liftA4, applyFirst, applySecond } from '../src/Apply'
-import { option, some, none } from '../src/Option'
-import { either, right, left } from '../src/Either'
+import { applyFirst, applySecond, liftA2, liftA3, liftA4 } from '../src/Apply'
+import { either, left, right } from '../src/Either'
+import { none, option, some } from '../src/Option'
 
 describe('Apply', () => {
   const r1 = right<string, number>(1)

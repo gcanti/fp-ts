@@ -1,12 +1,12 @@
 import * as assert from 'assert'
-import { getSemigroup, Tuple, getApplicative, getOrd, getChainRec, tuple, getSetoid } from '../src/Tuple'
-import { monoidString, monoidSum, getArrayMonoid } from '../src/Monoid'
-import { left, right } from '../src/Either'
-import { ordNumber, ordString } from '../src/Ord'
 import { sort } from '../src/Array'
-import { option, none, some } from '../src/Option'
+import { left, right } from '../src/Either'
+import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
+import { none, option, some } from '../src/Option'
+import { ordNumber, ordString } from '../src/Ord'
+import { setoidBoolean, setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
-import { setoidNumber, setoidBoolean } from '../src/Setoid'
+import { Tuple, getApplicative, getChainRec, getOrd, getSemigroup, getSetoid, tuple } from '../src/Tuple'
 
 describe('Tuple', () => {
   it('compose', () => {

@@ -1,57 +1,57 @@
 import * as assert from 'assert'
 import {
   array,
-  getMonoid,
-  isEmpty,
-  index,
-  cons,
-  snoc,
-  head,
-  last,
-  tail,
-  take,
-  span,
-  takeWhile,
-  dropWhile,
-  init,
-  findIndex,
-  findFirst,
-  findLast,
-  insertAt,
-  updateAt,
-  deleteAt,
-  modifyAt,
-  mapOption,
   catOptions,
-  sort,
-  refine,
-  zip,
-  rights,
-  lefts,
-  partitionMap,
-  rotate,
-  filter,
+  cons,
   copy,
-  reverse,
+  deleteAt,
   drop,
+  dropWhile,
+  filter,
+  findFirst,
+  findIndex,
+  findLast,
   flatten,
   fold,
   foldL,
+  getMonoid,
+  getOrd,
+  head,
+  index,
+  init,
+  insertAt,
+  isEmpty,
+  last,
+  lefts,
+  mapOption,
+  member,
+  modifyAt,
+  partitionMap,
+  refine,
+  reverse,
+  rights,
+  rotate,
   scanLeft,
   scanRight,
-  getOrd,
+  snoc,
+  sort,
+  sortBy1,
+  span,
+  tail,
+  take,
+  takeWhile,
   uniq,
-  member,
-  sortBy1
+  updateAt,
+  zip
 } from '../src/Array'
-import * as option from '../src/Option'
-import { traverse } from '../src/Traversable'
-import { fold as foldMonoid, monoidSum } from '../src/Monoid'
 import { left, right } from '../src/Either'
+import { fold as foldMonoid, monoidSum } from '../src/Monoid'
+import * as option from '../src/Option'
 import { none, some } from '../src/Option'
-import { ordNumber, ordString, contramap as contramapOrd } from '../src/Ord'
-import { tuple, identity } from '../src/function'
+import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
+import { traverse } from '../src/Traversable'
+import { identity, tuple } from '../src/function'
 
 describe('Array', () => {
   const as = [1, 2, 3]

@@ -1,7 +1,7 @@
 import * as assert from 'assert'
-import * as option from '../src/Option'
 import { array } from '../src/Array'
-import { lift, getFunctorComposition, voidRight, voidLeft, flap } from '../src/Functor'
+import { flap, getFunctorComposition, lift, voidLeft, voidRight } from '../src/Functor'
+import * as option from '../src/Option'
 
 describe('Functor', () => {
   it('lift', () => {

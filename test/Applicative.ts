@@ -1,12 +1,12 @@
 import * as assert from 'assert'
-import { when, getApplicativeComposition, getMonoid } from '../src/Applicative'
+import { getApplicativeComposition, getMonoid, when } from '../src/Applicative'
 import { array } from '../src/Array'
+import { either, left, right } from '../src/Either'
 import { IO, io } from '../src/IO'
-import { option, some, none } from '../src/Option'
-import { either, right, left } from '../src/Either'
-import { getApplicative, success, failure } from '../src/Validation'
 import { monoidSum } from '../src/Monoid'
+import { none, option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
+import { failure, getApplicative, success } from '../src/Validation'
 
 describe('Applicative', () => {
   it('getApplicativeComposition', () => {

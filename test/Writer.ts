@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { Writer, tell, listen, pass, listens, censor } from '../src/Writer'
+import { Writer, censor, listen, listens, pass, tell } from '../src/Writer'
 import { tuple } from '../src/function'
 
 describe('Writer', () => {

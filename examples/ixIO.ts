@@ -1,5 +1,5 @@
-import { IxIO } from 'fp-ts/lib/IxIO'
 import * as io from 'fp-ts/lib/IO'
+import { IxIO } from 'fp-ts/lib/IxIO'
 
 /*
 

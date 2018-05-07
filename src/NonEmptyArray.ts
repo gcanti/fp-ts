@@ -1,14 +1,14 @@
+import { Applicative } from './Applicative'
+import { array } from './Array'
+import { Comonad1 } from './Comonad'
+import { Foldable1 } from './Foldable'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { Comonad1 } from './Comonad'
-import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
-import { Foldable1 } from './Foldable'
-import { Applicative } from './Applicative'
-import { Traversable1 } from './Traversable'
-import { array } from './Array'
-import { Option, some, none } from './Option'
-import { toString, concat as uncurriedConcat } from './function'
+import { Option, none, some } from './Option'
 import { Ord } from './Ord'
+import { Semigroup, fold, getJoinSemigroup, getMeetSemigroup } from './Semigroup'
+import { Traversable1 } from './Traversable'
+import { concat as uncurriedConcat, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {

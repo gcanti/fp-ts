@@ -1,5 +1,5 @@
-import { HKT2, URIS2, Type2, URIS3, Type3 } from './HKT'
 import { Functor2, Functor3 } from './Functor'
+import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
 
 /** @typeclass */
 export interface Profunctor<F> {

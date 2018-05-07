@@ -1,6 +1,6 @@
 import * as assert from 'assert'
-import { boundedNumber, Bounded } from '../src/Bounded'
-import { fold, getMeetSemigroup, getJoinSemigroup } from '../src/Semigroup'
+import { Bounded, boundedNumber } from '../src/Bounded'
+import { fold, getJoinSemigroup, getMeetSemigroup } from '../src/Semigroup'
 
 describe('Bounded', () => {
   it('boundedNumber', () => {

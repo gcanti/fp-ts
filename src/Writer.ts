@@ -1,6 +1,6 @@
-import { Monoid } from './Monoid'
 import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
+import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { phantom, tuple } from './function'
 

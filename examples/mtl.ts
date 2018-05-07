@@ -1,7 +1,27 @@
-import { Monad, Monad1, Monad3 } from 'fp-ts/lib/Monad'
-import { HKT, URIS, URIS3, Type, Type3 } from 'fp-ts/lib/HKT'
 import { liftA2 } from 'fp-ts/lib/Apply'
 import { flatten } from 'fp-ts/lib/Chain'
+import { HKT, Type, Type3, URIS, URIS3 } from 'fp-ts/lib/HKT'
+//
+// IO
+//
+import { IO, URI as IOURI, io } from 'fp-ts/lib/IO'
+import { Monad, Monad1, Monad3 } from 'fp-ts/lib/Monad'
+// => sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
+// => true
+//
+// Task
+//
+import { Task, URI as TaskURI, task } from 'fp-ts/lib/Task'
+// => string(session123) after 1.002
+// => FBToken(string(session123)) after 1.503
+// => FBPost(https://me.com/1) after 2.002
+// => sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
+// => true after 3.004
+// => true
+//
+// ReaderTaskEither
+//
+import { URI as ReaderTaskEitherURI, fromTask, readerTaskEither } from './ReaderTaskEither'
 
 // Adapted from https://tech.iheart.com/why-fp-its-the-composition-f585d17b01d3
 
@@ -44,12 +64,6 @@ function likePost<M>(M: Monad<M>, U: MonadUser<M>, F: MonadFB<M>): (token: strin
   }
 }
 
-//
-// IO
-//
-
-import { URI as IOURI, io, IO } from 'fp-ts/lib/IO'
-
 const monadUserIO: MonadUser1<IOURI> = {
   validateUser: token => io.of(`string(${token})`),
   facebookToken: uid => io.of(`FBToken(${uid})`)
@@ -66,14 +80,6 @@ const monadFBIO: MonadFB1<IOURI> = {
 }
 
 console.log(likePost(io, monadUserIO, monadFBIO)('session123')('https://me.com/1').run())
-// => sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
-// => true
-
-//
-// Task
-//
-
-import { URI as TaskURI, task, Task } from 'fp-ts/lib/Task'
 
 const now = Date.now()
 const delay = <A>(a: A) => (n: number): Task<A> =>
@@ -103,18 +109,6 @@ const monadFBTask: MonadFB1<TaskURI> = {
 likePost(task, monadUserTask, monadFBTask)('session123')('https://me.com/1')
   .run()
   .then(result => console.log(result))
-// => string(session123) after 1.002
-// => FBToken(string(session123)) after 1.503
-// => FBPost(https://me.com/1) after 2.002
-// => sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
-// => true after 3.004
-// => true
-
-//
-// ReaderTaskEither
-//
-
-import { URI as ReaderTaskEitherURI, readerTaskEither, fromTask } from './ReaderTaskEither'
 
 const monadUserReaderTaskEither: MonadUser<ReaderTaskEitherURI> = {
   validateUser: token => fromTask(monadUserTask.validateUser(token)),

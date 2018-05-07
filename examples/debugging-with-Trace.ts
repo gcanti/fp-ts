@@ -1,5 +1,5 @@
-import { left } from 'fp-ts/lib/Either'
 import { head } from 'fp-ts/lib/Array'
+import { left } from 'fp-ts/lib/Either'
 import { Option, option, some } from 'fp-ts/lib/Option'
 import { spy, trace, traceA, traceM } from 'fp-ts/lib/Trace'
 

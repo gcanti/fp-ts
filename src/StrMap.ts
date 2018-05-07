@@ -1,15 +1,15 @@
-import { HKT, URIS, URIS2, Type, Type2, Type3, URIS3 } from './HKT'
-import { Monoid } from './Monoid'
-import { getObjectSemigroup } from './Semigroup'
-import { Functor1 } from './Functor'
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
-import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Traversable1 } from './Traversable'
-import { tuple, Predicate } from './function'
 import { liftA2 } from './Apply'
-import { Setoid } from './Setoid'
+import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { Functor1 } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
+import { getObjectSemigroup } from './Semigroup'
+import { Setoid } from './Setoid'
+import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
+import { Predicate, tuple } from './function'
 
 // https://github.com/purescript/purescript-maps
 

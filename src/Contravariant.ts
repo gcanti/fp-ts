@@ -1,4 +1,4 @@
-import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /** @typeclass */
 export interface Contravariant<F> {

@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getRecordSetoid, setoidString, setoidNumber, getProductSetoid, contramap, setoidDate } from '../src/Setoid'
+import { contramap, getProductSetoid, getRecordSetoid, setoidDate, setoidNumber, setoidString } from '../src/Setoid'
 
 describe('Setoid', () => {
   interface Person {

@@ -1,11 +1,20 @@
-import { lift, Functor2C, Functor3, Functor3C } from '../src/Functor'
-import { sequence } from '../src/Traversable'
-import { array } from '../src/Array'
-import { Option, option } from '../src/Option'
-import { Either, either } from '../src/Either'
 import { ReaderTaskEither, readerTaskEither } from '../examples/ReaderTaskEither'
+import { getApplicativeComposition } from '../src/Applicative'
+import { liftA2 } from '../src/Apply'
+import { array } from '../src/Array'
+import { Const, const_ } from '../src/Const'
+import { Either, either } from '../src/Either'
+import { Functor2C, Functor3C, lift } from '../src/Functor'
+import { getMonad as getIxIOMonad } from '../src/IxIO'
+import { Option, option } from '../src/Option'
+import * as optionT from '../src/OptionT'
+import { Reader, reader } from '../src/Reader'
+import { getArraySemigroup, semigroupString } from '../src/Semigroup'
 import { task } from '../src/Task'
-import { validation } from '../src/Validation'
+import { getMonad as getTheseMonad } from '../src/These'
+import { sequence } from '../src/Traversable'
+import { replicateA } from '../src/Unfoldable'
+import { Validation, getApplicative, validation } from '../src/Validation'
 
 const double = (n: number) => n * 2
 
@@ -38,10 +47,6 @@ const sequenceValidationEither = sequence(getApplicative(semigroupString), eithe
 // Apply
 //
 
-import { semigroupString, getArraySemigroup } from '../src/Semigroup'
-import { Validation, getApplicative } from '../src/Validation'
-import { liftA2 } from '../src/Apply'
-
 const applicativeValidation = getApplicative(semigroupString)
 const f1: <A, B, C>(
   f: (a: A) => (b: B) => C
@@ -50,8 +55,6 @@ const f1: <A, B, C>(
 //
 // Unfoldable
 //
-
-import { replicateA } from '../src/Unfoldable'
 
 const replicateValidation: <A>(n: number, ma: Validation<string, A>) => Validation<string, Array<A>> = replicateA(
   applicativeValidation,
@@ -62,9 +65,6 @@ const replicateValidation: <A>(n: number, ma: Validation<string, A>) => Validati
 // Applicative
 //
 
-import { getApplicativeComposition } from '../src/Applicative'
-import { Reader, reader } from '../src/Reader'
-
 const AC1 = getApplicativeComposition(reader, applicativeValidation)
 const AC1map: <L, A, B>(fa: Reader<L, Validation<string, A>>, f: (a: A) => B) => Reader<L, Validation<string, B>> =
   AC1.map
@@ -73,8 +73,6 @@ const AC1map: <L, A, B>(fa: Reader<L, Validation<string, A>>, f: (a: A) => B) =>
 // Contravariant
 //
 
-import { Const, const_ } from '../src/Const'
-
 const const1: Const<boolean, string> = const_.contramap(new Const<boolean, number>(true), (s: string) => s.length)
 
 //
@@ -82,12 +80,9 @@ const const1: Const<boolean, string> = const_.contramap(new Const<boolean, numbe
 //
 
 // Monad2C
-import * as optionT from '../src/OptionT'
-import { getMonad as getTheseMonad } from '../src/These'
 
 const these: optionT.OptionT2C<'These', string[]> = optionT.getOptionT(getTheseMonad(getArraySemigroup<string>()))
 
 // Monad3C
-import { getMonad as getIxIOMonad } from '../src/IxIO'
 
 const ixIO: optionT.OptionT3C<'IxIO', string, string> = optionT.getOptionT(getIxIOMonad<string>())

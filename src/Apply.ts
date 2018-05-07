@@ -1,7 +1,7 @@
-import { HKT, URIS, URIS2, Type, Type2, URIS3, Type3 } from './HKT'
-import { Functor, Functor1, Functor2, Functor3, Functor2C, Functor3C } from './Functor'
-import { Curried2, Curried3, Curried4, constant } from './function'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Semigroup } from './Semigroup'
+import { Curried2, Curried3, Curried4, constant } from './function'
 
 /**
  * The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.

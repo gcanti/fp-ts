@@ -1,9 +1,12 @@
-import * as stateT from 'fp-ts/lib/StateT'
-import { io, IO } from 'fp-ts/lib/IO'
-import { Monad2 } from 'fp-ts/lib/Monad'
-import { Endomorphism } from 'fp-ts/lib/function'
 import * as array from 'fp-ts/lib/Array'
+import { log } from 'fp-ts/lib/Console'
+import { IO, io } from 'fp-ts/lib/IO'
+import { Monad2 } from 'fp-ts/lib/Monad'
+import { ordNumber } from 'fp-ts/lib/Ord'
+import { randomInt } from 'fp-ts/lib/Random'
 import { State } from 'fp-ts/lib/State'
+import * as stateT from 'fp-ts/lib/StateT'
+import { Endomorphism } from 'fp-ts/lib/function'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT2<L, A> {
@@ -105,8 +108,6 @@ export const stateIO: Monad2<URI> = {
 
 // Example 1
 
-import { log } from 'fp-ts/lib/Console'
-
 /** pop the next unique off the stack */
 const pop: StateIO<Array<number>, number> = get<Array<number>>().chain(ns =>
   array.foldL(ns, () => of(0), (h, t) => put(t).chain(() => of(h)))
@@ -123,9 +124,6 @@ program1.run([1, 2, 3])
 // => 2
 
 // Example 2: a guessing game
-
-import { ordNumber } from 'fp-ts/lib/Ord'
-import { randomInt } from 'fp-ts/lib/Random'
 
 function readLine(s: string): IO<string> {
   return new IO(() => require('readline-sync').question(s))

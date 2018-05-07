@@ -1,4 +1,4 @@
-import { HKT, Type, URIS, Type2, URIS2, URIS3, Type3 } from './HKT'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { constant } from './function'
 
 /**

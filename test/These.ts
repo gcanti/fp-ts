@@ -1,19 +1,19 @@
 import * as assert from 'assert'
+import { monoidString, monoidSum } from '../src/Monoid'
+import { none, option, some } from '../src/Option'
+import { setoidNumber } from '../src/Setoid'
 import {
-  this_,
-  that,
   both,
   fromThese,
-  getSetoid,
-  getSemigroup,
-  these,
   getMonad,
+  getSemigroup,
+  getSetoid,
+  that,
+  these,
   theseLeft,
-  theseRight
+  theseRight,
+  this_
 } from '../src/These'
-import { setoidNumber } from '../src/Setoid'
-import { monoidSum, monoidString } from '../src/Monoid'
-import { option, none, some } from '../src/Option'
 import { traverse } from '../src/Traversable'
 
 describe('These', () => {

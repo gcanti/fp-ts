@@ -1,6 +1,6 @@
 import * as assert from 'assert'
-import { right, left } from '../src/Either'
-import { taskEither, fromLeft } from '../src/TaskEither'
+import { left, right } from '../src/Either'
+import { fromLeft, taskEither } from '../src/TaskEither'
 
 describe('TaskEither', () => {
   it('chain', () => {

@@ -1,7 +1,7 @@
-import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Lazy } from './function'
-import { Monad, Monad1, Monad2, Monad3, Monad2C, Monad3C } from './Monad'
 
 // Adapted from https://github.com/garyb/purescript-debug
 

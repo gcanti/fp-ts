@@ -1,10 +1,10 @@
-import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Functor, Functor1, Functor2, Functor3 } from './Functor'
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { Chain, Chain1, Chain2, Chain3 } from './Chain'
+import { Functor, Functor1, Functor2, Functor3 } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad3 } from './Monad'
-import { Endomorphism, tuple } from './function'
 import { State } from './State'
+import { Endomorphism, tuple } from './function'
 
 export interface StateT<M> {
   readonly map: <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => HKT<M, [B, S]>

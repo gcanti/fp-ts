@@ -1,7 +1,7 @@
-import * as readerT from '../src/ReaderT'
 import { Either, either } from '../src/Either'
 import { Monad3 } from '../src/Monad'
 import { Reader } from '../src/Reader'
+import * as readerT from '../src/ReaderT'
 
 const readerTEither = readerT.getReaderT(either)
 

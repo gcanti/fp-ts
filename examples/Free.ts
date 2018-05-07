@@ -1,5 +1,6 @@
 import * as free from '../src/Free'
 import { Identity, identity } from '../src/Identity'
+import * as option from '../src/Option'
 
 export class Degree {
   readonly value: number
@@ -105,8 +106,6 @@ const program1 = (start: Position) => {
 console.log('--program1--')
 const result1 = free.foldFree(identity)(interpretIdentity, program1(start)) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
 console.log(result1.value) // undefined
-
-import * as option from '../src/Option'
 
 const nonNegative = (position: Position): option.Option<Position> =>
   position.x >= 0 && position.y >= 0 ? option.some(position) : option.none

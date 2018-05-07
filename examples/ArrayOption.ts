@@ -1,7 +1,7 @@
-import * as optionT from 'fp-ts/lib/OptionT'
 import { array } from 'fp-ts/lib/Array'
-import { Option } from 'fp-ts/lib/Option'
 import { Monad1 } from 'fp-ts/lib/Monad'
+import { Option } from 'fp-ts/lib/Option'
+import * as optionT from 'fp-ts/lib/OptionT'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT<A> {
