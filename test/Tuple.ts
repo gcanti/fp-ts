@@ -6,7 +6,17 @@ import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { setoidBoolean, setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
-import { Tuple, getApplicative, getChainRec, getOrd, getSemigroup, getSetoid, tuple } from '../src/Tuple'
+import {
+  Tuple,
+  getApplicative,
+  getApply,
+  getChainRec,
+  getMonad,
+  getOrd,
+  getSemigroup,
+  getSetoid,
+  tuple
+} from '../src/Tuple'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -33,9 +43,21 @@ describe('Tuple', () => {
     assert.strictEqual(new Tuple('a', 1).toString(), `new Tuple("a", 1)`)
   })
 
+  it('getApply', () => {
+    const apply = getApply(monoidString)
+    const double = (n: number): number => n * 2
+    assert.deepEqual(apply.ap(new Tuple('a', double), new Tuple('b', 1)), new Tuple('ab', 2))
+  })
+
   it('getApplicative', () => {
     const applicative = getApplicative(monoidString)
     assert.deepEqual(applicative.of(1), new Tuple('', 1))
+  })
+
+  it('getMonad', () => {
+    const monad = getMonad(monoidString)
+    const double = (n: number): number => n * 2
+    assert.deepEqual(monad.chain(new Tuple('a', double), f => new Tuple('b', f(1))), new Tuple('ab', 2))
   })
 
   it('chainRec', () => {

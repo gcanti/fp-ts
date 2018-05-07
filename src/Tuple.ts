@@ -143,7 +143,7 @@ export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A
 }
 
 const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (a: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
-  return new Tuple(S.concat(fa.fst, fab.fst), fab.snd(fa.snd))
+  return new Tuple(S.concat(fab.fst, fa.fst), fab.snd(fa.snd))
 }
 
 /**
@@ -174,19 +174,19 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
   }
 }
 
-const chain = <L>(M: Monoid<L>) => <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
+const chain = <L>(S: Semigroup<L>) => <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
   const { fst, snd } = f(fa.snd)
-  return new Tuple(M.concat(fa.fst, fst), snd)
+  return new Tuple(S.concat(fa.fst, fst), snd)
 }
 
 /**
  * @function
  * @since 1.0.0
  */
-export const getChain = <L>(M: Monoid<L>): Chain2C<URI, L> => {
+export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => {
   return {
-    ...getApply(M),
-    chain: chain(M)
+    ...getApply(S),
+    chain: chain(S)
   }
 }
 
