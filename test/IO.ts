@@ -13,4 +13,16 @@ describe('IO', () => {
     S.concat(append('a'), append('b')).run()
     assert.deepEqual(log, ['a', 'b'])
   })
+
+  it('applySecond', () => {
+    const log: Array<string> = []
+    const append = (message: string): IO<number> => new IO(() => log.push(message))
+    assert.strictEqual(
+      append('a')
+        .applySecond(append('b'))
+        .run(),
+      2
+    )
+    assert.deepEqual(log, ['a', 'b'])
+  })
 })
