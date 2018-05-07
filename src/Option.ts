@@ -251,7 +251,7 @@ export class Some<A> {
     return fromNullable(f(this.value))
   }
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
-    return fab.isNone() ? none : some(fab.value(this.value))
+    return fab.isNone() ? none : new Some(fab.value(this.value))
   }
   ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> {
     return fb.ap(this)
