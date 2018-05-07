@@ -1,7 +1,7 @@
 import * as assert from 'assert'
-import * as stateT from '../src/StateT'
 import * as option from '../src/Option'
 import { state } from '../src/State'
+import * as stateT from '../src/StateT'
 
 const stateTOption = stateT.getStateT(option.option)
 

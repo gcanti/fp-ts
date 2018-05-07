@@ -1,7 +1,7 @@
 import * as assert from 'assert'
-import { Const, getSetoid, getApply } from '../src/Const'
-import { setoidNumber } from '../src/Setoid'
+import { Const, getApply, getSetoid } from '../src/Const'
 import { semigroupSum } from '../src/Semigroup'
+import { setoidNumber } from '../src/Setoid'
 
 describe('Const', () => {
   it('getSetoid', () => {

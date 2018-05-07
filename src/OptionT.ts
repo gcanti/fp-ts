@@ -1,20 +1,20 @@
-import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Functor, Functor1, Functor2, Functor2C, Functor3C } from './Functor'
-import { Monad, Monad1, Monad2, Monad2C, Monad3C } from './Monad'
 import {
   Applicative,
   Applicative1,
   Applicative2,
   Applicative2C,
-  getApplicativeComposition,
+  Applicative3C,
   ApplicativeComposition,
   ApplicativeComposition11,
   ApplicativeComposition21,
   ApplicativeComposition2C1,
   ApplicativeComposition3C1,
-  Applicative3C
+  getApplicativeComposition
 } from './Applicative'
-import { Option, URI, none as optionNone, some as optionSome, option } from './Option'
+import { Functor, Functor1, Functor2, Functor2C, Functor3C } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Monad, Monad1, Monad2, Monad2C, Monad3C } from './Monad'
+import { Option, URI, none as optionNone, option, some as optionSome } from './Option'
 
 export interface OptionT<M> extends ApplicativeComposition<M, URI> {
   readonly chain: <A, B>(f: (a: A) => HKT<M, Option<B>>, fa: HKT<M, Option<A>>) => HKT<M, Option<B>>

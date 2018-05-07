@@ -1,7 +1,7 @@
-import * as readerT from 'fp-ts/lib/ReaderT'
 import { IO, io } from 'fp-ts/lib/IO'
 import { Monad2 } from 'fp-ts/lib/Monad'
 import { Reader } from 'fp-ts/lib/Reader'
+import * as readerT from 'fp-ts/lib/ReaderT'
 
 const readerTIO = readerT.getReaderT(io)
 

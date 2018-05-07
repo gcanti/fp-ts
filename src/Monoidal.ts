@@ -1,8 +1,8 @@
-import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Functor, Functor1, Functor2, Functor3, Functor2C, Functor3C } from './Functor'
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
-import { constant, tupleCurried } from './function'
 import { liftA2 } from './Apply'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { constant, tupleCurried } from './function'
 
 /**
  * Applicative functors are equivalent to strong lax monoidal functors

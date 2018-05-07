@@ -1,6 +1,6 @@
 import * as assert from 'assert'
-import * as optionT from '../src/OptionT'
 import * as option from '../src/Option'
+import * as optionT from '../src/OptionT'
 import * as task from '../src/Task'
 
 const taskOption = optionT.getOptionT(task.task)

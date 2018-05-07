@@ -1,7 +1,7 @@
-import { HKT, URIS, Type, URIS2, Type2, URIS3, Type3 } from './HKT'
-import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Option, none, option } from './Option'
 import { Traversable, Traversable1, sequence } from './Traversable'
-import { Option, option, none } from './Option'
 import { constant, tuple } from './function'
 
 /**

@@ -1,7 +1,7 @@
 import * as assert from 'assert'
+import { none, option, some } from '../src/Option'
 import { Pair, pair } from '../src/Pair'
 import { traverse } from '../src/Traversable'
-import { none, some, option } from '../src/Option'
 
 describe('Pair', () => {
   it('traverse', () => {

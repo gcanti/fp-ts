@@ -1,7 +1,7 @@
-import { Task, task, tryCatch as tryCatchTask } from 'fp-ts/lib/Task'
-import { Option, fromEither } from 'fp-ts/lib/Option'
 import { Monad1 } from 'fp-ts/lib/Monad'
+import { Option, fromEither } from 'fp-ts/lib/Option'
 import * as optionT from 'fp-ts/lib/OptionT'
+import { Task, task, tryCatch as tryCatchTask } from 'fp-ts/lib/Task'
 import { Lazy } from 'fp-ts/lib/function'
 
 declare module 'fp-ts/lib/HKT' {

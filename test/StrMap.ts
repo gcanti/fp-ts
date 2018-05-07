@@ -1,24 +1,24 @@
 import * as assert from 'assert'
+import { array } from '../src/Array'
+import { Option, none, option, some } from '../src/Option'
+import { setoidNumber } from '../src/Setoid'
 import {
   StrMap,
-  getSetoid,
-  lookup,
   fromFoldable,
+  getMonoid,
+  getSetoid,
+  insert,
+  isEmpty,
+  lookup,
+  pop,
+  remove,
+  size,
+  strmap,
   toArray,
   toUnfoldable,
-  size,
-  isEmpty,
-  insert,
-  remove,
-  pop,
-  getMonoid,
-  strmap,
   traverseWithKey
 } from '../src/StrMap'
-import { setoidNumber } from '../src/Setoid'
-import { array } from '../src/Array'
 import { traverse } from '../src/Traversable'
-import { Option, none, some, option } from '../src/Option'
 
 describe('StrMap', () => {
   it('getMonoid', () => {

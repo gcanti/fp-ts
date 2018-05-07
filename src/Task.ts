@@ -1,9 +1,9 @@
-import { Monoid } from './Monoid'
-import { Monad1 } from './Monad'
-import { Lazy, toString } from './function'
 import { Either, left, right } from './Either'
 import { IO } from './IO'
+import { Monad1 } from './Monad'
+import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
+import { Lazy, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {

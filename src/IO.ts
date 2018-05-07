@@ -1,6 +1,6 @@
+import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Monad1 } from './Monad'
 import { Lazy, toString } from './function'
 
 declare module './HKT' {

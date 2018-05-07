@@ -1,5 +1,5 @@
 import { Lattice } from './Lattice'
-import { Ord, min, max } from './Ord'
+import { Ord, max, min } from './Ord'
 
 /**
  * A `DistributiveLattice` must satisfy the following laws in addition to `Lattice` laws:

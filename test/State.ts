@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { put, get, modify, gets, State } from '../src/State'
+import { State, get, gets, modify, put } from '../src/State'
 
 describe('State', () => {
   it('put', () => {

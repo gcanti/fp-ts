@@ -1,4 +1,4 @@
-import { HKT2, HKT3, URIS2, URIS3, Type2, Type3 } from './HKT'
+import { HKT2, HKT3, Type2, Type3, URIS2, URIS3 } from './HKT'
 
 /** @typeclass */
 export interface Bifunctor<F> {

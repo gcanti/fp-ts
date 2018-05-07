@@ -1,7 +1,7 @@
 import * as assert from 'assert'
-import { replicate, empty, singleton, replicateA } from '../src/Unfoldable'
 import { array } from '../src/Array'
-import { option, some, none } from '../src/Option'
+import { none, option, some } from '../src/Option'
+import { empty, replicate, replicateA, singleton } from '../src/Unfoldable'
 
 describe('Unfoldable', () => {
   it('replicate', () => {

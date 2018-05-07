@@ -1,9 +1,9 @@
-import * as eitherT from './EitherT'
-import { Either, left as eitherLeft } from './Either'
-import { Task, task, tryCatch as taskTryCatch } from './Task'
-import { Monad2 } from './Monad'
-import { Lazy } from './function'
 import { Bifunctor2 } from './Bifunctor'
+import { Either, left as eitherLeft } from './Either'
+import * as eitherT from './EitherT'
+import { Monad2 } from './Monad'
+import { Task, task, tryCatch as taskTryCatch } from './Task'
+import { Lazy } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {

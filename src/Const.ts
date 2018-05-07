@@ -1,11 +1,11 @@
-import { Monoid } from './Monoid'
-import { Functor2 } from './Functor'
-import { Contravariant2 } from './Contravariant'
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
+import { Contravariant2 } from './Contravariant'
+import { Functor2 } from './Functor'
+import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { toString, phantom } from './function'
+import { phantom, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {

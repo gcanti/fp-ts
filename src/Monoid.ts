@@ -1,20 +1,20 @@
 import {
   Semigroup,
-  getProductSemigroup,
-  getDualSemigroup,
   fold as foldSemigroup,
+  getArraySemigroup,
+  getDictionarySemigroup,
+  getDualSemigroup,
+  getFunctionSemigroup,
+  getProductSemigroup,
   getRecordSemigroup,
   semigroupAll,
-  semigroupString,
-  semigroupProduct,
-  semigroupSum,
   semigroupAny,
-  getArraySemigroup,
-  semigroupVoid,
-  getFunctionSemigroup,
-  getDictionarySemigroup
+  semigroupProduct,
+  semigroupString,
+  semigroupSum,
+  semigroupVoid
 } from './Semigroup'
-import { Endomorphism, identity, compose } from './function'
+import { Endomorphism, compose, identity } from './function'
 
 /** @typeclass */
 export interface Monoid<A> extends Semigroup<A> {

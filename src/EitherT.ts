@@ -1,16 +1,16 @@
-import { HKT, URIS, URIS2, Type, Type2 } from './HKT'
-import { Functor, Functor1, Functor2 } from './Functor'
-import { Monad, Monad1, Monad2 } from './Monad'
 import {
   Applicative,
   Applicative1,
   Applicative2,
-  getApplicativeComposition,
   ApplicativeComposition,
   ApplicativeComposition12,
-  ApplicativeComposition22
+  ApplicativeComposition22,
+  getApplicativeComposition
 } from './Applicative'
-import { Either, URI, either, right as eitherRight, left as eitherLeft } from './Either'
+import { Either, URI, either, left as eitherLeft, right as eitherRight } from './Either'
+import { Functor, Functor1, Functor2 } from './Functor'
+import { HKT, Type, Type2, URIS, URIS2 } from './HKT'
+import { Monad, Monad1, Monad2 } from './Monad'
 
 export interface EitherT<F> extends ApplicativeComposition<F, URI> {
   readonly chain: <L, A, B>(f: (a: A) => HKT<F, Either<L, B>>, fa: HKT<F, Either<L, A>>) => HKT<F, Either<L, B>>

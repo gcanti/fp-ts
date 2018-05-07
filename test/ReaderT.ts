@@ -1,8 +1,8 @@
 import * as assert from 'assert'
-import { option, some, none } from '../src/Option'
-import { StrMap, lookup } from '../src/StrMap'
-import { getReaderT, fromReader } from '../src/ReaderT'
+import { none, option, some } from '../src/Option'
 import { reader } from '../src/Reader'
+import { fromReader, getReaderT } from '../src/ReaderT'
+import { StrMap, lookup } from '../src/StrMap'
 
 const readerOption = getReaderT(option)
 

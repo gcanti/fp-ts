@@ -1,16 +1,16 @@
 import * as assert from 'assert'
-import {
-  getSemigroup,
-  contramap,
-  ordNumber,
-  ordString,
-  getProductOrd,
-  clamp,
-  between,
-  getDualOrd,
-  ordDate
-} from '../src/Ord'
 import { sort } from '../src/Array'
+import {
+  between,
+  clamp,
+  contramap,
+  getDualOrd,
+  getProductOrd,
+  getSemigroup,
+  ordDate,
+  ordNumber,
+  ordString
+} from '../src/Ord'
 
 describe('Ord', () => {
   it('getSemigroup', () => {

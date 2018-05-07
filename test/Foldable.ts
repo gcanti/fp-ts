@@ -1,28 +1,28 @@
 import * as assert from 'assert'
+import { array } from '../src/Array'
+import { fieldNumber } from '../src/Field'
 import {
-  toArray,
-  foldMap,
-  getFoldableComposition,
-  intercalate,
-  traverse_,
-  sequence_,
-  minimum,
-  maximum,
-  sum,
-  product,
-  foldM,
-  oneOf,
   elem,
   find,
   fold,
-  foldr
+  foldM,
+  foldMap,
+  foldr,
+  getFoldableComposition,
+  intercalate,
+  maximum,
+  minimum,
+  oneOf,
+  product,
+  sequence_,
+  sum,
+  toArray,
+  traverse_
 } from '../src/Foldable'
-import { array } from '../src/Array'
-import * as option from '../src/Option'
 import { IO, io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
+import * as option from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { fieldNumber } from '../src/Field'
 import { setoidNumber } from '../src/Setoid'
 
 export const ArrayOptionURI = 'ArrayOption'

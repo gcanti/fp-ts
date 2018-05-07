@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { Moore, unfoldMoore } from '../examples/Moore'
-import { Option, some, none } from '../src/Option'
+import { Option, none, some } from '../src/Option'
 
 type Reducer<S, A> = (s: S, a: A) => S
 

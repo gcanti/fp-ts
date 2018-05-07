@@ -1,4 +1,4 @@
-import { Ord, min, max } from './Ord'
+import { Ord, max, min } from './Ord'
 import { concat, identity } from './function'
 
 /** @typeclass */

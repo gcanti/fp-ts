@@ -1,27 +1,27 @@
-import { HKT, HKT2, HKT3, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import {
-  Functor,
-  Functor1,
-  Functor2,
-  Functor3,
-  Functor2C,
-  Functor3C,
-  FunctorComposition,
-  getFunctorComposition,
-  FunctorComposition11
-} from './Functor'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import {
   Foldable,
   Foldable1,
   Foldable2,
-  Foldable3,
   Foldable2C,
+  Foldable3,
   Foldable3C,
   FoldableComposition,
-  getFoldableComposition,
-  FoldableComposition11
+  FoldableComposition11,
+  getFoldableComposition
 } from './Foldable'
-import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
+import {
+  Functor,
+  Functor1,
+  Functor2,
+  Functor2C,
+  Functor3,
+  Functor3C,
+  FunctorComposition,
+  FunctorComposition11,
+  getFunctorComposition
+} from './Functor'
+import { HKT, HKT2, HKT3, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /** @typeclass */
 export interface Traversable<T> extends Functor<T>, Foldable<T> {

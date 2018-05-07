@@ -1,14 +1,14 @@
-import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Monoid, unsafeMonoidArray } from './Monoid'
-import { Applicative, Applicative1, Applicative2, Applicative3, Applicative2C, Applicative3C } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { applyFirst } from './Apply'
-import { Predicate } from './function'
-import { Ord, min, max } from './Ord'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { Monoid, unsafeMonoidArray } from './Monoid'
 import { Option, none, some } from './Option'
+import { Ord, max, min } from './Ord'
+import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 import { Semiring } from './Semiring'
-import { Monad, Monad1, Monad2, Monad3, Monad2C, Monad3C } from './Monad'
-import { Plus, Plus1, Plus2, Plus3, Plus2C, Plus3C } from './Plus'
 import { Setoid } from './Setoid'
+import { Predicate } from './function'
 
 /** @typeclass */
 export interface Foldable<F> {

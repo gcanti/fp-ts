@@ -1,6 +1,6 @@
-import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Chain, Chain1, Chain2, Chain3, Chain2C, Chain3C } from './Chain'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
 import { Either } from './Either'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /** @typeclass */
 export interface ChainRec<F> extends Chain<F> {

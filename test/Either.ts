@@ -1,21 +1,21 @@
 import * as assert from 'assert'
 import {
   Either,
+  either,
   fromNullable,
   fromOption,
+  fromOptionL,
   fromPredicate,
+  fromValidation,
   getSetoid,
   left,
   right,
-  tryCatch,
-  fromValidation,
-  either,
-  fromOptionL
+  tryCatch
 } from '../src/Either'
-import { none, some, option } from '../src/Option'
+import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
-import { failure, success } from '../src/Validation'
 import { traverse } from '../src/Traversable'
+import { failure, success } from '../src/Validation'
 
 describe('Either', () => {
   it('fold', () => {

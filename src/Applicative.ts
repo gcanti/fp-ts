@@ -1,17 +1,17 @@
-import { HKT, URIS, URIS2, URIS3, Type, Type2, Type3 } from './HKT'
-import { Apply, Apply2, Apply3, Apply2C, Apply3C, Apply1, getSemigroup } from './Apply'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, getSemigroup } from './Apply'
 import {
-  getFunctorComposition,
   FunctorComposition,
   FunctorComposition11,
   FunctorComposition12,
-  FunctorComposition21,
-  FunctorComposition2C1,
-  FunctorComposition22,
   FunctorComposition12C,
+  FunctorComposition21,
+  FunctorComposition22,
   FunctorComposition22C,
-  FunctorComposition3C1
+  FunctorComposition2C1,
+  FunctorComposition3C1,
+  getFunctorComposition
 } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 
 /**

@@ -1,6 +1,6 @@
-import { HKT, HKT2, HKT3, URIS, URIS2, Type, Type2, URIS3, Type3 } from './HKT'
 import { Comonad2 } from './Comonad'
 import { Functor, Functor2, Functor3 } from './Functor'
+import { HKT, HKT2, HKT3, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Endomorphism, toString } from './function'
 
 declare module './HKT' {

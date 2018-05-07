@@ -1,9 +1,9 @@
+import { Either } from 'fp-ts/lib/Either'
+import { Monad3 } from 'fp-ts/lib/Monad'
+import { State } from 'fp-ts/lib/State'
 import * as stateT from 'fp-ts/lib/StateT'
 import { TaskEither, taskEither } from 'fp-ts/lib/TaskEither'
-import { Monad3 } from 'fp-ts/lib/Monad'
 import { Endomorphism } from 'fp-ts/lib/function'
-import { Either } from 'fp-ts/lib/Either'
-import { State } from 'fp-ts/lib/State'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT3<U, L, A> {

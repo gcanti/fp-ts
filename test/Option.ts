@@ -1,26 +1,26 @@
 import * as assert from 'assert'
+import { array } from '../src/Array'
+import { left, right } from '../src/Either'
 import {
-  getSetoid,
-  none,
-  some,
-  getMonoid,
-  fromNullable,
-  getFirstMonoid,
-  getLastMonoid,
-  tryCatch,
   Option,
   fromEither,
-  option,
+  fromNullable,
+  fromRefinement,
+  getFirstMonoid,
+  getLastMonoid,
+  getMonoid,
   getOrd,
-  fromRefinement
+  getSetoid,
+  none,
+  option,
+  some,
+  tryCatch
 } from '../src/Option'
-import { array } from '../src/Array'
-import { setoidNumber } from '../src/Setoid'
-import { identity } from '../src/function'
-import { left, right } from '../src/Either'
-import { traverse } from '../src/Traversable'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
+import { setoidNumber } from '../src/Setoid'
+import { traverse } from '../src/Traversable'
+import { identity } from '../src/function'
 
 describe('Option', () => {
   it('fold', () => {

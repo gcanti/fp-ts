@@ -1,17 +1,17 @@
 import * as assert from 'assert'
+import { monoidAll, monoidString, monoidSum } from '../src/Monoid'
+import { ordNumber } from '../src/Ord'
 import {
   fold,
-  getRecordSemigroup,
-  getMeetSemigroup,
-  getJoinSemigroup,
-  getProductSemigroup,
   getArraySemigroup,
   getDictionarySemigroup,
+  getJoinSemigroup,
+  getMeetSemigroup,
   getObjectSemigroup,
+  getProductSemigroup,
+  getRecordSemigroup,
   semigroupSum
 } from '../src/Semigroup'
-import { monoidString, monoidAll, monoidSum } from '../src/Monoid'
-import { ordNumber } from '../src/Ord'
 
 describe('Semigroup', () => {
   it('fold', () => {

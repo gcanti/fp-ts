@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { compose, pipe, curry, flip, on, or, and, apply, applyFlipped } from '../src/function'
+import { and, apply, applyFlipped, compose, curry, flip, on, or, pipe } from '../src/function'
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2

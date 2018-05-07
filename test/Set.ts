@@ -1,30 +1,30 @@
 import * as assert from 'assert'
+import { left, right } from '../src/Either'
+import { ordNumber } from '../src/Ord'
 import {
-  some,
-  member,
-  union,
-  intersection,
-  filter,
-  toArray,
+  chain,
   difference,
   every,
-  subset,
+  filter,
+  fromArray,
+  getIntersectionSemigroup,
   getSetoid,
   getUnionMonoid,
-  getIntersectionSemigroup,
-  reduce,
-  singleton,
   insert,
-  remove,
-  partitionMap,
+  intersection,
+  map,
+  member,
   partition,
-  chain,
-  fromArray,
-  map
+  partitionMap,
+  reduce,
+  remove,
+  singleton,
+  some,
+  subset,
+  toArray,
+  union
 } from '../src/Set'
-import { setoidNumber, setoidString, Setoid } from '../src/Setoid'
-import { ordNumber } from '../src/Ord'
-import { left, right } from '../src/Either'
+import { Setoid, setoidNumber, setoidString } from '../src/Setoid'
 
 const gte2 = (n: number) => n >= 2
 

@@ -1,7 +1,7 @@
-import * as optionT from 'fp-ts/lib/OptionT'
 import * as either from 'fp-ts/lib/Either'
-import { Option } from 'fp-ts/lib/Option'
 import { Monad2 } from 'fp-ts/lib/Monad'
+import { Option } from 'fp-ts/lib/Option'
+import * as optionT from 'fp-ts/lib/OptionT'
 
 declare module 'fp-ts/lib/HKT' {
   interface URI2HKT2<L, A> {

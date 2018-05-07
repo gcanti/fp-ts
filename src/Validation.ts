@@ -1,17 +1,17 @@
-import { HKT } from './HKT'
+import { Alt2C } from './Alt'
 import { Applicative, Applicative2C } from './Applicative'
-import { Semigroup } from './Semigroup'
-import { Foldable2 } from './Foldable'
-import { Setoid } from './Setoid'
-import { Traversable2 } from './Traversable'
-import { Functor2 } from './Functor'
-import { Predicate, toString, phantom } from './function'
 import { Either } from './Either'
+import { Foldable2 } from './Foldable'
+import { Functor2 } from './Functor'
+import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { Alt2C } from './Alt'
+import { Semigroup } from './Semigroup'
+import { Setoid } from './Setoid'
+import { Traversable2 } from './Traversable'
+import { Predicate, phantom, toString } from './function'
 
-// Adapeted from https://github.com/purescript/purescript-validation
+// Adapted from https://github.com/purescript/purescript-validation
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {

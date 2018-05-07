@@ -1,8 +1,8 @@
-import { getApplicativeComposition, Applicative2C } from '../src/Applicative'
-import * as validation from '../src/Validation'
-import * as task from '../src/Task'
-import { Semigroup } from '../src/Semigroup'
+import { Applicative2C, getApplicativeComposition } from '../src/Applicative'
 import { Functor2, getFunctorComposition } from '../src/Functor'
+import { Semigroup } from '../src/Semigroup'
+import * as task from '../src/Task'
+import * as validation from '../src/Validation'
 import { phantom } from '../src/function'
 
 declare module '../src/HKT' {
