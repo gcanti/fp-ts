@@ -13,6 +13,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.4.1
+
+* **Bug Fix**
+  * fix semigroup usage in `Tuple.ap` implementation (@gcanti)
+
 # 1.4.0
 
 * **New Feature**
