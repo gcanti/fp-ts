@@ -110,6 +110,21 @@ _since 1.0.0_
 <A>(M: Monoid<A>): ((as: Array<A>) => A)
 ```
 
+# getDictionaryMonoid
+
+_function_
+
+_since 1.4.0_
+
+```ts
+;<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => ({
+  ...getDictionarySemigroup(S),
+  empty: emptyObject
+})
+```
+
+Gets {@link Monoid} instance for dictionaries given {@link Semigroup} instance for their values
+
 # getDualMonoid
 
 _function_

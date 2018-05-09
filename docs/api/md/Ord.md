@@ -28,6 +28,16 @@ _since 1.0.0_
 Ord<boolean>
 ```
 
+# ordDate
+
+_instance_
+
+_since 1.4.0_
+
+```ts
+ordDate:
+```
+
 # ordNumber
 
 _instance_

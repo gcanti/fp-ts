@@ -12,6 +12,16 @@ constructor(readonly value: { [key: string]: A }) {}
 
 ## Methods
 
+### filter
+
+_method_
+
+_since 1.4.0_
+
+```ts
+(p: Predicate<A>): StrMap<A>
+```
+
 ### map
 
 _method_

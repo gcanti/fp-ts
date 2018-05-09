@@ -100,6 +100,18 @@ _since 1.0.0_
 
 Semigroup under array concatenation
 
+# getDictionarySemigroup
+
+_function_
+
+_since 1.4.0_
+
+```ts
+<A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }>
+```
+
+Gets {@link Semigroup} instance for dictionaries given {@link Semigroup} instance for their values
+
 # getDualSemigroup
 
 _function_
@@ -159,6 +171,18 @@ _since 1.0.0_
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
+
+# getObjectSemigroup
+
+_function_
+
+_since 1.4.0_
+
+```ts
+;<A extends object = never>(): Semigroup<A> => semigroupAnyDictionary as any
+```
+
+Gets {@link Semigroup} instance for objects of given type preserving their type
 
 # getProductSemigroup
 

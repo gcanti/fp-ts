@@ -440,7 +440,7 @@ _function_
 _since 1.0.0_
 
 ```ts
-<A>(ord: Ord<A>): ((as: Array<A>) => Array<A>)
+<A>(O: Ord<A>) => (as: Array<A>): Array<A>
 ```
 
 Sort the elements of an array in increasing order, creating a new array

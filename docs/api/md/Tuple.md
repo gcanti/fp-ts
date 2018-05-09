@@ -151,7 +151,7 @@ _function_
 _since 1.0.0_
 
 ```ts
-<L>(M: Monoid<L>): Chain2C<URI, L>
+<L>(S: Semigroup<L>): Chain2C<URI, L>
 ```
 
 # getChainRec

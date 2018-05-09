@@ -28,6 +28,16 @@ _since 1.0.0_
 setoidBoolean:
 ```
 
+# setoidDate
+
+_instance_
+
+_since 1.4.0_
+
+```ts
+setoidDate:
+```
+
 # setoidNumber
 
 _instance_
@@ -57,6 +67,8 @@ _since 1.2.0_
 ```ts
 <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B>
 ```
+
+Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 
 # getArraySetoid
 
