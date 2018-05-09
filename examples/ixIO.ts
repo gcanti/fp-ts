@@ -1,4 +1,4 @@
-import * as io from 'fp-ts/lib/IO'
+import { IO } from 'fp-ts/lib/IO'
 import { IxIO } from 'fp-ts/lib/IxIO'
 
 /*
@@ -33,7 +33,7 @@ export class Operation<I extends DoorState, O extends DoorState, A> extends IxIO
 class Open extends Operation<'Closed', 'Open', void> {
   constructor() {
     super(
-      new io.IO(() => {
+      new IO(() => {
         console.log(`Opening the door`)
       })
     )
@@ -42,7 +42,7 @@ class Open extends Operation<'Closed', 'Open', void> {
 class Close extends Operation<'Open', 'Closed', void> {
   constructor() {
     super(
-      new io.IO(() => {
+      new IO(() => {
         console.log(`Closing the door`)
       })
     )
@@ -51,7 +51,7 @@ class Close extends Operation<'Open', 'Closed', void> {
 class RingBell extends Operation<'Closed', 'Closed', void> {
   constructor() {
     super(
-      new io.IO(() => {
+      new IO(() => {
         console.log(`Ringing the bell`)
       })
     )
