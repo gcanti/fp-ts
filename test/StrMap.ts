@@ -19,13 +19,17 @@ import {
   traverseWithKey
 } from '../src/StrMap'
 import { traverse } from '../src/Traversable'
+import { semigroupSum } from '../src/Semigroup'
 
 describe('StrMap', () => {
   it('getMonoid', () => {
     const d1 = new StrMap<number>({ k1: 1, k2: 3 })
     const d2 = new StrMap<number>({ k2: 2, k3: 4 })
-    const S = getMonoid<number>()
-    assert.deepEqual(S.concat(d1, d2), new StrMap({ k1: 1, k2: 2, k3: 4 }))
+    const S1 = getMonoid<number>()
+    assert.deepEqual(S1.concat(d1, d2), new StrMap({ k1: 1, k2: 2, k3: 4 }))
+
+    const S2 = getMonoid<number>(semigroupSum)
+    assert.deepEqual(S2.concat(d1, d2), new StrMap({ k1: 1, k2: 5, k3: 4 }))
   })
 
   it('map', () => {
