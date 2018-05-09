@@ -71,11 +71,15 @@ export class StrMap<A> {
 
 const empty: StrMap<never> = new StrMap({})
 
-const concat = <A>(S: Semigroup<A>) => (x: StrMap<A>, y: StrMap<A>): StrMap<A> => {
-  return new StrMap(getDictionarySemigroup(S).concat(x.value, y.value))
+const concat = <A>(S: Semigroup<A>): ((x: StrMap<A>, y: StrMap<A>) => StrMap<A>) => {
+  const concat = getDictionarySemigroup(S).concat
+  return (x, y) => new StrMap(concat(x.value, y.value))
 }
 
-const concatCurried = <A>(S: Semigroup<A>) => (x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => concat(S)(x, y)
+const concatCurried = <A>(S: Semigroup<A>): ((x: StrMap<A>) => (y: StrMap<A>) => StrMap<A>) => {
+  const concatS = concat(S)
+  return x => y => concatS(x, y)
+}
 
 /**
  * @function
