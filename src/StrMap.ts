@@ -5,7 +5,7 @@ import { Functor1 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
-import { getObjectSemigroup } from './Semigroup'
+import { Semigroup, getDictionarySemigroup, getLastSemigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
@@ -71,21 +71,19 @@ export class StrMap<A> {
 
 const empty: StrMap<never> = new StrMap({})
 
-const semigroupAnyObject = getObjectSemigroup<any>()
-
-const concat = <A>(x: StrMap<A>, y: StrMap<A>): StrMap<A> => {
-  return new StrMap(semigroupAnyObject.concat(x.value, y.value))
+const concat = <A>(S: Semigroup<A>) => (x: StrMap<A>, y: StrMap<A>): StrMap<A> => {
+  return new StrMap(getDictionarySemigroup(S).concat(x.value, y.value))
 }
 
-const concatCurried = <A>(x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => concat(x, y)
+const concatCurried = <A>(S: Semigroup<A>) => (x: StrMap<A>) => (y: StrMap<A>): StrMap<A> => concat(S)(x, y)
 
 /**
  * @function
  * @since 1.0.0
  */
-export const getMonoid = <A = never>(): Monoid<StrMap<A>> => {
+export const getMonoid = <A = never>(S: Semigroup<A> = getLastSemigroup()): Monoid<StrMap<A>> => {
   return {
-    concat,
+    concat: concat(S),
     empty
   }
 }
@@ -118,7 +116,9 @@ export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
   return <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => {
-    const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(concatCurried)
+    const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(
+      concatCurried(getLastSemigroup())
+    )
     let out: HKT<F, StrMap<B>> = F.of(empty)
     for (let k in ta.value) {
       out = concatA2(out)(F.map(f(k, ta.value[k]), b => singleton(k, b)))
