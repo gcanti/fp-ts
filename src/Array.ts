@@ -781,14 +781,6 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
-export interface CombineFactory {
-  <F extends URIS3, U, L>(F: Applicative3<F>): Combine3<F>
-  <F extends URIS3, U, L>(F: Applicative3C<F, U, L>): Combine3C<F, U, L>
-  <F extends URIS2>(F: Applicative2<F>): Combine2<F>
-  <F extends URIS2, L>(F: Applicative2C<F, L>): Combine2C<F, L>
-  <F extends URIS>(F: Applicative1<F>): Combine1<F>
-  <F>(F: Applicative<F>): Combine<F>
-}
 export interface Combine3<F extends URIS3> {
   <U, L, A>(a: Type3<F, U, L, A>): Type3<F, U, L, [A]>
   <U, L, A, B>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>): Type3<F, U, L, [A, B]>
@@ -870,7 +862,12 @@ export interface Combine<F> {
   <A>(...list: HKT<F, A>[]): HKT<F, A[]>
 }
 
-export const combine: CombineFactory = <F>(F: Applicative<F>) => {
+export function combine<F extends URIS3, U, L>(F: Applicative3<F>): Combine3<F>
+export function combine<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): Combine3C<F, U, L>
+export function combine<F extends URIS2>(F: Applicative2<F>): Combine2<F>
+export function combine<F extends URIS2, L>(F: Applicative2C<F, L>): Combine2C<F, L>
+export function combine<F extends URIS>(F: Applicative1<F>): Combine1<F>
+export function combine<F>(F: Applicative<F>): Combine<F> {
   const t = traverse(F)
   return <A>(...list: HKT<F, A>[]) => (list.length === 0 ? F.of([]) : (t(list, identity) as any))
 }

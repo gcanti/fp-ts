@@ -407,11 +407,15 @@ describe('Array', () => {
   it('combine', () => {
     const combineOption = combine(option.option)
     const combineEither = combine(either)
+    const options = [some(1), some(2)]
     assert.deepEqual(combineOption(some(1)), some([1]))
     assert.deepEqual(combineOption(some(1), some('2')), some([1, '2']))
     assert.deepEqual(combineOption(some(1), some('2'), none), none)
+    assert.deepEqual(combineOption(...options), some([1, 2]))
+    const eithers = [right(1), right(2)]
     assert.deepEqual(combineEither(right(1)), right([1]))
     assert.deepEqual(combineEither(right(1), right('2')), right([1, '2']))
     assert.deepEqual(combineEither(right(1), right('2'), left('foo')), left('foo'))
+    assert.deepEqual(combineEither(...eithers), right([1, 2]))
   })
 })
