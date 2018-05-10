@@ -1,8 +1,9 @@
 import { Bifunctor2 } from './Bifunctor'
 import { Either, left as eitherLeft } from './Either'
 import * as eitherT from './EitherT'
+import { IO } from './IO'
 import { Monad2 } from './Monad'
-import { Task, task, tryCatch as taskTryCatch } from './Task'
+import { Task, fromIO as taskFromIO, task, tryCatch as taskTryCatch } from './Task'
 import { Lazy, constIdentity } from './function'
 
 declare module './HKT' {
@@ -117,6 +118,14 @@ const eitherTfromEither = eitherT.fromEither(task)
  */
 export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
   return new TaskEither(eitherTfromEither(fa))
+}
+
+/**
+ * @function
+ * @since 1.5.0
+ */
+export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => {
+  return right(taskFromIO(fa))
 }
 
 /**
