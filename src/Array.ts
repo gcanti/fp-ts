@@ -862,6 +862,25 @@ export interface Combine<F> {
   <A>(...list: HKT<F, A>[]): HKT<F, A[]>
 }
 
+/**
+ * Combines a list of {@link Applicative} values to {@link Applicative} list of values
+ * @function
+ * @since 1.5.0
+ * @example
+ * const combineOption = combine(option.option)
+ * const combineEither = combine(either)
+ * const options = [some(1), some(2)]
+ * assert.deepEqual(combineOption(some(1)), some([1]))
+ * assert.deepEqual(combineOption(some(1), some('2')), some([1, '2']))
+ * assert.deepEqual(combineOption(some(1), some('2'), none), none)
+ * assert.deepEqual(combineOption(...options), some([1, 2]))
+ * const eithers = [right(1), right(2)]
+ * assert.deepEqual(combineEither(right(1)), right([1]))
+ * assert.deepEqual(combineEither(right(1), right('2')), right([1, '2']))
+ * assert.deepEqual(combineEither(right(1), right('2'), left('foo')), left('foo'))
+ * assert.deepEqual(combineEither(...eithers), right([1, 2]))
+ * @param F - {@link Applicative} instance
+ */
 export function combine<F extends URIS3, U, L>(F: Applicative3<F>): Combine3<F>
 export function combine<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): Combine3C<F, U, L>
 export function combine<F extends URIS2>(F: Applicative2<F>): Combine2<F>
