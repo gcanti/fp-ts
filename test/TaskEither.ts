@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { IO } from '../src/IO'
 import { Task } from '../src/Task'
-import { TaskEither, fromIO, fromLeft, right as fromTask, taskEither } from '../src/TaskEither'
+import { TaskEither, fromIO, fromLeft, right as fromTask, taskEither, taskify } from '../src/TaskEither'
 
 describe('TaskEither', () => {
   it('chain', () => {
@@ -71,6 +71,19 @@ describe('TaskEither', () => {
     const fa = fromIO(io)
     return fa.run().then(e => {
       assert.deepEqual(e, right(1))
+    })
+  })
+
+  it('taskify', () => {
+    const api1 = (path: string, callback: (err: Error | null, result?: string) => void): void => {
+      callback(null, 'ok')
+    }
+    const api2 = (path: string, callback: (err: Error | null, result?: string) => void): void => {
+      callback(new Error('ko'))
+    }
+    return Promise.all([taskify(api1)('foo').run(), taskify(api2)('foo').run()]).then(([e1, e2]) => {
+      assert.deepEqual(e1, right('ok'))
+      assert.deepEqual(e2, left(new Error('ko')))
     })
   })
 })
