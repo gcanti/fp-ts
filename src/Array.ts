@@ -781,150 +781,98 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
-//#region 1
-export function combine<F extends URIS3>(F: Applicative3<F>): <U, L, A>(a: Type3<F, U, L, A>) => Type3<F, U, L, [A]>
-export function combine<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A>(a: Type3<F, U, L, A>) => Type3<F, U, L, [A]>
-export function combine<F extends URIS2>(F: Applicative2<F>): <L, A>(a: Type2<F, L, A>) => Type2<F, L, [A]>
-export function combine<F extends URIS2, L>(F: Applicative2C<F, L>): <A>(a: Type2<F, L, A>) => Type2<F, L, [A]>
-export function combine<F extends URIS>(F: Applicative1<F>): <A>(a: Type<F, A>) => Type<F, [A]>
-export function combine<F>(F: Applicative<F>): <A>(a: HKT<F, A>) => HKT<F, [A]>
-//#endregion
-//#region 2
-export function combine<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A, B>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>) => Type3<F, U, L, [A, B]>
-export function combine<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A, B>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>) => Type3<F, U, L, [A, B]>
-export function combine<F extends URIS2>(
-  F: Applicative2<F>
-): <L, A, B>(a: Type2<F, L, A>, b: Type2<F, L, B>) => Type2<F, L, [A, B]>
-export function combine<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <A, B>(a: Type2<F, L, A>, b: Type2<F, L, B>) => Type2<F, L, [A, B]>
-export function combine<F extends URIS>(F: Applicative1<F>): <A, B>(a: Type<F, A>, b: Type<F, B>) => Type<F, [A, B]>
-export function combine<F>(F: Applicative<F>): <A, B>(a: HKT<F, A>, b: HKT<F, B>) => HKT<F, [A, B]>
-//#endregion
-//#region 3
-export function combine<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A, B, C>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>) => Type3<F, U, L, [A, B, C]>
-export function combine<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A, B, C>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>) => Type3<F, U, L, [A, B, C]>
-export function combine<F extends URIS2>(
-  F: Applicative2<F>
-): <L, A, B, C>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>) => Type2<F, L, [A, B, C]>
-export function combine<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <A, B, C>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>) => Type2<F, L, [A, B, C]>
-export function combine<F extends URIS>(
-  F: Applicative1<F>
-): <A, B, C>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>) => Type<F, [A, B, C]>
-export function combine<F>(F: Applicative<F>): <A, B, C>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>) => HKT<F, [A, B, C]>
-//#endregion
-//#region 4
-export function combine<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A, B, C, D>(
-  a: Type3<F, U, L, A>,
-  b: Type3<F, U, L, B>,
-  c: Type3<F, U, L, C>,
-  d: Type3<F, U, L, D>
-) => Type3<F, U, L, [A, B, C, D]>
-export function combine<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A, B, C, D>(
-  a: Type3<F, U, L, A>,
-  b: Type3<F, U, L, B>,
-  c: Type3<F, U, L, C>,
-  d: Type3<F, U, L, D>
-) => Type3<F, U, L, [A, B, C, D]>
-export function combine<F extends URIS2>(
-  F: Applicative2<F>
-): <L, A, B, C, D>(
-  a: Type2<F, L, A>,
-  b: Type2<F, L, B>,
-  c: Type2<F, L, C>,
-  d: Type2<F, L, D>
-) => Type2<F, L, [A, B, C, D]>
-export function combine<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <A, B, C, D>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>, d: Type2<F, L, D>) => Type2<F, L, [A, B, C, D]>
-export function combine<F extends URIS>(
-  F: Applicative1<F>
-): <A, B, C, D>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>, d: Type<F, D>) => Type<F, [A, B, C, D]>
-export function combine<F>(
-  F: Applicative<F>
-): <A, B, C, D>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>, d: HKT<F, D>) => HKT<F, [A, B, C, D]>
-//#endregion
-//#region 5
-export function combine<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A, B, C, D, E>(
-  a: Type3<F, U, L, A>,
-  b: Type3<F, U, L, B>,
-  c: Type3<F, U, L, C>,
-  d: Type3<F, U, L, D>,
-  e: Type3<F, U, L, E>
-) => Type3<F, U, L, [A, B, C, D, E]>
-export function combine<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A, B, C, D, E>(
-  a: Type3<F, U, L, A>,
-  b: Type3<F, U, L, B>,
-  c: Type3<F, U, L, C>,
-  d: Type3<F, U, L, D>,
-  e: Type3<F, U, L, E>
-) => Type3<F, U, L, [A, B, C, D, E]>
-export function combine<F extends URIS2>(
-  F: Applicative2<F>
-): <L, A, B, C, D, E>(
-  a: Type2<F, L, A>,
-  b: Type2<F, L, B>,
-  c: Type2<F, L, C>,
-  d: Type2<F, L, D>,
-  e: Type2<F, L, E>
-) => Type2<F, L, [A, B, C, D, E]>
-export function combine<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <A, B, C, D, E>(
-  a: Type2<F, L, A>,
-  b: Type2<F, L, B>,
-  c: Type2<F, L, C>,
-  d: Type2<F, L, D>,
-  e: Type2<F, L, E>
-) => Type2<F, L, [A, B, C, D, E]>
-export function combine<F extends URIS>(
-  F: Applicative1<F>
-): <A, B, C, D, E>(
-  a: Type<F, A>,
-  b: Type<F, B>,
-  c: Type<F, C>,
-  d: Type<F, D>,
-  e: Type<F, E>
-) => Type<F, [A, B, C, D, E]>
-export function combine<F>(
-  F: Applicative<F>
-): <A, B, C, D, E>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>, d: HKT<F, D>, e: HKT<F, E>) => HKT<F, [A, B, C, D, E]>
-//#endregion
-//#region list
-export function combine<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A>(...list: Type3<F, U, L, A>[]) => Type3<F, U, L, A[]>
-export function combine<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A>(...list: Type3<F, U, L, A>[]) => Type3<F, U, L, A[]>
-export function combine<F extends URIS2>(F: Applicative2<F>): <L, A>(...list: Type2<F, L, A>[]) => Type2<F, L, A[]>
-export function combine<F extends URIS2, L>(F: Applicative2C<F, L>): <A>(...list: Type2<F, L, A>[]) => Type2<F, L, A[]>
-export function combine<F extends URIS>(F: Applicative1<F>): <A>(...list: Type<F, A>[]) => Type<F, A[]>
-export function combine<F>(F: Applicative<F>): <A>(...list: HKT<F, A>[]) => HKT<F, A[]>
-//#endregion
-export function combine<F>(F: Applicative<F>): <A>(...list: HKT<F, A>[]) => HKT<F, A[]> {
+export interface CombineFactory {
+  <F extends URIS3, U, L>(F: Applicative3<F>): Combine3<F>
+  <F extends URIS3, U, L>(F: Applicative3C<F, U, L>): Combine3C<F, U, L>
+  <F extends URIS2>(F: Applicative2<F>): Combine2<F>
+  <F extends URIS2, L>(F: Applicative2C<F, L>): Combine2C<F, L>
+  <F extends URIS>(F: Applicative1<F>): Combine1<F>
+  <F>(F: Applicative<F>): Combine<F>
+}
+export interface Combine3<F extends URIS3> {
+  <U, L, A>(a: Type3<F, U, L, A>): Type3<F, U, L, [A]>
+  <U, L, A, B>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>): Type3<F, U, L, [A, B]>
+  <U, L, A, B, C>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>): Type3<F, U, L, [A, B, C]>
+  <U, L, A, B, C, D>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>, d: Type3<F, U, L, D>): Type3<
+    F,
+    U,
+    L,
+    [A, B, C, D]
+  >
+  <U, L, A, B, C, D, E>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>
+  ): Type3<F, U, L, [A, B, C, D, E]>
+  <U, L, A>(...list: Type3<F, U, L, A>[]): Type3<F, U, L, A[]>
+}
+export interface Combine3C<F extends URIS3, U, L> {
+  <A>(a: Type3<F, U, L, A>): Type3<F, U, L, [A]>
+  <A, B>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>): Type3<F, U, L, [A, B]>
+  <A, B, C>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>): Type3<F, U, L, [A, B, C]>
+  <A, B, C, D>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>, d: Type3<F, U, L, D>): Type3<
+    F,
+    U,
+    L,
+    [A, B, C, D]
+  >
+  <A, B, C, D, E>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>
+  ): Type3<F, U, L, [A, B, C, D, E]>
+  <A>(...list: Type3<F, U, L, A>[]): Type3<F, U, L, A[]>
+}
+export interface Combine2<F extends URIS2> {
+  <L, A>(a: Type2<F, L, A>): Type2<F, L, [A]>
+  <L, A, B>(a: Type2<F, L, A>, b: Type2<F, L, B>): Type2<F, L, [A, B]>
+  <L, A, B, C>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>): Type2<F, L, [A, B, C]>
+  <L, A, B, C, D>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>, d: Type2<F, L, D>): Type2<F, L, [A, B, C, D]>
+  <L, A, B, C, D, E>(
+    a: Type2<F, L, A>,
+    b: Type2<F, L, B>,
+    c: Type2<F, L, C>,
+    d: Type2<F, L, D>,
+    e: Type2<F, L, E>
+  ): Type2<F, L, [A, B, C, D, E]>
+  <L, A>(...list: Type2<F, L, A>[]): Type2<F, L, A[]>
+}
+export interface Combine2C<F extends URIS2, L> {
+  <A>(a: Type2<F, L, A>): Type2<F, L, [A]>
+  <A, B>(a: Type2<F, L, A>, b: Type2<F, L, B>): Type2<F, L, [A, B]>
+  <A, B, C>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>): Type2<F, L, [A, B, C]>
+  <A, B, C, D>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>, d: Type2<F, L, D>): Type2<F, L, [A, B, C, D]>
+  <A, B, C, D, E>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>, d: Type2<F, L, D>, e: Type2<F, L, E>): Type2<
+    F,
+    L,
+    [A, B, C, D, E]
+  >
+  <A>(...list: Type2<F, L, A>[]): Type2<F, L, A[]>
+}
+export interface Combine1<F extends URIS> {
+  <A>(a: Type<F, A>): Type<F, [A]>
+  <A, B>(a: Type<F, A>, b: Type<F, B>): Type<F, [A, B]>
+  <A, B, C>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>): Type<F, [A, B, C]>
+  <A, B, C, D>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>, d: Type<F, D>): Type<F, [A, B, C, D]>
+  <A, B, C, D, E>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>, d: Type<F, D>, e: Type<F, E>): Type<F, [A, B, C, D, E]>
+  <A>(...list: Type<F, A>[]): Type<F, A[]>
+}
+export interface Combine<F> {
+  <A>(a: HKT<F, A>): HKT<F, [A]>
+  <A, B>(a: HKT<F, A>, b: HKT<F, B>): HKT<F, [A, B]>
+  <A, B, C>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>): HKT<F, [A, B, C]>
+  <A, B, C, D>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>, d: HKT<F, D>): HKT<F, [A, B, C, D]>
+  <A, B, C, D, E>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>, d: HKT<F, D>, e: HKT<F, E>): HKT<F, [A, B, C, D, E]>
+  <A>(...list: HKT<F, A>[]): HKT<F, A[]>
+}
+
+export const combine: CombineFactory = <F>(F: Applicative<F>) => {
   const t = traverse(F)
-  return (...list) => (list.length === 0 ? F.of([]) : t(list, identity))
+  return <A>(...list: HKT<F, A>[]) => (list.length === 0 ? F.of([]) : (t(list, identity) as any))
 }
 
 export const array: Monad1<URI> &

@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import {
   array,
   catOptions,
+  combine,
   cons,
   copy,
   deleteAt,
@@ -44,7 +45,7 @@ import {
   updateAt,
   zip
 } from '../src/Array'
-import { left, right } from '../src/Either'
+import { left, right, either } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
 import * as option from '../src/Option'
 import { none, some } from '../src/Option'
@@ -401,5 +402,16 @@ describe('Array', () => {
       { name: 'c', age: 2 },
       { name: 'b', age: 3 }
     ])
+  })
+
+  it('combine', () => {
+    const combineOption = combine(option.option)
+    const combineEither = combine(either)
+    assert.deepEqual(combineOption(some(1)), some([1]))
+    assert.deepEqual(combineOption(some(1), some('2')), some([1, '2']))
+    assert.deepEqual(combineOption(some(1), some('2'), none), none)
+    assert.deepEqual(combineEither(right(1)), right([1]))
+    assert.deepEqual(combineEither(right(1), right('2')), right([1, '2']))
+    assert.deepEqual(combineEither(right(1), right('2'), left('foo')), left('foo'))
   })
 })
