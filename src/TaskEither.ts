@@ -1,5 +1,5 @@
 import { Bifunctor2 } from './Bifunctor'
-import { Either, left as eitherLeft } from './Either'
+import { Either, left as eitherLeft, right as eitherRight } from './Either'
 import * as eitherT from './EitherT'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
@@ -142,6 +142,63 @@ export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
  */
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A> => {
   return new TaskEither(taskTryCatch(f, onrejected))
+}
+
+/** Convert a node style callback function to one returning a `TaskEither` */
+export function taskify<L, R>(f: (cb: (e: L, r: R) => void) => void): () => TaskEither<L, R>
+export function taskify<A, L, R>(f: (a: A, cb: (e: L, r: R) => void) => void): (a: A) => TaskEither<L, R>
+export function taskify<A, B, L, R>(f: (a: A, b: B, cb: (e: L, r: R) => void) => void): (a: A, b: B) => TaskEither<L, R>
+export function taskify<A, B, C, L, R>(
+  f: (a: A, b: B, c: C, cb: (e: L, r: R) => void) => void
+): (a: A, b: B, c: C) => TaskEither<L, R>
+export function taskify<A, B, C, D, L, R>(
+  f: (a: A, b: B, c: C, d: D, cb: (e: L, r: R) => void) => void
+): (a: A, b: B, c: C, d: D) => TaskEither<L, R>
+export function taskify<A, B, C, D, E, L, R>(
+  f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L, r: R) => void) => void
+): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
+/**
+ * Convert a node style callback function to one returning a `TaskEither`
+ *
+ * Example
+ *
+ * ```ts
+ * import * as fs from 'fs'
+ *
+ * // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
+ * const stat = taskify(fs.stat)
+ * ```
+ *
+ * **Note**. If the function `f` admits multiple overloadings, `taskify` will pick last one. If you want a different
+ * behaviour, add an explicit type annotation
+ *
+ * ```ts
+ * // readFile admits multiple overloadings
+ *
+ * // const readFile: (a: string) => TaskEither<NodeJS.ErrnoException, Buffer>
+ * const readFile = taskify(fs.readFile)
+ *
+ * const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
+ *   fs.readFile
+ * )
+ * ```
+ *
+ * @function
+ * @since 1.5.0
+ */
+export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
+  return function() {
+    const args = Array.prototype.slice.call(arguments)
+    return new TaskEither(
+      new Task(
+        () =>
+          new Promise(resolve => {
+            args.push((e: L, r: R) => (e !== null ? resolve(eitherLeft<L, R>(e)) : resolve(eitherRight<L, R>(r))))
+            f.apply(null, args)
+          })
+      )
+    )
+  }
 }
 
 /**
