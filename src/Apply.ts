@@ -325,7 +325,7 @@ export interface SequenceT<F> {
 const tupleConstructors: { [key: string]: Function1<any, any> } = {}
 
 /**
- * Tuple sequencing, i.e., take a tuple of of monadic actions and do them from left-to-right, returning the resulting tuple.
+ * Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
  * @function
  * @since 1.5.0
  * @param F - {@link Apply} instance
