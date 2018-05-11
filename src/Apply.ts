@@ -328,6 +328,12 @@ const tupleConstructors: { [key: string]: Function1<any, any> } = {}
  * Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
  * @function
  * @since 1.5.0
+ * @example
+ * const sequenceTOption = sequenceT(option)
+ * assert.deepEqual(sequenceTOption(some(1)), some([1]))
+ * assert.deepEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
+ * assert.deepEqual(sequenceTOption(some(1), some('2'), none), none)
+ *
  * @param F - {@link Apply} instance
  */
 export function sequenceT<F extends URIS3, U, L>(F: Apply3<F>): SequenceT3<F>
