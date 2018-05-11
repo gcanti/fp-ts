@@ -2,7 +2,6 @@ import * as assert from 'assert'
 import {
   array,
   catOptions,
-  combine,
   cons,
   copy,
   deleteAt,
@@ -45,10 +44,9 @@ import {
   updateAt,
   zip
 } from '../src/Array'
-import { left, right, either } from '../src/Either'
+import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
-import * as option from '../src/Option'
-import { none, some } from '../src/Option'
+import { option, Option, none, some } from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
@@ -107,11 +105,11 @@ describe('Array', () => {
 
   it('traverse', () => {
     const tfanone = [1, 2]
-    const f = (n: number): option.Option<number> => (n % 2 === 0 ? none : some(n))
-    const fasnone = traverse(option.option, array)(tfanone, f)
+    const f = (n: number): Option<number> => (n % 2 === 0 ? none : some(n))
+    const fasnone = traverse(option, array)(tfanone, f)
     assert.ok(fasnone.isNone())
     const tfa = [1, 3]
-    const fas = traverse(option.option, array)(tfa, f)
+    const fas = traverse(option, array)(tfa, f)
     assert.deepEqual(fas, some([1, 3]))
   })
 
@@ -239,10 +237,10 @@ describe('Array', () => {
   })
 
   it('refine', () => {
-    const x = refine([option.some(3), option.some(2), option.some(1)], (o): o is option.Option<number> => o.isSome())
-    assert.deepEqual(x, [option.some(3), option.some(2), option.some(1)])
-    const y = refine([option.some(3), option.none, option.some(1)], (o): o is option.Option<number> => o.isSome())
-    assert.deepEqual(y, [option.some(3), option.some(1)])
+    const x = refine([some(3), some(2), some(1)], (o): o is Option<number> => o.isSome())
+    assert.deepEqual(x, [some(3), some(2), some(1)])
+    const y = refine([some(3), none, some(1)], (o): o is Option<number> => o.isSome())
+    assert.deepEqual(y, [some(3), some(1)])
   })
 
   it('extend', () => {
@@ -402,20 +400,5 @@ describe('Array', () => {
       { name: 'c', age: 2 },
       { name: 'b', age: 3 }
     ])
-  })
-
-  it('combine', () => {
-    const combineOption = combine(option.option)
-    const combineEither = combine(either)
-    const options = [some(1), some(2)]
-    assert.deepEqual(combineOption(some(1)), some([1]))
-    assert.deepEqual(combineOption(some(1), some('2')), some([1, '2']))
-    assert.deepEqual(combineOption(some(1), some('2'), none), none)
-    assert.deepEqual(combineOption(...options), some([1, 2]))
-    const eithers = [right(1), right(2)]
-    assert.deepEqual(combineEither(right(1)), right([1]))
-    assert.deepEqual(combineEither(right(1), right('2')), right([1, '2']))
-    assert.deepEqual(combineEither(right(1), right('2'), left('foo')), left('foo'))
-    assert.deepEqual(combineEither(...eithers), right([1, 2]))
   })
 })

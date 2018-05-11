@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { applyFirst, applySecond, liftA2, liftA3, liftA4 } from '../src/Apply'
+import { applyFirst, applySecond, liftA2, liftA3, liftA4, sequenceT } from '../src/Apply'
 import { either, left, right } from '../src/Either'
 import { none, option, some } from '../src/Option'
 
@@ -60,5 +60,16 @@ describe('Apply', () => {
         .ap_(some(3)),
       some(5)
     )
+  })
+
+  it('sequenceT', () => {
+    const sequenceTOption = sequenceT(option)
+    const sequenceTEither = sequenceT(either)
+    assert.deepEqual(sequenceTOption(some(1)), some([1]))
+    assert.deepEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
+    assert.deepEqual(sequenceTOption(some(1), some('2'), none), none)
+    assert.deepEqual(sequenceTEither(right(1)), right([1]))
+    assert.deepEqual(sequenceTEither(right(1), right('2')), right([1, '2']))
+    assert.deepEqual(sequenceTEither(right(1), right('2'), left('foo')), left('foo'))
   })
 })
