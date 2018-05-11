@@ -1,7 +1,7 @@
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Semigroup } from './Semigroup'
-import { Curried2, Curried3, Curried4, constant } from './function'
+import { Curried2, Curried3, Curried4, constant, curried, Function1 } from './function'
 
 /**
  * The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
@@ -245,4 +245,114 @@ export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigrou
   return () => ({
     concat: (x, y) => concatLifted(x)(y)
   })
+}
+
+export interface SequenceT3<F extends URIS3> {
+  <U, L, A>(a: Type3<F, U, L, A>): Type3<F, U, L, [A]>
+  <U, L, A, B>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>): Type3<F, U, L, [A, B]>
+  <U, L, A, B, C>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>): Type3<F, U, L, [A, B, C]>
+  <U, L, A, B, C, D>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>, d: Type3<F, U, L, D>): Type3<
+    F,
+    U,
+    L,
+    [A, B, C, D]
+  >
+  <U, L, A, B, C, D, E>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>
+  ): Type3<F, U, L, [A, B, C, D, E]>
+}
+export interface SequenceT3C<F extends URIS3, U, L> {
+  <A>(a: Type3<F, U, L, A>): Type3<F, U, L, [A]>
+  <A, B>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>): Type3<F, U, L, [A, B]>
+  <A, B, C>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>): Type3<F, U, L, [A, B, C]>
+  <A, B, C, D>(a: Type3<F, U, L, A>, b: Type3<F, U, L, B>, c: Type3<F, U, L, C>, d: Type3<F, U, L, D>): Type3<
+    F,
+    U,
+    L,
+    [A, B, C, D]
+  >
+  <A, B, C, D, E>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>
+  ): Type3<F, U, L, [A, B, C, D, E]>
+}
+export interface SequenceT2<F extends URIS2> {
+  <L, A>(a: Type2<F, L, A>): Type2<F, L, [A]>
+  <L, A, B>(a: Type2<F, L, A>, b: Type2<F, L, B>): Type2<F, L, [A, B]>
+  <L, A, B, C>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>): Type2<F, L, [A, B, C]>
+  <L, A, B, C, D>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>, d: Type2<F, L, D>): Type2<F, L, [A, B, C, D]>
+  <L, A, B, C, D, E>(
+    a: Type2<F, L, A>,
+    b: Type2<F, L, B>,
+    c: Type2<F, L, C>,
+    d: Type2<F, L, D>,
+    e: Type2<F, L, E>
+  ): Type2<F, L, [A, B, C, D, E]>
+}
+export interface SequenceT2C<F extends URIS2, L> {
+  <A>(a: Type2<F, L, A>): Type2<F, L, [A]>
+  <A, B>(a: Type2<F, L, A>, b: Type2<F, L, B>): Type2<F, L, [A, B]>
+  <A, B, C>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>): Type2<F, L, [A, B, C]>
+  <A, B, C, D>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>, d: Type2<F, L, D>): Type2<F, L, [A, B, C, D]>
+  <A, B, C, D, E>(a: Type2<F, L, A>, b: Type2<F, L, B>, c: Type2<F, L, C>, d: Type2<F, L, D>, e: Type2<F, L, E>): Type2<
+    F,
+    L,
+    [A, B, C, D, E]
+  >
+}
+export interface SequenceT1<F extends URIS> {
+  <A>(a: Type<F, A>): Type<F, [A]>
+  <A, B>(a: Type<F, A>, b: Type<F, B>): Type<F, [A, B]>
+  <A, B, C>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>): Type<F, [A, B, C]>
+  <A, B, C, D>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>, d: Type<F, D>): Type<F, [A, B, C, D]>
+  <A, B, C, D, E>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>, d: Type<F, D>, e: Type<F, E>): Type<F, [A, B, C, D, E]>
+}
+export interface SequenceT<F> {
+  <A>(a: HKT<F, A>): HKT<F, [A]>
+  <A, B>(a: HKT<F, A>, b: HKT<F, B>): HKT<F, [A, B]>
+  <A, B, C>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>): HKT<F, [A, B, C]>
+  <A, B, C, D>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>, d: HKT<F, D>): HKT<F, [A, B, C, D]>
+  <A, B, C, D, E>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>, d: HKT<F, D>, e: HKT<F, E>): HKT<F, [A, B, C, D, E]>
+}
+
+const tupleConstructors: { [key: string]: Function1<any, any> } = {}
+
+/**
+ * Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
+ * @function
+ * @since 1.5.0
+ * @example
+ * const sequenceTOption = sequenceT(option)
+ * assert.deepEqual(sequenceTOption(some(1)), some([1]))
+ * assert.deepEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
+ * assert.deepEqual(sequenceTOption(some(1), some('2'), none), none)
+ *
+ * @param F - {@link Apply} instance
+ */
+export function sequenceT<F extends URIS3, U, L>(F: Apply3<F>): SequenceT3<F>
+export function sequenceT<F extends URIS3, U, L>(F: Apply3C<F, U, L>): SequenceT3C<F, U, L>
+export function sequenceT<F extends URIS2>(F: Apply2<F>): SequenceT2<F>
+export function sequenceT<F extends URIS2, L>(F: Apply2C<F, L>): SequenceT2C<F, L>
+export function sequenceT<F extends URIS>(F: Apply1<F>): SequenceT1<F>
+export function sequenceT<F>(F: Apply<F>): SequenceT<F>
+export function sequenceT<F>(F: Apply<F>): SequenceT<F> {
+  return (...args: any[]) => {
+    const len = args.length
+    let f = tupleConstructors[len]
+    if (!Boolean(f)) {
+      f = tupleConstructors[len] = curried((...args: any[]): any[] => args, len - 1, [])
+    }
+    let r = F.map(args[0], f)
+    for (let i = 1; i < len; i++) {
+      r = F.ap(r, args[i])
+    }
+    return r
+  }
 }

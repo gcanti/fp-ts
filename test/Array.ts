@@ -46,8 +46,7 @@ import {
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
-import * as option from '../src/Option'
-import { none, some } from '../src/Option'
+import { option, Option, none, some } from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
@@ -106,11 +105,11 @@ describe('Array', () => {
 
   it('traverse', () => {
     const tfanone = [1, 2]
-    const f = (n: number): option.Option<number> => (n % 2 === 0 ? none : some(n))
-    const fasnone = traverse(option.option, array)(tfanone, f)
+    const f = (n: number): Option<number> => (n % 2 === 0 ? none : some(n))
+    const fasnone = traverse(option, array)(tfanone, f)
     assert.ok(fasnone.isNone())
     const tfa = [1, 3]
-    const fas = traverse(option.option, array)(tfa, f)
+    const fas = traverse(option, array)(tfa, f)
     assert.deepEqual(fas, some([1, 3]))
   })
 
@@ -238,10 +237,10 @@ describe('Array', () => {
   })
 
   it('refine', () => {
-    const x = refine([option.some(3), option.some(2), option.some(1)], (o): o is option.Option<number> => o.isSome())
-    assert.deepEqual(x, [option.some(3), option.some(2), option.some(1)])
-    const y = refine([option.some(3), option.none, option.some(1)], (o): o is option.Option<number> => o.isSome())
-    assert.deepEqual(y, [option.some(3), option.some(1)])
+    const x = refine([some(3), some(2), some(1)], (o): o is Option<number> => o.isSome())
+    assert.deepEqual(x, [some(3), some(2), some(1)])
+    const y = refine([some(3), none, some(1)], (o): o is Option<number> => o.isSome())
+    assert.deepEqual(y, [some(3), some(1)])
   })
 
   it('extend', () => {

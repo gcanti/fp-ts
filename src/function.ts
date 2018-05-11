@@ -281,7 +281,7 @@ export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
   return r
 }
 
-function curried(f: Function, n: number, acc: Array<any>) {
+export function curried(f: Function, n: number, acc: Array<any>) {
   return function(this: any, x: any) {
     const combined = concat(acc, [x])
     return n === 0 ? f.apply(this, combined) : curried(f, n - 1, combined)
