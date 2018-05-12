@@ -35,6 +35,7 @@ import {
   scanRight,
   snoc,
   sort,
+  sortBy,
   sortBy1,
   span,
   tail,
@@ -376,6 +377,25 @@ describe('Array', () => {
     assert.deepEqual(uniq(setoidNumber)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
     assert.deepEqual(uniq(setoidString)(['a', 'b', 'a']), ['a', 'b'])
     assert.deepEqual(uniq(setoidString)(['a', 'b', 'A']), ['a', 'b', 'A'])
+  })
+
+  it('sortBy', () => {
+    interface Person {
+      name: string
+      age: number
+    }
+    const byName = contramapOrd((p: Person) => p.name, ordString)
+    const sortByNameByAge = sortBy([byName])
+    assert.ok(sortByNameByAge.isSome())
+    if (sortByNameByAge.isSome()) {
+      const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
+      assert.deepEqual(sortByNameByAge.value(persons), [
+        { name: 'a', age: 1 },
+        { name: 'b', age: 3 },
+        { name: 'b', age: 2 },
+        { name: 'c', age: 2 }
+      ])
+    }
   })
 
   it('sortBy1', () => {
