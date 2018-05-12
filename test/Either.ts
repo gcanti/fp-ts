@@ -10,7 +10,9 @@ import {
   getSetoid,
   left,
   right,
-  tryCatch
+  tryCatch,
+  isLeft,
+  isRight
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
@@ -29,12 +31,15 @@ describe('Either', () => {
     const f = (s: string): number => s.length
     assert.deepEqual(right('abc').map(f), right(3))
     assert.deepEqual(left<string, string>('s').map(f), left('s'))
+    assert.deepEqual(either.map(right('abc'), f), right(3))
+    assert.deepEqual(either.map(left<string, string>('s'), f), left('s'))
   })
 
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
     assert.deepEqual(right<string, number>(1).bimap(f, g), right(false))
+    assert.deepEqual(either.bimap(right<string, number>(1), f, g), right(false))
   })
 
   it('ap', () => {
@@ -46,12 +51,19 @@ describe('Either', () => {
       left<string, number>('a')
     )
     assert.deepEqual(left<string, string>('b').ap(left<string, (s: string) => number>('a')), left<string, number>('a'))
+
+    assert.deepEqual(right<string, (s: string) => number>(f).ap_(right<string, string>('abc')), right(3))
+    assert.deepEqual(
+      left<string, (s: string) => number>('a').ap_(right<string, string>('abc')),
+      left<string, number>('a')
+    )
   })
 
   it('chain', () => {
     const f = (s: string) => right<string, number>(s.length)
     assert.deepEqual(right<string, string>('abc').chain(f), right(3))
     assert.deepEqual(left<string, string>('a').chain(f), left('a'))
+    assert.deepEqual(either.chain(right<string, string>('abc'), f), right(3))
   })
 
   it('fromPredicate', () => {
@@ -170,5 +182,57 @@ describe('Either', () => {
     assert.deepEqual(right(12).filterOrElseL(n => n > 10, () => -1), right(12))
     assert.deepEqual(right(7).filterOrElseL(n => n > 10, () => -1), left(-1))
     assert.deepEqual(left(12).filterOrElseL(n => n > 10, () => -1), left(12))
+  })
+
+  it('isLeft', () => {
+    assert.strictEqual(right(1).isLeft(), false)
+    assert.strictEqual(left(1).isLeft(), true)
+    assert.strictEqual(isLeft(right(1)), false)
+    assert.strictEqual(isLeft(left(1)), true)
+  })
+
+  it('isRight', () => {
+    assert.strictEqual(right(1).isRight(), true)
+    assert.strictEqual(left(1).isRight(), false)
+    assert.strictEqual(isRight(right(1)), true)
+    assert.strictEqual(isRight(left(1)), false)
+  })
+
+  it('alt', () => {
+    assert.deepEqual(right<string, number>(1).alt(right<string, number>(2)), right<string, number>(1))
+    assert.deepEqual(right<string, number>(1).alt(left<string, number>('foo')), right<string, number>(1))
+    assert.deepEqual(left<string, number>('foo').alt(right<string, number>(1)), right<string, number>(1))
+    assert.deepEqual(left<string, number>('foo').alt(left<string, number>('bar')), left<string, number>('bar'))
+    assert.deepEqual(either.alt(right<string, number>(1), right<string, number>(2)), right<string, number>(1))
+  })
+
+  it('extend', () => {
+    assert.deepEqual(right(1).extend(() => 2), right(2))
+    assert.deepEqual(left('foo').extend(() => 2), left('foo'))
+    assert.deepEqual(either.extend(right(1), () => 2), right(2))
+  })
+
+  it('reduce', () => {
+    assert.deepEqual(right('bar').reduce('foo', (b, a) => b + a), 'foobar')
+    assert.deepEqual(left('bar').reduce('foo', (b, a) => b + a), 'foo')
+    assert.deepEqual(either.reduce(right('bar'), 'foo', (b, a) => b + a), 'foobar')
+  })
+
+  it('mapLeft', () => {
+    const double = (n: number): number => n * 2
+    assert.deepEqual(right<number, string>('bar').mapLeft(double), right('bar'))
+    assert.deepEqual(left<number, string>(2).mapLeft(double), left(4))
+  })
+
+  it('toString', () => {
+    assert.strictEqual(right('bar').toString(), 'right("bar")')
+    assert.strictEqual(right('bar').inspect(), 'right("bar")')
+    assert.strictEqual(left('bar').toString(), 'left("bar")')
+    assert.strictEqual(left('bar').inspect(), 'left("bar")')
+  })
+
+  it('swap', () => {
+    assert.deepEqual(right('bar').swap(), left('bar'))
+    assert.deepEqual(left('bar').swap(), right('bar'))
   })
 })
