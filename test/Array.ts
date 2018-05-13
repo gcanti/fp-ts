@@ -126,6 +126,7 @@ describe('Array', () => {
 
   it('index', () => {
     assert.deepEqual(index(1, as), some(2))
+    assert.deepEqual(index(3, as), none)
   })
 
   it('cons', () => {
@@ -140,6 +141,7 @@ describe('Array', () => {
 
   it('head', () => {
     assert.deepEqual(head(as), some(1))
+    assert.deepEqual(head([]), none)
   })
 
   it('last', () => {
