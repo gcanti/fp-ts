@@ -1,14 +1,14 @@
 import * as assert from 'assert'
 import { none, option, some } from '../src/Option'
 import { reader } from '../src/Reader'
-import { fromReader, getReaderT } from '../src/ReaderT'
+import * as readerT from '../src/ReaderT'
 import { StrMap, lookup } from '../src/StrMap'
 
-const readerOption = getReaderT(option)
+const readerOption = readerT.getReaderT(option)
 
 describe('ReaderT', () => {
-  it('fromState', () => {
-    const f = fromReader(option)(reader.of<void, number>(1))
+  it('fromReader', () => {
+    const f = readerT.fromReader(option)(reader.of<void, number>(1))
     assert.deepEqual(f(undefined), some(1))
   })
 
@@ -37,5 +37,29 @@ describe('ReaderT', () => {
     })
 
     assert.deepEqual(setupConnection(badConfig), none)
+  })
+
+  it('of', () => {
+    const of = readerT.of(option)
+    assert.deepEqual(of(1)({}), some(1))
+  })
+
+  it('ap', () => {
+    const of = readerT.of(option)
+    const ap = readerT.ap(option)
+    const double = (n: number): number => n * 2
+    const fab = of(double)
+    const fa = of(1)
+    assert.deepEqual(ap(fab, fa)({}), some(2))
+  })
+
+  it('ask', () => {
+    const ask = readerT.ask(option)
+    assert.deepEqual(ask()(1), some(1))
+  })
+
+  it('asks', () => {
+    const asks = readerT.asks(option)
+    assert.deepEqual(asks((s: string) => s.length)('foo'), some(3))
   })
 })
