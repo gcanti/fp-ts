@@ -5,12 +5,15 @@ import {
   Option,
   fromEither,
   fromNullable,
+  fromPredicate,
   fromRefinement,
   getFirstMonoid,
   getLastMonoid,
   getMonoid,
   getOrd,
   getSetoid,
+  isNone,
+  isSome,
   none,
   option,
   some,
@@ -28,6 +31,30 @@ describe('Option', () => {
     const g = (s: string) => `some${s.length}`
     assert.strictEqual(none.fold(f, g), 'none')
     assert.strictEqual(some('abc').fold(f, g), 'some3')
+  })
+
+  it('foldL', () => {
+    const f = () => 'none'
+    const g = (s: string) => `some${s.length}`
+    assert.strictEqual(none.foldL(f, g), 'none')
+    assert.strictEqual(some('abc').foldL(f, g), 'some3')
+  })
+
+  it('toNullable', () => {
+    assert.strictEqual(none.toNullable(), null)
+    assert.strictEqual(some(1).toNullable(), 1)
+  })
+
+  it('toUndefined', () => {
+    assert.strictEqual(none.toUndefined(), undefined)
+    assert.strictEqual(some(1).toUndefined(), 1)
+  })
+
+  it('toString', () => {
+    assert.strictEqual(none.toString(), 'none')
+    assert.strictEqual(some(1).toString(), 'some(1)')
+    assert.strictEqual(none.inspect(), 'none')
+    assert.strictEqual(some(1).inspect(), 'some(1)')
   })
 
   it('getOrElse', () => {
@@ -58,6 +85,7 @@ describe('Option', () => {
     const f = (n: number) => n * 2
     assert.deepEqual(some(2).map(f), some(4))
     assert.deepEqual(none.map(f), none)
+    assert.deepEqual(option.map(some(2), f), some(4))
   })
 
   it('getSetoid', () => {
@@ -102,6 +130,9 @@ describe('Option', () => {
     assert.deepEqual(none.ap(some(f)), none)
     assert.deepEqual(some(2).ap(none), none)
     assert.deepEqual(some(2).ap(some(f)), some(4))
+    assert.deepEqual(option.ap(some(f), some(2)), some(4))
+    assert.deepEqual(some(f).ap_(some(2)), some(4))
+    assert.deepEqual(none.ap_(some(2)), none)
   })
 
   it('chain', () => {
@@ -128,10 +159,23 @@ describe('Option', () => {
     assert.deepEqual(none.alt(none), none)
   })
 
+  it('extend', () => {
+    const f = (fa: Option<number>) => fa.getOrElse(0)
+    assert.deepEqual(some(2).extend(f), some(2))
+    assert.deepEqual(none.extend(f), none)
+    assert.deepEqual(option.extend(some(2), f), some(2))
+  })
+
   it('fromNullable', () => {
     assert.deepEqual(fromNullable(2), some(2))
     assert.deepEqual(fromNullable(null), none)
     assert.deepEqual(fromNullable(undefined), none)
+  })
+
+  it('fromPredicate', () => {
+    const f = fromPredicate((n: number) => n > 2)
+    assert.deepEqual(f(1), none)
+    assert.deepEqual(f(3), some(3))
   })
 
   it('traverse', () => {
@@ -169,17 +213,17 @@ describe('Option', () => {
   })
 
   it('isNone', () => {
-    const x: Option<number> = none
-    assert.equal(x.isNone(), true)
+    assert.equal(none.isNone(), true)
     assert.equal(some(1).isNone(), false)
     assert.equal(some(null).isNone(), false)
+    assert.equal(isNone(none), true)
   })
 
   it('isSome', () => {
-    const x: Option<number> = none
-    assert.equal(x.isSome(), false)
+    assert.equal(none.isSome(), false)
     assert.equal(some(1).isSome(), true)
     assert.equal(some(null).isSome(), true)
+    assert.equal(isSome(none), false)
   })
 
   it('exists', () => {
