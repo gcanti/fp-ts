@@ -10,7 +10,9 @@ import {
   getObjectSemigroup,
   getProductSemigroup,
   getRecordSemigroup,
-  semigroupSum
+  semigroupProduct,
+  semigroupSum,
+  getFirstSemigroup
 } from '../src/Semigroup'
 
 describe('Semigroup', () => {
@@ -83,5 +85,13 @@ describe('Semigroup', () => {
     const expected = Object.assign({}, foo, bar)
     assert.strictEqual(result.foo, expected.foo)
     assert.strictEqual(result.bar, expected.bar)
+  })
+
+  it('semigroupProduct', () => {
+    assert.strictEqual(semigroupProduct.concat(2, 3), 6)
+  })
+
+  it('getFirstSemigroup', () => {
+    assert.deepEqual(getFirstSemigroup<number>().concat(1, 2), 1)
   })
 })
