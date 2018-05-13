@@ -9,7 +9,10 @@ import {
   getSemigroup,
   ordDate,
   ordNumber,
-  ordString
+  ordString,
+  lessThanOrEq,
+  greaterThanOrEq,
+  fromCompare
 } from '../src/Ord'
 
 describe('Ord', () => {
@@ -67,5 +70,25 @@ describe('Ord', () => {
     assert.strictEqual(ordDate.compare(new Date(0), new Date(0)), 0)
     assert.strictEqual(ordDate.compare(new Date(0), new Date(1)), -1)
     assert.strictEqual(ordDate.compare(new Date(1), new Date(0)), 1)
+  })
+
+  it('lessThanOrEq', () => {
+    const leq = lessThanOrEq(ordNumber)
+    assert.strictEqual(leq(0, 1), true)
+    assert.strictEqual(leq(1, 1), true)
+    assert.strictEqual(leq(2, 1), false)
+  })
+
+  it('greaterThanOrEq', () => {
+    const geq = greaterThanOrEq(ordNumber)
+    assert.strictEqual(geq(0, 1), false)
+    assert.strictEqual(geq(1, 1), true)
+    assert.strictEqual(geq(2, 1), true)
+  })
+
+  it('fromCompare', () => {
+    const O = fromCompare(ordNumber.compare)
+    assert.strictEqual(O.equals(0, 1), false)
+    assert.strictEqual(O.equals(1, 1), true)
   })
 })
