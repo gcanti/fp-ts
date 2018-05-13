@@ -12,9 +12,13 @@ import {
   these,
   theseLeft,
   theseRight,
-  this_
+  this_,
+  isThis,
+  isThat,
+  isBoth
 } from '../src/These'
 import { traverse } from '../src/Traversable'
+import { semigroupString } from '../src/Semigroup'
 
 describe('These', () => {
   it('getSetoid', () => {
@@ -46,17 +50,35 @@ describe('These', () => {
   })
 
   it('map', () => {
-    const { equals } = getSetoid(setoidNumber, setoidNumber)
     const double = (n: number) => n * 2
-    assert.strictEqual(equals(this_<number, number>(2).map(double), this_(2)), true)
-    assert.strictEqual(equals(that<number, number>(2).map(double), that(4)), true)
-    assert.strictEqual(equals(both(1, 2).map(double), both(1, 4)), true)
+    assert.deepEqual(this_<number, number>(2).map(double), this_(2))
+    assert.deepEqual(that<number, number>(2).map(double), that(4))
+    assert.deepEqual(both(1, 2).map(double), both(1, 4))
+    assert.deepEqual(these.map(both(1, 2), double), both(1, 4))
+  })
+
+  it('getMonad', () => {
+    const double = (n: number) => n * 2
+    const F = getMonad(semigroupString)
+    const fab = F.of(double)
+    const fa = F.of(1)
+    assert.deepEqual(F.ap(fab, fa), F.of(2))
+  })
+
+  it('fold', () => {
+    const double = (n: number) => n * 2
+    const len = (s: string) => s.length
+    const f = (s: string, n: number) => len(s) + double(n)
+    assert.strictEqual(this_<string, number>('foo').fold(len, double, f), 3)
+    assert.strictEqual(that<string, number>(1).fold(len, double, f), 2)
+    assert.strictEqual(both<string, number>('foo', 1).fold(len, double, f), 5)
   })
 
   it('bimap', () => {
     const len = (s: string): number => s.length
     const double = (n: number): number => n * 2
     assert.deepEqual(both('foo', 1).bimap(len, double), both(3, 2))
+    assert.deepEqual(these.bimap(both('foo', 1), len, double), both(3, 2))
   })
 
   it('fromThese', () => {
@@ -106,5 +128,50 @@ describe('These', () => {
     assert.deepEqual(theseRight(this_(1)), none)
     assert.deepEqual(theseRight(that(1)), some(1))
     assert.deepEqual(theseRight(both('foo', 1)), some(1))
+  })
+
+  it('toString', () => {
+    assert.strictEqual(this_(1).toString(), 'this_(1)')
+    assert.strictEqual(this_(1).inspect(), 'this_(1)')
+    assert.strictEqual(that(1).toString(), 'that(1)')
+    assert.strictEqual(that(1).inspect(), 'that(1)')
+    assert.strictEqual(both('a', 1).toString(), 'both("a", 1)')
+    assert.strictEqual(both('a', 1).inspect(), 'both("a", 1)')
+  })
+
+  it('isThis', () => {
+    assert.strictEqual(this_(1).isThis(), true)
+    assert.strictEqual(that(1).isThis(), false)
+    assert.strictEqual(both('1', 1).isThis(), false)
+    assert.strictEqual(isThis(this_(1)), true)
+    assert.strictEqual(isThis(that(1)), false)
+    assert.strictEqual(isThis(both('1', 1)), false)
+  })
+
+  it('isThat', () => {
+    assert.strictEqual(this_(1).isThat(), false)
+    assert.strictEqual(that(1).isThat(), true)
+    assert.strictEqual(both('1', 1).isThat(), false)
+    assert.strictEqual(isThat(this_(1)), false)
+    assert.strictEqual(isThat(that(1)), true)
+    assert.strictEqual(isThat(both('1', 1)), false)
+  })
+
+  it('isBoth', () => {
+    assert.strictEqual(this_(1).isBoth(), false)
+    assert.strictEqual(that(1).isBoth(), false)
+    assert.strictEqual(both('1', 1).isBoth(), true)
+    assert.strictEqual(isBoth(this_(1)), false)
+    assert.strictEqual(isBoth(that(1)), false)
+    assert.strictEqual(isBoth(both('1', 1)), true)
+  })
+
+  it('reduce', () => {
+    assert.strictEqual(this_('b').reduce('a', (b, a) => b + a), 'a')
+    assert.strictEqual(these.reduce(this_('b'), 'a', (b, a) => b + a), 'a')
+    assert.strictEqual(that('b').reduce('a', (b, a) => b + a), 'ab')
+    assert.strictEqual(these.reduce(that('b'), 'a', (b, a) => b + a), 'ab')
+    assert.strictEqual(both(1, 'b').reduce('a', (b, a) => b + a), 'ab')
+    assert.strictEqual(these.reduce(both(1, 'b'), 'a', (b, a) => b + a), 'ab')
   })
 })
