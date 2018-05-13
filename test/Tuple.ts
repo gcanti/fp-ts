@@ -15,23 +15,73 @@ import {
   getOrd,
   getSemigroup,
   getSetoid,
-  tuple
+  tuple,
+  getMonoid
 } from '../src/Tuple'
 
 describe('Tuple', () => {
   it('compose', () => {
-    assert.deepEqual(new Tuple(true, 2).compose(new Tuple(1, 's')), new Tuple(true, 's'))
+    const x = new Tuple(true, 2)
+    const y = new Tuple(1, 's')
+    const z = new Tuple(true, 's')
+    assert.deepEqual(x.compose(y), z)
+    assert.deepEqual(tuple.compose(y, x), z)
   })
 
   it('map', () => {
     const double = (n: number): number => n * 2
-    assert.deepEqual(new Tuple('s', 1).map(double), new Tuple('s', 2))
+    const x = new Tuple('s', 1)
+    const y = new Tuple('s', 2)
+    assert.deepEqual(x.map(double), y)
+    assert.deepEqual(tuple.map(x, double), y)
+  })
+
+  it('extract', () => {
+    const x = new Tuple('a', 1)
+    assert.deepEqual(x.extract(), 1)
+    assert.deepEqual(tuple.extract(x), 1)
+  })
+
+  it('extend', () => {
+    const x = new Tuple('a', 1)
+    const f = (fa: Tuple<string, number>): number => fa.fst.length + fa.snd
+    const y = new Tuple('a', 2)
+    assert.deepEqual(x.extend(f), y)
+    assert.deepEqual(tuple.extend(x, f), y)
+  })
+
+  it('getApplicative', () => {
+    const F = getApplicative(monoidString)
+    const double = (n: number): number => n * 2
+    const x = F.of(double)
+    const y = new Tuple('a', 1)
+    const z = new Tuple('a', 2)
+    assert.deepEqual(F.ap(x, y), z)
+  })
+
+  it('getMonad', () => {
+    const M = getMonad(monoidString)
+    const f = (n: number) => M.of(n * 2)
+    const x = new Tuple('a', 1)
+    const y = new Tuple('a', 2)
+    assert.deepEqual(M.chain(x, f), y)
+  })
+
+  it('getMonoid', () => {
+    const M = getMonoid(monoidString, monoidSum)
+    const x = new Tuple('a', 1)
+    const y = new Tuple('b', 2)
+    const z = new Tuple('ab', 3)
+    assert.deepEqual(M.concat(x, y), z)
   })
 
   it('bimap', () => {
     const double = (n: number): number => n * 2
     const len = (s: string): number => s.length
-    assert.deepEqual(new Tuple('s', 1).bimap(len, double), new Tuple(1, 2))
+    const x = new Tuple('a', 1)
+    const y = new Tuple(1, 2)
+    assert.deepEqual(x.bimap(len, double), y)
+    assert.deepEqual(tuple.bimap(x, len, double), y)
   })
 
   it('getSemigroup', () => {
@@ -41,6 +91,21 @@ describe('Tuple', () => {
 
   it('toString', () => {
     assert.strictEqual(new Tuple('a', 1).toString(), `new Tuple("a", 1)`)
+    assert.strictEqual(new Tuple('a', 1).inspect(), `new Tuple("a", 1)`)
+  })
+
+  it('reduce', () => {
+    const x = new Tuple(1, 'b')
+    assert.strictEqual(x.reduce('a', (b, a) => b + a), 'ab')
+    assert.strictEqual(tuple.reduce(x, 'a', (b, a) => b + a), 'ab')
+  })
+
+  it('swap', () => {
+    assert.deepEqual(new Tuple('a', 1).swap(), new Tuple(1, 'a'))
+  })
+
+  it('toTuple', () => {
+    assert.deepEqual(new Tuple('a', 1).toTuple(), ['a', 1])
   })
 
   it('getApply', () => {
