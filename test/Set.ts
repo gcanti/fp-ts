@@ -143,7 +143,10 @@ describe('Set', () => {
   })
 
   it('insert', () => {
-    assert.deepEqual(insert(setoidNumber)(3, new Set([1, 2])), new Set([1, 2, 3]))
+    const x = new Set([1, 2])
+    assert.deepEqual(insert(setoidNumber)(3, x), new Set([1, 2, 3]))
+    // should return the same ference if the element is already a member
+    assert.strictEqual(insert(setoidNumber)(2, x), x)
   })
 
   it('remove', () => {
