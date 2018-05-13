@@ -5,6 +5,7 @@ import {
   fold,
   getArraySemigroup,
   getDictionarySemigroup,
+  getFirstSemigroup,
   getJoinSemigroup,
   getMeetSemigroup,
   getObjectSemigroup,
@@ -12,7 +13,7 @@ import {
   getRecordSemigroup,
   semigroupProduct,
   semigroupSum,
-  getFirstSemigroup
+  semigroupVoid
 } from '../src/Semigroup'
 
 describe('Semigroup', () => {
@@ -93,5 +94,9 @@ describe('Semigroup', () => {
 
   it('getFirstSemigroup', () => {
     assert.deepEqual(getFirstSemigroup<number>().concat(1, 2), 1)
+  })
+
+  it('semigroupVoid', () => {
+    assert.deepEqual(semigroupVoid.concat(undefined, undefined), undefined)
   })
 })
