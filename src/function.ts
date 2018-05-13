@@ -308,7 +308,8 @@ export function curry(f: Function) {
   return curried(f, f.length - 1, [])
 }
 
-const getFunctionName = (f: Function): string => (f as any).displayName || (f as any).name || `<function${f.length}>`
+/* tslint:disable-next-line */
+const getFunctionName = (f: Function): string => (f as any).displayName || f.name || `<function${f.length}>`
 
 /**
  * @function
