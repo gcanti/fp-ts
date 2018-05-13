@@ -10,7 +10,8 @@ import {
   monoidAll,
   monoidAny,
   monoidString,
-  monoidSum
+  monoidSum,
+  getProductMonoid
 } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
 
@@ -77,5 +78,10 @@ describe('Monoid', () => {
       fff: bar.fff
     }
     assert.deepEqual(result, expected)
+  })
+
+  it('getArrayMonoid', () => {
+    const M = getProductMonoid(monoidString, monoidSum)
+    assert.deepEqual(M.empty, ['', 0])
   })
 })
