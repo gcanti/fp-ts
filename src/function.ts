@@ -308,6 +308,8 @@ export function curry(f: Function) {
   return curried(f, f.length - 1, [])
 }
 
+const getFunctionName = (f: Function): string => (f as any).displayName || (f as any).name || `<function${f.length}>`
+
 /**
  * @function
  * @since 1.0.0
@@ -321,6 +323,9 @@ export const toString = (x: any): string => {
   }
   if (Array.isArray(x)) {
     return `[${x.map(toString).join(', ')}]`
+  }
+  if (typeof x === 'function') {
+    return getFunctionName(x)
   }
   try {
     return JSON.stringify(x, null, 2)
