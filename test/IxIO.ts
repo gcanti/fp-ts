@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import * as io from '../src/IO'
-import * as ixIO from '../src/IxIO'
-import { IxIO } from '../src/IxIO'
+import { IxIO, ixIO, getMonad } from '../src/IxIO'
 import { iapplyFirst, iapplySecond } from '../src/IxMonad'
 
 //
@@ -69,15 +68,42 @@ describe('IxIO', () => {
 
   it('iapplyFirst', () => {
     log = []
-    const action = iapplyFirst(ixIO.ixIO)(new Open(), new Close())
+    const action = iapplyFirst(ixIO)(new Open(), new Close())
     action.run()
     assert.deepEqual(log, ['Opening the door', 'Closing the door'])
   })
 
   it('iapplySecond', () => {
     log = []
-    const action = iapplySecond(ixIO.ixIO)(new Open(), new Close())
+    const action = iapplySecond(ixIO)(new Open(), new Close())
     action.run()
     assert.deepEqual(log, ['Opening the door', 'Closing the door'])
+  })
+
+  it('map', () => {
+    const double = (n: number): number => n * 2
+    const x = ixIO.iof(1)
+    assert.strictEqual(x.map(double).run(), 2)
+  })
+
+  it('ap', () => {
+    const double = (n: number): number => n * 2
+    const fab = ixIO.iof(double)
+    const fa = ixIO.iof(1)
+    assert.strictEqual(fa.ap(fab).run(), 2)
+  })
+
+  it('chain', () => {
+    const f = (n: number) => ixIO.iof(n * 2)
+    const fa = ixIO.iof(1)
+    assert.strictEqual(fa.chain(f).run(), 2)
+  })
+
+  it('getMonad', () => {
+    const M = getMonad<number>()
+    const double = (n: number): number => n * 2
+    assert.strictEqual(M.map(M.of(1), double).run(), 2)
+    assert.strictEqual(M.ap(M.of(double), M.of(1)).run(), 2)
+    assert.strictEqual(M.chain(M.of(1), n => M.of(n * 2)).run(), 2)
   })
 })
