@@ -4,7 +4,15 @@ import { HKT } from './HKT'
  * @function
  * @since 1.0.0
  */
-export const unsafeCoerce = <A, B>(a: A): B => a as any
+export const identity = <A>(a: A): A => {
+  return a
+}
+
+/**
+ * @function
+ * @since 1.0.0
+ */
+export const unsafeCoerce: <A, B>(a: A) => B = identity as any
 
 export type Lazy<A> = () => A
 
@@ -110,14 +118,6 @@ export const constNull = (): null => {
  */
 export const constUndefined = (): undefined => {
   return
-}
-
-/**
- * @function
- * @since 1.0.0
- */
-export const identity = <A>(a: A): A => {
-  return a
 }
 
 /**

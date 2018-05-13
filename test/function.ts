@@ -1,5 +1,22 @@
 import * as assert from 'assert'
-import { and, apply, applyFlipped, compose, curry, flip, on, or, pipe } from '../src/function'
+import {
+  and,
+  apply,
+  applyFlipped,
+  compose,
+  curry,
+  flip,
+  identity,
+  on,
+  or,
+  pipe,
+  unsafeCoerce,
+  constTrue,
+  constFalse,
+  constNull,
+  constUndefined,
+  toString
+} from '../src/function'
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
@@ -96,5 +113,37 @@ describe('function', () => {
 
   it('applyFlipped', () => {
     assert.strictEqual(applyFlipped(2)(n => n * 2), 4)
+  })
+
+  it('unsafeCoerce', () => {
+    assert.strictEqual(unsafeCoerce, identity)
+  })
+
+  it('constTrue', () => {
+    assert.strictEqual(constTrue(), true)
+  })
+
+  it('constFalse', () => {
+    assert.strictEqual(constFalse(), false)
+  })
+
+  it('constNull', () => {
+    assert.strictEqual(constNull(), null)
+  })
+
+  it('constUndefined', () => {
+    assert.strictEqual(constUndefined(), undefined)
+  })
+
+  it('toString', () => {
+    assert.strictEqual(toString('a'), '"a"')
+    const date = new Date()
+    assert.strictEqual(toString(date), `new Date('${date.toISOString()}')`)
+    assert.deepEqual(toString(['a', 'b']), '["a", "b"]')
+    assert.deepEqual(toString(() => {}), '<function0>')
+    assert.deepEqual(toString(function f() {}), 'f')
+    const nonStringifyable: { a?: any } = {}
+    nonStringifyable.a = nonStringifyable
+    assert.deepEqual(toString(nonStringifyable), '[object Object]')
   })
 })
