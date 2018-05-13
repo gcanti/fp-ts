@@ -39,6 +39,7 @@ describe('Either', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
     assert.deepEqual(right<string, number>(1).bimap(f, g), right(false))
+    assert.deepEqual(left<string, number>('foo').bimap(f, g), left(3))
     assert.deepEqual(either.bimap(right<string, number>(1), f, g), right(false))
   })
 

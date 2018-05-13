@@ -10,6 +10,7 @@ import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
 import { Predicate, phantom, toString } from './function'
+import { Bifunctor2 } from './Bifunctor'
 
 // Adapted from https://github.com/purescript/purescript-validation
 
@@ -51,7 +52,7 @@ export class Failure<L, A> {
     return b
   }
   fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
-    return this as any
+    return failure(this.value)
   }
   /** Returns the value from this `Success` or the given argument if this is a `Failure` */
   getOrElse(a: A): A {
@@ -222,6 +223,10 @@ const traverse = <F>(F: Applicative<F>) => <L, A, B>(
   return ta.isFailure() ? F.of(failure(ta.value)) : F.map(f(ta.value), of as (a: B) => Validation<L, B>)
 }
 
+const bimap = <L, V, A, B>(fla: Validation<L, A>, f: (u: L) => V, g: (a: A) => B): Validation<V, B> => {
+  return fla.bimap(f, g)
+}
+
 /**
  * @function
  * @since 1.0.0
@@ -317,9 +322,10 @@ export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
  * @instance
  * @since 1.0.0
  */
-export const validation: Functor2<URI> & Foldable2<URI> & Traversable2<URI> = {
+export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   map,
+  bimap,
   reduce,
   traverse
 }
