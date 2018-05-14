@@ -13,6 +13,15 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.5.0
+
+* **New Feature**
+  * Allow the usage of a custom `Semigroup` for `StrMap.getMonoid` (@mlegenhausen)
+  * add `applySecond` method to `IO`, `Task`, `TaskEither`, closes #418 (@gcanti)
+  * add `TaskEither.fromIO` (@gcanti)
+  * add `Apply.sequenceT` (@raveclassic)
+  * add `TaskEither.taskify`, utility to convert callback-based node APIs, closes #422 (@gcanti)
+
 # 1.4.1
 
 * **Bug Fix**
