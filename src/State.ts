@@ -76,7 +76,7 @@ export const get = <S>(): State<S, S> => {
  * @function
  * @since 1.0.0
  */
-export const put = <S>(s: S): State<S, undefined> => {
+export const put = <S>(s: S): State<S, void> => {
   return new State(() => [undefined, s])
 }
 
