@@ -1,3 +1,4 @@
+import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import { Either, left as eitherLeft, right as eitherRight } from './Either'
 import * as eitherT from './EitherT'
@@ -66,6 +67,12 @@ export class TaskEither<L, A> {
     return new TaskEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTTask.of(a))))
   }
   /**
+   * @since 1.6.0
+   */
+  alt(fy: TaskEither<L, A>): TaskEither<L, A> {
+    return this.orElse(() => fy)
+  }
+  /**
    * @since 1.2.0
    */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> {
@@ -87,6 +94,10 @@ const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): Tas
 
 const chain = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => TaskEither<L, B>): TaskEither<L, B> => {
   return fa.chain(f)
+}
+
+const alt = <L, A, B>(fx: TaskEither<L, A>, fy: TaskEither<L, A>): TaskEither<L, A> => {
+  return fx.alt(fy)
 }
 
 const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> => {
@@ -205,11 +216,12 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  * @instance
  * @since 1.0.0
  */
-export const taskEither: Monad2<URI> & Bifunctor2<URI> = {
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = {
   URI,
   bimap,
   map,
   of,
   ap,
-  chain
+  chain,
+  alt
 }

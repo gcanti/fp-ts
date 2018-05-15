@@ -140,4 +140,23 @@ describe('TaskEither', () => {
       assert.deepEqual(e2, eitherLeft(new Error('ko')))
     })
   })
+
+  it('alt', () => {
+    const l1 = fromLeft<string, number>('foo')
+    const l2 = fromLeft<string, number>('bar')
+    const r1 = taskEither.of<string, number>(1)
+    const r2 = taskEither.of<string, number>(2)
+    const x1 = l1.alt(l2)
+    const x2 = l1.alt(r1)
+    const x3 = r1.alt(l1)
+    const x4 = r1.alt(r2)
+    const x5 = taskEither.alt(r1, r2)
+    return Promise.all([x1.run(), x2.run(), x3.run(), x4.run(), x5.run()]).then(([e1, e2, e3, e4, e5]) => {
+      assert.deepEqual(e1, eitherLeft('bar'))
+      assert.deepEqual(e2, eitherRight(1))
+      assert.deepEqual(e3, eitherRight(1))
+      assert.deepEqual(e4, eitherRight(1))
+      assert.deepEqual(e4, e5)
+    })
+  })
 })
