@@ -203,29 +203,29 @@ export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => {
  * Create a dictionary from a foldable collection of key/value pairs, using the specified function to combine values for
  * duplicate keys.
  */
-export function fromFoldable<F extends URIS3>(
-  F: Foldable3<F>
-): <U, L, A>(ta: Type3<F, U, L, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
-export function fromFoldable<F extends URIS2>(
-  F: Foldable2<F>
-): <L, A>(ta: Type2<F, L, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
-export function fromFoldable<F extends URIS>(
-  F: Foldable1<F>
-): <A>(ta: Type<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
-export function fromFoldable<F>(F: Foldable<F>): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
+export function fromFoldable<F extends URIS3, A>(
+  F: Foldable3<F>,
+  S: Semigroup<A>
+): <U, L>(ta: Type3<F, U, L, [string, A]>) => StrMap<A>
+export function fromFoldable<F extends URIS2, A>(
+  F: Foldable2<F>,
+  S: Semigroup<A>
+): <L>(ta: Type2<F, L, [string, A]>) => StrMap<A>
+export function fromFoldable<F extends URIS, A>(
+  F: Foldable1<F>,
+  S: Semigroup<A>
+): (ta: Type<F, [string, A]>) => StrMap<A>
+export function fromFoldable<F, A>(F: Foldable<F>, S: Semigroup<A>): (ta: HKT<F, [string, A]>) => StrMap<A>
 /**
  * Create a dictionary from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
+ * specified Semigroup to combine values for duplicate keys.
  * @function
- * @since 1.0.0
+ * @since 2.0.0
  */
-export function fromFoldable<F>(
-  F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A> {
-  return (ta, f) =>
-    F.reduce(ta, new StrMap({}), (b, a) => {
-      const k = a[0]
-      b.value[k] = b.value.hasOwnProperty(k) ? f(b.value[k], a[1]) : a[1]
+export function fromFoldable<F, A>(F: Foldable<F>, S: Semigroup<A>): (ta: HKT<F, [string, A]>) => StrMap<A> {
+  return ta =>
+    F.reduce(ta, new StrMap({}), (b, [k, v]) => {
+      b.value[k] = b.value.hasOwnProperty(k) ? S.concat(b.value[k], v) : v
       return b
     })
 }
