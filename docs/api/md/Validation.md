@@ -151,7 +151,7 @@ _instance_
 _since 1.0.0_
 
 ```ts
-Functor2<URI> & Foldable2<URI> & Traversable2<URI>
+Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
 
 # failure

@@ -94,7 +94,7 @@ _function_
 _since 1.0.0_
 
 ```ts
-<A = never>(): Monoid<StrMap<A>>
+<A = never>(S: Semigroup<A> = getLastSemigroup()): Monoid<StrMap<A>>
 ```
 
 # getSetoid

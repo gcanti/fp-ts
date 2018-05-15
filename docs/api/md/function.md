@@ -223,5 +223,7 @@ _function_
 _since 1.0.0_
 
 ```ts
-;<A, B>(a: A): B => a as any
+identity as any
 ```
+
+`<A, B>(a: A) => B`

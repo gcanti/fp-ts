@@ -32,6 +32,18 @@ _since 1.0.0_
 <B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C>
 ```
 
+### applySecond
+
+_method_
+
+_since 1.5.0_
+
+```ts
+<B>(fb: TaskEither<L, B>): TaskEither<L, B>
+```
+
+Combine two effectful actions, keeping only the result of the second
+
 ### bimap
 
 _method_
@@ -126,6 +138,16 @@ _since 1.0.0_
 <L, A>(fa: Either<L, A>): TaskEither<L, A>
 ```
 
+# fromIO
+
+_function_
+
+_since 1.5.0_
+
+```ts
+<L, A>(fa: IO<A>): TaskEither<L, A>
+```
+
 # fromLeft
 
 _function_
@@ -154,6 +176,41 @@ _since 1.0.0_
 
 ```ts
 <L, A>(fa: Task<A>): TaskEither<L, A>
+```
+
+# taskify
+
+_function_
+
+_since 1.5.0_
+
+```ts
+taskify<L, R>(f: Function): () => TaskEither<L, R>
+```
+
+Convert a node style callback function to one returning a `TaskEither`
+
+Example
+
+```ts
+import * as fs from 'fs'
+
+// const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
+const stat = taskify(fs.stat)
+```
+
+**Note**. If the function `f` admits multiple overloadings, `taskify` will pick last one. If you want a different
+behaviour, add an explicit type annotation
+
+```ts
+// readFile admits multiple overloadings
+
+// const readFile: (a: string) => TaskEither<NodeJS.ErrnoException, Buffer>
+const readFile = taskify(fs.readFile)
+
+const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
+  fs.readFile
+)
 ```
 
 # tryCatch

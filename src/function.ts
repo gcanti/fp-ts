@@ -9,6 +9,7 @@ export const identity = <A>(a: A): A => {
 }
 
 /**
+ * `<A, B>(a: A) => B`
  * @function
  * @since 1.0.0
  */

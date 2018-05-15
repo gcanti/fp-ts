@@ -32,6 +32,18 @@ _since 1.0.0_
 <B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C>
 ```
 
+### applySecond
+
+_method_
+
+_since 1.5.0_
+
+```ts
+<B>(fb: Task<B>): Task<B>
+```
+
+Combine two effectful actions, keeping only the result of the second
+
 ### chain
 
 _method_
