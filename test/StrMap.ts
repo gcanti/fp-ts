@@ -19,7 +19,7 @@ import {
   traverseWithKey
 } from '../src/StrMap'
 import { traverse } from '../src/Traversable'
-import { semigroupSum } from '../src/Semigroup'
+import { semigroupSum, getFirstSemigroup } from '../src/Semigroup'
 
 describe('StrMap', () => {
   it('getMonoid', () => {
@@ -70,9 +70,9 @@ describe('StrMap', () => {
   })
 
   it('fromFoldable', () => {
-    assert.deepEqual(fromFoldable(array)([['a', 1]], (existing, a) => existing), new StrMap({ a: 1 }))
+    assert.deepEqual(fromFoldable(array, getFirstSemigroup<number>())([['a', 1]]), new StrMap({ a: 1 }))
     assert.deepEqual(
-      fromFoldable(array)([['a', 1], ['a', 2]], (existing, a) => existing),
+      fromFoldable(array, getFirstSemigroup<number>())([['a', 1], ['a', 2]]),
       new StrMap({
         a: 1
       })
