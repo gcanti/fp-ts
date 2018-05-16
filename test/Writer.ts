@@ -21,12 +21,6 @@ describe('Writer', () => {
     assert.deepEqual(writer.map(fa, double).run(), [2, 'a'])
   })
 
-  it('map', () => {
-    const fa = new Writer(() => [1, 'a'])
-    const double = (n: number): number => n * 2
-    assert.deepEqual(fa.map(double).run(), [2, 'a'])
-  })
-
   it('tell', () => {
     assert.deepEqual(tell(1).run(), [undefined, 1])
   })

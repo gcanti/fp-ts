@@ -31,8 +31,10 @@ export class Writer<W, A> {
     return this.run()[1]
   }
   map<B>(f: (a: A) => B): Writer<W, B> {
-    const [a, w] = this.run()
-    return new Writer(() => [f(a), w])
+    return new Writer(() => {
+      const [a, w] = this.run()
+      return [f(a), w]
+    })
   }
 }
 
