@@ -93,4 +93,9 @@ describe('NonEmptyArray', () => {
     assert.deepEqual(S.concat(new NonEmptyArray(1, []), new NonEmptyArray(2, [])), new NonEmptyArray(1, [2]))
     assert.deepEqual(S.concat(new NonEmptyArray(1, [2]), new NonEmptyArray(3, [4])), new NonEmptyArray(1, [2, 3, 4]))
   })
+
+  it('last', () => {
+    assert.deepEqual(new NonEmptyArray(1, [2, 3]).last(), 3)
+    assert.deepEqual(new NonEmptyArray(1, []).last(), 1)
+  })
 })
