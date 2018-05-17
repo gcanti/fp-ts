@@ -1,5 +1,5 @@
 import { Applicative } from './Applicative'
-import { array } from './Array'
+import { array, last } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable1 } from './Foldable'
 import { HKT } from './HKT'
@@ -88,6 +88,18 @@ export class NonEmptyArray<A> {
    */
   max(ord: Ord<A>): A {
     return fold(getJoinSemigroup(ord))(this.head)(this.tail)
+  }
+
+  /**
+   * Gets last element of this {@link NonEmptyArray}
+   * @since 1.6.0
+   * @example
+   * const last = new NonEmptyArray(1, [2, 3]).last(); // 3
+   * const last = new NonEmptyArray(1, []).last(); // 1
+   * @returns {A}
+   */
+  last(): A {
+    return last(this.tail).getOrElse(this.head)
   }
 }
 
