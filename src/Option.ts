@@ -150,7 +150,10 @@ export class None<A> {
 
   /**
    * Lazy version of {@link alt}
-   * @param {Lazy<Option<A>>} fa
+   * @since 1.6.0
+   * @param {Lazy<Option<A>>} fa - thunk
+   * @example
+   * assert.deepEqual(some(1).altL(() => some(2)), some(1))
    * @returns {Option<A>}
    */
   altL(fa: Lazy<Option<A>>): Option<A> {
@@ -277,7 +280,10 @@ export class Some<A> {
   }
   /**
    * Lazy version of {@link alt}
-   * @param {Lazy<Option<A>>} fa
+   * @since 1.6.0
+   * @param {Lazy<Option<A>>} fa - thunk
+   * @example
+   * assert.deepEqual(some(1).altL(() => some(2)), some(1))
    * @returns {Option<A>}
    */
   altL(fa: Lazy<Option<A>>): Option<A> {
