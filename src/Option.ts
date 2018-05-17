@@ -147,6 +147,16 @@ export class None<A> {
   alt(fa: Option<A>): Option<A> {
     return fa
   }
+
+  /**
+   * Lazy version of {@link alt}
+   * @param {Lazy<Option<A>>} fa
+   * @returns {Option<A>}
+   */
+  altL(fa: Lazy<Option<A>>): Option<A> {
+    return fa()
+  }
+
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
     return none
   }
@@ -263,6 +273,14 @@ export class Some<A> {
     return f(b, this.value)
   }
   alt(fa: Option<A>): Option<A> {
+    return this
+  }
+  /**
+   * Lazy version of {@link alt}
+   * @param {Lazy<Option<A>>} fa
+   * @returns {Option<A>}
+   */
+  altL(fa: Lazy<Option<A>>): Option<A> {
     return this
   }
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
