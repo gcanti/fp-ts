@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO, io } from '../src/IO'
-import { IOEither, fromIO, fromLeft, left, right, ioEither, tryCatch } from '../src/IOEither'
+import { IOEither, fromLeft, left, right, ioEither, tryCatch } from '../src/IOEither'
 
 describe('IOEither', () => {
   it('ap', () => {
@@ -117,11 +117,27 @@ describe('IOEither', () => {
     assert.deepEqual(eko, eitherLeft(new Error('error')))
   })
 
-  it('fromIO', () => {
-    const io = new IO(() => 1)
-    const fa = fromIO(io)
-    const e = fa.run()
+  it('alt', () => {
+    const l1 = fromLeft<string, number>('foo')
+    const l2 = fromLeft<string, number>('bar')
+    const r1 = ioEither.of<string, number>(1)
+    const r2 = ioEither.of<string, number>(2)
+    const x1 = l1.alt(l2)
+    const x2 = l1.alt(r1)
+    const x3 = r1.alt(l1)
+    const x4 = r1.alt(r2)
+    const x5 = ioEither.alt(r1, r2)
 
-    assert.deepEqual(e, eitherRight(1))
+    const e1 = x1.run()
+    const e2 = x2.run()
+    const e3 = x3.run()
+    const e4 = x4.run()
+    const e5 = x5.run()
+
+    assert.deepEqual(e1, eitherLeft('bar'))
+    assert.deepEqual(e2, eitherRight(1))
+    assert.deepEqual(e3, eitherRight(1))
+    assert.deepEqual(e4, eitherRight(1))
+    assert.deepEqual(e4, e5)
   })
 })

@@ -4,6 +4,7 @@ import * as eitherT from './EitherT'
 import { Monad2 } from './Monad'
 import { IO, io } from './IO'
 import { Lazy, constIdentity } from './function'
+import { Alt2 } from './Alt'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -59,6 +60,9 @@ export class IOEither<L, A> {
   orElse<M>(f: (l: L) => IOEither<M, A>): IOEither<M, A> {
     return new IOEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTIO.of(a))))
   }
+  alt(fy: IOEither<L, A>): IOEither<L, A> {
+    return this.orElse(() => fy)
+  }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): IOEither<V, B> {
     return new IOEither(eitherTbimap(this.value, f, g))
   }
@@ -78,6 +82,10 @@ const ap = <L, A, B>(fab: IOEither<L, (a: A) => B>, fa: IOEither<L, A>): IOEithe
 
 const chain = <L, A, B>(fa: IOEither<L, A>, f: (a: A) => IOEither<L, B>): IOEither<L, B> => {
   return fa.chain(f)
+}
+
+const alt = <L, A, B>(fx: IOEither<L, A>, fy: IOEither<L, A>): IOEither<L, A> => {
+  return fx.alt(fy)
 }
 
 const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): IOEither<V, B> => {
@@ -102,10 +110,6 @@ export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
   return new IOEither(eitherTfromEither(fa))
 }
 
-export const fromIO = <L, A>(fa: IO<A>): IOEither<L, A> => {
-  return right(fa)
-}
-
 export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
   return fromEither(eitherLeft(l))
 }
@@ -114,11 +118,12 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: {}) => Error = toError
   return new IOEither(new IO(() => eitherTryCatch(f, onerror)))
 }
 
-export const ioEither: Monad2<URI> & Bifunctor2<URI> = {
+export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = {
   URI,
   bimap,
   map,
   of,
   ap,
-  chain
+  chain,
+  alt
 }
