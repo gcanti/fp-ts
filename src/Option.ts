@@ -286,7 +286,7 @@ export class Some<A> {
    * assert.deepEqual(some(1).orElse(() => some(2)), some(1))
    * @returns {Option<A>}
    */
-  orElse<B>(fa: Lazy<Option<A>>): Option<A> {
+  orElse(fa: Lazy<Option<A>>): Option<A> {
     return this
   }
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
