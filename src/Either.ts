@@ -85,13 +85,13 @@ export class Left<L, A> {
   /**
    * Lazy version of {@link alt}
    * @since 1.6.0
-   * @param {Lazy<Either<L, A>>} fy - thunk
+   * @param {(l: L) => Either<L, A>} fy - thunk
    * @example
-   * assert.deepEqual(right(1).altL(() => right(2)), right(1))
+   * assert.deepEqual(right(1).orElse(() => right(2)), right(1))
    * @returns {Either<L, A>}
    */
-  altL(fy: Lazy<Either<L, A>>): Either<L, A> {
-    return fy()
+  orElse(fy: (l: L) => Either<L, A>): Either<L, A> {
+    return fy(this.value)
   }
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {
     return this as any
@@ -184,12 +184,12 @@ export class Right<L, A> {
   /**
    * Lazy version of {@link alt}
    * @since 1.6.0
-   * @param {Lazy<Either<L, A>>} fy - thunk
+   * @param {(l: L) => Either<L, A>} fy - thunk
    * @example
-   * assert.deepEqual(right(1).altL(() => right(2)), right(1))
+   * assert.deepEqual(right(1).orElse(() => right(2)), right(1))
    * @returns {Either<L, A>}
    */
-  altL(fy: Lazy<Either<L, A>>): Either<L, A> {
+  orElse(fy: (l: L) => Either<L, A>): Either<L, A> {
     return this
   }
   extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> {

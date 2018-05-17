@@ -57,7 +57,7 @@ export class Identity<A> {
    * assert.deepEqual(a.altL(() => new Identity(2)), a)
    * @returns {Identity<A>}
    */
-  altL(fx: Lazy<Identity<A>>): Identity<A> {
+  orElse(fx: Lazy<Identity<A>>): Identity<A> {
     return this
   }
   extract(): A {

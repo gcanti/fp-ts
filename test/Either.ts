@@ -207,11 +207,11 @@ describe('Either', () => {
     assert.deepEqual(either.alt(right<string, number>(1), right<string, number>(2)), right<string, number>(1))
   })
 
-  it('altL', () => {
-    assert.deepEqual(right<string, number>(1).altL(() => right<string, number>(2)), right<string, number>(1))
-    assert.deepEqual(right<string, number>(1).altL(() => left<string, number>('foo')), right<string, number>(1))
-    assert.deepEqual(left<string, number>('foo').altL(() => right<string, number>(1)), right<string, number>(1))
-    assert.deepEqual(left<string, number>('foo').altL(() => left<string, number>('bar')), left<string, number>('bar'))
+  it('orElse', () => {
+    assert.deepEqual(right<string, number>(1).orElse(() => right<string, number>(2)), right<string, number>(1))
+    assert.deepEqual(right<string, number>(1).orElse(() => left<string, number>('foo')), right<string, number>(1))
+    assert.deepEqual(left<string, number>('foo').orElse(() => right<string, number>(1)), right<string, number>(1))
+    assert.deepEqual(left<string, number>('foo').orElse(() => left<string, number>('bar')), left<string, number>('bar'))
   })
 
   it('extend', () => {
