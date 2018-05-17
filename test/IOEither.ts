@@ -105,7 +105,7 @@ describe('IOEither', () => {
   })
 
   it('tryCatch', () => {
-    const ok = tryCatch(() => 1, () => new Error('error'))
+    const ok = tryCatch(() => 1)
     const ko = tryCatch(() => {
       throw new Error()
     }, () => new Error('error'))
