@@ -44,10 +44,6 @@ export class IOEither<L, A> {
   ap_<B, C>(this: IOEither<L, (b: B) => C>, fb: IOEither<L, B>): IOEither<L, C> {
     return fb.ap(this)
   }
-  /**
-   * Combine two effectful actions, keeping only the result of the second
-   * @since 1.5.0
-   */
   applySecond<B>(fb: IOEither<L, B>): IOEither<L, B> {
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
@@ -60,13 +56,9 @@ export class IOEither<L, A> {
   mapLeft<M>(f: (l: L) => M): IOEither<M, A> {
     return new IOEither(eitherTmapLeft(f)(this.value))
   }
-  /** Transforms the failure value of the `IOEither` into a new `IOEither` */
   orElse<M>(f: (l: L) => IOEither<M, A>): IOEither<M, A> {
     return new IOEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTIO.of(a))))
   }
-  /**
-   * @since 1.2.0
-   */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): IOEither<V, B> {
     return new IOEither(eitherTbimap(this.value, f, g))
   }
@@ -93,60 +85,35 @@ const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): 
 }
 
 const eitherTright = eitherT.right(io)
-/**
- * @function
- * @since 1.0.0
- */
+
 export const right = <L, A>(fa: IO<A>): IOEither<L, A> => {
   return new IOEither(eitherTright(fa))
 }
 
 const eitherTleft = eitherT.left(io)
-/**
- * @function
- * @since 1.0.0
- */
+
 export const left = <L, A>(fa: IO<L>): IOEither<L, A> => {
   return new IOEither(eitherTleft(fa))
 }
 
 const eitherTfromEither = eitherT.fromEither(io)
-/**
- * @function
- * @since 1.0.0
- */
+
 export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
   return new IOEither(eitherTfromEither(fa))
 }
 
-/**
- * @function
- * @since 1.5.0
- */
 export const fromIO = <L, A>(fa: IO<A>): IOEither<L, A> => {
   return right(fa)
 }
 
-/**
- * @function
- * @since 1.3.0
- */
 export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
   return fromEither(eitherLeft(l))
 }
 
-/**
- * @function
- * @since 1.6.0
- */
 export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: {}) => Error = toError): IOEither<Error, A> => {
   return new IOEither(new IO(() => eitherTryCatch(f, onerror)))
 }
 
-/**
- * @instance
- * @since 1.0.0
- */
 export const ioEither: Monad2<URI> & Bifunctor2<URI> = {
   URI,
   bimap,
