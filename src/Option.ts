@@ -278,14 +278,6 @@ export class Some<A> {
   alt(fa: Option<A>): Option<A> {
     return this
   }
-  /**
-   * Lazy version of {@link alt}
-   * @since 1.6.0
-   * @param {Lazy<Option<A>>} fa - thunk
-   * @example
-   * assert.deepEqual(some(1).orElse(() => some(2)), some(1))
-   * @returns {Option<A>}
-   */
   orElse(fa: Lazy<Option<A>>): Option<A> {
     return this
   }

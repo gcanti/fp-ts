@@ -181,14 +181,6 @@ export class Right<L, A> {
   alt(fy: Either<L, A>): Either<L, A> {
     return this
   }
-  /**
-   * Lazy version of {@link alt}
-   * @since 1.6.0
-   * @param {(l: L) => Either<M, A>} fy - thunk
-   * @example
-   * assert.deepEqual(right(1).orElse(() => right(2)), right(1))
-   * @returns {Either<M, A>}
-   */
   orElse<M>(fy: (l: L) => Either<M, A>): Either<M, A> {
     return this as any
   }
