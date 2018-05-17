@@ -32,37 +32,70 @@ export class IOEither<L, A> {
   readonly _L!: L
   readonly _URI!: URI
   constructor(readonly value: IO<Either<L, A>>) {}
-  /** Runs the inner io */
+  /**
+   * Runs the inner io
+   * @since 1.6.0
+   */
   run(): Either<L, A> {
     return this.value.run()
   }
+  /**
+   * @since 1.6.0
+   */
   map<B>(f: (a: A) => B): IOEither<L, B> {
     return new IOEither(eitherTIO.map(this.value, f))
   }
+  /**
+   * @since 1.6.0
+   */
   ap<B>(fab: IOEither<L, (a: A) => B>): IOEither<L, B> {
     return new IOEither(eitherTIO.ap(fab.value, this.value))
   }
+  /**
+   * @since 1.6.0
+   */
   ap_<B, C>(this: IOEither<L, (b: B) => C>, fb: IOEither<L, B>): IOEither<L, C> {
     return fb.ap(this)
   }
+  /**
+   * @since 1.6.0
+   */
   applySecond<B>(fb: IOEither<L, B>): IOEither<L, B> {
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
+  /**
+   * @since 1.6.0
+   */
   chain<B>(f: (a: A) => IOEither<L, B>): IOEither<L, B> {
     return new IOEither(eitherTIO.chain(a => f(a).value, this.value))
   }
+  /**
+   * @since 1.6.0
+   */
   fold<R>(left: (l: L) => R, right: (a: A) => R): IO<R> {
     return eitherTfold(left, right, this.value)
   }
+  /**
+   * @since 1.6.0
+   */
   mapLeft<M>(f: (l: L) => M): IOEither<M, A> {
     return new IOEither(eitherTmapLeft(f)(this.value))
   }
+  /**
+   * @since 1.6.0
+   */
   orElse<M>(f: (l: L) => IOEither<M, A>): IOEither<M, A> {
     return new IOEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTIO.of(a))))
   }
+  /**
+   * @since 1.6.0
+   */
   alt(fy: IOEither<L, A>): IOEither<L, A> {
     return this.orElse(() => fy)
   }
+  /**
+   * @since 1.6.0
+   */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): IOEither<V, B> {
     return new IOEither(eitherTbimap(this.value, f, g))
   }

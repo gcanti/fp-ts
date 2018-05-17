@@ -31,6 +31,7 @@
 * [HKT](./HKT.md)
 * [HeytingAlgebra](./HeytingAlgebra.md)
 * [IO](./IO.md)
+* [IOEither](./IOEither.md)
 * [Identity](./Identity.md)
 * [Invariant](./Invariant.md)
 * [IxIO](./IxIO.md)

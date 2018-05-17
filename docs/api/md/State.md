@@ -125,7 +125,7 @@ _function_
 _since 1.0.0_
 
 ```ts
-<S>(s: S): State<S, undefined>
+<S>(s: S): State<S, void>
 ```
 
 Set the state
