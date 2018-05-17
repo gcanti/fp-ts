@@ -159,6 +159,13 @@ describe('Option', () => {
     assert.deepEqual(none.alt(none), none)
   })
 
+  it('orElse', () => {
+    assert.deepEqual(some(1).orElse(() => some(2)), some(1))
+    assert.deepEqual(some(2).orElse(() => none), some(2))
+    assert.deepEqual((none as Option<number>).orElse(() => some(1)), some(1))
+    assert.deepEqual(none.orElse(() => none), none)
+  })
+
   it('extend', () => {
     const f = (fa: Option<number>) => fa.getOrElse(0)
     assert.deepEqual(some(2).extend(f), some(2))

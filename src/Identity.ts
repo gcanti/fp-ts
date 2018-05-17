@@ -8,7 +8,7 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
-import { toString } from './function'
+import { Lazy, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -45,6 +45,19 @@ export class Identity<A> {
     return f(b, this.value)
   }
   alt(fx: Identity<A>): Identity<A> {
+    return this
+  }
+
+  /**
+   * Lazy version of {@link alt}
+   * @since 1.6.0
+   * @param {Lazy<Identity<A>>} fx - thunk
+   * @example
+   * const a = new Identity(1)
+   * assert.deepEqual(a.altL(() => new Identity(2)), a)
+   * @returns {Identity<A>}
+   */
+  orElse(fx: Lazy<Identity<A>>): Identity<A> {
     return this
   }
   extract(): A {
