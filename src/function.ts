@@ -15,6 +15,9 @@ export const identity = <A>(a: A): A => {
  */
 export const unsafeCoerce: <A, B>(a: A) => B = identity as any
 
+/**
+ * Thunk type
+ */
 export type Lazy<A> = () => A
 
 export type Function1<A, B> = (a: A) => B
