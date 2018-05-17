@@ -94,30 +94,54 @@ const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): 
 
 const eitherTright = eitherT.right(io)
 
+/**
+ * @function
+ * @since 1.6.0
+ */
 export const right = <L, A>(fa: IO<A>): IOEither<L, A> => {
   return new IOEither(eitherTright(fa))
 }
 
 const eitherTleft = eitherT.left(io)
 
+/**
+ * @function
+ * @since 1.6.0
+ */
 export const left = <L, A>(fa: IO<L>): IOEither<L, A> => {
   return new IOEither(eitherTleft(fa))
 }
 
 const eitherTfromEither = eitherT.fromEither(io)
 
+/**
+ * @function
+ * @since 1.6.0
+ */
 export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
   return new IOEither(eitherTfromEither(fa))
 }
 
+/**
+ * @function
+ * @since 1.6.0
+ */
 export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
   return fromEither(eitherLeft(l))
 }
 
+/**
+ * @function
+ * @since 1.6.0
+ */
 export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: {}) => Error = toError): IOEither<Error, A> => {
   return new IOEither(new IO(() => eitherTryCatch(f, onerror)))
 }
 
+/**
+ * @function
+ * @since 1.6.0
+ */
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = {
   URI,
   bimap,
