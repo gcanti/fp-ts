@@ -1,5 +1,5 @@
 import { Applicative } from './Applicative'
-import { array, last } from './Array'
+import { array, last, sort } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable1 } from './Foldable'
 import { HKT } from './HKT'
@@ -214,6 +214,20 @@ export class NonEmptyArray<A> {
    */
   last(): A {
     return last(this.tail).getOrElse(this.head)
+  }
+
+  /**
+   * Sorts this {@link NonEmptyArray} using specified {@link Ord} instance
+   * @since 1.6.0
+   * @param {Ord<A>} ord - {@link Ord} instance
+   * @example
+   * const result = new NonEmptyArray(3, [2, 1]).sort(ordNumber)
+   * const expected = new NonEmptyArray(1, [2, 3])
+   * assert.deepEqual(result, expected)
+   * @returns {NonEmptyArray<A>}
+   */
+  sort(ord: Ord<A>): NonEmptyArray<A> {
+    return unsafeFromArray(sort(ord)(this.toArray()))
   }
 }
 
