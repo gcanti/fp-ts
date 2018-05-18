@@ -7,7 +7,7 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint -p tsconfig.json src/**/*.ts test/**/*.ts examples/**/*.ts exercises/**/*.ts",
-    "jest": "jest",
+    "jest": "jest --ci",
     "prettier":
       "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier":
