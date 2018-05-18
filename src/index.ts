@@ -66,16 +66,18 @@ import * as invariant from './Invariant'
 export { invariant }
 import * as io from './IO'
 export { io }
-import * as ixIo from './IxIO'
-export { ixIo }
+import * as ioEither from './IOEither'
+export { ioEither }
+import * as ixIO from './IxIO'
+export { ixIO }
 import * as ixMonad from './IxMonad'
 export { ixMonad }
-import * as joinSemiLattice from './JoinSemilattice'
-export { joinSemiLattice }
+import * as joinSemilattice from './JoinSemilattice'
+export { joinSemilattice }
 import * as lattice from './Lattice'
 export { lattice }
-import * as meetSemiLattice from './MeetSemilattice'
-export { meetSemiLattice }
+import * as meetSemilattice from './MeetSemilattice'
+export { meetSemilattice }
 import * as monad from './Monad'
 export { monad }
 import * as monoid from './Monoid'
