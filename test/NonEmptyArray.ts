@@ -98,4 +98,8 @@ describe('NonEmptyArray', () => {
     assert.deepEqual(new NonEmptyArray(1, [2, 3]).last(), 3)
     assert.deepEqual(new NonEmptyArray(1, []).last(), 1)
   })
+
+  it('sort', () => {
+    assert.deepEqual(new NonEmptyArray(3, [2, 1]).sort(ordNumber), new NonEmptyArray(1, [2, 3]))
+  })
 })
