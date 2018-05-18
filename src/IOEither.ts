@@ -172,7 +172,7 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: {}) => Error = toError
 }
 
 /**
- * @function
+ * @instance
  * @since 1.6.0
  */
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = {
