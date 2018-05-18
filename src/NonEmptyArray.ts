@@ -21,6 +21,7 @@ export const URI = 'NonEmptyArray'
 export type URI = typeof URI
 
 /**
+ * Data structure which represents non-empty arrays
  * @data
  * @constructor NonEmptyArray
  * @since 1.0.0
@@ -29,39 +30,152 @@ export class NonEmptyArray<A> {
   readonly _A!: A
   readonly _URI!: URI
   constructor(readonly head: A, readonly tail: Array<A>) {}
+
+  /**
+   * Converts this {@link NonEmptyArray} to plain {@link Array}
+   * @since 1.0.0
+   * @example
+   * assert.deepEqual(new NonEmptyArray(1, [2, 3]), [1, 2, 3])
+   * @returns {Array<A>} foo
+   */
   toArray(): Array<A> {
     return uncurriedConcat([this.head], this.tail)
   }
+
+  /**
+   * Concatenates this {@link NonEmptyArray} and passed {@link Array}
+   * @since 1.0.0
+   * @param {Array<A>} as - {@link Array}
+   * @example
+   * assert.deepEqual(new NonEmptyArray(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
+   * @returns {NonEmptyArray<A>}
+   */
   concatArray(as: Array<A>): NonEmptyArray<A> {
     return new NonEmptyArray(this.head, uncurriedConcat(this.tail, as))
   }
+
+  /**
+   * Instance-bound implementation of {@link Functor}
+   * @since 1.0.0
+   * @param {(a: A) => B} f
+   * @example
+   * const double = (n: number): number => n * 2
+   * assert.deepEqual(new NonEmptyArray(1, [2]).map(double), new NonEmptyArray(2, [4]))
+   * @returns {NonEmptyArray<B>}
+   */
   map<B>(f: (a: A) => B): NonEmptyArray<B> {
     return new NonEmptyArray(f(this.head), this.tail.map(f))
   }
+
+  /**
+   * Instance-bound implementation of {@link Apply}
+   * @since 1.0.0
+   * @param {NonEmptyArray<(a: A) => B>} fab
+   * @example
+   * const x = new NonEmptyArray(1, [2])
+   * const double = (n: number) => n * 2
+   * assert.deepEqual(x.ap(new NonEmptyArray(double, [double])).toArray(), [2, 4, 2, 4])
+   * @returns {NonEmptyArray<B>}
+   */
   ap<B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B> {
     return fab.chain(f => this.map(f)) // <= derived
   }
+
+  /**
+   * Same as {@link ap} but works on {@link NonEmptyArray} of functions and accepts {@link NonEmptyArray} of values instead
+   * @since 1.0.0
+   * @this {NonEmptyArray<(b: B) => C>}
+   * @param {NonEmptyArray<B>} fb
+   * @example
+   * const x = new NonEmptyArray(1, [2])
+   * const double = (n: number) => n * 2
+   * assert.deepEqual(new NonEmptyArray(double, [double]).ap_(x).toArray(), [2, 4, 2, 4])
+   * @returns {NonEmptyArray<C>}
+   */
   ap_<B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C> {
     return fb.ap(this)
   }
+
+  /**
+   * Instance-bound implementation of {@link Chain}
+   * @since 1.0.0
+   * @param {(a: A) => NonEmptyArray<B>} f
+   * @example
+   * const x = new NonEmptyArray(1, [2])
+   * const f = (a: number) => new NonEmptyArray(a, [4])
+   * assert.deepEqual(x.chain(f).toArray(), [1, 4, 2, 4])
+   * @returns {NonEmptyArray<B>}
+   */
   chain<B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B> {
     return f(this.head).concatArray(array.chain(this.tail, a => f(a).toArray()))
   }
+
+  /**
+   * Instance-bound implementation of {@link Semigroup}
+   * @since 1.0.0
+   * @param {NonEmptyArray<A>} y
+   * @example
+   * const x = new NonEmptyArray(1, [2])
+   * const y = new NonEmptyArray(3, [4])
+   * assert.deepEqual(x.concat(y).toArray(), [1, 2, 3, 4])
+   * @returns {NonEmptyArray<A>}
+   */
   concat(y: NonEmptyArray<A>): NonEmptyArray<A> {
     return this.concatArray(y.toArray())
   }
+
+  /**
+   * Instance-bound implementation of {@link Foldable}
+   * @since 1.0.0
+   * @param {B} b
+   * @param {(b: B, a: A) => B} f
+   * @example
+   * const x = new NonEmptyArray('a', ['b'])
+   * assert.strictEqual(x.reduce('', (b, a) => b + a), 'ab')
+   * @returns {B}
+   */
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return array.reduce(this.toArray(), b, f)
   }
+
+  /**
+   * Instance-bound implementation of {@link Extend}
+   * @since 1.0.0
+   * @param {(fa: NonEmptyArray<A>) => B} f
+   * @example
+   * const sum = (as: NonEmptyArray<number>) => fold(monoidSum)(as.toArray())
+   * assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).extend(sum), new NonEmptyArray(10, [9, 7, 4]))
+   * @returns {NonEmptyArray<B>}
+   */
   extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> {
     return unsafeFromArray(array.extend(this.toArray(), as => f(unsafeFromArray(as))))
   }
+
+  /**
+   * Instance-bound implementation of {@link Comonad}
+   * @since 1.0.0
+   * @example
+   * assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
+   * @returns {A}
+   */
   extract(): A {
     return this.head
   }
+
+  /**
+   * Same as {@link toString}
+   * @since 1.0.0
+   * @returns {string}
+   */
   inspect(): string {
     return this.toString()
   }
+
+  /**
+   * Return stringified representation of this {@link NonEmptyArray}
+   * @since 1.0.0
+   * @returns {string}
+   */
   toString(): string {
     return `new NonEmptyArray(${toString(this.head)}, ${toString(this.tail)})`
   }
@@ -108,8 +222,11 @@ const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
 }
 
 /**
+ * Builds {@link NonEmptyArray} from {@link Array} returning {@link none} or {@link some} depending on amount of values in passed array
  * @function
  * @since 1.0.0
+ * @param {Array<A>} as
+ * @returns {Option<NonEmptyArray<A>>}
  */
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => {
   return as.length > 0 ? some(unsafeFromArray(as)) : none
@@ -136,8 +253,10 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
 }
 
 /**
+ * Builds {@link Semigroup} instance for {@link NonEmptyArray} of specified type arument
  * @function
  * @since 1.0.0
+ * @returns {Semigroup<NonEmptyArray<A>>}
  */
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
   return { concat }
