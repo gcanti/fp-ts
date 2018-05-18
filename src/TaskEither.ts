@@ -6,6 +6,7 @@ import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { Task, fromIO as taskFromIO, task, tryCatch as taskTryCatch } from './Task'
 import { Lazy, constIdentity } from './function'
+import { IOEither } from './IOEither'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -145,6 +146,14 @@ export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => {
  */
 export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
   return fromEither(eitherLeft(l))
+}
+
+/**
+ * @function
+ * @since 1.6.0
+ */
+export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
+  return new TaskEither(taskFromIO(fa.value))
 }
 
 /**
