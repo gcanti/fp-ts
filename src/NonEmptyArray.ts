@@ -253,11 +253,6 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
 }
 
 /**
- * @function
- * @since 1.0.0
- */
-
-/**
  * Builds {@link Semigroup} instance for {@link NonEmptyArray} of specified type arument
  * @function
  * @since 1.0.0
