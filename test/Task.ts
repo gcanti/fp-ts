@@ -127,4 +127,16 @@ describe('Task', () => {
     assert.strictEqual(task.of(1).toString(), 'new Task(<function0>)')
     assert.strictEqual(task.of(1).inspect(), 'new Task(<function0>)')
   })
+
+  it('applyFirst', () => {
+    const log: Array<string> = []
+    const append = (message: string): Task<number> => new Task(() => Promise.resolve(log.push(message)))
+    return append('a')
+      .applyFirst(append('b'))
+      .run()
+      .then(n => {
+        assert.strictEqual(n, 1)
+        assert.deepEqual(log, ['a', 'b'])
+      })
+  })
 })

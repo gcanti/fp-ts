@@ -5,7 +5,7 @@ import * as eitherT from './EitherT'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { Task, fromIO as taskFromIO, task, tryCatch as taskTryCatch } from './Task'
-import { Lazy, constIdentity } from './function'
+import { Lazy, constIdentity, constant } from './function'
 import { IOEither } from './IOEither'
 
 declare module './HKT' {
@@ -46,6 +46,13 @@ export class TaskEither<L, A> {
   }
   ap_<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> {
     return fb.ap(this)
+  }
+  /**
+   * Combine two effectful actions, keeping only the result of the first
+   * @since 1.6.0
+   */
+  applyFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A> {
+    return fb.ap(this.map(constant))
   }
   /**
    * Combine two effectful actions, keeping only the result of the second
