@@ -3,7 +3,7 @@ import { Either, left as eitherLeft, tryCatch as eitherTryCatch, toError } from 
 import * as eitherT from './EitherT'
 import { Monad2 } from './Monad'
 import { IO, io } from './IO'
-import { Lazy, constIdentity } from './function'
+import { Lazy, constIdentity, constant } from './function'
 import { Alt2 } from './Alt'
 
 declare module './HKT' {
@@ -58,6 +58,14 @@ export class IOEither<L, A> {
     return fb.ap(this)
   }
   /**
+   * Combine two effectful actions, keeping only the result of the first
+   * @since 1.6.0
+   */
+  applyFirst<B>(fb: IOEither<L, B>): IOEither<L, A> {
+    return fb.ap(this.map(constant))
+  }
+  /**
+   * Combine two effectful actions, keeping only the result of the second
    * @since 1.6.0
    */
   applySecond<B>(fb: IOEither<L, B>): IOEither<L, B> {

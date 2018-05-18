@@ -179,4 +179,17 @@ describe('TaskEither', () => {
       assert.deepEqual(e2, eitherLeft('foo'))
     })
   })
+
+  it('applyFirst', () => {
+    const log: Array<string> = []
+    const append = (message: string): TaskEither<string, number> =>
+      right(new Task(() => Promise.resolve(log.push(message))))
+    return append('a')
+      .applyFirst(append('b'))
+      .run()
+      .then(e => {
+        assert.deepEqual(e, eitherRight(1))
+        assert.deepEqual(log, ['a', 'b'])
+      })
+  })
 })

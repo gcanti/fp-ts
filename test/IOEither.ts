@@ -140,4 +140,15 @@ describe('IOEither', () => {
     assert.deepEqual(e4, eitherRight(1))
     assert.deepEqual(e4, e5)
   })
+
+  it('applyFirst', () => {
+    const log: Array<string> = []
+    const append = (message: string): IOEither<string, number> => right(new IO(() => log.push(message)))
+    const e = append('a')
+      .applyFirst(append('b'))
+      .run()
+
+    assert.deepEqual(e, eitherRight(1))
+    assert.deepEqual(log, ['a', 'b'])
+  })
 })

@@ -1,7 +1,7 @@
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Lazy, constIdentity, toString } from './function'
+import { Lazy, constIdentity, toString, constant } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -30,6 +30,13 @@ export class IO<A> {
   }
   ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C> {
     return fb.ap(this)
+  }
+  /**
+   * Combine two effectful actions, keeping only the result of the first
+   * @since 1.6.0
+   */
+  applyFirst<B>(fb: IO<B>): IO<A> {
+    return fb.ap(this.map(constant))
   }
   /**
    * Combine two effectful actions, keeping only the result of the second
