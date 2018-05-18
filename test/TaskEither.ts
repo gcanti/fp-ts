@@ -2,7 +2,18 @@ import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO } from '../src/IO'
 import { Task, task } from '../src/Task'
-import { TaskEither, fromIO, fromLeft, left, right, taskEither, taskify, tryCatch } from '../src/TaskEither'
+import {
+  TaskEither,
+  fromIO,
+  fromLeft,
+  left,
+  right,
+  taskEither,
+  taskify,
+  tryCatch,
+  fromIOEither
+} from '../src/TaskEither'
+import { IOEither } from '../src/IOEither'
 
 describe('TaskEither', () => {
   it('ap', () => {
@@ -157,6 +168,15 @@ describe('TaskEither', () => {
       assert.deepEqual(e3, eitherRight(1))
       assert.deepEqual(e4, eitherRight(1))
       assert.deepEqual(e4, e5)
+    })
+  })
+
+  it('fromIOEither', () => {
+    const x1 = fromIOEither(new IOEither(new IO(() => eitherRight(1))))
+    const x2 = fromIOEither(new IOEither(new IO(() => eitherLeft('foo'))))
+    return Promise.all([x1.run(), x2.run()]).then(([e1, e2]) => {
+      assert.deepEqual(e1, eitherRight(1))
+      assert.deepEqual(e2, eitherLeft('foo'))
     })
   })
 })
