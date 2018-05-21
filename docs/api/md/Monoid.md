@@ -157,7 +157,7 @@ _Signature_
 
 _Description_
 
-Gets {@link Monoid} instance for dictionaries given {@link Semigroup} instance for their values
+Gets [Monoid](./Monoid.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
 
 _Example_
 

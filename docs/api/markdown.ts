@@ -3,6 +3,9 @@ import { sort } from '../../src/Array'
 import { contramap, ordString } from '../../src/Ord'
 import { Option } from '../../src/Option'
 import * as prettier from 'prettier'
+import { getModuleNames } from './fs'
+
+export const modules = getModuleNames()
 
 export const CRLF = '\n'
 export const h1 = (title: string) => `# ${title}`
@@ -22,8 +25,29 @@ const sortInstances = sortByName<Instance>()
 
 const sortFuncs = sortByName<Func>()
 
+const getMatchName = (s: string): string => {
+  const i = s.lastIndexOf(' ')
+  return s.substring(i + 1, s.length - 1)
+}
+
+const linkRe = /{@link\s+(.*?)}/g
+
+const replaceLinks = (description: string): string => {
+  const matches = description.match(linkRe)
+  if (matches) {
+    const names = matches
+      .map(getMatchName)
+      .filter(name => modules.indexOf(name) !== -1)
+      .map(name => ({ name, link: `[${name}](./${name}.md)` }))
+    names.forEach(({ name, link }) => {
+      description = description.replace(new RegExp(`{@link\\s+${name}}`), link)
+    })
+  }
+  return description
+}
+
 const printDescription = (description: Option<string>): string =>
-  description.fold('', d => CRLF + CRLF + italic('Description') + CRLF + CRLF + d)
+  description.fold('', d => CRLF + CRLF + italic('Description') + CRLF + CRLF + replaceLinks(d))
 
 const printExample = (example: Option<string>): string =>
   example.fold('', e => CRLF + CRLF + italic('Example') + CRLF + ts(e))

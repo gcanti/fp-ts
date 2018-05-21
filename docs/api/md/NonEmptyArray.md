@@ -32,7 +32,7 @@ _Signature_
 
 _Description_
 
-Instance-bound implementation of {@link Apply}
+Instance-bound implementation of [Apply](./Apply.md)
 
 ### ap\_
 
@@ -48,7 +48,7 @@ _Signature_
 
 _Description_
 
-Same as {@link ap} but works on {@link NonEmptyArray} of functions and accepts {@link NonEmptyArray} of values instead
+Same as {@link ap} but works on [NonEmptyArray](./NonEmptyArray.md) of functions and accepts [NonEmptyArray](./NonEmptyArray.md) of values instead
 
 ### chain
 
@@ -64,7 +64,7 @@ _Signature_
 
 _Description_
 
-Instance-bound implementation of {@link Chain}
+Instance-bound implementation of [Chain](./Chain.md)
 
 ### concat
 
@@ -80,7 +80,7 @@ _Signature_
 
 _Description_
 
-Instance-bound implementation of {@link Semigroup}
+Instance-bound implementation of [Semigroup](./Semigroup.md)
 
 _Example_
 
@@ -104,7 +104,7 @@ _Signature_
 
 _Description_
 
-Concatenates this {@link NonEmptyArray} and passed {@link Array}
+Concatenates this [NonEmptyArray](./NonEmptyArray.md) and passed [Array](./Array.md)
 
 _Example_
 
@@ -126,7 +126,7 @@ _Signature_
 
 _Description_
 
-Instance-bound implementation of {@link Extend}
+Instance-bound implementation of [Extend](./Extend.md)
 
 ### extract
 
@@ -142,7 +142,7 @@ _Signature_
 
 _Description_
 
-Instance-bound implementation of {@link Comonad}
+Instance-bound implementation of [Comonad](./Comonad.md)
 
 _Example_
 
@@ -180,7 +180,7 @@ _Signature_
 
 _Description_
 
-Gets last element of this {@link NonEmptyArray}
+Gets last element of this [NonEmptyArray](./NonEmptyArray.md)
 
 _Example_
 
@@ -203,7 +203,7 @@ _Signature_
 
 _Description_
 
-Instance-bound implementation of {@link Functor}
+Instance-bound implementation of [Functor](./Functor.md)
 
 ### max
 
@@ -219,7 +219,7 @@ _Signature_
 
 _Description_
 
-Gets maximum of this {@link NonEmptyArray} using specified {@link Ord} instance
+Gets maximum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
 
 _Example_
 
@@ -241,7 +241,7 @@ _Signature_
 
 _Description_
 
-Gets minimum of this {@link NonEmptyArray} using specified {@link Ord} instance
+Gets minimum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
 
 _Example_
 
@@ -263,7 +263,7 @@ _Signature_
 
 _Description_
 
-Instance-bound implementation of {@link Foldable}
+Instance-bound implementation of [Foldable](./Foldable.md)
 
 ### sort
 
@@ -279,7 +279,7 @@ _Signature_
 
 _Description_
 
-Sorts this {@link NonEmptyArray} using specified {@link Ord} instance
+Sorts this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
 
 _Example_
 
@@ -303,7 +303,7 @@ _Signature_
 
 _Description_
 
-Converts this {@link NonEmptyArray} to plain {@link Array}
+Converts this [NonEmptyArray](./NonEmptyArray.md) to plain [Array](./Array.md)
 
 _Example_
 
@@ -325,7 +325,7 @@ _Signature_
 
 _Description_
 
-Return stringified representation of this {@link NonEmptyArray}
+Return stringified representation of this [NonEmptyArray](./NonEmptyArray.md)
 
 # nonEmptyArray
 
@@ -353,7 +353,7 @@ _Signature_
 
 _Description_
 
-Builds {@link NonEmptyArray} from {@link Array} returning {@link none} or {@link some} depending on amount of values in passed array
+Builds [NonEmptyArray](./NonEmptyArray.md) from [Array](./Array.md) returning {@link none} or {@link some} depending on amount of values in passed array
 
 # getSemigroup
 
@@ -369,4 +369,4 @@ _Signature_
 
 _Description_
 
-Builds {@link Semigroup} instance for {@link NonEmptyArray} of specified type arument
+Builds [Semigroup](./Semigroup.md) instance for [NonEmptyArray](./NonEmptyArray.md) of specified type arument

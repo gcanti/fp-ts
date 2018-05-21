@@ -142,7 +142,7 @@ _Signature_
 
 _Description_
 
-Gets {@link Semigroup} instance for dictionaries given {@link Semigroup} instance for their values
+Gets [Semigroup](./Semigroup.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
 
 _Example_
 
@@ -237,7 +237,7 @@ _Signature_
 
 _Description_
 
-Gets {@link Semigroup} instance for objects of given type preserving their type
+Gets [Semigroup](./Semigroup.md) instance for objects of given type preserving their type
 
 _Example_
 
