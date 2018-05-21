@@ -83,15 +83,6 @@ describe('ReaderTaskEither', () => {
       .then(e => assert.deepEqual(e, eitherRight(1)))
   })
 
-  it('of', () => {
-    return readerTaskEither
-      .of(1)
-      .of(2)
-      .run({})
-      .run()
-      .then(e => assert.deepEqual(e, eitherRight(2)))
-  })
-
   it('ask', () => {
     const x = ask<number, {}>()
 
