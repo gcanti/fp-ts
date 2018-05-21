@@ -27,9 +27,6 @@ export class ReaderTaskEither<E, L, A> {
   map<B>(f: (a: A) => B): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.map(f, this.run))
   }
-  of<E, B>(b: B): ReaderTaskEither<E, L, B> {
-    return of(b)
-  }
   ap<B>(fab: ReaderTaskEither<E, L, (a: A) => B>): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.ap(fab.run, this.run))
   }
