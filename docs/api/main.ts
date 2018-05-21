@@ -2,14 +2,12 @@ import { IO, io } from '../../src/IO'
 import { array } from '../../src/Array'
 import { sequence_ } from '../../src/Foldable'
 import { log } from '../../src/Console'
-import { printIndex, printModule } from './markdown'
+import { printIndex, printModule, modules } from './markdown'
 import { Env, parseModule, ParseError } from './parser'
-import { write, indexOutputPath, readModule, writeModule, getModuleNames } from './fs'
+import { write, indexOutputPath, readModule, writeModule } from './fs'
 import chalk from 'chalk'
 import Ast from 'ts-simple-ast'
 import { SourceFile } from 'ts-simple-ast'
-
-const modules = getModuleNames()
 
 const printError = (error: ParseError): string => {
   switch (error._tag) {
