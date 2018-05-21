@@ -53,6 +53,7 @@
 * [Random](./Random.md)
 * [Reader](./Reader.md)
 * [ReaderT](./ReaderT.md)
+* [ReaderTaskEither](./ReaderTaskEither.md)
 * [Ring](./Ring.md)
 * [Semigroup](./Semigroup.md)
 * [Semigroupoid](./Semigroupoid.md)

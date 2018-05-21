@@ -13,7 +13,7 @@ describe('Reader', () => {
     assert.strictEqual(reader.of(1).run({}), 1)
   })
 
-  it('of', () => {
+  it('ap', () => {
     const double = (n: number): number => n * 2
     const f = reader.of(double)
     const x = reader.of(1)
