@@ -9,7 +9,7 @@ import {
   InterfaceDeclaration,
   FunctionDeclaration
 } from 'ts-simple-ast'
-import { Module, Data, Constructor, Export, Method, Func, Typeclass, Instance } from './domain'
+import { Module, Data, Constructor, Export, Method, Func, Typeclass, Instance, Constant } from './domain'
 import { Option, none, some, fromNullable } from '../../src/Option'
 import { Either, left, right } from '../../src/Either'
 import { rights, lefts, flatten } from '../../src/Array'
@@ -119,6 +119,8 @@ const isData = hasTag('data')
 const isFunc = hasTag('function')
 
 const isInstance = hasTag('instance')
+
+const isConstant = hasTag('constant')
 
 const isAlias = hasTag('alias')
 
@@ -230,6 +232,33 @@ const parseInstanceVariableDeclaration = (vd: VariableDeclaration): ParseResult<
   })
 }
 
+const parseConstantVariableDeclaration = (vd: VariableDeclaration): ParseResult<Export> => {
+  return new ReaderEither(e => {
+    const p = vd.getParent()
+    if (p) {
+      const pp = p.getParent()
+      if (pp) {
+        const vs: VariableStatement = pp as any
+        const annotation = getAnnotation(vs.getDocumentationCommentNodes())
+        if (isConstant(annotation)) {
+          const name = vd.getName()
+          const description = fromJSDocDescription(annotation.description)
+          const text = vd.getText()
+          const end = text.indexOf(' = ')
+          const signature = text.substring(0, end)
+          const since = getSince(annotation)
+          if (since.isNone()) {
+            return ko(new SinceMissing(e.currentModuleName, name))
+          } else {
+            return ok(new Constant(name, signature, description, since.value))
+          }
+        }
+      }
+    }
+    return notFound
+  })
+}
+
 const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
     const p = vd.getParent()
@@ -305,6 +334,9 @@ export const parseModule: ParseResult<Module> = new ReaderEither(e => {
   const eitherInstanceVariableDeclarationExports = sf
     .getVariableDeclarations()
     .map(vd => parseInstanceVariableDeclaration(vd).run(e))
+  const eitherConstantVariableDeclarationExports = sf
+    .getVariableDeclarations()
+    .map(vd => parseConstantVariableDeclaration(vd).run(e))
   const eitherFunctionDeclarationExports = sf.getFunctions().map(f => parseFunctionDeclaration(f).run(e))
   const eitherTypeClasses = sf.getInterfaces().map(i => parseTypeclassInterface(i).run(e))
 
@@ -312,6 +344,7 @@ export const parseModule: ParseResult<Module> = new ReaderEither(e => {
     .concat(eitherClassExports)
     .concat(eitherFunctionVariableDeclarationExports)
     .concat(eitherInstanceVariableDeclarationExports)
+    .concat(eitherConstantVariableDeclarationExports)
     .concat(eitherFunctionDeclarationExports)
     .concat(eitherTypeClasses)
 

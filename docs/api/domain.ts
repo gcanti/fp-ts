@@ -55,6 +55,18 @@ export class Instance {
   ) {}
 }
 
+export const isConstant = (e: Export): e is Constant => e.type === 'Constant'
+
+export class Constant {
+  type: 'Constant' = 'Constant'
+  constructor(
+    readonly name: string,
+    readonly signature: string,
+    readonly description: Option<string>,
+    readonly since: string
+  ) {}
+}
+
 export const isTypeclass = (e: Export): e is Typeclass => e.type === 'Typeclass'
 
 export class Typeclass {
@@ -62,7 +74,7 @@ export class Typeclass {
   constructor(readonly name: string, readonly signature: string, readonly description: Option<string>) {}
 }
 
-export type Export = Data | Func | Instance | Typeclass
+export type Export = Data | Func | Instance | Constant | Typeclass
 
 export class Module {
   constructor(readonly name: string, readonly exports: Array<Export>) {}

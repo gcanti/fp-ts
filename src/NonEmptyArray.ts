@@ -236,7 +236,7 @@ const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
 }
 
 /**
- * Builds {@link NonEmptyArray} from {@link Array} returning {@link none} or {@link some} depending on amount of values in passed array
+ * Builds {@link NonEmptyArray} from {@link Array} returning {@link Option#none} or {@link Option#some} depending on amount of values in passed array
  * @function
  * @since 1.0.0
  * @param {Array<A>} as

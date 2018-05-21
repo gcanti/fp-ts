@@ -1,4 +1,17 @@
-import { Module, Data, Method, Func, isData, isFunc, Typeclass, isInstance, Instance, isTypeclass } from './domain'
+import {
+  Module,
+  Data,
+  Method,
+  Func,
+  isData,
+  isFunc,
+  Typeclass,
+  isInstance,
+  Instance,
+  isTypeclass,
+  Constant,
+  isConstant
+} from './domain'
 import { sort } from '../../src/Array'
 import { contramap, ordString } from '../../src/Ord'
 import { Option } from '../../src/Option'
@@ -23,6 +36,8 @@ const sortMethods = sortByName<Method>()
 
 const sortInstances = sortByName<Instance>()
 
+const sortConstants = sortByName<Constant>()
+
 const sortFuncs = sortByName<Func>()
 
 const getMatchName = (s: string): string => {
@@ -32,13 +47,33 @@ const getMatchName = (s: string): string => {
 
 const linkRe = /{@link\s+(.*?)}/g
 
+const getModuleName = (name: string): string => {
+  const i = name.indexOf('#')
+  return i !== -1 ? name.substring(0, i) : name
+}
+
+const getModuleInternalLink = (name: string): string => {
+  const i = name.indexOf('#')
+  return i !== -1 ? name.substring(i) : ''
+}
+
+const getModuleLink = (name: string): string => {
+  const label = getModuleName(name)
+  const link = `./${label}.md${getModuleInternalLink(name)}`
+  return `[${name}](${link})`
+}
+
+const getInternalLink = (name: string): string => {
+  return `[${name}](#${name.toLowerCase()})`
+}
+
 const replaceLinks = (description: string): string => {
   const matches = description.match(linkRe)
   if (matches) {
-    const names = matches
-      .map(getMatchName)
-      .filter(name => modules.indexOf(name) !== -1)
-      .map(name => ({ name, link: `[${name}](./${name}.md)` }))
+    const names = matches.map(getMatchName).map(name => ({
+      name,
+      link: modules.indexOf(getModuleName(name)) !== -1 ? getModuleLink(name) : getInternalLink(name)
+    }))
     names.forEach(({ name, link }) => {
       description = description.replace(new RegExp(`{@link\\s+${name}}`), link)
     })
@@ -90,6 +125,15 @@ const printInstance = (i: Instance): string => {
   return s
 }
 
+const printConstant = (c: Constant): string => {
+  let s = `\n${h1(c.name)}`
+  s += CRLF + italic('constant')
+  s += CRLF + CRLF + italic(`since ${c.since}`)
+  s += CRLF + printSignature(c.signature)
+  s += printDescription(c.description)
+  return s
+}
+
 const printFunc = (f: Func): string => {
   let s = `\n${h1(f.name)}`
   s += CRLF + italic('function')
@@ -125,10 +169,12 @@ export const printModule = (module: Module): string => {
   const typeclasses = module.exports.filter(isTypeclass)
   const datas = module.exports.filter(isData)
   const instances = sortInstances(module.exports.filter(isInstance))
+  const constants = sortConstants(module.exports.filter(isConstant))
   const funcs = sortFuncs(module.exports.filter(isFunc))
   s += typeclasses.map(tc => printTypeclass(tc)).join('\n')
   s += datas.map(d => printData(d)).join('\n')
   s += instances.map(i => printInstance(i)).join('\n')
+  s += constants.map(c => printConstant(c)).join('\n')
   s += funcs.map(d => printFunc(d)).join('\n')
   return formatMarkdown(s)
 }
