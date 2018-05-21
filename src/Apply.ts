@@ -208,9 +208,7 @@ export function liftA4<F>(
 /**
  * If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Semigroup` over `A` as well
  *
- * Example
- *
- * ```ts
+ * @example
  * import { getSemigroup } from 'fp-ts/lib/Apply'
  * import { option, some, none } from 'fp-ts/lib/Option'
  * import { monoidSum } from 'fp-ts/lib/Monoid'
@@ -220,7 +218,6 @@ export function liftA4<F>(
  * assert.deepEqual(S.concat(some(1), none), none)
  * assert.deepEqual(S.concat(none, some(2)), none)
  * assert.deepEqual(S.concat(some(1), some(2)), some(3))
- * ```
  *
  * @function
  * @since 1.4.0

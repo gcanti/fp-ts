@@ -4,6 +4,8 @@ MODULE [Invariant](https://github.com/gcanti/fp-ts/blob/master/src/Invariant.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Invariant<F> {
   readonly URI: F

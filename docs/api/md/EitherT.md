@@ -6,6 +6,8 @@ _function_
 
 _since 1.2.0_
 
+_Signature_
+
 ```ts
 bimap<F>(
   F: Functor<F>
@@ -18,6 +20,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 chain<F>(F: Monad<F>): EitherT<F>['chain']
 ```
@@ -27,6 +31,8 @@ chain<F>(F: Monad<F>): EitherT<F>['chain']
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 fold<F>(
@@ -40,6 +46,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>>
 ```
@@ -49,6 +57,8 @@ fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 getEitherT<M>(M: Monad<M>): EitherT<M>
@@ -60,6 +70,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
 ```
@@ -69,6 +81,8 @@ left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 mapLeft<F>(
@@ -81,6 +95,8 @@ mapLeft<F>(
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>

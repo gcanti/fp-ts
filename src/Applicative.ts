@@ -191,23 +191,6 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
 /**
  * If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
  * Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
- *
- * Example
- *
- * ```ts
- * import { getMonoid } from 'fp-ts/lib/Applicative'
- * import { option, some, none } from 'fp-ts/lib/Option'
- * import { monoidSum } from 'fp-ts/lib/Monoid'
- *
- * const M = getMonoid(option, monoidSum)()
- * assert.deepEqual(M.concat(none, none), none)
- * assert.deepEqual(M.concat(some(1), none), none)
- * assert.deepEqual(M.concat(none, some(2)), none)
- * assert.deepEqual(M.concat(some(1), some(2)), some(3))
- * ```
- *
- * @function
- * @since 1.4.0
  */
 export function getMonoid<F extends URIS3, A>(
   F: Applicative3<F>,
@@ -221,6 +204,24 @@ export function getMonoid<F extends URIS2, A>(F: Applicative2<F>, M: Monoid<A>):
 export function getMonoid<F extends URIS2, L, A>(F: Applicative2C<F, L>, M: Monoid<A>): () => Monoid<Type2<F, L, A>>
 export function getMonoid<F extends URIS, A>(F: Applicative1<F>, M: Monoid<A>): () => Monoid<Type<F, A>>
 export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>
+/**
+ * If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
+ * Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
+ *
+ * @example
+ * import { getMonoid } from 'fp-ts/lib/Applicative'
+ * import { option, some, none } from 'fp-ts/lib/Option'
+ * import { monoidSum } from 'fp-ts/lib/Monoid'
+ *
+ * const M = getMonoid(option, monoidSum)()
+ * assert.deepEqual(M.concat(none, none), none)
+ * assert.deepEqual(M.concat(some(1), none), none)
+ * assert.deepEqual(M.concat(none, some(2)), none)
+ * assert.deepEqual(M.concat(some(1), some(2)), some(3))
+ *
+ * @function
+ * @since 1.4.0
+ */
 export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>> {
   const S = getSemigroup(F, M)()
   return () => ({

@@ -4,9 +4,13 @@ MODULE [BooleanAlgebra](https://github.com/gcanti/fp-ts/blob/master/src/BooleanA
 
 _type class_
 
+_Signature_
+
 ```ts
 interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 ```
+
+_Description_
 
 Boolean algebras are Heyting algebras with the additional constraint that the law of the excluded middle is true
 (equivalently, double-negation is true).
@@ -23,6 +27,8 @@ _instance_
 
 _since 1.4.0_
 
+_Signature_
+
 ```ts
 BooleanAlgebra<boolean>
 ```
@@ -32,6 +38,8 @@ BooleanAlgebra<boolean>
 _instance_
 
 _since 1.4.0_
+
+_Signature_
 
 ```ts
 BooleanAlgebra<void>
@@ -43,9 +51,13 @@ _function_
 
 _since 1.4.0_
 
+_Signature_
+
 ```ts
 <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A>
 ```
+
+_Description_
 
 Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
 
@@ -54,6 +66,8 @@ Every boolean algebras has a dual algebra, which involves reversing one/zero as 
 _function_
 
 _since 1.4.0_
+
+_Signature_
 
 ```ts
 <B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B>

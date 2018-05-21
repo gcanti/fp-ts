@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B>
 ```
@@ -28,9 +32,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B
 ```
+
+_Description_
 
 Applies a function to each case in the data structure
 
@@ -39,6 +47,8 @@ Applies a function to each case in the data structure
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -50,9 +60,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): this is Both<L, A>
 ```
+
+_Description_
 
 Returns `true` if the these is `Both`, `false` otherwise
 
@@ -62,9 +76,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): this is That<L, A>
 ```
+
+_Description_
 
 Returns `true` if the these is `That`, `false` otherwise
 
@@ -74,9 +92,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): this is This<L, A>
 ```
+
+_Description_
 
 Returns `true` if the these is `This`, `false` otherwise
 
@@ -85,6 +107,8 @@ Returns `true` if the these is `This`, `false` otherwise
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => B): These<L, B>
@@ -96,6 +120,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
@@ -105,6 +131,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -116,6 +144,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
@@ -125,6 +155,8 @@ Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(l: L, a: A): These<L, A>
@@ -136,6 +168,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A]
 ```
@@ -145,6 +179,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L>(S: Semigroup<L>): Monad2C<URI, L>
@@ -156,6 +192,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>>
 ```
@@ -165,6 +203,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>>
@@ -176,9 +216,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: These<L, A>): fa is Both<L, A>
 ```
+
+_Description_
 
 Returns `true` if the these is an instance of `Both`, `false` otherwise
 
@@ -188,9 +232,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: These<L, A>): fa is That<L, A>
 ```
+
+_Description_
 
 Returns `true` if the these is an instance of `That`, `false` otherwise
 
@@ -200,9 +248,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: These<L, A>): fa is This<L, A>
 ```
+
+_Description_
 
 Returns `true` if the these is an instance of `This`, `false` otherwise
 
@@ -212,6 +264,8 @@ _function_
 
 _since 1.0.0_
 Alias of
+
+_Signature_
 
 ```ts
 of
@@ -223,6 +277,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: These<L, A>): Option<L>
 ```
@@ -233,6 +289,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: These<L, A>): Option<A>
 ```
@@ -242,6 +300,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(l: L): These<L, A>

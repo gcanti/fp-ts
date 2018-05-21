@@ -4,11 +4,15 @@ MODULE [Apply](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Apply<F> extends Functor<F> {
   readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
 }
 ```
+
+_Description_
 
 The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
 
@@ -27,9 +31,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
 ```
+
+_Description_
 
 Combine two effectful actions, keeping only the result of the first
 
@@ -39,9 +47,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
 ```
+
+_Description_
 
 Combine two effectful actions, keeping only the result of the second
 
@@ -51,9 +63,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
 ```
+
+_Description_
 
 Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
 
@@ -63,11 +79,15 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 liftA3<F>(
   F: Apply<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
 ```
+
+_Description_
 
 Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
 `F`
@@ -78,11 +98,15 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 liftA4<F>(
   F: Apply<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
 ```
+
+_Description_
 
 Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
 `F`

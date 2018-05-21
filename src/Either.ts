@@ -100,8 +100,8 @@ export class Left<L, A> {
     return b
   }
   /** Applies a function to each case in the data structure */
-  fold<B>(left: (l: L) => B, right: (a: A) => B): B {
-    return left(this.value)
+  fold<B>(whenLeft: (l: L) => B, whenRight: (a: A) => B): B {
+    return whenLeft(this.value)
   }
   /** Returns the value from this `Right` or the given argument if this is a `Left` */
   getOrElse(a: A): A {
@@ -190,8 +190,8 @@ export class Right<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  fold<B>(left: (l: L) => B, right: (a: A) => B): B {
-    return right(this.value)
+  fold<B>(whenLeft: (l: L) => B, whenRight: (a: A) => B): B {
+    return whenRight(this.value)
   }
   getOrElse(a: A): A {
     return this.value

@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 constructor(readonly peek: (s: S) => A, readonly pos: S) {}
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (sa: Store<S, A>) => B): Store<S, B>
 ```
@@ -27,6 +31,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): A
@@ -38,6 +44,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): string
 ```
@@ -47,6 +55,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => B): Store<S, B>
@@ -58,9 +68,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (s: S): Store<S, A>
 ```
+
+_Description_
 
 Reposition the focus at the specified position
 
@@ -69,6 +83,8 @@ Reposition the focus at the specified position
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -80,6 +96,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Comonad2<URI>
 ```
@@ -90,9 +108,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>
 ```
+
+_Description_
 
 Extract a collection of values from positions which depend on the current position
 
@@ -102,9 +124,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A
 ```
+
+_Description_
 
 Extract a value from a position which depends on the current position
 
@@ -114,8 +140,12 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A>
 ```
+
+_Description_
 
 Reposition the focus at the specified position, which depends on the current position

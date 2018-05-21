@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 constructor(readonly run: Lazy<A>) {}
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(fab: IO<(a: A) => B>): IO<B>
 ```
@@ -28,9 +32,27 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C>
 ```
+
+### applyFirst
+
+_method_
+
+_since 1.6.0_
+
+_Signature_
+
+```ts
+<B>(fb: IO<B>): IO<A>
+```
+
+_Description_
+
+Combine two effectful actions, keeping only the result of the first
 
 ### applySecond
 
@@ -38,9 +60,13 @@ _method_
 
 _since 1.5.0_
 
+_Signature_
+
 ```ts
 <B>(fb: IO<B>): IO<B>
 ```
+
+_Description_
 
 Combine two effectful actions, keeping only the result of the second
 
@@ -49,6 +75,8 @@ Combine two effectful actions, keeping only the result of the second
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => IO<B>): IO<B>
@@ -60,6 +88,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): string
 ```
@@ -69,6 +99,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => B): IO<B>
@@ -80,6 +112,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): string
 ```
@@ -89,6 +123,8 @@ _since 1.0.0_
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 Monad1<URI>
@@ -100,6 +136,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(M: Monoid<A>): Monoid<IO<A>>
 ```
@@ -109,6 +147,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<IO<A>>

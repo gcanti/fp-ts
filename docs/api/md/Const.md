@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 constructor(readonly value: L) {}
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (b: B) => A): Const<L, B>
 ```
@@ -27,6 +31,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (l: L) => B): B
@@ -38,6 +44,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): string
 ```
@@ -47,6 +55,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => B): Const<L, B>
@@ -58,6 +68,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): string
 ```
@@ -67,6 +79,8 @@ _since 1.0.0_
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 Functor2<URI> & Contravariant2<URI>
@@ -78,6 +92,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(M: Monoid<L>): Applicative2C<URI, L>
 ```
@@ -88,6 +104,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(S: Semigroup<L>): Apply2C<URI, L>
 ```
@@ -97,6 +115,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 ;<L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({

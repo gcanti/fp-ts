@@ -6,6 +6,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 ap<F>(
   F: Applicative<F>
@@ -18,6 +20,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E>
 ```
@@ -28,6 +32,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A>
 ```
@@ -37,6 +43,8 @@ asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 chain<F>(
@@ -50,6 +58,8 @@ _function_
 
 _since 1.2.0_
 
+_Signature_
+
 ```ts
 fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A>
 ```
@@ -59,6 +69,8 @@ fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 getReaderT<M>(M: Monad<M>): ReaderT<M>
@@ -70,6 +82,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
 ```
@@ -79,6 +93,8 @@ map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e:
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A>

@@ -4,9 +4,13 @@ MODULE [DistributiveLattice](https://github.com/gcanti/fp-ts/blob/master/src/Dis
 
 _type class_
 
+_Signature_
+
 ```ts
 interface DistributiveLattice<A> extends Lattice<A> {}
 ```
+
+_Description_
 
 A `DistributiveLattice` must satisfy the following laws in addition to `Lattice` laws:
 
@@ -18,6 +22,8 @@ A `DistributiveLattice` must satisfy the following laws in addition to `Lattice`
 _function_
 
 _since 1.4.0_
+
+_Signature_
 
 ```ts
 <A>(O: Ord<A>): DistributiveLattice<A>

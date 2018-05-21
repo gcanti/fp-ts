@@ -4,9 +4,13 @@ MODULE [Alternative](https://github.com/gcanti/fp-ts/blob/master/src/Alternative
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Alternative<F> extends Applicative<F>, Plus<F> {}
 ```
+
+_Description_
 
 The `Alternative` type class has no members of its own; it just specifies that the type constructor has both
 `Applicative` and `Plus` instances.

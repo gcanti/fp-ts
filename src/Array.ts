@@ -199,11 +199,8 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
 }
 
 /**
- * Example
- *
- * ```ts
+ * @example
  * flatten([[1], [2], [3]]) // [1, 2, 3]
- * ```
  *
  * @function
  * @since 1.0.0

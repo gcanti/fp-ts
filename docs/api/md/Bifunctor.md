@@ -4,6 +4,8 @@ MODULE [Bifunctor](https://github.com/gcanti/fp-ts/blob/master/src/Bifunctor.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Bifunctor<F> {
   readonly URI: F

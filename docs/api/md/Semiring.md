@@ -4,6 +4,8 @@ MODULE [Semiring](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Semiring<A> {
   readonly add: (x: A, y: A) => A
@@ -12,6 +14,8 @@ interface Semiring<A> {
   readonly one: A
 }
 ```
+
+_Description_
 
 The `Semiring` class is for types that support an addition and multiplication operation.
 
@@ -38,6 +42,8 @@ unspecified in these cases.
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A, B>(S: Semiring<B>): Semiring<(a: A) => B>

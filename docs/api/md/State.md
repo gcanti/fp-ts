@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 constructor(readonly run: (s: S) => [A, S]) {}
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(fab: State<S, (a: A) => B>): State<S, B>
 ```
@@ -27,6 +31,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C>
@@ -38,6 +44,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (a: A) => State<S, B>): State<S, B>
 ```
@@ -47,6 +55,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (s: S): A
@@ -58,6 +68,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (s: S): S
 ```
@@ -67,6 +79,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => B): State<S, B>
@@ -78,6 +92,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Monad2<URI>
 ```
@@ -88,9 +104,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <S>(): State<S, S>
 ```
+
+_Description_
 
 Get the current state
 
@@ -100,9 +120,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <S, A>(f: (s: S) => A): State<S, A>
 ```
+
+_Description_
 
 Get a value which depends on the current state
 
@@ -112,9 +136,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <S>(f: (s: S) => S): State<S, undefined>
 ```
+
+_Description_
 
 Modify the state by applying a function to the current state
 
@@ -124,8 +152,12 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <S>(s: S): State<S, void>
 ```
+
+_Description_
 
 Set the state

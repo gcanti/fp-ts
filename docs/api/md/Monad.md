@@ -4,9 +4,13 @@ MODULE [Monad](https://github.com/gcanti/fp-ts/blob/master/src/Monad.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Monad<F> extends Applicative<F>, Chain<F> {}
 ```
+
+_Description_
 
 The `Monad` type class combines the operations of the `Bind` and
 `Applicative` type classes. Therefore, `Monad` instances represent type

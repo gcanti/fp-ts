@@ -87,12 +87,14 @@ const getMethod = (md: MethodDeclaration): Method => {
   const description = fromNullable(md.getDocumentationComment()).filter(s => s.trim() !== '')
   const annotation = getAnnotation(md.getDocumentationCommentNodes())
   const since = getSince(annotation)
+  const example = getExample(annotation)
   return {
     type: 'method',
     name,
     signature,
     description,
-    since: since.getOrElse('1.0.0')
+    since: since.getOrElse('1.0.0'),
+    example
   }
 }
 
@@ -128,6 +130,14 @@ const isSinceTag = (tag: Tag): boolean => {
 
 const getSince = (annotation: Annotation): Option<string> => {
   return fromNullable(annotation.tags.filter(isSinceTag)[0]).mapNullable(tag => tag.description)
+}
+
+const isExampleTag = (tag: Tag): boolean => {
+  return tag.title === 'example'
+}
+
+const getExample = (annotation: Annotation): Option<string> => {
+  return fromNullable(annotation.tags.filter(isExampleTag)[0]).mapNullable(tag => tag.description)
 }
 
 /** parses data types which are unions */
@@ -236,10 +246,11 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
           const end = indexOf(text, ' => {')
           const signature = text.substring(start, end.getOrElse(text.length))
           const since = getSince(annotation)
+          const example = getExample(annotation)
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
           } else {
-            return ok(new Func(name, signature, description, isAlias(annotation), since.value))
+            return ok(new Func(name, signature, description, isAlias(annotation), since.value, example))
           }
         }
       }
@@ -272,10 +283,11 @@ const parseFunctionDeclaration = (f: FunctionDeclaration): ParseResult<Export> =
       const end = text.indexOf('{')
       const signature = text.substring(start, end === -1 ? text.length : end)
       const since = getSince(annotation)
+      const example = getExample(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, name))
       } else {
-        return ok(new Func(name, signature, description, false, since.value))
+        return ok(new Func(name, signature, description, false, since.value, example))
       }
     }
     return notFound

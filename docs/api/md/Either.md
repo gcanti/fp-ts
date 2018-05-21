@@ -6,9 +6,13 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 type Either<L, A> = Left<L, A> | Right<L, A>
 ```
+
+_Description_
 
 Represents a value of one of two possible types (a disjoint union).
 
@@ -43,6 +47,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (fy: Either<L, A>): Either<L, A>
 ```
@@ -52,6 +58,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(fab: Either<L, (a: A) => B>): Either<L, B>
@@ -63,6 +71,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C>
 ```
@@ -72,6 +82,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B>
@@ -83,9 +95,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (a: A) => Either<L, B>): Either<L, B>
 ```
+
+_Description_
 
 Binds the given function across `Right`
 
@@ -94,6 +110,8 @@ Binds the given function across `Right`
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (ea: Either<L, A>) => B): Either<L, B>
@@ -105,9 +123,13 @@ _method_
 
 _since 1.3.0_
 
+_Signature_
+
 ```ts
 (p: Predicate<A>, zero: L): Either<L, A>
 ```
+
+_Description_
 
 Returns `Right` with the existing value of `Right` if this is a `Right` and the given predicate `p` holds for the
 right value, returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right
@@ -125,9 +147,13 @@ _method_
 
 _since 1.3.0_
 
+_Signature_
+
 ```ts
 (p: Predicate<A>, zero: () => L): Either<L, A>
 ```
+
+_Description_
 
 Lazy version of `filterOrElse`
 
@@ -137,9 +163,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
-<B>(left: (l: L) => B, right: (a: A) => B): B
+<B>(whenLeft: (l: L) => B, whenRight: (a: A) => B): B
 ```
+
+_Description_
 
 Applies a function to each case in the data structure
 
@@ -149,9 +179,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (a: A): A
 ```
+
+_Description_
 
 Returns the value from this `Right` or the given argument if this is a `Left`
 
@@ -161,9 +195,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (f: (l: L) => A): A
 ```
+
+_Description_
 
 Returns the value from this `Right` or the result of given argument if this is a `Left`
 
@@ -172,6 +210,8 @@ Returns the value from this `Right` or the result of given argument if this is a
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -183,9 +223,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): this is Left<L, A>
 ```
+
+_Description_
 
 Returns `true` if the either is an instance of `Left`, `false` otherwise
 
@@ -195,9 +239,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): this is Right<L, A>
 ```
+
+_Description_
 
 Returns `true` if the either is an instance of `Right`, `false` otherwise
 
@@ -207,9 +255,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (a: A) => B): Either<L, B>
 ```
+
+_Description_
 
 The given function is applied if this is a `Right`
 
@@ -219,17 +271,39 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <M>(f: (l: L) => M): Either<M, A>
 ```
 
+_Description_
+
 Maps the left side of the disjunction
+
+### orElse
+
+_method_
+
+_since 1.6.0_
+
+_Signature_
+
+```ts
+<M>(fy: (l: L) => Either<M, A>): Either<M, A>
+```
+
+_Description_
+
+Lazy version of {@link alt}
 
 ### reduce
 
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
@@ -241,9 +315,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): Either<A, L>
 ```
+
+_Description_
 
 Swaps the disjunction values
 
@@ -252,6 +330,8 @@ Swaps the disjunction values
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -262,6 +342,8 @@ _since 1.0.0_
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 Monad2<URI> &
@@ -279,9 +361,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A>
 ```
+
+_Description_
 
 Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
 the provided default as a `Left`
@@ -292,9 +378,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A>
 ```
+
+_Description_
 
 Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
 the provided default as a `Left`
@@ -305,9 +395,13 @@ _function_
 
 _since 1.3.0_
 
+_Signature_
+
 ```ts
 <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A>
 ```
+
+_Description_
 
 Lazy version of `fromOption`
 
@@ -316,6 +410,8 @@ Lazy version of `fromOption`
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): Either<L, A>
@@ -327,6 +423,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: Validation<L, A>): Either<L, A>
 ```
@@ -336,6 +434,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>>
@@ -347,9 +447,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: Either<L, A>): fa is Left<L, A>
 ```
+
+_Description_
 
 Returns `true` if the either is an instance of `Left`, `false` otherwise
 
@@ -359,9 +463,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: Either<L, A>): fa is Right<L, A>
 ```
+
+_Description_
 
 Returns `true` if the either is an instance of `Right`, `false` otherwise
 
@@ -371,9 +479,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(l: L): Either<L, A>
 ```
+
+_Description_
 
 Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
 structure
@@ -385,9 +497,13 @@ _function_
 _since 1.0.0_
 Alias of
 
+_Signature_
+
 ```ts
 of
 ```
+
+_Description_
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
 of this structure
@@ -398,9 +514,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (e: {}): Error
 ```
+
+_Description_
 
 Default value for the optional `onerror` argument of `tryCatch`
 
@@ -409,6 +529,8 @@ Default value for the optional `onerror` argument of `tryCatch`
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Either<Error, A>

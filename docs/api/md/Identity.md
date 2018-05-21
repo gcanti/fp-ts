@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 constructor(readonly value: A) {}
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (fx: Identity<A>): Identity<A>
 ```
@@ -27,6 +31,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(fab: Identity<(a: A) => B>): Identity<B>
@@ -38,6 +44,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C>
 ```
@@ -47,6 +55,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => Identity<B>): Identity<B>
@@ -58,6 +68,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (ea: Identity<A>) => B): Identity<B>
 ```
@@ -67,6 +79,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): A
@@ -78,6 +92,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (a: A) => B): B
 ```
@@ -87,6 +103,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -98,8 +116,33 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (a: A) => B): Identity<B>
+```
+
+### orElse
+
+_method_
+
+_since 1.6.0_
+
+_Signature_
+
+```ts
+(fx: Lazy<Identity<A>>): Identity<A>
+```
+
+_Description_
+
+Lazy version of {@link alt}
+
+_Example_
+
+```ts
+const a = new Identity(1)
+assert.deepEqual(a.altL(() => new Identity(2)), a)
 ```
 
 ### reduce
@@ -107,6 +150,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
@@ -118,6 +163,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): string
 ```
@@ -128,6 +175,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI>
 ```
@@ -137,6 +186,8 @@ Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & C
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(setoid: Setoid<A>): Setoid<Identity<A>>

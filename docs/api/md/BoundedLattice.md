@@ -4,9 +4,13 @@ MODULE [BoundedLattice](https://github.com/gcanti/fp-ts/blob/master/src/BoundedL
 
 _type class_
 
+_Signature_
+
 ```ts
 interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}
 ```
+
+_Description_
 
 A `BoundedLattice` must satisfy the following in addition to `BoundedMeetSemilattice` and `BoundedJoinSemilattice` laws:
 

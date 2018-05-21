@@ -4,6 +4,8 @@ MODULE [Contravariant](https://github.com/gcanti/fp-ts/blob/master/src/Contravar
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Contravariant<F> {
   readonly URI: F
@@ -16,6 +18,8 @@ interface Contravariant<F> {
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>

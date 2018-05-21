@@ -4,12 +4,16 @@ MODULE [Monoidal](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Monoidal<F> extends Functor<F> {
   readonly unit: () => HKT<F, void>
   readonly mult: <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, [A, B]>
 }
 ```
+
+_Description_
 
 Applicative functors are equivalent to strong lax monoidal functors
 
