@@ -148,9 +148,7 @@ const of = <L, A>(a: A): Validation<L, A> => {
 }
 
 /**
- * Example
- *
- * ```ts
+ * @example
  * import { Validation, success, failure, getApplicative } from 'fp-ts/lib/Validation'
  * import { getArraySemigroup } from 'fp-ts/lib/Semigroup'
  *
@@ -175,7 +173,6 @@ const of = <L, A>(a: A): Validation<L, A> => {
  * console.log(validatePerson('Nicolas Bourbaki', 45)) // success({ "name": "Nicolas Bourbaki", "age": 45 })
  * console.log(validatePerson('Nicolas Bourbaki', -1)) // failure(["invalid age"])
  * console.log(validatePerson('', 0)) // failure(["invalid name", "invalid age"])
- * ```
  *
  * @function
  *

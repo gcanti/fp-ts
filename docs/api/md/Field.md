@@ -4,6 +4,8 @@ MODULE [Field](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Field<A> extends Ring<A> {
   readonly degree: (a: A) => number
@@ -18,6 +20,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Field<number>
 ```
@@ -28,9 +32,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A)
 ```
+
+_Description_
 
 The _greatest common divisor_ of two values
 
@@ -40,8 +48,12 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A)
 ```
+
+_Description_
 
 The _least common multiple_ of two values

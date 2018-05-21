@@ -4,9 +4,13 @@ MODULE [Lattice](https://github.com/gcanti/fp-ts/blob/master/src/Lattice.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}
 ```
+
+_Description_
 
 A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `MeetSemilattice` laws:
 

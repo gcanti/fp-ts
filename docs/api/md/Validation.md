@@ -6,9 +6,13 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 type Validation<L, A> = Failure<L, A> | Success<L, A>
 ```
+
+_Description_
 
 The `Validation` functor, used for applicative validation
 
@@ -22,6 +26,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B>
 ```
@@ -31,6 +37,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(failure: (l: L) => B, success: (a: A) => B): B
@@ -42,9 +50,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (a: A): A
 ```
+
+_Description_
 
 Returns the value from this `Success` or the given argument if this is a `Failure`
 
@@ -54,9 +66,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (f: (l: L) => A): A
 ```
+
+_Description_
 
 Returns the value from this `Success` or the result of given argument if this is a `Failure`
 
@@ -65,6 +81,8 @@ Returns the value from this `Success` or the result of given argument if this is
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -76,9 +94,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): this is Failure<L, A>
 ```
+
+_Description_
 
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 
@@ -88,9 +110,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): this is Success<L, A>
 ```
+
+_Description_
 
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
 
@@ -99,6 +125,8 @@ Returns `true` if the validation is an instance of `Success`, `false` otherwise
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => B): Validation<L, B>
@@ -110,6 +138,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <M>(f: (l: L) => M): Validation<M, A>
 ```
@@ -119,6 +149,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
@@ -130,6 +162,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): Validation<A, L>
 ```
@@ -139,6 +173,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -150,6 +186,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
@@ -159,6 +197,8 @@ Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(l: L): Validation<L, A>
@@ -170,6 +210,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(e: Either<L, A>): Validation<L, A>
 ```
@@ -179,6 +221,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A): Validation<L, A>
@@ -190,6 +234,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(S: Semigroup<L>): Alt2C<URI, L>
 ```
@@ -200,11 +246,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(S: Semigroup<L>): Applicative2C<URI, L>
 ```
 
-Example
+_Example_
 
 ```ts
 import { Validation, success, failure, getApplicative } from 'fp-ts/lib/Validation'
@@ -239,6 +287,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(S: Semigroup<L>): Monad2C<URI, L>
 ```
@@ -248,6 +298,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>>
@@ -259,6 +311,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>>
 ```
@@ -268,6 +322,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>>
@@ -279,9 +335,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Failure<L, A>
 ```
+
+_Description_
 
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 
@@ -291,9 +351,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Success<L, A>
 ```
+
+_Description_
 
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
 
@@ -303,6 +367,8 @@ _function_
 
 _since 1.0.0_
 Alias of
+
+_Signature_
 
 ```ts
 of

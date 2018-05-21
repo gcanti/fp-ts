@@ -6,6 +6,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Semigroup<Ordering>
 ```
@@ -15,6 +17,8 @@ Semigroup<Ordering>
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 Setoid<Ordering>
@@ -26,6 +30,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (O: Ordering): Ordering
 ```
@@ -35,6 +41,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (n: number): Ordering

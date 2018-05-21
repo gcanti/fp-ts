@@ -6,6 +6,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
 ```
@@ -16,9 +18,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A, B>(f: (a: A) => B) => (a: A): B
 ```
+
+_Description_
 
 Applies a function to an argument ($)
 
@@ -28,9 +34,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(a: A) => <B>(f: (a: A) => B): B
 ```
+
+_Description_
 
 Applies an argument to a function (#)
 
@@ -39,6 +49,8 @@ Applies an argument to a function (#)
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 compose(...fns: Array<Function>): Function
@@ -50,6 +62,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(x: Array<A>, y: Array<A>): Array<A>
 ```
@@ -60,9 +74,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): boolean
 ```
+
+_Description_
 
 A thunk that returns always `false`
 
@@ -72,9 +90,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): null
 ```
+
+_Description_
 
 A thunk that returns always `null`
 
@@ -84,9 +106,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): boolean
 ```
+
+_Description_
 
 A thunk that returns always `true`
 
@@ -96,9 +122,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): undefined
 ```
+
+_Description_
 
 A thunk that returns always `undefined`
 
@@ -107,6 +137,8 @@ A thunk that returns always `undefined`
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(a: A): Lazy<A>
@@ -118,6 +150,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 curry(f: Function)
 ```
@@ -128,9 +162,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C>
 ```
+
+_Description_
 
 Flips the order of the arguments to a function of two arguments.
 
@@ -139,6 +177,8 @@ Flips the order of the arguments to a function of two arguments.
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(a: A): A
@@ -150,6 +190,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(predicate: Predicate<A>): Predicate<A>
 ```
@@ -160,9 +202,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C>
 ```
+
+_Description_
 
 The `on` function is used to change the domain of a binary operator.
 
@@ -171,6 +217,8 @@ The `on` function is used to change the domain of a binary operator.
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
@@ -182,6 +230,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 pipe(...fns: Array<Function>): Function
 ```
@@ -191,6 +241,8 @@ pipe(...fns: Array<Function>): Function
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (x: any): string
@@ -202,6 +254,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A, B>(a: A, b: B): [A, B]
 ```
@@ -211,6 +265,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(a: A) => <B>(b: B): [A, B]
@@ -222,8 +278,12 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 identity as any
 ```
+
+_Description_
 
 `<A, B>(a: A) => B`

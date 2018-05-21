@@ -4,6 +4,8 @@ MODULE [Monoid](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Monoid<A> extends Semigroup<A> {
   readonly empty: A
@@ -16,9 +18,13 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 getArrayMonoid = <A = never>():
 ```
+
+_Description_
 
 Monoid under array concatenation (`Array<any>`)
 
@@ -28,9 +34,13 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Monoid<boolean>
 ```
+
+_Description_
 
 Boolean monoid under conjunction
 
@@ -40,9 +50,13 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Monoid<boolean>
 ```
+
+_Description_
 
 Boolean monoid under disjunction
 
@@ -52,9 +66,13 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Monoid<number>
 ```
+
+_Description_
 
 Number monoid under multiplication
 
@@ -63,6 +81,8 @@ Number monoid under multiplication
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 Monoid<string>
@@ -74,9 +94,13 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Monoid<number>
 ```
+
+_Description_
 
 Number monoid under addition
 
@@ -85,6 +109,8 @@ Number monoid under addition
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 Monoid<void>
@@ -96,6 +122,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Monoid<Array<any>>
 ```
@@ -105,6 +133,8 @@ Monoid<Array<any>>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(M: Monoid<A>): ((as: Array<A>) => A)
@@ -116,6 +146,8 @@ _function_
 
 _since 1.4.0_
 
+_Signature_
+
 ```ts
 ;<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => ({
   ...getDictionarySemigroup(S),
@@ -123,13 +155,24 @@ _since 1.4.0_
 })
 ```
 
+_Description_
+
 Gets {@link Monoid} instance for dictionaries given {@link Semigroup} instance for their values
+
+_Example_
+
+```ts
+const M = getDictionaryMonoid(semigroupSum)
+const result = fold(M)([{ foo: 123 }, { foo: 456 }]) // { foo: 123 + 456 }
+```
 
 # getDualMonoid
 
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(M: Monoid<A>): Monoid<A>
@@ -141,6 +184,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A = never>(): Monoid<Endomorphism<A>>
 ```
@@ -150,6 +195,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M>
@@ -161,6 +208,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]>
 ```
@@ -170,6 +219,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <O>(Ms: { [K in keyof O]: Monoid<O[K]> }): Monoid<O>

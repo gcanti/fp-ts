@@ -4,11 +4,15 @@ MODULE [Setoid](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Setoid<A> {
   readonly equals: (x: A, y: A) => boolean
 }
 ```
+
+_Description_
 
 The `Setoid` type class represents types which support decidable equality.
 
@@ -24,6 +28,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 setoidBoolean:
 ```
@@ -33,6 +39,8 @@ setoidBoolean:
 _instance_
 
 _since 1.4.0_
+
+_Signature_
 
 ```ts
 setoidDate:
@@ -44,6 +52,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 setoidNumber:
 ```
@@ -53,6 +63,8 @@ setoidNumber:
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 setoidString:
@@ -64,9 +76,13 @@ _function_
 
 _since 1.2.0_
 
+_Signature_
+
 ```ts
 <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B>
 ```
+
+_Description_
 
 Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 
@@ -75,6 +91,8 @@ Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Array<A>>
@@ -86,6 +104,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]>
 ```
@@ -95,6 +115,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <O extends { [key: string]: any }>(
@@ -107,6 +129,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(a: A, b: A): boolean

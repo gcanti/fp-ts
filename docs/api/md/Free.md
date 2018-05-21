@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(fab: Free<F, (a: A) => B>): Free<F, B>
 ```
@@ -27,6 +31,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C>
@@ -38,6 +44,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (a: A) => Free<F, B>): Free<F, B>
 ```
@@ -47,6 +55,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -58,6 +68,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): this is Impure<F, A, any>
 ```
@@ -67,6 +79,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): this is Pure<F, A>
@@ -78,6 +92,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (a: A) => B): Free<F, B>
 ```
@@ -87,6 +103,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -98,6 +116,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A>
 ```
@@ -108,9 +128,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
 ```
+
+_Description_
 
 Use a natural transformation to change the generating type constructor of a free monad
 
@@ -120,9 +144,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <F, A>(fa: HKT<F, A>): Free<F, A>
 ```
+
+_Description_
 
 Lift an impure value described by the generating type constructor `F` into the free monad
 
@@ -131,6 +159,8 @@ Lift an impure value described by the generating type constructor `F` into the f
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <F, A>(a: A): Free<F, A>

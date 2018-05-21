@@ -4,11 +4,15 @@ MODULE [Plus](https://github.com/gcanti/fp-ts/blob/master/src/Plus.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Plus<F> extends Alt<F> {
   readonly zero: <A>() => HKT<F, A>
 }
 ```
+
+_Description_
 
 The `Plus` type class extends the `Alt` type class with a value that should be the left and right identity for `alt`.
 

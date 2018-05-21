@@ -4,11 +4,15 @@ MODULE [Ring](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Ring<A> extends Semiring<A> {
   readonly sub: (x: A, y: A) => A
 }
 ```
+
+_Description_
 
 The `Ring` class is for types that support addition, multiplication, and subtraction operations.
 
@@ -22,6 +26,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A, B>(ring: Ring<B>): Ring<(a: A) => B>
 ```
@@ -31,6 +37,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]>
@@ -42,8 +50,12 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(ring: Ring<A>) => (a: A): A
 ```
+
+_Description_
 
 `negate x` can be used as a shorthand for `zero - x`

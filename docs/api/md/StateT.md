@@ -6,6 +6,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 ap<F>(
   F: Chain<F>
@@ -17,6 +19,8 @@ ap<F>(
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 chain<F>(
@@ -30,6 +34,8 @@ _function_
 
 _since 1.2.0_
 
+_Signature_
+
 ```ts
 fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]>
 ```
@@ -39,6 +45,8 @@ fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A,
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>
@@ -50,6 +58,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 getStateT<M>(M: Monad<M>): StateT<M>
 ```
@@ -59,6 +69,8 @@ getStateT<M>(M: Monad<M>): StateT<M>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>
@@ -70,6 +82,8 @@ _function_
 
 _since 1.2.0_
 
+_Signature_
+
 ```ts
 liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]>
 ```
@@ -79,6 +93,8 @@ liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 map<F>(
@@ -92,6 +108,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]>
 ```
@@ -102,6 +120,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]>
 ```
@@ -111,6 +131,8 @@ of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]>

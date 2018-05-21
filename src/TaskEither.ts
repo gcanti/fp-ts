@@ -187,9 +187,7 @@ export function taskify<A, B, C, D, E, L, R>(
 /**
  * Convert a node style callback function to one returning a `TaskEither`
  *
- * Example
- *
- * ```ts
+ * @example
  * import * as fs from 'fs'
  *
  * // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
@@ -208,7 +206,6 @@ export function taskify<A, B, C, D, E, L, R>(
  * const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
  *   fs.readFile
  * )
- * ```
  *
  * @function
  * @since 1.5.0

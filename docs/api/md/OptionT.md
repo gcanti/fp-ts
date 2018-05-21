@@ -6,6 +6,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 chain<F>(F: Monad<F>): OptionT<F>['chain']
 ```
@@ -15,6 +17,8 @@ chain<F>(F: Monad<F>): OptionT<F>['chain']
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
@@ -26,6 +30,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
 ```
@@ -35,6 +41,8 @@ fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 getOptionT<M>(M: Monad<M>): OptionT<M>
@@ -46,6 +54,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
 ```
@@ -55,6 +65,8 @@ getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
@@ -66,6 +78,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
 ```
@@ -75,6 +89,8 @@ none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>

@@ -4,6 +4,8 @@ MODULE [Semigroupoid](https://github.com/gcanti/fp-ts/blob/master/src/Semigroupo
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Semigroupoid<F> {
   readonly URI: F

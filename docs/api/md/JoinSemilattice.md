@@ -4,11 +4,15 @@ MODULE [JoinSemilattice](https://github.com/gcanti/fp-ts/blob/master/src/JoinSem
 
 _type class_
 
+_Signature_
+
 ```ts
 interface JoinSemilattice<A> {
   join: (x: A, y: A) => A
 }
 ```
+
+_Description_
 
 A join-semilattice (or upper semilattice) is a semilattice whose operation is called "join", and which can be thought
 of as a least upper bound.

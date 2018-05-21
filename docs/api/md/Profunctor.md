@@ -4,6 +4,8 @@ MODULE [Profunctor](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.t
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Profunctor<F> {
   readonly URI: F
@@ -18,6 +20,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C>
 ```
@@ -27,6 +31,8 @@ lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D>

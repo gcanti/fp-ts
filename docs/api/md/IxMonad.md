@@ -4,6 +4,8 @@ MODULE [IxMonad](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface IxMonad<F> {
   readonly URI: F
@@ -18,6 +20,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 iapplyFirst<F>(
   ixmonad: IxMonad<F>
@@ -29,6 +33,8 @@ iapplyFirst<F>(
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 iapplySecond<F>(

@@ -4,6 +4,8 @@ MODULE [Extend](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Extend<F> extends Functor<F> {
   readonly extend: <A, B>(ea: HKT<F, A>, f: (fa: HKT<F, A>) => B) => HKT<F, B>
@@ -15,6 +17,8 @@ interface Extend<F> extends Functor<F> {
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>

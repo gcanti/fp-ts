@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 constructor(readonly run: () => [A, W]) {}
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): A
 ```
@@ -27,6 +31,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): W
@@ -38,6 +44,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (a: A) => B): Writer<W, B>
 ```
@@ -47,6 +55,8 @@ _since 1.0.0_
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 Functor2<URI>
@@ -58,9 +68,13 @@ _function_
 
 _since 1.3.0_
 
+_Signature_
+
 ```ts
 <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A>
 ```
+
+_Description_
 
 Modify the final accumulator value by applying a function
 
@@ -69,6 +83,8 @@ Modify the final accumulator value by applying a function
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <W>(M: Monoid<W>): Monad2C<URI, W>
@@ -80,9 +96,13 @@ _function_
 
 _since 1.3.0_
 
+_Signature_
+
 ```ts
 <W, A>(fa: Writer<W, A>): Writer<W, [A, W]>
 ```
+
+_Description_
 
 Modifies the result to include the changes to the accumulator
 
@@ -92,9 +112,13 @@ _function_
 
 _since 1.3.0_
 
+_Signature_
+
 ```ts
 <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]>
 ```
+
+_Description_
 
 Projects a value from modifications made to the accumulator during an action
 
@@ -104,9 +128,13 @@ _function_
 
 _since 1.3.0_
 
+_Signature_
+
 ```ts
 <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A>
 ```
+
+_Description_
 
 Applies the returned function to the accumulator
 
@@ -116,8 +144,12 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <W>(w: W): Writer<W, void>
 ```
+
+_Description_
 
 Appends a value to the accumulator

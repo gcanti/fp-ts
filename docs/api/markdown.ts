@@ -22,14 +22,21 @@ const sortInstances = sortByName<Instance>()
 
 const sortFuncs = sortByName<Func>()
 
-const printDescription = (description: Option<string>): string => description.fold('', d => CRLF + d)
+const printDescription = (description: Option<string>): string =>
+  description.fold('', d => CRLF + CRLF + italic('Description') + CRLF + CRLF + d)
+
+const printExample = (example: Option<string>): string =>
+  example.fold('', e => CRLF + CRLF + italic('Example') + CRLF + ts(e))
+
+const printSignature = (signature: string): string => CRLF + CRLF + italic('Signature') + CRLF + ts(signature)
 
 const printMethod = (m: Method): string => {
   let s = CRLF + h3(m.name)
   s += CRLF + italic('method')
   s += CRLF + CRLF + italic(`since ${m.since}`)
-  s += CRLF + ts(m.signature)
+  s += CRLF + printSignature(m.signature)
   s += printDescription(m.description)
+  s += printExample(m.example)
   return s
 }
 
@@ -37,7 +44,7 @@ const printData = (d: Data): string => {
   let s = `\n${h1(d.name)}`
   s += CRLF + italic('data')
   s += CRLF + CRLF + italic(`since ${d.since}`)
-  s += CRLF + ts(d.signature)
+  s += CRLF + printSignature(d.signature)
   s += printDescription(d.description)
   if (d.constructors.length > 0 && d.constructors[0].methods.length) {
     s += CRLF + h2('Methods')
@@ -54,7 +61,7 @@ const printInstance = (i: Instance): string => {
   let s = `\n${h1(i.name)}`
   s += CRLF + italic('instance')
   s += CRLF + CRLF + italic(`since ${i.since}`)
-  s += CRLF + ts(i.signature)
+  s += CRLF + printSignature(i.signature)
   s += printDescription(i.description)
   return s
 }
@@ -66,15 +73,16 @@ const printFunc = (f: Func): string => {
   if (f.isAlias) {
     s += CRLF + 'Alias of'
   }
-  s += CRLF + ts(f.signature)
+  s += CRLF + printSignature(f.signature)
   s += printDescription(f.description)
+  s += printExample(f.example)
   return s
 }
 
 const printTypeclass = (tc: Typeclass): string => {
   let s = `\n${h1(tc.name)}`
   s += CRLF + italic('type class')
-  s += CRLF + ts(tc.signature)
+  s += CRLF + printSignature(tc.signature)
   s += printDescription(tc.description)
   return s
 }

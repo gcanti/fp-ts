@@ -4,11 +4,15 @@ MODULE [Ord](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts)
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Ord<A> extends Setoid<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
 ```
+
+_Description_
 
 The `Ord` type class represents types which support comparisons with a _total order_.
 
@@ -24,6 +28,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Ord<boolean>
 ```
@@ -33,6 +39,8 @@ Ord<boolean>
 _instance_
 
 _since 1.4.0_
+
+_Signature_
 
 ```ts
 ordDate:
@@ -44,6 +52,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Ord<number>
 ```
@@ -53,6 +63,8 @@ Ord<number>
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 Ord<string>
@@ -64,9 +76,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean)
 ```
+
+_Description_
 
 Test whether a value is between a minimum and a maximum (inclusive)
 
@@ -76,9 +92,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A)
 ```
+
+_Description_
 
 Clamp a value between a minimum and a maximum
 
@@ -87,6 +107,8 @@ Clamp a value between a minimum and a maximum
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B>
@@ -98,6 +120,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(compare: (x: A, y: A) => Ordering): Ord<A>
 ```
@@ -107,6 +131,8 @@ _since 1.0.0_
 _function_
 
 _since 1.3.0_
+
+_Signature_
 
 ```ts
 <A>(O: Ord<A>): Ord<A>
@@ -118,6 +144,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]>
 ```
@@ -127,6 +155,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A = never>(): Semigroup<Ord<A>>
@@ -138,9 +168,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
+
+_Description_
 
 Test whether one value is _strictly greater than_ another
 
@@ -150,9 +184,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
+
+_Description_
 
 Test whether one value is _non-strictly greater than_ another
 
@@ -162,9 +200,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
+
+_Description_
 
 Test whether one value is _strictly less than_ another
 
@@ -174,9 +216,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
+
+_Description_
 
 Test whether one value is _non-strictly less than_ another
 
@@ -186,9 +232,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): A
 ```
+
+_Description_
 
 Take the maximum of two values. If they are considered equal, the first argument is chosen
 
@@ -198,9 +248,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): A
 ```
+
+_Description_
 
 Take the minimum of two values. If they are considered equal, the first argument is chosen
 
@@ -209,6 +263,8 @@ Take the minimum of two values. If they are considered equal, the first argument
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (x: any, y: any): Ordering

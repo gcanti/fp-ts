@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 constructor(readonly fst: L, readonly snd: A) {}
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B>
 ```
@@ -27,6 +31,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(ab: Tuple<A, B>): Tuple<L, B>
@@ -38,6 +44,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B>
 ```
@@ -47,6 +55,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): A
@@ -58,6 +68,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): string
 ```
@@ -67,6 +79,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => B): Tuple<L, B>
@@ -78,6 +92,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
@@ -88,9 +104,13 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): Tuple<A, L>
 ```
+
+_Description_
 
 Exchange the first and second components of a tuple
 
@@ -99,6 +119,8 @@ Exchange the first and second components of a tuple
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 (): string
@@ -110,6 +132,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 (): [L, A]
 ```
@@ -119,6 +143,8 @@ _since 1.0.0_
 _instance_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI>
@@ -130,6 +156,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(M: Monoid<L>): Applicative2C<URI, L>
 ```
@@ -139,6 +167,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L>(S: Semigroup<L>): Apply2C<URI, L>
@@ -150,6 +180,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(S: Semigroup<L>): Chain2C<URI, L>
 ```
@@ -159,6 +191,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L>(M: Monoid<L>): ChainRec2C<URI, L>
@@ -170,6 +204,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L>(M: Monoid<L>): Monad2C<URI, L>
 ```
@@ -179,6 +215,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>>
@@ -190,9 +228,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>>
 ```
+
+_Description_
 
 To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
 `snd`s are `compare`d.
@@ -203,6 +245,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>>
 ```
@@ -212,6 +256,8 @@ _since 1.0.0_
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>>

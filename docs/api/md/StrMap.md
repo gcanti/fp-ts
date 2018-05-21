@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 constructor(readonly value: { [key: string]: A }) {}
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.4.0_
 
+_Signature_
+
 ```ts
 (p: Predicate<A>): StrMap<A>
 ```
@@ -27,6 +31,8 @@ _since 1.4.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => B): StrMap<B>
@@ -38,6 +44,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (k: string, a: A) => B): StrMap<B>
 ```
@@ -47,6 +55,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
@@ -58,6 +68,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Functor1<URI> & Foldable1<URI> & Traversable1<URI>
 ```
@@ -67,6 +79,8 @@ Functor1<URI> & Foldable1<URI> & Traversable1<URI>
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B>
@@ -78,11 +92,15 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 fromFoldable<F>(
   F: Foldable<F>
 ): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
 ```
+
+_Description_
 
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
@@ -92,6 +110,8 @@ specified function to combine values for duplicate keys.
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A = never>(S: Semigroup<A> = getLastSemigroup()): Monoid<StrMap<A>>
@@ -103,6 +123,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(S: Setoid<A>): Setoid<StrMap<A>>
 ```
@@ -113,9 +135,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(k: string, a: A, d: StrMap<A>): StrMap<A>
 ```
+
+_Description_
 
 Insert or replace a key/value pair in a map
 
@@ -125,9 +151,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(d: StrMap<A>): boolean
 ```
+
+_Description_
 
 Test whether a dictionary is empty
 
@@ -137,9 +167,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(S: Setoid<A>) => (d1: StrMap<A>, d2: StrMap<A>): boolean
 ```
+
+_Description_
 
 Test whether one dictionary contains all of the keys and values contained in another dictionary
 
@@ -149,9 +183,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(k: string, d: StrMap<A>): Option<A>
 ```
+
+_Description_
 
 Lookup the value for a key in a dictionary
 
@@ -161,9 +199,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]>
 ```
+
+_Description_
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
@@ -173,9 +215,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(k: string, d: StrMap<A>): StrMap<A>
 ```
+
+_Description_
 
 Delete a key and value from a map
 
@@ -185,9 +231,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(k: string, a: A): StrMap<A>
 ```
+
+_Description_
 
 Create a dictionary with one key/value pair
 
@@ -197,9 +247,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <A>(d: StrMap<A>): number
 ```
+
+_Description_
 
 Calculate the number of key/value pairs in a dictionary
 
@@ -208,6 +262,8 @@ Calculate the number of key/value pairs in a dictionary
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <A>(d: StrMap<A>): Array<[string, A]>
@@ -219,9 +275,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]>
 ```
+
+_Description_
 
 Unfolds a dictionary into a list of key/value pairs
 
@@ -230,6 +290,8 @@ Unfolds a dictionary into a list of key/value pairs
 _function_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 traverseWithKey<F>(

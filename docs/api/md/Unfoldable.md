@@ -4,12 +4,16 @@ MODULE [Unfoldable](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.t
 
 _type class_
 
+_Signature_
+
 ```ts
 interface Unfoldable<F> {
   readonly URI: F
   readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => HKT<F, A>
 }
 ```
+
+_Description_
 
 This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
 
@@ -19,13 +23,17 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 empty<F, A>(U: Unfoldable<F>): HKT<F, A>
 ```
 
+_Description_
+
 The container with no elements - unfolded with zero iterations.
 
-Example
+_Example_
 
 ```ts
 import { empty } from 'fp-ts/lib/Unfoldable'
@@ -40,13 +48,17 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
 ```
 
+_Description_
+
 Replicate a value some natural number of times.
 
-Example
+_Example_
 
 ```ts
 import { replicate } from 'fp-ts/lib/Unfoldable'
@@ -61,6 +73,8 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 replicateA<F, T>(
   F: Applicative<F>,
@@ -68,9 +82,11 @@ replicateA<F, T>(
 ): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>>
 ```
 
+_Description_
+
 Perform an Applicative action `n` times, and accumulate all the results
 
-Example
+_Example_
 
 ```ts
 import { replicateA } from 'fp-ts/lib/Unfoldable'
@@ -87,13 +103,17 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A>
 ```
 
+_Description_
+
 Contain a single value
 
-Example
+_Example_
 
 ```ts
 import { singleton } from 'fp-ts/lib/Unfoldable'

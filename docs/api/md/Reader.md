@@ -6,6 +6,8 @@ _data_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 constructor(readonly run: (e: E) => A) {}
 ```
@@ -18,6 +20,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(fab: Reader<E, (a: A) => B>): Reader<E, B>
 ```
@@ -27,6 +31,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C>
@@ -38,6 +44,8 @@ _method_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <B>(f: (a: A) => Reader<E, B>): Reader<E, B>
 ```
@@ -47,6 +55,8 @@ _since 1.0.0_
 _method_
 
 _since 1.0.0_
+
+_Signature_
 
 ```ts
 <B>(f: (a: A) => B): Reader<E, B>
@@ -58,6 +68,8 @@ _instance_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 Monad2<URI>
 ```
@@ -68,9 +80,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <E>(): Reader<E, E>
 ```
+
+_Description_
 
 reads the current context
 
@@ -80,9 +96,13 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <E, A>(f: (e: E) => A): Reader<E, A>
 ```
+
+_Description_
 
 Projects a value from the global context in a Reader
 
@@ -92,8 +112,12 @@ _function_
 
 _since 1.0.0_
 
+_Signature_
+
 ```ts
 <E>(f: (e: E) => E) => <A>(fa: Reader<E, A>): Reader<E, A>
 ```
+
+_Description_
 
 changes the value of the local context during the execution of the action `fa`
