@@ -8,6 +8,7 @@
   "scripts": {
     "lint": "tslint -p tsconfig.json src/**/*.ts test/**/*.ts examples/**/*.ts exercises/**/*.ts",
     "jest": "jest --ci",
+    "jest-coverage": "jest --ci --coverage",
     "prettier":
       "prettier --no-semi --single-quote --print-width 120 --parser typescript --list-different \"{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier":
@@ -55,7 +56,6 @@
         "skipBabel": true
       }
     },
-    "collectCoverage": true,
     "collectCoverageFrom": ["src/**/*.{ts}"],
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
