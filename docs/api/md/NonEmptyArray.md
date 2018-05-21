@@ -48,7 +48,7 @@ _Signature_
 
 _Description_
 
-Same as {@link ap} but works on [NonEmptyArray](./NonEmptyArray.md) of functions and accepts [NonEmptyArray](./NonEmptyArray.md) of values instead
+Same as [ap](#ap) but works on [NonEmptyArray](./NonEmptyArray.md) of functions and accepts [NonEmptyArray](./NonEmptyArray.md) of values instead
 
 ### chain
 
@@ -164,7 +164,7 @@ _Signature_
 
 _Description_
 
-Same as {@link toString}
+Same as [toString](#tostring)
 
 ### last
 
@@ -353,7 +353,7 @@ _Signature_
 
 _Description_
 
-Builds [NonEmptyArray](./NonEmptyArray.md) from [Array](./Array.md) returning {@link none} or {@link some} depending on amount of values in passed array
+Builds [NonEmptyArray](./NonEmptyArray.md) from [Array](./Array.md) returning [Option#none](./Option.md#none) or [Option#some](./Option.md#some) depending on amount of values in passed array
 
 # getSemigroup
 

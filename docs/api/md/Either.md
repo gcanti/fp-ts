@@ -295,7 +295,7 @@ _Signature_
 
 _Description_
 
-Lazy version of {@link alt}
+Lazy version of [alt](#alt)
 
 ### reduce
 

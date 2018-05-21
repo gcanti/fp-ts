@@ -383,7 +383,7 @@ _Signature_
 
 _Description_
 
-Lazy version of {@link alt}
+Lazy version of [alt](#alt)
 
 _Example_
 
@@ -479,6 +479,18 @@ Monad1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI>
+```
+
+# none
+
+_constant_
+
+_since 1.0.0_
+
+_Signature_
+
+```ts
+none: Option<never>
 ```
 
 # fromEither

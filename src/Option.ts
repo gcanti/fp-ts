@@ -229,6 +229,10 @@ export class None<A> {
   }
 }
 
+/**
+ * @constant
+ * @since 1.0.0
+ */
 export const none: Option<never> = None.value
 
 export class Some<A> {
