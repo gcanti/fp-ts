@@ -106,6 +106,8 @@ import * as reader from './Reader'
 export { reader }
 import * as readerT from './ReaderT'
 export { readerT }
+import * as readerTaskEither from './ReaderTaskEither'
+export { readerTaskEither }
 import * as ring from './Ring'
 export { ring }
 import * as semigroup from './Semigroup'
