@@ -1,4 +1,4 @@
-import { ReaderTaskEither, readerTaskEither } from '../examples/ReaderTaskEither'
+import { ReaderTaskEither, readerTaskEither } from '../src/ReaderTaskEither'
 import { getApplicativeComposition } from '../src/Applicative'
 import { liftA2 } from '../src/Apply'
 import { array } from '../src/Array'

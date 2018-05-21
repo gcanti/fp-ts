@@ -1,14 +1,14 @@
-import { Either } from '../src/Either'
-import { Monad3 } from '../src/Monad'
-import { Reader } from '../src/Reader'
-import * as readerT from '../src/ReaderT'
-import { Task } from '../src/Task'
-import * as taskEither from '../src/TaskEither'
-import { TaskEither } from '../src/TaskEither'
+import { Either } from './Either'
+import { Monad3 } from './Monad'
+import { Reader } from './Reader'
+import * as readerT from './ReaderT'
+import { Task } from './Task'
+import * as taskEither from './TaskEither'
+import TaskEither = taskEither.TaskEither
 
 const readerTTaskEither = readerT.getReaderT(taskEither.taskEither)
 
-declare module '../src/HKT' {
+declare module './HKT' {
   interface URI2HKT3<U, L, A> {
     ReaderTaskEither: ReaderTaskEither<U, L, A>
   }
@@ -64,7 +64,7 @@ const chain = <E, L, A, B>(
 }
 
 const readerTask = readerT.ask(taskEither.taskEither)
-export const ask = <E, L>(e: E): ReaderTaskEither<E, L, E> => {
+export const ask = <E, L>(): ReaderTaskEither<E, L, E> => {
   return new ReaderTaskEither(readerTask())
 }
 
