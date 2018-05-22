@@ -105,7 +105,7 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
   }
 }
 
-const never = new Task(() => new Promise<never>(resolve => undefined))
+const never = new Task(() => new Promise<never>(_ => undefined))
 
 /**
  * @function

@@ -64,13 +64,15 @@ export class TaskEither<L, A> {
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.chain(a => f(a).value, this.value))
   }
-  fold<R>(left: (l: L) => R, right: (a: A) => R): Task<R> {
-    return eitherTfold(left, right, this.value)
+  fold<R>(whenLeft: (l: L) => R, whenRight: (a: A) => R): Task<R> {
+    return eitherTfold(whenLeft, whenRight, this.value)
   }
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
     return new TaskEither(eitherTmapLeft(f)(this.value))
   }
-  /** Transforms the failure value of the `TaskEither` into a new `TaskEither` */
+  /**
+   * Transforms the failure value of the `TaskEither` into a new `TaskEither`
+   */
   orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> {
     return new TaskEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTTask.of(a))))
   }
@@ -104,7 +106,7 @@ const chain = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => TaskEither<L, B>): Ta
   return fa.chain(f)
 }
 
-const alt = <L, A, B>(fx: TaskEither<L, A>, fy: TaskEither<L, A>): TaskEither<L, A> => {
+const alt = <L, A>(fx: TaskEither<L, A>, fy: TaskEither<L, A>): TaskEither<L, A> => {
   return fx.alt(fy)
 }
 
