@@ -1,10 +1,10 @@
-import { Monad2C } from 'fp-ts/lib/Monad'
-import { Option } from 'fp-ts/lib/Option'
-import * as optionT from 'fp-ts/lib/OptionT'
-import { These, URI as TheseURI } from 'fp-ts/lib/These'
-import { phantom } from 'fp-ts/lib/function'
+import { Monad2C } from '../src/Monad'
+import { Option } from '../src/Option'
+import * as optionT from '../src/OptionT'
+import { These, URI as TheseURI } from '../src/These'
+import { phantom } from '../src/function'
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT2<L, A> {
     TheseOption: TheseOption<L, A>
   }

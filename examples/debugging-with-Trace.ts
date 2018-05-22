@@ -1,7 +1,7 @@
-import { head } from 'fp-ts/lib/Array'
-import { left } from 'fp-ts/lib/Either'
-import { Option, option, some } from 'fp-ts/lib/Option'
-import { spy, trace, traceA, traceM } from 'fp-ts/lib/Trace'
+import { head } from '../src/Array'
+import { left } from '../src/Either'
+import { Option, option, some } from '../src/Option'
+import { spy, trace, traceA, traceM } from '../src/Trace'
 
 //
 // spy

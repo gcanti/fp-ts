@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { getModuleNames } from '../docs/api/fs'
+import { getModuleNames } from '../docs-generator/fs'
 
 const getExportName = (name: string): string => {
   if (name === 'HKT' || name === 'IO') {
