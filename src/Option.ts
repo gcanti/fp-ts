@@ -160,7 +160,7 @@ export class None<A> {
   fold<B>(b: B, whenSome: (a: A) => B): B {
     return b
   }
-  /** Lazy verion of `fold` */
+  /** Lazy version of `fold` */
   foldL<B>(whenNone: () => B, whenSome: (a: A) => B): B {
     return whenNone()
   }

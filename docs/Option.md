@@ -219,7 +219,7 @@ _Signature_
 
 _Description_
 
-Lazy verion of `fold`
+Lazy version of `fold`
 
 ### getOrElse
 
