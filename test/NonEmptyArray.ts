@@ -102,4 +102,10 @@ describe('NonEmptyArray', () => {
   it('sort', () => {
     assert.deepEqual(new NonEmptyArray(3, [2, 1]).sort(ordNumber), new NonEmptyArray(1, [2, 3]))
   })
+
+  it('reverse', () => {
+    const result = new NonEmptyArray(1, [2, 3]).reverse()
+    const expected = new NonEmptyArray(3, [2, 1])
+    assert.deepEqual(result, expected)
+  })
 })

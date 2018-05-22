@@ -229,6 +229,19 @@ export class NonEmptyArray<A> {
   sort(ord: Ord<A>): NonEmptyArray<A> {
     return unsafeFromArray(sort(ord)(this.toArray()))
   }
+
+  /**
+   * Reverts this {@link NonEmptyArray}
+   * @since 1.6.0
+   * @example
+   * const result = new NonEmptyArray(1, [2, 3]).reverse()
+   * const expected = new NonEmptyArray(3, [2, 1])
+   * assert.deepEqual(result, expected)
+   * @returns {NonEmptyArray<A>}
+   */
+  reverse(): NonEmptyArray<A> {
+    return unsafeFromArray(this.toArray().reverse())
+  }
 }
 
 const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
