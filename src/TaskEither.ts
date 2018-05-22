@@ -34,7 +34,7 @@ export class TaskEither<L, A> {
   readonly _L!: L
   readonly _URI!: URI
   constructor(readonly value: Task<Either<L, A>>) {}
-  /** Runs the inner task */
+  /** Runs the inner `Task` */
   run(): Promise<Either<L, A>> {
     return this.value.run()
   }
