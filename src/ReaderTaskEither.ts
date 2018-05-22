@@ -45,6 +45,12 @@ export class ReaderTaskEither<E, L, A> {
   /**
    * @since 1.6.0
    */
+  mapLeft<M>(f: (l: L) => M): ReaderTaskEither<E, M, A> {
+    return new ReaderTaskEither<E, M, A>(e => this.value(e).mapLeft(f))
+  }
+  /**
+   * @since 1.6.0
+   */
   ap<B>(fab: ReaderTaskEither<E, L, (a: A) => B>): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.ap(fab.value, this.value))
   }
@@ -78,6 +84,14 @@ export class ReaderTaskEither<E, L, A> {
 
 const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderTaskEither<E, L, B> => {
   return fa.map(f)
+}
+
+/**
+ * @function
+ * @since 1.6.0
+ */
+export const mapLeft = <E, L, A, M>(fa: ReaderTaskEither<E, L, A>, f: (l: L) => M): ReaderTaskEither<E, M, A> => {
+  return fa.mapLeft(f)
 }
 
 const of = <E, L, A>(a: A): ReaderTaskEither<E, L, A> => {
