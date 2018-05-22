@@ -13,22 +13,7 @@
     "target": "es5",
     "moduleResolution": "node",
     "forceConsistentCasingInFileNames": true,
-    "lib": [
-      "es6",
-      "dom"
-    ],
-    "baseUrl": ".",
-    "paths": {
-      "fp-ts/lib/*": [
-        "../src/*"
-      ],
-      "fp-ts": [
-        "../src/index"
-      ]
-    }
+    "lib": ["es6", "dom"]
   },
-  "include": [
-    "../src/**/*",
-    "./**/*"
-  ]
+  "include": ["../src/**/*", "./**/*"]
 }

@@ -9,8 +9,7 @@ export const identity = <A>(a: A): A => {
 }
 
 /**
- * `<A, B>(a: A) => B`
- * @function
+ * @constant
  * @since 1.0.0
  */
 export const unsafeCoerce: <A, B>(a: A) => B = identity as any

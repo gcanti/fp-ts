@@ -1,9 +1,9 @@
-import { array } from 'fp-ts/lib/Array'
-import { Monad1 } from 'fp-ts/lib/Monad'
-import { Option } from 'fp-ts/lib/Option'
-import * as optionT from 'fp-ts/lib/OptionT'
+import { array } from '../src/Array'
+import { Monad1 } from '../src/Monad'
+import { Option } from '../src/Option'
+import * as optionT from '../src/OptionT'
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT<A> {
     ArrayOption: ArrayOption<A>
   }

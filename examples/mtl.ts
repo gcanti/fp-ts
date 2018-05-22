@@ -1,17 +1,17 @@
-import { liftA2 } from 'fp-ts/lib/Apply'
-import { flatten } from 'fp-ts/lib/Chain'
-import { HKT, Type, Type3, URIS, URIS3 } from 'fp-ts/lib/HKT'
+import { liftA2 } from '../src/Apply'
+import { flatten } from '../src/Chain'
+import { HKT, Type, Type3, URIS, URIS3 } from '../src/HKT'
 //
 // IO
 //
-import { IO, URI as IOURI, io } from 'fp-ts/lib/IO'
-import { Monad, Monad1, Monad3 } from 'fp-ts/lib/Monad'
+import { IO, URI as IOURI, io } from '../src/IO'
+import { Monad, Monad1, Monad3 } from '../src/Monad'
 // => sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
 // => true
 //
 // Task
 //
-import { Task, URI as TaskURI, task } from 'fp-ts/lib/Task'
+import { Task, URI as TaskURI, task } from '../src/Task'
 // => string(session123) after 1.002
 // => FBToken(string(session123)) after 1.503
 // => FBPost(https://me.com/1) after 2.002
@@ -21,7 +21,7 @@ import { Task, URI as TaskURI, task } from 'fp-ts/lib/Task'
 //
 // ReaderTaskEither
 //
-import { URI as ReaderTaskEitherURI, fromTask, readerTaskEither } from './ReaderTaskEither'
+import { URI as ReaderTaskEitherURI, right, readerTaskEither } from '../src/ReaderTaskEither'
 
 // Adapted from https://tech.iheart.com/why-fp-its-the-composition-f585d17b01d3
 
@@ -111,13 +111,13 @@ likePost(task, monadUserTask, monadFBTask)('session123')('https://me.com/1')
   .then(result => console.log(result))
 
 const monadUserReaderTaskEither: MonadUser<ReaderTaskEitherURI> = {
-  validateUser: token => fromTask(monadUserTask.validateUser(token)),
-  facebookToken: uid => fromTask(monadUserTask.facebookToken(uid))
+  validateUser: token => right(monadUserTask.validateUser(token)),
+  facebookToken: uid => right(monadUserTask.facebookToken(uid))
 }
 
 const monadFBReaderTaskEither: MonadFB<ReaderTaskEitherURI> = {
-  findPost: url => fromTask(monadFBTask.findPost(url)),
-  sendLike: token => (post: string) => fromTask(monadFBTask.sendLike(token)(post))
+  findPost: url => right(monadFBTask.findPost(url)),
+  sendLike: token => (post: string) => right(monadFBTask.sendLike(token)(post))
 }
 
 type Env = void
@@ -126,7 +126,6 @@ likePost(readerTaskEither, monadUserReaderTaskEither, monadFBReaderTaskEither)<E
   'https://me.com/1'
 )
   .run(undefined)
-  .run()
   .then(result => console.log(result))
 /*
 string(session123) after 1.238

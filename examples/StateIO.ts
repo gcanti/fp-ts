@@ -1,14 +1,14 @@
-import * as array from 'fp-ts/lib/Array'
-import { log } from 'fp-ts/lib/Console'
-import { IO, io } from 'fp-ts/lib/IO'
-import { Monad2 } from 'fp-ts/lib/Monad'
-import { ordNumber } from 'fp-ts/lib/Ord'
-import { randomInt } from 'fp-ts/lib/Random'
-import { State } from 'fp-ts/lib/State'
-import * as stateT from 'fp-ts/lib/StateT'
-import { Endomorphism } from 'fp-ts/lib/function'
+import * as array from '../src/Array'
+import { log } from '../src/Console'
+import { IO, io } from '../src/IO'
+import { Monad2 } from '../src/Monad'
+import { ordNumber } from '../src/Ord'
+import { randomInt } from '../src/Random'
+import { State } from '../src/State'
+import * as stateT from '../src/StateT'
+import { Endomorphism } from '../src/function'
 
-declare module 'fp-ts/lib/HKT' {
+declare module '../src/HKT' {
   interface URI2HKT2<L, A> {
     StateIO: StateIO<L, A>
   }
