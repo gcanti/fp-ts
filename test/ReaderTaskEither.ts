@@ -13,8 +13,7 @@ import {
   ReaderTaskEither,
   fromLeft,
   fromIO,
-  fromIOEither,
-  mapLeft
+  fromIOEither
 } from '../src/ReaderTaskEither'
 import { left as eitherLeft, right as eitherRight, either } from '../src/Either'
 import { left as taskEitherLeft, taskEither } from '../src/TaskEither'
@@ -49,11 +48,10 @@ describe('ReaderTaskEither', () => {
 
   it('mapLeft', () => {
     const double = (n: number): number => n * 2
-    const leftReader = readerTaskEither
+    return readerTaskEither
       .of<{}, number, number>(1)
       .chain(() => new ReaderTaskEither(v => taskEitherLeft(task.of(2))))
-
-    return mapLeft(leftReader, double)
+      .mapLeft(double)
       .run({})
       .then(e => {
         assert.deepEqual(e, eitherLeft(4))

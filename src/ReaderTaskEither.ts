@@ -86,14 +86,6 @@ const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderT
   return fa.map(f)
 }
 
-/**
- * @function
- * @since 1.6.0
- */
-export const mapLeft = <E, L, A, M>(fa: ReaderTaskEither<E, L, A>, f: (l: L) => M): ReaderTaskEither<E, M, A> => {
-  return fa.mapLeft(f)
-}
-
 const of = <E, L, A>(a: A): ReaderTaskEither<E, L, A> => {
   return new ReaderTaskEither(readerTTaskEither.of(a))
 }
