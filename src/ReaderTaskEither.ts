@@ -1,3 +1,5 @@
+import { Alt3 } from './Alt'
+import { Bifunctor3 } from './Bifunctor'
 import { Either } from './Either'
 import { constant, constIdentity } from './function'
 import { IO } from './IO'
@@ -45,12 +47,6 @@ export class ReaderTaskEither<E, L, A> {
   /**
    * @since 1.6.0
    */
-  mapLeft<M>(f: (l: L) => M): ReaderTaskEither<E, M, A> {
-    return new ReaderTaskEither<E, M, A>(e => this.value(e).mapLeft(f))
-  }
-  /**
-   * @since 1.6.0
-   */
   ap<B>(fab: ReaderTaskEither<E, L, (a: A) => B>): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.ap(fab.value, this.value))
   }
@@ -80,6 +76,31 @@ export class ReaderTaskEither<E, L, A> {
   chain<B>(f: (a: A) => ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.chain(a => f(a).value, this.value))
   }
+  /**
+   * @since 1.6.0
+   */
+  mapLeft<M>(f: (l: L) => M): ReaderTaskEither<E, M, A> {
+    return new ReaderTaskEither(e => this.value(e).mapLeft(f))
+  }
+  /**
+   * Transforms the failure value of the `ReaderTaskEither` into a new `ReaderTaskEither`
+   * @since 1.6.0
+   */
+  orElse<M>(f: (l: L) => ReaderTaskEither<E, M, A>): ReaderTaskEither<E, M, A> {
+    return new ReaderTaskEither(e => this.value(e).orElse(l => f(l).value(e)))
+  }
+  /**
+   * @since 1.6.0
+   */
+  alt(fy: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> {
+    return this.orElse(() => fy)
+  }
+  /**
+   * @since 1.6.0
+   */
+  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): ReaderTaskEither<E, V, B> {
+    return new ReaderTaskEither(e => this.value(e).bimap(f, g))
+  }
 }
 
 const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderTaskEither<E, L, B> => {
@@ -102,6 +123,18 @@ const chain = <E, L, A, B>(
   f: (a: A) => ReaderTaskEither<E, L, B>
 ): ReaderTaskEither<E, L, B> => {
   return fa.chain(f)
+}
+
+const alt = <E, L, A>(fx: ReaderTaskEither<E, L, A>, fy: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> => {
+  return fx.alt(fy)
+}
+
+const bimap = <E, L, V, A, B>(
+  fa: ReaderTaskEither<E, L, A>,
+  f: (l: L) => V,
+  g: (a: A) => B
+): ReaderTaskEither<E, V, B> => {
+  return fa.bimap(f, g)
 }
 
 const readerTask = readerT.ask(taskEither.taskEither)
@@ -210,10 +243,12 @@ export const tryCatch = <E, L, A>(
  * @instance
  * @since 1.6.0
  */
-export const readerTaskEither: Monad3<URI> = {
+export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> = {
   URI,
   map,
   of,
   ap,
-  chain
+  chain,
+  alt,
+  bimap
 }
