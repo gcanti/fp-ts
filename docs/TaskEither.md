@@ -254,7 +254,7 @@ _since 1.6.0_
 _Signature_
 
 ```ts
-<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): TaskEither<L, A>
+<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
 ```
 
 ### left
