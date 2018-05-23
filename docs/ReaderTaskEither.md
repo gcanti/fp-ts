@@ -113,6 +113,18 @@ _Signature_
 <B>(f: (a: A) => ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B>
 ```
 
+### fold
+
+_method_
+
+_since 1.6.0_
+
+_Signature_
+
+```ts
+<R>(left: (l: L) => R, right: (a: A) => R): Reader<E, Task<R>>
+```
+
 ### map
 
 _method_
@@ -255,6 +267,20 @@ _Signature_
 
 ```ts
 <E, L, A>(l: L): ReaderTaskEither<E, L, A>
+```
+
+### fromPredicate
+
+_function_
+
+_since 1.6.0_
+
+_Signature_
+
+```ts
+<E, L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (
+  a: A
+): ReaderTaskEither<E, L, A>
 ```
 
 ### fromReader
