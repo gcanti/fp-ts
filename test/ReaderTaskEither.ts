@@ -13,7 +13,8 @@ import {
   ReaderTaskEither,
   fromLeft,
   fromIO,
-  fromIOEither
+  fromIOEither,
+  fromPredicate
 } from '../src/ReaderTaskEither'
 import { left as eitherLeft, right as eitherRight, either } from '../src/Either'
 import { left as taskEitherLeft, taskEither } from '../src/TaskEither'
@@ -242,6 +243,18 @@ describe('ReaderTaskEither', () => {
       assert.deepEqual(e3, eitherRight(1))
       assert.deepEqual(e4, eitherRight(1))
       assert.deepEqual(e4, e5)
+    })
+  })
+
+  it('fromPredicate', () => {
+    const predicate = (n: number) => n >= 2
+    const handleError = (n: number) => `Invalid number ${n}`
+    const gt2 = fromPredicate(predicate, handleError)
+    const x1 = gt2(3)
+    const x2 = gt2(1)
+    return Promise.all([x1.run({}), x2.run({})]).then(([e1, e2]) => {
+      assert.deepEqual(e1, eitherRight(3))
+      assert.deepEqual(e2, eitherLeft('Invalid number 1'))
     })
   })
 })

@@ -1,7 +1,7 @@
 import { Alt3 } from './Alt'
 import { Bifunctor3 } from './Bifunctor'
 import { Either } from './Either'
-import { constant, constIdentity } from './function'
+import { constant, constIdentity, Predicate } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
@@ -232,6 +232,16 @@ export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => {
  */
 export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L, A> => {
   return fromTaskEither(taskEither.fromIOEither(fa))
+}
+
+/**
+ * @function
+ * @since 1.6.0
+ */
+export const fromPredicate = <E, L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (
+  a: A
+): ReaderTaskEither<E, L, A> => {
+  return fromTaskEither(taskEither.fromPredicate(predicate, whenFalse)(a))
 }
 
 /**
