@@ -69,6 +69,7 @@
 * [These](./These.md)
 * [Trace](./Trace.md)
 * [Traversable](./Traversable.md)
+* [Tree](./Tree.md)
 * [Tuple](./Tuple.md)
 * [Unfoldable](./Unfoldable.md)
 * [Validation](./Validation.md)

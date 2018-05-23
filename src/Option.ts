@@ -382,6 +382,10 @@ const reduce = <A, B>(fa: Option<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
+const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
+  return ta.isNone() ? F.of(none) : F.map(f(ta.value), some)
+}
+
 const alt = <A>(fx: Option<A>, fy: Option<A>): Option<A> => {
   return fx.alt(fy)
 }
@@ -478,10 +482,6 @@ export const some = of
  */
 export const fromPredicate = <A>(predicate: Predicate<A>) => (a: A): Option<A> => {
   return predicate(a) ? some(a) : none
-}
-
-function traverse<F>(F: Applicative<F>): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>) => HKT<F, Option<B>> {
-  return (ta, f) => (ta.isNone() ? F.of(none) : F.map(f(ta.value), some))
 }
 
 /**
