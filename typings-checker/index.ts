@@ -15,6 +15,11 @@ import { getMonad as getTheseMonad } from '../src/These'
 import { sequence } from '../src/Traversable'
 import { replicateA } from '../src/Unfoldable'
 import { Validation, getApplicative, validation } from '../src/Validation'
+import { taskify, TaskEither } from '../src/TaskEither'
+
+type Equals<A, B> = [A] extends [B] ? ([B] extends [A] ? 'T' : 'F') : 'F'
+
+type AssertEquals<A, B, Bool extends Equals<A, B>> = [A, Bool]
 
 const double = (n: number) => n * 2
 
@@ -86,3 +91,11 @@ const these: optionT.OptionT2C<'These', string[]> = optionT.getOptionT(getTheseM
 // Monad3C
 
 const ixIO: optionT.OptionT3C<'IxIO', string, string> = optionT.getOptionT(getIxIOMonad<string>())
+
+// taskify
+
+declare function apiForTaskify(path: string, callback: (err: Error | null | undefined, result?: string) => void): void
+
+const apiTaskified = taskify(apiForTaskify)
+
+type S1 = AssertEquals<typeof apiTaskified, (a: string) => TaskEither<Error, string>, 'T'>
