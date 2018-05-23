@@ -1,11 +1,11 @@
 import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
-import { Either, left as eitherLeft, right as eitherRight } from './Either'
+import { Either, fromPredicate as eitherFromPredicate, left as eitherLeft, right as eitherRight } from './Either'
 import * as eitherT from './EitherT'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
 import { Task, fromIO as taskFromIO, task, tryCatch as taskTryCatch } from './Task'
-import { Lazy, constIdentity, constant } from './function'
+import { Lazy, constIdentity, constant, Predicate } from './function'
 import { IOEither } from './IOEither'
 
 declare module './HKT' {
@@ -163,6 +163,14 @@ export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
  */
 export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
   return new TaskEither(taskFromIO(fa.value))
+}
+
+/**
+ * @function
+ * @since 1.6.0
+ */
+export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): TaskEither<L, A> => {
+  return fromEither(eitherFromPredicate(predicate, whenFalse)(a))
 }
 
 /**

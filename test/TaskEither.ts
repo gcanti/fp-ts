@@ -11,7 +11,8 @@ import {
   taskEither,
   taskify,
   tryCatch,
-  fromIOEither
+  fromIOEither,
+  fromPredicate
 } from '../src/TaskEither'
 import { IOEither } from '../src/IOEither'
 
@@ -191,5 +192,17 @@ describe('TaskEither', () => {
         assert.deepEqual(e, eitherRight(1))
         assert.deepEqual(log, ['a', 'b'])
       })
+  })
+
+  it('fromPredicate', () => {
+    const predicate = (n: number) => n >= 2
+    const handleError = (n: number) => `Invalid number ${n}`
+    const gt2 = fromPredicate(predicate, handleError)
+    const x1 = gt2(3)
+    const x2 = gt2(1)
+    return Promise.all([x1.run(), x2.run()]).then(([e1, e2]) => {
+      assert.deepEqual(e1, eitherRight(3))
+      assert.deepEqual(e2, eitherLeft('Invalid number 1'))
+    })
   })
 })
