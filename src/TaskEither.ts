@@ -183,17 +183,17 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => 
 }
 
 /** Convert a node style callback function to one returning a `TaskEither` */
-export function taskify<L, R>(f: (cb: (e: L, r: R) => void) => void): () => TaskEither<L, R>
-export function taskify<A, L, R>(f: (a: A, cb: (e: L, r: R) => void) => void): (a: A) => TaskEither<L, R>
-export function taskify<A, B, L, R>(f: (a: A, b: B, cb: (e: L, r: R) => void) => void): (a: A, b: B) => TaskEither<L, R>
+export function taskify<L, R>(f: (cb: (e: L | null | undefined, r: R) => void) => void): () => TaskEither<L, R>
+export function taskify<A, L, R>(f: (a: A, cb: (e: L | null | undefined, r: R) => void) => void): (a: A) => TaskEither<L, R>
+export function taskify<A, B, L, R>(f: (a: A, b: B, cb: (e: L | null | undefined, r: R) => void) => void): (a: A, b: B) => TaskEither<L, R>
 export function taskify<A, B, C, L, R>(
-  f: (a: A, b: B, c: C, cb: (e: L, r: R) => void) => void
+  f: (a: A, b: B, c: C, cb: (e: L | null | undefined, r: R) => void) => void
 ): (a: A, b: B, c: C) => TaskEither<L, R>
 export function taskify<A, B, C, D, L, R>(
-  f: (a: A, b: B, c: C, d: D, cb: (e: L, r: R) => void) => void
+  f: (a: A, b: B, c: C, d: D, cb: (e: L | null | undefined, r: R) => void) => void
 ): (a: A, b: B, c: C, d: D) => TaskEither<L, R>
 export function taskify<A, B, C, D, E, L, R>(
-  f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L, r: R) => void) => void
+  f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r: R) => void) => void
 ): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
 /**
  * Convert a node style callback function to one returning a `TaskEither`
