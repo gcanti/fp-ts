@@ -169,8 +169,9 @@ export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
  * @function
  * @since 1.6.0
  */
-export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): TaskEither<L, A> => {
-  return fromEither(eitherFromPredicate(predicate, whenFalse)(a))
+export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>) => {
+  const f = eitherFromPredicate(predicate, whenFalse)
+  return a => fromEither(f(a))
 }
 
 /**

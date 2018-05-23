@@ -278,9 +278,10 @@ _since 1.6.0_
 _Signature_
 
 ```ts
-<E, L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (
-  a: A
-): ReaderTaskEither<E, L, A>
+<E, L, A>(
+  predicate: Predicate<A>,
+  whenFalse: (a: A) => L
+): ((a: A) => ReaderTaskEither<E, L, A>)
 ```
 
 ### fromReader

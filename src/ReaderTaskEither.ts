@@ -238,10 +238,12 @@ export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L
  * @function
  * @since 1.6.0
  */
-export const fromPredicate = <E, L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (
-  a: A
-): ReaderTaskEither<E, L, A> => {
-  return fromTaskEither(taskEither.fromPredicate(predicate, whenFalse)(a))
+export const fromPredicate = <E, L, A>(
+  predicate: Predicate<A>,
+  whenFalse: (a: A) => L
+): ((a: A) => ReaderTaskEither<E, L, A>) => {
+  const f = taskEither.fromPredicate(predicate, whenFalse)
+  return a => fromTaskEither(f(a))
 }
 
 /**
