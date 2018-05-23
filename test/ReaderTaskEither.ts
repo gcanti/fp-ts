@@ -73,6 +73,17 @@ describe('ReaderTaskEither', () => {
     })
   })
 
+  it('fold', () => {
+    const f = (s: string): boolean => s.length > 2
+    const g = (n: number): boolean => n > 2
+    const rte1 = readerTaskEither.of<{}, string, number>(1).fold(f, g)
+    const rte2 = fromLeft<{}, string, number>('foo').fold(f, g)
+    return Promise.all([rte1.run({}).run(), rte2.run({}).run()]).then(([b1, b2]) => {
+      assert.strictEqual(b1, false)
+      assert.strictEqual(b2, true)
+    })
+  })
+
   it('of', () => {
     return readerTaskEither
       .of(1)
