@@ -245,6 +245,18 @@ _Signature_
 <L, A>(l: L): TaskEither<L, A>
 ```
 
+### fromPredicate
+
+_function_
+
+_since 1.6.0_
+
+_Signature_
+
+```ts
+<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): TaskEither<L, A>
+```
+
 ### left
 
 _function_
