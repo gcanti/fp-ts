@@ -79,6 +79,12 @@ export class ReaderTaskEither<E, L, A> {
   /**
    * @since 1.6.0
    */
+  fold<R>(left: (l: L) => R, right: (a: A) => R): Reader<E, Task<R>> {
+    return new Reader(e => this.value(e).fold(left, right))
+  }
+  /**
+   * @since 1.6.0
+   */
   mapLeft<M>(f: (l: L) => M): ReaderTaskEither<E, M, A> {
     return new ReaderTaskEither(e => this.value(e).mapLeft(f))
   }
