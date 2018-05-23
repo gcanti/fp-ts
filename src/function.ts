@@ -331,6 +331,9 @@ export const toString = (x: any): string => {
   if (typeof x === 'function') {
     return getFunctionName(x)
   }
+  if (x.toString !== Object.prototype.toString) {
+    return x.toString()
+  }
   try {
     return JSON.stringify(x, null, 2)
   } catch (e) {

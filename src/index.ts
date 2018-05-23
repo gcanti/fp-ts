@@ -138,6 +138,8 @@ import * as trace from './Trace'
 export { trace }
 import * as traversable from './Traversable'
 export { traversable }
+import * as tree from './Tree'
+export { tree }
 import * as tuple from './Tuple'
 export { tuple }
 import * as unfoldable from './Unfoldable'
