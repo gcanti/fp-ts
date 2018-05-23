@@ -228,7 +228,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
       new Task(
         () =>
           new Promise(resolve => {
-            args.push((e: L, r: R) => (e !== null ? resolve(eitherLeft<L, R>(e)) : resolve(eitherRight<L, R>(r))))
+            args.push((e: L, r: R) => (e != null ? resolve(eitherLeft<L, R>(e)) : resolve(eitherRight<L, R>(r))))
             f.apply(null, args)
           })
       )

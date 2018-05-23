@@ -141,16 +141,22 @@ describe('TaskEither', () => {
   })
 
   it('taskify', () => {
-    const api1 = (path: string, callback: (err: Error | null, result?: string) => void): void => {
+    const api1 = (path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(null, 'ok')
     }
-    const api2 = (path: string, callback: (err: Error | null, result?: string) => void): void => {
+    const api2 = (path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
+      callback(undefined, 'ok')
+    }
+    const api3 = (path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(new Error('ko'))
     }
-    return Promise.all([taskify(api1)('foo').run(), taskify(api2)('foo').run()]).then(([e1, e2]) => {
-      assert.deepEqual(e1, eitherRight('ok'))
-      assert.deepEqual(e2, eitherLeft(new Error('ko')))
-    })
+    return Promise.all([taskify(api1)('foo').run(), taskify(api2)('foo').run(), taskify(api3)('foo').run()]).then(
+      ([e1, e2, e3]) => {
+        assert.deepEqual(e1, eitherRight('ok'))
+        assert.deepEqual(e2, eitherRight('ok'))
+        assert.deepEqual(e3, eitherLeft(new Error('ko')))
+      }
+    )
   })
 
   it('alt', () => {
