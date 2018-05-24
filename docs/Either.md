@@ -157,12 +157,12 @@ _since 1.3.0_
 _Signature_
 
 ```ts
-(p: Predicate<A>, zero: () => L): Either<L, A>
+(p: Predicate<A>, zero: (a: A) => L): Either<L, A>
 ```
 
 _Description_
 
-Lazy version of `filterOrElse`
+Lazy version of [filterOrElse](#filterorelse)
 
 ### fold
 
@@ -316,6 +316,34 @@ _Signature_
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
+### refineOrElse
+
+_method_
+
+_since 1.6.0_
+
+_Signature_
+
+```ts
+<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
+```
+
+### refineOrElseL
+
+_method_
+
+_since 1.6.0_
+
+_Signature_
+
+```ts
+<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
+```
+
+_Description_
+
+Lazy version of [refineOrElse](#refineorelse)
+
 ### swap
 
 _method_
@@ -426,6 +454,20 @@ _Signature_
 
 ```ts
 <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): Either<L, A>
+```
+
+### fromRefinement
+
+_function_
+
+_since 1.6.0_
+
+_Signature_
+
+```ts
+<L, A, B extends A>(refinement: Refinement<A, B>, whenFalse: (a: A) => L) => (
+  a: A
+): Either<L, B>
 ```
 
 ### fromValidation

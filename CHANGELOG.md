@@ -13,6 +13,31 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.6.0
+
+* **New Feature**
+  * add `NonEmptyArray.prototype.last` (@raveclassic)
+  * add `IOEither` module (@leemhenson)
+  * add `orElse` method to `Either`, `Identity`, `Option` (@raveclassic)
+  * add `Alt` instance to `TaskEither` (@gcanti)
+  * add `NonEmptyArray.prototype.sort` (@raveclassic)
+  * add `TaskEither.fromIOEither` (@gcanti)
+  * add `applyFirst` method to `IO`, `Task`, `IOEither`, `TaskEither` (@gcanti)
+  * move `ReaderTaskEither` from examples into `src` (@leemhenson)
+  * add `NonEmptyArray.prototype.reverse` (@raveclassic)
+  * add `TaskEither.fromPredicate` (@leemhenson)
+  * add `Tree` module (@gcanti)
+  * make `Either.filterOrElseL` more general (@gcanti)
+  * add `Either.refineOrElse`, `Either.refineOrElseL` (@gcanti)
+  * add `Either.fromRefinement` (@gcanti)
+* **Bug Fix**
+  * handle undefined errors in callback of `TaskEither.taskify` (@dmechas)
+  * fix overloading typings of `TaskEither.taskify` (@gcanti)
+* **Internal**
+  * make `Writer.prototype.map` lazy (@gcanti)
+* **Documentation**
+  * handle `example` and `link` tags (@gcanti)
+
 # 1.5.0
 
 * **New Feature**
