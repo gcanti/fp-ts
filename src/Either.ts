@@ -333,6 +333,16 @@ export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) =
 }
 
 /**
+ * @function
+ * @since 1.6.0
+ */
+export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, whenFalse: (a: A) => L) => (
+  a: A
+): Either<L, B> => {
+  return refinement(a) ? right(a) : left(whenFalse(a))
+}
+
+/**
  * Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
  * the provided default as a `Left`
  * @function

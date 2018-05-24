@@ -12,7 +12,8 @@ import {
   right,
   tryCatch,
   isLeft,
-  isRight
+  isRight,
+  fromRefinement
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
@@ -260,5 +261,13 @@ describe('Either', () => {
     assert.deepEqual(right('red').refineOrElseL(isColor, errorHandler), right('red'))
     assert.deepEqual(right('foo').refineOrElseL(isColor, errorHandler), left('invalid color foo'))
     assert.deepEqual(left<string, string>('error').refineOrElseL(isColor, errorHandler), left('error'))
+  })
+
+  it('fromRefinement', () => {
+    type Color = 'red' | 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s == 'blue'
+    const from = fromRefinement(isColor, s => `invalid color ${s}`)
+    assert.deepEqual(from('red'), right('red'))
+    assert.deepEqual(from('foo'), left('invalid color foo'))
   })
 })
