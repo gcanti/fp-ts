@@ -33,6 +33,8 @@ export type Forest<A> = Array<Tree<A>>
  * @since 1.6.0
  */
 export class Tree<A> {
+  readonly _A!: A
+  readonly _URI!: URI
   constructor(readonly value: A, readonly forest: Forest<A>) {}
   /**
    * @since 1.6.0
