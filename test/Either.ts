@@ -244,4 +244,21 @@ describe('Either', () => {
     assert.deepEqual(right('bar').swap(), left('bar'))
     assert.deepEqual(left('bar').swap(), right('bar'))
   })
+
+  it('refineOrElse', () => {
+    type Color = 'red' | 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s == 'blue'
+    assert.deepEqual(right('red').refineOrElse(isColor, -1), right('red'))
+    assert.deepEqual(right('foo').refineOrElse(isColor, -1), left(-1))
+    assert.deepEqual(left<number, string>(12).refineOrElse(isColor, -1), left(12))
+  })
+
+  it('refineOrElseL', () => {
+    type Color = 'red' | 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s == 'blue'
+    const errorHandler = (s: string) => `invalid color ${s}`
+    assert.deepEqual(right('red').refineOrElseL(isColor, errorHandler), right('red'))
+    assert.deepEqual(right('foo').refineOrElseL(isColor, errorHandler), left('invalid color foo'))
+    assert.deepEqual(left<string, string>('error').refineOrElseL(isColor, errorHandler), left('error'))
+  })
 })
