@@ -4,7 +4,7 @@ import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
-import { Lazy, Predicate, toString } from './function'
+import { Lazy, Predicate, Refinement, toString } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
 import { Option } from './Option'
@@ -155,6 +155,19 @@ export class Left<L, A> {
   filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> {
     return this
   }
+  /**
+   * @since 1.6.0
+   */
+  refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B> {
+    return this as any
+  }
+  /**
+   * Lazy version of {@link refineOrElse}
+   * @since 1.6.0
+   */
+  refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> {
+    return this as any
+  }
 }
 
 export class Right<L, A> {
@@ -222,6 +235,12 @@ export class Right<L, A> {
   }
   filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> {
     return p(this.value) ? this : left(zero(this.value))
+  }
+  refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B> {
+    return p(this.value) ? (this as any) : left(zero)
+  }
+  refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> {
+    return p(this.value) ? (this as any) : left(zero(this.value))
   }
 }
 
