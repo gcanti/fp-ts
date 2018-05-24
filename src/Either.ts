@@ -4,13 +4,13 @@ import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
+import { Lazy, Predicate, toString } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
 import { Option } from './Option'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
 import { Validation } from './Validation'
-import { Lazy, Predicate, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -149,10 +149,10 @@ export class Left<L, A> {
     return this
   }
   /**
-   * Lazy version of `filterOrElse`
+   * Lazy version of {@link filterOrElse}
    * @since 1.3.0
    */
-  filterOrElseL(p: Predicate<A>, zero: () => L): Either<L, A> {
+  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> {
     return this
   }
 }
@@ -220,8 +220,8 @@ export class Right<L, A> {
   filterOrElse(p: Predicate<A>, zero: L): Either<L, A> {
     return p(this.value) ? this : left(zero)
   }
-  filterOrElseL(p: Predicate<A>, zero: () => L): Either<L, A> {
-    return p(this.value) ? this : left(zero())
+  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> {
+    return p(this.value) ? this : left(zero(this.value))
   }
 }
 
