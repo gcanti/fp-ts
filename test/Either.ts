@@ -183,6 +183,7 @@ describe('Either', () => {
     assert.deepEqual(right(12).filterOrElseL(n => n > 10, () => -1), right(12))
     assert.deepEqual(right(7).filterOrElseL(n => n > 10, () => -1), left(-1))
     assert.deepEqual(left(12).filterOrElseL(n => n > 10, () => -1), left(12))
+    assert.deepEqual(right(7).filterOrElseL(n => n > 10, n => `invalid ${n}`), left('invalid 7'))
   })
 
   it('isLeft', () => {
