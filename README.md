@@ -1,10 +1,24 @@
-[![build status](https://img.shields.io/travis/gcanti/fp-ts/master.svg?style=flat-square)](https://travis-ci.org/gcanti/fp-ts)
-[![dependency status](https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square)](https://david-dm.org/gcanti/fp-ts)
-![npm downloads](https://img.shields.io/npm/dm/fp-ts.svg)
+<h3 align="center">
+  <a href="docs/index.md">
+    <img src="fp-ts-logo.png">
+  </a>
+</h3>
 
-<a href="docs/api/md/index.md">
-  <img src="fp-ts-logo.png">
-</a>
+<p align="center">
+Functional programming in TypeScript
+</p>
+
+<p align="center">
+  <a href="https://travis-ci.org/gcanti/fp-ts">
+    <img src="https://img.shields.io/travis/gcanti/fp-ts/master.svg?style=flat-square" alt="build status" height="20">
+  </a>
+  <a href="https://david-dm.org/gcanti/fp-ts">
+    <img src="https://img.shields.io/david/gcanti/fp-ts.svg?style=flat-square" alt="dependency status" height="20">
+  </a>
+  <a href="https://www.npmjs.com/package/fp-ts">
+    <img src="https://img.shields.io/npm/dm/fp-ts.svg" alt="npm downloads" height="20">
+  </a>
+</p>
 
 Inspired by
 
@@ -52,7 +66,7 @@ The idea (faking higher kinded types in TypeScript) is based on
 
 # Documentation
 
-* [API](docs/index.md)
+* [API Reference](docs/index.md)
 
 ## Internals
 
