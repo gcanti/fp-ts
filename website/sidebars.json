@@ -1,0 +1,13 @@
+{
+  "docs": {
+    "Getting started": [],
+    "API Reference": [
+      "Alt",
+      "Alternative",
+      "Applicative"
+    ],
+    "Internals": [
+      "internals-HKT"
+    ]
+  }
+}

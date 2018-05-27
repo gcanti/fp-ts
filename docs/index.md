@@ -1,3 +1,8 @@
+---
+id: index
+title: Index
+---
+
 # API
 
 * [Alt](./Alt.md)

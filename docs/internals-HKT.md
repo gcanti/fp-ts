@@ -1,4 +1,7 @@
-# How `HKT`, `URI2HKT`, `URIS` and `Type` work
+---
+id: internals-HKT
+title: How HKT, URI2HKT, URIS and Type work
+---
 
 ## Introduction
 
