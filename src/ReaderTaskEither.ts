@@ -165,7 +165,9 @@ export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => {
  * @function
  * @since 1.6.0
  */
-export const local = <E>(f: (e: E) => E) => <L, A>(fa: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> => {
+export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
+  fa: ReaderTaskEither<E, L, A>
+): ReaderTaskEither<E2, L, A> => {
   return new ReaderTaskEither(e => fa.value(f(e)))
 }
 
