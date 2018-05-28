@@ -57,6 +57,18 @@ _Signature_
 <B>(f: (a: A) => Reader<E, B>): Reader<E, B>
 ```
 
+### local
+
+_method_
+
+_since 1.6.1_
+
+_Signature_
+
+```ts
+<E2 = E>(f: (e: E2) => E): Reader<E2, A>
+```
+
 ### map
 
 _method_
@@ -126,7 +138,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-<E>(f: (e: E) => E) => <A>(fa: Reader<E, A>): Reader<E, A>
+<E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A>
 ```
 
 _Description_

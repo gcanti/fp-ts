@@ -33,6 +33,12 @@ export class Reader<E, A> {
   chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B> {
     return new Reader((e: E) => f(this.run(e)).run(e))
   }
+  /**
+   * @since 1.6.1
+   */
+  local<E2 = E>(f: (e: E2) => E): Reader<E2, A> {
+    return new Reader(e => this.run(f(e)))
+  }
 }
 
 const map = <E, A, B>(fa: Reader<E, A>, f: (a: A) => B): Reader<E, B> => {
@@ -75,7 +81,7 @@ export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
  * @since 1.0.0
  */
 export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A> => {
-  return new Reader(e => fa.run(f(e)))
+  return fa.local(f)
 }
 
 /**
