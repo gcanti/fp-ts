@@ -74,8 +74,8 @@ export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
  * @function
  * @since 1.0.0
  */
-export const local = <E>(f: (e: E) => E) => <A>(fa: Reader<E, A>): Reader<E, A> => {
-  return new Reader((e: E) => fa.run(f(e)))
+export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A> => {
+  return new Reader(e => fa.run(f(e)))
 }
 
 /**

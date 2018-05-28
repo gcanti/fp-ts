@@ -43,4 +43,13 @@ describe('Reader', () => {
     const x = local((s: string) => s + '!')(ask())
     assert.strictEqual(x.run('foo'), 'foo!')
   })
+
+  it('local', () => {
+    type E = string
+    interface E2 {
+      name: string
+    }
+    const x = local((e2: E2) => e2.name)(new Reader((e: E) => e.length))
+    assert.strictEqual(x.run({ name: 'foo' }), 3)
+  })
 })

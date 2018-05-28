@@ -19,7 +19,7 @@ import {
 import { left as eitherLeft, right as eitherRight, either } from '../src/Either'
 import { left as taskEitherLeft, taskEither } from '../src/TaskEither'
 import { task, Task } from '../src/Task'
-import { reader } from '../src/Reader'
+import { reader, Reader } from '../src/Reader'
 import { IO } from '../src/IO'
 import { IOEither } from '../src/IOEither'
 
@@ -105,10 +105,16 @@ describe('ReaderTaskEither', () => {
   it('local', () => {
     const double = (n: number): number => n * 2
     const doubleLocal = local<number>(double)
-
-    return doubleLocal(new ReaderTaskEither(taskEither.of))
-      .run(1)
-      .then(e => assert.deepEqual(e, eitherRight(2)))
+    const rte1 = doubleLocal(new ReaderTaskEither(taskEither.of))
+    type E = string
+    interface E2 {
+      name: string
+    }
+    const rte3 = local((e2: E2) => e2.name)(fromReader(new Reader((e: E) => e.length)))
+    return Promise.all([rte1.run(1), rte3.run({ name: 'foo' })]).then(([e1, e2]) => {
+      assert.deepEqual(e1, eitherRight(2))
+      assert.deepEqual(e2, eitherRight(3))
+    })
   })
 
   it('left', () => {

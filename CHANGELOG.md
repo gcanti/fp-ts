@@ -13,6 +13,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.6.1
+
+* **Polish**
+  * `Reader.local`, `ReaderTaskEither.local` should be able to change the environment type (@gcanti)
+
 # 1.6.0
 
 * **New Feature**
