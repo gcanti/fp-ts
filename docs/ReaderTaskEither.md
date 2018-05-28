@@ -125,6 +125,18 @@ _Signature_
 <R>(left: (l: L) => R, right: (a: A) => R): Reader<E, Task<R>>
 ```
 
+### local
+
+_method_
+
+_since 1.6.1_
+
+_Signature_
+
+```ts
+<E2 = E>(f: (e: E2) => E): ReaderTaskEither<E2, L, A>
+```
+
 ### map
 
 _method_
@@ -329,7 +341,9 @@ _since 1.6.0_
 _Signature_
 
 ```ts
-<E>(f: (e: E) => E) => <L, A>(fa: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A>
+<E, E2 = E>(f: (e: E2) => E) => <L, A>(
+  fa: ReaderTaskEither<E, L, A>
+): ReaderTaskEither<E2, L, A>
 ```
 
 ### right

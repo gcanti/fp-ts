@@ -17,6 +17,7 @@ high state of flux, you're at risk of it changing without notice.
 
 * **Polish**
   * `Reader.local`, `ReaderTaskEither.local` should be able to change the environment type (@gcanti)
+  * add `Reader.prototype.local`, `ReaderTaskEither.prototype.local` (@gcanti)
 
 # 1.6.0
 

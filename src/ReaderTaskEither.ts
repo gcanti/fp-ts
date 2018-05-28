@@ -107,6 +107,12 @@ export class ReaderTaskEither<E, L, A> {
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): ReaderTaskEither<E, V, B> {
     return new ReaderTaskEither(e => this.value(e).bimap(f, g))
   }
+  /**
+   * @since 1.6.1
+   */
+  local<E2 = E>(f: (e: E2) => E): ReaderTaskEither<E2, L, A> {
+    return new ReaderTaskEither(e => this.value(f(e)))
+  }
 }
 
 const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderTaskEither<E, L, B> => {
@@ -168,7 +174,7 @@ export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => {
 export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
   fa: ReaderTaskEither<E, L, A>
 ): ReaderTaskEither<E2, L, A> => {
-  return new ReaderTaskEither(e => fa.value(f(e)))
+  return fa.local(f)
 }
 
 /**
