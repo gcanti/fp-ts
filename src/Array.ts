@@ -51,7 +51,7 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
  * arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid 'S'. In case of
  * arrays of different lengths, the result is non equality.
  *
- * @function
+ * @constant
  * @since 1.0.0
  */
 export const getSetoid: <A>(S: Setoid<A>) => Setoid<A[]> = getArraySetoid

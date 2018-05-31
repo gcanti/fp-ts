@@ -5,6 +5,26 @@ title: Module Array
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts)
 
+## Constants
+
+### getSetoid
+
+_constant_
+
+_since 1.0.0_
+
+_Signature_
+
+```ts
+getSetoid: <A>(S: Setoid<A>) => Setoid<A[]>
+```
+
+_Description_
+
+Derives a Setoid over the Array of a given element type from the Setoid of that type. The derived setoid defines two
+arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid 'S'. In case of
+arrays of different lengths, the result is non equality.
+
 ## Functions
 
 ### catOptions
@@ -245,24 +265,6 @@ Derives an Order over the Array of a given element type from the Order, 'O', of 
 such arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order,
 in case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
 the same length, the result is equality.
-
-### getSetoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
-
-```ts
-getArraySetoid
-```
-
-_Description_
-
-Derives a Setoid over the Array of a given element type from the Setoid of that type. The derived setoid defines two
-arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid 'S'. In case of
-arrays of different lengths, the result is non equality.
 
 ### head
 
