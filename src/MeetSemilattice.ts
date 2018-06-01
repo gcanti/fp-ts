@@ -12,5 +12,5 @@
  * @since 1.4.0
  */
 export interface MeetSemilattice<A> {
-  meet: (x: A, y: A) => A
+  readonly meet: (x: A, y: A) => A
 }

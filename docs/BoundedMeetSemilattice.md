@@ -15,7 +15,7 @@ _Signature_
 
 ```ts
 interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
-  one: A
+  readonly one: A
 }
 ```
 

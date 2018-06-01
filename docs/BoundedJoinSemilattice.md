@@ -15,7 +15,7 @@ _Signature_
 
 ```ts
 interface BoundedJoinSemilattice<A> extends JoinSemilattice<A> {
-  zero: A
+  readonly zero: A
 }
 ```
 
