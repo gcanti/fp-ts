@@ -1,0 +1,326 @@
+<svg width="1618pt" height="404pt" viewBox="0.00 0.00 1618.00 404.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph1" class="graph" transform="scale(1 1) rotate(0) translate(4 400)">
+<title>G</title>
+<polygon fill="white" stroke="white" points="-4,5 -4,-400 1615,-400 1615,5 -4,5"></polygon>
+<!-- Monoid -->
+<g id="node1" class="node"><title>Monoid</title>
+<ellipse fill="#fc81bf" stroke="black" cx="57" cy="-18" rx="42.8926" ry="18"></ellipse>
+<text text-anchor="middle" x="57" y="-13.8" font-family="arial" font-size="14.00">Monoid</text>
+</g>
+<!-- Semigroup -->
+<g id="node3" class="node"><title>Semigroup</title>
+<ellipse fill="#fc81bf" stroke="black" cx="57" cy="-90" rx="57.9391" ry="18"></ellipse>
+<text text-anchor="middle" x="57" y="-85.8" font-family="arial" font-size="14.00">Semigroup</text>
+</g>
+<!-- Monoid&#45;&gt;Semigroup -->
+<g id="edge2" class="edge"><title>Monoid-&gt;Semigroup</title>
+<path fill="none" stroke="black" d="M57,-36.3034C57,-44.0173 57,-53.2875 57,-61.8876"></path>
+<polygon fill="black" stroke="black" points="53.5001,-61.8956 57,-71.8957 60.5001,-61.8957 53.5001,-61.8956"></polygon>
+</g>
+<!-- Field -->
+<g id="node4" class="node"><title>Field</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="164" cy="-18" rx="31.9166" ry="18"></ellipse>
+<text text-anchor="middle" x="164" y="-13.8" font-family="arial" font-size="14.00">Field</text>
+</g>
+<!-- Ring -->
+<g id="node6" class="node"><title>Ring</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="164" cy="-90" rx="30.7751" ry="18"></ellipse>
+<text text-anchor="middle" x="164" y="-85.8" font-family="arial" font-size="14.00">Ring</text>
+</g>
+<!-- Field&#45;&gt;Ring -->
+<g id="edge4" class="edge"><title>Field-&gt;Ring</title>
+<path fill="none" stroke="black" d="M164,-36.3034C164,-44.0173 164,-53.2875 164,-61.8876"></path>
+<polygon fill="black" stroke="black" points="160.5,-61.8956 164,-71.8957 167.5,-61.8957 160.5,-61.8956"></polygon>
+</g>
+<!-- Semiring -->
+<g id="node7" class="node"><title>Semiring</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="164" cy="-162" rx="49.2512" ry="18"></ellipse>
+<text text-anchor="middle" x="164" y="-157.8" font-family="arial" font-size="14.00">Semiring</text>
+</g>
+<!-- Ring&#45;&gt;Semiring -->
+<g id="edge5" class="edge"><title>Ring-&gt;Semiring</title>
+<path fill="none" stroke="black" d="M164,-108.303C164,-116.017 164,-125.288 164,-133.888"></path>
+<polygon fill="black" stroke="black" points="160.5,-133.896 164,-143.896 167.5,-133.896 160.5,-133.896"></polygon>
+</g>
+<!-- Ord -->
+<g id="node8" class="node"><title>Ord</title>
+<ellipse fill="#fc81bf" stroke="black" cx="270" cy="-90" rx="27.2641" ry="18"></ellipse>
+<text text-anchor="middle" x="270" y="-85.8" font-family="arial" font-size="14.00">Ord</text>
+</g>
+<!-- Setoid -->
+<g id="node9" class="node"><title>Setoid</title>
+<ellipse fill="#fc81bf" stroke="black" cx="270" cy="-162" rx="38.3165" ry="18"></ellipse>
+<text text-anchor="middle" x="270" y="-157.8" font-family="arial" font-size="14.00">Setoid</text>
+</g>
+<!-- Ord&#45;&gt;Setoid -->
+<g id="edge8" class="edge"><title>Ord-&gt;Setoid</title>
+<path fill="none" stroke="black" d="M270,-108.303C270,-116.017 270,-125.288 270,-133.888"></path>
+<polygon fill="black" stroke="black" points="266.5,-133.896 270,-143.896 273.5,-133.896 266.5,-133.896"></polygon>
+</g>
+<!-- Bounded -->
+<g id="node10" class="node"><title>Bounded</title>
+<ellipse fill="#fecfe6" stroke="black" cx="270" cy="-18" rx="49.8737" ry="18"></ellipse>
+<text text-anchor="middle" x="270" y="-13.8" font-family="arial" font-size="14.00">Bounded</text>
+</g>
+<!-- Bounded&#45;&gt;Ord -->
+<g id="edge7" class="edge"><title>Bounded-&gt;Ord</title>
+<path fill="none" stroke="black" d="M270,-36.3034C270,-44.0173 270,-53.2875 270,-61.8876"></path>
+<polygon fill="black" stroke="black" points="266.5,-61.8956 270,-71.8957 273.5,-61.8957 266.5,-61.8956"></polygon>
+</g>
+<!-- Category -->
+<g id="node12" class="node"><title>Category</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="388" cy="-18" rx="50.4168" ry="18"></ellipse>
+<text text-anchor="middle" x="388" y="-13.8" font-family="arial" font-size="14.00">Category</text>
+</g>
+<!-- Semigroupoid -->
+<g id="node14" class="node"><title>Semigroupoid</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="388" cy="-90" rx="70.6974" ry="18"></ellipse>
+<text text-anchor="middle" x="388" y="-85.8" font-family="arial" font-size="14.00">Semigroupoid</text>
+</g>
+<!-- Category&#45;&gt;Semigroupoid -->
+<g id="edge10" class="edge"><title>Category-&gt;Semigroupoid</title>
+<path fill="none" stroke="black" d="M388,-36.3034C388,-44.0173 388,-53.2875 388,-61.8876"></path>
+<polygon fill="black" stroke="black" points="384.5,-61.8956 388,-71.8957 391.5,-61.8957 384.5,-61.8956"></polygon>
+</g>
+<!-- Functor -->
+<g id="node15" class="node"><title>Functor</title>
+<ellipse fill="#659dfe" stroke="black" cx="722" cy="-234" rx="43.5367" ry="18"></ellipse>
+<text text-anchor="middle" x="722" y="-229.8" font-family="arial" font-size="14.00">Functor</text>
+</g>
+<!-- Applicative -->
+<g id="node16" class="node"><title>Applicative</title>
+<ellipse fill="#659dfe" stroke="black" cx="619" cy="-90" rx="57.9391" ry="18"></ellipse>
+<text text-anchor="middle" x="619" y="-85.8" font-family="arial" font-size="14.00">Applicative</text>
+</g>
+<!-- Apply -->
+<g id="node27" class="node"><title>Apply</title>
+<ellipse fill="#bfd7ff" stroke="black" cx="675" cy="-162" rx="35.3703" ry="18"></ellipse>
+<text text-anchor="middle" x="675" y="-157.8" font-family="arial" font-size="14.00">Apply</text>
+</g>
+<!-- Applicative&#45;&gt;Apply -->
+<g id="edge20" class="edge"><title>Applicative-&gt;Apply</title>
+<path fill="none" stroke="black" d="M632.271,-107.589C639.276,-116.345 647.999,-127.249 655.734,-136.918"></path>
+<polygon fill="black" stroke="black" points="653.229,-139.39 662.21,-145.012 658.696,-135.017 653.229,-139.39"></polygon>
+</g>
+<!-- Monad -->
+<g id="node17" class="node"><title>Monad</title>
+<ellipse fill="#659dfe" stroke="black" cx="628" cy="-18" rx="40.606" ry="18"></ellipse>
+<text text-anchor="middle" x="628" y="-13.8" font-family="arial" font-size="14.00">Monad</text>
+</g>
+<!-- Monad&#45;&gt;Applicative -->
+<g id="edge19" class="edge"><title>Monad-&gt;Applicative</title>
+<path fill="none" stroke="black" d="M625.775,-36.3034C624.783,-44.0173 623.592,-53.2875 622.486,-61.8876"></path>
+<polygon fill="black" stroke="black" points="619.003,-61.531 621.199,-71.8957 625.946,-62.4237 619.003,-61.531"></polygon>
+</g>
+<!-- Chain -->
+<g id="node29" class="node"><title>Chain</title>
+<ellipse fill="#bfd7ff" stroke="black" cx="731" cy="-90" rx="36.0129" ry="18"></ellipse>
+<text text-anchor="middle" x="731" y="-85.8" font-family="arial" font-size="14.00">Chain</text>
+</g>
+<!-- Monad&#45;&gt;Chain -->
+<g id="edge23" class="edge"><title>Monad-&gt;Chain</title>
+<path fill="none" stroke="black" d="M649.342,-33.504C664.596,-43.8709 685.3,-57.9418 702.044,-69.3209"></path>
+<polygon fill="black" stroke="black" points="700.15,-72.266 710.389,-74.9922 704.085,-66.4765 700.15,-72.266"></polygon>
+</g>
+<!-- Alternative -->
+<g id="node18" class="node"><title>Alternative</title>
+<ellipse fill="#659dfe" stroke="black" cx="513" cy="-18" rx="56.7929" ry="18"></ellipse>
+<text text-anchor="middle" x="513" y="-13.8" font-family="arial" font-size="14.00">Alternative</text>
+</g>
+<!-- Alternative&#45;&gt;Applicative -->
+<g id="edge14" class="edge"><title>Alternative-&gt;Applicative</title>
+<path fill="none" stroke="black" d="M536.525,-34.5353C551.346,-44.3229 570.677,-57.0884 586.898,-67.8003"></path>
+<polygon fill="black" stroke="black" points="585.268,-70.9181 595.541,-73.5082 589.125,-65.0769 585.268,-70.9181"></polygon>
+</g>
+<!-- Plus -->
+<g id="node25" class="node"><title>Plus</title>
+<ellipse fill="#bfd7ff" stroke="black" cx="513" cy="-90" rx="29.6339" ry="18"></ellipse>
+<text text-anchor="middle" x="513" y="-85.8" font-family="arial" font-size="14.00">Plus</text>
+</g>
+<!-- Alternative&#45;&gt;Plus -->
+<g id="edge16" class="edge"><title>Alternative-&gt;Plus</title>
+<path fill="none" stroke="black" d="M513,-36.3034C513,-44.0173 513,-53.2875 513,-61.8876"></path>
+<polygon fill="black" stroke="black" points="509.5,-61.8956 513,-71.8957 516.5,-61.8957 509.5,-61.8956"></polygon>
+</g>
+<!-- Traversable -->
+<g id="node19" class="node"><title>Traversable</title>
+<ellipse fill="#659dfe" stroke="black" cx="890" cy="-162" rx="62.0137" ry="18"></ellipse>
+<text text-anchor="middle" x="890" y="-157.8" font-family="arial" font-size="14.00">Traversable</text>
+</g>
+<!-- Traversable&#45;&gt;Functor -->
+<g id="edge33" class="edge"><title>Traversable-&gt;Functor</title>
+<path fill="none" stroke="black" d="M856.003,-177.166C828.437,-188.651 789.577,-204.843 760.798,-216.834"></path>
+<polygon fill="black" stroke="black" points="759.34,-213.65 751.456,-220.727 762.033,-220.111 759.34,-213.65"></polygon>
+</g>
+<!-- Foldable -->
+<g id="node20" class="node"><title>Foldable</title>
+<ellipse fill="#659dfe" stroke="black" cx="890" cy="-234" rx="48.1264" ry="18"></ellipse>
+<text text-anchor="middle" x="890" y="-229.8" font-family="arial" font-size="14.00">Foldable</text>
+</g>
+<!-- Traversable&#45;&gt;Foldable -->
+<g id="edge31" class="edge"><title>Traversable-&gt;Foldable</title>
+<path fill="none" stroke="black" d="M890,-180.303C890,-188.017 890,-197.288 890,-205.888"></path>
+<polygon fill="black" stroke="black" points="886.5,-205.896 890,-215.896 893.5,-205.896 886.5,-205.896"></polygon>
+</g>
+<!-- Alt -->
+<g id="node21" class="node"><title>Alt</title>
+<ellipse fill="#bfd7ff" stroke="black" cx="554" cy="-162" rx="27" ry="18"></ellipse>
+<text text-anchor="middle" x="554" y="-157.8" font-family="arial" font-size="14.00">Alt</text>
+</g>
+<!-- Alt&#45;&gt;Functor -->
+<g id="edge12" class="edge"><title>Alt-&gt;Functor</title>
+<path fill="none" stroke="black" d="M576.309,-172.295C603.524,-183.635 649.992,-202.997 683.131,-216.805"></path>
+<polygon fill="black" stroke="black" points="681.947,-220.103 692.524,-220.718 684.639,-213.641 681.947,-220.103"></polygon>
+</g>
+<!-- Plus&#45;&gt;Alt -->
+<g id="edge17" class="edge"><title>Plus-&gt;Alt</title>
+<path fill="none" stroke="black" d="M522.509,-107.235C527.529,-115.805 533.796,-126.506 539.415,-136.1"></path>
+<polygon fill="black" stroke="black" points="536.468,-137.993 544.542,-144.853 542.508,-134.455 536.468,-137.993"></polygon>
+</g>
+<!-- Apply&#45;&gt;Functor -->
+<g id="edge21" class="edge"><title>Apply-&gt;Functor</title>
+<path fill="none" stroke="black" d="M685.901,-179.235C691.631,-187.77 698.781,-198.418 705.201,-207.981"></path>
+<polygon fill="black" stroke="black" points="702.352,-210.015 710.832,-216.367 708.163,-206.113 702.352,-210.015"></polygon>
+</g>
+<!-- Chain&#45;&gt;Apply -->
+<g id="edge24" class="edge"><title>Chain-&gt;Apply</title>
+<path fill="none" stroke="black" d="M718.293,-106.884C711.133,-115.834 702.048,-127.19 694.052,-137.185"></path>
+<polygon fill="black" stroke="black" points="691.171,-135.184 687.657,-145.179 696.637,-139.557 691.171,-135.184"></polygon>
+</g>
+<!-- ChainRec -->
+<g id="node30" class="node"><title>ChainRec</title>
+<ellipse fill="#bfd7ff" stroke="black" cx="740" cy="-18" rx="53.3476" ry="18"></ellipse>
+<text text-anchor="middle" x="740" y="-13.8" font-family="arial" font-size="14.00">ChainRec</text>
+</g>
+<!-- ChainRec&#45;&gt;Chain -->
+<g id="edge26" class="edge"><title>ChainRec-&gt;Chain</title>
+<path fill="none" stroke="black" d="M737.775,-36.3034C736.783,-44.0173 735.592,-53.2875 734.486,-61.8876"></path>
+<polygon fill="black" stroke="black" points="731.003,-61.531 733.199,-71.8957 737.946,-62.4237 731.003,-61.531"></polygon>
+</g>
+<!-- Comonad -->
+<g id="node32" class="node"><title>Comonad</title>
+<ellipse fill="#bfd7ff" stroke="black" cx="838" cy="-90" rx="52.7854" ry="18"></ellipse>
+<text text-anchor="middle" x="838" y="-85.8" font-family="arial" font-size="14.00">Comonad</text>
+</g>
+<!-- Extend -->
+<g id="node34" class="node"><title>Extend</title>
+<ellipse fill="#bfd7ff" stroke="black" cx="769" cy="-162" rx="41.1877" ry="18"></ellipse>
+<text text-anchor="middle" x="769" y="-157.8" font-family="arial" font-size="14.00">Extend</text>
+</g>
+<!-- Comonad&#45;&gt;Extend -->
+<g id="edge28" class="edge"><title>Comonad-&gt;Extend</title>
+<path fill="none" stroke="black" d="M821.997,-107.235C813.114,-116.247 801.908,-127.615 792.091,-137.574"></path>
+<polygon fill="black" stroke="black" points="789.444,-135.274 784.917,-144.853 794.429,-140.188 789.444,-135.274"></polygon>
+</g>
+<!-- Extend&#45;&gt;Functor -->
+<g id="edge29" class="edge"><title>Extend-&gt;Functor</title>
+<path fill="none" stroke="black" d="M757.862,-179.589C752.125,-188.132 745.016,-198.722 738.643,-208.213"></path>
+<polygon fill="black" stroke="black" points="735.727,-206.277 733.058,-216.53 741.539,-210.179 735.727,-206.277"></polygon>
+</g>
+<!-- BooleanAlgebra -->
+<g id="node37" class="node"><title>BooleanAlgebra</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1174" cy="-18" rx="79.965" ry="18"></ellipse>
+<text text-anchor="middle" x="1174" y="-13.8" font-family="arial" font-size="14.00">BooleanAlgebra</text>
+</g>
+<!-- HeytingAlgebra -->
+<g id="node39" class="node"><title>HeytingAlgebra</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1174" cy="-90" rx="77.0777" ry="18"></ellipse>
+<text text-anchor="middle" x="1174" y="-85.8" font-family="arial" font-size="14.00">HeytingAlgebra</text>
+</g>
+<!-- BooleanAlgebra&#45;&gt;HeytingAlgebra -->
+<g id="edge35" class="edge"><title>BooleanAlgebra-&gt;HeytingAlgebra</title>
+<path fill="none" stroke="black" d="M1174,-36.3034C1174,-44.0173 1174,-53.2875 1174,-61.8876"></path>
+<polygon fill="black" stroke="black" points="1170.5,-61.8956 1174,-71.8957 1177.5,-61.8957 1170.5,-61.8956"></polygon>
+</g>
+<!-- BoundedDistributiveLattice -->
+<g id="node40" class="node"><title>BoundedDistributiveLattice</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1174" cy="-162" rx="125.748" ry="18"></ellipse>
+<text text-anchor="middle" x="1174" y="-157.8" font-family="arial" font-size="14.00">BoundedDistributiveLattice</text>
+</g>
+<!-- HeytingAlgebra&#45;&gt;BoundedDistributiveLattice -->
+<g id="edge36" class="edge"><title>HeytingAlgebra-&gt;BoundedDistributiveLattice</title>
+<path fill="none" stroke="black" d="M1174,-108.303C1174,-116.017 1174,-125.288 1174,-133.888"></path>
+<polygon fill="black" stroke="black" points="1170.5,-133.896 1174,-143.896 1177.5,-133.896 1170.5,-133.896"></polygon>
+</g>
+<!-- BoundedLattice -->
+<g id="node41" class="node"><title>BoundedLattice</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1252" cy="-234" rx="78.2603" ry="18"></ellipse>
+<text text-anchor="middle" x="1252" y="-229.8" font-family="arial" font-size="14.00">BoundedLattice</text>
+</g>
+<!-- BoundedDistributiveLattice&#45;&gt;BoundedLattice -->
+<g id="edge37" class="edge"><title>BoundedDistributiveLattice-&gt;BoundedLattice</title>
+<path fill="none" stroke="black" d="M1192.88,-179.945C1202.82,-188.866 1215.16,-199.943 1226,-209.664"></path>
+<polygon fill="black" stroke="black" points="1223.78,-212.378 1233.56,-216.453 1228.46,-207.169 1223.78,-212.378"></polygon>
+</g>
+<!-- DistributiveLattice -->
+<g id="node44" class="node"><title>DistributiveLattice</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1069" cy="-234" rx="87.4486" ry="18"></ellipse>
+<text text-anchor="middle" x="1069" y="-229.8" font-family="arial" font-size="14.00">DistributiveLattice</text>
+</g>
+<!-- BoundedDistributiveLattice&#45;&gt;DistributiveLattice -->
+<g id="edge40" class="edge"><title>BoundedDistributiveLattice-&gt;DistributiveLattice</title>
+<path fill="none" stroke="black" d="M1148.85,-179.767C1134.85,-189.099 1117.26,-200.83 1102.15,-210.903"></path>
+<polygon fill="black" stroke="black" points="1099.96,-208.152 1093.58,-216.612 1103.84,-213.977 1099.96,-208.152"></polygon>
+</g>
+<!-- BoundedJoinSemilattice -->
+<g id="node42" class="node"><title>BoundedJoinSemilattice</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1241" cy="-306" rx="114.715" ry="18"></ellipse>
+<text text-anchor="middle" x="1241" y="-301.8" font-family="arial" font-size="14.00">BoundedJoinSemilattice</text>
+</g>
+<!-- BoundedLattice&#45;&gt;BoundedJoinSemilattice -->
+<g id="edge38" class="edge"><title>BoundedLattice-&gt;BoundedJoinSemilattice</title>
+<path fill="none" stroke="black" d="M1249.28,-252.303C1248.07,-260.017 1246.61,-269.288 1245.26,-277.888"></path>
+<polygon fill="black" stroke="black" points="1241.78,-277.474 1243.69,-287.896 1248.7,-278.56 1241.78,-277.474"></polygon>
+</g>
+<!-- BoundedMeetSemilattice -->
+<g id="node51" class="node"><title>BoundedMeetSemilattice</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1492" cy="-306" rx="118.226" ry="18"></ellipse>
+<text text-anchor="middle" x="1492" y="-301.8" font-family="arial" font-size="14.00">BoundedMeetSemilattice</text>
+</g>
+<!-- BoundedLattice&#45;&gt;BoundedMeetSemilattice -->
+<g id="edge48" class="edge"><title>BoundedLattice-&gt;BoundedMeetSemilattice</title>
+<path fill="none" stroke="black" d="M1298.56,-248.58C1336.04,-259.512 1389.05,-274.973 1430.1,-286.947"></path>
+<polygon fill="black" stroke="black" points="1429.15,-290.316 1439.73,-289.756 1431.11,-283.596 1429.15,-290.316"></polygon>
+</g>
+<!-- JoinSemilattice -->
+<g id="node46" class="node"><title>JoinSemilattice</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1155" cy="-378" rx="75.9145" ry="18"></ellipse>
+<text text-anchor="middle" x="1155" y="-373.8" font-family="arial" font-size="14.00">JoinSemilattice</text>
+</g>
+<!-- BoundedJoinSemilattice&#45;&gt;JoinSemilattice -->
+<g id="edge46" class="edge"><title>BoundedJoinSemilattice-&gt;JoinSemilattice</title>
+<path fill="none" stroke="black" d="M1220.18,-323.945C1209.11,-332.953 1195.35,-344.158 1183.32,-353.947"></path>
+<polygon fill="black" stroke="black" points="1180.88,-351.425 1175.33,-360.453 1185.29,-356.854 1180.88,-351.425"></polygon>
+</g>
+<!-- Lattice -->
+<g id="node45" class="node"><title>Lattice</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1069" cy="-306" rx="39.4602" ry="18"></ellipse>
+<text text-anchor="middle" x="1069" y="-301.8" font-family="arial" font-size="14.00">Lattice</text>
+</g>
+<!-- DistributiveLattice&#45;&gt;Lattice -->
+<g id="edge41" class="edge"><title>DistributiveLattice-&gt;Lattice</title>
+<path fill="none" stroke="black" d="M1069,-252.303C1069,-260.017 1069,-269.288 1069,-277.888"></path>
+<polygon fill="black" stroke="black" points="1065.5,-277.896 1069,-287.896 1072.5,-277.896 1065.5,-277.896"></polygon>
+</g>
+<!-- Lattice&#45;&gt;JoinSemilattice -->
+<g id="edge42" class="edge"><title>Lattice-&gt;JoinSemilattice</title>
+<path fill="none" stroke="black" d="M1087.66,-322.189C1099.09,-331.491 1113.94,-343.576 1126.78,-354.031"></path>
+<polygon fill="black" stroke="black" points="1124.91,-357.022 1134.88,-360.62 1129.33,-351.593 1124.91,-357.022"></polygon>
+</g>
+<!-- MeetSemilattice -->
+<g id="node48" class="node"><title>MeetSemilattice</title>
+<ellipse fill="#fdf4aa" stroke="black" cx="1410" cy="-378" rx="79.9262" ry="18"></ellipse>
+<text text-anchor="middle" x="1410" y="-373.8" font-family="arial" font-size="14.00">MeetSemilattice</text>
+</g>
+<!-- Lattice&#45;&gt;MeetSemilattice -->
+<g id="edge44" class="edge"><title>Lattice-&gt;MeetSemilattice</title>
+<path fill="none" stroke="black" d="M1098.21,-318.189C1104.36,-320.306 1110.85,-322.366 1117,-324 1189.5,-343.26 1273.94,-357.714 1333.5,-366.622"></path>
+<polygon fill="black" stroke="black" points="1333.18,-370.112 1343.58,-368.113 1334.2,-363.188 1333.18,-370.112"></polygon>
+</g>
+<!-- BoundedMeetSemilattice&#45;&gt;MeetSemilattice -->
+<g id="edge49" class="edge"><title>BoundedMeetSemilattice-&gt;MeetSemilattice</title>
+<path fill="none" stroke="black" d="M1472.15,-323.945C1461.6,-332.953 1448.47,-344.158 1437.01,-353.947"></path>
+<polygon fill="black" stroke="black" points="1434.72,-351.298 1429.38,-360.453 1439.26,-356.622 1434.72,-351.298"></polygon>
+</g>
+</g>
+</svg>

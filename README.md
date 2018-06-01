@@ -20,12 +20,9 @@ Functional programming in TypeScript
   </a>
 </p>
 
-Inspired by
+Inspired by [PureScript](http://www.purescript.org), [fantasy-land](https://github.com/fantasyland/fantasy-land), [static-land](https://github.com/rpominov/static-land), Scala.
 
-* [PureScript](http://www.purescript.org)
-* [fantasy-land](https://github.com/fantasyland/fantasy-land)
-* [static-land](https://github.com/rpominov/static-land)
-* Scala
+The idea (faking higher kinded types in TypeScript) is based on [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf)
 
 # Installation
 
@@ -38,15 +35,6 @@ npm install --save fp-ts
 # TypeScript compatibility
 
 The stable version is tested against TypeScript 2.8.x, but should run with TypeScript 2.2.2+ too
-
-# Technical overview
-
-The idea (faking higher kinded types in TypeScript) is based on
-
-* [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf)
-* [elm-brands](https://github.com/joneshf/elm-brands)
-* [Higher kinded types in TypeScript, static and fantasy land](https://medium.com/@gcanti/higher-kinded-types-in-typescript-static-and-fantasy-land-d41c361d0dbe)
-* [flow-static-land](https://github.com/gcanti/flow-static-land)
 
 # Ecosystem
 
@@ -94,6 +82,12 @@ The idea (faking higher kinded types in TypeScript) is based on
 * [fantas-eel-and-specification](fantas-eel-and-specification) - Code for the
   [Fantas, Eel, and Specification](http://www.tomharding.me/2017/03/03/fantas-eel-and-specification/) blog series on
   functional programming by Tom Harding
+
+## Type Classes
+
+<a href="type-classes.svg">
+  <img src="type-classes.svg">
+</a>
 
 # License
 
