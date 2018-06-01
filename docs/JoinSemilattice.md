@@ -15,7 +15,7 @@ _Signature_
 
 ```ts
 interface JoinSemilattice<A> {
-  join: (x: A, y: A) => A
+  readonly join: (x: A, y: A) => A
 }
 ```
 

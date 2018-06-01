@@ -15,8 +15,8 @@ _Signature_
 
 ```ts
 interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
-  implies: (x: A, y: A) => A
-  not: (x: A) => A
+  readonly implies: (x: A, y: A) => A
+  readonly not: (x: A) => A
 }
 ```
 

@@ -15,7 +15,7 @@ _Signature_
 
 ```ts
 interface MeetSemilattice<A> {
-  meet: (x: A, y: A) => A
+  readonly meet: (x: A, y: A) => A
 }
 ```
 

@@ -9,5 +9,5 @@ import { MeetSemilattice } from './MeetSemilattice'
  * @since 1.4.0
  */
 export interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
-  one: A
+  readonly one: A
 }

@@ -9,5 +9,5 @@ import { JoinSemilattice } from './JoinSemilattice'
  * @since 1.4.0
  */
 export interface BoundedJoinSemilattice<A> extends JoinSemilattice<A> {
-  zero: A
+  readonly zero: A
 }
