@@ -242,3 +242,27 @@ stop drawing at position {"x":0,"y":10,"heading":{"value":0}}
 start drawing at position {"x":10,"y":10,"heading":{"value":0}}
 interpretIdentity Position { x: -10, y: 10, heading: Degree { value: 180 } }
 */
+
+import { Either, either } from '../src/Either'
+
+function interpretEither<A>(fa: InstructionF<A>): Either<string, A> {
+  switch (fa._tag) {
+    case 'Forward':
+      return either.of(fa.more(computation.forward(fa.position, fa.length)))
+    case 'Backward':
+      return either.of(fa.more(computation.backward(fa.position, fa.length)))
+    case 'RotateRight':
+      return either.of(fa.more(computation.right(fa.position, fa.degree)))
+    case 'Show':
+      console.log('interpretEither', fa.position)
+      return either.of(fa.more)
+  }
+}
+
+console.log('--program1 (Either)--')
+const foldFreeEither = free.foldFree(either)
+const result3 = foldFreeEither(interpretEither, program1(start))
+console.log(result3)
+/*
+right(undefined)
+*/
