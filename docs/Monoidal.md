@@ -24,5 +24,5 @@ _Description_
 
 Applicative functors are equivalent to strong lax monoidal functors
 
-* https://wiki.haskell.org/Typeclassopedia#Alternative_formulation
-* https://bartoszmilewski.com/2017/02/06/applicative-functors/
+- https://wiki.haskell.org/Typeclassopedia#Alternative_formulation
+- https://bartoszmilewski.com/2017/02/06/applicative-functors/

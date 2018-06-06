@@ -26,7 +26,7 @@ The `Bounded` type class represents totally ordered types that have an upper and
 
 Instances should satisfy the following law in addition to the `Ord` laws:
 
-* Bounded: `bottom <= a <= top`
+- Bounded: `bottom <= a <= top`
 
 ## Instances
 

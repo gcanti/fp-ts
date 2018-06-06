@@ -26,6 +26,6 @@ of as a greatest lower bound.
 
 A `MeetSemilattice` must satisfy the following laws:
 
-* Associativity: `a ∧ (b ∧ c) = (a ∧ b) ∧ c`
-* Commutativity: `a ∧ b = b ∧ a`
-* Idempotency: `a ∧ a = a`
+- Associativity: `a ∧ (b ∧ c) = (a ∧ b) ∧ c`
+- Commutativity: `a ∧ b = b ∧ a`
+- Idempotency: `a ∧ a = a`

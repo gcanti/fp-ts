@@ -21,5 +21,5 @@ _Description_
 
 A `BoundedLattice` must satisfy the following in addition to `BoundedMeetSemilattice` and `BoundedJoinSemilattice` laws:
 
-* Absorbtion law for meet: `a ∧ (a ∨ b) == a`
-* Absorbtion law for join: `a ∨ (a ∧ b) == a`
+- Absorbtion law for meet: `a ∧ (a ∨ b) == a`
+- Absorbtion law for join: `a ∨ (a ∧ b) == a`
