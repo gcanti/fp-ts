@@ -140,10 +140,17 @@ describe('function', () => {
     const date = new Date()
     assert.strictEqual(toString(date), `new Date('${date.toISOString()}')`)
     assert.deepEqual(toString(['a', 'b']), '["a", "b"]')
-    assert.deepEqual(toString(() => {}), '<function0>')
-    assert.deepEqual(toString(function f() {}), 'f')
+    assert.deepEqual(toString(() => 1), '<function0>')
+    assert.deepEqual(
+      toString(function f() {
+        return 1
+      }),
+      'f'
+    )
     const nonStringifyable: { a?: any } = {}
     nonStringifyable.a = nonStringifyable
     assert.deepEqual(toString(nonStringifyable), '[object Object]')
+    assert.strictEqual(toString(undefined), 'undefined')
+    assert.strictEqual(toString(null), 'null')
   })
 })
