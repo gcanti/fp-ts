@@ -25,7 +25,13 @@ describe('Tuple', () => {
     const y = new Tuple(1, 's')
     const z = new Tuple(true, 's')
     assert.deepEqual(x.compose(y), z)
-    assert.deepEqual(tuple.compose(y, x), z)
+    assert.deepEqual(
+      tuple.compose(
+        y,
+        x
+      ),
+      z
+    )
   })
 
   it('map', () => {

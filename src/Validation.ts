@@ -181,8 +181,12 @@ const of = <L, A>(a: A): Validation<L, A> => {
 export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
   const ap = <A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => {
     return fab.isFailure()
-      ? fa.isFailure() ? failure(S.concat(fab.value, fa.value)) : failure(fab.value)
-      : fa.isFailure() ? failure(fa.value) : success(fab.value(fa.value))
+      ? fa.isFailure()
+        ? failure(S.concat(fab.value, fa.value))
+        : failure(fab.value)
+      : fa.isFailure()
+        ? failure(fa.value)
+        : success(fab.value(fa.value))
   }
 
   return {
@@ -262,8 +266,12 @@ export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => {
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>> => {
   const concat = (fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
     return fx.isFailure()
-      ? fy.isFailure() ? failure(SL.concat(fx.value, fy.value)) : failure(fx.value)
-      : fy.isFailure() ? failure(fy.value) : success(SA.concat(fx.value, fy.value))
+      ? fy.isFailure()
+        ? failure(SL.concat(fx.value, fy.value))
+        : failure(fx.value)
+      : fy.isFailure()
+        ? failure(fy.value)
+        : success(SA.concat(fx.value, fy.value))
   }
   return {
     concat

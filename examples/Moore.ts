@@ -84,7 +84,13 @@ const promap = <A, B, C, D>(fla: Moore<B, C>, f: (a: A) => B, g: (c: C) => D): M
 export const unfoldMoore = <S, L, A>(f: (s: S) => [A, (l: L) => S]) => (s: S): Moore<L, A> => {
   const go = (s: S): Moore<L, A> => {
     const [a, g] = f(s)
-    return new Moore(a, compose(go, g))
+    return new Moore(
+      a,
+      compose(
+        go,
+        g
+      )
+    )
   }
   return go(s)
 }
