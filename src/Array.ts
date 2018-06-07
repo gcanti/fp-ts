@@ -243,6 +243,24 @@ export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Ar
 }
 
 /**
+ * Break an array into its initial elements and the last element
+ * @param as
+ * @param b
+ * @param cons
+ */
+export const foldr = <A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) => B): B =>
+  isEmpty(as) ? b : cons(as.slice(0, as.length - 1), as[as.length - 1])
+
+/**
+ * Lazy version of `foldr`
+ * @param as
+ * @param nil
+ * @param cons
+ */
+export const foldrL = <A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, last: A) => B): B =>
+  isEmpty(as) ? nil() : cons(as.slice(0, as.length - 1), as[as.length - 1])
+
+/**
  * Same as `reduce` but it carries over the intermediate steps
  *
  * ```ts
