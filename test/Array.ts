@@ -43,7 +43,9 @@ import {
   takeWhile,
   uniq,
   updateAt,
-  zip
+  zip,
+  foldrL,
+  foldr
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
@@ -325,6 +327,16 @@ describe('Array', () => {
 
   it('foldL', () => {
     const len = <A>(as: Array<A>): number => foldL(as, () => 0, (_, tail) => 1 + len(tail))
+    assert.strictEqual(len([1, 2, 3]), 3)
+  })
+
+  it('foldr', () => {
+    const len = <A>(as: Array<A>): number => foldr(as, 0, (init, _) => 1 + len(init))
+    assert.strictEqual(len([1, 2, 3]), 3)
+  })
+
+  it('foldrL', () => {
+    const len = <A>(as: Array<A>): number => foldrL(as, () => 0, (init, _) => 1 + len(init))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
