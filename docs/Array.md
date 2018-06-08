@@ -231,7 +231,39 @@ _Signature_
 
 _Description_
 
-Lazy version of `fold`
+Lazy version of [fold](#fold)
+
+### foldr
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) => B): B
+```
+
+_Description_
+
+Break an array into its initial elements and the last element
+
+### foldrL
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, last: A) => B): B
+```
+
+_Description_
+
+Lazy version of [foldr](#foldr)
 
 ### getMonoid
 
