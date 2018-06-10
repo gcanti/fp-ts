@@ -24,7 +24,7 @@ export const randomInt = (low: number, high: number): IO<number> =>
  * @function
  * @since 1.0.0
  */
-export const randomRange = (min: number, max: number): IO<number> => random.map(n => (max - min + 1) * n + min)
+export const randomRange = (min: number, max: number): IO<number> => random.map(n => (max - min) * n + min)
 
 /** Returns a random boolean value with an equal chance of being `true` or `false` */
 export const randomBool: IO<boolean> = random.map(n => n < 0.5)
