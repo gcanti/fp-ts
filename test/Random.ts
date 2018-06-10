@@ -19,7 +19,7 @@ describe('Random', () => {
     const n = randomRange(0, 10).run()
     assert.strictEqual(typeof n, 'number')
     assert.strictEqual(n >= 0, true)
-    assert.strictEqual(n <= 10, true)
+    assert.strictEqual(n < 10, true)
   })
 
   it('randomBool', () => {
