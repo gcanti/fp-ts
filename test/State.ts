@@ -50,4 +50,18 @@ describe('State', () => {
     assert.deepEqual(x.chain(f).run(0), [0, 2])
     assert.deepEqual(state.chain(x, f).run(0), [0, 2])
   })
+
+  it('applyFirst', () => {
+    type S = Array<string>
+    const fa = gets<S, number>(() => 1)
+    const fb = gets<S, string>(() => 'foo')
+    assert.strictEqual(fa.applyFirst(fb).eval([]), 1)
+  })
+
+  it('applySecond', () => {
+    type S = Array<string>
+    const fa = gets<S, number>(() => 1)
+    const fb = gets<S, string>(() => 'foo')
+    assert.strictEqual(fa.applySecond(fb).eval([]), 'foo')
+  })
 })

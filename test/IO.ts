@@ -41,18 +41,6 @@ describe('IO', () => {
     assert.deepEqual(log, ['a', 'b'])
   })
 
-  it('applySecond', () => {
-    const log: Array<string> = []
-    const append = (message: string): IO<number> => new IO(() => log.push(message))
-    assert.strictEqual(
-      append('a')
-        .applySecond(append('b'))
-        .run(),
-      2
-    )
-    assert.deepEqual(log, ['a', 'b'])
-  })
-
   it('toString', () => {
     assert.strictEqual(io.of(1).toString(), 'new IO(<function0>)')
     assert.strictEqual(io.of(1).inspect(), 'new IO(<function0>)')
@@ -66,6 +54,18 @@ describe('IO', () => {
         .applyFirst(append('b'))
         .run(),
       1
+    )
+    assert.deepEqual(log, ['a', 'b'])
+  })
+
+  it('applySecond', () => {
+    const log: Array<string> = []
+    const append = (message: string): IO<number> => new IO(() => log.push(message))
+    assert.strictEqual(
+      append('a')
+        .applySecond(append('b'))
+        .run(),
+      2
     )
     assert.deepEqual(log, ['a', 'b'])
   })

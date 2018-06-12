@@ -1,3 +1,4 @@
+import { constant, constIdentity } from './function'
 import { Monad2 } from './Monad'
 
 declare module './HKT' {
@@ -37,6 +38,20 @@ export class State<S, A> {
   }
   ap_<B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C> {
     return fb.ap(this)
+  }
+  /**
+   * Combine two effectful actions, keeping only the result of the first
+   * @since 1.7.0
+   */
+  applyFirst<B>(fb: State<S, B>): State<S, A> {
+    return fb.ap(this.map(constant))
+  }
+  /**
+   * Combine two effectful actions, keeping only the result of the second
+   * @since 1.7.0
+   */
+  applySecond<B>(fb: State<S, B>): State<S, B> {
+    return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => State<S, B>): State<S, B> {
     return new State(s => {
