@@ -7,6 +7,7 @@ import { Env, parseModule, ParseError } from './parser'
 import { write, indexOutputPath, readModule, writeModule } from './fs'
 import chalk from 'chalk'
 import Ast from 'ts-simple-ast'
+// tslint:disable-next-line:no-duplicate-imports
 import { SourceFile } from 'ts-simple-ast'
 
 const printError = (error: ParseError): string => {
