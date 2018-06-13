@@ -187,6 +187,46 @@ _Signature_
 (): string
 ```
 
+_Example_
+
+```ts
+import { Validation, getApplicative, success, failure } from 'fp-ts/lib/Validation'
+import { NonEmptyArray, getSemigroup } from 'fp-ts/lib/NonEmptyArray'
+
+interface Person {
+  readonly name: string
+  readonly age: number
+}
+
+// curried constructor
+const person = (name: string) => (age: number): Person => ({ name, age })
+
+// validators
+function validateName(input: string): Validation<NonEmptyArray<string>, string> {
+  return input.length === 0 ? failure(new NonEmptyArray('Invalid name: empty string', [])) : success(input)
+}
+function validateAge(input: string): Validation<NonEmptyArray<string>, number> {
+  const n = parseFloat(input)
+  if (isNaN(n)) {
+    return failure(new NonEmptyArray(`Invalid age: not a number ${input}`, []))
+  }
+  return n % 1 !== 0 ? failure(new NonEmptyArray(`Invalid age: not an integer ${n}`, [])) : success(n)
+}
+
+// get an `Applicative` instance for Validation<NonEmptyArray<string>, ?>
+const A = getApplicative(getSemigroup<string>())
+
+function validatePerson(input: Record<string, string>): Validation<NonEmptyArray<string>, Person> {
+  return A.ap(validateName(input['name']).map(person), validateAge(input['age']))
+}
+
+console.log(validatePerson({ name: '', age: '1.2' }))
+// failure(new NonEmptyArray("Invalid name: empty string", ["Invalid age: not an integer 1.2"]))
+
+console.log(validatePerson({ name: 'Giulio', age: '44' }))
+// success({ "name": "Giulio", "age": 44 })
+```
+
 ## Instances
 
 ### validation
