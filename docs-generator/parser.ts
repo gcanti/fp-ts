@@ -168,10 +168,11 @@ const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<E
       }
       const constructors = rights(eitherConstructors)
       const since = getSince(annotation)
+      const example = getExample(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, dataName))
       } else {
-        return ok(new Data(dataName, signature, description, constructors, since.value))
+        return ok(new Data(dataName, signature, description, constructors, since.value, example))
       }
     }
     return notFound
@@ -189,10 +190,11 @@ const parseClassDeclarationData = (c: ClassDeclaration): ParseResult<Export> => 
       const methods = getClassMethods(c)
       const constructors = [new Constructor(dataName, methods)]
       const since = getSince(annotation)
+      const example = getExample(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, dataName))
       } else {
-        return ok(new Data(dataName, signature, description, constructors, since.value))
+        return ok(new Data(dataName, signature, description, constructors, since.value, example))
       }
     }
     return notFound

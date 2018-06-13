@@ -122,6 +122,7 @@ const printData = (d: Data): string => {
         .map(m => printMethod(m))
         .join('')
   }
+  s += printExample(d.example)
   return s
 }
 

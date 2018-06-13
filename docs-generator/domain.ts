@@ -25,7 +25,8 @@ export class Data {
     readonly signature: string,
     readonly description: Option<string>,
     readonly constructors: Array<Constructor>,
-    readonly since: string
+    readonly since: string,
+    readonly example: Option<string>
   ) {}
 }
 
