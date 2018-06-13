@@ -255,6 +255,10 @@ export function traverse<F extends URIS2, T extends URIS2>(
   F: Applicative2<F>,
   T: Traversable2<T>
 ): <LF, LT, A, B>(ta: Type2<T, LT, A>, f: (a: A) => Type2<F, LF, B>) => Type2<F, LF, Type2<T, LT, B>>
+export function traverse<F extends URIS2, T extends URIS2, LF>(
+  F: Applicative2C<F, LF>,
+  T: Traversable2<T>
+): <LT, A, B>(ta: Type2<T, LT, A>, f: (a: A) => Type2<F, LF, B>) => Type2<F, LF, Type2<T, LT, B>>
 export function traverse<F extends URIS, T extends URIS2>(
   F: Applicative1<F>,
   T: Traversable2<T>
@@ -267,6 +271,10 @@ export function traverse<F extends URIS2, T extends URIS>(
   F: Applicative2<F>,
   T: Traversable1<T>
 ): <L, A, B>(ta: Type<T, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Type<T, B>>
+export function traverse<F extends URIS2, T extends URIS, L>(
+  F: Applicative2C<F, L>,
+  T: Traversable1<T>
+): <A, B>(ta: Type<T, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Type<T, B>>
 export function traverse<F extends URIS, T extends URIS>(
   F: Applicative1<F>,
   T: Traversable1<T>
