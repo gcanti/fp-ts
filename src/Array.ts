@@ -15,6 +15,7 @@ import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, identity, tuple } from './function'
+import { Filterable1 } from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -808,7 +809,8 @@ export const array: Monad1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Plus1<URI> &
-  Extend1<URI> = {
+  Extend1<URI> &
+  Filterable1<URI> = {
   URI,
   map,
   of,
@@ -819,5 +821,6 @@ export const array: Monad1<URI> &
   traverse,
   zero,
   alt,
-  extend
+  extend,
+  filter
 }

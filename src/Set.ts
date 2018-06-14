@@ -4,6 +4,17 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Predicate, not } from './function'
+import { Filterable1 } from './Filterable'
+
+declare module './HKT' {
+  interface URI2HKT<A> {
+    Set: Set<A>
+  }
+}
+
+export const URI = 'Set'
+
+export type URI = typeof URI
 
 /**
  * @function
@@ -291,4 +302,13 @@ export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
     }
   }
   return r
+}
+
+/**
+ * @instance
+ * @since 1.6.3
+ */
+export const set: Filterable1<URI> = {
+  URI,
+  filter
 }

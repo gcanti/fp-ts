@@ -8,7 +8,8 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
-import { Lazy, toString } from './function'
+import { Lazy, Predicate, toString } from './function'
+import { Filterable1 } from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -127,11 +128,19 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HK
   return (ta, f) => F.map(f(ta.value), of)
 }
 
+const filter = <A>(fa: Identity<A>, p: Predicate<A>): Identity<A> => fa
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
+export const identity: Monad1<URI> &
+  Foldable1<URI> &
+  Traversable1<URI> &
+  Alt1<URI> &
+  Comonad1<URI> &
+  ChainRec1<URI> &
+  Filterable1<URI> = {
   URI,
   map,
   of,
@@ -142,5 +151,6 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   alt,
   extract,
   extend,
-  chainRec
+  chainRec,
+  filter
 }

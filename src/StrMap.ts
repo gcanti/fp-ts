@@ -10,6 +10,7 @@ import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
 import { Predicate, tuple } from './function'
+import { Filterable1 } from './Filterable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -293,13 +294,16 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
 }
 
+const filter = <A>(d: StrMap<A>, p: Predicate<A>): StrMap<A> => d.filter(p)
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
+export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> = {
   URI,
   map,
   reduce,
-  traverse
+  traverse,
+  filter
 }

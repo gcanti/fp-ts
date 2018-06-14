@@ -12,6 +12,7 @@ import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Lazy, Predicate, Refinement, toString } from './function'
+import { Filterable1 } from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -398,6 +399,8 @@ const zero = <A>(): Option<A> => {
   return none
 }
 
+const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
+
 /**
  * `Option` monoid returning the left-most non-`None` value
  * @function
@@ -564,7 +567,8 @@ export const option: Monad1<URI> &
   Plus1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
-  Extend1<URI> = {
+  Extend1<URI> &
+  Filterable1<URI> = {
   URI,
   map,
   of,
@@ -574,5 +578,6 @@ export const option: Monad1<URI> &
   traverse,
   zero,
   alt,
-  extend
+  extend,
+  filter
 }
