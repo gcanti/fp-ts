@@ -3,8 +3,16 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Predicate, not } from './function'
-import { Filterable1 } from './Filterable'
+import { Predicate, not, Function1, identity } from './function'
+import { Filterable1 } from './Witherable'
+import { Option } from './Option'
+
+declare global {
+  interface Set<T> {
+    _URI: URI
+    _A: T
+  }
+}
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -304,11 +312,25 @@ export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
   return r
 }
 
+const mapOption = <A, B>(fa: Set<A>, f: Function1<A, Option<B>>): Set<B> => {
+  const result = new Set<B>()
+  fa.forEach(a => {
+    const optionB = f(a)
+    if (optionB.isSome()) {
+      result.add(optionB.value)
+    }
+  })
+  return result
+}
+const catOptions = <A>(fa: Set<Option<A>>): Set<A> => mapOption(fa, identity)
+
 /**
  * @instance
  * @since 1.6.3
  */
 export const set: Filterable1<URI> = {
   URI,
-  filter
+  filter,
+  mapOption,
+  catOptions
 }

@@ -8,7 +8,7 @@ import { Option, none, some } from './Option'
 import { Ord } from './Ord'
 import { Semigroup, fold, getJoinSemigroup, getMeetSemigroup } from './Semigroup'
 import { Traversable1 } from './Traversable'
-import { concat as uncurriedConcat, Predicate, Refinement, toString } from './function'
+import { concat as uncurriedConcat, Predicate, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {

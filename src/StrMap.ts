@@ -9,8 +9,8 @@ import { Semigroup, getDictionarySemigroup, getLastSemigroup } from './Semigroup
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
-import { Predicate, tuple } from './function'
-import { Filterable1 } from './Filterable'
+import { Function1, identity, Predicate, tuple } from './function'
+import { Filterable1 } from './Witherable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -295,6 +295,17 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
 }
 
 const filter = <A>(d: StrMap<A>, p: Predicate<A>): StrMap<A> => d.filter(p)
+const mapOption = <A, B>(d: StrMap<A>, f: Function1<A, Option<B>>): StrMap<B> => {
+  const result: { [key: string]: B } = {}
+  for (let key in d.value) {
+    const optionB = f(d.value[key])
+    if (optionB.isSome()) {
+      result[key] = optionB.value
+    }
+  }
+  return new StrMap(result)
+}
+const catOptions = <A>(d: StrMap<Option<A>>): StrMap<A> => mapOption(d, identity)
 
 /**
  * @instance
@@ -305,5 +316,7 @@ export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filter
   map,
   reduce,
   traverse,
-  filter
+  filter,
+  mapOption,
+  catOptions
 }

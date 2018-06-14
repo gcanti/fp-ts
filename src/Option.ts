@@ -11,8 +11,8 @@ import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
-import { Lazy, Predicate, Refinement, toString } from './function'
-import { Filterable1 } from './Filterable'
+import { Function1, identity, Lazy, Predicate, Refinement, toString } from './function'
+import { Filterable1 } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -399,8 +399,6 @@ const zero = <A>(): Option<A> => {
   return none
 }
 
-const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
-
 /**
  * `Option` monoid returning the left-most non-`None` value
  * @function
@@ -558,6 +556,10 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
   return refinement(a) ? some(a) : none
 }
 
+const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
+const mapOption = <A, B>(fa: Option<A>, f: Function1<A, Option<B>>): Option<B> => fa.chain(f)
+const catOptions = <A>(fa: Option<Option<A>>): Option<A> => mapOption(fa, identity)
+
 /**
  * @instance
  * @since 1.0.0
@@ -579,5 +581,7 @@ export const option: Monad1<URI> &
   zero,
   alt,
   extend,
-  filter
+  filter,
+  mapOption,
+  catOptions
 }
