@@ -202,59 +202,6 @@ const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
 }
 
 /**
- * @function
- * @since 1.0.0
- */
-export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<L[], R[]> => {
-  const left: Array<L> = []
-  const right: Array<R> = []
-  const len = fa.length
-  for (let i = 0; i < len; i++) {
-    const v = f(fa[i])
-    if (v.isLeft()) {
-      left.push(v.value)
-    } else {
-      right.push(v.value)
-    }
-  }
-  return { left, right }
-}
-
-/**
- * {@link Filterable} implementation
- * @since 1.6.3
- */
-export const partition = <A>(fa: Array<A>, p: Predicate<A>): Partitioned<A[], A[]> => {
-  const no: A[] = []
-  const yes: A[] = []
-  const len = fa.length
-  for (let i = 0; i < len; i++) {
-    const a = fa[i]
-    if (p(a)) {
-      yes.push(a)
-    } else {
-      no.push(a)
-    }
-  }
-  return partitioned(no, yes)
-}
-
-/**
- * {@link Filterable} implementation
- * @since 1.6.3
- */
-export const filterMap = <A, B>(fa: Array<A>, f: (a: A) => Option<B>): B[] => {
-  const result: B[] = []
-  fa.forEach(a => {
-    const optionB = f(a)
-    if (optionB.isSome()) {
-      result.push(optionB.value)
-    }
-  })
-  return result
-}
-
-/**
  * @example
  * flatten([[1], [2], [3]]) // [1, 2, 3]
  *
@@ -577,23 +524,6 @@ export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> =>
 }
 
 /**
- * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
- * @function
- * @since 1.0.0
- */
-export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
-  const l = as.length
-  const r = []
-  for (let i = 0; i < l; i++) {
-    const v = as[i]
-    if (predicate(v)) {
-      r.push(v)
-    }
-  }
-  return r
-}
-
-/**
  * @function
  * @since 1.0.0
  */
@@ -706,18 +636,6 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
     }
   }
   return r
-}
-
-/**
- * {@link Compactable} implementation
- * Filters an array of optional values, keeping only the elements which contain a value, creating a new array
- * @function
- * @since 1.0.0
- * @example
- * assert.deepEqual(compact([some(123), none]), [123])
- */
-export const compact = <A>(as: Array<Option<A>>): Array<A> => {
-  return mapOption(as, identity)
 }
 
 /**
@@ -861,6 +779,21 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
+/**
+ * {@link Compactable} implementation
+ * Filters an array of optional values, keeping only the elements which contain a value, creating a new array
+ * @function
+ * @since 1.0.0
+ * @example
+ * assert.deepEqual(compact([some(123), none]), [123])
+ */
+export const compact = <A>(as: Array<Option<A>>): Array<A> => {
+  return mapOption(as, identity)
+}
+/**
+ * Alias for {@link compact}
+ * @function
+ */
 export const catOptions = compact
 
 /**
@@ -871,16 +804,92 @@ export const catOptions = compact
  * assert.deepEqual(separate([left(123), right('321')]), { left: [123], right: [321] })
  */
 export const separate = <L, A>(fa: Either<L, A>[]): Separated<L[], A[]> => {
-  const l: L[] = []
-  const r: A[] = []
-  fa.forEach(a => {
-    if (a.isLeft()) {
-      l.push(a.value)
+  return partitionMap(fa, identity)
+}
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.0.0
+ * @example
+ * assert.deepEqual(partitionMap([], x => x), { left: [], right: [] })
+ * assert.deepEqual(partitionMap([right(1), left('foo'), right(2)], x => x), { left: ['foo'], right: [1, 2] })
+ */
+export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<L[], R[]> => {
+  const left: Array<L> = []
+  const right: Array<R> = []
+  const len = fa.length
+  for (let i = 0; i < len; i++) {
+    const v = f(fa[i])
+    if (v.isLeft()) {
+      left.push(v.value)
     } else {
-      r.push(a.value)
+      right.push(v.value)
+    }
+  }
+  return separated(left, right)
+}
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.6.3
+ * @example
+ * const p = (n: number) => n > 2
+ * assert.deepEqual(partition([1, 2, 3], p), partitioned([1, 2], [3]))
+ */
+export const partition = <A>(fa: Array<A>, p: Predicate<A>): Partitioned<A[], A[]> => {
+  const no: A[] = []
+  const yes: A[] = []
+  const len = fa.length
+  for (let i = 0; i < len; i++) {
+    const a = fa[i]
+    if (p(a)) {
+      yes.push(a)
+    } else {
+      no.push(a)
+    }
+  }
+  return partitioned(no, yes)
+}
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.6.3
+ * @example
+ * const f = (n: number) => n > 2 ? some(`${n}!`) : none
+ * assert.deepEqual(filterMap([1, 2, 3], f), ['3!'])
+ */
+export const filterMap = <A, B>(fa: Array<A>, f: (a: A) => Option<B>): B[] => {
+  const result: B[] = []
+  fa.forEach(a => {
+    const optionB = f(a)
+    if (optionB.isSome()) {
+      result.push(optionB.value)
     }
   })
-  return separated(l, r)
+  return result
+}
+
+/**
+ * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.0.0
+ * @example
+ * assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
+ */
+export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
+  const l = as.length
+  const r = []
+  for (let i = 0; i < l; i++) {
+    const v = as[i]
+    if (predicate(v)) {
+      r.push(v)
+    }
+  }
+  return r
 }
 
 export const array: Monad1<URI> &
