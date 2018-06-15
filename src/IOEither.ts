@@ -125,7 +125,7 @@ const chain = <L, A, B>(fa: IOEither<L, A>, f: (a: A) => IOEither<L, B>): IOEith
   return fa.chain(f)
 }
 
-const alt = <L, A, B>(fx: IOEither<L, A>, fy: IOEither<L, A>): IOEither<L, A> => {
+const alt = <L, A>(fx: IOEither<L, A>, fy: IOEither<L, A>): IOEither<L, A> => {
   return fx.alt(fy)
 }
 
