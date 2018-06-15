@@ -15,7 +15,7 @@ import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, identity, tuple } from './function'
-import { Filterable1 } from './Witherable'
+import { Filterable1, Witherable1 } from './Witherable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -154,6 +154,17 @@ export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) =
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
   const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(as => a => snoc(as, a))
   return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
+}
+
+function wither<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): <A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
+function wither<F extends URIS3>(F: Applicative3<F>): <U, L, A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
+function wither<F extends URIS2, L>(F: Applicative2C<F, L>): <A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
+function wither<F extends URIS2>(F: Applicative2<F>): <L, A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
+function wither<F extends URIS>(F: Applicative1<F>): <A, B>(ta: A[], f: (a: A) => Type<F, Option<B>>) => Type<F, B[]>
+function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]>
+function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]> {
+  const traverseF = traverse(F)
+  return (ta, f) => F.map(traverseF(ta, f), catOptions)
 }
 
 const zero = <A>(): Array<A> => []
@@ -810,7 +821,8 @@ export const array: Monad1<URI> &
   Alternative1<URI> &
   Plus1<URI> &
   Extend1<URI> &
-  Filterable1<URI> = {
+  Filterable1<URI> &
+  Witherable1<URI> = {
   URI,
   map,
   of,
@@ -824,5 +836,6 @@ export const array: Monad1<URI> &
   extend,
   filter,
   mapOption,
-  catOptions
+  catOptions,
+  wither
 }
