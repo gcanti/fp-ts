@@ -47,7 +47,9 @@ import {
   foldrL,
   foldr,
   separate,
-  compact, partition, filterMap
+  compact,
+  partition,
+  filterMap
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
@@ -57,7 +59,7 @@ import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } 
 import { traverse } from '../src/Traversable'
 import { identity, tuple } from '../src/function'
 import { separated } from '../src/Compactable'
-import { partitioned } from '../src/Filterable';
+import { partitioned } from '../src/Filterable'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -453,7 +455,7 @@ describe('Array', () => {
   })
 
   it('filterMap', () => {
-    const f = (n: number) => n > 2 ? some(`${n}!`) : none
+    const f = (n: number) => (n > 2 ? some(`${n}!`) : none)
     assert.deepEqual(filterMap([1, 2, 3], f), ['3!'])
   })
 

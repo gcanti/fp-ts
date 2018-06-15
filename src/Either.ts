@@ -13,6 +13,7 @@ import { Traversable2 } from './Traversable'
 import { Validation } from './Validation'
 import { Monoid } from './Monoid'
 import { Compactable2C, separated, Separated } from './Compactable'
+import { eitherBool, Filterable2C, optionBool, partitioned, Partitioned } from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -425,7 +426,7 @@ export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
 }
 
 /**
- * Returns {@link Compactable} instance for {@link Either} gived {@link Monoid} for the left side
+ * Returns {@link Compactable} instance for {@link Either} given {@link Monoid} for the left side
  * @param {Monoid<L>} ML - {@link Monoid} for the left side
  * @returns {Compactable2C} - {@link Compactable} instance
  * @function
@@ -445,6 +446,45 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
     _L: phantom,
     compact,
     separate
+  }
+}
+
+/**
+ * Returns {@link Filterable} instance for {@link Either} given {@link Monoid} for the left side
+ * @function
+ * @since 1.6.3
+ */
+export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
+  const fromOptionMLEmpty = fromOption(ML.empty)
+
+  const filterMap = <A, B>(fa: Either<L, A>, f: (a: A) => Option<B>): Either<L, B> =>
+    fa.fold(l => left(l), r => fromOptionMLEmpty(f(r)))
+
+  const filter = <A>(fa: Either<L, A>, p: Predicate<A>): Either<L, A> => filterMap(fa, optionBool(p))
+
+  const partitionMap = <RL, RR, A>(
+    fa: Either<L, A>,
+    f: (a: A) => Either<RL, RR>
+  ): Separated<Either<L, RL>, Either<L, RR>> =>
+    fa.fold(
+      l => separated(left(l), left(l)),
+      r => f(r).fold(a => separated(right(a), left(ML.empty)), b => separated(left(ML.empty), right(b)))
+    )
+
+  const partition = <A, B>(fa: Either<L, A>, p: Predicate<A>): Partitioned<Either<L, A>, Either<L, A>> => {
+    const result = partitionMap(fa, eitherBool(p))
+    return partitioned(result.left, result.right)
+  }
+
+  return {
+    URI,
+    _L: phantom,
+    map: either.map,
+    ...getCompactable(ML),
+    filter,
+    filterMap,
+    partitionMap,
+    partition
   }
 }
 

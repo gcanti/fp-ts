@@ -14,7 +14,8 @@ import {
   isLeft,
   isRight,
   fromRefinement,
-  getCompactable
+  getCompactable,
+  getFilterable
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
@@ -22,6 +23,7 @@ import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { monoidString } from '../src/Monoid'
 import { separated } from '../src/Compactable'
+import { partitioned } from '../src/Filterable'
 
 describe('Either', () => {
   it('fold', () => {
@@ -286,5 +288,37 @@ describe('Either', () => {
     assert.deepEqual(C.separate(left('123')), separated(left('123'), left('123')))
     assert.deepEqual(C.separate(right(left('123'))), separated(right('123'), left(monoidString.empty)))
     assert.deepEqual(C.separate(right(right('123'))), separated(left(monoidString.empty), right('123')))
+  })
+
+  it('filter', () => {
+    const F = getFilterable(monoidString)
+    const p = (n: number) => n > 2
+    assert.deepEqual(F.filter(left<string, number>('123'), p), left('123'))
+    assert.deepEqual(F.filter(right<string, number>(1), p), left(monoidString.empty))
+    assert.deepEqual(F.filter(right<string, number>(3), p), right(3))
+  })
+
+  it('filterMap', () => {
+    const F = getFilterable(monoidString)
+    const f = (n: number) => (n > 2 ? some('valid') : none)
+    assert.deepEqual(F.filterMap(left<string, number>('123'), f), left('123'))
+    assert.deepEqual(F.filterMap(right<string, number>(1), f), left(monoidString.empty))
+    assert.deepEqual(F.filterMap(right<string, number>(3), f), right('valid'))
+  })
+
+  it('partition', () => {
+    const F = getFilterable(monoidString)
+    const p = (n: number) => n > 2
+    assert.deepEqual(F.partition(left<string, number>('123'), p), partitioned(left('123'), left('123')))
+    assert.deepEqual(F.partition(right<string, number>(1), p), partitioned(right(1), left(monoidString.empty)))
+    assert.deepEqual(F.partition(right<string, number>(3), p), partitioned(left(monoidString.empty), right(3)))
+  })
+
+  it('partitionMap', () => {
+    const F = getFilterable(monoidString)
+    const f = (n: number) => (n > 2 ? right('gt2') : left('lte2'))
+    assert.deepEqual(F.partitionMap(left<string, number>('123'), f), separated(left('123'), left('123')))
+    assert.deepEqual(F.partitionMap(right<string, number>(1), f), separated(right('lte2'), left(monoidString.empty)))
+    assert.deepEqual(F.partitionMap(right<string, number>(3), f), separated(left(monoidString.empty), right('gt2')))
   })
 })
