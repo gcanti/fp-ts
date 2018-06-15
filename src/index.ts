@@ -152,3 +152,5 @@ import * as witherable from './Witherable'
 export { witherable }
 import * as compactable from './Compactable'
 export { compactable }
+import * as filterable from './Filterable'
+export { filterable }
