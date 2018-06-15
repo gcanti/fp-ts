@@ -9,9 +9,9 @@ import {
   Separated
 } from './Compactable'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Either } from './Either'
+import { Either, left, right } from './Either'
 import { Predicate } from './function'
-import { Option } from './Option'
+import { none, Option, some } from './Option'
 
 export type Partitioned<A, B> = {
   no: A
@@ -26,10 +26,33 @@ export const partitioned = <A, B>(no: A, yes: B): Partitioned<A, B> => ({
   yes
 })
 
+/**
+ * `Filterable` represents data structures which can be _partitioned_/_filtered_.
+ * - {@link partitionMap}
+ * - {@link partition}
+ * - {@link filterMap}
+ * - {@link filter}
+ *
+ * @typeclass
+ * @see https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Filterable.purs
+ * @since 1.6.3
+ */
 export interface Filterable<F> extends Functor<F>, Compactable<F> {
+  /**
+   * Partition a data structure based on an either predicate.
+   */
   partitionMap: <RL, RR, A>(fa: HKT<F, A>, f: (a: A) => Either<RL, RR>) => Separated<HKT<F, RL>, HKT<F, RR>>
+  /**
+   * Partition a data structure based on boolean predicate.
+   */
   partition: <A>(fa: HKT<F, A>, p: Predicate<A>) => Partitioned<HKT<F, A>, HKT<F, A>>
+  /**
+   * Map over a data structure and filter based on a maybe.
+   */
   filterMap: <A, B>(fa: HKT<F, A>, f: (a: A) => Option<B>) => HKT<F, B>
+  /**
+   * Filter a data structure based on a boolean.
+   */
   filter: <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A>
 }
 
@@ -79,3 +102,15 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
   filterMap: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
   filter: <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
 }
+
+/**
+ * @function
+ * @since 1.6.3
+ */
+export const eitherBool = <A>(p: Predicate<A>) => (a: A): Either<A, A> => (p(a) ? right(a) : left(a))
+
+/**
+ * @function
+ * @since 1.6.3
+ */
+export const optionBool = <A>(p: Predicate<A>) => (a: A): Option<A> => (p(a) ? some(a) : none)

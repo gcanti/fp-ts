@@ -15,8 +15,9 @@ import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, identity, tuple } from './function'
-import { Filterable1, Witherable1 } from './Witherable'
+import { Witherable1 } from './Witherable'
 import { Compactable1, separated, Separated } from './Compactable'
+import { Filterable1, partitioned, Partitioned } from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -204,7 +205,7 @@ const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
  * @function
  * @since 1.0.0
  */
-export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): { left: Array<L>; right: Array<R> } => {
+export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<L[], R[]> => {
   const left: Array<L> = []
   const right: Array<R> = []
   const len = fa.length
@@ -217,6 +218,40 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
     }
   }
   return { left, right }
+}
+
+/**
+ * {@link Filterable} implementation
+ * @since 1.6.3
+ */
+export const partition = <A>(fa: Array<A>, p: Predicate<A>): Partitioned<A[], A[]> => {
+  const no: A[] = []
+  const yes: A[] = []
+  const len = fa.length
+  for (let i = 0; i < len; i++) {
+    const a = fa[i]
+    if (p(a)) {
+      yes.push(a)
+    } else {
+      no.push(a)
+    }
+  }
+  return partitioned(no, yes)
+}
+
+/**
+ * {@link Filterable} implementation
+ * @since 1.6.3
+ */
+export const filterMap = <A, B>(fa: Array<A>, f: (a: A) => Option<B>): B[] => {
+  const result: B[] = []
+  fa.forEach(a => {
+    const optionB = f(a)
+    if (optionB.isSome()) {
+      result.push(optionB.value)
+    }
+  })
+  return result
 }
 
 /**
@@ -869,10 +904,13 @@ export const array: Monad1<URI> &
   zero,
   alt,
   extend,
-  filter,
   mapOption,
   catOptions,
   wither,
   compact,
-  separate
+  separate,
+  partitionMap,
+  partition,
+  filter,
+  filterMap
 }
