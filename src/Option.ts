@@ -11,9 +11,9 @@ import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
-import { Function1, identity, Lazy, Predicate, Refinement, toString } from './function'
-import { Filterable1 } from './Witherable'
-import { Compactable1, Separated } from './Compactable'
+import { identity, Lazy, Predicate, Refinement, toString } from './function'
+import { Compactable1, separated, Separated } from './Compactable'
+import { Filterable1, partitioned, Partitioned } from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -214,6 +214,15 @@ export class None<A> {
   exists(p: (a: A) => boolean): boolean {
     return false
   }
+  partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> {
+    return separated(none, none)
+  }
+  partition(p: Predicate<A>): Partitioned<Option<A>, Option<A>> {
+    return partitioned(none, none)
+  }
+  filterMap<B>(f: (a: A) => Option<B>): Option<B> {
+    return none
+  }
   /**
    * Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value.
    * Otherwise returns `None`
@@ -304,6 +313,19 @@ export class Some<A> {
   }
   exists(p: (a: A) => boolean): boolean {
     return p(this.value)
+  }
+  partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> {
+    return f(this.value).fold<Separated<Option<RL>, Option<RR>>>(
+      l => separated(some(l), none),
+      r => separated(none, some(r))
+    )
+  }
+  partition(p: Predicate<A>): Partitioned<Option<A>, Option<A>> {
+    const result = p(this.value)
+    return partitioned(!result ? this : none, result ? this : none)
+  }
+  filterMap<B>(f: (a: A) => Option<B>): Option<B> {
+    return f(this.value)
   }
   filter(p: Predicate<A>): Option<A> {
     return this.exists(p) ? this : none
@@ -557,9 +579,10 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
   return refinement(a) ? some(a) : none
 }
 
+const partitionMap = <RL, RR, A>(fa: Option<A>, f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> => fa.partitionMap(f)
+const partition = <A>(fa: Option<A>, p: Predicate<A>): Partitioned<Option<A>, Option<A>> => fa.partition(p)
+const filterMap = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => fa.filterMap(f)
 const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
-const mapOption = <A, B>(fa: Option<A>, f: Function1<A, Option<B>>): Option<B> => fa.chain(f)
-const catOptions = <A>(fa: Option<Option<A>>): Option<A> => mapOption(fa, identity)
 
 /**
  * {@link Compactable} implementation
@@ -622,9 +645,10 @@ export const option: Monad1<URI> &
   zero,
   alt,
   extend,
-  filter,
-  mapOption,
-  catOptions,
   compact,
-  separate
+  separate,
+  partition,
+  partitionMap,
+  filter,
+  filterMap
 }

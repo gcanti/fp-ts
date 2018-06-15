@@ -6,6 +6,10 @@ export type Separated<A, B> = {
   left: A
   right: B
 }
+/**
+ * @function
+ * @since 1.6.3
+ */
 export const separated = <A, B>(a: A, b: B): Separated<A, B> => ({
   left: a,
   right: b
