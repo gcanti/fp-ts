@@ -1,5 +1,4 @@
-import { Ord } from 'fp-ts/lib/Ord'
-import { greaterThan, ordNumber } from 'fp-ts/lib/Ord'
+import { greaterThan, Ord, ordNumber } from '../src/Ord'
 
 export function isSorted<A>(xs: Array<A>, ord: Ord<A>): boolean {
   const len = xs.length

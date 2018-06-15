@@ -8,6 +8,6 @@
   Some with a list of all the values
 
 */
-import { Option } from 'fp-ts/lib/Option'
+import { Option } from '../src/Option'
 
 declare function getAllSomesOrNone<A>(xs: Array<Option<A>>): Option<Array<A>>

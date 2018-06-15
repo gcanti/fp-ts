@@ -1,6 +1,6 @@
-import { Option, some, none, option } from 'fp-ts/lib/Option'
-import { array } from 'fp-ts/lib/Array'
-import { sequence } from 'fp-ts/lib/Traversable'
+import { Option, some, none, option } from '../src/Option'
+import { array } from '../src/Array'
+import { sequence } from '../src/Traversable'
 
 export function getAllSomesOrNone<A>(xs: Array<Option<A>>): Option<Array<A>> {
   return sequence(option, array)(xs)

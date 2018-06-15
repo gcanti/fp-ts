@@ -6,6 +6,6 @@
 
 */
 
-import { Ord } from 'fp-ts/lib/Ord'
+import { Ord } from '../src/Ord'
 
 declare function isSorted<A>(xs: Array<A>, ord: Ord<A>): boolean

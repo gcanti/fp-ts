@@ -1,4 +1,5 @@
-import { Option, none, option } from 'fp-ts/lib/Option'
+import { Either, left, right } from '../src/Either'
+import { none, Option, option } from '../src/Option'
 
 export function head<A>(xs: Array<A>): Option<A> {
   if (xs.length) {
@@ -10,17 +11,14 @@ export function head<A>(xs: Array<A>): Option<A> {
 console.log(head([1, 2, 3])) // => some(1)
 console.log(head([])) // => none
 
-import { Either } from 'fp-ts/lib/Either'
-import * as either from 'fp-ts/lib/Either'
-
 export function elementAt<A>(xs: Array<A>, i: number): Either<string, A> {
   if (i < 0) {
-    return either.left<string, A>('out of lower bound')
+    return left<string, A>('out of lower bound')
   }
   if (i >= xs.length) {
-    return either.left<string, A>('out of upper bound')
+    return left<string, A>('out of upper bound')
   }
-  return either.right<string, A>(xs[i])
+  return right<string, A>(xs[i])
 }
 
 console.log(elementAt([1, 2, 3], -1)) // => left('out of lower bound')
