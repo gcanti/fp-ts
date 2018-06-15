@@ -45,7 +45,9 @@ import {
   updateAt,
   zip,
   foldrL,
-  foldr, separate, compact
+  foldr,
+  separate,
+  compact
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'

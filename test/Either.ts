@@ -13,14 +13,15 @@ import {
   tryCatch,
   isLeft,
   isRight,
-  fromRefinement, getCompactable
+  fromRefinement,
+  getCompactable
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { monoidString } from '../src/Monoid'
-import { separated } from '../src/Compactable';
+import { separated } from '../src/Compactable'
 
 describe('Either', () => {
   it('fold', () => {
@@ -286,5 +287,4 @@ describe('Either', () => {
     assert.deepEqual(C.separate(right(left('123'))), separated(right('123'), left(monoidString.empty)))
     assert.deepEqual(C.separate(right(right('123'))), separated(left(monoidString.empty), right('123')))
   })
-
 })

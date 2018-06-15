@@ -674,9 +674,12 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
 }
 
 /**
- * Filter an array of optional values, keeping only the elements which contain a value, creating a new array
+ * {@link Compactable} implementation
+ * Filters an array of optional values, keeping only the elements which contain a value, creating a new array
  * @function
  * @since 1.0.0
+ * @example
+ * assert.deepEqual(compact([some(123), none]), [123])
  */
 export const compact = <A>(as: Array<Option<A>>): Array<A> => {
   return mapOption(as, identity)
@@ -824,7 +827,15 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
 }
 
 export const catOptions = compact
-export const separate = <L, A>(fa: Array<Either<L, A>>): Separated<L[], A[]> => {
+
+/**
+ * {@link Compactable} implementation
+ * @function
+ * @since 1.6.3
+ * @example
+ * assert.deepEqual(separate([left(123), right('321')]), { left: [123], right: [321] })
+ */
+export const separate = <L, A>(fa: Either<L, A>[]): Separated<L[], A[]> => {
   const l: L[] = []
   const r: A[] = []
   fa.forEach(a => {

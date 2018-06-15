@@ -296,6 +296,13 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
 }
 
+/**
+ * {@link Compactable} implementation
+ * @function
+ * @since 1.6.3
+ * @example
+ * assert.deepEqual(compact(new StrMap({ foo: none, bar: some(123) })), new StrMap({ bar: 123 }))
+ */
 export const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
   const result: { [key: string]: A } = {}
   for (let key in fa.value) {
@@ -307,6 +314,13 @@ export const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
   return new StrMap(result)
 }
 
+/**
+ * {@link Compactable} implementation
+ * @function
+ * @since 1.6.3
+ * @example
+ * assert.deepEqual(separate(new StrMap({ foo: left(123), bar: right(123) })), separated(new StrMap({ foo: 123 }), new StrMap({ bar: 123 })))
+ */
 export const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, StrMap<A>> => {
   const l: { [key: string]: L } = {}
   const r: { [key: string]: A } = {}

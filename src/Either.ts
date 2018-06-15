@@ -424,6 +424,13 @@ export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
   return fa.isRight()
 }
 
+/**
+ * Returns {@link Compactable} instance for {@link Either} gived {@link Monoid} for the left side
+ * @param {Monoid<L>} ML - {@link Monoid} for the left side
+ * @returns {Compactable2C} - {@link Compactable} instance
+ * @function
+ * @since 1.6.3
+ */
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
   const compact = <A>(fa: Either<L, Option<A>>): Either<L, A> =>
     fa.fold(l => left(l), r => r.foldL(() => left(ML.empty), a => right(a)))

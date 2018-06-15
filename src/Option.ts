@@ -561,7 +561,26 @@ const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
 const mapOption = <A, B>(fa: Option<A>, f: Function1<A, Option<B>>): Option<B> => fa.chain(f)
 const catOptions = <A>(fa: Option<Option<A>>): Option<A> => mapOption(fa, identity)
 
+/**
+ * {@link Compactable} implementation
+ * @function
+ * @since 1.6.3
+ * @example
+ * assert.deepEqual(compact(none), none)
+ * assert.deepEqual(compact(some(none)), none)
+ * assert.deepEqual(compact(some(some('123'))), some('123'))
+ */
 export const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
+
+/**
+ * {@link Compactable} implementation
+ * @function
+ * @since 1.6.3
+ * @example
+ * assert.deepEqual(separate(none), separated(none, none))
+ * assert.deepEqual(separate(some(left('123'))), separated(some('123'), none))
+ * assert.deepEqual(separate(some(right('123'))), separated(none, some('123')))
+ */
 export const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> =>
   fa.foldL(
     () => ({

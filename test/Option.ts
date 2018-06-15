@@ -17,14 +17,16 @@ import {
   none,
   option,
   some,
-  tryCatch, compact, separate
+  tryCatch,
+  compact,
+  separate
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
-import { separated } from '../src/Compactable';
+import { separated } from '../src/Compactable'
 
 describe('Option', () => {
   it('fold', () => {

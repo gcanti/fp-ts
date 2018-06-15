@@ -3,8 +3,8 @@ import { Identity, identity, getSetoid } from '../src/Identity'
 import { setoidNumber } from '../src/Setoid'
 import { right, left, either } from '../src/Either'
 import { sequence } from '../src/Traversable'
-import { none, some } from '../src/Option';
-import { separated } from '../src/Compactable';
+import { none, some } from '../src/Option'
+import { separated } from '../src/Compactable'
 
 describe('Identity', () => {
   it('map', () => {
@@ -102,7 +102,13 @@ describe('Identity', () => {
   })
 
   it('separate', () => {
-    assert.deepEqual(identity.separate(new Identity(left('123'))), separated(new Identity(left('123')), new Identity(left('123'))))
-    assert.deepEqual(identity.separate(new Identity(right('123'))), separated(new Identity(right('123')), new Identity(right('123'))))
+    assert.deepEqual(
+      identity.separate(new Identity(left('123'))),
+      separated(new Identity(left('123')), new Identity(left('123')))
+    )
+    assert.deepEqual(
+      identity.separate(new Identity(right('123'))),
+      separated(new Identity(right('123')), new Identity(right('123')))
+    )
   })
 })
