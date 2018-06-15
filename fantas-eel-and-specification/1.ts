@@ -23,16 +23,16 @@ export type Line = {
 
 // however in order to add methods to Coord we have to change the enconding using `class`
 
+/** A coordinate in 3D space */
 export class Coord {
-  /** A coordinate in 3D space */
   constructor(readonly x: number, readonly y: number, readonly z: number) {}
   translate(deltaX: number, deltaY: number, deltaZ: number) {
     return new Coord(this.x + deltaX, this.y + deltaY, this.x + deltaZ)
   }
 }
 
+/** A line between two coordinates */
 export class Line {
-  /** A line between two coordinates */
   constructor(readonly from: Coord, readonly to: Coord) {}
 }
 

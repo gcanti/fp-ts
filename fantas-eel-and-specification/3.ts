@@ -2,7 +2,8 @@
 // Code for http://www.tomharding.me/2017/03/09/fantas-eel-and-specification-3/
 //
 
-import { Setoid } from '../src/Setoid'
+import { findIndex } from '../src/Array'
+import { Setoid, setoidNumber } from '../src/Setoid'
 
 export class Coord {
   /** A coordinate in 3D space */
@@ -71,9 +72,6 @@ export const notEquals = <A>(S: Setoid<A>) => (x: A) => (y: A): boolean => !S.eq
 //
 // nub implementation
 //
-
-import { findIndex } from '../src/Array'
-import { setoidNumber } from '../src/Setoid'
 
 const nub = <A>(S: Setoid<A>) => (xs: Array<A>): Array<A> =>
   xs.filter((x, i) => findIndex(xs, (a: A) => S.equals(x, a)).exists(j => i === j))

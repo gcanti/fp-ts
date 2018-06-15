@@ -7,8 +7,8 @@ export const URI = 'RoseTree'
 export type URI = typeof URI
 
 export class RoseTree<A> {
-  readonly '-A': A
-  readonly '-URI': URI
+  readonly _A!: A
+  readonly _URI!: URI
   constructor(readonly root: A, readonly forest: Array<RoseTree<A>>) {}
   map<B>(f: (a: A) => B): RoseTree<B> {
     return new RoseTree(f(this.root), this.forest.map(rt => rt.map(f)))
@@ -25,7 +25,9 @@ console.log(
     myTree.extend(rt => {
       return rt.forest.length < 1
         ? { value: rt.root, color: 'RED' }
-        : rt.forest.length < 5 ? { value: rt.root, color: 'ORANGE' } : { value: rt.root, color: 'GREEN' }
+        : rt.forest.length < 5
+          ? { value: rt.root, color: 'ORANGE' }
+          : { value: rt.root, color: 'GREEN' }
     }),
     null,
     2

@@ -2,9 +2,12 @@
 // Code for http://www.tomharding.me/2017/04/17/fantas-eel-and-specification-9/
 //
 
-import { liftA2 } from '../src/Apply'
 import { Applicative, Applicative1 } from '../src/Applicative'
-import { HKT, URIS, Type } from '../src/HKT'
+import { liftA2 } from '../src/Apply'
+import { HKT, Type, URIS } from '../src/HKT'
+import { getArrayMonoid, Monoid } from '../src/Monoid'
+import { getMonoid as getOptionMonoid, none, option, some } from '../src/Option'
+import * as tuple from '../src/Tuple'
 
 export const append = <A>(y: A) => (xs: Array<A>) => xs.concat([y])
 
@@ -12,11 +15,8 @@ export const append = <A>(y: A) => (xs: Array<A>) => xs.concat([y])
 export function insideOut<F extends URIS>(F: Applicative1<F>): <A>(xs: Array<Type<F, A>>) => Type<F, Array<A>>
 export function insideOut<F>(F: Applicative<F>): <A>(xs: Array<HKT<F, A>>) => HKT<F, Array<A>>
 export function insideOut<F>(F: Applicative<F>): <A>(xs: Array<HKT<F, A>>) => HKT<F, Array<A>> {
-  return <A>(xs: Array<HKT<F, A>>) =>
-    xs.reduce((acc, x) => liftA2(F)<A, Array<A>, Array<A>>(append)(x)(acc), F.of<A[]>([]))
+  return xs => xs.reduce((acc, x) => liftA2(F)(append)(x)(acc), F.of([]))
 }
-
-import { option, some, none, getMonoid as getOptionMonoid } from '../src/Option'
 
 console.log(insideOut(option)([some(2), some(10), some(3)])) // => some([2, 10, 3])
 
@@ -26,14 +26,10 @@ console.log(insideOut(option)([some(2), none, some(3)])) // => none
 // Monoids from Applicatives
 //
 
-import { Monoid } from '../src/Monoid'
-
 export const getMonoid = <F extends URIS, A>(F: Applicative1<F>, M: Monoid<A>): Monoid<Type<F, A>> => ({
   concat: (x, y) => liftA2(F)((x: A) => (y: A) => M.concat(x, y))(x)(y),
   empty: F.of(M.empty)
 })
-
-import { getArrayMonoid } from '../src/Monoid'
 
 const monoidArrayNumber = getArrayMonoid<number>()
 
@@ -58,8 +54,6 @@ console.log(monoid.concat(none, none)) // => none
 //
 // Tuple
 //
-
-import * as tuple from '../src/Tuple'
 
 const monoidTuple = tuple.getApplicative(monoidArrayNumber)
 

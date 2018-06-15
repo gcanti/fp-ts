@@ -17,8 +17,8 @@ export const URI = 'MyType'
 export type URI = typeof URI
 
 export class MyType<A> {
-  readonly '-A': A
-  readonly '-URI': URI
+  readonly _A!: A
+  readonly _URI!: URI
   constructor(readonly value: A) {}
 }
 

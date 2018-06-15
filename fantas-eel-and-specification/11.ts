@@ -17,8 +17,8 @@ export type URI = typeof URI
 export class Leaf<A> {
   static value = new Leaf<never>()
   readonly _tag: 'Leaf' = 'Leaf'
-  readonly '-A': A
-  readonly '-URI' = URI
+  readonly _A!: A
+  readonly _URI!: URI
   private constructor() {}
   inspect(): string {
     return this.toString()
@@ -30,8 +30,8 @@ export class Leaf<A> {
 
 export class Node<A> {
   readonly _tag: 'Node' = 'Node'
-  readonly '-A': A
-  readonly '-URI' = URI
+  readonly _A!: A
+  readonly _URI!: URI
   constructor(readonly left: BTree<A>, readonly value: A, readonly right: BTree<A>) {}
   inspect(): string {
     return this.toString()

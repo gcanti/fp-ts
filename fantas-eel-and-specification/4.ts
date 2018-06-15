@@ -2,7 +2,7 @@
 // Code for http://www.tomharding.me/2017/03/13/fantas-eel-and-specification-4/
 //
 
-import { Semigroup } from '../src/Semigroup'
+import { fold, Semigroup } from '../src/Semigroup'
 
 export const semigroupString: Semigroup<string> = {
   concat: (x, y) => x + y // string concatenation
@@ -140,11 +140,9 @@ console.log(mySemigroup.concat(me, oldMe))
   name: 'Giulio',
   favouriteThings: [ 'climbing', 'math' ],
   registrationDate: 10,
-  hasMadePurchase: true }
+  hasMadePurchase: true
+}
 */
 
 // What if we want to merge more than two customers?
-
-import { fold } from '../src/Semigroup'
-
 console.log(fold(merge(strategy, iso))(me)([oldMe /* ... */]))

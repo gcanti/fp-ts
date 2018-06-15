@@ -2,13 +2,12 @@
 // Code for http://www.tomharding.me/2017/03/08/fantas-eel-and-specification-2/
 //
 
-import { zipWith } from '../src/Array'
+import { filter, zipWith } from '../src/Array'
+import { Setoid } from '../src/Setoid'
 
 const sum = (x: number, y: number) => x + y
 console.log(zipWith([1, 2], [4, 5, 6], sum))
 // => [5, 7]
-
-import { filter } from '../src/Array'
 
 const gt2 = (n: number) => n > 2
 console.log(filter([1, 2, 3], gt2))
@@ -23,8 +22,6 @@ export function naiveEquals<A>(xs: Array<A>, ys: Array<A>): boolean {
 }
 
 // let's write a better equals...
-
-import { Setoid } from '../src/Setoid'
 
 export const equals = <A>(S: Setoid<A>) => (xs: Array<A>) => (ys: Array<A>): boolean =>
   xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])) // <- this too restrictive
