@@ -11,6 +11,8 @@ import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
 import { Function1, identity, Predicate, tuple } from './function'
 import { Filterable1 } from './Witherable'
+import { Compactable1, separated, Separated } from './Compactable'
+import { Either } from './Either'
 
 // https://github.com/purescript/purescript-maps
 
@@ -294,6 +296,31 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
 }
 
+export const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
+  const result: { [key: string]: A } = {}
+  for (let key in fa.value) {
+    const optionA = fa.value[key]
+    if (optionA.isSome()) {
+      result[key] = optionA.value
+    }
+  }
+  return new StrMap(result)
+}
+
+export const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, StrMap<A>> => {
+  const l: { [key: string]: L } = {}
+  const r: { [key: string]: A } = {}
+  for (let key in fa.value) {
+    const eitherA = fa.value[key]
+    if (eitherA.isLeft()) {
+      l[key] = eitherA.value
+    } else {
+      r[key] = eitherA.value
+    }
+  }
+  return separated(new StrMap(l), new StrMap(r))
+}
+
 const filter = <A>(d: StrMap<A>, p: Predicate<A>): StrMap<A> => d.filter(p)
 const mapOption = <A, B>(d: StrMap<A>, f: Function1<A, Option<B>>): StrMap<B> => {
   const result: { [key: string]: B } = {}
@@ -311,12 +338,14 @@ const catOptions = <A>(d: StrMap<Option<A>>): StrMap<A> => mapOption(d, identity
  * @instance
  * @since 1.0.0
  */
-export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> = {
+export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> & Compactable1<URI> = {
   URI,
   map,
   reduce,
   traverse,
   filter,
   mapOption,
-  catOptions
+  catOptions,
+  compact,
+  separate
 }

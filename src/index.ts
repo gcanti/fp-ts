@@ -150,3 +150,5 @@ import * as writer from './Writer'
 export { writer }
 import * as witherable from './Witherable'
 export { witherable }
+import * as compactable from './Compactable'
+export { compactable }

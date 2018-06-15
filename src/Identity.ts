@@ -11,6 +11,7 @@ import { Traversable1 } from './Traversable'
 import { Function1, Lazy, Predicate, toString } from './function'
 import { Filterable1 } from './Witherable'
 import { Option } from './Option'
+import { Compactable1, separated, Separated } from './Compactable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -133,6 +134,9 @@ const filter = <A>(fa: Identity<A>, p: Predicate<A>): Identity<A> => fa
 const mapOption = <A, B>(fa: Identity<A>, f: Function1<A, Option<B>>): Identity<B> => fa as any
 const catOptions = <A>(fa: Identity<Option<A>>): Identity<A> => fa as any
 
+const compact = <A>(fa: Identity<Option<A>>): Identity<A> => fa as any
+const separate = <L, A>(fa: Identity<Either<L, A>>): Separated<Identity<L>, Identity<A>> => separated(fa, fa) as any
+
 /**
  * @instance
  * @since 1.0.0
@@ -143,7 +147,8 @@ export const identity: Monad1<URI> &
   Alt1<URI> &
   Comonad1<URI> &
   ChainRec1<URI> &
-  Filterable1<URI> = {
+  Filterable1<URI> &
+  Compactable1<URI> = {
   URI,
   map,
   of,
@@ -157,5 +162,7 @@ export const identity: Monad1<URI> &
   chainRec,
   filter,
   mapOption,
-  catOptions
+  catOptions,
+  compact,
+  separate
 }

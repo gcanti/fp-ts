@@ -16,10 +16,12 @@ import {
   strmap,
   toArray,
   toUnfoldable,
-  traverseWithKey
+  traverseWithKey, compact, separate
 } from '../src/StrMap'
 import { traverse } from '../src/Traversable'
 import { semigroupSum } from '../src/Semigroup'
+import { left, right } from '../src/Either';
+import { separated } from '../src/Compactable';
 
 describe('StrMap', () => {
   it('getMonoid', () => {
@@ -130,5 +132,15 @@ describe('StrMap', () => {
   it('filter', () => {
     const d = new StrMap({ a: 1, b: 2 })
     assert.deepEqual(d.filter(a => a === 1), new StrMap({ a: 1 }))
+  })
+
+  it('compact', () => {
+    const d = new StrMap({ foo: none, bar: some(123) })
+    assert.deepEqual(compact(d), new StrMap({ bar: 123 }))
+  })
+
+  it('separate', () => {
+    const d = new StrMap({ foo: left(123), bar: right(123) })
+    assert.deepEqual(separate(d), separated(new StrMap({ foo: 123 }), new StrMap({ bar: 123 })))
   })
 })

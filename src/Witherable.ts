@@ -60,21 +60,31 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
 }
 
 export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
-  readonly wither: <F>(F: Applicative<F>) => <A, B>(ta: Type<T, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type<T, B>>
+  readonly wither: <F>(
+    F: Applicative<F>
+  ) => <A, B>(ta: Type<T, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type<T, B>>
 }
 
 export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
-  readonly wither: <F>(F: Applicative<F>) => <L, A, B>(ta: Type2<T, L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type2<T, L, B>>
+  readonly wither: <F>(
+    F: Applicative<F>
+  ) => <L, A, B>(ta: Type2<T, L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type2<T, L, B>>
 }
 
 export interface Witherable2C<T extends URIS2, L> extends Traversable2C<T, L>, Filterable2C<T, L> {
-  readonly wither: <F>(F: Applicative<F>) => <A, B>(ta: Type2<T, L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type2<T, L, B>>
+  readonly wither: <F>(
+    F: Applicative<F>
+  ) => <A, B>(ta: Type2<T, L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type2<T, L, B>>
 }
 
 export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
-  readonly wither: <F>(F: Applicative<F>) => <U, L, A, B>(ta: Type3<T, U, L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type3<T, U, L, B>>
+  readonly wither: <F>(
+    F: Applicative<F>
+  ) => <U, L, A, B>(ta: Type3<T, U, L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type3<T, U, L, B>>
 }
 
 export interface Witherable3C<T extends URIS3, U, L> extends Traversable3C<T, U, L>, Filterable3C<T, U, L> {
-  readonly wither: <F>(F: Applicative<F>) => <A, B>(ta: Type3<T, U, L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type3<T, U, L, B>>
+  readonly wither: <F>(
+    F: Applicative<F>
+  ) => <A, B>(ta: Type3<T, U, L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type3<T, U, L, B>>
 }

@@ -45,7 +45,7 @@ import {
   updateAt,
   zip,
   foldrL,
-  foldr
+  foldr, separate, compact
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
@@ -54,6 +54,7 @@ import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity, tuple } from '../src/function'
+import { separated } from '../src/Compactable'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -434,5 +435,16 @@ describe('Array', () => {
       { name: 'c', age: 2 },
       { name: 'b', age: 3 }
     ])
+  })
+
+  it('compact', () => {
+    assert.deepEqual(compact([]), [])
+    assert.deepEqual(compact([some(1), some(2), some(3)]), [1, 2, 3])
+    assert.deepEqual(compact([some(1), none, some(3)]), [1, 3])
+  })
+
+  it('separate', () => {
+    assert.deepEqual(separate([]), separated([], []))
+    assert.deepEqual(separate([left(1), right(2), left(3), right(4)]), separated([1, 3], [2, 4]))
   })
 })

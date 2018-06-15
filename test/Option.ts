@@ -17,13 +17,14 @@ import {
   none,
   option,
   some,
-  tryCatch
+  tryCatch, compact, separate
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
+import { separated } from '../src/Compactable';
 
 describe('Option', () => {
   it('fold', () => {
@@ -284,5 +285,17 @@ describe('Option', () => {
     const parseDirection = fromRefinement((s: string): s is Direction => s === 'asc' || s === 'desc')
     assert.deepEqual(parseDirection('asc'), some('asc'))
     assert.deepEqual(parseDirection('foo'), none)
+  })
+
+  it('compact', () => {
+    assert.deepEqual(compact(none), none)
+    assert.deepEqual(compact(some(none)), none)
+    assert.deepEqual(compact(some(some('123'))), some('123'))
+  })
+
+  it('separate', () => {
+    assert.deepEqual(separate(none), separated(none, none))
+    assert.deepEqual(separate(some(left('123'))), separated(some('123'), none))
+    assert.deepEqual(separate(some(right('123'))), separated(none, some('123')))
   })
 })

@@ -16,6 +16,7 @@ import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, identity, tuple } from './function'
 import { Filterable1, Witherable1 } from './Witherable'
+import { Compactable1, separated, Separated } from './Compactable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -156,10 +157,18 @@ export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) =
   return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
 }
 
-function wither<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): <A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
-function wither<F extends URIS3>(F: Applicative3<F>): <U, L, A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
-function wither<F extends URIS2, L>(F: Applicative2C<F, L>): <A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
-function wither<F extends URIS2>(F: Applicative2<F>): <L, A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
+function wither<F extends URIS3, U, L>(
+  F: Applicative3C<F, U, L>
+): <A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
+function wither<F extends URIS3>(
+  F: Applicative3<F>
+): <U, L, A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
+function wither<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
+function wither<F extends URIS2>(
+  F: Applicative2<F>
+): <L, A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
 function wither<F extends URIS>(F: Applicative1<F>): <A, B>(ta: A[], f: (a: A) => Type<F, Option<B>>) => Type<F, B[]>
 function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]>
 function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]> {
@@ -669,7 +678,7 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
  * @function
  * @since 1.0.0
  */
-export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
+export const compact = <A>(as: Array<Option<A>>): Array<A> => {
   return mapOption(as, identity)
 }
 
@@ -814,6 +823,20 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
+export const catOptions = compact
+export const separate = <L, A>(fa: Array<Either<L, A>>): Separated<L[], A[]> => {
+  const l: L[] = []
+  const r: A[] = []
+  fa.forEach(a => {
+    if (a.isLeft()) {
+      l.push(a.value)
+    } else {
+      r.push(a.value)
+    }
+  })
+  return separated(l, r)
+}
+
 export const array: Monad1<URI> &
   Foldable1<URI> &
   Unfoldable1<URI> &
@@ -822,7 +845,8 @@ export const array: Monad1<URI> &
   Plus1<URI> &
   Extend1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = {
+  Witherable1<URI> &
+  Compactable1<URI> = {
   URI,
   map,
   of,
@@ -837,5 +861,7 @@ export const array: Monad1<URI> &
   filter,
   mapOption,
   catOptions,
-  wither
+  wither,
+  compact,
+  separate
 }

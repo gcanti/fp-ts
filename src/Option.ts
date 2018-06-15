@@ -13,6 +13,7 @@ import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Function1, identity, Lazy, Predicate, Refinement, toString } from './function'
 import { Filterable1 } from './Witherable'
+import { Compactable1, Separated } from './Compactable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -560,6 +561,26 @@ const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
 const mapOption = <A, B>(fa: Option<A>, f: Function1<A, Option<B>>): Option<B> => fa.chain(f)
 const catOptions = <A>(fa: Option<Option<A>>): Option<A> => mapOption(fa, identity)
 
+export const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
+export const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> =>
+  fa.foldL(
+    () => ({
+      left: none,
+      right: none
+    }),
+    e =>
+      e.fold<Separated<Option<L>, Option<A>>>(
+        l => ({
+          left: some(l),
+          right: none
+        }),
+        r => ({
+          left: none,
+          right: some(r)
+        })
+      )
+  )
+
 /**
  * @instance
  * @since 1.0.0
@@ -570,7 +591,8 @@ export const option: Monad1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
-  Filterable1<URI> = {
+  Filterable1<URI> &
+  Compactable1<URI> = {
   URI,
   map,
   of,
@@ -583,5 +605,7 @@ export const option: Monad1<URI> &
   extend,
   filter,
   mapOption,
-  catOptions
+  catOptions,
+  compact,
+  separate
 }
