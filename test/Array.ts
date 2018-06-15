@@ -47,7 +47,7 @@ import {
   foldrL,
   foldr,
   separate,
-  compact
+  compact, partition, filterMap
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
@@ -57,6 +57,7 @@ import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } 
 import { traverse } from '../src/Traversable'
 import { identity, tuple } from '../src/function'
 import { separated } from '../src/Compactable'
+import { partitioned } from '../src/Filterable';
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -275,11 +276,6 @@ describe('Array', () => {
     assert.deepEqual(flatten([[1], [2], [3]]), [1, 2, 3])
   })
 
-  it('partitionMap', () => {
-    assert.deepEqual(partitionMap([], x => x), { left: [], right: [] })
-    assert.deepEqual(partitionMap([right(1), left('foo'), right(2)], x => x), { left: ['foo'], right: [1, 2] })
-  })
-
   it('rotate', () => {
     assert.deepEqual(rotate(1, []), [])
     assert.deepEqual(rotate(1, [1]), [1])
@@ -290,10 +286,6 @@ describe('Array', () => {
     assert.deepEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
     assert.deepEqual(rotate(-1, [1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
     assert.deepEqual(rotate(-2, [1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
-  })
-
-  it('filter', () => {
-    assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
   })
 
   it('map', () => {
@@ -448,5 +440,24 @@ describe('Array', () => {
   it('separate', () => {
     assert.deepEqual(separate([]), separated([], []))
     assert.deepEqual(separate([left(1), right(2), left(3), right(4)]), separated([1, 3], [2, 4]))
+  })
+
+  it('partitionMap', () => {
+    assert.deepEqual(partitionMap([], x => x), { left: [], right: [] })
+    assert.deepEqual(partitionMap([right(1), left('foo'), right(2)], x => x), { left: ['foo'], right: [1, 2] })
+  })
+
+  it('partition', () => {
+    const p = (n: number) => n > 2
+    assert.deepEqual(partition([1, 2, 3], p), partitioned([1, 2], [3]))
+  })
+
+  it('filterMap', () => {
+    const f = (n: number) => n > 2 ? some(`${n}!`) : none
+    assert.deepEqual(filterMap([1, 2, 3], f), ['3!'])
+  })
+
+  it('filter', () => {
+    assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
   })
 })
