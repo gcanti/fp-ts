@@ -131,12 +131,7 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HK
  * @instance
  * @since 1.0.0
  */
-export const identity: Monad1<URI> &
-  Foldable1<URI> &
-  Traversable1<URI> &
-  Alt1<URI> &
-  Comonad1<URI> &
-  ChainRec1<URI> = {
+export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
   URI,
   map,
   of,
