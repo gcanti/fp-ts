@@ -49,9 +49,7 @@ import {
   separate,
   compact,
   partition,
-  filterMap,
-  wilt,
-  wither
+  filterMap
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
@@ -468,7 +466,7 @@ describe('Array', () => {
   it('wilt', () => {
     const f = (x: number) => (x > 2 ? new Identity(right(x * 10)) : new Identity(left(x)))
     const list = [1, 2, 3]
-    const result = wilt(I)(list, f)
+    const result = array.wilt(I)(list, f)
     const expected = new Identity(separated([1, 2], [30]))
     assert.deepEqual(result, expected)
   })
@@ -476,7 +474,7 @@ describe('Array', () => {
   it('witherDefault', () => {
     const f = (x: number) => (x > 2 ? new Identity(some(x * 10)) : new Identity(none))
     const list = [1, 2, 3]
-    const result = wither(I)(list, f)
+    const result = array.wither(I)(list, f)
     const expected = new Identity([30])
     assert.deepEqual(result, expected)
   })

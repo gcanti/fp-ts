@@ -19,9 +19,7 @@ import {
   some,
   tryCatch,
   compact,
-  separate,
-  wilt,
-  wither
+  separate
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
@@ -327,7 +325,7 @@ describe('Option', () => {
 
   it('wilt', () => {
     const f = (x: number) => (x > 2 ? new Identity(right(x * 10)) : new Identity(left(x)))
-    const wiltIdentity = wilt(I)
+    const wiltIdentity = option.wilt(I)
     assert.deepEqual(wiltIdentity(none, f), new Identity(separated(none, none)))
     assert.deepEqual(wiltIdentity(some(1), f), new Identity(separated(some(1), none)))
     assert.deepEqual(wiltIdentity(some(3), f), new Identity(separated(none, some(30))))
@@ -335,7 +333,7 @@ describe('Option', () => {
 
   it('witherDefault', () => {
     const f = (x: number) => (x > 2 ? new Identity(some(x * 10)) : new Identity(none))
-    const witherIdentity = wither(I)
+    const witherIdentity = option.wither(I)
     assert.deepEqual(witherIdentity(none, f), new Identity(none))
     assert.deepEqual(witherIdentity(some(1), f), new Identity(none))
     assert.deepEqual(witherIdentity(some(3), f), new Identity(some(30)))
