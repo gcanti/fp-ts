@@ -60,7 +60,34 @@ export class StrMap<A> {
    * @since 1.4.0
    */
   filter(p: Predicate<A>): StrMap<A> {
-    return filter(this, p)
+    return this.filterMap(optionBool(p))
+  }
+  filterMap<B>(f: (a: A) => Option<B>): StrMap<B> {
+    const result: { [key: string]: B } = {}
+    for (let key in this.value) {
+      const optionB = f(this.value[key])
+      if (optionB.isSome()) {
+        result[key] = optionB.value
+      }
+    }
+    return new StrMap(result)
+  }
+  partition(p: Predicate<A>): Partitioned<StrMap<A>> {
+    const result = this.partitionMap(eitherBool(p))
+    return partitioned(result.left, result.right)
+  }
+  partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
+    const l: { [key: string]: RL } = {}
+    const r: { [key: string]: RR } = {}
+    for (let key in this.value) {
+      const result = f(this.value[key])
+      if (result.isLeft()) {
+        l[key] = result.value
+      } else {
+        r[key] = result.value
+      }
+    }
+    return separated(new StrMap(l), new StrMap(r))
   }
 }
 
@@ -308,34 +335,10 @@ export const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
  */
 export const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, StrMap<A>> => partitionMap(fa, identity)
 
-const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => filterMap(fa, optionBool(p))
-const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {
-  const result: { [key: string]: B } = {}
-  for (let key in fa.value) {
-    const optionB = f(fa.value[key])
-    if (optionB.isSome()) {
-      result[key] = optionB.value
-    }
-  }
-  return new StrMap(result)
-}
-const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Partitioned<StrMap<A>> => {
-  const result = partitionMap(fa, eitherBool(p))
-  return partitioned(result.left, result.right)
-}
-const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> => {
-  const l: { [key: string]: RL } = {}
-  const r: { [key: string]: RR } = {}
-  for (let key in fa.value) {
-    const result = f(fa.value[key])
-    if (result.isLeft()) {
-      l[key] = result.value
-    } else {
-      r[key] = result.value
-    }
-  }
-  return separated(new StrMap(l), new StrMap(r))
-}
+const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => fa.filter(p)
+const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => fa.filterMap(f)
+const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Partitioned<StrMap<A>> => fa.partition(p)
+const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> => fa.partitionMap(f)
 
 /**
  * @instance
