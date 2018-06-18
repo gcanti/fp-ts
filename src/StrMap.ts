@@ -355,7 +355,8 @@ export const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, S
 const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => fa.filter(p)
 const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => fa.filterMap(f)
 const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Partitioned<StrMap<A>> => fa.partition(p)
-const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> => fa.partitionMap(f)
+const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> =>
+  fa.partitionMap(f)
 
 /**
  * @instance
