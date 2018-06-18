@@ -421,6 +421,10 @@ export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, 
  * @function
  * @since 1.6.3
  */
+export function witherDefault<W extends URIS3, F extends URIS3, WU, WL, FU, FL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative3C<F, FU, FL>
+): (<A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS3, FU, FL>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative3C<F, FU, FL>
@@ -428,6 +432,10 @@ export function witherDefault<W extends URIS3, F extends URIS3, FU, FL>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Option<B>>
 ) => Type3<F, FU, FL, Type3<W, WU, WL, B>>)
+export function witherDefault<W extends URIS2, F extends URIS3, WL, FU, FL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative3C<F, FU, FL>
+): (<A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS3, FU, FL>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative3C<F, FU, FL>
@@ -441,6 +449,13 @@ export function witherDefault<W, F extends URIS3, FU, FL>(
   F: Applicative3C<F, FU, FL>
 ): (<A, B>(wa: HKT<W, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, HKT<W, B>>)
 
+export function witherDefault<W extends URIS3, F extends URIS3, WU, WL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative3<F>
+): (<FU, FL, A, B>(
+  wa: Type3<W, WU, WL, A>,
+  f: (a: A) => Type3<F, FU, FL, Option<B>>
+) => Type3<F, FU, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS3>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative3<F>
@@ -448,6 +463,10 @@ export function witherDefault<W extends URIS3, F extends URIS3>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Option<B>>
 ) => Type3<F, FU, FL, Type3<W, WU, WL, B>>)
+export function witherDefault<W extends URIS2, F extends URIS3, WL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative3<F>
+): (<FU, FL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS3>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative3<F>
@@ -464,10 +483,18 @@ export function witherDefault<W, F extends URIS3>(
   F: Applicative3<F>
 ): (<FU, FL, A, B>(wa: HKT<W, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, HKT<W, B>>)
 
+export function witherDefault<W extends URIS3, F extends URIS2, WU, WL, FL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative2C<F, FL>
+): (<A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS2, FL>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative2C<F, FL>
 ): (<WU, WL, A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type3<W, WU, WL, B>>)
+export function witherDefault<W extends URIS2, F extends URIS2, WL, FL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative2C<F, FL>
+): (<WL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS2, FL>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative2C<F, FL>
@@ -481,6 +508,10 @@ export function witherDefault<W, F extends URIS2, FL>(
   F: Applicative2C<F, FL>
 ): (<A, B>(wa: HKT<W, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, HKT<W, B>>)
 
+export function witherDefault<W extends URIS3, F extends URIS2, WU, WL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative2<F>
+): (<FL, A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS2>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative2<F>
@@ -488,6 +519,10 @@ export function witherDefault<W extends URIS3, F extends URIS2>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type2<F, FL, Option<B>>
 ) => Type2<F, FL, Type3<W, WU, WL, B>>)
+export function witherDefault<W extends URIS2, F extends URIS2, WL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative2<F>
+): (<FL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS2>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative2<F>
@@ -501,10 +536,18 @@ export function witherDefault<W, F extends URIS2>(
   F: Applicative2<F>
 ): (<FL, A, B>(wa: HKT<W, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, HKT<W, B>>)
 
+export function witherDefault<W extends URIS3, F extends URIS, WU, WL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative1<F>
+): (<A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative1<F>
 ): (<WU, WL, A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Type3<W, WU, WL, B>>)
+export function witherDefault<W extends URIS2, F extends URIS, WL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative1<F>
+): (<A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative1<F>
@@ -518,14 +561,18 @@ export function witherDefault<W, F extends URIS>(
   F: Applicative1<F>
 ): (<A, B>(wa: HKT<W, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, HKT<W, B>>)
 
+export function witherDefault<W extends URIS3, F, WU, WL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative<F>
+): (<A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative<F>
 ): (<WU, WL, A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type3<W, WU, WL, B>>)
-export function witherDefault<W extends URIS2, F>(
-  W: Traversable2<W> & Compactable2<W>,
+export function witherDefault<W extends URIS2, F, WL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
   F: Applicative<F>
-): (<WL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type2<W, WL, B>>)
+): (<A, B>(wa: Type2<W, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS, F>(
   W: Traversable1<W> & Compactable1<W>,
   F: Applicative<F>
