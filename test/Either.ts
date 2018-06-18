@@ -15,7 +15,7 @@ import {
   isRight,
   fromRefinement,
   getCompactable,
-  getFilterable
+  getFilterable, getWitherable
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
@@ -23,6 +23,7 @@ import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { monoidString } from '../src/Monoid'
 import { separated } from '../src/Compactable'
+import { Identity, identity as I } from '../src/Identity'
 
 describe('Either', () => {
   it('fold', () => {
@@ -319,5 +320,23 @@ describe('Either', () => {
     assert.deepEqual(F.partitionMap(left<string, number>('123'), f), separated(left('123'), left('123')))
     assert.deepEqual(F.partitionMap(right<string, number>(1), f), separated(right('lte2'), left(monoidString.empty)))
     assert.deepEqual(F.partitionMap(right<string, number>(3), f), separated(left(monoidString.empty), right('gt2')))
+  })
+
+  it('wilt', () => {
+    const f = (x: number) => (x > 2 ? new Identity(right('gt2')) : new Identity(left('lte2')))
+    const W = getWitherable(monoidString)
+    const wiltIdentity = W.wilt(I)
+    assert.deepEqual(wiltIdentity(left<string, number>('123'), f), new Identity(separated(left('123'), left('123'))))
+    assert.deepEqual(wiltIdentity(right<string, number>(1), f), new Identity(separated(right('lte2'), left(monoidString.empty))))
+    assert.deepEqual(wiltIdentity(right<string, number>(3), f), new Identity(separated(left(monoidString.empty), right('gt2'))))
+  })
+
+  it('wither', () => {
+    const f = (n: number) => (n > 2 ? new Identity(some('valid')) : new Identity(none))
+    const W = getWitherable(monoidString)
+    const witherIdentity = W.wither(I)
+    assert.deepEqual(witherIdentity(left<string, number>('123'), f), new Identity(left('123')))
+    assert.deepEqual(witherIdentity(right<string, number>(1), f), new Identity(left(monoidString.empty)))
+    assert.deepEqual(witherIdentity(right<string, number>(3), f), new Identity(right('valid')))
   })
 })
