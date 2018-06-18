@@ -17,8 +17,10 @@ export const separated = <A, B>(a: A, b: B): Separated<A, B> => ({
 
 /**
  * @typeclass
- * Compactable represents data structures which can be _compacted_/_filtered_.
+ * `Compactable` represents data structures which can be _compacted_/_filtered_.
  * This is a generalization of catMaybes as a new function `compact`. `compact` has relations with {@link Functor}, {@link Applicative}, {@link Monad}, {@link Plus}, and {@link Traversable} in that we can use these classes to provide the ability to operate on a data type by eliminating intermediate Nones. This is useful for representing the filtering out of values, or failure.
+ * - {@link compact}
+ * - {@link separate}
  * @see https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Compactable.purs
  */
 export interface Compactable<F> {
