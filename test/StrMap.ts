@@ -156,11 +156,16 @@ describe('StrMap', () => {
 
   it('filterMap', () => {
     const f = (n: number) => (n > 2 ? some('valid') : none)
+    assert.deepEqual(new StrMap({ foo: 1, bar: 3 }).filterMap(f), new StrMap({ bar: 'valid' }))
     assert.deepEqual(strmap.filterMap(new StrMap({ foo: 1, bar: 3 }), f), new StrMap({ bar: 'valid' }))
   })
 
   it('partition', () => {
     const p = (n: number) => n > 2
+    assert.deepEqual(
+      new StrMap({ foo: 1, bar: 3 }).partition(p),
+      partitioned(new StrMap({ foo: 1 }), new StrMap({ bar: 3 }))
+    )
     assert.deepEqual(
       strmap.partition(new StrMap({ foo: 1, bar: 3 }), p),
       partitioned(new StrMap({ foo: 1 }), new StrMap({ bar: 3 }))
@@ -169,6 +174,10 @@ describe('StrMap', () => {
 
   it('partitionMap', () => {
     const f = (n: number) => (n > 2 ? right('gt2') : left('lte2'))
+    assert.deepEqual(
+      new StrMap({ foo: 1, bar: 3 }).partitionMap(f),
+      separated(new StrMap({ foo: 'lte2' }), new StrMap({ bar: 'gt2' }))
+    )
     assert.deepEqual(
       strmap.partitionMap(new StrMap({ foo: 1, bar: 3 }), f),
       separated(new StrMap({ foo: 'lte2' }), new StrMap({ bar: 'gt2' }))
