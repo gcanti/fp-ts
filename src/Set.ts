@@ -5,8 +5,12 @@ import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Predicate, not, identity } from './function'
 import { Option } from './Option'
-import { eitherBool, Filterable1, optionBool } from './Filterable'
-import { Compactable1, separated, Separated } from './Compactable'
+import { eitherBool, optionBool } from './Filterable'
+import { separated, Separated } from './Compactable'
+import { Applicative } from './Applicative'
+import { HKT } from './HKT'
+import { traverse as traverseArray } from './Array'
+import { wiltDefault, Witherable1, witherDefault } from './Witherable'
 
 declare global {
   interface Set<T> {
@@ -321,9 +325,6 @@ export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Sep
   return separated(l, r)
 }
 
-/**
- * {@link Functor} impelemtation
- */
 const fmap = <A, B>(fa: Set<A>, f: (a: A) => B): Set<B> => {
   const result = new Set()
   fa.forEach(a => {
@@ -332,17 +333,36 @@ const fmap = <A, B>(fa: Set<A>, f: (a: A) => B): Set<B> => {
   return result
 }
 
+function traverse<F>(F: Applicative<F>): <A, B>(ta: Set<A>, f: (a: A) => HKT<F, B>) => HKT<F, Set<B>> {
+  const t = traverseArray(F)
+  return (ta, f) =>
+    F.map(t(Array.from(ta.values()), f), as => {
+      const result = new Set()
+      as.forEach(a => result.add(a))
+      return result
+    })
+}
+
+const reduceFoldable = <A, B>(fa: Set<A>, b: B, f: (b: B, a: A) => B): B => Array.from(fa.values()).reduce(f, b)
+
+const wilt = <F>(F: Applicative<F>) => wiltDefault(set, F)
+const wither = <F>(F: Applicative<F>) => witherDefault(set, F)
+
 /**
  * @instance
  * @since 1.6.3
  */
-export const set: Compactable1<URI> & Filterable1<URI> = {
+export const set: Witherable1<URI> = {
   URI,
   map: fmap,
+  traverse,
+  reduce: reduceFoldable,
   compact,
   separate,
   filter,
   filterMap,
   partition,
-  partitionMap
+  partitionMap,
+  wilt,
+  wither
 }

@@ -844,15 +844,8 @@ export const mapOption = filterMap
  */
 export const catOptions = compact
 
-function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]> {
-  return witherDefault(array, F)
-}
-
-function wilt<F>(
-  F: Applicative<F>
-): <RL, RR, A>(ta: A[], f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<RL[], RR[]>> {
-  return wiltDefault(array, F)
-}
+const wither = <F>(F: Applicative<F>) => witherDefault(array, F)
+const wilt = <F>(F: Applicative<F>) => wiltDefault(array, F)
 
 /**
  * @instance
