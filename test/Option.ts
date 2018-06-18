@@ -333,7 +333,7 @@ describe('Option', () => {
     assert.deepEqual(wiltIdentity(some(3), f), new Identity(separated(none, some(30))))
   })
 
-  it('wither', () => {
+  it('witherDefault', () => {
     const f = (x: number) => (x > 2 ? new Identity(some(x * 10)) : new Identity(none))
     const witherIdentity = wither(I)
     assert.deepEqual(witherIdentity(none, f), new Identity(none))

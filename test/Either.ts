@@ -338,7 +338,7 @@ describe('Either', () => {
     )
   })
 
-  it('wither', () => {
+  it('witherDefault', () => {
     const f = (n: number) => (n > 2 ? new Identity(some('valid')) : new Identity(none))
     const W = getWitherable(monoidString)
     const witherIdentity = W.wither(I)

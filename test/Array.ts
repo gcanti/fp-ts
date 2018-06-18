@@ -474,7 +474,7 @@ describe('Array', () => {
     assert.deepEqual(result, expected)
   })
 
-  it('wither', () => {
+  it('witherDefault', () => {
     const f = (x: number) => (x > 2 ? new Identity(some(x * 10)) : new Identity(none))
     const list = [1, 2, 3]
     const result = wither(I.identity)(list, f)

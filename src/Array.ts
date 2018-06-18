@@ -15,9 +15,10 @@ import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, identity, tuple } from './function'
-import { Witherable1 } from './Witherable'
+import { wiltDefault, Witherable1, witherDefault } from './Witherable'
 import { Compactable1, separated, Separated } from './Compactable'
 import { eitherBool, Filterable1, optionBool } from './Filterable'
+import { Functor1 } from './Functor'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -868,8 +869,7 @@ export function wither<F extends URIS>(
 ): <A, B>(ta: A[], f: (a: A) => Type<F, Option<B>>) => Type<F, B[]>
 export function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]>
 export function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]> {
-  const traverseF = traverse(F)
-  return (ta, f) => F.map(traverseF(ta, f), compact)
+  return witherDefault(traversableCompactableArray, F)
 }
 
 /**
@@ -898,37 +898,91 @@ export function wilt<F>(
 export function wilt<F>(
   F: Applicative<F>
 ): <RL, RR, A>(ta: A[], f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<RL[], RR[]>> {
-  const traverseF = traverse(F)
-  return (ta, f) => F.map(traverseF(ta, f), separate)
+  return wiltDefault(traversableCompactableArray, F)
 }
 
+/**
+ * @instance
+ */
+const functorArray: Functor1<URI> = {
+  URI,
+  map
+}
+
+/**
+ * @instance
+ */
+const foldableArray: Foldable1<URI> = {
+  URI,
+  reduce
+}
+
+/**
+ * @instance
+ */
+const traversableArray: Traversable1<URI> = {
+  URI,
+  ...functorArray,
+  ...foldableArray,
+  traverse
+}
+
+/**
+ * @instance
+ */
+const compactableArray: Compactable1<URI> = {
+  URI,
+  compact,
+  separate
+}
+
+/**
+ * @instance
+ */
+const filterableArray: Filterable1<URI> = {
+  URI,
+  ...functorArray,
+  ...compactableArray,
+  filter,
+  filterMap,
+  partition,
+  partitionMap
+}
+
+/**
+ * @instance
+ */
+const traversableCompactableArray: Traversable1<URI> & Filterable1<URI> = {
+  ...traversableArray,
+  ...filterableArray
+}
+
+/**
+ * @instance
+ */
+const witherableArray: Witherable1<URI> = {
+  ...traversableArray,
+  ...filterableArray,
+  wilt,
+  wither
+}
+
+/**
+ * @instance
+ */
 export const array: Monad1<URI> &
-  Foldable1<URI> &
   Unfoldable1<URI> &
-  Traversable1<URI> &
   Alternative1<URI> &
   Plus1<URI> &
   Extend1<URI> &
-  Compactable1<URI> &
-  Filterable1<URI> &
   Witherable1<URI> = {
   URI,
-  map,
+  ...witherableArray,
   of,
   ap,
   chain,
-  reduce,
   unfoldr,
-  traverse,
   zero,
   alt,
-  extend,
-  compact,
-  separate,
-  partitionMap,
-  partition,
-  filter,
-  filterMap,
-  wither,
-  wilt
+  extend
 }
