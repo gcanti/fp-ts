@@ -94,12 +94,14 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
 }
 
 /**
+ * Upgrade a boolean-style predicate to an either-style predicate mapping.
  * @function
  * @since 1.6.3
  */
 export const eitherBool = <A>(p: Predicate<A>) => (a: A): Either<A, A> => (p(a) ? right(a) : left(a))
 
 /**
+ * Upgrade a boolean-style predicate to a maybe-style predicate mapping.
  * @function
  * @since 1.6.3
  */
