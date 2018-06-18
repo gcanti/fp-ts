@@ -17,9 +17,7 @@ import {
   none,
   option,
   some,
-  tryCatch,
-  compact,
-  separate
+  tryCatch
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
@@ -282,15 +280,15 @@ describe('Option', () => {
   })
 
   it('compact', () => {
-    assert.deepEqual(compact(none), none)
-    assert.deepEqual(compact(some(none)), none)
-    assert.deepEqual(compact(some(some('123'))), some('123'))
+    assert.deepEqual(option.compact(none), none)
+    assert.deepEqual(option.compact(some(none)), none)
+    assert.deepEqual(option.compact(some(some('123'))), some('123'))
   })
 
   it('separate', () => {
-    assert.deepEqual(separate(none), separated(none, none))
-    assert.deepEqual(separate(some(left('123'))), separated(some('123'), none))
-    assert.deepEqual(separate(some(right('123'))), separated(none, some('123')))
+    assert.deepEqual(option.separate(none), separated(none, none))
+    assert.deepEqual(option.separate(some(left('123'))), separated(some('123'), none))
+    assert.deepEqual(option.separate(some(right('123'))), separated(none, some('123')))
   })
 
   it('partitionMap', () => {

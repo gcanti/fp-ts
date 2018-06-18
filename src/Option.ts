@@ -637,33 +637,15 @@ const partition = <A>(fa: Option<A>, p: Predicate<A>): Separated<Option<A>, Opti
 const filterMap = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => fa.filterMap(f)
 const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
 
-/**
- * {@link Compactable} implementation
- * @function
- * @since 1.6.3
- * @example
- * assert.deepEqual(compact(none), none)
- * assert.deepEqual(compact(some(none)), none)
- * assert.deepEqual(compact(some(some('123'))), some('123'))
- */
-export const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.filterMap(identity)
+const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.filterMap(identity)
 
-/**
- * {@link Compactable} implementation
- * @function
- * @since 1.6.3
- * @example
- * assert.deepEqual(separate(none), separated(none, none))
- * assert.deepEqual(separate(some(left('123'))), separated(some('123'), none))
- * assert.deepEqual(separate(some(right('123'))), separated(none, some('123')))
- */
-export const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> => fa.partitionMap(identity)
+const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> => fa.partitionMap(identity)
 
 function wither<F>(F: Applicative<F>): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>> {
   return witherDefault(option, F)
 }
 
-export function wilt<F>(
+function wilt<F>(
   F: Applicative<F>
 ): <RL, RR, A>(ta: Option<A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Option<RL>, Option<RR>>> {
   return wiltDefault(option, F)
