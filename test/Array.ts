@@ -61,8 +61,7 @@ import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } 
 import { traverse } from '../src/Traversable'
 import { identity, tuple } from '../src/function'
 import { separated } from '../src/Compactable'
-import * as I from '../src/Identity'
-import { Identity } from '../src/Identity'
+import { Identity, identity as I } from '../src/Identity'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -469,7 +468,7 @@ describe('Array', () => {
   it('wilt', () => {
     const f = (x: number) => (x > 2 ? new Identity(right(x * 10)) : new Identity(left(x)))
     const list = [1, 2, 3]
-    const result = wilt(I.identity)(list, f)
+    const result = wilt(I)(list, f)
     const expected = new Identity(separated([1, 2], [30]))
     assert.deepEqual(result, expected)
   })
@@ -477,7 +476,7 @@ describe('Array', () => {
   it('witherDefault', () => {
     const f = (x: number) => (x > 2 ? new Identity(some(x * 10)) : new Identity(none))
     const list = [1, 2, 3]
-    const result = wither(I.identity)(list, f)
+    const result = wither(I)(list, f)
     const expected = new Identity([30])
     assert.deepEqual(result, expected)
   })
