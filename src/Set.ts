@@ -6,6 +6,8 @@ import { Setoid } from './Setoid'
 import { Predicate, not, Function1, identity } from './function'
 import { Filterable1 } from './Witherable'
 import { Option } from './Option'
+import { eitherBool, optionBool } from './Filterable'
+import { separated, Separated } from './Compactable'
 
 declare global {
   interface Set<T> {
@@ -112,45 +114,6 @@ export const subset = <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean => {
 }
 
 /**
- * @function
- * @since 1.0.0
- */
-export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
-  const values = x.values()
-  let e: IteratorResult<A>
-  let r = new Set()
-  // tslint:disable:no-conditional-assignment
-  while (!(e = values.next()).done) {
-    const value = e.value
-    if (predicate(value)) {
-      r.add(value)
-    }
-  }
-  return r
-}
-
-/**
- * @function
- * @since 1.2.0
- */
-export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A>; left: Set<A> } => {
-  const values = x.values()
-  let e: IteratorResult<A>
-  let t = new Set()
-  let f = new Set()
-  // tslint:disable:no-conditional-assignment
-  while (!(e = values.next()).done) {
-    const value = e.value
-    if (predicate(value)) {
-      t.add(value)
-    } else {
-      f.add(value)
-    }
-  }
-  return { right: t, left: f }
-}
-
-/**
  * Test if a value is a member of a set
  * @function
  * @since 1.0.0
@@ -198,10 +161,45 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
 }
 
 /**
+ * {@link Filterable} implementation
+ * @since 1.6.3
+ */
+export const filterMap = <A, B>(fa: Set<A>, f: (a: A) => Option<B>): Set<B> => {
+  const values = fa.values()
+  let e: IteratorResult<A>
+  let r = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const value = e.value
+    const optionB = f(value)
+    if (optionB.isSome()) {
+      r.add(optionB.value)
+    }
+  }
+  return r
+}
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.0.0
+ */
+export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => filterMap(x, optionBool(predicate))
+
+/**
+ * {@link Filterable} implementation
  * @function
  * @since 1.2.0
  */
-export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { left: Set<L>; right: Set<R> } => {
+export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> =>
+  partitionMap(x, eitherBool(predicate))
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.2.0
+ */
+export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Separated<Set<L>, Set<R>> => {
   const values = x.values()
   let e: IteratorResult<A>
   let l = new Set()
@@ -215,7 +213,7 @@ export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { l
       r.add(v.value)
     }
   }
-  return { left: l, right: r }
+  return separated(l, r)
 }
 
 /**

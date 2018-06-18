@@ -6,6 +6,7 @@ import {
   difference,
   every,
   filter,
+  filterMap,
   fromArray,
   getIntersectionSemigroup,
   getSetoid,
@@ -25,6 +26,7 @@ import {
   union
 } from '../src/Set'
 import { Setoid, setoidNumber, setoidString } from '../src/Setoid'
+import { optionBool } from '../src/Filterable'
 
 const gte2 = (n: number) => n >= 2
 
@@ -78,20 +80,6 @@ describe('Set', () => {
     assert.strictEqual(subset(setoidNumber)(new Set([1, 2, 4]), new Set([1, 2, 3])), false)
   })
 
-  it('filter', () => {
-    assert.deepEqual(filter(new Set([1, 2, 3]), gte2), new Set([2, 3]))
-  })
-
-  it('partition', () => {
-    assert.deepEqual(partition(new Set([]), x => true), { right: new Set([]), left: new Set([]) })
-    assert.deepEqual(partition(new Set([1]), x => true), { right: new Set([1]), left: new Set([]) })
-    assert.deepEqual(partition(new Set([1]), x => false), { right: new Set([]), left: new Set([1]) })
-    assert.deepEqual(partition(new Set([1, 2, 3, 4]), x => x % 2 === 0), {
-      right: new Set([2, 4]),
-      left: new Set([1, 3])
-    })
-  })
-
   it('member', () => {
     assert.strictEqual(member(setoidNumber)(new Set([1, 2, 3]))(1), true)
     assert.strictEqual(member(setoidNumber)(new Set([1, 2, 3]))(4), false)
@@ -104,17 +92,6 @@ describe('Set', () => {
 
   it('intersection', () => {
     assert.deepEqual(intersection(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([1]))
-  })
-
-  it('partitionMap', () => {
-    assert.deepEqual(partitionMap(new Set([]), left), {
-      left: new Set([]),
-      right: new Set([])
-    })
-    assert.deepEqual(partitionMap(new Set([1, 2, 3]), x => (x % 2 === 0 ? left(x) : right(`${x}`))), {
-      left: new Set([2]),
-      right: new Set(['1', '3'])
-    })
   })
 
   it('getUnionMonoid', () => {
@@ -161,5 +138,34 @@ describe('Set', () => {
     assert.deepEqual(fromArray(setoidNumber)([1, 2]), new Set([1, 2]))
 
     assert.deepEqual(fromArray(fooSetoid)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
+  })
+
+  it('filter', () => {
+    assert.deepEqual(filter(new Set([1, 2, 3]), gte2), new Set([2, 3]))
+  })
+
+  it('filterMap', () => {
+    assert.deepEqual(filterMap(new Set([1, 2, 3]), optionBool(gte2)), new Set([2, 3]))
+  })
+
+  it('partition', () => {
+    assert.deepEqual(partition(new Set([]), x => true), { right: new Set([]), left: new Set([]) })
+    assert.deepEqual(partition(new Set([1]), x => true), { right: new Set([1]), left: new Set([]) })
+    assert.deepEqual(partition(new Set([1]), x => false), { right: new Set([]), left: new Set([1]) })
+    assert.deepEqual(partition(new Set([1, 2, 3, 4]), x => x % 2 === 0), {
+      right: new Set([2, 4]),
+      left: new Set([1, 3])
+    })
+  })
+
+  it('partitionMap', () => {
+    assert.deepEqual(partitionMap(new Set([]), left), {
+      left: new Set([]),
+      right: new Set([])
+    })
+    assert.deepEqual(partitionMap(new Set([1, 2, 3]), x => (x % 2 === 0 ? left(x) : right(`${x}`))), {
+      left: new Set([2]),
+      right: new Set(['1', '3'])
+    })
   })
 })
