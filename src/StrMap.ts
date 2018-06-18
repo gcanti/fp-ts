@@ -56,12 +56,19 @@ export class StrMap<A> {
     }
     return out
   }
+
   /**
+   * Instance-bound {@link Filterable} implementation
    * @since 1.4.0
    */
   filter(p: Predicate<A>): StrMap<A> {
     return this.filterMap(optionBool(p))
   }
+
+  /**
+   * Instance-bound {@link Filterable} implementation
+   * @since 1.6.3
+   */
   filterMap<B>(f: (a: A) => Option<B>): StrMap<B> {
     const result: { [key: string]: B } = {}
     for (let key in this.value) {
@@ -72,10 +79,20 @@ export class StrMap<A> {
     }
     return new StrMap(result)
   }
+
+  /**
+   * Instance-bound {@link Filterable} implementation
+   * @since 1.6.3
+   */
   partition(p: Predicate<A>): Partitioned<StrMap<A>> {
     const result = this.partitionMap(eitherBool(p))
     return partitioned(result.left, result.right)
   }
+
+  /**
+   * Instance-bound {@link Filterable} implementation
+   * @since 1.6.3
+   */
   partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
     const l: { [key: string]: RL } = {}
     const r: { [key: string]: RR } = {}
