@@ -238,7 +238,7 @@ export class None<A> {
     return separated(none, none)
   }
 
-  partition(p: Predicate<A>): Partitioned<Option<A>, Option<A>> {
+  partition(p: Predicate<A>): Partitioned<Option<A>> {
     return partitioned(none, none)
   }
 
@@ -368,7 +368,7 @@ export class Some<A> {
     )
   }
 
-  partition(p: Predicate<A>): Partitioned<Option<A>, Option<A>> {
+  partition(p: Predicate<A>): Partitioned<Option<A>> {
     const result = p(this.value)
     return partitioned(!result ? this : none, result ? this : none)
   }
@@ -632,7 +632,7 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
 
 const partitionMap = <RL, RR, A>(fa: Option<A>, f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> =>
   fa.partitionMap(f)
-const partition = <A>(fa: Option<A>, p: Predicate<A>): Partitioned<Option<A>, Option<A>> => fa.partition(p)
+const partition = <A>(fa: Option<A>, p: Predicate<A>): Partitioned<Option<A>> => fa.partition(p)
 const filterMap = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => fa.filterMap(f)
 const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
 

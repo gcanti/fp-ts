@@ -319,7 +319,7 @@ const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {
   }
   return new StrMap(result)
 }
-const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Partitioned<StrMap<A>, StrMap<A>> => {
+const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Partitioned<StrMap<A>> => {
   const result = partitionMap(fa, eitherBool(p))
   return partitioned(result.left, result.right)
 }

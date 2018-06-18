@@ -838,7 +838,7 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
  * const p = (n: number) => n > 2
  * assert.deepEqual(partition([1, 2, 3], p), partitioned([1, 2], [3]))
  */
-export const partition = <A>(fa: Array<A>, p: Predicate<A>): Partitioned<A[], A[]> => {
+export const partition = <A>(fa: Array<A>, p: Predicate<A>): Partitioned<A[]> => {
   const no: A[] = []
   const yes: A[] = []
   const len = fa.length

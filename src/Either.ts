@@ -471,7 +471,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
       r => f(r).fold(a => separated(right(a), left(ML.empty)), b => separated(left(ML.empty), right(b)))
     )
 
-  const partition = <A, B>(fa: Either<L, A>, p: Predicate<A>): Partitioned<Either<L, A>, Either<L, A>> => {
+  const partition = <A, B>(fa: Either<L, A>, p: Predicate<A>): Partitioned<Either<L, A>> => {
     const result = partitionMap(fa, eitherBool(p))
     return partitioned(result.left, result.right)
   }
