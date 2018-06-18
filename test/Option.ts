@@ -27,7 +27,6 @@ import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
 import { separated } from '../src/Compactable'
-import { partitioned } from '../src/Filterable'
 
 describe('Option', () => {
   it('fold', () => {
@@ -302,9 +301,9 @@ describe('Option', () => {
 
   it('partition', () => {
     const p = (n: number) => n > 2
-    assert.deepEqual(none.partition(p), partitioned(none, none))
-    assert.deepEqual(some(1).partition(p), partitioned(some(1), none))
-    assert.deepEqual(some(3).partition(p), partitioned(none, some(3)))
+    assert.deepEqual(none.partition(p), separated(none, none))
+    assert.deepEqual(some(1).partition(p), separated(some(1), none))
+    assert.deepEqual(some(3).partition(p), separated(none, some(3)))
   })
 
   it('filterMap', () => {

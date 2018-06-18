@@ -2,8 +2,16 @@ import * as assert from 'assert'
 import { eitherBool, optionBool } from '../src/Filterable'
 import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
+import { separated } from '../src/Compactable'
 
-describe('Filterable', () => {
+describe('Compactable', () => {
+  it('separated', () => {
+    assert.deepEqual(separated(1, 2), {
+      left: 1,
+      right: 2
+    })
+  })
+
   it('eitherBool', () => {
     const p = (n: number) => n > 2
     const eitherP = eitherBool(p)

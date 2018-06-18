@@ -17,7 +17,7 @@ import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, identity, tuple } from './function'
 import { Witherable1 } from './Witherable'
 import { Compactable1, separated, Separated } from './Compactable'
-import { Filterable1, partitioned, Partitioned } from './Filterable'
+import { eitherBool, Filterable1, optionBool } from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -836,21 +836,10 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
  * @since 1.6.3
  * @example
  * const p = (n: number) => n > 2
- * assert.deepEqual(partition([1, 2, 3], p), partitioned([1, 2], [3]))
+ * assert.deepEqual(partition([1, 2, 3], p), separated([1, 2], [3]))
  */
-export const partition = <A>(fa: Array<A>, p: Predicate<A>): Partitioned<A[]> => {
-  const no: A[] = []
-  const yes: A[] = []
-  const len = fa.length
-  for (let i = 0; i < len; i++) {
-    const a = fa[i]
-    if (p(a)) {
-      yes.push(a)
-    } else {
-      no.push(a)
-    }
-  }
-  return partitioned(no, yes)
+export const partition = <A>(fa: Array<A>, p: Predicate<A>): Separated<A[], A[]> => {
+  return partitionMap(fa, eitherBool(p))
 }
 
 /**
@@ -881,15 +870,7 @@ export const filterMap = <A, B>(fa: Array<A>, f: (a: A) => Option<B>): B[] => {
  * assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
  */
 export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
-  const l = as.length
-  const r = []
-  for (let i = 0; i < l; i++) {
-    const v = as[i]
-    if (predicate(v)) {
-      r.push(v)
-    }
-  }
-  return r
+  return filterMap(as, optionBool(predicate))
 }
 
 export const array: Monad1<URI> &

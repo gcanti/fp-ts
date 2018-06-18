@@ -12,7 +12,7 @@ import { Unfoldable } from './Unfoldable'
 import { identity, Predicate, tuple } from './function'
 import { Compactable1, separated, Separated } from './Compactable'
 import { Either } from './Either'
-import { eitherBool, Filterable1, optionBool, partitioned, Partitioned } from './Filterable'
+import { eitherBool, Filterable1, optionBool } from './Filterable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -84,9 +84,8 @@ export class StrMap<A> {
    * Instance-bound {@link Filterable} implementation
    * @since 1.6.3
    */
-  partition(p: Predicate<A>): Partitioned<StrMap<A>> {
-    const result = this.partitionMap(eitherBool(p))
-    return partitioned(result.left, result.right)
+  partition(p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> {
+    return this.partitionMap(eitherBool(p))
   }
 
   /**
@@ -354,7 +353,7 @@ export const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, S
 
 const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => fa.filter(p)
 const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => fa.filterMap(f)
-const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Partitioned<StrMap<A>> => fa.partition(p)
+const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> => fa.partition(p)
 const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> =>
   fa.partitionMap(f)
 

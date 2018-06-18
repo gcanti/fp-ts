@@ -24,7 +24,6 @@ import { traverse } from '../src/Traversable'
 import { semigroupSum } from '../src/Semigroup'
 import { left, right } from '../src/Either'
 import { separated } from '../src/Compactable'
-import { partitioned } from '../src/Filterable'
 
 describe('StrMap', () => {
   it('getMonoid', () => {
@@ -164,11 +163,11 @@ describe('StrMap', () => {
     const p = (n: number) => n > 2
     assert.deepEqual(
       new StrMap({ foo: 1, bar: 3 }).partition(p),
-      partitioned(new StrMap({ foo: 1 }), new StrMap({ bar: 3 }))
+      separated(new StrMap({ foo: 1 }), new StrMap({ bar: 3 }))
     )
     assert.deepEqual(
       strmap.partition(new StrMap({ foo: 1, bar: 3 }), p),
-      partitioned(new StrMap({ foo: 1 }), new StrMap({ bar: 3 }))
+      separated(new StrMap({ foo: 1 }), new StrMap({ bar: 3 }))
     )
   })
 

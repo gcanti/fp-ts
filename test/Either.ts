@@ -23,7 +23,6 @@ import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { monoidString } from '../src/Monoid'
 import { separated } from '../src/Compactable'
-import { partitioned } from '../src/Filterable'
 
 describe('Either', () => {
   it('fold', () => {
@@ -309,9 +308,9 @@ describe('Either', () => {
   it('partition', () => {
     const F = getFilterable(monoidString)
     const p = (n: number) => n > 2
-    assert.deepEqual(F.partition(left<string, number>('123'), p), partitioned(left('123'), left('123')))
-    assert.deepEqual(F.partition(right<string, number>(1), p), partitioned(right(1), left(monoidString.empty)))
-    assert.deepEqual(F.partition(right<string, number>(3), p), partitioned(left(monoidString.empty), right(3)))
+    assert.deepEqual(F.partition(left<string, number>('123'), p), separated(left('123'), left('123')))
+    assert.deepEqual(F.partition(right<string, number>(1), p), separated(right(1), left(monoidString.empty)))
+    assert.deepEqual(F.partition(right<string, number>(3), p), separated(left(monoidString.empty), right(3)))
   })
 
   it('partitionMap', () => {

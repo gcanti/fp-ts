@@ -59,7 +59,6 @@ import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } 
 import { traverse } from '../src/Traversable'
 import { identity, tuple } from '../src/function'
 import { separated } from '../src/Compactable'
-import { partitioned } from '../src/Filterable'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -451,7 +450,7 @@ describe('Array', () => {
 
   it('partition', () => {
     const p = (n: number) => n > 2
-    assert.deepEqual(partition([1, 2, 3], p), partitioned([1, 2], [3]))
+    assert.deepEqual(partition([1, 2, 3], p), separated([1, 2], [3]))
   })
 
   it('filterMap', () => {

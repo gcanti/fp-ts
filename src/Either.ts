@@ -13,7 +13,7 @@ import { Traversable2 } from './Traversable'
 import { Validation } from './Validation'
 import { Monoid } from './Monoid'
 import { Compactable2C, separated, Separated } from './Compactable'
-import { eitherBool, Filterable2C, optionBool, partitioned, Partitioned } from './Filterable'
+import { eitherBool, Filterable2C, optionBool } from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -471,10 +471,8 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
       r => f(r).fold(a => separated(right(a), left(ML.empty)), b => separated(left(ML.empty), right(b)))
     )
 
-  const partition = <A, B>(fa: Either<L, A>, p: Predicate<A>): Partitioned<Either<L, A>> => {
-    const result = partitionMap(fa, eitherBool(p))
-    return partitioned(result.left, result.right)
-  }
+  const partition = <A, B>(fa: Either<L, A>, p: Predicate<A>): Separated<Either<L, A>, Either<L, A>> =>
+    partitionMap(fa, eitherBool(p))
 
   return {
     URI,
