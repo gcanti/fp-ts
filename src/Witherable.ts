@@ -4,7 +4,15 @@ import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3, T
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable3C } from './Filterable'
 import { Either } from './Either'
-import { Compactable, Compactable1, Compactable2, Compactable3, Separated } from './Compactable'
+import {
+  Compactable,
+  Compactable1,
+  Compactable2,
+  Compactable2C,
+  Compactable3,
+  Compactable3C,
+  Separated
+} from './Compactable'
 
 /**
  * `Witherable` represents data structures which can be _partitioned_ with effects in some {@link Applicative} functor.
@@ -539,6 +547,13 @@ export function witherDefault<W, F>(
  * @function
  * @since 1.6.3
  */
+export function wiltDefault<W extends URIS3, F extends URIS3, WU, WL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative3<F>
+): (<FU, FL, RL, RR, A>(
+  wa: Type3<W, WU, WL, A>,
+  f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
+) => Type3<F, FU, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F extends URIS3>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative3<F>
@@ -546,6 +561,13 @@ export function wiltDefault<W extends URIS3, F extends URIS3>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
 ) => Type3<F, FU, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
+export function wiltDefault<W extends URIS2, F extends URIS3, WL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative3<F>
+): (<FU, FL, RL, RR, A>(
+  wa: Type2<W, WL, A>,
+  f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
+) => Type3<F, FU, FL, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS3>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative3<F>
@@ -568,6 +590,13 @@ export function wiltDefault<W, F extends URIS3>(
   f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
 ) => Type3<F, FU, FL, Separated<HKT<W, RL>, HKT<W, RR>>>)
 
+export function wiltDefault<W extends URIS3, F extends URIS2, WU, WL, FL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative2C<F, FL>
+): (<RL, RR, A>(
+  wa: Type3<W, WU, WL, A>,
+  f: (a: A) => Type2<F, FL, Either<RL, RR>>
+) => Type2<F, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F extends URIS2, FL>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative2C<F, FL>
@@ -575,6 +604,13 @@ export function wiltDefault<W extends URIS3, F extends URIS2, FL>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
+export function wiltDefault<W extends URIS2, F extends URIS2, WL, FL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative2C<F, FL>
+): (<RL, RR, A>(
+  wa: Type2<W, WL, A>,
+  f: (a: A) => Type2<F, FL, Either<RL, RR>>
+) => Type2<F, FL, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS2, FL>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative2C<F, FL>
@@ -597,6 +633,13 @@ export function wiltDefault<W, F extends URIS2, FL>(
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<HKT<W, RL>, HKT<W, RR>>>)
 
+export function wiltDefault<W extends URIS3, F extends URIS2, WU, WL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative2<F>
+): (<FL, RL, RR, A>(
+  wa: Type3<W, WU, WL, A>,
+  f: (a: A) => Type2<F, FL, Either<RL, RR>>
+) => Type2<F, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F extends URIS2>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative2<F>
@@ -604,6 +647,13 @@ export function wiltDefault<W extends URIS3, F extends URIS2>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
+export function wiltDefault<W extends URIS2, F extends URIS2, WL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative2<F>
+): (<FL, RL, RR, A>(
+  wa: Type2<W, WL, A>,
+  f: (a: A) => Type2<F, FL, Either<RL, RR>>
+) => Type2<F, FL, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS2>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative2<F>
@@ -626,6 +676,13 @@ export function wiltDefault<W, F extends URIS2>(
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<HKT<W, RL>, HKT<W, RR>>>)
 
+export function wiltDefault<W extends URIS3, F extends URIS, WU, WL>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative1<F>
+): (<RL, RR, A>(
+  wa: Type3<W, WU, WL, A>,
+  f: (a: A) => Type<F, Either<RL, RR>>
+) => Type<F, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F extends URIS>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative1<F>
@@ -633,6 +690,13 @@ export function wiltDefault<W extends URIS3, F extends URIS>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type<F, Either<RL, RR>>
 ) => Type<F, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
+export function wiltDefault<W extends URIS2, F extends URIS, WL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative1<F>
+): (<RL, RR, A>(
+  wa: Type2<W, WL, A>,
+  f: (a: A) => Type<F, Either<RL, RR>>
+) => Type<F, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative1<F>
@@ -649,6 +713,13 @@ export function wiltDefault<W, F extends URIS>(
   F: Applicative1<F>
 ): (<RL, RR, A>(wa: HKT<W, A>, f: (a: A) => Type<F, Either<RL, RR>>) => Type<F, Separated<HKT<W, RL>, HKT<W, RR>>>)
 
+export function wiltDefault<W extends URIS3, WU, WL, F>(
+  W: Traversable3C<W, WU, WL> & Compactable3C<W, WU, WL>,
+  F: Applicative<F>
+): (<RL, RR, A>(
+  wa: Type3<W, WU, WL, A>,
+  f: (a: A) => HKT<F, Either<RL, RR>>
+) => HKT<F, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F>(
   W: Traversable3<W> & Compactable3<W>,
   F: Applicative<F>
@@ -656,6 +727,13 @@ export function wiltDefault<W extends URIS3, F>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
 ) => HKT<F, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
+export function wiltDefault<W extends URIS2, F, WL>(
+  W: Traversable2C<W, WL> & Compactable2C<W, WL>,
+  F: Applicative<F>
+): (<WL, RL, RR, A>(
+  wa: Type2<W, WL, A>,
+  f: (a: A) => HKT<F, Either<RL, RR>>
+) => HKT<F, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F>(
   W: Traversable2<W> & Compactable2<W>,
   F: Applicative<F>
