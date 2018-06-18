@@ -621,24 +621,6 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
 }
 
 /**
- * Apply a function to each element in an array, keeping only the results
- * which contain a value, creating a new array
- * @function
- * @since 1.0.0
- */
-export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
-  const r: Array<B> = []
-  const len = as.length
-  for (let i = 0; i < len; i++) {
-    const v = f(as[i])
-    if (v.isSome()) {
-      r.push(v.value)
-    }
-  }
-  return r
-}
-
-/**
  * Extracts from a list of `Either` all the `Right` elements. All the `Right` elements are extracted in order
  * @function
  * @since 1.0.0
@@ -788,13 +770,8 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
  * assert.deepEqual(compact([some(123), none]), [123])
  */
 export const compact = <A>(as: Array<Option<A>>): Array<A> => {
-  return mapOption(as, identity)
+  return filterMap(as, identity)
 }
-/**
- * Alias for {@link compact}
- * @function
- */
-export const catOptions = compact
 
 /**
  * {@link Compactable} implementation
@@ -844,6 +821,7 @@ export const partition = <A>(fa: Array<A>, p: Predicate<A>): Separated<A[], A[]>
 
 /**
  * {@link Filterable} implementation
+ * Apply a function to each element in an array, keeping only the results which contain a value, creating a new array
  * @function
  * @since 1.6.3
  * @example
@@ -872,6 +850,20 @@ export const filterMap = <A, B>(fa: Array<A>, f: (a: A) => Option<B>): B[] => {
 export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
   return filterMap(as, optionBool(predicate))
 }
+
+/**
+ * Alias for {@link mapOption}
+ * @function
+ * @since 1.0.0
+ */
+export const mapOption = filterMap
+
+/**
+ * Alias for {@link compact}
+ * @function
+ * @since 1.0.0
+ */
+export const catOptions = compact
 
 export const array: Monad1<URI> &
   Foldable1<URI> &

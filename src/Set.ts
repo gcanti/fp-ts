@@ -321,6 +321,9 @@ export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Sep
   return separated(l, r)
 }
 
+/**
+ * {@link Functor} impelemtation
+ */
 const fmap = <A, B>(fa: Set<A>, f: (a: A) => B): Set<B> => {
   const result = new Set()
   fa.forEach(a => {
