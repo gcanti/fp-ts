@@ -49,7 +49,9 @@ import {
   separate,
   compact,
   partition,
-  filterMap
+  filterMap,
+  wilt,
+  wither
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
@@ -59,6 +61,8 @@ import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } 
 import { traverse } from '../src/Traversable'
 import { identity, tuple } from '../src/function'
 import { separated } from '../src/Compactable'
+import * as I from '../src/Identity'
+import { Identity } from '../src/Identity'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -460,5 +464,21 @@ describe('Array', () => {
 
   it('filter', () => {
     assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
+  })
+
+  it('wilt', () => {
+    const f = (x: number) => (x > 2 ? new Identity(right(x * 10)) : new Identity(left(x)))
+    const list = [1, 2, 3]
+    const result = wilt(I.identity)(list, f)
+    const expected = new Identity(separated([1, 2], [30]))
+    assert.deepEqual(result, expected)
+  })
+
+  it('wither', () => {
+    const f = (x: number) => (x > 2 ? new Identity(some(x * 10)) : new Identity(none))
+    const list = [1, 2, 3]
+    const result = wither(I.identity)(list, f)
+    const expected = new Identity([30])
+    assert.deepEqual(result, expected)
   })
 })

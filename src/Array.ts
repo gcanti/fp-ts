@@ -158,25 +158,6 @@ export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) =
   return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
 }
 
-function wither<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
-function wither<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
-function wither<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
-function wither<F extends URIS2>(
-  F: Applicative2<F>
-): <L, A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
-function wither<F extends URIS>(F: Applicative1<F>): <A, B>(ta: A[], f: (a: A) => Type<F, Option<B>>) => Type<F, B[]>
-function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]>
-function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]> {
-  const traverseF = traverse(F)
-  return (ta, f) => F.map(traverseF(ta, f), catOptions)
-}
-
 const zero = <A>(): Array<A> => []
 
 const alt = concat
@@ -865,6 +846,62 @@ export const mapOption = filterMap
  */
 export const catOptions = compact
 
+/**
+ * {@link Witherable} implementation
+ * @function
+ * @since 1.6.3
+ */
+export function wither<F extends URIS3, U, L>(
+  F: Applicative3C<F, U, L>
+): <A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
+export function wither<F extends URIS3>(
+  F: Applicative3<F>
+): <U, L, A, B>(ta: A[], f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, B[]>
+export function wither<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
+export function wither<F extends URIS2>(
+  F: Applicative2<F>
+): <L, A, B>(ta: A[], f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, B[]>
+export function wither<F extends URIS>(
+  F: Applicative1<F>
+): <A, B>(ta: A[], f: (a: A) => Type<F, Option<B>>) => Type<F, B[]>
+export function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]>
+export function wither<F>(F: Applicative<F>): <A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]> {
+  const traverseF = traverse(F)
+  return (ta, f) => F.map(traverseF(ta, f), compact)
+}
+
+/**
+ * {@link Witherable} implementation
+ * @function
+ * @since 1.6.3
+ */
+export function wilt<F extends URIS3, U, L>(
+  F: Applicative3<F>
+): <RL, RR, A>(ta: A[], f: (a: A) => Type3<F, U, L, Either<RL, RR>>) => Type3<F, U, L, Separated<RL[], RR[]>>
+export function wilt<F extends URIS3>(
+  F: Applicative3<F>
+): <RL, RR, U, L, A>(ta: A[], f: (a: A) => Type3<F, U, L, Either<RL, RR>>) => Type3<F, U, L, Separated<RL[], RR[]>>
+export function wilt<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <RL, RR, A>(ta: A[], f: (a: A) => Type2<F, L, Either<RL, RR>>) => Type2<F, L, Separated<RL[], RR[]>>
+export function wilt<F extends URIS2>(
+  F: Applicative2<F>
+): <RL, RR, L, A>(ta: A[], f: (a: A) => Type2<F, L, Either<RL, RR>>) => Type2<F, L, Separated<RL[], RR[]>>
+export function wilt<F extends URIS>(
+  F: Applicative1<F>
+): <RL, RR, A>(ta: A[], f: (a: A) => Type<F, Either<RL, RR>>) => Type<F, Separated<RL[], RR[]>>
+export function wilt<F>(
+  F: Applicative<F>
+): <RL, RR, A>(ta: A[], f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<RL[], RR[]>>
+export function wilt<F>(
+  F: Applicative<F>
+): <RL, RR, A>(ta: A[], f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<RL[], RR[]>> {
+  const traverseF = traverse(F)
+  return (ta, f) => F.map(traverseF(ta, f), separate)
+}
+
 export const array: Monad1<URI> &
   Foldable1<URI> &
   Unfoldable1<URI> &
@@ -872,9 +909,9 @@ export const array: Monad1<URI> &
   Alternative1<URI> &
   Plus1<URI> &
   Extend1<URI> &
+  Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> &
-  Compactable1<URI> = {
+  Witherable1<URI> = {
   URI,
   map,
   of,
@@ -886,11 +923,12 @@ export const array: Monad1<URI> &
   zero,
   alt,
   extend,
-  wither,
   compact,
   separate,
   partitionMap,
   partition,
   filter,
-  filterMap
+  filterMap,
+  wither,
+  wilt
 }
