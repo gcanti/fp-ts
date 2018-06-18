@@ -659,9 +659,7 @@ export const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.filterMap(ide
  */
 export const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> => fa.partitionMap(identity)
 
-function wither<F>(
-  F: Applicative<F>
-): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>> {
+function wither<F>(F: Applicative<F>): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>> {
   return witherDefault(option, F)
 }
 

@@ -9,12 +9,12 @@ import { HKT } from './HKT'
 import { Monad2 } from './Monad'
 import { Option } from './Option'
 import { Setoid } from './Setoid'
-import { Traversable2 } from './Traversable'
+import { Traversable2, Traversable2C } from './Traversable'
 import { Validation } from './Validation'
 import { Monoid } from './Monoid'
 import { Compactable2C, separated, Separated } from './Compactable'
 import { eitherBool, Filterable2C, optionBool } from './Filterable'
-import { Witherable2C } from './Witherable'
+import { wiltDefault, Witherable2C, witherDefault } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -495,19 +495,16 @@ type EitherWither<L> = <F>(
   F: Applicative<F>
 ) => <A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<L, B>>
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
-  const filterable = getFilterable(ML)
-  const wilt: EitherWilt<L> = F => {
-    const t = traverse(F)
-    return (ta, f) => F.map(t(ta, f), filterable.separate)
+  const W: Traversable2C<URI, L> & Filterable2C<URI, L> = {
+    ...getFilterable(ML),
+    traverse: either.traverse,
+    reduce: either.reduce
   }
-  const wither: EitherWither<L> = F => {
-    const traverseF = traverse(F)
-    return (ta, f) => F.map(traverseF(ta, f), filterable.compact)
-  }
+
+  const wilt: EitherWilt<L> = F => wiltDefault(W, F)
+  const wither: EitherWither<L> = F => witherDefault(W, F)
   return {
-    ...filterable,
-    traverse: either.traverse as Witherable2C<URI, L>['traverse'],
-    reduce: either.reduce,
+    ...W,
     wilt,
     wither
   }
