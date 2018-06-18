@@ -894,8 +894,6 @@ export const array: Monad1<URI> &
   zero,
   alt,
   extend,
-  mapOption,
-  catOptions,
   wither,
   compact,
   separate,

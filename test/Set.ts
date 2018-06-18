@@ -3,6 +3,7 @@ import { left, right } from '../src/Either'
 import { ordNumber } from '../src/Ord'
 import {
   chain,
+  compact,
   difference,
   every,
   filter,
@@ -19,6 +20,8 @@ import {
   partitionMap,
   reduce,
   remove,
+  separate,
+  set,
   singleton,
   some,
   subset,
@@ -27,6 +30,8 @@ import {
 } from '../src/Set'
 import { Setoid, setoidNumber, setoidString } from '../src/Setoid'
 import { optionBool } from '../src/Filterable'
+import { none, option } from '../src/Option'
+import { separated } from '../src/Compactable'
 
 const gte2 = (n: number) => n >= 2
 
@@ -62,6 +67,9 @@ describe('Set', () => {
     assert.deepEqual(map(setoidNumber)(new Set([]), x => x % 2), new Set([]))
     assert.deepEqual(map(setoidNumber)(new Set([1, 2, 3, 4]), x => x % 2), new Set([0, 1]))
     assert.deepEqual(map(setoidString)(new Set([1, 2, 3, 4]), x => `${x % 2}`), new Set(['0', '1']))
+    assert.deepEqual(set.map(new Set([]), x => x % 2), new Set([]))
+    assert.deepEqual(set.map(new Set([1, 2, 3, 4]), x => x % 2), new Set([0, 1]))
+    assert.deepEqual(set.map(new Set([1, 2, 3, 4]), x => `${x % 2}`), new Set(['0', '1']))
   })
 
   it('every', () => {
@@ -138,6 +146,14 @@ describe('Set', () => {
     assert.deepEqual(fromArray(setoidNumber)([1, 2]), new Set([1, 2]))
 
     assert.deepEqual(fromArray(fooSetoid)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
+  })
+
+  it('compact', () => {
+    assert.deepEqual(compact(new Set([option.of(1), none])), new Set([1]))
+  })
+
+  it('separate', () => {
+    assert.deepEqual(separate(new Set([left('123'), right(123)])), separated(new Set(['123']), new Set([123])))
   })
 
   it('filter', () => {

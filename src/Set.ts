@@ -3,11 +3,10 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Predicate, not, Function1, identity } from './function'
-import { Filterable1 } from './Witherable'
+import { Predicate, not, identity } from './function'
 import { Option } from './Option'
-import { eitherBool, optionBool } from './Filterable'
-import { separated, Separated } from './Compactable'
+import { eitherBool, Filterable1, optionBool } from './Filterable'
+import { Compactable1, separated, Separated } from './Compactable'
 
 declare global {
   interface Set<T> {
@@ -161,62 +160,6 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
 }
 
 /**
- * {@link Filterable} implementation
- * @since 1.6.3
- */
-export const filterMap = <A, B>(fa: Set<A>, f: (a: A) => Option<B>): Set<B> => {
-  const values = fa.values()
-  let e: IteratorResult<A>
-  let r = new Set()
-  // tslint:disable:no-conditional-assignment
-  while (!(e = values.next()).done) {
-    const value = e.value
-    const optionB = f(value)
-    if (optionB.isSome()) {
-      r.add(optionB.value)
-    }
-  }
-  return r
-}
-
-/**
- * {@link Filterable} implementation
- * @function
- * @since 1.0.0
- */
-export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => filterMap(x, optionBool(predicate))
-
-/**
- * {@link Filterable} implementation
- * @function
- * @since 1.2.0
- */
-export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> =>
-  partitionMap(x, eitherBool(predicate))
-
-/**
- * {@link Filterable} implementation
- * @function
- * @since 1.2.0
- */
-export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Separated<Set<L>, Set<R>> => {
-  const values = x.values()
-  let e: IteratorResult<A>
-  let l = new Set()
-  let r = new Set()
-  // tslint:disable:no-conditional-assignment
-  while (!(e = values.next()).done) {
-    const v = f(e.value)
-    if (v.isLeft()) {
-      l.add(v.value)
-    } else {
-      r.add(v.value)
-    }
-  }
-  return separated(l, r)
-}
-
-/**
  * Form the set difference (`y` - `x`)
  * @function
  * @since 1.0.0
@@ -310,25 +253,93 @@ export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
   return r
 }
 
-const mapOption = <A, B>(fa: Set<A>, f: Function1<A, Option<B>>): Set<B> => {
-  const result = new Set<B>()
-  fa.forEach(a => {
-    const optionB = f(a)
+/**
+ * {@link Compactable} implementation
+ * @since 1.6.3
+ */
+export const compact = <A>(fa: Set<Option<A>>): Set<A> => filterMap(fa, identity)
+
+/**
+ * {@link Compactable} implementation
+ * @since 1.6.3
+ */
+export const separate = <L, A>(fa: Set<Either<L, A>>): Separated<Set<L>, Set<A>> => partitionMap(fa, identity)
+
+/**
+ * {@link Filterable} implementation
+ * @since 1.6.3
+ */
+export const filterMap = <A, B>(fa: Set<A>, f: (a: A) => Option<B>): Set<B> => {
+  const values = fa.values()
+  let e: IteratorResult<A>
+  let r = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const value = e.value
+    const optionB = f(value)
     if (optionB.isSome()) {
-      result.add(optionB.value)
+      r.add(optionB.value)
     }
+  }
+  return r
+}
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.0.0
+ */
+export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => filterMap(x, optionBool(predicate))
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.2.0
+ */
+export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> =>
+  partitionMap(x, eitherBool(predicate))
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.2.0
+ */
+export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Separated<Set<L>, Set<R>> => {
+  const values = x.values()
+  let e: IteratorResult<A>
+  let l = new Set()
+  let r = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const v = f(e.value)
+    if (v.isLeft()) {
+      l.add(v.value)
+    } else {
+      r.add(v.value)
+    }
+  }
+  return separated(l, r)
+}
+
+const fmap = <A, B>(fa: Set<A>, f: (a: A) => B): Set<B> => {
+  const result = new Set()
+  fa.forEach(a => {
+    result.add(f(a))
   })
   return result
 }
-const catOptions = <A>(fa: Set<Option<A>>): Set<A> => mapOption(fa, identity)
 
 /**
  * @instance
  * @since 1.6.3
  */
-export const set: Filterable1<URI> = {
+export const set: Compactable1<URI> & Filterable1<URI> = {
   URI,
+  map: fmap,
+  compact,
+  separate,
   filter,
-  mapOption,
-  catOptions
+  filterMap,
+  partition,
+  partitionMap
 }
