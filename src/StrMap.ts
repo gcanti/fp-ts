@@ -9,10 +9,10 @@ import { Semigroup, getDictionarySemigroup, getLastSemigroup } from './Semigroup
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
-import { Function1, identity, Predicate, tuple } from './function'
-import { Filterable1 } from './Witherable'
+import { identity, Predicate, tuple } from './function'
 import { Compactable1, separated, Separated } from './Compactable'
 import { Either } from './Either'
+import { eitherBool, Filterable1, optionBool, partitioned, Partitioned } from './Filterable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -60,15 +60,7 @@ export class StrMap<A> {
    * @since 1.4.0
    */
   filter(p: Predicate<A>): StrMap<A> {
-    const o = this.value
-    const r: { [key: string]: A } = {}
-    for (const k in o) {
-      const value = o[k]
-      if (p(value)) {
-        r[k] = value
-      }
-    }
-    return new StrMap(r)
+    return filter(this, p)
   }
 }
 
@@ -304,14 +296,7 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
  * assert.deepEqual(compact(new StrMap({ foo: none, bar: some(123) })), new StrMap({ bar: 123 }))
  */
 export const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
-  const result: { [key: string]: A } = {}
-  for (let key in fa.value) {
-    const optionA = fa.value[key]
-    if (optionA.isSome()) {
-      result[key] = optionA.value
-    }
-  }
-  return new StrMap(result)
+  return filterMap(fa, identity)
 }
 
 /**
@@ -321,45 +306,50 @@ export const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
  * @example
  * assert.deepEqual(separate(new StrMap({ foo: left(123), bar: right(123) })), separated(new StrMap({ foo: 123 }), new StrMap({ bar: 123 })))
  */
-export const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, StrMap<A>> => {
-  const l: { [key: string]: L } = {}
-  const r: { [key: string]: A } = {}
-  for (let key in fa.value) {
-    const eitherA = fa.value[key]
-    if (eitherA.isLeft()) {
-      l[key] = eitherA.value
-    } else {
-      r[key] = eitherA.value
-    }
-  }
-  return separated(new StrMap(l), new StrMap(r))
-}
+export const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, StrMap<A>> => partitionMap(fa, identity)
 
-const filter = <A>(d: StrMap<A>, p: Predicate<A>): StrMap<A> => d.filter(p)
-const mapOption = <A, B>(d: StrMap<A>, f: Function1<A, Option<B>>): StrMap<B> => {
+const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => filterMap(fa, optionBool(p))
+const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {
   const result: { [key: string]: B } = {}
-  for (let key in d.value) {
-    const optionB = f(d.value[key])
+  for (let key in fa.value) {
+    const optionB = f(fa.value[key])
     if (optionB.isSome()) {
       result[key] = optionB.value
     }
   }
   return new StrMap(result)
 }
-const catOptions = <A>(d: StrMap<Option<A>>): StrMap<A> => mapOption(d, identity)
+const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Partitioned<StrMap<A>, StrMap<A>> => {
+  const result = partitionMap(fa, eitherBool(p))
+  return partitioned(result.left, result.right)
+}
+const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> => {
+  const l: { [key: string]: RL } = {}
+  const r: { [key: string]: RR } = {}
+  for (let key in fa.value) {
+    const result = f(fa.value[key])
+    if (result.isLeft()) {
+      l[key] = result.value
+    } else {
+      r[key] = result.value
+    }
+  }
+  return separated(new StrMap(l), new StrMap(r))
+}
 
 /**
  * @instance
  * @since 1.0.0
  */
-export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Filterable1<URI> & Compactable1<URI> = {
+export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Compactable1<URI> & Filterable1<URI> = {
   URI,
   map,
   reduce,
   traverse,
-  filter,
-  mapOption,
-  catOptions,
   compact,
-  separate
+  separate,
+  filter,
+  filterMap,
+  partition,
+  partitionMap
 }
