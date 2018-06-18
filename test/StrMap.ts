@@ -24,6 +24,7 @@ import { traverse } from '../src/Traversable'
 import { semigroupSum } from '../src/Semigroup'
 import { left, right } from '../src/Either'
 import { separated } from '../src/Compactable'
+import { partitioned } from '../src/Filterable'
 
 describe('StrMap', () => {
   it('getMonoid', () => {
@@ -144,6 +145,33 @@ describe('StrMap', () => {
     assert.deepEqual(
       separate(new StrMap({ foo: left(123), bar: right(123) })),
       separated(new StrMap({ foo: 123 }), new StrMap({ bar: 123 }))
+    )
+  })
+
+  it('filter', () => {
+    const p = (n: number) => n > 2
+    assert.deepEqual(new StrMap({ foo: 1, bar: 3 }).filter(p), new StrMap({ bar: 3 }))
+    assert.deepEqual(strmap.filter(new StrMap({ foo: 1, bar: 3 }), p), new StrMap({ bar: 3 }))
+  })
+
+  it('filterMap', () => {
+    const f = (n: number) => (n > 2 ? some('valid') : none)
+    assert.deepEqual(strmap.filterMap(new StrMap({ foo: 1, bar: 3 }), f), new StrMap({ bar: 'valid' }))
+  })
+
+  it('partition', () => {
+    const p = (n: number) => n > 2
+    assert.deepEqual(
+      strmap.partition(new StrMap({ foo: 1, bar: 3 }), p),
+      partitioned(new StrMap({ foo: 1 }), new StrMap({ bar: 3 }))
+    )
+  })
+
+  it('partitionMap', () => {
+    const f = (n: number) => (n > 2 ? right('gt2') : left('lte2'))
+    assert.deepEqual(
+      strmap.partitionMap(new StrMap({ foo: 1, bar: 3 }), f),
+      separated(new StrMap({ foo: 'lte2' }), new StrMap({ bar: 'gt2' }))
     )
   })
 })
