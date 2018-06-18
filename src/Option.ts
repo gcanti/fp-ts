@@ -1,9 +1,9 @@
 import { Alternative1 } from './Alternative'
-import { Applicative } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { HKT } from './HKT'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid, getDualMonoid } from './Monoid'
 import { Ord } from './Ord'
@@ -14,6 +14,7 @@ import { Traversable1 } from './Traversable'
 import { identity, Lazy, Predicate, Refinement, toString } from './function'
 import { Compactable1, separated, Separated } from './Compactable'
 import { Filterable1 } from './Filterable'
+import { Witherable1 } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -645,7 +646,7 @@ const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
  * assert.deepEqual(compact(some(none)), none)
  * assert.deepEqual(compact(some(some('123'))), some('123'))
  */
-export const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
+export const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.filterMap(identity)
 
 /**
  * {@link Compactable} implementation
@@ -656,24 +657,77 @@ export const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identit
  * assert.deepEqual(separate(some(left('123'))), separated(some('123'), none))
  * assert.deepEqual(separate(some(right('123'))), separated(none, some('123')))
  */
-export const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> =>
-  fa.foldL(
-    () => ({
-      left: none,
-      right: none
-    }),
-    e =>
-      e.fold<Separated<Option<L>, Option<A>>>(
-        l => ({
-          left: some(l),
-          right: none
-        }),
-        r => ({
-          left: none,
-          right: some(r)
-        })
-      )
-  )
+export const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> => fa.partitionMap(identity)
+
+/**
+ * {@link Witherable} implementation
+ * @function
+ * @since 1.6.3
+ */
+export function wither<F extends URIS3, U, L>(
+  F: Applicative3C<F, U, L>
+): <A, B>(ta: Option<A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Option<B>>
+export function wither<F extends URIS3>(
+  F: Applicative3<F>
+): <U, L, A, B>(ta: Option<A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Option<B>>
+export function wither<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <A, B>(ta: Option<A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Option<B>>
+export function wither<F extends URIS2>(
+  F: Applicative2<F>
+): <L, A, B>(ta: Option<A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Option<B>>
+export function wither<F extends URIS>(
+  F: Applicative1<F>
+): <A, B>(ta: Option<A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Option<B>>
+export function wither<F>(F: Applicative<F>): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>>
+export function wither<F>(
+  F: Applicative<F>
+): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>> {
+  const traverseF = traverse(F)
+  return (ta, f) => F.map(traverseF(ta, f), compact)
+}
+
+/**
+ * {@link Witherable} implementation
+ * @function
+ * @since 1.6.3
+ */
+export function wilt<F extends URIS3, U, L>(
+  F: Applicative3C<F, U, L>
+): <RL, RR, A>(
+  ta: Option<A>,
+  f: (a: A) => Type3<F, U, L, Either<RL, RR>>
+) => Type3<F, U, L, Separated<Option<RL>, Option<RR>>>
+export function wilt<F extends URIS3>(
+  F: Applicative3<F>
+): <RL, RR, U, L, A>(
+  ta: Option<A>,
+  f: (a: A) => Type3<F, U, L, Either<RL, RR>>
+) => Type3<F, U, L, Separated<Option<RL>, Option<RR>>>
+export function wilt<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <RL, RR, A>(
+  ta: Option<A>,
+  f: (a: A) => Type2<F, L, Either<RL, RR>>
+) => Type2<F, L, Separated<Option<RL>, Option<RR>>>
+export function wilt<F extends URIS2>(
+  F: Applicative2<F>
+): <RL, RR, L, A>(
+  ta: Option<A>,
+  f: (a: A) => Type2<F, L, Either<RL, RR>>
+) => Type2<F, L, Separated<Option<RL>, Option<RR>>>
+export function wilt<F extends URIS>(
+  F: Applicative1<F>
+): <RL, RR, A>(ta: Option<A>, f: (a: A) => Type<F, Either<RL, RR>>) => Type<F, Separated<Option<RL>, Option<RR>>>
+export function wilt<F>(
+  F: Applicative<F>
+): <RL, RR, A>(ta: Option<A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Option<RL>, Option<RR>>>
+export function wilt<F>(
+  F: Applicative<F>
+): <RL, RR, A>(ta: Option<A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Option<RL>, Option<RR>>> {
+  const traverseF = traverse(F)
+  return (ta, f) => F.map(traverseF(ta, f), separate)
+}
 
 /**
  * @instance
@@ -686,7 +740,8 @@ export const option: Monad1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
   Filterable1<URI> &
-  Compactable1<URI> = {
+  Compactable1<URI> &
+  Witherable1<URI> = {
   URI,
   map,
   of,
@@ -702,5 +757,7 @@ export const option: Monad1<URI> &
   partition,
   partitionMap,
   filter,
-  filterMap
+  filterMap,
+  wither,
+  wilt
 }

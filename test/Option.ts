@@ -19,7 +19,7 @@ import {
   some,
   tryCatch,
   compact,
-  separate
+  separate, wilt, wither
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
@@ -27,6 +27,7 @@ import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
 import { separated } from '../src/Compactable'
+import { Identity, identity as I } from '../src/Identity'
 
 describe('Option', () => {
   it('fold', () => {
@@ -320,5 +321,21 @@ describe('Option', () => {
     assert.equal(some(1).filter(is2), none)
     const some2 = some(2)
     assert.equal(some2.filter(is2), some2)
+  })
+
+  it('wilt', () => {
+    const f = (x: number) => (x > 2 ? new Identity(right(x * 10)) : new Identity(left(x)))
+    const wiltIdentity = wilt(I)
+    assert.deepEqual(wiltIdentity(none, f), new Identity(separated(none, none)))
+    assert.deepEqual(wiltIdentity(some(1), f), new Identity(separated(some(1), none)))
+    assert.deepEqual(wiltIdentity(some(3), f), new Identity(separated(none, some(30))))
+  })
+
+  it('wither', () => {
+    const f = (x: number) => (x > 2 ? new Identity(some(x * 10)) : new Identity(none))
+    const witherIdentity = wither(I)
+    assert.deepEqual(witherIdentity(none, f), new Identity(none))
+    assert.deepEqual(witherIdentity(some(1), f), new Identity(none))
+    assert.deepEqual(witherIdentity(some(3), f), new Identity(some(30)))
   })
 })
