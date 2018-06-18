@@ -485,8 +485,15 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
   }
 }
 
-type EitherWilt<L> = <F>(F: Applicative<F>) => <RL, RR, A>(ta: Either<L, A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Either<L, RL>, Either<L, RR>>>
-type EitherWither<L> = <F>(F: Applicative<F>) => <A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<L, B>>
+type EitherWilt<L> = <F>(
+  F: Applicative<F>
+) => <RL, RR, A>(
+  ta: Either<L, A>,
+  f: (a: A) => HKT<F, Either<RL, RR>>
+) => HKT<F, Separated<Either<L, RL>, Either<L, RR>>>
+type EitherWither<L> = <F>(
+  F: Applicative<F>
+) => <A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<L, B>>
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
   const filterable = getFilterable(ML)
   const wilt: EitherWilt<L> = F => {

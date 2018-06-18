@@ -19,7 +19,9 @@ import {
   some,
   tryCatch,
   compact,
-  separate, wilt, wither
+  separate,
+  wilt,
+  wither
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'

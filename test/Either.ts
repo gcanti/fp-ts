@@ -15,7 +15,8 @@ import {
   isRight,
   fromRefinement,
   getCompactable,
-  getFilterable, getWitherable
+  getFilterable,
+  getWitherable
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
@@ -327,8 +328,14 @@ describe('Either', () => {
     const W = getWitherable(monoidString)
     const wiltIdentity = W.wilt(I)
     assert.deepEqual(wiltIdentity(left<string, number>('123'), f), new Identity(separated(left('123'), left('123'))))
-    assert.deepEqual(wiltIdentity(right<string, number>(1), f), new Identity(separated(right('lte2'), left(monoidString.empty))))
-    assert.deepEqual(wiltIdentity(right<string, number>(3), f), new Identity(separated(left(monoidString.empty), right('gt2'))))
+    assert.deepEqual(
+      wiltIdentity(right<string, number>(1), f),
+      new Identity(separated(right('lte2'), left(monoidString.empty)))
+    )
+    assert.deepEqual(
+      wiltIdentity(right<string, number>(3), f),
+      new Identity(separated(left(monoidString.empty), right('gt2')))
+    )
   })
 
   it('wither', () => {
