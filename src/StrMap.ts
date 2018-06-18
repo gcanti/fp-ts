@@ -331,25 +331,8 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
 }
 
-/**
- * {@link Compactable} implementation
- * @function
- * @since 1.6.3
- * @example
- * assert.deepEqual(compact(new StrMap({ foo: none, bar: some(123) })), new StrMap({ bar: 123 }))
- */
-export const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
-  return filterMap(fa, identity)
-}
-
-/**
- * {@link Compactable} implementation
- * @function
- * @since 1.6.3
- * @example
- * assert.deepEqual(separate(new StrMap({ foo: left(123), bar: right(123) })), separated(new StrMap({ foo: 123 }), new StrMap({ bar: 123 })))
- */
-export const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, StrMap<A>> => partitionMap(fa, identity)
+const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => filterMap(fa, identity)
+const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, StrMap<A>> => partitionMap(fa, identity)
 
 const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => fa.filter(p)
 const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => fa.filterMap(f)

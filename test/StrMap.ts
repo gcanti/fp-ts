@@ -16,9 +16,7 @@ import {
   strmap,
   toArray,
   toUnfoldable,
-  traverseWithKey,
-  compact,
-  separate
+  traverseWithKey
 } from '../src/StrMap'
 import { traverse } from '../src/Traversable'
 import { semigroupSum } from '../src/Semigroup'
@@ -137,12 +135,12 @@ describe('StrMap', () => {
   })
 
   it('compact', () => {
-    assert.deepEqual(compact(new StrMap({ foo: none, bar: some(123) })), new StrMap({ bar: 123 }))
+    assert.deepEqual(strmap.compact(new StrMap({ foo: none, bar: some(123) })), new StrMap({ bar: 123 }))
   })
 
   it('separate', () => {
     assert.deepEqual(
-      separate(new StrMap({ foo: left(123), bar: right(123) })),
+      strmap.separate(new StrMap({ foo: left(123), bar: right(123) })),
       separated(new StrMap({ foo: 123 }), new StrMap({ bar: 123 }))
     )
   })
