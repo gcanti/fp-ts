@@ -64,7 +64,7 @@ export interface Compactable3C<F extends URIS3, U, L> {
 }
 
 /**
- * Builds partial {@link Compactable} with default implementation of {@link Compactable.compact} using {@link Compactable.separate}
+ * Gets default implementation of {@link Compactable.compact} using {@link Compactable.separate}
  * @function
  * @since 1.6.3
  * @experimental
@@ -90,7 +90,7 @@ export function getCompact<F>(F: Functor<F> & Pick<Compactable<F>, 'separate'>):
 }
 
 /**
- * Builds partial {@link Compactable} with default implementation of {@link Compactable.separate} using {@link Compactable}
+ * Gets default implementation of {@link Compactable.separate} using {@link Compactable.compact}
  * @function
  * @since 1.6.3
  * @experimental
