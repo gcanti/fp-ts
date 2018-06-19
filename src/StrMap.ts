@@ -1,18 +1,17 @@
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { liftA2 } from './Apply'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Functor1 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
 import { Semigroup, getDictionarySemigroup, getLastSemigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
 import { identity, Predicate, tuple } from './function'
-import { Compactable1, separated, Separated } from './Compactable'
+import { separated, Separated } from './Compactable'
 import { Either } from './Either'
-import { eitherBool, Filterable1, optionBool } from './Filterable'
+import { eitherBool, optionBool } from './Filterable'
+import { wiltDefault, Witherable1, witherDefault } from './Witherable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -340,11 +339,14 @@ const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Separated<StrMap<A>, StrM
 const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> =>
   fa.partitionMap(f)
 
+const wither = <F>(F: Applicative<F>) => witherDefault(strmap, F)
+const wilt = <F>(F: Applicative<F>) => wiltDefault(strmap, F)
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Compactable1<URI> & Filterable1<URI> = {
+export const strmap: Witherable1<URI> = {
   URI,
   map,
   reduce,
@@ -354,5 +356,7 @@ export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Compac
   filter,
   filterMap,
   partition,
-  partitionMap
+  partitionMap,
+  wilt,
+  wither
 }
