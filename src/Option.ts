@@ -2,7 +2,6 @@ import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
-import { Foldable1 } from './Foldable'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid, getDualMonoid } from './Monoid'
@@ -10,10 +9,8 @@ import { Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable1 } from './Traversable'
 import { identity, Lazy, Predicate, Refinement, toString } from './function'
-import { Compactable1, separated, Separated } from './Compactable'
-import { Filterable1 } from './Filterable'
+import { separated, Separated } from './Compactable'
 import { wiltDefault, Witherable1, witherDefault } from './Witherable'
 
 declare module './HKT' {
@@ -641,29 +638,14 @@ const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.filterMap(identity)
 
 const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> => fa.partitionMap(identity)
 
-function wither<F>(F: Applicative<F>): <A, B>(ta: Option<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Option<B>> {
-  return witherDefault(option, F)
-}
-
-function wilt<F>(
-  F: Applicative<F>
-): <RL, RR, A>(ta: Option<A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Option<RL>, Option<RR>>> {
-  return wiltDefault(option, F)
-}
+const wither = <F>(F: Applicative<F>) => witherDefault(option, F)
+const wilt = <F>(F: Applicative<F>) => wiltDefault(option, F)
 
 /**
  * @instance
  * @since 1.0.0
  */
-export const option: Monad1<URI> &
-  Foldable1<URI> &
-  Plus1<URI> &
-  Traversable1<URI> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  Filterable1<URI> &
-  Compactable1<URI> &
-  Witherable1<URI> = {
+export const option: Monad1<URI> & Plus1<URI> & Alternative1<URI> & Extend1<URI> & Witherable1<URI> = {
   URI,
   map,
   of,
