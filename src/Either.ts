@@ -485,26 +485,17 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
   }
 }
 
-type EitherWilt<L> = <F>(
-  F: Applicative<F>
-) => <RL, RR, A>(
-  ta: Either<L, A>,
-  f: (a: A) => HKT<F, Either<RL, RR>>
-) => HKT<F, Separated<Either<L, RL>, Either<L, RR>>>
-type EitherWither<L> = <F>(
-  F: Applicative<F>
-) => <A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<L, B>>
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
-  const W: Traversable2C<URI, L> & Filterable2C<URI, L> = {
+  const TF: Traversable2C<URI, L> & Filterable2C<URI, L> = {
     ...getFilterable(ML),
     traverse: either.traverse,
     reduce: either.reduce
   }
 
-  const wilt: EitherWilt<L> = F => wiltDefault(W, F)
-  const wither: EitherWither<L> = F => witherDefault(W, F)
+  const wilt = <F>(F: Applicative<F>) => wiltDefault(TF, F)
+  const wither = <F>(F: Applicative<F>) => witherDefault(TF, F)
   return {
-    ...W,
+    ...TF,
     wilt,
     wither
   }
