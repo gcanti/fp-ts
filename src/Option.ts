@@ -2,7 +2,6 @@ import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
-import { Foldable1 } from './Foldable'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid, getDualMonoid } from './Monoid'
@@ -10,8 +9,9 @@ import { Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable1 } from './Traversable'
-import { Lazy, Predicate, Refinement, toString } from './function'
+import { identity, Lazy, Predicate, Refinement, toString } from './function'
+import { separated, Separated } from './Compactable'
+import { wiltDefault, Witherable1, witherDefault } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -41,7 +41,9 @@ export class None<A> {
   readonly _tag: 'None' = 'None'
   readonly _A!: A
   readonly _URI!: URI
+
   private constructor() {}
+
   /**
    * Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors. If it
    * maps on `Some` then it will apply the `f` on `Some`'s value, if it maps on `None` it will return `None`.
@@ -52,6 +54,7 @@ export class None<A> {
   map<B>(f: (a: A) => B): Option<B> {
     return none
   }
+
   /**
    * Maps `f` over this `Option`'s value. If the value returned from `f` is null or undefined, returns `None`
    *
@@ -98,6 +101,7 @@ export class None<A> {
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return none
   }
+
   /**
    * Similar to `ap` but instead of taking a function it takes `some` value or `none`, then applies this `Option`'s
    * wrapped function to the `some` or `none`. If the `Option` calling `ap_` is `none` it will return `none`.
@@ -109,6 +113,7 @@ export class None<A> {
   ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> {
     return fb.ap(this)
   }
+
   /**
    * Returns the result of applying f to this `Option`'s value if this `Option` is nonempty. Returns `None` if this
    * `Option` is empty. Slightly different from `map` in that `f` is expected to return an `Option` (which could be
@@ -117,9 +122,11 @@ export class None<A> {
   chain<B>(f: (a: A) => Option<B>): Option<B> {
     return none
   }
+
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return b
   }
+
   /**
    * `alt` short for alternative, takes another `Option`. If this `Option` is a `Some` type then it will be returned, if
    * it is a `None` then it will return the next `Some` if it exist. If both are `None` then it will return `none`.
@@ -148,6 +155,7 @@ export class None<A> {
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
     return none
   }
+
   /**
    * Applies a function to each case in the data structure
    *
@@ -160,10 +168,12 @@ export class None<A> {
   fold<B>(b: B, whenSome: (a: A) => B): B {
     return b
   }
+
   /** Lazy version of `fold` */
   foldL<B>(whenNone: () => B, whenSome: (a: A) => B): B {
     return whenNone()
   }
+
   /**
    * Returns the value from this `Some` or the given argument if this is a `None`
    *
@@ -176,42 +186,64 @@ export class None<A> {
   getOrElse(a: A): A {
     return a
   }
+
   /** Lazy version of `getOrElse` */
   getOrElseL(f: () => A): A {
     return f()
   }
+
   /** Returns the value from this `Some` or `null` if this is a `None` */
   toNullable(): A | null {
     return null
   }
+
   /** Returns the value from this `Some` or `undefined` if this is a `None` */
   toUndefined(): A | undefined {
     return undefined
   }
+
   inspect(): string {
     return this.toString()
   }
+
   toString(): string {
     return 'none'
   }
+
   /** Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise */
   contains(S: Setoid<A>, a: A): boolean {
     return false
   }
+
   /** Returns `true` if the option is `None`, `false` otherwise */
   isNone(): this is None<A> {
     return true
   }
+
   /** Returns `true` if the option is an instance of `Some`, `false` otherwise */
   isSome(): this is Some<A> {
     return false
   }
+
   /**
    * Returns `true` if this option is non empty and the predicate `p` returns `true` when applied to this Option's value
    */
   exists(p: (a: A) => boolean): boolean {
     return false
   }
+
+  partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> {
+    return separated(none, none)
+  }
+
+  partition(p: Predicate<A>): Separated<Option<A>, Option<A>> {
+    return separated(none, none)
+  }
+
+  filterMap<B>(f: (a: A) => Option<B>): Option<B> {
+    return none
+  }
+
   /**
    * Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value.
    * Otherwise returns `None`
@@ -219,6 +251,7 @@ export class None<A> {
   filter(p: Predicate<A>): Option<A> {
     return none
   }
+
   /**
    * Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
    * this Option's value. Otherwise returns `None`
@@ -239,73 +272,113 @@ export class Some<A> {
   readonly _tag: 'Some' = 'Some'
   readonly _A!: A
   readonly _URI!: URI
+
   constructor(readonly value: A) {}
+
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))
   }
+
   mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> {
     return fromNullable(f(this.value))
   }
+
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return fab.isNone() ? none : new Some(fab.value(this.value))
   }
+
   ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> {
     return fb.ap(this)
   }
+
   chain<B>(f: (a: A) => Option<B>): Option<B> {
     return f(this.value)
   }
+
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
+
   alt(fa: Option<A>): Option<A> {
     return this
   }
+
   orElse(fa: Lazy<Option<A>>): Option<A> {
     return this
   }
+
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
     return new Some(f(this))
   }
+
   fold<B>(b: B, whenSome: (a: A) => B): B {
     return whenSome(this.value)
   }
+
   foldL<B>(whenNone: () => B, whenSome: (a: A) => B): B {
     return whenSome(this.value)
   }
+
   getOrElse(a: A): A {
     return this.value
   }
+
   getOrElseL(f: () => A): A {
     return this.value
   }
+
   toNullable(): A | null {
     return this.value
   }
+
   toUndefined(): A | undefined {
     return this.value
   }
+
   inspect(): string {
     return this.toString()
   }
+
   toString(): string {
     return `some(${toString(this.value)})`
   }
+
   contains(S: Setoid<A>, a: A): boolean {
     return S.equals(this.value, a)
   }
+
   isNone(): this is None<A> {
     return false
   }
+
   isSome(): this is Some<A> {
     return true
   }
+
   exists(p: (a: A) => boolean): boolean {
     return p(this.value)
   }
+
+  partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> {
+    return f(this.value).fold<Separated<Option<RL>, Option<RR>>>(
+      l => separated(some(l), none),
+      r => separated(none, some(r))
+    )
+  }
+
+  partition(p: Predicate<A>): Separated<Option<A>, Option<A>> {
+    const result = p(this.value)
+    return separated(!result ? this : none, result ? this : none)
+  }
+
+  filterMap<B>(f: (a: A) => Option<B>): Option<B> {
+    return f(this.value)
+  }
+
   filter(p: Predicate<A>): Option<A> {
     return this.exists(p) ? this : none
   }
+
   refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
     return this.filter(refinement) as Option<B>
   }
@@ -555,16 +628,24 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
   return refinement(a) ? some(a) : none
 }
 
+const partitionMap = <RL, RR, A>(fa: Option<A>, f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> =>
+  fa.partitionMap(f)
+const partition = <A>(fa: Option<A>, p: Predicate<A>): Separated<Option<A>, Option<A>> => fa.partition(p)
+const filterMap = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => fa.filterMap(f)
+const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
+
+const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.filterMap(identity)
+
+const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> => fa.partitionMap(identity)
+
+const wither = <F>(F: Applicative<F>) => witherDefault(option, F)
+const wilt = <F>(F: Applicative<F>) => wiltDefault(option, F)
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const option: Monad1<URI> &
-  Foldable1<URI> &
-  Plus1<URI> &
-  Traversable1<URI> &
-  Alternative1<URI> &
-  Extend1<URI> = {
+export const option: Monad1<URI> & Plus1<URI> & Alternative1<URI> & Extend1<URI> & Witherable1<URI> = {
   URI,
   map,
   of,
@@ -574,5 +655,13 @@ export const option: Monad1<URI> &
   traverse,
   zero,
   alt,
-  extend
+  extend,
+  compact,
+  separate,
+  partition,
+  partitionMap,
+  filter,
+  filterMap,
+  wither,
+  wilt
 }

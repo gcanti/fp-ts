@@ -3,7 +3,6 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { liftA2 } from './Apply'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
-import { Foldable1 } from './Foldable'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -12,9 +11,11 @@ import { Ord, getSemigroup, ordNumber } from './Ord'
 import { Ordering } from './Ordering'
 import { Plus1 } from './Plus'
 import { Setoid, getArraySetoid } from './Setoid'
-import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, identity, tuple } from './function'
+import { wiltDefault, Witherable1, witherDefault } from './Witherable'
+import { separated, Separated } from './Compactable'
+import { eitherBool, optionBool } from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -177,25 +178,6 @@ const unfoldr = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
 
 const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
   return fa.map((_, i, as) => f(as.slice(i)))
-}
-
-/**
- * @function
- * @since 1.0.0
- */
-export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): { left: Array<L>; right: Array<R> } => {
-  const left: Array<L> = []
-  const right: Array<R> = []
-  const len = fa.length
-  for (let i = 0; i < len; i++) {
-    const v = f(fa[i])
-    if (v.isLeft()) {
-      left.push(v.value)
-    } else {
-      right.push(v.value)
-    }
-  }
-  return { left, right }
 }
 
 /**
@@ -521,23 +503,6 @@ export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> =>
 }
 
 /**
- * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
- * @function
- * @since 1.0.0
- */
-export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
-  const l = as.length
-  const r = []
-  for (let i = 0; i < l; i++) {
-    const v = as[i]
-    if (predicate(v)) {
-      r.push(v)
-    }
-  }
-  return r
-}
-
-/**
  * @function
  * @since 1.0.0
  */
@@ -632,33 +597,6 @@ export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option
  */
 export const reverse = <A>(as: Array<A>): Array<A> => {
   return copy(as).reverse()
-}
-
-/**
- * Apply a function to each element in an array, keeping only the results
- * which contain a value, creating a new array
- * @function
- * @since 1.0.0
- */
-export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
-  const r: Array<B> = []
-  const len = as.length
-  for (let i = 0; i < len; i++) {
-    const v = f(as[i])
-    if (v.isSome()) {
-      r.push(v.value)
-    }
-  }
-  return r
-}
-
-/**
- * Filter an array of optional values, keeping only the elements which contain a value, creating a new array
- * @function
- * @since 1.0.0
- */
-export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
-  return mapOption(as, identity)
 }
 
 /**
@@ -802,21 +740,138 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
+/**
+ * {@link Compactable} implementation
+ * Filters an array of optional values, keeping only the elements which contain a value, creating a new array
+ * @function
+ * @since 1.0.0
+ * @example
+ * assert.deepEqual(compact([some(123), none]), [123])
+ */
+export const compact = <A>(as: Array<Option<A>>): Array<A> => {
+  return filterMap(as, identity)
+}
+
+/**
+ * {@link Compactable} implementation
+ * @function
+ * @since 1.6.3
+ * @example
+ * assert.deepEqual(separate([left(123), right('321')]), { left: [123], right: [321] })
+ */
+export const separate = <L, A>(fa: Either<L, A>[]): Separated<L[], A[]> => {
+  return partitionMap(fa, identity)
+}
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.0.0
+ * @example
+ * assert.deepEqual(partitionMap([], x => x), { left: [], right: [] })
+ * assert.deepEqual(partitionMap([right(1), left('foo'), right(2)], x => x), { left: ['foo'], right: [1, 2] })
+ */
+export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<L[], R[]> => {
+  const left: Array<L> = []
+  const right: Array<R> = []
+  const len = fa.length
+  for (let i = 0; i < len; i++) {
+    const v = f(fa[i])
+    if (v.isLeft()) {
+      left.push(v.value)
+    } else {
+      right.push(v.value)
+    }
+  }
+  return separated(left, right)
+}
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.6.3
+ * @example
+ * const p = (n: number) => n > 2
+ * assert.deepEqual(partition([1, 2, 3], p), separated([1, 2], [3]))
+ */
+export const partition = <A>(fa: Array<A>, p: Predicate<A>): Separated<A[], A[]> => {
+  return partitionMap(fa, eitherBool(p))
+}
+
+/**
+ * {@link Filterable} implementation
+ * Apply a function to each element in an array, keeping only the results which contain a value, creating a new array
+ * @function
+ * @since 1.6.3
+ * @example
+ * const f = (n: number) => n > 2 ? some(`${n}!`) : none
+ * assert.deepEqual(filterMap([1, 2, 3], f), ['3!'])
+ */
+export const filterMap = <A, B>(fa: Array<A>, f: (a: A) => Option<B>): B[] => {
+  const result: B[] = []
+  fa.forEach(a => {
+    const optionB = f(a)
+    if (optionB.isSome()) {
+      result.push(optionB.value)
+    }
+  })
+  return result
+}
+
+/**
+ * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.0.0
+ * @example
+ * assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
+ */
+export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
+  return filterMap(as, optionBool(predicate))
+}
+
+/**
+ * Alias for {@link mapOption}
+ * @function
+ * @since 1.0.0
+ */
+export const mapOption = filterMap
+
+/**
+ * Alias for {@link compact}
+ * @function
+ * @since 1.0.0
+ */
+export const catOptions = compact
+
+const wither = <F>(F: Applicative<F>) => witherDefault(array, F)
+const wilt = <F>(F: Applicative<F>) => wiltDefault(array, F)
+
+/**
+ * @instance
+ */
 export const array: Monad1<URI> &
-  Foldable1<URI> &
   Unfoldable1<URI> &
-  Traversable1<URI> &
   Alternative1<URI> &
   Plus1<URI> &
-  Extend1<URI> = {
+  Extend1<URI> &
+  Witherable1<URI> = {
   URI,
   map,
+  reduce,
+  traverse,
+  compact,
+  separate,
+  filter,
+  filterMap,
+  partition,
+  partitionMap,
+  wilt,
+  wither,
   of,
   ap,
   chain,
-  reduce,
   unfoldr,
-  traverse,
   zero,
   alt,
   extend

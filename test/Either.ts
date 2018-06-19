@@ -13,12 +13,18 @@ import {
   tryCatch,
   isLeft,
   isRight,
-  fromRefinement
+  fromRefinement,
+  getCompactable,
+  getFilterable,
+  getWitherable
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
+import { monoidString } from '../src/Monoid'
+import { separated } from '../src/Compactable'
+import { Identity, identity as I } from '../src/Identity'
 
 describe('Either', () => {
   it('fold', () => {
@@ -88,7 +94,7 @@ describe('Either', () => {
     assert.deepEqual(e2, left(new SyntaxError('Unexpected end of JSON input')))
 
     const e3 = tryCatch(() => {
-      throw 'a string'
+      throw 'a string' // tslint:disable-line no-string-throw
     })
     assert.deepEqual(e3, left(new Error('a string')))
 
@@ -248,7 +254,7 @@ describe('Either', () => {
 
   it('refineOrElse', () => {
     type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s == 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     assert.deepEqual(right('red').refineOrElse(isColor, -1), right('red'))
     assert.deepEqual(right('foo').refineOrElse(isColor, -1), left(-1))
     assert.deepEqual(left<number, string>(12).refineOrElse(isColor, -1), left(12))
@@ -256,7 +262,7 @@ describe('Either', () => {
 
   it('refineOrElseL', () => {
     type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s == 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     const errorHandler = (s: string) => `invalid color ${s}`
     assert.deepEqual(right('red').refineOrElseL(isColor, errorHandler), right('red'))
     assert.deepEqual(right('foo').refineOrElseL(isColor, errorHandler), left('invalid color foo'))
@@ -265,9 +271,79 @@ describe('Either', () => {
 
   it('fromRefinement', () => {
     type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s == 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     const from = fromRefinement(isColor, s => `invalid color ${s}`)
     assert.deepEqual(from('red'), right('red'))
     assert.deepEqual(from('foo'), left('invalid color foo'))
+  })
+
+  it('compact', () => {
+    const C = getCompactable(monoidString)
+    assert.deepEqual(C.compact(left('1')), left('1'))
+    assert.deepEqual(C.compact(right(none)), left(monoidString.empty))
+    assert.deepEqual(C.compact(right(some(123))), right(123))
+  })
+
+  it('separate', () => {
+    const C = getCompactable(monoidString)
+    assert.deepEqual(C.separate(left('123')), separated(left('123'), left('123')))
+    assert.deepEqual(C.separate(right(left('123'))), separated(right('123'), left(monoidString.empty)))
+    assert.deepEqual(C.separate(right(right('123'))), separated(left(monoidString.empty), right('123')))
+  })
+
+  it('filter', () => {
+    const F = getFilterable(monoidString)
+    const p = (n: number) => n > 2
+    assert.deepEqual(F.filter(left<string, number>('123'), p), left('123'))
+    assert.deepEqual(F.filter(right<string, number>(1), p), left(monoidString.empty))
+    assert.deepEqual(F.filter(right<string, number>(3), p), right(3))
+  })
+
+  it('filterMap', () => {
+    const F = getFilterable(monoidString)
+    const f = (n: number) => (n > 2 ? some('valid') : none)
+    assert.deepEqual(F.filterMap(left<string, number>('123'), f), left('123'))
+    assert.deepEqual(F.filterMap(right<string, number>(1), f), left(monoidString.empty))
+    assert.deepEqual(F.filterMap(right<string, number>(3), f), right('valid'))
+  })
+
+  it('partition', () => {
+    const F = getFilterable(monoidString)
+    const p = (n: number) => n > 2
+    assert.deepEqual(F.partition(left<string, number>('123'), p), separated(left('123'), left('123')))
+    assert.deepEqual(F.partition(right<string, number>(1), p), separated(right(1), left(monoidString.empty)))
+    assert.deepEqual(F.partition(right<string, number>(3), p), separated(left(monoidString.empty), right(3)))
+  })
+
+  it('partitionMap', () => {
+    const F = getFilterable(monoidString)
+    const f = (n: number) => (n > 2 ? right('gt2') : left('lte2'))
+    assert.deepEqual(F.partitionMap(left<string, number>('123'), f), separated(left('123'), left('123')))
+    assert.deepEqual(F.partitionMap(right<string, number>(1), f), separated(right('lte2'), left(monoidString.empty)))
+    assert.deepEqual(F.partitionMap(right<string, number>(3), f), separated(left(monoidString.empty), right('gt2')))
+  })
+
+  it('wilt', () => {
+    const f = (x: number) => (x > 2 ? new Identity(right('gt2')) : new Identity(left('lte2')))
+    const W = getWitherable(monoidString)
+    const wiltIdentity = W.wilt(I)
+    assert.deepEqual(wiltIdentity(left<string, number>('123'), f), new Identity(separated(left('123'), left('123'))))
+    assert.deepEqual(
+      wiltIdentity(right<string, number>(1), f),
+      new Identity(separated(right('lte2'), left(monoidString.empty)))
+    )
+    assert.deepEqual(
+      wiltIdentity(right<string, number>(3), f),
+      new Identity(separated(left(monoidString.empty), right('gt2')))
+    )
+  })
+
+  it('witherDefault', () => {
+    const f = (n: number) => (n > 2 ? new Identity(some('valid')) : new Identity(none))
+    const W = getWitherable(monoidString)
+    const witherIdentity = W.wither(I)
+    assert.deepEqual(witherIdentity(left<string, number>('123'), f), new Identity(left('123')))
+    assert.deepEqual(witherIdentity(right<string, number>(1), f), new Identity(left(monoidString.empty)))
+    assert.deepEqual(witherIdentity(right<string, number>(3), f), new Identity(right('valid')))
   })
 })

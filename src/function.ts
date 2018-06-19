@@ -42,6 +42,9 @@ export type Curried9<A, B, C, D, E, F, G, H, I, J> = (
   a: A
 ) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => (i: I) => J
 
+/**
+ * Predicate type: <pre><A>(a: A) => boolean</pre>
+ */
 export type Predicate<A> = (a: A) => boolean
 
 export type Refinement<A, B extends A> = (a: A) => a is B

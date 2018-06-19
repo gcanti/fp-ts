@@ -4,13 +4,17 @@ import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
-import { Lazy, Predicate, Refinement, toString } from './function'
+import { Lazy, phantom, Predicate, Refinement, toString } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
 import { Option } from './Option'
 import { Setoid } from './Setoid'
-import { Traversable2 } from './Traversable'
+import { Traversable2, Traversable2C } from './Traversable'
 import { Validation } from './Validation'
+import { Monoid } from './Monoid'
+import { Compactable2C, separated, Separated } from './Compactable'
+import { eitherBool, Filterable2C, optionBool } from './Filterable'
+import { wiltDefault, Witherable2C, witherDefault } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -420,6 +424,81 @@ export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
  */
 export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
   return fa.isRight()
+}
+
+/**
+ * Returns {@link Compactable} instance for {@link Either} given {@link Monoid} for the left side
+ * @param {Monoid<L>} ML - {@link Monoid} for the left side
+ * @returns {Compactable2C} - {@link Compactable} instance
+ * @function
+ * @since 1.6.3
+ */
+export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
+  const compact = <A>(fa: Either<L, Option<A>>): Either<L, A> =>
+    fa.fold(l => left(l), r => r.foldL(() => left(ML.empty), a => right(a)))
+  const separate = <A, B>(fa: Either<L, Either<A, B>>): Separated<Either<L, A>, Either<L, B>> =>
+    fa.fold(
+      x => separated(left(x), left(x)),
+      e => e.fold(l => separated(right(l), left(ML.empty)), r => separated(left(ML.empty), right(r)))
+    )
+
+  return {
+    URI,
+    _L: phantom,
+    compact,
+    separate
+  }
+}
+
+/**
+ * Returns {@link Filterable} instance for {@link Either} given {@link Monoid} for the left side
+ * @function
+ * @since 1.6.3
+ */
+export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
+  const fromOptionMLEmpty = fromOption(ML.empty)
+
+  const filterMap = <A, B>(fa: Either<L, A>, f: (a: A) => Option<B>): Either<L, B> =>
+    fa.fold(l => left(l), r => fromOptionMLEmpty(f(r)))
+
+  const filter = <A>(fa: Either<L, A>, p: Predicate<A>): Either<L, A> => filterMap(fa, optionBool(p))
+
+  const partitionMap = <RL, RR, A>(
+    fa: Either<L, A>,
+    f: (a: A) => Either<RL, RR>
+  ): Separated<Either<L, RL>, Either<L, RR>> =>
+    fa.fold(
+      l => separated(left(l), left(l)),
+      r => f(r).fold(a => separated(right(a), left(ML.empty)), b => separated(left(ML.empty), right(b)))
+    )
+
+  const partition = <A, B>(fa: Either<L, A>, p: Predicate<A>): Separated<Either<L, A>, Either<L, A>> =>
+    partitionMap(fa, eitherBool(p))
+
+  return {
+    ...getCompactable(ML),
+    map: either.map,
+    filter,
+    filterMap,
+    partitionMap,
+    partition
+  }
+}
+
+export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
+  const TF: Traversable2C<URI, L> & Filterable2C<URI, L> = {
+    ...getFilterable(ML),
+    traverse: either.traverse,
+    reduce: either.reduce
+  }
+
+  const wilt = <F>(F: Applicative<F>) => wiltDefault(TF, F)
+  const wither = <F>(F: Applicative<F>) => witherDefault(TF, F)
+  return {
+    ...TF,
+    wilt,
+    wither
+  }
 }
 
 /**

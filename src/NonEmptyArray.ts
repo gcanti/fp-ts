@@ -8,7 +8,7 @@ import { Option, none, some } from './Option'
 import { Ord } from './Ord'
 import { Semigroup, fold, getJoinSemigroup, getMeetSemigroup } from './Semigroup'
 import { Traversable1 } from './Traversable'
-import { concat as uncurriedConcat, toString } from './function'
+import { concat as uncurriedConcat, Predicate, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -241,6 +241,20 @@ export class NonEmptyArray<A> {
    */
   reverse(): NonEmptyArray<A> {
     return unsafeFromArray(this.toArray().reverse())
+  }
+
+  /**
+   * Filteres this {@link NonEmptyArray} with given {@link Predicate}
+   * @since 1.6.3
+   * @param {Predicate<A>} p - {@link Predicate}
+   * @example
+   * const result = new NonEmptyArray(1, [2, 3]).filter(n => n >= 2)
+   * const expected = [1]
+   * assert.deepEqual(result, expected)
+   * @returns {A[]}
+   */
+  filter(p: Predicate<A>): A[] {
+    return this.toArray().filter(p)
   }
 }
 

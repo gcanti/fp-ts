@@ -1,15 +1,17 @@
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { liftA2 } from './Apply'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Functor1 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
 import { Semigroup, getDictionarySemigroup, getLastSemigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
-import { Predicate, tuple } from './function'
+import { identity, Predicate, tuple } from './function'
+import { separated, Separated } from './Compactable'
+import { Either } from './Either'
+import { eitherBool, optionBool } from './Filterable'
+import { wiltDefault, Witherable1, witherDefault } from './Witherable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -53,19 +55,54 @@ export class StrMap<A> {
     }
     return out
   }
+
   /**
+   * Instance-bound {@link Filterable} implementation
    * @since 1.4.0
    */
   filter(p: Predicate<A>): StrMap<A> {
-    const o = this.value
-    const r: { [key: string]: A } = {}
-    for (const k in o) {
-      const value = o[k]
-      if (p(value)) {
-        r[k] = value
+    return this.filterMap(optionBool(p))
+  }
+
+  /**
+   * Instance-bound {@link Filterable} implementation
+   * @since 1.6.3
+   */
+  filterMap<B>(f: (a: A) => Option<B>): StrMap<B> {
+    const result: { [key: string]: B } = {}
+    for (let key in this.value) {
+      const optionB = f(this.value[key])
+      if (optionB.isSome()) {
+        result[key] = optionB.value
       }
     }
-    return new StrMap(r)
+    return new StrMap(result)
+  }
+
+  /**
+   * Instance-bound {@link Filterable} implementation
+   * @since 1.6.3
+   */
+  partition(p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> {
+    return this.partitionMap(eitherBool(p))
+  }
+
+  /**
+   * Instance-bound {@link Filterable} implementation
+   * @since 1.6.3
+   */
+  partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
+    const l: { [key: string]: RL } = {}
+    const r: { [key: string]: RR } = {}
+    for (let key in this.value) {
+      const result = f(this.value[key])
+      if (result.isLeft()) {
+        l[key] = result.value
+      } else {
+        r[key] = result.value
+      }
+    }
+    return separated(new StrMap(l), new StrMap(r))
   }
 }
 
@@ -293,13 +330,33 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
 }
 
+const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => filterMap(fa, identity)
+const separate = <L, A>(fa: StrMap<Either<L, A>>): Separated<StrMap<L>, StrMap<A>> => partitionMap(fa, identity)
+
+const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => fa.filter(p)
+const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => fa.filterMap(f)
+const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> => fa.partition(p)
+const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> =>
+  fa.partitionMap(f)
+
+const wither = <F>(F: Applicative<F>) => witherDefault(strmap, F)
+const wilt = <F>(F: Applicative<F>) => wiltDefault(strmap, F)
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
+export const strmap: Witherable1<URI> = {
   URI,
   map,
   reduce,
-  traverse
+  traverse,
+  compact,
+  separate,
+  filter,
+  filterMap,
+  partition,
+  partitionMap,
+  wilt,
+  wither
 }

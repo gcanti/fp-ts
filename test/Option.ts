@@ -24,6 +24,8 @@ import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
+import { separated } from '../src/Compactable'
+import { Identity, identity as I } from '../src/Identity'
 
 describe('Option', () => {
   it('fold', () => {
@@ -242,15 +244,6 @@ describe('Option', () => {
     assert.equal(some(2).exists(is2), true)
   })
 
-  it('filter', () => {
-    const x: Option<number> = none
-    const is2 = (a: number) => a === 2
-    assert.equal(x.filter(is2), x)
-    assert.equal(some(1).filter(is2), none)
-    const some2 = some(2)
-    assert.equal(some2.filter(is2), some2)
-  })
-
   it('refine', () => {
     const x: Option<number | string> = none
     const isString = (a: any): a is string => typeof a === 'string'
@@ -284,5 +277,63 @@ describe('Option', () => {
     const parseDirection = fromRefinement((s: string): s is Direction => s === 'asc' || s === 'desc')
     assert.deepEqual(parseDirection('asc'), some('asc'))
     assert.deepEqual(parseDirection('foo'), none)
+  })
+
+  it('compact', () => {
+    assert.deepEqual(option.compact(none), none)
+    assert.deepEqual(option.compact(some(none)), none)
+    assert.deepEqual(option.compact(some(some('123'))), some('123'))
+  })
+
+  it('separate', () => {
+    assert.deepEqual(option.separate(none), separated(none, none))
+    assert.deepEqual(option.separate(some(left('123'))), separated(some('123'), none))
+    assert.deepEqual(option.separate(some(right('123'))), separated(none, some('123')))
+  })
+
+  it('partitionMap', () => {
+    const f = (n: number) => (n > 2 ? right('gt2') : left('lte2'))
+    assert.deepEqual(none.partitionMap(f), separated(none, none))
+    assert.deepEqual(some(1).partitionMap(f), separated(some('lte2'), none))
+    assert.deepEqual(some(3).partitionMap(f), separated(none, some('gt2')))
+  })
+
+  it('partition', () => {
+    const p = (n: number) => n > 2
+    assert.deepEqual(none.partition(p), separated(none, none))
+    assert.deepEqual(some(1).partition(p), separated(some(1), none))
+    assert.deepEqual(some(3).partition(p), separated(none, some(3)))
+  })
+
+  it('filterMap', () => {
+    const f = (n: number) => (n > 2 ? some('valid') : none)
+    assert.deepEqual(none.filterMap(f), none)
+    assert.deepEqual(some(1).filterMap(f), none)
+    assert.deepEqual(some(3).filterMap(f), some('valid'))
+  })
+
+  it('filter', () => {
+    const x: Option<number> = none
+    const is2 = (a: number) => a === 2
+    assert.equal(x.filter(is2), x)
+    assert.equal(some(1).filter(is2), none)
+    const some2 = some(2)
+    assert.equal(some2.filter(is2), some2)
+  })
+
+  it('wilt', () => {
+    const f = (x: number) => (x > 2 ? new Identity(right(x * 10)) : new Identity(left(x)))
+    const wiltIdentity = option.wilt(I)
+    assert.deepEqual(wiltIdentity(none, f), new Identity(separated(none, none)))
+    assert.deepEqual(wiltIdentity(some(1), f), new Identity(separated(some(1), none)))
+    assert.deepEqual(wiltIdentity(some(3), f), new Identity(separated(none, some(30))))
+  })
+
+  it('witherDefault', () => {
+    const f = (x: number) => (x > 2 ? new Identity(some(x * 10)) : new Identity(none))
+    const witherIdentity = option.wither(I)
+    assert.deepEqual(witherIdentity(none, f), new Identity(none))
+    assert.deepEqual(witherIdentity(some(1), f), new Identity(none))
+    assert.deepEqual(witherIdentity(some(3), f), new Identity(some(30)))
   })
 })

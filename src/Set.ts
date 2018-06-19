@@ -3,7 +3,31 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Predicate, not } from './function'
+import { Predicate, not, identity } from './function'
+import { Option } from './Option'
+import { eitherBool, optionBool } from './Filterable'
+import { separated, Separated } from './Compactable'
+import { Applicative } from './Applicative'
+import { HKT } from './HKT'
+import { traverse as traverseArray } from './Array'
+import { wiltDefault, Witherable1, witherDefault } from './Witherable'
+
+declare global {
+  interface Set<T> {
+    _URI: URI
+    _A: T
+  }
+}
+
+declare module './HKT' {
+  interface URI2HKT<A> {
+    Set: Set<A>
+  }
+}
+
+export const URI = 'Set'
+
+export type URI = typeof URI
 
 /**
  * @function
@@ -93,45 +117,6 @@ export const subset = <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean => {
 }
 
 /**
- * @function
- * @since 1.0.0
- */
-export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
-  const values = x.values()
-  let e: IteratorResult<A>
-  let r = new Set()
-  // tslint:disable:no-conditional-assignment
-  while (!(e = values.next()).done) {
-    const value = e.value
-    if (predicate(value)) {
-      r.add(value)
-    }
-  }
-  return r
-}
-
-/**
- * @function
- * @since 1.2.0
- */
-export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A>; left: Set<A> } => {
-  const values = x.values()
-  let e: IteratorResult<A>
-  let t = new Set()
-  let f = new Set()
-  // tslint:disable:no-conditional-assignment
-  while (!(e = values.next()).done) {
-    const value = e.value
-    if (predicate(value)) {
-      t.add(value)
-    } else {
-      f.add(value)
-    }
-  }
-  return { right: t, left: f }
-}
-
-/**
  * Test if a value is a member of a set
  * @function
  * @since 1.0.0
@@ -176,27 +161,6 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
     })
     return r
   }
-}
-
-/**
- * @function
- * @since 1.2.0
- */
-export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { left: Set<L>; right: Set<R> } => {
-  const values = x.values()
-  let e: IteratorResult<A>
-  let l = new Set()
-  let r = new Set()
-  // tslint:disable:no-conditional-assignment
-  while (!(e = values.next()).done) {
-    const v = f(e.value)
-    if (v.isLeft()) {
-      l.add(v.value)
-    } else {
-      r.add(v.value)
-    }
-  }
-  return { left: l, right: r }
 }
 
 /**
@@ -291,4 +255,114 @@ export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
     }
   }
   return r
+}
+
+/**
+ * {@link Compactable} implementation
+ * @since 1.6.3
+ */
+export const compact = <A>(fa: Set<Option<A>>): Set<A> => filterMap(fa, identity)
+
+/**
+ * {@link Compactable} implementation
+ * @since 1.6.3
+ */
+export const separate = <L, A>(fa: Set<Either<L, A>>): Separated<Set<L>, Set<A>> => partitionMap(fa, identity)
+
+/**
+ * {@link Filterable} implementation
+ * @since 1.6.3
+ */
+export const filterMap = <A, B>(fa: Set<A>, f: (a: A) => Option<B>): Set<B> => {
+  const values = fa.values()
+  let e: IteratorResult<A>
+  let r = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const value = e.value
+    const optionB = f(value)
+    if (optionB.isSome()) {
+      r.add(optionB.value)
+    }
+  }
+  return r
+}
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.0.0
+ */
+export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => filterMap(x, optionBool(predicate))
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.2.0
+ */
+export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> =>
+  partitionMap(x, eitherBool(predicate))
+
+/**
+ * {@link Filterable} implementation
+ * @function
+ * @since 1.2.0
+ */
+export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Separated<Set<L>, Set<R>> => {
+  const values = x.values()
+  let e: IteratorResult<A>
+  let l = new Set()
+  let r = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const v = f(e.value)
+    if (v.isLeft()) {
+      l.add(v.value)
+    } else {
+      r.add(v.value)
+    }
+  }
+  return separated(l, r)
+}
+
+const fmap = <A, B>(fa: Set<A>, f: (a: A) => B): Set<B> => {
+  const result = new Set()
+  fa.forEach(a => {
+    result.add(f(a))
+  })
+  return result
+}
+
+function traverse<F>(F: Applicative<F>): <A, B>(ta: Set<A>, f: (a: A) => HKT<F, B>) => HKT<F, Set<B>> {
+  const t = traverseArray(F)
+  return (ta, f) =>
+    F.map(t(Array.from(ta.values()), f), as => {
+      const result = new Set()
+      as.forEach(a => result.add(a))
+      return result
+    })
+}
+
+const reduceFoldable = <A, B>(fa: Set<A>, b: B, f: (b: B, a: A) => B): B => Array.from(fa.values()).reduce(f, b)
+
+const wilt = <F>(F: Applicative<F>) => wiltDefault(set, F)
+const wither = <F>(F: Applicative<F>) => witherDefault(set, F)
+
+/**
+ * @instance
+ * @since 1.6.3
+ */
+export const set: Witherable1<URI> = {
+  URI,
+  map: fmap,
+  traverse,
+  reduce: reduceFoldable,
+  compact,
+  separate,
+  filter,
+  filterMap,
+  partition,
+  partitionMap,
+  wilt,
+  wither
 }
