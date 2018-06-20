@@ -55,6 +55,9 @@ export type URI = typeof URI
  */
 export type Either<L, A> = Left<L, A> | Right<L, A>
 
+/**
+ * Left side of {@link Either}
+ */
 export class Left<L, A> {
   readonly _tag: 'Left' = 'Left'
   readonly _A!: A
@@ -170,6 +173,9 @@ export class Left<L, A> {
   }
 }
 
+/**
+ * Right side of {@link Either}
+ */
 export class Right<L, A> {
   readonly _tag: 'Right' = 'Right'
   readonly _A!: A
