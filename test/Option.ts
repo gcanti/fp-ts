@@ -24,6 +24,7 @@ import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
+import { separated } from '../src/Compactable'
 
 describe('Option', () => {
   it('fold', () => {
@@ -284,5 +285,17 @@ describe('Option', () => {
     const parseDirection = fromRefinement((s: string): s is Direction => s === 'asc' || s === 'desc')
     assert.deepEqual(parseDirection('asc'), some('asc'))
     assert.deepEqual(parseDirection('foo'), none)
+  })
+
+  it('compact', () => {
+    assert.deepEqual(option.compact(none), none)
+    assert.deepEqual(option.compact(some(none)), none)
+    assert.deepEqual(option.compact(some(some('123'))), some('123'))
+  })
+
+  it('separate', () => {
+    assert.deepEqual(option.separate(none), separated(none, none))
+    assert.deepEqual(option.separate(some(left('123'))), separated(some('123'), none))
+    assert.deepEqual(option.separate(some(right('123'))), separated(none, some('123')))
   })
 })
