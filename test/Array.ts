@@ -54,6 +54,7 @@ import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity, tuple } from '../src/function'
+import { separated } from '../src/Compactable'
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -434,5 +435,16 @@ describe('Array', () => {
       { name: 'c', age: 2 },
       { name: 'b', age: 3 }
     ])
+  })
+
+  it('compact', () => {
+    assert.deepEqual(array.compact([]), [])
+    assert.deepEqual(array.compact([some(1), some(2), some(3)]), [1, 2, 3])
+    assert.deepEqual(array.compact([some(1), none, some(3)]), [1, 3])
+  })
+
+  it('separate', () => {
+    assert.deepEqual(array.separate([]), separated([], []))
+    assert.deepEqual(array.separate([left(123), right('123')]), separated([123], ['123']))
   })
 })
