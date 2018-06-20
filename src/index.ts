@@ -148,3 +148,5 @@ import * as validation from './Validation'
 export { validation }
 import * as writer from './Writer'
 export { writer }
+import * as compactable from './Compactable'
+export { compactable }
