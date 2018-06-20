@@ -274,17 +274,18 @@ describe('Either', () => {
     assert.deepEqual(from('foo'), left('invalid color foo'))
   })
 
-  it('compact', () => {
+  describe('getCompactable', () => {
     const C = getCompactable(monoidString)
-    assert.deepEqual(C.compact(left('1')), left('1'))
-    assert.deepEqual(C.compact(right(none)), left(monoidString.empty))
-    assert.deepEqual(C.compact(right(some(123))), right(123))
-  })
+    it('compact', () => {
+      assert.deepEqual(C.compact(left('1')), left('1'))
+      assert.deepEqual(C.compact(right(none)), left(monoidString.empty))
+      assert.deepEqual(C.compact(right(some(123))), right(123))
+    })
 
-  it('separate', () => {
-    const C = getCompactable(monoidString)
-    assert.deepEqual(C.separate(left('123')), separated(left('123'), left('123')))
-    assert.deepEqual(C.separate(right(left('123'))), separated(right('123'), left(monoidString.empty)))
-    assert.deepEqual(C.separate(right(right('123'))), separated(left(monoidString.empty), right('123')))
+    it('separate', () => {
+      assert.deepEqual(C.separate(left('123')), separated(left('123'), left('123')))
+      assert.deepEqual(C.separate(right(left('123'))), separated(right('123'), left(monoidString.empty)))
+      assert.deepEqual(C.separate(right(right('123'))), separated(left(monoidString.empty), right('123')))
+    })
   })
 })
