@@ -147,7 +147,7 @@ export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<
       f.add(value)
     }
   }
-  return separated(t, f)
+  return separated(f, t)
 }
 
 /**
