@@ -4,6 +4,25 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Predicate, not } from './function'
+import { Compactable1, separated, Separated } from './Compactable'
+import { Option } from './Option'
+
+declare global {
+  interface Set<T> {
+    _URI: URI
+    _A: T
+  }
+}
+
+declare module './HKT' {
+  interface URI2HKT<A> {
+    Set: Set<A>
+  }
+}
+
+export const URI = 'Set'
+
+export type URI = typeof URI
 
 /**
  * @function
@@ -114,7 +133,7 @@ export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
  * @function
  * @since 1.2.0
  */
-export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A>; left: Set<A> } => {
+export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> => {
   const values = x.values()
   let e: IteratorResult<A>
   let t = new Set()
@@ -128,7 +147,7 @@ export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A
       f.add(value)
     }
   }
-  return { right: t, left: f }
+  return separated(t, f)
 }
 
 /**
@@ -182,7 +201,7 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
  * @function
  * @since 1.2.0
  */
-export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { left: Set<L>; right: Set<R> } => {
+export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Separated<Set<L>, Set<R>> => {
   const values = x.values()
   let e: IteratorResult<A>
   let l = new Set()
@@ -196,7 +215,7 @@ export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { l
       r.add(v.value)
     }
   }
-  return { left: l, right: r }
+  return separated(l, r)
 }
 
 /**
@@ -291,4 +310,44 @@ export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
     }
   }
   return r
+}
+
+const compact = <A>(fa: Set<Option<A>>): Set<A> => {
+  const values = fa.values()
+  let e: IteratorResult<Option<A>>
+  let result = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const optionA = e.value
+    if (optionA.isSome()) {
+      result.add(optionA.value)
+    }
+  }
+  return result
+}
+const separate = <RL, RR>(fa: Set<Either<RL, RR>>): Separated<Set<RL>, Set<RR>> => {
+  const values = fa.values()
+  let e: IteratorResult<Either<RL, RR>>
+  const left = new Set()
+  const right = new Set()
+  // tslint:disable:no-conditional-assignment
+  while (!(e = values.next()).done) {
+    const eitherA = e.value
+    if (eitherA.isLeft()) {
+      left.add(eitherA.value)
+    } else {
+      right.add(eitherA.value)
+    }
+  }
+  return separated(left, right)
+}
+
+/**
+ * @instance
+ * @since 1.7.0
+ */
+export const set: Compactable1<URI> = {
+  URI,
+  compact,
+  separate
 }
