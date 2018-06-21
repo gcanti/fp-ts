@@ -422,167 +422,173 @@ export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, 
  * @since 1.6.3
  */
 export function witherDefault<W extends URIS3, F extends URIS3, WU, WL, FU, FL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
   F: Applicative3C<F, FU, FL>
 ): (<A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS3, FU, FL>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'compact'>,
   F: Applicative3C<F, FU, FL>
 ): (<WU, WL, A, B>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Option<B>>
 ) => Type3<F, FU, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS3, WL, FU, FL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
   F: Applicative3C<F, FU, FL>
 ): (<A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS3, FU, FL>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'compact'>,
   F: Applicative3C<F, FU, FL>
 ): (<WL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS, F extends URIS3, FU, FL>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'compact'>,
   F: Applicative3C<F, FU, FL>
 ): (<A, B>(wa: Type<W, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, Type<W, B>>)
 export function witherDefault<W, F extends URIS3, FU, FL>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'compact'>,
   F: Applicative3C<F, FU, FL>
 ): (<A, B>(wa: HKT<W, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, HKT<W, B>>)
 
 export function witherDefault<W extends URIS3, F extends URIS3, WU, WL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
   F: Applicative3<F>
 ): (<FU, FL, A, B>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Option<B>>
 ) => Type3<F, FU, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS3>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'compact'>,
   F: Applicative3<F>
 ): (<WU, WL, FU, FL, A, B>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Option<B>>
 ) => Type3<F, FU, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS3, WL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
   F: Applicative3<F>
 ): (<FU, FL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS3>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'compact'>,
   F: Applicative3<F>
 ): (<WL, FU, FL, A, B>(
   wa: Type2<W, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Option<B>>
 ) => Type3<F, FU, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS, F extends URIS3>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'compact'>,
   F: Applicative3<F>
 ): (<FU, FL, A, B>(wa: Type<W, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, Type<W, B>>)
 export function witherDefault<W, F extends URIS3>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'compact'>,
   F: Applicative3<F>
 ): (<FU, FL, A, B>(wa: HKT<W, A>, f: (a: A) => Type3<F, FU, FL, Option<B>>) => Type3<F, FU, FL, HKT<W, B>>)
 
 export function witherDefault<W extends URIS3, F extends URIS2, WU, WL, FL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
   F: Applicative2C<F, FL>
 ): (<A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS2, FL>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'compact'>,
   F: Applicative2C<F, FL>
 ): (<WU, WL, A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS2, WL, FL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
   F: Applicative2C<F, FL>
 ): (<WL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS2, FL>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'compact'>,
   F: Applicative2C<F, FL>
 ): (<WL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS, F extends URIS2, FL>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'compact'>,
   F: Applicative2C<F, FL>
 ): (<A, B>(wa: Type<W, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type<W, B>>)
 export function witherDefault<W, F extends URIS2, FL>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'compact'>,
   F: Applicative2C<F, FL>
 ): (<A, B>(wa: HKT<W, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, HKT<W, B>>)
 
 export function witherDefault<W extends URIS3, F extends URIS2, WU, WL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
   F: Applicative2<F>
 ): (<FL, A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS2>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'compact'>,
   F: Applicative2<F>
 ): (<WU, WL, FL, A, B>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type2<F, FL, Option<B>>
 ) => Type2<F, FL, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS2, WL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
   F: Applicative2<F>
 ): (<FL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS2>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'compact'>,
   F: Applicative2<F>
 ): (<WL, FL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS, F extends URIS2>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'compact'>,
   F: Applicative2<F>
 ): (<FL, A, B>(wa: Type<W, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, Type<W, B>>)
 export function witherDefault<W, F extends URIS2>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'compact'>,
   F: Applicative2<F>
 ): (<FL, A, B>(wa: HKT<W, A>, f: (a: A) => Type2<F, FL, Option<B>>) => Type2<F, FL, HKT<W, B>>)
 
 export function witherDefault<W extends URIS3, F extends URIS, WU, WL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
   F: Applicative1<F>
 ): (<A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F extends URIS>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'compact'>,
   F: Applicative1<F>
 ): (<WU, WL, A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS, WL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
   F: Applicative1<F>
 ): (<A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS2, F extends URIS>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'compact'>,
   F: Applicative1<F>
 ): (<WL, A, B>(wa: Type2<W, WL, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS, F extends URIS>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'compact'>,
   F: Applicative1<F>
 ): (<A, B>(wa: Type<W, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Type<W, B>>)
 export function witherDefault<W, F extends URIS>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'compact'>,
   F: Applicative1<F>
 ): (<A, B>(wa: HKT<W, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, HKT<W, B>>)
 
 export function witherDefault<W extends URIS3, F, WU, WL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'compact'>,
   F: Applicative<F>
 ): (<A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS3, F>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'compact'>,
   F: Applicative<F>
 ): (<WU, WL, A, B>(wa: Type3<W, WU, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type3<W, WU, WL, B>>)
 export function witherDefault<W extends URIS2, F, WL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'compact'>,
   F: Applicative<F>
 ): (<A, B>(wa: Type2<W, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type2<W, WL, B>>)
 export function witherDefault<W extends URIS, F>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'compact'>,
   F: Applicative<F>
 ): (<A, B>(wa: Type<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type<W, B>>)
 export function witherDefault<W, F>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'compact'>,
   F: Applicative<F>
 ): (<A, B>(wa: HKT<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, HKT<W, B>>)
 export function witherDefault<W, F>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'compact'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'compact'>,
   F: Applicative<F>
 ): (<A, B>(wa: HKT<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, HKT<W, B>>) {
   const traverse = W.traverse(F)
@@ -595,42 +601,43 @@ export function witherDefault<W, F>(
  * @since 1.6.3
  */
 export function wiltDefault<W extends URIS3, F extends URIS3, WU, WL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
   F: Applicative3<F>
 ): (<FU, FL, RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
 ) => Type3<F, FU, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F extends URIS3>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'separate'>,
   F: Applicative3<F>
 ): (<WU, WL, FU, FL, RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
 ) => Type3<F, FU, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS3, WL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
   F: Applicative3<F>
 ): (<FU, FL, RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
 ) => Type3<F, FU, FL, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS3>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'separate'>,
   F: Applicative3<F>
 ): (<WL, FU, FL, RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
 ) => Type3<F, FU, FL, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS, F extends URIS3>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'separate'>,
   F: Applicative3<F>
 ): (<FU, FL, RL, RR, A>(
   wa: Type<W, A>,
   f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
 ) => Type3<F, FU, FL, Separated<Type<W, RL>, Type<W, RR>>>)
 export function wiltDefault<W, F extends URIS3>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'separate'>,
   F: Applicative3<F>
 ): (<FU, FL, RL, RR, A>(
   wa: HKT<W, A>,
@@ -638,42 +645,43 @@ export function wiltDefault<W, F extends URIS3>(
 ) => Type3<F, FU, FL, Separated<HKT<W, RL>, HKT<W, RR>>>)
 
 export function wiltDefault<W extends URIS3, F extends URIS2, WU, WL, FL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
   F: Applicative2C<F, FL>
 ): (<RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F extends URIS2, FL>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'separate'>,
   F: Applicative2C<F, FL>
 ): (<WU, WL, RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS2, WL, FL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
   F: Applicative2C<F, FL>
 ): (<RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS2, FL>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'separate'>,
   F: Applicative2C<F, FL>
 ): (<WL, RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS, F extends URIS2, FL>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'separate'>,
   F: Applicative2C<F, FL>
 ): (<RL, RR, A>(
   wa: Type<W, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type<W, RL>, Type<W, RR>>>)
 export function wiltDefault<W, F extends URIS2, FL>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'separate'>,
   F: Applicative2C<F, FL>
 ): (<RL, RR, A>(
   wa: HKT<W, A>,
@@ -681,42 +689,43 @@ export function wiltDefault<W, F extends URIS2, FL>(
 ) => Type2<F, FL, Separated<HKT<W, RL>, HKT<W, RR>>>)
 
 export function wiltDefault<W extends URIS3, F extends URIS2, WU, WL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
   F: Applicative2<F>
 ): (<FL, RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F extends URIS2>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'separate'>,
   F: Applicative2<F>
 ): (<WU, WL, FL, RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS2, WL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
   F: Applicative2<F>
 ): (<FL, RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS2>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'separate'>,
   F: Applicative2<F>
 ): (<WL, FL, RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS, F extends URIS2>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'separate'>,
   F: Applicative2<F>
 ): (<FL, RL, RR, A>(
   wa: Type<W, A>,
   f: (a: A) => Type2<F, FL, Either<RL, RR>>
 ) => Type2<F, FL, Separated<Type<W, RL>, Type<W, RR>>>)
 export function wiltDefault<W, F extends URIS2>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'separate'>,
   F: Applicative2<F>
 ): (<FL, RL, RR, A>(
   wa: HKT<W, A>,
@@ -724,80 +733,82 @@ export function wiltDefault<W, F extends URIS2>(
 ) => Type2<F, FL, Separated<HKT<W, RL>, HKT<W, RR>>>)
 
 export function wiltDefault<W extends URIS3, F extends URIS, WU, WL>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
   F: Applicative1<F>
 ): (<RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type<F, Either<RL, RR>>
 ) => Type<F, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F extends URIS>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'separate'>,
   F: Applicative1<F>
 ): (<WU, WL, RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => Type<F, Either<RL, RR>>
 ) => Type<F, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS, WL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
   F: Applicative1<F>
 ): (<RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => Type<F, Either<RL, RR>>
 ) => Type<F, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F extends URIS>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'separate'>,
   F: Applicative1<F>
 ): (<WL, RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => Type<F, Either<RL, RR>>
 ) => Type<F, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS, F extends URIS>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'separate'>,
   F: Applicative1<F>
 ): (<RL, RR, A>(wa: Type<W, A>, f: (a: A) => Type<F, Either<RL, RR>>) => Type<F, Separated<Type<W, RL>, Type<W, RR>>>)
 export function wiltDefault<W, F extends URIS>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'separate'>,
   F: Applicative1<F>
 ): (<RL, RR, A>(wa: HKT<W, A>, f: (a: A) => Type<F, Either<RL, RR>>) => Type<F, Separated<HKT<W, RL>, HKT<W, RR>>>)
 
 export function wiltDefault<W extends URIS3, WU, WL, F>(
-  W: Traversable3C<W, WU, WL> & Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
+  W: Pick<Traversable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'traverse'> &
+    Pick<Compactable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'separate'>,
   F: Applicative<F>
 ): (<RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
 ) => HKT<F, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS3, F>(
-  W: Traversable3<W> & Pick<Compactable3<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable3<W>, 'URI' | 'traverse'> & Pick<Compactable3<W>, 'URI' | 'separate'>,
   F: Applicative<F>
 ): (<WU, WL, RL, RR, A>(
   wa: Type3<W, WU, WL, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
 ) => HKT<F, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F, WL>(
-  W: Traversable2C<W, WL> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
+  W: Pick<Traversable2C<W, WL>, 'URI' | '_L' | 'traverse'> & Pick<Compactable2C<W, WL>, 'URI' | '_L' | 'separate'>,
   F: Applicative<F>
 ): (<WL, RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
 ) => HKT<F, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS2, F>(
-  W: Traversable2<W> & Pick<Compactable2<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable2<W>, 'URI' | 'traverse'> & Pick<Compactable2<W>, 'URI' | 'separate'>,
   F: Applicative<F>
 ): (<WL, RL, RR, A>(
   wa: Type2<W, WL, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
 ) => HKT<F, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>)
 export function wiltDefault<W extends URIS, F>(
-  W: Traversable1<W> & Pick<Compactable1<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable1<W>, 'URI' | 'traverse'> & Pick<Compactable1<W>, 'URI' | 'separate'>,
   F: Applicative<F>
 ): (<RL, RR, A>(wa: Type<W, A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Type<W, RL>, Type<W, RR>>>)
 export function wiltDefault<W, F>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'separate'>,
   F: Applicative<F>
 ): (<RL, RR, A>(wa: HKT<W, A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<HKT<W, RL>, HKT<W, RR>>>)
 export function wiltDefault<W, F>(
-  W: Traversable<W> & Pick<Compactable<W>, 'URI' | 'separate'>,
+  W: Pick<Traversable<W>, 'URI' | 'traverse'> & Pick<Compactable<W>, 'URI' | 'separate'>,
   F: Applicative<F>
 ): (<RL, RR, A>(wa: HKT<W, A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<HKT<W, RL>, HKT<W, RR>>>) {
   const traverse = W.traverse(F)

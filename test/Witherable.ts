@@ -9,12 +9,10 @@ describe('Witherable', () => {
   it('wiltDefault', () => {
     const f = (x: number) => (x > 2 ? new Identity(right(x * 10)) : new Identity(left(x)))
     const list = [1, 2, 3]
-    const { URI, map, reduce, traverse, separate } = array
+    const { URI, traverse, separate } = array
     const wilt = wiltDefault(
       {
         URI,
-        map,
-        reduce,
         traverse,
         separate
       },
@@ -26,12 +24,10 @@ describe('Witherable', () => {
   it('witherDefault', () => {
     const f = (x: number) => (x > 2 ? new Identity(some(x * 10)) : new Identity(none))
     const list = [1, 2, 3]
-    const { URI, map, reduce, traverse, compact } = array
+    const { URI, traverse, compact } = array
     const wither = witherDefault(
       {
         URI,
-        map,
-        reduce,
         traverse,
         compact
       },
