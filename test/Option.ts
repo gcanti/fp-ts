@@ -24,7 +24,6 @@ import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
-import { filterMapDefaultCompact } from '../src/Filterable'
 
 const p = (n: number): boolean => n > 2
 
