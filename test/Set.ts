@@ -7,6 +7,7 @@ import {
   every,
   filter,
   fromArray,
+  getCompactable,
   getIntersectionSemigroup,
   getSetoid,
   getUnionMonoid,
@@ -18,7 +19,6 @@ import {
   partitionMap,
   reduce,
   remove,
-  set,
   singleton,
   some,
   subset,
@@ -165,14 +165,17 @@ describe('Set', () => {
     assert.deepEqual(fromArray(fooSetoid)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
   })
 
-  it('compact', () => {
-    assert.deepEqual(set.compact(new Set([option.of(1), none])), new Set([1]))
-  })
+  describe('getCompactable', () => {
+    const C = getCompactable(setoidNumber, setoidString, setoidNumber)
+    it('compact', () => {
+      assert.deepEqual(C.compact(new Set([option.of(1), none])), new Set([1]))
+    })
 
-  it('separate', () => {
-    assert.deepEqual(set.separate(new Set([left('123'), right(123)])), {
-      left: new Set(['123']),
-      right: new Set([123])
+    it('separate', () => {
+      assert.deepEqual(C.separate(new Set([left('123'), right(123)])), {
+        left: new Set(['123']),
+        right: new Set([123])
+      })
     })
   })
 })

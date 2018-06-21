@@ -39,10 +39,36 @@ export interface Compactable<F> {
  * @see Compactable
  * @since 1.7.0
  */
+export interface CompactableA<F, A, RL, RR> {
+  readonly URI: F
+  readonly _A: A
+  readonly _RL: RL
+  readonly _RR: RR
+  readonly compact: (fa: HKT<F, Option<A>>) => HKT<F, A>
+  readonly separate: (fa: HKT<F, Either<RL, RR>>) => Separated<HKT<F, RL>, HKT<F, RR>>
+}
+
+/**
+ * @see Compactable
+ * @since 1.7.0
+ */
 export interface Compactable1<F extends URIS> {
   readonly URI: F
   readonly compact: <A>(fa: Type<F, Option<A>>) => Type<F, A>
   readonly separate: <A, B>(fa: Type<F, Either<A, B>>) => Separated<Type<F, A>, Type<F, B>>
+}
+
+/**
+ * @see Compactable
+ * @since 1.7.0
+ */
+export interface Compactable1A<F extends URIS, A, RL, RR> {
+  readonly URI: F
+  readonly _A: A
+  readonly _RL: RL
+  readonly _RR: RR
+  readonly compact: (fa: Type<F, Option<A>>) => Type<F, A>
+  readonly separate: (fa: Type<F, Either<RL, RR>>) => Separated<Type<F, RL>, Type<F, RR>>
 }
 
 /**

@@ -3,8 +3,8 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Predicate, not } from './function'
-import { Compactable1, Separated } from './Compactable'
+import { Predicate, not, phantom } from './function'
+import { Compactable1A, Separated } from './Compactable'
 import { Option } from './Option'
 
 declare global {
@@ -318,45 +318,54 @@ export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
   return r
 }
 
-const compact = <A>(fa: Set<Option<A>>): Set<A> => {
-  const values = fa.values()
-  let e: IteratorResult<Option<A>>
-  let result = new Set()
-  // tslint:disable:no-conditional-assignment
-  while (!(e = values.next()).done) {
-    const optionA = e.value
-    if (optionA.isSome()) {
-      result.add(optionA.value)
+/**
+ * Builds {@link Compactable} instance for {@link Set} given 3 {@link Setoid} for {@link Compactable.compact} and {@link Compactable.separate} to operate
+ * @function
+ * @since 1.7.0
+ */
+export function getCompactable<A, RL, RR>(
+  SA: Setoid<A>,
+  SRL: Setoid<RL>,
+  SRR: Setoid<RR>
+): Compactable1A<URI, A, RL, RR> {
+  const compact = (fa: Set<Option<A>>): Set<A> => {
+    const values = fa.values()
+    let e: IteratorResult<Option<A>>
+    let result = new Set()
+    // tslint:disable:no-conditional-assignment
+    while (!(e = values.next()).done) {
+      const optionA = e.value
+      if (optionA.isSome()) {
+        result.add(optionA.value)
+      }
     }
+    return result
   }
-  return result
-}
-const separate = <RL, RR>(fa: Set<Either<RL, RR>>): Separated<Set<RL>, Set<RR>> => {
-  const values = fa.values()
-  let e: IteratorResult<Either<RL, RR>>
-  const left = new Set()
-  const right = new Set()
-  // tslint:disable:no-conditional-assignment
-  while (!(e = values.next()).done) {
-    const eitherA = e.value
-    if (eitherA.isLeft()) {
-      left.add(eitherA.value)
-    } else {
-      right.add(eitherA.value)
+  const separate = (fa: Set<Either<RL, RR>>): Separated<Set<RL>, Set<RR>> => {
+    const values = fa.values()
+    let e: IteratorResult<Either<RL, RR>>
+    const left = new Set()
+    const right = new Set()
+    // tslint:disable:no-conditional-assignment
+    while (!(e = values.next()).done) {
+      const eitherA = e.value
+      if (eitherA.isLeft()) {
+        left.add(eitherA.value)
+      } else {
+        right.add(eitherA.value)
+      }
+    }
+    return {
+      left,
+      right
     }
   }
   return {
-    left,
-    right
+    URI,
+    _A: phantom,
+    _RL: phantom,
+    _RR: phantom,
+    compact,
+    separate
   }
-}
-
-/**
- * @instance
- * @since 1.7.0
- */
-export const set: Compactable1<URI> = {
-  URI,
-  compact,
-  separate
 }
