@@ -21,8 +21,6 @@ import { setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { monoidString } from '../src/Monoid'
-import { partitionMapDefaultSeparate } from '../src/Filterable'
-import { array } from '../src/Array'
 
 describe('Either', () => {
   it('fold', () => {

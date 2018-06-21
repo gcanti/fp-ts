@@ -6,7 +6,6 @@ import {
   Compactable2C,
   Compactable3,
   Compactable3C,
-  separated,
   Separated
 } from './Compactable'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
@@ -217,7 +216,10 @@ export function partitionDefaultFilter<F extends URIS>(
 ): Filterable1<F>['partition']
 export function partitionDefaultFilter<F>(F: Pick<Filterable<F>, 'URI' | 'filter'>): Filterable<F>['partition']
 export function partitionDefaultFilter<F>(F: Pick<Filterable<F>, 'URI' | 'filter'>): Filterable<F>['partition'] {
-  return (fa, p) => separated(F.filter(fa, not(p)), F.filter(fa, p))
+  return (fa, p) => ({
+    left: F.filter(fa, not(p)),
+    right: F.filter(fa, p)
+  })
 }
 
 /**
@@ -242,7 +244,10 @@ export function partitionDefaultFilterMap<F extends URIS>(
 ): Filterable1<F>['partition']
 export function partitionDefaultFilterMap<F>(F: Pick<Filterable<F>, 'URI' | 'filterMap'>): Filterable<F>['partition']
 export function partitionDefaultFilterMap<F>(F: Pick<Filterable<F>, 'URI' | 'filterMap'>): Filterable<F>['partition'] {
-  return (fa, p) => separated(F.filterMap(fa, optionBool(not(p))), F.filterMap(fa, optionBool(p)))
+  return (fa, p) => ({
+    left: F.filterMap(fa, optionBool(not(p))),
+    right: F.filterMap(fa, optionBool(p))
+  })
 }
 
 /**
