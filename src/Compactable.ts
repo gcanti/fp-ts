@@ -36,6 +36,7 @@ export interface Compactable<F> {
 }
 
 /**
+ * @typeclass
  * @see Compactable
  * @since 1.7.0
  */
@@ -49,6 +50,7 @@ export interface CompactableA<F, A, RL, RR> {
 }
 
 /**
+ * @typeclass
  * @see Compactable
  * @since 1.7.0
  */
@@ -59,6 +61,7 @@ export interface Compactable1<F extends URIS> {
 }
 
 /**
+ * @typeclass
  * @see Compactable
  * @since 1.7.0
  */
@@ -72,6 +75,7 @@ export interface Compactable1A<F extends URIS, A, RL, RR> {
 }
 
 /**
+ * @typeclass
  * @see Compactable
  * @since 1.7.0
  */
@@ -82,6 +86,7 @@ export interface Compactable2<F extends URIS2> {
 }
 
 /**
+ * @typeclass
  * @see Compactable
  * @since 1.7.0
  */
