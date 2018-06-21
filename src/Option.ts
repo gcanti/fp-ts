@@ -557,7 +557,7 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
 }
 
 const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
-const separate = <RL, RR, A>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> =>
+const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> =>
   fa.foldL(
     () => ({
       left: none,
