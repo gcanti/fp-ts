@@ -13,6 +13,7 @@ import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { identity, Lazy, Predicate, Refinement, toString } from './function'
 import { Compactable1, Separated } from './Compactable'
+import { Filterable1 } from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -564,24 +565,47 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
 export const optionBool = <A>(p: Predicate<A>) => (a: A): Option<A> => (p(a) ? some(a) : none)
 
 const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
-const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> =>
-  fa.foldL(
-    () => ({
+const separate = <RL, RR, A>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
+  if (fa.isNone()) {
+    return {
       left: none,
       right: none
-    }),
-    e =>
-      e.fold<Separated<Option<RL>, Option<RR>>>(
-        l => ({
-          left: some(l),
-          right: none
-        }),
-        r => ({
-          left: none,
-          right: some(r)
-        })
-      )
-  )
+    }
+  }
+  if (fa.value.isLeft()) {
+    return {
+      left: some(fa.value.value),
+      right: none
+    }
+  }
+  return {
+    left: none,
+    right: some(fa.value.value)
+  }
+}
+const filterMap = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => (fa.isNone() ? none : f(fa.value))
+const filter = <A, B>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
+const partitionMap = <RL, RR, A>(fa: Option<A>, f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> =>
+  separate(fa.map(f))
+const partition = <A>(fa: Option<A>, p: Predicate<A>): Separated<Option<A>, Option<A>> => {
+  if (fa.isNone()) {
+    return {
+      left: none,
+      right: none
+    }
+  }
+  if (p(fa.value)) {
+    return {
+      left: none,
+      right: fa
+    }
+  }
+  return {
+    left: fa,
+    right: none
+  }
+}
+
 /**
  * @instance
  * @since 1.0.0
@@ -592,7 +616,8 @@ export const option: Monad1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
-  Compactable1<URI> = {
+  Compactable1<URI> &
+  Filterable1<URI> = {
   URI,
   map,
   of,
@@ -604,5 +629,9 @@ export const option: Monad1<URI> &
   alt,
   extend,
   compact,
-  separate
+  separate,
+  filter,
+  filterMap,
+  partition,
+  partitionMap
 }
