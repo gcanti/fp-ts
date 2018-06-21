@@ -107,7 +107,7 @@ Adding an entry means to leverage the module augmentation feature
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    Identity: Identity<A> // maps the key "Identity" to the type constructor `Identity`
+    Identity: Identity<A> // maps the key "Identity" to the type `Identity`
   }
 }
 ```
