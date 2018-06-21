@@ -1,7 +1,7 @@
 import * as assert from 'assert'
-import { Either, left, right, separateDefault } from '../src/Either'
-import { none, some, Option, option, compactDefault } from '../src/Option'
-import { separated, Separated } from '../src/Compactable'
+import { Either, left, right } from '../src/Either'
+import { none, some, Option, option } from '../src/Option'
+import { compactDefault, separated, Separated, separateDefault } from '../src/Compactable'
 import { identity } from '../src/function'
 
 describe('Compactable', () => {
