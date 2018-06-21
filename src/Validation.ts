@@ -13,6 +13,13 @@ import { Predicate, phantom, toString } from './function'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, Separated } from './Compactable'
 import { Option } from './Option'
+import {
+  Filterable2C,
+  filterDefaultFilterMap,
+  filterMapDefaultCompact,
+  partitionDefaultPartitionMap,
+  partitionMapDefaultSeparate
+} from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-validation
 
@@ -358,6 +365,46 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
     _L: phantom,
     compact,
     separate
+  }
+}
+
+/**
+ * Builds {@link Filterable} instance for {@link Validation} gived {@link Monoid} for the left side
+ * @function
+ * @since 1.7.0
+ */
+export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
+  const C = getCompactable(ML)
+  const { URI, _L, compact, separate } = C
+  const partitionMap = partitionMapDefaultSeparate({
+    URI,
+    _L,
+    map,
+    separate
+  })
+  const partition = partitionDefaultPartitionMap({
+    URI,
+    _L,
+    partitionMap
+  })
+  const filterMap = filterMapDefaultCompact({
+    URI,
+    _L,
+    map,
+    compact
+  })
+  const filter = filterDefaultFilterMap({
+    URI,
+    _L,
+    filterMap
+  })
+  return {
+    ...C,
+    map,
+    partitionMap,
+    filterMap,
+    partition,
+    filter
   }
 }
 

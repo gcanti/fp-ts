@@ -19,9 +19,12 @@ import {
   success,
   validation,
   getMonoid,
-  getCompactable
+  getCompactable,
+  getFilterable
 } from '../src/Validation'
 import { left, right } from '../src/Either'
+
+const p = (n: number): boolean => n > 2
 
 describe('Validation', () => {
   it('getMonad', () => {
@@ -148,10 +151,9 @@ describe('Validation', () => {
 
   it('bimap', () => {
     const f = (s: string): number => s.length
-    const g = (n: number): boolean => n > 2
-    assert.deepEqual(success<string, number>(1).bimap(f, g), success(false))
-    assert.deepEqual(failure<string, number>('foo').bimap(f, g), failure(3))
-    assert.deepEqual(validation.bimap(success<string, number>(1), f, g), success(false))
+    assert.deepEqual(success<string, number>(1).bimap(f, p), success(false))
+    assert.deepEqual(failure<string, number>('foo').bimap(f, p), failure(3))
+    assert.deepEqual(validation.bimap(success<string, number>(1), f, p), success(false))
   })
 
   it('fromPredicate', () => {
@@ -188,6 +190,50 @@ describe('Validation', () => {
       assert.deepEqual(C.separate(failure('123')), { left: failure('123'), right: failure('123') })
       assert.deepEqual(C.separate(success(left('123'))), { left: success('123'), right: failure(monoidString.empty) })
       assert.deepEqual(C.separate(success(right('123'))), { left: failure(monoidString.empty), right: success('123') })
+    })
+  })
+
+  describe('getFilterable', () => {
+    const F = getFilterable(monoidString)
+    it('partition', () => {
+      assert.deepEqual(F.partition(failure<string, number>('123'), p), {
+        left: failure('123'),
+        right: failure('123')
+      })
+      assert.deepEqual(F.partition(success<string, number>(1), p), {
+        left: success(1),
+        right: failure(monoidString.empty)
+      })
+      assert.deepEqual(F.partition(success<string, number>(3), p), {
+        left: failure(monoidString.empty),
+        right: success(3)
+      })
+    })
+    it('partitionMap', () => {
+      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+      assert.deepEqual(F.partitionMap(failure<string, number>('123'), f), {
+        left: failure('123'),
+        right: failure('123')
+      })
+      assert.deepEqual(F.partitionMap(success<string, number>(1), f), {
+        left: success(0),
+        right: failure(monoidString.empty)
+      })
+      assert.deepEqual(F.partitionMap(success<string, number>(3), f), {
+        left: failure(monoidString.empty),
+        right: success(4)
+      })
+    })
+    it('filter', () => {
+      assert.deepEqual(F.filter(failure<string, number>('123'), p), failure('123'))
+      assert.deepEqual(F.filter(success<string, number>(1), p), failure(monoidString.empty))
+      assert.deepEqual(F.filter(success<string, number>(3), p), success(3))
+    })
+    it('filterMap', () => {
+      const f = (n: number) => (p(n) ? some(n + 1) : none)
+      assert.deepEqual(F.filterMap(failure<string, number>('123'), f), failure('123'))
+      assert.deepEqual(F.filterMap(success<string, number>(1), f), failure(monoidString.empty))
+      assert.deepEqual(F.filterMap(success<string, number>(3), f), success(4))
     })
   })
 })
