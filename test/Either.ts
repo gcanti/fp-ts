@@ -21,7 +21,6 @@ import { setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { monoidString } from '../src/Monoid'
-import { separated } from '../src/Compactable'
 
 describe('Either', () => {
   it('fold', () => {
@@ -283,9 +282,9 @@ describe('Either', () => {
     })
 
     it('separate', () => {
-      assert.deepEqual(C.separate(left('123')), separated(left('123'), left('123')))
-      assert.deepEqual(C.separate(right(left('123'))), separated(right('123'), left(monoidString.empty)))
-      assert.deepEqual(C.separate(right(right('123'))), separated(left(monoidString.empty), right('123')))
+      assert.deepEqual(C.separate(left('123')), { left: left('123'), right: left('123') })
+      assert.deepEqual(C.separate(right(left('123'))), { left: right('123'), right: left(monoidString.empty) })
+      assert.deepEqual(C.separate(right(right('123'))), { left: left(monoidString.empty), right: right('123') })
     })
   })
 })

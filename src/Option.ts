@@ -12,7 +12,7 @@ import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { identity, Lazy, Predicate, Refinement, toString } from './function'
-import { Compactable1, separated, Separated } from './Compactable'
+import { Compactable1, Separated } from './Compactable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -559,8 +559,21 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
 const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
 const separate = <RL, RR, A>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> =>
   fa.foldL(
-    () => separated(none, none),
-    e => e.fold<Separated<Option<RL>, Option<RR>>>(l => separated(some(l), none), r => separated(none, some(r)))
+    () => ({
+      left: none,
+      right: none
+    }),
+    e =>
+      e.fold<Separated<Option<RL>, Option<RR>>>(
+        l => ({
+          left: some(l),
+          right: none
+        }),
+        r => ({
+          left: none,
+          right: some(r)
+        })
+      )
   )
 
 /**

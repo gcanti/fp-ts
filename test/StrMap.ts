@@ -20,7 +20,6 @@ import {
 } from '../src/StrMap'
 import { traverse } from '../src/Traversable'
 import { semigroupSum } from '../src/Semigroup'
-import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
 
 describe('StrMap', () => {
@@ -139,9 +138,9 @@ describe('StrMap', () => {
   })
 
   it('separate', () => {
-    assert.deepEqual(
-      strmap.separate(new StrMap({ foo: left(123), bar: right(123) })),
-      separated(new StrMap({ foo: 123 }), new StrMap({ bar: 123 }))
-    )
+    assert.deepEqual(strmap.separate(new StrMap({ foo: left(123), bar: right(123) })), {
+      left: new StrMap({ foo: 123 }),
+      right: new StrMap({ bar: 123 })
+    })
   })
 })

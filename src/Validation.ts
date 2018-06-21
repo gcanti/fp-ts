@@ -11,7 +11,7 @@ import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
 import { Predicate, phantom, toString } from './function'
 import { Bifunctor2 } from './Bifunctor'
-import { Compactable2C, separated, Separated } from './Compactable'
+import { Compactable2C, Separated } from './Compactable'
 import { Option } from './Option'
 
 // Adapted from https://github.com/purescript/purescript-validation
@@ -336,8 +336,21 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 
   const separate = <RL, RR, A>(fa: Validation<L, Either<RL, RR>>): Separated<Validation<L, RL>, Validation<L, RR>> =>
     fa.fold(
-      l => separated(failure(l), failure(l)),
-      e => e.fold(l => separated(success(l), failure(ML.empty)), r => separated(failure(ML.empty), success(r)))
+      l => ({
+        left: failure<L, RL>(l),
+        right: failure<L, RR>(l)
+      }),
+      e =>
+        e.fold(
+          l => ({
+            left: success<L, RL>(l),
+            right: failure<L, RR>(ML.empty)
+          }),
+          r => ({
+            left: failure<L, RL>(ML.empty),
+            right: success<L, RR>(r)
+          })
+        )
     )
 
   return {

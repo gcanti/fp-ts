@@ -21,7 +21,6 @@ import {
   getMonoid,
   getCompactable
 } from '../src/Validation'
-import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
 
 describe('Validation', () => {
@@ -186,9 +185,9 @@ describe('Validation', () => {
     })
 
     it('separate', () => {
-      assert.deepEqual(C.separate(failure('123')), separated(failure('123'), failure('123')))
-      assert.deepEqual(C.separate(success(left('123'))), separated(success('123'), failure(monoidString.empty)))
-      assert.deepEqual(C.separate(success(right('123'))), separated(failure(monoidString.empty), success('123')))
+      assert.deepEqual(C.separate(failure('123')), { left: failure('123'), right: failure('123') })
+      assert.deepEqual(C.separate(success(left('123'))), { left: success('123'), right: failure(monoidString.empty) })
+      assert.deepEqual(C.separate(success(right('123'))), { left: failure(monoidString.empty), right: success('123') })
     })
   })
 })

@@ -24,7 +24,6 @@ import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
-import { separated } from '../src/Compactable'
 
 describe('Option', () => {
   it('fold', () => {
@@ -294,8 +293,8 @@ describe('Option', () => {
   })
 
   it('separate', () => {
-    assert.deepEqual(option.separate(none), separated(none, none))
-    assert.deepEqual(option.separate(some(left('123'))), separated(some('123'), none))
-    assert.deepEqual(option.separate(some(right('123'))), separated(none, some('123')))
+    assert.deepEqual(option.separate(none), { left: none, right: none })
+    assert.deepEqual(option.separate(some(left('123'))), { left: some('123'), right: none })
+    assert.deepEqual(option.separate(some(right('123'))), { left: none, right: some('123') })
   })
 })

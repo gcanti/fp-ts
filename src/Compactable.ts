@@ -13,16 +13,6 @@ export type Separated<A, B> = {
 }
 
 /**
- * Builds {@link Separated} value from left and right parts
- * @function
- * @since 1.7.0
- */
-export const separated = <A, B>(left: A, right: B): Separated<A, B> => ({
-  left,
-  right
-})
-
-/**
  * @typeclass
  * `Compactable` represents data structures which can be _compacted_/_filtered_.
  * This is a generalization of catOptions as a new function `compact`. `compact` has relations with {@link Functor}, {@link Applicative}, {@link Monad}, {@link Plus}, and {@link Traversable} in that we can use these classes to provide the ability to operate on a data type by eliminating intermediate Nones. This is useful for representing the filtering out of values, or failure.
@@ -148,6 +138,6 @@ export function separateDefault<F>(F: Functor<F> & Pick<Compactable<F>, 'compact
   return fe => {
     const left = F.compact(F.map(fe, e => fromEither(e.swap())))
     const right = F.compact(F.map(fe, fromEither))
-    return separated(left, right)
+    return { left, right }
   }
 }

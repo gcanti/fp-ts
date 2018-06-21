@@ -4,7 +4,7 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Predicate, not } from './function'
-import { Compactable1, separated, Separated } from './Compactable'
+import { Compactable1, Separated } from './Compactable'
 import { Option } from './Option'
 
 declare global {
@@ -136,18 +136,21 @@ export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
 export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> => {
   const values = x.values()
   let e: IteratorResult<A>
-  let t = new Set()
-  let f = new Set()
+  let right = new Set()
+  let left = new Set()
   // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const value = e.value
     if (predicate(value)) {
-      t.add(value)
+      right.add(value)
     } else {
-      f.add(value)
+      left.add(value)
     }
   }
-  return separated(f, t)
+  return {
+    left,
+    right
+  }
 }
 
 /**
@@ -204,18 +207,21 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
 export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Separated<Set<L>, Set<R>> => {
   const values = x.values()
   let e: IteratorResult<A>
-  let l = new Set()
-  let r = new Set()
+  let left = new Set()
+  let right = new Set()
   // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const v = f(e.value)
     if (v.isLeft()) {
-      l.add(v.value)
+      left.add(v.value)
     } else {
-      r.add(v.value)
+      right.add(v.value)
     }
   }
-  return separated(l, r)
+  return {
+    left,
+    right
+  }
 }
 
 /**
@@ -339,7 +345,10 @@ const separate = <RL, RR>(fa: Set<Either<RL, RR>>): Separated<Set<RL>, Set<RR>> 
       right.add(eitherA.value)
     }
   }
-  return separated(left, right)
+  return {
+    left,
+    right
+  }
 }
 
 /**

@@ -11,7 +11,7 @@ import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
 import { Predicate, tuple } from './function'
 import { Either } from './Either'
-import { Compactable1, separated, Separated } from './Compactable'
+import { Compactable1, Separated } from './Compactable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -323,7 +323,10 @@ const separate = <RL, RR>(fa: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, Str
       right[key] = eitherA.value
     }
   }
-  return separated(new StrMap(left), new StrMap(right))
+  return {
+    left: new StrMap(left),
+    right: new StrMap(right)
+  }
 }
 
 /**

@@ -11,7 +11,7 @@ import { Option } from './Option'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
 import { Validation } from './Validation'
-import { Compactable2C, separated, Separated } from './Compactable'
+import { Compactable2C, Separated } from './Compactable'
 import { Monoid } from './Monoid'
 
 declare module './HKT' {
@@ -440,8 +440,21 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
     fa.fold(l => left(l), r => r.foldL(() => left(ML.empty), a => right(a)))
   const separate = <A, B>(fa: Either<L, Either<A, B>>): Separated<Either<L, A>, Either<L, B>> =>
     fa.fold(
-      x => separated(left(x), left(x)),
-      e => e.fold(l => separated(right(l), left(ML.empty)), r => separated(left(ML.empty), right(r)))
+      x => ({
+        left: left<L, A>(x),
+        right: left<L, B>(x)
+      }),
+      e =>
+        e.fold(
+          l => ({
+            left: right<L, A>(l),
+            right: left<L, B>(ML.empty)
+          }),
+          r => ({
+            left: left<L, A>(ML.empty),
+            right: right<L, B>(r)
+          })
+        )
     )
 
   return {
