@@ -27,7 +27,6 @@ import {
 } from '../src/Set'
 import { Setoid, setoidNumber, setoidString } from '../src/Setoid'
 import { none, option } from '../src/Option'
-import { separated } from '../src/Compactable'
 
 const gte2 = (n: number) => n >= 2
 
@@ -171,6 +170,9 @@ describe('Set', () => {
   })
 
   it('separate', () => {
-    assert.deepEqual(set.separate(new Set([left('123'), right(123)])), separated(new Set(['123']), new Set([123])))
+    assert.deepEqual(set.separate(new Set([left('123'), right(123)])), {
+      left: new Set(['123']),
+      right: new Set([123])
+    })
   })
 })
