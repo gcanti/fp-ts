@@ -17,13 +17,19 @@ import {
   none,
   option,
   some,
-  tryCatch
+  tryCatch,
+  optionBool,
+  partitionDefaultFilterMap,
+  filterDefaultFilterMap
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
+import { filterMapDefaultCompact } from '../src/Filterable'
+
+const p = (n: number): boolean => n > 2
 
 describe('Option', () => {
   it('fold', () => {
@@ -180,7 +186,7 @@ describe('Option', () => {
   })
 
   it('fromPredicate', () => {
-    const f = fromPredicate((n: number) => n > 2)
+    const f = fromPredicate(p)
     assert.deepEqual(f(1), none)
     assert.deepEqual(f(3), some(3))
   })
@@ -296,5 +302,43 @@ describe('Option', () => {
     assert.deepEqual(option.separate(none), { left: none, right: none })
     assert.deepEqual(option.separate(some(left('123'))), { left: some('123'), right: none })
     assert.deepEqual(option.separate(some(right('123'))), { left: none, right: some('123') })
+  })
+
+  it('optionBool', () => {
+    const optionP = optionBool(p)
+    assert.deepEqual(optionP(1), none)
+    assert.deepEqual(optionP(3), some(3))
+  })
+
+  it('partitionDefaultFilterMap', () => {
+    const { URI, map, compact } = array
+    const filterMapF = filterMapDefaultCompact({
+      URI,
+      map,
+      compact
+    })
+    const partitionF = partitionDefaultFilterMap({
+      URI,
+      filterMap: filterMapF
+    })
+
+    assert.deepEqual(partitionF([], p), separated([], []))
+    assert.deepEqual(partitionF([1, 3], p), separated([1], [3]))
+  })
+
+  it('filterDefaultFilterMap', () => {
+    const { URI, map, compact } = array
+    const filterMapF = filterMapDefaultCompact({
+      URI,
+      map,
+      compact
+    })
+    const filterF = filterDefaultFilterMap({
+      URI,
+      filterMap: filterMapF
+    })
+
+    assert.deepEqual(filterF([], p), [])
+    assert.deepEqual(filterF([1, 3], p), [3])
   })
 })
