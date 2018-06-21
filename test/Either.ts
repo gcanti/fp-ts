@@ -14,7 +14,8 @@ import {
   isLeft,
   isRight,
   fromRefinement,
-  getCompactable
+  getCompactable,
+  getFilterable
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
@@ -285,6 +286,39 @@ describe('Either', () => {
       assert.deepEqual(C.separate(left('123')), { left: left('123'), right: left('123') })
       assert.deepEqual(C.separate(right(left('123'))), { left: right('123'), right: left(monoidString.empty) })
       assert.deepEqual(C.separate(right(right('123'))), { left: left(monoidString.empty), right: right('123') })
+    })
+  })
+
+  describe('getFilterable', () => {
+    const F = getFilterable(monoidString)
+    const p = (n: number) => n > 2
+    it('partition', () => {
+      assert.deepEqual(F.partition(left<string, number>('123'), p), {
+        left: left('123'),
+        right: left('123')
+      })
+      assert.deepEqual(F.partition(right<string, number>(1), p), { left: right(1), right: left(monoidString.empty) })
+      assert.deepEqual(F.partition(right<string, number>(3), p), { left: left(monoidString.empty), right: right(3) })
+    })
+    it('partitionMap', () => {
+      const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+      assert.deepEqual(F.partitionMap(left<string, number>('123'), f), {
+        left: left('123'),
+        right: left('123')
+      })
+      assert.deepEqual(F.partitionMap(right<string, number>(1), f), { left: right(0), right: left(monoidString.empty) })
+      assert.deepEqual(F.partitionMap(right<string, number>(3), f), { left: left(monoidString.empty), right: right(4) })
+    })
+    it('filter', () => {
+      assert.deepEqual(F.filter(left<string, number>('123'), p), left('123'))
+      assert.deepEqual(F.filter(right<string, number>(1), p), left(monoidString.empty))
+      assert.deepEqual(F.filter(right<string, number>(3), p), right(3))
+    })
+    it('filterMap', () => {
+      const f = (n: number) => (p(n) ? some(n + 1) : none)
+      assert.deepEqual(F.filterMap(left<string, number>('123'), f), left('123'))
+      assert.deepEqual(F.filterMap(right<string, number>(1), f), left(monoidString.empty))
+      assert.deepEqual(F.filterMap(right<string, number>(3), f), right(4))
     })
   })
 })

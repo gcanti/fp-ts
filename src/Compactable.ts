@@ -178,13 +178,13 @@ export function compactDefaultSeparate<F>(F: Functor<F> & Pick<Compactable<F>, '
  * @since 1.7.0
  */
 export function compactDefaultFilterMap<F extends URIS3, U, L>(
-  F: Pick<Filterable3C<F, U, L>, 'URI' | 'filterMap'>
+  F: Pick<Filterable3C<F, U, L>, 'URI' | '_U' | '_L' | 'filterMap'>
 ): Compactable3C<F, U, L>['compact']
 export function compactDefaultFilterMap<F extends URIS3>(
   F: Pick<Filterable3<F>, 'URI' | 'filterMap'>
 ): Compactable3<F>['compact']
 export function compactDefaultFilterMap<F extends URIS2, L>(
-  F: Pick<Filterable2C<F, L>, 'URI' | 'filterMap'>
+  F: Pick<Filterable2C<F, L>, 'URI' | '_L' | 'filterMap'>
 ): Compactable2C<F, L>['compact']
 export function compactDefaultFilterMap<F extends URIS2>(
   F: Pick<Filterable2<F>, 'URI' | 'filterMap'>
@@ -232,13 +232,13 @@ export function separateDefaultCompact<F>(F: Functor<F> & Pick<Compactable<F>, '
  * @since 1.7.0
  */
 export function separateDefaultPartitionMap<F extends URIS3, U, L>(
-  F: Pick<Filterable3C<F, U, L>, 'URI' | 'partitionMap'>
+  F: Pick<Filterable3C<F, U, L>, 'URI' | '_U' | '_L' | 'partitionMap'>
 ): Compactable3C<F, U, L>['separate']
 export function separateDefaultPartitionMap<F extends URIS3>(
   F: Pick<Filterable3<F>, 'URI' | 'partitionMap'>
 ): Compactable3<F>['separate']
 export function separateDefaultPartitionMap<F extends URIS2, L>(
-  F: Pick<Filterable2C<F, L>, 'URI' | 'partitionMap'>
+  F: Pick<Filterable2C<F, L>, 'URI' | '_L' | 'partitionMap'>
 ): Compactable2C<F, L>['separate']
 export function separateDefaultPartitionMap<F extends URIS2>(
   F: Pick<Filterable2<F>, 'URI' | 'partitionMap'>
