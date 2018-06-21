@@ -17,10 +17,7 @@ import {
   none,
   option,
   some,
-  tryCatch,
-  optionBool,
-  partitionDefaultFilterMap,
-  filterDefaultFilterMap
+  tryCatch
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
@@ -302,43 +299,5 @@ describe('Option', () => {
     assert.deepEqual(option.separate(none), { left: none, right: none })
     assert.deepEqual(option.separate(some(left('123'))), { left: some('123'), right: none })
     assert.deepEqual(option.separate(some(right('123'))), { left: none, right: some('123') })
-  })
-
-  it('optionBool', () => {
-    const optionP = optionBool(p)
-    assert.deepEqual(optionP(1), none)
-    assert.deepEqual(optionP(3), some(3))
-  })
-
-  it('partitionDefaultFilterMap', () => {
-    const { URI, map, compact } = array
-    const filterMapF = filterMapDefaultCompact({
-      URI,
-      map,
-      compact
-    })
-    const partitionF = partitionDefaultFilterMap({
-      URI,
-      filterMap: filterMapF
-    })
-
-    assert.deepEqual(partitionF([], p), separated([], []))
-    assert.deepEqual(partitionF([1, 3], p), separated([1], [3]))
-  })
-
-  it('filterDefaultFilterMap', () => {
-    const { URI, map, compact } = array
-    const filterMapF = filterMapDefaultCompact({
-      URI,
-      map,
-      compact
-    })
-    const filterF = filterDefaultFilterMap({
-      URI,
-      filterMap: filterMapF
-    })
-
-    assert.deepEqual(filterF([], p), [])
-    assert.deepEqual(filterF([1, 3], p), [3])
   })
 })

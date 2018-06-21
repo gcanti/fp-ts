@@ -14,9 +14,7 @@ import {
   isLeft,
   isRight,
   fromRefinement,
-  getCompactable,
-  eitherBool,
-  filterDefaultPartitionMap
+  getCompactable
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
@@ -290,47 +288,5 @@ describe('Either', () => {
       assert.deepEqual(C.separate(right(left('123'))), { left: right('123'), right: left(monoidString.empty) })
       assert.deepEqual(C.separate(right(right('123'))), { left: left(monoidString.empty), right: right('123') })
     })
-  })
-
-  it('eitherBool', () => {
-    const p = (n: number) => n > 2
-    const eitherP = eitherBool(p)
-    assert.deepEqual(eitherP(1), left(1))
-    assert.deepEqual(eitherP(3), right(3))
-  })
-
-  it('partitionDefaultPartitionMap', () => {
-    const { URI, map, separate } = array
-
-    const partitionMapF = partitionMapDefaultSeparate({
-      URI,
-      map,
-      separate
-    })
-
-    const f = (n: number) => (n > 2 ? right(n + 1) : left(n - 1))
-
-    assert.deepEqual(partitionMapF([], f), separated([], []))
-    assert.deepEqual(partitionMapF([1, 3], f), separated([0], [4]))
-  })
-
-  it('filterDefaultPartitionMap', () => {
-    const { URI, map, separate } = array
-
-    const partitionMapF = partitionMapDefaultSeparate({
-      URI,
-      map,
-      separate
-    })
-
-    const filterF = filterDefaultPartitionMap({
-      URI,
-      partitionMap: partitionMapF
-    })
-
-    const p = (n: number) => n > 2
-
-    assert.deepEqual(filterF([], p), [])
-    assert.deepEqual(filterF([1, 3], p), [3])
   })
 })
