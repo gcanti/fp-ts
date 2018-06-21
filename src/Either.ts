@@ -13,6 +13,13 @@ import { Traversable2 } from './Traversable'
 import { Validation } from './Validation'
 import { Compactable2C, Separated } from './Compactable'
 import { Monoid } from './Monoid'
+import {
+  Filterable2C,
+  filterDefaultFilterMap,
+  filterMapDefaultCompact,
+  partitionDefaultPartitionMap,
+  partitionMapDefaultSeparate
+} from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -462,6 +469,46 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
     _L: phantom,
     compact,
     separate
+  }
+}
+
+/**
+ * Builds {@link Filterable} instance for {@link Either} gived {@link Monoid} for the left side
+ * @function
+ * @since 1.7.0
+ */
+export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
+  const C = getCompactable(ML)
+  const { URI, _L, compact, separate } = C
+  const partitionMap = partitionMapDefaultSeparate({
+    URI,
+    _L,
+    map,
+    separate
+  })
+  const partition = partitionDefaultPartitionMap({
+    URI,
+    _L,
+    partitionMap
+  })
+  const filterMap = filterMapDefaultCompact({
+    URI,
+    _L,
+    map,
+    compact
+  })
+  const filter = filterDefaultFilterMap({
+    URI,
+    _L,
+    filterMap
+  })
+  return {
+    ...C,
+    map,
+    partitionMap,
+    filterMap,
+    partition,
+    filter
   }
 }
 
