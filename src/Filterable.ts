@@ -9,9 +9,9 @@ import {
   Separated
 } from './Compactable'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Either, left, right } from './Either'
+import { Either, eitherBool } from './Either'
 import { not, Predicate } from './function'
-import { none, Option, some } from './Option'
+import { Option, optionBool } from './Option'
 
 /**
  * @typeclass
@@ -121,20 +121,6 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
   readonly filterMap: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filter: <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
 }
-
-/**
- * Upgrade a boolean-style predicate to an either-style predicate mapping.
- * @function
- * @since 1.7.0
- */
-export const eitherBool = <A>(p: Predicate<A>) => (a: A): Either<A, A> => (p(a) ? right(a) : left(a))
-
-/**
- * Upgrade a boolean-style predicate to a maybe-style predicate mapping.
- * @function
- * @since 1.7.0
- */
-export const optionBool = <A>(p: Predicate<A>) => (a: A): Option<A> => (p(a) ? some(a) : none)
 
 /**
  * Gets default implementation of {@link Filterable.partitionMap} using {@link Compactable.separate}

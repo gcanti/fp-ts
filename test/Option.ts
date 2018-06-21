@@ -17,7 +17,8 @@ import {
   none,
   option,
   some,
-  tryCatch
+  tryCatch,
+  optionBool
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
@@ -298,5 +299,11 @@ describe('Option', () => {
     assert.deepEqual(option.separate(none), { left: none, right: none })
     assert.deepEqual(option.separate(some(left('123'))), { left: some('123'), right: none })
     assert.deepEqual(option.separate(some(right('123'))), { left: none, right: some('123') })
+  })
+
+  it('optionBool', () => {
+    const optionP = optionBool(p)
+    assert.deepEqual(optionP(1), none)
+    assert.deepEqual(optionP(3), some(3))
   })
 })

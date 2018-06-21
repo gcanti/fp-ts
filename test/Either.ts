@@ -15,13 +15,16 @@ import {
   isRight,
   fromRefinement,
   getCompactable,
-  getFilterable
+  getFilterable,
+  eitherBool
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { monoidString } from '../src/Monoid'
+
+const p = (n: number) => n > 2
 
 describe('Either', () => {
   it('fold', () => {
@@ -41,10 +44,9 @@ describe('Either', () => {
 
   it('bimap', () => {
     const f = (s: string): number => s.length
-    const g = (n: number): boolean => n > 2
-    assert.deepEqual(right<string, number>(1).bimap(f, g), right(false))
-    assert.deepEqual(left<string, number>('foo').bimap(f, g), left(3))
-    assert.deepEqual(either.bimap(right<string, number>(1), f, g), right(false))
+    assert.deepEqual(right<string, number>(1).bimap(f, p), right(false))
+    assert.deepEqual(left<string, number>('foo').bimap(f, p), left(3))
+    assert.deepEqual(either.bimap(right<string, number>(1), f, p), right(false))
   })
 
   it('ap', () => {
@@ -274,6 +276,12 @@ describe('Either', () => {
     assert.deepEqual(from('foo'), left('invalid color foo'))
   })
 
+  it('eitherBool', () => {
+    const eitherP = eitherBool(p)
+    assert.deepEqual(eitherP(1), left(1))
+    assert.deepEqual(eitherP(3), right(3))
+  })
+
   describe('getCompactable', () => {
     const C = getCompactable(monoidString)
     it('compact', () => {
@@ -291,7 +299,6 @@ describe('Either', () => {
 
   describe('getFilterable', () => {
     const F = getFilterable(monoidString)
-    const p = (n: number) => n > 2
     it('partition', () => {
       assert.deepEqual(F.partition(left<string, number>('123'), p), {
         left: left('123'),

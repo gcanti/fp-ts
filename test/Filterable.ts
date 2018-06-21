@@ -1,11 +1,9 @@
 import * as assert from 'assert'
 import {
-  eitherBool,
   filterDefaultFilterMap,
   filterDefaultPartition,
   filterDefaultPartitionMap,
   filterMapDefaultCompact,
-  optionBool,
   partitionDefaultFilter,
   partitionDefaultFilterMap,
   partitionDefaultPartitionMap,
@@ -17,19 +15,6 @@ import { none, some } from '../src/Option'
 
 describe('Filterable', () => {
   const p = (n: number) => n > 2
-
-  it('optionBool', () => {
-    const optionP = optionBool(p)
-    assert.deepEqual(optionP(1), none)
-    assert.deepEqual(optionP(3), some(3))
-  })
-
-  it('eitherBool', () => {
-    const p = (n: number) => n > 2
-    const eitherP = eitherBool(p)
-    assert.deepEqual(eitherP(1), left(1))
-    assert.deepEqual(eitherP(3), right(3))
-  })
 
   it('partitionMapDefaultSeparate', () => {
     const { URI, map, separate } = array

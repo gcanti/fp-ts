@@ -556,6 +556,13 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
   return refinement(a) ? some(a) : none
 }
 
+/**
+ * Upgrade a boolean-style predicate to a maybe-style predicate mapping.
+ * @function
+ * @since 1.7.0
+ */
+export const optionBool = <A>(p: Predicate<A>) => (a: A): Option<A> => (p(a) ? some(a) : none)
+
 const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
 const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> =>
   fa.foldL(
@@ -575,7 +582,6 @@ const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Opt
         })
       )
   )
-
 /**
  * @instance
  * @since 1.0.0

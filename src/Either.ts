@@ -438,6 +438,13 @@ export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
 }
 
 /**
+ * Upgrade a boolean-style predicate to an either-style predicate mapping.
+ * @function
+ * @since 1.7.0
+ */
+export const eitherBool = <A>(p: Predicate<A>) => (a: A): Either<A, A> => (p(a) ? right(a) : left(a))
+
+/**
  * Builds {@link Compactable} instance for {@link Either} given {@link Monoid} for the left side
  * @function
  * @since 1.7.0
