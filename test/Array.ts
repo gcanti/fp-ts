@@ -225,18 +225,6 @@ describe('Array', () => {
     assert.deepEqual(modifyAt(as, 1, double), some([1, 4, 3]))
   })
 
-  it('mapOption', () => {
-    const f = (a: number) => (a % 2 === 0 ? none : some(a))
-    assert.deepEqual(mapOption([], f), [])
-    assert.deepEqual(mapOption(as, f), [1, 3])
-  })
-
-  it('catOptions', () => {
-    assert.deepEqual(catOptions([]), [])
-    assert.deepEqual(catOptions([some(1), some(2), some(3)]), [1, 2, 3])
-    assert.deepEqual(catOptions([some(1), none, some(3)]), [1, 3])
-  })
-
   it('sort', () => {
     assert.deepEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
   })
@@ -272,11 +260,6 @@ describe('Array', () => {
     assert.deepEqual(flatten([[1], [2], [3]]), [1, 2, 3])
   })
 
-  it('partitionMap', () => {
-    assert.deepEqual(partitionMap([], x => x), { left: [], right: [] })
-    assert.deepEqual(partitionMap([right(1), left('foo'), right(2)], x => x), { left: ['foo'], right: [1, 2] })
-  })
-
   it('rotate', () => {
     assert.deepEqual(rotate(1, []), [])
     assert.deepEqual(rotate(1, [1]), [1])
@@ -287,10 +270,6 @@ describe('Array', () => {
     assert.deepEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
     assert.deepEqual(rotate(-1, [1, 2, 3, 4, 5]), [2, 3, 4, 5, 1])
     assert.deepEqual(rotate(-2, [1, 2, 3, 4, 5]), [3, 4, 5, 1, 2])
-  })
-
-  it('filter', () => {
-    assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
   })
 
   it('map', () => {
@@ -436,14 +415,43 @@ describe('Array', () => {
     ])
   })
 
-  it('compact', () => {
+  it('compact/catOptions', () => {
     assert.deepEqual(array.compact([]), [])
     assert.deepEqual(array.compact([some(1), some(2), some(3)]), [1, 2, 3])
     assert.deepEqual(array.compact([some(1), none, some(3)]), [1, 3])
+    assert.deepEqual(catOptions([]), [])
+    assert.deepEqual(catOptions([some(1), some(2), some(3)]), [1, 2, 3])
+    assert.deepEqual(catOptions([some(1), none, some(3)]), [1, 3])
   })
 
   it('separate', () => {
     assert.deepEqual(array.separate([]), { left: [], right: [] })
     assert.deepEqual(array.separate([left(123), right('123')]), { left: [123], right: ['123'] })
+  })
+
+  it('filter', () => {
+    assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
+    assert.deepEqual(array.filter([1, 2, 3], n => n % 2 === 1), [1, 3])
+  })
+
+  it('filterMap/mapOption', () => {
+    const f = (a: number) => (a % 2 === 0 ? none : some(a))
+    assert.deepEqual(mapOption([], f), [])
+    assert.deepEqual(mapOption(as, f), [1, 3])
+    assert.deepEqual(array.filterMap([], f), [])
+    assert.deepEqual(array.filterMap(as, f), [1, 3])
+  })
+
+  it('partitionMap', () => {
+    assert.deepEqual(partitionMap([], x => x), { left: [], right: [] })
+    assert.deepEqual(partitionMap([right(1), left('foo'), right(2)], x => x), { left: ['foo'], right: [1, 2] })
+    assert.deepEqual(array.partitionMap([], x => x), { left: [], right: [] })
+    assert.deepEqual(array.partitionMap([right(1), left('foo'), right(2)], x => x), { left: ['foo'], right: [1, 2] })
+  })
+
+  it('partition', () => {
+    const p = (n: number) => n > 2
+    assert.deepEqual(array.partition([], p), { left: [], right: [] })
+    assert.deepEqual(array.partition([1, 3], p), { left: [1], right: [3] })
   })
 })

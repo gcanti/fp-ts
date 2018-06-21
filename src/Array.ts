@@ -14,8 +14,9 @@ import { Plus1 } from './Plus'
 import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
-import { Endomorphism, Predicate, Refinement, concat, identity, tuple } from './function'
-import { Compactable1, Separated } from './Compactable'
+import { Endomorphism, Predicate, Refinement, concat, tuple } from './function'
+import { Compactable1, compactDefaultFilterMap, separateDefaultPartitionMap } from './Compactable'
+import { Filterable1, filterDefaultFilterMap, partitionDefaultPartitionMap } from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -178,25 +179,6 @@ const unfoldr = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
 
 const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
   return fa.map((_, i, as) => f(as.slice(i)))
-}
-
-/**
- * @function
- * @since 1.0.0
- */
-export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): { left: Array<L>; right: Array<R> } => {
-  const left: Array<L> = []
-  const right: Array<R> = []
-  const len = fa.length
-  for (let i = 0; i < len; i++) {
-    const v = f(fa[i])
-    if (v.isLeft()) {
-      left.push(v.value)
-    } else {
-      right.push(v.value)
-    }
-  }
-  return { left, right }
 }
 
 /**
@@ -522,23 +504,6 @@ export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> =>
 }
 
 /**
- * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
- * @function
- * @since 1.0.0
- */
-export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
-  const l = as.length
-  const r = []
-  for (let i = 0; i < l; i++) {
-    const v = as[i]
-    if (predicate(v)) {
-      r.push(v)
-    }
-  }
-  return r
-}
-
-/**
  * @function
  * @since 1.0.0
  */
@@ -633,33 +598,6 @@ export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option
  */
 export const reverse = <A>(as: Array<A>): Array<A> => {
   return copy(as).reverse()
-}
-
-/**
- * Apply a function to each element in an array, keeping only the results
- * which contain a value, creating a new array
- * @function
- * @since 1.0.0
- */
-export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
-  const r: Array<B> = []
-  const len = as.length
-  for (let i = 0; i < len; i++) {
-    const v = f(as[i])
-    if (v.isSome()) {
-      r.push(v.value)
-    }
-  }
-  return r
-}
-
-/**
- * Filter an array of optional values, keeping only the elements which contain a value, creating a new array
- * @function
- * @since 1.0.0
- */
-export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
-  return mapOption(as, identity)
 }
 
 /**
@@ -803,8 +741,72 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
-const compact = catOptions
-const separate = <L, A>(fa: Either<L, A>[]): Separated<L[], A[]> => partitionMap(fa, identity)
+const filterMap = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
+  const r: Array<B> = []
+  const len = as.length
+  for (let i = 0; i < len; i++) {
+    const v = f(as[i])
+    if (v.isSome()) {
+      r.push(v.value)
+    }
+  }
+  return r
+}
+/**
+ * @function
+ * @since 1.0.0
+ */
+export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): { left: Array<L>; right: Array<R> } => {
+  const left: Array<L> = []
+  const right: Array<R> = []
+  const len = fa.length
+  for (let i = 0; i < len; i++) {
+    const v = f(fa[i])
+    if (v.isLeft()) {
+      left.push(v.value)
+    } else {
+      right.push(v.value)
+    }
+  }
+  return { left, right }
+}
+/**
+ * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
+ * @function
+ * @since 1.0.0
+ */
+export const filter = filterDefaultFilterMap({
+  URI,
+  filterMap
+})
+const partition = partitionDefaultPartitionMap({
+  URI,
+  partitionMap
+})
+const compact = compactDefaultFilterMap({
+  URI,
+  filterMap
+})
+const separate = separateDefaultPartitionMap({
+  URI,
+  partitionMap
+})
+
+/**
+ * Filter an array of optional values, keeping only the elements which contain a value, creating a new array
+ * Alias for {@link Compactable.compact}
+ * @function
+ * @since 1.0.0
+ */
+export const catOptions = compact
+
+/**
+ * Apply a function to each element in an array, keeping only the results which contain a value, creating a new array
+ * Alias for {@link Filterable.filterMap}
+ * @function
+ * @since 1.0.0
+ */
+export const mapOption = filterMap
 
 export const array: Monad1<URI> &
   Foldable1<URI> &
@@ -813,11 +815,16 @@ export const array: Monad1<URI> &
   Alternative1<URI> &
   Plus1<URI> &
   Extend1<URI> &
-  Compactable1<URI> = {
+  Compactable1<URI> &
+  Filterable1<URI> = {
   URI,
   map,
   compact,
   separate,
+  filter,
+  filterMap,
+  partition,
+  partitionMap,
   of,
   ap,
   chain,
