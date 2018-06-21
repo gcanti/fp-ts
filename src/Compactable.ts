@@ -1,7 +1,6 @@
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { fromEither, Option } from './Option'
-import { Either, fromOption } from './Either'
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
+import { Option } from './Option'
+import { Either } from './Either'
 
 /**
  * `Separated` type which holds `left` and `right` parts
@@ -96,58 +95,4 @@ export interface Compactable3C<F extends URIS3, U, L> {
   readonly _U: U
   readonly compact: <A>(fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, A>
   readonly separate: <A, B>(fa: Type3<F, U, L, Either<A, B>>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
-}
-
-/**
- * Gets default implementation of {@link Compactable.compact} using {@link Compactable.separate}
- * @function
- * @since 1.7.0
- */
-export function compactDefault<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L> & Pick<Compactable3C<F, U, L>, 'separate'>
-): Compactable3C<F, U, L>['compact']
-export function compactDefault<F extends URIS3>(
-  F: Functor3<F> & Pick<Compactable3<F>, 'separate'>
-): Compactable3<F>['compact']
-export function compactDefault<F extends URIS2, L>(
-  F: Functor2C<F, L> & Pick<Compactable2C<F, L>, 'separate'>
-): Compactable2C<F, L>['compact']
-export function compactDefault<F extends URIS2>(
-  F: Functor2<F> & Pick<Compactable2<F>, 'separate'>
-): Compactable2<F>['compact']
-export function compactDefault<F extends URIS>(
-  F: Functor1<F> & Pick<Compactable1<F>, 'separate'>
-): Compactable1<F>['compact']
-export function compactDefault<F>(F: Functor<F> & Pick<Compactable<F>, 'separate'>): Compactable<F>['compact']
-export function compactDefault<F>(F: Functor<F> & Pick<Compactable<F>, 'separate'>): Compactable<F>['compact'] {
-  return foa => F.separate(F.map(foa, fromOption(null))).right
-}
-
-/**
- * Gets default implementation of {@link Compactable.separate} using {@link Compactable.compact}
- * @function
- * @since 1.7.0
- */
-export function separateDefault<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L> & Pick<Compactable3C<F, U, L>, 'compact'>
-): Compactable3C<F, U, L>['separate']
-export function separateDefault<F extends URIS3>(
-  F: Functor3<F> & Pick<Compactable3<F>, 'compact'>
-): Compactable3<F>['separate']
-export function separateDefault<F extends URIS2, L>(
-  F: Functor2C<F, L> & Pick<Compactable2C<F, L>, 'compact'>
-): Compactable2C<F, L>['separate']
-export function separateDefault<F extends URIS2>(
-  F: Functor2<F> & Pick<Compactable2<F>, 'compact'>
-): Compactable2<F>['separate']
-export function separateDefault<F extends URIS>(
-  F: Functor1<F> & Pick<Compactable1<F>, 'compact'>
-): Compactable1<F>['separate']
-export function separateDefault<F>(F: Functor<F> & Pick<Compactable<F>, 'compact'>): Compactable<F>['separate']
-export function separateDefault<F>(F: Functor<F> & Pick<Compactable<F>, 'compact'>): Compactable<F>['separate'] {
-  return fe => {
-    const left = F.compact(F.map(fe, e => fromEither(e.swap())))
-    const right = F.compact(F.map(fe, fromEither))
-    return separated(left, right)
-  }
 }

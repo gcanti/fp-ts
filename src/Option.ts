@@ -1,18 +1,28 @@
 import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
-import { Either } from './Either'
+import { Either, fromOption } from './Either'
 import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
-import { HKT } from './HKT'
+import { HKT, URIS, URIS2, URIS3 } from './HKT'
 import { Monad1 } from './Monad'
-import { Monoid, getDualMonoid } from './Monoid'
+import { getDualMonoid, Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { identity, Lazy, Predicate, Refinement, toString } from './function'
-import { Compactable1, separated, Separated } from './Compactable'
+import {
+  Compactable,
+  Compactable1,
+  Compactable2,
+  Compactable2C,
+  Compactable3,
+  Compactable3C,
+  separated,
+  Separated
+} from './Compactable'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -554,6 +564,31 @@ export const isNone = <A>(fa: Option<A>): fa is None<A> => {
  */
 export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => {
   return refinement(a) ? some(a) : none
+}
+
+/**
+ * Gets default implementation of {@link Compactable.compact} using {@link Compactable.separate}
+ * @function
+ * @since 1.7.0
+ */
+export function compactDefault<F extends URIS3, U, L>(
+  F: Functor3C<F, U, L> & Pick<Compactable3C<F, U, L>, 'separate'>
+): Compactable3C<F, U, L>['compact']
+export function compactDefault<F extends URIS3>(
+  F: Functor3<F> & Pick<Compactable3<F>, 'separate'>
+): Compactable3<F>['compact']
+export function compactDefault<F extends URIS2, L>(
+  F: Functor2C<F, L> & Pick<Compactable2C<F, L>, 'separate'>
+): Compactable2C<F, L>['compact']
+export function compactDefault<F extends URIS2>(
+  F: Functor2<F> & Pick<Compactable2<F>, 'separate'>
+): Compactable2<F>['compact']
+export function compactDefault<F extends URIS>(
+  F: Functor1<F> & Pick<Compactable1<F>, 'separate'>
+): Compactable1<F>['compact']
+export function compactDefault<F>(F: Functor<F> & Pick<Compactable<F>, 'separate'>): Compactable<F>['compact']
+export function compactDefault<F>(F: Functor<F> & Pick<Compactable<F>, 'separate'>): Compactable<F>['compact'] {
+  return foa => F.separate(F.map(foa, fromOption(null))).right
 }
 
 const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)

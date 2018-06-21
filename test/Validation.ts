@@ -18,7 +18,8 @@ import {
   isSuccess,
   success,
   validation,
-  getMonoid, getCompactable
+  getMonoid,
+  getCompactable
 } from '../src/Validation'
 import { separated } from '../src/Compactable'
 import { left, right } from '../src/Either'
