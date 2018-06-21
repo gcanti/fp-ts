@@ -1,8 +1,14 @@
 import * as assert from 'assert'
 import {
+  eitherBool,
+  filterDefaultFilterMap,
   filterDefaultPartition,
+  filterDefaultPartitionMap,
   filterMapDefaultCompact,
+  optionBool,
   partitionDefaultFilter,
+  partitionDefaultFilterMap,
+  partitionDefaultPartitionMap,
   partitionMapDefaultSeparate
 } from '../src/Filterable'
 import { array, filter } from '../src/Array'
@@ -12,6 +18,19 @@ import { none, some } from '../src/Option'
 
 describe('Filterable', () => {
   const p = (n: number) => n > 2
+
+  it('optionBool', () => {
+    const optionP = optionBool(p)
+    assert.deepEqual(optionP(1), none)
+    assert.deepEqual(optionP(3), some(3))
+  })
+
+  it('eitherBool', () => {
+    const p = (n: number) => n > 2
+    const eitherP = eitherBool(p)
+    assert.deepEqual(eitherP(1), left(1))
+    assert.deepEqual(eitherP(3), right(3))
+  })
 
   it('partitionMapDefaultSeparate', () => {
     const { URI, map, separate } = array
@@ -26,6 +45,24 @@ describe('Filterable', () => {
     assert.deepEqual(partitionMapF([1, 3], f), separated([0], [4]))
   })
 
+  it('partitionDefaultPartitionMap', () => {
+    const { URI, map, separate } = array
+
+    const partitionMapF = partitionMapDefaultSeparate({
+      URI,
+      map,
+      separate
+    })
+
+    const partitionF = partitionDefaultPartitionMap({
+      URI,
+      partitionMap: partitionMapF
+    })
+
+    assert.deepEqual(partitionF([], p), separated([], []))
+    assert.deepEqual(partitionF([1, 3], p), separated([1], [3]))
+  })
+
   it('partitionDefaultFilter', () => {
     const { URI } = array
     const F = {
@@ -33,6 +70,22 @@ describe('Filterable', () => {
       filter
     }
     const partitionF = partitionDefaultFilter(F)
+    assert.deepEqual(partitionF([], p), separated([], []))
+    assert.deepEqual(partitionF([1, 3], p), separated([1], [3]))
+  })
+
+  it('partitionDefaultFilterMap', () => {
+    const { URI, map, compact } = array
+    const filterMapF = filterMapDefaultCompact({
+      URI,
+      map,
+      compact
+    })
+    const partitionF = partitionDefaultFilterMap({
+      URI,
+      filterMap: filterMapF
+    })
+
     assert.deepEqual(partitionF([], p), separated([], []))
     assert.deepEqual(partitionF([1, 3], p), separated([1], [3]))
   })
@@ -50,10 +103,46 @@ describe('Filterable', () => {
     assert.deepEqual(filterMapF([1, 3], f), [4])
   })
 
+  it('filterDefaultFilterMap', () => {
+    const { URI, map, compact } = array
+    const filterMapF = filterMapDefaultCompact({
+      URI,
+      map,
+      compact
+    })
+    const filterF = filterDefaultFilterMap({
+      URI,
+      filterMap: filterMapF
+    })
+
+    assert.deepEqual(filterF([], p), [])
+    assert.deepEqual(filterF([1, 3], p), [3])
+  })
+
   it('filterDefaultPartition', () => {
     const { URI, map } = array
     const partition = partitionDefaultFilter({ URI, filter })
     const filterF = filterDefaultPartition({ URI, map, partition })
+    assert.deepEqual(filterF([], p), [])
+    assert.deepEqual(filterF([1, 3], p), [3])
+  })
+
+  it('filterDefaultPartitionMap', () => {
+    const { URI, map, separate } = array
+
+    const partitionMapF = partitionMapDefaultSeparate({
+      URI,
+      map,
+      separate
+    })
+
+    const filterF = filterDefaultPartitionMap({
+      URI,
+      partitionMap: partitionMapF
+    })
+
+    const p = (n: number) => n > 2
+
     assert.deepEqual(filterF([], p), [])
     assert.deepEqual(filterF([1, 3], p), [3])
   })
