@@ -50,7 +50,7 @@ describe('Exception', () => {
     assert.strictEqual(
       catchError(
         new IO(() => {
-          throw 'bum!'
+          throw 'bum!' // tslint:disable-line no-string-throw
         }),
         e => new IO(() => 1)
       ).run(),

@@ -1,20 +1,19 @@
 import * as assert from 'assert'
-import * as field from '../src/Field'
+import { fieldNumber, gcd, lcm } from '../src/Field'
 import * as setoid from '../src/Setoid'
-import { fieldNumber } from '../src/Field'
 
 describe('Field', () => {
   it('gcd', () => {
-    const gcd = field.gcd(setoid.setoidNumber, field.fieldNumber)
-    assert.strictEqual(gcd(10, 5), 5)
-    assert.strictEqual(gcd(10, 2), 2)
-    assert.strictEqual(gcd(10, 3), 1)
+    const gcdNumber = gcd(setoid.setoidNumber, fieldNumber)
+    assert.strictEqual(gcdNumber(10, 5), 5)
+    assert.strictEqual(gcdNumber(10, 2), 2)
+    assert.strictEqual(gcdNumber(10, 3), 1)
   })
 
   it('lcm', () => {
-    const lcm = field.lcm(setoid.setoidNumber, field.fieldNumber)
-    assert.strictEqual(lcm(4, 6), 12)
-    assert.strictEqual(lcm(4, 0), 0)
+    const lcmNumber = lcm(setoid.setoidNumber, fieldNumber)
+    assert.strictEqual(lcmNumber(4, 6), 12)
+    assert.strictEqual(lcmNumber(4, 0), 0)
   })
 
   it('fieldNumber', () => {

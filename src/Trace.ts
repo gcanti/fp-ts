@@ -12,7 +12,7 @@ import { Lazy } from './function'
  * @since 1.0.0
  */
 export const trace = <A>(message: any, out: Lazy<A>): A => {
-  console.log(message)
+  console.log(message) // tslint:disable-line:no-console
   return out()
 }
 

@@ -8,7 +8,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
-    "lint": "tslint -p tsconfig.json src/**/*.ts test/**/*.ts examples/**/*.ts exercises/**/*.ts fantas-eel-and-specification/**/*.ts",
+    "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
     "jest": "jest --ci",
     "jest-coverage": "jest --ci --coverage",
     "prettier": "prettier --list-different \"./{src,test,examples,exercises}/**/*.ts\"",

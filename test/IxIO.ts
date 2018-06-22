@@ -31,7 +31,7 @@ class Open extends Operation<'Closed', 'Open', number> {
   constructor() {
     super(
       new io.IO(() => {
-        log.push(`Opening the door`)
+        log.push('Opening the door')
         return 1
       })
     )
@@ -41,8 +41,7 @@ class Close extends Operation<'Open', 'Closed', void> {
   constructor() {
     super(
       new io.IO(() => {
-        log.push(`Closing the door`)
-        return undefined
+        log.push('Closing the door')
       })
     )
   }
@@ -51,8 +50,7 @@ class RingBell extends Operation<'Closed', 'Closed', void> {
   constructor() {
     super(
       new io.IO(() => {
-        log.push(`Ringing the bell`)
-        return undefined
+        log.push('Ringing the bell')
       })
     )
   }
