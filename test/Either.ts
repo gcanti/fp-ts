@@ -13,12 +13,14 @@ import {
   tryCatch,
   isLeft,
   isRight,
-  fromRefinement
+  fromRefinement,
+  getCompactable
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
+import { monoidString } from '../src/Monoid'
 
 describe('Either', () => {
   it('fold', () => {
@@ -88,7 +90,7 @@ describe('Either', () => {
     assert.deepEqual(e2, left(new SyntaxError('Unexpected end of JSON input')))
 
     const e3 = tryCatch(() => {
-      throw 'a string'
+      throw 'a string' // tslint:disable-line no-string-throw
     })
     assert.deepEqual(e3, left(new Error('a string')))
 
@@ -248,7 +250,7 @@ describe('Either', () => {
 
   it('refineOrElse', () => {
     type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s == 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     assert.deepEqual(right('red').refineOrElse(isColor, -1), right('red'))
     assert.deepEqual(right('foo').refineOrElse(isColor, -1), left(-1))
     assert.deepEqual(left<number, string>(12).refineOrElse(isColor, -1), left(12))
@@ -256,7 +258,7 @@ describe('Either', () => {
 
   it('refineOrElseL', () => {
     type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s == 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     const errorHandler = (s: string) => `invalid color ${s}`
     assert.deepEqual(right('red').refineOrElseL(isColor, errorHandler), right('red'))
     assert.deepEqual(right('foo').refineOrElseL(isColor, errorHandler), left('invalid color foo'))
@@ -265,9 +267,24 @@ describe('Either', () => {
 
   it('fromRefinement', () => {
     type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s == 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     const from = fromRefinement(isColor, s => `invalid color ${s}`)
     assert.deepEqual(from('red'), right('red'))
     assert.deepEqual(from('foo'), left('invalid color foo'))
+  })
+
+  describe('getCompactable', () => {
+    const C = getCompactable(monoidString)
+    it('compact', () => {
+      assert.deepEqual(C.compact(left('1')), left('1'))
+      assert.deepEqual(C.compact(right(none)), left(monoidString.empty))
+      assert.deepEqual(C.compact(right(some(123))), right(123))
+    })
+
+    it('separate', () => {
+      assert.deepEqual(C.separate(left('123')), { left: left('123'), right: left('123') })
+      assert.deepEqual(C.separate(right(left('123'))), { left: right('123'), right: left(monoidString.empty) })
+      assert.deepEqual(C.separate(right(right('123'))), { left: left(monoidString.empty), right: right('123') })
+    })
   })
 })

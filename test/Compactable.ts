@@ -1,24 +1,30 @@
 import * as assert from 'assert'
 import { Either, left, right } from '../src/Either'
 import { none, some, Option, option } from '../src/Option'
-import { compactDefault, separateDefault, separated, Separated } from '../src/Compactable'
+import { compactDefault, Separated, separateDefault } from '../src/Compactable'
 import { identity } from '../src/function'
 
 describe('Compactable', () => {
   const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> =>
     fa.foldL(
-      () => separated(none, none),
-      e => e.fold<Separated<Option<L>, Option<A>>>(l => separated(some(l), none), r => separated(none, some(r)))
+      () => ({
+        left: none,
+        right: none
+      }),
+      e =>
+        e.fold<Separated<Option<L>, Option<A>>>(
+          l => ({
+            left: some(l),
+            right: none
+          }),
+          r => ({
+            left: none,
+            right: some(r)
+          })
+        )
     )
 
   const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
-
-  it('separated', () => {
-    assert.deepEqual(separated(1, 2), {
-      left: 1,
-      right: 2
-    })
-  })
 
   it('compactDefault', () => {
     const F = {

@@ -11,6 +11,8 @@ import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
 import { Predicate, phantom, toString } from './function'
 import { Bifunctor2 } from './Bifunctor'
+import { Compactable2C, Separated } from './Compactable'
+import { Option } from './Option'
 
 // Adapted from https://github.com/purescript/purescript-validation
 
@@ -321,6 +323,42 @@ export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
  */
 export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
   return fa.isSuccess()
+}
+
+/**
+ * Builds {@link Compactable} instance for {@link Validation} given {@link Monoid} for the failure side
+ * @function
+ * @since 1.7.0
+ */
+export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
+  const compact = <A>(fa: Validation<L, Option<A>>): Validation<L, A> =>
+    fa.fold(l => failure(l), optionA => optionA.foldL(() => failure(ML.empty), a => success(a)))
+
+  const separate = <RL, RR, A>(fa: Validation<L, Either<RL, RR>>): Separated<Validation<L, RL>, Validation<L, RR>> =>
+    fa.fold(
+      l => ({
+        left: failure<L, RL>(l),
+        right: failure<L, RR>(l)
+      }),
+      e =>
+        e.fold(
+          l => ({
+            left: success<L, RL>(l),
+            right: failure<L, RR>(ML.empty)
+          }),
+          r => ({
+            left: failure<L, RL>(ML.empty),
+            right: success<L, RR>(r)
+          })
+        )
+    )
+
+  return {
+    URI,
+    _L: phantom,
+    compact,
+    separate
+  }
 }
 
 /**

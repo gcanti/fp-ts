@@ -20,6 +20,7 @@ import {
 } from '../src/StrMap'
 import { traverse } from '../src/Traversable'
 import { semigroupSum } from '../src/Semigroup'
+import { left, right } from '../src/Either'
 
 describe('StrMap', () => {
   it('getMonoid', () => {
@@ -130,5 +131,16 @@ describe('StrMap', () => {
   it('filter', () => {
     const d = new StrMap({ a: 1, b: 2 })
     assert.deepEqual(d.filter(a => a === 1), new StrMap({ a: 1 }))
+  })
+
+  it('compact', () => {
+    assert.deepEqual(strmap.compact(new StrMap({ foo: none, bar: some(123) })), new StrMap({ bar: 123 }))
+  })
+
+  it('separate', () => {
+    assert.deepEqual(strmap.separate(new StrMap({ foo: left(123), bar: right(123) })), {
+      left: new StrMap({ foo: 123 }),
+      right: new StrMap({ bar: 123 })
+    })
   })
 })

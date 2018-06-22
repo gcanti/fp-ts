@@ -1,6 +1,5 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import * as either from '../src/Either'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { getArraySemigroup, semigroupString } from '../src/Semigroup'
@@ -19,8 +18,10 @@ import {
   isSuccess,
   success,
   validation,
-  getMonoid
+  getMonoid,
+  getCompactable
 } from '../src/Validation'
+import { left, right } from '../src/Either'
 
 describe('Validation', () => {
   it('getMonad', () => {
@@ -53,8 +54,8 @@ describe('Validation', () => {
   })
 
   it('fromEither', () => {
-    assert.deepEqual(fromEither(either.right<string, number>(1)), success(1))
-    assert.deepEqual(fromEither(either.left<string, number>('error')), failure('error'))
+    assert.deepEqual(fromEither(right<string, number>(1)), success(1))
+    assert.deepEqual(fromEither(left<string, number>('error')), failure('error'))
   })
 
   it('getSetoid', () => {
@@ -173,5 +174,20 @@ describe('Validation', () => {
     assert.deepEqual(M.concat(success(1), failure('foo')), failure('foo'))
     assert.deepEqual(M.concat(failure('foo'), success(1)), failure('foo'))
     assert.deepEqual(M.concat(failure('foo'), failure('bar')), failure('foobar'))
+  })
+
+  describe('getCompactable', () => {
+    const C = getCompactable(monoidString)
+    it('compact', () => {
+      assert.deepEqual(C.compact(failure('1')), failure('1'))
+      assert.deepEqual(C.compact(success(none)), failure(monoidString.empty))
+      assert.deepEqual(C.compact(success(some(123))), success(123))
+    })
+
+    it('separate', () => {
+      assert.deepEqual(C.separate(failure('123')), { left: failure('123'), right: failure('123') })
+      assert.deepEqual(C.separate(success(left('123'))), { left: success('123'), right: failure(monoidString.empty) })
+      assert.deepEqual(C.separate(success(right('123'))), { left: failure(monoidString.empty), right: success('123') })
+    })
   })
 })

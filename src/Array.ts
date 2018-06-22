@@ -15,6 +15,7 @@ import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, identity, tuple } from './function'
+import { Compactable1, Separated } from './Compactable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -802,15 +803,21 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
+const compact = catOptions
+const separate = <L, A>(fa: Either<L, A>[]): Separated<L[], A[]> => partitionMap(fa, identity)
+
 export const array: Monad1<URI> &
   Foldable1<URI> &
   Unfoldable1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Plus1<URI> &
-  Extend1<URI> = {
+  Extend1<URI> &
+  Compactable1<URI> = {
   URI,
   map,
+  compact,
+  separate,
   of,
   ap,
   chain,

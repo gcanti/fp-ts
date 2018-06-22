@@ -4,13 +4,15 @@ import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Extend2 } from './Extend'
 import { Foldable2 } from './Foldable'
-import { Lazy, Predicate, Refinement, toString } from './function'
+import { Lazy, phantom, Predicate, Refinement, toString } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
 import { Option } from './Option'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
 import { Validation } from './Validation'
+import { Compactable2C, Separated } from './Compactable'
+import { Monoid } from './Monoid'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -426,6 +428,41 @@ export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
  */
 export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
   return fa.isRight()
+}
+
+/**
+ * Builds {@link Compactable} instance for {@link Either} given {@link Monoid} for the left side
+ * @function
+ * @since 1.7.0
+ */
+export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
+  const compact = <A>(fa: Either<L, Option<A>>): Either<L, A> =>
+    fa.fold(l => left(l), r => r.foldL(() => left(ML.empty), a => right(a)))
+  const separate = <A, B>(fa: Either<L, Either<A, B>>): Separated<Either<L, A>, Either<L, B>> =>
+    fa.fold(
+      x => ({
+        left: left<L, A>(x),
+        right: left<L, B>(x)
+      }),
+      e =>
+        e.fold(
+          l => ({
+            left: right<L, A>(l),
+            right: left<L, B>(ML.empty)
+          }),
+          r => ({
+            left: left<L, A>(ML.empty),
+            right: right<L, B>(r)
+          })
+        )
+    )
+
+  return {
+    URI,
+    _L: phantom,
+    compact,
+    separate
+  }
 }
 
 /**

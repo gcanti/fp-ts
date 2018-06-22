@@ -5,13 +5,14 @@ import { Extend1 } from './Extend'
 import { Foldable1 } from './Foldable'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { Monoid, getDualMonoid } from './Monoid'
+import { getDualMonoid, Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
-import { Lazy, Predicate, Refinement, toString } from './function'
+import { identity, Lazy, Predicate, Refinement, toString } from './function'
+import { Compactable1, Separated } from './Compactable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -555,6 +556,26 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
   return refinement(a) ? some(a) : none
 }
 
+const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
+const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> =>
+  fa.foldL(
+    () => ({
+      left: none,
+      right: none
+    }),
+    e =>
+      e.fold<Separated<Option<RL>, Option<RR>>>(
+        l => ({
+          left: some(l),
+          right: none
+        }),
+        r => ({
+          left: none,
+          right: some(r)
+        })
+      )
+  )
+
 /**
  * @instance
  * @since 1.0.0
@@ -564,7 +585,8 @@ export const option: Monad1<URI> &
   Plus1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
-  Extend1<URI> = {
+  Extend1<URI> &
+  Compactable1<URI> = {
   URI,
   map,
   of,
@@ -574,5 +596,7 @@ export const option: Monad1<URI> &
   traverse,
   zero,
   alt,
-  extend
+  extend,
+  compact,
+  separate
 }

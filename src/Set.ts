@@ -4,6 +4,7 @@ import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Predicate, not } from './function'
+import { Separated } from './Compactable'
 
 /**
  * @function
@@ -114,7 +115,7 @@ export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
  * @function
  * @since 1.2.0
  */
-export const partition = <A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A>; left: Set<A> } => {
+export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> => {
   const values = x.values()
   let e: IteratorResult<A>
   let t = new Set()
@@ -182,7 +183,7 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
  * @function
  * @since 1.2.0
  */
-export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { left: Set<L>; right: Set<R> } => {
+export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Separated<Set<L>, Set<R>> => {
   const values = x.values()
   let e: IteratorResult<A>
   let l = new Set()

@@ -10,6 +10,8 @@ import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
 import { Predicate, tuple } from './function'
+import { Either } from './Either'
+import { Compactable1, Separated } from './Compactable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -293,13 +295,49 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
 }
 
+const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
+  const result: { [key: string]: A } = {}
+
+  const value = fa.value
+  const keys = Object.keys(value)
+  for (let key of keys) {
+    const optionA = value[key]
+    if (optionA.isSome()) {
+      result[key] = optionA.value
+    }
+  }
+
+  return new StrMap(result)
+}
+
+const separate = <RL, RR>(fa: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>> => {
+  const left: { [key: string]: RL } = {}
+  const right: { [key: string]: RR } = {}
+  const value = fa.value
+  const keys = Object.keys(value)
+  for (let key of keys) {
+    const eitherA = value[key]
+    if (eitherA.isLeft()) {
+      left[key] = eitherA.value
+    } else {
+      right[key] = eitherA.value
+    }
+  }
+  return {
+    left: new StrMap(left),
+    right: new StrMap(right)
+  }
+}
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> = {
+export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Compactable1<URI> = {
   URI,
   map,
   reduce,
-  traverse
+  traverse,
+  compact,
+  separate
 }

@@ -285,4 +285,16 @@ describe('Option', () => {
     assert.deepEqual(parseDirection('asc'), some('asc'))
     assert.deepEqual(parseDirection('foo'), none)
   })
+
+  it('compact', () => {
+    assert.deepEqual(option.compact(none), none)
+    assert.deepEqual(option.compact(some(none)), none)
+    assert.deepEqual(option.compact(some(some('123'))), some('123'))
+  })
+
+  it('separate', () => {
+    assert.deepEqual(option.separate(none), { left: none, right: none })
+    assert.deepEqual(option.separate(some(left('123'))), { left: some('123'), right: none })
+    assert.deepEqual(option.separate(some(right('123'))), { left: none, right: some('123') })
+  })
 })
