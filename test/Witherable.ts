@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { wiltDefault, witherDefault } from '../src/Witherable'
+import { wiltDefault, wilted, witherDefault, withered } from '../src/Witherable'
 import { array } from '../src/Array'
 import { Identity, identity as I } from '../src/Identity'
 import { left, right } from '../src/Either'
@@ -30,5 +30,41 @@ describe('Witherable', () => {
     })
     const witherIdentity = wither(I)
     assert.deepEqual(witherIdentity(list, f), new Identity([30]))
+  })
+
+  describe('', () => {
+    const { URI, traverse, compact, separate } = array
+    const wither = witherDefault({
+      URI,
+      traverse,
+      compact
+    })
+    const wilt = wiltDefault({
+      URI,
+      traverse,
+      separate
+    })
+
+    const witherableArray = {
+      ...array,
+      wilt,
+      wither
+    }
+
+    it('withered', () => {
+      const w = withered(witherableArray, I)
+      assert.deepEqual(w([]), new Identity([]))
+      assert.deepEqual(w([new Identity(none)]), new Identity([]))
+      assert.deepEqual(w([new Identity(none), new Identity(some(123))]), new Identity([123]))
+    })
+
+    it('wilted', () => {
+      const w = wilted(witherableArray, I)
+      assert.deepEqual(w([]), new Identity({ left: [], right: [] }))
+      assert.deepEqual(
+        w([new Identity(left(123)), new Identity(right('foo'))]),
+        new Identity({ left: [123], right: ['foo'] })
+      )
+    })
   })
 })
