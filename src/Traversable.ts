@@ -22,6 +22,8 @@ import {
   getFunctorComposition
 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Witherable, Witherable1, Witherable2, Witherable2C, Witherable3, Witherable3C } from './Witherable'
+import { some } from './Option'
 
 /** @typeclass */
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
@@ -255,5 +257,33 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
     ...getFunctorComposition(F, G),
     ...getFoldableComposition(F, G),
     traverse: H => (fga, f) => F.traverse(H)(fga, ga => G.traverse(H)(ga, a => f(a)))
+  }
+}
+
+/**
+ * Gets default implementation of {@link Traversable.traverse} using {@link Witherable.wither}
+ * @function
+ * @since 1.7.0
+ */
+export function traverseDefaultWither<W extends URIS3, WU, WL>(
+  W: Pick<Witherable3C<W, WU, WL>, 'URI' | '_U' | '_L' | 'wither' | 'map'>
+): Traversable3C<W, WU, WL>['traverse']
+export function traverseDefaultWither<W extends URIS3>(
+  W: Pick<Witherable3<W>, 'URI' | 'wither' | 'map'>
+): Traversable3<W>['traverse']
+export function traverseDefaultWither<W extends URIS2, WL>(
+  W: Pick<Witherable2C<W, WL>, 'URI' | '_L' | 'wither' | 'map'>
+): Traversable2C<W, WL>['traverse']
+export function traverseDefaultWither<W extends URIS2>(
+  W: Pick<Witherable2<W>, 'URI' | 'wither' | 'map'>
+): Traversable2<W>['traverse']
+export function traverseDefaultWither<W extends URIS>(
+  W: Pick<Witherable1<W>, 'URI' | 'wither' | 'map'>
+): Traversable1<W>['traverse']
+export function traverseDefaultWither<W>(W: Pick<Witherable<W>, 'URI' | 'wither' | 'map'>): Traversable<W>['traverse']
+export function traverseDefaultWither<W>(W: Pick<Witherable<W>, 'URI' | 'wither' | 'map'>): Traversable<W>['traverse'] {
+  return <F>(F: Applicative<F>) => {
+    const witherF = W.wither(F)
+    return <A, B>(ta: HKT<W, A>, f: (a: A) => HKT<F, B>): HKT<F, HKT<W, B>> => witherF(ta, a => F.map(f(a), some))
   }
 }
