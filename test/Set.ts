@@ -7,7 +7,6 @@ import {
   every,
   filter,
   fromArray,
-  getCompactable,
   getIntersectionSemigroup,
   getSetoid,
   getUnionMonoid,
@@ -26,7 +25,6 @@ import {
   union
 } from '../src/Set'
 import { Setoid, setoidNumber, setoidString } from '../src/Setoid'
-import { none, option } from '../src/Option'
 
 const gte2 = (n: number) => n >= 2
 
@@ -163,19 +161,5 @@ describe('Set', () => {
     assert.deepEqual(fromArray(setoidNumber)([1, 2]), new Set([1, 2]))
 
     assert.deepEqual(fromArray(fooSetoid)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
-  })
-
-  describe('getCompactable', () => {
-    const C = getCompactable(setoidNumber, setoidString, setoidNumber)
-    it('compact', () => {
-      assert.deepEqual(C.compact(new Set([option.of(1), none])), new Set([1]))
-    })
-
-    it('separate', () => {
-      assert.deepEqual(C.separate(new Set([left('123'), right(123)])), {
-        left: new Set(['123']),
-        right: new Set([123])
-      })
-    })
   })
 })
