@@ -1,4 +1,4 @@
-import { IO } from '../src/IO'
+import { log } from '../src/Console'
 import { IxIO } from '../src/IxIO'
 
 /*
@@ -32,29 +32,17 @@ export class Operation<I extends DoorState, O extends DoorState, A> extends IxIO
 
 class Open extends Operation<'Closed', 'Open', void> {
   constructor() {
-    super(
-      new IO(() => {
-        console.log(`Opening the door`)
-      })
-    )
+    super(log('Opening the door'))
   }
 }
 class Close extends Operation<'Open', 'Closed', void> {
   constructor() {
-    super(
-      new IO(() => {
-        console.log(`Closing the door`)
-      })
-    )
+    super(log('Closing the door'))
   }
 }
 class RingBell extends Operation<'Closed', 'Closed', void> {
   constructor() {
-    super(
-      new IO(() => {
-        console.log(`Ringing the bell`)
-      })
-    )
+    super(log('Ringing the bell'))
   }
 }
 

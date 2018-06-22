@@ -18,7 +18,6 @@ describe('Random', () => {
   it('randomRange', () => {
     for (let i = 0; i < 10; i++) {
       const n = randomRange(0, 10).run()
-      console.log(n)
       assert.strictEqual(typeof n, 'number')
       assert.strictEqual(n >= 0, true)
       assert.strictEqual(n < 10, true)
