@@ -3,26 +3,8 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Predicate, not, phantom } from './function'
-import { Compactable1A, Separated } from './Compactable'
-import { Option } from './Option'
-
-declare global {
-  interface Set<T> {
-    _URI: URI
-    _A: T
-  }
-}
-
-declare module './HKT' {
-  interface URI2HKT<A> {
-    Set: Set<A>
-  }
-}
-
-export const URI = 'Set'
-
-export type URI = typeof URI
+import { Predicate, not } from './function'
+import { Separated } from './Compactable'
 
 /**
  * @function
@@ -136,21 +118,18 @@ export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
 export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> => {
   const values = x.values()
   let e: IteratorResult<A>
-  let right = new Set()
-  let left = new Set()
+  let t = new Set()
+  let f = new Set()
   // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const value = e.value
     if (predicate(value)) {
-      right.add(value)
+      t.add(value)
     } else {
-      left.add(value)
+      f.add(value)
     }
   }
-  return {
-    left,
-    right
-  }
+  return { right: t, left: f }
 }
 
 /**
@@ -207,21 +186,18 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
 export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Separated<Set<L>, Set<R>> => {
   const values = x.values()
   let e: IteratorResult<A>
-  let left = new Set()
-  let right = new Set()
+  let l = new Set()
+  let r = new Set()
   // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const v = f(e.value)
     if (v.isLeft()) {
-      left.add(v.value)
+      l.add(v.value)
     } else {
-      right.add(v.value)
+      r.add(v.value)
     }
   }
-  return {
-    left,
-    right
-  }
+  return { left: l, right: r }
 }
 
 /**
@@ -316,56 +292,4 @@ export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
     }
   }
   return r
-}
-
-/**
- * Builds {@link Compactable} instance for {@link Set} given 3 {@link Setoid} for {@link Compactable.compact} and {@link Compactable.separate} to operate
- * @function
- * @since 1.7.0
- */
-export function getCompactable<A, RL, RR>(
-  SA: Setoid<A>,
-  SRL: Setoid<RL>,
-  SRR: Setoid<RR>
-): Compactable1A<URI, A, RL, RR> {
-  const compact = (fa: Set<Option<A>>): Set<A> => {
-    const values = fa.values()
-    let e: IteratorResult<Option<A>>
-    let result = new Set()
-    // tslint:disable:no-conditional-assignment
-    while (!(e = values.next()).done) {
-      const optionA = e.value
-      if (optionA.isSome()) {
-        result.add(optionA.value)
-      }
-    }
-    return result
-  }
-  const separate = (fa: Set<Either<RL, RR>>): Separated<Set<RL>, Set<RR>> => {
-    const values = fa.values()
-    let e: IteratorResult<Either<RL, RR>>
-    const left = new Set()
-    const right = new Set()
-    // tslint:disable:no-conditional-assignment
-    while (!(e = values.next()).done) {
-      const eitherA = e.value
-      if (eitherA.isLeft()) {
-        left.add(eitherA.value)
-      } else {
-        right.add(eitherA.value)
-      }
-    }
-    return {
-      left,
-      right
-    }
-  }
-  return {
-    URI,
-    _A: phantom,
-    _RL: phantom,
-    _RR: phantom,
-    compact,
-    separate
-  }
 }
