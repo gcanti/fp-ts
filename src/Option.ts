@@ -11,8 +11,9 @@ import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
-import { identity, Lazy, Predicate, Refinement, toString } from './function'
+import { identity, Lazy, not, Predicate, Refinement, toString } from './function'
 import { Compactable1, Separated } from './Compactable'
+import { Filterable1 } from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -555,26 +556,35 @@ export const isNone = <A>(fa: Option<A>): fa is None<A> => {
 export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => {
   return refinement(a) ? some(a) : none
 }
-
 const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
-const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> =>
-  fa.foldL(
-    () => ({
+const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
+  if (fa.isNone()) {
+    return {
       left: none,
       right: none
-    }),
-    e =>
-      e.fold<Separated<Option<RL>, Option<RR>>>(
-        l => ({
-          left: some(l),
-          right: none
-        }),
-        r => ({
-          left: none,
-          right: some(r)
-        })
-      )
-  )
+    }
+  }
+  const e = fa.value
+  if (e.isLeft()) {
+    return {
+      left: some(e.value),
+      right: none
+    }
+  }
+  return {
+    left: none,
+    right: some(e.value)
+  }
+}
+
+const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
+const filterMap = chain
+const partitionMap = <RL, RR, A>(fa: Option<A>, f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> =>
+  separate(fa.map(f))
+const partition = <A>(fa: Option<A>, p: Predicate<A>): Separated<Option<A>, Option<A>> => ({
+  left: fa.filter(not(p)),
+  right: fa.filter(p)
+})
 
 /**
  * @instance
@@ -586,7 +596,8 @@ export const option: Monad1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
-  Compactable1<URI> = {
+  Compactable1<URI> &
+  Filterable1<URI> = {
   URI,
   map,
   of,
@@ -598,5 +609,9 @@ export const option: Monad1<URI> &
   alt,
   extend,
   compact,
-  separate
+  separate,
+  filter,
+  filterMap,
+  partition,
+  partitionMap
 }

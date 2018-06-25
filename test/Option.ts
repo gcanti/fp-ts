@@ -244,15 +244,6 @@ describe('Option', () => {
     assert.equal(some(2).exists(is2), true)
   })
 
-  it('filter', () => {
-    const x: Option<number> = none
-    const is2 = (a: number) => a === 2
-    assert.equal(x.filter(is2), x)
-    assert.equal(some(1).filter(is2), none)
-    const some2 = some(2)
-    assert.equal(some2.filter(is2), some2)
-  })
-
   it('refine', () => {
     const x: Option<number | string> = none
     const isString = (a: any): a is string => typeof a === 'string'
@@ -298,5 +289,37 @@ describe('Option', () => {
     assert.deepEqual(option.separate(none), { left: none, right: none })
     assert.deepEqual(option.separate(some(left('123'))), { left: some('123'), right: none })
     assert.deepEqual(option.separate(some(right('123'))), { left: none, right: some('123') })
+  })
+
+  it('filter', () => {
+    const x: Option<number> = none
+    const is2 = (a: number) => a === 2
+    assert.equal(x.filter(is2), x)
+    assert.equal(option.filter(x, is2), x)
+    assert.equal(some(1).filter(is2), none)
+    assert.equal(option.filter(some(1), is2), none)
+    const some2 = some(2)
+    assert.equal(some2.filter(is2), some2)
+    assert.equal(option.filter(some2, is2), some2)
+  })
+
+  it('filterMap', () => {
+    const f = (n: number) => (p(n) ? some(n + 1) : none)
+    assert.deepEqual(option.filterMap(none, f), none)
+    assert.deepEqual(option.filterMap(some(1), f), none)
+    assert.deepEqual(option.filterMap(some(3), f), some(4))
+  })
+
+  it('partition', () => {
+    assert.deepEqual(option.partition(none, p), { left: none, right: none })
+    assert.deepEqual(option.partition(some(1), p), { left: some(1), right: none })
+    assert.deepEqual(option.partition(some(3), p), { left: none, right: some(3) })
+  })
+
+  it('partitionMap', () => {
+    const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+    assert.deepEqual(option.partitionMap(none, f), { left: none, right: none })
+    assert.deepEqual(option.partitionMap(some(1), f), { left: some(0), right: none })
+    assert.deepEqual(option.partitionMap(some(3), f), { left: none, right: some(4) })
   })
 })
