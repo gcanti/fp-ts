@@ -25,6 +25,8 @@ import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
 
+const p = (n: number): boolean => n > 2
+
 describe('Option', () => {
   it('fold', () => {
     const f = 'none'
@@ -180,7 +182,7 @@ describe('Option', () => {
   })
 
   it('fromPredicate', () => {
-    const f = fromPredicate((n: number) => n > 2)
+    const f = fromPredicate(p)
     assert.deepEqual(f(1), none)
     assert.deepEqual(f(3), some(3))
   })

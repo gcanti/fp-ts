@@ -1,0 +1,6 @@
+/lib
+/docs
+/docs-generator
+/perf
+/node_modules
+/typings-checker

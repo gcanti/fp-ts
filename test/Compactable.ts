@@ -1,51 +1,57 @@
 import * as assert from 'assert'
-import { Either, left, right } from '../src/Either'
-import { none, some, Option, option } from '../src/Option'
-import { compactDefault, Separated, separateDefault } from '../src/Compactable'
-import { identity } from '../src/function'
+import { left, right } from '../src/Either'
+import { none, some } from '../src/Option'
+import {
+  getCompactFromFilterMap,
+  getCompactFromSeparate,
+  getSeparateFromCompact,
+  getSeparateFromPartitionMap
+} from '../src/Compactable'
+import { array, mapOption, partitionMap } from '../src/Array'
 
 describe('Compactable', () => {
-  const separate = <L, A>(fa: Option<Either<L, A>>): Separated<Option<L>, Option<A>> =>
-    fa.foldL(
-      () => ({
-        left: none,
-        right: none
-      }),
-      e =>
-        e.fold<Separated<Option<L>, Option<A>>>(
-          l => ({
-            left: some(l),
-            right: none
-          }),
-          r => ({
-            left: none,
-            right: some(r)
-          })
-        )
-    )
-
-  const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
-
-  it('compactDefault', () => {
-    const F = {
-      ...option,
+  it('getCompactFromSeparate', () => {
+    const { URI, map, separate } = array
+    const compactF = getCompactFromSeparate({
+      URI,
+      map,
       separate
-    }
-    const compactDefaultF = compactDefault(F)
-    assert.deepEqual(compactDefaultF(none), compact(none))
-    assert.deepEqual(compactDefaultF(some(none)), compact(some(none)))
-    assert.deepEqual(compactDefaultF(some(some(123))), compact(some(some(123))))
+    })
+    assert.deepEqual(compactF([]), [])
+    assert.deepEqual(compactF([none]), [])
+    assert.deepEqual(compactF([none, some(1)]), [1])
   })
 
-  it('separateDefault', () => {
-    const F = {
-      ...option,
-      compact
-    }
+  it('getCompactFromFilterMap', () => {
+    const compactF = getCompactFromFilterMap({
+      URI: array.URI,
+      filterMap: mapOption
+    })
+    assert.deepEqual(compactF([]), [])
+    assert.deepEqual(compactF([none]), [])
+    assert.deepEqual(compactF([none, some(1)]), [1])
+  })
 
-    const separateDefaultF = separateDefault(F)
-    assert.deepEqual(separateDefaultF(none), separate(none))
-    assert.deepEqual(separateDefaultF(some(left('123'))), separate(some(left('123'))))
-    assert.deepEqual(separateDefaultF(some(right('123'))), separate(some(right('123'))))
+  it('getSeparateFromCompact', () => {
+    const { URI, map, compact } = array
+    const separateF = getSeparateFromCompact({
+      URI,
+      map,
+      compact
+    })
+    assert.deepEqual(separateF([]), { left: [], right: [] })
+    assert.deepEqual(separateF([left(1)]), { left: [1], right: [] })
+    assert.deepEqual(separateF([left(1), right(3)]), { left: [1], right: [3] })
+  })
+
+  it('getSeparateFromPartitionMap', () => {
+    const separateF = getSeparateFromPartitionMap({
+      URI: array.URI,
+      partitionMap
+    })
+
+    assert.deepEqual(separateF([]), { left: [], right: [] })
+    assert.deepEqual(separateF([left(1)]), { left: [1], right: [] })
+    assert.deepEqual(separateF([left(1), right(3)]), { left: [1], right: [3] })
   })
 })
