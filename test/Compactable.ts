@@ -2,17 +2,17 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { none, some } from '../src/Option'
 import {
-  compactDefaultFilterMap,
-  compactDefaultSeparate,
-  separateDefaultCompact,
-  separateDefaultPartitionMap
+  getCompactFromFilterMap,
+  getCompactFromSeparate,
+  getSeparateFromCompact,
+  getSeparateFromPartitionMap
 } from '../src/Compactable'
 import { array, mapOption, partitionMap } from '../src/Array'
 
 describe('Compactable', () => {
-  it('compactDefaultSeparate', () => {
+  it('getCompactFromSeparate', () => {
     const { URI, map, separate } = array
-    const compactF = compactDefaultSeparate({
+    const compactF = getCompactFromSeparate({
       URI,
       map,
       separate
@@ -22,8 +22,8 @@ describe('Compactable', () => {
     assert.deepEqual(compactF([none, some(1)]), [1])
   })
 
-  it('compactDefaultFilterMap', () => {
-    const compactF = compactDefaultFilterMap({
+  it('getCompactFromFilterMap', () => {
+    const compactF = getCompactFromFilterMap({
       URI: array.URI,
       filterMap: mapOption
     })
@@ -32,9 +32,9 @@ describe('Compactable', () => {
     assert.deepEqual(compactF([none, some(1)]), [1])
   })
 
-  it('separateDefaultCompact', () => {
+  it('getSeparateFromCompact', () => {
     const { URI, map, compact } = array
-    const separateF = separateDefaultCompact({
+    const separateF = getSeparateFromCompact({
       URI,
       map,
       compact
@@ -44,8 +44,8 @@ describe('Compactable', () => {
     assert.deepEqual(separateF([left(1), right(3)]), { left: [1], right: [3] })
   })
 
-  it('separateDefaultPartitionMap', () => {
-    const separateF = separateDefaultPartitionMap({
+  it('getSeparateFromPartitionMap', () => {
+    const separateF = getSeparateFromPartitionMap({
       URI: array.URI,
       partitionMap
     })

@@ -38,7 +38,6 @@ export interface Compactable<F> {
 }
 
 /**
- * @typeclass
  * @see Compactable
  * @since 1.7.0
  */
@@ -49,7 +48,6 @@ export interface Compactable1<F extends URIS> {
 }
 
 /**
- * @typeclass
  * @see Compactable
  * @since 1.7.0
  */
@@ -60,7 +58,6 @@ export interface Compactable2<F extends URIS2> {
 }
 
 /**
- * @typeclass
  * @see Compactable
  * @since 1.7.0
  */
@@ -98,23 +95,23 @@ export interface Compactable3C<F extends URIS3, U, L> {
  * @function
  * @since 1.7.0
  */
-export function compactDefaultSeparate<F extends URIS3, U, L>(
+export function getCompactFromSeparate<F extends URIS3, U, L>(
   F: Functor3C<F, U, L> & Pick<Compactable3C<F, U, L>, 'separate'>
 ): Compactable3C<F, U, L>['compact']
-export function compactDefaultSeparate<F extends URIS3>(
+export function getCompactFromSeparate<F extends URIS3>(
   F: Functor3<F> & Pick<Compactable3<F>, 'separate'>
 ): Compactable3<F>['compact']
-export function compactDefaultSeparate<F extends URIS2, L>(
+export function getCompactFromSeparate<F extends URIS2, L>(
   F: Functor2C<F, L> & Pick<Compactable2C<F, L>, 'separate'>
 ): Compactable2C<F, L>['compact']
-export function compactDefaultSeparate<F extends URIS2>(
+export function getCompactFromSeparate<F extends URIS2>(
   F: Functor2<F> & Pick<Compactable2<F>, 'separate'>
 ): Compactable2<F>['compact']
-export function compactDefaultSeparate<F extends URIS>(
+export function getCompactFromSeparate<F extends URIS>(
   F: Functor1<F> & Pick<Compactable1<F>, 'separate'>
 ): Compactable1<F>['compact']
-export function compactDefaultSeparate<F>(F: Functor<F> & Pick<Compactable<F>, 'separate'>): Compactable<F>['compact']
-export function compactDefaultSeparate<F>(F: Functor<F> & Pick<Compactable<F>, 'separate'>): Compactable<F>['compact'] {
+export function getCompactFromSeparate<F>(F: Functor<F> & Pick<Compactable<F>, 'separate'>): Compactable<F>['compact']
+export function getCompactFromSeparate<F>(F: Functor<F> & Pick<Compactable<F>, 'separate'>): Compactable<F>['compact'] {
   return foa => F.separate(F.map(foa, fromOption(null))).right
 }
 
@@ -123,23 +120,23 @@ export function compactDefaultSeparate<F>(F: Functor<F> & Pick<Compactable<F>, '
  * @function
  * @since 1.7.0
  */
-export function compactDefaultFilterMap<F extends URIS3, U, L>(
+export function getCompactFromFilterMap<F extends URIS3, U, L>(
   F: Pick<Filterable3C<F, U, L>, 'URI' | 'filterMap'>
 ): Compactable3C<F, U, L>['compact']
-export function compactDefaultFilterMap<F extends URIS3>(
+export function getCompactFromFilterMap<F extends URIS3>(
   F: Pick<Filterable3<F>, 'URI' | 'filterMap'>
 ): Compactable3<F>['compact']
-export function compactDefaultFilterMap<F extends URIS2, L>(
+export function getCompactFromFilterMap<F extends URIS2, L>(
   F: Pick<Filterable2C<F, L>, 'URI' | 'filterMap'>
 ): Compactable2C<F, L>['compact']
-export function compactDefaultFilterMap<F extends URIS2>(
+export function getCompactFromFilterMap<F extends URIS2>(
   F: Pick<Filterable2<F>, 'URI' | 'filterMap'>
 ): Compactable2<F>['compact']
-export function compactDefaultFilterMap<F extends URIS>(
+export function getCompactFromFilterMap<F extends URIS>(
   F: Pick<Filterable1<F>, 'URI' | 'filterMap'>
 ): Compactable1<F>['compact']
-export function compactDefaultFilterMap<F>(F: Pick<Filterable<F>, 'URI' | 'filterMap'>): Compactable<F>['compact']
-export function compactDefaultFilterMap<F>(F: Pick<Filterable<F>, 'URI' | 'filterMap'>): Compactable<F>['compact'] {
+export function getCompactFromFilterMap<F>(F: Pick<Filterable<F>, 'URI' | 'filterMap'>): Compactable<F>['compact']
+export function getCompactFromFilterMap<F>(F: Pick<Filterable<F>, 'URI' | 'filterMap'>): Compactable<F>['compact'] {
   return fa => F.filterMap(fa, identity)
 }
 
@@ -148,23 +145,23 @@ export function compactDefaultFilterMap<F>(F: Pick<Filterable<F>, 'URI' | 'filte
  * @function
  * @since 1.7.0
  */
-export function separateDefaultCompact<F extends URIS3, U, L>(
+export function getSeparateFromCompact<F extends URIS3, U, L>(
   F: Functor3C<F, U, L> & Pick<Compactable3C<F, U, L>, 'compact'>
 ): Compactable3C<F, U, L>['separate']
-export function separateDefaultCompact<F extends URIS3>(
+export function getSeparateFromCompact<F extends URIS3>(
   F: Functor3<F> & Pick<Compactable3<F>, 'compact'>
 ): Compactable3<F>['separate']
-export function separateDefaultCompact<F extends URIS2, L>(
+export function getSeparateFromCompact<F extends URIS2, L>(
   F: Functor2C<F, L> & Pick<Compactable2C<F, L>, 'compact'>
 ): Compactable2C<F, L>['separate']
-export function separateDefaultCompact<F extends URIS2>(
+export function getSeparateFromCompact<F extends URIS2>(
   F: Functor2<F> & Pick<Compactable2<F>, 'compact'>
 ): Compactable2<F>['separate']
-export function separateDefaultCompact<F extends URIS>(
+export function getSeparateFromCompact<F extends URIS>(
   F: Functor1<F> & Pick<Compactable1<F>, 'compact'>
 ): Compactable1<F>['separate']
-export function separateDefaultCompact<F>(F: Functor<F> & Pick<Compactable<F>, 'compact'>): Compactable<F>['separate']
-export function separateDefaultCompact<F>(F: Functor<F> & Pick<Compactable<F>, 'compact'>): Compactable<F>['separate'] {
+export function getSeparateFromCompact<F>(F: Functor<F> & Pick<Compactable<F>, 'compact'>): Compactable<F>['separate']
+export function getSeparateFromCompact<F>(F: Functor<F> & Pick<Compactable<F>, 'compact'>): Compactable<F>['separate'] {
   return fe => {
     const left = F.compact(F.map(fe, e => fromEither(e.swap())))
     const right = F.compact(F.map(fe, fromEither))
@@ -177,25 +174,25 @@ export function separateDefaultCompact<F>(F: Functor<F> & Pick<Compactable<F>, '
  * @function
  * @since 1.7.0
  */
-export function separateDefaultPartitionMap<F extends URIS3, U, L>(
+export function getSeparateFromPartitionMap<F extends URIS3, U, L>(
   F: Pick<Filterable3C<F, U, L>, 'URI' | 'partitionMap'>
 ): Compactable3C<F, U, L>['separate']
-export function separateDefaultPartitionMap<F extends URIS3>(
+export function getSeparateFromPartitionMap<F extends URIS3>(
   F: Pick<Filterable3<F>, 'URI' | 'partitionMap'>
 ): Compactable3<F>['separate']
-export function separateDefaultPartitionMap<F extends URIS2, L>(
+export function getSeparateFromPartitionMap<F extends URIS2, L>(
   F: Pick<Filterable2C<F, L>, 'URI' | 'partitionMap'>
 ): Compactable2C<F, L>['separate']
-export function separateDefaultPartitionMap<F extends URIS2>(
+export function getSeparateFromPartitionMap<F extends URIS2>(
   F: Pick<Filterable2<F>, 'URI' | 'partitionMap'>
 ): Compactable2<F>['separate']
-export function separateDefaultPartitionMap<F extends URIS>(
+export function getSeparateFromPartitionMap<F extends URIS>(
   F: Pick<Filterable1<F>, 'URI' | 'partitionMap'>
 ): Compactable1<F>['separate']
-export function separateDefaultPartitionMap<F>(
+export function getSeparateFromPartitionMap<F>(
   F: Pick<Filterable<F>, 'URI' | 'partitionMap'>
 ): Compactable<F>['separate']
-export function separateDefaultPartitionMap<F>(
+export function getSeparateFromPartitionMap<F>(
   F: Pick<Filterable<F>, 'URI' | 'partitionMap'>
 ): Compactable<F>['separate'] {
   return fa => F.partitionMap(fa, identity)
