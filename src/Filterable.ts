@@ -123,25 +123,25 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
  * @since 1.7.0
  */
 export function getPartitionMapFromSeparate<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L> & Pick<Compactable3C<F, U, L>, 'separate'>
+  F: Pick<Functor3C<F, U, L> & Compactable3C<F, U, L>, 'URI' | 'map' | '_U' | '_L' | 'separate'>
 ): Filterable3C<F, U, L>['partitionMap']
 export function getPartitionMapFromSeparate<F extends URIS3>(
-  F: Functor3<F> & Pick<Compactable3<F>, 'separate'>
+  F: Pick<Functor3<F> & Compactable3<F>, 'URI' | 'map' | 'separate'>
 ): Filterable3<F>['partitionMap']
 export function getPartitionMapFromSeparate<F extends URIS2, L>(
-  F: Functor2C<F, L> & Pick<Compactable2C<F, L>, 'separate'>
+  F: Pick<Functor2C<F, L> & Compactable2C<F, L>, 'URI' | 'map' | '_L' | 'separate'>
 ): Filterable2C<F, L>['partitionMap']
 export function getPartitionMapFromSeparate<F extends URIS2>(
-  F: Functor2<F> & Pick<Compactable2<F>, 'separate'>
+  F: Pick<Functor2<F> & Compactable2<F>, 'URI' | 'map' | 'separate'>
 ): Filterable2<F>['partitionMap']
 export function getPartitionMapFromSeparate<F extends URIS>(
-  F: Functor1<F> & Pick<Compactable1<F>, 'separate'>
+  F: Pick<Functor1<F> & Compactable1<F>, 'URI' | 'map' | 'separate'>
 ): Filterable1<F>['partitionMap']
 export function getPartitionMapFromSeparate<F>(
-  F: Functor<F> & Pick<Compactable<F>, 'separate'>
+  F: Pick<Functor<F> & Compactable<F>, 'URI' | 'map' | 'separate'>
 ): Filterable<F>['partitionMap']
 export function getPartitionMapFromSeparate<F>(
-  F: Functor<F> & Pick<Compactable<F>, 'separate'>
+  F: Pick<Functor<F> & Compactable<F>, 'URI' | 'map' | 'separate'>
 ): Filterable<F>['partitionMap'] {
   return (fa, f) => F.separate(F.map(fa, f))
 }
@@ -152,13 +152,13 @@ export function getPartitionMapFromSeparate<F>(
  * @since 1.7.0
  */
 export function getPartitionFromPartitionMap<F extends URIS3, U, L>(
-  F: Pick<Filterable3C<F, U, L>, 'URI' | 'partitionMap'>
+  F: Pick<Filterable3C<F, U, L>, 'URI' | '_U' | '_L' | 'partitionMap'>
 ): Filterable3C<F, U, L>['partition']
 export function getPartitionFromPartitionMap<F extends URIS3>(
   F: Pick<Filterable3<F>, 'URI' | 'partitionMap'>
 ): Filterable3<F>['partition']
 export function getPartitionFromPartitionMap<F extends URIS2, L>(
-  F: Pick<Filterable2C<F, L>, 'URI' | 'partitionMap'>
+  F: Pick<Filterable2C<F, L>, 'URI' | '_L' | 'partitionMap'>
 ): Filterable2C<F, L>['partition']
 export function getPartitionFromPartitionMap<F extends URIS2>(
   F: Pick<Filterable2<F>, 'URI' | 'partitionMap'>
@@ -181,13 +181,13 @@ export function getPartitionFromPartitionMap<F>(
  * @since 1.7.0
  */
 export function getPartitionFromFilter<F extends URIS3, U, L>(
-  F: Pick<Filterable3C<F, U, L>, 'URI' | 'filter'>
+  F: Pick<Filterable3C<F, U, L>, 'URI' | '_U' | '_L' | 'filter'>
 ): Filterable3C<F, U, L>['partition']
 export function getPartitionFromFilter<F extends URIS3>(
   F: Pick<Filterable3<F>, 'URI' | 'filter'>
 ): Filterable3<F>['partition']
 export function getPartitionFromFilter<F extends URIS2, L>(
-  F: Pick<Filterable2C<F, L>, 'URI' | 'filter'>
+  F: Pick<Filterable2C<F, L>, 'URI' | '_L' | 'filter'>
 ): Filterable2C<F, L>['partition']
 export function getPartitionFromFilter<F extends URIS2>(
   F: Pick<Filterable2<F>, 'URI' | 'filter'>
@@ -209,13 +209,13 @@ export function getPartitionFromFilter<F>(F: Pick<Filterable<F>, 'URI' | 'filter
  * @since 1.7.0
  */
 export function getPartitionFromFilterMap<F extends URIS3, U, L>(
-  F: Pick<Filterable3C<F, U, L>, 'URI' | 'filterMap'>
+  F: Pick<Filterable3C<F, U, L>, 'URI' | '_U' | '_L' | 'filterMap'>
 ): Filterable3C<F, U, L>['partition']
 export function getPartitionFromFilterMap<F extends URIS3>(
   F: Pick<Filterable3<F>, 'URI' | 'filterMap'>
 ): Filterable3<F>['partition']
 export function getPartitionFromFilterMap<F extends URIS2, L>(
-  F: Pick<Filterable2C<F, L>, 'URI' | 'filterMap'>
+  F: Pick<Filterable2C<F, L>, 'URI' | '_L' | 'filterMap'>
 ): Filterable2C<F, L>['partition']
 export function getPartitionFromFilterMap<F extends URIS2>(
   F: Pick<Filterable2<F>, 'URI' | 'filterMap'>
@@ -237,23 +237,25 @@ export function getPartitionFromFilterMap<F>(F: Pick<Filterable<F>, 'URI' | 'fil
  * @since 1.7.0
  */
 export function getFilterMapFromCompact<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L> & Pick<Compactable3C<F, U, L>, 'compact'>
+  F: Pick<Functor3C<F, U, L> & Compactable3C<F, U, L>, 'URI' | '_U' | '_L' | 'map' | 'compact'>
 ): Filterable3C<F, U, L>['filterMap']
 export function getFilterMapFromCompact<F extends URIS3>(
-  F: Functor3<F> & Pick<Compactable3<F>, 'compact'>
+  F: Pick<Functor3<F> & Compactable3<F>, 'URI' | 'map' | 'compact'>
 ): Filterable3<F>['filterMap']
 export function getFilterMapFromCompact<F extends URIS2, L>(
-  F: Functor2C<F, L> & Pick<Compactable2C<F, L>, 'compact'>
+  F: Pick<Functor2C<F, L> & Compactable2C<F, L>, 'URI' | '_L' | 'map' | 'compact'>
 ): Filterable2C<F, L>['filterMap']
 export function getFilterMapFromCompact<F extends URIS2>(
-  F: Functor2<F> & Pick<Compactable2<F>, 'compact'>
+  F: Pick<Functor2<F> & Compactable2<F>, 'URI' | 'map' | 'compact'>
 ): Filterable2<F>['filterMap']
 export function getFilterMapFromCompact<F extends URIS>(
-  F: Functor1<F> & Pick<Compactable1<F>, 'compact'>
+  F: Pick<Functor1<F> & Compactable1<F>, 'URI' | 'map' | 'compact'>
 ): Filterable1<F>['filterMap']
-export function getFilterMapFromCompact<F>(F: Functor<F> & Pick<Compactable<F>, 'compact'>): Filterable<F>['filterMap']
 export function getFilterMapFromCompact<F>(
-  F: Functor<F> & Pick<Compactable<F>, 'compact'>
+  F: Pick<Functor<F> & Compactable<F>, 'URI' | 'map' | 'compact'>
+): Filterable<F>['filterMap']
+export function getFilterMapFromCompact<F>(
+  F: Pick<Functor<F> & Compactable<F>, 'URI' | 'map' | 'compact'>
 ): Filterable<F>['filterMap'] {
   return (fa, f) => F.compact(F.map(fa, f))
 }
@@ -264,13 +266,13 @@ export function getFilterMapFromCompact<F>(
  * @since 1.7.0
  */
 export function getFilterFromFilterMap<F extends URIS3, U, L>(
-  F: Pick<Filterable3C<F, U, L>, 'URI' | 'filterMap'>
+  F: Pick<Filterable3C<F, U, L>, 'URI' | '_U' | '_L' | 'filterMap'>
 ): Filterable3C<F, U, L>['filter']
 export function getFilterFromFilterMap<F extends URIS3>(
   F: Pick<Filterable3<F>, 'URI' | 'filterMap'>
 ): Filterable3<F>['filter']
 export function getFilterFromFilterMap<F extends URIS2, L>(
-  F: Pick<Filterable2C<F, L>, 'URI' | 'filterMap'>
+  F: Pick<Filterable2C<F, L>, 'URI' | '_L' | 'filterMap'>
 ): Filterable2C<F, L>['filter']
 export function getFilterFromFilterMap<F extends URIS2>(
   F: Pick<Filterable2<F>, 'URI' | 'filterMap'>
@@ -289,25 +291,25 @@ export function getFilterFromFilterMap<F>(F: Pick<Filterable<F>, 'URI' | 'filter
  * @since 1.7.0
  */
 export function getFilterFromPartition<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L> & Pick<Filterable3C<F, U, L>, 'URI' | 'partition'>
+  F: Pick<Functor3C<F, U, L> & Filterable3C<F, U, L>, 'URI' | '_U' | '_L' | 'partition'>
 ): Filterable3C<F, U, L>['filter']
 export function getFilterFromPartition<F extends URIS3>(
-  F: Functor3<F> & Pick<Filterable3<F>, 'URI' | 'partition'>
+  F: Pick<Functor3<F> & Filterable3<F>, 'URI' | 'partition'>
 ): Filterable3<F>['filter']
 export function getFilterFromPartition<F extends URIS2, L>(
-  F: Functor2C<F, L> & Pick<Filterable2C<F, L>, 'URI' | 'partition'>
+  F: Pick<Functor2C<F, L> & Filterable2C<F, L>, 'URI' | '_L' | 'partition'>
 ): Filterable2C<F, L>['filter']
 export function getFilterFromPartition<F extends URIS2>(
-  F: Functor2<F> & Pick<Filterable2<F>, 'URI' | 'partition'>
+  F: Pick<Functor2<F> & Filterable2<F>, 'URI' | 'partition'>
 ): Filterable2<F>['filter']
 export function getFilterFromPartition<F extends URIS>(
-  F: Functor1<F> & Pick<Filterable1<F>, 'URI' | 'partition'>
+  F: Pick<Functor1<F> & Filterable1<F>, 'URI' | 'partition'>
 ): Filterable1<F>['filter']
 export function getFilterFromPartition<F>(
-  F: Functor<F> & Pick<Filterable<F>, 'URI' | 'partition'>
+  F: Pick<Functor<F> & Filterable<F>, 'URI' | 'partition'>
 ): Filterable<F>['filter']
 export function getFilterFromPartition<F>(
-  F: Functor<F> & Pick<Filterable<F>, 'URI' | 'partition'>
+  F: Pick<Functor<F> & Filterable<F>, 'URI' | 'partition'>
 ): Filterable<F>['filter'] {
   return (fa, p) => F.partition(fa, p).right
 }
@@ -318,13 +320,13 @@ export function getFilterFromPartition<F>(
  * @since 1.7.0
  */
 export function getFilterFromPartitionMap<F extends URIS3, U, L>(
-  F: Pick<Filterable3C<F, U, L>, 'URI' | 'partitionMap'>
+  F: Pick<Filterable3C<F, U, L>, 'URI' | '_U' | '_L' | 'partitionMap'>
 ): Filterable3C<F, U, L>['filter']
 export function getFilterFromPartitionMap<F extends URIS3>(
   F: Pick<Filterable3<F>, 'URI' | 'partitionMap'>
 ): Filterable3<F>['filter']
 export function getFilterFromPartitionMap<F extends URIS2, L>(
-  F: Pick<Filterable2C<F, L>, 'URI' | 'partitionMap'>
+  F: Pick<Filterable2C<F, L>, 'URI' | '_L' | 'partitionMap'>
 ): Filterable2C<F, L>['filter']
 export function getFilterFromPartitionMap<F extends URIS2>(
   F: Pick<Filterable2<F>, 'URI' | 'partitionMap'>

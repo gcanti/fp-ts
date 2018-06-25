@@ -15,8 +15,8 @@ import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, tuple } from './function'
-import { Compactable1, compactDefaultFilterMap, separateDefaultPartitionMap } from './Compactable'
-import { Filterable1, filterDefaultFilterMap, partitionDefaultPartitionMap } from './Filterable'
+import { Compactable1, getCompactFromFilterMap, getSeparateFromPartitionMap } from './Compactable'
+import { Filterable1, getFilterFromFilterMap, getPartitionFromPartitionMap } from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -775,19 +775,19 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
  * @function
  * @since 1.0.0
  */
-export const filter = filterDefaultFilterMap({
+export const filter = getFilterFromFilterMap({
   URI,
   filterMap
 })
-const partition = partitionDefaultPartitionMap({
+const partition = getPartitionFromPartitionMap({
   URI,
   partitionMap
 })
-const compact = compactDefaultFilterMap({
+const compact = getCompactFromFilterMap({
   URI,
   filterMap
 })
-const separate = separateDefaultPartitionMap({
+const separate = getSeparateFromPartitionMap({
   URI,
   partitionMap
 })

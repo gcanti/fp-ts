@@ -15,10 +15,10 @@ import { Compactable2C, Separated } from './Compactable'
 import { Option } from './Option'
 import {
   Filterable2C,
-  filterDefaultFilterMap,
-  filterMapDefaultCompact,
-  partitionDefaultPartitionMap,
-  partitionMapDefaultSeparate
+  getFilterFromFilterMap,
+  getFilterMapFromCompact,
+  getPartitionFromPartitionMap,
+  getPartitionMapFromSeparate
 } from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-validation
@@ -376,24 +376,24 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
   const C = getCompactable(ML)
   const { URI, _L, compact, separate } = C
-  const partitionMap = partitionMapDefaultSeparate({
+  const partitionMap = getPartitionMapFromSeparate({
     URI,
     _L,
     map,
     separate
   })
-  const partition = partitionDefaultPartitionMap({
+  const partition = getPartitionFromPartitionMap({
     URI,
     _L,
     partitionMap
   })
-  const filterMap = filterMapDefaultCompact({
+  const filterMap = getFilterMapFromCompact({
     URI,
     _L,
     map,
     compact
   })
-  const filter = filterDefaultFilterMap({
+  const filter = getFilterFromFilterMap({
     URI,
     _L,
     filterMap
