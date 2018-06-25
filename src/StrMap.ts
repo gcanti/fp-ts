@@ -11,7 +11,8 @@ import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
 import { Predicate, tuple } from './function'
 import { Either } from './Either'
-import { Compactable1, Separated } from './Compactable'
+import { Compactable1, getCompactFromFilterMap, getSeparateFromPartitionMap, Separated } from './Compactable'
+import { Filterable1, getFilterFromFilterMap, getPartitionFromPartitionMap } from './Filterable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -59,15 +60,7 @@ export class StrMap<A> {
    * @since 1.4.0
    */
   filter(p: Predicate<A>): StrMap<A> {
-    const o = this.value
-    const r: { [key: string]: A } = {}
-    for (const k in o) {
-      const value = o[k]
-      if (p(value)) {
-        r[k] = value
-      }
-    }
-    return new StrMap(r)
+    return filter(this, p)
   }
 }
 
@@ -295,32 +288,40 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
 }
 
-const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
-  const result: { [key: string]: A } = {}
-
+const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {
   const value = fa.value
+  const result: { [key: string]: B } = {}
   const keys = Object.keys(value)
-  for (let key of keys) {
-    const optionA = value[key]
-    if (optionA.isSome()) {
-      result[key] = optionA.value
+  for (const key of keys) {
+    const optionB = f(value[key])
+    if (optionB.isSome()) {
+      result[key] = optionB.value
     }
   }
-
   return new StrMap(result)
 }
 
-const separate = <RL, RR>(fa: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>> => {
+const filter = getFilterFromFilterMap({
+  URI,
+  filterMap
+})
+
+const compact = getCompactFromFilterMap({
+  URI,
+  filterMap
+})
+
+const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> => {
+  const value = fa.value
   const left: { [key: string]: RL } = {}
   const right: { [key: string]: RR } = {}
-  const value = fa.value
   const keys = Object.keys(value)
-  for (let key of keys) {
-    const eitherA = value[key]
-    if (eitherA.isLeft()) {
-      left[key] = eitherA.value
+  for (const key of keys) {
+    const e = f(value[key])
+    if (e.isLeft()) {
+      left[key] = e.value
     } else {
-      right[key] = eitherA.value
+      right[key] = e.value
     }
   }
   return {
@@ -329,15 +330,29 @@ const separate = <RL, RR>(fa: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, Str
   }
 }
 
+const partition = getPartitionFromPartitionMap({
+  URI,
+  partitionMap
+})
+
+const separate = getSeparateFromPartitionMap({
+  URI,
+  partitionMap
+})
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Compactable1<URI> = {
+export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Compactable1<URI> & Filterable1<URI> = {
   URI,
   map,
   reduce,
   traverse,
   compact,
-  separate
+  separate,
+  filter,
+  filterMap,
+  partition,
+  partitionMap
 }
