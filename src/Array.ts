@@ -14,9 +14,9 @@ import { Plus1 } from './Plus'
 import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
-import { Endomorphism, Predicate, Refinement, concat, tuple } from './function'
-import { Compactable1, getCompactFromFilterMap, getSeparateFromPartitionMap } from './Compactable'
-import { Filterable1, getFilterFromFilterMap, getPartitionFromPartitionMap } from './Filterable'
+import { Endomorphism, Predicate, Refinement, concat, tuple, identity } from './function'
+import { Compactable1, Separated } from './Compactable'
+import { Filterable1 } from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -741,22 +741,19 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
-const filterMap = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
-  const r: Array<B> = []
-  const len = as.length
-  for (let i = 0; i < len; i++) {
-    const v = f(as[i])
-    if (v.isSome()) {
-      r.push(v.value)
-    }
-  }
-  return r
+const compact = <A>(as: Array<Option<A>>): Array<A> => {
+  return filterMap(as, identity)
 }
+
+const separate = <A, B>(fa: Array<Either<A, B>>): Separated<Array<A>, Array<B>> => {
+  return partitionMap(fa, identity)
+}
+
 /**
  * @function
  * @since 1.0.0
  */
-export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): { left: Array<L>; right: Array<R> } => {
+export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<Array<L>, Array<R>> => {
   const left: Array<L> = []
   const right: Array<R> = []
   const len = fa.length
@@ -770,27 +767,50 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
   }
   return { left, right }
 }
+
+const partition = <A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>> => {
+  const len = fa.length
+  const left: Array<A> = []
+  const right: Array<A> = []
+  for (let i = 0; i < len; i++) {
+    const v = fa[i]
+    if (p(v)) {
+      right.push(v)
+    } else {
+      left.push(v)
+    }
+  }
+  return { left, right }
+}
+
+const filterMap = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
+  const r: Array<B> = []
+  const len = as.length
+  for (let i = 0; i < len; i++) {
+    const v = f(as[i])
+    if (v.isSome()) {
+      r.push(v.value)
+    }
+  }
+  return r
+}
+
 /**
  * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
  * @function
  * @since 1.0.0
  */
-export const filter = getFilterFromFilterMap({
-  URI,
-  filterMap
-})
-const partition = getPartitionFromPartitionMap({
-  URI,
-  partitionMap
-})
-const compact = getCompactFromFilterMap({
-  URI,
-  filterMap
-})
-const separate = getSeparateFromPartitionMap({
-  URI,
-  partitionMap
-})
+export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
+  const len = as.length
+  const r: Array<A> = []
+  for (let i = 0; i < len; i++) {
+    const v = as[i]
+    if (predicate(v)) {
+      r.push(v)
+    }
+  }
+  return r
+}
 
 /**
  * Filter an array of optional values, keeping only the elements which contain a value, creating a new array
