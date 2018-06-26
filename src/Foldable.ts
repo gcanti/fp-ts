@@ -492,3 +492,19 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
 export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
   return fa => foldMap(F, unsafeMonoidArray)(fa, a => [a])
 }
+
+const inc = (n: number) => n + 1
+export function length<F extends URIS3, U, L>(F: Foldable3C<F, U, L>): <A>(fa: Type3<F, U, L, A>) => number
+export function length<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => number
+export function length<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>) => number
+export function length<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>) => number
+export function length<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>) => number
+export function length<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => number
+/**
+ * Returns the size/length of a finite structure.
+ * @function
+ * @since 1.7.0
+ */
+export function length<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => number {
+  return fa => F.reduce(fa, 0, inc)
+}
