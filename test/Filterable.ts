@@ -1,11 +1,12 @@
 import * as assert from 'assert'
-import { dropWhile, span, takeWhile } from '../src/Filterable'
+import { dropWhile, span, takeWhile, unique } from '../src/Filterable'
 import { array } from '../src/Array'
 import { none, option, some } from '../src/Option'
 import { getFilterable as getEitherFilterable, left, right } from '../src/Either'
 import { monoidString } from '../src/Monoid'
 import { failure, getFilterable as getValidationFilterable, success } from '../src/Validation'
 import { StrMap, strmap } from '../src/StrMap'
+import { setoidNumber } from '../src/Setoid'
 
 const p = (n: number) => n > 2
 const filterableEither = getEitherFilterable(monoidString)
@@ -115,7 +116,6 @@ describe('Filterable', () => {
     assert.deepEqual(dropWhile(filterableValidation)(success<string, number>(3), p), failure(monoidString.empty))
 
     assert.deepEqual(dropWhile(strmap)(new StrMap<number>({}), p), new StrMap({}))
-
     assert.deepEqual(
       dropWhile(strmap)(new StrMap<number>({ a: 3, b: 2, c: 1, d: 2, e: 3 }), p),
       new StrMap({ b: 2, c: 1, d: 2, e: 3 })
@@ -123,6 +123,33 @@ describe('Filterable', () => {
     assert.deepEqual(
       dropWhile(strmap)(new StrMap<number>({ e: 3, d: 2, c: 1, b: 2, a: 3 }), p),
       new StrMap({ d: 2, c: 1, b: 2, a: 3 })
+    )
+  })
+
+  it('unique', () => {
+    assert.deepEqual(unique(array, setoidNumber)([]), [])
+    assert.deepEqual(unique(array, setoidNumber)([3, 2, 1, 2, 3]), [3, 2, 1])
+
+    assert.deepEqual(unique(option, setoidNumber)(none), none)
+    assert.deepEqual(unique(option, setoidNumber)(some(1)), some(1))
+    assert.deepEqual(unique(option, setoidNumber)(some(3)), some(3))
+
+    assert.deepEqual(unique(filterableEither, setoidNumber)(left<string, number>('foo')), left('foo'))
+    assert.deepEqual(unique(filterableEither, setoidNumber)(right<string, number>(1)), right(1))
+    assert.deepEqual(unique(filterableEither, setoidNumber)(right<string, number>(3)), right(3))
+
+    assert.deepEqual(unique(filterableValidation, setoidNumber)(failure<string, number>('foo')), failure('foo'))
+    assert.deepEqual(unique(filterableValidation, setoidNumber)(success<string, number>(1)), success(1))
+    assert.deepEqual(unique(filterableValidation, setoidNumber)(success<string, number>(3)), success(3))
+
+    assert.deepEqual(unique(strmap, setoidNumber)(new StrMap<number>({})), new StrMap({}))
+    assert.deepEqual(
+      unique(strmap, setoidNumber)(new StrMap<number>({ a: 3, b: 2, c: 1, d: 2, e: 3 })),
+      new StrMap({ a: 3, b: 2, c: 1 })
+    )
+    assert.deepEqual(
+      unique(strmap, setoidNumber)(new StrMap<number>({ e: 3, d: 2, c: 1, b: 2, a: 3 })),
+      new StrMap({ e: 3, d: 2, c: 1 })
     )
   })
 })

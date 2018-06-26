@@ -12,6 +12,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Either } from './Either'
 import { Predicate } from './function'
 import { Option } from './Option'
+import { Setoid } from './Setoid'
 
 /**
  * `Filterable` represents data structures which can be _partitioned_/_filtered_.
@@ -201,4 +202,37 @@ export function dropWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<
 export function dropWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A> {
   const spanF = span(F)
   return (fa, p) => spanF(fa, p).right
+}
+
+export function unique<F extends URIS3, U, L, A>(
+  F: Filterable3C<F, U, L>,
+  S: Setoid<A>
+): (fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
+export function unique<F extends URIS3, A>(
+  F: Filterable3<F>,
+  S: Setoid<A>
+): <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
+export function unique<F extends URIS2, L, A>(
+  F: Filterable2C<F, L>,
+  S: Setoid<A>
+): (fa: Type2<F, L, A>) => Type2<F, L, A>
+export function unique<F extends URIS2, A>(F: Filterable2<F>, S: Setoid<A>): <L>(fa: Type2<F, L, A>) => Type2<F, L, A>
+export function unique<F extends URIS, A>(F: Filterable1<F>, S: Setoid<A>): (fa: Type<F, A>) => Type<F, A>
+export function unique<F, A>(F: Filterable<F>, S: Setoid<A>): (fa: HKT<F, A>) => HKT<F, A>
+/**
+ * Remove duplicates from {@link Filterable} structure, keeping the first occurance of an element given {@link Setoid} for it.
+ * @function
+ * @since 1.7.0
+ */
+export function unique<F, A>(F: Filterable<F>, S: Setoid<A>): (fa: HKT<F, A>) => HKT<F, A> {
+  return fa => {
+    const repeations: A[] = []
+    return F.filter(fa, a => {
+      if (repeations.find(a_ => S.equals(a, a_))) {
+        return false
+      }
+      repeations.push(a)
+      return true
+    })
+  }
 }
