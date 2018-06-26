@@ -9,10 +9,10 @@ import { Semigroup, getDictionarySemigroup, getLastSemigroup } from './Semigroup
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
-import { Predicate, tuple } from './function'
+import { Predicate, tuple, identity } from './function'
 import { Either } from './Either'
-import { Compactable1, getCompactFromFilterMap, getSeparateFromPartitionMap, Separated } from './Compactable'
-import { Filterable1, getFilterFromFilterMap, getPartitionFromPartitionMap } from './Filterable'
+import { Compactable1, Separated } from './Compactable'
+import { Filterable1 } from './Filterable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -288,40 +288,24 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
 }
 
-const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {
-  const value = fa.value
-  const result: { [key: string]: B } = {}
-  const keys = Object.keys(value)
-  for (const key of keys) {
-    const optionB = f(value[key])
-    if (optionB.isSome()) {
-      result[key] = optionB.value
-    }
-  }
-  return new StrMap(result)
+const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
+  return filterMap(fa, identity)
 }
 
-const filter = getFilterFromFilterMap({
-  URI,
-  filterMap
-})
-
-const compact = getCompactFromFilterMap({
-  URI,
-  filterMap
-})
+const separate = <A, B>(fa: StrMap<Either<A, B>>): Separated<StrMap<A>, StrMap<B>> => {
+  return partitionMap(fa, identity)
+}
 
 const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> => {
   const value = fa.value
   const left: { [key: string]: RL } = {}
   const right: { [key: string]: RR } = {}
-  const keys = Object.keys(value)
-  for (const key of keys) {
-    const e = f(value[key])
+  for (const k in value) {
+    const e = f(value[k])
     if (e.isLeft()) {
-      left[key] = e.value
+      left[k] = e.value
     } else {
-      right[key] = e.value
+      right[k] = e.value
     }
   }
   return {
@@ -330,15 +314,47 @@ const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Se
   }
 }
 
-const partition = getPartitionFromPartitionMap({
-  URI,
-  partitionMap
-})
+const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> => {
+  const value = fa.value
+  const left: { [key: string]: A } = {}
+  const right: { [key: string]: A } = {}
+  for (const k in value) {
+    const v = value[k]
+    if (p(v)) {
+      right[k] = v
+    } else {
+      left[k] = v
+    }
+  }
+  return {
+    left: new StrMap(left),
+    right: new StrMap(right)
+  }
+}
 
-const separate = getSeparateFromPartitionMap({
-  URI,
-  partitionMap
-})
+const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {
+  const value = fa.value
+  const result: { [key: string]: B } = {}
+  for (const k in value) {
+    const ob = f(value[k])
+    if (ob.isSome()) {
+      result[k] = ob.value
+    }
+  }
+  return new StrMap(result)
+}
+
+const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => {
+  const value = fa.value
+  const result: { [key: string]: A } = {}
+  for (const k in value) {
+    const v = value[k]
+    if (p(v)) {
+      result[k] = v
+    }
+  }
+  return new StrMap(result)
+}
 
 /**
  * @instance
