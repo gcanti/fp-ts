@@ -178,3 +178,27 @@ export function takeWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<
     })
   }
 }
+
+export function dropWhile<F extends URIS3, U, L>(
+  F: Filterable3C<F, U, L>
+): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
+export function dropWhile<F extends URIS3>(
+  F: Filterable3<F>
+): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
+export function dropWhile<F extends URIS2, L>(
+  F: Filterable2C<F, L>
+): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
+export function dropWhile<F extends URIS2>(
+  F: Filterable2<F>
+): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
+export function dropWhile<F extends URIS>(F: Filterable1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Type<F, A>
+export function dropWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A>
+/**
+ * Removes the longest initial {@link Filterable} substructure for which all element satisfy the specified predicate, creating a new {@link Filterable} structure
+ * @function
+ * @since 1.7.0
+ */
+export function dropWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A> {
+  const spanF = span(F)
+  return (fa, p) => spanF(fa, p).right
+}
