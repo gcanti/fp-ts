@@ -108,3 +108,41 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
   readonly filterMap: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filter: <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
 }
+
+export function span<F extends URIS3, U, L>(
+  F: Filterable3C<F, U, L>
+): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
+export function span<F extends URIS3>(
+  F: Filterable3<F>
+): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
+export function span<F extends URIS2, L>(
+  F: Filterable2C<F, L>
+): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Separated<Type2<F, L, A>, Type2<F, L, A>>
+export function span<F extends URIS2>(
+  F: Filterable2<F>
+): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Separated<Type2<F, L, A>, Type2<F, L, A>>
+export function span<F extends URIS>(
+  F: Filterable1<F>
+): <A>(fa: Type<F, A>, p: Predicate<A>) => Separated<Type<F, A>, Type<F, A>>
+export function span<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Separated<HKT<F, A>, HKT<F, A>>
+/**
+ * Split {@link Filterable} structure into two parts:
+ * Left: the longest initial substructure for which all elements satisfy the specified predicate
+ * Right: the remaining elements
+ * @function
+ * @since 1.7.0
+ */
+export function span<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Separated<HKT<F, A>, HKT<F, A>> {
+  return (fa, p) => {
+    let collectLeft = true
+    return F.partition(fa, a => {
+      if (collectLeft) {
+        if (p(a)) {
+          return false
+        }
+        collectLeft = false
+      }
+      return true
+    })
+  }
+}
