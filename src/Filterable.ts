@@ -146,3 +146,35 @@ export function span<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) =
     })
   }
 }
+
+export function takeWhile<F extends URIS3, U, L>(
+  F: Filterable3C<F, U, L>
+): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
+export function takeWhile<F extends URIS3>(
+  F: Filterable3<F>
+): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
+export function takeWhile<F extends URIS2, L>(
+  F: Filterable2C<F, L>
+): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
+export function takeWhile<F extends URIS2>(
+  F: Filterable2<F>
+): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
+export function takeWhile<F extends URIS>(F: Filterable1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Type<F, A>
+export function takeWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A>
+/**
+ * Gets the longest initial {@link Filterable} substructure for which all element satisfy the specified predicate, creating a new {@link Filterable} structure
+ */
+export function takeWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A> {
+  return (fa, p) => {
+    let done = false
+    return F.filter(fa, a => {
+      if (!done) {
+        if (p(a)) {
+          return true
+        }
+        done = true
+      }
+      return false
+    })
+  }
+}

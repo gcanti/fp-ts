@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { span } from '../src/Filterable'
+import { span, takeWhile } from '../src/Filterable'
 import { array } from '../src/Array'
 import { none, option, some } from '../src/Option'
 import { getFilterable as getEitherFilterable, left, right } from '../src/Either'
@@ -74,5 +74,29 @@ describe('Filterable', () => {
       left: new StrMap({ e: 3 }),
       right: new StrMap({ d: 2, c: 1, b: 2, a: 3 })
     })
+  })
+
+  it('takeWhile', () => {
+    assert.deepEqual(takeWhile(array)([], p), [])
+    assert.deepEqual(takeWhile(array)([3, 2, 1, 2, 3], p), [3])
+
+    assert.deepEqual(takeWhile(option)(none, p), none)
+    assert.deepEqual(takeWhile(option)(some(1), p), none)
+    assert.deepEqual(takeWhile(option)(some(3), p), some(3))
+
+    const filterableEither = getEitherFilterable(monoidString)
+    assert.deepEqual(takeWhile(filterableEither)(left<string, number>('foo'), p), left('foo'))
+    assert.deepEqual(takeWhile(filterableEither)(right<string, number>(1), p), left(monoidString.empty))
+    assert.deepEqual(takeWhile(filterableEither)(right<string, number>(3), p), right(3))
+
+    const filterableValidation = getValidationFilterable(monoidString)
+    assert.deepEqual(takeWhile(filterableValidation)(failure<string, number>('foo'), p), failure('foo'))
+    assert.deepEqual(takeWhile(filterableValidation)(success<string, number>(1), p), failure(monoidString.empty))
+    assert.deepEqual(takeWhile(filterableValidation)(success<string, number>(3), p), success(3))
+
+    assert.deepEqual(takeWhile(strmap)(new StrMap<number>({}), p), new StrMap({}))
+
+    assert.deepEqual(takeWhile(strmap)(new StrMap<number>({ a: 3, b: 2, c: 1, d: 2, e: 3 }), p), new StrMap({ a: 3 }))
+    assert.deepEqual(takeWhile(strmap)(new StrMap<number>({ e: 3, d: 2, c: 1, b: 2, a: 3 }), p), new StrMap({ e: 3 }))
   })
 })
