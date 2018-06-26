@@ -13,6 +13,7 @@ import { Predicate, phantom, toString } from './function'
 import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, Separated } from './Compactable'
 import { Option } from './Option'
+import { Filterable2C } from './Filterable'
 
 // Adapted from https://github.com/purescript/purescript-validation
 
@@ -331,33 +332,116 @@ export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
  * @since 1.7.0
  */
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
-  const compact = <A>(fa: Validation<L, Option<A>>): Validation<L, A> =>
-    fa.fold(l => failure(l), optionA => optionA.foldL(() => failure(ML.empty), a => success(a)))
+  const compact = <A>(fa: Validation<L, Option<A>>): Validation<L, A> => {
+    if (fa.isFailure()) {
+      return fa as any
+    }
+    if (fa.value.isNone()) {
+      return failure(ML.empty)
+    }
+    return success(fa.value.value)
+  }
 
-  const separate = <RL, RR, A>(fa: Validation<L, Either<RL, RR>>): Separated<Validation<L, RL>, Validation<L, RR>> =>
-    fa.fold(
-      l => ({
-        left: failure<L, RL>(l),
-        right: failure<L, RR>(l)
-      }),
-      e =>
-        e.fold(
-          l => ({
-            left: success<L, RL>(l),
-            right: failure<L, RR>(ML.empty)
-          }),
-          r => ({
-            left: failure<L, RL>(ML.empty),
-            right: success<L, RR>(r)
-          })
-        )
-    )
-
+  const separate = <RL, RR, A>(fa: Validation<L, Either<RL, RR>>): Separated<Validation<L, RL>, Validation<L, RR>> => {
+    if (fa.isFailure()) {
+      return {
+        left: fa as any,
+        right: fa as any
+      }
+    }
+    if (fa.value.isLeft()) {
+      return {
+        left: success(fa.value.value),
+        right: failure(ML.empty)
+      }
+    }
+    return {
+      left: failure(ML.empty),
+      right: success(fa.value.value)
+    }
+  }
   return {
     URI,
     _L: phantom,
     compact,
     separate
+  }
+}
+
+/**
+ * Builds {@link Filterable} instance for {@link Validation} gived {@link Monoid} for the left side
+ * @function
+ * @since 1.7.0
+ */
+export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
+  const C = getCompactable(ML)
+  const partitionMap = <RL, RR, A>(
+    fa: Validation<L, A>,
+    f: (a: A) => Either<RL, RR>
+  ): Separated<Validation<L, RL>, Validation<L, RR>> => {
+    if (fa.isFailure()) {
+      return {
+        left: fa as any,
+        right: fa as any
+      }
+    }
+    const e = f(fa.value)
+    if (e.isLeft()) {
+      return {
+        left: success(e.value),
+        right: failure(ML.empty)
+      }
+    }
+    return {
+      left: failure(ML.empty),
+      right: success(e.value)
+    }
+  }
+  const partition = <A>(fa: Validation<L, A>, p: Predicate<A>): Separated<Validation<L, A>, Validation<L, A>> => {
+    if (fa.isFailure()) {
+      return {
+        left: fa,
+        right: fa
+      }
+    }
+    if (p(fa.value)) {
+      return {
+        left: failure(ML.empty),
+        right: success(fa.value)
+      }
+    }
+    return {
+      left: success(fa.value),
+      right: failure(ML.empty)
+    }
+  }
+  const filterMap = <A, B>(fa: Validation<L, A>, f: (a: A) => Option<B>): Validation<L, B> => {
+    if (fa.isFailure()) {
+      return fa as any
+    }
+    const optionB = f(fa.value)
+    if (optionB.isSome()) {
+      return success(optionB.value)
+    }
+    return failure(ML.empty)
+  }
+  const filter = <A>(fa: Validation<L, A>, p: Predicate<A>): Validation<L, A> => {
+    if (fa.isFailure()) {
+      return fa
+    }
+    const a = fa.value
+    if (p(a)) {
+      return success(a)
+    }
+    return failure(ML.empty)
+  }
+  return {
+    ...C,
+    map,
+    partitionMap,
+    filterMap,
+    partition,
+    filter
   }
 }
 

@@ -22,6 +22,8 @@ import { traverse } from '../src/Traversable'
 import { semigroupSum } from '../src/Semigroup'
 import { left, right } from '../src/Either'
 
+const p = (n: number) => n > 2
+
 describe('StrMap', () => {
   it('getMonoid', () => {
     const d1 = new StrMap<number>({ k1: 1, k2: 3 })
@@ -128,11 +130,6 @@ describe('StrMap', () => {
     assert.deepEqual(insert('c', 3, new StrMap({ a: 1, b: 2 })), new StrMap({ a: 1, b: 2, c: 3 }))
   })
 
-  it('filter', () => {
-    const d = new StrMap({ a: 1, b: 2 })
-    assert.deepEqual(d.filter(a => a === 1), new StrMap({ a: 1 }))
-  })
-
   it('compact', () => {
     assert.deepEqual(strmap.compact(new StrMap({ foo: none, bar: some(123) })), new StrMap({ bar: 123 }))
   })
@@ -141,6 +138,35 @@ describe('StrMap', () => {
     assert.deepEqual(strmap.separate(new StrMap({ foo: left(123), bar: right(123) })), {
       left: new StrMap({ foo: 123 }),
       right: new StrMap({ bar: 123 })
+    })
+  })
+
+  it('filter', () => {
+    const d = new StrMap({ a: 1, b: 3 })
+    assert.deepEqual(d.filter(p), new StrMap({ b: 3 }))
+    assert.deepEqual(strmap.filter(d, p), new StrMap({ b: 3 }))
+  })
+
+  it('filterMap', () => {
+    const f = (n: number) => (p(n) ? some(n + 1) : none)
+    assert.deepEqual(strmap.filterMap(new StrMap<number>({}), f), new StrMap({}))
+    assert.deepEqual(strmap.filterMap(new StrMap({ a: 1, b: 3 }), f), new StrMap({ b: 4 }))
+  })
+
+  it('partition', () => {
+    assert.deepEqual(strmap.partition(new StrMap<number>({}), p), { left: new StrMap({}), right: new StrMap({}) })
+    assert.deepEqual(strmap.partition(new StrMap<number>({ a: 1, b: 3 }), p), {
+      left: new StrMap({ a: 1 }),
+      right: new StrMap({ b: 3 })
+    })
+  })
+
+  it('partitionMap', () => {
+    const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
+    assert.deepEqual(strmap.partitionMap(new StrMap<number>({}), f), { left: new StrMap({}), right: new StrMap({}) })
+    assert.deepEqual(strmap.partitionMap(new StrMap<number>({ a: 1, b: 3 }), f), {
+      left: new StrMap({ a: 0 }),
+      right: new StrMap({ b: 4 })
     })
   })
 })
