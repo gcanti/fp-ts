@@ -13,13 +13,7 @@ import { Traversable2 } from './Traversable'
 import { Validation } from './Validation'
 import { Compactable2C, Separated } from './Compactable'
 import { Monoid } from './Monoid'
-import {
-  Filterable2C,
-  getFilterFromFilterMap,
-  getFilterMapFromCompact,
-  getPartitionFromPartitionMap,
-  getPartitionMapFromSeparate
-} from './Filterable'
+import { Filterable2C } from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -443,26 +437,33 @@ export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
  * @since 1.7.0
  */
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
-  const compact = <A>(fa: Either<L, Option<A>>): Either<L, A> =>
-    fa.fold(l => left(l), r => r.foldL(() => left(ML.empty), a => right(a)))
-  const separate = <A, B>(fa: Either<L, Either<A, B>>): Separated<Either<L, A>, Either<L, B>> =>
-    fa.fold(
-      x => ({
-        left: left<L, A>(x),
-        right: left<L, B>(x)
-      }),
-      e =>
-        e.fold(
-          l => ({
-            left: right<L, A>(l),
-            right: left<L, B>(ML.empty)
-          }),
-          r => ({
-            left: left<L, A>(ML.empty),
-            right: right<L, B>(r)
-          })
-        )
-    )
+  const compact = <A>(fa: Either<L, Option<A>>): Either<L, A> => {
+    if (fa.isLeft()) {
+      return fa as any
+    }
+    if (fa.value.isNone()) {
+      return left(ML.empty)
+    }
+    return right(fa.value.value)
+  }
+  const separate = <A, B>(fa: Either<L, Either<A, B>>): Separated<Either<L, A>, Either<L, B>> => {
+    if (fa.isLeft()) {
+      return {
+        left: fa as any,
+        right: fa as any
+      }
+    }
+    if (fa.value.isLeft()) {
+      return {
+        left: right(fa.value.value),
+        right: left(ML.empty)
+      }
+    }
+    return {
+      left: left(ML.empty),
+      right: right(fa.value.value)
+    }
+  }
 
   return {
     URI,
@@ -479,29 +480,57 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
  */
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
   const C = getCompactable(ML)
-  const { URI, _L, compact, separate } = C
-  const partitionMap = getPartitionMapFromSeparate({
-    URI,
-    _L,
-    map,
-    separate
-  })
-  const partition = getPartitionFromPartitionMap({
-    URI,
-    _L,
-    partitionMap
-  })
-  const filterMap = getFilterMapFromCompact({
-    URI,
-    _L,
-    map,
-    compact
-  })
-  const filter = getFilterFromFilterMap({
-    URI,
-    _L,
-    filterMap
-  })
+  const partitionMap = <RL, RR, A>(
+    fa: Either<L, A>,
+    f: (a: A) => Either<RL, RR>
+  ): Separated<Either<L, RL>, Either<L, RR>> => {
+    if (fa.isLeft()) {
+      return {
+        left: fa as any,
+        right: fa as any
+      }
+    }
+    const e = f(fa.value)
+    if (e.isLeft()) {
+      return {
+        left: right(e.value),
+        right: left(ML.empty)
+      }
+    }
+    return {
+      left: left(ML.empty),
+      right: right(e.value)
+    }
+  }
+  const partition = <A>(fa: Either<L, A>, p: Predicate<A>): Separated<Either<L, A>, Either<L, A>> => {
+    if (fa.isLeft()) {
+      return {
+        left: fa,
+        right: fa
+      }
+    }
+    if (p(fa.value)) {
+      return {
+        left: left(ML.empty),
+        right: right(fa.value)
+      }
+    }
+    return {
+      left: right(fa.value),
+      right: left(ML.empty)
+    }
+  }
+  const filterMap = <A, B>(fa: Either<L, A>, f: (a: A) => Option<B>): Either<L, B> => {
+    if (fa.isLeft()) {
+      return fa as any
+    }
+    const optionB = f(fa.value)
+    if (optionB.isSome()) {
+      return right(optionB.value)
+    }
+    return left(ML.empty)
+  }
+  const filter = <A>(fa: Either<L, A>, p: Predicate<A>): Either<L, A> => fa.filterOrElse(p, ML.empty)
   return {
     ...C,
     map,
