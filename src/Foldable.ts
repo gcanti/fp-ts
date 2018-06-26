@@ -8,7 +8,7 @@ import { Ord, max, min } from './Ord'
 import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 import { Semiring } from './Semiring'
 import { Setoid } from './Setoid'
-import { Predicate } from './function'
+import { constTrue, Predicate } from './function'
 
 /**
  * @typeclass
@@ -501,10 +501,35 @@ export function length<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L,
 export function length<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>) => number
 export function length<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => number
 /**
- * Returns the size/length of a finite structure.
+ * Returns the size/length of a finite {@link Foldable} structure
  * @function
  * @since 1.7.0
  */
 export function length<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => number {
   return fa => F.reduce(fa, 0, inc)
+}
+
+/**
+ * Test if a value is a member of a {@link Foldable} structure
+ * @function
+ * @since 1.7.0
+ */
+export function member<F extends URIS3, U, L, A>(
+  F: Foldable3C<F, U, L>,
+  S: Setoid<A>
+): (fa: Type3<F, U, L, A>, a: A) => boolean
+export function member<F extends URIS3, A>(
+  F: Foldable3<F>,
+  S: Setoid<A>
+): <U, L>(fa: Type3<F, U, L, A>, a: A) => boolean
+export function member<F extends URIS2, L, A>(F: Foldable2C<F, L>, S: Setoid<A>): (fa: Type2<F, L, A>, a: A) => boolean
+export function member<F extends URIS2, A>(F: Foldable2<F>, S: Setoid<A>): <L>(fa: Type2<F, L, A>, a: A) => boolean
+export function member<F extends URIS, A>(F: Foldable1<F>, S: Setoid<A>): (fa: Type<F, A>, a: A) => boolean
+export function member<F, A>(F: Foldable<F>, S: Setoid<A>): (fa: HKT<F, A>, a: A) => boolean
+export function member<F, A>(F: Foldable<F>, S: Setoid<A>): (fa: HKT<F, A>, a: A) => boolean {
+  const findF = find(F)
+  return (fa, a) => {
+    const p: Predicate<A> = el => S.equals(el, a)
+    return findF(fa, p).fold(false, constTrue)
+  }
 }

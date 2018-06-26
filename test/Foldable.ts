@@ -12,6 +12,7 @@ import {
   intercalate,
   length,
   maximum,
+  member,
   minimum,
   oneOf,
   product,
@@ -148,5 +149,56 @@ describe('Foldable', () => {
     assert.deepEqual(length(tree)(new Tree(1, [new Tree(1, []), new Tree(1, [])])), 3)
     assert.deepEqual(length(tree)(new Tree(1, [new Tree(1, [new Tree(1, [])]), new Tree(1, [new Tree(1, [])])])), 5)
     assert.deepEqual(length(tuple)(new Tuple(1, 2)), 1)
+  })
+
+  it('member', () => {
+    assert.deepEqual(member(array, setoidNumber)([], 1), false)
+    assert.deepEqual(member(array, setoidNumber)([1], 1), true)
+
+    assert.deepEqual(member(option, setoidNumber)(none, 1), false)
+    assert.deepEqual(member(option, setoidNumber)(some(0), 1), false)
+    assert.deepEqual(member(option, setoidNumber)(some(1), 1), true)
+
+    assert.deepEqual(member(either, setoidNumber)(left('foo'), 1), false)
+    assert.deepEqual(member(either, setoidNumber)(right(0), 1), false)
+    assert.deepEqual(member(either, setoidNumber)(right(1), 1), true)
+
+    assert.deepEqual(member(validation, setoidNumber)(failure('foo'), 1), false)
+    assert.deepEqual(member(validation, setoidNumber)(success(0), 1), false)
+    assert.deepEqual(member(validation, setoidNumber)(success(1), 1), true)
+
+    assert.deepEqual(member(nonEmptyArray, setoidNumber)(new NonEmptyArray(0, []), 1), false)
+    assert.deepEqual(member(nonEmptyArray, setoidNumber)(new NonEmptyArray(0, [0]), 1), false)
+    assert.deepEqual(member(nonEmptyArray, setoidNumber)(new NonEmptyArray(0, [1]), 1), true)
+
+    assert.deepEqual(member(identity, setoidNumber)(new Identity(0), 1), false)
+    assert.deepEqual(member(identity, setoidNumber)(new Identity(1), 1), true)
+
+    assert.deepEqual(member(pair, setoidNumber)(new Pair(1, 2), 0), false)
+    assert.deepEqual(member(pair, setoidNumber)(new Pair(1, 2), 1), true)
+    assert.deepEqual(member(pair, setoidNumber)(new Pair(1, 2), 2), true)
+
+    assert.deepEqual(member(strmap, setoidNumber)(new StrMap({}), 1), false)
+    assert.deepEqual(member(strmap, setoidNumber)(new StrMap({ a: 0 }), 1), false)
+    assert.deepEqual(member(strmap, setoidNumber)(new StrMap({ a: 1 }), 1), true)
+
+    assert.deepEqual(member(these, setoidNumber)(new This(0), 1), false)
+    assert.deepEqual(member(these, setoidNumber)(new This(1), 1), false)
+    assert.deepEqual(member(these, setoidNumber)(new That(0), 1), false)
+    assert.deepEqual(member(these, setoidNumber)(new That(1), 1), true)
+    assert.deepEqual(member(these, setoidNumber)(new Both(0, 0), 1), false)
+    assert.deepEqual(member(these, setoidNumber)(new Both(0, 1), 1), true)
+    assert.deepEqual(member(these, setoidNumber)(new Both(1, 0), 1), false)
+
+    assert.deepEqual(member(tree, setoidNumber)(new Tree(0, []), 1), false)
+    assert.deepEqual(member(tree, setoidNumber)(new Tree(1, []), 1), true)
+    assert.deepEqual(member(tree, setoidNumber)(new Tree(0, [new Tree(0, [])]), 1), false)
+    assert.deepEqual(member(tree, setoidNumber)(new Tree(0, [new Tree(1, [])]), 1), true)
+    assert.deepEqual(member(tree, setoidNumber)(new Tree(0, [new Tree(0, []), new Tree(0, [])]), 1), false)
+    assert.deepEqual(member(tree, setoidNumber)(new Tree(0, [new Tree(0, []), new Tree(1, [])]), 1), true)
+
+    assert.deepEqual(member(tuple, setoidNumber)(new Tuple(1, 2), 0), false)
+    assert.deepEqual(member(tuple, setoidNumber)(new Tuple(1, 2), 1), false)
+    assert.deepEqual(member(tuple, setoidNumber)(new Tuple(1, 2), 2), true)
   })
 })
