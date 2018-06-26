@@ -400,11 +400,11 @@ export interface Wilt3C<W extends URIS3, WU, WL> {
 }
 
 /**
+ * @typeclass
  * `Witherable` represents data structures which can be _partitioned_ with effects in some {@link Applicative} functor.
  * - {@link wilt}
  * - {@link wither}
  *
- * @typeclass
  * @since 1.7.0
  * @see https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Witherable.purs
  */
@@ -421,7 +421,6 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
 }
 
 /**
- * @typeclass
  * @since 1.7.0
  * @see Witherable
  */
@@ -431,7 +430,6 @@ export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable
 }
 
 /**
- * @typeclass
  * @since 1.7.0
  * @see Witherable
  */
@@ -441,7 +439,6 @@ export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterabl
 }
 
 /**
- * @typeclass
  * @since 1.7.0
  * @see Witherable
  */
@@ -451,7 +448,6 @@ export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>,
 }
 
 /**
- * @typeclass
  * @since 1.7.0
  * @see Witherable
  */
@@ -461,7 +457,6 @@ export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterabl
 }
 
 /**
- * @typeclass
  * @since 1.7.0
  * @see Witherable
  */
