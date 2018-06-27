@@ -6,6 +6,7 @@
     "variable-name": false,
     "quotemark": [true, "single", "jsx-double"],
     "ter-indent": false,
-    "strict-boolean-expressions": true
+    "strict-boolean-expressions": true,
+    "forin": true
   }
 }

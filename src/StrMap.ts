@@ -37,10 +37,11 @@ export class StrMap<A> {
   readonly _URI!: URI
   constructor(readonly value: { [key: string]: A }) {}
   mapWithKey<B>(f: (k: string, a: A) => B): StrMap<B> {
-    const o = this.value
+    const value = this.value
     const r: { [key: string]: B } = {}
-    for (let k in o) {
-      r[k] = f(k, o[k])
+    const keys = Object.keys(value)
+    for (const key of keys) {
+      r[key] = f(key, value[key])
     }
     return new StrMap(r)
   }
@@ -120,8 +121,10 @@ export function traverseWithKey<F>(
       concatCurried(getLastSemigroup())
     )
     let out: HKT<F, StrMap<B>> = F.of(empty)
-    for (let k in ta.value) {
-      out = concatA2(out)(F.map(f(k, ta.value[k]), b => singleton(k, b)))
+    const value = ta.value
+    const keys = Object.keys(value)
+    for (const key of keys) {
+      out = concatA2(out)(F.map(f(key, value[key]), b => singleton(key, b)))
     }
     return out
   }
@@ -160,10 +163,7 @@ export const size = <A>(d: StrMap<A>): number => {
  * @since 1.0.0
  */
 export const isEmpty = <A>(d: StrMap<A>): boolean => {
-  for (const _ in d.value) {
-    return false
-  }
-  return true
+  return Object.keys(d.value).length === 0
 }
 
 /**
@@ -232,8 +232,10 @@ export function fromFoldable<F>(
  */
 export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B> => {
   const out: Array<B> = []
-  for (let k in d.value) {
-    out.push(f(k, d.value[k]))
+  const value = d.value
+  const keys = Object.keys(value)
+  for (const key of keys) {
+    out.push(f(key, d.value[key]))
   }
   return out
 }

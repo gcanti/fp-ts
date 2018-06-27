@@ -171,13 +171,16 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
  * @function
  * @since 1.0.0
  */
-export const getRecordMonoid = <O>(Ms: { [K in keyof O]: Monoid<O[K]> }): Monoid<O> => {
+export const getRecordMonoid = <O extends { [key: string]: any }>(
+  monoids: { [K in keyof O]: Monoid<O[K]> }
+): Monoid<O> => {
   const empty: any = {}
-  for (const k in Ms) {
-    empty[k] = Ms[k].empty
+  const keys = Object.keys(monoids)
+  for (const key of keys) {
+    empty[key] = monoids[key].empty
   }
   return {
-    ...getRecordSemigroup<O>(Ms),
+    ...getRecordSemigroup<O>(monoids),
     empty
   }
 }
