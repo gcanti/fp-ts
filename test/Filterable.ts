@@ -127,28 +127,33 @@ describe('Filterable', () => {
   })
 
   it('unique', () => {
-    assert.deepEqual(unique(array, setoidNumber)([]), [])
-    assert.deepEqual(unique(array, setoidNumber)([3, 2, 1, 2, 3]), [3, 2, 1])
+    const uniqueArray = unique(array)
+    assert.deepEqual(uniqueArray(setoidNumber)([]), [])
+    assert.deepEqual(uniqueArray(setoidNumber)([3, 2, 1, 2, 3]), [3, 2, 1])
 
-    assert.deepEqual(unique(option, setoidNumber)(none), none)
-    assert.deepEqual(unique(option, setoidNumber)(some(1)), some(1))
-    assert.deepEqual(unique(option, setoidNumber)(some(3)), some(3))
+    const uniqueOption = unique(option)
+    assert.deepEqual(uniqueOption(setoidNumber)(none), none)
+    assert.deepEqual(uniqueOption(setoidNumber)(some(1)), some(1))
+    assert.deepEqual(uniqueOption(setoidNumber)(some(3)), some(3))
 
-    assert.deepEqual(unique(filterableEither, setoidNumber)(left<string, number>('foo')), left('foo'))
-    assert.deepEqual(unique(filterableEither, setoidNumber)(right<string, number>(1)), right(1))
-    assert.deepEqual(unique(filterableEither, setoidNumber)(right<string, number>(3)), right(3))
+    const uniqueFilterableEither = unique(filterableEither)
+    assert.deepEqual(uniqueFilterableEither(setoidNumber)(left<string, number>('foo')), left('foo'))
+    assert.deepEqual(uniqueFilterableEither(setoidNumber)(right<string, number>(1)), right(1))
+    assert.deepEqual(uniqueFilterableEither(setoidNumber)(right<string, number>(3)), right(3))
 
-    assert.deepEqual(unique(filterableValidation, setoidNumber)(failure<string, number>('foo')), failure('foo'))
-    assert.deepEqual(unique(filterableValidation, setoidNumber)(success<string, number>(1)), success(1))
-    assert.deepEqual(unique(filterableValidation, setoidNumber)(success<string, number>(3)), success(3))
+    const uniqueFilterableValidation = unique(filterableValidation)
+    assert.deepEqual(uniqueFilterableValidation(setoidNumber)(failure<string, number>('foo')), failure('foo'))
+    assert.deepEqual(uniqueFilterableValidation(setoidNumber)(success<string, number>(1)), success(1))
+    assert.deepEqual(uniqueFilterableValidation(setoidNumber)(success<string, number>(3)), success(3))
 
-    assert.deepEqual(unique(strmap, setoidNumber)(new StrMap<number>({})), new StrMap({}))
+    const uniqueStrmap = unique(strmap)
+    assert.deepEqual(uniqueStrmap(setoidNumber)(new StrMap<number>({})), new StrMap({}))
     assert.deepEqual(
-      unique(strmap, setoidNumber)(new StrMap<number>({ a: 3, b: 2, c: 1, d: 2, e: 3 })),
+      uniqueStrmap(setoidNumber)(new StrMap<number>({ a: 3, b: 2, c: 1, d: 2, e: 3 })),
       new StrMap({ a: 3, b: 2, c: 1 })
     )
     assert.deepEqual(
-      unique(strmap, setoidNumber)(new StrMap<number>({ e: 3, d: 2, c: 1, b: 2, a: 3 })),
+      uniqueStrmap(setoidNumber)(new StrMap<number>({ e: 3, d: 2, c: 1, b: 2, a: 3 })),
       new StrMap({ e: 3, d: 2, c: 1 })
     )
   })
