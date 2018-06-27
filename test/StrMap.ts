@@ -21,6 +21,7 @@ import {
 import { traverse } from '../src/Traversable'
 import { semigroupSum } from '../src/Semigroup'
 import { left, right } from '../src/Either'
+import { identity as I, Identity } from '../src/Identity'
 
 const p = (n: number) => n > 2
 
@@ -168,5 +169,25 @@ describe('StrMap', () => {
       left: new StrMap({ a: 0 }),
       right: new StrMap({ b: 4 })
     })
+  })
+
+  it('wither', () => {
+    const witherIdentity = strmap.wither(I)
+    const f = (n: number) => new Identity(p(n) ? some(n + 1) : none)
+    assert.deepEqual(witherIdentity(new StrMap<number>({}), f), new Identity(new StrMap({})))
+    assert.deepEqual(witherIdentity(new StrMap({ a: 1, b: 3 }), f), new Identity(new StrMap({ b: 4 })))
+  })
+
+  it('wilt', () => {
+    const wiltIdentity = strmap.wilt(I)
+    const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
+    assert.deepEqual(
+      wiltIdentity(new StrMap<number>({}), f),
+      new Identity({ left: new StrMap({}), right: new StrMap({}) })
+    )
+    assert.deepEqual(
+      wiltIdentity(new StrMap({ a: 1, b: 3 }), f),
+      new Identity({ left: new StrMap({ a: 0 }), right: new StrMap({ b: 4 }) })
+    )
   })
 })

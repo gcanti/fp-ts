@@ -20,9 +20,11 @@ import {
   validation,
   getMonoid,
   getCompactable,
-  getFilterable
+  getFilterable,
+  getWitherable
 } from '../src/Validation'
 import { left, right } from '../src/Either'
+import { identity as I, Identity } from '../src/Identity'
 
 const p = (n: number): boolean => n > 2
 
@@ -234,6 +236,42 @@ describe('Validation', () => {
       assert.deepEqual(F.filterMap(failure<string, number>('123'), f), failure('123'))
       assert.deepEqual(F.filterMap(success<string, number>(1), f), failure(monoidString.empty))
       assert.deepEqual(F.filterMap(success<string, number>(3), f), success(4))
+    })
+  })
+  describe('getWitherable', () => {
+    const W = getWitherable(monoidString)
+    const p = (n: number) => n > 2
+    it('wither', () => {
+      const f = (n: number) => new Identity(p(n) ? some(n + 1) : none)
+      const witherIdentity = W.wither(I)
+      assert.deepEqual(witherIdentity(failure<string, number>('foo'), f), new Identity(failure('foo')))
+      assert.deepEqual(witherIdentity(success<string, number>(1), f), new Identity(failure(monoidString.empty)))
+      assert.deepEqual(witherIdentity(success<string, number>(3), f), new Identity(success(4)))
+    })
+    it('wilt', () => {
+      const wiltIdentity = W.wilt(I)
+      const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
+      assert.deepEqual(
+        wiltIdentity(failure<string, number>('foo'), f),
+        new Identity({
+          left: failure('foo'),
+          right: failure('foo')
+        })
+      )
+      assert.deepEqual(
+        wiltIdentity(success<string, number>(1), f),
+        new Identity({
+          left: success(0),
+          right: failure(monoidString.empty)
+        })
+      )
+      assert.deepEqual(
+        wiltIdentity(success<string, number>(3), f),
+        new Identity({
+          left: failure(monoidString.empty),
+          right: success(4)
+        })
+      )
     })
   })
 })

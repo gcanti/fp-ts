@@ -14,6 +14,7 @@ import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, Separated } from './Compactable'
 import { Option } from './Option'
 import { Filterable2C } from './Filterable'
+import { Witherable2C } from './Witherable'
 
 // Adapted from https://github.com/purescript/purescript-validation
 
@@ -480,6 +481,40 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
     filterMap,
     partition,
     filter
+  }
+}
+
+/**
+ * Builds {@link Witherable} instance for {@link Validation} given {@link Monoid} for the left side
+ * @function
+ * @since 1.7.0
+ */
+export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
+  const filterableValidation = getFilterable(ML)
+
+  const wither = <F>(
+    F: Applicative<F>
+  ): (<A, B>(wa: Validation<L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Validation<L, B>>) => {
+    const traverseF = traverse(F)
+    return (wa, f) => F.map(traverseF(wa, f), filterableValidation.compact)
+  }
+
+  const wilt = <F>(
+    F: Applicative<F>
+  ): (<RL, RR, A>(
+    wa: Validation<L, A>,
+    f: (a: A) => HKT<F, Either<RL, RR>>
+  ) => HKT<F, Separated<Validation<L, RL>, Validation<L, RR>>>) => {
+    const traverseF = traverse(F)
+    return (wa, f) => F.map(traverseF(wa, f), filterableValidation.separate)
+  }
+
+  return {
+    ...filterableValidation,
+    traverse,
+    reduce,
+    wither,
+    wilt
   }
 }
 

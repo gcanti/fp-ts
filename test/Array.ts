@@ -54,6 +54,9 @@ import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity, tuple } from '../src/function'
+import { Identity, identity as I } from '../src/Identity'
+
+const p = (n: number) => n > 2
 
 describe('Array', () => {
   const as = [1, 2, 3]
@@ -450,8 +453,21 @@ describe('Array', () => {
   })
 
   it('partition', () => {
-    const p = (n: number) => n > 2
     assert.deepEqual(array.partition([], p), { left: [], right: [] })
     assert.deepEqual(array.partition([1, 3], p), { left: [1], right: [3] })
+  })
+
+  it('wither', () => {
+    const witherIdentity = array.wither(I)
+    const f = (n: number) => new Identity(p(n) ? some(n + 1) : none)
+    assert.deepEqual(witherIdentity([], f), new Identity([]))
+    assert.deepEqual(witherIdentity([1, 3], f), new Identity([4]))
+  })
+
+  it('wilt', () => {
+    const wiltIdentity = array.wilt(I)
+    const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
+    assert.deepEqual(wiltIdentity([], f), new Identity({ left: [], right: [] }))
+    assert.deepEqual(wiltIdentity([1, 3], f), new Identity({ left: [0], right: [4] }))
   })
 })

@@ -24,6 +24,7 @@ import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
+import { Identity, identity as I } from '../src/Identity'
 
 const p = (n: number): boolean => n > 2
 
@@ -321,5 +322,21 @@ describe('Option', () => {
     assert.deepEqual(option.partitionMap(none, f), { left: none, right: none })
     assert.deepEqual(option.partitionMap(some(1), f), { left: some(0), right: none })
     assert.deepEqual(option.partitionMap(some(3), f), { left: none, right: some(4) })
+  })
+
+  it('wither', () => {
+    const witherIdentity = option.wither(I)
+    const f = (n: number) => new Identity(p(n) ? some(n + 1) : none)
+    assert.deepEqual(witherIdentity(none, f), new Identity(none))
+    assert.deepEqual(witherIdentity(some(1), f), new Identity(none))
+    assert.deepEqual(witherIdentity(some(3), f), new Identity(some(4)))
+  })
+
+  it('wilt', () => {
+    const wiltIdentity = option.wilt(I)
+    const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
+    assert.deepEqual(wiltIdentity(none, f), new Identity({ left: none, right: none }))
+    assert.deepEqual(wiltIdentity(some(1), f), new Identity({ left: some(0), right: none }))
+    assert.deepEqual(wiltIdentity(some(3), f), new Identity({ left: none, right: some(4) }))
   })
 })

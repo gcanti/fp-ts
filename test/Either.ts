@@ -15,13 +15,15 @@ import {
   isRight,
   fromRefinement,
   getCompactable,
-  getFilterable
+  getFilterable,
+  getWitherable
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { monoidString } from '../src/Monoid'
+import { Identity, identity as I } from '../src/Identity'
 
 describe('Either', () => {
   it('fold', () => {
@@ -319,6 +321,43 @@ describe('Either', () => {
       assert.deepEqual(F.filterMap(left<string, number>('123'), f), left('123'))
       assert.deepEqual(F.filterMap(right<string, number>(1), f), left(monoidString.empty))
       assert.deepEqual(F.filterMap(right<string, number>(3), f), right(4))
+    })
+  })
+
+  describe('getWitherable', () => {
+    const W = getWitherable(monoidString)
+    const p = (n: number) => n > 2
+    it('wither', () => {
+      const f = (n: number) => new Identity(p(n) ? some(n + 1) : none)
+      const witherIdentity = W.wither(I)
+      assert.deepEqual(witherIdentity(left<string, number>('foo'), f), new Identity(left('foo')))
+      assert.deepEqual(witherIdentity(right<string, number>(1), f), new Identity(left(monoidString.empty)))
+      assert.deepEqual(witherIdentity(right<string, number>(3), f), new Identity(right(4)))
+    })
+    it('wilt', () => {
+      const wiltIdentity = W.wilt(I)
+      const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
+      assert.deepEqual(
+        wiltIdentity(left<string, number>('foo'), f),
+        new Identity({
+          left: left('foo'),
+          right: left('foo')
+        })
+      )
+      assert.deepEqual(
+        wiltIdentity(right<string, number>(1), f),
+        new Identity({
+          left: right(0),
+          right: left(monoidString.empty)
+        })
+      )
+      assert.deepEqual(
+        wiltIdentity(right<string, number>(3), f),
+        new Identity({
+          left: left(monoidString.empty),
+          right: right(4)
+        })
+      )
     })
   })
 })

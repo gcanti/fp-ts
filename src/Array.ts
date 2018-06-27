@@ -17,6 +17,7 @@ import { Unfoldable1 } from './Unfoldable'
 import { Endomorphism, Predicate, Refinement, concat, tuple } from './function'
 import { Compactable1, Separated } from './Compactable'
 import { Filterable1 } from './Filterable'
+import { Witherable1 } from './Witherable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -833,6 +834,18 @@ export const catOptions = compact
  */
 export const mapOption = filterMap
 
+const wither = <F>(F: Applicative<F>): (<A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]>) => {
+  const traverseF = traverse(F)
+  return (wa, f) => F.map(traverseF(wa, f), compact)
+}
+
+const wilt = <F>(
+  F: Applicative<F>
+): (<RL, RR, A>(wa: A[], f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<RL[], RR[]>>) => {
+  const traverseF = traverse(F)
+  return (wa, f) => F.map(traverseF(wa, f), separate)
+}
+
 export const array: Monad1<URI> &
   Foldable1<URI> &
   Unfoldable1<URI> &
@@ -841,7 +854,8 @@ export const array: Monad1<URI> &
   Plus1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
-  Filterable1<URI> = {
+  Filterable1<URI> &
+  Witherable1<URI> = {
   URI,
   map,
   compact,
@@ -858,5 +872,7 @@ export const array: Monad1<URI> &
   traverse,
   zero,
   alt,
-  extend
+  extend,
+  wither,
+  wilt
 }
