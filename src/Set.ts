@@ -281,7 +281,7 @@ export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => {
  * @function
  * @since 1.2.0
  */
-export const fromArray = <A>(S: Setoid<A>) => (as: A[]): Set<A> => {
+export const fromArray = <A>(S: Setoid<A>) => (as: Array<A>): Set<A> => {
   const len = as.length
   const r = new Set<A>()
   const isMember = member(S)(r)

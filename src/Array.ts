@@ -57,7 +57,7 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
  * @constant
  * @since 1.0.0
  */
-export const getSetoid: <A>(S: Setoid<A>) => Setoid<A[]> = getArraySetoid
+export const getSetoid: <A>(S: Setoid<A>) => Setoid<Array<A>> = getArraySetoid
 
 /**
  * Derives an Order over the Array of a given element type from the Order, 'O', of that type. The ordering between two
@@ -742,8 +742,8 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
-const filterMap = <A, B>(fa: A[], f: (a: A) => Option<B>): B[] => {
-  const result: B[] = []
+const filterMap = <A, B>(fa: Array<A>, f: (a: A) => Option<B>): Array<B> => {
+  const result: Array<B> = []
   for (const a of fa) {
     const optionB = f(a)
     if (optionB.isSome()) {
@@ -756,9 +756,9 @@ const filterMap = <A, B>(fa: A[], f: (a: A) => Option<B>): B[] => {
  * @function
  * @since 1.0.0
  */
-export const partitionMap = <A, L, R>(fa: A[], f: (a: A) => Either<L, R>): Separated<L[], R[]> => {
-  const left: L[] = []
-  const right: R[] = []
+export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<Array<L>, Array<R>> => {
+  const left: Array<L> = []
+  const right: Array<R> = []
   for (const a of fa) {
     const e = f(a)
     if (e.isLeft()) {
@@ -777,10 +777,10 @@ export const partitionMap = <A, L, R>(fa: A[], f: (a: A) => Either<L, R>): Separ
  * @function
  * @since 1.0.0
  */
-export const filter = <A>(fa: A[], p: Predicate<A>): A[] => fa.filter(p)
-const partition = <A>(fa: A[], p: Predicate<A>): Separated<A[], A[]> => {
-  const left: A[] = []
-  const right: A[] = []
+export const filter = <A>(fa: Array<A>, p: Predicate<A>): Array<A> => fa.filter(p)
+const partition = <A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>> => {
+  const left: Array<A> = []
+  const right: Array<A> = []
   for (const a of fa) {
     if (p(a)) {
       right.push(a)
@@ -793,8 +793,8 @@ const partition = <A>(fa: A[], p: Predicate<A>): Separated<A[], A[]> => {
     right
   }
 }
-const compact = <A>(fa: Option<A>[]): A[] => {
-  const result: A[] = []
+const compact = <A>(fa: Array<Option<A>>): Array<A> => {
+  const result: Array<A> = []
   for (const optionA of fa) {
     if (optionA.isSome()) {
       result.push(optionA.value)
@@ -802,9 +802,9 @@ const compact = <A>(fa: Option<A>[]): A[] => {
   }
   return result
 }
-const separate = <RL, RR>(fa: Either<RL, RR>[]): Separated<RL[], RR[]> => {
-  const left: RL[] = []
-  const right: RR[] = []
+const separate = <RL, RR>(fa: Array<Either<RL, RR>>): Separated<Array<RL>, Array<RR>> => {
+  const left: Array<RL> = []
+  const right: Array<RR> = []
   for (const e of fa) {
     if (e.isLeft()) {
       left.push(e.value)
@@ -834,14 +834,14 @@ export const catOptions = compact
  */
 export const mapOption = filterMap
 
-const wither = <F>(F: Applicative<F>): (<A, B>(ta: A[], f: (a: A) => HKT<F, Option<B>>) => HKT<F, B[]>) => {
+const wither = <F>(F: Applicative<F>): (<A, B>(ta: Array<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Array<B>>) => {
   const traverseF = traverse(F)
   return (wa, f) => F.map(traverseF(wa, f), compact)
 }
 
 const wilt = <F>(
   F: Applicative<F>
-): (<RL, RR, A>(wa: A[], f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<RL[], RR[]>>) => {
+): (<RL, RR, A>(wa: Array<A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Array<RL>, Array<RR>>>) => {
   const traverseF = traverse(F)
   return (wa, f) => F.map(traverseF(wa, f), separate)
 }
