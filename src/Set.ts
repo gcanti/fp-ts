@@ -183,21 +183,30 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
  * @function
  * @since 1.2.0
  */
-export const partitionMap = <A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): Separated<Set<L>, Set<R>> => {
+export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
+  x: Set<A>,
+  f: (a: A) => Either<L, R>
+): Separated<Set<L>, Set<R>> => {
   const values = x.values()
   let e: IteratorResult<A>
-  let l = new Set()
-  let r = new Set()
+  let left = new Set()
+  let right = new Set()
+  const isMemberL = member(SL)(left)
+  const isMemberR = member(SR)(right)
   // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const v = f(e.value)
     if (v.isLeft()) {
-      l.add(v.value)
+      if (!isMemberL(v.value)) {
+        left.add(v.value)
+      }
     } else {
-      r.add(v.value)
+      if (!isMemberR(v.value)) {
+        right.add(v.value)
+      }
     }
   }
-  return { left: l, right: r }
+  return { left, right }
 }
 
 /**
