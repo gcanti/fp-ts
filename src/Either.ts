@@ -14,6 +14,7 @@ import { Validation } from './Validation'
 import { Compactable2C, Separated } from './Compactable'
 import { Monoid } from './Monoid'
 import { Filterable2C } from './Filterable'
+import { Witherable2C } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -474,7 +475,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 }
 
 /**
- * Builds {@link Filterable} instance for {@link Either} gived {@link Monoid} for the left side
+ * Builds {@link Filterable} instance for {@link Either} given {@link Monoid} for the left side
  * @function
  * @since 1.7.0
  */
@@ -538,6 +539,40 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
     filterMap,
     partition,
     filter
+  }
+}
+
+/**
+ * Builds {@link Witherable} instance for {@link Either} given {@link Monoid} for the left side
+ * @function
+ * @since 1.7.0
+ */
+export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
+  const filterableEither = getFilterable(ML)
+
+  const wither = <F>(
+    F: Applicative<F>
+  ): (<A, B>(wa: Either<L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<L, B>>) => {
+    const traverseF = traverse(F)
+    return (wa, f) => F.map(traverseF(wa, f), filterableEither.compact)
+  }
+
+  const wilt = <F>(
+    F: Applicative<F>
+  ): (<RL, RR, A>(
+    wa: Either<L, A>,
+    f: (a: A) => HKT<F, Either<RL, RR>>
+  ) => HKT<F, Separated<Either<L, RL>, Either<L, RR>>>) => {
+    const traverseF = traverse(F)
+    return (wa, f) => F.map(traverseF(wa, f), filterableEither.separate)
+  }
+
+  return {
+    ...filterableEither,
+    traverse,
+    reduce,
+    wither,
+    wilt
   }
 }
 
