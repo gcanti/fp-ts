@@ -557,6 +557,26 @@ export const isNone = <A>(fa: Option<A>): fa is None<A> => {
 export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => {
   return refinement(a) ? some(a) : none
 }
+
+/**
+ * Returns a refinement from a prism.
+ * This function ensures that a custom type guard definition is type-safe.
+ *
+ * @example
+ * type A = { type: 'A' }
+ * type B = { type: 'B' }
+ * type C = A | B
+ *
+ * const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
+ * const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
+ *
+ * @function
+ * @since 1.7.0
+ */
+export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => {
+  return (a: A): a is B => getOption(a).isSome()
+}
+
 const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
 const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
   if (fa.isNone()) {

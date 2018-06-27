@@ -17,7 +17,8 @@ import {
   none,
   option,
   some,
-  tryCatch
+  tryCatch,
+  getRefinement
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString } from '../src/Semigroup'
@@ -338,5 +339,18 @@ describe('Option', () => {
     assert.deepEqual(wiltIdentity(none, f), new Identity({ left: none, right: none }))
     assert.deepEqual(wiltIdentity(some(1), f), new Identity({ left: some(0), right: none }))
     assert.deepEqual(wiltIdentity(some(3), f), new Identity({ left: none, right: some(4) }))
+  })
+
+  it('getRefinement', () => {
+    const f = (s: string | number): Option<string> => (typeof s === 'string' ? some(s) : none)
+    const isString = getRefinement(f)
+    assert.strictEqual(isString('s'), true)
+    assert.strictEqual(isString(1), false)
+    type A = { type: 'A' }
+    type B = { type: 'B' }
+    type C = A | B
+    const isA = getRefinement<C, A>(c => (c.type === 'A' ? some(c) : none))
+    assert.strictEqual(isA({ type: 'A' }), true)
+    assert.strictEqual(isA({ type: 'B' }), false)
   })
 })
