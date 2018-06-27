@@ -28,19 +28,19 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
  * @since 1.7.0
  */
 export interface Traverse<T> {
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, HKT<T, B>>
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: HKT<T, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, HKT<T, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: HKT<T, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, HKT<T, B>>
+  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
     ta: HKT<T, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, HKT<T, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
     ta: HKT<T, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, HKT<T, B>>
@@ -54,19 +54,19 @@ export interface Traverse<T> {
  * @since 1.7.0
  */
 export interface Traverse1<T extends URIS> {
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type<T, B>>
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type<T, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type<T, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: Type<T, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type<T, B>>
+  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
     ta: Type<T, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type<T, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
     ta: Type<T, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type<T, B>>
@@ -80,19 +80,19 @@ export interface Traverse1<T extends URIS> {
  * @since 1.7.0
  */
 export interface Traverse2<T extends URIS2> {
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
   <F extends URIS3>(F: Applicative3<F>): <TL, FU, FL, A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TL, A, B>(
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TL, A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, TL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <TL, FL, A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <TL, FL, A, B>(
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TL, A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type2<T, TL, B>>
@@ -109,19 +109,19 @@ export interface Traverse2<T extends URIS2> {
  * @since 1.7.0
  */
 export interface Traverse2C<T extends URIS2, TL> {
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, TL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type2<T, TL, B>>
@@ -135,19 +135,19 @@ export interface Traverse2C<T extends URIS2, TL> {
  * @since 1.7.0
  */
 export interface Traverse3<T extends URIS3> {
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TU, TL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
   <F extends URIS3>(F: Applicative3<F>): <TU, TL, FU, FL, A, B>(
     ta: Type3<T, TU, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TU, TL, A, B>(
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TU, TL, A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <TU, TL, FL, A, B>(
     ta: Type3<T, TU, TL, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <TU, TL, FL, A, B>(
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TU, TL, A, B>(
     ta: Type3<T, TU, TL, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type3<T, TU, TL, B>>
@@ -164,19 +164,19 @@ export interface Traverse3<T extends URIS3> {
  * @since 1.7.0
  */
 export interface Traverse3C<T extends URIS3, TU, TL> {
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type3<T, TU, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
     ta: Type3<T, TU, TL, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
     ta: Type3<T, TU, TL, A>,
     f: (a: A) => Type2<F, FL, B>
   ) => Type2<F, FL, Type3<T, TU, TL, B>>
