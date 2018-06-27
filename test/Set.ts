@@ -24,7 +24,7 @@ import {
   toArray,
   union
 } from '../src/Set'
-import { Setoid, setoidNumber, setoidString } from '../src/Setoid'
+import { Setoid, setoidNumber, setoidString, getRecordSetoid } from '../src/Setoid'
 
 const gte2 = (n: number) => n >= 2
 
@@ -107,14 +107,29 @@ describe('Set', () => {
   })
 
   it('partitionMap', () => {
-    assert.deepEqual(partitionMap(new Set([]), left), {
+    assert.deepEqual(partitionMap(setoidNumber, setoidString)(new Set([]), left), {
       left: new Set([]),
       right: new Set([])
     })
-    assert.deepEqual(partitionMap(new Set([1, 2, 3]), x => (x % 2 === 0 ? left(x) : right(`${x}`))), {
-      left: new Set([2]),
-      right: new Set(['1', '3'])
-    })
+    assert.deepEqual(
+      partitionMap(setoidNumber, setoidString)(new Set([1, 2, 3]), x => (x % 2 === 0 ? left(x) : right(`${x}`))),
+      {
+        left: new Set([2]),
+        right: new Set(['1', '3'])
+      }
+    )
+    const SL = getRecordSetoid({ value: setoidNumber })
+    const SR = getRecordSetoid({ value: setoidString })
+    assert.deepEqual(
+      partitionMap(SL, SR)(
+        new Set([{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }]),
+        x => (x.value % 2 === 0 ? left({ value: 2 }) : right({ value: 'odd' }))
+      ),
+      {
+        left: new Set([{ value: 2 }]),
+        right: new Set([{ value: 'odd' }])
+      }
+    )
   })
 
   it('getUnionMonoid', () => {
