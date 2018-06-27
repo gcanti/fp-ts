@@ -71,7 +71,7 @@ export const monoidAny: Monoid<boolean> = {
   empty: false
 }
 
-const emptyArray: any[] = []
+const emptyArray: Array<any> = []
 
 /**
  * @instance

@@ -128,7 +128,7 @@ const reduce = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
 
 const traverse = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
   const traverseAF = traverseA(F)
-  const treeLifted: <A>(a: HKT<F, A>) => (b: HKT<F, Tree<A>[]>) => HKT<F, Tree<A>> = liftA2(F)(
+  const treeLifted: <A>(a: HKT<F, A>) => (b: HKT<F, Array<Tree<A>>>) => HKT<F, Tree<A>> = liftA2(F)(
     <A>(value: A) => (forest: Forest<A>): Tree<A> => new Tree(value, forest)
   )
   const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
@@ -141,7 +141,7 @@ const traverse = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F
  * @since 1.6.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => {
-  let SA: Setoid<Tree<A>[]>
+  let SA: Setoid<Array<Tree<A>>>
   const R: Setoid<Tree<A>> = {
     equals: (x, y) => S.equals(x.value, y.value) && SA.equals(x.forest, y.forest)
   }
@@ -307,7 +307,7 @@ export function unfoldForestM<M>(
   M: Monad<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> {
   const traverseAM = traverseA(M)
-  let unfoldTreeMM: <A, B>(b: B, f: (b: B) => HKT<M, [A, B[]]>) => HKT<M, Tree<A>>
+  let unfoldTreeMM: <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
   return (bs, f) => {
     // tslint:disable-next-line
     if (unfoldTreeMM === undefined) {

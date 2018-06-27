@@ -340,11 +340,11 @@ export function sequenceT<F extends URIS2, L>(F: Apply2C<F, L>): SequenceT2C<F, 
 export function sequenceT<F extends URIS>(F: Apply1<F>): SequenceT1<F>
 export function sequenceT<F>(F: Apply<F>): SequenceT<F>
 export function sequenceT<F>(F: Apply<F>): SequenceT<F> {
-  return (...args: any[]) => {
+  return (...args: Array<any>) => {
     const len = args.length
     let f = tupleConstructors[len]
     if (!Boolean(f)) {
-      f = tupleConstructors[len] = curried((...args: any[]): any[] => args, len - 1, [])
+      f = tupleConstructors[len] = curried((...args: Array<any>): Array<any> => args, len - 1, [])
     }
     let r = F.map(args[0], f)
     for (let i = 1; i < len; i++) {
