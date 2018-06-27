@@ -29,6 +29,7 @@ export const code = (code: string) => '`' + code + '`'
 export const link = (text: string, href: string) => `[${text}](${href})`
 export const ts = fence('ts')
 export const italic = (code: string) => '*' + code + '*'
+export const strike = (text: string) => '~~' + text + '~~'
 
 export const header = (id: string, title: string): string => {
   return `---
@@ -98,8 +99,10 @@ const printExample = (example: Option<string>): string =>
 
 const printSignature = (signature: string): string => CRLF + CRLF + italic('Signature') + CRLF + ts(signature)
 
+const handleDeprecated = (s: string, deprecated: boolean): string => deprecated ? strike(s) + ' (deprecated)' : s
+
 const printMethod = (m: Method): string => {
-  let s = CRLF + h3(m.name)
+  let s = CRLF + h3(handleDeprecated(m.name, m.deprecated))
   s += CRLF + italic('method')
   s += CRLF + CRLF + italic(`since ${m.since}`)
   s += CRLF + printSignature(m.signature)
@@ -109,7 +112,7 @@ const printMethod = (m: Method): string => {
 }
 
 const printData = (d: Data): string => {
-  let s = `\n${h3(d.name)}`
+  let s = CRLF + h3(d.name)
   s += CRLF + italic('data')
   s += CRLF + CRLF + italic(`since ${d.since}`)
   s += CRLF + printSignature(d.signature)
@@ -127,7 +130,7 @@ const printData = (d: Data): string => {
 }
 
 const printInstance = (i: Instance): string => {
-  let s = `\n${h3(i.name)}`
+  let s = CRLF + h3(i.name)
   s += CRLF + italic('instance')
   s += CRLF + CRLF + italic(`since ${i.since}`)
   s += CRLF + printSignature(i.signature)
@@ -136,7 +139,7 @@ const printInstance = (i: Instance): string => {
 }
 
 const printConstant = (c: Constant): string => {
-  let s = `\n${h3(c.name)}`
+  let s = CRLF + h3(c.name)
   s += CRLF + italic('constant')
   s += CRLF + CRLF + italic(`since ${c.since}`)
   s += CRLF + printSignature(c.signature)
@@ -145,7 +148,7 @@ const printConstant = (c: Constant): string => {
 }
 
 const printFunc = (f: Func): string => {
-  let s = `\n${h3(f.name)}`
+  let s = CRLF + h3(handleDeprecated(f.name, f.deprecated))
   s += CRLF + italic('function')
   s += CRLF + CRLF + italic(`since ${f.since}`)
   if (f.isAlias) {
@@ -158,7 +161,7 @@ const printFunc = (f: Func): string => {
 }
 
 const printTypeclass = (tc: Typeclass): string => {
-  let s = `\n${h3(tc.name)}`
+  let s = CRLF + h3(tc.name)
   s += CRLF + italic('type class')
   s += CRLF + printSignature(tc.signature)
   s += printDescription(tc.description)

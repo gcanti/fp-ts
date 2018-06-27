@@ -7,7 +7,8 @@ export class Method {
     readonly signature: string,
     readonly description: Option<string>,
     readonly since: string,
-    readonly example: Option<string>
+    readonly example: Option<string>,
+    readonly deprecated: boolean
   ) {}
 }
 
@@ -40,7 +41,8 @@ export class Func {
     readonly description: Option<string>,
     readonly isAlias: boolean,
     readonly since: string,
-    readonly example: Option<string>
+    readonly example: Option<string>,
+    readonly deprecated: boolean
   ) {}
 }
 
