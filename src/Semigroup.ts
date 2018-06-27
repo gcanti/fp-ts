@@ -70,8 +70,9 @@ export const getRecordSemigroup = <O extends { [key: string]: any }>(
   return {
     concat: (x, y) => {
       const r: any = {}
-      for (const k in semigroups) {
-        r[k] = semigroups[k].concat(x[k], y[k])
+      const keys = Object.keys(semigroups)
+      for (const key of keys) {
+        r[key] = semigroups[key].concat(x[key], y[key])
       }
       return r
     }
