@@ -13,6 +13,7 @@ import { Predicate, tuple } from './function'
 import { Either } from './Either'
 import { Compactable1, Separated } from './Compactable'
 import { Filterable1 } from './Filterable'
+import { Witherable1 } from './Witherable'
 
 // https://github.com/purescript/purescript-maps
 
@@ -384,11 +385,27 @@ const separate = <RL, RR>(fa: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, Str
   }
 }
 
+const wither = <F>(F: Applicative<F>): (<A, B>(wa: StrMap<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, StrMap<B>>) => {
+  const traverseF = traverse(F)
+  return (wa, f) => F.map(traverseF(wa, f), compact)
+}
+
+const wilt = <F>(
+  F: Applicative<F>
+): (<RL, RR, A>(wa: StrMap<A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<StrMap<RL>, StrMap<RR>>>) => {
+  const traverseF = traverse(F)
+  return (wa, f) => F.map(traverseF(wa, f), separate)
+}
 /**
  * @instance
  * @since 1.0.0
  */
-export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Compactable1<URI> & Filterable1<URI> = {
+export const strmap: Functor1<URI> &
+  Foldable1<URI> &
+  Traversable1<URI> &
+  Compactable1<URI> &
+  Filterable1<URI> &
+  Witherable1<URI> = {
   URI,
   map,
   reduce,
@@ -398,5 +415,7 @@ export const strmap: Functor1<URI> & Foldable1<URI> & Traversable1<URI> & Compac
   filter,
   filterMap,
   partition,
-  partitionMap
+  partitionMap,
+  wither,
+  wilt
 }
