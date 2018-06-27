@@ -6,7 +6,7 @@ import { Const, const_ } from '../src/Const'
 import { Either, either } from '../src/Either'
 import { Functor2C, Functor3C, lift } from '../src/Functor'
 import { getMonad as getIxIOMonad } from '../src/IxIO'
-import { Option, option } from '../src/Option'
+import { Option, option, getRefinement, some, none } from '../src/Option'
 import * as optionT from '../src/OptionT'
 import { Reader, reader } from '../src/Reader'
 import { getArraySemigroup, semigroupString } from '../src/Semigroup'
@@ -99,3 +99,11 @@ declare function apiForTaskify(path: string, callback: (err: Error | null | unde
 const apiTaskified = taskify(apiForTaskify)
 
 type S1 = AssertEquals<typeof apiTaskified, (a: string) => TaskEither<Error, string>, 'T'>
+
+// getRefinement
+
+type A = { type: 'A' }
+type B = { type: 'B' }
+type C = A | B
+// $ExpectError Type '"B"' is not assignable to type '"A"'
+const isA = getRefinement<C, A>(c => c.type === 'B' ? some(c) : none)
