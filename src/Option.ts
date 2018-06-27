@@ -14,6 +14,7 @@ import { Traversable1 } from './Traversable'
 import { identity, Lazy, not, Predicate, Refinement, toString } from './function'
 import { Compactable1, Separated } from './Compactable'
 import { Filterable1 } from './Filterable'
+import { Witherable1 } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -586,6 +587,33 @@ const partition = <A>(fa: Option<A>, p: Predicate<A>): Separated<Option<A>, Opti
   right: fa.filter(p)
 })
 
+const wither = <F>(F: Applicative<F>) => <A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>): HKT<F, Option<B>> =>
+  fa.isNone() ? F.of(fa as any) : f(fa.value)
+
+const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
+  fa: Option<A>,
+  f: (a: A) => HKT<F, Either<RL, RR>>
+): HKT<F, Separated<Option<RL>, Option<RR>>> => {
+  if (fa.isNone()) {
+    return F.of({
+      left: none,
+      right: none
+    })
+  }
+  return F.map(f(fa.value), e => {
+    if (e.isLeft()) {
+      return {
+        left: some(e.value),
+        right: none
+      }
+    }
+    return {
+      left: none,
+      right: some(e.value)
+    }
+  })
+}
+
 /**
  * @instance
  * @since 1.0.0
@@ -597,7 +625,8 @@ export const option: Monad1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
-  Filterable1<URI> = {
+  Filterable1<URI> &
+  Witherable1<URI> = {
   URI,
   map,
   of,
@@ -613,5 +642,7 @@ export const option: Monad1<URI> &
   filter,
   filterMap,
   partition,
-  partitionMap
+  partitionMap,
+  wither,
+  wilt
 }
