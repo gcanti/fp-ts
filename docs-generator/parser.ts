@@ -88,13 +88,15 @@ const getMethod = (md: MethodDeclaration): Method => {
   const annotation = getAnnotation(md.getDocumentationCommentNodes())
   const since = getSince(annotation)
   const example = getExample(annotation)
+  const deprecated = getDeprecated(annotation)
   return {
     type: 'method',
     name,
     signature,
     description,
     since: since.getOrElse('1.0.0'),
-    example
+    example,
+    deprecated
   }
 }
 
@@ -140,6 +142,14 @@ const isExampleTag = (tag: Tag): boolean => {
 
 const getExample = (annotation: Annotation): Option<string> => {
   return fromNullable(annotation.tags.filter(isExampleTag)[0]).mapNullable(tag => tag.description)
+}
+
+const isDeprecatedTag = (tag: Tag): boolean => {
+  return tag.title === 'deprecated'
+}
+
+const getDeprecated = (annotation: Annotation): boolean => {
+  return fromNullable(annotation.tags.filter(isDeprecatedTag)[0]).isSome()
 }
 
 /** parses data types which are unions */
@@ -278,10 +288,11 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
           const signature = text.substring(start, end.getOrElse(text.length))
           const since = getSince(annotation)
           const example = getExample(annotation)
+          const deprecated = getDeprecated(annotation)
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
           } else {
-            return ok(new Func(name, signature, description, isAlias(annotation), since.value, example))
+            return ok(new Func(name, signature, description, isAlias(annotation), since.value, example,deprecated))
           }
         }
       }
@@ -315,10 +326,11 @@ const parseFunctionDeclaration = (f: FunctionDeclaration): ParseResult<Export> =
       const signature = text.substring(start, end === -1 ? text.length : end)
       const since = getSince(annotation)
       const example = getExample(annotation)
+      const deprecated = getDeprecated(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, name))
       } else {
-        return ok(new Func(name, signature, description, false, since.value, example))
+        return ok(new Func(name, signature, description, false, since.value, example, deprecated))
       }
     }
     return notFound
