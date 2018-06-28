@@ -14,7 +14,7 @@ import { Plus1 } from './Plus'
 import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
-import { Endomorphism, Predicate, Refinement, concat, tuple, identity } from './function'
+import { Endomorphism, Predicate, Refinement, concat, tuple, identity, curry } from './function'
 import { Compactable1, Separated } from './Compactable'
 import { Filterable1 } from './Filterable'
 import { Witherable1 } from './Witherable'
@@ -642,6 +642,21 @@ export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
  */
 export const sort = <A>(O: Ord<A>) => (as: Array<A>): Array<A> => {
   return copy(as).sort(O.compare)
+}
+
+/**
+ *  Group equal, consecutive elements of an array into arrays.
+ */
+export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<Array<A>> => {
+  const grouped = []
+  const unified = uniq(S)(as)
+  const len = unified.length
+
+  for (let i = 0; i < len; i++) {
+    grouped[i] = filter(as, curry(S.equals)(unified[i]))
+  }
+
+  return grouped
 }
 
 /**
