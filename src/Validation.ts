@@ -20,11 +20,11 @@ import { Witherable2C } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    Validation: Validation<L, A>
+    'fp-ts/lib/Validation': Validation<L, A>
   }
 }
 
-export const URI = 'Validation'
+export const URI = 'fp-ts/lib/Validation'
 
 export type URI = typeof URI
 

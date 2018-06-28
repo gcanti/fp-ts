@@ -30,11 +30,11 @@ declare global {
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    Array: Array<A>
+    'fp-ts/lib/Array': Array<A>
   }
 }
 
-export const URI = 'Array'
+export const URI = 'fp-ts/lib/Array'
 
 export type URI = typeof URI
 

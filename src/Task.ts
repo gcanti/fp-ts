@@ -7,11 +7,11 @@ import { Lazy, constIdentity, toString, constant } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    Task: Task<A>
+    'fp-ts/lib/Task': Task<A>
   }
 }
 
-export const URI = 'Task'
+export const URI = 'fp-ts/lib/Task'
 
 export type URI = typeof URI
 

@@ -15,11 +15,11 @@ import { Endomorphism } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    Pair: Pair<A>
+    'fp-ts/lib/Pair': Pair<A>
   }
 }
 
-export const URI = 'Pair'
+export const URI = 'fp-ts/lib/Pair'
 
 export type URI = typeof URI
 

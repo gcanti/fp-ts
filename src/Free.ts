@@ -5,7 +5,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { toString } from './function'
 
-export const URI = 'Free'
+export const URI = 'fp-ts/lib/Free'
 
 export type URI = typeof URI
 

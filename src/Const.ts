@@ -9,11 +9,11 @@ import { phantom, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    Const: Const<L, A>
+    'fp-ts/lib/Const': Const<L, A>
   }
 }
 
-export const URI = 'Const'
+export const URI = 'fp-ts/lib/Const'
 
 export type URI = typeof URI
 

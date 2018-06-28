@@ -5,11 +5,11 @@ import { phantom } from './function'
 
 declare module './HKT' {
   interface URI2HKT3<U, L, A> {
-    IxIO: IxIO<U, L, A>
+    'fp-ts/lib/IxIO': IxIO<U, L, A>
   }
 }
 
-export const URI = 'IxIO'
+export const URI = 'fp-ts/lib/IxIO'
 
 export type URI = typeof URI
 

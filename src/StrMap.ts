@@ -19,11 +19,11 @@ import { Witherable1 } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    StrMap: StrMap<A>
+    'fp-ts/lib/StrMap': StrMap<A>
   }
 }
 
-export const URI = 'StrMap'
+export const URI = 'fp-ts/lib/StrMap'
 
 export type URI = typeof URI
 

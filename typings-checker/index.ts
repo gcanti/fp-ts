@@ -32,9 +32,9 @@ const liftedEither: <L>(fa: Either<L, number>) => Either<L, number> = lift(eithe
 const liftedReaderTaskEither: <U, L>(fa: ReaderTaskEither<U, L, number>) => ReaderTaskEither<U, L, number> = lift(
   readerTaskEither
 )(double)
-declare const EitherFunctor2C: Functor2C<'Either', string>
+declare const EitherFunctor2C: Functor2C<'fp-ts/lib/Either', string>
 const liftedF: (fa: Either<string, number>) => Either<string, number> = lift(EitherFunctor2C)(double)
-declare const ReaderTaskEitherFunctor3C: Functor3C<'ReaderTaskEither', string, boolean>
+declare const ReaderTaskEitherFunctor3C: Functor3C<'fp-ts/lib/ReaderTaskEither', string, boolean>
 const liftedGD: (fa: ReaderTaskEither<string, boolean, number>) => ReaderTaskEither<string, boolean, number> = lift(
   ReaderTaskEitherFunctor3C
 )(double)
@@ -86,11 +86,11 @@ const const1: Const<boolean, string> = const_.contramap(new Const<boolean, numbe
 
 // Monad2C
 
-const these: optionT.OptionT2C<'These', string[]> = optionT.getOptionT(getTheseMonad(getArraySemigroup<string>()))
+const these: optionT.OptionT2C<'fp-ts/lib/These', string[]> = optionT.getOptionT(getTheseMonad(getArraySemigroup<string>()))
 
 // Monad3C
 
-const ixIO: optionT.OptionT3C<'IxIO', string, string> = optionT.getOptionT(getIxIOMonad<string>())
+const ixIO: optionT.OptionT3C<'fp-ts/lib/IxIO', string, string> = optionT.getOptionT(getIxIOMonad<string>())
 
 // taskify
 

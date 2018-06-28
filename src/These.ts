@@ -15,11 +15,11 @@ import { phantom, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    These: These<L, A>
+    'fp-ts/lib/These': These<L, A>
   }
 }
 
-export const URI = 'These'
+export const URI = 'fp-ts/lib/These'
 
 export type URI = typeof URI
 

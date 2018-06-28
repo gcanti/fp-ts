@@ -20,11 +20,11 @@ import { phantom, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    Tuple: Tuple<L, A>
+    'fp-ts/lib/Tuple': Tuple<L, A>
   }
 }
 
-export const URI = 'Tuple'
+export const URI = 'fp-ts/lib/Tuple'
 
 export type URI = typeof URI
 

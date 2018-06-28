@@ -3,11 +3,11 @@ import { identity } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    Reader: Reader<L, A>
+    'fp-ts/lib/Reader': Reader<L, A>
   }
 }
 
-export const URI = 'Reader'
+export const URI = 'fp-ts/lib/Reader'
 
 export type URI = typeof URI
 

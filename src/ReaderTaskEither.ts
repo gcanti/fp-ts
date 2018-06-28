@@ -15,11 +15,11 @@ const readerTTaskEither = readerT.getReaderT(taskEither.taskEither)
 
 declare module './HKT' {
   interface URI2HKT3<U, L, A> {
-    ReaderTaskEither: ReaderTaskEither<U, L, A>
+    'fp-ts/lib/ReaderTaskEither': ReaderTaskEither<U, L, A>
   }
 }
 
-export const URI = 'ReaderTaskEither'
+export const URI = 'fp-ts/lib/ReaderTaskEither'
 
 export type URI = typeof URI
 

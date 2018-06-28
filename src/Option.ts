@@ -18,11 +18,11 @@ import { Witherable1 } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    Option: Option<A>
+    'fp-ts/lib/Option': Option<A>
   }
 }
 
-export const URI = 'Option'
+export const URI = 'fp-ts/lib/Option'
 
 export type URI = typeof URI
 

@@ -10,13 +10,13 @@ import { IOEither } from './IOEither'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    TaskEither: TaskEither<L, A>
+    'fp-ts/lib/TaskEither': TaskEither<L, A>
   }
 }
 
 const eitherTTask = eitherT.getEitherT(task)
 
-export const URI = 'TaskEither'
+export const URI = 'fp-ts/lib/TaskEither'
 
 export type URI = typeof URI
 

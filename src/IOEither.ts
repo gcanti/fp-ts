@@ -8,13 +8,13 @@ import { Alt2 } from './Alt'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    IOEither: IOEither<L, A>
+    'fp-ts/lib/IOEither': IOEither<L, A>
   }
 }
 
 const eitherTIO = eitherT.getEitherT(io)
 
-export const URI = 'IOEither'
+export const URI = 'fp-ts/lib/IOEither'
 
 export type URI = typeof URI
 

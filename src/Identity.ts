@@ -12,11 +12,11 @@ import { Lazy, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    Identity: Identity<A>
+    'fp-ts/lib/Identity': Identity<A>
   }
 }
 
-export const URI = 'Identity'
+export const URI = 'fp-ts/lib/Identity'
 
 export type URI = typeof URI
 

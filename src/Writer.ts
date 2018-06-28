@@ -6,11 +6,11 @@ import { phantom, tuple } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    Writer: Writer<L, A>
+    'fp-ts/lib/Writer': Writer<L, A>
   }
 }
 
-export const URI = 'Writer'
+export const URI = 'fp-ts/lib/Writer'
 
 export type URI = typeof URI
 

@@ -12,11 +12,11 @@ import { concat as uncurriedConcat, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    NonEmptyArray: NonEmptyArray<A>
+    'fp-ts/lib/NonEmptyArray': NonEmptyArray<A>
   }
 }
 
-export const URI = 'NonEmptyArray'
+export const URI = 'fp-ts/lib/NonEmptyArray'
 
 export type URI = typeof URI
 

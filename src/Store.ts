@@ -5,11 +5,11 @@ import { Endomorphism, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    Store: Store<L, A>
+    'fp-ts/lib/Store': Store<L, A>
   }
 }
 
-export const URI = 'Store'
+export const URI = 'fp-ts/lib/Store'
 
 export type URI = typeof URI
 

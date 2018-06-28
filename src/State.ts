@@ -3,11 +3,11 @@ import { Monad2 } from './Monad'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
-    State: State<L, A>
+    'fp-ts/lib/State': State<L, A>
   }
 }
 
-export const URI = 'State'
+export const URI = 'fp-ts/lib/State'
 
 export type URI = typeof URI
 

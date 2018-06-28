@@ -11,11 +11,11 @@ import { Traversable1 } from './Traversable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
-    Tree: Tree<A>
+    'fp-ts/lib/Tree': Tree<A>
   }
 }
 
-export const URI = 'Tree'
+export const URI = 'fp-ts/lib/Tree'
 
 export type URI = typeof URI
 
