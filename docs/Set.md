@@ -68,7 +68,7 @@ _since 1.2.0_
 _Signature_
 
 ```ts
-<A>(S: Setoid<A>) => (as: A[]): Set<A>
+<A>(S: Setoid<A>) => (as: Array<A>): Set<A>
 ```
 
 _Description_
@@ -184,7 +184,7 @@ _since 1.2.0_
 _Signature_
 
 ```ts
-<A>(x: Set<A>, predicate: Predicate<A>): { right: Set<A>; left: Set<A> }
+<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>>
 ```
 
 ### partitionMap
@@ -196,7 +196,10 @@ _since 1.2.0_
 _Signature_
 
 ```ts
-<A, L, R>(x: Set<A>, f: (a: A) => Either<L, R>): { left: Set<L>; right: Set<R> }
+<L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
+  x: Set<A>,
+  f: (a: A) => Either<L, R>
+): Separated<Set<L>, Set<R>>
 ```
 
 ### reduce

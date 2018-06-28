@@ -1,7 +1,10 @@
 import { Extend, Extend1, Extend2, Extend2C, Extend3, Extend3C } from './Extend'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Comonad<F> extends Extend<F> {
   readonly extract: <A>(ca: HKT<F, A>) => A
 }

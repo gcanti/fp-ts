@@ -20,7 +20,9 @@
  * **Note:** The `Number` and `Int` types are not fully law abiding members of this class hierarchy due to the potential
  * for arithmetic overflows, and in the case of `Number`, the presence of `NaN` and `Infinity` values. The behaviour is
  * unspecified in these cases.
+ *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Semiring<A> {
   readonly add: (x: A, y: A) => A

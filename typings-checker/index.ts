@@ -106,4 +106,4 @@ type A = { type: 'A' }
 type B = { type: 'B' }
 type C = A | B
 // $ExpectError Type '"B"' is not assignable to type '"A"'
-const isA = getRefinement<C, A>(c => c.type === 'B' ? some(c) : none)
+const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none))

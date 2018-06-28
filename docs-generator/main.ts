@@ -1,14 +1,12 @@
-import { IO, io } from '../src/IO'
-import { array } from '../src/Array'
-import { sequence_ } from '../src/Foldable'
-import { log } from '../src/Console'
-import { printIndex, printModule, modules } from './markdown'
-import { Env, parseModule, ParseError } from './parser'
-import { write, indexOutputPath, readModule, writeModule } from './fs'
 import chalk from 'chalk'
-import Ast from 'ts-simple-ast'
-// tslint:disable-next-line:no-duplicate-imports
-import { SourceFile } from 'ts-simple-ast'
+import Ast, { SourceFile } from 'ts-simple-ast'
+import { array } from '../src/Array'
+import { log } from '../src/Console'
+import { sequence_ } from '../src/Foldable'
+import { IO, io } from '../src/IO'
+import { indexOutputPath, readModule, write, writeModule } from './fs'
+import { modules, printIndex, printModule } from './markdown'
+import { Env, ParseError, parseModule } from './parser'
 
 const printError = (error: ParseError): string => {
   switch (error._tag) {

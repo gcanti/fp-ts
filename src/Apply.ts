@@ -16,6 +16,7 @@ import { Curried2, Curried3, Curried4, constant, curried, Function1 } from './fu
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Apply<F> extends Functor<F> {
   readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>

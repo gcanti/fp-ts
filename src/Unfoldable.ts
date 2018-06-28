@@ -6,7 +6,9 @@ import { constant, tuple } from './function'
 
 /**
  * This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
+ *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Unfoldable<F> {
   readonly URI: F

@@ -1,6 +1,9 @@
 import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Bifunctor<F> {
   readonly URI: F
   readonly bimap: <L, A, M, B>(fla: HKT2<F, L, A>, f: (l: L) => M, g: (a: A) => B) => HKT2<F, M, B>

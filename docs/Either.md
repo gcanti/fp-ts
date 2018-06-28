@@ -482,6 +482,38 @@ _Signature_
 <L, A>(fa: Validation<L, A>): Either<L, A>
 ```
 
+### getCompactable
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L>
+```
+
+_Description_
+
+Builds [Compactable](./Compactable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
+
+### getFilterable
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>
+```
+
+_Description_
+
+Builds [Filterable](./Filterable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
+
 ### getSetoid
 
 _function_
@@ -493,6 +525,22 @@ _Signature_
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>>
 ```
+
+### getWitherable
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L>
+```
+
+_Description_
+
+Builds [Witherable](./Witherable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
 
 ### isLeft
 

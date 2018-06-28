@@ -7,7 +7,83 @@ import { Either } from './Either'
 import { Separated } from './Compactable'
 
 /**
- * Interface for {@link Witherable.wither}
+ * `Witherable` represents data structures which can be _partitioned_ with effects in some {@link Applicative} functor.
+ *
+ * `wilt` signature (see {@link Compactable} `Separated`):
+ *
+ * ```ts
+ * <F>(F: Applicative<F>) => <RL, RR, A>(wa: HKT<W, A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<HKT<W, RL>, HKT<W, RR>>>
+ * ```
+ *
+ * `wither` signature:
+ *
+ * ```ts
+ * <F>(F: Applicative<F>) => <A, B>(ta: HKT<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, HKT<W, B>>
+ * ```
+ *
+ * @typeclass
+ * @since 1.7.0
+ * @see https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Witherable.purs
+ */
+export interface Witherable<T> extends Traversable<T>, Filterable<T> {
+  /**
+   * Partition a structure with effects
+   */
+  wilt: Wilt<T>
+
+  /**
+   * Filter a structure  with effects
+   */
+  wither: Wither<T>
+}
+
+/**
+ * @since 1.7.0
+ * @see Witherable
+ */
+export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
+  wilt: Wilt1<T>
+  wither: Wither1<T>
+}
+
+/**
+ * @since 1.7.0
+ * @see Witherable
+ */
+export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
+  wilt: Wilt2<T>
+  wither: Wither2<T>
+}
+
+/**
+ * @since 1.7.0
+ * @see Witherable
+ */
+export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
+  wilt: Wilt2C<T, TL>
+  wither: Wither2C<T, TL>
+}
+
+/**
+ * @since 1.7.0
+ * @see Witherable
+ */
+export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
+  wilt: Wilt3<T>
+  wither: Wither3<T>
+}
+
+/**
+ * @since 1.7.0
+ * @see Witherable
+ */
+export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, TU, TL>, Filterable3C<T, TU, TL> {
+  wilt: Wilt3C<T, TU, TL>
+  wither: Wither3C<T, TU, TL>
+}
+
+/**
+ * Interface for `Witherable.wither`
  * @since 1.7.0
  */
 export interface Wither<W> {
@@ -172,7 +248,7 @@ export interface Wither3C<W extends URIS3, WU, WL> {
 }
 
 /**
- * Interface for {@link Witherable.wilt}
+ * Interface for `Witherable.wilt`
  * @since 1.7.0
  */
 export interface Wilt<W> {
@@ -355,70 +431,4 @@ export interface Wilt3C<W extends URIS3, WU, WL> {
     wa: Type3<W, WU, WL, A>,
     f: (a: A) => HKT<F, Either<RL, RR>>
   ) => HKT<F, Separated<HKT<W, RL>, Type3<W, WU, WL, RR>>>
-}
-
-/**
- * @typeclass
- * `Witherable` represents data structures which can be _partitioned_ with effects in some {@link Applicative} functor.
- * - {@link wilt}
- * - {@link wither}
- *
- * @since 1.7.0
- * @see https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Witherable.purs
- */
-export interface Witherable<T> extends Traversable<T>, Filterable<T> {
-  /**
-   * Partition a structure with effects
-   */
-  wilt: Wilt<T>
-
-  /**
-   * Filter a structure  with effects
-   */
-  wither: Wither<T>
-}
-
-/**
- * @since 1.7.0
- * @see Witherable
- */
-export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
-  wilt: Wilt1<T>
-  wither: Wither1<T>
-}
-
-/**
- * @since 1.7.0
- * @see Witherable
- */
-export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
-  wilt: Wilt2<T>
-  wither: Wither2<T>
-}
-
-/**
- * @since 1.7.0
- * @see Witherable
- */
-export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
-  wilt: Wilt2C<T, TL>
-  wither: Wither2C<T, TL>
-}
-
-/**
- * @since 1.7.0
- * @see Witherable
- */
-export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
-  wilt: Wilt3<T>
-  wither: Wither3<T>
-}
-
-/**
- * @since 1.7.0
- * @see Witherable
- */
-export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, TU, TL>, Filterable3C<T, TU, TL> {
-  wilt: Wilt3C<T, TU, TL>
-  wither: Wither3C<T, TU, TL>
 }

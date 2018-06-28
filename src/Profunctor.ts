@@ -1,7 +1,10 @@
 import { Functor2, Functor3 } from './Functor'
 import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Profunctor<F> {
   readonly URI: F
   readonly map: <L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B) => HKT2<F, L, B>

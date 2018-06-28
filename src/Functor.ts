@@ -13,6 +13,7 @@ import { constant } from './function'
  * 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
  *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Functor<F> {
   readonly URI: F

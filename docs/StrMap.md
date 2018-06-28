@@ -80,7 +80,12 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-Functor1<URI> & Foldable1<URI> & Traversable1<URI>
+Functor1<URI> &
+  Foldable1<URI> &
+  Traversable1<URI> &
+  Compactable1<URI> &
+  Filterable1<URI> &
+  Witherable1<URI>
 ```
 
 ## Functions

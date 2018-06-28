@@ -2,7 +2,10 @@ import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
 import { Either } from './Either'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface ChainRec<F> extends Chain<F> {
   readonly chainRec: <A, B>(a: A, f: (a: A) => HKT<F, Either<A, B>>) => HKT<F, B>
 }

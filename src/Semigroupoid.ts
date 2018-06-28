@@ -1,6 +1,9 @@
 import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Semigroupoid<F> {
   readonly URI: F
   readonly compose: <L, A, B>(bc: HKT2<F, A, B>, ab: HKT2<F, L, A>) => HKT2<F, L, B>

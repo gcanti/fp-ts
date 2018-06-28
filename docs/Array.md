@@ -16,7 +16,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-getSetoid: <A>(S: Setoid<A>) => Setoid<A[]>
+getSetoid: <A>(S: Setoid<A>) => Setoid<Array<A>>
 ```
 
 _Description_
@@ -42,6 +42,7 @@ _Signature_
 _Description_
 
 Filter an array of optional values, keeping only the elements which contain a value, creating a new array
+Alias of [Compactable](./Compactable.md)'s `compact`
 
 ### cons
 
@@ -440,8 +441,8 @@ _Signature_
 
 _Description_
 
-Apply a function to each element in an array, keeping only the results
-which contain a value, creating a new array
+Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
+Alias of [Filterable](./Filterable.md)'s `filterMap`
 
 ### member
 
@@ -485,7 +486,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-<A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): { left: Array<L>; right: Array<R> }
+<A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<Array<L>, Array<R>>
 ```
 
 ### refine

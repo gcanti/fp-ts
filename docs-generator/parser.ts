@@ -1,20 +1,20 @@
+import { Annotation, parse, Tag } from 'doctrine'
 import {
+  ClassDeclaration,
+  FunctionDeclaration,
+  InterfaceDeclaration,
+  JSDoc,
+  MethodDeclaration,
   SourceFile,
   TypeAliasDeclaration,
-  JSDoc,
-  ClassDeclaration,
-  MethodDeclaration,
   VariableDeclaration,
-  VariableStatement,
-  InterfaceDeclaration,
-  FunctionDeclaration
+  VariableStatement
 } from 'ts-simple-ast'
-import { Module, Data, Constructor, Export, Method, Func, Typeclass, Instance, Constant } from './domain'
-import { Option, none, some, fromNullable } from '../src/Option'
-import { Either, left, right } from '../src/Either'
-import { rights, lefts, flatten } from '../src/Array'
-import { parse, Tag, Annotation } from 'doctrine'
 import { ReaderEither } from '../examples/ReaderEither'
+import { flatten, lefts, rights } from '../src/Array'
+import { Either, left, right } from '../src/Either'
+import { fromNullable, none, Option, some } from '../src/Option'
+import { Constant, Constructor, Data, Export, Func, Instance, Interface, Method, Module, Typeclass } from './domain'
 
 // TODO: avoid comment duplication in overloaded function declarations
 
@@ -127,6 +127,8 @@ const isConstant = hasTag('constant')
 const isAlias = hasTag('alias')
 
 const isTypeclass = hasTag('typeclass')
+
+const isInterface = hasTag('interface')
 
 const isSinceTag = (tag: Tag): boolean => {
   return tag.title === 'since'
@@ -292,7 +294,7 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
           } else {
-            return ok(new Func(name, signature, description, isAlias(annotation), since.value, example,deprecated))
+            return ok(new Func(name, signature, description, isAlias(annotation), since.value, example, deprecated))
           }
         }
       }
@@ -302,13 +304,36 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
 }
 
 const parseTypeclassInterface = (i: InterfaceDeclaration): ParseResult<Export> => {
-  return new ReaderEither(() => {
+  return new ReaderEither(e => {
     const annotation = getAnnotation(i.getDocumentationCommentNodes())
     if (isTypeclass(annotation)) {
       const name = i.getName()
       const signature = i.getText().substring('export '.length)
       const description = fromJSDocDescription(annotation.description)
-      return ok(new Typeclass(name, signature, description))
+      const since = getSince(annotation)
+      if (since.isNone()) {
+        return ko(new SinceMissing(e.currentModuleName, name))
+      } else {
+        return ok(new Typeclass(name, signature, description, since.value))
+      }
+    }
+    return notFound
+  })
+}
+
+const parseInterface = (i: InterfaceDeclaration): ParseResult<Export> => {
+  return new ReaderEither(e => {
+    const annotation = getAnnotation(i.getDocumentationCommentNodes())
+    if (isInterface(annotation)) {
+      const name = i.getName()
+      const signature = i.getText().substring('export '.length)
+      const description = fromJSDocDescription(annotation.description)
+      const since = getSince(annotation)
+      if (since.isNone()) {
+        return ko(new SinceMissing(e.currentModuleName, name))
+      } else {
+        return ok(new Interface(name, signature, description, since.value))
+      }
     }
     return notFound
   })
@@ -353,6 +378,7 @@ export const parseModule: ParseResult<Module> = new ReaderEither(e => {
     .map(vd => parseConstantVariableDeclaration(vd).run(e))
   const eitherFunctionDeclarationExports = sf.getFunctions().map(f => parseFunctionDeclaration(f).run(e))
   const eitherTypeClasses = sf.getInterfaces().map(i => parseTypeclassInterface(i).run(e))
+  const eitherInterfaces = sf.getInterfaces().map(i => parseInterface(i).run(e))
 
   const eitherExports = eitherTypeAliasesExports
     .concat(eitherClassExports)
@@ -361,6 +387,7 @@ export const parseModule: ParseResult<Module> = new ReaderEither(e => {
     .concat(eitherConstantVariableDeclarationExports)
     .concat(eitherFunctionDeclarationExports)
     .concat(eitherTypeClasses)
+    .concat(eitherInterfaces)
 
   const errors = flatten(lefts(eitherExports)).filter(error => !isNotFound(error))
 

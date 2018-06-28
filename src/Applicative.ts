@@ -32,6 +32,7 @@ import { Monoid } from './Monoid'
  * Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
  *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Applicative<F> extends Apply<F> {
   readonly of: <A>(a: A) => HKT<F, A>

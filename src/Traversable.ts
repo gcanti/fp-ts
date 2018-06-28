@@ -24,172 +24,16 @@ import {
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * Interface for {@link Traversable.traverse}
- * @since 1.7.0
- */
-export interface Traverse<T> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, HKT<T, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, HKT<T, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, HKT<T, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, HKT<T, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(ta: HKT<T, A>, f: (a: A) => Type<F, B>) => Type<F, HKT<T, B>>
-  <F>(F: Applicative<F>): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
-}
-
-/**
- * Interface for {@link Traversable1.traverse}
- * @see Traverse
- * @since 1.7.0
- */
-export interface Traverse1<T extends URIS> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type<T, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type<T, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type<T, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type<T, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(ta: Type<T, A>, f: (a: A) => Type<F, B>) => Type<F, Type<T, B>>
-  <F>(F: Applicative<F>): <A, B>(ta: Type<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type<T, B>>
-}
-
-/**
- * Interface for {@link Traversable2.traverse}
- * @see Traverse
- * @since 1.7.0
- */
-export interface Traverse2<T extends URIS2> {
-  <F extends URIS3>(F: Applicative3<F>): <TL, FU, FL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <TL, FL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS>(F: Applicative1<F>): <TL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type<F, B>
-  ) => Type<F, Type2<T, TL, B>>
-  <F>(F: Applicative<F>): <TL, A, B>(ta: Type2<T, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, TL, B>>
-}
-
-/**
- * Interface for {@link Traversable2C.traverse}
- * @see Traverse
- * @since 1.7.0
- */
-export interface Traverse2C<T extends URIS2, TL> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(ta: Type2<T, TL, A>, f: (a: A) => Type<F, B>) => Type<F, Type2<T, TL, B>>
-  <F>(F: Applicative<F>): <A, B>(ta: Type2<T, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, TL, B>>
-}
-
-/**
- * Interface for {@link Traversable3.traverse}
- * @see Traverse
- * @since 1.7.0
- */
-export interface Traverse3<T extends URIS3> {
-  <F extends URIS3>(F: Applicative3<F>): <TU, TL, FU, FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TU, TL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <TU, TL, FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TU, TL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS>(F: Applicative1<F>): <TU, TL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type<F, B>
-  ) => Type<F, Type3<T, TU, TL, B>>
-  <F>(F: Applicative<F>): <TU, TL, A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
-}
-
-/**
- * Interface for {@link Traversable3C.traverse}
- * @see Traverse
- * @since 1.7.0
- */
-export interface Traverse3C<T extends URIS3, TU, TL> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type<F, B>
-  ) => Type<F, Type3<T, TU, TL, B>>
-  <F>(F: Applicative<F>): <A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
-}
-
-/**
- * @typeclass
  * `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some {@link Applicative} functor.
+ *
+ * `traverse` signature:
+ *
+ * ```ts
+ * <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
+ * ```
+ *
+ * @typeclass
+ * @since 1.0.0
  */
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
   /**
@@ -231,6 +75,170 @@ export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T>
  */
 export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU, TL>, Foldable3C<T, TU, TL> {
   traverse: Traverse3C<T, TU, TL>
+}
+
+/**
+ * Interface for `Traversable.traverse`
+ * @since 1.7.0
+ */
+export interface Traverse<T> {
+  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
+    ta: HKT<T, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, HKT<T, B>>
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: HKT<T, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, HKT<T, B>>
+  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
+    ta: HKT<T, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, HKT<T, B>>
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
+    ta: HKT<T, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, HKT<T, B>>
+  <F extends URIS>(F: Applicative1<F>): <A, B>(ta: HKT<T, A>, f: (a: A) => Type<F, B>) => Type<F, HKT<T, B>>
+  <F>(F: Applicative<F>): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
+}
+
+/**
+ * Interface for `Traversable1.traverse`
+ * @see Traverse
+ * @since 1.7.0
+ */
+export interface Traverse1<T extends URIS> {
+  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
+    ta: Type<T, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type<T, B>>
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: Type<T, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type<T, B>>
+  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
+    ta: Type<T, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type<T, B>>
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
+    ta: Type<T, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type<T, B>>
+  <F extends URIS>(F: Applicative1<F>): <A, B>(ta: Type<T, A>, f: (a: A) => Type<F, B>) => Type<F, Type<T, B>>
+  <F>(F: Applicative<F>): <A, B>(ta: Type<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type<T, B>>
+}
+
+/**
+ * Interface for `Traversable2.traverse`
+ * @see Traverse
+ * @since 1.7.0
+ */
+export interface Traverse2<T extends URIS2> {
+  <F extends URIS3>(F: Applicative3<F>): <TL, FU, FL, A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, TL, B>>
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TL, A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, TL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <TL, FL, A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type2<T, TL, B>>
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TL, A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type2<T, TL, B>>
+  <F extends URIS>(F: Applicative1<F>): <TL, A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type<F, B>
+  ) => Type<F, Type2<T, TL, B>>
+  <F>(F: Applicative<F>): <TL, A, B>(ta: Type2<T, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, TL, B>>
+}
+
+/**
+ * Interface for `Traversable2C.traverse`
+ * @see Traverse
+ * @since 1.7.0
+ */
+export interface Traverse2C<T extends URIS2, TL> {
+  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, TL, B>>
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, TL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type2<T, TL, B>>
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
+    ta: Type2<T, TL, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type2<T, TL, B>>
+  <F extends URIS>(F: Applicative1<F>): <A, B>(ta: Type2<T, TL, A>, f: (a: A) => Type<F, B>) => Type<F, Type2<T, TL, B>>
+  <F>(F: Applicative<F>): <A, B>(ta: Type2<T, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, TL, B>>
+}
+
+/**
+ * Interface for `Traversable3.traverse`
+ * @see Traverse
+ * @since 1.7.0
+ */
+export interface Traverse3<T extends URIS3> {
+  <F extends URIS3>(F: Applicative3<F>): <TU, TL, FU, FL, A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TU, TL, A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <TU, TL, FL, A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type3<T, TU, TL, B>>
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TU, TL, A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type3<T, TU, TL, B>>
+  <F extends URIS>(F: Applicative1<F>): <TU, TL, A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type<F, B>
+  ) => Type<F, Type3<T, TU, TL, B>>
+  <F>(F: Applicative<F>): <TU, TL, A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
+}
+
+/**
+ * Interface for `Traversable3C.traverse`
+ * @see Traverse
+ * @since 1.7.0
+ */
+export interface Traverse3C<T extends URIS3, TU, TL> {
+  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type3<T, TU, TL, B>>
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type3<T, TU, TL, B>>
+  <F extends URIS>(F: Applicative1<F>): <A, B>(
+    ta: Type3<T, TU, TL, A>,
+    f: (a: A) => Type<F, B>
+  ) => Type<F, Type3<T, TU, TL, B>>
+  <F>(F: Applicative<F>): <A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
 }
 
 export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
@@ -284,10 +292,10 @@ export function traverse<F, T>(
   T: Traversable<T>
 ): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 /**
- * @deprecated
- * Use {@link Traversable.traverse}
+ * Use {@link Traversable} `traverse` instead.
  * @function
  * @since 1.0.0
+ * @deprecated
  */
 export function traverse<F, T>(
   F: Applicative<F>,

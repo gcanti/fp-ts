@@ -1,6 +1,9 @@
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Contravariant<F> {
   readonly URI: F
   readonly contramap: <A, B>(fa: HKT<F, A>, f: (b: B) => A) => HKT<F, B>

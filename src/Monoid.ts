@@ -16,7 +16,10 @@ import {
 } from './Semigroup'
 import { Endomorphism, compose, identity } from './function'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Monoid<A> extends Semigroup<A> {
   readonly empty: A
 }

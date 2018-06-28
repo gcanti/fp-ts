@@ -10,7 +10,10 @@ import { Semiring } from './Semiring'
 import { Setoid } from './Setoid'
 import { Predicate } from './function'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Foldable<F> {
   readonly URI: F
   readonly reduce: <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => B) => B

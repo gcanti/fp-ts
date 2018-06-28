@@ -11,6 +11,8 @@ title: Module Alternative
 
 _type class_
 
+_since 1.0.0_
+
 _Signature_
 
 ```ts

@@ -11,6 +11,8 @@ title: Module Monoid
 
 _type class_
 
+_since 1.0.0_
+
 _Signature_
 
 ```ts
@@ -234,5 +236,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-<O>(Ms: { [K in keyof O]: Monoid<O[K]> }): Monoid<O>
+<O extends { [key: string]: any }>(
+  monoids: { [K in keyof O]: Monoid<O[K]> }
+): Monoid<O>
 ```

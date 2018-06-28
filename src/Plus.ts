@@ -14,6 +14,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
  * 3. Annihilation: `A.map(zero, fa) == zero`
  *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Plus<F> extends Alt<F> {
   readonly zero: <A>() => HKT<F, A>

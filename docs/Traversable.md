@@ -11,12 +11,27 @@ title: Module Traversable
 
 _type class_
 
+_since 1.0.0_
+
 _Signature_
 
 ```ts
 interface Traversable<T> extends Functor<T>, Foldable<T> {
-  readonly traverse: <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
+  /**
+   * Runs an action for every element in a data structure and accumulates the results
+   */
+  traverse: Traverse<T>
 }
+```
+
+_Description_
+
+`Traversable` represents data structures which can be _traversed_ accumulating results and effects in some [Applicative](./Applicative.md) functor.
+
+`traverse` signature:
+
+```ts
+<F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 ```
 
 ## Functions
@@ -45,7 +60,7 @@ _Signature_
 sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 ```
 
-### traverse
+### ~~traverse~~ (deprecated)
 
 _function_
 
@@ -59,3 +74,7 @@ traverse<F, T>(
   T: Traversable<T>
 ): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 ```
+
+_Description_
+
+Use [Traversable](./Traversable.md) `traverse` instead.

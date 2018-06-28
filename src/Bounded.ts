@@ -6,7 +6,9 @@ import { Ord, ordNumber } from './Ord'
  * Instances should satisfy the following law in addition to the `Ord` laws:
  *
  * - Bounded: `bottom <= a <= top`
+ *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Bounded<A> extends Ord<A> {
   readonly top: A

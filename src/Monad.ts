@@ -16,6 +16,7 @@ import { URIS, URIS2, URIS3 } from './HKT'
  * Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
  *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Monad<F> extends Applicative<F>, Chain<F> {}
 

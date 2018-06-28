@@ -74,10 +74,27 @@ export const isTypeclass = (e: Export): e is Typeclass => e.type === 'Typeclass'
 
 export class Typeclass {
   type: 'Typeclass' = 'Typeclass'
-  constructor(readonly name: string, readonly signature: string, readonly description: Option<string>) {}
+  constructor(
+    readonly name: string,
+    readonly signature: string,
+    readonly description: Option<string>,
+    readonly since: string
+  ) {}
 }
 
-export type Export = Data | Func | Instance | Constant | Typeclass
+export const isInterface = (e: Export): e is Interface => e.type === 'Interface'
+
+export class Interface {
+  type: 'Interface' = 'Interface'
+  constructor(
+    readonly name: string,
+    readonly signature: string,
+    readonly description: Option<string>,
+    readonly since: string
+  ) {}
+}
+
+export type Export = Data | Func | Instance | Constant | Typeclass | Interface
 
 export class Module {
   constructor(readonly name: string, readonly exports: Array<Export>) {}

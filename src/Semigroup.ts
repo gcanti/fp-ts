@@ -1,7 +1,10 @@
 import { Ord, max, min } from './Ord'
 import { concat, identity } from './function'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Semigroup<A> {
   readonly concat: (x: A, y: A) => A
 }

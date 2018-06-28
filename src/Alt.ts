@@ -12,6 +12,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
  * 2. Distributivity: `A.map(A.alt(fa, ga), ab) = A.alt(A.map(fa, ab), A.map(ga, ab))`
  *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Alt<F> extends Functor<F> {
   readonly alt: <A>(fx: HKT<F, A>, fy: HKT<F, A>) => HKT<F, A>

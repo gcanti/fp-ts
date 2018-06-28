@@ -13,6 +13,7 @@ import { on } from './function'
  * 3. Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
  *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Ord<A> extends Setoid<A> {
   readonly compare: (x: A, y: A) => Ordering

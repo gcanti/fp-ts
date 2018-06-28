@@ -3,7 +3,10 @@ import { Setoid } from './Setoid'
 
 // adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Field<A> extends Ring<A> {
   readonly degree: (a: A) => number
   readonly div: (x: A, y: A) => A

@@ -1,21 +1,23 @@
+import * as prettier from 'prettier'
+import { sort } from '../src/Array'
+import { Option } from '../src/Option'
+import { contramap, ordString } from '../src/Ord'
 import {
-  Module,
+  Constant,
   Data,
-  Method,
   Func,
+  Instance,
+  Interface,
+  isConstant,
   isData,
   isFunc,
-  Typeclass,
   isInstance,
-  Instance,
+  isInterface,
   isTypeclass,
-  Constant,
-  isConstant
+  Method,
+  Module,
+  Typeclass
 } from './domain'
-import { sort } from '../src/Array'
-import { contramap, ordString } from '../src/Ord'
-import { Option } from '../src/Option'
-import * as prettier from 'prettier'
 import { getModuleNames } from './fs'
 
 export const modules = getModuleNames()
@@ -40,7 +42,8 @@ title: ${title}
 `
 }
 
-const sortByName = <T extends { name: string }>(): ((xs: T[]) => T[]) => sort(contramap((x: T) => x.name, ordString))
+const sortByName = <T extends { name: string }>(): ((xs: Array<T>) => Array<T>) =>
+  sort(contramap((x: T) => x.name, ordString))
 
 const sortMethods = sortByName<Method>()
 
@@ -99,7 +102,7 @@ const printExample = (example: Option<string>): string =>
 
 const printSignature = (signature: string): string => CRLF + CRLF + italic('Signature') + CRLF + ts(signature)
 
-const handleDeprecated = (s: string, deprecated: boolean): string => deprecated ? strike(s) + ' (deprecated)' : s
+const handleDeprecated = (s: string, deprecated: boolean): string => (deprecated ? strike(s) + ' (deprecated)' : s)
 
 const printMethod = (m: Method): string => {
   let s = CRLF + h3(handleDeprecated(m.name, m.deprecated))
@@ -163,8 +166,18 @@ const printFunc = (f: Func): string => {
 const printTypeclass = (tc: Typeclass): string => {
   let s = CRLF + h3(tc.name)
   s += CRLF + italic('type class')
+  s += CRLF + CRLF + italic(`since ${tc.since}`)
   s += CRLF + printSignature(tc.signature)
   s += printDescription(tc.description)
+  return s
+}
+
+const printInterface = (t: Interface): string => {
+  let s = CRLF + h3(t.name)
+  s += CRLF + italic('type')
+  s += CRLF + CRLF + italic(`since ${t.since}`)
+  s += CRLF + printSignature(t.signature)
+  s += printDescription(t.description)
   return s
 }
 
@@ -180,11 +193,16 @@ const formatMarkdown = (markdown: string): string => prettier.format(markdown, p
 export const printModule = (module: Module): string => {
   let s = header(module.name, 'Module ' + module.name)
   s += link('Source', `https://github.com/gcanti/fp-ts/blob/master/src/${module.name}.ts`)
+  const interfaces = module.exports.filter(isInterface)
   const typeclasses = module.exports.filter(isTypeclass)
   const datas = module.exports.filter(isData)
   const instances = sortInstances(module.exports.filter(isInstance))
   const constants = sortConstants(module.exports.filter(isConstant))
   const funcs = sortFuncs(module.exports.filter(isFunc))
+  if (interfaces.length > 0) {
+    s += CRLF + h2('Interfaces') + CRLF
+    s += interfaces.map(t => printInterface(t)).join('\n')
+  }
   if (typeclasses.length > 0) {
     s += CRLF + h2('Type classes') + CRLF
     s += typeclasses.map(tc => printTypeclass(tc)).join('\n')

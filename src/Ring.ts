@@ -9,6 +9,7 @@ import { Semiring, getFunctionSemiring } from './Semiring'
  *
  * - Additive inverse: `a - a = (zero - a) + a = zero`
  * @typeclass
+ * @since 1.0.0
  */
 export interface Ring<A> extends Semiring<A> {
   readonly sub: (x: A, y: A) => A

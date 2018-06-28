@@ -45,6 +45,38 @@ _Signature_
 <B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C>
 ```
 
+### applyFirst
+
+_method_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<B>(fb: State<S, B>): State<S, A>
+```
+
+_Description_
+
+Combine two effectful actions, keeping only the result of the first
+
+### applySecond
+
+_method_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<B>(fb: State<S, B>): State<S, B>
+```
+
+_Description_
+
+Combine two effectful actions, keeping only the result of the second
+
 ### chain
 
 _method_

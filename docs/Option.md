@@ -487,7 +487,10 @@ Monad1<URI> &
   Plus1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
-  Extend1<URI>
+  Extend1<URI> &
+  Compactable1<URI> &
+  Filterable1<URI> &
+  Witherable1<URI>
 ```
 
 ## Constants
@@ -693,6 +696,34 @@ assert.strictEqual(O.compare(none, some(1)), -1)
 assert.strictEqual(O.compare(some(1), none), 1)
 assert.strictEqual(O.compare(some(1), some(2)), -1)
 assert.strictEqual(O.compare(some(1), some(1)), 0)
+```
+
+### getRefinement
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
+```
+
+_Description_
+
+Returns a refinement from a prism.
+This function ensures that a custom type guard definition is type-safe.
+
+_Example_
+
+```ts
+type A = { type: 'A' }
+type B = { type: 'B' }
+type C = A | B
+
+const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
+const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
 ```
 
 ### isNone

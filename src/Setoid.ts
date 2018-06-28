@@ -10,6 +10,7 @@ import { on } from './function'
  * 3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
  *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Setoid<A> {
   readonly equals: (x: A, y: A) => boolean

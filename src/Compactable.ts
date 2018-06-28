@@ -3,33 +3,35 @@ import { Option } from './Option'
 import { Either } from './Either'
 
 /**
- * `Separated` type which holds `left` and `right` parts
+ * A `Separated` type which holds `left` and `right` parts.
+ *
+ * @interface
  * @since 1.7.0
  */
-export type Separated<A, B> = {
+export interface Separated<A, B> {
   readonly left: A
   readonly right: B
 }
 
 /**
+ * `Compactable` represents data structures which can be _compacted_/_filtered_. This is a generalization of
+ * `catOptions` as a new function `compact`. `compact` has relations with {@link Functor}, {@link Applicative},
+ * {@link Monad}, {@link Plus}, and {@link Traversable} in that we can use these classes to provide the ability to
+ * operate on a data type by eliminating intermediate `None`s. This is useful for representing the filtering out of
+ * values, or failure.
+ *
  * @typeclass
- * `Compactable` represents data structures which can be _compacted_/_filtered_.
- * This is a generalization of catOptions as a new function `compact`. `compact` has relations with {@link Functor}, {@link Applicative}, {@link Monad}, {@link Plus}, and {@link Traversable} in that we can use these classes to provide the ability to operate on a data type by eliminating intermediate Nones. This is useful for representing the filtering out of values, or failure.
- * - {@link compact}
- * - {@link separate}
  * @since 1.7.0
  * @see https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Compactable.purs
  */
 export interface Compactable<F> {
   readonly URI: F
   /**
-   * Compacts data structure unwrapping inner {@link Option}
-   * @since 1.7.0
+   * Compacts a data structure unwrapping inner Option
    */
   readonly compact: <A>(fa: HKT<F, Option<A>>) => HKT<F, A>
   /**
-   * Separates data structure moving inner {@link Left} to the left side and inner {@link Right} to the right side of {@link Separated}
-   * @since 1.7.0
+   * Separates a data structure moving inner Left to the left side and inner Right to the right side of Separated
    */
   readonly separate: <A, B>(fa: HKT<F, Either<A, B>>) => Separated<HKT<F, A>, HKT<F, B>>
 }

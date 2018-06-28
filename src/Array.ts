@@ -14,7 +14,7 @@ import { Plus1 } from './Plus'
 import { Setoid, getArraySetoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable1 } from './Unfoldable'
-import { Endomorphism, Predicate, Refinement, concat, tuple } from './function'
+import { Endomorphism, Predicate, Refinement, concat, tuple, identity } from './function'
 import { Compactable1, Separated } from './Compactable'
 import { Filterable1 } from './Filterable'
 import { Witherable1 } from './Witherable'
@@ -742,9 +742,15 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
   return sort(tail.reduce(getSemigroup<A>().concat, head))
 }
 
-const filterMap = <A, B>(fa: Array<A>, f: (a: A) => Option<B>): Array<B> => {
+/**
+ * Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
+ * Alias of {@link Filterable}'s `filterMap`
+ * @function
+ * @since 1.0.0
+ */
+export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
   const result: Array<B> = []
-  for (const a of fa) {
+  for (const a of as) {
     const optionB = f(a)
     if (optionB.isSome()) {
       result.push(optionB.value)
@@ -752,6 +758,17 @@ const filterMap = <A, B>(fa: Array<A>, f: (a: A) => Option<B>): Array<B> => {
   }
   return result
 }
+
+/**
+ * Filter an array of optional values, keeping only the elements which contain a value, creating a new array
+ * Alias of {@link Compactable}'s `compact`
+ * @function
+ * @since 1.0.0
+ */
+export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
+  return mapOption(as, identity)
+}
+
 /**
  * @function
  * @since 1.0.0
@@ -777,7 +794,10 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
  * @function
  * @since 1.0.0
  */
-export const filter = <A>(fa: Array<A>, p: Predicate<A>): Array<A> => fa.filter(p)
+export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
+  return as.filter(predicate)
+}
+
 const partition = <A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>> => {
   const left: Array<A> = []
   const right: Array<A> = []
@@ -793,15 +813,9 @@ const partition = <A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<
     right
   }
 }
-const compact = <A>(fa: Array<Option<A>>): Array<A> => {
-  const result: Array<A> = []
-  for (const optionA of fa) {
-    if (optionA.isSome()) {
-      result.push(optionA.value)
-    }
-  }
-  return result
-}
+
+const compact = catOptions
+
 const separate = <RL, RR>(fa: Array<Either<RL, RR>>): Separated<Array<RL>, Array<RR>> => {
   const left: Array<RL> = []
   const right: Array<RR> = []
@@ -818,21 +832,7 @@ const separate = <RL, RR>(fa: Array<Either<RL, RR>>): Separated<Array<RL>, Array
   }
 }
 
-/**
- * Filter an array of optional values, keeping only the elements which contain a value, creating a new array
- * Alias for {@link Compactable.compact}
- * @function
- * @since 1.0.0
- */
-export const catOptions = compact
-
-/**
- * Apply a function to each element in an array, keeping only the results which contain a value, creating a new array
- * Alias for {@link Filterable.filterMap}
- * @function
- * @since 1.0.0
- */
-export const mapOption = filterMap
+const filterMap = mapOption
 
 const wither = <F>(F: Applicative<F>): (<A, B>(ta: Array<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Array<B>>) => {
   const traverseF = traverse(F)

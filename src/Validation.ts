@@ -408,7 +408,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 }
 
 /**
- * Builds {@link Filterable} instance for {@link Validation} gived {@link Monoid} for the left side
+ * Builds {@link Filterable} instance for {@link Validation} given {@link Monoid} for the left side
  * @function
  * @since 1.7.0
  */

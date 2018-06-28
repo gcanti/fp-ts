@@ -11,6 +11,8 @@ title: Module BooleanAlgebra
 
 _type class_
 
+_since 1.4.0_
+
 _Signature_
 
 ```ts

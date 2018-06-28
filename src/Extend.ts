@@ -2,7 +2,10 @@ import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './F
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { identity } from './function'
 
-/** @typeclass */
+/**
+ * @typeclass
+ * @since 1.0.0
+ */
 export interface Extend<F> extends Functor<F> {
   readonly extend: <A, B>(ea: HKT<F, A>, f: (fa: HKT<F, A>) => B) => HKT<F, B>
 }

@@ -12,6 +12,7 @@ import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
  * 2. Annihilation: `A.ap(zero, fa) = zero`
  *
  * @typeclass
+ * @since 1.0.0
  */
 export interface Alternative<F> extends Applicative<F>, Plus<F> {}
 
