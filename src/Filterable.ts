@@ -227,7 +227,7 @@ export function unique<F>(F: Filterable<F>): <A>(S: Setoid<A>) => (fa: HKT<F, A>
   return <A>(S: Setoid<A>) => (fa: HKT<F, A>) => {
     const repeations: A[] = []
     return F.filter(fa, a => {
-      if (repeations.find(a_ => S.equals(a, a_))) {
+      if (Boolean(repeations.find(a_ => S.equals(a, a_)))) {
         return false
       }
       repeations.push(a)
