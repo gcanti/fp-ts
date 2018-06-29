@@ -17,7 +17,8 @@ import {
   sequence_,
   sum,
   toArray,
-  traverse_
+  traverse_,
+  traverse
 } from '../src/Foldable'
 import { IO, io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
@@ -114,5 +115,12 @@ describe('Foldable', () => {
 
   it('foldr', () => {
     assert.deepEqual(foldr(array)(['a', 'b', 'c'], '', (a, acc) => acc + a), 'cba')
+  })
+
+  it('traverse', () => {
+    let counter = ''
+    const x = traverse(io, array)(['a', 'b', 'c'], a => new IO(() => (counter += a)))
+    x.run()
+    assert.strictEqual(counter, 'abc')
   })
 })
