@@ -233,7 +233,7 @@ export function fromFoldable<F>(
 export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B> => {
   const out: Array<B> = []
   const value = d.value
-  const keys = Object.keys(value)
+  const keys = Object.keys(value).sort()
   for (const key of keys) {
     out.push(f(key, d.value[key]))
   }

@@ -84,7 +84,8 @@ describe('StrMap', () => {
   })
 
   it('toArray', () => {
-    assert.deepEqual(toArray(new StrMap({ a: 1 })), [['a', 1]])
+    assert.deepEqual(toArray(new StrMap({ a: 1, b: 2 })), [['a', 1], ['b', 2]])
+    assert.deepEqual(toArray(new StrMap({ b: 2, a: 1 })), [['a', 1], ['b', 2]])
   })
 
   it('toUnfoldable', () => {
