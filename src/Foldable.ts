@@ -494,10 +494,10 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
 }
 
 const inc = (n: number) => n + 1
-export function length<F extends URIS3, U, L>(F: Foldable3C<F, U, L>): <A>(fa: Type3<F, U, L, A>) => number
 export function length<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => number
-export function length<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>) => number
+export function length<F extends URIS3, U, L>(F: Foldable3C<F, U, L>): <A>(fa: Type3<F, U, L, A>) => number
 export function length<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>) => number
+export function length<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>) => number
 export function length<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>) => number
 export function length<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => number
 /**
