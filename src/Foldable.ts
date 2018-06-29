@@ -8,7 +8,7 @@ import { Ord, max, min } from './Ord'
 import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 import { Semiring } from './Semiring'
 import { Setoid } from './Setoid'
-import { constTrue, Predicate } from './function'
+import { Predicate } from './function'
 
 /**
  * @typeclass
@@ -507,29 +507,4 @@ export function length<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => number
  */
 export function length<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => number {
   return fa => F.reduce(fa, 0, inc)
-}
-
-export function member<F extends URIS3>(
-  F: Foldable3<F>
-): <A>(S: Setoid<A>) => <U, L>(fa: Type3<F, U, L, A>, a: A) => boolean
-export function member<F extends URIS3, U, L>(
-  F: Foldable3C<F, U, L>
-): <A>(S: Setoid<A>) => (fa: Type3<F, U, L, A>, a: A) => boolean
-export function member<F extends URIS2>(F: Foldable2<F>): <A>(S: Setoid<A>) => <L>(fa: Type2<F, L, A>, a: A) => boolean
-export function member<F extends URIS2, L>(
-  F: Foldable2C<F, L>
-): <A>(S: Setoid<A>) => (fa: Type2<F, L, A>, a: A) => boolean
-export function member<F extends URIS>(F: Foldable1<F>): <A>(S: Setoid<A>) => (fa: Type<F, A>, a: A) => boolean
-export function member<F>(F: Foldable<F>): <A>(S: Setoid<A>) => (fa: HKT<F, A>, a: A) => boolean
-/**
- * Test if a value is a member of a {@link Foldable} structure using {@link Setoid} for its elements
- * @function
- * @since 1.7.0
- */
-export function member<F>(F: Foldable<F>): <A>(S: Setoid<A>) => (fa: HKT<F, A>, a: A) => boolean {
-  const findF = find(F)
-  return <A>(S: Setoid<A>) => (fa: HKT<F, A>, a: A) => {
-    const p: Predicate<A> = el => S.equals(el, a)
-    return findF(fa, p).fold(false, constTrue)
-  }
 }

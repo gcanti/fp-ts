@@ -12,7 +12,6 @@ import {
   intercalate,
   length,
   maximum,
-  member,
   minimum,
   oneOf,
   product,
@@ -149,67 +148,5 @@ describe('Foldable', () => {
     assert.deepEqual(length(tree)(new Tree(1, [new Tree(1, []), new Tree(1, [])])), 3)
     assert.deepEqual(length(tree)(new Tree(1, [new Tree(1, [new Tree(1, [])]), new Tree(1, [new Tree(1, [])])])), 5)
     assert.deepEqual(length(tuple)(new Tuple(1, 2)), 1)
-  })
-
-  it('member', () => {
-    const memberArray = member(array)
-    assert.deepEqual(memberArray(setoidNumber)([], 1), false)
-    assert.deepEqual(memberArray(setoidNumber)([1], 1), true)
-
-    const memberOption = member(option)
-    assert.deepEqual(memberOption(setoidNumber)(none, 1), false)
-    assert.deepEqual(memberOption(setoidNumber)(some(0), 1), false)
-    assert.deepEqual(memberOption(setoidNumber)(some(1), 1), true)
-
-    const memberEither = member(either)
-    assert.deepEqual(memberEither(setoidNumber)(left('foo'), 1), false)
-    assert.deepEqual(memberEither(setoidNumber)(right(0), 1), false)
-    assert.deepEqual(memberEither(setoidNumber)(right(1), 1), true)
-
-    const memberValidation = member(validation)
-    assert.deepEqual(memberValidation(setoidNumber)(failure('foo'), 1), false)
-    assert.deepEqual(memberValidation(setoidNumber)(success(0), 1), false)
-    assert.deepEqual(memberValidation(setoidNumber)(success(1), 1), true)
-
-    const memberNEA = member(nonEmptyArray)
-    assert.deepEqual(memberNEA(setoidNumber)(new NonEmptyArray(0, []), 1), false)
-    assert.deepEqual(memberNEA(setoidNumber)(new NonEmptyArray(0, [0]), 1), false)
-    assert.deepEqual(memberNEA(setoidNumber)(new NonEmptyArray(0, [1]), 1), true)
-
-    const memberIdentity = member(identity)
-    assert.deepEqual(memberIdentity(setoidNumber)(new Identity(0), 1), false)
-    assert.deepEqual(memberIdentity(setoidNumber)(new Identity(1), 1), true)
-
-    const memberPair = member(pair)
-    assert.deepEqual(memberPair(setoidNumber)(new Pair(1, 2), 0), false)
-    assert.deepEqual(memberPair(setoidNumber)(new Pair(1, 2), 1), true)
-    assert.deepEqual(memberPair(setoidNumber)(new Pair(1, 2), 2), true)
-
-    const memberStrMap = member(strmap)
-    assert.deepEqual(memberStrMap(setoidNumber)(new StrMap({}), 1), false)
-    assert.deepEqual(memberStrMap(setoidNumber)(new StrMap({ a: 0 }), 1), false)
-    assert.deepEqual(memberStrMap(setoidNumber)(new StrMap({ a: 1 }), 1), true)
-
-    const memberThese = member(these)
-    assert.deepEqual(memberThese(setoidNumber)(new This(0), 1), false)
-    assert.deepEqual(memberThese(setoidNumber)(new This(1), 1), false)
-    assert.deepEqual(memberThese(setoidNumber)(new That(0), 1), false)
-    assert.deepEqual(memberThese(setoidNumber)(new That(1), 1), true)
-    assert.deepEqual(memberThese(setoidNumber)(new Both(0, 0), 1), false)
-    assert.deepEqual(memberThese(setoidNumber)(new Both(0, 1), 1), true)
-    assert.deepEqual(memberThese(setoidNumber)(new Both(1, 0), 1), false)
-
-    const memberTree = member(tree)
-    assert.deepEqual(memberTree(setoidNumber)(new Tree(0, []), 1), false)
-    assert.deepEqual(memberTree(setoidNumber)(new Tree(1, []), 1), true)
-    assert.deepEqual(memberTree(setoidNumber)(new Tree(0, [new Tree(0, [])]), 1), false)
-    assert.deepEqual(memberTree(setoidNumber)(new Tree(0, [new Tree(1, [])]), 1), true)
-    assert.deepEqual(memberTree(setoidNumber)(new Tree(0, [new Tree(0, []), new Tree(0, [])]), 1), false)
-    assert.deepEqual(memberTree(setoidNumber)(new Tree(0, [new Tree(0, []), new Tree(1, [])]), 1), true)
-
-    const memberTuple = member(tuple)
-    assert.deepEqual(memberTuple(setoidNumber)(new Tuple(1, 2), 0), false)
-    assert.deepEqual(memberTuple(setoidNumber)(new Tuple(1, 2), 1), false)
-    assert.deepEqual(memberTuple(setoidNumber)(new Tuple(1, 2), 2), true)
   })
 })

@@ -110,120 +110,24 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
   readonly filter: <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
 }
 
-export function span<F extends URIS3, U, L>(
-  F: Filterable3C<F, U, L>
-): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
-export function span<F extends URIS3>(
-  F: Filterable3<F>
-): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
-export function span<F extends URIS2, L>(
-  F: Filterable2C<F, L>
-): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Separated<Type2<F, L, A>, Type2<F, L, A>>
-export function span<F extends URIS2>(
-  F: Filterable2<F>
-): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Separated<Type2<F, L, A>, Type2<F, L, A>>
-export function span<F extends URIS>(
-  F: Filterable1<F>
-): <A>(fa: Type<F, A>, p: Predicate<A>) => Separated<Type<F, A>, Type<F, A>>
-export function span<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Separated<HKT<F, A>, HKT<F, A>>
-/**
- * Split {@link Filterable} structure into two parts:
- * Left: the longest initial substructure for which all elements satisfy the specified predicate
- * Right: the remaining elements
- * @function
- * @since 1.7.0
- */
-export function span<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Separated<HKT<F, A>, HKT<F, A>> {
-  return (fa, p) => {
-    let collectLeft = true
-    return F.partition(fa, a => {
-      if (collectLeft) {
-        if (p(a)) {
-          return false
-        }
-        collectLeft = false
-      }
-      return true
-    })
-  }
-}
-
-export function takeWhile<F extends URIS3, U, L>(
-  F: Filterable3C<F, U, L>
-): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
-export function takeWhile<F extends URIS3>(
-  F: Filterable3<F>
-): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
-export function takeWhile<F extends URIS2, L>(
-  F: Filterable2C<F, L>
-): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
-export function takeWhile<F extends URIS2>(
-  F: Filterable2<F>
-): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
-export function takeWhile<F extends URIS>(F: Filterable1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Type<F, A>
-export function takeWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A>
-/**
- * Gets the longest initial {@link Filterable} substructure for which all element satisfy the specified predicate, creating a new {@link Filterable} structure
- */
-export function takeWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A> {
-  return (fa, p) => {
-    let done = false
-    return F.filter(fa, a => {
-      if (!done) {
-        if (p(a)) {
-          return true
-        }
-        done = true
-      }
-      return false
-    })
-  }
-}
-
-export function dropWhile<F extends URIS3, U, L>(
-  F: Filterable3C<F, U, L>
-): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
-export function dropWhile<F extends URIS3>(
-  F: Filterable3<F>
-): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
-export function dropWhile<F extends URIS2, L>(
-  F: Filterable2C<F, L>
-): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
-export function dropWhile<F extends URIS2>(
-  F: Filterable2<F>
-): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
-export function dropWhile<F extends URIS>(F: Filterable1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Type<F, A>
-export function dropWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A>
-/**
- * Removes the longest initial {@link Filterable} substructure for which all element satisfy the specified predicate, creating a new {@link Filterable} structure
- * @function
- * @since 1.7.0
- */
-export function dropWhile<F>(F: Filterable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A> {
-  const spanF = span(F)
-  return (fa, p) => spanF(fa, p).right
-}
-
-export function unique<F extends URIS3>(
+export function uniq<F extends URIS3>(
   F: Filterable3<F>
 ): <A>(S: Setoid<A>) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
-export function unique<F extends URIS3, U, L>(
+export function uniq<F extends URIS3, U, L>(
   F: Filterable3C<F, U, L>
 ): <A>(S: Setoid<A>) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
-export function unique<F extends URIS2>(
-  F: Filterable2<F>
-): <A>(S: Setoid<A>) => <L>(fa: Type2<F, L, A>) => Type2<F, L, A>
-export function unique<F extends URIS2, L>(
+export function uniq<F extends URIS2>(F: Filterable2<F>): <A>(S: Setoid<A>) => <L>(fa: Type2<F, L, A>) => Type2<F, L, A>
+export function uniq<F extends URIS2, L>(
   F: Filterable2C<F, L>
 ): <A>(S: Setoid<A>) => (fa: Type2<F, L, A>) => Type2<F, L, A>
-export function unique<F extends URIS>(F: Filterable1<F>): <A>(S: Setoid<A>) => (fa: Type<F, A>) => Type<F, A>
-export function unique<F>(F: Filterable<F>): <A>(S: Setoid<A>) => (fa: HKT<F, A>) => HKT<F, A>
+export function uniq<F extends URIS>(F: Filterable1<F>): <A>(S: Setoid<A>) => (fa: Type<F, A>) => Type<F, A>
+export function uniq<F>(F: Filterable<F>): <A>(S: Setoid<A>) => (fa: HKT<F, A>) => HKT<F, A>
 /**
  * Remove duplicates from {@link Filterable} structure, keeping the first occurance of an element given {@link Setoid} for it.
  * @function
  * @since 1.7.0
  */
-export function unique<F>(F: Filterable<F>): <A>(S: Setoid<A>) => (fa: HKT<F, A>) => HKT<F, A> {
+export function uniq<F>(F: Filterable<F>): <A>(S: Setoid<A>) => (fa: HKT<F, A>) => HKT<F, A> {
   return <A>(S: Setoid<A>) => (fa: HKT<F, A>) => {
     const repeations: Array<A> = []
     return F.filter(fa, a => {
