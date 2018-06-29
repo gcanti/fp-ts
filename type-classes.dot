@@ -12,7 +12,7 @@ digraph G {
   node [style=filled,color=black,fillcolor="#FDF4AA"];
   "Category" -> "Semigroupoid"
   node [style=filled,color=black,fillcolor="#659DFE"];
-  "Functor" "Applicative" "Monad" "Alternative" "Traversable" "Foldable"
+  "Functor" "Applicative" "Monad" "Alternative" "Traversable" "Foldable" "Compactable"
   node [style=filled,color=black,fillcolor="#BFD7FF"];
   "Alt" -> "Functor"
   "Alternative" -> "Applicative"
@@ -23,6 +23,10 @@ digraph G {
   "Comonad" -> "Extend" -> "Functor"
   "Traversable" -> "Foldable"
   "Traversable" -> "Functor"
+  "Filterable" -> "Functor"
+  "Filterable" -> "Compactable"
+  "Witherable" -> "Traversable"
+  "Witherable" -> "Filterable"
   node [style=filled,color=black,fillcolor="#FDF4AA"];
   "BooleanAlgebra" -> "HeytingAlgebra" -> "BoundedDistributiveLattice" -> "BoundedLattice" -> "BoundedJoinSemilattice"
   "BoundedDistributiveLattice" -> "DistributiveLattice" -> "Lattice" -> "JoinSemilattice"
