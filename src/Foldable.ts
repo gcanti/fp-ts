@@ -207,8 +207,7 @@ export function foldM<F, M>(
 }
 
 /**
- * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
- * final result.
+ * Use {@link traverse}
  */
 export function traverse_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
@@ -235,10 +234,10 @@ export function traverse_<M, F>(
   F: Foldable<F>
 ): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void>
 /**
- * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
- * final result.
+ * Use {@link traverse}
  * @function
  * @since 1.0.0
+ * @deprecated
  */
 export function traverse_<M, F>(
   M: Applicative<M>,
@@ -491,4 +490,46 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
  */
 export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
   return fa => foldMap(F, unsafeMonoidArray)(fa, a => [a])
+}
+
+/**
+ * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
+ * final result.
+ */
+export function traverse<M extends URIS3, F extends URIS>(
+  M: Applicative3<M>,
+  F: Foldable1<F>
+): <U, L, A, B>(fa: Type<F, A>, f: (a: A) => Type3<M, U, L, B>) => Type3<M, U, L, void>
+export function traverse<M extends URIS3, F extends URIS, U, L>(
+  M: Applicative3C<M, U, L>,
+  F: Foldable1<F>
+): <A, B>(fa: Type<F, A>, f: (a: A) => Type3<M, U, L, B>) => Type3<M, U, L, void>
+export function traverse<M extends URIS2, F extends URIS>(
+  M: Applicative2<M>,
+  F: Foldable1<F>
+): <L, A, B>(fa: Type<F, A>, f: (a: A) => Type2<M, L, B>) => Type2<M, L, void>
+export function traverse<M extends URIS2, F extends URIS, L>(
+  M: Applicative2C<M, L>,
+  F: Foldable1<F>
+): <A, B>(fa: Type<F, A>, f: (a: A) => Type2<M, L, B>) => Type2<M, L, void>
+export function traverse<M extends URIS, F extends URIS>(
+  M: Applicative1<M>,
+  F: Foldable1<F>
+): <A, B>(fa: Type<F, A>, f: (a: A) => Type<M, B>) => Type<M, void>
+export function traverse<M, F>(
+  M: Applicative<M>,
+  F: Foldable<F>
+): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>
+/**
+ * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
+ * final result.
+ * @function
+ * @since 1.7.0
+ */
+export function traverse<M, F>(
+  M: Applicative<M>,
+  F: Foldable<F>
+): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> {
+  const traverseMF = traverse_(M, F)
+  return (fa, f) => traverseMF(f, fa)
 }
