@@ -15,6 +15,7 @@ import { Compactable2C, Separated } from './Compactable'
 import { Monoid } from './Monoid'
 import { Filterable2C } from './Filterable'
 import { Witherable2C } from './Witherable'
+import { Semigroup } from './Semigroup'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -262,6 +263,60 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
   return {
     equals: (x, y) =>
       x.isLeft() ? y.isLeft() && SL.equals(x.value, y.value) : y.isRight() && SA.equals(x.value, y.value)
+  }
+}
+
+/**
+ * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+ * appended using the provided `Semigroup`
+ *
+ * @example
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ *
+ * const S = getSemigroup<string, number>(semigroupSum)
+ * assert.deepEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepEqual(S.concat(left('a'), right(2)), right(2))
+ * assert.deepEqual(S.concat(right(1), left('b')), right(1))
+ * assert.deepEqual(S.concat(right(1), right(2)), right(3))
+ *
+ * @function
+ * @since 1.7.0
+ */
+export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
+  return {
+    concat: (x, y) => (y.isLeft() ? x : x.isLeft() ? y : right(S.concat(x.value, y.value)))
+  }
+}
+
+/**
+ * {@link Apply} semigroup
+ *
+ * @example
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ *
+ * const S = getApplySemigroup<string, number>(semigroupSum)
+ * assert.deepEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepEqual(S.concat(left('a'), right(2)), left('a'))
+ * assert.deepEqual(S.concat(right(1), left('b')), left('b'))
+ * assert.deepEqual(S.concat(right(1), right(2)), right(3))
+ *
+ * @function
+ * @since 1.7.0
+ */
+export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
+  return {
+    concat: (x, y) => (x.isLeft() ? x : y.isLeft() ? y : right(S.concat(x.value, y.value)))
+  }
+}
+
+/**
+ * @function
+ * @since 1.7.0
+ */
+export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => {
+  return {
+    ...getApplySemigroup(M),
+    empty: right(M.empty)
   }
 }
 
