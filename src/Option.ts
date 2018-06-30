@@ -402,7 +402,47 @@ const zero = <A>(): Option<A> => {
 }
 
 /**
- * `Option` monoid returning the left-most non-`None` value
+ * {@link Apply} semigroup
+ *
+ * @example
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ *
+ * const S = getSemigroup(semigroupSum)
+ * assert.deepEqual(S.concat(none, none), none)
+ * assert.deepEqual(S.concat(some(1), none), none)
+ * assert.deepEqual(S.concat(none, some(1)), none)
+ * assert.deepEqual(S.concat(some(1), some(2)), some(3))
+ *
+ * @function
+ * @since 1.7.0
+ */
+export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
+  return {
+    concat: (x, y) => (x.isSome() && y.isSome() ? some(S.concat(x.value, y.value)) : none)
+  }
+}
+
+/**
+ * @function
+ * @since 1.7.0
+ */
+export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
+  return {
+    ...getApplySemigroup(M),
+    empty: some(M.empty)
+  }
+}
+
+/**
+ * Monoid returning the left-most non-`None` value
+ *
+ * @example
+ * const M = getFirstMonoid<number>()
+ * assert.deepEqual(M.concat(none, none), none)
+ * assert.deepEqual(M.concat(some(1), none), some(1))
+ * assert.deepEqual(M.concat(none, some(1)), some(1))
+ * assert.deepEqual(M.concat(some(1), some(2)), some(1))
+ *
  * @function
  * @since 1.0.0
  */
@@ -414,7 +454,15 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
 }
 
 /**
- * `Option` monoid returning the right-most non-`None` value
+ * Monoid returning the right-most non-`None` value
+ *
+ * @example
+ * const M = getLastMonoid<number>()
+ * assert.deepEqual(M.concat(none, none), none)
+ * assert.deepEqual(M.concat(some(1), none), some(1))
+ * assert.deepEqual(M.concat(none, some(1)), some(1))
+ * assert.deepEqual(M.concat(some(1), some(2)), some(2))
+ *
  * @function
  * @since 1.0.0
  */
@@ -423,17 +471,16 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
 }
 
 /**
- * `Option` monoid returning the left-most non-None value. If both operands are `Some`s then the inner values are
+ * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
  * appended using the provided `Semigroup`
  *
  * @example
- * import { none, some, getMonoid } from 'fp-ts/lib/Option'
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
  * const M = getMonoid(semigroupSum)
  * assert.deepEqual(M.concat(none, none), none)
- * assert.deepEqual(M.concat(none, some(1)), some(1))
  * assert.deepEqual(M.concat(some(1), none), some(1))
+ * assert.deepEqual(M.concat(none, some(1)), some(1))
  * assert.deepEqual(M.concat(some(1), some(2)), some(3))
  *
  * @function
