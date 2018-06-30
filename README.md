@@ -20,7 +20,7 @@ Functional programming in TypeScript
   </a>
 </p>
 
-Inspired by [PureScript](http://www.purescript.org), [fantasy-land](https://github.com/fantasyland/fantasy-land), [static-land](https://github.com/rpominov/static-land), Scala.
+Inspired by [PureScript](http://www.purescript.org), [static-land](https://github.com/rpominov/static-land), Scala.
 
 The idea (faking higher kinded types in TypeScript) is based on [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf)
 
