@@ -16,14 +16,18 @@ import {
   fromRefinement,
   getCompactable,
   getFilterable,
-  getWitherable
+  getWitherable,
+  getApplySemigroup,
+  getApplyMonoid,
+  getSemigroup
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
-import { monoidString } from '../src/Monoid'
+import { monoidString, monoidSum } from '../src/Monoid'
 import { Identity, identity as I } from '../src/Identity'
+import { semigroupSum } from '../src/Semigroup'
 
 describe('Either', () => {
   it('fold', () => {
@@ -359,5 +363,29 @@ describe('Either', () => {
         })
       )
     })
+  })
+
+  it('getSemigroup', () => {
+    const S = getSemigroup<string, number>(semigroupSum)
+    assert.deepEqual(S.concat(left('a'), left('b')), left('a'))
+    assert.deepEqual(S.concat(left('a'), right(2)), right(2))
+    assert.deepEqual(S.concat(right(1), left('b')), right(1))
+    assert.deepEqual(S.concat(right(1), right(2)), right(3))
+  })
+
+  it('getApplySemigroup', () => {
+    const S = getApplySemigroup<string, number>(semigroupSum)
+    assert.deepEqual(S.concat(left('a'), left('b')), left('a'))
+    assert.deepEqual(S.concat(left('a'), right(2)), left('a'))
+    assert.deepEqual(S.concat(right(1), left('b')), left('b'))
+    assert.deepEqual(S.concat(right(1), right(2)), right(3))
+  })
+
+  it('getApplyMonoid', () => {
+    const S = getApplyMonoid<string, number>(monoidSum)
+    assert.deepEqual(S.concat(left('a'), S.empty), left('a'))
+    assert.deepEqual(S.concat(S.empty, left('b')), left('b'))
+    assert.deepEqual(S.concat(right(1), S.empty), right(1))
+    assert.deepEqual(S.concat(S.empty, right(2)), right(2))
   })
 })
