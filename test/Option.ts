@@ -18,14 +18,17 @@ import {
   option,
   some,
   tryCatch,
-  getRefinement
+  getRefinement,
+  getApplySemigroup,
+  getApplyMonoid
 } from '../src/Option'
 import { ordString } from '../src/Ord'
-import { semigroupString } from '../src/Semigroup'
+import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
+import { monoidSum } from '../src/Monoid'
 
 const p = (n: number): boolean => n > 2
 
@@ -200,20 +203,36 @@ describe('Option', () => {
     assert.strictEqual(some(3).reduce(2, (b, a) => b + a), 5)
   })
 
+  it('getApplySemigroup', () => {
+    const S = getApplySemigroup(semigroupSum)
+    assert.deepEqual(S.concat(none, none), none)
+    assert.deepEqual(S.concat(some(1), none), none)
+    assert.deepEqual(S.concat(none, some(1)), none)
+    assert.deepEqual(S.concat(some(1), some(2)), some(3))
+  })
+
+  it('getApplyMonoid', () => {
+    const M = getApplyMonoid(monoidSum)
+    assert.deepEqual(M.concat(M.empty, none), none)
+    assert.deepEqual(M.concat(none, M.empty), none)
+    assert.deepEqual(M.concat(M.empty, some(1)), some(1))
+    assert.deepEqual(M.concat(some(1), M.empty), some(1))
+  })
+
   it('getFirstMonoid', () => {
-    const first = getFirstMonoid<number>()
-    assert.deepEqual(first.concat(none, some(1)), some(1))
-    assert.deepEqual(first.concat(some(1), none), some(1))
-    assert.deepEqual(first.concat(none, none), none)
-    assert.deepEqual(first.concat(some(1), some(2)), some(1))
+    const M = getFirstMonoid<number>()
+    assert.deepEqual(M.concat(none, none), none)
+    assert.deepEqual(M.concat(some(1), none), some(1))
+    assert.deepEqual(M.concat(none, some(1)), some(1))
+    assert.deepEqual(M.concat(some(1), some(2)), some(1))
   })
 
   it('getLastMonoid', () => {
-    const last = getLastMonoid<number>()
-    assert.deepEqual(last.concat(none, some(1)), some(1))
-    assert.deepEqual(last.concat(some(1), none), some(1))
-    assert.deepEqual(last.concat(none, none), none)
-    assert.deepEqual(last.concat(some(1), some(2)), some(2))
+    const M = getLastMonoid<number>()
+    assert.deepEqual(M.concat(none, none), none)
+    assert.deepEqual(M.concat(some(1), none), some(1))
+    assert.deepEqual(M.concat(none, some(1)), some(1))
+    assert.deepEqual(M.concat(some(1), some(2)), some(2))
   })
 
   it('contains', () => {

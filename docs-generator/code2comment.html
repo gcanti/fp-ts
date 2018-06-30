@@ -21,7 +21,7 @@
     }
     function t(src) {
       const lines = src.split('\n').map(line => '* ' + line.replace('../src/', 'fp-ts/lib/'))
-      return '*\n* @example\n*\n* ' + lines.join('\n') + '\n*'
+      return '*\n* @example\n' + lines.join('\n') + '\n'
     }
   </script>
 </body>
