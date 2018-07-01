@@ -12,6 +12,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Either } from './Either'
 import { Predicate } from './function'
 import { Option } from './Option'
+import { Setoid } from './Setoid'
 
 /**
  * `Filterable` represents data structures which can be _partitioned_/_filtered_.
@@ -107,4 +108,34 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
   readonly partition: <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
   readonly filterMap: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filter: <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
+}
+
+export function uniq<F extends URIS3>(
+  F: Filterable3<F>
+): <A>(S: Setoid<A>) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
+export function uniq<F extends URIS3, U, L>(
+  F: Filterable3C<F, U, L>
+): <A>(S: Setoid<A>) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
+export function uniq<F extends URIS2>(F: Filterable2<F>): <A>(S: Setoid<A>) => <L>(fa: Type2<F, L, A>) => Type2<F, L, A>
+export function uniq<F extends URIS2, L>(
+  F: Filterable2C<F, L>
+): <A>(S: Setoid<A>) => (fa: Type2<F, L, A>) => Type2<F, L, A>
+export function uniq<F extends URIS>(F: Filterable1<F>): <A>(S: Setoid<A>) => (fa: Type<F, A>) => Type<F, A>
+export function uniq<F>(F: Filterable<F>): <A>(S: Setoid<A>) => (fa: HKT<F, A>) => HKT<F, A>
+/**
+ * Remove duplicates from {@link Filterable} structure, keeping the first occurance of an element given {@link Setoid} for it.
+ * @function
+ * @since 1.7.0
+ */
+export function uniq<F>(F: Filterable<F>): <A>(S: Setoid<A>) => (fa: HKT<F, A>) => HKT<F, A> {
+  return <A>(S: Setoid<A>) => (fa: HKT<F, A>) => {
+    const repeations: Array<A> = []
+    return F.filter(fa, a => {
+      if (Boolean(repeations.find(a_ => S.equals(a, a_)))) {
+        return false
+      }
+      repeations.push(a)
+      return true
+    })
+  }
 }
