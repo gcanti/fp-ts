@@ -146,6 +146,21 @@ export const fromIO = <A>(io: IO<A>): Task<A> => {
 }
 
 /**
+ * @function
+ * @since 1.7.0
+ */
+export const delay = <A>(millis: number, a: A): Task<A> => {
+  return new Task(
+    () =>
+      new Promise(resolve => {
+        setTimeout(() => {
+          resolve(a)
+        }, millis)
+      })
+  )
+}
+
+/**
  * @instance
  * @since 1.0.0
  */

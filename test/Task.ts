@@ -2,15 +2,7 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { IO } from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { Task, fromIO, getMonoid, getRaceMonoid, task, tryCatch } from '../src/Task'
-
-const delay = <A>(n: number, a: A): Task<A> =>
-  new Task<A>(
-    () =>
-      new Promise<A>(resolve => {
-        setTimeout(() => resolve(a), n)
-      })
-  )
+import { Task, fromIO, getMonoid, getRaceMonoid, task, tryCatch, delay } from '../src/Task'
 
 const delayReject = <A>(n: number, a: A): Task<A> =>
   new Task<A>(
