@@ -299,19 +299,19 @@ export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>
   if (len === 0) {
     return r
   }
-  let a: A = as[0]
-  let nonEmpty: Array<A> = [a]
+  let head: A = as[0]
+  let tail: Array<A> = []
   for (let i = 1; i < len; i++) {
     const x = as[i]
-    if (S.equals(x, a)) {
-      nonEmpty.push(x)
+    if (S.equals(x, head)) {
+      tail.push(x)
     } else {
-      r.push(unsafeFromArray(nonEmpty))
-      nonEmpty = [x]
+      r.push(new NonEmptyArray(head, tail))
+      head = x
+      tail = []
     }
-    a = x
   }
-  r.push(unsafeFromArray(nonEmpty))
+  r.push(new NonEmptyArray(head, tail))
   return r
 }
 
