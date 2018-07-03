@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { fold, monoidSum } from '../src/Monoid'
-import { NonEmptyArray, nonEmptyArray, fromArray, getSemigroup } from '../src/NonEmptyArray'
+import { NonEmptyArray, nonEmptyArray, fromArray, getSemigroup, group, groupSort } from '../src/NonEmptyArray'
 import { none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import { traverse } from '../src/Traversable'
@@ -92,6 +92,25 @@ describe('NonEmptyArray', () => {
     const S = getSemigroup<number>()
     assert.deepEqual(S.concat(new NonEmptyArray(1, []), new NonEmptyArray(2, [])), new NonEmptyArray(1, [2]))
     assert.deepEqual(S.concat(new NonEmptyArray(1, [2]), new NonEmptyArray(3, [4])), new NonEmptyArray(1, [2, 3, 4]))
+  })
+
+  it('group', () => {
+    assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [
+      new NonEmptyArray(1, []),
+      new NonEmptyArray(2, []),
+      new NonEmptyArray(1, [1])
+    ])
+
+    assert.deepEqual(group(ordNumber)([1, 2, 1, 1, 3]), [
+      new NonEmptyArray(1, []),
+      new NonEmptyArray(2, []),
+      new NonEmptyArray(1, [1]),
+      new NonEmptyArray(3, [])
+    ])
+  })
+
+  it('groupSort', () => {
+    assert.deepEqual(groupSort(ordNumber)([1, 2, 1, 1]), [new NonEmptyArray(1, [1, 1]), new NonEmptyArray(2, [])])
   })
 
   it('last', () => {

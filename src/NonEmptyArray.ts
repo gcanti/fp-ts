@@ -1,5 +1,5 @@
 import { Applicative } from './Applicative'
-import { array, last, sort } from './Array'
+import { array, last, sort, span, head, snoc } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable1 } from './Foldable'
 import { HKT } from './HKT'
@@ -8,7 +8,8 @@ import { Option, none, some } from './Option'
 import { Ord } from './Ord'
 import { Semigroup, fold, getJoinSemigroup, getMeetSemigroup } from './Semigroup'
 import { Traversable1 } from './Traversable'
-import { concat as uncurriedConcat, toString } from './function'
+import { concat as uncurriedConcat, toString, curry, compose } from './function'
+import { Setoid } from './Setoid'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -288,6 +289,35 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
   return { concat }
 }
+
+/**
+ *  Group equal, consecutive elements of an array into arrays.
+ */
+export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> =>
+  head(as).fold([], a => recursiveSpan<A>([])(S)(a)(as))
+
+const recursiveSpan = <A>(mem: Array<NonEmptyArray<A>>) => (S: Setoid<A>) => (a: A) => (
+  as: Array<A>
+): Array<NonEmptyArray<A>> => {
+  const spanned = span(as, curry(S.equals)(a))
+  const first = head(spanned.rest)
+  const newMem = snoc(mem, unsafeFromArray(spanned.init))
+
+  if (first.isSome()) {
+    return recursiveSpan(newMem)(S)(first.value)(spanned.rest)
+  } else {
+    return newMem
+  }
+}
+
+/**
+ *  Sort and then group the elements of an array into arrays.
+ */
+export const groupSort = <A>(O: Ord<A>) => (as: Array<A>): Array<NonEmptyArray<A>> =>
+  compose(
+    group(O),
+    sort(O)
+  )(as)
 
 const reduce = <A, B>(fa: NonEmptyArray<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)

@@ -16,7 +16,6 @@ import {
   foldL,
   getMonoid,
   getOrd,
-  group,
   head,
   index,
   init,
@@ -231,10 +230,6 @@ describe('Array', () => {
 
   it('sort', () => {
     assert.deepEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
-  })
-
-  it('group', () => {
-    assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [[1, 1, 1], [2]])
   })
 
   it('refine', () => {
