@@ -602,6 +602,46 @@ _Description_
 
 Refinement version of `fromPredicate`
 
+### getApplyMonoid
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<A>(M: Monoid<A>): Monoid<Option<A>>
+```
+
+### getApplySemigroup
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<A>(S: Semigroup<A>): Semigroup<Option<A>>
+```
+
+_Description_
+
+[Apply](./Apply.md) semigroup
+
+_Example_
+
+```ts
+import { semigroupSum } from 'fp-ts/lib/Semigroup'
+
+const S = getSemigroup(semigroupSum)
+assert.deepEqual(S.concat(none, none), none)
+assert.deepEqual(S.concat(some(1), none), none)
+assert.deepEqual(S.concat(none, some(1)), none)
+assert.deepEqual(S.concat(some(1), some(2)), some(3))
+```
+
 ### getFirstMonoid
 
 _function_
@@ -616,7 +656,17 @@ _Signature_
 
 _Description_
 
-`Option` monoid returning the left-most non-`None` value
+Monoid returning the left-most non-`None` value
+
+_Example_
+
+```ts
+const M = getFirstMonoid<number>()
+assert.deepEqual(M.concat(none, none), none)
+assert.deepEqual(M.concat(some(1), none), some(1))
+assert.deepEqual(M.concat(none, some(1)), some(1))
+assert.deepEqual(M.concat(some(1), some(2)), some(1))
+```
 
 ### getLastMonoid
 
@@ -632,7 +682,17 @@ _Signature_
 
 _Description_
 
-`Option` monoid returning the right-most non-`None` value
+Monoid returning the right-most non-`None` value
+
+_Example_
+
+```ts
+const M = getLastMonoid<number>()
+assert.deepEqual(M.concat(none, none), none)
+assert.deepEqual(M.concat(some(1), none), some(1))
+assert.deepEqual(M.concat(none, some(1)), some(1))
+assert.deepEqual(M.concat(some(1), some(2)), some(2))
+```
 
 ### getMonoid
 
@@ -648,19 +708,18 @@ _Signature_
 
 _Description_
 
-`Option` monoid returning the left-most non-None value. If both operands are `Some`s then the inner values are
+Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
 appended using the provided `Semigroup`
 
 _Example_
 
 ```ts
-import { none, some, getMonoid } from 'fp-ts/lib/Option'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const M = getMonoid(semigroupSum)
 assert.deepEqual(M.concat(none, none), none)
-assert.deepEqual(M.concat(none, some(1)), some(1))
 assert.deepEqual(M.concat(some(1), none), some(1))
+assert.deepEqual(M.concat(none, some(1)), some(1))
 assert.deepEqual(M.concat(some(1), some(2)), some(3))
 ```
 

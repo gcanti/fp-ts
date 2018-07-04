@@ -141,6 +141,18 @@ Monad1<URI>
 
 ## Functions
 
+### delay
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<A>(millis: number, a: A): Task<A>
+```
+
 ### fromIO
 
 _function_

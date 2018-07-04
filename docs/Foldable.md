@@ -257,7 +257,27 @@ _Signature_
 toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
 ```
 
-### traverse\_
+### traverse
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+traverse<M, F>(
+  M: Applicative<M>,
+  F: Foldable<F>
+): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>
+```
+
+_Description_
+
+Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
+final result.
+
+### ~~traverse\_~~ (deprecated)
 
 _function_
 
@@ -274,5 +294,4 @@ traverse_<M, F>(
 
 _Description_
 
-Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
-final result.
+Use [traverse](#traverse)
