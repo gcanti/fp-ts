@@ -9,9 +9,34 @@
 > - [Internal]
 > - [Polish]
 > - [Experimental]
+> - [Deprecation]
 
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
+
+# 1.7.0
+
+- **New Feature**
+  - add `Array.foldr`, `Array.foldrL` (@PierreCooper)
+  - add `Compactable` type class and related instances (@raveclassic)
+  - add `Filterable` type class and related instances (@raveclassic)
+  - add `Whitherable` type class and related instances (@raveclassic)
+  - add `State.prototype.applyFirst`, `State.prototype.applySecond` (@gcanti)
+  - add `Option.getRefinement` (@gcanti)
+  - add `Foldable.traverse` (@gcanti)
+  - add `Option.getApplySemigroup`, `Option.getApplyMonoid` (@gcanti)
+  - add `Either.getSemigroup`, `Either.getApplySemigroup`, `Either.getApplyMonoid` (@gcanti)
+  - add `Task.delay` (@gcanti)
+  - add `NonEmptyArray.group`, `NonEmptyArray.groupSort` (@MaximeRDY)
+- **Bug Fix**
+  - fix `Random.randomRange` implementation (@gcanti)
+  - fix `Set.partitionMap` signature (@gcanti)
+  - sort keys in `StrMap.collect` (@gcanti)
+- **Deprecation**
+  - deprecate `Traversable.traverse` (@raveclassic)
+  - deprecate `Foldable.traverse_` (@gcanti)
+- **Internal**
+  - add `Applicative2C` overloadings to `Traversable.traverse` (@gcanti)
 
 # 1.6.2
 
