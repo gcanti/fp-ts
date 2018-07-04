@@ -8,7 +8,8 @@ import { Option, none, some } from './Option'
 import { Ord } from './Ord'
 import { Semigroup, fold, getJoinSemigroup, getMeetSemigroup } from './Semigroup'
 import { Traversable1 } from './Traversable'
-import { concat as uncurriedConcat, toString } from './function'
+import { concat as uncurriedConcat, toString, compose } from './function'
+import { Setoid } from './Setoid'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -288,6 +289,40 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
   return { concat }
 }
+
+/**
+ *  Group equal, consecutive elements of an array into arrays.
+ */
+export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
+  const r: Array<NonEmptyArray<A>> = []
+  const len = as.length
+  if (len === 0) {
+    return r
+  }
+  let head: A = as[0]
+  let tail: Array<A> = []
+  for (let i = 1; i < len; i++) {
+    const x = as[i]
+    if (S.equals(x, head)) {
+      tail.push(x)
+    } else {
+      r.push(new NonEmptyArray(head, tail))
+      head = x
+      tail = []
+    }
+  }
+  r.push(new NonEmptyArray(head, tail))
+  return r
+}
+
+/**
+ *  Sort and then group the elements of an array into arrays.
+ */
+export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) =>
+  compose(
+    group(O),
+    sort(O)
+  )
 
 const reduce = <A, B>(fa: NonEmptyArray<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
