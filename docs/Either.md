@@ -482,6 +482,46 @@ _Signature_
 <L, A>(fa: Validation<L, A>): Either<L, A>
 ```
 
+### getApplyMonoid
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<L, A>(M: Monoid<A>): Monoid<Either<L, A>>
+```
+
+### getApplySemigroup
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<L, A>(S: Semigroup<A>): Semigroup<Either<L, A>>
+```
+
+_Description_
+
+[Apply](./Apply.md) semigroup
+
+_Example_
+
+```ts
+import { semigroupSum } from 'fp-ts/lib/Semigroup'
+
+const S = getApplySemigroup<string, number>(semigroupSum)
+assert.deepEqual(S.concat(left('a'), left('b')), left('a'))
+assert.deepEqual(S.concat(left('a'), right(2)), left('a'))
+assert.deepEqual(S.concat(right(1), left('b')), left('b'))
+assert.deepEqual(S.concat(right(1), right(2)), right(3))
+```
+
 ### getCompactable
 
 _function_
@@ -513,6 +553,35 @@ getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>
 _Description_
 
 Builds [Filterable](./Filterable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
+
+### getSemigroup
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<L, A>(S: Semigroup<A>): Semigroup<Either<L, A>>
+```
+
+_Description_
+
+Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
+appended using the provided `Semigroup`
+
+_Example_
+
+```ts
+import { semigroupSum } from 'fp-ts/lib/Semigroup'
+
+const S = getSemigroup<string, number>(semigroupSum)
+assert.deepEqual(S.concat(left('a'), left('b')), left('a'))
+assert.deepEqual(S.concat(left('a'), right(2)), right(2))
+assert.deepEqual(S.concat(right(1), left('b')), right(1))
+assert.deepEqual(S.concat(right(1), right(2)), right(3))
+```
 
 ### getSetoid
 

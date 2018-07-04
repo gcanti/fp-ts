@@ -405,3 +405,55 @@ _Signature_
 _Description_
 
 Builds [Semigroup](./Semigroup.md) instance for [NonEmptyArray](./NonEmptyArray.md) of specified type arument
+
+### group
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>>
+```
+
+_Description_
+
+Group equal, consecutive elements of an array into non empty arrays.
+
+_Example_
+
+```ts
+import { ordNumber } from 'fp-ts/lib/Ord'
+
+assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [
+  new NonEmptyArray(1, []),
+  new NonEmptyArray(2, []),
+  new NonEmptyArray(1, [1])
+])
+```
+
+### groupSort
+
+_function_
+
+_since 1.7.0_
+
+_Signature_
+
+```ts
+<A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>)
+```
+
+_Description_
+
+Sort and then group the elements of an array into non empty arrays.
+
+_Example_
+
+```ts
+import { ordNumber } from 'fp-ts/lib/Ord'
+
+assert.deepEqual(groupSort(ordNumber)([1, 2, 1, 1]), [new NonEmptyArray(1, [1, 1]), new NonEmptyArray(2, [])])
+```
