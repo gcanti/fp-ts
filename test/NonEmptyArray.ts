@@ -95,6 +95,8 @@ describe('NonEmptyArray', () => {
   })
 
   it('group', () => {
+    assert.deepEqual(group(ordNumber)([]), [])
+
     assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [
       new NonEmptyArray(1, []),
       new NonEmptyArray(2, []),
@@ -110,6 +112,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('groupSort', () => {
+    assert.deepEqual(groupSort(ordNumber)([]), [])
     assert.deepEqual(groupSort(ordNumber)([1, 2, 1, 1]), [new NonEmptyArray(1, [1, 1]), new NonEmptyArray(2, [])])
   })
 

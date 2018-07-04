@@ -291,7 +291,19 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
 }
 
 /**
- *  Group equal, consecutive elements of an array into arrays.
+ * Group equal, consecutive elements of an array into non empty arrays.
+ *
+ * @example
+ * import { ordNumber } from 'fp-ts/lib/Ord'
+ *
+ * assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [
+ *   new NonEmptyArray(1, []),
+ *   new NonEmptyArray(2, []),
+ *   new NonEmptyArray(1, [1])
+ * ])
+ *
+ * @function
+ * @since 1.7.0
  */
 export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
   const r: Array<NonEmptyArray<A>> = []
@@ -316,13 +328,22 @@ export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>
 }
 
 /**
- *  Sort and then group the elements of an array into arrays.
+ * Sort and then group the elements of an array into non empty arrays.
+ *
+ * @example
+ * import { ordNumber } from 'fp-ts/lib/Ord'
+ *
+ * assert.deepEqual(groupSort(ordNumber)([1, 2, 1, 1]), [new NonEmptyArray(1, [1, 1]), new NonEmptyArray(2, [])])
+ *
+ * @function
+ * @since 1.7.0
  */
-export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) =>
-  compose(
+export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) => {
+  return compose(
     group(O),
     sort(O)
   )
+}
 
 const reduce = <A, B>(fa: NonEmptyArray<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
