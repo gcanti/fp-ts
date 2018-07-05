@@ -46,6 +46,7 @@ The stable version is tested against TypeScript 2.9.x, but should run with TypeS
 - [fp-ts-routing](https://github.com/gcanti/fp-ts-routing) - A type-safe bidirectional routing library for TypeScript
 - [parser-ts](https://github.com/gcanti/parser-ts) - String parser combinators for TypeScript
 - [remote-data-ts](https://github.com/devex-web-frontend/remote-data-ts) - RemoteData type (check [this article](https://medium.com/@gcanti/slaying-a-ui-antipattern-with-flow-5eed0cfb627b))
+- [retry-ts](https://github.com/gcanti/retry-ts) - Retry combinators for monadic actions that may fail
 
 ## Bindings
 
