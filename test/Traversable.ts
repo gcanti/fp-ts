@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { Applicative } from '../src/Applicative'
 import { array } from '../src/Array'
 import { none, option, some } from '../src/Option'
-import { getTraversableComposition } from '../src/Traversable'
+import { getTraversableComposition, traverse } from '../src/Traversable'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -20,5 +20,9 @@ describe('Traversable', () => {
       arrayOptionTraversable.traverse(o)([some(1), some(3)], (n: number) => (n <= 2 ? some(n * 2) : none)),
       none
     )
+  })
+
+  it('traverse', () => {
+    assert.deepEqual(traverse(option, array)([1, 2, 3], n => (n > 0 ? some(n) : none)), some([1, 2, 3]))
   })
 })
