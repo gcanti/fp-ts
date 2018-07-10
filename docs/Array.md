@@ -145,12 +145,18 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
+findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
 ```
 
 _Description_
 
-Find the first element which satisfies a predicate function
+Find the first element which satisfies a predicate (or a refinement) function
+
+_Example_
+
+```ts
+assert.deepEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
+```
 
 ### findIndex
 
