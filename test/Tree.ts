@@ -1,6 +1,5 @@
 import * as assert from 'assert'
 import { Tree, tree, drawTree, getSetoid, unfoldTree, unfoldTreeM } from '../src/Tree'
-import { traverse } from '../src/Traversable'
 import { identity, Identity } from '../src/Identity'
 import { setoidNumber } from '../src/Setoid'
 import { tuple } from '../src/function'
@@ -53,7 +52,7 @@ describe('Tree', () => {
 
   it('traverse', () => {
     const fa = new Tree('a', [new Tree('b', []), new Tree('c', [])])
-    assert.deepEqual(traverse(identity, tree)(fa, a => new Identity(a)), new Identity(fa))
+    assert.deepEqual(tree.traverse(identity)(fa, a => new Identity(a)), new Identity(fa))
   })
 
   it('drawTree', () => {

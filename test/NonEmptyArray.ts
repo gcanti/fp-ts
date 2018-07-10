@@ -3,7 +3,6 @@ import { fold, monoidSum } from '../src/Monoid'
 import { NonEmptyArray, nonEmptyArray, fromArray, getSemigroup, group, groupSort } from '../src/NonEmptyArray'
 import { none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { traverse } from '../src/Traversable'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -51,13 +50,10 @@ describe('NonEmptyArray', () => {
 
   it('traverse', () => {
     assert.deepEqual(
-      traverse(option, nonEmptyArray)(new NonEmptyArray(1, [2, 3]), n => (n >= 0 ? some(n) : none)),
+      nonEmptyArray.traverse(option)(new NonEmptyArray(1, [2, 3]), n => (n >= 0 ? some(n) : none)),
       some(new NonEmptyArray(1, [2, 3]))
     )
-    assert.deepEqual(
-      traverse(option, nonEmptyArray)(new NonEmptyArray(1, [2, 3]), n => (n >= 2 ? some(n) : none)),
-      none
-    )
+    assert.deepEqual(nonEmptyArray.traverse(option)(new NonEmptyArray(1, [2, 3]), n => (n >= 2 ? some(n) : none)), none)
   })
 
   it('min', () => {

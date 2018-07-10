@@ -52,7 +52,6 @@ import { fold as foldMonoid, monoidSum } from '../src/Monoid'
 import { option, Option, none, some } from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
-import { traverse } from '../src/Traversable'
 import { identity, tuple } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
 
@@ -112,10 +111,10 @@ describe('Array', () => {
   it('traverse', () => {
     const tfanone = [1, 2]
     const f = (n: number): Option<number> => (n % 2 === 0 ? none : some(n))
-    const fasnone = traverse(option, array)(tfanone, f)
+    const fasnone = array.traverse(option)(tfanone, f)
     assert.ok(fasnone.isNone())
     const tfa = [1, 3]
-    const fas = traverse(option, array)(tfa, f)
+    const fas = array.traverse(option)(tfa, f)
     assert.deepEqual(fas, some([1, 3]))
   })
 

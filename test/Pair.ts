@@ -5,7 +5,6 @@ import { ordNumber } from '../src/Ord'
 import { Pair, getMonoid, getOrd, getSemigroup, getSetoid, pair } from '../src/Pair'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
-import { traverse } from '../src/Traversable'
 
 describe('Pair', () => {
   it('first', () => {
@@ -53,8 +52,8 @@ describe('Pair', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(traverse(option, pair)(new Pair(0, 1), n => (n >= 0 ? some(n) : none)), some(new Pair(0, 1)))
-    assert.deepEqual(traverse(option, pair)(new Pair(0, 1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepEqual(pair.traverse(option)(new Pair(0, 1), n => (n >= 0 ? some(n) : none)), some(new Pair(0, 1)))
+    assert.deepEqual(pair.traverse(option)(new Pair(0, 1), n => (n >= 2 ? some(n) : none)), none)
   })
 
   it('getSetoid', () => {

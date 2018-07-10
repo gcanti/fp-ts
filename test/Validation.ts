@@ -4,7 +4,7 @@ import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { getArraySemigroup, semigroupString } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
-import { sequence, traverse } from '../src/Traversable'
+import { sequence } from '../src/Traversable'
 import {
   failure,
   fromEither,
@@ -167,9 +167,9 @@ describe('Validation', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(traverse(option, validation)(failure('foo'), a => (a >= 2 ? some(a) : none)), some(failure('foo')))
-    assert.deepEqual(traverse(option, validation)(success(1), a => (a >= 2 ? some(a) : none)), none)
-    assert.deepEqual(traverse(option, validation)(success(3), a => (a >= 2 ? some(a) : none)), some(success(3)))
+    assert.deepEqual(validation.traverse(option)(failure('foo'), a => (a >= 2 ? some(a) : none)), some(failure('foo')))
+    assert.deepEqual(validation.traverse(option)(success(1), a => (a >= 2 ? some(a) : none)), none)
+    assert.deepEqual(validation.traverse(option)(success(3), a => (a >= 2 ? some(a) : none)), some(success(3)))
   })
 
   it('getMonoid', () => {
