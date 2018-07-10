@@ -5,7 +5,6 @@ import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { setoidBoolean, setoidNumber } from '../src/Setoid'
-import { traverse } from '../src/Traversable'
 import {
   Tuple,
   getApplicative,
@@ -157,8 +156,8 @@ describe('Tuple', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(traverse(option, tuple)(new Tuple(1, 2), n => (n >= 2 ? some(n) : none)), some(new Tuple(1, 2)))
-    assert.deepEqual(traverse(option, tuple)(new Tuple(1, 1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepEqual(tuple.traverse(option)(new Tuple(1, 2), n => (n >= 2 ? some(n) : none)), some(new Tuple(1, 2)))
+    assert.deepEqual(tuple.traverse(option)(new Tuple(1, 1), n => (n >= 2 ? some(n) : none)), none)
   })
 
   it('toString', () => {

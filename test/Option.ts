@@ -25,7 +25,6 @@ import {
 import { ordString } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
-import { traverse } from '../src/Traversable'
 import { identity } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
 import { monoidSum } from '../src/Monoid'
@@ -193,9 +192,9 @@ describe('Option', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(traverse(array, option)(some('hello'), s => []), [])
-    assert.deepEqual(traverse(array, option)(some('hello'), s => [s.length]), [some(5)])
-    assert.deepEqual(traverse(array, option)(none, s => [s]), [none])
+    assert.deepEqual(option.traverse(array)(some('hello'), s => []), [])
+    assert.deepEqual(option.traverse(array)(some('hello'), s => [s.length]), [some(5)])
+    assert.deepEqual(option.traverse(array)(none, s => [s]), [none])
   })
 
   it('reduce', () => {

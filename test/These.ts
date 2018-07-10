@@ -17,7 +17,6 @@ import {
   isThat,
   isBoth
 } from '../src/These'
-import { traverse } from '../src/Traversable'
 import { semigroupString } from '../src/Semigroup'
 
 describe('These', () => {
@@ -97,12 +96,12 @@ describe('These', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(traverse(option, these)(this_(2), n => (n >= 2 ? some(n) : none)), some(this_(2)))
-    assert.deepEqual(traverse(option, these)(this_(1), n => (n >= 2 ? some(n) : none)), some(this_(1)))
-    assert.deepEqual(traverse(option, these)(that(2), n => (n >= 2 ? some(n) : none)), some(that(2)))
-    assert.deepEqual(traverse(option, these)(that(1), n => (n >= 2 ? some(n) : none)), none)
-    assert.deepEqual(traverse(option, these)(both('a', 2), n => (n >= 2 ? some(n) : none)), some(both('a', 2)))
-    assert.deepEqual(traverse(option, these)(both('a', 1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepEqual(these.traverse(option)(this_(2), n => (n >= 2 ? some(n) : none)), some(this_(2)))
+    assert.deepEqual(these.traverse(option)(this_(1), n => (n >= 2 ? some(n) : none)), some(this_(1)))
+    assert.deepEqual(these.traverse(option)(that(2), n => (n >= 2 ? some(n) : none)), some(that(2)))
+    assert.deepEqual(these.traverse(option)(that(1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepEqual(these.traverse(option)(both('a', 2), n => (n >= 2 ? some(n) : none)), some(both('a', 2)))
+    assert.deepEqual(these.traverse(option)(both('a', 1), n => (n >= 2 ? some(n) : none)), none)
   })
 
   it('chain', () => {

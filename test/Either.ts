@@ -23,7 +23,6 @@ import {
 } from '../src/Either'
 import { none, option, some } from '../src/Option'
 import { setoidNumber, setoidString } from '../src/Setoid'
-import { traverse } from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { Identity, identity as I } from '../src/Identity'
@@ -157,9 +156,9 @@ describe('Either', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(traverse(option, either)(left('foo'), a => (a >= 2 ? some(a) : none)), some(left('foo')))
-    assert.deepEqual(traverse(option, either)(right(1), a => (a >= 2 ? some(a) : none)), none)
-    assert.deepEqual(traverse(option, either)(right(3), a => (a >= 2 ? some(a) : none)), some(right(3)))
+    assert.deepEqual(either.traverse(option)(left('foo'), a => (a >= 2 ? some(a) : none)), some(left('foo')))
+    assert.deepEqual(either.traverse(option)(right(1), a => (a >= 2 ? some(a) : none)), none)
+    assert.deepEqual(either.traverse(option)(right(3), a => (a >= 2 ? some(a) : none)), some(right(3)))
   })
 
   it('chainRec', () => {

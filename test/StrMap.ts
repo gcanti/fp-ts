@@ -18,7 +18,6 @@ import {
   toUnfoldable,
   traverseWithKey
 } from '../src/StrMap'
-import { traverse } from '../src/Traversable'
 import { semigroupSum } from '../src/Semigroup'
 import { left, right } from '../src/Either'
 import { identity as I, Identity } from '../src/Identity'
@@ -53,11 +52,11 @@ describe('StrMap', () => {
 
   it('traverse', () => {
     assert.deepEqual(
-      traverse(option, strmap)(new StrMap<number>({ k1: 1, k2: 2 }), n => (n <= 2 ? some(n) : none)),
+      strmap.traverse(option)(new StrMap<number>({ k1: 1, k2: 2 }), n => (n <= 2 ? some(n) : none)),
       some(new StrMap<number>({ k1: 1, k2: 2 }))
     )
     assert.deepEqual(
-      traverse(option, strmap)(new StrMap<number>({ k1: 1, k2: 2 }), n => (n >= 2 ? some(n) : none)),
+      strmap.traverse(option)(new StrMap<number>({ k1: 1, k2: 2 }), n => (n >= 2 ? some(n) : none)),
       none
     )
   })
