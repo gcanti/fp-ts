@@ -479,11 +479,20 @@ export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<numb
 }
 
 /**
- * Find the first element which satisfies a predicate function
+ * Find the first element which satisfies a predicate (or a refinement) function
+ */
+export function findFirst<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
+export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
+/**
+ * Find the first element which satisfies a predicate (or a refinement) function
+ *
+ * @example
+ * assert.deepEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
+ *
  * @function
  * @since 1.0.0
  */
-export const findFirst = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> => {
+export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
   return fromNullable(as.find(predicate))
 }
 

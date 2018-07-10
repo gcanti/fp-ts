@@ -198,6 +198,21 @@ describe('Array', () => {
   it('findFirst', () => {
     assert.deepEqual(findFirst([], x => x === 2), none)
     assert.deepEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
+    interface A {
+      type: 'A'
+      a: number
+    }
+
+    interface B {
+      type: 'B'
+    }
+
+    type AOrB = A | B
+    const isA = (x: AOrB): x is A => x.type === 'A'
+    const xs1: Array<AOrB> = [{ type: 'B' }, { type: 'A', a: 1 }, { type: 'A', a: 2 }]
+    assert.deepEqual(findFirst(xs1, isA), some({ type: 'A', a: 1 }))
+    const xs2: Array<AOrB> = [{ type: 'B' }]
+    assert.deepEqual(findFirst(xs2, isA), none)
   })
 
   it('findLast', () => {
