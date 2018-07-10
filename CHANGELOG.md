@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.7.1
+
+- **Internal**
+  - add refinement overloading to `Array.findFirst`, closes #522 (@gcanti)
+
 # 1.7.0
 
 - **New Feature**
