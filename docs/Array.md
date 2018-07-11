@@ -658,7 +658,7 @@ _Signature_
 
 _Description_
 
-Non failing version of `sortBy`
+Non failing version of [sortBy](#sortby)
 
 ### span
 

@@ -743,7 +743,7 @@ export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> =
 }
 
 /**
- * Non failing version of `sortBy`
+ * Non failing version of {@link sortBy}
  * @function
  * @since 1.3.0
  */

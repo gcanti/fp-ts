@@ -442,7 +442,7 @@ _Signature_
 
 _Description_
 
-Lazy version of `fromOption`
+Lazy version of [fromOption](#fromoption)
 
 ### fromPredicate
 

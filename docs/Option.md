@@ -219,7 +219,7 @@ _Signature_
 
 _Description_
 
-Lazy version of `fold`
+Lazy version of [fold](#fold)
 
 ### getOrElse
 
@@ -260,7 +260,7 @@ _Signature_
 
 _Description_
 
-Lazy version of `getOrElse`
+Lazy version of [getOrElse](#getorelse)
 
 ### inspect
 
@@ -600,7 +600,7 @@ _Signature_
 
 _Description_
 
-Refinement version of `fromPredicate`
+Refinement version of [fromPredicate](#frompredicate)
 
 ### getApplyMonoid
 

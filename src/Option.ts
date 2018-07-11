@@ -163,7 +163,7 @@ export class None<A> {
   fold<B>(b: B, whenSome: (a: A) => B): B {
     return b
   }
-  /** Lazy version of `fold` */
+  /** Lazy version of {@link fold} */
   foldL<B>(whenNone: () => B, whenSome: (a: A) => B): B {
     return whenNone()
   }
@@ -179,7 +179,7 @@ export class None<A> {
   getOrElse(a: A): A {
     return a
   }
-  /** Lazy version of `getOrElse` */
+  /** Lazy version of {@link getOrElse} */
   getOrElseL(f: () => A): A {
     return f()
   }
@@ -597,7 +597,7 @@ export const isNone = <A>(fa: Option<A>): fa is None<A> => {
 }
 
 /**
- * Refinement version of `fromPredicate`
+ * Refinement version of {@link fromPredicate}
  * @function
  * @since 1.3.0
  */

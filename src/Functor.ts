@@ -130,7 +130,7 @@ export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<
   return (a, fb) => F.map(fb, constant(a))
 }
 
-/** A version of `voidRight` with its arguments flipped (`$>`) */
+/** A version of {@link voidRight} with its arguments flipped (`$>`) */
 export function voidLeft<F extends URIS3>(
   F: Functor3<F>
 ): <U, L, A, B>(fa: Type3<F, U, L, A>, b: B) => Type3<F, U, L, B>
@@ -142,7 +142,7 @@ export function voidLeft<F extends URIS2, L>(F: Functor2C<F, L>): <A, B>(fa: Typ
 export function voidLeft<F extends URIS>(F: Functor1<F>): <A, B>(fa: Type<F, A>, b: B) => Type<F, B>
 export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F, B>
 /**
- * A version of `voidRight` with its arguments flipped (`$>`)
+ * A version of {@link voidRight} with its arguments flipped (`$>`)
  * @function
  * @since 1.0.0
  */

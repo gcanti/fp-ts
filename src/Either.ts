@@ -418,7 +418,7 @@ export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, 
 }
 
 /**
- * Lazy version of `fromOption`
+ * Lazy version of {@link fromOption}
  * @function
  * @since 1.3.0
  */

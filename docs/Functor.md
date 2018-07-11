@@ -94,7 +94,7 @@ voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F, B>
 
 _Description_
 
-A version of `voidRight` with its arguments flipped (`$>`)
+A version of [voidRight](#voidright) with its arguments flipped (`$>`)
 
 ### voidRight
 
