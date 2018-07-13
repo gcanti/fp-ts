@@ -34,7 +34,7 @@ npm install --save fp-ts
 
 # TypeScript compatibility
 
-The stable version is tested against TypeScript 2.9.x, but should run with TypeScript 2.3.0+ too
+The stable version is tested against TypeScript 3.0.1, but should run with TypeScript 2.3.0+ too
 
 # Ecosystem
 
