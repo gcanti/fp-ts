@@ -25,9 +25,9 @@ export type URIS3 = (URI2HKT3<any, any, any> & { never: HKT<never, never> })[
   | keyof URI2HKT3<any, any, any>
   | 'never']['_URI']
 
-export type Type<URI extends URIS, A> = URI2HKT<A>[URI]
-export type Type2<URI extends URIS2, L, A> = URI2HKT2<L, A>[URI]
-export type Type3<URI extends URIS3, U, L, A> = URI2HKT3<U, L, A>[URI]
+export type Type<URI extends URIS, A> = {} & URI2HKT<A>[URI]
+export type Type2<URI extends URIS2, L, A> = {} & URI2HKT2<L, A>[URI]
+export type Type3<URI extends URIS3, U, L, A> = {} & URI2HKT3<U, L, A>[URI]
 
 // Type-level integrity check
 
