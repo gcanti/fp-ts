@@ -16,6 +16,7 @@ import { sequence } from '../src/Traversable'
 import { replicateA } from '../src/Unfoldable'
 import { Validation, getApplicative, validation } from '../src/Validation'
 import { taskify, TaskEither } from '../src/TaskEither'
+import { Type } from '../src/HKT'
 
 type Equals<A, B> = [A] extends [B] ? ([B] extends [A] ? 'T' : 'F') : 'F'
 
@@ -107,3 +108,8 @@ type B = { type: 'B' }
 type C = A | B
 // $ExpectError Type '"B"' is not assignable to type '"A"'
 const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none))
+
+// HKT
+
+// $ExpectError Type '"a"' does not satisfy the constraint
+type HKT1 = Type<'a', string>
