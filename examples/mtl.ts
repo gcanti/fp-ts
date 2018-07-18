@@ -1,26 +1,9 @@
 import { liftA2 } from '../src/Apply'
 import { flatten } from '../src/Chain'
 import { HKT, Type, Type3, URIS, URIS3 } from '../src/HKT'
-//
-// IO
-//
 import { IO, URI as IOURI, io } from '../src/IO'
 import { Monad, Monad1, Monad3 } from '../src/Monad'
-// => sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
-// => true
-//
-// Task
-//
 import { Task, URI as TaskURI, task } from '../src/Task'
-// => string(session123) after 1.002
-// => FBToken(string(session123)) after 1.503
-// => FBPost(https://me.com/1) after 2.002
-// => sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
-// => true after 3.004
-// => true
-//
-// ReaderTaskEither
-//
 import { URI as ReaderTaskEitherURI, right, readerTaskEither } from '../src/ReaderTaskEither'
 
 // Adapted from https://tech.iheart.com/why-fp-its-the-composition-f585d17b01d3
@@ -73,13 +56,20 @@ const monadFBIO: MonadFB1<IOURI> = {
   findPost: url => io.of(`FBPost(${url})`),
   sendLike: token => (post: string) => {
     return new IO(() => {
+      // tslint:disable-next-line:no-console
       console.log(`sending like with fbToken "${token}" and post "${post}"`)
       return true
     })
   }
 }
 
-console.log(likePost(io, monadUserIO, monadFBIO)('session123')('https://me.com/1').run())
+// tslint:disable-next-line:no-console
+console.log(likePost(io, monadUserIO, monadFBIO)('session123')('https://me.com/1'))
+/*
+Output:
+sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
+true
+*/
 
 const now = Date.now()
 const delay = <A>(a: A) => (n: number): Task<A> =>
@@ -87,6 +77,7 @@ const delay = <A>(a: A) => (n: number): Task<A> =>
     () =>
       new Promise(resolve => {
         setTimeout(() => {
+          // tslint:disable-next-line:no-console
           console.log(`${a} after ${(Date.now() - now) / 1000}`)
           resolve(a)
         }, n)
@@ -101,6 +92,7 @@ const monadUserTask: MonadUser1<TaskURI> = {
 const monadFBTask: MonadFB1<TaskURI> = {
   findPost: url => delay(`FBPost(${url})`)(2000),
   sendLike: token => (post: string) => {
+    // tslint:disable-next-line:no-console
     console.log(`sending like with fbToken "${token}" and post "${post}"`)
     return delay(true)(1000)
   }
@@ -108,7 +100,17 @@ const monadFBTask: MonadFB1<TaskURI> = {
 
 likePost(task, monadUserTask, monadFBTask)('session123')('https://me.com/1')
   .run()
+  // tslint:disable-next-line:no-console
   .then(result => console.log(result))
+/*
+Output:
+string(session123) after 1.002
+FBToken(string(session123)) after 1.504
+FBPost(https://me.com/1) after 2.001
+sending like with fbToken "FBToken(string(session123))" and post "FBPost(https://me.com/1)"
+true after 3.002
+true
+*/
 
 const monadUserReaderTaskEither: MonadUser<ReaderTaskEitherURI> = {
   validateUser: token => right(monadUserTask.validateUser(token)),
@@ -126,8 +128,10 @@ likePost(readerTaskEither, monadUserReaderTaskEither, monadFBReaderTaskEither)<E
   'https://me.com/1'
 )
   .run(undefined)
+  // tslint:disable-next-line:no-console
   .then(result => console.log(result))
 /*
+Output:
 string(session123) after 1.238
 FBToken(string(session123)) after 1.742
 FBPost(https://me.com/1) after 2.236
