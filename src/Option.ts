@@ -230,6 +230,17 @@ export class None<A> {
   refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
     return none
   }
+
+  /**
+   * Apply the given procedure f to the option's value, if it is nonempty.
+   * @example
+   * some('foo').forEach(console.log) // logs 'foo'
+   * none.forEach(console.log) // does nothing
+   * @since 1.8.0
+   */
+  forEach(f: (a: A) => void): void {
+    return
+  }
 }
 
 /**
@@ -311,6 +322,9 @@ export class Some<A> {
   }
   refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
     return this.filter(refinement) as Option<B>
+  }
+  forEach(f: (a: A) => void): void {
+    f(this.value)
   }
 }
 
@@ -679,6 +693,17 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
       right: some(e.value)
     }
   })
+}
+
+/**
+ * Apply the given procedure f to the option's value, if it is nonempty.
+ * @example
+ * forEach(console.log, some('foo')) // logs 'foo'
+ * forEach(console.log, none) // does nothing
+ * @since 1.8.0
+ */
+export const forEach = <A>(f: (a: A) => void, fa: Option<A>): void => {
+  return fa.forEach(f)
 }
 
 /**

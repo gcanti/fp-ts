@@ -3,6 +3,7 @@ import { array } from '../src/Array'
 import { left, right } from '../src/Either'
 import {
   Option,
+  forEach,
   fromEither,
   fromNullable,
   fromPredicate,
@@ -370,5 +371,32 @@ describe('Option', () => {
     const isA = getRefinement<C, A>(c => (c.type === 'A' ? some(c) : none))
     assert.strictEqual(isA({ type: 'A' }), true)
     assert.strictEqual(isA({ type: 'B' }), false)
+  })
+
+  describe('forEach', () => {
+    const value: string = 'foo'
+    const noOp = jest.fn()
+    describe('method', () => {
+      afterEach(() => noOp.mockClear())
+      it('applies the procedure to a some’s value', () => {
+        some(value).forEach(noOp)
+        expect(noOp).toHaveBeenCalledWith(value)
+      })
+      it('does nothing to a none', () => {
+        none.forEach(noOp)
+        expect(noOp).not.toHaveBeenCalled()
+      })
+    })
+    describe('utility function', () => {
+      afterEach(() => noOp.mockClear())
+      it('applies the procedure to a some’s value', () => {
+        forEach(noOp, some(value))
+        expect(noOp).toHaveBeenCalledWith(value)
+      })
+      it('does nothing with a none', () => {
+        forEach(noOp, none)
+        expect(noOp).not.toHaveBeenCalled()
+      })
+    })
   })
 })
