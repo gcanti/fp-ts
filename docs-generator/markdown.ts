@@ -120,6 +120,7 @@ const printData = (d: Data): string => {
   s += CRLF + CRLF + italic(`since ${d.since}`)
   s += CRLF + printSignature(d.signature)
   s += printDescription(d.description)
+  s += printExample(d.example)
   if (d.constructors.length > 0 && d.constructors[0].methods.length) {
     s += CRLF + h2('Methods')
     s +=
@@ -128,7 +129,6 @@ const printData = (d: Data): string => {
         .map(m => printMethod(m))
         .join('')
   }
-  s += printExample(d.example)
   return s
 }
 
