@@ -74,8 +74,6 @@ import * as ixMonad from './IxMonad'
 export { ixMonad }
 import * as joinSemilattice from './JoinSemilattice'
 export { joinSemilattice }
-import * as localStorage from './LocalStorage'
-export { localStorage }
 import * as lattice from './Lattice'
 export { lattice }
 import * as meetSemilattice from './MeetSemilattice'
