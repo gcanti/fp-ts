@@ -68,6 +68,8 @@ import * as io from './IO'
 export { io }
 import * as ioEither from './IOEither'
 export { ioEither }
+import * as ioRef from './IORef'
+export { ioRef }
 import * as ixIO from './IxIO'
 export { ixIO }
 import * as ixMonad from './IxMonad'
