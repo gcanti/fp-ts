@@ -47,6 +47,7 @@ The stable version is tested against TypeScript 2.9.x, but should run with TypeS
 - [parser-ts](https://github.com/gcanti/parser-ts) - String parser combinators for TypeScript
 - [remote-data-ts](https://github.com/devex-web-frontend/remote-data-ts) - RemoteData type (check [this article](https://medium.com/@gcanti/slaying-a-ui-antipattern-with-flow-5eed0cfb627b))
 - [retry-ts](https://github.com/gcanti/retry-ts) - Retry combinators for monadic actions that may fail
+- [fp-ts-local-storage](https://github.com/gcanti/fp-ts-local-storage) - fp-ts bindings for LocalStorage
 
 ## Bindings
 
