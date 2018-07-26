@@ -33,13 +33,13 @@ export class Identity<A> {
     return new Identity(f(this.value))
   }
   ap<B>(fab: Identity<(a: A) => B>): Identity<B> {
-    return this.map(fab.extract())
+    return this.map(fab.value)
   }
   ap_<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => Identity<B>): Identity<B> {
-    return f(this.extract())
+    return f(this.value)
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
@@ -116,11 +116,11 @@ const extend = <A, B>(ea: Identity<A>, f: (ea: Identity<A>) => B): Identity<B> =
 }
 
 const extract = <A>(fa: Identity<A>): A => {
-  return fa.extract()
+  return fa.value
 }
 
 const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> => {
-  return new Identity(tailRec(a => f(a).extract(), a))
+  return new Identity(tailRec(a => f(a).value, a))
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
