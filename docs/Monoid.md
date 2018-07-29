@@ -23,22 +23,6 @@ interface Monoid<A> extends Semigroup<A> {
 
 ## Instances
 
-### getArrayMonoid
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
-
-```ts
-getArrayMonoid = <A = never>():
-```
-
-_Description_
-
-Monoid under array concatenation (`Array<any>`)
-
 ### monoidAll
 
 _instance_
@@ -152,6 +136,22 @@ _Signature_
 ```ts
 <A>(M: Monoid<A>): ((as: Array<A>) => A)
 ```
+
+### getArrayMonoid
+
+_function_
+
+_since 1.0.0_
+
+_Signature_
+
+```ts
+<A = never>(): Monoid<Array<A>>
+```
+
+_Description_
+
+Monoid under array concatenation (`Array<any>`)
 
 ### getDictionaryMonoid
 

@@ -42,7 +42,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-setoidBoolean:
+Setoid<boolean>
 ```
 
 ### setoidDate
@@ -54,7 +54,7 @@ _since 1.4.0_
 _Signature_
 
 ```ts
-setoidDate:
+Setoid<Date>
 ```
 
 ### setoidNumber
@@ -66,7 +66,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-setoidNumber:
+Setoid<number>
 ```
 
 ### setoidString
@@ -78,7 +78,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-setoidString:
+Setoid<string>
 ```
 
 ## Functions

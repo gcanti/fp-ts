@@ -54,7 +54,7 @@ _since 1.4.0_
 _Signature_
 
 ```ts
-ordDate:
+Ord<Date>
 ```
 
 ### ordNumber

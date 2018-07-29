@@ -87,7 +87,7 @@ export const unsafeMonoidArray: Monoid<Array<any>> = {
 
 /**
  * Monoid under array concatenation (`Array<any>`)
- * @instance
+ * @function
  * @since 1.0.0
  */
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {

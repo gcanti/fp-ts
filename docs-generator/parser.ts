@@ -231,7 +231,7 @@ const parseInstanceVariableDeclaration = (vd: VariableDeclaration): ParseResult<
           const description = fromJSDocDescription(annotation.description)
           const text = vd.getText()
           const start = text.indexOf(': ') + ': '.length
-          const end = text.indexOf(' = {')
+          const end = text.indexOf(' = ')
           const signature = text.substring(start, end)
           const since = getSince(annotation)
           if (since.isNone()) {
