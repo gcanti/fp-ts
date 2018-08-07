@@ -74,6 +74,7 @@ The stable version is tested against TypeScript 3.0.1, but should run with TypeS
 - StateT monad transformer
   - [StateIO](examples/StateIO.ts)
   - [StateTaskEither](examples/StateTaskEither.ts)
+- [Reader monad](examples/Reader.ts)
 - ReaderT monad transformer
   - [ReaderIO](examples/ReaderIO.ts)
 - Applicative composition
