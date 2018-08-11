@@ -361,7 +361,7 @@ export const head = <A>(as: Array<A>): Option<A> => {
  * @function
  * @since 1.0.0
  */
-export const last = <A>(as: Array<A>): Option<A> => {
+export const last = <A>(as: Array<A> | ReadonlyArray<A>): Option<A> => {
   return index(as.length - 1, as)
 }
 
