@@ -705,3 +705,13 @@ _Signature_
 ```ts
 <A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Either<Error, A>
 ```
+
+_Description_
+
+Note: `onerror` is typed with `{}` for backward compatibility, however if you are
+running typescript@3.0.0+ it is recommended to add an explicit type annotation
+leveraging the `unknown` type
+
+```ts
+tryCatch(() => ..., (e: unknown) => ...)
+```

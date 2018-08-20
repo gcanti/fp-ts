@@ -34,6 +34,7 @@
 - [HeytingAlgebra](./HeytingAlgebra.md)
 - [IO](./IO.md)
 - [IOEither](./IOEither.md)
+- [IORef](./IORef.md)
 - [Identity](./Identity.md)
 - [Invariant](./Invariant.md)
 - [IxIO](./IxIO.md)
