@@ -11,9 +11,12 @@ import {
   monoidAny,
   monoidString,
   monoidSum,
-  getProductMonoid
+  getProductMonoid,
+  getMeetMonoid,
+  getJoinMonoid
 } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
+import { boundedNumber } from '../src/Bounded'
 
 describe('Monoid', () => {
   it('fold', () => {
@@ -83,5 +86,19 @@ describe('Monoid', () => {
   it('getArrayMonoid', () => {
     const M = getProductMonoid(monoidString, monoidSum)
     assert.deepEqual(M.empty, ['', 0])
+  })
+
+  it('getMeetMonoid', () => {
+    const M = getMeetMonoid(boundedNumber)
+    assert.deepEqual(fold(M)([]), +Infinity)
+    assert.deepEqual(fold(M)([1]), 1)
+    assert.deepEqual(fold(M)([1, -1]), -1)
+  })
+
+  it('getMeetMonoid', () => {
+    const M = getJoinMonoid(boundedNumber)
+    assert.deepEqual(fold(M)([]), -Infinity)
+    assert.deepEqual(fold(M)([1]), 1)
+    assert.deepEqual(fold(M)([1, -1]), 1)
   })
 })

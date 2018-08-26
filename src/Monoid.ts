@@ -1,12 +1,16 @@
+import { Bounded } from './Bounded'
+import { compose, Endomorphism, identity } from './function'
 import {
-  Semigroup,
   fold as foldSemigroup,
   getArraySemigroup,
   getDictionarySemigroup,
   getDualSemigroup,
   getFunctionSemigroup,
+  getJoinSemigroup,
+  getMeetSemigroup,
   getProductSemigroup,
   getRecordSemigroup,
+  Semigroup,
   semigroupAll,
   semigroupAny,
   semigroupProduct,
@@ -14,7 +18,6 @@ import {
   semigroupSum,
   semigroupVoid
 } from './Semigroup'
-import { Endomorphism, compose, identity } from './function'
 
 /**
  * @typeclass
@@ -185,5 +188,27 @@ export const getRecordMonoid = <O extends { [key: string]: any }>(
   return {
     ...getRecordSemigroup<O>(monoids),
     empty
+  }
+}
+
+/**
+ * @function
+ * @since 1.9.0
+ */
+export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => {
+  return {
+    ...getMeetSemigroup(B),
+    empty: B.top
+  }
+}
+
+/**
+ * @function
+ * @since 1.9.0
+ */
+export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => {
+  return {
+    ...getJoinSemigroup(B),
+    empty: B.bottom
   }
 }
