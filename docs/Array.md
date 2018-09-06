@@ -7,6 +7,22 @@ title: Module Array
 
 ## Constants
 
+### empty
+
+_constant_
+
+_since 1.9.0_
+
+_Signature_
+
+```ts
+empty: Array<never>
+```
+
+_Description_
+
+An empty array
+
 ### getSetoid
 
 _constant_
