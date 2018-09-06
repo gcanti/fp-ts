@@ -44,5 +44,5 @@ export type Type4<URI extends URIS4, V, U, L, A> = {} & URI2HKT4<V, U, L, A>[URI
 (null! as URI2HKT<any>) as { [k in keyof URI2HKT<any>]: HKT<k, any> }
 (null! as URI2HKT2<any, any>) as { [k in keyof URI2HKT2<any, any>]: HKT2<k, any, any> }
 (null! as URI2HKT3<any, any, any>) as { [k in keyof URI2HKT3<any, any, any>]: HKT3<k, any, any, any> }
-(null! as URI2HKT4<any, any, any>) as { [k in keyof URI2HKT4<any, any, any, any>]: HKT4<k, any, any, any, any> }
+(null! as URI2HKT4<any, any, any, any>) as { [k in keyof URI2HKT4<any, any, any, any>]: HKT4<k, any, any, any, any> }
 /* tslint:enable */
