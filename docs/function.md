@@ -105,6 +105,23 @@ _Description_
 
 A thunk that returns always `false`
 
+### constIdentity
+
+_function_
+
+_since 1.5.0_
+
+_Signature_
+
+```ts
+(): (<A>(a: A) => A)
+```
+
+_Description_
+
+A thunk that returns always the `identity` function.
+For use with `applySecond` methods.
+
 ### constNull
 
 _function_
@@ -177,6 +194,18 @@ _Signature_
 curry(f: Function)
 ```
 
+### decrement
+
+_function_
+
+_since 1.9.0_
+
+_Signature_
+
+```ts
+(n: number): number
+```
+
 ### flip
 
 _function_
@@ -203,6 +232,18 @@ _Signature_
 
 ```ts
 <A>(a: A): A
+```
+
+### increment
+
+_function_
+
+_since 1.9.0_
+
+_Signature_
+
+```ts
+(n: number): number
 ```
 
 ### not
