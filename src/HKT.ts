@@ -11,6 +11,10 @@ export interface HKT3<URI, U, L, A> extends HKT2<URI, L, A> {
   readonly _U: U
 }
 
+export interface HKT3<URI, V, U, L, A> extends HKT2<URI, L, A> {
+  readonly _U: U
+}
+
 // type-level dictionaries for HKTs
 
 export interface URI2HKT<A> {}
