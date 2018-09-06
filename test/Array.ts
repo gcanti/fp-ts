@@ -313,7 +313,7 @@ describe('Array', () => {
   })
 
   it('reduce', () => {
-    assert.deepEqual(array.reduce([1, 2, 3], 0, (acc, a) => acc + a), 6)
+    assert.deepEqual(array.reduce(['a', 'b', 'c'], '', (acc, a) => acc + a), 'abc')
   })
 
   it('fold', () => {
