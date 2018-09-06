@@ -47,7 +47,7 @@ export type URI = typeof URI
 export const getMonoid = <A = never>(): Monoid<Array<A>> => {
   return {
     concat,
-    empty: []
+    empty
   }
 }
 
@@ -160,7 +160,15 @@ export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) =
   return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
 }
 
-const zero = <A>(): Array<A> => []
+/**
+ * An empty array
+ *
+ * @constant
+ * @since 1.9.0
+ */
+export const empty: Array<never> = []
+
+const zero = <A>(): Array<A> => empty
 
 const alt = concat
 
