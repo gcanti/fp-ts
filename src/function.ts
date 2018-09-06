@@ -384,6 +384,25 @@ export const phantom: any = undefined
 /**
  * A thunk that returns always the `identity` function.
  * For use with `applySecond` methods.
+ * @function
  * @since 1.5.0
  */
-export const constIdentity = () => identity
+export const constIdentity = (): (<A>(a: A) => A) => {
+  return identity
+}
+
+/**
+ * @function
+ * @since 1.9.0
+ */
+export const increment = (n: number): number => {
+  return n + 1
+}
+
+/**
+ * @function
+ * @since 1.9.0
+ */
+export const decrement = (n: number): number => {
+  return n - 1
+}
