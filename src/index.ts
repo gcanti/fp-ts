@@ -156,3 +156,5 @@ import * as filterable from './Filterable'
 export { filterable }
 import * as witherable from './Witherable'
 export { witherable }
+import * as zipper from './Zipper'
+export { zipper }
