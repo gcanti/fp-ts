@@ -9,6 +9,12 @@ export const URI = 'Free'
 
 export type URI = typeof URI
 
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    Free: Free<L, A>
+  }
+}
+
 /**
  * @data
  * @constructor Pure
