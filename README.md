@@ -57,6 +57,7 @@ The stable version is tested against TypeScript 3.0.1, but should run with TypeS
 # Documentation
 
 - [API Reference](docs/index.md)
+- [`fp-ts` for `PureScript`ers / `Haskell`ers](fp-ts-for-purescripters.md)
 
 ## Internals
 
