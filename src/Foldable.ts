@@ -489,7 +489,8 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
  * @since 1.0.0
  */
 export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
-  return fa => foldMap(F, unsafeMonoidArray)(fa, a => [a])
+  const foldMapF = foldMap(F, unsafeMonoidArray)
+  return fa => foldMapF(fa, a => [a])
 }
 
 /**

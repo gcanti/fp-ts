@@ -25,6 +25,7 @@ import { monoidString } from '../src/Monoid'
 import * as option from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import { setoidNumber } from '../src/Setoid'
+import { StrMap, strmap } from '../src/StrMap'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -33,6 +34,9 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 describe('Foldable', () => {
   it('toArray', () => {
     assert.deepEqual(toArray(array)([1, 2, 3]), [1, 2, 3])
+    assert.deepEqual(toArray(option.option)(option.some(1)), [1])
+    assert.deepEqual(toArray(option.option)(option.none), [])
+    assert.deepEqual(toArray(strmap)(new StrMap({ a: 1, b: 2 })), [1, 2])
   })
 
   it('foldMap', () => {
