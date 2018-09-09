@@ -52,6 +52,8 @@ import * as field from './Field'
 export { field }
 import * as foldable from './Foldable'
 export { foldable }
+import * as foldable2v from './Foldable2v'
+export { foldable2v }
 import * as free from './Free'
 export { free }
 import * as function_ from './function'
