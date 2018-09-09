@@ -211,3 +211,11 @@ const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
   }
 }
 ```
+
+# Newtypes
+
+See [newtype-ts](https://github.com/gcanti/newtype-ts)
+
+# Functional optics
+
+See [monocle-ts](https://github.com/gcanti/monocle-ts)
