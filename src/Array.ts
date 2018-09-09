@@ -3,7 +3,7 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { liftA2 } from './Apply'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
-import { Foldable1 } from './Foldable'
+import { Foldable2v1 } from './Foldable2v'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -133,6 +133,14 @@ const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
     r = f(r, fa[i])
   }
   return r
+}
+
+const foldMap = <M>(M: Monoid<M>) => <A>(fa: Array<A>, f: (a: A) => M): M => {
+  return fa.reduce((b, a) => M.concat(b, f(a)), M.empty)
+}
+
+const reduceRight = <A, B>(fa: Array<A>, b: B, f: (a: A, b: B) => B): B => {
+  return fa.reduceRight((b, a) => f(a, b), b)
 }
 
 export function traverse<F extends URIS3>(
@@ -936,7 +944,7 @@ export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => {
 }
 
 export const array: Monad1<URI> &
-  Foldable1<URI> &
+  Foldable2v1<URI> &
   Unfoldable1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
@@ -957,6 +965,8 @@ export const array: Monad1<URI> &
   ap,
   chain,
   reduce,
+  foldMap,
+  foldr: reduceRight,
   unfoldr,
   traverse,
   zero,

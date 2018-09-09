@@ -27,7 +27,8 @@ import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { identity } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
-import { monoidSum } from '../src/Monoid'
+import { monoidSum, monoidString } from '../src/Monoid'
+import * as F from '../src/Foldable'
 
 const p = (n: number): boolean => n > 2
 
@@ -200,6 +201,31 @@ describe('Option', () => {
   it('reduce', () => {
     assert.strictEqual(none.reduce(2, (b, a) => b + a), 2)
     assert.strictEqual(some(3).reduce(2, (b, a) => b + a), 5)
+  })
+
+  it('foldMap', () => {
+    const old = F.foldMap(option, monoidString)
+    const foldMap = option.foldMap(monoidString)
+    const x1 = some('a')
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'a')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+    const x2: Option<string> = none
+    assert.strictEqual(foldMap(x2, f1), '')
+    assert.strictEqual(foldMap(x2, f1), old(x2, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(option)
+    const foldr = option.foldr
+    const x1 = some('a')
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'a')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
+    const x2: Option<string> = none
+    assert.strictEqual(foldr(x2, init1, f1), '')
+    assert.strictEqual(foldr(x2, init1, f1), old(x2, init1, f1))
   })
 
   it('getApplySemigroup', () => {

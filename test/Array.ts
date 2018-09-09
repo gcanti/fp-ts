@@ -51,12 +51,13 @@ import {
   split
 } from '../src/Array'
 import { left, right } from '../src/Either'
-import { fold as foldMonoid, monoidSum } from '../src/Monoid'
+import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
 import { option, Option, none, some } from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString, Setoid } from '../src/Setoid'
 import { identity, tuple } from '../src/function'
-import { Identity, identity as I } from '../src/Identity'
+import * as I from '../src/Identity'
+import * as F from '../src/Foldable'
 
 const p = (n: number) => n > 2
 
@@ -319,6 +320,31 @@ describe('Array', () => {
     assert.deepEqual(array.reduce(['a', 'b', 'c'], '', (acc, a) => acc + a), 'abc')
   })
 
+  it('foldMap', () => {
+    const old = F.foldMap(array, monoidString)
+    const foldMap = array.foldMap(monoidString)
+    const x1 = ['a', 'b', 'c']
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'abc')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+    const x2: Array<string> = []
+    assert.strictEqual(foldMap(x2, f1), '')
+    assert.strictEqual(foldMap(x2, f1), old(x2, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(array)
+    const foldr = array.foldr
+    const x1 = ['a', 'b', 'c']
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'cba')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
+    const x2: Array<string> = []
+    assert.strictEqual(foldr(x2, init1, f1), '')
+    assert.strictEqual(foldr(x2, init1, f1), old(x2, init1, f1))
+  })
+
   it('fold', () => {
     const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
     assert.strictEqual(len([1, 2, 3]), 3)
@@ -475,17 +501,17 @@ describe('Array', () => {
   })
 
   it('wither', () => {
-    const witherIdentity = array.wither(I)
-    const f = (n: number) => new Identity(p(n) ? some(n + 1) : none)
-    assert.deepEqual(witherIdentity([], f), new Identity([]))
-    assert.deepEqual(witherIdentity([1, 3], f), new Identity([4]))
+    const witherIdentity = array.wither(I.identity)
+    const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
+    assert.deepEqual(witherIdentity([], f), new I.Identity([]))
+    assert.deepEqual(witherIdentity([1, 3], f), new I.Identity([4]))
   })
 
   it('wilt', () => {
-    const wiltIdentity = array.wilt(I)
-    const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
-    assert.deepEqual(wiltIdentity([], f), new Identity({ left: [], right: [] }))
-    assert.deepEqual(wiltIdentity([1, 3], f), new Identity({ left: [0], right: [4] }))
+    const wiltIdentity = array.wilt(I.identity)
+    const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
+    assert.deepEqual(wiltIdentity([], f), new I.Identity({ left: [], right: [] }))
+    assert.deepEqual(wiltIdentity([1, 3], f), new I.Identity({ left: [0], right: [4] }))
   })
 
   it('chop', () => {
