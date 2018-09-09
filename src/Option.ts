@@ -2,7 +2,7 @@ import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
-import { Foldable1 } from './Foldable'
+import { Foldable2v1 } from './Foldable2v'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { getDualMonoid, Monoid } from './Monoid'
@@ -462,6 +462,14 @@ const reduce = <A, B>(fa: Option<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
+const foldMap = <M>(M: Monoid<M>) => <A>(fa: Option<A>, f: (a: A) => M): M => {
+  return fa.isNone() ? M.empty : f(fa.value)
+}
+
+const foldr = <A, B>(fa: Option<A>, b: B, f: (a: A, b: B) => B): B => {
+  return fa.isNone() ? b : f(fa.value, b)
+}
+
 const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
   return ta.isNone() ? F.of(none) : F.map(f(ta.value), some)
 }
@@ -763,7 +771,7 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
  * @since 1.0.0
  */
 export const option: Monad1<URI> &
-  Foldable1<URI> &
+  Foldable2v1<URI> &
   Plus1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
@@ -777,6 +785,8 @@ export const option: Monad1<URI> &
   ap,
   chain,
   reduce,
+  foldMap,
+  foldr,
   traverse,
   zero,
   alt,
