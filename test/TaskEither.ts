@@ -219,10 +219,18 @@ describe('TaskEither', () => {
   it('getSemigroup', () => {
     const S = getSemigroup<string, number>(semigroupSum)
     return Promise.all([
-      S.concat(left(delay(10, 'a')), left(delay(10, 'b'))).run().then(x => assert.deepEqual(x, eitherLeft('a'))),
-      S.concat(left(delay(10, 'a')), right(delay(10, 2))).run().then(x => assert.deepEqual(x, eitherRight(2))),
-      S.concat(right(delay(10, 1)), left(delay(10, 'b'))).run().then(x => assert.deepEqual(x, eitherRight(1))),
-      S.concat(right(delay(10, 1)), right(delay(10, 2))).run().then(x => assert.deepEqual(x, eitherRight(3)))
+      S.concat(left(delay(10, 'a')), left(delay(10, 'b')))
+        .run()
+        .then(x => assert.deepEqual(x, eitherLeft('a'))),
+      S.concat(left(delay(10, 'a')), right(delay(10, 2)))
+        .run()
+        .then(x => assert.deepEqual(x, eitherRight(2))),
+      S.concat(right(delay(10, 1)), left(delay(10, 'b')))
+        .run()
+        .then(x => assert.deepEqual(x, eitherRight(1))),
+      S.concat(right(delay(10, 1)), right(delay(10, 2)))
+        .run()
+        .then(x => assert.deepEqual(x, eitherRight(3)))
     ])
   })
 
