@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO } from '../src/IO'
-import { Task, task } from '../src/Task'
+import { Task, task, delay } from '../src/Task'
 import {
   TaskEither,
   fromIO,
@@ -12,9 +12,12 @@ import {
   taskify,
   tryCatch,
   fromIOEither,
-  fromPredicate
+  fromPredicate,
+  getMonoid,
+  getApplyMonoid
 } from '../src/TaskEither'
 import { IOEither } from '../src/IOEither'
+import { monoidString } from '../src/Monoid'
 
 describe('TaskEither', () => {
   it('ap', () => {
@@ -209,6 +212,56 @@ describe('TaskEither', () => {
     return Promise.all([x1.run(), x2.run()]).then(([e1, e2]) => {
       assert.deepEqual(e1, eitherRight(3))
       assert.deepEqual(e2, eitherLeft('Invalid number 1'))
+    })
+  })
+
+  describe('getMonoid', () => {
+    const M = getMonoid(monoidString)
+
+    it('concat (right)', () => {
+      return M.concat(right(delay(10, 'a')), right(delay(10, 'b')))
+        .run()
+        .then(x => assert.deepEqual(x, eitherRight('ab')))
+    })
+    it('concat (left)', () => {
+      return M.concat(left(delay(10, 'a')), left(delay(10, 'b')))
+        .run()
+        .then(x => assert.deepEqual(x, eitherLeft('a')))
+    })
+    it('empty (right)', () => {
+      return M.concat(right(delay(10, 'a')), M.empty)
+        .run()
+        .then(x => assert.deepEqual(x, eitherRight('a')))
+    })
+    it('empty (left)', () => {
+      return M.concat(M.empty, right(delay(10, 'a')))
+        .run()
+        .then(x => assert.deepEqual(x, eitherRight('a')))
+    })
+  })
+
+  describe('getApplyMonoid', () => {
+    const M = getApplyMonoid(monoidString)
+
+    it('concat (right)', () => {
+      return M.concat(right(delay(10, 'a')), right(delay(10, 'b')))
+        .run()
+        .then(x => assert.deepEqual(x, eitherRight('ab')))
+    })
+    it('concat (left)', () => {
+      return M.concat(right(delay(10, 'a')), left(delay(10, 'b')))
+        .run()
+        .then(x => assert.deepEqual(x, eitherLeft('b')))
+    })
+    it('empty (right)', () => {
+      return M.concat(right(delay(10, 'a')), M.empty)
+        .run()
+        .then(x => assert.deepEqual(x, eitherRight('a')))
+    })
+    it('empty (left)', () => {
+      return M.concat(M.empty, right(delay(10, 'a')))
+        .run()
+        .then(x => assert.deepEqual(x, eitherRight('a')))
     })
   })
 })
