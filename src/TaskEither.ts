@@ -1,12 +1,21 @@
 import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
-import { Either, fromPredicate as eitherFromPredicate, left as eitherLeft, right as eitherRight } from './Either'
+import {
+  Either,
+  fromPredicate as eitherFromPredicate,
+  left as eitherLeft,
+  right as eitherRight,
+  getSemigroup as eitherGetSemigroup,
+  getApplySemigroup as eitherGetApplySemigroup
+} from './Either'
 import * as eitherT from './EitherT'
 import { IO } from './IO'
 import { Monad2 } from './Monad'
-import { Task, fromIO as taskFromIO, task, tryCatch as taskTryCatch } from './Task'
+import { Task, fromIO as taskFromIO, task, tryCatch as taskTryCatch, getSemigroup as taskGetSemigroup } from './Task'
 import { Lazy, constIdentity, constant, Predicate } from './function'
 import { IOEither } from './IOEither'
+import { Semigroup } from './Semigroup'
+import { Monoid } from './Monoid'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -172,6 +181,39 @@ export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
 export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>) => {
   const f = eitherFromPredicate(predicate, whenFalse)
   return a => fromEither(f(a))
+}
+
+/**
+ * @function
+ * @since 1.9.0
+ */
+export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => {
+  const S2 = taskGetSemigroup(eitherGetSemigroup<L, A>(S))
+  return {
+    concat: (x, y) => new TaskEither<L, A>(S2.concat(x.value, y.value))
+  }
+}
+
+/**
+ * @function
+ * @since 1.9.0
+ */
+export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => {
+  const S2 = taskGetSemigroup(eitherGetApplySemigroup<L, A>(S))
+  return {
+    concat: (x, y) => new TaskEither<L, A>(S2.concat(x.value, y.value))
+  }
+}
+
+/**
+ * @function
+ * @since 1.9.0
+ */
+export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => {
+  return {
+    ...getApplySemigroup(M),
+    empty: of(M.empty)
+  }
 }
 
 /**
