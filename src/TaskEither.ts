@@ -198,17 +198,6 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
  * @function
  * @since 1.9.0
  */
-export const getMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => {
-  return {
-    ...getSemigroup(M),
-    empty: of(M.empty)
-  }
-}
-
-/**
- * @function
- * @since 1.9.0
- */
 export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => {
   const S2 = taskGetSemigroup(eitherGetApplySemigroup<L, A>(S))
   return {
