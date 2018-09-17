@@ -23,7 +23,9 @@ import { Witherable1 } from './Witherable'
 
 declare global {
   interface Array<T> {
+    /** phantom property added by `fp-ts` */
     _URI: URI
+    /** phantom property added by `fp-ts` */
     _A: T
   }
 }
