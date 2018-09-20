@@ -17,6 +17,7 @@
     "test": "npm run lint && npm run prettier && npm run typings && npm run jest",
     "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
+    "prepublish": "npm run clean && tsc --sourceMap false",
     "docs": "rimraf docs/*.md && ts-node docs-generator/main.ts"
   },
   "repository": {
