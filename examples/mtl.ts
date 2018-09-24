@@ -3,7 +3,7 @@ import { flatten } from '../src/Chain'
 import { HKT, Type, Type3, URIS, URIS3 } from '../src/HKT'
 import { IO, URI as IOURI, io } from '../src/IO'
 import { Monad, Monad1, Monad3 } from '../src/Monad'
-import { Task, URI as TaskURI, task } from '../src/Task'
+import { URI as TaskURI, task, delay } from '../src/Task'
 import { URI as ReaderTaskEitherURI, right, readerTaskEither } from '../src/ReaderTaskEither'
 
 // Adapted from https://tech.iheart.com/why-fp-its-the-composition-f585d17b01d3
@@ -72,29 +72,18 @@ true
 */
 
 const now = Date.now()
-const delay = <A>(a: A) => (n: number): Task<A> =>
-  new Task(
-    () =>
-      new Promise(resolve => {
-        setTimeout(() => {
-          // tslint:disable-next-line:no-console
-          console.log(`${a} after ${(Date.now() - now) / 1000}`)
-          resolve(a)
-        }, n)
-      })
-  )
 
 const monadUserTask: MonadUser1<TaskURI> = {
-  validateUser: token => delay(`string(${token})`)(1000),
-  facebookToken: uid => delay(`FBToken(${uid})`)(500)
+  validateUser: token => delay(1000, `string(${token})`),
+  facebookToken: uid => delay(500, `FBToken(${uid})`)
 }
 
 const monadFBTask: MonadFB1<TaskURI> = {
-  findPost: url => delay(`FBPost(${url})`)(2000),
+  findPost: url => delay(2000, `FBPost(${url})`),
   sendLike: token => (post: string) => {
     // tslint:disable-next-line:no-console
     console.log(`sending like with fbToken "${token}" and post "${post}"`)
-    return delay(true)(1000)
+    return delay(1000, true)
   }
 }
 
