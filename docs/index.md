@@ -78,4 +78,5 @@
 - [Validation](./Validation.md)
 - [Witherable](./Witherable.md)
 - [Writer](./Writer.md)
+- [Zipper](./Zipper.md)
 - [function](./function.md)

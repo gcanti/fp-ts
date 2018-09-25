@@ -215,6 +215,30 @@ _Signature_
 <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M>
 ```
 
+### getJoinMonoid
+
+_function_
+
+_since 1.9.0_
+
+_Signature_
+
+```ts
+<A>(B: Bounded<A>): Monoid<A>
+```
+
+### getMeetMonoid
+
+_function_
+
+_since 1.9.0_
+
+_Signature_
+
+```ts
+<A>(B: Bounded<A>): Monoid<A>
+```
+
 ### getProductMonoid
 
 _function_

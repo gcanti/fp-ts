@@ -257,6 +257,42 @@ _Signature_
 <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
 ```
 
+### getApplyMonoid
+
+_function_
+
+_since 1.9.0_
+
+_Signature_
+
+```ts
+<L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>>
+```
+
+### getApplySemigroup
+
+_function_
+
+_since 1.9.0_
+
+_Signature_
+
+```ts
+<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
+```
+
+### getSemigroup
+
+_function_
+
+_since 1.9.0_
+
+_Signature_
+
+```ts
+<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
+```
+
 ### left
 
 _function_
