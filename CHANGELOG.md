@@ -14,6 +14,17 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.9.0
+
+- **New Feature**
+  - add `getSemigroup`, `getApplySemigroup`, `getApplyMonoid` to `TaskEither`, https://github.com/gcanti/fp-ts/pull/563 (@mlegenhausen)
+  - add `increment` and `decrement` functions, https://github.com/gcanti/fp-ts/pull/557 (@gcanti)
+  - add `Zipper` module, https://github.com/gcanti/fp-ts/pull/558 (@gcanti)
+  - add `getMeetMonoid`, `getJoinMonoid`, https://github.com/gcanti/fp-ts/pull/548 (@gcanti)
+- **Polish**
+  - Never emit sourcemaps, https://github.com/gcanti/fp-ts/pull/569 (@scotttrinh)
+  - add `Array.empty`, https://github.com/gcanti/fp-ts/pull/556 (@gcanti)
+
 # 1.8.1
 
 - **Bug Fix**
