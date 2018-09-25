@@ -1,7 +1,7 @@
 import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
-import { isOutOfBound, snoc, take, drop, array, isEmpty, cons } from './Array'
+import { isOutOfBound, snoc, take, drop, array, isEmpty, cons, empty } from './Array'
 import { Applicative1, Applicative } from './Applicative'
 import { NonEmptyArray } from './NonEmptyArray'
 import { Foldable1 } from './Foldable'
@@ -178,8 +178,6 @@ export class Zipper<A> {
     return `new Zipper(${toString(this.lefts)}, ${toString(this.focus)}, ${toString(this.rights)})`
   }
 }
-
-const empty = array.zero<never>()
 
 /**
  * @function
