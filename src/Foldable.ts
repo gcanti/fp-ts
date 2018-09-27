@@ -95,7 +95,8 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
 }
 
 /**
- * A default implementation of `foldMap` using `foldl`
+ * A default implementation of `foldMap` using `foldl`,
+ * Map each element of the structure to a monoid, and combine the results.
  */
 export function foldMap<F extends URIS3, M>(
   F: Foldable3<F>,
@@ -116,7 +117,8 @@ export function foldMap<F extends URIS2, M, L>(
 export function foldMap<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): <A>(fa: Type<F, A>, f: (a: A) => M) => M
 export function foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, f: (a: A) => M) => M
 /**
- * A default implementation of `foldMap` using `foldl`
+ * A default implementation of `foldMap` using `foldl`.
+ * Map each element of the structure to a monoid, and combine the results.
  * @function
  * @since 1.0.0
  */

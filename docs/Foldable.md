@@ -103,7 +103,8 @@ foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, f: (a: A) => M) 
 
 _Description_
 
-A default implementation of `foldMap` using `foldl`
+A default implementation of `foldMap` using `foldl`.
+Map each element of the structure to a monoid, and combine the results.
 
 ### foldr
 
