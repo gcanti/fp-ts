@@ -173,3 +173,12 @@ export const task: Monad1<URI> = {
   ap,
   chain
 }
+
+/**
+ * @instance
+ * @since 1.10.0
+ */
+export const monadSeq: Monad1<URI> = {
+  ...task,
+  ap: (fab, fa) => fab.chain(f => fa.map(f))
+}

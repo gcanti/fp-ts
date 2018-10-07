@@ -15,11 +15,14 @@ import {
   fromIOEither,
   fromPredicate,
   getApplyMonoid,
-  getSemigroup
+  getSemigroup,
+  monadSeq
 } from '../src/TaskEither'
 import { IOEither } from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
+import { sequence } from '../src/Traversable'
+import { array } from '../src/Array'
 
 describe('TaskEither', () => {
   it('attempt', () => {
@@ -346,5 +349,35 @@ describe('TaskEither', () => {
         .run()
         .then(x => assert.deepEqual(x, eitherRight('a')))
     })
+  })
+
+  it('sequence parallel', () => {
+    const log: Array<string> = []
+    const append = (message: string): TaskEither<void, number> =>
+      right(new Task(() => Promise.resolve(log.push(message))))
+    const t1 = append('start 1').chain(() => append('end 1'))
+    const t2 = append('start 2').chain(() => append('end 2'))
+    const sequenceParallel = sequence(taskEither, array)
+    return sequenceParallel([t1, t2])
+      .run()
+      .then(ns => {
+        assert.deepEqual(ns, eitherRight([3, 4]))
+        assert.deepEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
+      })
+  })
+
+  it('sequence series', () => {
+    const log: Array<string> = []
+    const append = (message: string): TaskEither<void, number> =>
+      right(new Task(() => Promise.resolve(log.push(message))))
+    const t1 = append('start 1').chain(() => append('end 1'))
+    const t2 = append('start 2').chain(() => append('end 2'))
+    const sequenceSeries = sequence(monadSeq, array)
+    return sequenceSeries([t1, t2])
+      .run()
+      .then(ns => {
+        assert.deepEqual(ns, eitherRight([2, 4]))
+        assert.deepEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
+      })
   })
 })
