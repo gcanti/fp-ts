@@ -45,13 +45,16 @@ import {
   updateAt,
   zip,
   foldrL,
-  foldr
+  foldr,
+  chop,
+  chunksOf,
+  split
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum } from '../src/Monoid'
 import { option, Option, none, some } from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
-import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString } from '../src/Setoid'
+import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString, Setoid } from '../src/Setoid'
 import { identity, tuple } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
 
@@ -483,5 +486,39 @@ describe('Array', () => {
     const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
     assert.deepEqual(wiltIdentity([], f), new Identity({ left: [], right: [] }))
     assert.deepEqual(wiltIdentity([1, 3], f), new Identity({ left: [0], right: [4] }))
+  })
+
+  it('chop', () => {
+    const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<Array<A>> => {
+      return chop(as, as => {
+        const { init, rest } = span(as, a => S.equals(a, as[0]))
+        return [init, rest]
+      })
+    }
+    assert.deepEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+  })
+
+  it('split', () => {
+    assert.deepEqual(split([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4, 5]])
+    assert.deepEqual(split([], 2), [[], []])
+    assert.deepEqual(split([1], 2), [[1], []])
+    assert.deepEqual(split([1, 2], 2), [[1, 2], []])
+    assert.deepEqual(split([1, 2], -1), [[1], [2]])
+    assert.deepEqual(split([1, 2], 0), [[], [1, 2]])
+    assert.deepEqual(split([1, 2], 3), [[1, 2], []])
+  })
+
+  it('chunksOf', () => {
+    assert.deepEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
+    assert.deepEqual(chunksOf([1, 2, 3, 4, 5, 6], 2), [[1, 2], [3, 4], [5, 6]])
+    assert.deepEqual(chunksOf([1, 2, 3, 4, 5], 5), [[1, 2, 3, 4, 5]])
+    assert.deepEqual(chunksOf([1, 2, 3, 4, 5], 6), [[1, 2, 3, 4, 5]])
+    assert.deepEqual(chunksOf([1, 2, 3, 4, 5], 1), [[1], [2], [3], [4], [5]])
+    assert.deepEqual(chunksOf([], 1), [[]])
+    assert.deepEqual(chunksOf([], 2), [[]])
+    assert.deepEqual(chunksOf([], 0), [[]])
+    assert.deepEqual(chunksOf([1, 2], 0), [[1, 2]])
+    assert.deepEqual(chunksOf([1, 2], 10), [[1, 2]])
+    assert.deepEqual(chunksOf([1, 2], -1), [[1, 2]])
   })
 })
