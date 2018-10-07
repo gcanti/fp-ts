@@ -336,6 +336,10 @@ export function sequence<F extends URIS, T extends URIS>(
   F: Applicative1<F>,
   T: Traversable1<T>
 ): <A>(tfa: Type<T, Type<F, A>>) => Type<F, Type<T, A>>
+export function sequence<F, T extends URIS>(
+  F: Applicative<F>,
+  T: Traversable1<T>
+): <A>(tfa: Type<T, HKT<F, A>>) => HKT<F, Type<T, A>>
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 /**
  * @function
