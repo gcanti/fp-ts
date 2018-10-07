@@ -283,6 +283,15 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
 }
 
 /**
+ * Return `Right` if the given action succeeds, `Left` if it throws
+ * @function
+ * @since 1.10.0
+ */
+export const attempt = <L, A>(fa: TaskEither<L, A>): TaskEither<L, Either<L, A>> => {
+  return new TaskEither(fa.value.map<Either<L, Either<L, A>>>(eitherRight))
+}
+
+/**
  * @instance
  * @since 1.0.0
  */
