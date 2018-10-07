@@ -621,7 +621,7 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
 }
 
 /**
- * Extracts from a list of `Either` all the `Right` elements. All the `Right` elements are extracted in order
+ * Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
  * @function
  * @since 1.0.0
  */
@@ -638,7 +638,7 @@ export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
 }
 
 /**
- * Extracts from a list of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+ * Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
  * @function
  * @since 1.0.0
  */
@@ -818,6 +818,7 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
     right
   }
 }
+
 /**
  * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
  * @function
@@ -873,6 +874,65 @@ const wilt = <F>(
 ): (<RL, RR, A>(wa: Array<A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Array<RL>, Array<RR>>>) => {
   const traverseF = traverse(F)
   return (wa, f) => F.map(traverseF(wa, f), separate)
+}
+
+/**
+ * A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
+ * array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
+ * value and the rest of the array.
+ *
+ * @example
+ * const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<Array<A>> => {
+ *   return chop(as, as => {
+ *     const { init, rest } = span(as, a => S.equals(a, as[0]))
+ *     return [init, rest]
+ *   })
+ * }
+ * assert.deepEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+ *
+ * @function
+ * @since 1.10.0
+ */
+export const chop = <A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Array<B> => {
+  const result: Array<B> = []
+  let cs: Array<A> = as
+  while (cs.length > 0) {
+    const [b, c] = f(cs)
+    result.push(b)
+    cs = c
+  }
+  return result
+}
+
+/**
+ * Splits an array into two pieces, the first piece has `n` elements.
+ *
+ * @example
+ * assert.deepEqual(split([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4, 5]])
+ *
+ * @function
+ * @since 1.10.0
+ */
+export const split = <A>(as: Array<A>, n: number): [Array<A>, Array<A>] => {
+  return [as.slice(0, n), as.slice(n)]
+}
+
+/**
+ * Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+ * the array. Note that `chunksOf([], n)` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+ * definition of `chunksOf`; it satisfies the property that
+ *
+ * ```ts
+ * chunksOf(xs, n).concat(chunksOf(ys, n)) == chunksOf(xs.concat(ys)), n)
+ * ```
+ *
+ * whenever `n` evenly divides the length of `xs`.
+ *
+ * @function
+ * @since 1.10.0
+ */
+export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => {
+  return isOutOfBound(n - 1, as) ? [as] : chop(as, as => split(as, n))
 }
 
 export const array: Monad1<URI> &
