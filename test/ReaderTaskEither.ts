@@ -14,7 +14,8 @@ import {
   fromLeft,
   fromIO,
   fromIOEither,
-  fromPredicate
+  fromPredicate,
+  monadSeq
 } from '../src/ReaderTaskEither'
 import { left as eitherLeft, right as eitherRight, either } from '../src/Either'
 import { left as taskEitherLeft, taskEither } from '../src/TaskEither'
@@ -22,6 +23,8 @@ import { task, Task } from '../src/Task'
 import { reader, Reader } from '../src/Reader'
 import { IO } from '../src/IO'
 import { IOEither } from '../src/IOEither'
+import { sequence } from '../src/Traversable'
+import { array } from '../src/Array'
 
 describe('ReaderTaskEither', () => {
   it('ap', () => {
@@ -262,5 +265,35 @@ describe('ReaderTaskEither', () => {
       assert.deepEqual(e1, eitherRight(3))
       assert.deepEqual(e2, eitherLeft('Invalid number 1'))
     })
+  })
+
+  it('sequence parallel', () => {
+    const log: Array<string> = []
+    const append = (message: string): ReaderTaskEither<{}, void, number> =>
+      right(new Task(() => Promise.resolve(log.push(message))))
+    const t1 = append('start 1').chain(() => append('end 1'))
+    const t2 = append('start 2').chain(() => append('end 2'))
+    const sequenceParallel = sequence(readerTaskEither, array)
+    return sequenceParallel([t1, t2])
+      .run({})
+      .then(ns => {
+        assert.deepEqual(ns, eitherRight([3, 4]))
+        assert.deepEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
+      })
+  })
+
+  it('sequence series', () => {
+    const log: Array<string> = []
+    const append = (message: string): ReaderTaskEither<{}, void, number> =>
+      right(new Task(() => Promise.resolve(log.push(message))))
+    const t1 = append('start 1').chain(() => append('end 1'))
+    const t2 = append('start 2').chain(() => append('end 2'))
+    const sequenceSeries = sequence(monadSeq, array)
+    return sequenceSeries([t1, t2])
+      .run({})
+      .then(ns => {
+        assert.deepEqual(ns, eitherRight([2, 4]))
+        assert.deepEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
+      })
   })
 })
