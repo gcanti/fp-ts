@@ -1,8 +1,9 @@
 import * as assert from 'assert'
-import { Applicative } from '../src/Applicative'
+import { Applicative, Applicative1 } from '../src/Applicative'
 import { array } from '../src/Array'
 import { none, option, some } from '../src/Option'
-import { getTraversableComposition, traverse } from '../src/Traversable'
+import { getTraversableComposition, traverse, sequence } from '../src/Traversable'
+import { HKT, Type, URIS } from '../src/HKT'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -24,5 +25,14 @@ describe('Traversable', () => {
 
   it('traverse', () => {
     assert.deepEqual(traverse(option, array)([1, 2, 3], n => (n > 0 ? some(n) : none)), some([1, 2, 3]))
+  })
+
+  it('sequence', () => {
+    function f<F extends URIS>(F: Applicative1<F>): <A>(fas: Array<Type<F, A>>) => Type<F, Array<A>>
+    function f<F>(F: Applicative<F>): <A>(fas: Array<HKT<F, A>>) => HKT<F, Array<A>>
+    function f<F>(F: Applicative<F>): <A>(fas: Array<HKT<F, A>>) => HKT<F, Array<A>> {
+      return fas => sequence(F, array)(fas)
+    }
+    assert.deepEqual(f(option)([some(1), some(2), some(3)]), some([1, 2, 3]))
   })
 })
