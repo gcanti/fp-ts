@@ -2,7 +2,9 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { IO } from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { Task, fromIO, getMonoid, getRaceMonoid, task, tryCatch, delay } from '../src/Task'
+import { Task, fromIO, getMonoid, getRaceMonoid, task, tryCatch, delay, monadSeq } from '../src/Task'
+import { sequence } from '../src/Traversable'
+import { array } from '../src/Array'
 
 const delayReject = <A>(n: number, a: A): Task<A> =>
   new Task<A>(
@@ -129,6 +131,34 @@ describe('Task', () => {
       .then(n => {
         assert.strictEqual(n, 1)
         assert.deepEqual(log, ['a', 'b'])
+      })
+  })
+
+  it('sequence parallel', () => {
+    const log: Array<string> = []
+    const append = (message: string): Task<number> => new Task(() => Promise.resolve(log.push(message)))
+    const t1 = append('start 1').chain(() => append('end 1'))
+    const t2 = append('start 2').chain(() => append('end 2'))
+    const sequenceParallel = sequence(task, array)
+    return sequenceParallel([t1, t2])
+      .run()
+      .then(ns => {
+        assert.deepEqual(ns, [3, 4])
+        assert.deepEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
+      })
+  })
+
+  it('sequence series', () => {
+    const log: Array<string> = []
+    const append = (message: string): Task<number> => new Task(() => Promise.resolve(log.push(message)))
+    const t1 = append('start 1').chain(() => append('end 1'))
+    const t2 = append('start 2').chain(() => append('end 2'))
+    const sequenceSeries = sequence(monadSeq, array)
+    return sequenceSeries([t1, t2])
+      .run()
+      .then(ns => {
+        assert.deepEqual(ns, [2, 4])
+        assert.deepEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
       })
   })
 })
