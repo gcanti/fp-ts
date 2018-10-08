@@ -1,8 +1,9 @@
 import { Either, left, right } from './Either'
-import { constant, constIdentity, Lazy, toString } from './function'
+import { constant, constIdentity, identity, Lazy, toString } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
+import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 
@@ -163,17 +164,20 @@ export const delay = <A>(millis: number, a: A): Task<A> => {
   )
 }
 
+const fromTask = identity
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const task: Monad1<URI> & MonadIO1<URI> = {
+export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
   URI,
   map,
   of,
   ap,
   chain,
-  fromIO
+  fromIO,
+  fromTask
 }
 
 /**
