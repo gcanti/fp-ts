@@ -17,6 +17,7 @@ import { MonadIO2 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { fromIO as taskFromIO, getSemigroup as taskGetSemigroup, Task, task, tryCatch as taskTryCatch } from './Task'
+import { MonadTask2 } from './MonadTask'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -283,11 +284,13 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
   }
 }
 
+const fromTask = right
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> = {
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = {
   URI,
   bimap,
   map,
@@ -295,5 +298,6 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<UR
   ap,
   chain,
   alt,
-  fromIO
+  fromIO,
+  fromTask
 }
