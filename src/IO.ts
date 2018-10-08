@@ -1,7 +1,8 @@
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Lazy, constIdentity, toString, constant } from './function'
+import { Lazy, constIdentity, toString, constant, identity } from './function'
+import { MonadIO1 } from './MonadIO'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -97,14 +98,17 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
   return { ...getSemigroup(M), empty: of(M.empty) }
 }
 
+const fromIO = identity
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const io: Monad1<URI> = {
+export const io: Monad1<URI> & MonadIO1<URI> = {
   URI,
   map,
   of,
   ap,
-  chain
+  chain,
+  fromIO
 }

@@ -1,9 +1,10 @@
 import { Either, left, right } from './Either'
+import { constant, constIdentity, Lazy, toString } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
+import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Lazy, constIdentity, toString, constant } from './function'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -166,12 +167,13 @@ export const delay = <A>(millis: number, a: A): Task<A> => {
  * @instance
  * @since 1.0.0
  */
-export const task: Monad1<URI> = {
+export const task: Monad1<URI> & MonadIO1<URI> = {
   URI,
   map,
   of,
   ap,
-  chain
+  chain,
+  fromIO
 }
 
 /**
