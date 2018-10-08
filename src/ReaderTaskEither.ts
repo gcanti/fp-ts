@@ -5,6 +5,7 @@ import { constant, constIdentity, Predicate } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
+import { MonadIO3 } from './MonadIO'
 import { Reader } from './Reader'
 import * as readerT from './ReaderT'
 import { Task } from './Task'
@@ -269,14 +270,15 @@ export const tryCatch = <E, L, A>(
  * @instance
  * @since 1.6.0
  */
-export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> = {
+export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> = {
   URI,
   map,
   of,
   ap,
   chain,
   alt,
-  bimap
+  bimap,
+  fromIO
 }
 
 /**

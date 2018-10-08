@@ -3,19 +3,20 @@ import { Bifunctor2 } from './Bifunctor'
 import {
   Either,
   fromPredicate as eitherFromPredicate,
-  left as eitherLeft,
-  right as eitherRight,
+  getApplySemigroup as eitherGetApplySemigroup,
   getSemigroup as eitherGetSemigroup,
-  getApplySemigroup as eitherGetApplySemigroup
+  left as eitherLeft,
+  right as eitherRight
 } from './Either'
 import * as eitherT from './EitherT'
+import { constant, constIdentity, Lazy, Predicate } from './function'
 import { IO } from './IO'
-import { Monad2 } from './Monad'
-import { Task, fromIO as taskFromIO, task, tryCatch as taskTryCatch, getSemigroup as taskGetSemigroup } from './Task'
-import { Lazy, constIdentity, constant, Predicate } from './function'
 import { IOEither } from './IOEither'
-import { Semigroup } from './Semigroup'
+import { Monad2 } from './Monad'
+import { MonadIO2 } from './MonadIO'
 import { Monoid } from './Monoid'
+import { Semigroup } from './Semigroup'
+import { fromIO as taskFromIO, getSemigroup as taskGetSemigroup, Task, task, tryCatch as taskTryCatch } from './Task'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -321,14 +322,15 @@ export const bracket = <L, A, B>(
  * @instance
  * @since 1.0.0
  */
-export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = {
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> = {
   URI,
   bimap,
   map,
   of,
   ap,
   chain,
-  alt
+  alt,
+  fromIO
 }
 
 /**
