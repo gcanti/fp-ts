@@ -8,6 +8,7 @@ import {
   flip,
   identity,
   on,
+  not,
   or,
   pipe,
   unsafeCoerce,
@@ -215,6 +216,13 @@ describe('function', () => {
     assert.strictEqual(h5(1)(2)(3)(4)(5), 15)
     const snoc = (as: Array<number>, a: number) => as.concat(a)
     assert.deepEqual(curry(snoc)([1, 2, 3])(4), [1, 2, 3, 4])
+  })
+
+  it('not', () => {
+    const n = not(Boolean)
+    assert.strictEqual(n(false), true)
+    assert.strictEqual(n(1), false)
+    assert.strictEqual(n(''), true)
   })
 
   it('or', () => {
