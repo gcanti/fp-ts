@@ -1,11 +1,17 @@
 import * as assert from 'assert'
-import { now } from '../src/Date'
+import { create, now } from '../src/Date'
 
 describe('Date', () => {
-  it('now', () => {
-    const d1 = now.run()
-    const d2 = new Date()
+  it('create', () => {
+    const d1 = create.run()
+    const m2 = new Date().getTime()
     assert.strictEqual(d1 instanceof Date, true)
-    assert.strictEqual(d1.getTime(), d2.getTime())
+    assert.strictEqual(d1.getTime(), m2)
+  })
+
+  it('now', () => {
+    const m1 = now.run()
+    const m2 = new Date().getTime()
+    assert.strictEqual(m1, m2)
   })
 })
