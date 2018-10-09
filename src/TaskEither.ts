@@ -287,8 +287,8 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
  * @function
  * @since 1.10.0
  */
-export const attempt = <L, A>(fa: TaskEither<L, A>): TaskEither<L, Either<L, A>> => {
-  return new TaskEither(fa.value.map<Either<L, Either<L, A>>>(eitherRight))
+export const attempt = <L, A>(fa: TaskEither<L, A>): TaskEither<any, Either<L, A>> => {
+  return new TaskEither(fa.value.map(eitherRight))
 }
 
 /**
