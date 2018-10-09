@@ -70,7 +70,7 @@ export class TaskEither<L, A> {
    * @since 1.5.0
    */
   applySecond<B>(fb: TaskEither<L, B>): TaskEither<L, B> {
-    return fb.ap(this.map(constIdentity as () => (b: B) => B))
+    return fb.ap(this.map<(b: B) => B>(constIdentity))
   }
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.chain(a => f(a).value, this.value))
@@ -85,7 +85,7 @@ export class TaskEither<L, A> {
    * Transforms the failure value of the `TaskEither` into a new `TaskEither`
    */
   orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> {
-    return new TaskEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTTask.of(a))))
+    return new TaskEither(this.value.chain(e => e.fold<Task<Either<M, A>>>(l => f(l).value, eitherTTask.of)))
   }
   /**
    * @since 1.6.0
