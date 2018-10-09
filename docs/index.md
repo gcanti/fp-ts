@@ -20,6 +20,7 @@
 - [Console](./Console.md)
 - [Const](./Const.md)
 - [Contravariant](./Contravariant.md)
+- [Date](./Date.md)
 - [DistributiveLattice](./DistributiveLattice.md)
 - [Either](./Either.md)
 - [EitherT](./EitherT.md)
