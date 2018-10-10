@@ -89,6 +89,22 @@ _Description_
 
 Combine two effectful actions, keeping only the result of the second
 
+### attempt
+
+_method_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+<M = L>(): TaskEither<M, Either<L, A>>
+```
+
+_Description_
+
+Return `Right` if the given action succeeds, `Left` if it throws
+
 ### bimap
 
 _method_
@@ -124,6 +140,22 @@ _Signature_
 ```ts
 <R>(whenLeft: (l: L) => R, whenRight: (a: A) => R): Task<R>
 ```
+
+### foldM
+
+_method_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+<M, B>(whenLeft: (l: L) => TaskEither<M, B>, whenRight: (a: A) => TaskEither<M, B>): TaskEither<M, B>
+```
+
+_Description_
+
+Similar to [fold](#fold), but the result is flattened.
 
 ### map
 
