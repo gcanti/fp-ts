@@ -258,4 +258,19 @@ describe('TaskEither', () => {
         .then(x => assert.deepEqual(x, eitherRight('a')))
     })
   })
+
+  it('attempt', () => {
+    return Promise.all([
+      taskEither
+        .of(1)
+        .attempt()
+        .run(),
+      fromLeft('foo')
+        .attempt()
+        .run()
+    ]).then(([x, y]) => {
+      assert.deepEqual(x, eitherRight(eitherRight(1)))
+      assert.deepEqual(y, eitherRight(eitherLeft('foo')))
+    })
+  })
 })
