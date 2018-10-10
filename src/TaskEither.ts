@@ -341,7 +341,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<UR
  * @instance
  * @since 1.10.0
  */
-export const monadSeq: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = {
+export const monadSeq: typeof taskEither = {
   ...taskEither,
   ap: (fab, fa) => fab.chain(f => fa.map(f))
 }

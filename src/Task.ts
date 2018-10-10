@@ -184,7 +184,7 @@ export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
  * @instance
  * @since 1.10.0
  */
-export const monadSeq: Monad1<URI> = {
+export const monadSeq: typeof task = {
   ...task,
   ap: (fab, fa) => fab.chain(f => fa.map(f))
 }
