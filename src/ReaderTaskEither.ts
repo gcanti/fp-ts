@@ -289,7 +289,7 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
  * @instance
  * @since 1.10.0
  */
-export const monadSeq: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> = {
+export const monadSeq: typeof readerTaskEither = {
   ...readerTaskEither,
   ap: (fab, fa) => fab.chain(f => fa.map(f))
 }
