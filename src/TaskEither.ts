@@ -99,6 +99,13 @@ export class TaskEither<L, A> {
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> {
     return new TaskEither(eitherTbimap(this.value, f, g))
   }
+  /**
+   * Return `Right` if the given action succeeds, `Left` if it throws
+   * @since 1.10.0
+   */
+  attempt<M = L>(): TaskEither<M, Either<L, A>> {
+    return new TaskEither(this.value.map<Either<M, Either<L, A>>>(eitherRight))
+  }
 }
 
 const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> => {
