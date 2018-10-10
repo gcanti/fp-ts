@@ -14,8 +14,7 @@ import {
   fromIOEither,
   fromPredicate,
   getApplyMonoid,
-  getSemigroup,
-  attempt
+  getSemigroup
 } from '../src/TaskEither'
 import { IOEither } from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
@@ -261,7 +260,15 @@ describe('TaskEither', () => {
   })
 
   it('attempt', () => {
-    return Promise.all([attempt(taskEither.of(1)).run(), attempt(fromLeft('foo')).run()]).then(([x, y]) => {
+    return Promise.all([
+      taskEither
+        .of(1)
+        .attempt()
+        .run(),
+      fromLeft('foo')
+        .attempt()
+        .run()
+    ]).then(([x, y]) => {
       assert.deepEqual(x, eitherRight(eitherRight(1)))
       assert.deepEqual(y, eitherRight(eitherLeft('foo')))
     })
