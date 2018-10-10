@@ -861,6 +861,32 @@ const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't c
 const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
 ```
 
+### getSetoid
+
+_function_
+
+_since 1.0.0_
+
+_Signature_
+
+```ts
+<A>(S: Setoid<A>): Setoid<Option<A>>
+```
+
+_Example_
+
+```ts
+import { none, some, getSetoid } from 'fp-ts/lib/Option'
+import { setoidNumber } from 'fp-ts/lib/Setoid'
+
+const S = getSetoid(setoidNumber)
+assert.strictEqual(S.equals(none, none), true)
+assert.strictEqual(S.equals(none, some(1)), false)
+assert.strictEqual(S.equals(some(1), none), false)
+assert.strictEqual(S.equals(some(1), some(2)), false)
+assert.strictEqual(S.equals(some(1), some(1)), true)
+```
+
 ### isNone
 
 _function_

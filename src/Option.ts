@@ -404,7 +404,7 @@ export class Some<A> {
  * assert.strictEqual(S.equals(some(1), some(2)), false)
  * assert.strictEqual(S.equals(some(1), some(1)), true)
  *
- * * @function
+ * @function
  * @since 1.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
