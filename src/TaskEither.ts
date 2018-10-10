@@ -106,6 +106,13 @@ export class TaskEither<L, A> {
   attempt<M = L>(): TaskEither<M, Either<L, A>> {
     return new TaskEither(this.value.map<Either<M, Either<L, A>>>(eitherRight))
   }
+  /**
+   * Similar to {@link fold}, but the result is flattened.
+   * @since 1.10.0
+   */
+  foldM<M, B>(whenLeft: (l: L) => TaskEither<M, B>, whenRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
+    return new TaskEither(this.value.chain(e => e.fold(whenLeft, whenRight).value))
+  }
 }
 
 const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> => {

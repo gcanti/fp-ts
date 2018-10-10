@@ -380,4 +380,34 @@ describe('TaskEither', () => {
         assert.deepEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
       })
   })
+
+  it('foldM', () => {
+    const whenLeft = (s: string) =>
+      s.length >= 2 ? taskEither.of<boolean, string>('okleft') : fromLeft<boolean, string>(false)
+    const whenRight = (n: number) =>
+      n >= 2 ? taskEither.of<boolean, string>('okright') : fromLeft<boolean, string>(true)
+
+    const tasks = [
+      fromLeft<string, number>('a')
+        .foldM(whenLeft, whenRight)
+        .run(),
+      fromLeft<string, number>('aa')
+        .foldM(whenLeft, whenRight)
+        .run(),
+      taskEither
+        .of<string, number>(1)
+        .foldM(whenLeft, whenRight)
+        .run(),
+      taskEither
+        .of<string, number>(2)
+        .foldM(whenLeft, whenRight)
+        .run()
+    ]
+    return Promise.all(tasks).then(([r1, r2, r3, r4]) => {
+      assert.deepEqual(r1, eitherLeft(false))
+      assert.deepEqual(r2, eitherRight('okleft'))
+      assert.deepEqual(r3, eitherLeft(true))
+      assert.deepEqual(r4, eitherRight('okright'))
+    })
+  })
 })
