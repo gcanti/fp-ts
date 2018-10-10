@@ -292,6 +292,25 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
 }
 
 /**
+ * Make sure that a resource is cleaned up in the event of an exception. The
+ * release action is called regardless of whether the body action throws or
+ * returns.
+ * @function
+ * @since 1.10.0
+ */
+export const bracket = <L, A, B>(
+  acquire: TaskEither<L, A>,
+  use: (a: A) => TaskEither<L, B>,
+  release: (a: A, e: Either<L, B>) => TaskEither<L, void>
+): TaskEither<L, B> => {
+  return acquire.chain(a =>
+    use(a)
+      .attempt()
+      .chain(e => release(a, e).chain(() => e.fold<TaskEither<L, B>>(fromLeft, taskEither.of)))
+  )
+}
+
+/**
  * @instance
  * @since 1.0.0
  */

@@ -3,6 +3,7 @@ import { left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO } from '../src/IO'
 import { Task, task, delay } from '../src/Task'
 import {
+  bracket,
   TaskEither,
   fromIO,
   fromLeft,
@@ -21,6 +22,94 @@ import { monoidString } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
 
 describe('TaskEither', () => {
+  it('attempt', () => {
+    return Promise.all([
+      taskEither
+        .of(1)
+        .attempt()
+        .run(),
+      fromLeft('foo')
+        .attempt()
+        .run()
+    ]).then(([x, y]) => {
+      assert.deepEqual(x, eitherRight(eitherRight(1)))
+      assert.deepEqual(y, eitherRight(eitherLeft('foo')))
+    })
+  })
+
+  describe('bracket', () => {
+    let log: Array<string> = []
+
+    interface Resource {
+      res: string
+    }
+    const acquireFailure = fromLeft<string, Resource>('acquire failure')
+    const acquireSuccess = taskEither.of<string, Resource>({ res: 'acquire success' })
+    const useSuccess = () => taskEither.of<string, string>('use success')
+    const useFailure = () => fromLeft<string, string>('use failure')
+    const releaseSuccess = () =>
+      fromIO<string, void>(
+        new IO(() => {
+          log.push('release success')
+        })
+      )
+    const releaseFailure = () => fromLeft<string, void>('release failure')
+
+    beforeEach(() => {
+      log = []
+    })
+
+    it('should return the acquire error if acquire fails', () => {
+      return bracket(acquireFailure, useSuccess, releaseSuccess)
+        .run()
+        .then(e => {
+          assert.deepEqual(e, eitherLeft('acquire failure'))
+        })
+    })
+    it('body and release must not be called if acquire fails', () => {
+      return bracket(acquireFailure, useSuccess, releaseSuccess)
+        .run()
+        .then(() => {
+          assert.deepEqual(log, [])
+        })
+    })
+    it('should return the use error if use fails and release does not', () => {
+      return bracket(acquireSuccess, useFailure, releaseSuccess)
+        .run()
+        .then(e => {
+          assert.deepEqual(e, eitherLeft('use failure'))
+        })
+    })
+    it('should return the release error if both use and release fail', () => {
+      return bracket(acquireSuccess, useFailure, releaseFailure)
+        .run()
+        .then(e => {
+          assert.deepEqual(e, eitherLeft('release failure'))
+        })
+    })
+    it('release must be called if the body returns', () => {
+      return bracket(acquireSuccess, useSuccess, releaseSuccess)
+        .run()
+        .then(() => {
+          assert.deepEqual(log, ['release success'])
+        })
+    })
+    it('release must be called if the body throws', () => {
+      return bracket(acquireSuccess, useFailure, releaseSuccess)
+        .run()
+        .then(() => {
+          assert.deepEqual(log, ['release success'])
+        })
+    })
+    it('should return the release error if release fails', () => {
+      return bracket(acquireSuccess, useSuccess, releaseFailure)
+        .run()
+        .then(e => {
+          assert.deepEqual(e, eitherLeft('release failure'))
+        })
+    })
+  })
+
   it('ap', () => {
     const double = (n: number): number => n * 2
     const fab = taskEither.of(double)
@@ -256,21 +345,6 @@ describe('TaskEither', () => {
       return M.concat(M.empty, right(delay(10, 'a')))
         .run()
         .then(x => assert.deepEqual(x, eitherRight('a')))
-    })
-  })
-
-  it('attempt', () => {
-    return Promise.all([
-      taskEither
-        .of(1)
-        .attempt()
-        .run(),
-      fromLeft('foo')
-        .attempt()
-        .run()
-    ]).then(([x, y]) => {
-      assert.deepEqual(x, eitherRight(eitherRight(1)))
-      assert.deepEqual(y, eitherRight(eitherLeft('foo')))
     })
   })
 })
