@@ -84,6 +84,14 @@ Added in v1.0.0 (method)
 
 Added in v1.0.0 (method)
 
+## monadSeq
+
+```ts
+Monad1<URI>
+```
+
+Added in v1.10.0 (instance)
+
 ## task
 
 ```ts

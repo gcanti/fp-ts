@@ -125,6 +125,14 @@ Added in v1.0.0 (method)
 
 Runs the inner `TaskEither`
 
+## monadSeq
+
+```ts
+Monad3<URI> & Bifunctor3<URI> & Alt3<URI>
+```
+
+Added in v1.10.0 (instance)
+
 ## readerTaskEither
 
 ```ts

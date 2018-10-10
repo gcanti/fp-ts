@@ -60,6 +60,16 @@ Added in v1.5.0 (method)
 
 Combine two effectful actions, keeping only the result of the second
 
+## attempt
+
+```ts
+<M = L>(): TaskEither<M, Either<L, A>>
+```
+
+Added in v1.10.0 (method)
+
+Return `Right` if the given action succeeds, `Left` if it throws
+
 ## bimap
 
 ```ts
@@ -83,6 +93,16 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
+
+## foldM
+
+```ts
+<M, B>(whenLeft: (l: L) => TaskEither<M, B>, whenRight: (a: A) => TaskEither<M, B>): TaskEither<M, B>
+```
+
+Added in v1.10.0 (method)
+
+Similar to [fold](#fold), but the result is flattened.
 
 ## map
 
@@ -120,6 +140,14 @@ Added in v1.0.0 (method)
 
 Runs the inner `Task`
 
+## monadSeq
+
+```ts
+Monad2<URI> & Bifunctor2<URI> & Alt2<URI>
+```
+
+Added in v1.10.0 (instance)
+
 ## taskEither
 
 ```ts
@@ -127,6 +155,22 @@ Monad2<URI> & Bifunctor2<URI> & Alt2<URI>
 ```
 
 Added in v1.0.0 (instance)
+
+## bracket
+
+```ts
+<L, A, B>(
+  acquire: TaskEither<L, A>,
+  use: (a: A) => TaskEither<L, B>,
+  release: (a: A, e: Either<L, B>) => TaskEither<L, void>
+): TaskEither<L, B>
+```
+
+Added in v1.10.0 (function)
+
+Make sure that a resource is cleaned up in the event of an exception. The
+release action is called regardless of whether the body action throws or
+returns.
 
 ## fromEither
 
