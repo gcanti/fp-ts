@@ -1,18 +1,19 @@
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { liftA2 } from './Apply'
+import { Compactable1, Separated } from './Compactable'
+import { Either } from './Either'
+import { Filterable1 } from './Filterable'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
+import { Foldable2v1 } from './Foldable2v'
+import { Predicate, tuple } from './function'
 import { Functor1 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
-import { Option, none, some } from './Option'
-import { Semigroup, getDictionarySemigroup, getLastSemigroup } from './Semigroup'
+import { none, Option, some } from './Option'
+import { getDictionarySemigroup, getLastSemigroup, Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
 import { Unfoldable } from './Unfoldable'
-import { Predicate, tuple } from './function'
-import { Either } from './Either'
-import { Compactable1, Separated } from './Compactable'
-import { Filterable1 } from './Filterable'
 import { Witherable1 } from './Witherable'
 
 // https://github.com/purescript/purescript-maps
@@ -95,6 +96,28 @@ const map = <A, B>(fa: StrMap<A>, f: (a: A) => B): StrMap<B> => {
 
 const reduce = <A, B>(fa: StrMap<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
+}
+
+const foldMap = <M>(M: Monoid<M>) => <A>(fa: StrMap<A>, f: (a: A) => M): M => {
+  let out: M = M.empty
+  const value = fa.value
+  const keys = Object.keys(value).sort()
+  const len = keys.length
+  for (let i = 0; i < len; i++) {
+    out = M.concat(out, f(value[keys[i]]))
+  }
+  return out
+}
+
+const foldr = <A, B>(fa: StrMap<A>, b: B, f: (a: A, b: B) => B): B => {
+  let out: B = b
+  const value = fa.value
+  const keys = Object.keys(value).sort()
+  const len = keys.length
+  for (let i = len - 1; i >= 0; i--) {
+    out = f(value[keys[i]], out)
+  }
+  return out
 }
 
 export function traverseWithKey<F extends URIS3>(
@@ -403,7 +426,7 @@ const wilt = <F>(
  * @since 1.0.0
  */
 export const strmap: Functor1<URI> &
-  Foldable1<URI> &
+  Foldable2v1<URI> &
   Traversable1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
@@ -411,6 +434,8 @@ export const strmap: Functor1<URI> &
   URI,
   map,
   reduce,
+  foldMap,
+  foldr,
   traverse,
   compact,
   separate,
