@@ -1,15 +1,16 @@
 import { Applicative } from './Applicative'
 import { array, last, sort } from './Array'
 import { Comonad1 } from './Comonad'
-import { Foldable1 } from './Foldable'
+import { Foldable2v1 } from './Foldable2v'
+import { compose, concat as uncurriedConcat, toString } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { Option, none, some } from './Option'
+import { Monoid } from './Monoid'
+import { none, Option, some } from './Option'
 import { Ord } from './Ord'
-import { Semigroup, fold, getJoinSemigroup, getMeetSemigroup } from './Semigroup'
-import { Traversable1 } from './Traversable'
-import { concat as uncurriedConcat, toString, compose } from './function'
+import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
+import { Traversable1 } from './Traversable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -349,6 +350,14 @@ const reduce = <A, B>(fa: NonEmptyArray<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
+const foldMap = <M>(M: Monoid<M>) => <A>(fa: NonEmptyArray<A>, f: (a: A) => M): M => {
+  return fa.tail.reduce((acc, a) => M.concat(acc, f(a)), f(fa.head))
+}
+
+const foldr = <A, B>(fa: NonEmptyArray<A>, b: B, f: (a: A, b: B) => B): B => {
+  return f(fa.head, fa.tail.reduceRight((acc, a) => f(a, acc), b))
+}
+
 const extend = <A, B>(fa: NonEmptyArray<A>, f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> => {
   return fa.extend(f)
 }
@@ -367,7 +376,7 @@ function traverse<F>(
  * @instance
  * @since 1.0.0
  */
-export const nonEmptyArray: Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI> = {
+export const nonEmptyArray: Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable1<URI> = {
   URI,
   extend,
   extract,
@@ -376,5 +385,7 @@ export const nonEmptyArray: Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Trave
   ap,
   chain,
   reduce,
+  foldMap,
+  foldr,
   traverse
 }
