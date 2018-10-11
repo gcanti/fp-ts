@@ -16,7 +16,7 @@ import {
   fromPredicate,
   getApplyMonoid,
   getSemigroup,
-  monadSeq
+  taskEitherSeq
 } from '../src/TaskEither'
 import { IOEither } from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
@@ -372,7 +372,7 @@ describe('TaskEither', () => {
       right(new Task(() => Promise.resolve(log.push(message))))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceSeries = sequence(monadSeq, array)
+    const sequenceSeries = sequence(taskEitherSeq, array)
     return sequenceSeries([t1, t2])
       .run()
       .then(ns => {
