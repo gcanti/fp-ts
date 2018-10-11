@@ -1,19 +1,19 @@
 import { Alt2C } from './Alt'
 import { Applicative, Applicative2C } from './Applicative'
+import { Bifunctor2 } from './Bifunctor'
+import { Compactable2C, Separated } from './Compactable'
 import { Either } from './Either'
-import { Foldable2 } from './Foldable'
+import { Filterable2C } from './Filterable'
+import { Foldable2v2 } from './Foldable2v'
+import { phantom, Predicate, toString } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
+import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
-import { Predicate, phantom, toString } from './function'
-import { Bifunctor2 } from './Bifunctor'
-import { Compactable2C, Separated } from './Compactable'
-import { Option } from './Option'
-import { Filterable2C } from './Filterable'
 import { Witherable2C } from './Witherable'
 
 // Adapted from https://github.com/purescript/purescript-validation
@@ -257,6 +257,14 @@ export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
 
 const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
+}
+
+const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Validation<L, A>, f: (a: A) => M): M => {
+  return fa.isFailure() ? M.empty : f(fa.value)
+}
+
+const foldr = <L, A, B>(fa: Validation<L, A>, b: B, f: (a: A, b: B) => B): B => {
+  return fa.isFailure() ? b : f(fa.value, b)
 }
 
 const traverse = <F>(F: Applicative<F>) => <L, A, B>(
@@ -522,10 +530,12 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
  * @instance
  * @since 1.0.0
  */
-export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
+export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2<URI> = {
   URI,
   map,
   bimap,
   reduce,
+  foldMap,
+  foldr,
   traverse
 }
