@@ -6,27 +6,29 @@ import {
   fromOption,
   fromOptionL,
   fromPredicate,
-  fromValidation,
-  getSetoid,
-  left,
-  right,
-  tryCatch,
-  isLeft,
-  isRight,
   fromRefinement,
+  fromValidation,
+  getApplyMonoid,
+  getApplySemigroup,
   getCompactable,
   getFilterable,
+  getSemigroup,
+  getSetoid,
   getWitherable,
-  getApplySemigroup,
-  getApplyMonoid,
-  getSemigroup
+  isLeft,
+  isRight,
+  left,
+  right,
+  tryCatch
 } from '../src/Either'
+import * as F from '../src/Foldable'
+import { identity } from '../src/function'
+import * as I from '../src/Identity'
+import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
+import { semigroupSum } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { failure, success } from '../src/Validation'
-import { monoidString, monoidSum } from '../src/Monoid'
-import { Identity, identity as I } from '../src/Identity'
-import { semigroupSum } from '../src/Semigroup'
 
 describe('Either', () => {
   it('fold', () => {
@@ -236,6 +238,31 @@ describe('Either', () => {
     assert.deepEqual(either.reduce(right('bar'), 'foo', (b, a) => b + a), 'foobar')
   })
 
+  it('foldMap', () => {
+    const old = F.foldMap(either, monoidString)
+    const foldMap = either.foldMap(monoidString)
+    const x1 = right<number, string>('a')
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'a')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+    const x2 = left<number, string>(1)
+    assert.strictEqual(foldMap(x2, f1), '')
+    assert.strictEqual(foldMap(x2, f1), old(x2, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(either)
+    const foldr = either.foldr
+    const x1 = right<number, string>('a')
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'a')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
+    const x2 = left<number, string>(1)
+    assert.strictEqual(foldr(x2, init1, f1), '')
+    assert.strictEqual(foldr(x2, init1, f1), old(x2, init1, f1))
+  })
+
   it('mapLeft', () => {
     const double = (n: number): number => n * 2
     assert.deepEqual(right<number, string>('bar').mapLeft(double), right('bar'))
@@ -331,32 +358,32 @@ describe('Either', () => {
     const W = getWitherable(monoidString)
     const p = (n: number) => n > 2
     it('wither', () => {
-      const f = (n: number) => new Identity(p(n) ? some(n + 1) : none)
-      const witherIdentity = W.wither(I)
-      assert.deepEqual(witherIdentity(left<string, number>('foo'), f), new Identity(left('foo')))
-      assert.deepEqual(witherIdentity(right<string, number>(1), f), new Identity(left(monoidString.empty)))
-      assert.deepEqual(witherIdentity(right<string, number>(3), f), new Identity(right(4)))
+      const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
+      const witherIdentity = W.wither(I.identity)
+      assert.deepEqual(witherIdentity(left<string, number>('foo'), f), new I.Identity(left('foo')))
+      assert.deepEqual(witherIdentity(right<string, number>(1), f), new I.Identity(left(monoidString.empty)))
+      assert.deepEqual(witherIdentity(right<string, number>(3), f), new I.Identity(right(4)))
     })
     it('wilt', () => {
-      const wiltIdentity = W.wilt(I)
-      const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
+      const wiltIdentity = W.wilt(I.identity)
+      const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
       assert.deepEqual(
         wiltIdentity(left<string, number>('foo'), f),
-        new Identity({
+        new I.Identity({
           left: left('foo'),
           right: left('foo')
         })
       )
       assert.deepEqual(
         wiltIdentity(right<string, number>(1), f),
-        new Identity({
+        new I.Identity({
           left: right(0),
           right: left(monoidString.empty)
         })
       )
       assert.deepEqual(
         wiltIdentity(right<string, number>(3), f),
-        new Identity({
+        new I.Identity({
           left: left(monoidString.empty),
           right: right(4)
         })
