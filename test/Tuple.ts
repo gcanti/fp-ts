@@ -1,22 +1,24 @@
 import * as assert from 'assert'
 import { sort } from '../src/Array'
 import { left, right } from '../src/Either'
+import * as F from '../src/Foldable'
 import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { setoidBoolean, setoidNumber } from '../src/Setoid'
 import {
-  Tuple,
   getApplicative,
   getApply,
   getChainRec,
   getMonad,
+  getMonoid,
   getOrd,
   getSemigroup,
   getSetoid,
-  tuple,
-  getMonoid
+  Tuple,
+  tuple
 } from '../src/Tuple'
+import { identity } from '../src/function'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -103,6 +105,25 @@ describe('Tuple', () => {
     const x = new Tuple(1, 'b')
     assert.strictEqual(x.reduce('a', (b, a) => b + a), 'ab')
     assert.strictEqual(tuple.reduce(x, 'a', (b, a) => b + a), 'ab')
+  })
+
+  it('foldMap', () => {
+    const old = F.foldMap(tuple, monoidString)
+    const foldMap = tuple.foldMap(monoidString)
+    const x1 = new Tuple(1, 'a')
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'a')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(tuple)
+    const foldr = tuple.foldr
+    const x1 = new Tuple(1, 'a')
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'a')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('swap', () => {
