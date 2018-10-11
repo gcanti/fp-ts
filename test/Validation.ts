@@ -24,7 +24,9 @@ import {
   getWitherable
 } from '../src/Validation'
 import { left, right } from '../src/Either'
-import { identity as I, Identity } from '../src/Identity'
+import * as I from '../src/Identity'
+import * as F from '../src/Foldable'
+import { identity } from '../src/function'
 
 const p = (n: number): boolean => n > 2
 
@@ -110,6 +112,31 @@ describe('Validation', () => {
     assert.deepEqual(success('bar').reduce('foo', (b, a) => b + a), 'foobar')
     assert.deepEqual(failure('bar').reduce('foo', (b, a) => b + a), 'foo')
     assert.deepEqual(validation.reduce(success('bar'), 'foo', (b, a) => b + a), 'foobar')
+  })
+
+  it('foldMap', () => {
+    const old = F.foldMap(validation, monoidString)
+    const foldMap = validation.foldMap(monoidString)
+    const x1 = success<number, string>('a')
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'a')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+    const x2 = failure<number, string>(1)
+    assert.strictEqual(foldMap(x2, f1), '')
+    assert.strictEqual(foldMap(x2, f1), old(x2, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(validation)
+    const foldr = validation.foldr
+    const x1 = success<number, string>('a')
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'a')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
+    const x2 = failure<number, string>(1)
+    assert.strictEqual(foldr(x2, init1, f1), '')
+    assert.strictEqual(foldr(x2, init1, f1), old(x2, init1, f1))
   })
 
   it('mapFailure', () => {
@@ -242,32 +269,32 @@ describe('Validation', () => {
     const W = getWitherable(monoidString)
     const p = (n: number) => n > 2
     it('wither', () => {
-      const f = (n: number) => new Identity(p(n) ? some(n + 1) : none)
-      const witherIdentity = W.wither(I)
-      assert.deepEqual(witherIdentity(failure<string, number>('foo'), f), new Identity(failure('foo')))
-      assert.deepEqual(witherIdentity(success<string, number>(1), f), new Identity(failure(monoidString.empty)))
-      assert.deepEqual(witherIdentity(success<string, number>(3), f), new Identity(success(4)))
+      const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
+      const witherIdentity = W.wither(I.identity)
+      assert.deepEqual(witherIdentity(failure<string, number>('foo'), f), new I.Identity(failure('foo')))
+      assert.deepEqual(witherIdentity(success<string, number>(1), f), new I.Identity(failure(monoidString.empty)))
+      assert.deepEqual(witherIdentity(success<string, number>(3), f), new I.Identity(success(4)))
     })
     it('wilt', () => {
-      const wiltIdentity = W.wilt(I)
-      const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
+      const wiltIdentity = W.wilt(I.identity)
+      const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
       assert.deepEqual(
         wiltIdentity(failure<string, number>('foo'), f),
-        new Identity({
+        new I.Identity({
           left: failure('foo'),
           right: failure('foo')
         })
       )
       assert.deepEqual(
         wiltIdentity(success<string, number>(1), f),
-        new Identity({
+        new I.Identity({
           left: success(0),
           right: failure(monoidString.empty)
         })
       )
       assert.deepEqual(
         wiltIdentity(success<string, number>(3), f),
-        new Identity({
+        new I.Identity({
           left: failure(monoidString.empty),
           right: success(4)
         })
