@@ -20,7 +20,10 @@ import {
 } from '../src/StrMap'
 import { semigroupSum } from '../src/Semigroup'
 import { left, right } from '../src/Either'
-import { identity as I, Identity } from '../src/Identity'
+import * as I from '../src/Identity'
+import * as F from '../src/Foldable'
+import { monoidString } from '../src/Monoid'
+import { identity } from '../src/function'
 
 const p = (n: number) => n > 2
 
@@ -48,6 +51,25 @@ describe('StrMap', () => {
     const d2 = new StrMap({ k2: 'b', k1: 'a' })
     assert.strictEqual(d2.reduce('', (b, a) => b + a), 'ab')
     assert.strictEqual(strmap.reduce(d1, '', (b, a) => b + a), 'ab')
+  })
+
+  it('foldMap', () => {
+    const old = F.foldMap(strmap, monoidString)
+    const foldMap = strmap.foldMap(monoidString)
+    const x1 = new StrMap({ a: 'a', b: 'b' })
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'ab')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(strmap)
+    const foldr = strmap.foldr
+    const x1 = new StrMap({ a: 'a', b: 'b' })
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'ba')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('traverse', () => {
@@ -172,22 +194,22 @@ describe('StrMap', () => {
   })
 
   it('wither', () => {
-    const witherIdentity = strmap.wither(I)
-    const f = (n: number) => new Identity(p(n) ? some(n + 1) : none)
-    assert.deepEqual(witherIdentity(new StrMap<number>({}), f), new Identity(new StrMap({})))
-    assert.deepEqual(witherIdentity(new StrMap({ a: 1, b: 3 }), f), new Identity(new StrMap({ b: 4 })))
+    const witherIdentity = strmap.wither(I.identity)
+    const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
+    assert.deepEqual(witherIdentity(new StrMap<number>({}), f), new I.Identity(new StrMap({})))
+    assert.deepEqual(witherIdentity(new StrMap({ a: 1, b: 3 }), f), new I.Identity(new StrMap({ b: 4 })))
   })
 
   it('wilt', () => {
-    const wiltIdentity = strmap.wilt(I)
-    const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
+    const wiltIdentity = strmap.wilt(I.identity)
+    const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
     assert.deepEqual(
       wiltIdentity(new StrMap<number>({}), f),
-      new Identity({ left: new StrMap({}), right: new StrMap({}) })
+      new I.Identity({ left: new StrMap({}), right: new StrMap({}) })
     )
     assert.deepEqual(
       wiltIdentity(new StrMap({ a: 1, b: 3 }), f),
-      new Identity({ left: new StrMap({ a: 0 }), right: new StrMap({ b: 4 }) })
+      new I.Identity({ left: new StrMap({ a: 0 }), right: new StrMap({ b: 4 }) })
     )
   })
 })
