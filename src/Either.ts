@@ -3,7 +3,6 @@ import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Extend2 } from './Extend'
-import { Foldable2 } from './Foldable'
 import { Lazy, phantom, Predicate, Refinement, toString } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
@@ -16,6 +15,7 @@ import { Monoid } from './Monoid'
 import { Filterable2C } from './Filterable'
 import { Witherable2C } from './Witherable'
 import { Semigroup } from './Semigroup'
+import { Foldable2v2 } from './Foldable2v'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -352,6 +352,14 @@ const reduce = <L, A, B>(fa: Either<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
+const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Either<L, A>, f: (a: A) => M): M => {
+  return fa.isLeft() ? M.empty : f(fa.value)
+}
+
+const foldr = <L, A, B>(fa: Either<L, A>, b: B, f: (a: A, b: B) => B): B => {
+  return fa.isLeft() ? b : f(fa.value, b)
+}
+
 const traverse = <F>(F: Applicative<F>) => <L, A, B>(
   ta: Either<L, A>,
   f: (a: A) => HKT<F, B>
@@ -644,7 +652,7 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
  * @since 1.0.0
  */
 export const either: Monad2<URI> &
-  Foldable2<URI> &
+  Foldable2v2<URI> &
   Traversable2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
@@ -656,6 +664,8 @@ export const either: Monad2<URI> &
   ap,
   chain,
   reduce,
+  foldMap,
+  foldr,
   traverse,
   bimap,
   alt,
