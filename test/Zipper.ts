@@ -1,9 +1,11 @@
 import * as assert from 'assert'
-import { Zipper, zipper, fromArray, getSemigroup, getMonoid, fromNonEmptyArray } from '../src/Zipper'
-import { none, some, option } from '../src/Option'
-import { semigroupSum } from '../src/Semigroup'
-import { monoidSum } from '../src/Monoid'
+import * as F from '../src/Foldable'
+import { identity } from '../src/function'
+import { monoidString, monoidSum } from '../src/Monoid'
 import { NonEmptyArray } from '../src/NonEmptyArray'
+import { none, option, some } from '../src/Option'
+import { semigroupSum } from '../src/Semigroup'
+import { fromArray, fromNonEmptyArray, getMonoid, getSemigroup, Zipper, zipper } from '../src/Zipper'
 
 const len = (s: string): number => s.length
 const prepend = (a: string) => (s: string): string => a + s
@@ -140,6 +142,25 @@ describe('Zipper', () => {
   it('reduce', () => {
     const fa = new Zipper(['a', 'b'], 'c', ['d'])
     assert.deepEqual(zipper.reduce(fa, '', (b: string, a: string) => b + a), 'abcd')
+  })
+
+  it('foldMap', () => {
+    const old = F.foldMap(zipper, monoidString)
+    const foldMap = zipper.foldMap(monoidString)
+    const x1 = new Zipper(['a'], 'b', ['c'])
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'abc')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(zipper)
+    const foldr = zipper.foldr
+    const x1 = new Zipper(['a'], 'b', ['c'])
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'cba')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('traverse', () => {
