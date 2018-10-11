@@ -5,16 +5,16 @@ import { Chain2C } from './Chain'
 import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
 import { Either } from './Either'
-import { Foldable2 } from './Foldable'
+import { Foldable2v2 } from './Foldable2v'
+import { phantom, toString } from './function'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { Ord, contramap as contramapOrd, getSemigroup as getOrdSemigroup } from './Ord'
+import { contramap as contramapOrd, getSemigroup as getOrdSemigroup, Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
-import { phantom, toString } from './function'
 
 // Adapted from https://github.com/purescript/purescript-tuples
 
@@ -99,6 +99,14 @@ const extend = <L, A, B>(fa: Tuple<L, A>, f: (fa: Tuple<L, A>) => B): Tuple<L, B
 
 const reduce = <L, A, B>(fa: Tuple<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
+}
+
+const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Tuple<L, A>, f: (a: A) => M): M => {
+  return f(fa.snd)
+}
+
+const foldr = <L, A, B>(fa: Tuple<L, A>, b: B, f: (a: A, b: B) => B): B => {
+  return f(fa.snd, b)
 }
 
 /**
@@ -230,7 +238,7 @@ function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Tuple<L, A>, f: (a: A) =>
  * @instance
  * @since 1.0.0
  */
-export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
+export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2<URI> = {
   URI,
   compose,
   map,
@@ -238,5 +246,7 @@ export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Folda
   extract,
   extend,
   reduce,
+  foldMap,
+  foldr,
   traverse
 }
