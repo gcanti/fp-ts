@@ -2,12 +2,13 @@ import { Applicative } from './Applicative'
 import { liftA2 } from './Apply'
 import { getSetoid as getArraySetoid, traverse as traverseA } from './Array'
 import { Comonad1 } from './Comonad'
-import { Foldable1 } from './Foldable'
+import { Foldable2v1 } from './Foldable2v'
 import { concat, toString } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Setoid } from './Setoid'
 import { Traversable1 } from './Traversable'
+import { Monoid } from './Monoid'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -126,6 +127,19 @@ const reduce = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
+const foldMap = <M>(M: Monoid<M>) => <A>(fa: Tree<A>, f: (a: A) => M): M => {
+  return fa.reduce(M.empty, (acc, a) => M.concat(acc, f(a)))
+}
+
+const foldr = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
+  let r: B = b
+  const len = fa.forest.length
+  for (let i = len - 1; i >= 0; i--) {
+    r = foldr(fa.forest[i], r, f)
+  }
+  return f(fa.value, r)
+}
+
 const traverse = <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
   const traverseAF = traverseA(F)
   const treeLifted: <A>(a: HKT<F, A>) => (b: HKT<F, Array<Tree<A>>>) => HKT<F, Tree<A>> = liftA2(F)(
@@ -153,13 +167,15 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => {
  * @instance
  * @since 1.6.0
  */
-export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
+export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map,
   of,
   ap,
   chain,
   reduce,
+  foldMap,
+  foldr,
   traverse,
   extract,
   extend
