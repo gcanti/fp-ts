@@ -1,14 +1,14 @@
-import { Semigroup } from './Semigroup'
-import { Monoid } from './Monoid'
-import { Option, none, some } from './Option'
-import { isOutOfBound, snoc, take, drop, array, isEmpty, cons, empty } from './Array'
-import { Applicative1, Applicative } from './Applicative'
-import { NonEmptyArray } from './NonEmptyArray'
-import { Foldable1 } from './Foldable'
-import { HKT } from './HKT'
-import { Traversable1 } from './Traversable'
+import { Applicative, Applicative1 } from './Applicative'
+import { array, cons, drop, empty, isEmpty, isOutOfBound, snoc, take } from './Array'
 import { Comonad1 } from './Comonad'
-import { toString, decrement, increment } from './function'
+import { Foldable2v1 } from './Foldable2v'
+import { decrement, increment, toString } from './function'
+import { HKT } from './HKT'
+import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
+import { none, Option, some } from './Option'
+import { Semigroup } from './Semigroup'
+import { Traversable1 } from './Traversable'
 
 /*
   Adapted from
@@ -215,6 +215,18 @@ const reduce = <A, B>(fa: Zipper<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
+const foldMap = <M>(M: Monoid<M>) => <A>(fa: Zipper<A>, f: (a: A) => M): M => {
+  const lefts = fa.lefts.reduce((acc, a) => M.concat(acc, f(a)), M.empty)
+  const rights = fa.rights.reduce((acc, a) => M.concat(acc, f(a)), M.empty)
+  return M.concat(M.concat(lefts, f(fa.focus)), rights)
+}
+
+const foldr = <A, B>(fa: Zipper<A>, b: B, f: (a: A, b: B) => B): B => {
+  const rights = fa.rights.reduceRight((acc, a) => f(a, acc), b)
+  const focus = f(fa.focus, rights)
+  return fa.lefts.reduceRight((acc, a) => f(a, acc), focus)
+}
+
 const traverse = <F>(F: Applicative<F>): (<A, B>(ta: Zipper<A>, f: (a: A) => HKT<F, B>) => HKT<F, Zipper<B>>) => {
   const traverseF = array.traverse(F)
   return (ta, f) => {
@@ -262,7 +274,7 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => {
  * @instance
  * @since 1.9.0
  */
-export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
+export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map,
   of,
@@ -270,5 +282,7 @@ export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Co
   extend,
   extract,
   reduce,
+  foldMap,
+  foldr,
   traverse
 }
