@@ -1,7 +1,7 @@
 import { Applicative, Applicative1 } from './Applicative'
 import { liftA2 } from './Apply'
 import { Comonad1 } from './Comonad'
-import { Foldable1 } from './Foldable'
+import { Foldable2v1 } from './Foldable2v'
 import { HKT } from './HKT'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
@@ -80,6 +80,14 @@ const reduce = <A, B>(fa: Pair<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
+const foldMap = <M>(M: Monoid<M>) => <A>(fa: Pair<A>, f: (a: A) => M): M => {
+  return M.concat(f(fa.fst), f(fa.snd))
+}
+
+const foldr = <A, B>(fa: Pair<A>, b: B, f: (a: A, b: B) => B): B => {
+  return f(fa.fst, f(fa.snd, b))
+}
+
 const extract = <A>(fa: Pair<A>): A => {
   return fa.extract()
 }
@@ -139,12 +147,14 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F,
  * @instance
  * @since 1.0.0
  */
-export const pair: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
+export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map,
   of,
   ap,
   reduce,
+  foldMap,
+  foldr,
   traverse,
   extend,
   extract
