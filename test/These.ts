@@ -1,6 +1,9 @@
 import * as assert from 'assert'
+import * as F from '../src/Foldable'
+import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
+import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import {
   both,
@@ -8,16 +11,15 @@ import {
   getMonad,
   getSemigroup,
   getSetoid,
+  isBoth,
+  isThat,
+  isThis,
   that,
   these,
   theseLeft,
   theseRight,
-  this_,
-  isThis,
-  isThat,
-  isBoth
+  this_
 } from '../src/These'
-import { semigroupString } from '../src/Semigroup'
 
 describe('These', () => {
   it('getSetoid', () => {
@@ -172,5 +174,36 @@ describe('These', () => {
     assert.strictEqual(these.reduce(that('b'), 'a', (b, a) => b + a), 'ab')
     assert.strictEqual(both(1, 'b').reduce('a', (b, a) => b + a), 'ab')
     assert.strictEqual(these.reduce(both(1, 'b'), 'a', (b, a) => b + a), 'ab')
+  })
+
+  it('foldMap', () => {
+    const old = F.foldMap(these, monoidString)
+    const foldMap = these.foldMap(monoidString)
+    const x1 = that<number, string>('a')
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'a')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+    const x2 = this_<number, string>(1)
+    assert.strictEqual(foldMap(x2, f1), '')
+    assert.strictEqual(foldMap(x2, f1), old(x2, f1))
+    const x3 = both<number, string>(1, 'a')
+    assert.strictEqual(foldMap(x3, f1), 'a')
+    assert.strictEqual(foldMap(x3, f1), old(x3, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(these)
+    const foldr = these.foldr
+    const x1 = that<number, string>('a')
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'a')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
+    const x2 = this_<number, string>(1)
+    assert.strictEqual(foldr(x2, init1, f1), '')
+    assert.strictEqual(foldr(x2, init1, f1), old(x2, init1, f1))
+    const x3 = both<number, string>(1, 'a')
+    assert.strictEqual(foldr(x3, init1, f1), 'a')
+    assert.strictEqual(foldr(x3, init1, f1), old(x3, init1, f1))
   })
 })

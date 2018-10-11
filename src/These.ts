@@ -1,14 +1,15 @@
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
-import { Foldable2 } from './Foldable'
+import { Foldable2v2 } from './Foldable2v'
+import { phantom, toString } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
-import { Option, none, some } from './Option'
+import { Monoid } from './Monoid'
+import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable2 } from './Traversable'
-import { phantom, toString } from './function'
 
 // Data type isomorphic to `α ∨ β ∨ (α ∧ β)`
 // adapted from https://github.com/purescript-contrib/purescript-these
@@ -233,6 +234,14 @@ const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
+const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: These<L, A>, f: (a: A) => M): M => {
+  return fa.isThis() ? M.empty : fa.isThat() ? f(fa.value) : f(fa.a)
+}
+
+const foldr = <L, A, B>(fa: These<L, A>, b: B, f: (a: A, b: B) => B): B => {
+  return fa.isThis() ? b : fa.isThat() ? f(fa.value, b) : f(fa.a, b)
+}
+
 const traverse = <F>(F: Applicative<F>) => <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>): HKT<F, These<L, B>> => {
   return ta.isThis()
     ? F.of(this_(ta.value))
@@ -319,10 +328,12 @@ export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
  * @instance
  * @since 1.0.0
  */
-export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
+export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2<URI> = {
   URI,
   map,
   bimap,
   reduce,
+  foldMap,
+  foldr,
   traverse
 }
