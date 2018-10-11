@@ -15,7 +15,7 @@ import {
   fromIO,
   fromIOEither,
   fromPredicate,
-  monadSeq
+  readerTaskEitherSeq
 } from '../src/ReaderTaskEither'
 import { left as eitherLeft, right as eitherRight, either } from '../src/Either'
 import { left as taskEitherLeft, taskEither } from '../src/TaskEither'
@@ -288,7 +288,7 @@ describe('ReaderTaskEither', () => {
       right(new Task(() => Promise.resolve(log.push(message))))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceSeries = sequence(monadSeq, array)
+    const sequenceSeries = sequence(readerTaskEitherSeq, array)
     return sequenceSeries([t1, t2])
       .run({})
       .then(ns => {

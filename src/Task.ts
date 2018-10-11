@@ -181,10 +181,11 @@ export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
 }
 
 /**
+ * Like {@link task} but `ap` is sequential
  * @instance
  * @since 1.10.0
  */
-export const monadSeq: typeof task = {
+export const taskSeq: typeof task = {
   ...task,
   ap: (fab, fa) => fab.chain(f => fa.map(f))
 }
