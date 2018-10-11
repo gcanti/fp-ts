@@ -5,6 +5,8 @@ import { ordNumber } from '../src/Ord'
 import { Pair, getMonoid, getOrd, getSemigroup, getSetoid, pair } from '../src/Pair'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
+import * as F from '../src/Foldable'
+import { identity } from '../src/function'
 
 describe('Pair', () => {
   it('first', () => {
@@ -38,6 +40,25 @@ describe('Pair', () => {
   it('reduce', () => {
     assert.deepEqual(new Pair('a', 'b').reduce('', (b, a) => b + a), 'ab')
     assert.deepEqual(pair.reduce(new Pair('a', 'b'), '', (b, a) => b + a), 'ab')
+  })
+
+  it('foldMap', () => {
+    const old = F.foldMap(pair, monoidString)
+    const foldMap = pair.foldMap(monoidString)
+    const x1 = new Pair('a', 'b')
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'ab')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(pair)
+    const foldr = pair.foldr
+    const x1 = new Pair('a', 'b')
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'ba')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('extract', () => {
