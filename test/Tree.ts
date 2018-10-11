@@ -1,8 +1,10 @@
 import * as assert from 'assert'
-import { Tree, tree, drawTree, getSetoid, unfoldTree, unfoldTreeM } from '../src/Tree'
-import { identity, Identity } from '../src/Identity'
+import * as F from '../src/Foldable'
+import { identity, tuple } from '../src/function'
+import * as I from '../src/Identity'
+import { monoidString } from '../src/Monoid'
 import { setoidNumber } from '../src/Setoid'
-import { tuple } from '../src/function'
+import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM } from '../src/Tree'
 
 describe('Tree', () => {
   it('map', () => {
@@ -50,9 +52,28 @@ describe('Tree', () => {
     assert.strictEqual(tree.reduce(fa, '', (b, a) => b + a), 'abc')
   })
 
+  it('foldMap', () => {
+    const old = F.foldMap(tree, monoidString)
+    const foldMap = tree.foldMap(monoidString)
+    const x1 = new Tree('a', [new Tree('b', []), new Tree('c', [])])
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'abc')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(tree)
+    const foldr = tree.foldr
+    const x1 = new Tree('a', [new Tree('b', []), new Tree('c', [])])
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'cba')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
+  })
+
   it('traverse', () => {
     const fa = new Tree('a', [new Tree('b', []), new Tree('c', [])])
-    assert.deepEqual(tree.traverse(identity)(fa, a => new Identity(a)), new Identity(fa))
+    assert.deepEqual(tree.traverse(I.identity)(fa, a => new I.Identity(a)), new I.Identity(fa))
   })
 
   it('drawTree', () => {
@@ -96,8 +117,8 @@ describe('Tree', () => {
   })
 
   it('unfoldTreeM', () => {
-    const fa = unfoldTreeM(identity)(1, b => new Identity(tuple(b, b < 3 ? [b + 1, b + 2] : [])))
-    const expected = new Identity(new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])]))
+    const fa = unfoldTreeM(I.identity)(1, b => new I.Identity(tuple(b, b < 3 ? [b + 1, b + 2] : [])))
+    const expected = new I.Identity(new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])]))
     assert.deepEqual(fa, expected)
   })
 })
