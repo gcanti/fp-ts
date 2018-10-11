@@ -1,8 +1,10 @@
 import * as assert from 'assert'
-import { fold, monoidSum } from '../src/Monoid'
+import { fold, monoidSum, monoidString } from '../src/Monoid'
 import { NonEmptyArray, nonEmptyArray, fromArray, getSemigroup, group, groupSort } from '../src/NonEmptyArray'
 import { none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
+import * as F from '../src/Foldable'
+import { identity } from '../src/function'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -70,6 +72,25 @@ describe('NonEmptyArray', () => {
     const x = new NonEmptyArray('a', ['b'])
     assert.strictEqual(x.reduce('', (b, a) => b + a), 'ab')
     assert.strictEqual(nonEmptyArray.reduce(x, '', (b, a) => b + a), 'ab')
+  })
+
+  it('foldMap', () => {
+    const old = F.foldMap(nonEmptyArray, monoidString)
+    const foldMap = nonEmptyArray.foldMap(monoidString)
+    const x1 = new NonEmptyArray('a', ['b', 'c'])
+    const f1 = identity
+    assert.strictEqual(foldMap(x1, f1), 'abc')
+    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
+  })
+
+  it('foldr', () => {
+    const old = F.foldr(nonEmptyArray)
+    const foldr = nonEmptyArray.foldr
+    const x1 = new NonEmptyArray('a', ['b', 'c'])
+    const init1 = ''
+    const f1 = (a: string, acc: string) => acc + a
+    assert.strictEqual(foldr(x1, init1, f1), 'cba')
+    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('toString', () => {
