@@ -249,7 +249,7 @@ Return stringified representation of this [NonEmptyArray](./NonEmptyArray.md)
 ## nonEmptyArray
 
 ```ts
-Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI>
+Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable1<URI>
 ```
 
 Added in v1.0.0 (instance)

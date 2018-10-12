@@ -140,21 +140,23 @@ Added in v1.0.0 (method)
 
 Runs the inner `Task`
 
-## monadSeq
+## taskEither
 
 ```ts
-Monad2<URI> & Bifunctor2<URI> & Alt2<URI>
+Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI>
+```
+
+Added in v1.0.0 (instance)
+
+## taskEitherSeq
+
+```ts
+typeof taskEither
 ```
 
 Added in v1.10.0 (instance)
 
-## taskEither
-
-```ts
-Monad2<URI> & Bifunctor2<URI> & Alt2<URI>
-```
-
-Added in v1.0.0 (instance)
+Like [taskEither](#taskeither) but `ap` is sequential
 
 ## bracket
 

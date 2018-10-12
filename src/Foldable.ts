@@ -11,9 +11,10 @@ import { Setoid } from './Setoid'
 import { Predicate } from './function'
 
 /**
+ * Use {@link Foldable2v}
  * @typeclass
  * @since 1.0.0
- * @deprecated Use {@link Foldable2v} instead.
+ * @deprecated
  */
 export interface Foldable<F> {
   readonly URI: F

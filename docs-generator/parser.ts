@@ -319,10 +319,11 @@ const parseTypeclassInterface = (i: InterfaceDeclaration): ParseResult<Export> =
       const signature = i.getText().substring('export '.length)
       const description = fromJSDocDescription(annotation.description)
       const since = getSince(annotation)
+      const deprecated = getDeprecated(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, name))
       } else {
-        return ok(new Typeclass(name, signature, description, since.value))
+        return ok(new Typeclass(name, signature, description, since.value, deprecated))
       }
     }
     return notFound

@@ -39,6 +39,48 @@ Filter an array of optional values, keeping only the elements which contain a va
 
 Alias of [Compactable](./Compactable.md)'s `compact`
 
+## chop
+
+```ts
+<A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Array<B>
+```
+
+Added in v1.10.0 (function)
+
+A useful recursion pattern for processing an array to produce a new array, often used for "chopping" up the input
+array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
+value and the rest of the array.
+
+_Example_
+
+```ts
+const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<Array<A>> => {
+  return chop(as, as => {
+    const { init, rest } = span(as, a => S.equals(a, as[0]))
+    return [init, rest]
+  })
+}
+assert.deepEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+```
+
+## chunksOf
+
+```ts
+<A>(as: Array<A>, n: number): Array<Array<A>>
+```
+
+Added in v1.10.0 (function)
+
+Splits an array into length-`n` pieces. The last piece will be shorter if `n` does not evenly divide the length of
+the array. Note that `chunksOf([], n)` is `[]`, not `[[]]`. This is intentional, and is consistent with a recursive
+definition of `chunksOf`; it satisfies the property that
+
+```ts
+chunksOf(xs, n).concat(chunksOf(ys, n)) == chunksOf(xs.concat(ys)), n)
+```
+
+whenever `n` evenly divides the length of `xs`.
+
 ## cons
 
 ```ts
@@ -288,7 +330,7 @@ Get the last element in an array, or `None` if the array is empty
 
 Added in v1.0.0 (function)
 
-Extracts from a list of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
 
 ## mapOption
 
@@ -367,7 +409,7 @@ Reverse an array, creating a new array
 
 Added in v1.0.0 (function)
 
-Extracts from a list of `Either` all the `Right` elements. All the `Right` elements are extracted in order
+Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
 
 ## rotate
 
@@ -460,6 +502,22 @@ Split an array into two parts:
 
 1.  the longest initial subarray for which all elements satisfy the specified predicate
 2.  the remaining elements
+
+## split
+
+```ts
+<A>(as: Array<A>, n: number): [Array<A>, Array<A>]
+```
+
+Added in v1.10.0 (function)
+
+Splits an array into two pieces, the first piece has `n` elements.
+
+_Example_
+
+```ts
+assert.deepEqual(split([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4, 5]])
+```
 
 ## tail
 

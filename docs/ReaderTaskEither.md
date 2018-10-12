@@ -125,21 +125,23 @@ Added in v1.0.0 (method)
 
 Runs the inner `TaskEither`
 
-## monadSeq
+## readerTaskEither
 
 ```ts
-Monad3<URI> & Bifunctor3<URI> & Alt3<URI>
+Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI>
+```
+
+Added in v1.6.0 (instance)
+
+## readerTaskEitherSeq
+
+```ts
+typeof readerTaskEither
 ```
 
 Added in v1.10.0 (instance)
 
-## readerTaskEither
-
-```ts
-Monad3<URI> & Bifunctor3<URI> & Alt3<URI>
-```
-
-Added in v1.6.0 (instance)
+Like [readerTaskEither](#readertaskeither) but `ap` is sequential
 
 ## ask
 

@@ -161,7 +161,7 @@ const printFunc = (f: Func): string => {
 }
 
 const printTypeclass = (tc: Typeclass): string => {
-  let s = CRLF + h1(tc.name)
+  let s = CRLF + h1(handleDeprecated(tc.name, tc.deprecated))
   s += CRLF + printSignature(tc.signature)
   s += CRLF + printSince(tc.since) + ` (type class)`
   s += printDescription(tc.description)

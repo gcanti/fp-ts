@@ -78,7 +78,8 @@ export class Typeclass {
     readonly name: string,
     readonly signature: string,
     readonly description: Option<string>,
-    readonly since: string
+    readonly since: string,
+    readonly deprecated: boolean
   ) {}
 }
 

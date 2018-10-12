@@ -121,7 +121,12 @@ Added in v1.0.0 (method)
 ## identity
 
 ```ts
-Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI>
+Monad1<URI> &
+  Foldable2v1<URI> &
+  Traversable1<URI> &
+  Alt1<URI> &
+  Comonad1<URI> &
+  ChainRec1<URI>
 ```
 
 Added in v1.0.0 (instance)

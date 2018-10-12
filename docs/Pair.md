@@ -94,7 +94,7 @@ Swaps the elements in a pair
 ## pair
 
 ```ts
-Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI>
+Applicative1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI>
 ```
 
 Added in v1.0.0 (instance)
