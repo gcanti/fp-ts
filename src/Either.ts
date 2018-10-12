@@ -2,20 +2,20 @@ import { Alt2 } from './Alt'
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
+import { Compactable2C, Separated } from './Compactable'
 import { Extend2 } from './Extend'
+import { Filterable2C } from './Filterable'
+import { Foldable2v2 } from './Foldable2v'
 import { Lazy, phantom, Predicate, Refinement, toString } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
-import { Option } from './Option'
-import { Setoid } from './Setoid'
-import { Traversable2 } from './Traversable'
-import { Validation } from './Validation'
-import { Compactable2C, Separated } from './Compactable'
 import { Monoid } from './Monoid'
-import { Filterable2C } from './Filterable'
-import { Witherable2C } from './Witherable'
+import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { Foldable2v2 } from './Foldable2v'
+import { Setoid } from './Setoid'
+import { Traversable2v2 } from './Traversable2v'
+import { Validation } from './Validation'
+import { Witherable2C } from './Witherable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -364,7 +364,11 @@ const traverse = <F>(F: Applicative<F>) => <L, A, B>(
   ta: Either<L, A>,
   f: (a: A) => HKT<F, B>
 ): HKT<F, Either<L, B>> => {
-  return ta.isLeft() ? F.of(left(ta.value)) : F.map(f(ta.value), of as ((a: B) => Either<L, B>))
+  return ta.isLeft() ? F.of(left(ta.value)) : F.map(f(ta.value), of as ((b: B) => Either<L, B>))
+}
+
+const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Either<L, HKT<F, A>>): HKT<F, Either<L, A>> => {
+  return ta.isLeft() ? F.of(left(ta.value)) : F.map<A, Either<L, A>>(ta.value, right)
 }
 
 const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
@@ -653,7 +657,7 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
  */
 export const either: Monad2<URI> &
   Foldable2v2<URI> &
-  Traversable2<URI> &
+  Traversable2v2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
@@ -667,6 +671,7 @@ export const either: Monad2<URI> &
   foldMap,
   foldr,
   traverse,
+  sequence,
   bimap,
   alt,
   extend,
