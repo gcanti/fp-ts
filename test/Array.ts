@@ -122,6 +122,11 @@ describe('Array', () => {
     assert.deepEqual(fas, some([1, 3]))
   })
 
+  it('sequence', () => {
+    assert.deepEqual(array.sequence(option)([some(1), some(3)]), some([1, 3]))
+    assert.deepEqual(array.sequence(option)([some(1), none]), none)
+  })
+
   it('unfoldr', () => {
     const as = array.unfoldr(5, n => (n > 0 ? some(tuple(n, n - 1)) : none))
     assert.deepEqual(as, [5, 4, 3, 2, 1])
