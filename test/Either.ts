@@ -25,9 +25,10 @@ import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { none, option, some } from '../src/Option'
+import { none, option, Option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
+import * as T from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 
 describe('Either', () => {
@@ -161,6 +162,20 @@ describe('Either', () => {
     assert.deepEqual(either.traverse(option)(left('foo'), a => (a >= 2 ? some(a) : none)), some(left('foo')))
     assert.deepEqual(either.traverse(option)(right(1), a => (a >= 2 ? some(a) : none)), none)
     assert.deepEqual(either.traverse(option)(right(3), a => (a >= 2 ? some(a) : none)), some(right(3)))
+  })
+
+  it('sequence', () => {
+    const old = T.sequence(option, either)
+    const sequence = either.sequence(option)
+    const x1 = right<number, Option<string>>(some('a'))
+    assert.deepEqual(sequence(x1), some(right('a')))
+    assert.deepEqual(sequence(x1), old(x1))
+    const x2 = left<number, Option<string>>(1)
+    assert.deepEqual(sequence(x2), some(left(1)))
+    assert.deepEqual(sequence(x2), old(x2))
+    const x3 = right<number, Option<string>>(none)
+    assert.deepEqual(sequence(x3), none)
+    assert.deepEqual(sequence(x3), old(x3))
   })
 
   it('chainRec', () => {
