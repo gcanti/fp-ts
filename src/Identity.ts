@@ -7,9 +7,9 @@ import { Foldable2v1 } from './Foldable2v'
 import { Lazy, toString } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { Setoid } from './Setoid'
-import { Traversable1 } from './Traversable'
 import { Monoid } from './Monoid'
+import { Setoid } from './Setoid'
+import { Traversable2v1 } from './Traversable2v'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -132,8 +132,12 @@ const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> 
   return new Identity(tailRec(a => f(a).value, a))
 }
 
-function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>) => HKT<F, Identity<B>> {
-  return (ta, f) => F.map(f(ta.value), of)
+const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
+  return F.map(f(ta.value), of)
+}
+
+const sequence = <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
+  return F.map(ta.value, of)
 }
 
 /**
@@ -142,7 +146,7 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Identity<A>, f: (a: A) => HK
  */
 export const identity: Monad1<URI> &
   Foldable2v1<URI> &
-  Traversable1<URI> &
+  Traversable2v1<URI> &
   Alt1<URI> &
   Comonad1<URI> &
   ChainRec1<URI> = {
@@ -155,6 +159,7 @@ export const identity: Monad1<URI> &
   foldMap,
   foldr,
   traverse,
+  sequence,
   alt,
   extract,
   extend,
