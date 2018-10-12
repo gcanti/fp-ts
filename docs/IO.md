@@ -136,7 +136,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-Monad1<URI>
+Monad1<URI> & MonadIO1<URI>
 ```
 
 ## Functions

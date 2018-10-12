@@ -238,7 +238,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
+Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2<URI>
 ```
 
 ## Functions

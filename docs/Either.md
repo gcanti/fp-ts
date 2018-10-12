@@ -384,7 +384,7 @@ _Signature_
 
 ```ts
 Monad2<URI> &
-  Foldable2<URI> &
+  Foldable2v2<URI> &
   Traversable2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
