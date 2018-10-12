@@ -176,34 +176,34 @@ export function foldM<F, M>(
 /**
  * Perform all of the effects in some data structure in the order given by the `Foldable2v` instance, ignoring the final result.
  */
-export function sequence<M extends URIS3, F extends URIS>(
+export function sequence_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
   F: Foldable2v1<F>
 ): <U, L, A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
-export function sequence<M extends URIS3, F extends URIS, U, L>(
+export function sequence_<M extends URIS3, F extends URIS, U, L>(
   M: Applicative3C<M, U, L>,
   F: Foldable2v1<F>
 ): <A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
-export function sequence<M extends URIS2, F extends URIS>(
+export function sequence_<M extends URIS2, F extends URIS>(
   M: Applicative2<M>,
   F: Foldable2v1<F>
 ): <L, A>(fa: Type<F, Type2<M, L, A>>) => Type2<M, L, void>
-export function sequence<M extends URIS2, F extends URIS, L>(
+export function sequence_<M extends URIS2, F extends URIS, L>(
   M: Applicative2C<M, L>,
   F: Foldable2v1<F>
 ): <A>(fa: Type<F, Type2<M, L, A>>) => Type2<M, L, void>
-export function sequence<M extends URIS, F extends URIS>(
+export function sequence_<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable2v1<F>
 ): <A>(fa: Type<F, Type<M, A>>) => Type<M, void>
-export function sequence<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
+export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
 /**
  * Perform all of the effects in some data structure in the order given by the `Foldable2v` instance, ignoring the final result.
  * @function
  * @since 1.9.0
  */
-export function sequence<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
-  const traverseMF = traverse(M, F)
+export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
+  const traverseMF = traverse_(M, F)
   return fa => traverseMF(fa, identity)
 }
 
@@ -429,27 +429,27 @@ export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A> {
  * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
  * final result.
  */
-export function traverse<M extends URIS3, F extends URIS>(
+export function traverse_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
   F: Foldable2v1<F>
 ): <U, L, A, B>(fa: Type<F, A>, f: (a: A) => Type3<M, U, L, B>) => Type3<M, U, L, void>
-export function traverse<M extends URIS3, F extends URIS, U, L>(
+export function traverse_<M extends URIS3, F extends URIS, U, L>(
   M: Applicative3C<M, U, L>,
   F: Foldable2v1<F>
 ): <A, B>(fa: Type<F, A>, f: (a: A) => Type3<M, U, L, B>) => Type3<M, U, L, void>
-export function traverse<M extends URIS2, F extends URIS>(
+export function traverse_<M extends URIS2, F extends URIS>(
   M: Applicative2<M>,
   F: Foldable2v1<F>
 ): <L, A, B>(fa: Type<F, A>, f: (a: A) => Type2<M, L, B>) => Type2<M, L, void>
-export function traverse<M extends URIS2, F extends URIS, L>(
+export function traverse_<M extends URIS2, F extends URIS, L>(
   M: Applicative2C<M, L>,
   F: Foldable2v1<F>
 ): <A, B>(fa: Type<F, A>, f: (a: A) => Type2<M, L, B>) => Type2<M, L, void>
-export function traverse<M extends URIS, F extends URIS>(
+export function traverse_<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable2v1<F>
 ): <A, B>(fa: Type<F, A>, f: (a: A) => Type<M, B>) => Type<M, void>
-export function traverse<M, F>(
+export function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable2v<F>
 ): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>
@@ -459,7 +459,7 @@ export function traverse<M, F>(
  * @function
  * @since 1.9.0
  */
-export function traverse<M, F>(
+export function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable2v<F>
 ): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> {
