@@ -198,6 +198,11 @@ describe('Option', () => {
     assert.deepEqual(option.traverse(array)(none, s => [s]), [none])
   })
 
+  it('sequence', () => {
+    assert.deepEqual(option.sequence(array)(some([1, 2])), [some(1), some(2)])
+    assert.deepEqual(option.sequence(array)(none), [none])
+  })
+
   it('reduce', () => {
     assert.strictEqual(none.reduce(2, (b, a) => b + a), 2)
     assert.strictEqual(some(3).reduce(2, (b, a) => b + a), 5)

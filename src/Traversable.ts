@@ -39,42 +39,42 @@ export interface Traversable<T> extends Functor<T>, Foldable<T> {
   /**
    * Runs an action for every element in a data structure and accumulates the results
    */
-  traverse: Traverse<T>
+  readonly traverse: Traverse<T>
 }
 
 /**
  * @see Traversable
  */
 export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
-  traverse: Traverse1<T>
+  readonly traverse: Traverse1<T>
 }
 
 /**
  * @see Traversable
  */
 export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
-  traverse: Traverse2<T>
+  readonly traverse: Traverse2<T>
 }
 
 /**
  * @see Traversable
  */
 export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Foldable2C<T, TL> {
-  traverse: Traverse2C<T, TL>
+  readonly traverse: Traverse2C<T, TL>
 }
 
 /**
  * @see Traversable
  */
 export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
-  traverse: Traverse3<T>
+  readonly traverse: Traverse3<T>
 }
 
 /**
  * @see Traversable
  */
 export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU, TL>, Foldable3C<T, TU, TL> {
-  traverse: Traverse3C<T, TU, TL>
+  readonly traverse: Traverse3C<T, TU, TL>
 }
 
 /**
@@ -362,6 +362,10 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
   return {
     ...getFunctorComposition(F, G),
     ...getFoldableComposition(F, G),
-    traverse: H => (fga, f) => F.traverse(H)(fga, ga => G.traverse(H)(ga, a => f(a)))
+    traverse: H => {
+      const traverseF = F.traverse(H)
+      const traverseG = G.traverse(H)
+      return (fga, f) => traverseF(fga, ga => traverseG(ga, f))
+    }
   }
 }

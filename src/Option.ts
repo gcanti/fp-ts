@@ -1,8 +1,11 @@
 import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
+import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
+import { Filterable1 } from './Filterable'
 import { Foldable2v1 } from './Foldable2v'
+import { identity, Lazy, not, Predicate, Refinement, toString } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { getDualMonoid, Monoid } from './Monoid'
@@ -10,10 +13,7 @@ import { Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable1 } from './Traversable'
-import { identity, Lazy, not, Predicate, Refinement, toString } from './function'
-import { Compactable1, Separated } from './Compactable'
-import { Filterable1 } from './Filterable'
+import { Traversable2v1 } from './Traversable2v'
 import { Witherable1 } from './Witherable'
 
 declare module './HKT' {
@@ -474,6 +474,10 @@ const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HK
   return ta.isNone() ? F.of(none) : F.map(f(ta.value), some)
 }
 
+const sequence = <F>(F: Applicative<F>) => <A>(ta: Option<HKT<F, A>>): HKT<F, Option<A>> => {
+  return ta.isNone() ? F.of(none) : F.map(ta.value, some)
+}
+
 const alt = <A>(fx: Option<A>, fy: Option<A>): Option<A> => {
   return fx.alt(fy)
 }
@@ -801,7 +805,7 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
 export const option: Monad1<URI> &
   Foldable2v1<URI> &
   Plus1<URI> &
-  Traversable1<URI> &
+  Traversable2v1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
@@ -816,6 +820,7 @@ export const option: Monad1<URI> &
   foldMap,
   foldr,
   traverse,
+  sequence,
   zero,
   alt,
   extend,
