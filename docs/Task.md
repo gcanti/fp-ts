@@ -136,8 +136,24 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-Monad1<URI>
+Monad1<URI> & MonadIO1<URI> & MonadTask1<URI>
 ```
+
+### taskSeq
+
+_instance_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+typeof task
+```
+
+_Description_
+
+Like [task](#task) but `ap` is sequential
 
 ## Functions
 

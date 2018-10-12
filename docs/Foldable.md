@@ -7,7 +7,7 @@ title: Module Foldable
 
 ## Type classes
 
-### Foldable
+### ~~Foldable~~ (deprecated)
 
 _type class_
 
@@ -21,6 +21,10 @@ interface Foldable<F> {
   readonly reduce: <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => B) => B
 }
 ```
+
+_Description_
+
+Use [Foldable2v](./Foldable2v.md)
 
 ## Functions
 

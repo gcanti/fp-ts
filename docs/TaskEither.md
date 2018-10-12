@@ -224,10 +224,48 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-Monad2<URI> & Bifunctor2<URI> & Alt2<URI>
+Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI>
 ```
 
+### taskEitherSeq
+
+_instance_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+typeof taskEither
+```
+
+_Description_
+
+Like [taskEither](#taskeither) but `ap` is sequential
+
 ## Functions
+
+### bracket
+
+_function_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+<L, A, B>(
+  acquire: TaskEither<L, A>,
+  use: (a: A) => TaskEither<L, B>,
+  release: (a: A, e: Either<L, B>) => TaskEither<L, void>
+): TaskEither<L, B>
+```
+
+_Description_
+
+Make sure that a resource is cleaned up in the event of an exception. The
+release action is called regardless of whether the body action throws or
+returns.
 
 ### fromEither
 

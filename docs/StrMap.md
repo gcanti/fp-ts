@@ -81,7 +81,7 @@ _Signature_
 
 ```ts
 Functor1<URI> &
-  Foldable1<URI> &
+  Foldable2v1<URI> &
   Traversable1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &

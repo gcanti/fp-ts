@@ -204,8 +204,24 @@ _since 1.6.0_
 _Signature_
 
 ```ts
-Monad3<URI> & Bifunctor3<URI> & Alt3<URI>
+Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI>
 ```
+
+### readerTaskEitherSeq
+
+_instance_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+typeof readerTaskEither
+```
+
+_Description_
+
+Like [readerTaskEither](#readertaskeither) but `ap` is sequential
 
 ## Functions
 

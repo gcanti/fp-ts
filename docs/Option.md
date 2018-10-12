@@ -559,7 +559,7 @@ _Signature_
 
 ```ts
 Monad1<URI> &
-  Foldable1<URI> &
+  Foldable2v1<URI> &
   Plus1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &

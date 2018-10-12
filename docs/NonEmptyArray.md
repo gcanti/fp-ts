@@ -369,7 +369,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI>
+Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable1<URI>
 ```
 
 ## Functions
