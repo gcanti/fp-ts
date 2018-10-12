@@ -1,22 +1,21 @@
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { liftA2 } from './Apply'
+import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
+import { Filterable1 } from './Filterable'
 import { Foldable2v1 } from './Foldable2v'
+import { concat, Endomorphism, identity, Predicate, Refinement, tuple } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { Option, fromNullable, none, some } from './Option'
-import { Ord, getSemigroup, ordNumber } from './Ord'
+import { fromNullable, none, Option, some } from './Option'
+import { getSemigroup, Ord, ordNumber } from './Ord'
 import { Ordering } from './Ordering'
 import { Plus1 } from './Plus'
-import { Setoid, getArraySetoid } from './Setoid'
-import { Traversable1 } from './Traversable'
+import { getArraySetoid, Setoid } from './Setoid'
+import { Traversable2v1 } from './Traversable2v'
 import { Unfoldable1 } from './Unfoldable'
-import { Endomorphism, Predicate, Refinement, concat, tuple, identity } from './function'
-import { Compactable1, Separated } from './Compactable'
-import { Filterable1 } from './Filterable'
 import { Witherable1 } from './Witherable'
 
 // Adapted from https://github.com/purescript/purescript-arrays
@@ -160,12 +159,18 @@ export function traverse<F extends URIS>(
 ): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
 /**
+ * Use `array.traverse`
  * @function
  * @since 1.0.0
+ * @deprecated
  */
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
-  const liftedSnoc: <A>(fa: HKT<F, Array<A>>) => (fb: HKT<F, A>) => HKT<F, Array<A>> = liftA2(F)(as => a => snoc(as, a))
-  return (ta, f) => reduce(ta, F.of(zero()), (fab, a) => liftedSnoc(fab)(f(a)))
+  return <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) =>
+    reduce(ta, F.of<Array<B>>(zero()), (fbs, a) => F.ap(F.map(fbs, bs => (b: B) => snoc(bs, b)), f(a)))
+}
+
+const sequence = <F>(F: Applicative<F>) => <A>(ta: Array<HKT<F, A>>): HKT<F, Array<A>> => {
+  return reduce(ta, F.of<Array<A>>(zero()), (fas, fa) => F.ap(F.map(fas, as => (a: A) => snoc(as, a)), fa))
 }
 
 /**
@@ -946,7 +951,7 @@ export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => {
 export const array: Monad1<URI> &
   Foldable2v1<URI> &
   Unfoldable1<URI> &
-  Traversable1<URI> &
+  Traversable2v1<URI> &
   Alternative1<URI> &
   Plus1<URI> &
   Extend1<URI> &
@@ -969,6 +974,7 @@ export const array: Monad1<URI> &
   foldr: reduceRight,
   unfoldr,
   traverse,
+  sequence,
   zero,
   alt,
   extend,
