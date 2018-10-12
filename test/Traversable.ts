@@ -11,7 +11,7 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Traversable', () => {
   it('getTraversableComposition', () => {
-    const o: Applicative<'Option'> = option as any // TODO
+    const o: Applicative<'Option'> = option as any
     const arrayOptionTraversable = getTraversableComposition(array, option)
     assert.deepEqual(
       arrayOptionTraversable.traverse(o)([some(1), some(2)], (n: number) => (n <= 2 ? some(n * 2) : none)),
