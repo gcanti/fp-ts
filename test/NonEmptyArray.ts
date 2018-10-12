@@ -5,6 +5,7 @@ import { none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
+import * as T from '../src/Traversable'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -56,6 +57,17 @@ describe('NonEmptyArray', () => {
       some(new NonEmptyArray(1, [2, 3]))
     )
     assert.deepEqual(nonEmptyArray.traverse(option)(new NonEmptyArray(1, [2, 3]), n => (n >= 2 ? some(n) : none)), none)
+  })
+
+  it('sequence', () => {
+    const old = T.sequence(option, nonEmptyArray)
+    const sequence = nonEmptyArray.sequence(option)
+    const x1 = new NonEmptyArray(some(1), [some(2), some(3)])
+    assert.deepEqual(sequence(x1), some(new NonEmptyArray(1, [2, 3])))
+    assert.deepEqual(sequence(x1), old(x1))
+    const x2 = new NonEmptyArray(none, [some(2), some(3)])
+    assert.deepEqual(sequence(x2), none)
+    assert.deepEqual(sequence(x2), old(x2))
   })
 
   it('min', () => {

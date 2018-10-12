@@ -10,7 +10,7 @@ import { none, Option, some } from './Option'
 import { Ord } from './Ord'
 import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable1 } from './Traversable'
+import { Traversable2v1 } from './Traversable2v'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -369,14 +369,25 @@ const extract = <A>(fa: NonEmptyArray<A>): A => {
 function traverse<F>(
   F: Applicative<F>
 ): <A, B>(ta: NonEmptyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
-  return (ta, f) => F.map(array.traverse(F)(ta.toArray(), f), unsafeFromArray)
+  const traverseF = array.traverse(F)
+  return <A, B>(ta: NonEmptyArray<A>, f: (a: A) => HKT<F, B>) => {
+    const fb = f(ta.head)
+    const fbs = traverseF(ta.tail, f)
+    return F.ap(F.map(fb, b => (bs: Array<B>) => new NonEmptyArray(b, bs)), fbs)
+  }
+}
+
+function sequence<F>(F: Applicative<F>): <A>(ta: NonEmptyArray<HKT<F, A>>) => HKT<F, NonEmptyArray<A>> {
+  const sequenceF = array.sequence(F)
+  return <A>(ta: NonEmptyArray<HKT<F, A>>) =>
+    F.ap(F.map(ta.head, a => (as: Array<A>) => new NonEmptyArray(a, as)), sequenceF(ta.tail))
 }
 
 /**
  * @instance
  * @since 1.0.0
  */
-export const nonEmptyArray: Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable1<URI> = {
+export const nonEmptyArray: Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> = {
   URI,
   extend,
   extract,
@@ -387,5 +398,6 @@ export const nonEmptyArray: Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Tra
   reduce,
   foldMap,
   foldr,
-  traverse
+  traverse,
+  sequence
 }
