@@ -12,10 +12,10 @@ import {
   minimum,
   oneOf,
   product,
-  sequence,
+  sequence_,
   sum,
   toArray,
-  traverse
+  traverse_
 } from '../src/Foldable2v'
 import { IO, io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
@@ -57,14 +57,14 @@ describe('Foldable2v', () => {
 
   it('traverse', () => {
     let counter = ''
-    const x = traverse(io, array)(['a', 'b', 'c'], a => new IO(() => (counter += a)))
+    const x = traverse_(io, array)(['a', 'b', 'c'], a => new IO(() => (counter += a)))
     x.run()
     assert.strictEqual(counter, 'abc')
   })
 
   it('sequence', () => {
     let counter = ''
-    const x = sequence(io, array)([
+    const x = sequence_(io, array)([
       new IO(() => (counter += 'a')),
       new IO(() => (counter += 'b')),
       new IO(() => (counter += 'c'))
