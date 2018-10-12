@@ -5,36 +5,22 @@ title: Module Date
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Date.ts)
 
-## Constants
-
-### create
-
-_constant_
-
-_since 1.10.0_
-
-_Signature_
+## create
 
 ```ts
-create: IO<Date>
+IO<Date>
 ```
 
-_Description_
+Added in v1.10.0 (constant)
 
 Returns the current `Date`
 
-### now
-
-_constant_
-
-_since 1.10.0_
-
-_Signature_
+## now
 
 ```ts
-now: IO<number>
+IO<number>
 ```
 
-_Description_
+Added in v1.10.0 (constant)
 
 Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC

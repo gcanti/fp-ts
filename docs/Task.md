@@ -84,21 +84,23 @@ Added in v1.0.0 (method)
 
 Added in v1.0.0 (method)
 
-## monadSeq
+## task
 
 ```ts
-Monad1<URI>
+Monad1<URI> & MonadIO1<URI> & MonadTask1<URI>
+```
+
+Added in v1.0.0 (instance)
+
+## taskSeq
+
+```ts
+typeof task
 ```
 
 Added in v1.10.0 (instance)
 
-## task
-
-```ts
-Monad1<URI>
-```
-
-Added in v1.0.0 (instance)
+Like [task](#task) but `ap` is sequential
 
 ## delay
 

@@ -5,7 +5,7 @@ title: Module Foldable
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts)
 
-# Foldable
+# ~~Foldable~~ (deprecated)
 
 ```ts
 interface Foldable<F> {
@@ -15,6 +15,8 @@ interface Foldable<F> {
 ```
 
 Added in v1.0.0 (type class)
+
+Use [Foldable2v](./Foldable2v.md)
 
 ## elem
 

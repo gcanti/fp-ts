@@ -94,7 +94,7 @@ Added in v1.6.0 (method)
 ## tree
 
 ```ts
-Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI>
+Monad1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI>
 ```
 
 Added in v1.6.0 (instance)

@@ -87,7 +87,7 @@ Added in v1.0.0 (method)
 ## io
 
 ```ts
-Monad1<URI>
+Monad1<URI> & MonadIO1<URI>
 ```
 
 Added in v1.0.0 (instance)
