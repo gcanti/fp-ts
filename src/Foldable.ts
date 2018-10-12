@@ -13,6 +13,7 @@ import { Predicate } from './function'
 /**
  * @typeclass
  * @since 1.0.0
+ * @deprecated Use {@link Foldable2v} instead.
  */
 export interface Foldable<F> {
   readonly URI: F
