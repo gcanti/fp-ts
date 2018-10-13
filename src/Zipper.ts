@@ -8,7 +8,7 @@ import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
-import { Traversable1 } from './Traversable'
+import { Traversable2v1 } from './Traversable2v'
 
 /*
   Adapted from
@@ -227,12 +227,28 @@ const foldr = <A, B>(fa: Zipper<A>, b: B, f: (a: A, b: B) => B): B => {
   return fa.lefts.reduceRight((acc, a) => f(a, acc), focus)
 }
 
-const traverse = <F>(F: Applicative<F>): (<A, B>(ta: Zipper<A>, f: (a: A) => HKT<F, B>) => HKT<F, Zipper<B>>) => {
+function traverse<F>(F: Applicative<F>): <A, B>(ta: Zipper<A>, f: (a: A) => HKT<F, B>) => HKT<F, Zipper<B>> {
   const traverseF = array.traverse(F)
-  return (ta, f) => {
-    const len = ta.lefts.length
-    return F.map(traverseF(ta.toArray(), f), bs => new Zipper(take(len, bs), bs[len], drop(len + 1, bs)))
-  }
+  return <A, B>(ta: Zipper<A>, f: (a: A) => HKT<F, B>) =>
+    F.ap(
+      F.ap(
+        F.map(traverseF(ta.lefts, f), lefts => (focus: B) => (rights: Array<B>) => new Zipper(lefts, focus, rights)),
+        f(ta.focus)
+      ),
+      traverseF(ta.rights, f)
+    )
+}
+
+function sequence<F>(F: Applicative<F>): <A>(ta: Zipper<HKT<F, A>>) => HKT<F, Zipper<A>> {
+  const sequenceF = array.sequence(F)
+  return <A>(ta: Zipper<HKT<F, A>>) =>
+    F.ap(
+      F.ap(
+        F.map(sequenceF(ta.lefts), lefts => (focus: A) => (rights: Array<A>) => new Zipper(lefts, focus, rights)),
+        ta.focus
+      ),
+      sequenceF(ta.rights)
+    )
 }
 
 const extract = <A>(fa: Zipper<A>): A => {
@@ -274,7 +290,7 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => {
  * @instance
  * @since 1.9.0
  */
-export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI> = {
+export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = {
   URI,
   map,
   of,
@@ -284,5 +300,6 @@ export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable1<URI> & 
   reduce,
   foldMap,
   foldr,
-  traverse
+  traverse,
+  sequence
 }
