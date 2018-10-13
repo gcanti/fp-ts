@@ -14,7 +14,7 @@ import { contramap as contramapOrd, getSemigroup as getOrdSemigroup, Ord } from 
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Setoid } from './Setoid'
-import { Traversable2 } from './Traversable'
+import { Traversable2v2 } from './Traversable2v'
 
 // Adapted from https://github.com/purescript/purescript-tuples
 
@@ -230,15 +230,19 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
   }
 }
 
-function traverse<F>(F: Applicative<F>): <L, A, B>(ta: Tuple<L, A>, f: (a: A) => HKT<F, B>) => HKT<F, Tuple<L, B>> {
-  return (ta, f) => F.map(f(ta.snd), b => new Tuple(ta.fst, b))
+const traverse = <F>(F: Applicative<F>) => <L, A, B>(ta: Tuple<L, A>, f: (a: A) => HKT<F, B>): HKT<F, Tuple<L, B>> => {
+  return F.map(f(ta.snd), b => new Tuple(ta.fst, b))
+}
+
+const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Tuple<L, HKT<F, A>>): HKT<F, Tuple<L, A>> => {
+  return F.map(ta.snd, b => new Tuple(ta.fst, b))
 }
 
 /**
  * @instance
  * @since 1.0.0
  */
-export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2<URI> = {
+export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = {
   URI,
   compose,
   map,
@@ -248,5 +252,6 @@ export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Folda
   reduce,
   foldMap,
   foldr,
-  traverse
+  traverse,
+  sequence
 }

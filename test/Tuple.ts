@@ -2,10 +2,12 @@ import * as assert from 'assert'
 import { sort } from '../src/Array'
 import { left, right } from '../src/Either'
 import * as F from '../src/Foldable'
+import { identity } from '../src/function'
 import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { setoidBoolean, setoidNumber } from '../src/Setoid'
+import * as T from '../src/Traversable'
 import {
   getApplicative,
   getApply,
@@ -18,7 +20,6 @@ import {
   Tuple,
   tuple
 } from '../src/Tuple'
-import { identity } from '../src/function'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -177,8 +178,19 @@ describe('Tuple', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(tuple.traverse(option)(new Tuple(1, 2), n => (n >= 2 ? some(n) : none)), some(new Tuple(1, 2)))
-    assert.deepEqual(tuple.traverse(option)(new Tuple(1, 1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepEqual(tuple.traverse(option)(new Tuple('a', 2), n => (n >= 2 ? some(n) : none)), some(new Tuple('a', 2)))
+    assert.deepEqual(tuple.traverse(option)(new Tuple('a', 1), n => (n >= 2 ? some(n) : none)), none)
+  })
+
+  it('sequence', () => {
+    const old = T.sequence(option, tuple)
+    const sequence = tuple.sequence(option)
+    const x1 = new Tuple('a', some(2))
+    assert.deepEqual(sequence(x1), some(new Tuple('a', 2)))
+    assert.deepEqual(sequence(x1), old(x1))
+    const x2 = new Tuple('a', none)
+    assert.deepEqual(sequence(x2), none)
+    assert.deepEqual(sequence(x2), old(x2))
   })
 
   it('toString', () => {
