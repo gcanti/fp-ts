@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { none, option, some } from '../src/Option'
+import { none, option, some, Option } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import {
@@ -20,6 +20,7 @@ import {
   theseRight,
   this_
 } from '../src/These'
+import * as T from '../src/Traversable'
 
 describe('These', () => {
   it('getSetoid', () => {
@@ -98,12 +99,31 @@ describe('These', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(these.traverse(option)(this_(2), n => (n >= 2 ? some(n) : none)), some(this_(2)))
-    assert.deepEqual(these.traverse(option)(this_(1), n => (n >= 2 ? some(n) : none)), some(this_(1)))
+    assert.deepEqual(these.traverse(option)(this_('a'), n => (n >= 2 ? some(n) : none)), some(this_('a')))
     assert.deepEqual(these.traverse(option)(that(2), n => (n >= 2 ? some(n) : none)), some(that(2)))
     assert.deepEqual(these.traverse(option)(that(1), n => (n >= 2 ? some(n) : none)), none)
     assert.deepEqual(these.traverse(option)(both('a', 2), n => (n >= 2 ? some(n) : none)), some(both('a', 2)))
     assert.deepEqual(these.traverse(option)(both('a', 1), n => (n >= 2 ? some(n) : none)), none)
+  })
+
+  it('sequence', () => {
+    const old = T.sequence(option, these)
+    const sequence = these.sequence(option)
+    const x1 = this_<string, Option<number>>('a')
+    assert.deepEqual(sequence(x1), some(this_('a')))
+    assert.deepEqual(sequence(x1), old(x1))
+    const x2 = that<string, Option<number>>(some(1))
+    assert.deepEqual(sequence(x2), some(that(1)))
+    assert.deepEqual(sequence(x2), old(x2))
+    const x3 = that<string, Option<number>>(none)
+    assert.deepEqual(sequence(x3), none)
+    assert.deepEqual(sequence(x3), old(x3))
+    const x4 = both<string, Option<number>>('a', some(1))
+    assert.deepEqual(sequence(x4), some(both('a', 1)))
+    assert.deepEqual(sequence(x4), old(x4))
+    const x5 = both<string, Option<number>>('a', none)
+    assert.deepEqual(sequence(x5), none)
+    assert.deepEqual(sequence(x5), old(x5))
   })
 
   it('chain', () => {
