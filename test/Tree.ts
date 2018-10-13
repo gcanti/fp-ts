@@ -4,6 +4,7 @@ import { identity, tuple } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { setoidNumber } from '../src/Setoid'
+import * as T from '../src/Traversable'
 import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM } from '../src/Tree'
 
 describe('Tree', () => {
@@ -73,7 +74,15 @@ describe('Tree', () => {
 
   it('traverse', () => {
     const fa = new Tree('a', [new Tree('b', []), new Tree('c', [])])
-    assert.deepEqual(tree.traverse(I.identity)(fa, a => new I.Identity(a)), new I.Identity(fa))
+    assert.deepEqual(tree.traverse(I.identity)(fa, a => I.identity.of(a)), I.identity.of(fa))
+  })
+
+  it('sequence', () => {
+    const old = T.sequence(I.identity, tree)
+    const sequence = tree.sequence(I.identity)
+    const x1 = new Tree(I.identity.of('a'), [new Tree(I.identity.of('b'), []), new Tree(I.identity.of('c'), [])])
+    assert.deepEqual(sequence(x1), I.identity.of(new Tree('a', [new Tree('b', []), new Tree('c', [])])))
+    assert.deepEqual(sequence(x1), old(x1))
   })
 
   it('drawTree', () => {
@@ -117,8 +126,8 @@ describe('Tree', () => {
   })
 
   it('unfoldTreeM', () => {
-    const fa = unfoldTreeM(I.identity)(1, b => new I.Identity(tuple(b, b < 3 ? [b + 1, b + 2] : [])))
-    const expected = new I.Identity(new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])]))
+    const fa = unfoldTreeM(I.identity)(1, b => I.identity.of(tuple(b, b < 3 ? [b + 1, b + 2] : [])))
+    const expected = I.identity.of(new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])]))
     assert.deepEqual(fa, expected)
   })
 })
