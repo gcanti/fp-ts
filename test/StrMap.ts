@@ -1,9 +1,14 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import { Option, none, option, some } from '../src/Option'
+import { left, right } from '../src/Either'
+import * as F from '../src/Foldable'
+import { identity } from '../src/function'
+import * as I from '../src/Identity'
+import { monoidString } from '../src/Monoid'
+import { none, Option, option, some } from '../src/Option'
+import { semigroupSum } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import {
-  StrMap,
   fromFoldable,
   getMonoid,
   getSetoid,
@@ -13,17 +18,13 @@ import {
   pop,
   remove,
   size,
+  StrMap,
   strmap,
   toArray,
   toUnfoldable,
   traverseWithKey
 } from '../src/StrMap'
-import { semigroupSum } from '../src/Semigroup'
-import { left, right } from '../src/Either'
-import * as I from '../src/Identity'
-import * as F from '../src/Foldable'
-import { monoidString } from '../src/Monoid'
-import { identity } from '../src/function'
+import * as T from '../src/Traversable'
 
 const p = (n: number) => n > 2
 
@@ -81,6 +82,17 @@ describe('StrMap', () => {
       strmap.traverse(option)(new StrMap<number>({ k1: 1, k2: 2 }), n => (n >= 2 ? some(n) : none)),
       none
     )
+  })
+
+  it('sequence', () => {
+    const old = T.sequence(option, strmap)
+    const sequence = strmap.sequence(option)
+    const x1 = new StrMap({ k1: some(1), k2: some(2) })
+    assert.deepEqual(sequence(x1), some(new StrMap({ k1: 1, k2: 2 })))
+    assert.deepEqual(sequence(x1), old(x1))
+    const x2 = new StrMap({ k1: none, k2: some(2) })
+    assert.deepEqual(sequence(x2), none)
+    assert.deepEqual(sequence(x2), old(x2))
   })
 
   it('getSetoid', () => {

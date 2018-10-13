@@ -12,7 +12,7 @@ import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { getDictionarySemigroup, getLastSemigroup, Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable1 } from './Traversable'
+import { Traversable2v1 } from './Traversable2v'
 import { Unfoldable } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
@@ -154,7 +154,13 @@ export function traverseWithKey<F>(
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: StrMap<A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-  return (ta, f) => traverseWithKey(F)(ta, (_, a) => f(a))
+  const traverseWithKeyF = traverseWithKey(F)
+  return (ta, f) => traverseWithKeyF(ta, (_, a) => f(a))
+}
+
+function sequence<F>(F: Applicative<F>): <A>(ta: StrMap<HKT<F, A>>) => HKT<F, StrMap<A>> {
+  const traverseWithKeyF = traverseWithKey(F)
+  return ta => traverseWithKeyF(ta, (_, a) => a)
 }
 
 /**
@@ -427,7 +433,7 @@ const wilt = <F>(
  */
 export const strmap: Functor1<URI> &
   Foldable2v1<URI> &
-  Traversable1<URI> &
+  Traversable2v1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
   Witherable1<URI> = {
@@ -437,6 +443,7 @@ export const strmap: Functor1<URI> &
   foldMap,
   foldr,
   traverse,
+  sequence,
   compact,
   separate,
   filter,
