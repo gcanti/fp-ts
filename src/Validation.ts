@@ -13,7 +13,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable2 } from './Traversable'
+import { Traversable2v2 } from './Traversable2v'
 import { Witherable2C } from './Witherable'
 
 // Adapted from https://github.com/purescript/purescript-validation
@@ -271,7 +271,11 @@ const traverse = <F>(F: Applicative<F>) => <L, A, B>(
   ta: Validation<L, A>,
   f: (a: A) => HKT<F, B>
 ): HKT<F, Validation<L, B>> => {
-  return ta.isFailure() ? F.of(failure(ta.value)) : F.map(f(ta.value), of as (a: B) => Validation<L, B>)
+  return ta.isFailure() ? F.of(failure(ta.value)) : F.map<B, Validation<L, B>>(f(ta.value), of)
+}
+
+const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Validation<L, HKT<F, A>>): HKT<F, Validation<L, A>> => {
+  return ta.isFailure() ? F.of(failure(ta.value)) : F.map<A, Validation<L, A>>(ta.value, of)
 }
 
 const bimap = <L, V, A, B>(fla: Validation<L, A>, f: (u: L) => V, g: (a: A) => B): Validation<V, B> => {
@@ -530,12 +534,13 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
  * @instance
  * @since 1.0.0
  */
-export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2<URI> = {
+export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = {
   URI,
   map,
   bimap,
   reduce,
   foldMap,
   foldr,
-  traverse
+  traverse,
+  sequence
 }

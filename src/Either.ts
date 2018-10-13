@@ -364,7 +364,7 @@ const traverse = <F>(F: Applicative<F>) => <L, A, B>(
   ta: Either<L, A>,
   f: (a: A) => HKT<F, B>
 ): HKT<F, Either<L, B>> => {
-  return ta.isLeft() ? F.of(left(ta.value)) : F.map(f(ta.value), of as ((b: B) => Either<L, B>))
+  return ta.isLeft() ? F.of(left(ta.value)) : F.map<B, Either<L, B>>(f(ta.value), of)
 }
 
 const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Either<L, HKT<F, A>>): HKT<F, Either<L, A>> => {

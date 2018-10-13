@@ -1,32 +1,30 @@
 import * as assert from 'assert'
-import { array } from '../src/Array'
+import { left, right } from '../src/Either'
+import * as F from '../src/Foldable'
+import { identity } from '../src/function'
+import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { none, option, some } from '../src/Option'
+import { none, option, Option, some } from '../src/Option'
 import { getArraySemigroup, semigroupString } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
-import { sequence } from '../src/Traversable'
+import * as T from '../src/Traversable'
 import {
   failure,
   fromEither,
   fromPredicate,
   getAlt,
-  getApplicative,
+  getCompactable,
+  getFilterable,
   getMonad,
+  getMonoid,
   getSemigroup,
   getSetoid,
+  getWitherable,
   isFailure,
   isSuccess,
   success,
-  validation,
-  getMonoid,
-  getCompactable,
-  getFilterable,
-  getWitherable
+  validation
 } from '../src/Validation'
-import { left, right } from '../src/Either'
-import * as I from '../src/Identity'
-import * as F from '../src/Foldable'
-import { identity } from '../src/function'
 
 const p = (n: number): boolean => n > 2
 
@@ -46,18 +44,23 @@ describe('Validation', () => {
   })
 
   it('traverse', () => {
-    const asuccess = [success<string, number>(1), success<string, number>(2), success<string, number>(3)]
+    assert.deepEqual(validation.traverse(option)(failure('foo'), a => (a >= 2 ? some(a) : none)), some(failure('foo')))
+    assert.deepEqual(validation.traverse(option)(success(1), a => (a >= 2 ? some(a) : none)), none)
+    assert.deepEqual(validation.traverse(option)(success(3), a => (a >= 2 ? some(a) : none)), some(success(3)))
+  })
 
-    const afailure = [
-      success<string, number>(1),
-      failure<string, number>('[fail 1]'),
-      failure<string, number>('[fail 2]')
-    ]
-
-    const applicative = getApplicative(monoidString)
-
-    assert.deepEqual(sequence(applicative, array)(asuccess), success([1, 2, 3]))
-    assert.deepEqual(sequence(applicative, array)(afailure), failure('[fail 1][fail 2]'))
+  it('sequence', () => {
+    const old = T.sequence(option, validation)
+    const sequence = validation.sequence(option)
+    const x1 = failure<string, Option<number>>('foo')
+    assert.deepEqual(sequence(x1), some(failure('foo')))
+    assert.deepEqual(sequence(x1), old(x1))
+    const x2 = success<string, Option<number>>(some(1))
+    assert.deepEqual(sequence(x2), some(success(1)))
+    assert.deepEqual(sequence(x2), old(x2))
+    const x3 = success<string, Option<number>>(none)
+    assert.deepEqual(sequence(x3), none)
+    assert.deepEqual(sequence(x3), old(x3))
   })
 
   it('fromEither', () => {
