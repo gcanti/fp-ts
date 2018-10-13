@@ -481,6 +481,13 @@ const zero = <A>(): Option<A> => {
 /**
  * {@link Apply} semigroup
  *
+ * | x       | y       | concat(x, y)       |
+ * | ------- | ------- | ------------------ |
+ * | none    | none    | none               |
+ * | some(a) | none    | none               |
+ * | none    | some(a) | none               |
+ * | some(a) | some(b) | some(concat(a, b)) |
+ *
  * @example
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
@@ -513,6 +520,13 @@ export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
 /**
  * Monoid returning the left-most non-`None` value
  *
+ * | x       | y       | concat(x, y) |
+ * | ------- | ------- | ------------ |
+ * | none    | none    | none         |
+ * | some(a) | none    | some(a)      |
+ * | none    | some(a) | some(a)      |
+ * | some(a) | some(b) | some(a)      |
+ *
  * @example
  * const M = getFirstMonoid<number>()
  * assert.deepEqual(M.concat(none, none), none)
@@ -533,6 +547,13 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
 /**
  * Monoid returning the right-most non-`None` value
  *
+ * | x       | y       | concat(x, y) |
+ * | ------- | ------- | ------------ |
+ * | none    | none    | none         |
+ * | some(a) | none    | some(a)      |
+ * | none    | some(a) | some(a)      |
+ * | some(a) | some(b) | some(b)      |
+ *
  * @example
  * const M = getLastMonoid<number>()
  * assert.deepEqual(M.concat(none, none), none)
@@ -550,6 +571,13 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
 /**
  * Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
  * appended using the provided `Semigroup`
+ *
+ * | x       | y       | concat(x, y)       |
+ * | ------- | ------- | ------------------ |
+ * | none    | none    | none               |
+ * | some(a) | none    | some(a)            |
+ * | none    | some(a) | some(a)            |
+ * | some(a) | some(b) | some(concat(a, b)) |
  *
  * @example
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'

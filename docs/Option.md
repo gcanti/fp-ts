@@ -706,6 +706,13 @@ _Description_
 
 [Apply](./Apply.md) semigroup
 
+| x       | y       | concat(x, y)       |
+| ------- | ------- | ------------------ |
+| none    | none    | none               |
+| some(a) | none    | none               |
+| none    | some(a) | none               |
+| some(a) | some(b) | some(concat(a, b)) |
+
 _Example_
 
 ```ts
@@ -734,6 +741,13 @@ _Description_
 
 Monoid returning the left-most non-`None` value
 
+| x       | y       | concat(x, y) |
+| ------- | ------- | ------------ |
+| none    | none    | none         |
+| some(a) | none    | some(a)      |
+| none    | some(a) | some(a)      |
+| some(a) | some(b) | some(a)      |
+
 _Example_
 
 ```ts
@@ -759,6 +773,13 @@ _Signature_
 _Description_
 
 Monoid returning the right-most non-`None` value
+
+| x       | y       | concat(x, y) |
+| ------- | ------- | ------------ |
+| none    | none    | none         |
+| some(a) | none    | some(a)      |
+| none    | some(a) | some(a)      |
+| some(a) | some(b) | some(b)      |
 
 _Example_
 
@@ -786,6 +807,13 @@ _Description_
 
 Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
 appended using the provided `Semigroup`
+
+| x       | y       | concat(x, y)       |
+| ------- | ------- | ------------------ |
+| none    | none    | none               |
+| some(a) | none    | some(a)            |
+| none    | some(a) | some(a)            |
+| some(a) | some(b) | some(concat(a, b)) |
 
 _Example_
 
