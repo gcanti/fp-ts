@@ -5,6 +5,7 @@ import { monoidString, monoidSum } from '../src/Monoid'
 import { NonEmptyArray } from '../src/NonEmptyArray'
 import { none, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
+import * as T from '../src/Traversable'
 import { fromArray, fromNonEmptyArray, getMonoid, getSemigroup, Zipper, zipper } from '../src/Zipper'
 
 const len = (s: string): number => s.length
@@ -165,7 +166,19 @@ describe('Zipper', () => {
 
   it('traverse', () => {
     const fa = new Zipper(['a', 'b'], 'c', ['d'])
-    assert.deepEqual(zipper.traverse(option)(fa, a => some(a)), some(fa))
+    assert.deepEqual(zipper.traverse(option)(fa, some), some(fa))
+    assert.deepEqual(zipper.traverse(option)(fa, a => (a === 'a' ? none : some(a))), none)
+  })
+
+  it('sequence', () => {
+    const old = T.sequence(option, zipper)
+    const sequence = zipper.sequence(option)
+    const x1 = new Zipper([some('a'), some('b')], some('c'), [some('d')])
+    assert.deepEqual(sequence(x1), some(new Zipper(['a', 'b'], 'c', ['d'])))
+    assert.deepEqual(sequence(x1), old(x1))
+    const x2 = new Zipper([some('a'), some('b')], none, [some('d')])
+    assert.deepEqual(sequence(x2), none)
+    assert.deepEqual(sequence(x2), old(x2))
   })
 
   it('extract', () => {
