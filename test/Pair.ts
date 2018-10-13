@@ -1,12 +1,13 @@
 import * as assert from 'assert'
+import * as F from '../src/Foldable'
+import { identity } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { Pair, getMonoid, getOrd, getSemigroup, getSetoid, pair } from '../src/Pair'
+import { getMonoid, getOrd, getSemigroup, getSetoid, Pair, pair } from '../src/Pair'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
-import * as F from '../src/Foldable'
-import { identity } from '../src/function'
+import * as T from '../src/Traversable'
 
 describe('Pair', () => {
   it('first', () => {
@@ -75,6 +76,17 @@ describe('Pair', () => {
   it('traverse', () => {
     assert.deepEqual(pair.traverse(option)(new Pair(0, 1), n => (n >= 0 ? some(n) : none)), some(new Pair(0, 1)))
     assert.deepEqual(pair.traverse(option)(new Pair(0, 1), n => (n >= 2 ? some(n) : none)), none)
+  })
+
+  it('sequence', () => {
+    const old = T.sequence(option, pair)
+    const sequence = pair.sequence(option)
+    const x1 = new Pair(some(0), some(1))
+    assert.deepEqual(sequence(x1), some(new Pair(0, 1)))
+    assert.deepEqual(sequence(x1), old(x1))
+    const x2 = new Pair(none, some(1))
+    assert.deepEqual(sequence(x2), none)
+    assert.deepEqual(sequence(x2), old(x2))
   })
 
   it('getSetoid', () => {
