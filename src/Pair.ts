@@ -1,15 +1,14 @@
 import { Applicative, Applicative1 } from './Applicative'
-import { liftA2 } from './Apply'
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
+import { Endomorphism } from './function'
 import { HKT } from './HKT'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable1 } from './Traversable'
-import { Endomorphism } from './function'
+import { Traversable2v1 } from './Traversable2v'
 
 // Adapted from https://github.com/parsonsmatt/purescript-pair
 
@@ -138,16 +137,24 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
   }
 }
 
-function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
-  return <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) =>
-    liftA2(F)((b1: B) => (b2: B) => new Pair(b1, b2))(f(ta.fst))(f(ta.snd))
+// function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
+//   return <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) =>
+//     liftA2(F)((b1: B) => (b2: B) => new Pair(b1, b2))(f(ta.fst))(f(ta.snd))
+// }
+
+const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>): HKT<F, Pair<B>> => {
+  return F.ap(F.map(f(ta.fst), (b1: B) => (b2: B) => new Pair(b1, b2)), f(ta.snd))
+}
+
+const sequence = <F>(F: Applicative<F>) => <A>(ta: Pair<HKT<F, A>>): HKT<F, Pair<A>> => {
+  return F.ap(F.map(ta.fst, (a1: A) => (a2: A) => new Pair(a1, a2)), ta.snd)
 }
 
 /**
  * @instance
  * @since 1.0.0
  */
-export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI> = {
+export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = {
   URI,
   map,
   of,
@@ -156,6 +163,7 @@ export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable1<URI> & Co
   foldMap,
   foldr,
   traverse,
+  sequence,
   extend,
   extract
 }
