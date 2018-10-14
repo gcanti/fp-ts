@@ -24,16 +24,10 @@ import {
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some {@link Applicative} functor.
- *
- * `traverse` signature:
- *
- * ```ts
- * <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
- * ```
- *
+ * Use {@link Traversable2v}
  * @typeclass
  * @since 1.0.0
+ * @deprecated
  */
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
   /**
