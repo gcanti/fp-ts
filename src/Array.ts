@@ -201,6 +201,37 @@ const unfoldr = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
   return ret
 }
 
+/**
+ * Return a list of length `n` with element `i` initialized with `f(i)`
+ * @function
+ * @since 1.10.0
+ */
+export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
+  const r: Array<A> = []
+  for (let i = 0; i < n; i++) {
+    r.push(f(i))
+  }
+  return r
+}
+
+/**
+ * Create an array containing a range of integers, including both endpoints
+ * @function
+ * @since 1.10.0
+ */
+export const range = (start: number, end: number): Array<number> => {
+  return makeBy(end - start + 1, i => start + i)
+}
+
+/**
+ * Create an array containing a value repeated the specified number of times
+ * @function
+ * @since 1.10.0
+ */
+export const replicate = <A>(n: number, a: A): Array<A> => {
+  return makeBy(n, () => a)
+}
+
 const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
   return fa.map((_, i, as) => f(as.slice(i)))
 }
