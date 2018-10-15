@@ -244,6 +244,13 @@ export class NonEmptyArray<A> {
   reverse(): NonEmptyArray<A> {
     return unsafeFromArray(this.toArray().reverse())
   }
+
+  /**
+   * @since 1.10.0
+   */
+  length(): number {
+    return 1 + this.tail.length
+  }
 }
 
 const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
