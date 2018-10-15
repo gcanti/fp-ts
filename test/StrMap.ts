@@ -22,7 +22,10 @@ import {
   strmap,
   toArray,
   toUnfoldable,
-  traverseWithKey
+  traverseWithKey,
+  singleton,
+  isSubdictionary,
+  collect
 } from '../src/StrMap'
 import * as T from '../src/Traversable'
 
@@ -229,5 +232,17 @@ describe('StrMap', () => {
       wiltIdentity(new StrMap({ a: 1, b: 3 }), f),
       new I.Identity({ left: new StrMap({ a: 0 }), right: new StrMap({ b: 4 }) })
     )
+  })
+
+  it('singleton', () => {
+    assert.deepEqual(singleton('a', 1), new StrMap({ a: 1 }))
+  })
+
+  it('isSubdictionary', () => {
+    assert.strictEqual(isSubdictionary(setoidNumber)(new StrMap({ a: 1 }), new StrMap({ a: 1, b: 2 })), true)
+  })
+
+  it('collect', () => {
+    assert.deepEqual(collect(new StrMap({ b: 1, a: 2 }), identity), ['a', 'b'])
   })
 })
