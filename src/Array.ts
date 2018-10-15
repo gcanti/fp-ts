@@ -483,6 +483,15 @@ export const drop = <A>(n: number, as: Array<A>): Array<A> => {
 }
 
 /**
+ * Drop a number of elements from the end of an array, creating a new array
+ * @function
+ * @since 1.10.0
+ */
+export const dropEnd = <A>(n: number, as: Array<A>): Array<A> => {
+  return as.slice(0, as.length - n)
+}
+
+/**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
  * @function
  * @since 1.0.0
