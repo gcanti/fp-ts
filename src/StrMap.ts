@@ -1,5 +1,4 @@
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
-import { liftA2 } from './Apply'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Filterable1 } from './Filterable'
@@ -9,7 +8,8 @@ import { Predicate, tuple } from './function'
 import { Functor1 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
-import { none, Option, some } from './Option'
+import { Option } from './Option'
+import * as R from './Record'
 import { getDictionarySemigroup, getLastSemigroup, Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
@@ -38,32 +38,19 @@ export class StrMap<A> {
   readonly _URI!: URI
   constructor(readonly value: { [key: string]: A }) {}
   mapWithKey<B>(f: (k: string, a: A) => B): StrMap<B> {
-    const value = this.value
-    const r: { [key: string]: B } = {}
-    const keys = Object.keys(value)
-    for (const key of keys) {
-      r[key] = f(key, value[key])
-    }
-    return new StrMap(r)
+    return new StrMap(R.mapWithKey(this.value, f))
   }
   map<B>(f: (a: A) => B): StrMap<B> {
     return this.mapWithKey((_, a) => f(a))
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    let out: B = b
-    const value = this.value
-    const keys = Object.keys(value).sort()
-    const len = keys.length
-    for (let i = 0; i < len; i++) {
-      out = f(out, value[keys[i]])
-    }
-    return out
+    return R.reduce(this.value, b, f)
   }
   /**
    * @since 1.4.0
    */
   filter(p: Predicate<A>): StrMap<A> {
-    return filter(this, p)
+    return new StrMap(R.filter(this.value, p))
   }
 }
 
@@ -71,16 +58,11 @@ export class StrMap<A> {
  * @constant
  * @since 1.10.0
  */
-const empty: StrMap<never> = new StrMap({})
+const empty: StrMap<never> = new StrMap(R.empty)
 
 const concat = <A>(S: Semigroup<A>): ((x: StrMap<A>, y: StrMap<A>) => StrMap<A>) => {
   const concat = getDictionarySemigroup(S).concat
   return (x, y) => new StrMap(concat(x.value, y.value))
-}
-
-const concatCurried = <A>(S: Semigroup<A>): ((x: StrMap<A>) => (y: StrMap<A>) => StrMap<A>) => {
-  const concatS = concat(S)
-  return x => y => concatS(x, y)
 }
 
 /**
@@ -102,26 +84,13 @@ const reduce = <A, B>(fa: StrMap<A>, b: B, f: (b: B, a: A) => B): B => {
   return fa.reduce(b, f)
 }
 
-const foldMap = <M>(M: Monoid<M>) => <A>(fa: StrMap<A>, f: (a: A) => M): M => {
-  let out: M = M.empty
-  const value = fa.value
-  const keys = Object.keys(value).sort()
-  const len = keys.length
-  for (let i = 0; i < len; i++) {
-    out = M.concat(out, f(value[keys[i]]))
-  }
-  return out
+const foldMap = <M>(M: Monoid<M>): (<A>(fa: StrMap<A>, f: (a: A) => M) => M) => {
+  const foldMapM = R.foldMap(M)
+  return (fa, f) => foldMapM(fa.value, f)
 }
 
 const foldr = <A, B>(fa: StrMap<A>, b: B, f: (a: A, b: B) => B): B => {
-  let out: B = b
-  const value = fa.value
-  const keys = Object.keys(value).sort()
-  const len = keys.length
-  for (let i = len - 1; i >= 0; i--) {
-    out = f(value[keys[i]], out)
-  }
-  return out
+  return R.foldr(fa.value, b, f)
 }
 
 export function traverseWithKey<F extends URIS3>(
@@ -143,18 +112,8 @@ export function traverseWithKey<F>(
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
-  return <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => {
-    const concatA2: <A>(a: HKT<F, StrMap<A>>) => (b: HKT<F, StrMap<A>>) => HKT<F, StrMap<A>> = liftA2(F)(
-      concatCurried(getLastSemigroup())
-    )
-    let out: HKT<F, StrMap<B>> = F.of(empty)
-    const value = ta.value
-    const keys = Object.keys(value)
-    for (const key of keys) {
-      out = concatA2(out)(F.map(f(key, value[key]), b => singleton(key, b)))
-    }
-    return out
-  }
+  const traverseWithKeyF = R.traverseWithKey(F)
+  return (ta, f) => F.map(traverseWithKeyF(ta.value, f), d => new StrMap(d))
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: StrMap<A>, f: (a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
@@ -172,13 +131,9 @@ function sequence<F>(F: Applicative<F>): <A>(ta: StrMap<HKT<F, A>>) => HKT<F, St
  * @function
  * @since 1.0.0
  */
-export const isSubdictionary = <A>(S: Setoid<A>) => (d1: StrMap<A>, d2: StrMap<A>): boolean => {
-  for (let k in d1.value) {
-    if (!d2.value.hasOwnProperty(k) || !S.equals(d1.value[k], d2.value[k])) {
-      return false
-    }
-  }
-  return true
+export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => {
+  const isSubdictionaryS = R.isSubdictionary(S)
+  return (d1, d2) => isSubdictionaryS(d1.value, d2.value)
 }
 
 /**
@@ -187,7 +142,7 @@ export const isSubdictionary = <A>(S: Setoid<A>) => (d1: StrMap<A>, d2: StrMap<A
  * @since 1.0.0
  */
 export const size = <A>(d: StrMap<A>): number => {
-  return Object.keys(d.value).length
+  return R.size(d.value)
 }
 
 /**
@@ -196,7 +151,7 @@ export const size = <A>(d: StrMap<A>): number => {
  * @since 1.0.0
  */
 export const isEmpty = <A>(d: StrMap<A>): boolean => {
-  return Object.keys(d.value).length === 0
+  return R.isEmpty(d.value)
 }
 
 /**
@@ -204,9 +159,9 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
  * @since 1.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
-  const isSubdictionaryS = isSubdictionary(S)
+  const isSubdictionaryS = R.isSubdictionary(S)
   return {
-    equals: (x, y) => isSubdictionaryS(x, y) && isSubdictionaryS(y, x)
+    equals: (x, y) => isSubdictionaryS(x.value, y.value) && isSubdictionaryS(y.value, x.value)
   }
 }
 
@@ -216,7 +171,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
  * @since 1.0.0
  */
 export const singleton = <A>(k: string, a: A): StrMap<A> => {
-  return new StrMap({ [k]: a })
+  return new StrMap(R.singleton(k, a))
 }
 
 /**
@@ -225,7 +180,7 @@ export const singleton = <A>(k: string, a: A): StrMap<A> => {
  * @since 1.0.0
  */
 export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => {
-  return d.value.hasOwnProperty(k) ? some(d.value[k]) : none
+  return R.lookup(k, d.value)
 }
 
 /**
@@ -251,12 +206,8 @@ export function fromFoldable<F>(F: Foldable<F>): <A>(ta: HKT<F, [string, A]>, f:
 export function fromFoldable<F>(
   F: Foldable<F>
 ): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A> {
-  return (ta, f) =>
-    F.reduce(ta, new StrMap({}), (b, a) => {
-      const k = a[0]
-      b.value[k] = b.value.hasOwnProperty(k) ? f(b.value[k], a[1]) : a[1]
-      return b
-    })
+  const fromFoldableF = R.fromFoldable(F)
+  return (ta, f) => new StrMap(fromFoldableF(ta, f))
 }
 
 /**
@@ -264,13 +215,7 @@ export function fromFoldable<F>(
  * @since 1.0.0
  */
 export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B> => {
-  const out: Array<B> = []
-  const value = d.value
-  const keys = Object.keys(value).sort()
-  for (const key of keys) {
-    out.push(f(key, d.value[key]))
-  }
-  return out
+  return R.collect(d.value, f)
 }
 
 /**
@@ -278,7 +223,7 @@ export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B>
  * @since 1.0.0
  */
 export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
-  return collect(d, (k, a: A) => tuple(k, a))
+  return R.toArray(d.value)
 }
 
 /**
@@ -286,10 +231,9 @@ export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
  * @function
  * @since 1.0.0
  */
-export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]> => {
-  const arr = toArray(d)
-  const len = arr.length
-  return unfoldable.unfoldr(0, b => (b < len ? some(tuple(arr[b], b + 1)) : none))
+export const toUnfoldable = <F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) => {
+  const toUnfoldableU = R.toUnfoldable(U)
+  return d => toUnfoldableU(d.value)
 }
 
 /**
@@ -298,9 +242,7 @@ export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>):
  * @since 1.0.0
  */
 export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
-  const copy = Object.assign({}, d.value)
-  copy[k] = a
-  return new StrMap(copy)
+  return new StrMap(R.insert(k, a, d.value))
 }
 
 /**
@@ -309,9 +251,7 @@ export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
  * @since 1.0.0
  */
 export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
-  const copy = Object.assign({}, d.value)
-  delete copy[k]
-  return new StrMap(copy)
+  return new StrMap(R.remove(k, d.value))
 }
 
 /**
@@ -320,62 +260,23 @@ export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
  * @since 1.0.0
  */
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
-  const a = lookup(k, d)
-  return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
+  return R.pop(k, d.value).map(([a, d]) => tuple(a, new StrMap(d)))
 }
 
 const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {
-  const value = fa.value
-  const result: { [key: string]: B } = {}
-  const keys = Object.keys(value)
-  for (const key of keys) {
-    const optionB = f(value[key])
-    if (optionB.isSome()) {
-      result[key] = optionB.value
-    }
-  }
-  return new StrMap(result)
+  return new StrMap(R.filterMap(fa.value, f))
 }
 
 const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => {
-  const value = fa.value
-  const result: { [key: string]: A } = {}
-  const keys = Object.keys(value)
-  for (const key of keys) {
-    const a = value[key]
-    if (p(a)) {
-      result[key] = a
-    }
-  }
-  return new StrMap(result)
+  return fa.filter(p)
 }
 
 const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
-  const value = fa.value
-  const result: { [key: string]: A } = {}
-  const keys = Object.keys(value)
-  for (const key of keys) {
-    const optionA = value[key]
-    if (optionA.isSome()) {
-      result[key] = optionA.value
-    }
-  }
-  return new StrMap(result)
+  return new StrMap(R.compact(fa.value))
 }
 
 const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> => {
-  const value = fa.value
-  const left: { [key: string]: RL } = {}
-  const right: { [key: string]: RR } = {}
-  const keys = Object.keys(value)
-  for (const key of keys) {
-    const e = f(value[key])
-    if (e.isLeft()) {
-      left[key] = e.value
-    } else {
-      right[key] = e.value
-    }
-  }
+  const { left, right } = R.partitionMap(fa.value, f)
   return {
     left: new StrMap(left),
     right: new StrMap(right)
@@ -383,18 +284,7 @@ const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Se
 }
 
 const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> => {
-  const value = fa.value
-  const left: { [key: string]: A } = {}
-  const right: { [key: string]: A } = {}
-  const keys = Object.keys(value)
-  for (const key of keys) {
-    const a = value[key]
-    if (p(a)) {
-      right[key] = a
-    } else {
-      left[key] = a
-    }
-  }
+  const { left, right } = R.partition(fa.value, p)
   return {
     left: new StrMap(left),
     right: new StrMap(right)
@@ -402,18 +292,7 @@ const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Separated<StrMap<A>, StrM
 }
 
 const separate = <RL, RR>(fa: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>> => {
-  const value = fa.value
-  const left: { [key: string]: RL } = {}
-  const right: { [key: string]: RR } = {}
-  const keys = Object.keys(value)
-  for (const key of keys) {
-    const e = value[key]
-    if (e.isLeft()) {
-      left[key] = e.value
-    } else {
-      right[key] = e.value
-    }
-  }
+  const { left, right } = R.separate(fa.value)
   return {
     left: new StrMap(left),
     right: new StrMap(right)

@@ -20,5 +20,8 @@ describe('Traversable2v', () => {
       arrayOptionTraversable.traverse(o)([some(1), some(3)], (n: number) => (n <= 2 ? some(n * 2) : none)),
       none
     )
+    assert.deepEqual(arrayOptionTraversable.sequence(o)([some(some(1)), some(some(2))]), some([some(1), some(2)]))
+    assert.deepEqual(arrayOptionTraversable.sequence(o)([some(some(1)), none]), some([some(1), none]))
+    assert.deepEqual(arrayOptionTraversable.sequence(o)([some(some(1)), some(none)]), none)
   })
 })
