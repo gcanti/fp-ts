@@ -67,6 +67,10 @@ export class StrMap<A> {
   }
 }
 
+/**
+ * @constant
+ * @since 1.10.0
+ */
 const empty: StrMap<never> = new StrMap({})
 
 const concat = <A>(S: Semigroup<A>): ((x: StrMap<A>, y: StrMap<A>) => StrMap<A>) => {
@@ -427,6 +431,7 @@ const wilt = <F>(
   const traverseF = traverse(F)
   return (wa, f) => F.map(traverseF(wa, f), separate)
 }
+
 /**
  * @instance
  * @since 1.0.0
