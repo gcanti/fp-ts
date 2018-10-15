@@ -408,12 +408,37 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => {
 }
 
 /**
- * Keep only a number of elements from the start of an array, creating a new array
+ * Keep only a number of elements from the start of an array, creating a new array.
+ * `n` must be a natural number
  * @function
  * @since 1.0.0
  */
 export const take = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(0, n)
+}
+
+/**
+ * Keep only a number of elements from the end of an array, creating a new array.
+ * `n` must be a natural number
+ * @function
+ * @since 1.10.0
+ */
+export const takeEnd = <A>(n: number, as: Array<A>): Array<A> => {
+  return n === 0 ? empty : as.slice(-n)
+}
+
+/**
+ * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+ * @function
+ * @since 1.0.0
+ */
+export const takeWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
+  const i = spanIndexUncurry(as, predicate)
+  const init = Array(i)
+  for (let j = 0; j < i; j++) {
+    init[j] = as[j]
+  }
+  return init
 }
 
 const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
@@ -446,20 +471,6 @@ export const span = <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>
     rest[j - i] = as[j]
   }
   return { init, rest }
-}
-
-/**
- * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
- * @function
- * @since 1.0.0
- */
-export const takeWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
-  const i = spanIndexUncurry(as, predicate)
-  const init = Array(i)
-  for (let j = 0; j < i; j++) {
-    init[j] = as[j]
-  }
-  return init
 }
 
 /**

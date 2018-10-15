@@ -48,7 +48,9 @@ import {
   foldr,
   chop,
   chunksOf,
-  split
+  split,
+  takeEnd,
+  dropEnd
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -168,7 +170,16 @@ describe('Array', () => {
 
   it('take', () => {
     assert.deepEqual(take(2, []), [])
-    assert.deepEqual(take(2, as), [1, 2])
+    assert.deepEqual(take(2, [1, 2, 3]), [1, 2])
+    assert.deepEqual(take(0, [1, 2, 3]), [])
+  })
+
+  it('takeEnd', () => {
+    assert.deepEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
+    assert.deepEqual(takeEnd(0, [1, 2, 3, 4, 5]), [])
+    assert.deepEqual(takeEnd(2, []), [])
+    assert.deepEqual(takeEnd(5, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepEqual(takeEnd(10, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
   })
 
   it('span', () => {
@@ -183,7 +194,9 @@ describe('Array', () => {
   })
 
   it('drop', () => {
-    assert.deepEqual(drop(2, as), [3])
+    assert.deepEqual(drop(2, [1, 2, 3]), [3])
+    assert.deepEqual(drop(10, [1, 2, 3]), [])
+    assert.deepEqual(drop(0, [1, 2, 3]), [1, 2, 3])
   })
 
   it('dropWhile', () => {
