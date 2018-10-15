@@ -159,4 +159,8 @@ describe('NonEmptyArray', () => {
     const expected = new NonEmptyArray(3, [2, 1])
     assert.deepEqual(result, expected)
   })
+
+  it('length', () => {
+    assert.strictEqual(new NonEmptyArray(1, [2, 3]).length(), 3)
+  })
 })
