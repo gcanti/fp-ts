@@ -50,7 +50,10 @@ import {
   chunksOf,
   split,
   takeEnd,
-  dropEnd
+  dropEnd,
+  range,
+  makeBy,
+  replicate
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -570,5 +573,20 @@ describe('Array', () => {
     assert.deepEqual(chunksOf([1, 2], 0), [[1, 2]])
     assert.deepEqual(chunksOf([1, 2], 10), [[1, 2]])
     assert.deepEqual(chunksOf([1, 2], -1), [[1, 2]])
+  })
+
+  it('makeBy', () => {
+    assert.deepEqual(makeBy(5, identity), [0, 1, 2, 3, 4])
+  })
+
+  it('range', () => {
+    assert.deepEqual(range(0, 0), [0])
+    assert.deepEqual(range(1, 5), [1, 2, 3, 4, 5])
+    assert.deepEqual(range(10, 15), [10, 11, 12, 13, 14, 15])
+  })
+
+  it('replicate', () => {
+    assert.deepEqual(replicate(0, 'a'), [])
+    assert.deepEqual(replicate(3, 'a'), ['a', 'a', 'a'])
   })
 })
