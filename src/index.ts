@@ -118,6 +118,8 @@ import * as readerT from './ReaderT'
 export { readerT }
 import * as readerTaskEither from './ReaderTaskEither'
 export { readerTaskEither }
+import * as record from './Record'
+export { record }
 import * as ring from './Ring'
 export { ring }
 import * as semigroup from './Semigroup'
