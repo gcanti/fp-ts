@@ -107,11 +107,17 @@ describe('StrMap', () => {
   })
 
   it('fromFoldable', () => {
-    assert.deepEqual(fromFoldable(array)([['a', 1]], (existing, a) => existing), new StrMap({ a: 1 }))
+    assert.deepEqual(fromFoldable(array)([['a', 1]], (existing, _) => existing), new StrMap({ a: 1 }))
     assert.deepEqual(
-      fromFoldable(array)([['a', 1], ['a', 2]], (existing, a) => existing),
+      fromFoldable(array)([['a', 1], ['a', 2]], (existing, _) => existing),
       new StrMap({
         a: 1
+      })
+    )
+    assert.deepEqual(
+      fromFoldable(array)([['a', 1], ['a', 2]], (_, a) => a),
+      new StrMap({
+        a: 2
       })
     )
   })
