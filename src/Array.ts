@@ -9,7 +9,7 @@ import { concat, Endomorphism, identity, Predicate, Refinement, tuple } from './
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { fromNullable, none, Option, some } from './Option'
+import { none, Option, some } from './Option'
 import { getSemigroup, Ord, ordNumber } from './Ord'
 import { Ordering } from './Ordering'
 import { Plus1 } from './Plus'
@@ -567,7 +567,13 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
  * @since 1.0.0
  */
 export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
-  return fromNullable(as.find(predicate))
+  const len = as.length
+  for (let i = 0; i < len; i++) {
+    if (predicate(as[i])) {
+      return some(as[i])
+    }
+  }
+  return none
 }
 
 /**
