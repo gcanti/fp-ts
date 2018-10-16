@@ -705,7 +705,13 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
 }
 
 /**
- * Test if a value is a member of an array
+ * Test if a value is a member of an array. Takes a `Stetoid<A>` as a single
+ * argument which returns the function to use to search for a value of type `A` in
+ * an array of type `Array<A>`.
+ *
+ * @example
+ * member(stetoid.stetoidString)(['thing one', 'thing two', 'cat in the hat'], 'thing two') // true
+ *
  * @function
  * @since 1.3.0
  */
