@@ -19,6 +19,11 @@ _Signature_
 constructor(readonly value: Task<Either<L, A>>) {}
 ```
 
+_Description_
+
+`TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
+error of type `L`. If you want to represent an asynchronous computation that never fails, please see [Task](./Task.md).
+
 ## Methods
 
 ### alt

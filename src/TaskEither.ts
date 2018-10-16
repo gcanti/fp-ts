@@ -34,6 +34,8 @@ const eitherTmapLeft = eitherT.mapLeft(task)
 const eitherTbimap = eitherT.bimap(task)
 
 /**
+ * `TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
+ * error of type `L`. If you want to represent an asynchronous computation that never fails, please see {@link Task}.
  * @data
  * @constructor TaskEither
  * @since 1.0.0
