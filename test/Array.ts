@@ -53,7 +53,8 @@ import {
   dropEnd,
   range,
   makeBy,
-  replicate
+  replicate,
+  findLastIndex
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -250,6 +251,17 @@ describe('Array', () => {
     assert.deepEqual(findLast([], x => x === 2), none)
     assert.deepEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
     assert.deepEqual(findLast([{ a: 1, b: 2 }, { a: 2, b: 1 }], x => x.a === 1), some({ a: 1, b: 2 }))
+  })
+
+  it('findLastIndex', () => {
+    interface X {
+      a: number
+      b: number
+    }
+    const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
+    assert.deepEqual(findLastIndex([], (x: X) => x.a === 1), none)
+    assert.deepEqual(findLastIndex(xs, x => x.a === 1), some(1))
+    assert.deepEqual(findLastIndex(xs, x => x.a === 4), none)
   })
 
   it('insertAt', () => {
