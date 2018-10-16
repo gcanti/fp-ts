@@ -577,14 +577,12 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  */
 export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> => {
   const len = as.length
-  let a: A | null = null
   for (let i = len - 1; i >= 0; i--) {
     if (predicate(as[i])) {
-      a = as[i]
-      break
+      return some(as[i])
     }
   }
-  return fromNullable(a)
+  return none
 }
 
 /**
