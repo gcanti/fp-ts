@@ -23,6 +23,8 @@ const eitherTmapLeft = eitherT.mapLeft(io)
 const eitherTbimap = eitherT.bimap(io)
 
 /**
+ * `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
+ * error of type `L`. If you want to represent a synchronous computation that never fails, please see {@link IO}.
  * @data
  * @constructor IOEither
  * @since 1.6.0

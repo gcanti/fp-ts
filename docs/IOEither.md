@@ -19,6 +19,11 @@ _Signature_
 constructor(readonly value: IO<Either<L, A>>) {}
 ```
 
+_Description_
+
+`IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
+error of type `L`. If you want to represent a synchronous computation that never fails, please see [IO](./IO.md).
+
 ## Methods
 
 ### alt

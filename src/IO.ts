@@ -14,6 +14,8 @@ export const URI = 'IO'
 export type URI = typeof URI
 
 /**
+ * `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
+ * If you want to represent a synchronous computation that may fail, please see {@link IOEither}.
  * @data
  * @constructor IO
  * @since 1.0.0

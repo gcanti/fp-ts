@@ -19,6 +19,11 @@ _Signature_
 constructor(readonly run: Lazy<A>) {}
 ```
 
+_Description_
+
+`IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
+If you want to represent a synchronous computation that may fail, please see [IOEither](./IOEither.md).
+
 ## Methods
 
 ### ap
