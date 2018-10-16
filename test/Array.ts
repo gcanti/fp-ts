@@ -245,14 +245,14 @@ describe('Array', () => {
     assert.deepEqual(findFirst(xs1, isA), some({ type: 'A', a: 1 }))
     const xs2: Array<AOrB> = [{ type: 'B' }]
     assert.deepEqual(findFirst(xs2, isA), none)
-    assert.deepEqual(findFirst([null, null], x => x === null), some(null))
+    assert.deepEqual(findFirst([null, 'a'], x => x === null), some(null))
   })
 
   it('findLast', () => {
     assert.deepEqual(findLast([], x => x === 2), none)
     assert.deepEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
     assert.deepEqual(findLast([{ a: 1, b: 2 }, { a: 2, b: 1 }], x => x.a === 1), some({ a: 1, b: 2 }))
-    assert.deepEqual(findLast([null, null], x => x === null), some(null))
+    assert.deepEqual(findLast(['a', null], x => x === null), some(null))
   })
 
   it('findLastIndex', () => {
