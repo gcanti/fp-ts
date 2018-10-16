@@ -251,6 +251,7 @@ describe('Array', () => {
     assert.deepEqual(findLast([], x => x === 2), none)
     assert.deepEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
     assert.deepEqual(findLast([{ a: 1, b: 2 }, { a: 2, b: 1 }], x => x.a === 1), some({ a: 1, b: 2 }))
+    assert.deepEqual(findLast([null, null], x => x === null), some(null))
   })
 
   it('findLastIndex', () => {
