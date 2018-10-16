@@ -588,6 +588,21 @@ export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> =>
 }
 
 /**
+ * Returns the index of the last element of the list which matches the predicate
+ * @function
+ * @since 1.10.0
+ */
+export const findLastIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<number> => {
+  const len = as.length
+  for (let i = len - 1; i >= 0; i--) {
+    if (predicate(as[i])) {
+      return some(i)
+    }
+  }
+  return none
+}
+
+/**
  * @function
  * @since 1.0.0
  */
