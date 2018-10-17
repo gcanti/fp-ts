@@ -639,6 +639,10 @@ export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
 
 /**
  * Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+ *
+ * @example
+ * assert.deepEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
+ *
  * @function
  * @since 1.0.0
  */
