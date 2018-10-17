@@ -391,6 +391,32 @@ function sequence<F>(F: Applicative<F>): <A>(ta: NonEmptyArray<HKT<F, A>>) => HK
 }
 
 /**
+ * Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
+ * function on each element, and grouping the results according to values returned
+ *
+ * @example
+ * assert.deepEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
+ *   '3': new NonEmptyArray('foo', ['bar']),
+ *   '6': new NonEmptyArray('foobar', [])
+ * })
+ *
+ * @function
+ * @since 1.10.0
+ */
+export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => {
+  const r: { [key: string]: NonEmptyArray<A> } = {}
+  for (const a of as) {
+    const k = f(a)
+    if (r.hasOwnProperty(k)) {
+      r[k].tail.push(a)
+    } else {
+      r[k] = new NonEmptyArray(a, [])
+    }
+  }
+  return r
+}
+
+/**
  * @instance
  * @since 1.0.0
  */
