@@ -567,13 +567,13 @@ describe('Array', () => {
   })
 
   it('split', () => {
-    assert.deepEqual(split([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4, 5]])
-    assert.deepEqual(split([], 2), [[], []])
-    assert.deepEqual(split([1], 2), [[1], []])
-    assert.deepEqual(split([1, 2], 2), [[1, 2], []])
-    assert.deepEqual(split([1, 2], -1), [[1], [2]])
-    assert.deepEqual(split([1, 2], 0), [[], [1, 2]])
-    assert.deepEqual(split([1, 2], 3), [[1, 2], []])
+    assert.deepEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
+    assert.deepEqual(split(2, []), [[], []])
+    assert.deepEqual(split(2, [1]), [[1], []])
+    assert.deepEqual(split(2, [1, 2]), [[1, 2], []])
+    assert.deepEqual(split(-1, [1, 2]), [[1], [2]])
+    assert.deepEqual(split(0, [1, 2]), [[], [1, 2]])
+    assert.deepEqual(split(3, [1, 2]), [[1, 2], []])
   })
 
   it('chunksOf', () => {
