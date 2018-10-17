@@ -58,6 +58,7 @@ The stable version is tested against TypeScript 3.1.1, but should run with TypeS
 
 - [API Reference](docs/index.md)
 - [`fp-ts` for `PureScript`ers / `Haskell`ers](fp-ts-for-purescripters.md)
+- [Comparison with ramda](ramda.md)
 
 ## Internals
 
