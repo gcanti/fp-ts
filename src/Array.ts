@@ -995,12 +995,12 @@ export const chop = <A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Ar
  * Splits an array into two pieces, the first piece has `n` elements.
  *
  * @example
- * assert.deepEqual(split([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4, 5]])
+ * assert.deepEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
  * @function
  * @since 1.10.0
  */
-export const split = <A>(as: Array<A>, n: number): [Array<A>, Array<A>] => {
+export const split = <A>(n: number, as: Array<A>): [Array<A>, Array<A>] => {
   return [as.slice(0, n), as.slice(n)]
 }
 
@@ -1019,7 +1019,7 @@ export const split = <A>(as: Array<A>, n: number): [Array<A>, Array<A>] => {
  * @since 1.10.0
  */
 export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => {
-  return isOutOfBound(n - 1, as) ? [as] : chop(as, as => split(as, n))
+  return isOutOfBound(n - 1, as) ? [as] : chop(as, as => split(n, as))
 }
 
 export const array: Monad1<URI> &
