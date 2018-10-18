@@ -5,79 +5,47 @@ title: Module StrMap
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts)
 
-## Data
-
-### StrMap
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# StrMap
 
 ```ts
 constructor(readonly value: { [key: string]: A }) {}
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### filter
-
-_method_
-
-_since 1.4.0_
-
-_Signature_
+## filter
 
 ```ts
 (p: Predicate<A>): StrMap<A>
 ```
 
-### map
+Added in v1.4.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): StrMap<B>
 ```
 
-### mapWithKey
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## mapWithKey
 
 ```ts
 <B>(f: (k: string, a: A) => B): StrMap<B>
 ```
 
-### reduce
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## reduce
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### strmap
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## strmap
 
 ```ts
 Functor1<URI> &
@@ -88,27 +56,17 @@ Functor1<URI> &
   Witherable1<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### collect
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## collect
 
 ```ts
 <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B>
 ```
 
-### fromFoldable
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromFoldable
 
 ```ts
 fromFoldable<F>(
@@ -116,201 +74,131 @@ fromFoldable<F>(
 ): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-### getMonoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonoid
 
 ```ts
 <A = never>(S: Semigroup<A> = getLastSemigroup()): Monoid<StrMap<A>>
 ```
 
-### getSetoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 <A>(S: Setoid<A>): Setoid<StrMap<A>>
 ```
 
-### insert
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## insert
 
 ```ts
 <A>(k: string, a: A, d: StrMap<A>): StrMap<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Insert or replace a key/value pair in a map
 
-### isEmpty
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## isEmpty
 
 ```ts
 <A>(d: StrMap<A>): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Test whether a dictionary is empty
 
-### isSubdictionary
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## isSubdictionary
 
 ```ts
 <A>(S: Setoid<A>) => (d1: StrMap<A>, d2: StrMap<A>): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Test whether one dictionary contains all of the keys and values contained in another dictionary
 
-### lookup
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## lookup
 
 ```ts
 <A>(k: string, d: StrMap<A>): Option<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Lookup the value for a key in a dictionary
 
-### pop
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## pop
 
 ```ts
 <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
-### remove
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## remove
 
 ```ts
 <A>(k: string, d: StrMap<A>): StrMap<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Delete a key and value from a map
 
-### singleton
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## singleton
 
 ```ts
 <A>(k: string, a: A): StrMap<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Create a dictionary with one key/value pair
 
-### size
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## size
 
 ```ts
 <A>(d: StrMap<A>): number
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Calculate the number of key/value pairs in a dictionary
 
-### toArray
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## toArray
 
 ```ts
 <A>(d: StrMap<A>): Array<[string, A]>
 ```
 
-### toUnfoldable
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## toUnfoldable
 
 ```ts
 <F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Unfolds a dictionary into a list of key/value pairs
 
-### traverseWithKey
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## traverseWithKey
 
 ```ts
 traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
 ```
+
+Added in v1.0.0 (function)

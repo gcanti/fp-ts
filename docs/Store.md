@@ -5,158 +5,98 @@ title: Module Store
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts)
 
-## Data
-
-### Store
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Store
 
 ```ts
 constructor(readonly peek: (s: S) => A, readonly pos: S) {}
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### extend
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extend
 
 ```ts
 <B>(f: (sa: Store<S, A>) => B): Store<S, B>
 ```
 
-### extract
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extract
 
 ```ts
 (): A
 ```
 
-### inspect
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Store<S, B>
 ```
 
-### seek
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## seek
 
 ```ts
 (s: S): Store<S, A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Reposition the focus at the specified position
 
-### toString
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### store
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## store
 
 ```ts
 Comonad2<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### experiment
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## experiment
 
 ```ts
 experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Extract a collection of values from positions which depend on the current position
 
-### peeks
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## peeks
 
 ```ts
 <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Extract a value from a position which depends on the current position
 
-### seeks
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## seeks
 
 ```ts
 <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Reposition the focus at the specified position, which depends on the current position

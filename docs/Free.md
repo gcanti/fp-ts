@@ -5,172 +5,110 @@ title: Module Free
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts)
 
-## Data
-
-### Free
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Free
 
 ```ts
 type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### ap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: Free<F, (a: A) => B>): Free<F, B>
 ```
 
-### ap\_
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C>
 ```
 
-### chain
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => Free<F, B>): Free<F, B>
 ```
 
-### inspect
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### isImpure
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## isImpure
 
 ```ts
 (): this is Impure<F, A, any>
 ```
 
-### isPure
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## isPure
 
 ```ts
 (): this is Pure<F, A>
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Free<F, B>
 ```
 
-### toString
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-## Functions
+Added in v1.0.0 (method)
 
-### foldFree
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## foldFree
 
 ```ts
 foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A>
 ```
 
-### hoistFree
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## hoistFree
 
 ```ts
 hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Use a natural transformation to change the generating type constructor of a free monad
 
-### liftF
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## liftF
 
 ```ts
 <F, A>(fa: HKT<F, A>): Free<F, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Lift an impure value described by the generating type constructor `F` into the free monad
 
-### of
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## of
 
 ```ts
 <F, A>(a: A): Free<F, A>
 ```
+
+Added in v1.0.0 (function)

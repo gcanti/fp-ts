@@ -5,15 +5,7 @@ title: Module Extend
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts)
 
-## Type classes
-
-### Extend
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Extend
 
 ```ts
 interface Extend<F> extends Functor<F> {
@@ -21,16 +13,12 @@ interface Extend<F> extends Functor<F> {
 }
 ```
 
-## Functions
+Added in v1.0.0 (type class)
 
-### duplicate
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## duplicate
 
 ```ts
 duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>
 ```
+
+Added in v1.0.0 (function)

@@ -5,15 +5,7 @@ title: Module Monoid
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts)
 
-## Type classes
-
-### Monoid
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Monoid
 
 ```ts
 interface Monoid<A> extends Semigroup<A> {
@@ -21,145 +13,91 @@ interface Monoid<A> extends Semigroup<A> {
 }
 ```
 
-## Instances
+Added in v1.0.0 (type class)
 
-### monoidAll
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## monoidAll
 
 ```ts
 Monoid<boolean>
 ```
 
-_Description_
+Added in v1.0.0 (instance)
 
 Boolean monoid under conjunction
 
-### monoidAny
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## monoidAny
 
 ```ts
 Monoid<boolean>
 ```
 
-_Description_
+Added in v1.0.0 (instance)
 
 Boolean monoid under disjunction
 
-### monoidProduct
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## monoidProduct
 
 ```ts
 Monoid<number>
 ```
 
-_Description_
+Added in v1.0.0 (instance)
 
 Number monoid under multiplication
 
-### monoidString
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## monoidString
 
 ```ts
 Monoid<string>
 ```
 
-### monoidSum
+Added in v1.0.0 (instance)
 
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## monoidSum
 
 ```ts
 Monoid<number>
 ```
 
-_Description_
+Added in v1.0.0 (instance)
 
 Number monoid under addition
 
-### monoidVoid
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## monoidVoid
 
 ```ts
 Monoid<void>
 ```
 
-### unsafeMonoidArray
+Added in v1.0.0 (instance)
 
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## unsafeMonoidArray
 
 ```ts
 Monoid<Array<any>>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### fold
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 <A>(M: Monoid<A>): ((as: Array<A>) => A)
 ```
 
-### getArrayMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getArrayMonoid
 
 ```ts
 <A = never>(): Monoid<Array<A>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Monoid under array concatenation (`Array<any>`)
 
-### getDictionaryMonoid
-
-_function_
-
-_since 1.4.0_
-
-_Signature_
+## getDictionaryMonoid
 
 ```ts
 ;<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => ({
@@ -168,7 +106,7 @@ _Signature_
 })
 ```
 
-_Description_
+Added in v1.4.0 (function)
 
 Gets [Monoid](./Monoid.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
 
@@ -179,88 +117,60 @@ const M = getDictionaryMonoid(semigroupSum)
 const result = fold(M)([{ foo: 123 }, { foo: 456 }]) // { foo: 123 + 456 }
 ```
 
-### getDualMonoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getDualMonoid
 
 ```ts
 <A>(M: Monoid<A>): Monoid<A>
 ```
 
-### getEndomorphismMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getEndomorphismMonoid
 
 ```ts
 <A = never>(): Monoid<Endomorphism<A>>
 ```
 
-### getFunctionMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getFunctionMonoid
 
 ```ts
 <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M>
 ```
 
-### getJoinMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.9.0_
-
-_Signature_
+## getJoinMonoid
 
 ```ts
 <A>(B: Bounded<A>): Monoid<A>
 ```
 
-### getMeetMonoid
+Added in v1.9.0 (function)
 
-_function_
-
-_since 1.9.0_
-
-_Signature_
+## getMeetMonoid
 
 ```ts
 <A>(B: Bounded<A>): Monoid<A>
 ```
 
-### getProductMonoid
+Added in v1.9.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getProductMonoid
 
 ```ts
 <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]>
 ```
 
-### getRecordMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getRecordMonoid
 
 ```ts
 <O extends { [key: string]: any }>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
 ): Monoid<O>
 ```
+
+Added in v1.0.0 (function)

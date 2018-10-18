@@ -5,195 +5,123 @@ title: Module Set
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts)
 
-## Functions
-
-### chain
-
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => Set<B>): Set<B>
 ```
 
-### difference
+Added in v1.2.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## difference
 
 ```ts
 <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>)
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Form the set difference (`y` - `x`)
 
-### every
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## every
 
 ```ts
 <A>(x: Set<A>, predicate: Predicate<A>): boolean
 ```
 
-### filter
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## filter
 
 ```ts
 <A>(x: Set<A>, predicate: Predicate<A>): Set<A>
 ```
 
-### fromArray
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## fromArray
 
 ```ts
 <A>(S: Setoid<A>) => (as: Array<A>): Set<A>
 ```
 
-_Description_
+Added in v1.2.0 (function)
 
 Create a set from an array
 
-### getIntersectionSemigroup
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getIntersectionSemigroup
 
 ```ts
 <A>(S: Setoid<A>): Semigroup<Set<A>>
 ```
 
-### getSetoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Set<A>>
 ```
 
-### getUnionMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getUnionMonoid
 
 ```ts
 <A>(S: Setoid<A>): Monoid<Set<A>>
 ```
 
-### insert
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## insert
 
 ```ts
 <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>)
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Insert a value into a set
 
-### intersection
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## intersection
 
 ```ts
 <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>)
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 The set of elements which are in both the first and second set
 
-### map
-
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => B): Set<B>
 ```
 
-_Description_
+Added in v1.2.0 (function)
 
 Projects a Set through a function
 
-### member
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## member
 
 ```ts
 <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Test if a value is a member of a set
 
-### partition
-
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## partition
 
 ```ts
 <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>>
 ```
 
-### partitionMap
+Added in v1.2.0 (function)
 
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## partitionMap
 
 ```ts
 <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
@@ -202,102 +130,68 @@ _Signature_
 ): Separated<Set<L>, Set<R>>
 ```
 
-### reduce
+Added in v1.2.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## reduce
 
 ```ts
 <A>(O: Ord<A>): (<B>(fa: Set<A>, b: B, f: (b: B, a: A) => B) => B)
 ```
 
-### remove
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## remove
 
 ```ts
 <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Delete a value from a set
 
-### singleton
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## singleton
 
 ```ts
 <A>(a: A): Set<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Create a set with one element
 
-### some
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## some
 
 ```ts
 <A>(x: Set<A>, predicate: Predicate<A>): boolean
 ```
 
-### subset
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## subset
 
 ```ts
 <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 `true` if and only if every element in the first set is an element of the second set
 
-### toArray
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## toArray
 
 ```ts
 <A>(O: Ord<A>) => (x: Set<A>): Array<A>
 ```
 
-### union
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## union
 
 ```ts
 <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>)
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Form the union of two sets

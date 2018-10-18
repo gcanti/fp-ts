@@ -5,15 +5,7 @@ title: Module Witherable
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Witherable.ts)
 
-## Type classes
-
-### Witherable
-
-_type class_
-
-_since 1.7.0_
-
-_Signature_
+# Witherable
 
 ```ts
 interface Witherable<T> extends Traversable<T>, Filterable<T> {
@@ -29,7 +21,7 @@ interface Witherable<T> extends Traversable<T>, Filterable<T> {
 }
 ```
 
-_Description_
+Added in v1.7.0 (type class)
 
 `Witherable` represents data structures which can be _partitioned_ with effects in some [Applicative](./Applicative.md) functor.
 

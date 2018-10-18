@@ -5,202 +5,126 @@ title: Module State
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/State.ts)
 
-## Data
-
-### State
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# State
 
 ```ts
 constructor(readonly run: (s: S) => [A, S]) {}
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### ap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: State<S, (a: A) => B>): State<S, B>
 ```
 
-### ap\_
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C>
 ```
 
-### applyFirst
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.7.0_
-
-_Signature_
+## applyFirst
 
 ```ts
 <B>(fb: State<S, B>): State<S, A>
 ```
 
-_Description_
+Added in v1.7.0 (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-### applySecond
-
-_method_
-
-_since 1.7.0_
-
-_Signature_
+## applySecond
 
 ```ts
 <B>(fb: State<S, B>): State<S, B>
 ```
 
-_Description_
+Added in v1.7.0 (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-### chain
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => State<S, B>): State<S, B>
 ```
 
-### eval
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## eval
 
 ```ts
 (s: S): A
 ```
 
-### exec
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## exec
 
 ```ts
 (s: S): S
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): State<S, B>
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### state
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## state
 
 ```ts
 Monad2<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### get
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## get
 
 ```ts
 <S>(): State<S, S>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Get the current state
 
-### gets
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## gets
 
 ```ts
 <S, A>(f: (s: S) => A): State<S, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Get a value which depends on the current state
 
-### modify
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## modify
 
 ```ts
 <S>(f: (s: S) => S): State<S, undefined>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Modify the state by applying a function to the current state
 
-### put
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## put
 
 ```ts
 <S>(s: S): State<S, void>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Set the state

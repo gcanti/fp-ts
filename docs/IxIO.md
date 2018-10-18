@@ -5,118 +5,74 @@ title: Module IxIO
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts)
 
-## Data
-
-### IxIO
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# IxIO
 
 ```ts
 constructor(readonly value: IO<A>) {}
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### ap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: IxIO<I, I, (a: A) => B>): IxIO<I, I, B>
 ```
 
-### chain
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => IxIO<I, I, B>): IxIO<I, I, B>
 ```
 
-### ichain
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ichain
 
 ```ts
 <Z, B>(f: (a: A) => IxIO<O, Z, B>): IxIO<I, Z, B>
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): IxIO<I, O, B>
 ```
 
-### run
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## run
 
 ```ts
 (): A
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### ixIO
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## ixIO
 
 ```ts
 IxMonad3<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### getMonad
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonad
 
 ```ts
 <I = never>(): Monad3C<URI, I, I>
 ```
 
-### iof
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## iof
 
 ```ts
 <I, A>(a: A): IxIO<I, I, A>
 ```
+
+Added in v1.0.0 (function)

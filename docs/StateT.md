@@ -5,15 +5,7 @@ title: Module StateT
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts)
 
-## Functions
-
-### ap
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 ap<F>(
@@ -21,13 +13,9 @@ ap<F>(
 ): <S, A, B>(fab: (s: S) => HKT<F, [(a: A) => B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
 ```
 
-### chain
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 chain<F>(
@@ -35,73 +23,49 @@ chain<F>(
 ): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
 ```
 
-### fromState
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## fromState
 
 ```ts
 fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]>
 ```
 
-### get
+Added in v1.2.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## get
 
 ```ts
 get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>
 ```
 
-### getStateT
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getStateT
 
 ```ts
 getStateT<M>(M: Monad<M>): StateT<M>
 ```
 
-### gets
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## gets
 
 ```ts
 gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>
 ```
 
-### liftF
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## liftF
 
 ```ts
 liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]>
 ```
 
-### map
+Added in v1.2.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 map<F>(
@@ -109,38 +73,28 @@ map<F>(
 ): <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
 ```
 
-### modify
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## modify
 
 ```ts
 modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]>
 ```
 
-### of
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## of
 
 ```ts
 of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]>
 ```
 
-### put
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## put
 
 ```ts
 put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]>
 ```
+
+Added in v1.0.0 (function)

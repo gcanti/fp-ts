@@ -5,15 +5,7 @@ title: Module Profunctor
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.ts)
 
-## Type classes
-
-### Profunctor
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Profunctor
 
 ```ts
 interface Profunctor<F> {
@@ -23,28 +15,20 @@ interface Profunctor<F> {
 }
 ```
 
-## Functions
+Added in v1.0.0 (type class)
 
-### lmap
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## lmap
 
 ```ts
 lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C>
 ```
 
-### rmap
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## rmap
 
 ```ts
 rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D>
 ```
+
+Added in v1.0.0 (function)

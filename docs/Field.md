@@ -5,15 +5,7 @@ title: Module Field
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts)
 
-## Type classes
-
-### Field
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Field
 
 ```ts
 interface Field<A> extends Ring<A> {
@@ -23,50 +15,32 @@ interface Field<A> extends Ring<A> {
 }
 ```
 
-## Instances
+Added in v1.0.0 (type class)
 
-### fieldNumber
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## fieldNumber
 
 ```ts
 Field<number>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### gcd
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## gcd
 
 ```ts
 <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A)
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 The _greatest common divisor_ of two values
 
-### lcm
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## lcm
 
 ```ts
 <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A)
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 The _least common multiple_ of two values

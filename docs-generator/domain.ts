@@ -39,7 +39,7 @@ export class Func {
     readonly name: string,
     readonly signature: string,
     readonly description: Option<string>,
-    readonly isAlias: boolean,
+    readonly alias: Option<string>,
     readonly since: string,
     readonly example: Option<string>,
     readonly deprecated: boolean

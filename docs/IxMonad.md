@@ -5,15 +5,7 @@ title: Module IxMonad
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts)
 
-## Type classes
-
-### IxMonad
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# IxMonad
 
 ```ts
 interface IxMonad<F> {
@@ -23,15 +15,9 @@ interface IxMonad<F> {
 }
 ```
 
-## Functions
+Added in v1.0.0 (type class)
 
-### iapplyFirst
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## iapplyFirst
 
 ```ts
 iapplyFirst<F>(
@@ -39,16 +25,14 @@ iapplyFirst<F>(
 ): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A>
 ```
 
-### iapplySecond
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## iapplySecond
 
 ```ts
 iapplySecond<F>(
   ixmonad: IxMonad<F>
 ): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
 ```
+
+Added in v1.0.0 (function)

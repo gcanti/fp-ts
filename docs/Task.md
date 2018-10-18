@@ -5,219 +5,139 @@ title: Module Task
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts)
 
-## Data
-
-### Task
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Task
 
 ```ts
 constructor(readonly run: Lazy<Promise<A>>) {}
 ```
 
-_Description_
+Added in v1.0.0 (data)
 
 `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent an asynchronous computation that may fail, please see [TaskEither](./TaskEither.md).
 
-## Methods
-
-### ap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: Task<(a: A) => B>): Task<B>
 ```
 
-### ap\_
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C>
 ```
 
-### applyFirst
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## applyFirst
 
 ```ts
 <B>(fb: Task<B>): Task<A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-### applySecond
-
-_method_
-
-_since 1.5.0_
-
-_Signature_
+## applySecond
 
 ```ts
 <B>(fb: Task<B>): Task<B>
 ```
 
-_Description_
+Added in v1.5.0 (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-### chain
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => Task<B>): Task<B>
 ```
 
-### inspect
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Task<B>
 ```
 
-### toString
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### task
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## task
 
 ```ts
 Monad1<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### delay
-
-_function_
-
-_since 1.7.0_
-
-_Signature_
+## delay
 
 ```ts
 <A>(millis: number, a: A): Task<A>
 ```
 
-### fromIO
+Added in v1.7.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromIO
 
 ```ts
 <A>(io: IO<A>): Task<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Lifts an IO action into a Task
 
-### getMonoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonoid
 
 ```ts
 <A>(M: Monoid<A>): Monoid<Task<A>>
 ```
 
-### getRaceMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getRaceMonoid
 
 ```ts
 <A = never>(): Monoid<Task<A>>
 ```
 
-### getSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSemigroup
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<Task<A>>
 ```
 
-### tryCatch
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## tryCatch
 
 ```ts
 <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): Task<Either<L, A>>
 ```
+
+Added in v1.0.0 (function)

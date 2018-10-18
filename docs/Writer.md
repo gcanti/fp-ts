@@ -5,162 +5,100 @@ title: Module Writer
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts)
 
-## Data
-
-### Writer
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Writer
 
 ```ts
 constructor(readonly run: () => [A, W]) {}
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### eval
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## eval
 
 ```ts
 (): A
 ```
 
-### exec
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## exec
 
 ```ts
 (): W
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Writer<W, B>
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### writer
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## writer
 
 ```ts
 Functor2<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### censor
-
-_function_
-
-_since 1.3.0_
-
-_Signature_
+## censor
 
 ```ts
 <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A>
 ```
 
-_Description_
+Added in v1.3.0 (function)
 
 Modify the final accumulator value by applying a function
 
-### getMonad
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonad
 
 ```ts
 <W>(M: Monoid<W>): Monad2C<URI, W>
 ```
 
-### listen
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.3.0_
-
-_Signature_
+## listen
 
 ```ts
 <W, A>(fa: Writer<W, A>): Writer<W, [A, W]>
 ```
 
-_Description_
+Added in v1.3.0 (function)
 
 Modifies the result to include the changes to the accumulator
 
-### listens
-
-_function_
-
-_since 1.3.0_
-
-_Signature_
+## listens
 
 ```ts
 <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]>
 ```
 
-_Description_
+Added in v1.3.0 (function)
 
 Projects a value from modifications made to the accumulator during an action
 
-### pass
-
-_function_
-
-_since 1.3.0_
-
-_Signature_
+## pass
 
 ```ts
 <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A>
 ```
 
-_Description_
+Added in v1.3.0 (function)
 
 Applies the returned function to the accumulator
 
-### tell
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## tell
 
 ```ts
 <W>(w: W): Writer<W, void>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Appends a value to the accumulator

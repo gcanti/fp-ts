@@ -5,15 +5,7 @@ title: Module MeetSemilattice
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/MeetSemilattice.ts)
 
-## Type classes
-
-### MeetSemilattice
-
-_type class_
-
-_since 1.4.0_
-
-_Signature_
+# MeetSemilattice
 
 ```ts
 interface MeetSemilattice<A> {
@@ -21,7 +13,7 @@ interface MeetSemilattice<A> {
 }
 ```
 
-_Description_
+Added in v1.4.0 (type class)
 
 A meet-semilattice (or lower semilattice) is a semilattice whose operation is called "meet", and which can be thought
 of as a greatest lower bound.

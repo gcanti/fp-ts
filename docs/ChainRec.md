@@ -5,15 +5,7 @@ title: Module ChainRec
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/ChainRec.ts)
 
-## Type classes
-
-### ChainRec
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# ChainRec
 
 ```ts
 interface ChainRec<F> extends Chain<F> {
@@ -21,16 +13,12 @@ interface ChainRec<F> extends Chain<F> {
 }
 ```
 
-## Functions
+Added in v1.0.0 (type class)
 
-### tailRec
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## tailRec
 
 ```ts
 <A, B>(f: (a: A) => Either<A, B>, a: A): B
 ```
+
+Added in v1.0.0 (function)

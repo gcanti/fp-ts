@@ -5,15 +5,7 @@ title: Module ReaderT
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts)
 
-## Functions
-
-### ap
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 ap<F>(
@@ -21,37 +13,25 @@ ap<F>(
 ): <E, A, B>(fab: (e: E) => HKT<F, (a: A) => B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
 ```
 
-### ask
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## ask
 
 ```ts
 ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E>
 ```
 
-### asks
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## asks
 
 ```ts
 asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A>
 ```
 
-### chain
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 chain<F>(
@@ -59,50 +39,36 @@ chain<F>(
 ): <E, A, B>(f: (a: A) => (e: E) => HKT<F, B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
 ```
 
-### fromReader
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## fromReader
 
 ```ts
 fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A>
 ```
 
-### getReaderT
+Added in v1.2.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getReaderT
 
 ```ts
 getReaderT<M>(M: Monad<M>): ReaderT<M>
 ```
 
-### map
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
 ```
 
-### of
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## of
 
 ```ts
 of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A>
 ```
+
+Added in v1.0.0 (function)

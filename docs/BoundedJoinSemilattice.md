@@ -5,15 +5,7 @@ title: Module BoundedJoinSemilattice
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedJoinSemilattice.ts)
 
-## Type classes
-
-### BoundedJoinSemilattice
-
-_type class_
-
-_since 1.4.0_
-
-_Signature_
+# BoundedJoinSemilattice
 
 ```ts
 interface BoundedJoinSemilattice<A> extends JoinSemilattice<A> {
@@ -21,7 +13,7 @@ interface BoundedJoinSemilattice<A> extends JoinSemilattice<A> {
 }
 ```
 
-_Description_
+Added in v1.4.0 (type class)
 
 A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinSemilattice` laws:
 

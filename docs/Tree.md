@@ -5,21 +5,13 @@ title: Module Tree
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts)
 
-## Data
-
-### Tree
-
-_data_
-
-_since 1.6.0_
-
-_Signature_
+# Tree
 
 ```ts
 constructor(readonly value: A, readonly forest: Forest<A>) {}
 ```
 
-_Description_
+Added in v1.6.0 (data)
 
 Multi-way trees (aka rose trees) and forests, where a forest is
 
@@ -27,161 +19,103 @@ Multi-way trees (aka rose trees) and forests, where a forest is
 type Forest<A> = Array<Tree<A>>
 ```
 
-## Methods
-
-### ap
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: Tree<(a: A) => B>): Tree<B>
 ```
 
-### ap\_
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C>
 ```
 
-### chain
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => Tree<B>): Tree<B>
 ```
 
-### extend
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## extend
 
 ```ts
 <B>(f: (fa: Tree<A>) => B): Tree<B>
 ```
 
-### extract
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## extract
 
 ```ts
 (): A
 ```
 
-### inspect
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### map
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Tree<B>
 ```
 
-### reduce
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## reduce
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
-### toString
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-## Instances
+Added in v1.6.0 (method)
 
-### tree
-
-_instance_
-
-_since 1.6.0_
-
-_Signature_
+## tree
 
 ```ts
 Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI>
 ```
 
-## Functions
+Added in v1.6.0 (instance)
 
-### drawForest
-
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## drawForest
 
 ```ts
 (forest: Forest<string>): string
 ```
 
-_Description_
+Added in v1.6.0 (function)
 
 Neat 2-dimensional drawing of a forest
 
-### drawTree
-
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## drawTree
 
 ```ts
 (tree: Tree<string>): string
 ```
 
-_Description_
+Added in v1.6.0 (function)
 
 Neat 2-dimensional drawing of a tree
 
@@ -202,41 +136,25 @@ a
    └─ f
 ```
 
-### getSetoid
-
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Tree<A>>
 ```
 
-### unfoldForest
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## unfoldForest
 
 ```ts
 <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A>
 ```
 
-_Description_
+Added in v1.6.0 (function)
 
 Build a tree from a seed value
 
-### unfoldForestM
-
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## unfoldForestM
 
 ```ts
 unfoldForestM<M>(
@@ -244,38 +162,26 @@ unfoldForestM<M>(
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>
 ```
 
-_Description_
+Added in v1.6.0 (function)
 
 Monadic forest builder, in depth-first order
 
-### unfoldTree
-
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## unfoldTree
 
 ```ts
 <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A>
 ```
 
-_Description_
+Added in v1.6.0 (function)
 
 Build a tree from a seed value
 
-### unfoldTreeM
-
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## unfoldTreeM
 
 ```ts
 unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
 ```
 
-_Description_
+Added in v1.6.0 (function)
 
 Monadic tree builder, in depth-first order

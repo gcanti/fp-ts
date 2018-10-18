@@ -5,15 +5,7 @@ title: Module Alt
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Alt.ts)
 
-## Type classes
-
-### Alt
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Alt
 
 ```ts
 interface Alt<F> extends Functor<F> {
@@ -21,7 +13,7 @@ interface Alt<F> extends Functor<F> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 The `Alt` type class identifies an associative operation on a type constructor. It is similar to `Semigroup`, except
 that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than concrete types like `string` or

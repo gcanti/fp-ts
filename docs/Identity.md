@@ -5,143 +5,93 @@ title: Module Identity
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts)
 
-## Data
-
-### Identity
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Identity
 
 ```ts
 constructor(readonly value: A) {}
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### alt
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## alt
 
 ```ts
 (fx: Identity<A>): Identity<A>
 ```
 
-### ap
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: Identity<(a: A) => B>): Identity<B>
 ```
 
-### ap\_
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C>
 ```
 
-### chain
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => Identity<B>): Identity<B>
 ```
 
-### extend
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extend
 
 ```ts
 <B>(f: (ea: Identity<A>) => B): Identity<B>
 ```
 
-### extract
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extract
 
 ```ts
 (): A
 ```
 
-### fold
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 <B>(f: (a: A) => B): B
 ```
 
-### inspect
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Identity<B>
 ```
 
-### orElse
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## orElse
 
 ```ts
 (fx: Lazy<Identity<A>>): Identity<A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Lazy version of [alt](#alt)
 
@@ -152,54 +102,34 @@ const a = new Identity(1)
 assert.deepEqual(a.altL(() => new Identity(2)), a)
 ```
 
-### reduce
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## reduce
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
-### toString
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### identity
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## identity
 
 ```ts
 Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### getSetoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 <A>(setoid: Setoid<A>): Setoid<Identity<A>>
 ```
+
+Added in v1.0.0 (function)

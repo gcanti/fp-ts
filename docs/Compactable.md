@@ -5,15 +5,7 @@ title: Module Compactable
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Compactable.ts)
 
-## Interfaces
-
-### Separated
-
-_type_
-
-_since 1.7.0_
-
-_Signature_
+## Separated
 
 ```ts
 interface Separated<A, B> {
@@ -22,19 +14,11 @@ interface Separated<A, B> {
 }
 ```
 
-_Description_
+Added in v1.7.0 (interface)
 
 A `Separated` type which holds `left` and `right` parts.
 
-## Type classes
-
-### Compactable
-
-_type class_
-
-_since 1.7.0_
-
-_Signature_
+# Compactable
 
 ```ts
 interface Compactable<F> {
@@ -50,7 +34,7 @@ interface Compactable<F> {
 }
 ```
 
-_Description_
+Added in v1.7.0 (type class)
 
 `Compactable` represents data structures which can be _compacted_/_filtered_. This is a generalization of
 `catOptions` as a new function `compact`. `compact` has relations with [Functor](./Functor.md), [Applicative](./Applicative.md),

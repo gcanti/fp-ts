@@ -5,271 +5,175 @@ title: Module Tuple
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts)
 
-## Data
-
-### Tuple
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Tuple
 
 ```ts
 constructor(readonly fst: L, readonly snd: A) {}
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### bimap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## bimap
 
 ```ts
 <M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B>
 ```
 
-### compose
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## compose
 
 ```ts
 <B>(ab: Tuple<A, B>): Tuple<L, B>
 ```
 
-### extend
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extend
 
 ```ts
 <B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B>
 ```
 
-### extract
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extract
 
 ```ts
 (): A
 ```
 
-### inspect
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Tuple<L, B>
 ```
 
-### reduce
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## reduce
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
-### swap
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## swap
 
 ```ts
 (): Tuple<A, L>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Exchange the first and second components of a tuple
 
-### toString
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-### toTuple
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toTuple
 
 ```ts
 (): [L, A]
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### tuple
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## tuple
 
 ```ts
 Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### getApplicative
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getApplicative
 
 ```ts
 <L>(M: Monoid<L>): Applicative2C<URI, L>
 ```
 
-### getApply
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getApply
 
 ```ts
 <L>(S: Semigroup<L>): Apply2C<URI, L>
 ```
 
-### getChain
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getChain
 
 ```ts
 <L>(S: Semigroup<L>): Chain2C<URI, L>
 ```
 
-### getChainRec
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getChainRec
 
 ```ts
 <L>(M: Monoid<L>): ChainRec2C<URI, L>
 ```
 
-### getMonad
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonad
 
 ```ts
 <L>(M: Monoid<L>): Monad2C<URI, L>
 ```
 
-### getMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonoid
 
 ```ts
 <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>>
 ```
 
-### getOrd
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getOrd
 
 ```ts
 <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
 `snd`s are `compare`d.
 
-### getSemigroup
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSemigroup
 
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>>
 ```
 
-### getSetoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>>
 ```
+
+Added in v1.0.0 (function)

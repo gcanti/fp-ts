@@ -5,331 +5,213 @@ title: Module function
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts)
 
-## Constants
-
-### unsafeCoerce
-
-_constant_
-
-_since 1.0.0_
-
-_Signature_
+## unsafeCoerce
 
 ```ts
-unsafeCoerce: <A, B>(a: A) => B
+;<A, B>(a: A) => B
 ```
 
-## Functions
+Added in v1.0.0 (constant)
 
-### and
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## and
 
 ```ts
 <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
 ```
 
-### apply
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## apply
 
 ```ts
 <A, B>(f: (a: A) => B) => (a: A): B
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Applies a function to an argument ($)
 
-### applyFlipped
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## applyFlipped
 
 ```ts
 <A>(a: A) => <B>(f: (a: A) => B): B
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Applies an argument to a function (#)
 
-### compose
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## compose
 
 ```ts
 compose(...fns: Array<Function>): Function
 ```
 
-### concat
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## concat
 
 ```ts
 <A>(x: Array<A>, y: Array<A>): Array<A>
 ```
 
-### constFalse
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## constFalse
 
 ```ts
 (): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 A thunk that returns always `false`
 
-### constIdentity
-
-_function_
-
-_since 1.5.0_
-
-_Signature_
+## constIdentity
 
 ```ts
 (): (<A>(a: A) => A)
 ```
 
-_Description_
+Added in v1.5.0 (function)
 
 A thunk that returns always the `identity` function.
 For use with `applySecond` methods.
 
-### constNull
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## constNull
 
 ```ts
 (): null
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 A thunk that returns always `null`
 
-### constTrue
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## constTrue
 
 ```ts
 (): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 A thunk that returns always `true`
 
-### constUndefined
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## constUndefined
 
 ```ts
 (): undefined
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 A thunk that returns always `undefined`
 
-### constant
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## constant
 
 ```ts
 <A>(a: A): Lazy<A>
 ```
 
-### curry
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## curry
 
 ```ts
 curry(f: Function)
 ```
 
-### decrement
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.9.0_
-
-_Signature_
+## decrement
 
 ```ts
 (n: number): number
 ```
 
-### flip
+Added in v1.9.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## flip
 
 ```ts
 <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Flips the order of the arguments to a function of two arguments.
 
-### identity
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## identity
 
 ```ts
 <A>(a: A): A
 ```
 
-### increment
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.9.0_
-
-_Signature_
+## increment
 
 ```ts
 (n: number): number
 ```
 
-### not
+Added in v1.9.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## not
 
 ```ts
 <A>(predicate: Predicate<A>): Predicate<A>
 ```
 
-### on
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## on
 
 ```ts
 <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 The `on` function is used to change the domain of a binary operator.
 
-### or
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## or
 
 ```ts
 or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
 ```
 
-### pipe
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## pipe
 
 ```ts
 pipe(...fns: Array<Function>): Function
 ```
 
-### toString
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (x: any): string
 ```
 
-### tuple
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## tuple
 
 ```ts
 <A, B>(a: A, b: B): [A, B]
 ```
 
-### tupleCurried
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## tupleCurried
 
 ```ts
 <A>(a: A) => <B>(b: B): [A, B]
 ```
+
+Added in v1.0.0 (function)

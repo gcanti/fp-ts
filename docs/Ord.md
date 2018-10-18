@@ -5,15 +5,7 @@ title: Module Ord
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts)
 
-## Type classes
-
-### Ord
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Ord
 
 ```ts
 interface Ord<A> extends Setoid<A> {
@@ -21,7 +13,7 @@ interface Ord<A> extends Setoid<A> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 The `Ord` type class represents types which support comparisons with a _total order_.
 
@@ -31,254 +23,162 @@ Instances should satisfy the laws of total orderings:
 2.  Antisymmetry: if `S.compare(a, b) <= 0` and `S.compare(b, a) <= 0` then `a <-> b`
 3.  Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
 
-## Instances
-
-### ordBoolean
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## ordBoolean
 
 ```ts
 Ord<boolean>
 ```
 
-### ordDate
+Added in v1.0.0 (instance)
 
-_instance_
-
-_since 1.4.0_
-
-_Signature_
+## ordDate
 
 ```ts
 Ord<Date>
 ```
 
-### ordNumber
+Added in v1.4.0 (instance)
 
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## ordNumber
 
 ```ts
 Ord<number>
 ```
 
-### ordString
+Added in v1.0.0 (instance)
 
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## ordString
 
 ```ts
 Ord<string>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### between
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## between
 
 ```ts
 <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean)
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Test whether a value is between a minimum and a maximum (inclusive)
 
-### clamp
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## clamp
 
 ```ts
 <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A)
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Clamp a value between a minimum and a maximum
 
-### contramap
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## contramap
 
 ```ts
 <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B>
 ```
 
-### fromCompare
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromCompare
 
 ```ts
 <A>(compare: (x: A, y: A) => Ordering): Ord<A>
 ```
 
-### getDualOrd
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.3.0_
-
-_Signature_
+## getDualOrd
 
 ```ts
 <A>(O: Ord<A>): Ord<A>
 ```
 
-### getProductOrd
+Added in v1.3.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getProductOrd
 
 ```ts
 <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]>
 ```
 
-### getSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSemigroup
 
 ```ts
 <A = never>(): Semigroup<Ord<A>>
 ```
 
-### greaterThan
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## greaterThan
 
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Test whether one value is _strictly greater than_ another
 
-### greaterThanOrEq
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## greaterThanOrEq
 
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Test whether one value is _non-strictly greater than_ another
 
-### lessThan
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## lessThan
 
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Test whether one value is _strictly less than_ another
 
-### lessThanOrEq
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## lessThanOrEq
 
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): boolean
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Test whether one value is _non-strictly less than_ another
 
-### max
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## max
 
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): A
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Take the maximum of two values. If they are considered equal, the first argument is chosen
 
-### min
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## min
 
 ```ts
 <A>(O: Ord<A>) => (x: A, y: A): A
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Take the minimum of two values. If they are considered equal, the first argument is chosen
 
-### unsafeCompare
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## unsafeCompare
 
 ```ts
 (x: any, y: any): Ordering
 ```
+
+Added in v1.0.0 (function)

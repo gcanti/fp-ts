@@ -5,15 +5,7 @@ title: Module Setoid
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts)
 
-## Type classes
-
-### Setoid
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Setoid
 
 ```ts
 interface Setoid<A> {
@@ -21,7 +13,7 @@ interface Setoid<A> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 The `Setoid` type class represents types which support decidable equality.
 
@@ -31,105 +23,65 @@ Instances must satisfy the following laws:
 2.  Symmetry: `S.equals(a, b) === S.equals(b, a)`
 3.  Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
 
-## Instances
-
-### setoidBoolean
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## setoidBoolean
 
 ```ts
 Setoid<boolean>
 ```
 
-### setoidDate
+Added in v1.0.0 (instance)
 
-_instance_
-
-_since 1.4.0_
-
-_Signature_
+## setoidDate
 
 ```ts
 Setoid<Date>
 ```
 
-### setoidNumber
+Added in v1.4.0 (instance)
 
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## setoidNumber
 
 ```ts
 Setoid<number>
 ```
 
-### setoidString
+Added in v1.0.0 (instance)
 
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## setoidString
 
 ```ts
 Setoid<string>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### contramap
-
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## contramap
 
 ```ts
 <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B>
 ```
 
-_Description_
+Added in v1.2.0 (function)
 
 Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 
-### getArraySetoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getArraySetoid
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Array<A>>
 ```
 
-### getProductSetoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getProductSetoid
 
 ```ts
 <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]>
 ```
 
-### getRecordSetoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getRecordSetoid
 
 ```ts
 <O extends { [key: string]: any }>(
@@ -137,14 +89,12 @@ _Signature_
 ): Setoid<O>
 ```
 
-### strictEqual
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## strictEqual
 
 ```ts
 <A>(a: A, b: A): boolean
 ```
+
+Added in v1.0.0 (function)

@@ -5,15 +5,7 @@ title: Module Apply
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts)
 
-## Type classes
-
-### Apply
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Apply
 
 ```ts
 interface Apply<F> extends Functor<F> {
@@ -21,7 +13,7 @@ interface Apply<F> extends Functor<F> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
 
@@ -34,63 +26,37 @@ Instances must satisfy the following law in addition to the `Functor` laws:
 
 Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 
-## Functions
-
-### applyFirst
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## applyFirst
 
 ```ts
 applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Combine two effectful actions, keeping only the result of the first
 
-### applySecond
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## applySecond
 
 ```ts
 applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Combine two effectful actions, keeping only the result of the second
 
-### liftA2
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## liftA2
 
 ```ts
 liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
 
-### liftA3
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## liftA3
 
 ```ts
 liftA3<F>(
@@ -98,18 +64,12 @@ liftA3<F>(
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
 `F`
 
-### liftA4
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## liftA4
 
 ```ts
 liftA4<F>(
@@ -117,7 +77,7 @@ liftA4<F>(
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
 `F`

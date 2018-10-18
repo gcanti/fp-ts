@@ -5,315 +5,198 @@ title: Module These
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts)
 
-## Data
-
-### These
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# These
 
 ```ts
 type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### bimap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## bimap
 
 ```ts
 <M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B>
 ```
 
-### fold
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 <B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Applies a function to each case in the data structure
 
-### inspect
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### isBoth
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## isBoth
 
 ```ts
 (): this is Both<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns `true` if the these is `Both`, `false` otherwise
 
-### isThat
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## isThat
 
 ```ts
 (): this is That<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns `true` if the these is `That`, `false` otherwise
 
-### isThis
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## isThis
 
 ```ts
 (): this is This<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns `true` if the these is `This`, `false` otherwise
 
-### map
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): These<L, B>
 ```
 
-### reduce
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## reduce
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
-### toString
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### these
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## these
 
 ```ts
 Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### both
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## both
 
 ```ts
 <L, A>(l: L, a: A): These<L, A>
 ```
 
-### fromThese
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromThese
 
 ```ts
 <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A]
 ```
 
-### getMonad
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonad
 
 ```ts
 <L>(S: Semigroup<L>): Monad2C<URI, L>
 ```
 
-### getSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSemigroup
 
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>>
 ```
 
-### getSetoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>>
 ```
 
-### isBoth
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## isBoth
 
 ```ts
 <L, A>(fa: These<L, A>): fa is Both<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Returns `true` if the these is an instance of `Both`, `false` otherwise
 
-### isThat
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## isThat
 
 ```ts
 <L, A>(fa: These<L, A>): fa is That<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Returns `true` if the these is an instance of `That`, `false` otherwise
 
-### isThis
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## isThis
 
 ```ts
 <L, A>(fa: These<L, A>): fa is This<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Returns `true` if the these is an instance of `This`, `false` otherwise
 
-### that
+## that
 
-_function_
+Alias of [of](#of)
 
-_since 1.0.0_
-Alias of
+Added in v1.0.0 (function)
 
-_Signature_
-
-```ts
-of
-```
-
-### theseLeft
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## theseLeft
 
 ```ts
 <L, A>(fa: These<L, A>): Option<L>
 ```
 
-### theseRight
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## theseRight
 
 ```ts
 <L, A>(fa: These<L, A>): Option<A>
 ```
 
-### this\_
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## this\_
 
 ```ts
 <L, A>(l: L): These<L, A>
 ```
+
+Added in v1.0.0 (function)

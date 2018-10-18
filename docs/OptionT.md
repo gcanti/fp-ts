@@ -5,100 +5,66 @@ title: Module OptionT
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/OptionT.ts)
 
-## Functions
-
-### chain
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 chain<F>(F: Monad<F>): OptionT<F>['chain']
 ```
 
-### fold
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
 ```
 
-### fromOption
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromOption
 
 ```ts
 fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
 ```
 
-### getOptionT
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getOptionT
 
 ```ts
 getOptionT<M>(M: Monad<M>): OptionT<M>
 ```
 
-### getOrElse
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getOrElse
 
 ```ts
 getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
 ```
 
-### liftF
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## liftF
 
 ```ts
 liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
 ```
 
-### none
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## none
 
 ```ts
 none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
 ```
 
-### some
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## some
 
 ```ts
 some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
 ```
+
+Added in v1.0.0 (function)

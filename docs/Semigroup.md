@@ -5,15 +5,7 @@ title: Module Semigroup
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts)
 
-## Type classes
-
-### Semigroup
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Semigroup
 
 ```ts
 interface Semigroup<A> {
@@ -21,139 +13,89 @@ interface Semigroup<A> {
 }
 ```
 
-## Instances
+Added in v1.0.0 (type class)
 
-### semigroupAll
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## semigroupAll
 
 ```ts
 Semigroup<boolean>
 ```
 
-_Description_
+Added in v1.0.0 (instance)
 
 Boolean semigroup under conjunction
 
-### semigroupAny
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## semigroupAny
 
 ```ts
 Semigroup<boolean>
 ```
 
-_Description_
+Added in v1.0.0 (instance)
 
 Boolean semigroup under disjunction
 
-### semigroupProduct
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## semigroupProduct
 
 ```ts
 Semigroup<number>
 ```
 
-_Description_
+Added in v1.0.0 (instance)
 
 Number Semigroup under multiplication
 
-### semigroupString
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## semigroupString
 
 ```ts
 Semigroup<string>
 ```
 
-### semigroupSum
+Added in v1.0.0 (instance)
 
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## semigroupSum
 
 ```ts
 Semigroup<number>
 ```
 
-_Description_
+Added in v1.0.0 (instance)
 
 Number Semigroup under addition
 
-### semigroupVoid
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## semigroupVoid
 
 ```ts
 Semigroup<void>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### fold
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A
 ```
 
-### getArraySemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getArraySemigroup
 
 ```ts
 <A = never>(): Semigroup<Array<A>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Semigroup under array concatenation
 
-### getDictionarySemigroup
-
-_function_
-
-_since 1.4.0_
-
-_Signature_
+## getDictionarySemigroup
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }>
 ```
 
-_Description_
+Added in v1.4.0 (function)
 
 Gets [Semigroup](./Semigroup.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
 
@@ -164,91 +106,61 @@ const S = getDictionarySemigroup(semigroupSum)
 const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 123 + 456 }
 ```
 
-### getDualSemigroup
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getDualSemigroup
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<A>
 ```
 
-### getFirstSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getFirstSemigroup
 
 ```ts
 <A = never>(): Semigroup<A>
 ```
 
-### getFunctionSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getFunctionSemigroup
 
 ```ts
 <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S>
 ```
 
-### getJoinSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getJoinSemigroup
 
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
-### getLastSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getLastSemigroup
 
 ```ts
 <A = never>(): Semigroup<A>
 ```
 
-### getMeetSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMeetSemigroup
 
 ```ts
 <A>(O: Ord<A>): Semigroup<A>
 ```
 
-### getObjectSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.4.0_
-
-_Signature_
+## getObjectSemigroup
 
 ```ts
 ;<A extends object = never>(): Semigroup<A> => semigroupAnyDictionary as any
 ```
 
-_Description_
+Added in v1.4.0 (function)
 
 Gets [Semigroup](./Semigroup.md) instance for objects of given type preserving their type
 
@@ -259,28 +171,20 @@ const S = getObjectSemigroup<{ foo: number }>()
 const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 456 }
 ```
 
-### getProductSemigroup
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getProductSemigroup
 
 ```ts
 <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]>
 ```
 
-### getRecordSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getRecordSemigroup
 
 ```ts
 <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
 ): Semigroup<O>
 ```
+
+Added in v1.0.0 (function)

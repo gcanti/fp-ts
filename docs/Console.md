@@ -5,52 +5,34 @@ title: Module Console
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Console.ts)
 
-## Functions
-
-### error
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## error
 
 ```ts
 (s: any): IO<void>
 ```
 
-### info
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## info
 
 ```ts
 (s: any): IO<void>
 ```
 
-### log
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## log
 
 ```ts
 (s: any): IO<void>
 ```
 
-### warn
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## warn
 
 ```ts
 (s: any): IO<void>
 ```
+
+Added in v1.0.0 (function)

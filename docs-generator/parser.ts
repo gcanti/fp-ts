@@ -124,8 +124,6 @@ const isInstance = hasTag('instance')
 
 const isConstant = hasTag('constant')
 
-const isAlias = hasTag('alias')
-
 const isTypeclass = hasTag('typeclass')
 
 const isInterface = hasTag('interface')
@@ -152,6 +150,14 @@ const isDeprecatedTag = (tag: Tag): boolean => {
 
 const getDeprecated = (annotation: Annotation): boolean => {
   return fromNullable(annotation.tags.filter(isDeprecatedTag)[0]).isSome()
+}
+
+const isAliasTag = (tag: Tag): boolean => {
+  return tag.title === 'alias'
+}
+
+const getAlias = (annotation: Annotation): Option<string> => {
+  return fromNullable(annotation.tags.filter(isAliasTag)[0]).mapNullable(tag => tag.name)
 }
 
 /** parses data types which are unions */
@@ -258,8 +264,9 @@ const parseConstantVariableDeclaration = (vd: VariableDeclaration): ParseResult<
           const name = vd.getName()
           const description = fromJSDocDescription(annotation.description)
           const text = vd.getText()
+          const start = text.indexOf(': ') + 2
           const end = text.indexOf(' = ')
-          const signature = text.substring(0, end)
+          const signature = text.substring(start, end)
           const since = getSince(annotation)
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
@@ -291,10 +298,11 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
           const since = getSince(annotation)
           const example = getExample(annotation)
           const deprecated = getDeprecated(annotation)
+          const alias = getAlias(annotation)
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
           } else {
-            return ok(new Func(name, signature, description, isAlias(annotation), since.value, example, deprecated))
+            return ok(new Func(name, signature, description, alias, since.value, example, deprecated))
           }
         }
       }
@@ -355,7 +363,7 @@ const parseFunctionDeclaration = (f: FunctionDeclaration): ParseResult<Export> =
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, name))
       } else {
-        return ok(new Func(name, signature, description, false, since.value, example, deprecated))
+        return ok(new Func(name, signature, description, none, since.value, example, deprecated))
       }
     }
     return notFound

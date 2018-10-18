@@ -5,15 +5,7 @@ title: Module Plus
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Plus.ts)
 
-## Type classes
-
-### Plus
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Plus
 
 ```ts
 interface Plus<F> extends Alt<F> {
@@ -21,7 +13,7 @@ interface Plus<F> extends Alt<F> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 The `Plus` type class extends the `Alt` type class with a value that should be the left and right identity for `alt`.
 

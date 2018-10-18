@@ -5,289 +5,183 @@ title: Module ReaderTaskEither
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts)
 
-## Data
-
-### ReaderTaskEither
-
-_data_
-
-_since 1.6.0_
-
-_Signature_
+# ReaderTaskEither
 
 ```ts
 constructor(readonly value: (e: E) => TaskEither<L, A>) {}
 ```
 
-## Methods
+Added in v1.6.0 (data)
 
-### alt
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## alt
 
 ```ts
 (fy: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A>
 ```
 
-### ap
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: ReaderTaskEither<E, L, (a: A) => B>): ReaderTaskEither<E, L, B>
 ```
 
-### ap\_
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: ReaderTaskEither<E, L, (b: B) => C>, fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, C>
 ```
 
-### applyFirst
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## applyFirst
 
 ```ts
 <B>(fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-### applySecond
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## applySecond
 
 ```ts
 <B>(fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-### bimap
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## bimap
 
 ```ts
 <V, B>(f: (l: L) => V, g: (a: A) => B): ReaderTaskEither<E, V, B>
 ```
 
-### chain
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B>
 ```
 
-### fold
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## fold
 
 ```ts
 <R>(left: (l: L) => R, right: (a: A) => R): Reader<E, Task<R>>
 ```
 
-### local
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.1_
-
-_Signature_
+## local
 
 ```ts
 <E2 = E>(f: (e: E2) => E): ReaderTaskEither<E2, L, A>
 ```
 
-### map
+Added in v1.6.1 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): ReaderTaskEither<E, L, B>
 ```
 
-### mapLeft
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## mapLeft
 
 ```ts
 <M>(f: (l: L) => M): ReaderTaskEither<E, M, A>
 ```
 
-### orElse
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## orElse
 
 ```ts
 <M>(f: (l: L) => ReaderTaskEither<E, M, A>): ReaderTaskEither<E, M, A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Transforms the failure value of the `ReaderTaskEither` into a new `ReaderTaskEither`
 
-### run
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## run
 
 ```ts
 (e: E): Promise<Either<L, A>>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Runs the inner `TaskEither`
 
-## Instances
-
-### readerTaskEither
-
-_instance_
-
-_since 1.6.0_
-
-_Signature_
+## readerTaskEither
 
 ```ts
 Monad3<URI> & Bifunctor3<URI> & Alt3<URI>
 ```
 
-## Functions
+Added in v1.6.0 (instance)
 
-### ask
-
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## ask
 
 ```ts
 <E, L>(): ReaderTaskEither<E, L, E>
 ```
 
-### asks
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## asks
 
 ```ts
 <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A>
 ```
 
-### fromEither
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromEither
 
 ```ts
 <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A>
 ```
 
-### fromIO
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromIO
 
 ```ts
 <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A>
 ```
 
-### fromIOEither
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromIOEither
 
 ```ts
 <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L, A>
 ```
 
-### fromLeft
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromLeft
 
 ```ts
 <E, L, A>(l: L): ReaderTaskEither<E, L, A>
 ```
 
-### fromPredicate
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromPredicate
 
 ```ts
 <E, L, A>(
@@ -296,49 +190,33 @@ _Signature_
 ): ((a: A) => ReaderTaskEither<E, L, A>)
 ```
 
-### fromReader
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromReader
 
 ```ts
 <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A>
 ```
 
-### fromTaskEither
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromTaskEither
 
 ```ts
 <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<E, L, A>
 ```
 
-### left
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## left
 
 ```ts
 <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A>
 ```
 
-### local
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## local
 
 ```ts
 <E, E2 = E>(f: (e: E2) => E) => <L, A>(
@@ -346,25 +224,17 @@ _Signature_
 ): ReaderTaskEither<E2, L, A>
 ```
 
-### right
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## right
 
 ```ts
 <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A>
 ```
 
-### tryCatch
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## tryCatch
 
 ```ts
 <E, L, A>(
@@ -372,3 +242,5 @@ _Signature_
   onrejected: (reason: {}) => L
 ): ReaderTaskEither<E, L, A>
 ```
+
+Added in v1.6.0 (function)

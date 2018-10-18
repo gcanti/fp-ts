@@ -5,15 +5,7 @@ title: Module HeytingAlgebra
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/HeytingAlgebra.ts)
 
-## Type classes
-
-### HeytingAlgebra
-
-_type class_
-
-_since 1.4.0_
-
-_Signature_
+# HeytingAlgebra
 
 ```ts
 interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
@@ -22,7 +14,7 @@ interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
 }
 ```
 
-_Description_
+Added in v1.4.0 (type class)
 
 Heyting algebras are bounded (distributive) lattices that are also equipped with an additional binary operation
 `implies` (also written as `→`). Heyting algebras also define a complement operation `not` (sometimes written as

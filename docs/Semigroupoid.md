@@ -5,15 +5,7 @@ title: Module Semigroupoid
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroupoid.ts)
 
-## Type classes
-
-### Semigroupoid
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Semigroupoid
 
 ```ts
 interface Semigroupoid<F> {
@@ -21,3 +13,5 @@ interface Semigroupoid<F> {
   readonly compose: <L, A, B>(bc: HKT2<F, A, B>, ab: HKT2<F, L, A>) => HKT2<F, L, B>
 }
 ```
+
+Added in v1.0.0 (type class)

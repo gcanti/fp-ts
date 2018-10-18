@@ -5,15 +5,7 @@ title: Module Traversable
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts)
 
-## Type classes
-
-### Traversable
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Traversable
 
 ```ts
 interface Traversable<T> extends Functor<T>, Foldable<T> {
@@ -24,7 +16,7 @@ interface Traversable<T> extends Functor<T>, Foldable<T> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some [Applicative](./Applicative.md) functor.
 
@@ -34,39 +26,23 @@ _Description_
 <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 ```
 
-## Functions
-
-### getTraversableComposition
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getTraversableComposition
 
 ```ts
 getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
 ```
 
-### sequence
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## sequence
 
 ```ts
 sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 ```
 
-### ~~traverse~~ (deprecated)
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## ~~traverse~~ (deprecated)
 
 ```ts
 traverse<F, T>(
@@ -75,6 +51,6 @@ traverse<F, T>(
 ): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Use [Traversable](./Traversable.md) `traverse` instead.

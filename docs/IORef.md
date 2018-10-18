@@ -5,15 +5,7 @@ title: Module IORef
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IORef.ts)
 
-## Data
-
-### IORef
-
-_data_
-
-_since 1.8.0_
-
-_Signature_
+# IORef
 
 ```ts
 constructor(private value: A) {
@@ -21,7 +13,7 @@ constructor(private value: A) {
   }
 ```
 
-_Description_
+Added in v1.8.0 (data)
 
 Mutable references in the `IO` monad
 
@@ -38,42 +30,26 @@ assert.strictEqual(
 )
 ```
 
-## Methods
-
-### modify
-
-_method_
-
-_since 1.8.0_
-
-_Signature_
+## modify
 
 ```ts
 (f: (a: A) => A): IO<void>
 ```
 
-### write
+Added in v1.8.0 (method)
 
-_method_
-
-_since 1.8.0_
-
-_Signature_
+## write
 
 ```ts
 (a: A): IO<void>
 ```
 
-## Functions
+Added in v1.8.0 (method)
 
-### newIORef
-
-_function_
-
-_since 1.8.0_
-
-_Signature_
+## newIORef
 
 ```ts
 <A>(a: A): IO<IORef<A>>
 ```
+
+Added in v1.8.0 (function)

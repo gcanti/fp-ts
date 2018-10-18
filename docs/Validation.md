@@ -5,21 +5,13 @@ title: Module Validation
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts)
 
-## Data
-
-### Validation
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Validation
 
 ```ts
 type Validation<L, A> = Failure<L, A> | Success<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (data)
 
 The `Validation` functor, used for applicative validation
 
@@ -65,243 +57,157 @@ console.log(validatePerson({ name: 'Giulio', age: '44' }))
 // success({ "name": "Giulio", "age": 44 })
 ```
 
-## Methods
-
-### bimap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## bimap
 
 ```ts
 <V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B>
 ```
 
-### fold
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 <B>(failure: (l: L) => B, success: (a: A) => B): B
 ```
 
-### getOrElse
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## getOrElse
 
 ```ts
 (a: A): A
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns the value from this `Success` or the given argument if this is a `Failure`
 
-### getOrElseL
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## getOrElseL
 
 ```ts
 (f: (l: L) => A): A
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns the value from this `Success` or the result of given argument if this is a `Failure`
 
-### inspect
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### isFailure
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## isFailure
 
 ```ts
 (): this is Failure<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 
-### isSuccess
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## isSuccess
 
 ```ts
 (): this is Success<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
 
-### map
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Validation<L, B>
 ```
 
-### mapFailure
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## mapFailure
 
 ```ts
 <M>(f: (l: L) => M): Validation<M, A>
 ```
 
-### reduce
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## reduce
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
-### swap
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## swap
 
 ```ts
 (): Validation<A, L>
 ```
 
-### toString
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### validation
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## validation
 
 ```ts
 Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### failure
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## failure
 
 ```ts
 <L, A>(l: L): Validation<L, A>
 ```
 
-### fromEither
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromEither
 
 ```ts
 <L, A>(e: Either<L, A>): Validation<L, A>
 ```
 
-### fromPredicate
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromPredicate
 
 ```ts
 <L, A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A): Validation<L, A>
 ```
 
-### getAlt
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getAlt
 
 ```ts
 <L>(S: Semigroup<L>): Alt2C<URI, L>
 ```
 
-### getApplicative
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getApplicative
 
 ```ts
 <L>(S: Semigroup<L>): Applicative2C<URI, L>
 ```
+
+Added in v1.0.0 (function)
 
 _Example_
 
@@ -332,143 +238,90 @@ console.log(validatePerson('Nicolas Bourbaki', -1)) // failure(["invalid age"])
 console.log(validatePerson('', 0)) // failure(["invalid name", "invalid age"])
 ```
 
-### getCompactable
-
-_function_
-
-_since 1.7.0_
-
-_Signature_
+## getCompactable
 
 ```ts
 getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L>
 ```
 
-_Description_
+Added in v1.7.0 (function)
 
 Builds [Compactable](./Compactable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the failure side
 
-### getFilterable
-
-_function_
-
-_since 1.7.0_
-
-_Signature_
+## getFilterable
 
 ```ts
 getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>
 ```
 
-_Description_
+Added in v1.7.0 (function)
 
 Builds [Filterable](./Filterable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the left side
 
-### getMonad
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonad
 
 ```ts
 <L>(S: Semigroup<L>): Monad2C<URI, L>
 ```
 
-### getMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonoid
 
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>>
 ```
 
-### getSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSemigroup
 
 ```ts
 <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>>
 ```
 
-### getSetoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>>
 ```
 
-### getWitherable
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.7.0_
-
-_Signature_
+## getWitherable
 
 ```ts
 getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L>
 ```
 
-_Description_
+Added in v1.7.0 (function)
 
 Builds [Witherable](./Witherable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the left side
 
-### isFailure
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## isFailure
 
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Failure<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 
-### isSuccess
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## isSuccess
 
 ```ts
 <L, A>(fa: Validation<L, A>): fa is Success<L, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
 
-### success
+## success
 
-_function_
+Alias of [of](#of)
 
-_since 1.0.0_
-Alias of
-
-_Signature_
-
-```ts
-of
-```
+Added in v1.0.0 (function)

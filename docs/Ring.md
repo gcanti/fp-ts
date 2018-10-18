@@ -5,15 +5,7 @@ title: Module Ring
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts)
 
-## Type classes
-
-### Ring
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Ring
 
 ```ts
 interface Ring<A> extends Semiring<A> {
@@ -21,7 +13,7 @@ interface Ring<A> extends Semiring<A> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 The `Ring` class is for types that support addition, multiplication, and subtraction operations.
 
@@ -29,44 +21,28 @@ Instances must satisfy the following law in addition to the `Semiring` laws:
 
 - Additive inverse: `a - a = (zero - a) + a = zero`
 
-## Functions
-
-### getFunctionRing
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getFunctionRing
 
 ```ts
 <A, B>(ring: Ring<B>): Ring<(a: A) => B>
 ```
 
-### getProductRing
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getProductRing
 
 ```ts
 <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]>
 ```
 
-### negate
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## negate
 
 ```ts
 <A>(ring: Ring<A>) => (a: A): A
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 `negate x` can be used as a shorthand for `zero - x`

@@ -5,21 +5,13 @@ title: Module Lattice
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Lattice.ts)
 
-## Type classes
-
-### Lattice
-
-_type class_
-
-_since 1.4.0_
-
-_Signature_
+# Lattice
 
 ```ts
 interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}
 ```
 
-_Description_
+Added in v1.4.0 (type class)
 
 A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `MeetSemilattice` laws:
 

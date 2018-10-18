@@ -5,15 +5,7 @@ title: Module Contravariant
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Contravariant.ts)
 
-## Type classes
-
-### Contravariant
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Contravariant
 
 ```ts
 interface Contravariant<F> {
@@ -22,16 +14,12 @@ interface Contravariant<F> {
 }
 ```
 
-## Functions
+Added in v1.0.0 (type class)
 
-### lift
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## lift
 
 ```ts
 lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
 ```
+
+Added in v1.0.0 (function)

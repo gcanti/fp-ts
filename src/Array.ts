@@ -53,7 +53,7 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
 
 /**
  * Derives a Setoid over the Array of a given element type from the Setoid of that type. The derived setoid defines two
- * arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid 'S'. In case of
+ * arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid `S`. In case of
  * arrays of different lengths, the result is non equality.
  *
  * @constant
@@ -62,9 +62,9 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
 export const getSetoid: <A>(S: Setoid<A>) => Setoid<Array<A>> = getArraySetoid
 
 /**
- * Derives an Order over the Array of a given element type from the Order, 'O', of that type. The ordering between two
- * such arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order,
- * in case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
+ * Derives an `Ord` over the Array of a given element type from the `Ord` of that type. The ordering between two such
+ * arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
+ * case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
  * the same length, the result is equality.
  *
  * @function
@@ -763,6 +763,7 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
 
 /**
  * Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
+ *
  * Alias of {@link Filterable}'s `filterMap`
  * @function
  * @since 1.0.0
@@ -779,7 +780,8 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
 }
 
 /**
- * Filter an array of optional values, keeping only the elements which contain a value, creating a new array
+ * Filter an array of optional values, keeping only the elements which contain a value, creating a new array.
+ *
  * Alias of {@link Compactable}'s `compact`
  * @function
  * @since 1.0.0

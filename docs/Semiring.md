@@ -5,15 +5,7 @@ title: Module Semiring
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts)
 
-## Type classes
-
-### Semiring
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Semiring
 
 ```ts
 interface Semiring<A> {
@@ -24,7 +16,7 @@ interface Semiring<A> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 The `Semiring` class is for types that support an addition and multiplication operation.
 
@@ -46,16 +38,10 @@ Instances must satisfy the following laws:
 for arithmetic overflows, and in the case of `Number`, the presence of `NaN` and `Infinity` values. The behaviour is
 unspecified in these cases.
 
-## Functions
-
-### getFunctionSemiring
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getFunctionSemiring
 
 ```ts
 <A, B>(S: Semiring<B>): Semiring<(a: A) => B>
 ```
+
+Added in v1.0.0 (function)

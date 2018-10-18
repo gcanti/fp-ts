@@ -5,15 +5,7 @@ title: Module Filterable
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Filterable.ts)
 
-## Type classes
-
-### Filterable
-
-_type class_
-
-_since 1.7.0_
-
-_Signature_
+# Filterable
 
 ```ts
 interface Filterable<F> extends Functor<F>, Compactable<F> {
@@ -36,6 +28,6 @@ interface Filterable<F> extends Functor<F>, Compactable<F> {
 }
 ```
 
-_Description_
+Added in v1.7.0 (type class)
 
 `Filterable` represents data structures which can be _partitioned_/_filtered_.

@@ -5,255 +5,163 @@ title: Module IOEither
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts)
 
-## Data
-
-### IOEither
-
-_data_
-
-_since 1.6.0_
-
-_Signature_
+# IOEither
 
 ```ts
 constructor(readonly value: IO<Either<L, A>>) {}
 ```
 
-_Description_
+Added in v1.6.0 (data)
 
 `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
 error of type `L`. If you want to represent a synchronous computation that never fails, please see [IO](./IO.md).
 
-## Methods
-
-### alt
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## alt
 
 ```ts
 (fy: IOEither<L, A>): IOEither<L, A>
 ```
 
-### ap
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: IOEither<L, (a: A) => B>): IOEither<L, B>
 ```
 
-### ap\_
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: IOEither<L, (b: B) => C>, fb: IOEither<L, B>): IOEither<L, C>
 ```
 
-### applyFirst
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## applyFirst
 
 ```ts
 <B>(fb: IOEither<L, B>): IOEither<L, A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-### applySecond
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## applySecond
 
 ```ts
 <B>(fb: IOEither<L, B>): IOEither<L, B>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-### bimap
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## bimap
 
 ```ts
 <V, B>(f: (l: L) => V, g: (a: A) => B): IOEither<V, B>
 ```
 
-### chain
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => IOEither<L, B>): IOEither<L, B>
 ```
 
-### fold
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## fold
 
 ```ts
 <R>(left: (l: L) => R, right: (a: A) => R): IO<R>
 ```
 
-### map
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): IOEither<L, B>
 ```
 
-### mapLeft
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## mapLeft
 
 ```ts
 <M>(f: (l: L) => M): IOEither<M, A>
 ```
 
-### orElse
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## orElse
 
 ```ts
 <M>(f: (l: L) => IOEither<M, A>): IOEither<M, A>
 ```
 
-### run
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## run
 
 ```ts
 (): Either<L, A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Runs the inner io
 
-## Instances
-
-### ioEither
-
-_instance_
-
-_since 1.6.0_
-
-_Signature_
+## ioEither
 
 ```ts
 Monad2<URI> & Bifunctor2<URI> & Alt2<URI>
 ```
 
-## Functions
+Added in v1.6.0 (instance)
 
-### fromEither
-
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromEither
 
 ```ts
 <L, A>(fa: Either<L, A>): IOEither<L, A>
 ```
 
-### fromLeft
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromLeft
 
 ```ts
 <L, A>(l: L): IOEither<L, A>
 ```
 
-### left
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## left
 
 ```ts
 <L, A>(fa: IO<L>): IOEither<L, A>
 ```
 
-### right
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## right
 
 ```ts
 <L, A>(fa: IO<A>): IOEither<L, A>
 ```
 
-### tryCatch
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## tryCatch
 
 ```ts
 <A>(f: Lazy<A>, onerror: (reason: {}) => Error = toError): IOEither<Error, A>
 ```
+
+Added in v1.6.0 (function)

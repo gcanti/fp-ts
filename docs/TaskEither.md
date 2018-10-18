@@ -5,336 +5,216 @@ title: Module TaskEither
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts)
 
-## Data
-
-### TaskEither
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# TaskEither
 
 ```ts
 constructor(readonly value: Task<Either<L, A>>) {}
 ```
 
-_Description_
+Added in v1.0.0 (data)
 
 `TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
 error of type `L`. If you want to represent an asynchronous computation that never fails, please see [Task](./Task.md).
 
-## Methods
-
-### alt
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## alt
 
 ```ts
 (fy: TaskEither<L, A>): TaskEither<L, A>
 ```
 
-### ap
+Added in v1.6.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B>
 ```
 
-### ap\_
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C>
 ```
 
-### applyFirst
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## applyFirst
 
 ```ts
 <B>(fb: TaskEither<L, B>): TaskEither<L, A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-### applySecond
-
-_method_
-
-_since 1.5.0_
-
-_Signature_
+## applySecond
 
 ```ts
 <B>(fb: TaskEither<L, B>): TaskEither<L, B>
 ```
 
-_Description_
+Added in v1.5.0 (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-### bimap
-
-_method_
-
-_since 1.2.0_
-
-_Signature_
+## bimap
 
 ```ts
 <V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B>
 ```
 
-### chain
+Added in v1.2.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B>
 ```
 
-### fold
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 <R>(whenLeft: (l: L) => R, whenRight: (a: A) => R): Task<R>
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): TaskEither<L, B>
 ```
 
-### mapLeft
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## mapLeft
 
 ```ts
 <M>(f: (l: L) => M): TaskEither<M, A>
 ```
 
-### orElse
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## orElse
 
 ```ts
 <M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Transforms the failure value of the `TaskEither` into a new `TaskEither`
 
-### run
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## run
 
 ```ts
 (): Promise<Either<L, A>>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Runs the inner `Task`
 
-## Instances
-
-### taskEither
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## taskEither
 
 ```ts
 Monad2<URI> & Bifunctor2<URI> & Alt2<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### fromEither
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromEither
 
 ```ts
 <L, A>(fa: Either<L, A>): TaskEither<L, A>
 ```
 
-### fromIO
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.5.0_
-
-_Signature_
+## fromIO
 
 ```ts
 <L, A>(fa: IO<A>): TaskEither<L, A>
 ```
 
-### fromIOEither
+Added in v1.5.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromIOEither
 
 ```ts
 <L, A>(fa: IOEither<L, A>): TaskEither<L, A>
 ```
 
-### fromLeft
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.3.0_
-
-_Signature_
+## fromLeft
 
 ```ts
 <L, A>(l: L): TaskEither<L, A>
 ```
 
-### fromPredicate
+Added in v1.3.0 (function)
 
-_function_
-
-_since 1.6.0_
-
-_Signature_
+## fromPredicate
 
 ```ts
 <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
 ```
 
-### getApplyMonoid
+Added in v1.6.0 (function)
 
-_function_
-
-_since 1.9.0_
-
-_Signature_
+## getApplyMonoid
 
 ```ts
 <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>>
 ```
 
-### getApplySemigroup
+Added in v1.9.0 (function)
 
-_function_
-
-_since 1.9.0_
-
-_Signature_
+## getApplySemigroup
 
 ```ts
 <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
 ```
 
-### getSemigroup
+Added in v1.9.0 (function)
 
-_function_
-
-_since 1.9.0_
-
-_Signature_
+## getSemigroup
 
 ```ts
 <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
 ```
 
-### left
+Added in v1.9.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## left
 
 ```ts
 <L, A>(fa: Task<L>): TaskEither<L, A>
 ```
 
-### right
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## right
 
 ```ts
 <L, A>(fa: Task<A>): TaskEither<L, A>
 ```
 
-### taskify
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.5.0_
-
-_Signature_
+## taskify
 
 ```ts
 taskify<L, R>(f: Function): () => TaskEither<L, R>
 ```
 
-_Description_
+Added in v1.5.0 (function)
 
 Convert a node style callback function to one returning a `TaskEither`
 
@@ -361,14 +241,10 @@ const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.Errno
 )
 ```
 
-### tryCatch
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## tryCatch
 
 ```ts
 <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A>
 ```
+
+Added in v1.0.0 (function)

@@ -5,15 +5,7 @@ title: Module Applicative
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts)
 
-## Type classes
-
-### Applicative
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Applicative
 
 ```ts
 interface Applicative<F> extends Apply<F> {
@@ -21,7 +13,7 @@ interface Applicative<F> extends Apply<F> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 The `Applicative` type class extends the `Apply` type class with a `of` function, which can be used to create values
 of type `f a` from values of type `a`.
@@ -39,33 +31,21 @@ Instances must satisfy the following laws in addition to the `Apply` laws:
 
 Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 
-## Functions
-
-### getApplicativeComposition
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getApplicativeComposition
 
 ```ts
 getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
 ```
 
-### getMonoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.4.0_
-
-_Signature_
+## getMonoid
 
 ```ts
 getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>
 ```
 
-_Description_
+Added in v1.4.0 (function)
 
 If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
 Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
@@ -84,18 +64,12 @@ assert.deepEqual(M.concat(none, some(2)), none)
 assert.deepEqual(M.concat(some(1), some(2)), some(3))
 ```
 
-### when
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## when
 
 ```ts
 when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Perform a applicative action when a condition is true

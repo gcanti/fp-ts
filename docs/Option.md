@@ -5,21 +5,13 @@ title: Module Option
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts)
 
-## Data
-
-### Option
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Option
 
 ```ts
 type Option<A> = None<A> | Some<A>
 ```
 
-_Description_
+Added in v1.0.0 (data)
 
 If you have worked with JavaScript at all in the past, it is very likely that you have come across a `TypeError` at
 some time (other languages will throw similarly named errors in such a case). Usually this happens because some
@@ -102,21 +94,13 @@ sumLifted(some(1), some(2)) // some(3)
 sumLifted(some(1), none) // none
 ```
 
-## Methods
-
-### alt
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## alt
 
 ```ts
 (fa: Option<A>): Option<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 `alt` short for alternative, takes another `Option`. If this `Option` is a `Some` type then it will be returned, if
 it is a `None` then it will return the next `Some` if it exist. If both are `None` then it will return `none`.
@@ -129,19 +113,13 @@ assert.deepEqual(someFn(some(2)), some(2))
 assert.deepEqual(someFn(none), none)
 ```
 
-### ap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: Option<(a: A) => B>): Option<B>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 `ap`, some may also call it "apply". Takes a function `fab` that is in the context of `Option`, and applies that
 function to this `Option`'s value. If the `Option` calling `ap` is `none` it will return `none`.
@@ -153,19 +131,13 @@ assert.deepEqual(some(2).ap(some(x => x + 1)), some(3))
 assert.deepEqual(none.ap(some(x => x + 1)), none)
 ```
 
-### ap\_
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Similar to `ap` but instead of taking a function it takes `some` value or `none`, then applies this `Option`'s
 wrapped function to the `some` or `none`. If the `Option` calling `ap_` is `none` it will return `none`.
@@ -177,98 +149,64 @@ assert.deepEqual(some(x => x + 1).ap_(some(2)), some(3))
 assert.deepEqual(none.ap_(some(2)), none)
 ```
 
-### chain
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => Option<B>): Option<B>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns the result of applying f to this `Option`'s value if this `Option` is nonempty. Returns `None` if this
 `Option` is empty. Slightly different from `map` in that `f` is expected to return an `Option` (which could be
 `None`)
 
-### contains
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## contains
 
 ```ts
 (S: Setoid<A>, a: A): boolean
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise
 
-### exists
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## exists
 
 ```ts
 (p: (a: A) => boolean): boolean
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns `true` if this option is non empty and the predicate `p` returns `true` when applied to this Option's value
 
-### extend
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extend
 
 ```ts
 <B>(f: (ea: Option<A>) => B): Option<B>
 ```
 
-### filter
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## filter
 
 ```ts
 (p: Predicate<A>): Option<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value.
 Otherwise returns `None`
 
-### fold
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 <B>(b: B, whenSome: (a: A) => B): B
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Applies a function to each case in the data structure
 
@@ -281,35 +219,23 @@ assert.strictEqual(some(1).fold('none', a => `some: ${a}`), 'some: 1')
 assert.strictEqual(none.fold('none', a => `some: ${a}`), 'none')
 ```
 
-### foldL
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## foldL
 
 ```ts
 <B>(whenNone: () => B, whenSome: (a: A) => B): B
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Lazy version of [fold](#fold)
 
-### getOrElse
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## getOrElse
 
 ```ts
 (a: A): A
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns the value from this `Some` or the given argument if this is a `None`
 
@@ -322,79 +248,51 @@ assert.strictEqual(some(1).getOrElse(0), 1)
 assert.strictEqual((none as Option<number>).getOrElse(0), 0)
 ```
 
-### getOrElseL
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## getOrElseL
 
 ```ts
 (f: () => A): A
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Lazy version of [getOrElse](#getorelse)
 
-### inspect
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### isNone
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## isNone
 
 ```ts
 (): this is None<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns `true` if the option is `None`, `false` otherwise
 
-### isSome
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## isSome
 
 ```ts
 (): this is Some<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns `true` if the option is an instance of `Some`, `false` otherwise
 
-### map
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Option<B>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors. If it
 maps on `Some` then it will apply the `f` on `Some`'s value, if it maps on `None` it will return `None`.
@@ -405,19 +303,13 @@ _Example_
 assert.deepEqual(some(1).map(n => n * 2), some(2))
 ```
 
-### mapNullable
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## mapNullable
 
 ```ts
 <B>(f: (a: A) => B | null | undefined): Option<B>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Maps `f` over this `Option`'s value. If the value returned from `f` is null or undefined, returns `None`
 
@@ -452,19 +344,13 @@ assert.deepEqual(
 )
 ```
 
-### orElse
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## orElse
 
 ```ts
 (fa: Lazy<Option<A>>): Option<A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Lazy version of [alt](#alt)
 
@@ -474,88 +360,54 @@ _Example_
 assert.deepEqual(some(1).orElse(() => some(2)), some(1))
 ```
 
-### reduce
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## reduce
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
-### refine
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.3.0_
-
-_Signature_
+## refine
 
 ```ts
 <B extends A>(refinement: Refinement<A, B>): Option<B>
 ```
 
-_Description_
+Added in v1.3.0 (method)
 
 Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
 this Option's value. Otherwise returns `None`
 
-### toNullable
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toNullable
 
 ```ts
 (): A | null
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns the value from this `Some` or `null` if this is a `None`
 
-### toString
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-### toUndefined
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toUndefined
 
 ```ts
 (): A | undefined
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Returns the value from this `Some` or `undefined` if this is a `None`
 
-## Instances
-
-### option
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## option
 
 ```ts
 Monad1<URI> &
@@ -569,35 +421,23 @@ Monad1<URI> &
   Witherable1<URI>
 ```
 
-## Constants
+Added in v1.0.0 (instance)
 
-### none
-
-_constant_
-
-_since 1.0.0_
-
-_Signature_
+## none
 
 ```ts
-none: Option<never>
+Option<never>
 ```
 
-## Functions
+Added in v1.0.0 (constant)
 
-### fromEither
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromEither
 
 ```ts
 <L, A>(fa: Either<L, A>): Option<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
 value wrapped in a `Some`
@@ -612,19 +452,13 @@ assert.deepEqual(fromEither(left(1)), none)
 assert.deepEqual(fromEither(right(1)), some(1))
 ```
 
-### fromNullable
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromNullable
 
 ```ts
 <A>(a: A | null | undefined): Option<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
 returns the value wrapped in a `Some`
@@ -639,17 +473,13 @@ assert.deepEqual(fromNullable(null), none)
 assert.deepEqual(fromNullable(1), some(1))
 ```
 
-### fromPredicate
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromPredicate
 
 ```ts
 <A>(predicate: Predicate<A>) => (a: A): Option<A>
 ```
+
+Added in v1.0.0 (function)
 
 _Example_
 
@@ -662,47 +492,31 @@ assert.deepEqual(positive(-1), none)
 assert.deepEqual(positive(1), some(1))
 ```
 
-### fromRefinement
-
-_function_
-
-_since 1.3.0_
-
-_Signature_
+## fromRefinement
 
 ```ts
 <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B>
 ```
 
-_Description_
+Added in v1.3.0 (function)
 
 Refinement version of [fromPredicate](#frompredicate)
 
-### getApplyMonoid
-
-_function_
-
-_since 1.7.0_
-
-_Signature_
+## getApplyMonoid
 
 ```ts
 <A>(M: Monoid<A>): Monoid<Option<A>>
 ```
 
-### getApplySemigroup
+Added in v1.7.0 (function)
 
-_function_
-
-_since 1.7.0_
-
-_Signature_
+## getApplySemigroup
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<Option<A>>
 ```
 
-_Description_
+Added in v1.7.0 (function)
 
 [Apply](./Apply.md) semigroup
 
@@ -725,19 +539,13 @@ assert.deepEqual(S.concat(none, some(1)), none)
 assert.deepEqual(S.concat(some(1), some(2)), some(3))
 ```
 
-### getFirstMonoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getFirstMonoid
 
 ```ts
 <A = never>(): Monoid<Option<A>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Monoid returning the left-most non-`None` value
 
@@ -758,19 +566,13 @@ assert.deepEqual(M.concat(none, some(1)), some(1))
 assert.deepEqual(M.concat(some(1), some(2)), some(1))
 ```
 
-### getLastMonoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getLastMonoid
 
 ```ts
 <A = never>(): Monoid<Option<A>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Monoid returning the right-most non-`None` value
 
@@ -791,19 +593,13 @@ assert.deepEqual(M.concat(none, some(1)), some(1))
 assert.deepEqual(M.concat(some(1), some(2)), some(2))
 ```
 
-### getMonoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonoid
 
 ```ts
 <A>(S: Semigroup<A>): Monoid<Option<A>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
 appended using the provided `Semigroup`
@@ -827,19 +623,13 @@ assert.deepEqual(M.concat(none, some(1)), some(1))
 assert.deepEqual(M.concat(some(1), some(2)), some(3))
 ```
 
-### getOrd
-
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## getOrd
 
 ```ts
 <A>(O: Ord<A>): Ord<Option<A>>
 ```
 
-_Description_
+Added in v1.2.0 (function)
 
 The `Ord` instance allows `Option` values to be compared with
 `compare`, whenever there is an `Ord` instance for
@@ -861,19 +651,13 @@ assert.strictEqual(O.compare(some(1), some(2)), -1)
 assert.strictEqual(O.compare(some(1), some(1)), 0)
 ```
 
-### getRefinement
-
-_function_
-
-_since 1.7.0_
-
-_Signature_
+## getRefinement
 
 ```ts
 <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B>
 ```
 
-_Description_
+Added in v1.7.0 (function)
 
 Returns a refinement from a prism.
 This function ensures that a custom type guard definition is type-safe.
@@ -889,17 +673,13 @@ const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't c
 const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
 ```
 
-### getSetoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Option<A>>
 ```
+
+Added in v1.0.0 (function)
 
 _Example_
 
@@ -915,64 +695,39 @@ assert.strictEqual(S.equals(some(1), some(2)), false)
 assert.strictEqual(S.equals(some(1), some(1)), true)
 ```
 
-### isNone
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## isNone
 
 ```ts
 <A>(fa: Option<A>): fa is None<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Returns `true` if the option is `None`, `false` otherwise
 
-### isSome
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## isSome
 
 ```ts
 <A>(fa: Option<A>): fa is Some<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Returns `true` if the option is an instance of `Some`, `false` otherwise
 
-### some
+## some
 
-_function_
+Alias of [of](#of)
 
-_since 1.0.0_
-Alias of
+Added in v1.0.0 (function)
 
-_Signature_
-
-```ts
-of
-```
-
-### tryCatch
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## tryCatch
 
 ```ts
 <A>(f: Lazy<A>): Option<A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
 `Some`

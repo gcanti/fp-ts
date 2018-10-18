@@ -5,15 +5,7 @@ title: Module Unfoldable
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts)
 
-## Type classes
-
-### Unfoldable
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Unfoldable
 
 ```ts
 interface Unfoldable<F> {
@@ -22,25 +14,17 @@ interface Unfoldable<F> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
 
-## Functions
-
-### empty
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## empty
 
 ```ts
 empty<F, A>(U: Unfoldable<F>): HKT<F, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 The container with no elements - unfolded with zero iterations.
 
@@ -53,19 +37,13 @@ import { array } from 'fp-ts/lib/Array'
 assert.deepEqual(empty(array), [])
 ```
 
-### replicate
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## replicate
 
 ```ts
 replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Replicate a value some natural number of times.
 
@@ -78,13 +56,7 @@ import { array } from 'fp-ts/lib/Array'
 assert.deepEqual(replicate(array)('s', 2), ['s', 's'])
 ```
 
-### replicateA
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## replicateA
 
 ```ts
 replicateA<F, T>(
@@ -93,7 +65,7 @@ replicateA<F, T>(
 ): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Perform an Applicative action `n` times, and accumulate all the results
 
@@ -108,19 +80,13 @@ assert.deepEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
 assert.deepEqual(replicateA(option, array)(2, none), none)
 ```
 
-### singleton
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## singleton
 
 ```ts
 singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Contain a single value
 

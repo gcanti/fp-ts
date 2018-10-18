@@ -5,33 +5,17 @@ title: Module BoundedDistributiveLattice
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedDistributiveLattice.ts)
 
-## Type classes
-
-### BoundedDistributiveLattice
-
-_type class_
-
-_since 1.4.0_
-
-_Signature_
+# BoundedDistributiveLattice
 
 ```ts
 interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {}
 ```
 
-_Description_
+Added in v1.4.0 (type class)
 
 A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
 
-## Functions
-
-### getMinMaxBoundedDistributiveLattice
-
-_function_
-
-_since 1.4.0_
-
-_Signature_
+## getMinMaxBoundedDistributiveLattice
 
 ```ts
 <A>(O: Ord<A>) => (
@@ -39,3 +23,5 @@ _Signature_
   max: A
 ): BoundedDistributiveLattice<A>
 ```
+
+Added in v1.4.0 (function)

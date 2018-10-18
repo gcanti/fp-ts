@@ -5,87 +5,53 @@ title: Module NonEmptyArray
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts)
 
-## Data
-
-### NonEmptyArray
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# NonEmptyArray
 
 ```ts
 constructor(readonly head: A, readonly tail: Array<A>) {}
 ```
 
-_Description_
+Added in v1.0.0 (data)
 
 Data structure which represents non-empty arrays
 
-## Methods
-
-### ap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Instance-bound implementation of [Apply](./Apply.md)
 
-### ap\_
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Same as [ap](#ap) but works on [NonEmptyArray](./NonEmptyArray.md) of functions and accepts [NonEmptyArray](./NonEmptyArray.md) of values instead
 
-### chain
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Instance-bound implementation of [Chain](./Chain.md)
 
-### concat
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## concat
 
 ```ts
 (y: NonEmptyArray<A>): NonEmptyArray<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Instance-bound implementation of [Semigroup](./Semigroup.md)
 
@@ -97,19 +63,13 @@ const y = new NonEmptyArray(3, [4])
 assert.deepEqual(x.concat(y).toArray(), [1, 2, 3, 4])
 ```
 
-### concatArray
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## concatArray
 
 ```ts
 (as: Array<A>): NonEmptyArray<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Concatenates this [NonEmptyArray](./NonEmptyArray.md) and passed [Array](./Array.md)
 
@@ -119,35 +79,23 @@ _Example_
 assert.deepEqual(new NonEmptyArray(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
 ```
 
-### extend
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extend
 
 ```ts
 <B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Instance-bound implementation of [Extend](./Extend.md)
 
-### extract
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extract
 
 ```ts
 (): A
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Instance-bound implementation of [Comonad](./Comonad.md)
 
@@ -157,35 +105,23 @@ _Example_
 assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
 ```
 
-### inspect
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Same as [toString](#tostring)
 
-### last
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## last
 
 ```ts
 (): A
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Gets last element of this [NonEmptyArray](./NonEmptyArray.md)
 
@@ -196,35 +132,23 @@ const last = new NonEmptyArray(1, [2, 3]).last() // 3
 const last = new NonEmptyArray(1, []).last() // 1
 ```
 
-### map
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): NonEmptyArray<B>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Instance-bound implementation of [Functor](./Functor.md)
 
-### max
-
-_method_
-
-_since 1.3.0_
-
-_Signature_
+## max
 
 ```ts
 (ord: Ord<A>): A
 ```
 
-_Description_
+Added in v1.3.0 (method)
 
 Gets maximum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
 
@@ -234,19 +158,13 @@ _Example_
 const maximum = new NonEmptyArray(1, [2, 3]).max(ordNumber) // 3
 ```
 
-### min
-
-_method_
-
-_since 1.3.0_
-
-_Signature_
+## min
 
 ```ts
 (ord: Ord<A>): A
 ```
 
-_Description_
+Added in v1.3.0 (method)
 
 Gets minimum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
 
@@ -256,35 +174,23 @@ _Example_
 const minimum = new NonEmptyArray(1, [2, 3]).min(ordNumber) // 1
 ```
 
-### reduce
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## reduce
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Instance-bound implementation of [Foldable](./Foldable.md)
 
-### reverse
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## reverse
 
 ```ts
 (): NonEmptyArray<A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Reverts this [NonEmptyArray](./NonEmptyArray.md)
 
@@ -296,19 +202,13 @@ const expected = new NonEmptyArray(3, [2, 1])
 assert.deepEqual(result, expected)
 ```
 
-### sort
-
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## sort
 
 ```ts
 (ord: Ord<A>): NonEmptyArray<A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Sorts this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
 
@@ -320,19 +220,13 @@ const expected = new NonEmptyArray(1, [2, 3])
 assert.deepEqual(result, expected)
 ```
 
-### toArray
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toArray
 
 ```ts
 (): Array<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Converts this [NonEmptyArray](./NonEmptyArray.md) to plain [Array](./Array.md)
 
@@ -342,83 +236,51 @@ _Example_
 assert.deepEqual(new NonEmptyArray(1, [2, 3]), [1, 2, 3])
 ```
 
-### toString
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Return stringified representation of this [NonEmptyArray](./NonEmptyArray.md)
 
-## Instances
-
-### nonEmptyArray
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## nonEmptyArray
 
 ```ts
 Monad1<URI> & Comonad1<URI> & Foldable1<URI> & Traversable1<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### fromArray
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromArray
 
 ```ts
 <A>(as: Array<A>): Option<NonEmptyArray<A>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Builds [NonEmptyArray](./NonEmptyArray.md) from [Array](./Array.md) returning [Option#none](./Option.md#none) or [Option#some](./Option.md#some) depending on amount of values in passed array
 
-### getSemigroup
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSemigroup
 
 ```ts
 <A = never>(): Semigroup<NonEmptyArray<A>>
 ```
 
-_Description_
+Added in v1.0.0 (function)
 
 Builds [Semigroup](./Semigroup.md) instance for [NonEmptyArray](./NonEmptyArray.md) of specified type arument
 
-### group
-
-_function_
-
-_since 1.7.0_
-
-_Signature_
+## group
 
 ```ts
 <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>>
 ```
 
-_Description_
+Added in v1.7.0 (function)
 
 Group equal, consecutive elements of an array into non empty arrays.
 
@@ -434,19 +296,13 @@ assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [
 ])
 ```
 
-### groupSort
-
-_function_
-
-_since 1.7.0_
-
-_Signature_
+## groupSort
 
 ```ts
 <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>)
 ```
 
-_Description_
+Added in v1.7.0 (function)
 
 Sort and then group the elements of an array into non empty arrays.
 

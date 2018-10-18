@@ -5,15 +5,7 @@ title: Module Monoidal
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts)
 
-## Type classes
-
-### Monoidal
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Monoidal
 
 ```ts
 interface Monoidal<F> extends Functor<F> {
@@ -22,7 +14,7 @@ interface Monoidal<F> extends Functor<F> {
 }
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 Applicative functors are equivalent to strong lax monoidal functors
 

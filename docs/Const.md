@@ -5,132 +5,84 @@ title: Module Const
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts)
 
-## Data
-
-### Const
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Const
 
 ```ts
 constructor(readonly value: L) {}
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### contramap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## contramap
 
 ```ts
 <B>(f: (b: B) => A): Const<L, B>
 ```
 
-### fold
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 <B>(f: (l: L) => B): B
 ```
 
-### inspect
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Const<L, B>
 ```
 
-### toString
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### const\_
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## const\_
 
 ```ts
 Functor2<URI> & Contravariant2<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### getApplicative
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getApplicative
 
 ```ts
 <L>(M: Monoid<L>): Applicative2C<URI, L>
 ```
 
-### getApply
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getApply
 
 ```ts
 <L>(S: Semigroup<L>): Apply2C<URI, L>
 ```
 
-### getSetoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 ;<L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
   equals: (x, y) => S.equals(x.value, y.value)
 })
 ```
+
+Added in v1.0.0 (function)

@@ -5,167 +5,105 @@ title: Module IO
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts)
 
-## Data
-
-### IO
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# IO
 
 ```ts
 constructor(readonly run: Lazy<A>) {}
 ```
 
-_Description_
+Added in v1.0.0 (data)
 
 `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent a synchronous computation that may fail, please see [IOEither](./IOEither.md).
 
-## Methods
-
-### ap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: IO<(a: A) => B>): IO<B>
 ```
 
-### ap\_
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C>
 ```
 
-### applyFirst
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.6.0_
-
-_Signature_
+## applyFirst
 
 ```ts
 <B>(fb: IO<B>): IO<A>
 ```
 
-_Description_
+Added in v1.6.0 (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-### applySecond
-
-_method_
-
-_since 1.5.0_
-
-_Signature_
+## applySecond
 
 ```ts
 <B>(fb: IO<B>): IO<B>
 ```
 
-_Description_
+Added in v1.5.0 (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-### chain
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 <B>(f: (a: A) => IO<B>): IO<B>
 ```
 
-### inspect
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## inspect
 
 ```ts
 (): string
 ```
 
-### map
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): IO<B>
 ```
 
-### toString
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## toString
 
 ```ts
 (): string
 ```
 
-## Instances
+Added in v1.0.0 (method)
 
-### io
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## io
 
 ```ts
 Monad1<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### getMonoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonoid
 
 ```ts
 <A>(M: Monoid<A>): Monoid<IO<A>>
 ```
 
-### getSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSemigroup
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<IO<A>>
 ```
+
+Added in v1.0.0 (function)

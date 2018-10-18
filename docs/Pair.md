@@ -5,202 +5,128 @@ title: Module Pair
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts)
 
-## Data
-
-### Pair
-
-_data_
-
-_since 1.0.0_
-
-_Signature_
+# Pair
 
 ```ts
 constructor(readonly fst: A, readonly snd: A) {}
 ```
 
-## Methods
+Added in v1.0.0 (data)
 
-### ap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap
 
 ```ts
 <B>(fab: Pair<(a: A) => B>): Pair<B>
 ```
 
-### ap\_
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## ap\_
 
 ```ts
 <B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C>
 ```
 
-### extend
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extend
 
 ```ts
 <B>(f: (fb: Pair<A>) => B): Pair<B>
 ```
 
-### extract
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## extract
 
 ```ts
 (): A
 ```
 
-### first
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## first
 
 ```ts
 (f: Endomorphism<A>): Pair<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Map a function over the first field of a pair
 
-### map
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## map
 
 ```ts
 <B>(f: (a: A) => B): Pair<B>
 ```
 
-### reduce
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## reduce
 
 ```ts
 <B>(b: B, f: (b: B, a: A) => B): B
 ```
 
-### second
+Added in v1.0.0 (method)
 
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## second
 
 ```ts
 (f: Endomorphism<A>): Pair<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Map a function over the second field of a pair
 
-### swap
-
-_method_
-
-_since 1.0.0_
-
-_Signature_
+## swap
 
 ```ts
 (): Pair<A>
 ```
 
-_Description_
+Added in v1.0.0 (method)
 
 Swaps the elements in a pair
 
-## Instances
-
-### pair
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## pair
 
 ```ts
 Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### getMonoid
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getMonoid
 
 ```ts
 <A>(M: Monoid<A>): Monoid<Pair<A>>
 ```
 
-### getOrd
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getOrd
 
 ```ts
 <A>(O: Ord<A>): Ord<Pair<A>>
 ```
 
-### getSemigroup
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSemigroup
 
 ```ts
 <A>(S: Semigroup<A>): Semigroup<Pair<A>>
 ```
 
-### getSetoid
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getSetoid
 
 ```ts
 <A>(S: Setoid<A>): Setoid<Pair<A>>
 ```
+
+Added in v1.0.0 (function)

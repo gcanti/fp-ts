@@ -5,15 +5,7 @@ title: Module EitherT
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts)
 
-## Functions
-
-### bimap
-
-_function_
-
-_since 1.2.0_
-
-_Signature_
+## bimap
 
 ```ts
 bimap<F>(
@@ -21,25 +13,17 @@ bimap<F>(
 ): <L, V, A, B>(fa: HKT<F, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => HKT<F, Either<V, B>>
 ```
 
-### chain
+Added in v1.2.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## chain
 
 ```ts
 chain<F>(F: Monad<F>): EitherT<F>['chain']
 ```
 
-### fold
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fold
 
 ```ts
 fold<F>(
@@ -47,49 +31,33 @@ fold<F>(
 ): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R>
 ```
 
-### fromEither
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## fromEither
 
 ```ts
 fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>>
 ```
 
-### getEitherT
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## getEitherT
 
 ```ts
 getEitherT<M>(M: Monad<M>): EitherT<M>
 ```
 
-### left
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## left
 
 ```ts
 left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
 ```
 
-### mapLeft
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## mapLeft
 
 ```ts
 mapLeft<F>(
@@ -97,14 +65,12 @@ mapLeft<F>(
 ): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>>
 ```
 
-### right
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## right
 
 ```ts
 right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>
 ```
+
+Added in v1.0.0 (function)

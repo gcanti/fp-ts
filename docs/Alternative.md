@@ -5,21 +5,13 @@ title: Module Alternative
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Alternative.ts)
 
-## Type classes
-
-### Alternative
-
-_type class_
-
-_since 1.0.0_
-
-_Signature_
+# Alternative
 
 ```ts
 interface Alternative<F> extends Applicative<F>, Plus<F> {}
 ```
 
-_Description_
+Added in v1.0.0 (type class)
 
 The `Alternative` type class has no members of its own; it just specifies that the type constructor has both
 `Applicative` and `Plus` instances.

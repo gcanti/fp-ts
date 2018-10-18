@@ -5,54 +5,34 @@ title: Module Ordering
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ordering.ts)
 
-## Instances
-
-### semigroupOrdering
-
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## semigroupOrdering
 
 ```ts
 Semigroup<Ordering>
 ```
 
-### setoidOrdering
+Added in v1.0.0 (instance)
 
-_instance_
-
-_since 1.0.0_
-
-_Signature_
+## setoidOrdering
 
 ```ts
 Setoid<Ordering>
 ```
 
-## Functions
+Added in v1.0.0 (instance)
 
-### invert
-
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## invert
 
 ```ts
 (O: Ordering): Ordering
 ```
 
-### sign
+Added in v1.0.0 (function)
 
-_function_
-
-_since 1.0.0_
-
-_Signature_
+## sign
 
 ```ts
 (n: number): Ordering
 ```
+
+Added in v1.0.0 (function)

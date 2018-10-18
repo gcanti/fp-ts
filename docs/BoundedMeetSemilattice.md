@@ -5,15 +5,7 @@ title: Module BoundedMeetSemilattice
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedMeetSemilattice.ts)
 
-## Type classes
-
-### BoundedMeetSemilattice
-
-_type class_
-
-_since 1.4.0_
-
-_Signature_
+# BoundedMeetSemilattice
 
 ```ts
 interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
@@ -21,7 +13,7 @@ interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
 }
 ```
 
-_Description_
+Added in v1.4.0 (type class)
 
 A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetSemilattice` laws:
 
