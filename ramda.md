@@ -105,10 +105,10 @@
 | last                    | [Array.last](docs/Array.md#last)                                                                       |
 | lastIndexOf             | [Array.findLastIndex](docs/Array.md#findlastindex)                                                     |
 | length                  |                                                                                                        |
-| lens                    |                                                                                                        |
-| lensIndex               |                                                                                                        |
-| lensPath                |                                                                                                        |
-| lensProp                |                                                                                                        |
+| lens                    | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                 |
+| lensIndex               | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                 |
+| lensPath                | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                 |
+| lensProp                | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                 |
 | lift                    |                                                                                                        |
 | liftN                   | [Apply.liftAN](docs/Apply.md#lifta2)                                                                   |
 | lt                      | [Ord.lessThan](docs/Ord.md#lessthan)                                                                   |
@@ -150,7 +150,7 @@
 | omit                    |                                                                                                        |
 | once                    |                                                                                                        |
 | or                      | [Semigroup.semigroupAny](docs/Semigroup.md#semigroupany)                                               |
-| over                    |                                                                                                        |
+| over                    | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                 |
 | pair                    | [function.tuple](docs/function.md#tuple), [function.tupleCurried](docs/function.md#tuplecurried)       |
 | partial                 |                                                                                                        |
 | partialRight            |                                                                                                        |
@@ -188,7 +188,7 @@
 | reverse                 | [Array.reverse](docs/Array.md#reverse)                                                                 |
 | scan                    | [Array.scanLeft](docs/Array.md#scanLeft)                                                               |
 | sequence                | [Traversable](docs/Traversable.md)                                                                     |
-| set                     |                                                                                                        |
+| set                     | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                 |
 | slice                   |                                                                                                        |
 | sort                    | [Array.sort](docs/Array.md#sort)                                                                       |
 | sortBy                  | [Array.sort](docs/Array.md#sort)                                                                       |
@@ -237,7 +237,7 @@
 | useWith                 |                                                                                                        |
 | values                  |                                                                                                        |
 | valuesIn                |                                                                                                        |
-| view                    |                                                                                                        |
+| view                    | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                 |
 | when                    |                                                                                                        |
 | where                   |                                                                                                        |
 | whereEq                 |                                                                                                        |
