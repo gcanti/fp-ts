@@ -164,7 +164,7 @@ Added in v1.0.0 (method)
 ## validation
 
 ```ts
-Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2<URI>
+Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI>
 ```
 
 Added in v1.0.0 (instance)

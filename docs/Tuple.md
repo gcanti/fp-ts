@@ -98,7 +98,7 @@ Added in v1.0.0 (method)
 ## tuple
 
 ```ts
-Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2<URI>
+Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2v2<URI>
 ```
 
 Added in v1.0.0 (instance)

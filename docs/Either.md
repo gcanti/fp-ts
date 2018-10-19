@@ -253,7 +253,7 @@ Added in v1.0.0 (method)
 ```ts
 Monad2<URI> &
   Foldable2v2<URI> &
-  Traversable2<URI> &
+  Traversable2v2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &

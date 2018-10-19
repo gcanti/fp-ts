@@ -39,6 +39,12 @@ Filter an array of optional values, keeping only the elements which contain a va
 
 Alias of [Compactable](./Compactable.md)'s `compact`
 
+_Example_
+
+```ts
+assert.deepEqual(catOptions([some(1), none, some(3)]), [1, 3])
+```
+
 ## chop
 
 ```ts
@@ -91,6 +97,12 @@ Added in v1.0.0 (function)
 
 Attaches an element to the front of an array, creating a new array
 
+_Example_
+
+```ts
+assert.deepEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
+```
+
 ## copy
 
 ```ts
@@ -109,6 +121,13 @@ Added in v1.0.0 (function)
 
 Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
 
+_Example_
+
+```ts
+assert.deepEqual(deleteAt(0, [1, 2, 3]), some([2, 3]))
+assert.deepEqual(deleteAt(1, []), none)
+```
+
 ## drop
 
 ```ts
@@ -119,6 +138,28 @@ Added in v1.0.0 (function)
 
 Drop a number of elements from the start of an array, creating a new array
 
+_Example_
+
+```ts
+assert.deepEqual(drop(2, [1, 2, 3]), [3])
+```
+
+## dropEnd
+
+```ts
+<A>(n: number, as: Array<A>): Array<A>
+```
+
+Added in v1.10.0 (function)
+
+Drop a number of elements from the end of an array, creating a new array
+
+_Example_
+
+```ts
+assert.deepEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
+```
+
 ## dropWhile
 
 ```ts
@@ -128,6 +169,12 @@ Drop a number of elements from the start of an array, creating a new array
 Added in v1.0.0 (function)
 
 Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+
+_Example_
+
+```ts
+assert.deepEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
+```
 
 ## filter
 
@@ -165,6 +212,13 @@ Added in v1.0.0 (function)
 
 Find the first index for which a predicate holds
 
+_Example_
+
+```ts
+assert.deepEqual(findIndex([1, 2, 3], x => x === 2), some(1))
+assert.deepEqual(findIndex([], x => x === 2), none)
+```
+
 ## findLast
 
 ```ts
@@ -175,6 +229,34 @@ Added in v1.0.0 (function)
 
 Find the last element which satisfies a predicate function
 
+_Example_
+
+```ts
+assert.deepEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
+```
+
+## findLastIndex
+
+```ts
+<A>(as: Array<A>, predicate: Predicate<A>): Option<number>
+```
+
+Added in v1.10.0 (function)
+
+Returns the index of the last element of the list which matches the predicate
+
+_Example_
+
+```ts
+interface X {
+  a: number
+  b: number
+}
+const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
+assert.deepEqual(findLastIndex(xs, x => x.a === 1), some(1))
+assert.deepEqual(findLastIndex(xs, x => x.a === 4), none)
+```
+
 ## flatten
 
 ```ts
@@ -182,6 +264,8 @@ Find the last element which satisfies a predicate function
 ```
 
 Added in v1.0.0 (function)
+
+Removes one level of nesting
 
 _Example_
 
@@ -198,6 +282,13 @@ flatten([[1], [2], [3]]) // [1, 2, 3]
 Added in v1.0.0 (function)
 
 Break an array into its first element and remaining elements
+
+_Example_
+
+```ts
+const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
+assert.strictEqual(len([1, 2, 3]), 3)
+```
 
 ## foldL
 
@@ -237,6 +328,13 @@ Lazy version of [foldr](#foldr)
 
 Added in v1.0.0 (function)
 
+_Example_
+
+```ts
+const M = getMonoid<number>()
+assert.deepEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
+```
+
 ## getOrd
 
 ```ts
@@ -252,6 +350,17 @@ arrays is equal to: the first non equal comparison of each arrays elements taken
 case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
 the same length, the result is equality.
 
+_Example_
+
+```ts
+import { ordString } from 'fp-ts/lib/Ord'
+
+const O = getOrd(ordString)
+assert.strictEqual(O.compare(['b'], ['a']), 1)
+assert.strictEqual(O.compare(['a'], ['a']), 0)
+assert.strictEqual(O.compare(['a'], ['b']), -1)
+```
+
 ## head
 
 ```ts
@@ -261,6 +370,13 @@ the same length, the result is equality.
 Added in v1.0.0 (function)
 
 Get the first element in an array, or `None` if the array is empty
+
+_Example_
+
+```ts
+assert.deepEqual(head([1, 2, 3]), some(1))
+assert.deepEqual(head([]), none)
+```
 
 ## index
 
@@ -272,6 +388,13 @@ Added in v1.0.0 (function)
 
 This function provides a safe way to read a value at a particular index from an array
 
+_Example_
+
+```ts
+assert.deepEqual(index(1, [1, 2, 3]), some(2))
+assert.deepEqual(index(3, [1, 2, 3]), none)
+```
+
 ## init
 
 ```ts
@@ -281,6 +404,13 @@ This function provides a safe way to read a value at a particular index from an 
 Added in v1.0.0 (function)
 
 Get all but the last element of an array, creating a new array, or `None` if the array is empty
+
+_Example_
+
+```ts
+assert.deepEqual(init([1, 2, 3]), some([1, 2]))
+assert.deepEqual(init([]), none)
+```
 
 ## insertAt
 
@@ -292,6 +422,12 @@ Added in v1.0.0 (function)
 
 Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
 
+_Example_
+
+```ts
+assert.deepEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
+```
+
 ## isEmpty
 
 ```ts
@@ -301,6 +437,12 @@ Insert an element at the specified index, creating a new array, or returning `No
 Added in v1.0.0 (function)
 
 Test whether an array is empty
+
+_Example_
+
+```ts
+assert.strictEqual(isEmpty([]), true)
+```
 
 ## isOutOfBound
 
@@ -322,6 +464,13 @@ Added in v1.0.0 (function)
 
 Get the last element in an array, or `None` if the array is empty
 
+_Example_
+
+```ts
+assert.deepEqual(last([1, 2, 3]), some(3))
+assert.deepEqual(last([]), none)
+```
+
 ## lefts
 
 ```ts
@@ -331,6 +480,29 @@ Get the last element in an array, or `None` if the array is empty
 Added in v1.0.0 (function)
 
 Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+
+_Example_
+
+```ts
+assert.deepEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
+```
+
+## makeBy
+
+```ts
+<A>(n: number, f: (i: number) => A): Array<A>
+```
+
+Added in v1.10.0 (function)
+
+Return a list of length `n` with element `i` initialized with `f(i)`
+
+_Example_
+
+```ts
+const double = (n: number): number => n * 2
+assert.deepEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+```
 
 ## mapOption
 
@@ -343,6 +515,13 @@ Added in v1.0.0 (function)
 Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
 
 Alias of [Filterable](./Filterable.md)'s `filterMap`
+
+_Example_
+
+```ts
+const f = (n: number): Option<number> => (n % 2 === 0 ? none : some(n))
+assert.deepEqual(mapOption([1, 2, 3], f), [1, 3])
+```
 
 ## member
 
@@ -360,8 +539,11 @@ _Example_
 
 ```ts
 import { setoidString } from 'fp-ts/lib/Setoid'
+import { setoidNumber } from 'fp-ts/lib/Setoid'
 
-member(setoidString)(['thing one', 'thing two', 'cat in the hat'], 'thing two') // true
+assert.strictEqual(member(setoidString)(['thing one', 'thing two', 'cat in the hat'], 'thing two'), true)
+assert.strictEqual(member(setoidNumber)([1, 2, 3], 1), true)
+assert.strictEqual(member(setoidNumber)([1, 2, 3], 4), false) *
 ```
 
 ## modifyAt
@@ -375,6 +557,14 @@ Added in v1.0.0 (function)
 Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
 of bounds
 
+_Example_
+
+```ts
+const double = (x: number): number => x * 2
+assert.deepEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
+assert.deepEqual(modifyAt([], 1, double), none)
+```
+
 ## partitionMap
 
 ```ts
@@ -383,6 +573,28 @@ of bounds
 
 Added in v1.0.0 (function)
 
+_Example_
+
+```ts
+assert.deepEqual(array.partitionMap([right(1), left('foo'), right(2)], identity), { left: ['foo'], right: [1, 2] })
+```
+
+## range
+
+```ts
+(start: number, end: number): Array<number>
+```
+
+Added in v1.10.0 (function)
+
+Create an array containing a range of integers, including both endpoints
+
+_Example_
+
+```ts
+assert.deepEqual(range(1, 5), [1, 2, 3, 4, 5])
+```
+
 ## refine
 
 ```ts
@@ -390,6 +602,22 @@ Added in v1.0.0 (function)
 ```
 
 Added in v1.0.0 (function)
+
+## replicate
+
+```ts
+<A>(n: number, a: A): Array<A>
+```
+
+Added in v1.10.0 (function)
+
+Create an array containing a value repeated the specified number of times
+
+_Example_
+
+```ts
+assert.deepEqual(replicate(3, 'a'), ['a', 'a', 'a'])
+```
 
 ## reverse
 
@@ -401,6 +629,12 @@ Added in v1.0.0 (function)
 
 Reverse an array, creating a new array
 
+_Example_
+
+```ts
+assert.deepEqual(reverse([1, 2, 3]), [3, 2, 1])
+```
+
 ## rights
 
 ```ts
@@ -411,6 +645,12 @@ Added in v1.0.0 (function)
 
 Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
 
+_Example_
+
+```ts
+assert.deepEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
+```
+
 ## rotate
 
 ```ts
@@ -420,6 +660,12 @@ Extracts from an array of `Either` all the `Right` elements. All the `Right` ele
 Added in v1.0.0 (function)
 
 Rotate an array to the right by `n` steps
+
+_Example_
+
+```ts
+assert.deepEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+```
 
 ## scanLeft
 
@@ -459,6 +705,12 @@ Added in v1.0.0 (function)
 
 Append an element to the end of an array, creating a new array
 
+_Example_
+
+```ts
+assert.deepEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+```
+
 ## sort
 
 ```ts
@@ -468,6 +720,14 @@ Append an element to the end of an array, creating a new array
 Added in v1.0.0 (function)
 
 Sort the elements of an array in increasing order, creating a new array
+
+_Example_
+
+```ts
+import { ordNumber } from 'fp-ts/lib/Ord'
+
+assert.deepEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
+```
 
 ## sortBy
 
@@ -480,6 +740,31 @@ Added in v1.3.0 (function)
 Sort the elements of an array in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
 etc...
 
+_Example_
+
+```ts
+import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
+
+interface Person {
+  name: string
+  age: number
+}
+const byName = contramap((p: Person) => p.name, ordString)
+const byAge = contramapOrd((p: Person) => p.age, ordNumber)
+
+const sortByNameByAge = sortBy([byName, byAge])
+
+if (sortByNameByAge.isSome()) {
+  const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
+  assert.deepEqual(sortByNameByAge.value(persons), [
+    { name: 'a', age: 1 },
+    { name: 'b', age: 2 },
+    { name: 'b', age: 3 },
+    { name: 'c', age: 2 }
+  ])
+}
+```
+
 ## sortBy1
 
 ```ts
@@ -489,6 +774,29 @@ etc...
 Added in v1.3.0 (function)
 
 Non failing version of [sortBy](#sortby)
+
+_Example_
+
+```ts
+import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
+
+interface Person {
+  name: string
+  age: number
+}
+const byName = contramap((p: Person) => p.name, ordString)
+const byAge = contramapOrd((p: Person) => p.age, ordNumber)
+
+const sortByNameByAge = sortBy1(byName, [byAge])
+
+const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
+assert.deepEqual(sortByNameByAge.value(persons), [
+  { name: 'a', age: 1 },
+  { name: 'b', age: 2 },
+  { name: 'b', age: 3 },
+  { name: 'c', age: 2 }
+])
+```
 
 ## span
 
@@ -503,10 +811,16 @@ Split an array into two parts:
 1.  the longest initial subarray for which all elements satisfy the specified predicate
 2.  the remaining elements
 
+_Example_
+
+```ts
+assert.deepEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
+```
+
 ## split
 
 ```ts
-<A>(as: Array<A>, n: number): [Array<A>, Array<A>]
+<A>(n: number, as: Array<A>): [Array<A>, Array<A>]
 ```
 
 Added in v1.10.0 (function)
@@ -516,7 +830,7 @@ Splits an array into two pieces, the first piece has `n` elements.
 _Example_
 
 ```ts
-assert.deepEqual(split([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4, 5]])
+assert.deepEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
 ```
 
 ## tail
@@ -529,6 +843,13 @@ Added in v1.0.0 (function)
 
 Get all but the first element of an array, creating a new array, or `None` if the array is empty
 
+_Example_
+
+```ts
+assert.deepEqual(tail([1, 2, 3]), some([2, 3]))
+assert.deepEqual(tail([]), none)
+```
+
 ## take
 
 ```ts
@@ -537,7 +858,31 @@ Get all but the first element of an array, creating a new array, or `None` if th
 
 Added in v1.0.0 (function)
 
-Keep only a number of elements from the start of an array, creating a new array
+Keep only a number of elements from the start of an array, creating a new array.
+`n` must be a natural number
+
+_Example_
+
+```ts
+assert.deepEqual(take(2, [1, 2, 3]), [1, 2])
+```
+
+## takeEnd
+
+```ts
+<A>(n: number, as: Array<A>): Array<A>
+```
+
+Added in v1.10.0 (function)
+
+Keep only a number of elements from the end of an array, creating a new array.
+`n` must be a natural number
+
+_Example_
+
+```ts
+assert.deepEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
+```
 
 ## takeWhile
 
@@ -549,13 +894,21 @@ Added in v1.0.0 (function)
 
 Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
 
-## traverse
+_Example_
+
+```ts
+assert.deepEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
+```
+
+## ~~traverse~~ (deprecated)
 
 ```ts
 traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
 ```
 
 Added in v1.0.0 (function)
+
+Use `array.traverse`
 
 ## uniq
 
@@ -566,6 +919,14 @@ Added in v1.0.0 (function)
 Added in v1.3.0 (function)
 
 Remove duplicates from an array, keeping the first occurance of an element.
+
+_Example_
+
+```ts
+import { setoidNumber } from 'fp-ts/lib/Setoid'
+
+assert.deepEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
+```
 
 ## unsafeDeleteAt
 
@@ -601,6 +962,13 @@ Added in v1.0.0 (function)
 
 Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
 
+_Example_
+
+```ts
+assert.deepEqual(updateAt(1, 1, [1, 2, 3]), some([1, 1, 3]))
+assert.deepEqual(updateAt(1, 1, []), none)
+```
+
 ## zip
 
 ```ts
@@ -612,6 +980,12 @@ Added in v1.0.0 (function)
 Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
 longer array are discarded
 
+_Example_
+
+```ts
+assert.deepEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+```
+
 ## zipWith
 
 ```ts
@@ -622,3 +996,9 @@ Added in v1.0.0 (function)
 
 Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
 input array is short, excess elements of the longer array are discarded.
+
+_Example_
+
+```ts
+assert.deepEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
+```
