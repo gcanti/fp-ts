@@ -132,6 +132,14 @@ const last = new NonEmptyArray(1, [2, 3]).last() // 3
 const last = new NonEmptyArray(1, []).last() // 1
 ```
 
+## length
+
+```ts
+(): number
+```
+
+Added in v1.10.0 (method)
+
 ## map
 
 ```ts
@@ -249,7 +257,7 @@ Return stringified representation of this [NonEmptyArray](./NonEmptyArray.md)
 ## nonEmptyArray
 
 ```ts
-Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable1<URI>
+Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable2v1<URI>
 ```
 
 Added in v1.0.0 (instance)
@@ -294,6 +302,26 @@ assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [
   new NonEmptyArray(2, []),
   new NonEmptyArray(1, [1])
 ])
+```
+
+## groupBy
+
+```ts
+<A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> }
+```
+
+Added in v1.10.0 (function)
+
+Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
+function on each element, and grouping the results according to values returned
+
+_Example_
+
+```ts
+assert.deepEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
+  '3': new NonEmptyArray('foo', ['bar']),
+  '6': new NonEmptyArray('foobar', [])
+})
 ```
 
 ## groupSort

@@ -40,6 +40,11 @@ export const URI = 'Array'
 export type URI = typeof URI
 
 /**
+ *
+ * @example
+ * const M = getMonoid<number>()
+ * assert.deepEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
+ *
  * @function
  * @since 1.0.0
  */
@@ -55,6 +60,14 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
  * arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid `S`. In case of
  * arrays of different lengths, the result is non equality.
  *
+ *
+ * @example
+ * import { ordString } from 'fp-ts/lib/Ord'
+ *
+ * const O = getArraySetoid(ordString)
+ * assert.strictEqual(O.equals(['a', 'b'], ['a', 'b']), true)
+ * assert.strictEqual(O.equals(['a'], []), false)
+ *
  * @constant
  * @since 1.0.0
  */
@@ -65,6 +78,15 @@ export const getSetoid: <A>(S: Setoid<A>) => Setoid<Array<A>> = getArraySetoid
  * arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
  * case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
  * the same length, the result is equality.
+ *
+ *
+ * @example
+ * import { ordString } from 'fp-ts/lib/Ord'
+ *
+ * const O = getOrd(ordString)
+ * assert.strictEqual(O.compare(['b'], ['a']), 1)
+ * assert.strictEqual(O.compare(['a'], ['a']), 0)
+ * assert.strictEqual(O.compare(['a'], ['b']), -1)
  *
  * @function
  * @since 1.2.0
@@ -203,6 +225,11 @@ const unfoldr = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
 
 /**
  * Return a list of length `n` with element `i` initialized with `f(i)`
+ *
+ * @example
+ * const double = (n: number): number => n * 2
+ * assert.deepEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+ *
  * @function
  * @since 1.10.0
  */
@@ -216,6 +243,10 @@ export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
 
 /**
  * Create an array containing a range of integers, including both endpoints
+ *
+ * @example
+ * assert.deepEqual(range(1, 5), [1, 2, 3, 4, 5])
+ *
  * @function
  * @since 1.10.0
  */
@@ -225,6 +256,10 @@ export const range = (start: number, end: number): Array<number> => {
 
 /**
  * Create an array containing a value repeated the specified number of times
+ *
+ * @example
+ * assert.deepEqual(replicate(3, 'a'), ['a', 'a', 'a'])
+ *
  * @function
  * @since 1.10.0
  */
@@ -237,6 +272,8 @@ const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
 }
 
 /**
+ * Removes one level of nesting
+ *
  * @example
  * flatten([[1], [2], [3]]) // [1, 2, 3]
  *
@@ -264,6 +301,11 @@ export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
 
 /**
  * Break an array into its first element and remaining elements
+ *
+ * @example
+ * const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
+ * assert.strictEqual(len([1, 2, 3]), 3)
+ *
  * @function
  * @since 1.0.0
  */
@@ -346,6 +388,10 @@ export const scanRight = <A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array
 
 /**
  * Test whether an array is empty
+ *
+ * @example
+ * assert.strictEqual(isEmpty([]), true)
+ *
  * @function
  * @since 1.0.0
  */
@@ -364,6 +410,11 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
 
 /**
  * This function provides a safe way to read a value at a particular index from an array
+ *
+ * @example
+ * assert.deepEqual(index(1, [1, 2, 3]), some(2))
+ * assert.deepEqual(index(3, [1, 2, 3]), none)
+ *
  * @function
  * @since 1.0.0
  */
@@ -373,6 +424,10 @@ export const index = <A>(i: number, as: Array<A>): Option<A> => {
 
 /**
  * Attaches an element to the front of an array, creating a new array
+ *
+ * @example
+ * assert.deepEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
+ *
  * @function
  * @since 1.0.0
  */
@@ -388,6 +443,10 @@ export const cons = <A>(a: A, as: Array<A>): Array<A> => {
 
 /**
  * Append an element to the end of an array, creating a new array
+ *
+ * @example
+ * assert.deepEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+ *
  * @function
  * @since 1.0.0
  */
@@ -403,6 +462,11 @@ export const snoc = <A>(as: Array<A>, a: A): Array<A> => {
 
 /**
  * Get the first element in an array, or `None` if the array is empty
+ *
+ * @example
+ * assert.deepEqual(head([1, 2, 3]), some(1))
+ * assert.deepEqual(head([]), none)
+ *
  * @function
  * @since 1.0.0
  */
@@ -412,6 +476,11 @@ export const head = <A>(as: Array<A>): Option<A> => {
 
 /**
  * Get the last element in an array, or `None` if the array is empty
+ *
+ * @example
+ * assert.deepEqual(last([1, 2, 3]), some(3))
+ * assert.deepEqual(last([]), none)
+ *
  * @function
  * @since 1.0.0
  */
@@ -421,6 +490,11 @@ export const last = <A>(as: Array<A>): Option<A> => {
 
 /**
  * Get all but the first element of an array, creating a new array, or `None` if the array is empty
+ *
+ * @example
+ * assert.deepEqual(tail([1, 2, 3]), some([2, 3]))
+ * assert.deepEqual(tail([]), none)
+ *
  * @function
  * @since 1.0.0
  */
@@ -430,6 +504,11 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => {
 
 /**
  * Get all but the last element of an array, creating a new array, or `None` if the array is empty
+ *
+ * @example
+ * assert.deepEqual(init([1, 2, 3]), some([1, 2]))
+ * assert.deepEqual(init([]), none)
+ *
  * @function
  * @since 1.0.0
  */
@@ -441,6 +520,10 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => {
 /**
  * Keep only a number of elements from the start of an array, creating a new array.
  * `n` must be a natural number
+ *
+ * @example
+ * assert.deepEqual(take(2, [1, 2, 3]), [1, 2])
+ *
  * @function
  * @since 1.0.0
  */
@@ -451,6 +534,10 @@ export const take = <A>(n: number, as: Array<A>): Array<A> => {
 /**
  * Keep only a number of elements from the end of an array, creating a new array.
  * `n` must be a natural number
+ *
+ * @example
+ * assert.deepEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
+ *
  * @function
  * @since 1.10.0
  */
@@ -460,6 +547,10 @@ export const takeEnd = <A>(n: number, as: Array<A>): Array<A> => {
 
 /**
  * Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+ *
+ * @example
+ * assert.deepEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
+ *
  * @function
  * @since 1.0.0
  */
@@ -487,6 +578,10 @@ const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
  * Split an array into two parts:
  * 1. the longest initial subarray for which all elements satisfy the specified predicate
  * 2. the remaining elements
+ *
+ * @example
+ * assert.deepEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
+ *
  * @function
  * @since 1.0.0
  */
@@ -506,6 +601,10 @@ export const span = <A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>
 
 /**
  * Drop a number of elements from the start of an array, creating a new array
+ *
+ * @example
+ * assert.deepEqual(drop(2, [1, 2, 3]), [3])
+ *
  * @function
  * @since 1.0.0
  */
@@ -515,6 +614,10 @@ export const drop = <A>(n: number, as: Array<A>): Array<A> => {
 
 /**
  * Drop a number of elements from the end of an array, creating a new array
+ *
+ * @example
+ * assert.deepEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
+ *
  * @function
  * @since 1.10.0
  */
@@ -524,6 +627,10 @@ export const dropEnd = <A>(n: number, as: Array<A>): Array<A> => {
 
 /**
  * Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
+ *
+ * @example
+ * assert.deepEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
+ *
  * @function
  * @since 1.0.0
  */
@@ -539,6 +646,11 @@ export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> =>
 
 /**
  * Find the first index for which a predicate holds
+ *
+ * @example
+ * assert.deepEqual(findIndex([1, 2, 3], x => x === 2), some(1))
+ * assert.deepEqual(findIndex([], x => x === 2), none)
+ *
  * @function
  * @since 1.0.0
  */
@@ -578,6 +690,10 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
 
 /**
  * Find the last element which satisfies a predicate function
+ *
+ * @example
+ * assert.deepEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
+ *
  * @function
  * @since 1.0.0
  */
@@ -593,6 +709,16 @@ export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> =>
 
 /**
  * Returns the index of the last element of the list which matches the predicate
+ *
+ * @example
+ * interface X {
+ *   a: number
+ *   b: number
+ * }
+ * const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
+ * assert.deepEqual(findLastIndex(xs, x => x.a === 1), some(1))
+ * assert.deepEqual(findLastIndex(xs, x => x.a === 4), none)
+ *
  * @function
  * @since 1.10.0
  */
@@ -662,6 +788,11 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
 
 /**
  * Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+ *
+ * @example
+ * assert.deepEqual(updateAt(1, 1, [1, 2, 3]), some([1, 1, 3]))
+ * assert.deepEqual(updateAt(1, 1, []), none)
+ *
  * @function
  * @since 1.0.0
  */
@@ -681,6 +812,11 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
 
 /**
  * Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
+ *
+ * @example
+ * assert.deepEqual(deleteAt(0, [1, 2, 3]), some([2, 3]))
+ * assert.deepEqual(deleteAt(1, []), none)
+ *
  * @function
  * @since 1.0.0
  */
@@ -691,6 +827,12 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
 /**
  * Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
  * of bounds
+ *
+ * @example
+ * const double = (x: number): number => x * 2
+ * assert.deepEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
+ * assert.deepEqual(modifyAt([], 1, double), none)
+ *
  * @function
  * @since 1.0.0
  */
@@ -700,6 +842,10 @@ export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option
 
 /**
  * Reverse an array, creating a new array
+ *
+ * @example
+ * assert.deepEqual(reverse([1, 2, 3]), [3, 2, 1])
+ *
  * @function
  * @since 1.0.0
  */
@@ -709,6 +855,10 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
 
 /**
  * Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
+ *
+ * @example
+ * assert.deepEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
+ *
  * @function
  * @since 1.0.0
  */
@@ -726,6 +876,10 @@ export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
 
 /**
  * Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
+ *
+ * @example
+ * assert.deepEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
+ *
  * @function
  * @since 1.0.0
  */
@@ -743,6 +897,12 @@ export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
 
 /**
  * Sort the elements of an array in increasing order, creating a new array
+ *
+ * @example
+ * import { ordNumber } from 'fp-ts/lib/Ord'
+ *
+ * assert.deepEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
+ *
  * @function
  * @since 1.0.0
  */
@@ -753,6 +913,10 @@ export const sort = <A>(O: Ord<A>) => (as: Array<A>): Array<A> => {
 /**
  * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
  * input array is short, excess elements of the longer array are discarded.
+ *
+ * @example
+ * assert.deepEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
+ *
  * @function
  * @since 1.0.0
  */
@@ -768,6 +932,10 @@ export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
 /**
  * Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
  * longer array are discarded
+ *
+ * @example
+ * assert.deepEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+ *
  * @function
  * @since 1.0.0
  */
@@ -777,6 +945,10 @@ export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
 
 /**
  * Rotate an array to the right by `n` steps
+ *
+ * @example
+ * assert.deepEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+ *
  * @function
  * @since 1.0.0
  */
@@ -798,8 +970,11 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
  *
  * @example
  * import { setoidString } from 'fp-ts/lib/Setoid'
+ * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
- * member(setoidString)(['thing one', 'thing two', 'cat in the hat'], 'thing two') // true
+ * assert.strictEqual(member(setoidString)(['thing one', 'thing two', 'cat in the hat'], 'thing two'), true)
+ * assert.strictEqual(member(setoidNumber)([1, 2, 3], 1), true)
+ * assert.strictEqual(member(setoidNumber)([1, 2, 3], 4), false) *
  *
  * @function
  * @since 1.3.0
@@ -818,6 +993,12 @@ export const member = <A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean => {
 
 /**
  * Remove duplicates from an array, keeping the first occurance of an element.
+ *
+ * @example
+ * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ *
+ * assert.deepEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
+ *
  * @function
  * @since 1.3.0
  */
@@ -840,6 +1021,29 @@ export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
 /**
  * Sort the elements of an array in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
  * etc...
+ *
+ * @example
+ * import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
+ *
+ * interface Person {
+ *   name: string
+ *   age: number
+ * }
+ * const byName = contramap((p: Person) => p.name, ordString)
+ * const byAge = contramapOrd((p: Person) => p.age, ordNumber)
+ *
+ * const sortByNameByAge = sortBy([byName, byAge])
+ *
+ * if (sortByNameByAge.isSome()) {
+ *   const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
+ *   assert.deepEqual(sortByNameByAge.value(persons), [
+ *     { name: 'a', age: 1 },
+ *     { name: 'b', age: 2 },
+ *     { name: 'b', age: 3 },
+ *     { name: 'c', age: 2 }
+ *   ])
+ * }
+ *
  * @function
  * @since 1.3.0
  */
@@ -849,6 +1053,26 @@ export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> =
 
 /**
  * Non failing version of {@link sortBy}
+ * @example
+ * import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
+ *
+ * interface Person {
+ *   name: string
+ *   age: number
+ * }
+ * const byName = contramap((p: Person) => p.name, ordString)
+ * const byAge = contramapOrd((p: Person) => p.age, ordNumber)
+ *
+ * const sortByNameByAge = sortBy1(byName, [byAge])
+ *
+ * const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
+ * assert.deepEqual(sortByNameByAge.value(persons), [
+ *   { name: 'a', age: 1 },
+ *   { name: 'b', age: 2 },
+ *   { name: 'b', age: 3 },
+ *   { name: 'c', age: 2 }
+ * ])
+ *
  * @function
  * @since 1.3.0
  */
@@ -860,6 +1084,11 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
  * Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
  *
  * Alias of {@link Filterable}'s `filterMap`
+ *
+ * @example
+ * const f = (n: number): Option<number> => (n % 2 === 0 ? none : some(n))
+ * assert.deepEqual(mapOption([1, 2, 3], f), [1, 3])
+ *
  * @function
  * @since 1.0.0
  */
@@ -878,6 +1107,10 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
  * Filter an array of optional values, keeping only the elements which contain a value, creating a new array.
  *
  * Alias of {@link Compactable}'s `compact`
+ *
+ * @example
+ * assert.deepEqual(catOptions([some(1), none, some(3)]), [1, 3])
+ *
  * @function
  * @since 1.0.0
  */
@@ -886,6 +1119,9 @@ export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
 }
 
 /**
+ * @example
+ * assert.deepEqual(array.partitionMap([right(1), left('foo'), right(2)], identity), { left: ['foo'], right: [1, 2] })
+ *
  * @function
  * @since 1.0.0
  */

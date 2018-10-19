@@ -123,7 +123,7 @@ Added in v1.0.0 (method)
 ```ts
 Monad1<URI> &
   Foldable2v1<URI> &
-  Traversable1<URI> &
+  Traversable2v1<URI> &
   Alt1<URI> &
   Comonad1<URI> &
   ChainRec1<URI>

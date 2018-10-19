@@ -413,7 +413,7 @@ Returns the value from this `Some` or `undefined` if this is a `None`
 Monad1<URI> &
   Foldable2v1<URI> &
   Plus1<URI> &
-  Traversable1<URI> &
+  Traversable2v1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
   Compactable1<URI> &

@@ -50,13 +50,21 @@ Added in v1.0.0 (method)
 ```ts
 Functor1<URI> &
   Foldable2v1<URI> &
-  Traversable1<URI> &
+  Traversable2v1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
   Witherable1<URI>
 ```
 
 Added in v1.0.0 (instance)
+
+## empty
+
+```ts
+StrMap<never>
+```
+
+Added in v1.10.0 (constant)
 
 ## collect
 
@@ -118,7 +126,7 @@ Test whether a dictionary is empty
 ## isSubdictionary
 
 ```ts
-<A>(S: Setoid<A>) => (d1: StrMap<A>, d2: StrMap<A>): boolean
+<A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean)
 ```
 
 Added in v1.0.0 (function)
@@ -186,7 +194,7 @@ Added in v1.0.0 (function)
 ## toUnfoldable
 
 ```ts
-<F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]>
+<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>)
 ```
 
 Added in v1.0.0 (function)
