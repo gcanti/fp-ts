@@ -1030,7 +1030,7 @@ export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
  *   age: number
  * }
  * const byName = contramap((p: Person) => p.name, ordString)
- * const byAge = contramapOrd((p: Person) => p.age, ordNumber)
+ * const byAge = contramap((p: Person) => p.age, ordNumber)
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *
