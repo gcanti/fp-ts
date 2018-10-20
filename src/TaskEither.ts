@@ -80,6 +80,20 @@ export class TaskEither<L, A> {
   fold<R>(whenLeft: (l: L) => R, whenRight: (a: A) => R): Task<R> {
     return eitherTfold(whenLeft, whenRight, this.value)
   }
+  /**
+   * Similar to {@link fold}, but the result is flattened.
+   * @since 1.10.0
+   */
+  foldTask<R>(whenLeft: (l: L) => Task<R>, whenRight: (a: A) => Task<R>): Task<R> {
+    return this.value.chain(e => e.fold(whenLeft, whenRight))
+  }
+  /**
+   * Similar to {@link fold}, but the result is flattened.
+   * @since 1.10.0
+   */
+  foldTaskEither<M, B>(whenLeft: (l: L) => TaskEither<M, B>, whenRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
+    return new TaskEither(this.value.chain(e => e.fold(whenLeft, whenRight).value))
+  }
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
     return new TaskEither(eitherTmapLeft(f)(this.value))
   }
@@ -107,13 +121,6 @@ export class TaskEither<L, A> {
    */
   attempt<M = L>(): TaskEither<M, Either<L, A>> {
     return new TaskEither(this.value.map<Either<M, Either<L, A>>>(eitherRight))
-  }
-  /**
-   * Similar to {@link fold}, but the result is flattened.
-   * @since 1.10.0
-   */
-  foldM<M, B>(whenLeft: (l: L) => TaskEither<M, B>, whenRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
-    return new TaskEither(this.value.chain(e => e.fold(whenLeft, whenRight).value))
   }
 }
 
