@@ -127,6 +127,8 @@ export class None<A> {
    * maps on `Some` then it will apply the `f` on `Some`'s value, if it maps on `None` it will return `None`.
    *
    * @example
+   * import { some } from 'fp-ts/lib/Option'
+   *
    * assert.deepEqual(some(1).map(n => n * 2), some(2))
    */
   map<B>(f: (a: A) => B): Option<B> {
@@ -172,8 +174,10 @@ export class None<A> {
    * function to this `Option`'s value. If the `Option` calling `ap` is `none` it will return `none`.
    *
    * @example
-   * assert.deepEqual(some(2).ap(some(x => x + 1)), some(3))
-   * assert.deepEqual(none.ap(some(x => x + 1)), none)
+   * import { some, none } from 'fp-ts/lib/Option'
+   *
+   * assert.deepEqual(some(2).ap(some((x: number) => x + 1)), some(3))
+   * assert.deepEqual(none.ap(some((x: number) => x + 1)), none)
    */
   ap<B>(fab: Option<(a: A) => B>): Option<B> {
     return none
@@ -183,7 +187,9 @@ export class None<A> {
    * wrapped function to the `some` or `none`. If the `Option` calling `ap_` is `none` it will return `none`.
    *
    * @example
-   * assert.deepEqual(some(x => x + 1).ap_(some(2)), some(3))
+   * import { some, none } from 'fp-ts/lib/Option'
+   *
+   * assert.deepEqual(some((x: number) => x + 1).ap_(some(2)), some(3))
    * assert.deepEqual(none.ap_(some(2)), none)
    */
   ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> {
@@ -205,9 +211,11 @@ export class None<A> {
    * it is a `None` then it will return the next `Some` if it exist. If both are `None` then it will return `none`.
    *
    * @example
-   * const someFn = (o: Option<number>) => o.alt(some(4))
-   * assert.deepEqual(someFn(some(2)), some(2))
-   * assert.deepEqual(someFn(none), none)
+   * import { Option, some, none } from 'fp-ts/lib/Option'
+   *
+   * assert.deepEqual(some(2).alt(some(4)), some(2))
+   * const fa: Option<number> = none
+   * assert.deepEqual(fa.alt(some(4)), some(4))
    */
   alt(fa: Option<A>): Option<A> {
     return fa
@@ -215,11 +223,13 @@ export class None<A> {
 
   /**
    * Lazy version of {@link alt}
-   * @since 1.6.0
-   * @param {Lazy<Option<A>>} fa - thunk
+   *
    * @example
+   * import { some } from 'fp-ts/lib/Option'
+   *
    * assert.deepEqual(some(1).orElse(() => some(2)), some(1))
-   * @returns {Option<A>}
+   *
+   * @since 1.6.0
    */
   orElse(fa: Lazy<Option<A>>): Option<A> {
     return fa()
@@ -251,7 +261,8 @@ export class None<A> {
    * import { Option, none, some } from 'fp-ts/lib/Option'
    *
    * assert.strictEqual(some(1).getOrElse(0), 1)
-   * assert.strictEqual((none as Option<number>).getOrElse(0), 0)
+   * const fa: Option<number> = none
+   * assert.strictEqual(fa.getOrElse(0), 0)
    */
   getOrElse(a: A): A {
     return a
@@ -501,9 +512,10 @@ const zero = <A>(): Option<A> => {
  * | some(a) | some(b) | some(concat(a, b)) |
  *
  * @example
+ * import { getApplySemigroup, some, none } from 'fp-ts/lib/Option'
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
- * const S = getSemigroup(semigroupSum)
+ * const S = getApplySemigroup(semigroupSum)
  * assert.deepEqual(S.concat(none, none), none)
  * assert.deepEqual(S.concat(some(1), none), none)
  * assert.deepEqual(S.concat(none, some(1)), none)
@@ -540,6 +552,8 @@ export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
  * | some(a) | some(b) | some(a)      |
  *
  * @example
+ * import { getFirstMonoid, some, none } from 'fp-ts/lib/Option'
+ *
  * const M = getFirstMonoid<number>()
  * assert.deepEqual(M.concat(none, none), none)
  * assert.deepEqual(M.concat(some(1), none), some(1))
@@ -567,6 +581,8 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
  * | some(a) | some(b) | some(b)      |
  *
  * @example
+ * import { getLastMonoid, some, none } from 'fp-ts/lib/Option'
+ *
  * const M = getLastMonoid<number>()
  * assert.deepEqual(M.concat(none, none), none)
  * assert.deepEqual(M.concat(some(1), none), some(1))
@@ -592,6 +608,7 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
  * | some(a) | some(b) | some(concat(a, b)) |
  *
  * @example
+ * import { getMonoid, some, none } from 'fp-ts/lib/Option'
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
  * const M = getMonoid(semigroupSum)
@@ -726,13 +743,16 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
  * Returns a refinement from a prism.
  * This function ensures that a custom type guard definition is type-safe.
  *
- * @example
+ * ```ts
+ * import { some, none, getRefinement } from 'fp-ts/lib/Option'
+ *
  * type A = { type: 'A' }
  * type B = { type: 'B' }
  * type C = A | B
  *
  * const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
  * const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
+ * ```
  *
  * @function
  * @since 1.7.0

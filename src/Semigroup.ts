@@ -133,12 +133,15 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
 
 /**
  * Gets {@link Semigroup} instance for dictionaries given {@link Semigroup} instance for their values
+ *
+ * @example
+ * import { getDictionarySemigroup, semigroupSum } from 'fp-ts/lib/Semigroup'
+ *
+ * const S = getDictionarySemigroup(semigroupSum)
+ * assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+ *
  * @function
  * @since 1.4.0
- * @example
- * const S = getDictionarySemigroup(semigroupSum)
- * const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 123 + 456 }
- * @param S - {@link Semigroup} instance for dictionary values
  */
 export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> => {
   return {
@@ -159,11 +162,15 @@ const semigroupAnyDictionary = getDictionarySemigroup(getLastSemigroup())
 
 /**
  * Gets {@link Semigroup} instance for objects of given type preserving their type
+ *
+ * @example
+ * import { getObjectSemigroup } from 'fp-ts/lib/Semigroup'
+ *
+ * const S = getObjectSemigroup<{ foo: number }>()
+ * assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 456 })
+ *
  * @function
  * @since 1.4.0
- * @example
- * const S = getObjectSemigroup<{ foo: number }>()
- * const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 456 }
  */
 export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => semigroupAnyDictionary as any
 

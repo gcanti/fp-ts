@@ -262,13 +262,6 @@ export function taskify<A, B, C, D, E, L, R>(
 /**
  * Convert a node style callback function to one returning a `TaskEither`
  *
- * @example
- * import * as fs from 'fs'
- *
- * // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
- * const stat = taskify(fs.stat)
- * ```
- *
  * **Note**. If the function `f` admits multiple overloadings, `taskify` will pick last one. If you want a different
  * behaviour, add an explicit type annotation
  *
@@ -281,6 +274,14 @@ export function taskify<A, B, C, D, E, L, R>(
  * const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
  *   fs.readFile
  * )
+ *
+ * @example
+ * import { taskify } from 'fp-ts/lib/TaskEither'
+ * import * as fs from 'fs'
+ *
+ * // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
+ * const stat = taskify(fs.stat)
+ * assert.strictEqual(stat.length, 0)
  *
  * @function
  * @since 1.5.0

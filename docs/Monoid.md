@@ -113,8 +113,11 @@ Gets [Monoid](./Monoid.md) instance for dictionaries given [Semigroup](./Semigro
 _Example_
 
 ```ts
+import { getDictionaryMonoid, fold } from 'fp-ts/lib/Monoid'
+import { semigroupSum } from 'fp-ts/lib/Semigroup'
+
 const M = getDictionaryMonoid(semigroupSum)
-const result = fold(M)([{ foo: 123 }, { foo: 456 }]) // { foo: 123 + 456 }
+assert.deepEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
 ```
 
 ## getDualMonoid

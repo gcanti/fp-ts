@@ -341,6 +341,7 @@ Added in v1.7.0 (function)
 _Example_
 
 ```ts
+import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const S = getApplySemigroup<string, number>(semigroupSum)
@@ -384,6 +385,7 @@ appended using the provided `Semigroup`
 _Example_
 
 ```ts
+import { getSemigroup, left, right } from 'fp-ts/lib/Either'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const S = getSemigroup<string, number>(semigroupSum)
