@@ -381,7 +381,7 @@ describe('TaskEither', () => {
       })
   })
 
-  it('foldM', () => {
+  it('foldTaskEither', () => {
     const whenLeft = (s: string) =>
       s.length >= 2 ? taskEither.of<boolean, string>('okleft') : fromLeft<boolean, string>(false)
     const whenRight = (n: number) =>
@@ -389,18 +389,18 @@ describe('TaskEither', () => {
 
     const tasks = [
       fromLeft<string, number>('a')
-        .foldM(whenLeft, whenRight)
+        .foldTaskEither(whenLeft, whenRight)
         .run(),
       fromLeft<string, number>('aa')
-        .foldM(whenLeft, whenRight)
+        .foldTaskEither(whenLeft, whenRight)
         .run(),
       taskEither
         .of<string, number>(1)
-        .foldM(whenLeft, whenRight)
+        .foldTaskEither(whenLeft, whenRight)
         .run(),
       taskEither
         .of<string, number>(2)
-        .foldM(whenLeft, whenRight)
+        .foldTaskEither(whenLeft, whenRight)
         .run()
     ]
     return Promise.all(tasks).then(([r1, r2, r3, r4]) => {
@@ -408,6 +408,25 @@ describe('TaskEither', () => {
       assert.deepEqual(r2, eitherRight('okleft'))
       assert.deepEqual(r3, eitherLeft(true))
       assert.deepEqual(r4, eitherRight('okright'))
+    })
+  })
+
+  it('foldTask', () => {
+    const whenLeft = () => task.of('left')
+    const whenRight = () => task.of('right')
+
+    const tasks = [
+      fromLeft<string, number>('a')
+        .foldTask(whenLeft, whenRight)
+        .run(),
+      taskEither
+        .of<string, number>(1)
+        .foldTask(whenLeft, whenRight)
+        .run()
+    ]
+    return Promise.all(tasks).then(([r1, r2]) => {
+      assert.deepEqual(r1, 'left')
+      assert.deepEqual(r2, 'right')
     })
   })
 })
