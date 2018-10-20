@@ -152,7 +152,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-Applicative1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI>
+Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
 ```
 
 ## Functions

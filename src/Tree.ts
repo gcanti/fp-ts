@@ -230,19 +230,23 @@ export const drawForest = (forest: Forest<string>): string => {
 
 /**
  * Neat 2-dimensional drawing of a tree
+ *
  * @example
+ * import { Tree, drawTree } from 'fp-ts/lib/Tree'
+ *
  * const fa = new Tree('a', [
  *   new Tree('b', []),
  *   new Tree('c', []),
  *   new Tree('d', [new Tree('e', []), new Tree('f', [])])
  * ])
- * console.log(drawTree(fa))
- * a
+ *
+ * assert.strictEqual(drawTree(fa), `a
  * ├─ b
  * ├─ c
  * └─ d
  *    ├─ e
- *    └─ f
+ *    └─ f`)
+ *
  * @function
  * @since 1.6.0
  */

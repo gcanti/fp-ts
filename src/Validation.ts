@@ -65,11 +65,9 @@ export type URI = typeof URI
  *   return A.ap(validateName(input['name']).map(person), validateAge(input['age']))
  * }
  *
- * console.log(validatePerson({ name: '', age: '1.2' }))
- * // failure(new NonEmptyArray("Invalid name: empty string", ["Invalid age: not an integer 1.2"]))
+ * assert.deepEqual(validatePerson({ name: '', age: '1.2' }), failure(new NonEmptyArray("Invalid name: empty string", ["Invalid age: not an integer 1.2"])))
  *
- * console.log(validatePerson({ name: 'Giulio', age: '44' }))
- * // success({ "name": "Giulio", "age": 44 })
+ * assert.deepEqual(validatePerson({ name: 'Giulio', age: '44' }), success({ "name": "Giulio", "age": 44 }))
  *
  * @data
  * @constructor Failure
@@ -212,9 +210,9 @@ const of = <L, A>(a: A): Validation<L, A> => {
  * const validatePerson = (name: string, age: number): Validation<string[], Person> =>
  *   A.ap(A.map(validateName(name), person), validateAge(age))
  *
- * console.log(validatePerson('Nicolas Bourbaki', 45)) // success({ "name": "Nicolas Bourbaki", "age": 45 })
- * console.log(validatePerson('Nicolas Bourbaki', -1)) // failure(["invalid age"])
- * console.log(validatePerson('', 0)) // failure(["invalid name", "invalid age"])
+ * assert.deepEqual(validatePerson('Nicolas Bourbaki', 45), success({ "name": "Nicolas Bourbaki", "age": 45 }))
+ * assert.deepEqual(validatePerson('Nicolas Bourbaki', -1), failure(["invalid age"]))
+ * assert.deepEqual(validatePerson('', 0), failure(["invalid name", "invalid age"]))
  *
  * @function
  *

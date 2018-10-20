@@ -41,6 +41,16 @@ _Description_
 
 Instance-bound implementation of [Apply](./Apply.md)
 
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
+const x = new NonEmptyArray(1, [2])
+const double = (n: number): number => n * 2
+assert.deepEqual(x.ap(new NonEmptyArray(double, [double])).toArray(), [2, 4, 2, 4])
+```
+
 ### ap\_
 
 _method_
@@ -57,6 +67,16 @@ _Description_
 
 Same as [ap](#ap) but works on [NonEmptyArray](./NonEmptyArray.md) of functions and accepts [NonEmptyArray](./NonEmptyArray.md) of values instead
 
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
+const x = new NonEmptyArray(1, [2])
+const double = (n: number) => n * 2
+assert.deepEqual(new NonEmptyArray(double, [double]).ap_(x).toArray(), [2, 4, 2, 4])
+```
+
 ### chain
 
 _method_
@@ -72,6 +92,16 @@ _Signature_
 _Description_
 
 Instance-bound implementation of [Chain](./Chain.md)
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
+const x = new NonEmptyArray(1, [2])
+const f = (a: number) => new NonEmptyArray(a, [4])
+assert.deepEqual(x.chain(f).toArray(), [1, 4, 2, 4])
+```
 
 ### concat
 
@@ -92,6 +122,8 @@ Instance-bound implementation of [Semigroup](./Semigroup.md)
 _Example_
 
 ```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
 const x = new NonEmptyArray(1, [2])
 const y = new NonEmptyArray(3, [4])
 assert.deepEqual(x.concat(y).toArray(), [1, 2, 3, 4])
@@ -116,7 +148,9 @@ Concatenates this [NonEmptyArray](./NonEmptyArray.md) and passed [Array](./Array
 _Example_
 
 ```ts
-assert.deepEqual(new NonEmptyArray(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
+assert.deepEqual(new NonEmptyArray<number>(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
 ```
 
 ### extend
@@ -134,6 +168,16 @@ _Signature_
 _Description_
 
 Instance-bound implementation of [Extend](./Extend.md)
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { fold, monoidSum } from 'fp-ts/lib/Monoid'
+
+const sum = (as: NonEmptyArray<number>) => fold(monoidSum)(as.toArray())
+assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).extend(sum), new NonEmptyArray(10, [9, 7, 4]))
+```
 
 ### extract
 
@@ -154,6 +198,8 @@ Instance-bound implementation of [Comonad](./Comonad.md)
 _Example_
 
 ```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
 assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
 ```
 
@@ -192,8 +238,22 @@ Gets last element of this [NonEmptyArray](./NonEmptyArray.md)
 _Example_
 
 ```ts
-const last = new NonEmptyArray(1, [2, 3]).last() // 3
-const last = new NonEmptyArray(1, []).last() // 1
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
+assert.strictEqual(new NonEmptyArray(1, [2, 3]).last(), 3)
+assert.strictEqual(new NonEmptyArray(1, []).last(), 1)
+```
+
+### length
+
+_method_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+(): number
 ```
 
 ### map
@@ -211,6 +271,15 @@ _Signature_
 _Description_
 
 Instance-bound implementation of [Functor](./Functor.md)
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
+const double = (n: number): number => n * 2
+assert.deepEqual(new NonEmptyArray(1, [2]).map(double), new NonEmptyArray(2, [4]))
+```
 
 ### max
 
@@ -231,7 +300,10 @@ Gets maximum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](.
 _Example_
 
 ```ts
-const maximum = new NonEmptyArray(1, [2, 3]).max(ordNumber) // 3
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { ordNumber } from 'fp-ts/lib/Ord'
+
+assert.strictEqual(new NonEmptyArray(1, [2, 3]).max(ordNumber), 3)
 ```
 
 ### min
@@ -253,7 +325,10 @@ Gets minimum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](.
 _Example_
 
 ```ts
-const minimum = new NonEmptyArray(1, [2, 3]).min(ordNumber) // 1
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { ordNumber } from 'fp-ts/lib/Ord'
+
+assert.strictEqual(new NonEmptyArray(1, [2, 3]).min(ordNumber), 1)
 ```
 
 ### reduce
@@ -271,6 +346,15 @@ _Signature_
 _Description_
 
 Instance-bound implementation of [Foldable](./Foldable.md)
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
+const x = new NonEmptyArray('a', ['b'])
+assert.strictEqual(x.reduce('', (b, a) => b + a), 'ab')
+```
 
 ### reverse
 
@@ -291,9 +375,9 @@ Reverts this [NonEmptyArray](./NonEmptyArray.md)
 _Example_
 
 ```ts
-const result = new NonEmptyArray(1, [2, 3]).reverse()
-const expected = new NonEmptyArray(3, [2, 1])
-assert.deepEqual(result, expected)
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
+assert.deepEqual(new NonEmptyArray(1, [2, 3]).reverse(), new NonEmptyArray(3, [2, 1]))
 ```
 
 ### sort
@@ -315,9 +399,10 @@ Sorts this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) i
 _Example_
 
 ```ts
-const result = new NonEmptyArray(3, [2, 1]).sort(ordNumber)
-const expected = new NonEmptyArray(1, [2, 3])
-assert.deepEqual(result, expected)
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { ordNumber } from 'fp-ts/lib/Ord'
+
+assert.deepEqual(new NonEmptyArray(3, [2, 1]).sort(ordNumber), new NonEmptyArray(1, [2, 3]))
 ```
 
 ### toArray
@@ -339,7 +424,9 @@ Converts this [NonEmptyArray](./NonEmptyArray.md) to plain [Array](./Array.md)
 _Example_
 
 ```ts
-assert.deepEqual(new NonEmptyArray(1, [2, 3]), [1, 2, 3])
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+
+assert.deepEqual(new NonEmptyArray(1, [2, 3]).toArray(), [1, 2, 3])
 ```
 
 ### toString
@@ -369,7 +456,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable1<URI>
+Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable2v1<URI>
 ```
 
 ## Functions
@@ -425,6 +512,7 @@ Group equal, consecutive elements of an array into non empty arrays.
 _Example_
 
 ```ts
+import { NonEmptyArray, group } from 'fp-ts/lib/NonEmptyArray'
 import { ordNumber } from 'fp-ts/lib/Ord'
 
 assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [
@@ -432,6 +520,34 @@ assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [
   new NonEmptyArray(2, []),
   new NonEmptyArray(1, [1])
 ])
+```
+
+### groupBy
+
+_function_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+<A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> }
+```
+
+_Description_
+
+Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
+function on each element, and grouping the results according to values returned
+
+_Example_
+
+```ts
+import { NonEmptyArray, groupBy } from 'fp-ts/lib/NonEmptyArray'
+
+assert.deepEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
+  '3': new NonEmptyArray('foo', ['bar']),
+  '6': new NonEmptyArray('foobar', [])
+})
 ```
 
 ### groupSort
@@ -453,6 +569,7 @@ Sort and then group the elements of an array into non empty arrays.
 _Example_
 
 ```ts
+import { NonEmptyArray, groupSort } from 'fp-ts/lib/NonEmptyArray'
 import { ordNumber } from 'fp-ts/lib/Ord'
 
 assert.deepEqual(groupSort(ordNumber)([1, 2, 1, 1]), [new NonEmptyArray(1, [1, 1]), new NonEmptyArray(2, [])])

@@ -148,8 +148,10 @@ Lazy version of [alt](#alt)
 _Example_
 
 ```ts
+import { Identity } from 'fp-ts/lib/Identity'
+
 const a = new Identity(1)
-assert.deepEqual(a.altL(() => new Identity(2)), a)
+assert.deepEqual(a.orElse(() => new Identity(2)), a)
 ```
 
 ### reduce
@@ -189,7 +191,7 @@ _Signature_
 ```ts
 Monad1<URI> &
   Foldable2v1<URI> &
-  Traversable1<URI> &
+  Traversable2v1<URI> &
   Alt1<URI> &
   Comonad1<URI> &
   ChainRec1<URI>

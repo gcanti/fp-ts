@@ -385,7 +385,7 @@ _Signature_
 ```ts
 Monad2<URI> &
   Foldable2v2<URI> &
-  Traversable2<URI> &
+  Traversable2v2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
@@ -513,6 +513,7 @@ _Description_
 _Example_
 
 ```ts
+import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const S = getApplySemigroup<string, number>(semigroupSum)
@@ -574,6 +575,7 @@ appended using the provided `Semigroup`
 _Example_
 
 ```ts
+import { getSemigroup, left, right } from 'fp-ts/lib/Either'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const S = getSemigroup<string, number>(semigroupSum)

@@ -148,7 +148,7 @@ _since 1.6.0_
 _Signature_
 
 ```ts
-Monad1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI>
+Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
 ```
 
 ## Functions
@@ -188,18 +188,19 @@ Neat 2-dimensional drawing of a tree
 _Example_
 
 ```ts
-const fa = new Tree('a', [
-  new Tree('b', []),
-  new Tree('c', []),
-  new Tree('d', [new Tree('e', []), new Tree('f', [])])
-])
-console.log(drawTree(fa))
-a
+import { Tree, drawTree } from 'fp-ts/lib/Tree'
+
+const fa = new Tree('a', [new Tree('b', []), new Tree('c', []), new Tree('d', [new Tree('e', []), new Tree('f', [])])])
+
+assert.strictEqual(
+  drawTree(fa),
+  `a
 ├─ b
 ├─ c
 └─ d
    ├─ e
-   └─ f
+   └─ f`
+)
 ```
 
 ### getSetoid
