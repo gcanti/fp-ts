@@ -101,12 +101,16 @@ const emptyObject = {}
 
 /**
  * Gets {@link Monoid} instance for dictionaries given {@link Semigroup} instance for their values
+ *
+ * @example
+ * import { getDictionaryMonoid, fold } from 'fp-ts/lib/Monoid'
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ *
+ * const M = getDictionaryMonoid(semigroupSum)
+ * assert.deepEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
+ *
  * @function
  * @since 1.4.0
- * @param S - {@link Semigroup} instance for dictionary values
- * @example
- * const M = getDictionaryMonoid(semigroupSum)
- * const result = fold(M)([{ foo: 123 }, { foo: 456 }]) // { foo: 123 + 456 }
  */
 export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => ({
   ...getDictionarySemigroup(S),

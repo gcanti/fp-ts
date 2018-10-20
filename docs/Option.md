@@ -108,9 +108,11 @@ it is a `None` then it will return the next `Some` if it exist. If both are `Non
 _Example_
 
 ```ts
-const someFn = (o: Option<number>) => o.alt(some(4))
-assert.deepEqual(someFn(some(2)), some(2))
-assert.deepEqual(someFn(none), none)
+import { Option, some, none } from 'fp-ts/lib/Option'
+
+assert.deepEqual(some(2).alt(some(4)), some(2))
+const fa: Option<number> = none
+assert.deepEqual(fa.alt(some(4)), some(4))
 ```
 
 ## ap
@@ -127,8 +129,10 @@ function to this `Option`'s value. If the `Option` calling `ap` is `none` it wil
 _Example_
 
 ```ts
-assert.deepEqual(some(2).ap(some(x => x + 1)), some(3))
-assert.deepEqual(none.ap(some(x => x + 1)), none)
+import { some, none } from 'fp-ts/lib/Option'
+
+assert.deepEqual(some(2).ap(some((x: number) => x + 1)), some(3))
+assert.deepEqual(none.ap(some((x: number) => x + 1)), none)
 ```
 
 ## ap\_
@@ -145,7 +149,9 @@ wrapped function to the `some` or `none`. If the `Option` calling `ap_` is `none
 _Example_
 
 ```ts
-assert.deepEqual(some(x => x + 1).ap_(some(2)), some(3))
+import { some, none } from 'fp-ts/lib/Option'
+
+assert.deepEqual(some((x: number) => x + 1).ap_(some(2)), some(3))
 assert.deepEqual(none.ap_(some(2)), none)
 ```
 
@@ -245,7 +251,8 @@ _Example_
 import { Option, none, some } from 'fp-ts/lib/Option'
 
 assert.strictEqual(some(1).getOrElse(0), 1)
-assert.strictEqual((none as Option<number>).getOrElse(0), 0)
+const fa: Option<number> = none
+assert.strictEqual(fa.getOrElse(0), 0)
 ```
 
 ## getOrElseL
@@ -300,6 +307,8 @@ maps on `Some` then it will apply the `f` on `Some`'s value, if it maps on `None
 _Example_
 
 ```ts
+import { some } from 'fp-ts/lib/Option'
+
 assert.deepEqual(some(1).map(n => n * 2), some(2))
 ```
 
@@ -357,6 +366,8 @@ Lazy version of [alt](#alt)
 _Example_
 
 ```ts
+import { some } from 'fp-ts/lib/Option'
+
 assert.deepEqual(some(1).orElse(() => some(2)), some(1))
 ```
 
@@ -530,9 +541,10 @@ Added in v1.7.0 (function)
 _Example_
 
 ```ts
+import { getApplySemigroup, some, none } from 'fp-ts/lib/Option'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
-const S = getSemigroup(semigroupSum)
+const S = getApplySemigroup(semigroupSum)
 assert.deepEqual(S.concat(none, none), none)
 assert.deepEqual(S.concat(some(1), none), none)
 assert.deepEqual(S.concat(none, some(1)), none)
@@ -559,6 +571,8 @@ Monoid returning the left-most non-`None` value
 _Example_
 
 ```ts
+import { getFirstMonoid, some, none } from 'fp-ts/lib/Option'
+
 const M = getFirstMonoid<number>()
 assert.deepEqual(M.concat(none, none), none)
 assert.deepEqual(M.concat(some(1), none), some(1))
@@ -586,6 +600,8 @@ Monoid returning the right-most non-`None` value
 _Example_
 
 ```ts
+import { getLastMonoid, some, none } from 'fp-ts/lib/Option'
+
 const M = getLastMonoid<number>()
 assert.deepEqual(M.concat(none, none), none)
 assert.deepEqual(M.concat(some(1), none), some(1))
@@ -614,6 +630,7 @@ appended using the provided `Semigroup`
 _Example_
 
 ```ts
+import { getMonoid, some, none } from 'fp-ts/lib/Option'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const M = getMonoid(semigroupSum)
@@ -662,9 +679,9 @@ Added in v1.7.0 (function)
 Returns a refinement from a prism.
 This function ensures that a custom type guard definition is type-safe.
 
-_Example_
-
 ```ts
+import { some, none, getRefinement } from 'fp-ts/lib/Option'
+
 type A = { type: 'A' }
 type B = { type: 'B' }
 type C = A | B

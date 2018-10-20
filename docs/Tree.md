@@ -122,18 +122,19 @@ Neat 2-dimensional drawing of a tree
 _Example_
 
 ```ts
-const fa = new Tree('a', [
-  new Tree('b', []),
-  new Tree('c', []),
-  new Tree('d', [new Tree('e', []), new Tree('f', [])])
-])
-console.log(drawTree(fa))
-a
+import { Tree, drawTree } from 'fp-ts/lib/Tree'
+
+const fa = new Tree('a', [new Tree('b', []), new Tree('c', []), new Tree('d', [new Tree('e', []), new Tree('f', [])])])
+
+assert.strictEqual(
+  drawTree(fa),
+  `a
 ├─ b
 ├─ c
 └─ d
    ├─ e
-   └─ f
+   └─ f`
+)
 ```
 
 ## getSetoid

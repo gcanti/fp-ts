@@ -74,7 +74,7 @@ _Example_
 ```ts
 import { replicateA } from 'fp-ts/lib/Unfoldable'
 import { array } from 'fp-ts/lib/Array'
-import { option, some } from 'fp-ts/lib/Option'
+import { option, some, none } from 'fp-ts/lib/Option'
 
 assert.deepEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
 assert.deepEqual(replicateA(option, array)(2, none), none)

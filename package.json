@@ -18,7 +18,8 @@
     "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
-    "docs": "rimraf docs/*.md && ts-node docs-generator/main.ts"
+    "docs": "rimraf docs/*.md && ts-node docs-generator/docs.ts",
+    "docs-with-type-checking": "rimraf docs/*.md && ts-node docs-generator/docs-with-type-checking.ts"
   },
   "repository": {
     "type": "git",

@@ -32,12 +32,11 @@ export type URI = typeof URI
  * Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
  * position in an array. Focus can be moved forward and backwards through the array.
  *
+ * The array `[1, 2, 3, 4]` with focus on `3` is represented by `new Zipper([1, 2], 3, [4])`
+ *
  * @data
  * @constructor Zipper
  * @since 1.9.0
- * @example
- *
- * The array `[1, 2, 3, 4]` with focus on `3` is represented by `new Zipper([1, 2], 3, [4])`
  */
 export class Zipper<A> {
   readonly _A!: A

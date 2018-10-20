@@ -102,8 +102,10 @@ Gets [Semigroup](./Semigroup.md) instance for dictionaries given [Semigroup](./S
 _Example_
 
 ```ts
+import { getDictionarySemigroup, semigroupSum } from 'fp-ts/lib/Semigroup'
+
 const S = getDictionarySemigroup(semigroupSum)
-const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 123 + 456 }
+assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
 ```
 
 ## getDualSemigroup
@@ -167,8 +169,10 @@ Gets [Semigroup](./Semigroup.md) instance for objects of given type preserving t
 _Example_
 
 ```ts
+import { getObjectSemigroup } from 'fp-ts/lib/Semigroup'
+
 const S = getObjectSemigroup<{ foo: number }>()
-const result = S.concat({ foo: 123 }, { foo: 456 }) // { foo: 456 }
+assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 456 })
 ```
 
 ## getProductSemigroup
