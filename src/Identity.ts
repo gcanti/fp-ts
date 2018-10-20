@@ -51,12 +51,14 @@ export class Identity<A> {
 
   /**
    * Lazy version of {@link alt}
-   * @since 1.6.0
-   * @param {Lazy<Identity<A>>} fx - thunk
+   *
    * @example
+   * import { Identity } from 'fp-ts/lib/Identity'
+   *
    * const a = new Identity(1)
-   * assert.deepEqual(a.altL(() => new Identity(2)), a)
-   * @returns {Identity<A>}
+   * assert.deepEqual(a.orElse(() => new Identity(2)), a)
+   *
+   * @since 1.6.0
    */
   orElse(fx: Lazy<Identity<A>>): Identity<A> {
     return this

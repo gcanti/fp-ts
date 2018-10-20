@@ -271,6 +271,7 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
  * appended using the provided `Semigroup`
  *
  * @example
+ * import { getSemigroup, left, right } from 'fp-ts/lib/Either'
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
  * const S = getSemigroup<string, number>(semigroupSum)
@@ -292,6 +293,7 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => 
  * {@link Apply} semigroup
  *
  * @example
+ * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
  * const S = getApplySemigroup<string, number>(semigroupSum)

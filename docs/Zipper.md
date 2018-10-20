@@ -26,11 +26,7 @@ _Description_
 Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
 position in an array. Focus can be moved forward and backwards through the array.
 
-_Example_
-
-```ts
 The array `[1, 2, 3, 4]` with focus on `3` is represented by `new Zipper([1, 2], 3, [4])`
-```
 
 ## Methods
 
@@ -299,7 +295,7 @@ _since 1.9.0_
 _Signature_
 
 ```ts
-Applicative1<URI> & Foldable2v1<URI> & Traversable1<URI> & Comonad1<URI>
+Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
 ```
 
 ## Functions

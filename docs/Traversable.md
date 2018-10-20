@@ -7,7 +7,7 @@ title: Module Traversable
 
 ## Type classes
 
-### Traversable
+### ~~Traversable~~ (deprecated)
 
 _type class_
 
@@ -20,19 +20,13 @@ interface Traversable<T> extends Functor<T>, Foldable<T> {
   /**
    * Runs an action for every element in a data structure and accumulates the results
    */
-  traverse: Traverse<T>
+  readonly traverse: Traverse<T>
 }
 ```
 
 _Description_
 
-`Traversable` represents data structures which can be _traversed_ accumulating results and effects in some [Applicative](./Applicative.md) functor.
-
-`traverse` signature:
-
-```ts
-<F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
-```
+Use [Traversable2v](./Traversable2v.md)
 
 ## Functions
 

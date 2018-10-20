@@ -82,10 +82,24 @@ _Signature_
 ```ts
 Functor1<URI> &
   Foldable2v1<URI> &
-  Traversable1<URI> &
+  Traversable2v1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
   Witherable1<URI>
+```
+
+## Constants
+
+### empty
+
+_constant_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+empty: StrMap<never>
 ```
 
 ## Functions
@@ -186,7 +200,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-<A>(S: Setoid<A>) => (d1: StrMap<A>, d2: StrMap<A>): boolean
+<A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean)
 ```
 
 _Description_
@@ -294,7 +308,7 @@ _since 1.0.0_
 _Signature_
 
 ```ts
-<F>(unfoldable: Unfoldable<F>) => <A>(d: StrMap<A>): HKT<F, [string, A]>
+<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>)
 ```
 
 _Description_
