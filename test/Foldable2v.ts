@@ -52,7 +52,7 @@ describe('Foldable2v', () => {
   })
 
   it('intercalate', () => {
-    assert.strictEqual(intercalate(array, monoidString)(',')(['a', 'b', 'c']), 'a,b,c')
+    assert.strictEqual(intercalate(monoidString, array)(',')(['a', 'b', 'c']), 'a,b,c')
   })
 
   it('traverse', () => {
@@ -74,39 +74,39 @@ describe('Foldable2v', () => {
   })
 
   it('minimum', () => {
-    assert.deepEqual(minimum(array, ordNumber)([]), option.none)
-    assert.deepEqual(minimum(array, ordNumber)([1, 2, 3, 4, 5]), option.some(1))
+    assert.deepEqual(minimum(ordNumber, array)([]), option.none)
+    assert.deepEqual(minimum(ordNumber, array)([1, 2, 3, 4, 5]), option.some(1))
   })
 
   it('maximum', () => {
-    assert.deepEqual(maximum(array, ordNumber)([]), option.none)
-    assert.deepEqual(maximum(array, ordNumber)([1, 2, 3, 4, 5]), option.some(5))
+    assert.deepEqual(maximum(ordNumber, array)([]), option.none)
+    assert.deepEqual(maximum(ordNumber, array)([1, 2, 3, 4, 5]), option.some(5))
   })
 
   it('sum', () => {
-    assert.strictEqual(sum(array, fieldNumber)([1, 2, 3, 4, 5]), 15)
+    assert.strictEqual(sum(fieldNumber, array)([1, 2, 3, 4, 5]), 15)
   })
 
   it('product', () => {
-    assert.strictEqual(product(array, fieldNumber)([1, 2, 3, 4, 5]), 120)
+    assert.strictEqual(product(fieldNumber, array)([1, 2, 3, 4, 5]), 120)
   })
 
   it('foldM', () => {
-    assert.deepEqual(foldM(array, option.option)([], 1, (b, a) => option.none), option.some(1))
-    assert.deepEqual(foldM(array, option.option)([2], 1, (b, a) => option.none), option.none)
-    assert.deepEqual(foldM(array, option.option)([2], 1, (b, a) => option.some(b + a)), option.some(3))
+    assert.deepEqual(foldM(option.option, array)([], 1, (b, a) => option.none), option.some(1))
+    assert.deepEqual(foldM(option.option, array)([2], 1, (b, a) => option.none), option.none)
+    assert.deepEqual(foldM(option.option, array)([2], 1, (b, a) => option.some(b + a)), option.some(3))
   })
 
   it('oneOf', () => {
-    assert.deepEqual(oneOf(array, option.option)([]), option.none)
-    assert.deepEqual(oneOf(array, option.option)([option.none]), option.none)
-    assert.deepEqual(oneOf(array, option.option)([option.none, option.some(1)]), option.some(1))
-    assert.deepEqual(oneOf(array, option.option)([option.some(2), option.some(1)]), option.some(2))
+    assert.deepEqual(oneOf(option.option, array)([]), option.none)
+    assert.deepEqual(oneOf(option.option, array)([option.none]), option.none)
+    assert.deepEqual(oneOf(option.option, array)([option.none, option.some(1)]), option.some(1))
+    assert.deepEqual(oneOf(option.option, array)([option.some(2), option.some(1)]), option.some(2))
   })
 
   it('elem', () => {
-    assert.strictEqual(elem(array, setoidNumber)(1, [1, 2, 3]), true)
-    assert.strictEqual(elem(array, setoidNumber)(4, [1, 2, 3]), false)
+    assert.strictEqual(elem(setoidNumber, array)(1, [1, 2, 3]), true)
+    assert.strictEqual(elem(setoidNumber, array)(4, [1, 2, 3]), false)
   })
 
   it('find', () => {
@@ -115,6 +115,6 @@ describe('Foldable2v', () => {
   })
 
   it('fold', () => {
-    assert.deepEqual(fold(array, monoidString)(['a', 'b', 'c']), 'abc')
+    assert.deepEqual(fold(monoidString, array)(['a', 'b', 'c']), 'abc')
   })
 })
