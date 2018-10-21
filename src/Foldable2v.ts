@@ -3,7 +3,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid, unsafeMonoidArray } from './Monoid'
 import { Option, none, some } from './Option'
-import { Ord, max, min } from './Ord'
+import { Ord, max as maxOrd, min as minOrd } from './Ord'
 import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 import { Semiring } from './Semiring'
 import { Setoid } from './Setoid'
@@ -240,7 +240,10 @@ export function oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P
   return fga => F.reduce(fga, P.zero(), (acc, a) => P.alt(acc, a))
 }
 
-type Acc<M> = { init: boolean; acc: M }
+interface Acc<M> {
+  init: boolean
+  acc: M
+}
 
 /**
  * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
@@ -319,44 +322,51 @@ export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>)
 /**
  * Test whether a value is an element of a data structure
  */
-export function elem<F extends URIS3, A>(
+export function member<F extends URIS3, A>(
   S: Setoid<A>,
   F: Foldable2v3<F>
 ): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
-export function elem<F extends URIS3, A, U, L>(
+export function member<F extends URIS3, A, U, L>(
   S: Setoid<A>,
   F: Foldable2v3C<F, U, L>
 ): (a: A, fa: Type3<F, U, L, A>) => boolean
-export function elem<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS2, A, L>(S: Setoid<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
-export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
+export function member<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
+export function member<F extends URIS2, A, L>(
+  S: Setoid<A>,
+  F: Foldable2v2C<F, L>
+): (a: A, fa: Type2<F, L, A>) => boolean
+export function member<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
+export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
 /**
  * Test whether a value is an element of a data structure
  * @function
  * @since 1.10.0
  */
-export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
+export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
   return (a, fa) => F.reduce(fa, false, (b, x) => b || S.equals(x, a))
 }
 
 /**
- * Try to find an element in a data structure which satisfies a predicate
+ * Find the first element which satisfies a predicate function
  */
-export function find<F extends URIS3>(F: Foldable2v3<F>): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
-export function find<F extends URIS3, U, L>(
+export function findFirst<F extends URIS3>(
+  F: Foldable2v3<F>
+): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
+export function findFirst<F extends URIS3, U, L>(
   F: Foldable2v3C<F, U, L>
 ): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
-export function find<F extends URIS2>(F: Foldable2v2<F>): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
-export function find<F extends URIS2, L>(F: Foldable2v2C<F, L>): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
-export function find<F extends URIS>(F: Foldable2v1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Option<A>
-export function find<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>
+export function findFirst<F extends URIS2>(F: Foldable2v2<F>): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
+export function findFirst<F extends URIS2, L>(
+  F: Foldable2v2C<F, L>
+): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
+export function findFirst<F extends URIS>(F: Foldable2v1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Option<A>
+export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>
 /**
- * Try to find an element in a data structure which satisfies a predicate
+ * Find the first element which satisfies a predicate function
  * @function
  * @since 1.10.0
  */
-export function find<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A> {
+export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A> {
   return <A>(fa: HKT<F, A>, p: Predicate<A>) =>
     F.reduce<A, Option<A>>(fa, none, (b, a) => {
       if (b.isNone() && p(a)) {
@@ -370,44 +380,38 @@ export function find<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) =
 /**
  * Find the smallest element of a structure, according to its `Ord` instance
  */
-export function minimum<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
-export function minimum<F extends URIS3, A, U, L>(
-  O: Ord<A>,
-  F: Foldable2v3C<F, U, L>
-): (fa: Type3<F, U, L, A>) => Option<A>
-export function minimum<F extends URIS2, A>(O: Ord<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
-export function minimum<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
-export function minimum<F extends URIS, A>(O: Ord<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => Option<A>
-export function minimum<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
+export function min<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
+export function min<F extends URIS3, A, U, L>(O: Ord<A>, F: Foldable2v3C<F, U, L>): (fa: Type3<F, U, L, A>) => Option<A>
+export function min<F extends URIS2, A>(O: Ord<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
+export function min<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
+export function min<F extends URIS, A>(O: Ord<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => Option<A>
+export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
 /**
  * Find the smallest element of a structure, according to its `Ord` instance
  * @function
  * @since 1.10.0
  */
-export function minimum<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A> {
-  const minO = min(O)
+export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A> {
+  const minO = minOrd(O)
   return fa => F.reduce(fa, none, (b: Option<A>, a) => (b.isNone() ? some(a) : some(minO(b.value, a))))
 }
 
 /**
  * Find the largest element of a structure, according to its `Ord` instance
  */
-export function maximum<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
-export function maximum<F extends URIS3, A, U, L>(
-  O: Ord<A>,
-  F: Foldable2v3C<F, U, L>
-): (fa: Type3<F, U, L, A>) => Option<A>
-export function maximum<F extends URIS2, A>(O: Ord<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
-export function maximum<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
-export function maximum<F extends URIS, A>(O: Ord<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => Option<A>
-export function maximum<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
+export function max<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
+export function max<F extends URIS3, A, U, L>(O: Ord<A>, F: Foldable2v3C<F, U, L>): (fa: Type3<F, U, L, A>) => Option<A>
+export function max<F extends URIS2, A>(O: Ord<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
+export function max<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
+export function max<F extends URIS, A>(O: Ord<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => Option<A>
+export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
 /**
  * Find the largest element of a structure, according to its `Ord` instance
  * @function
  * @since 1.10.0
  */
-export function maximum<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A> {
-  const maxO = max(O)
+export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A> {
+  const maxO = maxOrd(O)
   return fa => F.reduce(fa, none, (b: Option<A>, a) => (b.isNone() ? some(a) : some(maxO(b.value, a))))
 }
 
