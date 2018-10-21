@@ -2,14 +2,14 @@ import * as assert from 'assert'
 import { array } from '../src/Array'
 import { fieldNumber } from '../src/Field'
 import {
-  elem,
-  find,
+  member,
+  findFirst,
   fold,
   foldM,
   getFoldableComposition,
   intercalate,
-  maximum,
-  minimum,
+  max,
+  min,
   oneOf,
   product,
   sequence_,
@@ -74,13 +74,13 @@ describe('Foldable2v', () => {
   })
 
   it('minimum', () => {
-    assert.deepEqual(minimum(ordNumber, array)([]), option.none)
-    assert.deepEqual(minimum(ordNumber, array)([1, 2, 3, 4, 5]), option.some(1))
+    assert.deepEqual(min(ordNumber, array)([]), option.none)
+    assert.deepEqual(min(ordNumber, array)([1, 2, 3, 4, 5]), option.some(1))
   })
 
   it('maximum', () => {
-    assert.deepEqual(maximum(ordNumber, array)([]), option.none)
-    assert.deepEqual(maximum(ordNumber, array)([1, 2, 3, 4, 5]), option.some(5))
+    assert.deepEqual(max(ordNumber, array)([]), option.none)
+    assert.deepEqual(max(ordNumber, array)([1, 2, 3, 4, 5]), option.some(5))
   })
 
   it('sum', () => {
@@ -105,13 +105,13 @@ describe('Foldable2v', () => {
   })
 
   it('elem', () => {
-    assert.strictEqual(elem(setoidNumber, array)(1, [1, 2, 3]), true)
-    assert.strictEqual(elem(setoidNumber, array)(4, [1, 2, 3]), false)
+    assert.strictEqual(member(setoidNumber, array)(1, [1, 2, 3]), true)
+    assert.strictEqual(member(setoidNumber, array)(4, [1, 2, 3]), false)
   })
 
   it('find', () => {
-    assert.deepEqual(find(array)([1, 2, 3], a => a > 4), option.none)
-    assert.deepEqual(find(array)([1, 2, 3, 5], a => a > 4), option.some(5))
+    assert.deepEqual(findFirst(array)([1, 2, 3], a => a > 4), option.none)
+    assert.deepEqual(findFirst(array)([1, 2, 3, 5], a => a > 4), option.some(5))
   })
 
   it('fold', () => {
