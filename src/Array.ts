@@ -1372,6 +1372,66 @@ export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => {
   return isOutOfBound(n - 1, as) ? [as] : chop(as, as => split(n, as))
 }
 
+/**
+ * Array comprehension
+ *
+ * ```
+ * [ g(x, y, ...) | x ← xs, y ← ys, ..., f(x, y, ...) ]
+ * ```
+ */
+export function comprehension<A, B, C, D, R>(
+  input: [Array<A>, Array<B>, Array<C>, Array<D>],
+  f: (a: A, b: B, c: C, d: D) => boolean,
+  g: (a: A, b: B, c: C, d: D) => R
+): Array<R>
+export function comprehension<A, B, C, R>(
+  input: [Array<A>, Array<B>, Array<C>],
+  f: (a: A, b: B, c: C) => boolean,
+  g: (a: A, b: B, c: C) => R
+): Array<R>
+export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g: (a: A) => R): Array<R>
+export function comprehension<A, B, R>(
+  input: [Array<A>, Array<B>],
+  f: (a: A, b: B) => boolean,
+  g: (a: A, b: B) => R
+): Array<R>
+export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g: (a: A) => R): Array<R>
+/**
+ * Array comprehension
+ *
+ * ```
+ * [ g(x, y, ...) | x ← xs, y ← ys, ..., f(x, y, ...) ]
+ * ```
+ *
+ * @example
+ * import { comprehension } from 'fp-ts/lib/Array'
+ * import { tuple } from 'fp-ts/lib/function'
+ *
+ * assert.deepEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.length) % 2 === 0, tuple), [
+ *   [1, 'a'],
+ *   [1, 'b'],
+ *   [3, 'a'],
+ *   [3, 'b']
+ * ])
+ *
+ * @function
+ * @since 1.10.0
+ */
+export function comprehension<R>(
+  input: Array<Array<any>>,
+  f: (...xs: Array<any>) => boolean,
+  g: (...xs: Array<any>) => R
+): Array<R> {
+  const go = (scope: Array<any>, input: Array<Array<any>>): Array<R> => {
+    if (input.length === 0) {
+      return f(...scope) ? [g(...scope)] : empty
+    } else {
+      return chain(input[0], x => go(snoc(scope, x), input.slice(1)))
+    }
+  }
+  return go(empty, input)
+}
+
 export const array: Monad1<URI> &
   Foldable2v1<URI> &
   Unfoldable1<URI> &

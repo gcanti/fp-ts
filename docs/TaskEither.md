@@ -94,7 +94,17 @@ Added in v1.0.0 (method)
 
 Added in v1.0.0 (method)
 
-## foldM
+## foldTask
+
+```ts
+<R>(whenLeft: (l: L) => Task<R>, whenRight: (a: A) => Task<R>): Task<R>
+```
+
+Added in v1.10.0 (method)
+
+Similar to [fold](#fold), but the result is flattened.
+
+## foldTaskEither
 
 ```ts
 <M, B>(whenLeft: (l: L) => TaskEither<M, B>, whenRight: (a: A) => TaskEither<M, B>): TaskEither<M, B>
