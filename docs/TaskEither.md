@@ -141,7 +141,23 @@ _Signature_
 <R>(whenLeft: (l: L) => R, whenRight: (a: A) => R): Task<R>
 ```
 
-### foldM
+### foldTask
+
+_method_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+<R>(whenLeft: (l: L) => Task<R>, whenRight: (a: A) => Task<R>): Task<R>
+```
+
+_Description_
+
+Similar to [fold](#fold), but the result is flattened.
+
+### foldTaskEither
 
 _method_
 

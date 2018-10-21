@@ -55,14 +55,15 @@ import {
   makeBy,
   replicate,
   findLastIndex,
-  zipWith
+  zipWith,
+  comprehension
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
 import { option, Option, none, some } from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString, Setoid } from '../src/Setoid'
-import { identity, tuple } from '../src/function'
+import { identity, tuple, constTrue } from '../src/function'
 import * as I from '../src/Identity'
 import * as F from '../src/Foldable'
 
@@ -611,5 +612,23 @@ describe('Array', () => {
   it('replicate', () => {
     assert.deepEqual(replicate(0, 'a'), [])
     assert.deepEqual(replicate(3, 'a'), ['a', 'a', 'a'])
+  })
+
+  it('comprehension', () => {
+    assert.deepEqual(comprehension([[1, 2, 3]], constTrue, a => a * 2), [2, 4, 6])
+    assert.deepEqual(comprehension([[1, 2, 3], ['a', 'b']], constTrue, tuple), [
+      [1, 'a'],
+      [1, 'b'],
+      [2, 'a'],
+      [2, 'b'],
+      [3, 'a'],
+      [3, 'b']
+    ])
+    assert.deepEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.length) % 2 === 0, tuple), [
+      [1, 'a'],
+      [1, 'b'],
+      [3, 'a'],
+      [3, 'b']
+    ])
   })
 })

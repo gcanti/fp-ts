@@ -134,6 +134,40 @@ import { chunksOf } from 'fp-ts/lib/Array'
 assert.deepEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
 ```
 
+### comprehension
+
+_function_
+
+_since 1.10.0_
+
+_Signature_
+
+```ts
+comprehension<R>(
+  input: Array<Array<any>>,
+  f: (...xs: Array<any>) => boolean,
+  g: (...xs: Array<any>) => R
+): Array<R>
+```
+
+_Description_
+
+Array comprehension
+
+_Example_
+
+```ts
+import { comprehension } from 'fp-ts/lib/Array'
+import { tuple } from 'fp-ts/lib/function'
+
+assert.deepEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.length) % 2 === 0, tuple), [
+  [1, 'a'],
+  [1, 'b'],
+  [3, 'a'],
+  [3, 'b']
+])
+```
+
 ### cons
 
 _function_
