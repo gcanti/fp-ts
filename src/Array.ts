@@ -1060,12 +1060,11 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
  *
  * @example
  * import { member } from 'fp-ts/lib/Array'
- * import { setoidString } from 'fp-ts/lib/Setoid'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { setoidString, setoidNumber } from 'fp-ts/lib/Setoid'
  *
  * assert.strictEqual(member(setoidString)(['thing one', 'thing two', 'cat in the hat'], 'thing two'), true)
  * assert.strictEqual(member(setoidNumber)([1, 2, 3], 1), true)
- * assert.strictEqual(member(setoidNumber)([1, 2, 3], 4), false) *
+ * assert.strictEqual(member(setoidNumber)([1, 2, 3], 4), false)
  *
  * @function
  * @since 1.3.0
