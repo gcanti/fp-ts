@@ -46,6 +46,30 @@ Added in v1.0.0 (function)
 
 Combine two effectful actions, keeping only the result of the second
 
+## getSemigroup
+
+```ts
+getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>>
+```
+
+Added in v1.4.0 (function)
+
+If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Semigroup` over `A` as well
+
+_Example_
+
+```ts
+import { getSemigroup } from 'fp-ts/lib/Apply'
+import { option, some, none } from 'fp-ts/lib/Option'
+import { monoidSum } from 'fp-ts/lib/Monoid'
+
+const S = getSemigroup(option, monoidSum)()
+assert.deepEqual(S.concat(none, none), none)
+assert.deepEqual(S.concat(some(1), none), none)
+assert.deepEqual(S.concat(none, some(2)), none)
+assert.deepEqual(S.concat(some(1), some(2)), some(3))
+```
+
 ## liftA2
 
 ```ts
@@ -81,3 +105,25 @@ Added in v1.0.0 (function)
 
 Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
 `F`
+
+## sequenceT
+
+```ts
+sequenceT<F>(F: Apply<F>): SequenceT<F>
+```
+
+Added in v1.5.0 (function)
+
+Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
+
+_Example_
+
+```ts
+import { sequenceT } from 'fp-ts/lib/Apply'
+import { option, some, none } from 'fp-ts/lib/Option'
+
+const sequenceTOption = sequenceT(option)
+assert.deepEqual(sequenceTOption(some(1)), some([1]))
+assert.deepEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
+assert.deepEqual(sequenceTOption(some(1), some('2'), none), none)
+```

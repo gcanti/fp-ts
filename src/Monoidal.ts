@@ -43,7 +43,10 @@ export interface Monoidal3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
   readonly mult: <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, [A, B]>
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function fromApplicative<F extends URIS3>(applicative: Applicative3<F>): Monoidal3<F>
 export function fromApplicative<F extends URIS2>(applicative: Applicative2<F>): Monoidal2<F>
 export function fromApplicative<F extends URIS>(applicative: Applicative1<F>): Monoidal1<F>
@@ -57,7 +60,10 @@ export function fromApplicative<F>(applicative: Applicative<F>): Monoidal<F> {
   }
 }
 
-/** @function */
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function toApplicative<F extends URIS3>(monoidal: Monoidal3<F>): Applicative3<F>
 export function toApplicative<F extends URIS2>(monoidal: Monoidal2<F>): Applicative2<F>
 export function toApplicative<F extends URIS>(monoidal: Monoidal1<F>): Applicative1<F>

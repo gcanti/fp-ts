@@ -167,6 +167,12 @@ const reduceRight = <A, B>(fa: Array<A>, b: B, f: (a: A, b: B) => B): B => {
   return fa.reduceRight((b, a) => f(a, b), b)
 }
 
+/**
+ * Use `array.traverse`
+ * @function
+ * @since 1.0.0
+ * @deprecated
+ */
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <U, L, A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
@@ -183,12 +189,6 @@ export function traverse<F extends URIS>(
   F: Applicative1<F>
 ): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
-/**
- * Use `array.traverse`
- * @function
- * @since 1.0.0
- * @deprecated
- */
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
   return <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) =>
     reduce(ta, F.of<Array<B>>(zero()), (fbs, a) => F.ap(F.map(fbs, bs => (b: B) => snoc(bs, b)), f(a)))
@@ -720,11 +720,6 @@ export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<numb
 
 /**
  * Find the first element which satisfies a predicate (or a refinement) function
- */
-export function findFirst<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
-export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
-/**
- * Find the first element which satisfies a predicate (or a refinement) function
  *
  * @example
  * import { findFirst } from 'fp-ts/lib/Array'
@@ -735,6 +730,8 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
  * @function
  * @since 1.0.0
  */
+export function findFirst<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
+export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
 export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
   const len = as.length
   for (let i = 0; i < len; i++) {
@@ -1377,6 +1374,20 @@ export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => {
  * ```
  * [ g(x, y, ...) | x ← xs, y ← ys, ..., f(x, y, ...) ]
  * ```
+ *
+ * @example
+ * import { comprehension } from 'fp-ts/lib/Array'
+ * import { tuple } from 'fp-ts/lib/function'
+ *
+ * assert.deepEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.length) % 2 === 0, tuple), [
+ *   [1, 'a'],
+ *   [1, 'b'],
+ *   [3, 'a'],
+ *   [3, 'b']
+ * ])
+ *
+ * @function
+ * @since 1.10.0
  */
 export function comprehension<A, B, C, D, R>(
   input: [Array<A>, Array<B>, Array<C>, Array<D>],
@@ -1395,27 +1406,6 @@ export function comprehension<A, B, R>(
   g: (a: A, b: B) => R
 ): Array<R>
 export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g: (a: A) => R): Array<R>
-/**
- * Array comprehension
- *
- * ```
- * [ g(x, y, ...) | x ← xs, y ← ys, ..., f(x, y, ...) ]
- * ```
- *
- * @example
- * import { comprehension } from 'fp-ts/lib/Array'
- * import { tuple } from 'fp-ts/lib/function'
- *
- * assert.deepEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.length) % 2 === 0, tuple), [
- *   [1, 'a'],
- *   [1, 'b'],
- *   [3, 'a'],
- *   [3, 'b']
- * ])
- *
- * @function
- * @since 1.10.0
- */
 export function comprehension<R>(
   input: Array<Array<any>>,
   f: (...xs: Array<any>) => boolean,

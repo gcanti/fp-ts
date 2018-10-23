@@ -27,34 +27,28 @@ export const spy = <A>(a: A): A => {
 
 /**
  * Log a message to the console for debugging purposes and then return the unit value of the Applicative `F`
+ * @function
+ * @since 1.0.0
  */
 export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: any) => Type3<F, U, L, void>
 export function traceA<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): (message: any) => Type3<F, U, L, void>
 export function traceA<F extends URIS2>(F: Applicative2<F>): <L>(message: any) => Type2<F, L, void>
 export function traceA<F extends URIS2, L>(F: Applicative2C<F, L>): (message: any) => Type2<F, L, void>
 export function traceA<F extends URIS>(F: Applicative1<F>): (message: any) => Type<F, void>
-/**
- * Log a message to the console for debugging purposes and then return the unit value of the Applicative `F`
- * @function
- * @since 1.0.0
- */
 export function traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void> {
   return x => trace(x, () => F.of(undefined))
 }
 
 /**
  * Log any value to the console and return it in `Monad` useful when one has monadic chains
+ * @function
+ * @since 1.0.0
  */
 export function traceM<F extends URIS3>(F: Monad3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>
 export function traceM<F extends URIS3, U, L>(F: Monad3C<F, U, L>): <A>(a: A) => Type3<F, U, L, A>
 export function traceM<F extends URIS2>(F: Monad2<F>): <L, A>(a: A) => Type2<F, L, A>
 export function traceM<F extends URIS2, L>(F: Monad2C<F, L>): <A>(a: A) => Type2<F, L, A>
 export function traceM<F extends URIS>(F: Monad1<F>): <A>(a: A) => Type<F, A>
-/**
- * Log any value to the console and return it in `Monad` useful when one has monadic chains
- * @function
- * @since 1.0.0
- */
 export function traceM<F>(F: Monad<F>): <A>(a: A) => HKT<F, A> {
   return a => trace(a, () => F.of(a))
 }

@@ -20,3 +20,19 @@ Applicative functors are equivalent to strong lax monoidal functors
 
 - https://wiki.haskell.org/Typeclassopedia#Alternative_formulation
 - https://bartoszmilewski.com/2017/02/06/applicative-functors/
+
+## fromApplicative
+
+```ts
+fromApplicative<F>(applicative: Applicative<F>): Monoidal<F>
+```
+
+Added in v1.0.0 (function)
+
+## toApplicative
+
+```ts
+toApplicative<F>(monoidal: Monoidal<F>): Applicative<F>
+```
+
+Added in v1.0.0 (function)

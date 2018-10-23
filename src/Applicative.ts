@@ -119,21 +119,6 @@ export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, U, L
   ) => Type3<F, U, L, Type<G, B>>
 }
 
-/** Perform a applicative action when a condition is true */
-export function when<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L>(condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
-export function when<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): (condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
-export function when<F extends URIS2>(
-  F: Applicative2<F>
-): <L>(condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
-export function when<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): (condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
-export function when<F extends URIS>(F: Applicative1<F>): (condition: boolean, fu: Type<F, void>) => Type<F, void>
-export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
 /**
  * Perform a applicative action when a condition is true
  *
@@ -155,10 +140,28 @@ export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void
  * @function
  * @since 1.0.0
  */
+export function when<F extends URIS3>(
+  F: Applicative3<F>
+): <U, L>(condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
+export function when<F extends URIS3, U, L>(
+  F: Applicative3C<F, U, L>
+): (condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
+export function when<F extends URIS2>(
+  F: Applicative2<F>
+): <L>(condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
+export function when<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): (condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
+export function when<F extends URIS>(F: Applicative1<F>): (condition: boolean, fu: Type<F, void>) => Type<F, void>
+export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
 export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> {
   return (condition, fu) => (condition ? fu : F.of(undefined))
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function getApplicativeComposition<F extends URIS2, G extends URIS2>(
   F: Applicative2<F>,
   G: Applicative2<G>
@@ -192,10 +195,6 @@ export function getApplicativeComposition<F, G extends URIS>(
   G: Applicative1<G>
 ): ApplicativeComposition<F, G>
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
-/**
- * @function
- * @since 1.0.0
- */
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G> {
   return {
     ...getFunctorComposition(F, G),
@@ -205,22 +204,6 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
   }
 }
 
-/**
- * If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
- * Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
- */
-export function getMonoid<F extends URIS3, A>(
-  F: Applicative3<F>,
-  M: Monoid<A>
-): <U = never, L = never>() => Monoid<Type3<F, U, L, A>>
-export function getMonoid<F extends URIS3, U, L, A>(
-  F: Applicative3C<F, U, L>,
-  M: Monoid<A>
-): () => Monoid<Type3<F, U, L, A>>
-export function getMonoid<F extends URIS2, A>(F: Applicative2<F>, M: Monoid<A>): <L = never>() => Monoid<Type2<F, L, A>>
-export function getMonoid<F extends URIS2, L, A>(F: Applicative2C<F, L>, M: Monoid<A>): () => Monoid<Type2<F, L, A>>
-export function getMonoid<F extends URIS, A>(F: Applicative1<F>, M: Monoid<A>): () => Monoid<Type<F, A>>
-export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>
 /**
  * If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
  * Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
@@ -239,6 +222,18 @@ export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<H
  * @function
  * @since 1.4.0
  */
+export function getMonoid<F extends URIS3, A>(
+  F: Applicative3<F>,
+  M: Monoid<A>
+): <U = never, L = never>() => Monoid<Type3<F, U, L, A>>
+export function getMonoid<F extends URIS3, U, L, A>(
+  F: Applicative3C<F, U, L>,
+  M: Monoid<A>
+): () => Monoid<Type3<F, U, L, A>>
+export function getMonoid<F extends URIS2, A>(F: Applicative2<F>, M: Monoid<A>): <L = never>() => Monoid<Type2<F, L, A>>
+export function getMonoid<F extends URIS2, L, A>(F: Applicative2C<F, L>, M: Monoid<A>): () => Monoid<Type2<F, L, A>>
+export function getMonoid<F extends URIS, A>(F: Applicative1<F>, M: Monoid<A>): () => Monoid<Type<F, A>>
+export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>
 export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>> {
   const S = getSemigroup(F, M)()
   return () => ({

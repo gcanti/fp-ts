@@ -38,6 +38,10 @@ export interface Chain3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
   readonly chain: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, B>
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function flatten<F extends URIS3>(
   chain: Chain3<F>
 ): <U, L, A>(mma: Type3<F, U, L, Type3<F, U, L, A>>) => Type3<F, U, L, A>
@@ -50,10 +54,6 @@ export function flatten<F extends URIS2, L>(
 ): <A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
 export function flatten<F extends URIS>(chain: Chain1<F>): <A>(mma: Type<F, Type<F, A>>) => Type<F, A>
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
-/**
- * @function
- * @since 1.0.0
- */
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A> {
   return mma => chain.chain(mma, ma => ma)
 }

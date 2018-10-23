@@ -249,6 +249,12 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
   ) => <A, B>(fga: Type<F, Type<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, Type<F, Type<G, B>>>
 }
 
+/**
+ * Use {@link Traversable} `traverse` instead.
+ * @function
+ * @since 1.0.0
+ * @deprecated
+ */
 export function traverse<F extends URIS3, T extends URIS2>(
   F: Applicative3<F>,
   T: Traversable2<T>
@@ -285,12 +291,6 @@ export function traverse<F, T>(
   F: Applicative<F>,
   T: Traversable<T>
 ): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
-/**
- * Use {@link Traversable} `traverse` instead.
- * @function
- * @since 1.0.0
- * @deprecated
- */
 export function traverse<F, T>(
   F: Applicative<F>,
   T: Traversable<T>
@@ -298,6 +298,10 @@ export function traverse<F, T>(
   return T.traverse(F)
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function sequence<F extends URIS2, T extends URIS2>(
   F: Applicative2<F>,
   T: Traversable2<T>
@@ -335,23 +339,19 @@ export function sequence<F, T extends URIS>(
   T: Traversable1<T>
 ): <A>(tfa: Type<T, HKT<F, A>>) => HKT<F, Type<T, A>>
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
-/**
- * @function
- * @since 1.0.0
- */
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>> {
   return tfa => T.traverse(F)(tfa, fa => fa)
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function getTraversableComposition<F extends URIS, G extends URIS>(
   F: Traversable1<F>,
   G: Traversable1<G>
 ): TraversableComposition11<F, G>
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
-/**
- * @function
- * @since 1.0.0
- */
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
   return {
     ...getFunctorComposition(F, G),

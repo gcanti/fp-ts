@@ -251,17 +251,6 @@ export interface Traversable2vComposition11<F extends URIS, G extends URIS>
 }
 
 /**
- * Returns the composition of two foldables
- */
-export function getTraversableComposition<F extends URIS, G extends URIS>(
-  F: Traversable2v1<F>,
-  G: Traversable2v1<G>
-): Traversable2vComposition11<F, G>
-export function getTraversableComposition<F, G>(
-  F: Traversable2v<F>,
-  G: Traversable2v<G>
-): Traversable2vComposition<F, G>
-/**
  * Returns the composition of two traversables
  *
  * @example
@@ -282,6 +271,14 @@ export function getTraversableComposition<F, G>(
  * @function
  * @since 1.10.0
  */
+export function getTraversableComposition<F extends URIS, G extends URIS>(
+  F: Traversable2v1<F>,
+  G: Traversable2v1<G>
+): Traversable2vComposition11<F, G>
+export function getTraversableComposition<F, G>(
+  F: Traversable2v<F>,
+  G: Traversable2v<G>
+): Traversable2vComposition<F, G>
 export function getTraversableComposition<F, G>(
   F: Traversable2v<F>,
   G: Traversable2v<G>
