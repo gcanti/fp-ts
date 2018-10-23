@@ -41,7 +41,7 @@
 | countBy                 |                                                                                                        |
 | curry                   | [function.curry](docs/function.md#curry)                                                               |
 | curryN                  |                                                                                                        |
-| dec                     | [function.decrement](docs/Array.md#decrement)                                                          |
+| dec                     | [function.decrement](docs/function.md#decrement)                                                       |
 | defaultTo               |                                                                                                        |
 | descend                 | [Ord.contramap](docs/Ord.md#contramap), [Ord.getDualOrd](docs/Ord.md#getdualord)                       |
 | difference              |                                                                                                        |
