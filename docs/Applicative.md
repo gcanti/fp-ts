@@ -73,3 +73,19 @@ when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, voi
 Added in v1.0.0 (function)
 
 Perform a applicative action when a condition is true
+
+_Example_
+
+```ts
+import { IO, io } from 'fp-ts/lib/IO'
+import { when } from 'fp-ts/lib/Applicative'
+
+const log: Array<string> = []
+const action = new IO(() => {
+  log.push('action called')
+})
+when(io)(false, action).run()
+assert.deepEqual(log, [])
+when(io)(true, action).run()
+assert.deepEqual(log, ['action called'])
+```

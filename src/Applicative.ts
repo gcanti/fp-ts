@@ -136,6 +136,22 @@ export function when<F extends URIS>(F: Applicative1<F>): (condition: boolean, f
 export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
 /**
  * Perform a applicative action when a condition is true
+ *
+ *
+ * @example
+ * import { IO, io } from 'fp-ts/lib/IO'
+ * import { when } from 'fp-ts/lib/Applicative'
+ *
+ * const log: Array<string> = []
+ * const action = new IO(() => {
+ *   log.push('action called')
+ * })
+ * when(io)(false, action).run()
+ * assert.deepEqual(log, [])
+ * when(io)(true, action).run()
+ * assert.deepEqual(log, ['action called'])
+ *
+ *
  * @function
  * @since 1.0.0
  */
