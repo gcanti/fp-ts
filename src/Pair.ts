@@ -49,6 +49,9 @@ export class Pair<A> {
   ap<B>(fab: Pair<(a: A) => B>): Pair<B> {
     return new Pair(fab.fst(this.fst), fab.snd(this.snd))
   }
+  /**
+   * Flipped version of {@link ap}
+   */
   ap_<B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C> {
     return fb.ap(this)
   }

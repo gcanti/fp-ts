@@ -31,6 +31,9 @@ export class IO<A> {
   ap<B>(fab: IO<(a: A) => B>): IO<B> {
     return new IO(() => fab.run()(this.run()))
   }
+  /**
+   * Flipped version of {@link ap}
+   */
   ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C> {
     return fb.ap(this)
   }

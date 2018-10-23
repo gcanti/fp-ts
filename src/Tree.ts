@@ -36,46 +36,29 @@ export class Tree<A> {
   readonly _A!: A
   readonly _URI!: URI
   constructor(readonly value: A, readonly forest: Forest<A>) {}
-  /**
-   * @since 1.6.0
-   */
   map<B>(f: (a: A) => B): Tree<B> {
     return new Tree(f(this.value), this.forest.map(tree => tree.map(f)))
   }
-  /**
-   * @since 1.6.0
-   */
   ap<B>(fab: Tree<(a: A) => B>): Tree<B> {
     return fab.chain(f => this.map(f)) // <- derived
   }
   /**
+   * Flipped version of {@link ap}
    * @since 1.6.0
    */
   ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C> {
     return fb.ap(this)
   }
-  /**
-   * @since 1.6.0
-   */
   chain<B>(f: (a: A) => Tree<B>): Tree<B> {
     const { value, forest } = f(this.value)
     return new Tree(value, concat(forest, this.forest.map(t => t.chain(f))))
   }
-  /**
-   * @since 1.6.0
-   */
   extract(): A {
     return this.value
   }
-  /**
-   * @since 1.6.0
-   */
   extend<B>(f: (fa: Tree<A>) => B): Tree<B> {
     return new Tree(f(this), this.forest.map(t => t.extend(f)))
   }
-  /**
-   * @since 1.6.0
-   */
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     let r: B = f(b, this.value)
     const len = this.forest.length
@@ -84,15 +67,9 @@ export class Tree<A> {
     }
     return r
   }
-  /**
-   * @since 1.6.0
-   */
   inspect(): string {
     return this.toString()
   }
-  /**
-   * @since 1.6.0
-   */
   toString(): string {
     return `new Tree(${toString(this.value)}, ${toString(this.forest)})`
   }

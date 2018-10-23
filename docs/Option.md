@@ -143,8 +143,7 @@ assert.deepEqual(none.ap(some((x: number) => x + 1)), none)
 
 Added in v1.0.0 (method)
 
-Similar to `ap` but instead of taking a function it takes `some` value or `none`, then applies this `Option`'s
-wrapped function to the `some` or `none`. If the `Option` calling `ap_` is `none` it will return `none`.
+Flipped version of [ap](#ap)
 
 _Example_
 

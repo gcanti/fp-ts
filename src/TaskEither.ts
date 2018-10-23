@@ -57,6 +57,9 @@ export class TaskEither<L, A> {
   ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.ap(fab.value, this.value))
   }
+  /**
+   * Flipped version of {@link ap}
+   */
   ap_<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> {
     return fb.ap(this)
   }

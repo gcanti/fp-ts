@@ -76,6 +76,9 @@ export class Left<L, A> {
   ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> {
     return (fab.isLeft() ? fab : this) as any
   }
+  /**
+   * Flipped version of {@link ap}
+   */
   ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
     return fb.ap(this)
   }
@@ -92,11 +95,13 @@ export class Left<L, A> {
 
   /**
    * Lazy version of {@link alt}
-   * @since 1.6.0
-   * @param {(l: L) => Either<M, A>} fy - thunk
+   *
    * @example
+   * import { right } from 'fp-ts/lib/Either'
+   *
    * assert.deepEqual(right(1).orElse(() => right(2)), right(1))
-   * @returns {Either<M, A>}
+   *
+   * @since 1.6.0
    */
   orElse<M>(fy: (l: L) => Either<M, A>): Either<M, A> {
     return fy(this.value)
@@ -146,11 +151,13 @@ export class Left<L, A> {
    * right value, returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right
    * value, returns `Left` with the existing value of `Left` if this is a `Left`.
    *
-   * ```ts
-   * right(12).filterOrElse(n => n > 10, -1) // right(12)
-   * right(7).filterOrElse(n => n > 10, -1)  // left(-1)
-   * left(12).filterOrElse(n => n > 10, -1)  // left(12)
-   * ```
+   * @example
+   * import { right, left } from 'fp-ts/lib/Either'
+   *
+   * assert.deepEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
+   * assert.deepEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
+   * assert.deepEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
+   *
    * @since 1.3.0
    */
   filterOrElse(p: Predicate<A>, zero: L): Either<L, A> {

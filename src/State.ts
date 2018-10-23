@@ -36,6 +36,9 @@ export class State<S, A> {
   ap<B>(fab: State<S, (a: A) => B>): State<S, B> {
     return fab.chain(f => this.map(f)) // <= derived
   }
+  /**
+   * Flipped version of {@link ap}
+   */
   ap_<B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C> {
     return fb.ap(this)
   }
