@@ -52,33 +52,29 @@ describe('Foldable2v', () => {
   })
 
   it('intercalate', () => {
-    assert.strictEqual(intercalate(monoidString, array)(',')(['a', 'b', 'c']), 'a,b,c')
+    assert.strictEqual(intercalate(monoidString, array)(',', ['a', 'b', 'c']), 'a,b,c')
   })
 
-  it('traverse', () => {
-    let counter = ''
-    const x = traverse_(io, array)(['a', 'b', 'c'], a => new IO(() => (counter += a)))
-    x.run()
-    assert.strictEqual(counter, 'abc')
+  it('traverse_', () => {
+    let log = ''
+    const append = (s: String) => new IO(() => (log += s))
+    traverse_(io, array)(['a', 'b', 'c'], append).run()
+    assert.strictEqual(log, 'abc')
   })
 
-  it('sequence', () => {
-    let counter = ''
-    const x = sequence_(io, array)([
-      new IO(() => (counter += 'a')),
-      new IO(() => (counter += 'b')),
-      new IO(() => (counter += 'c'))
-    ])
-    x.run()
-    assert.strictEqual(counter, 'abc')
+  it('sequence_', () => {
+    let log = ''
+    const append = (s: String) => new IO(() => (log += s))
+    sequence_(io, array)([append('a'), append('b'), append('c')]).run()
+    assert.strictEqual(log, 'abc')
   })
 
-  it('minimum', () => {
+  it('min', () => {
     assert.deepEqual(min(ordNumber, array)([]), option.none)
     assert.deepEqual(min(ordNumber, array)([1, 2, 3, 4, 5]), option.some(1))
   })
 
-  it('maximum', () => {
+  it('max', () => {
     assert.deepEqual(max(ordNumber, array)([]), option.none)
     assert.deepEqual(max(ordNumber, array)([1, 2, 3, 4, 5]), option.some(5))
   })
@@ -104,12 +100,12 @@ describe('Foldable2v', () => {
     assert.deepEqual(oneOf(option.option, array)([option.some(2), option.some(1)]), option.some(2))
   })
 
-  it('elem', () => {
+  it('member', () => {
     assert.strictEqual(member(setoidNumber, array)(1, [1, 2, 3]), true)
     assert.strictEqual(member(setoidNumber, array)(4, [1, 2, 3]), false)
   })
 
-  it('find', () => {
+  it('findFirst', () => {
     assert.deepEqual(findFirst(array)([1, 2, 3], a => a > 4), option.none)
     assert.deepEqual(findFirst(array)([1, 2, 3, 5], a => a > 4), option.some(5))
   })
