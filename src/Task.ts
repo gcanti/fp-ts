@@ -34,6 +34,9 @@ export class Task<A> {
   ap<B>(fab: Task<(a: A) => B>): Task<B> {
     return new Task(() => Promise.all([fab.run(), this.run()]).then(([f, a]) => f(a)))
   }
+  /**
+   * Flipped version of {@link ap}
+   */
   ap_<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C> {
     return fb.ap(this)
   }

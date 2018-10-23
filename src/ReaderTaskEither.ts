@@ -40,72 +40,48 @@ export class ReaderTaskEither<E, L, A> {
   run(e: E): Promise<Either<L, A>> {
     return this.value(e).run()
   }
-  /**
-   * @since 1.6.0
-   */
   map<B>(f: (a: A) => B): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.map(f, this.value))
   }
-  /**
-   * @since 1.6.0
-   */
   ap<B>(fab: ReaderTaskEither<E, L, (a: A) => B>): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.ap(fab.value, this.value))
   }
   /**
-   * @since 1.6.0
+   * Flipped version of {@link ap}
    */
   ap_<B, C>(this: ReaderTaskEither<E, L, (b: B) => C>, fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, C> {
     return fb.ap(this)
   }
   /**
    * Combine two effectful actions, keeping only the result of the first
-   * @since 1.6.0
    */
   applyFirst<B>(fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, A> {
     return fb.ap(this.map(constant))
   }
   /**
    * Combine two effectful actions, keeping only the result of the second
-   * @since 1.6.0
    */
   applySecond<B>(fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> {
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
-  /**
-   * @since 1.6.0
-   */
   chain<B>(f: (a: A) => ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.chain(a => f(a).value, this.value))
   }
-  /**
-   * @since 1.6.0
-   */
   fold<R>(left: (l: L) => R, right: (a: A) => R): Reader<E, Task<R>> {
     return new Reader(e => this.value(e).fold(left, right))
   }
-  /**
-   * @since 1.6.0
-   */
   mapLeft<M>(f: (l: L) => M): ReaderTaskEither<E, M, A> {
     return new ReaderTaskEither(e => this.value(e).mapLeft(f))
   }
   /**
    * Transforms the failure value of the `ReaderTaskEither` into a new `ReaderTaskEither`
-   * @since 1.6.0
    */
   orElse<M>(f: (l: L) => ReaderTaskEither<E, M, A>): ReaderTaskEither<E, M, A> {
     return new ReaderTaskEither(e => this.value(e).orElse(l => f(l).value(e)))
   }
-  /**
-   * @since 1.6.0
-   */
   alt(fy: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> {
     return this.orElse(() => fy)
   }
-  /**
-   * @since 1.6.0
-   */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): ReaderTaskEither<E, V, B> {
     return new ReaderTaskEither(e => this.value(e).bimap(f, g))
   }

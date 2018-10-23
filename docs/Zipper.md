@@ -94,7 +94,7 @@ Inserts an element to the right of focus and focuses on the new element.
 (): string
 ```
 
-Added in v1.0.0 (method)
+Added in v1.9.0 (method)
 
 ## isOutOfBound
 
@@ -164,7 +164,7 @@ Added in v1.9.0 (method)
 (): string
 ```
 
-Added in v1.0.0 (method)
+Added in v1.9.0 (method)
 
 ## up
 

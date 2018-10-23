@@ -40,8 +40,6 @@ export class NonEmptyArray<A> {
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    *
    * assert.deepEqual(new NonEmptyArray(1, [2, 3]).toArray(), [1, 2, 3])
-   *
-   * @since 1.0.0
    */
   toArray(): Array<A> {
     return uncurriedConcat([this.head], this.tail)
@@ -54,8 +52,6 @@ export class NonEmptyArray<A> {
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    *
    * assert.deepEqual(new NonEmptyArray<number>(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
-   *
-   * @since 1.0.0
    */
   concatArray(as: Array<A>): NonEmptyArray<A> {
     return new NonEmptyArray(this.head, uncurriedConcat(this.tail, as))
@@ -69,8 +65,6 @@ export class NonEmptyArray<A> {
    *
    * const double = (n: number): number => n * 2
    * assert.deepEqual(new NonEmptyArray(1, [2]).map(double), new NonEmptyArray(2, [4]))
-   *
-   * @since 1.0.0
    */
   map<B>(f: (a: A) => B): NonEmptyArray<B> {
     return new NonEmptyArray(f(this.head), this.tail.map(f))
@@ -85,15 +79,13 @@ export class NonEmptyArray<A> {
    * const x = new NonEmptyArray(1, [2])
    * const double = (n: number): number => n * 2
    * assert.deepEqual(x.ap(new NonEmptyArray(double, [double])).toArray(), [2, 4, 2, 4])
-   *
-   * @since 1.0.0
    */
   ap<B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B> {
     return fab.chain(f => this.map(f)) // <= derived
   }
 
   /**
-   * Same as {@link ap} but works on {@link NonEmptyArray} of functions and accepts {@link NonEmptyArray} of values instead
+   * Flipped version of {@link ap}
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -101,8 +93,6 @@ export class NonEmptyArray<A> {
    * const x = new NonEmptyArray(1, [2])
    * const double = (n: number) => n * 2
    * assert.deepEqual(new NonEmptyArray(double, [double]).ap_(x).toArray(), [2, 4, 2, 4])
-   *
-   * @since 1.0.0
    */
   ap_<B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C> {
     return fb.ap(this)
@@ -117,8 +107,6 @@ export class NonEmptyArray<A> {
    * const x = new NonEmptyArray(1, [2])
    * const f = (a: number) => new NonEmptyArray(a, [4])
    * assert.deepEqual(x.chain(f).toArray(), [1, 4, 2, 4])
-   *
-   * @since 1.0.0
    */
   chain<B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B> {
     return f(this.head).concatArray(array.chain(this.tail, a => f(a).toArray()))
@@ -133,8 +121,6 @@ export class NonEmptyArray<A> {
    * const x = new NonEmptyArray(1, [2])
    * const y = new NonEmptyArray(3, [4])
    * assert.deepEqual(x.concat(y).toArray(), [1, 2, 3, 4])
-   *
-   * @since 1.0.0
    */
   concat(y: NonEmptyArray<A>): NonEmptyArray<A> {
     return this.concatArray(y.toArray())
@@ -148,8 +134,6 @@ export class NonEmptyArray<A> {
    *
    * const x = new NonEmptyArray('a', ['b'])
    * assert.strictEqual(x.reduce('', (b, a) => b + a), 'ab')
-   *
-   * @since 1.0.0
    */
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return array.reduce(this.toArray(), b, f)
@@ -164,8 +148,6 @@ export class NonEmptyArray<A> {
    *
    * const sum = (as: NonEmptyArray<number>) => fold(monoidSum)(as.toArray())
    * assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).extend(sum), new NonEmptyArray(10, [9, 7, 4]))
-   *
-   * @since 1.0.0
    */
   extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> {
     return unsafeFromArray(array.extend(this.toArray(), as => f(unsafeFromArray(as))))
@@ -178,8 +160,6 @@ export class NonEmptyArray<A> {
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    *
    * assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
-   *
-   * @since 1.0.0
    */
   extract(): A {
     return this.head
@@ -187,7 +167,6 @@ export class NonEmptyArray<A> {
 
   /**
    * Same as {@link toString}
-   * @since 1.0.0
    */
   inspect(): string {
     return this.toString()
@@ -195,7 +174,6 @@ export class NonEmptyArray<A> {
 
   /**
    * Return stringified representation of this {@link NonEmptyArray}
-   * @since 1.0.0
    */
   toString(): string {
     return `new NonEmptyArray(${toString(this.head)}, ${toString(this.tail)})`

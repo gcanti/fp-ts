@@ -36,6 +36,9 @@ export class Identity<A> {
   ap<B>(fab: Identity<(a: A) => B>): Identity<B> {
     return this.map(fab.value)
   }
+  /**
+   * Flipped version of {@link ap}
+   */
   ap_<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C> {
     return fb.ap(this)
   }

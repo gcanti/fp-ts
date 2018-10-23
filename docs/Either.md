@@ -62,6 +62,8 @@ Added in v1.0.0 (method)
 
 Added in v1.0.0 (method)
 
+Flipped version of [ap](#ap)
+
 ## bimap
 
 ```ts
@@ -100,10 +102,14 @@ Returns `Right` with the existing value of `Right` if this is a `Right` and the 
 right value, returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right
 value, returns `Left` with the existing value of `Left` if this is a `Left`.
 
+_Example_
+
 ```ts
-right(12).filterOrElse(n => n > 10, -1) // right(12)
-right(7).filterOrElse(n => n > 10, -1) // left(-1)
-left(12).filterOrElse(n => n > 10, -1) // left(12)
+import { right, left } from 'fp-ts/lib/Either'
+
+assert.deepEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
+assert.deepEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
+assert.deepEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
 ```
 
 ## filterOrElseL
@@ -203,6 +209,14 @@ Maps the left side of the disjunction
 Added in v1.6.0 (method)
 
 Lazy version of [alt](#alt)
+
+_Example_
+
+```ts
+import { right } from 'fp-ts/lib/Either'
+
+assert.deepEqual(right(1).orElse(() => right(2)), right(1))
+```
 
 ## reduce
 

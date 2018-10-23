@@ -37,6 +37,8 @@ Added in v1.6.0 (method)
 
 Added in v1.6.0 (method)
 
+Flipped version of [ap](#ap)
+
 ## applyFirst
 
 ```ts
@@ -121,7 +123,7 @@ Transforms the failure value of the `ReaderTaskEither` into a new `ReaderTaskEit
 (e: E): Promise<Either<L, A>>
 ```
 
-Added in v1.0.0 (method)
+Added in v1.6.0 (method)
 
 Runs the inner `TaskEither`
 

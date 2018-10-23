@@ -106,10 +106,10 @@ const printSince = (since: string): string => CRLF + `Added in v${since}`
 
 const handleDeprecated = (s: string, deprecated: boolean): string => (deprecated ? strike(s) + ' (deprecated)' : s)
 
-const printMethod = (m: Method): string => {
+const printMethod = (m: Method, since: string): string => {
   let s = CRLF + h2(handleDeprecated(m.name, m.deprecated))
   s += CRLF + printSignature(m.signature)
-  s += CRLF + printSince(m.since) + ` (method)`
+  s += CRLF + printSince(m.since.getOrElse(since)) + ` (method)`
   s += printDescription(m.description)
   s += printExample(m.example)
   return s
@@ -125,7 +125,7 @@ const printData = (d: Data): string => {
     s +=
       CRLF +
       sortMethods(d.constructors[0].methods)
-        .map(m => printMethod(m))
+        .map(m => printMethod(m, d.since))
         .join('')
   }
   return s

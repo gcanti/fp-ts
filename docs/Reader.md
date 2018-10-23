@@ -29,6 +29,8 @@ Added in v1.0.0 (method)
 
 Added in v1.0.0 (method)
 
+Flipped version of [ap](#ap)
+
 ## chain
 
 ```ts
