@@ -252,6 +252,8 @@ export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Fo
 
 /**
  * Monadic tree builder, in depth-first order
+ * @function
+ * @since 1.6.0
  */
 export function unfoldTreeM<M extends URIS3>(
   M: Monad3<M>
@@ -269,11 +271,6 @@ export function unfoldTreeM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(b: B, f: (b: B) => Type<M, [A, Array<B>]>) => Type<M, Tree<A>>
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
-/**
- * Monadic tree builder, in depth-first order
- * @function
- * @since 1.6.0
- */
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>> {
   const unfoldForestMM = unfoldForestM(M)
   return (b, f) => M.chain(f(b), ([a, bs]) => M.chain(unfoldForestMM(bs, f), ts => M.of(new Tree(a, ts))))
@@ -281,6 +278,8 @@ export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A
 
 /**
  * Monadic forest builder, in depth-first order
+ * @function
+ * @since 1.6.0
  */
 export function unfoldForestM<M extends URIS3>(
   M: Monad3<M>
@@ -300,11 +299,6 @@ export function unfoldForestM<M extends URIS>(
 export function unfoldForestM<M>(
   M: Monad<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>
-/**
- * Monadic forest builder, in depth-first order
- * @function
- * @since 1.6.0
- */
 export function unfoldForestM<M>(
   M: Monad<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> {

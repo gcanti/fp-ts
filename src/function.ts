@@ -54,12 +54,12 @@ export const not = <A>(predicate: Predicate<A>): Predicate<A> => {
   return a => !predicate(a)
 }
 
-export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
-export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
 /**
  * @function
  * @since 1.0.0
  */
+export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
+export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
   return a => p1(a) || p2(a)
 }
@@ -141,6 +141,10 @@ export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): Bina
   return (x, y) => op(f(x), f(y))
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function compose<A, B, C>(bc: (b: B) => C, ab: (a: A) => B): (a: A) => C
 export function compose<A, B, C, D>(cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => D
 export function compose<A, B, C, D, E>(de: (d: D) => E, cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => E
@@ -189,10 +193,6 @@ export function compose<A, B, C, D, E, F, G, H, I, J>(
   bc: (b: B) => C,
   ab: (a: A) => B
 ): (a: A) => J
-/**
- * @function
- * @since 1.0.0
- */
 export function compose(...fns: Array<Function>): Function {
   const len = fns.length - 1
   return function(this: any, x: any) {
@@ -204,6 +204,10 @@ export function compose(...fns: Array<Function>): Function {
   }
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function pipe<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
 export function pipe<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
 export function pipe<A, B, C, D, E>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): (a: A) => E
@@ -252,10 +256,6 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): (a: A) => J
-/**
- * @function
- * @since 1.0.0
- */
 export function pipe(...fns: Array<Function>): Function {
   const len = fns.length - 1
   return function(this: any, x: any) {
@@ -291,6 +291,10 @@ export function curried(f: Function, n: number, acc: Array<any>) {
   }
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function curry<A, B, C>(f: Function2<A, B, C>): Curried2<A, B, C>
 export function curry<A, B, C, D>(f: Function3<A, B, C, D>): Curried3<A, B, C, D>
 export function curry<A, B, C, D, E>(f: Function4<A, B, C, D, E>): Curried4<A, B, C, D, E>
@@ -303,10 +307,6 @@ export function curry<A, B, C, D, E, F, G, H, I>(
 export function curry<A, B, C, D, E, F, G, H, I, J>(
   f: Function9<A, B, C, D, E, F, G, H, I, J>
 ): Curried9<A, B, C, D, E, F, G, H, I, J>
-/**
- * @function
- * @since 1.0.0
- */
 export function curry(f: Function) {
   return curried(f, f.length - 1, [])
 }

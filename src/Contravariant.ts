@@ -37,6 +37,10 @@ export interface Contravariant3C<F extends URIS3, U, L> {
   readonly contramap: <A, B>(fa: Type3<F, U, L, A>, f: (b: B) => A) => Type3<F, U, L, B>
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function lift<F extends URIS3>(
   contravariant: Contravariant3<F>
 ): <A, B>(f: (b: B) => A) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
@@ -53,10 +57,6 @@ export function lift<F extends URIS>(
   contravariant: Contravariant1<F>
 ): <A, B>(f: (b: B) => A) => (fa: Type<F, A>) => Type<F, B>
 export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
-/**
- * @function
- * @since 1.0.0
- */
 export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B> {
   return f => fa => contravariant.contramap(fa, f)
 }

@@ -41,7 +41,12 @@ export class SinceMissing {
   constructor(readonly module: string, readonly name: string) {}
 }
 
-export type ParseError = DataMissingConstructorName | DataInvalidConstructorName | SinceMissing | NotFound
+export class NameMissing {
+  _tag: 'NameMissing' = 'NameMissing'
+  constructor(readonly module: string) {}
+}
+
+export type ParseError = DataMissingConstructorName | DataInvalidConstructorName | SinceMissing | NotFound | NameMissing
 
 export type ParseErrors = Array<ParseError>
 
@@ -81,11 +86,13 @@ const fromJSDocDescription = (description: string | null): Option<string> => {
 const getMethod = (md: MethodDeclaration): Method => {
   const name = md.getName()
   const text = md.getText()
-  const start = md.getName().length
+  const start = name.length
   const end = text.indexOf('{')
   const signature = text.substring(start, end)
-  const description = fromNullable(md.getDocumentationComment()).filter(s => s.trim() !== '')
-  const annotation = getAnnotation(md.getDocumentationCommentNodes())
+  const description = fromNullable(md.getJsDocs()[0])
+    .mapNullable(doc => doc.getComment())
+    .filter(s => s.trim() !== '')
+  const annotation = getAnnotation(md.getJsDocs())
   const since = getSince(annotation)
   const example = getExample(annotation)
   const deprecated = getDeprecated(annotation)
@@ -163,7 +170,7 @@ const getAlias = (annotation: Annotation): Option<string> => {
 /** parses data types which are unions */
 const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
-    const annotation = getAnnotation(tad.getDocumentationCommentNodes())
+    const annotation = getAnnotation(tad.getJsDocs())
     if (isData(annotation)) {
       const dataName = tad.getName()
       const signature = tad.getText().substring('export '.length)
@@ -200,9 +207,12 @@ const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<E
 /** parses data types which are a single class */
 const parseClassDeclarationData = (c: ClassDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
-    const annotation = getAnnotation(c.getDocumentationCommentNodes())
+    const annotation = getAnnotation(c.getJsDocs())
     if (isData(annotation)) {
       const dataName = c.getName()
+      if (typeof dataName === 'undefined') {
+        return ko(new NameMissing(e.currentModuleName))
+      }
       const signature = c.getConstructors()[0].getText()
       const description = fromJSDocDescription(annotation.description)
       const methods = getClassMethods(c)
@@ -231,7 +241,7 @@ const parseInstanceVariableDeclaration = (vd: VariableDeclaration): ParseResult<
       const pp = p.getParent()
       if (pp) {
         const vs: VariableStatement = pp as any
-        const annotation = getAnnotation(vs.getDocumentationCommentNodes())
+        const annotation = getAnnotation(vs.getJsDocs())
         if (isInstance(annotation)) {
           const name = vd.getName()
           const description = fromJSDocDescription(annotation.description)
@@ -259,7 +269,7 @@ const parseConstantVariableDeclaration = (vd: VariableDeclaration): ParseResult<
       const pp = p.getParent()
       if (pp) {
         const vs: VariableStatement = pp as any
-        const annotation = getAnnotation(vs.getDocumentationCommentNodes())
+        const annotation = getAnnotation(vs.getJsDocs())
         if (isConstant(annotation)) {
           const name = vd.getName()
           const description = fromJSDocDescription(annotation.description)
@@ -287,7 +297,7 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
       const pp = p.getParent()
       if (pp) {
         const vs: VariableStatement = pp as any
-        const annotation = getAnnotation(vs.getDocumentationCommentNodes())
+        const annotation = getAnnotation(vs.getJsDocs())
         if (isFunc(annotation)) {
           const name = vd.getName()
           const description = fromJSDocDescription(annotation.description)
@@ -313,7 +323,7 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
 
 const parseTypeclassInterface = (i: InterfaceDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
-    const annotation = getAnnotation(i.getDocumentationCommentNodes())
+    const annotation = getAnnotation(i.getJsDocs())
     if (isTypeclass(annotation)) {
       const name = i.getName()
       const signature = i.getText().substring('export '.length)
@@ -332,7 +342,7 @@ const parseTypeclassInterface = (i: InterfaceDeclaration): ParseResult<Export> =
 
 const parseInterface = (i: InterfaceDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
-    const annotation = getAnnotation(i.getDocumentationCommentNodes())
+    const annotation = getAnnotation(i.getJsDocs())
     if (isInterface(annotation)) {
       const name = i.getName()
       const signature = i.getText().substring('export '.length)
@@ -350,14 +360,19 @@ const parseInterface = (i: InterfaceDeclaration): ParseResult<Export> => {
 
 const parseFunctionDeclaration = (f: FunctionDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
-    const annotation = getAnnotation(f.getDocumentationCommentNodes())
+    const overloads = f.getOverloads()
+    const annotation = overloads.length === 0 ? getAnnotation(f.getJsDocs()) : getAnnotation(overloads[0].getJsDocs())
     if (isFunc(annotation)) {
       const name = f.getName()
-      const description = fromJSDocDescription(annotation.description)
+      if (typeof name === 'undefined') {
+        return ko(new NameMissing(e.currentModuleName))
+      }
+      // const overloadings = f.getOverloads()
       const text = f.getText()
       const start = 'export function '.length
       const end = text.indexOf('{')
       const signature = text.substring(start, end === -1 ? text.length : end)
+      const description = fromJSDocDescription(annotation.description)
       const since = getSince(annotation)
       const example = getExample(annotation)
       const deprecated = getDeprecated(annotation)

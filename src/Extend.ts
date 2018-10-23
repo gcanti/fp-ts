@@ -30,6 +30,10 @@ export interface Extend3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
   readonly extend: <A, B>(ea: Type3<F, U, L, A>, f: (fa: Type3<F, U, L, A>) => B) => Type3<F, U, L, B>
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function duplicate<F extends URIS3>(
   E: Extend3<F>
 ): <U, L, A>(ma: Type3<F, U, L, A>) => Type3<F, U, L, Type3<F, U, L, A>>
@@ -40,10 +44,6 @@ export function duplicate<F extends URIS2>(E: Extend2<F>): <L, A>(ma: Type2<F, L
 export function duplicate<F extends URIS2, L>(E: Extend2C<F, L>): <A>(ma: Type2<F, L, A>) => Type2<F, L, Type2<F, L, A>>
 export function duplicate<F extends URIS>(E: Extend1<F>): <A>(ma: Type<F, A>) => Type<F, Type<F, A>>
 export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>
-/**
- * @function
- * @since 1.0.0
- */
 export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>> {
   return ma => E.extend(ma, identity)
 }

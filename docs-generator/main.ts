@@ -21,6 +21,8 @@ const printError = (error: ParseError): string => {
       return chalk.red.bold(`Invalid constructor name "${error.name}" in module "${error.module}"`)
     case 'SinceMissing':
       return chalk.red.bold(`@since tag missing in "${error.name}" in module "${error.module}"`)
+    case 'NameMissing':
+      return chalk.red.bold(`name missing in module "${error.module}"`)
     case 'NotFound':
       return ''
   }
@@ -29,7 +31,7 @@ const printError = (error: ParseError): string => {
 const fail = new IO(() => process.exit(1))
 
 const getSourceFile = (name: string, source: string): SourceFile => {
-  return new Ast().addSourceFileFromText(`${name}.ts`, source)
+  return new Ast().createSourceFile(`${name}.ts`, source)
 }
 
 interface Example {

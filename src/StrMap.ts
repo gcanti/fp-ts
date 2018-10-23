@@ -93,6 +93,10 @@ const foldr = <A, B>(fa: StrMap<A>, b: B, f: (a: A, b: B) => B): B => {
   return R.foldr(fa.value, b, f)
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function traverseWithKey<F extends URIS3>(
   F: Applicative3<F>
 ): <U, L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
@@ -105,10 +109,6 @@ export function traverseWithKey<F extends URIS>(
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
-/**
- * @function
- * @since 1.0.0
- */
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
@@ -184,8 +184,10 @@ export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => {
 }
 
 /**
- * Create a dictionary from a foldable collection of key/value pairs, using the specified function to combine values for
- * duplicate keys.
+ * Create a dictionary from a foldable collection of key/value pairs, using the
+ * specified function to combine values for duplicate keys.
+ * @function
+ * @since 1.0.0
  */
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
@@ -197,12 +199,6 @@ export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
 ): <A>(ta: Type<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F>(F: Foldable<F>): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
-/**
- * Create a dictionary from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
- * @function
- * @since 1.0.0
- */
 export function fromFoldable<F>(
   F: Foldable<F>
 ): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A> {

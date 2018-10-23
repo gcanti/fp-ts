@@ -42,7 +42,11 @@ export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
   readonly ap: <A, B>(fab: Type3<F, U, L, (a: A) => B>, fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
 }
 
-/** Combine two effectful actions, keeping only the result of the first */
+/**
+ * Combine two effectful actions, keeping only the result of the first
+ * @function
+ * @since 1.0.0
+ */
 export function applyFirst<F extends URIS3>(
   F: Apply3<F>
 ): <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
@@ -57,16 +61,15 @@ export function applyFirst<F extends URIS2, L>(
 ): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, A>
 export function applyFirst<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, A>
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
-/**
- * Combine two effectful actions, keeping only the result of the first
- * @function
- * @since 1.0.0
- */
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
   return (fa, fb) => F.ap(F.map(fa, constant), fb)
 }
 
-/** Combine two effectful actions, keeping only the result of the second */
+/**
+ * Combine two effectful actions, keeping only the result of the second
+ * @function
+ * @since 1.0.0
+ */
 export function applySecond<F extends URIS3>(
   F: Apply3<F>
 ): <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, B>
@@ -81,17 +84,14 @@ export function applySecond<F extends URIS2, L>(
 ): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, B>
 export function applySecond<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, B>
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
-/**
- * Combine two effectful actions, keeping only the result of the second
- * @function
- * @since 1.0.0
- */
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
   return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => F.ap(F.map(fa, () => (b: B) => b), fb)
 }
 
 /**
  * Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
+ * @function
+ * @since 1.0.0
  */
 export function liftA2<F extends URIS3>(
   F: Apply3<F>
@@ -109,11 +109,6 @@ export function liftA2<F extends URIS>(
   F: Apply1<F>
 ): <A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
-/**
- * Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
- * @function
- * @since 1.0.0
- */
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> {
   return f => fa => fb => F.ap(F.map(fa, f), fb)
 }
@@ -121,6 +116,8 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
 /**
  * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
  * `F`
+ * @function
+ * @since 1.0.0
  */
 export function liftA3<F extends URIS3>(
   F: Apply3<F>
@@ -148,12 +145,6 @@ export function liftA3<F extends URIS>(
 export function liftA3<F>(
   F: Apply<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
-/**
- * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
- * `F`
- * @function
- * @since 1.0.0
- */
 export function liftA3<F>(
   F: Apply<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> {
@@ -163,6 +154,8 @@ export function liftA3<F>(
 /**
  * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
  * `F`
+ * @function
+ * @since 1.0.0
  */
 export function liftA4<F extends URIS3>(
   F: Apply3<F>
@@ -194,12 +187,6 @@ export function liftA4<F extends URIS>(
 export function liftA4<F>(
   F: Apply<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
-/**
- * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
- * `F`
- * @function
- * @since 1.0.0
- */
 export function liftA4<F>(
   F: Apply<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> {
@@ -324,15 +311,18 @@ const tupleConstructors: { [key: string]: Function1<any, any> } = {}
 
 /**
  * Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
- * @function
- * @since 1.5.0
+ *
  * @example
+ * import { sequenceT } from 'fp-ts/lib/Apply'
+ * import { option, some, none } from 'fp-ts/lib/Option'
+ *
  * const sequenceTOption = sequenceT(option)
  * assert.deepEqual(sequenceTOption(some(1)), some([1]))
  * assert.deepEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
  * assert.deepEqual(sequenceTOption(some(1), some('2'), none), none)
  *
- * @param F - {@link Apply} instance
+ * @function
+ * @since 1.5.0
  */
 export function sequenceT<F extends URIS3, U, L>(F: Apply3<F>): SequenceT3<F>
 export function sequenceT<F extends URIS3, U, L>(F: Apply3C<F, U, L>): SequenceT3C<F, U, L>

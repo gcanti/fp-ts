@@ -146,8 +146,10 @@ export const filter = <A>(fa: { [key: string]: A }, p: Predicate<A>): { [key: st
 }
 
 /**
- * Create a dictionary from a foldable collection of key/value pairs, using the specified function to combine values for
- * duplicate keys.
+ * Create a dictionary from a foldable collection of key/value pairs, using the
+ * specified function to combine values for duplicate keys.
+ * @function
+ * @since 1.10.0
  */
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
@@ -161,12 +163,6 @@ export function fromFoldable<F extends URIS>(
 export function fromFoldable<F>(
   F: Foldable<F>
 ): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => { [key: string]: A }
-/**
- * Create a dictionary from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
- * @function
- * @since 1.10.0
- */
 export function fromFoldable<F>(
   F: Foldable<F>
 ): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => { [key: string]: A } {
@@ -256,6 +252,10 @@ export const singleton = <A>(k: string, a: A): { [key: string]: A } => {
   return { [k]: a }
 }
 
+/**
+ * @function
+ * @since 1.10.0
+ */
 export function traverseWithKey<F extends URIS3>(
   F: Applicative3<F>
 ): <U, L, A, B>(
@@ -271,10 +271,6 @@ export function traverseWithKey<F extends URIS>(
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: { [key: string]: A }, f: (k: string, a: A) => HKT<F, B>) => HKT<F, { [key: string]: B }>
-/**
- * @function
- * @since 1.10.0
- */
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: { [key: string]: A }, f: (k: string, a: A) => HKT<F, B>) => HKT<F, { [key: string]: B }> {
@@ -288,6 +284,10 @@ export function traverseWithKey<F>(
   }
 }
 
+/**
+ * @function
+ * @since 1.10.0
+ */
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <U, L, A, B>(ta: { [key: string]: A }, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, { [key: string]: B }>
@@ -306,10 +306,6 @@ export function traverse<F extends URIS>(
 export function traverse<F>(
   F: Applicative<F>
 ): <A, B>(ta: { [key: string]: A }, f: (a: A) => HKT<F, B>) => HKT<F, { [key: string]: B }>
-/**
- * @function
- * @since 1.10.0
- */
 export function traverse<F>(
   F: Applicative<F>
 ): <A, B>(ta: { [key: string]: A }, f: (a: A) => HKT<F, B>) => HKT<F, { [key: string]: B }> {
@@ -317,6 +313,10 @@ export function traverse<F>(
   return (ta, f) => traverseWithKeyF(ta, (_, a) => f(a))
 }
 
+/**
+ * @function
+ * @since 1.10.0
+ */
 export function sequence<F extends URIS3>(
   F: Applicative3<F>
 ): <U, L, A>(ta: { [key: string]: Type3<F, U, L, A> }) => Type3<F, U, L, { [key: string]: A }>
@@ -333,10 +333,6 @@ export function sequence<F extends URIS>(
   F: Applicative1<F>
 ): <A>(ta: { [key: string]: Type<F, A> }) => Type<F, { [key: string]: A }>
 export function sequence<F>(F: Applicative<F>): <A>(ta: { [key: string]: HKT<F, A> }) => HKT<F, { [key: string]: A }>
-/**
- * @function
- * @since 1.10.0
- */
 export function sequence<F>(F: Applicative<F>): <A>(ta: { [key: string]: HKT<F, A> }) => HKT<F, { [key: string]: A }> {
   const traverseWithKeyF = traverseWithKey(F)
   return ta => traverseWithKeyF(ta, (_, a) => a)
@@ -432,6 +428,10 @@ export const separate = <RL, RR>(fa: {
   }
 }
 
+/**
+ * @function
+ * @since 1.10.0
+ */
 export function wither<F extends URIS3>(
   F: Applicative3<F>
 ): (<U, L, A, B>(
@@ -453,10 +453,6 @@ export function wither<F extends URIS>(
 export function wither<F>(
   F: Applicative<F>
 ): (<A, B>(wa: { [key: string]: A }, f: (a: A) => HKT<F, Option<B>>) => HKT<F, { [key: string]: B }>)
-/**
- * @function
- * @since 1.10.0
- */
 export function wither<F>(
   F: Applicative<F>
 ): (<A, B>(wa: { [key: string]: A }, f: (a: A) => HKT<F, Option<B>>) => HKT<F, { [key: string]: B }>) {
@@ -464,6 +460,10 @@ export function wither<F>(
   return (wa, f) => F.map(traverseF(wa, f), compact)
 }
 
+/**
+ * @function
+ * @since 1.10.0
+ */
 export function wilt<F extends URIS3>(
   F: Applicative3<F>
 ): (<U, L, RL, RR, A>(
@@ -500,10 +500,6 @@ export function wilt<F>(
   wa: { [key: string]: A },
   f: (a: A) => HKT<F, Either<RL, RR>>
 ) => HKT<F, Separated<{ [key: string]: RL }, { [key: string]: RR }>>)
-/**
- * @function
- * @since 1.10.0
- */
 export function wilt<F>(
   F: Applicative<F>
 ): (<RL, RR, A>(

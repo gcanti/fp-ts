@@ -43,7 +43,7 @@
     "prettier": "1.13.4",
     "rimraf": "2.6.2",
     "ts-jest": "22.4.2",
-    "ts-simple-ast": "0.74.0",
+    "ts-simple-ast": "^17.1.1",
     "tslint": "5.9.1",
     "tslint-config-standard": "7.0.0",
     "typescript": "^3.1.2",

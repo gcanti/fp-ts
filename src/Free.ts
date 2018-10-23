@@ -121,6 +121,8 @@ const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: Free<F, 
 
 /**
  * Use a natural transformation to change the generating type constructor of a free monad
+ * @function
+ * @since 1.0.0
  */
 export function hoistFree<F extends URIS3 = never, G extends URIS3 = never>(
   nt: <U, L, A>(fa: Type3<F, U, L, A>) => Type3<G, U, L, A>
@@ -132,11 +134,6 @@ export function hoistFree<F extends URIS = never, G extends URIS = never>(
   nt: <A>(fa: Type<F, A>) => Type<G, A>
 ): (<A>(fa: Free<F, A>) => Free<G, A>)
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
-/**
- * Use a natural transformation to change the generating type constructor of a free monad
- * @function
- * @since 1.0.0
- */
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>) {
   return substFree(fa => liftF(nt(fa)))
 }
@@ -163,6 +160,10 @@ export interface FoldFree2C<M extends URIS2, L> {
   <F extends URIS, A>(nt: <X>(fa: Type<F, X>) => Type2<M, L, X>, fa: Free<F, A>): Type2<M, L, A>
 }
 
+/**
+ * @function
+ * @since 1.0.0
+ */
 export function foldFree<M extends URIS3>(M: Monad3<M>): FoldFree3<M>
 export function foldFree<M extends URIS3, U, L>(M: Monad3C<M, U, L>): FoldFree3C<M, U, L>
 export function foldFree<M extends URIS2>(M: Monad2<M>): FoldFree2<M>
@@ -171,10 +172,6 @@ export function foldFree<M extends URIS>(
   M: Monad1<M>
 ): <F extends URIS, A>(nt: <X>(fa: Type<F, X>) => Type<M, X>, fa: Free<F, A>) => Type<M, A>
 export function foldFree<M>(M: Monad<M>): <F, A>(nt: <X>(fa: HKT<F, X>) => HKT<M, X>, fa: Free<F, A>) => HKT<M, A>
-/**
- * @function
- * @since 1.0.0
- */
 export function foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A> {
   return (nt, fa) => {
     if (fa.isPure()) {
