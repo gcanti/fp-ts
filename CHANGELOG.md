@@ -14,6 +14,56 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.10.0
+
+- **Deprecation**
+  - deprecate `Foldable` in favour of `Foldable2v` (\*)
+  - deprecate `Traversable` in favour of `Traversable2v` (\*)
+- **New Feature**
+  - `Array`
+    - add `chop` function (@gcanti)
+    - add `split` function (@gcanti)
+    - add `chunksOf` function (@gcanti)
+    - add `takeEnd` function (@gcanti)
+    - add `dropEnd` function (@gcanti)
+    - add `makeBy` function (@gcanti)
+    - add `repeat` function (@gcanti)
+    - add `replicate` function (@gcanti)
+    - add `findLastIndex` function (@gcanti)
+    - add array `comprehension` (@gcanti)
+  - `NonEmptyArray`
+    - add `length` method (@gcanti)
+    - add `groupBy` function (@gcanti)
+  - `StrMap`
+    - add `empty` constant (@gcanti)
+  - `Task`
+    - add sequential instance (@giogonzo)
+  - `TaskEither`
+    - add `attempt` method (@gcanti)
+    - add `bracket` function (@gcanti)
+    - add sequential instance (@giogonzo)
+    - add `foldTask` method (@gcanti)
+    - add `foldTaskEither` method (@gcanti)
+  - `ReaderTaskEither`
+    - add sequential instance (@giogonzo)
+  - add `MonadIO` module (@gcanti)
+  - add `MonadTask` module (@gcanti)
+  - add `Date` module (@gcanti)
+  - add `Foldable2v` module + instances (@gcanti)
+  - add `Traversable2v` module + instances (@gcanti)
+  - add `Record` module (@gcanti)
+- **Documentation**
+  - refactor docs layout (@gcanti)
+  - add examples to `Array` module (@gcanti)
+  - type-check the examples while generating the documentation (@gcanti)
+  - comparison with ramda
+  - add example and explanation for `Array.member` (@fozcodes)
+- **Internal**
+  - upgrade to typescript@3.1.2 (@gcanti)
+  - add `function.not` test case (@gibbok)
+
+(\*) `Foldable` and `Traversable` will be replaced with `Foldable2v` and `Traversable2v` implementations in `fp-ts@2`
+
 # 1.9.0
 
 - **New Feature**
