@@ -20,7 +20,7 @@
       comment.value = t(code.value)
     }
     function t(src) {
-      const lines = src.split('\n').map(line => '* ' + line.trimLeft().replace('../src/', 'fp-ts/lib/'))
+      const lines = src.split('\n').map(line => '* ' + line.replace('../src/', 'fp-ts/lib/'))
       return '*\n* @example\n' + lines.join('\n') + '\n'
     }
   </script>

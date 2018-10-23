@@ -304,3 +304,34 @@ assert.strictEqual(stat.length, 0)
 ```
 
 Added in v1.0.0 (function)
+
+Transforms a `Promise` into a `TaskEither`, catching the possible error.
+
+_Example_
+
+```ts
+import { createHash } from 'crypto'
+import { TaskEither, tryCatch } from 'fp-ts/lib/TaskEither'
+import { createReadStream } from 'fs'
+import { left } from 'fp-ts/lib/Either'
+
+const md5 = (path: string): TaskEither<string, string> => {
+  const mkHash = (p: string) =>
+    new Promise<string>((resolve, reject) => {
+      const hash = createHash('md5')
+      const rs = createReadStream(p)
+      rs.on('error', (error: Error) => reject(error.message))
+      rs.on('data', (chunk: string) => hash.update(chunk))
+      rs.on('end', () => {
+        return resolve(hash.digest('hex'))
+      })
+    })
+  return tryCatch(() => mkHash(path), message => `cannot create md5 hash: ${String(message)}`)
+}
+
+md5('foo')
+  .run()
+  .then(x => {
+    assert.deepEqual(x, left(`cannot create md5 hash: ENOENT: no such file or directory, open 'foo'`))
+  })
+```
