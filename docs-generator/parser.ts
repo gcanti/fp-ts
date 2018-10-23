@@ -94,7 +94,7 @@ const getMethod = (md: MethodDeclaration): Method => {
     name,
     signature,
     description,
-    since: since.getOrElse('1.0.0'),
+    since,
     example,
     deprecated
   }

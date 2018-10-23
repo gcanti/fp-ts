@@ -43,7 +43,7 @@ assert.deepEqual(x.ap(new NonEmptyArray(double, [double])).toArray(), [2, 4, 2, 
 
 Added in v1.0.0 (method)
 
-Same as [ap](#ap) but works on [NonEmptyArray](./NonEmptyArray.md) of functions and accepts [NonEmptyArray](./NonEmptyArray.md) of values instead
+Flipped version of [ap](#ap)
 
 _Example_
 

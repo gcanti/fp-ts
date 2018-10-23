@@ -6,7 +6,7 @@ export class Method {
     readonly name: string,
     readonly signature: string,
     readonly description: Option<string>,
-    readonly since: string,
+    readonly since: Option<string>,
     readonly example: Option<string>,
     readonly deprecated: boolean
   ) {}
