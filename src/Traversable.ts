@@ -250,7 +250,16 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
 }
 
 /**
- * Use {@link Traversable} `traverse` instead.
+ * Use `traverse` contained in each traversable data structure instead.
+ *
+ *
+ * @example
+ * import { array } from 'fp-ts/lib/Array'
+ * import { none, option, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(array.traverse(option)([1, 2, 3], n => (n >= 0 ? some(n) : none)), some([1, 2, 3]))
+ * assert.deepEqual(array.traverse(option)([-1, 2, 3], n => (n >= 0 ? some(n) : none)), none)
+ *
  * @function
  * @since 1.0.0
  * @deprecated
@@ -299,8 +308,18 @@ export function traverse<F, T>(
 }
 
 /**
+ * Use `sequence` contained in each traversable data structure instead.
+ *
+ * @example
+ * import { array } from 'fp-ts/lib/Array'
+ * import { none, option, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(array.sequence(option)([some(1), some(2), some(3)]), some([1, 2, 3]))
+ * assert.deepEqual(array.sequence(option)([none, some(2), some(3)]), none)
+ *
  * @function
  * @since 1.0.0
+ * @deprecated
  */
 export function sequence<F extends URIS2, T extends URIS2>(
   F: Applicative2<F>,
@@ -344,8 +363,11 @@ export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: H
 }
 
 /**
+ * Use {@link Traversable2v}'s `getTraversableComposition` instead.
+ *
  * @function
  * @since 1.0.0
+ * @deprecated
  */
 export function getTraversableComposition<F extends URIS, G extends URIS>(
   F: Traversable1<F>,
