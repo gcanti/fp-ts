@@ -151,7 +151,7 @@ Added in v1.0.0 (function)
 ## tryCatch
 
 ```ts
-<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): Task<Either<L, A>>
+<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>>
 ```
 
 Added in v1.0.0 (function)

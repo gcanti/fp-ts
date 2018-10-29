@@ -165,7 +165,7 @@ Added in v1.6.0 (function)
 ## tryCatch
 
 ```ts
-<A>(f: Lazy<A>, onerror: (reason: {}) => Error = toError): IOEither<Error, A>
+<A>(f: Lazy<A>, onerror: (reason: unknown) => Error = toError): IOEither<Error, A>
 ```
 
 Added in v1.6.0 (function)

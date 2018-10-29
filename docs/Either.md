@@ -472,7 +472,7 @@ of this structure
 ## toError
 
 ```ts
-(e: {}): Error
+(e: unknown): Error
 ```
 
 Added in v1.0.0 (function)
@@ -482,15 +482,7 @@ Default value for the optional `onerror` argument of `tryCatch`
 ## tryCatch
 
 ```ts
-<A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Either<Error, A>
+<A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A>
 ```
 
 Added in v1.0.0 (function)
-
-Note: `onerror` is typed with `{}` for backward compatibility, however if you are
-running typescript@3.0.0+ it is recommended to add an explicit type annotation
-leveraging the `unknown` type
-
-```ts
-tryCatch(() => ..., (e: unknown) => ...)
-```

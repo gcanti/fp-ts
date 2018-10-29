@@ -462,7 +462,7 @@ export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined)
  * @function
  * @since 1.0.0
  */
-export const toError = (e: {}): Error => {
+export const toError = (e: unknown): Error => {
   if (e instanceof Error) {
     return e
   } else {
@@ -471,18 +471,10 @@ export const toError = (e: {}): Error => {
 }
 
 /**
- * Note: `onerror` is typed with `{}` for backward compatibility, however if you are
- * running typescript@3.0.0+ it is recommended to add an explicit type annotation
- * leveraging the `unknown` type
- *
- * ```ts
- * tryCatch(() => ..., (e: unknown) => ...)
- * ```
- *
  * @function
  * @since 1.0.0
  */
-export const tryCatch = <A>(f: Lazy<A>, onerror: (e: {}) => Error = toError): Either<Error, A> => {
+export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A> => {
   try {
     return right(f())
   } catch (e) {
