@@ -172,7 +172,9 @@ const semigroupAnyDictionary = getDictionarySemigroup(getLastSemigroup())
  * @function
  * @since 1.4.0
  */
-export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => semigroupAnyDictionary as any
+export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => {
+  return semigroupAnyDictionary as any
+}
 
 /**
  * Number Semigroup under addition
