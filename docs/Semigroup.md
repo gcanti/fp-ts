@@ -159,7 +159,7 @@ Added in v1.0.0 (function)
 ## getObjectSemigroup
 
 ```ts
-;<A extends object = never>(): Semigroup<A> => semigroupAnyDictionary as any
+<A extends object = never>(): Semigroup<A>
 ```
 
 Added in v1.4.0 (function)
