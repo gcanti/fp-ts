@@ -208,7 +208,7 @@ export function foldM<M, F>(
  * import { io, IO } from 'fp-ts/lib/IO'
  *
  * let log = ''
- * const append = (s: String) => new IO(() => (log += s))
+ * const append = (s: string) => new IO(() => (log += s))
  * sequence_(io, array)([append('a'), append('b'), append('c')]).run()
  * assert.strictEqual(log, 'abc')
  *
@@ -529,7 +529,7 @@ export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A> {
  * import { io, IO } from 'fp-ts/lib/IO'
  *
  * let log = ''
- * const append = (s: String) => new IO(() => (log += s))
+ * const append = (s: string) => new IO(() => (log += s))
  * traverse_(io, array)(['a', 'b', 'c'], append).run()
  * assert.strictEqual(log, 'abc')
  *
