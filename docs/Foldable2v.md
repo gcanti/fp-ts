@@ -253,7 +253,7 @@ import { sequence_ } from 'fp-ts/lib/Foldable2v'
 import { io, IO } from 'fp-ts/lib/IO'
 
 let log = ''
-const append = (s: String) => new IO(() => (log += s))
+const append = (s: string) => new IO(() => (log += s))
 sequence_(io, array)([append('a'), append('b'), append('c')]).run()
 assert.strictEqual(log, 'abc')
 ```
@@ -321,7 +321,7 @@ import { traverse_ } from 'fp-ts/lib/Foldable2v'
 import { io, IO } from 'fp-ts/lib/IO'
 
 let log = ''
-const append = (s: String) => new IO(() => (log += s))
+const append = (s: string) => new IO(() => (log += s))
 traverse_(io, array)(['a', 'b', 'c'], append).run()
 assert.strictEqual(log, 'abc')
 ```
