@@ -140,11 +140,6 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
   }
 }
 
-// function traverse<F>(F: Applicative<F>): <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) => HKT<F, Pair<B>> {
-//   return <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>) =>
-//     liftA2(F)((b1: B) => (b2: B) => new Pair(b1, b2))(f(ta.fst))(f(ta.snd))
-// }
-
 const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Pair<A>, f: (a: A) => HKT<F, B>): HKT<F, Pair<B>> => {
   return F.ap(F.map(f(ta.fst), (b1: B) => (b2: B) => new Pair(b1, b2)), f(ta.snd))
 }
