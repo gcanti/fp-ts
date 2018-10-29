@@ -253,7 +253,7 @@ Added in v1.6.0 (function)
 ```ts
 <E, L, A>(
   f: (e: E) => Promise<A>,
-  onrejected: (reason: {}) => L
+  onrejected: (reason: unknown) => L
 ): ReaderTaskEither<E, L, A>
 ```
 

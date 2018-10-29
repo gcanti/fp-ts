@@ -150,7 +150,7 @@ export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
  * @function
  * @since 1.6.0
  */
-export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: {}) => Error = toError): IOEither<Error, A> => {
+export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: unknown) => Error = toError): IOEither<Error, A> => {
   return new IOEither(new IO(() => eitherTryCatch(f, onerror)))
 }
 

@@ -276,7 +276,7 @@ export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => 
  * @function
  * @since 1.0.0
  */
-export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A> => {
+export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): TaskEither<L, A> => {
   return new TaskEither(taskTryCatch(f, onrejected))
 }
 

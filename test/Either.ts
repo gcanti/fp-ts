@@ -104,9 +104,9 @@ describe('Either', () => {
     assert.deepEqual(e3, left(new Error('a string')))
 
     type ObjectWithStatusCode = { statusCode: number }
-    const thrownIsObjectWithStatusCode = (thrown: {}): thrown is ObjectWithStatusCode =>
-      typeof thrown === 'object' && 'statusCode' in thrown
-    const onerror = (thrown: {}): Error => {
+    const thrownIsObjectWithStatusCode = (thrown: unknown): thrown is ObjectWithStatusCode =>
+      typeof thrown === 'object' && thrown !== null && 'statusCode' in thrown
+    const onerror = (thrown: unknown): Error => {
       if (thrownIsObjectWithStatusCode(thrown)) {
         return new Error(`Bad response: ${thrown.statusCode}`)
       } else if (thrown instanceof Error) {

@@ -306,7 +306,7 @@ assert.strictEqual(stat.length, 0)
 ## tryCatch
 
 ```ts
-<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => L): TaskEither<L, A>
+<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): TaskEither<L, A>
 ```
 
 Added in v1.0.0 (function)
