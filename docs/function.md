@@ -8,7 +8,7 @@ title: Module function
 ## unsafeCoerce
 
 ```ts
-;<A, B>(a: A) => B
+const unsafeCoerce: <A, B>(a: A) => B
 ```
 
 Added in v1.0.0 (constant)

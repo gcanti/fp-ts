@@ -141,7 +141,7 @@ const printInstance = (i: Instance): string => {
 
 const printConstant = (c: Constant): string => {
   let s = CRLF + h2(c.name)
-  s += CRLF + printSignature(c.signature)
+  s += CRLF + printSignature(`const ${c.name}: ${c.signature}`)
   s += CRLF + printSince(c.since) + ` (constant)`
   s += printDescription(c.description)
   return s

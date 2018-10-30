@@ -80,9 +80,7 @@ Added in v1.0.0 (function)
 ## getSetoid
 
 ```ts
-;<L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
-  equals: (x, y) => S.equals(x.value, y.value)
-})
+<L, A>(S: Setoid<L>): Setoid<Const<L, A>>
 ```
 
 Added in v1.0.0 (function)

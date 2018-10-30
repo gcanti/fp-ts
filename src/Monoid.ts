@@ -112,10 +112,12 @@ const emptyObject = {}
  * @function
  * @since 1.4.0
  */
-export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => ({
-  ...getDictionarySemigroup(S),
-  empty: emptyObject
-})
+export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => {
+  return {
+    ...getDictionarySemigroup(S),
+    empty: emptyObject
+  }
+}
 
 /**
  * Number monoid under addition

@@ -8,7 +8,7 @@ title: Module Record
 ## empty
 
 ```ts
-Record<string, never>
+const empty: Record<string, never>
 ```
 
 Added in v1.10.0 (constant)

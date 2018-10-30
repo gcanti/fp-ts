@@ -48,9 +48,11 @@ export class Const<L, A> {
  * @function
  * @since 1.0.0
  */
-export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ({
-  equals: (x, y) => S.equals(x.value, y.value)
-})
+export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => {
+  return {
+    equals: (x, y) => S.equals(x.value, y.value)
+  }
+}
 
 const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
   return fa.map(f)

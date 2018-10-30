@@ -8,7 +8,7 @@ title: Module Random
 ## random
 
 ```ts
-IO<number>
+const random: IO<number>
 ```
 
 Added in v1.0.0 (constant)
@@ -19,7 +19,7 @@ Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direc
 ## randomBool
 
 ```ts
-IO<boolean>
+const randomBool: IO<boolean>
 ```
 
 Added in v1.0.0 (constant)

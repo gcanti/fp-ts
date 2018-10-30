@@ -106,9 +106,12 @@ describe('IOEither', () => {
 
   it('tryCatch', () => {
     const ok = tryCatch(() => 1)
-    const ko = tryCatch(() => {
-      throw new Error()
-    }, () => new Error('error'))
+    const ko = tryCatch(
+      () => {
+        throw new Error()
+      },
+      () => new Error('error')
+    )
 
     const eok = ok.run()
     const eko = ko.run()

@@ -100,10 +100,7 @@ Monoid under array concatenation (`Array<any>`)
 ## getDictionaryMonoid
 
 ```ts
-;<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => ({
-  ...getDictionarySemigroup(S),
-  empty: emptyObject
-})
+<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }>
 ```
 
 Added in v1.4.0 (function)

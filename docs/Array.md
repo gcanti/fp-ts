@@ -8,7 +8,7 @@ title: Module Array
 ## empty
 
 ```ts
-Array<never>
+const empty: Array<never>
 ```
 
 Added in v1.9.0 (constant)
@@ -18,7 +18,7 @@ An empty array
 ## getSetoid
 
 ```ts
-<A>(S: Setoid<A>) => Setoid<Array<A>>
+const getSetoid: <A>(S: Setoid<A>) => Setoid<Array<A>>
 ```
 
 Added in v1.0.0 (constant)

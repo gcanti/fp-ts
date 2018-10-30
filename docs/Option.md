@@ -436,7 +436,7 @@ Added in v1.0.0 (instance)
 ## none
 
 ```ts
-Option<never>
+const none: Option<never>
 ```
 
 Added in v1.0.0 (constant)

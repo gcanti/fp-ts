@@ -8,7 +8,7 @@ title: Module Date
 ## create
 
 ```ts
-IO<Date>
+const create: IO<Date>
 ```
 
 Added in v1.10.0 (constant)
@@ -18,7 +18,7 @@ Returns the current `Date`
 ## now
 
 ```ts
-IO<number>
+const now: IO<number>
 ```
 
 Added in v1.10.0 (constant)

@@ -61,7 +61,7 @@ Added in v1.0.0 (instance)
 ## empty
 
 ```ts
-StrMap<never>
+const empty: StrMap<never>
 ```
 
 Added in v1.10.0 (constant)
