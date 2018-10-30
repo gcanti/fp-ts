@@ -53,6 +53,7 @@ The stable version is tested against TypeScript 3.1.4, but should run with TypeS
 
 - [fp-ts-rxjs](https://github.com/gcanti/fp-ts-rxjs) - fp-ts bindings for RxJS
 - [fp-ts-fluture](https://github.com/gcanti/fp-ts-fluture) - fp-ts bindings for Fluture
+- [fp-ts-most](https://github.com/joshburgess/fp-ts-most) - fp-ts bindings for @most/core
 
 # Documentation
 
