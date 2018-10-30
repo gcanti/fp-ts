@@ -14,7 +14,7 @@
     "prettier": "prettier --list-different \"./{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,exercises}/**/*.ts\"",
     "typings": "typings-checker --allow-expect-error --project ./typings-checker/tsconfig.json ./typings-checker/index.ts",
-    "test": "npm run lint && npm run prettier && npm run typings && npm run jest",
+    "test": "npm run lint && npm run prettier && npm run typings && npm run jest && npm run docs",
     "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
