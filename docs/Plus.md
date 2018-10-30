@@ -22,6 +22,6 @@ concrete types like `string` or `number`.
 
 `Plus` instances should satisfy the following laws:
 
-1.  Left identity: `A.alt(zero, fa) == fa`
-2.  Right identity: `A.alt(fa, zero) == fa`
-3.  Annihilation: `A.map(zero, fa) == zero`
+1. Left identity: `A.alt(zero, fa) == fa`
+2. Right identity: `A.alt(fa, zero) == fa`
+3. Annihilation: `A.map(zero, fa) == zero`

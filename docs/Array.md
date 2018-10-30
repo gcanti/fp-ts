@@ -938,8 +938,8 @@ Added in v1.0.0 (function)
 
 Split an array into two parts:
 
-1.  the longest initial subarray for which all elements satisfy the specified predicate
-2.  the remaining elements
+1. the longest initial subarray for which all elements satisfy the specified predicate
+2. the remaining elements
 
 _Example_
 

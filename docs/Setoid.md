@@ -19,9 +19,9 @@ The `Setoid` type class represents types which support decidable equality.
 
 Instances must satisfy the following laws:
 
-1.  Reflexivity: `S.equals(a, a) === true`
-2.  Symmetry: `S.equals(a, b) === S.equals(b, a)`
-3.  Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
+1. Reflexivity: `S.equals(a, a) === true`
+2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
+3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
 
 ## setoidBoolean
 
