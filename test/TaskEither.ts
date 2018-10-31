@@ -255,6 +255,26 @@ describe('TaskEither', () => {
     )
   })
 
+  it('taskify a class method', () => {
+    class Api {
+      // tslint:disable-next-line no-empty
+      method1() {}
+
+      method2(callback: (err: Error | null | undefined, result?: string) => void) {
+        this.method1()
+        callback(null, 'ok')
+      }
+    }
+
+    const api = new Api()
+
+    return taskify(api.method2, api)()
+      .run()
+      .then(e => {
+        assert.deepEqual(e, eitherRight('ok'))
+      })
+  })
+
   it('alt', () => {
     const l1 = fromLeft<string, number>('foo')
     const l2 = fromLeft<string, number>('bar')

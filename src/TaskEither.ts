@@ -307,23 +307,31 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => 
  * @function
  * @since 1.5.0
  */
-export function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
-export function taskify<A, L, R>(
-  f: (a: A, cb: (e: L | null | undefined, r?: R) => void) => void
+export function taskify<L, R, T extends {}>(
+  f: (cb: (e: L | null | undefined, r?: R) => void, thisArg?: T) => void,
+  thisArg?: T
+): () => TaskEither<L, R>
+export function taskify<A, L, R, T extends {}>(
+  f: (a: A, cb: (e: L | null | undefined, r?: R) => void) => void,
+  thisArg?: T
 ): (a: A) => TaskEither<L, R>
-export function taskify<A, B, L, R>(
-  f: (a: A, b: B, cb: (e: L | null | undefined, r?: R) => void) => void
+export function taskify<A, B, L, R, T extends {}>(
+  f: (a: A, b: B, cb: (e: L | null | undefined, r?: R) => void) => void,
+  thisArg?: T
 ): (a: A, b: B) => TaskEither<L, R>
-export function taskify<A, B, C, L, R>(
-  f: (a: A, b: B, c: C, cb: (e: L | null | undefined, r?: R) => void) => void
+export function taskify<A, B, C, L, R, T extends {}>(
+  f: (a: A, b: B, c: C, cb: (e: L | null | undefined, r?: R) => void) => void,
+  thisArg?: T
 ): (a: A, b: B, c: C) => TaskEither<L, R>
-export function taskify<A, B, C, D, L, R>(
-  f: (a: A, b: B, c: C, d: D, cb: (e: L | null | undefined, r?: R) => void) => void
+export function taskify<A, B, C, D, L, R, T extends {}>(
+  f: (a: A, b: B, c: C, d: D, cb: (e: L | null | undefined, r?: R) => void) => void,
+  thisArg?: T
 ): (a: A, b: B, c: C, d: D) => TaskEither<L, R>
-export function taskify<A, B, C, D, E, L, R>(
-  f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r?: R) => void) => void
+export function taskify<A, B, C, D, E, L, R, T extends {}>(
+  f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r?: R) => void) => void,
+  thisArg?: T
 ): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
-export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
+export function taskify<L, R, T extends {}>(f: Function, thisArg?: T): () => TaskEither<L, R> {
   return function() {
     const args = Array.prototype.slice.call(arguments)
     return new TaskEither(
@@ -331,7 +339,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
         () =>
           new Promise(resolve => {
             args.push((e: L, r: R) => (e != null ? resolve(eitherLeft<L, R>(e)) : resolve(eitherRight<L, R>(r))))
-            f.apply(null, args)
+            f.apply(typeof thisArg !== 'undefined' ? thisArg : null, args)
           })
       )
     )
