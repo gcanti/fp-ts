@@ -47,7 +47,7 @@
     "ts-simple-ast": "^17.1.1",
     "tslint": "5.9.1",
     "tslint-config-standard": "7.0.0",
-    "typescript": "^3.1.4",
+    "typescript": "^3.1.6",
     "typings-checker": "2.0.0"
   },
   "tags": [
