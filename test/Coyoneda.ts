@@ -2,13 +2,7 @@ import { lift } from '../src/Coyoneda'
 
 describe('Coyoneda',() => {
   it('Executes only one loop',() => {
-    const coyo = lift([2,2]).map(x => {
-      console.log(`Entra con ${x}`)
-      return x + 1
-    }).map(x => {
-      console.log(`Entra con ${x}`)
-      return x + 2
-    })
+    const coyo = lift([2,2]).map(x =>  x + 1).map(x => x + 2)
     const res = coyo.x.map(coyo.f)
     expect(res).toEqual([5,5])
   })

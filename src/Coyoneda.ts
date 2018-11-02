@@ -17,5 +17,3 @@ export const lift = <A>(val: A): Coyoneda => {
   const s = new Coyoneda(val, identity)
   return s
 }
-
-// export const coyoneda: Functor2<URI> = { URI, map }
