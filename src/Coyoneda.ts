@@ -1,11 +1,16 @@
-import { compose,identity } from './function'
+import { compose, identity } from './function'
 
 export class Coyoneda {
-
   constructor(readonly x: any, readonly f: any) {}
 
-  map<A,B>(f: (a: A) => B): Coyoneda {
-    return new Coyoneda(this.x, compose(this.f,f))
+  map<A, B>(f: (a: A) => B): Coyoneda {
+    return new Coyoneda(
+      this.x,
+      compose(
+        this.f,
+        f
+      )
+    )
   }
 
   lower() {

@@ -36,6 +36,8 @@ import * as const_ from './Const'
 export { const_ as const }
 import * as contravariant from './Contravariant'
 export { contravariant }
+import * as coyoneda from './Coyoneda'
+export { coyoneda }
 import * as date from './Date'
 export { date }
 import * as distributiveLattice from './DistributiveLattice'
