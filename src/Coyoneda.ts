@@ -1,14 +1,14 @@
-import { identity, compose } from './function'
+import * as func from './function'
 import { Functor, Functor1 } from './Functor'
 import { HKT, Type, URIS } from './HKT'
-import { Box, box } from './Box'
+import { Identity, identity } from './Identity'
 
 class CoyonedaF<F, A, I> {
   constructor(readonly fi: HKT<F, I>, readonly f: (i: I) => A) {}
   map<B>(f: (a: A) => B): Coyoneda<F, B> {
     return new CoyonedaF(
       this.fi,
-      compose(
+      func.compose(
         f,
         this.f
       )
@@ -20,9 +20,9 @@ class CoyonedaF<F, A, I> {
     return F.map(this.fi, this.f)
   }
 
-  lowerB(): A {
+  lowerFromNonFunctor(): A {
     const s = this.fi as any
-    return box.map(s as Box<I>, this.f).value
+    return identity.map(s as Identity<I>, this.f).value
   }
 }
 
@@ -31,10 +31,10 @@ export class Coyoneda<F, A> extends CoyonedaF<F, A, any> {
     super(fi, f)
   }
   static lift<F, A>(fa: HKT<F, A>): Coyoneda<F, A> {
-    return new CoyonedaF(fa, identity)
+    return new CoyonedaF(fa, func.identity)
   }
 
   static liftFromNonFunctor<A>(fa: A) {
-    return new CoyonedaF(Box.of(fa), identity)
+    return new CoyonedaF(identity.of(fa), func.identity)
   }
 }

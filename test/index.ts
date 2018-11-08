@@ -25,7 +25,7 @@ describe('index', () => {
     const moduleNames = getModuleNames()
     const fp = require('../src')
     moduleNames.forEach(name => {
-      if (name !== 'index' && name !== 'Box') {
+      if (name !== 'index') {
         const exportName = getExportName(name)
         assert.strictEqual(
           fp[exportName] !== undefined,

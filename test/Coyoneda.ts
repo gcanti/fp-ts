@@ -13,7 +13,7 @@ describe('Coyoneda', () => {
     const o = { a: 1 }
     const res = Coyoneda.liftFromNonFunctor(o)
       .map(x => x.a + 2)
-      .lowerB()
+      .lowerFromNonFunctor()
     expect(res).toEqual(3)
   })
 })
