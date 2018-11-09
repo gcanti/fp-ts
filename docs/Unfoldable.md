@@ -3,6 +3,8 @@ id: Unfoldable
 title: Module Unfoldable
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts)
 
 # Unfoldable

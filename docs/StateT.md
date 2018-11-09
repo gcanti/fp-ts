@@ -3,6 +3,8 @@ id: StateT
 title: Module StateT
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts)
 
 ## ap

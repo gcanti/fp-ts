@@ -3,6 +3,8 @@ id: TaskEither
 title: Module TaskEither
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts)
 
 ## taskEither

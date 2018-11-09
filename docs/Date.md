@@ -3,6 +3,8 @@ id: Date
 title: Module Date
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Date.ts)
 
 ## create

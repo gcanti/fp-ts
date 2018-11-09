@@ -3,6 +3,8 @@ id: Tree
 title: Module Tree
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts)
 
 ## tree

@@ -3,6 +3,8 @@ id: Semigroup
 title: Module Semigroup
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts)
 
 # Semigroup

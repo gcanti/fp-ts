@@ -3,6 +3,8 @@ id: Alt
 title: Module Alt
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Alt.ts)
 
 # Alt

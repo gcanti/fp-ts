@@ -3,6 +3,8 @@ id: Chain
 title: Module Chain
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Chain.ts)
 
 # Chain

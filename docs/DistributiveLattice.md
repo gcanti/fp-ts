@@ -3,6 +3,8 @@ id: DistributiveLattice
 title: Module DistributiveLattice
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/DistributiveLattice.ts)
 
 # DistributiveLattice

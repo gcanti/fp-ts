@@ -3,6 +3,8 @@ id: Setoid
 title: Module Setoid
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts)
 
 # Setoid

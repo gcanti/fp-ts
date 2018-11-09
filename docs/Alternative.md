@@ -3,6 +3,8 @@ id: Alternative
 title: Module Alternative
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Alternative.ts)
 
 # Alternative

@@ -3,6 +3,8 @@ id: Compactable
 title: Module Compactable
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Compactable.ts)
 
 ## Separated

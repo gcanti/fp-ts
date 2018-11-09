@@ -3,6 +3,8 @@ id: Foldable
 title: Module Foldable
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts)
 
 # ~~Foldable~~ (deprecated)

@@ -3,6 +3,8 @@ id: Category
 title: Module Category
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Category.ts)
 
 # Category

@@ -3,6 +3,8 @@ id: Pair
 title: Module Pair
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts)
 
 ## pair

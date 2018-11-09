@@ -3,6 +3,8 @@ id: Validation
 title: Module Validation
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts)
 
 ## validation

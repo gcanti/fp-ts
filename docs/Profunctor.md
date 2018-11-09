@@ -3,6 +3,8 @@ id: Profunctor
 title: Module Profunctor
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.ts)
 
 # Profunctor

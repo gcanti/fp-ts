@@ -3,6 +3,8 @@ id: Console
 title: Module Console
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Console.ts)
 
 ## error

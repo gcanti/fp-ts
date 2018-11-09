@@ -3,6 +3,8 @@ id: Task
 title: Module Task
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts)
 
 ## task

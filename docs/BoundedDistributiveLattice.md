@@ -3,6 +3,8 @@ id: BoundedDistributiveLattice
 title: Module BoundedDistributiveLattice
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedDistributiveLattice.ts)
 
 # BoundedDistributiveLattice

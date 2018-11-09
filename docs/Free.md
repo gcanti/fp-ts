@@ -3,6 +3,8 @@ id: Free
 title: Module Free
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts)
 
 # Free

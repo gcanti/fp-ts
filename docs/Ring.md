@@ -3,6 +3,8 @@ id: Ring
 title: Module Ring
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts)
 
 # Ring

@@ -3,6 +3,8 @@ id: BoundedLattice
 title: Module BoundedLattice
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedLattice.ts)
 
 # BoundedLattice

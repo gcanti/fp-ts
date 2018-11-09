@@ -3,6 +3,8 @@ id: Reader
 title: Module Reader
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts)
 
 ## reader

@@ -3,6 +3,8 @@ id: IOEither
 title: Module IOEither
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts)
 
 ## ioEither

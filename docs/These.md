@@ -3,6 +3,8 @@ id: These
 title: Module These
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts)
 
 ## these

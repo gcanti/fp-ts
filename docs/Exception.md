@@ -3,6 +3,8 @@ id: Exception
 title: Module Exception
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Exception.ts)
 
 ## catchError

@@ -3,6 +3,8 @@ id: Monoid
 title: Module Monoid
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts)
 
 # Monoid

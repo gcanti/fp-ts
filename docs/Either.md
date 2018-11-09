@@ -3,6 +3,8 @@ id: Either
 title: Module Either
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts)
 
 ## either

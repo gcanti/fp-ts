@@ -3,6 +3,8 @@ id: HeytingAlgebra
 title: Module HeytingAlgebra
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/HeytingAlgebra.ts)
 
 # HeytingAlgebra

@@ -3,6 +3,8 @@ id: Trace
 title: Module Trace
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Trace.ts)
 
 ## spy

@@ -3,6 +3,8 @@ id: MonadTask
 title: Module MonadTask
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/MonadTask.ts)
 
 # MonadTask

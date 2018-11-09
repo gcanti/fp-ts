@@ -3,6 +3,8 @@ id: Applicative
 title: Module Applicative
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts)
 
 # Applicative

@@ -3,6 +3,8 @@ id: ChainRec
 title: Module ChainRec
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/ChainRec.ts)
 
 # ChainRec

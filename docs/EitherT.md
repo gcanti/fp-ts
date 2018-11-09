@@ -3,6 +3,8 @@ id: EitherT
 title: Module EitherT
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts)
 
 ## bimap

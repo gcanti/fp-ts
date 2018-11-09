@@ -3,6 +3,8 @@ id: Set
 title: Module Set
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts)
 
 ## chain

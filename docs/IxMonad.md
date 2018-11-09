@@ -3,6 +3,8 @@ id: IxMonad
 title: Module IxMonad
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts)
 
 # IxMonad

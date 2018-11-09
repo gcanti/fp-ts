@@ -3,6 +3,8 @@ id: MeetSemilattice
 title: Module MeetSemilattice
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/MeetSemilattice.ts)
 
 # MeetSemilattice

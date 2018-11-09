@@ -3,6 +3,8 @@ id: Comonad
 title: Module Comonad
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Comonad.ts)
 
 # Comonad

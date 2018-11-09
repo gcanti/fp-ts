@@ -3,6 +3,8 @@ id: Plus
 title: Module Plus
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Plus.ts)
 
 # Plus

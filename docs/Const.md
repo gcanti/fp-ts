@@ -3,6 +3,8 @@ id: Const
 title: Module Const
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts)
 
 ## const\_

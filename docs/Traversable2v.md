@@ -3,6 +3,8 @@ id: Traversable2v
 title: Module Traversable2v
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable2v.ts)
 
 # Traversable2v

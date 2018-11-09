@@ -3,6 +3,8 @@ id: Invariant
 title: Module Invariant
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Invariant.ts)
 
 # Invariant

@@ -3,6 +3,8 @@ id: NonEmptyArray
 title: Module NonEmptyArray
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts)
 
 ## nonEmptyArray

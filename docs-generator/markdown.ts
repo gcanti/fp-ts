@@ -187,6 +187,7 @@ const formatMarkdown = (markdown: string): string => prettier.format(markdown, p
 
 export const printModule = (module: Module): string => {
   let s = header(module.name, 'Module ' + module.name)
+  s += link('← Back', `.`) + '\n\n'
   s += link('Source', `https://github.com/gcanti/fp-ts/blob/master/src/${module.name}.ts`)
   const interfaces = module.exports.filter(isInterface)
   const typeclasses = module.exports.filter(isTypeclass)

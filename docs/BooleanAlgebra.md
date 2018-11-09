@@ -3,6 +3,8 @@ id: BooleanAlgebra
 title: Module BooleanAlgebra
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts)
 
 # BooleanAlgebra

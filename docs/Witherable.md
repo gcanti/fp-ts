@@ -3,6 +3,8 @@ id: Witherable
 title: Module Witherable
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Witherable.ts)
 
 # Witherable

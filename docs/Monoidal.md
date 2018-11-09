@@ -3,6 +3,8 @@ id: Monoidal
 title: Module Monoidal
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts)
 
 # Monoidal

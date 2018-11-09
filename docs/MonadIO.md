@@ -3,6 +3,8 @@ id: MonadIO
 title: Module MonadIO
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/MonadIO.ts)
 
 # MonadIO

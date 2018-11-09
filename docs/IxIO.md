@@ -3,6 +3,8 @@ id: IxIO
 title: Module IxIO
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts)
 
 ## ixIO

@@ -3,6 +3,8 @@ id: Tuple
 title: Module Tuple
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts)
 
 ## tuple

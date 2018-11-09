@@ -3,6 +3,8 @@ id: Ord
 title: Module Ord
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts)
 
 # Ord

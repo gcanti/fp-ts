@@ -3,6 +3,8 @@ id: function
 title: Module function
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts)
 
 ## unsafeCoerce

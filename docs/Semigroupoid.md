@@ -3,6 +3,8 @@ id: Semigroupoid
 title: Module Semigroupoid
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroupoid.ts)
 
 # Semigroupoid

@@ -3,6 +3,8 @@ id: Apply
 title: Module Apply
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts)
 
 # Apply

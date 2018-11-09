@@ -3,6 +3,8 @@ id: Semiring
 title: Module Semiring
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts)
 
 # Semiring

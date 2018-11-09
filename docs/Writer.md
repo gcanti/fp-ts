@@ -3,6 +3,8 @@ id: Writer
 title: Module Writer
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts)
 
 ## writer

@@ -3,6 +3,8 @@ id: IO
 title: Module IO
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts)
 
 ## io

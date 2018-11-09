@@ -3,6 +3,8 @@ id: Option
 title: Module Option
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts)
 
 ## option

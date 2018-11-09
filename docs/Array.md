@@ -3,6 +3,8 @@ id: Array
 title: Module Array
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts)
 
 ## array

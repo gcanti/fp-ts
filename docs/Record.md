@@ -3,6 +3,8 @@ id: Record
 title: Module Record
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts)
 
 ## empty

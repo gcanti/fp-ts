@@ -3,6 +3,8 @@ id: Extend
 title: Module Extend
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts)
 
 # Extend

@@ -3,6 +3,8 @@ id: Lattice
 title: Module Lattice
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Lattice.ts)
 
 # Lattice

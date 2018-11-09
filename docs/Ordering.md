@@ -3,6 +3,8 @@ id: Ordering
 title: Module Ordering
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ordering.ts)
 
 ## semigroupOrdering

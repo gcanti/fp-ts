@@ -3,6 +3,8 @@ id: Filterable
 title: Module Filterable
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Filterable.ts)
 
 # Filterable

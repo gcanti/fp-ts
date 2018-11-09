@@ -3,6 +3,8 @@ id: Contravariant
 title: Module Contravariant
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Contravariant.ts)
 
 # Contravariant

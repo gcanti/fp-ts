@@ -3,6 +3,8 @@ id: Bounded
 title: Module Bounded
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Bounded.ts)
 
 # Bounded

@@ -3,6 +3,8 @@ id: Store
 title: Module Store
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts)
 
 ## store

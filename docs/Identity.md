@@ -3,6 +3,8 @@ id: Identity
 title: Module Identity
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts)
 
 ## identity

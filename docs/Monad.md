@@ -3,6 +3,8 @@ id: Monad
 title: Module Monad
 ---
 
+[← Back](.)
+
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monad.ts)
 
 # Monad
