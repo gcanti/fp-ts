@@ -5,6 +5,14 @@ title: Module Tree
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts)
 
+## tree
+
+```ts
+Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
+```
+
+Added in v1.6.0 (instance)
+
 # Tree
 
 ```ts
@@ -92,14 +100,6 @@ Added in v1.6.0 (method)
 ```
 
 Added in v1.6.0 (method)
-
-## tree
-
-```ts
-Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
-```
-
-Added in v1.6.0 (instance)
 
 ## drawForest
 

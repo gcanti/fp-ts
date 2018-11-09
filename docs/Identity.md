@@ -5,6 +5,19 @@ title: Module Identity
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts)
 
+## identity
+
+```ts
+Monad1<URI> &
+  Foldable2v1<URI> &
+  Traversable2v1<URI> &
+  Alt1<URI> &
+  Comonad1<URI> &
+  ChainRec1<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # Identity
 
 ```ts
@@ -121,19 +134,6 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
-
-## identity
-
-```ts
-Monad1<URI> &
-  Foldable2v1<URI> &
-  Traversable2v1<URI> &
-  Alt1<URI> &
-  Comonad1<URI> &
-  ChainRec1<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## getSetoid
 

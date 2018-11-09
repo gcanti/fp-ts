@@ -5,6 +5,14 @@ title: Module IxIO
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts)
 
+## ixIO
+
+```ts
+IxMonad3<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # IxIO
 
 ```ts
@@ -52,14 +60,6 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
-
-## ixIO
-
-```ts
-IxMonad3<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## getMonad
 

@@ -5,6 +5,14 @@ title: Module Const
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts)
 
+## const\_
+
+```ts
+Functor2<URI> & Contravariant2<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # Const
 
 ```ts
@@ -52,14 +60,6 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
-
-## const\_
-
-```ts
-Functor2<URI> & Contravariant2<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## getApplicative
 

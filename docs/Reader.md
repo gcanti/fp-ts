@@ -5,6 +5,14 @@ title: Module Reader
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts)
 
+## reader
+
+```ts
+Monad2<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # Reader
 
 ```ts
@@ -54,14 +62,6 @@ Added in v1.6.1 (method)
 ```
 
 Added in v1.0.0 (method)
-
-## reader
-
-```ts
-Monad2<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## ask
 

@@ -5,6 +5,14 @@ title: Module IO
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts)
 
+## io
+
+```ts
+Monad1<URI> & MonadIO1<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # IO
 
 ```ts
@@ -85,14 +93,6 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
-
-## io
-
-```ts
-Monad1<URI> & MonadIO1<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## getMonoid
 

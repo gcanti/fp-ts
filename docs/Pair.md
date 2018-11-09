@@ -5,6 +5,14 @@ title: Module Pair
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts)
 
+## pair
+
+```ts
+Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # Pair
 
 ```ts
@@ -92,14 +100,6 @@ Map a function over the second field of a pair
 Added in v1.0.0 (method)
 
 Swaps the elements in a pair
-
-## pair
-
-```ts
-Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## getMonoid
 

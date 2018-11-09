@@ -5,6 +5,14 @@ title: Module Zipper
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts)
 
+## zipper
+
+```ts
+Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
+```
+
+Added in v1.9.0 (instance)
+
 # Zipper
 
 ```ts
@@ -183,14 +191,6 @@ Added in v1.9.0 (method)
 Added in v1.9.0 (method)
 
 Update the focus in this zipper.
-
-## zipper
-
-```ts
-Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
-```
-
-Added in v1.9.0 (instance)
 
 ## fromArray
 

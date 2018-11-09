@@ -5,6 +5,19 @@ title: Module StrMap
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts)
 
+## strmap
+
+```ts
+Functor1<URI> &
+  Foldable2v1<URI> &
+  Traversable2v1<URI> &
+  Compactable1<URI> &
+  Filterable1<URI> &
+  Witherable1<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # StrMap
 
 ```ts
@@ -44,19 +57,6 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
-
-## strmap
-
-```ts
-Functor1<URI> &
-  Foldable2v1<URI> &
-  Traversable2v1<URI> &
-  Compactable1<URI> &
-  Filterable1<URI> &
-  Witherable1<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## empty
 

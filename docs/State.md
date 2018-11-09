@@ -5,6 +5,14 @@ title: Module State
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/State.ts)
 
+## state
+
+```ts
+Monad2<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # State
 
 ```ts
@@ -82,14 +90,6 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
-
-## state
-
-```ts
-Monad2<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## get
 

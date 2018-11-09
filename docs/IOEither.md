@@ -5,6 +5,14 @@ title: Module IOEither
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts)
 
+## ioEither
+
+```ts
+Monad2<URI> & Bifunctor2<URI> & Alt2<URI>
+```
+
+Added in v1.6.0 (instance)
+
 # IOEither
 
 ```ts
@@ -119,14 +127,6 @@ Added in v1.6.0 (method)
 Added in v1.6.0 (method)
 
 Runs the inner io
-
-## ioEither
-
-```ts
-Monad2<URI> & Bifunctor2<URI> & Alt2<URI>
-```
-
-Added in v1.6.0 (instance)
 
 ## fromEither
 

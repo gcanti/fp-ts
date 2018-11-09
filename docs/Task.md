@@ -5,6 +5,24 @@ title: Module Task
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts)
 
+## task
+
+```ts
+Monad1<URI> & MonadIO1<URI> & MonadTask1<URI>
+```
+
+Added in v1.0.0 (instance)
+
+## taskSeq
+
+```ts
+typeof task
+```
+
+Added in v1.10.0 (instance)
+
+Like [task](#task) but `ap` is sequential
+
 # Task
 
 ```ts
@@ -85,24 +103,6 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
-
-## task
-
-```ts
-Monad1<URI> & MonadIO1<URI> & MonadTask1<URI>
-```
-
-Added in v1.0.0 (instance)
-
-## taskSeq
-
-```ts
-typeof task
-```
-
-Added in v1.10.0 (instance)
-
-Like [task](#task) but `ap` is sequential
 
 ## delay
 

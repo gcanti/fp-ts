@@ -5,6 +5,14 @@ title: Module These
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts)
 
+## these
+
+```ts
+Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # These
 
 ```ts
@@ -92,14 +100,6 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
-
-## these
-
-```ts
-Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## both
 

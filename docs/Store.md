@@ -5,6 +5,14 @@ title: Module Store
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts)
 
+## store
+
+```ts
+Comonad2<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # Store
 
 ```ts
@@ -62,14 +70,6 @@ Reposition the focus at the specified position
 ```
 
 Added in v1.0.0 (method)
-
-## store
-
-```ts
-Comonad2<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## experiment
 

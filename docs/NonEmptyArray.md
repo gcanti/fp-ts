@@ -5,6 +5,14 @@ title: Module NonEmptyArray
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts)
 
+## nonEmptyArray
+
+```ts
+Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable2v1<URI>
+```
+
+Added in v1.0.0 (instance)
+
 # NonEmptyArray
 
 ```ts
@@ -328,14 +336,6 @@ assert.deepEqual(new NonEmptyArray(1, [2, 3]).toArray(), [1, 2, 3])
 Added in v1.0.0 (method)
 
 Return stringified representation of this [NonEmptyArray](./NonEmptyArray.md)
-
-## nonEmptyArray
-
-```ts
-Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable2v1<URI>
-```
-
-Added in v1.0.0 (instance)
 
 ## fromArray
 

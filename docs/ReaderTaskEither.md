@@ -5,6 +5,24 @@ title: Module ReaderTaskEither
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts)
 
+## readerTaskEither
+
+```ts
+Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI>
+```
+
+Added in v1.6.0 (instance)
+
+## readerTaskEitherSeq
+
+```ts
+typeof readerTaskEither
+```
+
+Added in v1.10.0 (instance)
+
+Like [readerTaskEither](#readertaskeither) but `ap` is sequential
+
 # ReaderTaskEither
 
 ```ts
@@ -126,24 +144,6 @@ Transforms the failure value of the `ReaderTaskEither` into a new `ReaderTaskEit
 Added in v1.6.0 (method)
 
 Runs the inner `TaskEither`
-
-## readerTaskEither
-
-```ts
-Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI>
-```
-
-Added in v1.6.0 (instance)
-
-## readerTaskEitherSeq
-
-```ts
-typeof readerTaskEither
-```
-
-Added in v1.10.0 (instance)
-
-Like [readerTaskEither](#readertaskeither) but `ap` is sequential
 
 ## ask
 

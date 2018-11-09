@@ -200,11 +200,11 @@ export const printModule = (module: Module): string => {
   if (typeclasses.length > 0) {
     s += typeclasses.map(tc => printTypeclass(tc)).join('\n')
   }
-  if (datas.length > 0) {
-    s += datas.map(d => printData(d)).join('\n')
-  }
   if (instances.length > 0) {
     s += instances.map(i => printInstance(i)).join('\n')
+  }
+  if (datas.length > 0) {
+    s += datas.map(d => printData(d)).join('\n')
   }
   if (constants.length > 0) {
     s += constants.map(c => printConstant(c)).join('\n')
