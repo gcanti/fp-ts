@@ -5,6 +5,23 @@ title: Module Array
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts)
 
+## array
+
+```ts
+Monad1<URI> &
+  Foldable2v1<URI> &
+  Unfoldable1<URI> &
+  Traversable2v1<URI> &
+  Alternative1<URI> &
+  Plus1<URI> &
+  Extend1<URI> &
+  Compactable1<URI> &
+  Filterable1<URI> &
+  Witherable1<URI>
+```
+
+Added in v1.0.0 (instance)
+
 ## empty
 
 ```ts

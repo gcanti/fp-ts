@@ -1421,6 +1421,10 @@ export function comprehension<R>(
   return go(empty, input)
 }
 
+/**
+ * @instance
+ * @since 1.0.0
+ */
 export const array: Monad1<URI> &
   Foldable2v1<URI> &
   Unfoldable1<URI> &
