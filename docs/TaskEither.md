@@ -281,7 +281,7 @@ Convert a node style callback function to one returning a `TaskEither`
 **Note**. If the function `f` admits multiple overloadings, `taskify` will pick last one. If you want a different
 behaviour, add an explicit type annotation
 
-````ts
+```ts
 // readFile admits multiple overloadings
 
 // const readFile: (a: string) => TaskEither<NodeJS.ErrnoException, Buffer>
@@ -290,8 +290,10 @@ const readFile = taskify(fs.readFile)
 const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
   fs.readFile
 )
+```
 
-*Example*
+_Example_
+
 ```ts
 import { taskify } from 'fp-ts/lib/TaskEither'
 import * as fs from 'fs'
@@ -299,7 +301,7 @@ import * as fs from 'fs'
 // const stat: (a: string | Buffer) => TaskEither<NodeJS.ErrnoException, fs.Stats>
 const stat = taskify(fs.stat)
 assert.strictEqual(stat.length, 0)
-````
+```
 
 ## tryCatch
 

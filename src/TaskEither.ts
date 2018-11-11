@@ -295,6 +295,7 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: {}) => 
  * const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.ErrnoException, Buffer> = taskify(
  *   fs.readFile
  * )
+ * ```
  *
  * @example
  * import { taskify } from 'fp-ts/lib/TaskEither'
