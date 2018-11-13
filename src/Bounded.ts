@@ -3,7 +3,7 @@ import { Ord, ordNumber } from './Ord'
 /**
  * The `Bounded` type class represents totally ordered types that have an upper and lower boundary.
  *
- * Instances should satisfy the following law in addition to the `Ord` laws:
+ * Instances should satisfy the following law in addition to the {@link Ord} laws:
  *
  * - Bounded: `bottom <= a <= top`
  *

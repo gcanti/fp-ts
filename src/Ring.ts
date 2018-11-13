@@ -5,7 +5,7 @@ import { Semiring, getFunctionSemiring } from './Semiring'
 /**
  * The `Ring` class is for types that support addition, multiplication, and subtraction operations.
  *
- * Instances must satisfy the following law in addition to the `Semiring` laws:
+ * Instances must satisfy the following law in addition to the {@link Semiring} laws:
  *
  * - Additive inverse: `a - a = (zero - a) + a = zero`
  * @typeclass

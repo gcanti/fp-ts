@@ -15,7 +15,7 @@ interface DistributiveLattice<A> extends Lattice<A> {}
 
 Added in v1.4.0 (type class)
 
-A `DistributiveLattice` must satisfy the following laws in addition to `Lattice` laws:
+A `DistributiveLattice` must satisfy the following laws in addition to [Lattice](./Lattice.md) laws:
 
 - Distributivity for meet: `a ∨ (b ∧ c) = (a ∨ b) ∧ (a ∨ c)`
 - Distributivity for join: `a ∧ (b ∨ c) = (a ∧ b) ∨ (a ∧ c)`

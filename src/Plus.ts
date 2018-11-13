@@ -2,9 +2,9 @@ import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C } from './Alt'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * The `Plus` type class extends the `Alt` type class with a value that should be the left and right identity for `alt`.
+ * The `Plus` type class extends the {@link Alt} type class with a value that should be the left and right identity for `alt`.
  *
- * It is similar to `Monoid`, except that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
+ * It is similar to {@link Monoid}, except that it applies to types of kind `* -> *`, like {@link Array} or {@link Option}, rather than
  * concrete types like `string` or `number`.
  *
  * `Plus` instances should satisfy the following laws:

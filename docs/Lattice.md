@@ -15,7 +15,7 @@ interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}
 
 Added in v1.4.0 (type class)
 
-A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `MeetSemilattice` laws:
+A `Lattice` must satisfy the following in addition to [JoinSemilattice](./JoinSemilattice.md) and [MeetSemilattice](./MeetSemilattice.md) laws:
 
 - Absorbtion law for meet: `a ∧ (a ∨ b) == a`
 - Absorbtion law for join: `a ∨ (a ∧ b) == a`

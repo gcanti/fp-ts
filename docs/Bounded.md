@@ -20,7 +20,7 @@ Added in v1.0.0 (type class)
 
 The `Bounded` type class represents totally ordered types that have an upper and lower boundary.
 
-Instances should satisfy the following law in addition to the `Ord` laws:
+Instances should satisfy the following law in addition to the [Ord](./Ord.md) laws:
 
 - Bounded: `bottom <= a <= top`
 

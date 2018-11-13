@@ -17,7 +17,7 @@ interface JoinSemilattice<A> {
 
 Added in v1.4.0 (type class)
 
-A join-semilattice (or upper semilattice) is a semilattice whose operation is called "join", and which can be thought
+A join-semilattice (or upper semilattice) is a semilattice whose operation is called `join`, and which can be thought
 of as a least upper bound.
 
 A `JoinSemilattice` must satisfy the following laws:

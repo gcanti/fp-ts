@@ -17,6 +17,6 @@ interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
 
 Added in v1.4.0 (type class)
 
-A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetSemilattice` laws:
+A `BoundedMeetSemilattice` must satisfy the following laws in addition to [MeetSemilattice](./MeetSemilattice.md) laws:
 
 - `a ∧ 1 = a`

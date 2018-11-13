@@ -2,8 +2,8 @@ import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './F
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * The `Alt` type class identifies an associative operation on a type constructor.  It is similar to `Semigroup`, except
- * that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than concrete types like `string` or
+ * The `Alt` type class identifies an associative operation on a type constructor.  It is similar to {@link Semigroup}, except
+ * that it applies to types of kind `* -> *`, like {@link Array} or {@link Option}, rather than concrete types like `string` or
  * `number`.
  *
  * `Alt` instances are required to satisfy the following laws:

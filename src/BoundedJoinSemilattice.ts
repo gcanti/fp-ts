@@ -1,7 +1,7 @@
 import { JoinSemilattice } from './JoinSemilattice'
 
 /**
- * A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinSemilattice` laws:
+ * A `BoundedJoinSemilattice` must satisfy the following laws in addition to {@link JoinSemilattice} laws:
  *
  * - `a ∨ 0 == a`
  *

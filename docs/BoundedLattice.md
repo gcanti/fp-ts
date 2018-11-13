@@ -15,7 +15,7 @@ interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemila
 
 Added in v1.4.0 (type class)
 
-A `BoundedLattice` must satisfy the following in addition to `BoundedMeetSemilattice` and `BoundedJoinSemilattice` laws:
+A `BoundedLattice` must satisfy the following in addition to [BoundedMeetSemilattice](./BoundedMeetSemilattice.md) and [BoundedJoinSemilattice](./BoundedJoinSemilattice.md) laws:
 
 - Absorbtion law for meet: `a ∧ (a ∨ b) == a`
 - Absorbtion law for join: `a ∨ (a ∧ b) == a`

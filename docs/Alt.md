@@ -17,8 +17,8 @@ interface Alt<F> extends Functor<F> {
 
 Added in v1.0.0 (type class)
 
-The `Alt` type class identifies an associative operation on a type constructor. It is similar to `Semigroup`, except
-that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than concrete types like `string` or
+The `Alt` type class identifies an associative operation on a type constructor. It is similar to [Semigroup](./Semigroup.md), except
+that it applies to types of kind `* -> *`, like [Array](./Array.md) or [Option](./Option.md), rather than concrete types like `string` or
 `number`.
 
 `Alt` instances are required to satisfy the following laws:

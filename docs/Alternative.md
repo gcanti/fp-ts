@@ -16,7 +16,7 @@ interface Alternative<F> extends Applicative<F>, Plus<F> {}
 Added in v1.0.0 (type class)
 
 The `Alternative` type class has no members of its own; it just specifies that the type constructor has both
-`Applicative` and `Plus` instances.
+[Applicative](./Applicative.md) and [Plus](./Plus.md) instances.
 
 Types which have `Alternative` instances should also satisfy the following laws:
 

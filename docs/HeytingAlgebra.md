@@ -28,7 +28,7 @@ provide the law of the excluded middle. This means that there is no guarantee th
 Heyting algebras model intuitionistic logic. For a model of classical logic, see the boolean algebra type class
 implemented as `BooleanAlgebra`.
 
-A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistributiveLattice` laws:
+A `HeytingAlgebra` must satisfy the following laws in addition to [BoundedDistributiveLattice](./BoundedDistributiveLattice.md) laws:
 
 - Implication:
   - `a → a = 1`

@@ -17,6 +17,6 @@ interface BoundedJoinSemilattice<A> extends JoinSemilattice<A> {
 
 Added in v1.4.0 (type class)
 
-A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinSemilattice` laws:
+A `BoundedJoinSemilattice` must satisfy the following laws in addition to [JoinSemilattice](./JoinSemilattice.md) laws:
 
 - `a ∨ 0 == a`

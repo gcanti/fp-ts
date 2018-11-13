@@ -4,7 +4,7 @@ import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 
 /**
  * The `Alternative` type class has no members of its own; it just specifies that the type constructor has both
- * `Applicative` and `Plus` instances.
+ * {@link Applicative} and {@link Plus} instances.
  *
  * Types which have `Alternative` instances should also satisfy the following laws:
  *
