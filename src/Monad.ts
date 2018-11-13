@@ -3,17 +3,17 @@ import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
 import { URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * The `Monad` type class combines the operations of the `Bind` and
- * `Applicative` type classes. Therefore, `Monad` instances represent type
+ * The `Monad` type class combines the operations of the {@link Chain} and
+ * {@link Applicative} type classes. Therefore, `Monad` instances represent type
  * constructors which support sequential composition, and also lifting of
  * functions of arbitrary arity.
  *
- * Instances must satisfy the following laws in addition to the `Applicative` and `Bind` laws:
+ * Instances must satisfy the following laws in addition to the {@link Applicative} and {@link Chain} laws:
  *
  * 1. Left identity: `M.chain(M.of(a), f) = f(a)`
  * 2. Right identity: `M.chain(fa, M.of) = fa`
  *
- * Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
+ * Note. {@link Functor}'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
  *
  * @typeclass
  * @since 1.0.0
