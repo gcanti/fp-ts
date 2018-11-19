@@ -1,5 +1,5 @@
 import { Bifunctor2 } from './Bifunctor'
-import { Either, left as eitherLeft, tryCatch as eitherTryCatch, toError } from './Either'
+import { Either, left as eitherLeft, tryCatch2v as eitherTryCatch2v, toError } from './Either'
 import * as eitherT from './EitherT'
 import { Monad2 } from './Monad'
 import { IO, io } from './IO'
@@ -147,11 +147,21 @@ export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
 }
 
 /**
+ * Use {@link tryCatch2v}
  * @function
  * @since 1.6.0
+ * @deprecated
  */
 export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: unknown) => Error = toError): IOEither<Error, A> => {
-  return new IOEither(new IO(() => eitherTryCatch(f, onerror)))
+  return tryCatch2v(f, onerror)
+}
+
+/**
+ * @function
+ * @since 1.11.0
+ */
+export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => {
+  return new IOEither(new IO(() => eitherTryCatch2v(f, onerror)))
 }
 
 /**
