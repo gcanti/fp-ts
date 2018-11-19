@@ -172,4 +172,99 @@ describe('NonEmptyArray', () => {
       '6': new NonEmptyArray('foobar', [])
     })
   })
+
+  it('index', () => {
+    const arr = new NonEmptyArray(1, [2, 3])
+    assert.deepEqual(arr.index(-1), none)
+    assert.deepEqual(arr.index(3), none)
+    assert.deepEqual(arr.index(1), some(2))
+  })
+
+  it('findFirst', () => {
+    const make = (x: number) => ({ x })
+    const a1 = make(1)
+    const a2 = make(1)
+    const a3 = make(2)
+    const arr = new NonEmptyArray(a1, [a2, a3])
+    assert.deepEqual(arr.findFirst(({ x }) => x === 1).map(x => x === a1), some(true))
+    assert.deepEqual(arr.findFirst(({ x }) => x === 2), some(a3))
+    assert.deepEqual(arr.findFirst(({ x }) => x === 10), none)
+  })
+
+  it('findLast', () => {
+    const make = (x: number) => ({ x })
+    const a1 = make(1)
+    const a2 = make(1)
+    const a3 = make(2)
+    const arr = new NonEmptyArray(a1, [a2, a3])
+    assert.deepEqual(arr.findLast(({ x }) => x === 1).map(x => x === a2), some(true))
+    assert.deepEqual(arr.findLast(({ x }) => x === 2), some(a3))
+    assert.equal(arr.findLast(({ x }) => x === 10), none)
+  })
+
+  it('findIndex', () => {
+    const make = (x: number) => ({ x })
+    const a1 = make(1)
+    const a2 = make(1)
+    const a3 = make(2)
+    const arr = new NonEmptyArray(a1, [a2, a3])
+    assert.deepEqual(arr.findIndex(({ x }) => x === 1), some(0))
+    assert.deepEqual(arr.findIndex(({ x }) => x === 2), some(2))
+    assert.deepEqual(arr.findIndex(({ x }) => x === 10), none)
+  })
+
+  it('findLastIndex', () => {
+    const make = (x: number) => ({ x })
+    const a1 = make(1)
+    const a2 = make(1)
+    const a3 = make(2)
+    const arr = new NonEmptyArray(a1, [a2, a3])
+    assert.deepEqual(arr.findLastIndex(({ x }) => x === 1), some(1))
+    assert.deepEqual(arr.findLastIndex(({ x }) => x === 2), some(2))
+    assert.deepEqual(arr.findLastIndex(({ x }) => x === 10), none)
+  })
+
+  it('insertAt', () => {
+    const make = (x: number) => ({ x })
+    const a1 = make(1)
+    const a2 = make(1)
+    const a3 = make(2)
+    const a4 = make(3)
+    const arr = new NonEmptyArray(a1, [a2, a3])
+    assert.deepEqual(arr.insertAt(0, a4), some(new NonEmptyArray(a4, [a1, a2, a3])))
+    assert.deepEqual(arr.insertAt(-1, a4), none)
+    assert.deepEqual(arr.insertAt(3, a4), some(new NonEmptyArray(a1, [a2, a3, a4])))
+    assert.deepEqual(arr.insertAt(1, a4), some(new NonEmptyArray(a1, [a4, a2, a3])))
+    assert.deepEqual(arr.insertAt(4, a4), none)
+  })
+
+  it('updateAt', () => {
+    const make = (x: number) => ({ x })
+    const a1 = make(1)
+    const a2 = make(1)
+    const a3 = make(2)
+    const a4 = make(3)
+    const arr = new NonEmptyArray(a1, [a2, a3])
+    assert.deepEqual(arr.updateAt(0, a4), some(new NonEmptyArray(a4, [a2, a3])))
+    assert.deepEqual(arr.updateAt(-1, a4), none)
+    assert.deepEqual(arr.updateAt(3, a4), none)
+    assert.deepEqual(arr.updateAt(1, a4), some(new NonEmptyArray(a1, [a4, a3])))
+  })
+
+  it('filter', () => {
+    const make = (x: number) => ({ x })
+    const a1 = make(1)
+    const a2 = make(1)
+    const a3 = make(2)
+    const arr = new NonEmptyArray(a1, [a2, a3])
+    assert.deepEqual(arr.filter(({ x }) => x !== 1), some(new NonEmptyArray(a3, [])))
+    assert.deepEqual(arr.filter(({ x }) => x !== 2), some(new NonEmptyArray(a1, [a2])))
+    assert.deepEqual(
+      arr.filter(({ x }) => {
+        return !(x === 1 || x === 2)
+      }),
+      none
+    )
+    assert.deepEqual(arr.filter(({ x }) => x !== 10), some(new NonEmptyArray(a1, [a2, a3])))
+  })
 })

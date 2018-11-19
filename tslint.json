@@ -8,7 +8,7 @@
     "ter-indent": false,
     "strict-boolean-expressions": true,
     "forin": true,
-    "no-console": true,
+    "no-console": false,
     "array-type": [true, "generic"]
   }
 }

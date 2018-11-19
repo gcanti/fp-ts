@@ -1,8 +1,20 @@
 import { Applicative } from './Applicative'
-import { array, last, sort } from './Array'
+import {
+  array,
+  last,
+  sort,
+  index as arrayIndex,
+  findFirst as arrayFindFirst,
+  findIndex as arrayFindIndex,
+  insertAt as arrayInsertAt,
+  updateAt as arrayUpdateAt,
+  findLast as arrayFindLast,
+  findLastIndex as arrayFindLastIndex
+} from './Array'
+
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
-import { compose, concat as uncurriedConcat, toString } from './function'
+import { compose, concat as uncurriedConcat, toString, Refinement, Predicate } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -258,6 +270,158 @@ export class NonEmptyArray<A> {
    */
   length(): number {
     return 1 + this.tail.length
+  }
+
+  /**
+   * This function provides a safe way to read a value at a particular index from an NonEmptyArray
+   *
+   * @example
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { some, none } from 'fp-ts/lib/Option'
+   *
+   * assert.deepEqual(new NonEmptyArray(1, [2, 3]).index(1), some(2))
+   * assert.deepEqual(new NonEmptyArray(1, [2, 3]).index(3), none)
+   *
+   * @function
+   * @since 1.11.0
+   */
+
+  index(i: number): Option<A> {
+    return i === 0 ? some(this.head) : arrayIndex(i - 1, this.tail)
+  }
+  /**
+   * Find the first element which satisfies a predicate (or a refinement) function
+   *
+   * @example
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { some } from 'fp-ts/lib/Option'
+   *
+   * assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findFirst(x => x.a === 1), some({ a: 1, b: 1 }))
+   *
+   * @function
+   * @since 1.11.0
+   */
+  findFirst<B extends A>(predicate: Refinement<A, B>): Option<B>
+  findFirst(predicate: Predicate<A>): Option<A>
+  findFirst(predicate: Predicate<A>): Option<A> {
+    return predicate(this.head) ? some(this.head) : arrayFindFirst(this.tail, predicate)
+  }
+  /**
+   * Find the last element which satisfies a predicate function
+   *
+   * @example
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { some } from 'fp-ts/lib/Option'
+   *
+   * assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findLast(x => x.a === 1), some({ a: 1, b: 2 }))
+   *
+   * @function
+   * @since 1.11.0
+   */
+  findLast<B extends A>(predicate: Refinement<A, B>): Option<B>
+  findLast(predicate: Predicate<A>): Option<A>
+  findLast(predicate: Predicate<A>): Option<A> {
+    const a = arrayFindLast(this.tail, predicate)
+    return a.isSome() ? a : predicate(this.head) ? some(this.head) : none
+  }
+
+  /**
+   * Find the first index for which a predicate holds
+   *
+   * @example
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { some, none } from 'fp-ts/lib/Option'
+   *
+   * assert.deepEqual(new NonEmptyArray(1, [2, 3]).findIndex(x => x === 2), some(1))
+   * assert.deepEqual(new NonEmptyArray<number>(1, []).findIndex(x => x === 2), none)
+   *
+   * @function
+   * @since 1.11.0
+   */
+  findIndex(predicate: Predicate<A>): Option<number> {
+    if (predicate(this.head)) {
+      return some(0)
+    } else {
+      const i = arrayFindIndex(this.tail, predicate)
+      return i.isSome() ? some(i.value + 1) : none
+    }
+  }
+
+  /**
+   * Returns the index of the last element of the list which matches the predicate
+   *
+   * @example
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { some, none } from 'fp-ts/lib/Option'
+   *
+   * interface X {
+   *   a: number
+   *   b: number
+   * }
+   * const xs: NonEmptyArray<X> = new NonEmptyArray({ a: 1, b: 0 }, [{ a: 1, b: 1 }])
+   * assert.deepEqual(xs.findLastIndex(x => x.a === 1), some(1))
+   * assert.deepEqual(xs.findLastIndex(x => x.a === 4), none)
+   *
+   * @function
+   * @since 1.11.0
+   */
+  findLastIndex(predicate: Predicate<A>): Option<number> {
+    const i = arrayFindLastIndex(this.tail, predicate)
+    return i.isSome() ? some(i.value + 1) : predicate(this.head) ? some(0) : none
+  }
+
+  /**
+   * Insert an element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
+   *
+   * @example
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { some } from 'fp-ts/lib/Option'
+   *
+   * assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).insertAt(2, 5), some(new NonEmptyArray(1, [2, 5, 3, 4])))
+   *
+   * @function
+   * @since 1.11.0
+   */
+  insertAt(i: number, a: A): Option<NonEmptyArray<A>> {
+    if (i === 0) {
+      return some(new NonEmptyArray(a, this.toArray()))
+    } else {
+      const t = arrayInsertAt(i - 1, a, this.tail)
+      return t.isSome() ? some(new NonEmptyArray(this.head, t.value)) : none
+    }
+  }
+
+  /**
+   * Change the element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
+   *
+   * @example
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { some, none } from 'fp-ts/lib/Option'
+   *
+   * assert.deepEqual(new NonEmptyArray(1, [2, 3]).updateAt(1, 1), some(new NonEmptyArray(1, [1, 3])))
+   * assert.deepEqual(new NonEmptyArray(1, []).updateAt(1, 1), none)
+   *
+   * @function
+   * @since 1.11.0
+   */
+
+  updateAt(i: number, a: A): Option<NonEmptyArray<A>> {
+    if (i === 0) {
+      return some(new NonEmptyArray(a, this.tail))
+    } else {
+      const t = arrayUpdateAt(i - 1, a, this.tail)
+      return t.isSome() ? some(new NonEmptyArray(this.head, t.value)) : none
+    }
+  }
+
+  /**
+   * Filter an NonEmptyArray, keeping the elements which satisfy a predicate function, creating a new NonEmptyArray or returning `None` in case the resulting NonEmptyArray would have no remaining elements.
+   * @function
+   * @since 1.11.0
+   */
+  filter(predicate: Predicate<A>): Option<NonEmptyArray<A>> {
+    const t = this.tail.filter(predicate)
+    return predicate(this.head) ? some(new NonEmptyArray(this.head, t)) : fromArray(t)
   }
 }
 
