@@ -44,10 +44,10 @@
     "rimraf": "2.6.2",
     "ts-jest": "22.4.2",
     "ts-node": "7.0.1",
-    "ts-simple-ast": "^17.1.1",
+    "ts-simple-ast": "17.1.1",
     "tslint": "5.11.0",
-    "tslint-config-standard": "7.0.0",
-    "typescript": "^3.1.6",
+    "tslint-config-standard": "8.0.1",
+    "typescript": "3.1.6",
     "typings-checker": "2.0.0"
   },
   "tags": [
