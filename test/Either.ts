@@ -104,8 +104,10 @@ describe('Either', () => {
     assert.deepEqual(e3, left(new Error('a string')))
 
     type ObjectWithStatusCode = { statusCode: number }
-    const thrownIsObjectWithStatusCode = (thrown: unknown): thrown is ObjectWithStatusCode =>
-      typeof thrown === 'object' && thrown !== null && 'statusCode' in thrown
+    const thrownIsObjectWithStatusCode = (thrown: unknown): thrown is ObjectWithStatusCode => {
+      // tslint:disable-next-line:strict-type-predicates (upstream bug: https://github.com/palantir/tslint/issues/4107)
+      return typeof thrown === 'object' && thrown !== null && 'statusCode' in thrown
+    }
     const onerror = (thrown: unknown): Error => {
       if (thrownIsObjectWithStatusCode(thrown)) {
         return new Error(`Bad response: ${thrown.statusCode}`)
