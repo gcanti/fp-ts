@@ -125,6 +125,18 @@ export class TaskEither<L, A> {
   attempt<M = L>(): TaskEither<M, Either<L, A>> {
     return new TaskEither(this.value.map<Either<M, Either<L, A>>>(eitherRight))
   }
+  /**
+   * @since 1.11.0
+   */
+  filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A> {
+    return new TaskEither(this.value.map(e => e.filterOrElse(p, zero)))
+  }
+  /**
+   * @since 1.11.0
+   */
+  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> {
+    return new TaskEither(this.value.map(e => e.filterOrElseL(p, zero)))
+  }
 }
 
 const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> => {
