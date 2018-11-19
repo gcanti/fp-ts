@@ -162,10 +162,20 @@ Added in v1.6.0 (function)
 
 Added in v1.6.0 (function)
 
-## tryCatch
+## ~~tryCatch~~ (deprecated)
 
 ```ts
 <A>(f: Lazy<A>, onerror: (reason: unknown) => Error = toError): IOEither<Error, A>
 ```
 
 Added in v1.6.0 (function)
+
+Use [tryCatch2v](#trycatch2v)
+
+## tryCatch2v
+
+```ts
+<L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A>
+```
+
+Added in v1.11.0 (function)
