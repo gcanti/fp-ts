@@ -1,7 +1,8 @@
-import { Monad2 } from './Monad'
-import { identity } from './function'
-import { Profunctor2 } from './Profunctor'
 import { Category2 } from './Category'
+import { identity, tuple } from './function'
+import { Monad2 } from './Monad'
+import { Profunctor2 } from './Profunctor'
+import { Strong2 } from './Strong'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -101,11 +102,19 @@ const id = <A>(): Reader<A, A> => {
   return new Reader(identity)
 }
 
+const first = <A, B, C>(pab: Reader<A, B>): Reader<[A, C], [B, C]> => {
+  return new Reader(([a, c]) => tuple(pab.run(a), c))
+}
+
+const second = <A, B, C>(pbc: Reader<B, C>): Reader<[A, B], [A, C]> => {
+  return new Reader(([a, b]) => tuple(a, pbc.run(b)))
+}
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> = {
+export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> = {
   URI,
   map,
   of,
@@ -113,5 +122,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> = {
   chain,
   promap,
   compose,
-  id
+  id,
+  first,
+  second
 }
