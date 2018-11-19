@@ -333,7 +333,7 @@ export class NonEmptyArray<A> {
    * import { some, none } from 'fp-ts/lib/Option'
    *
    * assert.deepEqual(new NonEmptyArray(1, [2, 3]).findIndex(x => x === 2), some(1))
-   * assert.deepEqual(new NonEmptyArray(1, []).findIndex(x => x === 2), none)
+   * assert.deepEqual(new NonEmptyArray<number>(1, []).findIndex(x => x === 2), none)
    *
    * @function
    * @since 1.11.0
@@ -377,7 +377,7 @@ export class NonEmptyArray<A> {
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some } from 'fp-ts/lib/Option'
    *
-   * assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).insertAt(2, 5), some(new NonEmptyArray(1, [2, 5, 3, 4]))
+   * assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).insertAt(2, 5), some(new NonEmptyArray(1, [2, 5, 3, 4])))
    *
    * @function
    * @since 1.11.0
