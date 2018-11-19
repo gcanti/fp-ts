@@ -19,7 +19,8 @@ import {
   isRight,
   left,
   right,
-  tryCatch
+  tryCatch,
+  tryCatch2v
 } from '../src/Either'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
@@ -87,7 +88,7 @@ describe('Either', () => {
     assert.deepEqual(gt2(1), left('Invalid number 1'))
   })
 
-  it('tryCatch', () => {
+  it('tryCatch2v', () => {
     const e1 = tryCatch(() => {
       return JSON.parse(`{}`)
     })
@@ -117,7 +118,7 @@ describe('Either', () => {
         return new Error('Unexpected error')
       }
     }
-    const e4 = tryCatch(() => {
+    const e4 = tryCatch2v(() => {
       throw { statusCode: 404 }
     }, onerror)
     assert.deepEqual(e4, left(new Error('Bad response: 404')))

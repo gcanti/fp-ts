@@ -479,10 +479,20 @@ Added in v1.0.0 (function)
 
 Default value for the optional `onerror` argument of `tryCatch`
 
-## tryCatch
+## ~~tryCatch~~ (deprecated)
 
 ```ts
 <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A>
 ```
 
 Added in v1.0.0 (function)
+
+Use [tryCatch2v](#trycatch2v)
+
+## tryCatch2v
+
+```ts
+<L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A>
+```
+
+Added in v1.11.0 (function)

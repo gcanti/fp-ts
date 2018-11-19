@@ -471,10 +471,20 @@ export const toError = (e: unknown): Error => {
 }
 
 /**
+ * Use {@link tryCatch2v}
  * @function
  * @since 1.0.0
+ * @deprecated
  */
 export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A> => {
+  return tryCatch2v(f, onerror)
+}
+
+/**
+ * @function
+ * @since 1.11.0
+ */
+export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => {
   try {
     return right(f())
   } catch (e) {
