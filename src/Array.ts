@@ -754,7 +754,9 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  * @function
  * @since 1.0.0
  */
-export const findLast = <A>(as: Array<A>, predicate: Predicate<A>): Option<A> => {
+export function findLast<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
+export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
+export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
   const len = as.length
   for (let i = len - 1; i >= 0; i--) {
     if (predicate(as[i])) {

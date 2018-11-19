@@ -1,8 +1,20 @@
 import { Applicative } from './Applicative'
-import { array, last, sort } from './Array'
+import {
+  array,
+  last,
+  sort,
+  index as arrayIndex,
+  findFirst as arrayFindFirst,
+  findIndex as arrayFindIndex,
+  insertAt as arrayInsertAt,
+  updateAt as arrayUpdateAt,
+  findLast as arrayFindLast,
+  findLastIndex as arrayFindLastIndex
+} from './Array'
+
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
-import { compose, concat as uncurriedConcat, toString } from './function'
+import { compose, concat as uncurriedConcat, toString, increment, Refinement, Predicate } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -423,6 +435,158 @@ export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
     }
   }
   return r
+}
+
+/**
+ * This function provides a safe way to read a value at a particular index from an NonEmptyArray
+ *
+ * @example
+ * import { index, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+ * import { some, none } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(index(1, new NonEmptyArray(1, [2, 3])), some(2))
+ * assert.deepEqual(index(3, new NonEmptyArray(1, [2, 3])), none)
+ *
+ * @function
+ * @since 1.11.0
+ */
+
+export const index = <A>(i: number, as: NonEmptyArray<A>): Option<A> =>
+  i === 0 ? some(as.head) : arrayIndex(i - 1, as.tail)
+
+/**
+ * Find the first element which satisfies a predicate (or a refinement) function
+ *
+ * @example
+ * import { findFirst, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+ * import { some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(findFirst(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]), x => x.a === 1), some({ a: 1, b: 1 }))
+ *
+ * @function
+ * @since 1.11.0
+ */
+export function findFirst<A, B extends A>(arr: NonEmptyArray<A>, predicate: Refinement<A, B>): Option<B>
+export function findFirst<A>(arr: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
+export function findFirst<A>(arr: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> {
+  return predicate(arr.head) ? some(arr.head) : arrayFindFirst(arr.tail, predicate)
+}
+/**
+ * Find the last element which satisfies a predicate function
+ *
+ * @example
+ * import { findLast, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+ * import { some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(findLast(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]), x => x.a === 1), some({ a: 1, b: 2 }))
+ *
+ * @function
+ * @since 1.11.0
+ */
+export function findLast<A, B extends A>(as: NonEmptyArray<A>, predicate: Refinement<A, B>): Option<B>
+export function findLast<A>(as: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
+export function findLast<A>(arr: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> {
+  const a = arrayFindLast(arr.tail, predicate)
+  return a.isSome() ? a : predicate(arr.head) ? some(arr.head) : none
+}
+
+/**
+ * Find the first index for which a predicate holds
+ *
+ * @example
+ * import { findIndex, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+ * import { some, none } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(findIndex(new NonEmptyArray(1, [2, 3]), x => x === 2), some(1))
+ * assert.deepEqual(findIndex(new NonEmptyArray(1, []), x => x === 2), none)
+ *
+ * @function
+ * @since 1.11.0
+ */
+export const findIndex = <A>(arr: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> => {
+  if (predicate(arr.head)) {
+    return some(0)
+  } else {
+    const i = arrayFindIndex(arr.tail, predicate)
+    return i.isSome() ? some(i.value + 1) : none
+  }
+}
+
+/**
+ * Returns the index of the last element of the list which matches the predicate
+ *
+ * @example
+ * import { findLastIndex, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+ * import { some, none } from 'fp-ts/lib/Option'
+ *
+ * interface X {
+ *   a: number
+ *   b: number
+ * }
+ * const xs: NonEmptyArray<X> = new NonEmptyArray({ a: 1, b: 0 }, [{ a: 1, b: 1 }])
+ * assert.deepEqual(findLastIndex(xs, x => x.a === 1), some(1))
+ * assert.deepEqual(findLastIndex(xs, x => x.a === 4), none)
+ *
+ * @function
+ * @since 1.11.0
+ */
+export const findLastIndex = <A>(arr: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> => {
+  const i = arrayFindLastIndex(arr.tail, predicate)
+  return i.isSome() ? some(i.value + 1) : predicate(arr.head) ? some(0) : none
+}
+
+/**
+ * Insert an element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
+ *
+ * @example
+ * import { insertAt, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+ * import { some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(insertAt(2, 5, new NonEmptyArray(1, [2, 3, 4]), some(new NonEmptyArray(1, [2, 5, 3, 4]))
+ *
+ * @function
+ * @since 1.11.0
+ */
+export const insertAt = <A>(i: number, a: A, as: NonEmptyArray<A>): Option<NonEmptyArray<A>> => {
+  if (i === 0) {
+    return some(new NonEmptyArray(a, as.toArray()))
+  } else {
+    const t = arrayInsertAt(i - 1, a, as.tail)
+    return t.isSome() ? some(new NonEmptyArray(as.head, t.value)) : none
+  }
+}
+
+/**
+ * Change the element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
+ *
+ * @example
+ * import { updateAt, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+ * import { some, none } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(updateAt(1, 1, new NonEmptyArray(1, [2, 3])), some(new NonEmptyArray(1, [1, 3])))
+ * assert.deepEqual(updateAt(1, 1, new NonEmptyArray(1, [])), none)
+ *
+ * @function
+ * @since 1.11.0
+ */
+
+export const updateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): Option<NonEmptyArray<A>> => {
+  if (i === 0) {
+    return some(new NonEmptyArray(a, as.tail))
+  } else {
+    const t = arrayUpdateAt(i - 1, a, as.tail)
+    return t.isSome() ? some(new NonEmptyArray(as.head, t.value)) : none
+  }
+}
+
+/**
+ * Filter an NonEmptyArray, keeping the elements which satisfy a predicate function, creating a new NonEmptyArray or returning `None` in case the resulting NonEmptyArray would have no remaining elements.
+ * @function
+ * @since 1.11.0
+ */
+export const filter = <A>(as: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>> => {
+  const ft = as.tail.filter(predicate)
+  return predicate(as.head) ? some(new NonEmptyArray(as.head, ft)) : fromArray(ft)
 }
 
 /**
