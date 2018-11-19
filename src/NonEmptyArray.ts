@@ -276,7 +276,7 @@ export class NonEmptyArray<A> {
    * This function provides a safe way to read a value at a particular index from an NonEmptyArray
    *
    * @example
-   * import { index, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some, none } from 'fp-ts/lib/Option'
    *
    * assert.deepEqual(new NonEmptyArray(1, [2, 3]).index(1), some(2))
@@ -293,7 +293,7 @@ export class NonEmptyArray<A> {
    * Find the first element which satisfies a predicate (or a refinement) function
    *
    * @example
-   * import { findFirst, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some } from 'fp-ts/lib/Option'
    *
    * assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findFirst(x => x.a === 1), some({ a: 1, b: 1 }))
@@ -310,7 +310,7 @@ export class NonEmptyArray<A> {
    * Find the last element which satisfies a predicate function
    *
    * @example
-   * import { findLast, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some } from 'fp-ts/lib/Option'
    *
    * assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findLast(x => x.a === 1), some({ a: 1, b: 2 }))
@@ -329,7 +329,7 @@ export class NonEmptyArray<A> {
    * Find the first index for which a predicate holds
    *
    * @example
-   * import { findIndex, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some, none } from 'fp-ts/lib/Option'
    *
    * assert.deepEqual(new NonEmptyArray(1, [2, 3]).findIndex(x => x === 2), some(1))
@@ -351,7 +351,7 @@ export class NonEmptyArray<A> {
    * Returns the index of the last element of the list which matches the predicate
    *
    * @example
-   * import { findLastIndex, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some, none } from 'fp-ts/lib/Option'
    *
    * interface X {
@@ -374,7 +374,7 @@ export class NonEmptyArray<A> {
    * Insert an element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
    *
    * @example
-   * import { insertAt, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some } from 'fp-ts/lib/Option'
    *
    * assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).insertAt(2, 5), some(new NonEmptyArray(1, [2, 5, 3, 4]))
@@ -395,7 +395,7 @@ export class NonEmptyArray<A> {
    * Change the element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
    *
    * @example
-   * import { updateAt, NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some, none } from 'fp-ts/lib/Option'
    *
    * assert.deepEqual(new NonEmptyArray(1, [2, 3]).updateAt(1, 1), some(new NonEmptyArray(1, [1, 3])))
