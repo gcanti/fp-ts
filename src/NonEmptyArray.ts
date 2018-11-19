@@ -585,8 +585,8 @@ export const updateAt = <A>(i: number, a: A, as: NonEmptyArray<A>): Option<NonEm
  * @since 1.11.0
  */
 export const filter = <A>(as: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>> => {
-  const ft = as.tail.filter(predicate)
-  return predicate(as.head) ? some(new NonEmptyArray(as.head, ft)) : fromArray(ft)
+  const t = as.tail.filter(predicate)
+  return predicate(as.head) ? some(new NonEmptyArray(as.head, t)) : fromArray(t)
 }
 
 /**
