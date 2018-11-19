@@ -59,4 +59,20 @@ describe('Reader', () => {
     assert.strictEqual(y.run({ name: 'foo' }), true)
     assert.strictEqual(y.run({ name: 'a' }), false)
   })
+
+  it('id', () => {
+    const x = reader.id<number>()
+    assert.strictEqual(x.run(1), 1)
+  })
+
+  it('compose', () => {
+    const x = new Reader<string, number>(s => s.length)
+    const y = new Reader<number, boolean>(n => n >= 2)
+    const z = reader.compose(
+      y,
+      x
+    )
+    assert.strictEqual(z.run('foo'), true)
+    assert.strictEqual(z.run('a'), false)
+  })
 })
