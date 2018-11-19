@@ -108,6 +108,22 @@ Added in v1.2.0 (method)
 
 Added in v1.0.0 (method)
 
+## filterOrElse
+
+```ts
+(p: Predicate<A>, zero: L): TaskEither<L, A>
+```
+
+Added in v1.11.0 (method)
+
+## filterOrElseL
+
+```ts
+(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>
+```
+
+Added in v1.11.0 (method)
+
 ## fold
 
 ```ts
