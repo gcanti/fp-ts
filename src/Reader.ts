@@ -1,5 +1,6 @@
 import { Monad2 } from './Monad'
 import { identity } from './function'
+import { Profunctor2 } from './Profunctor'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -87,14 +88,19 @@ export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Read
   return fa.local(f)
 }
 
+const promap = <A, B, C, D>(fbc: Reader<B, C>, f: (a: A) => B, g: (c: C) => D): Reader<A, D> => {
+  return new Reader(a => g(fbc.run(f(a))))
+}
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const reader: Monad2<URI> = {
+export const reader: Monad2<URI> & Profunctor2<URI> = {
   URI,
   map,
   of,
   ap,
-  chain
+  chain,
+  promap
 }
