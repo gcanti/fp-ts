@@ -52,4 +52,11 @@ describe('Reader', () => {
     const x = local((e2: E2) => e2.name)(new Reader((e: E) => e.length))
     assert.strictEqual(x.run({ name: 'foo' }), 3)
   })
+
+  it('promap', () => {
+    const x = new Reader<string, number>(s => s.length)
+    const y = reader.promap(x, (a: { name: string }) => a.name, n => n >= 2)
+    assert.strictEqual(y.run({ name: 'foo' }), true)
+    assert.strictEqual(y.run({ name: 'a' }), false)
+  })
 })
