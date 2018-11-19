@@ -140,6 +140,8 @@ import * as store from './Store'
 export { store }
 import * as strmap from './StrMap'
 export { strmap }
+import * as strong from './Strong'
+export { strong }
 import * as task from './Task'
 export { task }
 import * as taskEither from './TaskEither'
