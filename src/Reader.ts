@@ -3,6 +3,8 @@ import { identity, tuple } from './function'
 import { Monad2 } from './Monad'
 import { Profunctor2 } from './Profunctor'
 import { Strong2 } from './Strong'
+import { Choice2 } from './Choice'
+import { Either, left as eitherLeft, right as eitherRight } from './Either'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -110,11 +112,19 @@ const second = <A, B, C>(pbc: Reader<B, C>): Reader<[A, B], [A, C]> => {
   return new Reader(([a, b]) => tuple(a, pbc.run(b)))
 }
 
+const left = <A, B, C>(pab: Reader<A, B>): Reader<Either<A, C>, Either<B, C>> => {
+  return new Reader(e => e.fold<Either<B, C>>(a => eitherLeft(pab.run(a)), eitherRight))
+}
+
+const right = <A, B, C>(pbc: Reader<B, C>): Reader<Either<A, B>, Either<A, C>> => {
+  return new Reader(e => e.fold<Either<A, C>>(eitherLeft, b => eitherRight(pbc.run(b))))
+}
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> = {
+export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
   map,
   of,
@@ -124,5 +134,7 @@ export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<U
   compose,
   id,
   first,
-  second
+  second,
+  left,
+  right
 }

@@ -28,6 +28,8 @@ import * as chain from './Chain'
 export { chain }
 import * as chainRec from './ChainRec'
 export { chainRec }
+import * as choice from './Choice'
+export { choice }
 import * as comonad from './Comonad'
 export { comonad }
 import * as console from './Console'
