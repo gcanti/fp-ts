@@ -14,6 +14,41 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.11.0
+
+- **Deprecation**
+  - deprecate `Either.tryCatch` in favour of `Either.tryCatch2v` (@gcanti)
+  - deprecate `IOEither.tryCatch` in favour of `IOEither.tryCatch2v` (@gcanti)
+- **New Feature**
+  - add `Strong` type class (@gcanti)
+  - add `Choice` type class (@gcanti)
+  - use `unknown` type instead of `{}`, #539 (@gcanti)
+  - use `HKT4`, `URIS4`, `URI2HKT4`, #555 (@babakness)
+  - `NonEmptyArray` enhancement #627 (@sledorze)
+    - `index`
+    - `findFirst`
+    - `findLast`
+    - `findIndex`
+    - `findLastIndex`
+    - `insertAt`
+    - `updateAt`
+    - `filter`
+  - `TaskEither`
+    - add `filterOrElse`, `filterOrElseL`, #619 (@gcanti)
+  - `Reader`
+    - add `Profunctor` instance #634 (@gcanti)
+    - add `Strong` instance (@gcanti)
+    - add `Choice` instance (@gcanti)
+    - add `Category` instance (@gcanti)
+  - add `Category4`, `Functor4`, `Profunctor4`, `Semigroupoid4`, `Strong4` (@gcanti)
+- **Bug Fix**
+  - fix `TaskEither.taskify` with immutable arguments, #637 (@DenisFrezzato)
+
+# 1.10.1
+
+- **Bug Fix**
+  - backport #637 (@gcanti)
+
 # 1.10.0
 
 - **Deprecation**
