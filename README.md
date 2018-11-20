@@ -36,6 +36,10 @@ npm install --save fp-ts
 
 The stable version is tested against TypeScript 3.1.6, but should run with TypeScript 2.3.0+ too
 
+**Note**. If you are running `< typescript@3.0.1` you have to polyfill `unknown`.
+
+You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
+
 # Ecosystem
 
 - [io-ts](https://github.com/gcanti/io-ts) - TypeScript compatible runtime type system for IO validation
