@@ -1,7 +1,7 @@
-import { Category, Category2, Category3 } from './Category'
+import { Category, Category2, Category3, Category4 } from './Category'
 import { identity, tuple } from './function'
-import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
-import { Profunctor, Profunctor2, Profunctor3 } from './Profunctor'
+import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
+import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
 
 // Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
 
@@ -48,6 +48,11 @@ export interface Strong3<F extends URIS3> extends Profunctor3<F> {
   readonly second: <U, A, B, C>(pab: Type3<F, U, B, C>) => Type3<F, U, [A, B], [A, C]>
 }
 
+export interface Strong4<F extends URIS4> extends Profunctor4<F> {
+  readonly first: <X, U, A, B, C>(pab: Type4<F, X, U, A, B>) => Type4<F, X, U, [A, C], [B, C]>
+  readonly second: <X, U, A, B, C>(pab: Type4<F, X, U, B, C>) => Type4<F, X, U, [A, B], [A, C]>
+}
+
 /**
  * Compose a value acting on a tuple from two values, each acting on one of the components of the tuple.
  *
@@ -63,6 +68,9 @@ export interface Strong3<F extends URIS3> extends Profunctor3<F> {
  * @function
  * @since 1.11.0
  */
+export function splitStrong<F extends URIS4>(
+  F: Category4<F> & Strong4<F>
+): <X, U, A, B, C, D>(pab: Type4<F, X, U, A, B>, pcd: Type4<F, X, U, C, D>) => Type4<F, X, U, [A, C], [B, D]>
 export function splitStrong<F extends URIS3>(
   F: Category3<F> & Strong3<F>
 ): <U, A, B, C, D>(pab: Type3<F, U, A, B>, pcd: Type3<F, U, C, D>) => Type3<F, U, [A, C], [B, D]>
@@ -101,6 +109,9 @@ export function splitStrong<F>(
  * @function
  * @since 1.11.0
  */
+export function fanout<F extends URIS4>(
+  F: Category4<F> & Strong4<F>
+): <X, U, A, B, C>(pab: Type4<F, X, U, A, B>, pac: Type4<F, X, U, A, C>) => Type4<F, X, U, A, [B, C]>
 export function fanout<F extends URIS3>(
   F: Category3<F> & Strong3<F>
 ): <U, A, B, C>(pab: Type3<F, U, A, B>, pac: Type3<F, U, A, C>) => Type3<F, U, A, [B, C]>

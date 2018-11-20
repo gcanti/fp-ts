@@ -1,5 +1,5 @@
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { constant } from './function'
+import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
  * A `Functor` is a type constructor which supports a mapping operation `map`.
@@ -33,6 +33,11 @@ export interface Functor2<F extends URIS2> {
 export interface Functor3<F extends URIS3> {
   readonly URI: F
   readonly map: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => B) => Type3<F, U, L, B>
+}
+
+export interface Functor4<F extends URIS4> {
+  readonly URI: F
+  readonly map: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => B) => Type4<F, X, U, L, B>
 }
 
 export interface Functor2C<F extends URIS2, L> {
