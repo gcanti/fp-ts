@@ -161,6 +161,116 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
 ```
 
+## filter
+
+```ts
+(predicate: Predicate<A>): Option<NonEmptyArray<A>>
+```
+
+Added in v1.11.0 (method)
+
+Filter an NonEmptyArray, keeping the elements which satisfy a predicate function, creating a new NonEmptyArray or returning `None` in case the resulting NonEmptyArray would have no remaining elements.
+
+## findFirst
+
+```ts
+(predicate: Predicate<A>): Option<A>
+```
+
+Added in v1.0.0 (method)
+
+## findIndex
+
+```ts
+(predicate: Predicate<A>): Option<number>
+```
+
+Added in v1.11.0 (method)
+
+Find the first index for which a predicate holds
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { some, none } from 'fp-ts/lib/Option'
+
+assert.deepEqual(new NonEmptyArray(1, [2, 3]).findIndex(x => x === 2), some(1))
+assert.deepEqual(new NonEmptyArray<number>(1, []).findIndex(x => x === 2), none)
+```
+
+## findLast
+
+```ts
+(predicate: Predicate<A>): Option<A>
+```
+
+Added in v1.0.0 (method)
+
+## findLastIndex
+
+```ts
+(predicate: Predicate<A>): Option<number>
+```
+
+Added in v1.11.0 (method)
+
+Returns the index of the last element of the list which matches the predicate
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { some, none } from 'fp-ts/lib/Option'
+
+interface X {
+  a: number
+  b: number
+}
+const xs: NonEmptyArray<X> = new NonEmptyArray({ a: 1, b: 0 }, [{ a: 1, b: 1 }])
+assert.deepEqual(xs.findLastIndex(x => x.a === 1), some(1))
+assert.deepEqual(xs.findLastIndex(x => x.a === 4), none)
+```
+
+## index
+
+```ts
+(i: number): Option<A>
+```
+
+Added in v1.11.0 (method)
+
+This function provides a safe way to read a value at a particular index from an NonEmptyArray
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { some, none } from 'fp-ts/lib/Option'
+
+assert.deepEqual(new NonEmptyArray(1, [2, 3]).index(1), some(2))
+assert.deepEqual(new NonEmptyArray(1, [2, 3]).index(3), none)
+```
+
+## insertAt
+
+```ts
+(i: number, a: A): Option<NonEmptyArray<A>>
+```
+
+Added in v1.11.0 (method)
+
+Insert an element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).insertAt(2, 5), some(new NonEmptyArray(1, [2, 5, 3, 4])))
+```
+
 ## inspect
 
 ```ts
@@ -338,6 +448,26 @@ assert.deepEqual(new NonEmptyArray(1, [2, 3]).toArray(), [1, 2, 3])
 Added in v1.0.0 (method)
 
 Return stringified representation of this [NonEmptyArray](./NonEmptyArray.md)
+
+## updateAt
+
+```ts
+(i: number, a: A): Option<NonEmptyArray<A>>
+```
+
+Added in v1.11.0 (method)
+
+Change the element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { some, none } from 'fp-ts/lib/Option'
+
+assert.deepEqual(new NonEmptyArray(1, [2, 3]).updateAt(1, 1), some(new NonEmptyArray(1, [1, 3])))
+assert.deepEqual(new NonEmptyArray(1, []).updateAt(1, 1), none)
+```
 
 ## fromArray
 

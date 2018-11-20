@@ -72,6 +72,7 @@
 - [StateT](./StateT.md)
 - [Store](./Store.md)
 - [StrMap](./StrMap.md)
+- [Strong](./Strong.md)
 - [Task](./Task.md)
 - [TaskEither](./TaskEither.md)
 - [These](./These.md)
