@@ -20,7 +20,8 @@ import {
   left,
   right,
   tryCatch,
-  tryCatch2v
+  tryCatch2v,
+  toError
 } from '../src/Either'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
@@ -104,6 +105,11 @@ describe('Either', () => {
     })
     assert.deepEqual(e3, left(new Error('a string')))
 
+    const e4 = tryCatch(() => {
+      throw new Error('fpp')
+    }, toError)
+    assert.deepEqual(e4, left(new Error('foo')))
+
     type ObjectWithStatusCode = { statusCode: number }
     const thrownIsObjectWithStatusCode = (thrown: unknown): thrown is ObjectWithStatusCode => {
       // tslint:disable-next-line:strict-type-predicates (upstream bug: https://github.com/palantir/tslint/issues/4107)
@@ -118,10 +124,10 @@ describe('Either', () => {
         return new Error('Unexpected error')
       }
     }
-    const e4 = tryCatch2v(() => {
+    const e5 = tryCatch2v(() => {
       throw { statusCode: 404 }
     }, onerror)
-    assert.deepEqual(e4, left(new Error('Bad response: 404')))
+    assert.deepEqual(e5, left(new Error('Bad response: 404')))
   })
 
   it('getOrElse', () => {

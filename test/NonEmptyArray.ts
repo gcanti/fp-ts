@@ -176,6 +176,7 @@ describe('NonEmptyArray', () => {
   it('index', () => {
     const arr = new NonEmptyArray(1, [2, 3])
     assert.deepEqual(arr.index(-1), none)
+    assert.deepEqual(arr.index(0), some(1))
     assert.deepEqual(arr.index(3), none)
     assert.deepEqual(arr.index(1), some(2))
   })
@@ -199,7 +200,8 @@ describe('NonEmptyArray', () => {
     const arr = new NonEmptyArray(a1, [a2, a3])
     assert.deepEqual(arr.findLast(({ x }) => x === 1).map(x => x === a2), some(true))
     assert.deepEqual(arr.findLast(({ x }) => x === 2), some(a3))
-    assert.equal(arr.findLast(({ x }) => x === 10), none)
+    assert.deepEqual(arr.findLast(({ x }) => x === 10), none)
+    assert.deepEqual(new NonEmptyArray(a1, []).findLast(({ x }) => x === 1), some(a1))
   })
 
   it('findIndex', () => {
@@ -222,6 +224,7 @@ describe('NonEmptyArray', () => {
     assert.deepEqual(arr.findLastIndex(({ x }) => x === 1), some(1))
     assert.deepEqual(arr.findLastIndex(({ x }) => x === 2), some(2))
     assert.deepEqual(arr.findLastIndex(({ x }) => x === 10), none)
+    assert.deepEqual(new NonEmptyArray(a1, []).findLastIndex(({ x }) => x === 1), some(0))
   })
 
   it('insertAt', () => {
