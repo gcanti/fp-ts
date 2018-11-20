@@ -1,6 +1,9 @@
 digraph G {
   rankdir=BT;
   node [fontname="arial"];
+  node [style=filled,color=black,fillcolor="#B3ABF4"];
+  "Strong" -> "Profunctor"
+  "Choice" -> "Profunctor"
   node [style=filled,color=black,fillcolor="#FC81BF"];
   "Monoid" -> "Semigroup"
   node [style=filled,color=black,fillcolor="#FDF4AA"];
@@ -14,6 +17,7 @@ digraph G {
   node [style=filled,color=black,fillcolor="#659DFE"];
   "Functor" "Applicative" "Monad" "Alternative" "Traversable" "Foldable" "Compactable"
   node [style=filled,color=black,fillcolor="#BFD7FF"];
+  "Profunctor" -> "Functor"
   "Alt" -> "Functor"
   "Alternative" -> "Applicative"
   "Alternative" -> "Plus" -> "Alt"
