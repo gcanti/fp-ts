@@ -429,4 +429,15 @@ describe('TaskEither', () => {
       assert.deepEqual(r2, 'right')
     })
   })
+
+  it('composed taskify', () => {
+    const api = (callback: (err: Error | null | undefined, result?: string) => void): void => {
+      callback(null, 'ok')
+    }
+    const taskApi = taskify(api)()
+    return Promise.all([taskApi.run(), taskApi.run()]).then(([e1, e2]) => {
+      assert.deepEqual(e1, eitherRight('ok'))
+      assert.deepEqual(e2, eitherRight('ok'))
+    })
+  })
 })
