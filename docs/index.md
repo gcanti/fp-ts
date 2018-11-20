@@ -15,6 +15,7 @@
 - [Category](./Category.md)
 - [Chain](./Chain.md)
 - [ChainRec](./ChainRec.md)
+- [Choice](./Choice.md)
 - [Comonad](./Comonad.md)
 - [Compactable](./Compactable.md)
 - [Console](./Console.md)

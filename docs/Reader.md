@@ -10,7 +10,7 @@ title: Module Reader
 ## reader
 
 ```ts
-Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI>
+Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI>
 ```
 
 Added in v1.0.0 (instance)
