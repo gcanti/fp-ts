@@ -304,7 +304,7 @@ assert.deepEqual(findIndex([], x => x === 2), none)
 ## findLast
 
 ```ts
-<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
+findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
 ```
 
 Added in v1.0.0 (function)
