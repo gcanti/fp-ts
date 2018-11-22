@@ -56,7 +56,8 @@ import {
   replicate,
   findLastIndex,
   zipWith,
-  comprehension
+  comprehension,
+  mapWithIndex
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -355,6 +356,10 @@ describe('Array', () => {
 
   it('map', () => {
     assert.deepEqual(array.map([1, 2, 3], n => n * 2), [2, 4, 6])
+  })
+
+  it('mapWithIndex', () => {
+    assert.deepEqual(mapWithIndex([1, 2, 3], (n, i) => n + i), [1, 3, 5])
   })
 
   it('ap', () => {
