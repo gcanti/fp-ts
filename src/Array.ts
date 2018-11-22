@@ -119,6 +119,15 @@ const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
   return r
 }
 
+export const mapWithIndex = <A, B>(fa: Array<A>, f: (a: A, index: number) => B): Array<B> => {
+  const l = fa.length
+  const r = new Array(l)
+  for (let i = 0; i < l; i++) {
+    r[i] = f(fa[i], i)
+  }
+  return r
+}
+
 const of = <A>(a: A): Array<A> => {
   return [a]
 }
