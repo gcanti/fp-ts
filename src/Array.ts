@@ -17,6 +17,7 @@ import { getArraySetoid, Setoid } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -119,11 +120,11 @@ const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
   return r
 }
 
-export const mapWithIndex = <A, B>(fa: Array<A>, f: (a: A, index: number) => B): Array<B> => {
+const mapWithIndex = <A, B>(fa: Array<A>, f: (index: number, a: A) => B): Array<B> => {
   const l = fa.length
   const r = new Array(l)
   for (let i = 0; i < l; i++) {
-    r[i] = f(fa[i], i)
+    r[i] = f(i, fa[i])
   }
   return r
 }
@@ -1456,9 +1457,11 @@ export const array: Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = {
+  Witherable1<URI> &
+  FunctorWithIndex1<URI, number> = {
   URI,
   map,
+  mapWithIndex,
   compact,
   separate,
   filter,
