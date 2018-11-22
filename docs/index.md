@@ -33,6 +33,7 @@
 - [Foldable2v](./Foldable2v.md)
 - [Free](./Free.md)
 - [Functor](./Functor.md)
+- [FunctorWithIndex](./FunctorWithIndex.md)
 - [HKT](./HKT.md)
 - [HeytingAlgebra](./HeytingAlgebra.md)
 - [IO](./IO.md)
