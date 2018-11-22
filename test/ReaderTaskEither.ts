@@ -160,10 +160,14 @@ describe('ReaderTaskEither', () => {
   it('tryCatch', () => {
     const ok = tryCatch(() => Promise.resolve(1), () => 'error')
     const ko = tryCatch(() => Promise.reject(undefined), () => 'error')
-    return Promise.all([ok.run({}), ko.run({})]).then(([eok, eko]) => {
-      assert.deepEqual(eok, eitherRight(1))
-      assert.deepEqual(eko, eitherLeft('error'))
-    })
+    const koWithE = tryCatch(() => Promise.reject(undefined), (_, e: { defaultError: string }) => e.defaultError)
+    return Promise.all([ok.run({}), ko.run({}), koWithE.run({ defaultError: 'defaultError' })]).then(
+      ([eok, eko, ekoWithE]) => {
+        assert.deepEqual(eok, eitherRight(1))
+        assert.deepEqual(eko, eitherLeft('error'))
+        assert.deepEqual(ekoWithE, eitherLeft('defaultError'))
+      }
+    )
   })
 
   it('fromIO', () => {
