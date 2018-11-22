@@ -62,6 +62,8 @@ import * as function_ from './function'
 export { function_ as function }
 import * as functor from './Functor'
 export { functor }
+import * as functorWithIndex from './FunctorWithIndex'
+export { functorWithIndex }
 import * as heytingAlgebra from './HeytingAlgebra'
 export { heytingAlgebra }
 import * as hkt from './HKT'
