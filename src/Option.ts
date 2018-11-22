@@ -15,6 +15,7 @@ import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 import { Witherable1 } from './Witherable'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -132,6 +133,10 @@ export class None<A> {
    * assert.deepEqual(some(1).map(n => n * 2), some(2))
    */
   map<B>(f: (a: A) => B): Option<B> {
+    return none
+  }
+
+  mapWithIndex<B>(f: (i: null, a: A) => B): Option<B> {
     return none
   }
   /**
@@ -333,6 +338,10 @@ export class Some<A> {
   map<B>(f: (a: A) => B): Option<B> {
     return new Some(f(this.value))
   }
+
+  mapWithIndex<B>(f: (i: null, a: A) => B): Option<B> {
+    return new Some(f(null, this.value))
+  }
   mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> {
     return fromNullable(f(this.value))
   }
@@ -454,6 +463,10 @@ export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
 
 const map = <A, B>(fa: Option<A>, f: (a: A) => B): Option<B> => {
   return fa.map(f)
+}
+
+const mapWithIndex = <A, B>(fa: Option<A>, f: (i: null, a: A) => B): Option<B> => {
+  return fa.mapWithIndex(f)
 }
 
 const of = <A>(a: A): Option<A> => {
@@ -829,9 +842,11 @@ export const option: Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = {
+  Witherable1<URI> &
+  FunctorWithIndex1<URI, null> = {
   URI,
   map,
+  mapWithIndex,
   of,
   ap,
   chain,

@@ -18,7 +18,8 @@ Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI>
+  Witherable1<URI> &
+  FunctorWithIndex1<URI, null>
 ```
 
 Added in v1.0.0 (instance)
@@ -369,6 +370,14 @@ assert.deepEqual(
   none
 )
 ```
+
+## mapWithIndex
+
+```ts
+<B>(f: (i: null, a: A) => B): Option<B>
+```
+
+Added in v1.0.0 (method)
 
 ## orElse
 
