@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.11.1
+
+- **Polish**
+  - `ReaderTaskEither.tryCatch`: add the environment as the second argument of the `onrejected` handler (@ascariandrea)
+
 # 1.11.0
 
 - **Deprecation**
