@@ -238,9 +238,9 @@ export const fromPredicate = <E, L, A>(
  */
 export const tryCatch = <E, L, A>(
   f: (e: E) => Promise<A>,
-  onrejected: (reason: unknown) => L
+  onrejected: (reason: unknown, e: E) => L
 ): ReaderTaskEither<E, L, A> => {
-  return new ReaderTaskEither(e => taskEither.tryCatch(() => f(e), onrejected))
+  return new ReaderTaskEither(e => taskEither.tryCatch(() => f(e), (reason: unknown) => onrejected(reason, e)))
 }
 
 const fromTask = right
