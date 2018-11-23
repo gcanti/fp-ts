@@ -312,5 +312,6 @@ describe('function', () => {
     assert.deepEqual(toString(nonStringifyable), '[object Object]')
     assert.strictEqual(toString(undefined), 'undefined')
     assert.strictEqual(toString(null), 'null')
+    assert.strictEqual(toString(Object.create(null)), '{}')
   })
 })
