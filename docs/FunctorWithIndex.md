@@ -25,3 +25,15 @@ constructor `f` to represent some computational context.
 Instances must satisfy the following laws:
 
 1. Identity: `F.mapWithIndex(fa, (_i, a) => a) = fa`
+2. Composition: `F.mapWithIndex(fa, (_i, a) => bc(ab(a))) = F.mapWithIndex(F.mapWithIndex(fa, ab), bc)`
+
+## getFunctorWithIndexComposition
+
+```ts
+getFunctorWithIndexComposition<F, FI, G, GI>(
+  F: FunctorWithIndex<F, FI>,
+  G: FunctorWithIndex<G, GI>
+): FunctorWithIndexComposition<F, FI, G, GI>
+```
+
+Added in v1.12.0 (function)
