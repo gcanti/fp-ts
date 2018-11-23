@@ -23,6 +23,7 @@ import { Ord } from './Ord'
 import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -80,6 +81,10 @@ export class NonEmptyArray<A> {
    */
   map<B>(f: (a: A) => B): NonEmptyArray<B> {
     return new NonEmptyArray(f(this.head), this.tail.map(f))
+  }
+
+  mapWithIndex<B>(f: (i: number, a: A) => B): NonEmptyArray<B> {
+    return new NonEmptyArray(f(0, this.head), array.mapWithIndex(this.tail, (i, a) => f(i + 1, a)))
   }
 
   /**
@@ -444,6 +449,10 @@ const map = <A, B>(fa: NonEmptyArray<A>, f: (a: A) => B): NonEmptyArray<B> => {
   return fa.map(f)
 }
 
+const mapWithIndex = <A, B>(fa: NonEmptyArray<A>, f: (i: number, a: A) => B): NonEmptyArray<B> => {
+  return fa.mapWithIndex(f)
+}
+
 const of = <A>(a: A): NonEmptyArray<A> => {
   return new NonEmptyArray(a, [])
 }
@@ -595,11 +604,16 @@ export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
  * @instance
  * @since 1.0.0
  */
-export const nonEmptyArray: Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> = {
+export const nonEmptyArray: Monad1<URI> &
+  Comonad1<URI> &
+  Foldable2v1<URI> &
+  Traversable2v1<URI> &
+  FunctorWithIndex1<URI, number> = {
   URI,
   extend,
   extract,
   map,
+  mapWithIndex,
   of,
   ap,
   chain,
