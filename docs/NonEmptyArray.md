@@ -10,7 +10,11 @@ title: Module NonEmptyArray
 ## nonEmptyArray
 
 ```ts
-Monad1<URI> & Comonad1<URI> & Foldable2v1<URI> & Traversable2v1<URI>
+Monad1<URI> &
+  Comonad1<URI> &
+  Foldable2v1<URI> &
+  Traversable2v1<URI> &
+  FunctorWithIndex1<URI, number>
 ```
 
 Added in v1.0.0 (instance)
@@ -348,6 +352,14 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 const double = (n: number): number => n * 2
 assert.deepEqual(new NonEmptyArray(1, [2]).map(double), new NonEmptyArray(2, [4]))
 ```
+
+## mapWithIndex
+
+```ts
+<B>(f: (i: number, a: A) => B): NonEmptyArray<B>
+```
+
+Added in v1.0.0 (method)
 
 ## max
 

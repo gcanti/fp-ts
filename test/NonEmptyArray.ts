@@ -21,6 +21,13 @@ describe('NonEmptyArray', () => {
     assert.deepEqual(nonEmptyArray.map(x, double).toArray(), [2, 4])
   })
 
+  it('mapWithIndex', () => {
+    const x = new NonEmptyArray(1, [2])
+    const add = (i: number, n: number) => n + i
+    assert.deepEqual(x.mapWithIndex(add).toArray(), [1, 3])
+    assert.deepEqual(nonEmptyArray.mapWithIndex(x, add).toArray(), [1, 3])
+  })
+
   it('ap', () => {
     assert.deepEqual(nonEmptyArray.of(1), new NonEmptyArray(1, []))
   })
