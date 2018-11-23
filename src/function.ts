@@ -334,7 +334,7 @@ export const toString = (x: any): string => {
   if (x == null) {
     return String(x)
   }
-  if (x.toString !== Object.prototype.toString) {
+  if (typeof x.toString === 'function' && x.toString !== Object.prototype.toString) {
     return x.toString()
   }
   try {
