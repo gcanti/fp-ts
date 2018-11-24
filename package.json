@@ -42,7 +42,7 @@
     "jest": "22.4.3",
     "prettier": "1.14.3",
     "rimraf": "2.6.2",
-    "ts-jest": "22.4.2",
+    "ts-jest": "^23.10.5",
     "ts-node": "7.0.1",
     "ts-simple-ast": "17.1.1",
     "tslint": "5.11.0",
@@ -61,11 +61,6 @@
     "functional-programming"
   ],
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "skipBabel": true
-      }
-    },
     "collectCoverageFrom": [
       "src/**/*.{ts}",
       "!src/Free.ts",
