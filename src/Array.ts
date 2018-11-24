@@ -911,7 +911,7 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
  * @since 1.0.0
  */
 export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> => {
-  return isOutOfBound(i, as) ? none : updateAt(i, f(as[i]), as)
+  return isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, f(as[i]), as))
 }
 
 /**
