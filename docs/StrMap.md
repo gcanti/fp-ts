@@ -10,7 +10,7 @@ title: Module StrMap
 ## strmap
 
 ```ts
-Functor1<URI> &
+FunctorWithIndex1<URI, string> &
   Foldable2v1<URI> &
   Traversable2v1<URI> &
   Compactable1<URI> &
