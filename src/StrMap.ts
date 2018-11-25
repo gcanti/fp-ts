@@ -5,7 +5,6 @@ import { Filterable1 } from './Filterable'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Foldable2v1 } from './Foldable2v'
 import { Predicate, tuple, Refinement } from './function'
-import { Functor1 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
@@ -15,6 +14,7 @@ import { Setoid } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 import { Unfoldable } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
 
 // https://github.com/purescript/purescript-maps
 
@@ -309,11 +309,15 @@ const wilt = <F>(
   return (wa, f) => F.map(traverseF(wa, f), separate)
 }
 
+const mapWithIndex = <A, B>(fa: StrMap<A>, f: (i: string, a: A) => B): StrMap<B> => {
+  return fa.mapWithKey(f)
+}
+
 /**
  * @instance
  * @since 1.0.0
  */
-export const strmap: Functor1<URI> &
+export const strmap: FunctorWithIndex1<URI, string> &
   Foldable2v1<URI> &
   Traversable2v1<URI> &
   Compactable1<URI> &
@@ -333,5 +337,6 @@ export const strmap: Functor1<URI> &
   partition,
   partitionMap,
   wither,
-  wilt
+  wilt,
+  mapWithIndex
 }
