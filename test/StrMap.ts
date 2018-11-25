@@ -136,6 +136,7 @@ describe('StrMap', () => {
 
   it('mapWithKey', () => {
     assert.deepEqual(new StrMap({ aa: 1 }).mapWithKey((k, a) => a + k.length), new StrMap({ aa: 3 }))
+    assert.deepEqual(strmap.mapWithIndex(new StrMap({ aa: 1 }), (k, a) => a + k.length), new StrMap({ aa: 3 }))
   })
 
   it('traverseWithKey', () => {

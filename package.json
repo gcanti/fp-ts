@@ -61,11 +61,6 @@
     "functional-programming"
   ],
   "jest": {
-    "globals": {
-      "ts-jest": {
-        "skipBabel": true
-      }
-    },
     "collectCoverageFrom": [
       "src/**/*.{ts}",
       "!src/Free.ts",
