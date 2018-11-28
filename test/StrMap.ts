@@ -189,6 +189,12 @@ describe('StrMap', () => {
     const d = new StrMap({ a: 1, b: 3 })
     assert.deepEqual(d.filter(p), new StrMap({ b: 3 }))
     assert.deepEqual(strmap.filter(d, p), new StrMap({ b: 3 }))
+
+    // refinements
+    const x = new StrMap({ a: 1, b: 'foo' })
+    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const actual = x.filter(isNumber)
+    assert.deepEqual(actual, new StrMap({ a: 1 }))
   })
 
   it('filterMap', () => {
