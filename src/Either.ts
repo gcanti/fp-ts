@@ -160,25 +160,33 @@ export class Left<L, A> {
    *
    * @since 1.3.0
    */
-  filterOrElse(p: Predicate<A>, zero: L): Either<L, A> {
+  filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
+  filterOrElse(p: Predicate<A>, zero: L): Either<L, A>
+  filterOrElse(_: Predicate<A>, zero: L): Either<L, A> {
     return this
   }
   /**
    * Lazy version of {@link filterOrElse}
    * @since 1.3.0
    */
-  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> {
+  filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
+  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A>
+  filterOrElseL(_: Predicate<A>, zero: (a: A) => L): Either<L, A> {
     return this
   }
   /**
+   * Use {@link filterOrElse} instead
    * @since 1.6.0
+   * @deprecated
    */
   refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B> {
     return this as any
   }
   /**
    * Lazy version of {@link refineOrElse}
+   * Use {@link filterOrElseL} instead
    * @since 1.6.0
+   * @deprecated
    */
   refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> {
     return this as any
@@ -248,9 +256,13 @@ export class Right<L, A> {
   swap(): Either<A, L> {
     return new Left(this.value)
   }
+  filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
+  filterOrElse(p: Predicate<A>, zero: L): Either<L, A>
   filterOrElse(p: Predicate<A>, zero: L): Either<L, A> {
     return p(this.value) ? this : left(zero)
   }
+  filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
+  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A>
   filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> {
     return p(this.value) ? this : left(zero(this.value))
   }
