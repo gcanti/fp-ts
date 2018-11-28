@@ -426,13 +426,20 @@ export const right = of
  * @function
  * @since 1.0.0
  */
-export const fromPredicate = <L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): Either<L, A> => {
-  return predicate(a) ? right(a) : left(whenFalse(a))
+export function fromPredicate<L, A, B extends A>(
+  predicate: Refinement<A, B>,
+  whenFalse: (a: A) => L
+): (a: A) => Either<L, B>
+export function fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): (a: A) => Either<L, A>
+export function fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): (a: A) => Either<L, A> {
+  return a => (predicate(a) ? right(a) : left(whenFalse(a)))
 }
 
 /**
+ * Use {@link fromPredicate} instead
  * @function
  * @since 1.6.0
+ * @deprecated
  */
 export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, whenFalse: (a: A) => L) => (
   a: A
