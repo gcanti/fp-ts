@@ -117,21 +117,23 @@ export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A> {
  * @function
  * @since 1.2.0
  */
-export const partition = <A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> => {
+export function partition<A, B extends A>(x: Set<A>, predicate: Refinement<A, B>): Separated<Set<A>, Set<B>>
+export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>>
+export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> {
   const values = x.values()
   let e: IteratorResult<A>
-  let t = new Set()
-  let f = new Set()
+  let right = new Set()
+  let left = new Set()
   // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const value = e.value
     if (predicate(value)) {
-      t.add(value)
+      right.add(value)
     } else {
-      f.add(value)
+      left.add(value)
     }
   }
-  return { right: t, left: f }
+  return { left, right }
 }
 
 /**
