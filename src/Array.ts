@@ -795,11 +795,13 @@ export const findLastIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<
 }
 
 /**
+ * Use {@link filter} instead
  * @function
  * @since 1.0.0
+ * @deprecated
  */
 export const refine = <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B> => {
-  return filter(as, refinement) as Array<B>
+  return filter(as, refinement)
 }
 
 /**
@@ -1246,10 +1248,15 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
 
 /**
  * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
+ *
+ * **Note**. `predicate` can be a refinement
+ *
  * @function
  * @since 1.0.0
  */
-export const filter = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
+export function filter<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
+export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
+export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A> {
   return as.filter(predicate)
 }
 
