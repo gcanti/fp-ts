@@ -190,6 +190,11 @@ describe('Option', () => {
     const f = fromPredicate(p)
     assert.deepEqual(f(1), none)
     assert.deepEqual(f(3), some(3))
+
+    type Direction = 'asc' | 'desc'
+    const parseDirection = fromRefinement((s: string): s is Direction => s === 'asc' || s === 'desc')
+    assert.deepEqual(parseDirection('asc'), some('asc'))
+    assert.deepEqual(parseDirection('foo'), none)
   })
 
   it('traverse', () => {
