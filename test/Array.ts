@@ -60,7 +60,7 @@ import {
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
-import { option, Option, none, some } from '../src/Option'
+import { option, Option, none, some, isSome } from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString, Setoid } from '../src/Setoid'
 import { identity, tuple, constTrue } from '../src/function'
@@ -539,9 +539,9 @@ describe('Array', () => {
   it('filter', () => {
     assert.deepEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
     assert.deepEqual(array.filter([1, 2, 3], n => n % 2 === 1), [1, 3])
-    const x = filter([some(3), some(2), some(1)], (o): o is Option<number> => o.isSome())
+    const x = filter([some(3), some(2), some(1)], isSome)
     assert.deepEqual(x, [some(3), some(2), some(1)])
-    const y = filter([some(3), none, some(1)], (o): o is Option<number> => o.isSome())
+    const y = filter([some(3), none, some(1)], isSome)
     assert.deepEqual(y, [some(3), some(1)])
   })
 
