@@ -96,6 +96,15 @@ describe('Set', () => {
       right: new Set([2, 4]),
       left: new Set([1, 3])
     })
+
+    // refinements
+    const x: Set<string | number> = new Set([1, 'a', 2])
+    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const actual = partition(x, isNumber)
+    assert.deepEqual(actual, {
+      left: new Set(['a']),
+      right: new Set([1, 2])
+    })
   })
 
   it('member', () => {
