@@ -597,7 +597,9 @@ export const takeEnd = <A>(n: number, as: Array<A>): Array<A> => {
  * @function
  * @since 1.0.0
  */
-export const takeWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
+export function takeWhile<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
+export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
+export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A> {
   const i = spanIndexUncurry(as, predicate)
   const init = Array(i)
   for (let j = 0; j < i; j++) {
