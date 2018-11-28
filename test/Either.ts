@@ -87,6 +87,8 @@ describe('Either', () => {
     const gt2 = fromPredicate(predicate, handleError)
     assert.deepEqual(gt2(3), right(3))
     assert.deepEqual(gt2(1), left('Invalid number 1'))
+
+    // refinements
     type Color = 'red' | 'blue'
     const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     const from = fromPredicate(isColor, s => `invalid color ${s}`)

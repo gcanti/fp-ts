@@ -265,7 +265,7 @@ describe('ReaderTaskEither', () => {
     const gt2 = fromPredicate(predicate, handleError)
 
     // refinements
-    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
     const is = fromPredicate(isNumber, u => `Invalid number ${String(u)}`)
     const actual = is(4)
 

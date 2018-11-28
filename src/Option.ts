@@ -403,7 +403,7 @@ export class Some<A> {
     return this.exists(p) ? this : none
   }
   refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
-    return this.filter(refinement) as Option<B>
+    return this.filter(refinement)
   }
 }
 
