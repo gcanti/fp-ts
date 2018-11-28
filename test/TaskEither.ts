@@ -443,30 +443,38 @@ describe('TaskEither', () => {
   })
 
   it('filterOrElse', () => {
+    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const actual = taskEither.of<string, string | number>(12).filterOrElse(isNumber, 'not a number')
     const tasks = [
-      taskEither.of<string, number>(12).filterOrElse(n => n > 10, 'bar'),
-      taskEither.of<string, number>(7).filterOrElse(n => n > 10, 'bar'),
-      fromLeft<string, number>('foo').filterOrElse(n => n > 10, 'bar')
-    ]
-    return Promise.all(tasks.map(te => te.run())).then(([r1, r2, r3]) => {
-      assert.deepEqual(r1, eitherRight(12))
-      assert.deepEqual(r2, eitherLeft('bar'))
-      assert.deepEqual(r3, eitherLeft('foo'))
-    })
-  })
-
-  it('filterOrElseL', () => {
-    const tasks = [
-      taskEither.of<string, number>(12).filterOrElseL(n => n > 10, () => 'bar'),
-      taskEither.of<string, number>(7).filterOrElseL(n => n > 10, () => 'bar'),
-      fromLeft<string, number>('foo').filterOrElseL(n => n > 10, () => 'bar'),
-      taskEither.of<string, number>(7).filterOrElseL(n => n > 10, n => `invalid ${n}`)
+      taskEither.of<string, string | number>(12).filterOrElse(n => n > 10, 'bar'),
+      taskEither.of<string, string | number>(7).filterOrElse(n => n > 10, 'bar'),
+      fromLeft<string, string | number>('foo').filterOrElse(n => n > 10, 'bar'),
+      actual
     ]
     return Promise.all(tasks.map(te => te.run())).then(([r1, r2, r3, r4]) => {
       assert.deepEqual(r1, eitherRight(12))
       assert.deepEqual(r2, eitherLeft('bar'))
       assert.deepEqual(r3, eitherLeft('foo'))
+      assert.deepEqual(r4, eitherRight(12))
+    })
+  })
+
+  it('filterOrElseL', () => {
+    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const actual = taskEither.of<string, string | number>(12).filterOrElseL(isNumber, () => 'not a number')
+    const tasks = [
+      taskEither.of<string, number>(12).filterOrElseL(n => n > 10, () => 'bar'),
+      taskEither.of<string, number>(7).filterOrElseL(n => n > 10, () => 'bar'),
+      fromLeft<string, number>('foo').filterOrElseL(n => n > 10, () => 'bar'),
+      taskEither.of<string, number>(7).filterOrElseL(n => n > 10, n => `invalid ${n}`),
+      actual
+    ]
+    return Promise.all(tasks.map(te => te.run())).then(([r1, r2, r3, r4, r5]) => {
+      assert.deepEqual(r1, eitherRight(12))
+      assert.deepEqual(r2, eitherLeft('bar'))
+      assert.deepEqual(r3, eitherLeft('foo'))
       assert.deepEqual(r4, eitherLeft('invalid 7'))
+      assert.deepEqual(r5, eitherRight(12))
     })
   })
 })

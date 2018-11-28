@@ -9,7 +9,7 @@ import {
   right as eitherRight
 } from './Either'
 import * as eitherT from './EitherT'
-import { constant, constIdentity, Lazy, Predicate } from './function'
+import { constant, constIdentity, Lazy, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2 } from './Monad'
@@ -128,12 +128,16 @@ export class TaskEither<L, A> {
   /**
    * @since 1.11.0
    */
+  filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): TaskEither<L, B>
+  filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A>
   filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A> {
     return new TaskEither(this.value.map(e => e.filterOrElse(p, zero)))
   }
   /**
    * @since 1.11.0
    */
+  filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): TaskEither<L, B>
+  filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>
   filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> {
     return new TaskEither(this.value.map(e => e.filterOrElseL(p, zero)))
   }
