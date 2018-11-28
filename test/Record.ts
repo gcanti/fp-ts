@@ -143,7 +143,7 @@ describe('Record', () => {
     assert.deepEqual(R.filter(d, p), { b: 3 })
 
     // refinements
-    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
     const y: Record<string, string | number> = { a: 1, b: 'foo' }
     const actual = R.filter(y, isNumber)
     assert.deepEqual(actual, { a: 1 })

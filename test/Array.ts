@@ -194,7 +194,7 @@ describe('Array', () => {
 
     // refinements
     const xs: Array<string | number> = [1, 'a', 3]
-    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = span(xs, isNumber)
     assert.deepEqual(actual, { init: [1], rest: ['a', 3] })
   })
@@ -207,7 +207,7 @@ describe('Array', () => {
 
     // refinements
     const xs: Array<string | number> = [1, 'a', 3]
-    const isString = (u: unknown): u is string => typeof u === 'string'
+    const isString = (u: string | number): u is string => typeof u === 'string'
     assert.deepEqual(filter(xs, isString), ['a'])
   })
 

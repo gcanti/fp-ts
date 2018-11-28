@@ -313,7 +313,7 @@ describe('TaskEither', () => {
     const handleError = (n: number) => `Invalid number ${n}`
     const gt2 = fromPredicate(predicate, handleError)
     // refinements
-    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
     const is = fromPredicate(isNumber, () => 'not a number')
     const actual = is(4)
     return Promise.all([gt2(3).run(), gt2(1).run(), actual.run()]).then(([e1, e2, e3]) => {
@@ -446,7 +446,7 @@ describe('TaskEither', () => {
   })
 
   it('filterOrElse', () => {
-    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = taskEither.of<string, string | number>(12).filterOrElse(isNumber, 'not a number')
     const tasks = [
       taskEither.of<string, string | number>(12).filterOrElse(n => n > 10, 'bar'),
@@ -463,7 +463,7 @@ describe('TaskEither', () => {
   })
 
   it('filterOrElseL', () => {
-    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = taskEither.of<string, string | number>(12).filterOrElseL(isNumber, () => 'not a number')
     const tasks = [
       taskEither.of<string, number>(12).filterOrElseL(n => n > 10, () => 'bar'),

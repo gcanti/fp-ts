@@ -192,7 +192,7 @@ describe('StrMap', () => {
 
     // refinements
     const x = new StrMap({ a: 1, b: 'foo' })
-    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = x.filter(isNumber)
     assert.deepEqual(actual, new StrMap({ a: 1 }))
   })
