@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { fold, monoidSum, monoidString } from '../src/Monoid'
 import { NonEmptyArray, nonEmptyArray, fromArray, getSemigroup, group, groupSort, groupBy } from '../src/NonEmptyArray'
-import { none, option, some } from '../src/Option'
+import { none, option, some, isSome } from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
@@ -269,5 +269,11 @@ describe('NonEmptyArray', () => {
       none
     )
     assert.deepEqual(arr.filter(({ x }) => x !== 10), some(new NonEmptyArray(a1, [a2, a3])))
+
+    // refinements
+    const actual1 = new NonEmptyArray(some(3), [some(2), some(1)]).filter(isSome)
+    assert.deepEqual(actual1, some(new NonEmptyArray(some(3), [some(2), some(1)])))
+    const actual2 = new NonEmptyArray(some(3), [none, some(1)]).filter(isSome)
+    assert.deepEqual(actual2, some(new NonEmptyArray(some(3), [some(1)])))
   })
 })
