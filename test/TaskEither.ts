@@ -312,11 +312,14 @@ describe('TaskEither', () => {
     const predicate = (n: number) => n >= 2
     const handleError = (n: number) => `Invalid number ${n}`
     const gt2 = fromPredicate(predicate, handleError)
-    const x1 = gt2(3)
-    const x2 = gt2(1)
-    return Promise.all([x1.run(), x2.run()]).then(([e1, e2]) => {
+    // refinements
+    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const is = fromPredicate(isNumber, () => 'not a number')
+    const actual = is(4)
+    return Promise.all([gt2(3).run(), gt2(1).run(), actual.run()]).then(([e1, e2, e3]) => {
       assert.deepEqual(e1, eitherRight(3))
       assert.deepEqual(e2, eitherLeft('Invalid number 1'))
+      assert.deepEqual(e3, eitherRight(4))
     })
   })
 
