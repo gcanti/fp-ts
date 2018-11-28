@@ -212,6 +212,11 @@ describe('Either', () => {
     assert.deepEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
     assert.deepEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
     assert.deepEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
+    type Color = 'red' | 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
+    assert.deepEqual(right('red').filterOrElse(isColor, -1), right('red'))
+    assert.deepEqual(right('foo').filterOrElse(isColor, -1), left(-1))
+    assert.deepEqual(left<number, string>(12).filterOrElse(isColor, -1), left(12))
   })
 
   it('filterOrElseL', () => {
@@ -219,6 +224,12 @@ describe('Either', () => {
     assert.deepEqual(right(7).filterOrElseL(n => n > 10, () => -1), left(-1))
     assert.deepEqual(left(12).filterOrElseL(n => n > 10, () => -1), left(12))
     assert.deepEqual(right(7).filterOrElseL(n => n > 10, n => `invalid ${n}`), left('invalid 7'))
+    type Color = 'red' | 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
+    const errorHandler = (s: string) => `invalid color ${s}`
+    assert.deepEqual(right('red').filterOrElseL(isColor, errorHandler), right('red'))
+    assert.deepEqual(right('foo').filterOrElseL(isColor, errorHandler), left('invalid color foo'))
+    assert.deepEqual(left<string, string>('error').filterOrElseL(isColor, errorHandler), left('error'))
   })
 
   it('isLeft', () => {
