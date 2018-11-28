@@ -4,7 +4,7 @@ import { Either } from './Either'
 import { Filterable1 } from './Filterable'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Foldable2v1 } from './Foldable2v'
-import { Predicate, tuple } from './function'
+import { Predicate, tuple, Refinement } from './function'
 import { Functor1 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
@@ -49,6 +49,8 @@ export class StrMap<A> {
   /**
    * @since 1.4.0
    */
+  filter<B extends A>(p: Refinement<A, B>): StrMap<B>
+  filter(p: Predicate<A>): StrMap<A>
   filter(p: Predicate<A>): StrMap<A> {
     return new StrMap(R.filter(this.value, p))
   }
