@@ -5,7 +5,7 @@ import { Compactable2C, Separated } from './Compactable'
 import { Either } from './Either'
 import { Filterable2C } from './Filterable'
 import { Foldable2v2 } from './Foldable2v'
-import { phantom, Predicate, toString } from './function'
+import { phantom, Predicate, toString, Refinement } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -299,8 +299,13 @@ export const success = of
  * @function
  * @since 1.0.0
  */
-export const fromPredicate = <L, A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A): Validation<L, A> => {
-  return predicate(a) ? success(a) : failure(f(a))
+export function fromPredicate<L, A, B extends A>(
+  predicate: Refinement<A, B>,
+  f: (a: A) => L
+): (a: A) => Validation<L, B>
+export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a: A) => Validation<L, A>
+export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a: A) => Validation<L, A> {
+  return a => (predicate(a) ? success(a) : failure(f(a)))
 }
 
 /**
