@@ -3,7 +3,7 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Predicate, not } from './function'
+import { Predicate, not, Refinement } from './function'
 import { Separated } from './Compactable'
 
 /**
@@ -97,7 +97,9 @@ export const subset = <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean => {
  * @function
  * @since 1.0.0
  */
-export const filter = <A>(x: Set<A>, predicate: Predicate<A>): Set<A> => {
+export function filter<A, B extends A>(x: Set<A>, predicate: Refinement<A, B>): Set<B>
+export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A>
+export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A> {
   const values = x.values()
   let e: IteratorResult<A>
   let r = new Set()
