@@ -296,9 +296,9 @@ describe('Option', () => {
   })
 
   it('refine', () => {
-    const x: Option<number | string> = none
+    const y: Option<number | string> = none
     const isString = (a: any): a is string => typeof a === 'string'
-    assert.equal(x.refine(isString), x)
+    assert.equal(y.refine(isString), y)
     const some1 = some<number | string>(1)
     assert.equal(some1.refine(isString), none)
     const someHello = some<number | string>('hello')
@@ -352,6 +352,17 @@ describe('Option', () => {
     const some2 = some(2)
     assert.equal(some2.filter(is2), some2)
     assert.equal(option.filter(some2, is2), some2)
+
+    const y: Option<number | string> = none
+    const isString = (a: any): a is string => typeof a === 'string'
+    assert.equal(y.refine(isString), y)
+    const some1 = some<number | string>(1)
+    assert.equal(some1.refine(isString), none)
+    const someHello = some<number | string>('hello')
+    // explicitly type refinedOption as Option<string> to prove typings work
+    // typing as Option<number> will cause typescript to error
+    const refinedOption: Option<string> = someHello.refine(isString)
+    assert.equal(refinedOption, someHello)
   })
 
   it('filterMap', () => {

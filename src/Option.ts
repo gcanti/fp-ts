@@ -306,13 +306,17 @@ export class None<A> {
    * Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value.
    * Otherwise returns `None`
    */
+  filter<B extends A>(p: Refinement<A, B>): Option<B>
+  filter(p: Predicate<A>): Option<A>
   filter(p: Predicate<A>): Option<A> {
     return none
   }
   /**
+   * Use {@link filter} instead.
    * Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
    * this Option's value. Otherwise returns `None`
    * @since 1.3.0
+   * @deprecated
    */
   refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
     return none
@@ -393,6 +397,8 @@ export class Some<A> {
   exists(p: (a: A) => boolean): boolean {
     return p(this.value)
   }
+  filter<B extends A>(p: Refinement<A, B>): Option<B>
+  filter(p: Predicate<A>): Option<A>
   filter(p: Predicate<A>): Option<A> {
     return this.exists(p) ? this : none
   }
