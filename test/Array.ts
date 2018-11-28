@@ -191,6 +191,12 @@ describe('Array', () => {
 
   it('span', () => {
     assert.deepEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
+
+    // refinements
+    const xs: Array<string | number> = [1, 'a', 3]
+    const isNumber = (u: unknown): u is number => typeof u === 'number'
+    const actual = span(xs, isNumber)
+    assert.deepEqual(actual, { init: [1], rest: ['a', 3] })
   })
 
   it('takeWhile', () => {
