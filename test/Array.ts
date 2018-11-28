@@ -198,6 +198,11 @@ describe('Array', () => {
     assert.deepEqual(takeWhile([], n => n % 2 === 0), [])
     assert.deepEqual(takeWhile([1, 2, 4], n => n % 2 === 0), [])
     assert.deepEqual(takeWhile([2, 4], n => n % 2 === 0), [2, 4])
+
+    // refinements
+    const xs: Array<string | number> = [1, 'a', 3]
+    const isString = (u: unknown): u is string => typeof u === 'string'
+    assert.deepEqual(filter(xs, isString), ['a'])
   })
 
   it('drop', () => {
