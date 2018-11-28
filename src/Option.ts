@@ -669,8 +669,10 @@ export const some = of
  * @function
  * @since 1.0.0
  */
-export const fromPredicate = <A>(predicate: Predicate<A>) => (a: A): Option<A> => {
-  return predicate(a) ? some(a) : none
+export function fromPredicate<A, B extends A>(predicate: Refinement<A, B>): (a: A) => Option<B>
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
+  return a => (predicate(a) ? some(a) : none)
 }
 
 /**
@@ -736,9 +738,11 @@ export const isNone = <A>(fa: Option<A>): fa is None<A> => {
 }
 
 /**
+ * Use {@link fromPredicate} instead.
  * Refinement version of {@link fromPredicate}
  * @function
  * @since 1.3.0
+ * @deprecated
  */
 export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => {
   return refinement(a) ? some(a) : none
