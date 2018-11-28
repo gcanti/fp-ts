@@ -14,7 +14,7 @@ import { Unfoldable } from './Unfoldable'
  * @function
  * @since 1.10.0
  */
-export const size = <A>(d: { [key: string]: A }): number => {
+export const size = <A>(d: Record<string, A>): number => {
   return Object.keys(d).length
 }
 
@@ -23,7 +23,7 @@ export const size = <A>(d: { [key: string]: A }): number => {
  * @function
  * @since 1.10.0
  */
-export const isEmpty = <A>(d: { [key: string]: A }): boolean => {
+export const isEmpty = <A>(d: Record<string, A>): boolean => {
   return Object.keys(d).length === 0
 }
 
@@ -31,7 +31,7 @@ export const isEmpty = <A>(d: { [key: string]: A }): boolean => {
  * @function
  * @since 1.10.0
  */
-export const collect = <A, B>(d: { [key: string]: A }, f: (k: string, a: A) => B): Array<B> => {
+export const collect = <A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B> => {
   const out: Array<B> = []
   const keys = Object.keys(d).sort()
   for (const key of keys) {
@@ -44,7 +44,7 @@ export const collect = <A, B>(d: { [key: string]: A }, f: (k: string, a: A) => B
  * @function
  * @since 1.10.0
  */
-export const toArray = <A>(d: { [key: string]: A }): Array<[string, A]> => {
+export const toArray = <A>(d: Record<string, A>): Array<[string, A]> => {
   return collect(d, (k, a: A) => tuple(k, a))
 }
 
@@ -53,7 +53,7 @@ export const toArray = <A>(d: { [key: string]: A }): Array<[string, A]> => {
  * @function
  * @since 1.10.0
  */
-export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: { [key: string]: A }): HKT<F, [string, A]> => {
+export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: Record<string, A>): HKT<F, [string, A]> => {
   const arr = toArray(d)
   const len = arr.length
   return unfoldable.unfoldr(0, b => (b < len ? some(tuple(arr[b], b + 1)) : none))
@@ -64,7 +64,7 @@ export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: { [key: str
  * @function
  * @since 1.10.0
  */
-export const insert = <A>(k: string, a: A, d: { [key: string]: A }): { [key: string]: A } => {
+export const insert = <A>(k: string, a: A, d: Record<string, A>): Record<string, A> => {
   const r = Object.assign({}, d)
   r[k] = a
   return r
@@ -75,7 +75,7 @@ export const insert = <A>(k: string, a: A, d: { [key: string]: A }): { [key: str
  * @function
  * @since 1.10.0
  */
-export const remove = <A>(k: string, d: { [key: string]: A }): { [key: string]: A } => {
+export const remove = <A>(k: string, d: Record<string, A>): Record<string, A> => {
   const r = Object.assign({}, d)
   delete r[k]
   return r
@@ -86,7 +86,7 @@ export const remove = <A>(k: string, d: { [key: string]: A }): { [key: string]: 
  * @function
  * @since 1.10.0
  */
-export const pop = <A>(k: string, d: { [key: string]: A }): Option<[A, { [key: string]: A }]> => {
+export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> => {
   const a = lookup(k, d)
   return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
 }
@@ -96,7 +96,7 @@ export const pop = <A>(k: string, d: { [key: string]: A }): Option<[A, { [key: s
  * @function
  * @since 1.10.0
  */
-export const isSubdictionary = <A>(S: Setoid<A>) => (d1: { [key: string]: A }, d2: { [key: string]: A }): boolean => {
+export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
   for (let k in d1) {
     if (!d2.hasOwnProperty(k) || !S.equals(d1[k], d2[k])) {
       return false
@@ -109,7 +109,7 @@ export const isSubdictionary = <A>(S: Setoid<A>) => (d1: { [key: string]: A }, d
  * @function
  * @since 1.10.0
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<{ [key: string]: A }> => {
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Record<string, A>> => {
   const isSubdictionaryS = isSubdictionary(S)
   return {
     equals: (x, y) => isSubdictionaryS(x, y) && isSubdictionaryS(y, x)
@@ -126,17 +126,17 @@ export const getMonoid = getDictionaryMonoid
  * Lookup the value for a key in a dictionary
  * @since 1.10.0
  */
-export const lookup = <A>(key: string, fa: { [key: string]: A }): Option<A> => {
+export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => {
   return fa.hasOwnProperty(key) ? some(fa[key]) : none
 }
 
 /**
  * @since 1.10.0
  */
-export function filter<A, B extends A>(fa: { [key: string]: A }, p: Refinement<A, B>): { [key: string]: B }
-export function filter<A>(fa: { [key: string]: A }, p: Predicate<A>): { [key: string]: A }
-export function filter<A>(fa: { [key: string]: A }, p: Predicate<A>): { [key: string]: A } {
-  const r: { [key: string]: A } = {}
+export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
+export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A>
+export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> {
+  const r: Record<string, A> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
     const a = fa[key]
@@ -155,21 +155,21 @@ export function filter<A>(fa: { [key: string]: A }, p: Predicate<A>): { [key: st
  */
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <U, L, A>(ta: Type3<F, U, L, [string, A]>, f: (existing: A, a: A) => A) => { [key: string]: A }
+): <U, L, A>(ta: Type3<F, U, L, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
 export function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <L, A>(ta: Type2<F, L, [string, A]>, f: (existing: A, a: A) => A) => { [key: string]: A }
+): <L, A>(ta: Type2<F, L, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
 export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): <A>(ta: Type<F, [string, A]>, f: (existing: A, a: A) => A) => { [key: string]: A }
+): <A>(ta: Type<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
 export function fromFoldable<F>(
   F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => { [key: string]: A }
+): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
 export function fromFoldable<F>(
   F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => { [key: string]: A } {
+): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A> {
   return <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => {
-    return F.reduce<[string, A], { [key: string]: A }>(ta, {}, (b, [k, a]) => {
+    return F.reduce<[string, A], Record<string, A>>(ta, {}, (b, [k, a]) => {
       b[k] = b.hasOwnProperty(k) ? f(b[k], a) : a
       return b
     })
@@ -186,8 +186,8 @@ export const empty: Record<string, never> = {}
  * @function
  * @since 1.10.0
  */
-export const mapWithKey = <A, B>(fa: { [key: string]: A }, f: (k: string, a: A) => B): { [key: string]: B } => {
-  const r: { [key: string]: B } = {}
+export const mapWithKey = <A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B> => {
+  const r: Record<string, B> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
     r[key] = f(key, fa[key])
@@ -199,7 +199,7 @@ export const mapWithKey = <A, B>(fa: { [key: string]: A }, f: (k: string, a: A) 
  * @function
  * @since 1.10.0
  */
-export const map = <A, B>(fa: { [key: string]: A }, f: (a: A) => B): { [key: string]: B } => {
+export const map = <A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B> => {
   return mapWithKey(fa, (_, a) => f(a))
 }
 
@@ -207,7 +207,7 @@ export const map = <A, B>(fa: { [key: string]: A }, f: (a: A) => B): { [key: str
  * @function
  * @since 1.10.0
  */
-export const reduce = <A, B>(fa: { [key: string]: A }, b: B, f: (b: B, a: A) => B): B => {
+export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => {
   let out: B = b
   const keys = Object.keys(fa).sort()
   const len = keys.length
@@ -221,7 +221,7 @@ export const reduce = <A, B>(fa: { [key: string]: A }, b: B, f: (b: B, a: A) => 
  * @function
  * @since 1.10.0
  */
-export const foldMap = <M>(M: Monoid<M>) => <A>(fa: { [key: string]: A }, f: (a: A) => M): M => {
+export const foldMap = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (a: A) => M): M => {
   let out: M = M.empty
   const keys = Object.keys(fa).sort()
   const len = keys.length
@@ -235,7 +235,7 @@ export const foldMap = <M>(M: Monoid<M>) => <A>(fa: { [key: string]: A }, f: (a:
  * @function
  * @since 1.10.0
  */
-export const foldr = <A, B>(fa: { [key: string]: A }, b: B, f: (a: A, b: B) => B): B => {
+export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => {
   let out: B = b
   const keys = Object.keys(fa).sort()
   const len = keys.length
@@ -250,7 +250,7 @@ export const foldr = <A, B>(fa: { [key: string]: A }, b: B, f: (a: A, b: B) => B
  * @function
  * @since 1.10.0
  */
-export const singleton = <A>(k: string, a: A): { [key: string]: A } => {
+export const singleton = <A>(k: string, a: A): Record<string, A> => {
   return { [k]: a }
 }
 
@@ -260,24 +260,21 @@ export const singleton = <A>(k: string, a: A): { [key: string]: A } => {
  */
 export function traverseWithKey<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(
-  ta: { [key: string]: A },
-  f: (k: string, a: A) => Type3<F, U, L, B>
-) => Type3<F, U, L, { [key: string]: B }>
+): <U, L, A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<string, B>>
 export function traverseWithKey<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(ta: { [key: string]: A }, f: (k: string, a: A) => Type2<F, L, B>) => Type2<F, L, { [key: string]: B }>
+): <L, A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type2<F, L, B>) => Type2<F, L, Record<string, B>>
 export function traverseWithKey<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(ta: { [key: string]: A }, f: (k: string, a: A) => Type<F, B>) => Type<F, { [key: string]: B }>
+): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type<F, B>) => Type<F, Record<string, B>>
 export function traverseWithKey<F>(
   F: Applicative<F>
-): <A, B>(ta: { [key: string]: A }, f: (k: string, a: A) => HKT<F, B>) => HKT<F, { [key: string]: B }>
+): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>
 export function traverseWithKey<F>(
   F: Applicative<F>
-): <A, B>(ta: { [key: string]: A }, f: (k: string, a: A) => HKT<F, B>) => HKT<F, { [key: string]: B }> {
-  return <A, B>(ta: { [key: string]: A }, f: (k: string, a: A) => HKT<F, B>) => {
-    let fr: HKT<F, { [key: string]: B }> = F.of(empty)
+): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>> {
+  return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
+    let fr: HKT<F, Record<string, B>> = F.of(empty)
     const keys = Object.keys(ta)
     for (const key of keys) {
       fr = F.ap(F.map(fr, r => (b: B) => ({ ...r, [key]: b })), f(key, ta[key]))
@@ -292,25 +289,25 @@ export function traverseWithKey<F>(
  */
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(ta: { [key: string]: A }, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, { [key: string]: B }>
+): <U, L, A, B>(ta: Record<string, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<string, B>>
 export function traverse<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): <A, B>(ta: { [key: string]: A }, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, { [key: string]: B }>
+): <A, B>(ta: Record<string, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<string, B>>
 export function traverse<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(ta: { [key: string]: A }, f: (a: A) => Type2<F, L, B>) => Type2<F, L, { [key: string]: B }>
+): <L, A, B>(ta: Record<string, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<string, B>>
 export function traverse<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <A, B>(ta: { [key: string]: A }, f: (a: A) => Type2<F, L, B>) => Type2<F, L, { [key: string]: B }>
+): <A, B>(ta: Record<string, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<string, B>>
 export function traverse<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(ta: { [key: string]: A }, f: (a: A) => Type<F, B>) => Type<F, { [key: string]: B }>
+): <A, B>(ta: Record<string, A>, f: (a: A) => Type<F, B>) => Type<F, Record<string, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <A, B>(ta: { [key: string]: A }, f: (a: A) => HKT<F, B>) => HKT<F, { [key: string]: B }>
+): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <A, B>(ta: { [key: string]: A }, f: (a: A) => HKT<F, B>) => HKT<F, { [key: string]: B }> {
+): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>> {
   const traverseWithKeyF = traverseWithKey(F)
   return (ta, f) => traverseWithKeyF(ta, (_, a) => f(a))
 }
@@ -321,21 +318,21 @@ export function traverse<F>(
  */
 export function sequence<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A>(ta: { [key: string]: Type3<F, U, L, A> }) => Type3<F, U, L, { [key: string]: A }>
+): <U, L, A>(ta: Record<string, Type3<F, U, L, A>>) => Type3<F, U, L, Record<string, A>>
 export function sequence<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): <A>(ta: { [key: string]: Type3<F, U, L, A> }) => Type3<F, U, L, { [key: string]: A }>
+): <A>(ta: Record<string, Type3<F, U, L, A>>) => Type3<F, U, L, Record<string, A>>
 export function sequence<F extends URIS2>(
   F: Applicative2<F>
-): <L, A>(ta: { [key: string]: Type2<F, L, A> }) => Type2<F, L, { [key: string]: A }>
+): <L, A>(ta: Record<string, Type2<F, L, A>>) => Type2<F, L, Record<string, A>>
 export function sequence<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <A>(ta: { [key: string]: Type2<F, L, A> }) => Type2<F, L, { [key: string]: A }>
+): <A>(ta: Record<string, Type2<F, L, A>>) => Type2<F, L, Record<string, A>>
 export function sequence<F extends URIS>(
   F: Applicative1<F>
-): <A>(ta: { [key: string]: Type<F, A> }) => Type<F, { [key: string]: A }>
-export function sequence<F>(F: Applicative<F>): <A>(ta: { [key: string]: HKT<F, A> }) => HKT<F, { [key: string]: A }>
-export function sequence<F>(F: Applicative<F>): <A>(ta: { [key: string]: HKT<F, A> }) => HKT<F, { [key: string]: A }> {
+): <A>(ta: Record<string, Type<F, A>>) => Type<F, Record<string, A>>
+export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>>
+export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>> {
   const traverseWithKeyF = traverseWithKey(F)
   return ta => traverseWithKeyF(ta, (_, a) => a)
 }
@@ -344,8 +341,8 @@ export function sequence<F>(F: Applicative<F>): <A>(ta: { [key: string]: HKT<F, 
  * @function
  * @since 1.10.0
  */
-export const compact = <A>(fa: { [key: string]: Option<A> }): { [key: string]: A } => {
-  const r: { [key: string]: A } = {}
+export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => {
+  const r: Record<string, A> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
     const optionA = fa[key]
@@ -361,11 +358,11 @@ export const compact = <A>(fa: { [key: string]: Option<A> }): { [key: string]: A
  * @since 1.10.0
  */
 export const partitionMap = <RL, RR, A>(
-  fa: { [key: string]: A },
+  fa: Record<string, A>,
   f: (a: A) => Either<RL, RR>
-): Separated<{ [key: string]: RL }, { [key: string]: RR }> => {
-  const left: { [key: string]: RL } = {}
-  const right: { [key: string]: RR } = {}
+): Separated<Record<string, RL>, Record<string, RR>> => {
+  const left: Record<string, RL> = {}
+  const right: Record<string, RR> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
     const e = f(fa[key])
@@ -386,11 +383,11 @@ export const partitionMap = <RL, RR, A>(
  * @since 1.10.0
  */
 export const partition = <A>(
-  fa: { [key: string]: A },
+  fa: Record<string, A>,
   p: Predicate<A>
-): Separated<{ [key: string]: A }, { [key: string]: A }> => {
-  const left: { [key: string]: A } = {}
-  const right: { [key: string]: A } = {}
+): Separated<Record<string, A>, Record<string, A>> => {
+  const left: Record<string, A> = {}
+  const right: Record<string, A> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
     const a = fa[key]
@@ -410,11 +407,11 @@ export const partition = <A>(
  * @function
  * @since 1.10.0
  */
-export const separate = <RL, RR>(fa: {
-  [key: string]: Either<RL, RR>
-}): Separated<{ [key: string]: RL }, { [key: string]: RR }> => {
-  const left: { [key: string]: RL } = {}
-  const right: { [key: string]: RR } = {}
+export const separate = <RL, RR>(
+  fa: Record<string, Either<RL, RR>>
+): Separated<Record<string, RL>, Record<string, RR>> => {
+  const left: Record<string, RL> = {}
+  const right: Record<string, RR> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
     const e = fa[key]
@@ -436,28 +433,25 @@ export const separate = <RL, RR>(fa: {
  */
 export function wither<F extends URIS3>(
   F: Applicative3<F>
-): (<U, L, A, B>(
-  wa: { [key: string]: A },
-  f: (a: A) => Type3<F, U, L, Option<B>>
-) => Type3<F, U, L, { [key: string]: B }>)
+): (<U, L, A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>)
 export function wither<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): (<A, B>(wa: { [key: string]: A }, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, { [key: string]: B }>)
+): (<A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>)
 export function wither<F extends URIS2>(
   F: Applicative2<F>
-): (<L, A, B>(wa: { [key: string]: A }, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, { [key: string]: B }>)
+): (<L, A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>)
 export function wither<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): (<A, B>(wa: { [key: string]: A }, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, { [key: string]: B }>)
+): (<A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>)
 export function wither<F extends URIS>(
   F: Applicative1<F>
-): (<A, B>(wa: { [key: string]: A }, f: (a: A) => Type<F, Option<B>>) => Type<F, { [key: string]: B }>)
+): (<A, B>(wa: Record<string, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Record<string, B>>)
 export function wither<F>(
   F: Applicative<F>
-): (<A, B>(wa: { [key: string]: A }, f: (a: A) => HKT<F, Option<B>>) => HKT<F, { [key: string]: B }>)
+): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>)
 export function wither<F>(
   F: Applicative<F>
-): (<A, B>(wa: { [key: string]: A }, f: (a: A) => HKT<F, Option<B>>) => HKT<F, { [key: string]: B }>) {
+): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>) {
   const traverseF = traverse(F)
   return (wa, f) => F.map(traverseF(wa, f), compact)
 }
@@ -469,45 +463,45 @@ export function wither<F>(
 export function wilt<F extends URIS3>(
   F: Applicative3<F>
 ): (<U, L, RL, RR, A>(
-  wa: { [key: string]: A },
+  wa: Record<string, A>,
   f: (a: A) => Type3<F, U, L, Either<RL, RR>>
-) => Type3<F, U, L, Separated<{ [key: string]: RL }, { [key: string]: RR }>>)
+) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>)
 export function wilt<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
 ): (<RL, RR, A>(
-  wa: { [key: string]: A },
+  wa: Record<string, A>,
   f: (a: A) => Type3<F, U, L, Either<RL, RR>>
-) => Type3<F, U, L, Separated<{ [key: string]: RL }, { [key: string]: RR }>>)
+) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>)
 export function wilt<F extends URIS2>(
   F: Applicative2<F>
 ): (<L, RL, RR, A>(
-  wa: { [key: string]: A },
+  wa: Record<string, A>,
   f: (a: A) => Type2<F, L, Either<RL, RR>>
-) => Type2<F, L, Separated<{ [key: string]: RL }, { [key: string]: RR }>>)
+) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>)
 export function wilt<F extends URIS2, L>(
   F: Applicative2C<F, L>
 ): (<RL, RR, A>(
-  wa: { [key: string]: A },
+  wa: Record<string, A>,
   f: (a: A) => Type2<F, L, Either<RL, RR>>
-) => Type2<F, L, Separated<{ [key: string]: RL }, { [key: string]: RR }>>)
+) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>)
 export function wilt<F extends URIS>(
   F: Applicative1<F>
 ): (<RL, RR, A>(
-  wa: { [key: string]: A },
+  wa: Record<string, A>,
   f: (a: A) => Type<F, Either<RL, RR>>
-) => Type<F, Separated<{ [key: string]: RL }, { [key: string]: RR }>>)
+) => Type<F, Separated<Record<string, RL>, Record<string, RR>>>)
 export function wilt<F>(
   F: Applicative<F>
 ): (<RL, RR, A>(
-  wa: { [key: string]: A },
+  wa: Record<string, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
-) => HKT<F, Separated<{ [key: string]: RL }, { [key: string]: RR }>>)
+) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>)
 export function wilt<F>(
   F: Applicative<F>
 ): (<RL, RR, A>(
-  wa: { [key: string]: A },
+  wa: Record<string, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
-) => HKT<F, Separated<{ [key: string]: RL }, { [key: string]: RR }>>) {
+) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>) {
   const traverseF = traverse(F)
   return (wa, f) => F.map(traverseF(wa, f), separate)
 }
@@ -516,8 +510,8 @@ export function wilt<F>(
  * @function
  * @since 1.10.0
  */
-export const filterMap = <A, B>(fa: { [key: string]: A }, f: (a: A) => Option<B>): { [key: string]: B } => {
-  const r: { [key: string]: B } = {}
+export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => {
+  const r: Record<string, B> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
     const optionB = f(fa[key])
