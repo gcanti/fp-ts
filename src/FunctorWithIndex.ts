@@ -53,11 +53,11 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
   readonly mapWithIndex: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (i: I, a: A) => B) => Type4<F, X, U, L, B>
 }
 
-export interface FunctorWithIndex2C<F extends URIS2, L, I> extends Functor2C<F, L> {
+export interface FunctorWithIndex2C<F extends URIS2, I, L> extends Functor2C<F, L> {
   readonly mapWithIndex: <A, B>(fa: Type2<F, L, A>, f: (i: I, a: A) => B) => Type2<F, L, B>
 }
 
-export interface FunctorWithIndex3C<F extends URIS3, U, L, I> extends Functor3C<F, U, L> {
+export interface FunctorWithIndex3C<F extends URIS3, I, U, L> extends Functor3C<F, U, L> {
   readonly mapWithIndex: <A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => B) => Type3<F, U, L, B>
 }
 
@@ -98,34 +98,50 @@ export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends UR
   ) => Type2<F, L, Type2<G, M, B>>
 }
 
-export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, M>
-  extends FunctorComposition22C<F, G, M> {
+export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, LG>
+  extends FunctorComposition22C<F, G, LG> {
   readonly mapWithIndex: <L, A, B>(
-    fa: Type2<F, L, Type2<G, M, A>>,
+    fa: Type2<F, L, Type2<G, LG, A>>,
     f: (i: [FI, GI], a: A) => B
-  ) => Type2<F, L, Type2<G, M, B>>
+  ) => Type2<F, L, Type2<G, LG, B>>
 }
 
-export interface FunctorWithIndexComposition3C1<F extends URIS3, FI, G extends URIS, GI, U, L>
-  extends FunctorComposition3C1<F, G, U, L> {
+export interface FunctorWithIndexComposition3C1<F extends URIS3, FI, G extends URIS, GI, UF, LF>
+  extends FunctorComposition3C1<F, G, UF, LF> {
   readonly mapWithIndex: <A, B>(
-    fa: Type3<F, U, L, Type<G, A>>,
+    fa: Type3<F, UF, LF, Type<G, A>>,
     f: (i: [FI, GI], a: A) => B
-  ) => Type3<F, U, L, Type<G, B>>
+  ) => Type3<F, UF, LF, Type<G, B>>
 }
 
 /**
  * @function
  * @since 1.12.0
  */
+export function getFunctorWithIndexComposition<F extends URIS3, FI, G extends URIS, GI, U, L>(
+  F: FunctorWithIndex3C<F, FI, U, L>,
+  G: FunctorWithIndex1<G, FI>
+): FunctorWithIndexComposition3C1<F, FI, G, GI, U, L>
+export function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, L>(
+  F: FunctorWithIndex2<F, FI>,
+  G: FunctorWithIndex2C<G, FI, L>
+): FunctorWithIndexComposition22C<F, FI, G, GI, L>
 export function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI>(
   F: FunctorWithIndex2<F, FI>,
   G: FunctorWithIndex2<G, FI>
 ): FunctorWithIndexComposition22<F, FI, G, GI>
+export function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS, GI, L>(
+  F: FunctorWithIndex2C<F, FI, L>,
+  G: FunctorWithIndex1<G, GI>
+): FunctorWithIndexComposition2C1<F, FI, G, GI, L>
 export function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS, GI>(
   F: FunctorWithIndex2<F, FI>,
   G: FunctorWithIndex1<G, GI>
 ): FunctorWithIndexComposition21<F, FI, G, GI>
+export function getFunctorWithIndexComposition<F extends URIS, FI, G extends URIS2, GI, L>(
+  F: FunctorWithIndex1<F, FI>,
+  G: FunctorWithIndex2C<G, GI, L>
+): FunctorWithIndexComposition12C<F, FI, G, GI, L>
 export function getFunctorWithIndexComposition<F extends URIS, FI, G extends URIS2, GI>(
   F: FunctorWithIndex1<F, FI>,
   G: FunctorWithIndex2<G, GI>
