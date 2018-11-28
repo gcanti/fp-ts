@@ -2,7 +2,7 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { Separated } from './Compactable'
 import { Either } from './Either'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Predicate, tuple } from './function'
+import { Predicate, tuple, Refinement } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getDictionaryMonoid, Monoid } from './Monoid'
 import { none, Option, some } from './Option'
@@ -133,7 +133,9 @@ export const lookup = <A>(key: string, fa: { [key: string]: A }): Option<A> => {
 /**
  * @since 1.10.0
  */
-export const filter = <A>(fa: { [key: string]: A }, p: Predicate<A>): { [key: string]: A } => {
+export function filter<A, B extends A>(fa: { [key: string]: A }, p: Refinement<A, B>): { [key: string]: B }
+export function filter<A>(fa: { [key: string]: A }, p: Predicate<A>): { [key: string]: A }
+export function filter<A>(fa: { [key: string]: A }, p: Predicate<A>): { [key: string]: A } {
   const r: { [key: string]: A } = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
