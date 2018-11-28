@@ -62,31 +62,31 @@ export interface FunctorComposition11<F extends URIS, G extends URIS> {
 }
 
 export interface FunctorComposition12<F extends URIS, G extends URIS2> {
-  readonly map: <L, A, B>(fa: Type<F, Type2<G, L, A>>, f: (a: A) => B) => Type<F, Type2<G, L, B>>
+  readonly map: <LG, A, B>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => B) => Type<F, Type2<G, LG, B>>
 }
 
-export interface FunctorComposition12C<F extends URIS, G extends URIS2, L> {
-  readonly map: <A, B>(fa: Type<F, Type2<G, L, A>>, f: (a: A) => B) => Type<F, Type2<G, L, B>>
+export interface FunctorComposition12C<F extends URIS, G extends URIS2, LG> {
+  readonly map: <A, B>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => B) => Type<F, Type2<G, LG, B>>
 }
 
 export interface FunctorComposition21<F extends URIS2, G extends URIS> {
-  readonly map: <L, A, B>(fa: Type2<F, L, Type<G, A>>, f: (a: A) => B) => Type2<F, L, Type<G, B>>
+  readonly map: <LF, A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => B) => Type2<F, LF, Type<G, B>>
 }
 
-export interface FunctorComposition2C1<F extends URIS2, G extends URIS, L> {
-  readonly map: <A, B>(fa: Type2<F, L, Type<G, A>>, f: (a: A) => B) => Type2<F, L, Type<G, B>>
+export interface FunctorComposition2C1<F extends URIS2, G extends URIS, LF> {
+  readonly map: <A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => B) => Type2<F, LF, Type<G, B>>
 }
 
 export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
-  readonly map: <L, M, A, B>(fa: Type2<F, L, Type2<G, M, A>>, f: (a: A) => B) => Type2<F, L, Type2<G, M, B>>
+  readonly map: <LF, LG, A, B>(fa: Type2<F, LF, Type2<G, LG, A>>, f: (a: A) => B) => Type2<F, LF, Type2<G, LG, B>>
 }
 
-export interface FunctorComposition22C<F extends URIS2, G extends URIS2, M> {
-  readonly map: <L, A, B>(fa: Type2<F, L, Type2<G, M, A>>, f: (a: A) => B) => Type2<F, L, Type2<G, M, B>>
+export interface FunctorComposition22C<F extends URIS2, G extends URIS2, LG> {
+  readonly map: <LF, A, B>(fa: Type2<F, LF, Type2<G, LG, A>>, f: (a: A) => B) => Type2<F, LF, Type2<G, LG, B>>
 }
 
-export interface FunctorComposition3C1<F extends URIS3, G extends URIS, U, L> {
-  readonly map: <A, B>(fa: Type3<F, U, L, Type<G, A>>, f: (a: A) => B) => Type3<F, U, L, Type<G, B>>
+export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> {
+  readonly map: <A, B>(fa: Type3<F, UF, LF, Type<G, A>>, f: (a: A) => B) => Type3<F, UF, LF, Type<G, B>>
 }
 
 /**
@@ -177,14 +177,30 @@ export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => 
  * @function
  * @since 1.0.0
  */
+export function getFunctorComposition<F extends URIS3, G extends URIS, UF, LF>(
+  F: Functor3C<F, UF, LF>,
+  G: Functor1<G>
+): FunctorComposition3C1<F, G, UF, LF>
+export function getFunctorComposition<F extends URIS2, G extends URIS2, LG>(
+  F: Functor2<F>,
+  G: Functor2C<G, LG>
+): FunctorComposition22C<F, G, LG>
 export function getFunctorComposition<F extends URIS2, G extends URIS2>(
   F: Functor2<F>,
   G: Functor2<G>
 ): FunctorComposition22<F, G>
+export function getFunctorComposition<F extends URIS2, G extends URIS, LF>(
+  F: Functor2C<F, LF>,
+  G: Functor1<G>
+): FunctorComposition2C1<F, G, LF>
 export function getFunctorComposition<F extends URIS2, G extends URIS>(
   F: Functor2<F>,
   G: Functor1<G>
 ): FunctorComposition21<F, G>
+export function getFunctorComposition<F extends URIS, G extends URIS2, LG>(
+  F: Functor1<F>,
+  G: Functor2C<G, LG>
+): FunctorComposition12C<F, G, LG>
 export function getFunctorComposition<F extends URIS, G extends URIS2>(
   F: Functor1<F>,
   G: Functor2<G>
