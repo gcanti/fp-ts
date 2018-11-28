@@ -194,6 +194,13 @@ describe('Validation', () => {
     const gt2 = fromPredicate(predicate, handleError)
     assert.deepEqual(gt2(3), success(3))
     assert.deepEqual(gt2(1), failure('Invalid number 1'))
+
+    // refinements
+    type Color = 'red' | 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
+    const from = fromPredicate(isColor, s => `invalid color ${s}`)
+    assert.deepEqual(from('red'), success('red'))
+    assert.deepEqual(from('foo'), failure('invalid color foo'))
   })
 
   it('traverse', () => {
