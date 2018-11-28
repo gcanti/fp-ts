@@ -185,4 +185,21 @@ describe('Record', () => {
     assert.deepEqual(wiltIdentity({}, f), new I.Identity({ left: {}, right: {} }))
     assert.deepEqual(wiltIdentity({ a: 1, b: 3 }, f), new I.Identity({ left: { a: 0 }, right: { b: 4 } }))
   })
+
+  it('reduceWithKey', () => {
+    const d1 = { k1: 'a', k2: 'b' }
+    assert.strictEqual(R.reduceWithKey(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
+    const d2 = { k2: 'b', k1: 'a' }
+    assert.strictEqual(R.reduceWithKey(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
+  })
+
+  it('foldMapWithKey', () => {
+    const x1 = { k1: 'a', k2: 'b' }
+    assert.strictEqual(R.foldMapWithKey(monoidString)(x1, (k, a) => k + a), 'k1ak2b')
+  })
+
+  it('foldrWithKey', () => {
+    const x1 = { k1: 'a', k2: 'b' }
+    assert.strictEqual(R.foldrWithKey(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
+  })
 })

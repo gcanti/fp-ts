@@ -650,4 +650,16 @@ describe('Array', () => {
       [3, 'b']
     ])
   })
+
+  it('reduceWithIndex', () => {
+    assert.deepEqual(array.reduceWithIndex(['a', 'b'], '', (i, b, a) => b + i + a), '0a1b')
+  })
+
+  it('foldMapWithIndex', () => {
+    assert.deepEqual(array.foldMapWithIndex(monoidString)(['a', 'b'], (i, a) => i + a), '0a1b')
+  })
+
+  it('foldrWithIndex', () => {
+    assert.deepEqual(array.foldrWithIndex(['a', 'b'], '', (i, a, b) => b + i + a), '1b0a')
+  })
 })

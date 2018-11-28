@@ -252,4 +252,21 @@ describe('StrMap', () => {
   it('collect', () => {
     assert.deepEqual(collect(new StrMap({ b: 1, a: 2 }), identity), ['a', 'b'])
   })
+
+  it('reduceWithKey', () => {
+    const d1 = new StrMap({ k1: 'a', k2: 'b' })
+    assert.strictEqual(strmap.reduceWithIndex(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
+    const d2 = new StrMap({ k2: 'b', k1: 'a' })
+    assert.strictEqual(strmap.reduceWithIndex(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
+  })
+
+  it('foldMapWithKey', () => {
+    const x1 = new StrMap({ k1: 'a', k2: 'b' })
+    assert.strictEqual(strmap.foldMapWithIndex(monoidString)(x1, (k, a) => k + a), 'k1ak2b')
+  })
+
+  it('foldrWithKey', () => {
+    const x1 = new StrMap({ k1: 'a', k2: 'b' })
+    assert.strictEqual(strmap.foldrWithIndex(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
+  })
 })

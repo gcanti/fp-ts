@@ -24,6 +24,7 @@ import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup
 import { Setoid } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
+import { FoldableWithIndex1 } from './FoldableWithIndex'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -71,8 +72,6 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Instance-bound implementation of {@link Functor}
-   *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    *
@@ -88,8 +87,6 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Instance-bound implementation of {@link Apply}
-   *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    *
@@ -116,8 +113,6 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Instance-bound implementation of {@link Chain}
-   *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    *
@@ -130,8 +125,6 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Instance-bound implementation of {@link Semigroup}
-   *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    *
@@ -144,8 +137,6 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Instance-bound implementation of {@link Foldable}
-   *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    *
@@ -157,8 +148,27 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Instance-bound implementation of {@link Extend}
-   *
+   * @since 1.12.0
+   */
+  reduceWithIndex<B>(b: B, f: (i: number, b: B, a: A) => B): B {
+    return array.reduceWithIndex(this.toArray(), b, f)
+  }
+
+  /**
+   * @since 1.12.0
+   */
+  foldr<B>(b: B, f: (a: A, b: B) => B): B {
+    return this.foldrWithIndex(b, (_, a, b) => f(a, b))
+  }
+
+  /**
+   * @since 1.12.0
+   */
+  foldrWithIndex<B>(b: B, f: (i: number, a: A, b: B) => B): B {
+    return f(0, this.head, this.tail.reduceRight((acc, a, i) => f(i + 1, a, acc), b))
+  }
+
+  /**
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { fold, monoidSum } from 'fp-ts/lib/Monoid'
@@ -171,8 +181,6 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Instance-bound implementation of {@link Comonad}
-   *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    *
@@ -544,7 +552,19 @@ const foldMap = <M>(M: Monoid<M>) => <A>(fa: NonEmptyArray<A>, f: (a: A) => M): 
 }
 
 const foldr = <A, B>(fa: NonEmptyArray<A>, b: B, f: (a: A, b: B) => B): B => {
-  return f(fa.head, fa.tail.reduceRight((acc, a) => f(a, acc), b))
+  return fa.foldr(b, f)
+}
+
+const reduceWithIndex = <A, B>(fa: NonEmptyArray<A>, b: B, f: (i: number, b: B, a: A) => B): B => {
+  return fa.reduceWithIndex(b, f)
+}
+
+const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(fa: NonEmptyArray<A>, f: (i: number, a: A) => M): M => {
+  return fa.tail.reduce((acc, a, i) => M.concat(acc, f(i + 1, a)), f(0, fa.head))
+}
+
+const foldrWithIndex = <A, B>(fa: NonEmptyArray<A>, b: B, f: (i: number, a: A, b: B) => B): B => {
+  return fa.foldrWithIndex(b, f)
 }
 
 const extend = <A, B>(fa: NonEmptyArray<A>, f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> => {
@@ -608,7 +628,8 @@ export const nonEmptyArray: Monad1<URI> &
   Comonad1<URI> &
   Foldable2v1<URI> &
   Traversable2v1<URI> &
-  FunctorWithIndex1<URI, number> = {
+  FunctorWithIndex1<URI, number> &
+  FoldableWithIndex1<URI, number> = {
   URI,
   extend,
   extract,
@@ -621,5 +642,8 @@ export const nonEmptyArray: Monad1<URI> &
   foldMap,
   foldr,
   traverse,
-  sequence
+  sequence,
+  reduceWithIndex,
+  foldMapWithIndex,
+  foldrWithIndex
 }

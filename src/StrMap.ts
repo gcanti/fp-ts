@@ -15,6 +15,7 @@ import { Traversable2v1 } from './Traversable2v'
 import { Unfoldable } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
+import { FoldableWithIndex1 } from './FoldableWithIndex'
 
 // https://github.com/purescript/purescript-maps
 
@@ -45,6 +46,24 @@ export class StrMap<A> {
   }
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return R.reduce(this.value, b, f)
+  }
+  /**
+   * @since 1.12.0
+   */
+  foldr<B>(b: B, f: (a: A, b: B) => B): B {
+    return R.foldr(this.value, b, f)
+  }
+  /**
+   * @since 1.12.0
+   */
+  reduceWithKey<B>(b: B, f: (k: string, b: B, a: A) => B): B {
+    return R.reduceWithKey(this.value, b, f)
+  }
+  /**
+   * @since 1.12.0
+   */
+  foldrWithKey<B>(b: B, f: (k: string, a: A, b: B) => B): B {
+    return R.foldrWithKey(this.value, b, f)
   }
   /**
    * @since 1.4.0
@@ -92,7 +111,20 @@ const foldMap = <M>(M: Monoid<M>): (<A>(fa: StrMap<A>, f: (a: A) => M) => M) => 
 }
 
 const foldr = <A, B>(fa: StrMap<A>, b: B, f: (a: A, b: B) => B): B => {
-  return R.foldr(fa.value, b, f)
+  return fa.foldr(b, f)
+}
+
+const reduceWithIndex = <A, B>(fa: StrMap<A>, b: B, f: (k: string, b: B, a: A) => B): B => {
+  return fa.reduceWithKey(b, f)
+}
+
+const foldMapWithIndex = <M>(M: Monoid<M>): (<A>(fa: StrMap<A>, f: (k: string, a: A) => M) => M) => {
+  const foldMapWithKey = R.foldMapWithKey(M)
+  return (fa, f) => foldMapWithKey(fa.value, f)
+}
+
+const foldrWithIndex = <A, B>(fa: StrMap<A>, b: B, f: (k: string, a: A, b: B) => B): B => {
+  return fa.foldrWithKey(b, f)
 }
 
 /**
@@ -322,7 +354,8 @@ export const strmap: FunctorWithIndex1<URI, string> &
   Traversable2v1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = {
+  Witherable1<URI> &
+  FoldableWithIndex1<URI, string> = {
   URI,
   map,
   reduce,
@@ -338,5 +371,8 @@ export const strmap: FunctorWithIndex1<URI, string> &
   partitionMap,
   wither,
   wilt,
-  mapWithIndex
+  mapWithIndex,
+  reduceWithIndex,
+  foldMapWithIndex,
+  foldrWithIndex
 }
