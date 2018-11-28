@@ -208,27 +208,16 @@ export const map = <A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string,
  * @since 1.10.0
  */
 export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => {
-  let out: B = b
-  const keys = Object.keys(fa).sort()
-  const len = keys.length
-  for (let i = 0; i < len; i++) {
-    out = f(out, fa[keys[i]])
-  }
-  return out
+  return reduceWithKey(fa, b, (_, b, a) => f(b, a))
 }
 
 /**
  * @function
  * @since 1.10.0
  */
-export const foldMap = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (a: A) => M): M => {
-  let out: M = M.empty
-  const keys = Object.keys(fa).sort()
-  const len = keys.length
-  for (let i = 0; i < len; i++) {
-    out = M.concat(out, f(fa[keys[i]]))
-  }
-  return out
+export const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M) => {
+  const foldMapWithKeyM = foldMapWithKey(M)
+  return (fa, f) => foldMapWithKeyM(fa, (_, a) => f(a))
 }
 
 /**
@@ -236,11 +225,50 @@ export const foldMap = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (a: A)
  * @since 1.10.0
  */
 export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => {
+  return foldrWithKey(fa, b, (_, a, b) => f(a, b))
+}
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const reduceWithKey = <A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B => {
+  let out: B = b
+  const keys = Object.keys(fa).sort()
+  const len = keys.length
+  for (let i = 0; i < len; i++) {
+    const k = keys[i]
+    out = f(k, out, fa[k])
+  }
+  return out
+}
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (k: string, a: A) => M): M => {
+  let out: M = M.empty
+  const keys = Object.keys(fa).sort()
+  const len = keys.length
+  for (let i = 0; i < len; i++) {
+    const k = keys[i]
+    out = M.concat(out, f(k, fa[k]))
+  }
+  return out
+}
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const foldrWithKey = <A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B => {
   let out: B = b
   const keys = Object.keys(fa).sort()
   const len = keys.length
   for (let i = len - 1; i >= 0; i--) {
-    out = f(fa[keys[i]], out)
+    const k = keys[i]
+    out = f(k, fa[k], out)
   }
   return out
 }

@@ -18,6 +18,7 @@ import { Traversable2v1 } from './Traversable2v'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
+import { FoldableWithIndex1 } from './FoldableWithIndex'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -112,21 +113,11 @@ export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => ({
 })
 
 const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
-  const l = fa.length
-  const r = new Array(l)
-  for (let i = 0; i < l; i++) {
-    r[i] = f(fa[i])
-  }
-  return r
+  return fa.map(f)
 }
 
 const mapWithIndex = <A, B>(fa: Array<A>, f: (index: number, a: A) => B): Array<B> => {
-  const l = fa.length
-  const r = new Array(l)
-  for (let i = 0; i < l; i++) {
-    r[i] = f(i, fa[i])
-  }
-  return r
+  return fa.map((a, i) => f(i, a))
 }
 
 const of = <A>(a: A): Array<A> => {
@@ -161,20 +152,33 @@ const chain = <A, B>(fa: Array<A>, f: (a: A) => Array<B>): Array<B> => {
 }
 
 const reduce = <A, B>(fa: Array<A>, b: B, f: (b: B, a: A) => B): B => {
+  return reduceWithIndex(fa, b, (_, b, a) => f(b, a))
+}
+
+const foldMap = <M>(M: Monoid<M>): (<A>(fa: Array<A>, f: (a: A) => M) => M) => {
+  const foldMapWithIndexM = foldMapWithIndex(M)
+  return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
+}
+
+const reduceRight = <A, B>(fa: Array<A>, b: B, f: (a: A, b: B) => B): B => {
+  return foldrWithIndex(fa, b, (_, a, b) => f(a, b))
+}
+
+const reduceWithIndex = <A, B>(fa: Array<A>, b: B, f: (i: number, b: B, a: A) => B): B => {
   const l = fa.length
   let r = b
   for (let i = 0; i < l; i++) {
-    r = f(r, fa[i])
+    r = f(i, r, fa[i])
   }
   return r
 }
 
-const foldMap = <M>(M: Monoid<M>) => <A>(fa: Array<A>, f: (a: A) => M): M => {
-  return fa.reduce((b, a) => M.concat(b, f(a)), M.empty)
+const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(fa: Array<A>, f: (i: number, a: A) => M): M => {
+  return fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
 }
 
-const reduceRight = <A, B>(fa: Array<A>, b: B, f: (a: A, b: B) => B): B => {
-  return fa.reduceRight((b, a) => f(a, b), b)
+const foldrWithIndex = <A, B>(fa: Array<A>, b: B, f: (i: number, a: A, b: B) => B): B => {
+  return fa.reduceRight((b, a, i) => f(i, a, b), b)
 }
 
 /**
@@ -1458,7 +1462,8 @@ export const array: Monad1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
   Witherable1<URI> &
-  FunctorWithIndex1<URI, number> = {
+  FunctorWithIndex1<URI, number> &
+  FoldableWithIndex1<URI, number> = {
   URI,
   map,
   mapWithIndex,
@@ -1481,5 +1486,8 @@ export const array: Monad1<URI> &
   alt,
   extend,
   wither,
-  wilt
+  wilt,
+  reduceWithIndex,
+  foldMapWithIndex,
+  foldrWithIndex
 }

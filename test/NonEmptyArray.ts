@@ -283,4 +283,19 @@ describe('NonEmptyArray', () => {
     const actual2 = new NonEmptyArray(some(3), [none, some(1)]).filter(isSome)
     assert.deepEqual(actual2, some(new NonEmptyArray(some(3), [some(1)])))
   })
+
+  it('reduceWithIndex', () => {
+    assert.deepEqual(nonEmptyArray.reduceWithIndex(new NonEmptyArray('a', ['b']), '', (i, b, a) => b + i + a), '0a1b')
+  })
+
+  it('foldMapWithIndex', () => {
+    assert.deepEqual(
+      nonEmptyArray.foldMapWithIndex(monoidString)(new NonEmptyArray('a', ['b']), (i, a) => i + a),
+      '0a1b'
+    )
+  })
+
+  it('foldrWithIndex', () => {
+    assert.deepEqual(nonEmptyArray.foldrWithIndex(new NonEmptyArray('a', ['b']), '', (i, a, b) => b + i + a), '1b0a')
+  })
 })
