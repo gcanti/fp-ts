@@ -208,10 +208,23 @@ describe('TaskEither', () => {
 
   it('applySecond', () => {
     const log: Array<string> = []
-    const append = (message: string): TaskEither<string, number> =>
-      right(new Task(() => Promise.resolve(log.push(message))))
-    return append('a')
-      .applySecond(append('b'))
+    const append = (message: string, millis: number): TaskEither<string, number> =>
+      right(delay(millis, undefined).map(() => log.push(message)))
+    return append('a', 10)
+      .applySecond(append('b', 0))
+      .run()
+      .then(e => {
+        assert.deepEqual(e, eitherRight(1))
+        assert.deepEqual(log, ['b', 'a'])
+      })
+  })
+
+  it('ChainSecond', () => {
+    const log: Array<string> = []
+    const append = (message: string, millis: number): TaskEither<string, number> =>
+      right(delay(millis, undefined).map(() => log.push(message)))
+    return append('a', 10)
+      .chainSecond(append('b', 0))
       .run()
       .then(e => {
         assert.deepEqual(e, eitherRight(2))
@@ -297,10 +310,23 @@ describe('TaskEither', () => {
 
   it('applyFirst', () => {
     const log: Array<string> = []
-    const append = (message: string): TaskEither<string, number> =>
-      right(new Task(() => Promise.resolve(log.push(message))))
-    return append('a')
-      .applyFirst(append('b'))
+    const append = (message: string, millis: number): TaskEither<string, number> =>
+      right(delay(millis, undefined).map(() => log.push(message)))
+    return append('a', 10)
+      .applyFirst(append('b', 0))
+      .run()
+      .then(e => {
+        assert.deepEqual(e, eitherRight(2))
+        assert.deepEqual(log, ['b', 'a'])
+      })
+  })
+
+  it('chainFirst', () => {
+    const log: Array<string> = []
+    const append = (message: string, millis: number): TaskEither<string, number> =>
+      right(delay(millis, undefined).map(() => log.push(message)))
+    return append('a', 10)
+      .chainFirst(append('b', 0))
       .run()
       .then(e => {
         assert.deepEqual(e, eitherRight(1))
