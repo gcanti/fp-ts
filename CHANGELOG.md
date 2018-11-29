@@ -14,6 +14,42 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.11.3
+
+- **Deprecation**
+  - `Array`
+    - `refine` in favour of `filter` (@gcanti)
+  - `Either`
+    - `.prototype.refineOrElse` in favour of `.prototype.filterOrElse` (@gcanti)
+    - `.prototype.refineOrElseL` in favour of `.prototype.filterOrElseL` (@gcanti)
+    - `fromRefinement` in favour of `fromPredicate` (@gcanti)
+  - `Option`
+    - `.prototype.refine` in favour of `.prototype.filter` (@gcanti)
+    - `fromRefinement` in favour of `fromPredicate` (@gcanti)
+- **Polish**
+  - use built-in `Record` type in `Record` module (@gcanti)
+  - add support for refinements (@gcanti)
+    - `Array`
+      - `takeWhile`
+      - `span`
+    - `NonEmptyArray`
+      - `.prototype.filter`
+    - `ReaderTaskEither`
+      - `fromPredicate`
+    - `Record`
+      - `filter`
+    - `Set`
+      - `filter`
+      - `partition`
+    - `StrMap`
+      - `filter`
+    - `TaskEither`
+      - `.prototype.filterOrElse`
+      - `.prototype.filterOrElseL`
+      - `fromPredicate`
+    - `Validation`
+      - `fromPredicate`
+
 # 1.11.2
 
 - **Bug Fix**
