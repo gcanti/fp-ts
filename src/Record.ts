@@ -136,15 +136,7 @@ export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => {
 export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A>
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> {
-  const r: Record<string, A> = {}
-  const keys = Object.keys(fa)
-  for (const key of keys) {
-    const a = fa[key]
-    if (p(a)) {
-      r[key] = a
-    }
-  }
-  return r
+  return filterWithIndex(fa, (_, a) => p(a))
 }
 
 /**
@@ -389,21 +381,7 @@ export const partitionMap = <RL, RR, A>(
   fa: Record<string, A>,
   f: (a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>> => {
-  const left: Record<string, RL> = {}
-  const right: Record<string, RR> = {}
-  const keys = Object.keys(fa)
-  for (const key of keys) {
-    const e = f(fa[key])
-    if (e.isLeft()) {
-      left[key] = e.value
-    } else {
-      right[key] = e.value
-    }
-  }
-  return {
-    left,
-    right
-  }
+  return partitionMapWithIndex(fa, (_, a) => f(a))
 }
 
 /**
@@ -414,21 +392,7 @@ export const partition = <A>(
   fa: Record<string, A>,
   p: Predicate<A>
 ): Separated<Record<string, A>, Record<string, A>> => {
-  const left: Record<string, A> = {}
-  const right: Record<string, A> = {}
-  const keys = Object.keys(fa)
-  for (const key of keys) {
-    const a = fa[key]
-    if (p(a)) {
-      right[key] = a
-    } else {
-      left[key] = a
-    }
-  }
-  return {
-    left,
-    right
-  }
+  return partitionWithIndex(fa, (_, a) => p(a))
 }
 
 /**
@@ -539,12 +503,89 @@ export function wilt<F>(
  * @since 1.10.0
  */
 export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => {
+  return filterMapWithIndex(fa, (_, a) => f(a))
+}
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const partitionMapWithIndex = <RL, RR, A>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Either<RL, RR>
+): Separated<Record<string, RL>, Record<string, RR>> => {
+  const left: Record<string, RL> = {}
+  const right: Record<string, RR> = {}
+  const keys = Object.keys(fa)
+  for (const key of keys) {
+    const e = f(key, fa[key])
+    if (e.isLeft()) {
+      left[key] = e.value
+    } else {
+      right[key] = e.value
+    }
+  }
+  return {
+    left,
+    right
+  }
+}
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const partitionWithIndex = <A>(
+  fa: Record<string, A>,
+  p: (key: string, a: A) => boolean
+): Separated<Record<string, A>, Record<string, A>> => {
+  const left: Record<string, A> = {}
+  const right: Record<string, A> = {}
+  const keys = Object.keys(fa)
+  for (const key of keys) {
+    const a = fa[key]
+    if (p(key, a)) {
+      right[key] = a
+    } else {
+      left[key] = a
+    }
+  }
+  return {
+    left,
+    right
+  }
+}
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const filterMapWithIndex = <A, B>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Option<B>
+): Record<string, B> => {
   const r: Record<string, B> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
-    const optionB = f(fa[key])
+    const optionB = f(key, fa[key])
     if (optionB.isSome()) {
       r[key] = optionB.value
+    }
+  }
+  return r
+}
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const filterWithIndex = <A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> => {
+  const r: Record<string, A> = {}
+  const keys = Object.keys(fa)
+  for (const key of keys) {
+    const a = fa[key]
+    if (p(key, a)) {
+      r[key] = a
     }
   }
   return r
