@@ -435,8 +435,16 @@ export class NonEmptyArray<A> {
   filter<B extends A>(predicate: Refinement<A, B>): Option<NonEmptyArray<B>>
   filter(predicate: Predicate<A>): Option<NonEmptyArray<A>>
   filter(predicate: Predicate<A>): Option<NonEmptyArray<A>> {
-    const t = this.tail.filter(predicate)
-    return predicate(this.head) ? some(new NonEmptyArray(this.head, t)) : fromArray(t)
+    return this.filterWithIndex((_, a) => predicate(a))
+  }
+
+  /**
+   * @function
+   * @since 1.12.0
+   */
+  filterWithIndex(predicate: (i: number, a: A) => boolean): Option<NonEmptyArray<A>> {
+    const t = array.filterWithIndex(this.tail, (i, a) => predicate(i + 1, a))
+    return predicate(0, this.head) ? some(new NonEmptyArray(this.head, t)) : fromArray(t)
   }
 }
 
