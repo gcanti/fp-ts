@@ -18,7 +18,7 @@ Added in v1.10.0 (constant)
 ## collect
 
 ```ts
-<A, B>(d: { [key: string]: A }, f: (k: string, a: A) => B): Array<B>
+<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B>
 ```
 
 Added in v1.10.0 (function)
@@ -26,7 +26,7 @@ Added in v1.10.0 (function)
 ## compact
 
 ```ts
-<A>(fa: { [key: string]: Option<A> }): { [key: string]: A }
+<A>(fa: Record<string, Option<A>>): Record<string, A>
 ```
 
 Added in v1.10.0 (function)
@@ -34,7 +34,7 @@ Added in v1.10.0 (function)
 ## filterMap
 
 ```ts
-<A, B>(fa: { [key: string]: A }, f: (a: A) => Option<B>): { [key: string]: B }
+<A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B>
 ```
 
 Added in v1.10.0 (function)
@@ -42,7 +42,7 @@ Added in v1.10.0 (function)
 ## foldMap
 
 ```ts
-<M>(M: Monoid<M>) => <A>(fa: { [key: string]: A }, f: (a: A) => M): M
+<M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (a: A) => M): M
 ```
 
 Added in v1.10.0 (function)
@@ -50,7 +50,7 @@ Added in v1.10.0 (function)
 ## foldr
 
 ```ts
-<A, B>(fa: { [key: string]: A }, b: B, f: (a: A, b: B) => B): B
+<A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B
 ```
 
 Added in v1.10.0 (function)
@@ -60,7 +60,7 @@ Added in v1.10.0 (function)
 ```ts
 fromFoldable<F>(
   F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) =>
+): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
 ```
 
 Added in v1.10.0 (function)
@@ -79,7 +79,7 @@ Added in v1.10.0 (function)
 ## getSetoid
 
 ```ts
-<A>(S: Setoid<A>): Setoid<{ [key: string]: A }>
+<A>(S: Setoid<A>): Setoid<Record<string, A>>
 ```
 
 Added in v1.10.0 (function)
@@ -87,7 +87,7 @@ Added in v1.10.0 (function)
 ## insert
 
 ```ts
-<A>(k: string, a: A, d: { [key: string]: A }): { [key: string]: A }
+<A>(k: string, a: A, d: Record<string, A>): Record<string, A>
 ```
 
 Added in v1.10.0 (function)
@@ -97,7 +97,7 @@ Insert or replace a key/value pair in a map
 ## isEmpty
 
 ```ts
-<A>(d: { [key: string]: A }): boolean
+<A>(d: Record<string, A>): boolean
 ```
 
 Added in v1.10.0 (function)
@@ -107,7 +107,7 @@ Test whether a dictionary is empty
 ## isSubdictionary
 
 ```ts
-<A>(S: Setoid<A>) => (d1: { [key: string]: A }, d2: { [key: string]: A }): boolean
+<A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean
 ```
 
 Added in v1.10.0 (function)
@@ -117,7 +117,7 @@ Test whether one dictionary contains all of the keys and values contained in ano
 ## map
 
 ```ts
-<A, B>(fa: { [key: string]: A }, f: (a: A) => B): { [key: string]: B }
+<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B>
 ```
 
 Added in v1.10.0 (function)
@@ -125,7 +125,7 @@ Added in v1.10.0 (function)
 ## mapWithKey
 
 ```ts
-<A, B>(fa: { [key: string]: A }, f: (k: string, a: A) => B): { [key: string]: B }
+<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B>
 ```
 
 Added in v1.10.0 (function)
@@ -134,9 +134,9 @@ Added in v1.10.0 (function)
 
 ```ts
 <A>(
-  fa: { [key: string]: A },
+  fa: Record<string, A>,
   p: Predicate<A>
-): Separated<{ [key: string]: A }, { [key: string]: A }>
+): Separated<Record<string, A>, Record<string, A>>
 ```
 
 Added in v1.10.0 (function)
@@ -145,9 +145,9 @@ Added in v1.10.0 (function)
 
 ```ts
 <RL, RR, A>(
-  fa: { [key: string]: A },
+  fa: Record<string, A>,
   f: (a: A) => Either<RL, RR>
-): Separated<{ [key: string]: RL }, { [key: string]: RR }>
+): Separated<Record<string, RL>, Record<string, RR>>
 ```
 
 Added in v1.10.0 (function)
@@ -155,7 +155,7 @@ Added in v1.10.0 (function)
 ## pop
 
 ```ts
-<A>(k: string, d: { [key: string]: A }): Option<[A, { [key: string]: A }]>
+<A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]>
 ```
 
 Added in v1.10.0 (function)
@@ -165,7 +165,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 ## reduce
 
 ```ts
-<A, B>(fa: { [key: string]: A }, b: B, f: (b: B, a: A) => B): B
+<A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B
 ```
 
 Added in v1.10.0 (function)
@@ -173,7 +173,7 @@ Added in v1.10.0 (function)
 ## remove
 
 ```ts
-<A>(k: string, d: { [key: string]: A }): { [key: string]: A }
+<A>(k: string, d: Record<string, A>): Record<string, A>
 ```
 
 Added in v1.10.0 (function)
@@ -183,9 +183,9 @@ Delete a key and value from a map
 ## separate
 
 ```ts
-<RL, RR>(fa: {
-  [key: string]: Either<RL, RR>
-}): Separated<{ [key: string]: RL }, { [key: string]: RR }>
+<RL, RR>(
+  fa: Record<string, Either<RL, RR>>
+): Separated<Record<string, RL>, Record<string, RR>>
 ```
 
 Added in v1.10.0 (function)
@@ -193,7 +193,7 @@ Added in v1.10.0 (function)
 ## sequence
 
 ```ts
-sequence<F>(F: Applicative<F>): <A>(ta:
+sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>>
 ```
 
 Added in v1.10.0 (function)
@@ -201,7 +201,7 @@ Added in v1.10.0 (function)
 ## singleton
 
 ```ts
-<A>(k: string, a: A): { [key: string]: A }
+<A>(k: string, a: A): Record<string, A>
 ```
 
 Added in v1.10.0 (function)
@@ -211,7 +211,7 @@ Create a dictionary with one key/value pair
 ## size
 
 ```ts
-<A>(d: { [key: string]: A }): number
+<A>(d: Record<string, A>): number
 ```
 
 Added in v1.10.0 (function)
@@ -221,7 +221,7 @@ Calculate the number of key/value pairs in a dictionary
 ## toArray
 
 ```ts
-<A>(d: { [key: string]: A }): Array<[string, A]>
+<A>(d: Record<string, A>): Array<[string, A]>
 ```
 
 Added in v1.10.0 (function)
@@ -229,7 +229,7 @@ Added in v1.10.0 (function)
 ## toUnfoldable
 
 ```ts
-<F>(unfoldable: Unfoldable<F>) => <A>(d: { [key: string]: A }): HKT<F, [string, A]>
+<F>(unfoldable: Unfoldable<F>) => <A>(d: Record<string, A>): HKT<F, [string, A]>
 ```
 
 Added in v1.10.0 (function)
@@ -241,7 +241,7 @@ Unfolds a dictionary into a list of key/value pairs
 ```ts
 traverse<F>(
   F: Applicative<F>
-): <A, B>(ta:
+): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>>
 ```
 
 Added in v1.10.0 (function)
@@ -251,7 +251,7 @@ Added in v1.10.0 (function)
 ```ts
 traverseWithKey<F>(
   F: Applicative<F>
-): <A, B>(ta:
+): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>
 ```
 
 Added in v1.10.0 (function)
@@ -262,7 +262,9 @@ Added in v1.10.0 (function)
 wilt<F>(
   F: Applicative<F>
 ): (<RL, RR, A>(
-  wa:
+  wa: Record<string, A>,
+  f: (a: A) => HKT<F, Either<RL, RR>>
+) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>)
 ```
 
 Added in v1.10.0 (function)
@@ -272,7 +274,7 @@ Added in v1.10.0 (function)
 ```ts
 wither<F>(
   F: Applicative<F>
-): (<A, B>(wa:
+): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>)
 ```
 
 Added in v1.10.0 (function)

@@ -36,7 +36,7 @@ Added in v1.0.0 (function)
 ## filter
 
 ```ts
-<A>(x: Set<A>, predicate: Predicate<A>): Set<A>
+filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A>
 ```
 
 Added in v1.0.0 (function)
@@ -118,7 +118,7 @@ Test if a value is a member of a set
 ## partition
 
 ```ts
-<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>>
+partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>>
 ```
 
 Added in v1.2.0 (function)

@@ -16,8 +16,6 @@ import { Either, left, right } from '../src/Either'
 import { fromNullable, none, Option, some } from '../src/Option'
 import { Constant, Constructor, Data, Export, Func, Instance, Interface, Method, Module, Typeclass } from './domain'
 
-// TODO: avoid comment duplication in overloaded function declarations
-
 const isNotFound = (x: ParseError): x is NotFound => {
   return x._tag === 'NotFound'
 }
@@ -84,15 +82,14 @@ const fromJSDocDescription = (description: string | null): Option<string> => {
 }
 
 const getMethod = (md: MethodDeclaration): Method => {
+  const overloads = md.getOverloads()
+  const annotation = overloads.length === 0 ? getAnnotation(md.getJsDocs()) : getAnnotation(overloads[0].getJsDocs())
   const name = md.getName()
   const text = md.getText()
   const start = name.length
   const end = text.indexOf('{')
   const signature = text.substring(start, end)
-  const description = fromNullable(md.getJsDocs()[0])
-    .mapNullable(doc => doc.getComment())
-    .filter(s => s.trim() !== '')
-  const annotation = getAnnotation(md.getJsDocs())
+  const description = fromJSDocDescription(annotation.description)
   const since = getSince(annotation)
   const example = getExample(annotation)
   const deprecated = getDeprecated(annotation)

@@ -198,7 +198,7 @@ Added in v1.6.0 (function)
 ## fromPredicate
 
 ```ts
-<E, L, A>(
+fromPredicate<E, L, A>(
   predicate: Predicate<A>,
   whenFalse: (a: A) => L
 ): ((a: A) => ReaderTaskEither<E, L, A>)

@@ -191,7 +191,7 @@ Added in v1.0.0 (function)
 ## fromPredicate
 
 ```ts
-<L, A>(predicate: Predicate<A>, f: (a: A) => L) => (a: A): Validation<L, A>
+fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a: A) => Validation<L, A>
 ```
 
 Added in v1.0.0 (function)

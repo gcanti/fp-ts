@@ -239,7 +239,7 @@ Added in v1.3.0 (function)
 ## fromPredicate
 
 ```ts
-<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
+fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
 ```
 
 Added in v1.6.0 (function)

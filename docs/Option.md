@@ -396,7 +396,7 @@ assert.deepEqual(some(1).orElse(() => some(2)), some(1))
 
 Added in v1.0.0 (method)
 
-## refine
+## ~~refine~~ (deprecated)
 
 ```ts
 <B extends A>(refinement: Refinement<A, B>): Option<B>
@@ -404,6 +404,7 @@ Added in v1.0.0 (method)
 
 Added in v1.3.0 (method)
 
+Use [filter](#filter) instead.
 Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
 this Option's value. Otherwise returns `None`
 
@@ -488,7 +489,7 @@ assert.deepEqual(fromNullable(1), some(1))
 ## fromPredicate
 
 ```ts
-<A>(predicate: Predicate<A>) => (a: A): Option<A>
+fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
 ```
 
 Added in v1.0.0 (function)
@@ -504,7 +505,7 @@ assert.deepEqual(positive(-1), none)
 assert.deepEqual(positive(1), some(1))
 ```
 
-## fromRefinement
+## ~~fromRefinement~~ (deprecated)
 
 ```ts
 <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B>
@@ -512,6 +513,7 @@ assert.deepEqual(positive(1), some(1))
 
 Added in v1.3.0 (function)
 
+Use [fromPredicate](#frompredicate) instead.
 Refinement version of [fromPredicate](#frompredicate)
 
 ## getApplyMonoid

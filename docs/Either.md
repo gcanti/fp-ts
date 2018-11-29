@@ -109,7 +109,7 @@ Added in v1.0.0 (method)
 ## filterOrElse
 
 ```ts
-(p: Predicate<A>, zero: L): Either<L, A>
+(_: Predicate<A>, zero: L): Either<L, A>
 ```
 
 Added in v1.3.0 (method)
@@ -131,7 +131,7 @@ assert.deepEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
 ## filterOrElseL
 
 ```ts
-(p: Predicate<A>, zero: (a: A) => L): Either<L, A>
+(_: Predicate<A>, zero: (a: A) => L): Either<L, A>
 ```
 
 Added in v1.3.0 (method)
@@ -242,7 +242,7 @@ assert.deepEqual(right(1).orElse(() => right(2)), right(1))
 
 Added in v1.0.0 (method)
 
-## refineOrElse
+## ~~refineOrElse~~ (deprecated)
 
 ```ts
 <B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
@@ -250,7 +250,9 @@ Added in v1.0.0 (method)
 
 Added in v1.6.0 (method)
 
-## refineOrElseL
+Use [filterOrElse](#filterorelse) instead
+
+## ~~refineOrElseL~~ (deprecated)
 
 ```ts
 <B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
@@ -259,6 +261,7 @@ Added in v1.6.0 (method)
 Added in v1.6.0 (method)
 
 Lazy version of [refineOrElse](#refineorelse)
+Use [filterOrElseL](#filterorelsel) instead
 
 ## swap
 
@@ -313,12 +316,12 @@ Lazy version of [fromOption](#fromoption)
 ## fromPredicate
 
 ```ts
-<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L) => (a: A): Either<L, A>
+fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): (a: A) => Either<L, A>
 ```
 
 Added in v1.0.0 (function)
 
-## fromRefinement
+## ~~fromRefinement~~ (deprecated)
 
 ```ts
 <L, A, B extends A>(refinement: Refinement<A, B>, whenFalse: (a: A) => L) => (
@@ -327,6 +330,8 @@ Added in v1.0.0 (function)
 ```
 
 Added in v1.6.0 (function)
+
+Use [fromPredicate](#frompredicate) instead
 
 ## fromValidation
 

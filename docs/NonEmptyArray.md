@@ -177,7 +177,18 @@ Filter an NonEmptyArray, keeping the elements which satisfy a predicate function
 (predicate: Predicate<A>): Option<A>
 ```
 
-Added in v1.0.0 (method)
+Added in v1.11.0 (method)
+
+Find the first element which satisfies a predicate (or a refinement) function
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findFirst(x => x.a === 1), some({ a: 1, b: 1 }))
+```
 
 ## findIndex
 
@@ -205,7 +216,18 @@ assert.deepEqual(new NonEmptyArray<number>(1, []).findIndex(x => x === 2), none)
 (predicate: Predicate<A>): Option<A>
 ```
 
-Added in v1.0.0 (method)
+Added in v1.11.0 (method)
+
+Find the last element which satisfies a predicate function
+
+_Example_
+
+```ts
+import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+import { some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findLast(x => x.a === 1), some({ a: 1, b: 2 }))
+```
 
 ## findLastIndex
 

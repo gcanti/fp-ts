@@ -255,12 +255,14 @@ assert.deepEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
 ## filter
 
 ```ts
-<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
+filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
 ```
 
 Added in v1.0.0 (function)
 
 Filter an array, keeping the elements which satisfy a predicate function, creating a new array
+
+**Note**. `predicate` can be a refinement
 
 ## findFirst
 
@@ -724,13 +726,15 @@ import { range } from 'fp-ts/lib/Array'
 assert.deepEqual(range(1, 5), [1, 2, 3, 4, 5])
 ```
 
-## refine
+## ~~refine~~ (deprecated)
 
 ```ts
 <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B>
 ```
 
 Added in v1.0.0 (function)
+
+Use [filter](#filter) instead
 
 ## replicate
 
@@ -950,7 +954,7 @@ assert.deepEqual(sortByNameByAge(persons), [
 ## span
 
 ```ts
-<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> }
+span<A>(as: Array<A>, predicate: Predicate<A>):
 ```
 
 Added in v1.0.0 (function)
@@ -1047,7 +1051,7 @@ assert.deepEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
 ## takeWhile
 
 ```ts
-<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
+takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
 ```
 
 Added in v1.0.0 (function)
