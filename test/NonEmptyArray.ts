@@ -6,6 +6,8 @@ import { ordNumber } from '../src/Ord'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as T from '../src/Traversable'
+import * as I from '../src/Identity'
+import * as C from '../src/Const'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -297,5 +299,28 @@ describe('NonEmptyArray', () => {
 
   it('foldrWithIndex', () => {
     assert.deepEqual(nonEmptyArray.foldrWithIndex(new NonEmptyArray('a', ['b']), '', (i, a, b) => b + i + a), '1b0a')
+  })
+
+  it('traverseWithIndex', () => {
+    const ta = new NonEmptyArray('a', ['bb'])
+    assert.deepEqual(
+      nonEmptyArray.traverseWithIndex(option)(ta, (i, s) => (s.length >= 1 ? some(s + i) : none)),
+      some(new NonEmptyArray('a0', ['bb1']))
+    )
+    assert.deepEqual(nonEmptyArray.traverseWithIndex(option)(ta, (i, s) => (s.length > 1 ? some(s + i) : none)), none)
+
+    // FoldableWithIndex compatibility
+    const M = monoidString
+    const f = (i: number, s: string) => s + i
+    assert.deepEqual(
+      nonEmptyArray.foldMapWithIndex(M)(ta, f),
+      nonEmptyArray.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => new C.Const(f(i, a))).value
+    )
+
+    // FunctorWithIndex compatibility
+    assert.deepEqual(
+      nonEmptyArray.mapWithIndex(ta, f),
+      nonEmptyArray.traverseWithIndex(I.identity)(ta, (i, a) => new I.Identity(f(i, a))).value
+    )
   })
 })
