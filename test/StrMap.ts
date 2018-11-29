@@ -198,10 +198,23 @@ describe('StrMap', () => {
     assert.deepEqual(actual, new StrMap({ a: 1 }))
   })
 
+  it('filterWithIndex', () => {
+    assert.deepEqual(strmap.filterWithIndex(new StrMap({ a: 'a', b: 'b' }), k => k === 'a'), new StrMap({ a: 'a' }))
+  })
+
   it('filterMap', () => {
     const f = (n: number) => (p(n) ? some(n + 1) : none)
     assert.deepEqual(strmap.filterMap(new StrMap<number>({}), f), new StrMap({}))
     assert.deepEqual(strmap.filterMap(new StrMap({ a: 1, b: 3 }), f), new StrMap({ b: 4 }))
+  })
+
+  it('filterMapWithIndex', () => {
+    assert.deepEqual(
+      strmap.filterMapWithIndex(new StrMap({ a: 'a', b: 'b' }), (k, a) => (k === 'a' ? some(a.length) : none)),
+      new StrMap({
+        a: 1
+      })
+    )
   })
 
   it('partition', () => {
@@ -212,6 +225,13 @@ describe('StrMap', () => {
     })
   })
 
+  it('partitionWithIndex', () => {
+    assert.deepEqual(strmap.partitionWithIndex(new StrMap<string>({ a: 'a', b: 'b' }), k => k === 'a'), {
+      left: new StrMap({ b: 'b' }),
+      right: new StrMap({ a: 'a' })
+    })
+  })
+
   it('partitionMap', () => {
     const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
     assert.deepEqual(strmap.partitionMap(new StrMap<number>({}), f), { left: new StrMap({}), right: new StrMap({}) })
@@ -219,6 +239,19 @@ describe('StrMap', () => {
       left: new StrMap({ a: 0 }),
       right: new StrMap({ b: 4 })
     })
+  })
+
+  it('partitionMapWithIndex', () => {
+    assert.deepEqual(
+      strmap.partitionMapWithIndex(
+        new StrMap<string>({ a: 'a', b: 'b' }),
+        (k, a) => (k === 'a' ? right(a.length) : left(a))
+      ),
+      {
+        left: new StrMap({ b: 'b' }),
+        right: new StrMap({ a: 1 })
+      }
+    )
   })
 
   it('wither', () => {
