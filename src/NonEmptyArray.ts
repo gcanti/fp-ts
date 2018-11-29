@@ -22,9 +22,9 @@ import { none, Option, some } from './Option'
 import { Ord } from './Ord'
 import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable2v1 } from './Traversable2v'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -578,12 +578,8 @@ const extract = <A>(fa: NonEmptyArray<A>): A => {
 function traverse<F>(
   F: Applicative<F>
 ): <A, B>(ta: NonEmptyArray<A>, f: (a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>> {
-  const traverseF = array.traverse(F)
-  return <A, B>(ta: NonEmptyArray<A>, f: (a: A) => HKT<F, B>) => {
-    const fb = f(ta.head)
-    const fbs = traverseF(ta.tail, f)
-    return F.ap(F.map(fb, b => (bs: Array<B>) => new NonEmptyArray(b, bs)), fbs)
-  }
+  const traverseWithIndexF = traverseWithIndex(F)
+  return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
 }
 
 function sequence<F>(F: Applicative<F>): <A>(ta: NonEmptyArray<HKT<F, A>>) => HKT<F, NonEmptyArray<A>> {
@@ -620,6 +616,17 @@ export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
   return r
 }
 
+const traverseWithIndex = <F>(
+  F: Applicative<F>
+): (<A, B>(ta: NonEmptyArray<A>, f: (i: number, a: A) => HKT<F, B>) => HKT<F, NonEmptyArray<B>>) => {
+  const traverseWithIndexF = array.traverseWithIndex(F)
+  return <A, B>(ta: NonEmptyArray<A>, f: (i: number, a: A) => HKT<F, B>) => {
+    const fb = f(0, ta.head)
+    const fbs = traverseWithIndexF(ta.tail, (i, a) => f(i + 1, a))
+    return F.ap(F.map(fb, b => (bs: Array<B>) => new NonEmptyArray(b, bs)), fbs)
+  }
+}
+
 /**
  * @instance
  * @since 1.0.0
@@ -627,7 +634,7 @@ export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
 export const nonEmptyArray: Monad1<URI> &
   Comonad1<URI> &
   Foldable2v1<URI> &
-  Traversable2v1<URI> &
+  TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> = {
   URI,
@@ -645,5 +652,6 @@ export const nonEmptyArray: Monad1<URI> &
   sequence,
   reduceWithIndex,
   foldMapWithIndex,
-  foldrWithIndex
+  foldrWithIndex,
+  traverseWithIndex
 }
