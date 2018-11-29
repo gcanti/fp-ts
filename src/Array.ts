@@ -5,7 +5,9 @@ import { Either } from './Either'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable2v1 } from './Foldable2v'
+import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { concat, Endomorphism, identity, Predicate, Refinement, tuple } from './function'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -14,11 +16,9 @@ import { getSemigroup, Ord, ordNumber } from './Ord'
 import { Ordering } from './Ordering'
 import { Plus1 } from './Plus'
 import { getArraySetoid, Setoid } from './Setoid'
-import { Traversable2v1 } from './Traversable2v'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { FoldableWithIndex1 } from './FoldableWithIndex'
 
 // Adapted from https://github.com/purescript/purescript-arrays
 
@@ -182,7 +182,7 @@ const foldrWithIndex = <A, B>(fa: Array<A>, b: B, f: (i: number, a: A, b: B) => 
 }
 
 /**
- * Use `array.traverse`
+ * Use {@link array}`.traverse` instead
  * @function
  * @since 1.0.0
  * @deprecated
@@ -204,8 +204,8 @@ export function traverse<F extends URIS>(
 ): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
-  return <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) =>
-    reduce(ta, F.of<Array<B>>(zero()), (fbs, a) => F.ap(F.map(fbs, bs => (b: B) => snoc(bs, b)), f(a)))
+  const traverseWithIndexF = traverseWithIndex(F)
+  return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
 }
 
 const sequence = <F>(F: Applicative<F>) => <A>(ta: Array<HKT<F, A>>): HKT<F, Array<A>> => {
@@ -1448,6 +1448,15 @@ export function comprehension<R>(
   return go(empty, input)
 }
 
+const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(
+  ta: Array<A>,
+  f: (i: number, a: A) => HKT<F, B>
+): HKT<F, Array<B>> => {
+  return reduceWithIndex(ta, F.of<Array<B>>(zero()), (i, fbs, a) =>
+    F.ap(F.map(fbs, bs => (b: B) => snoc(bs, b)), f(i, a))
+  )
+}
+
 /**
  * @instance
  * @since 1.0.0
@@ -1455,7 +1464,7 @@ export function comprehension<R>(
 export const array: Monad1<URI> &
   Foldable2v1<URI> &
   Unfoldable1<URI> &
-  Traversable2v1<URI> &
+  TraversableWithIndex1<URI, number> &
   Alternative1<URI> &
   Plus1<URI> &
   Extend1<URI> &
@@ -1489,5 +1498,6 @@ export const array: Monad1<URI> &
   wilt,
   reduceWithIndex,
   foldMapWithIndex,
-  foldrWithIndex
+  foldrWithIndex,
+  traverseWithIndex
 }

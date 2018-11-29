@@ -66,6 +66,7 @@ import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString, S
 import { identity, tuple, constTrue } from '../src/function'
 import * as I from '../src/Identity'
 import * as F from '../src/Foldable'
+import * as C from '../src/Const'
 
 const p = (n: number) => n > 2
 
@@ -661,5 +662,28 @@ describe('Array', () => {
 
   it('foldrWithIndex', () => {
     assert.deepEqual(array.foldrWithIndex(['a', 'b'], '', (i, a, b) => b + i + a), '1b0a')
+  })
+
+  it('traverseWithIndex', () => {
+    const ta = ['a', 'bb']
+    assert.deepEqual(
+      array.traverseWithIndex(option)(ta, (i, s) => (s.length >= 1 ? some(s + i) : none)),
+      some(['a0', 'bb1'])
+    )
+    assert.deepEqual(array.traverseWithIndex(option)(ta, (i, s) => (s.length > 1 ? some(s + i) : none)), none)
+
+    // FoldableWithIndex compatibility
+    const M = monoidString
+    const f = (i: number, s: string) => s + i
+    assert.deepEqual(
+      array.foldMapWithIndex(M)(ta, f),
+      array.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => new C.Const(f(i, a))).value
+    )
+
+    // FunctorWithIndex compatibility
+    assert.deepEqual(
+      array.mapWithIndex(ta, f),
+      array.traverseWithIndex(I.identity)(ta, (i, a) => new I.Identity(f(i, a))).value
+    )
   })
 })
