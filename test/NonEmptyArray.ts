@@ -286,6 +286,11 @@ describe('NonEmptyArray', () => {
     assert.deepEqual(actual2, some(new NonEmptyArray(some(3), [some(1)])))
   })
 
+  it('filterWithIndex', () => {
+    assert.deepEqual(new NonEmptyArray(1, [2, 3]).filterWithIndex(i => i % 2 === 0), some(new NonEmptyArray(1, [3])))
+    assert.deepEqual(new NonEmptyArray(1, [2, 3]).filterWithIndex((i, a) => i % 2 === 1 && a > 2), none)
+  })
+
   it('reduceWithIndex', () => {
     assert.deepEqual(nonEmptyArray.reduceWithIndex(new NonEmptyArray('a', ['b']), '', (i, b, a) => b + i + a), '0a1b')
   })
