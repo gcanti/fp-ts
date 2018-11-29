@@ -1,7 +1,7 @@
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
-import { Filterable1 } from './Filterable'
+import { FilterableWithIndex1 } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Foldable2v1 } from './Foldable2v'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
@@ -28,6 +28,16 @@ declare module './HKT' {
 export const URI = 'StrMap'
 
 export type URI = typeof URI
+
+const liftSeparated = <L, R>({
+  left,
+  right
+}: Separated<Record<string, L>, Record<string, R>>): Separated<StrMap<L>, StrMap<R>> => {
+  return {
+    left: new StrMap(left),
+    right: new StrMap(right)
+  }
+}
 
 /**
  * @data
@@ -71,7 +81,55 @@ export class StrMap<A> {
   filter<B extends A>(p: Refinement<A, B>): StrMap<B>
   filter(p: Predicate<A>): StrMap<A>
   filter(p: Predicate<A>): StrMap<A> {
-    return new StrMap(R.filter(this.value, p))
+    return this.filterWithIndex((_, a) => p(a))
+  }
+  /**
+   * @since 1.12.0
+   */
+  filterMap<B>(f: (a: A) => Option<B>): StrMap<B> {
+    return this.filterMapWithIndex((_, a) => f(a))
+  }
+  /**
+   * @since 1.12.0
+   */
+  partition(p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> {
+    return this.partitionWithIndex((_, a) => p(a))
+  }
+  /**
+   * @since 1.12.0
+   */
+  partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
+    return this.partitionMapWithIndex((_, a) => f(a))
+  }
+  /**
+   * @since 1.12.0
+   */
+  separate<RL, RR>(this: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>> {
+    return liftSeparated(R.separate(this.value))
+  }
+  /**
+   * @since 1.12.0
+   */
+  partitionMapWithIndex<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
+    return liftSeparated(R.partitionMapWithIndex(this.value, f))
+  }
+  /**
+   * @since 1.12.0
+   */
+  partitionWithIndex(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> {
+    return liftSeparated(R.partitionWithIndex(this.value, p))
+  }
+  /**
+   * @since 1.12.0
+   */
+  filterMapWithIndex<B>(f: (i: string, a: A) => Option<B>): StrMap<B> {
+    return new StrMap(R.filterMapWithIndex(this.value, f))
+  }
+  /**
+   * @since 1.12.0
+   */
+  filterWithIndex(p: (i: string, a: A) => boolean): StrMap<A> {
+    return new StrMap(R.filterWithIndex(this.value, p))
   }
 }
 
@@ -294,7 +352,7 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
 }
 
 const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {
-  return new StrMap(R.filterMap(fa.value, f))
+  return fa.filterMap(f)
 }
 
 const filter = <A>(fa: StrMap<A>, p: Predicate<A>): StrMap<A> => {
@@ -305,28 +363,16 @@ const compact = <A>(fa: StrMap<Option<A>>): StrMap<A> => {
   return new StrMap(R.compact(fa.value))
 }
 
+const separate = <RL, RR>(fa: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>> => {
+  return fa.separate()
+}
+
 const partitionMap = <RL, RR, A>(fa: StrMap<A>, f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> => {
-  const { left, right } = R.partitionMap(fa.value, f)
-  return {
-    left: new StrMap(left),
-    right: new StrMap(right)
-  }
+  return fa.partitionMap(f)
 }
 
 const partition = <A>(fa: StrMap<A>, p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> => {
-  const { left, right } = R.partition(fa.value, p)
-  return {
-    left: new StrMap(left),
-    right: new StrMap(right)
-  }
-}
-
-const separate = <RL, RR>(fa: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>> => {
-  const { left, right } = R.separate(fa.value)
-  return {
-    left: new StrMap(left),
-    right: new StrMap(right)
-  }
+  return fa.partition(p)
 }
 
 const wither = <F>(F: Applicative<F>): (<A, B>(wa: StrMap<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, StrMap<B>>) => {
@@ -347,6 +393,25 @@ const mapWithIndex = <A, B>(fa: StrMap<A>, f: (i: string, a: A) => B): StrMap<B>
 
 const traverseWithIndex = traverseWithKey
 
+const partitionMapWithIndex = <RL, RR, A>(
+  fa: StrMap<A>,
+  f: (i: string, a: A) => Either<RL, RR>
+): Separated<StrMap<RL>, StrMap<RR>> => {
+  return fa.partitionMapWithIndex(f)
+}
+
+const partitionWithIndex = <A>(fa: StrMap<A>, p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> => {
+  return fa.partitionWithIndex(p)
+}
+
+const filterMapWithIndex = <A, B>(fa: StrMap<A>, f: (i: string, a: A) => Option<B>): StrMap<B> => {
+  return fa.filterMapWithIndex(f)
+}
+
+const filterWithIndex = <A>(fa: StrMap<A>, p: (i: string, a: A) => boolean): StrMap<A> => {
+  return fa.filterWithIndex(p)
+}
+
 /**
  * @instance
  * @since 1.0.0
@@ -355,7 +420,7 @@ export const strmap: FunctorWithIndex1<URI, string> &
   Foldable2v1<URI> &
   TraversableWithIndex1<URI, string> &
   Compactable1<URI> &
-  Filterable1<URI> &
+  FilterableWithIndex1<URI, string> &
   Witherable1<URI> &
   FoldableWithIndex1<URI, string> = {
   URI,
@@ -377,5 +442,9 @@ export const strmap: FunctorWithIndex1<URI, string> &
   reduceWithIndex,
   foldMapWithIndex,
   foldrWithIndex,
-  traverseWithIndex
+  traverseWithIndex,
+  partitionMapWithIndex,
+  partitionWithIndex,
+  filterMapWithIndex,
+  filterWithIndex
 }
