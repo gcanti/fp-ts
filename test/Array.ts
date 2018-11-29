@@ -56,7 +56,8 @@ import {
   replicate,
   findLastIndex,
   zipWith,
-  comprehension
+  comprehension,
+  partition
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -550,6 +551,10 @@ describe('Array', () => {
     assert.deepEqual(y, [some(3), some(1)])
   })
 
+  it('filterWithIndex', () => {
+    assert.deepEqual(array.filterWithIndex(['a', 'b', 'c'], n => n % 2 === 0), ['a', 'c'])
+  })
+
   it('filterMap/mapOption', () => {
     const f = (n: number) => (n % 2 === 0 ? none : some(n))
     assert.deepEqual(mapOption(as, f), [1, 3])
@@ -568,6 +573,11 @@ describe('Array', () => {
   it('partition', () => {
     assert.deepEqual(array.partition([], p), { left: [], right: [] })
     assert.deepEqual(array.partition([1, 3], p), { left: [1], right: [3] })
+    // refinements
+    const xs: Array<string | number> = ['a', 'b', 1]
+    const isNumber = (x: string | number): x is number => typeof x === 'number'
+    const actual = partition(xs, isNumber)
+    assert.deepEqual(actual, { left: ['a', 'b'], right: [1] })
   })
 
   it('wither', () => {
