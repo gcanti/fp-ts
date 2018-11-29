@@ -3,7 +3,7 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
-import { Filterable1 } from './Filterable'
+import { FilterableWithIndex1 } from './FilterableWithIndex'
 import { Foldable2v1 } from './Foldable2v'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { concat, Endomorphism, identity, Predicate, Refinement, tuple } from './function'
@@ -1208,14 +1208,7 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
  * @since 1.0.0
  */
 export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
-  const result: Array<B> = []
-  for (const a of as) {
-    const optionB = f(a)
-    if (optionB.isSome()) {
-      result.push(optionB.value)
-    }
-  }
-  return result
+  return filterMapWithIndex(as, (_, a) => f(a))
 }
 
 /**
@@ -1248,27 +1241,11 @@ export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
  * @since 1.0.0
  */
 export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<Array<L>, Array<R>> => {
-  const left: Array<L> = []
-  const right: Array<R> = []
-  for (const a of fa) {
-    const e = f(a)
-    if (e.isLeft()) {
-      left.push(e.value)
-    } else {
-      right.push(e.value)
-    }
-  }
-  return {
-    left,
-    right
-  }
+  return partitionMapWithIndex(fa, (_, a) => f(a))
 }
 
 /**
  * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
- *
- * **Note**. `predicate` can be a refinement
- *
  * @function
  * @since 1.0.0
  */
@@ -1278,20 +1255,14 @@ export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A> {
   return as.filter(predicate)
 }
 
-const partition = <A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>> => {
-  const left: Array<A> = []
-  const right: Array<A> = []
-  for (const a of fa) {
-    if (p(a)) {
-      right.push(a)
-    } else {
-      left.push(a)
-    }
-  }
-  return {
-    left,
-    right
-  }
+/**
+ * @function
+ * @since 1.12.0
+ */
+export function partition<A, B extends A>(fa: Array<A>, p: Refinement<A, B>): Separated<Array<A>, Array<B>>
+export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>>
+export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>> {
+  return partitionWithIndex(fa, (_, a) => p(a))
 }
 
 const compact = catOptions
@@ -1457,6 +1428,58 @@ const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(
   )
 }
 
+const partitionMapWithIndex = <RL, RR, A>(
+  fa: Array<A>,
+  f: (i: number, a: A) => Either<RL, RR>
+): Separated<Array<RL>, Array<RR>> => {
+  const left: Array<RL> = []
+  const right: Array<RR> = []
+  for (let i = 0; i < fa.length; i++) {
+    const e = f(i, fa[i])
+    if (e.isLeft()) {
+      left.push(e.value)
+    } else {
+      right.push(e.value)
+    }
+  }
+  return {
+    left,
+    right
+  }
+}
+
+const partitionWithIndex = <A>(fa: Array<A>, p: (i: number, a: A) => boolean): Separated<Array<A>, Array<A>> => {
+  const left: Array<A> = []
+  const right: Array<A> = []
+  for (let i = 0; i < fa.length; i++) {
+    const a = fa[i]
+    if (p(i, a)) {
+      right.push(a)
+    } else {
+      left.push(a)
+    }
+  }
+  return {
+    left,
+    right
+  }
+}
+
+const filterMapWithIndex = <A, B>(fa: Array<A>, f: (i: number, a: A) => Option<B>): Array<B> => {
+  const result: Array<B> = []
+  for (let i = 0; i < fa.length; i++) {
+    const optionB = f(i, fa[i])
+    if (optionB.isSome()) {
+      result.push(optionB.value)
+    }
+  }
+  return result
+}
+
+const filterWithIndex = <A>(fa: Array<A>, p: (i: number, a: A) => boolean): Array<A> => {
+  return fa.filter((a, i) => p(i, a))
+}
+
 /**
  * @instance
  * @since 1.0.0
@@ -1469,7 +1492,7 @@ export const array: Monad1<URI> &
   Plus1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
-  Filterable1<URI> &
+  FilterableWithIndex1<URI, number> &
   Witherable1<URI> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> = {
@@ -1499,5 +1522,9 @@ export const array: Monad1<URI> &
   reduceWithIndex,
   foldMapWithIndex,
   foldrWithIndex,
-  traverseWithIndex
+  traverseWithIndex,
+  partitionMapWithIndex,
+  partitionWithIndex,
+  filterMapWithIndex,
+  filterWithIndex
 }
