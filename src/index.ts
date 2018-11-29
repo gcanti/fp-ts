@@ -52,6 +52,10 @@ import * as extend from './Extend'
 export { extend }
 import * as field from './Field'
 export { field }
+import * as filterable from './Filterable'
+export { filterable }
+import * as filterableWithIndex from './FilterableWithIndex'
+export { filterableWithIndex }
 import * as foldable from './Foldable'
 export { foldable }
 import * as foldable2v from './Foldable2v'
@@ -174,8 +178,6 @@ import * as writer from './Writer'
 export { writer }
 import * as compactable from './Compactable'
 export { compactable }
-import * as filterable from './Filterable'
-export { filterable }
 import * as witherable from './Witherable'
 export { witherable }
 import * as zipper from './Zipper'
