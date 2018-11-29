@@ -4,18 +4,18 @@ import { Either } from './Either'
 import { Filterable1 } from './Filterable'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Foldable2v1 } from './Foldable2v'
-import { Predicate, tuple, Refinement } from './function'
+import { FoldableWithIndex1 } from './FoldableWithIndex'
+import { Predicate, Refinement, tuple } from './function'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Record'
 import { getDictionarySemigroup, getLastSemigroup, Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Traversable2v1 } from './Traversable2v'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { FoldableWithIndex1 } from './FoldableWithIndex'
 
 // https://github.com/purescript/purescript-maps
 
@@ -345,13 +345,15 @@ const mapWithIndex = <A, B>(fa: StrMap<A>, f: (i: string, a: A) => B): StrMap<B>
   return fa.mapWithKey(f)
 }
 
+const traverseWithIndex = traverseWithKey
+
 /**
  * @instance
  * @since 1.0.0
  */
 export const strmap: FunctorWithIndex1<URI, string> &
   Foldable2v1<URI> &
-  Traversable2v1<URI> &
+  TraversableWithIndex1<URI, string> &
   Compactable1<URI> &
   Filterable1<URI> &
   Witherable1<URI> &
@@ -374,5 +376,6 @@ export const strmap: FunctorWithIndex1<URI, string> &
   mapWithIndex,
   reduceWithIndex,
   foldMapWithIndex,
-  foldrWithIndex
+  foldrWithIndex,
+  traverseWithIndex
 }
