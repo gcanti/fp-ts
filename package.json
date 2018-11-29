@@ -18,7 +18,8 @@
     "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
-    "docs": "rimraf docs/*.md && ts-node docs-generator/docs.ts"
+    "docs": "rimraf docs/*.md && ts-node docs-generator/docs.ts",
+    "unsafe-docs": "rimraf docs/*.md && ts-node docs-generator/unsafe-docs.ts"
   },
   "repository": {
     "type": "git",
