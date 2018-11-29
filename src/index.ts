@@ -160,6 +160,8 @@ import * as traversable from './Traversable'
 export { traversable }
 import * as traversable2v from './Traversable2v'
 export { traversable2v }
+import * as traversableWithIndex from './TraversableWithIndex'
+export { traversableWithIndex }
 import * as tree from './Tree'
 export { tree }
 import * as tuple from './Tuple'
