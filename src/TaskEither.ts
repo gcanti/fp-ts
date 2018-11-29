@@ -64,18 +64,32 @@ export class TaskEither<L, A> {
     return fb.ap(this)
   }
   /**
-   * Combine two effectful actions, keeping only the result of the first
+   * Combine two (parallel) effectful actions, keeping only the result of the first
    * @since 1.6.0
    */
   applyFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A> {
     return fb.ap(this.map(constant))
   }
   /**
-   * Combine two effectful actions, keeping only the result of the second
+   * Combine two (parallel) effectful actions, keeping only the result of the second
    * @since 1.5.0
    */
   applySecond<B>(fb: TaskEither<L, B>): TaskEither<L, B> {
     return fb.ap(this.map<(b: B) => B>(constIdentity))
+  }
+  /**
+   * Combine two (sequential) effectful actions, keeping only the result of the first
+   * @since 1.12.0
+   */
+  chainFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A> {
+    return this.chain(a => fb.map(() => a))
+  }
+  /**
+   * Combine two (sequential) effectful actions, keeping only the result of the second
+   * @since 1.12.0
+   */
+  chainSecond<B>(fb: TaskEither<L, B>): TaskEither<L, B> {
+    return this.chain(() => fb)
   }
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.chain(a => f(a).value, this.value))
