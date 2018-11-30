@@ -1434,6 +1434,22 @@ export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A
   return (xs, ys) => concat(xs, ys.filter(a => !memberS(xs, a)))
 }
 
+/**
+ * Creates an array of unique values that are included in all given arrays using a {@link Setoid} for equality
+ * comparisons. The order and references of result values are determined by the first array.
+ *
+ * @example
+ * import { intersection } from 'fp-ts/lib/Array'
+ * assert.deepEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
+ *
+ * @function
+ * @since 1.12.0
+ */
+export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
+  const memberS = member(S)
+  return (xs, ys) => xs.filter(a => memberS(ys, a))
+}
+
 const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(
   ta: Array<A>,
   f: (i: number, a: A) => HKT<F, B>
