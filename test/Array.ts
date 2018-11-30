@@ -59,7 +59,8 @@ import {
   comprehension,
   partition,
   union,
-  intersection
+  intersection,
+  difference
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -709,5 +710,11 @@ describe('Array', () => {
     assert.deepEqual(intersection(setoidNumber)([1, 2], [3, 4]), [])
     assert.deepEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
     assert.deepEqual(intersection(setoidNumber)([1, 2], [1, 2]), [1, 2])
+  })
+
+  it('difference', () => {
+    assert.deepEqual(difference(setoidNumber)([1, 2], [3, 4]), [1, 2])
+    assert.deepEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
+    assert.deepEqual(difference(setoidNumber)([1, 2], [1, 2]), [])
   })
 })
