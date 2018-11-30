@@ -57,7 +57,8 @@ import {
   findLastIndex,
   zipWith,
   comprehension,
-  partition
+  partition,
+  union
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -695,5 +696,11 @@ describe('Array', () => {
       array.mapWithIndex(ta, f),
       array.traverseWithIndex(I.identity)(ta, (i, a) => new I.Identity(f(i, a))).value
     )
+  })
+
+  it('union', () => {
+    assert.deepEqual(union(setoidNumber)([1, 2], [3, 4]), [1, 2, 3, 4])
+    assert.deepEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
+    assert.deepEqual(union(setoidNumber)([1, 2], [1, 2]), [1, 2])
   })
 })
