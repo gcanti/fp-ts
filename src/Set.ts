@@ -214,13 +214,31 @@ export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
 }
 
 /**
- * Form the set difference (`y` - `x`)
+ * Use {@link difference2v} instead
  * @function
  * @since 1.0.0
+ * @deprecated
  */
 export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
+  const d = difference2v(S)
+  return (x, y) => d(y, x)
+}
+
+/**
+ * Form the set difference (`x` - `y`)
+ *
+ * @example
+ * import { difference2v } from 'fp-ts/lib/Set'
+ * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ *
+ * assert.deepEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+ *
+ * @function
+ * @since 1.12.0
+ */
+export const difference2v = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
   const has = member(S)
-  return (x, y) => filter(y, not(has(x)))
+  return (x, y) => filter(x, not(has(y)))
 }
 
 /**

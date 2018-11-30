@@ -22,7 +22,8 @@ import {
   some,
   subset,
   toArray,
-  union
+  union,
+  difference2v
 } from '../src/Set'
 import { Setoid, setoidNumber, setoidString, getRecordSetoid } from '../src/Setoid'
 
@@ -161,6 +162,10 @@ describe('Set', () => {
 
   it('difference', () => {
     assert.deepEqual(difference(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([3]))
+  })
+
+  it('difference2v', () => {
+    assert.deepEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
   })
 
   it('reduce', () => {
