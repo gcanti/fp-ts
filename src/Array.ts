@@ -1424,6 +1424,8 @@ export function comprehension<R>(
  *
  * @example
  * import { union } from 'fp-ts/lib/Array'
+ * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ *
  * assert.deepEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
  *
  * @function
@@ -1440,6 +1442,8 @@ export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A
  *
  * @example
  * import { intersection } from 'fp-ts/lib/Array'
+ * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ *
  * assert.deepEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
  *
  * @function
@@ -1448,6 +1452,24 @@ export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A
 export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
   const memberS = member(S)
   return (xs, ys) => xs.filter(a => memberS(ys, a))
+}
+
+/**
+ * Creates an array of array values not included in the other given array using a {@link Setoid} for equality
+ * comparisons. The order and references of result values are determined by the first array.
+ *
+ * @example
+ * import { difference } from 'fp-ts/lib/Array'
+ * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ *
+ * assert.deepEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
+ *
+ * @function
+ * @since 1.12.0
+ */
+export const difference = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
+  const memberS = member(S)
+  return (xs, ys) => xs.filter(a => !memberS(ys, a))
 }
 
 const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(
