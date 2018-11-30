@@ -98,7 +98,10 @@ const processModule = (name: string, typecheck: boolean): Task<void> => {
             return log(`type checking module ${module.name}`).chain(() =>
               executions.value.chain(e =>
                 e.fold(
-                  error => log(`Error while type-checking the examples of module ${module.name}:\n${error}`),
+                  error =>
+                    log(`Error while type-checking the examples of module ${module.name}:\n${error}`).chain(() =>
+                      fromIO(fail)
+                    ),
                   () =>
                     fromIO(writeModule(name, printModule(module))).chain(() => log(`module ${module.name} generated`))
                 )
