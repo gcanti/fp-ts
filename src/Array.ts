@@ -1419,6 +1419,21 @@ export function comprehension<R>(
   return go(empty, input)
 }
 
+/**
+ * Creates an array of unique values, in order, from all given arrays using a {@link Setoid} for equality comparisons
+ *
+ * @example
+ * import { union } from 'fp-ts/lib/Array'
+ * assert.deepEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
+ *
+ * @function
+ * @since 1.12.0
+ */
+export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
+  const memberS = member(S)
+  return (xs, ys) => concat(xs, ys.filter(a => !memberS(xs, a)))
+}
+
 const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(
   ta: Array<A>,
   f: (i: number, a: A) => HKT<F, B>
