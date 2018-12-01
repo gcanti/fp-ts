@@ -343,3 +343,28 @@ export const compact = <A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>) => {
     return r
   }
 }
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const separate = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<L, R>>): Separated<Set<L>, Set<R>> => {
+  const memberSL = member(SL)
+  const memberSR = member(SR)
+  const left: Set<L> = new Set()
+  const right: Set<R> = new Set()
+  const isMemberL = memberSL(left)
+  const isMemberR = memberSR(right)
+  fa.forEach(e => {
+    if (e.isLeft()) {
+      if (!isMemberL(e.value)) {
+        left.add(e.value)
+      }
+    } else {
+      if (!isMemberR(e.value)) {
+        right.add(e.value)
+      }
+    }
+  })
+  return { left, right }
+}
