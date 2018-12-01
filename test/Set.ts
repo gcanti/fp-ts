@@ -25,7 +25,8 @@ import {
   union,
   difference2v,
   compact,
-  separate
+  separate,
+  filterMap
 } from '../src/Set'
 import { Setoid, setoidNumber, setoidString, getRecordSetoid, contramap } from '../src/Setoid'
 import { none, some as optionSome } from '../src/Option'
@@ -239,5 +240,15 @@ describe('Set', () => {
         right: new Set([{ id: 'a' }])
       }
     )
+  })
+
+  it('filterMap', () => {
+    assert.deepEqual(
+      filterMap(setoidNumber)(new Set(['a', 'bb', 'ccc']), s => (s.length > 1 ? optionSome(s.length) : none)),
+      new Set([2, 3])
+    )
+    type R = { id: string }
+    const S: Setoid<R> = contramap(x => x.id, setoidString)
+    assert.deepEqual(filterMap(S)(new Set([{ id: 'a' }, { id: 'a' }]), optionSome), new Set([{ id: 'a' }]))
   })
 })
