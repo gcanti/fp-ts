@@ -23,9 +23,11 @@ import {
   subset,
   toArray,
   union,
-  difference2v
+  difference2v,
+  compact
 } from '../src/Set'
-import { Setoid, setoidNumber, setoidString, getRecordSetoid } from '../src/Setoid'
+import { Setoid, setoidNumber, setoidString, getRecordSetoid, contramap } from '../src/Setoid'
+import { none, some as optionSome } from '../src/Option'
 
 const gte2 = (n: number) => n >= 2
 
@@ -196,5 +198,15 @@ describe('Set', () => {
     assert.deepEqual(fromArray(setoidNumber)([1, 2]), new Set([1, 2]))
 
     assert.deepEqual(fromArray(fooSetoid)(['a', 'a', 'b'].map(foo)), new Set(['a', 'b'].map(foo)))
+  })
+
+  it('compact', () => {
+    assert.deepEqual(compact(setoidNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
+    type R = { id: string }
+    const S: Setoid<R> = contramap(x => x.id, setoidString)
+    assert.deepEqual(
+      compact(S)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
+      new Set([{ id: 'a' }])
+    )
   })
 })

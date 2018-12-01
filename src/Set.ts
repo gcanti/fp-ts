@@ -5,6 +5,7 @@ import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
 import { Predicate, not, Refinement } from './function'
 import { Separated } from './Compactable'
+import { Option } from './Option'
 
 /**
  * @function
@@ -323,4 +324,22 @@ export const fromArray = <A>(S: Setoid<A>) => (as: Array<A>): Set<A> => {
     }
   }
   return r
+}
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const compact = <A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>) => {
+  const memberS = member(S)
+  return fa => {
+    const r: Set<A> = new Set()
+    const isMember = memberS(r)
+    fa.forEach(oa => {
+      if (oa.isSome() && !isMember(oa.value)) {
+        r.add(oa.value)
+      }
+    })
+    return r
+  }
 }
