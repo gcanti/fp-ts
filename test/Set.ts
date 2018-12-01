@@ -24,7 +24,8 @@ import {
   toArray,
   union,
   difference2v,
-  compact
+  compact,
+  separate
 } from '../src/Set'
 import { Setoid, setoidNumber, setoidString, getRecordSetoid, contramap } from '../src/Setoid'
 import { none, some as optionSome } from '../src/Option'
@@ -207,6 +208,36 @@ describe('Set', () => {
     assert.deepEqual(
       compact(S)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
       new Set([{ id: 'a' }])
+    )
+  })
+
+  it('separate', () => {
+    assert.deepEqual(
+      separate(setoidString, setoidNumber)(
+        new Set([right<string, number>(1), left<string, number>('a'), right<string, number>(2)])
+      ),
+      {
+        left: new Set(['a']),
+        right: new Set([1, 2])
+      }
+    )
+    type L = { error: string }
+    type R = { id: string }
+    const SL: Setoid<L> = contramap(x => x.error, setoidString)
+    const SR: Setoid<R> = contramap(x => x.id, setoidString)
+    assert.deepEqual(
+      separate(SL, SR)(
+        new Set([
+          right<L, R>({ id: 'a' }),
+          left<L, R>({ error: 'error' }),
+          right<L, R>({ id: 'a' }),
+          left<L, R>({ error: 'error' })
+        ])
+      ),
+      {
+        left: new Set([{ error: 'error' }]),
+        right: new Set([{ id: 'a' }])
+      }
     )
   })
 })
