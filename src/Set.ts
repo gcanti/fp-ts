@@ -3,7 +3,7 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Setoid } from './Setoid'
-import { Predicate, not, Refinement } from './function'
+import { Predicate, not, Refinement, identity } from './function'
 import { Separated } from './Compactable'
 import { Option } from './Option'
 
@@ -331,17 +331,8 @@ export const fromArray = <A>(S: Setoid<A>) => (as: Array<A>): Set<A> => {
  * @since 1.12.0
  */
 export const compact = <A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>) => {
-  const memberS = member(S)
-  return fa => {
-    const r: Set<A> = new Set()
-    const isMember = memberS(r)
-    fa.forEach(oa => {
-      if (oa.isSome() && !isMember(oa.value)) {
-        r.add(oa.value)
-      }
-    })
-    return r
-  }
+  const filterMapS = filterMap(S)
+  return fa => filterMapS(fa, identity)
 }
 
 /**
@@ -367,4 +358,23 @@ export const separate = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<
     }
   })
   return { left, right }
+}
+
+/**
+ * @function
+ * @since 1.12.0
+ */
+export const filterMap = <B>(S: Setoid<B>): (<A>(fa: Set<A>, f: (a: A) => Option<B>) => Set<B>) => {
+  const memberS = member(S)
+  return (fa, f) => {
+    const r: Set<B> = new Set()
+    const isMember = memberS(r)
+    fa.forEach(a => {
+      const ob = f(a)
+      if (ob.isSome() && !isMember(ob.value)) {
+        r.add(ob.value)
+      }
+    })
+    return r
+  }
 }
