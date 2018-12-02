@@ -43,3 +43,14 @@ Added in v1.7.0 (type class)
 [Monad](./Monad.md), [Plus](./Plus.md), and [Traversable](./Traversable.md) in that we can use these classes to provide the ability to
 operate on a data type by eliminating intermediate `None`s. This is useful for representing the filtering out of
 values, or failure.
+
+## getCompactableComposition
+
+```ts
+getCompactableComposition<F, G>(
+  F: Functor<F>,
+  G: Compactable<G> & Functor<G>
+): CompactableComposition<F, G>
+```
+
+Added in v1.12.0 (function)

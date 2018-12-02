@@ -70,7 +70,7 @@ Flipped version of [ap](#ap)
 
 Added in v1.6.0 (method)
 
-Combine two effectful actions, keeping only the result of the first
+Combine two (parallel) effectful actions, keeping only the result of the first
 
 ## applySecond
 
@@ -80,7 +80,7 @@ Combine two effectful actions, keeping only the result of the first
 
 Added in v1.5.0 (method)
 
-Combine two effectful actions, keeping only the result of the second
+Combine two (parallel) effectful actions, keeping only the result of the second
 
 ## attempt
 
@@ -107,6 +107,26 @@ Added in v1.2.0 (method)
 ```
 
 Added in v1.0.0 (method)
+
+## chainFirst
+
+```ts
+<B>(fb: TaskEither<L, B>): TaskEither<L, A>
+```
+
+Added in v1.12.0 (method)
+
+Combine two (sequential) effectful actions, keeping only the result of the first
+
+## chainSecond
+
+```ts
+<B>(fb: TaskEither<L, B>): TaskEither<L, B>
+```
+
+Added in v1.12.0 (method)
+
+Combine two (sequential) effectful actions, keeping only the result of the second
 
 ## filterOrElse
 

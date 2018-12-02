@@ -13,8 +13,9 @@ title: Module NonEmptyArray
 Monad1<URI> &
   Comonad1<URI> &
   Foldable2v1<URI> &
-  Traversable2v1<URI> &
-  FunctorWithIndex1<URI, number>
+  TraversableWithIndex1<URI, number> &
+  FunctorWithIndex1<URI, number> &
+  FoldableWithIndex1<URI, number>
 ```
 
 Added in v1.0.0 (instance)
@@ -36,8 +37,6 @@ Data structure which represents non-empty arrays
 ```
 
 Added in v1.0.0 (method)
-
-Instance-bound implementation of [Apply](./Apply.md)
 
 _Example_
 
@@ -77,8 +76,6 @@ assert.deepEqual(new NonEmptyArray(double, [double]).ap_(x).toArray(), [2, 4, 2,
 
 Added in v1.0.0 (method)
 
-Instance-bound implementation of [Chain](./Chain.md)
-
 _Example_
 
 ```ts
@@ -96,8 +93,6 @@ assert.deepEqual(x.chain(f).toArray(), [1, 4, 2, 4])
 ```
 
 Added in v1.0.0 (method)
-
-Instance-bound implementation of [Semigroup](./Semigroup.md)
 
 _Example_
 
@@ -135,8 +130,6 @@ assert.deepEqual(new NonEmptyArray<number>(1, []).concatArray([2]), new NonEmpty
 
 Added in v1.0.0 (method)
 
-Instance-bound implementation of [Extend](./Extend.md)
-
 _Example_
 
 ```ts
@@ -155,8 +148,6 @@ assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).extend(sum), new NonEmptyArray(
 
 Added in v1.0.0 (method)
 
-Instance-bound implementation of [Comonad](./Comonad.md)
-
 _Example_
 
 ```ts
@@ -174,6 +165,14 @@ assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
 Added in v1.11.0 (method)
 
 Filter an NonEmptyArray, keeping the elements which satisfy a predicate function, creating a new NonEmptyArray or returning `None` in case the resulting NonEmptyArray would have no remaining elements.
+
+## filterWithIndex
+
+```ts
+(predicate: (i: number, a: A) => boolean): Option<NonEmptyArray<A>>
+```
+
+Added in v1.12.0 (method)
 
 ## findFirst
 
@@ -257,6 +256,22 @@ const xs: NonEmptyArray<X> = new NonEmptyArray({ a: 1, b: 0 }, [{ a: 1, b: 1 }])
 assert.deepEqual(xs.findLastIndex(x => x.a === 1), some(1))
 assert.deepEqual(xs.findLastIndex(x => x.a === 4), none)
 ```
+
+## foldr
+
+```ts
+<B>(b: B, f: (a: A, b: B) => B): B
+```
+
+Added in v1.12.0 (method)
+
+## foldrWithIndex
+
+```ts
+<B>(b: B, f: (i: number, a: A, b: B) => B): B
+```
+
+Added in v1.12.0 (method)
 
 ## index
 
@@ -342,8 +357,6 @@ Added in v1.10.0 (method)
 
 Added in v1.0.0 (method)
 
-Instance-bound implementation of [Functor](./Functor.md)
-
 _Example_
 
 ```ts
@@ -407,8 +420,6 @@ assert.strictEqual(new NonEmptyArray(1, [2, 3]).min(ordNumber), 1)
 
 Added in v1.0.0 (method)
 
-Instance-bound implementation of [Foldable](./Foldable.md)
-
 _Example_
 
 ```ts
@@ -417,6 +428,14 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 const x = new NonEmptyArray('a', ['b'])
 assert.strictEqual(x.reduce('', (b, a) => b + a), 'ab')
 ```
+
+## reduceWithIndex
+
+```ts
+<B>(b: B, f: (i: number, b: B, a: A) => B): B
+```
+
+Added in v1.12.0 (method)
 
 ## reverse
 

@@ -33,3 +33,11 @@ interface Filterable<F> extends Functor<F>, Compactable<F> {
 Added in v1.7.0 (type class)
 
 `Filterable` represents data structures which can be _partitioned_/_filtered_.
+
+## getFilterableComposition
+
+```ts
+getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>
+```
+
+Added in v1.12.0 (function)

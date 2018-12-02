@@ -13,14 +13,15 @@ title: Module Array
 Monad1<URI> &
   Foldable2v1<URI> &
   Unfoldable1<URI> &
-  Traversable2v1<URI> &
+  TraversableWithIndex1<URI, number> &
   Alternative1<URI> &
   Plus1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
-  Filterable1<URI> &
+  FilterableWithIndex1<URI, number> &
   Witherable1<URI> &
-  FunctorWithIndex1<URI, number>
+  FunctorWithIndex1<URI, number> &
+  FoldableWithIndex1<URI, number>
 ```
 
 Added in v1.0.0 (instance)
@@ -199,6 +200,26 @@ assert.deepEqual(deleteAt(0, [1, 2, 3]), some([2, 3]))
 assert.deepEqual(deleteAt(1, []), none)
 ```
 
+## difference
+
+```ts
+<A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>)
+```
+
+Added in v1.12.0 (function)
+
+Creates an array of array values not included in the other given array using a [Setoid](./Setoid.md) for equality
+comparisons. The order and references of result values are determined by the first array.
+
+_Example_
+
+```ts
+import { difference } from 'fp-ts/lib/Array'
+import { setoidNumber } from 'fp-ts/lib/Setoid'
+
+assert.deepEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
+```
+
 ## drop
 
 ```ts
@@ -262,8 +283,6 @@ filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
 Added in v1.0.0 (function)
 
 Filter an array, keeping the elements which satisfy a predicate function, creating a new array
-
-**Note**. `predicate` can be a refinement
 
 ## findFirst
 
@@ -538,6 +557,26 @@ import { some } from 'fp-ts/lib/Option'
 assert.deepEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 ```
 
+## intersection
+
+```ts
+<A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>)
+```
+
+Added in v1.12.0 (function)
+
+Creates an array of unique values that are included in all given arrays using a [Setoid](./Setoid.md) for equality
+comparisons. The order and references of result values are determined by the first array.
+
+_Example_
+
+```ts
+import { intersection } from 'fp-ts/lib/Array'
+import { setoidNumber } from 'fp-ts/lib/Setoid'
+
+assert.deepEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
+```
+
 ## isEmpty
 
 ```ts
@@ -690,6 +729,14 @@ const double = (x: number): number => x * 2
 assert.deepEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
 assert.deepEqual(modifyAt([], 1, double), none)
 ```
+
+## partition
+
+```ts
+partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>>
+```
+
+Added in v1.12.0 (function)
 
 ## partitionMap
 
@@ -1075,7 +1122,26 @@ traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => 
 
 Added in v1.0.0 (function)
 
-Use `array.traverse`
+Use [array](#array)`.traverse` instead
+
+## union
+
+```ts
+<A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>)
+```
+
+Added in v1.12.0 (function)
+
+Creates an array of unique values, in order, from all given arrays using a [Setoid](./Setoid.md) for equality comparisons
+
+_Example_
+
+```ts
+import { union } from 'fp-ts/lib/Array'
+import { setoidNumber } from 'fp-ts/lib/Setoid'
+
+assert.deepEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
+```
 
 ## uniq
 
