@@ -39,13 +39,40 @@ Added in v1.10.0 (function)
 
 Added in v1.10.0 (function)
 
+## filterMapWithIndex
+
+```ts
+<A, B>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Option<B>
+): Record<string, B>
+```
+
+Added in v1.12.0 (function)
+
+## filterWithIndex
+
+```ts
+<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
+```
+
+Added in v1.12.0 (function)
+
 ## foldMap
 
 ```ts
-<M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (a: A) => M): M
+<M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M)
 ```
 
 Added in v1.10.0 (function)
+
+## foldMapWithKey
+
+```ts
+<M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (k: string, a: A) => M): M
+```
+
+Added in v1.12.0 (function)
 
 ## foldr
 
@@ -54,6 +81,14 @@ Added in v1.10.0 (function)
 ```
 
 Added in v1.10.0 (function)
+
+## foldrWithKey
+
+```ts
+<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B
+```
+
+Added in v1.12.0 (function)
 
 ## fromFoldable
 
@@ -152,6 +187,28 @@ Added in v1.10.0 (function)
 
 Added in v1.10.0 (function)
 
+## partitionMapWithIndex
+
+```ts
+<RL, RR, A>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Either<RL, RR>
+): Separated<Record<string, RL>, Record<string, RR>>
+```
+
+Added in v1.12.0 (function)
+
+## partitionWithIndex
+
+```ts
+<A>(
+  fa: Record<string, A>,
+  p: (key: string, a: A) => boolean
+): Separated<Record<string, A>, Record<string, A>>
+```
+
+Added in v1.12.0 (function)
+
 ## pop
 
 ```ts
@@ -169,6 +226,14 @@ Delete a key and value from a map, returning the value as well as the subsequent
 ```
 
 Added in v1.10.0 (function)
+
+## reduceWithKey
+
+```ts
+<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B
+```
+
+Added in v1.12.0 (function)
 
 ## remove
 

@@ -12,10 +12,11 @@ title: Module StrMap
 ```ts
 FunctorWithIndex1<URI, string> &
   Foldable2v1<URI> &
-  Traversable2v1<URI> &
+  TraversableWithIndex1<URI, string> &
   Compactable1<URI> &
-  Filterable1<URI> &
-  Witherable1<URI>
+  FilterableWithIndex1<URI, string> &
+  Witherable1<URI> &
+  FoldableWithIndex1<URI, string>
 ```
 
 Added in v1.0.0 (instance)
@@ -36,6 +37,46 @@ Added in v1.0.0 (data)
 
 Added in v1.4.0 (method)
 
+## filterMap
+
+```ts
+<B>(f: (a: A) => Option<B>): StrMap<B>
+```
+
+Added in v1.12.0 (method)
+
+## filterMapWithIndex
+
+```ts
+<B>(f: (i: string, a: A) => Option<B>): StrMap<B>
+```
+
+Added in v1.12.0 (method)
+
+## filterWithIndex
+
+```ts
+(p: (i: string, a: A) => boolean): StrMap<A>
+```
+
+Added in v1.12.0 (method)
+
+## foldr
+
+```ts
+<B>(b: B, f: (a: A, b: B) => B): B
+```
+
+Added in v1.12.0 (method)
+
+## foldrWithKey
+
+```ts
+<B>(b: B, f: (k: string, a: A, b: B) => B): B
+```
+
+Added in v1.12.0 (method)
+
 ## map
 
 ```ts
@@ -52,6 +93,38 @@ Added in v1.0.0 (method)
 
 Added in v1.0.0 (method)
 
+## partition
+
+```ts
+(p: Predicate<A>): Separated<StrMap<A>, StrMap<A>>
+```
+
+Added in v1.12.0 (method)
+
+## partitionMap
+
+```ts
+<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>>
+```
+
+Added in v1.12.0 (method)
+
+## partitionMapWithIndex
+
+```ts
+<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>>
+```
+
+Added in v1.12.0 (method)
+
+## partitionWithIndex
+
+```ts
+(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>>
+```
+
+Added in v1.12.0 (method)
+
 ## reduce
 
 ```ts
@@ -59,6 +132,22 @@ Added in v1.0.0 (method)
 ```
 
 Added in v1.0.0 (method)
+
+## reduceWithKey
+
+```ts
+<B>(b: B, f: (k: string, b: B, a: A) => B): B
+```
+
+Added in v1.12.0 (method)
+
+## separate
+
+```ts
+<RL, RR>(this: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>>
+```
+
+Added in v1.12.0 (method)
 
 ## empty
 

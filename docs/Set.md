@@ -15,7 +15,15 @@ title: Module Set
 
 Added in v1.2.0 (function)
 
-## difference
+## compact
+
+```ts
+<A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>)
+```
+
+Added in v1.12.0 (function)
+
+## ~~difference~~ (deprecated)
 
 ```ts
 <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>)
@@ -23,7 +31,26 @@ Added in v1.2.0 (function)
 
 Added in v1.0.0 (function)
 
-Form the set difference (`y` - `x`)
+Use [difference2v](#difference2v) instead
+
+## difference2v
+
+```ts
+<A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>)
+```
+
+Added in v1.12.0 (function)
+
+Form the set difference (`x` - `y`)
+
+_Example_
+
+```ts
+import { difference2v } from 'fp-ts/lib/Set'
+import { setoidNumber } from 'fp-ts/lib/Setoid'
+
+assert.deepEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+```
 
 ## every
 
@@ -40,6 +67,14 @@ filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A>
 ```
 
 Added in v1.0.0 (function)
+
+## filterMap
+
+```ts
+<B>(S: Setoid<B>): (<A>(fa: Set<A>, f: (a: A) => Option<B>) => Set<B>)
+```
+
+Added in v1.12.0 (function)
 
 ## fromArray
 
@@ -151,6 +186,14 @@ Added in v1.0.0 (function)
 Added in v1.0.0 (function)
 
 Delete a value from a set
+
+## separate
+
+```ts
+<L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<L, R>>): Separated<Set<L>, Set<R>>
+```
+
+Added in v1.12.0 (function)
 
 ## singleton
 
