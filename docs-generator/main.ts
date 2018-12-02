@@ -1,19 +1,21 @@
 import chalk from 'chalk'
+import * as path from 'path'
 import Ast, { SourceFile } from 'ts-simple-ast'
 import { array, empty } from '../src/Array'
 import * as C from '../src/Console'
 import { sequence_ } from '../src/Foldable'
-import { IO } from '../src/IO'
+import { identity } from '../src/function'
+import { IO, io } from '../src/IO'
+import { IOEither } from '../src/IOEither'
 import { Option } from '../src/Option'
-import { fromIO, Task, task } from '../src/Task'
+import { fromIO as taskFromIO } from '../src/Task'
+import { fromIO, fromIOEither, taskEither, TaskEither } from '../src/TaskEither'
 import { Export, Module } from './domain'
-import { indexOutputPath, readModule, write, writeModule } from './fs'
+import { indexOutputPath, mkdir, readModule, write, writeModule } from './fs'
 import { modules, printIndex, printModule } from './markdown'
 import { Env, ParseError, parseModule } from './parser'
-import { taskEither } from '../src/TaskEither'
-import { execute } from './execute'
 
-const printError = (error: ParseError): string => {
+const showParseError = (error: ParseError): string => {
   switch (error._tag) {
     case 'MissingConstructorName':
       return chalk.red.bold(`Missing constructor name "${error.name}" in module "${error.module}"`)
@@ -29,6 +31,8 @@ const printError = (error: ParseError): string => {
 }
 
 const fail = new IO(() => process.exit(1))
+
+const failWith = (message: string) => C.log(message).chain(() => fail)
 
 const getSourceFile = (name: string, source: string): SourceFile => {
   return new Ast().createSourceFile(`${name}.ts`, source)
@@ -67,60 +71,76 @@ export const taskEitherSeq: typeof taskEither = {
   ap: (fab, fa) => fab.chain(f => fa.map(f))
 }
 
-const log = (message: string): Task<void> => fromIO(C.log(message))
+const log = (message: string): TaskEither<string, void> => fromIO<string, void>(C.log(message))
 
 const adjustExampleSource = (example: Example): Example => {
-  const source = `import * as assert from 'assert'\n${example.source.replace(/from 'fp-ts\/lib\//g, `from './src/`)}`
+  const source = `import * as assert from 'assert'\n${example.source.replace(/from 'fp-ts\/lib\//g, `from '../src/`)}`
   return {
     name: example.name,
     source
   }
 }
 
-const processModule = (name: string, typecheck: boolean): Task<void> => {
-  return fromIO(readModule(name))
-    .map(source => {
-      const e: Env = {
-        currentSourceFile: getSourceFile(name, source),
-        currentModuleName: name
+const getFileName = (module: Module, example: Example): string => `${module.name}.${example.name}`
+
+const writeExamples = (module: Module): IO<void> => {
+  const examples = getExamples(module)
+  const files = examples
+    .map(adjustExampleSource)
+    .map(example => write(path.join(__dirname, `../docs-examples/${getFileName(module, example)}.ts`), example.source))
+  return sequence_(io, array)(files)
+}
+
+const writeExamplesIndex = (modules: Array<Module>): IO<void> => {
+  const index = modules
+    .map(module => {
+      const examples = getExamples(module)
+      if (examples.length === 0) {
+        return ''
       }
-      return parseModule.run(e)
+      return (
+        `// ${module.name}\n` + examples.map(example => `import './${getFileName(module, example)}'`).join('\n') + '\n'
+      )
     })
-    .chain(e =>
-      e.fold(
-        errors => log(errors.map(err => printError(err)).join('\n')).chain(() => fromIO(fail)),
-        module => {
-          if (typecheck) {
-            const examples = getExamples(module).map(adjustExampleSource)
-            const executions = array.traverse(taskEitherSeq)(examples, example =>
-              execute(example.source, error => `**${example.name}**\n${error.message}`)
-            )
-            return log(`type checking module ${module.name}`).chain(() =>
-              executions.value.chain(e =>
-                e.fold(
-                  error =>
-                    log(`Error while type-checking the examples of module ${module.name}:\n${error}`).chain(() =>
-                      fromIO(fail)
-                    ),
-                  () =>
-                    fromIO(writeModule(name, printModule(module))).chain(() => log(`module ${module.name} generated`))
-                )
-              )
-            )
-          } else {
-            return fromIO(writeModule(name, printModule(module))).chain(() => log(`module ${module.name} generated`))
-          }
+    .join('')
+  return write(path.join(__dirname, `../docs-examples/index.ts`), index)
+}
+
+const loadModule = (name: string): TaskEither<Array<ParseError>, Module> => {
+  return fromIOEither(
+    new IOEither(
+      readModule(name).map(source => {
+        const e: Env = {
+          currentSourceFile: getSourceFile(name, source),
+          currentModuleName: name
         }
+        return parseModule.run(e)
+      })
+    )
+  )
+}
+
+const processModule = (name: string): TaskEither<string, Module> => {
+  return loadModule(name)
+    .mapLeft(errors => errors.map(err => showParseError(err)).join('\n'))
+    .chain(module =>
+      fromIO(
+        writeModule(name, printModule(module))
+          .chain(() => writeExamples(module))
+          .chain(() => C.log(`module ${module.name} generated`))
+          .map(() => module)
       )
     )
 }
 
 const processIndex: IO<void> = write(indexOutputPath, printIndex(modules))
 
-export const main = (typecheck: boolean) =>
+export const main = () =>
   log('- DOCUMENTATION -')
     .chain(_ => log('generating modules...'))
-    .chain(_ => sequence_(task, array)(modules.map(module => processModule(module, typecheck))))
-    .chain(_ => log('generating index...'))
+    .chain(_ => fromIO<string, void>(mkdir(path.join(__dirname, `../docs-examples`))))
+    .chain(_ => array.sequence(taskEither)(modules.map(module => processModule(module))))
+    .chain(modules => fromIO(writeExamplesIndex(modules)))
     .chain(_ => fromIO(processIndex))
     .chain(_ => log('generation ok'))
+    .fold(error => taskFromIO(failWith(error)), identity)
