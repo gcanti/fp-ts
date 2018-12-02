@@ -37,3 +37,10 @@ export const getModuleNames = (): Array<string> => {
   })
   return files.sort()
 }
+
+export const mkdir = (path: string): IO<void> =>
+  new IO(() => {
+    if (!fs.existsSync(path)) {
+      fs.mkdirSync(path)
+    }
+  })
