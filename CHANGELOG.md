@@ -14,6 +14,48 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.12.0
+
+- **Deprecation**
+  - deprecate `Set.difference` in favour of `difference2v` (@gcanti)
+- **New Feature**
+  - add `Array.union` (@gcanti)
+  - add `Array.intersection` (@gcanti)
+  - add `Array.difference` (@gcanti)
+  - add `Set.compact` (@gcanti)
+  - add `Set.separate` (@gcanti)
+  - add `Set.filterMap` (@gcanti)
+  - add `getCompactableComposition` (@gcanti)
+  - add `getFilterableComposition` (@gcanti)
+  - add `chainFirst`, `chainSecond` to `TaskEither` (@gcanti)
+  - add `NonEmptyArray.prototype.filterWithIndex` (@gcanti)
+  - add WithKey variants to `Record` (@gcanti)
+    - `reduceWithKey`
+    - `foldMapWithKey`
+    - `foldrWithKey`
+    - `partitionMapWithIndex`
+    - `partitionWithIndex`
+    - `filterMapWithIndex`
+    - `filterWithIndex`
+  - add `FunctorWithIndex` type class (@MaximeRDY)
+    - `Array` instance (@MaximeRDY)
+    - `NonEmptyArray` instance (@MaximeRDY)
+    - `StrMap` instance (@gcanti)
+    - `getFunctorWithIndexComposition` (@MaximeRDY)
+  - add `FoldableWithIndex` type class (@gcanti)
+    - `Array` instance (@gcanti)
+    - `NonEmptyArray` instance (@gcanti)
+    - `StrMap` instance (@gcanti)
+  - add `TraversableWithIndex` type class (@gcanti)
+    - `Array` instance (@gcanti)
+    - `NonEmptyArray` instance (@gcanti)
+    - `StrMap` instance (@gcanti)
+  - add `FilterableWithIndex` type class (@gcanti)
+    - `Array` instance (@gcanti)
+    - `StrMap` instance (@gcanti)
+- **Internal**
+  - upgrade to `typescript@3.2.1` (@gcanti)
+
 # 1.11.3
 
 - **Deprecation**
