@@ -454,9 +454,7 @@ assert.deepEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
 ## getOrd
 
 ```ts
-<A>(O: Ord<A>): Ord<Array<A>> => ({
-  ...getSetoid(O),
-  compare: (a: Array<A>, b: Array<A>): Ordering
+<A>(O: Ord<A>): Ord<Array<A>>
 ```
 
 Added in v1.2.0 (function)

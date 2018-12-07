@@ -96,21 +96,23 @@ export const getSetoid: <A>(S: Setoid<A>) => Setoid<Array<A>> = getArraySetoid
  * @function
  * @since 1.2.0
  */
-export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => ({
-  ...getSetoid(O),
-  compare: (a: Array<A>, b: Array<A>): Ordering => {
-    const aLen = a.length
-    const bLen = b.length
-    const len = Math.min(aLen, bLen)
-    for (let i = 0; i < len; i++) {
-      const order = O.compare(a[i], b[i])
-      if (order !== 0) {
-        return order
+export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => {
+  return {
+    ...getSetoid(O),
+    compare: (a: Array<A>, b: Array<A>): Ordering => {
+      const aLen = a.length
+      const bLen = b.length
+      const len = Math.min(aLen, bLen)
+      for (let i = 0; i < len; i++) {
+        const order = O.compare(a[i], b[i])
+        if (order !== 0) {
+          return order
+        }
       }
+      return ordNumber.compare(aLen, bLen)
     }
-    return ordNumber.compare(aLen, bLen)
   }
-})
+}
 
 const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
   return fa.map(f)
