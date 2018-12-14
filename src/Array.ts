@@ -115,7 +115,7 @@ export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => {
 }
 
 const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
-  return fa.map(f)
+  return fa.map(a => f(a))
 }
 
 const mapWithIndex = <A, B>(fa: Array<A>, f: (index: number, a: A) => B): Array<B> => {

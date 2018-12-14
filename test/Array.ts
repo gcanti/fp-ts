@@ -717,4 +717,13 @@ describe('Array', () => {
     assert.deepEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
     assert.deepEqual(difference(setoidNumber)([1, 2], [1, 2]), [])
   })
+
+  it('should be safe when calling map with a binary function', () => {
+    interface Foo {
+      bar: () => number
+    }
+    const f = (a: number, x?: Foo) => (x !== undefined ? `${a}${x.bar()}` : `${a}`)
+    const res = array.map([1, 2], f)
+    assert.deepEqual(res, ['1', '2'])
+  })
 })
