@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.12.1
+
+- **Bug Fix**
+  - `array.map` should be safe when executed with a binary function, fix #675 (@gcanti)
+
 # 1.12.0
 
 - **Deprecation**
