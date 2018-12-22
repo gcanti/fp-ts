@@ -17,7 +17,7 @@ interface FunctorWithIndex<F, I> extends Functor<F> {
 
 Added in v1.12.0 (type class)
 
-A `FunctorWithIndex` is a type constructor which supports a mapping operation `map`.
+A `FunctorWithIndex` is a type constructor which supports a mapping operation `mapWithIndex`.
 
 `mapWithIndex` can be used to turn functions `i -> a -> b` into functions `f a -> f b` whose argument and return types use the type
 constructor `f` to represent some computational context.
