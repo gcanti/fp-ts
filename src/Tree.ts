@@ -163,35 +163,17 @@ export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comona
   extend
 }
 
-type Line<A> = {
-  value: A
-  indentation: number
-  isLast: boolean
-}
-
-const asIndentedLines = <A>(indentation: number, forest: Forest<A>): Array<Line<A>> => {
-  const r: Array<Line<A>> = []
+const draw = (indentation: string, forest: Forest<string>): string => {
+  let r: string = ''
   const len = forest.length
-  let tree: Tree<A>
+  let tree: Tree<string>
   for (let i = 0; i < len; i++) {
     tree = forest[i]
-    r.push({ value: tree.value, indentation, isLast: i === len - 1 })
-    r.push(...asIndentedLines(indentation + 1, tree.forest))
+    const isLast = i === len - 1
+    r += indentation + (isLast ? '└' : '├') + '─ ' + tree.value + '\n'
+    r += draw(indentation + (len > 1 && !isLast ? '│  ' : '   '), tree.forest)
   }
   return r
-}
-
-const indentation = '   '
-const getIndentation = (n: number): string => {
-  let r = ''
-  for (let i = 0; i < n; i++) {
-    r += indentation
-  }
-  return r
-}
-
-const drawLine = (line: Line<string>): string => {
-  return getIndentation(line.indentation) + (line.isLast ? '└' : '├') + '─ ' + line.value
 }
 
 /**
@@ -200,9 +182,7 @@ const drawLine = (line: Line<string>): string => {
  * @since 1.6.0
  */
 export const drawForest = (forest: Forest<string>): string => {
-  return asIndentedLines(0, forest)
-    .map(drawLine)
-    .join('\n')
+  return draw('', forest)
 }
 
 /**
@@ -222,7 +202,8 @@ export const drawForest = (forest: Forest<string>): string => {
  * ├─ c
  * └─ d
  *    ├─ e
- *    └─ f`)
+ *    └─ f
+ * `)
  *
  * @function
  * @since 1.6.0
