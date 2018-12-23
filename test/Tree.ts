@@ -86,19 +86,61 @@ describe('Tree', () => {
   })
 
   it('drawTree', () => {
-    const fa = new Tree('a', [
+    const tree = new Tree('a', [])
+    assert.strictEqual(drawTree(tree), 'a\n')
+
+    const tree1 = new Tree('a', [
       new Tree('b', []),
       new Tree('c', []),
-      new Tree('d', [new Tree('e', []), new Tree('f', [])])
+      new Tree('d', [new Tree('e', []), new Tree('f', [])]),
+      new Tree('g', [])
     ])
     assert.strictEqual(
-      drawTree(fa),
+      drawTree(tree1),
       `a
 ├─ b
 ├─ c
+├─ d
+│  ├─ e
+│  └─ f
+└─ g
+`
+    )
+
+    const tree2 = new Tree('a', [new Tree('b', [new Tree('c', [])])])
+    assert.strictEqual(
+      drawTree(tree2),
+      `a
+└─ b
+   └─ c
+`
+    )
+
+    const tree3 = new Tree('a', [new Tree('b', [new Tree('c', [])]), new Tree('d', [new Tree('e', [])])])
+    assert.strictEqual(
+      drawTree(tree3),
+      `a
+├─ b
+│  └─ c
 └─ d
-   ├─ e
-   └─ f`
+   └─ e
+`
+    )
+
+    const tree4 = new Tree('a', [
+      new Tree('b', [new Tree('c', [new Tree('d', [])]), new Tree('e', [new Tree('f', [])])]),
+      new Tree('e', [])
+    ])
+    assert.strictEqual(
+      drawTree(tree4),
+      `a
+├─ b
+│  ├─ c
+│  │  └─ d
+│  └─ e
+│     └─ f
+└─ e
+`
     )
   })
 
