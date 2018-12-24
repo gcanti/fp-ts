@@ -170,7 +170,7 @@ const draw = (indentation: string, forest: Forest<string>): string => {
   for (let i = 0; i < len; i++) {
     tree = forest[i]
     const isLast = i === len - 1
-    r += indentation + (isLast ? '└' : '├') + '─ ' + tree.value + '\n'
+    r += indentation + (isLast ? '└' : '├') + '─ ' + tree.value
     r += draw(indentation + (len > 1 && !isLast ? '│  ' : '   '), tree.forest)
   }
   return r
@@ -182,7 +182,7 @@ const draw = (indentation: string, forest: Forest<string>): string => {
  * @since 1.6.0
  */
 export const drawForest = (forest: Forest<string>): string => {
-  return draw('', forest)
+  return draw('\n', forest)
 }
 
 /**
@@ -202,14 +202,13 @@ export const drawForest = (forest: Forest<string>): string => {
  * ├─ c
  * └─ d
  *    ├─ e
- *    └─ f
- * `)
+ *    └─ f`)
  *
  * @function
  * @since 1.6.0
  */
 export const drawTree = (tree: Tree<string>): string => {
-  return tree.value + '\n' + drawForest(tree.forest)
+  return tree.value + drawForest(tree.forest)
 }
 
 /**
