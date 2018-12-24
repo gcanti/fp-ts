@@ -137,8 +137,7 @@ assert.strictEqual(
 ├─ c
 └─ d
    ├─ e
-   └─ f
-`
+   └─ f`
 )
 ```
 

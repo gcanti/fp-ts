@@ -87,7 +87,7 @@ describe('Tree', () => {
 
   it('drawTree', () => {
     const tree = new Tree('a', [])
-    assert.strictEqual(drawTree(tree), 'a\n')
+    assert.strictEqual(drawTree(tree), 'a')
 
     const tree1 = new Tree('a', [
       new Tree('b', []),
@@ -103,8 +103,7 @@ describe('Tree', () => {
 ├─ d
 │  ├─ e
 │  └─ f
-└─ g
-`
+└─ g`
     )
 
     const tree2 = new Tree('a', [new Tree('b', [new Tree('c', [])])])
@@ -112,8 +111,7 @@ describe('Tree', () => {
       drawTree(tree2),
       `a
 └─ b
-   └─ c
-`
+   └─ c`
     )
 
     const tree3 = new Tree('a', [new Tree('b', [new Tree('c', [])]), new Tree('d', [new Tree('e', [])])])
@@ -123,8 +121,7 @@ describe('Tree', () => {
 ├─ b
 │  └─ c
 └─ d
-   └─ e
-`
+   └─ e`
     )
 
     const tree4 = new Tree('a', [
@@ -139,8 +136,7 @@ describe('Tree', () => {
 │  │  └─ d
 │  └─ e
 │     └─ f
-└─ e
-`
+└─ e`
     )
   })
 
