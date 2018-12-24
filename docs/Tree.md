@@ -126,9 +126,9 @@ Neat 2-dimensional drawing of a tree
 _Example_
 
 ```ts
-import { Tree, drawTree } from 'fp-ts/lib/Tree'
+import { Tree, drawTree, tree } from 'fp-ts/lib/Tree'
 
-const fa = new Tree('a', [new Tree('b', []), new Tree('c', []), new Tree('d', [new Tree('e', []), new Tree('f', [])])])
+const fa = new Tree('a', [tree.of('b'), tree.of('c'), new Tree('d', [tree.of('e'), tree.of('f')])])
 
 assert.strictEqual(
   drawTree(fa),
