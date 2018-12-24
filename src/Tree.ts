@@ -1,5 +1,5 @@
 import { Applicative } from './Applicative'
-import { getSetoid as getArraySetoid, traverse as arrayTraverse } from './Array'
+import { getSetoid as getArraySetoid, traverse as arrayTraverse, empty } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
 import { concat, identity, toString } from './function'
@@ -80,7 +80,7 @@ const map = <A, B>(fa: Tree<A>, f: (a: A) => B): Tree<B> => {
 }
 
 const of = <A>(a: A): Tree<A> => {
-  return new Tree(a, [])
+  return new Tree(a, empty)
 }
 
 const ap = <A, B>(fab: Tree<(a: A) => B>, fa: Tree<A>): Tree<B> => {
@@ -189,12 +189,12 @@ export const drawForest = (forest: Forest<string>): string => {
  * Neat 2-dimensional drawing of a tree
  *
  * @example
- * import { Tree, drawTree } from 'fp-ts/lib/Tree'
+ * import { Tree, drawTree, tree } from 'fp-ts/lib/Tree'
  *
  * const fa = new Tree('a', [
- *   new Tree('b', []),
- *   new Tree('c', []),
- *   new Tree('d', [new Tree('e', []), new Tree('f', [])])
+ *   tree.of('b'),
+ *   tree.of('c'),
+ *   new Tree('d', [tree.of('e'), tree.of('f')])
  * ])
  *
  * assert.strictEqual(drawTree(fa), `a
