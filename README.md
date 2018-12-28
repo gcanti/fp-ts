@@ -40,6 +40,8 @@ The stable version is tested against TypeScript 3.2.2, but should run with TypeS
 
 You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
 
+**Note**. Make sure to always have a single version of `fp-ts` installed in your project. Multiple versions are known to cause `tsc` to hang during compilation. You can check the versions currently installed using `npm ls fp-ts` (make sure there's a single version and all the others are marked as `deduped`).
+
 # Ecosystem
 
 - [io-ts](https://github.com/gcanti/io-ts) - TypeScript compatible runtime type system for IO validation
