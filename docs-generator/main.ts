@@ -4,7 +4,6 @@ import Ast, { SourceFile } from 'ts-simple-ast'
 import { array, empty } from '../src/Array'
 import * as C from '../src/Console'
 import { sequence_ } from '../src/Foldable'
-import { identity } from '../src/function'
 import { IO, io } from '../src/IO'
 import { IOEither } from '../src/IOEither'
 import { Option } from '../src/Option'
@@ -30,9 +29,13 @@ const showParseError = (error: ParseError): string => {
   }
 }
 
-const fail = new IO(() => process.exit(1))
+const fail = new IO(() => {
+  process.exit(1)
+})
 
-const failWith = (message: string) => C.log(message).chain(() => fail)
+const failWith = (message: string) => {
+  return C.log(message).chain(() => fail)
+}
 
 const getSourceFile = (name: string, source: string): SourceFile => {
   return new Ast().createSourceFile(`${name}.ts`, source)
@@ -139,8 +142,7 @@ export const main = () =>
   log('- DOCUMENTATION -')
     .chain(_ => log('generating modules...'))
     .chain(_ => fromIO<string, void>(mkdir(path.join(__dirname, `../docs-examples`))))
-    .chain(_ => array.sequence(taskEither)(modules.map(module => processModule(module))))
+    .chain(_ => array.sequence(taskEither)(modules.map(processModule)))
     .chain(modules => fromIO(writeExamplesIndex(modules)))
     .chain(_ => fromIO(processIndex))
-    .chain(_ => log('generation ok'))
-    .fold(error => taskFromIO(failWith(error)), identity)
+    .foldTask(error => taskFromIO(failWith(error)), () => taskFromIO(C.log('generation ok')))
