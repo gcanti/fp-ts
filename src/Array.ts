@@ -1062,7 +1062,7 @@ export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
  *
  * @function
  */
-export const unzip = <A, B>(as: Array<[A,B]>): [Array<A>, Array<B>] => {
+export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => {
   const fa = []
   const fb = []
 
