@@ -1061,6 +1061,7 @@ export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
  * assert.deepEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
  *
  * @function
+ * @since 1.13.0
  */
 export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => {
   const fa = []
