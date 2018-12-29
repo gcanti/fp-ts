@@ -44,6 +44,7 @@ import {
   uniq,
   updateAt,
   zip,
+  unzip,
   foldrL,
   foldr,
   chop,
@@ -330,6 +331,10 @@ describe('Array', () => {
 
   it('zip', () => {
     assert.deepEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+  })
+
+  it('unzip', () => {
+    assert.deepEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
   })
 
   it('rights', () => {

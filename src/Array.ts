@@ -1053,6 +1053,29 @@ export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
 }
 
 /**
+ * The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
+ *
+ * @example
+ * import { unzip } from 'fp-ts/lib/Array'
+ *
+ * assert.deepEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
+ *
+ * @function
+ * @since 1.13.0
+ */
+export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => {
+  const fa = []
+  const fb = []
+
+  for (let i = 0; i < as.length; i++) {
+    fa[i] = as[i][0]
+    fb[i] = as[i][1]
+  }
+
+  return tuple(fa, fb)
+}
+
+/**
  * Rotate an array to the right by `n` steps
  *
  * @example
