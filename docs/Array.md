@@ -1184,6 +1184,24 @@ Added in v1.0.0 (function)
 
 Added in v1.0.0 (function)
 
+## unzip
+
+```ts
+<A, B>(as: Array<[A, B]>): [Array<A>, Array<B>]
+```
+
+Added in v1.13.0 (function)
+
+The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
+
+_Example_
+
+```ts
+import { unzip } from 'fp-ts/lib/Array'
+
+assert.deepEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
+```
+
 ## updateAt
 
 ```ts
