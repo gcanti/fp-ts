@@ -70,6 +70,8 @@ import * as functor from './Functor'
 export { functor }
 import * as functorWithIndex from './FunctorWithIndex'
 export { functorWithIndex }
+import * as group from './Group'
+export { group }
 import * as heytingAlgebra from './HeytingAlgebra'
 export { heytingAlgebra }
 import * as hkt from './HKT'
