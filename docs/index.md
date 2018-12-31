@@ -34,6 +34,7 @@
 - [Foldable2v](./Foldable2v.md)
 - [FoldableWithIndex](./FoldableWithIndex.md)
 - [Free](./Free.md)
+- [FreeGroup](./FreeGroup.md)
 - [Functor](./Functor.md)
 - [FunctorWithIndex](./FunctorWithIndex.md)
 - [Group](./Group.md)
