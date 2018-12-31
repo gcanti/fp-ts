@@ -36,6 +36,7 @@
 - [Free](./Free.md)
 - [Functor](./Functor.md)
 - [FunctorWithIndex](./FunctorWithIndex.md)
+- [Group](./Group.md)
 - [HKT](./HKT.md)
 - [HeytingAlgebra](./HeytingAlgebra.md)
 - [IO](./IO.md)
