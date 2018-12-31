@@ -64,6 +64,8 @@ import * as foldableWithIndex from './FoldableWithIndex'
 export { foldableWithIndex }
 import * as free from './Free'
 export { free }
+import * as freeGroup from './FreeGroup'
+export { freeGroup }
 import * as function_ from './function'
 export { function_ as function }
 import * as functor from './Functor'
