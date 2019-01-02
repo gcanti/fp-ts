@@ -18,7 +18,8 @@
     "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
-    "docs": "rimraf docs/*.md docs-examples/*.ts && ts-node docs-generator/docs.ts && ts-node docs-examples/index.ts"
+    "docs": "rimraf docs/*.md docs-examples/*.ts && ts-node docs-generator/docs.ts && ts-node docs-examples/index.ts",
+    "mocha": "mocha -r ts-node/register test/*.ts"
   },
   "repository": {
     "type": "git",
@@ -40,6 +41,7 @@
     "chalk": "2.2.0",
     "doctrine": "2.0.0",
     "jest": "22.4.3",
+    "mocha": "^5.2.0",
     "prettier": "1.14.3",
     "rimraf": "2.6.2",
     "ts-jest": "^23.10.5",

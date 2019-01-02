@@ -113,7 +113,7 @@ describe('Either', () => {
     assert.deepEqual(e3, left(new Error('a string')))
 
     const e4 = tryCatch(() => {
-      throw new Error('fpp')
+      throw new Error('foo')
     }, toError)
     assert.deepEqual(e4, left(new Error('foo')))
 
