@@ -88,8 +88,8 @@ describe('Foldable2v', () => {
   })
 
   it('foldM', () => {
-    assert.deepEqual(foldM(option.option, array)([], 1, (b, a) => option.none), option.some(1))
-    assert.deepEqual(foldM(option.option, array)([2], 1, (b, a) => option.none), option.none)
+    assert.deepEqual(foldM(option.option, array)([], 1, () => option.none), option.some(1))
+    assert.deepEqual(foldM(option.option, array)([2], 1, () => option.none), option.none)
     assert.deepEqual(foldM(option.option, array)([2], 1, (b, a) => option.some(b + a)), option.some(3))
   })
 

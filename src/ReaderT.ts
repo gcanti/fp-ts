@@ -72,7 +72,7 @@ export function of<F extends URIS2>(F: Applicative2<F>): <L, E, A>(a: A) => (e: 
 export function of<F extends URIS>(F: Applicative1<F>): <E, A>(a: A) => (e: E) => Type<F, A>
 export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A>
 export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A> {
-  return <A>(a: A) => <E>(e: E) => F.of(a)
+  return <A>(a: A) => () => F.of(a)
 }
 
 /**

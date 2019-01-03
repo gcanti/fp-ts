@@ -44,7 +44,7 @@ const liftedGD: (fa: ReaderTaskEither<string, boolean, number>) => ReaderTaskEit
 // Traversable
 //
 
-const sequenceEitherArray: <L, A>(tfa: Either<L, A>[]) => Either<L, A[]> = sequence(either, array)
+const sequenceEitherArray: <L, A>(tfa: Array<Either<L, A>>) => Either<L, Array<A>> = sequence(either, array)
 const sequenceTaskValidation = sequence(task, validation)
 const sequenceEitherValidation = sequence(either, validation)
 const sequenceValidationEither = sequence(getApplicative(semigroupString), either)
@@ -87,7 +87,7 @@ const const1: Const<boolean, string> = const_.contramap(new Const<boolean, numbe
 
 // Monad2C
 
-const these: optionT.OptionT2C<'These', string[]> = optionT.getOptionT(getTheseMonad(getArraySemigroup<string>()))
+const these: optionT.OptionT2C<'These', Array<string>> = optionT.getOptionT(getTheseMonad(getArraySemigroup<string>()))
 
 // Monad3C
 
@@ -103,13 +103,18 @@ type S1 = AssertEquals<typeof apiTaskified, (a: string) => TaskEither<Error, str
 
 // getRefinement
 
-type A = { type: 'A' }
-type B = { type: 'B' }
+interface A {
+  type: 'A'
+}
+interface B {
+  type: 'B'
+}
 type C = A | B
-// $ExpectError Type '"B"' is not assignable to type '"A"'
+
+// $ExpectError
 const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none))
 
 // HKT
 
-// $ExpectError Type '"a"' does not satisfy the constraint
+// $ExpectError
 type HKT1 = Type<'a', string>

@@ -74,7 +74,7 @@ describe('Set', () => {
 
   it('chain', () => {
     assert.deepEqual(chain(setoidString)(new Set<number>([]), x => new Set([x.toString()])), new Set([]))
-    assert.deepEqual(chain(setoidString)(new Set([1, 2]), x => new Set([])), new Set([]))
+    assert.deepEqual(chain(setoidString)(new Set([1, 2]), () => new Set([])), new Set([]))
     assert.deepEqual(chain(setoidString)(new Set([1, 2]), x => new Set([`${x}`, `${x + 1}`])), new Set(['1', '2', '3']))
   })
 
@@ -94,9 +94,9 @@ describe('Set', () => {
   })
 
   it('partition', () => {
-    assert.deepEqual(partition(new Set([]), x => true), { right: new Set([]), left: new Set([]) })
-    assert.deepEqual(partition(new Set([1]), x => true), { right: new Set([1]), left: new Set([]) })
-    assert.deepEqual(partition(new Set([1]), x => false), { right: new Set([]), left: new Set([1]) })
+    assert.deepEqual(partition(new Set([]), () => true), { right: new Set([]), left: new Set([]) })
+    assert.deepEqual(partition(new Set([1]), () => true), { right: new Set([1]), left: new Set([]) })
+    assert.deepEqual(partition(new Set([1]), () => false), { right: new Set([]), left: new Set([1]) })
     assert.deepEqual(partition(new Set([1, 2, 3, 4]), x => x % 2 === 0), {
       right: new Set([2, 4]),
       left: new Set([1, 3])
