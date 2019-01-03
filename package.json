@@ -13,13 +13,13 @@
     "jest-coverage": "jest --ci --coverage",
     "prettier": "prettier --list-different \"./{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,exercises}/**/*.ts\"",
-    "typings": "typings-checker --allow-expect-error --project ./typings-checker/tsconfig.json ./typings-checker/index.ts",
-    "test": "npm run lint && npm run prettier && npm run typings && npm run jest && npm run docs",
+    "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest && npm run docs",
     "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
     "docs": "rimraf docs/*.md docs-examples/*.ts && ts-node docs-generator/docs.ts && ts-node docs-examples/index.ts",
-    "mocha": "mocha -r ts-node/register test/*.ts"
+    "mocha": "mocha -r ts-node/register test/*.ts",
+    "dtslint": "dtslint dtslint"
   },
   "repository": {
     "type": "git",
@@ -40,6 +40,7 @@
     "benchmark": "2.1.4",
     "chalk": "2.2.0",
     "doctrine": "2.0.0",
+    "dtslint": "^0.4.2",
     "jest": "22.4.3",
     "mocha": "^5.2.0",
     "prettier": "1.14.3",
@@ -49,8 +50,7 @@
     "ts-simple-ast": "17.1.1",
     "tslint": "5.11.0",
     "tslint-config-standard": "8.0.1",
-    "typescript": "^3.2.2",
-    "typings-checker": "2.0.0"
+    "typescript": "^3.2.2"
   },
   "tags": [
     "typescript",

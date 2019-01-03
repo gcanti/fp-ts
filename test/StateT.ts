@@ -43,7 +43,7 @@ describe('StateT', () => {
   })
 
   it('chain', () => {
-    const f = (n: number) => (s: number) => option.some<[number, number]>([s - 1, s + 1])
+    const f = (_n: number) => (s: number) => option.some<[number, number]>([s - 1, s + 1])
     const state = (s: number) => option.some<[number, number]>([s - 1, s + 1])
     assert.deepEqual(stateTOption.chain(f, state)(0), option.some([0, 2]))
   })

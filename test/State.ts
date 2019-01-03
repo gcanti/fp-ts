@@ -45,7 +45,7 @@ describe('State', () => {
   })
 
   it('chain', () => {
-    const f = (n: number) => new State<number, number>(s => [s - 1, s + 1])
+    const f = (_n: number) => new State<number, number>(s => [s - 1, s + 1])
     const x = new State<number, number>(s => [s - 1, s + 1])
     assert.deepEqual(x.chain(f).run(0), [0, 2])
     assert.deepEqual(state.chain(x, f).run(0), [0, 2])

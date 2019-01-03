@@ -196,8 +196,8 @@ describe('Either', () => {
 
   it('chainRec', () => {
     const chainRec = either.chainRec
-    assert.deepEqual(chainRec(1, a => left<string, Either<number, number>>('foo')), left('foo'))
-    assert.deepEqual(chainRec(1, a => right<string, Either<number, number>>(right(1))), right(1))
+    assert.deepEqual(chainRec(1, () => left<string, Either<number, number>>('foo')), left('foo'))
+    assert.deepEqual(chainRec(1, () => right<string, Either<number, number>>(right(1))), right(1))
     assert.deepEqual(
       chainRec(1, a => {
         if (a < 5) {

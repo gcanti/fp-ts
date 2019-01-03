@@ -91,8 +91,8 @@ describe('Foldable', () => {
   })
 
   it('foldM', () => {
-    assert.deepEqual(foldM(array, option.option)((b, a) => option.none, 1, []), option.some(1))
-    assert.deepEqual(foldM(array, option.option)((b, a) => option.none, 1, [2]), option.none)
+    assert.deepEqual(foldM(array, option.option)(() => option.none, 1, []), option.some(1))
+    assert.deepEqual(foldM(array, option.option)(() => option.none, 1, [2]), option.none)
     assert.deepEqual(foldM(array, option.option)((b, a) => option.some(b + a), 1, [2]), option.some(3))
   })
 

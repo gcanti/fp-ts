@@ -54,7 +54,7 @@ const map = <E, A, B>(fa: Reader<E, A>, f: (a: A) => B): Reader<E, B> => {
 }
 
 const of = <E, A>(a: A): Reader<E, A> => {
-  return new Reader((e: E) => a)
+  return new Reader(() => a)
 }
 
 const ap = <E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> => {

@@ -54,7 +54,7 @@ describe('ReaderTaskEither', () => {
     const double = (n: number): number => n * 2
     return readerTaskEither
       .of<{}, number, number>(1)
-      .chain(() => new ReaderTaskEither(v => taskEitherLeft(task.of(2))))
+      .chain(() => new ReaderTaskEither(() => taskEitherLeft(task.of(2))))
       .mapLeft(double)
       .run({})
       .then(e => {

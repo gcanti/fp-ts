@@ -198,7 +198,7 @@ describe('Option', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(option.traverse(array)(some('hello'), s => []), [])
+    assert.deepEqual(option.traverse(array)(some('hello'), () => []), [])
     assert.deepEqual(option.traverse(array)(some('hello'), s => [s.length]), [some(5)])
     assert.deepEqual(option.traverse(array)(none, s => [s]), [none])
   })

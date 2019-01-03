@@ -250,13 +250,13 @@ describe('TaskEither', () => {
   })
 
   it('taskify', () => {
-    const api1 = (path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
+    const api1 = (_path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(null, 'ok')
     }
-    const api2 = (path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
+    const api2 = (_path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(undefined, 'ok')
     }
-    const api3 = (path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
+    const api3 = (_path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(new Error('ko'))
     }
     return Promise.all([taskify(api1)('foo').run(), taskify(api2)('foo').run(), taskify(api3)('foo').run()]).then(

@@ -43,7 +43,7 @@ describe('Exception', () => {
         new IO(() => {
           throw new Error('bum!')
         }),
-        e => new IO(() => 1)
+        () => new IO(() => 1)
       ).run(),
       1
     )
@@ -52,7 +52,7 @@ describe('Exception', () => {
         new IO(() => {
           throw 'bum!' // tslint:disable-line no-string-throw
         }),
-        e => new IO(() => 1)
+        () => new IO(() => 1)
       ).run(),
       1
     )
