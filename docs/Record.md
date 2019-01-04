@@ -18,7 +18,7 @@ Added in v1.10.0 (constant)
 ## collect
 
 ```ts
-<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B>
+collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B>
 ```
 
 Added in v1.10.0 (function)
@@ -42,7 +42,7 @@ Added in v1.10.0 (function)
 ## filterMapWithIndex
 
 ```ts
-<A, B>(
+filterMapWithIndex<A, B>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Option<B>
 ): Record<string, B>
@@ -53,7 +53,7 @@ Added in v1.12.0 (function)
 ## filterWithIndex
 
 ```ts
-<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
+filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
 ```
 
 Added in v1.12.0 (function)
@@ -85,7 +85,7 @@ Added in v1.10.0 (function)
 ## foldrWithKey
 
 ```ts
-<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B
+foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B
 ```
 
 Added in v1.12.0 (function)
@@ -122,7 +122,7 @@ Added in v1.10.0 (function)
 ## insert
 
 ```ts
-<A>(k: string, a: A, d: Record<string, A>): Record<string, A>
+insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A>
 ```
 
 Added in v1.10.0 (function)
@@ -152,7 +152,7 @@ Test whether one dictionary contains all of the keys and values contained in ano
 ## map
 
 ```ts
-<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B>
+map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B>
 ```
 
 Added in v1.10.0 (function)
@@ -160,7 +160,7 @@ Added in v1.10.0 (function)
 ## mapWithKey
 
 ```ts
-<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B>
+mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B>
 ```
 
 Added in v1.10.0 (function)
@@ -190,7 +190,7 @@ Added in v1.10.0 (function)
 ## partitionMapWithIndex
 
 ```ts
-<RL, RR, A>(
+partitionMapWithIndex<RL, RR, A>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>>
@@ -201,7 +201,7 @@ Added in v1.12.0 (function)
 ## partitionWithIndex
 
 ```ts
-<A>(
+partitionWithIndex<A>(
   fa: Record<string, A>,
   p: (key: string, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>>
@@ -230,7 +230,7 @@ Added in v1.10.0 (function)
 ## reduceWithKey
 
 ```ts
-<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B
+reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B
 ```
 
 Added in v1.12.0 (function)
@@ -238,7 +238,7 @@ Added in v1.12.0 (function)
 ## remove
 
 ```ts
-<A>(k: string, d: Record<string, A>): Record<string, A>
+remove<A>(k: string, d: Record<string, A>): Record<string, A>
 ```
 
 Added in v1.10.0 (function)
@@ -266,7 +266,7 @@ Added in v1.10.0 (function)
 ## singleton
 
 ```ts
-<A>(k: string, a: A): Record<string, A>
+<K extends string, A>(k: K, a: A): Record<K, A>
 ```
 
 Added in v1.10.0 (function)
@@ -286,7 +286,7 @@ Calculate the number of key/value pairs in a dictionary
 ## toArray
 
 ```ts
-<A>(d: Record<string, A>): Array<[string, A]>
+toArray<A>(d: Record<string, A>): Array<[string, A]>
 ```
 
 Added in v1.10.0 (function)

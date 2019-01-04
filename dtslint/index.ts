@@ -10,6 +10,7 @@ import * as O from '../src/Option'
 import * as OT from '../src/OptionT'
 import * as Re from '../src/Reader'
 import * as RTE from '../src/ReaderTaskEither'
+import * as R from '../src/Record'
 import * as S from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
@@ -17,6 +18,7 @@ import * as Th from '../src/These'
 import * as Tr from '../src/Traversable'
 import * as U from '../src/Unfoldable'
 import * as V from '../src/Validation'
+import { monoidString } from '../src/Monoid'
 
 const double = (n: number) => n * 2
 
@@ -123,3 +125,94 @@ O.getRefinement<C, A>(c => (c.type === 'B' ? O.some(c) : O.none))
 
 // $ExpectError
 type HKT1 = H.Type<'a', string>
+
+//
+// Record
+//
+
+declare const d1: { [key: string]: number }
+declare const do1: { [key: string]: O.Option<number> }
+declare const r1: Record<'a' | 'b', number>
+// declare const ro1: Record<'a' | 'b', O.Option<number>>
+declare const stringKey: string
+const l1 = { a: 1 }
+
+R.collect({ a: 1 }, (_k: 'a', n: number) => n) // $ExpectType number[]
+R.collect(l1, (_k: 'a', n: number) => n) // $ExpectType number[]
+R.collect(d1, (_k, n) => n) // $ExpectType number[]
+R.collect(r1, (_k: 'a' | 'b', n: number) => n) // $ExpectType number[]
+
+R.toArray({ a: 1 }) // $ExpectType ["a", number][]
+R.toArray(l1) // $ExpectType ["a", number][]
+R.toArray(d1) // $ExpectType [string, number][]
+R.toArray(r1) // $ExpectType ["a" | "b", number][]
+
+R.insert('b', 0, { a: 1 }) // $ExpectType Record<"a" | "b", number>
+R.insert('b', 0, l1) // $ExpectType Record<"a" | "b", number>
+R.insert('b', 0, d1) // $ExpectType Record<string, number>
+R.insert('b', 0, r1) // $ExpectType Record<"a" | "b", number>
+R.insert(stringKey, 0, r1) // $ExpectType Record<string, number>
+R.insert('c', 0, r1) // $ExpectType Record<"a" | "b" | "c", number>
+
+R.remove('a', { a: 1 }) // $ExpectType Record<never, number>
+R.remove('b', { a: 1 }) // $ExpectType Record<"a", number>
+R.remove('a', l1) // $ExpectType Record<never, number>
+R.remove('b', l1) // $ExpectType Record<"a", number>
+R.remove('b', d1) // $ExpectType Record<string, number>
+R.remove('c', r1) // $ExpectType Record<"a" | "b", number>
+R.remove('a', r1) // $ExpectType Record<"b", number>
+R.remove(stringKey, r1) // $ExpectType Record<string, number>
+
+R.mapWithKey({ a: 1 }, (_k: 'a', n: number) => n > 2) // $ExpectType Record<"a", boolean>
+R.mapWithKey(l1, (_k: 'a', n: number) => n > 2) // $ExpectType Record<"a", boolean>
+R.mapWithKey(d1, (_k: string, n: number) => n > 2) // $ExpectType Record<string, boolean>
+R.mapWithKey(r1, (_k: 'a' | 'b', n: number) => n > 2) // $ExpectType Record<"a" | "b", boolean>
+
+R.map({ a: 1 }, n => n > 2) // $ExpectType Record<"a", boolean>
+R.map(l1, n => n > 2) // $ExpectType Record<"a", boolean>
+R.map(d1, n => n > 2) // $ExpectType Record<string, boolean>
+R.map(r1, n => n > 2) // $ExpectType Record<"a" | "b", boolean>
+
+R.reduceWithKey(d1, '', (k: string, _n) => k) // $ExpectType string
+R.reduceWithKey(r1, '', (k: 'a' | 'b', _n) => k) // $ExpectType string
+
+R.foldMapWithKey(monoidString)(d1, (k: string, _n) => k) // $ExpectType string
+// the following test requires https://github.com/Microsoft/TypeScript/issues/29246
+// R.foldMapWithKey(monoidString)(r1, (k: 'a' | 'b', _n) => k) // $ExpectType string
+
+R.foldrWithKey(d1, '', (k: string, _n, _b) => k) // $ExpectType string
+R.foldrWithKey(r1, '', (k: 'a' | 'b', _n, _b) => k) // $ExpectType string
+
+R.singleton('a', 1) // $ExpectType Record<"a", number>
+
+R.traverseWithKey(O.option)(d1, (_k: string, n) => O.some(n)) // $ExpectType Option<Record<string, number>>
+// the following test requires https://github.com/Microsoft/TypeScript/issues/29246
+// R.traverseWithKey(O.option)(r1, (k: 'a' | 'b', n) => O.some(n)) // $ExpectType Option<Record<"a" | "b", number>>
+
+R.traverse(O.option)(d1, O.some) // $ExpectType Option<Record<string, number>>
+// the following test requires https://github.com/Microsoft/TypeScript/issues/29246
+// R.traverse(O.option)(r1, O.some) // $ExpectType Option<Record<"a" | "b", number>>
+
+R.sequence(O.option)(do1) // $ExpectType Option<Record<string, number>>
+// the following test requires https://github.com/Microsoft/TypeScript/issues/29246
+// R.sequence(O.option)(ro1) // $ExpectType Option<Record<"a" | "b", number>>
+
+R.compact(do1) // $ExpectType Record<string, number>
+
+R.partitionMapWithIndex(d1, (_k: string, n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+R.partitionMapWithIndex(r1, (_k: 'a' | 'b', n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+
+R.partitionWithIndex(d1, (_k: string, n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>
+R.partitionWithIndex(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>
+
+R.filterMapWithIndex(d1, (_k: string, n) => O.some(n)) // $ExpectType Record<string, number>
+R.filterMapWithIndex(r1, (_k: 'a' | 'b', n) => O.some(n)) // $ExpectType Record<string, number>
+
+R.filterWithIndex(d1, (_k: string, n) => n > 2) // $ExpectType Record<string, number>
+R.filterWithIndex(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Record<string, number>
+
+declare const arr1: Array<[string, number]>
+declare const arr2: Array<['a' | 'b', number]>
+
+R.fromFoldable(A.array)(arr1, a => a) // $ExpectType Record<string, number>
+R.fromFoldable(A.array)(arr2, a => a) // $ExpectType Record<"a" | "b", number>
