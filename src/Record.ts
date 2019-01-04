@@ -31,7 +31,9 @@ export const isEmpty = <A>(d: Record<string, A>): boolean => {
  * @function
  * @since 1.10.0
  */
-export const collect = <A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B> => {
+export function collect<K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B>
+export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B>
+export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B> {
   const out: Array<B> = []
   const keys = Object.keys(d).sort()
   for (const key of keys) {
@@ -44,7 +46,9 @@ export const collect = <A, B>(d: Record<string, A>, f: (k: string, a: A) => B): 
  * @function
  * @since 1.10.0
  */
-export const toArray = <A>(d: Record<string, A>): Array<[string, A]> => {
+export function toArray<K extends string, A>(d: Record<K, A>): Array<[K, A]>
+export function toArray<A>(d: Record<string, A>): Array<[string, A]>
+export function toArray<A>(d: Record<string, A>): Array<[string, A]> {
   return collect(d, (k, a: A) => tuple(k, a))
 }
 
@@ -64,7 +68,9 @@ export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: Record<stri
  * @function
  * @since 1.10.0
  */
-export const insert = <A>(k: string, a: A, d: Record<string, A>): Record<string, A> => {
+export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A>
+export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A>
+export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A> {
   const r = Object.assign({}, d)
   r[k] = a
   return r
@@ -75,7 +81,12 @@ export const insert = <A>(k: string, a: A, d: Record<string, A>): Record<string,
  * @function
  * @since 1.10.0
  */
-export const remove = <A>(k: string, d: Record<string, A>): Record<string, A> => {
+export function remove<KS extends string, K extends string, A>(
+  k: K,
+  d: Record<KS, A>
+): Record<string extends K ? string : Exclude<KS, K>, A>
+export function remove<A>(k: string, d: Record<string, A>): Record<string, A>
+export function remove<A>(k: string, d: Record<string, A>): Record<string, A> {
   const r = Object.assign({}, d)
   delete r[k]
   return r
@@ -140,35 +151,6 @@ export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string
 }
 
 /**
- * Create a dictionary from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
- * @function
- * @since 1.10.0
- */
-export function fromFoldable<F extends URIS3>(
-  F: Foldable3<F>
-): <U, L, A>(ta: Type3<F, U, L, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
-export function fromFoldable<F extends URIS2>(
-  F: Foldable2<F>
-): <L, A>(ta: Type2<F, L, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
-export function fromFoldable<F extends URIS>(
-  F: Foldable1<F>
-): <A>(ta: Type<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
-export function fromFoldable<F>(
-  F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
-export function fromFoldable<F>(
-  F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A> {
-  return <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => {
-    return F.reduce<[string, A], Record<string, A>>(ta, {}, (b, [k, a]) => {
-      b[k] = b.hasOwnProperty(k) ? f(b[k], a) : a
-      return b
-    })
-  }
-}
-
-/**
  * @constant
  * @since 1.10.0
  */
@@ -178,7 +160,9 @@ export const empty: Record<string, never> = {}
  * @function
  * @since 1.10.0
  */
-export const mapWithKey = <A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B> => {
+export function mapWithKey<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B>
+export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B>
+export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B> {
   const r: Record<string, B> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
@@ -191,7 +175,9 @@ export const mapWithKey = <A, B>(fa: Record<string, A>, f: (k: string, a: A) => 
  * @function
  * @since 1.10.0
  */
-export const map = <A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B> => {
+export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B>
+export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B>
+export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B> {
   return mapWithKey(fa, (_, a) => f(a))
 }
 
@@ -224,7 +210,9 @@ export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): 
  * @function
  * @since 1.12.0
  */
-export const reduceWithKey = <A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B => {
+export function reduceWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B
+export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B
+export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B {
   let out: B = b
   const keys = Object.keys(fa).sort()
   const len = keys.length
@@ -254,7 +242,9 @@ export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f:
  * @function
  * @since 1.12.0
  */
-export const foldrWithKey = <A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B => {
+export function foldrWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B
+export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B
+export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B {
   let out: B = b
   const keys = Object.keys(fa).sort()
   const len = keys.length
@@ -270,8 +260,8 @@ export const foldrWithKey = <A, B>(fa: Record<string, A>, b: B, f: (k: string, a
  * @function
  * @since 1.10.0
  */
-export const singleton = <A>(k: string, a: A): Record<string, A> => {
-  return { [k]: a }
+export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => {
+  return { [k]: a } as any
 }
 
 /**
@@ -510,10 +500,18 @@ export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): 
  * @function
  * @since 1.12.0
  */
-export const partitionMapWithIndex = <RL, RR, A>(
+export function partitionMapWithIndex<K extends string, RL, RR, A>(
+  fa: Record<K, A>,
+  f: (key: K, a: A) => Either<RL, RR>
+): Separated<Record<string, RL>, Record<string, RR>>
+export function partitionMapWithIndex<RL, RR, A>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>> => {
+): Separated<Record<string, RL>, Record<string, RR>>
+export function partitionMapWithIndex<RL, RR, A>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Either<RL, RR>
+): Separated<Record<string, RL>, Record<string, RR>> {
   const left: Record<string, RL> = {}
   const right: Record<string, RR> = {}
   const keys = Object.keys(fa)
@@ -535,10 +533,18 @@ export const partitionMapWithIndex = <RL, RR, A>(
  * @function
  * @since 1.12.0
  */
-export const partitionWithIndex = <A>(
+export function partitionWithIndex<K extends string, A>(
+  fa: Record<K, A>,
+  p: (key: K, a: A) => boolean
+): Separated<Record<string, A>, Record<string, A>>
+export function partitionWithIndex<A>(
   fa: Record<string, A>,
   p: (key: string, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>> => {
+): Separated<Record<string, A>, Record<string, A>>
+export function partitionWithIndex<A>(
+  fa: Record<string, A>,
+  p: (key: string, a: A) => boolean
+): Separated<Record<string, A>, Record<string, A>> {
   const left: Record<string, A> = {}
   const right: Record<string, A> = {}
   const keys = Object.keys(fa)
@@ -560,10 +566,15 @@ export const partitionWithIndex = <A>(
  * @function
  * @since 1.12.0
  */
-export const filterMapWithIndex = <A, B>(
+export function filterMapWithIndex<K extends string, A, B>(
+  fa: Record<K, A>,
+  f: (key: K, a: A) => Option<B>
+): Record<string, B>
+export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>
+export function filterMapWithIndex<A, B>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Option<B>
-): Record<string, B> => {
+): Record<string, B> {
   const r: Record<string, B> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
@@ -579,7 +590,9 @@ export const filterMapWithIndex = <A, B>(
  * @function
  * @since 1.12.0
  */
-export const filterWithIndex = <A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> => {
+export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
+export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
+export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
   const r: Record<string, A> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
@@ -589,4 +602,33 @@ export const filterWithIndex = <A>(fa: Record<string, A>, p: (key: string, a: A)
     }
   }
   return r
+}
+
+/**
+ * Create a dictionary from a foldable collection of key/value pairs, using the
+ * specified function to combine values for duplicate keys.
+ * @function
+ * @since 1.10.0
+ */
+export function fromFoldable<F extends URIS3>(
+  F: Foldable3<F>
+): <K extends string, U, L, A>(ta: Type3<F, U, L, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A>
+export function fromFoldable<F extends URIS2>(
+  F: Foldable2<F>
+): <K extends string, L, A>(ta: Type2<F, L, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A>
+export function fromFoldable<F extends URIS>(
+  F: Foldable1<F>
+): <K extends string, A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A>
+export function fromFoldable<F>(
+  F: Foldable<F>
+): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
+export function fromFoldable<F>(
+  F: Foldable<F>
+): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A> {
+  return <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => {
+    return F.reduce<[string, A], Record<string, A>>(ta, {}, (b, [k, a]) => {
+      b[k] = b.hasOwnProperty(k) ? f(b[k], a) : a
+      return b
+    })
+  }
 }
