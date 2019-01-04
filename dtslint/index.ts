@@ -1,26 +1,22 @@
-import { ReaderTaskEither, readerTaskEither } from '../src/ReaderTaskEither'
-import { getApplicativeComposition } from '../src/Applicative'
-import { liftA2 } from '../src/Apply'
-import { array } from '../src/Array'
-import { Const, const_ } from '../src/Const'
-import { Either, either } from '../src/Either'
-import { Functor2C, Functor3C, lift } from '../src/Functor'
-import { getMonad as getIxIOMonad } from '../src/IxIO'
-import { Option, option, getRefinement, some, none } from '../src/Option'
-import * as optionT from '../src/OptionT'
-import { Reader, reader } from '../src/Reader'
-import { getArraySemigroup, semigroupString } from '../src/Semigroup'
-import { task } from '../src/Task'
-import { getMonad as getTheseMonad } from '../src/These'
-import { sequence } from '../src/Traversable'
-import { replicateA } from '../src/Unfoldable'
-import { Validation, getApplicative, validation } from '../src/Validation'
-import { taskify, TaskEither } from '../src/TaskEither'
-import { Type } from '../src/HKT'
-
-type Equals<A, B> = [A] extends [B] ? ([B] extends [A] ? 'T' : 'F') : 'F'
-
-type AssertEquals<A, B, Bool extends Equals<A, B>> = [A, Bool]
+import * as Apv from '../src/Applicative'
+import * as Apy from '../src/Apply'
+import * as A from '../src/Array'
+import * as C from '../src/Const'
+import * as E from '../src/Either'
+import * as F from '../src/Functor'
+import * as H from '../src/HKT'
+import * as Ix from '../src/IxIO'
+import * as O from '../src/Option'
+import * as OT from '../src/OptionT'
+import * as Re from '../src/Reader'
+import * as RTE from '../src/ReaderTaskEither'
+import * as S from '../src/Semigroup'
+import * as T from '../src/Task'
+import * as TE from '../src/TaskEither'
+import * as Th from '../src/These'
+import * as Tr from '../src/Traversable'
+import * as U from '../src/Unfoldable'
+import * as V from '../src/Validation'
 
 const double = (n: number) => n * 2
 
@@ -28,58 +24,59 @@ const double = (n: number) => n * 2
 // Functor
 //
 
-const liftedOption: (fa: Option<number>) => Option<number> = lift(option)(double)
-const liftedEither: <L>(fa: Either<L, number>) => Either<L, number> = lift(either)(double)
-const liftedReaderTaskEither: <U, L>(fa: ReaderTaskEither<U, L, number>) => ReaderTaskEither<U, L, number> = lift(
-  readerTaskEither
-)(double)
-declare const EitherFunctor2C: Functor2C<'Either', string>
-const liftedF: (fa: Either<string, number>) => Either<string, number> = lift(EitherFunctor2C)(double)
-declare const ReaderTaskEitherFunctor3C: Functor3C<'ReaderTaskEither', string, boolean>
-const liftedGD: (fa: ReaderTaskEither<string, boolean, number>) => ReaderTaskEither<string, boolean, number> = lift(
-  ReaderTaskEitherFunctor3C
-)(double)
+// lift
+
+F.lift(O.option)(double) // $ExpectType (fa: Option<number>) => Option<number>
+F.lift(E.either)(double) // $ExpectType <L>(fa: Either<L, number>) => Either<L, number>
+F.lift(RTE.readerTaskEither)(double) // $ExpectType <U, L>(fa: ReaderTaskEither<U, L, number>) => ReaderTaskEither<U, L, number>
+declare const EitherFunctor2C: F.Functor2C<'Either', string>
+F.lift(EitherFunctor2C)(double) // $ExpectType (fa: Either<string, number>) => Either<string, number>
+declare const ReaderTaskEitherFunctor3C: F.Functor3C<'ReaderTaskEither', string, boolean>
+F.lift(ReaderTaskEitherFunctor3C)(double) // $ExpectType (fa: ReaderTaskEither<string, boolean, number>) => ReaderTaskEither<string, boolean, number>
 
 //
 // Traversable
 //
 
-const sequenceEitherArray: <L, A>(tfa: Array<Either<L, A>>) => Either<L, Array<A>> = sequence(either, array)
-const sequenceTaskValidation = sequence(task, validation)
-const sequenceEitherValidation = sequence(either, validation)
-const sequenceValidationEither = sequence(getApplicative(semigroupString), either)
+// sequence
+
+Tr.sequence(E.either, A.array) // $ExpectType <L, A>(tfa: Either<L, A>[]) => Either<L, A[]>
+Tr.sequence(T.task, V.validation) // $ExpectType <L, A>(tfa: Validation<L, Task<A>>) => Task<Validation<L, A>>
+Tr.sequence(E.either, V.validation) // $ExpectType <LF, LT, A>(tfa: Validation<LT, Either<LF, A>>) => Either<LF, Validation<LT, A>>
+Tr.sequence(V.getApplicative(S.semigroupString), E.either) // $ExpectType <LT, A>(tfa: Either<LT, Validation<string, A>>) => Validation<string, Either<LT, A>>
 
 //
 // Apply
 //
 
-const applicativeValidation = getApplicative(semigroupString)
-const f1: <A, B, C>(
-  f: (a: A) => (b: B) => C
-) => (fa: Validation<string, A>) => (fb: Validation<string, B>) => Validation<string, C> = liftA2(applicativeValidation)
+// liftA2
+
+const applicativeValidation = V.getApplicative(S.semigroupString)
+Apy.liftA2(applicativeValidation) // $ExpectType <A, B, C>(f: Curried2<A, B, C>) => (fa: Validation<string, A>) => (fb: Validation<string, B>) => Validation<string, C>
 
 //
 // Unfoldable
 //
 
-const replicateValidation: <A>(n: number, ma: Validation<string, A>) => Validation<string, Array<A>> = replicateA(
-  applicativeValidation,
-  array
-)
+// replicateA
+
+U.replicateA(applicativeValidation, A.array) // $ExpectType <A>(n: number, ma: Validation<string, A>) => Validation<string, A[]>
 
 //
 // Applicative
 //
 
-const AC1 = getApplicativeComposition(reader, applicativeValidation)
-const AC1map: <L, A, B>(fa: Reader<L, Validation<string, A>>, f: (a: A) => B) => Reader<L, Validation<string, B>> =
-  AC1.map
+// getApplicativeComposition
+
+Apv.getApplicativeComposition(Re.reader, applicativeValidation).map // $ExpectType <LF, A, B>(fa: Reader<LF, Validation<string, A>>, f: (a: A) => B) => Reader<LF, Validation<string, B>>
 
 //
-// Contravariant
+// Const
 //
 
-const const1: Const<boolean, string> = const_.contramap(new Const<boolean, number>(true), (s: string) => s.length)
+// contramap
+
+C.const_.contramap(new C.Const<boolean, number>(true), (s: string) => s.length) // $ExpectType Const<boolean, string>
 
 //
 // OptionT
@@ -87,19 +84,25 @@ const const1: Const<boolean, string> = const_.contramap(new Const<boolean, numbe
 
 // Monad2C
 
-const these: optionT.OptionT2C<'These', Array<string>> = optionT.getOptionT(getTheseMonad(getArraySemigroup<string>()))
+OT.getOptionT(Th.getMonad(S.getArraySemigroup<string>())) // $ExpectType OptionT2C<"These", string[]>
 
 // Monad3C
 
-const ixIO: optionT.OptionT3C<'IxIO', string, string> = optionT.getOptionT(getIxIOMonad<string>())
+OT.getOptionT(Ix.getMonad<string>()) // $ExpectType OptionT3C<"IxIO", string, string>
+
+//
+// TaskEither
+//
 
 // taskify
 
 declare function apiForTaskify(path: string, callback: (err: Error | null | undefined, result?: string) => void): void
 
-const apiTaskified = taskify(apiForTaskify)
+TE.taskify(apiForTaskify) // $ExpectType (a: string) => TaskEither<Error, string>
 
-type S1 = AssertEquals<typeof apiTaskified, (a: string) => TaskEither<Error, string>, 'T'>
+//
+// Option
+//
 
 // getRefinement
 
@@ -112,9 +115,11 @@ interface B {
 type C = A | B
 
 // $ExpectError
-const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none))
+O.getRefinement<C, A>(c => (c.type === 'B' ? O.some(c) : O.none))
 
+//
 // HKT
+//
 
 // $ExpectError
-type HKT1 = Type<'a', string>
+type HKT1 = H.Type<'a', string>
