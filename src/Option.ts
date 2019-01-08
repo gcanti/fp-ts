@@ -247,12 +247,12 @@ export class None<A> {
    * assert.strictEqual(some(1).fold('none', a => `some: ${a}`), 'some: 1')
    * assert.strictEqual(none.fold('none', a => `some: ${a}`), 'none')
    */
-  fold<B>(b: B, whenSome: (a: A) => B): B {
+  fold<B>(b: B, onSome: (a: A) => B): B {
     return b
   }
   /** Lazy version of {@link fold} */
-  foldL<B>(whenNone: () => B, whenSome: (a: A) => B): B {
-    return whenNone()
+  foldL<B>(onNone: () => B, onSome: (a: A) => B): B {
+    return onNone()
   }
   /**
    * Returns the value from this `Some` or the given argument if this is a `None`
@@ -363,11 +363,11 @@ export class Some<A> {
   extend<B>(f: (ea: Option<A>) => B): Option<B> {
     return new Some(f(this))
   }
-  fold<B>(b: B, whenSome: (a: A) => B): B {
-    return whenSome(this.value)
+  fold<B>(b: B, onSome: (a: A) => B): B {
+    return onSome(this.value)
   }
-  foldL<B>(whenNone: () => B, whenSome: (a: A) => B): B {
-    return whenSome(this.value)
+  foldL<B>(onNone: () => B, onSome: (a: A) => B): B {
+    return onSome(this.value)
   }
   getOrElse(a: A): A {
     return this.value

@@ -141,7 +141,7 @@ Lazy version of [filterOrElse](#filterorelse)
 ## fold
 
 ```ts
-<B>(whenLeft: (l: L) => B, whenRight: (a: A) => B): B
+<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B
 ```
 
 Added in v1.0.0 (method)
@@ -316,7 +316,7 @@ Lazy version of [fromOption](#fromoption)
 ## fromPredicate
 
 ```ts
-fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): (a: A) => Either<L, A>
+fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>
 ```
 
 Added in v1.0.0 (function)
@@ -324,7 +324,7 @@ Added in v1.0.0 (function)
 ## ~~fromRefinement~~ (deprecated)
 
 ```ts
-<L, A, B extends A>(refinement: Refinement<A, B>, whenFalse: (a: A) => L) => (
+<L, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => L) => (
   a: A
 ): Either<L, B>
 ```

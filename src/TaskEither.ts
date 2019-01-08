@@ -94,22 +94,22 @@ export class TaskEither<L, A> {
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
     return new TaskEither(eitherTTask.chain(a => f(a).value, this.value))
   }
-  fold<R>(whenLeft: (l: L) => R, whenRight: (a: A) => R): Task<R> {
-    return eitherTfold(whenLeft, whenRight, this.value)
+  fold<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R> {
+    return eitherTfold(onLeft, onRight, this.value)
   }
   /**
    * Similar to {@link fold}, but the result is flattened.
    * @since 1.10.0
    */
-  foldTask<R>(whenLeft: (l: L) => Task<R>, whenRight: (a: A) => Task<R>): Task<R> {
-    return this.value.chain(e => e.fold(whenLeft, whenRight))
+  foldTask<R>(onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>): Task<R> {
+    return this.value.chain(e => e.fold(onLeft, onRight))
   }
   /**
    * Similar to {@link fold}, but the result is flattened.
    * @since 1.10.0
    */
-  foldTaskEither<M, B>(whenLeft: (l: L) => TaskEither<M, B>, whenRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
-    return new TaskEither(this.value.chain(e => e.fold(whenLeft, whenRight).value))
+  foldTaskEither<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
+    return new TaskEither(this.value.chain(e => e.fold(onLeft, onRight).value))
   }
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
     return new TaskEither(eitherTmapLeft(f)(this.value))
@@ -238,11 +238,11 @@ export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
  */
 export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
-  whenFalse: (a: A) => L
+  onFalse: (a: A) => L
 ): ((a: A) => TaskEither<L, B>)
-export function fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
-export function fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>) {
-  const f = eitherFromPredicate(predicate, whenFalse)
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>) {
+  const f = eitherFromPredicate(predicate, onFalse)
   return a => fromEither(f(a))
 }
 

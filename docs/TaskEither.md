@@ -147,7 +147,7 @@ Added in v1.11.0 (method)
 ## fold
 
 ```ts
-<R>(whenLeft: (l: L) => R, whenRight: (a: A) => R): Task<R>
+<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R>
 ```
 
 Added in v1.0.0 (method)
@@ -155,7 +155,7 @@ Added in v1.0.0 (method)
 ## foldTask
 
 ```ts
-<R>(whenLeft: (l: L) => Task<R>, whenRight: (a: A) => Task<R>): Task<R>
+<R>(onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>): Task<R>
 ```
 
 Added in v1.10.0 (method)
@@ -165,7 +165,7 @@ Similar to [fold](#fold), but the result is flattened.
 ## foldTaskEither
 
 ```ts
-<M, B>(whenLeft: (l: L) => TaskEither<M, B>, whenRight: (a: A) => TaskEither<M, B>): TaskEither<M, B>
+<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B>
 ```
 
 Added in v1.10.0 (method)
@@ -259,7 +259,7 @@ Added in v1.3.0 (function)
 ## fromPredicate
 
 ```ts
-fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
+fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
 ```
 
 Added in v1.6.0 (function)

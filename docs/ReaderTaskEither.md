@@ -200,7 +200,7 @@ Added in v1.6.0 (function)
 ```ts
 fromPredicate<E, L, A>(
   predicate: Predicate<A>,
-  whenFalse: (a: A) => L
+  onFalse: (a: A) => L
 ): ((a: A) => ReaderTaskEither<E, L, A>)
 ```
 

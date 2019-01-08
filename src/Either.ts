@@ -113,8 +113,8 @@ export class Left<L, A> {
     return b
   }
   /** Applies a function to each case in the data structure */
-  fold<B>(whenLeft: (l: L) => B, whenRight: (a: A) => B): B {
-    return whenLeft(this.value)
+  fold<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B {
+    return onLeft(this.value)
   }
   /** Returns the value from this `Right` or the given argument if this is a `Left` */
   getOrElse(a: A): A {
@@ -229,8 +229,8 @@ export class Right<L, A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return f(b, this.value)
   }
-  fold<B>(whenLeft: (l: L) => B, whenRight: (a: A) => B): B {
-    return whenRight(this.value)
+  fold<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B {
+    return onRight(this.value)
   }
   getOrElse(a: A): A {
     return this.value
@@ -428,11 +428,11 @@ export const right = of
  */
 export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
-  whenFalse: (a: A) => L
+  onFalse: (a: A) => L
 ): (a: A) => Either<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): (a: A) => Either<L, A>
-export function fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) => L): (a: A) => Either<L, A> {
-  return a => (predicate(a) ? right(a) : left(whenFalse(a)))
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A> {
+  return a => (predicate(a) ? right(a) : left(onFalse(a)))
 }
 
 /**
@@ -441,10 +441,10 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, whenFalse: (a: A) =
  * @since 1.6.0
  * @deprecated
  */
-export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, whenFalse: (a: A) => L) => (
+export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => L) => (
   a: A
 ): Either<L, B> => {
-  return refinement(a) ? right(a) : left(whenFalse(a))
+  return refinement(a) ? right(a) : left(onFalse(a))
 }
 
 /**

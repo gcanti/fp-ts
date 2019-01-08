@@ -226,7 +226,7 @@ Otherwise returns `None`
 ## fold
 
 ```ts
-<B>(b: B, whenSome: (a: A) => B): B
+<B>(b: B, onSome: (a: A) => B): B
 ```
 
 Added in v1.0.0 (method)
@@ -245,7 +245,7 @@ assert.strictEqual(none.fold('none', a => `some: ${a}`), 'none')
 ## foldL
 
 ```ts
-<B>(whenNone: () => B, whenSome: (a: A) => B): B
+<B>(onNone: () => B, onSome: (a: A) => B): B
 ```
 
 Added in v1.0.0 (method)
