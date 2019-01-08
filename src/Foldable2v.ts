@@ -560,7 +560,8 @@ export function toArray<F extends URIS2, L>(F: Foldable2v2C<F, L>): <A>(fa: Type
 export function toArray<F extends URIS>(F: Foldable2v1<F>): <A>(fa: Type<F, A>) => Array<A>
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A>
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A> {
-  return fa => foldMap(F, unsafeMonoidArray)(fa, a => [a])
+  const foldMapF = foldMap(F, unsafeMonoidArray)
+  return fa => foldMapF(fa, a => [a])
 }
 
 /**

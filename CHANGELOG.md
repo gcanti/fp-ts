@@ -18,6 +18,7 @@ high state of flux, you're at risk of it changing without notice.
 
 - **Polish**
   - support for constrained domain in `Record` module, closes #685 (@gcanti)
+  - optimize `Foldable2v.toArray` (@gcanti)
 
 # 1.12.2
 
