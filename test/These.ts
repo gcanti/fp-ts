@@ -18,9 +18,16 @@ import {
   these,
   theseLeft,
   theseRight,
-  this_
+  this_,
+  thisOrBoth,
+  thatOrBoth,
+  theseThis,
+  theseThat,
+  fromOptions,
+  fromEither
 } from '../src/These'
 import * as T from '../src/Traversable'
+import { left, right } from '../src/Either'
 
 describe('These', () => {
   it('getSetoid', () => {
@@ -84,10 +91,10 @@ describe('These', () => {
   })
 
   it('fromThese', () => {
-    const fromThese_ = fromThese('a', 1)
-    assert.deepEqual(fromThese_(this_<string, number>('b')), ['b', 1])
-    assert.deepEqual(fromThese_(that<string, number>(2)), ['a', 2])
-    assert.deepEqual(fromThese_(both('b', 2)), ['b', 2])
+    const from = fromThese('a', 1)
+    assert.deepEqual(from(this_('b')), ['b', 1])
+    assert.deepEqual(from(that(2)), ['a', 2])
+    assert.deepEqual(from(both('b', 2)), ['b', 2])
   })
 
   it('bimap', () => {
@@ -140,15 +147,49 @@ describe('These', () => {
   })
 
   it('theseLeft', () => {
-    assert.deepEqual(theseLeft(this_(1)), some(1))
+    assert.deepEqual(theseLeft(this_('a')), some('a'))
     assert.deepEqual(theseLeft(that(1)), none)
-    assert.deepEqual(theseLeft(both('foo', 1)), some('foo'))
+    assert.deepEqual(theseLeft(both('a', 1)), some('a'))
   })
 
   it('theseRight', () => {
-    assert.deepEqual(theseRight(this_(1)), none)
+    assert.deepEqual(theseRight(this_('a')), none)
     assert.deepEqual(theseRight(that(1)), some(1))
-    assert.deepEqual(theseRight(both('foo', 1)), some(1))
+    assert.deepEqual(theseRight(both('a', 1)), some(1))
+  })
+
+  it('thisOrBoth', () => {
+    assert.deepEqual(thisOrBoth('a', none), this_('a'))
+    assert.deepEqual(thisOrBoth('a', some(1)), both('a', 1))
+  })
+
+  it('thatOrBoth', () => {
+    assert.deepEqual(thatOrBoth(1, none), that(1))
+    assert.deepEqual(thatOrBoth(1, some('a')), both('a', 1))
+  })
+
+  it('theseThis', () => {
+    assert.deepEqual(theseThis(this_('a')), some('a'))
+    assert.deepEqual(theseThis(that(1)), none)
+    assert.deepEqual(theseThis(both('a', 1)), none)
+  })
+
+  it('theseThat', () => {
+    assert.deepEqual(theseThat(this_('a')), none)
+    assert.deepEqual(theseThat(that(1)), some(1))
+    assert.deepEqual(theseThat(both('a', 1)), none)
+  })
+
+  it('fromOptions', () => {
+    assert.deepEqual(fromOptions(none, none), none)
+    assert.deepEqual(fromOptions(some('a'), none), some(this_('a')))
+    assert.deepEqual(fromOptions(none, some(1)), some(that(1)))
+    assert.deepEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
+  })
+
+  it('fromEither', () => {
+    assert.deepEqual(fromEither(left('a')), this_('a'))
+    assert.deepEqual(fromEither(right(1)), that(1))
   })
 
   it('toString', () => {

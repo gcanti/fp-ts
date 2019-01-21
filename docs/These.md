@@ -127,6 +127,46 @@ Added in v1.0.0 (method)
 
 Added in v1.0.0 (function)
 
+## fromEither
+
+```ts
+<L, A>(fa: Either<L, A>): These<L, A>
+```
+
+Added in v1.13.0 (function)
+
+_Example_
+
+```ts
+import { fromEither, this_, that } from 'fp-ts/lib/These'
+import { left, right } from 'fp-ts/lib/Either'
+
+assert.deepEqual(fromEither(left('a')), this_('a'))
+assert.deepEqual(fromEither(right(1)), that(1))
+```
+
+## fromOptions
+
+```ts
+<L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>>
+```
+
+Added in v1.13.0 (function)
+
+Takes a pair of `Option`s and attempts to create a `These` from them
+
+_Example_
+
+```ts
+import { fromOptions, this_, that, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(fromOptions(none, none), none)
+assert.deepEqual(fromOptions(some('a'), none), some(this_('a')))
+assert.deepEqual(fromOptions(none, some(1)), some(that(1)))
+assert.deepEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
+```
+
 ## fromThese
 
 ```ts
@@ -134,6 +174,17 @@ Added in v1.0.0 (function)
 ```
 
 Added in v1.0.0 (function)
+
+_Example_
+
+```ts
+import { fromThese, this_, that, both } from 'fp-ts/lib/These'
+
+const from = fromThese('a', 1)
+assert.deepEqual(from(this_('b')), ['b', 1])
+assert.deepEqual(from(that(2)), ['a', 2])
+assert.deepEqual(from(both('b', 2)), ['b', 2])
+```
 
 ## getMonad
 
@@ -195,6 +246,24 @@ Alias of [of](#of)
 
 Added in v1.0.0 (function)
 
+## thatOrBoth
+
+```ts
+<L, A>(defaultThat: A, ml: Option<L>): These<L, A>
+```
+
+Added in v1.13.0 (function)
+
+_Example_
+
+```ts
+import { thatOrBoth, that, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(thatOrBoth(1, none), that(1))
+assert.deepEqual(thatOrBoth(1, some('a')), both('a', 1))
+```
+
 ## theseLeft
 
 ```ts
@@ -203,6 +272,19 @@ Added in v1.0.0 (function)
 
 Added in v1.0.0 (function)
 
+Returns an `L` value if possible
+
+_Example_
+
+```ts
+import { theseLeft, this_, that, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(theseLeft(this_('a')), some('a'))
+assert.deepEqual(theseLeft(that(1)), none)
+assert.deepEqual(theseLeft(both('a', 1)), some('a'))
+```
+
 ## theseRight
 
 ```ts
@@ -210,6 +292,79 @@ Added in v1.0.0 (function)
 ```
 
 Added in v1.0.0 (function)
+
+Returns an `A` value if possible
+
+_Example_
+
+```ts
+import { theseRight, this_, that, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(theseRight(this_('a')), none)
+assert.deepEqual(theseRight(that(1)), some(1))
+assert.deepEqual(theseRight(both('a', 1)), some(1))
+```
+
+## theseThat
+
+```ts
+<L, A>(fa: These<L, A>): Option<A>
+```
+
+Added in v1.13.0 (function)
+
+Returns the `A` value if and only if the value is constructed with `That`
+
+_Example_
+
+```ts
+import { theseThat, this_, that, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(theseThat(this_('a')), none)
+assert.deepEqual(theseThat(that(1)), some(1))
+assert.deepEqual(theseThat(both('a', 1)), none)
+```
+
+## theseThis
+
+```ts
+<L, A>(fa: These<L, A>): Option<L>
+```
+
+Added in v1.13.0 (function)
+
+Returns the `L` value if and only if the value is constructed with `This`
+
+_Example_
+
+```ts
+import { theseThis, this_, that, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(theseThis(this_('a')), some('a'))
+assert.deepEqual(theseThis(that(1)), none)
+assert.deepEqual(theseThis(both('a', 1)), none)
+```
+
+## thisOrBoth
+
+```ts
+<L, A>(defaultThis: L, ma: Option<A>): These<L, A>
+```
+
+Added in v1.13.0 (function)
+
+_Example_
+
+```ts
+import { thisOrBoth, this_, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepEqual(thisOrBoth('a', none), this_('a'))
+assert.deepEqual(thisOrBoth('a', some(1)), both('a', 1))
+```
 
 ## this\_
 

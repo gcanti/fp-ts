@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "1.12.3",
+  "version": "1.13.0",
   "description": "Functional programming in TypeScript",
   "files": [
     "lib"
@@ -33,6 +33,7 @@
   "homepage": "https://github.com/gcanti/fp-ts",
   "dependencies": {},
   "devDependencies": {
+    "@types/benchmark": "^1.0.31",
     "@types/doctrine": "0.0.3",
     "@types/jest": "22.2.2",
     "@types/node": "7.0.4",
