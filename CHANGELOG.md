@@ -14,6 +14,20 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.13.0
+
+- **New Feature**
+  - add `Array.unzip` (@user753)
+  - add `Group` type class (@gcanti)
+  - add `FreeGroup` module (@gcanti)
+  - add `These` functions (@gcanti)
+    - `thisOrBoth`
+    - `thatOrBoth`
+    - `theseThis`
+    - `theseThat`
+    - `fromOptions`
+    - `fromEither`
+
 # 1.12.3
 
 - **Polish**
