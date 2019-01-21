@@ -1,5 +1,6 @@
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
+import { Either } from './Either'
 import { Foldable2v2 } from './Foldable2v'
 import { phantom, toString } from './function'
 import { Functor2 } from './Functor'
@@ -297,6 +298,15 @@ export const both = <L, A>(l: L, a: A): These<L, A> => {
 }
 
 /**
+ *
+ * @example
+ * import { fromThese, this_, that, both } from 'fp-ts/lib/These'
+ *
+ * const from = fromThese('a', 1)
+ * assert.deepEqual(from(this_('b')), ['b', 1])
+ * assert.deepEqual(from(that(2)), ['a', 2])
+ * assert.deepEqual(from(both('b', 2)), ['b', 2])
+ *
  * @function
  * @since 1.0.0
  */
@@ -305,6 +315,16 @@ export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L,
 }
 
 /**
+ * Returns an `L` value if possible
+ *
+ * @example
+ * import { theseLeft, this_, that, both } from 'fp-ts/lib/These'
+ * import { none, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(theseLeft(this_('a')), some('a'))
+ * assert.deepEqual(theseLeft(that(1)), none)
+ * assert.deepEqual(theseLeft(both('a', 1)), some('a'))
+ *
  * @function
  * @since 1.0.0
  */
@@ -313,6 +333,16 @@ export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => {
 }
 
 /**
+ * Returns an `A` value if possible
+ *
+ * @example
+ * import { theseRight, this_, that, both } from 'fp-ts/lib/These'
+ * import { none, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(theseRight(this_('a')), none)
+ * assert.deepEqual(theseRight(that(1)), some(1))
+ * assert.deepEqual(theseRight(both('a', 1)), some(1))
+ *
  * @function
  * @since 1.0.0
  */
@@ -345,6 +375,110 @@ export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
  */
 export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
   return fa.isBoth()
+}
+
+/**
+ * @example
+ * import { thisOrBoth, this_, both } from 'fp-ts/lib/These'
+ * import { none, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(thisOrBoth('a', none), this_('a'))
+ * assert.deepEqual(thisOrBoth('a', some(1)), both('a', 1))
+ *
+ * @function
+ * @since 1.13.0
+ */
+export const thisOrBoth = <L, A>(defaultThis: L, ma: Option<A>): These<L, A> => {
+  return ma.isNone() ? this_(defaultThis) : both(defaultThis, ma.value)
+}
+
+/**
+ * @example
+ * import { thatOrBoth, that, both } from 'fp-ts/lib/These'
+ * import { none, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(thatOrBoth(1, none), that(1))
+ * assert.deepEqual(thatOrBoth(1, some('a')), both('a', 1))
+ *
+ * @function
+ * @since 1.13.0
+ */
+export const thatOrBoth = <L, A>(defaultThat: A, ml: Option<L>): These<L, A> => {
+  return ml.isNone() ? that(defaultThat) : both(ml.value, defaultThat)
+}
+
+/**
+ * Returns the `L` value if and only if the value is constructed with `This`
+ *
+ * @example
+ * import { theseThis, this_, that, both } from 'fp-ts/lib/These'
+ * import { none, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(theseThis(this_('a')), some('a'))
+ * assert.deepEqual(theseThis(that(1)), none)
+ * assert.deepEqual(theseThis(both('a', 1)), none)
+ *
+ * @function
+ * @since 1.13.0
+ */
+export const theseThis = <L, A>(fa: These<L, A>): Option<L> => {
+  return fa.isThis() ? some(fa.value) : none
+}
+
+/**
+ * Returns the `A` value if and only if the value is constructed with `That`
+ *
+ * @example
+ * import { theseThat, this_, that, both } from 'fp-ts/lib/These'
+ * import { none, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(theseThat(this_('a')), none)
+ * assert.deepEqual(theseThat(that(1)), some(1))
+ * assert.deepEqual(theseThat(both('a', 1)), none)
+ *
+ *
+ * @function
+ * @since 1.13.0
+ */
+export const theseThat = <L, A>(fa: These<L, A>): Option<A> => {
+  return fa.isThat() ? some(fa.value) : none
+}
+
+/**
+ * Takes a pair of `Option`s and attempts to create a `These` from them
+ *
+ * @example
+ * import { fromOptions, this_, that, both } from 'fp-ts/lib/These'
+ * import { none, some } from 'fp-ts/lib/Option'
+ *
+ * assert.deepEqual(fromOptions(none, none), none)
+ * assert.deepEqual(fromOptions(some('a'), none), some(this_('a')))
+ * assert.deepEqual(fromOptions(none, some(1)), some(that(1)))
+ * assert.deepEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
+ *
+ * @function
+ * @since 1.13.0
+ */
+export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> => {
+  return fl.foldL(
+    () => fa.fold(none, a => some(that<L, A>(a))),
+    l => fa.foldL(() => some(this_(l)), a => some(both(l, a)))
+  )
+}
+
+/**
+ * @example
+ * import { fromEither, this_, that } from 'fp-ts/lib/These'
+ * import { left, right } from 'fp-ts/lib/Either'
+ *
+ * assert.deepEqual(fromEither(left('a')), this_('a'))
+ * assert.deepEqual(fromEither(right(1)), that(1))
+ *
+ * @function
+ * @since 1.13.0
+ */
+export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => {
+  return fa.isLeft() ? this_(fa.value) : that(fa.value)
 }
 
 /**
