@@ -193,7 +193,7 @@ export class NonEmptyArray<A> {
   /**
    * Same as {@link toString}
    */
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
 

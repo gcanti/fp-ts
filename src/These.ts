@@ -68,7 +68,7 @@ export class This<L, A> {
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return this_(this.value)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {
@@ -106,7 +106,7 @@ export class That<L, A> {
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return that(this.value)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {
@@ -141,7 +141,7 @@ export class Both<L, A> {
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return both(this.l, this.a)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

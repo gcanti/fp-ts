@@ -44,7 +44,7 @@ export class Pure<F, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.value)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {
@@ -76,7 +76,7 @@ export class Impure<F, A, X> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).chain(f))
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

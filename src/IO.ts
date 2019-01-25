@@ -54,7 +54,7 @@ export class IO<A> {
   chain<B>(f: (a: A) => IO<B>): IO<B> {
     return new IO(() => f(this.run()).run())
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

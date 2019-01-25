@@ -128,7 +128,7 @@ export class Left<L, A> {
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return new Left(f(this.value))
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {
@@ -241,7 +241,7 @@ export class Right<L, A> {
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return new Right(this.value)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

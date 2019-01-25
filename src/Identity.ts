@@ -75,7 +75,7 @@ export class Identity<A> {
   fold<B>(f: (a: A) => B): B {
     return f(this.value)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

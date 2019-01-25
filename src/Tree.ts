@@ -67,7 +67,7 @@ export class Tree<A> {
     }
     return r
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

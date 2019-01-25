@@ -36,7 +36,7 @@ export class Store<S, A> {
   extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> {
     return new Store(s => f(this.seek(s)), this.pos)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

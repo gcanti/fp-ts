@@ -57,7 +57,7 @@ export class Task<A> {
   chain<B>(f: (a: A) => Task<B>): Task<B> {
     return new Task(() => this.run().then(a => f(a).run()))
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

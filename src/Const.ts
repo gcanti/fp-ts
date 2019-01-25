@@ -36,7 +36,7 @@ export class Const<L, A> {
   fold<B>(f: (l: L) => B): B {
     return f(this.value)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

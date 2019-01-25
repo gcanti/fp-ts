@@ -170,7 +170,7 @@ export class Zipper<A> {
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return this.rights.reduce(f, f(this.lefts.reduce(f, b), this.focus))
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

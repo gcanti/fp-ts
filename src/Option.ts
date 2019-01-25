@@ -279,7 +279,7 @@ export class None<A> {
   toUndefined(): A | undefined {
     return undefined
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {
@@ -381,7 +381,7 @@ export class Some<A> {
   toUndefined(): A | undefined {
     return this.value
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

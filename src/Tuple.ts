@@ -60,7 +60,7 @@ export class Tuple<L, A> {
   swap(): Tuple<A, L> {
     return new Tuple(this.snd, this.fst)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {

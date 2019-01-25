@@ -108,7 +108,7 @@ export class Failure<L, A> {
   swap(): Validation<A, L> {
     return new Success(this.value)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {
@@ -154,7 +154,7 @@ export class Success<L, A> {
   swap(): Validation<A, L> {
     return new Failure(this.value)
   }
-  inspect(): string {
+  [Symbol.for('nodejs.util.inspect.custom')](): string {
     return this.toString()
   }
   toString(): string {
