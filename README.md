@@ -54,6 +54,7 @@ You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
 - [remote-data-ts](https://github.com/devex-web-frontend/remote-data-ts) - RemoteData type (check [this article](https://medium.com/@gcanti/slaying-a-ui-antipattern-with-flow-5eed0cfb627b))
 - [retry-ts](https://github.com/gcanti/retry-ts) - Retry combinators for monadic actions that may fail
 - [fp-ts-local-storage](https://github.com/gcanti/fp-ts-local-storage) - fp-ts bindings for LocalStorage
+- [circuit-breaker-monad](https://github.com/YBogomolov/circuit-breaker-monad) - Circuit Breaker pattern as a monad
 
 ## Bindings
 
