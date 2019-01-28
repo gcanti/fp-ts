@@ -44,6 +44,7 @@ You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
 
 # Ecosystem
 
+- [fp-ts-codegen](https://github.com/gcanti/fp-ts-codegen) - TypeScript code generation from a haskell-like syntax for ADT
 - [io-ts](https://github.com/gcanti/io-ts) - TypeScript compatible runtime type system for IO validation
 - [monocle-ts](https://github.com/gcanti/monocle-ts) - Functional optics: a (partial) porting of scala monocle to
   TypeScript
