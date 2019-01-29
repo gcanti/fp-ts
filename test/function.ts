@@ -16,7 +16,8 @@ import {
   constFalse,
   constNull,
   constUndefined,
-  toString
+  toString,
+  constVoid
 } from '../src/function'
 
 const f = (n: number) => n + 1
@@ -293,6 +294,10 @@ describe('function', () => {
 
   it('constUndefined', () => {
     assert.strictEqual(constUndefined(), undefined)
+  })
+
+  it('constVoid', () => {
+    assert.strictEqual(constVoid(), undefined)
   })
 
   it('toString', () => {
