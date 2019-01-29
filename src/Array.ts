@@ -67,15 +67,18 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
  *
  * @example
  * import { ordString } from 'fp-ts/lib/Ord'
+ * import { getSetoid } from 'fp-ts/lib/Array'
  *
- * const O = getArraySetoid(ordString)
+ * const O = getSetoid(ordString)
  * assert.strictEqual(O.equals(['a', 'b'], ['a', 'b']), true)
  * assert.strictEqual(O.equals(['a'], []), false)
  *
- * @constant
+ * @function
  * @since 1.0.0
  */
-export const getSetoid: <A>(S: Setoid<A>) => Setoid<Array<A>> = getArraySetoid
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
+  return getArraySetoid(S)
+}
 
 /**
  * Derives an `Ord` over the Array of a given element type from the `Ord` of that type. The ordering between two such

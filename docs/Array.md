@@ -9,7 +9,7 @@ title: Module Array
 
 ## array
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1565-L1608)
+**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1568-L1611)
 
 ```ts
 export const array: Monad1<URI> &
@@ -32,7 +32,7 @@ Added in v1.0.0
 
 An empty array
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L223-L223)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L226-L226)
 
 ```ts
 export const empty: Array<never> = ...
@@ -40,27 +40,13 @@ export const empty: Array<never> = ...
 
 Added in v1.9.0
 
-## getSetoid
-
-Derives a Setoid over the Array of a given element type from the Setoid of that type. The derived setoid defines two
-arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid `S`. In case of
-arrays of different lengths, the result is non equality.
-
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L78-L78)
-
-```ts
-export const getSetoid: <A>(S: Setoid<A>) => Setoid<Array<A>> = ...
-```
-
-Added in v1.0.0
-
 ## catOptions
 
 Filter an array of optional values, keeping only the elements which contain a value, creating a new array.
 
 Alias of [Compactable](./Compactable.md)'s `compact`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1253-L1255)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1256-L1258)
 
 ```ts
 export const catOptions = <A>(as: Array<Option<A>>): Array<A> => { ... }
@@ -83,7 +69,7 @@ A useful recursion pattern for processing an array to produce a new array, often
 array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
 value and the rest of the array.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1345-L1354)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1348-L1357)
 
 ```ts
 export const chop = <A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Array<B> => { ... }
@@ -118,7 +104,7 @@ chunksOf(xs, n).concat(chunksOf(ys, n)) == chunksOf(xs.concat(ys)), n)
 
 whenever `n` evenly divides the length of `xs`.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1390-L1392)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1393-L1395)
 
 ```ts
 export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => { ... }
@@ -142,7 +128,7 @@ Array comprehension
 [ g(x, y, ...) | x ← xs, y ← ys, ..., f(x, y, ...) ]
 ```
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1432-L1445)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1435-L1448)
 
 ```ts
 export function comprehension<R>(
@@ -172,7 +158,7 @@ Added in v1.10.0
 
 Attaches an element to the front of an array, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L473-L481)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L476-L484)
 
 ```ts
 export const cons = <A>(a: A, as: Array<A>): Array<A> => { ... }
@@ -190,7 +176,7 @@ Added in v1.0.0
 
 ## copy
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L831-L838)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L834-L841)
 
 ```ts
 export const copy = <A>(as: Array<A>): Array<A> => { ... }
@@ -202,7 +188,7 @@ Added in v1.0.0
 
 Delete the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L916-L918)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L919-L921)
 
 ```ts
 export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => { ... }
@@ -225,7 +211,7 @@ Added in v1.0.0
 Creates an array of array values not included in the other given array using a [Setoid](./Setoid.md) for equality
 comparisons. The order and references of result values are determined by the first array.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1495-L1498)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1498-L1501)
 
 ```ts
 export const difference = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => { ... }
@@ -246,7 +232,7 @@ Added in v1.12.0
 
 Drop a number of elements from the start of an array, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L678-L680)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L681-L683)
 
 ```ts
 export const drop = <A>(n: number, as: Array<A>): Array<A> => { ... }
@@ -266,7 +252,7 @@ Added in v1.0.0
 
 Drop a number of elements from the end of an array, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L693-L695)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L696-L698)
 
 ```ts
 export const dropEnd = <A>(n: number, as: Array<A>): Array<A> => { ... }
@@ -286,7 +272,7 @@ Added in v1.10.0
 
 Remove the longest initial subarray for which all element satisfy the specified predicate, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L708-L716)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L711-L719)
 
 ```ts
 export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => { ... }
@@ -306,7 +292,7 @@ Added in v1.0.0
 
 Filter an array, keeping the elements which satisfy a predicate function, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1279-L1281)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1282-L1284)
 
 ```ts
 export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A>  { ... }
@@ -318,7 +304,7 @@ Added in v1.0.0
 
 Find the first element which satisfies a predicate (or a refinement) function
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L755-L763)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L758-L766)
 
 ```ts
 export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>  { ... }
@@ -339,7 +325,7 @@ Added in v1.0.0
 
 Find the first index for which a predicate holds
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L731-L739)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L734-L742)
 
 ```ts
 export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<number> => { ... }
@@ -361,7 +347,7 @@ Added in v1.0.0
 
 Find the last element which satisfies a predicate function
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L779-L787)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L782-L790)
 
 ```ts
 export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A>  { ... }
@@ -382,7 +368,7 @@ Added in v1.0.0
 
 Returns the index of the last element of the list which matches the predicate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L807-L815)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L810-L818)
 
 ```ts
 export const findLastIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<number> => { ... }
@@ -409,7 +395,7 @@ Added in v1.10.0
 
 Removes one level of nesting
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L310-L327)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L313-L330)
 
 ```ts
 export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => { ... }
@@ -429,7 +415,7 @@ Added in v1.0.0
 
 Break an array into its first element and remaining elements
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L341-L343)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L344-L346)
 
 ```ts
 export const fold = <A, B>(as: Array<A>, b: B, cons: (head: A, tail: Array<A>) => B): B => { ... }
@@ -450,7 +436,7 @@ Added in v1.0.0
 
 Lazy version of [fold](#fold)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L350-L352)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L353-L355)
 
 ```ts
 export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Array<A>) => B): B => { ... }
@@ -462,7 +448,7 @@ Added in v1.0.0
 
 Break an array into its initial elements and the last element
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L362-L364)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L365-L367)
 
 ```ts
 export const foldr = <A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) => B): B => { ... }
@@ -474,7 +460,7 @@ Added in v1.7.0
 
 Lazy version of [foldr](#foldr)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L374-L376)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L377-L379)
 
 ```ts
 export const foldrL = <A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, last: A) => B): B => { ... }
@@ -508,7 +494,7 @@ arrays is equal to: the first non equal comparison of each arrays elements taken
 case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
 the same length, the result is equality.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L99-L115)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L102-L118)
 
 ```ts
 export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => { ... }
@@ -528,11 +514,36 @@ assert.strictEqual(O.compare(['a'], ['b']), -1)
 
 Added in v1.2.0
 
+## getSetoid
+
+Derives a Setoid over the Array of a given element type from the Setoid of that type. The derived setoid defines two
+arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid `S`. In case of
+arrays of different lengths, the result is non equality.
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L79-L81)
+
+```ts
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => { ... }
+```
+
+**Example**
+
+```ts
+import { ordString } from 'fp-ts/lib/Ord'
+import { getSetoid } from 'fp-ts/lib/Array'
+
+const O = getSetoid(ordString)
+assert.strictEqual(O.equals(['a', 'b'], ['a', 'b']), true)
+assert.strictEqual(O.equals(['a'], []), false)
+```
+
+Added in v1.0.0
+
 ## head
 
 Get the first element in an array, or `None` if the array is empty
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L517-L519)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L520-L522)
 
 ```ts
 export const head = <A>(as: Array<A>): Option<A> => { ... }
@@ -554,7 +565,7 @@ Added in v1.0.0
 
 This function provides a safe way to read a value at a particular index from an array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L458-L460)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L461-L463)
 
 ```ts
 export const index = <A>(i: number, as: Array<A>): Option<A> => { ... }
@@ -576,7 +587,7 @@ Added in v1.0.0
 
 Get all but the last element of an array, creating a new array, or `None` if the array is empty
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L568-L571)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L571-L574)
 
 ```ts
 export const init = <A>(as: Array<A>): Option<Array<A>> => { ... }
@@ -598,7 +609,7 @@ Added in v1.0.0
 
 Insert an element at the specified index, creating a new array, or returning `None` if the index is out of bounds
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L862-L864)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L865-L867)
 
 ```ts
 export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => { ... }
@@ -620,7 +631,7 @@ Added in v1.0.0
 Creates an array of unique values that are included in all given arrays using a [Setoid](./Setoid.md) for equality
 comparisons. The order and references of result values are determined by the first array.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1477-L1480)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1480-L1483)
 
 ```ts
 export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => { ... }
@@ -641,7 +652,7 @@ Added in v1.12.0
 
 Test whether an array is empty
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L432-L434)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L435-L437)
 
 ```ts
 export const isEmpty = <A>(as: Array<A>): boolean => { ... }
@@ -661,7 +672,7 @@ Added in v1.0.0
 
 Test whether an array contains a particular index
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L441-L443)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L444-L446)
 
 ```ts
 export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => { ... }
@@ -673,7 +684,7 @@ Added in v1.0.0
 
 Get the last element in an array, or `None` if the array is empty
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L534-L536)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L537-L539)
 
 ```ts
 export const last = <A>(as: Array<A>): Option<A> => { ... }
@@ -695,7 +706,7 @@ Added in v1.0.0
 
 Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L990-L1000)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L993-L1003)
 
 ```ts
 export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => { ... }
@@ -716,7 +727,7 @@ Added in v1.0.0
 
 Return a list of length `n` with element `i` initialized with `f(i)`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L257-L263)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L260-L266)
 
 ```ts
 export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => { ... }
@@ -739,7 +750,7 @@ Apply a function to each element in an array, keeping only the results which con
 
 Alias of [Filterable](./Filterable.md)'s `filterMap`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1235-L1237)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1238-L1240)
 
 ```ts
 export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => { ... }
@@ -763,7 +774,7 @@ Test if a value is a member of an array. Takes a `Setoid<A>` as a single
 argument which returns the function to use to search for a value of type `A` in
 an array of type `Array<A>`.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1116-L1126)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1119-L1129)
 
 ```ts
 export const member = <A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean => { ... }
@@ -787,7 +798,7 @@ Added in v1.3.0
 Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
 of bounds
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L935-L937)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L938-L940)
 
 ```ts
 export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> => { ... }
@@ -808,7 +819,7 @@ Added in v1.0.0
 
 ## partition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1289-L1291)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1292-L1294)
 
 ```ts
 export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>>  { ... }
@@ -818,7 +829,7 @@ Added in v1.12.0
 
 ## partitionMap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1268-L1270)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1271-L1273)
 
 ```ts
 export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<Array<L>, Array<R>> => { ... }
@@ -840,7 +851,7 @@ Added in v1.0.0
 
 Create an array containing a range of integers, including both endpoints
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L276-L278)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L279-L281)
 
 ```ts
 export const range = (start: number, end: number): Array<number> => { ... }
@@ -860,7 +871,7 @@ Added in v1.10.0
 
 Use [filter](#filter) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L823-L825)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L826-L828)
 
 ```ts
 export const refine = <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B> => { ... }
@@ -872,7 +883,7 @@ Added in v1.0.0
 
 Create an array containing a value repeated the specified number of times
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L291-L293)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L294-L296)
 
 ```ts
 export const replicate = <A>(n: number, a: A): Array<A> => { ... }
@@ -892,7 +903,7 @@ Added in v1.10.0
 
 Reverse an array, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L950-L952)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L953-L955)
 
 ```ts
 export const reverse = <A>(as: Array<A>): Array<A> => { ... }
@@ -912,7 +923,7 @@ Added in v1.0.0
 
 Extracts from an array of `Either` all the `Right` elements. All the `Right` elements are extracted in order
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L966-L976)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L969-L979)
 
 ```ts
 export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => { ... }
@@ -933,7 +944,7 @@ Added in v1.0.0
 
 Rotate an array to the right by `n` steps
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1089-L1098)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1092-L1101)
 
 ```ts
 export const rotate = <A>(n: number, xs: Array<A>): Array<A> => { ... }
@@ -959,7 +970,7 @@ import { scanLeft } from 'fp-ts/lib/Array'
 scanLeft([1, 2, 3], 10, (b, a) => b - a) // [ 10, 9, 7, 4 ]
 ```
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L390-L398)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L393-L401)
 
 ```ts
 export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> => { ... }
@@ -971,7 +982,7 @@ Added in v1.1.0
 
 Fold an array from the right, keeping all intermediate results instead of only the final result
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L411-L419)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L414-L422)
 
 ```ts
 export const scanRight = <A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array<B> => { ... }
@@ -991,7 +1002,7 @@ Added in v1.1.0
 
 Append an element to the end of an array, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L494-L502)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L497-L505)
 
 ```ts
 export const snoc = <A>(as: Array<A>, a: A): Array<A> => { ... }
@@ -1011,7 +1022,7 @@ Added in v1.0.0
 
 Sort the elements of an array in increasing order, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1014-L1016)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1017-L1019)
 
 ```ts
 export const sort = <A>(O: Ord<A>) => (as: Array<A>): Array<A> => { ... }
@@ -1033,7 +1044,7 @@ Added in v1.0.0
 Sort the elements of an array in increasing order, where elements are compared using first `ords[0]`, then `ords[1]`,
 etc...
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1186-L1188)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1189-L1191)
 
 ```ts
 export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> => { ... }
@@ -1071,7 +1082,7 @@ Added in v1.3.0
 
 Non failing version of [sortBy](#sortby)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1216-L1218)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1219-L1221)
 
 ```ts
 export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Array<A>> => { ... }
@@ -1110,7 +1121,7 @@ Split an array into two parts:
 1. the longest initial subarray for which all elements satisfy the specified predicate
 2. the remaining elements
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L653-L665)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L656-L668)
 
 ```ts
 export function span<A>(as: Array<A>, predicate: Predicate<A>):  { ... }
@@ -1130,7 +1141,7 @@ Added in v1.0.0
 
 Splits an array into two pieces, the first piece has `n` elements.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1367-L1369)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1370-L1372)
 
 ```ts
 export const split = <A>(n: number, as: Array<A>): [Array<A>, Array<A>] => { ... }
@@ -1150,7 +1161,7 @@ Added in v1.10.0
 
 Get all but the first element of an array, creating a new array, or `None` if the array is empty
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L551-L553)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L554-L556)
 
 ```ts
 export const tail = <A>(as: Array<A>): Option<Array<A>> => { ... }
@@ -1173,7 +1184,7 @@ Added in v1.0.0
 Keep only a number of elements from the start of an array, creating a new array.
 `n` must be a natural number
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L585-L587)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L588-L590)
 
 ```ts
 export const take = <A>(n: number, as: Array<A>): Array<A> => { ... }
@@ -1194,7 +1205,7 @@ Added in v1.0.0
 Keep only a number of elements from the end of an array, creating a new array.
 `n` must be a natural number
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L601-L603)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L604-L606)
 
 ```ts
 export const takeEnd = <A>(n: number, as: Array<A>): Array<A> => { ... }
@@ -1214,7 +1225,7 @@ Added in v1.10.0
 
 Calculate the longest initial subarray for which all element satisfy the specified predicate, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L618-L625)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L621-L628)
 
 ```ts
 export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A>  { ... }
@@ -1234,7 +1245,7 @@ Added in v1.0.0
 
 Use [array](#array)`.traverse` instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L208-L211)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L211-L214)
 
 ```ts
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>  { ... }
@@ -1246,7 +1257,7 @@ Added in v1.0.0
 
 Creates an array of unique values, in order, from all given arrays using a [Setoid](./Setoid.md) for equality comparisons
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1459-L1462)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1462-L1465)
 
 ```ts
 export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => { ... }
@@ -1267,7 +1278,7 @@ Added in v1.12.0
 
 Remove duplicates from an array, keeping the first occurance of an element.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1140-L1154)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1143-L1157)
 
 ```ts
 export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => { ... }
@@ -1286,7 +1297,7 @@ Added in v1.3.0
 
 ## unsafeDeleteAt
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L897-L901)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L900-L904)
 
 ```ts
 export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => { ... }
@@ -1296,7 +1307,7 @@ Added in v1.0.0
 
 ## unsafeInsertAt
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L844-L848)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L847-L851)
 
 ```ts
 export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => { ... }
@@ -1306,7 +1317,7 @@ Added in v1.0.0
 
 ## unsafeUpdateAt
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L870-L874)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L873-L877)
 
 ```ts
 export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => { ... }
@@ -1318,7 +1329,7 @@ Added in v1.0.0
 
 The function is reverse of `zip`. Takes an array of pairs and return two corresponding arrays
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1066-L1076)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1069-L1079)
 
 ```ts
 export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => { ... }
@@ -1338,7 +1349,7 @@ Added in v1.13.0
 
 Change the element at the specified index, creating a new array, or returning `None` if the index is out of bounds
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L889-L891)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L892-L894)
 
 ```ts
 export const updateAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => { ... }
@@ -1361,7 +1372,7 @@ Added in v1.0.0
 Takes two arrays and returns an array of corresponding pairs. If one input array is short, excess elements of the
 longer array are discarded
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1051-L1053)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1054-L1056)
 
 ```ts
 export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => { ... }
@@ -1382,7 +1393,7 @@ Added in v1.0.0
 Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If one
 input array is short, excess elements of the longer array are discarded.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1030-L1037)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1033-L1040)
 
 ```ts
 export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C> => { ... }
