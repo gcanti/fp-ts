@@ -37,10 +37,30 @@ Added in v1.0.0
 
 ## getApplicativeComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L215-L222)
+Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L231-L238)
 
 ```ts
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>  { ... }
+```
+
+**Example**
+
+```ts
+import { getApplicativeComposition } from 'fp-ts/lib/Applicative'
+import { option, Option, some } from 'fp-ts/lib/Option'
+import { task, Task } from 'fp-ts/lib/Task'
+
+const x: Task<Option<number>> = task.of(some(1))
+const y: Task<Option<number>> = task.of(some(2))
+
+const A = getApplicativeComposition(task, option)
+
+const sum = (a: number) => (b: number): number => a + b
+A.ap(A.map(x, sum), y)
+  .run()
+  .then(result => assert.deepEqual(result, some(3)))
 ```
 
 Added in v1.0.0
@@ -50,7 +70,7 @@ Added in v1.0.0
 If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
 Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L254-L260)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L270-L276)
 
 ```ts
 export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>  { ... }
@@ -76,7 +96,7 @@ Added in v1.4.0
 
 Perform a applicative action when a condition is true
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L166-L168)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L165-L167)
 
 ```ts
 export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>  { ... }

@@ -131,7 +131,6 @@ export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, 
 /**
  * Perform a applicative action when a condition is true
  *
- *
  * @example
  * import { IO, io } from 'fp-ts/lib/IO'
  * import { when } from 'fp-ts/lib/Applicative'
@@ -168,6 +167,23 @@ export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void
 }
 
 /**
+ * Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
+ *
+ * @example
+ * import { getApplicativeComposition } from 'fp-ts/lib/Applicative'
+ * import { option, Option, some } from 'fp-ts/lib/Option'
+ * import { task, Task } from 'fp-ts/lib/Task'
+ *
+ * const x: Task<Option<number>> = task.of(some(1))
+ * const y: Task<Option<number>> = task.of(some(2))
+ *
+ * const A = getApplicativeComposition(task, option)
+ *
+ * const sum = (a: number) => (b: number): number => a + b
+ * A.ap(A.map(x, sum), y)
+ *   .run()
+ *   .then(result => assert.deepEqual(result, some(3)))
+ *
  * @function
  * @since 1.0.0
  */
