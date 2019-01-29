@@ -3,111 +3,138 @@ id: IO
 title: Module IO
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts)
 
 ## io
 
+**Signature** (instance)
+
 ```ts
-Monad1<URI> & MonadIO1<URI>
+export const io: Monad1<URI> & MonadIO1<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # IO
 
-```ts
-constructor(readonly run: Lazy<A>) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class IO<A> {
+  constructor(readonly run: Lazy<A>) {}
+  ...
+}
+```
 
 `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent a synchronous computation that may fail, please see [IOEither](./IOEither.md).
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: IO<(a: A) => B>): IO<B>
+ap<B>(fab: IO<(a: A) => B>): IO<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap\_
 
+Flipped version of [ap](#ap)
+
+**Signature** (method)
+
 ```ts
-<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C>
+ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Flipped version of [ap](#ap)
+Added in v1.0.0
 
 ## applyFirst
 
+Combine two effectful actions, keeping only the result of the first
+
+**Signature** (method)
+
 ```ts
-<B>(fb: IO<B>): IO<A>
+applyFirst<B>(fb: IO<B>): IO<A>  { ... }
 ```
 
-Added in v1.6.0 (method)
-
-Combine two effectful actions, keeping only the result of the first
+Added in v1.6.0
 
 ## applySecond
 
+Combine two effectful actions, keeping only the result of the second
+
+**Signature** (method)
+
 ```ts
-<B>(fb: IO<B>): IO<B>
+applySecond<B>(fb: IO<B>): IO<B>  { ... }
 ```
 
-Added in v1.5.0 (method)
-
-Combine two effectful actions, keeping only the result of the second
+Added in v1.5.0
 
 ## chain
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => IO<B>): IO<B>
+chain<B>(f: (a: A) => IO<B>): IO<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## inspect
 
+**Signature** (method)
+
 ```ts
-(): string
+inspect(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): IO<B>
+map<B>(f: (a: A) => B): IO<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## toString
 
+**Signature** (method)
+
 ```ts
-(): string
+toString(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## getMonoid
 
+**Signature** (function)
+
 ```ts
-<A>(M: Monoid<A>): Monoid<IO<A>>
+export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getSemigroup
 
+**Signature** (function)
+
 ```ts
-<A>(S: Semigroup<A>): Semigroup<IO<A>>
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

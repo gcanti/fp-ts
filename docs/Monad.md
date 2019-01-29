@@ -3,17 +3,17 @@ id: Monad
 title: Module Monad
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monad.ts)
 
 # Monad
 
-```ts
-interface Monad<F> extends Applicative<F>, Chain<F> {}
-```
+**Signature** (type class)
 
-Added in v1.0.0 (type class)
+```ts
+export interface Monad<F> extends Applicative<F>, Chain<F> {}
+```
 
 The `Monad` type class combines the operations of the [Chain](./Chain.md) and
 [Applicative](./Applicative.md) type classes. Therefore, `Monad` instances represent type
@@ -26,3 +26,5 @@ Instances must satisfy the following laws in addition to the [Applicative](./App
 2. Right identity: `M.chain(fa, M.of) = fa`
 
 Note. [Functor](./Functor.md)'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
+
+Added in v1.0.0

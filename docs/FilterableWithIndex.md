@@ -3,14 +3,16 @@ id: FilterableWithIndex
 title: Module FilterableWithIndex
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/FilterableWithIndex.ts)
 
 # FilterableWithIndex
 
+**Signature** (type class)
+
 ```ts
-interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {
+export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {
   readonly partitionMapWithIndex: <RL, RR, A>(
     fa: HKT<F, A>,
     f: (i: I, a: A) => Either<RL, RR>
@@ -21,4 +23,4 @@ interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F
 }
 ```
 
-Added in v1.12.0 (type class)
+Added in v1.12.0

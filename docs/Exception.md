@@ -3,67 +3,79 @@ id: Exception
 title: Module Exception
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Exception.ts)
 
 ## catchError
 
+Catch an exception by providing an exception handler
+
+**Signature** (function)
+
 ```ts
-<A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A>
+export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Catch an exception by providing an exception handler
+Added in v1.0.0
 
 ## error
 
+Create a JavaScript error, specifying a message
+
+**Signature** (function)
+
 ```ts
-(message: string): Error
+export const error = (message: string): Error => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Create a JavaScript error, specifying a message
+Added in v1.0.0
 
 ## message
 
+Get the error message from a JavaScript error
+
+**Signature** (function)
+
 ```ts
-(e: Error): string
+export const message = (e: Error): string => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Get the error message from a JavaScript error
+Added in v1.0.0
 
 ## stack
 
+Get the stack trace from a JavaScript error
+
+**Signature** (function)
+
 ```ts
-(e: Error): Option<string>
+export const stack = (e: Error): Option<string> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Get the stack trace from a JavaScript error
+Added in v1.0.0
 
 ## throwError
 
+Throw an exception
+
+**Signature** (function)
+
 ```ts
-<A>(e: Error): IO<A>
+export const throwError = <A>(e: Error): IO<A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Throw an exception
+Added in v1.0.0
 
 ## tryCatch
 
-```ts
-<A>(ma: IO<A>): IO<Either<Error, A>>
-```
-
-Added in v1.0.0 (function)
-
 Runs an IO and returns eventual Exceptions as a `Left` value. If the computation succeeds the result gets wrapped in
 a `Right`.
+
+**Signature** (function)
+
+```ts
+export const tryCatch = <A>(ma: IO<A>): IO<Either<Error, A>> => { ... }
+```
+
+Added in v1.0.0

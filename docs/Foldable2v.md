@@ -3,32 +3,34 @@ id: Foldable2v
 title: Module Foldable2v
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts)
 
 # Foldable2v
 
+**Signature** (type class)
+
 ```ts
-interface Foldable2v<F> extends Foldable<F> {
+export interface Foldable2v<F> extends Foldable<F> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: HKT<F, A>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B
 }
 ```
 
-Added in v1.10.0 (type class)
+Added in v1.10.0
 
 ## findFirst
 
-```ts
-findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>
-```
-
-Added in v1.10.0 (function)
-
 Find the first element which satisfies a predicate function
 
-_Example_
+**Signature** (function)
+
+```ts
+export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>  { ... }
+```
+
+**Example**
 
 ```ts
 import { findFirst } from 'fp-ts/lib/Foldable2v'
@@ -39,17 +41,19 @@ const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
 assert.deepEqual(findFirst(tree)(t, a => a > 2), some(3))
 ```
 
+Added in v1.10.0
+
 ## fold
-
-```ts
-fold<M, F>(M: Monoid<M>, F: Foldable2v<F>): (fa: HKT<F, M>) => M
-```
-
-Added in v1.10.0 (function)
 
 A generalization of monoidal `fold`
 
-_Example_
+**Signature** (function)
+
+```ts
+export function fold<M, F>(M: Monoid<M>, F: Foldable2v<F>): (fa: HKT<F, M>) => M  { ... }
+```
+
+**Example**
 
 ```ts
 import { fold } from 'fp-ts/lib/Foldable2v'
@@ -60,22 +64,24 @@ const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
 assert.strictEqual(fold(monoidSum, tree)(t), 10)
 ```
 
+Added in v1.10.0
+
 ## foldM
-
-```ts
-foldM<M, F>(
-  M: Monad<M>,
-  F: Foldable2v<F>
-): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B>
-```
-
-Added in v1.10.0 (function)
 
 Similar to 'reduce', but the result is encapsulated in a monad.
 
 Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
 
-_Example_
+**Signature** (function)
+
+```ts
+export function foldM<M, F>(
+  M: Monad<M>,
+  F: Foldable2v<F>
+): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B>  { ... }
+```
+
+**Example**
 
 ```ts
 import { foldM } from 'fp-ts/lib/Foldable2v'
@@ -86,17 +92,19 @@ const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
 assert.deepEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
 ```
 
+Added in v1.10.0
+
 ## getFoldableComposition
-
-```ts
-getFoldableComposition<F, G>(F: Foldable2v<F>, G: Foldable2v<G>): Foldable2vComposition<F, G>
-```
-
-Added in v1.10.0 (function)
 
 Returns the composition of two foldables
 
-_Example_
+**Signature** (function)
+
+```ts
+export function getFoldableComposition<F, G>(F: Foldable2v<F>, G: Foldable2v<G>): Foldable2vComposition<F, G>  { ... }
+```
+
+**Example**
 
 ```ts
 import { getFoldableComposition } from 'fp-ts/lib/Foldable2v'
@@ -109,17 +117,19 @@ assert.strictEqual(F.reduce([some('a'), some('b'), some('c')], '', monoidString.
 assert.strictEqual(F.reduce([some('a'), none, some('c')], '', monoidString.concat), 'ac')
 ```
 
+Added in v1.10.0
+
 ## intercalate
-
-```ts
-intercalate<M, F>(M: Monoid<M>, F: Foldable2v<F>): (sep: M, fm: HKT<F, M>) => M
-```
-
-Added in v1.10.0 (function)
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
 
-_Example_
+**Signature** (function)
+
+```ts
+export function intercalate<M, F>(M: Monoid<M>, F: Foldable2v<F>): (sep: M, fm: HKT<F, M>) => M  { ... }
+```
+
+**Example**
 
 ```ts
 import { intercalate } from 'fp-ts/lib/Foldable2v'
@@ -130,17 +140,19 @@ const t = new Tree('a', [new Tree('b', []), new Tree('c', []), new Tree('d', [])
 assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
 ```
 
+Added in v1.10.0
+
 ## max
-
-```ts
-max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
-```
-
-Added in v1.10.0 (function)
 
 Find the largest element of a structure, according to its `Ord` instance
 
-_Example_
+**Signature** (function)
+
+```ts
+export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>  { ... }
+```
+
+**Example**
 
 ```ts
 import { max } from 'fp-ts/lib/Foldable2v'
@@ -152,17 +164,19 @@ const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
 assert.deepEqual(max(ordNumber, tree)(t), some(4))
 ```
 
+Added in v1.10.0
+
 ## member
-
-```ts
-member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
-```
-
-Added in v1.10.0 (function)
 
 Test whether a value is an element of a data structure
 
-_Example_
+**Signature** (function)
+
+```ts
+export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean  { ... }
+```
+
+**Example**
 
 ```ts
 import { member } from 'fp-ts/lib/Foldable2v'
@@ -174,17 +188,19 @@ assert.strictEqual(member(setoidNumber, tree)(2, t), true)
 assert.strictEqual(member(setoidNumber, tree)(5, t), false)
 ```
 
+Added in v1.10.0
+
 ## min
-
-```ts
-min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
-```
-
-Added in v1.10.0 (function)
 
 Find the smallest element of a structure, according to its `Ord` instance
 
-_Example_
+**Signature** (function)
+
+```ts
+export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>  { ... }
+```
+
+**Example**
 
 ```ts
 import { min } from 'fp-ts/lib/Foldable2v'
@@ -196,17 +212,19 @@ const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
 assert.deepEqual(min(ordNumber, tree)(t), some(1))
 ```
 
+Added in v1.10.0
+
 ## oneOf
-
-```ts
-oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>
-```
-
-Added in v1.10.0 (function)
 
 Combines a collection of elements using the `Alt` operation
 
-_Example_
+**Signature** (function)
+
+```ts
+export function oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>  { ... }
+```
+
+**Example**
 
 ```ts
 import { array } from 'fp-ts/lib/Array'
@@ -216,17 +234,19 @@ import { option, some } from 'fp-ts/lib/Option'
 assert.deepEqual(oneOf(option, array)([some(2), some(1)]), some(2))
 ```
 
+Added in v1.10.0
+
 ## product
-
-```ts
-product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A
-```
-
-Added in v1.10.0 (function)
 
 Find the product of the numeric values in a data structure
 
-_Example_
+**Signature** (function)
+
+```ts
+export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A  { ... }
+```
+
+**Example**
 
 ```ts
 import { fieldNumber } from 'fp-ts/lib/Field'
@@ -237,17 +257,19 @@ const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
 assert.strictEqual(product(fieldNumber, tree)(t), 24)
 ```
 
+Added in v1.10.0
+
 ## sequence\_
-
-```ts
-sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
-```
-
-Added in v1.10.0 (function)
 
 Perform all of the effects in some data structure in the order given by the `Foldable2v` instance, ignoring the final result.
 
-_Example_
+**Signature** (function)
+
+```ts
+export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>  { ... }
+```
+
+**Example**
 
 ```ts
 import { array } from 'fp-ts/lib/Array'
@@ -260,17 +282,19 @@ sequence_(io, array)([append('a'), append('b'), append('c')]).run()
 assert.strictEqual(log, 'abc')
 ```
 
+Added in v1.10.0
+
 ## sum
-
-```ts
-sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A
-```
-
-Added in v1.10.0 (function)
 
 Find the sum of the numeric values in a data structure
 
-_Example_
+**Signature** (function)
+
+```ts
+export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A  { ... }
+```
+
+**Example**
 
 ```ts
 import { fieldNumber } from 'fp-ts/lib/Field'
@@ -281,17 +305,19 @@ const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
 assert.strictEqual(sum(fieldNumber, tree)(t), 10)
 ```
 
+Added in v1.10.0
+
 ## toArray
-
-```ts
-toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A>
-```
-
-Added in v1.10.0 (function)
 
 Transforms a foldable into an array
 
-_Example_
+**Signature** (function)
+
+```ts
+export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A>  { ... }
+```
+
+**Example**
 
 ```ts
 import { toArray } from 'fp-ts/lib/Foldable2v'
@@ -301,21 +327,23 @@ const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
 assert.deepEqual(toArray(tree)(t), [1, 2, 3, 4])
 ```
 
+Added in v1.10.0
+
 ## traverse\_
-
-```ts
-traverse_<M, F>(
-  M: Applicative<M>,
-  F: Foldable2v<F>
-): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>
-```
-
-Added in v1.10.0 (function)
 
 Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
 final result.
 
-_Example_
+**Signature** (function)
+
+```ts
+export function traverse_<M, F>(
+  M: Applicative<M>,
+  F: Foldable2v<F>
+): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>  { ... }
+```
+
+**Example**
 
 ```ts
 import { array } from 'fp-ts/lib/Array'
@@ -327,3 +355,5 @@ const append = (s: string) => new IO(() => (log += s))
 traverse_(io, array)(['a', 'b', 'c'], append).run()
 assert.strictEqual(log, 'abc')
 ```
+
+Added in v1.10.0

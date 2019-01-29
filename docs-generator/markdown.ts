@@ -31,6 +31,7 @@ export const code = (code: string) => '`' + code + '`'
 export const link = (text: string, href: string) => `[${text}](${href})`
 export const ts = fence('ts')
 export const italic = (code: string) => '*' + code + '*'
+export const bold = (code: string) => '**' + code + '**'
 export const strike = (text: string) => '~~' + text + '~~'
 
 export const header = (id: string, title: string): string => {
@@ -82,7 +83,7 @@ const getInternalLink = (name: string): string => {
 
 const replaceLinks = (description: string): string => {
   const matches = description.match(linkRe)
-  if (matches) {
+  if (matches !== null) {
     const names = matches.map(getMatchName).map(name => ({
       name,
       link: modules.indexOf(getModuleName(name)) !== -1 ? getModuleLink(name) : getInternalLink(name)
@@ -98,9 +99,10 @@ const printDescription = (description: Option<string>): string =>
   description.fold('', d => CRLF + CRLF + replaceLinks(d))
 
 const printExample = (example: Option<string>): string =>
-  example.fold('', e => CRLF + CRLF + italic('Example') + CRLF + ts(e))
+  example.fold('', e => CRLF + CRLF + bold('Example') + CRLF + ts(e))
 
-const printSignature = (signature: string): string => CRLF + ts(signature)
+const printSignature = (signature: string, type: string): string =>
+  CRLF + CRLF + bold('Signature') + ` (${type})` + CRLF + ts(signature)
 
 const printSince = (since: string): string => CRLF + `Added in v${since}`
 
@@ -108,71 +110,71 @@ const handleDeprecated = (s: string, deprecated: boolean): string => (deprecated
 
 const printMethod = (m: Method, since: string): string => {
   let s = CRLF + h2(handleDeprecated(m.name, m.deprecated))
-  s += CRLF + printSignature(m.signature)
-  s += CRLF + printSince(m.since.getOrElse(since)) + ` (method)`
-  s += printDescription(m.description)
-  s += printExample(m.example)
+  s += CRLF + printDescription(m.description)
+  s += CRLF + printSignature(m.signature, 'method')
+  s += CRLF + printExample(m.example)
+  s += CRLF + printSince(m.since.getOrElse(since))
   return s
 }
 
 const printData = (d: Data): string => {
   let s = CRLF + h1(d.name)
-  s += CRLF + printSignature(d.signature)
-  s += CRLF + printSince(d.since) + ` (data)`
-  s += printDescription(d.description)
-  s += printExample(d.example)
-  if (d.constructors.length > 0 && d.constructors[0].methods.length) {
+  s += CRLF + printSignature(d.signature, 'data type')
+  s += CRLF + printDescription(d.description)
+  s += CRLF + printExample(d.example)
+  if (d.constructors.length > 0 && d.constructors[0].methods.length > 0) {
     s +=
       CRLF +
       sortMethods(d.constructors[0].methods)
         .map(m => printMethod(m, d.since))
         .join('')
   }
+  s += CRLF + printSince(d.since)
   return s
 }
 
 const printInstance = (i: Instance): string => {
   let s = CRLF + h2(i.name)
-  s += CRLF + printSignature(i.signature)
-  s += CRLF + printSince(i.since) + ` (instance)`
-  s += printDescription(i.description)
+  s += CRLF + printDescription(i.description)
+  s += CRLF + printSignature(i.signature, 'instance')
+  s += CRLF + printSince(i.since)
   return s
 }
 
 const printConstant = (c: Constant): string => {
   let s = CRLF + h2(c.name)
-  s += CRLF + printSignature(`const ${c.name}: ${c.signature}`)
-  s += CRLF + printSince(c.since) + ` (constant)`
-  s += printDescription(c.description)
+  s += CRLF + printDescription(c.description)
+  s += CRLF + printSignature(c.signature, 'constant')
+  s += CRLF + printSince(c.since)
   return s
 }
 
 const printFunc = (f: Func): string => {
   let s = CRLF + h2(handleDeprecated(f.name, f.deprecated))
+  s += CRLF + printDescription(f.description)
   if (f.alias.isSome()) {
     s += CRLF + 'Alias of ' + replaceLinks(`{@link ${f.alias.value}}`)
   } else {
-    s += CRLF + printSignature(f.signature)
+    s += CRLF + printSignature(f.signature, 'function')
   }
-  s += CRLF + printSince(f.since) + ` (function)`
-  s += printDescription(f.description)
-  s += printExample(f.example)
+  s += CRLF + printExample(f.example)
+  s += CRLF + printSince(f.since)
   return s
 }
 
 const printTypeclass = (tc: Typeclass): string => {
   let s = CRLF + h1(handleDeprecated(tc.name, tc.deprecated))
-  s += CRLF + printSignature(tc.signature)
-  s += CRLF + printSince(tc.since) + ` (type class)`
-  s += printDescription(tc.description)
+  s += CRLF + printSignature(tc.signature, 'type class')
+  s += CRLF + printDescription(tc.description)
+  s += CRLF + printSince(tc.since)
   return s
 }
 
 const printInterface = (t: Interface): string => {
   let s = CRLF + h2(t.name)
-  s += CRLF + printSignature(t.signature)
-  s += CRLF + printSince(t.since) + ` (interface)`
-  s += printDescription(t.description)
+  s += CRLF + printSignature(t.signature, 'interface')
+  s += CRLF + printDescription(t.description)
+  s += CRLF + printSince(t.since)
   return s
 }
 
@@ -187,7 +189,7 @@ const formatMarkdown = (markdown: string): string => prettier.format(markdown, p
 
 export const printModule = (module: Module): string => {
   let s = header(module.name, 'Module ' + module.name)
-  s += link('← Back', `.`) + '\n\n'
+  s += link('← Index', `.`) + '\n\n'
   s += link('Source', `https://github.com/gcanti/fp-ts/blob/master/src/${module.name}.ts`)
   const interfaces = module.exports.filter(isInterface)
   const typeclasses = module.exports.filter(isTypeclass)

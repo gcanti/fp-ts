@@ -109,7 +109,7 @@ const writeExamplesIndex = (modules: Array<Module>): IO<void> => {
   return write(path.join(__dirname, `../docs-examples/index.ts`), index)
 }
 
-const loadModule = (name: string): TaskEither<Array<ParseError>, Module> => {
+export const loadModule = (name: string): TaskEither<Array<ParseError>, Module> => {
   return fromIOEither(
     new IOEither(
       readModule(name).map(source => {

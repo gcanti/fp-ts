@@ -3,27 +3,32 @@ id: Zipper
 title: Module Zipper
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts)
 
 ## zipper
 
+**Signature** (instance)
+
 ```ts
-Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
+export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = { ... }
 ```
 
-Added in v1.9.0 (instance)
+Added in v1.9.0
 
 # Zipper
 
+**Signature** (data type)
+
 ```ts
-constructor(readonly lefts: Array<A>, readonly focus: A, readonly rights: Array<A>) {
+export class Zipper<A> {
+  constructor(readonly lefts: Array<A>, readonly focus: A, readonly rights: Array<A>) {
     this.length = lefts.length + 1 + rights.length
   }
+  ...
+}
 ```
-
-Added in v1.9.0 (data)
 
 Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
 position in an array. Focus can be moved forward and backwards through the array.
@@ -32,196 +37,242 @@ The array `[1, 2, 3, 4]` with focus on `3` is represented by `new Zipper([1, 2],
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: Zipper<(a: A) => B>): Zipper<B>
+ap<B>(fab: Zipper<(a: A) => B>): Zipper<B>  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
 
 ## deleteLeft
-
-```ts
-(): Option<Zipper<A>>
-```
-
-Added in v1.9.0 (method)
 
 Deletes the element at focus and moves the focus to the left. If there is no element on the left,
 focus is moved to the right.
 
-## deleteRight
+**Signature** (method)
 
 ```ts
-(): Option<Zipper<A>>
+deleteLeft(): Option<Zipper<A>>  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
+
+## deleteRight
 
 Deletes the element at focus and moves the focus to the right. If there is no element on the right,
 focus is moved to the left.
 
-## down
+**Signature** (method)
 
 ```ts
-(): Option<Zipper<A>>
+deleteRight(): Option<Zipper<A>>  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
+
+## down
+
+**Signature** (method)
+
+```ts
+down(): Option<Zipper<A>>  { ... }
+```
+
+Added in v1.9.0
 
 ## end
 
+Moves focus to the end of the zipper.
+
+**Signature** (method)
+
 ```ts
-(): Zipper<A>
+end(): Zipper<A>  { ... }
 ```
 
-Added in v1.9.0 (method)
-
-Moves focus to the end of the zipper.
+Added in v1.9.0
 
 ## insertLeft
 
+Inserts an element to the left of focus and focuses on the new element.
+
+**Signature** (method)
+
 ```ts
-(a: A): Zipper<A>
+insertLeft(a: A): Zipper<A>  { ... }
 ```
 
-Added in v1.9.0 (method)
-
-Inserts an element to the left of focus and focuses on the new element.
+Added in v1.9.0
 
 ## insertRight
 
+Inserts an element to the right of focus and focuses on the new element.
+
+**Signature** (method)
+
 ```ts
-(a: A): Zipper<A>
+insertRight(a: A): Zipper<A>  { ... }
 ```
 
-Added in v1.9.0 (method)
-
-Inserts an element to the right of focus and focuses on the new element.
+Added in v1.9.0
 
 ## inspect
 
+**Signature** (method)
+
 ```ts
-(): string
+inspect(): string  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
 
 ## isOutOfBound
 
+**Signature** (method)
+
 ```ts
-(index: number): boolean
+isOutOfBound(index: number): boolean  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Zipper<B>
+map<B>(f: (a: A) => B): Zipper<B>  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
 
 ## modify
 
+Apply `f` to the focus and update with the result.
+
+**Signature** (method)
+
 ```ts
-(f: (a: A) => A): Zipper<A>
+modify(f: (a: A) => A): Zipper<A>  { ... }
 ```
 
-Added in v1.9.0 (method)
-
-Apply `f` to the focus and update with the result.
+Added in v1.9.0
 
 ## move
 
+Moves focus in the zipper, or `None` if there is no such element.
+
+**Signature** (method)
+
 ```ts
-(f: (currentIndex: number) => number): Option<Zipper<A>>
+move(f: (currentIndex: number) => number): Option<Zipper<A>>  { ... }
 ```
 
-Added in v1.9.0 (method)
-
-Moves focus in the zipper, or `None` if there is no such element.
+Added in v1.9.0
 
 ## reduce
 
+**Signature** (method)
+
 ```ts
-<B>(b: B, f: (b: B, a: A) => B): B
+reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
 
 ## start
 
+Moves focus to the start of the zipper.
+
+**Signature** (method)
+
 ```ts
-(): Zipper<A>
+start(): Zipper<A>  { ... }
 ```
 
-Added in v1.9.0 (method)
-
-Moves focus to the start of the zipper.
+Added in v1.9.0
 
 ## toArray
 
+**Signature** (method)
+
 ```ts
-(): Array<A>
+toArray(): Array<A>  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
 
 ## toString
 
+**Signature** (method)
+
 ```ts
-(): string
+toString(): string  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
 
 ## up
 
+**Signature** (method)
+
 ```ts
-(): Option<Zipper<A>>
+up(): Option<Zipper<A>>  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
 
 ## update
 
+Update the focus in this zipper.
+
+**Signature** (method)
+
 ```ts
-(a: A): Zipper<A>
+update(a: A): Zipper<A>  { ... }
 ```
 
-Added in v1.9.0 (method)
+Added in v1.9.0
 
-Update the focus in this zipper.
+Added in v1.9.0
 
 ## fromArray
 
+**Signature** (function)
+
 ```ts
-<A>(as: Array<A>, focusIndex: number = 0): Option<Zipper<A>>
+export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zipper<A>> => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## fromNonEmptyArray
 
+**Signature** (function)
+
 ```ts
-<A>(nea: NonEmptyArray<A>): Zipper<A>
+export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## getMonoid
 
+**Signature** (function)
+
 ```ts
-<A>(M: Monoid<A>): Monoid<Zipper<A>>
+export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## getSemigroup
 
+**Signature** (function)
+
 ```ts
-<A>(S: Semigroup<A>): Semigroup<Zipper<A>>
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0

@@ -3,19 +3,19 @@ id: Setoid
 title: Module Setoid
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts)
 
 # Setoid
 
+**Signature** (type class)
+
 ```ts
-interface Setoid<A> {
+export interface Setoid<A> {
   readonly equals: (x: A, y: A) => boolean
 }
 ```
-
-Added in v1.0.0 (type class)
 
 The `Setoid` type class represents types which support decidable equality.
 
@@ -25,78 +25,98 @@ Instances must satisfy the following laws:
 2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
 3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
 
+Added in v1.0.0
+
 ## setoidBoolean
 
+**Signature** (instance)
+
 ```ts
-Setoid<boolean>
+export const setoidBoolean: Setoid<boolean> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## setoidDate
 
+**Signature** (instance)
+
 ```ts
-Setoid<Date>
+export const setoidDate: Setoid<Date> = { ... }
 ```
 
-Added in v1.4.0 (instance)
+Added in v1.4.0
 
 ## setoidNumber
 
+**Signature** (instance)
+
 ```ts
-Setoid<number>
+export const setoidNumber: Setoid<number> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## setoidString
 
+**Signature** (instance)
+
 ```ts
-Setoid<string>
+export const setoidString: Setoid<string> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## contramap
 
+Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
+
+**Signature** (function)
+
 ```ts
-<A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B>
+export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => { ... }
 ```
 
-Added in v1.2.0 (function)
-
-Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
+Added in v1.2.0
 
 ## getArraySetoid
 
+**Signature** (function)
+
 ```ts
-<A>(S: Setoid<A>): Setoid<Array<A>>
+export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getProductSetoid
 
+**Signature** (function)
+
 ```ts
-<A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]>
+export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getRecordSetoid
 
+**Signature** (function)
+
 ```ts
-<O extends { [key: string]: any }>(
+export const getRecordSetoid = <O extends { [key: string]: any }>(
   setoids: { [K in keyof O]: Setoid<O[K]> }
-): Setoid<O>
+): Setoid<O> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## strictEqual
 
+**Signature** (function)
+
 ```ts
-<A>(a: A, b: A): boolean
+export const strictEqual = <A>(a: A, b: A): boolean => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

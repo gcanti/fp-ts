@@ -3,26 +3,30 @@ id: Date
 title: Module Date
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Date.ts)
 
 ## create
 
+Returns the current `Date`
+
+**Signature** (constant)
+
 ```ts
-const create: IO<Date>
+export const create: IO<Date> = ...
 ```
 
-Added in v1.10.0 (constant)
-
-Returns the current `Date`
+Added in v1.10.0
 
 ## now
 
+Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC
+
+**Signature** (constant)
+
 ```ts
-const now: IO<number>
+export const now: IO<number> = ...
 ```
 
-Added in v1.10.0 (constant)
-
-Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC
+Added in v1.10.0

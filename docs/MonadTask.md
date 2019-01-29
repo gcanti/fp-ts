@@ -3,18 +3,20 @@ id: MonadTask
 title: Module MonadTask
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/MonadTask.ts)
 
 # MonadTask
 
+**Signature** (type class)
+
 ```ts
-interface MonadTask<M> extends Monad<M> {
+export interface MonadTask<M> extends Monad<M> {
   readonly fromTask: <A>(fa: Task<A>) => HKT<M, A>
 }
 ```
 
-Added in v1.10.0 (type class)
-
 Lift a computation from the `Task` monad
+
+Added in v1.10.0

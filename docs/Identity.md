@@ -3,116 +3,139 @@ id: Identity
 title: Module Identity
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts)
 
 ## identity
 
+**Signature** (instance)
+
 ```ts
-Monad1<URI> &
+export const identity: Monad1<URI> &
   Foldable2v1<URI> &
   Traversable2v1<URI> &
   Alt1<URI> &
   Comonad1<URI> &
-  ChainRec1<URI>
+  ChainRec1<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # Identity
 
-```ts
-constructor(readonly value: A) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class Identity<A> {
+  constructor(readonly value: A) {}
+  ...
+}
+```
 
 ## alt
 
+**Signature** (method)
+
 ```ts
-(fx: Identity<A>): Identity<A>
+alt(fx: Identity<A>): Identity<A>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: Identity<(a: A) => B>): Identity<B>
+ap<B>(fab: Identity<(a: A) => B>): Identity<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap\_
 
+Flipped version of [ap](#ap)
+
+**Signature** (method)
+
 ```ts
-<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C>
+ap_<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Flipped version of [ap](#ap)
+Added in v1.0.0
 
 ## chain
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => Identity<B>): Identity<B>
+chain<B>(f: (a: A) => Identity<B>): Identity<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## extend
 
+**Signature** (method)
+
 ```ts
-<B>(f: (ea: Identity<A>) => B): Identity<B>
+extend<B>(f: (ea: Identity<A>) => B): Identity<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## extract
 
+**Signature** (method)
+
 ```ts
-(): A
+extract(): A  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## fold
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): B
+fold<B>(f: (a: A) => B): B  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## inspect
 
+**Signature** (method)
+
 ```ts
-(): string
+inspect(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Identity<B>
+map<B>(f: (a: A) => B): Identity<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## orElse
 
-```ts
-(fx: Lazy<Identity<A>>): Identity<A>
-```
-
-Added in v1.6.0 (method)
-
 Lazy version of [alt](#alt)
 
-_Example_
+**Signature** (method)
+
+```ts
+orElse(fx: Lazy<Identity<A>>): Identity<A>  { ... }
+```
+
+**Example**
 
 ```ts
 import { Identity } from 'fp-ts/lib/Identity'
@@ -121,26 +144,36 @@ const a = new Identity(1)
 assert.deepEqual(a.orElse(() => new Identity(2)), a)
 ```
 
+Added in v1.6.0
+
 ## reduce
 
+**Signature** (method)
+
 ```ts
-<B>(b: B, f: (b: B, a: A) => B): B
+reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## toString
 
+**Signature** (method)
+
 ```ts
-(): string
+toString(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## getSetoid
 
+**Signature** (function)
+
 ```ts
-<A>(setoid: Setoid<A>): Setoid<Identity<A>>
+export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

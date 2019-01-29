@@ -3,31 +3,43 @@ id: Either
 title: Module Either
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts)
 
 ## either
 
+**Signature** (instance)
+
 ```ts
-Monad2<URI> &
+export const either: Monad2<URI> &
   Foldable2v2<URI> &
   Traversable2v2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
-  ChainRec2<URI>
+  ChainRec2<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # Either
 
-```ts
-type Either<L, A> = Left<L, A> | Right<L, A>
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export type Either<L, A> = Left<L, A> | Right<L, A>
+
+export class Left<L, A> {
+  constructor(readonly value: L) {}
+  ...
+}
+
+export class Right<L, A> {
+  constructor(readonly value: A) {}
+  ...
+}
+```
 
 Represents a value of one of two possible types (a disjoint union).
 
@@ -56,69 +68,81 @@ left(23).map(double) // left(23)
 
 ## alt
 
+**Signature** (method)
+
 ```ts
-(fy: Either<L, A>): Either<L, A>
+alt(fy: Either<L, A>): Either<L, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: Either<L, (a: A) => B>): Either<L, B>
+ap<B>(fab: Either<L, (a: A) => B>): Either<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap\_
 
+Flipped version of [ap](#ap)
+
+**Signature** (method)
+
 ```ts
-<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C>
+ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Flipped version of [ap](#ap)
+Added in v1.0.0
 
 ## bimap
 
+**Signature** (method)
+
 ```ts
-<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B>
+bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## chain
 
+Binds the given function across `Right`
+
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => Either<L, B>): Either<L, B>
+chain<B>(f: (a: A) => Either<L, B>): Either<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Binds the given function across `Right`
+Added in v1.0.0
 
 ## extend
 
+**Signature** (method)
+
 ```ts
-<B>(f: (ea: Either<L, A>) => B): Either<L, B>
+extend<B>(f: (ea: Either<L, A>) => B): Either<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## filterOrElse
-
-```ts
-(_: Predicate<A>, zero: L): Either<L, A>
-```
-
-Added in v1.3.0 (method)
 
 Returns `Right` with the existing value of `Right` if this is a `Right` and the given predicate `p` holds for the
 right value, returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right
 value, returns `Left` with the existing value of `Left` if this is a `Left`.
 
-_Example_
+**Signature** (method)
+
+```ts
+filterOrElse(_: Predicate<A>, zero: L): Either<L, A>  { ... }
+```
+
+**Example**
 
 ```ts
 import { right, left } from 'fp-ts/lib/Either'
@@ -128,105 +152,125 @@ assert.deepEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
 assert.deepEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
 ```
 
+Added in v1.3.0
+
 ## filterOrElseL
-
-```ts
-(_: Predicate<A>, zero: (a: A) => L): Either<L, A>
-```
-
-Added in v1.3.0 (method)
 
 Lazy version of [filterOrElse](#filterorelse)
 
-## fold
+**Signature** (method)
 
 ```ts
-<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B
+filterOrElseL(_: Predicate<A>, zero: (a: A) => L): Either<L, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.3.0
+
+## fold
 
 Applies a function to each case in the data structure
 
-## getOrElse
+**Signature** (method)
 
 ```ts
-(a: A): A
+fold<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+## getOrElse
 
 Returns the value from this `Right` or the given argument if this is a `Left`
 
-## getOrElseL
+**Signature** (method)
 
 ```ts
-(f: (l: L) => A): A
+getOrElse(a: A): A  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+## getOrElseL
 
 Returns the value from this `Right` or the result of given argument if this is a `Left`
 
-## inspect
+**Signature** (method)
 
 ```ts
-(): string
+getOrElseL(f: (l: L) => A): A  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+## inspect
+
+**Signature** (method)
+
+```ts
+inspect(): string  { ... }
+```
+
+Added in v1.0.0
 
 ## isLeft
 
+Returns `true` if the either is an instance of `Left`, `false` otherwise
+
+**Signature** (method)
+
 ```ts
-(): this is Left<L, A>
+isLeft(): this is Left<L, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Returns `true` if the either is an instance of `Left`, `false` otherwise
+Added in v1.0.0
 
 ## isRight
 
+Returns `true` if the either is an instance of `Right`, `false` otherwise
+
+**Signature** (method)
+
 ```ts
-(): this is Right<L, A>
+isRight(): this is Right<L, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Returns `true` if the either is an instance of `Right`, `false` otherwise
+Added in v1.0.0
 
 ## map
 
+The given function is applied if this is a `Right`
+
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Either<L, B>
+map<B>(f: (a: A) => B): Either<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-The given function is applied if this is a `Right`
+Added in v1.0.0
 
 ## mapLeft
 
+Maps the left side of the disjunction
+
+**Signature** (method)
+
 ```ts
-<M>(f: (l: L) => M): Either<M, A>
+mapLeft<M>(f: (l: L) => M): Either<M, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Maps the left side of the disjunction
+Added in v1.0.0
 
 ## orElse
 
-```ts
-<M>(fy: (l: L) => Either<M, A>): Either<M, A>
-```
-
-Added in v1.6.0 (method)
-
 Lazy version of [alt](#alt)
 
-_Example_
+**Signature** (method)
+
+```ts
+orElse<M>(fy: (l: L) => Either<M, A>): Either<M, A>  { ... }
+```
+
+**Example**
 
 ```ts
 import { right } from 'fp-ts/lib/Either'
@@ -234,132 +278,160 @@ import { right } from 'fp-ts/lib/Either'
 assert.deepEqual(right(1).orElse(() => right(2)), right(1))
 ```
 
+Added in v1.6.0
+
 ## reduce
 
+**Signature** (method)
+
 ```ts
-<B>(b: B, f: (b: B, a: A) => B): B
+reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ~~refineOrElse~~ (deprecated)
 
-```ts
-<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
-```
-
-Added in v1.6.0 (method)
-
 Use [filterOrElse](#filterorelse) instead
 
-## ~~refineOrElseL~~ (deprecated)
+**Signature** (method)
 
 ```ts
-<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
+refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
+
+## ~~refineOrElseL~~ (deprecated)
 
 Lazy version of [refineOrElse](#refineorelse)
 Use [filterOrElseL](#filterorelsel) instead
 
-## swap
+**Signature** (method)
 
 ```ts
-(): Either<A, L>
+refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.6.0
+
+## swap
 
 Swaps the disjunction values
 
+**Signature** (method)
+
+```ts
+swap(): Either<A, L>  { ... }
+```
+
+Added in v1.0.0
+
 ## toString
 
+**Signature** (method)
+
 ```ts
-(): string
+toString(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## fromNullable
-
-```ts
-<L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A>
-```
-
-Added in v1.0.0 (function)
 
 Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
 the provided default as a `Left`
 
-## fromOption
+**Signature** (function)
 
 ```ts
-<L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A>
+export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
+
+## fromOption
 
 Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
 the provided default as a `Left`
 
-## fromOptionL
+**Signature** (function)
 
 ```ts
-<L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A>
+export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => { ... }
 ```
 
-Added in v1.3.0 (function)
+Added in v1.0.0
+
+## fromOptionL
 
 Lazy version of [fromOption](#fromoption)
 
-## fromPredicate
+**Signature** (function)
 
 ```ts
-fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>
+export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.3.0
+
+## fromPredicate
+
+**Signature** (function)
+
+```ts
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>  { ... }
+```
+
+Added in v1.0.0
 
 ## ~~fromRefinement~~ (deprecated)
 
+Use [fromPredicate](#frompredicate) instead
+
+**Signature** (function)
+
 ```ts
-<L, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => L) => (
+export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => L) => (
   a: A
-): Either<L, B>
+): Either<L, B> => { ... }
 ```
 
-Added in v1.6.0 (function)
-
-Use [fromPredicate](#frompredicate) instead
+Added in v1.6.0
 
 ## fromValidation
 
+**Signature** (function)
+
 ```ts
-<L, A>(fa: Validation<L, A>): Either<L, A>
+export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getApplyMonoid
 
+**Signature** (function)
+
 ```ts
-<L, A>(M: Monoid<A>): Monoid<Either<L, A>>
+export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => { ... }
 ```
 
-Added in v1.7.0 (function)
+Added in v1.7.0
 
 ## getApplySemigroup
 
-```ts
-<L, A>(S: Semigroup<A>): Semigroup<Either<L, A>>
-```
-
-Added in v1.7.0 (function)
-
 [Apply](./Apply.md) semigroup
 
-_Example_
+**Signature** (function)
+
+```ts
+export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => { ... }
+```
+
+**Example**
 
 ```ts
 import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
@@ -372,38 +444,44 @@ assert.deepEqual(S.concat(right(1), left('b')), left('b'))
 assert.deepEqual(S.concat(right(1), right(2)), right(3))
 ```
 
+Added in v1.7.0
+
 ## getCompactable
-
-```ts
-getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L>
-```
-
-Added in v1.7.0 (function)
 
 Builds [Compactable](./Compactable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
 
-## getFilterable
+**Signature** (function)
 
 ```ts
-getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>
+export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L>  { ... }
 ```
 
-Added in v1.7.0 (function)
+Added in v1.7.0
+
+## getFilterable
 
 Builds [Filterable](./Filterable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
 
-## getSemigroup
+**Signature** (function)
 
 ```ts
-<L, A>(S: Semigroup<A>): Semigroup<Either<L, A>>
+export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>  { ... }
 ```
 
-Added in v1.7.0 (function)
+Added in v1.7.0
+
+## getSemigroup
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
 appended using the provided `Semigroup`
 
-_Example_
+**Signature** (function)
+
+```ts
+export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => { ... }
+```
+
+**Example**
 
 ```ts
 import { getSemigroup, left, right } from 'fp-ts/lib/Either'
@@ -416,88 +494,105 @@ assert.deepEqual(S.concat(right(1), left('b')), right(1))
 assert.deepEqual(S.concat(right(1), right(2)), right(3))
 ```
 
+Added in v1.7.0
+
 ## getSetoid
 
+**Signature** (function)
+
 ```ts
-<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>>
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getWitherable
 
+Builds [Witherable](./Witherable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
+
+**Signature** (function)
+
 ```ts
-getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L>
+export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L>  { ... }
 ```
 
-Added in v1.7.0 (function)
-
-Builds [Witherable](./Witherable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
+Added in v1.7.0
 
 ## isLeft
 
+Returns `true` if the either is an instance of `Left`, `false` otherwise
+
+**Signature** (function)
+
 ```ts
-<L, A>(fa: Either<L, A>): fa is Left<L, A>
+export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Returns `true` if the either is an instance of `Left`, `false` otherwise
+Added in v1.0.0
 
 ## isRight
 
-```ts
-<L, A>(fa: Either<L, A>): fa is Right<L, A>
-```
-
-Added in v1.0.0 (function)
-
 Returns `true` if the either is an instance of `Right`, `false` otherwise
 
-## left
+**Signature** (function)
 
 ```ts
-<L, A>(l: L): Either<L, A>
+export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
+
+## left
 
 Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
 structure
 
+**Signature** (function)
+
+```ts
+export const left = <L, A>(l: L): Either<L, A> => { ... }
+```
+
+Added in v1.0.0
+
 ## right
-
-Alias of [of](#of)
-
-Added in v1.0.0 (function)
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
 of this structure
+Alias of [of](#of)
+
+Added in v1.0.0
 
 ## toError
 
+Default value for the optional `onerror` argument of `tryCatch`
+
+**Signature** (function)
+
 ```ts
-(e: unknown): Error
+export const toError = (e: unknown): Error => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Default value for the optional `onerror` argument of `tryCatch`
+Added in v1.0.0
 
 ## ~~tryCatch~~ (deprecated)
 
+Use [tryCatch2v](#trycatch2v)
+
+**Signature** (function)
+
 ```ts
-<A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A>
+export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Use [tryCatch2v](#trycatch2v)
+Added in v1.0.0
 
 ## tryCatch2v
 
+**Signature** (function)
+
 ```ts
-<L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A>
+export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => { ... }
 ```
 
-Added in v1.11.0 (function)
+Added in v1.11.0

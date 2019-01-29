@@ -3,314 +3,377 @@ id: TaskEither
 title: Module TaskEither
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts)
 
 ## taskEither
 
+**Signature** (instance)
+
 ```ts
-Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI>
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## taskEitherSeq
 
+Like [taskEither](#taskeither) but `ap` is sequential
+
+**Signature** (instance)
+
 ```ts
-typeof taskEither
+export const taskEitherSeq: typeof taskEither = { ... }
 ```
 
-Added in v1.10.0 (instance)
-
-Like [taskEither](#taskeither) but `ap` is sequential
+Added in v1.10.0
 
 # TaskEither
 
-```ts
-constructor(readonly value: Task<Either<L, A>>) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class TaskEither<L, A> {
+  constructor(readonly value: Task<Either<L, A>>) {}
+  ...
+}
+```
 
 `TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
 error of type `L`. If you want to represent an asynchronous computation that never fails, please see [Task](./Task.md).
 
 ## alt
 
+**Signature** (method)
+
 ```ts
-(fy: TaskEither<L, A>): TaskEither<L, A>
+alt(fy: TaskEither<L, A>): TaskEither<L, A>  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B>
+ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap\_
 
+Flipped version of [ap](#ap)
+
+**Signature** (method)
+
 ```ts
-<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C>
+ap_<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Flipped version of [ap](#ap)
+Added in v1.0.0
 
 ## applyFirst
 
+Combine two (parallel) effectful actions, keeping only the result of the first
+
+**Signature** (method)
+
 ```ts
-<B>(fb: TaskEither<L, B>): TaskEither<L, A>
+applyFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A>  { ... }
 ```
 
-Added in v1.6.0 (method)
-
-Combine two (parallel) effectful actions, keeping only the result of the first
+Added in v1.6.0
 
 ## applySecond
 
+Combine two (parallel) effectful actions, keeping only the result of the second
+
+**Signature** (method)
+
 ```ts
-<B>(fb: TaskEither<L, B>): TaskEither<L, B>
+applySecond<B>(fb: TaskEither<L, B>): TaskEither<L, B>  { ... }
 ```
 
-Added in v1.5.0 (method)
-
-Combine two (parallel) effectful actions, keeping only the result of the second
+Added in v1.5.0
 
 ## attempt
 
+Return `Right` if the given action succeeds, `Left` if it throws
+
+**Signature** (method)
+
 ```ts
-<M = L>(): TaskEither<M, Either<L, A>>
+attempt<M = L>(): TaskEither<M, Either<L, A>>  { ... }
 ```
 
-Added in v1.10.0 (method)
-
-Return `Right` if the given action succeeds, `Left` if it throws
+Added in v1.10.0
 
 ## bimap
 
+**Signature** (method)
+
 ```ts
-<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B>
+bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B>  { ... }
 ```
 
-Added in v1.2.0 (method)
+Added in v1.2.0
 
 ## chain
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B>
+chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## chainFirst
 
+Combine two (sequential) effectful actions, keeping only the result of the first
+
+**Signature** (method)
+
 ```ts
-<B>(fb: TaskEither<L, B>): TaskEither<L, A>
+chainFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A>  { ... }
 ```
 
-Added in v1.12.0 (method)
-
-Combine two (sequential) effectful actions, keeping only the result of the first
+Added in v1.12.0
 
 ## chainSecond
 
+Combine two (sequential) effectful actions, keeping only the result of the second
+
+**Signature** (method)
+
 ```ts
-<B>(fb: TaskEither<L, B>): TaskEither<L, B>
+chainSecond<B>(fb: TaskEither<L, B>): TaskEither<L, B>  { ... }
 ```
 
-Added in v1.12.0 (method)
-
-Combine two (sequential) effectful actions, keeping only the result of the second
+Added in v1.12.0
 
 ## filterOrElse
 
+**Signature** (method)
+
 ```ts
-(p: Predicate<A>, zero: L): TaskEither<L, A>
+filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A>  { ... }
 ```
 
-Added in v1.11.0 (method)
+Added in v1.11.0
 
 ## filterOrElseL
 
+**Signature** (method)
+
 ```ts
-(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>
+filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>  { ... }
 ```
 
-Added in v1.11.0 (method)
+Added in v1.11.0
 
 ## fold
 
+**Signature** (method)
+
 ```ts
-<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R>
+fold<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## foldTask
 
+Similar to [fold](#fold), but the result is flattened.
+
+**Signature** (method)
+
 ```ts
-<R>(onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>): Task<R>
+foldTask<R>(onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>): Task<R>  { ... }
 ```
 
-Added in v1.10.0 (method)
-
-Similar to [fold](#fold), but the result is flattened.
+Added in v1.10.0
 
 ## foldTaskEither
 
+Similar to [fold](#fold), but the result is flattened.
+
+**Signature** (method)
+
 ```ts
-<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B>
+foldTaskEither<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B>  { ... }
 ```
 
-Added in v1.10.0 (method)
-
-Similar to [fold](#fold), but the result is flattened.
+Added in v1.10.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): TaskEither<L, B>
+map<B>(f: (a: A) => B): TaskEither<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## mapLeft
 
+**Signature** (method)
+
 ```ts
-<M>(f: (l: L) => M): TaskEither<M, A>
+mapLeft<M>(f: (l: L) => M): TaskEither<M, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## orElse
 
+Transforms the failure value of the `TaskEither` into a new `TaskEither`
+
+**Signature** (method)
+
 ```ts
-<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A>
+orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Transforms the failure value of the `TaskEither` into a new `TaskEither`
+Added in v1.0.0
 
 ## run
 
-```ts
-(): Promise<Either<L, A>>
-```
-
-Added in v1.0.0 (method)
-
 Runs the inner `Task`
 
-## bracket
+**Signature** (method)
 
 ```ts
-<L, A, B>(
-  acquire: TaskEither<L, A>,
-  use: (a: A) => TaskEither<L, B>,
-  release: (a: A, e: Either<L, B>) => TaskEither<L, void>
-): TaskEither<L, B>
+run(): Promise<Either<L, A>>  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.0.0
+
+Added in v1.0.0
+
+## bracket
 
 Make sure that a resource is cleaned up in the event of an exception. The
 release action is called regardless of whether the body action throws or
 returns.
 
-## fromEither
+**Signature** (function)
 
 ```ts
-<L, A>(fa: Either<L, A>): TaskEither<L, A>
+export const bracket = <L, A, B>(
+  acquire: TaskEither<L, A>,
+  use: (a: A) => TaskEither<L, B>,
+  release: (a: A, e: Either<L, B>) => TaskEither<L, void>
+): TaskEither<L, B> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.10.0
+
+## fromEither
+
+**Signature** (function)
+
+```ts
+export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => { ... }
+```
+
+Added in v1.0.0
 
 ## fromIO
 
+**Signature** (function)
+
 ```ts
-<L, A>(fa: IO<A>): TaskEither<L, A>
+export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => { ... }
 ```
 
-Added in v1.5.0 (function)
+Added in v1.5.0
 
 ## fromIOEither
 
+**Signature** (function)
+
 ```ts
-<L, A>(fa: IOEither<L, A>): TaskEither<L, A>
+export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => { ... }
 ```
 
-Added in v1.6.0 (function)
+Added in v1.6.0
 
 ## fromLeft
 
+**Signature** (function)
+
 ```ts
-<L, A>(l: L): TaskEither<L, A>
+export const fromLeft = <L, A>(l: L): TaskEither<L, A> => { ... }
 ```
 
-Added in v1.3.0 (function)
+Added in v1.3.0
 
 ## fromPredicate
 
+**Signature** (function)
+
 ```ts
-fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)  { ... }
 ```
 
-Added in v1.6.0 (function)
+Added in v1.6.0
 
 ## getApplyMonoid
 
+**Signature** (function)
+
 ```ts
-<L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>>
+export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## getApplySemigroup
 
+**Signature** (function)
+
 ```ts
-<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
+export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## getSemigroup
 
+**Signature** (function)
+
 ```ts
-<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
+export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## left
 
+**Signature** (function)
+
 ```ts
-<L, A>(fa: Task<L>): TaskEither<L, A>
+export const left = <L, A>(fa: Task<L>): TaskEither<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## right
 
+**Signature** (function)
+
 ```ts
-<L, A>(fa: Task<A>): TaskEither<L, A>
+export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## taskify
-
-```ts
-taskify<L, R>(f: Function): () => TaskEither<L, R>
-```
-
-Added in v1.5.0 (function)
 
 Convert a node style callback function to one returning a `TaskEither`
 
@@ -328,7 +391,13 @@ const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.Errno
 )
 ```
 
-_Example_
+**Signature** (function)
+
+```ts
+export function taskify<L, R>(f: Function): () => TaskEither<L, R>  { ... }
+```
+
+**Example**
 
 ```ts
 import { taskify } from 'fp-ts/lib/TaskEither'
@@ -339,17 +408,19 @@ const stat = taskify(fs.stat)
 assert.strictEqual(stat.length, 0)
 ```
 
+Added in v1.5.0
+
 ## tryCatch
-
-```ts
-<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): TaskEither<L, A>
-```
-
-Added in v1.0.0 (function)
 
 Transforms a `Promise` into a `TaskEither`, catching the possible error.
 
-_Example_
+**Signature** (function)
+
+```ts
+export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): TaskEither<L, A> => { ... }
+```
+
+**Example**
 
 ```ts
 import { createHash } from 'crypto'
@@ -377,3 +448,5 @@ md5('foo')
     assert.deepEqual(x, left(`cannot create md5 hash: ENOENT: no such file or directory, open 'foo'`))
   })
 ```
+
+Added in v1.0.0

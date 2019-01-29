@@ -3,23 +3,26 @@ id: IORef
 title: Module IORef
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IORef.ts)
 
 # IORef
 
+**Signature** (data type)
+
 ```ts
-constructor(private value: A) {
+export class IORef<A> {
+  constructor(private value: A) {
     this.read = new IO(() => this.value)
   }
+  ...
+}
 ```
-
-Added in v1.8.0 (data)
 
 Mutable references in the `IO` monad
 
-_Example_
+**Example**
 
 ```ts
 import { newIORef } from 'fp-ts/lib/IORef'
@@ -34,24 +37,32 @@ assert.strictEqual(
 
 ## modify
 
+**Signature** (method)
+
 ```ts
-(f: (a: A) => A): IO<void>
+modify(f: (a: A) => A): IO<void>  { ... }
 ```
 
-Added in v1.8.0 (method)
+Added in v1.8.0
 
 ## write
 
+**Signature** (method)
+
 ```ts
-(a: A): IO<void>
+write(a: A): IO<void>  { ... }
 ```
 
-Added in v1.8.0 (method)
+Added in v1.8.0
+
+Added in v1.8.0
 
 ## newIORef
 
+**Signature** (function)
+
 ```ts
-<A>(a: A): IO<IORef<A>>
+export const newIORef = <A>(a: A): IO<IORef<A>> => { ... }
 ```
 
-Added in v1.8.0 (function)
+Added in v1.8.0

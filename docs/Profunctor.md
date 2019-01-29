@@ -3,34 +3,40 @@ id: Profunctor
 title: Module Profunctor
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.ts)
 
 # Profunctor
 
+**Signature** (type class)
+
 ```ts
-interface Profunctor<F> {
+export interface Profunctor<F> {
   readonly URI: F
   readonly map: <L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B) => HKT2<F, L, B>
   readonly promap: <A, B, C, D>(fbc: HKT2<F, B, C>, f: (a: A) => B, g: (c: C) => D) => HKT2<F, A, D>
 }
 ```
 
-Added in v1.0.0 (type class)
+Added in v1.0.0
 
 ## lmap
 
+**Signature** (function)
+
 ```ts
-lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C>
+export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## rmap
 
+**Signature** (function)
+
 ```ts
-rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D>
+export function rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

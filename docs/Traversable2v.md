@@ -3,14 +3,16 @@ id: Traversable2v
 title: Module Traversable2v
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable2v.ts)
 
 # Traversable2v
 
+**Signature** (type class)
+
 ```ts
-interface Traversable2v<T> extends Functor<T>, Foldable2v<T> {
+export interface Traversable2v<T> extends Functor<T>, Foldable2v<T> {
   /**
    * Runs an action for every element in a data structure and accumulates the results
    */
@@ -18,8 +20,6 @@ interface Traversable2v<T> extends Functor<T>, Foldable2v<T> {
   readonly sequence: Sequence<T>
 }
 ```
-
-Added in v1.10.0 (type class)
 
 `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
 [Applicative](./Applicative.md) functor.
@@ -36,20 +36,22 @@ Added in v1.10.0 (type class)
 <F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 ```
 
+Added in v1.10.0
+
 ## getTraversableComposition
-
-```ts
-getTraversableComposition<F, G>(
-  F: Traversable2v<F>,
-  G: Traversable2v<G>
-): Traversable2vComposition<F, G>
-```
-
-Added in v1.10.0 (function)
 
 Returns the composition of two traversables
 
-_Example_
+**Signature** (function)
+
+```ts
+export function getTraversableComposition<F, G>(
+  F: Traversable2v<F>,
+  G: Traversable2v<G>
+): Traversable2vComposition<F, G>  { ... }
+```
+
+**Example**
 
 ```ts
 import { array } from 'fp-ts/lib/Array'
@@ -66,3 +68,5 @@ const read = (s: string) => new IO(() => state[s])
 const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
 assert.deepEqual(x.run(), [some(1), none, some(2), some(undefined)])
 ```
+
+Added in v1.10.0

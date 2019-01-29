@@ -3,14 +3,16 @@ id: Witherable
 title: Module Witherable
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Witherable.ts)
 
 # Witherable
 
+**Signature** (type class)
+
 ```ts
-interface Witherable<T> extends Traversable<T>, Filterable<T> {
+export interface Witherable<T> extends Traversable<T>, Filterable<T> {
   /**
    * Partition a structure with effects
    */
@@ -22,8 +24,6 @@ interface Witherable<T> extends Traversable<T>, Filterable<T> {
   wither: Wither<T>
 }
 ```
-
-Added in v1.7.0 (type class)
 
 `Witherable` represents data structures which can be _partitioned_ with effects in some [Applicative](./Applicative.md) functor.
 
@@ -38,3 +38,5 @@ Added in v1.7.0 (type class)
 ```ts
 <F>(F: Applicative<F>) => <A, B>(ta: HKT<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, HKT<W, B>>
 ```
+
+Added in v1.7.0

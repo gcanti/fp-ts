@@ -3,94 +3,117 @@ id: Reader
 title: Module Reader
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts)
 
 ## reader
 
+**Signature** (instance)
+
 ```ts
-Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI>
+export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # Reader
 
-```ts
-constructor(readonly run: (e: E) => A) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class Reader<E, A> {
+  constructor(readonly run: (e: E) => A) {}
+  ...
+}
+```
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: Reader<E, (a: A) => B>): Reader<E, B>
+ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap\_
 
+Flipped version of [ap](#ap)
+
+**Signature** (method)
+
 ```ts
-<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C>
+ap_<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Flipped version of [ap](#ap)
+Added in v1.0.0
 
 ## chain
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => Reader<E, B>): Reader<E, B>
+chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## local
 
+**Signature** (method)
+
 ```ts
-<E2 = E>(f: (e: E2) => E): Reader<E2, A>
+local<E2 = E>(f: (e: E2) => E): Reader<E2, A>  { ... }
 ```
 
-Added in v1.6.1 (method)
+Added in v1.6.1
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Reader<E, B>
+map<B>(f: (a: A) => B): Reader<E, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## ask
 
+reads the current context
+
+**Signature** (function)
+
 ```ts
-<E>(): Reader<E, E>
+export const ask = <E>(): Reader<E, E> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-reads the current context
+Added in v1.0.0
 
 ## asks
 
+Projects a value from the global context in a Reader
+
+**Signature** (function)
+
 ```ts
-<E, A>(f: (e: E) => A): Reader<E, A>
+export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Projects a value from the global context in a Reader
+Added in v1.0.0
 
 ## local
 
+changes the value of the local context during the execution of the action `fa`
+
+**Signature** (function)
+
 ```ts
-<E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A>
+export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-changes the value of the local context during the execution of the action `fa`
+Added in v1.0.0

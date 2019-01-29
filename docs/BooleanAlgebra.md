@@ -3,17 +3,17 @@ id: BooleanAlgebra
 title: Module BooleanAlgebra
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts)
 
 # BooleanAlgebra
 
-```ts
-interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
-```
+**Signature** (type class)
 
-Added in v1.4.0 (type class)
+```ts
+export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
+```
 
 Boolean algebras are Heyting algebras with the additional constraint that the law of the excluded middle is true
 (equivalently, double-negation is true).
@@ -24,36 +24,46 @@ Instances should satisfy the following laws in addition to the [HeytingAlgebra](
 
 Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
 
+Added in v1.4.0
+
 ## booleanAlgebraBoolean
 
+**Signature** (instance)
+
 ```ts
-BooleanAlgebra<boolean>
+export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = { ... }
 ```
 
-Added in v1.4.0 (instance)
+Added in v1.4.0
 
 ## booleanAlgebraVoid
 
+**Signature** (instance)
+
 ```ts
-BooleanAlgebra<void>
+export const booleanAlgebraVoid: BooleanAlgebra<void> = { ... }
 ```
 
-Added in v1.4.0 (instance)
+Added in v1.4.0
 
 ## getDualBooleanAlgebra
 
+Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
+
+**Signature** (function)
+
 ```ts
-<A>(B: BooleanAlgebra<A>): BooleanAlgebra<A>
+export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => { ... }
 ```
 
-Added in v1.4.0 (function)
-
-Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
+Added in v1.4.0
 
 ## getFunctionBooleanAlgebra
 
+**Signature** (function)
+
 ```ts
-<B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B>
+export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => { ... }
 ```
 
-Added in v1.4.0 (function)
+Added in v1.4.0

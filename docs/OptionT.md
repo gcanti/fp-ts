@@ -3,70 +3,86 @@ id: OptionT
 title: Module OptionT
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/OptionT.ts)
 
 ## chain
 
+**Signature** (function)
+
 ```ts
-chain<F>(F: Monad<F>): OptionT<F>['chain']
+export function chain<F>(F: Monad<F>): OptionT<F>['chain']  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## fold
 
+**Signature** (function)
+
 ```ts
-fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
+export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## fromOption
 
+**Signature** (function)
+
 ```ts
-fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
+export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getOptionT
 
+**Signature** (function)
+
 ```ts
-getOptionT<M>(M: Monad<M>): OptionT<M>
+export function getOptionT<M>(M: Monad<M>): OptionT<M>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getOrElse
 
+**Signature** (function)
+
 ```ts
-getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## liftF
 
+**Signature** (function)
+
 ```ts
-liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
+export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## none
 
+**Signature** (function)
+
 ```ts
-none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
+export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## some
 
+**Signature** (function)
+
 ```ts
-some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
+export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

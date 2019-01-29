@@ -3,19 +3,21 @@ id: BoundedLattice
 title: Module BoundedLattice
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedLattice.ts)
 
 # BoundedLattice
 
-```ts
-interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}
-```
+**Signature** (type class)
 
-Added in v1.4.0 (type class)
+```ts
+export interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}
+```
 
 A `BoundedLattice` must satisfy the following in addition to [BoundedMeetSemilattice](./BoundedMeetSemilattice.md) and [BoundedJoinSemilattice](./BoundedJoinSemilattice.md) laws:
 
 - Absorbtion law for meet: `a ∧ (a ∨ b) == a`
 - Absorbtion law for join: `a ∨ (a ∧ b) == a`
+
+Added in v1.4.0

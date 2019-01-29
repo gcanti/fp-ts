@@ -3,20 +3,20 @@ id: Strong
 title: Module Strong
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Strong.ts)
 
 # Strong
 
+**Signature** (type class)
+
 ```ts
-interface Strong<F> extends Profunctor<F> {
+export interface Strong<F> extends Profunctor<F> {
   readonly first: <A, B, C>(pab: HKT2<F, A, B>) => HKT2<F, [A, C], [B, C]>
   readonly second: <A, B, C>(pab: HKT2<F, B, C>) => HKT2<F, [A, B], [A, C]>
 }
 ```
-
-Added in v1.11.0 (type class)
 
 The `Strong` class extends `Profunctor` with combinators for working with product types.
 
@@ -42,15 +42,9 @@ second :: forall input output a. (input -> output) -> (Tuple a input) -> (Tuple 
 So, when the `profunctor` is `Function` application, `first` essentially applies your function
 to the first element of a tuple, and `second` applies it to the second element (same as `map` would do).
 
+Added in v1.11.0
+
 ## fanout
-
-```ts
-fanout<F>(
-  F: Category<F> & Strong<F>
-): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]>
-```
-
-Added in v1.11.0 (function)
 
 Compose a value which introduces a tuple from two values, each introducing one side of the tuple.
 
@@ -67,15 +61,17 @@ We take two functions, `f` and `g`, with the same parameter type and we transfor
 takes one parameter and returns a tuple of the results of running `f` and `g` on the parameter, respectively. This
 allows us to run two parallel computations on the same input and return both results in a tuple.
 
-## splitStrong
+**Signature** (function)
 
 ```ts
-splitStrong<F>(
+export function fanout<F>(
   F: Category<F> & Strong<F>
-): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]>
+): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]>  { ... }
 ```
 
-Added in v1.11.0 (function)
+Added in v1.11.0
+
+## splitStrong
 
 Compose a value acting on a tuple from two values, each acting on one of the components of the tuple.
 
@@ -87,3 +83,13 @@ Specializing `(***)` to function application would look like this:
 
 We take two functions, `f` and `g`, and we transform them into a single function which takes a tuple and maps `f`
 over the first element and `g` over the second. Just like `bi-map` would do for the `bi-functor` instance of tuple.
+
+**Signature** (function)
+
+```ts
+export function splitStrong<F>(
+  F: Category<F> & Strong<F>
+): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]>  { ... }
+```
+
+Added in v1.11.0

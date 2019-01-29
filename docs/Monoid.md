@@ -3,113 +3,133 @@ id: Monoid
 title: Module Monoid
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts)
 
 # Monoid
 
+**Signature** (type class)
+
 ```ts
-interface Monoid<A> extends Semigroup<A> {
+export interface Monoid<A> extends Semigroup<A> {
   readonly empty: A
 }
 ```
 
-Added in v1.0.0 (type class)
+Added in v1.0.0
 
 ## monoidAll
 
+Boolean monoid under conjunction
+
+**Signature** (instance)
+
 ```ts
-Monoid<boolean>
+export const monoidAll: Monoid<boolean> = { ... }
 ```
 
-Added in v1.0.0 (instance)
-
-Boolean monoid under conjunction
+Added in v1.0.0
 
 ## monoidAny
 
+Boolean monoid under disjunction
+
+**Signature** (instance)
+
 ```ts
-Monoid<boolean>
+export const monoidAny: Monoid<boolean> = { ... }
 ```
 
-Added in v1.0.0 (instance)
-
-Boolean monoid under disjunction
+Added in v1.0.0
 
 ## monoidProduct
 
+Number monoid under multiplication
+
+**Signature** (instance)
+
 ```ts
-Monoid<number>
+export const monoidProduct: Monoid<number> = { ... }
 ```
 
-Added in v1.0.0 (instance)
-
-Number monoid under multiplication
+Added in v1.0.0
 
 ## monoidString
 
+**Signature** (instance)
+
 ```ts
-Monoid<string>
+export const monoidString: Monoid<string> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## monoidSum
 
+Number monoid under addition
+
+**Signature** (instance)
+
 ```ts
-Monoid<number>
+export const monoidSum: Monoid<number> = { ... }
 ```
 
-Added in v1.0.0 (instance)
-
-Number monoid under addition
+Added in v1.0.0
 
 ## monoidVoid
 
+**Signature** (instance)
+
 ```ts
-Monoid<void>
+export const monoidVoid: Monoid<void> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## unsafeMonoidArray
 
+**Signature** (instance)
+
 ```ts
-Monoid<Array<any>>
+export const unsafeMonoidArray: Monoid<Array<any>> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## fold
 
+**Signature** (function)
+
 ```ts
-<A>(M: Monoid<A>): ((as: Array<A>) => A)
+export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getArrayMonoid
 
+Monoid under array concatenation (`Array<any>`)
+
+**Signature** (function)
+
 ```ts
-<A = never>(): Monoid<Array<A>>
+export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Monoid under array concatenation (`Array<any>`)
+Added in v1.0.0
 
 ## getDictionaryMonoid
 
-```ts
-<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }>
-```
-
-Added in v1.4.0 (function)
-
 Gets [Monoid](./Monoid.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
 
-_Example_
+**Signature** (function)
+
+```ts
+export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => { ... }
+```
+
+**Example**
 
 ```ts
 import { getDictionaryMonoid, fold } from 'fp-ts/lib/Monoid'
@@ -119,60 +139,76 @@ const M = getDictionaryMonoid(semigroupSum)
 assert.deepEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
 ```
 
+Added in v1.4.0
+
 ## getDualMonoid
 
+**Signature** (function)
+
 ```ts
-<A>(M: Monoid<A>): Monoid<A>
+export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getEndomorphismMonoid
 
+**Signature** (function)
+
 ```ts
-<A = never>(): Monoid<Endomorphism<A>>
+export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getFunctionMonoid
 
+**Signature** (function)
+
 ```ts
-<M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M>
+export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getJoinMonoid
 
+**Signature** (function)
+
 ```ts
-<A>(B: Bounded<A>): Monoid<A>
+export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## getMeetMonoid
 
+**Signature** (function)
+
 ```ts
-<A>(B: Bounded<A>): Monoid<A>
+export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## getProductMonoid
 
+**Signature** (function)
+
 ```ts
-<A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]>
+export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getRecordMonoid
 
+**Signature** (function)
+
 ```ts
-<O extends { [key: string]: any }>(
+export const getRecordMonoid = <O extends { [key: string]: any }>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O>
+): Monoid<O> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

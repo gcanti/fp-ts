@@ -3,20 +3,20 @@ id: Choice
 title: Module Choice
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Choice.ts)
 
 # Choice
 
+**Signature** (type class)
+
 ```ts
-interface Choice<F> extends Profunctor<F> {
+export interface Choice<F> extends Profunctor<F> {
   readonly left: <A, B, C>(pab: HKT2<F, A, B>) => HKT2<F, Either<A, C>, Either<B, C>>
   readonly right: <A, B, C>(pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, Either<A, C>>
 }
 ```
-
-Added in v1.11.0 (type class)
 
 The `Choice` class extends `Profunctor` with combinators for working with
 sum types.
@@ -43,15 +43,9 @@ right :: forall input output a. (input -> output) -> (Either a input) -> (Either
 When the `profunctor` is `Function` application, `left` allows you to map a function over the
 left side of an `Either`, and `right` maps it over the right side (same as `map` would do).
 
+Added in v1.11.0
+
 ## fanin
-
-```ts
-fanin<F>(
-  F: Category<F> & Choice<F>
-): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C>
-```
-
-Added in v1.11.0 (function)
 
 Compose a value which eliminates a sum from two values, each eliminating
 one side of the sum.
@@ -72,15 +66,17 @@ whether the `Either` value is a `Left` or a `Right`.
 This allows us to bundle two different computations which both have the same result type into one
 function which will run the approriate computation based on the parameter supplied in the `Either` value.
 
-## splitChoice
+**Signature** (function)
 
 ```ts
-splitChoice<F>(
+export function fanin<F>(
   F: Category<F> & Choice<F>
-): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>>
+): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C>  { ... }
 ```
 
-Added in v1.11.0 (function)
+Added in v1.11.0
+
+## splitChoice
 
 Compose a value acting on a sum from two values, each acting on one of
 the components of the sum.
@@ -94,3 +90,13 @@ Specializing `(+++)` to function application would look like this:
 We take two functions, `f` and `g`, and we transform them into a single function which
 takes an `Either`and maps `f` over the left side and `g` over the right side. Just like
 `bi-map` would do for the `bi-functor` instance of `Either`.
+
+**Signature** (function)
+
+```ts
+export function splitChoice<F>(
+  F: Category<F> & Choice<F>
+): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>>  { ... }
+```
+
+Added in v1.11.0

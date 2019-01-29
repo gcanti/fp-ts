@@ -3,46 +3,54 @@ id: Field
 title: Module Field
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts)
 
 # Field
 
+**Signature** (type class)
+
 ```ts
-interface Field<A> extends Ring<A> {
+export interface Field<A> extends Ring<A> {
   readonly degree: (a: A) => number
   readonly div: (x: A, y: A) => A
   readonly mod: (x: A, y: A) => A
 }
 ```
 
-Added in v1.0.0 (type class)
+Added in v1.0.0
 
 ## fieldNumber
 
+**Signature** (instance)
+
 ```ts
-Field<number>
+export const fieldNumber: Field<number> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## gcd
 
+The _greatest common divisor_ of two values
+
+**Signature** (function)
+
 ```ts
-<A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A)
+export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-The _greatest common divisor_ of two values
+Added in v1.0.0
 
 ## lcm
 
+The _least common multiple_ of two values
+
+**Signature** (function)
+
 ```ts
-<A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A)
+export const lcm = <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A) => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-The _least common multiple_ of two values
+Added in v1.0.0

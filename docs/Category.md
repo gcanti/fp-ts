@@ -3,16 +3,18 @@ id: Category
 title: Module Category
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Category.ts)
 
 # Category
 
+**Signature** (type class)
+
 ```ts
-interface Category<F> extends Semigroupoid<F> {
+export interface Category<F> extends Semigroupoid<F> {
   readonly id: <A>() => HKT2<F, A, A>
 }
 ```
 
-Added in v1.0.0 (type class)
+Added in v1.0.0

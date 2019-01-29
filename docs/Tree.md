@@ -3,25 +3,30 @@ id: Tree
 title: Module Tree
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts)
 
 ## tree
 
+**Signature** (instance)
+
 ```ts
-Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
+export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = { ... }
 ```
 
-Added in v1.6.0 (instance)
+Added in v1.6.0
 
 # Tree
 
-```ts
-constructor(readonly value: A, readonly forest: Forest<A>) {}
-```
+**Signature** (data type)
 
-Added in v1.6.0 (data)
+```ts
+export class Tree<A> {
+  constructor(readonly value: A, readonly forest: Forest<A>) {}
+  ...
+}
+```
 
 Multi-way trees (aka rose trees) and forests, where a forest is
 
@@ -31,99 +36,121 @@ type Forest<A> = Array<Tree<A>>
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: Tree<(a: A) => B>): Tree<B>
+ap<B>(fab: Tree<(a: A) => B>): Tree<B>  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
 
 ## ap\_
 
+Flipped version of [ap](#ap)
+
+**Signature** (method)
+
 ```ts
-<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C>
+ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C>  { ... }
 ```
 
-Added in v1.6.0 (method)
-
-Flipped version of [ap](#ap)
+Added in v1.6.0
 
 ## chain
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => Tree<B>): Tree<B>
+chain<B>(f: (a: A) => Tree<B>): Tree<B>  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
 
 ## extend
 
+**Signature** (method)
+
 ```ts
-<B>(f: (fa: Tree<A>) => B): Tree<B>
+extend<B>(f: (fa: Tree<A>) => B): Tree<B>  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
 
 ## extract
 
+**Signature** (method)
+
 ```ts
-(): A
+extract(): A  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
 
 ## inspect
 
+**Signature** (method)
+
 ```ts
-(): string
+inspect(): string  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Tree<B>
+map<B>(f: (a: A) => B): Tree<B>  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
 
 ## reduce
 
+**Signature** (method)
+
 ```ts
-<B>(b: B, f: (b: B, a: A) => B): B
+reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
 
 ## toString
 
+**Signature** (method)
+
 ```ts
-(): string
+toString(): string  { ... }
 ```
 
-Added in v1.6.0 (method)
+Added in v1.6.0
+
+Added in v1.6.0
 
 ## drawForest
 
+Neat 2-dimensional drawing of a forest
+
+**Signature** (function)
+
 ```ts
-(forest: Forest<string>): string
+export const drawForest = (forest: Forest<string>): string => { ... }
 ```
 
-Added in v1.6.0 (function)
-
-Neat 2-dimensional drawing of a forest
+Added in v1.6.0
 
 ## drawTree
 
-```ts
-(tree: Tree<string>): string
-```
-
-Added in v1.6.0 (function)
-
 Neat 2-dimensional drawing of a tree
 
-_Example_
+**Signature** (function)
+
+```ts
+export const drawTree = (tree: Tree<string>): string => { ... }
+```
+
+**Example**
 
 ```ts
 import { Tree, drawTree, tree } from 'fp-ts/lib/Tree'
@@ -141,52 +168,64 @@ assert.strictEqual(
 )
 ```
 
+Added in v1.6.0
+
 ## getSetoid
 
+**Signature** (function)
+
 ```ts
-<A>(S: Setoid<A>): Setoid<Tree<A>>
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => { ... }
 ```
 
-Added in v1.6.0 (function)
+Added in v1.6.0
 
 ## unfoldForest
 
+Build a tree from a seed value
+
+**Signature** (function)
+
 ```ts
-<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A>
+export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> => { ... }
 ```
 
-Added in v1.6.0 (function)
-
-Build a tree from a seed value
+Added in v1.6.0
 
 ## unfoldForestM
 
+Monadic forest builder, in depth-first order
+
+**Signature** (function)
+
 ```ts
-unfoldForestM<M>(
+export function unfoldForestM<M>(
   M: Monad<M>
-): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>
+): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>  { ... }
 ```
 
-Added in v1.6.0 (function)
-
-Monadic forest builder, in depth-first order
+Added in v1.6.0
 
 ## unfoldTree
 
+Build a tree from a seed value
+
+**Signature** (function)
+
 ```ts
-<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A>
+export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => { ... }
 ```
 
-Added in v1.6.0 (function)
-
-Build a tree from a seed value
+Added in v1.6.0
 
 ## unfoldTreeM
 
+Monadic tree builder, in depth-first order
+
+**Signature** (function)
+
 ```ts
-unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
+export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>  { ... }
 ```
 
-Added in v1.6.0 (function)
-
-Monadic tree builder, in depth-first order
+Added in v1.6.0

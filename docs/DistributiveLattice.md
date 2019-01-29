@@ -3,27 +3,31 @@ id: DistributiveLattice
 title: Module DistributiveLattice
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/DistributiveLattice.ts)
 
 # DistributiveLattice
 
-```ts
-interface DistributiveLattice<A> extends Lattice<A> {}
-```
+**Signature** (type class)
 
-Added in v1.4.0 (type class)
+```ts
+export interface DistributiveLattice<A> extends Lattice<A> {}
+```
 
 A `DistributiveLattice` must satisfy the following laws in addition to [Lattice](./Lattice.md) laws:
 
 - Distributivity for meet: `a ∨ (b ∧ c) = (a ∨ b) ∧ (a ∨ c)`
 - Distributivity for join: `a ∧ (b ∨ c) = (a ∧ b) ∨ (a ∧ c)`
 
+Added in v1.4.0
+
 ## getMinMaxDistributiveLattice
 
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>): DistributiveLattice<A>
+export const getMinMaxDistributiveLattice = <A>(O: Ord<A>): DistributiveLattice<A> => { ... }
 ```
 
-Added in v1.4.0 (function)
+Added in v1.4.0

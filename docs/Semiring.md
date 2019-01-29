@@ -3,22 +3,22 @@ id: Semiring
 title: Module Semiring
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts)
 
 # Semiring
 
+**Signature** (type class)
+
 ```ts
-interface Semiring<A> {
+export interface Semiring<A> {
   readonly add: (x: A, y: A) => A
   readonly zero: A
   readonly mul: (x: A, y: A) => A
   readonly one: A
 }
 ```
-
-Added in v1.0.0 (type class)
 
 The `Semiring` class is for types that support an addition and multiplication operation.
 
@@ -40,10 +40,14 @@ Instances must satisfy the following laws:
 for arithmetic overflows, and the presence of `NaN` and `Infinity` values. The behaviour is
 unspecified in these cases.
 
+Added in v1.0.0
+
 ## getFunctionSemiring
 
+**Signature** (function)
+
 ```ts
-<A, B>(S: Semiring<B>): Semiring<(a: A) => B>
+export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

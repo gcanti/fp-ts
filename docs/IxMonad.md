@@ -3,38 +3,44 @@ id: IxMonad
 title: Module IxMonad
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts)
 
 # IxMonad
 
+**Signature** (type class)
+
 ```ts
-interface IxMonad<F> {
+export interface IxMonad<F> {
   readonly URI: F
   readonly iof: <I, A>(a: A) => HKT3<F, I, I, A>
   readonly ichain: <I, O, Z, A, B>(fa: HKT3<F, I, O, A>, f: (a: A) => HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
 }
 ```
 
-Added in v1.0.0 (type class)
+Added in v1.0.0
 
 ## iapplyFirst
 
+**Signature** (function)
+
 ```ts
-iapplyFirst<F>(
+export function iapplyFirst<F>(
   ixmonad: IxMonad<F>
-): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A>
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## iapplySecond
 
+**Signature** (function)
+
 ```ts
-iapplySecond<F>(
+export function iapplySecond<F>(
   ixmonad: IxMonad<F>
-): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>
+): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

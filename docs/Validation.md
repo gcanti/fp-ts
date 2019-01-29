@@ -3,31 +3,43 @@ id: Validation
 title: Module Validation
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts)
 
 ## validation
 
+**Signature** (instance)
+
 ```ts
-Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI>
+export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # Validation
 
-```ts
-type Validation<L, A> = Failure<L, A> | Success<L, A>
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export type Validation<L, A> = Failure<L, A> | Success<L, A>
+
+export class Failure<L, A> {
+  constructor(readonly value: L) {}
+  ...
+}
+
+export class Success<L, A> {
+  constructor(readonly value: A) {}
+  ...
+}
+```
 
 The `Validation` functor, used for applicative validation
 
 The `Applicative` instance collects multiple failures in an arbitrary `Semigroup`.
 
-_Example_
+**Example**
 
 ```ts
 import { Validation, getApplicative, success, failure } from 'fp-ts/lib/Validation'
@@ -70,149 +82,183 @@ assert.deepEqual(validatePerson({ name: 'Giulio', age: '44' }), success({ name: 
 
 ## bimap
 
+**Signature** (method)
+
 ```ts
-<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B>
+bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## fold
 
+**Signature** (method)
+
 ```ts
-<B>(failure: (l: L) => B, success: (a: A) => B): B
+fold<B>(failure: (l: L) => B, success: (a: A) => B): B  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## getOrElse
 
+Returns the value from this `Success` or the given argument if this is a `Failure`
+
+**Signature** (method)
+
 ```ts
-(a: A): A
+getOrElse(a: A): A  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Returns the value from this `Success` or the given argument if this is a `Failure`
+Added in v1.0.0
 
 ## getOrElseL
 
+Returns the value from this `Success` or the result of given argument if this is a `Failure`
+
+**Signature** (method)
+
 ```ts
-(f: (l: L) => A): A
+getOrElseL(f: (l: L) => A): A  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Returns the value from this `Success` or the result of given argument if this is a `Failure`
+Added in v1.0.0
 
 ## inspect
 
+**Signature** (method)
+
 ```ts
-(): string
+inspect(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## isFailure
 
+Returns `true` if the validation is an instance of `Failure`, `false` otherwise
+
+**Signature** (method)
+
 ```ts
-(): this is Failure<L, A>
+isFailure(): this is Failure<L, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Returns `true` if the validation is an instance of `Failure`, `false` otherwise
+Added in v1.0.0
 
 ## isSuccess
 
+Returns `true` if the validation is an instance of `Success`, `false` otherwise
+
+**Signature** (method)
+
 ```ts
-(): this is Success<L, A>
+isSuccess(): this is Success<L, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Returns `true` if the validation is an instance of `Success`, `false` otherwise
+Added in v1.0.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Validation<L, B>
+map<B>(f: (a: A) => B): Validation<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## mapFailure
 
+**Signature** (method)
+
 ```ts
-<M>(f: (l: L) => M): Validation<M, A>
+mapFailure<M>(f: (l: L) => M): Validation<M, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## reduce
 
+**Signature** (method)
+
 ```ts
-<B>(b: B, f: (b: B, a: A) => B): B
+reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## swap
 
+**Signature** (method)
+
 ```ts
-(): Validation<A, L>
+swap(): Validation<A, L>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## toString
 
+**Signature** (method)
+
 ```ts
-(): string
+toString(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## failure
 
+**Signature** (function)
+
 ```ts
-<L, A>(l: L): Validation<L, A>
+export const failure = <L, A>(l: L): Validation<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## fromEither
 
+**Signature** (function)
+
 ```ts
-<L, A>(e: Either<L, A>): Validation<L, A>
+export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## fromPredicate
 
+**Signature** (function)
+
 ```ts
-fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a: A) => Validation<L, A>
+export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a: A) => Validation<L, A>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getAlt
 
+**Signature** (function)
+
 ```ts
-<L>(S: Semigroup<L>): Alt2C<URI, L>
+export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getApplicative
 
+**Signature** (function)
+
 ```ts
-<L>(S: Semigroup<L>): Applicative2C<URI, L>
+export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-_Example_
+**Example**
 
 ```ts
 import { Validation, success, failure, getApplicative } from 'fp-ts/lib/Validation'
@@ -241,90 +287,110 @@ assert.deepEqual(validatePerson('Nicolas Bourbaki', -1), failure(['invalid age']
 assert.deepEqual(validatePerson('', 0), failure(['invalid name', 'invalid age']))
 ```
 
+Added in v1.0.0
+
 ## getCompactable
-
-```ts
-getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L>
-```
-
-Added in v1.7.0 (function)
 
 Builds [Compactable](./Compactable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the failure side
 
-## getFilterable
+**Signature** (function)
 
 ```ts
-getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>
+export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L>  { ... }
 ```
 
-Added in v1.7.0 (function)
+Added in v1.7.0
+
+## getFilterable
 
 Builds [Filterable](./Filterable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the left side
 
-## getMonad
+**Signature** (function)
 
 ```ts
-<L>(S: Semigroup<L>): Monad2C<URI, L>
+export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.7.0
+
+## getMonad
+
+**Signature** (function)
+
+```ts
+export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => { ... }
+```
+
+Added in v1.0.0
 
 ## getMonoid
 
+**Signature** (function)
+
 ```ts
-<L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>>
+export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getSemigroup
 
+**Signature** (function)
+
 ```ts
-<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>>
+export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getSetoid
 
+**Signature** (function)
+
 ```ts
-<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>>
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getWitherable
 
+Builds [Witherable](./Witherable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the left side
+
+**Signature** (function)
+
 ```ts
-getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L>
+export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L>  { ... }
 ```
 
-Added in v1.7.0 (function)
-
-Builds [Witherable](./Witherable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the left side
+Added in v1.7.0
 
 ## isFailure
 
+Returns `true` if the validation is an instance of `Failure`, `false` otherwise
+
+**Signature** (function)
+
 ```ts
-<L, A>(fa: Validation<L, A>): fa is Failure<L, A>
+export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Returns `true` if the validation is an instance of `Failure`, `false` otherwise
+Added in v1.0.0
 
 ## isSuccess
 
+Returns `true` if the validation is an instance of `Success`, `false` otherwise
+
+**Signature** (function)
+
 ```ts
-<L, A>(fa: Validation<L, A>): fa is Success<L, A>
+export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Returns `true` if the validation is an instance of `Success`, `false` otherwise
+Added in v1.0.0
 
 ## success
 
 Alias of [of](#of)
 
-Added in v1.0.0 (function)
+Added in v1.0.0

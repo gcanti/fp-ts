@@ -3,19 +3,19 @@ id: Plus
 title: Module Plus
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Plus.ts)
 
 # Plus
 
+**Signature** (type class)
+
 ```ts
-interface Plus<F> extends Alt<F> {
+export interface Plus<F> extends Alt<F> {
   readonly zero: <A>() => HKT<F, A>
 }
 ```
-
-Added in v1.0.0 (type class)
 
 The `Plus` type class extends the [Alt](./Alt.md) type class with a value that should be the left and right identity for `alt`.
 
@@ -27,3 +27,5 @@ concrete types like `string` or `number`.
 1. Left identity: `A.alt(zero, fa) == fa`
 2. Right identity: `A.alt(fa, zero) == fa`
 3. Annihilation: `A.map(zero, fa) == zero`
+
+Added in v1.0.0

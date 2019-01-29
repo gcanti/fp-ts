@@ -8,7 +8,8 @@ import {
   SourceFile,
   TypeAliasDeclaration,
   VariableDeclaration,
-  VariableStatement
+  VariableStatement,
+  TypeParameterDeclaration
 } from 'ts-simple-ast'
 import { ReaderEither } from '../examples/ReaderEither'
 import { flatten, lefts, rights } from '../src/Array'
@@ -81,14 +82,17 @@ const fromJSDocDescription = (description: string | null): Option<string> => {
   return fromNullable(description).filter(notEmpty)
 }
 
+const getMethodSignature = (md: MethodDeclaration): string => {
+  const text = md.getText()
+  const end = text.indexOf('{')
+  return `${text.substring(0, end)} { ... }`
+}
+
 const getMethod = (md: MethodDeclaration): Method => {
   const overloads = md.getOverloads()
   const annotation = overloads.length === 0 ? getAnnotation(md.getJsDocs()) : getAnnotation(overloads[0].getJsDocs())
   const name = md.getName()
-  const text = md.getText()
-  const start = name.length
-  const end = text.indexOf('{')
-  const signature = text.substring(start, end)
+  const signature = getMethodSignature(md)
   const description = fromJSDocDescription(annotation.description)
   const since = getSince(annotation)
   const example = getExample(annotation)
@@ -164,15 +168,40 @@ const getAlias = (annotation: Annotation): Option<string> => {
   return fromNullable(annotation.tags.filter(isAliasTag)[0]).mapNullable(tag => tag.name)
 }
 
+const getTypeAliasDeclarationDataConstructors = (sourceFile: SourceFile, tags: Array<Tag>): Array<ClassDeclaration> => {
+  const r: Array<ClassDeclaration> = []
+  tags.forEach(tag => {
+    const name = tag.name
+    if (name !== undefined) {
+      const c = sourceFile.getClass(name)
+      if (c !== undefined) {
+        r.push(c)
+      }
+    }
+  })
+  return r
+}
+
+const getTypeAliasDeclarationDataSignature = (
+  tad: TypeAliasDeclaration,
+  sourceFile: SourceFile,
+  tags: Array<Tag>
+): string => {
+  const constructors = getTypeAliasDeclarationDataConstructors(sourceFile, tags)
+    .map(c => getClassDeclarationDataSignature(c))
+    .join('\n\n')
+  return tad.getText() + '\n\n' + constructors
+}
+
 /** parses data types which are unions */
 const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
     const annotation = getAnnotation(tad.getJsDocs())
     if (isData(annotation)) {
       const dataName = tad.getName()
-      const signature = tad.getText().substring('export '.length)
       const description = fromJSDocDescription(annotation.description)
-      const eitherConstructors = annotation.tags.filter(isConstructorTag).map(tag => {
+      const tags = annotation.tags.filter(isConstructorTag)
+      const eitherConstructors = tags.map(tag => {
         const name = tag.name
         if (typeof name === 'undefined') {
           return ko(new DataMissingConstructorName(e.currentModuleName, dataName))
@@ -189,6 +218,7 @@ const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<E
         return kos(errors)
       }
       const constructors = rights(eitherConstructors)
+      const signature = getTypeAliasDeclarationDataSignature(tad, e.currentSourceFile, tags)
       const since = getSince(annotation)
       const example = getExample(annotation)
       if (since.isNone()) {
@@ -201,6 +231,19 @@ const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<E
   })
 }
 
+const getTypeParameters = (typeParameters: Array<TypeParameterDeclaration>): string => {
+  if (typeParameters.length === 0) {
+    return ''
+  }
+  return '<' + typeParameters.map(p => p.getName()).join(', ') + '>'
+}
+
+const getClassDeclarationDataSignature = (c: ClassDeclaration): string => {
+  const dataName = c.getName()
+  const typeParameters = getTypeParameters(c.getTypeParameters())
+  return `export class ${dataName}${typeParameters} {\n  ${c.getConstructors()[0].getText()}\n  ...\n}`
+}
+
 /** parses data types which are a single class */
 const parseClassDeclarationData = (c: ClassDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
@@ -210,7 +253,7 @@ const parseClassDeclarationData = (c: ClassDeclaration): ParseResult<Export> => 
       if (typeof dataName === 'undefined') {
         return ko(new NameMissing(e.currentModuleName))
       }
-      const signature = c.getConstructors()[0].getText()
+      const signature = getClassDeclarationDataSignature(c)
       const description = fromJSDocDescription(annotation.description)
       const methods = getClassMethods(c)
       const constructors = [new Constructor(dataName, methods)]
@@ -231,21 +274,27 @@ const indexOf = (big: string, small: string) => {
   return i !== -1 ? some(i) : none
 }
 
+const getInstanceVariableDeclarationSignature = (vd: VariableDeclaration): string => {
+  const name = vd.getName()
+  const text = vd.getText()
+  const start = text.indexOf(': ') + ': '.length
+  const end = text.indexOf(' = ')
+  const type = text.substring(start, end)
+  return `export const ${name}: ${type} = { ... }`
+}
+
 const parseInstanceVariableDeclaration = (vd: VariableDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
     const p = vd.getParent()
     if (p) {
       const pp = p.getParent()
       if (pp) {
-        const vs: VariableStatement = pp as any
+        const vs: VariableStatement = pp
         const annotation = getAnnotation(vs.getJsDocs())
         if (isInstance(annotation)) {
           const name = vd.getName()
           const description = fromJSDocDescription(annotation.description)
-          const text = vd.getText()
-          const start = text.indexOf(': ') + ': '.length
-          const end = text.indexOf(' = ')
-          const signature = text.substring(start, end)
+          const signature = getInstanceVariableDeclarationSignature(vd)
           const since = getSince(annotation)
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
@@ -259,21 +308,24 @@ const parseInstanceVariableDeclaration = (vd: VariableDeclaration): ParseResult<
   })
 }
 
+const getConstantVariableDeclarationSignature = (vd: VariableDeclaration): string => {
+  const text = vd.getText()
+  const end = text.indexOf(' = ')
+  return `export const ${text.substring(0, end)} = ...`
+}
+
 const parseConstantVariableDeclaration = (vd: VariableDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
     const p = vd.getParent()
     if (p) {
       const pp = p.getParent()
       if (pp) {
-        const vs: VariableStatement = pp as any
+        const vs: VariableStatement = pp
         const annotation = getAnnotation(vs.getJsDocs())
         if (isConstant(annotation)) {
           const name = vd.getName()
           const description = fromJSDocDescription(annotation.description)
-          const text = vd.getText()
-          const start = text.indexOf(': ') + 2
-          const end = text.indexOf(' = ')
-          const signature = text.substring(start, end)
+          const signature = getConstantVariableDeclarationSignature(vd)
           const since = getSince(annotation)
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
@@ -287,21 +339,24 @@ const parseConstantVariableDeclaration = (vd: VariableDeclaration): ParseResult<
   })
 }
 
+const getFunctionVariableDeclarationSignature = (vd: VariableDeclaration): string => {
+  const text = vd.getText()
+  const end = indexOf(text, ' => {')
+  return `export const ${text.substring(0, end.getOrElse(text.length))} => { ... }`
+}
+
 const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
     const p = vd.getParent()
     if (p) {
       const pp = p.getParent()
       if (pp) {
-        const vs: VariableStatement = pp as any
+        const vs: VariableStatement = pp
         const annotation = getAnnotation(vs.getJsDocs())
         if (isFunc(annotation)) {
           const name = vd.getName()
           const description = fromJSDocDescription(annotation.description)
-          const text = vd.getText()
-          const start = text.indexOf(' = ') + ' = '.length
-          const end = indexOf(text, ' => {')
-          const signature = text.substring(start, end.getOrElse(text.length))
+          const signature = getFunctionVariableDeclarationSignature(vd)
           const since = getSince(annotation)
           const example = getExample(annotation)
           const deprecated = getDeprecated(annotation)
@@ -318,12 +373,16 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
   })
 }
 
-const parseTypeclassInterface = (i: InterfaceDeclaration): ParseResult<Export> => {
+const getTypeclassInterfaceSignature = (id: InterfaceDeclaration): string => {
+  return id.getText()
+}
+
+const parseTypeclassInterface = (id: InterfaceDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
-    const annotation = getAnnotation(i.getJsDocs())
+    const annotation = getAnnotation(id.getJsDocs())
     if (isTypeclass(annotation)) {
-      const name = i.getName()
-      const signature = i.getText().substring('export '.length)
+      const name = id.getName()
+      const signature = getTypeclassInterfaceSignature(id)
       const description = fromJSDocDescription(annotation.description)
       const since = getSince(annotation)
       const deprecated = getDeprecated(annotation)
@@ -337,12 +396,16 @@ const parseTypeclassInterface = (i: InterfaceDeclaration): ParseResult<Export> =
   })
 }
 
-const parseInterface = (i: InterfaceDeclaration): ParseResult<Export> => {
+const getInterfaceSignature = (id: InterfaceDeclaration): string => {
+  return id.getText().substring('export '.length)
+}
+
+const parseInterface = (id: InterfaceDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
-    const annotation = getAnnotation(i.getJsDocs())
+    const annotation = getAnnotation(id.getJsDocs())
     if (isInterface(annotation)) {
-      const name = i.getName()
-      const signature = i.getText().substring('export '.length)
+      const name = id.getName()
+      const signature = getInterfaceSignature(id)
       const description = fromJSDocDescription(annotation.description)
       const since = getSince(annotation)
       if (since.isNone()) {
@@ -355,20 +418,22 @@ const parseInterface = (i: InterfaceDeclaration): ParseResult<Export> => {
   })
 }
 
-const parseFunctionDeclaration = (f: FunctionDeclaration): ParseResult<Export> => {
+const getFunctionDeclarationSignature = (fd: FunctionDeclaration): string => {
+  const text = fd.getText()
+  const end = text.indexOf('{')
+  return `${text.substring(0, end === -1 ? text.length : end)} { ... }`
+}
+
+const parseFunctionDeclaration = (fd: FunctionDeclaration): ParseResult<Export> => {
   return new ReaderEither(e => {
-    const overloads = f.getOverloads()
-    const annotation = overloads.length === 0 ? getAnnotation(f.getJsDocs()) : getAnnotation(overloads[0].getJsDocs())
+    const overloads = fd.getOverloads()
+    const annotation = overloads.length === 0 ? getAnnotation(fd.getJsDocs()) : getAnnotation(overloads[0].getJsDocs())
     if (isFunc(annotation)) {
-      const name = f.getName()
+      const name = fd.getName()
       if (typeof name === 'undefined') {
         return ko(new NameMissing(e.currentModuleName))
       }
-      // const overloadings = f.getOverloads()
-      const text = f.getText()
-      const start = 'export function '.length
-      const end = text.indexOf('{')
-      const signature = text.substring(start, end === -1 ? text.length : end)
+      const signature = getFunctionDeclarationSignature(fd)
       const description = fromJSDocDescription(annotation.description)
       const since = getSince(annotation)
       const example = getExample(annotation)

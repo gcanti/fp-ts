@@ -3,104 +3,129 @@ id: Writer
 title: Module Writer
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts)
 
 ## writer
 
+**Signature** (instance)
+
 ```ts
-Functor2<URI>
+export const writer: Functor2<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # Writer
 
-```ts
-constructor(readonly run: () => [A, W]) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class Writer<W, A> {
+  constructor(readonly run: () => [A, W]) {}
+  ...
+}
+```
 
 ## eval
 
+**Signature** (method)
+
 ```ts
-(): A
+eval(): A  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## exec
 
+**Signature** (method)
+
 ```ts
-(): W
+exec(): W  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Writer<W, B>
+map<B>(f: (a: A) => B): Writer<W, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## censor
 
+Modify the final accumulator value by applying a function
+
+**Signature** (function)
+
 ```ts
-<W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A>
+export const censor = <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> => { ... }
 ```
 
-Added in v1.3.0 (function)
-
-Modify the final accumulator value by applying a function
+Added in v1.3.0
 
 ## getMonad
 
+**Signature** (function)
+
 ```ts
-<W>(M: Monoid<W>): Monad2C<URI, W>
+export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## listen
 
+Modifies the result to include the changes to the accumulator
+
+**Signature** (function)
+
 ```ts
-<W, A>(fa: Writer<W, A>): Writer<W, [A, W]>
+export const listen = <W, A>(fa: Writer<W, A>): Writer<W, [A, W]> => { ... }
 ```
 
-Added in v1.3.0 (function)
-
-Modifies the result to include the changes to the accumulator
+Added in v1.3.0
 
 ## listens
 
+Projects a value from modifications made to the accumulator during an action
+
+**Signature** (function)
+
 ```ts
-<W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]>
+export const listens = <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]> => { ... }
 ```
 
-Added in v1.3.0 (function)
-
-Projects a value from modifications made to the accumulator during an action
+Added in v1.3.0
 
 ## pass
 
+Applies the returned function to the accumulator
+
+**Signature** (function)
+
 ```ts
-<W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A>
+export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => { ... }
 ```
 
-Added in v1.3.0 (function)
-
-Applies the returned function to the accumulator
+Added in v1.3.0
 
 ## tell
 
+Appends a value to the accumulator
+
+**Signature** (function)
+
 ```ts
-<W>(w: W): Writer<W, void>
+export const tell = <W>(w: W): Writer<W, void> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Appends a value to the accumulator
+Added in v1.0.0

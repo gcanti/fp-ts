@@ -3,20 +3,22 @@ id: BoundedMeetSemilattice
 title: Module BoundedMeetSemilattice
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedMeetSemilattice.ts)
 
 # BoundedMeetSemilattice
 
+**Signature** (type class)
+
 ```ts
-interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
+export interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
   readonly one: A
 }
 ```
 
-Added in v1.4.0 (type class)
-
 A `BoundedMeetSemilattice` must satisfy the following laws in addition to [MeetSemilattice](./MeetSemilattice.md) laws:
 
 - `a ∧ 1 = a`
+
+Added in v1.4.0

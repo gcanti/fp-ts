@@ -3,19 +3,19 @@ id: Applicative
 title: Module Applicative
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts)
 
 # Applicative
 
+**Signature** (type class)
+
 ```ts
-interface Applicative<F> extends Apply<F> {
+export interface Applicative<F> extends Apply<F> {
   readonly of: <A>(a: A) => HKT<F, A>
 }
 ```
-
-Added in v1.0.0 (type class)
 
 The `Applicative` type class extends the [Apply](./Apply.md) type class with a `of` function, which can be used to create values
 of type `f a` from values of type `a`.
@@ -33,26 +33,30 @@ Instances must satisfy the following laws in addition to the [Apply](./Apply.md)
 
 Note. [Functor](./Functor.md)'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 
+Added in v1.0.0
+
 ## getApplicativeComposition
 
+**Signature** (function)
+
 ```ts
-getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>
+export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getMonoid
-
-```ts
-getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>
-```
-
-Added in v1.4.0 (function)
 
 If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
 Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
 
-_Example_
+**Signature** (function)
+
+```ts
+export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>  { ... }
+```
+
+**Example**
 
 ```ts
 import { getMonoid } from 'fp-ts/lib/Applicative'
@@ -66,17 +70,19 @@ assert.deepEqual(M.concat(none, some(2)), none)
 assert.deepEqual(M.concat(some(1), some(2)), some(3))
 ```
 
+Added in v1.4.0
+
 ## when
-
-```ts
-when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
-```
-
-Added in v1.0.0 (function)
 
 Perform a applicative action when a condition is true
 
-_Example_
+**Signature** (function)
+
+```ts
+export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>  { ... }
+```
+
+**Example**
 
 ```ts
 import { IO, io } from 'fp-ts/lib/IO'
@@ -91,3 +97,5 @@ assert.deepEqual(log, [])
 when(io)(true, action).run()
 assert.deepEqual(log, ['action called'])
 ```
+
+Added in v1.0.0

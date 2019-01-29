@@ -3,25 +3,29 @@ id: Contravariant
 title: Module Contravariant
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Contravariant.ts)
 
 # Contravariant
 
+**Signature** (type class)
+
 ```ts
-interface Contravariant<F> {
+export interface Contravariant<F> {
   readonly URI: F
   readonly contramap: <A, B>(fa: HKT<F, A>, f: (b: B) => A) => HKT<F, B>
 }
 ```
 
-Added in v1.0.0 (type class)
+Added in v1.0.0
 
 ## lift
 
+**Signature** (function)
+
 ```ts
-lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
+export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

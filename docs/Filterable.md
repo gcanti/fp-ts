@@ -3,14 +3,16 @@ id: Filterable
 title: Module Filterable
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Filterable.ts)
 
 # Filterable
 
+**Signature** (type class)
+
 ```ts
-interface Filterable<F> extends Functor<F>, Compactable<F> {
+export interface Filterable<F> extends Functor<F>, Compactable<F> {
   /**
    * Partition a data structure based on an either predicate.
    */
@@ -30,14 +32,16 @@ interface Filterable<F> extends Functor<F>, Compactable<F> {
 }
 ```
 
-Added in v1.7.0 (type class)
-
 `Filterable` represents data structures which can be _partitioned_/_filtered_.
+
+Added in v1.7.0
 
 ## getFilterableComposition
 
+**Signature** (function)
+
 ```ts
-getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>
+export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>  { ... }
 ```
 
-Added in v1.12.0 (function)
+Added in v1.12.0

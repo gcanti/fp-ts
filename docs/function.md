@@ -3,217 +3,265 @@ id: function
 title: Module function
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts)
 
 ## unsafeCoerce
 
+**Signature** (constant)
+
 ```ts
-const unsafeCoerce: <A, B>(a: A) => B
+export const unsafeCoerce: <A, B>(a: A) => B = ...
 ```
 
-Added in v1.0.0 (constant)
+Added in v1.0.0
 
 ## and
 
+**Signature** (function)
+
 ```ts
-<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
+export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## apply
 
+Applies a function to an argument ($)
+
+**Signature** (function)
+
 ```ts
-<A, B>(f: (a: A) => B) => (a: A): B
+export const apply = <A, B>(f: (a: A) => B) => (a: A): B => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Applies a function to an argument ($)
+Added in v1.0.0
 
 ## applyFlipped
 
+Applies an argument to a function (#)
+
+**Signature** (function)
+
 ```ts
-<A>(a: A) => <B>(f: (a: A) => B): B
+export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Applies an argument to a function (#)
+Added in v1.0.0
 
 ## compose
 
+**Signature** (function)
+
 ```ts
-compose(...fns: Array<Function>): Function
+export function compose(...fns: Array<Function>): Function  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## concat
 
+**Signature** (function)
+
 ```ts
-<A>(x: Array<A>, y: Array<A>): Array<A>
+export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## constFalse
 
-```ts
-(): boolean
-```
-
-Added in v1.0.0 (function)
-
 A thunk that returns always `false`
 
-## constIdentity
+**Signature** (function)
 
 ```ts
-(): (<A>(a: A) => A)
+export const constFalse = (): boolean => { ... }
 ```
 
-Added in v1.5.0 (function)
+Added in v1.0.0
+
+## constIdentity
 
 A thunk that returns always the `identity` function.
 For use with `applySecond` methods.
 
-## constNull
+**Signature** (function)
 
 ```ts
-(): null
+export const constIdentity = (): (<A>(a: A) => A) => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.5.0
+
+## constNull
 
 A thunk that returns always `null`
 
-## constTrue
+**Signature** (function)
 
 ```ts
-(): boolean
+export const constNull = (): null => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
+
+## constTrue
 
 A thunk that returns always `true`
 
-## constUndefined
+**Signature** (function)
 
 ```ts
-(): undefined
+export const constTrue = (): boolean => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
+
+## constUndefined
 
 A thunk that returns always `undefined`
 
-## constant
+**Signature** (function)
 
 ```ts
-<A>(a: A): Lazy<A>
+export const constUndefined = (): undefined => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
+
+## constant
+
+**Signature** (function)
+
+```ts
+export const constant = <A>(a: A): Lazy<A> => { ... }
+```
+
+Added in v1.0.0
 
 ## curry
 
+**Signature** (function)
+
 ```ts
-curry(f: Function)
+export function curry(f: Function)  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## decrement
 
+**Signature** (function)
+
 ```ts
-(n: number): number
+export const decrement = (n: number): number => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## flip
 
+Flips the order of the arguments to a function of two arguments.
+
+**Signature** (function)
+
 ```ts
-<A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C>
+export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Flips the order of the arguments to a function of two arguments.
+Added in v1.0.0
 
 ## identity
 
+**Signature** (function)
+
 ```ts
-<A>(a: A): A
+export const identity = <A>(a: A): A => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## increment
 
+**Signature** (function)
+
 ```ts
-(n: number): number
+export const increment = (n: number): number => { ... }
 ```
 
-Added in v1.9.0 (function)
+Added in v1.9.0
 
 ## not
 
+**Signature** (function)
+
 ```ts
-<A>(predicate: Predicate<A>): Predicate<A>
+export const not = <A>(predicate: Predicate<A>): Predicate<A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## on
 
+The `on` function is used to change the domain of a binary operator.
+
+**Signature** (function)
+
 ```ts
-<B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C>
+export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-The `on` function is used to change the domain of a binary operator.
+Added in v1.0.0
 
 ## or
 
+**Signature** (function)
+
 ```ts
-or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
+export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## pipe
 
+**Signature** (function)
+
 ```ts
-pipe(...fns: Array<Function>): Function
+export function pipe(...fns: Array<Function>): Function  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## toString
 
+**Signature** (function)
+
 ```ts
-(x: any): string
+export const toString = (x: any): string => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## tuple
 
+**Signature** (function)
+
 ```ts
-<A, B>(a: A, b: B): [A, B]
+export const tuple = <A, B>(a: A, b: B): [A, B] => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## tupleCurried
 
+**Signature** (function)
+
 ```ts
-<A>(a: A) => <B>(b: B): [A, B]
+export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

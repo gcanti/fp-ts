@@ -3,102 +3,127 @@ id: Store
 title: Module Store
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts)
 
 ## store
 
+**Signature** (instance)
+
 ```ts
-Comonad2<URI>
+export const store: Comonad2<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # Store
 
-```ts
-constructor(readonly peek: (s: S) => A, readonly pos: S) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class Store<S, A> {
+  constructor(readonly peek: (s: S) => A, readonly pos: S) {}
+  ...
+}
+```
 
 ## extend
 
+**Signature** (method)
+
 ```ts
-<B>(f: (sa: Store<S, A>) => B): Store<S, B>
+extend<B>(f: (sa: Store<S, A>) => B): Store<S, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## extract
 
+**Signature** (method)
+
 ```ts
-(): A
+extract(): A  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## inspect
 
+**Signature** (method)
+
 ```ts
-(): string
+inspect(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Store<S, B>
+map<B>(f: (a: A) => B): Store<S, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## seek
 
+Reposition the focus at the specified position
+
+**Signature** (method)
+
 ```ts
-(s: S): Store<S, A>
+seek(s: S): Store<S, A>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Reposition the focus at the specified position
+Added in v1.0.0
 
 ## toString
 
+**Signature** (method)
+
 ```ts
-(): string
+toString(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## experiment
 
+Extract a collection of values from positions which depend on the current position
+
+**Signature** (function)
+
 ```ts
-experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>
+export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>  { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Extract a collection of values from positions which depend on the current position
+Added in v1.0.0
 
 ## peeks
 
+Extract a value from a position which depends on the current position
+
+**Signature** (function)
+
 ```ts
-<S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A
+export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Extract a value from a position which depends on the current position
+Added in v1.0.0
 
 ## seeks
 
+Reposition the focus at the specified position, which depends on the current position
+
+**Signature** (function)
+
 ```ts
-<S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A>
+export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Reposition the focus at the specified position, which depends on the current position
+Added in v1.0.0

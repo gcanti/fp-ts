@@ -3,343 +3,415 @@ id: Record
 title: Module Record
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts)
 
 ## empty
 
+**Signature** (constant)
+
 ```ts
-const empty: Record<string, never>
+export const empty: Record<string, never> = ...
 ```
 
-Added in v1.10.0 (constant)
+Added in v1.10.0
 
 ## collect
 
+**Signature** (function)
+
 ```ts
-collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B>
+export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B>  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## compact
 
+**Signature** (function)
+
 ```ts
-<A>(fa: Record<string, Option<A>>): Record<string, A>
+export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## filterMap
 
+**Signature** (function)
+
 ```ts
-<A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B>
+export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## filterMapWithIndex
 
+**Signature** (function)
+
 ```ts
-filterMapWithIndex<A, B>(
+export function filterMapWithIndex<A, B>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Option<B>
-): Record<string, B>
+): Record<string, B>  { ... }
 ```
 
-Added in v1.12.0 (function)
+Added in v1.12.0
 
 ## filterWithIndex
 
+**Signature** (function)
+
 ```ts
-filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
+export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>  { ... }
 ```
 
-Added in v1.12.0 (function)
+Added in v1.12.0
 
 ## foldMap
 
+**Signature** (function)
+
 ```ts
-<M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M)
+export const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M) => { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## foldMapWithKey
 
+**Signature** (function)
+
 ```ts
-<M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (k: string, a: A) => M): M
+export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (k: string, a: A) => M): M => { ... }
 ```
 
-Added in v1.12.0 (function)
+Added in v1.12.0
 
 ## foldr
 
+**Signature** (function)
+
 ```ts
-<A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B
+export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## foldrWithKey
 
+**Signature** (function)
+
 ```ts
-foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B
+export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B  { ... }
 ```
 
-Added in v1.12.0 (function)
+Added in v1.12.0
 
 ## fromFoldable
-
-```ts
-fromFoldable<F>(
-  F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
-```
-
-Added in v1.10.0 (function)
 
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-## getMonoid
+**Signature** (function)
 
 ```ts
-getDictionaryMonoid
+export function fromFoldable<F>(
+  F: Foldable<F>
+): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
+
+## getMonoid
+
+**Signature** (function)
+
+```ts
+export const getMonoid = getDictionaryMonoid => { ... }
+```
+
+Added in v1.10.0
 
 ## getSetoid
 
+**Signature** (function)
+
 ```ts
-<A>(S: Setoid<A>): Setoid<Record<string, A>>
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Record<string, A>> => { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## insert
 
+Insert or replace a key/value pair in a map
+
+**Signature** (function)
+
 ```ts
-insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A>
+export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A>  { ... }
 ```
 
-Added in v1.10.0 (function)
-
-Insert or replace a key/value pair in a map
+Added in v1.10.0
 
 ## isEmpty
 
+Test whether a dictionary is empty
+
+**Signature** (function)
+
 ```ts
-<A>(d: Record<string, A>): boolean
+export const isEmpty = <A>(d: Record<string, A>): boolean => { ... }
 ```
 
-Added in v1.10.0 (function)
-
-Test whether a dictionary is empty
+Added in v1.10.0
 
 ## isSubdictionary
 
+Test whether one dictionary contains all of the keys and values contained in another dictionary
+
+**Signature** (function)
+
 ```ts
-<A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean
+export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => { ... }
 ```
 
-Added in v1.10.0 (function)
-
-Test whether one dictionary contains all of the keys and values contained in another dictionary
+Added in v1.10.0
 
 ## map
 
+**Signature** (function)
+
 ```ts
-map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B>
+export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B>  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## mapWithKey
 
+**Signature** (function)
+
 ```ts
-mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B>
+export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B>  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## partition
 
+**Signature** (function)
+
 ```ts
-<A>(
+export const partition = <A>(
   fa: Record<string, A>,
   p: Predicate<A>
-): Separated<Record<string, A>, Record<string, A>>
+): Separated<Record<string, A>, Record<string, A>> => { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## partitionMap
 
+**Signature** (function)
+
 ```ts
-<RL, RR, A>(
+export const partitionMap = <RL, RR, A>(
   fa: Record<string, A>,
   f: (a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>>
+): Separated<Record<string, RL>, Record<string, RR>> => { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## partitionMapWithIndex
 
+**Signature** (function)
+
 ```ts
-partitionMapWithIndex<RL, RR, A>(
+export function partitionMapWithIndex<RL, RR, A>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>>
+): Separated<Record<string, RL>, Record<string, RR>>  { ... }
 ```
 
-Added in v1.12.0 (function)
+Added in v1.12.0
 
 ## partitionWithIndex
 
+**Signature** (function)
+
 ```ts
-partitionWithIndex<A>(
+export function partitionWithIndex<A>(
   fa: Record<string, A>,
   p: (key: string, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>>
+): Separated<Record<string, A>, Record<string, A>>  { ... }
 ```
 
-Added in v1.12.0 (function)
+Added in v1.12.0
 
 ## pop
 
+Delete a key and value from a map, returning the value as well as the subsequent map
+
+**Signature** (function)
+
 ```ts
-<A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]>
+export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> => { ... }
 ```
 
-Added in v1.10.0 (function)
-
-Delete a key and value from a map, returning the value as well as the subsequent map
+Added in v1.10.0
 
 ## reduce
 
+**Signature** (function)
+
 ```ts
-<A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B
+export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## reduceWithKey
 
+**Signature** (function)
+
 ```ts
-reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B
+export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B  { ... }
 ```
 
-Added in v1.12.0 (function)
+Added in v1.12.0
 
 ## remove
 
+Delete a key and value from a map
+
+**Signature** (function)
+
 ```ts
-remove<A>(k: string, d: Record<string, A>): Record<string, A>
+export function remove<A>(k: string, d: Record<string, A>): Record<string, A>  { ... }
 ```
 
-Added in v1.10.0 (function)
-
-Delete a key and value from a map
+Added in v1.10.0
 
 ## separate
 
+**Signature** (function)
+
 ```ts
-<RL, RR>(
+export const separate = <RL, RR>(
   fa: Record<string, Either<RL, RR>>
-): Separated<Record<string, RL>, Record<string, RR>>
+): Separated<Record<string, RL>, Record<string, RR>> => { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## sequence
 
+**Signature** (function)
+
 ```ts
-sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>>
+export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>>  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## singleton
 
+Create a dictionary with one key/value pair
+
+**Signature** (function)
+
 ```ts
-<K extends string, A>(k: K, a: A): Record<K, A>
+export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => { ... }
 ```
 
-Added in v1.10.0 (function)
-
-Create a dictionary with one key/value pair
+Added in v1.10.0
 
 ## size
 
+Calculate the number of key/value pairs in a dictionary
+
+**Signature** (function)
+
 ```ts
-<A>(d: Record<string, A>): number
+export const size = <A>(d: Record<string, A>): number => { ... }
 ```
 
-Added in v1.10.0 (function)
-
-Calculate the number of key/value pairs in a dictionary
+Added in v1.10.0
 
 ## toArray
 
+**Signature** (function)
+
 ```ts
-toArray<A>(d: Record<string, A>): Array<[string, A]>
+export function toArray<A>(d: Record<string, A>): Array<[string, A]>  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## toUnfoldable
 
+Unfolds a dictionary into a list of key/value pairs
+
+**Signature** (function)
+
 ```ts
-<F>(unfoldable: Unfoldable<F>) => <A>(d: Record<string, A>): HKT<F, [string, A]>
+export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: Record<string, A>): HKT<F, [string, A]> => { ... }
 ```
 
-Added in v1.10.0 (function)
-
-Unfolds a dictionary into a list of key/value pairs
+Added in v1.10.0
 
 ## traverse
 
+**Signature** (function)
+
 ```ts
-traverse<F>(
+export function traverse<F>(
   F: Applicative<F>
-): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>>
+): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>>  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## traverseWithKey
 
+**Signature** (function)
+
 ```ts
-traverseWithKey<F>(
+export function traverseWithKey<F>(
   F: Applicative<F>
-): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>
+): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## wilt
 
+**Signature** (function)
+
 ```ts
-wilt<F>(
+export function wilt<F>(
   F: Applicative<F>
 ): (<RL, RR, A>(
   wa: Record<string, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
-) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>)
+) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>)  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0
 
 ## wither
 
+**Signature** (function)
+
 ```ts
-wither<F>(
+export function wither<F>(
   F: Applicative<F>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>)
+): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>)  { ... }
 ```
 
-Added in v1.10.0 (function)
+Added in v1.10.0

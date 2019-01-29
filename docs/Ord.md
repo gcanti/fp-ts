@@ -3,19 +3,19 @@ id: Ord
 title: Module Ord
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts)
 
 # Ord
 
+**Signature** (type class)
+
 ```ts
-interface Ord<A> extends Setoid<A> {
+export interface Ord<A> extends Setoid<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
 ```
-
-Added in v1.0.0 (type class)
 
 The `Ord` type class represents types which support comparisons with a _total order_.
 
@@ -25,162 +25,200 @@ Instances should satisfy the laws of total orderings:
 2. Antisymmetry: if `S.compare(a, b) <= 0` and `S.compare(b, a) <= 0` then `a <-> b`
 3. Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
 
+Added in v1.0.0
+
 ## ordBoolean
 
+**Signature** (instance)
+
 ```ts
-Ord<boolean>
+export const ordBoolean: Ord<boolean> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## ordDate
 
+**Signature** (instance)
+
 ```ts
-Ord<Date>
+export const ordDate: Ord<Date> = { ... }
 ```
 
-Added in v1.4.0 (instance)
+Added in v1.4.0
 
 ## ordNumber
 
+**Signature** (instance)
+
 ```ts
-Ord<number>
+export const ordNumber: Ord<number> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## ordString
 
+**Signature** (instance)
+
 ```ts
-Ord<string>
+export const ordString: Ord<string> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## between
 
+Test whether a value is between a minimum and a maximum (inclusive)
+
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean)
+export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Test whether a value is between a minimum and a maximum (inclusive)
+Added in v1.0.0
 
 ## clamp
 
+Clamp a value between a minimum and a maximum
+
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A)
+export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Clamp a value between a minimum and a maximum
+Added in v1.0.0
 
 ## contramap
 
+**Signature** (function)
+
 ```ts
-<A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B>
+export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## fromCompare
 
+**Signature** (function)
+
 ```ts
-<A>(compare: (x: A, y: A) => Ordering): Ord<A>
+export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getDualOrd
 
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>): Ord<A>
+export const getDualOrd = <A>(O: Ord<A>): Ord<A> => { ... }
 ```
 
-Added in v1.3.0 (function)
+Added in v1.3.0
 
 ## getProductOrd
 
+**Signature** (function)
+
 ```ts
-<A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]>
+export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getSemigroup
 
+**Signature** (function)
+
 ```ts
-<A = never>(): Semigroup<Ord<A>>
+export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## greaterThan
 
+Test whether one value is _strictly greater than_ another
+
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>) => (x: A, y: A): boolean
+export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Test whether one value is _strictly greater than_ another
+Added in v1.0.0
 
 ## greaterThanOrEq
 
+Test whether one value is _non-strictly greater than_ another
+
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>) => (x: A, y: A): boolean
+export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Test whether one value is _non-strictly greater than_ another
+Added in v1.0.0
 
 ## lessThan
 
+Test whether one value is _strictly less than_ another
+
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>) => (x: A, y: A): boolean
+export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Test whether one value is _strictly less than_ another
+Added in v1.0.0
 
 ## lessThanOrEq
 
+Test whether one value is _non-strictly less than_ another
+
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>) => (x: A, y: A): boolean
+export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Test whether one value is _non-strictly less than_ another
+Added in v1.0.0
 
 ## max
 
+Take the maximum of two values. If they are considered equal, the first argument is chosen
+
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>) => (x: A, y: A): A
+export const max = <A>(O: Ord<A>) => (x: A, y: A): A => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Take the maximum of two values. If they are considered equal, the first argument is chosen
+Added in v1.0.0
 
 ## min
 
+Take the minimum of two values. If they are considered equal, the first argument is chosen
+
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>) => (x: A, y: A): A
+export const min = <A>(O: Ord<A>) => (x: A, y: A): A => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Take the minimum of two values. If they are considered equal, the first argument is chosen
+Added in v1.0.0
 
 ## unsafeCompare
 
+**Signature** (function)
+
 ```ts
-(x: any, y: any): Ordering
+export const unsafeCompare = (x: any, y: any): Ordering => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

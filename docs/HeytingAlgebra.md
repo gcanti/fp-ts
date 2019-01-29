@@ -3,20 +3,20 @@ id: HeytingAlgebra
 title: Module HeytingAlgebra
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/HeytingAlgebra.ts)
 
 # HeytingAlgebra
 
+**Signature** (type class)
+
 ```ts
-interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
+export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {
   readonly implies: (x: A, y: A) => A
   readonly not: (x: A) => A
 }
 ```
-
-Added in v1.4.0 (type class)
 
 Heyting algebras are bounded (distributive) lattices that are also equipped with an additional binary operation
 `implies` (also written as `→`). Heyting algebras also define a complement operation `not` (sometimes written as
@@ -37,3 +37,5 @@ A `HeytingAlgebra` must satisfy the following laws in addition to [BoundedDistri
   - `a → (b ∧ c) = (a → b) ∧ (a → c)`
 - Complemented
   - `¬a = a → 0`
+
+Added in v1.4.0

@@ -3,179 +3,224 @@ id: Tuple
 title: Module Tuple
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts)
 
 ## tuple
 
+**Signature** (instance)
+
 ```ts
-Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2v2<URI>
+export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # Tuple
 
-```ts
-constructor(readonly fst: L, readonly snd: A) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class Tuple<L, A> {
+  constructor(readonly fst: L, readonly snd: A) {}
+  ...
+}
+```
 
 ## bimap
 
+**Signature** (method)
+
 ```ts
-<M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B>
+bimap<M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## compose
 
+**Signature** (method)
+
 ```ts
-<B>(ab: Tuple<A, B>): Tuple<L, B>
+compose<B>(ab: Tuple<A, B>): Tuple<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## extend
 
+**Signature** (method)
+
 ```ts
-<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B>
+extend<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## extract
 
+**Signature** (method)
+
 ```ts
-(): A
+extract(): A  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## inspect
 
+**Signature** (method)
+
 ```ts
-(): string
+inspect(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Tuple<L, B>
+map<B>(f: (a: A) => B): Tuple<L, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## reduce
 
+**Signature** (method)
+
 ```ts
-<B>(b: B, f: (b: B, a: A) => B): B
+reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## swap
 
+Exchange the first and second components of a tuple
+
+**Signature** (method)
+
 ```ts
-(): Tuple<A, L>
+swap(): Tuple<A, L>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Exchange the first and second components of a tuple
+Added in v1.0.0
 
 ## toString
 
+**Signature** (method)
+
 ```ts
-(): string
+toString(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## toTuple
 
+**Signature** (method)
+
 ```ts
-(): [L, A]
+toTuple(): [L, A]  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## getApplicative
 
+**Signature** (function)
+
 ```ts
-<L>(M: Monoid<L>): Applicative2C<URI, L>
+export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getApply
 
+**Signature** (function)
+
 ```ts
-<L>(S: Semigroup<L>): Apply2C<URI, L>
+export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getChain
 
+**Signature** (function)
+
 ```ts
-<L>(S: Semigroup<L>): Chain2C<URI, L>
+export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getChainRec
 
+**Signature** (function)
+
 ```ts
-<L>(M: Monoid<L>): ChainRec2C<URI, L>
+export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getMonad
 
+**Signature** (function)
+
 ```ts
-<L>(M: Monoid<L>): Monad2C<URI, L>
+export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getMonoid
 
+**Signature** (function)
+
 ```ts
-<L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>>
+export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getOrd
-
-```ts
-<L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>>
-```
-
-Added in v1.0.0 (function)
 
 To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
 `snd`s are `compare`d.
 
-## getSemigroup
+**Signature** (function)
 
 ```ts
-<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>>
+export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
+
+## getSemigroup
+
+**Signature** (function)
+
+```ts
+export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => { ... }
+```
+
+Added in v1.0.0
 
 ## getSetoid
 
+**Signature** (function)
+
 ```ts
-<L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>>
+export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

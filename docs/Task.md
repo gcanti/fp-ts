@@ -3,155 +3,192 @@ id: Task
 title: Module Task
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts)
 
 ## task
 
+**Signature** (instance)
+
 ```ts
-Monad1<URI> & MonadIO1<URI> & MonadTask1<URI>
+export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 ## taskSeq
 
+Like [task](#task) but `ap` is sequential
+
+**Signature** (instance)
+
 ```ts
-typeof task
+export const taskSeq: typeof task = { ... }
 ```
 
-Added in v1.10.0 (instance)
-
-Like [task](#task) but `ap` is sequential
+Added in v1.10.0
 
 # Task
 
-```ts
-constructor(readonly run: Lazy<Promise<A>>) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class Task<A> {
+  constructor(readonly run: Lazy<Promise<A>>) {}
+  ...
+}
+```
 
 `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent an asynchronous computation that may fail, please see [TaskEither](./TaskEither.md).
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: Task<(a: A) => B>): Task<B>
+ap<B>(fab: Task<(a: A) => B>): Task<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap\_
 
+Flipped version of [ap](#ap)
+
+**Signature** (method)
+
 ```ts
-<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C>
+ap_<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Flipped version of [ap](#ap)
+Added in v1.0.0
 
 ## applyFirst
 
+Combine two effectful actions, keeping only the result of the first
+
+**Signature** (method)
+
 ```ts
-<B>(fb: Task<B>): Task<A>
+applyFirst<B>(fb: Task<B>): Task<A>  { ... }
 ```
 
-Added in v1.6.0 (method)
-
-Combine two effectful actions, keeping only the result of the first
+Added in v1.6.0
 
 ## applySecond
 
+Combine two effectful actions, keeping only the result of the second
+
+**Signature** (method)
+
 ```ts
-<B>(fb: Task<B>): Task<B>
+applySecond<B>(fb: Task<B>): Task<B>  { ... }
 ```
 
-Added in v1.5.0 (method)
-
-Combine two effectful actions, keeping only the result of the second
+Added in v1.5.0
 
 ## chain
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => Task<B>): Task<B>
+chain<B>(f: (a: A) => Task<B>): Task<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## inspect
 
+**Signature** (method)
+
 ```ts
-(): string
+inspect(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Task<B>
+map<B>(f: (a: A) => B): Task<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## toString
 
+**Signature** (method)
+
 ```ts
-(): string
+toString(): string  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## delay
 
+**Signature** (function)
+
 ```ts
-<A>(millis: number, a: A): Task<A>
+export const delay = <A>(millis: number, a: A): Task<A> => { ... }
 ```
 
-Added in v1.7.0 (function)
+Added in v1.7.0
 
 ## fromIO
 
+Lifts an IO action into a Task
+
+**Signature** (function)
+
 ```ts
-<A>(io: IO<A>): Task<A>
+export const fromIO = <A>(io: IO<A>): Task<A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Lifts an IO action into a Task
+Added in v1.0.0
 
 ## getMonoid
 
+**Signature** (function)
+
 ```ts
-<A>(M: Monoid<A>): Monoid<Task<A>>
+export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getRaceMonoid
 
+**Signature** (function)
+
 ```ts
-<A = never>(): Monoid<Task<A>>
+export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getSemigroup
 
+**Signature** (function)
+
 ```ts
-<A>(S: Semigroup<A>): Semigroup<Task<A>>
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## tryCatch
 
+**Signature** (function)
+
 ```ts
-<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>>
+export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

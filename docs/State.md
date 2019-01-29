@@ -3,132 +3,163 @@ id: State
 title: Module State
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/State.ts)
 
 ## state
 
+**Signature** (instance)
+
 ```ts
-Monad2<URI>
+export const state: Monad2<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # State
 
-```ts
-constructor(readonly run: (s: S) => [A, S]) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class State<S, A> {
+  constructor(readonly run: (s: S) => [A, S]) {}
+  ...
+}
+```
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: State<S, (a: A) => B>): State<S, B>
+ap<B>(fab: State<S, (a: A) => B>): State<S, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap\_
 
+Flipped version of [ap](#ap)
+
+**Signature** (method)
+
 ```ts
-<B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C>
+ap_<B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Flipped version of [ap](#ap)
+Added in v1.0.0
 
 ## applyFirst
 
+Combine two effectful actions, keeping only the result of the first
+
+**Signature** (method)
+
 ```ts
-<B>(fb: State<S, B>): State<S, A>
+applyFirst<B>(fb: State<S, B>): State<S, A>  { ... }
 ```
 
-Added in v1.7.0 (method)
-
-Combine two effectful actions, keeping only the result of the first
+Added in v1.7.0
 
 ## applySecond
 
+Combine two effectful actions, keeping only the result of the second
+
+**Signature** (method)
+
 ```ts
-<B>(fb: State<S, B>): State<S, B>
+applySecond<B>(fb: State<S, B>): State<S, B>  { ... }
 ```
 
-Added in v1.7.0 (method)
-
-Combine two effectful actions, keeping only the result of the second
+Added in v1.7.0
 
 ## chain
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => State<S, B>): State<S, B>
+chain<B>(f: (a: A) => State<S, B>): State<S, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## eval
 
+**Signature** (method)
+
 ```ts
-(s: S): A
+eval(s: S): A  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## exec
 
+**Signature** (method)
+
 ```ts
-(s: S): S
+exec(s: S): S  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): State<S, B>
+map<B>(f: (a: A) => B): State<S, B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
+
+Added in v1.0.0
 
 ## get
 
+Get the current state
+
+**Signature** (function)
+
 ```ts
-<S>(): State<S, S>
+export const get = <S>(): State<S, S> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Get the current state
+Added in v1.0.0
 
 ## gets
 
+Get a value which depends on the current state
+
+**Signature** (function)
+
 ```ts
-<S, A>(f: (s: S) => A): State<S, A>
+export const gets = <S, A>(f: (s: S) => A): State<S, A> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Get a value which depends on the current state
+Added in v1.0.0
 
 ## modify
 
+Modify the state by applying a function to the current state
+
+**Signature** (function)
+
 ```ts
-<S>(f: (s: S) => S): State<S, undefined>
+export const modify = <S>(f: (s: S) => S): State<S, undefined> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Modify the state by applying a function to the current state
+Added in v1.0.0
 
 ## put
 
+Set the state
+
+**Signature** (function)
+
 ```ts
-<S>(s: S): State<S, void>
+export const put = <S>(s: S): State<S, void> => { ... }
 ```
 
-Added in v1.0.0 (function)
-
-Set the state
+Added in v1.0.0

@@ -3,134 +3,167 @@ id: Pair
 title: Module Pair
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts)
 
 ## pair
 
+**Signature** (instance)
+
 ```ts
-Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI>
+export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = { ... }
 ```
 
-Added in v1.0.0 (instance)
+Added in v1.0.0
 
 # Pair
 
-```ts
-constructor(readonly fst: A, readonly snd: A) {}
-```
+**Signature** (data type)
 
-Added in v1.0.0 (data)
+```ts
+export class Pair<A> {
+  constructor(readonly fst: A, readonly snd: A) {}
+  ...
+}
+```
 
 ## ap
 
+**Signature** (method)
+
 ```ts
-<B>(fab: Pair<(a: A) => B>): Pair<B>
+ap<B>(fab: Pair<(a: A) => B>): Pair<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## ap\_
 
+Flipped version of [ap](#ap)
+
+**Signature** (method)
+
 ```ts
-<B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C>
+ap_<B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Flipped version of [ap](#ap)
+Added in v1.0.0
 
 ## extend
 
+**Signature** (method)
+
 ```ts
-<B>(f: (fb: Pair<A>) => B): Pair<B>
+extend<B>(f: (fb: Pair<A>) => B): Pair<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## extract
 
+**Signature** (method)
+
 ```ts
-(): A
+extract(): A  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## first
 
+Map a function over the first field of a pair
+
+**Signature** (method)
+
 ```ts
-(f: Endomorphism<A>): Pair<A>
+first(f: Endomorphism<A>): Pair<A>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Map a function over the first field of a pair
+Added in v1.0.0
 
 ## map
 
+**Signature** (method)
+
 ```ts
-<B>(f: (a: A) => B): Pair<B>
+map<B>(f: (a: A) => B): Pair<B>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## reduce
 
+**Signature** (method)
+
 ```ts
-<B>(b: B, f: (b: B, a: A) => B): B
+reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
 ## second
 
+Map a function over the second field of a pair
+
+**Signature** (method)
+
 ```ts
-(f: Endomorphism<A>): Pair<A>
+second(f: Endomorphism<A>): Pair<A>  { ... }
 ```
 
-Added in v1.0.0 (method)
-
-Map a function over the second field of a pair
+Added in v1.0.0
 
 ## swap
 
+Swaps the elements in a pair
+
+**Signature** (method)
+
 ```ts
-(): Pair<A>
+swap(): Pair<A>  { ... }
 ```
 
-Added in v1.0.0 (method)
+Added in v1.0.0
 
-Swaps the elements in a pair
+Added in v1.0.0
 
 ## getMonoid
 
+**Signature** (function)
+
 ```ts
-<A>(M: Monoid<A>): Monoid<Pair<A>>
+export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getOrd
 
+**Signature** (function)
+
 ```ts
-<A>(O: Ord<A>): Ord<Pair<A>>
+export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getSemigroup
 
+**Signature** (function)
+
 ```ts
-<A>(S: Semigroup<A>): Semigroup<Pair<A>>
+export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
 
 ## getSetoid
 
+**Signature** (function)
+
 ```ts
-<A>(S: Setoid<A>): Setoid<Pair<A>>
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0

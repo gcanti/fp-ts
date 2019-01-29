@@ -3,24 +3,28 @@ id: Extend
 title: Module Extend
 ---
 
-[← Back](.)
+[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts)
 
 # Extend
 
+**Signature** (type class)
+
 ```ts
-interface Extend<F> extends Functor<F> {
+export interface Extend<F> extends Functor<F> {
   readonly extend: <A, B>(ea: HKT<F, A>, f: (fa: HKT<F, A>) => B) => HKT<F, B>
 }
 ```
 
-Added in v1.0.0 (type class)
+Added in v1.0.0
 
 ## duplicate
 
+**Signature** (function)
+
 ```ts
-duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>
+export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>  { ... }
 ```
 
-Added in v1.0.0 (function)
+Added in v1.0.0
