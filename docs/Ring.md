@@ -9,7 +9,7 @@ title: Module Ring
 
 # Ring
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L14-L16)
 
 ```ts
 export interface Ring<A> extends Semiring<A> {
@@ -27,7 +27,7 @@ Added in v1.0.0
 
 ## getFunctionRing
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L22-L27)
 
 ```ts
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => { ... }
@@ -37,7 +37,7 @@ Added in v1.0.0
 
 ## getProductRing
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L42-L50)
 
 ```ts
 export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => { ... }
@@ -49,7 +49,7 @@ Added in v1.0.0
 
 `negate x` can be used as a shorthand for `zero - x`
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L34-L36)
 
 ```ts
 export const negate = <A>(ring: Ring<A>) => (a: A): A => { ... }

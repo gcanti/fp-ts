@@ -9,7 +9,7 @@ title: Module FreeGroup
 
 # FreeGroup
 
-**Signature** (data type)
+**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L28-L44)
 
 ```ts
 export class FreeGroup<A> {
@@ -24,7 +24,7 @@ after being reduced to "canonical form", i.e., cancelling adjacent inverses.
 
 ## ap
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L35-L37)
 
 ```ts
 ap<B>(fab: FreeGroup<(a: A) => B>): FreeGroup<B>  { ... }
@@ -34,7 +34,7 @@ Added in v1.13.0
 
 ## ap\_
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L38-L40)
 
 ```ts
 ap_<B, C>(this: FreeGroup<(b: B) => C>, fb: FreeGroup<B>): FreeGroup<C>  { ... }
@@ -44,7 +44,7 @@ Added in v1.13.0
 
 ## chain
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L41-L43)
 
 ```ts
 chain<B>(f: (a: A) => FreeGroup<B>): FreeGroup<B>  { ... }
@@ -54,7 +54,7 @@ Added in v1.13.0
 
 ## map
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L32-L34)
 
 ```ts
 map<B>(f: (a: A) => B): FreeGroup<B>  { ... }
@@ -66,7 +66,7 @@ Added in v1.13.0
 
 ## empty
 
-**Signature** (constant)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L107-L107)
 
 ```ts
 export const empty: FreeGroup<never> = ...
@@ -78,7 +78,7 @@ Added in v1.13.0
 
 Smart constructor which normalizes an array
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L67-L70)
 
 ```ts
 export const fromArray = <A>(S: Setoid<A>): ((as: Array<Either<A, A>>) => FreeGroup<A>) => { ... }
@@ -88,7 +88,7 @@ Added in v1.13.0
 
 ## getGroup
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L113-L121)
 
 ```ts
 export const getGroup = <A>(S: Setoid<A>): Group<FreeGroup<A>> => { ... }
@@ -98,7 +98,7 @@ Added in v1.13.0
 
 ## getSetoid
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L95-L101)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<FreeGroup<A>> => { ... }
@@ -110,7 +110,7 @@ Added in v1.13.0
 
 Reduce a term of a free group to canonical form, i.e. cancelling adjacent inverses.
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L77-L89)
 
 ```ts
 export const normalize = <A>(S: Setoid<A>) => (g: Array<Either<A, A>>): Array<Either<A, A>> => { ... }

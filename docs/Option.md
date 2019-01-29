@@ -9,7 +9,7 @@ title: Module Option
 
 ## option
 
-**Signature** (instance)
+**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L836-L866)
 
 ```ts
 export const option: Monad1<URI> &
@@ -27,7 +27,7 @@ Added in v1.0.0
 
 # Option
 
-**Signature** (data type)
+**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L117-L117)
 
 ```ts
 export type Option<A> = None<A> | Some<A>
@@ -129,7 +129,7 @@ sumLifted(some(1), none) // none
 `alt` short for alternative, takes another `Option`. If this `Option` is a `Some` type then it will be returned, if
 it is a `None` then it will return the next `Some` if it exist. If both are `None` then it will return `none`.
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L220-L222)
 
 ```ts
 alt(fa: Option<A>): Option<A>  { ... }
@@ -152,7 +152,7 @@ Added in v1.0.0
 `ap`, some may also call it "apply". Takes a function `fab` that is in the context of `Option`, and applies that
 function to this `Option`'s value. If the `Option` calling `ap` is `none` it will return `none`.
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L183-L185)
 
 ```ts
 ap<B>(fab: Option<(a: A) => B>): Option<B>  { ... }
@@ -173,7 +173,7 @@ Added in v1.0.0
 
 Flipped version of [ap](#ap)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L195-L197)
 
 ```ts
 ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C>  { ... }
@@ -196,7 +196,7 @@ Returns the result of applying f to this `Option`'s value if this `Option` is no
 `Option` is empty. Slightly different from `map` in that `f` is expected to return an `Option` (which could be
 `None`)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L203-L205)
 
 ```ts
 chain<B>(f: (a: A) => Option<B>): Option<B>  { ... }
@@ -208,7 +208,7 @@ Added in v1.0.0
 
 Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L289-L291)
 
 ```ts
 contains(S: Setoid<A>, a: A): boolean  { ... }
@@ -220,7 +220,7 @@ Added in v1.0.0
 
 Returns `true` if this option is non empty and the predicate `p` returns `true` when applied to this Option's value
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L303-L305)
 
 ```ts
 exists(p: (a: A) => boolean): boolean  { ... }
@@ -230,7 +230,7 @@ Added in v1.0.0
 
 ## extend
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L238-L240)
 
 ```ts
 extend<B>(f: (ea: Option<A>) => B): Option<B>  { ... }
@@ -243,7 +243,7 @@ Added in v1.0.0
 Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value.
 Otherwise returns `None`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L312-L314)
 
 ```ts
 filter(p: Predicate<A>): Option<A>  { ... }
@@ -255,7 +255,7 @@ Added in v1.0.0
 
 Applies a function to each case in the data structure
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L250-L252)
 
 ```ts
 fold<B>(b: B, onSome: (a: A) => B): B  { ... }
@@ -276,7 +276,7 @@ Added in v1.0.0
 
 Lazy version of [fold](#fold)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L254-L256)
 
 ```ts
 foldL<B>(onNone: () => B, onSome: (a: A) => B): B  { ... }
@@ -288,7 +288,7 @@ Added in v1.0.0
 
 Returns the value from this `Some` or the given argument if this is a `None`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L267-L269)
 
 ```ts
 getOrElse(a: A): A  { ... }
@@ -310,7 +310,7 @@ Added in v1.0.0
 
 Lazy version of [getOrElse](#getorelse)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L271-L273)
 
 ```ts
 getOrElseL(f: () => A): A  { ... }
@@ -320,7 +320,7 @@ Added in v1.0.0
 
 ## inspect
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L282-L284)
 
 ```ts
 inspect(): string  { ... }
@@ -332,7 +332,7 @@ Added in v1.0.0
 
 Returns `true` if the option is `None`, `false` otherwise
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L293-L295)
 
 ```ts
 isNone(): this is None<A>  { ... }
@@ -344,7 +344,7 @@ Added in v1.0.0
 
 Returns `true` if the option is an instance of `Some`, `false` otherwise
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L297-L299)
 
 ```ts
 isSome(): this is Some<A>  { ... }
@@ -357,7 +357,7 @@ Added in v1.0.0
 Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors. If it
 maps on `Some` then it will apply the `f` on `Some`'s value, if it maps on `None` it will return `None`.
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L134-L136)
 
 ```ts
 map<B>(f: (a: A) => B): Option<B>  { ... }
@@ -377,7 +377,7 @@ Added in v1.0.0
 
 Maps `f` over this `Option`'s value. If the value returned from `f` is null or undefined, returns `None`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L169-L171)
 
 ```ts
 mapNullable<B>(f: (a: A) => B | null | undefined): Option<B>  { ... }
@@ -420,7 +420,7 @@ Added in v1.0.0
 
 Lazy version of [alt](#alt)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L234-L236)
 
 ```ts
 orElse(fa: Lazy<Option<A>>): Option<A>  { ... }
@@ -438,7 +438,7 @@ Added in v1.6.0
 
 ## reduce
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L206-L208)
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
@@ -452,7 +452,7 @@ Use [filter](#filter) instead.
 Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
 this Option's value. Otherwise returns `None`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L322-L324)
 
 ```ts
 refine<B extends A>(refinement: Refinement<A, B>): Option<B>  { ... }
@@ -464,7 +464,7 @@ Added in v1.3.0
 
 Returns the value from this `Some` or `null` if this is a `None`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L275-L277)
 
 ```ts
 toNullable(): A | null  { ... }
@@ -474,7 +474,7 @@ Added in v1.0.0
 
 ## toString
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L285-L287)
 
 ```ts
 toString(): string  { ... }
@@ -486,7 +486,7 @@ Added in v1.0.0
 
 Returns the value from this `Some` or `undefined` if this is a `None`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L279-L281)
 
 ```ts
 toUndefined(): A | undefined  { ... }
@@ -498,7 +498,7 @@ Added in v1.0.0
 
 ## none
 
-**Signature** (constant)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L331-L331)
 
 ```ts
 export const none: Option<never> = ...
@@ -511,7 +511,7 @@ Added in v1.0.0
 Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
 value wrapped in a `Some`
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L720-L722)
 
 ```ts
 export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => { ... }
@@ -534,7 +534,7 @@ Added in v1.0.0
 Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
 returns the value wrapped in a `Some`
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L651-L653)
 
 ```ts
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => { ... }
@@ -554,7 +554,7 @@ Added in v1.0.0
 
 ## fromPredicate
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L676-L678)
 
 ```ts
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>  { ... }
@@ -578,7 +578,7 @@ Added in v1.0.0
 Use [fromPredicate](#frompredicate) instead.
 Refinement version of [fromPredicate](#frompredicate)
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L749-L751)
 
 ```ts
 export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => { ... }
@@ -588,7 +588,7 @@ Added in v1.3.0
 
 ## getApplyMonoid
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L544-L549)
 
 ```ts
 export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => { ... }
@@ -607,7 +607,7 @@ Added in v1.7.0
 | none    | some(a) | none               |
 | some(a) | some(b) | some(concat(a, b)) |
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L534-L538)
 
 ```ts
 export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => { ... }
@@ -639,7 +639,7 @@ Monoid returning the left-most non-`None` value
 | none    | some(a) | some(a)      |
 | some(a) | some(b) | some(a)      |
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L573-L578)
 
 ```ts
 export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => { ... }
@@ -670,7 +670,7 @@ Monoid returning the right-most non-`None` value
 | none    | some(a) | some(a)      |
 | some(a) | some(b) | some(b)      |
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L602-L604)
 
 ```ts
 export const getLastMonoid = <A = never>(): Monoid<Option<A>> => { ... }
@@ -702,7 +702,7 @@ appended using the provided `Semigroup`
 | none    | some(a) | some(a)            |
 | some(a) | some(b) | some(concat(a, b)) |
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L630-L635)
 
 ```ts
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => { ... }
@@ -731,7 +731,7 @@ the type the `Option` contains.
 
 `None` is considered to be less than any `Some` value.
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L456-L461)
 
 ```ts
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => { ... }
@@ -769,7 +769,7 @@ const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't c
 const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
 ```
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L771-L773)
 
 ```ts
 export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => { ... }
@@ -779,7 +779,7 @@ Added in v1.7.0
 
 ## getSetoid
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L428-L432)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => { ... }
@@ -805,7 +805,7 @@ Added in v1.0.0
 
 Returns `true` if the option is `None`, `false` otherwise
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L738-L740)
 
 ```ts
 export const isNone = <A>(fa: Option<A>): fa is None<A> => { ... }
@@ -817,7 +817,7 @@ Added in v1.0.0
 
 Returns `true` if the option is an instance of `Some`, `false` otherwise
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L729-L731)
 
 ```ts
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => { ... }
@@ -836,7 +836,7 @@ Added in v1.0.0
 Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
 `Some`
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L698-L704)
 
 ```ts
 export const tryCatch = <A>(f: Lazy<A>): Option<A> => { ... }

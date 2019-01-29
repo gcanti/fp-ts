@@ -9,7 +9,7 @@ title: Module HeytingAlgebra
 
 # HeytingAlgebra
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/HeytingAlgebra.ts#L27-L30)
 
 ```ts
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {

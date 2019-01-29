@@ -9,7 +9,7 @@ title: Module Alt
 
 # Alt
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Alt.ts#L17-L19)
 
 ```ts
 export interface Alt<F> extends Functor<F> {

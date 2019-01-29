@@ -9,7 +9,7 @@ title: Module Chain
 
 # Chain
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Chain.ts#L17-L19)
 
 ```ts
 export interface Chain<F> extends Apply<F> {
@@ -30,7 +30,7 @@ Added in v1.0.0
 
 ## flatten
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Chain.ts#L57-L59)
 
 ```ts
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>  { ... }

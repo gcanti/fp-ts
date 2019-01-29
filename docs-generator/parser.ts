@@ -7,15 +7,28 @@ import {
   MethodDeclaration,
   SourceFile,
   TypeAliasDeclaration,
+  TypeParameterDeclaration,
   VariableDeclaration,
-  VariableStatement,
-  TypeParameterDeclaration
+  VariableStatement
 } from 'ts-simple-ast'
 import { ReaderEither } from '../examples/ReaderEither'
 import { flatten, lefts, rights } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import { fromNullable, none, Option, some } from '../src/Option'
-import { Constant, Constructor, Data, Export, Func, Instance, Interface, Method, Module, Typeclass } from './domain'
+import {
+  constant,
+  constructor,
+  data,
+  Export,
+  func,
+  instance,
+  inter,
+  location,
+  Method,
+  method,
+  Module,
+  typeClass
+} from './domain'
 
 const isNotFound = (x: ParseError): x is NotFound => {
   return x._tag === 'NotFound'
@@ -88,7 +101,7 @@ const getMethodSignature = (md: MethodDeclaration): string => {
   return `${text.substring(0, end)} { ... }`
 }
 
-const getMethod = (md: MethodDeclaration): Method => {
+const getMethod = (currentModuleName: string, md: MethodDeclaration): Method => {
   const overloads = md.getOverloads()
   const annotation = overloads.length === 0 ? getAnnotation(md.getJsDocs()) : getAnnotation(overloads[0].getJsDocs())
   const name = md.getName()
@@ -97,19 +110,12 @@ const getMethod = (md: MethodDeclaration): Method => {
   const since = getSince(annotation)
   const example = getExample(annotation)
   const deprecated = getDeprecated(annotation)
-  return {
-    type: 'method',
-    name,
-    signature,
-    description,
-    since,
-    example,
-    deprecated
-  }
+  const loc = location(getPath(currentModuleName), md.getStartLineNumber(), md.getEndLineNumber())
+  return method(name, signature, description, since, example, deprecated, loc)
 }
 
-const getClassMethods = (cd: ClassDeclaration): Array<Method> => {
-  return cd.getInstanceMethods().map(md => getMethod(md))
+const getClassMethods = (currentModuleName: string, cd: ClassDeclaration): Array<Method> => {
+  return cd.getInstanceMethods().map(md => getMethod(currentModuleName, md))
 }
 
 const getAnnotation = (jsdocs: Array<JSDoc>): Annotation => {
@@ -199,32 +205,33 @@ const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): ParseResult<E
     const annotation = getAnnotation(tad.getJsDocs())
     if (isData(annotation)) {
       const dataName = tad.getName()
-      const description = fromJSDocDescription(annotation.description)
-      const tags = annotation.tags.filter(isConstructorTag)
-      const eitherConstructors = tags.map(tag => {
-        const name = tag.name
-        if (typeof name === 'undefined') {
-          return ko(new DataMissingConstructorName(e.currentModuleName, dataName))
-        }
-        const klass = e.currentSourceFile.getClass(name)
-        if (typeof klass === 'undefined') {
-          return ko(new DataInvalidConstructorName(e.currentModuleName, name))
-        }
-        const methods = getClassMethods(klass)
-        return ok(new Constructor(name, methods))
-      })
-      const errors = flatten(lefts(eitherConstructors))
-      if (errors.length > 0) {
-        return kos(errors)
-      }
-      const constructors = rights(eitherConstructors)
-      const signature = getTypeAliasDeclarationDataSignature(tad, e.currentSourceFile, tags)
       const since = getSince(annotation)
-      const example = getExample(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, dataName))
       } else {
-        return ok(new Data(dataName, signature, description, constructors, since.value, example))
+        const description = fromJSDocDescription(annotation.description)
+        const tags = annotation.tags.filter(isConstructorTag)
+        const eitherConstructors = tags.map(tag => {
+          const name = tag.name
+          if (typeof name === 'undefined') {
+            return ko(new DataMissingConstructorName(e.currentModuleName, dataName))
+          }
+          const klass = e.currentSourceFile.getClass(name)
+          if (typeof klass === 'undefined') {
+            return ko(new DataInvalidConstructorName(e.currentModuleName, name))
+          }
+          const methods = getClassMethods(e.currentModuleName, klass)
+          return ok(constructor(name, methods))
+        })
+        const errors = flatten(lefts(eitherConstructors))
+        if (errors.length > 0) {
+          return kos(errors)
+        }
+        const constructors = rights(eitherConstructors)
+        const signature = getTypeAliasDeclarationDataSignature(tad, e.currentSourceFile, tags)
+        const example = getExample(annotation)
+        const loc = location(getPath(e.currentModuleName), tad.getStartLineNumber(), tad.getEndLineNumber())
+        return ok(data(dataName, signature, description, constructors, since.value, example, loc))
       }
     }
     return notFound
@@ -253,16 +260,17 @@ const parseClassDeclarationData = (c: ClassDeclaration): ParseResult<Export> => 
       if (typeof dataName === 'undefined') {
         return ko(new NameMissing(e.currentModuleName))
       }
-      const signature = getClassDeclarationDataSignature(c)
-      const description = fromJSDocDescription(annotation.description)
-      const methods = getClassMethods(c)
-      const constructors = [new Constructor(dataName, methods)]
       const since = getSince(annotation)
-      const example = getExample(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, dataName))
       } else {
-        return ok(new Data(dataName, signature, description, constructors, since.value, example))
+        const signature = getClassDeclarationDataSignature(c)
+        const description = fromJSDocDescription(annotation.description)
+        const methods = getClassMethods(e.currentModuleName, c)
+        const constructors = [constructor(dataName, methods)]
+        const example = getExample(annotation)
+        const loc = location(getPath(e.currentModuleName), c.getStartLineNumber(), c.getEndLineNumber())
+        return ok(data(dataName, signature, description, constructors, since.value, example, loc))
       }
     }
     return notFound
@@ -293,13 +301,14 @@ const parseInstanceVariableDeclaration = (vd: VariableDeclaration): ParseResult<
         const annotation = getAnnotation(vs.getJsDocs())
         if (isInstance(annotation)) {
           const name = vd.getName()
-          const description = fromJSDocDescription(annotation.description)
-          const signature = getInstanceVariableDeclarationSignature(vd)
           const since = getSince(annotation)
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
           } else {
-            return ok(new Instance(name, signature, description, since.value))
+            const description = fromJSDocDescription(annotation.description)
+            const signature = getInstanceVariableDeclarationSignature(vd)
+            const loc = location(getPath(e.currentModuleName), vd.getStartLineNumber(), vd.getEndLineNumber())
+            return ok(instance(name, signature, description, since.value, loc))
           }
         }
       }
@@ -324,13 +333,14 @@ const parseConstantVariableDeclaration = (vd: VariableDeclaration): ParseResult<
         const annotation = getAnnotation(vs.getJsDocs())
         if (isConstant(annotation)) {
           const name = vd.getName()
-          const description = fromJSDocDescription(annotation.description)
-          const signature = getConstantVariableDeclarationSignature(vd)
           const since = getSince(annotation)
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
           } else {
-            return ok(new Constant(name, signature, description, since.value))
+            const description = fromJSDocDescription(annotation.description)
+            const signature = getConstantVariableDeclarationSignature(vd)
+            const loc = location(getPath(e.currentModuleName), vd.getStartLineNumber(), vd.getEndLineNumber())
+            return ok(constant(name, signature, description, since.value, loc))
           }
         }
       }
@@ -355,16 +365,17 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): ParseResult<
         const annotation = getAnnotation(vs.getJsDocs())
         if (isFunc(annotation)) {
           const name = vd.getName()
-          const description = fromJSDocDescription(annotation.description)
-          const signature = getFunctionVariableDeclarationSignature(vd)
           const since = getSince(annotation)
-          const example = getExample(annotation)
-          const deprecated = getDeprecated(annotation)
-          const alias = getAlias(annotation)
           if (since.isNone()) {
             return ko(new SinceMissing(e.currentModuleName, name))
           } else {
-            return ok(new Func(name, signature, description, alias, since.value, example, deprecated))
+            const description = fromJSDocDescription(annotation.description)
+            const signature = getFunctionVariableDeclarationSignature(vd)
+            const example = getExample(annotation)
+            const deprecated = getDeprecated(annotation)
+            const alias = getAlias(annotation)
+            const loc = location(getPath(e.currentModuleName), vd.getStartLineNumber(), vd.getEndLineNumber())
+            return ok(func(name, signature, description, alias, since.value, example, deprecated, loc))
           }
         }
       }
@@ -382,14 +393,15 @@ const parseTypeclassInterface = (id: InterfaceDeclaration): ParseResult<Export> 
     const annotation = getAnnotation(id.getJsDocs())
     if (isTypeclass(annotation)) {
       const name = id.getName()
-      const signature = getTypeclassInterfaceSignature(id)
-      const description = fromJSDocDescription(annotation.description)
       const since = getSince(annotation)
-      const deprecated = getDeprecated(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, name))
       } else {
-        return ok(new Typeclass(name, signature, description, since.value, deprecated))
+        const signature = getTypeclassInterfaceSignature(id)
+        const description = fromJSDocDescription(annotation.description)
+        const deprecated = getDeprecated(annotation)
+        const loc = location(getPath(e.currentModuleName), id.getStartLineNumber(), id.getEndLineNumber())
+        return ok(typeClass(name, signature, description, since.value, deprecated, loc))
       }
     }
     return notFound
@@ -405,13 +417,14 @@ const parseInterface = (id: InterfaceDeclaration): ParseResult<Export> => {
     const annotation = getAnnotation(id.getJsDocs())
     if (isInterface(annotation)) {
       const name = id.getName()
-      const signature = getInterfaceSignature(id)
-      const description = fromJSDocDescription(annotation.description)
       const since = getSince(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, name))
       } else {
-        return ok(new Interface(name, signature, description, since.value))
+        const signature = getInterfaceSignature(id)
+        const description = fromJSDocDescription(annotation.description)
+        const loc = location(getPath(e.currentModuleName), id.getStartLineNumber(), id.getEndLineNumber())
+        return ok(inter(name, signature, description, since.value, loc))
       }
     }
     return notFound
@@ -433,15 +446,16 @@ const parseFunctionDeclaration = (fd: FunctionDeclaration): ParseResult<Export> 
       if (typeof name === 'undefined') {
         return ko(new NameMissing(e.currentModuleName))
       }
-      const signature = getFunctionDeclarationSignature(fd)
-      const description = fromJSDocDescription(annotation.description)
       const since = getSince(annotation)
-      const example = getExample(annotation)
-      const deprecated = getDeprecated(annotation)
       if (since.isNone()) {
         return ko(new SinceMissing(e.currentModuleName, name))
       } else {
-        return ok(new Func(name, signature, description, none, since.value, example, deprecated))
+        const signature = getFunctionDeclarationSignature(fd)
+        const description = fromJSDocDescription(annotation.description)
+        const example = getExample(annotation)
+        const deprecated = getDeprecated(annotation)
+        const loc = location(getPath(e.currentModuleName), fd.getStartLineNumber(), fd.getEndLineNumber())
+        return ok(func(name, signature, description, none, since.value, example, deprecated, loc))
       }
     }
     return notFound
@@ -482,5 +496,9 @@ export const parseModule: ParseResult<Module> = new ReaderEither(e => {
   }
 
   const exports = rights(eitherExports)
-  return ok(new Module(e.currentModuleName, exports))
+  return ok(new Module(e.currentModuleName, exports, getPath(e.currentModuleName)))
 })
+
+const getPath = (name: string): string => {
+  return `https://github.com/gcanti/fp-ts/blob/master/src/${name}.ts`
+}

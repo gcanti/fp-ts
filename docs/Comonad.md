@@ -9,7 +9,7 @@ title: Module Comonad
 
 # Comonad
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Comonad.ts#L8-L10)
 
 ```ts
 export interface Comonad<F> extends Extend<F> {

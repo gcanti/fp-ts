@@ -9,7 +9,7 @@ title: Module Applicative
 
 # Applicative
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L37-L39)
 
 ```ts
 export interface Applicative<F> extends Apply<F> {
@@ -37,7 +37,7 @@ Added in v1.0.0
 
 ## getApplicativeComposition
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L215-L222)
 
 ```ts
 export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicative<G>): ApplicativeComposition<F, G>  { ... }
@@ -50,7 +50,7 @@ Added in v1.0.0
 If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
 Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L254-L260)
 
 ```ts
 export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>  { ... }
@@ -76,7 +76,7 @@ Added in v1.4.0
 
 Perform a applicative action when a condition is true
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts#L166-L168)
 
 ```ts
 export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>  { ... }

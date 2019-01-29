@@ -9,7 +9,7 @@ title: Module Lattice
 
 # Lattice
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Lattice.ts#L13-L13)
 
 ```ts
 export interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}

@@ -9,7 +9,7 @@ title: Module Compactable
 
 ## Separated
 
-**Signature** (interface)
+**Signature** (interface) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Compactable.ts#L28-L31)
 
 ```ts
 interface Separated<A, B> {
@@ -24,7 +24,7 @@ Added in v1.7.0
 
 # Compactable
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Compactable.ts#L44-L54)
 
 ```ts
 export interface Compactable<F> {
@@ -50,7 +50,7 @@ Added in v1.7.0
 
 ## getCompactableComposition
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Compactable.ts#L192-L207)
 
 ```ts
 export function getCompactableComposition<F, G>(

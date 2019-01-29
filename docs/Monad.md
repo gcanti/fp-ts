@@ -9,7 +9,7 @@ title: Module Monad
 
 # Monad
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monad.ts#L21-L21)
 
 ```ts
 export interface Monad<F> extends Applicative<F>, Chain<F> {}

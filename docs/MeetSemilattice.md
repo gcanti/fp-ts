@@ -9,7 +9,7 @@ title: Module MeetSemilattice
 
 # MeetSemilattice
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/MeetSemilattice.ts#L14-L16)
 
 ```ts
 export interface MeetSemilattice<A> {

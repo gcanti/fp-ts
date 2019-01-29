@@ -9,7 +9,7 @@ title: Module MonadTask
 
 # MonadTask
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/MonadTask.ts#L10-L12)
 
 ```ts
 export interface MonadTask<M> extends Monad<M> {

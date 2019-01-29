@@ -9,7 +9,7 @@ title: Module Bounded
 
 # Bounded
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Bounded.ts#L13-L16)
 
 ```ts
 export interface Bounded<A> extends Ord<A> {
@@ -28,7 +28,7 @@ Added in v1.0.0
 
 ## boundedNumber
 
-**Signature** (instance)
+**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Bounded.ts#L22-L26)
 
 ```ts
 export const boundedNumber: Bounded<number> = { ... }

@@ -9,7 +9,7 @@ title: Module Semigroupoid
 
 # Semigroupoid
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroupoid.ts#L7-L10)
 
 ```ts
 export interface Semigroupoid<F> {

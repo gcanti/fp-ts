@@ -9,7 +9,7 @@ title: Module Semiring
 
 # Semiring
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts#L27-L32)
 
 ```ts
 export interface Semiring<A> {
@@ -44,7 +44,7 @@ Added in v1.0.0
 
 ## getFunctionSemiring
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts#L38-L45)
 
 ```ts
 export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => { ... }

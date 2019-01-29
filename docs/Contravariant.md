@@ -9,7 +9,7 @@ title: Module Contravariant
 
 # Contravariant
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Contravariant.ts#L7-L10)
 
 ```ts
 export interface Contravariant<F> {
@@ -22,7 +22,7 @@ Added in v1.0.0
 
 ## lift
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Contravariant.ts#L60-L62)
 
 ```ts
 export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>  { ... }

@@ -9,7 +9,7 @@ title: Module NonEmptyArray
 
 ## nonEmptyArray
 
-**Signature** (instance)
+**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L642-L665)
 
 ```ts
 export const nonEmptyArray: Monad1<URI> &
@@ -24,7 +24,7 @@ Added in v1.0.0
 
 # NonEmptyArray
 
-**Signature** (data type)
+**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L45-L449)
 
 ```ts
 export class NonEmptyArray<A> {
@@ -37,7 +37,7 @@ Data structure which represents non-empty arrays
 
 ## ap
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L97-L99)
 
 ```ts
 ap<B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B>  { ... }
@@ -59,7 +59,7 @@ Added in v1.0.0
 
 Flipped version of [ap](#ap)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L111-L113)
 
 ```ts
 ap_<B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C>  { ... }
@@ -79,7 +79,7 @@ Added in v1.0.0
 
 ## chain
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L123-L125)
 
 ```ts
 chain<B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B>  { ... }
@@ -99,7 +99,7 @@ Added in v1.0.0
 
 ## concat
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L135-L137)
 
 ```ts
 concat(y: NonEmptyArray<A>): NonEmptyArray<A>  { ... }
@@ -121,7 +121,7 @@ Added in v1.0.0
 
 Concatenates this [NonEmptyArray](./NonEmptyArray.md) and passed [Array](./Array.md)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L70-L72)
 
 ```ts
 concatArray(as: Array<A>): NonEmptyArray<A>  { ... }
@@ -139,7 +139,7 @@ Added in v1.0.0
 
 ## extend
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L179-L181)
 
 ```ts
 extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B>  { ... }
@@ -159,7 +159,7 @@ Added in v1.0.0
 
 ## extract
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L189-L191)
 
 ```ts
 extract(): A  { ... }
@@ -179,7 +179,7 @@ Added in v1.0.0
 
 Filter an NonEmptyArray, keeping the elements which satisfy a predicate function, creating a new NonEmptyArray or returning `None` in case the resulting NonEmptyArray would have no remaining elements.
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L437-L439)
 
 ```ts
 filter(predicate: Predicate<A>): Option<NonEmptyArray<A>>  { ... }
@@ -189,7 +189,7 @@ Added in v1.11.0
 
 ## filterWithIndex
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L445-L448)
 
 ```ts
 filterWithIndex(predicate: (i: number, a: A) => boolean): Option<NonEmptyArray<A>>  { ... }
@@ -201,7 +201,7 @@ Added in v1.12.0
 
 Find the first element which satisfies a predicate (or a refinement) function
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L319-L321)
 
 ```ts
 findFirst(predicate: Predicate<A>): Option<A>  { ... }
@@ -222,7 +222,7 @@ Added in v1.11.0
 
 Find the first index for which a predicate holds
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L354-L361)
 
 ```ts
 findIndex(predicate: Predicate<A>): Option<number>  { ... }
@@ -244,7 +244,7 @@ Added in v1.11.0
 
 Find the last element which satisfies a predicate function
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L336-L339)
 
 ```ts
 findLast(predicate: Predicate<A>): Option<A>  { ... }
@@ -265,7 +265,7 @@ Added in v1.11.0
 
 Returns the index of the last element of the list which matches the predicate
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L381-L384)
 
 ```ts
 findLastIndex(predicate: Predicate<A>): Option<number>  { ... }
@@ -290,7 +290,7 @@ Added in v1.11.0
 
 ## foldr
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L160-L162)
 
 ```ts
 foldr<B>(b: B, f: (a: A, b: B) => B): B  { ... }
@@ -300,7 +300,7 @@ Added in v1.12.0
 
 ## foldrWithIndex
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L167-L169)
 
 ```ts
 foldrWithIndex<B>(b: B, f: (i: number, a: A, b: B) => B): B  { ... }
@@ -312,7 +312,7 @@ Added in v1.12.0
 
 This function provides a safe way to read a value at a particular index from an NonEmptyArray
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L302-L304)
 
 ```ts
 index(i: number): Option<A>  { ... }
@@ -334,7 +334,7 @@ Added in v1.11.0
 
 Insert an element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L398-L405)
 
 ```ts
 insertAt(i: number, a: A): Option<NonEmptyArray<A>>  { ... }
@@ -355,7 +355,7 @@ Added in v1.11.0
 
 Same as [toString](#tostring)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L196-L198)
 
 ```ts
 inspect(): string  { ... }
@@ -367,7 +367,7 @@ Added in v1.0.0
 
 Gets last element of this [NonEmptyArray](./NonEmptyArray.md)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L248-L250)
 
 ```ts
 last(): A  { ... }
@@ -386,7 +386,7 @@ Added in v1.6.0
 
 ## length
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L284-L286)
 
 ```ts
 length(): number  { ... }
@@ -396,7 +396,7 @@ Added in v1.10.0
 
 ## map
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L81-L83)
 
 ```ts
 map<B>(f: (a: A) => B): NonEmptyArray<B>  { ... }
@@ -415,7 +415,7 @@ Added in v1.0.0
 
 ## mapWithIndex
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L85-L87)
 
 ```ts
 mapWithIndex<B>(f: (i: number, a: A) => B): NonEmptyArray<B>  { ... }
@@ -427,7 +427,7 @@ Added in v1.0.0
 
 Gets maximum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L233-L235)
 
 ```ts
 max(ord: Ord<A>): A  { ... }
@@ -448,7 +448,7 @@ Added in v1.3.0
 
 Gets minimum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L218-L220)
 
 ```ts
 min(ord: Ord<A>): A  { ... }
@@ -467,7 +467,7 @@ Added in v1.3.0
 
 ## reduce
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L146-L148)
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
@@ -486,7 +486,7 @@ Added in v1.0.0
 
 ## reduceWithIndex
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L153-L155)
 
 ```ts
 reduceWithIndex<B>(b: B, f: (i: number, b: B, a: A) => B): B  { ... }
@@ -498,7 +498,7 @@ Added in v1.12.0
 
 Reverts this [NonEmptyArray](./NonEmptyArray.md)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L277-L279)
 
 ```ts
 reverse(): NonEmptyArray<A>  { ... }
@@ -518,7 +518,7 @@ Added in v1.6.0
 
 Sorts this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L263-L265)
 
 ```ts
 sort(ord: Ord<A>): NonEmptyArray<A>  { ... }
@@ -539,7 +539,7 @@ Added in v1.6.0
 
 Converts this [NonEmptyArray](./NonEmptyArray.md) to plain [Array](./Array.md)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L58-L60)
 
 ```ts
 toArray(): Array<A>  { ... }
@@ -559,7 +559,7 @@ Added in v1.0.0
 
 Return stringified representation of this [NonEmptyArray](./NonEmptyArray.md)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L203-L205)
 
 ```ts
 toString(): string  { ... }
@@ -571,7 +571,7 @@ Added in v1.0.0
 
 Change the element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L421-L428)
 
 ```ts
 updateAt(i: number, a: A): Option<NonEmptyArray<A>>  { ... }
@@ -595,7 +595,7 @@ Added in v1.0.0
 
 Builds [NonEmptyArray](./NonEmptyArray.md) from [Array](./Array.md) returning [Option#none](./Option.md#none) or [Option#some](./Option.md#some) depending on amount of values in passed array
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L460-L462)
 
 ```ts
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => { ... }
@@ -607,7 +607,7 @@ Added in v1.0.0
 
 Builds [Semigroup](./Semigroup.md) instance for [NonEmptyArray](./NonEmptyArray.md) of specified type arument
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L493-L495)
 
 ```ts
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => { ... }
@@ -619,7 +619,7 @@ Added in v1.0.0
 
 Group equal, consecutive elements of an array into non empty arrays.
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L513-L533)
 
 ```ts
 export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => { ... }
@@ -645,7 +645,7 @@ Added in v1.7.0
 Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
 function on each element, and grouping the results according to values returned
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L614-L625)
 
 ```ts
 export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => { ... }
@@ -668,7 +668,7 @@ Added in v1.10.0
 
 Sort and then group the elements of an array into non empty arrays.
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L547-L552)
 
 ```ts
 export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) => { ... }

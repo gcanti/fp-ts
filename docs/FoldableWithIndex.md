@@ -9,7 +9,7 @@ title: Module FoldableWithIndex
 
 # FoldableWithIndex
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FoldableWithIndex.ts#L35-L39)
 
 ```ts
 export interface FoldableWithIndex<F, I> extends Foldable2v<F> {
@@ -32,7 +32,7 @@ Added in v1.12.0
 
 ## getFoldableWithIndexComposition
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FoldableWithIndex.ts#L191-L207)
 
 ```ts
 export function getFoldableWithIndexComposition<F, FI, G, GI>(

@@ -9,7 +9,7 @@ title: Module TraversableWithIndex
 
 # TraversableWithIndex
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TraversableWithIndex.ts#L30-L32)
 
 ```ts
 export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, FoldableWithIndex<T, I>, Traversable2v<T> {

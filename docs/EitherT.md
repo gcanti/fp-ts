@@ -9,7 +9,7 @@ title: Module EitherT
 
 ## bimap
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L127-L131)
 
 ```ts
 export function bimap<F>(
@@ -21,7 +21,7 @@ Added in v1.2.0
 
 ## chain
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L37-L39)
 
 ```ts
 export function chain<F>(F: Monad<F>): EitherT<F>['chain']  { ... }
@@ -31,7 +31,7 @@ Added in v1.0.0
 
 ## fold
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L89-L93)
 
 ```ts
 export function fold<F>(
@@ -43,7 +43,7 @@ Added in v1.0.0
 
 ## fromEither
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L72-L74)
 
 ```ts
 export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>>  { ... }
@@ -53,7 +53,7 @@ Added in v1.0.0
 
 ## getEitherT
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L140-L147)
 
 ```ts
 export function getEitherT<M>(M: Monad<M>): EitherT<M>  { ... }
@@ -63,7 +63,7 @@ Added in v1.0.0
 
 ## left
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L59-L61)
 
 ```ts
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>  { ... }
@@ -73,7 +73,7 @@ Added in v1.0.0
 
 ## mapLeft
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L108-L112)
 
 ```ts
 export function mapLeft<F>(
@@ -85,7 +85,7 @@ Added in v1.0.0
 
 ## right
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L48-L50)
 
 ```ts
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>  { ... }

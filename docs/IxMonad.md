@@ -9,7 +9,7 @@ title: Module IxMonad
 
 # IxMonad
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts#L10-L14)
 
 ```ts
 export interface IxMonad<F> {
@@ -23,7 +23,7 @@ Added in v1.0.0
 
 ## iapplyFirst
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts#L32-L36)
 
 ```ts
 export function iapplyFirst<F>(
@@ -35,7 +35,7 @@ Added in v1.0.0
 
 ## iapplySecond
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts#L48-L52)
 
 ```ts
 export function iapplySecond<F>(

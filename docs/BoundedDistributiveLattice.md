@@ -9,7 +9,7 @@ title: Module BoundedDistributiveLattice
 
 # BoundedDistributiveLattice
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedDistributiveLattice.ts#L11-L11)
 
 ```ts
 export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {}
@@ -21,7 +21,7 @@ Added in v1.4.0
 
 ## getMinMaxBoundedDistributiveLattice
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedDistributiveLattice.ts#L17-L26)
 
 ```ts
 export const getMinMaxBoundedDistributiveLattice = <A>(O: Ord<A>) => (

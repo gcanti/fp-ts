@@ -9,7 +9,7 @@ title: Module ChainRec
 
 # ChainRec
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ChainRec.ts#L9-L11)
 
 ```ts
 export interface ChainRec<F> extends Chain<F> {
@@ -21,7 +21,7 @@ Added in v1.0.0
 
 ## tailRec
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ChainRec.ts#L37-L43)
 
 ```ts
 export const tailRec = <A, B>(f: (a: A) => Either<A, B>, a: A): B => { ... }

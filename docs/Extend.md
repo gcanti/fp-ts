@@ -9,7 +9,7 @@ title: Module Extend
 
 # Extend
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts#L9-L11)
 
 ```ts
 export interface Extend<F> extends Functor<F> {
@@ -21,7 +21,7 @@ Added in v1.0.0
 
 ## duplicate
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts#L47-L49)
 
 ```ts
 export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>  { ... }

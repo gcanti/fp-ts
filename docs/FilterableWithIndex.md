@@ -9,7 +9,7 @@ title: Module FilterableWithIndex
 
 # FilterableWithIndex
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FilterableWithIndex.ts#L19-L27)
 
 ```ts
 export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {

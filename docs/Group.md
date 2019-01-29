@@ -9,7 +9,7 @@ title: Module Group
 
 # Group
 
-**Signature** (type class)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Group.ts#L11-L13)
 
 ```ts
 export interface Group<A> extends Monoid<A> {

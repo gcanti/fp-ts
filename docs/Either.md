@@ -9,7 +9,7 @@ title: Module Either
 
 ## either
 
-**Signature** (instance)
+**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L688-L709)
 
 ```ts
 export const either: Monad2<URI> &
@@ -25,7 +25,7 @@ Added in v1.0.0
 
 # Either
 
-**Signature** (data type)
+**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L61-L61)
 
 ```ts
 export type Either<L, A> = Left<L, A> | Right<L, A>
@@ -68,7 +68,7 @@ left(23).map(double) // left(23)
 
 ## alt
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L92-L94)
 
 ```ts
 alt(fy: Either<L, A>): Either<L, A>  { ... }
@@ -78,7 +78,7 @@ Added in v1.0.0
 
 ## ap
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L76-L78)
 
 ```ts
 ap<B>(fab: Either<L, (a: A) => B>): Either<L, B>  { ... }
@@ -90,7 +90,7 @@ Added in v1.0.0
 
 Flipped version of [ap](#ap)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L82-L84)
 
 ```ts
 ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C>  { ... }
@@ -100,7 +100,7 @@ Added in v1.0.0
 
 ## bimap
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L89-L91)
 
 ```ts
 bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B>  { ... }
@@ -112,7 +112,7 @@ Added in v1.0.0
 
 Binds the given function across `Right`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L86-L88)
 
 ```ts
 chain<B>(f: (a: A) => Either<L, B>): Either<L, B>  { ... }
@@ -122,7 +122,7 @@ Added in v1.0.0
 
 ## extend
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L109-L111)
 
 ```ts
 extend<B>(f: (ea: Either<L, A>) => B): Either<L, B>  { ... }
@@ -136,7 +136,7 @@ Returns `Right` with the existing value of `Right` if this is a `Right` and the 
 right value, returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right
 value, returns `Left` with the existing value of `Left` if this is a `Left`.
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L165-L167)
 
 ```ts
 filterOrElse(_: Predicate<A>, zero: L): Either<L, A>  { ... }
@@ -158,7 +158,7 @@ Added in v1.3.0
 
 Lazy version of [filterOrElse](#filterorelse)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L174-L176)
 
 ```ts
 filterOrElseL(_: Predicate<A>, zero: (a: A) => L): Either<L, A>  { ... }
@@ -170,7 +170,7 @@ Added in v1.3.0
 
 Applies a function to each case in the data structure
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L116-L118)
 
 ```ts
 fold<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B  { ... }
@@ -182,7 +182,7 @@ Added in v1.0.0
 
 Returns the value from this `Right` or the given argument if this is a `Left`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L120-L122)
 
 ```ts
 getOrElse(a: A): A  { ... }
@@ -194,7 +194,7 @@ Added in v1.0.0
 
 Returns the value from this `Right` or the result of given argument if this is a `Left`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L124-L126)
 
 ```ts
 getOrElseL(f: (l: L) => A): A  { ... }
@@ -204,7 +204,7 @@ Added in v1.0.0
 
 ## inspect
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L131-L133)
 
 ```ts
 inspect(): string  { ... }
@@ -216,7 +216,7 @@ Added in v1.0.0
 
 Returns `true` if the either is an instance of `Left`, `false` otherwise
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L138-L140)
 
 ```ts
 isLeft(): this is Left<L, A>  { ... }
@@ -228,7 +228,7 @@ Added in v1.0.0
 
 Returns `true` if the either is an instance of `Right`, `false` otherwise
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L142-L144)
 
 ```ts
 isRight(): this is Right<L, A>  { ... }
@@ -240,7 +240,7 @@ Added in v1.0.0
 
 The given function is applied if this is a `Right`
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L73-L75)
 
 ```ts
 map<B>(f: (a: A) => B): Either<L, B>  { ... }
@@ -252,7 +252,7 @@ Added in v1.0.0
 
 Maps the left side of the disjunction
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L128-L130)
 
 ```ts
 mapLeft<M>(f: (l: L) => M): Either<M, A>  { ... }
@@ -264,7 +264,7 @@ Added in v1.0.0
 
 Lazy version of [alt](#alt)
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L106-L108)
 
 ```ts
 orElse<M>(fy: (l: L) => Either<M, A>): Either<M, A>  { ... }
@@ -282,7 +282,7 @@ Added in v1.6.0
 
 ## reduce
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L112-L114)
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
@@ -294,7 +294,7 @@ Added in v1.0.0
 
 Use [filterOrElse](#filterorelse) instead
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L182-L184)
 
 ```ts
 refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>  { ... }
@@ -307,7 +307,7 @@ Added in v1.6.0
 Lazy version of [refineOrElse](#refineorelse)
 Use [filterOrElseL](#filterorelsel) instead
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L191-L193)
 
 ```ts
 refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>  { ... }
@@ -319,7 +319,7 @@ Added in v1.6.0
 
 Swaps the disjunction values
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L146-L148)
 
 ```ts
 swap(): Either<A, L>  { ... }
@@ -329,7 +329,7 @@ Added in v1.0.0
 
 ## toString
 
-**Signature** (method)
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L134-L136)
 
 ```ts
 toString(): string  { ... }
@@ -344,7 +344,7 @@ Added in v1.0.0
 Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
 the provided default as a `Left`
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L475-L477)
 
 ```ts
 export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> => { ... }
@@ -357,7 +357,7 @@ Added in v1.0.0
 Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
 the provided default as a `Left`
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L456-L458)
 
 ```ts
 export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => { ... }
@@ -369,7 +369,7 @@ Added in v1.0.0
 
 Lazy version of [fromOption](#fromoption)
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L465-L467)
 
 ```ts
 export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => { ... }
@@ -379,7 +379,7 @@ Added in v1.3.0
 
 ## fromPredicate
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L434-L436)
 
 ```ts
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>  { ... }
@@ -391,7 +391,7 @@ Added in v1.0.0
 
 Use [fromPredicate](#frompredicate) instead
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L444-L448)
 
 ```ts
 export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => L) => (
@@ -403,7 +403,7 @@ Added in v1.6.0
 
 ## fromValidation
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L518-L520)
 
 ```ts
 export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => { ... }
@@ -413,7 +413,7 @@ Added in v1.0.0
 
 ## getApplyMonoid
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L337-L342)
 
 ```ts
 export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => { ... }
@@ -425,7 +425,7 @@ Added in v1.7.0
 
 [Apply](./Apply.md) semigroup
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L327-L331)
 
 ```ts
 export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => { ... }
@@ -450,7 +450,7 @@ Added in v1.7.0
 
 Builds [Compactable](./Compactable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L545-L580)
 
 ```ts
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L>  { ... }
@@ -462,7 +462,7 @@ Added in v1.7.0
 
 Builds [Filterable](./Filterable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L587-L648)
 
 ```ts
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>  { ... }
@@ -475,7 +475,7 @@ Added in v1.7.0
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
 appended using the provided `Semigroup`
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L305-L309)
 
 ```ts
 export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => { ... }
@@ -498,7 +498,7 @@ Added in v1.7.0
 
 ## getSetoid
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L281-L286)
 
 ```ts
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => { ... }
@@ -510,7 +510,7 @@ Added in v1.0.0
 
 Builds [Witherable](./Witherable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L655-L682)
 
 ```ts
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L>  { ... }
@@ -522,7 +522,7 @@ Added in v1.7.0
 
 Returns `true` if the either is an instance of `Left`, `false` otherwise
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L527-L529)
 
 ```ts
 export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => { ... }
@@ -534,7 +534,7 @@ Added in v1.0.0
 
 Returns `true` if the either is an instance of `Right`, `false` otherwise
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L536-L538)
 
 ```ts
 export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => { ... }
@@ -547,7 +547,7 @@ Added in v1.0.0
 Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
 structure
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L412-L414)
 
 ```ts
 export const left = <L, A>(l: L): Either<L, A> => { ... }
@@ -567,7 +567,7 @@ Added in v1.0.0
 
 Default value for the optional `onerror` argument of `tryCatch`
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L484-L490)
 
 ```ts
 export const toError = (e: unknown): Error => { ... }
@@ -579,7 +579,7 @@ Added in v1.0.0
 
 Use [tryCatch2v](#trycatch2v)
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L498-L500)
 
 ```ts
 export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A> => { ... }
@@ -589,7 +589,7 @@ Added in v1.0.0
 
 ## tryCatch2v
 
-**Signature** (function)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L506-L512)
 
 ```ts
 export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => { ... }

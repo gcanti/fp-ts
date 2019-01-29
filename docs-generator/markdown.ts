@@ -14,6 +14,7 @@ import {
   isInstance,
   isInterface,
   isTypeclass,
+  Location,
   Method,
   Module,
   Typeclass
@@ -101,8 +102,18 @@ const printDescription = (description: Option<string>): string =>
 const printExample = (example: Option<string>): string =>
   example.fold('', e => CRLF + CRLF + bold('Example') + CRLF + ts(e))
 
-const printSignature = (signature: string, type: string): string =>
-  CRLF + CRLF + bold('Signature') + ` (${type})` + CRLF + ts(signature)
+const getSourceLinkFromLocation = (location: Location) => {
+  return link('Source', `${location.path}#L${location.lines.from}-L${location.lines.to}`)
+}
+
+const printSignature = (signature: string, type: string, location?: Location): string =>
+  CRLF +
+  CRLF +
+  bold('Signature') +
+  ` (${type})` +
+  (location !== undefined ? ' ' + getSourceLinkFromLocation(location) : '') +
+  CRLF +
+  ts(signature)
 
 const printSince = (since: string): string => CRLF + `Added in v${since}`
 
@@ -111,7 +122,7 @@ const handleDeprecated = (s: string, deprecated: boolean): string => (deprecated
 const printMethod = (m: Method, since: string): string => {
   let s = CRLF + h2(handleDeprecated(m.name, m.deprecated))
   s += CRLF + printDescription(m.description)
-  s += CRLF + printSignature(m.signature, 'method')
+  s += CRLF + printSignature(m.signature, 'method', m.location)
   s += CRLF + printExample(m.example)
   s += CRLF + printSince(m.since.getOrElse(since))
   return s
@@ -119,7 +130,7 @@ const printMethod = (m: Method, since: string): string => {
 
 const printData = (d: Data): string => {
   let s = CRLF + h1(d.name)
-  s += CRLF + printSignature(d.signature, 'data type')
+  s += CRLF + printSignature(d.signature, 'data type', d.location)
   s += CRLF + printDescription(d.description)
   s += CRLF + printExample(d.example)
   if (d.constructors.length > 0 && d.constructors[0].methods.length > 0) {
@@ -136,7 +147,7 @@ const printData = (d: Data): string => {
 const printInstance = (i: Instance): string => {
   let s = CRLF + h2(i.name)
   s += CRLF + printDescription(i.description)
-  s += CRLF + printSignature(i.signature, 'instance')
+  s += CRLF + printSignature(i.signature, 'instance', i.location)
   s += CRLF + printSince(i.since)
   return s
 }
@@ -144,7 +155,7 @@ const printInstance = (i: Instance): string => {
 const printConstant = (c: Constant): string => {
   let s = CRLF + h2(c.name)
   s += CRLF + printDescription(c.description)
-  s += CRLF + printSignature(c.signature, 'constant')
+  s += CRLF + printSignature(c.signature, 'constant', c.location)
   s += CRLF + printSince(c.since)
   return s
 }
@@ -155,7 +166,7 @@ const printFunc = (f: Func): string => {
   if (f.alias.isSome()) {
     s += CRLF + 'Alias of ' + replaceLinks(`{@link ${f.alias.value}}`)
   } else {
-    s += CRLF + printSignature(f.signature, 'function')
+    s += CRLF + printSignature(f.signature, 'function', f.location)
   }
   s += CRLF + printExample(f.example)
   s += CRLF + printSince(f.since)
@@ -164,17 +175,17 @@ const printFunc = (f: Func): string => {
 
 const printTypeclass = (tc: Typeclass): string => {
   let s = CRLF + h1(handleDeprecated(tc.name, tc.deprecated))
-  s += CRLF + printSignature(tc.signature, 'type class')
+  s += CRLF + printSignature(tc.signature, 'type class', tc.location)
   s += CRLF + printDescription(tc.description)
   s += CRLF + printSince(tc.since)
   return s
 }
 
-const printInterface = (t: Interface): string => {
-  let s = CRLF + h2(t.name)
-  s += CRLF + printSignature(t.signature, 'interface')
-  s += CRLF + printDescription(t.description)
-  s += CRLF + printSince(t.since)
+const printInterface = (i: Interface): string => {
+  let s = CRLF + h2(i.name)
+  s += CRLF + printSignature(i.signature, 'interface', i.location)
+  s += CRLF + printDescription(i.description)
+  s += CRLF + printSince(i.since)
   return s
 }
 
@@ -190,7 +201,7 @@ const formatMarkdown = (markdown: string): string => prettier.format(markdown, p
 export const printModule = (module: Module): string => {
   let s = header(module.name, 'Module ' + module.name)
   s += link('← Index', `.`) + '\n\n'
-  s += link('Source', `https://github.com/gcanti/fp-ts/blob/master/src/${module.name}.ts`)
+  s += link('Source', module.path)
   const interfaces = module.exports.filter(isInterface)
   const typeclasses = module.exports.filter(isTypeclass)
   const datas = module.exports.filter(isData)
