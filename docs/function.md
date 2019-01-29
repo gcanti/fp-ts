@@ -31,7 +31,7 @@ Added in v1.0.0
 
 Applies a function to an argument ($)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L368-L370)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L377-L379)
 
 ```ts
 export const apply = <A, B>(f: (a: A) => B) => (a: A): B => { ... }
@@ -43,7 +43,7 @@ Added in v1.0.0
 
 Applies an argument to a function (#)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L377-L379)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L386-L388)
 
 ```ts
 export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => { ... }
@@ -53,7 +53,7 @@ Added in v1.0.0
 
 ## compose
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L196-L205)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L205-L214)
 
 ```ts
 export function compose(...fns: Array<Function>): Function  { ... }
@@ -63,7 +63,7 @@ Added in v1.0.0
 
 ## concat
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L274-L285)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L283-L294)
 
 ```ts
 export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => { ... }
@@ -88,7 +88,7 @@ Added in v1.0.0
 A thunk that returns always the `identity` function.
 For use with `applySecond` methods.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L390-L392)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L399-L401)
 
 ```ts
 export const constIdentity = (): (<A>(a: A) => A) => { ... }
@@ -132,6 +132,18 @@ export const constUndefined = (): undefined => { ... }
 
 Added in v1.0.0
 
+## constVoid
+
+A thunk that returns always `void`
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L131-L133)
+
+```ts
+export const constVoid = (): void => { ... }
+```
+
+Added in v1.14.0
+
 ## constant
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L86-L88)
@@ -144,7 +156,7 @@ Added in v1.0.0
 
 ## curry
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L310-L312)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L319-L321)
 
 ```ts
 export function curry(f: Function)  { ... }
@@ -154,7 +166,7 @@ Added in v1.0.0
 
 ## decrement
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L406-L408)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L415-L417)
 
 ```ts
 export const decrement = (n: number): number => { ... }
@@ -166,7 +178,7 @@ Added in v1.9.0
 
 Flips the order of the arguments to a function of two arguments.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L131-L133)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L140-L142)
 
 ```ts
 export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => { ... }
@@ -186,7 +198,7 @@ Added in v1.0.0
 
 ## increment
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L398-L400)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L407-L409)
 
 ```ts
 export const increment = (n: number): number => { ... }
@@ -208,7 +220,7 @@ Added in v1.0.0
 
 The `on` function is used to change the domain of a binary operator.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L140-L142)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L149-L151)
 
 ```ts
 export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => { ... }
@@ -228,7 +240,7 @@ Added in v1.0.0
 
 ## pipe
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L259-L268)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L268-L277)
 
 ```ts
 export function pipe(...fns: Array<Function>): Function  { ... }
@@ -238,7 +250,7 @@ Added in v1.0.0
 
 ## toString
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L321-L345)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L330-L354)
 
 ```ts
 export const toString = (x: any): string => { ... }
@@ -248,7 +260,7 @@ Added in v1.0.0
 
 ## tuple
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L351-L353)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L360-L362)
 
 ```ts
 export const tuple = <A, B>(a: A, b: B): [A, B] => { ... }
@@ -258,7 +270,7 @@ Added in v1.0.0
 
 ## tupleCurried
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L359-L361)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/function.ts#L368-L370)
 
 ```ts
 export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => { ... }
