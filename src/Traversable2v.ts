@@ -268,7 +268,6 @@ export interface Traversable2vComposition11<F extends URIS, G extends URIS>
  * const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
  * assert.deepEqual(x.run(), [some(1), none, some(2), some(undefined)])
  *
- * @function
  * @since 1.10.0
  */
 export function getTraversableComposition<F extends URIS, G extends URIS>(

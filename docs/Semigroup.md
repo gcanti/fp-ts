@@ -23,10 +23,10 @@ Added in v1.0.0
 
 Boolean semigroup under conjunction
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L110-L112)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L100-L102)
 
 ```ts
-export const semigroupAll: Semigroup<boolean> = { ... }
+export const semigroupAll: Semigroup<boolean> = ...
 ```
 
 Added in v1.0.0
@@ -35,10 +35,10 @@ Added in v1.0.0
 
 Boolean semigroup under disjunction
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L119-L121)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L108-L110)
 
 ```ts
-export const semigroupAny: Semigroup<boolean> = { ... }
+export const semigroupAny: Semigroup<boolean> = ...
 ```
 
 Added in v1.0.0
@@ -47,20 +47,20 @@ Added in v1.0.0
 
 Number Semigroup under multiplication
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L193-L195)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L180-L182)
 
 ```ts
-export const semigroupProduct: Semigroup<number> = { ... }
+export const semigroupProduct: Semigroup<number> = ...
 ```
 
 Added in v1.0.0
 
 ## semigroupString
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L201-L203)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L187-L189)
 
 ```ts
-export const semigroupString: Semigroup<string> = { ... }
+export const semigroupString: Semigroup<string> = ...
 ```
 
 Added in v1.0.0
@@ -69,27 +69,27 @@ Added in v1.0.0
 
 Number Semigroup under addition
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L184-L186)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L172-L174)
 
 ```ts
-export const semigroupSum: Semigroup<number> = { ... }
+export const semigroupSum: Semigroup<number> = ...
 ```
 
 Added in v1.0.0
 
 ## semigroupVoid
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L209-L211)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L194-L196)
 
 ```ts
-export const semigroupVoid: Semigroup<void> = { ... }
+export const semigroupVoid: Semigroup<void> = ...
 ```
 
 Added in v1.0.0
 
 ## fold
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L16-L18)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L15-L17)
 
 ```ts
 export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => { ... }
@@ -101,7 +101,7 @@ Added in v1.0.0
 
 Semigroup under array concatenation
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L128-L132)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L117-L121)
 
 ```ts
 export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => { ... }
@@ -113,7 +113,7 @@ Added in v1.0.0
 
 Gets [Semigroup](./Semigroup.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L146-L159)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L135-L148)
 
 ```ts
 export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> => { ... }
@@ -132,7 +132,7 @@ Added in v1.4.0
 
 ## getDualSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L50-L54)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L45-L49)
 
 ```ts
 export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => { ... }
@@ -142,7 +142,7 @@ Added in v1.0.0
 
 ## getFirstSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L24-L26)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L22-L24)
 
 ```ts
 export const getFirstSemigroup = <A = never>(): Semigroup<A> => { ... }
@@ -152,7 +152,7 @@ Added in v1.0.0
 
 ## getFunctionSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L60-L64)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L54-L58)
 
 ```ts
 export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => { ... }
@@ -162,7 +162,7 @@ Added in v1.0.0
 
 ## getJoinSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L99-L103)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L90-L94)
 
 ```ts
 export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => { ... }
@@ -172,7 +172,7 @@ Added in v1.0.0
 
 ## getLastSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L32-L34)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L29-L31)
 
 ```ts
 export const getLastSemigroup = <A = never>(): Semigroup<A> => { ... }
@@ -182,7 +182,7 @@ Added in v1.0.0
 
 ## getMeetSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L89-L93)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L81-L85)
 
 ```ts
 export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => { ... }
@@ -194,7 +194,7 @@ Added in v1.0.0
 
 Gets [Semigroup](./Semigroup.md) instance for objects of given type preserving their type
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L175-L177)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L164-L166)
 
 ```ts
 export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => { ... }
@@ -213,7 +213,7 @@ Added in v1.4.0
 
 ## getProductSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L40-L44)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L36-L40)
 
 ```ts
 export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => { ... }
@@ -223,7 +223,7 @@ Added in v1.0.0
 
 ## getRecordSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L70-L83)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L63-L76)
 
 ```ts
 export const getRecordSemigroup = <O extends { [key: string]: any }>(

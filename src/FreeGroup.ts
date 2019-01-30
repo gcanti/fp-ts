@@ -61,7 +61,7 @@ const chain = <A, B>(fa: FreeGroup<A>, f: (a: A) => FreeGroup<B>): FreeGroup<B> 
 
 /**
  * Smart constructor which normalizes an array
- * @function
+ *
  * @since 1.13.0
  */
 export const fromArray = <A>(S: Setoid<A>): ((as: Array<Either<A, A>>) => FreeGroup<A>) => {
@@ -71,7 +71,7 @@ export const fromArray = <A>(S: Setoid<A>): ((as: Array<Either<A, A>>) => FreeGr
 
 /**
  * Reduce a term of a free group to canonical form, i.e. cancelling adjacent inverses.
- * @function
+ *
  * @since 1.13.0
  */
 export const normalize = <A>(S: Setoid<A>) => (g: Array<Either<A, A>>): Array<Either<A, A>> => {
@@ -89,7 +89,6 @@ export const normalize = <A>(S: Setoid<A>) => (g: Array<Either<A, A>>): Array<Ei
 }
 
 /**
- * @function
  * @since 1.13.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<FreeGroup<A>> => {
@@ -101,13 +100,11 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<FreeGroup<A>> => {
 }
 
 /**
- * @constant
  * @since 1.13.0
  */
 export const empty: FreeGroup<never> = new FreeGroup(emptyArray)
 
 /**
- * @function
  * @since 1.13.0
  */
 export const getGroup = <A>(S: Setoid<A>): Group<FreeGroup<A>> => {
@@ -120,6 +117,9 @@ export const getGroup = <A>(S: Setoid<A>): Group<FreeGroup<A>> => {
   }
 }
 
+/**
+ * @since 1.13.0
+ */
 export const freeGroup: Monad1<URI> = {
   URI,
   of,

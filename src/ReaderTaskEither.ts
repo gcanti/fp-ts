@@ -129,7 +129,6 @@ const bimap = <E, L, V, A, B>(
 
 const readerTask = readerT.ask(taskEither.taskEither)
 /**
- * @function
  * @since 1.6.0
  */
 export const ask = <E, L>(): ReaderTaskEither<E, L, E> => {
@@ -138,7 +137,6 @@ export const ask = <E, L>(): ReaderTaskEither<E, L, E> => {
 
 const readerTasks = readerT.asks(taskEither.taskEither)
 /**
- * @function
  * @since 1.6.0
  */
 export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => {
@@ -146,7 +144,6 @@ export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => {
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
@@ -156,7 +153,6 @@ export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => {
@@ -164,7 +160,6 @@ export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => {
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => {
@@ -172,7 +167,6 @@ export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => {
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<E, L, A> => {
@@ -181,7 +175,6 @@ export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<
 
 const readerTfromReader = readerT.fromReader(taskEither.taskEither)
 /**
- * @function
  * @since 1.6.0
  */
 export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A> => {
@@ -189,7 +182,6 @@ export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A>
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A> => {
@@ -197,7 +189,6 @@ export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A>
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => {
@@ -205,7 +196,6 @@ export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => {
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => {
@@ -213,7 +203,6 @@ export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => {
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L, A> => {
@@ -221,7 +210,6 @@ export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export function fromPredicate<E, L, A, B extends A>(
@@ -241,7 +229,6 @@ export function fromPredicate<E, L, A>(
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const tryCatch = <E, L, A>(
@@ -254,7 +241,6 @@ export const tryCatch = <E, L, A>(
 const fromTask = right
 
 /**
- * @instance
  * @since 1.6.0
  */
 export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI> = {
@@ -271,7 +257,6 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
 
 /**
  * Like {@link readerTaskEither} but `ap` is sequential
- * @instance
  * @since 1.10.0
  */
 export const readerTaskEitherSeq: typeof readerTaskEither = {

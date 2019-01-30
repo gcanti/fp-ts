@@ -169,7 +169,6 @@ export class Success<L, A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
@@ -214,8 +213,6 @@ const of = <L, A>(a: A): Validation<L, A> => {
  * assert.deepEqual(validatePerson('Nicolas Bourbaki', -1), failure(["invalid age"]))
  * assert.deepEqual(validatePerson('', 0), failure(["invalid name", "invalid age"]))
  *
- * @function
- *
  * @since 1.0.0
  */
 export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
@@ -239,7 +236,6 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
@@ -281,7 +277,6 @@ const bimap = <L, V, A, B>(fla: Validation<L, A>, f: (u: L) => V, g: (a: A) => B
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const failure = <L, A>(l: L): Validation<L, A> => {
@@ -289,14 +284,12 @@ export const failure = <L, A>(l: L): Validation<L, A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  * @alias of
  */
 export const success = of
 
 /**
- * @function
  * @since 1.0.0
  */
 export function fromPredicate<L, A, B extends A>(
@@ -309,7 +302,6 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => {
@@ -317,7 +309,6 @@ export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>> => {
@@ -336,7 +327,6 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>> => {
@@ -347,7 +337,6 @@ export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validat
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
@@ -364,7 +353,7 @@ export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
 
 /**
  * Returns `true` if the validation is an instance of `Failure`, `false` otherwise
- * @function
+ *
  * @since 1.0.0
  */
 export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
@@ -373,7 +362,7 @@ export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
 
 /**
  * Returns `true` if the validation is an instance of `Success`, `false` otherwise
- * @function
+ *
  * @since 1.0.0
  */
 export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
@@ -382,7 +371,7 @@ export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
 
 /**
  * Builds {@link Compactable} instance for {@link Validation} given {@link Monoid} for the failure side
- * @function
+ *
  * @since 1.7.0
  */
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
@@ -424,7 +413,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 
 /**
  * Builds {@link Filterable} instance for {@link Validation} given {@link Monoid} for the left side
- * @function
+ *
  * @since 1.7.0
  */
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
@@ -501,7 +490,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
 
 /**
  * Builds {@link Witherable} instance for {@link Validation} given {@link Monoid} for the left side
- * @function
+ *
  * @since 1.7.0
  */
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
@@ -534,7 +523,6 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = {

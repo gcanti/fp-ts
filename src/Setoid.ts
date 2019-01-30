@@ -17,7 +17,6 @@ export interface Setoid<A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const strictEqual = <A>(a: A, b: A): boolean => {
@@ -27,25 +26,21 @@ export const strictEqual = <A>(a: A, b: A): boolean => {
 const setoidStrict = { equals: strictEqual }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const setoidString: Setoid<string> = setoidStrict
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const setoidNumber: Setoid<number> = setoidStrict
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const setoidBoolean: Setoid<boolean> = setoidStrict
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
@@ -55,7 +50,6 @@ export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getRecordSetoid = <O extends { [key: string]: any }>(
@@ -74,7 +68,6 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
@@ -85,7 +78,7 @@ export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A,
 
 /**
  * Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
- * @function
+ *
  * @since 1.2.0
  */
 export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
@@ -95,7 +88,6 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
 }
 
 /**
- * @instance
  * @since 1.4.0
  */
 export const setoidDate: Setoid<Date> = contramap(date => date.valueOf(), setoidNumber)

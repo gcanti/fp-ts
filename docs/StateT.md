@@ -9,7 +9,7 @@ title: Module StateT
 
 ## ap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L120-L126)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L117-L123)
 
 ```ts
 export function ap<F>(
@@ -21,7 +21,7 @@ Added in v1.0.0
 
 ## chain
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L150-L154)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L146-L150)
 
 ```ts
 export function chain<F>(
@@ -33,7 +33,7 @@ Added in v1.0.0
 
 ## fromState
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L222-L224)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L213-L215)
 
 ```ts
 export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]>  { ... }
@@ -43,7 +43,7 @@ Added in v1.2.0
 
 ## get
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L164-L166)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L159-L161)
 
 ```ts
 export function get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>  { ... }
@@ -53,7 +53,7 @@ Added in v1.0.0
 
 ## getStateT
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L248-L255)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L237-L244)
 
 ```ts
 export function getStateT<M>(M: Monad<M>): StateT<M>  { ... }
@@ -63,7 +63,7 @@ Added in v1.0.0
 
 ## gets
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L206-L208)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L198-L200)
 
 ```ts
 export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>  { ... }
@@ -73,7 +73,7 @@ Added in v1.0.0
 
 ## liftF
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L236-L238)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L226-L228)
 
 ```ts
 export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]>  { ... }
@@ -83,7 +83,7 @@ Added in v1.2.0
 
 ## map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L80-L84)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L79-L83)
 
 ```ts
 export function map<F>(
@@ -95,7 +95,7 @@ Added in v1.0.0
 
 ## modify
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L192-L194)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L185-L187)
 
 ```ts
 export function modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]>  { ... }
@@ -105,7 +105,7 @@ Added in v1.0.0
 
 ## of
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L94-L96)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L92-L94)
 
 ```ts
 export function of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]>  { ... }
@@ -115,7 +115,7 @@ Added in v1.0.0
 
 ## put
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L176-L178)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L170-L172)
 
 ```ts
 export function put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]>  { ... }

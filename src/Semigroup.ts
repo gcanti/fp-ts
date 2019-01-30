@@ -10,7 +10,6 @@ export interface Semigroup<A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => {
@@ -18,7 +17,6 @@ export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getFirstSemigroup = <A = never>(): Semigroup<A> => {
@@ -26,7 +24,6 @@ export const getFirstSemigroup = <A = never>(): Semigroup<A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getLastSemigroup = <A = never>(): Semigroup<A> => {
@@ -34,7 +31,6 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => {
@@ -44,7 +40,6 @@ export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): S
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => {
@@ -54,7 +49,6 @@ export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => {
@@ -64,7 +58,6 @@ export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semig
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getRecordSemigroup = <O extends { [key: string]: any }>(
@@ -83,7 +76,6 @@ export const getRecordSemigroup = <O extends { [key: string]: any }>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
@@ -93,7 +85,6 @@ export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
@@ -104,7 +95,6 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
 
 /**
  * Boolean semigroup under conjunction
- * @instance
  * @since 1.0.0
  */
 export const semigroupAll: Semigroup<boolean> = {
@@ -113,7 +103,6 @@ export const semigroupAll: Semigroup<boolean> = {
 
 /**
  * Boolean semigroup under disjunction
- * @instance
  * @since 1.0.0
  */
 export const semigroupAny: Semigroup<boolean> = {
@@ -122,7 +111,7 @@ export const semigroupAny: Semigroup<boolean> = {
 
 /**
  * Semigroup under array concatenation
- * @function
+ *
  * @since 1.0.0
  */
 export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
@@ -140,7 +129,7 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
  * const S = getDictionarySemigroup(semigroupSum)
  * assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
  *
- * @function
+ *
  * @since 1.4.0
  */
 export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> => {
@@ -169,7 +158,7 @@ const semigroupAnyDictionary = getDictionarySemigroup(getLastSemigroup())
  * const S = getObjectSemigroup<{ foo: number }>()
  * assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 456 })
  *
- * @function
+ *
  * @since 1.4.0
  */
 export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => {
@@ -178,7 +167,6 @@ export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => 
 
 /**
  * Number Semigroup under addition
- * @instance
  * @since 1.0.0
  */
 export const semigroupSum: Semigroup<number> = {
@@ -187,7 +175,6 @@ export const semigroupSum: Semigroup<number> = {
 
 /**
  * Number Semigroup under multiplication
- * @instance
  * @since 1.0.0
  */
 export const semigroupProduct: Semigroup<number> = {
@@ -195,7 +182,6 @@ export const semigroupProduct: Semigroup<number> = {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const semigroupString: Semigroup<string> = {
@@ -203,7 +189,6 @@ export const semigroupString: Semigroup<string> = {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const semigroupVoid: Semigroup<void> = {

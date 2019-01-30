@@ -24,7 +24,6 @@ export interface Profunctor4<F extends URIS4> extends Functor4<F> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function lmap<F extends URIS3>(
@@ -39,7 +38,6 @@ export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function rmap<F extends URIS3>(

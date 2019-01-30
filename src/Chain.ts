@@ -39,7 +39,6 @@ export interface Chain3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function flatten<F extends URIS3>(

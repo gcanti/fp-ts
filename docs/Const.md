@@ -7,16 +7,6 @@ title: Module Const
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts)
 
-## const\_
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts#L101-L105)
-
-```ts
-export const const_: Functor2<URI> & Contravariant2<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # Const
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts#L25-L45)
@@ -80,9 +70,19 @@ Added in v1.0.0
 
 Added in v1.0.0
 
+## const\_
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts#L97-L101)
+
+```ts
+export const const_: Functor2<URI> & Contravariant2<URI> = ...
+```
+
+Added in v1.0.0
+
 ## getApplicative
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts#L90-L95)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts#L87-L92)
 
 ```ts
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => { ... }
@@ -92,7 +92,7 @@ Added in v1.0.0
 
 ## getApply
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts#L73-L80)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts#L71-L78)
 
 ```ts
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => { ... }
@@ -102,7 +102,7 @@ Added in v1.0.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts#L51-L55)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts#L50-L54)
 
 ```ts
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => { ... }

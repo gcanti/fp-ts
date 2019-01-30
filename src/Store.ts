@@ -58,7 +58,7 @@ const extend = <S, A, B>(sa: Store<S, A>, f: (sa: Store<S, A>) => B): Store<S, B
 
 /**
  * Extract a value from a position which depends on the current position
- * @function
+ *
  * @since 1.0.0
  */
 export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => {
@@ -67,7 +67,7 @@ export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): 
 
 /**
  * Reposition the focus at the specified position, which depends on the current position
- * @function
+ *
  * @since 1.0.0
  */
 export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => {
@@ -76,7 +76,7 @@ export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A
 
 /**
  * Extract a collection of values from positions which depend on the current position
- * @function
+ *
  * @since 1.0.0
  */
 export function experiment<F extends URIS3>(
@@ -94,7 +94,6 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const store: Comonad2<URI> = {

@@ -183,7 +183,6 @@ const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B)
 
 const eitherTright = eitherT.right(task)
 /**
- * @function
  * @since 1.0.0
  */
 export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
@@ -192,7 +191,6 @@ export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
 
 const eitherTleft = eitherT.left(task)
 /**
- * @function
  * @since 1.0.0
  */
 export const left = <L, A>(fa: Task<L>): TaskEither<L, A> => {
@@ -201,7 +199,6 @@ export const left = <L, A>(fa: Task<L>): TaskEither<L, A> => {
 
 const eitherTfromEither = eitherT.fromEither(task)
 /**
- * @function
  * @since 1.0.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
@@ -209,7 +206,6 @@ export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
 }
 
 /**
- * @function
  * @since 1.5.0
  */
 export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => {
@@ -217,7 +213,6 @@ export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => {
 }
 
 /**
- * @function
  * @since 1.3.0
  */
 export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
@@ -225,7 +220,6 @@ export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
@@ -233,7 +227,6 @@ export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export function fromPredicate<L, A, B extends A>(
@@ -247,7 +240,6 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => {
@@ -258,7 +250,6 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => {
@@ -269,7 +260,6 @@ export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => {
@@ -308,7 +298,7 @@ export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => 
  *     assert.deepEqual(x, left(`cannot create md5 hash: ENOENT: no such file or directory, open 'foo'`))
  *   })
  *
- * @function
+ *
  * @since 1.0.0
  */
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): TaskEither<L, A> => {
@@ -340,7 +330,7 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown
  * const stat = taskify(fs.stat)
  * assert.strictEqual(stat.length, 0)
  *
- * @function
+ *
  * @since 1.5.0
  */
 export function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
@@ -381,7 +371,7 @@ const fromTask = right
  * Make sure that a resource is cleaned up in the event of an exception. The
  * release action is called regardless of whether the body action throws or
  * returns.
- * @function
+ *
  * @since 1.10.0
  */
 export const bracket = <L, A, B>(
@@ -397,7 +387,6 @@ export const bracket = <L, A, B>(
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = {
@@ -414,7 +403,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<UR
 
 /**
  * Like {@link taskEither} but `ap` is sequential
- * @instance
+ *
  * @since 1.10.0
  */
 export const taskEitherSeq: typeof taskEither = {

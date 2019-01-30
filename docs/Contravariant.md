@@ -22,7 +22,7 @@ Added in v1.0.0
 
 ## lift
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Contravariant.ts#L60-L62)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Contravariant.ts#L59-L61)
 
 ```ts
 export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>  { ... }

@@ -28,20 +28,20 @@ Added in v1.4.0
 
 ## booleanAlgebraBoolean
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts#L22-L29)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts#L21-L28)
 
 ```ts
-export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = { ... }
+export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = ...
 ```
 
 Added in v1.4.0
 
 ## booleanAlgebraVoid
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts#L35-L42)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts#L33-L40)
 
 ```ts
-export const booleanAlgebraVoid: BooleanAlgebra<void> = { ... }
+export const booleanAlgebraVoid: BooleanAlgebra<void> = ...
 ```
 
 Added in v1.4.0
@@ -50,7 +50,7 @@ Added in v1.4.0
 
 Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts#L64-L73)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts#L61-L70)
 
 ```ts
 export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => { ... }
@@ -60,7 +60,7 @@ Added in v1.4.0
 
 ## getFunctionBooleanAlgebra
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts#L48-L57)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts#L45-L54)
 
 ```ts
 export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => { ... }

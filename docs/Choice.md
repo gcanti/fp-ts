@@ -66,7 +66,7 @@ whether the `Either` value is a `Left` or a `Right`.
 This allows us to bundle two different computations which both have the same result type into one
 function which will run the approriate computation based on the parameter supplied in the `Either` value.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Choice.ts#L126-L137)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Choice.ts#L124-L135)
 
 ```ts
 export function fanin<F>(
@@ -91,7 +91,7 @@ We take two functions, `f` and `g`, and we transform them into a single function
 takes an `Either`and maps `f` over the left side and `g` over the right side. Just like
 `bi-map` would do for the `bi-functor` instance of `Either`.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Choice.ts#L84-L92)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Choice.ts#L83-L91)
 
 ```ts
 export function splitChoice<F>(

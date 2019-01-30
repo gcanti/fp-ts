@@ -16,7 +16,6 @@ export interface Ring<A> extends Semiring<A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
@@ -28,7 +27,7 @@ export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
 
 /**
  * `negate x` can be used as a shorthand for `zero - x`
- * @function
+ *
  * @since 1.0.0
  */
 export const negate = <A>(ring: Ring<A>) => (a: A): A => {
@@ -36,7 +35,6 @@ export const negate = <A>(ring: Ring<A>) => (a: A): A => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => {

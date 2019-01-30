@@ -7,16 +7,6 @@ title: Module IO
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts)
 
-## io
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L110-L117)
-
-```ts
-export const io: Monad1<URI> & MonadIO1<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # IO
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L24-L63)
@@ -119,9 +109,19 @@ Added in v1.0.0
 
 Added in v1.0.0
 
+## io
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L107-L114)
+
+```ts
+export const io: Monad1<URI> & MonadIO1<URI> = ...
+```
+
+Added in v1.0.0
+
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L100-L102)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L98-L100)
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => { ... }
@@ -131,7 +131,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L85-L94)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L84-L93)
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => { ... }

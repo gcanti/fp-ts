@@ -179,7 +179,6 @@ export class Zipper<A> {
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zipper<A>> => {
@@ -191,7 +190,6 @@ export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => {
@@ -265,7 +263,6 @@ const extend = <A, B>(fa: Zipper<A>, f: (fa: Zipper<A>) => B): Zipper<B> => {
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => {
@@ -275,7 +272,6 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => {
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => {
@@ -286,7 +282,6 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => {
 }
 
 /**
- * @instance
  * @since 1.9.0
  */
 export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = {

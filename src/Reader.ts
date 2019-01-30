@@ -67,7 +67,7 @@ const chain = <E, A, B>(fa: Reader<E, A>, f: (a: A) => Reader<E, B>): Reader<E, 
 
 /**
  * reads the current context
- * @function
+ *
  * @since 1.0.0
  */
 export const ask = <E>(): Reader<E, E> => {
@@ -76,7 +76,7 @@ export const ask = <E>(): Reader<E, E> => {
 
 /**
  * Projects a value from the global context in a Reader
- * @function
+ *
  * @since 1.0.0
  */
 export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
@@ -85,7 +85,7 @@ export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
 
 /**
  * changes the value of the local context during the execution of the action `fa`
- * @function
+ *
  * @since 1.0.0
  */
 export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A> => {
@@ -121,7 +121,6 @@ const right = <A, B, C>(pbc: Reader<B, C>): Reader<Either<A, B>, Either<A, C>> =
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {

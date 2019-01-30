@@ -7,16 +7,6 @@ title: Module Writer
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts)
 
-## writer
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts#L141-L144)
-
-```ts
-export const writer: Functor2<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # Writer
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts#L22-L39)
@@ -57,6 +47,16 @@ map<B>(f: (a: A) => B): Writer<W, B>  { ... }
 ```
 
 Added in v1.0.0
+
+Added in v1.0.0
+
+## writer
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts#L140-L143)
+
+```ts
+export const writer: Functor2<URI> = ...
+```
 
 Added in v1.0.0
 

@@ -42,7 +42,7 @@ Added in v1.10.0
 
 Returns the composition of two traversables
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable2v.ts#L282-L300)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable2v.ts#L281-L299)
 
 ```ts
 export function getTraversableComposition<F, G>(

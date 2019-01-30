@@ -46,7 +46,6 @@ export interface ReaderT3<M extends URIS3> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function map<F extends URIS3>(
@@ -64,7 +63,6 @@ export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => H
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function of<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(a: A) => (e: E) => Type3<F, U, L, A>
@@ -76,7 +74,6 @@ export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function ap<F extends URIS3>(
@@ -101,7 +98,6 @@ export function ap<F>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function chain<F extends URIS3>(
@@ -126,7 +122,6 @@ export function chain<F>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function ask<F extends URIS3>(F: Applicative3<F>): <U, L, E>() => (e: E) => Type3<F, U, L, E>
@@ -138,7 +133,6 @@ export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function asks<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(f: (e: E) => A) => (e: E) => Type3<F, U, L, A>
@@ -150,7 +144,6 @@ export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => 
 }
 
 /**
- * @function
  * @since 1.2.0
  */
 export function fromReader<F extends URIS3>(
@@ -164,7 +157,6 @@ export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function getReaderT<M extends URIS3>(M: Monad3<M>): ReaderT3<M>

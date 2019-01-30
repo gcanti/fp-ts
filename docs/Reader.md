@@ -7,16 +7,6 @@ title: Module Reader
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts)
 
-## reader
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L127-L140)
-
-```ts
-export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # Reader
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L24-L50)
@@ -79,6 +69,16 @@ map<B>(f: (a: A) => B): Reader<E, B>  { ... }
 ```
 
 Added in v1.0.0
+
+Added in v1.0.0
+
+## reader
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L126-L139)
+
+```ts
+export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
+```
 
 Added in v1.0.0
 

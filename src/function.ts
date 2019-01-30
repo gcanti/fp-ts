@@ -1,7 +1,6 @@
 import { HKT } from './HKT'
 
 /**
- * @function
  * @since 1.0.0
  */
 export const identity = <A>(a: A): A => {
@@ -9,7 +8,6 @@ export const identity = <A>(a: A): A => {
 }
 
 /**
- * @constant
  * @since 1.0.0
  */
 export const unsafeCoerce: <A, B>(a: A) => B = identity as any
@@ -47,7 +45,6 @@ export type Predicate<A> = (a: A) => boolean
 export type Refinement<A, B extends A> = (a: A) => a is B
 
 /**
- * @function
  * @since 1.0.0
  */
 export const not = <A>(predicate: Predicate<A>): Predicate<A> => {
@@ -55,7 +52,6 @@ export const not = <A>(predicate: Predicate<A>): Predicate<A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
@@ -65,7 +61,6 @@ export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => {
@@ -80,7 +75,6 @@ export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
 export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 
 /**
- * @function
  * @since 1.0.0
  */
 export const constant = <A>(a: A): Lazy<A> => {
@@ -89,7 +83,7 @@ export const constant = <A>(a: A): Lazy<A> => {
 
 /**
  * A thunk that returns always `true`
- * @function
+ *
  * @since 1.0.0
  */
 export const constTrue = (): boolean => {
@@ -98,7 +92,7 @@ export const constTrue = (): boolean => {
 
 /**
  * A thunk that returns always `false`
- * @function
+ *
  * @since 1.0.0
  */
 export const constFalse = (): boolean => {
@@ -107,7 +101,7 @@ export const constFalse = (): boolean => {
 
 /**
  * A thunk that returns always `null`
- * @function
+ *
  * @since 1.0.0
  */
 export const constNull = (): null => {
@@ -116,7 +110,7 @@ export const constNull = (): null => {
 
 /**
  * A thunk that returns always `undefined`
- * @function
+ *
  * @since 1.0.0
  */
 export const constUndefined = (): undefined => {
@@ -125,7 +119,7 @@ export const constUndefined = (): undefined => {
 
 /**
  * Flips the order of the arguments to a function of two arguments.
- * @function
+ *
  * @since 1.0.0
  */
 export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => {
@@ -134,7 +128,7 @@ export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => {
 
 /**
  * The `on` function is used to change the domain of a binary operator.
- * @function
+ *
  * @since 1.0.0
  */
 export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => {
@@ -142,7 +136,6 @@ export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): Bina
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function compose<A, B, C>(bc: (b: B) => C, ab: (a: A) => B): (a: A) => C
@@ -205,7 +198,6 @@ export function compose(...fns: Array<Function>): Function {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function pipe<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
@@ -268,7 +260,6 @@ export function pipe(...fns: Array<Function>): Function {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
@@ -284,6 +275,9 @@ export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
   return r
 }
 
+/**
+ * @since 1.0.0
+ */
 export function curried(f: Function, n: number, acc: Array<any>) {
   return function(this: any, x: any) {
     const combined = concat(acc, [x])
@@ -292,7 +286,6 @@ export function curried(f: Function, n: number, acc: Array<any>) {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function curry<A, B, C>(f: Function2<A, B, C>): Curried2<A, B, C>
@@ -315,7 +308,6 @@ export function curry(f: Function) {
 const getFunctionName = (f: Function): string => (f as any).displayName || f.name || `<function${f.length}>`
 
 /**
- * @function
  * @since 1.0.0
  */
 export const toString = (x: any): string => {
@@ -345,7 +337,6 @@ export const toString = (x: any): string => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const tuple = <A, B>(a: A, b: B): [A, B] => {
@@ -353,7 +344,6 @@ export const tuple = <A, B>(a: A, b: B): [A, B] => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => {
@@ -362,7 +352,7 @@ export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => {
 
 /**
  * Applies a function to an argument ($)
- * @function
+ *
  * @since 1.0.0
  */
 export const apply = <A, B>(f: (a: A) => B) => (a: A): B => {
@@ -371,20 +361,24 @@ export const apply = <A, B>(f: (a: A) => B) => (a: A): B => {
 
 /**
  * Applies an argument to a function (#)
- * @function
+ *
  * @since 1.0.0
  */
 export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => {
   return f(a)
 }
 
-/** For use with phantom fields */
+/**
+ * For use with phantom fields
+ *
+ * @since 1.0.0
+ */
 export const phantom: any = undefined
 
 /**
  * A thunk that returns always the `identity` function.
  * For use with `applySecond` methods.
- * @function
+ *
  * @since 1.5.0
  */
 export const constIdentity = (): (<A>(a: A) => A) => {
@@ -392,7 +386,6 @@ export const constIdentity = (): (<A>(a: A) => A) => {
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const increment = (n: number): number => {
@@ -400,7 +393,6 @@ export const increment = (n: number): number => {
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const decrement = (n: number): number => {

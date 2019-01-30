@@ -82,7 +82,7 @@ const chain = <S, A, B>(fa: State<S, A>, f: (a: A) => State<S, B>): State<S, B> 
 
 /**
  * Get the current state
- * @function
+ *
  * @since 1.0.0
  */
 export const get = <S>(): State<S, S> => {
@@ -91,7 +91,7 @@ export const get = <S>(): State<S, S> => {
 
 /**
  * Set the state
- * @function
+ *
  * @since 1.0.0
  */
 export const put = <S>(s: S): State<S, void> => {
@@ -100,7 +100,7 @@ export const put = <S>(s: S): State<S, void> => {
 
 /**
  * Modify the state by applying a function to the current state
- * @function
+ *
  * @since 1.0.0
  */
 export const modify = <S>(f: (s: S) => S): State<S, undefined> => {
@@ -109,7 +109,7 @@ export const modify = <S>(f: (s: S) => S): State<S, undefined> => {
 
 /**
  * Get a value which depends on the current state
- * @function
+ *
  * @since 1.0.0
  */
 export const gets = <S, A>(f: (s: S) => A): State<S, A> => {
@@ -117,7 +117,6 @@ export const gets = <S, A>(f: (s: S) => A): State<S, A> => {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const state: Monad2<URI> = {

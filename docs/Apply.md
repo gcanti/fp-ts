@@ -58,7 +58,7 @@ Added in v1.0.0
 
 If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Semigroup` over `A` as well
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L228-L233)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L227-L232)
 
 ```ts
 export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>>  { ... }
@@ -126,7 +126,7 @@ Added in v1.0.0
 
 Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L333-L346)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L331-L344)
 
 ```ts
 export function sequenceT<F>(F: Apply<F>): SequenceT<F>  { ... }

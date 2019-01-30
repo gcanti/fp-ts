@@ -268,7 +268,6 @@ export interface FilterableComposition3C1<F extends URIS3, G extends URIS, UF, L
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function getFilterableComposition<F extends URIS3, G extends URIS, UF, LF>(

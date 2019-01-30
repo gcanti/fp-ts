@@ -28,10 +28,10 @@ Added in v1.0.0
 
 ## boundedNumber
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Bounded.ts#L22-L26)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Bounded.ts#L21-L25)
 
 ```ts
-export const boundedNumber: Bounded<number> = { ... }
+export const boundedNumber: Bounded<number> = ...
 ```
 
 Added in v1.0.0

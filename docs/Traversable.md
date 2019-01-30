@@ -28,7 +28,7 @@ Added in v1.0.0
 
 Use [Traversable2v](./Traversable2v.md)'s `getTraversableComposition` instead.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L377-L387)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L374-L384)
 
 ```ts
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>  { ... }
@@ -40,7 +40,7 @@ Added in v1.0.0
 
 Use `sequence` contained in each traversable data structure instead.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L361-L363)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L359-L361)
 
 ```ts
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>  { ... }
@@ -62,7 +62,7 @@ Added in v1.0.0
 
 Use `traverse` contained in each traversable data structure instead.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L303-L308)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L302-L307)
 
 ```ts
 export function traverse<F, T>(

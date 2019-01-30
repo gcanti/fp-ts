@@ -21,7 +21,7 @@ Added in v1.4.0
 
 ## getMinMaxBoundedDistributiveLattice
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedDistributiveLattice.ts#L17-L26)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedDistributiveLattice.ts#L16-L25)
 
 ```ts
 export const getMinMaxBoundedDistributiveLattice = <A>(O: Ord<A>) => (

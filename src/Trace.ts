@@ -8,7 +8,7 @@ import { Lazy } from './function'
 /**
  * Log any value to the console for debugging purposes and then return a value. This will log the value's underlying
  * representation for low-level debugging
- * @function
+ *
  * @since 1.0.0
  */
 export const trace = <A>(message: any, out: Lazy<A>): A => {
@@ -18,7 +18,7 @@ export const trace = <A>(message: any, out: Lazy<A>): A => {
 
 /**
  * Log any value and return it
- * @function
+ *
  * @since 1.0.0
  */
 export const spy = <A>(a: A): A => {
@@ -27,7 +27,7 @@ export const spy = <A>(a: A): A => {
 
 /**
  * Log a message to the console for debugging purposes and then return the unit value of the Applicative `F`
- * @function
+ *
  * @since 1.0.0
  */
 export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: any) => Type3<F, U, L, void>
@@ -41,7 +41,7 @@ export function traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void> {
 
 /**
  * Log any value to the console and return it in `Monad` useful when one has monadic chains
- * @function
+ *
  * @since 1.0.0
  */
 export function traceM<F extends URIS3>(F: Monad3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>

@@ -7,16 +7,6 @@ title: Module IxIO
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts)
 
-## ixIO
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts#L90-L94)
-
-```ts
-export const ixIO: IxMonad3<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # IxIO
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts#L21-L42)
@@ -80,9 +70,19 @@ Added in v1.0.0
 
 Added in v1.0.0
 
+## ixIO
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts#L87-L91)
+
+```ts
+export const ixIO: IxMonad3<URI> = ...
+```
+
+Added in v1.0.0
+
 ## getMonad
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts#L74-L84)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts#L72-L82)
 
 ```ts
 export const getMonad = <I = never>(): Monad3C<URI, I, I> => { ... }
@@ -92,7 +92,7 @@ Added in v1.0.0
 
 ## iof
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts#L48-L50)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts#L47-L49)
 
 ```ts
 export const iof = <I, A>(a: A): IxIO<I, I, A> => { ... }

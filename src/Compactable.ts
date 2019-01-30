@@ -150,7 +150,6 @@ export interface CompactableComposition3C1<F extends URIS3, G extends URIS, UF, 
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function getCompactableComposition<F extends URIS3, G extends URIS, UF, LF>(

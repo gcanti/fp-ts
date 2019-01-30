@@ -325,7 +325,6 @@ export class None<A> {
 }
 
 /**
- * @constant
  * @since 1.0.0
  */
 export const none: Option<never> = None.value
@@ -422,7 +421,6 @@ export class Some<A> {
  * assert.strictEqual(S.equals(some(1), some(2)), false)
  * assert.strictEqual(S.equals(some(1), some(1)), true)
  *
- * @function
  * @since 1.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
@@ -450,7 +448,6 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
  * assert.strictEqual(O.compare(some(1), some(2)), -1)
  * assert.strictEqual(O.compare(some(1), some(1)), 0)
  *
- * @function
  * @since 1.2.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
@@ -528,7 +525,6 @@ const zero = <A>(): Option<A> => {
  * assert.deepEqual(S.concat(none, some(1)), none)
  * assert.deepEqual(S.concat(some(1), some(2)), some(3))
  *
- * @function
  * @since 1.7.0
  */
 export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
@@ -538,7 +534,6 @@ export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
 }
 
 /**
- * @function
  * @since 1.7.0
  */
 export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
@@ -567,7 +562,6 @@ export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
  * assert.deepEqual(M.concat(none, some(1)), some(1))
  * assert.deepEqual(M.concat(some(1), some(2)), some(1))
  *
- * @function
  * @since 1.0.0
  */
 export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
@@ -596,7 +590,6 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
  * assert.deepEqual(M.concat(none, some(1)), some(1))
  * assert.deepEqual(M.concat(some(1), some(2)), some(2))
  *
- * @function
  * @since 1.0.0
  */
 export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
@@ -624,7 +617,6 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
  * assert.deepEqual(M.concat(none, some(1)), some(1))
  * assert.deepEqual(M.concat(some(1), some(2)), some(3))
  *
- * @function
  * @since 1.0.0
  */
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
@@ -645,7 +637,6 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
  * assert.deepEqual(fromNullable(null), none)
  * assert.deepEqual(fromNullable(1), some(1))
  *
- * @function
  * @since 1.0.0
  */
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
@@ -653,7 +644,6 @@ export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  * @alias of
  */
@@ -668,7 +658,6 @@ export const some = of
  * assert.deepEqual(positive(-1), none)
  * assert.deepEqual(positive(1), some(1))
  *
- * @function
  * @since 1.0.0
  */
 export function fromPredicate<A, B extends A>(predicate: Refinement<A, B>): (a: A) => Option<B>
@@ -692,7 +681,6 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * )
  * assert.deepEqual(tryCatch(() => 1), some(1))
  *
- * @function
  * @since 1.0.0
  */
 export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
@@ -714,7 +702,6 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
  * assert.deepEqual(fromEither(left(1)), none)
  * assert.deepEqual(fromEither(right(1)), some(1))
  *
- * @function
  * @since 1.0.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
@@ -723,7 +710,7 @@ export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
 
 /**
  * Returns `true` if the option is an instance of `Some`, `false` otherwise
- * @function
+ *
  * @since 1.0.0
  */
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
@@ -732,7 +719,7 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
 
 /**
  * Returns `true` if the option is `None`, `false` otherwise
- * @function
+ *
  * @since 1.0.0
  */
 export const isNone = <A>(fa: Option<A>): fa is None<A> => {
@@ -742,7 +729,7 @@ export const isNone = <A>(fa: Option<A>): fa is None<A> => {
 /**
  * Use {@link fromPredicate} instead.
  * Refinement version of {@link fromPredicate}
- * @function
+ *
  * @since 1.3.0
  * @deprecated
  */
@@ -765,7 +752,6 @@ export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => 
  * const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
  * ```
  *
- * @function
  * @since 1.7.0
  */
 export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => {
@@ -830,7 +816,6 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const option: Monad1<URI> &

@@ -44,7 +44,7 @@ Added in v1.0.0
 
 ## getFunctorComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Functor.ts#L213-L217)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Functor.ts#L212-L216)
 
 ```ts
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>  { ... }

@@ -45,7 +45,6 @@ export class Const<L, A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => {
@@ -67,7 +66,6 @@ const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Const<L, (a: A) => B>, fa: Const<
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
@@ -84,7 +82,6 @@ const of = <L>(M: Monoid<L>) => <A>(a: A): Const<L, A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
@@ -95,7 +92,6 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const const_: Functor2<URI> & Contravariant2<URI> = {

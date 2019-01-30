@@ -69,7 +69,6 @@ export interface Choice4<F extends URIS4> extends Profunctor4<F> {
  * takes an `Either`and maps `f` over the left side and `g` over the right side.  Just like
  * `bi-map` would do for the `bi-functor` instance of `Either`.
  *
- * @function
  * @since 1.11.0
  */
 export function splitChoice<F extends URIS3>(
@@ -111,7 +110,6 @@ export function splitChoice<F>(
  * This allows us to bundle two different computations which both have the same result type into one
  * function which will run the approriate computation based on the parameter supplied in the `Either` value.
  *
- * @function
  * @since 1.11.0
  */
 export function fanin<F extends URIS3>(

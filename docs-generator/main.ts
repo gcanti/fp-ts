@@ -14,21 +14,6 @@ import { indexOutputPath, mkdir, readModule, write, writeModule } from './fs'
 import { modules, printIndex, printModule } from './markdown'
 import { Env, ParseError, parseModule } from './parser'
 
-const showParseError = (error: ParseError): string => {
-  switch (error._tag) {
-    case 'MissingConstructorName':
-      return chalk.red.bold(`Missing constructor name "${error.name}" in module "${error.module}"`)
-    case 'DataInvalidConstructorName':
-      return chalk.red.bold(`Invalid constructor name "${error.name}" in module "${error.module}"`)
-    case 'SinceMissing':
-      return chalk.red.bold(`@since tag missing in "${error.name}" in module "${error.module}"`)
-    case 'NameMissing':
-      return chalk.red.bold(`name missing in module "${error.module}"`)
-    case 'NotFound':
-      return ''
-  }
-}
-
 const fail = new IO(() => {
   process.exit(1)
 })
@@ -58,7 +43,6 @@ const getExportExamples = (e: Export): Array<Example> => {
     case 'Func':
       return toArray(e.example.map(source => ({ name: e.name, source })))
     case 'Constant':
-    case 'Instance':
     case 'Interface':
     case 'Typeclass':
       return []
@@ -125,7 +109,7 @@ export const loadModule = (name: string): TaskEither<Array<ParseError>, Module> 
 
 const processModule = (name: string): TaskEither<string, Module> => {
   return loadModule(name)
-    .mapLeft(errors => errors.map(err => showParseError(err)).join('\n'))
+    .mapLeft(errors => errors.map(error => chalk.red.bold(error)).join('\n'))
     .chain(module =>
       fromIO(
         writeModule(name, printModule(module))

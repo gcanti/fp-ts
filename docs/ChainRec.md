@@ -21,7 +21,7 @@ Added in v1.0.0
 
 ## tailRec
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ChainRec.ts#L37-L43)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ChainRec.ts#L36-L42)
 
 ```ts
 export const tailRec = <A, B>(f: (a: A) => Either<A, B>, a: A): B => { ... }

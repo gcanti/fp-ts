@@ -27,7 +27,7 @@ Added in v1.0.0
 
 ## fromApplicative
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts#L54-L61)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts#L53-L60)
 
 ```ts
 export function fromApplicative<F>(applicative: Applicative<F>): Monoidal<F>  { ... }
@@ -37,7 +37,7 @@ Added in v1.0.0
 
 ## toApplicative
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts#L71-L78)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts#L69-L76)
 
 ```ts
 export function toApplicative<F>(monoidal: Monoidal<F>): Applicative<F>  { ... }

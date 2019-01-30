@@ -40,7 +40,6 @@ export interface OptionT3C<M extends URIS3, U, L> extends ApplicativeComposition
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function chain<F extends URIS3, U, L>(F: Monad3C<F, U, L>): OptionT3C<F, U, L>['chain']
@@ -53,7 +52,6 @@ export function chain<F>(F: Monad<F>): OptionT<F>['chain'] {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function some<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): <A>(a: A) => Type3<F, U, L, Option<A>>
@@ -66,7 +64,6 @@ export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function none<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): () => Type3<F, U, L, Option<never>>
@@ -79,7 +76,6 @@ export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function fromOption<F extends URIS3, U, L>(
@@ -94,7 +90,6 @@ export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, O
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function liftF<F extends URIS3, U, L>(
@@ -109,7 +104,6 @@ export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function fold<F extends URIS3, U, L>(
@@ -130,7 +124,6 @@ export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function getOrElse<F extends URIS3, U, L>(
@@ -149,7 +142,6 @@ export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function getOptionT<M extends URIS3, U, L>(M: Monad3C<M, U, L>): OptionT3C<M, U, L>

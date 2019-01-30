@@ -275,7 +275,6 @@ export class Right<L, A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
@@ -299,7 +298,7 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
  * assert.deepEqual(S.concat(right(1), left('b')), right(1))
  * assert.deepEqual(S.concat(right(1), right(2)), right(3))
  *
- * @function
+ *
  * @since 1.7.0
  */
 export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
@@ -321,7 +320,7 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => 
  * assert.deepEqual(S.concat(right(1), left('b')), left('b'))
  * assert.deepEqual(S.concat(right(1), right(2)), right(3))
  *
- * @function
+ *
  * @since 1.7.0
  */
 export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
@@ -331,7 +330,6 @@ export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>
 }
 
 /**
- * @function
  * @since 1.7.0
  */
 export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => {
@@ -343,10 +341,6 @@ export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => {
 
 const map = <L, A, B>(fa: Either<L, A>, f: (a: A) => B): Either<L, B> => {
   return fa.map(f)
-}
-
-const of = <L, A>(a: A): Either<L, A> => {
-  return new Right<L, A>(a)
 }
 
 const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Either<L, B> => {
@@ -406,7 +400,7 @@ const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L
 /**
  * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
  * structure
- * @function
+ *
  * @since 1.0.0
  */
 export const left = <L, A>(l: L): Either<L, A> => {
@@ -416,14 +410,17 @@ export const left = <L, A>(l: L): Either<L, A> => {
 /**
  * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
  * of this structure
- * @function
+ *
  * @since 1.0.0
  * @alias of
  */
-export const right = of
+export const right = <L, A>(a: A): Either<L, A> => {
+  return new Right<L, A>(a)
+}
+
+const of = right
 
 /**
- * @function
  * @since 1.0.0
  */
 export function fromPredicate<L, A, B extends A>(
@@ -437,7 +434,7 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 
 /**
  * Use {@link fromPredicate} instead
- * @function
+ *
  * @since 1.6.0
  * @deprecated
  */
@@ -450,7 +447,7 @@ export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, 
 /**
  * Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
  * the provided default as a `Left`
- * @function
+ *
  * @since 1.0.0
  */
 export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => {
@@ -459,7 +456,7 @@ export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, 
 
 /**
  * Lazy version of {@link fromOption}
- * @function
+ *
  * @since 1.3.0
  */
 export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => {
@@ -469,7 +466,7 @@ export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Eit
 /**
  * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
  * the provided default as a `Left`
- * @function
+ *
  * @since 1.0.0
  */
 export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> => {
@@ -478,7 +475,7 @@ export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined)
 
 /**
  * Default value for the optional `onerror` argument of `tryCatch`
- * @function
+ *
  * @since 1.0.0
  */
 export const toError = (e: unknown): Error => {
@@ -491,7 +488,7 @@ export const toError = (e: unknown): Error => {
 
 /**
  * Use {@link tryCatch2v}
- * @function
+ *
  * @since 1.0.0
  * @deprecated
  */
@@ -500,7 +497,6 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError
 }
 
 /**
- * @function
  * @since 1.11.0
  */
 export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => {
@@ -512,7 +508,6 @@ export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
@@ -521,7 +516,7 @@ export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
 
 /**
  * Returns `true` if the either is an instance of `Left`, `false` otherwise
- * @function
+ *
  * @since 1.0.0
  */
 export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
@@ -530,7 +525,7 @@ export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => {
 
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise
- * @function
+ *
  * @since 1.0.0
  */
 export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
@@ -539,7 +534,7 @@ export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
 
 /**
  * Builds {@link Compactable} instance for {@link Either} given {@link Monoid} for the left side
- * @function
+ *
  * @since 1.7.0
  */
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
@@ -581,7 +576,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 
 /**
  * Builds {@link Filterable} instance for {@link Either} given {@link Monoid} for the left side
- * @function
+ *
  * @since 1.7.0
  */
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
@@ -649,7 +644,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
 
 /**
  * Builds {@link Witherable} instance for {@link Either} given {@link Monoid} for the left side
- * @function
+ *
  * @since 1.7.0
  */
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
@@ -682,7 +677,6 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const either: Monad2<URI> &

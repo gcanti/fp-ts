@@ -20,7 +20,6 @@ export interface IxMonad3<F extends URIS3> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function iapplyFirst<F extends URIS3>(
@@ -36,7 +35,6 @@ export function iapplyFirst<F>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function iapplySecond<F extends URIS3>(

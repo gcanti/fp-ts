@@ -7,16 +7,6 @@ title: Module IOEither
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts)
 
-## ioEither
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L171-L179)
-
-```ts
-export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = { ... }
-```
-
-Added in v1.6.0
-
 # IOEither
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L32-L85)
@@ -161,9 +151,19 @@ Added in v1.6.0
 
 Added in v1.6.0
 
+## ioEither
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L165-L173)
+
+```ts
+export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = ...
+```
+
+Added in v1.6.0
+
 ## fromEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L137-L139)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L134-L136)
 
 ```ts
 export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => { ... }
@@ -173,7 +173,7 @@ Added in v1.6.0
 
 ## fromLeft
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L145-L147)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L141-L143)
 
 ```ts
 export const fromLeft = <L, A>(l: L): IOEither<L, A> => { ... }
@@ -183,7 +183,7 @@ Added in v1.6.0
 
 ## left
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L127-L129)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L125-L127)
 
 ```ts
 export const left = <L, A>(fa: IO<L>): IOEither<L, A> => { ... }
@@ -193,7 +193,7 @@ Added in v1.6.0
 
 ## right
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L117-L119)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L116-L118)
 
 ```ts
 export const right = <L, A>(fa: IO<A>): IOEither<L, A> => { ... }
@@ -205,7 +205,7 @@ Added in v1.6.0
 
 Use [tryCatch2v](#trycatch2v)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L155-L157)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L151-L153)
 
 ```ts
 export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: unknown) => Error = toError): IOEither<Error, A> => { ... }
@@ -215,7 +215,7 @@ Added in v1.6.0
 
 ## tryCatch2v
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L163-L165)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts#L158-L160)
 
 ```ts
 export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => { ... }

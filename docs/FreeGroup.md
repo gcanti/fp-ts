@@ -66,10 +66,20 @@ Added in v1.13.0
 
 ## empty
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L107-L107)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L105-L105)
 
 ```ts
 export const empty: FreeGroup<never> = ...
+```
+
+Added in v1.13.0
+
+## freeGroup
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L123-L129)
+
+```ts
+export const freeGroup: Monad1<URI> = ...
 ```
 
 Added in v1.13.0
@@ -88,7 +98,7 @@ Added in v1.13.0
 
 ## getGroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L113-L121)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L110-L118)
 
 ```ts
 export const getGroup = <A>(S: Setoid<A>): Group<FreeGroup<A>> => { ... }
@@ -98,7 +108,7 @@ Added in v1.13.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L95-L101)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts#L94-L100)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<FreeGroup<A>> => { ... }

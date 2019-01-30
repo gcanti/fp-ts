@@ -61,7 +61,7 @@ We take two functions, `f` and `g`, with the same parameter type and we transfor
 takes one parameter and returns a tuple of the results of running `f` and `g` on the parameter, respectively. This
 allows us to run two parallel computations on the same input and return both results in a tuple.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Strong.ts#L124-L135)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Strong.ts#L122-L133)
 
 ```ts
 export function fanout<F>(
@@ -84,7 +84,7 @@ Specializing `(***)` to function application would look like this:
 We take two functions, `f` and `g`, and we transform them into a single function which takes a tuple and maps `f`
 over the first element and `g` over the second. Just like `bi-map` would do for the `bi-functor` instance of tuple.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Strong.ts#L83-L91)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Strong.ts#L82-L90)
 
 ```ts
 export function splitStrong<F>(

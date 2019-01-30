@@ -26,7 +26,7 @@ Added in v1.0.0
 
 Test whether a value is an element of a data structure
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L401-L403)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L399-L401)
 
 ```ts
 export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean  { ... }
@@ -38,7 +38,7 @@ Added in v1.0.0
 
 Try to find an element in a data structure which satisfies a predicate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L418-L427)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L416-L425)
 
 ```ts
 export function find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>  { ... }
@@ -48,7 +48,7 @@ Added in v1.0.0
 
 ## fold
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L183-L185)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L181-L183)
 
 ```ts
 export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M  { ... }
@@ -62,7 +62,7 @@ Similar to 'reduce', but the result is encapsulated in a monad.
 
 Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L218-L223)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L216-L221)
 
 ```ts
 export function foldM<F, M>(
@@ -78,7 +78,7 @@ Added in v1.0.0
 A default implementation of `foldMap` using `foldl`.
 Map each element of the structure to a monoid, and combine the results.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L147-L149)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L146-L148)
 
 ```ts
 export function foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, f: (a: A) => M) => M  { ... }
@@ -90,7 +90,7 @@ Added in v1.0.0
 
 A default implementation of `foldr` using `foldMap`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L168-L171)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L167-L170)
 
 ```ts
 export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B  { ... }
@@ -100,7 +100,7 @@ Added in v1.0.0
 
 ## getFoldableComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L117-L121)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L116-L120)
 
 ```ts
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G>  { ... }
@@ -112,7 +112,7 @@ Added in v1.0.0
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L348-L355)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L346-L353)
 
 ```ts
 export function intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm: HKT<F, M>) => M  { ... }
@@ -124,7 +124,7 @@ Added in v1.0.0
 
 Find the largest element of a structure, according to its `Ord` instance
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L462-L465)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L460-L463)
 
 ```ts
 export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A>  { ... }
@@ -136,7 +136,7 @@ Added in v1.0.0
 
 Find the smallest element of a structure, according to its `Ord` instance
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L443-L446)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L441-L444)
 
 ```ts
 export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A>  { ... }
@@ -148,7 +148,7 @@ Added in v1.0.0
 
 Combines a collection of elements using the `Alt` operation
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L322-L324)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L320-L322)
 
 ```ts
 export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>  { ... }
@@ -160,7 +160,7 @@ Added in v1.0.0
 
 Find the product of the numeric values in a data structure
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L383-L385)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L381-L383)
 
 ```ts
 export function product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A  { ... }
@@ -172,7 +172,7 @@ Added in v1.0.0
 
 Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final result.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L291-L294)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L289-L292)
 
 ```ts
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>  { ... }
@@ -184,7 +184,7 @@ Added in v1.0.0
 
 Find the sum of the numeric values in a data structure
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L368-L370)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L366-L368)
 
 ```ts
 export function sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A  { ... }
@@ -194,7 +194,7 @@ Added in v1.0.0
 
 ## toArray
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L477-L480)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L474-L477)
 
 ```ts
 export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>  { ... }
@@ -207,7 +207,7 @@ Added in v1.0.0
 Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
 final result.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L512-L518)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L509-L515)
 
 ```ts
 export function traverse<M, F>(
@@ -222,7 +222,7 @@ Added in v1.7.0
 
 Use [traverse](#traverse)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L255-L263)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts#L253-L261)
 
 ```ts
 export function traverse_<M, F>(

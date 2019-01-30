@@ -23,10 +23,10 @@ Added in v1.0.0
 
 Boolean monoid under conjunction
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L65-L68)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L61-L64)
 
 ```ts
-export const monoidAll: Monoid<boolean> = { ... }
+export const monoidAll: Monoid<boolean> = ...
 ```
 
 Added in v1.0.0
@@ -35,10 +35,10 @@ Added in v1.0.0
 
 Boolean monoid under disjunction
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L75-L78)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L70-L73)
 
 ```ts
-export const monoidAny: Monoid<boolean> = { ... }
+export const monoidAny: Monoid<boolean> = ...
 ```
 
 Added in v1.0.0
@@ -47,20 +47,20 @@ Added in v1.0.0
 
 Number monoid under multiplication
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L137-L140)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L128-L131)
 
 ```ts
-export const monoidProduct: Monoid<number> = { ... }
+export const monoidProduct: Monoid<number> = ...
 ```
 
 Added in v1.0.0
 
 ## monoidString
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L146-L149)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L136-L139)
 
 ```ts
-export const monoidString: Monoid<string> = { ... }
+export const monoidString: Monoid<string> = ...
 ```
 
 Added in v1.0.0
@@ -69,37 +69,37 @@ Added in v1.0.0
 
 Number monoid under addition
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L127-L130)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L119-L122)
 
 ```ts
-export const monoidSum: Monoid<number> = { ... }
+export const monoidSum: Monoid<number> = ...
 ```
 
 Added in v1.0.0
 
 ## monoidVoid
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L155-L158)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L144-L147)
 
 ```ts
-export const monoidVoid: Monoid<void> = { ... }
+export const monoidVoid: Monoid<void> = ...
 ```
 
 Added in v1.0.0
 
 ## unsafeMonoidArray
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L86-L89)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L80-L83)
 
 ```ts
-export const unsafeMonoidArray: Monoid<Array<any>> = { ... }
+export const unsafeMonoidArray: Monoid<Array<any>> = ...
 ```
 
 Added in v1.0.0
 
 ## fold
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L34-L36)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L33-L35)
 
 ```ts
 export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => { ... }
@@ -111,7 +111,7 @@ Added in v1.0.0
 
 Monoid under array concatenation (`Array<any>`)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L96-L98)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L90-L92)
 
 ```ts
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => { ... }
@@ -123,7 +123,7 @@ Added in v1.0.0
 
 Gets [Monoid](./Monoid.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L115-L120)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L108-L113)
 
 ```ts
 export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => { ... }
@@ -143,7 +143,7 @@ Added in v1.4.0
 
 ## getDualMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L53-L58)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L50-L55)
 
 ```ts
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => { ... }
@@ -153,7 +153,7 @@ Added in v1.0.0
 
 ## getEndomorphismMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L175-L180)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L162-L167)
 
 ```ts
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => { ... }
@@ -163,7 +163,7 @@ Added in v1.0.0
 
 ## getFunctionMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L164-L169)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L152-L157)
 
 ```ts
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => { ... }
@@ -173,7 +173,7 @@ Added in v1.0.0
 
 ## getJoinMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L215-L220)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L199-L204)
 
 ```ts
 export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => { ... }
@@ -183,7 +183,7 @@ Added in v1.9.0
 
 ## getMeetMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L204-L209)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L189-L194)
 
 ```ts
 export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => { ... }
@@ -193,7 +193,7 @@ Added in v1.9.0
 
 ## getProductMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L42-L47)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L40-L45)
 
 ```ts
 export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => { ... }
@@ -203,7 +203,7 @@ Added in v1.0.0
 
 ## getRecordMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L186-L198)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L172-L184)
 
 ```ts
 export const getRecordMonoid = <O extends { [key: string]: any }>(

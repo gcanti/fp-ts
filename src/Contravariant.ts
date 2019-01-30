@@ -38,7 +38,6 @@ export interface Contravariant3C<F extends URIS3, U, L> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function lift<F extends URIS3>(
