@@ -7,21 +7,6 @@ title: Module Identity
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts)
 
-## identity
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L152-L172)
-
-```ts
-export const identity: Monad1<URI> &
-  Foldable2v1<URI> &
-  Traversable2v1<URI> &
-  Alt1<URI> &
-  Comonad1<URI> &
-  ChainRec1<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # Identity
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L29-L84)
@@ -168,9 +153,24 @@ Added in v1.0.0
 
 Added in v1.0.0
 
+## identity
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L150-L170)
+
+```ts
+export const identity: Monad1<URI> &
+  Foldable2v1<URI> &
+  Traversable2v1<URI> &
+  Alt1<URI> &
+  Comonad1<URI> &
+  ChainRec1<URI> = ...
+```
+
+Added in v1.0.0
+
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L90-L94)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L89-L93)
 
 ```ts
 export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => { ... }

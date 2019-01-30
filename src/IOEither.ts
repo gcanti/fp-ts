@@ -111,7 +111,6 @@ const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): 
 const eitherTright = eitherT.right(io)
 
 /**
- * @function
  * @since 1.6.0
  */
 export const right = <L, A>(fa: IO<A>): IOEither<L, A> => {
@@ -121,7 +120,6 @@ export const right = <L, A>(fa: IO<A>): IOEither<L, A> => {
 const eitherTleft = eitherT.left(io)
 
 /**
- * @function
  * @since 1.6.0
  */
 export const left = <L, A>(fa: IO<L>): IOEither<L, A> => {
@@ -131,7 +129,6 @@ export const left = <L, A>(fa: IO<L>): IOEither<L, A> => {
 const eitherTfromEither = eitherT.fromEither(io)
 
 /**
- * @function
  * @since 1.6.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
@@ -139,7 +136,6 @@ export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
 }
 
 /**
- * @function
  * @since 1.6.0
  */
 export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
@@ -148,7 +144,7 @@ export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
 
 /**
  * Use {@link tryCatch2v}
- * @function
+ *
  * @since 1.6.0
  * @deprecated
  */
@@ -157,7 +153,6 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: unknown) => Error = to
 }
 
 /**
- * @function
  * @since 1.11.0
  */
 export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => {
@@ -165,7 +160,6 @@ export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): I
 }
 
 /**
- * @instance
  * @since 1.6.0
  */
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = {

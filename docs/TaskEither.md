@@ -7,28 +7,6 @@ title: Module TaskEither
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts)
 
-## taskEither
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L403-L413)
-
-```ts
-export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = { ... }
-```
-
-Added in v1.0.0
-
-## taskEitherSeq
-
-Like [taskEither](#taskeither) but `ap` is sequential
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L420-L423)
-
-```ts
-export const taskEitherSeq: typeof taskEither = { ... }
-```
-
-Added in v1.10.0
-
 # TaskEither
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L45-L158)
@@ -255,13 +233,35 @@ Added in v1.0.0
 
 Added in v1.0.0
 
+## taskEither
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L392-L402)
+
+```ts
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = ...
+```
+
+Added in v1.0.0
+
+## taskEitherSeq
+
+Like [taskEither](#taskeither) but `ap` is sequential
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L409-L412)
+
+```ts
+export const taskEitherSeq: typeof taskEither = ...
+```
+
+Added in v1.10.0
+
 ## bracket
 
 Make sure that a resource is cleaned up in the event of an exception. The
 release action is called regardless of whether the body action throws or
 returns.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L387-L397)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L377-L387)
 
 ```ts
 export const bracket = <L, A, B>(
@@ -275,7 +275,7 @@ Added in v1.10.0
 
 ## fromEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L207-L209)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L204-L206)
 
 ```ts
 export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => { ... }
@@ -285,7 +285,7 @@ Added in v1.0.0
 
 ## fromIO
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L215-L217)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L211-L213)
 
 ```ts
 export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => { ... }
@@ -295,7 +295,7 @@ Added in v1.5.0
 
 ## fromIOEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L231-L233)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L225-L227)
 
 ```ts
 export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => { ... }
@@ -305,7 +305,7 @@ Added in v1.6.0
 
 ## fromLeft
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L223-L225)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L218-L220)
 
 ```ts
 export const fromLeft = <L, A>(l: L): TaskEither<L, A> => { ... }
@@ -315,7 +315,7 @@ Added in v1.3.0
 
 ## fromPredicate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L244-L247)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L237-L240)
 
 ```ts
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)  { ... }
@@ -325,7 +325,7 @@ Added in v1.6.0
 
 ## getApplyMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L275-L280)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L265-L270)
 
 ```ts
 export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => { ... }
@@ -335,7 +335,7 @@ Added in v1.9.0
 
 ## getApplySemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L264-L269)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L255-L260)
 
 ```ts
 export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => { ... }
@@ -345,7 +345,7 @@ Added in v1.9.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L253-L258)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L245-L250)
 
 ```ts
 export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => { ... }
@@ -355,7 +355,7 @@ Added in v1.9.0
 
 ## left
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L198-L200)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L196-L198)
 
 ```ts
 export const left = <L, A>(fa: Task<L>): TaskEither<L, A> => { ... }
@@ -365,7 +365,7 @@ Added in v1.0.0
 
 ## right
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L189-L191)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L188-L190)
 
 ```ts
 export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => { ... }
@@ -391,7 +391,7 @@ const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.Errno
 )
 ```
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L362-L376)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L352-L366)
 
 ```ts
 export function taskify<L, R>(f: Function): () => TaskEither<L, R>  { ... }
@@ -414,7 +414,7 @@ Added in v1.5.0
 
 Transforms a `Promise` into a `TaskEither`, catching the possible error.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L314-L316)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L304-L306)
 
 ```ts
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): TaskEither<L, A> => { ... }

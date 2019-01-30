@@ -86,7 +86,6 @@ export interface FoldableComposition3C1<F extends URIS3, G extends URIS, UF, LF>
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function getFoldableComposition<F extends URIS3, G extends URIS, UF, LF>(
@@ -123,7 +122,7 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
 /**
  * A default implementation of `foldMap` using `foldl`.
  * Map each element of the structure to a monoid, and combine the results.
- * @function
+ *
  * @since 1.0.0
  */
 export function foldMap<F extends URIS3, M>(
@@ -150,7 +149,7 @@ export function foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, 
 
 /**
  * A default implementation of `foldr` using `foldMap`
- * @function
+ *
  * @since 1.0.0
  */
 export function foldr<F extends URIS3>(
@@ -171,7 +170,6 @@ export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A, 
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function fold<F extends URIS3, M>(F: Foldable3<F>, M: Monoid<M>): <U, L>(fa: Type3<F, U, L, M>) => M
@@ -188,7 +186,7 @@ export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M {
  * Similar to 'reduce', but the result is encapsulated in a monad.
  *
  * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
- * @function
+ *
  * @since 1.0.0
  */
 export function foldM<F extends URIS, M extends URIS3>(
@@ -224,7 +222,7 @@ export function foldM<F, M>(
 
 /**
  * Use {@link traverse}
- * @function
+ *
  * @since 1.0.0
  * @deprecated
  */
@@ -264,7 +262,7 @@ export function traverse_<M, F>(
 
 /**
  * Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final result.
- * @function
+ *
  * @since 1.0.0
  */
 export function sequence_<M extends URIS3, F extends URIS>(
@@ -295,7 +293,7 @@ export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<
 
 /**
  * Combines a collection of elements using the `Alt` operation
- * @function
+ *
  * @since 1.0.0
  */
 export function oneOf<F extends URIS, P extends URIS3>(
@@ -327,7 +325,7 @@ type Acc<M> = { init: boolean; acc: M }
 
 /**
  * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
- * @function
+ *
  * @since 1.0.0
  */
 export function intercalate<F extends URIS3, M>(
@@ -356,7 +354,7 @@ export function intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm
 
 /**
  * Find the sum of the numeric values in a data structure
- * @function
+ *
  * @since 1.0.0
  */
 export function sum<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Type3<F, U, L, A>) => A
@@ -371,7 +369,7 @@ export function sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A 
 
 /**
  * Find the product of the numeric values in a data structure
- * @function
+ *
  * @since 1.0.0
  */
 export function product<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Type3<F, U, L, A>) => A
@@ -386,7 +384,7 @@ export function product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) =
 
 /**
  * Test whether a value is an element of a data structure
- * @function
+ *
  * @since 1.0.0
  */
 export function elem<F extends URIS3, A>(F: Foldable3<F>, S: Setoid<A>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
@@ -404,7 +402,7 @@ export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) 
 
 /**
  * Try to find an element in a data structure which satisfies a predicate
- * @function
+ *
  * @since 1.0.0
  */
 export function find<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
@@ -428,7 +426,7 @@ export function find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => 
 
 /**
  * Find the smallest element of a structure, according to its `Ord` instance
- * @function
+ *
  * @since 1.0.0
  */
 export function minimum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
@@ -447,7 +445,7 @@ export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Opt
 
 /**
  * Find the largest element of a structure, according to its `Ord` instance
- * @function
+ *
  * @since 1.0.0
  */
 export function maximum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
@@ -465,7 +463,6 @@ export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Opt
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function toArray<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => Array<A>
@@ -482,7 +479,7 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
 /**
  * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
  * final result.
- * @function
+ *
  * @since 1.7.0
  */
 export function traverse<M extends URIS3, F extends URIS>(

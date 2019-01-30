@@ -149,7 +149,6 @@ export interface FoldableWithIndexComposition3C1<F extends URIS3, FI, G extends 
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function getFoldableWithIndexComposition<F extends URIS3, FI, G extends URIS, GI, UF, LF>(

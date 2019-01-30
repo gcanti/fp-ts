@@ -62,7 +62,6 @@ export interface StateT3<M extends URIS3> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function map<F extends URIS3>(
@@ -84,7 +83,6 @@ export function map<F>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function of<F extends URIS3>(F: Applicative3<F>): <U, L, S, A>(a: A) => (s: S) => Type3<F, U, L, [A, S]>
@@ -96,7 +94,6 @@ export function of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function ap<F extends URIS3>(
@@ -126,7 +123,6 @@ export function ap<F>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function chain<F extends URIS3>(
@@ -154,7 +150,6 @@ export function chain<F>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function get<F extends URIS3>(F: Applicative3<F>): <S>() => <U, L>(s: S) => Type3<F, U, L, [S, S]>
@@ -166,7 +161,6 @@ export function get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function put<F extends URIS3>(F: Applicative3<F>): <S>(s: S) => <U, L>() => Type3<F, U, L, [void, S]>
@@ -178,7 +172,6 @@ export function put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]> 
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function modify<F extends URIS3>(
@@ -194,7 +187,6 @@ export function modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) 
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function gets<F extends URIS3>(
@@ -208,7 +200,6 @@ export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => 
 }
 
 /**
- * @function
  * @since 1.2.0
  */
 export function fromState<F extends URIS3>(
@@ -224,7 +215,6 @@ export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: 
 }
 
 /**
- * @function
  * @since 1.2.0
  */
 export function liftF<F extends URIS3>(
@@ -238,7 +228,6 @@ export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function getStateT<M extends URIS3>(M: Monad3<M>): StateT3<M>

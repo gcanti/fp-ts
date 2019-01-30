@@ -31,7 +31,7 @@ Added in v1.12.0
 
 ## getFunctorWithIndexComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FunctorWithIndex.ts#L157-L165)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FunctorWithIndex.ts#L156-L164)
 
 ```ts
 export function getFunctorWithIndexComposition<F, FI, G, GI>(

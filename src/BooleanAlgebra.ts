@@ -16,7 +16,6 @@ import { HeytingAlgebra } from './HeytingAlgebra'
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 
 /**
- * @instance
  * @since 1.4.0
  */
 export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
@@ -29,7 +28,6 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = {
 }
 
 /**
- * @instance
  * @since 1.4.0
  */
 export const booleanAlgebraVoid: BooleanAlgebra<void> = {
@@ -42,7 +40,6 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = {
 }
 
 /**
- * @function
  * @since 1.4.0
  */
 export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => {
@@ -58,7 +55,7 @@ export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never
 
 /**
  * Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
- * @function
+ *
  * @since 1.4.0
  */
 export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => {

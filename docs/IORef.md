@@ -59,7 +59,7 @@ Added in v1.8.0
 
 ## newIORef
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IORef.ts#L47-L49)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IORef.ts#L46-L48)
 
 ```ts
 export const newIORef = <A>(a: A): IO<IORef<A>> => { ... }

@@ -84,7 +84,6 @@ export class Identity<A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => {
@@ -146,7 +145,6 @@ const sequence = <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, 
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const identity: Monad1<URI> &

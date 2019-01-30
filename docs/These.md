@@ -7,16 +7,6 @@ title: Module These
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts)
 
-## these
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L488-L497)
-
-```ts
-export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # These
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L50-L50)
@@ -156,6 +146,26 @@ Added in v1.0.0
 
 Added in v1.0.0
 
+## that
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L290-L290)
+
+```ts
+export const that = ...
+```
+
+Added in v1.0.0
+
+## these
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L478-L487)
+
+```ts
+export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = ...
+```
+
+Added in v1.0.0
+
 ## both
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L296-L298)
@@ -168,7 +178,7 @@ Added in v1.0.0
 
 ## fromEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L480-L482)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L471-L473)
 
 ```ts
 export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => { ... }
@@ -190,7 +200,7 @@ Added in v1.13.0
 
 Takes a pair of `Option`s and attempts to create a `These` from them
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L462-L467)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L454-L459)
 
 ```ts
 export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> => { ... }
@@ -212,7 +222,7 @@ Added in v1.13.0
 
 ## fromThese
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L313-L315)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L312-L314)
 
 ```ts
 export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A] => { ... }
@@ -265,7 +275,7 @@ Added in v1.0.0
 
 Returns `true` if the these is an instance of `Both`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L376-L378)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L373-L375)
 
 ```ts
 export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => { ... }
@@ -277,7 +287,7 @@ Added in v1.0.0
 
 Returns `true` if the these is an instance of `That`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L367-L369)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L364-L366)
 
 ```ts
 export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => { ... }
@@ -289,7 +299,7 @@ Added in v1.0.0
 
 Returns `true` if the these is an instance of `This`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L358-L360)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L355-L357)
 
 ```ts
 export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => { ... }
@@ -305,7 +315,7 @@ Added in v1.0.0
 
 ## thatOrBoth
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L406-L408)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L401-L403)
 
 ```ts
 export const thatOrBoth = <L, A>(defaultThat: A, ml: Option<L>): These<L, A> => { ... }
@@ -327,7 +337,7 @@ Added in v1.13.0
 
 Returns an `L` value if possible
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L331-L333)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L329-L331)
 
 ```ts
 export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => { ... }
@@ -350,7 +360,7 @@ Added in v1.0.0
 
 Returns an `A` value if possible
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L349-L351)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L346-L348)
 
 ```ts
 export const theseRight = <L, A>(fa: These<L, A>): Option<A> => { ... }
@@ -373,7 +383,7 @@ Added in v1.0.0
 
 Returns the `A` value if and only if the value is constructed with `That`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L443-L445)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L436-L438)
 
 ```ts
 export const theseThat = <L, A>(fa: These<L, A>): Option<A> => { ... }
@@ -396,7 +406,7 @@ Added in v1.13.0
 
 Returns the `L` value if and only if the value is constructed with `This`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L424-L426)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L418-L420)
 
 ```ts
 export const theseThis = <L, A>(fa: These<L, A>): Option<L> => { ... }
@@ -417,7 +427,7 @@ Added in v1.13.0
 
 ## thisOrBoth
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L391-L393)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts#L387-L389)
 
 ```ts
 export const thisOrBoth = <L, A>(defaultThis: L, ma: Option<A>): These<L, A> => { ... }

@@ -50,7 +50,7 @@ Added in v1.7.0
 
 ## getCompactableComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Compactable.ts#L192-L207)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Compactable.ts#L191-L206)
 
 ```ts
 export function getCompactableComposition<F, G>(

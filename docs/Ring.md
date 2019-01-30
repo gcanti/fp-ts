@@ -27,7 +27,7 @@ Added in v1.0.0
 
 ## getFunctionRing
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L22-L27)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L21-L26)
 
 ```ts
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => { ... }
@@ -37,7 +37,7 @@ Added in v1.0.0
 
 ## getProductRing
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L42-L50)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L40-L48)
 
 ```ts
 export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => { ... }
@@ -49,7 +49,7 @@ Added in v1.0.0
 
 `negate x` can be used as a shorthand for `zero - x`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L34-L36)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L33-L35)
 
 ```ts
 export const negate = <A>(ring: Ring<A>) => (a: A): A => { ... }

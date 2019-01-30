@@ -4,7 +4,6 @@ import { Setoid } from './Setoid'
 export type Ordering = -1 | 0 | 1
 
 /**
- * @function
  * @since 1.0.0
  */
 export const sign = (n: number): Ordering => {
@@ -12,7 +11,6 @@ export const sign = (n: number): Ordering => {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const setoidOrdering: Setoid<Ordering> = {
@@ -20,7 +18,6 @@ export const setoidOrdering: Setoid<Ordering> = {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const semigroupOrdering: Semigroup<Ordering> = {
@@ -28,7 +25,6 @@ export const semigroupOrdering: Semigroup<Ordering> = {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const invert = (O: Ordering): Ordering => {

@@ -23,7 +23,7 @@ Added in v1.0.0
 
 ## lmap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.ts#L37-L39)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.ts#L36-L38)
 
 ```ts
 export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C>  { ... }
@@ -33,7 +33,7 @@ Added in v1.0.0
 
 ## rmap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.ts#L52-L54)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.ts#L50-L52)
 
 ```ts
 export function rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D>  { ... }

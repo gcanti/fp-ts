@@ -23,7 +23,7 @@ Added in v1.0.0
 
 ## iapplyFirst
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts#L32-L36)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts#L31-L35)
 
 ```ts
 export function iapplyFirst<F>(
@@ -35,7 +35,7 @@ Added in v1.0.0
 
 ## iapplySecond
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts#L48-L52)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts#L46-L50)
 
 ```ts
 export function iapplySecond<F>(

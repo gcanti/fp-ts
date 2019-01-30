@@ -6,12 +6,10 @@ import {
   Constant,
   Data,
   Func,
-  Instance,
   Interface,
   isConstant,
   isData,
   isFunc,
-  isInstance,
   isInterface,
   isTypeclass,
   Location,
@@ -48,8 +46,6 @@ const sortByName = <T extends { name: string }>(): ((xs: Array<T>) => Array<T>) 
   sort(contramap((x: T) => x.name, ordString))
 
 const sortMethods = sortByName<Method>()
-
-const sortInstances = sortByName<Instance>()
 
 const sortConstants = sortByName<Constant>()
 
@@ -144,14 +140,6 @@ const printData = (d: Data): string => {
   return s
 }
 
-const printInstance = (i: Instance): string => {
-  let s = CRLF + h2(i.name)
-  s += CRLF + printDescription(i.description)
-  s += CRLF + printSignature(i.signature, 'instance', i.location)
-  s += CRLF + printSince(i.since)
-  return s
-}
-
 const printConstant = (c: Constant): string => {
   let s = CRLF + h2(c.name)
   s += CRLF + printDescription(c.description)
@@ -205,7 +193,6 @@ export const printModule = (module: Module): string => {
   const interfaces = module.exports.filter(isInterface)
   const typeclasses = module.exports.filter(isTypeclass)
   const datas = module.exports.filter(isData)
-  const instances = sortInstances(module.exports.filter(isInstance))
   const constants = sortConstants(module.exports.filter(isConstant))
   const funcs = sortFuncs(module.exports.filter(isFunc))
   if (interfaces.length > 0) {
@@ -213,9 +200,6 @@ export const printModule = (module: Module): string => {
   }
   if (typeclasses.length > 0) {
     s += typeclasses.map(tc => printTypeclass(tc)).join('\n')
-  }
-  if (instances.length > 0) {
-    s += instances.map(i => printInstance(i)).join('\n')
   }
   if (datas.length > 0) {
     s += datas.map(d => printData(d)).join('\n')

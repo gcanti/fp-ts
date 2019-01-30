@@ -124,7 +124,6 @@ export interface Foldable2vComposition3C1<F extends URIS3, G extends URIS, UF, L
  * assert.strictEqual(F.reduce([some('a'), some('b'), some('c')], '', monoidString.concat), 'abc')
  * assert.strictEqual(F.reduce([some('a'), none, some('c')], '', monoidString.concat), 'ac')
  *
- * @function
  * @since 1.10.0
  */
 export function getFoldableComposition<F extends URIS3, G extends URIS, UF, LF>(
@@ -183,7 +182,6 @@ export function getFoldableComposition<F, G>(F: Foldable2v<F>, G: Foldable2v<G>)
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
  * assert.strictEqual(fold(monoidSum, tree)(t), 10)
  *
- * @function
  * @since 1.10.0
  */
 export function fold<M, F extends URIS3>(M: Monoid<M>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, M>) => M
@@ -209,7 +207,6 @@ export function fold<M, F>(M: Monoid<M>, F: Foldable2v<F>): (fa: HKT<F, M>) => M
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
  * assert.deepEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
  *
- * @function
  * @since 1.10.0
  */
 export function foldM<M extends URIS3, F extends URIS>(
@@ -256,7 +253,6 @@ export function foldM<M, F>(
  * sequence_(io, array)([append('a'), append('b'), append('c')]).run()
  * assert.strictEqual(log, 'abc')
  *
- * @function
  * @since 1.10.0
  */
 export function sequence_<M extends URIS3, F extends URIS>(
@@ -295,7 +291,6 @@ export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HK
  *
  * assert.deepEqual(oneOf(option, array)([some(2), some(1)]), some(2))
  *
- * @function
  * @since 1.10.0
  */
 export function oneOf<P extends URIS3, F extends URIS>(
@@ -339,7 +334,6 @@ interface Acc<M> {
  * const t = new Tree('a', [new Tree('b', []), new Tree('c', []), new Tree('d', [])])
  * assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
  *
- * @function
  * @since 1.10.0
  */
 export function intercalate<M, F extends URIS3>(
@@ -376,7 +370,6 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable2v<F>): (sep: M, fm: 
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
  * assert.strictEqual(sum(fieldNumber, tree)(t), 10)
  *
- * @function
  * @since 1.10.0
  */
 export function sum<F extends URIS3, A>(S: Semiring<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => A
@@ -400,7 +393,6 @@ export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => 
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
  * assert.strictEqual(product(fieldNumber, tree)(t), 24)
  *
- * @function
  * @since 1.10.0
  */
 export function product<F extends URIS3, A>(S: Semiring<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => A
@@ -428,7 +420,6 @@ export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>)
  * assert.strictEqual(member(setoidNumber, tree)(2, t), true)
  * assert.strictEqual(member(setoidNumber, tree)(5, t), false)
  *
- * @function
  * @since 1.10.0
  */
 export function member<F extends URIS3, A>(
@@ -462,7 +453,6 @@ export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, 
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
  * assert.deepEqual(findFirst(tree)(t, a => a > 2), some(3))
  *
- * @function
  * @since 1.10.0
  */
 export function findFirst<F extends URIS3>(
@@ -500,7 +490,6 @@ export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
  * assert.deepEqual(min(ordNumber, tree)(t), some(1))
  *
- * @function
  * @since 1.10.0
  */
 export function min<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
@@ -526,7 +515,6 @@ export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Optio
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
  * assert.deepEqual(max(ordNumber, tree)(t), some(4))
  *
- * @function
  * @since 1.10.0
  */
 export function max<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
@@ -550,7 +538,6 @@ export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Optio
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
  * assert.deepEqual(toArray(tree)(t), [1, 2, 3, 4])
  *
- * @function
  * @since 1.10.0
  */
 export function toArray<F extends URIS3>(F: Foldable2v3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => Array<A>
@@ -578,7 +565,6 @@ export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A> {
  * traverse_(io, array)(['a', 'b', 'c'], append).run()
  * assert.strictEqual(log, 'abc')
  *
- * @function
  * @since 1.10.0
  */
 export function traverse_<M extends URIS3, F extends URIS>(

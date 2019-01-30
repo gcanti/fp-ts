@@ -7,16 +7,6 @@ title: Module Zipper
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts)
 
-## zipper
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L292-L304)
-
-```ts
-export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = { ... }
-```
-
-Added in v1.9.0
-
 # Zipper
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L41-L179)
@@ -237,9 +227,19 @@ Added in v1.9.0
 
 Added in v1.9.0
 
+## zipper
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L287-L299)
+
+```ts
+export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
+```
+
+Added in v1.9.0
+
 ## fromArray
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L185-L191)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L184-L190)
 
 ```ts
 export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zipper<A>> => { ... }
@@ -249,7 +249,7 @@ Added in v1.9.0
 
 ## fromNonEmptyArray
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L197-L199)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L195-L197)
 
 ```ts
 export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => { ... }
@@ -259,7 +259,7 @@ Added in v1.9.0
 
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L281-L286)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L277-L282)
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => { ... }
@@ -269,7 +269,7 @@ Added in v1.9.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L271-L275)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L268-L272)
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => { ... }

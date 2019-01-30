@@ -91,7 +91,7 @@ export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> 
 
 /**
  * Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
- * @function
+ *
  * @since 1.0.0
  */
 export function lift<F extends URIS3>(
@@ -114,7 +114,7 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
 
 /**
  * Ignore the return value of a computation, using the specified return value instead (`<$`)
- * @function
+ *
  * @since 1.0.0
  */
 export function voidRight<F extends URIS3>(
@@ -133,7 +133,7 @@ export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<
 
 /**
  * A version of {@link voidRight} with its arguments flipped (`$>`)
- * @function
+ *
  * @since 1.0.0
  */
 export function voidLeft<F extends URIS3>(
@@ -152,7 +152,7 @@ export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F
 
 /**
  * Apply a value in a computational context to a value in no context. Generalizes `flip`
- * @function
+ *
  * @since 1.0.0
  */
 export function flap<F extends URIS3>(
@@ -174,7 +174,6 @@ export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => 
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function getFunctorComposition<F extends URIS3, G extends URIS, UF, LF>(

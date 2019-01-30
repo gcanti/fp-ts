@@ -23,10 +23,10 @@ Added in v1.0.0
 
 ## fieldNumber
 
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts#L20-L29)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts#L19-L28)
 
 ```ts
-export const fieldNumber: Field<number> = { ... }
+export const fieldNumber: Field<number> = ...
 ```
 
 Added in v1.0.0
@@ -35,7 +35,7 @@ Added in v1.0.0
 
 The _greatest common divisor_ of two values
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts#L36-L40)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts#L35-L39)
 
 ```ts
 export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => { ... }
@@ -47,7 +47,7 @@ Added in v1.0.0
 
 The _least common multiple_ of two values
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts#L47-L51)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts#L46-L50)
 
 ```ts
 export const lcm = <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A) => { ... }

@@ -28,7 +28,6 @@ export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, U
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function chain<F extends URIS2>(F: Monad2<F>): EitherT2<F>['chain']
@@ -39,7 +38,6 @@ export function chain<F>(F: Monad<F>): EitherT<F>['chain'] {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function right<F extends URIS2>(F: Functor2<F>): <L, M, A>(fa: Type2<F, M, A>) => Type2<F, M, Either<L, A>>
@@ -50,7 +48,6 @@ export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function left<F extends URIS2>(F: Functor2<F>): <L, M, A>(fl: Type2<F, M, L>) => Type2<F, M, Either<L, A>>
@@ -61,7 +58,6 @@ export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function fromEither<F extends URIS2>(
@@ -74,7 +70,6 @@ export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HK
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function fold<F extends URIS2>(
@@ -93,7 +88,6 @@ export function fold<F>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function mapLeft<F extends URIS2>(
@@ -112,7 +106,6 @@ export function mapLeft<F>(
 }
 
 /**
- * @function
  * @since 1.2.0
  */
 export function bimap<F extends URIS2>(
@@ -131,7 +124,6 @@ export function bimap<F>(
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function getEitherT<M extends URIS2>(M: Monad2<M>): EitherT2<M>

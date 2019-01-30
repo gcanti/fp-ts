@@ -7,16 +7,6 @@ title: Module Pair
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts)
 
-## pair
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L155-L167)
-
-```ts
-export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # Pair
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L30-L67)
@@ -128,9 +118,19 @@ Added in v1.0.0
 
 Added in v1.0.0
 
+## pair
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L150-L162)
+
+```ts
+export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
+```
+
+Added in v1.0.0
+
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L136-L141)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L132-L137)
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => { ... }
@@ -140,7 +140,7 @@ Added in v1.0.0
 
 ## getOrd
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L115-L120)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L113-L118)
 
 ```ts
 export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => { ... }
@@ -150,7 +150,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L126-L130)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L123-L127)
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => { ... }
@@ -160,7 +160,7 @@ Added in v1.0.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L105-L109)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L104-L108)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => { ... }

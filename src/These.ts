@@ -159,7 +159,7 @@ export class Both<L, A> {
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
@@ -174,7 +174,7 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => {
@@ -228,7 +228,7 @@ const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
@@ -275,7 +275,7 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ta: These<L, HKT<F, A>>): HKT<
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export const this_ = <L, A>(l: L): These<L, A> => {
@@ -283,14 +283,14 @@ export const this_ = <L, A>(l: L): These<L, A> => {
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  * @alias of
  */
 export const that = of
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export const both = <L, A>(l: L, a: A): These<L, A> => {
@@ -307,7 +307,6 @@ export const both = <L, A>(l: L, a: A): These<L, A> => {
  * assert.deepEqual(from(that(2)), ['a', 2])
  * assert.deepEqual(from(both('b', 2)), ['b', 2])
  *
- * @function
  * @since 1.0.0
  */
 export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A] => {
@@ -325,7 +324,6 @@ export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L,
  * assert.deepEqual(theseLeft(that(1)), none)
  * assert.deepEqual(theseLeft(both('a', 1)), some('a'))
  *
- * @function
  * @since 1.0.0
  */
 export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => {
@@ -343,7 +341,6 @@ export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => {
  * assert.deepEqual(theseRight(that(1)), some(1))
  * assert.deepEqual(theseRight(both('a', 1)), some(1))
  *
- * @function
  * @since 1.0.0
  */
 export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
@@ -352,7 +349,7 @@ export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
 
 /**
  * Returns `true` if the these is an instance of `This`, `false` otherwise
- * @function
+ *
  * @since 1.0.0
  */
 export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => {
@@ -361,7 +358,7 @@ export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => {
 
 /**
  * Returns `true` if the these is an instance of `That`, `false` otherwise
- * @function
+ *
  * @since 1.0.0
  */
 export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
@@ -370,7 +367,7 @@ export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
 
 /**
  * Returns `true` if the these is an instance of `Both`, `false` otherwise
- * @function
+ *
  * @since 1.0.0
  */
 export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
@@ -385,7 +382,6 @@ export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
  * assert.deepEqual(thisOrBoth('a', none), this_('a'))
  * assert.deepEqual(thisOrBoth('a', some(1)), both('a', 1))
  *
- * @function
  * @since 1.13.0
  */
 export const thisOrBoth = <L, A>(defaultThis: L, ma: Option<A>): These<L, A> => {
@@ -400,7 +396,6 @@ export const thisOrBoth = <L, A>(defaultThis: L, ma: Option<A>): These<L, A> => 
  * assert.deepEqual(thatOrBoth(1, none), that(1))
  * assert.deepEqual(thatOrBoth(1, some('a')), both('a', 1))
  *
- * @function
  * @since 1.13.0
  */
 export const thatOrBoth = <L, A>(defaultThat: A, ml: Option<L>): These<L, A> => {
@@ -418,7 +413,6 @@ export const thatOrBoth = <L, A>(defaultThat: A, ml: Option<L>): These<L, A> => 
  * assert.deepEqual(theseThis(that(1)), none)
  * assert.deepEqual(theseThis(both('a', 1)), none)
  *
- * @function
  * @since 1.13.0
  */
 export const theseThis = <L, A>(fa: These<L, A>): Option<L> => {
@@ -437,7 +431,6 @@ export const theseThis = <L, A>(fa: These<L, A>): Option<L> => {
  * assert.deepEqual(theseThat(both('a', 1)), none)
  *
  *
- * @function
  * @since 1.13.0
  */
 export const theseThat = <L, A>(fa: These<L, A>): Option<A> => {
@@ -456,7 +449,6 @@ export const theseThat = <L, A>(fa: These<L, A>): Option<A> => {
  * assert.deepEqual(fromOptions(none, some(1)), some(that(1)))
  * assert.deepEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
  *
- * @function
  * @since 1.13.0
  */
 export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> => {
@@ -474,7 +466,6 @@ export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L,
  * assert.deepEqual(fromEither(left('a')), this_('a'))
  * assert.deepEqual(fromEither(right(1)), that(1))
  *
- * @function
  * @since 1.13.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => {
@@ -482,7 +473,6 @@ export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = {

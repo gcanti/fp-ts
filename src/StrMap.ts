@@ -134,7 +134,7 @@ export class StrMap<A> {
 }
 
 /**
- * @constant
+ *
  * @since 1.10.0
  */
 const empty: StrMap<never> = new StrMap(R.empty)
@@ -145,7 +145,7 @@ const concat = <A>(S: Semigroup<A>): ((x: StrMap<A>, y: StrMap<A>) => StrMap<A>)
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export const getMonoid = <A = never>(S: Semigroup<A> = getLastSemigroup()): Monoid<StrMap<A>> => {
@@ -186,7 +186,7 @@ const foldrWithIndex = <A, B>(fa: StrMap<A>, b: B, f: (k: string, a: A, b: B) =>
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export function traverseWithKey<F extends URIS3>(
@@ -220,7 +220,7 @@ function sequence<F>(F: Applicative<F>): <A>(ta: StrMap<HKT<F, A>>) => HKT<F, St
 
 /**
  * Test whether one dictionary contains all of the keys and values contained in another dictionary
- * @function
+ *
  * @since 1.0.0
  */
 export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => {
@@ -230,7 +230,7 @@ export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>
 
 /**
  * Calculate the number of key/value pairs in a dictionary
- * @function
+ *
  * @since 1.0.0
  */
 export const size = <A>(d: StrMap<A>): number => {
@@ -239,7 +239,7 @@ export const size = <A>(d: StrMap<A>): number => {
 
 /**
  * Test whether a dictionary is empty
- * @function
+ *
  * @since 1.0.0
  */
 export const isEmpty = <A>(d: StrMap<A>): boolean => {
@@ -247,7 +247,7 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
@@ -259,7 +259,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
 
 /**
  * Create a dictionary with one key/value pair
- * @function
+ *
  * @since 1.0.0
  */
 export const singleton = <A>(k: string, a: A): StrMap<A> => {
@@ -268,7 +268,7 @@ export const singleton = <A>(k: string, a: A): StrMap<A> => {
 
 /**
  * Lookup the value for a key in a dictionary
- * @function
+ *
  * @since 1.0.0
  */
 export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => {
@@ -278,7 +278,7 @@ export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => {
 /**
  * Create a dictionary from a foldable collection of key/value pairs, using the
  * specified function to combine values for duplicate keys.
- * @function
+ *
  * @since 1.0.0
  */
 export function fromFoldable<F extends URIS3>(
@@ -299,7 +299,7 @@ export function fromFoldable<F>(
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B> => {
@@ -307,7 +307,7 @@ export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B>
 }
 
 /**
- * @function
+ *
  * @since 1.0.0
  */
 export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
@@ -316,7 +316,7 @@ export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
 
 /**
  * Unfolds a dictionary into a list of key/value pairs
- * @function
+ *
  * @since 1.0.0
  */
 export const toUnfoldable = <F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) => {
@@ -326,7 +326,7 @@ export const toUnfoldable = <F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, 
 
 /**
  * Insert or replace a key/value pair in a map
- * @function
+ *
  * @since 1.0.0
  */
 export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
@@ -335,7 +335,7 @@ export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
 
 /**
  * Delete a key and value from a map
- * @function
+ *
  * @since 1.0.0
  */
 export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
@@ -344,7 +344,7 @@ export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
 
 /**
  * Delete a key and value from a map, returning the value as well as the subsequent map
- * @function
+ *
  * @since 1.0.0
  */
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
@@ -413,7 +413,6 @@ const filterWithIndex = <A>(fa: StrMap<A>, p: (i: string, a: A) => boolean): Str
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const strmap: FunctorWithIndex1<URI, string> &

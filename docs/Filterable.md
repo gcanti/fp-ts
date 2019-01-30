@@ -38,7 +38,7 @@ Added in v1.7.0
 
 ## getFilterableComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Filterable.ts#L307-L324)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Filterable.ts#L306-L323)
 
 ```ts
 export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>  { ... }

@@ -28,7 +28,6 @@ export interface Monoid<A> extends Semigroup<A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => {
@@ -36,7 +35,6 @@ export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => {
@@ -47,7 +45,6 @@ export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A,
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
@@ -59,7 +56,6 @@ export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
 
 /**
  * Boolean monoid under conjunction
- * @instance
  * @since 1.0.0
  */
 export const monoidAll: Monoid<boolean> = {
@@ -69,7 +65,6 @@ export const monoidAll: Monoid<boolean> = {
 
 /**
  * Boolean monoid under disjunction
- * @instance
  * @since 1.0.0
  */
 export const monoidAny: Monoid<boolean> = {
@@ -80,7 +75,6 @@ export const monoidAny: Monoid<boolean> = {
 const emptyArray: Array<any> = []
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const unsafeMonoidArray: Monoid<Array<any>> = {
@@ -90,7 +84,7 @@ export const unsafeMonoidArray: Monoid<Array<any>> = {
 
 /**
  * Monoid under array concatenation (`Array<any>`)
- * @function
+ *
  * @since 1.0.0
  */
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
@@ -109,7 +103,6 @@ const emptyObject = {}
  * const M = getDictionaryMonoid(semigroupSum)
  * assert.deepEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
  *
- * @function
  * @since 1.4.0
  */
 export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => {
@@ -121,7 +114,6 @@ export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]:
 
 /**
  * Number monoid under addition
- * @instance
  * @since 1.0.0
  */
 export const monoidSum: Monoid<number> = {
@@ -131,7 +123,6 @@ export const monoidSum: Monoid<number> = {
 
 /**
  * Number monoid under multiplication
- * @instance
  * @since 1.0.0
  */
 export const monoidProduct: Monoid<number> = {
@@ -140,7 +131,6 @@ export const monoidProduct: Monoid<number> = {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const monoidString: Monoid<string> = {
@@ -149,7 +139,6 @@ export const monoidString: Monoid<string> = {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const monoidVoid: Monoid<void> = {
@@ -158,7 +147,6 @@ export const monoidVoid: Monoid<void> = {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => {
@@ -169,7 +157,6 @@ export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: 
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
@@ -180,7 +167,6 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getRecordMonoid = <O extends { [key: string]: any }>(
@@ -198,7 +184,6 @@ export const getRecordMonoid = <O extends { [key: string]: any }>(
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => {
@@ -209,7 +194,6 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => {
 }
 
 /**
- * @function
  * @since 1.9.0
  */
 export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => {

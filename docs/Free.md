@@ -111,7 +111,7 @@ Added in v1.0.0
 
 ## foldFree
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts#L175-L183)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts#L173-L181)
 
 ```ts
 export function foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A>  { ... }
@@ -123,7 +123,7 @@ Added in v1.0.0
 
 Use a natural transformation to change the generating type constructor of a free monad
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts#L137-L139)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts#L136-L138)
 
 ```ts
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)  { ... }
@@ -135,7 +135,7 @@ Added in v1.0.0
 
 Lift an impure value described by the generating type constructor `F` into the free monad
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts#L106-L108)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts#L105-L107)
 
 ```ts
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => { ... }
@@ -145,7 +145,7 @@ Added in v1.0.0
 
 ## of
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts#L97-L99)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts#L96-L98)
 
 ```ts
 export const of = <F, A>(a: A): Free<F, A> => { ... }

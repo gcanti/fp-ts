@@ -20,7 +20,6 @@ export interface Ord<A> extends Setoid<A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const unsafeCompare = (x: any, y: any): Ordering => {
@@ -28,7 +27,6 @@ export const unsafeCompare = (x: any, y: any): Ordering => {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const ordString: Ord<string> = {
@@ -37,7 +35,6 @@ export const ordString: Ord<string> = {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const ordNumber: Ord<number> = {
@@ -46,7 +43,6 @@ export const ordNumber: Ord<number> = {
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const ordBoolean: Ord<boolean> = {
@@ -56,7 +52,7 @@ export const ordBoolean: Ord<boolean> = {
 
 /**
  * Test whether one value is _strictly less than_ another
- * @function
+ *
  * @since 1.0.0
  */
 export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
@@ -65,7 +61,7 @@ export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 
 /**
  * Test whether one value is _strictly greater than_ another
- * @function
+ *
  * @since 1.0.0
  */
 export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
@@ -74,7 +70,7 @@ export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 
 /**
  * Test whether one value is _non-strictly less than_ another
- * @function
+ *
  * @since 1.0.0
  */
 export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
@@ -83,7 +79,7 @@ export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 
 /**
  * Test whether one value is _non-strictly greater than_ another
- * @function
+ *
  * @since 1.0.0
  */
 export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
@@ -92,7 +88,7 @@ export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
- * @function
+ *
  * @since 1.0.0
  */
 export const min = <A>(O: Ord<A>) => (x: A, y: A): A => {
@@ -101,7 +97,7 @@ export const min = <A>(O: Ord<A>) => (x: A, y: A): A => {
 
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen
- * @function
+ *
  * @since 1.0.0
  */
 export const max = <A>(O: Ord<A>) => (x: A, y: A): A => {
@@ -110,7 +106,7 @@ export const max = <A>(O: Ord<A>) => (x: A, y: A): A => {
 
 /**
  * Clamp a value between a minimum and a maximum
- * @function
+ *
  * @since 1.0.0
  */
 export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
@@ -121,7 +117,7 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
 
 /**
  * Test whether a value is between a minimum and a maximum (inclusive)
- * @function
+ *
  * @since 1.0.0
  */
 export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => {
@@ -131,7 +127,6 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) =>
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
@@ -142,7 +137,6 @@ export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
@@ -150,7 +144,6 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
@@ -160,7 +153,6 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
@@ -175,7 +167,6 @@ export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
 }
 
 /**
- * @function
  * @since 1.3.0
  */
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
@@ -183,7 +174,6 @@ export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
 }
 
 /**
- * @instance
  * @since 1.4.0
  */
 export const ordDate: Ord<Date> = contramap(date => date.valueOf(), ordNumber)

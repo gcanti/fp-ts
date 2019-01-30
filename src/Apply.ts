@@ -44,7 +44,7 @@ export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 
 /**
  * Combine two effectful actions, keeping only the result of the first
- * @function
+ *
  * @since 1.0.0
  */
 export function applyFirst<F extends URIS3>(
@@ -67,7 +67,7 @@ export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>)
 
 /**
  * Combine two effectful actions, keeping only the result of the second
- * @function
+ *
  * @since 1.0.0
  */
 export function applySecond<F extends URIS3>(
@@ -90,7 +90,7 @@ export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>
 
 /**
  * Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
- * @function
+ *
  * @since 1.0.0
  */
 export function liftA2<F extends URIS3>(
@@ -116,7 +116,7 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
 /**
  * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
  * `F`
- * @function
+ *
  * @since 1.0.0
  */
 export function liftA3<F extends URIS3>(
@@ -154,7 +154,7 @@ export function liftA3<F>(
 /**
  * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
  * `F`
- * @function
+ *
  * @since 1.0.0
  */
 export function liftA4<F extends URIS3>(
@@ -207,7 +207,6 @@ export function liftA4<F>(
  * assert.deepEqual(S.concat(none, some(2)), none)
  * assert.deepEqual(S.concat(some(1), some(2)), some(3))
  *
- * @function
  * @since 1.4.0
  */
 export function getSemigroup<F extends URIS3, A>(
@@ -321,7 +320,6 @@ const tupleConstructors: { [key: string]: Function1<any, any> } = {}
  * assert.deepEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
  * assert.deepEqual(sequenceTOption(some(1), some('2'), none), none)
  *
- * @function
  * @since 1.5.0
  */
 export function sequenceT<F extends URIS3, U, L>(F: Apply3<F>): SequenceT3<F>

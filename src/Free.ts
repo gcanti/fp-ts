@@ -91,7 +91,6 @@ export class Impure<F, A, X> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const of = <F, A>(a: A): Free<F, A> => {
@@ -100,7 +99,7 @@ export const of = <F, A>(a: A): Free<F, A> => {
 
 /**
  * Lift an impure value described by the generating type constructor `F` into the free monad
- * @function
+ *
  * @since 1.0.0
  */
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => {
@@ -121,7 +120,7 @@ const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: Free<F, 
 
 /**
  * Use a natural transformation to change the generating type constructor of a free monad
- * @function
+ *
  * @since 1.0.0
  */
 export function hoistFree<F extends URIS3 = never, G extends URIS3 = never>(
@@ -161,7 +160,6 @@ export interface FoldFree2C<M extends URIS2, L> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function foldFree<M extends URIS3>(M: Monad3<M>): FoldFree3<M>

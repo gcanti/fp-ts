@@ -7,16 +7,6 @@ title: Module Store
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts)
 
-## store
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L100-L105)
-
-```ts
-export const store: Comonad2<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # Store
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L21-L45)
@@ -89,6 +79,16 @@ toString(): string  { ... }
 ```
 
 Added in v1.0.0
+
+Added in v1.0.0
+
+## store
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L99-L104)
+
+```ts
+export const store: Comonad2<URI> = ...
+```
 
 Added in v1.0.0
 

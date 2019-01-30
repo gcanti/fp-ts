@@ -295,7 +295,6 @@ export class NonEmptyArray<A> {
    * assert.deepEqual(new NonEmptyArray(1, [2, 3]).index(1), some(2))
    * assert.deepEqual(new NonEmptyArray(1, [2, 3]).index(3), none)
    *
-   * @function
    * @since 1.11.0
    */
 
@@ -311,7 +310,6 @@ export class NonEmptyArray<A> {
    *
    * assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findFirst(x => x.a === 1), some({ a: 1, b: 1 }))
    *
-   * @function
    * @since 1.11.0
    */
   findFirst<B extends A>(predicate: Refinement<A, B>): Option<B>
@@ -328,7 +326,6 @@ export class NonEmptyArray<A> {
    *
    * assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findLast(x => x.a === 1), some({ a: 1, b: 2 }))
    *
-   * @function
    * @since 1.11.0
    */
   findLast<B extends A>(predicate: Refinement<A, B>): Option<B>
@@ -348,7 +345,6 @@ export class NonEmptyArray<A> {
    * assert.deepEqual(new NonEmptyArray(1, [2, 3]).findIndex(x => x === 2), some(1))
    * assert.deepEqual(new NonEmptyArray<number>(1, []).findIndex(x => x === 2), none)
    *
-   * @function
    * @since 1.11.0
    */
   findIndex(predicate: Predicate<A>): Option<number> {
@@ -375,7 +371,6 @@ export class NonEmptyArray<A> {
    * assert.deepEqual(xs.findLastIndex(x => x.a === 1), some(1))
    * assert.deepEqual(xs.findLastIndex(x => x.a === 4), none)
    *
-   * @function
    * @since 1.11.0
    */
   findLastIndex(predicate: Predicate<A>): Option<number> {
@@ -392,7 +387,6 @@ export class NonEmptyArray<A> {
    *
    * assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).insertAt(2, 5), some(new NonEmptyArray(1, [2, 5, 3, 4])))
    *
-   * @function
    * @since 1.11.0
    */
   insertAt(i: number, a: A): Option<NonEmptyArray<A>> {
@@ -414,7 +408,6 @@ export class NonEmptyArray<A> {
    * assert.deepEqual(new NonEmptyArray(1, [2, 3]).updateAt(1, 1), some(new NonEmptyArray(1, [1, 3])))
    * assert.deepEqual(new NonEmptyArray(1, []).updateAt(1, 1), none)
    *
-   * @function
    * @since 1.11.0
    */
 
@@ -429,7 +422,7 @@ export class NonEmptyArray<A> {
 
   /**
    * Filter an NonEmptyArray, keeping the elements which satisfy a predicate function, creating a new NonEmptyArray or returning `None` in case the resulting NonEmptyArray would have no remaining elements.
-   * @function
+   *
    * @since 1.11.0
    */
   filter<B extends A>(predicate: Refinement<A, B>): Option<NonEmptyArray<B>>
@@ -439,7 +432,6 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * @function
    * @since 1.12.0
    */
   filterWithIndex(predicate: (i: number, a: A) => boolean): Option<NonEmptyArray<A>> {
@@ -454,7 +446,7 @@ const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
 
 /**
  * Builds {@link NonEmptyArray} from {@link Array} returning {@link Option#none} or {@link Option#some} depending on amount of values in passed array
- * @function
+ *
  * @since 1.0.0
  */
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => {
@@ -487,7 +479,7 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
 
 /**
  * Builds {@link Semigroup} instance for {@link NonEmptyArray} of specified type arument
- * @function
+ *
  * @since 1.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
@@ -507,7 +499,6 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
  *   new NonEmptyArray(1, [1])
  * ])
  *
- * @function
  * @since 1.7.0
  */
 export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
@@ -541,7 +532,6 @@ export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>
  *
  * assert.deepEqual(groupSort(ordNumber)([1, 2, 1, 1]), [new NonEmptyArray(1, [1, 1]), new NonEmptyArray(2, [])])
  *
- * @function
  * @since 1.7.0
  */
 export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) => {
@@ -608,7 +598,6 @@ function sequence<F>(F: Applicative<F>): <A>(ta: NonEmptyArray<HKT<F, A>>) => HK
  *   '6': new NonEmptyArray('foobar', [])
  * })
  *
- * @function
  * @since 1.10.0
  */
 export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => {
@@ -636,7 +625,6 @@ const traverseWithIndex = <F>(
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const nonEmptyArray: Monad1<URI> &

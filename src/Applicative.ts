@@ -144,8 +144,6 @@ export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, 
  * when(io)(true, action).run()
  * assert.deepEqual(log, ['action called'])
  *
- *
- * @function
  * @since 1.0.0
  */
 export function when<F extends URIS3>(
@@ -184,7 +182,6 @@ export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void
  *   .run()
  *   .then(result => assert.deepEqual(result, some(3)))
  *
- * @function
  * @since 1.0.0
  */
 export function getApplicativeComposition<F extends URIS3, G extends URIS, UF, LF>(
@@ -252,7 +249,6 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
  * assert.deepEqual(M.concat(none, some(2)), none)
  * assert.deepEqual(M.concat(some(1), some(2)), some(3))
  *
- * @function
  * @since 1.4.0
  */
 export function getMonoid<F extends URIS3, A>(

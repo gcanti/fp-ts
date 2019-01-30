@@ -79,7 +79,6 @@ const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
@@ -94,7 +93,6 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
@@ -104,7 +102,6 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
 const fromIO = identity
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const io: Monad1<URI> & MonadIO1<URI> = {

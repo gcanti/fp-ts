@@ -31,7 +31,6 @@ export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const tailRec = <A, B>(f: (a: A) => Either<A, B>, a: A): B => {

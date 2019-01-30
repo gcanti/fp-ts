@@ -26,7 +26,7 @@ Added in v1.0.0
 
 The container with no elements - unfolded with zero iterations.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts#L89-L91)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts#L87-L89)
 
 ```ts
 export function empty<F, A>(U: Unfoldable<F>): HKT<F, A>  { ... }
@@ -47,7 +47,7 @@ Added in v1.0.0
 
 Replicate a value some natural number of times.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts#L64-L71)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts#L63-L70)
 
 ```ts
 export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>  { ... }
@@ -68,7 +68,7 @@ Added in v1.0.0
 
 Perform an Applicative action `n` times, and accumulate all the results
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts#L150-L157)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts#L146-L153)
 
 ```ts
 export function replicateA<F, T>(
@@ -94,7 +94,7 @@ Added in v1.0.0
 
 Contain a single value
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts#L111-L114)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts#L108-L111)
 
 ```ts
 export function singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A>  { ... }

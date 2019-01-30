@@ -52,7 +52,6 @@ export interface Unfoldable3C<F extends URIS3, U, L> {
  *
  * assert.deepEqual(replicate(array)('s', 2), ['s', 's'])
  *
- * @function
  * @since 1.0.0
  */
 export function replicate<F extends URIS3>(U: Unfoldable3<F>): <U, L, A>(a: A, n: number) => Type3<F, U, L, A>
@@ -79,7 +78,6 @@ export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A
  *
  * assert.deepEqual(empty(array), [])
  *
- * @function
  * @since 1.0.0
  */
 export function empty<F extends URIS3, U, L, A>(U: Unfoldable3<F> | Unfoldable3C<F, U, L>): Type3<F, U, L, A>
@@ -99,7 +97,6 @@ export function empty<F, A>(U: Unfoldable<F>): HKT<F, A> {
  *
  * assert.deepEqual(singleton(array)(1), [1])
  *
- * @function
  * @since 1.0.0
  */
 export function singleton<F extends URIS3>(U: Unfoldable3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>
@@ -124,7 +121,6 @@ export function singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A> {
  * assert.deepEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
  * assert.deepEqual(replicateA(option, array)(2, none), none)
  *
- * @function
  * @since 1.0.0
  */
 export function replicateA<F extends URIS3, T extends URIS>(

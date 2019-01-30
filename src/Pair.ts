@@ -99,7 +99,6 @@ const extend = <A, B>(fa: Pair<A>, f: (fb: Pair<A>) => B): Pair<B> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => {
@@ -109,7 +108,6 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => {
@@ -120,7 +118,6 @@ export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => {
@@ -130,7 +127,6 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => {
@@ -149,7 +145,6 @@ const sequence = <F>(F: Applicative<F>) => <A>(ta: Pair<HKT<F, A>>): HKT<F, Pair
 }
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = {

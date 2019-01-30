@@ -44,7 +44,7 @@ Added in v1.0.0
 
 ## getFunctionSemiring
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts#L38-L45)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts#L37-L44)
 
 ```ts
 export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => { ... }

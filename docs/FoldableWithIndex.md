@@ -32,7 +32,7 @@ Added in v1.12.0
 
 ## getFoldableWithIndexComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FoldableWithIndex.ts#L191-L207)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FoldableWithIndex.ts#L190-L206)
 
 ```ts
 export function getFoldableWithIndexComposition<F, FI, G, GI>(

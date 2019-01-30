@@ -8,10 +8,11 @@ import { getDictionaryMonoid, Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { Setoid } from './Setoid'
 import { Unfoldable } from './Unfoldable'
+import { Semigroup } from './Semigroup'
 
 /**
  * Calculate the number of key/value pairs in a dictionary
- * @function
+ *
  * @since 1.10.0
  */
 export const size = <A>(d: Record<string, A>): number => {
@@ -20,7 +21,7 @@ export const size = <A>(d: Record<string, A>): number => {
 
 /**
  * Test whether a dictionary is empty
- * @function
+ *
  * @since 1.10.0
  */
 export const isEmpty = <A>(d: Record<string, A>): boolean => {
@@ -28,7 +29,6 @@ export const isEmpty = <A>(d: Record<string, A>): boolean => {
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export function collect<K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B>
@@ -43,7 +43,6 @@ export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): 
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export function toArray<K extends string, A>(d: Record<K, A>): Array<[K, A]>
@@ -54,7 +53,7 @@ export function toArray<A>(d: Record<string, A>): Array<[string, A]> {
 
 /**
  * Unfolds a dictionary into a list of key/value pairs
- * @function
+ *
  * @since 1.10.0
  */
 export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: Record<string, A>): HKT<F, [string, A]> => {
@@ -65,7 +64,7 @@ export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: Record<stri
 
 /**
  * Insert or replace a key/value pair in a map
- * @function
+ *
  * @since 1.10.0
  */
 export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A>
@@ -78,7 +77,7 @@ export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string,
 
 /**
  * Delete a key and value from a map
- * @function
+ *
  * @since 1.10.0
  */
 export function remove<KS extends string, K extends string, A>(
@@ -94,7 +93,7 @@ export function remove<A>(k: string, d: Record<string, A>): Record<string, A> {
 
 /**
  * Delete a key and value from a map, returning the value as well as the subsequent map
- * @function
+ *
  * @since 1.10.0
  */
 export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> => {
@@ -104,7 +103,7 @@ export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<strin
 
 /**
  * Test whether one dictionary contains all of the keys and values contained in another dictionary
- * @function
+ *
  * @since 1.10.0
  */
 export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
@@ -117,7 +116,6 @@ export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: 
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Record<string, A>> => {
@@ -128,10 +126,11 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Record<string, A>> => {
 }
 
 /**
- * @function
  * @since 1.10.0
  */
-export const getMonoid = getDictionaryMonoid
+export const getMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => {
+  return getDictionaryMonoid(S)
+}
 
 /**
  * Lookup the value for a key in a dictionary
@@ -151,13 +150,11 @@ export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string
 }
 
 /**
- * @constant
  * @since 1.10.0
  */
 export const empty: Record<string, never> = {}
 
 /**
- * @function
  * @since 1.10.0
  */
 export function mapWithKey<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B>
@@ -172,7 +169,6 @@ export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => 
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B>
@@ -182,7 +178,6 @@ export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string,
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => {
@@ -190,7 +185,6 @@ export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B):
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M) => {
@@ -199,7 +193,6 @@ export const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) 
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => {
@@ -207,7 +200,6 @@ export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): 
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function reduceWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B
@@ -224,7 +216,6 @@ export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, 
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (k: string, a: A) => M): M => {
@@ -239,7 +230,6 @@ export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f:
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function foldrWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B
@@ -257,7 +247,7 @@ export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a
 
 /**
  * Create a dictionary with one key/value pair
- * @function
+ *
  * @since 1.10.0
  */
 export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => {
@@ -265,7 +255,6 @@ export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => {
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export function traverseWithKey<F extends URIS3>(
@@ -294,7 +283,6 @@ export function traverseWithKey<F>(
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export function traverse<F extends URIS3>(
@@ -323,7 +311,6 @@ export function traverse<F>(
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export function sequence<F extends URIS3>(
@@ -348,7 +335,6 @@ export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => {
@@ -364,7 +350,6 @@ export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => 
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export const partitionMap = <RL, RR, A>(
@@ -375,7 +360,6 @@ export const partitionMap = <RL, RR, A>(
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export const partition = <A>(
@@ -386,7 +370,6 @@ export const partition = <A>(
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export const separate = <RL, RR>(
@@ -410,7 +393,6 @@ export const separate = <RL, RR>(
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export function wither<F extends URIS3>(
@@ -439,7 +421,6 @@ export function wither<F>(
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export function wilt<F extends URIS3>(
@@ -489,7 +470,6 @@ export function wilt<F>(
 }
 
 /**
- * @function
  * @since 1.10.0
  */
 export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => {
@@ -497,7 +477,6 @@ export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): 
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function partitionMapWithIndex<K extends string, RL, RR, A>(
@@ -530,7 +509,6 @@ export function partitionMapWithIndex<RL, RR, A>(
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function partitionWithIndex<K extends string, A>(
@@ -563,7 +541,6 @@ export function partitionWithIndex<A>(
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function filterMapWithIndex<K extends string, A, B>(
@@ -587,7 +564,6 @@ export function filterMapWithIndex<A, B>(
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
@@ -607,7 +583,7 @@ export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A)
 /**
  * Create a dictionary from a foldable collection of key/value pairs, using the
  * specified function to combine values for duplicate keys.
- * @function
+ *
  * @since 1.10.0
  */
 export function fromFoldable<F extends URIS3>(

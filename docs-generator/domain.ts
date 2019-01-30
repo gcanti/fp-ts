@@ -131,34 +131,6 @@ export const func = (
   location
 })
 
-export const isInstance = (e: Export): e is Instance => e.type === 'Instance'
-
-export interface Instance {
-  readonly type: 'Instance'
-  readonly name: string
-  readonly signature: string
-  readonly description: Option<string>
-  readonly since: string
-  readonly location: Location
-}
-
-export const instance = (
-  name: string,
-  signature: string,
-  description: Option<string>,
-  since: string,
-  location: Location
-): Export => {
-  return {
-    type: 'Instance',
-    name,
-    signature,
-    description,
-    since,
-    location
-  }
-}
-
 export const isConstant = (e: Export): e is Constant => e.type === 'Constant'
 
 export interface Constant {
@@ -246,7 +218,7 @@ export const inter = (
   }
 }
 
-export type Export = Data | Func | Instance | Constant | Typeclass | Interface
+export type Export = Data | Func | Constant | Typeclass | Interface
 
 export class Module {
   constructor(readonly name: string, readonly exports: Array<Export>, readonly path: string) {}

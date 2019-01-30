@@ -115,7 +115,6 @@ export interface FunctorWithIndexComposition3C1<F extends URIS3, FI, G extends U
 }
 
 /**
- * @function
  * @since 1.12.0
  */
 export function getFunctorWithIndexComposition<F extends URIS3, FI, G extends URIS, GI, U, L>(

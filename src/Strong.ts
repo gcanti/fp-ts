@@ -65,7 +65,6 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
  * We take two functions, `f` and `g`, and we transform them into a single function which takes a tuple and maps `f`
  * over the first element and `g` over the second.  Just like `bi-map` would do for the `bi-functor` instance of tuple.
  *
- * @function
  * @since 1.11.0
  */
 export function splitStrong<F extends URIS4>(
@@ -106,7 +105,6 @@ export function splitStrong<F>(
  * takes one parameter and returns a tuple of the results of running `f` and `g` on the parameter, respectively.  This
  * allows us to run two parallel computations on the same input and return both results in a tuple.
  *
- * @function
  * @since 1.11.0
  */
 export function fanout<F extends URIS4>(

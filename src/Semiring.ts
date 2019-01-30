@@ -32,7 +32,6 @@ export interface Semiring<A> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => {

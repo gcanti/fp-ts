@@ -7,22 +7,6 @@ title: Module StrMap
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts)
 
-## strmap
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L419-L450)
-
-```ts
-export const strmap: FunctorWithIndex1<URI, string> &
-  Foldable2v1<URI> &
-  TraversableWithIndex1<URI, string> &
-  Compactable1<URI> &
-  FilterableWithIndex1<URI, string> &
-  Witherable1<URI> &
-  FoldableWithIndex1<URI, string> = { ... }
-```
-
-Added in v1.0.0
-
 # StrMap
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L47-L134)
@@ -186,15 +170,21 @@ Added in v1.12.0
 
 Added in v1.0.0
 
-## empty
+## strmap
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L140-L140)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L418-L449)
 
 ```ts
-export const empty: StrMap<never> = ...
+export const strmap: FunctorWithIndex1<URI, string> &
+  Foldable2v1<URI> &
+  TraversableWithIndex1<URI, string> &
+  Compactable1<URI> &
+  FilterableWithIndex1<URI, string> &
+  Witherable1<URI> &
+  FoldableWithIndex1<URI, string> = ...
 ```
 
-Added in v1.10.0
+Added in v1.0.0
 
 ## collect
 

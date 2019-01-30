@@ -13,7 +13,6 @@ import { Ord, max, min } from './Ord'
 export interface DistributiveLattice<A> extends Lattice<A> {}
 
 /**
- * @function
  * @since 1.4.0
  */
 export const getMinMaxDistributiveLattice = <A>(O: Ord<A>): DistributiveLattice<A> => {

@@ -7,24 +7,6 @@ title: Module Option
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts)
 
-## option
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L836-L866)
-
-```ts
-export const option: Monad1<URI> &
-  Foldable2v1<URI> &
-  Plus1<URI> &
-  Traversable2v1<URI> &
-  Alternative1<URI> &
-  Extend1<URI> &
-  Compactable1<URI> &
-  Filterable1<URI> &
-  Witherable1<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # Option
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L117-L117)
@@ -498,10 +480,38 @@ Added in v1.0.0
 
 ## none
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L331-L331)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L330-L330)
 
 ```ts
 export const none: Option<never> = ...
+```
+
+Added in v1.0.0
+
+## option
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L821-L851)
+
+```ts
+export const option: Monad1<URI> &
+  Foldable2v1<URI> &
+  Plus1<URI> &
+  Traversable2v1<URI> &
+  Alternative1<URI> &
+  Extend1<URI> &
+  Compactable1<URI> &
+  Filterable1<URI> &
+  Witherable1<URI> = ...
+```
+
+Added in v1.0.0
+
+## some
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L650-L650)
+
+```ts
+export const some = ...
 ```
 
 Added in v1.0.0
@@ -511,7 +521,7 @@ Added in v1.0.0
 Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
 value wrapped in a `Some`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L720-L722)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L707-L709)
 
 ```ts
 export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => { ... }
@@ -534,7 +544,7 @@ Added in v1.0.0
 Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
 returns the value wrapped in a `Some`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L651-L653)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L642-L644)
 
 ```ts
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => { ... }
@@ -554,7 +564,7 @@ Added in v1.0.0
 
 ## fromPredicate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L676-L678)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L665-L667)
 
 ```ts
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>  { ... }
@@ -578,7 +588,7 @@ Added in v1.0.0
 Use [fromPredicate](#frompredicate) instead.
 Refinement version of [fromPredicate](#frompredicate)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L749-L751)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L736-L738)
 
 ```ts
 export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => { ... }
@@ -588,7 +598,7 @@ Added in v1.3.0
 
 ## getApplyMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L544-L549)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L539-L544)
 
 ```ts
 export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => { ... }
@@ -607,7 +617,7 @@ Added in v1.7.0
 | none    | some(a) | none               |
 | some(a) | some(b) | some(concat(a, b)) |
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L534-L538)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L530-L534)
 
 ```ts
 export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => { ... }
@@ -639,7 +649,7 @@ Monoid returning the left-most non-`None` value
 | none    | some(a) | some(a)      |
 | some(a) | some(b) | some(a)      |
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L573-L578)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L567-L572)
 
 ```ts
 export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => { ... }
@@ -670,7 +680,7 @@ Monoid returning the right-most non-`None` value
 | none    | some(a) | some(a)      |
 | some(a) | some(b) | some(b)      |
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L602-L604)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L595-L597)
 
 ```ts
 export const getLastMonoid = <A = never>(): Monoid<Option<A>> => { ... }
@@ -702,7 +712,7 @@ appended using the provided `Semigroup`
 | none    | some(a) | some(a)            |
 | some(a) | some(b) | some(concat(a, b)) |
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L630-L635)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L622-L627)
 
 ```ts
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => { ... }
@@ -731,7 +741,7 @@ the type the `Option` contains.
 
 `None` is considered to be less than any `Some` value.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L456-L461)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L453-L458)
 
 ```ts
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => { ... }
@@ -769,7 +779,7 @@ const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't c
 const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
 ```
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L771-L773)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L757-L759)
 
 ```ts
 export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => { ... }
@@ -779,7 +789,7 @@ Added in v1.7.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L428-L432)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L426-L430)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => { ... }
@@ -805,7 +815,7 @@ Added in v1.0.0
 
 Returns `true` if the option is `None`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L738-L740)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L725-L727)
 
 ```ts
 export const isNone = <A>(fa: Option<A>): fa is None<A> => { ... }
@@ -817,7 +827,7 @@ Added in v1.0.0
 
 Returns `true` if the option is an instance of `Some`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L729-L731)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L716-L718)
 
 ```ts
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => { ... }
@@ -836,7 +846,7 @@ Added in v1.0.0
 Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
 `Some`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L698-L704)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L686-L692)
 
 ```ts
 export const tryCatch = <A>(f: Lazy<A>): Option<A> => { ... }

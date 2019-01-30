@@ -3,7 +3,6 @@ import { IO } from './IO'
 // Adapted from https://github.com/purescript/purescript-console
 
 /**
- * @function
  * @since 1.0.0
  */
 export const log = (s: any): IO<void> => {
@@ -11,7 +10,6 @@ export const log = (s: any): IO<void> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const warn = (s: any): IO<void> => {
@@ -19,7 +17,6 @@ export const warn = (s: any): IO<void> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const error = (s: any): IO<void> => {
@@ -27,7 +24,6 @@ export const error = (s: any): IO<void> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const info = (s: any): IO<void> => {

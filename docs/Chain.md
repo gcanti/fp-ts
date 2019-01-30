@@ -30,7 +30,7 @@ Added in v1.0.0
 
 ## flatten
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Chain.ts#L57-L59)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Chain.ts#L56-L58)
 
 ```ts
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>  { ... }

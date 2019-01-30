@@ -11,7 +11,6 @@ import { Ord } from './Ord'
 export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {}
 
 /**
- * @function
  * @since 1.4.0
  */
 export const getMinMaxBoundedDistributiveLattice = <A>(O: Ord<A>) => (

@@ -82,7 +82,6 @@ const chain = <A, B>(fa: Task<A>, f: (a: A) => Task<B>): Task<B> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
@@ -115,7 +114,6 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
 const never = new Task(() => new Promise<never>(_ => undefined))
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => {
@@ -125,7 +123,6 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => {
@@ -136,7 +133,6 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> => {
@@ -145,7 +141,7 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown
 
 /**
  * Lifts an IO action into a Task
- * @function
+ *
  * @since 1.0.0
  */
 export const fromIO = <A>(io: IO<A>): Task<A> => {
@@ -153,7 +149,6 @@ export const fromIO = <A>(io: IO<A>): Task<A> => {
 }
 
 /**
- * @function
  * @since 1.7.0
  */
 export const delay = <A>(millis: number, a: A): Task<A> => {
@@ -170,7 +165,6 @@ export const delay = <A>(millis: number, a: A): Task<A> => {
 const fromTask = identity
 
 /**
- * @instance
  * @since 1.0.0
  */
 export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
@@ -185,7 +179,7 @@ export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
 
 /**
  * Like {@link task} but `ap` is sequential
- * @instance
+ *
  * @since 1.10.0
  */
 export const taskSeq: typeof task = {

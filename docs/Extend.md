@@ -21,7 +21,7 @@ Added in v1.0.0
 
 ## duplicate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts#L47-L49)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts#L46-L48)
 
 ```ts
 export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>>  { ... }

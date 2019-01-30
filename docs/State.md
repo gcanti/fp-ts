@@ -7,16 +7,6 @@ title: Module State
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/State.ts)
 
-## state
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/State.ts#L123-L129)
-
-```ts
-export const state: Monad2<URI> = { ... }
-```
-
-Added in v1.0.0
-
 # State
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/State.ts#L19-L65)
@@ -113,6 +103,16 @@ map<B>(f: (a: A) => B): State<S, B>  { ... }
 ```
 
 Added in v1.0.0
+
+Added in v1.0.0
+
+## state
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/State.ts#L122-L128)
+
+```ts
+export const state: Monad2<URI> = ...
+```
 
 Added in v1.0.0
 

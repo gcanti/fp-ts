@@ -44,7 +44,6 @@ export interface Monoidal3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function fromApplicative<F extends URIS3>(applicative: Applicative3<F>): Monoidal3<F>
@@ -61,7 +60,6 @@ export function fromApplicative<F>(applicative: Applicative<F>): Monoidal<F> {
 }
 
 /**
- * @function
  * @since 1.0.0
  */
 export function toApplicative<F extends URIS3>(monoidal: Monoidal3<F>): Applicative3<F>

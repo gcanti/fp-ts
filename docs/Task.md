@@ -7,28 +7,6 @@ title: Module Task
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts)
 
-## task
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L176-L184)
-
-```ts
-export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = { ... }
-```
-
-Added in v1.0.0
-
-## taskSeq
-
-Like [task](#task) but `ap` is sequential
-
-**Signature** (instance) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L191-L194)
-
-```ts
-export const taskSeq: typeof task = { ... }
-```
-
-Added in v1.10.0
-
 # Task
 
 **Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L27-L66)
@@ -131,9 +109,31 @@ Added in v1.0.0
 
 Added in v1.0.0
 
+## task
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L170-L178)
+
+```ts
+export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = ...
+```
+
+Added in v1.0.0
+
+## taskSeq
+
+Like [task](#task) but `ap` is sequential
+
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L185-L188)
+
+```ts
+export const taskSeq: typeof task = ...
+```
+
+Added in v1.10.0
+
 ## delay
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L159-L168)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L154-L163)
 
 ```ts
 export const delay = <A>(millis: number, a: A): Task<A> => { ... }
@@ -145,7 +145,7 @@ Added in v1.7.0
 
 Lifts an IO action into a Task
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L151-L153)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L147-L149)
 
 ```ts
 export const fromIO = <A>(io: IO<A>): Task<A> => { ... }
@@ -155,7 +155,7 @@ Added in v1.0.0
 
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L131-L136)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L128-L133)
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => { ... }
@@ -165,7 +165,7 @@ Added in v1.0.0
 
 ## getRaceMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L88-L113)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L87-L112)
 
 ```ts
 export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => { ... }
@@ -175,7 +175,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L121-L125)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L119-L123)
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => { ... }
@@ -185,7 +185,7 @@ Added in v1.0.0
 
 ## tryCatch
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L142-L144)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts#L138-L140)
 
 ```ts
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> => { ... }
