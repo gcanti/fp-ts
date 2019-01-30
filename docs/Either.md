@@ -325,7 +325,7 @@ Added in v1.0.0
 
 ## either
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L682-L703)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L702-L723)
 
 ```ts
 export const either: Monad2<URI> &
@@ -403,7 +403,7 @@ Added in v1.6.0
 
 ## fromValidation
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L513-L515)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L533-L535)
 
 ```ts
 export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => { ... }
@@ -450,7 +450,7 @@ Added in v1.7.0
 
 Builds [Compactable](./Compactable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L540-L575)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L560-L595)
 
 ```ts
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L>  { ... }
@@ -462,7 +462,7 @@ Added in v1.7.0
 
 Builds [Filterable](./Filterable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L582-L643)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L602-L663)
 
 ```ts
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>  { ... }
@@ -510,7 +510,7 @@ Added in v1.0.0
 
 Builds [Witherable](./Witherable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L650-L677)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L670-L697)
 
 ```ts
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L>  { ... }
@@ -522,7 +522,7 @@ Added in v1.7.0
 
 Returns `true` if the either is an instance of `Left`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L522-L524)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L542-L544)
 
 ```ts
 export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => { ... }
@@ -534,7 +534,7 @@ Added in v1.0.0
 
 Returns `true` if the either is an instance of `Right`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L531-L533)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L551-L553)
 
 ```ts
 export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => { ... }
@@ -589,10 +589,33 @@ Added in v1.0.0
 
 ## tryCatch2v
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L502-L508)
+Constructs a new `Either` from a function that might throw
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts#L522-L528)
 
 ```ts
 export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => { ... }
+```
+
+**Example**
+
+```ts
+import { Either, left, right, tryCatch2v } from 'fp-ts/lib/Either'
+
+const unsafeHead = <A>(as: Array<A>): A => {
+  if (as.length > 0) {
+    return as[0]
+  } else {
+    throw new Error('empty array')
+  }
+}
+
+const head = <A>(as: Array<A>): Either<Error, A> => {
+  return tryCatch2v(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+}
+
+assert.deepEqual(head([]), left(new Error('empty array')))
+assert.deepEqual(head([1, 2, 3]), right(1))
 ```
 
 Added in v1.11.0

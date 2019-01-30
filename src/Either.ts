@@ -497,6 +497,26 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError
 }
 
 /**
+ * Constructs a new `Either` from a function that might throw
+ *
+ * @example
+ * import { Either, left, right, tryCatch2v } from 'fp-ts/lib/Either'
+ *
+ * const unsafeHead = <A>(as: Array<A>): A => {
+ *   if (as.length > 0) {
+ *     return as[0]
+ *   } else {
+ *     throw new Error('empty array')
+ *   }
+ * }
+ *
+ * const head = <A>(as: Array<A>): Either<Error, A> => {
+ *   return tryCatch2v(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+ * }
+ *
+ * assert.deepEqual(head([]), left(new Error('empty array')))
+ * assert.deepEqual(head([1, 2, 3]), right(1))
+ *
  * @since 1.11.0
  */
 export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => {
