@@ -2,11 +2,12 @@
   "name": "fp-ts",
   "version": "1.13.0",
   "description": "Functional programming in TypeScript",
+  "main": "lib/index.js",
+  "module": "lib/index.es.js",
   "files": [
     "lib"
   ],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "types": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
     "jest": "jest --ci",
@@ -46,11 +47,15 @@
     "mocha": "^5.2.0",
     "prettier": "1.14.3",
     "rimraf": "2.6.2",
+    "rollup-plugin-delete": "^0.2.1",
+    "rollup-plugin-terser": "^4.0.3",
+    "rollup-plugin-typescript2": "^0.19.2",
+    "rollup": "^1.1.2",
     "ts-jest": "^23.10.5",
     "ts-node": "7.0.1",
     "ts-simple-ast": "17.1.1",
-    "tslint": "5.11.0",
     "tslint-config-standard": "8.0.1",
+    "tslint": "5.11.0",
     "typescript": "^3.2.4"
   },
   "tags": [

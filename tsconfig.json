@@ -1,17 +1,28 @@
 {
   "compilerOptions": {
-    "outDir": "./lib",
-    "declaration": true,
-    "target": "es5",
-    "module": "commonjs",
-    "moduleResolution": "node",
     "strict": true,
-    "noImplicitReturns": false,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": true,
+    "allowUnreachableCode": false,
+    "noImplicitAny": true,
+    "noErrorTruncation": true,
+    "alwaysStrict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
-    "forceConsistentCasingInFileNames": true,
-    "lib": ["es6"]
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+
+    "declaration": true,
+    "declarationDir": "./lib",
+
+    "lib": ["es5", "es6"],
+    "module": "es6",
+    "moduleResolution": "node",
+    "outDir": "./lib",
+    "target": "es5"
   },
-  "include": ["./src/**/*"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
