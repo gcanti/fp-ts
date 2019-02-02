@@ -16,7 +16,7 @@
     "fix-prettier": "prettier --write \"./{src,test,examples,exercises}/**/*.ts\"",
     "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest && npm run docs",
     "clean": "rimraf lib/*",
-    "build": "npm run clean && tsc",
+    "build": "npx rollup -c",
     "prepublish": "npm run build",
     "docs": "rimraf docs/*.md docs-examples/*.ts && ts-node docs-generator/docs.ts && ts-node docs-examples/index.ts",
     "mocha": "mocha -r ts-node/register test/*.ts",
