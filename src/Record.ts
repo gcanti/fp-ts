@@ -121,7 +121,7 @@ export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: 
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Record<string, A>> => {
   const isSubdictionaryS = isSubdictionary(S)
   return {
-    equals: (x, y) => isSubdictionaryS(x, y) && isSubdictionaryS(y, x)
+    equals: (x, y) => x === y || (isSubdictionaryS(x, y) && isSubdictionaryS(y, x))
   }
 }
 

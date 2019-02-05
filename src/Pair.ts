@@ -103,7 +103,7 @@ const extend = <A, B>(fa: Pair<A>, f: (fb: Pair<A>) => B): Pair<B> => {
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => {
   return {
-    equals: (x, y) => S.equals(x.fst, y.fst) && S.equals(x.snd, y.snd)
+    equals: (x, y) => x === y || (S.equals(x.fst, y.fst) && S.equals(x.snd, y.snd))
   }
 }
 

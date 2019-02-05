@@ -137,7 +137,7 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => {
   let SA: Setoid<Array<Tree<A>>>
   const R: Setoid<Tree<A>> = {
-    equals: (x, y) => S.equals(x.value, y.value) && SA.equals(x.forest, y.forest)
+    equals: (x, y) => x === y || (S.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
   }
   SA = getArraySetoid(R)
   return R

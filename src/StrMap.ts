@@ -253,7 +253,7 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
   const isSubdictionaryS = R.isSubdictionary(S)
   return {
-    equals: (x, y) => isSubdictionaryS(x.value, y.value) && isSubdictionaryS(y.value, x.value)
+    equals: (x, y) => x === y || (isSubdictionaryS(x.value, y.value) && isSubdictionaryS(y.value, x.value))
   }
 }
 

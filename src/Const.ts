@@ -49,7 +49,7 @@ export class Const<L, A> {
  */
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => {
   return {
-    equals: (x, y) => S.equals(x.value, y.value)
+    equals: (x, y) => x === y || S.equals(x.value, y.value)
   }
 }
 

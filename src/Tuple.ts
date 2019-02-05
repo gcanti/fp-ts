@@ -114,7 +114,7 @@ const foldr = <L, A, B>(fa: Tuple<L, A>, b: B, f: (a: A, b: B) => B): B => {
  */
 export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => {
   return {
-    equals: (x, y) => SA.equals(x.fst, y.fst) && SB.equals(x.snd, y.snd)
+    equals: (x, y) => x === y || (SA.equals(x.fst, y.fst) && SB.equals(x.snd, y.snd))
   }
 }
 

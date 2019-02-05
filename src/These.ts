@@ -165,11 +165,12 @@ export class Both<L, A> {
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
   return {
     equals: (x, y) =>
-      x.isThis()
+      x === y ||
+      (x.isThis()
         ? y.isThis() && SL.equals(x.value, y.value)
         : x.isThat()
           ? y.isThat() && SA.equals(x.value, y.value)
-          : y.isBoth() && SL.equals(x.l, y.l) && SA.equals(x.a, y.a)
+          : y.isBoth() && SL.equals(x.l, y.l) && SA.equals(x.a, y.a))
   }
 }
 
