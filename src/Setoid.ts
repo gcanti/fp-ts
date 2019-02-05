@@ -1,5 +1,3 @@
-import { on } from './function'
-
 /**
  * The `Setoid` type class represents types which support decidable equality.
  *
@@ -45,7 +43,7 @@ export const setoidBoolean: Setoid<boolean> = setoidStrict
  */
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
   return {
-    equals: (xs, ys) => xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i]))
+    equals: (xs, ys) => xs === ys || (xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])))
   }
 }
 
@@ -57,6 +55,9 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
 ): Setoid<O> => {
   return {
     equals: (x, y) => {
+      if (x === y) {
+        return true
+      }
       for (const k in setoids) {
         if (!setoids[k].equals(x[k], y[k])) {
           return false
@@ -72,7 +73,7 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
  */
 export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
   return {
-    equals: ([xa, xb], [ya, yb]) => SA.equals(xa, ya) && SB.equals(xb, yb)
+    equals: ([xa, xb], [ya, yb]) => xa === ya || (SA.equals(xa, ya) && SB.equals(xb, yb))
   }
 }
 
@@ -83,7 +84,7 @@ export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A,
  */
 export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
   return {
-    equals: on(fa.equals)(f)
+    equals: (x, y) => x === y || fa.equals(f(x), f(y))
   }
 }
 

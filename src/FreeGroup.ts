@@ -95,7 +95,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<FreeGroup<A>> => {
   const AS = getArraySetoid(getEitherSetoid(S, S))
   const normalizeS = normalize(S)
   return {
-    equals: (x, y) => AS.equals(normalizeS(x.value), normalizeS(y.value))
+    equals: (x, y) => x === y || AS.equals(normalizeS(x.value), normalizeS(y.value))
   }
 }
 

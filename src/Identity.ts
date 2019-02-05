@@ -88,7 +88,7 @@ export class Identity<A> {
  */
 export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => {
   return {
-    equals: (x, y) => setoid.equals(x.value, y.value)
+    equals: (x, y) => x === y || setoid.equals(x.value, y.value)
   }
 }
 

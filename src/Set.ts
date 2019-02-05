@@ -22,7 +22,7 @@ export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => {
   const subsetS = subset(S)
   return {
-    equals: (x, y) => subsetS(x, y) && subsetS(y, x)
+    equals: (x, y) => x === y || (subsetS(x, y) && subsetS(y, x))
   }
 }
 

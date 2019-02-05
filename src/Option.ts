@@ -425,7 +425,7 @@ export class Some<A> {
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
   return {
-    equals: (x, y) => (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value))
+    equals: (x, y) => x === y || (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value))
   }
 }
 
