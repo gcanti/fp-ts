@@ -397,7 +397,7 @@ export function elem<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Setoid<A>): 
 export function elem<F extends URIS, A>(F: Foldable1<F>, S: Setoid<A>): (a: A, fa: Type<F, A>) => boolean
 export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean
 export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean {
-  return (a, fa) => F.reduce(fa, false, (b, x) => b || S.equals(x, a))
+  return (a, fa) => F.reduce<A, boolean>(fa, false, (b, x) => b || S.equals(x, a))
 }
 
 /**

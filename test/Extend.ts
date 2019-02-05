@@ -5,7 +5,7 @@ import { option, some, none } from '../src/Option'
 describe('Extend', () => {
   it('duplicate', () => {
     const f = duplicate(option)
-    assert.deepEqual(f(none), none)
-    assert.deepEqual(f(some(1)), some(some(1)))
+    assert.deepStrictEqual(f(none), none)
+    assert.deepStrictEqual(f(some(1)), some(some(1)))
   })
 })

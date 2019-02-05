@@ -47,23 +47,23 @@ describe('These', () => {
 
   it('getSemigroup', () => {
     const { concat } = getSemigroup(monoidString, monoidSum)
-    assert.deepEqual(concat(this_('a'), this_('b')), this_('ab'))
-    assert.deepEqual(concat(this_('a'), that(2)), both('a', 2))
-    assert.deepEqual(concat(that(2), this_('a')), both('a', 2))
-    assert.deepEqual(concat(this_('a'), both('b', 2)), both('ab', 2))
-    assert.deepEqual(concat(both('b', 2), this_('a')), both('ba', 2))
-    assert.deepEqual(concat(that(3), that(2)), that(5))
-    assert.deepEqual(concat(that(3), both('b', 2)), both('b', 5))
-    assert.deepEqual(concat(both('b', 2), that(3)), both('b', 5))
-    assert.deepEqual(concat(both('a', 3), both('b', 2)), both('ab', 5))
+    assert.deepStrictEqual(concat(this_('a'), this_('b')), this_('ab'))
+    assert.deepStrictEqual(concat(this_('a'), that(2)), both('a', 2))
+    assert.deepStrictEqual(concat(that(2), this_('a')), both('a', 2))
+    assert.deepStrictEqual(concat(this_('a'), both('b', 2)), both('ab', 2))
+    assert.deepStrictEqual(concat(both('b', 2), this_('a')), both('ba', 2))
+    assert.deepStrictEqual(concat(that(3), that(2)), that(5))
+    assert.deepStrictEqual(concat(that(3), both('b', 2)), both('b', 5))
+    assert.deepStrictEqual(concat(both('b', 2), that(3)), both('b', 5))
+    assert.deepStrictEqual(concat(both('a', 3), both('b', 2)), both('ab', 5))
   })
 
   it('map', () => {
     const double = (n: number) => n * 2
-    assert.deepEqual(this_<number, number>(2).map(double), this_(2))
-    assert.deepEqual(that<number, number>(2).map(double), that(4))
-    assert.deepEqual(both(1, 2).map(double), both(1, 4))
-    assert.deepEqual(these.map(both(1, 2), double), both(1, 4))
+    assert.deepStrictEqual(this_<number, number>(2).map(double), this_(2))
+    assert.deepStrictEqual(that<number, number>(2).map(double), that(4))
+    assert.deepStrictEqual(both(1, 2).map(double), both(1, 4))
+    assert.deepStrictEqual(these.map(both(1, 2), double), both(1, 4))
   })
 
   it('getMonad', () => {
@@ -71,7 +71,7 @@ describe('These', () => {
     const F = getMonad(semigroupString)
     const fab = F.of(double)
     const fa = F.of(1)
-    assert.deepEqual(F.ap(fab, fa), F.of(2))
+    assert.deepStrictEqual(F.ap(fab, fa), F.of(2))
   })
 
   it('fold', () => {
@@ -86,15 +86,15 @@ describe('These', () => {
   it('bimap', () => {
     const len = (s: string): number => s.length
     const double = (n: number): number => n * 2
-    assert.deepEqual(both('foo', 1).bimap(len, double), both(3, 2))
-    assert.deepEqual(these.bimap(both('foo', 1), len, double), both(3, 2))
+    assert.deepStrictEqual(both('foo', 1).bimap(len, double), both(3, 2))
+    assert.deepStrictEqual(these.bimap(both('foo', 1), len, double), both(3, 2))
   })
 
   it('fromThese', () => {
     const from = fromThese('a', 1)
-    assert.deepEqual(from(this_('b')), ['b', 1])
-    assert.deepEqual(from(that(2)), ['a', 2])
-    assert.deepEqual(from(both('b', 2)), ['b', 2])
+    assert.deepStrictEqual(from(this_('b')), ['b', 1])
+    assert.deepStrictEqual(from(that(2)), ['a', 2])
+    assert.deepStrictEqual(from(both('b', 2)), ['b', 2])
   })
 
   it('bimap', () => {
@@ -106,90 +106,90 @@ describe('These', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(these.traverse(option)(this_('a'), n => (n >= 2 ? some(n) : none)), some(this_('a')))
-    assert.deepEqual(these.traverse(option)(that(2), n => (n >= 2 ? some(n) : none)), some(that(2)))
-    assert.deepEqual(these.traverse(option)(that(1), n => (n >= 2 ? some(n) : none)), none)
-    assert.deepEqual(these.traverse(option)(both('a', 2), n => (n >= 2 ? some(n) : none)), some(both('a', 2)))
-    assert.deepEqual(these.traverse(option)(both('a', 1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepStrictEqual(these.traverse(option)(this_('a'), n => (n >= 2 ? some(n) : none)), some(this_('a')))
+    assert.deepStrictEqual(these.traverse(option)(that(2), n => (n >= 2 ? some(n) : none)), some(that(2)))
+    assert.deepStrictEqual(these.traverse(option)(that(1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepStrictEqual(these.traverse(option)(both('a', 2), n => (n >= 2 ? some(n) : none)), some(both('a', 2)))
+    assert.deepStrictEqual(these.traverse(option)(both('a', 1), n => (n >= 2 ? some(n) : none)), none)
   })
 
   it('sequence', () => {
     const old = T.sequence(option, these)
     const sequence = these.sequence(option)
     const x1 = this_<string, Option<number>>('a')
-    assert.deepEqual(sequence(x1), some(this_('a')))
-    assert.deepEqual(sequence(x1), old(x1))
+    assert.deepStrictEqual(sequence(x1), some(this_('a')))
+    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = that<string, Option<number>>(some(1))
-    assert.deepEqual(sequence(x2), some(that(1)))
-    assert.deepEqual(sequence(x2), old(x2))
+    assert.deepStrictEqual(sequence(x2), some(that(1)))
+    assert.deepStrictEqual(sequence(x2), old(x2))
     const x3 = that<string, Option<number>>(none)
-    assert.deepEqual(sequence(x3), none)
-    assert.deepEqual(sequence(x3), old(x3))
+    assert.deepStrictEqual(sequence(x3), none)
+    assert.deepStrictEqual(sequence(x3), old(x3))
     const x4 = both<string, Option<number>>('a', some(1))
-    assert.deepEqual(sequence(x4), some(both('a', 1)))
-    assert.deepEqual(sequence(x4), old(x4))
+    assert.deepStrictEqual(sequence(x4), some(both('a', 1)))
+    assert.deepStrictEqual(sequence(x4), old(x4))
     const x5 = both<string, Option<number>>('a', none)
-    assert.deepEqual(sequence(x5), none)
-    assert.deepEqual(sequence(x5), old(x5))
+    assert.deepStrictEqual(sequence(x5), none)
+    assert.deepStrictEqual(sequence(x5), old(x5))
   })
 
   it('chain', () => {
     const M = getMonad(monoidString)
     const f = (n: number) =>
       n >= 2 ? (n <= 5 ? that<string, number>(n * 2) : both('bar', n)) : this_<string, number>('bar')
-    assert.deepEqual(M.chain(this_<string, number>('foo'), f), this_('foo'))
-    assert.deepEqual(M.chain(that<string, number>(2), f), that(4))
-    assert.deepEqual(M.chain(that<string, number>(1), f), this_('bar'))
-    assert.deepEqual(M.chain(that<string, number>(6), f), both('bar', 6))
-    assert.deepEqual(M.chain(both<string, number>('foo', 2), f), both('foo', 4))
-    assert.deepEqual(M.chain(both<string, number>('foo', 1), f), this_('foobar'))
-    assert.deepEqual(M.chain(both<string, number>('foo', 6), f), both('foobar', 6))
+    assert.deepStrictEqual(M.chain(this_<string, number>('foo'), f), this_('foo'))
+    assert.deepStrictEqual(M.chain(that<string, number>(2), f), that(4))
+    assert.deepStrictEqual(M.chain(that<string, number>(1), f), this_('bar'))
+    assert.deepStrictEqual(M.chain(that<string, number>(6), f), both('bar', 6))
+    assert.deepStrictEqual(M.chain(both<string, number>('foo', 2), f), both('foo', 4))
+    assert.deepStrictEqual(M.chain(both<string, number>('foo', 1), f), this_('foobar'))
+    assert.deepStrictEqual(M.chain(both<string, number>('foo', 6), f), both('foobar', 6))
   })
 
   it('theseLeft', () => {
-    assert.deepEqual(theseLeft(this_('a')), some('a'))
-    assert.deepEqual(theseLeft(that(1)), none)
-    assert.deepEqual(theseLeft(both('a', 1)), some('a'))
+    assert.deepStrictEqual(theseLeft(this_('a')), some('a'))
+    assert.deepStrictEqual(theseLeft(that(1)), none)
+    assert.deepStrictEqual(theseLeft(both('a', 1)), some('a'))
   })
 
   it('theseRight', () => {
-    assert.deepEqual(theseRight(this_('a')), none)
-    assert.deepEqual(theseRight(that(1)), some(1))
-    assert.deepEqual(theseRight(both('a', 1)), some(1))
+    assert.deepStrictEqual(theseRight(this_('a')), none)
+    assert.deepStrictEqual(theseRight(that(1)), some(1))
+    assert.deepStrictEqual(theseRight(both('a', 1)), some(1))
   })
 
   it('thisOrBoth', () => {
-    assert.deepEqual(thisOrBoth('a', none), this_('a'))
-    assert.deepEqual(thisOrBoth('a', some(1)), both('a', 1))
+    assert.deepStrictEqual(thisOrBoth('a', none), this_('a'))
+    assert.deepStrictEqual(thisOrBoth('a', some(1)), both('a', 1))
   })
 
   it('thatOrBoth', () => {
-    assert.deepEqual(thatOrBoth(1, none), that(1))
-    assert.deepEqual(thatOrBoth(1, some('a')), both('a', 1))
+    assert.deepStrictEqual(thatOrBoth(1, none), that(1))
+    assert.deepStrictEqual(thatOrBoth(1, some('a')), both('a', 1))
   })
 
   it('theseThis', () => {
-    assert.deepEqual(theseThis(this_('a')), some('a'))
-    assert.deepEqual(theseThis(that(1)), none)
-    assert.deepEqual(theseThis(both('a', 1)), none)
+    assert.deepStrictEqual(theseThis(this_('a')), some('a'))
+    assert.deepStrictEqual(theseThis(that(1)), none)
+    assert.deepStrictEqual(theseThis(both('a', 1)), none)
   })
 
   it('theseThat', () => {
-    assert.deepEqual(theseThat(this_('a')), none)
-    assert.deepEqual(theseThat(that(1)), some(1))
-    assert.deepEqual(theseThat(both('a', 1)), none)
+    assert.deepStrictEqual(theseThat(this_('a')), none)
+    assert.deepStrictEqual(theseThat(that(1)), some(1))
+    assert.deepStrictEqual(theseThat(both('a', 1)), none)
   })
 
   it('fromOptions', () => {
-    assert.deepEqual(fromOptions(none, none), none)
-    assert.deepEqual(fromOptions(some('a'), none), some(this_('a')))
-    assert.deepEqual(fromOptions(none, some(1)), some(that(1)))
-    assert.deepEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
+    assert.deepStrictEqual(fromOptions(none, none), none)
+    assert.deepStrictEqual(fromOptions(some('a'), none), some(this_('a')))
+    assert.deepStrictEqual(fromOptions(none, some(1)), some(that(1)))
+    assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
   })
 
   it('fromEither', () => {
-    assert.deepEqual(fromEither(left('a')), this_('a'))
-    assert.deepEqual(fromEither(right(1)), that(1))
+    assert.deepStrictEqual(fromEither(left('a')), this_('a'))
+    assert.deepStrictEqual(fromEither(right(1)), that(1))
   })
 
   it('toString', () => {

@@ -31,7 +31,7 @@ describe('Contravariant', () => {
     const length = (s: string) => s.length
     const liftPredicate = lift(predicate)
     const f = liftPredicate(length)
-    assert.deepEqual(f(new Predicate(n => n > 2)).run('fo'), false)
-    assert.deepEqual(f(new Predicate(n => n > 2)).run('foo'), true)
+    assert.deepStrictEqual(f(new Predicate(n => n > 2)).run('fo'), false)
+    assert.deepStrictEqual(f(new Predicate(n => n > 2)).run('foo'), true)
   })
 })
