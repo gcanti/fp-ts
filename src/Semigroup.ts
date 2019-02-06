@@ -132,7 +132,9 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
  *
  * @since 1.4.0
  */
-export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> => {
+export function getDictionarySemigroup<K extends string, A>(S: Semigroup<A>): Semigroup<Record<K, A>>
+export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }>
+export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> {
   return {
     concat: (x, y) => {
       const r: { [key: string]: A } = { ...x }

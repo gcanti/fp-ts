@@ -18,7 +18,8 @@ import * as Th from '../src/These'
 import * as Tr from '../src/Traversable'
 import * as U from '../src/Unfoldable'
 import * as V from '../src/Validation'
-import { monoidString } from '../src/Monoid'
+import * as Mon from '../src/Monoid'
+import * as Se from '../src/Setoid'
 
 const double = (n: number) => n * 2
 
@@ -176,9 +177,9 @@ R.map(r1, n => n > 2) // $ExpectType Record<"a" | "b", boolean>
 R.reduceWithKey(d1, '', (k: string, _n) => k) // $ExpectType string
 R.reduceWithKey(r1, '', (k: 'a' | 'b', _n) => k) // $ExpectType string
 
-R.foldMapWithKey(monoidString)(d1, (k: string, _n) => k) // $ExpectType string
+R.foldMapWithKey(Mon.monoidString)(d1, (k: string, _n) => k) // $ExpectType string
 // the following test requires https://github.com/Microsoft/TypeScript/issues/29246
-// R.foldMapWithKey(monoidString)(r1, (k: 'a' | 'b', _n) => k) // $ExpectType string
+// R.foldMapWithKey(Mon.monoidString)(r1, (k: 'a' | 'b', _n) => k) // $ExpectType string
 
 R.foldrWithKey(d1, '', (k: string, _n, _b) => k) // $ExpectType string
 R.foldrWithKey(r1, '', (k: 'a' | 'b', _n, _b) => k) // $ExpectType string
@@ -216,3 +217,24 @@ declare const arr2: Array<['a' | 'b', number]>
 
 R.fromFoldable(A.array)(arr1, a => a) // $ExpectType Record<string, number>
 R.fromFoldable(A.array)(arr2, a => a) // $ExpectType Record<"a" | "b", number>
+
+type Keys = 'key1' | 'key2'
+const Mon1 = R.getMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
+const Mon2 = R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+
+const Set1 = R.getSetoid<Keys, number>(Se.setoidNumber) // $ExpectType Setoid<Record<Keys, number>>
+const Set2 = R.getSetoid(Se.setoidNumber) // $ExpectType Setoid<Record<string, number>>
+
+//
+// Semigroup
+//
+
+const Sem1 = S.getDictionarySemigroup(S.semigroupSum) // $ExpectType Semigroup<Record<string, number>>
+const Sem2 = S.getDictionarySemigroup<Keys, number>(S.semigroupSum) // $ExpectType Semigroup<Record<Keys, number>>
+
+//
+// Monoid
+//
+
+const Mon3 = Mon.getDictionaryMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
+const Mon4 = Mon.getDictionaryMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>

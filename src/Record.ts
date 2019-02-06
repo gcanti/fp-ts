@@ -118,14 +118,19 @@ export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: 
 /**
  * @since 1.10.0
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Record<string, A>> => {
+export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
+export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>>
+export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> {
   const isSubdictionaryS = isSubdictionary(S)
   return fromEquals((x, y) => isSubdictionaryS(x, y) && isSubdictionaryS(y, x))
 }
+
 /**
  * @since 1.10.0
  */
-export const getMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => {
+export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
+export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>>
+export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
   return getDictionaryMonoid(S)
 }
 

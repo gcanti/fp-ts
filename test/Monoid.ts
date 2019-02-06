@@ -73,14 +73,18 @@ describe('Monoid', () => {
       foo: 456,
       fff: 456
     }
-    const M = getDictionaryMonoid(semigroupSum)
-    const result = fold(M)([foo, bar])
-    const expected = {
+    const M1 = getDictionaryMonoid(semigroupSum)
+    assert.deepStrictEqual(fold(M1)([foo, bar]), {
       bar: foo.bar,
       foo: foo.foo + bar.foo,
       fff: bar.fff
-    }
-    assert.deepEqual(result, expected)
+    })
+    type Keys = 'a' | 'b'
+    const M2 = getDictionaryMonoid<Keys, number>(semigroupSum)
+    assert.deepStrictEqual(fold(M2)([{ a: 1, b: 2 }, { a: 3, b: 4 }]), {
+      a: 4,
+      b: 6
+    })
   })
 
   it('getArrayMonoid', () => {

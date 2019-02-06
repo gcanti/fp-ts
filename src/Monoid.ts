@@ -105,7 +105,9 @@ const emptyObject = {}
  *
  * @since 1.4.0
  */
-export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => {
+export function getDictionaryMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
+export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }>
+export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> {
   return {
     ...getDictionarySemigroup(S),
     empty: emptyObject
