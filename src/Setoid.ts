@@ -50,16 +50,16 @@ export const setoidBoolean: Setoid<boolean> = setoidStrict
 /**
  * @since 1.0.0
  */
-export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> =>
-  fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])))
-
+export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
+  return fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])))
+}
 /**
  * @since 1.0.0
  */
 export const getRecordSetoid = <O extends { [key: string]: any }>(
   setoids: { [K in keyof O]: Setoid<O[K]> }
-): Setoid<O> =>
-  fromEquals((x, y) => {
+): Setoid<O> => {
+  return fromEquals((x, y) => {
     for (const k in setoids) {
       if (!setoids[k].equals(x[k], y[k])) {
         return false
@@ -67,18 +67,21 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
     }
     return true
   })
-
+}
 /**
  * @since 1.0.0
  */
-export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> =>
-  fromEquals((a, b) => SA.equals(a[0], b[0]) && SB.equals(a[1], b[1]))
+export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
+  return fromEquals((a, b) => SA.equals(a[0], b[0]) && SB.equals(a[1], b[1]))
+}
 /**
  * Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
  *
  * @since 1.2.0
  */
-export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => fromEquals((x, y) => fa.equals(f(x), f(y)))
+export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
+  return fromEquals((x, y) => fa.equals(f(x), f(y)))
+}
 
 /**
  * @since 1.4.0
