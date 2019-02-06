@@ -9,7 +9,7 @@ title: Module Array
 
 ## array
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1533-L1576)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1531-L1574)
 
 ```ts
 export const array: Monad1<URI> &
@@ -46,7 +46,7 @@ Filter an array of optional values, keeping only the elements which contain a va
 
 Alias of [Compactable](./Compactable.md)'s `compact`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1223-L1225)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1223-L1223)
 
 ```ts
 export const catOptions = <A>(as: Array<Option<A>>): Array<A> => { ... }
@@ -69,7 +69,7 @@ A useful recursion pattern for processing an array to produce a new array, often
 array. Typically chop is called with some function that will consume an initial prefix of the array and produce a
 value and the rest of the array.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1314-L1323)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1312-L1321)
 
 ```ts
 export const chop = <A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Array<B> => { ... }
@@ -104,7 +104,7 @@ chunksOf(xs, n).concat(chunksOf(ys, n)) == chunksOf(xs.concat(ys)), n)
 
 whenever `n` evenly divides the length of `xs`.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1359-L1361)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1357-L1359)
 
 ```ts
 export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => { ... }
@@ -128,7 +128,7 @@ Array comprehension
 [ g(x, y, ...) | x ← xs, y ← ys, ..., f(x, y, ...) ]
 ```
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1401-L1414)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1399-L1412)
 
 ```ts
 export function comprehension<R>(
@@ -211,7 +211,7 @@ Added in v1.0.0
 Creates an array of array values not included in the other given array using a [Setoid](./Setoid.md) for equality
 comparisons. The order and references of result values are determined by the first array.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1464-L1467)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1462-L1465)
 
 ```ts
 export const difference = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => { ... }
@@ -292,7 +292,7 @@ Added in v1.0.0
 
 Filter an array, keeping the elements which satisfy a predicate function, creating a new array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1248-L1250)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1246-L1248)
 
 ```ts
 export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A>  { ... }
@@ -631,7 +631,7 @@ Added in v1.0.0
 Creates an array of unique values that are included in all given arrays using a [Setoid](./Setoid.md) for equality
 comparisons. The order and references of result values are determined by the first array.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1446-L1449)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1444-L1447)
 
 ```ts
 export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => { ... }
@@ -819,7 +819,7 @@ Added in v1.0.0
 
 ## partition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1258-L1260)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1256-L1258)
 
 ```ts
 export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>>  { ... }
@@ -829,7 +829,7 @@ Added in v1.12.0
 
 ## partitionMap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1237-L1239)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1235-L1237)
 
 ```ts
 export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<Array<L>, Array<R>> => { ... }
@@ -1141,7 +1141,7 @@ Added in v1.0.0
 
 Splits an array into two pieces, the first piece has `n` elements.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1336-L1338)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1334-L1336)
 
 ```ts
 export const split = <A>(n: number, as: Array<A>): [Array<A>, Array<A>] => { ... }
@@ -1257,7 +1257,7 @@ Added in v1.0.0
 
 Creates an array of unique values, in order, from all given arrays using a [Setoid](./Setoid.md) for equality comparisons
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1428-L1431)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1426-L1429)
 
 ```ts
 export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => { ... }

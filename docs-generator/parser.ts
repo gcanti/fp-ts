@@ -251,6 +251,11 @@ const indexOf = (big: string, small: string) => {
   return i !== -1 ? some(i) : none
 }
 
+const lastIndexOf = (big: string, small: string) => {
+  const i = big.lastIndexOf(small)
+  return i !== -1 ? some(i) : none
+}
+
 const getConstantVariableDeclarationSignature = (vd: VariableDeclaration): string => {
   const text = vd.getText()
   const end = text.indexOf(' = ')
@@ -286,7 +291,7 @@ const parseConstantVariableDeclaration = (vd: VariableDeclaration): Parser<Expor
 
 const getFunctionVariableDeclarationSignature = (vd: VariableDeclaration): string => {
   const text = vd.getText()
-  const end = indexOf(text, ' => {')
+  const end = indexOf(text, ' => {').orElse(() => lastIndexOf(text, ' =>'))
   return `export const ${text.substring(0, end.getOrElse(text.length))} => { ... }`
 }
 
