@@ -12,7 +12,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Record'
 import { getDictionarySemigroup, getLastSemigroup, Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable } from './Unfoldable'
 import { Witherable1 } from './Witherable'
@@ -252,9 +252,7 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
   const isSubdictionaryS = R.isSubdictionary(S)
-  return {
-    equals: (x, y) => x === y || (isSubdictionaryS(x.value, y.value) && isSubdictionaryS(y.value, x.value))
-  }
+  return fromEquals((x, y) => isSubdictionaryS(x.value, y.value) && isSubdictionaryS(y.value, x.value))
 }
 
 /**

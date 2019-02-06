@@ -1,7 +1,7 @@
 import { empty as emptyArray, getMonoid as getArrayMonoid, getSetoid as getArraySetoid, array } from './Array'
 import { Either, getSetoid as getEitherSetoid, left, right } from './Either'
 import { Group } from './Group'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Monad1 } from './Monad'
 
 // Adapted from https://hackage.haskell.org/package/free-algebras-0.0.7.0/docs/Data-Group-Free.html
@@ -94,9 +94,7 @@ export const normalize = <A>(S: Setoid<A>) => (g: Array<Either<A, A>>): Array<Ei
 export const getSetoid = <A>(S: Setoid<A>): Setoid<FreeGroup<A>> => {
   const AS = getArraySetoid(getEitherSetoid(S, S))
   const normalizeS = normalize(S)
-  return {
-    equals: (x, y) => x === y || AS.equals(normalizeS(x.value), normalizeS(y.value))
-  }
+  return fromEquals((x, y) => AS.equals(normalizeS(x.value), normalizeS(y.value)))
 }
 
 /**

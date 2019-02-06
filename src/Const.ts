@@ -4,7 +4,7 @@ import { Contravariant2 } from './Contravariant'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { phantom, toString } from './function'
 
 declare module './HKT' {
@@ -47,11 +47,7 @@ export class Const<L, A> {
 /**
  * @since 1.0.0
  */
-export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => {
-  return {
-    equals: (x, y) => x === y || S.equals(x.value, y.value)
-  }
-}
+export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => fromEquals((x, y) => S.equals(x.value, y.value))
 
 const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
   return fa.map(f)

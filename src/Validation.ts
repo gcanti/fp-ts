@@ -12,7 +12,7 @@ import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 import { Witherable2C } from './Witherable'
 
@@ -171,13 +171,11 @@ export class Success<L, A> {
 /**
  * @since 1.0.0
  */
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
-  return {
-    equals: (x, y) =>
-      x === y ||
-      (x.isFailure() ? y.isFailure() && SL.equals(x.value, y.value) : y.isSuccess() && SA.equals(x.value, y.value))
-  }
-}
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> =>
+  fromEquals(
+    (x, y) =>
+      x.isFailure() ? y.isFailure() && SL.equals(x.value, y.value) : y.isSuccess() && SA.equals(x.value, y.value)
+  )
 
 const map = <L, A, B>(fa: Validation<L, A>, f: (a: A) => B): Validation<L, B> => {
   return fa.map(f)

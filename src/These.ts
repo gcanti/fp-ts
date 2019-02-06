@@ -9,7 +9,7 @@ import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 
 // Adapted from https://github.com/purescript-contrib/purescript-these
@@ -162,17 +162,15 @@ export class Both<L, A> {
  *
  * @since 1.0.0
  */
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
-  return {
-    equals: (x, y) =>
-      x === y ||
-      (x.isThis()
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> =>
+  fromEquals(
+    (x, y) =>
+      x.isThis()
         ? y.isThis() && SL.equals(x.value, y.value)
         : x.isThat()
           ? y.isThat() && SA.equals(x.value, y.value)
-          : y.isBoth() && SL.equals(x.l, y.l) && SA.equals(x.a, y.a))
-  }
-}
+          : y.isBoth() && SL.equals(x.l, y.l) && SA.equals(x.a, y.a)
+  )
 
 /**
  *

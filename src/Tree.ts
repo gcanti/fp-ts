@@ -6,7 +6,7 @@ import { concat, identity, toString } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 
 declare module './HKT' {
@@ -136,9 +136,7 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => {
   let SA: Setoid<Array<Tree<A>>>
-  const R: Setoid<Tree<A>> = {
-    equals: (x, y) => x === y || (S.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
-  }
+  const R: Setoid<Tree<A>> = fromEquals((x, y) => S.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
   SA = getArraySetoid(R)
   return R
 }

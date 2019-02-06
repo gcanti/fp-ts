@@ -6,7 +6,7 @@ import { Predicate, tuple, Refinement } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getDictionaryMonoid, Monoid } from './Monoid'
 import { none, Option, some } from './Option'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Unfoldable } from './Unfoldable'
 import { Semigroup } from './Semigroup'
 
@@ -120,11 +120,8 @@ export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: 
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Record<string, A>> => {
   const isSubdictionaryS = isSubdictionary(S)
-  return {
-    equals: (x, y) => x === y || (isSubdictionaryS(x, y) && isSubdictionaryS(y, x))
-  }
+  return fromEquals((x, y) => isSubdictionaryS(x, y) && isSubdictionaryS(y, x))
 }
-
 /**
  * @since 1.10.0
  */

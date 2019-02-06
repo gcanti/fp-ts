@@ -1,11 +1,35 @@
 import * as assert from 'assert'
-import { contramap, getProductSetoid, getRecordSetoid, setoidDate, setoidNumber, setoidString } from '../src/Setoid'
+import {
+  contramap,
+  getProductSetoid,
+  getRecordSetoid,
+  setoidDate,
+  setoidNumber,
+  setoidString,
+  fromEquals
+} from '../src/Setoid'
 
 describe('Setoid', () => {
   interface Person {
     name: string
     age: number
   }
+  it('fromEquals', () => {
+    interface A {
+      x: number
+    }
+    let nbCall = 0
+    const S1 = fromEquals<A>((a, b) => {
+      nbCall += 1
+      return a.x === b.x
+    })
+    const a1 = { x: 1 }
+    const a2 = { x: 1 }
+    S1.equals(a1, a1)
+    assert.equal(nbCall, 0)
+    S1.equals(a1, a2)
+    assert.equal(nbCall, 1)
+  })
 
   it('getRecordSetoid', () => {
     const S = getRecordSetoid<Person>({
