@@ -850,9 +850,13 @@ export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => 
  * @since 1.0.0
  */
 export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
-  const xs = copy(as)
-  xs[i] = a
-  return xs
+  if (as[i] === a) {
+    return as
+  } else {
+    const xs = copy(as)
+    xs[i] = a
+    return xs
+  }
 }
 
 /**
