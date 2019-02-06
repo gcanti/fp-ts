@@ -423,8 +423,9 @@ export class Some<A> {
  *
  * @since 1.0.0
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> =>
-  fromEquals((x, y) => (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value)))
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
+  return fromEquals((x, y) => (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value)))
+}
 /**
  * The `Ord` instance allows `Option` values to be compared with
  * `compare`, whenever there is an `Ord` instance for

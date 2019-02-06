@@ -171,11 +171,12 @@ export class Success<L, A> {
 /**
  * @since 1.0.0
  */
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> =>
-  fromEquals(
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
+  return fromEquals(
     (x, y) =>
       x.isFailure() ? y.isFailure() && SL.equals(x.value, y.value) : y.isSuccess() && SA.equals(x.value, y.value)
   )
+}
 
 const map = <L, A, B>(fa: Validation<L, A>, f: (a: A) => B): Validation<L, B> => {
   return fa.map(f)
