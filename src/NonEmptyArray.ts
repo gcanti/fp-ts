@@ -413,10 +413,10 @@ export class NonEmptyArray<A> {
 
   updateAt(i: number, a: A): Option<NonEmptyArray<A>> {
     if (i === 0) {
-      return some(new NonEmptyArray(a, this.tail))
+      return this.head === a ? some(this) : some(new NonEmptyArray(a, this.tail))
     } else {
       const t = arrayUpdateAt(i - 1, a, this.tail)
-      return t.isSome() ? some(new NonEmptyArray(this.head, t.value)) : none
+      return t.isSome() ? (t.value === this.tail ? some(this) : some(new NonEmptyArray(this.head, t.value))) : none
     }
   }
 
