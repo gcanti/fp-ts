@@ -13,7 +13,7 @@ import { Monoid } from './Monoid'
 import { contramap as contramapOrd, getSemigroup as getOrdSemigroup, Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 
 // Adapted from https://github.com/purescript/purescript-tuples
@@ -112,11 +112,8 @@ const foldr = <L, A, B>(fa: Tuple<L, A>, b: B, f: (a: A, b: B) => B): B => {
 /**
  * @since 1.0.0
  */
-export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => {
-  return {
-    equals: (x, y) => x === y || (SA.equals(x.fst, y.fst) && SB.equals(x.snd, y.snd))
-  }
-}
+export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> =>
+  fromEquals((x, y) => SA.equals(x.fst, y.fst) && SB.equals(x.snd, y.snd))
 
 /**
  * To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the

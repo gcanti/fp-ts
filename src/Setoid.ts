@@ -15,6 +15,15 @@ export interface Setoid<A> {
 }
 
 /**
+ * @since 1.14.0
+ */
+export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => {
+  return {
+    equals: (x, y) => x === y || equals(x, y)
+  }
+}
+
+/**
  * @since 1.0.0
  */
 export const strictEqual = <A>(a: A, b: A): boolean => {
@@ -41,52 +50,35 @@ export const setoidBoolean: Setoid<boolean> = setoidStrict
 /**
  * @since 1.0.0
  */
-export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
-  return {
-    equals: (xs, ys) => xs === ys || (xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])))
-  }
-}
+export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> =>
+  fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])))
 
 /**
  * @since 1.0.0
  */
 export const getRecordSetoid = <O extends { [key: string]: any }>(
   setoids: { [K in keyof O]: Setoid<O[K]> }
-): Setoid<O> => {
-  return {
-    equals: (x, y) => {
-      if (x === y) {
-        return true
+): Setoid<O> =>
+  fromEquals((x, y) => {
+    for (const k in setoids) {
+      if (!setoids[k].equals(x[k], y[k])) {
+        return false
       }
-      for (const k in setoids) {
-        if (!setoids[k].equals(x[k], y[k])) {
-          return false
-        }
-      }
-      return true
     }
-  }
-}
+    return true
+  })
 
 /**
  * @since 1.0.0
  */
-export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
-  return {
-    equals: (a, b) => a === b || (SA.equals(a[0], b[0]) && SB.equals(a[1], b[1]))
-  }
-}
-
+export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> =>
+  fromEquals((a, b) => SA.equals(a[0], b[0]) && SB.equals(a[1], b[1]))
 /**
  * Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
  *
  * @since 1.2.0
  */
-export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
-  return {
-    equals: (x, y) => x === y || fa.equals(f(x), f(y))
-  }
-}
+export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => fromEquals((x, y) => fa.equals(f(x), f(y)))
 
 /**
  * @since 1.4.0

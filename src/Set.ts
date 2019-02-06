@@ -2,7 +2,7 @@ import { Either } from './Either'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Predicate, not, Refinement, identity } from './function'
 import { Separated } from './Compactable'
 import { Option } from './Option'
@@ -21,9 +21,7 @@ export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => {
   const subsetS = subset(S)
-  return {
-    equals: (x, y) => x === y || (subsetS(x, y) && subsetS(y, x))
-  }
+  return fromEquals((x, y) => subsetS(x, y) && subsetS(y, x))
 }
 
 /**

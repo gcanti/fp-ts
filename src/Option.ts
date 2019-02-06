@@ -12,7 +12,7 @@ import { getDualMonoid, Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 import { Witherable1 } from './Witherable'
 
@@ -423,12 +423,8 @@ export class Some<A> {
  *
  * @since 1.0.0
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
-  return {
-    equals: (x, y) => x === y || (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value))
-  }
-}
-
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> =>
+  fromEquals((x, y) => (x.isNone() ? y.isNone() : y.isNone() ? false : S.equals(x.value, y.value)))
 /**
  * The `Ord` instance allows `Option` values to be compared with
  * `compare`, whenever there is an `Ord` instance for

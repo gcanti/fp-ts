@@ -8,7 +8,7 @@ import { Lazy, toString } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 
 declare module './HKT' {
@@ -86,11 +86,8 @@ export class Identity<A> {
 /**
  * @since 1.0.0
  */
-export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => {
-  return {
-    equals: (x, y) => x === y || setoid.equals(x.value, y.value)
-  }
-}
+export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> =>
+  fromEquals((x, y) => setoid.equals(x.value, y.value))
 
 const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {
   return fa.map(f)

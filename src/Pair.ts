@@ -7,7 +7,7 @@ import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 
 // Adapted from https://github.com/parsonsmatt/purescript-pair
@@ -101,11 +101,8 @@ const extend = <A, B>(fa: Pair<A>, f: (fb: Pair<A>) => B): Pair<B> => {
 /**
  * @since 1.0.0
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => {
-  return {
-    equals: (x, y) => x === y || (S.equals(x.fst, y.fst) && S.equals(x.snd, y.snd))
-  }
-}
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> =>
+  fromEquals((x, y) => S.equals(x.fst, y.fst) && S.equals(x.snd, y.snd))
 
 /**
  * @since 1.0.0

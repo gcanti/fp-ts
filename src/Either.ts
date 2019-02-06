@@ -12,7 +12,7 @@ import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 import { Validation } from './Validation'
 import { Witherable2C } from './Witherable'
@@ -277,13 +277,10 @@ export class Right<L, A> {
 /**
  * @since 1.0.0
  */
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
-  return {
-    equals: (x, y) =>
-      x === y || (x.isLeft() ? y.isLeft() && SL.equals(x.value, y.value) : y.isRight() && SA.equals(x.value, y.value))
-  }
-}
-
+export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> =>
+  fromEquals(
+    (x, y) => (x.isLeft() ? y.isLeft() && SL.equals(x.value, y.value) : y.isRight() && SA.equals(x.value, y.value))
+  )
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
  * appended using the provided `Semigroup`
