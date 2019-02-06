@@ -1220,9 +1220,7 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
  *
  * @since 1.0.0
  */
-export const catOptions = <A>(as: Array<Option<A>>): Array<A> => {
-  return mapOption(as, identity)
-}
+export const catOptions = <A>(as: Array<Option<A>>): Array<A> => mapOption(as, identity)
 
 /**
  * @example
