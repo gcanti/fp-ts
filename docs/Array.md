@@ -970,7 +970,7 @@ Same as `reduce` but it carries over the intermediate steps
 ```ts
 import { scanLeft } from 'fp-ts/lib/Array'
 
-scanLeft([1, 2, 3], 10, (b, a) => b - a) // [ 10, 9, 7, 4 ]
+assert.deepStrictEqual(scanLeft([1, 2, 3], 10, (b, a) => b - a), [10, 9, 7, 4])
 ```
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L389-L397)

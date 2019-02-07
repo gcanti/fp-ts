@@ -380,7 +380,7 @@ export const foldrL = <A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, 
  * ```ts
  * import { scanLeft } from 'fp-ts/lib/Array'
  *
- * scanLeft([1, 2, 3], 10, (b, a) => b - a) // [ 10, 9, 7, 4 ]
+ * assert.deepStrictEqual(scanLeft([1, 2, 3], 10, (b, a) => b - a), [ 10, 9, 7, 4 ])
  * ```
  *
  *
