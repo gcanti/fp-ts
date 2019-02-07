@@ -29,7 +29,7 @@ describe('IO', () => {
     const log: Array<string> = []
     const append = (message: string): IO<number> => new IO(() => log.push(message))
     assert.strictEqual(S.concat(append('a'), append('b')).run(), 3)
-    assert.deepEqual(log, ['a', 'b'])
+    assert.deepStrictEqual(log, ['a', 'b'])
   })
 
   it('getMonoid', () => {
@@ -38,7 +38,7 @@ describe('IO', () => {
     const append = (message: string): IO<number> => new IO(() => log.push(message))
     assert.strictEqual(M.concat(append('a'), M.empty).run(), 1)
     assert.strictEqual(M.concat(M.empty, append('b')).run(), 2)
-    assert.deepEqual(log, ['a', 'b'])
+    assert.deepStrictEqual(log, ['a', 'b'])
   })
 
   it('toString', () => {
@@ -55,7 +55,7 @@ describe('IO', () => {
         .run(),
       1
     )
-    assert.deepEqual(log, ['a', 'b'])
+    assert.deepStrictEqual(log, ['a', 'b'])
   })
 
   it('applySecond', () => {
@@ -67,6 +67,6 @@ describe('IO', () => {
         .run(),
       2
     )
-    assert.deepEqual(log, ['a', 'b'])
+    assert.deepStrictEqual(log, ['a', 'b'])
   })
 })

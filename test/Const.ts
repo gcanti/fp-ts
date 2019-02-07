@@ -26,7 +26,7 @@ describe('Const', () => {
 
   it('getApplicative', () => {
     const F = getApplicative(monoidString)
-    assert.deepEqual(F.of(1), new Const<string, number>(''))
+    assert.deepStrictEqual(F.of(1), new Const<string, number>(''))
   })
 
   it('toString', () => {
@@ -44,6 +44,6 @@ describe('Const', () => {
   it('getApplicative', () => {
     const F = getApply(semigroupString)
     const fa = new Const<string, (n: number) => number>('foo')
-    assert.deepEqual(F.ap(fa, new Const('bar')), new Const('foobar'))
+    assert.deepStrictEqual(F.ap(fa, new Const('bar')), new Const('foobar'))
   })
 })

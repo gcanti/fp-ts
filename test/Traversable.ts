@@ -12,19 +12,20 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 describe('Traversable', () => {
   it('getTraversableComposition', () => {
     const o: Applicative<'Option'> = option as any
+    // tslint:disable-next-line: deprecation
     const arrayOptionTraversable = getTraversableComposition(array, option)
-    assert.deepEqual(
+    assert.deepStrictEqual(
       arrayOptionTraversable.traverse(o)([some(1), some(2)], (n: number) => (n <= 2 ? some(n * 2) : none)),
       some([some(2), some(4)])
     )
-    assert.deepEqual(
+    assert.deepStrictEqual(
       arrayOptionTraversable.traverse(o)([some(1), some(3)], (n: number) => (n <= 2 ? some(n * 2) : none)),
       none
     )
   })
 
   it('traverse', () => {
-    assert.deepEqual(traverse(option, array)([1, 2, 3], n => (n > 0 ? some(n) : none)), some([1, 2, 3]))
+    assert.deepStrictEqual(traverse(option, array)([1, 2, 3], n => (n > 0 ? some(n) : none)), some([1, 2, 3]))
   })
 
   it('sequence', () => {
@@ -33,6 +34,6 @@ describe('Traversable', () => {
     function f<F>(F: Applicative<F>): <A>(fas: Array<HKT<F, A>>) => HKT<F, Array<A>> {
       return fas => sequence(F, array)(fas)
     }
-    assert.deepEqual(f(option)([some(1), some(2), some(3)]), some([1, 2, 3]))
+    assert.deepStrictEqual(f(option)([some(1), some(2), some(3)]), some([1, 2, 3]))
   })
 })

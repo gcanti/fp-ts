@@ -66,7 +66,7 @@ const state: Record<string, number | undefined> = {
 }
 const read = (s: string) => new IO(() => state[s])
 const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
-assert.deepEqual(x.run(), [some(1), none, some(2), some(undefined)])
+assert.deepStrictEqual(x.run(), [some(1), none, some(2), some(undefined)])
 ```
 
 Added in v1.10.0

@@ -120,7 +120,7 @@ Added in v1.6.0
 
 ## tree
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L149-L162)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L147-L160)
 
 ```ts
 export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
@@ -132,7 +132,7 @@ Added in v1.6.0
 
 Neat 2-dimensional drawing of a forest
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L182-L184)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L180-L182)
 
 ```ts
 export const drawForest = (forest: Forest<string>): string => { ... }
@@ -144,7 +144,7 @@ Added in v1.6.0
 
 Neat 2-dimensional drawing of a tree
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L208-L210)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L206-L208)
 
 ```ts
 export const drawTree = (tree: Tree<string>): string => { ... }
@@ -172,7 +172,7 @@ Added in v1.6.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L137-L144)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L137-L142)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => { ... }
@@ -184,7 +184,7 @@ Added in v1.6.0
 
 Build a tree from a seed value
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L227-L229)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L225-L227)
 
 ```ts
 export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> => { ... }
@@ -196,7 +196,7 @@ Added in v1.6.0
 
 Monadic forest builder, in depth-first order
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L280-L292)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L278-L290)
 
 ```ts
 export function unfoldForestM<M>(
@@ -210,7 +210,7 @@ Added in v1.6.0
 
 Build a tree from a seed value
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L217-L220)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L215-L218)
 
 ```ts
 export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => { ... }
@@ -222,7 +222,7 @@ Added in v1.6.0
 
 Monadic tree builder, in depth-first order
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L252-L255)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L250-L253)
 
 ```ts
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>  { ... }

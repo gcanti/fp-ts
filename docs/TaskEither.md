@@ -445,7 +445,7 @@ const md5 = (path: string): TaskEither<string, string> => {
 md5('foo')
   .run()
   .then(x => {
-    assert.deepEqual(x, left(`cannot create md5 hash: ENOENT: no such file or directory, open 'foo'`))
+    assert.deepStrictEqual(x, left(`cannot create md5 hash: ENOENT: no such file or directory, open 'foo'`))
   })
 ```
 

@@ -202,10 +202,10 @@ export function liftA4<F>(
  * import { monoidSum } from 'fp-ts/lib/Monoid'
  *
  * const S = getSemigroup(option, monoidSum)()
- * assert.deepEqual(S.concat(none, none), none)
- * assert.deepEqual(S.concat(some(1), none), none)
- * assert.deepEqual(S.concat(none, some(2)), none)
- * assert.deepEqual(S.concat(some(1), some(2)), some(3))
+ * assert.deepStrictEqual(S.concat(none, none), none)
+ * assert.deepStrictEqual(S.concat(some(1), none), none)
+ * assert.deepStrictEqual(S.concat(none, some(2)), none)
+ * assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
  *
  * @since 1.4.0
  */
@@ -316,9 +316,9 @@ const tupleConstructors: { [key: string]: Function1<any, any> } = {}
  * import { option, some, none } from 'fp-ts/lib/Option'
  *
  * const sequenceTOption = sequenceT(option)
- * assert.deepEqual(sequenceTOption(some(1)), some([1]))
- * assert.deepEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
- * assert.deepEqual(sequenceTOption(some(1), some('2'), none), none)
+ * assert.deepStrictEqual(sequenceTOption(some(1)), some([1]))
+ * assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
+ * assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
  *
  * @since 1.5.0
  */

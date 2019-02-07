@@ -124,7 +124,7 @@ Added in v1.0.0
 
 ## tuple
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L236-L248)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L233-L245)
 
 ```ts
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = ...
@@ -134,7 +134,7 @@ Added in v1.0.0
 
 ## getApplicative
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L173-L178)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L170-L175)
 
 ```ts
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => { ... }
@@ -144,7 +144,7 @@ Added in v1.0.0
 
 ## getApply
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L157-L164)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L154-L161)
 
 ```ts
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => { ... }
@@ -154,7 +154,7 @@ Added in v1.0.0
 
 ## getChain
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L188-L193)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L185-L190)
 
 ```ts
 export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => { ... }
@@ -164,7 +164,7 @@ Added in v1.0.0
 
 ## getChainRec
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L218-L223)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L215-L220)
 
 ```ts
 export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => { ... }
@@ -174,7 +174,7 @@ Added in v1.0.0
 
 ## getMonad
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L198-L203)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L195-L200)
 
 ```ts
 export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => { ... }
@@ -184,7 +184,7 @@ Added in v1.0.0
 
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L143-L148)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L140-L145)
 
 ```ts
 export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => { ... }
@@ -197,7 +197,7 @@ Added in v1.0.0
 To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
 `snd`s are `compare`d.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L127-L129)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L124-L126)
 
 ```ts
 export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => { ... }
@@ -207,7 +207,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L134-L138)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L131-L135)
 
 ```ts
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => { ... }
@@ -217,7 +217,7 @@ Added in v1.0.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L115-L119)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts#L115-L117)
 
 ```ts
 export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => { ... }

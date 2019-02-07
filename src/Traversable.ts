@@ -29,6 +29,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
  * @since 1.0.0
  * @deprecated
  */
+// tslint:disable-next-line: deprecation
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
   /**
    * Runs an action for every element in a data structure and accumulates the results
@@ -257,8 +258,8 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
  * import { array } from 'fp-ts/lib/Array'
  * import { none, option, some } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(array.traverse(option)([1, 2, 3], n => (n >= 0 ? some(n) : none)), some([1, 2, 3]))
- * assert.deepEqual(array.traverse(option)([-1, 2, 3], n => (n >= 0 ? some(n) : none)), none)
+ * assert.deepStrictEqual(array.traverse(option)([1, 2, 3], n => (n >= 0 ? some(n) : none)), some([1, 2, 3]))
+ * assert.deepStrictEqual(array.traverse(option)([-1, 2, 3], n => (n >= 0 ? some(n) : none)), none)
  *
  * @since 1.0.0
  * @deprecated
@@ -297,10 +298,12 @@ export function traverse<F extends URIS, T extends URIS>(
 ): <A, B>(ta: Type<T, A>, f: (a: A) => Type<F, B>) => Type<F, Type<T, B>>
 export function traverse<F, T>(
   F: Applicative<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable<T>
 ): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 export function traverse<F, T>(
   F: Applicative<F>,
+  // tslint:disable-next-line: deprecation
   T: Traversable<T>
 ): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>> {
   return T.traverse(F)
@@ -313,8 +316,8 @@ export function traverse<F, T>(
  * import { array } from 'fp-ts/lib/Array'
  * import { none, option, some } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(array.sequence(option)([some(1), some(2), some(3)]), some([1, 2, 3]))
- * assert.deepEqual(array.sequence(option)([none, some(2), some(3)]), none)
+ * assert.deepStrictEqual(array.sequence(option)([some(1), some(2), some(3)]), some([1, 2, 3]))
+ * assert.deepStrictEqual(array.sequence(option)([none, some(2), some(3)]), none)
  *
  * @since 1.0.0
  * @deprecated
@@ -355,7 +358,9 @@ export function sequence<F, T extends URIS>(
   F: Applicative<F>,
   T: Traversable1<T>
 ): <A>(tfa: Type<T, HKT<F, A>>) => HKT<F, Type<T, A>>
+// tslint:disable-next-line: deprecation
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
+// tslint:disable-next-line: deprecation
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>> {
   return tfa => T.traverse(F)(tfa, fa => fa)
 }
@@ -370,7 +375,9 @@ export function getTraversableComposition<F extends URIS, G extends URIS>(
   F: Traversable1<F>,
   G: Traversable1<G>
 ): TraversableComposition11<F, G>
+// tslint:disable-next-line: deprecation
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>
+// tslint:disable-next-line: deprecation
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G> {
   return {
     ...getFunctorComposition(F, G),

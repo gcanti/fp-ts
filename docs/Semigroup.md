@@ -47,7 +47,7 @@ Added in v1.0.0
 
 Number Semigroup under multiplication
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L180-L182)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L182-L184)
 
 ```ts
 export const semigroupProduct: Semigroup<number> = ...
@@ -57,7 +57,7 @@ Added in v1.0.0
 
 ## semigroupString
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L187-L189)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L189-L191)
 
 ```ts
 export const semigroupString: Semigroup<string> = ...
@@ -69,7 +69,7 @@ Added in v1.0.0
 
 Number Semigroup under addition
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L172-L174)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L174-L176)
 
 ```ts
 export const semigroupSum: Semigroup<number> = ...
@@ -79,7 +79,7 @@ Added in v1.0.0
 
 ## semigroupVoid
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L194-L196)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L196-L198)
 
 ```ts
 export const semigroupVoid: Semigroup<void> = ...
@@ -113,10 +113,10 @@ Added in v1.0.0
 
 Gets [Semigroup](./Semigroup.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L135-L148)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L137-L150)
 
 ```ts
-export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> => { ... }
+export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup< { ... }
 ```
 
 **Example**
@@ -125,7 +125,7 @@ export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: st
 import { getDictionarySemigroup, semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const S = getDictionarySemigroup(semigroupSum)
-assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+assert.deepStrictEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
 ```
 
 Added in v1.4.0
@@ -194,7 +194,7 @@ Added in v1.0.0
 
 Gets [Semigroup](./Semigroup.md) instance for objects of given type preserving their type
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L164-L166)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L166-L168)
 
 ```ts
 export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => { ... }
@@ -206,7 +206,7 @@ export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => 
 import { getObjectSemigroup } from 'fp-ts/lib/Semigroup'
 
 const S = getObjectSemigroup<{ foo: number }>()
-assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 456 })
+assert.deepStrictEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 456 })
 ```
 
 Added in v1.4.0

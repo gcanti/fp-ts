@@ -126,7 +126,7 @@ orElse(fx: Lazy<Identity<A>>): Identity<A>  { ... }
 import { Identity } from 'fp-ts/lib/Identity'
 
 const a = new Identity(1)
-assert.deepEqual(a.orElse(() => new Identity(2)), a)
+assert.deepStrictEqual(a.orElse(() => new Identity(2)), a)
 ```
 
 Added in v1.6.0
@@ -155,7 +155,7 @@ Added in v1.0.0
 
 ## identity
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L150-L170)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L148-L168)
 
 ```ts
 export const identity: Monad1<URI> &
@@ -170,7 +170,7 @@ Added in v1.0.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L89-L93)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L89-L91)
 
 ```ts
 export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => { ... }

@@ -13,8 +13,8 @@ describe('Identity', () => {
     const double = (n: number): number => n * 2
     const x = I.identity.of(1)
     const expected = I.identity.of(2)
-    assert.deepEqual(x.map(double), expected)
-    assert.deepEqual(I.identity.map(x, double), expected)
+    assert.deepStrictEqual(x.map(double), expected)
+    assert.deepStrictEqual(I.identity.map(x, double), expected)
   })
 
   it('ap', () => {
@@ -22,24 +22,24 @@ describe('Identity', () => {
     const fab = I.identity.of(double)
     const fa = I.identity.of(1)
     const expected = I.identity.of(2)
-    assert.deepEqual(fa.ap(fab), expected)
-    assert.deepEqual(fab.ap_(fa), expected)
-    assert.deepEqual(I.identity.ap(fab, fa), expected)
+    assert.deepStrictEqual(fa.ap(fab), expected)
+    assert.deepStrictEqual(fab.ap_(fa), expected)
+    assert.deepStrictEqual(I.identity.ap(fab, fa), expected)
   })
 
   it('chain', () => {
     const f = (n: number) => I.identity.of(n * 2)
     const x = I.identity.of(1)
     const expected = I.identity.of(2)
-    assert.deepEqual(x.chain(f), expected)
-    assert.deepEqual(I.identity.chain(x, f), expected)
+    assert.deepStrictEqual(x.chain(f), expected)
+    assert.deepStrictEqual(I.identity.chain(x, f), expected)
   })
 
   it('reduce', () => {
     const x = I.identity.of('b')
     const expected = 'ab'
-    assert.deepEqual(x.reduce('a', (b, a) => b + a), expected)
-    assert.deepEqual(I.identity.reduce(x, 'a', (b, a) => b + a), expected)
+    assert.deepStrictEqual(x.reduce('a', (b, a) => b + a), expected)
+    assert.deepStrictEqual(I.identity.reduce(x, 'a', (b, a) => b + a), expected)
   })
 
   it('foldMap', () => {
@@ -78,8 +78,8 @@ describe('Identity', () => {
     const f = (fa: I.Identity<string>): number => fa.value.length
     const x = I.identity.of('foo')
     const expected = I.identity.of(3)
-    assert.deepEqual(x.extend(f), expected)
-    assert.deepEqual(I.identity.extend(x, f), expected)
+    assert.deepStrictEqual(x.extend(f), expected)
+    assert.deepStrictEqual(I.identity.extend(x, f), expected)
   })
 
   it('fold', () => {
@@ -104,25 +104,25 @@ describe('Identity', () => {
   it('ChainRec', () => {
     const x = I.identity.chainRec<number, number>(0, a => I.identity.of(a < 10 ? left(a + 1) : right(a)))
     const expected = I.identity.of(10)
-    assert.deepEqual(x, expected)
+    assert.deepStrictEqual(x, expected)
   })
 
   it('traverse', () => {
     const x1 = I.identity.traverse(option)(I.identity.of(1), some)
-    assert.deepEqual(x1, some(I.identity.of(1)))
+    assert.deepStrictEqual(x1, some(I.identity.of(1)))
     const x2 = I.identity.traverse(option)(I.identity.of(1), () => none)
-    assert.deepEqual(x2, none)
+    assert.deepStrictEqual(x2, none)
   })
 
   it('sequence', () => {
     const old = T.sequence(option, I.identity)
     const sequence = I.identity.sequence(option)
     const x1 = I.identity.of(some('a'))
-    assert.deepEqual(sequence(x1), some(I.identity.of('a')))
-    assert.deepEqual(sequence(x1), old(x1))
+    assert.deepStrictEqual(sequence(x1), some(I.identity.of('a')))
+    assert.deepStrictEqual(sequence(x1), old(x1))
   })
 
   it('orElse', () => {
-    assert.deepEqual(I.identity.of(123).orElse(() => I.identity.of(456)), I.identity.of(123))
+    assert.deepStrictEqual(I.identity.of(123).orElse(() => I.identity.of(456)), I.identity.of(123))
   })
 })

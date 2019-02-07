@@ -598,9 +598,11 @@ export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
 ): <K extends string, A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F>(
+  // tslint:disable-next-line: deprecation
   F: Foldable<F>
 ): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A>
 export function fromFoldable<F>(
+  // tslint:disable-next-line: deprecation
   F: Foldable<F>
 ): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A> {
   return <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => {

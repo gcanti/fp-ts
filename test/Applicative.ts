@@ -13,13 +13,13 @@ describe('Applicative', () => {
     const arrayOption = getApplicativeComposition(array, option)
     const double = (n: number) => n * 2
     const inc = (n: number) => n + 1
-    assert.deepEqual(arrayOption.ap([some(double), some(inc)], [some(1), some(2)]), [
+    assert.deepStrictEqual(arrayOption.ap([some(double), some(inc)], [some(1), some(2)]), [
       some(2),
       some(4),
       some(2),
       some(3)
     ])
-    assert.deepEqual(arrayOption.ap([some(double), none], [some(1), some(2)]), [some(2), some(4), none, none])
+    assert.deepStrictEqual(arrayOption.ap([some(double), none], [some(1), some(2)]), [some(2), some(4), none, none])
   })
 
   it('when', () => {
@@ -28,29 +28,29 @@ describe('Applicative', () => {
       log.push('action called')
     })
     when(io)(false, action).run()
-    assert.deepEqual(log, [])
+    assert.deepStrictEqual(log, [])
     when(io)(true, action).run()
-    assert.deepEqual(log, ['action called'])
+    assert.deepStrictEqual(log, ['action called'])
   })
 
   it('getMonoid', () => {
     const MOption = getMonoid(option, monoidSum)()
-    assert.deepEqual(MOption.concat(none, none), none)
-    assert.deepEqual(MOption.concat(some(1), none), none)
-    assert.deepEqual(MOption.concat(none, some(2)), none)
-    assert.deepEqual(MOption.concat(some(1), some(2)), some(3))
+    assert.deepStrictEqual(MOption.concat(none, none), none)
+    assert.deepStrictEqual(MOption.concat(some(1), none), none)
+    assert.deepStrictEqual(MOption.concat(none, some(2)), none)
+    assert.deepStrictEqual(MOption.concat(some(1), some(2)), some(3))
 
     const MEither = getMonoid(either, monoidSum)<string>()
-    assert.deepEqual(MEither.concat(left('a'), left('b')), left('a'))
-    assert.deepEqual(MEither.concat(right(1), left('b')), left('b'))
-    assert.deepEqual(MEither.concat(left('a'), right(2)), left('a'))
-    assert.deepEqual(MEither.concat(right(1), right(2)), right(3))
+    assert.deepStrictEqual(MEither.concat(left('a'), left('b')), left('a'))
+    assert.deepStrictEqual(MEither.concat(right(1), left('b')), left('b'))
+    assert.deepStrictEqual(MEither.concat(left('a'), right(2)), left('a'))
+    assert.deepStrictEqual(MEither.concat(right(1), right(2)), right(3))
 
     const validation = getApplicative(semigroupString)
     const MValidation = getMonoid(validation, monoidSum)()
-    assert.deepEqual(MValidation.concat(failure('a'), failure('b')), failure('ab'))
-    assert.deepEqual(MValidation.concat(success(1), failure('b')), failure('b'))
-    assert.deepEqual(MValidation.concat(failure('a'), success(2)), failure('a'))
-    assert.deepEqual(MValidation.concat(success(1), success(2)), success(3))
+    assert.deepStrictEqual(MValidation.concat(failure('a'), failure('b')), failure('ab'))
+    assert.deepStrictEqual(MValidation.concat(success(1), failure('b')), failure('b'))
+    assert.deepStrictEqual(MValidation.concat(failure('a'), success(2)), failure('a'))
+    assert.deepStrictEqual(MValidation.concat(success(1), success(2)), success(3))
   })
 })

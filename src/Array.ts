@@ -47,7 +47,7 @@ export type URI = typeof URI
  * import { getMonoid } from 'fp-ts/lib/Array'
  *
  * const M = getMonoid<number>()
- * assert.deepEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
+ * assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
  *
  * @since 1.0.0
  */
@@ -250,7 +250,7 @@ const unfoldr = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
  * import { makeBy } from 'fp-ts/lib/Array'
  *
  * const double = (n: number): number => n * 2
- * assert.deepEqual(makeBy(5, double), [0, 2, 4, 6, 8])
+ * assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
  *
  *
  * @since 1.10.0
@@ -269,7 +269,7 @@ export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
  * @example
  * import { range } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(range(1, 5), [1, 2, 3, 4, 5])
+ * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
  *
  *
  * @since 1.10.0
@@ -284,7 +284,7 @@ export const range = (start: number, end: number): Array<number> => {
  * @example
  * import { replicate } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(replicate(3, 'a'), ['a', 'a', 'a'])
+ * assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
  *
  *
  * @since 1.10.0
@@ -303,7 +303,7 @@ const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
  * @example
  * import { flatten } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(flatten([[1], [2], [3]]), [1, 2, 3])
+ * assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
  *
  * @since 1.0.0
  */
@@ -402,7 +402,7 @@ export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Arra
  * @example
  * import { scanRight } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(scanRight([1, 2, 3], 10, (a, b) => b - a), [ 4, 5, 7, 10 ])
+ * assert.deepStrictEqual(scanRight([1, 2, 3], 10, (a, b) => b - a), [ 4, 5, 7, 10 ])
  *
  *
  * @since 1.1.0
@@ -447,8 +447,8 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
  * import { index } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(index(1, [1, 2, 3]), some(2))
- * assert.deepEqual(index(3, [1, 2, 3]), none)
+ * assert.deepStrictEqual(index(1, [1, 2, 3]), some(2))
+ * assert.deepStrictEqual(index(3, [1, 2, 3]), none)
  *
  * @since 1.0.0
  */
@@ -462,7 +462,7 @@ export const index = <A>(i: number, as: Array<A>): Option<A> => {
  * @example
  * import { cons } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
+ * assert.deepStrictEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
  *
  * @since 1.0.0
  */
@@ -482,7 +482,7 @@ export const cons = <A>(a: A, as: Array<A>): Array<A> => {
  * @example
  * import { snoc } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+ * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
  *
  * @since 1.0.0
  */
@@ -503,8 +503,8 @@ export const snoc = <A>(as: Array<A>, a: A): Array<A> => {
  * import { head } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(head([1, 2, 3]), some(1))
- * assert.deepEqual(head([]), none)
+ * assert.deepStrictEqual(head([1, 2, 3]), some(1))
+ * assert.deepStrictEqual(head([]), none)
  *
  * @since 1.0.0
  */
@@ -519,8 +519,8 @@ export const head = <A>(as: Array<A>): Option<A> => {
  * import { last } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(last([1, 2, 3]), some(3))
- * assert.deepEqual(last([]), none)
+ * assert.deepStrictEqual(last([1, 2, 3]), some(3))
+ * assert.deepStrictEqual(last([]), none)
  *
  * @since 1.0.0
  */
@@ -535,8 +535,8 @@ export const last = <A>(as: Array<A>): Option<A> => {
  * import { tail } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(tail([1, 2, 3]), some([2, 3]))
- * assert.deepEqual(tail([]), none)
+ * assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
+ * assert.deepStrictEqual(tail([]), none)
  *
  * @since 1.0.0
  */
@@ -551,8 +551,8 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => {
  * import { init } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(init([1, 2, 3]), some([1, 2]))
- * assert.deepEqual(init([]), none)
+ * assert.deepStrictEqual(init([1, 2, 3]), some([1, 2]))
+ * assert.deepStrictEqual(init([]), none)
  *
  * @since 1.0.0
  */
@@ -568,7 +568,7 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => {
  * @example
  * import { take } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(take(2, [1, 2, 3]), [1, 2])
+ * assert.deepStrictEqual(take(2, [1, 2, 3]), [1, 2])
  *
  * @since 1.0.0
  */
@@ -583,7 +583,7 @@ export const take = <A>(n: number, as: Array<A>): Array<A> => {
  * @example
  * import { takeEnd } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
+ * assert.deepStrictEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
  *
  *
  * @since 1.10.0
@@ -598,7 +598,7 @@ export const takeEnd = <A>(n: number, as: Array<A>): Array<A> => {
  * @example
  * import { takeWhile } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
+ * assert.deepStrictEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
  *
  * @since 1.0.0
  */
@@ -632,7 +632,7 @@ const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
  * @example
  * import { span } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
+ * assert.deepStrictEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
  *
  * @since 1.0.0
  */
@@ -658,7 +658,7 @@ export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>
  * @example
  * import { drop } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(drop(2, [1, 2, 3]), [3])
+ * assert.deepStrictEqual(drop(2, [1, 2, 3]), [3])
  *
  * @since 1.0.0
  */
@@ -672,7 +672,7 @@ export const drop = <A>(n: number, as: Array<A>): Array<A> => {
  * @example
  * import { dropEnd } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
+ * assert.deepStrictEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
  *
  *
  * @since 1.10.0
@@ -687,7 +687,7 @@ export const dropEnd = <A>(n: number, as: Array<A>): Array<A> => {
  * @example
  * import { dropWhile } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
+ * assert.deepStrictEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
  *
  * @since 1.0.0
  */
@@ -708,8 +708,8 @@ export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> =>
  * import { findIndex } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(findIndex([1, 2, 3], x => x === 2), some(1))
- * assert.deepEqual(findIndex([], x => x === 2), none)
+ * assert.deepStrictEqual(findIndex([1, 2, 3], x => x === 2), some(1))
+ * assert.deepStrictEqual(findIndex([], x => x === 2), none)
  *
  * @since 1.0.0
  */
@@ -730,7 +730,7 @@ export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<numb
  * import { findFirst } from 'fp-ts/lib/Array'
  * import { some } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
+ * assert.deepStrictEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
  *
  * @since 1.0.0
  */
@@ -753,7 +753,7 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  * import { findLast } from 'fp-ts/lib/Array'
  * import { some } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
+ * assert.deepStrictEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
  *
  * @since 1.0.0
  */
@@ -781,8 +781,8 @@ export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  *   b: number
  * }
  * const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
- * assert.deepEqual(findLastIndex(xs, x => x.a === 1), some(1))
- * assert.deepEqual(findLastIndex(xs, x => x.a === 4), none)
+ * assert.deepStrictEqual(findLastIndex(xs, x => x.a === 1), some(1))
+ * assert.deepStrictEqual(findLastIndex(xs, x => x.a === 4), none)
  *
  *
  * @since 1.10.0
@@ -837,7 +837,7 @@ export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
  * import { insertAt } from 'fp-ts/lib/Array'
  * import { some } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
+ * assert.deepStrictEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
  *
  * @since 1.0.0
  */
@@ -866,8 +866,8 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
  * import { updateAt } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(updateAt(1, 1, [1, 2, 3]), some([1, 1, 3]))
- * assert.deepEqual(updateAt(1, 1, []), none)
+ * assert.deepStrictEqual(updateAt(1, 1, [1, 2, 3]), some([1, 1, 3]))
+ * assert.deepStrictEqual(updateAt(1, 1, []), none)
  *
  * @since 1.0.0
  */
@@ -892,8 +892,8 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
  * import { deleteAt } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(deleteAt(0, [1, 2, 3]), some([2, 3]))
- * assert.deepEqual(deleteAt(1, []), none)
+ * assert.deepStrictEqual(deleteAt(0, [1, 2, 3]), some([2, 3]))
+ * assert.deepStrictEqual(deleteAt(1, []), none)
  *
  * @since 1.0.0
  */
@@ -910,8 +910,8 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
  * import { some, none } from 'fp-ts/lib/Option'
  *
  * const double = (x: number): number => x * 2
- * assert.deepEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
- * assert.deepEqual(modifyAt([], 1, double), none)
+ * assert.deepStrictEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
+ * assert.deepStrictEqual(modifyAt([], 1, double), none)
  *
  * @since 1.0.0
  */
@@ -925,7 +925,7 @@ export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option
  * @example
  * import { reverse } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(reverse([1, 2, 3]), [3, 2, 1])
+ * assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
  *
  * @since 1.0.0
  */
@@ -940,7 +940,7 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
  * import { rights } from 'fp-ts/lib/Array'
  * import { right, left } from 'fp-ts/lib/Either'
  *
- * assert.deepEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
+ * assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
  *
  * @since 1.0.0
  */
@@ -963,7 +963,7 @@ export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
  * import { lefts } from 'fp-ts/lib/Array'
  * import { left, right } from 'fp-ts/lib/Either'
  *
- * assert.deepEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
+ * assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
  *
  * @since 1.0.0
  */
@@ -986,7 +986,7 @@ export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
  * import { sort } from 'fp-ts/lib/Array'
  * import { ordNumber } from 'fp-ts/lib/Ord'
  *
- * assert.deepEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
+ * assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
  *
  * @since 1.0.0
  */
@@ -1001,7 +1001,7 @@ export const sort = <A>(O: Ord<A>) => (as: Array<A>): Array<A> => {
  * @example
  * import { zipWith } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
+ * assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
  *
  * @since 1.0.0
  */
@@ -1021,7 +1021,7 @@ export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
  * @example
  * import { zip } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
+ * assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
  *
  * @since 1.0.0
  */
@@ -1035,7 +1035,7 @@ export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
  * @example
  * import { unzip } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
+ * assert.deepStrictEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
  *
  *
  * @since 1.13.0
@@ -1058,7 +1058,7 @@ export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => {
  * @example
  * import { rotate } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+ * assert.deepStrictEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
  *
  * @since 1.0.0
  */
@@ -1108,7 +1108,7 @@ export const member = <A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean => {
  * import { uniq } from 'fp-ts/lib/Array'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
- * assert.deepEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
+ * assert.deepStrictEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
  *
  *
  * @since 1.3.0
@@ -1148,7 +1148,7 @@ export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
  *
  * if (sortByNameByAge.isSome()) {
  *   const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
- *   assert.deepEqual(sortByNameByAge.value(persons), [
+ *   assert.deepStrictEqual(sortByNameByAge.value(persons), [
  *     { name: 'a', age: 1 },
  *     { name: 'b', age: 2 },
  *     { name: 'b', age: 3 },
@@ -1179,7 +1179,7 @@ export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> =
  * const sortByNameByAge = sortBy1(byName, [byAge])
  *
  * const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
- * assert.deepEqual(sortByNameByAge(persons), [
+ * assert.deepStrictEqual(sortByNameByAge(persons), [
  *   { name: 'a', age: 1 },
  *   { name: 'b', age: 2 },
  *   { name: 'b', age: 3 },
@@ -1203,7 +1203,7 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
  * import { Option, some, none } from 'fp-ts/lib/Option'
  *
  * const f = (n: number): Option<number> => (n % 2 === 0 ? none : some(n))
- * assert.deepEqual(mapOption([1, 2, 3], f), [1, 3])
+ * assert.deepStrictEqual(mapOption([1, 2, 3], f), [1, 3])
  *
  * @since 1.0.0
  */
@@ -1220,7 +1220,7 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
  * import { catOptions } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(catOptions([some(1), none, some(3)]), [1, 3])
+ * assert.deepStrictEqual(catOptions([some(1), none, some(3)]), [1, 3])
  *
  * @since 1.0.0
  */
@@ -1232,7 +1232,7 @@ export const catOptions = <A>(as: Array<Option<A>>): Array<A> => mapOption(as, i
  * import { left, right } from 'fp-ts/lib/Either'
  * import { identity } from 'fp-ts/lib/function'
  *
- * assert.deepEqual(array.partitionMap([right(1), left('foo'), right(2)], identity), { left: ['foo'], right: [1, 2] })
+ * assert.deepStrictEqual(array.partitionMap([right(1), left('foo'), right(2)], identity), { left: ['foo'], right: [1, 2] })
  *
  * @since 1.0.0
  */
@@ -1308,7 +1308,7 @@ const wilt = <F>(
  *     return [init, rest]
  *   })
  * }
- * assert.deepEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+ * assert.deepStrictEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
  *
  *
  * @since 1.10.0
@@ -1330,7 +1330,7 @@ export const chop = <A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Ar
  * @example
  * import { split } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
+ * assert.deepStrictEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
  *
  * @since 1.10.0
@@ -1353,7 +1353,7 @@ export const split = <A>(n: number, as: Array<A>): [Array<A>, Array<A>] => {
  * @example
  * import { chunksOf } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
+ * assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
  *
  *
  * @since 1.10.0
@@ -1373,7 +1373,7 @@ export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => {
  * import { comprehension } from 'fp-ts/lib/Array'
  * import { tuple } from 'fp-ts/lib/function'
  *
- * assert.deepEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.length) % 2 === 0, tuple), [
+ * assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.length) % 2 === 0, tuple), [
  *   [1, 'a'],
  *   [1, 'b'],
  *   [3, 'a'],
@@ -1422,7 +1422,7 @@ export function comprehension<R>(
  * import { union } from 'fp-ts/lib/Array'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
- * assert.deepEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
+ * assert.deepStrictEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
  *
  *
  * @since 1.12.0
@@ -1440,7 +1440,7 @@ export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A
  * import { intersection } from 'fp-ts/lib/Array'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
- * assert.deepEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
+ * assert.deepStrictEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
  *
  *
  * @since 1.12.0
@@ -1458,7 +1458,7 @@ export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => 
  * import { difference } from 'fp-ts/lib/Array'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
- * assert.deepEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
+ * assert.deepStrictEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
  *
  *
  * @since 1.12.0

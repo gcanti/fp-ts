@@ -11,8 +11,8 @@ describe('EitherT', () => {
     const x = of(1)
     const y = eitherT.fromEither(task)<string, number>(either.left('foo'))
     return Promise.all([chain(f, x).run(), chain(f, y).run()]).then(([e1, e2]) => {
-      assert.deepEqual(e1, either.right(2))
-      assert.deepEqual(e2, either.left('foo'))
+      assert.deepStrictEqual(e1, either.right(2))
+      assert.deepStrictEqual(e2, either.left('foo'))
     })
   })
 })

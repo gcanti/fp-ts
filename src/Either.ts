@@ -99,7 +99,7 @@ export class Left<L, A> {
    * @example
    * import { right } from 'fp-ts/lib/Either'
    *
-   * assert.deepEqual(right(1).orElse(() => right(2)), right(1))
+   * assert.deepStrictEqual(right(1).orElse(() => right(2)), right(1))
    *
    * @since 1.6.0
    */
@@ -154,9 +154,9 @@ export class Left<L, A> {
    * @example
    * import { right, left } from 'fp-ts/lib/Either'
    *
-   * assert.deepEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
-   * assert.deepEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
-   * assert.deepEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
+   * assert.deepStrictEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
+   * assert.deepStrictEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
+   * assert.deepStrictEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
    *
    * @since 1.3.0
    */
@@ -291,10 +291,10 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
  * const S = getSemigroup<string, number>(semigroupSum)
- * assert.deepEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepEqual(S.concat(left('a'), right(2)), right(2))
- * assert.deepEqual(S.concat(right(1), left('b')), right(1))
- * assert.deepEqual(S.concat(right(1), right(2)), right(3))
+ * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
+ * assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
+ * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
  *
  *
  * @since 1.7.0
@@ -313,10 +313,10 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => 
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
  * const S = getApplySemigroup<string, number>(semigroupSum)
- * assert.deepEqual(S.concat(left('a'), left('b')), left('a'))
- * assert.deepEqual(S.concat(left('a'), right(2)), left('a'))
- * assert.deepEqual(S.concat(right(1), left('b')), left('b'))
- * assert.deepEqual(S.concat(right(1), right(2)), right(3))
+ * assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
+ * assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
+ * assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
+ * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
  *
  *
  * @since 1.7.0
@@ -512,8 +512,8 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError
  *   return tryCatch2v(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
  * }
  *
- * assert.deepEqual(head([]), left(new Error('empty array')))
- * assert.deepEqual(head([1, 2, 3]), right(1))
+ * assert.deepStrictEqual(head([]), left(new Error('empty array')))
+ * assert.deepStrictEqual(head([1, 2, 3]), right(1))
  *
  * @since 1.11.0
  */

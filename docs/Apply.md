@@ -72,10 +72,10 @@ import { option, some, none } from 'fp-ts/lib/Option'
 import { monoidSum } from 'fp-ts/lib/Monoid'
 
 const S = getSemigroup(option, monoidSum)()
-assert.deepEqual(S.concat(none, none), none)
-assert.deepEqual(S.concat(some(1), none), none)
-assert.deepEqual(S.concat(none, some(2)), none)
-assert.deepEqual(S.concat(some(1), some(2)), some(3))
+assert.deepStrictEqual(S.concat(none, none), none)
+assert.deepStrictEqual(S.concat(some(1), none), none)
+assert.deepStrictEqual(S.concat(none, some(2)), none)
+assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
 ```
 
 Added in v1.4.0
@@ -139,9 +139,9 @@ import { sequenceT } from 'fp-ts/lib/Apply'
 import { option, some, none } from 'fp-ts/lib/Option'
 
 const sequenceTOption = sequenceT(option)
-assert.deepEqual(sequenceTOption(some(1)), some([1]))
-assert.deepEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
-assert.deepEqual(sequenceTOption(some(1), some('2'), none), none)
+assert.deepStrictEqual(sequenceTOption(some(1)), some([1]))
+assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
+assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
 ```
 
 Added in v1.5.0

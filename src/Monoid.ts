@@ -101,7 +101,7 @@ const emptyObject = {}
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
  * const M = getDictionaryMonoid(semigroupSum)
- * assert.deepEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
+ * assert.deepStrictEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
  *
  * @since 1.4.0
  */

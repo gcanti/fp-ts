@@ -201,10 +201,11 @@ Added in v1.0.0
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L294-L299)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L293-L299)
 
 ```ts
 export function fromFoldable<F>(
+  // tslint:disable-next-line: deprecation
   F: Foldable<F>
 ): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>  { ... }
 ```
@@ -223,7 +224,7 @@ Added in v1.0.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L253-L258)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L253-L256)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => { ... }
@@ -271,7 +272,7 @@ Added in v1.0.0
 
 Lookup the value for a key in a dictionary
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L274-L276)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L272-L274)
 
 ```ts
 export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => { ... }
@@ -307,7 +308,7 @@ Added in v1.0.0
 
 Create a dictionary with one key/value pair
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L265-L267)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L263-L265)
 
 ```ts
 export const singleton = <A>(k: string, a: A): StrMap<A> => { ... }

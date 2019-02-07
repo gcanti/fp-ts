@@ -29,7 +29,7 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Foldable2v', () => {
   it('toArray', () => {
-    assert.deepEqual(toArray(array)([1, 2, 3]), [1, 2, 3])
+    assert.deepStrictEqual(toArray(array)([1, 2, 3]), [1, 2, 3])
   })
 
   it('getFoldableComposition', () => {
@@ -70,13 +70,13 @@ describe('Foldable2v', () => {
   })
 
   it('min', () => {
-    assert.deepEqual(min(ordNumber, array)([]), option.none)
-    assert.deepEqual(min(ordNumber, array)([1, 2, 3, 4, 5]), option.some(1))
+    assert.deepStrictEqual(min(ordNumber, array)([]), option.none)
+    assert.deepStrictEqual(min(ordNumber, array)([1, 2, 3, 4, 5]), option.some(1))
   })
 
   it('max', () => {
-    assert.deepEqual(max(ordNumber, array)([]), option.none)
-    assert.deepEqual(max(ordNumber, array)([1, 2, 3, 4, 5]), option.some(5))
+    assert.deepStrictEqual(max(ordNumber, array)([]), option.none)
+    assert.deepStrictEqual(max(ordNumber, array)([1, 2, 3, 4, 5]), option.some(5))
   })
 
   it('sum', () => {
@@ -88,16 +88,16 @@ describe('Foldable2v', () => {
   })
 
   it('foldM', () => {
-    assert.deepEqual(foldM(option.option, array)([], 1, () => option.none), option.some(1))
-    assert.deepEqual(foldM(option.option, array)([2], 1, () => option.none), option.none)
-    assert.deepEqual(foldM(option.option, array)([2], 1, (b, a) => option.some(b + a)), option.some(3))
+    assert.deepStrictEqual(foldM(option.option, array)([], 1, () => option.none), option.some(1))
+    assert.deepStrictEqual(foldM(option.option, array)([2], 1, () => option.none), option.none)
+    assert.deepStrictEqual(foldM(option.option, array)([2], 1, (b, a) => option.some(b + a)), option.some(3))
   })
 
   it('oneOf', () => {
-    assert.deepEqual(oneOf(option.option, array)([]), option.none)
-    assert.deepEqual(oneOf(option.option, array)([option.none]), option.none)
-    assert.deepEqual(oneOf(option.option, array)([option.none, option.some(1)]), option.some(1))
-    assert.deepEqual(oneOf(option.option, array)([option.some(2), option.some(1)]), option.some(2))
+    assert.deepStrictEqual(oneOf(option.option, array)([]), option.none)
+    assert.deepStrictEqual(oneOf(option.option, array)([option.none]), option.none)
+    assert.deepStrictEqual(oneOf(option.option, array)([option.none, option.some(1)]), option.some(1))
+    assert.deepStrictEqual(oneOf(option.option, array)([option.some(2), option.some(1)]), option.some(2))
   })
 
   it('member', () => {
@@ -106,11 +106,11 @@ describe('Foldable2v', () => {
   })
 
   it('findFirst', () => {
-    assert.deepEqual(findFirst(array)([1, 2, 3], a => a > 4), option.none)
-    assert.deepEqual(findFirst(array)([1, 2, 3, 5], a => a > 4), option.some(5))
+    assert.deepStrictEqual(findFirst(array)([1, 2, 3], a => a > 4), option.none)
+    assert.deepStrictEqual(findFirst(array)([1, 2, 3, 5], a => a > 4), option.some(5))
   })
 
   it('fold', () => {
-    assert.deepEqual(fold(monoidString, array)(['a', 'b', 'c']), 'abc')
+    assert.deepStrictEqual(fold(monoidString, array)(['a', 'b', 'c']), 'abc')
   })
 })

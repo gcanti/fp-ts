@@ -23,9 +23,9 @@ describe('Ord', () => {
     const sortByFst = contramap((x: T) => x[0], ordNumber)
     const sortBySnd = contramap((x: T) => x[1], ordString)
     const O1 = S.concat(sortByFst, sortBySnd)
-    assert.deepEqual(sort(O1)(tuples), [[1, 'b'], [1, 'c'], [2, 'a'], [2, 'c']])
+    assert.deepStrictEqual(sort(O1)(tuples), [[1, 'b'], [1, 'c'], [2, 'a'], [2, 'c']])
     const O2 = S.concat(sortBySnd, sortByFst)
-    assert.deepEqual(sort(O2)(tuples), [[2, 'a'], [1, 'b'], [1, 'c'], [2, 'c']])
+    assert.deepStrictEqual(sort(O2)(tuples), [[2, 'a'], [1, 'b'], [1, 'c'], [2, 'c']])
   })
 
   it('getProductOrd', () => {
@@ -101,12 +101,12 @@ describe('Ord', () => {
     const a1 = { x: 1 }
     const a2 = { x: 1 }
     assert.strictEqual(O2.equals(a1, a1), true)
-    assert.equal(nbCall, 0)
+    assert.strictEqual(nbCall, 0)
     assert.strictEqual(O2.equals(a1, a2), true)
-    assert.equal(nbCall, 1)
+    assert.strictEqual(nbCall, 1)
     assert.strictEqual(O2.compare(a1, a1), 0)
-    assert.equal(nbCall, 1)
+    assert.strictEqual(nbCall, 1)
     assert.strictEqual(O2.compare(a1, a2), 0)
-    assert.equal(nbCall, 2)
+    assert.strictEqual(nbCall, 2)
   })
 })
