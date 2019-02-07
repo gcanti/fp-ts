@@ -35,7 +35,7 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
 const x = new NonEmptyArray(1, [2])
 const double = (n: number): number => n * 2
-assert.deepEqual(x.ap(new NonEmptyArray(double, [double])).toArray(), [2, 4, 2, 4])
+assert.deepStrictEqual(x.ap(new NonEmptyArray(double, [double])).toArray(), [2, 4, 2, 4])
 ```
 
 Added in v1.0.0
@@ -57,7 +57,7 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
 const x = new NonEmptyArray(1, [2])
 const double = (n: number) => n * 2
-assert.deepEqual(new NonEmptyArray(double, [double]).ap_(x).toArray(), [2, 4, 2, 4])
+assert.deepStrictEqual(new NonEmptyArray(double, [double]).ap_(x).toArray(), [2, 4, 2, 4])
 ```
 
 Added in v1.0.0
@@ -77,7 +77,7 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
 const x = new NonEmptyArray(1, [2])
 const f = (a: number) => new NonEmptyArray(a, [4])
-assert.deepEqual(x.chain(f).toArray(), [1, 4, 2, 4])
+assert.deepStrictEqual(x.chain(f).toArray(), [1, 4, 2, 4])
 ```
 
 Added in v1.0.0
@@ -97,7 +97,7 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
 const x = new NonEmptyArray(1, [2])
 const y = new NonEmptyArray(3, [4])
-assert.deepEqual(x.concat(y).toArray(), [1, 2, 3, 4])
+assert.deepStrictEqual(x.concat(y).toArray(), [1, 2, 3, 4])
 ```
 
 Added in v1.0.0
@@ -117,7 +117,7 @@ concatArray(as: Array<A>): NonEmptyArray<A>  { ... }
 ```ts
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
-assert.deepEqual(new NonEmptyArray<number>(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
+assert.deepStrictEqual(new NonEmptyArray<number>(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
 ```
 
 Added in v1.0.0
@@ -137,7 +137,7 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { fold, monoidSum } from 'fp-ts/lib/Monoid'
 
 const sum = (as: NonEmptyArray<number>) => fold(monoidSum)(as.toArray())
-assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).extend(sum), new NonEmptyArray(10, [9, 7, 4]))
+assert.deepStrictEqual(new NonEmptyArray(1, [2, 3, 4]).extend(sum), new NonEmptyArray(10, [9, 7, 4]))
 ```
 
 Added in v1.0.0
@@ -198,7 +198,10 @@ findFirst(predicate: Predicate<A>): Option<A>  { ... }
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findFirst(x => x.a === 1), some({ a: 1, b: 1 }))
+assert.deepStrictEqual(
+  new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findFirst(x => x.a === 1),
+  some({ a: 1, b: 1 })
+)
 ```
 
 Added in v1.11.0
@@ -219,8 +222,8 @@ findIndex(predicate: Predicate<A>): Option<number>  { ... }
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepEqual(new NonEmptyArray(1, [2, 3]).findIndex(x => x === 2), some(1))
-assert.deepEqual(new NonEmptyArray<number>(1, []).findIndex(x => x === 2), none)
+assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).findIndex(x => x === 2), some(1))
+assert.deepStrictEqual(new NonEmptyArray<number>(1, []).findIndex(x => x === 2), none)
 ```
 
 Added in v1.11.0
@@ -241,7 +244,10 @@ findLast(predicate: Predicate<A>): Option<A>  { ... }
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findLast(x => x.a === 1), some({ a: 1, b: 2 }))
+assert.deepStrictEqual(
+  new NonEmptyArray({ a: 1, b: 1 }, [{ a: 1, b: 2 }]).findLast(x => x.a === 1),
+  some({ a: 1, b: 2 })
+)
 ```
 
 Added in v1.11.0
@@ -267,8 +273,8 @@ interface X {
   b: number
 }
 const xs: NonEmptyArray<X> = new NonEmptyArray({ a: 1, b: 0 }, [{ a: 1, b: 1 }])
-assert.deepEqual(xs.findLastIndex(x => x.a === 1), some(1))
-assert.deepEqual(xs.findLastIndex(x => x.a === 4), none)
+assert.deepStrictEqual(xs.findLastIndex(x => x.a === 1), some(1))
+assert.deepStrictEqual(xs.findLastIndex(x => x.a === 4), none)
 ```
 
 Added in v1.11.0
@@ -309,8 +315,8 @@ index(i: number): Option<A>  { ... }
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepEqual(new NonEmptyArray(1, [2, 3]).index(1), some(2))
-assert.deepEqual(new NonEmptyArray(1, [2, 3]).index(3), none)
+assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).index(1), some(2))
+assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).index(3), none)
 ```
 
 Added in v1.11.0
@@ -331,7 +337,7 @@ insertAt(i: number, a: A): Option<NonEmptyArray<A>>  { ... }
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(new NonEmptyArray(1, [2, 3, 4]).insertAt(2, 5), some(new NonEmptyArray(1, [2, 5, 3, 4])))
+assert.deepStrictEqual(new NonEmptyArray(1, [2, 3, 4]).insertAt(2, 5), some(new NonEmptyArray(1, [2, 5, 3, 4])))
 ```
 
 Added in v1.11.0
@@ -393,7 +399,7 @@ map<B>(f: (a: A) => B): NonEmptyArray<B>  { ... }
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
 const double = (n: number): number => n * 2
-assert.deepEqual(new NonEmptyArray(1, [2]).map(double), new NonEmptyArray(2, [4]))
+assert.deepStrictEqual(new NonEmptyArray(1, [2]).map(double), new NonEmptyArray(2, [4]))
 ```
 
 Added in v1.0.0
@@ -494,7 +500,7 @@ reverse(): NonEmptyArray<A>  { ... }
 ```ts
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
-assert.deepEqual(new NonEmptyArray(1, [2, 3]).reverse(), new NonEmptyArray(3, [2, 1]))
+assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).reverse(), new NonEmptyArray(3, [2, 1]))
 ```
 
 Added in v1.6.0
@@ -515,7 +521,7 @@ sort(ord: Ord<A>): NonEmptyArray<A>  { ... }
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { ordNumber } from 'fp-ts/lib/Ord'
 
-assert.deepEqual(new NonEmptyArray(3, [2, 1]).sort(ordNumber), new NonEmptyArray(1, [2, 3]))
+assert.deepStrictEqual(new NonEmptyArray(3, [2, 1]).sort(ordNumber), new NonEmptyArray(1, [2, 3]))
 ```
 
 Added in v1.6.0
@@ -535,7 +541,7 @@ toArray(): Array<A>  { ... }
 ```ts
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 
-assert.deepEqual(new NonEmptyArray(1, [2, 3]).toArray(), [1, 2, 3])
+assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).toArray(), [1, 2, 3])
 ```
 
 Added in v1.0.0
@@ -568,8 +574,8 @@ updateAt(i: number, a: A): Option<NonEmptyArray<A>>  { ... }
 import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepEqual(new NonEmptyArray(1, [2, 3]).updateAt(1, 1), some(new NonEmptyArray(1, [1, 3])))
-assert.deepEqual(new NonEmptyArray(1, []).updateAt(1, 1), none)
+assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).updateAt(1, 1), some(new NonEmptyArray(1, [1, 3])))
+assert.deepStrictEqual(new NonEmptyArray(1, []).updateAt(1, 1), none)
 ```
 
 Added in v1.11.0
@@ -631,7 +637,7 @@ export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>
 import { NonEmptyArray, group } from 'fp-ts/lib/NonEmptyArray'
 import { ordNumber } from 'fp-ts/lib/Ord'
 
-assert.deepEqual(group(ordNumber)([1, 2, 1, 1]), [
+assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
   new NonEmptyArray(1, []),
   new NonEmptyArray(2, []),
   new NonEmptyArray(1, [1])
@@ -656,7 +662,7 @@ export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
 ```ts
 import { NonEmptyArray, groupBy } from 'fp-ts/lib/NonEmptyArray'
 
-assert.deepEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
+assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
   '3': new NonEmptyArray('foo', ['bar']),
   '6': new NonEmptyArray('foobar', [])
 })
@@ -680,7 +686,7 @@ export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<
 import { NonEmptyArray, groupSort } from 'fp-ts/lib/NonEmptyArray'
 import { ordNumber } from 'fp-ts/lib/Ord'
 
-assert.deepEqual(groupSort(ordNumber)([1, 2, 1, 1]), [new NonEmptyArray(1, [1, 1]), new NonEmptyArray(2, [])])
+assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [new NonEmptyArray(1, [1, 1]), new NonEmptyArray(2, [])])
 ```
 
 Added in v1.7.0

@@ -26,8 +26,8 @@ describe('Tuple', () => {
     const x = new Tuple(true, 2)
     const y = new Tuple(1, 's')
     const z = new Tuple(true, 's')
-    assert.deepEqual(x.compose(y), z)
-    assert.deepEqual(
+    assert.deepStrictEqual(x.compose(y), z)
+    assert.deepStrictEqual(
       tuple.compose(
         y,
         x
@@ -40,22 +40,22 @@ describe('Tuple', () => {
     const double = (n: number): number => n * 2
     const x = new Tuple('s', 1)
     const y = new Tuple('s', 2)
-    assert.deepEqual(x.map(double), y)
-    assert.deepEqual(tuple.map(x, double), y)
+    assert.deepStrictEqual(x.map(double), y)
+    assert.deepStrictEqual(tuple.map(x, double), y)
   })
 
   it('extract', () => {
     const x = new Tuple('a', 1)
-    assert.deepEqual(x.extract(), 1)
-    assert.deepEqual(tuple.extract(x), 1)
+    assert.deepStrictEqual(x.extract(), 1)
+    assert.deepStrictEqual(tuple.extract(x), 1)
   })
 
   it('extend', () => {
     const x = new Tuple('a', 1)
     const f = (fa: Tuple<string, number>): number => fa.fst.length + fa.snd
     const y = new Tuple('a', 2)
-    assert.deepEqual(x.extend(f), y)
-    assert.deepEqual(tuple.extend(x, f), y)
+    assert.deepStrictEqual(x.extend(f), y)
+    assert.deepStrictEqual(tuple.extend(x, f), y)
   })
 
   it('getApplicative', () => {
@@ -64,7 +64,7 @@ describe('Tuple', () => {
     const x = F.of(double)
     const y = new Tuple('a', 1)
     const z = new Tuple('a', 2)
-    assert.deepEqual(F.ap(x, y), z)
+    assert.deepStrictEqual(F.ap(x, y), z)
   })
 
   it('getMonad', () => {
@@ -72,7 +72,7 @@ describe('Tuple', () => {
     const f = (n: number) => M.of(n * 2)
     const x = new Tuple('a', 1)
     const y = new Tuple('a', 2)
-    assert.deepEqual(M.chain(x, f), y)
+    assert.deepStrictEqual(M.chain(x, f), y)
   })
 
   it('getMonoid', () => {
@@ -80,7 +80,7 @@ describe('Tuple', () => {
     const x = new Tuple('a', 1)
     const y = new Tuple('b', 2)
     const z = new Tuple('ab', 3)
-    assert.deepEqual(M.concat(x, y), z)
+    assert.deepStrictEqual(M.concat(x, y), z)
   })
 
   it('bimap', () => {
@@ -88,13 +88,13 @@ describe('Tuple', () => {
     const len = (s: string): number => s.length
     const x = new Tuple('a', 1)
     const y = new Tuple(1, 2)
-    assert.deepEqual(x.bimap(len, double), y)
-    assert.deepEqual(tuple.bimap(x, len, double), y)
+    assert.deepStrictEqual(x.bimap(len, double), y)
+    assert.deepStrictEqual(tuple.bimap(x, len, double), y)
   })
 
   it('getSemigroup', () => {
     const semigroup = getSemigroup(monoidString, monoidSum)
-    assert.deepEqual(semigroup.concat(new Tuple('a', 1), new Tuple('b', 2)), new Tuple('ab', 3))
+    assert.deepStrictEqual(semigroup.concat(new Tuple('a', 1), new Tuple('b', 2)), new Tuple('ab', 3))
   })
 
   it('toString', () => {
@@ -128,28 +128,28 @@ describe('Tuple', () => {
   })
 
   it('swap', () => {
-    assert.deepEqual(new Tuple('a', 1).swap(), new Tuple(1, 'a'))
+    assert.deepStrictEqual(new Tuple('a', 1).swap(), new Tuple(1, 'a'))
   })
 
   it('toTuple', () => {
-    assert.deepEqual(new Tuple('a', 1).toTuple(), ['a', 1])
+    assert.deepStrictEqual(new Tuple('a', 1).toTuple(), ['a', 1])
   })
 
   it('getApply', () => {
     const apply = getApply(monoidString)
     const double = (n: number): number => n * 2
-    assert.deepEqual(apply.ap(new Tuple('a', double), new Tuple('b', 1)), new Tuple('ab', 2))
+    assert.deepStrictEqual(apply.ap(new Tuple('a', double), new Tuple('b', 1)), new Tuple('ab', 2))
   })
 
   it('getApplicative', () => {
     const applicative = getApplicative(monoidString)
-    assert.deepEqual(applicative.of(1), new Tuple('', 1))
+    assert.deepStrictEqual(applicative.of(1), new Tuple('', 1))
   })
 
   it('getMonad', () => {
     const monad = getMonad(monoidString)
     const double = (n: number): number => n * 2
-    assert.deepEqual(monad.chain(new Tuple('a', double), f => new Tuple('b', f(1))), new Tuple('ab', 2))
+    assert.deepStrictEqual(monad.chain(new Tuple('a', double), f => new Tuple('b', f(1))), new Tuple('ab', 2))
   })
 
   it('chainRec', () => {
@@ -174,23 +174,31 @@ describe('Tuple', () => {
       new Tuple(1, 'c')
     ]
     const O = getOrd(ordNumber, ordString)
-    assert.deepEqual(sort(O)(tuples), [new Tuple(1, 'b'), new Tuple(1, 'c'), new Tuple(2, 'a'), new Tuple(2, 'c')])
+    assert.deepStrictEqual(sort(O)(tuples), [
+      new Tuple(1, 'b'),
+      new Tuple(1, 'c'),
+      new Tuple(2, 'a'),
+      new Tuple(2, 'c')
+    ])
   })
 
   it('traverse', () => {
-    assert.deepEqual(tuple.traverse(option)(new Tuple('a', 2), n => (n >= 2 ? some(n) : none)), some(new Tuple('a', 2)))
-    assert.deepEqual(tuple.traverse(option)(new Tuple('a', 1), n => (n >= 2 ? some(n) : none)), none)
+    assert.deepStrictEqual(
+      tuple.traverse(option)(new Tuple('a', 2), n => (n >= 2 ? some(n) : none)),
+      some(new Tuple('a', 2))
+    )
+    assert.deepStrictEqual(tuple.traverse(option)(new Tuple('a', 1), n => (n >= 2 ? some(n) : none)), none)
   })
 
   it('sequence', () => {
     const old = T.sequence(option, tuple)
     const sequence = tuple.sequence(option)
     const x1 = new Tuple('a', some(2))
-    assert.deepEqual(sequence(x1), some(new Tuple('a', 2)))
-    assert.deepEqual(sequence(x1), old(x1))
+    assert.deepStrictEqual(sequence(x1), some(new Tuple('a', 2)))
+    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = new Tuple('a', none)
-    assert.deepEqual(sequence(x2), none)
-    assert.deepEqual(sequence(x2), old(x2))
+    assert.deepStrictEqual(sequence(x2), none)
+    assert.deepStrictEqual(sequence(x2), old(x2))
   })
 
   it('toString', () => {

@@ -50,7 +50,7 @@ export interface Unfoldable3C<F extends URIS3, U, L> {
  * import { replicate } from 'fp-ts/lib/Unfoldable'
  * import { array } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(replicate(array)('s', 2), ['s', 's'])
+ * assert.deepStrictEqual(replicate(array)('s', 2), ['s', 's'])
  *
  * @since 1.0.0
  */
@@ -76,7 +76,7 @@ export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A
  * import { empty } from 'fp-ts/lib/Unfoldable'
  * import { array } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(empty(array), [])
+ * assert.deepStrictEqual(empty(array), [])
  *
  * @since 1.0.0
  */
@@ -95,7 +95,7 @@ export function empty<F, A>(U: Unfoldable<F>): HKT<F, A> {
  * import { singleton } from 'fp-ts/lib/Unfoldable'
  * import { array } from 'fp-ts/lib/Array'
  *
- * assert.deepEqual(singleton(array)(1), [1])
+ * assert.deepStrictEqual(singleton(array)(1), [1])
  *
  * @since 1.0.0
  */
@@ -118,8 +118,8 @@ export function singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A> {
  * import { array } from 'fp-ts/lib/Array'
  * import { option, some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
- * assert.deepEqual(replicateA(option, array)(2, none), none)
+ * assert.deepStrictEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
+ * assert.deepStrictEqual(replicateA(option, array)(2, none), none)
  *
  * @since 1.0.0
  */
@@ -145,6 +145,7 @@ export function replicateA<F extends URIS, T extends URIS>(
 ): <A>(n: number, ma: Type<F, A>) => Type<F, Type<T, A>>
 export function replicateA<F, T>(
   F: Applicative<F>,
+  // tslint:disable-next-line: deprecation
   UT: Unfoldable<T> & Traversable<T>
 ): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>> {
   const sequenceFUT = sequence(F, UT)

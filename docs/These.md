@@ -190,8 +190,8 @@ export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => { ... }
 import { fromEither, this_, that } from 'fp-ts/lib/These'
 import { left, right } from 'fp-ts/lib/Either'
 
-assert.deepEqual(fromEither(left('a')), this_('a'))
-assert.deepEqual(fromEither(right(1)), that(1))
+assert.deepStrictEqual(fromEither(left('a')), this_('a'))
+assert.deepStrictEqual(fromEither(right(1)), that(1))
 ```
 
 Added in v1.13.0
@@ -212,10 +212,10 @@ export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L,
 import { fromOptions, this_, that, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(fromOptions(none, none), none)
-assert.deepEqual(fromOptions(some('a'), none), some(this_('a')))
-assert.deepEqual(fromOptions(none, some(1)), some(that(1)))
-assert.deepEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
+assert.deepStrictEqual(fromOptions(none, none), none)
+assert.deepStrictEqual(fromOptions(some('a'), none), some(this_('a')))
+assert.deepStrictEqual(fromOptions(none, some(1)), some(that(1)))
+assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 ```
 
 Added in v1.13.0
@@ -234,9 +234,9 @@ export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L,
 import { fromThese, this_, that, both } from 'fp-ts/lib/These'
 
 const from = fromThese('a', 1)
-assert.deepEqual(from(this_('b')), ['b', 1])
-assert.deepEqual(from(that(2)), ['a', 2])
-assert.deepEqual(from(both('b', 2)), ['b', 2])
+assert.deepStrictEqual(from(this_('b')), ['b', 1])
+assert.deepStrictEqual(from(that(2)), ['a', 2])
+assert.deepStrictEqual(from(both('b', 2)), ['b', 2])
 ```
 
 Added in v1.0.0
@@ -327,8 +327,8 @@ export const thatOrBoth = <L, A>(defaultThat: A, ml: Option<L>): These<L, A> => 
 import { thatOrBoth, that, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(thatOrBoth(1, none), that(1))
-assert.deepEqual(thatOrBoth(1, some('a')), both('a', 1))
+assert.deepStrictEqual(thatOrBoth(1, none), that(1))
+assert.deepStrictEqual(thatOrBoth(1, some('a')), both('a', 1))
 ```
 
 Added in v1.13.0
@@ -349,9 +349,9 @@ export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => { ... }
 import { theseLeft, this_, that, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(theseLeft(this_('a')), some('a'))
-assert.deepEqual(theseLeft(that(1)), none)
-assert.deepEqual(theseLeft(both('a', 1)), some('a'))
+assert.deepStrictEqual(theseLeft(this_('a')), some('a'))
+assert.deepStrictEqual(theseLeft(that(1)), none)
+assert.deepStrictEqual(theseLeft(both('a', 1)), some('a'))
 ```
 
 Added in v1.0.0
@@ -372,9 +372,9 @@ export const theseRight = <L, A>(fa: These<L, A>): Option<A> => { ... }
 import { theseRight, this_, that, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(theseRight(this_('a')), none)
-assert.deepEqual(theseRight(that(1)), some(1))
-assert.deepEqual(theseRight(both('a', 1)), some(1))
+assert.deepStrictEqual(theseRight(this_('a')), none)
+assert.deepStrictEqual(theseRight(that(1)), some(1))
+assert.deepStrictEqual(theseRight(both('a', 1)), some(1))
 ```
 
 Added in v1.0.0
@@ -395,9 +395,9 @@ export const theseThat = <L, A>(fa: These<L, A>): Option<A> => { ... }
 import { theseThat, this_, that, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(theseThat(this_('a')), none)
-assert.deepEqual(theseThat(that(1)), some(1))
-assert.deepEqual(theseThat(both('a', 1)), none)
+assert.deepStrictEqual(theseThat(this_('a')), none)
+assert.deepStrictEqual(theseThat(that(1)), some(1))
+assert.deepStrictEqual(theseThat(both('a', 1)), none)
 ```
 
 Added in v1.13.0
@@ -418,9 +418,9 @@ export const theseThis = <L, A>(fa: These<L, A>): Option<L> => { ... }
 import { theseThis, this_, that, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(theseThis(this_('a')), some('a'))
-assert.deepEqual(theseThis(that(1)), none)
-assert.deepEqual(theseThis(both('a', 1)), none)
+assert.deepStrictEqual(theseThis(this_('a')), some('a'))
+assert.deepStrictEqual(theseThis(that(1)), none)
+assert.deepStrictEqual(theseThis(both('a', 1)), none)
 ```
 
 Added in v1.13.0
@@ -439,8 +439,8 @@ export const thisOrBoth = <L, A>(defaultThis: L, ma: Option<A>): These<L, A> => 
 import { thisOrBoth, this_, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(thisOrBoth('a', none), this_('a'))
-assert.deepEqual(thisOrBoth('a', some(1)), both('a', 1))
+assert.deepStrictEqual(thisOrBoth('a', none), this_('a'))
+assert.deepStrictEqual(thisOrBoth('a', some(1)), both('a', 1))
 ```
 
 Added in v1.13.0

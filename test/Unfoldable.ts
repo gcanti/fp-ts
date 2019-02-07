@@ -5,19 +5,19 @@ import { empty, replicate, replicateA, singleton } from '../src/Unfoldable'
 
 describe('Unfoldable', () => {
   it('replicate', () => {
-    assert.deepEqual(replicate(array)('s', 2), ['s', 's'])
+    assert.deepStrictEqual(replicate(array)('s', 2), ['s', 's'])
   })
 
   it('empty', () => {
-    assert.deepEqual(empty(array), [])
+    assert.deepStrictEqual(empty(array), [])
   })
 
   it('singleton', () => {
-    assert.deepEqual(singleton(array)(1), [1])
+    assert.deepStrictEqual(singleton(array)(1), [1])
   })
 
   it('replicateA', () => {
-    assert.deepEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
-    assert.deepEqual(replicateA(option, array)(2, none), none)
+    assert.deepStrictEqual(replicateA(option, array)(2, some(1)), some([1, 1]))
+    assert.deepStrictEqual(replicateA(option, array)(2, none), none)
   })
 })

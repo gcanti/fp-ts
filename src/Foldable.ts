@@ -112,7 +112,9 @@ export function getFoldableComposition<F extends URIS, G extends URIS>(
   F: Foldable1<F>,
   G: Foldable1<G>
 ): FoldableComposition11<F, G>
+// tslint:disable-next-line: deprecation
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G>
+// tslint:disable-next-line: deprecation
 export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): FoldableComposition<F, G> {
   return {
     reduce: (fga, b, f) => F.reduce(fga, b, (b, ga) => G.reduce(ga, b, f))
@@ -142,7 +144,9 @@ export function foldMap<F extends URIS2, M, L>(
   M: Monoid<M>
 ): <A>(fa: Type2<F, L, A>, f: (a: A) => M) => M
 export function foldMap<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): <A>(fa: Type<F, A>, f: (a: A) => M) => M
+// tslint:disable-next-line: deprecation
 export function foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, f: (a: A) => M) => M
+// tslint:disable-next-line: deprecation
 export function foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, f: (a: A) => M) => M {
   return (fa, f) => F.reduce(fa, M.empty, (acc, x) => M.concat(acc, f(x)))
 }
@@ -163,7 +167,9 @@ export function foldr<F extends URIS2, L>(
   F: Foldable2C<F, L>
 ): <A, B>(fa: Type2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
 export function foldr<F extends URIS>(F: Foldable1<F>): <A, B>(fa: Type<F, A>, b: B, f: (a: A, b: B) => B) => B
+// tslint:disable-next-line: deprecation
 export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B
+// tslint:disable-next-line: deprecation
 export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B {
   const toArrayF = toArray(F)
   return (fa, b, f) => toArrayF(fa).reduceRight((acc, a) => f(a, acc), b)
@@ -177,7 +183,9 @@ export function fold<F extends URIS3, M, U, L>(F: Foldable3C<F, U, L>, M: Monoid
 export function fold<F extends URIS2, M>(F: Foldable2<F>, M: Monoid<M>): <L>(fa: Type2<F, L, M>) => M
 export function fold<F extends URIS2, M, L>(F: Foldable2C<F, L>, M: Monoid<M>): (fa: Type2<F, L, M>) => M
 export function fold<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): (fa: Type<F, M>) => M
+// tslint:disable-next-line: deprecation
 export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M
+// tslint:disable-next-line: deprecation
 export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M {
   return fa => F.reduce(fa, M.empty, M.concat)
 }
@@ -210,10 +218,12 @@ export function foldM<F extends URIS, M extends URIS>(
   M: Monad1<M>
 ): <A, B>(f: (b: B, a: A) => Type<M, B>, b: B, fa: Type<F, A>) => Type<M, B>
 export function foldM<F, M>(
+  // tslint:disable-next-line: deprecation
   F: Foldable<F>,
   M: Monad<M>
 ): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => HKT<M, B>
 export function foldM<F, M>(
+  // tslint:disable-next-line: deprecation
   F: Foldable<F>,
   M: Monad<M>
 ): <A, B>(f: (b: B, a: A) => HKT<M, B>, b: B, fa: HKT<F, A>) => HKT<M, B> {
@@ -248,10 +258,12 @@ export function traverse_<M extends URIS, F extends URIS>(
 ): <A, B>(f: (a: A) => Type<M, B>, fa: Type<F, A>) => Type<M, void>
 export function traverse_<M, F>(
   M: Applicative<M>,
+  // tslint:disable-next-line: deprecation
   F: Foldable<F>
 ): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void>
 export function traverse_<M, F>(
   M: Applicative<M>,
+  // tslint:disable-next-line: deprecation
   F: Foldable<F>
 ): <A, B>(f: (a: A) => HKT<M, B>, fa: HKT<F, A>) => HKT<M, void> {
   const toArrayF = toArray(F)
@@ -285,7 +297,9 @@ export function sequence_<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable1<F>
 ): <A>(fa: Type<F, Type<M, A>>) => Type<M, void>
+// tslint:disable-next-line: deprecation
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
+// tslint:disable-next-line: deprecation
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
   const traverse_MF = traverse_(M, F)
   return fa => traverse_MF(ma => ma, fa)
@@ -316,7 +330,9 @@ export function oneOf<F extends URIS, P extends URIS>(
   F: Foldable1<F>,
   P: Plus1<P>
 ): <A>(fga: Type<F, Type<P, A>>) => Type<P, A>
+// tslint:disable-next-line: deprecation
 export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>
+// tslint:disable-next-line: deprecation
 export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> {
   return fga => F.reduce(fga, P.zero(), (acc, a) => P.alt(acc, a))
 }
@@ -342,7 +358,9 @@ export function intercalate<F extends URIS2, M, L>(
   M: Monoid<M>
 ): (sep: M) => (fm: Type2<F, L, M>) => M
 export function intercalate<F extends URIS, M>(F: Foldable1<F>, M: Monoid<M>): (sep: M) => (fm: Type<F, M>) => M
+// tslint:disable-next-line: deprecation
 export function intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm: HKT<F, M>) => M
+// tslint:disable-next-line: deprecation
 export function intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm: HKT<F, M>) => M {
   return sep => {
     function go({ init, acc }: Acc<M>, x: M): Acc<M> {
@@ -362,7 +380,9 @@ export function sum<F extends URIS3, A, U, L>(F: Foldable3C<F, U, L>, S: Semirin
 export function sum<F extends URIS2, A>(F: Foldable2<F>, S: Semiring<A>): <L>(fa: Type2<F, L, A>) => A
 export function sum<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Semiring<A>): (fa: Type2<F, L, A>) => A
 export function sum<F extends URIS, A>(F: Foldable1<F>, S: Semiring<A>): (fa: Type<F, A>) => A
+// tslint:disable-next-line: deprecation
 export function sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A
+// tslint:disable-next-line: deprecation
 export function sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A {
   return fa => F.reduce(fa, S.zero, (b, a) => S.add(b, a))
 }
@@ -377,7 +397,9 @@ export function product<F extends URIS3, A, U, L>(F: Foldable3C<F, U, L>, S: Sem
 export function product<F extends URIS2, A>(F: Foldable2<F>, S: Semiring<A>): <L>(fa: Type2<F, L, A>) => A
 export function product<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Semiring<A>): (fa: Type2<F, L, A>) => A
 export function product<F extends URIS, A>(F: Foldable1<F>, S: Semiring<A>): (fa: Type<F, A>) => A
+// tslint:disable-next-line: deprecation
 export function product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A
+// tslint:disable-next-line: deprecation
 export function product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A {
   return fa => F.reduce(fa, S.one, (b, a) => S.mul(b, a))
 }
@@ -395,7 +417,9 @@ export function elem<F extends URIS3, A, U, L>(
 export function elem<F extends URIS2, A>(F: Foldable2<F>, S: Setoid<A>): <L>(a: A, fa: Type2<F, L, A>) => boolean
 export function elem<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Setoid<A>): (a: A, fa: Type2<F, L, A>) => boolean
 export function elem<F extends URIS, A>(F: Foldable1<F>, S: Setoid<A>): (a: A, fa: Type<F, A>) => boolean
+// tslint:disable-next-line: deprecation
 export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean
+// tslint:disable-next-line: deprecation
 export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean {
   return (a, fa) => F.reduce<A, boolean>(fa, false, (b, x) => b || S.equals(x, a))
 }
@@ -412,7 +436,9 @@ export function find<F extends URIS3, U, L>(
 export function find<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
 export function find<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
 export function find<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Option<A>
+// tslint:disable-next-line: deprecation
 export function find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>
+// tslint:disable-next-line: deprecation
 export function find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A> {
   return <A>(fa: HKT<F, A>, p: Predicate<A>) =>
     F.reduce<A, Option<A>>(fa, none, (b, a) => {
@@ -437,7 +463,9 @@ export function minimum<F extends URIS3, A, U, L>(
 export function minimum<F extends URIS2, A>(F: Foldable2<F>, O: Ord<A>): <L>(fa: Type2<F, L, A>) => Option<A>
 export function minimum<F extends URIS2, A, L>(F: Foldable2C<F, L>, O: Ord<A>): (fa: Type2<F, L, A>) => Option<A>
 export function minimum<F extends URIS, A>(F: Foldable1<F>, O: Ord<A>): (fa: Type<F, A>) => Option<A>
+// tslint:disable-next-line: deprecation
 export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A>
+// tslint:disable-next-line: deprecation
 export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A> {
   const minO = min(O)
   return fa => F.reduce(fa, none, (b: Option<A>, a) => (b.isNone() ? some(a) : some(minO(b.value, a))))
@@ -456,7 +484,9 @@ export function maximum<F extends URIS3, A, U, L>(
 export function maximum<F extends URIS2, A>(F: Foldable2<F>, O: Ord<A>): <L>(fa: Type2<F, L, A>) => Option<A>
 export function maximum<F extends URIS2, A, L>(F: Foldable2C<F, L>, O: Ord<A>): (fa: Type2<F, L, A>) => Option<A>
 export function maximum<F extends URIS, A>(F: Foldable1<F>, O: Ord<A>): (fa: Type<F, A>) => Option<A>
+// tslint:disable-next-line: deprecation
 export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A>
+// tslint:disable-next-line: deprecation
 export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Option<A> {
   const maxO = max(O)
   return fa => F.reduce(fa, none, (b: Option<A>, a) => (b.isNone() ? some(a) : some(maxO(b.value, a))))
@@ -470,7 +500,9 @@ export function toArray<F extends URIS3, U, L>(F: Foldable3C<F, U, L>): <A>(fa: 
 export function toArray<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>) => Array<A>
 export function toArray<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>) => Array<A>
 export function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>) => Array<A>
+// tslint:disable-next-line: deprecation
 export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
+// tslint:disable-next-line: deprecation
 export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
   const foldMapF = foldMap(F, unsafeMonoidArray)
   return fa => foldMapF(fa, a => [a])
@@ -504,10 +536,12 @@ export function traverse<M extends URIS, F extends URIS>(
 ): <A, B>(fa: Type<F, A>, f: (a: A) => Type<M, B>) => Type<M, void>
 export function traverse<M, F>(
   M: Applicative<M>,
+  // tslint:disable-next-line: deprecation
   F: Foldable<F>
 ): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>
 export function traverse<M, F>(
   M: Applicative<M>,
+  // tslint:disable-next-line: deprecation
   F: Foldable<F>
 ): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> {
   const traverseMF = traverse_(M, F)

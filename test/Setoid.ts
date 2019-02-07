@@ -26,9 +26,9 @@ describe('Setoid', () => {
     const a1 = { x: 1 }
     const a2 = { x: 1 }
     S1.equals(a1, a1)
-    assert.equal(nbCall, 0)
+    assert.strictEqual(nbCall, 0)
     S1.equals(a1, a2)
-    assert.equal(nbCall, 1)
+    assert.strictEqual(nbCall, 1)
   })
 
   it('getRecordSetoid', () => {

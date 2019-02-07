@@ -32,40 +32,43 @@ describe('Validation', () => {
   it('getMonad', () => {
     const M = getMonad(monoidString)
     const f = (s: string) => success<string, number>(s.length)
-    assert.deepEqual(M.chain(success<string, string>('abc'), f), success(3))
-    assert.deepEqual(M.chain(failure<string, string>('a'), f), failure('a'))
-    assert.deepEqual(M.chain(failure<string, string>('a'), () => failure('b')), failure('a'))
-    assert.deepEqual(M.of(1), success(1))
+    assert.deepStrictEqual(M.chain(success<string, string>('abc'), f), success(3))
+    assert.deepStrictEqual(M.chain(failure<string, string>('a'), f), failure('a'))
+    assert.deepStrictEqual(M.chain(failure<string, string>('a'), () => failure('b')), failure('a'))
+    assert.deepStrictEqual(M.of(1), success(1))
     const double = (n: number) => n * 2
-    assert.deepEqual(M.ap(success(double), success(1)), success(2))
-    assert.deepEqual(M.ap(success(double), failure('foo')), failure('foo'))
-    assert.deepEqual(M.ap(failure<string, (n: number) => number>('foo'), success(1)), failure('foo'))
-    assert.deepEqual(M.ap(failure<string, (n: number) => number>('foo'), failure('bar')), failure('foobar'))
+    assert.deepStrictEqual(M.ap(success(double), success(1)), success(2))
+    assert.deepStrictEqual(M.ap(success(double), failure('foo')), failure('foo'))
+    assert.deepStrictEqual(M.ap(failure<string, (n: number) => number>('foo'), success(1)), failure('foo'))
+    assert.deepStrictEqual(M.ap(failure<string, (n: number) => number>('foo'), failure('bar')), failure('foobar'))
   })
 
   it('traverse', () => {
-    assert.deepEqual(validation.traverse(option)(failure('foo'), a => (a >= 2 ? some(a) : none)), some(failure('foo')))
-    assert.deepEqual(validation.traverse(option)(success(1), a => (a >= 2 ? some(a) : none)), none)
-    assert.deepEqual(validation.traverse(option)(success(3), a => (a >= 2 ? some(a) : none)), some(success(3)))
+    assert.deepStrictEqual(
+      validation.traverse(option)(failure('foo'), a => (a >= 2 ? some(a) : none)),
+      some(failure('foo'))
+    )
+    assert.deepStrictEqual(validation.traverse(option)(success(1), a => (a >= 2 ? some(a) : none)), none)
+    assert.deepStrictEqual(validation.traverse(option)(success(3), a => (a >= 2 ? some(a) : none)), some(success(3)))
   })
 
   it('sequence', () => {
     const old = T.sequence(option, validation)
     const sequence = validation.sequence(option)
     const x1 = failure<string, Option<number>>('foo')
-    assert.deepEqual(sequence(x1), some(failure('foo')))
-    assert.deepEqual(sequence(x1), old(x1))
+    assert.deepStrictEqual(sequence(x1), some(failure('foo')))
+    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = success<string, Option<number>>(some(1))
-    assert.deepEqual(sequence(x2), some(success(1)))
-    assert.deepEqual(sequence(x2), old(x2))
+    assert.deepStrictEqual(sequence(x2), some(success(1)))
+    assert.deepStrictEqual(sequence(x2), old(x2))
     const x3 = success<string, Option<number>>(none)
-    assert.deepEqual(sequence(x3), none)
-    assert.deepEqual(sequence(x3), old(x3))
+    assert.deepStrictEqual(sequence(x3), none)
+    assert.deepStrictEqual(sequence(x3), old(x3))
   })
 
   it('fromEither', () => {
-    assert.deepEqual(fromEither(right<string, number>(1)), success(1))
-    assert.deepEqual(fromEither(left<string, number>('error')), failure('error'))
+    assert.deepStrictEqual(fromEither(right<string, number>(1)), success(1))
+    assert.deepStrictEqual(fromEither(left<string, number>('error')), failure('error'))
   })
 
   it('getSetoid', () => {
@@ -82,39 +85,39 @@ describe('Validation', () => {
 
   it('getSemigroup', () => {
     const { concat } = getSemigroup(semigroupString, semigroupString)
-    assert.deepEqual(concat(success('a'), success('b')), success('ab'))
-    assert.deepEqual(concat(success('a'), failure('b')), failure('b'))
-    assert.deepEqual(concat(failure('b'), success('a')), failure('b'))
-    assert.deepEqual(concat(failure('a'), failure('b')), failure('ab'))
+    assert.deepStrictEqual(concat(success('a'), success('b')), success('ab'))
+    assert.deepStrictEqual(concat(success('a'), failure('b')), failure('b'))
+    assert.deepStrictEqual(concat(failure('b'), success('a')), failure('b'))
+    assert.deepStrictEqual(concat(failure('a'), failure('b')), failure('ab'))
   })
 
   it('getOrElse', () => {
-    assert.equal(success(12).getOrElse(17), 12)
-    assert.equal(failure(12).getOrElse(17), 17)
-    assert.equal(failure(12).getOrElseL((l: number) => l + 1), 13)
+    assert.strictEqual(success(12).getOrElse(17), 12)
+    assert.strictEqual(failure(12).getOrElse(17), 17)
+    assert.strictEqual(failure(12).getOrElseL((l: number) => l + 1), 13)
   })
 
   it('getOrElseL', () => {
-    assert.equal(success(12).getOrElseL(() => 17), 12)
-    assert.equal(failure(12).getOrElseL(() => 17), 17)
+    assert.strictEqual(success(12).getOrElseL(() => 17), 12)
+    assert.strictEqual(failure(12).getOrElseL(() => 17), 17)
   })
 
   it('mapFailure', () => {
-    assert.deepEqual(success<string, number>(12).mapFailure(s => s.length), success(12))
-    assert.deepEqual(failure<string, number>('foo').mapFailure(s => s.length), failure(3))
+    assert.deepStrictEqual(success<string, number>(12).mapFailure(s => s.length), success(12))
+    assert.deepStrictEqual(failure<string, number>('foo').mapFailure(s => s.length), failure(3))
   })
 
   it('getAlt', () => {
     const alt = getAlt(getArraySemigroup<number>())
-    assert.deepEqual(alt.alt(failure([1]), success('a')), success('a'))
-    assert.deepEqual(alt.alt(success('a'), failure([1])), success('a'))
-    assert.deepEqual(alt.alt(failure([1]), failure([2])), failure([1, 2]))
+    assert.deepStrictEqual(alt.alt(failure([1]), success('a')), success('a'))
+    assert.deepStrictEqual(alt.alt(success('a'), failure([1])), success('a'))
+    assert.deepStrictEqual(alt.alt(failure([1]), failure([2])), failure([1, 2]))
   })
 
   it('reduce', () => {
-    assert.deepEqual(success('bar').reduce('foo', (b, a) => b + a), 'foobar')
-    assert.deepEqual(failure('bar').reduce('foo', (b, a) => b + a), 'foo')
-    assert.deepEqual(validation.reduce(success('bar'), 'foo', (b, a) => b + a), 'foobar')
+    assert.deepStrictEqual(success('bar').reduce('foo', (b, a) => b + a), 'foobar')
+    assert.deepStrictEqual(failure('bar').reduce('foo', (b, a) => b + a), 'foo')
+    assert.deepStrictEqual(validation.reduce(success('bar'), 'foo', (b, a) => b + a), 'foobar')
   })
 
   it('foldMap', () => {
@@ -144,8 +147,8 @@ describe('Validation', () => {
 
   it('mapFailure', () => {
     const double = (n: number): number => n * 2
-    assert.deepEqual(success<number, string>('bar').mapFailure(double), success('bar'))
-    assert.deepEqual(failure<number, string>(2).mapFailure(double), failure(4))
+    assert.deepStrictEqual(success<number, string>('bar').mapFailure(double), success('bar'))
+    assert.deepStrictEqual(failure<number, string>(2).mapFailure(double), failure(4))
   })
 
   it('toString', () => {
@@ -156,8 +159,8 @@ describe('Validation', () => {
   })
 
   it('swap', () => {
-    assert.deepEqual(success('bar').swap(), failure('bar'))
-    assert.deepEqual(failure('bar').swap(), success('bar'))
+    assert.deepStrictEqual(success('bar').swap(), failure('bar'))
+    assert.deepStrictEqual(failure('bar').swap(), success('bar'))
   })
 
   it('isFailure', () => {
@@ -183,96 +186,105 @@ describe('Validation', () => {
 
   it('bimap', () => {
     const f = (s: string): number => s.length
-    assert.deepEqual(success<string, number>(1).bimap(f, p), success(false))
-    assert.deepEqual(failure<string, number>('foo').bimap(f, p), failure(3))
-    assert.deepEqual(validation.bimap(success<string, number>(1), f, p), success(false))
+    assert.deepStrictEqual(success<string, number>(1).bimap(f, p), success(false))
+    assert.deepStrictEqual(failure<string, number>('foo').bimap(f, p), failure(3))
+    assert.deepStrictEqual(validation.bimap(success<string, number>(1), f, p), success(false))
   })
 
   it('fromPredicate', () => {
     const predicate = (n: number) => n >= 2
     const handleError = (n: number) => `Invalid number ${n}`
     const gt2 = fromPredicate(predicate, handleError)
-    assert.deepEqual(gt2(3), success(3))
-    assert.deepEqual(gt2(1), failure('Invalid number 1'))
+    assert.deepStrictEqual(gt2(3), success(3))
+    assert.deepStrictEqual(gt2(1), failure('Invalid number 1'))
 
     // refinements
     type Color = 'red' | 'blue'
     const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     const from = fromPredicate(isColor, s => `invalid color ${s}`)
-    assert.deepEqual(from('red'), success('red'))
-    assert.deepEqual(from('foo'), failure('invalid color foo'))
+    assert.deepStrictEqual(from('red'), success('red'))
+    assert.deepStrictEqual(from('foo'), failure('invalid color foo'))
   })
 
   it('traverse', () => {
-    assert.deepEqual(validation.traverse(option)(failure('foo'), a => (a >= 2 ? some(a) : none)), some(failure('foo')))
-    assert.deepEqual(validation.traverse(option)(success(1), a => (a >= 2 ? some(a) : none)), none)
-    assert.deepEqual(validation.traverse(option)(success(3), a => (a >= 2 ? some(a) : none)), some(success(3)))
+    assert.deepStrictEqual(
+      validation.traverse(option)(failure('foo'), a => (a >= 2 ? some(a) : none)),
+      some(failure('foo'))
+    )
+    assert.deepStrictEqual(validation.traverse(option)(success(1), a => (a >= 2 ? some(a) : none)), none)
+    assert.deepStrictEqual(validation.traverse(option)(success(3), a => (a >= 2 ? some(a) : none)), some(success(3)))
   })
 
   it('getMonoid', () => {
     const M = getMonoid(monoidString, monoidSum)
-    assert.deepEqual(M.concat(success(1), success(2)), success(3))
-    assert.deepEqual(M.concat(success(1), failure('foo')), failure('foo'))
-    assert.deepEqual(M.concat(failure('foo'), success(1)), failure('foo'))
-    assert.deepEqual(M.concat(failure('foo'), failure('bar')), failure('foobar'))
+    assert.deepStrictEqual(M.concat(success(1), success(2)), success(3))
+    assert.deepStrictEqual(M.concat(success(1), failure('foo')), failure('foo'))
+    assert.deepStrictEqual(M.concat(failure('foo'), success(1)), failure('foo'))
+    assert.deepStrictEqual(M.concat(failure('foo'), failure('bar')), failure('foobar'))
   })
 
   describe('getCompactable', () => {
     const C = getCompactable(monoidString)
     it('compact', () => {
-      assert.deepEqual(C.compact(failure('1')), failure('1'))
-      assert.deepEqual(C.compact(success(none)), failure(monoidString.empty))
-      assert.deepEqual(C.compact(success(some(123))), success(123))
+      assert.deepStrictEqual(C.compact(failure('1')), failure('1'))
+      assert.deepStrictEqual(C.compact(success(none)), failure(monoidString.empty))
+      assert.deepStrictEqual(C.compact(success(some(123))), success(123))
     })
 
     it('separate', () => {
-      assert.deepEqual(C.separate(failure('123')), { left: failure('123'), right: failure('123') })
-      assert.deepEqual(C.separate(success(left('123'))), { left: success('123'), right: failure(monoidString.empty) })
-      assert.deepEqual(C.separate(success(right('123'))), { left: failure(monoidString.empty), right: success('123') })
+      assert.deepStrictEqual(C.separate(failure('123')), { left: failure('123'), right: failure('123') })
+      assert.deepStrictEqual(C.separate(success(left('123'))), {
+        left: success('123'),
+        right: failure(monoidString.empty)
+      })
+      assert.deepStrictEqual(C.separate(success(right('123'))), {
+        left: failure(monoidString.empty),
+        right: success('123')
+      })
     })
   })
 
   describe('getFilterable', () => {
     const F = getFilterable(monoidString)
     it('partition', () => {
-      assert.deepEqual(F.partition(failure<string, number>('123'), p), {
+      assert.deepStrictEqual(F.partition(failure<string, number>('123'), p), {
         left: failure('123'),
         right: failure('123')
       })
-      assert.deepEqual(F.partition(success<string, number>(1), p), {
+      assert.deepStrictEqual(F.partition(success<string, number>(1), p), {
         left: success(1),
         right: failure(monoidString.empty)
       })
-      assert.deepEqual(F.partition(success<string, number>(3), p), {
+      assert.deepStrictEqual(F.partition(success<string, number>(3), p), {
         left: failure(monoidString.empty),
         right: success(3)
       })
     })
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-      assert.deepEqual(F.partitionMap(failure<string, number>('123'), f), {
+      assert.deepStrictEqual(F.partitionMap(failure<string, number>('123'), f), {
         left: failure('123'),
         right: failure('123')
       })
-      assert.deepEqual(F.partitionMap(success<string, number>(1), f), {
+      assert.deepStrictEqual(F.partitionMap(success<string, number>(1), f), {
         left: success(0),
         right: failure(monoidString.empty)
       })
-      assert.deepEqual(F.partitionMap(success<string, number>(3), f), {
+      assert.deepStrictEqual(F.partitionMap(success<string, number>(3), f), {
         left: failure(monoidString.empty),
         right: success(4)
       })
     })
     it('filter', () => {
-      assert.deepEqual(F.filter(failure<string, number>('123'), p), failure('123'))
-      assert.deepEqual(F.filter(success<string, number>(1), p), failure(monoidString.empty))
-      assert.deepEqual(F.filter(success<string, number>(3), p), success(3))
+      assert.deepStrictEqual(F.filter(failure<string, number>('123'), p), failure('123'))
+      assert.deepStrictEqual(F.filter(success<string, number>(1), p), failure(monoidString.empty))
+      assert.deepStrictEqual(F.filter(success<string, number>(3), p), success(3))
     })
     it('filterMap', () => {
       const f = (n: number) => (p(n) ? some(n + 1) : none)
-      assert.deepEqual(F.filterMap(failure<string, number>('123'), f), failure('123'))
-      assert.deepEqual(F.filterMap(success<string, number>(1), f), failure(monoidString.empty))
-      assert.deepEqual(F.filterMap(success<string, number>(3), f), success(4))
+      assert.deepStrictEqual(F.filterMap(failure<string, number>('123'), f), failure('123'))
+      assert.deepStrictEqual(F.filterMap(success<string, number>(1), f), failure(monoidString.empty))
+      assert.deepStrictEqual(F.filterMap(success<string, number>(3), f), success(4))
     })
   })
   describe('getWitherable', () => {
@@ -281,28 +293,28 @@ describe('Validation', () => {
     it('wither', () => {
       const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
       const witherIdentity = W.wither(I.identity)
-      assert.deepEqual(witherIdentity(failure<string, number>('foo'), f), new I.Identity(failure('foo')))
-      assert.deepEqual(witherIdentity(success<string, number>(1), f), new I.Identity(failure(monoidString.empty)))
-      assert.deepEqual(witherIdentity(success<string, number>(3), f), new I.Identity(success(4)))
+      assert.deepStrictEqual(witherIdentity(failure<string, number>('foo'), f), new I.Identity(failure('foo')))
+      assert.deepStrictEqual(witherIdentity(success<string, number>(1), f), new I.Identity(failure(monoidString.empty)))
+      assert.deepStrictEqual(witherIdentity(success<string, number>(3), f), new I.Identity(success(4)))
     })
     it('wilt', () => {
       const wiltIdentity = W.wilt(I.identity)
       const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
-      assert.deepEqual(
+      assert.deepStrictEqual(
         wiltIdentity(failure<string, number>('foo'), f),
         new I.Identity({
           left: failure('foo'),
           right: failure('foo')
         })
       )
-      assert.deepEqual(
+      assert.deepStrictEqual(
         wiltIdentity(success<string, number>(1), f),
         new I.Identity({
           left: success(0),
           right: failure(monoidString.empty)
         })
       )
-      assert.deepEqual(
+      assert.deepStrictEqual(
         wiltIdentity(success<string, number>(3), f),
         new I.Identity({
           left: failure(monoidString.empty),

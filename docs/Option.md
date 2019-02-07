@@ -122,9 +122,9 @@ alt(fa: Option<A>): Option<A>  { ... }
 ```ts
 import { Option, some, none } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some(2).alt(some(4)), some(2))
+assert.deepStrictEqual(some(2).alt(some(4)), some(2))
 const fa: Option<number> = none
-assert.deepEqual(fa.alt(some(4)), some(4))
+assert.deepStrictEqual(fa.alt(some(4)), some(4))
 ```
 
 Added in v1.0.0
@@ -145,8 +145,8 @@ ap<B>(fab: Option<(a: A) => B>): Option<B>  { ... }
 ```ts
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some(2).ap(some((x: number) => x + 1)), some(3))
-assert.deepEqual(none.ap(some((x: number) => x + 1)), none)
+assert.deepStrictEqual(some(2).ap(some((x: number) => x + 1)), some(3))
+assert.deepStrictEqual(none.ap(some((x: number) => x + 1)), none)
 ```
 
 Added in v1.0.0
@@ -166,8 +166,8 @@ ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C>  { ... }
 ```ts
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some((x: number) => x + 1).ap_(some(2)), some(3))
-assert.deepEqual(none.ap_(some(2)), none)
+assert.deepStrictEqual(some((x: number) => x + 1).ap_(some(2)), some(3))
+assert.deepStrictEqual(none.ap_(some(2)), none)
 ```
 
 Added in v1.0.0
@@ -350,7 +350,7 @@ map<B>(f: (a: A) => B): Option<B>  { ... }
 ```ts
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some(1).map(n => n * 2), some(2))
+assert.deepStrictEqual(some(1).map(n => n * 2), some(2))
 ```
 
 Added in v1.0.0
@@ -376,19 +376,19 @@ interface Foo {
   }
 }
 
-assert.deepEqual(
+assert.deepStrictEqual(
   some<Foo>({ bar: { baz: 'quux' } })
     .mapNullable(foo => foo.bar)
     .mapNullable(bar => bar.baz),
   some('quux')
 )
-assert.deepEqual(
+assert.deepStrictEqual(
   some<Foo>({ bar: {} })
     .mapNullable(foo => foo.bar)
     .mapNullable(bar => bar.baz),
   none
 )
-assert.deepEqual(
+assert.deepStrictEqual(
   some<Foo>({})
     .mapNullable(foo => foo.bar)
     .mapNullable(bar => bar.baz),
@@ -413,7 +413,7 @@ orElse(fa: Lazy<Option<A>>): Option<A>  { ... }
 ```ts
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some(1).orElse(() => some(2)), some(1))
+assert.deepStrictEqual(some(1).orElse(() => some(2)), some(1))
 ```
 
 Added in v1.6.0
@@ -490,7 +490,7 @@ Added in v1.0.0
 
 ## option
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L821-L851)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L818-L848)
 
 ```ts
 export const option: Monad1<URI> &
@@ -508,7 +508,7 @@ Added in v1.0.0
 
 ## some
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L650-L650)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L647-L647)
 
 ```ts
 export const some = ...
@@ -521,7 +521,7 @@ Added in v1.0.0
 Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
 value wrapped in a `Some`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L707-L709)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L704-L706)
 
 ```ts
 export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => { ... }
@@ -533,8 +533,8 @@ export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => { ... }
 import { none, some, fromEither } from 'fp-ts/lib/Option'
 import { left, right } from 'fp-ts/lib/Either'
 
-assert.deepEqual(fromEither(left(1)), none)
-assert.deepEqual(fromEither(right(1)), some(1))
+assert.deepStrictEqual(fromEither(left(1)), none)
+assert.deepStrictEqual(fromEither(right(1)), some(1))
 ```
 
 Added in v1.0.0
@@ -544,7 +544,7 @@ Added in v1.0.0
 Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
 returns the value wrapped in a `Some`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L642-L644)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L639-L641)
 
 ```ts
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => { ... }
@@ -555,16 +555,16 @@ export const fromNullable = <A>(a: A | null | undefined): Option<A> => { ... }
 ```ts
 import { none, some, fromNullable } from 'fp-ts/lib/Option'
 
-assert.deepEqual(fromNullable(undefined), none)
-assert.deepEqual(fromNullable(null), none)
-assert.deepEqual(fromNullable(1), some(1))
+assert.deepStrictEqual(fromNullable(undefined), none)
+assert.deepStrictEqual(fromNullable(null), none)
+assert.deepStrictEqual(fromNullable(1), some(1))
 ```
 
 Added in v1.0.0
 
 ## fromPredicate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L665-L667)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L662-L664)
 
 ```ts
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>  { ... }
@@ -577,8 +577,8 @@ import { none, some, fromPredicate } from 'fp-ts/lib/Option'
 
 const positive = fromPredicate((n: number) => n >= 0)
 
-assert.deepEqual(positive(-1), none)
-assert.deepEqual(positive(1), some(1))
+assert.deepStrictEqual(positive(-1), none)
+assert.deepStrictEqual(positive(1), some(1))
 ```
 
 Added in v1.0.0
@@ -588,7 +588,7 @@ Added in v1.0.0
 Use [fromPredicate](#frompredicate) instead.
 Refinement version of [fromPredicate](#frompredicate)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L736-L738)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L733-L735)
 
 ```ts
 export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => { ... }
@@ -598,7 +598,7 @@ Added in v1.3.0
 
 ## getApplyMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L539-L544)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L536-L541)
 
 ```ts
 export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => { ... }
@@ -617,7 +617,7 @@ Added in v1.7.0
 | none    | some(a) | none               |
 | some(a) | some(b) | some(concat(a, b)) |
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L530-L534)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L527-L531)
 
 ```ts
 export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => { ... }
@@ -630,10 +630,10 @@ import { getApplySemigroup, some, none } from 'fp-ts/lib/Option'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const S = getApplySemigroup(semigroupSum)
-assert.deepEqual(S.concat(none, none), none)
-assert.deepEqual(S.concat(some(1), none), none)
-assert.deepEqual(S.concat(none, some(1)), none)
-assert.deepEqual(S.concat(some(1), some(2)), some(3))
+assert.deepStrictEqual(S.concat(none, none), none)
+assert.deepStrictEqual(S.concat(some(1), none), none)
+assert.deepStrictEqual(S.concat(none, some(1)), none)
+assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
 ```
 
 Added in v1.7.0
@@ -649,7 +649,7 @@ Monoid returning the left-most non-`None` value
 | none    | some(a) | some(a)      |
 | some(a) | some(b) | some(a)      |
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L567-L572)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L564-L569)
 
 ```ts
 export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => { ... }
@@ -661,10 +661,10 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => { ... }
 import { getFirstMonoid, some, none } from 'fp-ts/lib/Option'
 
 const M = getFirstMonoid<number>()
-assert.deepEqual(M.concat(none, none), none)
-assert.deepEqual(M.concat(some(1), none), some(1))
-assert.deepEqual(M.concat(none, some(1)), some(1))
-assert.deepEqual(M.concat(some(1), some(2)), some(1))
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(1)), some(1))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
 ```
 
 Added in v1.0.0
@@ -680,7 +680,7 @@ Monoid returning the right-most non-`None` value
 | none    | some(a) | some(a)      |
 | some(a) | some(b) | some(b)      |
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L595-L597)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L592-L594)
 
 ```ts
 export const getLastMonoid = <A = never>(): Monoid<Option<A>> => { ... }
@@ -692,10 +692,10 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => { ... }
 import { getLastMonoid, some, none } from 'fp-ts/lib/Option'
 
 const M = getLastMonoid<number>()
-assert.deepEqual(M.concat(none, none), none)
-assert.deepEqual(M.concat(some(1), none), some(1))
-assert.deepEqual(M.concat(none, some(1)), some(1))
-assert.deepEqual(M.concat(some(1), some(2)), some(2))
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(1)), some(1))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
 ```
 
 Added in v1.0.0
@@ -712,7 +712,7 @@ appended using the provided `Semigroup`
 | none    | some(a) | some(a)            |
 | some(a) | some(b) | some(concat(a, b)) |
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L622-L627)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L619-L624)
 
 ```ts
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => { ... }
@@ -725,10 +725,10 @@ import { getMonoid, some, none } from 'fp-ts/lib/Option'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const M = getMonoid(semigroupSum)
-assert.deepEqual(M.concat(none, none), none)
-assert.deepEqual(M.concat(some(1), none), some(1))
-assert.deepEqual(M.concat(none, some(1)), some(1))
-assert.deepEqual(M.concat(some(1), some(2)), some(3))
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(1)), some(1))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
 ```
 
 Added in v1.0.0
@@ -741,7 +741,7 @@ the type the `Option` contains.
 
 `None` is considered to be less than any `Some` value.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L453-L458)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L450-L455)
 
 ```ts
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => { ... }
@@ -779,7 +779,7 @@ const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't c
 const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
 ```
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L757-L759)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L754-L756)
 
 ```ts
 export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => { ... }
@@ -789,7 +789,7 @@ Added in v1.7.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L426-L430)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L426-L428)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => { ... }
@@ -815,7 +815,7 @@ Added in v1.0.0
 
 Returns `true` if the option is `None`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L725-L727)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L722-L724)
 
 ```ts
 export const isNone = <A>(fa: Option<A>): fa is None<A> => { ... }
@@ -827,7 +827,7 @@ Added in v1.0.0
 
 Returns `true` if the option is an instance of `Some`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L716-L718)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L713-L715)
 
 ```ts
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => { ... }
@@ -846,7 +846,7 @@ Added in v1.0.0
 Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
 `Some`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L686-L692)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Option.ts#L683-L689)
 
 ```ts
 export const tryCatch = <A>(f: Lazy<A>): Option<A> => { ... }
@@ -857,13 +857,13 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => { ... }
 ```ts
 import { none, some, tryCatch } from 'fp-ts/lib/Option'
 
-assert.deepEqual(
+assert.deepStrictEqual(
   tryCatch(() => {
     throw new Error()
   }),
   none
 )
-assert.deepEqual(tryCatch(() => 1), some(1))
+assert.deepStrictEqual(tryCatch(() => 1), some(1))
 ```
 
 Added in v1.0.0
