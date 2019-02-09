@@ -279,6 +279,21 @@ export const range = (start: number, end: number): Array<number> => {
 }
 
 /**
+ * Create an array containing a range of integers, from 0 up to (count - 1)
+ *
+ * @example
+ * import { indexes } from 'fp-ts/lib/Array'
+ *
+ * assert.deepStrictEqual(indexes(5), [0, 1, 2, 3, 4])
+ *
+ *
+ * @since 1.14.0
+ */
+export const indexes = (count: number): Array<number> => {
+  return makeBy(count, i => i)
+}
+
+/**
  * Create an array containing a value repeated the specified number of times
  *
  * @example

@@ -53,6 +53,7 @@ import {
   takeEnd,
   dropEnd,
   range,
+  indexes,
   makeBy,
   replicate,
   findLastIndex,
@@ -650,6 +651,11 @@ describe('Array', () => {
     assert.deepStrictEqual(range(0, 0), [0])
     assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
     assert.deepStrictEqual(range(10, 15), [10, 11, 12, 13, 14, 15])
+  })
+
+  it('indexes', () => {
+    assert.deepStrictEqual(indexes(0), [])
+    assert.deepStrictEqual(indexes(5), [0, 1, 2, 3, 4])
   })
 
   it('replicate', () => {
