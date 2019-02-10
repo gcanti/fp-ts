@@ -78,6 +78,14 @@ describe('Map', () => {
     assert.deepStrictEqual(M.lookup('b', a1), none)
   })
 
+  it('unsafeLookup', () => {
+    const a1b2 = new Map<'a' | 'b', number>([['a', 1], ['b', 2]])
+    const a = M.unsafeLookup('a', a1b2)
+    const c = M.unsafeLookup('c', a1b2)
+    assert.strictEqual(a, 1)
+    assert.strictEqual(c, undefined)
+  })
+
   it('fromFoldable', () => {
     const a1 = new Map<'a', number>([['a', 1]])
     const a2 = new Map<'a', number>([['a', 2]])
@@ -119,6 +127,14 @@ describe('Map', () => {
     const a1 = new Map<'a', number>([['a', 1]])
     assert.strictEqual(M.size(emptyMap), 0)
     assert.strictEqual(M.size(a1), 1)
+  })
+
+  it('keys', () => {
+    const a1b2 = new Map<'a' | 'b', number>([['a', 1], ['b', 2]])
+    const ks = M.keys(a1b2)
+    const expected = Array.from(a1b2.keys())
+    assert.deepStrictEqual(ks, expected)
+    assert.deepStrictEqual(ks, ['a', 'b'])
   })
 
   it('isEmpty', () => {
