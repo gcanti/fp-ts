@@ -160,10 +160,16 @@ describe('StrMap', () => {
 
   it('insert', () => {
     assert.deepStrictEqual(insert('a', 1, new StrMap({})), new StrMap({ a: 1 }))
+    // should return the same reference if the value is already there
+    const x = new StrMap({ a: 1 })
+    assert.strictEqual(insert('a', 1, x), x)
   })
 
   it('remove', () => {
     assert.deepStrictEqual(remove('a', new StrMap({ a: 1, b: 2 })), new StrMap({ b: 2 }))
+    // should return the same reference if the key is missing
+    const x = new StrMap({ a: 1 })
+    assert.strictEqual(remove('b', x), x)
   })
 
   it('pop', () => {
