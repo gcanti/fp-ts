@@ -8,6 +8,11 @@ import { Separated } from './Compactable'
 import { Option } from './Option'
 
 /**
+ * @since 1.14.0
+ */
+export const empty: Set<never> = new Set()
+
+/**
  * @since 1.0.0
  */
 export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
@@ -238,7 +243,7 @@ export const difference2v = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
 export const getUnionMonoid = <A>(S: Setoid<A>): Monoid<Set<A>> => {
   return {
     concat: union(S),
-    empty: new Set<never>()
+    empty
   }
 }
 
