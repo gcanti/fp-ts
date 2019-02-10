@@ -61,7 +61,8 @@ import {
   partition,
   union,
   intersection,
-  difference
+  difference,
+  unsafeUpdateAt
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -290,6 +291,14 @@ describe('Array', () => {
     assert.deepStrictEqual(insertAt(1, 1, []), none)
     assert.deepStrictEqual(insertAt(0, 1, []), some([1]))
     assert.deepStrictEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
+  })
+
+  it('unsafeUpdateAt', () => {
+    // should return the same reference if nothing changed
+    const x = { a: 1 }
+    const as = [x]
+    const result = unsafeUpdateAt(0, x, as)
+    assert.strictEqual(result, as)
   })
 
   it('updateAt', () => {

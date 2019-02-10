@@ -267,6 +267,19 @@ describe('NonEmptyArray', () => {
     assert.deepStrictEqual(arr.updateAt(-1, a4), none)
     assert.deepStrictEqual(arr.updateAt(3, a4), none)
     assert.deepStrictEqual(arr.updateAt(1, a4), some(new NonEmptyArray(a1, [a4, a3])))
+    // should return the same reference if nothing changed
+    const r1 = arr.updateAt(0, a1)
+    if (r1.isSome()) {
+      assert.strictEqual(r1.value, arr)
+    } else {
+      assert.fail('is not a Some')
+    }
+    const r2 = arr.updateAt(2, a3)
+    if (r2.isSome()) {
+      assert.strictEqual(r2.value, arr)
+    } else {
+      assert.fail('is not a Some')
+    }
   })
 
   it('filter', () => {
