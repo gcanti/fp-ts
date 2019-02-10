@@ -9,8 +9,7 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
-    "jest": "jest --ci",
-    "jest-coverage": "jest --ci --coverage",
+    "jest": "jest --ci --coverage",
     "prettier": "prettier --list-different \"./{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,exercises}/**/*.ts\"",
     "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest && npm run docs",
