@@ -20,6 +20,7 @@ import * as U from '../../src/Unfoldable'
 import * as V from '../../src/Validation'
 import * as Mon from '../../src/Monoid'
 import * as Se from '../../src/Setoid'
+import * as SM from '../../src/StrMap'
 
 const double = (n: number) => n * 2
 
@@ -225,6 +226,8 @@ const Mon2 = R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Rec
 const Set1 = R.getSetoid<Keys, number>(Se.setoidNumber) // $ExpectType Setoid<Record<Keys, number>>
 const Set2 = R.getSetoid(Se.setoidNumber) // $ExpectType Setoid<Record<string, number>>
 
+const toUnfoldable1 = R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType [string, number][]
+
 //
 // Semigroup
 //
@@ -238,3 +241,9 @@ const Sem2 = S.getDictionarySemigroup<Keys, number>(S.semigroupSum) // $ExpectTy
 
 const Mon3 = Mon.getDictionaryMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
 const Mon4 = Mon.getDictionaryMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+
+//
+// StrMap
+//
+
+const toUnfoldable2 = SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $ExpectType [string, number][]

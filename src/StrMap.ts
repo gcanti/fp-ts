@@ -14,7 +14,7 @@ import * as R from './Record'
 import { getDictionarySemigroup, getLastSemigroup, Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
-import { Unfoldable } from './Unfoldable'
+import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
 // https://github.com/purescript/purescript-maps
@@ -319,7 +319,9 @@ export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
  *
  * @since 1.0.0
  */
-export const toUnfoldable = <F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) => {
+export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): (<A>(d: StrMap<A>) => Type<F, [string, A]>)
+export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>)
+export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) {
   const toUnfoldableU = R.toUnfoldable(U)
   return d => toUnfoldableU(d.value)
 }

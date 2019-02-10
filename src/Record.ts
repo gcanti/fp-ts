@@ -7,7 +7,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getDictionaryMonoid, Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { Setoid, fromEquals } from './Setoid'
-import { Unfoldable } from './Unfoldable'
+import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
 
 /**
@@ -56,10 +56,16 @@ export function toArray<A>(d: Record<string, A>): Array<[string, A]> {
  *
  * @since 1.10.0
  */
-export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: Record<string, A>): HKT<F, [string, A]> => {
-  const arr = toArray(d)
-  const len = arr.length
-  return unfoldable.unfoldr(0, b => (b < len ? some(tuple(arr[b], b + 1)) : none))
+export function toUnfoldable<F extends URIS>(
+  unfoldable: Unfoldable1<F>
+): <A>(d: Record<string, A>) => Type<F, [string, A]>
+export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string, A>) => HKT<F, [string, A]>
+export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string, A>) => HKT<F, [string, A]> {
+  return d => {
+    const arr = toArray(d)
+    const len = arr.length
+    return unfoldable.unfoldr(0, b => (b < len ? some(tuple(arr[b], b + 1)) : none))
+  }
 }
 
 /**
