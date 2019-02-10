@@ -9,7 +9,7 @@ title: Module NonEmptyArray
 
 # NonEmptyArray
 
-**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L45-L462)
+**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L45-L469)
 
 ```ts
 export class NonEmptyArray<A> {
@@ -121,6 +121,16 @@ assert.deepStrictEqual(new NonEmptyArray<number>(1, []).concatArray([2]), new No
 ```
 
 Added in v1.0.0
+
+## every
+
+**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L466-L468)
+
+```ts
+every(predicate: Predicate<A>): boolean  { ... }
+```
+
+Added in v1.14.0
 
 ## extend
 
@@ -614,7 +624,7 @@ Added in v1.0.0
 
 ## nonEmptyArray
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L651-L674)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L658-L681)
 
 ```ts
 export const nonEmptyArray: Monad1<URI> &
@@ -631,7 +641,7 @@ Added in v1.0.0
 
 Builds [NonEmptyArray](./NonEmptyArray.md) from [Array](./Array.md) returning [Option#none](./Option.md#none) or [Option#some](./Option.md#some) depending on amount of values in passed array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L473-L475)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L480-L482)
 
 ```ts
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => { ... }
@@ -643,7 +653,7 @@ Added in v1.0.0
 
 Builds [Semigroup](./Semigroup.md) instance for [NonEmptyArray](./NonEmptyArray.md) of specified type arument
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L506-L508)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L513-L515)
 
 ```ts
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => { ... }
@@ -655,7 +665,7 @@ Added in v1.0.0
 
 Group equal, consecutive elements of an array into non empty arrays.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L525-L545)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L532-L552)
 
 ```ts
 export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => { ... }
@@ -681,7 +691,7 @@ Added in v1.7.0
 Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
 function on each element, and grouping the results according to values returned
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L624-L635)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L631-L642)
 
 ```ts
 export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => { ... }
@@ -704,7 +714,7 @@ Added in v1.10.0
 
 Sort and then group the elements of an array into non empty arrays.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L558-L563)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts#L565-L570)
 
 ```ts
 export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) => { ... }

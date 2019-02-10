@@ -373,4 +373,10 @@ describe('NonEmptyArray', () => {
     assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).some(s => s.length === 2), true)
     assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).some(s => s.length === 4), false)
   })
+
+  it('every', () => {
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).every(s => s.length >= 1), true)
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).every(s => s.length >= 2), false)
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).every(s => s.length >= 1 && s.length < 3), false)
+  })
 })

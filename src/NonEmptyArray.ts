@@ -468,6 +468,13 @@ export class NonEmptyArray<A> {
   some(predicate: Predicate<A>): boolean {
     return predicate(this.head) || this.tail.some(a => predicate(a))
   }
+
+  /**
+   * @since 1.14.0
+   */
+  every(predicate: Predicate<A>): boolean {
+    return predicate(this.head) && this.tail.every(a => predicate(a))
+  }
 }
 
 const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
