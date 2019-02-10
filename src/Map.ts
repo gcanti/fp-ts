@@ -552,7 +552,9 @@ export function fromFoldable<F extends URIS2>(
 export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
 ): <K, A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+// tslint:disable-next-line: deprecation
 export function fromFoldable<F>(F: Foldable<F>): <K, A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+// tslint:disable-next-line: deprecation
 export function fromFoldable<F>(F: Foldable<F>): <K, A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> {
   return <K, A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => {
     return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {

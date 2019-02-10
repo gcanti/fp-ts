@@ -60,7 +60,7 @@ const A = getApplicativeComposition(task, option)
 const sum = (a: number) => (b: number): number => a + b
 A.ap(A.map(x, sum), y)
   .run()
-  .then(result => assert.deepEqual(result, some(3)))
+  .then(result => assert.deepStrictEqual(result, some(3)))
 ```
 
 Added in v1.0.0
@@ -84,10 +84,10 @@ import { option, some, none } from 'fp-ts/lib/Option'
 import { monoidSum } from 'fp-ts/lib/Monoid'
 
 const M = getMonoid(option, monoidSum)()
-assert.deepEqual(M.concat(none, none), none)
-assert.deepEqual(M.concat(some(1), none), none)
-assert.deepEqual(M.concat(none, some(2)), none)
-assert.deepEqual(M.concat(some(1), some(2)), some(3))
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), none)
+assert.deepStrictEqual(M.concat(none, some(2)), none)
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
 ```
 
 Added in v1.4.0
@@ -113,9 +113,9 @@ const action = new IO(() => {
   log.push('action called')
 })
 when(io)(false, action).run()
-assert.deepEqual(log, [])
+assert.deepStrictEqual(log, [])
 when(io)(true, action).run()
-assert.deepEqual(log, ['action called'])
+assert.deepStrictEqual(log, ['action called'])
 ```
 
 Added in v1.0.0

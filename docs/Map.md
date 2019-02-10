@@ -122,7 +122,7 @@ Added in v1.14.0
 Create a Map from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L556-L563)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L558-L565)
 
 ```ts
 export function fromFoldable<F>(F: Foldable<F>): <K, A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>  { ... }

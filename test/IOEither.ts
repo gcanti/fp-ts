@@ -13,16 +13,16 @@ describe('IOEither', () => {
     const e2 = fab.ap_(fa).run()
     const e3 = ioEither.ap(fab, fa).run()
 
-    assert.deepEqual(e1, eitherRight(2))
-    assert.deepEqual(e1, e2)
-    assert.deepEqual(e1, e3)
+    assert.deepStrictEqual(e1, eitherRight(2))
+    assert.deepStrictEqual(e1, e2)
+    assert.deepStrictEqual(e1, e3)
   })
 
   it('map', () => {
     const double = (n: number): number => n * 2
     const e = ioEither.map(ioEither.of(1), double).run()
 
-    assert.deepEqual(e, eitherRight(2))
+    assert.deepStrictEqual(e, eitherRight(2))
   })
 
   it('mapLeft', () => {
@@ -30,7 +30,7 @@ describe('IOEither', () => {
     const fa = fromLeft(1)
     const e = fa.mapLeft(double).run()
 
-    assert.deepEqual(e, eitherLeft(2))
+    assert.deepStrictEqual(e, eitherLeft(2))
   })
 
   it('chain', () => {
@@ -45,8 +45,8 @@ describe('IOEither', () => {
     const e1 = te1.run()
     const e2 = te2.run()
 
-    assert.deepEqual(e1, eitherRight(3))
-    assert.deepEqual(e2, eitherLeft('foo'))
+    assert.deepStrictEqual(e1, eitherRight(3))
+    assert.deepStrictEqual(e2, eitherLeft('foo'))
   })
 
   it('fold', () => {
@@ -70,9 +70,9 @@ describe('IOEither', () => {
     const e2 = teLeft.bimap(f, g).run()
     const e3 = ioEither.bimap(teRight, f, g).run()
 
-    assert.deepEqual(e1, eitherRight(false))
-    assert.deepEqual(e2, eitherLeft(3))
-    assert.deepEqual(e1, e3)
+    assert.deepStrictEqual(e1, eitherRight(false))
+    assert.deepStrictEqual(e2, eitherLeft(3))
+    assert.deepStrictEqual(e1, e3)
   })
 
   it('orElse', () => {
@@ -83,14 +83,14 @@ describe('IOEither', () => {
     const el = tl.run()
     const er = tr.run()
 
-    assert.deepEqual(el, eitherRight(3))
-    assert.deepEqual(er, eitherRight(1))
+    assert.deepStrictEqual(el, eitherRight(3))
+    assert.deepStrictEqual(er, eitherRight(1))
   })
 
   it('left', () => {
     const e = left(io.of(1)).run()
 
-    assert.deepEqual(e, eitherLeft(1))
+    assert.deepStrictEqual(e, eitherLeft(1))
   })
 
   it('applySecond', () => {
@@ -100,12 +100,14 @@ describe('IOEither', () => {
       .applySecond(append('b'))
       .run()
 
-    assert.deepEqual(e, eitherRight(2))
-    assert.deepEqual(log, ['a', 'b'])
+    assert.deepStrictEqual(e, eitherRight(2))
+    assert.deepStrictEqual(log, ['a', 'b'])
   })
 
   it('tryCatch', () => {
+    // tslint:disable-next-line: deprecation
     const ok = tryCatch(() => 1)
+    // tslint:disable-next-line: deprecation
     const ko = tryCatch(
       () => {
         throw new Error()
@@ -116,8 +118,8 @@ describe('IOEither', () => {
     const eok = ok.run()
     const eko = ko.run()
 
-    assert.deepEqual(eok, eitherRight(1))
-    assert.deepEqual(eko, eitherLeft(new Error('error')))
+    assert.deepStrictEqual(eok, eitherRight(1))
+    assert.deepStrictEqual(eko, eitherLeft(new Error('error')))
   })
 
   it('alt', () => {
@@ -137,11 +139,11 @@ describe('IOEither', () => {
     const e4 = x4.run()
     const e5 = x5.run()
 
-    assert.deepEqual(e1, eitherLeft('bar'))
-    assert.deepEqual(e2, eitherRight(1))
-    assert.deepEqual(e3, eitherRight(1))
-    assert.deepEqual(e4, eitherRight(1))
-    assert.deepEqual(e4, e5)
+    assert.deepStrictEqual(e1, eitherLeft('bar'))
+    assert.deepStrictEqual(e2, eitherRight(1))
+    assert.deepStrictEqual(e3, eitherRight(1))
+    assert.deepStrictEqual(e4, eitherRight(1))
+    assert.deepStrictEqual(e4, e5)
   })
 
   it('applyFirst', () => {
@@ -151,7 +153,7 @@ describe('IOEither', () => {
       .applyFirst(append('b'))
       .run()
 
-    assert.deepEqual(e, eitherRight(1))
-    assert.deepEqual(log, ['a', 'b'])
+    assert.deepStrictEqual(e, eitherRight(1))
+    assert.deepStrictEqual(log, ['a', 'b'])
   })
 })

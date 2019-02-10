@@ -47,7 +47,7 @@ Added in v1.0.0
 
 Number monoid under multiplication
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L141-L144)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L143-L146)
 
 ```ts
 export const monoidProduct: Monoid<number> = ...
@@ -57,7 +57,7 @@ Added in v1.0.0
 
 ## monoidString
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L149-L152)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L151-L154)
 
 ```ts
 export const monoidString: Monoid<string> = ...
@@ -69,7 +69,7 @@ Added in v1.0.0
 
 Number monoid under addition
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L132-L135)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L134-L137)
 
 ```ts
 export const monoidSum: Monoid<number> = ...
@@ -79,7 +79,7 @@ Added in v1.0.0
 
 ## monoidVoid
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L157-L160)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L159-L162)
 
 ```ts
 export const monoidVoid: Monoid<void> = ...
@@ -123,10 +123,10 @@ Added in v1.0.0
 
 Gets [Monoid](./Monoid.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L109-L114)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L111-L116)
 
 ```ts
-export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => { ... }
+export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid< { ... }
 ```
 
 **Example**
@@ -136,7 +136,7 @@ import { getDictionaryMonoid, fold } from 'fp-ts/lib/Monoid'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const M = getDictionaryMonoid(semigroupSum)
-assert.deepEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
+assert.deepStrictEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
 ```
 
 Added in v1.4.0
@@ -153,7 +153,7 @@ Added in v1.0.0
 
 ## getEndomorphismMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L175-L180)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L177-L182)
 
 ```ts
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => { ... }
@@ -163,7 +163,7 @@ Added in v1.0.0
 
 ## getFunctionMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L165-L170)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L167-L172)
 
 ```ts
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => { ... }
@@ -173,7 +173,7 @@ Added in v1.0.0
 
 ## getJoinMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L212-L217)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L214-L219)
 
 ```ts
 export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => { ... }
@@ -185,7 +185,7 @@ Added in v1.9.0
 
 Gets [Monoid](./Monoid.md) instance for Maps given [Semigroup](./Semigroup.md) instance for their values
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L121-L126)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L123-L128)
 
 ```ts
 export const getMapMonoid = <K, A>(S: Semigroup<A>): Monoid<Map<K, A>> => { ... }
@@ -195,7 +195,7 @@ Added in v1.14.0
 
 ## getMeetMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L202-L207)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L204-L209)
 
 ```ts
 export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => { ... }
@@ -215,7 +215,7 @@ Added in v1.0.0
 
 ## getRecordMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L185-L197)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L187-L199)
 
 ```ts
 export const getRecordMonoid = <O extends { [key: string]: any }>(

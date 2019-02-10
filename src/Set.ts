@@ -222,7 +222,7 @@ export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) 
  * import { difference2v } from 'fp-ts/lib/Set'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
- * assert.deepEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+ * assert.deepStrictEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
  *
  *
  * @since 1.12.0

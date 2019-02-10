@@ -25,6 +25,7 @@ import { Separated } from './Compactable'
  * @since 1.7.0
  * @see https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Witherable.purs
  */
+// tslint:disable-next-line: deprecation
 export interface Witherable<T> extends Traversable<T>, Filterable<T> {
   /**
    * Partition a structure with effects

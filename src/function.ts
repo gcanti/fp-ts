@@ -118,6 +118,15 @@ export const constUndefined = (): undefined => {
 }
 
 /**
+ * A thunk that returns always `void`
+ *
+ * @since 1.14.0
+ */
+export const constVoid = (): void => {
+  return
+}
+
+/**
  * Flips the order of the arguments to a function of two arguments.
  *
  * @since 1.0.0

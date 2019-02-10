@@ -12,8 +12,8 @@ describe('Tree', () => {
     const double = (n: number): number => n * 2
     const fa = new Tree(1, [new Tree(2, []), new Tree(3, [])])
     const expected = new Tree(2, [new Tree(4, []), new Tree(6, [])])
-    assert.deepEqual(fa.map(double), expected)
-    assert.deepEqual(tree.map(fa, double), expected)
+    assert.deepStrictEqual(fa.map(double), expected)
+    assert.deepStrictEqual(tree.map(fa, double), expected)
   })
 
   it('ap', () => {
@@ -21,17 +21,17 @@ describe('Tree', () => {
     const fab = tree.of(double)
     const fa = new Tree(1, [new Tree(2, []), new Tree(3, [])])
     const expected = new Tree(2, [new Tree(4, []), new Tree(6, [])])
-    assert.deepEqual(fa.ap(fab), expected)
-    assert.deepEqual(fab.ap_(fa), expected)
-    assert.deepEqual(tree.ap(fab, fa), expected)
+    assert.deepStrictEqual(fa.ap(fab), expected)
+    assert.deepStrictEqual(fab.ap_(fa), expected)
+    assert.deepStrictEqual(tree.ap(fab, fa), expected)
   })
 
   it('chain', () => {
     const f = (n: number) => tree.of(n * 2)
     const fa = new Tree(1, [new Tree(2, []), new Tree(3, [])])
     const expected = new Tree(2, [new Tree(4, []), new Tree(6, [])])
-    assert.deepEqual(fa.chain(f), expected)
-    assert.deepEqual(tree.chain(fa, f), expected)
+    assert.deepStrictEqual(fa.chain(f), expected)
+    assert.deepStrictEqual(tree.chain(fa, f), expected)
   })
 
   it('extract', () => {
@@ -44,8 +44,8 @@ describe('Tree', () => {
     const fa = new Tree('a', [new Tree('foo', []), new Tree('b', [])])
     const f = (fa: Tree<string>) => fa.value.length + fa.forest.length
     const expected = new Tree(3, [new Tree(3, []), new Tree(1, [])])
-    assert.deepEqual(fa.extend(f), expected)
-    assert.deepEqual(tree.extend(fa, f), expected)
+    assert.deepStrictEqual(fa.extend(f), expected)
+    assert.deepStrictEqual(tree.extend(fa, f), expected)
   })
 
   it('reduce', () => {
@@ -74,15 +74,15 @@ describe('Tree', () => {
 
   it('traverse', () => {
     const fa = new Tree('a', [new Tree('b', []), new Tree('c', [])])
-    assert.deepEqual(tree.traverse(I.identity)(fa, a => I.identity.of(a)), I.identity.of(fa))
+    assert.deepStrictEqual(tree.traverse(I.identity)(fa, a => I.identity.of(a)), I.identity.of(fa))
   })
 
   it('sequence', () => {
     const old = T.sequence(I.identity, tree)
     const sequence = tree.sequence(I.identity)
     const x1 = new Tree(I.identity.of('a'), [new Tree(I.identity.of('b'), []), new Tree(I.identity.of('c'), [])])
-    assert.deepEqual(sequence(x1), I.identity.of(new Tree('a', [new Tree('b', []), new Tree('c', [])])))
-    assert.deepEqual(sequence(x1), old(x1))
+    assert.deepStrictEqual(sequence(x1), I.identity.of(new Tree('a', [new Tree('b', []), new Tree('c', [])])))
+    assert.deepStrictEqual(sequence(x1), old(x1))
   })
 
   it('drawTree', () => {
@@ -160,12 +160,12 @@ describe('Tree', () => {
   it('unfoldTree', () => {
     const fa = unfoldTree(1, b => tuple(b, b < 3 ? [b + 1, b + 2] : []))
     const expected = new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])])
-    assert.deepEqual(fa, expected)
+    assert.deepStrictEqual(fa, expected)
   })
 
   it('unfoldTreeM', () => {
     const fa = unfoldTreeM(I.identity)(1, b => I.identity.of(tuple(b, b < 3 ? [b + 1, b + 2] : [])))
     const expected = I.identity.of(new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])]))
-    assert.deepEqual(fa, expected)
+    assert.deepStrictEqual(fa, expected)
   })
 })

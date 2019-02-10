@@ -266,7 +266,7 @@ export interface Traversable2vComposition11<F extends URIS, G extends URIS>
  * }
  * const read = (s: string) => new IO(() => state[s])
  * const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
- * assert.deepEqual(x.run(), [some(1), none, some(2), some(undefined)])
+ * assert.deepStrictEqual(x.run(), [some(1), none, some(2), some(undefined)])
  *
  * @since 1.10.0
  */

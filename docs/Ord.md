@@ -39,7 +39,7 @@ Added in v1.0.0
 
 ## ordDate
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L179-L179)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L180-L180)
 
 ```ts
 export const ordDate: Ord<Date> = ...
@@ -93,7 +93,7 @@ Added in v1.0.0
 
 ## contramap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L142-L144)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L143-L145)
 
 ```ts
 export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => { ... }
@@ -103,7 +103,7 @@ Added in v1.0.0
 
 ## fromCompare
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L132-L137)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L132-L138)
 
 ```ts
 export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => { ... }
@@ -113,7 +113,7 @@ Added in v1.0.0
 
 ## getDualOrd
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L172-L174)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L173-L175)
 
 ```ts
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => { ... }
@@ -123,7 +123,7 @@ Added in v1.3.0
 
 ## getProductOrd
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L158-L167)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L159-L168)
 
 ```ts
 export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => { ... }
@@ -133,7 +133,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L149-L153)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L150-L154)
 
 ```ts
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => { ... }

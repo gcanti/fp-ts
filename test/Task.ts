@@ -92,8 +92,8 @@ describe('Task', () => {
     const t1 = tryCatch(() => Promise.resolve(1), onrejected)
     const t2 = tryCatch(() => Promise.reject('ouch!'), onrejected)
     return Promise.all([t1.run(), t2.run()]).then(([e1, e2]) => {
-      assert.deepEqual(e1, right(1))
-      assert.deepEqual(e2, left('Error is: ouch!'))
+      assert.deepStrictEqual(e1, right(1))
+      assert.deepStrictEqual(e2, left('Error is: ouch!'))
     })
   })
 
@@ -113,7 +113,7 @@ describe('Task', () => {
       .run()
       .then(n => {
         assert.strictEqual(n, 2)
-        assert.deepEqual(log, ['a', 'b'])
+        assert.deepStrictEqual(log, ['a', 'b'])
       })
   })
 
@@ -130,7 +130,7 @@ describe('Task', () => {
       .run()
       .then(n => {
         assert.strictEqual(n, 1)
-        assert.deepEqual(log, ['a', 'b'])
+        assert.deepStrictEqual(log, ['a', 'b'])
       })
   })
 
@@ -143,8 +143,8 @@ describe('Task', () => {
     return sequenceParallel([t1, t2])
       .run()
       .then(ns => {
-        assert.deepEqual(ns, [3, 4])
-        assert.deepEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
+        assert.deepStrictEqual(ns, [3, 4])
+        assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
       })
   })
 
@@ -157,8 +157,8 @@ describe('Task', () => {
     return sequenceSeries([t1, t2])
       .run()
       .then(ns => {
-        assert.deepEqual(ns, [2, 4])
-        assert.deepEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
+        assert.deepStrictEqual(ns, [2, 4])
+        assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
       })
   })
 })

@@ -11,7 +11,7 @@ describe('Console', () => {
       logger.push(a)
     }
     log('log').run()
-    assert.deepEqual(logger, ['log'])
+    assert.deepStrictEqual(logger, ['log'])
     // tslint:disable-next-line:no-console
     console.log = log_
   })
@@ -25,7 +25,7 @@ describe('Console', () => {
       logger.push(a)
     }
     info('info').run()
-    assert.deepEqual(logger, ['info'])
+    assert.deepStrictEqual(logger, ['info'])
     // tslint:disable-next-line:no-console
     console.info = info_
   })
@@ -39,7 +39,7 @@ describe('Console', () => {
       logger.push(a)
     }
     error('error').run()
-    assert.deepEqual(logger, ['error'])
+    assert.deepStrictEqual(logger, ['error'])
     // tslint:disable-next-line:no-console
     console.error = error_
   })
@@ -53,7 +53,7 @@ describe('Console', () => {
       logger.push(a)
     }
     warn('warn').run()
-    assert.deepEqual(logger, ['warn'])
+    assert.deepStrictEqual(logger, ['warn'])
     // tslint:disable-next-line:no-console
     console.warn = warn_
   })

@@ -130,9 +130,10 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) =>
  * @since 1.0.0
  */
 export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
+  const optimizedCompare = (x: A, y: A): Ordering => (x === y ? 0 : compare(x, y))
   return {
-    equals: (x, y) => compare(x, y) === 0,
-    compare
+    equals: (x, y) => optimizedCompare(x, y) === 0,
+    compare: optimizedCompare
   }
 }
 

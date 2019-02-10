@@ -36,17 +36,17 @@ describe('StrMap', () => {
     const d1 = new StrMap<number>({ k1: 1, k2: 3 })
     const d2 = new StrMap<number>({ k2: 2, k3: 4 })
     const S1 = getMonoid<number>()
-    assert.deepEqual(S1.concat(d1, d2), new StrMap({ k1: 1, k2: 2, k3: 4 }))
+    assert.deepStrictEqual(S1.concat(d1, d2), new StrMap({ k1: 1, k2: 2, k3: 4 }))
 
     const S2 = getMonoid<number>(semigroupSum)
-    assert.deepEqual(S2.concat(d1, d2), new StrMap({ k1: 1, k2: 5, k3: 4 }))
+    assert.deepStrictEqual(S2.concat(d1, d2), new StrMap({ k1: 1, k2: 5, k3: 4 }))
   })
 
   it('map', () => {
     const d1 = new StrMap<number>({ k1: 1, k2: 2 })
     const double = (n: number): number => n * 2
-    assert.deepEqual(d1.map(double), new StrMap({ k1: 2, k2: 4 }))
-    assert.deepEqual(strmap.map(d1, double), new StrMap({ k1: 2, k2: 4 }))
+    assert.deepStrictEqual(d1.map(double), new StrMap({ k1: 2, k2: 4 }))
+    assert.deepStrictEqual(strmap.map(d1, double), new StrMap({ k1: 2, k2: 4 }))
   })
 
   it('reduce', () => {
@@ -77,11 +77,11 @@ describe('StrMap', () => {
   })
 
   it('traverse', () => {
-    assert.deepEqual(
+    assert.deepStrictEqual(
       strmap.traverse(option)(new StrMap<number>({ k1: 1, k2: 2 }), n => (n <= 2 ? some(n) : none)),
       some(new StrMap<number>({ k1: 1, k2: 2 }))
     )
-    assert.deepEqual(
+    assert.deepStrictEqual(
       strmap.traverse(option)(new StrMap<number>({ k1: 1, k2: 2 }), n => (n >= 2 ? some(n) : none)),
       none
     )
@@ -91,11 +91,11 @@ describe('StrMap', () => {
     const old = T.sequence(option, strmap)
     const sequence = strmap.sequence(option)
     const x1 = new StrMap({ k1: some(1), k2: some(2) })
-    assert.deepEqual(sequence(x1), some(new StrMap({ k1: 1, k2: 2 })))
-    assert.deepEqual(sequence(x1), old(x1))
+    assert.deepStrictEqual(sequence(x1), some(new StrMap({ k1: 1, k2: 2 })))
+    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = new StrMap({ k1: none, k2: some(2) })
-    assert.deepEqual(sequence(x2), none)
-    assert.deepEqual(sequence(x2), old(x2))
+    assert.deepStrictEqual(sequence(x2), none)
+    assert.deepStrictEqual(sequence(x2), old(x2))
   })
 
   it('getSetoid', () => {
@@ -105,19 +105,19 @@ describe('StrMap', () => {
   })
 
   it('lookup', () => {
-    assert.deepEqual(lookup('a', new StrMap({ a: 1 })), some(1))
-    assert.deepEqual(lookup('b', new StrMap({ a: 1 })), none)
+    assert.deepStrictEqual(lookup('a', new StrMap({ a: 1 })), some(1))
+    assert.deepStrictEqual(lookup('b', new StrMap({ a: 1 })), none)
   })
 
   it('fromFoldable', () => {
-    assert.deepEqual(fromFoldable(array)([['a', 1]], (existing, _) => existing), new StrMap({ a: 1 }))
-    assert.deepEqual(
+    assert.deepStrictEqual(fromFoldable(array)([['a', 1]], (existing, _) => existing), new StrMap({ a: 1 }))
+    assert.deepStrictEqual(
       fromFoldable(array)([['a', 1], ['a', 2]], (existing, _) => existing),
       new StrMap({
         a: 1
       })
     )
-    assert.deepEqual(
+    assert.deepStrictEqual(
       fromFoldable(array)([['a', 1], ['a', 2]], (_, a) => a),
       new StrMap({
         a: 2
@@ -126,26 +126,26 @@ describe('StrMap', () => {
   })
 
   it('toArray', () => {
-    assert.deepEqual(toArray(new StrMap({ a: 1, b: 2 })), [['a', 1], ['b', 2]])
-    assert.deepEqual(toArray(new StrMap({ b: 2, a: 1 })), [['a', 1], ['b', 2]])
+    assert.deepStrictEqual(toArray(new StrMap({ a: 1, b: 2 })), [['a', 1], ['b', 2]])
+    assert.deepStrictEqual(toArray(new StrMap({ b: 2, a: 1 })), [['a', 1], ['b', 2]])
   })
 
   it('toUnfoldable', () => {
-    assert.deepEqual(toUnfoldable(array)(new StrMap({ a: 1 })), [['a', 1]])
+    assert.deepStrictEqual(toUnfoldable(array)(new StrMap({ a: 1 })), [['a', 1]])
   })
 
   it('mapWithKey', () => {
-    assert.deepEqual(new StrMap({ aa: 1 }).mapWithKey((k, a) => a + k.length), new StrMap({ aa: 3 }))
-    assert.deepEqual(strmap.mapWithIndex(new StrMap({ aa: 1 }), (k, a) => a + k.length), new StrMap({ aa: 3 }))
+    assert.deepStrictEqual(new StrMap({ aa: 1 }).mapWithKey((k, a) => a + k.length), new StrMap({ aa: 3 }))
+    assert.deepStrictEqual(strmap.mapWithIndex(new StrMap({ aa: 1 }), (k, a) => a + k.length), new StrMap({ aa: 3 }))
   })
 
   it('traverseWithKey', () => {
     const d1 = new StrMap({ k1: 1, k2: 2 })
     const t1 = traverseWithKey(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
-    assert.deepEqual(t1, none)
+    assert.deepStrictEqual(t1, none)
     const d2 = new StrMap({ k1: 2, k2: 3 })
     const t2 = traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
-    assert.deepEqual(t2, some(new StrMap<number>({ k1: 2, k2: 3 })))
+    assert.deepStrictEqual(t2, some(new StrMap<number>({ k1: 2, k2: 3 })))
   })
 
   it('size', () => {
@@ -159,28 +159,28 @@ describe('StrMap', () => {
   })
 
   it('insert', () => {
-    assert.deepEqual(insert('a', 1, new StrMap({})), new StrMap({ a: 1 }))
+    assert.deepStrictEqual(insert('a', 1, new StrMap({})), new StrMap({ a: 1 }))
   })
 
   it('remove', () => {
-    assert.deepEqual(remove('a', new StrMap({ a: 1, b: 2 })), new StrMap({ b: 2 }))
+    assert.deepStrictEqual(remove('a', new StrMap({ a: 1, b: 2 })), new StrMap({ b: 2 }))
   })
 
   it('pop', () => {
-    assert.deepEqual(pop('a', new StrMap({ a: 1, b: 2 })), some([1, new StrMap({ b: 2 })]))
-    assert.deepEqual(pop('c', new StrMap({ a: 1, b: 2 })), none)
+    assert.deepStrictEqual(pop('a', new StrMap({ a: 1, b: 2 })), some([1, new StrMap({ b: 2 })]))
+    assert.deepStrictEqual(pop('c', new StrMap({ a: 1, b: 2 })), none)
   })
 
   it('insert', () => {
-    assert.deepEqual(insert('c', 3, new StrMap({ a: 1, b: 2 })), new StrMap({ a: 1, b: 2, c: 3 }))
+    assert.deepStrictEqual(insert('c', 3, new StrMap({ a: 1, b: 2 })), new StrMap({ a: 1, b: 2, c: 3 }))
   })
 
   it('compact', () => {
-    assert.deepEqual(strmap.compact(new StrMap({ foo: none, bar: some(123) })), new StrMap({ bar: 123 }))
+    assert.deepStrictEqual(strmap.compact(new StrMap({ foo: none, bar: some(123) })), new StrMap({ bar: 123 }))
   })
 
   it('separate', () => {
-    assert.deepEqual(strmap.separate(new StrMap({ foo: left(123), bar: right(123) })), {
+    assert.deepStrictEqual(strmap.separate(new StrMap({ foo: left(123), bar: right(123) })), {
       left: new StrMap({ foo: 123 }),
       right: new StrMap({ bar: 123 })
     })
@@ -188,28 +188,31 @@ describe('StrMap', () => {
 
   it('filter', () => {
     const d = new StrMap({ a: 1, b: 3 })
-    assert.deepEqual(d.filter(p), new StrMap({ b: 3 }))
-    assert.deepEqual(strmap.filter(d, p), new StrMap({ b: 3 }))
+    assert.deepStrictEqual(d.filter(p), new StrMap({ b: 3 }))
+    assert.deepStrictEqual(strmap.filter(d, p), new StrMap({ b: 3 }))
 
     // refinements
     const x = new StrMap({ a: 1, b: 'foo' })
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const actual = x.filter(isNumber)
-    assert.deepEqual(actual, new StrMap({ a: 1 }))
+    assert.deepStrictEqual(actual, new StrMap({ a: 1 }))
   })
 
   it('filterWithIndex', () => {
-    assert.deepEqual(strmap.filterWithIndex(new StrMap({ a: 'a', b: 'b' }), k => k === 'a'), new StrMap({ a: 'a' }))
+    assert.deepStrictEqual(
+      strmap.filterWithIndex(new StrMap({ a: 'a', b: 'b' }), k => k === 'a'),
+      new StrMap({ a: 'a' })
+    )
   })
 
   it('filterMap', () => {
     const f = (n: number) => (p(n) ? some(n + 1) : none)
-    assert.deepEqual(strmap.filterMap(new StrMap<number>({}), f), new StrMap({}))
-    assert.deepEqual(strmap.filterMap(new StrMap({ a: 1, b: 3 }), f), new StrMap({ b: 4 }))
+    assert.deepStrictEqual(strmap.filterMap(new StrMap<number>({}), f), new StrMap({}))
+    assert.deepStrictEqual(strmap.filterMap(new StrMap({ a: 1, b: 3 }), f), new StrMap({ b: 4 }))
   })
 
   it('filterMapWithIndex', () => {
-    assert.deepEqual(
+    assert.deepStrictEqual(
       strmap.filterMapWithIndex(new StrMap({ a: 'a', b: 'b' }), (k, a) => (k === 'a' ? some(a.length) : none)),
       new StrMap({
         a: 1
@@ -218,15 +221,15 @@ describe('StrMap', () => {
   })
 
   it('partition', () => {
-    assert.deepEqual(strmap.partition(new StrMap<number>({}), p), { left: new StrMap({}), right: new StrMap({}) })
-    assert.deepEqual(strmap.partition(new StrMap<number>({ a: 1, b: 3 }), p), {
+    assert.deepStrictEqual(strmap.partition(new StrMap<number>({}), p), { left: new StrMap({}), right: new StrMap({}) })
+    assert.deepStrictEqual(strmap.partition(new StrMap<number>({ a: 1, b: 3 }), p), {
       left: new StrMap({ a: 1 }),
       right: new StrMap({ b: 3 })
     })
   })
 
   it('partitionWithIndex', () => {
-    assert.deepEqual(strmap.partitionWithIndex(new StrMap<string>({ a: 'a', b: 'b' }), k => k === 'a'), {
+    assert.deepStrictEqual(strmap.partitionWithIndex(new StrMap<string>({ a: 'a', b: 'b' }), k => k === 'a'), {
       left: new StrMap({ b: 'b' }),
       right: new StrMap({ a: 'a' })
     })
@@ -234,15 +237,18 @@ describe('StrMap', () => {
 
   it('partitionMap', () => {
     const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    assert.deepEqual(strmap.partitionMap(new StrMap<number>({}), f), { left: new StrMap({}), right: new StrMap({}) })
-    assert.deepEqual(strmap.partitionMap(new StrMap<number>({ a: 1, b: 3 }), f), {
+    assert.deepStrictEqual(strmap.partitionMap(new StrMap<number>({}), f), {
+      left: new StrMap({}),
+      right: new StrMap({})
+    })
+    assert.deepStrictEqual(strmap.partitionMap(new StrMap<number>({ a: 1, b: 3 }), f), {
       left: new StrMap({ a: 0 }),
       right: new StrMap({ b: 4 })
     })
   })
 
   it('partitionMapWithIndex', () => {
-    assert.deepEqual(
+    assert.deepStrictEqual(
       strmap.partitionMapWithIndex(
         new StrMap<string>({ a: 'a', b: 'b' }),
         (k, a) => (k === 'a' ? right(a.length) : left(a))
@@ -257,25 +263,25 @@ describe('StrMap', () => {
   it('wither', () => {
     const witherIdentity = strmap.wither(I.identity)
     const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
-    assert.deepEqual(witherIdentity(new StrMap<number>({}), f), new I.Identity(new StrMap({})))
-    assert.deepEqual(witherIdentity(new StrMap({ a: 1, b: 3 }), f), new I.Identity(new StrMap({ b: 4 })))
+    assert.deepStrictEqual(witherIdentity(new StrMap<number>({}), f), new I.Identity(new StrMap({})))
+    assert.deepStrictEqual(witherIdentity(new StrMap({ a: 1, b: 3 }), f), new I.Identity(new StrMap({ b: 4 })))
   })
 
   it('wilt', () => {
     const wiltIdentity = strmap.wilt(I.identity)
     const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
-    assert.deepEqual(
+    assert.deepStrictEqual(
       wiltIdentity(new StrMap<number>({}), f),
       new I.Identity({ left: new StrMap({}), right: new StrMap({}) })
     )
-    assert.deepEqual(
+    assert.deepStrictEqual(
       wiltIdentity(new StrMap({ a: 1, b: 3 }), f),
       new I.Identity({ left: new StrMap({ a: 0 }), right: new StrMap({ b: 4 }) })
     )
   })
 
   it('singleton', () => {
-    assert.deepEqual(singleton('a', 1), new StrMap({ a: 1 }))
+    assert.deepStrictEqual(singleton('a', 1), new StrMap({ a: 1 }))
   })
 
   it('isSubdictionary', () => {
@@ -283,7 +289,7 @@ describe('StrMap', () => {
   })
 
   it('collect', () => {
-    assert.deepEqual(collect(new StrMap({ b: 1, a: 2 }), identity), ['a', 'b'])
+    assert.deepStrictEqual(collect(new StrMap({ b: 1, a: 2 }), identity), ['a', 'b'])
   })
 
   it('reduceWithKey', () => {

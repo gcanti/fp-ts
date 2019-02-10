@@ -102,11 +102,13 @@ const emptyObject = {}
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
  *
  * const M = getDictionaryMonoid(semigroupSum)
- * assert.deepEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
+ * assert.deepStrictEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
  *
  * @since 1.4.0
  */
-export const getDictionaryMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => {
+export function getDictionaryMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
+export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }>
+export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> {
   return {
     ...getDictionarySemigroup(S),
     empty: emptyObject

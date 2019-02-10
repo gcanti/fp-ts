@@ -16,7 +16,8 @@ import {
   constFalse,
   constNull,
   constUndefined,
-  toString
+  toString,
+  constVoid
 } from '../src/function'
 
 const f = (n: number) => n + 1
@@ -215,7 +216,7 @@ describe('function', () => {
     const h5 = curry((a: number, b: number, c: number, d: number, e: number): number => a + b + c + d + e)
     assert.strictEqual(h5(1)(2)(3)(4)(5), 15)
     const snoc = (as: Array<number>, a: number) => as.concat(a)
-    assert.deepEqual(curry(snoc)([1, 2, 3])(4), [1, 2, 3, 4])
+    assert.deepStrictEqual(curry(snoc)([1, 2, 3])(4), [1, 2, 3, 4])
   })
 
   it('not', () => {
@@ -295,13 +296,17 @@ describe('function', () => {
     assert.strictEqual(constUndefined(), undefined)
   })
 
+  it('constVoid', () => {
+    assert.strictEqual(constVoid(), undefined)
+  })
+
   it('toString', () => {
     assert.strictEqual(toString('a'), '"a"')
     const date = new Date()
     assert.strictEqual(toString(date), `new Date('${date.toISOString()}')`)
-    assert.deepEqual(toString(['a', 'b']), '["a", "b"]')
-    assert.deepEqual(toString(() => 1), '<function0>')
-    assert.deepEqual(
+    assert.deepStrictEqual(toString(['a', 'b']), '["a", "b"]')
+    assert.deepStrictEqual(toString(() => 1), '<function0>')
+    assert.deepStrictEqual(
       toString(function f() {
         return 1
       }),
@@ -309,7 +314,7 @@ describe('function', () => {
     )
     const nonStringifyable: { a?: any } = {}
     nonStringifyable.a = nonStringifyable
-    assert.deepEqual(toString(nonStringifyable), '[object Object]')
+    assert.deepStrictEqual(toString(nonStringifyable), '[object Object]')
     assert.strictEqual(toString(undefined), 'undefined')
     assert.strictEqual(toString(null), 'null')
     assert.strictEqual(toString(Object.create(null)), '{}')

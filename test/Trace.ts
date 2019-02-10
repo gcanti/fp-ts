@@ -12,7 +12,7 @@ describe('Trace', () => {
       logger.push(a)
     }
     trace('trace', () => 1)
-    assert.deepEqual(logger, ['trace'])
+    assert.deepStrictEqual(logger, ['trace'])
     // tslint:disable-next-line:no-console
     console.log = log_
   })
@@ -26,7 +26,7 @@ describe('Trace', () => {
       logger.push(a)
     }
     spy(some(1))
-    assert.deepEqual(logger, [some(1)])
+    assert.deepStrictEqual(logger, [some(1)])
     // tslint:disable-next-line:no-console
     console.log = log_
   })
@@ -40,8 +40,8 @@ describe('Trace', () => {
       logger.push(a)
     }
     const x = traceA(option)('traceA')
-    assert.deepEqual(logger, ['traceA'])
-    assert.deepEqual(x, some(undefined))
+    assert.deepStrictEqual(logger, ['traceA'])
+    assert.deepStrictEqual(x, some(undefined))
     // tslint:disable-next-line:no-console
     console.log = log_
   })
@@ -55,8 +55,8 @@ describe('Trace', () => {
       logger.push(a)
     }
     const x = traceM(option)('traceM')
-    assert.deepEqual(logger, ['traceM'])
-    assert.deepEqual(x, some('traceM'))
+    assert.deepStrictEqual(logger, ['traceM'])
+    assert.deepStrictEqual(x, some('traceM'))
     // tslint:disable-next-line:no-console
     console.log = log_
   })

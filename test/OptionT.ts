@@ -11,7 +11,7 @@ describe('OptionT', () => {
     const greetingT = taskOption.of('welcome')
     const excitedGreetingT = taskOption.map(greetingT, s => s + '!')
     return excitedGreetingT.run().then(o => {
-      assert.deepEqual(o, option.some('welcome!'))
+      assert.deepStrictEqual(o, option.some('welcome!'))
     })
   })
 
@@ -19,8 +19,8 @@ describe('OptionT', () => {
     const to1 = taskOption.chain(a => taskOption.of(a.length), taskOption.of('foo'))
     const to2 = taskOption.chain((a: string) => taskOption.of(a.length), none)
     return Promise.all([to1.run(), to2.run()]).then(([o1, o2]) => {
-      assert.deepEqual(o1, option.some(3))
-      assert.deepEqual(o2, option.none)
+      assert.deepStrictEqual(o1, option.some(3))
+      assert.deepStrictEqual(o2, option.none)
     })
   })
 
@@ -63,15 +63,15 @@ describe('OptionT', () => {
     return some(1)
       .run()
       .then(o => {
-        assert.deepEqual(o, option.some(1))
+        assert.deepStrictEqual(o, option.some(1))
       })
   })
 
   it('fromOption', () => {
     const fromOption = optionT.fromOption(task)
     return Promise.all([fromOption(option.some(1)).run(), fromOption(option.none).run()]).then(([o1, o2]) => {
-      assert.deepEqual(o1, option.some(1))
-      assert.deepEqual(o2, option.none)
+      assert.deepStrictEqual(o1, option.some(1))
+      assert.deepStrictEqual(o2, option.none)
     })
   })
 
@@ -80,7 +80,7 @@ describe('OptionT', () => {
     return liftF(task.of(1))
       .run()
       .then(o => {
-        assert.deepEqual(o, option.some(1))
+        assert.deepStrictEqual(o, option.some(1))
       })
   })
 })

@@ -32,6 +32,7 @@ import { applyFirst } from './Apply'
  * @typeclass
  * @since 1.10.0
  */
+// tslint:disable-next-line: deprecation
 export interface Foldable2v<F> extends Foldable<F> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: HKT<F, A>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B
@@ -205,7 +206,7 @@ export function fold<M, F>(M: Monoid<M>, F: Foldable2v<F>): (fa: HKT<F, M>) => M
  * import { Tree, tree } from 'fp-ts/lib/Tree'
  *
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
- * assert.deepEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
+ * assert.deepStrictEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
  *
  * @since 1.10.0
  */
@@ -289,7 +290,7 @@ export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HK
  * import { oneOf } from 'fp-ts/lib/Foldable2v'
  * import { option, some } from 'fp-ts/lib/Option'
  *
- * assert.deepEqual(oneOf(option, array)([some(2), some(1)]), some(2))
+ * assert.deepStrictEqual(oneOf(option, array)([some(2), some(1)]), some(2))
  *
  * @since 1.10.0
  */
@@ -451,7 +452,7 @@ export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, 
  * import { some } from 'fp-ts/lib/Option'
  *
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
- * assert.deepEqual(findFirst(tree)(t, a => a > 2), some(3))
+ * assert.deepStrictEqual(findFirst(tree)(t, a => a > 2), some(3))
  *
  * @since 1.10.0
  */
@@ -488,7 +489,7 @@ export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<
  * import { Tree, tree } from 'fp-ts/lib/Tree'
  *
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
- * assert.deepEqual(min(ordNumber, tree)(t), some(1))
+ * assert.deepStrictEqual(min(ordNumber, tree)(t), some(1))
  *
  * @since 1.10.0
  */
@@ -513,7 +514,7 @@ export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Optio
  * import { Tree, tree } from 'fp-ts/lib/Tree'
  *
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
- * assert.deepEqual(max(ordNumber, tree)(t), some(4))
+ * assert.deepStrictEqual(max(ordNumber, tree)(t), some(4))
  *
  * @since 1.10.0
  */
@@ -536,7 +537,7 @@ export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Optio
  * import { Tree, tree } from 'fp-ts/lib/Tree'
  *
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
- * assert.deepEqual(toArray(tree)(t), [1, 2, 3, 4])
+ * assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
  *
  * @since 1.10.0
  */

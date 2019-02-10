@@ -127,12 +127,14 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
  * import { getDictionarySemigroup, semigroupSum } from 'fp-ts/lib/Semigroup'
  *
  * const S = getDictionarySemigroup(semigroupSum)
- * assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+ * assert.deepStrictEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
  *
  *
  * @since 1.4.0
  */
-export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> => {
+export function getDictionarySemigroup<K extends string, A>(S: Semigroup<A>): Semigroup<Record<K, A>>
+export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }>
+export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> {
   return {
     concat: (x, y) => {
       const r: { [key: string]: A } = { ...x }
@@ -176,7 +178,7 @@ const semigroupAnyDictionary = getDictionarySemigroup(getLastSemigroup())
  * import { getObjectSemigroup } from 'fp-ts/lib/Semigroup'
  *
  * const S = getObjectSemigroup<{ foo: number }>()
- * assert.deepEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 456 })
+ * assert.deepStrictEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 456 })
  *
  *
  * @since 1.4.0

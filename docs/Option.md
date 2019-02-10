@@ -122,9 +122,9 @@ alt(fa: Option<A>): Option<A>  { ... }
 ```ts
 import { Option, some, none } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some(2).alt(some(4)), some(2))
+assert.deepStrictEqual(some(2).alt(some(4)), some(2))
 const fa: Option<number> = none
-assert.deepEqual(fa.alt(some(4)), some(4))
+assert.deepStrictEqual(fa.alt(some(4)), some(4))
 ```
 
 Added in v1.0.0
@@ -145,8 +145,8 @@ ap<B>(fab: Option<(a: A) => B>): Option<B>  { ... }
 ```ts
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some(2).ap(some((x: number) => x + 1)), some(3))
-assert.deepEqual(none.ap(some((x: number) => x + 1)), none)
+assert.deepStrictEqual(some(2).ap(some((x: number) => x + 1)), some(3))
+assert.deepStrictEqual(none.ap(some((x: number) => x + 1)), none)
 ```
 
 Added in v1.0.0
@@ -166,8 +166,8 @@ ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C>  { ... }
 ```ts
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some((x: number) => x + 1).ap_(some(2)), some(3))
-assert.deepEqual(none.ap_(some(2)), none)
+assert.deepStrictEqual(some((x: number) => x + 1).ap_(some(2)), some(3))
+assert.deepStrictEqual(none.ap_(some(2)), none)
 ```
 
 Added in v1.0.0
@@ -350,7 +350,7 @@ map<B>(f: (a: A) => B): Option<B>  { ... }
 ```ts
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some(1).map(n => n * 2), some(2))
+assert.deepStrictEqual(some(1).map(n => n * 2), some(2))
 ```
 
 Added in v1.0.0
@@ -376,19 +376,19 @@ interface Foo {
   }
 }
 
-assert.deepEqual(
+assert.deepStrictEqual(
   some<Foo>({ bar: { baz: 'quux' } })
     .mapNullable(foo => foo.bar)
     .mapNullable(bar => bar.baz),
   some('quux')
 )
-assert.deepEqual(
+assert.deepStrictEqual(
   some<Foo>({ bar: {} })
     .mapNullable(foo => foo.bar)
     .mapNullable(bar => bar.baz),
   none
 )
-assert.deepEqual(
+assert.deepStrictEqual(
   some<Foo>({})
     .mapNullable(foo => foo.bar)
     .mapNullable(bar => bar.baz),
@@ -413,7 +413,7 @@ orElse(fa: Lazy<Option<A>>): Option<A>  { ... }
 ```ts
 import { some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(some(1).orElse(() => some(2)), some(1))
+assert.deepStrictEqual(some(1).orElse(() => some(2)), some(1))
 ```
 
 Added in v1.6.0
@@ -533,8 +533,8 @@ export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => { ... }
 import { none, some, fromEither } from 'fp-ts/lib/Option'
 import { left, right } from 'fp-ts/lib/Either'
 
-assert.deepEqual(fromEither(left(1)), none)
-assert.deepEqual(fromEither(right(1)), some(1))
+assert.deepStrictEqual(fromEither(left(1)), none)
+assert.deepStrictEqual(fromEither(right(1)), some(1))
 ```
 
 Added in v1.0.0
@@ -555,9 +555,9 @@ export const fromNullable = <A>(a: A | null | undefined): Option<A> => { ... }
 ```ts
 import { none, some, fromNullable } from 'fp-ts/lib/Option'
 
-assert.deepEqual(fromNullable(undefined), none)
-assert.deepEqual(fromNullable(null), none)
-assert.deepEqual(fromNullable(1), some(1))
+assert.deepStrictEqual(fromNullable(undefined), none)
+assert.deepStrictEqual(fromNullable(null), none)
+assert.deepStrictEqual(fromNullable(1), some(1))
 ```
 
 Added in v1.0.0
@@ -577,8 +577,8 @@ import { none, some, fromPredicate } from 'fp-ts/lib/Option'
 
 const positive = fromPredicate((n: number) => n >= 0)
 
-assert.deepEqual(positive(-1), none)
-assert.deepEqual(positive(1), some(1))
+assert.deepStrictEqual(positive(-1), none)
+assert.deepStrictEqual(positive(1), some(1))
 ```
 
 Added in v1.0.0
@@ -630,10 +630,10 @@ import { getApplySemigroup, some, none } from 'fp-ts/lib/Option'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const S = getApplySemigroup(semigroupSum)
-assert.deepEqual(S.concat(none, none), none)
-assert.deepEqual(S.concat(some(1), none), none)
-assert.deepEqual(S.concat(none, some(1)), none)
-assert.deepEqual(S.concat(some(1), some(2)), some(3))
+assert.deepStrictEqual(S.concat(none, none), none)
+assert.deepStrictEqual(S.concat(some(1), none), none)
+assert.deepStrictEqual(S.concat(none, some(1)), none)
+assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
 ```
 
 Added in v1.7.0
@@ -661,10 +661,10 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => { ... }
 import { getFirstMonoid, some, none } from 'fp-ts/lib/Option'
 
 const M = getFirstMonoid<number>()
-assert.deepEqual(M.concat(none, none), none)
-assert.deepEqual(M.concat(some(1), none), some(1))
-assert.deepEqual(M.concat(none, some(1)), some(1))
-assert.deepEqual(M.concat(some(1), some(2)), some(1))
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(1)), some(1))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
 ```
 
 Added in v1.0.0
@@ -692,10 +692,10 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => { ... }
 import { getLastMonoid, some, none } from 'fp-ts/lib/Option'
 
 const M = getLastMonoid<number>()
-assert.deepEqual(M.concat(none, none), none)
-assert.deepEqual(M.concat(some(1), none), some(1))
-assert.deepEqual(M.concat(none, some(1)), some(1))
-assert.deepEqual(M.concat(some(1), some(2)), some(2))
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(1)), some(1))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
 ```
 
 Added in v1.0.0
@@ -725,10 +725,10 @@ import { getMonoid, some, none } from 'fp-ts/lib/Option'
 import { semigroupSum } from 'fp-ts/lib/Semigroup'
 
 const M = getMonoid(semigroupSum)
-assert.deepEqual(M.concat(none, none), none)
-assert.deepEqual(M.concat(some(1), none), some(1))
-assert.deepEqual(M.concat(none, some(1)), some(1))
-assert.deepEqual(M.concat(some(1), some(2)), some(3))
+assert.deepStrictEqual(M.concat(none, none), none)
+assert.deepStrictEqual(M.concat(some(1), none), some(1))
+assert.deepStrictEqual(M.concat(none, some(1)), some(1))
+assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
 ```
 
 Added in v1.0.0
@@ -857,13 +857,13 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => { ... }
 ```ts
 import { none, some, tryCatch } from 'fp-ts/lib/Option'
 
-assert.deepEqual(
+assert.deepStrictEqual(
   tryCatch(() => {
     throw new Error()
   }),
   none
 )
-assert.deepEqual(tryCatch(() => 1), some(1))
+assert.deepStrictEqual(tryCatch(() => 1), some(1))
 ```
 
 Added in v1.0.0

@@ -31,8 +31,8 @@ describe('Monoid', () => {
     const isLessThan10 = (n: number) => n <= 10
     const isEven = (n: number) => n % 2 === 0
 
-    assert.deepEqual(filter([1, 2, 3, 40], fold(getPredicateMonoidAll<number>())([isLessThan10, isEven])), [2])
-    assert.deepEqual(filter([1, 2, 3, 40, 41], fold(getPredicateMonoidAny<number>())([isLessThan10, isEven])), [
+    assert.deepStrictEqual(filter([1, 2, 3, 40], fold(getPredicateMonoidAll<number>())([isLessThan10, isEven])), [2])
+    assert.deepStrictEqual(filter([1, 2, 3, 40, 41], fold(getPredicateMonoidAny<number>())([isLessThan10, isEven])), [
       1,
       2,
       3,
@@ -41,7 +41,7 @@ describe('Monoid', () => {
   })
 
   it('getArrayMonoid', () => {
-    assert.deepEqual(getArrayMonoid<number>().concat([1], [2]), [1, 2])
+    assert.deepStrictEqual(getArrayMonoid<number>().concat([1], [2]), [1, 2])
   })
 
   it('getRecordMonoid', () => {
@@ -53,8 +53,8 @@ describe('Monoid', () => {
       a: monoidAll,
       b: monoidString
     })
-    assert.deepEqual(M.concat({ a: true, b: 'foo' }, M.empty), { a: true, b: 'foo' })
-    assert.deepEqual(M.concat({ a: true, b: 'foo' }, { a: false, b: 'bar' }), { a: false, b: 'foobar' })
+    assert.deepStrictEqual(M.concat({ a: true, b: 'foo' }, M.empty), { a: true, b: 'foo' })
+    assert.deepStrictEqual(M.concat({ a: true, b: 'foo' }, { a: false, b: 'bar' }), { a: false, b: 'foobar' })
   })
 
   it('getEndomorphismMonoid', () => {
@@ -74,14 +74,18 @@ describe('Monoid', () => {
       foo: 456,
       fff: 456
     }
-    const M = getDictionaryMonoid(semigroupSum)
-    const result = fold(M)([foo, bar])
-    const expected = {
+    const M1 = getDictionaryMonoid(semigroupSum)
+    assert.deepStrictEqual(fold(M1)([foo, bar]), {
       bar: foo.bar,
       foo: foo.foo + bar.foo,
       fff: bar.fff
-    }
-    assert.deepEqual(result, expected)
+    })
+    type Keys = 'a' | 'b'
+    const M2 = getDictionaryMonoid<Keys, number>(semigroupSum)
+    assert.deepStrictEqual(fold(M2)([{ a: 1, b: 2 }, { a: 3, b: 4 }]), {
+      a: 4,
+      b: 6
+    })
   })
 
   it('getMapMonoid', () => {
@@ -99,20 +103,20 @@ describe('Monoid', () => {
   })
   it('getArrayMonoid', () => {
     const M = getProductMonoid(monoidString, monoidSum)
-    assert.deepEqual(M.empty, ['', 0])
+    assert.deepStrictEqual(M.empty, ['', 0])
   })
 
   it('getMeetMonoid', () => {
     const M = getMeetMonoid(boundedNumber)
-    assert.deepEqual(fold(M)([]), +Infinity)
-    assert.deepEqual(fold(M)([1]), 1)
-    assert.deepEqual(fold(M)([1, -1]), -1)
+    assert.deepStrictEqual(fold(M)([]), +Infinity)
+    assert.deepStrictEqual(fold(M)([1]), 1)
+    assert.deepStrictEqual(fold(M)([1, -1]), -1)
   })
 
   it('getMeetMonoid', () => {
     const M = getJoinMonoid(boundedNumber)
-    assert.deepEqual(fold(M)([]), -Infinity)
-    assert.deepEqual(fold(M)([1]), 1)
-    assert.deepEqual(fold(M)([1, -1]), 1)
+    assert.deepStrictEqual(fold(M)([]), -Infinity)
+    assert.deepStrictEqual(fold(M)([1]), 1)
+    assert.deepStrictEqual(fold(M)([1, -1]), 1)
   })
 })

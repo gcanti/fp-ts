@@ -31,7 +31,7 @@ describe('Semigroup', () => {
       a: monoidAll,
       b: monoidString
     })
-    assert.deepEqual(S.concat({ a: true, b: 'foo' }, { a: false, b: 'bar' }), { a: false, b: 'foobar' })
+    assert.deepStrictEqual(S.concat({ a: true, b: 'foo' }, { a: false, b: 'bar' }), { a: false, b: 'foobar' })
   })
 
   it('getMeetSemigroup', () => {
@@ -43,11 +43,11 @@ describe('Semigroup', () => {
   })
 
   it('getProductSemigroup', () => {
-    assert.deepEqual(getProductSemigroup(monoidString, monoidSum).concat(['a', 2], ['b', 3]), ['ab', 5])
+    assert.deepStrictEqual(getProductSemigroup(monoidString, monoidSum).concat(['a', 2], ['b', 3]), ['ab', 5])
   })
 
   it('getArraySemigroup', () => {
-    assert.deepEqual(getArraySemigroup<number>().concat([1], [2]), [1, 2])
+    assert.deepStrictEqual(getArraySemigroup<number>().concat([1], [2]), [1, 2])
   })
 
   it('getDictionarySemigroup', () => {
@@ -67,7 +67,7 @@ describe('Semigroup', () => {
       foo: foo.foo + bar.foo,
       fff: bar.fff
     }
-    assert.deepEqual(result, expected)
+    assert.deepStrictEqual(result, expected)
   })
 
   it('getMapSemigroup', () => {
@@ -108,10 +108,10 @@ describe('Semigroup', () => {
   })
 
   it('getFirstSemigroup', () => {
-    assert.deepEqual(getFirstSemigroup<number>().concat(1, 2), 1)
+    assert.deepStrictEqual(getFirstSemigroup<number>().concat(1, 2), 1)
   })
 
   it('semigroupVoid', () => {
-    assert.deepEqual(semigroupVoid.concat(undefined, undefined), undefined)
+    assert.deepStrictEqual(semigroupVoid.concat(undefined, undefined), undefined)
   })
 })

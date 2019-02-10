@@ -61,21 +61,21 @@ describe('IxIO', () => {
     log = []
     const action = new Open().ichain(() => new Close()).ichain(() => new RingBell())
     action.run()
-    assert.deepEqual(log, ['Opening the door', 'Closing the door', 'Ringing the bell'])
+    assert.deepStrictEqual(log, ['Opening the door', 'Closing the door', 'Ringing the bell'])
   })
 
   it('iapplyFirst', () => {
     log = []
     const action = iapplyFirst(ixIO)(new Open(), new Close())
     action.run()
-    assert.deepEqual(log, ['Opening the door', 'Closing the door'])
+    assert.deepStrictEqual(log, ['Opening the door', 'Closing the door'])
   })
 
   it('iapplySecond', () => {
     log = []
     const action = iapplySecond(ixIO)(new Open(), new Close())
     action.run()
-    assert.deepEqual(log, ['Opening the door', 'Closing the door'])
+    assert.deepStrictEqual(log, ['Opening the door', 'Closing the door'])
   })
 
   it('map', () => {

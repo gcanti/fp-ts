@@ -9,7 +9,7 @@ title: Module Foldable2v
 
 # Foldable2v
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L35-L38)
+**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L36-L39)
 
 ```ts
 export interface Foldable2v<F> extends Foldable<F> {
@@ -24,7 +24,7 @@ Added in v1.10.0
 
 Find the first element which satisfies a predicate function
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L470-L479)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L471-L480)
 
 ```ts
 export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>  { ... }
@@ -38,7 +38,7 @@ import { Tree, tree } from 'fp-ts/lib/Tree'
 import { some } from 'fp-ts/lib/Option'
 
 const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
-assert.deepEqual(findFirst(tree)(t, a => a > 2), some(3))
+assert.deepStrictEqual(findFirst(tree)(t, a => a > 2), some(3))
 ```
 
 Added in v1.10.0
@@ -47,7 +47,7 @@ Added in v1.10.0
 
 A generalization of monoidal `fold`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L193-L195)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L194-L196)
 
 ```ts
 export function fold<M, F>(M: Monoid<M>, F: Foldable2v<F>): (fa: HKT<F, M>) => M  { ... }
@@ -72,7 +72,7 @@ Similar to 'reduce', but the result is encapsulated in a monad.
 
 Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L236-L241)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L237-L242)
 
 ```ts
 export function foldM<M, F>(
@@ -89,7 +89,7 @@ import { option, some } from 'fp-ts/lib/Option'
 import { Tree, tree } from 'fp-ts/lib/Tree'
 
 const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
-assert.deepEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
+assert.deepStrictEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
 ```
 
 Added in v1.10.0
@@ -98,7 +98,7 @@ Added in v1.10.0
 
 Returns the composition of two foldables
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L162-L172)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L163-L173)
 
 ```ts
 export function getFoldableComposition<F, G>(F: Foldable2v<F>, G: Foldable2v<G>): Foldable2vComposition<F, G>  { ... }
@@ -123,7 +123,7 @@ Added in v1.10.0
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L354-L360)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L355-L361)
 
 ```ts
 export function intercalate<M, F>(M: Monoid<M>, F: Foldable2v<F>): (sep: M, fm: HKT<F, M>) => M  { ... }
@@ -146,7 +146,7 @@ Added in v1.10.0
 
 Find the largest element of a structure, according to its `Ord` instance
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L526-L529)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L527-L530)
 
 ```ts
 export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>  { ... }
@@ -161,7 +161,7 @@ import { ordNumber } from 'fp-ts/lib/Ord'
 import { Tree, tree } from 'fp-ts/lib/Tree'
 
 const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
-assert.deepEqual(max(ordNumber, tree)(t), some(4))
+assert.deepStrictEqual(max(ordNumber, tree)(t), some(4))
 ```
 
 Added in v1.10.0
@@ -170,7 +170,7 @@ Added in v1.10.0
 
 Test whether a value is an element of a data structure
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L440-L442)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L441-L443)
 
 ```ts
 export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean  { ... }
@@ -194,7 +194,7 @@ Added in v1.10.0
 
 Find the smallest element of a structure, according to its `Ord` instance
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L501-L504)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L502-L505)
 
 ```ts
 export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>  { ... }
@@ -209,7 +209,7 @@ import { ordNumber } from 'fp-ts/lib/Ord'
 import { Tree, tree } from 'fp-ts/lib/Tree'
 
 const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
-assert.deepEqual(min(ordNumber, tree)(t), some(1))
+assert.deepStrictEqual(min(ordNumber, tree)(t), some(1))
 ```
 
 Added in v1.10.0
@@ -218,7 +218,7 @@ Added in v1.10.0
 
 Combines a collection of elements using the `Alt` operation
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L317-L319)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L318-L320)
 
 ```ts
 export function oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>  { ... }
@@ -231,7 +231,7 @@ import { array } from 'fp-ts/lib/Array'
 import { oneOf } from 'fp-ts/lib/Foldable2v'
 import { option, some } from 'fp-ts/lib/Option'
 
-assert.deepEqual(oneOf(option, array)([some(2), some(1)]), some(2))
+assert.deepStrictEqual(oneOf(option, array)([some(2), some(1)]), some(2))
 ```
 
 Added in v1.10.0
@@ -240,7 +240,7 @@ Added in v1.10.0
 
 Find the product of the numeric values in a data structure
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L407-L409)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L408-L410)
 
 ```ts
 export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A  { ... }
@@ -263,7 +263,7 @@ Added in v1.10.0
 
 Perform all of the effects in some data structure in the order given by the `Foldable2v` instance, ignoring the final result.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L279-L282)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L280-L283)
 
 ```ts
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>  { ... }
@@ -288,7 +288,7 @@ Added in v1.10.0
 
 Find the sum of the numeric values in a data structure
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L381-L383)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L382-L384)
 
 ```ts
 export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A  { ... }
@@ -311,7 +311,7 @@ Added in v1.10.0
 
 Transforms a foldable into an array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L549-L552)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L550-L553)
 
 ```ts
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A>  { ... }
@@ -324,7 +324,7 @@ import { toArray } from 'fp-ts/lib/Foldable2v'
 import { Tree, tree } from 'fp-ts/lib/Tree'
 
 const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
-assert.deepEqual(toArray(tree)(t), [1, 2, 3, 4])
+assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
 ```
 
 Added in v1.10.0
@@ -334,7 +334,7 @@ Added in v1.10.0
 Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
 final result.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L594-L602)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L595-L603)
 
 ```ts
 export function traverse_<M, F>(
