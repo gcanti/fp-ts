@@ -101,6 +101,8 @@ describe('Record', () => {
     const d2 = { k1: 2, k2: 3 }
     const t2 = R.traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
     assert.deepStrictEqual(t2, some({ k1: 2, k2: 3 }))
+    const t3 = R.traverseWithKey(option)({}, (k, n): Option<number> => none)
+    assert.strictEqual(t3.getOrElse({}), R.empty)
   })
 
   it('size', () => {
