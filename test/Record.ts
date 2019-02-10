@@ -147,6 +147,8 @@ describe('Record', () => {
     const y: Record<string, string | number> = { a: 1, b: 'foo' }
     const actual = R.filter(y, isNumber)
     assert.deepStrictEqual(actual, { a: 1 })
+
+    assert.strictEqual(R.filter(y, _ => true), y)
   })
 
   it('filterMap', () => {
