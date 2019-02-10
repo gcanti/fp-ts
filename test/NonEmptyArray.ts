@@ -363,4 +363,8 @@ describe('NonEmptyArray', () => {
       nonEmptyArray.traverseWithIndex(I.identity)(ta, (i, a) => new I.Identity(f(i, a))).value
     )
   })
+
+  it('toArrayMap', () => {
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).toArrayMap(s => s.length), [1, 2, 3])
+  })
 })
