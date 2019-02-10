@@ -170,7 +170,6 @@ describe('Map', () => {
   })
 
   it('filter', () => {
-    // const d = { a: 1, b: 3 }
     const d = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const b3 = new Map<'b', number>([['b', 3]])
     assert.deepEqual(M.filter(d, p), b3)
@@ -205,12 +204,12 @@ describe('Map', () => {
   })
 
   it('partitionMap', () => {
-    // const emptyMap = new Map<'a' | 'b', number>()
+    const emptyMap = new Map<'a' | 'b', number>()
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const a0 = new Map<'a', number>([['a', 0]])
     const b4 = new Map<'b', number>([['b', 4]])
     const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    // assert.deepEqual(M.partitionMap(emptyMap, f), { left: emptyMap, right: emptyMap })
+    assert.deepEqual(M.partitionMap(emptyMap, f), { left: emptyMap, right: emptyMap })
     assert.deepEqual(M.partitionMap(a1b3, f), {
       left: a0,
       right: b4
@@ -218,12 +217,12 @@ describe('Map', () => {
   })
 
   it('wither', () => {
-    // const emptyMap = new Map<'a' | 'b', number>()
+    const emptyMap = new Map<'a' | 'b', number>()
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const b4 = new Map<'b', number>([['b', 4]])
     const witherIdentity = M.wither(I.identity)
     const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
-    // assert.deepEqual(witherIdentity(emptyMap, f), new I.Identity(emptyMap))
+    assert.deepEqual(witherIdentity(emptyMap, f), new I.Identity(emptyMap))
     assert.deepEqual(witherIdentity(a1b3, f), new I.Identity(b4))
   })
 
