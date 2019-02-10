@@ -108,9 +108,9 @@ describe('Map', () => {
     const d1 = new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])
     const t1 = M.traverseWithKey(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
     assert.deepStrictEqual(t1, none)
-    const d2 = new Map<'k1' | 'k2' | 'k3', number>([['k1', 5], ['k2', 3]])
+    const d2 = new Map<'k1' | 'k2' | 'k3', number>([['k1', 2], ['k2', 3]])
     const t2 = M.traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
-    const expected = new Map<'k1' | 'k2', number>([['k1', 4], ['k2', 3]])
+    const expected = new Map<'k1' | 'k2', number>([['k1', 2], ['k2', 3]])
     assert.deepStrictEqual(t2, some(expected))
   })
 
