@@ -1,6 +1,6 @@
 import { Ordering, semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
-import { Setoid, getProductSetoid, setoidBoolean, setoidNumber, setoidString } from './Setoid'
+import { Setoid, setoidBoolean, setoidNumber, setoidString } from './Setoid'
 import { on } from './function'
 
 /**
@@ -157,14 +157,10 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
  * @since 1.0.0
  */
 export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
-  const S = getProductSetoid(OA, OB)
-  return {
-    ...S,
-    compare: ([xa, xb], [ya, yb]) => {
-      const r = OA.compare(xa, ya)
-      return r === 0 ? OB.compare(xb, yb) : r
-    }
-  }
+  return fromCompare(([xa, xb], [ya, yb]) => {
+    const r = OA.compare(xa, ya)
+    return r === 0 ? OB.compare(xb, yb) : r
+  })
 }
 
 /**

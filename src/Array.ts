@@ -12,8 +12,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
-import { getSemigroup, Ord, ordNumber } from './Ord'
-import { Ordering } from './Ordering'
+import { getSemigroup, Ord, ordNumber, fromCompare } from './Ord'
 import { Plus1 } from './Plus'
 import { getArraySetoid, Setoid } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
@@ -98,21 +97,18 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
  * @since 1.2.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => {
-  return {
-    ...getSetoid(O),
-    compare: (a: Array<A>, b: Array<A>): Ordering => {
-      const aLen = a.length
-      const bLen = b.length
-      const len = Math.min(aLen, bLen)
-      for (let i = 0; i < len; i++) {
-        const order = O.compare(a[i], b[i])
-        if (order !== 0) {
-          return order
-        }
+  return fromCompare((a, b) => {
+    const aLen = a.length
+    const bLen = b.length
+    const len = Math.min(aLen, bLen)
+    for (let i = 0; i < len; i++) {
+      const order = O.compare(a[i], b[i])
+      if (order !== 0) {
+        return order
       }
-      return ordNumber.compare(aLen, bLen)
     }
-  }
+    return ordNumber.compare(aLen, bLen)
+  })
 }
 
 const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
