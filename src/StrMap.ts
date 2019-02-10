@@ -332,7 +332,8 @@ export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, 
  * @since 1.0.0
  */
 export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
-  return new StrMap(R.insert(k, a, d.value))
+  const value = R.insert(k, a, d.value)
+  return value === d.value ? d : new StrMap(value)
 }
 
 /**
@@ -341,7 +342,8 @@ export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
  * @since 1.0.0
  */
 export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
-  return new StrMap(R.remove(k, d.value))
+  const value = R.remove(k, d.value)
+  return value === d.value ? d : new StrMap(value)
 }
 
 /**
