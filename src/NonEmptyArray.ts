@@ -461,6 +461,13 @@ export class NonEmptyArray<A> {
     const t = array.filterWithIndex(this.tail, (i, a) => predicate(i + 1, a))
     return predicate(0, this.head) ? some(new NonEmptyArray(this.head, t)) : fromArray(t)
   }
+
+  /**
+   * @since 1.14.0
+   */
+  some(predicate: Predicate<A>): boolean {
+    return predicate(this.head) || this.tail.some(a => predicate(a))
+  }
 }
 
 const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {

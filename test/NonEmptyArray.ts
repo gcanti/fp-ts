@@ -367,4 +367,10 @@ describe('NonEmptyArray', () => {
   it('toArrayMap', () => {
     assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).toArrayMap(s => s.length), [1, 2, 3])
   })
+
+  it('some', () => {
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).some(s => s.length === 1), true)
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).some(s => s.length === 2), true)
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).some(s => s.length === 4), false)
+  })
 })
