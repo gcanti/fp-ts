@@ -81,7 +81,7 @@ describe('Semigroup', () => {
       ['foo', foo.get('foo')! + bar.get('foo')!],
       ['fff', bar.get('fff')!]
     ])
-    assert.deepEqual(result, expected)
+    assert.deepStrictEqual(result, expected)
   })
 
   it('getObjectSemigroup', () => {
