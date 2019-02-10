@@ -9,7 +9,7 @@ import { identity, Lazy, not, Predicate, Refinement, toString } from './function
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { getDualMonoid, Monoid } from './Monoid'
-import { Ord } from './Ord'
+import { Ord, fromCompare } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
@@ -448,10 +448,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
  * @since 1.2.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
-  return {
-    ...getSetoid(O),
-    compare: (x, y) => (x.isSome() ? (y.isSome() ? O.compare(x.value, y.value) : 1) : y.isSome() ? -1 : 0)
-  }
+  return fromCompare((x, y) => (x.isSome() ? (y.isSome() ? O.compare(x.value, y.value) : 1) : y.isSome() ? -1 : 0))
 }
 
 const map = <A, B>(fa: Option<A>, f: (a: A) => B): Option<B> => {

@@ -4,7 +4,7 @@ import { Foldable2v1 } from './Foldable2v'
 import { Endomorphism } from './function'
 import { HKT } from './HKT'
 import { Monoid } from './Monoid'
-import { Ord } from './Ord'
+import { Ord, fromCompare } from './Ord'
 import { semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
@@ -109,10 +109,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => {
  * @since 1.0.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => {
-  return {
-    ...getSetoid(O),
-    compare: (x, y) => semigroupOrdering.concat(O.compare(x.fst, y.fst), O.compare(x.snd, y.snd))
-  }
+  return fromCompare((x, y) => semigroupOrdering.concat(O.compare(x.fst, y.fst), O.compare(x.snd, y.snd)))
 }
 
 /**
