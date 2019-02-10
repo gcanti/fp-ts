@@ -9,7 +9,7 @@ title: Module Record
 
 ## empty
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L155-L155)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L152-L152)
 
 ```ts
 export const empty: Record<string, never> = ...
@@ -29,7 +29,7 @@ Added in v1.10.0
 
 ## compact
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L340-L350)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L337-L347)
 
 ```ts
 export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => { ... }
@@ -39,7 +39,7 @@ Added in v1.10.0
 
 ## filter
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L148-L150)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L145-L147)
 
 ```ts
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A>  { ... }
@@ -49,7 +49,7 @@ Added in v1.10.0
 
 ## filterMap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L475-L477)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L472-L474)
 
 ```ts
 export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => { ... }
@@ -59,7 +59,7 @@ Added in v1.10.0
 
 ## filterMapWithIndex
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L551-L564)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L548-L561)
 
 ```ts
 export function filterMapWithIndex<A, B>(
@@ -72,7 +72,7 @@ Added in v1.12.0
 
 ## filterWithIndex
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L571-L581)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L568-L578)
 
 ```ts
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>  { ... }
@@ -82,7 +82,7 @@ Added in v1.12.0
 
 ## foldMap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L190-L193)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L187-L190)
 
 ```ts
 export const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M) => { ... }
@@ -92,7 +92,7 @@ Added in v1.10.0
 
 ## foldMapWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L221-L230)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L218-L227)
 
 ```ts
 export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (k: string, a: A) => M): M => { ... }
@@ -102,7 +102,7 @@ Added in v1.12.0
 
 ## foldr
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L198-L200)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L195-L197)
 
 ```ts
 export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => { ... }
@@ -112,7 +112,7 @@ Added in v1.10.0
 
 ## foldrWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L237-L246)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L234-L243)
 
 ```ts
 export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B  { ... }
@@ -125,7 +125,7 @@ Added in v1.12.0
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L601-L610)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L598-L607)
 
 ```ts
 export function fromFoldable<F>(
@@ -137,7 +137,7 @@ Added in v1.10.0
 
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L131-L133)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L128-L130)
 
 ```ts
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> => { ... }
@@ -147,7 +147,7 @@ Added in v1.10.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L121-L126)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L121-L124)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Record<string, A>> => { ... }
@@ -195,7 +195,7 @@ Added in v1.10.0
 
 Lookup the value for a key in a dictionary
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L139-L141)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L136-L138)
 
 ```ts
 export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => { ... }
@@ -205,7 +205,7 @@ Added in v1.10.0
 
 ## map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L176-L178)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L173-L175)
 
 ```ts
 export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B>  { ... }
@@ -215,7 +215,7 @@ Added in v1.10.0
 
 ## mapWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L162-L169)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L159-L166)
 
 ```ts
 export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B>  { ... }
@@ -225,7 +225,7 @@ Added in v1.10.0
 
 ## partition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L365-L370)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L362-L367)
 
 ```ts
 export const partition = <A>(
@@ -238,7 +238,7 @@ Added in v1.10.0
 
 ## partitionMap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L355-L360)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L352-L357)
 
 ```ts
 export const partitionMap = <RL, RR, A>(
@@ -251,7 +251,7 @@ Added in v1.10.0
 
 ## partitionMapWithIndex
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L490-L509)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L487-L506)
 
 ```ts
 export function partitionMapWithIndex<RL, RR, A>(
@@ -264,7 +264,7 @@ Added in v1.12.0
 
 ## partitionWithIndex
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L522-L541)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L519-L538)
 
 ```ts
 export function partitionWithIndex<A>(
@@ -289,7 +289,7 @@ Added in v1.10.0
 
 ## reduce
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L183-L185)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L180-L182)
 
 ```ts
 export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => { ... }
@@ -299,7 +299,7 @@ Added in v1.10.0
 
 ## reduceWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L207-L216)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L204-L213)
 
 ```ts
 export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B  { ... }
@@ -321,7 +321,7 @@ Added in v1.10.0
 
 ## separate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L375-L393)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L372-L390)
 
 ```ts
 export const separate = <RL, RR>(
@@ -333,7 +333,7 @@ Added in v1.10.0
 
 ## sequence
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L332-L335)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L329-L332)
 
 ```ts
 export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>>  { ... }
@@ -345,7 +345,7 @@ Added in v1.10.0
 
 Create a dictionary with one key/value pair
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L253-L255)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L250-L252)
 
 ```ts
 export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => { ... }
@@ -389,7 +389,7 @@ Added in v1.10.0
 
 ## traverse
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L306-L311)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L303-L308)
 
 ```ts
 export function traverse<F>(
@@ -401,7 +401,7 @@ Added in v1.10.0
 
 ## traverseWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L272-L283)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L269-L280)
 
 ```ts
 export function traverseWithKey<F>(
@@ -413,7 +413,7 @@ Added in v1.10.0
 
 ## wilt
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L462-L470)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L459-L467)
 
 ```ts
 export function wilt<F>(
@@ -428,7 +428,7 @@ Added in v1.10.0
 
 ## wither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L416-L421)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L413-L418)
 
 ```ts
 export function wither<F>(

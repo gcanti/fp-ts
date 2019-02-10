@@ -172,7 +172,7 @@ Added in v1.0.0
 
 ## strmap
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L418-L449)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L416-L447)
 
 ```ts
 export const strmap: FunctorWithIndex1<URI, string> &
@@ -188,7 +188,7 @@ Added in v1.0.0
 
 ## collect
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L305-L307)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L303-L305)
 
 ```ts
 export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B> => { ... }
@@ -201,7 +201,7 @@ Added in v1.0.0
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L294-L299)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L292-L297)
 
 ```ts
 export function fromFoldable<F>(
@@ -223,7 +223,7 @@ Added in v1.0.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L253-L258)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L253-L256)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => { ... }
@@ -235,7 +235,7 @@ Added in v1.0.0
 
 Insert or replace a key/value pair in a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L332-L334)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L330-L332)
 
 ```ts
 export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => { ... }
@@ -271,7 +271,7 @@ Added in v1.0.0
 
 Lookup the value for a key in a dictionary
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L274-L276)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L272-L274)
 
 ```ts
 export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => { ... }
@@ -283,7 +283,7 @@ Added in v1.0.0
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L350-L352)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L348-L350)
 
 ```ts
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => { ... }
@@ -295,7 +295,7 @@ Added in v1.0.0
 
 Delete a key and value from a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L341-L343)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L339-L341)
 
 ```ts
 export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => { ... }
@@ -307,7 +307,7 @@ Added in v1.0.0
 
 Create a dictionary with one key/value pair
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L265-L267)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L263-L265)
 
 ```ts
 export const singleton = <A>(k: string, a: A): StrMap<A> => { ... }
@@ -329,7 +329,7 @@ Added in v1.0.0
 
 ## toArray
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L313-L315)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L311-L313)
 
 ```ts
 export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => { ... }
@@ -341,7 +341,7 @@ Added in v1.0.0
 
 Unfolds a dictionary into a list of key/value pairs
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L322-L325)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L320-L323)
 
 ```ts
 export const toUnfoldable = <F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) => { ... }

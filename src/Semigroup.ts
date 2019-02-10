@@ -147,6 +147,26 @@ export const getDictionarySemigroup = <A>(S: Semigroup<A>): Semigroup<{ [key: st
   }
 }
 
+/**
+ * Gets {@link Semigroup} instance for Maps given {@link Semigroup} instance for their values
+ *
+ * @since 1.14.0
+ */
+export const getMapSemigroup = <K, A>(S: Semigroup<A>): Semigroup<Map<K, A>> => {
+  return {
+    concat: (x, y) => {
+      const r = new Map(x)
+      const keys = Array.from(y.keys())
+      const len = keys.length
+      for (let i = 0; i < len; i++) {
+        const k = keys[i]
+        r.set(k, x.has(k) ? S.concat(x.get(k)!, y.get(k)!) : y.get(k)!)
+      }
+      return r
+    }
+  }
+}
+
 const semigroupAnyDictionary = getDictionarySemigroup(getLastSemigroup())
 
 /**
