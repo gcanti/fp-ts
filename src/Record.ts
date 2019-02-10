@@ -76,6 +76,9 @@ export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string
 export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A>
 export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A>
 export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A> {
+  if (d[k] === a) {
+    return d
+  }
   const r = Object.assign({}, d)
   r[k] = a
   return r
@@ -92,6 +95,9 @@ export function remove<KS extends string, K extends string, A>(
 ): Record<string extends K ? string : Exclude<KS, K>, A>
 export function remove<A>(k: string, d: Record<string, A>): Record<string, A>
 export function remove<A>(k: string, d: Record<string, A>): Record<string, A> {
+  if (!d.hasOwnProperty(k)) {
+    return d
+  }
   const r = Object.assign({}, d)
   delete r[k]
   return r
