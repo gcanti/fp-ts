@@ -275,10 +275,19 @@ export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>> {
   return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
-    let fr: HKT<F, Record<string, B>> = F.of(empty)
     const keys = Object.keys(ta)
+    if (keys.length === 0) {
+      return F.of(empty)
+    }
+    let fr: HKT<F, Record<string, B>> = F.of({})
     for (const key of keys) {
-      fr = F.ap(F.map(fr, r => (b: B) => ({ ...r, [key]: b })), f(key, ta[key]))
+      fr = F.ap(
+        F.map(fr, r => (b: B) => {
+          r[key] = b
+          return r
+        }),
+        f(key, ta[key])
+      )
     }
     return fr
   }
