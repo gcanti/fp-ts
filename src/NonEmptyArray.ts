@@ -14,7 +14,7 @@ import {
 
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
-import { compose, concat as uncurriedConcat, toString, Refinement, Predicate } from './function'
+import { compose, toString, Refinement, Predicate } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -48,7 +48,7 @@ export class NonEmptyArray<A> {
   constructor(readonly head: A, readonly tail: Array<A>) {}
 
   /**
-   * Converts this {@link NonEmptyArray} to plain {@link Array}
+   * Converts this {@link NonEmptyArray} to a plain {@link Array}
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -56,7 +56,21 @@ export class NonEmptyArray<A> {
    * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).toArray(), [1, 2, 3])
    */
   toArray(): Array<A> {
-    return uncurriedConcat([this.head], this.tail)
+    return [this.head, ...this.tail]
+  }
+
+  /**
+   * Converts this {@link NonEmptyArray} to a plain {@link Array} using the given map function
+   *
+   * @example
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   *
+   * assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).toArrayMap(s => s.length), [1, 2, 3])
+   *
+   * @since 1.14.0
+   */
+  toArrayMap<B>(f: (a: A) => B): Array<B> {
+    return [f(this.head), ...this.tail.map(a => f(a))]
   }
 
   /**
@@ -68,7 +82,7 @@ export class NonEmptyArray<A> {
    * assert.deepStrictEqual(new NonEmptyArray<number>(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
    */
   concatArray(as: Array<A>): NonEmptyArray<A> {
-    return new NonEmptyArray(this.head, uncurriedConcat(this.tail, as))
+    return new NonEmptyArray(this.head, [...this.tail, ...as])
   }
 
   /**
