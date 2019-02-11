@@ -292,15 +292,24 @@ export class NonEmptyArray<A> {
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some, none } from 'fp-ts/lib/Option'
    *
-   * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).index(1), some(2))
-   * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).index(3), none)
+   * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).lookup(1), some(2))
+   * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).lookup(3), none)
    *
-   * @since 1.11.0
+   * @since 1.14.0
    */
 
-  index(i: number): Option<A> {
+  lookup(i: number): Option<A> {
     return i === 0 ? some(this.head) : lookup(i - 1, this.tail)
   }
+
+  /**
+   * @since 1.11.0
+   * @deprecated
+   */
+  index(i: number): Option<A> {
+    return this.lookup(i)
+  }
+
   /**
    * Find the first element which satisfies a predicate (or a refinement) function
    *

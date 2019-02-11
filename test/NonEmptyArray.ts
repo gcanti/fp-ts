@@ -190,9 +190,13 @@ describe('NonEmptyArray', () => {
 
   it('index', () => {
     const arr = new NonEmptyArray(1, [2, 3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(arr.index(-1), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(arr.index(0), some(1))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(arr.index(3), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(arr.index(1), some(2))
   })
 
