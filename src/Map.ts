@@ -54,9 +54,9 @@ export const collect = <K>(O: Ord<K>) => <A, B>(d: Map<K, A>, f: (k: K, a: A) =>
   const out: Array<B> = []
   const ks = keys(O)(d)
   for (let key of ks) {
-    const val = d.get(key)
-    if (val !== undefined) {
-      out.push(f(key, val))
+    const o = lookupWithKey(O)(key, d)
+    if (o.isSome()) {
+      out.push(f(key, o.value[1]))
     }
   }
   return out
