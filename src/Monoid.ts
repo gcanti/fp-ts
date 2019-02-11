@@ -7,7 +7,6 @@ import {
   getDualSemigroup,
   getFunctionSemigroup,
   getJoinSemigroup,
-  getMapSemigroup,
   getMeetSemigroup,
   getProductSemigroup,
   getRecordSemigroup,
@@ -112,18 +111,6 @@ export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]:
   return {
     ...getDictionarySemigroup(S),
     empty: emptyObject
-  }
-}
-
-/**
- * Gets {@link Monoid} instance for Maps given {@link Semigroup} instance for their values
- *
- * @since 1.14.0
- */
-export const getMapMonoid = <K, A>(S: Semigroup<A>): Monoid<Map<K, A>> => {
-  return {
-    ...getMapSemigroup(S),
-    empty: new Map<K, A>()
   }
 }
 
