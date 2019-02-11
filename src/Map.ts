@@ -627,7 +627,8 @@ export function fromFoldable<F>(
 ): <K>(S: Setoid<K>) => <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> {
   return <K>(S: Setoid<K>) => <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => {
     return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
-      b.set(k, b.has(k) ? f(b.get(k)!, a) : a)
+      const bOpt = lookupWithKey(S)(k, b)
+      b.set(k, bOpt.isSome() ? f(bOpt.value[1], a) : a)
       return b
     })
   }
