@@ -150,10 +150,6 @@ describe('Record', () => {
     const actual = R.filter(y, isNumber)
     assert.deepStrictEqual(actual, { a: 1 })
 
-    const z: Record<string, string | number> = { b: 1, a: 'foo', c: 'bar' }
-    const actual2 = R.filter(z, isNumber)
-    assert.deepStrictEqual(actual2, { b: 1 })
-
     assert.strictEqual(R.filter(y, _ => true), y)
   })
 
