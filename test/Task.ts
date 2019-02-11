@@ -97,11 +97,30 @@ describe('Task', () => {
     })
   })
 
-  it('fromIO', () => {
-    const io = new IO(() => 1)
-    const task = fromIO(io)
-    return task.run().then(a => {
-      assert.strictEqual(a, 1)
+  describe('fromIO', () => {
+    it('should work', () => {
+      const io = new IO(() => 1)
+      const task = fromIO(io)
+      return task.run().then(a => {
+        assert.strictEqual(a, 1)
+      })
+    })
+    it('does not throw, but rejects instead', () => {
+      const ioThrowError = new IO(() => {
+        throw new Error('ouch!')
+      })
+      const task = fromIO(ioThrowError)
+      const noop = () => undefined
+      assert.doesNotThrow(() => task.run().catch(noop))
+      return task.run().then(
+        () => {
+          assert.fail('Unexpected condition')
+        },
+        e => {
+          assert(e instanceof Error)
+          assert.strictEqual(e.message, 'ouch!')
+        }
+      )
     })
   })
 
