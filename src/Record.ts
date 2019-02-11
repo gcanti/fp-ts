@@ -275,10 +275,19 @@ export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>> {
   return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
-    let fr: HKT<F, Record<string, B>> = F.of(empty)
     const keys = Object.keys(ta)
+    if (keys.length === 0) {
+      return F.of(empty)
+    }
+    let fr: HKT<F, Record<string, B>> = F.of({})
     for (const key of keys) {
-      fr = F.ap(F.map(fr, r => (b: B) => ({ ...r, [key]: b })), f(key, ta[key]))
+      fr = F.ap(
+        F.map(fr, r => (b: B) => {
+          r[key] = b
+          return r
+        }),
+        f(key, ta[key])
+      )
     }
     return fr
   }
@@ -572,14 +581,18 @@ export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: 
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
   const r: Record<string, A> = {}
-  const keys = Object.keys(fa)
-  for (const key of keys) {
-    const a = fa[key]
-    if (p(key, a)) {
-      r[key] = a
+  let changed = false
+  for (const key in fa) {
+    if (fa.hasOwnProperty(key)) {
+      const a = fa[key]
+      if (p(key, a)) {
+        r[key] = a
+      } else {
+        changed = true
+      }
     }
   }
-  return r
+  return changed ? r : fa
 }
 
 /**

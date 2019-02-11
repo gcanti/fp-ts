@@ -101,6 +101,8 @@ describe('Record', () => {
     const d2 = { k1: 2, k2: 3 }
     const t2 = R.traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
     assert.deepStrictEqual(t2, some({ k1: 2, k2: 3 }))
+    const t3 = R.traverseWithKey(option)({}, (k, n): Option<number> => none)
+    assert.strictEqual(t3.getOrElse({}), R.empty)
   })
 
   it('size', () => {
@@ -147,6 +149,11 @@ describe('Record', () => {
     const y: Record<string, string | number> = { a: 1, b: 'foo' }
     const actual = R.filter(y, isNumber)
     assert.deepStrictEqual(actual, { a: 1 })
+
+    assert.strictEqual(R.filter(y, _ => true), y)
+
+    const x = Object.assign(Object.create({ c: true }), { a: 1, b: 'foo' })
+    assert.deepStrictEqual(R.filter(x, isNumber), { a: 1 })
   })
 
   it('filterMap', () => {
