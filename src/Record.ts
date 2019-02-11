@@ -580,25 +580,19 @@ export function filterMapWithIndex<A, B>(
 export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
-  let r: Record<string, A> | null = null
-  const keys = Object.keys(fa)
-  for (const key of keys) {
-    const a = fa[key]
-    if (p(key, a)) {
-      if (r !== null) {
+  const r: Record<string, A> = {}
+  let changed = false
+  for (const key in fa) {
+    if (fa.hasOwnProperty(key)) {
+      const a = fa[key]
+      if (p(key, a)) {
         r[key] = a
-      }
-    } else if (r === null) {
-      r = {}
-      for (const k of keys) {
-        if (k === key) {
-          break
-        }
-        r[k] = fa[k]
+      } else {
+        changed = true
       }
     }
   }
-  return r === null ? fa : r
+  return changed ? r : fa
 }
 
 /**
