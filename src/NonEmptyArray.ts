@@ -3,7 +3,7 @@ import {
   array,
   last,
   sort,
-  index as arrayIndex,
+  lookup,
   findFirst as arrayFindFirst,
   findIndex as arrayFindIndex,
   insertAt as arrayInsertAt,
@@ -299,7 +299,7 @@ export class NonEmptyArray<A> {
    */
 
   index(i: number): Option<A> {
-    return i === 0 ? some(this.head) : arrayIndex(i - 1, this.tail)
+    return i === 0 ? some(this.head) : lookup(i - 1, this.tail)
   }
   /**
    * Find the first element which satisfies a predicate (or a refinement) function

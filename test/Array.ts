@@ -153,7 +153,9 @@ describe('Array', () => {
   })
 
   it('index', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(index(1, as), some(2))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(index(3, as), none)
   })
 

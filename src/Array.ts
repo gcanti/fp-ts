@@ -444,16 +444,25 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
  * This function provides a safe way to read a value at a particular index from an array
  *
  * @example
- * import { index } from 'fp-ts/lib/Array'
+ * import { lookup } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(index(1, [1, 2, 3]), some(2))
- * assert.deepStrictEqual(index(3, [1, 2, 3]), none)
+ * assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
+ * assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
  *
+ * @since 1.14.0
+ */
+export const lookup = <A>(i: number, as: Array<A>): Option<A> => {
+  return isOutOfBound(i, as) ? none : some(as[i])
+}
+
+/**
+ * Use {@link lookup} instead
  * @since 1.0.0
+ * @deprecated
  */
 export const index = <A>(i: number, as: Array<A>): Option<A> => {
-  return isOutOfBound(i, as) ? none : some(as[i])
+  return lookup(i, as)
 }
 
 /**
@@ -525,7 +534,7 @@ export const head = <A>(as: Array<A>): Option<A> => {
  * @since 1.0.0
  */
 export const last = <A>(as: Array<A>): Option<A> => {
-  return index(as.length - 1, as)
+  return lookup(as.length - 1, as)
 }
 
 /**
