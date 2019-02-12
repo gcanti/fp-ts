@@ -224,8 +224,8 @@ function sequence<F>(F: Applicative<F>): <A>(ta: StrMap<HKT<F, A>>) => HKT<F, St
  * @since 1.0.0
  */
 export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => {
-  const isSubdictionaryS = R.isSubdictionary(S)
-  return (d1, d2) => isSubdictionaryS(d1.value, d2.value)
+  const isSubrecordS = R.isSubrecord(S)
+  return (d1, d2) => isSubrecordS(d1.value, d2.value)
 }
 
 /**
@@ -251,8 +251,8 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
  * @since 1.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
-  const isSubdictionaryS = R.isSubdictionary(S)
-  return fromEquals((x, y) => isSubdictionaryS(x.value, y.value) && isSubdictionaryS(y.value, x.value))
+  const isSubrecordS = R.isSubrecord(S)
+  return fromEquals((x, y) => isSubrecordS(x.value, y.value) && isSubrecordS(y.value, x.value))
 }
 
 /**
