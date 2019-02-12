@@ -116,8 +116,11 @@ describe('Set', () => {
   })
 
   it('member', () => {
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(member(setoidNumber)(new Set([1, 2, 3]))(1), true)
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(member(setoidNumber)(new Set([1, 2, 3]))(4), false)
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(member(setoidNumber)(new Set<number>([]))(4), false)
   })
 

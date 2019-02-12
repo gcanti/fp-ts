@@ -48,16 +48,18 @@ export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
  *
  * @since 1.2.0
  */
-export const map = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => B): Set<B> => {
-  const r = new Set<B>()
-  const ismember = member(bset)(r)
-  x.forEach(e => {
-    const v = f(e)
-    if (!ismember(v)) {
-      r.add(v)
-    }
-  })
-  return r
+export const map = <B>(S: Setoid<B>): (<A>(set: Set<A>, f: (x: A) => B) => Set<B>) => {
+  const has = isMember(S)
+  return (set, f) => {
+    const r = new Set<B>()
+    set.forEach(e => {
+      const v = f(e)
+      if (!has(v, r)) {
+        r.add(v)
+      }
+    })
+    return r
+  }
 }
 
 /**
@@ -70,17 +72,19 @@ export const every = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
 /**
  * @since 1.2.0
  */
-export const chain = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => Set<B>): Set<B> => {
-  let r = new Set<B>()
-  const rhas = member(bset)(r)
-  x.forEach(e => {
-    f(e).forEach(e => {
-      if (!rhas(e)) {
-        r.add(e)
-      }
+export const chain = <B>(S: Setoid<B>): (<A>(set: Set<A>, f: (x: A) => Set<B>) => Set<B>) => {
+  const has = isMember(S)
+  return (set, f) => {
+    let r = new Set<B>()
+    set.forEach(e => {
+      f(e).forEach(e => {
+        if (!has(e, r)) {
+          r.add(e)
+        }
+      })
     })
-  })
-  return r
+    return r
+  }
 }
 
 /**
@@ -88,8 +92,9 @@ export const chain = <B>(bset: Setoid<B>) => <A>(x: Set<A>, f: (x: A) => Set<B>)
  *
  * @since 1.0.0
  */
-export const subset = <A>(S: Setoid<A>) => (x: Set<A>, y: Set<A>): boolean => {
-  return every(x, member(S)(y))
+export const subset = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => boolean) => {
+  const has = isMember(S)
+  return (x, y) => every(x, a => has(a, y))
 }
 
 /**
@@ -134,11 +139,21 @@ export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<
 }
 
 /**
+ * Use {@link isMember} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+export const member = <A>(S: Setoid<A>): ((set: Set<A>) => (a: A) => boolean) => {
+  const has = isMember(S)
+  return set => a => has(a, set)
+}
+
+/**
  * Test if a value is a member of a set
  *
- * @since 1.0.0
+ * @since 1.14.0
  */
-export const member = <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean => {
+export const isMember = <A>(S: Setoid<A>) => (a: A, x: Set<A>): boolean => {
   return some(x, (ax: A) => S.equals(a, ax))
 }
 
@@ -148,12 +163,11 @@ export const member = <A>(S: Setoid<A>) => (x: Set<A>) => (a: A): boolean => {
  * @since 1.0.0
  */
 export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const memberS = member(S)
+  const has = isMember(S)
   return (x, y) => {
-    const xhas = memberS(x)
     const r = new Set(x)
     y.forEach(e => {
-      if (!xhas(e)) {
+      if (!has(e, r)) {
         r.add(e)
       }
     })
@@ -167,12 +181,11 @@ export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
  * @since 1.0.0
  */
 export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const memberS = member(S)
+  const has = isMember(S)
   return (x, y) => {
-    const yhas = memberS(y)
     const r = new Set()
     x.forEach(e => {
-      if (yhas(e)) {
+      if (has(e, y)) {
         r.add(e)
       }
     })
@@ -191,17 +204,17 @@ export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
   let e: IteratorResult<A>
   let left = new Set()
   let right = new Set()
-  const isMemberL = member(SL)(left)
-  const isMemberR = member(SR)(right)
+  const hasL = isMember(SL)
+  const hasR = isMember(SR)
   // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const v = f(e.value)
     if (v.isLeft()) {
-      if (!isMemberL(v.value)) {
+      if (!hasL(v.value, left)) {
         left.add(v.value)
       }
     } else {
-      if (!isMemberR(v.value)) {
+      if (!hasR(v.value, right)) {
         right.add(v.value)
       }
     }
@@ -233,8 +246,8 @@ export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) 
  * @since 1.12.0
  */
 export const difference2v = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const has = member(S)
-  return (x, y) => filter(x, not(has(y)))
+  const has = isMember(S)
+  return (x, y) => filter(x, a => !has(a, y))
 }
 
 /**
@@ -279,9 +292,9 @@ export const singleton = <A>(a: A): Set<A> => {
  * @since 1.0.0
  */
 export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => {
-  const memberS = member(S)
+  const has = isMember(S)
   return (a, x) => {
-    if (!memberS(x)(a)) {
+    if (!has(a, x)) {
       const r = new Set(x)
       r.add(a)
       return r
@@ -308,10 +321,10 @@ export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => {
 export const fromArray = <A>(S: Setoid<A>) => (as: Array<A>): Set<A> => {
   const len = as.length
   const r = new Set<A>()
-  const isMember = member(S)(r)
+  const has = isMember(S)
   for (let i = 0; i < len; i++) {
     const a = as[i]
-    if (!isMember(a)) {
+    if (!has(a, r)) {
       r.add(a)
     }
   }
@@ -330,19 +343,17 @@ export const compact = <A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>) => {
  * @since 1.12.0
  */
 export const separate = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<L, R>>): Separated<Set<L>, Set<R>> => {
-  const memberSL = member(SL)
-  const memberSR = member(SR)
+  const hasL = isMember(SL)
+  const hasR = isMember(SR)
   const left: Set<L> = new Set()
   const right: Set<R> = new Set()
-  const isMemberL = memberSL(left)
-  const isMemberR = memberSR(right)
   fa.forEach(e => {
     if (e.isLeft()) {
-      if (!isMemberL(e.value)) {
+      if (!hasL(e.value, left)) {
         left.add(e.value)
       }
     } else {
-      if (!isMemberR(e.value)) {
+      if (!hasR(e.value, right)) {
         right.add(e.value)
       }
     }
@@ -354,13 +365,12 @@ export const separate = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<
  * @since 1.12.0
  */
 export const filterMap = <B>(S: Setoid<B>): (<A>(fa: Set<A>, f: (a: A) => Option<B>) => Set<B>) => {
-  const memberS = member(S)
+  const has = isMember(S)
   return (fa, f) => {
     const r: Set<B> = new Set()
-    const isMember = memberS(r)
     fa.forEach(a => {
       const ob = f(a)
-      if (ob.isSome() && !isMember(ob.value)) {
+      if (ob.isSome() && !has(ob.value, r)) {
         r.add(ob.value)
       }
     })
