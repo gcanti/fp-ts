@@ -11,7 +11,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Record'
-import { getDictionarySemigroup, getLastSemigroup, Semigroup } from './Semigroup'
+import { getLastSemigroup, Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
@@ -140,7 +140,7 @@ export class StrMap<A> {
 const empty: StrMap<never> = new StrMap(R.empty)
 
 const concat = <A>(S: Semigroup<A>): ((x: StrMap<A>, y: StrMap<A>) => StrMap<A>) => {
-  const concat = getDictionarySemigroup(S).concat
+  const concat = R.getMonoid(S).concat
   return (x, y) => new StrMap(concat(x.value, y.value))
 }
 
