@@ -59,6 +59,7 @@ describe('Semigroup', () => {
       foo: 456,
       fff: 456
     }
+    // tslint:disable-next-line: deprecation
     const S = getDictionarySemigroup(semigroupSum)
     const result = S.concat(foo, bar)
     const expected = {

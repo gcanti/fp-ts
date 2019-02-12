@@ -121,16 +121,9 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
 }
 
 /**
- * Gets {@link Semigroup} instance for dictionaries given {@link Semigroup} instance for their values
- *
- * @example
- * import { getDictionarySemigroup, semigroupSum } from 'fp-ts/lib/Semigroup'
- *
- * const S = getDictionarySemigroup(semigroupSum)
- * assert.deepStrictEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
- *
- *
+ * Use {@link Record}'s `getMonoid`
  * @since 1.4.0
+ * @deprecated
  */
 export function getDictionarySemigroup<K extends string, A>(S: Semigroup<A>): Semigroup<Record<K, A>>
 export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }>
@@ -149,17 +142,22 @@ export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: st
   }
 }
 
+// tslint:disable-next-line: deprecation
 const semigroupAnyDictionary = getDictionarySemigroup(getLastSemigroup())
 
 /**
- * Gets {@link Semigroup} instance for objects of given type preserving their type
+ * Returns a {@link Semigroup} instance for objects preserving their type
  *
  * @example
  * import { getObjectSemigroup } from 'fp-ts/lib/Semigroup'
  *
- * const S = getObjectSemigroup<{ foo: number }>()
- * assert.deepStrictEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 456 })
+ * interface Person {
+ *   name: string
+ *   age: number
+ * }
  *
+ * const S = getObjectSemigroup<Person>()
+ * assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
  *
  * @since 1.4.0
  */
@@ -168,7 +166,7 @@ export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => 
 }
 
 /**
- * Number Semigroup under addition
+ * Number `Semigroup` under addition
  * @since 1.0.0
  */
 export const semigroupSum: Semigroup<number> = {
@@ -176,7 +174,7 @@ export const semigroupSum: Semigroup<number> = {
 }
 
 /**
- * Number Semigroup under multiplication
+ * Number `Semigroup` under multiplication
  * @since 1.0.0
  */
 export const semigroupProduct: Semigroup<number> = {

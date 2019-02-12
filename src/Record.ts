@@ -147,11 +147,21 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> {
 }
 
 /**
+ * Returns a {@link Semigroup} instance for records given a {@link Semigroup} instance for their values
+ *
+ * @example
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ * import { getMonoid } from 'fp-ts/lib/Record'
+ *
+ * const M = getMonoid(semigroupSum)
+ * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+ *
  * @since 1.10.0
  */
 export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
+  // tslint:disable-next-line: deprecation
   return getDictionaryMonoid(S)
 }
 

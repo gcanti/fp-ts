@@ -73,6 +73,7 @@ describe('Monoid', () => {
       foo: 456,
       fff: 456
     }
+    // tslint:disable-next-line: deprecation
     const M1 = getDictionaryMonoid(semigroupSum)
     assert.deepStrictEqual(fold(M1)([foo, bar]), {
       bar: foo.bar,
@@ -80,6 +81,7 @@ describe('Monoid', () => {
       fff: bar.fff
     })
     type Keys = 'a' | 'b'
+    // tslint:disable-next-line: deprecation
     const M2 = getDictionaryMonoid<Keys, number>(semigroupSum)
     assert.deepStrictEqual(fold(M2)([{ a: 1, b: 2 }, { a: 3, b: 4 }]), {
       a: 4,
