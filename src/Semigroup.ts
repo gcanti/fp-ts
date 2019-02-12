@@ -110,14 +110,12 @@ export const semigroupAny: Semigroup<boolean> = {
 }
 
 /**
- * Semigroup under array concatenation
- *
+ * Use {@link Monoid}'s `getArrayMonoid` instead
  * @since 1.0.0
+ * @deprecated
  */
 export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
-  return {
-    concat: (x, y) => concat(x, y)
-  }
+  return { concat }
 }
 
 /**

@@ -46,6 +46,7 @@ describe('Semigroup', () => {
   })
 
   it('getArraySemigroup', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(getArraySemigroup<number>().concat([1], [2]), [1, 2])
   })
 

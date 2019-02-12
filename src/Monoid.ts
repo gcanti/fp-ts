@@ -1,8 +1,7 @@
 import { Bounded } from './Bounded'
-import { compose, Endomorphism, identity } from './function'
+import { compose, Endomorphism, identity, concat } from './function'
 import {
   fold as foldSemigroup,
-  getArraySemigroup,
   getDictionarySemigroup,
   getDualSemigroup,
   getFunctionSemigroup,
@@ -78,12 +77,12 @@ const emptyArray: Array<any> = []
  * @since 1.0.0
  */
 export const unsafeMonoidArray: Monoid<Array<any>> = {
-  ...getArraySemigroup(),
+  concat,
   empty: emptyArray
 }
 
 /**
- * Monoid under array concatenation (`Array<any>`)
+ * `Monoid` under array concatenation
  *
  * @since 1.0.0
  */
