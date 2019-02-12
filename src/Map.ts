@@ -9,7 +9,7 @@ import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
 import { Ord } from './Ord'
 import { Setoid, fromEquals } from './Setoid'
-import { Unfoldable } from './Unfoldable'
+import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
 
 /**
@@ -17,56 +17,61 @@ import { Semigroup } from './Semigroup'
  *
  * @since 1.14.0
  */
-export const size = <K, A>(d: Map<K, A>): number => {
-  return d.size
-}
+export const size = <K, A>(d: Map<K, A>): number => d.size
 
 /**
  * Test whether a Map is empty
  *
  * @since 1.14.0
  */
-export const isEmpty = <K, A>(d: Map<K, A>): boolean => {
-  return d.size === 0
-}
+export const isEmpty = <K, A>(d: Map<K, A>): boolean => d.size === 0
 
 /**
  * Test whether a key is a member of a map
  *
  * @since 1.14.0
  */
-export const member = <K>(S: Setoid<K>) => <A>(k: K, d: Map<K, A>): boolean => {
-  return lookup(S)(k, d).isSome()
+export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
+  const lookupS = lookup(S)
+  return (k, m) => lookupS(k, m).isSome()
 }
 
 /**
  * @since 1.14.0
  */
-export const keys = <K>(O: Ord<K>) => <A>(d: Map<K, A>): Array<K> => {
-  const ks = Array.from(d.keys())
-  return sort(O)(ks)
-}
-
-/**
- * @since 1.14.0
- */
-export const collect = <K>(O: Ord<K>) => <A, B>(d: Map<K, A>, f: (k: K, a: A) => B): Array<B> => {
-  const out: Array<B> = []
-  const ks = keys(O)(d)
-  for (let key of ks) {
-    const o = lookupWithKey(O)(key, d)
-    if (o.isSome()) {
-      out.push(f(key, o.value[1]))
-    }
+export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => {
+  const sortO = sort(O)
+  return m => {
+    const ks = Array.from(m.keys())
+    return sortO(ks)
   }
-  return out
 }
 
 /**
  * @since 1.14.0
  */
-export const toArray = <K>(O: Ord<K>) => <A>(d: Map<K, A>): Array<[K, A]> => {
-  return collect(O)(d, (k, a: A) => tuple(k, a))
+export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B>) => {
+  const lookupWithKeyO = lookupWithKey(O)
+  const keysO = keys(O)
+  return <A, B>(m: Map<K, A>, f: (k: K, a: A) => B): Array<B> => {
+    const out: Array<B> = []
+    const ks = keysO(m)
+    for (let key of ks) {
+      const o = lookupWithKeyO(key, m)
+      if (o.isSome()) {
+        out.push(f(key, o.value[1]))
+      }
+    }
+    return out
+  }
+}
+
+/**
+ * @since 1.14.0
+ */
+export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => {
+  const collectO = collect(O)
+  return <A>(m: Map<K, A>): Array<[K, A]> => collectO(m, (k, a: A) => tuple(k, a))
 }
 
 /**
@@ -74,10 +79,18 @@ export const toArray = <K>(O: Ord<K>) => <A>(d: Map<K, A>): Array<[K, A]> => {
  *
  * @since 1.14.0
  */
-export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <K>(O: Ord<K>) => <A>(d: Map<K, A>): HKT<F, [K, A]> => {
-  const arr = toArray(O)(d)
-  const len = arr.length
-  return unfoldable.unfoldr(0, b => (b < len ? some(tuple(arr[b], b + 1)) : none))
+export function toUnfoldable<F extends URIS, K>(
+  unfoldable: Unfoldable1<F>,
+  O: Ord<K>
+): <A>(d: Map<K, A>) => Type<F, [K, A]>
+export function toUnfoldable<F, K>(unfoldable: Unfoldable<F>, O: Ord<K>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
+export function toUnfoldable<F, K>(unfoldable: Unfoldable<F>, O: Ord<K>): <A>(d: Map<K, A>) => HKT<F, [K, A]> {
+  const toArrayO = toArray(O)
+  return d => {
+    const arr = toArrayO(d)
+    const len = arr.length
+    return unfoldable.unfoldr(0, b => (b < len ? some(tuple(arr[b], b + 1)) : none))
+  }
 }
 
 /**
@@ -85,19 +98,21 @@ export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <K>(O: Ord<K>) => 
  *
  * @since 1.14.0
  */
-export const insertAt = <K>(S: Setoid<K>) => <A>(k: K, a: A, m: Map<K, A>): Map<K, A> => {
+export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => {
   const lookupS = lookupWithKey(S)
-  const found = lookupS(k, m)
-  if (found.isNone()) {
-    const r = new Map(m)
-    r.set(k, a)
-    return r
-  } else if (found.value[1] !== a) {
-    const r = new Map(m)
-    r.set(found.value[0], a)
-    return r
+  return (k, a, m) => {
+    const found = lookupS(k, m)
+    if (found.isNone()) {
+      const r = new Map(m)
+      r.set(k, a)
+      return r
+    } else if (found.value[1] !== a) {
+      const r = new Map(m)
+      r.set(found.value[0], a)
+      return r
+    }
+    return m
   }
-  return m
 }
 
 /**
@@ -105,15 +120,17 @@ export const insertAt = <K>(S: Setoid<K>) => <A>(k: K, a: A, m: Map<K, A>): Map<
  *
  * @since 1.14.0
  */
-export const deleteAt = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Map<K, A> => {
+export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => {
   const lookupS = lookupWithKey(S)
-  const found = lookupS(k, m)
-  if (found.isNone()) {
-    const r = new Map(m)
-    m.delete(k)
-    return r
+  return (k, m) => {
+    const found = lookupS(k, m)
+    if (found.isNone()) {
+      const r = new Map(m)
+      m.delete(k)
+      return r
+    }
+    return m
   }
-  return m
 }
 
 /**
@@ -121,9 +138,11 @@ export const deleteAt = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Map<K, A> 
  *
  * @since 1.14.0
  */
-export const pop = <K>(S: Setoid<K>) => <A>(k: K, d: Map<K, A>): Option<[A, Map<K, A>]> => {
-  const a = lookup(S)(k, d)
-  return a.isNone() ? none : some(tuple(a.value, deleteAt(S)(k, d)))
+export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => {
+  return (k, m) => {
+    const a = lookup(S)(k, m)
+    return a.isNone() ? none : some(tuple(a.value, remove(S)(k, m)))
+  }
 }
 
 /**
@@ -131,25 +150,27 @@ export const pop = <K>(S: Setoid<K>) => <A>(k: K, d: Map<K, A>): Option<[A, Map<
  * If the result is a `Some`, the existing key is also returned.
  * @since 1.14.0
  */
-export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => {
-  const entries = m.entries()
-  let e: IteratorResult<[K, A]>
-  while (!(e = entries.next()).done) {
-    const [ka, a] = e.value
-    if (S.equals(ka, k)) {
-      return some(tuple(k, a))
+export const lookupWithKey = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[K, A]>) => {
+  return <A>(k: K, m: Map<K, A>) => {
+    const entries = m.entries()
+    let e: IteratorResult<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [ka, a] = e.value
+      if (S.equals(ka, k)) {
+        return some(tuple(k, a))
+      }
     }
+    return none
   }
-  return none
 }
 
 /**
  * Lookup the value for a key in a `Map`.
  * @since 1.14.0
  */
-export const lookup = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<A> => {
+export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => {
   const lookupWithKeyS = lookupWithKey(S)
-  return lookupWithKeyS(k, m).map(([_, a]) => a)
+  return (k, m) => lookupWithKeyS(k, m).map(([_, a]) => a)
 }
 
 /**
@@ -157,19 +178,21 @@ export const lookup = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<A> =>
  *
  * @since 1.14.0
  */
-export const isSubmap = <K>(SK: Setoid<K>) => <A>(SA: Setoid<A>) => (d1: Map<K, A>, d2: Map<K, A>): boolean => {
-  const entries = d1.entries()
-  let e: IteratorResult<[K, A]>
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    const lookupWithKeyS = lookupWithKey(SK)
-    const d1OptA = lookupWithKeyS(k, d1)
-    const d2OptA = lookupWithKeyS(k, d2)
-    if (d1OptA.isNone() || d2OptA.isNone() || !SK.equals(k, d2OptA.value[0]) || !SA.equals(a, d2OptA.value[1])) {
-      return false
+export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => {
+  const lookupWithKeyS = lookupWithKey(SK)
+  return (d1: Map<K, A>, d2: Map<K, A>): boolean => {
+    const entries = d1.entries()
+    let e: IteratorResult<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      const d1OptA = lookupWithKeyS(k, d1)
+      const d2OptA = lookupWithKeyS(k, d2)
+      if (d1OptA.isNone() || d2OptA.isNone() || !SK.equals(k, d2OptA.value[0]) || !SA.equals(a, d2OptA.value[1])) {
+        return false
+      }
     }
+    return true
   }
-  return true
 }
 
 /**
@@ -180,8 +203,8 @@ export const empty = new Map<never, never>()
 /**
  * @since 1.14.0
  */
-export const getSetoid = <K>(SK: Setoid<K>) => <A>(SA: Setoid<A>): Setoid<Map<K, A>> => {
-  const isSubmap_ = isSubmap(SK)(SA)
+export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>> => {
+  const isSubmap_ = isSubmap(SK, SA)
   return fromEquals((x, y) => isSubmap_(x, y) && isSubmap_(y, x))
 }
 
@@ -190,7 +213,7 @@ export const getSetoid = <K>(SK: Setoid<K>) => <A>(SA: Setoid<A>): Setoid<Map<K,
  *
  * @since 1.14.0
  */
-export const getMonoid = <K>(SK: Setoid<K>) => <A>(SA: Semigroup<A>): Monoid<Map<K, A>> => {
+export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => {
   return {
     concat: (mx, my) => {
       const r = new Map(mx)
@@ -275,15 +298,17 @@ export const reduceWithKey = <K, A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A
 /**
  * @since 1.14.0
  */
-export const foldMapWithKey = <M>(M: Monoid<M>) => <K, A>(fa: Map<K, A>, f: (k: K, a: A) => M): M => {
-  let out: M = M.empty
-  const entries = fa.entries()
-  let e: IteratorResult<[K, A]>
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    out = M.concat(out, f(k, a))
+export const foldMapWithKey = <M>(M: Monoid<M>): (<K, A>(fa: Map<K, A>, f: (k: K, a: A) => M) => M) => {
+  return <K, A>(fa: Map<K, A>, f: (k: K, a: A) => M): M => {
+    let out: M = M.empty
+    const entries = fa.entries()
+    let e: IteratorResult<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      out = M.concat(out, f(k, a))
+    }
+    return out
   }
-  return out
 }
 
 /**
@@ -515,18 +540,10 @@ export const filterMap = <K, A, B>(fa: Map<K, A>, f: (a: A) => Option<B>): Map<K
 /**
  * @since 1.14.0
  */
-export function partitionMapWithIndex<K, RL, RR, A>(
+export const partitionMapWithIndex = <K, RL, RR, A>(
   fa: Map<K, A>,
   f: (k: K, a: A) => Either<RL, RR>
-): Separated<Map<K, RL>, Map<K, RR>>
-export function partitionMapWithIndex<K, RL, RR, A>(
-  fa: Map<K, A>,
-  f: (k: K, a: A) => Either<RL, RR>
-): Separated<Map<K, RL>, Map<K, RR>>
-export function partitionMapWithIndex<K, RL, RR, A>(
-  fa: Map<K, A>,
-  f: (k: K, a: A) => Either<RL, RR>
-): Separated<Map<K, RL>, Map<K, RR>> {
+): Separated<Map<K, RL>, Map<K, RR>> => {
   const left = new Map<K, RL>()
   const right = new Map<K, RR>()
   const entries = fa.entries()
@@ -549,8 +566,10 @@ export function partitionMapWithIndex<K, RL, RR, A>(
 /**
  * @since 1.14.0
  */
-export function partitionWithIndex<K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>>
-export function partitionWithIndex<K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> {
+export const partitionWithIndex = <K, A>(
+  fa: Map<K, A>,
+  p: (k: K, a: A) => boolean
+): Separated<Map<K, A>, Map<K, A>> => {
   const left = new Map<K, A>()
   const right = new Map<K, A>()
   const entries = fa.entries()
@@ -608,24 +627,29 @@ export const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean)
  *
  * @since 1.14.0
  */
-export function fromFoldable<F extends URIS3>(
-  F: Foldable3<F>
-): <K>(S: Setoid<K>) => <U, L, A>(ta: Type3<F, U, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<F extends URIS2>(
-  F: Foldable2<F>
-): <K>(S: Setoid<K>) => <L, A>(ta: Type2<F, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<F extends URIS>(
-  F: Foldable1<F>
-): <K>(S: Setoid<K>) => <A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<F>(
+export function fromFoldable<F extends URIS3, K>(
+  F: Foldable3<F>,
+  S: Setoid<K>
+): <U, L, A>(ta: Type3<F, U, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+export function fromFoldable<F extends URIS2, K>(
+  F: Foldable2<F>,
+  S: Setoid<K>
+): <L, A>(ta: Type2<F, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+export function fromFoldable<F extends URIS, K>(
+  F: Foldable1<F>,
+  S: Setoid<K>
+): <A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+export function fromFoldable<F, K>(
   // tslint:disable-next-line: deprecation
-  F: Foldable<F>
-): <K>(S: Setoid<K>) => <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<F>(
+  F: Foldable<F>,
+  S: Setoid<K>
+): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+export function fromFoldable<F, K>(
   // tslint:disable-next-line: deprecation
-  F: Foldable<F>
-): <K>(S: Setoid<K>) => <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> {
-  return <K>(S: Setoid<K>) => <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => {
+  F: Foldable<F>,
+  S: Setoid<K>
+): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> {
+  return <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => {
     return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
       const bOpt = lookupWithKey(S)(k, b)
       b.set(k, bOpt.isSome() ? f(bOpt.value[1], a) : a)
