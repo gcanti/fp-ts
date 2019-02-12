@@ -20,20 +20,33 @@ import { Semigroup } from './Semigroup'
 export const size = <K, A>(d: Map<K, A>): number => d.size
 
 /**
- * Test whether a Map is empty
+ * Test whether or not a Map is empty
  *
  * @since 1.14.0
  */
 export const isEmpty = <K, A>(d: Map<K, A>): boolean => d.size === 0
 
 /**
- * Test whether a key is a member of a map
+ * Test whether or not a key exists in a map
  *
  * @since 1.14.0
  */
-export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
+export const has = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
   const lookupS = lookup(S)
   return (k, m) => lookupS(k, m).isSome()
+}
+
+/**
+ * Test whether or not a key/value pair is a member of a map
+ *
+ * @since 1.14.0
+ */
+export const member = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((k: K, a: A, m: Map<K, A>) => boolean) => {
+  const lookupSK = lookup(SK)
+  return (k, a, m) => {
+    const o = lookupSK(k, m)
+    return o.isSome() && SA.equals(a, o.value)
+  }
 }
 
 /**
@@ -174,7 +187,7 @@ export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) 
 }
 
 /**
- * Test whether one Map contains all of the keys and values contained in another Map
+ * Test whether or not one Map contains all of the keys and values contained in another Map
  *
  * @since 1.14.0
  */
