@@ -11,7 +11,7 @@ import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
 
 /**
- * Calculate the number of key/value pairs in a dictionary
+ * Calculate the number of key/value pairs in a record
  *
  * @since 1.10.0
  */
@@ -20,7 +20,7 @@ export const size = <A>(d: Record<string, A>): number => {
 }
 
 /**
- * Test whether a dictionary is empty
+ * Test whether a record is empty
  *
  * @since 1.10.0
  */
@@ -52,7 +52,7 @@ export function toArray<A>(d: Record<string, A>): Array<[string, A]> {
 }
 
 /**
- * Unfolds a dictionary into a list of key/value pairs
+ * Unfolds a record into a list of key/value pairs
  *
  * @since 1.10.0
  */
@@ -114,11 +114,11 @@ export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<strin
 }
 
 /**
- * Test whether one dictionary contains all of the keys and values contained in another dictionary
+ * Test whether one record contains all of the keys and values contained in another record
  *
- * @since 1.10.0
+ * @since 1.14.0
  */
-export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
+export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
   for (let k in d1) {
     if (!d2.hasOwnProperty(k) || !S.equals(d1[k], d2[k])) {
       return false
@@ -128,13 +128,22 @@ export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: 
 }
 
 /**
+ * Use {@link isSubrecord} instead
+ * @since 1.10.0
+ * @deprecated
+ */
+export const isSubdictionary: <A>(
+  S: Setoid<A>
+) => (d1: Record<string, A>, d2: Record<string, A>) => boolean = isSubrecord
+
+/**
  * @since 1.10.0
  */
 export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
 export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>>
 export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> {
-  const isSubdictionaryS = isSubdictionary(S)
-  return fromEquals((x, y) => isSubdictionaryS(x, y) && isSubdictionaryS(y, x))
+  const isSubrecordS = isSubrecord(S)
+  return fromEquals((x, y) => isSubrecordS(x, y) && isSubrecordS(y, x))
 }
 
 /**
