@@ -1,6 +1,15 @@
 import * as assert from 'assert'
 import { fold, monoidSum, monoidString } from '../src/Monoid'
-import { NonEmptyArray, nonEmptyArray, fromArray, getSemigroup, group, groupSort, groupBy } from '../src/NonEmptyArray'
+import {
+  NonEmptyArray,
+  nonEmptyArray,
+  fromArray,
+  getSemigroup,
+  group,
+  groupSort,
+  groupBy,
+  getSetoid
+} from '../src/NonEmptyArray'
 import { none, option, some, isSome } from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import * as F from '../src/Foldable'
@@ -8,6 +17,7 @@ import { identity } from '../src/function'
 import * as T from '../src/Traversable'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
+import { setoidNumber } from '../src/Setoid'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -136,6 +146,12 @@ describe('NonEmptyArray', () => {
       S.concat(new NonEmptyArray(1, [2]), new NonEmptyArray(3, [4])),
       new NonEmptyArray(1, [2, 3, 4])
     )
+  })
+
+  it('getSetoid', () => {
+    const S = getSetoid(setoidNumber)
+    assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [])), true)
+    assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [2])), false)
   })
 
   it('group', () => {

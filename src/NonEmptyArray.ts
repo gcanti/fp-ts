@@ -21,7 +21,7 @@ import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
 import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, getArraySetoid, fromEquals } from './Setoid'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
@@ -521,6 +521,23 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
  */
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
   return { concat }
+}
+
+/**
+ *
+ * @example
+ * import { NonEmptyArray, getSetoid } from 'fp-ts/lib/NonEmptyArray'
+ * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ *
+ * const S = getSetoid(setoidNumber)
+ * assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [])), true)
+ * assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [2])), false)
+ *
+ * @since 1.14.0
+ */
+export const getSetoid = <A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> => {
+  const setoidTail = getArraySetoid(S)
+  return fromEquals((x, y) => S.equals(x.head, y.head) && setoidTail.equals(x.tail, y.tail))
 }
 
 /**
