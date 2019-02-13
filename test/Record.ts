@@ -215,4 +215,11 @@ describe('Record', () => {
     const x1 = { k1: 'a', k2: 'b' }
     assert.strictEqual(R.foldrWithKey(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
   })
+
+  it('every', () => {
+    const x: Record<string, number> = { a: 1, b: 2 }
+    const y: { [key: string]: number } = { a: 1, b: 2 }
+    assert.strictEqual(R.every(x, n => n <= 2), true)
+    assert.strictEqual(R.every(y, n => n <= 1), false)
+  })
 })
