@@ -367,6 +367,13 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return R.pop(k, d.value).map(([a, d]) => tuple(a, new StrMap(d)))
 }
 
+/**
+ * @since 1.14.0
+ */
+export function isMember<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean {
+  return (a, fa) => fa.some(x => S.equals(x, a))
+}
+
 const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {
   return fa.filterMap(f)
 }
