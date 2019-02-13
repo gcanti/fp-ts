@@ -656,3 +656,15 @@ export function fromFoldable<F>(
     })
   }
 }
+
+/**
+ * @since 1.14.0
+ */
+export function every<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean): boolean {
+  for (const k in fa) {
+    if (!predicate(fa[k])) {
+      return false
+    }
+  }
+  return true
+}
