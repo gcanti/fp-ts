@@ -222,4 +222,11 @@ describe('Record', () => {
     assert.strictEqual(R.every(x, n => n <= 2), true)
     assert.strictEqual(R.every(y, n => n <= 1), false)
   })
+
+  it('some', () => {
+    const x: Record<string, number> = { a: 1, b: 2 }
+    const y: { [key: string]: number } = { a: 1, b: 2 }
+    assert.strictEqual(R.some(x, n => n <= 1), true)
+    assert.strictEqual(R.some(y, n => n <= 0), false)
+  })
 })
