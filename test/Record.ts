@@ -229,4 +229,9 @@ describe('Record', () => {
     assert.strictEqual(R.some(x, n => n <= 1), true)
     assert.strictEqual(R.some(y, n => n <= 0), false)
   })
+
+  it('isMember', () => {
+    assert.strictEqual(R.isMember(setoidNumber)(1, { a: 1, b: 2 }), true)
+    assert.strictEqual(R.isMember(setoidNumber)(3, { a: 1, b: 2 }), false)
+  })
 })
