@@ -137,6 +137,12 @@ export class StrMap<A> {
   every(predicate: (a: A) => boolean): boolean {
     return R.every(this.value, predicate)
   }
+  /**
+   * @since 1.14.0
+   */
+  some(predicate: (a: A) => boolean): boolean {
+    return R.some(this.value, predicate)
+  }
 }
 
 /**

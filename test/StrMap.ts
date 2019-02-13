@@ -320,4 +320,10 @@ describe('StrMap', () => {
     assert.strictEqual(x.every(n => n <= 2), true)
     assert.strictEqual(x.every(n => n <= 1), false)
   })
+
+  it('some', () => {
+    const x = new StrMap({ a: 1, b: 2 })
+    assert.strictEqual(x.some(n => n <= 1), true)
+    assert.strictEqual(x.some(n => n <= 0), false)
+  })
 })
