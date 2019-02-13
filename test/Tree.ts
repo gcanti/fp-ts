@@ -3,9 +3,9 @@ import * as F from '../src/Foldable'
 import { identity, tuple } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
-import { setoidNumber } from '../src/Setoid'
+import { setoidNumber, Setoid, contramap } from '../src/Setoid'
 import * as T from '../src/Traversable'
-import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM } from '../src/Tree'
+import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM, isMember } from '../src/Tree'
 
 describe('Tree', () => {
   it('map', () => {
@@ -167,5 +167,19 @@ describe('Tree', () => {
     const fa = unfoldTreeM(I.identity)(1, b => I.identity.of(tuple(b, b < 3 ? [b + 1, b + 2] : [])))
     const expected = I.identity.of(new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])]))
     assert.deepStrictEqual(fa, expected)
+  })
+
+  it('isMember', () => {
+    interface User {
+      id: number
+    }
+    const S: Setoid<User> = contramap((user: User) => user.id, setoidNumber)
+    const users = new Tree({ id: 1 }, [
+      new Tree({ id: 1 }, [new Tree({ id: 3 }, []), new Tree({ id: 4 }, [])]),
+      new Tree({ id: 2 }, [])
+    ])
+    assert.strictEqual(isMember(S)({ id: 1 }, users), true)
+    assert.strictEqual(isMember(S)({ id: 4 }, users), true)
+    assert.strictEqual(isMember(S)({ id: 5 }, users), false)
   })
 })

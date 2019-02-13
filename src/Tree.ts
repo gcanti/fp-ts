@@ -288,3 +288,16 @@ export function unfoldForestM<M>(
     return traverseM(bs, b => unfoldTree(b, f))
   }
 }
+
+/**
+ * @since 1.14.0
+ */
+export function isMember<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean {
+  const go = (a: A, fa: Tree<A>): boolean => {
+    if (S.equals(a, fa.value)) {
+      return true
+    }
+    return fa.forest.some(tree => go(a, tree))
+  }
+  return go
+}
