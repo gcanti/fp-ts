@@ -448,10 +448,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
  * @since 1.2.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
-  return fromCompare(
-    (x, y) =>
-      x.isSome() ? (y.isSome() ? O.compare(x.value, y.value) : 1) : y.isSome() ? -1 : /* istanbul ignore next */ 0 // I'm ignoring this branch because is already covered by fromCompare strict equality check (none === none)
-  )
+  return fromCompare((x, y) => (x.isSome() ? (y.isSome() ? O.compare(x.value, y.value) : 1) : -1))
 }
 
 const map = <A, B>(fa: Option<A>, f: (a: A) => B): Option<B> => {
