@@ -131,6 +131,12 @@ export class StrMap<A> {
   filterWithIndex(p: (i: string, a: A) => boolean): StrMap<A> {
     return new StrMap(R.filterWithIndex(this.value, p))
   }
+  /**
+   * @since 1.14.0
+   */
+  every(predicate: (a: A) => boolean): boolean {
+    return R.every(this.value, predicate)
+  }
 }
 
 /**

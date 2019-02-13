@@ -314,4 +314,10 @@ describe('StrMap', () => {
     const x1 = new StrMap({ k1: 'a', k2: 'b' })
     assert.strictEqual(strmap.foldrWithIndex(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
   })
+
+  it('every', () => {
+    const x = new StrMap({ a: 1, b: 2 })
+    assert.strictEqual(x.every(n => n <= 2), true)
+    assert.strictEqual(x.every(n => n <= 1), false)
+  })
 })
