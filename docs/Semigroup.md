@@ -45,9 +45,9 @@ Added in v1.0.0
 
 ## semigroupProduct
 
-Number Semigroup under multiplication
+Number `Semigroup` under multiplication
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L182-L184)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L178-L180)
 
 ```ts
 export const semigroupProduct: Semigroup<number> = ...
@@ -57,7 +57,7 @@ Added in v1.0.0
 
 ## semigroupString
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L189-L191)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L185-L187)
 
 ```ts
 export const semigroupString: Semigroup<string> = ...
@@ -67,9 +67,9 @@ Added in v1.0.0
 
 ## semigroupSum
 
-Number Semigroup under addition
+Number `Semigroup` under addition
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L174-L176)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L170-L172)
 
 ```ts
 export const semigroupSum: Semigroup<number> = ...
@@ -79,7 +79,7 @@ Added in v1.0.0
 
 ## semigroupVoid
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L196-L198)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L192-L194)
 
 ```ts
 export const semigroupVoid: Semigroup<void> = ...
@@ -97,11 +97,11 @@ export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => { ...
 
 Added in v1.0.0
 
-## getArraySemigroup
+## ~~getArraySemigroup~~ (deprecated)
 
-Semigroup under array concatenation
+Use [Monoid](./Monoid.md)'s `getArrayMonoid` instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L117-L121)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L117-L119)
 
 ```ts
 export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => { ... }
@@ -109,23 +109,14 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => { ... }
 
 Added in v1.0.0
 
-## getDictionarySemigroup
+## ~~getDictionarySemigroup~~ (deprecated)
 
-Gets [Semigroup](./Semigroup.md) instance for dictionaries given [Semigroup](./Semigroup.md) instance for their values
+Use [Record](./Record.md)'s `getMonoid`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L137-L150)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L128-L141)
 
 ```ts
 export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup< { ... }
-```
-
-**Example**
-
-```ts
-import { getDictionarySemigroup, semigroupSum } from 'fp-ts/lib/Semigroup'
-
-const S = getDictionarySemigroup(semigroupSum)
-assert.deepStrictEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
 ```
 
 Added in v1.4.0
@@ -192,9 +183,9 @@ Added in v1.0.0
 
 ## getObjectSemigroup
 
-Gets [Semigroup](./Semigroup.md) instance for objects of given type preserving their type
+Returns a [Semigroup](./Semigroup.md) instance for objects preserving their type
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L166-L168)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L162-L164)
 
 ```ts
 export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => { ... }
@@ -205,8 +196,13 @@ export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => 
 ```ts
 import { getObjectSemigroup } from 'fp-ts/lib/Semigroup'
 
-const S = getObjectSemigroup<{ foo: number }>()
-assert.deepStrictEqual(S.concat({ foo: 123 }, { foo: 456 }), { foo: 456 })
+interface Person {
+  name: string
+  age: number
+}
+
+const S = getObjectSemigroup<Person>()
+assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
 ```
 
 Added in v1.4.0

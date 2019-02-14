@@ -180,6 +180,16 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => { ... }
 
 Added in v1.6.0
 
+## isMember
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L295-L303)
+
+```ts
+export function isMember<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean  { ... }
+```
+
+Added in v1.14.0
+
 ## unfoldForest
 
 Build a tree from a seed value
