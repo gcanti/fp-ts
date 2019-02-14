@@ -36,7 +36,6 @@ export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
   const values = x.values()
   let e: IteratorResult<A>
   let found = false
-  // tslint:disable:no-conditional-assignment
   while (!found && !(e = values.next()).done) {
     found = predicate(e.value)
   }
@@ -106,7 +105,6 @@ export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A> {
   const values = x.values()
   let e: IteratorResult<A>
   let r = new Set()
-  // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const value = e.value
     if (predicate(value)) {
@@ -126,7 +124,6 @@ export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<
   let e: IteratorResult<A>
   let right = new Set()
   let left = new Set()
-  // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const value = e.value
     if (predicate(value)) {
@@ -206,7 +203,6 @@ export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
   let right = new Set()
   const hasL = isMember(SL)
   const hasR = isMember(SR)
-  // tslint:disable:no-conditional-assignment
   while (!(e = values.next()).done) {
     const v = f(e.value)
     if (v.isLeft()) {
