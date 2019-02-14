@@ -82,6 +82,17 @@ describe('Map', () => {
     assert.deepStrictEqual(lookupS('b', a1), none)
   })
 
+  it('isSubmap', () => {
+    const a1 = new Map<'a', number>([['a', 1]])
+    const a1b2 = new Map<'a' | 'b', number>([['a', 1], ['b', 2]])
+    const isSubmapS = M.isSubmap(setoidString, setoidNumber)
+    assert.strictEqual(isSubmapS(a1, a1b2), true)
+  })
+
+  it('empty', () => {
+    assert.deepStrictEqual(M.empty, new Map<string, number>())
+  })
+
   it('fromFoldable', () => {
     const a1 = new Map<'a', number>([['a', 1]])
     const a2 = new Map<'a', number>([['a', 2]])
