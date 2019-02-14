@@ -153,7 +153,7 @@ export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) 
   const lookupS = lookupWithKey(S)
   return (k, m) => {
     const found = lookupS(k, m)
-    if (found.isNone()) {
+    if (found.isSome()) {
       const r = new Map(m)
       m.delete(k)
       return r
