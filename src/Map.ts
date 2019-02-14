@@ -43,12 +43,13 @@ export const has = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
  */
 export const isMember = <A>(SA: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
   return (a, m) => {
+    let out: boolean = false
     const as = m.values()
     let e: IteratorResult<A>
     while (!(e = as.next()).done) {
-      return SA.equals(a, e.value)
+      out = SA.equals(a, e.value)
     }
-    return false
+    return out
   }
 }
 
