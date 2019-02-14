@@ -9,6 +9,7 @@ import { array } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import * as I from '../src/Identity'
 import { ordString } from '../src/Ord'
+import { fromArray } from '../src/Set'
 
 const p = ((n: number): boolean => n > 2) as Refinement<number, number>
 
@@ -133,6 +134,14 @@ describe('Map', () => {
     const expected = Array.from(a1b2.keys())
     assert.deepStrictEqual(ks, expected)
     assert.deepStrictEqual(ks, ['a', 'b'])
+  })
+
+  it('keys_', () => {
+    const a1b2 = new Map<'a' | 'b' | 'c', number>([['a', 1], ['a', 2], ['b', 3]])
+    const ks = M.keys_(ordString)(a1b2)
+    const arr = Array.from(a1b2.keys())
+    assert.deepStrictEqual(ks, fromArray(ordString)(arr))
+    assert.deepStrictEqual(ks, new Set(['a', 'b']))
   })
 
   it('isMember', () => {
