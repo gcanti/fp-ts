@@ -8,6 +8,7 @@ import { setoidNumber, setoidString } from '../src/Setoid'
 import { array } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import * as I from '../src/Identity'
+import { ordString } from '../src/Ord'
 
 const p = ((n: number): boolean => n > 2) as Refinement<number, number>
 
@@ -67,43 +68,40 @@ describe('Map', () => {
     const a1 = new Map<'a', number>([['a', 1]])
     const a2 = new Map<'a', number>([['a', 2]])
     const b1 = new Map<'b', number>([['b', 1]])
-    assert.strictEqual(M.getSetoid(setoidNumber).equals(a1, a1), true)
-    assert.strictEqual(M.getSetoid(setoidNumber).equals(a1, a2), false)
-    assert.strictEqual(M.getSetoid(setoidNumber).equals(a1, b1), false)
+    const S = M.getSetoid(setoidString, setoidNumber)
+    assert.strictEqual(S.equals(a1, a1), true)
+    assert.strictEqual(S.equals(a1, a2), false)
+    assert.strictEqual(S.equals(a1, b1), false)
   })
 
   it('lookup', () => {
     const a1 = new Map<'a', number>([['a', 1]])
-    assert.deepStrictEqual(M.lookup('a', a1), some(1))
-    assert.deepStrictEqual(M.lookup('b', a1), none)
-  })
-
-  it('unsafeLookup', () => {
-    const a1b2 = new Map<'a' | 'b', number>([['a', 1], ['b', 2]])
-    const a = M.unsafeLookup('a', a1b2)
-    const c = M.unsafeLookup('c', a1b2)
-    assert.strictEqual(a, 1)
-    assert.strictEqual(c, undefined)
+    const lookupS = M.lookup(setoidString)
+    assert.deepStrictEqual(lookupS('a', a1), some(1))
+    assert.deepStrictEqual(lookupS('b', a1), none)
   })
 
   it('fromFoldable', () => {
     const a1 = new Map<'a', number>([['a', 1]])
     const a2 = new Map<'a', number>([['a', 2]])
-    assert.deepStrictEqual(M.fromFoldable(array)([['a', 1]], (existing, _) => existing), a1)
-    assert.deepStrictEqual(M.fromFoldable(array)([['a', 1], ['a', 2]], (existing, _) => existing), a1)
-    assert.deepStrictEqual(M.fromFoldable(array)([['a', 1], ['a', 2]], (_, a) => a), a2)
+    const fromFoldableS = M.fromFoldable(setoidString, array)
+    assert.deepStrictEqual(fromFoldableS([['a', 1]], (existing, _) => existing), a1)
+    assert.deepStrictEqual(fromFoldableS([['a', 1], ['a', 2]], (existing, _) => existing), a1)
+    assert.deepStrictEqual(fromFoldableS([['a', 1], ['a', 2]], (_, a) => a), a2)
   })
 
   it('toArray', () => {
     const x1 = new Map<'a' | 'b', number>([['a', 1], ['b', 2]])
     const x2 = new Map<'a' | 'b', number>([['b', 2], ['a', 1]])
-    assert.deepStrictEqual(M.toArray(x1), [['a', 1], ['b', 2]])
-    assert.deepStrictEqual(M.toArray(x2), [['a', 1], ['b', 2]])
+    const toArrayO = M.toArray(ordString)
+    assert.deepStrictEqual(toArrayO(x1), [['a', 1], ['b', 2]])
+    assert.deepStrictEqual(toArrayO(x2), [['a', 1], ['b', 2]])
   })
 
   it('toUnfoldable', () => {
     const a1 = new Map<'a', number>([['a', 1]])
-    assert.deepStrictEqual(M.toUnfoldable(array)(a1), [['a', 1]])
+    const toUnfoldableO = M.toUnfoldable(ordString, array)
+    assert.deepStrictEqual(toUnfoldableO(a1), [['a', 1]])
   })
 
   it('mapWithKey', () => {
@@ -131,7 +129,7 @@ describe('Map', () => {
 
   it('keys', () => {
     const a1b2 = new Map<'a' | 'b', number>([['a', 1], ['b', 2]])
-    const ks = M.keys(a1b2)
+    const ks = M.keys(ordString)(a1b2)
     const expected = Array.from(a1b2.keys())
     assert.deepStrictEqual(ks, expected)
     assert.deepStrictEqual(ks, ['a', 'b'])
@@ -149,21 +147,24 @@ describe('Map', () => {
     const a1 = new Map<'a', number>([['a', 1]])
     const a1b2 = new Map<'a' | 'b' | 'c', number>([['a', 1], ['b', 2]])
     const a1b2c3 = new Map<'a' | 'b' | 'c', number>([['a', 1], ['b', 2], ['c', 3]])
-    assert.deepStrictEqual(M.insert('a', 1, emptyMap), a1)
-    assert.deepStrictEqual(M.insert('c', 3, a1b2), a1b2c3)
+    const insertS = M.insert(setoidString)
+    assert.deepStrictEqual(insertS('a', 1, emptyMap), a1)
+    assert.deepStrictEqual(insertS('c', 3, a1b2), a1b2c3)
   })
 
   it('remove', () => {
     const a1b2 = new Map<'a' | 'b', number>([['a', 1], ['b', 2]])
     const b2 = new Map<'a' | 'b', number>([['b', 2]])
-    assert.deepStrictEqual(M.remove('a', a1b2), b2)
+    const removeS = M.remove(setoidString)
+    assert.deepStrictEqual(removeS('a', a1b2), b2)
   })
 
   it('pop', () => {
     const a1b2 = new Map<'a' | 'b', number>([['a', 1], ['b', 2]])
     const b2 = new Map<'a' | 'b', number>([['b', 2]])
-    assert.deepStrictEqual(M.pop('a', a1b2), some([1, b2]))
-    assert.deepStrictEqual(M.pop('c', a1b2), none)
+    const popS = M.pop(setoidString)
+    assert.deepStrictEqual(popS('a', a1b2), some([1, b2]))
+    assert.deepStrictEqual(popS('c', a1b2), none)
   })
 
   it('compact', () => {
