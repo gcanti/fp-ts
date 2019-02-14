@@ -92,12 +92,12 @@ export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => {
  *
  * @since 1.14.0
  */
-export function toUnfoldable<F extends URIS, K>(
-  unfoldable: Unfoldable1<F>,
-  O: Ord<K>
+export function toUnfoldable<K, F extends URIS>(
+  O: Ord<K>,
+  unfoldable: Unfoldable1<F>
 ): <A>(d: Map<K, A>) => Type<F, [K, A]>
-export function toUnfoldable<F, K>(unfoldable: Unfoldable<F>, O: Ord<K>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
-export function toUnfoldable<F, K>(unfoldable: Unfoldable<F>, O: Ord<K>): <A>(d: Map<K, A>) => HKT<F, [K, A]> {
+export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
+export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> {
   const toArrayO = toArray(O)
   return d => {
     const arr = toArrayO(d)
@@ -640,27 +640,27 @@ export const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean)
  *
  * @since 1.14.0
  */
-export function fromFoldable<F extends URIS3, K>(
-  F: Foldable3<F>,
-  S: Setoid<K>
+export function fromFoldable<K, F extends URIS3>(
+  S: Setoid<K>,
+  F: Foldable3<F>
 ): <U, L, A>(ta: Type3<F, U, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<F extends URIS2, K>(
-  F: Foldable2<F>,
-  S: Setoid<K>
+export function fromFoldable<K, F extends URIS2>(
+  S: Setoid<K>,
+  F: Foldable2<F>
 ): <L, A>(ta: Type2<F, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<F extends URIS, K>(
-  F: Foldable1<F>,
-  S: Setoid<K>
+export function fromFoldable<K, F extends URIS>(
+  S: Setoid<K>,
+  F: Foldable1<F>
 ): <A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<F, K>(
+export function fromFoldable<K, F>(
+  S: Setoid<K>,
   // tslint:disable-next-line: deprecation
-  F: Foldable<F>,
-  S: Setoid<K>
+  F: Foldable<F>
 ): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<F, K>(
+export function fromFoldable<K, F>(
+  S: Setoid<K>,
   // tslint:disable-next-line: deprecation
-  F: Foldable<F>,
-  S: Setoid<K>
+  F: Foldable<F>
 ): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> {
   return <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => {
     return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
