@@ -6,7 +6,7 @@ import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Predicate, tuple, Refinement } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
-import { Option, none, some } from './Option'
+import { Option, fromNullable, none, some } from './Option'
 import { Ord } from './Ord'
 import { Setoid, fromEquals } from './Setoid'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
@@ -41,11 +41,14 @@ export const has = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
  *
  * @since 1.14.0
  */
-export const member = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((k: K, a: A, m: Map<K, A>) => boolean) => {
-  const lookupSK = lookup(SK)
-  return (k, a, m) => {
-    const o = lookupSK(k, m)
-    return o.isSome() && SA.equals(a, o.value)
+export const isMember = <A>(SA: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
+  return (a, m) => {
+    const as = m.values()
+    let e: IteratorResult<A>
+    while (!(e = as.next()).done) {
+      return SA.equals(a, e.value)
+    }
+    return false
   }
 }
 
