@@ -97,21 +97,21 @@ describe('Option', () => {
 
   it('getSetoid', () => {
     const O = getSetoid(ordString)
-    assert.deepStrictEqual(O.equals(none, none), true, 'none === none')
-    assert.deepStrictEqual(O.equals(some('a'), none), false, 'some(a) !== none')
-    assert.deepStrictEqual(O.equals(none, some('a')), false, 'none !== some(a)')
-    assert.deepStrictEqual(O.equals(some('a'), some('a')), true, 'some(a) === some(a)')
-    assert.deepStrictEqual(O.equals(some('a'), some('b')), false, 'some(a) !== some(b)')
+    assert.deepStrictEqual(O.equals(none, none), true)
+    assert.deepStrictEqual(O.equals(some('a'), none), false)
+    assert.deepStrictEqual(O.equals(none, some('a')), false)
+    assert.deepStrictEqual(O.equals(some('a'), some('a')), true)
+    assert.deepStrictEqual(O.equals(some('a'), some('b')), false)
   })
 
-  it('getOptionOrd', () => {
+  it('getOrd', () => {
     const O = getOrd(ordString)
-    assert.deepStrictEqual(O.compare(none, none), 0, 'none ? none')
-    assert.deepStrictEqual(O.compare(some('a'), none), 1, 'some(a) ? none')
-    assert.deepStrictEqual(O.compare(none, some('a')), -1, 'none ? some(a)')
-    assert.deepStrictEqual(O.compare(some('a'), some('a')), 0, 'some(a) ? some(a)')
-    assert.deepStrictEqual(O.compare(some('a'), some('b')), -1, 'some(a) ? some(b)')
-    assert.deepStrictEqual(O.compare(some('b'), some('a')), 1, 'some(b) ? some(a)')
+    assert.deepStrictEqual(O.compare(none, none), 0)
+    assert.deepStrictEqual(O.compare(some('a'), none), 1)
+    assert.deepStrictEqual(O.compare(none, some('a')), -1)
+    assert.deepStrictEqual(O.compare(some('a'), some('a')), 0)
+    assert.deepStrictEqual(O.compare(some('a'), some('b')), -1)
+    assert.deepStrictEqual(O.compare(some('b'), some('a')), 1)
   })
 
   it('mapNullable', () => {

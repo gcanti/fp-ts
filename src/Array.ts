@@ -12,8 +12,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
-import { getSemigroup, Ord, ordNumber } from './Ord'
-import { Ordering } from './Ordering'
+import { getSemigroup, Ord, ordNumber, fromCompare } from './Ord'
 import { Plus1 } from './Plus'
 import { getArraySetoid, Setoid } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
@@ -98,21 +97,18 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
  * @since 1.2.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => {
-  return {
-    ...getSetoid(O),
-    compare: (a: Array<A>, b: Array<A>): Ordering => {
-      const aLen = a.length
-      const bLen = b.length
-      const len = Math.min(aLen, bLen)
-      for (let i = 0; i < len; i++) {
-        const order = O.compare(a[i], b[i])
-        if (order !== 0) {
-          return order
-        }
+  return fromCompare((a, b) => {
+    const aLen = a.length
+    const bLen = b.length
+    const len = Math.min(aLen, bLen)
+    for (let i = 0; i < len; i++) {
+      const order = O.compare(a[i], b[i])
+      if (order !== 0) {
+        return order
       }
-      return ordNumber.compare(aLen, bLen)
     }
-  }
+    return ordNumber.compare(aLen, bLen)
+  })
 }
 
 const map = <A, B>(fa: Array<A>, f: (a: A) => B): Array<B> => {
@@ -444,16 +440,25 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
  * This function provides a safe way to read a value at a particular index from an array
  *
  * @example
- * import { index } from 'fp-ts/lib/Array'
+ * import { lookup } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(index(1, [1, 2, 3]), some(2))
- * assert.deepStrictEqual(index(3, [1, 2, 3]), none)
+ * assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
+ * assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
  *
+ * @since 1.14.0
+ */
+export const lookup = <A>(i: number, as: Array<A>): Option<A> => {
+  return isOutOfBound(i, as) ? none : some(as[i])
+}
+
+/**
+ * Use {@link lookup} instead
  * @since 1.0.0
+ * @deprecated
  */
 export const index = <A>(i: number, as: Array<A>): Option<A> => {
-  return isOutOfBound(i, as) ? none : some(as[i])
+  return lookup(i, as)
 }
 
 /**
@@ -525,7 +530,7 @@ export const head = <A>(as: Array<A>): Option<A> => {
  * @since 1.0.0
  */
 export const last = <A>(as: Array<A>): Option<A> => {
-  return index(as.length - 1, as)
+  return lookup(as.length - 1, as)
 }
 
 /**
@@ -1079,17 +1084,15 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
  * an array of type `Array<A>`.
  *
  * @example
- * import { member } from 'fp-ts/lib/Array'
- * import { setoidString, setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { isMember } from 'fp-ts/lib/Array'
+ * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
- * assert.strictEqual(member(setoidString)(['thing one', 'thing two', 'cat in the hat'], 'thing two'), true)
- * assert.strictEqual(member(setoidNumber)([1, 2, 3], 1), true)
- * assert.strictEqual(member(setoidNumber)([1, 2, 3], 4), false)
+ * assert.strictEqual(isMember(setoidNumber)(1, [1, 2, 3]), true)
+ * assert.strictEqual(isMember(setoidNumber)(4, [1, 2, 3]), false)
  *
- *
- * @since 1.3.0
+ * @since 1.14.0
  */
-export const member = <A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean => {
+export const isMember = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
   const predicate = (e: A) => S.equals(e, a)
   let i = 0
   const len = as.length
@@ -1099,6 +1102,16 @@ export const member = <A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean => {
     }
   }
   return false
+}
+
+/**
+ * Use {@link isMember} instead
+ * @since 1.3.0
+ * @deprecated
+ */
+export const member = <A>(S: Setoid<A>): ((as: Array<A>, a: A) => boolean) => {
+  const has = isMember(S)
+  return (as, a) => has(a, as)
 }
 
 /**
@@ -1114,14 +1127,14 @@ export const member = <A>(S: Setoid<A>) => (as: Array<A>, a: A): boolean => {
  * @since 1.3.0
  */
 export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
-  const memberS = member(S)
+  const isMemberS = isMember(S)
   return as => {
     const r: Array<A> = []
     const len = as.length
     let i = 0
     for (; i < len; i++) {
       const a = as[i]
-      if (!memberS(r, a)) {
+      if (!isMemberS(a, r)) {
         r.push(a)
       }
     }
@@ -1428,8 +1441,8 @@ export function comprehension<R>(
  * @since 1.12.0
  */
 export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
-  const memberS = member(S)
-  return (xs, ys) => concat(xs, ys.filter(a => !memberS(xs, a)))
+  const isMemberS = isMember(S)
+  return (xs, ys) => concat(xs, ys.filter(a => !isMemberS(a, xs)))
 }
 
 /**
@@ -1446,8 +1459,8 @@ export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A
  * @since 1.12.0
  */
 export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
-  const memberS = member(S)
-  return (xs, ys) => xs.filter(a => memberS(ys, a))
+  const isMemberS = isMember(S)
+  return (xs, ys) => xs.filter(a => isMemberS(a, ys))
 }
 
 /**
@@ -1464,8 +1477,8 @@ export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => 
  * @since 1.12.0
  */
 export const difference = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
-  const memberS = member(S)
-  return (xs, ys) => xs.filter(a => !memberS(ys, a))
+  const isMemberS = isMember(S)
+  return (xs, ys) => xs.filter(a => !isMemberS(a, ys))
 }
 
 const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(

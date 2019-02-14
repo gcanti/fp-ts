@@ -1,5 +1,7 @@
 import * as assert from 'assert'
-import { Reader, reader, ask, asks, local } from '../src/Reader'
+import { Reader, reader, ask, asks, local, getSemigroup, getMonoid } from '../src/Reader'
+import { semigroupSum } from '../src/Semigroup'
+import { monoidSum } from '../src/Monoid'
 
 describe('Reader', () => {
   it('map', () => {
@@ -74,5 +76,16 @@ describe('Reader', () => {
     )
     assert.strictEqual(z.run('foo'), true)
     assert.strictEqual(z.run('a'), false)
+  })
+
+  it('getSemigroup', () => {
+    const S = getSemigroup(semigroupSum)
+    assert.strictEqual(S.concat(reader.of(1), reader.of(2)).run({}), 3)
+  })
+
+  it('getMonoid', () => {
+    const M = getMonoid(monoidSum)
+    assert.strictEqual(M.concat(reader.of(1), M.empty).run({}), 1)
+    assert.strictEqual(M.concat(M.empty, reader.of(1)).run({}), 1)
   })
 })

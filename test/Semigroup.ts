@@ -46,6 +46,7 @@ describe('Semigroup', () => {
   })
 
   it('getArraySemigroup', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(getArraySemigroup<number>().concat([1], [2]), [1, 2])
   })
 
@@ -59,6 +60,7 @@ describe('Semigroup', () => {
       foo: 456,
       fff: 456
     }
+    // tslint:disable-next-line: deprecation
     const S = getDictionarySemigroup(semigroupSum)
     const result = S.concat(foo, bar)
     const expected = {

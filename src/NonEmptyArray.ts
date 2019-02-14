@@ -3,7 +3,7 @@ import {
   array,
   last,
   sort,
-  index as arrayIndex,
+  lookup,
   findFirst as arrayFindFirst,
   findIndex as arrayFindIndex,
   insertAt as arrayInsertAt,
@@ -14,14 +14,14 @@ import {
 
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
-import { compose, concat as uncurriedConcat, toString, Refinement, Predicate } from './function'
+import { compose, toString, Refinement, Predicate } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
 import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Setoid, getArraySetoid, fromEquals } from './Setoid'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
@@ -48,7 +48,7 @@ export class NonEmptyArray<A> {
   constructor(readonly head: A, readonly tail: Array<A>) {}
 
   /**
-   * Converts this {@link NonEmptyArray} to plain {@link Array}
+   * Converts this {@link NonEmptyArray} to a plain {@link Array}
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -56,7 +56,21 @@ export class NonEmptyArray<A> {
    * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).toArray(), [1, 2, 3])
    */
   toArray(): Array<A> {
-    return uncurriedConcat([this.head], this.tail)
+    return [this.head, ...this.tail]
+  }
+
+  /**
+   * Converts this {@link NonEmptyArray} to a plain {@link Array} using the given map function
+   *
+   * @example
+   * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
+   *
+   * assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).toArrayMap(s => s.length), [1, 2, 3])
+   *
+   * @since 1.14.0
+   */
+  toArrayMap<B>(f: (a: A) => B): Array<B> {
+    return [f(this.head), ...this.tail.map(a => f(a))]
   }
 
   /**
@@ -68,7 +82,7 @@ export class NonEmptyArray<A> {
    * assert.deepStrictEqual(new NonEmptyArray<number>(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
    */
   concatArray(as: Array<A>): NonEmptyArray<A> {
-    return new NonEmptyArray(this.head, uncurriedConcat(this.tail, as))
+    return new NonEmptyArray(this.head, [...this.tail, ...as])
   }
 
   /**
@@ -292,15 +306,24 @@ export class NonEmptyArray<A> {
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
    * import { some, none } from 'fp-ts/lib/Option'
    *
-   * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).index(1), some(2))
-   * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).index(3), none)
+   * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).lookup(1), some(2))
+   * assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).lookup(3), none)
    *
-   * @since 1.11.0
+   * @since 1.14.0
    */
 
-  index(i: number): Option<A> {
-    return i === 0 ? some(this.head) : arrayIndex(i - 1, this.tail)
+  lookup(i: number): Option<A> {
+    return i === 0 ? some(this.head) : lookup(i - 1, this.tail)
   }
+
+  /**
+   * @since 1.11.0
+   * @deprecated
+   */
+  index(i: number): Option<A> {
+    return this.lookup(i)
+  }
+
   /**
    * Find the first element which satisfies a predicate (or a refinement) function
    *
@@ -438,6 +461,20 @@ export class NonEmptyArray<A> {
     const t = array.filterWithIndex(this.tail, (i, a) => predicate(i + 1, a))
     return predicate(0, this.head) ? some(new NonEmptyArray(this.head, t)) : fromArray(t)
   }
+
+  /**
+   * @since 1.14.0
+   */
+  some(predicate: Predicate<A>): boolean {
+    return predicate(this.head) || this.tail.some(a => predicate(a))
+  }
+
+  /**
+   * @since 1.14.0
+   */
+  every(predicate: Predicate<A>): boolean {
+    return predicate(this.head) && this.tail.every(a => predicate(a))
+  }
 }
 
 const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
@@ -484,6 +521,23 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
  */
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
   return { concat }
+}
+
+/**
+ *
+ * @example
+ * import { NonEmptyArray, getSetoid } from 'fp-ts/lib/NonEmptyArray'
+ * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ *
+ * const S = getSetoid(setoidNumber)
+ * assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [])), true)
+ * assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [2])), false)
+ *
+ * @since 1.14.0
+ */
+export const getSetoid = <A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> => {
+  const setoidTail = getArraySetoid(S)
+  return fromEquals((x, y) => S.equals(x.head, y.head) && setoidTail.equals(x.tail, y.tail))
 }
 
 /**

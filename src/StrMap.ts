@@ -11,10 +11,10 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Record'
-import { getDictionarySemigroup, getLastSemigroup, Semigroup } from './Semigroup'
+import { getLastSemigroup, Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
-import { Unfoldable } from './Unfoldable'
+import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
 // https://github.com/purescript/purescript-maps
@@ -131,6 +131,18 @@ export class StrMap<A> {
   filterWithIndex(p: (i: string, a: A) => boolean): StrMap<A> {
     return new StrMap(R.filterWithIndex(this.value, p))
   }
+  /**
+   * @since 1.14.0
+   */
+  every(predicate: (a: A) => boolean): boolean {
+    return R.every(this.value, predicate)
+  }
+  /**
+   * @since 1.14.0
+   */
+  some(predicate: (a: A) => boolean): boolean {
+    return R.some(this.value, predicate)
+  }
 }
 
 /**
@@ -140,7 +152,7 @@ export class StrMap<A> {
 const empty: StrMap<never> = new StrMap(R.empty)
 
 const concat = <A>(S: Semigroup<A>): ((x: StrMap<A>, y: StrMap<A>) => StrMap<A>) => {
-  const concat = getDictionarySemigroup(S).concat
+  const concat = R.getMonoid(S).concat
   return (x, y) => new StrMap(concat(x.value, y.value))
 }
 
@@ -224,8 +236,8 @@ function sequence<F>(F: Applicative<F>): <A>(ta: StrMap<HKT<F, A>>) => HKT<F, St
  * @since 1.0.0
  */
 export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => {
-  const isSubdictionaryS = R.isSubdictionary(S)
-  return (d1, d2) => isSubdictionaryS(d1.value, d2.value)
+  const isSubrecordS = R.isSubrecord(S)
+  return (d1, d2) => isSubrecordS(d1.value, d2.value)
 }
 
 /**
@@ -251,8 +263,8 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => {
  * @since 1.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => {
-  const isSubdictionaryS = R.isSubdictionary(S)
-  return fromEquals((x, y) => isSubdictionaryS(x.value, y.value) && isSubdictionaryS(y.value, x.value))
+  const isSubrecordS = R.isSubrecord(S)
+  return fromEquals((x, y) => isSubrecordS(x.value, y.value) && isSubrecordS(y.value, x.value))
 }
 
 /**
@@ -319,7 +331,9 @@ export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
  *
  * @since 1.0.0
  */
-export const toUnfoldable = <F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) => {
+export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): (<A>(d: StrMap<A>) => Type<F, [string, A]>)
+export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>)
+export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) {
   const toUnfoldableU = R.toUnfoldable(U)
   return d => toUnfoldableU(d.value)
 }
@@ -330,7 +344,8 @@ export const toUnfoldable = <F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, 
  * @since 1.0.0
  */
 export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
-  return new StrMap(R.insert(k, a, d.value))
+  const value = R.insert(k, a, d.value)
+  return value === d.value ? d : new StrMap(value)
 }
 
 /**
@@ -339,7 +354,8 @@ export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => {
  * @since 1.0.0
  */
 export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
-  return new StrMap(R.remove(k, d.value))
+  const value = R.remove(k, d.value)
+  return value === d.value ? d : new StrMap(value)
 }
 
 /**
@@ -349,6 +365,13 @@ export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
  */
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
   return R.pop(k, d.value).map(([a, d]) => tuple(a, new StrMap(d)))
+}
+
+/**
+ * @since 1.14.0
+ */
+export function isMember<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean {
+  return (a, fa) => fa.some(x => S.equals(x, a))
 }
 
 const filterMap = <A, B>(fa: StrMap<A>, f: (a: A) => Option<B>): StrMap<B> => {

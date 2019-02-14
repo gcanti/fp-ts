@@ -25,7 +25,8 @@ import {
   traverseWithKey,
   singleton,
   isSubdictionary,
-  collect
+  collect,
+  isMember
 } from '../src/StrMap'
 import * as T from '../src/Traversable'
 
@@ -160,10 +161,16 @@ describe('StrMap', () => {
 
   it('insert', () => {
     assert.deepStrictEqual(insert('a', 1, new StrMap({})), new StrMap({ a: 1 }))
+    // should return the same reference if the value is already there
+    const x = new StrMap({ a: 1 })
+    assert.strictEqual(insert('a', 1, x), x)
   })
 
   it('remove', () => {
     assert.deepStrictEqual(remove('a', new StrMap({ a: 1, b: 2 })), new StrMap({ b: 2 }))
+    // should return the same reference if the key is missing
+    const x = new StrMap({ a: 1 })
+    assert.strictEqual(remove('b', x), x)
   })
 
   it('pop', () => {
@@ -307,5 +314,23 @@ describe('StrMap', () => {
   it('foldrWithKey', () => {
     const x1 = new StrMap({ k1: 'a', k2: 'b' })
     assert.strictEqual(strmap.foldrWithIndex(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
+  })
+
+  it('every', () => {
+    const x = new StrMap({ a: 1, b: 2 })
+    assert.strictEqual(x.every(n => n <= 2), true)
+    assert.strictEqual(x.every(n => n <= 1), false)
+  })
+
+  it('some', () => {
+    const x = new StrMap({ a: 1, b: 2 })
+    assert.strictEqual(x.some(n => n <= 1), true)
+    assert.strictEqual(x.some(n => n <= 0), false)
+  })
+
+  it('isMember', () => {
+    const x = new StrMap({ a: 1, b: 2 })
+    assert.strictEqual(isMember(setoidNumber)(1, x), true)
+    assert.strictEqual(isMember(setoidNumber)(3, x), false)
   })
 })

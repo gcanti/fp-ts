@@ -1,6 +1,15 @@
 import * as assert from 'assert'
 import { fold, monoidSum, monoidString } from '../src/Monoid'
-import { NonEmptyArray, nonEmptyArray, fromArray, getSemigroup, group, groupSort, groupBy } from '../src/NonEmptyArray'
+import {
+  NonEmptyArray,
+  nonEmptyArray,
+  fromArray,
+  getSemigroup,
+  group,
+  groupSort,
+  groupBy,
+  getSetoid
+} from '../src/NonEmptyArray'
 import { none, option, some, isSome } from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import * as F from '../src/Foldable'
@@ -8,6 +17,7 @@ import { identity } from '../src/function'
 import * as T from '../src/Traversable'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
+import { setoidNumber } from '../src/Setoid'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -138,6 +148,12 @@ describe('NonEmptyArray', () => {
     )
   })
 
+  it('getSetoid', () => {
+    const S = getSetoid(setoidNumber)
+    assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [])), true)
+    assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [2])), false)
+  })
+
   it('group', () => {
     assert.deepStrictEqual(group(ordNumber)([]), [])
 
@@ -190,9 +206,13 @@ describe('NonEmptyArray', () => {
 
   it('index', () => {
     const arr = new NonEmptyArray(1, [2, 3])
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(arr.index(-1), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(arr.index(0), some(1))
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(arr.index(3), none)
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(arr.index(1), some(2))
   })
 
@@ -267,6 +287,19 @@ describe('NonEmptyArray', () => {
     assert.deepStrictEqual(arr.updateAt(-1, a4), none)
     assert.deepStrictEqual(arr.updateAt(3, a4), none)
     assert.deepStrictEqual(arr.updateAt(1, a4), some(new NonEmptyArray(a1, [a4, a3])))
+    // should return the same reference if nothing changed
+    const r1 = arr.updateAt(0, a1)
+    if (r1.isSome()) {
+      assert.strictEqual(r1.value, arr)
+    } else {
+      assert.fail('is not a Some')
+    }
+    const r2 = arr.updateAt(2, a3)
+    if (r2.isSome()) {
+      assert.strictEqual(r2.value, arr)
+    } else {
+      assert.fail('is not a Some')
+    }
   })
 
   it('filter', () => {
@@ -345,5 +378,21 @@ describe('NonEmptyArray', () => {
       nonEmptyArray.mapWithIndex(ta, f),
       nonEmptyArray.traverseWithIndex(I.identity)(ta, (i, a) => new I.Identity(f(i, a))).value
     )
+  })
+
+  it('toArrayMap', () => {
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).toArrayMap(s => s.length), [1, 2, 3])
+  })
+
+  it('some', () => {
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).some(s => s.length === 1), true)
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).some(s => s.length === 2), true)
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).some(s => s.length === 4), false)
+  })
+
+  it('every', () => {
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).every(s => s.length >= 1), true)
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).every(s => s.length >= 2), false)
+    assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).every(s => s.length >= 1 && s.length < 3), false)
   })
 })

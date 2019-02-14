@@ -5,13 +5,13 @@ import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Predicate, tuple, Refinement } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getDictionaryMonoid, Monoid } from './Monoid'
-import { none, Option, some } from './Option'
+import { none, Option, some as optionSome } from './Option'
 import { Setoid, fromEquals } from './Setoid'
-import { Unfoldable } from './Unfoldable'
+import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
 
 /**
- * Calculate the number of key/value pairs in a dictionary
+ * Calculate the number of key/value pairs in a record
  *
  * @since 1.10.0
  */
@@ -20,7 +20,7 @@ export const size = <A>(d: Record<string, A>): number => {
 }
 
 /**
- * Test whether a dictionary is empty
+ * Test whether a record is empty
  *
  * @since 1.10.0
  */
@@ -52,14 +52,20 @@ export function toArray<A>(d: Record<string, A>): Array<[string, A]> {
 }
 
 /**
- * Unfolds a dictionary into a list of key/value pairs
+ * Unfolds a record into a list of key/value pairs
  *
  * @since 1.10.0
  */
-export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: Record<string, A>): HKT<F, [string, A]> => {
-  const arr = toArray(d)
-  const len = arr.length
-  return unfoldable.unfoldr(0, b => (b < len ? some(tuple(arr[b], b + 1)) : none))
+export function toUnfoldable<F extends URIS>(
+  unfoldable: Unfoldable1<F>
+): <A>(d: Record<string, A>) => Type<F, [string, A]>
+export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string, A>) => HKT<F, [string, A]>
+export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string, A>) => HKT<F, [string, A]> {
+  return d => {
+    const arr = toArray(d)
+    const len = arr.length
+    return unfoldable.unfoldr(0, b => (b < len ? optionSome(tuple(arr[b], b + 1)) : none))
+  }
 }
 
 /**
@@ -70,6 +76,9 @@ export const toUnfoldable = <F>(unfoldable: Unfoldable<F>) => <A>(d: Record<stri
 export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A>
 export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A>
 export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A> {
+  if (d[k] === a) {
+    return d
+  }
   const r = Object.assign({}, d)
   r[k] = a
   return r
@@ -86,6 +95,9 @@ export function remove<KS extends string, K extends string, A>(
 ): Record<string extends K ? string : Exclude<KS, K>, A>
 export function remove<A>(k: string, d: Record<string, A>): Record<string, A>
 export function remove<A>(k: string, d: Record<string, A>): Record<string, A> {
+  if (!d.hasOwnProperty(k)) {
+    return d
+  }
   const r = Object.assign({}, d)
   delete r[k]
   return r
@@ -98,15 +110,15 @@ export function remove<A>(k: string, d: Record<string, A>): Record<string, A> {
  */
 export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> => {
   const a = lookup(k, d)
-  return a.isNone() ? none : some(tuple(a.value, remove(k, d)))
+  return a.isNone() ? none : optionSome(tuple(a.value, remove(k, d)))
 }
 
 /**
- * Test whether one dictionary contains all of the keys and values contained in another dictionary
+ * Test whether one record contains all of the keys and values contained in another record
  *
- * @since 1.10.0
+ * @since 1.14.0
  */
-export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
+export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
   for (let k in d1) {
     if (!d2.hasOwnProperty(k) || !S.equals(d1[k], d2[k])) {
       return false
@@ -116,21 +128,40 @@ export const isSubdictionary = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: 
 }
 
 /**
+ * Use {@link isSubrecord} instead
+ * @since 1.10.0
+ * @deprecated
+ */
+export const isSubdictionary: <A>(
+  S: Setoid<A>
+) => (d1: Record<string, A>, d2: Record<string, A>) => boolean = isSubrecord
+
+/**
  * @since 1.10.0
  */
 export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
 export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>>
 export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> {
-  const isSubdictionaryS = isSubdictionary(S)
-  return fromEquals((x, y) => isSubdictionaryS(x, y) && isSubdictionaryS(y, x))
+  const isSubrecordS = isSubrecord(S)
+  return fromEquals((x, y) => isSubrecordS(x, y) && isSubrecordS(y, x))
 }
 
 /**
+ * Returns a {@link Semigroup} instance for records given a {@link Semigroup} instance for their values
+ *
+ * @example
+ * import { semigroupSum } from 'fp-ts/lib/Semigroup'
+ * import { getMonoid } from 'fp-ts/lib/Record'
+ *
+ * const M = getMonoid(semigroupSum)
+ * assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
+ *
  * @since 1.10.0
  */
 export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
+  // tslint:disable-next-line: deprecation
   return getDictionaryMonoid(S)
 }
 
@@ -139,7 +170,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
  * @since 1.10.0
  */
 export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => {
-  return fa.hasOwnProperty(key) ? some(fa[key]) : none
+  return fa.hasOwnProperty(key) ? optionSome(fa[key]) : none
 }
 
 /**
@@ -275,10 +306,19 @@ export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>> {
   return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
-    let fr: HKT<F, Record<string, B>> = F.of(empty)
     const keys = Object.keys(ta)
+    if (keys.length === 0) {
+      return F.of(empty)
+    }
+    let fr: HKT<F, Record<string, B>> = F.of({})
     for (const key of keys) {
-      fr = F.ap(F.map(fr, r => (b: B) => ({ ...r, [key]: b })), f(key, ta[key]))
+      fr = F.ap(
+        F.map(fr, r => (b: B) => {
+          r[key] = b
+          return r
+        }),
+        f(key, ta[key])
+      )
     }
     return fr
   }
@@ -572,14 +612,18 @@ export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: 
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
   const r: Record<string, A> = {}
-  const keys = Object.keys(fa)
-  for (const key of keys) {
-    const a = fa[key]
-    if (p(key, a)) {
-      r[key] = a
+  let changed = false
+  for (const key in fa) {
+    if (fa.hasOwnProperty(key)) {
+      const a = fa[key]
+      if (p(key, a)) {
+        r[key] = a
+      } else {
+        changed = true
+      }
     }
   }
-  return r
+  return changed ? r : fa
 }
 
 /**
@@ -611,4 +655,35 @@ export function fromFoldable<F>(
       return b
     })
   }
+}
+
+/**
+ * @since 1.14.0
+ */
+export function every<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean): boolean {
+  for (const k in fa) {
+    if (!predicate(fa[k])) {
+      return false
+    }
+  }
+  return true
+}
+
+/**
+ * @since 1.14.0
+ */
+export function some<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean): boolean {
+  for (const k in fa) {
+    if (predicate(fa[k])) {
+      return true
+    }
+  }
+  return false
+}
+
+/**
+ * @since 1.14.0
+ */
+export function isMember<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boolean {
+  return (a, fa) => some(fa, x => S.equals(x, a))
 }

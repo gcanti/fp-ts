@@ -5,6 +5,8 @@ import { Profunctor2 } from './Profunctor'
 import { Strong2 } from './Strong'
 import { Choice2 } from './Choice'
 import { Either, left as eitherLeft, right as eitherRight } from './Either'
+import { Semigroup } from './Semigroup'
+import { Monoid } from './Monoid'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -118,6 +120,25 @@ const left = <A, B, C>(pab: Reader<A, B>): Reader<Either<A, C>, Either<B, C>> =>
 
 const right = <A, B, C>(pbc: Reader<B, C>): Reader<Either<A, B>, Either<A, C>> => {
   return new Reader(e => e.fold<Either<A, C>>(eitherLeft, b => eitherRight(pbc.run(b))))
+}
+
+/**
+ * @since 1.14.0
+ */
+export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => {
+  return {
+    concat: (x, y) => new Reader(e => S.concat(x.run(e), y.run(e)))
+  }
+}
+
+/**
+ * @since 1.14.0
+ */
+export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => {
+  return {
+    ...getSemigroup(M),
+    empty: of(M.empty)
+  }
 }
 
 /**

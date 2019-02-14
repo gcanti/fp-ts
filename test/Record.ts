@@ -101,6 +101,8 @@ describe('Record', () => {
     const d2 = { k1: 2, k2: 3 }
     const t2 = R.traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
     assert.deepStrictEqual(t2, some({ k1: 2, k2: 3 }))
+    const t3 = R.traverseWithKey(option)({}, (k, n): Option<number> => none)
+    assert.strictEqual(t3.getOrElse({}), R.empty)
   })
 
   it('size', () => {
@@ -116,10 +118,16 @@ describe('Record', () => {
   it('insert', () => {
     assert.deepStrictEqual(R.insert('a', 1, {}), { a: 1 })
     assert.deepStrictEqual(R.insert('c', 3, { a: 1, b: 2 }), { a: 1, b: 2, c: 3 })
+    // should return the same reference if the value is already there
+    const x = { a: 1 }
+    assert.strictEqual(R.insert('a', 1, x), x)
   })
 
   it('remove', () => {
     assert.deepStrictEqual(R.remove('a', { a: 1, b: 2 }), { b: 2 })
+    // should return the same reference if the key is missing
+    const x = { a: 1 }
+    assert.strictEqual(R.remove('b', x), x)
   })
 
   it('pop', () => {
@@ -147,6 +155,11 @@ describe('Record', () => {
     const y: Record<string, string | number> = { a: 1, b: 'foo' }
     const actual = R.filter(y, isNumber)
     assert.deepStrictEqual(actual, { a: 1 })
+
+    assert.strictEqual(R.filter(y, _ => true), y)
+
+    const x = Object.assign(Object.create({ c: true }), { a: 1, b: 'foo' })
+    assert.deepStrictEqual(R.filter(x, isNumber), { a: 1 })
   })
 
   it('filterMap', () => {
@@ -201,5 +214,24 @@ describe('Record', () => {
   it('foldrWithKey', () => {
     const x1 = { k1: 'a', k2: 'b' }
     assert.strictEqual(R.foldrWithKey(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
+  })
+
+  it('every', () => {
+    const x: Record<string, number> = { a: 1, b: 2 }
+    const y: { [key: string]: number } = { a: 1, b: 2 }
+    assert.strictEqual(R.every(x, n => n <= 2), true)
+    assert.strictEqual(R.every(y, n => n <= 1), false)
+  })
+
+  it('some', () => {
+    const x: Record<string, number> = { a: 1, b: 2 }
+    const y: { [key: string]: number } = { a: 1, b: 2 }
+    assert.strictEqual(R.some(x, n => n <= 1), true)
+    assert.strictEqual(R.some(y, n => n <= 0), false)
+  })
+
+  it('isMember', () => {
+    assert.strictEqual(R.isMember(setoidNumber)(1, { a: 1, b: 2 }), true)
+    assert.strictEqual(R.isMember(setoidNumber)(3, { a: 1, b: 2 }), false)
   })
 })

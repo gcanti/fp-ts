@@ -1,25 +1,26 @@
-import * as Apv from '../src/Applicative'
-import * as Apy from '../src/Apply'
-import * as A from '../src/Array'
-import * as C from '../src/Const'
-import * as E from '../src/Either'
-import * as F from '../src/Functor'
-import * as H from '../src/HKT'
-import * as Ix from '../src/IxIO'
-import * as O from '../src/Option'
-import * as OT from '../src/OptionT'
-import * as Re from '../src/Reader'
-import * as RTE from '../src/ReaderTaskEither'
-import * as R from '../src/Record'
-import * as S from '../src/Semigroup'
-import * as T from '../src/Task'
-import * as TE from '../src/TaskEither'
-import * as Th from '../src/These'
-import * as Tr from '../src/Traversable'
-import * as U from '../src/Unfoldable'
-import * as V from '../src/Validation'
-import * as Mon from '../src/Monoid'
-import * as Se from '../src/Setoid'
+import * as Apv from '../../src/Applicative'
+import * as Apy from '../../src/Apply'
+import * as A from '../../src/Array'
+import * as C from '../../src/Const'
+import * as E from '../../src/Either'
+import * as F from '../../src/Functor'
+import * as H from '../../src/HKT'
+import * as Ix from '../../src/IxIO'
+import * as O from '../../src/Option'
+import * as OT from '../../src/OptionT'
+import * as Re from '../../src/Reader'
+import * as RTE from '../../src/ReaderTaskEither'
+import * as R from '../../src/Record'
+import * as S from '../../src/Semigroup'
+import * as T from '../../src/Task'
+import * as TE from '../../src/TaskEither'
+import * as Th from '../../src/These'
+import * as Tr from '../../src/Traversable'
+import * as U from '../../src/Unfoldable'
+import * as V from '../../src/Validation'
+import * as Mon from '../../src/Monoid'
+import * as Se from '../../src/Setoid'
+import * as SM from '../../src/StrMap'
 
 const double = (n: number) => n * 2
 
@@ -225,6 +226,8 @@ const Mon2 = R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Rec
 const Set1 = R.getSetoid<Keys, number>(Se.setoidNumber) // $ExpectType Setoid<Record<Keys, number>>
 const Set2 = R.getSetoid(Se.setoidNumber) // $ExpectType Setoid<Record<string, number>>
 
+const toUnfoldable1 = R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType [string, number][]
+
 //
 // Semigroup
 //
@@ -238,3 +241,9 @@ const Sem2 = S.getDictionarySemigroup<Keys, number>(S.semigroupSum) // $ExpectTy
 
 const Mon3 = Mon.getDictionaryMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
 const Mon4 = Mon.getDictionaryMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+
+//
+// StrMap
+//
+
+const toUnfoldable2 = SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $ExpectType [string, number][]

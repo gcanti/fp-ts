@@ -1,8 +1,7 @@
 import { Bounded } from './Bounded'
-import { compose, Endomorphism, identity } from './function'
+import { compose, Endomorphism, identity, concat } from './function'
 import {
   fold as foldSemigroup,
-  getArraySemigroup,
   getDictionarySemigroup,
   getDualSemigroup,
   getFunctionSemigroup,
@@ -78,12 +77,12 @@ const emptyArray: Array<any> = []
  * @since 1.0.0
  */
 export const unsafeMonoidArray: Monoid<Array<any>> = {
-  ...getArraySemigroup(),
+  concat,
   empty: emptyArray
 }
 
 /**
- * Monoid under array concatenation (`Array<any>`)
+ * `Monoid` under array concatenation
  *
  * @since 1.0.0
  */
@@ -94,21 +93,15 @@ export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
 const emptyObject = {}
 
 /**
- * Gets {@link Monoid} instance for dictionaries given {@link Semigroup} instance for their values
- *
- * @example
- * import { getDictionaryMonoid, fold } from 'fp-ts/lib/Monoid'
- * import { semigroupSum } from 'fp-ts/lib/Semigroup'
- *
- * const M = getDictionaryMonoid(semigroupSum)
- * assert.deepStrictEqual(fold(M)([{ foo: 123 }, { foo: 456 }]), { foo: 579 })
- *
+ * Use {@link Record}'s `getMonoid`
  * @since 1.4.0
+ * @deprecated
  */
 export function getDictionaryMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
 export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }>
 export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> {
   return {
+    // tslint:disable-next-line: deprecation
     ...getDictionarySemigroup(S),
     empty: emptyObject
   }
