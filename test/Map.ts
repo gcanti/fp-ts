@@ -16,7 +16,7 @@ describe('Map', () => {
     const d1 = new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 3]])
     const d2 = new Map<'k2' | 'k3', number>([['k2', 2], ['k3', 4]])
     const expected = new Map<'k1' | 'k2' | 'k3', number>([['k1', 1], ['k2', 5], ['k3', 4]])
-    const S2 = M.getMonoid(setoidString)(semigroupSum)
+    const S2 = M.getMonoid(setoidString, semigroupSum)
     assert.deepStrictEqual(S2.concat(d1, d2), expected)
   })
 
