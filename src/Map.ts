@@ -6,7 +6,7 @@ import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Predicate, tuple, Refinement } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
-import { Option, fromNullable, none, some } from './Option'
+import { Option, none, some } from './Option'
 import { Ord } from './Ord'
 import { Setoid, fromEquals } from './Setoid'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
@@ -37,7 +37,7 @@ export const has = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
 }
 
 /**
- * Test whether or not a key/value pair is a member of a map
+ * Test whether or not a value is a member of a map
  *
  * @since 1.14.0
  */
