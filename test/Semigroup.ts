@@ -7,7 +7,6 @@ import {
   getDictionarySemigroup,
   getFirstSemigroup,
   getJoinSemigroup,
-  getMapSemigroup,
   getMeetSemigroup,
   getObjectSemigroup,
   getProductSemigroup,
@@ -67,20 +66,6 @@ describe('Semigroup', () => {
       foo: foo.foo + bar.foo,
       fff: bar.fff
     }
-    assert.deepStrictEqual(result, expected)
-  })
-
-  it('getMapSemigroup', () => {
-    type NumberMap = Map<string, number>
-    const foo: NumberMap = new Map([['foo', 123], ['bar', 123]])
-    const bar: NumberMap = new Map([['foo', 456], ['fff', 456]])
-    const S = getMapSemigroup(semigroupSum)
-    const result = S.concat(foo, bar)
-    const expected = new Map<string, number>([
-      ['bar', foo.get('bar')!],
-      ['foo', foo.get('foo')! + bar.get('foo')!],
-      ['fff', bar.get('fff')!]
-    ])
     assert.deepStrictEqual(result, expected)
   })
 
