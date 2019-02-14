@@ -6,7 +6,6 @@ import {
   getDictionaryMonoid,
   getEndomorphismMonoid,
   getFunctionMonoid,
-  getMapMonoid,
   getRecordMonoid,
   monoidAll,
   monoidAny,
@@ -88,19 +87,6 @@ describe('Monoid', () => {
     })
   })
 
-  it('getMapMonoid', () => {
-    type NumberMap = Map<string, number>
-    const foo: NumberMap = new Map([['foo', 123], ['bar', 123]])
-    const bar: NumberMap = new Map([['foo', 456], ['fff', 456]])
-    const M = getMapMonoid(semigroupSum)
-    const result = fold(M)([foo, bar])
-    const expected = new Map<string, number>([
-      ['bar', foo.get('bar')!],
-      ['foo', foo.get('foo')! + bar.get('foo')!],
-      ['fff', bar.get('fff')!]
-    ])
-    assert.deepStrictEqual(result, expected)
-  })
   it('getArrayMonoid', () => {
     const M = getProductMonoid(monoidString, monoidSum)
     assert.deepStrictEqual(M.empty, ['', 0])
