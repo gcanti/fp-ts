@@ -50,9 +50,9 @@ describe('Map', () => {
     assert.deepStrictEqual(ks, ['a', 'b'])
   })
 
-  it('keys_', () => {
+  it('keysSet', () => {
     const a1b2 = new Map<'a' | 'b' | 'c', number>([['a', 1], ['a', 2], ['b', 3]])
-    const ks = M.keys_(ordString)(a1b2)
+    const ks = M.keysSet(a1b2)
     const arr = Array.from(a1b2.keys())
     assert.deepStrictEqual(ks, fromArray(ordString)(arr))
     assert.deepStrictEqual(ks, new Set(['a', 'b']))

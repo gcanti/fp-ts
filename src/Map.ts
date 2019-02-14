@@ -11,7 +11,6 @@ import { Ord } from './Ord'
 import { Setoid, fromEquals } from './Setoid'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
-import { fromArray } from './Set'
 
 /**
  * Calculate the number of key/value pairs in a Map
@@ -68,13 +67,7 @@ export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => {
 /**
  * @since 1.14.0
  */
-export const keys_ = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Set<K>) => {
-  return m => {
-    const ks = keys(O)(m)
-    const S = { equals: O.equals }
-    return fromArray(S)(ks)
-  }
-}
+export const keysSet = <K, A>(m: Map<K, A>): Set<K> => new Set(m.keys())
 
 /**
  * @since 1.14.0
