@@ -283,8 +283,9 @@ export const map = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWit
 /**
  * @since 1.14.0
  */
-export const reduce = <K, A, B>(fa: Map<K, A>, b: B, f: (b: B, a: A) => B): B =>
-  reduceWithKey(fa, b, (_, b, a) => f(b, a))
+export const reduce = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (b: B, a: A) => B) => B) => {
+  return (fa, b, f) => reduceWithKey(O)(fa, b, (_, b, a) => f(b, a))
+}
 
 /**
  * @since 1.14.0
@@ -295,21 +296,25 @@ export const foldMap = <M>(M: Monoid<M>): (<K, A>(fa: Map<K, A>, f: (a: A) => M)
 /**
  * @since 1.14.0
  */
-export const foldr = <K, A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B) => B): B =>
-  foldrWithKey(fa, b, (_, a, b) => f(a, b))
+export const foldr = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B) => B) => B) => {
+  return (fa, b, f) => foldrWithKey(O)(fa, b, (_, a, b) => f(a, b))
+}
 
 /**
  * @since 1.14.0
  */
-export const reduceWithKey = <K, A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
-  let out: B = b
-  const entries = fa.entries()
-  let e: IteratorResult<[K, A]>
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    out = f(k, out, a)
+export const reduceWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B) => B) => {
+  const keysO = keys(O)
+  return <A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
+    let out: B = b
+    const ks = keysO(fa)
+    const len = ks.length
+    for (let i = 0; i < len; i++) {
+      const k = ks[i]
+      out = f(k, out, fa.get(k)!)
+    }
+    return out
   }
-  return out
 }
 
 /**
@@ -331,15 +336,18 @@ export const foldMapWithKey = <M>(M: Monoid<M>): (<K, A>(fa: Map<K, A>, f: (k: K
 /**
  * @since 1.14.0
  */
-export const foldrWithKey = <K, A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
-  let out: B = b
-  const entries = fa.entries()
-  let e: IteratorResult<[K, A]>
-  while (!(e = entries.next()).done) {
-    const [k, a] = e.value
-    out = f(k, a, out)
+export const foldrWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B) => B) => {
+  const keysO = keys(O)
+  return <A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
+    let out: B = b
+    const ks = keysO(fa)
+    const len = ks.length
+    for (let i = len - 1; i >= 0; i--) {
+      const k = ks[i]
+      out = f(k, fa.get(k)!, out)
+    }
+    return out
   }
-  return out
 }
 
 /**

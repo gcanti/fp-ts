@@ -47,7 +47,7 @@ Added in v1.0.0
 
 Number Semigroup under multiplication
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L202-L204)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L182-L184)
 
 ```ts
 export const semigroupProduct: Semigroup<number> = ...
@@ -57,7 +57,7 @@ Added in v1.0.0
 
 ## semigroupString
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L209-L211)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L189-L191)
 
 ```ts
 export const semigroupString: Semigroup<string> = ...
@@ -69,7 +69,7 @@ Added in v1.0.0
 
 Number Semigroup under addition
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L194-L196)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L174-L176)
 
 ```ts
 export const semigroupSum: Semigroup<number> = ...
@@ -79,7 +79,7 @@ Added in v1.0.0
 
 ## semigroupVoid
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L216-L218)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L196-L198)
 
 ```ts
 export const semigroupVoid: Semigroup<void> = ...
@@ -180,18 +180,6 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => { ... }
 
 Added in v1.0.0
 
-## getMapSemigroup
-
-Gets [Semigroup](./Semigroup.md) instance for Maps given [Semigroup](./Semigroup.md) instance for their values
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L157-L170)
-
-```ts
-export const getMapSemigroup = <K, A>(S: Semigroup<A>): Semigroup<Map<K, A>> => { ... }
-```
-
-Added in v1.14.0
-
 ## getMeetSemigroup
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L81-L85)
@@ -206,7 +194,7 @@ Added in v1.0.0
 
 Gets [Semigroup](./Semigroup.md) instance for objects of given type preserving their type
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L186-L188)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts#L166-L168)
 
 ```ts
 export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => { ... }

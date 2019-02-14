@@ -30,9 +30,10 @@ describe('Map', () => {
 
   it('reduce', () => {
     const d1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-    assert.strictEqual(M.reduce(d1, '', (b, a) => b + a), 'ab')
+    const reduceO = M.reduce(ordString)
+    assert.strictEqual(reduceO(d1, '', (b, a) => b + a), 'ab')
     const d2 = new Map<'k1' | 'k2', string>([['k2', 'b'], ['k1', 'a']])
-    assert.strictEqual(M.reduce(d2, '', (b, a) => b + a), 'ab')
+    assert.strictEqual(reduceO(d2, '', (b, a) => b + a), 'ab')
   })
 
   it('foldMap', () => {
@@ -43,11 +44,10 @@ describe('Map', () => {
   })
 
   it('foldr', () => {
-    const foldr = M.foldr
     const x1 = new Map<'a' | 'b', string>([['a', 'a'], ['b', 'b']])
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(foldr(x1, init1, f1), 'ba')
+    assert.strictEqual(M.foldr(ordString)(x1, init1, f1), 'ba')
   })
 
   it('traverse', () => {
@@ -133,6 +133,13 @@ describe('Map', () => {
     const expected = Array.from(a1b2.keys())
     assert.deepStrictEqual(ks, expected)
     assert.deepStrictEqual(ks, ['a', 'b'])
+  })
+
+  it('isMember', () => {
+    const a1b2 = new Map<'a' | 'b', number>([['a', 1], ['b', 2]])
+    const isMemberS = M.isMember(setoidNumber)
+    assert.deepStrictEqual(isMemberS(2, a1b2), true)
+    assert.deepStrictEqual(isMemberS(3, a1b2), false)
   })
 
   it('isEmpty', () => {
@@ -256,9 +263,10 @@ describe('Map', () => {
 
   it('reduceWithKey', () => {
     const d1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-    assert.strictEqual(M.reduceWithKey(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
+    const reduceWithKeyO = M.reduceWithKey(ordString)
+    assert.strictEqual(reduceWithKeyO(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
     const d2 = new Map<'k1' | 'k2', string>([['k2', 'b'], ['k1', 'a']])
-    assert.strictEqual(M.reduceWithKey(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
+    assert.strictEqual(reduceWithKeyO(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
   })
 
   it('foldMapWithKey', () => {
@@ -268,6 +276,6 @@ describe('Map', () => {
 
   it('foldrWithKey', () => {
     const x1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-    assert.strictEqual(M.foldrWithKey(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
+    assert.strictEqual(M.foldrWithKey(ordString)(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
   })
 })
