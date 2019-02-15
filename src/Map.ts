@@ -264,7 +264,7 @@ export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, 
 export function filter<K, A, B extends A>(fa: Map<K, A>, p: Refinement<A, B>): Map<K, B>
 export function filter<K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A>
 export function filter<K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A> {
-  return filterWithIndex(fa, (_, a) => p(a))
+  return filterWithKey(fa, (_, a) => p(a))
 }
 
 /**
@@ -464,13 +464,13 @@ export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
 export const partitionMap = <K, RL, RR, A>(
   fa: Map<K, A>,
   f: (a: A) => Either<RL, RR>
-): Separated<Map<K, RL>, Map<K, RR>> => partitionMapWithIndex(fa, (_, a) => f(a))
+): Separated<Map<K, RL>, Map<K, RR>> => partitionMapWithKey(fa, (_, a) => f(a))
 
 /**
  * @since 1.14.0
  */
 export const partition = <K, A>(fa: Map<K, A>, p: Predicate<A>): Separated<Map<K, A>, Map<K, A>> =>
-  partitionWithIndex(fa, (_, a) => p(a))
+  partitionWithKey(fa, (_, a) => p(a))
 
 /**
  * @since 1.14.0
@@ -566,13 +566,13 @@ export function wilt<F>(
  * @since 1.14.0
  */
 export const filterMap = <K, A, B>(fa: Map<K, A>, f: (a: A) => Option<B>): Map<K, B> => {
-  return filterMapWithIndex(fa, (_, a) => f(a))
+  return filterMapWithKey(fa, (_, a) => f(a))
 }
 
 /**
  * @since 1.14.0
  */
-export const partitionMapWithIndex = <K, RL, RR, A>(
+export const partitionMapWithKey = <K, RL, RR, A>(
   fa: Map<K, A>,
   f: (k: K, a: A) => Either<RL, RR>
 ): Separated<Map<K, RL>, Map<K, RR>> => {
@@ -598,10 +598,7 @@ export const partitionMapWithIndex = <K, RL, RR, A>(
 /**
  * @since 1.14.0
  */
-export const partitionWithIndex = <K, A>(
-  fa: Map<K, A>,
-  p: (k: K, a: A) => boolean
-): Separated<Map<K, A>, Map<K, A>> => {
+export const partitionWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> => {
   const left = new Map<K, A>()
   const right = new Map<K, A>()
   const entries = fa.entries()
@@ -623,7 +620,7 @@ export const partitionWithIndex = <K, A>(
 /**
  * @since 1.14.0
  */
-export const filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
+export const filterMapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
@@ -640,7 +637,7 @@ export const filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Op
 /**
  * @since 1.14.0
  */
-export const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
+export const filterWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>

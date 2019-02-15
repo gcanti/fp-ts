@@ -57,22 +57,22 @@ export const filterMap = <K, A, B>(fa: Map<K, A>, f: (a: A) => Option<B>): Map<K
 
 Added in v1.14.0
 
-## filterMapWithIndex
+## filterMapWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L626-L638)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L623-L635)
 
 ```ts
-export const filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => { ... }
+export const filterMapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => { ... }
 ```
 
 Added in v1.14.0
 
-## filterWithIndex
+## filterWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L643-L654)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L640-L651)
 
 ```ts
-export const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => { ... }
+export const filterWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => { ... }
 ```
 
 Added in v1.14.0
@@ -123,7 +123,7 @@ Added in v1.14.0
 Create a Map from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L679-L691)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L676-L688)
 
 ```ts
 export function fromFoldable<K, F>(
@@ -288,7 +288,7 @@ Added in v1.14.0
 
 ```ts
 export const partition = <K, A>(fa: Map<K, A>, p: Predicate<A>): Separated<Map<K, A>, Map<K, A>> =>
-  partitionWithIndex(fa, (_, a) => { ... }
+  partitionWithKey(fa, (_, a) => { ... }
 ```
 
 Added in v1.14.0
@@ -301,17 +301,17 @@ Added in v1.14.0
 export const partitionMap = <K, RL, RR, A>(
   fa: Map<K, A>,
   f: (a: A) => Either<RL, RR>
-): Separated<Map<K, RL>, Map<K, RR>> => partitionMapWithIndex(fa, (_, a) => { ... }
+): Separated<Map<K, RL>, Map<K, RR>> => partitionMapWithKey(fa, (_, a) => { ... }
 ```
 
 Added in v1.14.0
 
-## partitionMapWithIndex
+## partitionMapWithKey
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L575-L596)
 
 ```ts
-export const partitionMapWithIndex = <K, RL, RR, A>(
+export const partitionMapWithKey = <K, RL, RR, A>(
   fa: Map<K, A>,
   f: (k: K, a: A) => Either<RL, RR>
 ): Separated<Map<K, RL>, Map<K, RR>> => { ... }
@@ -319,15 +319,12 @@ export const partitionMapWithIndex = <K, RL, RR, A>(
 
 Added in v1.14.0
 
-## partitionWithIndex
+## partitionWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L601-L621)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L601-L618)
 
 ```ts
-export const partitionWithIndex = <K, A>(
-  fa: Map<K, A>,
-  p: (k: K, a: A) => boolean
-): Separated<Map<K, A>, Map<K, A>> => { ... }
+export const partitionWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> => { ... }
 ```
 
 Added in v1.14.0
