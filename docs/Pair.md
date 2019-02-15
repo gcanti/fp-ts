@@ -120,7 +120,7 @@ Added in v1.0.0
 
 ## pair
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L148-L160)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L145-L157)
 
 ```ts
 export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
@@ -130,7 +130,7 @@ Added in v1.0.0
 
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L130-L135)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L127-L132)
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => { ... }
@@ -140,7 +140,7 @@ Added in v1.0.0
 
 ## getOrd
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L111-L116)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L111-L113)
 
 ```ts
 export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => { ... }
@@ -150,7 +150,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L121-L125)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts#L118-L122)
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => { ... }

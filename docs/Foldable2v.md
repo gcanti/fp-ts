@@ -24,7 +24,7 @@ Added in v1.10.0
 
 Find the first element which satisfies a predicate function
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L471-L480)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L472-L481)
 
 ```ts
 export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>  { ... }
@@ -146,7 +146,7 @@ Added in v1.10.0
 
 Find the largest element of a structure, according to its `Ord` instance
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L527-L530)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L528-L531)
 
 ```ts
 export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>  { ... }
@@ -170,7 +170,7 @@ Added in v1.10.0
 
 Test whether a value is an element of a data structure
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L441-L443)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L441-L444)
 
 ```ts
 export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean  { ... }
@@ -194,7 +194,7 @@ Added in v1.10.0
 
 Find the smallest element of a structure, according to its `Ord` instance
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L502-L505)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L503-L506)
 
 ```ts
 export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>  { ... }
@@ -311,7 +311,7 @@ Added in v1.10.0
 
 Transforms a foldable into an array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L550-L553)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L551-L554)
 
 ```ts
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A>  { ... }
@@ -334,7 +334,7 @@ Added in v1.10.0
 Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
 final result.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L595-L603)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L596-L604)
 
 ```ts
 export function traverse_<M, F>(

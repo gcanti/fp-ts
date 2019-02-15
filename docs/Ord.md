@@ -39,7 +39,7 @@ Added in v1.0.0
 
 ## ordDate
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L180-L180)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L176-L176)
 
 ```ts
 export const ordDate: Ord<Date> = ...
@@ -113,7 +113,7 @@ Added in v1.0.0
 
 ## getDualOrd
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L173-L175)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L169-L171)
 
 ```ts
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => { ... }
@@ -123,7 +123,7 @@ Added in v1.3.0
 
 ## getProductOrd
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L159-L168)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L159-L164)
 
 ```ts
 export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => { ... }
