@@ -11,17 +11,12 @@ export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Traversable', () => {
   it('getTraversableComposition', () => {
-    const o: Applicative<'Option'> = option as any
     // tslint:disable-next-line: deprecation
-    const arrayOptionTraversable = getTraversableComposition(array, option)
-    assert.deepStrictEqual(
-      arrayOptionTraversable.traverse(o)([some(1), some(2)], (n: number) => (n <= 2 ? some(n * 2) : none)),
-      some([some(2), some(4)])
-    )
-    assert.deepStrictEqual(
-      arrayOptionTraversable.traverse(o)([some(1), some(3)], (n: number) => (n <= 2 ? some(n * 2) : none)),
-      none
-    )
+    const T = getTraversableComposition(array, option)
+    const x1 = T.traverse(option)([some(1), some(2)], (n: number) => (n <= 2 ? some(n * 2) : none))
+    assert.deepStrictEqual(x1, some([some(2), some(4)]))
+    const x2 = T.traverse(option)([some(1), some(3)], (n: number) => (n <= 2 ? some(n * 2) : none))
+    assert.deepStrictEqual(x2, none)
   })
 
   it('traverse', () => {
