@@ -296,8 +296,8 @@ export const reduce = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (b: B, a: 
 /**
  * @since 1.14.0
  */
-export const foldMap = <M>(M: Monoid<M>): (<K, A>(fa: Map<K, A>, f: (a: A) => M) => M) => (fa, f) =>
-  foldMapWithKey(M)(fa, (_, a) => f(a))
+export const foldMap = <K, M>(O: Ord<K>, M: Monoid<M>): (<A>(fa: Map<K, A>, f: (a: A) => M) => M) => (fa, f) =>
+  foldMapWithKey(O, M)(fa, (_, a) => f(a))
 
 /**
  * @since 1.14.0
@@ -326,14 +326,15 @@ export const reduceWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k:
 /**
  * @since 1.14.0
  */
-export const foldMapWithKey = <M>(M: Monoid<M>): (<K, A>(fa: Map<K, A>, f: (k: K, a: A) => M) => M) => {
-  return <K, A>(fa: Map<K, A>, f: (k: K, a: A) => M): M => {
+export const foldMapWithKey = <K, M>(O: Ord<K>, M: Monoid<M>): (<A>(fa: Map<K, A>, f: (k: K, a: A) => M) => M) => {
+  const keysO = keys(O)
+  return (fa, f) => {
     let out: M = M.empty
-    const entries = fa.entries()
-    let e: IteratorResult<[K, A]>
-    while (!(e = entries.next()).done) {
-      const [k, a] = e.value
-      out = M.concat(out, f(k, a))
+    const ks = keysO(fa)
+    const len = ks.length
+    for (let i = 0; i < len; i++) {
+      const k = ks[i]
+      out = M.concat(out, f(k, fa.get(k)!))
     }
     return out
   }

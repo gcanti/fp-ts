@@ -185,10 +185,9 @@ describe('Map', () => {
   })
 
   it('foldMap', () => {
-    const foldMap = M.foldMap(monoidString)
     const x1 = new Map<'a' | 'b', string>([['a', 'a'], ['b', 'b']])
     const f1 = identity
-    assert.strictEqual(foldMap(x1, f1), 'ab')
+    assert.strictEqual(M.foldMap(ordString, monoidString)(x1, f1), 'ab')
   })
 
   it('foldr', () => {
@@ -207,7 +206,7 @@ describe('Map', () => {
 
   it('foldMapWithKey', () => {
     const x1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-    assert.strictEqual(M.foldMapWithKey(monoidString)(x1, (k, a) => k + a), 'k1ak2b')
+    assert.strictEqual(M.foldMapWithKey(ordString, monoidString)(x1, (k, a) => k + a), 'k1ak2b')
   })
 
   it('foldrWithKey', () => {
