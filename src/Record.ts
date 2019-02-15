@@ -179,7 +179,7 @@ export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => {
 export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A>
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> {
-  return filterWithIndex(fa, (_, a) => p(a))
+  return filterWithKey(fa, (_, a) => p(a))
 }
 
 /**
@@ -398,7 +398,7 @@ export const partitionMap = <RL, RR, A>(
   fa: Record<string, A>,
   f: (a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>> => {
-  return partitionMapWithIndex(fa, (_, a) => f(a))
+  return partitionMapWithKey(fa, (_, a) => f(a))
 }
 
 /**
@@ -408,7 +408,7 @@ export const partition = <A>(
   fa: Record<string, A>,
   p: Predicate<A>
 ): Separated<Record<string, A>, Record<string, A>> => {
-  return partitionWithIndex(fa, (_, a) => p(a))
+  return partitionWithKey(fa, (_, a) => p(a))
 }
 
 /**
@@ -515,21 +515,21 @@ export function wilt<F>(
  * @since 1.10.0
  */
 export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => {
-  return filterMapWithIndex(fa, (_, a) => f(a))
+  return filterMapWithKey(fa, (_, a) => f(a))
 }
 
 /**
- * @since 1.12.0
+ * @since 1.14.0
  */
-export function partitionMapWithIndex<K extends string, RL, RR, A>(
+export function partitionMapWithKey<K extends string, RL, RR, A>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithIndex<RL, RR, A>(
+export function partitionMapWithKey<RL, RR, A>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithIndex<RL, RR, A>(
+export function partitionMapWithKey<RL, RR, A>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>> {
@@ -551,17 +551,17 @@ export function partitionMapWithIndex<RL, RR, A>(
 }
 
 /**
- * @since 1.12.0
+ * @since 1.14.0
  */
-export function partitionWithIndex<K extends string, A>(
+export function partitionWithKey<K extends string, A>(
   fa: Record<K, A>,
   p: (key: K, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithIndex<A>(
+export function partitionWithKey<A>(
   fa: Record<string, A>,
   p: (key: string, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithIndex<A>(
+export function partitionWithKey<A>(
   fa: Record<string, A>,
   p: (key: string, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>> {
@@ -583,17 +583,14 @@ export function partitionWithIndex<A>(
 }
 
 /**
- * @since 1.12.0
+ * @since 1.14.0
  */
-export function filterMapWithIndex<K extends string, A, B>(
+export function filterMapWithKey<K extends string, A, B>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Option<B>
 ): Record<string, B>
-export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>
-export function filterMapWithIndex<A, B>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Option<B>
-): Record<string, B> {
+export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>
+export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B> {
   const r: Record<string, B> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
@@ -606,11 +603,11 @@ export function filterMapWithIndex<A, B>(
 }
 
 /**
- * @since 1.12.0
+ * @since 1.14.0
  */
-export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
-export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
-export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
+export function filterWithKey<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
+export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
+export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
   const r: Record<string, A> = {}
   let changed = false
   for (const key in fa) {
@@ -686,4 +683,72 @@ export function some<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean):
  */
 export function isMember<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boolean {
   return (a, fa) => some(fa, x => S.equals(x, a))
+}
+
+/**
+ * Use {@link partitionMapWithKey} instead
+ * @since 1.12.0
+ * @deprecated
+ */
+export function partitionMapWithIndex<K extends string, RL, RR, A>(
+  fa: Record<K, A>,
+  f: (key: K, a: A) => Either<RL, RR>
+): Separated<Record<string, RL>, Record<string, RR>>
+export function partitionMapWithIndex<RL, RR, A>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Either<RL, RR>
+): Separated<Record<string, RL>, Record<string, RR>>
+export function partitionMapWithIndex<RL, RR, A>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Either<RL, RR>
+): Separated<Record<string, RL>, Record<string, RR>> {
+  return partitionMapWithKey(fa, f)
+}
+
+/**
+ * Use {@link partitionWithKey} instead
+ * @since 1.12.0
+ * @deprecated
+ */
+export function partitionWithIndex<K extends string, A>(
+  fa: Record<K, A>,
+  p: (key: K, a: A) => boolean
+): Separated<Record<string, A>, Record<string, A>>
+export function partitionWithIndex<A>(
+  fa: Record<string, A>,
+  p: (key: string, a: A) => boolean
+): Separated<Record<string, A>, Record<string, A>>
+export function partitionWithIndex<A>(
+  fa: Record<string, A>,
+  p: (key: string, a: A) => boolean
+): Separated<Record<string, A>, Record<string, A>> {
+  return partitionWithKey(fa, p)
+}
+
+/**
+ * Use {@link filterMapWithKey} instead
+ * @since 1.12.0
+ * @deprecated
+ */
+export function filterMapWithIndex<K extends string, A, B>(
+  fa: Record<K, A>,
+  f: (key: K, a: A) => Option<B>
+): Record<string, B>
+export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>
+export function filterMapWithIndex<A, B>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Option<B>
+): Record<string, B> {
+  return filterMapWithKey(fa, f)
+}
+
+/**
+ * Use {@link filterWithKey} instead
+ * @since 1.12.0
+ * @deprecated
+ */
+export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
+export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
+export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
+  return filterWithKey(fa, p)
 }

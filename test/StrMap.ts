@@ -206,10 +206,12 @@ describe('StrMap', () => {
   })
 
   it('filterWithIndex', () => {
-    assert.deepStrictEqual(
-      strmap.filterWithIndex(new StrMap({ a: 'a', b: 'b' }), k => k === 'a'),
-      new StrMap({ a: 'a' })
-    )
+    const x = new StrMap({ a: 'a', b: 'b' })
+    const f = (k: string) => k === 'a'
+    const expected = new StrMap({ a: 'a' })
+    assert.deepStrictEqual(strmap.filterWithIndex(x, f), expected)
+    // tslint:disable-next-line: deprecation
+    assert.deepStrictEqual(x.filterWithIndex(f), expected)
   })
 
   it('filterMap', () => {
@@ -219,12 +221,14 @@ describe('StrMap', () => {
   })
 
   it('filterMapWithIndex', () => {
-    assert.deepStrictEqual(
-      strmap.filterMapWithIndex(new StrMap({ a: 'a', b: 'b' }), (k, a) => (k === 'a' ? some(a.length) : none)),
-      new StrMap({
-        a: 1
-      })
-    )
+    const x = new StrMap({ a: 'a', b: 'b' })
+    const f = (k: string, a: string) => (k === 'a' ? some(a.length) : none)
+    const expected = new StrMap({
+      a: 1
+    })
+    assert.deepStrictEqual(strmap.filterMapWithIndex(x, f), expected)
+    // tslint:disable-next-line: deprecation
+    assert.deepStrictEqual(x.filterMapWithIndex(f), expected)
   })
 
   it('partition', () => {
@@ -236,10 +240,15 @@ describe('StrMap', () => {
   })
 
   it('partitionWithIndex', () => {
-    assert.deepStrictEqual(strmap.partitionWithIndex(new StrMap<string>({ a: 'a', b: 'b' }), k => k === 'a'), {
+    const x = new StrMap<string>({ a: 'a', b: 'b' })
+    const f = (k: string) => k === 'a'
+    const expected = {
       left: new StrMap({ b: 'b' }),
       right: new StrMap({ a: 'a' })
-    })
+    }
+    assert.deepStrictEqual(strmap.partitionWithIndex(x, f), expected)
+    // tslint:disable-next-line: deprecation
+    assert.deepStrictEqual(x.partitionWithIndex(f), expected)
   })
 
   it('partitionMap', () => {
@@ -255,16 +264,15 @@ describe('StrMap', () => {
   })
 
   it('partitionMapWithIndex', () => {
-    assert.deepStrictEqual(
-      strmap.partitionMapWithIndex(
-        new StrMap<string>({ a: 'a', b: 'b' }),
-        (k, a) => (k === 'a' ? right(a.length) : left(a))
-      ),
-      {
-        left: new StrMap({ b: 'b' }),
-        right: new StrMap({ a: 1 })
-      }
-    )
+    const x = new StrMap<string>({ a: 'a', b: 'b' })
+    const expected = {
+      left: new StrMap({ b: 'b' }),
+      right: new StrMap({ a: 1 })
+    }
+    const f = (k: string, a: string) => (k === 'a' ? right(a.length) : left(a))
+    assert.deepStrictEqual(strmap.partitionMapWithIndex(x, f), expected)
+    // tslint:disable-next-line: deprecation
+    assert.deepStrictEqual(x.partitionMapWithIndex(f), expected)
   })
 
   it('wither', () => {

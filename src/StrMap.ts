@@ -81,25 +81,25 @@ export class StrMap<A> {
   filter<B extends A>(p: Refinement<A, B>): StrMap<B>
   filter(p: Predicate<A>): StrMap<A>
   filter(p: Predicate<A>): StrMap<A> {
-    return this.filterWithIndex((_, a) => p(a))
+    return this.filterWithKey((_, a) => p(a))
   }
   /**
    * @since 1.12.0
    */
   filterMap<B>(f: (a: A) => Option<B>): StrMap<B> {
-    return this.filterMapWithIndex((_, a) => f(a))
+    return this.filterMapWithKey((_, a) => f(a))
   }
   /**
    * @since 1.12.0
    */
   partition(p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> {
-    return this.partitionWithIndex((_, a) => p(a))
+    return this.partitionWithKey((_, a) => p(a))
   }
   /**
    * @since 1.12.0
    */
   partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
-    return this.partitionMapWithIndex((_, a) => f(a))
+    return this.partitionMapWithKey((_, a) => f(a))
   }
   /**
    * @since 1.12.0
@@ -108,28 +108,60 @@ export class StrMap<A> {
     return liftSeparated(R.separate(this.value))
   }
   /**
+   * Use {@link partitionMapWithKey} instead
    * @since 1.12.0
+   * @deprecated
    */
   partitionMapWithIndex<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
-    return liftSeparated(R.partitionMapWithIndex(this.value, f))
+    return this.partitionMapWithKey(f)
   }
   /**
+   * @since 1.14.0
+   */
+  partitionMapWithKey<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
+    return liftSeparated(R.partitionMapWithKey(this.value, f))
+  }
+  /**
+   * Use {@link partitionWithKey} instead
    * @since 1.12.0
+   * @deprecated
    */
   partitionWithIndex(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> {
-    return liftSeparated(R.partitionWithIndex(this.value, p))
+    return this.partitionWithKey(p)
   }
   /**
+   * @since 1.14.0
+   */
+  partitionWithKey(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> {
+    return liftSeparated(R.partitionWithKey(this.value, p))
+  }
+  /**
+   * Use {@link filterMapWithKey} instead
    * @since 1.12.0
+   * @deprecated
    */
   filterMapWithIndex<B>(f: (i: string, a: A) => Option<B>): StrMap<B> {
-    return new StrMap(R.filterMapWithIndex(this.value, f))
+    return this.filterMapWithKey(f)
   }
   /**
+   * @since 1.14.0
+   */
+  filterMapWithKey<B>(f: (i: string, a: A) => Option<B>): StrMap<B> {
+    return new StrMap(R.filterMapWithKey(this.value, f))
+  }
+  /**
+   * Use {@link filterWithKey} instead
    * @since 1.12.0
+   * @deprecated
    */
   filterWithIndex(p: (i: string, a: A) => boolean): StrMap<A> {
-    return new StrMap(R.filterWithIndex(this.value, p))
+    return this.filterWithKey(p)
+  }
+  /**
+   * @since 1.14.0
+   */
+  filterWithKey(p: (i: string, a: A) => boolean): StrMap<A> {
+    return new StrMap(R.filterWithKey(this.value, p))
   }
   /**
    * @since 1.14.0
@@ -420,19 +452,19 @@ const partitionMapWithIndex = <RL, RR, A>(
   fa: StrMap<A>,
   f: (i: string, a: A) => Either<RL, RR>
 ): Separated<StrMap<RL>, StrMap<RR>> => {
-  return fa.partitionMapWithIndex(f)
+  return fa.partitionMapWithKey(f)
 }
 
 const partitionWithIndex = <A>(fa: StrMap<A>, p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> => {
-  return fa.partitionWithIndex(p)
+  return fa.partitionWithKey(p)
 }
 
 const filterMapWithIndex = <A, B>(fa: StrMap<A>, f: (i: string, a: A) => Option<B>): StrMap<B> => {
-  return fa.filterMapWithIndex(f)
+  return fa.filterMapWithKey(f)
 }
 
 const filterWithIndex = <A>(fa: StrMap<A>, p: (i: string, a: A) => boolean): StrMap<A> => {
-  return fa.filterWithIndex(p)
+  return fa.filterWithKey(p)
 }
 
 /**
