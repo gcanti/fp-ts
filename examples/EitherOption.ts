@@ -9,7 +9,7 @@ declare module '../src/HKT' {
   }
 }
 
-const optionTEither = optionT.getOptionT(either.either)
+const optionTEither = optionT.getOptionT2v(either.either)
 
 export const URI = 'EitherOption'
 
@@ -32,7 +32,7 @@ export class EitherOption<L, A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => EitherOption<L, B>): EitherOption<L, B> {
-    return new EitherOption(optionTEither.chain(a => f(a).value, this.value))
+    return new EitherOption(optionTEither.chain(this.value, a => f(a).value))
   }
   fold<R>(r: R, some: (a: A) => R): either.Either<L, R> {
     return optionTfold(r, some, this.value)

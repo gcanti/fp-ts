@@ -9,7 +9,7 @@ declare module '../src/HKT' {
   }
 }
 
-const optionTArray = optionT.getOptionT(array)
+const optionTArray = optionT.getOptionT2v(array)
 
 export const URI = 'ArrayOption'
 
@@ -31,7 +31,7 @@ export class ArrayOption<A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => ArrayOption<B>): ArrayOption<B> {
-    return new ArrayOption(optionTArray.chain(a => f(a).value, this.value))
+    return new ArrayOption(optionTArray.chain(this.value, a => f(a).value))
   }
   fold<R>(r: R, some: (a: A) => R): Array<R> {
     return optionTfold(r, some, this.value)

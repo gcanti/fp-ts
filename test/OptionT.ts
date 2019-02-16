@@ -3,7 +3,9 @@ import * as option from '../src/Option'
 import * as optionT from '../src/OptionT'
 import { task } from '../src/Task'
 
+// tslint:disable-next-line: deprecation
 const taskOption = optionT.getOptionT(task)
+const taskOption2v = optionT.getOptionT2v(task)
 const none = optionT.none(task)()
 
 describe('OptionT', () => {
@@ -18,6 +20,15 @@ describe('OptionT', () => {
   it('chain', () => {
     const to1 = taskOption.chain(a => taskOption.of(a.length), taskOption.of('foo'))
     const to2 = taskOption.chain((a: string) => taskOption.of(a.length), none)
+    return Promise.all([to1.run(), to2.run()]).then(([o1, o2]) => {
+      assert.deepStrictEqual(o1, option.some(3))
+      assert.deepStrictEqual(o2, option.none)
+    })
+  })
+
+  it('getOptionT2v', () => {
+    const to1 = taskOption2v.chain(taskOption2v.of('foo'), a => taskOption2v.of(a.length))
+    const to2 = taskOption2v.chain(none, (a: string) => taskOption2v.of(a.length))
     return Promise.all([to1.run(), to2.run()]).then(([o1, o2]) => {
       assert.deepStrictEqual(o1, option.some(3))
       assert.deepStrictEqual(o2, option.none)

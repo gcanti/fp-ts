@@ -10,7 +10,7 @@ declare module '../src/HKT' {
   }
 }
 
-const optionTTask = optionT.getOptionT(task)
+const optionTTask = optionT.getOptionT2v(task)
 
 export const URI = 'TaskOption'
 
@@ -35,7 +35,7 @@ export class TaskOption<A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => TaskOption<B>): TaskOption<B> {
-    return new TaskOption(optionTTask.chain(a => f(a).value, this.value))
+    return new TaskOption(optionTTask.chain(this.value, a => f(a).value))
   }
   fold<R>(r: R, some: (a: A) => R): Task<R> {
     return optionTfold(r, some, this.value)

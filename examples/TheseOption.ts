@@ -22,7 +22,7 @@ export class TheseOption<L, A> {
 }
 
 export const getMonad = <L>(these: Monad2C<TheseURI, L>): Monad2C<URI, L> => {
-  const optionTThese = optionT.getOptionT(these)
+  const optionTThese = optionT.getOptionT2v(these)
 
   const map = <A, B>(fa: TheseOption<L, A>, f: (a: A) => B): TheseOption<L, B> => {
     return new TheseOption(optionTThese.map(fa.value, f))
@@ -38,7 +38,7 @@ export const getMonad = <L>(these: Monad2C<TheseURI, L>): Monad2C<URI, L> => {
   }
 
   const chain = <A, B>(fa: TheseOption<L, A>, f: (a: A) => TheseOption<L, B>): TheseOption<L, B> => {
-    return new TheseOption(optionTThese.chain(a => f(a).value, fa.value))
+    return new TheseOption(optionTThese.chain(fa.value, a => f(a).value))
   }
   return {
     URI,
