@@ -11,7 +11,7 @@ declare module '../src/HKT' {
   }
 }
 
-const stateTIO = stateT.getStateT(taskEither)
+const stateTIO = stateT.getStateT2v(taskEither)
 
 export const URI = 'StateTaskEither'
 
@@ -33,7 +33,7 @@ export class StateTaskEither<S, L, A> {
     return this.run(s).then(e => e.map(([_, s]) => s))
   }
   map<B>(f: (a: A) => B): StateTaskEither<S, L, B> {
-    return new StateTaskEither(stateTIO.map(f, this.value))
+    return new StateTaskEither(stateTIO.map(this.value, f))
   }
   ap<B>(fab: StateTaskEither<S, L, (a: A) => B>): StateTaskEither<S, L, B> {
     return new StateTaskEither(stateTIO.ap(fab.value, this.value))
@@ -42,7 +42,7 @@ export class StateTaskEither<S, L, A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => StateTaskEither<S, L, B>): StateTaskEither<S, L, B> {
-    return new StateTaskEither(stateTIO.chain(a => f(a).value, this.value))
+    return new StateTaskEither(stateTIO.chain(this.value, a => f(a).value))
   }
   orElse<M>(f: (l: L) => StateTaskEither<S, M, A>): StateTaskEither<S, M, A> {
     return new StateTaskEither(s => this.value(s).orElse(l => f(l).value(s)))

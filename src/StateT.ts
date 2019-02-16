@@ -6,49 +6,49 @@ import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { State } from './State'
 import { Endomorphism, tuple } from './function'
 
-export interface StateT<M> {
-  readonly map: <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => HKT<M, [B, S]>
+export interface StateT2v<M> {
+  readonly map: <S, A, B>(fa: (s: S) => HKT<M, [A, S]>, f: (a: A) => B) => (s: S) => HKT<M, [B, S]>
   readonly of: <S, A>(a: A) => (s: S) => HKT<M, [A, S]>
   readonly ap: <S, A, B>(
     fab: (s: S) => HKT<M, [(a: A) => B, S]>,
     fa: (s: S) => HKT<M, [A, S]>
   ) => (s: S) => HKT<M, [B, S]>
   readonly chain: <S, A, B>(
-    f: (a: A) => (s: S) => HKT<M, [B, S]>,
-    fa: (s: S) => HKT<M, [A, S]>
+    fa: (s: S) => HKT<M, [A, S]>,
+    f: (a: A) => (s: S) => HKT<M, [B, S]>
   ) => (s: S) => HKT<M, [B, S]>
 }
 
-export interface StateT1<M extends URIS> {
-  readonly map: <S, A, B>(f: (a: A) => B, fa: (s: S) => Type<M, [A, S]>) => (s: S) => Type<M, [B, S]>
+export interface StateT2v1<M extends URIS> {
+  readonly map: <S, A, B>(fa: (s: S) => Type<M, [A, S]>, f: (a: A) => B) => (s: S) => Type<M, [B, S]>
   readonly of: <S, A>(a: A) => (s: S) => Type<M, [A, S]>
   readonly ap: <S, A, B>(
     fab: (s: S) => Type<M, [(a: A) => B, S]>,
     fa: (s: S) => Type<M, [A, S]>
   ) => (s: S) => Type<M, [B, S]>
   readonly chain: <S, A, B>(
-    f: (a: A) => (s: S) => Type<M, [B, S]>,
-    fa: (s: S) => Type<M, [A, S]>
+    fa: (s: S) => Type<M, [A, S]>,
+    f: (a: A) => (s: S) => Type<M, [B, S]>
   ) => (s: S) => Type<M, [B, S]>
 }
 
-export interface StateT2<M extends URIS2> {
-  readonly map: <L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type2<M, L, [A, S]>) => (s: S) => Type2<M, L, [B, S]>
+export interface StateT2v2<M extends URIS2> {
+  readonly map: <L, S, A, B>(fa: (s: S) => Type2<M, L, [A, S]>, f: (a: A) => B) => (s: S) => Type2<M, L, [B, S]>
   readonly of: <L, S, A>(a: A) => (s: S) => Type2<M, L, [A, S]>
   readonly ap: <L, S, A, B>(
     fab: (s: S) => Type2<M, L, [(a: A) => B, S]>,
     fa: (s: S) => Type2<M, L, [A, S]>
   ) => (s: S) => Type2<M, L, [B, S]>
   readonly chain: <L, S, A, B>(
-    f: (a: A) => (s: S) => Type2<M, L, [B, S]>,
-    fa: (s: S) => Type2<M, L, [A, S]>
+    fa: (s: S) => Type2<M, L, [A, S]>,
+    f: (a: A) => (s: S) => Type2<M, L, [B, S]>
   ) => (s: S) => Type2<M, L, [B, S]>
 }
 
-export interface StateT3<M extends URIS3> {
+export interface StateT2v3<M extends URIS3> {
   readonly map: <U, L, S, A, B>(
-    f: (a: A) => B,
-    fa: (s: S) => Type3<M, U, L, [A, S]>
+    fa: (s: S) => Type3<M, U, L, [A, S]>,
+    f: (a: A) => B
   ) => (s: S) => Type3<M, U, L, [B, S]>
   readonly of: <U, L, S, A>(a: A) => (s: S) => Type3<M, U, L, [A, S]>
   readonly ap: <U, L, S, A, B>(
@@ -56,30 +56,30 @@ export interface StateT3<M extends URIS3> {
     fa: (s: S) => Type3<M, U, L, [A, S]>
   ) => (s: S) => Type3<M, U, L, [B, S]>
   readonly chain: <U, L, S, A, B>(
-    f: (a: A) => (s: S) => Type3<M, U, L, [B, S]>,
-    fa: (s: S) => Type3<M, U, L, [A, S]>
+    fa: (s: S) => Type3<M, U, L, [A, S]>,
+    f: (a: A) => (s: S) => Type3<M, U, L, [B, S]>
   ) => (s: S) => Type3<M, U, L, [B, S]>
 }
 
 /**
- * @since 1.0.0
+ * @since 1.14.0
  */
-export function map<F extends URIS3>(
+export function map2v<F extends URIS3>(
   F: Functor3<F>
-): <U, L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type3<F, U, L, [A, S]>) => (s: S) => Type3<F, U, L, [B, S]>
-export function map<F extends URIS2>(
+): <U, L, S, A, B>(fa: (s: S) => Type3<F, U, L, [A, S]>, f: (a: A) => B) => (s: S) => Type3<F, U, L, [B, S]>
+export function map2v<F extends URIS2>(
   F: Functor2<F>
-): <L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type2<F, L, [A, S]>) => (s: S) => Type2<F, L, [B, S]>
-export function map<F extends URIS>(
+): <L, S, A, B>(fa: (s: S) => Type2<F, L, [A, S]>, f: (a: A) => B) => (s: S) => Type2<F, L, [B, S]>
+export function map2v<F extends URIS>(
   F: Functor1<F>
-): <S, A, B>(f: (a: A) => B, fa: (s: S) => Type<F, [A, S]>) => (s: S) => Type<F, [B, S]>
-export function map<F>(
+): <S, A, B>(fa: (s: S) => Type<F, [A, S]>, f: (a: A) => B) => (s: S) => Type<F, [B, S]>
+export function map2v<F>(
   F: Functor<F>
-): <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
-export function map<F>(
+): <S, A, B>(fa: (s: S) => HKT<F, [A, S]>, f: (a: A) => B) => (s: S) => HKT<F, [B, S]>
+export function map2v<F>(
   F: Functor<F>
-): <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
-  return (f, fa) => s => F.map(fa(s), ([a, s1]) => tuple(f(a), s1))
+): <S, A, B>(fa: (s: S) => HKT<F, [A, S]>, f: (a: A) => B) => (s: S) => HKT<F, [B, S]> {
+  return (fa, f) => s => F.map(fa(s), ([a, s1]) => tuple(f(a), s1))
 }
 
 /**
@@ -117,36 +117,36 @@ export function ap<F>(
 export function ap<F>(
   F: Chain<F>
 ): <S, A, B>(fab: (s: S) => HKT<F, [(a: A) => B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
-  const mapF = map(F)
-  const chainF = chain(F)
-  return (fab, fa) => chainF(f => mapF(f, fa), fab) // <- derived
+  const mapF = map2v(F)
+  const chainF = chain2v(F)
+  return (fab, fa) => chainF(fab, f => mapF(fa, f)) // <- derived
 }
 
 /**
- * @since 1.0.0
+ * @since 1.14.0
  */
-export function chain<F extends URIS3>(
+export function chain2v<F extends URIS3>(
   F: Chain3<F>
 ): <U, L, S, A, B>(
-  f: (a: A) => (s: S) => Type3<F, U, L, [B, S]>,
-  fa: (s: S) => Type3<F, U, L, [A, S]>
+  fa: (s: S) => Type3<F, U, L, [A, S]>,
+  f: (a: A) => (s: S) => Type3<F, U, L, [B, S]>
 ) => (s: S) => Type3<F, U, L, [B, S]>
-export function chain<F extends URIS2>(
+export function chain2v<F extends URIS2>(
   F: Chain2<F>
 ): <L, S, A, B>(
-  f: (a: A) => (s: S) => Type2<F, L, [B, S]>,
-  fa: (s: S) => Type2<F, L, [A, S]>
+  fa: (s: S) => Type2<F, L, [A, S]>,
+  f: (a: A) => (s: S) => Type2<F, L, [B, S]>
 ) => (s: S) => Type2<F, L, [B, S]>
-export function chain<F extends URIS>(
+export function chain2v<F extends URIS>(
   F: Chain1<F>
-): <S, A, B>(f: (a: A) => (s: S) => Type<F, [B, S]>, fa: (s: S) => Type<F, [A, S]>) => (s: S) => Type<F, [B, S]>
-export function chain<F>(
+): <S, A, B>(fa: (s: S) => Type<F, [A, S]>, f: (a: A) => (s: S) => Type<F, [B, S]>) => (s: S) => Type<F, [B, S]>
+export function chain2v<F>(
   F: Chain<F>
-): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
-export function chain<F>(
+): <S, A, B>(fa: (s: S) => HKT<F, [A, S]>, f: (a: A) => (s: S) => HKT<F, [B, S]>) => (s: S) => HKT<F, [B, S]>
+export function chain2v<F>(
   F: Chain<F>
-): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
-  return (f, fa) => s => F.chain(fa(s), ([a, s1]) => f(a)(s1))
+): <S, A, B>(fa: (s: S) => HKT<F, [A, S]>, f: (a: A) => (s: S) => HKT<F, [B, S]>) => (s: S) => HKT<F, [B, S]> {
+  return (fa, f) => s => F.chain(fa(s), ([a, s1]) => f(a)(s1))
 }
 
 /**
@@ -228,17 +228,165 @@ export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<
 }
 
 /**
- * @since 1.0.0
+ * @since 1.14.0
  */
+export function getStateT2v<M extends URIS3>(M: Monad3<M>): StateT2v3<M>
+export function getStateT2v<M extends URIS2>(M: Monad2<M>): StateT2v2<M>
+export function getStateT2v<M extends URIS>(M: Monad1<M>): StateT2v1<M>
+export function getStateT2v<M>(M: Monad<M>): StateT2v<M>
+export function getStateT2v<M>(M: Monad<M>): StateT2v<M> {
+  return {
+    map: map2v(M),
+    of: of(M),
+    ap: ap(M),
+    chain: chain2v(M)
+  }
+}
+
+/** @deprecated */
+export interface StateT<M> {
+  readonly map: <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<M, [A, S]>) => (s: S) => HKT<M, [B, S]>
+  readonly of: <S, A>(a: A) => (s: S) => HKT<M, [A, S]>
+  readonly ap: <S, A, B>(
+    fab: (s: S) => HKT<M, [(a: A) => B, S]>,
+    fa: (s: S) => HKT<M, [A, S]>
+  ) => (s: S) => HKT<M, [B, S]>
+  readonly chain: <S, A, B>(
+    f: (a: A) => (s: S) => HKT<M, [B, S]>,
+    fa: (s: S) => HKT<M, [A, S]>
+  ) => (s: S) => HKT<M, [B, S]>
+}
+
+/** @deprecated */
+export interface StateT1<M extends URIS> {
+  readonly map: <S, A, B>(f: (a: A) => B, fa: (s: S) => Type<M, [A, S]>) => (s: S) => Type<M, [B, S]>
+  readonly of: <S, A>(a: A) => (s: S) => Type<M, [A, S]>
+  readonly ap: <S, A, B>(
+    fab: (s: S) => Type<M, [(a: A) => B, S]>,
+    fa: (s: S) => Type<M, [A, S]>
+  ) => (s: S) => Type<M, [B, S]>
+  readonly chain: <S, A, B>(
+    f: (a: A) => (s: S) => Type<M, [B, S]>,
+    fa: (s: S) => Type<M, [A, S]>
+  ) => (s: S) => Type<M, [B, S]>
+}
+
+/** @deprecated */
+export interface StateT2<M extends URIS2> {
+  readonly map: <L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type2<M, L, [A, S]>) => (s: S) => Type2<M, L, [B, S]>
+  readonly of: <L, S, A>(a: A) => (s: S) => Type2<M, L, [A, S]>
+  readonly ap: <L, S, A, B>(
+    fab: (s: S) => Type2<M, L, [(a: A) => B, S]>,
+    fa: (s: S) => Type2<M, L, [A, S]>
+  ) => (s: S) => Type2<M, L, [B, S]>
+  readonly chain: <L, S, A, B>(
+    f: (a: A) => (s: S) => Type2<M, L, [B, S]>,
+    fa: (s: S) => Type2<M, L, [A, S]>
+  ) => (s: S) => Type2<M, L, [B, S]>
+}
+
+/** @deprecated */
+export interface StateT3<M extends URIS3> {
+  readonly map: <U, L, S, A, B>(
+    f: (a: A) => B,
+    fa: (s: S) => Type3<M, U, L, [A, S]>
+  ) => (s: S) => Type3<M, U, L, [B, S]>
+  readonly of: <U, L, S, A>(a: A) => (s: S) => Type3<M, U, L, [A, S]>
+  readonly ap: <U, L, S, A, B>(
+    fab: (s: S) => Type3<M, U, L, [(a: A) => B, S]>,
+    fa: (s: S) => Type3<M, U, L, [A, S]>
+  ) => (s: S) => Type3<M, U, L, [B, S]>
+  readonly chain: <U, L, S, A, B>(
+    f: (a: A) => (s: S) => Type3<M, U, L, [B, S]>,
+    fa: (s: S) => Type3<M, U, L, [A, S]>
+  ) => (s: S) => Type3<M, U, L, [B, S]>
+}
+
+/**
+ * Use {@link map2v} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+export function map<F extends URIS3>(
+  F: Functor3<F>
+): <U, L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type3<F, U, L, [A, S]>) => (s: S) => Type3<F, U, L, [B, S]>
+/** @deprecated */
+export function map<F extends URIS2>(
+  F: Functor2<F>
+): <L, S, A, B>(f: (a: A) => B, fa: (s: S) => Type2<F, L, [A, S]>) => (s: S) => Type2<F, L, [B, S]>
+/** @deprecated */
+export function map<F extends URIS>(
+  F: Functor1<F>
+): <S, A, B>(f: (a: A) => B, fa: (s: S) => Type<F, [A, S]>) => (s: S) => Type<F, [B, S]>
+/** @deprecated */
+export function map<F>(
+  F: Functor<F>
+): <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
+/** @deprecated */
+export function map<F>(
+  F: Functor<F>
+): <S, A, B>(f: (a: A) => B, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
+  return (f, fa) => s => F.map(fa(s), ([a, s1]) => tuple(f(a), s1))
+}
+
+/**
+ * Use {@link chain2v} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+export function chain<F extends URIS3>(
+  F: Chain3<F>
+): <U, L, S, A, B>(
+  f: (a: A) => (s: S) => Type3<F, U, L, [B, S]>,
+  fa: (s: S) => Type3<F, U, L, [A, S]>
+) => (s: S) => Type3<F, U, L, [B, S]>
+/** @deprecated */
+export function chain<F extends URIS2>(
+  F: Chain2<F>
+): <L, S, A, B>(
+  f: (a: A) => (s: S) => Type2<F, L, [B, S]>,
+  fa: (s: S) => Type2<F, L, [A, S]>
+) => (s: S) => Type2<F, L, [B, S]>
+/** @deprecated */
+export function chain<F extends URIS>(
+  F: Chain1<F>
+): <S, A, B>(f: (a: A) => (s: S) => Type<F, [B, S]>, fa: (s: S) => Type<F, [A, S]>) => (s: S) => Type<F, [B, S]>
+/** @deprecated */
+export function chain<F>(
+  F: Chain<F>
+): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]>
+/** @deprecated */
+export function chain<F>(
+  F: Chain<F>
+): <S, A, B>(f: (a: A) => (s: S) => HKT<F, [B, S]>, fa: (s: S) => HKT<F, [A, S]>) => (s: S) => HKT<F, [B, S]> {
+  return (f, fa) => s => F.chain(fa(s), ([a, s1]) => f(a)(s1))
+}
+
+/**
+ * Use {@link getStateT2v} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+// tslint:disable-next-line: deprecation
 export function getStateT<M extends URIS3>(M: Monad3<M>): StateT3<M>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function getStateT<M extends URIS2>(M: Monad2<M>): StateT2<M>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function getStateT<M extends URIS>(M: Monad1<M>): StateT1<M>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function getStateT<M>(M: Monad<M>): StateT<M>
+/** @deprecated */
+// tslint:disable-next-line: deprecation
 export function getStateT<M>(M: Monad<M>): StateT<M> {
   return {
+    // tslint:disable-next-line: deprecation
     map: map(M),
     of: of(M),
     ap: ap(M),
+    // tslint:disable-next-line: deprecation
     chain: chain(M)
   }
 }

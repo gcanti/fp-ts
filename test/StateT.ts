@@ -3,6 +3,7 @@ import * as option from '../src/Option'
 import { state } from '../src/State'
 import * as stateT from '../src/StateT'
 
+// tslint:disable-next-line: deprecation
 const stateTOption = stateT.getStateT(option.option)
 
 describe('StateT', () => {
@@ -28,6 +29,29 @@ describe('StateT', () => {
     const double = (n: number) => n * 2
     const state = (s: number) => option.some<[number, number]>([s - 1, s + 1])
     assert.deepStrictEqual(stateTOption.map(double, state)(0), option.some([-2, 1]))
+  })
+
+  it('getStateT2v', () => {
+    const stateTOption2v = stateT.getStateT2v(option.option)
+
+    // map
+    const double = (n: number) => n * 2
+    const s1 = (s: number) => option.some<[number, number]>([s - 1, s + 1])
+    assert.deepStrictEqual(stateTOption2v.map(s1, double)(0), option.some([-2, 1]))
+
+    // aof
+    const x = stateTOption2v.of(1)
+    assert.deepStrictEqual(x(0), option.some([1, 0]))
+
+    // ap
+    const fab = stateTOption2v.of(double)
+    const fa = stateTOption2v.of(1)
+    assert.deepStrictEqual(stateTOption2v.ap(fab, fa)(0), option.some([2, 0]))
+
+    // chain
+    const f = (_n: number) => (s: number) => option.some<[number, number]>([s - 1, s + 1])
+    const s2 = (s: number) => option.some<[number, number]>([s - 1, s + 1])
+    assert.deepStrictEqual(stateTOption2v.chain(s2, f)(0), option.some([0, 2]))
   })
 
   it('of', () => {
