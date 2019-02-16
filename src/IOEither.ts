@@ -12,7 +12,7 @@ declare module './HKT' {
   }
 }
 
-const eitherTIO = eitherT.getEitherT(io)
+const eitherTIO = eitherT.getEitherT2v(io)
 
 export const URI = 'IOEither'
 
@@ -65,7 +65,7 @@ export class IOEither<L, A> {
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => IOEither<L, B>): IOEither<L, B> {
-    return new IOEither(eitherTIO.chain(a => f(a).value, this.value))
+    return new IOEither(eitherTIO.chain(this.value, a => f(a).value))
   }
   fold<R>(left: (l: L) => R, right: (a: A) => R): IO<R> {
     return eitherTfold(left, right, this.value)
