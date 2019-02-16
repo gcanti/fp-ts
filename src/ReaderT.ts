@@ -15,7 +15,7 @@ export interface ReaderT<M> {
 export interface ReaderT1<M extends URIS> {
   readonly map: <E, A, B>(f: (a: A) => B, fa: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
   readonly of: <E, A>(a: A) => (e: E) => Type<M, A>
-  readonly ap: <E, A, B>(fab: (e: E) => Type<M, (a: A) => B>, fa: (e: E) => HKT<M, A>) => (e: E) => Type<M, B>
+  readonly ap: <E, A, B>(fab: (e: E) => Type<M, (a: A) => B>, fa: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
   readonly chain: <E, A, B>(f: (a: A) => (e: E) => Type<M, B>, fa: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
 }
 
