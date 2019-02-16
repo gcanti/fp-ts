@@ -8,7 +8,7 @@ import { setoidNumber, setoidString } from '../src/Setoid'
 import { array } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import * as I from '../src/Identity'
-import { ordString } from '../src/Ord'
+import { ordString, ordNumber } from '../src/Ord'
 import { fromArray } from '../src/Set'
 
 const p = ((n: number): boolean => n > 2) as Refinement<number, number>
@@ -151,136 +151,149 @@ describe('Map', () => {
   })
 
   it('filter', () => {
+    const filter = M.map.filter
     const d = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const b3 = new Map<'b', number>([['b', 3]])
-    assert.deepStrictEqual(M.filter(d, p), b3)
+    assert.deepStrictEqual(filter(d, p), b3)
 
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const y = new Map<string, string | number>([['a', 1], ['b', 'foo']])
     const a1 = new Map<string, number>([['a', 1]])
-    const actual = M.filter(y, isNumber)
+    const actual = filter(y, isNumber)
     assert.deepStrictEqual(actual, a1)
   })
 
-  it('mapWithKey', () => {
+  it('mapWithIndex', () => {
+    const mapWithIndex = M.getFunctorWithIndex<'aa'>().mapWithIndex
     const aa1 = new Map<'aa', number>([['aa', 1]])
     const aa3 = new Map<'aa', number>([['aa', 3]])
-    assert.deepStrictEqual(M.mapWithKey(aa1, (k, a) => a + k.length), aa3)
+    assert.deepStrictEqual(mapWithIndex(aa1, (k, a) => a + k.length), aa3)
   })
 
   it('map', () => {
+    const map = M.map.map
     const d1 = new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])
     const expected = new Map<'k1' | 'k2', number>([['k1', 2], ['k2', 4]])
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(M.map(d1, double), expected)
+    assert.deepStrictEqual(map(d1, double), expected)
   })
 
   it('reduce', () => {
     const d1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-    const reduceO = M.reduce(ordString)
+    const reduceO = M.getFoldable(ordString).reduce
     assert.strictEqual(reduceO(d1, '', (b, a) => b + a), 'ab')
     const d2 = new Map<'k1' | 'k2', string>([['k2', 'b'], ['k1', 'a']])
     assert.strictEqual(reduceO(d2, '', (b, a) => b + a), 'ab')
   })
 
   it('foldMap', () => {
+    const foldMapOM = M.getFoldable(ordString).foldMap(monoidString)
     const x1 = new Map<'a' | 'b', string>([['a', 'a'], ['b', 'b']])
     const f1 = identity
-    assert.strictEqual(M.foldMap(ordString, monoidString)(x1, f1), 'ab')
+    assert.strictEqual(foldMapOM(x1, f1), 'ab')
   })
 
   it('foldr', () => {
+    const foldrO = M.getFoldable(ordString).foldr
     const x1 = new Map<'a' | 'b', string>([['a', 'a'], ['b', 'b']])
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(M.foldr(ordString)(x1, init1, f1), 'ba')
+    assert.strictEqual(foldrO(x1, init1, f1), 'ba')
   })
-  it('reduceWithKey', () => {
+  it('reduceWithIndex', () => {
     const d1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-    const reduceWithKeyO = M.reduceWithKey(ordString)
-    assert.strictEqual(reduceWithKeyO(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
+    const reduceWithIndexO = M.getFoldableWithIndex(ordString).reduceWithIndex
+    assert.strictEqual(reduceWithIndexO(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
     const d2 = new Map<'k1' | 'k2', string>([['k2', 'b'], ['k1', 'a']])
-    assert.strictEqual(reduceWithKeyO(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
+    assert.strictEqual(reduceWithIndexO(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
   })
 
-  it('foldMapWithKey', () => {
+  it('foldMapWithIndex', () => {
+    const foldMapWithIndexOM = M.getFoldableWithIndex(ordString).foldMapWithIndex(monoidString)
     const x1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-    assert.strictEqual(M.foldMapWithKey(ordString, monoidString)(x1, (k, a) => k + a), 'k1ak2b')
+    assert.strictEqual(foldMapWithIndexOM(x1, (k, a) => k + a), 'k1ak2b')
   })
 
-  it('foldrWithKey', () => {
+  it('foldrWithIndex', () => {
+    const foldrWithIndexO = M.getFoldableWithIndex(ordString).foldrWithIndex
     const x1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-    assert.strictEqual(M.foldrWithKey(ordString)(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
+    assert.strictEqual(foldrWithIndexO(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
   })
 
   it('singleton', () => {
     assert.deepStrictEqual(M.singleton('k1', 0), new Map<string, number>([['k1', 0]]))
   })
 
-  it('traverseWithKey', () => {
+  it('traverseWithIndex', () => {
+    const optionTraverseWithIndex = M.getTraversableWithIndex(ordString).traverseWithIndex(option)
     const d1 = new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])
-    const t1 = M.traverseWithKey(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
+    const t1 = optionTraverseWithIndex(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
     assert.deepStrictEqual(t1, none)
     const d2 = new Map<'k1' | 'k2' | 'k3', number>([['k1', 2], ['k2', 3]])
-    const t2 = M.traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
+    const t2 = optionTraverseWithIndex(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
     const expected = new Map<'k1' | 'k2', number>([['k1', 2], ['k2', 3]])
     assert.deepStrictEqual(t2, some(expected))
   })
 
   it('traverse', () => {
+    const optionTraverse = M.getTraversable(ordString).traverse(option)
     const x = new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])
-    assert.deepStrictEqual(M.traverse(option)(x, n => (n <= 2 ? some(n) : none)), some(x))
-    assert.deepStrictEqual(M.traverse(option)(x, n => (n >= 2 ? some(n) : none)), none)
+    assert.deepStrictEqual(optionTraverse(x, n => (n <= 2 ? some(n) : none)), some(x))
+    assert.deepStrictEqual(optionTraverse(x, n => (n >= 2 ? some(n) : none)), none)
   })
 
   it('sequence', () => {
-    const sequence = M.sequence(option)
+    const optionSequence = M.getTraversable(ordString).sequence(option)
     const x1 = new Map<'k1' | 'k2', Option<number>>([['k1', some(1)], ['k2', some(2)]])
-    assert.deepStrictEqual(sequence(x1), some(new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])))
+    assert.deepStrictEqual(optionSequence(x1), some(new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])))
     const x2 = new Map<'k1' | 'k2', Option<number>>([['k1', none], ['k2', some(2)]])
-    assert.deepStrictEqual(sequence(x2), none)
+    assert.deepStrictEqual(optionSequence(x2), none)
   })
 
   it('compact', () => {
+    const compact = M.map.compact
     const fooBar = new Map<'foo' | 'bar', Option<number>>([['foo', none], ['bar', some(123)]])
     const bar = new Map<'bar', number>([['bar', 123]])
-    assert.deepStrictEqual(M.compact(fooBar), bar)
+    assert.deepStrictEqual(compact(fooBar), bar)
   })
 
   it('partitionMap', () => {
+    const partitionMap = M.map.partitionMap
     const emptyMap = new Map<'a' | 'b', number>()
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const a0 = new Map<'a', number>([['a', 0]])
     const b4 = new Map<'b', number>([['b', 4]])
     const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(M.partitionMap(emptyMap, f), { left: emptyMap, right: emptyMap })
-    assert.deepStrictEqual(M.partitionMap(a1b3, f), {
+    assert.deepStrictEqual(partitionMap(emptyMap, f), { left: emptyMap, right: emptyMap })
+    assert.deepStrictEqual(partitionMap(a1b3, f), {
       left: a0,
       right: b4
     })
   })
 
   it('partition', () => {
+    const partition = M.map.partition
     const emptyMap = new Map<'a' | 'b', number>()
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const a1 = new Map<'a', number>([['a', 1]])
     const b3 = new Map<'b', number>([['b', 3]])
-    assert.deepStrictEqual(M.partition(emptyMap, p), { left: emptyMap, right: emptyMap })
-    assert.deepStrictEqual(M.partition(a1b3, p), {
+    assert.deepStrictEqual(partition(emptyMap, p), { left: emptyMap, right: emptyMap })
+    assert.deepStrictEqual(partition(a1b3, p), {
       left: a1,
       right: b3
     })
   })
 
   it('separate', () => {
+    const separate = M.map.separate
     const fooBar = new Map<'foo' | 'bar', Either<number, number>>([
       ['foo', left<number, number>(123)],
       ['bar', right<number, number>(123)]
     ])
     const foo = new Map<'foo', number>([['foo', 123]])
     const bar = new Map<'bar', number>([['bar', 123]])
-    assert.deepStrictEqual(M.separate(fooBar), {
+    assert.deepStrictEqual(separate(fooBar), {
       left: foo,
       right: bar
     })
@@ -290,7 +303,7 @@ describe('Map', () => {
     const emptyMap = new Map<'a' | 'b', number>()
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const b4 = new Map<'b', number>([['b', 4]])
-    const witherIdentity = M.wither(I.identity)
+    const witherIdentity = M.getWitherable(ordString).wither(I.identity)
     const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
     assert.deepStrictEqual(witherIdentity(emptyMap, f), new I.Identity(emptyMap))
     assert.deepStrictEqual(witherIdentity(a1b3, f), new I.Identity(b4))
@@ -301,67 +314,73 @@ describe('Map', () => {
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const a0 = new Map<'a', number>([['a', 0]])
     const b4 = new Map<'b', number>([['b', 4]])
-    const wiltIdentity = M.wilt(I.identity)
+    const wiltIdentity = M.getWitherable(ordString).wilt(I.identity)
     const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
     assert.deepStrictEqual(wiltIdentity(emptyMap, f), new I.Identity({ left: emptyMap, right: emptyMap }))
     assert.deepStrictEqual(wiltIdentity(a1b3, f), new I.Identity({ left: a0, right: b4 }))
   })
 
   it('filterMap', () => {
+    const filterMap = M.map.filterMap
     const emptyMap = new Map<'a' | 'b', number>()
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const b4 = new Map<'b', number>([['b', 4]])
     const f = (n: number) => (p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(M.filterMap(emptyMap, f), emptyMap)
-    assert.deepStrictEqual(M.filterMap(a1b3, f), b4)
+    assert.deepStrictEqual(filterMap(emptyMap, f), emptyMap)
+    assert.deepStrictEqual(filterMap(a1b3, f), b4)
   })
 
-  it('partitionMapWithKey', () => {
+  it('partitionMapWithIndex', () => {
+    const partitionMapWithIndex = M.getFilterableWithIndex<'a' | 'b'>().partitionMapWithIndex
     const emptyMap = new Map<'a' | 'b', number>()
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const a0 = new Map<'a', number>([['a', 0]])
     const b4 = new Map<'b', number>([['b', 4]])
     const f = (K: 'a' | 'b', n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(M.partitionMapWithKey(emptyMap, f), { left: emptyMap, right: emptyMap })
-    assert.deepStrictEqual(M.partitionMapWithKey(a1b3, f), {
+    assert.deepStrictEqual(partitionMapWithIndex(emptyMap, f), { left: emptyMap, right: emptyMap })
+    assert.deepStrictEqual(partitionMapWithIndex(a1b3, f), {
       left: a0,
       right: b4
     })
   })
 
-  it('partitionWithKey', () => {
+  it('partitionWithIndex', () => {
+    const partitionWithIndex = M.getFilterableWithIndex<'a' | 'b'>().partitionWithIndex
     const emptyMap = new Map<'a' | 'b', number>()
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const a1 = new Map<'a', number>([['a', 1]])
     const b3 = new Map<'b', number>([['b', 3]])
-    const f = (K: 'a' | 'b', n: number) => p(n)
-    assert.deepStrictEqual(M.partitionWithKey(emptyMap, f), { left: emptyMap, right: emptyMap })
-    assert.deepStrictEqual(M.partitionWithKey(a1b3, f), {
+    const f = (k: 'a' | 'b', n: number) => p(n)
+    assert.deepStrictEqual(partitionWithIndex(emptyMap, f), { left: emptyMap, right: emptyMap })
+    assert.deepStrictEqual(partitionWithIndex(a1b3, f), {
       left: a1,
       right: b3
     })
   })
 
-  it('filterMapWithKey', () => {
+  it('filterMapWithIndex', () => {
+    const filterMapWithIndex = M.getFilterableWithIndex<'a' | 'b'>().filterMapWithIndex
     const emptyMap = new Map<'a' | 'b', number>()
     const a1b3 = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const b4 = new Map<'b', number>([['b', 4]])
     const f = (k: 'a' | 'b', n: number) => (p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(M.filterMapWithKey(emptyMap, f), emptyMap)
-    assert.deepStrictEqual(M.filterMapWithKey(a1b3, f), b4)
+    assert.deepStrictEqual(filterMapWithIndex(emptyMap, f), emptyMap)
+    assert.deepStrictEqual(filterMapWithIndex(a1b3, f), b4)
   })
 
-  it('filterWithKey', () => {
+  it('filterWithIndex', () => {
+    const filterWithIndex = M.getFilterableWithIndex<'a' | 'b'>().filterWithIndex
     const d = new Map<'a' | 'b', number>([['a', 1], ['b', 3]])
     const b3 = new Map<'b', number>([['b', 3]])
     const f = (k: 'a' | 'b', n: number) => p(n)
-    assert.deepStrictEqual(M.filterWithKey(d, f), b3)
+    assert.deepStrictEqual(filterWithIndex(d, f), b3)
 
     // refinements
+    const filterWithIndexStr = M.getFilterableWithIndex<string>().filterWithIndex
     const isNumber = (k: string, u: string | number): u is number => typeof u === 'number'
     const y = new Map<string, string | number>([['a', 1], ['b', 'foo']])
     const a1 = new Map<string, number>([['a', 1]])
-    const actual = M.filterWithKey(y, isNumber)
+    const actual = filterWithIndexStr(y, isNumber)
     assert.deepStrictEqual(actual, a1)
   })
 

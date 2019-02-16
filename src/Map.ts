@@ -1,16 +1,35 @@
 import { sort } from './Array'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Separated } from './Compactable'
+import { Compactable2, Compactable2C, Separated } from './Compactable'
 import { Either } from './Either'
+import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Predicate, tuple, Refinement } from './function'
+import { Foldable2v2C } from './Foldable2v'
+import { FoldableWithIndex2C } from './FoldableWithIndex'
+import { Predicate, Refinement, phantom, tuple } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
 import { Ord } from './Ord'
 import { Setoid, fromEquals } from './Setoid'
+import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
+import { Witherable2C } from './Witherable'
+import { FunctorWithIndex2C } from './FunctorWithIndex'
+import { Functor2, Functor2C } from './Functor'
+import { Traversable2v2C } from './Traversable2v'
+import { Filterable2, Filterable2C } from './Filterable'
+
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    Map: Map<L, A>
+  }
+}
+
+export const URI = 'Map'
+
+export type URI = typeof URI
 
 /**
  * Calculate the number of key/value pairs in a Map
@@ -261,16 +280,16 @@ export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, 
 /**
  * @since 1.14.0
  */
-export function filter<K, A, B extends A>(fa: Map<K, A>, p: Refinement<A, B>): Map<K, B>
-export function filter<K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A>
-export function filter<K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A> {
+function filter<K, A, B extends A>(fa: Map<K, A>, p: Refinement<A, B>): Map<K, B>
+function filter<K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A>
+function filter<K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A> {
   return filterWithKey(fa, (_, a) => p(a))
 }
 
 /**
  * @since 1.14.0
  */
-export const mapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> => {
+const mapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
@@ -284,32 +303,32 @@ export const mapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K,
 /**
  * @since 1.14.0
  */
-export const map = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWithKey(fa, (_, a) => f(a))
+const map_ = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWithKey(fa, (_, a) => f(a))
 
 /**
  * @since 1.14.0
  */
-export const reduce = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (b: B, a: A) => B) => B) => {
+const reduce = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (b: B, a: A) => B) => B) => {
   return (fa, b, f) => reduceWithKey(O)(fa, b, (_, b, a) => f(b, a))
 }
 
 /**
  * @since 1.14.0
  */
-export const foldMap = <K, M>(O: Ord<K>, M: Monoid<M>): (<A>(fa: Map<K, A>, f: (a: A) => M) => M) => (fa, f) =>
-  foldMapWithKey(O, M)(fa, (_, a) => f(a))
+const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (a: A) => M) => M) => M => (fa, f) =>
+  foldMapWithKey(O)(M)(fa, (_, a) => f(a))
 
 /**
  * @since 1.14.0
  */
-export const foldr = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B) => B) => B) => {
+const foldr = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B) => B) => B) => {
   return (fa, b, f) => foldrWithKey(O)(fa, b, (_, a, b) => f(a, b))
 }
 
 /**
  * @since 1.14.0
  */
-export const reduceWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B) => B) => {
+const reduceWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B) => B) => {
   const keysO = keys(O)
   return <A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
     let out: B = b
@@ -326,9 +345,9 @@ export const reduceWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k:
 /**
  * @since 1.14.0
  */
-export const foldMapWithKey = <K, M>(O: Ord<K>, M: Monoid<M>): (<A>(fa: Map<K, A>, f: (k: K, a: A) => M) => M) => {
+const foldMapWithKey = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M) => M) => {
   const keysO = keys(O)
-  return (fa, f) => {
+  return <M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M): M => {
     let out: M = M.empty
     const ks = keysO(fa)
     const len = ks.length
@@ -343,7 +362,7 @@ export const foldMapWithKey = <K, M>(O: Ord<K>, M: Monoid<M>): (<A>(fa: Map<K, A
 /**
  * @since 1.14.0
  */
-export const foldrWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B) => B) => {
+const foldrWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B) => B) => {
   const keysO = keys(O)
   return <A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
     let out: B = b
@@ -369,19 +388,19 @@ export const singleton = <K, A>(k: K, a: A): Map<K, A> => {
 /**
  * @since 1.14.0
  */
-export function traverseWithKey<F extends URIS3>(
+function traverseWithKey<F extends URIS3>(
   F: Applicative3<F>
 ): <K, U, L, A, B>(ta: Map<K, A>, f: (k: K, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Map<K, B>>
-export function traverseWithKey<F extends URIS2>(
+function traverseWithKey<F extends URIS2>(
   F: Applicative2<F>
 ): <K, L, A, B>(ta: Map<K, A>, f: (k: K, a: A) => Type2<F, L, B>) => Type2<F, L, Map<K, B>>
-export function traverseWithKey<F extends URIS>(
+function traverseWithKey<F extends URIS>(
   F: Applicative1<F>
 ): <K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => Type<F, B>) => Type<F, Map<K, B>>
-export function traverseWithKey<F>(
+function traverseWithKey<F>(
   F: Applicative<F>
 ): <K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Map<K, B>>
-export function traverseWithKey<F>(
+function traverseWithKey<F>(
   F: Applicative<F>
 ): <K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Map<K, B>> {
   return <K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => {
@@ -399,23 +418,23 @@ export function traverseWithKey<F>(
 /**
  * @since 1.14.0
  */
-export function traverse<F extends URIS3>(
+function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <K, U, L, A, B>(ta: Map<K, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Map<K, B>>
-export function traverse<F extends URIS3, U, L>(
+function traverse<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
 ): <K, A, B>(ta: Map<K, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Map<K, B>>
-export function traverse<F extends URIS2>(
+function traverse<F extends URIS2>(
   F: Applicative2<F>
 ): <K, L, A, B>(ta: Map<K, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Map<K, B>>
-export function traverse<F extends URIS2, L>(
+function traverse<F extends URIS2, L>(
   F: Applicative2C<F, L>
 ): <K, A, B>(ta: Map<K, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Map<K, B>>
-export function traverse<F extends URIS>(
+function traverse<F extends URIS>(
   F: Applicative1<F>
 ): <K, A, B>(ta: Map<K, A>, f: (a: A) => Type<F, B>) => Type<F, Map<K, B>>
-export function traverse<F>(F: Applicative<F>): <K, A, B>(ta: Map<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Map<K, B>>
-export function traverse<F>(F: Applicative<F>): <K, A, B>(ta: Map<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Map<K, B>> {
+function traverse<F>(F: Applicative<F>): <K, A, B>(ta: Map<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Map<K, B>>
+function traverse<F>(F: Applicative<F>): <K, A, B>(ta: Map<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Map<K, B>> {
   const traverseWithKeyF = traverseWithKey(F)
   return (ta, f) => traverseWithKeyF(ta, (_, a) => f(a))
 }
@@ -423,21 +442,19 @@ export function traverse<F>(F: Applicative<F>): <K, A, B>(ta: Map<K, A>, f: (a: 
 /**
  * @since 1.14.0
  */
-export function sequence<F extends URIS3>(
+function sequence<F extends URIS3>(
   F: Applicative3<F>
 ): <K, U, L, A>(ta: Map<K, Type3<F, U, L, A>>) => Type3<F, U, L, Map<K, A>>
-export function sequence<F extends URIS3, U, L>(
+function sequence<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
 ): <K, A>(ta: Map<K, Type3<F, U, L, A>>) => Type3<F, U, L, Map<K, A>>
-export function sequence<F extends URIS2>(
-  F: Applicative2<F>
-): <K, L, A>(ta: Map<K, Type2<F, L, A>>) => Type2<F, L, Map<K, A>>
-export function sequence<F extends URIS2, L>(
+function sequence<F extends URIS2>(F: Applicative2<F>): <K, L, A>(ta: Map<K, Type2<F, L, A>>) => Type2<F, L, Map<K, A>>
+function sequence<F extends URIS2, L>(
   F: Applicative2C<F, L>
 ): <K, A>(ta: Map<K, Type2<F, L, A>>) => Type2<F, L, Map<K, A>>
-export function sequence<F extends URIS>(F: Applicative1<F>): <K, A>(ta: Map<K, Type<F, A>>) => Type<F, Map<K, A>>
-export function sequence<F>(F: Applicative<F>): <K, A>(ta: Map<K, HKT<F, A>>) => HKT<F, Map<K, A>>
-export function sequence<F>(F: Applicative<F>): <K, A>(ta: Map<K, HKT<F, A>>) => HKT<F, Map<K, A>> {
+function sequence<F extends URIS>(F: Applicative1<F>): <K, A>(ta: Map<K, Type<F, A>>) => Type<F, Map<K, A>>
+function sequence<F>(F: Applicative<F>): <K, A>(ta: Map<K, HKT<F, A>>) => HKT<F, Map<K, A>>
+function sequence<F>(F: Applicative<F>): <K, A>(ta: Map<K, HKT<F, A>>) => HKT<F, Map<K, A>> {
   const traverseWithKeyF = traverseWithKey(F)
   return ta => traverseWithKeyF(ta, (_, a) => a)
 }
@@ -445,7 +462,7 @@ export function sequence<F>(F: Applicative<F>): <K, A>(ta: Map<K, HKT<F, A>>) =>
 /**
  * @since 1.14.0
  */
-export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
+const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: IteratorResult<[K, Option<A>]>
@@ -461,21 +478,19 @@ export const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
 /**
  * @since 1.14.0
  */
-export const partitionMap = <K, RL, RR, A>(
-  fa: Map<K, A>,
-  f: (a: A) => Either<RL, RR>
-): Separated<Map<K, RL>, Map<K, RR>> => partitionMapWithKey(fa, (_, a) => f(a))
+const partitionMap = <K, RL, RR, A>(fa: Map<K, A>, f: (a: A) => Either<RL, RR>): Separated<Map<K, RL>, Map<K, RR>> =>
+  partitionMapWithKey(fa, (_, a) => f(a))
 
 /**
  * @since 1.14.0
  */
-export const partition = <K, A>(fa: Map<K, A>, p: Predicate<A>): Separated<Map<K, A>, Map<K, A>> =>
+const partition = <K, A>(fa: Map<K, A>, p: Predicate<A>): Separated<Map<K, A>, Map<K, A>> =>
   partitionWithKey(fa, (_, a) => p(a))
 
 /**
  * @since 1.14.0
  */
-export const separate = <K, RL, RR>(fa: Map<K, Either<RL, RR>>): Separated<Map<K, RL>, Map<K, RR>> => {
+const separate = <K, RL, RR>(fa: Map<K, Either<RL, RR>>): Separated<Map<K, RL>, Map<K, RR>> => {
   const left = new Map<K, RL>()
   const right = new Map<K, RR>()
   const entries = fa.entries()
@@ -497,27 +512,23 @@ export const separate = <K, RL, RR>(fa: Map<K, Either<RL, RR>>): Separated<Map<K
 /**
  * @since 1.14.0
  */
-export function wither<F extends URIS3>(
+function wither<F extends URIS3>(
   F: Applicative3<F>
 ): (<K, U, L, A, B>(wa: Map<K, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Map<K, B>>)
-export function wither<F extends URIS3, U, L>(
+function wither<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
 ): (<K, A, B>(wa: Map<K, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Map<K, B>>)
-export function wither<F extends URIS2>(
+function wither<F extends URIS2>(
   F: Applicative2<F>
 ): (<K, L, A, B>(wa: Map<K, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Map<K, B>>)
-export function wither<F extends URIS2, L>(
+function wither<F extends URIS2, L>(
   F: Applicative2C<F, L>
 ): (<K, A, B>(wa: Map<K, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Map<K, B>>)
-export function wither<F extends URIS>(
+function wither<F extends URIS>(
   F: Applicative1<F>
 ): (<K, A, B>(wa: Map<K, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Map<K, B>>)
-export function wither<F>(
-  F: Applicative<F>
-): (<K, A, B>(wa: Map<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Map<K, B>>)
-export function wither<F>(
-  F: Applicative<F>
-): (<K, A, B>(wa: Map<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Map<K, B>>) {
+function wither<F>(F: Applicative<F>): (<K, A, B>(wa: Map<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Map<K, B>>)
+function wither<F>(F: Applicative<F>): (<K, A, B>(wa: Map<K, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Map<K, B>>) {
   const traverseF = traverse(F)
   return (wa, f) => F.map(traverseF(wa, f), compact)
 }
@@ -525,37 +536,37 @@ export function wither<F>(
 /**
  * @since 1.14.0
  */
-export function wilt<F extends URIS3>(
+function wilt<F extends URIS3>(
   F: Applicative3<F>
 ): (<K, U, L, RL, RR, A>(
   wa: Map<K, A>,
   f: (a: A) => Type3<F, U, L, Either<RL, RR>>
 ) => Type3<F, U, L, Separated<Map<K, RL>, Map<K, RR>>>)
-export function wilt<F extends URIS3, U, L>(
+function wilt<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
 ): (<K, RL, RR, A>(
   wa: Map<K, A>,
   f: (a: A) => Type3<F, U, L, Either<RL, RR>>
 ) => Type3<F, U, L, Separated<Map<K, RL>, Map<K, RR>>>)
-export function wilt<F extends URIS2>(
+function wilt<F extends URIS2>(
   F: Applicative2<F>
 ): (<K, L, RL, RR, A>(
   wa: Map<K, A>,
   f: (a: A) => Type2<F, L, Either<RL, RR>>
 ) => Type2<F, L, Separated<Map<K, RL>, Map<K, RR>>>)
-export function wilt<F extends URIS2, L>(
+function wilt<F extends URIS2, L>(
   F: Applicative2C<F, L>
 ): (<K, RL, RR, A>(
   wa: Map<K, A>,
   f: (a: A) => Type2<F, L, Either<RL, RR>>
 ) => Type2<F, L, Separated<Map<K, RL>, Map<K, RR>>>)
-export function wilt<F extends URIS>(
+function wilt<F extends URIS>(
   F: Applicative1<F>
 ): (<K, RL, RR, A>(wa: Map<K, A>, f: (a: A) => Type<F, Either<RL, RR>>) => Type<F, Separated<Map<K, RL>, Map<K, RR>>>)
-export function wilt<F>(
+function wilt<F>(
   F: Applicative<F>
 ): (<K, RL, RR, A>(wa: Map<K, A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Map<K, RL>, Map<K, RR>>>)
-export function wilt<F>(
+function wilt<F>(
   F: Applicative<F>
 ): (<K, RL, RR, A>(wa: Map<K, A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<Map<K, RL>, Map<K, RR>>>) {
   const traverseF = traverse(F)
@@ -565,14 +576,14 @@ export function wilt<F>(
 /**
  * @since 1.14.0
  */
-export const filterMap = <K, A, B>(fa: Map<K, A>, f: (a: A) => Option<B>): Map<K, B> => {
+const filterMap = <K, A, B>(fa: Map<K, A>, f: (a: A) => Option<B>): Map<K, B> => {
   return filterMapWithKey(fa, (_, a) => f(a))
 }
 
 /**
  * @since 1.14.0
  */
-export const partitionMapWithKey = <K, RL, RR, A>(
+const partitionMapWithKey = <K, RL, RR, A>(
   fa: Map<K, A>,
   f: (k: K, a: A) => Either<RL, RR>
 ): Separated<Map<K, RL>, Map<K, RR>> => {
@@ -598,7 +609,7 @@ export const partitionMapWithKey = <K, RL, RR, A>(
 /**
  * @since 1.14.0
  */
-export const partitionWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> => {
+const partitionWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> => {
   const left = new Map<K, A>()
   const right = new Map<K, A>()
   const entries = fa.entries()
@@ -620,7 +631,7 @@ export const partitionWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean
 /**
  * @since 1.14.0
  */
-export const filterMapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
+const filterMapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
@@ -637,7 +648,7 @@ export const filterMapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Opti
 /**
  * @since 1.14.0
  */
-export const filterWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
+const filterWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
@@ -685,4 +696,130 @@ export function fromFoldable<K, F>(
       return b
     })
   }
+}
+
+/**
+ * @since 1.14.0
+ */
+const compactable: Compactable2<URI> = {
+  URI,
+  compact,
+  separate
+}
+
+/**
+ * @since 1.14.0
+ */
+const functor: Functor2<URI> = {
+  URI,
+  map: map_
+}
+
+/**
+ * @since 1.14.0
+ */
+export const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => {
+  return {
+    _L: phantom,
+    ...functor,
+    mapWithIndex: mapWithKey
+  }
+}
+
+/**
+ * @since 1.14.0
+ */
+export const getFoldable = <K>(O: Ord<K>): Foldable2v2C<URI, K> => {
+  return {
+    URI,
+    _L: phantom,
+    reduce: reduce(O),
+    foldMap: foldMap(O),
+    foldr: foldr(O)
+  }
+}
+
+/**
+ * @since 1.14.0
+ */
+export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
+  return {
+    ...getFoldable(O),
+    reduceWithIndex: reduceWithKey(O),
+    foldMapWithIndex: foldMapWithKey(O),
+    foldrWithIndex: foldrWithKey(O)
+  }
+}
+
+/**
+ * @since 1.14.0
+ */
+const filterable: Filterable2<URI> = {
+  ...compactable,
+  ...functor,
+  filter,
+  filterMap,
+  partition,
+  partitionMap
+}
+
+/**
+ * @since 1.14.0
+ */
+export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> => {
+  return {
+    ...filterable,
+    ...getFunctorWithIndex<K>(),
+    partitionMapWithIndex: partitionMapWithKey,
+    partitionWithIndex: partitionWithKey,
+    filterMapWithIndex: filterMapWithKey,
+    filterWithIndex: filterWithKey
+  }
+}
+
+/**
+ * @since 1.14.0
+ */
+export const getTraversable = <K>(O: Ord<K>): Traversable2v2C<URI, K> => {
+  return {
+    _L: phantom,
+    ...getFoldable(O),
+    ...functor,
+    traverse,
+    sequence
+  }
+}
+
+/**
+ * @since 1.14.0
+ */
+export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => {
+  return {
+    ...filterable,
+    ...getTraversable(O),
+    wilt,
+    wither
+  }
+}
+
+/**
+ * @since 1.14.0
+ */
+export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => {
+  return {
+    ...getFunctorWithIndex<K>(),
+    ...getFoldableWithIndex(O),
+    ...getTraversable(O),
+    traverseWithIndex: traverseWithKey
+  }
+}
+
+/**
+ * @since 1.14.0
+ */
+export const map: Filterable2<URI> = {
+  URI,
+  ...compactable,
+  ...functor,
+  ...filterable
 }
