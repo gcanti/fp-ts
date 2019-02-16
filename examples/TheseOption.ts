@@ -1,5 +1,5 @@
 import { Monad2C } from '../src/Monad'
-import { Option } from '../src/Option'
+import { Option, some as optionSome } from '../src/Option'
 import * as optionT from '../src/OptionT'
 import { These, URI as TheseURI } from '../src/These'
 import { phantom } from '../src/function'
@@ -21,25 +21,19 @@ export class TheseOption<L, A> {
   constructor(readonly value: These<L, Option<A>>) {}
 }
 
-export const getMonad = <L>(these: Monad2C<TheseURI, L>): Monad2C<URI, L> => {
-  const optionTThese = optionT.getOptionT2v(these)
+export const getMonad = <L>(M: Monad2C<TheseURI, L>): Monad2C<URI, L> => {
+  const T = optionT.getOptionT2v(M)
 
-  const map = <A, B>(fa: TheseOption<L, A>, f: (a: A) => B): TheseOption<L, B> => {
-    return new TheseOption(optionTThese.map(fa.value, f))
-  }
+  const map = <A, B>(fa: TheseOption<L, A>, f: (a: A) => B): TheseOption<L, B> => new TheseOption(T.map(fa.value, f))
 
-  const optionTsome = optionT.some(these)
-  const of = <A>(a: A): TheseOption<L, A> => {
-    return new TheseOption(optionTsome(a))
-  }
+  const of = <A>(a: A): TheseOption<L, A> => new TheseOption(T.of(a))
 
-  const ap = <A, B>(fab: TheseOption<L, (a: A) => B>, fa: TheseOption<L, A>): TheseOption<L, B> => {
-    return new TheseOption(optionTThese.ap(fab.value, fa.value))
-  }
+  const ap = <A, B>(fab: TheseOption<L, (a: A) => B>, fa: TheseOption<L, A>): TheseOption<L, B> =>
+    new TheseOption(T.ap(fab.value, fa.value))
 
-  const chain = <A, B>(fa: TheseOption<L, A>, f: (a: A) => TheseOption<L, B>): TheseOption<L, B> => {
-    return new TheseOption(optionTThese.chain(fa.value, a => f(a).value))
-  }
+  const chain = <A, B>(fa: TheseOption<L, A>, f: (a: A) => TheseOption<L, B>): TheseOption<L, B> =>
+    new TheseOption(T.chain(fa.value, a => f(a).value))
+
   return {
     URI,
     _L: phantom,
@@ -50,23 +44,17 @@ export const getMonad = <L>(these: Monad2C<TheseURI, L>): Monad2C<URI, L> => {
   }
 }
 
-export const fold = <L>(
-  these: Monad2C<TheseURI, L>
+export const getFold = <L>(
+  M: Monad2C<TheseURI, L>
 ): (<A, R>(r: R, some: (a: A) => R, fa: TheseOption<L, A>) => These<L, R>) => {
-  const optionTfold = optionT.fold(these)
+  const optionTfold = optionT.fold(M)
   return (r, some, fa) => optionTfold(r, some, fa.value)
 }
 
-export const some = <L>(M: Monad2C<URI, L>): (<A>(a: A) => TheseOption<L, A>) => {
+export const getSome = <L>(M: Monad2C<URI, L>): (<A>(a: A) => TheseOption<L, A>) => {
   return M.of
 }
 
-export const fromOption = <L>(these: Monad2C<TheseURI, L>): (<A>(fa: Option<A>) => TheseOption<L, A>) => {
-  const optionTfromOption = optionT.fromOption(these)
-  return oa => new TheseOption(optionTfromOption(oa))
-}
-
-export const liftF = <L>(these: Monad2C<TheseURI, L>): (<A>(fa: These<L, A>) => TheseOption<L, A>) => {
-  const optionTliftF = optionT.liftF(these)
-  return ma => new TheseOption(optionTliftF(ma))
+export const getFromThese = <L, A>(fa: These<L, A>): TheseOption<L, A> => {
+  return new TheseOption(fa.map(optionSome))
 }

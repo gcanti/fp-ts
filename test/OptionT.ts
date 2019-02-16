@@ -6,6 +6,7 @@ import { task } from '../src/Task'
 // tslint:disable-next-line: deprecation
 const taskOption = optionT.getOptionT(task)
 const taskOption2v = optionT.getOptionT2v(task)
+// tslint:disable-next-line: deprecation
 const none = optionT.none(task)()
 
 describe('OptionT', () => {
@@ -55,6 +56,7 @@ describe('OptionT', () => {
 
   it('getOrElse', () => {
     const greetingT = taskOption.of('welcome')
+    // tslint:disable-next-line: deprecation
     const getOrElse = optionT.getOrElse(task)('hello, there!')
     const p1 = getOrElse(greetingT)
       .run()
@@ -70,6 +72,7 @@ describe('OptionT', () => {
   })
 
   it('some', () => {
+    // tslint:disable-next-line: deprecation
     const some = optionT.some(task)
     return some(1)
       .run()
@@ -79,6 +82,7 @@ describe('OptionT', () => {
   })
 
   it('fromOption', () => {
+    // tslint:disable-next-line: deprecation
     const fromOption = optionT.fromOption(task)
     return Promise.all([fromOption(option.some(1)).run(), fromOption(option.none).run()]).then(([o1, o2]) => {
       assert.deepStrictEqual(o1, option.some(1))
@@ -87,6 +91,7 @@ describe('OptionT', () => {
   })
 
   it('liftF', () => {
+    // tslint:disable-next-line: deprecation
     const liftF = optionT.liftF(task)
     return liftF(task.of(1))
       .run()

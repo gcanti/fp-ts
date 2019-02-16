@@ -42,91 +42,21 @@ export interface OptionT2v3C<M extends URIS3, U, L> extends ApplicativeCompositi
 /**
  * @since 1.0.0
  */
-export function some<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): <A>(a: A) => Type3<F, U, L, Option<A>>
-export function some<F extends URIS2>(F: Applicative2<F>): <L, A>(a: A) => Type2<F, L, Option<A>>
-export function some<F extends URIS2, L>(F: Applicative2C<F, L>): <A>(a: A) => Type2<F, L, Option<A>>
-export function some<F extends URIS>(F: Applicative1<F>): <A>(a: A) => Type<F, Option<A>>
-export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
-export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> {
-  return a => F.of(optionSome(a))
-}
-
-/**
- * @since 1.0.0
- */
-export function none<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): () => Type3<F, U, L, Option<never>>
-export function none<F extends URIS2>(F: Applicative2<F>): <L>() => Type2<F, L, Option<never>>
-export function none<F extends URIS2, L>(F: Applicative2C<F, L>): () => Type2<F, L, Option<never>>
-export function none<F extends URIS>(F: Applicative1<F>): () => Type<F, Option<never>>
-export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
-export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>> {
-  return () => F.of(optionNone)
-}
-
-/**
- * @since 1.0.0
- */
-export function fromOption<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A>(fa: Option<A>) => Type3<F, U, L, Option<A>>
-export function fromOption<F extends URIS2>(F: Applicative2<F>): <L, A>(fa: Option<A>) => Type2<F, L, Option<A>>
-export function fromOption<F extends URIS2, L>(F: Applicative2C<F, L>): <A>(fa: Option<A>) => Type2<F, L, Option<A>>
-export function fromOption<F extends URIS>(F: Applicative1<F>): <A>(fa: Option<A>) => Type<F, Option<A>>
-export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
-export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> {
-  return oa => F.of(oa)
-}
-
-/**
- * @since 1.0.0
- */
-export function liftF<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A>(fa: Type3<F, U, L, A>) => Type3<F, U, L, Option<A>>
-export function liftF<F extends URIS2>(F: Functor2<F>): <L, A>(fa: Type2<F, L, A>) => Type2<F, L, Option<A>>
-export function liftF<F extends URIS2, L>(F: Functor2C<F, L>): <A>(fa: Type2<F, L, A>) => Type2<F, L, Option<A>>
-export function liftF<F extends URIS>(F: Functor1<F>): <A>(fa: Type<F, A>) => Type<F, Option<A>>
-export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
-export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> {
-  return fa => F.map(fa, a => optionSome(a))
-}
-
-/**
- * @since 1.0.0
- */
 export function fold<F extends URIS3, U, L>(
   F: Functor3C<F, U, L>
-): <R, A>(r: R, some: (a: A) => R, fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, R>
+): <R, A>(onNone: R, onSome: (a: A) => R, fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, R>
 export function fold<F extends URIS2>(
   F: Functor2<F>
-): <L, R, A>(r: R, some: (a: A) => R, fa: Type2<F, L, Option<A>>) => Type2<F, L, R>
+): <L, R, A>(onNone: R, onSome: (a: A) => R, fa: Type2<F, L, Option<A>>) => Type2<F, L, R>
 export function fold<F extends URIS2, L>(
   F: Functor2C<F, L>
-): <R, A>(r: R, some: (a: A) => R, fa: Type2<F, L, Option<A>>) => Type2<F, L, R>
+): <R, A>(onNone: R, onSome: (a: A) => R, fa: Type2<F, L, Option<A>>) => Type2<F, L, R>
 export function fold<F extends URIS>(
   F: Functor1<F>
-): <R, A>(r: R, some: (a: A) => R, fa: Type<F, Option<A>>) => Type<F, R>
-export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
-export function fold<F>(F: Functor<F>): <R, A>(r: R, some: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
-  return (r, some, fa) => F.map(fa, o => (o.isNone() ? r : some(o.value)))
-}
-
-/**
- * @since 1.0.0
- */
-export function getOrElse<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A>(a: A) => (fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, A>
-export function getOrElse<F extends URIS2>(
-  F: Functor2<F>
-): <A>(a: A) => <L>(fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
-export function getOrElse<F extends URIS2, L>(
-  F: Functor2C<F, L>
-): <A>(a: A) => (fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
-export function getOrElse<F extends URIS>(F: Functor1<F>): <A>(a: A) => (fa: Type<F, Option<A>>) => Type<F, A>
-export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
-export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
-  return a => fa => F.map(fa, o => o.getOrElse(a))
+): <R, A>(onNone: R, onSome: (a: A) => R, fa: Type<F, Option<A>>) => Type<F, R>
+export function fold<F>(F: Functor<F>): <R, A>(onNone: R, onSome: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
+export function fold<F>(F: Functor<F>): <R, A>(onNone: R, onSome: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
+  return (onNone, onSome, fa) => F.map(fa, o => (o.isNone() ? onNone : onSome(o.value)))
 }
 
 /**
@@ -227,4 +157,103 @@ export function getOptionT<M>(M: Monad<M>): OptionT<M> {
     // tslint:disable-next-line: deprecation
     chain: chain(M)
   }
+}
+
+/**
+ * @since 1.0.0
+ * @deprecated
+ */
+export function some<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): <A>(a: A) => Type3<F, U, L, Option<A>>
+/** @deprecated */
+export function some<F extends URIS2>(F: Applicative2<F>): <L, A>(a: A) => Type2<F, L, Option<A>>
+/** @deprecated */
+export function some<F extends URIS2, L>(F: Applicative2C<F, L>): <A>(a: A) => Type2<F, L, Option<A>>
+/** @deprecated */
+export function some<F extends URIS>(F: Applicative1<F>): <A>(a: A) => Type<F, Option<A>>
+/** @deprecated */
+export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
+/** @deprecated */
+export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> {
+  return a => F.of(optionSome(a))
+}
+
+/**
+ * @since 1.0.0
+ * @deprecated
+ */
+export function none<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): () => Type3<F, U, L, Option<never>>
+/** @deprecated */
+export function none<F extends URIS2>(F: Applicative2<F>): <L>() => Type2<F, L, Option<never>>
+/** @deprecated */
+export function none<F extends URIS2, L>(F: Applicative2C<F, L>): () => Type2<F, L, Option<never>>
+/** @deprecated */
+export function none<F extends URIS>(F: Applicative1<F>): () => Type<F, Option<never>>
+/** @deprecated */
+export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
+/** @deprecated */
+export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>> {
+  return () => F.of(optionNone)
+}
+
+/**
+ * @since 1.0.0
+ * @deprecated
+ */
+export function fromOption<F extends URIS3, U, L>(
+  F: Applicative3C<F, U, L>
+): <A>(fa: Option<A>) => Type3<F, U, L, Option<A>>
+export function fromOption<F extends URIS2>(F: Applicative2<F>): <L, A>(fa: Option<A>) => Type2<F, L, Option<A>>
+/** @deprecated */
+export function fromOption<F extends URIS2, L>(F: Applicative2C<F, L>): <A>(fa: Option<A>) => Type2<F, L, Option<A>>
+/** @deprecated */
+export function fromOption<F extends URIS>(F: Applicative1<F>): <A>(fa: Option<A>) => Type<F, Option<A>>
+/** @deprecated */
+export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
+/** @deprecated */
+export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> {
+  return F.of
+}
+
+/**
+ * @since 1.0.0
+ * @deprecated
+ */
+export function liftF<F extends URIS3, U, L>(
+  F: Functor3C<F, U, L>
+): <A>(fa: Type3<F, U, L, A>) => Type3<F, U, L, Option<A>>
+/** @deprecated */
+export function liftF<F extends URIS2>(F: Functor2<F>): <L, A>(fa: Type2<F, L, A>) => Type2<F, L, Option<A>>
+/** @deprecated */
+export function liftF<F extends URIS2, L>(F: Functor2C<F, L>): <A>(fa: Type2<F, L, A>) => Type2<F, L, Option<A>>
+/** @deprecated */
+export function liftF<F extends URIS>(F: Functor1<F>): <A>(fa: Type<F, A>) => Type<F, Option<A>>
+/** @deprecated */
+export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
+/** @deprecated */
+export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> {
+  return fa => F.map(fa, optionSome)
+}
+
+/**
+ * @since 1.0.0
+ * @deprecated
+ */
+export function getOrElse<F extends URIS3, U, L>(
+  F: Functor3C<F, U, L>
+): <A>(a: A) => (fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, A>
+/** @deprecated */
+export function getOrElse<F extends URIS2>(
+  F: Functor2<F>
+): <A>(a: A) => <L>(fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
+/** @deprecated */
+export function getOrElse<F extends URIS2, L>(
+  F: Functor2C<F, L>
+): <A>(a: A) => (fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
+/** @deprecated */
+export function getOrElse<F extends URIS>(F: Functor1<F>): <A>(a: A) => (fa: Type<F, Option<A>>) => Type<F, A>
+/** @deprecated */
+export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
+/** @deprecated */
+export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> {
+  return a => fa => F.map(fa, o => o.getOrElse(a))
 }
