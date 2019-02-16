@@ -217,15 +217,15 @@ export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) 
  * @since 1.14.0
  */
 export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => {
-  const lookupWithKeyS = lookupWithKey(SK)
+  const lookupSK = lookup(SK)
   return (d1: Map<K, A>, d2: Map<K, A>): boolean => {
     const entries = d1.entries()
     let e: IteratorResult<[K, A]>
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
-      const d1OptA = lookupWithKeyS(k, d1)
-      const d2OptA = lookupWithKeyS(k, d2)
-      if (d1OptA.isNone() || d2OptA.isNone() || !SK.equals(k, d2OptA.value[0]) || !SA.equals(a, d2OptA.value[1])) {
+      const d1OptA = lookupSK(k, d1)
+      const d2OptA = lookupSK(k, d2)
+      if (d1OptA.isNone() || d2OptA.isNone() || !SA.equals(a, d1OptA.value) || !SA.equals(a, d2OptA.value)) {
         return false
       }
     }
