@@ -3,7 +3,6 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { Compactable2, Separated } from './Compactable'
 import { Either } from './Either'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
-import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Foldable2v2C, Foldable2v3, Foldable2v2, Foldable2v1, Foldable2v } from './Foldable2v'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { Predicate, Refinement, phantom, tuple } from './function'
