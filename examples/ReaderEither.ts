@@ -54,14 +54,12 @@ const chain = <E, L, A, B>(fa: ReaderEither<E, L, A>, f: (a: A) => ReaderEither<
   return fa.chain(f)
 }
 
-const readerTask = readerT.ask(either)
 export const ask = <E, L>(): ReaderEither<E, L, E> => {
-  return new ReaderEither(readerTask())
+  return new ReaderEither(e => either.of(e))
 }
 
-const readerTasks = readerT.asks(either)
 export const asks = <E, L, A>(f: (e: E) => A): ReaderEither<E, L, A> => {
-  return new ReaderEither(readerTasks(f))
+  return new ReaderEither(e => either.of(f(e)))
 }
 
 export const local = <E>(f: (e: E) => E) => <L, A>(fa: ReaderEither<E, L, A>): ReaderEither<E, L, A> => {
