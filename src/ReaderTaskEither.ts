@@ -127,20 +127,18 @@ const bimap = <E, L, V, A, B>(
   return fa.bimap(f, g)
 }
 
-const readerTask = readerT.ask(taskEither.taskEither)
 /**
  * @since 1.6.0
  */
 export const ask = <E, L>(): ReaderTaskEither<E, L, E> => {
-  return new ReaderTaskEither(readerTask())
+  return new ReaderTaskEither(e => taskEither.taskEither.of(e))
 }
 
-const readerTasks = readerT.asks(taskEither.taskEither)
 /**
  * @since 1.6.0
  */
 export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => {
-  return new ReaderTaskEither(readerTasks(f))
+  return new ReaderTaskEither(e => taskEither.taskEither.of(f(e)))
 }
 
 /**

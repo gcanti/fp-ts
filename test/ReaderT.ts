@@ -70,12 +70,15 @@ describe('ReaderT', () => {
   })
 
   it('of', () => {
+    // tslint:disable-next-line: deprecation
     const of = readerT.of(option)
     assert.deepStrictEqual(of(1)({}), some(1))
   })
 
   it('ap', () => {
+    // tslint:disable-next-line: deprecation
     const of = readerT.of(option)
+    // tslint:disable-next-line: deprecation
     const ap = readerT.ap(option)
     const double = (n: number): number => n * 2
     const fab = of(double)
@@ -84,11 +87,13 @@ describe('ReaderT', () => {
   })
 
   it('ask', () => {
+    // tslint:disable-next-line: deprecation
     const ask = readerT.ask(option)
     assert.deepStrictEqual(ask()(1), some(1))
   })
 
   it('asks', () => {
+    // tslint:disable-next-line: deprecation
     const asks = readerT.asks(option)
     assert.deepStrictEqual(asks((s: string) => s.length)('foo'), some(3))
   })

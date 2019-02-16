@@ -53,14 +53,12 @@ const chain = <E, A, B>(fa: ReaderIO<E, A>, f: (a: A) => ReaderIO<E, B>): Reader
   return fa.chain(f)
 }
 
-const readerTask = readerT.ask(io)
 export const ask = <E>(): ReaderIO<E, E> => {
-  return new ReaderIO(readerTask())
+  return new ReaderIO(io.of)
 }
 
-const readerTasks = readerT.asks(io)
 export const asks = <E, A>(f: (e: E) => A): ReaderIO<E, A> => {
-  return new ReaderIO(readerTasks(f))
+  return new ReaderIO(e => io.of(f(e)))
 }
 
 export const local = <E>(f: (e: E) => E) => <A>(fa: ReaderIO<E, A>): ReaderIO<E, A> => {

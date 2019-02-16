@@ -46,80 +46,6 @@ export interface ReaderT2v3<M extends URIS3> {
 }
 
 /**
- * @since 1.14.0
- */
-export function map2v<F extends URIS3>(
-  F: Functor3<F>
-): <U, L, E, A, B>(fa: (e: E) => Type3<F, U, L, A>, f: (a: A) => B) => (e: E) => Type3<F, U, L, B>
-export function map2v<F extends URIS2>(
-  F: Functor2<F>
-): <L, E, A, B>(fa: (e: E) => Type2<F, L, A>, f: (a: A) => B) => (e: E) => Type2<F, L, B>
-export function map2v<F extends URIS>(
-  F: Functor1<F>
-): <E, A, B>(fa: (e: E) => Type<F, A>, f: (a: A) => B) => (e: E) => Type<F, B>
-export function map2v<F>(F: Functor<F>): <E, A, B>(fa: (e: E) => HKT<F, A>, f: (a: A) => B) => (e: E) => HKT<F, B>
-export function map2v<F>(F: Functor<F>): <E, A, B>(fa: (e: E) => HKT<F, A>, f: (a: A) => B) => (e: E) => HKT<F, B> {
-  return (fa, f) => e => F.map(fa(e), f)
-}
-
-/**
- * @since 1.0.0
- */
-export function of<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(a: A) => (e: E) => Type3<F, U, L, A>
-export function of<F extends URIS2>(F: Applicative2<F>): <L, E, A>(a: A) => (e: E) => Type2<F, L, A>
-export function of<F extends URIS>(F: Applicative1<F>): <E, A>(a: A) => (e: E) => Type<F, A>
-export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A>
-export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A> {
-  return <A>(a: A) => () => F.of(a)
-}
-
-/**
- * @since 1.0.0
- */
-export function ap<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, E, A, B>(
-  fab: (e: E) => Type3<F, U, L, (a: A) => B>,
-  fa: (e: E) => Type3<F, U, L, A>
-) => (e: E) => Type3<F, U, L, B>
-export function ap<F extends URIS2>(
-  F: Applicative2<F>
-): <L, E, A, B>(fab: (e: E) => Type2<F, L, (a: A) => B>, fa: (e: E) => Type2<F, L, A>) => (e: E) => Type2<F, L, B>
-export function ap<F extends URIS>(
-  F: Applicative1<F>
-): <E, A, B>(fab: (e: E) => Type<F, (a: A) => B>, fa: (e: E) => Type<F, A>) => (e: E) => Type<F, B>
-export function ap<F>(
-  F: Applicative<F>
-): <E, A, B>(fab: (e: E) => HKT<F, (a: A) => B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
-export function ap<F>(
-  F: Applicative<F>
-): <E, A, B>(fab: (e: E) => HKT<F, (a: A) => B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B> {
-  return (fab, fa) => e => F.ap(fab(e), fa(e))
-}
-
-/**
- * @since 1.0.0
- */
-export function ask<F extends URIS3>(F: Applicative3<F>): <U, L, E>() => (e: E) => Type3<F, U, L, E>
-export function ask<F extends URIS2>(F: Applicative2<F>): <L, E>() => (e: E) => Type2<F, L, E>
-export function ask<F extends URIS>(F: Applicative1<F>): <E>() => (e: E) => Type<F, E>
-export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E>
-export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E> {
-  return () => F.of
-}
-
-/**
- * @since 1.0.0
- */
-export function asks<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(f: (e: E) => A) => (e: E) => Type3<F, U, L, A>
-export function asks<F extends URIS2>(F: Applicative2<F>): <L, E, A>(f: (e: E) => A) => (e: E) => Type2<F, L, A>
-export function asks<F extends URIS>(F: Applicative1<F>): <E, A>(f: (e: E) => A) => (e: E) => Type<F, A>
-export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A>
-export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A> {
-  return f => e => F.of(f(e))
-}
-
-/**
  * @since 1.2.0
  */
 export function fromReader<F extends URIS3>(
@@ -141,9 +67,9 @@ export function getReaderT2v<M extends URIS>(M: Monad1<M>): ReaderT2v1<M>
 export function getReaderT2v<M>(M: Monad<M>): ReaderT2v<M>
 export function getReaderT2v<M>(M: Monad<M>): ReaderT2v<M> {
   return {
-    map: map2v(M),
-    of: of(M),
-    ap: ap(M),
+    map: (fa, f) => e => M.map(fa(e), f),
+    of: a => () => M.of(a),
+    ap: (fab, fa) => e => M.ap(fab(e), fa(e)),
     chain: (fa, f) => e => M.chain(fa(e), a => f(a)(e))
   }
 }
@@ -267,9 +193,88 @@ export function getReaderT<M>(M: Monad<M>): ReaderT<M> {
   return {
     // tslint:disable-next-line: deprecation
     map: map(M),
+    // tslint:disable-next-line: deprecation
     of: of(M),
+    // tslint:disable-next-line: deprecation
     ap: ap(M),
     // tslint:disable-next-line: deprecation
     chain: chain(M)
   }
+}
+
+/**
+ * @since 1.0.0
+ * @deprecated
+ */
+export function of<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(a: A) => (e: E) => Type3<F, U, L, A>
+/** @deprecated */
+export function of<F extends URIS2>(F: Applicative2<F>): <L, E, A>(a: A) => (e: E) => Type2<F, L, A>
+/** @deprecated */
+export function of<F extends URIS>(F: Applicative1<F>): <E, A>(a: A) => (e: E) => Type<F, A>
+/** @deprecated */
+export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A>
+/** @deprecated */
+export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A> {
+  return <A>(a: A) => () => F.of(a)
+}
+
+/**
+ * @since 1.0.0
+ * @deprecated
+ */
+export function ap<F extends URIS3>(
+  F: Applicative3<F>
+): <U, L, E, A, B>(
+  fab: (e: E) => Type3<F, U, L, (a: A) => B>,
+  fa: (e: E) => Type3<F, U, L, A>
+) => (e: E) => Type3<F, U, L, B>
+/** @deprecated */
+export function ap<F extends URIS2>(
+  F: Applicative2<F>
+): <L, E, A, B>(fab: (e: E) => Type2<F, L, (a: A) => B>, fa: (e: E) => Type2<F, L, A>) => (e: E) => Type2<F, L, B>
+/** @deprecated */
+export function ap<F extends URIS>(
+  F: Applicative1<F>
+): <E, A, B>(fab: (e: E) => Type<F, (a: A) => B>, fa: (e: E) => Type<F, A>) => (e: E) => Type<F, B>
+/** @deprecated */
+export function ap<F>(
+  F: Applicative<F>
+): <E, A, B>(fab: (e: E) => HKT<F, (a: A) => B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
+/** @deprecated */
+export function ap<F>(
+  F: Applicative<F>
+): <E, A, B>(fab: (e: E) => HKT<F, (a: A) => B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B> {
+  return (fab, fa) => e => F.ap(fab(e), fa(e))
+}
+
+/**
+ * @since 1.0.0
+ * @deprecated
+ */
+export function ask<F extends URIS3>(F: Applicative3<F>): <U, L, E>() => (e: E) => Type3<F, U, L, E>
+/** @deprecated */
+export function ask<F extends URIS2>(F: Applicative2<F>): <L, E>() => (e: E) => Type2<F, L, E>
+/** @deprecated */
+export function ask<F extends URIS>(F: Applicative1<F>): <E>() => (e: E) => Type<F, E>
+/** @deprecated */
+export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E>
+/** @deprecated */
+export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E> {
+  return () => F.of
+}
+
+/**
+ * @since 1.0.0
+ * @deprecated
+ */
+export function asks<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(f: (e: E) => A) => (e: E) => Type3<F, U, L, A>
+/** @deprecated */
+export function asks<F extends URIS2>(F: Applicative2<F>): <L, E, A>(f: (e: E) => A) => (e: E) => Type2<F, L, A>
+/** @deprecated */
+export function asks<F extends URIS>(F: Applicative1<F>): <E, A>(f: (e: E) => A) => (e: E) => Type<F, A>
+/** @deprecated */
+export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A>
+/** @deprecated */
+export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A> {
+  return f => e => F.of(f(e))
 }
