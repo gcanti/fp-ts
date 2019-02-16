@@ -9,6 +9,7 @@ import { spy, trace, traceA, traceM } from '../src/Trace'
 
 const foo = left<string, number>('foo')
 const bar = spy(foo.mapLeft(s => s.length))
+// tslint:disable-next-line: no-console
 console.log(bar)
 // => left(3)
 
@@ -17,6 +18,7 @@ console.log(bar)
 //
 
 const bar2 = foo.mapLeft(s => trace('mapping the left side', () => s.length))
+// tslint:disable-next-line: no-console
 console.log(bar2)
 // => 'mapping the left side'
 
@@ -42,6 +44,7 @@ const baz: Option<number> = some([1, 2, 3])
   .chain(traceMOption)
   .chain(head)
   .chain(traceMOption)
+// tslint:disable-next-line: no-console
 console.log(baz)
 // => [1, 2, 3]
 // => 1
