@@ -53,7 +53,7 @@ Added in v1.10.0
 
 ## every
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L663-L670)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L660-L667)
 
 ```ts
 export function every<A>(fa:  { ... }
@@ -81,9 +81,11 @@ export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): 
 
 Added in v1.10.0
 
-## filterMapWithIndex
+## ~~filterMapWithIndex~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L593-L606)
+Use [filterMapWithKey](#filtermapwithkey) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L738-L743)
 
 ```ts
 export function filterMapWithIndex<A, B>(
@@ -94,15 +96,37 @@ export function filterMapWithIndex<A, B>(
 
 Added in v1.12.0
 
-## filterWithIndex
+## filterMapWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L613-L627)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L593-L603)
+
+```ts
+export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>  { ... }
+```
+
+Added in v1.14.0
+
+## ~~filterWithIndex~~ (deprecated)
+
+Use [filterWithKey](#filterwithkey) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L752-L754)
 
 ```ts
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>  { ... }
 ```
 
 Added in v1.12.0
+
+## filterWithKey
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L610-L624)
+
+```ts
+export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>  { ... }
+```
+
+Added in v1.14.0
 
 ## foldMap
 
@@ -149,7 +173,7 @@ Added in v1.12.0
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L648-L658)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L645-L655)
 
 ```ts
 export function fromFoldable<F>(
@@ -218,7 +242,7 @@ Added in v1.10.0
 
 ## isMember
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L687-L689)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L684-L686)
 
 ```ts
 export function isMember<A>(S: Setoid<A>): (a: A, fa:  { ... }
@@ -296,9 +320,11 @@ export const partitionMap = <RL, RR, A>(
 
 Added in v1.10.0
 
-## partitionMapWithIndex
+## ~~partitionMapWithIndex~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L532-L551)
+Use [partitionMapWithKey](#partitionmapwithkey) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L701-L706)
 
 ```ts
 export function partitionMapWithIndex<RL, RR, A>(
@@ -309,9 +335,24 @@ export function partitionMapWithIndex<RL, RR, A>(
 
 Added in v1.12.0
 
-## partitionWithIndex
+## partitionMapWithKey
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L564-L583)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L532-L551)
+
+```ts
+export function partitionMapWithKey<RL, RR, A>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Either<RL, RR>
+): Separated<Record<string, RL>, Record<string, RR>>  { ... }
+```
+
+Added in v1.14.0
+
+## ~~partitionWithIndex~~ (deprecated)
+
+Use [partitionWithKey](#partitionwithkey) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L721-L726)
 
 ```ts
 export function partitionWithIndex<A>(
@@ -321,6 +362,19 @@ export function partitionWithIndex<A>(
 ```
 
 Added in v1.12.0
+
+## partitionWithKey
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L564-L583)
+
+```ts
+export function partitionWithKey<A>(
+  fa: Record<string, A>,
+  p: (key: string, a: A) => boolean
+): Separated<Record<string, A>, Record<string, A>>  { ... }
+```
+
+Added in v1.14.0
 
 ## pop
 
@@ -414,7 +468,7 @@ Added in v1.10.0
 
 ## some
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L675-L682)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L672-L679)
 
 ```ts
 export function some<A>(fa:  { ... }

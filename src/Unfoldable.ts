@@ -58,7 +58,7 @@ export function replicate<F extends URIS3>(U: Unfoldable3<F>): <U, L, A>(a: A, n
 export function replicate<F extends URIS3, U, L>(U: Unfoldable3C<F, U, L>): <A>(a: A, n: number) => Type3<F, U, L, A>
 export function replicate<F extends URIS2>(U: Unfoldable2<F>): <L, A>(a: A, n: number) => Type2<F, L, A>
 export function replicate<F extends URIS2, L>(U: Unfoldable2C<F, L>): <A>(a: A, n: number) => Type2<F, L, A>
-export function replicate<F extends URIS>(U: Unfoldable<F>): <A>(a: A, n: number) => Type<F, A>
+export function replicate<F extends URIS>(U: Unfoldable1<F>): <A>(a: A, n: number) => Type<F, A>
 export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
 export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A> {
   return (a, n) => {
