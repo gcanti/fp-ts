@@ -1,5 +1,5 @@
 import { Bifunctor2 } from './Bifunctor'
-import { Either, left as eitherLeft, tryCatch2v as eitherTryCatch2v, toError } from './Either'
+import { Either, left as eitherLeft, right as eitherRight, tryCatch2v as eitherTryCatch2v, toError } from './Either'
 import * as eitherT from './EitherT'
 import { Monad2 } from './Monad'
 import { IO, io } from './IO'
@@ -12,15 +12,12 @@ declare module './HKT' {
   }
 }
 
-const eitherTIO = eitherT.getEitherT2v(io)
-
 export const URI = 'IOEither'
 
 export type URI = typeof URI
 
-const eitherTfold = eitherT.fold(io)
-const eitherTmapLeft = eitherT.mapLeft(io)
-const eitherTbimap = eitherT.bimap(io)
+const T = eitherT.getEitherT2v(io)
+const foldT = eitherT.fold(io)
 
 /**
  * `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
@@ -41,10 +38,10 @@ export class IOEither<L, A> {
     return this.value.run()
   }
   map<B>(f: (a: A) => B): IOEither<L, B> {
-    return new IOEither(eitherTIO.map(this.value, f))
+    return new IOEither(T.map(this.value, f))
   }
   ap<B>(fab: IOEither<L, (a: A) => B>): IOEither<L, B> {
-    return new IOEither(eitherTIO.ap(fab.value, this.value))
+    return new IOEither(T.ap(fab.value, this.value))
   }
   /**
    * Flipped version of {@link ap}
@@ -65,22 +62,22 @@ export class IOEither<L, A> {
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => IOEither<L, B>): IOEither<L, B> {
-    return new IOEither(eitherTIO.chain(this.value, a => f(a).value))
+    return new IOEither(T.chain(this.value, a => f(a).value))
   }
   fold<R>(left: (l: L) => R, right: (a: A) => R): IO<R> {
-    return eitherTfold(left, right, this.value)
+    return foldT(left, right, this.value)
   }
   mapLeft<M>(f: (l: L) => M): IOEither<M, A> {
-    return new IOEither(eitherTmapLeft(f)(this.value))
+    return new IOEither(this.value.map(e => e.mapLeft(f)))
   }
   orElse<M>(f: (l: L) => IOEither<M, A>): IOEither<M, A> {
-    return new IOEither(this.value.chain(e => e.fold(l => f(l).value, a => eitherTIO.of(a))))
+    return new IOEither(this.value.chain(e => e.fold(l => f(l).value, a => T.of(a))))
   }
   alt(fy: IOEither<L, A>): IOEither<L, A> {
     return this.orElse(() => fy)
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): IOEither<V, B> {
-    return new IOEither(eitherTbimap(this.value, f, g))
+    return new IOEither(this.value.map(e => e.bimap(f, g)))
   }
 }
 
@@ -89,7 +86,7 @@ const map = <L, A, B>(fa: IOEither<L, A>, f: (a: A) => B): IOEither<L, B> => {
 }
 
 const of = <L, A>(a: A): IOEither<L, A> => {
-  return new IOEither(eitherTIO.of(a))
+  return new IOEither(T.of(a))
 }
 
 const ap = <L, A, B>(fab: IOEither<L, (a: A) => B>, fa: IOEither<L, A>): IOEither<L, B> => {
@@ -108,31 +105,25 @@ const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): 
   return fa.bimap(f, g)
 }
 
-const eitherTright = eitherT.right(io)
-
 /**
  * @since 1.6.0
  */
 export const right = <L, A>(fa: IO<A>): IOEither<L, A> => {
-  return new IOEither(eitherTright(fa))
+  return new IOEither(fa.map(a => eitherRight(a)))
 }
-
-const eitherTleft = eitherT.left(io)
 
 /**
  * @since 1.6.0
  */
 export const left = <L, A>(fa: IO<L>): IOEither<L, A> => {
-  return new IOEither(eitherTleft(fa))
+  return new IOEither(fa.map(a => eitherLeft(a)))
 }
-
-const eitherTfromEither = eitherT.fromEither(io)
 
 /**
  * @since 1.6.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
-  return new IOEither(eitherTfromEither(fa))
+  return new IOEither(io.of(fa))
 }
 
 /**

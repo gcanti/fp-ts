@@ -25,15 +25,12 @@ declare module './HKT' {
   }
 }
 
-const eitherTTask = eitherT.getEitherT2v(task)
-
 export const URI = 'TaskEither'
 
 export type URI = typeof URI
 
-const eitherTfold = eitherT.fold(task)
-const eitherTmapLeft = eitherT.mapLeft(task)
-const eitherTbimap = eitherT.bimap(task)
+const T = eitherT.getEitherT2v(task)
+const foldT = eitherT.fold(task)
 
 /**
  * `TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
@@ -52,10 +49,10 @@ export class TaskEither<L, A> {
     return this.value.run()
   }
   map<B>(f: (a: A) => B): TaskEither<L, B> {
-    return new TaskEither(eitherTTask.map(this.value, f))
+    return new TaskEither(T.map(this.value, f))
   }
   ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B> {
-    return new TaskEither(eitherTTask.ap(fab.value, this.value))
+    return new TaskEither(T.ap(fab.value, this.value))
   }
   /**
    * Flipped version of {@link ap}
@@ -92,10 +89,10 @@ export class TaskEither<L, A> {
     return this.chain(() => fb)
   }
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
-    return new TaskEither(eitherTTask.chain(this.value, a => f(a).value))
+    return new TaskEither(T.chain(this.value, a => f(a).value))
   }
   fold<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R> {
-    return eitherTfold(onLeft, onRight, this.value)
+    return foldT(onLeft, onRight, this.value)
   }
   /**
    * Similar to {@link fold}, but the result is flattened.
@@ -112,13 +109,13 @@ export class TaskEither<L, A> {
     return new TaskEither(this.value.chain(e => e.fold(onLeft, onRight).value))
   }
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
-    return new TaskEither(eitherTmapLeft(f)(this.value))
+    return new TaskEither(this.value.map(e => e.mapLeft(f)))
   }
   /**
    * Transforms the failure value of the `TaskEither` into a new `TaskEither`
    */
   orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> {
-    return new TaskEither(this.value.chain(e => e.fold<Task<Either<M, A>>>(l => f(l).value, eitherTTask.of)))
+    return new TaskEither(this.value.chain(e => e.fold<Task<Either<M, A>>>(l => f(l).value, T.of)))
   }
   /**
    * @since 1.6.0
@@ -130,7 +127,7 @@ export class TaskEither<L, A> {
    * @since 1.2.0
    */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> {
-    return new TaskEither(eitherTbimap(this.value, f, g))
+    return new TaskEither(this.value.map(e => e.bimap(f, g)))
   }
   /**
    * Return `Right` if the given action succeeds, `Left` if it throws
@@ -162,7 +159,7 @@ const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> =>
 }
 
 const of = <L, A>(a: A): TaskEither<L, A> => {
-  return new TaskEither(eitherTTask.of(a))
+  return new TaskEither(T.of(a))
 }
 
 const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): TaskEither<L, B> => {
@@ -181,28 +178,25 @@ const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B)
   return fa.bimap(f, g)
 }
 
-const eitherTright = eitherT.right(task)
 /**
  * @since 1.0.0
  */
 export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
-  return new TaskEither(eitherTright(fa))
+  return new TaskEither(fa.map(a => eitherRight(a)))
 }
 
-const eitherTleft = eitherT.left(task)
 /**
  * @since 1.0.0
  */
-export const left = <L, A>(fa: Task<L>): TaskEither<L, A> => {
-  return new TaskEither(eitherTleft(fa))
+export const left = <L, A>(fl: Task<L>): TaskEither<L, A> => {
+  return new TaskEither(fl.map(l => eitherLeft(l)))
 }
 
-const eitherTfromEither = eitherT.fromEither(task)
 /**
  * @since 1.0.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
-  return new TaskEither(eitherTfromEither(fa))
+  return new TaskEither(task.of(fa))
 }
 
 /**
