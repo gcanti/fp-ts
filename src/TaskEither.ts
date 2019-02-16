@@ -25,7 +25,7 @@ declare module './HKT' {
   }
 }
 
-const eitherTTask = eitherT.getEitherT(task)
+const eitherTTask = eitherT.getEitherT2v(task)
 
 export const URI = 'TaskEither'
 
@@ -92,7 +92,7 @@ export class TaskEither<L, A> {
     return this.chain(() => fb)
   }
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
-    return new TaskEither(eitherTTask.chain(a => f(a).value, this.value))
+    return new TaskEither(eitherTTask.chain(this.value, a => f(a).value))
   }
   fold<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R> {
     return eitherTfold(onLeft, onRight, this.value)
