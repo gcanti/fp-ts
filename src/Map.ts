@@ -1,6 +1,6 @@
 import { sort } from './Array'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Compactable2, Compactable2C, Separated } from './Compactable'
+import { Compactable2, Separated } from './Compactable'
 import { Either } from './Either'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
@@ -17,9 +17,9 @@ import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
 import { Witherable2C } from './Witherable'
 import { FunctorWithIndex2C } from './FunctorWithIndex'
-import { Functor2, Functor2C } from './Functor'
+import { Functor2 } from './Functor'
 import { Traversable2v2C } from './Traversable2v'
-import { Filterable2, Filterable2C } from './Filterable'
+import { Filterable2 } from './Filterable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
