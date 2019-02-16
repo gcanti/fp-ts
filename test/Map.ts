@@ -160,7 +160,7 @@ describe('Map', () => {
   })
 
   describe('map', () => {
-    describe('getFunctorWithIndex', () => {
+    describe('getFunctor', () => {
       it('map', () => {
         const map = M.map.map
         const d1 = new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])
