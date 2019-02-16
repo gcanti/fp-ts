@@ -13,7 +13,7 @@ import * as taskEither from './TaskEither'
 import TaskEither = taskEither.TaskEither
 import { MonadTask3 } from './MonadTask'
 
-const readerTTaskEither = readerT.getReaderT(taskEither.taskEither)
+const readerTTaskEither = readerT.getReaderT2v(taskEither.taskEither)
 
 declare module './HKT' {
   interface URI2HKT3<U, L, A> {
@@ -41,7 +41,7 @@ export class ReaderTaskEither<E, L, A> {
     return this.value(e).run()
   }
   map<B>(f: (a: A) => B): ReaderTaskEither<E, L, B> {
-    return new ReaderTaskEither(readerTTaskEither.map(f, this.value))
+    return new ReaderTaskEither(readerTTaskEither.map(this.value, f))
   }
   ap<B>(fab: ReaderTaskEither<E, L, (a: A) => B>): ReaderTaskEither<E, L, B> {
     return new ReaderTaskEither(readerTTaskEither.ap(fab.value, this.value))
@@ -65,7 +65,7 @@ export class ReaderTaskEither<E, L, A> {
     return fb.ap(this.map(constIdentity as () => (b: B) => B))
   }
   chain<B>(f: (a: A) => ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> {
-    return new ReaderTaskEither(readerTTaskEither.chain(a => f(a).value, this.value))
+    return new ReaderTaskEither(readerTTaskEither.chain(this.value, a => f(a).value))
   }
   fold<R>(left: (l: L) => R, right: (a: A) => R): Reader<E, Task<R>> {
     return new Reader(e => this.value(e).fold(left, right))
