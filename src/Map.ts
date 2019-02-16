@@ -93,16 +93,12 @@ export const keysSet = <K, A>(m: Map<K, A>): Set<K> => new Set(m.keys())
  * @since 1.14.0
  */
 export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B>) => {
-  const lookupWithKeyO = lookupWithKey(O)
   const keysO = keys(O)
   return <A, B>(m: Map<K, A>, f: (k: K, a: A) => B): Array<B> => {
     const out: Array<B> = []
     const ks = keysO(m)
     for (let key of ks) {
-      const o = lookupWithKeyO(key, m)
-      if (o.isSome()) {
-        out.push(f(key, o.value[1]))
-      }
+      out.push(f(key, m.get(key)!))
     }
     return out
   }
@@ -168,7 +164,7 @@ export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) 
     const found = lookupS(k, m)
     if (found.isSome()) {
       const r = new Map(m)
-      m.delete(k)
+      r.delete(found.value[0])
       return r
     }
     return m
@@ -199,7 +195,7 @@ export const lookupWithKey = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Opti
     while (!(e = entries.next()).done) {
       const [ka, a] = e.value
       if (S.equals(ka, k)) {
-        return some(tuple(k, a))
+        return some(tuple(ka, a))
       }
     }
     return none
@@ -256,6 +252,7 @@ export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>>
  * @since 1.14.0
  */
 export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => {
+  const lookupWithKeyS = lookupWithKey(SK)
   return {
     concat: (mx, my) => {
       const r = new Map(mx)
@@ -263,7 +260,6 @@ export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, 
       let e: IteratorResult<[K, A]>
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
-        const lookupWithKeyS = lookupWithKey(SK)
         const mxOptA = lookupWithKeyS(k, mx)
         const myOptA = lookupWithKeyS(k, my)
         r.set(
@@ -309,20 +305,24 @@ const map_ = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWithKey(f
  * @since 1.14.0
  */
 const reduce = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (b: B, a: A) => B) => B) => {
-  return (fa, b, f) => reduceWithKey(O)(fa, b, (_, b, a) => f(b, a))
+  const reduceWithKeyO = reduceWithKey(O)
+  return (fa, b, f) => reduceWithKeyO(fa, b, (_, b, a) => f(b, a))
 }
 
 /**
  * @since 1.14.0
  */
-const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (a: A) => M) => M) => M => (fa, f) =>
-  foldMapWithKey(O)(M)(fa, (_, a) => f(a))
+const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (a: A) => M) => M) => M => {
+  const foldMapWithKeyOM = foldMapWithKey(O)(M)
+  return (fa, f) => foldMapWithKeyOM(fa, (_, a) => f(a))
+}
 
 /**
  * @since 1.14.0
  */
 const foldr = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B) => B) => B) => {
-  return (fa, b, f) => foldrWithKey(O)(fa, b, (_, a, b) => f(a, b))
+  const foldrWithKeyO = foldrWithKey(O)
+  return (fa, b, f) => foldrWithKeyO(fa, b, (_, a, b) => f(a, b))
 }
 
 /**
@@ -690,8 +690,9 @@ export function fromFoldable<K, F>(
   F: Foldable<F>
 ): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> {
   return <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => {
+    const lookupWithKeyS = lookupWithKey(S)
     return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
-      const bOpt = lookupWithKey(S)(k, b)
+      const bOpt = lookupWithKeyS(k, b)
       b.set(k, bOpt.isSome() ? f(bOpt.value[1], a) : a)
       return b
     })
