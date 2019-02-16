@@ -9,10 +9,11 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
-    "jest": "jest --ci --coverage --clearCache",
+    "jest-clear-cache": "jest --clearCache",
+    "jest": "jest --ci --coverage",
     "prettier": "prettier --list-different \"./{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,exercises}/**/*.ts\"",
-    "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest && npm run docs",
+    "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest-clear-cache && npm run jest && npm run docs",
     "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
