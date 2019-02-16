@@ -1,4 +1,4 @@
-import { reader, ask } from '../src/reader'
+import { reader, ask } from '../src/Reader'
 
 // So, what's the Reader monad?
 
@@ -12,7 +12,7 @@ interface Config {
 const x = 1
 
 // Our Reader monad, note it has not been given the context at this point
-const read = reader.of(x)
+const read = reader.of<Config, number>(x)
 
 // Let's start doing calculations with it!
 const read2 = read
@@ -37,6 +37,7 @@ const read2 = read
   })
 
 // what is read2 then?
+// tslint:disable-next-line: no-console
 console.log(read2)
 
 // -> Reader { run: [Function] }
@@ -52,6 +53,7 @@ const config: Config = {
 // let's run our Reader with the stuff in it...
 const output = read2.run(config)
 
+// tslint:disable-next-line: no-console
 console.log(output)
 // -> "Hello horse you are now 112 years old isn't that just lovely?"
 

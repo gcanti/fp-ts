@@ -14,7 +14,7 @@ declare module '../src/HKT' {
   }
 }
 
-const stateTIO = stateT.getStateT(io)
+const stateTIO = stateT.getStateT2v(io)
 
 export const URI = 'StateIO'
 
@@ -35,7 +35,7 @@ export class StateIO<S, A> {
     return this.run(s)[1]
   }
   map<B>(f: (a: A) => B): StateIO<S, B> {
-    return new StateIO(stateTIO.map(f, this.value))
+    return new StateIO(stateTIO.map(this.value, f))
   }
   ap<B>(fab: StateIO<S, (a: A) => B>): StateIO<S, B> {
     return new StateIO(stateTIO.ap(fab.value, this.value))
@@ -44,7 +44,7 @@ export class StateIO<S, A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => StateIO<S, B>): StateIO<S, B> {
-    return new StateIO(stateTIO.chain(a => f(a).value, this.value))
+    return new StateIO(stateTIO.chain(this.value, a => f(a).value))
   }
 }
 

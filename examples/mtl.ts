@@ -100,6 +100,7 @@ const monadAppTask: MonadApp1<TaskURI> = {
   ...monadFBTask
 }
 
+// tslint:disable-next-line: no-floating-promises
 likePost(monadAppTask)('session123')('https://me.com/1')
   .run()
   // tslint:disable-next-line:no-console
@@ -143,11 +144,13 @@ const monadAppReaderTaskEither: MonadApp3C<ReaderTaskEitherURI, Env, Error> = {
 
 const ma = likePost(monadAppReaderTaskEither)('session123')('https://me.com/1')
 
+// tslint:disable-next-line: no-floating-promises
 ma.run({ error: true })
   // tslint:disable-next-line:no-console
   .then(result => console.log('ReaderTaskEither 2', result))
 // => ReaderTaskEither 2 left(Error: validateUser error)
 
+// tslint:disable-next-line: no-floating-promises
 ma.run({ error: false })
   // tslint:disable-next-line:no-console
   .then(result => console.log('ReaderTaskEither 1', result))

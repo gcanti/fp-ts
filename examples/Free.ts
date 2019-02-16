@@ -89,6 +89,7 @@ export function interpretIdentity<A>(fa: InstructionF<A>): Identity<A> {
     case 'RotateRight':
       return identity.of(fa.more(computation.right(fa.position, fa.degree)))
     case 'Show':
+      // tslint:disable-next-line: no-console
       console.log('interpretIdentity', fa.position)
       return identity.of(fa.more)
   }
@@ -103,8 +104,10 @@ const program1 = (start: Position) => {
     .chain(p3 => show(p3))
 }
 
+// tslint:disable-next-line: no-console
 console.log('--program1--')
 const result1 = free.foldFree(identity)(interpretIdentity, program1(start)) // interpretIdentity Position { x: 10, y: 10, heading: Degree { value: 0 } }
+// tslint:disable-next-line: no-console
 console.log(result1.value) // undefined
 
 const nonNegative = (position: Position): option.Option<Position> =>
@@ -119,6 +122,7 @@ export function interpretOption<A>(fa: InstructionF<A>): option.Option<A> {
     case 'RotateRight':
       return nonNegative(computation.right(fa.position, fa.degree)).map(fa.more)
     case 'Show':
+      // tslint:disable-next-line: no-console
       console.log('interpretOption', fa.position)
       return option.some(fa.more)
   }
@@ -133,8 +137,10 @@ const program2 = (start: Position) => {
     .chain(p3 => show(p3))
 }
 
+// tslint:disable-next-line: no-console
 console.log('--program2--')
 const result2 = free.foldFree(option.option)(interpretOption, program2(start))
+// tslint:disable-next-line: no-console
 console.log(result2) // none
 
 // Composing
@@ -218,9 +224,11 @@ const program3 = (start: Position): free.Free<LogoAppFURI, void> => {
 export function penInterpretIdentity<A>(fa: PencilInstructionF<A>): Identity<A> {
   switch (fa._tag) {
     case 'PencilUp':
+      // tslint:disable-next-line: no-console
       console.log(`stop drawing at position ${JSON.stringify(fa.position)}`)
       return identity.of(fa.more)
     case 'PencilDown':
+      // tslint:disable-next-line: no-console
       console.log(`start drawing at position ${JSON.stringify(fa.position)}`)
       return identity.of(fa.more)
   }
@@ -235,6 +243,7 @@ export function logoAppInterpretIdentity<A>(fa: LogoAppF<A>): Identity<A> {
   }
 }
 
+// tslint:disable-next-line: no-console
 console.log('--program3--')
 free.foldFree(identity)(logoAppInterpretIdentity, program3(start))
 /*
@@ -254,14 +263,17 @@ function interpretEither<A>(fa: InstructionF<A>): Either<string, A> {
     case 'RotateRight':
       return either.of(fa.more(computation.right(fa.position, fa.degree)))
     case 'Show':
+      // tslint:disable-next-line: no-console
       console.log('interpretEither', fa.position)
       return either.of(fa.more)
   }
 }
 
+// tslint:disable-next-line: no-console
 console.log('--program1 (Either)--')
 const foldFreeEither = free.foldFree(either)
 const result3 = foldFreeEither(interpretEither, program1(start))
+// tslint:disable-next-line: no-console
 console.log(result3)
 /*
 right(undefined)

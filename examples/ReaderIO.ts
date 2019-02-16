@@ -3,7 +3,7 @@ import { Monad2 } from '../src/Monad'
 import { Reader } from '../src/Reader'
 import * as readerT from '../src/ReaderT'
 
-const readerTIO = readerT.getReaderT(io)
+const readerTIO = readerT.getReaderT2v(io)
 
 declare module '../src/HKT' {
   interface URI2HKT2<L, A> {
@@ -21,7 +21,7 @@ export class ReaderIO<E, A> {
   readonly _URI!: URI
   constructor(readonly run: (e: E) => IO<A>) {}
   map<B>(f: (a: A) => B): ReaderIO<E, B> {
-    return new ReaderIO(readerTIO.map(f, this.run))
+    return new ReaderIO(readerTIO.map(this.run, f))
   }
   of<E, B>(b: B): ReaderIO<E, B> {
     return of(b)
@@ -33,7 +33,7 @@ export class ReaderIO<E, A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => ReaderIO<E, B>): ReaderIO<E, B> {
-    return new ReaderIO(readerTIO.chain(a => f(a).run, this.run))
+    return new ReaderIO(readerTIO.chain(this.run, a => f(a).run))
   }
 }
 
