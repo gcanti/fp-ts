@@ -3,7 +3,7 @@ import { Monad3 } from '../src/Monad'
 import { Reader } from '../src/Reader'
 import * as readerT from '../src/ReaderT'
 
-const readerTEither = readerT.getReaderT(either)
+const readerTEither = readerT.getReaderT2v(either)
 
 declare module '../src/HKT' {
   interface URI2HKT3<U, L, A> {
@@ -22,7 +22,7 @@ export class ReaderEither<E, L, A> {
   readonly _URI!: URI
   constructor(readonly run: (e: E) => Either<L, A>) {}
   map<B>(f: (a: A) => B): ReaderEither<E, L, B> {
-    return new ReaderEither(readerTEither.map(f, this.run))
+    return new ReaderEither(readerTEither.map(this.run, f))
   }
   of<E, B>(b: B): ReaderEither<E, L, B> {
     return of(b)
@@ -34,7 +34,7 @@ export class ReaderEither<E, L, A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => ReaderEither<E, L, B>): ReaderEither<E, L, B> {
-    return new ReaderEither(readerTEither.chain(a => f(a).run, this.run))
+    return new ReaderEither(readerTEither.chain(this.run, a => f(a).run))
   }
 }
 
