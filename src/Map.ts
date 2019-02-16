@@ -4,7 +4,7 @@ import { Compactable2, Separated } from './Compactable'
 import { Either } from './Either'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Foldable2v2C } from './Foldable2v'
+import { Foldable2v2C, Foldable2v3, Foldable2v2, Foldable2v1, Foldable2v } from './Foldable2v'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { Predicate, Refinement, phantom, tuple } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
@@ -664,25 +664,23 @@ const filterWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, 
  */
 export function fromFoldable<K, F extends URIS3>(
   S: Setoid<K>,
-  F: Foldable3<F>
+  F: Foldable2v3<F>
 ): <U, L, A>(ta: Type3<F, U, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS2>(
   S: Setoid<K>,
-  F: Foldable2<F>
+  F: Foldable2v2<F>
 ): <L, A>(ta: Type2<F, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS>(
   S: Setoid<K>,
-  F: Foldable1<F>
+  F: Foldable2v1<F>
 ): <A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
   S: Setoid<K>,
-  // tslint:disable-next-line: deprecation
-  F: Foldable<F>
+  F: Foldable2v<F>
 ): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
   S: Setoid<K>,
-  // tslint:disable-next-line: deprecation
-  F: Foldable<F>
+  F: Foldable2v<F>
 ): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> {
   return <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => {
     const lookupWithKeyS = lookupWithKey(S)
