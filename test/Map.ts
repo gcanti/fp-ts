@@ -150,17 +150,8 @@ describe('Map', () => {
     assert.deepStrictEqual(S2.concat(d1, d2), expected)
   })
 
-  describe('getFunctorWithIndex', () => {
-    it('mapWithIndex', () => {
-      const mapWithIndex = M.getFunctorWithIndex<'aa'>().mapWithIndex
-      const aa1 = new Map<'aa', number>([['aa', 1]])
-      const aa3 = new Map<'aa', number>([['aa', 3]])
-      assert.deepStrictEqual(mapWithIndex(aa1, (k, a) => a + k.length), aa3)
-    })
-  })
-
   describe('map', () => {
-    describe('getFunctor', () => {
+    describe('functor', () => {
       it('map', () => {
         const map = M.map.map
         const d1 = new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])
@@ -169,7 +160,7 @@ describe('Map', () => {
         assert.deepStrictEqual(map(d1, double), expected)
       })
     })
-    describe('getFilterable', () => {
+    describe('filterable', () => {
       it('compact', () => {
         const compact = M.map.compact
         const fooBar = new Map<'foo' | 'bar', Option<number>>([['foo', none], ['bar', some(123)]])
@@ -244,53 +235,6 @@ describe('Map', () => {
     })
   })
 
-  describe('getFoldable', () => {
-    it('reduce', () => {
-      const d1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-      const reduceO = M.getFoldable(ordString).reduce
-      assert.strictEqual(reduceO(d1, '', (b, a) => b + a), 'ab')
-      const d2 = new Map<'k1' | 'k2', string>([['k2', 'b'], ['k1', 'a']])
-      assert.strictEqual(reduceO(d2, '', (b, a) => b + a), 'ab')
-    })
-
-    it('foldMap', () => {
-      const foldMapOM = M.getFoldable(ordString).foldMap(monoidString)
-      const x1 = new Map<'a' | 'b', string>([['a', 'a'], ['b', 'b']])
-      const f1 = identity
-      assert.strictEqual(foldMapOM(x1, f1), 'ab')
-    })
-
-    it('foldr', () => {
-      const foldrO = M.getFoldable(ordString).foldr
-      const x1 = new Map<'a' | 'b', string>([['a', 'a'], ['b', 'b']])
-      const init1 = ''
-      const f1 = (a: string, acc: string) => acc + a
-      assert.strictEqual(foldrO(x1, init1, f1), 'ba')
-    })
-  })
-
-  describe('getFoldableWithIndex', () => {
-    it('reduceWithIndex', () => {
-      const d1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-      const reduceWithIndexO = M.getFoldableWithIndex(ordString).reduceWithIndex
-      assert.strictEqual(reduceWithIndexO(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
-      const d2 = new Map<'k1' | 'k2', string>([['k2', 'b'], ['k1', 'a']])
-      assert.strictEqual(reduceWithIndexO(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
-    })
-
-    it('foldMapWithIndex', () => {
-      const foldMapWithIndexOM = M.getFoldableWithIndex(ordString).foldMapWithIndex(monoidString)
-      const x1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-      assert.strictEqual(foldMapWithIndexOM(x1, (k, a) => k + a), 'k1ak2b')
-    })
-
-    it('foldrWithIndex', () => {
-      const foldrWithIndexO = M.getFoldableWithIndex(ordString).foldrWithIndex
-      const x1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
-      assert.strictEqual(foldrWithIndexO(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
-    })
-  })
-
   it('singleton', () => {
     assert.deepStrictEqual(M.singleton('k1', 0), new Map<string, number>([['k1', 0]]))
   })
@@ -306,22 +250,78 @@ describe('Map', () => {
       const expected = new Map<'k1' | 'k2', number>([['k1', 2], ['k2', 3]])
       assert.deepStrictEqual(t2, some(expected))
     })
-  })
 
-  describe('getTraversable', () => {
-    it('traverse', () => {
-      const optionTraverse = M.getTraversable(ordString).traverse(option)
-      const x = new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])
-      assert.deepStrictEqual(optionTraverse(x, n => (n <= 2 ? some(n) : none)), some(x))
-      assert.deepStrictEqual(optionTraverse(x, n => (n >= 2 ? some(n) : none)), none)
+    describe('getTraversable', () => {
+      it('traverse', () => {
+        const optionTraverse = M.getTraversableWithIndex(ordString).traverse(option)
+        const x = new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])
+        assert.deepStrictEqual(optionTraverse(x, n => (n <= 2 ? some(n) : none)), some(x))
+        assert.deepStrictEqual(optionTraverse(x, n => (n >= 2 ? some(n) : none)), none)
+      })
+
+      it('sequence', () => {
+        const optionSequence = M.getTraversableWithIndex(ordString).sequence(option)
+        const x1 = new Map<'k1' | 'k2', Option<number>>([['k1', some(1)], ['k2', some(2)]])
+        assert.deepStrictEqual(optionSequence(x1), some(new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])))
+        const x2 = new Map<'k1' | 'k2', Option<number>>([['k1', none], ['k2', some(2)]])
+        assert.deepStrictEqual(optionSequence(x2), none)
+      })
     })
 
-    it('sequence', () => {
-      const optionSequence = M.getTraversable(ordString).sequence(option)
-      const x1 = new Map<'k1' | 'k2', Option<number>>([['k1', some(1)], ['k2', some(2)]])
-      assert.deepStrictEqual(optionSequence(x1), some(new Map<'k1' | 'k2', number>([['k1', 1], ['k2', 2]])))
-      const x2 = new Map<'k1' | 'k2', Option<number>>([['k1', none], ['k2', some(2)]])
-      assert.deepStrictEqual(optionSequence(x2), none)
+    describe('getFoldable', () => {
+      it('reduce', () => {
+        const d1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
+        const reduceO = M.getTraversableWithIndex(ordString).reduce
+        assert.strictEqual(reduceO(d1, '', (b, a) => b + a), 'ab')
+        const d2 = new Map<'k1' | 'k2', string>([['k2', 'b'], ['k1', 'a']])
+        assert.strictEqual(reduceO(d2, '', (b, a) => b + a), 'ab')
+      })
+
+      it('foldMap', () => {
+        const foldMapOM = M.getTraversableWithIndex(ordString).foldMap(monoidString)
+        const x1 = new Map<'a' | 'b', string>([['a', 'a'], ['b', 'b']])
+        const f1 = identity
+        assert.strictEqual(foldMapOM(x1, f1), 'ab')
+      })
+
+      it('foldr', () => {
+        const foldrO = M.getTraversableWithIndex(ordString).foldr
+        const x1 = new Map<'a' | 'b', string>([['a', 'a'], ['b', 'b']])
+        const init1 = ''
+        const f1 = (a: string, acc: string) => acc + a
+        assert.strictEqual(foldrO(x1, init1, f1), 'ba')
+      })
+    })
+
+    describe('getFoldableWithIndex', () => {
+      it('reduceWithIndex', () => {
+        const d1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
+        const reduceWithIndexO = M.getTraversableWithIndex(ordString).reduceWithIndex
+        assert.strictEqual(reduceWithIndexO(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
+        const d2 = new Map<'k1' | 'k2', string>([['k2', 'b'], ['k1', 'a']])
+        assert.strictEqual(reduceWithIndexO(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
+      })
+
+      it('foldMapWithIndex', () => {
+        const foldMapWithIndexOM = M.getTraversableWithIndex(ordString).foldMapWithIndex(monoidString)
+        const x1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
+        assert.strictEqual(foldMapWithIndexOM(x1, (k, a) => k + a), 'k1ak2b')
+      })
+
+      it('foldrWithIndex', () => {
+        const foldrWithIndexO = M.getTraversableWithIndex(ordString).foldrWithIndex
+        const x1 = new Map<'k1' | 'k2', string>([['k1', 'a'], ['k2', 'b']])
+        assert.strictEqual(foldrWithIndexO(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
+      })
+    })
+
+    describe('getFunctorWithIndex', () => {
+      it('mapWithIndex', () => {
+        const mapWithIndex = M.getTraversableWithIndex<'aa'>(ordString).mapWithIndex
+        const aa1 = new Map<'aa', number>([['aa', 1]])
+        const aa3 = new Map<'aa', number>([['aa', 3]])
+        assert.deepStrictEqual(mapWithIndex(aa1, (k, a) => a + k.length), aa3)
+      })
     })
   })
 

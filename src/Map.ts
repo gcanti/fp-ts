@@ -270,12 +270,12 @@ export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, 
 /**
  * @since 1.14.0
  */
-const filter = <K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A> => filterWithKey(fa, (_, a) => p(a))
+const filter = <K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A> => filterWithIndex(fa, (_, a) => p(a))
 
 /**
  * @since 1.14.0
  */
-const mapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> => {
+const mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
@@ -289,36 +289,36 @@ const mapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> => 
 /**
  * @since 1.14.0
  */
-const map_ = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWithKey(fa, (_, a) => f(a))
+const map_ = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWithIndex(fa, (_, a) => f(a))
 
 /**
  * @since 1.14.0
  */
 const reduce = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (b: B, a: A) => B) => B) => {
-  const reduceWithKeyO = reduceWithKey(O)
-  return (fa, b, f) => reduceWithKeyO(fa, b, (_, b, a) => f(b, a))
+  const reduceWithIndexO = reduceWithIndex(O)
+  return (fa, b, f) => reduceWithIndexO(fa, b, (_, b, a) => f(b, a))
 }
 
 /**
  * @since 1.14.0
  */
 const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (a: A) => M) => M) => M => {
-  const foldMapWithKeyOM = foldMapWithKey(O)(M)
-  return (fa, f) => foldMapWithKeyOM(fa, (_, a) => f(a))
+  const foldMapWithIndexOM = foldMapWithIndex(O)(M)
+  return (fa, f) => foldMapWithIndexOM(fa, (_, a) => f(a))
 }
 
 /**
  * @since 1.14.0
  */
 const foldr = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B) => B) => B) => {
-  const foldrWithKeyO = foldrWithKey(O)
-  return (fa, b, f) => foldrWithKeyO(fa, b, (_, a, b) => f(a, b))
+  const foldrWithIndexO = foldrWithIndex(O)
+  return (fa, b, f) => foldrWithIndexO(fa, b, (_, a, b) => f(a, b))
 }
 
 /**
  * @since 1.14.0
  */
-const reduceWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B) => B) => {
+const reduceWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B) => B) => {
   const keysO = keys(O)
   return <A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B): B => {
     let out: B = b
@@ -335,7 +335,7 @@ const reduceWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, b: 
 /**
  * @since 1.14.0
  */
-const foldMapWithKey = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M) => M) => {
+const foldMapWithIndex = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M) => M) => {
   const keysO = keys(O)
   return <M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M): M => {
     let out: M = M.empty
@@ -352,7 +352,7 @@ const foldMapWithKey = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, 
 /**
  * @since 1.14.0
  */
-const foldrWithKey = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B) => B) => {
+const foldrWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B) => B) => {
   const keysO = keys(O)
   return <A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
     let out: B = b
@@ -378,7 +378,7 @@ export const singleton = <K, A>(k: K, a: A): Map<K, A> => {
 /**
  * @since 1.14.0
  */
-const traverseWithKey = <F>(
+const traverseWithIndex = <F>(
   F: Applicative<F>
 ): (<K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Map<K, B>>) => {
   return <K, A, B>(ta: Map<K, A>, f: (k: K, a: A) => HKT<F, B>) => {
@@ -397,16 +397,16 @@ const traverseWithKey = <F>(
  * @since 1.14.0
  */
 const traverse = <F>(F: Applicative<F>): (<K, A, B>(ta: Map<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Map<K, B>>) => {
-  const traverseWithKeyF = traverseWithKey(F)
-  return (ta, f) => traverseWithKeyF(ta, (_, a) => f(a))
+  const traverseWithIndexF = traverseWithIndex(F)
+  return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
 }
 
 /**
  * @since 1.14.0
  */
 const sequence = <F>(F: Applicative<F>): (<K, A>(ta: Map<K, HKT<F, A>>) => HKT<F, Map<K, A>>) => {
-  const traverseWithKeyF = traverseWithKey(F)
-  return ta => traverseWithKeyF(ta, (_, a) => a)
+  const traverseWithIndexF = traverseWithIndex(F)
+  return ta => traverseWithIndexF(ta, (_, a) => a)
 }
 
 /**
@@ -429,13 +429,13 @@ const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
  * @since 1.14.0
  */
 const partitionMap = <K, RL, RR, A>(fa: Map<K, A>, f: (a: A) => Either<RL, RR>): Separated<Map<K, RL>, Map<K, RR>> =>
-  partitionMapWithKey(fa, (_, a) => f(a))
+  partitionMapWithIndex(fa, (_, a) => f(a))
 
 /**
  * @since 1.14.0
  */
 const partition = <K, A>(fa: Map<K, A>, p: Predicate<A>): Separated<Map<K, A>, Map<K, A>> =>
-  partitionWithKey(fa, (_, a) => p(a))
+  partitionWithIndex(fa, (_, a) => p(a))
 
 /**
  * @since 1.14.0
@@ -486,13 +486,13 @@ const wilt = <F>(
  * @since 1.14.0
  */
 const filterMap = <K, A, B>(fa: Map<K, A>, f: (a: A) => Option<B>): Map<K, B> => {
-  return filterMapWithKey(fa, (_, a) => f(a))
+  return filterMapWithIndex(fa, (_, a) => f(a))
 }
 
 /**
  * @since 1.14.0
  */
-const partitionMapWithKey = <K, RL, RR, A>(
+const partitionMapWithIndex = <K, RL, RR, A>(
   fa: Map<K, A>,
   f: (k: K, a: A) => Either<RL, RR>
 ): Separated<Map<K, RL>, Map<K, RR>> => {
@@ -518,7 +518,7 @@ const partitionMapWithKey = <K, RL, RR, A>(
 /**
  * @since 1.14.0
  */
-const partitionWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> => {
+const partitionWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> => {
   const left = new Map<K, A>()
   const right = new Map<K, A>()
   const entries = fa.entries()
@@ -540,7 +540,7 @@ const partitionWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Sepa
 /**
  * @since 1.14.0
  */
-const filterMapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
+const filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
   const m = new Map<K, B>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
@@ -557,7 +557,7 @@ const filterMapWithKey = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>):
 /**
  * @since 1.14.0
  */
-const filterWithKey = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
+const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
   const m = new Map<K, A>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
@@ -630,18 +630,18 @@ const functor: Functor2<URI> = {
 /**
  * @since 1.14.0
  */
-export const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => {
+const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => {
   return {
     _L: phantom,
     ...functor,
-    mapWithIndex: mapWithKey
+    mapWithIndex: mapWithIndex
   }
 }
 
 /**
  * @since 1.14.0
  */
-export const getFoldable = <K>(O: Ord<K>): Foldable2v2C<URI, K> => {
+const getFoldable = <K>(O: Ord<K>): Foldable2v2C<URI, K> => {
   return {
     URI,
     _L: phantom,
@@ -654,12 +654,12 @@ export const getFoldable = <K>(O: Ord<K>): Foldable2v2C<URI, K> => {
 /**
  * @since 1.14.0
  */
-export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
+const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
   return {
     ...getFoldable(O),
-    reduceWithIndex: reduceWithKey(O),
-    foldMapWithIndex: foldMapWithKey(O),
-    foldrWithIndex: foldrWithKey(O)
+    reduceWithIndex: reduceWithIndex(O),
+    foldMapWithIndex: foldMapWithIndex(O),
+    foldrWithIndex: foldrWithIndex(O)
   }
 }
 
@@ -682,17 +682,17 @@ export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> =>
   return {
     ...filterable,
     ...getFunctorWithIndex<K>(),
-    partitionMapWithIndex: partitionMapWithKey,
-    partitionWithIndex: partitionWithKey,
-    filterMapWithIndex: filterMapWithKey,
-    filterWithIndex: filterWithKey
+    partitionMapWithIndex,
+    partitionWithIndex,
+    filterMapWithIndex,
+    filterWithIndex
   }
 }
 
 /**
  * @since 1.14.0
  */
-export const getTraversable = <K>(O: Ord<K>): Traversable2v2C<URI, K> => {
+const getTraversable = <K>(O: Ord<K>): Traversable2v2C<URI, K> => {
   return {
     _L: phantom,
     ...getFoldable(O),
@@ -722,7 +722,7 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<UR
     ...getFunctorWithIndex<K>(),
     ...getFoldableWithIndex(O),
     ...getTraversable(O),
-    traverseWithIndex: traverseWithKey
+    traverseWithIndex
   }
 }
 
