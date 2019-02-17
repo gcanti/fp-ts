@@ -14,6 +14,10 @@ import { fromArray } from '../src/Set'
 const p = ((n: number): boolean => n > 2) as Refinement<number, number>
 
 describe('Map', () => {
+  it('URI', () => {
+    assert.strictEqual(M.URI, 'Map')
+  })
+
   it('size', () => {
     const emptyMap = new Map<'a', number>()
     const a1 = new Map<'a', number>([['a', 1]])
@@ -85,9 +89,13 @@ describe('Map', () => {
     const emptyMap = new Map<'a', number>()
     const a1 = new Map<'a', number>([['a', 1]])
     const a1b2 = new Map<'a' | 'b' | 'c', number>([['a', 1], ['b', 2]])
+    const a2b2 = new Map<'a' | 'b' | 'c', number>([['a', 2], ['b', 2]])
     const a1b2c3 = new Map<'a' | 'b' | 'c', number>([['a', 1], ['b', 2], ['c', 3]])
     const insertS = M.insert(setoidString)
     assert.deepStrictEqual(insertS('a', 1, emptyMap), a1)
+    assert.deepStrictEqual(insertS('a', 1, a1b2), a1b2)
+    assert.deepStrictEqual(insertS('a', 2, a1b2), a2b2)
+    assert.deepStrictEqual(insertS('a', 2, a1b2), new Map(a1b2).set('a', 2))
     assert.deepStrictEqual(insertS('c', 3, a1b2), a1b2c3)
   })
 
@@ -96,6 +104,7 @@ describe('Map', () => {
     const b2 = new Map<'a' | 'b', number>([['b', 2]])
     const removeS = M.remove(setoidString)
     assert.deepStrictEqual(removeS('a', a1b2), b2)
+    assert.deepStrictEqual(removeS('c', a1b2), a1b2)
   })
 
   it('pop', () => {
@@ -134,12 +143,17 @@ describe('Map', () => {
 
   it('getSetoid', () => {
     const a1 = new Map<'a', number>([['a', 1]])
+    const a1_ = new Map<'a', number>([['a', 1]])
     const a2 = new Map<'a', number>([['a', 2]])
     const b1 = new Map<'b', number>([['b', 1]])
     const S = M.getSetoid(setoidString, setoidNumber)
     assert.strictEqual(S.equals(a1, a1), true)
+    assert.strictEqual(S.equals(a1, a1_), true)
+    assert.strictEqual(S.equals(a1_, a1), true)
     assert.strictEqual(S.equals(a1, a2), false)
+    assert.strictEqual(S.equals(a2, a1), false)
     assert.strictEqual(S.equals(a1, b1), false)
+    assert.strictEqual(S.equals(b1, a1), false)
   })
 
   it('getMonoid', () => {

@@ -19,7 +19,7 @@ Added in v1.14.0
 
 ## map
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L813-L818)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L736-L741)
 
 ```ts
 export const map: Filterable2<URI> = ...
@@ -42,7 +42,7 @@ Added in v1.14.0
 Create a Map from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L680-L692)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L599-L615)
 
 ```ts
 export function fromFoldable<K, F>(
@@ -55,40 +55,10 @@ Added in v1.14.0
 
 ## getFilterableWithIndex
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L762-L771)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L685-L694)
 
 ```ts
 export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> => { ... }
-```
-
-Added in v1.14.0
-
-## getFoldable
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L725-L733)
-
-```ts
-export const getFoldable = <K>(O: Ord<K>): Foldable2v2C<URI, K> => { ... }
-```
-
-Added in v1.14.0
-
-## getFoldableWithIndex
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L738-L745)
-
-```ts
-export const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => { ... }
-```
-
-Added in v1.14.0
-
-## getFunctorWithIndex
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L714-L720)
-
-```ts
-export const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => { ... }
 ```
 
 Added in v1.14.0
@@ -97,7 +67,7 @@ Added in v1.14.0
 
 Gets [Monoid](./Monoid.md) instance for Maps given [Semigroup](./Semigroup.md) instance for their values
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L252-L268)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L252-L272)
 
 ```ts
 export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => { ... }
@@ -115,19 +85,9 @@ export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>>
 
 Added in v1.14.0
 
-## getTraversable
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L776-L784)
-
-```ts
-export const getTraversable = <K>(O: Ord<K>): Traversable2v2C<URI, K> => { ... }
-```
-
-Added in v1.14.0
-
 ## getTraversableWithIndex
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L801-L808)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L724-L731)
 
 ```ts
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => { ... }
@@ -137,7 +97,7 @@ Added in v1.14.0
 
 ## getWitherable
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L789-L796)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L712-L719)
 
 ```ts
 export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => { ... }
