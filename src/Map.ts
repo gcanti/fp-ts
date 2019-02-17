@@ -600,7 +600,11 @@ export function fromFoldable<K, F>(
     const lookupWithKeyS = lookupWithKey(S)
     return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
       const bOpt = lookupWithKeyS(k, b)
-      b.set(k, bOpt.isSome() ? f(bOpt.value[1], a) : a)
+      if (bOpt.isSome()) {
+        b.set(bOpt.value[0], f(bOpt.value[1], a))
+      } else {
+        b.set(k, a)
+      }
       return b
     })
   }
