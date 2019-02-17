@@ -259,7 +259,11 @@ export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, 
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
         const mxOptA = lookupWithKeyS(k, mx)
-        r.set(k, mxOptA.isSome() ? SA.concat(mxOptA.value[1], a) : a)
+        if (mxOptA.isSome()) {
+          r.set(mxOptA.value[0], SA.concat(mxOptA.value[1], a))
+        } else {
+          r.set(k, a)
+        }
       }
       return r
     },
