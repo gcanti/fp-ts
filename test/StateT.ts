@@ -4,7 +4,7 @@ import { state } from '../src/State'
 import * as stateT from '../src/StateT'
 
 // tslint:disable-next-line: deprecation
-const stateTOption = stateT.getStateT(option.option)
+const T = stateT.getStateT(option.option)
 
 describe('StateT', () => {
   it('put', () => {
@@ -12,7 +12,12 @@ describe('StateT', () => {
   })
 
   it('get', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(stateT.get(option.option)()(1), option.some([1, 1]))
+  })
+
+  it('get2v', () => {
+    assert.deepStrictEqual(stateT.get2v(option.option)(1), option.some([1, 1]))
   })
 
   it('modify', () => {
@@ -28,7 +33,7 @@ describe('StateT', () => {
   it('map', () => {
     const double = (n: number) => n * 2
     const state = (s: number) => option.some<[number, number]>([s - 1, s + 1])
-    assert.deepStrictEqual(stateTOption.map(double, state)(0), option.some([-2, 1]))
+    assert.deepStrictEqual(T.map(double, state)(0), option.some([-2, 1]))
   })
 
   it('getStateT2v', () => {
@@ -55,21 +60,21 @@ describe('StateT', () => {
   })
 
   it('of', () => {
-    const x = stateTOption.of(1)
+    const x = T.of(1)
     assert.deepStrictEqual(x(0), option.some([1, 0]))
   })
 
   it('ap', () => {
     const double = (n: number) => n * 2
-    const fab = stateTOption.of(double)
-    const fa = stateTOption.of(1)
-    assert.deepStrictEqual(stateTOption.ap(fab, fa)(0), option.some([2, 0]))
+    const fab = T.of(double)
+    const fa = T.of(1)
+    assert.deepStrictEqual(T.ap(fab, fa)(0), option.some([2, 0]))
   })
 
   it('chain', () => {
     const f = (_n: number) => (s: number) => option.some<[number, number]>([s - 1, s + 1])
     const state = (s: number) => option.some<[number, number]>([s - 1, s + 1])
-    assert.deepStrictEqual(stateTOption.chain(f, state)(0), option.some([0, 2]))
+    assert.deepStrictEqual(T.chain(f, state)(0), option.some([0, 2]))
   })
 
   it('fromState', () => {
