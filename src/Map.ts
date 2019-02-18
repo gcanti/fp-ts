@@ -54,6 +54,25 @@ export const has = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
 }
 
 /**
+ * Find the key of the first occurence of a value in a Map equal to the specified value
+ *
+ * @since 1.14.0
+ */
+export const elemKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<K>) => {
+  return <K>(a: A, m: Map<K, A>) => {
+    const entries = m.entries()
+    let e: IteratorResult<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, v] = e.value
+      if (S.equals(a, v)) {
+        return some(k)
+      }
+    }
+    return none
+  }
+}
+
+/**
  * Test whether or not a value is a member of a map
  *
  * @since 1.14.0

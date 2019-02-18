@@ -46,6 +46,14 @@ describe('Map', () => {
     assert.deepStrictEqual(hasS({ id: 'c' }, a1b2), false)
   })
 
+  it('elemKey', () => {
+    const m = new Map<number, User>([[2, { id: 'b' }], [1, { id: 'a' }], [3, { id: 'b' }]])
+    const hasS = M.elemKey(setoidUser)
+    assert.deepStrictEqual(hasS({ id: 'a' }, m), some(1))
+    assert.deepStrictEqual(hasS({ id: 'b' }, m), some(2))
+    assert.deepStrictEqual(hasS({ id: 'c' }, m), none)
+  })
+
   it('isMember', () => {
     const a1b2 = new Map<string, number>([['a', 1], ['b', 2]])
     const isMemberS = M.isMember(setoidNumber)
