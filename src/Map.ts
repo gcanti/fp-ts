@@ -72,14 +72,14 @@ export const isMember = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) 
 }
 
 /**
- * Converts the keys of a Map to a sorted Array
+ * Get a sorted Array of the values contained in a Map
  *
  * @since 1.14.0
  */
 export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => Array.from(m.keys()).sort(O.compare)
 
 /**
- * Converts the keys of a Map to a Set (does not sort keys)
+ * Get a Set of the keys contained in a Map (does not sort keys)
  *
  * @since 1.14.0
  */
@@ -102,6 +102,43 @@ export const keysSet = <K>(S: Setoid<K>): (<A>(m: Map<K, A>) => Set<K>) => {
       const k = e.value
       if (!isSetMember(k, r)) {
         r.add(k)
+      }
+    }
+    return r
+  }
+}
+
+/**
+ * Get a sorted Array of the values contained in a Map
+ *
+ * @since 1.14.0
+ */
+export const values = <A>(O: Ord<A>): (<K>(m: Map<K, A>) => Array<A>) => m => Array.from(m.values()).sort(O.compare)
+
+/**
+ * Get a Set of the values contained in a Map (does not sort values)
+ *
+ * @since 1.14.0
+ */
+export const valuesSet = <A>(S: Setoid<A>): (<K>(m: Map<K, A>) => Set<A>) => {
+  const elemSet = (a: A, r: Set<A>): boolean => {
+    const values = r.values()
+    let e: IteratorResult<A>
+    while (!(e = values.next()).done) {
+      if (S.equals(a, e.value)) {
+        return true
+      }
+    }
+    return false
+  }
+  return <K>(m: Map<K, A>): Set<A> => {
+    const r = new Set<A>()
+    const entries = m.values()
+    let e: IteratorResult<A>
+    while (!(e = entries.next()).done) {
+      const a = e.value
+      if (!elemSet(a, r)) {
+        r.add(a)
       }
     }
     return r
@@ -205,6 +242,7 @@ export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map
 /**
  * Lookup the value for a key in a `Map`.
  * If the result is a `Some`, the existing key is also returned.
+ *
  * @since 1.14.0
  */
 export const lookupWithKey = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[K, A]>) => {
@@ -223,6 +261,7 @@ export const lookupWithKey = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Opti
 
 /**
  * Lookup the value for a key in a `Map`.
+ *
  * @since 1.14.0
  */
 export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => {

@@ -9,7 +9,6 @@ import { array } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import * as I from '../src/Identity'
 import { contramap, ordString } from '../src/Ord'
-import { fromArray } from '../src/Set'
 
 interface User {
   id: string
@@ -55,19 +54,29 @@ describe('Map', () => {
   })
 
   it('keys', () => {
-    const a1b2 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
-    const ks = M.keys(ordUser)(a1b2)
-    const expected = Array.from(a1b2.keys())
-    assert.deepStrictEqual(ks, expected)
+    const m = new Map<User, number>([[{ id: 'b' }, 2], [{ id: 'a' }, 1]])
+    const ks = M.keys(ordUser)(m)
+    assert.deepStrictEqual(ks, Array.from(m.keys()).sort(ordUser.compare))
     assert.deepStrictEqual(ks, [{ id: 'a' }, { id: 'b' }])
   })
 
   it('keysSet', () => {
-    const a1b2 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'a' }, 2], [{ id: 'b' }, 3]])
-    const ks = M.keysSet(setoidUser)(a1b2)
-    const arr = Array.from(a1b2.keys())
-    assert.deepStrictEqual(ks, fromArray(ordUser)(arr))
+    const m = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'a' }, 2], [{ id: 'b' }, 3]])
+    const ks = M.keysSet(setoidUser)(m)
     assert.deepStrictEqual(ks, new Set([{ id: 'a' }, { id: 'b' }]))
+  })
+
+  it('values', () => {
+    const m = new Map<number, User>([[2, { id: 'b' }], [1, { id: 'a' }]])
+    const vals = M.values(ordUser)(m)
+    assert.deepStrictEqual(vals, Array.from(m.values()).sort(ordUser.compare))
+    assert.deepStrictEqual(vals, [{ id: 'a' }, { id: 'b' }])
+  })
+
+  it('valuesSet', () => {
+    const m = new Map<number, User>([[1, { id: 'a' }], [2, { id: 'a' }], [3, { id: 'b' }]])
+    const vals = M.valuesSet(setoidUser)(m)
+    assert.deepStrictEqual(vals, new Set([{ id: 'a' }, { id: 'b' }]))
   })
 
   it('collect', () => {
