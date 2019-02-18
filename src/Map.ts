@@ -58,7 +58,7 @@ export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) =>
  *
  * @since 1.14.0
  */
-export const elemPair = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<[K, A]>) => {
+export const elemWithKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<[K, A]>) => {
   return <K>(a: A, m: Map<K, A>) => {
     const entries = m.entries()
     let e: IteratorResult<[K, A]>
@@ -78,7 +78,7 @@ export const elemPair = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<[K
  * @since 1.14.0
  */
 export const elemKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<K>) => {
-  const elemPairS = elemPair(S)
+  const elemPairS = elemWithKey(S)
   return <K>(a: A, m: Map<K, A>) => {
     return elemPairS(a, m).map(([k, _]) => k)
   }
@@ -90,7 +90,7 @@ export const elemKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<K>)
  * @since 1.14.0
  */
 export const elem = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
-  const elemPairS = elemPair(S)
+  const elemPairS = elemWithKey(S)
   return <K>(a: A, m: Map<K, A>) => {
     return elemPairS(a, m).isSome()
   }

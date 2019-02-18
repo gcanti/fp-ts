@@ -61,14 +61,14 @@ export const elemKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<K>)
 
 Added in v1.14.0
 
-## elemPair
+## elemWithKey
 
 Find the key/val pair associated with the first occurence of a value in a map equal to the specified value
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L61-L73)
 
 ```ts
-export const elemPair = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<[K, A]>) => { ... }
+export const elemWithKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<[K, A]>) => { ... }
 ```
 
 Added in v1.14.0
