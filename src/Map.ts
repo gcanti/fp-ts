@@ -54,7 +54,7 @@ export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) =>
 }
 
 /**
- * Find the key of the first occurence of a value in a map equal to the specified value
+ * Find the key/val pair associated with the first occurence of a value in a map equal to the specified value
  *
  * @since 1.14.0
  */

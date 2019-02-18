@@ -63,7 +63,7 @@ Added in v1.14.0
 
 ## elemPair
 
-Find the key of the first occurence of a value in a map equal to the specified value
+Find the key/val pair associated with the first occurence of a value in a map equal to the specified value
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L61-L73)
 
