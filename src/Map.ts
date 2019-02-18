@@ -58,17 +58,29 @@ export const has = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
  *
  * @since 1.14.0
  */
-export const elemKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<K>) => {
+export const elemPair = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<[K, A]>) => {
   return <K>(a: A, m: Map<K, A>) => {
     const entries = m.entries()
     let e: IteratorResult<[K, A]>
     while (!(e = entries.next()).done) {
       const [k, v] = e.value
       if (S.equals(a, v)) {
-        return some(k)
+        return some(tuple(k, a))
       }
     }
     return none
+  }
+}
+
+/**
+ * Find the key of the first occurence of a value in a Map equal to the specified value
+ *
+ * @since 1.14.0
+ */
+export const elemKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<K>) => {
+  const elemPairS = elemPair(S)
+  return <K>(a: A, m: Map<K, A>) => {
+    return elemPairS(a, m).map(([k, _]) => k)
   }
 }
 
@@ -78,15 +90,9 @@ export const elemKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<K>)
  * @since 1.14.0
  */
 export const isMember = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
-  return (a, m) => {
-    const as = m.values()
-    let e: IteratorResult<A>
-    while (!(e = as.next()).done) {
-      if (S.equals(a, e.value)) {
-        return true
-      }
-    }
-    return false
+  const elemPairS = elemPair(S)
+  return <K>(a: A, m: Map<K, A>) => {
+    return elemPairS(a, m).isSome()
   }
 }
 
