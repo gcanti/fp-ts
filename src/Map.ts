@@ -30,14 +30,14 @@ export const URI = 'Map'
 export type URI = typeof URI
 
 /**
- * Calculate the number of key/value pairs in a Map
+ * Calculate the number of key/value pairs in a map
  *
  * @since 1.14.0
  */
 export const size = <K, A>(d: Map<K, A>): number => d.size
 
 /**
- * Test whether or not a Map is empty
+ * Test whether or not a map is empty
  *
  * @since 1.14.0
  */
@@ -54,7 +54,7 @@ export const has = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
 }
 
 /**
- * Find the key of the first occurence of a value in a Map equal to the specified value
+ * Find the key of the first occurence of a value in a map equal to the specified value
  *
  * @since 1.14.0
  */
@@ -73,7 +73,7 @@ export const elemPair = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<[K
 }
 
 /**
- * Find the key of the first occurence of a value in a Map equal to the specified value
+ * Find the key of the first occurence of a value in a map equal to the specified value
  *
  * @since 1.14.0
  */
@@ -97,14 +97,14 @@ export const isMember = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) 
 }
 
 /**
- * Get a sorted Array of the values contained in a Map
+ * Get a sorted array of the values contained in a map
  *
  * @since 1.14.0
  */
 export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => Array.from(m.keys()).sort(O.compare)
 
 /**
- * Get a Set of the keys contained in a Map (does not sort keys)
+ * Get a set of the keys contained in a map (does not sort keys)
  *
  * @since 1.14.0
  */
@@ -134,14 +134,14 @@ export const keysSet = <K>(S: Setoid<K>): (<A>(m: Map<K, A>) => Set<K>) => {
 }
 
 /**
- * Get a sorted Array of the values contained in a Map
+ * Get a sorted Array of the values contained in a map
  *
  * @since 1.14.0
  */
 export const values = <A>(O: Ord<A>): (<K>(m: Map<K, A>) => Array<A>) => m => Array.from(m.values()).sort(O.compare)
 
 /**
- * Get a Set of the values contained in a Map (does not sort values)
+ * Get a set of the values contained in a map (does not sort values)
  *
  * @since 1.14.0
  */
@@ -194,7 +194,7 @@ export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => {
 }
 
 /**
- * Unfolds a Map into a list of key/value pairs
+ * Unfolds a map into a list of key/value pairs
  *
  * @since 1.14.0
  */
@@ -213,7 +213,7 @@ export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d:
 }
 
 /**
- * Insert or replace a key/value pair in a Map
+ * Insert or replace a key/value pair in a map
  *
  * @since 1.14.0
  */
@@ -455,7 +455,7 @@ const foldrWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a:
 }
 
 /**
- * Create a Map with one key/value pair
+ * Create a map with one key/value pair
  *
  * @since 1.14.0
  */
@@ -659,7 +659,7 @@ const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K
 }
 
 /**
- * Create a Map from a foldable collection of key/value pairs, using the
+ * Create a map from a foldable collection of key/value pairs, using the
  * specified function to combine values for duplicate keys.
  *
  * @since 1.14.0
