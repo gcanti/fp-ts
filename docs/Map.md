@@ -141,18 +141,6 @@ export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => { ... }
 
 Added in v1.14.0
 
-## has
-
-Test whether or not a key exists in a map
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L51-L54)
-
-```ts
-export const has = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => { ... }
-```
-
-Added in v1.14.0
-
 ## insert
 
 Insert or replace a key/value pair in a map
@@ -234,6 +222,18 @@ If the result is a `Some`, the existing key is also returned.
 
 ```ts
 export const lookupWithKey = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[K, A]>) => { ... }
+```
+
+Added in v1.14.0
+
+## member
+
+Test whether or not a key exists in a map
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L51-L54)
+
+```ts
+export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => { ... }
 ```
 
 Added in v1.14.0
