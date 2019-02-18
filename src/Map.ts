@@ -1,4 +1,3 @@
-import { sort } from './Array'
 import { Applicative } from './Applicative'
 import { Compactable2, Separated } from './Compactable'
 import { Either } from './Either'
@@ -76,13 +75,7 @@ export const isMember = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) 
 /**
  * @since 1.14.0
  */
-export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => {
-  const sortO = sort(O)
-  return m => {
-    const ks = Array.from(m.keys())
-    return sortO(ks)
-  }
-}
+export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => Array.from(m.keys()).sort(O.compare)
 
 /**
  * @since 1.14.0
