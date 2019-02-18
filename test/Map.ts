@@ -96,28 +96,28 @@ describe('Map', () => {
   })
 
   it('collect', () => {
-    const x1 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
-    const x2 = new Map<User, number>([[{ id: 'b' }, 2], [{ id: 'a' }, 1]])
+    const m1 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
+    const m2 = new Map<User, number>([[{ id: 'b' }, 2], [{ id: 'a' }, 1]])
     const collectO = M.collect(ordUser)
     const f = (k: User, a: number): number => a + 1
-    assert.deepStrictEqual(collectO(x1, f), [2, 3])
-    assert.deepStrictEqual(collectO(x2, f), [2, 3])
+    assert.deepStrictEqual(collectO(m1, f), [2, 3])
+    assert.deepStrictEqual(collectO(m2, f), [2, 3])
   })
 
   it('toArray', () => {
-    const x1 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
-    const x2 = new Map<User, number>([[{ id: 'b' }, 2], [{ id: 'a' }, 1]])
+    const m1 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
+    const m2 = new Map<User, number>([[{ id: 'b' }, 2], [{ id: 'a' }, 1]])
     const toArrayO = M.toArray(ordUser)
-    assert.deepStrictEqual(toArrayO(x1), [[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
-    assert.deepStrictEqual(toArrayO(x2), [[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
+    assert.deepStrictEqual(toArrayO(m1), [[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
+    assert.deepStrictEqual(toArrayO(m2), [[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
   })
 
   it('toSet', () => {
-    const x1 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'a' }, 3], [{ id: 'b' }, 2]])
-    const x2 = new Map<User, number>([[{ id: 'b' }, 2], [{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'c' }, 3]])
+    const m1 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'a' }, 3], [{ id: 'b' }, 2]])
+    const m2 = new Map<User, number>([[{ id: 'b' }, 2], [{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'c' }, 3]])
     const toSetSS = M.toSet(setoidUser, setoidNumber)
-    assert.deepStrictEqual(toSetSS(x1), new Set([[{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'a' }, 3]]))
-    assert.deepStrictEqual(toSetSS(x2), new Set([[{ id: 'b' }, 2], [{ id: 'a' }, 1], [{ id: 'c' }, 3]]))
+    assert.deepStrictEqual(toSetSS(m1), new Set([[{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'a' }, 3]]))
+    assert.deepStrictEqual(toSetSS(m2), new Set([[{ id: 'b' }, 2], [{ id: 'a' }, 1], [{ id: 'c' }, 3]]))
   })
 
   it('toUnfoldable', () => {
@@ -267,9 +267,9 @@ describe('Map', () => {
 
       it('filter', () => {
         const filter = M.map.filter
-        const d = new Map<string, number>([['a', 1], ['b', 3]])
+        const a1b3 = new Map<string, number>([['a', 1], ['b', 3]])
         const b3 = new Map<string, number>([['b', 3]])
-        assert.deepStrictEqual(filter(d, p), b3)
+        assert.deepStrictEqual(filter(a1b3, p), b3)
 
         // refinements
         const isNumber = (u: string | number): u is number => typeof u === 'number'
@@ -323,10 +323,10 @@ describe('Map', () => {
 
       it('sequence', () => {
         const optionSequence = M.getTraversableWithIndex(ordUser).sequence(option)
-        const x1 = new Map<User, Option<number>>([[{ id: 'k1' }, some(1)], [{ id: 'k2' }, some(2)]])
-        assert.deepStrictEqual(optionSequence(x1), some(new Map<User, number>([[{ id: 'k1' }, 1], [{ id: 'k2' }, 2]])))
-        const x2 = new Map<User, Option<number>>([[{ id: 'k1' }, none], [{ id: 'k2' }, some(2)]])
-        assert.deepStrictEqual(optionSequence(x2), none)
+        const m1 = new Map<User, Option<number>>([[{ id: 'k1' }, some(1)], [{ id: 'k2' }, some(2)]])
+        const m2 = new Map<User, Option<number>>([[{ id: 'k1' }, none], [{ id: 'k2' }, some(2)]])
+        assert.deepStrictEqual(optionSequence(m1), some(new Map<User, number>([[{ id: 'k1' }, 1], [{ id: 'k2' }, 2]])))
+        assert.deepStrictEqual(optionSequence(m2), none)
       })
     })
 
@@ -341,17 +341,16 @@ describe('Map', () => {
 
       it('foldMap', () => {
         const foldMapOM = M.getTraversableWithIndex(ordUser).foldMap(monoidString)
-        const x1 = new Map<User, string>([[{ id: 'a' }, 'a'], [{ id: 'a' }, 'b']])
-        const f1 = identity
-        assert.strictEqual(foldMapOM(x1, f1), 'ab')
+        const m = new Map<User, string>([[{ id: 'a' }, 'a'], [{ id: 'a' }, 'b']])
+        assert.strictEqual(foldMapOM(m, identity), 'ab')
       })
 
       it('foldr', () => {
         const foldrO = M.getTraversableWithIndex(ordUser).foldr
-        const x1 = new Map<User, string>([[{ id: 'a' }, 'a'], [{ id: 'b' }, 'b']])
-        const init1 = ''
-        const f1 = (a: string, acc: string) => acc + a
-        assert.strictEqual(foldrO(x1, init1, f1), 'ba')
+        const m = new Map<User, string>([[{ id: 'a' }, 'a'], [{ id: 'b' }, 'b']])
+        const init = ''
+        const f = (a: string, acc: string) => acc + a
+        assert.strictEqual(foldrO(m, init, f), 'ba')
       })
     })
 
@@ -366,14 +365,14 @@ describe('Map', () => {
 
       it('foldMapWithIndex', () => {
         const foldMapWithIndexOM = M.getTraversableWithIndex(ordUser).foldMapWithIndex(monoidString)
-        const x1 = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
-        assert.strictEqual(foldMapWithIndexOM(x1, (k, a) => k.id + a), 'k1ak2b')
+        const m = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
+        assert.strictEqual(foldMapWithIndexOM(m, (k, a) => k.id + a), 'k1ak2b')
       })
 
       it('foldrWithIndex', () => {
         const foldrWithIndexO = M.getTraversableWithIndex(ordUser).foldrWithIndex
-        const x1 = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
-        assert.strictEqual(foldrWithIndexO(x1, '', (k, a, b) => b + k.id + a), 'k2bk1a')
+        const m = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
+        assert.strictEqual(foldrWithIndexO(m, '', (k, a, b) => b + k.id + a), 'k2bk1a')
       })
     })
 
@@ -451,10 +450,10 @@ describe('Map', () => {
 
     it('filterWithIndex', () => {
       const filterWithIndex = M.getFilterableWithIndex<string>().filterWithIndex
-      const d = new Map<string, number>([['a', 1], ['b', 3]])
+      const a1b3 = new Map<string, number>([['a', 1], ['b', 3]])
       const b3 = new Map<string, number>([['b', 3]])
       const f = (k: string, n: number) => p(n)
-      assert.deepStrictEqual(filterWithIndex(d, f), b3)
+      assert.deepStrictEqual(filterWithIndex(a1b3, f), b3)
 
       // refinements
       const filterWithIndexStr = M.getFilterableWithIndex<string>().filterWithIndex
