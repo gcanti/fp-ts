@@ -48,7 +48,7 @@ export const isEmpty = <K, A>(d: Map<K, A>): boolean => d.size === 0
  *
  * @since 1.14.0
  */
-export const has = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
+export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
   const lookupS = lookup(S)
   return (k, m) => lookupS(k, m).isSome()
 }
