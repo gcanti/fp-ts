@@ -10,6 +10,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
 import { Ord } from './Ord'
+import { fromArray } from './Set'
 import { Setoid, fromEquals } from './Setoid'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
@@ -86,7 +87,13 @@ export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => {
 /**
  * @since 1.14.0
  */
-export const keysSet = <K, A>(m: Map<K, A>): Set<K> => new Set(m.keys())
+export const keysSet = <K>(S: Setoid<K>): (<A>(m: Map<K, A>) => Set<K>) => {
+  const fromArrayS = fromArray(S)
+  return m => {
+    const arr = Array.from(m.keys())
+    return fromArrayS(arr)
+  }
+}
 
 /**
  * @since 1.14.0
