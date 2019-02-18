@@ -121,9 +121,9 @@ export const keysSet = <K>(S: Setoid<K>): (<A>(m: Map<K, A>) => Set<K>) => {
   }
   return <A>(m: Map<K, A>): Set<K> => {
     const r = new Set<K>()
-    const entries = m.keys()
+    const ks = m.keys()
     let e: IteratorResult<K>
-    while (!(e = entries.next()).done) {
+    while (!(e = ks.next()).done) {
       const k = e.value
       if (!isSetMember(k, r)) {
         r.add(k)
@@ -134,7 +134,7 @@ export const keysSet = <K>(S: Setoid<K>): (<A>(m: Map<K, A>) => Set<K>) => {
 }
 
 /**
- * Get a sorted Array of the values contained in a map
+ * Get a sorted array of the values contained in a map
  *
  * @since 1.14.0
  */
@@ -158,9 +158,9 @@ export const valuesSet = <A>(S: Setoid<A>): (<K>(m: Map<K, A>) => Set<A>) => {
   }
   return <K>(m: Map<K, A>): Set<A> => {
     const r = new Set<A>()
-    const entries = m.values()
+    const values = m.values()
     let e: IteratorResult<A>
-    while (!(e = entries.next()).done) {
+    while (!(e = values.next()).done) {
       const a = e.value
       if (!elemSet(a, r)) {
         r.add(a)
@@ -186,11 +186,44 @@ export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => 
 }
 
 /**
+ * Get a sorted of the key/value pairs contained in a map
+ *
  * @since 1.14.0
  */
 export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => {
   const collectO = collect(O)
   return <A>(m: Map<K, A>): Array<[K, A]> => collectO(m, (k, a: A) => tuple(k, a))
+}
+
+/**
+ * Get a set of the key/value pairs contained in a map
+ *
+ * @since 1.14.0
+ */
+export const toSet = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((m: Map<K, A>) => Set<[K, A]>) => {
+  const elemWithKeySet = (k: K, a: A, r: Set<[K, A]>): boolean => {
+    const values = r.values()
+    let e: IteratorResult<[K, A]>
+    while (!(e = values.next()).done) {
+      const [k_, a_] = e.value
+      if (SK.equals(k, k_) && SA.equals(a, a_)) {
+        return true
+      }
+    }
+    return false
+  }
+  return (m: Map<K, A>): Set<[K, A]> => {
+    const r = new Set<[K, A]>()
+    const entries = m.entries()
+    let e: IteratorResult<[K, A]>
+    while (!(e = entries.next()).done) {
+      const [k, a] = e.value
+      if (!elemWithKeySet(k, a, r)) {
+        r.add(tuple(k, a))
+      }
+    }
+    return r
+  }
 }
 
 /**

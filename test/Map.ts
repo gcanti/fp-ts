@@ -112,6 +112,14 @@ describe('Map', () => {
     assert.deepStrictEqual(toArrayO(x2), [[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
   })
 
+  it('toSet', () => {
+    const x1 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'a' }, 3], [{ id: 'b' }, 2]])
+    const x2 = new Map<User, number>([[{ id: 'b' }, 2], [{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'c' }, 3]])
+    const toSetSS = M.toSet(setoidUser, setoidNumber)
+    assert.deepStrictEqual(toSetSS(x1), new Set([[{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'a' }, 3]]))
+    assert.deepStrictEqual(toSetSS(x2), new Set([[{ id: 'b' }, 2], [{ id: 'a' }, 1], [{ id: 'c' }, 3]]))
+  })
+
   it('toUnfoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const toUnfoldableO = M.toUnfoldable(ordUser, array)
