@@ -37,9 +37,21 @@ export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => 
 
 Added in v1.14.0
 
+## elem
+
+Test whether or not a value is a member of a map
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L92-L97)
+
+```ts
+export const elem = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => { ... }
+```
+
+Added in v1.14.0
+
 ## elemKey
 
-Find the key of the first occurence of a value in a Map equal to the specified value
+Find the key of the first occurence of a value in a map equal to the specified value
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L80-L85)
 
@@ -51,7 +63,7 @@ Added in v1.14.0
 
 ## elemPair
 
-Find the key of the first occurence of a value in a Map equal to the specified value
+Find the key of the first occurence of a value in a map equal to the specified value
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L61-L73)
 
@@ -63,7 +75,7 @@ Added in v1.14.0
 
 ## fromFoldable
 
-Create a Map from a foldable collection of key/value pairs, using the
+Create a map from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L683-L699)
@@ -143,7 +155,7 @@ Added in v1.14.0
 
 ## insert
 
-Insert or replace a key/value pair in a Map
+Insert or replace a key/value pair in a map
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L220-L235)
 
@@ -155,24 +167,12 @@ Added in v1.14.0
 
 ## isEmpty
 
-Test whether or not a Map is empty
+Test whether or not a map is empty
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L44-L44)
 
 ```ts
 export const isEmpty = <K, A>(d: Map<K, A>): boolean => { ... }
-```
-
-Added in v1.14.0
-
-## isMember
-
-Test whether or not a value is a member of a map
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L92-L97)
-
-```ts
-export const isMember = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => { ... }
 ```
 
 Added in v1.14.0
@@ -191,7 +191,7 @@ Added in v1.14.0
 
 ## keys
 
-Get a sorted Array of the values contained in a Map
+Get a sorted array of the values contained in a map
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L104-L104)
 
@@ -203,7 +203,7 @@ Added in v1.14.0
 
 ## keysSet
 
-Get a Set of the keys contained in a Map (does not sort keys)
+Get a set of the keys contained in a map (does not sort keys)
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L111-L134)
 
@@ -264,7 +264,7 @@ Added in v1.14.0
 
 ## singleton
 
-Create a Map with one key/value pair
+Create a map with one key/value pair
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L462-L464)
 
@@ -276,7 +276,7 @@ Added in v1.14.0
 
 ## size
 
-Calculate the number of key/value pairs in a Map
+Calculate the number of key/value pairs in a map
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L37-L37)
 
@@ -298,7 +298,7 @@ Added in v1.14.0
 
 ## toUnfoldable
 
-Unfolds a Map into a list of key/value pairs
+Unfolds a map into a list of key/value pairs
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L206-L213)
 
@@ -310,7 +310,7 @@ Added in v1.14.0
 
 ## values
 
-Get a sorted Array of the values contained in a Map
+Get a sorted Array of the values contained in a map
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L141-L141)
 
@@ -322,7 +322,7 @@ Added in v1.14.0
 
 ## valuesSet
 
-Get a Set of the values contained in a Map (does not sort values)
+Get a set of the values contained in a map (does not sort values)
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L148-L171)
 

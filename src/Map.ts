@@ -89,7 +89,7 @@ export const elemKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<K>)
  *
  * @since 1.14.0
  */
-export const isMember = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
+export const elem = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
   const elemPairS = elemPair(S)
   return <K>(a: A, m: Map<K, A>) => {
     return elemPairS(a, m).isSome()

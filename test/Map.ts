@@ -54,11 +54,11 @@ describe('Map', () => {
     assert.deepStrictEqual(hasS({ id: 'c' }, m), none)
   })
 
-  it('isMember', () => {
+  it('elem', () => {
     const a1b2 = new Map<string, number>([['a', 1], ['b', 2]])
-    const isMemberS = M.isMember(setoidNumber)
-    assert.deepStrictEqual(isMemberS(2, a1b2), true)
-    assert.deepStrictEqual(isMemberS(3, a1b2), false)
+    const elemS = M.elem(setoidNumber)
+    assert.deepStrictEqual(elemS(2, a1b2), true)
+    assert.deepStrictEqual(elemS(3, a1b2), false)
   })
 
   it('keys', () => {
