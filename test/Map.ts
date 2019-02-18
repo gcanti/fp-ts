@@ -64,7 +64,7 @@ describe('Map', () => {
 
   it('keysSet', () => {
     const a1b2 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'a' }, 2], [{ id: 'b' }, 3]])
-    const ks = M.keysSet(ordUser)(a1b2)
+    const ks = M.keysSet(setoidUser)(a1b2)
     const arr = Array.from(a1b2.keys())
     assert.deepStrictEqual(ks, fromArray(ordUser)(arr))
     assert.deepStrictEqual(ks, new Set([{ id: 'a' }, { id: 'b' }]))

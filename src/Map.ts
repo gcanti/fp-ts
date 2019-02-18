@@ -9,7 +9,6 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
 import { Ord } from './Ord'
-import { fromArray } from './Set'
 import { Setoid, fromEquals } from './Setoid'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
@@ -73,18 +72,39 @@ export const isMember = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) 
 }
 
 /**
+ * Converts the keys of a Map to a sorted Array
+ *
  * @since 1.14.0
  */
 export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => Array.from(m.keys()).sort(O.compare)
 
 /**
+ * Converts the keys of a Map to a Set (does not sort keys)
+ *
  * @since 1.14.0
  */
 export const keysSet = <K>(S: Setoid<K>): (<A>(m: Map<K, A>) => Set<K>) => {
-  const fromArrayS = fromArray(S)
-  return m => {
-    const arr = Array.from(m.keys())
-    return fromArrayS(arr)
+  const isSetMember = (k: K, r: Set<K>): boolean => {
+    const values = r.values()
+    let e: IteratorResult<K>
+    while (!(e = values.next()).done) {
+      if (S.equals(k, e.value)) {
+        return true
+      }
+    }
+    return false
+  }
+  return <A>(m: Map<K, A>): Set<K> => {
+    const r = new Set<K>()
+    const entries = m.keys()
+    let e: IteratorResult<K>
+    while (!(e = entries.next()).done) {
+      const k = e.value
+      if (!isSetMember(k, r)) {
+        r.add(k)
+      }
+    }
+    return r
   }
 }
 
