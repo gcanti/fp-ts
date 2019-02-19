@@ -1054,7 +1054,7 @@ export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => {
     fb[i] = as[i][1]
   }
 
-  return tuple(fa, fb)
+  return [fa, fb]
 }
 
 /**
