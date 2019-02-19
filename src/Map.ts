@@ -54,45 +54,21 @@ export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) =>
 }
 
 /**
- * Find the key/val pair associated with the first occurence of a value in a map equal to the specified value
- *
- * @since 1.14.0
- */
-export const elemWithKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<[K, A]>) => {
-  return <K>(a: A, m: Map<K, A>) => {
-    const entries = m.entries()
-    let e: IteratorResult<[K, A]>
-    while (!(e = entries.next()).done) {
-      const [k, v] = e.value
-      if (S.equals(a, v)) {
-        return some(tuple(k, a))
-      }
-    }
-    return none
-  }
-}
-
-/**
- * Find the key of the first occurence of a value in a map equal to the specified value
- *
- * @since 1.14.0
- */
-export const elemKey = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => Option<K>) => {
-  const elemPairS = elemWithKey(S)
-  return <K>(a: A, m: Map<K, A>) => {
-    return elemPairS(a, m).map(([k, _]) => k)
-  }
-}
-
-/**
  * Test whether or not a value is a member of a map
  *
  * @since 1.14.0
  */
 export const elem = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
-  const elemPairS = elemWithKey(S)
   return <K>(a: A, m: Map<K, A>) => {
-    return elemPairS(a, m).isSome()
+    const values = m.values()
+    let e: IteratorResult<A>
+    while (!(e = values.next()).done) {
+      const v = e.value
+      if (S.equals(a, v)) {
+        return true
+      }
+    }
+    return false
   }
 }
 
@@ -104,71 +80,11 @@ export const elem = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
 export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => Array.from(m.keys()).sort(O.compare)
 
 /**
- * Get a set of the keys contained in a map (does not sort keys)
- *
- * @since 1.14.0
- */
-export const keysSet = <K>(S: Setoid<K>): (<A>(m: Map<K, A>) => Set<K>) => {
-  const isSetMember = (k: K, r: Set<K>): boolean => {
-    const values = r.values()
-    let e: IteratorResult<K>
-    while (!(e = values.next()).done) {
-      if (S.equals(k, e.value)) {
-        return true
-      }
-    }
-    return false
-  }
-  return <A>(m: Map<K, A>): Set<K> => {
-    const r = new Set<K>()
-    const ks = m.keys()
-    let e: IteratorResult<K>
-    while (!(e = ks.next()).done) {
-      const k = e.value
-      if (!isSetMember(k, r)) {
-        r.add(k)
-      }
-    }
-    return r
-  }
-}
-
-/**
  * Get a sorted array of the values contained in a map
  *
  * @since 1.14.0
  */
 export const values = <A>(O: Ord<A>): (<K>(m: Map<K, A>) => Array<A>) => m => Array.from(m.values()).sort(O.compare)
-
-/**
- * Get a set of the values contained in a map (does not sort values)
- *
- * @since 1.14.0
- */
-export const valuesSet = <A>(S: Setoid<A>): (<K>(m: Map<K, A>) => Set<A>) => {
-  const elemSet = (a: A, r: Set<A>): boolean => {
-    const values = r.values()
-    let e: IteratorResult<A>
-    while (!(e = values.next()).done) {
-      if (S.equals(a, e.value)) {
-        return true
-      }
-    }
-    return false
-  }
-  return <K>(m: Map<K, A>): Set<A> => {
-    const r = new Set<A>()
-    const values = m.values()
-    let e: IteratorResult<A>
-    while (!(e = values.next()).done) {
-      const a = e.value
-      if (!elemSet(a, r)) {
-        r.add(a)
-      }
-    }
-    return r
-  }
-}
 
 /**
  * @since 1.14.0
@@ -193,37 +109,6 @@ export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => 
 export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => {
   const collectO = collect(O)
   return <A>(m: Map<K, A>): Array<[K, A]> => collectO(m, (k, a: A) => tuple(k, a))
-}
-
-/**
- * Get a set of the key/value pairs contained in a map
- *
- * @since 1.14.0
- */
-export const toSet = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((m: Map<K, A>) => Set<[K, A]>) => {
-  const elemWithKeySet = (k: K, a: A, r: Set<[K, A]>): boolean => {
-    const values = r.values()
-    let e: IteratorResult<[K, A]>
-    while (!(e = values.next()).done) {
-      const [k_, a_] = e.value
-      if (SK.equals(k, k_) && SA.equals(a, a_)) {
-        return true
-      }
-    }
-    return false
-  }
-  return (m: Map<K, A>): Set<[K, A]> => {
-    const r = new Set<[K, A]>()
-    const entries = m.entries()
-    let e: IteratorResult<[K, A]>
-    while (!(e = entries.next()).done) {
-      const [k, a] = e.value
-      if (!elemWithKeySet(k, a, r)) {
-        r.add(tuple(k, a))
-      }
-    }
-    return r
-  }
 }
 
 /**

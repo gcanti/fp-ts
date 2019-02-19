@@ -46,22 +46,6 @@ describe('Map', () => {
     assert.deepStrictEqual(memberS({ id: 'c' }, a1b2), false)
   })
 
-  it('elemWithKey', () => {
-    const m = new Map<number, User>([[2, { id: 'b' }], [1, { id: 'a' }], [3, { id: 'b' }]])
-    const elemWithKeyS = M.elemWithKey(setoidUser)
-    assert.deepStrictEqual(elemWithKeyS({ id: 'a' }, m), some([1, { id: 'a' }]))
-    assert.deepStrictEqual(elemWithKeyS({ id: 'b' }, m), some([2, { id: 'b' }]))
-    assert.deepStrictEqual(elemWithKeyS({ id: 'c' }, m), none)
-  })
-
-  it('elemKey', () => {
-    const m = new Map<number, User>([[2, { id: 'b' }], [1, { id: 'a' }], [3, { id: 'b' }]])
-    const hasS = M.elemKey(setoidUser)
-    assert.deepStrictEqual(hasS({ id: 'a' }, m), some(1))
-    assert.deepStrictEqual(hasS({ id: 'b' }, m), some(2))
-    assert.deepStrictEqual(hasS({ id: 'c' }, m), none)
-  })
-
   it('elem', () => {
     const a1b2 = new Map<string, number>([['a', 1], ['b', 2]])
     const elemS = M.elem(setoidNumber)
@@ -76,23 +60,11 @@ describe('Map', () => {
     assert.deepStrictEqual(ks, [{ id: 'a' }, { id: 'b' }])
   })
 
-  it('keysSet', () => {
-    const m = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'a' }, 2], [{ id: 'b' }, 3]])
-    const ks = M.keysSet(setoidUser)(m)
-    assert.deepStrictEqual(ks, new Set([{ id: 'a' }, { id: 'b' }]))
-  })
-
   it('values', () => {
     const m = new Map<number, User>([[2, { id: 'b' }], [1, { id: 'a' }]])
     const vals = M.values(ordUser)(m)
     assert.deepStrictEqual(vals, Array.from(m.values()).sort(ordUser.compare))
     assert.deepStrictEqual(vals, [{ id: 'a' }, { id: 'b' }])
-  })
-
-  it('valuesSet', () => {
-    const m = new Map<number, User>([[1, { id: 'a' }], [2, { id: 'a' }], [3, { id: 'b' }]])
-    const vals = M.valuesSet(setoidUser)(m)
-    assert.deepStrictEqual(vals, new Set([{ id: 'a' }, { id: 'b' }]))
   })
 
   it('collect', () => {
@@ -110,14 +82,6 @@ describe('Map', () => {
     const toArrayO = M.toArray(ordUser)
     assert.deepStrictEqual(toArrayO(m1), [[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
     assert.deepStrictEqual(toArrayO(m2), [[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
-  })
-
-  it('toSet', () => {
-    const m1 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'a' }, 3], [{ id: 'b' }, 2]])
-    const m2 = new Map<User, number>([[{ id: 'b' }, 2], [{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'c' }, 3]])
-    const toSetSS = M.toSet(setoidUser, setoidNumber)
-    assert.deepStrictEqual(toSetSS(m1), new Set([[{ id: 'a' }, 1], [{ id: 'b' }, 2], [{ id: 'a' }, 3]]))
-    assert.deepStrictEqual(toSetSS(m2), new Set([[{ id: 'b' }, 2], [{ id: 'a' }, 1], [{ id: 'c' }, 3]]))
   })
 
   it('toUnfoldable', () => {
