@@ -70,6 +70,18 @@ assert.deepStrictEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3
 
 Added in v1.12.0
 
+## elem
+
+Test if a value is a member of a set
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L153-L155)
+
+```ts
+export const elem = <A>(S: Setoid<A>) => (a: A, x: Set<A>): boolean => { ... }
+```
+
+Added in v1.14.0
+
 ## every
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L67-L69)
@@ -166,18 +178,6 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
 
 Added in v1.0.0
 
-## isMember
-
-Test if a value is a member of a set
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L153-L155)
-
-```ts
-export const isMember = <A>(S: Setoid<A>) => (a: A, x: Set<A>): boolean => { ... }
-```
-
-Added in v1.14.0
-
 ## map
 
 Projects a Set through a function
@@ -192,7 +192,7 @@ Added in v1.2.0
 
 ## ~~member~~ (deprecated)
 
-Use [isMember](#ismember) instead
+Use [elem](#elem) instead
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L143-L146)
 

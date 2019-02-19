@@ -402,7 +402,7 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
 /**
  * @since 1.14.0
  */
-export function isMember<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean {
+export function elem<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean {
   return (a, fa) => fa.some(x => S.equals(x, a))
 }
 

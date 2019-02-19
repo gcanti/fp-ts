@@ -26,7 +26,7 @@ import {
   singleton,
   isSubdictionary,
   collect,
-  isMember
+  elem
 } from '../src/StrMap'
 import * as T from '../src/Traversable'
 
@@ -336,9 +336,9 @@ describe('StrMap', () => {
     assert.strictEqual(x.some(n => n <= 0), false)
   })
 
-  it('isMember', () => {
+  it('elem', () => {
     const x = new StrMap({ a: 1, b: 2 })
-    assert.strictEqual(isMember(setoidNumber)(1, x), true)
-    assert.strictEqual(isMember(setoidNumber)(3, x), false)
+    assert.strictEqual(elem(setoidNumber)(1, x), true)
+    assert.strictEqual(elem(setoidNumber)(3, x), false)
   })
 })

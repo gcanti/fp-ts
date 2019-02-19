@@ -5,7 +5,7 @@ import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { setoidNumber, Setoid, contramap } from '../src/Setoid'
 import * as T from '../src/Traversable'
-import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM, isMember } from '../src/Tree'
+import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM, elem } from '../src/Tree'
 
 describe('Tree', () => {
   it('map', () => {
@@ -169,7 +169,7 @@ describe('Tree', () => {
     assert.deepStrictEqual(fa, expected)
   })
 
-  it('isMember', () => {
+  it('elem', () => {
     interface User {
       id: number
     }
@@ -178,8 +178,8 @@ describe('Tree', () => {
       new Tree({ id: 1 }, [new Tree({ id: 3 }, []), new Tree({ id: 4 }, [])]),
       new Tree({ id: 2 }, [])
     ])
-    assert.strictEqual(isMember(S)({ id: 1 }, users), true)
-    assert.strictEqual(isMember(S)({ id: 4 }, users), true)
-    assert.strictEqual(isMember(S)({ id: 5 }, users), false)
+    assert.strictEqual(elem(S)({ id: 1 }, users), true)
+    assert.strictEqual(elem(S)({ id: 4 }, users), true)
+    assert.strictEqual(elem(S)({ id: 5 }, users), false)
   })
 })

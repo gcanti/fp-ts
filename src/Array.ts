@@ -1084,15 +1084,15 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
  * an array of type `Array<A>`.
  *
  * @example
- * import { isMember } from 'fp-ts/lib/Array'
+ * import { elem } from 'fp-ts/lib/Array'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
- * assert.strictEqual(isMember(setoidNumber)(1, [1, 2, 3]), true)
- * assert.strictEqual(isMember(setoidNumber)(4, [1, 2, 3]), false)
+ * assert.strictEqual(elem(setoidNumber)(1, [1, 2, 3]), true)
+ * assert.strictEqual(elem(setoidNumber)(4, [1, 2, 3]), false)
  *
  * @since 1.14.0
  */
-export const isMember = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
+export const elem = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
   const predicate = (e: A) => S.equals(e, a)
   let i = 0
   const len = as.length
@@ -1105,12 +1105,12 @@ export const isMember = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
 }
 
 /**
- * Use {@link isMember} instead
+ * Use {@link elem} instead
  * @since 1.3.0
  * @deprecated
  */
 export const member = <A>(S: Setoid<A>): ((as: Array<A>, a: A) => boolean) => {
-  const has = isMember(S)
+  const has = elem(S)
   return (as, a) => has(a, as)
 }
 
@@ -1127,14 +1127,14 @@ export const member = <A>(S: Setoid<A>): ((as: Array<A>, a: A) => boolean) => {
  * @since 1.3.0
  */
 export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
-  const isMemberS = isMember(S)
+  const elemS = elem(S)
   return as => {
     const r: Array<A> = []
     const len = as.length
     let i = 0
     for (; i < len; i++) {
       const a = as[i]
-      if (!isMemberS(a, r)) {
+      if (!elemS(a, r)) {
         r.push(a)
       }
     }
@@ -1441,8 +1441,8 @@ export function comprehension<R>(
  * @since 1.12.0
  */
 export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
-  const isMemberS = isMember(S)
-  return (xs, ys) => concat(xs, ys.filter(a => !isMemberS(a, xs)))
+  const elemS = elem(S)
+  return (xs, ys) => concat(xs, ys.filter(a => !elemS(a, xs)))
 }
 
 /**
@@ -1459,8 +1459,8 @@ export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A
  * @since 1.12.0
  */
 export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
-  const isMemberS = isMember(S)
-  return (xs, ys) => xs.filter(a => isMemberS(a, ys))
+  const elemS = elem(S)
+  return (xs, ys) => xs.filter(a => elemS(a, ys))
 }
 
 /**
@@ -1477,8 +1477,8 @@ export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => 
  * @since 1.12.0
  */
 export const difference = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
-  const isMemberS = isMember(S)
-  return (xs, ys) => xs.filter(a => !isMemberS(a, ys))
+  const elemS = elem(S)
+  return (xs, ys) => xs.filter(a => !elemS(a, ys))
 }
 
 const traverseWithIndex = <F>(F: Applicative<F>) => <A, B>(

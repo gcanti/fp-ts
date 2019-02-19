@@ -101,7 +101,9 @@ describe('Foldable2v', () => {
   })
 
   it('member', () => {
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(member(setoidNumber, array)(1, [1, 2, 3]), true)
+    // tslint:disable-next-line: deprecation
     assert.strictEqual(member(setoidNumber, array)(4, [1, 2, 3]), false)
   })
 
