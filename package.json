@@ -9,10 +9,11 @@
   "typings": "lib/index.d.ts",
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
+    "jest-clear-cache": "jest --clearCache",
     "jest": "jest --ci --coverage",
     "prettier": "prettier --list-different \"./{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,exercises}/**/*.ts\"",
-    "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest && npm run docs",
+    "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest-clear-cache && npm run jest && npm run docs",
     "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
@@ -30,7 +31,6 @@
     "url": "https://github.com/gcanti/fp-ts/issues"
   },
   "homepage": "https://github.com/gcanti/fp-ts",
-  "dependencies": {},
   "devDependencies": {
     "@types/benchmark": "^1.0.31",
     "@types/doctrine": "0.0.3",
@@ -41,7 +41,7 @@
     "chalk": "2.2.0",
     "doctrine": "2.0.0",
     "dtslint": "github:gcanti/dtslint",
-    "jest": "22.4.3",
+    "jest": "^23.6.0",
     "mocha": "^5.2.0",
     "prettier": "1.14.3",
     "rimraf": "2.6.2",
@@ -84,5 +84,6 @@
         "statements": 0
       }
     }
-  }
+  },
+  "dependencies": {}
 }

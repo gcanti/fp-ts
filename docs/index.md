@@ -49,6 +49,7 @@
 - [IxMonad](./IxMonad.md)
 - [JoinSemilattice](./JoinSemilattice.md)
 - [Lattice](./Lattice.md)
+- [Map](./Map.md)
 - [MeetSemilattice](./MeetSemilattice.md)
 - [Monad](./Monad.md)
 - [MonadIO](./MonadIO.md)

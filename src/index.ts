@@ -96,6 +96,8 @@ import * as joinSemilattice from './JoinSemilattice'
 export { joinSemilattice }
 import * as lattice from './Lattice'
 export { lattice }
+import * as map from './Map'
+export { map }
 import * as meetSemilattice from './MeetSemilattice'
 export { meetSemilattice }
 import * as monad from './Monad'

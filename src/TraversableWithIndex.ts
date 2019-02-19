@@ -1,8 +1,8 @@
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { FoldableWithIndex, FoldableWithIndex1 } from './FoldableWithIndex'
-import { FunctorWithIndex, FunctorWithIndex1 } from './FunctorWithIndex'
+import { FoldableWithIndex, FoldableWithIndex1, FoldableWithIndex2, FoldableWithIndex2C } from './FoldableWithIndex'
+import { FunctorWithIndex, FunctorWithIndex1, FunctorWithIndex2, FunctorWithIndex2C } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Traversable2v, Traversable2v1 } from './Traversable2v'
+import { Traversable2v, Traversable2v1, Traversable2v2, Traversable2v2C } from './Traversable2v'
 
 /**
  * A {@link Traversable} with an additional index.
@@ -36,6 +36,20 @@ export interface TraversableWithIndex1<T extends URIS, I>
     FoldableWithIndex1<T, I>,
     Traversable2v1<T> {
   readonly traverseWithIndex: TraverseWithIndex1<T, I>
+}
+
+export interface TraversableWithIndex2<T extends URIS2, I>
+  extends FunctorWithIndex2<T, I>,
+    FoldableWithIndex2<T, I>,
+    Traversable2v2<T> {
+  readonly traverseWithIndex: TraverseWithIndex2<T, I>
+}
+
+export interface TraversableWithIndex2C<T extends URIS2, I, L>
+  extends FunctorWithIndex2C<T, I, L>,
+    FoldableWithIndex2C<T, I, L>,
+    Traversable2v2C<T, L> {
+  readonly traverseWithIndex: TraverseWithIndex2C<T, I, L>
 }
 
 export interface TraverseWithIndex<T, I> {
@@ -78,4 +92,52 @@ export interface TraverseWithIndex1<T extends URIS, I> {
   ) => Type2<F, FL, Type<T, B>>
   <F extends URIS>(F: Applicative1<F>): <A, B>(ta: Type<T, A>, f: (i: I, a: A) => Type<F, B>) => Type<F, Type<T, B>>
   <F>(F: Applicative<F>): <A, B>(ta: Type<T, A>, f: (i: I, a: A) => HKT<F, B>) => HKT<F, Type<T, B>>
+}
+
+export interface TraverseWithIndex2<T extends URIS2, I> {
+  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, FL, B>>
+  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, FL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type2<T, FL, B>>
+  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type2<T, FL, B>>
+  <F extends URIS>(F: Applicative1<F>): <FL, A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type<F, B>
+  ) => Type<F, Type2<T, FL, B>>
+  <F>(F: Applicative<F>): <FL, A, B>(ta: Type2<T, FL, A>, f: (i: I, a: A) => HKT<F, B>) => HKT<F, Type2<T, FL, B>>
+}
+
+export interface TraverseWithIndex2C<T extends URIS2, I, FL> {
+  <F extends URIS3>(F: Applicative3<F>): <FU, A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, FL, B>>
+  <F extends URIS3, FU>(F: Applicative3C<F, FU, FL>): <A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type3<F, FU, FL, B>
+  ) => Type3<F, FU, FL, Type2<T, FL, B>>
+  <F extends URIS2>(F: Applicative2<F>): <A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type2<T, FL, B>>
+  <F extends URIS2>(F: Applicative2C<F, FL>): <A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type2<F, FL, B>
+  ) => Type2<F, FL, Type2<T, FL, B>>
+  <F extends URIS>(F: Applicative1<F>): <A, B>(
+    ta: Type2<T, FL, A>,
+    f: (i: I, a: A) => Type<F, B>
+  ) => Type<F, Type2<T, FL, B>>
+  <F>(F: Applicative<F>): <A, B>(ta: Type2<T, FL, A>, f: (i: I, a: A) => HKT<F, B>) => HKT<F, Type2<T, FL, B>>
 }
