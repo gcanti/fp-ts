@@ -31,9 +31,6 @@
     "url": "https://github.com/gcanti/fp-ts/issues"
   },
   "homepage": "https://github.com/gcanti/fp-ts",
-  "dependencies": {
-    "dtslint": "github:gcanti/dtslint"
-  },
   "devDependencies": {
     "@types/benchmark": "^1.0.31",
     "@types/doctrine": "0.0.3",
