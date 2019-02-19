@@ -83,5 +83,8 @@
         "statements": 0
       }
     }
+  },
+  "dependencies": {
+    "dtslint": "github:gcanti/dtslint"
   }
 }
