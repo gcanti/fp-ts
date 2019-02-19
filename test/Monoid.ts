@@ -48,6 +48,7 @@ describe('Monoid', () => {
       a: boolean
       b: string
     }
+    // tslint:disable-next-line: deprecation
     const M = getRecordMonoid<T>({
       a: monoidAll,
       b: monoidString
@@ -89,7 +90,8 @@ describe('Monoid', () => {
     })
   })
 
-  it('getArrayMonoid', () => {
+  it('getProductMonoid', () => {
+    // tslint:disable-next-line: deprecation
     const M = getProductMonoid(monoidString, monoidSum)
     assert.deepStrictEqual(M.empty, ['', 0])
   })
@@ -101,7 +103,7 @@ describe('Monoid', () => {
     assert.deepStrictEqual(fold(M)([1, -1]), -1)
   })
 
-  it('getMeetMonoid', () => {
+  it('getJoinMonoid', () => {
     const M = getJoinMonoid(boundedNumber)
     assert.deepStrictEqual(fold(M)([]), -Infinity)
     assert.deepStrictEqual(fold(M)([1]), 1)

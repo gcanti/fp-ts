@@ -26,6 +26,7 @@ describe('Semigroup', () => {
       a: boolean
       b: string
     }
+    // tslint:disable-next-line: deprecation
     const S = getRecordSemigroup<T>({
       a: monoidAll,
       b: monoidString
@@ -42,6 +43,7 @@ describe('Semigroup', () => {
   })
 
   it('getProductSemigroup', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(getProductSemigroup(monoidString, monoidSum).concat(['a', 2], ['b', 3]), ['ab', 5])
   })
 

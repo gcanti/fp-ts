@@ -31,12 +31,21 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 1.14.0
  */
-export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => {
+export const getTupleSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => {
   return {
     concat: ([xa, xb], [ya, yb]) => [SA.concat(xa, ya), SB.concat(xb, yb)]
   }
+}
+
+/**
+ * Use {@link getTupleSemigroup} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => {
+  return getTupleSemigroup(SA, SB)
 }
 
 /**
@@ -58,21 +67,31 @@ export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semig
 }
 
 /**
- * @since 1.0.0
+ * @since 1.14.0
  */
-export const getRecordSemigroup = <O extends { [key: string]: any }>(
+export const getStructSemigroup = <O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
 ): Semigroup<O> => {
   return {
     concat: (x, y) => {
       const r: any = {}
-      const keys = Object.keys(semigroups)
-      for (const key of keys) {
+      for (const key of Object.keys(semigroups)) {
         r[key] = semigroups[key].concat(x[key], y[key])
       }
       return r
     }
   }
+}
+
+/**
+ * Use {@link getStructSemigroup} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+export const getRecordSemigroup = <O extends { [key: string]: any }>(
+  semigroups: { [K in keyof O]: Semigroup<O[K]> }
+): Semigroup<O> => {
+  return getStructSemigroup(semigroups)
 }
 
 /**
