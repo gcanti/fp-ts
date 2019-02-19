@@ -41,7 +41,7 @@
     "benchmark": "2.1.4",
     "chalk": "2.2.0",
     "doctrine": "2.0.0",
-    "dtslint": "github:gcanti/dtslint",
+    "dtslint": "github:gcanti/dtslint#02aec0b72ae639458f02349c5c68dd6229287a6d",
     "jest": "^23.6.0",
     "mocha": "^5.2.0",
     "prettier": "1.14.3",
