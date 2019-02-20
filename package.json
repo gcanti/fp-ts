@@ -10,7 +10,7 @@
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
     "jest-clear-cache": "jest --clearCache",
-    "jest": "jest --ci --coverage",
+    "jest": "jest --ci",
     "prettier": "prettier --list-different \"./{src,test,examples,exercises}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,exercises}/**/*.ts\"",
     "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest-clear-cache && npm run jest && npm run docs",
@@ -62,28 +62,5 @@
     "algebraic-data-types",
     "functional-programming"
   ],
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*.{ts}",
-      "!src/Free.ts",
-      "!src/Store.ts"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "test",
-    "moduleFileExtensions": [
-      "ts",
-      "js"
-    ],
-    "coverageThreshold": {
-      "global": {
-        "branches": 100,
-        "functions": 100,
-        "lines": 100,
-        "statements": 0
-      }
-    }
-  },
   "dependencies": {}
 }
