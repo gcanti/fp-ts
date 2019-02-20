@@ -58,18 +58,16 @@ export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) =>
  *
  * @since 1.14.0
  */
-export const elem = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
-  return <K>(a: A, m: Map<K, A>) => {
-    const values = m.values()
-    let e: IteratorResult<A>
-    while (!(e = values.next()).done) {
-      const v = e.value
-      if (S.equals(a, v)) {
-        return true
-      }
+export const elem = <A>(S: Setoid<A>) => <K>(a: A, m: Map<K, A>): boolean => {
+  const values = m.values()
+  let e: IteratorResult<A>
+  while (!(e = values.next()).done) {
+    const v = e.value
+    if (S.equals(a, v)) {
+      return true
     }
-    return false
   }
+  return false
 }
 
 /**
@@ -187,18 +185,16 @@ export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map
  *
  * @since 1.14.0
  */
-export const lookupWithKey = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[K, A]>) => {
-  return <A>(k: K, m: Map<K, A>) => {
-    const entries = m.entries()
-    let e: IteratorResult<[K, A]>
-    while (!(e = entries.next()).done) {
-      const [ka, a] = e.value
-      if (S.equals(ka, k)) {
-        return some(tuple(ka, a))
-      }
+export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => {
+  const entries = m.entries()
+  let e: IteratorResult<[K, A]>
+  while (!(e = entries.next()).done) {
+    const [ka, a] = e.value
+    if (S.equals(ka, k)) {
+      return some(tuple(ka, a))
     }
-    return none
   }
+  return none
 }
 
 /**
@@ -294,7 +290,7 @@ const mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> =
 /**
  * @since 1.14.0
  */
-const map_ = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWithIndex(fa, (_, a) => f(a))
+const _map = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWithIndex(fa, (_, a) => f(a))
 
 /**
  * @since 1.14.0
@@ -629,7 +625,7 @@ const compactable: Compactable2<URI> = {
  */
 const functor: Functor2<URI> = {
   URI,
-  map: map_
+  map: _map
 }
 
 /**

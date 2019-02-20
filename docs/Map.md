@@ -9,7 +9,7 @@ title: Module Map
 
 ## empty
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L239-L239)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L234-L234)
 
 ```ts
 export const empty = ...
@@ -19,7 +19,7 @@ Added in v1.14.0
 
 ## map
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L738-L743)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L733-L738)
 
 ```ts
 export const map: Filterable2<URI> = ...
@@ -29,7 +29,7 @@ Added in v1.14.0
 
 ## collect
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L92-L102)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L90-L100)
 
 ```ts
 export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B>) => { ... }
@@ -41,10 +41,10 @@ Added in v1.14.0
 
 Test whether or not a value is a member of a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L61-L73)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L61-L71)
 
 ```ts
-export const elem = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => { ... }
+export const elem = <A>(S: Setoid<A>) => <K>(a: A, m: Map<K, A>): boolean => { ... }
 ```
 
 Added in v1.14.0
@@ -54,7 +54,7 @@ Added in v1.14.0
 Create a map from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L601-L617)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L596-L612)
 
 ```ts
 export function fromFoldable<K, F>(
@@ -67,7 +67,7 @@ Added in v1.14.0
 
 ## getFilterableWithIndex
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L687-L696)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L682-L691)
 
 ```ts
 export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> => { ... }
@@ -79,7 +79,7 @@ Added in v1.14.0
 
 Gets [Monoid](./Monoid.md) instance for Maps given [Semigroup](./Semigroup.md) instance for their values
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L254-L274)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L249-L269)
 
 ```ts
 export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => { ... }
@@ -89,7 +89,7 @@ Added in v1.14.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L244-L247)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L239-L242)
 
 ```ts
 export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>> => { ... }
@@ -99,7 +99,7 @@ Added in v1.14.0
 
 ## getTraversableWithIndex
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L726-L733)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L721-L728)
 
 ```ts
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => { ... }
@@ -109,7 +109,7 @@ Added in v1.14.0
 
 ## getWitherable
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L714-L721)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L709-L716)
 
 ```ts
 export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => { ... }
@@ -121,7 +121,7 @@ Added in v1.14.0
 
 Insert or replace a key/value pair in a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L138-L153)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L136-L151)
 
 ```ts
 export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => { ... }
@@ -145,7 +145,7 @@ Added in v1.14.0
 
 Test whether or not one Map contains all of the keys and values contained in another Map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L220-L234)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L215-L229)
 
 ```ts
 export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => { ... }
@@ -157,7 +157,7 @@ Added in v1.14.0
 
 Get a sorted array of the keys contained in a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L80-L80)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L78-L78)
 
 ```ts
 export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => { ... }
@@ -169,7 +169,7 @@ Added in v1.14.0
 
 Lookup the value for a key in a `Map`.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L210-L213)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L205-L208)
 
 ```ts
 export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => { ... }
@@ -182,10 +182,10 @@ Added in v1.14.0
 Lookup the value for a key in a `Map`.
 If the result is a `Some`, the existing key is also returned.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L191-L203)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L188-L198)
 
 ```ts
-export const lookupWithKey = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[K, A]>) => { ... }
+export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => { ... }
 ```
 
 Added in v1.14.0
@@ -206,7 +206,7 @@ Added in v1.14.0
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L178-L183)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L176-L180)
 
 ```ts
 export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => { ... }
@@ -218,7 +218,7 @@ Added in v1.14.0
 
 Delete a key and value from a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L160-L171)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L158-L169)
 
 ```ts
 export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => { ... }
@@ -230,7 +230,7 @@ Added in v1.14.0
 
 Create a map with one key/value pair
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L380-L382)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L375-L377)
 
 ```ts
 export const singleton = <K, A>(k: K, a: A): Map<K, A> => { ... }
@@ -254,7 +254,7 @@ Added in v1.14.0
 
 Get a sorted of the key/value pairs contained in a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L109-L112)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L107-L110)
 
 ```ts
 export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => { ... }
@@ -266,7 +266,7 @@ Added in v1.14.0
 
 Unfolds a map into a list of key/value pairs
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L124-L131)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L122-L129)
 
 ```ts
 export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>  { ... }
@@ -278,7 +278,7 @@ Added in v1.14.0
 
 Get a sorted array of the values contained in a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L87-L87)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L85-L85)
 
 ```ts
 export const values = <A>(O: Ord<A>): (<K>(m: Map<K, A>) => Array<A>) => m => { ... }
