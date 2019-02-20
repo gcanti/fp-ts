@@ -176,10 +176,9 @@ export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) 
  * @since 1.14.0
  */
 export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => {
-  return (k, m) => {
-    const a = lookup(S)(k, m)
-    return a.isNone() ? none : some(tuple(a.value, remove(S)(k, m)))
-  }
+  const lookupS = lookup(S)
+  const removeS = remove(S)
+  return (k, m) => lookupS(k, m).map(a => tuple(a, removeS(k, m)))
 }
 
 /**
