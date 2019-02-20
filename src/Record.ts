@@ -58,8 +58,8 @@ export function toArray<A>(d: Record<string, A>): Array<[string, A]> {
  */
 export function toUnfoldable<F extends URIS>(
   unfoldable: Unfoldable1<F>
-): <A>(d: Record<string, A>) => Type<F, [string, A]>
-export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string, A>) => HKT<F, [string, A]>
+): <K extends string, A>(d: Record<K, A>) => Type<F, [K, A]>
+export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A>(d: Record<K, A>) => HKT<F, [K, A]>
 export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string, A>) => HKT<F, [string, A]> {
   return d => {
     const arr = toArray(d)

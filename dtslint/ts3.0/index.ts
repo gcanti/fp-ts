@@ -226,7 +226,8 @@ const Mon2 = R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Rec
 const Set1 = R.getSetoid<Keys, number>(Se.setoidNumber) // $ExpectType Setoid<Record<Keys, number>>
 const Set2 = R.getSetoid(Se.setoidNumber) // $ExpectType Setoid<Record<string, number>>
 
-const toUnfoldable1 = R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType [string, number][]
+const toUnfoldable1 = R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType ["a", number][]
+const toUnfoldable2 = R.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
 
 //
 // Semigroup
@@ -246,4 +247,4 @@ const Mon4 = Mon.getDictionaryMonoid<Keys, number>(S.semigroupSum) // $ExpectTyp
 // StrMap
 //
 
-const toUnfoldable2 = SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $ExpectType [string, number][]
+const toUnfoldable3 = SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $ExpectType [string, number][]
