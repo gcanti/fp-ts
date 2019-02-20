@@ -3,7 +3,7 @@
     "outDir": "./lib",
     "declaration": true,
     "target": "es5",
-    "module": "UMD",
+    "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
     "noImplicitReturns": false,

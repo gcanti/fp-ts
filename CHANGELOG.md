@@ -14,7 +14,7 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 1.14.0
+# 1.14.1
 
 - **New Feature**
   - add `Map` module (@joshburgess)
@@ -38,7 +38,6 @@ high state of flux, you're at risk of it changing without notice.
     - add `StrMap.prototype.some` (@gcanti)
     - add `elem` (@gcanti)
   - add `Tree.elem` (@gcanti)
-  - change module system to UMD (@jjoekoullas)
 - **Polish**
   - many optimizations (@sledorze)
   - ensure 100% coverage (@gcanti)
