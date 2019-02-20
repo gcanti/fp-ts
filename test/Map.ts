@@ -1,14 +1,14 @@
 import * as assert from 'assert'
 import * as M from '../src/Map'
-import { semigroupSum } from '../src/Semigroup'
+import { semigroupSum, getStructSemigroup } from '../src/Semigroup'
 import { monoidString } from '../src/Monoid'
 import { Refinement, identity } from '../src/function'
 import { option, some, none, Option } from '../src/Option'
-import { Setoid, setoidNumber } from '../src/Setoid'
+import { Setoid, setoidNumber, fromEquals } from '../src/Setoid'
 import { array } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import * as I from '../src/Identity'
-import { contramap, ordString } from '../src/Ord'
+import { contramap, ordString, fromCompare, ordNumber } from '../src/Ord'
 
 interface User {
   id: string
@@ -20,6 +20,26 @@ const setoidUser: Setoid<User> = { equals: ordUser.equals }
 
 const p = ((n: number): boolean => n > 2) as Refinement<number, number>
 
+interface Key {
+  id: number
+}
+
+interface Value {
+  value: number
+}
+
+const setoidKey: Setoid<Key> = fromEquals((x, y) => x.id % 3 === y.id % 3)
+
+const ordKey = fromCompare<Key>((x, y) => ordNumber.compare(x.id % 3, y.id % 3))
+
+const setoidValue: Setoid<Value> = fromEquals((x, y) => x.value % 3 === y.value % 3)
+
+const semigroupValue = getStructSemigroup({ value: semigroupSum })
+
+const key1 = { id: 1 }
+const value1 = { value: 1 }
+const repo = new Map<Key, Value>([[key1, value1], [{ id: 2 }, { value: 2 }]])
+
 describe('Map', () => {
   it('URI', () => {
     assert.strictEqual(M.URI, 'Map')
@@ -30,6 +50,10 @@ describe('Map', () => {
     const a1 = new Map<string, number>([['a', 1]])
     assert.strictEqual(M.size(emptyMap), 0)
     assert.strictEqual(M.size(a1), 1)
+
+    assert.strictEqual(M.size(M.empty), 0)
+    assert.strictEqual(M.size(new Map()), 0)
+    assert.strictEqual(M.size(new Map([['a', 1]])), 1)
   })
 
   it('isEmpty', () => {
@@ -37,6 +61,10 @@ describe('Map', () => {
     const a1 = new Map<string, number>([['a', 1]])
     assert.strictEqual(M.isEmpty(emptyMap), true)
     assert.strictEqual(M.isEmpty(a1), false)
+
+    assert.strictEqual(M.isEmpty(M.empty), true)
+    assert.strictEqual(M.isEmpty(new Map()), true)
+    assert.strictEqual(M.isEmpty(new Map([['a', 1]])), false)
   })
 
   it('member', () => {
@@ -44,6 +72,12 @@ describe('Map', () => {
     const memberS = M.member(setoidUser)
     assert.deepStrictEqual(memberS({ id: 'a' }, a1b2), true)
     assert.deepStrictEqual(memberS({ id: 'c' }, a1b2), false)
+
+    const member = M.member(setoidKey)
+    assert.deepStrictEqual(member({ id: 1 }, repo), true)
+    assert.deepStrictEqual(member({ id: 2 }, repo), true)
+    assert.deepStrictEqual(member({ id: 4 }, repo), true)
+    assert.deepStrictEqual(member({ id: 3 }, repo), false)
   })
 
   it('elem', () => {
@@ -51,6 +85,12 @@ describe('Map', () => {
     const elemS = M.elem(setoidNumber)
     assert.deepStrictEqual(elemS(2, a1b2), true)
     assert.deepStrictEqual(elemS(3, a1b2), false)
+
+    const elem = M.elem(setoidValue)
+    assert.deepStrictEqual(elem({ value: 1 }, repo), true)
+    assert.deepStrictEqual(elem({ value: 2 }, repo), true)
+    assert.deepStrictEqual(elem({ value: 4 }, repo), true)
+    assert.deepStrictEqual(elem({ value: 3 }, repo), false)
   })
 
   it('keys', () => {
@@ -58,6 +98,9 @@ describe('Map', () => {
     const ks = M.keys(ordUser)(m)
     assert.deepStrictEqual(ks, Array.from(m.keys()).sort(ordUser.compare))
     assert.deepStrictEqual(ks, [{ id: 'a' }, { id: 'b' }])
+
+    assert.deepStrictEqual(M.keys(ordString)(new Map([['a', 1], ['b', 2]])), ['a', 'b'])
+    assert.deepStrictEqual(M.keys(ordString)(new Map([['b', 2], ['a', 1]])), ['a', 'b'])
   })
 
   it('values', () => {
@@ -74,6 +117,25 @@ describe('Map', () => {
     const f = (k: User, a: number): number => a + 1
     assert.deepStrictEqual(collectO(m1, f), [2, 3])
     assert.deepStrictEqual(collectO(m2, f), [2, 3])
+
+    const collect = M.collect(ordKey)
+    const g = (k: Key, a: Value): [number, number] => [k.id, a.value]
+    assert.deepStrictEqual(collect(new Map([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]), g), [
+      [1, 1],
+      [2, 2]
+    ])
+    assert.deepStrictEqual(collect(new Map([[{ id: 2 }, { value: 2 }], [{ id: 1 }, { value: 1 }]]), g), [
+      [1, 1],
+      [2, 2]
+    ])
+    assert.deepStrictEqual(collect(new Map([[{ id: 4 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]), g), [
+      [4, 1],
+      [2, 2]
+    ])
+    assert.deepStrictEqual(collect(new Map([[{ id: 2 }, { value: 2 }], [{ id: 4 }, { value: 1 }]]), g), [
+      [4, 1],
+      [2, 2]
+    ])
   })
 
   it('toArray', () => {
@@ -82,12 +144,24 @@ describe('Map', () => {
     const toArrayO = M.toArray(ordUser)
     assert.deepStrictEqual(toArrayO(m1), [[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
     assert.deepStrictEqual(toArrayO(m2), [[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
+
+    const toArray = M.toArray(ordKey)
+    assert.deepStrictEqual(toArray(new Map([[{ id: 1 }, 1], [{ id: 2 }, 2]])), [[{ id: 1 }, 1], [{ id: 2 }, 2]])
+    assert.deepStrictEqual(toArray(new Map([[{ id: 2 }, 2], [{ id: 1 }, 1]])), [[{ id: 1 }, 1], [{ id: 2 }, 2]])
+    assert.deepStrictEqual(toArray(new Map([[{ id: 4 }, 1], [{ id: 2 }, 2]])), [[{ id: 4 }, 1], [{ id: 2 }, 2]])
+    assert.deepStrictEqual(toArray(new Map([[{ id: 2 }, 2], [{ id: 4 }, 1]])), [[{ id: 4 }, 1], [{ id: 2 }, 2]])
   })
 
   it('toUnfoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const toUnfoldableO = M.toUnfoldable(ordUser, array)
     assert.deepStrictEqual(toUnfoldableO(a1), [[{ id: 'a' }, 1]])
+
+    const toUnfoldable = M.toUnfoldable(ordKey, array)
+    assert.deepStrictEqual(toUnfoldable(new Map([[{ id: 1 }, 1], [{ id: 2 }, 2]])), [[{ id: 1 }, 1], [{ id: 2 }, 2]])
+    assert.deepStrictEqual(toUnfoldable(new Map([[{ id: 2 }, 2], [{ id: 1 }, 1]])), [[{ id: 1 }, 1], [{ id: 2 }, 2]])
+    assert.deepStrictEqual(toUnfoldable(new Map([[{ id: 4 }, 1], [{ id: 2 }, 2]])), [[{ id: 4 }, 1], [{ id: 2 }, 2]])
+    assert.deepStrictEqual(toUnfoldable(new Map([[{ id: 2 }, 2], [{ id: 4 }, 1]])), [[{ id: 4 }, 1], [{ id: 2 }, 2]])
   })
 
   it('insert', () => {
@@ -101,6 +175,26 @@ describe('Map', () => {
     assert.deepStrictEqual(insertS({ id: 'a' }, 1, a1b2), a1b2)
     assert.deepStrictEqual(insertS({ id: 'a' }, 2, a1b2), a2b2)
     assert.deepStrictEqual(insertS({ id: 'c' }, 3, a1b2), a1b2c3)
+
+    const insert = M.insert(setoidKey)
+    assert.deepStrictEqual(insert({ id: 1 }, { value: 1 }, M.empty), new Map([[{ id: 1 }, { value: 1 }]]))
+    const x = insert({ id: 1 }, value1, repo)
+    assert.deepStrictEqual(x, new Map<Key, Value>([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]))
+    assert.strictEqual(x.get(key1), value1)
+    assert.deepStrictEqual(
+      insert({ id: 1 }, { value: 2 }, repo),
+      new Map<Key, Value>([[{ id: 1 }, { value: 2 }], [{ id: 2 }, { value: 2 }]])
+    )
+    assert.deepStrictEqual(
+      insert({ id: 4 }, { value: 2 }, repo),
+      new Map<Key, Value>([[{ id: 1 }, { value: 2 }], [{ id: 2 }, { value: 2 }]])
+    )
+    assert.deepStrictEqual(
+      insert({ id: 3 }, { value: 3 }, repo),
+      new Map<Key, Value>([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }], [{ id: 3 }, { value: 3 }]])
+    )
+    // should not modify the source
+    assert.deepStrictEqual(repo, new Map([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]))
   })
 
   it('remove', () => {
@@ -111,6 +205,13 @@ describe('Map', () => {
     assert.deepStrictEqual(removeS({ id: 'a' }, a1b2), b2)
     assert.deepStrictEqual(a1b2, a1b2_)
     assert.deepStrictEqual(removeS({ id: 'c' }, a1b2), a1b2)
+
+    const remove = M.remove(setoidKey)
+    assert.deepStrictEqual(remove({ id: 1 }, repo), new Map([[{ id: 2 }, { value: 2 }]]))
+    assert.deepStrictEqual(remove({ id: 4 }, repo), new Map([[{ id: 2 }, { value: 2 }]]))
+    assert.deepStrictEqual(remove({ id: 3 }, repo), repo)
+    // should not modify the source
+    assert.deepStrictEqual(repo, new Map([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]))
   })
 
   it('pop', () => {
@@ -119,6 +220,13 @@ describe('Map', () => {
     const popS = M.pop(setoidUser)
     assert.deepStrictEqual(popS({ id: 'a' }, a1b2), some([1, b2]))
     assert.deepStrictEqual(popS({ id: 'c' }, a1b2), none)
+
+    const pop = M.pop(setoidKey)
+    assert.deepStrictEqual(pop({ id: 1 }, repo), some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
+    assert.deepStrictEqual(pop({ id: 4 }, repo), some([{ value: 1 }, new Map([[{ id: 2 }, { value: 2 }]])]))
+    assert.deepStrictEqual(pop({ id: 3 }, repo), none)
+    // should not modify the source
+    assert.deepStrictEqual(repo, new Map([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]))
   })
 
   it('lookupWithKey', () => {
@@ -126,6 +234,11 @@ describe('Map', () => {
     const lookupWithKeyS = M.lookupWithKey(setoidUser)
     assert.deepStrictEqual(lookupWithKeyS({ id: 'a' }, a1), some([{ id: 'a' }, 1]))
     assert.deepStrictEqual(lookupWithKeyS({ id: 'b' }, a1), none)
+
+    const lookupWithKey = M.lookupWithKey(setoidKey)
+    assert.deepStrictEqual(lookupWithKey({ id: 1 }, repo), some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 4 }, repo), some([{ id: 1 }, { value: 1 }]))
+    assert.deepStrictEqual(lookupWithKey({ id: 3 }, repo), none)
   })
 
   it('lookup', () => {
@@ -133,6 +246,11 @@ describe('Map', () => {
     const lookupS = M.lookup(setoidUser)
     assert.deepStrictEqual(lookupS({ id: 'a' }, a1), some(1))
     assert.deepStrictEqual(lookupS({ id: 'b' }, a1), none)
+
+    const lookup = M.lookup(setoidKey)
+    assert.deepStrictEqual(lookup({ id: 1 }, repo), some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 4 }, repo), some({ value: 1 }))
+    assert.deepStrictEqual(lookup({ id: 3 }, repo), none)
   })
 
   it('isSubmap', () => {
@@ -140,6 +258,13 @@ describe('Map', () => {
     const a1b2 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 2]])
     const isSubmapS = M.isSubmap(setoidUser, setoidNumber)
     assert.strictEqual(isSubmapS(a1, a1b2), true)
+
+    const isSubmap = M.isSubmap(setoidKey, setoidValue)
+    assert.strictEqual(isSubmap(new Map([[{ id: 1 }, { value: 1 }]]), repo), true)
+    assert.strictEqual(isSubmap(new Map([[{ id: 1 }, { value: 2 }]]), repo), false)
+    assert.strictEqual(isSubmap(new Map([[{ id: 1 }, { value: 4 }]]), repo), true)
+    assert.strictEqual(isSubmap(new Map([[{ id: 4 }, { value: 1 }]]), repo), true)
+    assert.strictEqual(isSubmap(new Map([[{ id: 3 }, { value: 3 }]]), repo), false)
   })
 
   it('empty', () => {
@@ -160,6 +285,14 @@ describe('Map', () => {
     assert.strictEqual(S.equals(a2, a1), false)
     assert.strictEqual(S.equals(a1, b1), false)
     assert.strictEqual(S.equals(b1, a1), false)
+
+    const equals = M.getSetoid(setoidKey, setoidValue).equals
+    assert.strictEqual(equals(repo, repo), true)
+    assert.strictEqual(equals(new Map([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]), repo), true)
+    assert.strictEqual(equals(new Map([[{ id: 1 }, { value: 2 }], [{ id: 2 }, { value: 2 }]]), repo), false)
+    assert.strictEqual(equals(new Map([[{ id: 1 }, { value: 4 }], [{ id: 2 }, { value: 2 }]]), repo), true)
+    assert.strictEqual(equals(new Map([[{ id: 4 }, { value: 1 }], [{ id: 2 }, { value: 2 }]]), repo), true)
+    assert.strictEqual(equals(new Map([[{ id: 3 }, { value: 3 }], [{ id: 2 }, { value: 2 }]]), repo), false)
   })
 
   it('getMonoid', () => {
@@ -168,6 +301,20 @@ describe('Map', () => {
     const expected = new Map<User, number>([[{ id: 'k1' }, 1], [{ id: 'k2' }, 5], [{ id: 'k3' }, 4]])
     const S2 = M.getMonoid(setoidUser, semigroupSum)
     assert.deepStrictEqual(S2.concat(d1, d2), expected)
+
+    const S = M.getMonoid(setoidKey, semigroupValue)
+    assert.deepStrictEqual(
+      S.concat(repo, new Map([[{ id: 3 }, { value: 3 }]])),
+      new Map([[{ id: 1 }, { value: 1 }], [{ id: 2 }, { value: 2 }], [{ id: 3 }, { value: 3 }]])
+    )
+    assert.deepStrictEqual(
+      S.concat(repo, new Map([[{ id: 1 }, { value: 2 }]])),
+      new Map([[{ id: 1 }, { value: 3 }], [{ id: 2 }, { value: 2 }]])
+    )
+    assert.deepStrictEqual(
+      S.concat(repo, new Map([[{ id: 4 }, { value: 2 }]])),
+      new Map([[{ id: 1 }, { value: 3 }], [{ id: 2 }, { value: 2 }]])
+    )
   })
 
   describe('map', () => {
