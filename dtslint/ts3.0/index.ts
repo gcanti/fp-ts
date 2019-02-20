@@ -21,6 +21,7 @@ import * as V from '../../src/Validation'
 import * as Mon from '../../src/Monoid'
 import * as Se from '../../src/Setoid'
 import * as SM from '../../src/StrMap'
+import * as Fo from '../../src/Foldable'
 
 const double = (n: number) => n * 2
 
@@ -228,6 +229,10 @@ const Set2 = R.getSetoid(Se.setoidNumber) // $ExpectType Setoid<Record<string, n
 
 const toUnfoldable1 = R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType ["a", number][]
 const toUnfoldable2 = R.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
+
+declare const fromFoldableF1: Fo.Foldable<'Test'>
+declare const fromFoldableInput1: H.HKT<'Test', ['a' | 'b', number]>
+const fromFoldable1 = R.fromFoldable(fromFoldableF1)(fromFoldableInput1, a => a) // $ExpectType Record<"a" | "b", number>
 
 //
 // Semigroup
