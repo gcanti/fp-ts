@@ -681,7 +681,7 @@ export function some<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean):
 /**
  * @since 1.14.0
  */
-export function isMember<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boolean {
+export function elem<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boolean {
   return (a, fa) => some(fa, x => S.equals(x, a))
 }
 

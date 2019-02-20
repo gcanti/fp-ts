@@ -51,6 +51,16 @@ export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => 
 
 Added in v1.10.0
 
+## elem
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L684-L686)
+
+```ts
+export function elem<A>(S: Setoid<A>): (a: A, fa:  { ... }
+```
+
+Added in v1.14.0
+
 ## every
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L660-L667)
@@ -239,16 +249,6 @@ export const isEmpty = <A>(d: Record<string, A>): boolean => { ... }
 ```
 
 Added in v1.10.0
-
-## isMember
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts#L684-L686)
-
-```ts
-export function isMember<A>(S: Setoid<A>): (a: A, fa:  { ... }
-```
-
-Added in v1.14.0
 
 ## isSubrecord
 

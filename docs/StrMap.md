@@ -264,6 +264,16 @@ export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B>
 
 Added in v1.0.0
 
+## elem
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L405-L407)
+
+```ts
+export function elem<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean  { ... }
+```
+
+Added in v1.14.0
+
 ## fromFoldable
 
 Create a dictionary from a foldable collection of key/value pairs, using the
@@ -323,16 +333,6 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => { ... }
 ```
 
 Added in v1.0.0
-
-## isMember
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L405-L407)
-
-```ts
-export function isMember<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean  { ... }
-```
-
-Added in v1.14.0
 
 ## isSubdictionary
 

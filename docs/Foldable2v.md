@@ -20,11 +20,35 @@ export interface Foldable2v<F> extends Foldable<F> {
 
 Added in v1.10.0
 
+## elem
+
+Test whether a value is an element of a data structure
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L438-L440)
+
+```ts
+export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean  { ... }
+```
+
+**Example**
+
+```ts
+import { elem } from 'fp-ts/lib/Foldable2v'
+import { setoidNumber } from 'fp-ts/lib/Setoid'
+import { Tree, tree } from 'fp-ts/lib/Tree'
+
+const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+assert.strictEqual(elem(setoidNumber, tree)(2, t), true)
+assert.strictEqual(elem(setoidNumber, tree)(5, t), false)
+```
+
+Added in v1.14.0
+
 ## findFirst
 
 Find the first element which satisfies a predicate function
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L472-L481)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L468-L477)
 
 ```ts
 export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>  { ... }
@@ -146,7 +170,7 @@ Added in v1.10.0
 
 Find the largest element of a structure, according to its `Ord` instance
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L528-L531)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L524-L527)
 
 ```ts
 export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>  { ... }
@@ -166,26 +190,14 @@ assert.deepStrictEqual(max(ordNumber, tree)(t), some(4))
 
 Added in v1.10.0
 
-## member
+## ~~member~~ (deprecated)
 
-Test whether a value is an element of a data structure
+Use [elem](#elem) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L441-L444)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L627-L629)
 
 ```ts
 export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean  { ... }
-```
-
-**Example**
-
-```ts
-import { member } from 'fp-ts/lib/Foldable2v'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
-import { Tree, tree } from 'fp-ts/lib/Tree'
-
-const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
-assert.strictEqual(member(setoidNumber, tree)(2, t), true)
-assert.strictEqual(member(setoidNumber, tree)(5, t), false)
 ```
 
 Added in v1.10.0
@@ -194,7 +206,7 @@ Added in v1.10.0
 
 Find the smallest element of a structure, according to its `Ord` instance
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L503-L506)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L499-L502)
 
 ```ts
 export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>  { ... }
@@ -311,7 +323,7 @@ Added in v1.10.0
 
 Transforms a foldable into an array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L551-L554)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L547-L550)
 
 ```ts
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A>  { ... }
@@ -334,7 +346,7 @@ Added in v1.10.0
 Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
 final result.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L596-L604)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable2v.ts#L592-L600)
 
 ```ts
 export function traverse_<M, F>(

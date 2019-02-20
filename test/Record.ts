@@ -230,9 +230,9 @@ describe('Record', () => {
     assert.strictEqual(R.some(y, n => n <= 0), false)
   })
 
-  it('isMember', () => {
-    assert.strictEqual(R.isMember(setoidNumber)(1, { a: 1, b: 2 }), true)
-    assert.strictEqual(R.isMember(setoidNumber)(3, { a: 1, b: 2 }), false)
+  it('elem', () => {
+    assert.strictEqual(R.elem(setoidNumber)(1, { a: 1, b: 2 }), true)
+    assert.strictEqual(R.elem(setoidNumber)(3, { a: 1, b: 2 }), false)
   })
 
   it('partitionMapWithIndex', () => {

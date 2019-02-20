@@ -292,7 +292,7 @@ export function unfoldForestM<M>(
 /**
  * @since 1.14.0
  */
-export function isMember<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean {
+export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean {
   const go = (a: A, fa: Tree<A>): boolean => {
     if (S.equals(a, fa.value)) {
       return true

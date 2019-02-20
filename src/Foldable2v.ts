@@ -413,33 +413,29 @@ export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>)
  * Test whether a value is an element of a data structure
  *
  * @example
- * import { member } from 'fp-ts/lib/Foldable2v'
+ * import { elem } from 'fp-ts/lib/Foldable2v'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
  * import { Tree, tree } from 'fp-ts/lib/Tree'
  *
  * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
- * assert.strictEqual(member(setoidNumber, tree)(2, t), true)
- * assert.strictEqual(member(setoidNumber, tree)(5, t), false)
+ * assert.strictEqual(elem(setoidNumber, tree)(2, t), true)
+ * assert.strictEqual(elem(setoidNumber, tree)(5, t), false)
  *
- * @since 1.10.0
+ * @since 1.14.0
  */
-export function member<F extends URIS3, A>(
+export function elem<F extends URIS3, A>(
   S: Setoid<A>,
   F: Foldable2v3<F>
 ): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
-export function member<F extends URIS3, A, U, L>(
+export function elem<F extends URIS3, A, U, L>(
   S: Setoid<A>,
   F: Foldable2v3C<F, U, L>
 ): (a: A, fa: Type3<F, U, L, A>) => boolean
-export function member<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
-export function member<F extends URIS2, A, L>(
-  S: Setoid<A>,
-  F: Foldable2v2C<F, L>
-): (a: A, fa: Type2<F, L, A>) => boolean
-export function member<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
-export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
-export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
-  // TODO rename to isMember in 2.0
+export function elem<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
+export function elem<F extends URIS2, A, L>(S: Setoid<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
+export function elem<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
+export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
+export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
   return (a, fa) => F.reduce<A, boolean>(fa, false, (b, x) => b || S.equals(x, a))
 }
 
@@ -601,4 +597,33 @@ export function traverse_<M, F>(
   const applyFirstM = applyFirst(M)
   const initialValue = M.of(undefined)
   return (fa, f) => toArrayF(fa).reduce((mu, a) => applyFirstM(mu, f(a)), initialValue)
+}
+
+/**
+ * Use {@link elem} instead
+ * @since 1.10.0
+ * @deprecated
+ */
+export function member<F extends URIS3, A>(
+  S: Setoid<A>,
+  F: Foldable2v3<F>
+): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
+/** @deprecated */
+export function member<F extends URIS3, A, U, L>(
+  S: Setoid<A>,
+  F: Foldable2v3C<F, U, L>
+): (a: A, fa: Type3<F, U, L, A>) => boolean
+/** @deprecated */
+export function member<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
+/** @deprecated */
+export function member<F extends URIS2, A, L>(
+  S: Setoid<A>,
+  F: Foldable2v2C<F, L>
+): (a: A, fa: Type2<F, L, A>) => boolean
+/** @deprecated */
+export function member<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
+/** @deprecated */
+export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
+export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean {
+  return elem(S, F)
 }

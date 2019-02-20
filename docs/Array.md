@@ -288,6 +288,30 @@ assert.deepStrictEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
 
 Added in v1.0.0
 
+## elem
+
+Test if a value is a member of an array. Takes a `Setoid<A>` as a single
+argument which returns the function to use to search for a value of type `A` in
+an array of type `Array<A>`.
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1095-L1105)
+
+```ts
+export const elem = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => { ... }
+```
+
+**Example**
+
+```ts
+import { elem } from 'fp-ts/lib/Array'
+import { setoidNumber } from 'fp-ts/lib/Setoid'
+
+assert.strictEqual(elem(setoidNumber)(1, [1, 2, 3]), true)
+assert.strictEqual(elem(setoidNumber)(4, [1, 2, 3]), false)
+```
+
+Added in v1.14.0
+
 ## filter
 
 Filter an array, keeping the elements which satisfy a predicate function, creating a new array
@@ -658,30 +682,6 @@ assert.strictEqual(isEmpty([]), true)
 
 Added in v1.0.0
 
-## isMember
-
-Test if a value is a member of an array. Takes a `Setoid<A>` as a single
-argument which returns the function to use to search for a value of type `A` in
-an array of type `Array<A>`.
-
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1095-L1105)
-
-```ts
-export const isMember = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => { ... }
-```
-
-**Example**
-
-```ts
-import { isMember } from 'fp-ts/lib/Array'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
-
-assert.strictEqual(isMember(setoidNumber)(1, [1, 2, 3]), true)
-assert.strictEqual(isMember(setoidNumber)(4, [1, 2, 3]), false)
-```
-
-Added in v1.14.0
-
 ## isOutOfBound
 
 Test whether an array contains a particular index
@@ -806,7 +806,7 @@ Added in v1.0.0
 
 ## ~~member~~ (deprecated)
 
-Use [isMember](#ismember) instead
+Use [elem](#elem) instead
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts#L1112-L1115)
 

@@ -7,15 +7,15 @@ import {
   getFunctionSemigroup,
   getJoinSemigroup,
   getMeetSemigroup,
-  getProductSemigroup,
-  getRecordSemigroup,
   Semigroup,
   semigroupAll,
   semigroupAny,
   semigroupProduct,
   semigroupString,
   semigroupSum,
-  semigroupVoid
+  semigroupVoid,
+  getStructSemigroup,
+  getTupleSemigroup
 } from './Semigroup'
 
 /**
@@ -36,11 +36,20 @@ export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => {
 /**
  * @since 1.0.0
  */
-export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => {
+export const getTupleMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => {
   return {
-    ...getProductSemigroup(MA, MB),
+    ...getTupleSemigroup(MA, MB),
     empty: [MA.empty, MB.empty]
   }
+}
+
+/**
+ * Use {@link getTupleMonoid} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => {
+  return getTupleMonoid(MA, MB)
 }
 
 /**
@@ -162,20 +171,30 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
 }
 
 /**
+ * @since 1.14.0
+ */
+export const getStructMonoid = <O extends { [key: string]: any }>(
+  monoids: { [K in keyof O]: Monoid<O[K]> }
+): Monoid<O> => {
+  const empty: any = {}
+  for (const key of Object.keys(monoids)) {
+    empty[key] = monoids[key].empty
+  }
+  return {
+    ...getStructSemigroup<O>(monoids),
+    empty
+  }
+}
+
+/**
+ * Use {@link getStructMonoid} instead
  * @since 1.0.0
+ * @deprecated
  */
 export const getRecordMonoid = <O extends { [key: string]: any }>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
 ): Monoid<O> => {
-  const empty: any = {}
-  const keys = Object.keys(monoids)
-  for (const key of keys) {
-    empty[key] = monoids[key].empty
-  }
-  return {
-    ...getRecordSemigroup<O>(monoids),
-    empty
-  }
+  return getStructMonoid(monoids)
 }
 
 /**
