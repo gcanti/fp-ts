@@ -73,7 +73,7 @@ export const elem = <A>(S: Setoid<A>): (<K>(a: A, m: Map<K, A>) => boolean) => {
 }
 
 /**
- * Get a sorted array of the values contained in a map
+ * Get a sorted array of the keys contained in a map
  *
  * @since 1.14.0
  */

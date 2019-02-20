@@ -155,7 +155,7 @@ Added in v1.14.0
 
 ## keys
 
-Get a sorted array of the values contained in a map
+Get a sorted array of the keys contained in a map
 
 **Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts#L80-L80)
 
