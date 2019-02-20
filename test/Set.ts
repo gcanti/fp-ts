@@ -26,10 +26,12 @@ import {
   difference2v,
   compact,
   separate,
-  filterMap
+  filterMap,
+  foldMap
 } from '../src/Set'
 import { Setoid, setoidNumber, setoidString, getRecordSetoid, contramap } from '../src/Setoid'
 import { none, some as optionSome } from '../src/Option'
+import { getArrayMonoid } from '../src/Monoid'
 
 const gte2 = (n: number) => n >= 2
 
@@ -182,6 +184,11 @@ describe('Set', () => {
   it('reduce', () => {
     assert.deepStrictEqual(reduce(ordNumber)(new Set([1, 2, 3]), '', (b, a) => b + a), '123')
     assert.deepStrictEqual(reduce(ordNumber)(new Set([3, 2, 1]), '', (b, a) => b + a), '123')
+  })
+
+  it('foldMap', () => {
+    assert.deepStrictEqual(foldMap(ordNumber, getArrayMonoid<number>())(new Set([1, 2, 3]), a => [a]), [1, 2, 3])
+    assert.deepStrictEqual(foldMap(ordNumber, getArrayMonoid<number>())(new Set([3, 2, 1]), a => [a]), [1, 2, 3])
   })
 
   it('singleton', () => {

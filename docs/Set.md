@@ -29,7 +29,7 @@ Added in v1.2.0
 
 ## compact
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L333-L336)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L341-L344)
 
 ```ts
 export const compact = <A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>) => { ... }
@@ -104,7 +104,7 @@ Added in v1.0.0
 
 ## filterMap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L363-L375)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L371-L383)
 
 ```ts
 export const filterMap = <B>(S: Setoid<B>): (<A>(fa: Set<A>, f: (a: A) => Option<B>) => Set<B>) => { ... }
@@ -112,11 +112,21 @@ export const filterMap = <B>(S: Setoid<B>): (<A>(fa: Set<A>, f: (a: A) => Option
 
 Added in v1.12.0
 
+## foldMap
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L279-L282)
+
+```ts
+export const foldMap = <A, M>(O: Ord<A>, M: Monoid<M>): ((fa: Set<A>, f: (a: A) => M) => M) => { ... }
+```
+
+Added in v1.14.0
+
 ## fromArray
 
 Create a set from an array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L317-L328)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L325-L336)
 
 ```ts
 export const fromArray = <A>(S: Setoid<A>) => (as: Array<A>): Set<A> => { ... }
@@ -158,7 +168,7 @@ Added in v1.0.0
 
 Insert a value into a set
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L290-L301)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L298-L309)
 
 ```ts
 export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => { ... }
@@ -239,7 +249,7 @@ Added in v1.0.0
 
 Delete a value from a set
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L308-L310)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L316-L318)
 
 ```ts
 export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => { ... }
@@ -249,7 +259,7 @@ Added in v1.0.0
 
 ## separate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L341-L358)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L349-L366)
 
 ```ts
 export const separate = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<L, R>>): Separated<Set<L>, Set<R>> => { ... }
@@ -261,7 +271,7 @@ Added in v1.12.0
 
 Create a set with one element
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L281-L283)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L289-L291)
 
 ```ts
 export const singleton = <A>(a: A): Set<A> => { ... }

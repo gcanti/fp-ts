@@ -274,6 +274,14 @@ export const reduce = <A>(O: Ord<A>): (<B>(fa: Set<A>, b: B, f: (b: B, a: A) => 
 }
 
 /**
+ * @since 1.14.0
+ */
+export const foldMap = <A, M>(O: Ord<A>, M: Monoid<M>): ((fa: Set<A>, f: (a: A) => M) => M) => {
+  const toArrayO = toArray(O)
+  return (fa, f) => toArrayO(fa).reduce((b, a) => M.concat(b, f(a)), M.empty)
+}
+
+/**
  * Create a set with one element
  *
  * @since 1.0.0
