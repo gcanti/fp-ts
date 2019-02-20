@@ -14,6 +14,47 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.14.0
+
+- **New Feature**
+  - add `Map` module (@joshburgess)
+  - `Record`
+    - functions now support subtypes of `string` for the `K` type parameter (@gcanti)
+    - add `every` (@gcanti)
+    - add `some` (@gcanti)
+    - add `elem` (@gcanti)
+  - add `function.constVoid` (@leemhenson)
+  - `Set`
+    - add `empty` (@gcanti)
+    - add `foldMap` (@gcanti)
+  - add `Reader.getSemigroup`, `Reader.getMonoid` (@gcanti)
+  - `NonEmptyArray`
+    - Add `getSetoid` (@MaximeRDY)
+    - add `NonEmptyArray.prototype.toArrayMap` (@gcanti)
+    - add `NonEmptyArray.prototype.some` (@gcanti)
+    - add `NonEmptyArray.prototype.every` (@gcanti)
+  - `StrMap`
+    - add `StrMap.prototype.every` (@gcanti)
+    - add `StrMap.prototype.some` (@gcanti)
+    - add `elem` (@gcanti)
+  - add `Tree.elem` (@gcanti)
+  - change module system to UMD (@jjoekoullas)
+- **Polish**
+  - many optimizations (@sledorze)
+  - ensure 100% coverage (@gcanti)
+- **Deprecations**
+  - deprecate `Array.index` in favour of `Array.lookup` (@gcanti)
+  - deprecate `NonEmptyArray.prototype.index` in favour of `NonEmptyArray.prototype.lookup` (@gcanti)
+  - deprecate `Record.isSubdictionary` in favour of `Record.isSubrecord` (@gcanti)
+  - deprecate `Semigroup.getDictionarySemigroup`, `Monoid.getDictionaryMonoid` in favour of `Record.getMonoid` (@gcanti)
+  - deprecate `Array.getArraySemigroup` (@gcanti)
+  - deprecate `Set.member` in favour of `Set.elem` (@gcanti)
+  - deprecate `Array.member` in favour of `Array.elem` (@gcanti)
+  - `Record` / `StrMap`: fix withIndex names (@gcanti)
+  - use "Struct" instead of "Record", and "Tuple" instead of "Product" (@gcanti)
+- **Internal**
+  - drop Type-level integrity check (@gcanti)
+
 # 1.13.0
 
 - **New Feature**
