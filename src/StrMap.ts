@@ -367,7 +367,7 @@ export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): (<A>(d: StrMap<
 export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>)
 export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) {
   const toUnfoldableU = R.toUnfoldable(U)
-  return d => toUnfoldableU(d.value)
+  return <A>(d: StrMap<A>) => toUnfoldableU<string, A>(d.value)
 }
 
 /**
