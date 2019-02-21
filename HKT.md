@@ -1,11 +1,179 @@
-# How `HKT`, `URI2HKT`, `URIS` and `Type` work
+# How `URI2HKT`, `URIS` and `Type` work
 
-## Introduction
+Let's start from a simple data structure: `Identity`
+
+```ts
+// Identity.ts
+
+export class Identity<A> {
+  constructor(readonly value: A) {}
+}
+```
+
+## Functor instance
+
+Let's see how to add an instance of the `Functor` type class for `Identity`
+
+```ts
+// Identity.ts
+
+import { Functor1 } from 'fp-ts/lib/Functor'
+
+export const URI = 'Identity'
+
+export type URI = typeof URI
+
+declare module 'fp-ts/lib/HKT' {
+  interface URI2HKT<A> {
+    Identity: Identity<A>
+  }
+}
+
+export class Identity<A> {
+  constructor(readonly value: A) {}
+}
+
+const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => new Identity(f(fa.value))
+
+// Functor instance
+export const identity: Functor1<URI> = {
+  URI,
+  map
+}
+```
+
+Here's the definition of `Functor1`
+
+```ts
+// fp-ts/lib/Functor.ts
+
+export interface Functor1<F extends URIS> {
+  readonly URI: F
+  readonly map: <A, B>(fa: Type<F, A>, f: (a: A) => B) => Type<F, B>
+}
+```
+
+So what's `URI2HKT`, `URIS` and `Type`?
+
+`URI2HKT` is type-level map, it maps a `URI` to a concrete data type, and is populated using the [module augmentation](https://www.typescriptlang.org/docs/handbook/declaration-merging.html) feature
+
+```ts
+// fp-ts/lib/HKT.ts
+
+export interface URI2HKT<A> {}
+```
+
+```ts
+// Identity.ts
+
+declare module 'fp-ts/lib/HKT' {
+  interface URI2HKT<A> {
+    Identity: Identity<A> // maps the key "Identity" to the type `Identity`
+  }
+}
+```
+
+`URIS` is just `keyof URI2HKT<any>` and is used as a constraint in the `Functor1` interface
+
+`Type<F, A>` is using `URI2HKT` internally so is able to project an abstract data type to a concrete data type.
+So if `URI = 'Identity'`, then `Type<URI, number>` is `Identity<number>`.
+
+**Note**. When possible `fp-ts` also defines a `map` method on the data structure in order to provide chainable APIs
+
+```ts
+// Identity.ts
+
+export class Identity<A> {
+  constructor(readonly value: A) {}
+  map<B>(f: (a: A) => B): Identity<B> {
+    return new Identity(f(this.value))
+  }
+}
+
+const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => fa.map(f)
+
+// Functor instance
+export const identity: Functor1<URI> = {
+  URI,
+  map
+}
+```
+
+## What about type constructors of kind `* -> * -> *`?
+
+There's another triple for that: `URI2HKT2`, `URIS2` and `Type2`
+
+Example: `Either`
+
+```ts
+// Either.ts
+
+import { Functor2 } from 'fp-ts/lib/Functor'
+
+export const URI = 'Either'
+
+export type URI = typeof URI
+
+declare module 'fp-ts/lib/HKT' {
+  interface URI2HKT2<L, A> {
+    Either: Either<L, A>
+  }
+}
+
+export type Either<L, A> = Left<L, A> | Right<L, A>
+
+export class Left<L, A> {
+  readonly _tag = 'Left'
+  constructor(readonly value: L) {}
+  map<B>(f: (a: A) => B): Either<L, B> {
+    return new Left(this.value)
+  }
+}
+
+export class Right<L, A> {
+  readonly _tag = 'Right'
+  constructor(readonly value: A) {}
+  map<B>(f: (a: A) => B): Either<L, B> {
+    return new Right(f(this.value))
+  }
+}
+
+const map = <L, A, B>(fa: Either<L, A>, f: (a: A) => B): Either<L, B> => fa.map(f)
+
+// Functor instance
+export const either: Functor2<URI> = {
+  URI,
+  map
+}
+```
+
+And here's the definition of `Functor2`
+
+```ts
+// fp-ts/lib/Functor.ts
+
+export interface Functor2<F extends URIS2> {
+  readonly URI: F
+  readonly map: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
+}
+```
+
+## How to type functions which abstracts over type classes
+
+Let's see how to type `lift`
+
+```ts
+import { HKT } from 'fp-ts/lib/HKT'
+
+export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
+  return f => fa => F.map(fa, f)
+}
+```
 
 Here's the definition of `HKT`
 
 ```ts
-// HKT.ts
+// fp-ts/lib/HKT.ts
 
 export interface HKT<URI, A> {
   readonly _URI: URI
@@ -13,152 +181,51 @@ export interface HKT<URI, A> {
 }
 ```
 
-and `Functor`
+The `HKT` type represents a type constructor of kind `* -> *`.
+
+There are other `HKT<n>` types defined in the `fp-ts/lib/HKT.ts`, one for each kind (up to four):
+
+- `HKT2` for type constructors of kind `* -> * -> *`
+- `HKT3` for type constructors of kind `* -> * -> * -> *`
+- `HKT4` for type constructors of kind `* -> * -> * -> * -> *`
+
+There's a problem though, this doesn't type check
 
 ```ts
-// Functor.ts
-import { HKT } from 'fp-ts/lib/HKT'
+const double = (n: number): number => n * 2
 
-export interface Functor<F> {
-  readonly URI: F
-  map: <A, B>(fa: HKT<F, A>, f: (a: A) => B) => HKT<F, B>
-}
+//                        v-- the Functor instance of Identity
+const doubleIdentity = lift(identity)(double)
+```
 
+With the following error
+
+```
+Argument of type 'Functor2<"Either">' is not assignable to parameter of type 'Functor<"Either">'
+```
+
+We need to add some overloading, one for each kind we want to support
+
+```ts
+export function lift<F extends URIS2>(
+  F: Functor2<F>
+): <A, B>(f: (a: A) => B) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
+export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Type<F, A>) => Type<F, B>
+export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
   return f => fa => F.map(fa, f)
 }
 ```
 
-We can define an instance of `Functor` for `Identity`
+Now we can lift `double` to both `Identity` and `Either`
 
 ```ts
-// Identity.ts
-import { Functor } from 'fp-ts/lib/Functor'
+//                        v-- the Functor instance of Identity
+const doubleIdentity = lift(identity)(double)
 
-export const URI = 'Identity'
-
-export type URI = typeof URI
-
-export class Identity<A> {
-  readonly _A!: A // --> these phantom fields make `Identity` an `HKT`, note that both `A` and `URI` here are types
-  readonly _URI!: URI // ----^
-  constructor(readonly value: A) {}
-  map<B>(f: (a: A) => B): Identity<B> {
-    return new Identity(f(this.value))
-  }
-}
-
-const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {
-  return fa.map(f)
-}
-
-export const identity: Functor<URI> = {
-  URI, // --> these fields make `identity` an instance of `Functor`, note that both `URI` and `map` here are values
-  map // ----^
-}
+//                        v-- the Functor instance of Either
+const doubleEither = lift(either)(double)
 ```
 
-## The problem
-
-`Identity` behaves as expected when using its `map`
-
-```ts
-const double = (n: number): number => n * 2
-
-// x: Identity<number>
-const x = Identity(1).map(double)
-```
-
-However there's a problem with functions which abstracts over `Functor` like `lift`
-
-```ts
-// liftedDouble: (fa: HKT<"Identity", number>) => HKT<"Identity", number>
-const liftedDouble = lift(identity)(double)
-
-// x: HKT<"Identity", number>
-const x = liftedDouble(new Identity(1))
-```
-
-`x` is not usable
-
-```ts
-x.value // static error: Property 'value' does not exist on type 'HKT<"Identity", number>'
-```
-
-## The solution
-
-We must somehow teach TypeScript that `HKT<"Identity", number>` is really `Identity<number>`, or more generally that
-`HKT<"Identity", A>` is `Identity<A>` for all `A`.
-
-### First step: build a type level map `URI -> Type constructor`
-
-The type level map is named `URI2HKT`
-
-```ts
-// HKT.ts
-
-export interface URI2HKT<A> {}
-```
-
-Adding an entry means to leverage the module augmentation feature
-
-```ts
-// Identity.ts
-
-declare module './HKT' {
-  interface URI2HKT<A> {
-    Identity: Identity<A> // maps the key "Identity" to the type `Identity`
-  }
-}
-```
-
-**Note**. The value of the key must be the same value used to define the `URI` constant and type in the file
-`Identity.ts`.
-
-### Second step: add a specialized overloading to `lift`
-
-If `F` is an `URI` which corresponds to a key in `URI2HKT` then we can add a specialized overloading for it to `lift`
-
-```ts
-import { HKT, URIS, Type } from 'fp-ts/lib/HKT'
-
-// specialized overloading
-export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Type<F, A>) => Type<F, B>
-// keep the generic signature
-export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
-export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => F.map(f, fa)
-}
-```
-
-### Third step: change the Identity instance
-
-```ts
-// Identity.ts
-import { Functor1 } from 'fp-ts/lib/Functor'
-
-export const identity: Functor1<URI> = {
-  URI,
-  map
-}
-```
-
-As soon as we add the specialized overloading we get the desired behavior
-
-```ts
-// liftedDouble: (fa: Identity<number>) => Identity<number>
-const liftedDouble = lift(identity)(double)
-
-// x: Identity<number>
-const x = liftedDouble(new Identity(1))
-
-x.value // ok
-```
-
-## Higher kinded types
-
-Those steps handle type constructors of kind `* -> *`, we must repeat the process for type constructors with higher
-kind, leading to
-
-* `HKT2`, `URI2HKT2`, `URIS2`, `Type2` for type constructors with kind `* -> * -> *`
-* `HKT3`, `URI2HKT3`, `URIS3`, `Type3` for type constructors with kind `* -> * -> * -> *`
+- `doubleIdentity` has type `(fa: Identity<number>) => Identity<number>`
+- `doubleEither` has type `<L>(fa: Either<L, number>) => Either<L, number>`

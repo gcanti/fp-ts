@@ -73,7 +73,7 @@ You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
 
 ## Internals
 
-- [How `HKT`, `URI2HKT`, `URIS` and `Type` work](HKT.md)
+- [How `URI2HKT`, `URIS` and `Type` work](HKT.md)
 
 ## Examples
 
