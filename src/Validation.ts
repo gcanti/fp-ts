@@ -236,6 +236,8 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
 }
 
 /**
+ * **Note**: This function is here just to avoid switching to / from {@link Either}
+ *
  * @since 1.0.0
  */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {

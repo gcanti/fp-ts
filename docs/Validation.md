@@ -202,7 +202,7 @@ Added in v1.0.0
 
 ## success
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L290-L290)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L292-L292)
 
 ```ts
 export const success = ...
@@ -212,7 +212,7 @@ Added in v1.0.0
 
 ## validation
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L528-L537)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L530-L539)
 
 ```ts
 export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = ...
@@ -222,7 +222,7 @@ Added in v1.0.0
 
 ## failure
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L282-L284)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L284-L286)
 
 ```ts
 export const failure = <L, A>(l: L): Validation<L, A> => { ... }
@@ -232,7 +232,7 @@ Added in v1.0.0
 
 ## fromEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L307-L309)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L309-L311)
 
 ```ts
 export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => { ... }
@@ -242,7 +242,7 @@ Added in v1.0.0
 
 ## fromPredicate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L300-L302)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L302-L304)
 
 ```ts
 export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a: A) => Validation<L, A>  { ... }
@@ -252,7 +252,7 @@ Added in v1.0.0
 
 ## getAlt
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L342-L352)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L344-L354)
 
 ```ts
 export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => { ... }
@@ -303,7 +303,7 @@ Added in v1.0.0
 
 Builds [Compactable](./Compactable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the failure side
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L377-L412)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L379-L414)
 
 ```ts
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L>  { ... }
@@ -315,7 +315,7 @@ Added in v1.7.0
 
 Builds [Filterable](./Filterable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the left side
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L419-L489)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L421-L491)
 
 ```ts
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L>  { ... }
@@ -325,7 +325,9 @@ Added in v1.7.0
 
 ## getMonad
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L241-L250)
+**Note**: This function is here just to avoid switching to / from [Either](./Either.md)
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L243-L252)
 
 ```ts
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => { ... }
@@ -335,7 +337,7 @@ Added in v1.0.0
 
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L332-L337)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L334-L339)
 
 ```ts
 export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validation<L, A>> => { ... }
@@ -345,7 +347,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L314-L327)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L316-L329)
 
 ```ts
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>> => { ... }
@@ -367,7 +369,7 @@ Added in v1.0.0
 
 Builds [Witherable](./Witherable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the left side
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L496-L523)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L498-L525)
 
 ```ts
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L>  { ... }
@@ -379,7 +381,7 @@ Added in v1.7.0
 
 Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L359-L361)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L361-L363)
 
 ```ts
 export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => { ... }
@@ -391,7 +393,7 @@ Added in v1.0.0
 
 Returns `true` if the validation is an instance of `Success`, `false` otherwise
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L368-L370)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts#L370-L372)
 
 ```ts
 export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => { ... }
