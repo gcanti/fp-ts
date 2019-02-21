@@ -1,4 +1,4 @@
-import { IO } from './IO'
+import { IO } from './IO_'
 
 /**
  * Returns the current `Date`

@@ -1,5 +1,5 @@
 import { Bifunctor2 } from './Bifunctor'
-import { Either, left as eitherLeft, tryCatch2v as eitherTryCatch2v, toError } from './Either'
+import { Either, left as eitherLeft, tryCatch2v as eitherTryCatch2v, toError } from './Either_'
 import * as eitherT from './EitherT'
 import { Monad2 } from './Monad'
 import { IO, io } from './IO'

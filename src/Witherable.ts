@@ -1,10 +1,10 @@
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Option } from './Option'
+import { Option } from './Option_'
 import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3, Traversable3C } from './Traversable'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable3C } from './Filterable'
-import { Either } from './Either'
-import { Separated } from './Compactable'
+import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable3C } from './Filterable_'
+import { Either } from './Either_'
+import { Separated } from './Compactable_'
 
 /**
  * `Witherable` represents data structures which can be _partitioned_ with effects in some {@link Applicative} functor.

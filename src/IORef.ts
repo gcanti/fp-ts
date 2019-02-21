@@ -1,4 +1,4 @@
-import { IO } from './IO'
+import { IO } from './IO_'
 
 /**
  * Mutable references in the `IO` monad

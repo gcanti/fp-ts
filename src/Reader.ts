@@ -4,8 +4,8 @@ import { Monad2 } from './Monad'
 import { Profunctor2 } from './Profunctor'
 import { Strong2 } from './Strong'
 import { Choice2 } from './Choice'
-import { Either, left as eitherLeft, right as eitherRight } from './Either'
-import { Semigroup } from './Semigroup'
+import { Either, left as eitherLeft, right as eitherRight } from './Either_'
+import { Semigroup } from './Semigroup_'
 import { Monoid } from './Monoid'
 
 declare module './HKT' {

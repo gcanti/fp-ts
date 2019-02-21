@@ -1,6 +1,6 @@
-import { Separated } from './Compactable'
-import { Either } from './Either'
-import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable3C } from './Filterable'
+import { Separated } from './Compactable_'
+import { Either } from './Either_'
+import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable3C } from './Filterable_'
 import {
   FunctorWithIndex,
   FunctorWithIndex1,
@@ -10,7 +10,7 @@ import {
   FunctorWithIndex3C
 } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Option } from './Option'
+import { Option } from './Option_'
 
 /**
  * @typeclass

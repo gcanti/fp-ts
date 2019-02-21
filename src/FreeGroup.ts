@@ -1,5 +1,5 @@
 import { empty as emptyArray, getMonoid as getArrayMonoid, getSetoid as getArraySetoid, array } from './Array'
-import { Either, getSetoid as getEitherSetoid, left, right } from './Either'
+import { Either, getSetoid as getEitherSetoid, left, right } from './Either_'
 import { Group } from './Group'
 import { Setoid, fromEquals } from './Setoid'
 import { Monad1 } from './Monad'

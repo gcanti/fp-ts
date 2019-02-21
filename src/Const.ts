@@ -3,7 +3,7 @@ import { Apply2C } from './Apply'
 import { Contravariant2 } from './Contravariant'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
-import { Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup_'
 import { Setoid, fromEquals } from './Setoid'
 import { phantom, toString } from './function'
 

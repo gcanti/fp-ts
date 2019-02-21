@@ -1,11 +1,11 @@
-import { Either } from './Either'
+import { Either } from './Either_'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
-import { Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup_'
 import { Setoid, fromEquals } from './Setoid'
 import { Predicate, not, Refinement, identity } from './function'
-import { Separated } from './Compactable'
-import { Option } from './Option'
+import { Separated } from './Compactable_'
+import { Option } from './Option_'
 
 /**
  * @since 1.14.0

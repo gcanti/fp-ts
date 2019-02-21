@@ -1,14 +1,14 @@
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Separated } from './Compactable'
-import { Either } from './Either'
+import { Separated } from './Compactable_'
+import { Either } from './Either_'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Predicate, tuple, Refinement } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getDictionaryMonoid, Monoid } from './Monoid'
-import { none, Option, some as optionSome } from './Option'
+import { none, Option, some as optionSome } from './Option_'
 import { Setoid, fromEquals } from './Setoid'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
-import { Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup_'
 
 /**
  * Calculate the number of key/value pairs in a record

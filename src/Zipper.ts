@@ -6,8 +6,8 @@ import { decrement, increment, toString } from './function'
 import { HKT } from './HKT'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
-import { none, Option, some } from './Option'
-import { Semigroup } from './Semigroup'
+import { none, Option, some } from './Option_'
+import { Semigroup } from './Semigroup_'
 import { Traversable2v1 } from './Traversable2v'
 
 /*

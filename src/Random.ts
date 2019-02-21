@@ -1,4 +1,4 @@
-import { IO } from './IO'
+import { IO } from './IO_'
 
 // Adapted from https://github.com/purescript/purescript-random
 

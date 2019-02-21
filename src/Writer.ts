@@ -1,7 +1,7 @@
 import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup_'
 import { phantom, tuple } from './function'
 
 declare module './HKT' {

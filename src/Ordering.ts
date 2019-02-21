@@ -1,4 +1,4 @@
-import { Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup_'
 import { Setoid } from './Setoid'
 
 export type Ordering = -1 | 0 | 1

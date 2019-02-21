@@ -1,6 +1,6 @@
-import { Either, left, right } from './Either'
+import { Either, left, right } from './Either_'
 import { IO, io } from './IO'
-import { Option, none, some } from './Option'
+import { Option, none, some } from './Option_'
 
 // Adapted from https://github.com/purescript/purescript-exceptions
 

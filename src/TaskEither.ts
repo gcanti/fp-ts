@@ -7,15 +7,15 @@ import {
   getSemigroup as eitherGetSemigroup,
   left as eitherLeft,
   right as eitherRight
-} from './Either'
+} from './Either_'
 import * as eitherT from './EitherT'
 import { constant, constIdentity, Lazy, Predicate, Refinement } from './function'
-import { IO } from './IO'
+import { IO } from './IO_'
 import { IOEither } from './IOEither'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { Monoid } from './Monoid'
-import { Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup_'
 import { fromIO as taskFromIO, getSemigroup as taskGetSemigroup, Task, task, tryCatch as taskTryCatch } from './Task'
 import { MonadTask2 } from './MonadTask'
 

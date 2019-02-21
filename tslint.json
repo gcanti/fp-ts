@@ -1,5 +1,5 @@
 {
-  "extends": "tslint-config-standard",
+  "extends": ["tslint-config-standard", "tslint-no-circular-imports"],
   "rules": {
     "space-before-function-paren": false,
     "no-use-before-declare": false,

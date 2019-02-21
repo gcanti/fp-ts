@@ -1,5 +1,5 @@
 import { Ordering, semigroupOrdering } from './Ordering'
-import { Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup_'
 import { Setoid, setoidBoolean, setoidNumber, setoidString } from './Setoid'
 import { on } from './function'
 

@@ -6,7 +6,7 @@ import { HKT } from './HKT'
 import { Monoid } from './Monoid'
 import { Ord, fromCompare } from './Ord'
 import { semigroupOrdering } from './Ordering'
-import { Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup_'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 

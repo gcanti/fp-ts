@@ -1,5 +1,5 @@
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { IO } from './IO'
+import { IO } from './IO_'
 import { Monad, Monad1, Monad2, Monad3, Monad2C, Monad3C } from './Monad'
 
 /**

@@ -1,6 +1,6 @@
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Semigroup } from './Semigroup'
+import { Semigroup } from './Semigroup_'
 import { Curried2, Curried3, Curried4, constant, curried, Function1 } from './function'
 
 /**

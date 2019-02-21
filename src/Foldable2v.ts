@@ -2,7 +2,7 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid, unsafeMonoidArray } from './Monoid'
-import { Option, none, some } from './Option'
+import { Option, none, some } from './Option_'
 import { Ord, max as maxOrd, min as minOrd } from './Ord'
 import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 import { Semiring } from './Semiring'
