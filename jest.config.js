@@ -1,13 +1,6 @@
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
-  globals: {
-    'ts-jest': {
-      diagnostics: {
-        ignoreCodes: [151001]
-      }
-    }
-  },
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts}', '!src/Free.ts', '!src/Store.ts'],
   transform: {
