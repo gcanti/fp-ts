@@ -53,10 +53,11 @@ export const setoidBoolean: Setoid<boolean> = setoidStrict
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
   return fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])))
 }
+
 /**
- * @since 1.0.0
+ * @since 1.14.2
  */
-export const getRecordSetoid = <O extends { [key: string]: any }>(
+export const getStructSetoid = <O extends { [key: string]: any }>(
   setoids: { [K in keyof O]: Setoid<O[K]> }
 ): Setoid<O> => {
   return fromEquals((x, y) => {
@@ -68,12 +69,34 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
     return true
   })
 }
+
 /**
+ * Use {@link getStructSetoid} instead
  * @since 1.0.0
+ * @deprecated
  */
-export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
+export const getRecordSetoid = <O extends { [key: string]: any }>(
+  setoids: { [K in keyof O]: Setoid<O[K]> }
+): Setoid<O> => {
+  return getStructSetoid(setoids)
+}
+
+/**
+ * @since 1.14.2
+ */
+export const getTupleSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
   return fromEquals((a, b) => SA.equals(a[0], b[0]) && SB.equals(a[1], b[1]))
 }
+
+/**
+ * Use {@link getTupleSetoid} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
+  return getTupleSetoid(SA, SB)
+}
+
 /**
  * Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
  *

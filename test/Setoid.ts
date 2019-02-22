@@ -32,6 +32,7 @@ describe('Setoid', () => {
   })
 
   it('getRecordSetoid', () => {
+    // tslint:disable-next-line: deprecation
     const S = getRecordSetoid<Person>({
       name: setoidString,
       age: setoidNumber
@@ -42,6 +43,7 @@ describe('Setoid', () => {
   })
 
   it('getProductSetoid', () => {
+    // tslint:disable-next-line: deprecation
     const S = getProductSetoid(setoidString, setoidNumber)
     assert.strictEqual(S.equals(['a', 1], ['a', 1]), true)
     assert.strictEqual(S.equals(['a', 1], ['b', 1]), false)

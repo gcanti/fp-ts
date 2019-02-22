@@ -29,7 +29,7 @@ import {
   filterMap,
   foldMap
 } from '../src/Set'
-import { Setoid, setoidNumber, setoidString, getRecordSetoid, contramap } from '../src/Setoid'
+import { Setoid, setoidNumber, setoidString, contramap, getStructSetoid } from '../src/Setoid'
 import { none, some as optionSome } from '../src/Option'
 import { getArrayMonoid } from '../src/Monoid'
 
@@ -146,8 +146,8 @@ describe('Set', () => {
         right: new Set(['1', '3'])
       }
     )
-    const SL = getRecordSetoid({ value: setoidNumber })
-    const SR = getRecordSetoid({ value: setoidString })
+    const SL = getStructSetoid({ value: setoidNumber })
+    const SR = getStructSetoid({ value: setoidString })
     assert.deepStrictEqual(
       partitionMap(SL, SR)(
         new Set([{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }]),

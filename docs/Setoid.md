@@ -39,7 +39,7 @@ Added in v1.0.0
 
 ## setoidDate
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L89-L89)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L112-L112)
 
 ```ts
 export const setoidDate: Setoid<Date> = ...
@@ -71,7 +71,7 @@ Added in v1.0.0
 
 Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L82-L84)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L105-L107)
 
 ```ts
 export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => { ... }
@@ -99,9 +99,11 @@ export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => { ... }
 
 Added in v1.0.0
 
-## getProductSetoid
+## ~~getProductSetoid~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L74-L76)
+Use [getTupleSetoid](#gettuplesetoid) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L96-L98)
 
 ```ts
 export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => { ... }
@@ -109,9 +111,11 @@ export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A,
 
 Added in v1.0.0
 
-## getRecordSetoid
+## ~~getRecordSetoid~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L59-L70)
+Use [getStructSetoid](#getstructsetoid) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L78-L82)
 
 ```ts
 export const getRecordSetoid = <O extends { [key: string]: any }>(
@@ -120,6 +124,28 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
 ```
 
 Added in v1.0.0
+
+## getStructSetoid
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L60-L71)
+
+```ts
+export const getStructSetoid = <O extends { [key: string]: any }>(
+  setoids: { [K in keyof O]: Setoid<O[K]> }
+): Setoid<O> => { ... }
+```
+
+Added in v1.14.2
+
+## getTupleSetoid
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L87-L89)
+
+```ts
+export const getTupleSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => { ... }
+```
+
+Added in v1.14.2
 
 ## strictEqual
 

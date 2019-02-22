@@ -14,6 +14,12 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.14.2
+
+- **Deprecation**
+  - deprecate `Setoid.getRecordSetoid` in favour of `Setoid.getStructSetoid` (@gcanti)
+  - deprecate `Setoid.getProductSetoid` in favour of `Setoid.getTupleSetoid` (@gcanti)
+
 # 1.14.1
 
 - **New Feature**
