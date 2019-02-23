@@ -240,7 +240,7 @@ Added in v1.0.0
 
 ## strmap
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L473-L504)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L474-L505)
 
 ```ts
 export const strmap: FunctorWithIndex1<URI, string> &
@@ -256,7 +256,7 @@ Added in v1.0.0
 
 ## collect
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L349-L351)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L350-L352)
 
 ```ts
 export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B> => { ... }
@@ -266,7 +266,7 @@ Added in v1.0.0
 
 ## elem
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L405-L407)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L406-L408)
 
 ```ts
 export function elem<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean  { ... }
@@ -279,7 +279,7 @@ Added in v1.14.0
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L337-L343)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L338-L344)
 
 ```ts
 export function fromFoldable<F>(
@@ -302,7 +302,7 @@ Added in v1.0.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L297-L300)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L298-L301)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => { ... }
@@ -314,7 +314,7 @@ Added in v1.0.0
 
 Insert or replace a key/value pair in a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L378-L381)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L379-L382)
 
 ```ts
 export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => { ... }
@@ -326,7 +326,7 @@ Added in v1.0.0
 
 Test whether a dictionary is empty
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L289-L291)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L290-L292)
 
 ```ts
 export const isEmpty = <A>(d: StrMap<A>): boolean => { ... }
@@ -338,7 +338,7 @@ Added in v1.0.0
 
 Test whether one dictionary contains all of the keys and values contained in another dictionary
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L270-L273)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L271-L274)
 
 ```ts
 export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => { ... }
@@ -350,7 +350,7 @@ Added in v1.0.0
 
 Lookup the value for a key in a dictionary
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L316-L318)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L317-L319)
 
 ```ts
 export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => { ... }
@@ -362,7 +362,7 @@ Added in v1.0.0
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L398-L400)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L399-L401)
 
 ```ts
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => { ... }
@@ -374,7 +374,7 @@ Added in v1.0.0
 
 Delete a key and value from a map
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L388-L391)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L389-L392)
 
 ```ts
 export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => { ... }
@@ -386,7 +386,7 @@ Added in v1.0.0
 
 Create a dictionary with one key/value pair
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L307-L309)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L308-L310)
 
 ```ts
 export const singleton = <A>(k: string, a: A): StrMap<A> => { ... }
@@ -398,7 +398,7 @@ Added in v1.0.0
 
 Calculate the number of key/value pairs in a dictionary
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L280-L282)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L281-L283)
 
 ```ts
 export const size = <A>(d: StrMap<A>): number => { ... }
@@ -408,7 +408,7 @@ Added in v1.0.0
 
 ## toArray
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L357-L359)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L358-L360)
 
 ```ts
 export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => { ... }
@@ -420,7 +420,7 @@ Added in v1.0.0
 
 Unfolds a dictionary into a list of key/value pairs
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L368-L371)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L369-L372)
 
 ```ts
 export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>)  { ... }
@@ -428,9 +428,11 @@ export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, 
 
 Added in v1.0.0
 
-## traverseWithKey
+## ~~traverseWithKey~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L248-L253)
+Use [strmap.traverseWithIndex](#strmap.traversewithindex)
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L249-L254)
 
 ```ts
 export function traverseWithKey<F>(

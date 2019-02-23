@@ -230,8 +230,9 @@ const foldrWithIndex = <A, B>(fa: StrMap<A>, b: B, f: (k: string, a: A, b: B) =>
 }
 
 /**
- *
+ * Use {@link strmap.traverseWithIndex}
  * @since 1.0.0
+ * @deprecated
  */
 export function traverseWithKey<F extends URIS3>(
   F: Applicative3<F>
@@ -446,6 +447,7 @@ const mapWithIndex = <A, B>(fa: StrMap<A>, f: (i: string, a: A) => B): StrMap<B>
   return fa.mapWithKey(f)
 }
 
+// tslint:disable-next-line: deprecation
 const traverseWithIndex = traverseWithKey
 
 const partitionMapWithIndex = <RL, RR, A>(
