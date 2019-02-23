@@ -7,9 +7,9 @@ title: Module ReaderT
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts)
 
-## ap
+## ~~ap~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L94-L98)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L244-L248)
 
 ```ts
 export function ap<F>(
@@ -19,9 +19,9 @@ export function ap<F>(
 
 Added in v1.0.0
 
-## ask
+## ~~ask~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L131-L133)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L262-L264)
 
 ```ts
 export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E>  { ... }
@@ -29,9 +29,9 @@ export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E>  { ... }
 
 Added in v1.0.0
 
-## asks
+## ~~asks~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L142-L144)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L278-L280)
 
 ```ts
 export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A>  { ... }
@@ -39,9 +39,11 @@ export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => 
 
 Added in v1.0.0
 
-## chain
+## ~~chain~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L118-L122)
+Use [getReaderT2v](#getreadert2v) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L168-L172)
 
 ```ts
 export function chain<F>(
@@ -53,7 +55,7 @@ Added in v1.0.0
 
 ## fromReader
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L155-L157)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L57-L59)
 
 ```ts
 export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A>  { ... }
@@ -61,9 +63,11 @@ export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e
 
 Added in v1.2.0
 
-## getReaderT
+## ~~getReaderT~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L166-L173)
+Use [getReaderT2v](#getreadert2v) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L192-L203)
 
 ```ts
 export function getReaderT<M>(M: Monad<M>): ReaderT<M>  { ... }
@@ -71,9 +75,21 @@ export function getReaderT<M>(M: Monad<M>): ReaderT<M>  { ... }
 
 Added in v1.0.0
 
-## map
+## getReaderT2v
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L61-L63)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L68-L75)
+
+```ts
+export function getReaderT2v<M>(M: Monad<M>): ReaderT2v<M>  { ... }
+```
+
+Added in v1.14.0
+
+## ~~map~~ (deprecated)
+
+Use [map2v](#map2v) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L140-L142)
 
 ```ts
 export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>  { ... }
@@ -81,9 +97,9 @@ export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => H
 
 Added in v1.0.0
 
-## of
+## ~~of~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L72-L74)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderT.ts#L217-L219)
 
 ```ts
 export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A>  { ... }

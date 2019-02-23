@@ -7,9 +7,9 @@ title: Module StateT
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts)
 
-## ap
+## ~~ap~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L117-L123)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L269-L273)
 
 ```ts
 export function ap<F>(
@@ -19,9 +19,9 @@ export function ap<F>(
 
 Added in v1.0.0
 
-## chain
+## ~~chain~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L146-L150)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L301-L305)
 
 ```ts
 export function chain<F>(
@@ -33,7 +33,7 @@ Added in v1.0.0
 
 ## fromState
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L213-L215)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L125-L127)
 
 ```ts
 export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]>  { ... }
@@ -41,9 +41,9 @@ export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: 
 
 Added in v1.2.0
 
-## get
+## ~~get~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L159-L161)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L366-L368)
 
 ```ts
 export function get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>  { ... }
@@ -51,9 +51,21 @@ export function get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]>  { 
 
 Added in v1.0.0
 
-## getStateT
+## get2v
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L237-L244)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L71-L73)
+
+```ts
+export function get2v<F>(F: Applicative<F>): <S>(s: S) => HKT<F, [S, S]>  { ... }
+```
+
+Added in v1.14.0
+
+## ~~getStateT~~ (deprecated)
+
+Use [getStateT2v](#getstatet2v) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L325-L336)
 
 ```ts
 export function getStateT<M>(M: Monad<M>): StateT<M>  { ... }
@@ -61,9 +73,19 @@ export function getStateT<M>(M: Monad<M>): StateT<M>  { ... }
 
 Added in v1.0.0
 
+## getStateT2v
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L149-L156)
+
+```ts
+export function getStateT2v<M>(M: Monad<M>): StateT2v<M>  { ... }
+```
+
+Added in v1.14.0
+
 ## gets
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L198-L200)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L110-L112)
 
 ```ts
 export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]>  { ... }
@@ -73,7 +95,7 @@ Added in v1.0.0
 
 ## liftF
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L226-L228)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L138-L140)
 
 ```ts
 export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]>  { ... }
@@ -81,9 +103,9 @@ export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<
 
 Added in v1.2.0
 
-## map
+## ~~map~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L79-L83)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L237-L241)
 
 ```ts
 export function map<F>(
@@ -95,7 +117,7 @@ Added in v1.0.0
 
 ## modify
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L185-L187)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L97-L99)
 
 ```ts
 export function modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]>  { ... }
@@ -103,9 +125,9 @@ export function modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) 
 
 Added in v1.0.0
 
-## of
+## ~~of~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L92-L94)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L350-L352)
 
 ```ts
 export function of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S]>  { ... }
@@ -115,7 +137,7 @@ Added in v1.0.0
 
 ## put
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L170-L172)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StateT.ts#L82-L84)
 
 ```ts
 export function put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]>  { ... }

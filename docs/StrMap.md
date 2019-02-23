@@ -240,7 +240,7 @@ Added in v1.0.0
 
 ## strmap
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L474-L505)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts#L475-L506)
 
 ```ts
 export const strmap: FunctorWithIndex1<URI, string> &

@@ -162,7 +162,7 @@ Added in v1.6.0
 
 ## readerTaskEither
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L246-L256)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L244-L254)
 
 ```ts
 export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI> = ...
@@ -174,7 +174,7 @@ Added in v1.6.0
 
 Like [readerTaskEither](#readertaskeither) but `ap` is sequential
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L262-L265)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L260-L263)
 
 ```ts
 export const readerTaskEitherSeq: typeof readerTaskEither = ...
@@ -184,7 +184,7 @@ Added in v1.10.0
 
 ## ask
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L134-L136)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L133-L135)
 
 ```ts
 export const ask = <E, L>(): ReaderTaskEither<E, L, E> => { ... }
@@ -194,7 +194,7 @@ Added in v1.6.0
 
 ## asks
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L142-L144)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L140-L142)
 
 ```ts
 export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => { ... }
@@ -204,7 +204,7 @@ Added in v1.6.0
 
 ## fromEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L187-L189)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L185-L187)
 
 ```ts
 export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A> => { ... }
@@ -214,7 +214,7 @@ Added in v1.6.0
 
 ## fromIO
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L194-L196)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L192-L194)
 
 ```ts
 export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => { ... }
@@ -224,7 +224,7 @@ Added in v1.6.0
 
 ## fromIOEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L208-L210)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L206-L208)
 
 ```ts
 export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L, A> => { ... }
@@ -234,7 +234,7 @@ Added in v1.6.0
 
 ## fromLeft
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L201-L203)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L199-L201)
 
 ```ts
 export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => { ... }
@@ -244,7 +244,7 @@ Added in v1.6.0
 
 ## fromPredicate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L223-L229)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L221-L227)
 
 ```ts
 export function fromPredicate<E, L, A>(
@@ -257,7 +257,7 @@ Added in v1.6.0
 
 ## fromReader
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L180-L182)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L178-L180)
 
 ```ts
 export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A> => { ... }
@@ -267,7 +267,7 @@ Added in v1.6.0
 
 ## fromTaskEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L172-L174)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L170-L172)
 
 ```ts
 export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<E, L, A> => { ... }
@@ -277,7 +277,7 @@ Added in v1.6.0
 
 ## left
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L165-L167)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L163-L165)
 
 ```ts
 export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => { ... }
@@ -287,7 +287,7 @@ Added in v1.6.0
 
 ## local
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L149-L153)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L147-L151)
 
 ```ts
 export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
@@ -299,7 +299,7 @@ Added in v1.6.0
 
 ## right
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L158-L160)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L156-L158)
 
 ```ts
 export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => { ... }
@@ -309,7 +309,7 @@ Added in v1.6.0
 
 ## tryCatch
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L234-L239)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/ReaderTaskEither.ts#L232-L237)
 
 ```ts
 export const tryCatch = <E, L, A>(
