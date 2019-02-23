@@ -154,13 +154,22 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 1.14.3
  */
-export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
+export const getTupleOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
   return fromCompare(([xa, xb], [ya, yb]) => {
     const r = OA.compare(xa, ya)
     return r === 0 ? OB.compare(xb, yb) : r
   })
+}
+
+/**
+ * Use {@link getTupleOrd} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
+  return getTupleOrd(OA, OB)
 }
 
 /**

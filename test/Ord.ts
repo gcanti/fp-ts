@@ -29,6 +29,7 @@ describe('Ord', () => {
   })
 
   it('getProductOrd', () => {
+    // tslint:disable-next-line: deprecation
     const O = getProductOrd(ordString, ordNumber)
     assert.strictEqual(O.compare(['a', 1], ['b', 2]), -1)
     assert.strictEqual(O.compare(['a', 1], ['a', 2]), -1)

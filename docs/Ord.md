@@ -39,7 +39,7 @@ Added in v1.0.0
 
 ## ordDate
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L176-L176)
+**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L185-L185)
 
 ```ts
 export const ordDate: Ord<Date> = ...
@@ -113,7 +113,7 @@ Added in v1.0.0
 
 ## getDualOrd
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L169-L171)
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L178-L180)
 
 ```ts
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => { ... }
@@ -121,9 +121,11 @@ export const getDualOrd = <A>(O: Ord<A>): Ord<A> => { ... }
 
 Added in v1.3.0
 
-## getProductOrd
+## ~~getProductOrd~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L159-L164)
+Use [getTupleOrd](#gettupleord) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L171-L173)
 
 ```ts
 export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => { ... }
@@ -140,6 +142,16 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => { ... }
 ```
 
 Added in v1.0.0
+
+## getTupleOrd
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L159-L164)
+
+```ts
+export const getTupleOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => { ... }
+```
+
+Added in v1.14.3
 
 ## greaterThan
 

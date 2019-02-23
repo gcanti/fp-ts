@@ -35,15 +35,27 @@ export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => { ...
 
 Added in v1.0.0
 
-## getProductRing
+## ~~getProductRing~~ (deprecated)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L40-L48)
+Use [getTupleRing](#gettuplering) instead
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L55-L57)
 
 ```ts
 export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => { ... }
 ```
 
 Added in v1.0.0
+
+## getTupleRing
+
+**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L40-L48)
+
+```ts
+export const getTupleRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => { ... }
+```
+
+Added in v1.14.3
 
 ## negate
 

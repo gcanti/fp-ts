@@ -4,6 +4,7 @@ import { getProductRing, negate, getFunctionRing } from '../src/Ring'
 
 describe('Ring', () => {
   it('getProductRing', () => {
+    // tslint:disable-next-line: deprecation
     const R = getProductRing(fieldNumber, fieldNumber)
     assert.deepStrictEqual(R.add([1, 2], [3, 4]), [4, 6])
     assert.deepStrictEqual(R.mul([1, 2], [3, 4]), [3, 8])

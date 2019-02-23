@@ -35,9 +35,9 @@ export const negate = <A>(ring: Ring<A>) => (a: A): A => {
 }
 
 /**
- * @since 1.0.0
+ * @since 1.14.3
  */
-export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => {
+export const getTupleRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => {
   return {
     add: ([a1, b1], [a2, b2]) => [RA.add(a1, a2), RB.add(b1, b2)],
     zero: [RA.zero, RB.zero],
@@ -45,4 +45,13 @@ export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => 
     one: [RA.one, RB.one],
     sub: ([a1, b1], [a2, b2]) => [RA.sub(a1, a2), RB.sub(b1, b2)]
   }
+}
+
+/**
+ * Use {@link getTupleRing} instead
+ * @since 1.0.0
+ * @deprecated
+ */
+export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => {
+  return getTupleRing(RA, RB)
 }
