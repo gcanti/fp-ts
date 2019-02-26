@@ -20,31 +20,101 @@ Functional programming in TypeScript
   </a>
 </p>
 
-Inspired by [PureScript](http://www.purescript.org), [static-land](https://github.com/rpominov/static-land), Scala.
+# What is fp-ts?
+
+`fp-ts` is a library for **typed functional programming** in TypeScript.
+
+`fp-ts` aims to allow developers to use **popular patterns and abstractions** that are available in most functional languages. For this, it includes the most popular data types, type classes and abstractions such as `Option`, `Either`, `IO`, `Task`, `Functor`, `Applicative`, `Monad` to empower users to write pure FP apps and libraries built atop higher order abstractions.
+
+A distinctive feature of `fp-ts` with respect to other functional libraries is its implementation of [Higher Kinded Types](<https://en.wikipedia.org/wiki/Kind_(type_theory)>) (TypeScript doesn't support HKT natively).
 
 The idea (faking higher kinded types in TypeScript) is based on [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf)
 
-# Installation
+**Inspired by**
+
+- [Haskell](https://haskell-lang.org)
+- [PureScript](http://www.purescript.org)
+- [Scala](https://www.scala-lang.org/)
+
+# Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Installation and TypeScript compatibility](#installation-and-typescript-compatibility)
+- [Getting started](#getting-started)
+- [Documentation](#documentation)
+  - [Blog posts](#blog-posts)
+  - [Tutorials](#tutorials)
+- [Ecosystem](#ecosystem)
+  - [Libraries](#libraries)
+  - [Bindings](#bindings)
+- [Type Classes Diagram](#type-classes-diagram)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Installation and TypeScript compatibility
 
 To install the stable version:
 
 ```
-npm install --save fp-ts
+npm install fp-ts
 ```
 
-# TypeScript compatibility
-
-The stable version is tested against TypeScript 3.2.4, but should run with TypeScript 2.8.0+ too
+The stable version is tested against **TypeScript 3.3.3**, but should run with TypeScript 2.8.0+ too
 
 **Note**. This library is conceived, tested and is supposed to be consumed by TypeScript with the `strict` flag turned on.
 
-**Note**. If you are running `< typescript@3.0.1` you have to polyfill `unknown`.
-
-You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
+**Note**. If you are running `< typescript@3.0.1` you have to polyfill the `unknown` type. You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
 
 **Note**. Make sure to always have a single version of `fp-ts` installed in your project. Multiple versions are known to cause `tsc` to hang during compilation. You can check the versions currently installed using `npm ls fp-ts` (make sure there's a single version and all the others are marked as `deduped`).
 
+# Getting started
+
+If you are coming from JavaScript:
+
+- read [Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide) by [@DrBoolean](https://github.com/DrBoolean)
+- read this [blog series](http://www.tomharding.me/2017/03/03/fantas-eel-and-specification) on functional programming in JavaScript by Tom Harding, and then check out [the code](fantas-eel-and-specification) translated to TypeScript (there's a file for each blog post)
+
+If you are using `ramda`
+
+- [Comparison with ramda](ramda.md)
+
+If you are coming from TypeScript:
+
+- [How to write type class instances for your data structures](HKT.md)
+
+If you are coming from Haskell or Purescript:
+
+- [Comparison with PureScript](fp-ts-for-purescripters.md)
+
+# Documentation
+
+- [API Reference](docs/index.md)
+
+## Blog posts
+
+- [Interoperability with non functional code using fp-ts](https://dev.to/gcanti/interoperability-with-non-functional-code-using-fp-ts-432e)
+- [Functional design: combinators](https://dev.to/gcanti/functional-design-combinators-14pn)
+- [Functional design: how to make the `time` combinator more general](https://dev.to/gcanti/functional-design-how-to-make-the-time-combinator-more-general-3fge)
+- [Functional design: tagless final](https://dev.to/gcanti/functional-design-tagless-final-332k)
+
+## Tutorials
+
+**Beginner**
+
+- [Debugging using the `Trace` module (code)](tutorials/debugging-with-Trace.ts)
+
+**Advanced**
+
+- [Free monad and `fp-ts` (code)](tutorials/Free.ts)
+- [MTL-style in `fp-ts` (code)](examples/mtl.ts)
+- [Type safe finite state machines with `IxIO` (code)](examples/ixIO.ts)
+
 # Ecosystem
+
+## Libraries
 
 - [fp-ts-codegen](https://github.com/gcanti/fp-ts-codegen) - TypeScript code generation from a haskell-like syntax for ADT
 - [io-ts](https://github.com/gcanti/io-ts) - TypeScript compatible runtime type system for IO validation
@@ -65,45 +135,13 @@ You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
 - [fp-ts-fluture](https://github.com/gcanti/fp-ts-fluture) - fp-ts bindings for Fluture
 - [fp-ts-most](https://github.com/joshburgess/fp-ts-most) - fp-ts bindings for @most/core
 
-# Documentation
-
-- [API Reference](docs/index.md)
-- [`fp-ts` for `PureScript`ers / `Haskell`ers](fp-ts-for-purescripters.md)
-- [Comparison with ramda](ramda.md)
-
-## Internals
-
-- [How `URI2HKT`, `URIS` and `Type` work](HKT.md)
-
-## Examples
-
-- [Free monad](examples/Free.ts)
-- [MTL-style](examples/mtl.ts)
-- OptionT monad transformer
-  - [ArrayOption](examples/ArrayOption.ts)
-  - [TaskOption](examples/TaskOption.ts)
-- EitherT monad transformer
-  - [EitherOption](examples/EitherOption.ts)
-- StateT monad transformer
-  - [StateIO](examples/StateIO.ts)
-  - [StateTaskEither](examples/StateTaskEither.ts)
-- [Reader monad](examples/Reader.ts)
-- ReaderT monad transformer
-  - [ReaderIO](examples/ReaderIO.ts)
-- Applicative composition
-  - [TaskValidation](examples/TaskValidation.ts)
-- [Type safe finite state machines with `IxIO`](examples/ixIO.ts)
-- [Moore machines](examples/Moore.ts)
-- [Debugging with `Trace`](examples/debugging-with-Trace.ts)
-- [fantas-eel-and-specification](fantas-eel-and-specification) - Code for the
-  [Fantas, Eel, and Specification](http://www.tomharding.me/2017/03/03/fantas-eel-and-specification/) blog series on
-  functional programming by Tom Harding
-
-## Type Classes
+# Type Classes Diagram
 
 <a href="type-classes.svg">
   <img src="type-classes.svg">
 </a>
+
+(click on the diagram to enlarge)
 
 # License
 

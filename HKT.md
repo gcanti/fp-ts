@@ -1,4 +1,4 @@
-# How `URI2HKT`, `URIS` and `Type` work
+# How to write type class instances for your data structure
 
 Let's start from a simple data structure: `Identity`
 
