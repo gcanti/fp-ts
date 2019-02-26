@@ -1,5 +1,5 @@
 <h3 align="center">
-  <a href="docs/index.md">
+  <a href="https://gcanti.github.io/fp-ts/">
     <img src="fp-ts-logo.png">
   </a>
 </h3>
@@ -79,19 +79,19 @@ If you are coming from JavaScript:
 
 If you are using `ramda`
 
-- [Comparison with ramda](ramda.md)
+- [Comparison with ramda](https://github.com/gcanti/fp-ts/blob/master/ramda.md)
 
 If you are coming from TypeScript:
 
-- [How to write type class instances for your data structures](HKT.md)
+- [How to write type class instances for your data structures](https://github.com/gcanti/fp-ts/blob/master/HKT.md)
 
 If you are coming from Haskell or Purescript:
 
-- [Comparison with PureScript](fp-ts-for-purescripters.md)
+- [Comparison with PureScript](https://github.com/gcanti/fp-ts/blob/master/fp-ts-for-purescripters.md)
 
 # Documentation
 
-- [API Reference](docs/index.md)
+- [API Reference](https://github.com/gcanti/fp-ts/docs/index.md)
 
 ## Blog posts
 
@@ -104,13 +104,13 @@ If you are coming from Haskell or Purescript:
 
 **Beginner**
 
-- [Debugging using the `Trace` module (code)](tutorials/debugging-with-Trace.ts)
+- [Debugging using the `Trace` module (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/debugging-with-Trace.ts)
 
 **Advanced**
 
-- [Free monad and `fp-ts` (code)](tutorials/Free.ts)
-- [MTL-style in `fp-ts` (code)](examples/mtl.ts)
-- [Type safe finite state machines with `IxIO` (code)](examples/ixIO.ts)
+- [Free monad and `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/Free.ts)
+- [MTL-style in `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/mtl.ts)
+- [Type safe finite state machines with `IxIO` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/ixIO.ts)
 
 # Ecosystem
 
@@ -137,8 +137,8 @@ If you are coming from Haskell or Purescript:
 
 # Type Classes Diagram
 
-<a href="type-classes.svg">
-  <img src="type-classes.svg">
+<a href="https://github.com/gcanti/fp-ts/blob/master/type-classes.svg">
+  <img src="https://github.com/gcanti/fp-ts/blob/master/type-classes.svg">
 </a>
 
 (click on the diagram to enlarge)

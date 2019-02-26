@@ -18,7 +18,7 @@
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
     "doctoc": "doctoc README.md",
-    "docs": "rimraf docs/*.md docs-examples/*.ts && ts-node docs-generator/docs.ts && ts-node docs-examples/index.ts",
+    "docs": "rimraf docs/*.md!docs/index.md docs-examples/*.ts && ts-node docs-generator/docs.ts && ts-node docs-examples/index.ts",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "dtslint": "dtslint dtslint"
   },
