@@ -1,9 +1,7 @@
 ---
 id: Category
-title: Module Category
+title: Category
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Category.ts)
 

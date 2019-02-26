@@ -1,9 +1,7 @@
 ---
 id: Alt
-title: Module Alt
+title: Alt
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Alt.ts)
 

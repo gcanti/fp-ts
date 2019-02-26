@@ -1,9 +1,7 @@
 ---
 id: BoundedMeetSemilattice
-title: Module BoundedMeetSemilattice
+title: BoundedMeetSemilattice
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedMeetSemilattice.ts)
 

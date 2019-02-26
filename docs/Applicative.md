@@ -1,9 +1,7 @@
 ---
 id: Applicative
-title: Module Applicative
+title: Applicative
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Applicative.ts)
 

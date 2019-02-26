@@ -1,9 +1,7 @@
 ---
 id: Group
-title: Module Group
+title: Group
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Group.ts)
 

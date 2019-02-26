@@ -1,9 +1,7 @@
 ---
 id: Chain
-title: Module Chain
+title: Chain
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Chain.ts)
 

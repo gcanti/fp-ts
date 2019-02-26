@@ -1,9 +1,7 @@
 ---
 id: Console
-title: Module Console
+title: Console
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Console.ts)
 

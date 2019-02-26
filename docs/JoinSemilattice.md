@@ -1,9 +1,7 @@
 ---
 id: JoinSemilattice
-title: Module JoinSemilattice
+title: JoinSemilattice
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/JoinSemilattice.ts)
 

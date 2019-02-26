@@ -1,9 +1,7 @@
 ---
 id: Filterable
-title: Module Filterable
+title: Filterable
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Filterable.ts)
 

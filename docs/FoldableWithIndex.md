@@ -1,9 +1,7 @@
 ---
 id: FoldableWithIndex
-title: Module FoldableWithIndex
+title: FoldableWithIndex
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/FoldableWithIndex.ts)
 

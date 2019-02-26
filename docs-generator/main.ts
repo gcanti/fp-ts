@@ -120,7 +120,7 @@ const processModule = (name: string): TaskEither<string, Module> => {
     )
 }
 
-const processIndex: IO<void> = write(indexOutputPath, printIndex(modules))
+export const processIndex: IO<void> = write(indexOutputPath, printIndex(modules))
 
 export const main = () =>
   log('- DOCUMENTATION -')
@@ -128,5 +128,5 @@ export const main = () =>
     .chain(_ => fromIO<string, void>(mkdir(path.join(__dirname, `../docs-examples`))))
     .chain(_ => array.sequence(taskEither)(modules.map(processModule)))
     .chain(modules => fromIO(writeExamplesIndex(modules)))
-    .chain(_ => fromIO(processIndex))
+    // .chain(_ => fromIO(processIndex))
     .foldTask(error => taskFromIO(failWith(error)), () => taskFromIO(C.log('generation ok')))

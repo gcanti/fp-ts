@@ -1,9 +1,7 @@
 ---
 id: Semiring
-title: Module Semiring
+title: Semiring
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semiring.ts)
 

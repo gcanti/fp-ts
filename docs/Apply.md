@@ -1,9 +1,7 @@
 ---
 id: Apply
-title: Module Apply
+title: Apply
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts)
 

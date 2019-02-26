@@ -1,9 +1,7 @@
 ---
 id: Task
-title: Module Task
+title: Task
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Task.ts)
 

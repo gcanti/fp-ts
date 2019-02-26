@@ -1,9 +1,7 @@
 ---
 id: Zipper
-title: Module Zipper
+title: Zipper
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts)
 

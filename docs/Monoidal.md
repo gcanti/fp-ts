@@ -1,9 +1,7 @@
 ---
 id: Monoidal
-title: Module Monoidal
+title: Monoidal
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts)
 

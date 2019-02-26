@@ -1,9 +1,7 @@
 ---
 id: MeetSemilattice
-title: Module MeetSemilattice
+title: MeetSemilattice
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/MeetSemilattice.ts)
 

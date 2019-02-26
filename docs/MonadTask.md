@@ -1,9 +1,7 @@
 ---
 id: MonadTask
-title: Module MonadTask
+title: MonadTask
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/MonadTask.ts)
 

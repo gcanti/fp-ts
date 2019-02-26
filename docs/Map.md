@@ -1,9 +1,7 @@
 ---
 id: Map
-title: Module Map
+title: Map
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Map.ts)
 

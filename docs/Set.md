@@ -1,9 +1,7 @@
 ---
 id: Set
-title: Module Set
+title: Set
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts)
 

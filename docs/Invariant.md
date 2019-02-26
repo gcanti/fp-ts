@@ -1,9 +1,7 @@
 ---
 id: Invariant
-title: Module Invariant
+title: Invariant
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Invariant.ts)
 

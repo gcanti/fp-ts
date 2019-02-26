@@ -1,9 +1,7 @@
 ---
 id: Semigroupoid
-title: Module Semigroupoid
+title: Semigroupoid
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroupoid.ts)
 

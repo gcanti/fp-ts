@@ -1,9 +1,7 @@
 ---
 id: These
-title: Module These
+title: These
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/These.ts)
 

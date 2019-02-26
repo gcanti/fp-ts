@@ -1,9 +1,7 @@
 ---
 id: FilterableWithIndex
-title: Module FilterableWithIndex
+title: FilterableWithIndex
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/FilterableWithIndex.ts)
 

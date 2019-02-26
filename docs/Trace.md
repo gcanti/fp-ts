@@ -1,9 +1,7 @@
 ---
 id: Trace
-title: Module Trace
+title: Trace
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Trace.ts)
 

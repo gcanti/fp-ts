@@ -1,9 +1,7 @@
 ---
 id: StrMap
-title: Module StrMap
+title: StrMap
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/StrMap.ts)
 

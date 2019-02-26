@@ -1,9 +1,7 @@
 ---
 id: BooleanAlgebra
-title: Module BooleanAlgebra
+title: BooleanAlgebra
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BooleanAlgebra.ts)
 

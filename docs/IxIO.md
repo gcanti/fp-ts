@@ -1,9 +1,7 @@
 ---
 id: IxIO
-title: Module IxIO
+title: IxIO
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxIO.ts)
 

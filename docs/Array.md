@@ -1,9 +1,7 @@
 ---
 id: Array
-title: Module Array
+title: Array
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Array.ts)
 

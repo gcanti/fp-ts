@@ -1,9 +1,7 @@
 ---
 id: Unfoldable
-title: Module Unfoldable
+title: Unfoldable
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Unfoldable.ts)
 

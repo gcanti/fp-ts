@@ -1,9 +1,7 @@
 ---
 id: IORef
-title: Module IORef
+title: IORef
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IORef.ts)
 

@@ -1,9 +1,7 @@
 ---
 id: Strong
-title: Module Strong
+title: Strong
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Strong.ts)
 

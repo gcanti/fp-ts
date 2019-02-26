@@ -187,8 +187,7 @@ const prettierOptions: prettier.Options = {
 const formatMarkdown = (markdown: string): string => prettier.format(markdown, prettierOptions)
 
 export const printModule = (module: Module): string => {
-  let s = header(module.name, 'Module ' + module.name)
-  s += link('← Index', `.`) + '\n\n'
+  let s = header(module.name, module.name)
   s += link('Source', module.path)
   const interfaces = module.exports.filter(isInterface)
   const typeclasses = module.exports.filter(isTypeclass)

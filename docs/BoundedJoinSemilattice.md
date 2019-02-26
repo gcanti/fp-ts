@@ -1,9 +1,7 @@
 ---
 id: BoundedJoinSemilattice
-title: Module BoundedJoinSemilattice
+title: BoundedJoinSemilattice
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedJoinSemilattice.ts)
 

@@ -1,9 +1,7 @@
 ---
 id: FreeGroup
-title: Module FreeGroup
+title: FreeGroup
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/FreeGroup.ts)
 

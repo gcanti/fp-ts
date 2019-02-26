@@ -1,9 +1,7 @@
 ---
 id: Tree
-title: Module Tree
+title: Tree
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts)
 

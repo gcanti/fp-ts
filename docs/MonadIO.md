@@ -1,9 +1,7 @@
 ---
 id: MonadIO
-title: Module MonadIO
+title: MonadIO
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/MonadIO.ts)
 

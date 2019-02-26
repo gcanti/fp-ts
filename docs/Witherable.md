@@ -1,9 +1,7 @@
 ---
 id: Witherable
-title: Module Witherable
+title: Witherable
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Witherable.ts)
 

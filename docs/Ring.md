@@ -1,9 +1,7 @@
 ---
 id: Ring
-title: Module Ring
+title: Ring
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts)
 

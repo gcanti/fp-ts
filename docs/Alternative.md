@@ -1,9 +1,7 @@
 ---
 id: Alternative
-title: Module Alternative
+title: Alternative
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Alternative.ts)
 

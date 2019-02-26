@@ -1,9 +1,7 @@
 ---
 id: Free
-title: Module Free
+title: Free
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Free.ts)
 

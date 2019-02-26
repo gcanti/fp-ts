@@ -1,9 +1,7 @@
 ---
 id: Ordering
-title: Module Ordering
+title: Ordering
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ordering.ts)
 

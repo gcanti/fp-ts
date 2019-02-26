@@ -1,9 +1,7 @@
 ---
 id: ChainRec
-title: Module ChainRec
+title: ChainRec
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/ChainRec.ts)
 

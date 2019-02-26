@@ -1,9 +1,7 @@
 ---
 id: FunctorWithIndex
-title: Module FunctorWithIndex
+title: FunctorWithIndex
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/FunctorWithIndex.ts)
 

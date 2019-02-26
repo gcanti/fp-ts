@@ -1,9 +1,7 @@
 ---
 id: Writer
-title: Module Writer
+title: Writer
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Writer.ts)
 

@@ -1,9 +1,7 @@
 ---
 id: TraversableWithIndex
-title: Module TraversableWithIndex
+title: TraversableWithIndex
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/TraversableWithIndex.ts)
 

@@ -1,9 +1,7 @@
 ---
 id: Store
-title: Module Store
+title: Store
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts)
 

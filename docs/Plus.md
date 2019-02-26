@@ -1,9 +1,7 @@
 ---
 id: Plus
-title: Module Plus
+title: Plus
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Plus.ts)
 

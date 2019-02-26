@@ -1,9 +1,7 @@
 ---
 id: Either
-title: Module Either
+title: Either
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Either.ts)
 

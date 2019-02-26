@@ -1,9 +1,7 @@
 ---
 id: Bifunctor
-title: Module Bifunctor
+title: Bifunctor
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Bifunctor.ts)
 

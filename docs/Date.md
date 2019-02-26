@@ -1,9 +1,7 @@
 ---
 id: Date
-title: Module Date
+title: Date
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Date.ts)
 

@@ -1,9 +1,7 @@
 ---
 id: Field
-title: Module Field
+title: Field
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Field.ts)
 

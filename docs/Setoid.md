@@ -1,9 +1,7 @@
 ---
 id: Setoid
-title: Module Setoid
+title: Setoid
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts)
 

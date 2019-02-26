@@ -1,9 +1,7 @@
 ---
 id: State
-title: Module State
+title: State
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/State.ts)
 

@@ -1,9 +1,7 @@
 ---
 id: Const
-title: Module Const
+title: Const
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Const.ts)
 

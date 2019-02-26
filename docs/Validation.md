@@ -1,9 +1,7 @@
 ---
 id: Validation
-title: Module Validation
+title: Validation
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Validation.ts)
 

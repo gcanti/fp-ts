@@ -1,9 +1,7 @@
 ---
 id: IxMonad
-title: Module IxMonad
+title: IxMonad
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IxMonad.ts)
 

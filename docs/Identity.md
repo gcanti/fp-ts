@@ -1,9 +1,7 @@
 ---
 id: Identity
-title: Module Identity
+title: Identity
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts)
 

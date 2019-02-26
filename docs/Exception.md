@@ -1,9 +1,7 @@
 ---
 id: Exception
-title: Module Exception
+title: Exception
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Exception.ts)
 

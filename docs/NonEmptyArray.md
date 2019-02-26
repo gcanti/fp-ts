@@ -1,9 +1,7 @@
 ---
 id: NonEmptyArray
-title: Module NonEmptyArray
+title: NonEmptyArray
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/NonEmptyArray.ts)
 

@@ -1,9 +1,7 @@
 ---
 id: EitherT
-title: Module EitherT
+title: EitherT
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts)
 

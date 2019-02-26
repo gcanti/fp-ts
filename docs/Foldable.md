@@ -1,9 +1,7 @@
 ---
 id: Foldable
-title: Module Foldable
+title: Foldable
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Foldable.ts)
 

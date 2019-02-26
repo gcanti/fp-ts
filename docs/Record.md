@@ -1,9 +1,7 @@
 ---
 id: Record
-title: Module Record
+title: Record
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Record.ts)
 

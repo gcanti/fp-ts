@@ -1,9 +1,7 @@
 ---
 id: Choice
-title: Module Choice
+title: Choice
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Choice.ts)
 

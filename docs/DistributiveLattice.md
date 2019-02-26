@@ -1,9 +1,7 @@
 ---
 id: DistributiveLattice
-title: Module DistributiveLattice
+title: DistributiveLattice
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/DistributiveLattice.ts)
 

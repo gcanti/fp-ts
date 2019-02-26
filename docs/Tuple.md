@@ -1,9 +1,7 @@
 ---
 id: Tuple
-title: Module Tuple
+title: Tuple
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tuple.ts)
 

@@ -1,9 +1,7 @@
 ---
 id: Ord
-title: Module Ord
+title: Ord
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts)
 

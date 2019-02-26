@@ -1,9 +1,7 @@
 ---
 id: Extend
-title: Module Extend
+title: Extend
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Extend.ts)
 

@@ -1,9 +1,7 @@
 ---
 id: BoundedLattice
-title: Module BoundedLattice
+title: BoundedLattice
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedLattice.ts)
 

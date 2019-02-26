@@ -1,9 +1,7 @@
 ---
 id: Comonad
-title: Module Comonad
+title: Comonad
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Comonad.ts)
 

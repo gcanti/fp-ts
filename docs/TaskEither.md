@@ -1,9 +1,7 @@
 ---
 id: TaskEither
-title: Module TaskEither
+title: TaskEither
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts)
 

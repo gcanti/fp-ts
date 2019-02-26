@@ -1,9 +1,7 @@
 ---
 id: Pair
-title: Module Pair
+title: Pair
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Pair.ts)
 

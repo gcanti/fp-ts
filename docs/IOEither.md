@@ -1,9 +1,7 @@
 ---
 id: IOEither
-title: Module IOEither
+title: IOEither
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IOEither.ts)
 

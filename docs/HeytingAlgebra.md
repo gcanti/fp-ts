@@ -1,9 +1,7 @@
 ---
 id: HeytingAlgebra
-title: Module HeytingAlgebra
+title: HeytingAlgebra
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/HeytingAlgebra.ts)
 

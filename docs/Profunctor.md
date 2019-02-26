@@ -1,9 +1,7 @@
 ---
 id: Profunctor
-title: Module Profunctor
+title: Profunctor
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Profunctor.ts)
 

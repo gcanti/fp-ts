@@ -1,9 +1,7 @@
 ---
 id: Reader
-title: Module Reader
+title: Reader
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts)
 

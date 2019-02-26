@@ -1,9 +1,7 @@
 ---
 id: Semigroup
-title: Module Semigroup
+title: Semigroup
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Semigroup.ts)
 

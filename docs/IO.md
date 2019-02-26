@@ -1,9 +1,7 @@
 ---
 id: IO
-title: Module IO
+title: IO
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts)
 

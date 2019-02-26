@@ -1,9 +1,7 @@
 ---
 id: Bounded
-title: Module Bounded
+title: Bounded
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Bounded.ts)
 

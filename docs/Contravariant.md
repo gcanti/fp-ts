@@ -1,9 +1,7 @@
 ---
 id: Contravariant
-title: Module Contravariant
+title: Contravariant
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Contravariant.ts)
 

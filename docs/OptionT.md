@@ -1,9 +1,7 @@
 ---
 id: OptionT
-title: Module OptionT
+title: OptionT
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/OptionT.ts)
 

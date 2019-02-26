@@ -1,9 +1,7 @@
 ---
 id: Random
-title: Module Random
+title: Random
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Random.ts)
 

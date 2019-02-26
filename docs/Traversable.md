@@ -1,9 +1,7 @@
 ---
 id: Traversable
-title: Module Traversable
+title: Traversable
 ---
-
-[← Index](.)
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts)
 
