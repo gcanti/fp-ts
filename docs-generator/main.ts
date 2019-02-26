@@ -11,7 +11,7 @@ import { fromIO as taskFromIO } from '../src/Task'
 import { fromIO, fromIOEither, taskEither, TaskEither } from '../src/TaskEither'
 import { Export, Module } from './domain'
 import { indexOutputPath, mkdir, readModule, write, writeModule } from './fs'
-import { modules, printIndex, printModule } from './markdown'
+import { modules, printModule } from './markdown'
 import { Env, ParseError, parseModule } from './parser'
 
 const fail = new IO(() => {
@@ -120,7 +120,26 @@ const processModule = (name: string): TaskEither<string, Module> => {
     )
 }
 
-export const processIndex: IO<void> = write(indexOutputPath, printIndex(modules))
+// const processIndex: IO<void> = write(indexOutputPath, printIndex(modules))
+const processIndex: IO<void> = write(
+  indexOutputPath,
+  `# What is fp-ts?
+
+\`fp-ts\` is a library for **typed functional programming** in TypeScript.
+
+\`fp-ts\` aims to allow developers to use **popular patterns and abstractions** that are available in most functional languages. For this, it includes the most popular data types, type classes and abstractions such as \`Option\`, \`Either\`, \`IO\`, \`Task\`, \`Functor\`, \`Applicative\`, \`Monad\` to empower users to write pure FP apps and libraries built atop higher order abstractions.
+
+A distinctive feature of \`fp-ts\` with respect to other functional libraries is its implementation of [Higher Kinded Types](<https://en.wikipedia.org/wiki/Kind_(type_theory)>) (TypeScript doesn't support HKT natively).
+
+The idea (faking higher kinded types in TypeScript) is based on [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf)
+
+**Inspired by**
+
+- [Haskell](https://haskell-lang.org)
+- [PureScript](http://www.purescript.org)
+- [Scala](https://www.scala-lang.org/)
+`
+)
 
 export const main = () =>
   log('- DOCUMENTATION -')
@@ -128,5 +147,5 @@ export const main = () =>
     .chain(_ => fromIO<string, void>(mkdir(path.join(__dirname, `../docs-examples`))))
     .chain(_ => array.sequence(taskEither)(modules.map(processModule)))
     .chain(modules => fromIO(writeExamplesIndex(modules)))
-    // .chain(_ => fromIO(processIndex))
+    .chain(_ => fromIO(processIndex))
     .foldTask(error => taskFromIO(failWith(error)), () => taskFromIO(C.log('generation ok')))
