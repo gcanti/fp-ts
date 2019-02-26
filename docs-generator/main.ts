@@ -123,7 +123,12 @@ const processModule = (name: string): TaskEither<string, Module> => {
 // const processIndex: IO<void> = write(indexOutputPath, printIndex(modules))
 const processIndex: IO<void> = write(
   indexOutputPath,
-  `# What is fp-ts?
+  `---
+id: index
+title: index
+---
+
+# What is fp-ts?
 
 \`fp-ts\` is a library for **typed functional programming** in TypeScript.
 
