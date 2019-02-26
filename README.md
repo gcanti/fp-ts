@@ -91,7 +91,7 @@ If you are coming from Haskell or Purescript:
 
 # Documentation
 
-- [API Reference](https://github.com/gcanti/fp-ts/docs/index.md)
+- [API Reference](https://gcanti.github.io/fp-ts)
 
 ## Blog posts
 
