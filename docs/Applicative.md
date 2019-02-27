@@ -27,7 +27,7 @@ Instances must satisfy the following laws in addition to the [Apply](./Apply.md)
 
 1. Identity: `A.ap(A.of(a => a), fa) = fa`
 2. Homomorphism: `A.ap(A.of(ab), A.of(a)) = A.of(ab(a))`
-3. Interchange: A.ap(fab, A.of(a)) = A.ap(A.of(ab => ab(a)), fab)
+3. Interchange: `A.ap(fab, A.of(a)) = A.ap(A.of(ab => ab(a)), fab)`
 
 Note. [Functor](./Functor.md)'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 
