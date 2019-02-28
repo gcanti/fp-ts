@@ -1,8 +1,24 @@
 ---
-id: Home
 title: Home
 ---
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [What is fp-ts?](#what-is-fp-ts)
+- [Table of Contents](#table-of-contents)
+- [Installation and TypeScript compatibility](#installation-and-typescript-compatibility)
+- [Getting started](#getting-started)
+- [Documentation](#documentation)
+  - [Blog posts](#blog-posts)
+  - [Tutorials](#tutorials)
+- [Ecosystem](#ecosystem)
+  - [Libraries](#libraries)
+  - [Bindings](#bindings)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # What is fp-ts?
 

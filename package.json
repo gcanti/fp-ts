@@ -17,10 +17,12 @@
     "clean": "rimraf lib/*",
     "build": "npm run clean && tsc",
     "prepublish": "npm run build",
-    "doctoc": "doctoc README.md",
-    "docs": "rimraf docs/*.md!docs/index.md docs-examples/*.ts && ts-node docs-generator/docs.ts && ts-node docs-examples/index.ts",
+    "doctoc": "doctoc README.md docs",
+    "docs-old": "rimraf docs/*.md!docs/index.md docs-examples/*.ts && ts-node docs-generator/docs.ts && ts-node docs-examples/index.ts",
     "mocha": "mocha -r ts-node/register test/*.ts",
-    "dtslint": "dtslint dtslint"
+    "dtslint": "dtslint dtslint",
+    "clean-docs": "rimraf rm -rf \"docs/!(index.md|_config.yml)\"",
+    "docs": "npm run clean-docs && ts-node docs.ts && npm run doctoc"
   },
   "repository": {
     "type": "git",
@@ -40,6 +42,7 @@
     "@types/prettier": "1.10.0",
     "benchmark": "2.1.4",
     "chalk": "2.2.0",
+    "docs-ts": "github:gcanti/docs-ts",
     "doctoc": "^1.4.0",
     "doctrine": "2.0.0",
     "dtslint": "github:gcanti/dtslint",

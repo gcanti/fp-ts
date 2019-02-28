@@ -41,6 +41,7 @@ The idea (faking higher kinded types in TypeScript) is based on [Lightweight hig
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Installation and TypeScript compatibility](#installation-and-typescript-compatibility)
 - [Getting started](#getting-started)
 - [Documentation](#documentation)
