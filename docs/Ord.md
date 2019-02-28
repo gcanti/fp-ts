@@ -7,7 +7,7 @@ title: Ord
 
 # Ord
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L18-L20)
+**Signature** (type class)
 
 ```ts
 export interface Ord<A> extends Setoid<A> {
@@ -27,7 +27,7 @@ Added in v1.0.0
 
 ## ordBoolean
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L48-L51)
+**Signature** (constant)
 
 ```ts
 export const ordBoolean: Ord<boolean> = ...
@@ -37,7 +37,7 @@ Added in v1.0.0
 
 ## ordDate
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L185-L185)
+**Signature** (constant)
 
 ```ts
 export const ordDate: Ord<Date> = ...
@@ -47,7 +47,7 @@ Added in v1.4.0
 
 ## ordNumber
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L40-L43)
+**Signature** (constant)
 
 ```ts
 export const ordNumber: Ord<number> = ...
@@ -57,7 +57,7 @@ Added in v1.0.0
 
 ## ordString
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L32-L35)
+**Signature** (constant)
 
 ```ts
 export const ordString: Ord<string> = ...
@@ -69,7 +69,7 @@ Added in v1.0.0
 
 Test whether a value is between a minimum and a maximum (inclusive)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L123-L127)
+**Signature** (function)
 
 ```ts
 export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => { ... }
@@ -81,7 +81,7 @@ Added in v1.0.0
 
 Clamp a value between a minimum and a maximum
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L112-L116)
+**Signature** (function)
 
 ```ts
 export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => { ... }
@@ -91,7 +91,7 @@ Added in v1.0.0
 
 ## contramap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L143-L145)
+**Signature** (function)
 
 ```ts
 export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => { ... }
@@ -101,7 +101,7 @@ Added in v1.0.0
 
 ## fromCompare
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L132-L138)
+**Signature** (function)
 
 ```ts
 export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => { ... }
@@ -111,7 +111,7 @@ Added in v1.0.0
 
 ## getDualOrd
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L178-L180)
+**Signature** (function)
 
 ```ts
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => { ... }
@@ -119,11 +119,11 @@ export const getDualOrd = <A>(O: Ord<A>): Ord<A> => { ... }
 
 Added in v1.3.0
 
-## ~~getProductOrd~~ (deprecated)
+## ~~getProductOrd~~
 
 Use [getTupleOrd](#gettupleord) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L171-L173)
+**Signature** (function)
 
 ```ts
 export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => { ... }
@@ -133,7 +133,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L150-L154)
+**Signature** (function)
 
 ```ts
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => { ... }
@@ -143,7 +143,7 @@ Added in v1.0.0
 
 ## getTupleOrd
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L159-L164)
+**Signature** (function)
 
 ```ts
 export const getTupleOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => { ... }
@@ -155,7 +155,7 @@ Added in v1.14.3
 
 Test whether one value is _strictly greater than_ another
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L67-L69)
+**Signature** (function)
 
 ```ts
 export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => { ... }
@@ -167,7 +167,7 @@ Added in v1.0.0
 
 Test whether one value is _non-strictly greater than_ another
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L85-L87)
+**Signature** (function)
 
 ```ts
 export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => { ... }
@@ -179,7 +179,7 @@ Added in v1.0.0
 
 Test whether one value is _strictly less than_ another
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L58-L60)
+**Signature** (function)
 
 ```ts
 export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => { ... }
@@ -191,7 +191,7 @@ Added in v1.0.0
 
 Test whether one value is _non-strictly less than_ another
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L76-L78)
+**Signature** (function)
 
 ```ts
 export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => { ... }
@@ -203,7 +203,7 @@ Added in v1.0.0
 
 Take the maximum of two values. If they are considered equal, the first argument is chosen
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L103-L105)
+**Signature** (function)
 
 ```ts
 export const max = <A>(O: Ord<A>) => (x: A, y: A): A => { ... }
@@ -215,7 +215,7 @@ Added in v1.0.0
 
 Take the minimum of two values. If they are considered equal, the first argument is chosen
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L94-L96)
+**Signature** (function)
 
 ```ts
 export const min = <A>(O: Ord<A>) => (x: A, y: A): A => { ... }
@@ -225,7 +225,7 @@ Added in v1.0.0
 
 ## unsafeCompare
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ord.ts#L25-L27)
+**Signature** (function)
 
 ```ts
 export const unsafeCompare = (x: any, y: any): Ordering => { ... }

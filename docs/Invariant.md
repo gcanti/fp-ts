@@ -7,7 +7,7 @@ title: Invariant
 
 # Invariant
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Invariant.ts#L7-L10)
+**Signature** (type class)
 
 ```ts
 export interface Invariant<F> {

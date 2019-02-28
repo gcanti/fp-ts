@@ -15,7 +15,7 @@ import { ReaderEither } from '../examples/ReaderEither'
 import { flatten, lefts, rights } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import { fromNullable, none, Option, some } from '../src/Option'
-import { constant, constructor, data, Export, func, inter, location, Method, method, Module, typeClass } from './domain'
+import { constant, constructor, data, Export, func, inter, Method, method, Module, typeClass } from './domain'
 
 export type ParseError = string
 
@@ -69,8 +69,7 @@ const getMethod = (currentModuleName: string, md: MethodDeclaration): Method => 
   const since = getSince(annotation)
   const example = getExample(annotation)
   const deprecated = getDeprecated(annotation)
-  const loc = location(getPath(currentModuleName), md.getStartLineNumber(), md.getEndLineNumber())
-  return method(name, signature, description, since, example, deprecated, loc)
+  return method(name, signature, description, since, example, deprecated)
 }
 
 const getClassMethods = (currentModuleName: string, cd: ClassDeclaration): Array<Method> => {
@@ -195,8 +194,7 @@ const parseTypeAliasDeclarationData = (tad: TypeAliasDeclaration): Parser<Export
         const constructors = rights(eitherConstructors)
         const signature = getTypeAliasDeclarationDataSignature(tad, e.currentSourceFile, tags)
         const example = getExample(annotation)
-        const loc = location(getPath(e.currentModuleName), tad.getStartLineNumber(), tad.getEndLineNumber())
-        return ok(data(dataName, signature, description, constructors, since.value, example, loc))
+        return ok(data(dataName, signature, description, constructors, since.value, example))
       }
     }
     return notFound
@@ -238,8 +236,7 @@ const parseClassDeclarationData = (c: ClassDeclaration): Parser<Export> => {
         const methods = getClassMethods(e.currentModuleName, c)
         const constructors = [constructor(dataName, methods)]
         const example = getExample(annotation)
-        const loc = location(getPath(e.currentModuleName), c.getStartLineNumber(), c.getEndLineNumber())
-        return ok(data(dataName, signature, description, constructors, since.value, example, loc))
+        return ok(data(dataName, signature, description, constructors, since.value, example))
       }
     }
     return notFound
@@ -279,8 +276,7 @@ const parseConstantVariableDeclaration = (vd: VariableDeclaration): Parser<Expor
           } else {
             const description = fromJSDocDescription(annotation.description)
             const signature = getConstantVariableDeclarationSignature(vd)
-            const loc = location(getPath(e.currentModuleName), vd.getStartLineNumber(), vd.getEndLineNumber())
-            return ok(constant(name, signature, description, since.value, loc))
+            return ok(constant(name, signature, description, since.value))
           }
         }
       }
@@ -317,8 +313,7 @@ const parseFunctionVariableDeclaration = (vd: VariableDeclaration): Parser<Expor
             const example = getExample(annotation)
             const deprecated = getDeprecated(annotation)
             const alias = getAlias(annotation)
-            const loc = location(getPath(e.currentModuleName), vd.getStartLineNumber(), vd.getEndLineNumber())
-            return ok(func(name, signature, description, alias, since.value, example, deprecated, loc))
+            return ok(func(name, signature, description, alias, since.value, example, deprecated))
           }
         }
       }
@@ -343,8 +338,7 @@ const parseTypeclassInterface = (id: InterfaceDeclaration): Parser<Export> => {
         const signature = getTypeclassInterfaceSignature(id)
         const description = fromJSDocDescription(annotation.description)
         const deprecated = getDeprecated(annotation)
-        const loc = location(getPath(e.currentModuleName), id.getStartLineNumber(), id.getEndLineNumber())
-        return ok(typeClass(name, signature, description, since.value, deprecated, loc))
+        return ok(typeClass(name, signature, description, since.value, deprecated))
       }
     }
     return notFound
@@ -366,8 +360,7 @@ const parseInterface = (id: InterfaceDeclaration): Parser<Export> => {
       } else {
         const signature = getInterfaceSignature(id)
         const description = fromJSDocDescription(annotation.description)
-        const loc = location(getPath(e.currentModuleName), id.getStartLineNumber(), id.getEndLineNumber())
-        return ok(inter(name, signature, description, since.value, loc))
+        return ok(inter(name, signature, description, since.value))
       }
     }
     return notFound
@@ -398,8 +391,7 @@ const parseFunctionDeclaration = (fd: FunctionDeclaration): Parser<Export> => {
         const description = fromJSDocDescription(annotation.description)
         const example = getExample(annotation)
         const deprecated = getDeprecated(annotation)
-        const loc = location(getPath(e.currentModuleName), fd.getStartLineNumber(), fd.getEndLineNumber())
-        return ok(func(name, signature, description, none, since.value, example, deprecated, loc))
+        return ok(func(name, signature, description, none, since.value, example, deprecated))
       }
     }
     return notFound

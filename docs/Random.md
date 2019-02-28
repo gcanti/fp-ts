@@ -10,7 +10,7 @@ title: Random
 Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
 `Math.random()`.
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Random.ts#L11-L11)
+**Signature** (constant)
 
 ```ts
 export const random: IO<number> = ...
@@ -22,7 +22,7 @@ Added in v1.0.0
 
 Returns a random boolean value with an equal chance of being `true` or `false`
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Random.ts#L39-L39)
+**Signature** (constant)
 
 ```ts
 export const randomBool: IO<boolean> = ...
@@ -36,7 +36,7 @@ Takes a range specified by `low` (the first argument) and `high` (the second), a
 distributed in the closed interval `[low, high]`. It is unspecified what happens if `low > high`, or if either of
 `low` or `high` is not an integer.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Random.ts#L20-L22)
+**Signature** (function)
 
 ```ts
 export const randomInt = (low: number, high: number): IO<number> => { ... }
@@ -49,7 +49,7 @@ Added in v1.0.0
 Returns a random number between a minimum value (inclusive) and a maximum value (exclusive). It is unspecified what
 happens if `maximum < minimum`.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Random.ts#L30-L32)
+**Signature** (function)
 
 ```ts
 export const randomRange = (min: number, max: number): IO<number> => { ... }

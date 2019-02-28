@@ -7,7 +7,7 @@ title: TaskEither
 
 # TaskEither
 
-**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L42-L155)
+**Signature** (data type)
 
 ```ts
 export class TaskEither<L, A> {
@@ -21,7 +21,7 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 
 ## alt
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L123-L125)
+**Signature** (method)
 
 ```ts
 alt(fy: TaskEither<L, A>): TaskEither<L, A>  { ... }
@@ -31,7 +31,7 @@ Added in v1.6.0
 
 ## ap
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L54-L56)
+**Signature** (method)
 
 ```ts
 ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B>  { ... }
@@ -43,7 +43,7 @@ Added in v1.0.0
 
 Flipped version of [ap](#ap)
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L60-L62)
+**Signature** (method)
 
 ```ts
 ap_<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C>  { ... }
@@ -55,7 +55,7 @@ Added in v1.0.0
 
 Combine two (parallel) effectful actions, keeping only the result of the first
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L67-L69)
+**Signature** (method)
 
 ```ts
 applyFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A>  { ... }
@@ -67,7 +67,7 @@ Added in v1.6.0
 
 Combine two (parallel) effectful actions, keeping only the result of the second
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L74-L76)
+**Signature** (method)
 
 ```ts
 applySecond<B>(fb: TaskEither<L, B>): TaskEither<L, B>  { ... }
@@ -79,7 +79,7 @@ Added in v1.5.0
 
 Return `Right` if the given action succeeds, `Left` if it throws
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L136-L138)
+**Signature** (method)
 
 ```ts
 attempt<M = L>(): TaskEither<M, Either<L, A>>  { ... }
@@ -89,7 +89,7 @@ Added in v1.10.0
 
 ## bimap
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L129-L131)
+**Signature** (method)
 
 ```ts
 bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B>  { ... }
@@ -99,7 +99,7 @@ Added in v1.2.0
 
 ## chain
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L91-L93)
+**Signature** (method)
 
 ```ts
 chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B>  { ... }
@@ -111,7 +111,7 @@ Added in v1.0.0
 
 Combine two (sequential) effectful actions, keeping only the result of the first
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L81-L83)
+**Signature** (method)
 
 ```ts
 chainFirst<B>(fb: TaskEither<L, B>): TaskEither<L, A>  { ... }
@@ -123,7 +123,7 @@ Added in v1.12.0
 
 Combine two (sequential) effectful actions, keeping only the result of the second
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L88-L90)
+**Signature** (method)
 
 ```ts
 chainSecond<B>(fb: TaskEither<L, B>): TaskEither<L, B>  { ... }
@@ -133,7 +133,7 @@ Added in v1.12.0
 
 ## filterOrElse
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L144-L146)
+**Signature** (method)
 
 ```ts
 filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A>  { ... }
@@ -143,7 +143,7 @@ Added in v1.11.0
 
 ## filterOrElseL
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L152-L154)
+**Signature** (method)
 
 ```ts
 filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>  { ... }
@@ -153,7 +153,7 @@ Added in v1.11.0
 
 ## fold
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L94-L96)
+**Signature** (method)
 
 ```ts
 fold<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R>  { ... }
@@ -165,7 +165,7 @@ Added in v1.0.0
 
 Similar to [fold](#fold), but the result is flattened.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L101-L103)
+**Signature** (method)
 
 ```ts
 foldTask<R>(onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>): Task<R>  { ... }
@@ -177,7 +177,7 @@ Added in v1.10.0
 
 Similar to [fold](#fold), but the result is flattened.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L108-L110)
+**Signature** (method)
 
 ```ts
 foldTaskEither<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B>  { ... }
@@ -187,7 +187,7 @@ Added in v1.10.0
 
 ## map
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L51-L53)
+**Signature** (method)
 
 ```ts
 map<B>(f: (a: A) => B): TaskEither<L, B>  { ... }
@@ -197,7 +197,7 @@ Added in v1.0.0
 
 ## mapLeft
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L111-L113)
+**Signature** (method)
 
 ```ts
 mapLeft<M>(f: (l: L) => M): TaskEither<M, A>  { ... }
@@ -209,7 +209,7 @@ Added in v1.0.0
 
 Transforms the failure value of the `TaskEither` into a new `TaskEither`
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L117-L119)
+**Signature** (method)
 
 ```ts
 orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A>  { ... }
@@ -221,7 +221,7 @@ Added in v1.0.0
 
 Runs the inner `Task`
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L48-L50)
+**Signature** (method)
 
 ```ts
 run(): Promise<Either<L, A>>  { ... }
@@ -233,7 +233,7 @@ Added in v1.0.0
 
 ## taskEither
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L386-L396)
+**Signature** (constant)
 
 ```ts
 export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = ...
@@ -245,7 +245,7 @@ Added in v1.0.0
 
 Like [taskEither](#taskeither) but `ap` is sequential
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L403-L406)
+**Signature** (constant)
 
 ```ts
 export const taskEitherSeq: typeof taskEither = ...
@@ -259,7 +259,7 @@ Make sure that a resource is cleaned up in the event of an exception. The
 release action is called regardless of whether the body action throws or
 returns.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L371-L381)
+**Signature** (function)
 
 ```ts
 export const bracket = <L, A, B>(
@@ -273,7 +273,7 @@ Added in v1.10.0
 
 ## fromEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L198-L200)
+**Signature** (function)
 
 ```ts
 export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => { ... }
@@ -283,7 +283,7 @@ Added in v1.0.0
 
 ## fromIO
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L205-L207)
+**Signature** (function)
 
 ```ts
 export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => { ... }
@@ -293,7 +293,7 @@ Added in v1.5.0
 
 ## fromIOEither
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L219-L221)
+**Signature** (function)
 
 ```ts
 export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => { ... }
@@ -303,7 +303,7 @@ Added in v1.6.0
 
 ## fromLeft
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L212-L214)
+**Signature** (function)
 
 ```ts
 export const fromLeft = <L, A>(l: L): TaskEither<L, A> => { ... }
@@ -313,7 +313,7 @@ Added in v1.3.0
 
 ## fromPredicate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L231-L234)
+**Signature** (function)
 
 ```ts
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)  { ... }
@@ -323,7 +323,7 @@ Added in v1.6.0
 
 ## getApplyMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L259-L264)
+**Signature** (function)
 
 ```ts
 export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => { ... }
@@ -333,7 +333,7 @@ Added in v1.9.0
 
 ## getApplySemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L249-L254)
+**Signature** (function)
 
 ```ts
 export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => { ... }
@@ -343,7 +343,7 @@ Added in v1.9.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L239-L244)
+**Signature** (function)
 
 ```ts
 export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => { ... }
@@ -353,7 +353,7 @@ Added in v1.9.0
 
 ## left
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L191-L193)
+**Signature** (function)
 
 ```ts
 export const left = <L, A>(fl: Task<L>): TaskEither<L, A> => { ... }
@@ -363,7 +363,7 @@ Added in v1.0.0
 
 ## right
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L184-L186)
+**Signature** (function)
 
 ```ts
 export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => { ... }
@@ -389,7 +389,7 @@ const readFile2: (filename: string, encoding: string) => TaskEither<NodeJS.Errno
 )
 ```
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L346-L360)
+**Signature** (function)
 
 ```ts
 export function taskify<L, R>(f: Function): () => TaskEither<L, R>  { ... }
@@ -412,7 +412,7 @@ Added in v1.5.0
 
 Transforms a `Promise` into a `TaskEither`, catching the possible error.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/TaskEither.ts#L298-L300)
+**Signature** (function)
 
 ```ts
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): TaskEither<L, A> => { ... }

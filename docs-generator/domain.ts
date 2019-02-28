@@ -1,23 +1,5 @@
 import { Option } from '../src/Option'
 
-export interface Location {
-  readonly path: string
-  readonly lines: {
-    readonly from: number
-    readonly to: number
-  }
-}
-
-export const location = (path: string, from: number, to: number): Location => {
-  return {
-    path,
-    lines: {
-      from,
-      to
-    }
-  }
-}
-
 export interface Method {
   readonly type: 'Method'
   readonly name: string
@@ -26,7 +8,6 @@ export interface Method {
   readonly since: Option<string>
   readonly example: Option<string>
   readonly deprecated: boolean
-  readonly location: Location
 }
 
 export const method = (
@@ -35,8 +16,7 @@ export const method = (
   description: Option<string>,
   since: Option<string>,
   example: Option<string>,
-  deprecated: boolean,
-  location: Location
+  deprecated: boolean
 ): Method => ({
   type: 'Method',
   name,
@@ -44,8 +24,7 @@ export const method = (
   description,
   since,
   example,
-  deprecated,
-  location
+  deprecated
 })
 
 export interface Constructor {
@@ -72,7 +51,6 @@ export interface Data {
   readonly constructors: Array<Constructor>
   readonly since: string
   readonly example: Option<string>
-  readonly location: Location
 }
 
 export const data = (
@@ -81,8 +59,7 @@ export const data = (
   description: Option<string>,
   constructors: Array<Constructor>,
   since: string,
-  example: Option<string>,
-  location: Location
+  example: Option<string>
 ): Export => {
   return {
     type: 'Data',
@@ -91,8 +68,7 @@ export const data = (
     description,
     constructors,
     since,
-    example,
-    location
+    example
   }
 }
 
@@ -105,7 +81,6 @@ export interface Func {
   readonly since: string
   readonly example: Option<string>
   readonly deprecated: boolean
-  readonly location: Location
 }
 
 export const isFunc = (e: Export): e is Func => e.type === 'Func'
@@ -117,8 +92,7 @@ export const func = (
   alias: Option<string>,
   since: string,
   example: Option<string>,
-  deprecated: boolean,
-  location: Location
+  deprecated: boolean
 ): Export => ({
   type: 'Func',
   name,
@@ -127,8 +101,7 @@ export const func = (
   alias,
   since,
   example,
-  deprecated,
-  location
+  deprecated
 })
 
 export const isConstant = (e: Export): e is Constant => e.type === 'Constant'
@@ -139,23 +112,15 @@ export interface Constant {
   readonly signature: string
   readonly description: Option<string>
   readonly since: string
-  readonly location: Location
 }
 
-export const constant = (
-  name: string,
-  signature: string,
-  description: Option<string>,
-  since: string,
-  location: Location
-): Export => {
+export const constant = (name: string, signature: string, description: Option<string>, since: string): Export => {
   return {
     type: 'Constant',
     name,
     signature,
     description,
-    since,
-    location
+    since
   }
 }
 
@@ -168,7 +133,6 @@ export interface Typeclass {
   readonly description: Option<string>
   readonly since: string
   readonly deprecated: boolean
-  readonly location: Location
 }
 
 export const typeClass = (
@@ -176,8 +140,7 @@ export const typeClass = (
   signature: string,
   description: Option<string>,
   since: string,
-  deprecated: boolean,
-  location: Location
+  deprecated: boolean
 ): Export => {
   return {
     type: 'Typeclass',
@@ -185,8 +148,7 @@ export const typeClass = (
     signature,
     description,
     since,
-    deprecated,
-    location
+    deprecated
   }
 }
 
@@ -198,23 +160,15 @@ export interface Interface {
   readonly signature: string
   readonly description: Option<string>
   readonly since: string
-  readonly location: Location
 }
 
-export const inter = (
-  name: string,
-  signature: string,
-  description: Option<string>,
-  since: string,
-  location: Location
-): Export => {
+export const inter = (name: string, signature: string, description: Option<string>, since: string): Export => {
   return {
     type: 'Interface',
     name,
     signature,
     description,
-    since,
-    location
+    since
   }
 }
 

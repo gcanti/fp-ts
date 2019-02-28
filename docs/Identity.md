@@ -7,7 +7,7 @@ title: Identity
 
 # Identity
 
-**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L29-L84)
+**Signature** (data type)
 
 ```ts
 export class Identity<A> {
@@ -18,7 +18,7 @@ export class Identity<A> {
 
 ## alt
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L51-L53)
+**Signature** (method)
 
 ```ts
 alt(fx: Identity<A>): Identity<A>  { ... }
@@ -28,7 +28,7 @@ Added in v1.0.0
 
 ## ap
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L36-L38)
+**Signature** (method)
 
 ```ts
 ap<B>(fab: Identity<(a: A) => B>): Identity<B>  { ... }
@@ -40,7 +40,7 @@ Added in v1.0.0
 
 Flipped version of [ap](#ap)
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L42-L44)
+**Signature** (method)
 
 ```ts
 ap_<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C>  { ... }
@@ -50,7 +50,7 @@ Added in v1.0.0
 
 ## chain
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L45-L47)
+**Signature** (method)
 
 ```ts
 chain<B>(f: (a: A) => Identity<B>): Identity<B>  { ... }
@@ -60,7 +60,7 @@ Added in v1.0.0
 
 ## extend
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L72-L74)
+**Signature** (method)
 
 ```ts
 extend<B>(f: (ea: Identity<A>) => B): Identity<B>  { ... }
@@ -70,7 +70,7 @@ Added in v1.0.0
 
 ## extract
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L69-L71)
+**Signature** (method)
 
 ```ts
 extract(): A  { ... }
@@ -80,7 +80,7 @@ Added in v1.0.0
 
 ## fold
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L75-L77)
+**Signature** (method)
 
 ```ts
 fold<B>(f: (a: A) => B): B  { ... }
@@ -90,7 +90,7 @@ Added in v1.0.0
 
 ## inspect
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L78-L80)
+**Signature** (method)
 
 ```ts
 inspect(): string  { ... }
@@ -100,7 +100,7 @@ Added in v1.0.0
 
 ## map
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L33-L35)
+**Signature** (method)
 
 ```ts
 map<B>(f: (a: A) => B): Identity<B>  { ... }
@@ -112,7 +112,7 @@ Added in v1.0.0
 
 Lazy version of [alt](#alt)
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L66-L68)
+**Signature** (method)
 
 ```ts
 orElse(fx: Lazy<Identity<A>>): Identity<A>  { ... }
@@ -131,7 +131,7 @@ Added in v1.6.0
 
 ## reduce
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L48-L50)
+**Signature** (method)
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
@@ -141,7 +141,7 @@ Added in v1.0.0
 
 ## toString
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L81-L83)
+**Signature** (method)
 
 ```ts
 toString(): string  { ... }
@@ -153,7 +153,7 @@ Added in v1.0.0
 
 ## identity
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L148-L168)
+**Signature** (constant)
 
 ```ts
 export const identity: Monad1<URI> &
@@ -168,7 +168,7 @@ Added in v1.0.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Identity.ts#L89-L91)
+**Signature** (function)
 
 ```ts
 export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => { ... }

@@ -7,7 +7,7 @@ title: DistributiveLattice
 
 # DistributiveLattice
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/DistributiveLattice.ts#L13-L13)
+**Signature** (type class)
 
 ```ts
 export interface DistributiveLattice<A> extends Lattice<A> {}
@@ -22,7 +22,7 @@ Added in v1.4.0
 
 ## getMinMaxDistributiveLattice
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/DistributiveLattice.ts#L18-L23)
+**Signature** (function)
 
 ```ts
 export const getMinMaxDistributiveLattice = <A>(O: Ord<A>): DistributiveLattice<A> => { ... }

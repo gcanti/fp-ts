@@ -7,7 +7,7 @@ title: Monoid
 
 # Monoid
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L25-L27)
+**Signature** (type class)
 
 ```ts
 export interface Monoid<A> extends Semigroup<A> {
@@ -21,7 +21,7 @@ Added in v1.0.0
 
 Boolean monoid under conjunction
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L69-L72)
+**Signature** (constant)
 
 ```ts
 export const monoidAll: Monoid<boolean> = ...
@@ -33,7 +33,7 @@ Added in v1.0.0
 
 Boolean monoid under disjunction
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L78-L81)
+**Signature** (constant)
 
 ```ts
 export const monoidAny: Monoid<boolean> = ...
@@ -45,7 +45,7 @@ Added in v1.0.0
 
 Number monoid under multiplication
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L132-L135)
+**Signature** (constant)
 
 ```ts
 export const monoidProduct: Monoid<number> = ...
@@ -55,7 +55,7 @@ Added in v1.0.0
 
 ## monoidString
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L140-L143)
+**Signature** (constant)
 
 ```ts
 export const monoidString: Monoid<string> = ...
@@ -67,7 +67,7 @@ Added in v1.0.0
 
 Number monoid under addition
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L123-L126)
+**Signature** (constant)
 
 ```ts
 export const monoidSum: Monoid<number> = ...
@@ -77,7 +77,7 @@ Added in v1.0.0
 
 ## monoidVoid
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L148-L151)
+**Signature** (constant)
 
 ```ts
 export const monoidVoid: Monoid<void> = ...
@@ -87,7 +87,7 @@ Added in v1.0.0
 
 ## unsafeMonoidArray
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L88-L91)
+**Signature** (constant)
 
 ```ts
 export const unsafeMonoidArray: Monoid<Array<any>> = ...
@@ -97,7 +97,7 @@ Added in v1.0.0
 
 ## fold
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L32-L34)
+**Signature** (function)
 
 ```ts
 export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => { ... }
@@ -109,7 +109,7 @@ Added in v1.0.0
 
 `Monoid` under array concatenation
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L98-L100)
+**Signature** (function)
 
 ```ts
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => { ... }
@@ -117,11 +117,11 @@ export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => { ... }
 
 Added in v1.0.0
 
-## ~~getDictionaryMonoid~~ (deprecated)
+## ~~getDictionaryMonoid~~
 
 Use [Record](./Record.md)'s `getMonoid`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L111-L117)
+**Signature** (function)
 
 ```ts
 export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid< { ... }
@@ -131,7 +131,7 @@ Added in v1.4.0
 
 ## getDualMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L58-L63)
+**Signature** (function)
 
 ```ts
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => { ... }
@@ -141,7 +141,7 @@ Added in v1.0.0
 
 ## getEndomorphismMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L166-L171)
+**Signature** (function)
 
 ```ts
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => { ... }
@@ -151,7 +151,7 @@ Added in v1.0.0
 
 ## getFunctionMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L156-L161)
+**Signature** (function)
 
 ```ts
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => { ... }
@@ -161,7 +161,7 @@ Added in v1.0.0
 
 ## getJoinMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L213-L218)
+**Signature** (function)
 
 ```ts
 export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => { ... }
@@ -171,7 +171,7 @@ Added in v1.9.0
 
 ## getMeetMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L203-L208)
+**Signature** (function)
 
 ```ts
 export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => { ... }
@@ -179,11 +179,11 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => { ... }
 
 Added in v1.9.0
 
-## ~~getProductMonoid~~ (deprecated)
+## ~~getProductMonoid~~
 
 Use [getTupleMonoid](#gettuplemonoid) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L51-L53)
+**Signature** (function)
 
 ```ts
 export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => { ... }
@@ -191,11 +191,11 @@ export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A,
 
 Added in v1.0.0
 
-## ~~getRecordMonoid~~ (deprecated)
+## ~~getRecordMonoid~~
 
 Use [getStructMonoid](#getstructmonoid) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L194-L198)
+**Signature** (function)
 
 ```ts
 export const getRecordMonoid = <O extends { [key: string]: any }>(
@@ -207,7 +207,7 @@ Added in v1.0.0
 
 ## getStructMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L176-L187)
+**Signature** (function)
 
 ```ts
 export const getStructMonoid = <O extends { [key: string]: any }>(
@@ -219,7 +219,7 @@ Added in v1.14.0
 
 ## getTupleMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoid.ts#L39-L44)
+**Signature** (function)
 
 ```ts
 export const getTupleMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => { ... }

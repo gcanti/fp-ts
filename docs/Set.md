@@ -7,7 +7,7 @@ title: Set
 
 ## empty
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L13-L13)
+**Signature** (constant)
 
 ```ts
 export const empty: Set<never> = ...
@@ -17,7 +17,7 @@ Added in v1.14.0
 
 ## chain
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L74-L87)
+**Signature** (function)
 
 ```ts
 export const chain = <B>(S: Setoid<B>): (<A>(set: Set<A>, f: (x: A) => Set<B>) => Set<B>) => { ... }
@@ -27,7 +27,7 @@ Added in v1.2.0
 
 ## compact
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L341-L344)
+**Signature** (function)
 
 ```ts
 export const compact = <A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>) => { ... }
@@ -35,11 +35,11 @@ export const compact = <A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>) => { 
 
 Added in v1.12.0
 
-## ~~difference~~ (deprecated)
+## ~~difference~~
 
 Use [difference2v](#difference2v) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L227-L230)
+**Signature** (function)
 
 ```ts
 export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => { ... }
@@ -51,7 +51,7 @@ Added in v1.0.0
 
 Form the set difference (`x` - `y`)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L244-L247)
+**Signature** (function)
 
 ```ts
 export const difference2v = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => { ... }
@@ -72,7 +72,7 @@ Added in v1.12.0
 
 Test if a value is a member of a set
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L153-L155)
+**Signature** (function)
 
 ```ts
 export const elem = <A>(S: Setoid<A>) => (a: A, x: Set<A>): boolean => { ... }
@@ -82,7 +82,7 @@ Added in v1.14.0
 
 ## every
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L67-L69)
+**Signature** (function)
 
 ```ts
 export const every = <A>(x: Set<A>, predicate: Predicate<A>): boolean => { ... }
@@ -92,7 +92,7 @@ Added in v1.0.0
 
 ## filter
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L104-L115)
+**Signature** (function)
 
 ```ts
 export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A>  { ... }
@@ -102,7 +102,7 @@ Added in v1.0.0
 
 ## filterMap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L371-L383)
+**Signature** (function)
 
 ```ts
 export const filterMap = <B>(S: Setoid<B>): (<A>(fa: Set<A>, f: (a: A) => Option<B>) => Set<B>) => { ... }
@@ -112,7 +112,7 @@ Added in v1.12.0
 
 ## foldMap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L279-L282)
+**Signature** (function)
 
 ```ts
 export const foldMap = <A, M>(O: Ord<A>, M: Monoid<M>): ((fa: Set<A>, f: (a: A) => M) => M) => { ... }
@@ -124,7 +124,7 @@ Added in v1.14.0
 
 Create a set from an array
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L325-L336)
+**Signature** (function)
 
 ```ts
 export const fromArray = <A>(S: Setoid<A>) => (as: Array<A>): Set<A> => { ... }
@@ -134,7 +134,7 @@ Added in v1.2.0
 
 ## getIntersectionSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L262-L266)
+**Signature** (function)
 
 ```ts
 export const getIntersectionSemigroup = <A>(S: Setoid<A>): Semigroup<Set<A>> => { ... }
@@ -144,7 +144,7 @@ Added in v1.0.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L27-L30)
+**Signature** (function)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => { ... }
@@ -154,7 +154,7 @@ Added in v1.0.0
 
 ## getUnionMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L252-L257)
+**Signature** (function)
 
 ```ts
 export const getUnionMonoid = <A>(S: Setoid<A>): Monoid<Set<A>> => { ... }
@@ -166,7 +166,7 @@ Added in v1.0.0
 
 Insert a value into a set
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L298-L309)
+**Signature** (function)
 
 ```ts
 export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => { ... }
@@ -178,7 +178,7 @@ Added in v1.0.0
 
 The set of elements which are in both the first and second set
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L180-L191)
+**Signature** (function)
 
 ```ts
 export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => { ... }
@@ -190,7 +190,7 @@ Added in v1.0.0
 
 Projects a Set through a function
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L50-L62)
+**Signature** (function)
 
 ```ts
 export const map = <B>(S: Setoid<B>): (<A>(set: Set<A>, f: (x: A) => B) => Set<B>) => { ... }
@@ -198,11 +198,11 @@ export const map = <B>(S: Setoid<B>): (<A>(set: Set<A>, f: (x: A) => B) => Set<B
 
 Added in v1.2.0
 
-## ~~member~~ (deprecated)
+## ~~member~~
 
 Use [elem](#elem) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L143-L146)
+**Signature** (function)
 
 ```ts
 export const member = <A>(S: Setoid<A>): ((set: Set<A>) => (a: A) => boolean) => { ... }
@@ -212,7 +212,7 @@ Added in v1.0.0
 
 ## partition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L122-L136)
+**Signature** (function)
 
 ```ts
 export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>>  { ... }
@@ -222,7 +222,7 @@ Added in v1.2.0
 
 ## partitionMap
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L196-L219)
+**Signature** (function)
 
 ```ts
 export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
@@ -235,7 +235,7 @@ Added in v1.2.0
 
 ## reduce
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L271-L274)
+**Signature** (function)
 
 ```ts
 export const reduce = <A>(O: Ord<A>): (<B>(fa: Set<A>, b: B, f: (b: B, a: A) => B) => B) => { ... }
@@ -247,7 +247,7 @@ Added in v1.0.0
 
 Delete a value from a set
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L316-L318)
+**Signature** (function)
 
 ```ts
 export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => { ... }
@@ -257,7 +257,7 @@ Added in v1.0.0
 
 ## separate
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L349-L366)
+**Signature** (function)
 
 ```ts
 export const separate = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<L, R>>): Separated<Set<L>, Set<R>> => { ... }
@@ -269,7 +269,7 @@ Added in v1.12.0
 
 Create a set with one element
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L289-L291)
+**Signature** (function)
 
 ```ts
 export const singleton = <A>(a: A): Set<A> => { ... }
@@ -279,7 +279,7 @@ Added in v1.0.0
 
 ## some
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L35-L43)
+**Signature** (function)
 
 ```ts
 export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => { ... }
@@ -291,7 +291,7 @@ Added in v1.0.0
 
 `true` if and only if every element in the first set is an element of the second set
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L94-L97)
+**Signature** (function)
 
 ```ts
 export const subset = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => boolean) => { ... }
@@ -301,7 +301,7 @@ Added in v1.0.0
 
 ## toArray
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L18-L22)
+**Signature** (function)
 
 ```ts
 export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => { ... }
@@ -313,7 +313,7 @@ Added in v1.0.0
 
 Form the union of two sets
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Set.ts#L162-L173)
+**Signature** (function)
 
 ```ts
 export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => { ... }

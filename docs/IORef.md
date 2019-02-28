@@ -7,7 +7,7 @@ title: IORef
 
 # IORef
 
-**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IORef.ts#L20-L41)
+**Signature** (data type)
 
 ```ts
 export class IORef<A> {
@@ -35,7 +35,7 @@ assert.strictEqual(
 
 ## modify
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IORef.ts#L36-L40)
+**Signature** (method)
 
 ```ts
 modify(f: (a: A) => A): IO<void>  { ... }
@@ -45,7 +45,7 @@ Added in v1.8.0
 
 ## write
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IORef.ts#L28-L32)
+**Signature** (method)
 
 ```ts
 write(a: A): IO<void>  { ... }
@@ -57,7 +57,7 @@ Added in v1.8.0
 
 ## newIORef
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IORef.ts#L46-L48)
+**Signature** (function)
 
 ```ts
 export const newIORef = <A>(a: A): IO<IORef<A>> => { ... }

@@ -7,7 +7,7 @@ title: Traversable2v
 
 # Traversable2v
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable2v.ts#L46-L52)
+**Signature** (type class)
 
 ```ts
 export interface Traversable2v<T> extends Functor<T>, Foldable2v<T> {
@@ -40,7 +40,7 @@ Added in v1.10.0
 
 Returns the composition of two traversables
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable2v.ts#L281-L299)
+**Signature** (function)
 
 ```ts
 export function getTraversableComposition<F, G>(

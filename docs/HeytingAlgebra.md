@@ -7,7 +7,7 @@ title: HeytingAlgebra
 
 # HeytingAlgebra
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/HeytingAlgebra.ts#L27-L30)
+**Signature** (type class)
 
 ```ts
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {

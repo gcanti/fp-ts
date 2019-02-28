@@ -7,7 +7,7 @@ title: Setoid
 
 # Setoid
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L13-L15)
+**Signature** (type class)
 
 ```ts
 export interface Setoid<A> {
@@ -27,7 +27,7 @@ Added in v1.0.0
 
 ## setoidBoolean
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L48-L48)
+**Signature** (constant)
 
 ```ts
 export const setoidBoolean: Setoid<boolean> = ...
@@ -37,7 +37,7 @@ Added in v1.0.0
 
 ## setoidDate
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L112-L112)
+**Signature** (constant)
 
 ```ts
 export const setoidDate: Setoid<Date> = ...
@@ -47,7 +47,7 @@ Added in v1.4.0
 
 ## setoidNumber
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L43-L43)
+**Signature** (constant)
 
 ```ts
 export const setoidNumber: Setoid<number> = ...
@@ -57,7 +57,7 @@ Added in v1.0.0
 
 ## setoidString
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L38-L38)
+**Signature** (constant)
 
 ```ts
 export const setoidString: Setoid<string> = ...
@@ -69,7 +69,7 @@ Added in v1.0.0
 
 Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L105-L107)
+**Signature** (function)
 
 ```ts
 export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => { ... }
@@ -79,7 +79,7 @@ Added in v1.2.0
 
 ## fromEquals
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L20-L24)
+**Signature** (function)
 
 ```ts
 export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => { ... }
@@ -89,7 +89,7 @@ Added in v1.14.0
 
 ## getArraySetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L53-L55)
+**Signature** (function)
 
 ```ts
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => { ... }
@@ -97,11 +97,11 @@ export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => { ... }
 
 Added in v1.0.0
 
-## ~~getProductSetoid~~ (deprecated)
+## ~~getProductSetoid~~
 
 Use [getTupleSetoid](#gettuplesetoid) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L96-L98)
+**Signature** (function)
 
 ```ts
 export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => { ... }
@@ -109,11 +109,11 @@ export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A,
 
 Added in v1.0.0
 
-## ~~getRecordSetoid~~ (deprecated)
+## ~~getRecordSetoid~~
 
 Use [getStructSetoid](#getstructsetoid) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L78-L82)
+**Signature** (function)
 
 ```ts
 export const getRecordSetoid = <O extends { [key: string]: any }>(
@@ -125,7 +125,7 @@ Added in v1.0.0
 
 ## getStructSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L60-L71)
+**Signature** (function)
 
 ```ts
 export const getStructSetoid = <O extends { [key: string]: any }>(
@@ -137,7 +137,7 @@ Added in v1.14.2
 
 ## getTupleSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L87-L89)
+**Signature** (function)
 
 ```ts
 export const getTupleSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => { ... }
@@ -147,7 +147,7 @@ Added in v1.14.2
 
 ## strictEqual
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Setoid.ts#L29-L31)
+**Signature** (function)
 
 ```ts
 export const strictEqual = <A>(a: A, b: A): boolean => { ... }

@@ -7,7 +7,7 @@ title: Functor
 
 # Functor
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Functor.ts#L18-L21)
+**Signature** (type class)
 
 ```ts
 export interface Functor<F> {
@@ -32,7 +32,7 @@ Added in v1.0.0
 
 Apply a value in a computational context to a value in no context. Generalizes `flip`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Functor.ts#L172-L174)
+**Signature** (function)
 
 ```ts
 export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => B>) => HKT<F, B>  { ... }
@@ -42,7 +42,7 @@ Added in v1.0.0
 
 ## getFunctorComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Functor.ts#L212-L216)
+**Signature** (function)
 
 ```ts
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G>  { ... }
@@ -54,7 +54,7 @@ Added in v1.0.0
 
 Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Functor.ts#L111-L113)
+**Signature** (function)
 
 ```ts
 export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>  { ... }
@@ -66,7 +66,7 @@ Added in v1.0.0
 
 A version of [voidRight](#voidright) with its arguments flipped (`$>`)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Functor.ts#L149-L151)
+**Signature** (function)
 
 ```ts
 export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F, B>  { ... }
@@ -78,7 +78,7 @@ Added in v1.0.0
 
 Ignore the return value of a computation, using the specified return value instead (`<$`)
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Functor.ts#L130-L132)
+**Signature** (function)
 
 ```ts
 export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<F, A>  { ... }

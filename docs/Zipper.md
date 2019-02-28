@@ -7,7 +7,7 @@ title: Zipper
 
 # Zipper
 
-**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L41-L179)
+**Signature** (data type)
 
 ```ts
 export class Zipper<A> {
@@ -25,7 +25,7 @@ The array `[1, 2, 3, 4]` with focus on `3` is represented by `new Zipper([1, 2],
 
 ## ap
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L164-L166)
+**Signature** (method)
 
 ```ts
 ap<B>(fab: Zipper<(a: A) => B>): Zipper<B>  { ... }
@@ -38,7 +38,7 @@ Added in v1.9.0
 Deletes the element at focus and moves the focus to the left. If there is no element on the left,
 focus is moved to the right.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L140-L143)
+**Signature** (method)
 
 ```ts
 deleteLeft(): Option<Zipper<A>>  { ... }
@@ -51,7 +51,7 @@ Added in v1.9.0
 Deletes the element at focus and moves the focus to the right. If there is no element on the right,
 focus is moved to the left.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L150-L154)
+**Signature** (method)
 
 ```ts
 deleteRight(): Option<Zipper<A>>  { ... }
@@ -61,7 +61,7 @@ Added in v1.9.0
 
 ## down
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L95-L97)
+**Signature** (method)
 
 ```ts
 down(): Option<Zipper<A>>  { ... }
@@ -73,7 +73,7 @@ Added in v1.9.0
 
 Moves focus to the end of the zipper.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L113-L120)
+**Signature** (method)
 
 ```ts
 end(): Zipper<A>  { ... }
@@ -85,7 +85,7 @@ Added in v1.9.0
 
 Inserts an element to the left of focus and focuses on the new element.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L125-L127)
+**Signature** (method)
 
 ```ts
 insertLeft(a: A): Zipper<A>  { ... }
@@ -97,7 +97,7 @@ Added in v1.9.0
 
 Inserts an element to the right of focus and focuses on the new element.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L132-L134)
+**Signature** (method)
 
 ```ts
 insertRight(a: A): Zipper<A>  { ... }
@@ -107,7 +107,7 @@ Added in v1.9.0
 
 ## inspect
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L173-L175)
+**Signature** (method)
 
 ```ts
 inspect(): string  { ... }
@@ -117,7 +117,7 @@ Added in v1.9.0
 
 ## isOutOfBound
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L71-L73)
+**Signature** (method)
 
 ```ts
 isOutOfBound(index: number): boolean  { ... }
@@ -127,7 +127,7 @@ Added in v1.9.0
 
 ## map
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L158-L160)
+**Signature** (method)
 
 ```ts
 map<B>(f: (a: A) => B): Zipper<B>  { ... }
@@ -139,7 +139,7 @@ Added in v1.9.0
 
 Apply `f` to the focus and update with the result.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L59-L61)
+**Signature** (method)
 
 ```ts
 modify(f: (a: A) => A): Zipper<A>  { ... }
@@ -151,7 +151,7 @@ Added in v1.9.0
 
 Moves focus in the zipper, or `None` if there is no such element.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L78-L85)
+**Signature** (method)
 
 ```ts
 move(f: (currentIndex: number) => number): Option<Zipper<A>>  { ... }
@@ -161,7 +161,7 @@ Added in v1.9.0
 
 ## reduce
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L170-L172)
+**Signature** (method)
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
@@ -173,7 +173,7 @@ Added in v1.9.0
 
 Moves focus to the start of the zipper.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L102-L108)
+**Signature** (method)
 
 ```ts
 start(): Zipper<A>  { ... }
@@ -183,7 +183,7 @@ Added in v1.9.0
 
 ## toArray
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L65-L67)
+**Signature** (method)
 
 ```ts
 toArray(): Array<A>  { ... }
@@ -193,7 +193,7 @@ Added in v1.9.0
 
 ## toString
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L176-L178)
+**Signature** (method)
 
 ```ts
 toString(): string  { ... }
@@ -203,7 +203,7 @@ Added in v1.9.0
 
 ## up
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L89-L91)
+**Signature** (method)
 
 ```ts
 up(): Option<Zipper<A>>  { ... }
@@ -215,7 +215,7 @@ Added in v1.9.0
 
 Update the focus in this zipper.
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L52-L54)
+**Signature** (method)
 
 ```ts
 update(a: A): Zipper<A>  { ... }
@@ -227,7 +227,7 @@ Added in v1.9.0
 
 ## zipper
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L287-L299)
+**Signature** (constant)
 
 ```ts
 export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
@@ -237,7 +237,7 @@ Added in v1.9.0
 
 ## fromArray
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L184-L190)
+**Signature** (function)
 
 ```ts
 export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zipper<A>> => { ... }
@@ -247,7 +247,7 @@ Added in v1.9.0
 
 ## fromNonEmptyArray
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L195-L197)
+**Signature** (function)
 
 ```ts
 export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => { ... }
@@ -257,7 +257,7 @@ Added in v1.9.0
 
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L277-L282)
+**Signature** (function)
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => { ... }
@@ -267,7 +267,7 @@ Added in v1.9.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Zipper.ts#L268-L272)
+**Signature** (function)
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => { ... }

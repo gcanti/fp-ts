@@ -7,7 +7,7 @@ title: Witherable
 
 # Witherable
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Witherable.ts#L29-L39)
+**Signature** (type class)
 
 ```ts
 export interface Witherable<T> extends Traversable<T>, Filterable<T> {

@@ -7,7 +7,7 @@ title: Store
 
 # Store
 
-**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L21-L45)
+**Signature** (data type)
 
 ```ts
 export class Store<S, A> {
@@ -18,7 +18,7 @@ export class Store<S, A> {
 
 ## extend
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L36-L38)
+**Signature** (method)
 
 ```ts
 extend<B>(f: (sa: Store<S, A>) => B): Store<S, B>  { ... }
@@ -28,7 +28,7 @@ Added in v1.0.0
 
 ## extract
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L33-L35)
+**Signature** (method)
 
 ```ts
 extract(): A  { ... }
@@ -38,7 +38,7 @@ Added in v1.0.0
 
 ## inspect
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L39-L41)
+**Signature** (method)
 
 ```ts
 inspect(): string  { ... }
@@ -48,7 +48,7 @@ Added in v1.0.0
 
 ## map
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L30-L32)
+**Signature** (method)
 
 ```ts
 map<B>(f: (a: A) => B): Store<S, B>  { ... }
@@ -60,7 +60,7 @@ Added in v1.0.0
 
 Reposition the focus at the specified position
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L27-L29)
+**Signature** (method)
 
 ```ts
 seek(s: S): Store<S, A>  { ... }
@@ -70,7 +70,7 @@ Added in v1.0.0
 
 ## toString
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L42-L44)
+**Signature** (method)
 
 ```ts
 toString(): string  { ... }
@@ -82,7 +82,7 @@ Added in v1.0.0
 
 ## store
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L99-L104)
+**Signature** (constant)
 
 ```ts
 export const store: Comonad2<URI> = ...
@@ -94,7 +94,7 @@ Added in v1.0.0
 
 Extract a collection of values from positions which depend on the current position
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L92-L94)
+**Signature** (function)
 
 ```ts
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A>  { ... }
@@ -106,7 +106,7 @@ Added in v1.0.0
 
 Extract a value from a position which depends on the current position
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L64-L66)
+**Signature** (function)
 
 ```ts
 export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => { ... }
@@ -118,7 +118,7 @@ Added in v1.0.0
 
 Reposition the focus at the specified position, which depends on the current position
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Store.ts#L73-L75)
+**Signature** (function)
 
 ```ts
 export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => { ... }

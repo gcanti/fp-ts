@@ -7,7 +7,7 @@ title: BoundedMeetSemilattice
 
 # BoundedMeetSemilattice
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedMeetSemilattice.ts#L11-L13)
+**Signature** (type class)
 
 ```ts
 export interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {

@@ -7,7 +7,7 @@ title: Alternative
 
 # Alternative
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Alternative.ts#L17-L17)
+**Signature** (type class)
 
 ```ts
 export interface Alternative<F> extends Applicative<F>, Plus<F> {}

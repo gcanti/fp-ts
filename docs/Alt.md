@@ -7,7 +7,7 @@ title: Alt
 
 # Alt
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Alt.ts#L17-L19)
+**Signature** (type class)
 
 ```ts
 export interface Alt<F> extends Functor<F> {

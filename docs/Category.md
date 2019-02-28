@@ -7,7 +7,7 @@ title: Category
 
 # Category
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Category.ts#L8-L10)
+**Signature** (type class)
 
 ```ts
 export interface Category<F> extends Semigroupoid<F> {

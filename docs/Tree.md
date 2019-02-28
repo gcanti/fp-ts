@@ -7,7 +7,7 @@ title: Tree
 
 # Tree
 
-**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L35-L76)
+**Signature** (data type)
 
 ```ts
 export class Tree<A> {
@@ -24,7 +24,7 @@ type Forest<A> = Array<Tree<A>>
 
 ## ap
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L42-L44)
+**Signature** (method)
 
 ```ts
 ap<B>(fab: Tree<(a: A) => B>): Tree<B>  { ... }
@@ -36,7 +36,7 @@ Added in v1.6.0
 
 Flipped version of [ap](#ap)
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L49-L51)
+**Signature** (method)
 
 ```ts
 ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C>  { ... }
@@ -46,7 +46,7 @@ Added in v1.6.0
 
 ## chain
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L52-L55)
+**Signature** (method)
 
 ```ts
 chain<B>(f: (a: A) => Tree<B>): Tree<B>  { ... }
@@ -56,7 +56,7 @@ Added in v1.6.0
 
 ## extend
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L59-L61)
+**Signature** (method)
 
 ```ts
 extend<B>(f: (fa: Tree<A>) => B): Tree<B>  { ... }
@@ -66,7 +66,7 @@ Added in v1.6.0
 
 ## extract
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L56-L58)
+**Signature** (method)
 
 ```ts
 extract(): A  { ... }
@@ -76,7 +76,7 @@ Added in v1.6.0
 
 ## inspect
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L70-L72)
+**Signature** (method)
 
 ```ts
 inspect(): string  { ... }
@@ -86,7 +86,7 @@ Added in v1.6.0
 
 ## map
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L39-L41)
+**Signature** (method)
 
 ```ts
 map<B>(f: (a: A) => B): Tree<B>  { ... }
@@ -96,7 +96,7 @@ Added in v1.6.0
 
 ## reduce
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L62-L69)
+**Signature** (method)
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B  { ... }
@@ -106,7 +106,7 @@ Added in v1.6.0
 
 ## toString
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L73-L75)
+**Signature** (method)
 
 ```ts
 toString(): string  { ... }
@@ -118,7 +118,7 @@ Added in v1.6.0
 
 ## tree
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L147-L160)
+**Signature** (constant)
 
 ```ts
 export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
@@ -130,7 +130,7 @@ Added in v1.6.0
 
 Neat 2-dimensional drawing of a forest
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L180-L182)
+**Signature** (function)
 
 ```ts
 export const drawForest = (forest: Forest<string>): string => { ... }
@@ -142,7 +142,7 @@ Added in v1.6.0
 
 Neat 2-dimensional drawing of a tree
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L206-L208)
+**Signature** (function)
 
 ```ts
 export const drawTree = (tree: Tree<string>): string => { ... }
@@ -170,7 +170,7 @@ Added in v1.6.0
 
 ## elem
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L295-L303)
+**Signature** (function)
 
 ```ts
 export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean  { ... }
@@ -180,7 +180,7 @@ Added in v1.14.0
 
 ## getSetoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L137-L142)
+**Signature** (function)
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => { ... }
@@ -192,7 +192,7 @@ Added in v1.6.0
 
 Build a tree from a seed value
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L225-L227)
+**Signature** (function)
 
 ```ts
 export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> => { ... }
@@ -204,7 +204,7 @@ Added in v1.6.0
 
 Monadic forest builder, in depth-first order
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L278-L290)
+**Signature** (function)
 
 ```ts
 export function unfoldForestM<M>(
@@ -218,7 +218,7 @@ Added in v1.6.0
 
 Build a tree from a seed value
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L215-L218)
+**Signature** (function)
 
 ```ts
 export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => { ... }
@@ -230,7 +230,7 @@ Added in v1.6.0
 
 Monadic tree builder, in depth-first order
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Tree.ts#L250-L253)
+**Signature** (function)
 
 ```ts
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>  { ... }

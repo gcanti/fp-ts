@@ -5,9 +5,9 @@ title: Traversable
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts)
 
-# ~~Traversable~~ (deprecated)
+# ~~Traversable~~
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L33-L38)
+**Signature** (type class)
 
 ```ts
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
@@ -22,11 +22,11 @@ Use [Traversable2v](./Traversable2v.md)
 
 Added in v1.0.0
 
-## ~~getTraversableComposition~~ (deprecated)
+## ~~getTraversableComposition~~
 
 Use [Traversable2v](./Traversable2v.md)'s `getTraversableComposition` instead.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L403-L413)
+**Signature** (function)
 
 ```ts
 export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversable<G>): TraversableComposition<F, G>  { ... }
@@ -34,11 +34,11 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
 
 Added in v1.0.0
 
-## ~~sequence~~ (deprecated)
+## ~~sequence~~
 
 Use `sequence` contained in each traversable data structure instead.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L386-L388)
+**Signature** (function)
 
 ```ts
 export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>  { ... }
@@ -56,11 +56,11 @@ assert.deepStrictEqual(array.sequence(option)([none, some(2), some(3)]), none)
 
 Added in v1.0.0
 
-## ~~traverse~~ (deprecated)
+## ~~traverse~~
 
 Use `traverse` contained in each traversable data structure instead.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Traversable.ts#L326-L332)
+**Signature** (function)
 
 ```ts
 export function traverse<F, T>(

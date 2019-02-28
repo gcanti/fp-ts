@@ -5,9 +5,9 @@ title: EitherT
 
 [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts)
 
-## ~~bimap~~ (deprecated)
+## ~~bimap~~
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L207-L211)
+**Signature** (function)
 
 ```ts
 export function bimap<F>(
@@ -17,11 +17,11 @@ export function bimap<F>(
 
 Added in v1.2.0
 
-## ~~chain~~ (deprecated)
+## ~~chain~~
 
 Use [getEitherT2v](#geteithert2v) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L96-L98)
+**Signature** (function)
 
 ```ts
 export function chain<F>(F: Monad<F>): EitherT<F>['chain']  { ... }
@@ -31,7 +31,7 @@ Added in v1.0.0
 
 ## fold
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L42-L46)
+**Signature** (function)
 
 ```ts
 export function fold<F>(
@@ -41,9 +41,9 @@ export function fold<F>(
 
 Added in v1.0.0
 
-## ~~fromEither~~ (deprecated)
+## ~~fromEither~~
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L165-L167)
+**Signature** (function)
 
 ```ts
 export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>>  { ... }
@@ -51,11 +51,11 @@ export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HK
 
 Added in v1.0.0
 
-## ~~getEitherT~~ (deprecated)
+## ~~getEitherT~~
 
 Use [getEitherT2v](#geteithert2v) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L115-L123)
+**Signature** (function)
 
 ```ts
 export function getEitherT<M>(M: Monad<M>): EitherT<M>  { ... }
@@ -65,7 +65,7 @@ Added in v1.0.0
 
 ## getEitherT2v
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L54-L61)
+**Signature** (function)
 
 ```ts
 export function getEitherT2v<M>(M: Monad<M>): EitherT2v<M>  { ... }
@@ -73,9 +73,9 @@ export function getEitherT2v<M>(M: Monad<M>): EitherT2v<M>  { ... }
 
 Added in v1.14.0
 
-## ~~left~~ (deprecated)
+## ~~left~~
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L149-L151)
+**Signature** (function)
 
 ```ts
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>  { ... }
@@ -83,9 +83,9 @@ export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L
 
 Added in v1.0.0
 
-## ~~mapLeft~~ (deprecated)
+## ~~mapLeft~~
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L185-L189)
+**Signature** (function)
 
 ```ts
 export function mapLeft<F>(
@@ -95,9 +95,9 @@ export function mapLeft<F>(
 
 Added in v1.0.0
 
-## ~~right~~ (deprecated)
+## ~~right~~
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/EitherT.ts#L135-L137)
+**Signature** (function)
 
 ```ts
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>  { ... }

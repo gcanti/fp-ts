@@ -7,7 +7,7 @@ title: IO
 
 # IO
 
-**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L24-L63)
+**Signature** (data type)
 
 ```ts
 export class IO<A> {
@@ -21,7 +21,7 @@ If you want to represent a synchronous computation that may fail, please see [IO
 
 ## ap
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L31-L33)
+**Signature** (method)
 
 ```ts
 ap<B>(fab: IO<(a: A) => B>): IO<B>  { ... }
@@ -33,7 +33,7 @@ Added in v1.0.0
 
 Flipped version of [ap](#ap)
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L37-L39)
+**Signature** (method)
 
 ```ts
 ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C>  { ... }
@@ -45,7 +45,7 @@ Added in v1.0.0
 
 Combine two effectful actions, keeping only the result of the first
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L44-L46)
+**Signature** (method)
 
 ```ts
 applyFirst<B>(fb: IO<B>): IO<A>  { ... }
@@ -57,7 +57,7 @@ Added in v1.6.0
 
 Combine two effectful actions, keeping only the result of the second
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L51-L53)
+**Signature** (method)
 
 ```ts
 applySecond<B>(fb: IO<B>): IO<B>  { ... }
@@ -67,7 +67,7 @@ Added in v1.5.0
 
 ## chain
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L54-L56)
+**Signature** (method)
 
 ```ts
 chain<B>(f: (a: A) => IO<B>): IO<B>  { ... }
@@ -77,7 +77,7 @@ Added in v1.0.0
 
 ## inspect
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L57-L59)
+**Signature** (method)
 
 ```ts
 inspect(): string  { ... }
@@ -87,7 +87,7 @@ Added in v1.0.0
 
 ## map
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L28-L30)
+**Signature** (method)
 
 ```ts
 map<B>(f: (a: A) => B): IO<B>  { ... }
@@ -97,7 +97,7 @@ Added in v1.0.0
 
 ## toString
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L60-L62)
+**Signature** (method)
 
 ```ts
 toString(): string  { ... }
@@ -109,7 +109,7 @@ Added in v1.0.0
 
 ## io
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L107-L114)
+**Signature** (constant)
 
 ```ts
 export const io: Monad1<URI> & MonadIO1<URI> = ...
@@ -119,7 +119,7 @@ Added in v1.0.0
 
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L98-L100)
+**Signature** (function)
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => { ... }
@@ -129,7 +129,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/IO.ts#L84-L93)
+**Signature** (function)
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => { ... }

@@ -7,7 +7,7 @@ title: Apply
 
 # Apply
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L21-L23)
+**Signature** (type class)
 
 ```ts
 export interface Apply<F> extends Functor<F> {
@@ -32,7 +32,7 @@ Added in v1.0.0
 
 Combine two effectful actions, keeping only the result of the first
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L64-L66)
+**Signature** (function)
 
 ```ts
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>  { ... }
@@ -44,7 +44,7 @@ Added in v1.0.0
 
 Combine two effectful actions, keeping only the result of the second
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L87-L89)
+**Signature** (function)
 
 ```ts
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>  { ... }
@@ -56,7 +56,7 @@ Added in v1.0.0
 
 If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Semigroup` over `A` as well
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L227-L232)
+**Signature** (function)
 
 ```ts
 export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>>  { ... }
@@ -82,7 +82,7 @@ Added in v1.4.0
 
 Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L112-L114)
+**Signature** (function)
 
 ```ts
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>  { ... }
@@ -95,7 +95,7 @@ Added in v1.0.0
 Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
 `F`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L148-L152)
+**Signature** (function)
 
 ```ts
 export function liftA3<F>(
@@ -110,7 +110,7 @@ Added in v1.0.0
 Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
 `F`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L190-L194)
+**Signature** (function)
 
 ```ts
 export function liftA4<F>(
@@ -124,7 +124,7 @@ Added in v1.0.0
 
 Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Apply.ts#L331-L344)
+**Signature** (function)
 
 ```ts
 export function sequenceT<F>(F: Apply<F>): SequenceT<F>  { ... }

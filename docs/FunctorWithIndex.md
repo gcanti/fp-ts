@@ -7,7 +7,7 @@ title: FunctorWithIndex
 
 # FunctorWithIndex
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FunctorWithIndex.ts#L36-L38)
+**Signature** (type class)
 
 ```ts
 export interface FunctorWithIndex<F, I> extends Functor<F> {
@@ -29,7 +29,7 @@ Added in v1.12.0
 
 ## getFunctorWithIndexComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/FunctorWithIndex.ts#L156-L164)
+**Signature** (function)
 
 ```ts
 export function getFunctorWithIndexComposition<F, FI, G, GI>(

@@ -7,7 +7,7 @@ title: BoundedLattice
 
 # BoundedLattice
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/BoundedLattice.ts#L13-L13)
+**Signature** (type class)
 
 ```ts
 export interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}

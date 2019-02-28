@@ -7,7 +7,7 @@ title: MonadIO
 
 # MonadIO
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/MonadIO.ts#L10-L12)
+**Signature** (type class)
 
 ```ts
 export interface MonadIO<M> extends Monad<M> {

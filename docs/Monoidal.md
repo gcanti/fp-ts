@@ -7,7 +7,7 @@ title: Monoidal
 
 # Monoidal
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts#L16-L19)
+**Signature** (type class)
 
 ```ts
 export interface Monoidal<F> extends Functor<F> {
@@ -25,7 +25,7 @@ Added in v1.0.0
 
 ## fromApplicative
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts#L53-L60)
+**Signature** (function)
 
 ```ts
 export function fromApplicative<F>(applicative: Applicative<F>): Monoidal<F>  { ... }
@@ -35,7 +35,7 @@ Added in v1.0.0
 
 ## toApplicative
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Monoidal.ts#L69-L76)
+**Signature** (function)
 
 ```ts
 export function toApplicative<F>(monoidal: Monoidal<F>): Applicative<F>  { ... }

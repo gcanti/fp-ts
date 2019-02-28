@@ -7,7 +7,7 @@ title: Filterable
 
 # Filterable
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Filterable.ts#L45-L62)
+**Signature** (type class)
 
 ```ts
 export interface Filterable<F> extends Functor<F>, Compactable<F> {
@@ -36,7 +36,7 @@ Added in v1.7.0
 
 ## getFilterableComposition
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Filterable.ts#L306-L323)
+**Signature** (function)
 
 ```ts
 export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>  { ... }

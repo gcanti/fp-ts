@@ -7,7 +7,7 @@ title: Reader
 
 # Reader
 
-**Signature** (data type) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L26-L52)
+**Signature** (data type)
 
 ```ts
 export class Reader<E, A> {
@@ -18,7 +18,7 @@ export class Reader<E, A> {
 
 ## ap
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L34-L36)
+**Signature** (method)
 
 ```ts
 ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B>  { ... }
@@ -30,7 +30,7 @@ Added in v1.0.0
 
 Flipped version of [ap](#ap)
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L40-L42)
+**Signature** (method)
 
 ```ts
 ap_<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C>  { ... }
@@ -40,7 +40,7 @@ Added in v1.0.0
 
 ## chain
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L43-L45)
+**Signature** (method)
 
 ```ts
 chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B>  { ... }
@@ -50,7 +50,7 @@ Added in v1.0.0
 
 ## local
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L49-L51)
+**Signature** (method)
 
 ```ts
 local<E2 = E>(f: (e: E2) => E): Reader<E2, A>  { ... }
@@ -60,7 +60,7 @@ Added in v1.6.1
 
 ## map
 
-**Signature** (method) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L31-L33)
+**Signature** (method)
 
 ```ts
 map<B>(f: (a: A) => B): Reader<E, B>  { ... }
@@ -72,7 +72,7 @@ Added in v1.0.0
 
 ## reader
 
-**Signature** (constant) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L147-L160)
+**Signature** (constant)
 
 ```ts
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
@@ -84,7 +84,7 @@ Added in v1.0.0
 
 reads the current context
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L75-L77)
+**Signature** (function)
 
 ```ts
 export const ask = <E>(): Reader<E, E> => { ... }
@@ -96,7 +96,7 @@ Added in v1.0.0
 
 Projects a value from the global context in a Reader
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L84-L86)
+**Signature** (function)
 
 ```ts
 export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => { ... }
@@ -106,7 +106,7 @@ Added in v1.0.0
 
 ## getMonoid
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L137-L142)
+**Signature** (function)
 
 ```ts
 export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => { ... }
@@ -116,7 +116,7 @@ Added in v1.14.0
 
 ## getSemigroup
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L128-L132)
+**Signature** (function)
 
 ```ts
 export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => { ... }
@@ -128,7 +128,7 @@ Added in v1.14.0
 
 changes the value of the local context during the execution of the action `fa`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Reader.ts#L93-L95)
+**Signature** (function)
 
 ```ts
 export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A> => { ... }

@@ -7,7 +7,7 @@ title: JoinSemilattice
 
 # JoinSemilattice
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/JoinSemilattice.ts#L14-L16)
+**Signature** (type class)
 
 ```ts
 export interface JoinSemilattice<A> {

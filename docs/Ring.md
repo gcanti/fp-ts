@@ -7,7 +7,7 @@ title: Ring
 
 # Ring
 
-**Signature** (type class) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L14-L16)
+**Signature** (type class)
 
 ```ts
 export interface Ring<A> extends Semiring<A> {
@@ -25,7 +25,7 @@ Added in v1.0.0
 
 ## getFunctionRing
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L21-L26)
+**Signature** (function)
 
 ```ts
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => { ... }
@@ -33,11 +33,11 @@ export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => { ...
 
 Added in v1.0.0
 
-## ~~getProductRing~~ (deprecated)
+## ~~getProductRing~~
 
 Use [getTupleRing](#gettuplering) instead
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L55-L57)
+**Signature** (function)
 
 ```ts
 export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => { ... }
@@ -47,7 +47,7 @@ Added in v1.0.0
 
 ## getTupleRing
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L40-L48)
+**Signature** (function)
 
 ```ts
 export const getTupleRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => { ... }
@@ -59,7 +59,7 @@ Added in v1.14.3
 
 `negate x` can be used as a shorthand for `zero - x`
 
-**Signature** (function) [Source](https://github.com/gcanti/fp-ts/blob/master/src/Ring.ts#L33-L35)
+**Signature** (function)
 
 ```ts
 export const negate = <A>(ring: Ring<A>) => (a: A): A => { ... }
