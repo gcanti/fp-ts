@@ -159,7 +159,6 @@ export class Both<L, A> {
 }
 
 /**
- *
  * @since 1.0.0
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
@@ -174,7 +173,6 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A
 }
 
 /**
- *
  * @since 1.0.0
  */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => {
@@ -204,9 +202,14 @@ const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
   return fa.map(f)
 }
 
-const of = <L, A>(a: A): These<L, A> => {
+/**
+ * @since 1.0.0
+ */
+export const that = <L, A>(a: A): These<L, A> => {
   return new That<L, A>(a)
 }
+
+const of = that
 
 const ap = <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => {
   return chain(S)(fab, f => map(fa, f))
@@ -228,7 +231,6 @@ const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These
 }
 
 /**
- *
  * @since 1.0.0
  */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
@@ -275,7 +277,6 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ta: These<L, HKT<F, A>>): HKT<
 }
 
 /**
- *
  * @since 1.0.0
  */
 export const this_ = <L, A>(l: L): These<L, A> => {
@@ -283,14 +284,6 @@ export const this_ = <L, A>(l: L): These<L, A> => {
 }
 
 /**
- *
- * @since 1.0.0
- * @alias of
- */
-export const that = of
-
-/**
- *
  * @since 1.0.0
  */
 export const both = <L, A>(l: L, a: A): These<L, A> => {

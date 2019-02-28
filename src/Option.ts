@@ -455,9 +455,14 @@ const map = <A, B>(fa: Option<A>, f: (a: A) => B): Option<B> => {
   return fa.map(f)
 }
 
-const of = <A>(a: A): Option<A> => {
+/**
+ * @since 1.0.0
+ */
+export const some = <A>(a: A): Option<A> => {
   return new Some(a)
 }
+
+const of = some
 
 const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => {
   return fa.ap(fab)
@@ -636,12 +641,6 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
   return a == null ? none : new Some(a)
 }
-
-/**
- * @since 1.0.0
- * @alias of
- */
-export const some = of
 
 /**
  * @example

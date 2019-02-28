@@ -504,16 +504,6 @@ export const option: Monad1<URI> &
 
 Added in v1.0.0
 
-## some
-
-**Signature** (constant)
-
-```ts
-export const some = ...
-```
-
-Added in v1.0.0
-
 ## fromEither
 
 Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
@@ -835,7 +825,11 @@ Added in v1.0.0
 
 ## some
 
-Alias of [of](#of)
+**Signature** (function)
+
+```ts
+export const some = <A>(a: A): Option<A> => { ... }
+```
 
 Added in v1.0.0
 

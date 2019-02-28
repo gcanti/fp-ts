@@ -198,16 +198,6 @@ Added in v1.0.0
 
 Added in v1.0.0
 
-## success
-
-**Signature** (constant)
-
-```ts
-export const success = ...
-```
-
-Added in v1.0.0
-
 ## validation
 
 **Signature** (constant)
@@ -401,6 +391,10 @@ Added in v1.0.0
 
 ## success
 
-Alias of [of](#of)
+**Signature** (function)
+
+```ts
+export const success = <L, A>(a: A): Validation<L, A> => { ... }
+```
 
 Added in v1.0.0

@@ -557,7 +557,12 @@ Added in v1.0.0
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
 of this structure
-Alias of [of](#of)
+
+**Signature** (function)
+
+```ts
+export const right = <L, A>(a: A): Either<L, A> => { ... }
+```
 
 Added in v1.0.0
 

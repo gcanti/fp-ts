@@ -182,9 +182,14 @@ const map = <L, A, B>(fa: Validation<L, A>, f: (a: A) => B): Validation<L, B> =>
   return fa.map(f)
 }
 
-const of = <L, A>(a: A): Validation<L, A> => {
+/**
+ * @since 1.0.0
+ */
+export const success = <L, A>(a: A): Validation<L, A> => {
   return new Success<L, A>(a)
 }
+
+const of = success
 
 /**
  * @example
@@ -284,12 +289,6 @@ const bimap = <L, V, A, B>(fla: Validation<L, A>, f: (u: L) => V, g: (a: A) => B
 export const failure = <L, A>(l: L): Validation<L, A> => {
   return new Failure(l)
 }
-
-/**
- * @since 1.0.0
- * @alias of
- */
-export const success = of
 
 /**
  * @since 1.0.0

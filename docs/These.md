@@ -144,16 +144,6 @@ Added in v1.0.0
 
 Added in v1.0.0
 
-## that
-
-**Signature** (constant)
-
-```ts
-export const that = ...
-```
-
-Added in v1.0.0
-
 ## these
 
 **Signature** (constant)
@@ -307,7 +297,11 @@ Added in v1.0.0
 
 ## that
 
-Alias of [of](#of)
+**Signature** (function)
+
+```ts
+export const that = <L, A>(a: A): These<L, A> => { ... }
+```
 
 Added in v1.0.0
 
