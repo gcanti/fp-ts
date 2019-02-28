@@ -110,7 +110,7 @@ If you are coming from Haskell or Purescript:
 **Advanced**
 
 - [Free monad and `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/Free.ts)
-- [MTL-style in `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/mtl.ts)
+- [MTL-style in `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/mtl.ts)
 - [Type safe finite state machines with `IxIO` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/ixIO.ts)
 
 # Ecosystem
