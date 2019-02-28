@@ -14,6 +14,20 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.14.3
+
+- **Deprecation**
+  - deprecate `StrMap.traverseWithKey` in favour of `strmap.traverseWithIndex` (@gcanti)
+  - deprecate `OptionT.getOptionT` in favour of `OptionT.getOptionT2v`
+  - deprecate useless `OptionT` functions (@gcanti)
+  - deprecate `EitherT.getEitherT` in favour of `EitherT.getEitherT2v` (@gcanti)
+  - deprecate useless `EitherT` functions (@gcanti)
+  - deprecate `ReaderT.getReaderT` in favour of `ReaderT.getReaderT2v` (@gcanti)
+  - deprecate useless `ReaderT` functions (@gcanti)
+  - deprecate `StateT.getStateT` in favour of `StateT.getStateT2v` (@gcanti)
+  - deprecate useless `StateT` functions (@gcanti)
+  - deprecate `Ord.getProductOrd` / `Ring.getProductRing` in favour of `Ord.getTupleOrd` / `Ring.getTupleRing` (@gcanti)
+
 # 1.14.2
 
 - **Deprecation**
