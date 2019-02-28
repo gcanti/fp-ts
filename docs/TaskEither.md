@@ -17,7 +17,7 @@ export class TaskEither<L, A> {
 ```
 
 `TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
-error of type `L`. If you want to represent an asynchronous computation that never fails, please see [Task](./Task.md).
+error of type `L`. If you want to represent an asynchronous computation that never fails, please see `Task`.
 
 ## alt
 
@@ -41,7 +41,7 @@ Added in v1.0.0
 
 ## ap\_
 
-Flipped version of [ap](#ap)
+Flipped version of `ap`
 
 **Signature** (method)
 
@@ -163,7 +163,7 @@ Added in v1.0.0
 
 ## foldTask
 
-Similar to [fold](#fold), but the result is flattened.
+Similar to `fold`, but the result is flattened.
 
 **Signature** (method)
 
@@ -175,7 +175,7 @@ Added in v1.10.0
 
 ## foldTaskEither
 
-Similar to [fold](#fold), but the result is flattened.
+Similar to `fold`, but the result is flattened.
 
 **Signature** (method)
 
@@ -243,7 +243,7 @@ Added in v1.0.0
 
 ## taskEitherSeq
 
-Like [taskEither](#taskeither) but `ap` is sequential
+Like `TaskEither` but `ap` is sequential
 
 **Signature** (constant)
 

@@ -305,7 +305,7 @@ export function chain<F>(
 }
 
 /**
- * Use {@link getStateT2v} instead
+ * Use `getStateT2v` instead
  * @since 1.0.0
  * @deprecated
  */

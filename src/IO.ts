@@ -16,7 +16,7 @@ export type URI = typeof URI
 
 /**
  * `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
- * If you want to represent a synchronous computation that may fail, please see {@link IOEither}.
+ * If you want to represent a synchronous computation that may fail, please see `IOEither`.
  * @data
  * @constructor IO
  * @since 1.0.0
@@ -32,7 +32,7 @@ export class IO<A> {
     return new IO(() => fab.run()(this.run()))
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    */
   ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C> {
     return fb.ap(this)

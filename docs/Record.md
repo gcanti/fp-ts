@@ -17,7 +17,7 @@ Added in v1.10.0
 
 ## isSubdictionary
 
-Use [isSubrecord](#issubrecord) instead
+Use `isSubrecord` instead
 
 **Signature** (constant)
 
@@ -91,7 +91,7 @@ Added in v1.10.0
 
 ## ~~filterMapWithIndex~~
 
-Use [filterMapWithKey](#filtermapwithkey) instead
+Use `filterMapWithKey` instead
 
 **Signature** (function)
 
@@ -116,7 +116,7 @@ Added in v1.14.0
 
 ## ~~filterWithIndex~~
 
-Use [filterWithKey](#filterwithkey) instead
+Use `filterWithKey` instead
 
 **Signature** (function)
 
@@ -194,7 +194,7 @@ Added in v1.10.0
 
 ## getMonoid
 
-Returns a [Semigroup](./Semigroup.md) instance for records given a [Semigroup](./Semigroup.md) instance for their values
+Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
 
 **Signature** (function)
 
@@ -320,7 +320,7 @@ Added in v1.10.0
 
 ## ~~partitionMapWithIndex~~
 
-Use [partitionMapWithKey](#partitionmapwithkey) instead
+Use `partitionMapWithKey` instead
 
 **Signature** (function)
 
@@ -348,7 +348,7 @@ Added in v1.14.0
 
 ## ~~partitionWithIndex~~
 
-Use [partitionWithKey](#partitionwithkey) instead
+Use `partitionWithKey` instead
 
 **Signature** (function)
 

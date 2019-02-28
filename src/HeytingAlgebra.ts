@@ -11,7 +11,7 @@ import { BoundedDistributiveLattice } from './BoundedDistributiveLattice'
  * Heyting algebras model intuitionistic logic. For a model of classical logic, see the boolean algebra type class
  * implemented as `BooleanAlgebra`.
  *
- * A `HeytingAlgebra` must satisfy the following laws in addition to {@link BoundedDistributiveLattice} laws:
+ * A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistributiveLattice` laws:
  *
  * - Implication:
  *   - `a → a = 1`

@@ -289,7 +289,7 @@ Added in v1.0.0
 
 ## getCompactable
 
-Builds [Compactable](./Compactable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the failure side
+Builds `Compactable` instance for `Validation` given `Monoid` for the failure side
 
 **Signature** (function)
 
@@ -301,7 +301,7 @@ Added in v1.7.0
 
 ## getFilterable
 
-Builds [Filterable](./Filterable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the left side
+Builds `Filterable` instance for `Validation` given `Monoid` for the left side
 
 **Signature** (function)
 
@@ -313,7 +313,7 @@ Added in v1.7.0
 
 ## getMonad
 
-**Note**: This function is here just to avoid switching to / from [Either](./Either.md)
+**Note**: This function is here just to avoid switching to / from `Either`
 
 **Signature** (function)
 
@@ -355,7 +355,7 @@ Added in v1.0.0
 
 ## getWitherable
 
-Builds [Witherable](./Witherable.md) instance for [Validation](./Validation.md) given [Monoid](./Monoid.md) for the left side
+Builds `Witherable` instance for `Validation` given `Monoid` for the left side
 
 **Signature** (function)
 

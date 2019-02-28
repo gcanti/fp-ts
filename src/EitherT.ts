@@ -79,7 +79,7 @@ export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, U
 }
 
 /**
- * Use {@link getEitherT2v} instead
+ * Use `getEitherT2v` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -98,7 +98,7 @@ export function chain<F>(F: Monad<F>): EitherT<F>['chain'] {
 }
 
 /**
- * Use {@link getEitherT2v} instead
+ * Use `getEitherT2v` instead
  * @since 1.0.0
  * @deprecated
  */

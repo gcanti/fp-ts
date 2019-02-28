@@ -242,7 +242,7 @@ export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>>
 }
 
 /**
- * Gets {@link Monoid} instance for Maps given {@link Semigroup} instance for their values
+ * Gets `Monoid` instance for Maps given `Semigroup` instance for their values
  *
  * @since 1.14.0
  */

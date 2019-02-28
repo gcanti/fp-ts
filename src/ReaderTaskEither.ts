@@ -47,7 +47,7 @@ export class ReaderTaskEither<E, L, A> {
     return new ReaderTaskEither(readerTTaskEither.ap(fab.value, this.value))
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    */
   ap_<B, C>(this: ReaderTaskEither<E, L, (b: B) => C>, fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, C> {
     return fb.ap(this)
@@ -254,7 +254,7 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
 }
 
 /**
- * Like {@link readerTaskEither} but `ap` is sequential
+ * Like `readerTaskEither` but `ap` is sequential
  * @since 1.10.0
  */
 export const readerTaskEitherSeq: typeof readerTaskEither = {

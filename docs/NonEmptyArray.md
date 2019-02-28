@@ -40,7 +40,7 @@ Added in v1.0.0
 
 ## ap\_
 
-Flipped version of [ap](#ap)
+Flipped version of `ap`
 
 **Signature** (method)
 
@@ -102,7 +102,7 @@ Added in v1.0.0
 
 ## concatArray
 
-Concatenates this [NonEmptyArray](./NonEmptyArray.md) and passed [Array](./Array.md)
+Concatenates this `NonEmptyArray` and passed `Array`
 
 **Signature** (method)
 
@@ -340,7 +340,7 @@ Added in v1.11.0
 
 ## inspect
 
-Same as [toString](#tostring)
+Same as `toString`
 
 **Signature** (method)
 
@@ -352,7 +352,7 @@ Added in v1.0.0
 
 ## last
 
-Gets last element of this [NonEmptyArray](./NonEmptyArray.md)
+Gets last element of this `NonEmptyArray`
 
 **Signature** (method)
 
@@ -434,7 +434,7 @@ Added in v1.0.0
 
 ## max
 
-Gets maximum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
+Gets maximum of this `NonEmptyArray` using specified `Ord` instance
 
 **Signature** (method)
 
@@ -455,7 +455,7 @@ Added in v1.3.0
 
 ## min
 
-Gets minimum of this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
+Gets minimum of this `NonEmptyArray` using specified `Ord` instance
 
 **Signature** (method)
 
@@ -505,7 +505,7 @@ Added in v1.12.0
 
 ## reverse
 
-Reverts this [NonEmptyArray](./NonEmptyArray.md)
+Reverts this `NonEmptyArray`
 
 **Signature** (method)
 
@@ -535,7 +535,7 @@ Added in v1.14.0
 
 ## sort
 
-Sorts this [NonEmptyArray](./NonEmptyArray.md) using specified [Ord](./Ord.md) instance
+Sorts this `NonEmptyArray` using specified `Ord` instance
 
 **Signature** (method)
 
@@ -556,7 +556,7 @@ Added in v1.6.0
 
 ## toArray
 
-Converts this [NonEmptyArray](./NonEmptyArray.md) to a plain [Array](./Array.md)
+Converts this `NonEmptyArray` to a plain `Array`
 
 **Signature** (method)
 
@@ -576,7 +576,7 @@ Added in v1.0.0
 
 ## toArrayMap
 
-Converts this [NonEmptyArray](./NonEmptyArray.md) to a plain [Array](./Array.md) using the given map function
+Converts this `NonEmptyArray` to a plain `Array` using the given map function
 
 **Signature** (method)
 
@@ -596,7 +596,7 @@ Added in v1.14.0
 
 ## toString
 
-Return stringified representation of this [NonEmptyArray](./NonEmptyArray.md)
+Return stringified representation of this `NonEmptyArray`
 
 **Signature** (method)
 
@@ -647,7 +647,7 @@ Added in v1.0.0
 
 ## fromArray
 
-Builds [NonEmptyArray](./NonEmptyArray.md) from [Array](./Array.md) returning [Option#none](./Option.md#none) or [Option#some](./Option.md#some) depending on amount of values in passed array
+Builds `NonEmptyArray` from `Array` returning `Option.none` or `Option.some` depending on amount of values in passed array
 
 **Signature** (function)
 
@@ -659,7 +659,7 @@ Added in v1.0.0
 
 ## getSemigroup
 
-Builds [Semigroup](./Semigroup.md) instance for [NonEmptyArray](./NonEmptyArray.md) of specified type arument
+Builds `Semigroup` instance for `NonEmptyArray` of specified type arument
 
 **Signature** (function)
 

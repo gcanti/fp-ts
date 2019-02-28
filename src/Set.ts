@@ -136,7 +136,7 @@ export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<
 }
 
 /**
- * Use {@link elem} instead
+ * Use `elem` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -219,7 +219,7 @@ export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
 }
 
 /**
- * Use {@link difference2v} instead
+ * Use `difference2v` instead
  *
  * @since 1.0.0
  * @deprecated

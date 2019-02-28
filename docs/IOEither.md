@@ -17,7 +17,7 @@ export class IOEither<L, A> {
 ```
 
 `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
-error of type `L`. If you want to represent a synchronous computation that never fails, please see [IO](./IO.md).
+error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
 
 ## alt
 
@@ -41,7 +41,7 @@ Added in v1.6.0
 
 ## ap\_
 
-Flipped version of [ap](#ap)
+Flipped version of `ap`
 
 **Signature** (method)
 
@@ -201,7 +201,7 @@ Added in v1.6.0
 
 ## ~~tryCatch~~
 
-Use [tryCatch2v](#trycatch2v)
+Use `tryCatch2v` instead
 
 **Signature** (function)
 

@@ -20,8 +20,8 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 
 /**
- * A {@link Foldable} with an additional index.
- * A `FoldableWithIndex` instance must be compatible with its {@link Foldable} instance
+ * A `Foldable` with an additional index.
+ * A `FoldableWithIndex` instance must be compatible with its `Foldable` instance
  *
  * ```ts
  * reduce(fa, b, f) = reduceWithIndex(fa, b, (_, b, a) => f(b, a))

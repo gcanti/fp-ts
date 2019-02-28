@@ -37,7 +37,7 @@ export class Identity<A> {
     return this.map(fab.value)
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    */
   ap_<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C> {
     return fb.ap(this)
@@ -53,7 +53,7 @@ export class Identity<A> {
   }
 
   /**
-   * Lazy version of {@link alt}
+   * Lazy version of `alt`
    *
    * @example
    * import { Identity } from 'fp-ts/lib/Identity'

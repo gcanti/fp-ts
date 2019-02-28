@@ -38,7 +38,7 @@ Added in v1.0.0
 
 ## ap\_
 
-Flipped version of [ap](#ap)
+Flipped version of `ap`
 
 **Signature** (method)
 
@@ -110,7 +110,7 @@ Added in v1.0.0
 
 ## orElse
 
-Lazy version of [alt](#alt)
+Lazy version of `alt`
 
 **Signature** (method)
 

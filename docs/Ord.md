@@ -121,7 +121,7 @@ Added in v1.3.0
 
 ## ~~getProductOrd~~
 
-Use [getTupleOrd](#gettupleord) instead
+Use `getTupleOrd` instead
 
 **Signature** (function)
 

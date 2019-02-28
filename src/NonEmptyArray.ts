@@ -48,7 +48,7 @@ export class NonEmptyArray<A> {
   constructor(readonly head: A, readonly tail: Array<A>) {}
 
   /**
-   * Converts this {@link NonEmptyArray} to a plain {@link Array}
+   * Converts this `NonEmptyArray` to a plain `Array`
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -60,7 +60,7 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Converts this {@link NonEmptyArray} to a plain {@link Array} using the given map function
+   * Converts this `NonEmptyArray` to a plain `Array` using the given map function
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -74,7 +74,7 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Concatenates this {@link NonEmptyArray} and passed {@link Array}
+   * Concatenates this `NonEmptyArray` and passed `Array`
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -113,7 +113,7 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -205,21 +205,21 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Same as {@link toString}
+   * Same as `toString`
    */
   inspect(): string {
     return this.toString()
   }
 
   /**
-   * Return stringified representation of this {@link NonEmptyArray}
+   * Return stringified representation of this `NonEmptyArray`
    */
   toString(): string {
     return `new NonEmptyArray(${toString(this.head)}, ${toString(this.tail)})`
   }
 
   /**
-   * Gets minimum of this {@link NonEmptyArray} using specified {@link Ord} instance
+   * Gets minimum of this `NonEmptyArray` using specified `Ord` instance
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -234,7 +234,7 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Gets maximum of this {@link NonEmptyArray} using specified {@link Ord} instance
+   * Gets maximum of this `NonEmptyArray` using specified `Ord` instance
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -249,7 +249,7 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Gets last element of this {@link NonEmptyArray}
+   * Gets last element of this `NonEmptyArray`
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -264,7 +264,7 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Sorts this {@link NonEmptyArray} using specified {@link Ord} instance
+   * Sorts this `NonEmptyArray` using specified `Ord` instance
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -279,7 +279,7 @@ export class NonEmptyArray<A> {
   }
 
   /**
-   * Reverts this {@link NonEmptyArray}
+   * Reverts this `NonEmptyArray`
    *
    * @example
    * import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
@@ -482,7 +482,7 @@ const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
 }
 
 /**
- * Builds {@link NonEmptyArray} from {@link Array} returning {@link Option#none} or {@link Option#some} depending on amount of values in passed array
+ * Builds `NonEmptyArray` from `Array` returning `Option.none` or `Option.some` depending on amount of values in passed array
  *
  * @since 1.0.0
  */
@@ -515,7 +515,7 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
 }
 
 /**
- * Builds {@link Semigroup} instance for {@link NonEmptyArray} of specified type arument
+ * Builds `Semigroup` instance for `NonEmptyArray` of specified type arument
  *
  * @since 1.0.0
  */

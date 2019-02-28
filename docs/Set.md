@@ -37,7 +37,7 @@ Added in v1.12.0
 
 ## ~~difference~~
 
-Use [difference2v](#difference2v) instead
+Use `difference2v` instead
 
 **Signature** (function)
 
@@ -200,7 +200,7 @@ Added in v1.2.0
 
 ## ~~member~~
 
-Use [elem](#elem) instead
+Use `elem` instead
 
 **Signature** (function)
 

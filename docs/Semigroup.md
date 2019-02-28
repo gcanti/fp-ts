@@ -97,7 +97,7 @@ Added in v1.0.0
 
 ## ~~getArraySemigroup~~
 
-Use [Monoid](./Monoid.md)'s `getArrayMonoid` instead
+Use `Monoid`'s `getArrayMonoid` instead
 
 **Signature** (function)
 
@@ -109,7 +109,7 @@ Added in v1.0.0
 
 ## ~~getDictionarySemigroup~~
 
-Use [Record](./Record.md)'s `getMonoid`
+Use `Record`'s `getMonoid`
 
 **Signature** (function)
 
@@ -181,7 +181,7 @@ Added in v1.0.0
 
 ## getObjectSemigroup
 
-Returns a [Semigroup](./Semigroup.md) instance for objects preserving their type
+Returns a `Semigroup` instance for objects preserving their type
 
 **Signature** (function)
 
@@ -207,7 +207,7 @@ Added in v1.4.0
 
 ## ~~getProductSemigroup~~
 
-Use [getTupleSemigroup](#gettuplesemigroup) instead
+Use `getTupleSemigroup` instead
 
 **Signature** (function)
 
@@ -219,7 +219,7 @@ Added in v1.0.0
 
 ## ~~getRecordSemigroup~~
 
-Use [getStructSemigroup](#getstructsemigroup) instead
+Use `getStructSemigroup` instead
 
 **Signature** (function)
 

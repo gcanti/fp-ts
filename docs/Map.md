@@ -75,7 +75,7 @@ Added in v1.14.0
 
 ## getMonoid
 
-Gets [Monoid](./Monoid.md) instance for Maps given [Semigroup](./Semigroup.md) instance for their values
+Gets `Monoid` instance for Maps given `Semigroup` instance for their values
 
 **Signature** (function)
 

@@ -44,7 +44,7 @@ export const getTupleMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B
 }
 
 /**
- * Use {@link getTupleMonoid} instead
+ * Use `getTupleMonoid` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -102,7 +102,7 @@ export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
 const emptyObject = {}
 
 /**
- * Use {@link Record}'s `getMonoid`
+ * Use `Record`'s `getMonoid`
  * @since 1.4.0
  * @deprecated
  */
@@ -187,7 +187,7 @@ export const getStructMonoid = <O extends { [key: string]: any }>(
 }
 
 /**
- * Use {@link getStructMonoid} instead
+ * Use `getStructMonoid` instead
  * @since 1.0.0
  * @deprecated
  */

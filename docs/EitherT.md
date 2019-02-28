@@ -19,7 +19,7 @@ Added in v1.2.0
 
 ## ~~chain~~
 
-Use [getEitherT2v](#geteithert2v) instead
+Use `getEitherT2v` instead
 
 **Signature** (function)
 
@@ -53,7 +53,7 @@ Added in v1.0.0
 
 ## ~~getEitherT~~
 
-Use [getEitherT2v](#geteithert2v) instead
+Use `getEitherT2v` instead
 
 **Signature** (function)
 

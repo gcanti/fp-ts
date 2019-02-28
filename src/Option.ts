@@ -184,7 +184,7 @@ export class None<A> {
     return none
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    *
    * @example
    * import { some, none } from 'fp-ts/lib/Option'
@@ -222,7 +222,7 @@ export class None<A> {
   }
 
   /**
-   * Lazy version of {@link alt}
+   * Lazy version of `alt`
    *
    * @example
    * import { some } from 'fp-ts/lib/Option'
@@ -250,7 +250,7 @@ export class None<A> {
   fold<B>(b: B, onSome: (a: A) => B): B {
     return b
   }
-  /** Lazy version of {@link fold} */
+  /** Lazy version of `fold` */
   foldL<B>(onNone: () => B, onSome: (a: A) => B): B {
     return onNone()
   }
@@ -267,7 +267,7 @@ export class None<A> {
   getOrElse(a: A): A {
     return a
   }
-  /** Lazy version of {@link getOrElse} */
+  /** Lazy version of `getOrElse` */
   getOrElseL(f: () => A): A {
     return f()
   }
@@ -313,7 +313,7 @@ export class None<A> {
     return none
   }
   /**
-   * Use {@link filter} instead.
+   * Use `filter` instead.
    * Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
    * this Option's value. Otherwise returns `None`
    * @since 1.3.0
@@ -505,7 +505,7 @@ const zero = <A>(): Option<A> => {
 }
 
 /**
- * {@link Apply} semigroup
+ * `Apply` semigroup
  *
  * | x       | y       | concat(x, y)       |
  * | ------- | ------- | ------------------ |
@@ -720,8 +720,8 @@ export const isNone = <A>(fa: Option<A>): fa is None<A> => {
 }
 
 /**
- * Use {@link fromPredicate} instead.
- * Refinement version of {@link fromPredicate}
+ * Use `fromPredicate` instead.
+ * Refinement version of `fromPredicate`
  *
  * @since 1.3.0
  * @deprecated

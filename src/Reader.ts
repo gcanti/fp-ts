@@ -35,7 +35,7 @@ export class Reader<E, A> {
     return new Reader((e: E) => fab.run(e)(this.run(e)))
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    */
   ap_<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C> {
     return fb.ap(this)

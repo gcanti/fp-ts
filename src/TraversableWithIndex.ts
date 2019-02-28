@@ -5,20 +5,20 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Traversable2v, Traversable2v1, Traversable2v2, Traversable2v2C } from './Traversable2v'
 
 /**
- * A {@link Traversable} with an additional index.
- * A `TraversableWithIndex` instance must be compatible with its {@link Traversable} instance
+ * A `Traversable` with an additional index.
+ * A `TraversableWithIndex` instance must be compatible with its `Traversable` instance
  *
  * ```ts
  * traverse(F)(ta, f) = traverseWithIndex(F)(ta, (_, a) => f(a))
  * ```
  *
- * with its {@link FoldableWithIndex} instance
+ * with its `FoldableWithIndex` instance
  *
  * ```ts
  * foldMapWithIndex(M)(ta, f) = traverseWithIndex(getApplicative(M))(ta, (i, a) => new Const(f(i, a))).value
  * ```
  *
- * and with its {@link FunctorWithIndex} instance
+ * and with its `FunctorWithIndex` instance
  *
  * ```purescript
  * mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value

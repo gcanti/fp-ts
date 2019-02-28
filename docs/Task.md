@@ -17,7 +17,7 @@ export class Task<A> {
 ```
 
 `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
-If you want to represent an asynchronous computation that may fail, please see [TaskEither](./TaskEither.md).
+If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
 
 ## ap
 
@@ -31,7 +31,7 @@ Added in v1.0.0
 
 ## ap\_
 
-Flipped version of [ap](#ap)
+Flipped version of `ap`
 
 **Signature** (method)
 
@@ -119,7 +119,7 @@ Added in v1.0.0
 
 ## taskSeq
 
-Like [task](#task) but `ap` is sequential
+Like `Task` but `ap` is sequential
 
 **Signature** (constant)
 

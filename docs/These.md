@@ -28,7 +28,7 @@ export class Both<L, A> {
 }
 ```
 
-A data structure providing "inclusive-or" as opposed to [Either](./Either.md)'s "exclusive-or".
+A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
 
 If you interpret `Either<L, A>` as suggesting the computation may either fail or succeed (exclusively), then
 `These<L, A>` may fail, succeed, or do both at the same time.

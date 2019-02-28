@@ -151,7 +151,7 @@ Added in v1.0.0
 
 ## ap\_
 
-Flipped version of [ap](#ap)
+Flipped version of `ap`
 
 **Signature** (method)
 
@@ -254,7 +254,7 @@ Added in v1.0.0
 
 ## foldL
 
-Lazy version of [fold](#fold)
+Lazy version of `fold`
 
 **Signature** (method)
 
@@ -288,7 +288,7 @@ Added in v1.0.0
 
 ## getOrElseL
 
-Lazy version of [getOrElse](#getorelse)
+Lazy version of `getOrElse`
 
 **Signature** (method)
 
@@ -398,7 +398,7 @@ Added in v1.0.0
 
 ## orElse
 
-Lazy version of [alt](#alt)
+Lazy version of `alt`
 
 **Signature** (method)
 
@@ -428,7 +428,7 @@ Added in v1.0.0
 
 ## ~~refine~~
 
-Use [filter](#filter) instead.
+Use `filter` instead.
 Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
 this Option's value. Otherwise returns `None`
 
@@ -573,8 +573,8 @@ Added in v1.0.0
 
 ## ~~fromRefinement~~
 
-Use [fromPredicate](#frompredicate) instead.
-Refinement version of [fromPredicate](#frompredicate)
+Use `fromPredicate` instead.
+Refinement version of `fromPredicate`
 
 **Signature** (function)
 
@@ -596,7 +596,7 @@ Added in v1.7.0
 
 ## getApplySemigroup
 
-[Apply](./Apply.md) semigroup
+`Apply` semigroup
 
 | x       | y       | concat(x, y)       |
 | ------- | ------- | ------------------ |

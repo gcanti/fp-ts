@@ -11,7 +11,7 @@ import { Setoid } from './Setoid'
 import { Predicate } from './function'
 
 /**
- * Use {@link Foldable2v}
+ * Use `Foldable2v`
  * @typeclass
  * @since 1.0.0
  * @deprecated
@@ -231,7 +231,7 @@ export function foldM<F, M>(
 }
 
 /**
- * Use {@link traverse}
+ * Use `traverse` instead
  *
  * @since 1.0.0
  * @deprecated

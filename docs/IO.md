@@ -17,7 +17,7 @@ export class IO<A> {
 ```
 
 `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
-If you want to represent a synchronous computation that may fail, please see [IOEither](./IOEither.md).
+If you want to represent a synchronous computation that may fail, please see `IOEither`.
 
 ## ap
 
@@ -31,7 +31,7 @@ Added in v1.0.0
 
 ## ap\_
 
-Flipped version of [ap](#ap)
+Flipped version of `ap`
 
 **Signature** (method)
 

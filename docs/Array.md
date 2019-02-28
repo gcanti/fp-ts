@@ -42,7 +42,7 @@ Added in v1.9.0
 
 Filter an array of optional values, keeping only the elements which contain a value, creating a new array.
 
-Alias of [Compactable](./Compactable.md)'s `compact`
+Alias of `Compactable`'s `compact`
 
 **Signature** (function)
 
@@ -206,7 +206,7 @@ Added in v1.0.0
 
 ## difference
 
-Creates an array of array values not included in the other given array using a [Setoid](./Setoid.md) for equality
+Creates an array of array values not included in the other given array using a `Setoid` for equality
 comparisons. The order and references of result values are determined by the first array.
 
 **Signature** (function)
@@ -456,7 +456,7 @@ Added in v1.0.0
 
 ## foldL
 
-Lazy version of [fold](#fold)
+Lazy version of `fold`
 
 **Signature** (function)
 
@@ -480,7 +480,7 @@ Added in v1.7.0
 
 ## foldrL
 
-Lazy version of [foldr](#foldr)
+Lazy version of `foldr`
 
 **Signature** (function)
 
@@ -585,7 +585,7 @@ Added in v1.0.0
 
 ## ~~index~~
 
-Use [lookup](#lookup) instead
+Use `lookup` instead
 
 **Signature** (function)
 
@@ -640,7 +640,7 @@ Added in v1.0.0
 
 ## intersection
 
-Creates an array of unique values that are included in all given arrays using a [Setoid](./Setoid.md) for equality
+Creates an array of unique values that are included in all given arrays using a `Setoid` for equality
 comparisons. The order and references of result values are determined by the first array.
 
 **Signature** (function)
@@ -782,7 +782,7 @@ Added in v1.10.0
 
 Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
 
-Alias of [Filterable](./Filterable.md)'s `filterMap`
+Alias of `Filterable`'s `filterMap`
 
 **Signature** (function)
 
@@ -804,7 +804,7 @@ Added in v1.0.0
 
 ## ~~member~~
 
-Use [elem](#elem) instead
+Use `elem` instead
 
 **Signature** (function)
 
@@ -893,7 +893,7 @@ Added in v1.10.0
 
 ## ~~refine~~
 
-Use [filter](#filter) instead
+Use `filter` instead
 
 **Signature** (function)
 
@@ -1104,7 +1104,7 @@ Added in v1.3.0
 
 ## sortBy1
 
-Non failing version of [sortBy](#sortby)
+Non failing version of `sortBy`
 
 **Signature** (function)
 
@@ -1267,7 +1267,7 @@ Added in v1.0.0
 
 ## ~~traverse~~
 
-Use [array](#array)`.traverse` instead
+Use `array.traverse` instead
 
 **Signature** (function)
 
@@ -1279,7 +1279,7 @@ Added in v1.0.0
 
 ## union
 
-Creates an array of unique values, in order, from all given arrays using a [Setoid](./Setoid.md) for equality comparisons
+Creates an array of unique values, in order, from all given arrays using a `Setoid` for equality comparisons
 
 **Signature** (function)
 

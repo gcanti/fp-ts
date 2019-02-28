@@ -61,7 +61,7 @@ Added in v1.14.0
 
 ## ~~getStateT~~
 
-Use [getStateT2v](#getstatet2v) instead
+Use `getStateT2v` instead
 
 **Signature** (function)
 

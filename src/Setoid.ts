@@ -71,7 +71,7 @@ export const getStructSetoid = <O extends { [key: string]: any }>(
 }
 
 /**
- * Use {@link getStructSetoid} instead
+ * Use `getStructSetoid` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -89,7 +89,7 @@ export const getTupleSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B
 }
 
 /**
- * Use {@link getTupleSetoid} instead
+ * Use `getTupleSetoid` instead
  * @since 1.0.0
  * @deprecated
  */

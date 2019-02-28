@@ -16,7 +16,7 @@ export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 Boolean algebras are Heyting algebras with the additional constraint that the law of the excluded middle is true
 (equivalently, double-negation is true).
 
-Instances should satisfy the following laws in addition to the [HeytingAlgebra](./HeytingAlgebra.md) laws:
+Instances should satisfy the following laws in addition to the `HeytingAlgebra` laws:
 
 - Excluded middle: `a ∨ ¬a = 1`
 

@@ -43,7 +43,7 @@ export class Tree<A> {
     return fab.chain(f => this.map(f)) // <- derived
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    * @since 1.6.0
    */
   ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C> {

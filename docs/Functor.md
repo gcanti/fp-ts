@@ -64,7 +64,7 @@ Added in v1.0.0
 
 ## voidLeft
 
-A version of [voidRight](#voidright) with its arguments flipped (`$>`)
+A version of `voidRight` with its arguments flipped (`$>`)
 
 **Signature** (function)
 

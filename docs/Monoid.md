@@ -119,7 +119,7 @@ Added in v1.0.0
 
 ## ~~getDictionaryMonoid~~
 
-Use [Record](./Record.md)'s `getMonoid`
+Use `Record`'s `getMonoid`
 
 **Signature** (function)
 
@@ -181,7 +181,7 @@ Added in v1.9.0
 
 ## ~~getProductMonoid~~
 
-Use [getTupleMonoid](#gettuplemonoid) instead
+Use `getTupleMonoid` instead
 
 **Signature** (function)
 
@@ -193,7 +193,7 @@ Added in v1.0.0
 
 ## ~~getRecordMonoid~~
 
-Use [getStructMonoid](#getstructmonoid) instead
+Use `getStructMonoid` instead
 
 **Signature** (function)
 

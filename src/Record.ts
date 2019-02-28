@@ -128,7 +128,7 @@ export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Reco
 }
 
 /**
- * Use {@link isSubrecord} instead
+ * Use `isSubrecord` instead
  * @since 1.10.0
  * @deprecated
  */
@@ -147,7 +147,7 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> {
 }
 
 /**
- * Returns a {@link Semigroup} instance for records given a {@link Semigroup} instance for their values
+ * Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
  *
  * @example
  * import { semigroupSum } from 'fp-ts/lib/Semigroup'
@@ -686,7 +686,7 @@ export function elem<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boole
 }
 
 /**
- * Use {@link partitionMapWithKey} instead
+ * Use `partitionMapWithKey` instead
  * @since 1.12.0
  * @deprecated
  */
@@ -706,7 +706,7 @@ export function partitionMapWithIndex<RL, RR, A>(
 }
 
 /**
- * Use {@link partitionWithKey} instead
+ * Use `partitionWithKey` instead
  * @since 1.12.0
  * @deprecated
  */
@@ -726,7 +726,7 @@ export function partitionWithIndex<A>(
 }
 
 /**
- * Use {@link filterMapWithKey} instead
+ * Use `filterMapWithKey` instead
  * @since 1.12.0
  * @deprecated
  */
@@ -743,7 +743,7 @@ export function filterMapWithIndex<A, B>(
 }
 
 /**
- * Use {@link filterWithKey} instead
+ * Use `filterWithKey` instead
  * @since 1.12.0
  * @deprecated
  */

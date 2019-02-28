@@ -241,7 +241,7 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
 }
 
 /**
- * **Note**: This function is here just to avoid switching to / from {@link Either}
+ * **Note**: This function is here just to avoid switching to / from `Either`
  *
  * @since 1.0.0
  */
@@ -371,7 +371,7 @@ export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
 }
 
 /**
- * Builds {@link Compactable} instance for {@link Validation} given {@link Monoid} for the failure side
+ * Builds `Compactable` instance for `Validation` given `Monoid` for the failure side
  *
  * @since 1.7.0
  */
@@ -413,7 +413,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 }
 
 /**
- * Builds {@link Filterable} instance for {@link Validation} given {@link Monoid} for the left side
+ * Builds `Filterable` instance for `Validation` given `Monoid` for the left side
  *
  * @since 1.7.0
  */
@@ -490,7 +490,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
 }
 
 /**
- * Builds {@link Witherable} instance for {@link Validation} given {@link Monoid} for the left side
+ * Builds `Witherable` instance for `Validation` given `Monoid` for the left side
  *
  * @since 1.7.0
  */

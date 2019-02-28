@@ -24,7 +24,7 @@ import {
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * Use {@link Traversable2v}
+ * Use `Traversable2v` instead
  * @typeclass
  * @since 1.0.0
  * @deprecated
@@ -388,7 +388,7 @@ export function sequence<F, T>(F: Applicative<F>, T: Traversable<T>): <A>(tfa: H
 }
 
 /**
- * Use {@link Traversable2v}'s `getTraversableComposition` instead.
+ * Use `Traversable2v`'s `getTraversableComposition` instead.
  *
  * @since 1.0.0
  * @deprecated

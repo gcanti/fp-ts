@@ -16,7 +16,7 @@ export interface Foldable<F> {
 }
 ```
 
-Use [Foldable2v](./Foldable2v.md)
+Use `Foldable2v`
 
 Added in v1.0.0
 
@@ -220,7 +220,7 @@ Added in v1.7.0
 
 ## ~~traverse\_~~
 
-Use [traverse](#traverse)
+Use `traverse` instead
 
 **Signature** (function)
 

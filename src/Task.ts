@@ -19,7 +19,7 @@ export type URI = typeof URI
 
 /**
  * `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
- * If you want to represent an asynchronous computation that may fail, please see {@link TaskEither}.
+ * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
  * @data
  * @constructor Task
  * @since 1.0.0
@@ -35,7 +35,7 @@ export class Task<A> {
     return new Task(() => Promise.all([fab.run(), this.run()]).then(([f, a]) => f(a)))
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    */
   ap_<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C> {
     return fb.ap(this)
@@ -178,7 +178,7 @@ export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
 }
 
 /**
- * Like {@link task} but `ap` is sequential
+ * Like `Task` but `ap` is sequential
  *
  * @since 1.10.0
  */

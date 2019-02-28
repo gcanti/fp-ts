@@ -600,7 +600,7 @@ export function traverse_<M, F>(
 }
 
 /**
- * Use {@link elem} instead
+ * Use `elem` instead
  * @since 1.10.0
  * @deprecated
  */

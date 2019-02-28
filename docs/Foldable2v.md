@@ -190,7 +190,7 @@ Added in v1.10.0
 
 ## ~~member~~
 
-Use [elem](#elem) instead
+Use `elem` instead
 
 **Signature** (function)
 

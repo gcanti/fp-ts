@@ -18,13 +18,13 @@ export interface Traversable<T> extends Functor<T>, Foldable<T> {
 }
 ```
 
-Use [Traversable2v](./Traversable2v.md)
+Use `Traversable2v` instead
 
 Added in v1.0.0
 
 ## ~~getTraversableComposition~~
 
-Use [Traversable2v](./Traversable2v.md)'s `getTraversableComposition` instead.
+Use `Traversable2v`'s `getTraversableComposition` instead.
 
 **Signature** (function)
 

@@ -34,7 +34,7 @@ const foldT = eitherT.fold(task)
 
 /**
  * `TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
- * error of type `L`. If you want to represent an asynchronous computation that never fails, please see {@link Task}.
+ * error of type `L`. If you want to represent an asynchronous computation that never fails, please see `Task`.
  * @data
  * @constructor TaskEither
  * @since 1.0.0
@@ -55,7 +55,7 @@ export class TaskEither<L, A> {
     return new TaskEither(T.ap(fab.value, this.value))
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    */
   ap_<B, C>(this: TaskEither<L, (b: B) => C>, fb: TaskEither<L, B>): TaskEither<L, C> {
     return fb.ap(this)
@@ -95,14 +95,14 @@ export class TaskEither<L, A> {
     return foldT(onLeft, onRight, this.value)
   }
   /**
-   * Similar to {@link fold}, but the result is flattened.
+   * Similar to `fold`, but the result is flattened.
    * @since 1.10.0
    */
   foldTask<R>(onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>): Task<R> {
     return this.value.chain(e => e.fold(onLeft, onRight))
   }
   /**
-   * Similar to {@link fold}, but the result is flattened.
+   * Similar to `fold`, but the result is flattened.
    * @since 1.10.0
    */
   foldTaskEither<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
@@ -396,7 +396,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<UR
 }
 
 /**
- * Like {@link taskEither} but `ap` is sequential
+ * Like `TaskEither` but `ap` is sequential
  *
  * @since 1.10.0
  */

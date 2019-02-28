@@ -105,7 +105,7 @@ export interface OptionT3C<M extends URIS3, U, L> extends ApplicativeComposition
 }
 
 /**
- * Use {@link getOptionT2v} instead
+ * Use `getOptionT2v` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -130,7 +130,7 @@ export function chain<F>(F: Monad<F>): OptionT<F>['chain'] {
 }
 
 /**
- * Use {@link getOptionT2v} instead
+ * Use `getOptionT2v` instead
  * @since 1.0.0
  * @deprecated
  */

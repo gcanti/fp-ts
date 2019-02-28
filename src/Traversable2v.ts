@@ -26,7 +26,7 @@ import { Traverse, Traverse1, Traverse2, Traverse2C, Traverse3, Traverse3C } fro
 
 /**
  * `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
- * {@link Applicative} functor.
+ * `Applicative` functor.
  *
  * `traverse` signature:
  *

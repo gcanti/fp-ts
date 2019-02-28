@@ -36,7 +36,7 @@ export class Pure<F, A> {
     return fab.chain(f => this.map(f)) // <- derived
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    */
   ap_<B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C> {
     return fb.ap(this)

@@ -5,7 +5,7 @@ import { Semiring, getFunctionSemiring } from './Semiring'
 /**
  * The `Ring` class is for types that support addition, multiplication, and subtraction operations.
  *
- * Instances must satisfy the following law in addition to the {@link Semiring} laws:
+ * Instances must satisfy the following law in addition to the `Semiring` laws:
  *
  * - Additive inverse: `a - a = (zero - a) + a = zero`
  * @typeclass
@@ -48,7 +48,7 @@ export const getTupleRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => {
 }
 
 /**
- * Use {@link getTupleRing} instead
+ * Use `getTupleRing` instead
  * @since 1.0.0
  * @deprecated
  */

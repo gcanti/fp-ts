@@ -15,7 +15,7 @@ export interface BoundedJoinSemilattice<A> extends JoinSemilattice<A> {
 }
 ```
 
-A `BoundedJoinSemilattice` must satisfy the following laws in addition to [JoinSemilattice](./JoinSemilattice.md) laws:
+A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinSemilattice` laws:
 
 - `a ∨ 0 == a`
 

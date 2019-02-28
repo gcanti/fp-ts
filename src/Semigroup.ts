@@ -40,7 +40,7 @@ export const getTupleSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Sem
 }
 
 /**
- * Use {@link getTupleSemigroup} instead
+ * Use `getTupleSemigroup` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -84,7 +84,7 @@ export const getStructSemigroup = <O extends { [key: string]: any }>(
 }
 
 /**
- * Use {@link getStructSemigroup} instead
+ * Use `getStructSemigroup` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -129,7 +129,7 @@ export const semigroupAny: Semigroup<boolean> = {
 }
 
 /**
- * Use {@link Monoid}'s `getArrayMonoid` instead
+ * Use `Monoid`'s `getArrayMonoid` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -138,7 +138,7 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => {
 }
 
 /**
- * Use {@link Record}'s `getMonoid`
+ * Use `Record`'s `getMonoid`
  * @since 1.4.0
  * @deprecated
  */
@@ -163,7 +163,7 @@ export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: st
 const semigroupAnyDictionary = getDictionarySemigroup(getLastSemigroup())
 
 /**
- * Returns a {@link Semigroup} instance for objects preserving their type
+ * Returns a `Semigroup` instance for objects preserving their type
  *
  * @example
  * import { getObjectSemigroup } from 'fp-ts/lib/Semigroup'

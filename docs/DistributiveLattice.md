@@ -13,7 +13,7 @@ title: DistributiveLattice
 export interface DistributiveLattice<A> extends Lattice<A> {}
 ```
 
-A `DistributiveLattice` must satisfy the following laws in addition to [Lattice](./Lattice.md) laws:
+A `DistributiveLattice` must satisfy the following laws in addition to `Lattice` laws:
 
 - Distributivity for meet: `a ∨ (b ∧ c) = (a ∨ b) ∧ (a ∨ c)`
 - Distributivity for join: `a ∧ (b ∨ c) = (a ∧ b) ∨ (a ∧ c)`

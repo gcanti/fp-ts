@@ -7,7 +7,7 @@ title: OptionT
 
 ## ~~chain~~
 
-Use [getOptionT2v](#getoptiont2v) instead
+Use `getOptionT2v` instead
 
 **Signature** (function)
 
@@ -39,7 +39,7 @@ Added in v1.0.0
 
 ## ~~getOptionT~~
 
-Use [getOptionT2v](#getoptiont2v) instead
+Use `getOptionT2v` instead
 
 **Signature** (function)
 

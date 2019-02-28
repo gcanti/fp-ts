@@ -17,8 +17,8 @@ export interface FoldableWithIndex<F, I> extends Foldable2v<F> {
 }
 ```
 
-A [Foldable](./Foldable.md) with an additional index.
-A `FoldableWithIndex` instance must be compatible with its [Foldable](./Foldable.md) instance
+A `Foldable` with an additional index.
+A `FoldableWithIndex` instance must be compatible with its `Foldable` instance
 
 ```ts
 reduce(fa, b, f) = reduceWithIndex(fa, b, (_, b, a) => f(b, a))

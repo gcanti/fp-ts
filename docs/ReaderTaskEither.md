@@ -38,7 +38,7 @@ Added in v1.6.0
 
 ## ap\_
 
-Flipped version of [ap](#ap)
+Flipped version of `ap`
 
 **Signature** (method)
 
@@ -170,7 +170,7 @@ Added in v1.6.0
 
 ## readerTaskEitherSeq
 
-Like [readerTaskEither](#readertaskeither) but `ap` is sequential
+Like `readerTaskEither` but `ap` is sequential
 
 **Signature** (constant)
 

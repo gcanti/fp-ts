@@ -119,7 +119,7 @@ export interface ReaderT3<M extends URIS3> {
 }
 
 /**
- * Use {@link map2v} instead
+ * Use `map2v` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -142,7 +142,7 @@ export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => H
 }
 
 /**
- * Use {@link getReaderT2v} instead
+ * Use `getReaderT2v` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -172,7 +172,7 @@ export function chain<F>(
 }
 
 /**
- * Use {@link getReaderT2v} instead
+ * Use `getReaderT2v` instead
  * @since 1.0.0
  * @deprecated
  */

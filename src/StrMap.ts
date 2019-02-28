@@ -108,7 +108,7 @@ export class StrMap<A> {
     return liftSeparated(R.separate(this.value))
   }
   /**
-   * Use {@link partitionMapWithKey} instead
+   * Use `partitionMapWithKey` instead
    * @since 1.12.0
    * @deprecated
    */
@@ -122,7 +122,7 @@ export class StrMap<A> {
     return liftSeparated(R.partitionMapWithKey(this.value, f))
   }
   /**
-   * Use {@link partitionWithKey} instead
+   * Use `partitionWithKey` instead
    * @since 1.12.0
    * @deprecated
    */
@@ -136,7 +136,7 @@ export class StrMap<A> {
     return liftSeparated(R.partitionWithKey(this.value, p))
   }
   /**
-   * Use {@link filterMapWithKey} instead
+   * Use `filterMapWithKey` instead
    * @since 1.12.0
    * @deprecated
    */
@@ -150,7 +150,7 @@ export class StrMap<A> {
     return new StrMap(R.filterMapWithKey(this.value, f))
   }
   /**
-   * Use {@link filterWithKey} instead
+   * Use `filterWithKey` instead
    * @since 1.12.0
    * @deprecated
    */
@@ -230,7 +230,7 @@ const foldrWithIndex = <A, B>(fa: StrMap<A>, b: B, f: (k: string, a: A, b: B) =>
 }
 
 /**
- * Use {@link strmap.traverseWithIndex}
+ * Use `strmap.traverseWithIndex` instead
  * @since 1.0.0
  * @deprecated
  */

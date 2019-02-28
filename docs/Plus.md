@@ -15,9 +15,9 @@ export interface Plus<F> extends Alt<F> {
 }
 ```
 
-The `Plus` type class extends the [Alt](./Alt.md) type class with a value that should be the left and right identity for `alt`.
+The `Plus` type class extends the `alt` type class with a value that should be the left and right identity for `alt`.
 
-It is similar to [Monoid](./Monoid.md), except that it applies to types of kind `* -> *`, like [Array](./Array.md) or [Option](./Option.md), rather than
+It is similar to `Monoid`, except that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 concrete types like `string` or `number`.
 
 `Plus` instances should satisfy the following laws:

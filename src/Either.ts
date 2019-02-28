@@ -61,7 +61,7 @@ export type URI = typeof URI
 export type Either<L, A> = Left<L, A> | Right<L, A>
 
 /**
- * Left side of {@link Either}
+ * Left side of `Either`
  */
 export class Left<L, A> {
   readonly _tag: 'Left' = 'Left'
@@ -77,7 +77,7 @@ export class Left<L, A> {
     return (fab.isLeft() ? fab : this) as any
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    */
   ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> {
     return fb.ap(this)
@@ -94,7 +94,7 @@ export class Left<L, A> {
   }
 
   /**
-   * Lazy version of {@link alt}
+   * Lazy version of `alt`
    *
    * @example
    * import { right } from 'fp-ts/lib/Either'
@@ -166,7 +166,7 @@ export class Left<L, A> {
     return this
   }
   /**
-   * Lazy version of {@link filterOrElse}
+   * Lazy version of `filterOrElse`
    * @since 1.3.0
    */
   filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
@@ -175,7 +175,7 @@ export class Left<L, A> {
     return this
   }
   /**
-   * Use {@link filterOrElse} instead
+   * Use `filterOrElse` instead
    * @since 1.6.0
    * @deprecated
    */
@@ -183,8 +183,8 @@ export class Left<L, A> {
     return this as any
   }
   /**
-   * Lazy version of {@link refineOrElse}
-   * Use {@link filterOrElseL} instead
+   * Lazy version of `refineOrElse`
+   * Use `filterOrElseL` instead
    * @since 1.6.0
    * @deprecated
    */
@@ -194,7 +194,7 @@ export class Left<L, A> {
 }
 
 /**
- * Right side of {@link Either}
+ * Right side of `Either`
  */
 export class Right<L, A> {
   readonly _tag: 'Right' = 'Right'
@@ -306,7 +306,7 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => 
 }
 
 /**
- * {@link Apply} semigroup
+ * `Apply` semigroup
  *
  * @example
  * import { getApplySemigroup, left, right } from 'fp-ts/lib/Either'
@@ -430,7 +430,7 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 }
 
 /**
- * Use {@link fromPredicate} instead
+ * Use `fromPredicate` instead
  *
  * @since 1.6.0
  * @deprecated
@@ -452,7 +452,7 @@ export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, 
 }
 
 /**
- * Lazy version of {@link fromOption}
+ * Lazy version of `fromOption`
  *
  * @since 1.3.0
  */
@@ -484,7 +484,7 @@ export const toError = (e: unknown): Error => {
 }
 
 /**
- * Use {@link tryCatch2v}
+ * Use `tryCatch2v` instead
  *
  * @since 1.0.0
  * @deprecated
@@ -550,7 +550,7 @@ export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
 }
 
 /**
- * Builds {@link Compactable} instance for {@link Either} given {@link Monoid} for the left side
+ * Builds `Compactable` instance for `Either` given `Monoid` for the left side
  *
  * @since 1.7.0
  */
@@ -592,7 +592,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 }
 
 /**
- * Builds {@link Filterable} instance for {@link Either} given {@link Monoid} for the left side
+ * Builds `Filterable` instance for `Either` given `Monoid` for the left side
  *
  * @since 1.7.0
  */
@@ -660,7 +660,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
 }
 
 /**
- * Builds {@link Witherable} instance for {@link Either} given {@link Monoid} for the left side
+ * Builds `Witherable` instance for `Either` given `Monoid` for the left side
  *
  * @since 1.7.0
  */

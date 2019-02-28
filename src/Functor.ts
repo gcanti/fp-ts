@@ -132,7 +132,7 @@ export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<
 }
 
 /**
- * A version of {@link voidRight} with its arguments flipped (`$>`)
+ * A version of `voidRight` with its arguments flipped (`$>`)
  *
  * @since 1.0.0
  */

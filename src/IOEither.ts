@@ -21,7 +21,7 @@ const foldT = eitherT.fold(io)
 
 /**
  * `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
- * error of type `L`. If you want to represent a synchronous computation that never fails, please see {@link IO}.
+ * error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
  * @data
  * @constructor IOEither
  * @since 1.6.0
@@ -44,7 +44,7 @@ export class IOEither<L, A> {
     return new IOEither(T.ap(fab.value, this.value))
   }
   /**
-   * Flipped version of {@link ap}
+   * Flipped version of `ap`
    */
   ap_<B, C>(this: IOEither<L, (b: B) => C>, fb: IOEither<L, B>): IOEither<L, C> {
     return fb.ap(this)
@@ -134,7 +134,7 @@ export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
 }
 
 /**
- * Use {@link tryCatch2v}
+ * Use `tryCatch2v` instead
  *
  * @since 1.6.0
  * @deprecated

@@ -23,9 +23,9 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
 }
 ```
 
-`Witherable` represents data structures which can be _partitioned_ with effects in some [Applicative](./Applicative.md) functor.
+`Witherable` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
 
-`wilt` signature (see [Compactable](./Compactable.md) `Separated`):
+`wilt` signature (see `Compactable` `Separated`):
 
 ```ts
 <F>(F: Applicative<F>) => <RL, RR, A>(wa: HKT<W, A>, f: (a: A) => HKT<F, Either<RL, RR>>) => HKT<F, Separated<HKT<W, RL>, HKT<W, RR>>>

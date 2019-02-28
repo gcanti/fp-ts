@@ -181,7 +181,7 @@ const foldrWithIndex = <A, B>(fa: Array<A>, b: B, f: (i: number, a: A, b: B) => 
 }
 
 /**
- * Use {@link array}`.traverse` instead
+ * Use `array.traverse` instead
  *
  * @since 1.0.0
  * @deprecated
@@ -338,7 +338,7 @@ export const fold = <A, B>(as: Array<A>, b: B, cons: (head: A, tail: Array<A>) =
 }
 
 /**
- * Lazy version of {@link fold}
+ * Lazy version of `fold`
  *
  * @since 1.0.0
  */
@@ -359,7 +359,7 @@ export const foldr = <A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) 
 }
 
 /**
- * Lazy version of {@link foldr}
+ * Lazy version of `foldr`
  *
  * @since 1.7.0
  * @param as
@@ -453,7 +453,7 @@ export const lookup = <A>(i: number, as: Array<A>): Option<A> => {
 }
 
 /**
- * Use {@link lookup} instead
+ * Use `lookup` instead
  * @since 1.0.0
  * @deprecated
  */
@@ -803,7 +803,7 @@ export const findLastIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<
 }
 
 /**
- * Use {@link filter} instead
+ * Use `filter` instead
  *
  * @since 1.0.0
  * @deprecated
@@ -1105,7 +1105,7 @@ export const elem = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
 }
 
 /**
- * Use {@link elem} instead
+ * Use `elem` instead
  * @since 1.3.0
  * @deprecated
  */
@@ -1177,7 +1177,7 @@ export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> =
 }
 
 /**
- * Non failing version of {@link sortBy}
+ * Non failing version of `sortBy`
  * @example
  * import { sortBy1 } from 'fp-ts/lib/Array'
  * import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
@@ -1209,7 +1209,7 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
 /**
  * Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
  *
- * Alias of {@link Filterable}'s `filterMap`
+ * Alias of `Filterable`'s `filterMap`
  *
  * @example
  * import { mapOption } from 'fp-ts/lib/Array'
@@ -1227,7 +1227,7 @@ export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> 
 /**
  * Filter an array of optional values, keeping only the elements which contain a value, creating a new array.
  *
- * Alias of {@link Compactable}'s `compact`
+ * Alias of `Compactable`'s `compact`
  *
  * @example
  * import { catOptions } from 'fp-ts/lib/Array'
@@ -1429,7 +1429,7 @@ export function comprehension<R>(
 }
 
 /**
- * Creates an array of unique values, in order, from all given arrays using a {@link Setoid} for equality comparisons
+ * Creates an array of unique values, in order, from all given arrays using a `Setoid` for equality comparisons
  *
  * @example
  * import { union } from 'fp-ts/lib/Array'
@@ -1446,7 +1446,7 @@ export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A
 }
 
 /**
- * Creates an array of unique values that are included in all given arrays using a {@link Setoid} for equality
+ * Creates an array of unique values that are included in all given arrays using a `Setoid` for equality
  * comparisons. The order and references of result values are determined by the first array.
  *
  * @example
@@ -1464,7 +1464,7 @@ export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => 
 }
 
 /**
- * Creates an array of array values not included in the other given array using a {@link Setoid} for equality
+ * Creates an array of array values not included in the other given array using a `Setoid` for equality
  * comparisons. The order and references of result values are determined by the first array.
  *
  * @example

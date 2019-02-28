@@ -70,7 +70,7 @@ Added in v1.0.0
 
 ## ap\_
 
-Flipped version of [ap](#ap)
+Flipped version of `ap`
 
 **Signature** (method)
 
@@ -138,7 +138,7 @@ Added in v1.3.0
 
 ## filterOrElseL
 
-Lazy version of [filterOrElse](#filterorelse)
+Lazy version of `filterOrElse`
 
 **Signature** (method)
 
@@ -244,7 +244,7 @@ Added in v1.0.0
 
 ## orElse
 
-Lazy version of [alt](#alt)
+Lazy version of `alt`
 
 **Signature** (method)
 
@@ -274,7 +274,7 @@ Added in v1.0.0
 
 ## ~~refineOrElse~~
 
-Use [filterOrElse](#filterorelse) instead
+Use `filterOrElse` instead
 
 **Signature** (method)
 
@@ -286,8 +286,8 @@ Added in v1.6.0
 
 ## ~~refineOrElseL~~
 
-Lazy version of [refineOrElse](#refineorelse)
-Use [filterOrElseL](#filterorelsel) instead
+Lazy version of `refineOrElse`
+Use `filterOrElseL` instead
 
 **Signature** (method)
 
@@ -365,7 +365,7 @@ Added in v1.0.0
 
 ## fromOptionL
 
-Lazy version of [fromOption](#fromoption)
+Lazy version of `fromOption`
 
 **Signature** (function)
 
@@ -387,7 +387,7 @@ Added in v1.0.0
 
 ## ~~fromRefinement~~
 
-Use [fromPredicate](#frompredicate) instead
+Use `fromPredicate` instead
 
 **Signature** (function)
 
@@ -421,7 +421,7 @@ Added in v1.7.0
 
 ## getApplySemigroup
 
-[Apply](./Apply.md) semigroup
+`Apply` semigroup
 
 **Signature** (function)
 
@@ -446,7 +446,7 @@ Added in v1.7.0
 
 ## getCompactable
 
-Builds [Compactable](./Compactable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
+Builds `Compactable` instance for `Either` given `Monoid` for the left side
 
 **Signature** (function)
 
@@ -458,7 +458,7 @@ Added in v1.7.0
 
 ## getFilterable
 
-Builds [Filterable](./Filterable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
+Builds `Filterable` instance for `Either` given `Monoid` for the left side
 
 **Signature** (function)
 
@@ -506,7 +506,7 @@ Added in v1.0.0
 
 ## getWitherable
 
-Builds [Witherable](./Witherable.md) instance for [Either](./Either.md) given [Monoid](./Monoid.md) for the left side
+Builds `Witherable` instance for `Either` given `Monoid` for the left side
 
 **Signature** (function)
 
@@ -580,7 +580,7 @@ Added in v1.0.0
 
 ## ~~tryCatch~~
 
-Use [tryCatch2v](#trycatch2v)
+Use `tryCatch2v` instead
 
 **Signature** (function)
 

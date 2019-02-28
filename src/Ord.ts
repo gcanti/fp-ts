@@ -164,7 +164,7 @@ export const getTupleOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
 }
 
 /**
- * Use {@link getTupleOrd} instead
+ * Use `getTupleOrd` instead
  * @since 1.0.0
  * @deprecated
  */

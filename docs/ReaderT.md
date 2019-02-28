@@ -39,7 +39,7 @@ Added in v1.0.0
 
 ## ~~chain~~
 
-Use [getReaderT2v](#getreadert2v) instead
+Use `getReaderT2v` instead
 
 **Signature** (function)
 
@@ -63,7 +63,7 @@ Added in v1.2.0
 
 ## ~~getReaderT~~
 
-Use [getReaderT2v](#getreadert2v) instead
+Use `getReaderT2v` instead
 
 **Signature** (function)
 
@@ -85,7 +85,7 @@ Added in v1.14.0
 
 ## ~~map~~
 
-Use [map2v](#map2v) instead
+Use `map2v` instead
 
 **Signature** (function)
 

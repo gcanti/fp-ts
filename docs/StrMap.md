@@ -48,7 +48,7 @@ Added in v1.12.0
 
 ## ~~filterMapWithIndex~~
 
-Use [filterMapWithKey](#filtermapwithkey) instead
+Use `filterMapWithKey` instead
 
 **Signature** (method)
 
@@ -70,7 +70,7 @@ Added in v1.14.0
 
 ## ~~filterWithIndex~~
 
-Use [filterWithKey](#filterwithkey) instead
+Use `filterWithKey` instead
 
 **Signature** (method)
 
@@ -152,7 +152,7 @@ Added in v1.12.0
 
 ## ~~partitionMapWithIndex~~
 
-Use [partitionMapWithKey](#partitionmapwithkey) instead
+Use `partitionMapWithKey` instead
 
 **Signature** (method)
 
@@ -174,7 +174,7 @@ Added in v1.14.0
 
 ## ~~partitionWithIndex~~
 
-Use [partitionWithKey](#partitionwithkey) instead
+Use `partitionWithKey` instead
 
 **Signature** (method)
 
@@ -428,7 +428,7 @@ Added in v1.0.0
 
 ## ~~traverseWithKey~~
 
-Use [strmap.traverseWithIndex](#strmap.traversewithindex)
+Use `strmap.traverseWithIndex` instead
 
 **Signature** (function)
 

@@ -15,7 +15,7 @@ export interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
 }
 ```
 
-A `BoundedMeetSemilattice` must satisfy the following laws in addition to [MeetSemilattice](./MeetSemilattice.md) laws:
+A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetSemilattice` laws:
 
 - `a ∧ 1 = a`
 

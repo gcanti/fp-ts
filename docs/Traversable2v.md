@@ -20,7 +20,7 @@ export interface Traversable2v<T> extends Functor<T>, Foldable2v<T> {
 ```
 
 `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
-[Applicative](./Applicative.md) functor.
+`Applicative` functor.
 
 `traverse` signature:
 

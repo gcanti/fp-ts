@@ -99,7 +99,7 @@ Added in v1.0.0
 
 ## ~~getProductSetoid~~
 
-Use [getTupleSetoid](#gettuplesetoid) instead
+Use `getTupleSetoid` instead
 
 **Signature** (function)
 
@@ -111,7 +111,7 @@ Added in v1.0.0
 
 ## ~~getRecordSetoid~~
 
-Use [getStructSetoid](#getstructsetoid) instead
+Use `getStructSetoid` instead
 
 **Signature** (function)
 
