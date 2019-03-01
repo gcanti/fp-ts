@@ -3,21 +3,20 @@ title: Random.ts
 nav_order: 67
 ---
 
+# Overview
+
+Adapted from https://github.com/purescript/purescript-random
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [random](#random)
 - [randomBool](#randombool)
 - [randomInt](#randomint)
 - [randomRange](#randomrange)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Adapted from https://github.com/purescript/purescript-random
 
 # random
 

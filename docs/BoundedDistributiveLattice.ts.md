@@ -3,19 +3,18 @@ title: BoundedDistributiveLattice.ts
 nav_order: 9
 ---
 
+# Overview
+
+A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [BoundedDistributiveLattice](#boundeddistributivelattice)
 - [getMinMaxBoundedDistributiveLattice](#getminmaxboundeddistributivelattice)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
 
 # BoundedDistributiveLattice
 

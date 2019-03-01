@@ -3,11 +3,14 @@ title: Tuple.ts
 nav_order: 91
 ---
 
+# Overview
+
+Adapted from https://github.com/purescript/purescript-tuples
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [URI](#uri)
 - [Tuple](#tuple)
   - [compose](#compose)
@@ -33,10 +36,6 @@ nav_order: 91
 - [getSetoid](#getsetoid)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Adapted from https://github.com/purescript/purescript-tuples
 
 # URI
 

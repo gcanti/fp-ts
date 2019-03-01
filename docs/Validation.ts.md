@@ -3,11 +3,18 @@ title: Validation.ts
 nav_order: 93
 ---
 
+# Overview
+
+The `Validation` functor, used for applicative validation
+
+The `Applicative` instance collects multiple failures in an arbitrary `Semigroup`.
+
+Adapted from https://github.com/purescript/purescript-validation
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [URI](#uri)
 - [Validation](#validation)
 - [Failure](#failure)
@@ -55,14 +62,6 @@ nav_order: 93
 - [success](#success)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-The `Validation` functor, used for applicative validation
-
-The `Applicative` instance collects multiple failures in an arbitrary `Semigroup`.
-
-Adapted from https://github.com/purescript/purescript-validation
 
 # URI
 

@@ -3,11 +3,15 @@ title: Task.ts
 nav_order: 83
 ---
 
+# Overview
+
+`Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
+If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [URI](#uri)
 - [Task](#task)
   - [map](#map)
@@ -29,11 +33,6 @@ nav_order: 83
 - [tryCatch](#trycatch)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-`Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
-If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
 
 # URI
 

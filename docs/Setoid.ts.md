@@ -3,11 +3,20 @@ title: Setoid.ts
 nav_order: 77
 ---
 
+# Overview
+
+The `Setoid` type class represents types which support decidable equality.
+
+Instances must satisfy the following laws:
+
+1. Reflexivity: `S.equals(a, a) === true`
+2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
+3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [Setoid](#setoid)
 - [setoidBoolean](#setoidboolean)
 - [setoidDate](#setoiddate)
@@ -23,16 +32,6 @@ nav_order: 77
 - [strictEqual](#strictequal)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-The `Setoid` type class represents types which support decidable equality.
-
-Instances must satisfy the following laws:
-
-1. Reflexivity: `S.equals(a, a) === true`
-2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
-3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
 
 # Setoid
 

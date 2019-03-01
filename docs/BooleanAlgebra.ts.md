@@ -3,19 +3,6 @@ title: BooleanAlgebra.ts
 nav_order: 7
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Overview](#overview)
-- [BooleanAlgebra](#booleanalgebra)
-- [booleanAlgebraBoolean](#booleanalgebraboolean)
-- [booleanAlgebraVoid](#booleanalgebravoid)
-- [getDualBooleanAlgebra](#getdualbooleanalgebra)
-- [getFunctionBooleanAlgebra](#getfunctionbooleanalgebra)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Overview
 
 Boolean algebras are Heyting algebras with the additional constraint that the law of the excluded middle is true
@@ -26,6 +13,18 @@ Instances should satisfy the following laws in addition to the `HeytingAlgebra` 
 - Excluded middle: `a ∨ ¬a = 1`
 
 Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [BooleanAlgebra](#booleanalgebra)
+- [booleanAlgebraBoolean](#booleanalgebraboolean)
+- [booleanAlgebraVoid](#booleanalgebravoid)
+- [getDualBooleanAlgebra](#getdualbooleanalgebra)
+- [getFunctionBooleanAlgebra](#getfunctionbooleanalgebra)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # BooleanAlgebra
 

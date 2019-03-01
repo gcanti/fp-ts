@@ -3,21 +3,20 @@ title: Field.ts
 nav_order: 28
 ---
 
+# Overview
+
+Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [Field](#field)
 - [fieldNumber](#fieldnumber)
 - [gcd](#gcd)
 - [lcm](#lcm)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
 
 # Field
 

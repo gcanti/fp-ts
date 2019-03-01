@@ -3,11 +3,37 @@ title: Either.ts
 nav_order: 24
 ---
 
+# Overview
+
+Represents a value of one of two possible types (a disjoint union).
+
+An instance of `Either` is either an instance of `Left` or `Right`.
+
+A common use of `Either` is as an alternative to `Option` for dealing with possible missing values. In this usage,
+`None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
+dictates that `Left` is used for failure and `Right` is used for success.
+
+For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
+
+```ts
+const parse = (errorMessage: string) => (input: string): Either<string, number> => {
+  const n = parseInt(input, 10)
+  return isNaN(n) ? left(errorMessage) : right(n)
+}
+```
+
+`Either` is right-biased, which means that `Right` is assumed to be the default case to operate on. If it is `Left`,
+operations like `map`, `chain`, ... return the `Left` value unchanged:
+
+```ts
+right(12).map(double) // right(24)
+left(23).map(double) // left(23)
+```
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [Either](#either)
 - [URI](#uri)
 - [Left](#left)
@@ -80,33 +106,6 @@ nav_order: 24
 - [tryCatch2v](#trycatch2v)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Represents a value of one of two possible types (a disjoint union).
-
-An instance of `Either` is either an instance of `Left` or `Right`.
-
-A common use of `Either` is as an alternative to `Option` for dealing with possible missing values. In this usage,
-`None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
-dictates that `Left` is used for failure and `Right` is used for success.
-
-For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
-
-```ts
-const parse = (errorMessage: string) => (input: string): Either<string, number> => {
-  const n = parseInt(input, 10)
-  return isNaN(n) ? left(errorMessage) : right(n)
-}
-```
-
-`Either` is right-biased, which means that `Right` is assumed to be the default case to operate on. If it is `Left`,
-operations like `map`, `chain`, ... return the `Left` value unchanged:
-
-```ts
-right(12).map(double) // right(24)
-left(23).map(double) // left(23)
-```
 
 # Either
 

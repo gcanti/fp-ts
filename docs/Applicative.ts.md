@@ -3,11 +3,28 @@ title: Applicative.ts
 nav_order: 3
 ---
 
+# Overview
+
+The `Applicative` type class extends the `Apply` type class with a `of` function, which can be used to create values
+of type `f a` from values of type `a`.
+
+Where `Apply` provides the ability to lift functions of two or more arguments to functions whose arguments are
+wrapped using `f`, and `Functor` provides the ability to lift functions of one argument, `pure` can be seen as the
+function which lifts functions of _zero_ arguments. That is, `Applicative` functors support a lifting operation for
+any number of function arguments.
+
+Instances must satisfy the following laws in addition to the `Apply` laws:
+
+1. Identity: `A.ap(A.of(a => a), fa) = fa`
+2. Homomorphism: `A.ap(A.of(ab), A.of(a)) = A.of(ab(a))`
+3. Interchange: `A.ap(fab, A.of(a)) = A.ap(A.of(ab => ab(a)), fab)`
+
+Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [Applicative](#applicative)
 - [Applicative1](#applicative1)
 - [Applicative2](#applicative2)
@@ -28,24 +45,6 @@ nav_order: 3
 - [when](#when)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-The `Applicative` type class extends the `Apply` type class with a `of` function, which can be used to create values
-of type `f a` from values of type `a`.
-
-Where `Apply` provides the ability to lift functions of two or more arguments to functions whose arguments are
-wrapped using `f`, and `Functor` provides the ability to lift functions of one argument, `pure` can be seen as the
-function which lifts functions of _zero_ arguments. That is, `Applicative` functors support a lifting operation for
-any number of function arguments.
-
-Instances must satisfy the following laws in addition to the `Apply` laws:
-
-1. Identity: `A.ap(A.of(a => a), fa) = fa`
-2. Homomorphism: `A.ap(A.of(ab), A.of(a)) = A.of(ab(a))`
-3. Interchange: `A.ap(fab, A.of(a)) = A.ap(A.of(ab => ab(a)), fab)`
-
-Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 
 # Applicative
 

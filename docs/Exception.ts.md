@@ -3,11 +3,14 @@ title: Exception.ts
 nav_order: 26
 ---
 
+# Overview
+
+Adapted from https://github.com/purescript/purescript-exceptions
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [catchError](#catcherror)
 - [error](#error)
 - [message](#message)
@@ -16,10 +19,6 @@ nav_order: 26
 - [tryCatch](#trycatch)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Adapted from https://github.com/purescript/purescript-exceptions
 
 # catchError
 

@@ -3,20 +3,6 @@ title: Choice.ts
 nav_order: 16
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Overview](#overview)
-- [Choice](#choice)
-- [Choice2](#choice2)
-- [Choice3](#choice3)
-- [Choice4](#choice4)
-- [fanin](#fanin)
-- [splitChoice](#splitchoice)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Overview
 
 The `Choice` class extends `Profunctor` with combinators for working with
@@ -45,6 +31,19 @@ When the `profunctor` is `Function` application, `left` allows you to map a func
 left side of an `Either`, and `right` maps it over the right side (same as `map` would do).
 
 Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Choice.purs
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Choice](#choice)
+- [Choice2](#choice2)
+- [Choice3](#choice3)
+- [Choice4](#choice4)
+- [fanin](#fanin)
+- [splitChoice](#splitchoice)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Choice
 

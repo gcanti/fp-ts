@@ -3,21 +3,20 @@ title: IORef.ts
 nav_order: 47
 ---
 
+# Overview
+
+Mutable references in the `IO` monad
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [IORef](#ioref)
   - [write](#write)
   - [modify](#modify)
 - [newIORef](#newioref)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Mutable references in the `IO` monad
 
 # IORef
 

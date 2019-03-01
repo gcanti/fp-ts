@@ -3,11 +3,27 @@ title: Traversable2v.ts
 nav_order: 88
 ---
 
+# Overview
+
+`Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
+`Applicative` functor.
+
+`traverse` signature:
+
+```ts
+<F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
+```
+
+`sequence` signature:
+
+```ts
+<F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
+```
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [Sequence](#sequence)
 - [Sequence1](#sequence1)
 - [Sequence2](#sequence2)
@@ -27,23 +43,6 @@ nav_order: 88
 - [getTraversableComposition](#gettraversablecomposition)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-`Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
-`Applicative` functor.
-
-`traverse` signature:
-
-```ts
-<F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
-```
-
-`sequence` signature:
-
-```ts
-<F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
-```
 
 # Sequence
 

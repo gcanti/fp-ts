@@ -3,11 +3,22 @@ title: Functor.ts
 nav_order: 37
 ---
 
+# Overview
+
+A `Functor` is a type constructor which supports a mapping operation `map`.
+
+`map` can be used to turn functions `a -> b` into functions `f a -> f b` whose argument and return types use the type
+constructor `f` to represent some computational context.
+
+Instances must satisfy the following laws:
+
+1. Identity: `F.map(fa, a => a) = fa`
+2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [Functor](#functor)
 - [Functor1](#functor1)
 - [Functor2](#functor2)
@@ -31,18 +42,6 @@ nav_order: 37
 - [voidRight](#voidright)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-A `Functor` is a type constructor which supports a mapping operation `map`.
-
-`map` can be used to turn functions `a -> b` into functions `f a -> f b` whose argument and return types use the type
-constructor `f` to represent some computational context.
-
-Instances must satisfy the following laws:
-
-1. Identity: `F.map(fa, a => a) = fa`
-2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
 
 # Functor
 

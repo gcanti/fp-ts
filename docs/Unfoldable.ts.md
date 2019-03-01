@@ -3,11 +3,14 @@ title: Unfoldable.ts
 nav_order: 92
 ---
 
+# Overview
+
+This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [Unfoldable](#unfoldable)
 - [Unfoldable1](#unfoldable1)
 - [Unfoldable2](#unfoldable2)
@@ -20,10 +23,6 @@ nav_order: 92
 - [singleton](#singleton)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
 
 # Unfoldable
 

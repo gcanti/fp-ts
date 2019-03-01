@@ -3,20 +3,6 @@ title: Strong.ts
 nav_order: 82
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Overview](#overview)
-- [Strong](#strong)
-- [Strong2](#strong2)
-- [Strong3](#strong3)
-- [Strong4](#strong4)
-- [fanout](#fanout)
-- [splitStrong](#splitstrong)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Overview
 
 The `Strong` class extends `Profunctor` with combinators for working with product types.
@@ -44,6 +30,19 @@ So, when the `profunctor` is `Function` application, `first` essentially applies
 to the first element of a tuple, and `second` applies it to the second element (same as `map` would do).
 
 Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Strong](#strong)
+- [Strong2](#strong2)
+- [Strong3](#strong3)
+- [Strong4](#strong4)
+- [fanout](#fanout)
+- [splitStrong](#splitstrong)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Strong
 

@@ -3,11 +3,14 @@ title: StrMap.ts
 nav_order: 81
 ---
 
+# Overview
+
+Adapted from https://github.com/purescript/purescript-maps
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [URI](#uri)
 - [StrMap](#strmap)
   - [mapWithKey](#mapwithkey)
@@ -51,10 +54,6 @@ nav_order: 81
 - [~~traverseWithKey~~](#traversewithkey)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Adapted from https://github.com/purescript/purescript-maps
 
 # URI
 

@@ -3,21 +3,6 @@ title: Chain.ts
 nav_order: 14
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Overview](#overview)
-- [Chain](#chain)
-- [Chain1](#chain1)
-- [Chain2](#chain2)
-- [Chain2C](#chain2c)
-- [Chain3](#chain3)
-- [Chain3C](#chain3c)
-- [flatten](#flatten)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Overview
 
 The `Chain` type class extends the `Apply` type class with a `chain` operation which composes computations in
@@ -28,6 +13,20 @@ Instances must satisfy the following law in addition to the `Apply` laws:
 1. Associativity: `F.chain(F.chain(fa, afb), bfc) <-> F.chain(fa, a => F.chain(afb(a), bfc))`
 
 Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa))`
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Chain](#chain)
+- [Chain1](#chain1)
+- [Chain2](#chain2)
+- [Chain2C](#chain2c)
+- [Chain3](#chain3)
+- [Chain3C](#chain3c)
+- [flatten](#flatten)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Chain
 

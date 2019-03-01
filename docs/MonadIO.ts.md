@@ -3,11 +3,14 @@ title: MonadIO.ts
 nav_order: 55
 ---
 
+# Overview
+
+Lift a computation from the `IO` monad
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [MonadIO](#monadio)
 - [MonadIO1](#monadio1)
 - [MonadIO2](#monadio2)
@@ -16,10 +19,6 @@ nav_order: 55
 - [MonadIO3C](#monadio3c)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Lift a computation from the `IO` monad
 
 # MonadIO
 

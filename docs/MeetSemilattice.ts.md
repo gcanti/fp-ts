@@ -3,15 +3,6 @@ title: MeetSemilattice.ts
 nav_order: 53
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Overview](#overview)
-- [MeetSemilattice](#meetsemilattice)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Overview
 
 A meet-semilattice (or lower semilattice) is a semilattice whose operation is called `meet`, and which can be thought
@@ -22,6 +13,14 @@ A `MeetSemilattice` must satisfy the following laws:
 - Associativity: `a ∧ (b ∧ c) = (a ∧ b) ∧ c`
 - Commutativity: `a ∧ b = b ∧ a`
 - Idempotency: `a ∧ a = a`
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [MeetSemilattice](#meetsemilattice)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # MeetSemilattice
 

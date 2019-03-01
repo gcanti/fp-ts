@@ -3,11 +3,14 @@ title: MonadTask.ts
 nav_order: 56
 ---
 
+# Overview
+
+Lift a computation from the `Task` monad
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [MonadTask](#monadtask)
 - [MonadTask1](#monadtask1)
 - [MonadTask2](#monadtask2)
@@ -16,10 +19,6 @@ nav_order: 56
 - [MonadTask3C](#monadtask3c)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Lift a computation from the `Task` monad
 
 # MonadTask
 

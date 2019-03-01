@@ -3,22 +3,6 @@ title: TraversableWithIndex.ts
 nav_order: 89
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Overview](#overview)
-- [TraversableWithIndex](#traversablewithindex)
-- [TraversableWithIndex1](#traversablewithindex1)
-- [TraversableWithIndex2](#traversablewithindex2)
-- [TraversableWithIndex2C](#traversablewithindex2c)
-- [TraverseWithIndex](#traversewithindex)
-- [TraverseWithIndex1](#traversewithindex1)
-- [TraverseWithIndex2](#traversewithindex2)
-- [TraverseWithIndex2C](#traversewithindex2c)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Overview
 
 A `Traversable` with an additional index.
@@ -39,6 +23,21 @@ and with its `FunctorWithIndex` instance
 ```purescript
 mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value
 ```
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [TraversableWithIndex](#traversablewithindex)
+- [TraversableWithIndex1](#traversablewithindex1)
+- [TraversableWithIndex2](#traversablewithindex2)
+- [TraversableWithIndex2C](#traversablewithindex2c)
+- [TraverseWithIndex](#traversewithindex)
+- [TraverseWithIndex1](#traversewithindex1)
+- [TraverseWithIndex2](#traversewithindex2)
+- [TraverseWithIndex2C](#traversewithindex2c)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # TraversableWithIndex
 

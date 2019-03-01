@@ -3,11 +3,15 @@ title: IO.ts
 nav_order: 45
 ---
 
+# Overview
+
+`IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
+If you want to represent a synchronous computation that may fail, please see `IOEither`.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [URI](#uri)
 - [IO](#io)
   - [map](#map)
@@ -24,11 +28,6 @@ nav_order: 45
 - [getSemigroup](#getsemigroup)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-`IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
-If you want to represent a synchronous computation that may fail, please see `IOEither`.
 
 # URI
 

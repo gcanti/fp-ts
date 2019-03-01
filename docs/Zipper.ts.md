@@ -3,11 +3,23 @@ title: Zipper.ts
 nav_order: 96
 ---
 
+# Overview
+
+Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
+position in an array. Focus can be moved forward and backwards through the array.
+
+The array `[1, 2, 3, 4]` with focus on `3` is represented by `new Zipper([1, 2], 3, [4])`
+
+Adapted from
+
+- https://github.com/DavidHarrison/purescript-list-zipper
+- https://github.com/thunklife/purescript-zipper
+- https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [URI](#uri)
 - [Zipper](#zipper)
   - [update](#update)
@@ -36,19 +48,6 @@ nav_order: 96
 - [getSemigroup](#getsemigroup)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
-position in an array. Focus can be moved forward and backwards through the array.
-
-The array `[1, 2, 3, 4]` with focus on `3` is represented by `new Zipper([1, 2], 3, [4])`
-
-Adapted from
-
-- https://github.com/DavidHarrison/purescript-list-zipper
-- https://github.com/thunklife/purescript-zipper
-- https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
 
 # URI
 

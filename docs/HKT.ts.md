@@ -3,11 +3,14 @@ title: HKT.ts
 nav_order: 41
 ---
 
+# Overview
+
+Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf))
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [HKT](#hkt)
 - [HKT2](#hkt2)
 - [HKT3](#hkt3)
@@ -26,10 +29,6 @@ nav_order: 41
 - [URIS4](#uris4)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf))
 
 # HKT
 

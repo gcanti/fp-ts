@@ -3,11 +3,30 @@ title: These.ts
 nav_order: 85
 ---
 
+# Overview
+
+A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
+
+If you interpret `Either<L, A>` as suggesting the computation may either fail or succeed (exclusively), then
+`These<L, A>` may fail, succeed, or do both at the same time.
+
+There are a few ways to interpret the both case:
+
+- You can think of a computation that has a non-fatal error.
+- You can think of a computation that went as far as it could before erroring.
+- You can think of a computation that keeps track of errors as it completes.
+
+Another way you can think of `These<L, A>` is saying that we want to handle `L` kind of data, `A` kind of data, or
+both `L` and `A` kind of data at the same time. This is particularly useful when it comes to displaying UI's.
+
+(description adapted from https://package.elm-lang.org/packages/joneshf/elm-these)
+
+Adapted from https://github.com/purescript-contrib/purescript-these
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [These](#these)
 - [URI](#uri)
 - [Both](#both)
@@ -62,26 +81,6 @@ nav_order: 85
 - [this\_](#this%5C_)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
-
-If you interpret `Either<L, A>` as suggesting the computation may either fail or succeed (exclusively), then
-`These<L, A>` may fail, succeed, or do both at the same time.
-
-There are a few ways to interpret the both case:
-
-- You can think of a computation that has a non-fatal error.
-- You can think of a computation that went as far as it could before erroring.
-- You can think of a computation that keeps track of errors as it completes.
-
-Another way you can think of `These<L, A>` is saying that we want to handle `L` kind of data, `A` kind of data, or
-both `L` and `A` kind of data at the same time. This is particularly useful when it comes to displaying UI's.
-
-(description adapted from https://package.elm-lang.org/packages/joneshf/elm-these)
-
-Adapted from https://github.com/purescript-contrib/purescript-these
 
 # These
 

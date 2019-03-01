@@ -3,15 +3,6 @@ title: HeytingAlgebra.ts
 nav_order: 40
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Overview](#overview)
-- [HeytingAlgebra](#heytingalgebra)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Overview
 
 Heyting algebras are bounded (distributive) lattices that are also equipped with an additional binary operation
@@ -33,6 +24,14 @@ A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistri
   - `a → (b ∧ c) = (a → b) ∧ (a → c)`
 - Complemented
   - `¬a = a → 0`
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [HeytingAlgebra](#heytingalgebra)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # HeytingAlgebra
 

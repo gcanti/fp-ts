@@ -3,11 +3,16 @@ title: Filterable.ts
 nav_order: 29
 ---
 
+# Overview
+
+`Filterable` represents data structures which can be _partitioned_/_filtered_.
+
+Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Filterable.purs
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [Filterable](#filterable)
 - [Filterable1](#filterable1)
 - [Filterable2](#filterable2)
@@ -26,12 +31,6 @@ nav_order: 29
 - [getFilterableComposition](#getfilterablecomposition)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-`Filterable` represents data structures which can be _partitioned_/_filtered_.
-
-Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Filterable.purs
 
 # Filterable
 

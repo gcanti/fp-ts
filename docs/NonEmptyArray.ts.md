@@ -3,11 +3,14 @@ title: NonEmptyArray.ts
 nav_order: 59
 ---
 
+# Overview
+
+Data structure which represents non-empty arrays
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [URI](#uri)
 - [NonEmptyArray](#nonemptyarray)
   - [toArray](#toarray)
@@ -55,10 +58,6 @@ nav_order: 59
 - [groupSort](#groupsort)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Data structure which represents non-empty arrays
 
 # URI
 

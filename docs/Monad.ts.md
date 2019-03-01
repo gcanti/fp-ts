@@ -3,20 +3,6 @@ title: Monad.ts
 nav_order: 54
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-
-- [Overview](#overview)
-- [Monad](#monad)
-- [Monad1](#monad1)
-- [Monad2](#monad2)
-- [Monad2C](#monad2c)
-- [Monad3](#monad3)
-- [Monad3C](#monad3c)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Overview
 
 The `Monad` type class combines the operations of the `Chain` and
@@ -30,6 +16,19 @@ Instances must satisfy the following laws in addition to the `Applicative` and `
 2. Right identity: `M.chain(fa, M.of) = fa`
 
 Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Monad](#monad)
+- [Monad1](#monad1)
+- [Monad2](#monad2)
+- [Monad2C](#monad2c)
+- [Monad3](#monad3)
+- [Monad3C](#monad3c)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Monad
 

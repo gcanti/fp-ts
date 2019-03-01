@@ -3,11 +3,18 @@ title: Tree.ts
 nav_order: 90
 ---
 
+# Overview
+
+Multi-way trees (aka rose trees) and forests, where a forest is
+
+```ts
+type Forest<A> = Array<Tree<A>>
+```
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [Forest](#forest)
 - [URI](#uri)
 - [Tree](#tree)
@@ -32,14 +39,6 @@ nav_order: 90
 - [unfoldTreeM](#unfoldtreem)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Multi-way trees (aka rose trees) and forests, where a forest is
-
-```ts
-type Forest<A> = Array<Tree<A>>
-```
 
 # Forest
 

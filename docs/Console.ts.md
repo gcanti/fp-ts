@@ -3,21 +3,20 @@ title: Console.ts
 nav_order: 19
 ---
 
+# Overview
+
+Adapted from https://github.com/purescript/purescript-console
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Overview](#overview)
 - [error](#error)
 - [info](#info)
 - [log](#log)
 - [warn](#warn)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-Adapted from https://github.com/purescript/purescript-console
 
 # error
 
