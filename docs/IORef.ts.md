@@ -7,6 +7,7 @@ nav_order: 47
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [IORef](#ioref)
   - [write](#write)
   - [modify](#modify)
@@ -14,9 +15,11 @@ nav_order: 47
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# IORef
+# Overview
 
 Mutable references in the `IO` monad
+
+# IORef
 
 **Signature** (class)
 

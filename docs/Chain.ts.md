@@ -7,6 +7,7 @@ nav_order: 14
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Chain](#chain)
 - [Chain1](#chain1)
 - [Chain2](#chain2)
@@ -17,7 +18,7 @@ nav_order: 14
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Chain
+# Overview
 
 The `Chain` type class extends the `Apply` type class with a `chain` operation which composes computations in
 sequence, using the return value of one computation to determine the next computation.
@@ -27,6 +28,8 @@ Instances must satisfy the following law in addition to the `Apply` laws:
 1. Associativity: `F.chain(F.chain(fa, afb), bfc) <-> F.chain(fa, a => F.chain(afb(a), bfc))`
 
 Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa))`
+
+# Chain
 
 **Signature** (interface)
 

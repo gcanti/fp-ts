@@ -1,3 +1,6 @@
+/**
+ * @file Adapted from https://github.com/purescript/purescript-tuples
+ */
 import { Applicative, Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Bifunctor2 } from './Bifunctor'
@@ -16,8 +19,6 @@ import { Semigroupoid2 } from './Semigroupoid'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 
-// Adapted from https://github.com/purescript/purescript-tuples
-
 declare module './HKT' {
   interface URI2HKT2<L, A> {
     Tuple: Tuple<L, A>
@@ -29,8 +30,6 @@ export const URI = 'Tuple'
 export type URI = typeof URI
 
 /**
- * @data
- * @constructor Tuple
  * @since 1.0.0
  */
 export class Tuple<L, A> {

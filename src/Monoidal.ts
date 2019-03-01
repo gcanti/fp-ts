@@ -1,3 +1,9 @@
+/**
+ * @file `Applicative` functors are equivalent to strong lax monoidal functors
+ *
+ * - https://wiki.haskell.org/Typeclassopedia#Alternative_formulation
+ * - https://bartoszmilewski.com/2017/02/06/applicative-functors/
+ */
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { liftA2 } from './Apply'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
@@ -5,12 +11,6 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { constant, tupleCurried } from './function'
 
 /**
- * Applicative functors are equivalent to strong lax monoidal functors
- *
- * - https://wiki.haskell.org/Typeclassopedia#Alternative_formulation
- * - https://bartoszmilewski.com/2017/02/06/applicative-functors/
- *
- * @typeclass
  * @since 1.0.0
  */
 export interface Monoidal<F> extends Functor<F> {

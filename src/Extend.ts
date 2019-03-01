@@ -3,7 +3,6 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { identity } from './function'
 
 /**
- * @typeclass
  * @since 1.0.0
  */
 export interface Extend<F> extends Functor<F> {

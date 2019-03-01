@@ -7,6 +7,7 @@ nav_order: 24
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Either](#either)
 - [URI](#uri)
 - [Left](#left)
@@ -80,7 +81,7 @@ nav_order: 24
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Either
+# Overview
 
 Represents a value of one of two possible types (a disjoint union).
 
@@ -106,6 +107,8 @@ operations like `map`, `chain`, ... return the `Left` value unchanged:
 right(12).map(double) // right(24)
 left(23).map(double) // left(23)
 ```
+
+# Either
 
 **Signature** (type alias)
 

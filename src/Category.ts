@@ -2,7 +2,6 @@ import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
 import { Semigroupoid, Semigroupoid2, Semigroupoid3, Semigroupoid3C, Semigroupoid4 } from './Semigroupoid'
 
 /**
- * @typeclass
  * @since 1.0.0
  */
 export interface Category<F> extends Semigroupoid<F> {

@@ -7,15 +7,18 @@ nav_order: 10
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [BoundedJoinSemilattice](#boundedjoinsemilattice)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# BoundedJoinSemilattice
+# Overview
 
 A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinSemilattice` laws:
 
 - `a ∨ 0 == a`
+
+# BoundedJoinSemilattice
 
 **Signature** (interface)
 

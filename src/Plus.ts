@@ -1,8 +1,5 @@
-import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C } from './Alt'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-
 /**
- * The `Plus` type class extends the `alt` type class with a value that should be the left and right identity for `alt`.
+ * @file The `Plus` type class extends the `alt` type class with a value that should be the left and right identity for `alt`.
  *
  * It is similar to `Monoid`, except that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
  * concrete types like `string` or `number`.
@@ -12,8 +9,11 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
  * 1. Left identity: `A.alt(zero, fa) == fa`
  * 2. Right identity: `A.alt(fa, zero) == fa`
  * 3. Annihilation: `A.map(zero, fa) == zero`
- *
- * @typeclass
+ */
+import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C } from './Alt'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+
+/**
  * @since 1.0.0
  */
 export interface Plus<F> extends Alt<F> {

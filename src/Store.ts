@@ -14,8 +14,6 @@ export const URI = 'Store'
 export type URI = typeof URI
 
 /**
- * @data
- * @constructor Store
  * @since 1.0.0
  */
 export class Store<S, A> {

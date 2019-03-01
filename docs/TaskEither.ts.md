@@ -7,6 +7,7 @@ nav_order: 84
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [URI](#uri)
 - [TaskEither](#taskeither)
   - [run](#run)
@@ -47,6 +48,11 @@ nav_order: 84
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Overview
+
+`TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
+error of type `L`. If you want to represent an asynchronous computation that never fails, please see `Task`.
+
 # URI
 
 **Signature** (type alias)
@@ -56,9 +62,6 @@ export type URI = typeof URI
 ```
 
 # TaskEither
-
-`TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
-error of type `L`. If you want to represent an asynchronous computation that never fails, please see `Task`.
 
 **Signature** (class)
 

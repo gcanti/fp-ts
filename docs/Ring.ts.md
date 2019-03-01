@@ -7,6 +7,7 @@ nav_order: 72
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Ring](#ring)
 - [getFunctionRing](#getfunctionring)
 - [~~getProductRing~~](#getproductring)
@@ -15,13 +16,17 @@ nav_order: 72
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Ring
+# Overview
 
 The `Ring` class is for types that support addition, multiplication, and subtraction operations.
 
 Instances must satisfy the following law in addition to the `Semiring` laws:
 
 - Additive inverse: `a - a = (zero - a) + a = zero`
+
+Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Ring.purs
+
+# Ring
 
 **Signature** (interface)
 

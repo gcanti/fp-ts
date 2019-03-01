@@ -7,6 +7,7 @@ nav_order: 46
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [URI](#uri)
 - [IOEither](#ioeither)
   - [run](#run)
@@ -32,6 +33,11 @@ nav_order: 46
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Overview
+
+`IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
+error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
+
 # URI
 
 **Signature** (type alias)
@@ -41,9 +47,6 @@ export type URI = typeof URI
 ```
 
 # IOEither
-
-`IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
-error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
 
 **Signature** (class)
 

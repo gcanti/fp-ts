@@ -1,12 +1,5 @@
-import { Category, Category2, Category3, Category4 } from './Category'
-import { identity, tuple } from './function'
-import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
-import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
-
-// Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
-
 /**
- * The `Strong` class extends `Profunctor` with combinators for working with product types.
+ * @file The `Strong` class extends `Profunctor` with combinators for working with product types.
  *
  * `first` and `second` lift values in a `Profunctor` to act on the first and second components of a tuple,
  * respectively.
@@ -30,7 +23,14 @@ import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
  * So, when the `profunctor` is `Function` application, `first` essentially applies your function
  * to the first element of a tuple, and `second` applies it to the second element (same as `map` would do).
  *
- * @typeclass
+ * Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
+ */
+import { Category, Category2, Category3, Category4 } from './Category'
+import { identity, tuple } from './function'
+import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
+import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
+
+/**
  * @since 1.11.0
  */
 export interface Strong<F> extends Profunctor<F> {

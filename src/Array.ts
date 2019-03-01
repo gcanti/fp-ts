@@ -1,3 +1,6 @@
+/**
+ * @file Adapted from https://github.com/purescript/purescript-arrays
+ */
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
@@ -18,8 +21,6 @@ import { getArraySetoid, Setoid } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-
-// Adapted from https://github.com/purescript/purescript-arrays
 
 declare global {
   interface Array<T> {

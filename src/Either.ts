@@ -1,3 +1,30 @@
+/**
+ * @file Represents a value of one of two possible types (a disjoint union).
+ *
+ * An instance of `Either` is either an instance of `Left` or `Right`.
+ *
+ * A common use of `Either` is as an alternative to `Option` for dealing with possible missing values. In this usage,
+ * `None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
+ * dictates that `Left` is used for failure and `Right` is used for success.
+ *
+ * For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
+ *
+ * ```ts
+ * const parse = (errorMessage: string) => (input: string): Either<string, number> => {
+ *   const n = parseInt(input, 10)
+ *   return isNaN(n) ? left(errorMessage) : right(n)
+ * }
+ * ```
+ *
+ * `Either` is right-biased, which means that `Right` is assumed to be the default case to operate on. If it is `Left`,
+ * operations like `map`, `chain`, ... return the `Left` value unchanged:
+ *
+ * ```ts
+ * right(12).map(double) // right(24)
+ * left(23).map(double)  // left(23)
+ * ```
+ */
+
 import { Alt2 } from './Alt'
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
@@ -28,34 +55,6 @@ export const URI = 'Either'
 export type URI = typeof URI
 
 /**
- * Represents a value of one of two possible types (a disjoint union).
- *
- * An instance of `Either` is either an instance of `Left` or `Right`.
- *
- * A common use of `Either` is as an alternative to `Option` for dealing with possible missing values. In this usage,
- * `None` is replaced with a `Left` which can contain useful information. `Right` takes the place of `Some`. Convention
- * dictates that `Left` is used for failure and `Right` is used for success.
- *
- * For example, you could use `Either<string, number>` to detect whether a received input is a `string` or a `number`.
- *
- * ```ts
- * const parse = (errorMessage: string) => (input: string): Either<string, number> => {
- *   const n = parseInt(input, 10)
- *   return isNaN(n) ? left(errorMessage) : right(n)
- * }
- * ```
- *
- * `Either` is right-biased, which means that `Right` is assumed to be the default case to operate on. If it is `Left`,
- * operations like `map`, `chain`, ... return the `Left` value unchanged:
- *
- * ```ts
- * right(12).map(double) // right(24)
- * left(23).map(double)  // left(23)
- * ```
- *
- * @data
- * @constructor Left
- * @constructor Right
  * @since 1.0.0
  */
 export type Either<L, A> = Left<L, A> | Right<L, A>

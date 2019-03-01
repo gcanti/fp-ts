@@ -1,3 +1,7 @@
+/**
+ * @file `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
+ * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
+ */
 import { Either, left, right } from './Either'
 import { constant, constIdentity, identity, Lazy, toString } from './function'
 import { IO } from './IO'
@@ -18,10 +22,6 @@ export const URI = 'Task'
 export type URI = typeof URI
 
 /**
- * `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
- * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
- * @data
- * @constructor Task
  * @since 1.0.0
  */
 export class Task<A> {

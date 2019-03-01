@@ -1,13 +1,5 @@
-import { Either } from './Either'
-import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
-import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
-import { Category, Category2, Category3 } from './Category'
-import { identity } from './function'
-
-// Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Choice.purs
-
 /**
- * The `Choice` class extends `Profunctor` with combinators for working with
+ * @file The `Choice` class extends `Profunctor` with combinators for working with
  * sum types.
  *
  * `left` and `right` lift values in a `Profunctor` to act on the `Left` and
@@ -32,7 +24,15 @@ import { identity } from './function'
  * When the `profunctor` is `Function` application, `left` allows you to map a function over the
  * left side of an `Either`, and `right` maps it over the right side (same as `map` would do).
  *
- * @typeclass
+ * Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Choice.purs
+ */
+import { Either } from './Either'
+import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
+import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
+import { Category, Category2, Category3 } from './Category'
+import { identity } from './function'
+
+/**
  * @since 1.11.0
  */
 export interface Choice<F> extends Profunctor<F> {

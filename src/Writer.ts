@@ -15,8 +15,6 @@ export const URI = 'Writer'
 export type URI = typeof URI
 
 /**
- * @data
- * @constructor Writer
  * @since 1.0.0
  */
 export class Writer<W, A> {

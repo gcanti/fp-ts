@@ -7,14 +7,17 @@ nav_order: 9
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [BoundedDistributiveLattice](#boundeddistributivelattice)
 - [getMinMaxBoundedDistributiveLattice](#getminmaxboundeddistributivelattice)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# BoundedDistributiveLattice
+# Overview
 
 A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
+
+# BoundedDistributiveLattice
 
 **Signature** (interface)
 

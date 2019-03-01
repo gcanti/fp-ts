@@ -7,6 +7,7 @@ nav_order: 29
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Filterable](#filterable)
 - [Filterable1](#filterable1)
 - [Filterable2](#filterable2)
@@ -26,9 +27,13 @@ nav_order: 29
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Filterable
+# Overview
 
 `Filterable` represents data structures which can be _partitioned_/_filtered_.
+
+Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Filterable.purs
+
+# Filterable
 
 **Signature** (interface)
 

@@ -1,3 +1,6 @@
+/**
+ * @file Adapted from https://github.com/parsonsmatt/purescript-pair
+ */
 import { Applicative, Applicative1 } from './Applicative'
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
@@ -9,8 +12,6 @@ import { semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
-
-// Adapted from https://github.com/parsonsmatt/purescript-pair
 
 declare module './HKT' {
   interface URI2HKT<A> {

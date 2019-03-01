@@ -14,8 +14,6 @@ export const URI = 'IxIO'
 export type URI = typeof URI
 
 /**
- * @data
- * @constructor IxIO
  * @since 1.0.0
  */
 export class IxIO<I, O, A> {

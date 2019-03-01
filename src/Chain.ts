@@ -1,8 +1,5 @@
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C } from './Apply'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-
 /**
- * The `Chain` type class extends the `Apply` type class with a `chain` operation which composes computations in
+ * @file The `Chain` type class extends the `Apply` type class with a `chain` operation which composes computations in
  * sequence, using the return value of one computation to determine the next computation.
  *
  * Instances must satisfy the following law in addition to the `Apply` laws:
@@ -10,8 +7,11 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
  * 1. Associativity: `F.chain(F.chain(fa, afb), bfc) <-> F.chain(fa, a => F.chain(afb(a), bfc))`
  *
  * Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa))`
- *
- * @typeclass
+ */
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C } from './Apply'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+
+/**
  * @since 1.0.0
  */
 export interface Chain<F> extends Apply<F> {

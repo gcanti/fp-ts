@@ -1,3 +1,6 @@
+/**
+ * @file Adapted from https://github.com/purescript/purescript-maps
+ */
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
@@ -16,8 +19,6 @@ import { Setoid, fromEquals } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-
-// https://github.com/purescript/purescript-maps
 
 declare module './HKT' {
   interface URI2HKT<A> {

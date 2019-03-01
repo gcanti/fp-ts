@@ -25,8 +25,6 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
  * Use `Traversable2v` instead
- * @typeclass
- * @since 1.0.0
  * @deprecated
  */
 // tslint:disable-next-line: deprecation
@@ -37,43 +35,27 @@ export interface Traversable<T> extends Functor<T>, Foldable<T> {
   readonly traverse: Traverse<T>
 }
 
-/**
- * @see Traversable
- */
 export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
   readonly traverse: Traverse1<T>
 }
 
-/**
- * @see Traversable
- */
 export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
   readonly traverse: Traverse2<T>
 }
 
-/**
- * @see Traversable
- */
 export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Foldable2C<T, TL> {
   readonly traverse: Traverse2C<T, TL>
 }
 
-/**
- * @see Traversable
- */
 export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
   readonly traverse: Traverse3<T>
 }
 
-/**
- * @see Traversable
- */
 export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU, TL>, Foldable3C<T, TU, TL> {
   readonly traverse: Traverse3C<T, TU, TL>
 }
 
 /**
- * Interface for `Traversable.traverse`
  * @since 1.7.0
  */
 export interface Traverse<T> {
@@ -98,8 +80,6 @@ export interface Traverse<T> {
 }
 
 /**
- * Interface for `Traversable1.traverse`
- * @see Traverse
  * @since 1.7.0
  */
 export interface Traverse1<T extends URIS> {
@@ -124,8 +104,6 @@ export interface Traverse1<T extends URIS> {
 }
 
 /**
- * Interface for `Traversable2.traverse`
- * @see Traverse
  * @since 1.7.0
  */
 export interface Traverse2<T extends URIS2> {
@@ -153,8 +131,6 @@ export interface Traverse2<T extends URIS2> {
 }
 
 /**
- * Interface for `Traversable2C.traverse`
- * @see Traverse
  * @since 1.7.0
  */
 export interface Traverse2C<T extends URIS2, TL> {
@@ -179,8 +155,6 @@ export interface Traverse2C<T extends URIS2, TL> {
 }
 
 /**
- * Interface for `Traversable3.traverse`
- * @see Traverse
  * @since 1.7.0
  */
 export interface Traverse3<T extends URIS3> {
@@ -208,8 +182,6 @@ export interface Traverse3<T extends URIS3> {
 }
 
 /**
- * Interface for `Traversable3C.traverse`
- * @see Traverse
  * @since 1.7.0
  */
 export interface Traverse3C<T extends URIS3, TU, TL> {

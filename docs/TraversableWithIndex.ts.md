@@ -7,6 +7,7 @@ nav_order: 89
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [TraversableWithIndex](#traversablewithindex)
 - [TraversableWithIndex1](#traversablewithindex1)
 - [TraversableWithIndex2](#traversablewithindex2)
@@ -18,7 +19,7 @@ nav_order: 89
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# TraversableWithIndex
+# Overview
 
 A `Traversable` with an additional index.
 A `TraversableWithIndex` instance must be compatible with its `Traversable` instance
@@ -38,6 +39,8 @@ and with its `FunctorWithIndex` instance
 ```purescript
 mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value
 ```
+
+# TraversableWithIndex
 
 **Signature** (interface)
 

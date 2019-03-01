@@ -7,6 +7,7 @@ nav_order: 65
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Plus](#plus)
 - [Plus1](#plus1)
 - [Plus2](#plus2)
@@ -16,7 +17,7 @@ nav_order: 65
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Plus
+# Overview
 
 The `Plus` type class extends the `alt` type class with a value that should be the left and right identity for `alt`.
 
@@ -28,6 +29,8 @@ concrete types like `string` or `number`.
 1. Left identity: `A.alt(zero, fa) == fa`
 2. Right identity: `A.alt(fa, zero) == fa`
 3. Annihilation: `A.map(zero, fa) == zero`
+
+# Plus
 
 **Signature** (interface)
 

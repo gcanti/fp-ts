@@ -7,6 +7,7 @@ nav_order: 85
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [These](#these)
 - [URI](#uri)
 - [Both](#both)
@@ -62,7 +63,7 @@ nav_order: 85
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# These
+# Overview
 
 A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
 
@@ -79,6 +80,10 @@ Another way you can think of `These<L, A>` is saying that we want to handle `L` 
 both `L` and `A` kind of data at the same time. This is particularly useful when it comes to displaying UI's.
 
 (description adapted from https://package.elm-lang.org/packages/joneshf/elm-these)
+
+Adapted from https://github.com/purescript-contrib/purescript-these
+
+# These
 
 **Signature** (type alias)
 

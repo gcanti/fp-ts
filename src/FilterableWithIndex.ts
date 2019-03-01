@@ -13,7 +13,6 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Option } from './Option'
 
 /**
- * @typeclass
  * @since 1.12.0
  */
 export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {

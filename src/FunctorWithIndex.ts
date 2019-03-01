@@ -1,3 +1,14 @@
+/**
+ * @file A `FunctorWithIndex` is a type constructor which supports a mapping operation `mapWithIndex`.
+ *
+ * `mapWithIndex` can be used to turn functions `i -> a -> b` into functions `f a -> f b` whose argument and return types use the type
+ * constructor `f` to represent some computational context.
+ *
+ * Instances must satisfy the following laws:
+ *
+ * 1. Identity: `F.mapWithIndex(fa, (_i, a) => a) = fa`
+ * 2. Composition: `F.mapWithIndex(fa, (_i, a) => bc(ab(a))) = F.mapWithIndex(F.mapWithIndex(fa, ab), bc)`
+ */
 import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 import {
   Functor,
@@ -20,19 +31,8 @@ import {
 } from './Functor'
 
 /**
- * A `FunctorWithIndex` is a type constructor which supports a mapping operation `mapWithIndex`.
- *
- * `mapWithIndex` can be used to turn functions `i -> a -> b` into functions `f a -> f b` whose argument and return types use the type
- * constructor `f` to represent some computational context.
- *
- * Instances must satisfy the following laws:
- *
- * 1. Identity: `F.mapWithIndex(fa, (_i, a) => a) = fa`
- * 2. Composition: `F.mapWithIndex(fa, (_i, a) => bc(ab(a))) = F.mapWithIndex(F.mapWithIndex(fa, ab), bc)`
- * @typeclass
  * @since 1.12.0
  */
-
 export interface FunctorWithIndex<F, I> extends Functor<F> {
   readonly mapWithIndex: <A, B>(fa: HKT<F, A>, f: (i: I, a: A) => B) => HKT<F, B>
 }

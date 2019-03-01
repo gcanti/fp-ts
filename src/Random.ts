@@ -1,6 +1,7 @@
+/**
+ * @file Adapted from https://github.com/purescript/purescript-random
+ */
 import { IO } from './IO'
-
-// Adapted from https://github.com/purescript/purescript-random
 
 /**
  * Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's

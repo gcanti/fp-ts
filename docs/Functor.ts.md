@@ -7,6 +7,7 @@ nav_order: 37
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Functor](#functor)
 - [Functor1](#functor1)
 - [Functor2](#functor2)
@@ -31,7 +32,7 @@ nav_order: 37
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Functor
+# Overview
 
 A `Functor` is a type constructor which supports a mapping operation `map`.
 
@@ -42,6 +43,8 @@ Instances must satisfy the following laws:
 
 1. Identity: `F.map(fa, a => a) = fa`
 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
+
+# Functor
 
 **Signature** (interface)
 

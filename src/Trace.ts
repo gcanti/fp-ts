@@ -1,9 +1,10 @@
+/**
+ * @file Adapted from https://github.com/garyb/purescript-debug
+ */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Lazy } from './function'
-
-// Adapted from https://github.com/garyb/purescript-debug
 
 /**
  * Log any value to the console for debugging purposes and then return a value. This will log the value's underlying
