@@ -18,7 +18,7 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [Apply](#apply)
 - [Apply1](#apply1)

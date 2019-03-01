@@ -12,7 +12,7 @@ A `DistributiveLattice` must satisfy the following laws in addition to `Lattice`
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [DistributiveLattice](#distributivelattice)
 - [getMinMaxDistributiveLattice](#getminmaxdistributivelattice)

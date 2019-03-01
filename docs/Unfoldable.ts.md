@@ -9,7 +9,7 @@ This class identifies data structures which can be _unfolded_, generalizing `unf
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [Unfoldable](#unfoldable)
 - [Unfoldable1](#unfoldable1)

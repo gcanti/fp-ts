@@ -26,7 +26,7 @@ mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [TraversableWithIndex](#traversablewithindex)
 - [TraversableWithIndex1](#traversablewithindex1)

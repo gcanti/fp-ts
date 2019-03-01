@@ -9,7 +9,7 @@ Lift a computation from the `IO` monad
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [MonadIO](#monadio)
 - [MonadIO1](#monadio1)

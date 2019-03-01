@@ -16,7 +16,7 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [Alt](#alt)
 - [Alt1](#alt1)

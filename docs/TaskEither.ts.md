@@ -10,7 +10,7 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [URI](#uri)
 - [TaskEither](#taskeither)

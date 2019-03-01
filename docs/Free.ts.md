@@ -9,7 +9,7 @@ Adapted from http://okmij.org/ftp/Computation/free-monad.html and https://github
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [FoldFree2](#foldfree2)
 - [FoldFree2C](#foldfree2c)

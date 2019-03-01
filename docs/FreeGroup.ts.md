@@ -13,7 +13,7 @@ Adapted from https://hackage.haskell.org/package/free-algebras-0.0.7.0/docs/Data
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [URI](#uri)
 - [FreeGroup](#freegroup)

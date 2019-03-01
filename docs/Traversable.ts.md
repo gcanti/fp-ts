@@ -5,7 +5,7 @@ nav_order: 87
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [~~Traversable~~](#traversable)
 - [Traversable1](#traversable1)

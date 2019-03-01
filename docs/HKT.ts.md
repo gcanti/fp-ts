@@ -9,7 +9,7 @@ Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [HKT](#hkt)
 - [HKT2](#hkt2)

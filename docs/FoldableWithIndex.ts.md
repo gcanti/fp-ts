@@ -16,7 +16,7 @@ foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [FoldableWithIndex](#foldablewithindex)
 - [FoldableWithIndex1](#foldablewithindex1)

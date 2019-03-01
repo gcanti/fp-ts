@@ -19,7 +19,7 @@ Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.o
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
+**Table of contents**
 
 - [Monad](#monad)
 - [Monad1](#monad1)
