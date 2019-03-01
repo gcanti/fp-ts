@@ -41,7 +41,6 @@ The idea (faking higher kinded types in TypeScript) is based on [Lightweight hig
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [Installation and TypeScript compatibility](#installation-and-typescript-compatibility)
 - [Getting started](#getting-started)
 - [Documentation](#documentation)
@@ -114,6 +113,9 @@ If you are coming from Haskell or Purescript:
 
 **Advanced**
 
+- "`fp-ts` to the max" (TypeScript port of John De Goes's "FP to the max" in Scala https://www.youtube.com/watch?v=sxudIMiOo68)
+  - [Part I](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-I.ts)
+  - [Part II](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-II.ts)
 - [Free monad and `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/Free.ts)
 - [MTL-style in `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/mtl.ts)
 - [Type safe finite state machines with `IxIO` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/ixIO.ts)
