@@ -1,5 +1,6 @@
 import * as assert from 'assert'
-import { getModuleNames } from '../docs-generator/fs'
+import * as glob from 'glob'
+import * as path from 'path'
 
 const getExportName = (name: string): string => {
   if (name === 'HKT' || name === 'IO') {
@@ -18,6 +19,10 @@ const getExportName = (name: string): string => {
     return 'strmap'
   }
   return name.substring(0, 1).toLowerCase() + name.substring(1)
+}
+
+function getModuleNames(): Array<string> {
+  return glob.sync('./src/**/*.ts').map(file => path.parse(file).name)
 }
 
 describe('index', () => {
