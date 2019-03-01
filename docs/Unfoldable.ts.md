@@ -7,6 +7,7 @@ nav_order: 92
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Unfoldable](#unfoldable)
 - [Unfoldable1](#unfoldable1)
 - [Unfoldable2](#unfoldable2)
@@ -20,9 +21,11 @@ nav_order: 92
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Unfoldable
+# Overview
 
 This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
+
+# Unfoldable
 
 **Signature** (interface)
 

@@ -7,6 +7,7 @@ nav_order: 62
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Ord](#ord)
 - [ordBoolean](#ordboolean)
 - [ordDate](#orddate)
@@ -30,7 +31,7 @@ nav_order: 62
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Ord
+# Overview
 
 The `Ord` type class represents types which support comparisons with a _total order_.
 
@@ -39,6 +40,8 @@ Instances should satisfy the laws of total orderings:
 1. Reflexivity: `S.compare(a, a) <= 0`
 2. Antisymmetry: if `S.compare(a, b) <= 0` and `S.compare(b, a) <= 0` then `a <-> b`
 3. Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
+
+# Ord
 
 **Signature** (interface)
 

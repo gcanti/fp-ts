@@ -7,6 +7,7 @@ nav_order: 5
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [URI](#uri)
 - [URI](#uri-1)
 - [array](#array)
@@ -82,6 +83,10 @@ nav_order: 5
 - [zipWith](#zipwith)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Overview
+
+Adapted from https://github.com/purescript/purescript-arrays
 
 # URI
 

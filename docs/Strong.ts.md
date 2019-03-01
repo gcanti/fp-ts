@@ -7,6 +7,7 @@ nav_order: 82
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Strong](#strong)
 - [Strong2](#strong2)
 - [Strong3](#strong3)
@@ -16,7 +17,7 @@ nav_order: 82
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Strong
+# Overview
 
 The `Strong` class extends `Profunctor` with combinators for working with product types.
 
@@ -41,6 +42,10 @@ second :: forall input output a. (input -> output) -> (Tuple a input) -> (Tuple 
 
 So, when the `profunctor` is `Function` application, `first` essentially applies your function
 to the first element of a tuple, and `second` applies it to the second element (same as `map` would do).
+
+Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
+
+# Strong
 
 **Signature** (interface)
 

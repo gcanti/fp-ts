@@ -7,6 +7,7 @@ nav_order: 7
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [BooleanAlgebra](#booleanalgebra)
 - [booleanAlgebraBoolean](#booleanalgebraboolean)
 - [booleanAlgebraVoid](#booleanalgebravoid)
@@ -15,7 +16,7 @@ nav_order: 7
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# BooleanAlgebra
+# Overview
 
 Boolean algebras are Heyting algebras with the additional constraint that the law of the excluded middle is true
 (equivalently, double-negation is true).
@@ -25,6 +26,8 @@ Instances should satisfy the following laws in addition to the `HeytingAlgebra` 
 - Excluded middle: `a ∨ ¬a = 1`
 
 Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
+
+# BooleanAlgebra
 
 **Signature** (interface)
 

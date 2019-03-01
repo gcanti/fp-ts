@@ -1,10 +1,10 @@
+/**
+ * @file Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
+ */
 import { Ring } from './Ring'
 import { Setoid } from './Setoid'
 
-// adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
-
 /**
- * @typeclass
  * @since 1.0.0
  */
 export interface Field<A> extends Ring<A> {

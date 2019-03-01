@@ -19,8 +19,6 @@ export const URI = 'Reader'
 export type URI = typeof URI
 
 /**
- * @data
- * @constructor Reader
  * @since 1.0.0
  */
 export class Reader<E, A> {

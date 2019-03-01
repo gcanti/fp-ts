@@ -1,3 +1,19 @@
+/**
+ * @file `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
+ * `Applicative` functor.
+ *
+ * `traverse` signature:
+ *
+ * ```ts
+ * <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
+ * ```
+ *
+ * `sequence` signature:
+ *
+ * ```ts
+ * <F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
+ * ```
+ */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import {
   Foldable2v,
@@ -25,22 +41,6 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Traverse, Traverse1, Traverse2, Traverse2C, Traverse3, Traverse3C } from './Traversable'
 
 /**
- * `Traversable` represents data structures which can be _traversed_ accumulating results and effects in some
- * `Applicative` functor.
- *
- * `traverse` signature:
- *
- * ```ts
- * <F>(F: Applicative<F>) => <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
- * ```
- *
- * `sequence` signature:
- *
- * ```ts
- * <F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
- * ```
- *
- * @typeclass
  * @since 1.10.0
  */
 export interface Traversable2v<T> extends Functor<T>, Foldable2v<T> {

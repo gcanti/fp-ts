@@ -22,8 +22,6 @@ export const URI = 'Identity'
 export type URI = typeof URI
 
 /**
- * @data
- * @constructor Identity
  * @since 1.0.0
  */
 export class Identity<A> {

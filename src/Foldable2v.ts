@@ -29,7 +29,6 @@ import {
 import { applyFirst } from './Apply'
 
 /**
- * @typeclass
  * @since 1.10.0
  */
 // tslint:disable-next-line: deprecation

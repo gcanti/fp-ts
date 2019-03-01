@@ -7,6 +7,7 @@ nav_order: 54
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Monad](#monad)
 - [Monad1](#monad1)
 - [Monad2](#monad2)
@@ -16,7 +17,7 @@ nav_order: 54
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Monad
+# Overview
 
 The `Monad` type class combines the operations of the `Chain` and
 `Applicative` type classes. Therefore, `Monad` instances represent type
@@ -29,6 +30,8 @@ Instances must satisfy the following laws in addition to the `Applicative` and `
 2. Right identity: `M.chain(fa, M.of) = fa`
 
 Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
+
+# Monad
 
 **Signature** (interface)
 

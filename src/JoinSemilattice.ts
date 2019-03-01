@@ -1,5 +1,5 @@
 /**
- * A join-semilattice (or upper semilattice) is a semilattice whose operation is called `join`, and which can be thought
+ * @file A join-semilattice (or upper semilattice) is a semilattice whose operation is called `join`, and which can be thought
  * of as a least upper bound.
  *
  * A `JoinSemilattice` must satisfy the following laws:
@@ -8,7 +8,9 @@
  * - Commutativity: `a ∨ b = b ∨ a`
  * - Idempotency:   `a ∨ a = a`
  *
- * @typeclass
+ */
+
+/**
  * @since 1.4.0
  */
 export interface JoinSemilattice<A> {

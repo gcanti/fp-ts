@@ -1,8 +1,5 @@
-import { constant } from './function'
-import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
-
 /**
- * A `Functor` is a type constructor which supports a mapping operation `map`.
+ * @file A `Functor` is a type constructor which supports a mapping operation `map`.
  *
  * `map` can be used to turn functions `a -> b` into functions `f a -> f b` whose argument and return types use the type
  * constructor `f` to represent some computational context.
@@ -11,8 +8,11 @@ import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT
  *
  * 1. Identity: `F.map(fa, a => a) = fa`
  * 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
- *
- * @typeclass
+ */
+import { constant } from './function'
+import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+
+/**
  * @since 1.0.0
  */
 export interface Functor<F> {

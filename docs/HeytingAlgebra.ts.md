@@ -7,11 +7,12 @@ nav_order: 40
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [HeytingAlgebra](#heytingalgebra)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# HeytingAlgebra
+# Overview
 
 Heyting algebras are bounded (distributive) lattices that are also equipped with an additional binary operation
 `implies` (also written as `→`). Heyting algebras also define a complement operation `not` (sometimes written as
@@ -32,6 +33,8 @@ A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistri
   - `a → (b ∧ c) = (a → b) ∧ (a → c)`
 - Complemented
   - `¬a = a → 0`
+
+# HeytingAlgebra
 
 **Signature** (interface)
 

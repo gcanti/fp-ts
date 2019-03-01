@@ -7,12 +7,17 @@ nav_order: 86
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [spy](#spy)
 - [trace](#trace)
 - [traceA](#tracea)
 - [traceM](#tracem)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Overview
+
+Adapted from https://github.com/garyb/purescript-debug
 
 # spy
 

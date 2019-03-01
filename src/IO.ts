@@ -1,3 +1,7 @@
+/**
+ * @file `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
+ * If you want to represent a synchronous computation that may fail, please see `IOEither`.
+ */
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
@@ -15,10 +19,6 @@ export const URI = 'IO'
 export type URI = typeof URI
 
 /**
- * `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
- * If you want to represent a synchronous computation that may fail, please see `IOEither`.
- * @data
- * @constructor IO
  * @since 1.0.0
  */
 export class IO<A> {

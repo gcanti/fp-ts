@@ -19,7 +19,6 @@ import {
 } from './Semigroup'
 
 /**
- * @typeclass
  * @since 1.0.0
  */
 export interface Monoid<A> extends Semigroup<A> {

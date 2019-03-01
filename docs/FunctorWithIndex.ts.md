@@ -7,6 +7,7 @@ nav_order: 38
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [FunctorWithIndex](#functorwithindex)
 - [FunctorWithIndex1](#functorwithindex1)
 - [FunctorWithIndex2](#functorwithindex2)
@@ -27,7 +28,7 @@ nav_order: 38
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# FunctorWithIndex
+# Overview
 
 A `FunctorWithIndex` is a type constructor which supports a mapping operation `mapWithIndex`.
 
@@ -38,6 +39,8 @@ Instances must satisfy the following laws:
 
 1. Identity: `F.mapWithIndex(fa, (_i, a) => a) = fa`
 2. Composition: `F.mapWithIndex(fa, (_i, a) => bc(ab(a))) = F.mapWithIndex(F.mapWithIndex(fa, ab), bc)`
+
+# FunctorWithIndex
 
 **Signature** (interface)
 

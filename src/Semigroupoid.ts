@@ -1,7 +1,6 @@
 import { HKT2, Type2, Type3, Type4, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
- * @typeclass
  * @since 1.0.0
  */
 export interface Semigroupoid<F> {

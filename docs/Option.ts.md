@@ -7,6 +7,7 @@ nav_order: 60
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Option](#option)
 - [URI](#uri)
 - [None](#none)
@@ -79,7 +80,7 @@ nav_order: 60
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Option
+# Overview
 
 If you have worked with JavaScript at all in the past, it is very likely that you have come across a `TypeError` at
 some time (other languages will throw similarly named errors in such a case). Usually this happens because some
@@ -161,6 +162,8 @@ const sumLifted = (oa: Option<number>, ob: Option<number>): Option<number> => ob
 sumLifted(some(1), some(2)) // some(3)
 sumLifted(some(1), none) // none
 ```
+
+# Option
 
 **Signature** (type alias)
 

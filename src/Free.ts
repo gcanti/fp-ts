@@ -1,6 +1,6 @@
-// adapted from http://okmij.org/ftp/Computation/free-monad.html
-// and https://github.com/purescript/purescript-free
-
+/**
+ * @file Adapted from http://okmij.org/ftp/Computation/free-monad.html and https://github.com/purescript/purescript-free
+ */
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { toString } from './function'

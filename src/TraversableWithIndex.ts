@@ -1,11 +1,5 @@
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { FoldableWithIndex, FoldableWithIndex1, FoldableWithIndex2, FoldableWithIndex2C } from './FoldableWithIndex'
-import { FunctorWithIndex, FunctorWithIndex1, FunctorWithIndex2, FunctorWithIndex2C } from './FunctorWithIndex'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Traversable2v, Traversable2v1, Traversable2v2, Traversable2v2C } from './Traversable2v'
-
 /**
- * A `Traversable` with an additional index.
+ * @file A `Traversable` with an additional index.
  * A `TraversableWithIndex` instance must be compatible with its `Traversable` instance
  *
  * ```ts
@@ -23,8 +17,14 @@ import { Traversable2v, Traversable2v1, Traversable2v2, Traversable2v2C } from '
  * ```purescript
  * mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value
  * ```
- *
- * @typeclass
+ */
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { FoldableWithIndex, FoldableWithIndex1, FoldableWithIndex2, FoldableWithIndex2C } from './FoldableWithIndex'
+import { FunctorWithIndex, FunctorWithIndex1, FunctorWithIndex2, FunctorWithIndex2C } from './FunctorWithIndex'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Traversable2v, Traversable2v1, Traversable2v2, Traversable2v2C } from './Traversable2v'
+
+/**
  * @since 1.12.0
  */
 export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, FoldableWithIndex<T, I>, Traversable2v<T> {

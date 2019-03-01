@@ -1,3 +1,7 @@
+/**
+ * @file `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
+ * error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
+ */
 import { Bifunctor2 } from './Bifunctor'
 import { Either, left as eitherLeft, right as eitherRight, tryCatch2v as eitherTryCatch2v, toError } from './Either'
 import * as eitherT from './EitherT'
@@ -20,10 +24,6 @@ const T = eitherT.getEitherT2v(io)
 const foldT = eitherT.fold(io)
 
 /**
- * `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
- * error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
- * @data
- * @constructor IOEither
  * @since 1.6.0
  */
 export class IOEither<L, A> {

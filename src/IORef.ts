@@ -1,8 +1,9 @@
+/**
+ * @file Mutable references in the `IO` monad
+ */
 import { IO } from './IO'
 
 /**
- * Mutable references in the `IO` monad
- *
  * @example
  * import { newIORef } from 'fp-ts/lib/IORef'
  *
@@ -12,9 +13,6 @@ import { IO } from './IO'
  *     .run(),
  *   2
  * )
- *
- * @data
- * @constructor IORef
  * @since 1.8.0
  */
 export class IORef<A> {

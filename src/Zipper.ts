@@ -1,3 +1,15 @@
+/**
+ * @file Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
+ * position in an array. Focus can be moved forward and backwards through the array.
+ *
+ * The array `[1, 2, 3, 4]` with focus on `3` is represented by `new Zipper([1, 2], 3, [4])`
+ *
+ * Adapted from
+ *
+ * - https://github.com/DavidHarrison/purescript-list-zipper
+ * - https://github.com/thunklife/purescript-zipper
+ * - https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
+ */
 import { Applicative, Applicative1 } from './Applicative'
 import { array, cons, drop, empty, isEmpty, isOutOfBound, snoc, take } from './Array'
 import { Comonad1 } from './Comonad'
@@ -10,14 +22,6 @@ import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Traversable2v1 } from './Traversable2v'
 
-/*
-  Adapted from
-
-  - https://github.com/DavidHarrison/purescript-list-zipper
-  - https://github.com/thunklife/purescript-zipper
-  - https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
-*/
-
 declare module './HKT' {
   interface URI2HKT<A> {
     Zipper: Zipper<A>
@@ -29,13 +33,6 @@ export const URI = 'Zipper'
 export type URI = typeof URI
 
 /**
- * Provides a pointed array, which is a non-empty zipper-like array structure that tracks an index (focus)
- * position in an array. Focus can be moved forward and backwards through the array.
- *
- * The array `[1, 2, 3, 4]` with focus on `3` is represented by `new Zipper([1, 2], 3, [4])`
- *
- * @data
- * @constructor Zipper
  * @since 1.9.0
  */
 export class Zipper<A> {

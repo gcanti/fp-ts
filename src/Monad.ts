@@ -1,9 +1,5 @@
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
-import { URIS, URIS2, URIS3 } from './HKT'
-
 /**
- * The `Monad` type class combines the operations of the `Chain` and
+ * @file The `Monad` type class combines the operations of the `Chain` and
  * `Applicative` type classes. Therefore, `Monad` instances represent type
  * constructors which support sequential composition, and also lifting of
  * functions of arbitrary arity.
@@ -14,8 +10,12 @@ import { URIS, URIS2, URIS3 } from './HKT'
  * 2. Right identity: `M.chain(fa, M.of) = fa`
  *
  * Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
- *
- * @typeclass
+ */
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
+import { URIS, URIS2, URIS3 } from './HKT'
+
+/**
  * @since 1.0.0
  */
 export interface Monad<F> extends Applicative<F>, Chain<F> {}

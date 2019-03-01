@@ -7,18 +7,21 @@ nav_order: 8
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Bounded](#bounded)
 - [boundedNumber](#boundednumber)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Bounded
+# Overview
 
 The `Bounded` type class represents totally ordered types that have an upper and lower boundary.
 
 Instances should satisfy the following law in addition to the `Ord` laws:
 
 - Bounded: `bottom <= a <= top`
+
+# Bounded
 
 **Signature** (interface)
 

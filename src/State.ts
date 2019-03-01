@@ -12,8 +12,6 @@ export const URI = 'State'
 export type URI = typeof URI
 
 /**
- * @data
- * @constructor State
  * @since 1.0.0
  */
 export class State<S, A> {

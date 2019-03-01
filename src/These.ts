@@ -1,31 +1,5 @@
-import { Applicative } from './Applicative'
-import { Bifunctor2 } from './Bifunctor'
-import { Either } from './Either'
-import { Foldable2v2 } from './Foldable2v'
-import { phantom, toString } from './function'
-import { Functor2 } from './Functor'
-import { HKT } from './HKT'
-import { Monad2C } from './Monad'
-import { Monoid } from './Monoid'
-import { none, Option, some } from './Option'
-import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v2 } from './Traversable2v'
-
-// Adapted from https://github.com/purescript-contrib/purescript-these
-
-declare module './HKT' {
-  interface URI2HKT2<L, A> {
-    These: These<L, A>
-  }
-}
-
-export const URI = 'These'
-
-export type URI = typeof URI
-
 /**
- * A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
+ * @file A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
  *
  * If you interpret `Either<L, A>` as suggesting the computation may either fail or succeed (exclusively), then
  * `These<L, A>` may fail, succeed, or do both at the same time.
@@ -41,10 +15,33 @@ export type URI = typeof URI
  *
  * (description adapted from https://package.elm-lang.org/packages/joneshf/elm-these)
  *
- * @data
- * @constructor This
- * @constructor That
- * @constructor Both
+ * Adapted from https://github.com/purescript-contrib/purescript-these
+ */
+import { Applicative } from './Applicative'
+import { Bifunctor2 } from './Bifunctor'
+import { Either } from './Either'
+import { Foldable2v2 } from './Foldable2v'
+import { phantom, toString } from './function'
+import { Functor2 } from './Functor'
+import { HKT } from './HKT'
+import { Monad2C } from './Monad'
+import { Monoid } from './Monoid'
+import { none, Option, some } from './Option'
+import { Semigroup } from './Semigroup'
+import { Setoid, fromEquals } from './Setoid'
+import { Traversable2v2 } from './Traversable2v'
+
+declare module './HKT' {
+  interface URI2HKT2<L, A> {
+    These: These<L, A>
+  }
+}
+
+export const URI = 'These'
+
+export type URI = typeof URI
+
+/**
  * @since 1.0.0
  */
 export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>

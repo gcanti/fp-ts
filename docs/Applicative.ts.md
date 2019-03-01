@@ -7,6 +7,7 @@ nav_order: 3
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Applicative](#applicative)
 - [Applicative1](#applicative1)
 - [Applicative2](#applicative2)
@@ -28,7 +29,7 @@ nav_order: 3
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Applicative
+# Overview
 
 The `Applicative` type class extends the `Apply` type class with a `of` function, which can be used to create values
 of type `f a` from values of type `a`.
@@ -45,6 +46,8 @@ Instances must satisfy the following laws in addition to the `Apply` laws:
 3. Interchange: `A.ap(fab, A.of(a)) = A.ap(A.of(ab => ab(a)), fab)`
 
 Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
+
+# Applicative
 
 **Signature** (interface)
 

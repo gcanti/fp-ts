@@ -1,3 +1,10 @@
+/**
+ * @file The `Validation` functor, used for applicative validation
+ *
+ * The `Applicative` instance collects multiple failures in an arbitrary `Semigroup`.
+ *
+ * Adapted from https://github.com/purescript/purescript-validation
+ */
 import { Alt2C } from './Alt'
 import { Applicative, Applicative2C } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
@@ -16,8 +23,6 @@ import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 import { Witherable2C } from './Witherable'
 
-// Adapted from https://github.com/purescript/purescript-validation
-
 declare module './HKT' {
   interface URI2HKT2<L, A> {
     Validation: Validation<L, A>
@@ -29,12 +34,7 @@ export const URI = 'Validation'
 export type URI = typeof URI
 
 /**
- * The `Validation` functor, used for applicative validation
- *
- * The `Applicative` instance collects multiple failures in an arbitrary `Semigroup`.
- *
  * @example
- *
  * import { Validation, getApplicative, success, failure } from 'fp-ts/lib/Validation'
  * import { NonEmptyArray, getSemigroup } from 'fp-ts/lib/NonEmptyArray'
  *
@@ -69,9 +69,6 @@ export type URI = typeof URI
  *
  * assert.deepStrictEqual(validatePerson({ name: 'Giulio', age: '44' }), success({ "name": "Giulio", "age": 44 }))
  *
- * @data
- * @constructor Failure
- * @constructor Success
  * @since 1.0.0
  */
 export type Validation<L, A> = Failure<L, A> | Success<L, A>

@@ -3,7 +3,6 @@ import { Either } from './Either'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @typeclass
  * @since 1.0.0
  */
 export interface ChainRec<F> extends Chain<F> {

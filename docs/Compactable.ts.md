@@ -7,6 +7,7 @@ nav_order: 18
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Compactable](#compactable)
 - [Compactable1](#compactable1)
 - [Compactable2](#compactable2)
@@ -27,13 +28,17 @@ nav_order: 18
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Compactable
+# Overview
 
 `Compactable` represents data structures which can be _compacted_/_filtered_. This is a generalization of
 `catOptions` as a new function `compact`. `compact` has relations with `Functor`, `Applicative`,
 `Monad`, `Plus`, and `Traversable` in that we can use these classes to provide the ability to
 operate on a data type by eliminating intermediate `None`s. This is useful for representing the filtering out of
 values, or failure.
+
+Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Compactable.purs
+
+# Compactable
 
 **Signature** (interface)
 

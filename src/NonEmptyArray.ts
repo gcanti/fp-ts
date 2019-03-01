@@ -1,3 +1,6 @@
+/**
+ * @file Data structure which represents non-empty arrays
+ */
 import { Applicative } from './Applicative'
 import {
   array,
@@ -37,9 +40,6 @@ export const URI = 'NonEmptyArray'
 export type URI = typeof URI
 
 /**
- * Data structure which represents non-empty arrays
- * @data
- * @constructor NonEmptyArray
  * @since 1.0.0
  */
 export class NonEmptyArray<A> {

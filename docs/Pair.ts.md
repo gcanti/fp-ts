@@ -7,6 +7,7 @@ nav_order: 64
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [URI](#uri)
 - [Pair](#pair)
   - [first](#first)
@@ -26,6 +27,10 @@ nav_order: 64
 - [getSetoid](#getsetoid)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Overview
+
+Adapted from https://github.com/parsonsmatt/purescript-pair
 
 # URI
 

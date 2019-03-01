@@ -7,6 +7,7 @@ nav_order: 83
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [URI](#uri)
 - [Task](#task)
   - [map](#map)
@@ -29,6 +30,11 @@ nav_order: 83
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Overview
+
+`Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
+If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
+
 # URI
 
 **Signature** (type alias)
@@ -38,9 +44,6 @@ export type URI = typeof URI
 ```
 
 # Task
-
-`Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
-If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
 
 **Signature** (class)
 

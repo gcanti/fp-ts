@@ -7,6 +7,7 @@ nav_order: 90
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Forest](#forest)
 - [URI](#uri)
 - [Tree](#tree)
@@ -32,6 +33,14 @@ nav_order: 90
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
+# Overview
+
+Multi-way trees (aka rose trees) and forests, where a forest is
+
+```ts
+type Forest<A> = Array<Tree<A>>
+```
+
 # Forest
 
 **Signature** (type alias)
@@ -49,12 +58,6 @@ export type URI = typeof URI
 ```
 
 # Tree
-
-Multi-way trees (aka rose trees) and forests, where a forest is
-
-```ts
-type Forest<A> = Array<Tree<A>>
-```
 
 **Signature** (class)
 

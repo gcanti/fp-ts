@@ -2,7 +2,6 @@ import { Ord, max, min } from './Ord'
 import { concat, identity } from './function'
 
 /**
- * @typeclass
  * @since 1.0.0
  */
 export interface Semigroup<A> {

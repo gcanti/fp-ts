@@ -7,6 +7,7 @@ nav_order: 33
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [FoldableWithIndex](#foldablewithindex)
 - [FoldableWithIndex1](#foldablewithindex1)
 - [FoldableWithIndex2](#foldablewithindex2)
@@ -26,7 +27,7 @@ nav_order: 33
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# FoldableWithIndex
+# Overview
 
 A `Foldable` with an additional index.
 A `FoldableWithIndex` instance must be compatible with its `Foldable` instance
@@ -36,6 +37,8 @@ reduce(fa, b, f) = reduceWithIndex(fa, b, (_, b, a) => f(b, a))
 foldMap(M)(fa, f) = foldMapWithIndex(M)(fa, (_, a) => f(a))
 foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
 ```
+
+# FoldableWithIndex
 
 **Signature** (interface)
 

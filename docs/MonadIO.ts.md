@@ -7,6 +7,7 @@ nav_order: 55
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [MonadIO](#monadio)
 - [MonadIO1](#monadio1)
 - [MonadIO2](#monadio2)
@@ -16,9 +17,11 @@ nav_order: 55
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# MonadIO
+# Overview
 
 Lift a computation from the `IO` monad
+
+# MonadIO
 
 **Signature** (interface)
 

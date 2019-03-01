@@ -7,6 +7,7 @@ nav_order: 4
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Apply](#apply)
 - [Apply1](#apply1)
 - [Apply2](#apply2)
@@ -29,7 +30,7 @@ nav_order: 4
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Apply
+# Overview
 
 The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
 
@@ -41,6 +42,8 @@ Instances must satisfy the following law in addition to the `Functor` laws:
 1. Associative composition: `F.ap(F.ap(F.map(fbc, bc => ab => a => bc(ab(a))), fab), fa) = F.ap(fbc, F.ap(fab, fa))`
 
 Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
+
+# Apply
 
 **Signature** (interface)
 

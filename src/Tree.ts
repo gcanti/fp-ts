@@ -1,3 +1,10 @@
+/**
+ * @file Multi-way trees (aka rose trees) and forests, where a forest is
+ *
+ * ```ts
+ * type Forest<A> = Array<Tree<A>>
+ * ```
+ */
 import { Applicative } from './Applicative'
 import { getSetoid as getArraySetoid, traverse as arrayTraverse, empty } from './Array'
 import { Comonad1 } from './Comonad'
@@ -22,14 +29,6 @@ export type URI = typeof URI
 export type Forest<A> = Array<Tree<A>>
 
 /**
- * Multi-way trees (aka rose trees) and forests, where a forest is
- *
- * ```ts
- * type Forest<A> = Array<Tree<A>>
- * ```
- *
- * @data
- * @constructor Tree
  * @since 1.6.0
  */
 export class Tree<A> {

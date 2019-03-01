@@ -26,8 +26,6 @@ export const URI = 'ReaderTaskEither'
 export type URI = typeof URI
 
 /**
- * @data
- * @constructor ReaderTaskEither
  * @since 1.6.0
  */
 export class ReaderTaskEither<E, L, A> {

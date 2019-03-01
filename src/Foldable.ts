@@ -12,7 +12,6 @@ import { Predicate } from './function'
 
 /**
  * Use `Foldable2v`
- * @typeclass
  * @since 1.0.0
  * @deprecated
  */

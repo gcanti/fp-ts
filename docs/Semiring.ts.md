@@ -7,12 +7,13 @@ nav_order: 75
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Semiring](#semiring)
 - [getFunctionSemiring](#getfunctionsemiring)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Semiring
+# Overview
 
 The `Semiring` class is for types that support an addition and multiplication operation.
 
@@ -33,6 +34,8 @@ Instances must satisfy the following laws:
 **Note:** The `number` type is not fully law abiding members of this class hierarchy due to the potential
 for arithmetic overflows, and the presence of `NaN` and `Infinity` values. The behaviour is
 unspecified in these cases.
+
+# Semiring
 
 **Signature** (interface)
 

@@ -7,6 +7,7 @@ nav_order: 34
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [FoldFree2](#foldfree2)
 - [FoldFree2C](#foldfree2c)
 - [FoldFree3](#foldfree3)
@@ -38,6 +39,10 @@ nav_order: 34
 - [of](#of)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Overview
+
+Adapted from http://okmij.org/ftp/Computation/free-monad.html and https://github.com/purescript/purescript-free
 
 # FoldFree2
 

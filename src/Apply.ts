@@ -1,10 +1,5 @@
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Semigroup } from './Semigroup'
-import { Curried2, Curried3, Curried4, constant, curried, Function1 } from './function'
-
 /**
- * The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
+ * @file The `Apply` class provides the `ap` which is used to apply a function to an argument under a type constructor.
  *
  * `Apply` can be used to lift functions of two or more arguments to work on values wrapped with the type constructor
  * `f`.
@@ -14,8 +9,13 @@ import { Curried2, Curried3, Curried4, constant, curried, Function1 } from './fu
  * 1. Associative composition: `F.ap(F.ap(F.map(fbc, bc => ab => a => bc(ab(a))), fab), fa) = F.ap(fbc, F.ap(fab, fa))`
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
- *
- * @typeclass
+ */
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Semigroup } from './Semigroup'
+import { Curried2, Curried3, Curried4, constant, curried, Function1 } from './function'
+
+/**
  * @since 1.0.0
  */
 export interface Apply<F> extends Functor<F> {

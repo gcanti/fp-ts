@@ -1,6 +1,7 @@
+/**
+ * @file Adapted from https://github.com/purescript/purescript-console
+ */
 import { IO } from './IO'
-
-// Adapted from https://github.com/purescript/purescript-console
 
 /**
  * @since 1.0.0

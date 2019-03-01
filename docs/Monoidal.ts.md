@@ -7,6 +7,7 @@ nav_order: 58
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Monoidal](#monoidal)
 - [Monoidal1](#monoidal1)
 - [Monoidal2](#monoidal2)
@@ -18,12 +19,14 @@ nav_order: 58
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Monoidal
+# Overview
 
-Applicative functors are equivalent to strong lax monoidal functors
+`Applicative` functors are equivalent to strong lax monoidal functors
 
 - https://wiki.haskell.org/Typeclassopedia#Alternative_formulation
 - https://bartoszmilewski.com/2017/02/06/applicative-functors/
+
+# Monoidal
 
 **Signature** (interface)
 

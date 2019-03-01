@@ -1,3 +1,13 @@
+/**
+ * @file A `Foldable` with an additional index.
+ * A `FoldableWithIndex` instance must be compatible with its `Foldable` instance
+ *
+ * ```ts
+ * reduce(fa, b, f) = reduceWithIndex(fa, b, (_, b, a) => f(b, a))
+ * foldMap(M)(fa, f) = foldMapWithIndex(M)(fa, (_, a) => f(a))
+ * foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
+ * ```
+ */
 import {
   Foldable2v,
   Foldable2v1,
@@ -20,16 +30,6 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 
 /**
- * A `Foldable` with an additional index.
- * A `FoldableWithIndex` instance must be compatible with its `Foldable` instance
- *
- * ```ts
- * reduce(fa, b, f) = reduceWithIndex(fa, b, (_, b, a) => f(b, a))
- * foldMap(M)(fa, f) = foldMapWithIndex(M)(fa, (_, a) => f(a))
- * foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
- * ```
- *
- * @typeclass
  * @since 1.12.0
  */
 export interface FoldableWithIndex<F, I> extends Foldable2v<F> {

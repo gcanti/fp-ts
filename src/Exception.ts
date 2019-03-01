@@ -1,8 +1,9 @@
+/**
+ * @file Adapted from https://github.com/purescript/purescript-exceptions
+ */
 import { Either, left, right } from './Either'
 import { IO, io } from './IO'
 import { Option, none, some } from './Option'
-
-// Adapted from https://github.com/purescript/purescript-exceptions
 
 /**
  * Create a JavaScript error, specifying a message

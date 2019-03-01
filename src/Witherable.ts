@@ -1,11 +1,3 @@
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Option } from './Option'
-import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3, Traversable3C } from './Traversable'
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable3C } from './Filterable'
-import { Either } from './Either'
-import { Separated } from './Compactable'
-
 /**
  * `Witherable` represents data structures which can be _partitioned_ with effects in some `Applicative` functor.
  *
@@ -21,9 +13,18 @@ import { Separated } from './Compactable'
  * <F>(F: Applicative<F>) => <A, B>(ta: HKT<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, HKT<W, B>>
  * ```
  *
- * @typeclass
+ * Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Witherable.purs
+ */
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Option } from './Option'
+import { Traversable, Traversable1, Traversable2, Traversable2C, Traversable3, Traversable3C } from './Traversable'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable3C } from './Filterable'
+import { Either } from './Either'
+import { Separated } from './Compactable'
+
+/**
  * @since 1.7.0
- * @see https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Witherable.purs
  */
 // tslint:disable-next-line: deprecation
 export interface Witherable<T> extends Traversable<T>, Filterable<T> {
@@ -40,7 +41,6 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
 
 /**
  * @since 1.7.0
- * @see Witherable
  */
 export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
   wilt: Wilt1<T>
@@ -49,7 +49,6 @@ export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable
 
 /**
  * @since 1.7.0
- * @see Witherable
  */
 export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
   wilt: Wilt2<T>
@@ -58,7 +57,6 @@ export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterabl
 
 /**
  * @since 1.7.0
- * @see Witherable
  */
 export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
   wilt: Wilt2C<T, TL>
@@ -67,7 +65,6 @@ export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>,
 
 /**
  * @since 1.7.0
- * @see Witherable
  */
 export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
   wilt: Wilt3<T>
@@ -76,7 +73,6 @@ export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterabl
 
 /**
  * @since 1.7.0
- * @see Witherable
  */
 export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, TU, TL>, Filterable3C<T, TU, TL> {
   wilt: Wilt3C<T, TU, TL>
@@ -84,7 +80,6 @@ export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, 
 }
 
 /**
- * Interface for `Witherable.wither`
  * @since 1.7.0
  */
 export interface Wither<W> {
@@ -109,7 +104,6 @@ export interface Wither<W> {
 }
 
 /**
- * @see Wither
  * @since 1.7.0
  */
 export interface Wither1<W extends URIS> {
@@ -134,7 +128,6 @@ export interface Wither1<W extends URIS> {
 }
 
 /**
- * @see Wither
  * @since 1.7.0
  */
 export interface Wither2<W extends URIS2> {
@@ -162,7 +155,6 @@ export interface Wither2<W extends URIS2> {
 }
 
 /**
- * @see Wither
  * @since 1.7.0
  */
 export interface Wither2C<W extends URIS2, WL> {
@@ -190,7 +182,6 @@ export interface Wither2C<W extends URIS2, WL> {
 }
 
 /**
- * @see Wither
  * @since 1.7.0
  */
 export interface Wither3<W extends URIS3> {
@@ -221,7 +212,6 @@ export interface Wither3<W extends URIS3> {
 }
 
 /**
- * @see Wither
  * @since 1.7.0
  */
 export interface Wither3C<W extends URIS3, WU, WL> {
@@ -249,7 +239,6 @@ export interface Wither3C<W extends URIS3, WU, WL> {
 }
 
 /**
- * Interface for `Witherable.wilt`
  * @since 1.7.0
  */
 export interface Wilt<W> {
@@ -280,7 +269,6 @@ export interface Wilt<W> {
 }
 
 /**
- * @see Wilt
  * @since 1.7.0
  */
 export interface Wilt1<W extends URIS> {
@@ -311,7 +299,6 @@ export interface Wilt1<W extends URIS> {
 }
 
 /**
- * @see Wilt
  * @since 1.7.0
  */
 export interface Wilt2<W extends URIS2> {
@@ -342,7 +329,6 @@ export interface Wilt2<W extends URIS2> {
 }
 
 /**
- * @see Wilt
  * @since 1.7.0
  */
 export interface Wilt2C<W extends URIS2, WL> {
@@ -373,7 +359,6 @@ export interface Wilt2C<W extends URIS2, WL> {
 }
 
 /**
- * @see Wilt
  * @since 1.7.0
  */
 export interface Wilt3<W extends URIS3> {
@@ -404,7 +389,6 @@ export interface Wilt3<W extends URIS3> {
 }
 
 /**
- * @see Wilt
  * @since 1.7.0
  */
 export interface Wilt3C<W extends URIS3, WU, WL> {

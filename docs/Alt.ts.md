@@ -7,6 +7,7 @@ nav_order: 1
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [Alt](#alt)
 - [Alt1](#alt1)
 - [Alt2](#alt2)
@@ -16,7 +17,7 @@ nav_order: 1
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# Alt
+# Overview
 
 The `Alt` type class identifies an associative operation on a type constructor. It is similar to `Semigroup`, except
 that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than concrete types like `string` or
@@ -26,6 +27,8 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 
 1. Associativity: `A.alt(A.alt(fa, ga), ha) = A.alt(fa, A.alt(ga, ha))`
 2. Distributivity: `A.map(A.alt(fa, ga), ab) = A.alt(A.map(fa, ab), A.map(ga, ab))`
+
+# Alt
 
 **Signature** (interface)
 

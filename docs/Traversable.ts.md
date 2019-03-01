@@ -43,8 +43,6 @@ export interface Traversable<T> extends Functor<T>, Foldable<T> {
 }
 ```
 
-Added in v1.0.0
-
 # Traversable1
 
 **Signature** (interface)
@@ -121,8 +119,6 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
 
 # Traverse
 
-Interface for `Traversable.traverse`
-
 **Signature** (interface)
 
 ```ts
@@ -152,8 +148,6 @@ Added in v1.7.0
 
 # Traverse1
 
-Interface for `Traversable1.traverse`
-
 **Signature** (interface)
 
 ```ts
@@ -182,8 +176,6 @@ export interface Traverse1<T extends URIS> {
 Added in v1.7.0
 
 # Traverse2
-
-Interface for `Traversable2.traverse`
 
 **Signature** (interface)
 
@@ -217,8 +209,6 @@ Added in v1.7.0
 
 # Traverse2C
 
-Interface for `Traversable2C.traverse`
-
 **Signature** (interface)
 
 ```ts
@@ -247,8 +237,6 @@ export interface Traverse2C<T extends URIS2, TL> {
 Added in v1.7.0
 
 # Traverse3
-
-Interface for `Traversable3.traverse`
 
 **Signature** (interface)
 
@@ -281,8 +269,6 @@ export interface Traverse3<T extends URIS3> {
 Added in v1.7.0
 
 # Traverse3C
-
-Interface for `Traversable3C.traverse`
 
 **Signature** (interface)
 

@@ -7,6 +7,7 @@ nav_order: 56
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
+- [Overview](#overview)
 - [MonadTask](#monadtask)
 - [MonadTask1](#monadtask1)
 - [MonadTask2](#monadtask2)
@@ -16,9 +17,11 @@ nav_order: 56
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-# MonadTask
+# Overview
 
 Lift a computation from the `Task` monad
+
+# MonadTask
 
 **Signature** (interface)
 
