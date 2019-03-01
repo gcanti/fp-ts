@@ -45,6 +45,7 @@ The idea (faking higher kinded types in TypeScript) is based on [Lightweight hig
 - [Installation and TypeScript compatibility](#installation-and-typescript-compatibility)
 - [Getting started](#getting-started)
 - [Documentation](#documentation)
+  - [Internals](#internals)
   - [Blog posts](#blog-posts)
   - [Tutorials](#tutorials)
 - [Ecosystem](#ecosystem)
@@ -93,6 +94,10 @@ If you are coming from Haskell or Purescript:
 # Documentation
 
 - [API Reference](https://gcanti.github.io/fp-ts)
+
+## Internals
+
+- [Code conventions](https://github.com/gcanti/fp-ts/blob/master/code-conventions.md)
 
 ## Blog posts
 
