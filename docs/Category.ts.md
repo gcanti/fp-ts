@@ -3,21 +3,15 @@ title: Category.ts
 nav_order: 13
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Category](#category)
-- [Category2](#category2)
-- [Category3](#category3)
-- [Category3C](#category3c)
-- [Category4](#category4)
+- [Category (interface)](#category-interface)
+- [Category2 (interface)](#category2-interface)
+- [Category3 (interface)](#category3-interface)
+- [Category3C (interface)](#category3c-interface)
+- [Category4 (interface)](#category4-interface)# Category (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Category
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Category<F> extends Semigroupoid<F> {
@@ -27,9 +21,9 @@ export interface Category<F> extends Semigroupoid<F> {
 
 Added in v1.0.0
 
-# Category2
+# Category2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Category2<F extends URIS2> extends Semigroupoid2<F> {
@@ -37,9 +31,9 @@ export interface Category2<F extends URIS2> extends Semigroupoid2<F> {
 }
 ```
 
-# Category3
+# Category3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
@@ -47,9 +41,9 @@ export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
 }
 ```
 
-# Category3C
+# Category3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Category3C<F extends URIS3, U> extends Semigroupoid3C<F, U> {
@@ -57,9 +51,9 @@ export interface Category3C<F extends URIS3, U> extends Semigroupoid3C<F, U> {
 }
 ```
 
-# Category4
+# Category4 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Category4<F extends URIS4> extends Semigroupoid4<F> {

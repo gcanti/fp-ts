@@ -3,62 +3,56 @@ title: Record.ts
 nav_order: 71
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [empty](#empty)
-- [~~isSubdictionary~~](#issubdictionary)
-- [collect](#collect)
-- [compact](#compact)
-- [elem](#elem)
-- [every](#every)
-- [filter](#filter)
-- [filterMap](#filtermap)
-- [~~filterMapWithIndex~~](#filtermapwithindex)
-- [filterMapWithKey](#filtermapwithkey)
-- [~~filterWithIndex~~](#filterwithindex)
-- [filterWithKey](#filterwithkey)
-- [foldMap](#foldmap)
-- [foldMapWithKey](#foldmapwithkey)
-- [foldr](#foldr)
-- [foldrWithKey](#foldrwithkey)
-- [fromFoldable](#fromfoldable)
-- [getMonoid](#getmonoid)
-- [getSetoid](#getsetoid)
-- [insert](#insert)
-- [isEmpty](#isempty)
-- [isSubrecord](#issubrecord)
-- [lookup](#lookup)
-- [map](#map)
-- [mapWithKey](#mapwithkey)
-- [partition](#partition)
-- [partitionMap](#partitionmap)
-- [~~partitionMapWithIndex~~](#partitionmapwithindex)
-- [partitionMapWithKey](#partitionmapwithkey)
-- [~~partitionWithIndex~~](#partitionwithindex)
-- [partitionWithKey](#partitionwithkey)
-- [pop](#pop)
-- [reduce](#reduce)
-- [reduceWithKey](#reducewithkey)
-- [remove](#remove)
-- [separate](#separate)
-- [sequence](#sequence)
-- [singleton](#singleton)
-- [size](#size)
-- [some](#some)
-- [toArray](#toarray)
-- [toUnfoldable](#tounfoldable)
-- [traverse](#traverse)
-- [traverseWithKey](#traversewithkey)
-- [wilt](#wilt)
-- [wither](#wither)
+- [empty (constant)](#empty-constant)
+- [~~isSubdictionary~~ (constant)](#issubdictionary-constant)
+- [collect (function)](#collect-function)
+- [compact (function)](#compact-function)
+- [elem (function)](#elem-function)
+- [every (function)](#every-function)
+- [filter (function)](#filter-function)
+- [filterMap (function)](#filtermap-function)
+- [~~filterMapWithIndex~~ (function)](#filtermapwithindex-function)
+- [filterMapWithKey (function)](#filtermapwithkey-function)
+- [~~filterWithIndex~~ (function)](#filterwithindex-function)
+- [filterWithKey (function)](#filterwithkey-function)
+- [foldMap (function)](#foldmap-function)
+- [foldMapWithKey (function)](#foldmapwithkey-function)
+- [foldr (function)](#foldr-function)
+- [foldrWithKey (function)](#foldrwithkey-function)
+- [fromFoldable (function)](#fromfoldable-function)
+- [getMonoid (function)](#getmonoid-function)
+- [getSetoid (function)](#getsetoid-function)
+- [insert (function)](#insert-function)
+- [isEmpty (function)](#isempty-function)
+- [isSubrecord (function)](#issubrecord-function)
+- [lookup (function)](#lookup-function)
+- [map (function)](#map-function)
+- [mapWithKey (function)](#mapwithkey-function)
+- [partition (function)](#partition-function)
+- [partitionMap (function)](#partitionmap-function)
+- [~~partitionMapWithIndex~~ (function)](#partitionmapwithindex-function)
+- [partitionMapWithKey (function)](#partitionmapwithkey-function)
+- [~~partitionWithIndex~~ (function)](#partitionwithindex-function)
+- [partitionWithKey (function)](#partitionwithkey-function)
+- [pop (function)](#pop-function)
+- [reduce (function)](#reduce-function)
+- [reduceWithKey (function)](#reducewithkey-function)
+- [remove (function)](#remove-function)
+- [separate (function)](#separate-function)
+- [sequence (function)](#sequence-function)
+- [singleton (function)](#singleton-function)
+- [size (function)](#size-function)
+- [some (function)](#some-function)
+- [toArray (function)](#toarray-function)
+- [toUnfoldable (function)](#tounfoldable-function)
+- [traverse (function)](#traverse-function)
+- [traverseWithKey (function)](#traversewithkey-function)
+- [wilt (function)](#wilt-function)
+- [wither (function)](#wither-function)# empty (constant)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# empty
-
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const empty: Record<string, never> = ...
@@ -66,11 +60,11 @@ export const empty: Record<string, never> = ...
 
 Added in v1.10.0
 
-# ~~isSubdictionary~~
+# ~~isSubdictionary~~ (constant)
 
 Use `isSubrecord` instead
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const isSubdictionary: <A>(
@@ -80,9 +74,9 @@ export const isSubdictionary: <A>(
 
 Added in v1.10.0
 
-# collect
+# collect (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function collect<K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B>
@@ -92,9 +86,9 @@ export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): 
 
 Added in v1.10.0
 
-# compact
+# compact (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => ...
@@ -102,9 +96,9 @@ export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => 
 
 Added in v1.10.0
 
-# elem
+# elem (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function elem<A>(S: Setoid<A>): (a: A, fa: { ... }
@@ -112,9 +106,9 @@ export function elem<A>(S: Setoid<A>): (a: A, fa: { ... }
 
 Added in v1.14.0
 
-# every
+# every (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function every<A>(fa: { ... }
@@ -122,9 +116,9 @@ export function every<A>(fa: { ... }
 
 Added in v1.14.0
 
-# filter
+# filter (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
@@ -134,9 +128,9 @@ export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string
 
 Added in v1.10.0
 
-# filterMap
+# filterMap (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => ...
@@ -144,11 +138,11 @@ export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): 
 
 Added in v1.10.0
 
-# ~~filterMapWithIndex~~
+# ~~filterMapWithIndex~~ (function)
 
 Use `filterMapWithKey` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function filterMapWithIndex<K extends string, A, B>(
@@ -164,9 +158,9 @@ export function filterMapWithIndex<A, B>(
 
 Added in v1.12.0
 
-# filterMapWithKey
+# filterMapWithKey (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function filterMapWithKey<K extends string, A, B>(
@@ -179,11 +173,11 @@ export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a
 
 Added in v1.14.0
 
-# ~~filterWithIndex~~
+# ~~filterWithIndex~~ (function)
 
 Use `filterWithKey` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
@@ -193,9 +187,9 @@ export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A)
 
 Added in v1.12.0
 
-# filterWithKey
+# filterWithKey (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function filterWithKey<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
@@ -205,9 +199,9 @@ export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) =
 
 Added in v1.14.0
 
-# foldMap
+# foldMap (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M) => ...
@@ -215,9 +209,9 @@ export const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) 
 
 Added in v1.10.0
 
-# foldMapWithKey
+# foldMapWithKey (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (k: string, a: A) => M): M => ...
@@ -225,9 +219,9 @@ export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f:
 
 Added in v1.12.0
 
-# foldr
+# foldr (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => ...
@@ -235,9 +229,9 @@ export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): 
 
 Added in v1.10.0
 
-# foldrWithKey
+# foldrWithKey (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function foldrWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B
@@ -247,12 +241,12 @@ export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a
 
 Added in v1.12.0
 
-# fromFoldable
+# fromFoldable (function)
 
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fromFoldable<F extends URIS3>(
@@ -276,11 +270,11 @@ export function fromFoldable<F>(
 
 Added in v1.10.0
 
-# getMonoid
+# getMonoid (function)
 
 Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
@@ -300,9 +294,9 @@ assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
 
 Added in v1.10.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
@@ -312,11 +306,11 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> { ... }
 
 Added in v1.10.0
 
-# insert
+# insert (function)
 
 Insert or replace a key/value pair in a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A>
@@ -326,11 +320,11 @@ export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string,
 
 Added in v1.10.0
 
-# isEmpty
+# isEmpty (function)
 
 Test whether a record is empty
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const isEmpty = <A>(d: Record<string, A>): boolean => ...
@@ -338,11 +332,11 @@ export const isEmpty = <A>(d: Record<string, A>): boolean => ...
 
 Added in v1.10.0
 
-# isSubrecord
+# isSubrecord (function)
 
 Test whether one record contains all of the keys and values contained in another record
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => ...
@@ -350,11 +344,11 @@ export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Reco
 
 Added in v1.14.0
 
-# lookup
+# lookup (function)
 
 Lookup the value for a key in a dictionary
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => ...
@@ -362,9 +356,9 @@ export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => ...
 
 Added in v1.10.0
 
-# map
+# map (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B>
@@ -374,9 +368,9 @@ export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string,
 
 Added in v1.10.0
 
-# mapWithKey
+# mapWithKey (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function mapWithKey<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B>
@@ -386,9 +380,9 @@ export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => 
 
 Added in v1.10.0
 
-# partition
+# partition (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const partition = <A>(
@@ -399,9 +393,9 @@ export const partition = <A>(
 
 Added in v1.10.0
 
-# partitionMap
+# partitionMap (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const partitionMap = <RL, RR, A>(
@@ -412,11 +406,11 @@ export const partitionMap = <RL, RR, A>(
 
 Added in v1.10.0
 
-# ~~partitionMapWithIndex~~
+# ~~partitionMapWithIndex~~ (function)
 
 Use `partitionMapWithKey` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function partitionMapWithIndex<K extends string, RL, RR, A>(
@@ -435,9 +429,9 @@ export function partitionMapWithIndex<RL, RR, A>(
 
 Added in v1.12.0
 
-# partitionMapWithKey
+# partitionMapWithKey (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function partitionMapWithKey<K extends string, RL, RR, A>(
@@ -456,11 +450,11 @@ export function partitionMapWithKey<RL, RR, A>(
 
 Added in v1.14.0
 
-# ~~partitionWithIndex~~
+# ~~partitionWithIndex~~ (function)
 
 Use `partitionWithKey` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function partitionWithIndex<K extends string, A>(
@@ -479,9 +473,9 @@ export function partitionWithIndex<A>(
 
 Added in v1.12.0
 
-# partitionWithKey
+# partitionWithKey (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function partitionWithKey<K extends string, A>(
@@ -500,11 +494,11 @@ export function partitionWithKey<A>(
 
 Added in v1.14.0
 
-# pop
+# pop (function)
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> => ...
@@ -512,9 +506,9 @@ export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<strin
 
 Added in v1.10.0
 
-# reduce
+# reduce (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => ...
@@ -522,9 +516,9 @@ export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B):
 
 Added in v1.10.0
 
-# reduceWithKey
+# reduceWithKey (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function reduceWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B
@@ -534,11 +528,11 @@ export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, 
 
 Added in v1.12.0
 
-# remove
+# remove (function)
 
 Delete a key and value from a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function remove<KS extends string, K extends string, A>(
@@ -551,9 +545,9 @@ export function remove<A>(k: string, d: Record<string, A>): Record<string, A> { 
 
 Added in v1.10.0
 
-# separate
+# separate (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const separate = <RL, RR>(
@@ -563,9 +557,9 @@ export const separate = <RL, RR>(
 
 Added in v1.10.0
 
-# sequence
+# sequence (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function sequence<F extends URIS3>(
@@ -589,11 +583,11 @@ export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>
 
 Added in v1.10.0
 
-# singleton
+# singleton (function)
 
 Create a dictionary with one key/value pair
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => ...
@@ -601,11 +595,11 @@ export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => ...
 
 Added in v1.10.0
 
-# size
+# size (function)
 
 Calculate the number of key/value pairs in a record
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const size = <A>(d: Record<string, A>): number => ...
@@ -613,9 +607,9 @@ export const size = <A>(d: Record<string, A>): number => ...
 
 Added in v1.10.0
 
-# some
+# some (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function some<A>(fa: { ... }
@@ -623,9 +617,9 @@ export function some<A>(fa: { ... }
 
 Added in v1.14.0
 
-# toArray
+# toArray (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function toArray<K extends string, A>(d: Record<K, A>): Array<[K, A]>
@@ -635,11 +629,11 @@ export function toArray<A>(d: Record<string, A>): Array<[string, A]> { ... }
 
 Added in v1.10.0
 
-# toUnfoldable
+# toUnfoldable (function)
 
 Unfolds a record into a list of key/value pairs
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function toUnfoldable<F extends URIS>(
@@ -651,9 +645,9 @@ export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string
 
 Added in v1.10.0
 
-# traverse
+# traverse (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function traverse<F extends URIS3>(
@@ -681,9 +675,9 @@ export function traverse<F>(
 
 Added in v1.10.0
 
-# traverseWithKey
+# traverseWithKey (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function traverseWithKey<F extends URIS3>(
@@ -705,9 +699,9 @@ export function traverseWithKey<F>(
 
 Added in v1.10.0
 
-# wilt
+# wilt (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function wilt<F extends URIS3>(
@@ -756,9 +750,9 @@ export function wilt<F>(
 
 Added in v1.10.0
 
-# wither
+# wither (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function wither<F extends URIS3>(

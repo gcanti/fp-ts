@@ -7,41 +7,35 @@ nav_order: 64
 
 Adapted from https://github.com/parsonsmatt/purescript-pair
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [Pair](#pair)
-  - [first](#first)
-  - [second](#second)
-  - [swap](#swap)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [reduce](#reduce)
-  - [extract](#extract)
-  - [extend](#extend)
-- [URI](#uri-1)
-- [pair](#pair)
-- [getMonoid](#getmonoid)
-- [getOrd](#getord)
-- [getSemigroup](#getsemigroup)
-- [getSetoid](#getsetoid)
+- [URI (type alias)](#uri-type-alias)
+- [Pair (class)](#pair-class)
+  - [first (method)](#first-method)
+  - [second (method)](#second-method)
+  - [swap (method)](#swap-method)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [reduce (method)](#reduce-method)
+  - [extract (method)](#extract-method)
+  - [extend (method)](#extend-method)
+- [URI (constant)](#uri-constant)
+- [pair (constant)](#pair-constant)
+- [getMonoid (function)](#getmonoid-function)
+- [getOrd (function)](#getord-function)
+- [getSemigroup (function)](#getsemigroup-function)
+- [getSetoid (function)](#getsetoid-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Pair
+# Pair (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Pair<A> {
@@ -52,97 +46,97 @@ export class Pair<A> {
 
 Added in v1.0.0
 
-## first
+## first (method)
 
 Map a function over the first field of a pair
 
-**Signature** (method)
+**Signature**
 
 ```ts
 first(f: Endomorphism<A>): Pair<A> { ... }
 ```
 
-## second
+## second (method)
 
 Map a function over the second field of a pair
 
-**Signature** (method)
+**Signature**
 
 ```ts
 second(f: Endomorphism<A>): Pair<A> { ... }
 ```
 
-## swap
+## swap (method)
 
 Swaps the elements in a pair
 
-**Signature** (method)
+**Signature**
 
 ```ts
 swap(): Pair<A> { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Pair<B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: Pair<(a: A) => B>): Pair<B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
 Flipped version of `ap`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: Pair<(b: B) => C>, fb: Pair<B>): Pair<C> { ... }
 ```
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
 ```
 
-## extract
+## extract (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extract(): A { ... }
 ```
 
-## extend
+## extend (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extend<B>(f: (fb: Pair<A>) => B): Pair<B> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# pair
+# pair (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
@@ -150,9 +144,9 @@ export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & 
 
 Added in v1.0.0
 
-# getMonoid
+# getMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => ...
@@ -160,9 +154,9 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Pair<A>> => ...
 
 Added in v1.0.0
 
-# getOrd
+# getOrd (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => ...
@@ -170,9 +164,9 @@ export const getOrd = <A>(O: Ord<A>): Ord<Pair<A>> => ...
 
 Added in v1.0.0
 
-# getSemigroup
+# getSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => ...
@@ -180,9 +174,9 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Pair<A>> => ...
 
 Added in v1.0.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => ...

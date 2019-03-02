@@ -11,54 +11,48 @@ Multi-way trees (aka rose trees) and forests, where a forest is
 type Forest<A> = Array<Tree<A>>
 ```
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Forest](#forest)
-- [URI](#uri)
-- [Tree](#tree)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-  - [extract](#extract)
-  - [extend](#extend)
-  - [reduce](#reduce)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-- [URI](#uri-1)
-- [tree](#tree)
-- [drawForest](#drawforest)
-- [drawTree](#drawtree)
-- [elem](#elem)
-- [getSetoid](#getsetoid)
-- [unfoldForest](#unfoldforest)
-- [unfoldForestM](#unfoldforestm)
-- [unfoldTree](#unfoldtree)
-- [unfoldTreeM](#unfoldtreem)
+- [Forest (type alias)](#forest-type-alias)
+- [URI (type alias)](#uri-type-alias)
+- [Tree (class)](#tree-class)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+  - [extract (method)](#extract-method)
+  - [extend (method)](#extend-method)
+  - [reduce (method)](#reduce-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+- [URI (constant)](#uri-constant)
+- [tree (constant)](#tree-constant)
+- [drawForest (function)](#drawforest-function)
+- [drawTree (function)](#drawtree-function)
+- [elem (function)](#elem-function)
+- [getSetoid (function)](#getsetoid-function)
+- [unfoldForest (function)](#unfoldforest-function)
+- [unfoldForestM (function)](#unfoldforestm-function)
+- [unfoldTree (function)](#unfoldtree-function)
+- [unfoldTreeM (function)](#unfoldtreem-function)# Forest (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Forest
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type Forest<A> = Array<Tree<A>>
 ```
 
-# URI
+# URI (type alias)
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Tree
+# Tree (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Tree<A> {
@@ -69,27 +63,27 @@ export class Tree<A> {
 
 Added in v1.6.0
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Tree<B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: Tree<(a: A) => B>): Tree<B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
 Flipped version of `ap`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C> { ... }
@@ -97,65 +91,65 @@ ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C> { ... }
 
 Added in v1.6.0
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => Tree<B>): Tree<B> { ... }
 ```
 
-## extract
+## extract (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extract(): A { ... }
 ```
 
-## extend
+## extend (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extend<B>(f: (fa: Tree<A>) => B): Tree<B> { ... }
 ```
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# tree
+# tree (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
@@ -163,11 +157,11 @@ export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comona
 
 Added in v1.6.0
 
-# drawForest
+# drawForest (function)
 
 Neat 2-dimensional drawing of a forest
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const drawForest = (forest: Forest<string>): string => ...
@@ -175,11 +169,11 @@ export const drawForest = (forest: Forest<string>): string => ...
 
 Added in v1.6.0
 
-# drawTree
+# drawTree (function)
 
 Neat 2-dimensional drawing of a tree
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const drawTree = (tree: Tree<string>): string => ...
@@ -205,9 +199,9 @@ assert.strictEqual(
 
 Added in v1.6.0
 
-# elem
+# elem (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean { ... }
@@ -215,9 +209,9 @@ export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean { ... }
 
 Added in v1.14.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => ...
@@ -225,11 +219,11 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => ...
 
 Added in v1.6.0
 
-# unfoldForest
+# unfoldForest (function)
 
 Build a tree from a seed value
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> => ...
@@ -237,11 +231,11 @@ export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Fo
 
 Added in v1.6.0
 
-# unfoldForestM
+# unfoldForestM (function)
 
 Monadic forest builder, in depth-first order
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function unfoldForestM<M extends URIS3>(
@@ -269,11 +263,11 @@ export function unfoldForestM<M>(
 
 Added in v1.6.0
 
-# unfoldTree
+# unfoldTree (function)
 
 Build a tree from a seed value
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => ...
@@ -281,11 +275,11 @@ export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => .
 
 Added in v1.6.0
 
-# unfoldTreeM
+# unfoldTreeM (function)
 
 Monadic tree builder, in depth-first order
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function unfoldTreeM<M extends URIS3>(

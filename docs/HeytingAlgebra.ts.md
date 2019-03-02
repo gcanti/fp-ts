@@ -25,17 +25,11 @@ A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistri
 - Complemented
   - `¬a = a → 0`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [HeytingAlgebra](#heytingalgebra)
+- [HeytingAlgebra (interface)](#heytingalgebra-interface)# HeytingAlgebra (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# HeytingAlgebra
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface HeytingAlgebra<A> extends BoundedDistributiveLattice<A> {

@@ -3,22 +3,16 @@ title: Profunctor.ts
 nav_order: 66
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Profunctor](#profunctor)
-- [Profunctor2](#profunctor2)
-- [Profunctor3](#profunctor3)
-- [Profunctor4](#profunctor4)
-- [lmap](#lmap)
-- [rmap](#rmap)
+- [Profunctor (interface)](#profunctor-interface)
+- [Profunctor2 (interface)](#profunctor2-interface)
+- [Profunctor3 (interface)](#profunctor3-interface)
+- [Profunctor4 (interface)](#profunctor4-interface)
+- [lmap (function)](#lmap-function)
+- [rmap (function)](#rmap-function)# Profunctor (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Profunctor
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Profunctor<F> {
@@ -30,9 +24,9 @@ export interface Profunctor<F> {
 
 Added in v1.0.0
 
-# Profunctor2
+# Profunctor2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Profunctor2<F extends URIS2> extends Functor2<F> {
@@ -40,9 +34,9 @@ export interface Profunctor2<F extends URIS2> extends Functor2<F> {
 }
 ```
 
-# Profunctor3
+# Profunctor3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Profunctor3<F extends URIS3> extends Functor3<F> {
@@ -50,9 +44,9 @@ export interface Profunctor3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
-# Profunctor4
+# Profunctor4 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Profunctor4<F extends URIS4> extends Functor4<F> {
@@ -60,9 +54,9 @@ export interface Profunctor4<F extends URIS4> extends Functor4<F> {
 }
 ```
 
-# lmap
+# lmap (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function lmap<F extends URIS3>(
@@ -77,9 +71,9 @@ export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>
 
 Added in v1.0.0
 
-# rmap
+# rmap (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function rmap<F extends URIS3>(

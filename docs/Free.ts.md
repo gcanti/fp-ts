@@ -7,45 +7,39 @@ nav_order: 34
 
 Adapted from http://okmij.org/ftp/Computation/free-monad.html and https://github.com/purescript/purescript-free
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [FoldFree2](#foldfree2)
-- [FoldFree2C](#foldfree2c)
-- [FoldFree3](#foldfree3)
-- [FoldFree3C](#foldfree3c)
-- [Free](#free)
-- [URI](#uri)
-- [Impure](#impure)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-  - [isPure](#ispure)
-  - [isImpure](#isimpure)
-- [Pure](#pure)
-  - [map](#map-1)
-  - [ap](#ap-1)
-  - [ap\_](#ap%5C_-1)
-  - [chain](#chain-1)
-  - [inspect](#inspect-1)
-  - [toString](#tostring-1)
-  - [isPure](#ispure-1)
-  - [isImpure](#isimpure-1)
-- [URI](#uri-1)
-- [foldFree](#foldfree)
-- [hoistFree](#hoistfree)
-- [liftF](#liftf)
-- [of](#of)
+- [FoldFree2 (interface)](#foldfree2-interface)
+- [FoldFree2C (interface)](#foldfree2c-interface)
+- [FoldFree3 (interface)](#foldfree3-interface)
+- [FoldFree3C (interface)](#foldfree3c-interface)
+- [Free (type alias)](#free-type-alias)
+- [URI (type alias)](#uri-type-alias)
+- [Impure (class)](#impure-class)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+  - [isPure (method)](#ispure-method)
+  - [isImpure (method)](#isimpure-method)
+- [Pure (class)](#pure-class)
+  - [map (method)](#map-method-1)
+  - [ap (method)](#ap-method-1)
+  - [ap\_ (method)](#ap_-method-1)
+  - [chain (method)](#chain-method-1)
+  - [inspect (method)](#inspect-method-1)
+  - [toString (method)](#tostring-method-1)
+  - [isPure (method)](#ispure-method-1)
+  - [isImpure (method)](#isimpure-method-1)
+- [URI (constant)](#uri-constant)
+- [foldFree (function)](#foldfree-function)
+- [hoistFree (function)](#hoistfree-function)
+- [liftF (function)](#liftf-function)
+- [of (function)](#of-function)# FoldFree2 (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# FoldFree2
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldFree2<M extends URIS2> {
@@ -54,9 +48,9 @@ export interface FoldFree2<M extends URIS2> {
 }
 ```
 
-# FoldFree2C
+# FoldFree2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldFree2C<M extends URIS2, L> {
@@ -65,9 +59,9 @@ export interface FoldFree2C<M extends URIS2, L> {
 }
 ```
 
-# FoldFree3
+# FoldFree3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldFree3<M extends URIS3> {
@@ -77,9 +71,9 @@ export interface FoldFree3<M extends URIS3> {
 }
 ```
 
-# FoldFree3C
+# FoldFree3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldFree3C<M extends URIS3, U, L> {
@@ -89,9 +83,9 @@ export interface FoldFree3C<M extends URIS3, U, L> {
 }
 ```
 
-# Free
+# Free (type alias)
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
@@ -99,17 +93,17 @@ export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
 Added in v1.0.0
 
-# URI
+# URI (type alias)
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Impure
+# Impure (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Impure<F, A, X> {
@@ -118,73 +112,73 @@ export class Impure<F, A, X> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Free<F, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: Free<F, (a: A) => B>): Free<F, B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => Free<F, B>): Free<F, B> { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-## isPure
+## isPure (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isPure(): this is Pure<F, A> { ... }
 ```
 
-## isImpure
+## isImpure (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isImpure(): this is Impure<F, A, X> { ... }
 ```
 
-# Pure
+# Pure (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Pure<F, A> {
@@ -193,83 +187,83 @@ export class Pure<F, A> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Free<F, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: Free<F, (a: A) => B>): Free<F, B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
 Flipped version of `ap`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => Free<F, B>): Free<F, B> { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-## isPure
+## isPure (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isPure(): this is Pure<F, A> { ... }
 ```
 
-## isImpure
+## isImpure (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isImpure(): this is Impure<F, A, any> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# foldFree
+# foldFree (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function foldFree<M extends URIS3>(M: Monad3<M>): FoldFree3<M>
@@ -285,11 +279,11 @@ export function foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT
 
 Added in v1.0.0
 
-# hoistFree
+# hoistFree (function)
 
 Use a natural transformation to change the generating type constructor of a free monad
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function hoistFree<F extends URIS3 = never, G extends URIS3 = never>(
@@ -307,11 +301,11 @@ export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: F
 
 Added in v1.0.0
 
-# liftF
+# liftF (function)
 
 Lift an impure value described by the generating type constructor `F` into the free monad
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => ...
@@ -319,9 +313,9 @@ export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => ...
 
 Added in v1.0.0
 
-# of
+# of (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const of = <F, A>(a: A): Free<F, A> => ...

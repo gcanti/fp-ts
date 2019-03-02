@@ -3,35 +3,29 @@ title: IxIO.ts
 nav_order: 48
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [IxIO](#ixio)
-  - [run](#run)
-  - [ichain](#ichain)
-  - [map](#map)
-  - [ap](#ap)
-  - [chain](#chain)
-- [URI](#uri-1)
-- [ixIO](#ixio)
-- [getMonad](#getmonad)
-- [iof](#iof)
+- [URI (type alias)](#uri-type-alias)
+- [IxIO (class)](#ixio-class)
+  - [run (method)](#run-method)
+  - [ichain (method)](#ichain-method)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [chain (method)](#chain-method)
+- [URI (constant)](#uri-constant)
+- [ixIO (constant)](#ixio-constant)
+- [getMonad (function)](#getmonad-function)
+- [iof (function)](#iof-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# IxIO
+# IxIO (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class IxIO<I, O, A> {
@@ -42,57 +36,57 @@ export class IxIO<I, O, A> {
 
 Added in v1.0.0
 
-## run
+## run (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 run(): A { ... }
 ```
 
-## ichain
+## ichain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ichain<Z, B>(f: (a: A) => IxIO<O, Z, B>): IxIO<I, Z, B> { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): IxIO<I, O, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: IxIO<I, I, (a: A) => B>): IxIO<I, I, B> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => IxIO<I, I, B>): IxIO<I, I, B> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# ixIO
+# ixIO (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const ixIO: IxMonad3<URI> = ...
@@ -100,9 +94,9 @@ export const ixIO: IxMonad3<URI> = ...
 
 Added in v1.0.0
 
-# getMonad
+# getMonad (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonad = <I = never>(): Monad3C<URI, I, I> => ...
@@ -110,9 +104,9 @@ export const getMonad = <I = never>(): Monad3C<URI, I, I> => ...
 
 Added in v1.0.0
 
-# iof
+# iof (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const iof = <I, A>(a: A): IxIO<I, I, A> => ...

@@ -3,55 +3,49 @@ title: ReaderTaskEither.ts
 nav_order: 70
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [ReaderTaskEither](#readertaskeither)
-  - [run](#run)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [applyFirst](#applyfirst)
-  - [applySecond](#applysecond)
-  - [chain](#chain)
-  - [fold](#fold)
-  - [mapLeft](#mapleft)
-  - [orElse](#orelse)
-  - [alt](#alt)
-  - [bimap](#bimap)
-  - [local](#local)
-- [URI](#uri-1)
-- [readerTaskEither](#readertaskeither)
-- [readerTaskEitherSeq](#readertaskeitherseq)
-- [ask](#ask)
-- [asks](#asks)
-- [fromEither](#fromeither)
-- [fromIO](#fromio)
-- [fromIOEither](#fromioeither)
-- [fromLeft](#fromleft)
-- [fromPredicate](#frompredicate)
-- [fromReader](#fromreader)
-- [fromTaskEither](#fromtaskeither)
-- [left](#left)
-- [local](#local-1)
-- [right](#right)
-- [tryCatch](#trycatch)
+- [URI (type alias)](#uri-type-alias)
+- [ReaderTaskEither (class)](#readertaskeither-class)
+  - [run (method)](#run-method)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [applyFirst (method)](#applyfirst-method)
+  - [applySecond (method)](#applysecond-method)
+  - [chain (method)](#chain-method)
+  - [fold (method)](#fold-method)
+  - [mapLeft (method)](#mapleft-method)
+  - [orElse (method)](#orelse-method)
+  - [alt (method)](#alt-method)
+  - [bimap (method)](#bimap-method)
+  - [local (method)](#local-method)
+- [URI (constant)](#uri-constant)
+- [readerTaskEither (constant)](#readertaskeither-constant)
+- [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
+- [ask (function)](#ask-function)
+- [asks (function)](#asks-function)
+- [fromEither (function)](#fromeither-function)
+- [fromIO (function)](#fromio-function)
+- [fromIOEither (function)](#fromioeither-function)
+- [fromLeft (function)](#fromleft-function)
+- [fromPredicate (function)](#frompredicate-function)
+- [fromReader (function)](#fromreader-function)
+- [fromTaskEither (function)](#fromtaskeither-function)
+- [left (function)](#left-function)
+- [local (function)](#local-function)
+- [right (function)](#right-function)
+- [tryCatch (function)](#trycatch-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# ReaderTaskEither
+# ReaderTaskEither (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class ReaderTaskEither<E, L, A> {
@@ -62,115 +56,115 @@ export class ReaderTaskEither<E, L, A> {
 
 Added in v1.6.0
 
-## run
+## run (method)
 
 Runs the inner `TaskEither`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 run(e: E): Promise<Either<L, A>> { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): ReaderTaskEither<E, L, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: ReaderTaskEither<E, L, (a: A) => B>): ReaderTaskEither<E, L, B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
 Flipped version of `ap`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: ReaderTaskEither<E, L, (b: B) => C>, fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, C> { ... }
 ```
 
-## applyFirst
+## applyFirst (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-**Signature** (method)
+**Signature**
 
 ```ts
 applyFirst<B>(fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, A> { ... }
 ```
 
-## applySecond
+## applySecond (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-**Signature** (method)
+**Signature**
 
 ```ts
 applySecond<B>(fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> { ... }
 ```
 
-## fold
+## fold (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<R>(left: (l: L) => R, right: (a: A) => R): Reader<E, Task<R>> { ... }
 ```
 
-## mapLeft
+## mapLeft (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 mapLeft<M>(f: (l: L) => M): ReaderTaskEither<E, M, A> { ... }
 ```
 
-## orElse
+## orElse (method)
 
 Transforms the failure value of the `ReaderTaskEither` into a new `ReaderTaskEither`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 orElse<M>(f: (l: L) => ReaderTaskEither<E, M, A>): ReaderTaskEither<E, M, A> { ... }
 ```
 
-## alt
+## alt (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 alt(fy: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> { ... }
 ```
 
-## bimap
+## bimap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 bimap<V, B>(f: (l: L) => V, g: (a: A) => B): ReaderTaskEither<E, V, B> { ... }
 ```
 
-## local
+## local (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 local<E2 = E>(f: (e: E2) => E): ReaderTaskEither<E2, L, A> { ... }
@@ -178,17 +172,17 @@ local<E2 = E>(f: (e: E2) => E): ReaderTaskEither<E2, L, A> { ... }
 
 Added in v1.6.1
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# readerTaskEither
+# readerTaskEither (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI> = ...
@@ -196,11 +190,11 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
 
 Added in v1.6.0
 
-# readerTaskEitherSeq
+# readerTaskEitherSeq (constant)
 
 Like `readerTaskEither` but `ap` is sequential
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const readerTaskEitherSeq: typeof readerTaskEither = ...
@@ -208,9 +202,9 @@ export const readerTaskEitherSeq: typeof readerTaskEither = ...
 
 Added in v1.10.0
 
-# ask
+# ask (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const ask = <E, L>(): ReaderTaskEither<E, L, E> => ...
@@ -218,9 +212,9 @@ export const ask = <E, L>(): ReaderTaskEither<E, L, E> => ...
 
 Added in v1.6.0
 
-# asks
+# asks (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => ...
@@ -228,9 +222,9 @@ export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => ...
 
 Added in v1.6.0
 
-# fromEither
+# fromEither (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A> => ...
@@ -238,9 +232,9 @@ export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A>
 
 Added in v1.6.0
 
-# fromIO
+# fromIO (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => ...
@@ -248,9 +242,9 @@ export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => ...
 
 Added in v1.6.0
 
-# fromIOEither
+# fromIOEither (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L, A> => ...
@@ -258,9 +252,9 @@ export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L
 
 Added in v1.6.0
 
-# fromLeft
+# fromLeft (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => ...
@@ -268,9 +262,9 @@ export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => ...
 
 Added in v1.6.0
 
-# fromPredicate
+# fromPredicate (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fromPredicate<E, L, A, B extends A>(
@@ -289,9 +283,9 @@ export function fromPredicate<E, L, A>(
 
 Added in v1.6.0
 
-# fromReader
+# fromReader (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A> => ...
@@ -299,9 +293,9 @@ export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A>
 
 Added in v1.6.0
 
-# fromTaskEither
+# fromTaskEither (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<E, L, A> => ...
@@ -309,9 +303,9 @@ export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<
 
 Added in v1.6.0
 
-# left
+# left (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => ...
@@ -319,9 +313,9 @@ export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => ...
 
 Added in v1.6.0
 
-# local
+# local (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
@@ -331,9 +325,9 @@ export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
 
 Added in v1.6.0
 
-# right
+# right (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => ...
@@ -341,9 +335,9 @@ export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => ...
 
 Added in v1.6.0
 
-# tryCatch
+# tryCatch (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const tryCatch = <E, L, A>(

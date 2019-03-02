@@ -3,20 +3,14 @@ title: Date.ts
 nav_order: 22
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [create](#create)
-- [now](#now)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# create
+- [create (constant)](#create-constant)
+- [now (constant)](#now-constant)# create (constant)
 
 Returns the current `Date`
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const create: IO<Date> = ...
@@ -24,11 +18,11 @@ export const create: IO<Date> = ...
 
 Added in v1.10.0
 
-# now
+# now (constant)
 
 Returns the number of milliseconds elapsed since January 1, 1970, 00:00:00 UTC
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const now: IO<number> = ...

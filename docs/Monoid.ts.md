@@ -3,36 +3,30 @@ title: Monoid.ts
 nav_order: 57
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Monoid](#monoid)
-- [monoidAll](#monoidall)
-- [monoidAny](#monoidany)
-- [monoidProduct](#monoidproduct)
-- [monoidString](#monoidstring)
-- [monoidSum](#monoidsum)
-- [monoidVoid](#monoidvoid)
-- [unsafeMonoidArray](#unsafemonoidarray)
-- [fold](#fold)
-- [getArrayMonoid](#getarraymonoid)
-- [~~getDictionaryMonoid~~](#getdictionarymonoid)
-- [getDualMonoid](#getdualmonoid)
-- [getEndomorphismMonoid](#getendomorphismmonoid)
-- [getFunctionMonoid](#getfunctionmonoid)
-- [getJoinMonoid](#getjoinmonoid)
-- [getMeetMonoid](#getmeetmonoid)
-- [~~getProductMonoid~~](#getproductmonoid)
-- [~~getRecordMonoid~~](#getrecordmonoid)
-- [getStructMonoid](#getstructmonoid)
-- [getTupleMonoid](#gettuplemonoid)
+- [Monoid (interface)](#monoid-interface)
+- [monoidAll (constant)](#monoidall-constant)
+- [monoidAny (constant)](#monoidany-constant)
+- [monoidProduct (constant)](#monoidproduct-constant)
+- [monoidString (constant)](#monoidstring-constant)
+- [monoidSum (constant)](#monoidsum-constant)
+- [monoidVoid (constant)](#monoidvoid-constant)
+- [unsafeMonoidArray (constant)](#unsafemonoidarray-constant)
+- [fold (function)](#fold-function)
+- [getArrayMonoid (function)](#getarraymonoid-function)
+- [~~getDictionaryMonoid~~ (function)](#getdictionarymonoid-function)
+- [getDualMonoid (function)](#getdualmonoid-function)
+- [getEndomorphismMonoid (function)](#getendomorphismmonoid-function)
+- [getFunctionMonoid (function)](#getfunctionmonoid-function)
+- [getJoinMonoid (function)](#getjoinmonoid-function)
+- [getMeetMonoid (function)](#getmeetmonoid-function)
+- [~~getProductMonoid~~ (function)](#getproductmonoid-function)
+- [~~getRecordMonoid~~ (function)](#getrecordmonoid-function)
+- [getStructMonoid (function)](#getstructmonoid-function)
+- [getTupleMonoid (function)](#gettuplemonoid-function)# Monoid (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Monoid
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Monoid<A> extends Semigroup<A> {
@@ -42,11 +36,11 @@ export interface Monoid<A> extends Semigroup<A> {
 
 Added in v1.0.0
 
-# monoidAll
+# monoidAll (constant)
 
 Boolean monoid under conjunction
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const monoidAll: Monoid<boolean> = ...
@@ -54,11 +48,11 @@ export const monoidAll: Monoid<boolean> = ...
 
 Added in v1.0.0
 
-# monoidAny
+# monoidAny (constant)
 
 Boolean monoid under disjunction
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const monoidAny: Monoid<boolean> = ...
@@ -66,11 +60,11 @@ export const monoidAny: Monoid<boolean> = ...
 
 Added in v1.0.0
 
-# monoidProduct
+# monoidProduct (constant)
 
 Number monoid under multiplication
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const monoidProduct: Monoid<number> = ...
@@ -78,9 +72,9 @@ export const monoidProduct: Monoid<number> = ...
 
 Added in v1.0.0
 
-# monoidString
+# monoidString (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const monoidString: Monoid<string> = ...
@@ -88,11 +82,11 @@ export const monoidString: Monoid<string> = ...
 
 Added in v1.0.0
 
-# monoidSum
+# monoidSum (constant)
 
 Number monoid under addition
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const monoidSum: Monoid<number> = ...
@@ -100,9 +94,9 @@ export const monoidSum: Monoid<number> = ...
 
 Added in v1.0.0
 
-# monoidVoid
+# monoidVoid (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const monoidVoid: Monoid<void> = ...
@@ -110,9 +104,9 @@ export const monoidVoid: Monoid<void> = ...
 
 Added in v1.0.0
 
-# unsafeMonoidArray
+# unsafeMonoidArray (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const unsafeMonoidArray: Monoid<Array<any>> = ...
@@ -120,9 +114,9 @@ export const unsafeMonoidArray: Monoid<Array<any>> = ...
 
 Added in v1.0.0
 
-# fold
+# fold (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => ...
@@ -130,11 +124,11 @@ export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => ...
 
 Added in v1.0.0
 
-# getArrayMonoid
+# getArrayMonoid (function)
 
 `Monoid` under array concatenation
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => ...
@@ -142,11 +136,11 @@ export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => ...
 
 Added in v1.0.0
 
-# ~~getDictionaryMonoid~~
+# ~~getDictionaryMonoid~~ (function)
 
 Use `Record`'s `getMonoid`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getDictionaryMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
@@ -156,9 +150,9 @@ export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid< { ... }
 
 Added in v1.4.0
 
-# getDualMonoid
+# getDualMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ...
@@ -166,9 +160,9 @@ export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ...
 
 Added in v1.0.0
 
-# getEndomorphismMonoid
+# getEndomorphismMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ...
@@ -176,9 +170,9 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => .
 
 Added in v1.0.0
 
-# getFunctionMonoid
+# getFunctionMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => ...
@@ -186,9 +180,9 @@ export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: 
 
 Added in v1.0.0
 
-# getJoinMonoid
+# getJoinMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ...
@@ -196,9 +190,9 @@ export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ...
 
 Added in v1.9.0
 
-# getMeetMonoid
+# getMeetMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ...
@@ -206,11 +200,11 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ...
 
 Added in v1.9.0
 
-# ~~getProductMonoid~~
+# ~~getProductMonoid~~ (function)
 
 Use `getTupleMonoid` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => ...
@@ -218,11 +212,11 @@ export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A,
 
 Added in v1.0.0
 
-# ~~getRecordMonoid~~
+# ~~getRecordMonoid~~ (function)
 
 Use `getStructMonoid` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getRecordMonoid = <O extends { [key: string]: any }>(
@@ -232,9 +226,9 @@ export const getRecordMonoid = <O extends { [key: string]: any }>(
 
 Added in v1.0.0
 
-# getStructMonoid
+# getStructMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getStructMonoid = <O extends { [key: string]: any }>(
@@ -244,9 +238,9 @@ export const getStructMonoid = <O extends { [key: string]: any }>(
 
 Added in v1.14.0
 
-# getTupleMonoid
+# getTupleMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getTupleMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => ...

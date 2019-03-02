@@ -7,20 +7,14 @@ nav_order: 47
 
 Mutable references in the `IO` monad
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [IORef](#ioref)
-  - [write](#write)
-  - [modify](#modify)
-- [newIORef](#newioref)
+- [IORef (class)](#ioref-class)
+  - [write (method)](#write-method)
+  - [modify (method)](#modify-method)
+- [newIORef (function)](#newioref-function)# IORef (class)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# IORef
-
-**Signature** (class)
+**Signature**
 
 ```ts
 export class IORef<A> {
@@ -44,9 +38,9 @@ assert.strictEqual(
 
 Added in v1.8.0
 
-## write
+## write (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 write(a: A): IO<void> { ... }
@@ -54,9 +48,9 @@ write(a: A): IO<void> { ... }
 
 Added in v1.8.0
 
-## modify
+## modify (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 modify(f: (a: A) => A): IO<void> { ... }
@@ -64,9 +58,9 @@ modify(f: (a: A) => A): IO<void> { ... }
 
 Added in v1.8.0
 
-# newIORef
+# newIORef (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const newIORef = <A>(a: A): IO<IORef<A>> => ...

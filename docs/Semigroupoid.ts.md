@@ -3,21 +3,15 @@ title: Semigroupoid.ts
 nav_order: 74
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Semigroupoid](#semigroupoid)
-- [Semigroupoid2](#semigroupoid2)
-- [Semigroupoid3](#semigroupoid3)
-- [Semigroupoid3C](#semigroupoid3c)
-- [Semigroupoid4](#semigroupoid4)
+- [Semigroupoid (interface)](#semigroupoid-interface)
+- [Semigroupoid2 (interface)](#semigroupoid2-interface)
+- [Semigroupoid3 (interface)](#semigroupoid3-interface)
+- [Semigroupoid3C (interface)](#semigroupoid3c-interface)
+- [Semigroupoid4 (interface)](#semigroupoid4-interface)# Semigroupoid (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Semigroupoid
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Semigroupoid<F> {
@@ -28,9 +22,9 @@ export interface Semigroupoid<F> {
 
 Added in v1.0.0
 
-# Semigroupoid2
+# Semigroupoid2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Semigroupoid2<F extends URIS2> {
@@ -39,9 +33,9 @@ export interface Semigroupoid2<F extends URIS2> {
 }
 ```
 
-# Semigroupoid3
+# Semigroupoid3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Semigroupoid3<F extends URIS3> {
@@ -50,9 +44,9 @@ export interface Semigroupoid3<F extends URIS3> {
 }
 ```
 
-# Semigroupoid3C
+# Semigroupoid3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Semigroupoid3C<F extends URIS3, U> {
@@ -62,9 +56,9 @@ export interface Semigroupoid3C<F extends URIS3, U> {
 }
 ```
 
-# Semigroupoid4
+# Semigroupoid4 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Semigroupoid4<F extends URIS4> {

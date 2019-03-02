@@ -13,33 +13,27 @@ values, or failure.
 
 Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Compactable.purs
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Compactable](#compactable)
-- [Compactable1](#compactable1)
-- [Compactable2](#compactable2)
-- [Compactable2C](#compactable2c)
-- [Compactable3](#compactable3)
-- [Compactable3C](#compactable3c)
-- [CompactableComposition](#compactablecomposition)
-- [CompactableComposition11](#compactablecomposition11)
-- [CompactableComposition12](#compactablecomposition12)
-- [CompactableComposition12C](#compactablecomposition12c)
-- [CompactableComposition21](#compactablecomposition21)
-- [CompactableComposition22](#compactablecomposition22)
-- [CompactableComposition22C](#compactablecomposition22c)
-- [CompactableComposition2C1](#compactablecomposition2c1)
-- [CompactableComposition3C1](#compactablecomposition3c1)
-- [Separated](#separated)
-- [getCompactableComposition](#getcompactablecomposition)
+- [Compactable (interface)](#compactable-interface)
+- [Compactable1 (interface)](#compactable1-interface)
+- [Compactable2 (interface)](#compactable2-interface)
+- [Compactable2C (interface)](#compactable2c-interface)
+- [Compactable3 (interface)](#compactable3-interface)
+- [Compactable3C (interface)](#compactable3c-interface)
+- [CompactableComposition (interface)](#compactablecomposition-interface)
+- [CompactableComposition11 (interface)](#compactablecomposition11-interface)
+- [CompactableComposition12 (interface)](#compactablecomposition12-interface)
+- [CompactableComposition12C (interface)](#compactablecomposition12c-interface)
+- [CompactableComposition21 (interface)](#compactablecomposition21-interface)
+- [CompactableComposition22 (interface)](#compactablecomposition22-interface)
+- [CompactableComposition22C (interface)](#compactablecomposition22c-interface)
+- [CompactableComposition2C1 (interface)](#compactablecomposition2c1-interface)
+- [CompactableComposition3C1 (interface)](#compactablecomposition3c1-interface)
+- [Separated (interface)](#separated-interface)
+- [getCompactableComposition (function)](#getcompactablecomposition-function)# Compactable (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Compactable
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Compactable<F> {
@@ -57,9 +51,9 @@ export interface Compactable<F> {
 
 Added in v1.7.0
 
-# Compactable1
+# Compactable1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Compactable1<F extends URIS> {
@@ -69,9 +63,9 @@ export interface Compactable1<F extends URIS> {
 }
 ```
 
-# Compactable2
+# Compactable2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Compactable2<F extends URIS2> {
@@ -81,9 +75,9 @@ export interface Compactable2<F extends URIS2> {
 }
 ```
 
-# Compactable2C
+# Compactable2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Compactable2C<F extends URIS2, L> {
@@ -94,9 +88,9 @@ export interface Compactable2C<F extends URIS2, L> {
 }
 ```
 
-# Compactable3
+# Compactable3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Compactable3<F extends URIS3> {
@@ -106,9 +100,9 @@ export interface Compactable3<F extends URIS3> {
 }
 ```
 
-# Compactable3C
+# Compactable3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Compactable3C<F extends URIS3, U, L> {
@@ -120,9 +114,9 @@ export interface Compactable3C<F extends URIS3, U, L> {
 }
 ```
 
-# CompactableComposition
+# CompactableComposition (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface CompactableComposition<F, G> extends FunctorComposition<F, G> {
@@ -131,9 +125,9 @@ export interface CompactableComposition<F, G> extends FunctorComposition<F, G> {
 }
 ```
 
-# CompactableComposition11
+# CompactableComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface CompactableComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
@@ -142,9 +136,9 @@ export interface CompactableComposition11<F extends URIS, G extends URIS> extend
 }
 ```
 
-# CompactableComposition12
+# CompactableComposition12 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface CompactableComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
@@ -155,9 +149,9 @@ export interface CompactableComposition12<F extends URIS, G extends URIS2> exten
 }
 ```
 
-# CompactableComposition12C
+# CompactableComposition12C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface CompactableComposition12C<F extends URIS, G extends URIS2, LG>
@@ -169,9 +163,9 @@ export interface CompactableComposition12C<F extends URIS, G extends URIS2, LG>
 }
 ```
 
-# CompactableComposition21
+# CompactableComposition21 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface CompactableComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
@@ -182,9 +176,9 @@ export interface CompactableComposition21<F extends URIS2, G extends URIS> exten
 }
 ```
 
-# CompactableComposition22
+# CompactableComposition22 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface CompactableComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
@@ -195,9 +189,9 @@ export interface CompactableComposition22<F extends URIS2, G extends URIS2> exte
 }
 ```
 
-# CompactableComposition22C
+# CompactableComposition22C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface CompactableComposition22C<F extends URIS2, G extends URIS2, LG>
@@ -209,9 +203,9 @@ export interface CompactableComposition22C<F extends URIS2, G extends URIS2, LG>
 }
 ```
 
-# CompactableComposition2C1
+# CompactableComposition2C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface CompactableComposition2C1<F extends URIS2, G extends URIS, LF>
@@ -223,9 +217,9 @@ export interface CompactableComposition2C1<F extends URIS2, G extends URIS, LF>
 }
 ```
 
-# CompactableComposition3C1
+# CompactableComposition3C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface CompactableComposition3C1<F extends URIS3, G extends URIS, UF, LF>
@@ -237,11 +231,11 @@ export interface CompactableComposition3C1<F extends URIS3, G extends URIS, UF, 
 }
 ```
 
-# Separated
+# Separated (interface)
 
 A `Separated` type which holds `left` and `right` parts.
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Separated<A, B> {
@@ -252,9 +246,9 @@ export interface Separated<A, B> {
 
 Added in v1.7.0
 
-# getCompactableComposition
+# getCompactableComposition (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getCompactableComposition<F extends URIS3, G extends URIS, UF, LF>(

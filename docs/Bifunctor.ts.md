@@ -3,20 +3,14 @@ title: Bifunctor.ts
 nav_order: 6
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Bifunctor](#bifunctor)
-- [Bifunctor2](#bifunctor2)
-- [Bifunctor3](#bifunctor3)
-- [Bifunctor3C](#bifunctor3c)
+- [Bifunctor (interface)](#bifunctor-interface)
+- [Bifunctor2 (interface)](#bifunctor2-interface)
+- [Bifunctor3 (interface)](#bifunctor3-interface)
+- [Bifunctor3C (interface)](#bifunctor3c-interface)# Bifunctor (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Bifunctor
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Bifunctor<F> {
@@ -27,9 +21,9 @@ export interface Bifunctor<F> {
 
 Added in v1.0.0
 
-# Bifunctor2
+# Bifunctor2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Bifunctor2<F extends URIS2> {
@@ -38,9 +32,9 @@ export interface Bifunctor2<F extends URIS2> {
 }
 ```
 
-# Bifunctor3
+# Bifunctor3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Bifunctor3<F extends URIS3> {
@@ -49,9 +43,9 @@ export interface Bifunctor3<F extends URIS3> {
 }
 ```
 
-# Bifunctor3C
+# Bifunctor3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Bifunctor3C<F extends URIS3, U> {

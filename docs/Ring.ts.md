@@ -13,21 +13,15 @@ Instances must satisfy the following law in addition to the `Semiring` laws:
 
 Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Ring.purs
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Ring](#ring)
-- [getFunctionRing](#getfunctionring)
-- [~~getProductRing~~](#getproductring)
-- [getTupleRing](#gettuplering)
-- [negate](#negate)
+- [Ring (interface)](#ring-interface)
+- [getFunctionRing (function)](#getfunctionring-function)
+- [~~getProductRing~~ (function)](#getproductring-function)
+- [getTupleRing (function)](#gettuplering-function)
+- [negate (function)](#negate-function)# Ring (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Ring
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Ring<A> extends Semiring<A> {
@@ -37,9 +31,9 @@ export interface Ring<A> extends Semiring<A> {
 
 Added in v1.0.0
 
-# getFunctionRing
+# getFunctionRing (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => ...
@@ -47,11 +41,11 @@ export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => ...
 
 Added in v1.0.0
 
-# ~~getProductRing~~
+# ~~getProductRing~~ (function)
 
 Use `getTupleRing` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => ...
@@ -59,9 +53,9 @@ export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => 
 
 Added in v1.0.0
 
-# getTupleRing
+# getTupleRing (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getTupleRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => ...
@@ -69,11 +63,11 @@ export const getTupleRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => ..
 
 Added in v1.14.3
 
-# negate
+# negate (function)
 
 `negate x` can be used as a shorthand for `zero - x`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const negate = <A>(ring: Ring<A>) => (a: A): A => ...

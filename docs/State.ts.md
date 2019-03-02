@@ -3,40 +3,34 @@ title: State.ts
 nav_order: 78
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [State](#state)
-  - [eval](#eval)
-  - [exec](#exec)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [applyFirst](#applyfirst)
-  - [applySecond](#applysecond)
-  - [chain](#chain)
-- [URI](#uri-1)
-- [state](#state)
-- [get](#get)
-- [gets](#gets)
-- [modify](#modify)
-- [put](#put)
+- [URI (type alias)](#uri-type-alias)
+- [State (class)](#state-class)
+  - [eval (method)](#eval-method)
+  - [exec (method)](#exec-method)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [applyFirst (method)](#applyfirst-method)
+  - [applySecond (method)](#applysecond-method)
+  - [chain (method)](#chain-method)
+- [URI (constant)](#uri-constant)
+- [state (constant)](#state-constant)
+- [get (function)](#get-function)
+- [gets (function)](#gets-function)
+- [modify (function)](#modify-function)
+- [put (function)](#put-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# State
+# State (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class State<S, A> {
@@ -47,53 +41,53 @@ export class State<S, A> {
 
 Added in v1.0.0
 
-## eval
+## eval (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 eval(s: S): A { ... }
 ```
 
-## exec
+## exec (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 exec(s: S): S { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): State<S, B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: State<S, (a: A) => B>): State<S, B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
 Flipped version of `ap`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C> { ... }
 ```
 
-## applyFirst
+## applyFirst (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-**Signature** (method)
+**Signature**
 
 ```ts
 applyFirst<B>(fb: State<S, B>): State<S, A> { ... }
@@ -101,11 +95,11 @@ applyFirst<B>(fb: State<S, B>): State<S, A> { ... }
 
 Added in v1.7.0
 
-## applySecond
+## applySecond (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-**Signature** (method)
+**Signature**
 
 ```ts
 applySecond<B>(fb: State<S, B>): State<S, B> { ... }
@@ -113,25 +107,25 @@ applySecond<B>(fb: State<S, B>): State<S, B> { ... }
 
 Added in v1.7.0
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => State<S, B>): State<S, B> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# state
+# state (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const state: Monad2<URI> = ...
@@ -139,11 +133,11 @@ export const state: Monad2<URI> = ...
 
 Added in v1.0.0
 
-# get
+# get (function)
 
 Get the current state
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const get = <S>(): State<S, S> => ...
@@ -151,11 +145,11 @@ export const get = <S>(): State<S, S> => ...
 
 Added in v1.0.0
 
-# gets
+# gets (function)
 
 Get a value which depends on the current state
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const gets = <S, A>(f: (s: S) => A): State<S, A> => ...
@@ -163,11 +157,11 @@ export const gets = <S, A>(f: (s: S) => A): State<S, A> => ...
 
 Added in v1.0.0
 
-# modify
+# modify (function)
 
 Modify the state by applying a function to the current state
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const modify = <S>(f: (s: S) => S): State<S, undefined> => ...
@@ -175,11 +169,11 @@ export const modify = <S>(f: (s: S) => S): State<S, undefined> => ...
 
 Added in v1.0.0
 
-# put
+# put (function)
 
 Set the state
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const put = <S>(s: S): State<S, void> => ...

@@ -3,50 +3,44 @@ title: Foldable.ts
 nav_order: 31
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [~~Foldable~~](#foldable)
-- [Foldable1](#foldable1)
-- [Foldable2](#foldable2)
-- [Foldable2C](#foldable2c)
-- [Foldable3](#foldable3)
-- [Foldable3C](#foldable3c)
-- [FoldableComposition](#foldablecomposition)
-- [FoldableComposition11](#foldablecomposition11)
-- [FoldableComposition12](#foldablecomposition12)
-- [FoldableComposition12C](#foldablecomposition12c)
-- [FoldableComposition21](#foldablecomposition21)
-- [FoldableComposition22](#foldablecomposition22)
-- [FoldableComposition22C](#foldablecomposition22c)
-- [FoldableComposition2C1](#foldablecomposition2c1)
-- [FoldableComposition3C1](#foldablecomposition3c1)
-- [elem](#elem)
-- [find](#find)
-- [fold](#fold)
-- [foldM](#foldm)
-- [foldMap](#foldmap)
-- [foldr](#foldr)
-- [getFoldableComposition](#getfoldablecomposition)
-- [intercalate](#intercalate)
-- [maximum](#maximum)
-- [minimum](#minimum)
-- [oneOf](#oneof)
-- [product](#product)
-- [sequence\_](#sequence%5C_)
-- [sum](#sum)
-- [toArray](#toarray)
-- [traverse](#traverse)
-- [~~traverse\_~~](#traverse%5C_)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# ~~Foldable~~
+- [~~Foldable~~ (interface)](#foldable-interface)
+- [Foldable1 (interface)](#foldable1-interface)
+- [Foldable2 (interface)](#foldable2-interface)
+- [Foldable2C (interface)](#foldable2c-interface)
+- [Foldable3 (interface)](#foldable3-interface)
+- [Foldable3C (interface)](#foldable3c-interface)
+- [FoldableComposition (interface)](#foldablecomposition-interface)
+- [FoldableComposition11 (interface)](#foldablecomposition11-interface)
+- [FoldableComposition12 (interface)](#foldablecomposition12-interface)
+- [FoldableComposition12C (interface)](#foldablecomposition12c-interface)
+- [FoldableComposition21 (interface)](#foldablecomposition21-interface)
+- [FoldableComposition22 (interface)](#foldablecomposition22-interface)
+- [FoldableComposition22C (interface)](#foldablecomposition22c-interface)
+- [FoldableComposition2C1 (interface)](#foldablecomposition2c1-interface)
+- [FoldableComposition3C1 (interface)](#foldablecomposition3c1-interface)
+- [elem (function)](#elem-function)
+- [find (function)](#find-function)
+- [fold (function)](#fold-function)
+- [foldM (function)](#foldm-function)
+- [foldMap (function)](#foldmap-function)
+- [foldr (function)](#foldr-function)
+- [getFoldableComposition (function)](#getfoldablecomposition-function)
+- [intercalate (function)](#intercalate-function)
+- [maximum (function)](#maximum-function)
+- [minimum (function)](#minimum-function)
+- [oneOf (function)](#oneof-function)
+- [product (function)](#product-function)
+- [sequence\_ (function)](#sequence_-function)
+- [sum (function)](#sum-function)
+- [toArray (function)](#toarray-function)
+- [traverse (function)](#traverse-function)
+- [~~traverse\_~~ (function)](#traverse_-function)# ~~Foldable~~ (interface)
 
 Use `Foldable2v`
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable<F> {
@@ -57,9 +51,9 @@ export interface Foldable<F> {
 
 Added in v1.0.0
 
-# Foldable1
+# Foldable1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable1<F extends URIS> {
@@ -68,9 +62,9 @@ export interface Foldable1<F extends URIS> {
 }
 ```
 
-# Foldable2
+# Foldable2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2<F extends URIS2> {
@@ -79,9 +73,9 @@ export interface Foldable2<F extends URIS2> {
 }
 ```
 
-# Foldable2C
+# Foldable2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2C<F extends URIS2, L> {
@@ -91,9 +85,9 @@ export interface Foldable2C<F extends URIS2, L> {
 }
 ```
 
-# Foldable3
+# Foldable3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable3<F extends URIS3> {
@@ -102,9 +96,9 @@ export interface Foldable3<F extends URIS3> {
 }
 ```
 
-# Foldable3C
+# Foldable3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable3C<F extends URIS3, U, L> {
@@ -115,9 +109,9 @@ export interface Foldable3C<F extends URIS3, U, L> {
 }
 ```
 
-# FoldableComposition
+# FoldableComposition (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableComposition<F, G> {
@@ -125,9 +119,9 @@ export interface FoldableComposition<F, G> {
 }
 ```
 
-# FoldableComposition11
+# FoldableComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableComposition11<F extends URIS, G extends URIS> {
@@ -135,9 +129,9 @@ export interface FoldableComposition11<F extends URIS, G extends URIS> {
 }
 ```
 
-# FoldableComposition12
+# FoldableComposition12 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableComposition12<F extends URIS, G extends URIS2> {
@@ -145,9 +139,9 @@ export interface FoldableComposition12<F extends URIS, G extends URIS2> {
 }
 ```
 
-# FoldableComposition12C
+# FoldableComposition12C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableComposition12C<F extends URIS, G extends URIS2, LG> {
@@ -155,9 +149,9 @@ export interface FoldableComposition12C<F extends URIS, G extends URIS2, LG> {
 }
 ```
 
-# FoldableComposition21
+# FoldableComposition21 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableComposition21<F extends URIS2, G extends URIS> {
@@ -165,9 +159,9 @@ export interface FoldableComposition21<F extends URIS2, G extends URIS> {
 }
 ```
 
-# FoldableComposition22
+# FoldableComposition22 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
@@ -175,9 +169,9 @@ export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
 }
 ```
 
-# FoldableComposition22C
+# FoldableComposition22C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableComposition22C<F extends URIS2, G extends URIS2, LG> {
@@ -185,9 +179,9 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, LG> {
 }
 ```
 
-# FoldableComposition2C1
+# FoldableComposition2C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableComposition2C1<F extends URIS2, G extends URIS, LF> {
@@ -195,9 +189,9 @@ export interface FoldableComposition2C1<F extends URIS2, G extends URIS, LF> {
 }
 ```
 
-# FoldableComposition3C1
+# FoldableComposition3C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableComposition3C1<F extends URIS3, G extends URIS, UF, LF> {
@@ -205,11 +199,11 @@ export interface FoldableComposition3C1<F extends URIS3, G extends URIS, UF, LF>
 }
 ```
 
-# elem
+# elem (function)
 
 Test whether a value is an element of a data structure
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function elem<F extends URIS3, A>(F: Foldable3<F>, S: Setoid<A>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
@@ -226,11 +220,11 @@ export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) 
 
 Added in v1.0.0
 
-# find
+# find (function)
 
 Try to find an element in a data structure which satisfies a predicate
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function find<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
@@ -246,9 +240,9 @@ export function find<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => 
 
 Added in v1.0.0
 
-# fold
+# fold (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fold<F extends URIS3, M>(F: Foldable3<F>, M: Monoid<M>): <U, L>(fa: Type3<F, U, L, M>) => M
@@ -262,13 +256,13 @@ export function fold<F, M>(F: Foldable<F>, M: Monoid<M>): (fa: HKT<F, M>) => M {
 
 Added in v1.0.0
 
-# foldM
+# foldM (function)
 
 Similar to 'reduce', but the result is encapsulated in a monad.
 
 Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function foldM<F extends URIS, M extends URIS3>(
@@ -305,12 +299,12 @@ export function foldM<F, M>(
 
 Added in v1.0.0
 
-# foldMap
+# foldMap (function)
 
 A default implementation of `foldMap` using `foldl`.
 Map each element of the structure to a monoid, and combine the results.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function foldMap<F extends URIS3, M>(
@@ -336,11 +330,11 @@ export function foldMap<F, M>(F: Foldable<F>, M: Monoid<M>): <A>(fa: HKT<F, A>, 
 
 Added in v1.0.0
 
-# foldr
+# foldr (function)
 
 A default implementation of `foldr` using `foldMap`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function foldr<F extends URIS3>(
@@ -360,9 +354,9 @@ export function foldr<F>(F: Foldable<F>): <A, B>(fa: HKT<F, A>, b: B, f: (a: A, 
 
 Added in v1.0.0
 
-# getFoldableComposition
+# getFoldableComposition (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getFoldableComposition<F extends URIS3, G extends URIS, UF, LF>(
@@ -395,11 +389,11 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
 
 Added in v1.0.0
 
-# intercalate
+# intercalate (function)
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function intercalate<F extends URIS3, M>(
@@ -422,11 +416,11 @@ export function intercalate<F, M>(F: Foldable<F>, M: Monoid<M>): (sep: M) => (fm
 
 Added in v1.0.0
 
-# maximum
+# maximum (function)
 
 Find the largest element of a structure, according to its `Ord` instance
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function maximum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
@@ -443,11 +437,11 @@ export function maximum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Opt
 
 Added in v1.0.0
 
-# minimum
+# minimum (function)
 
 Find the smallest element of a structure, according to its `Ord` instance
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function minimum<F extends URIS3, A>(F: Foldable3<F>, O: Ord<A>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
@@ -464,11 +458,11 @@ export function minimum<F, A>(F: Foldable<F>, O: Ord<A>): (fa: HKT<F, A>) => Opt
 
 Added in v1.0.0
 
-# oneOf
+# oneOf (function)
 
 Combines a collection of elements using the `Alt` operation
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function oneOf<F extends URIS, P extends URIS3>(
@@ -497,11 +491,11 @@ export function oneOf<F, P>(F: Foldable<F>, P: Plus<P>): <A>(fga: HKT<F, HKT<P, 
 
 Added in v1.0.0
 
-# product
+# product (function)
 
 Find the product of the numeric values in a data structure
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function product<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Type3<F, U, L, A>) => A
@@ -515,11 +509,11 @@ export function product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) =
 
 Added in v1.0.0
 
-# sequence\_
+# sequence\_ (function)
 
 Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final result.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function sequence_<M extends URIS3, F extends URIS>(
@@ -548,11 +542,11 @@ export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<
 
 Added in v1.0.0
 
-# sum
+# sum (function)
 
 Find the sum of the numeric values in a data structure
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function sum<F extends URIS3, A>(F: Foldable3<F>, S: Semiring<A>): <U, L>(fa: Type3<F, U, L, A>) => A
@@ -566,9 +560,9 @@ export function sum<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) => A 
 
 Added in v1.0.0
 
-# toArray
+# toArray (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function toArray<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => Array<A>
@@ -582,12 +576,12 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> { ...
 
 Added in v1.0.0
 
-# traverse
+# traverse (function)
 
 Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
 final result.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function traverse<M extends URIS3, F extends URIS>(
@@ -624,11 +618,11 @@ export function traverse<M, F>(
 
 Added in v1.7.0
 
-# ~~traverse\_~~
+# ~~traverse\_~~ (function)
 
 Use `traverse` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function traverse_<M extends URIS3, F extends URIS>(

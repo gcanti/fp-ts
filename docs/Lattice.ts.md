@@ -10,17 +10,11 @@ A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `Mee
 - Absorbtion law for meet: `a ∧ (a ∨ b) == a`
 - Absorbtion law for join: `a ∨ (a ∧ b) == a`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Lattice](#lattice)
+- [Lattice (interface)](#lattice-interface)# Lattice (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Lattice
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}

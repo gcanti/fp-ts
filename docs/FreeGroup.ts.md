@@ -11,37 +11,31 @@ after being reduced to "canonical form", i.e., cancelling adjacent inverses.
 
 Adapted from https://hackage.haskell.org/package/free-algebras-0.0.7.0/docs/Data-Group-Free.html
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [FreeGroup](#freegroup)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-- [URI](#uri-1)
-- [empty](#empty)
-- [freeGroup](#freegroup)
-- [fromArray](#fromarray)
-- [getGroup](#getgroup)
-- [getSetoid](#getsetoid)
-- [normalize](#normalize)
+- [URI (type alias)](#uri-type-alias)
+- [FreeGroup (class)](#freegroup-class)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+- [URI (constant)](#uri-constant)
+- [empty (constant)](#empty-constant)
+- [freeGroup (constant)](#freegroup-constant)
+- [fromArray (function)](#fromarray-function)
+- [getGroup (function)](#getgroup-function)
+- [getSetoid (function)](#getsetoid-function)
+- [normalize (function)](#normalize-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# FreeGroup
+# FreeGroup (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class FreeGroup<A> {
@@ -52,49 +46,49 @@ export class FreeGroup<A> {
 
 Added in v1.13.0
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): FreeGroup<B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: FreeGroup<(a: A) => B>): FreeGroup<B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: FreeGroup<(b: B) => C>, fb: FreeGroup<B>): FreeGroup<C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => FreeGroup<B>): FreeGroup<B> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# empty
+# empty (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const empty: FreeGroup<never> = ...
@@ -102,9 +96,9 @@ export const empty: FreeGroup<never> = ...
 
 Added in v1.13.0
 
-# freeGroup
+# freeGroup (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const freeGroup: Monad1<URI> = ...
@@ -112,11 +106,11 @@ export const freeGroup: Monad1<URI> = ...
 
 Added in v1.13.0
 
-# fromArray
+# fromArray (function)
 
 Smart constructor which normalizes an array
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromArray = <A>(S: Setoid<A>): ((as: Array<Either<A, A>>) => FreeGroup<A>) => ...
@@ -124,9 +118,9 @@ export const fromArray = <A>(S: Setoid<A>): ((as: Array<Either<A, A>>) => FreeGr
 
 Added in v1.13.0
 
-# getGroup
+# getGroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getGroup = <A>(S: Setoid<A>): Group<FreeGroup<A>> => ...
@@ -134,9 +128,9 @@ export const getGroup = <A>(S: Setoid<A>): Group<FreeGroup<A>> => ...
 
 Added in v1.13.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<FreeGroup<A>> => ...
@@ -144,11 +138,11 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<FreeGroup<A>> => ...
 
 Added in v1.13.0
 
-# normalize
+# normalize (function)
 
 Reduce a term of a free group to canonical form, i.e. cancelling adjacent inverses.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const normalize = <A>(S: Setoid<A>) => (g: Array<Either<A, A>>): Array<Either<A, A>> => ...

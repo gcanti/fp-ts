@@ -3,41 +3,35 @@ title: Identity.ts
 nav_order: 42
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [Identity](#identity)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-  - [reduce](#reduce)
-  - [alt](#alt)
-  - [orElse](#orelse)
-  - [extract](#extract)
-  - [extend](#extend)
-  - [fold](#fold)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-- [URI](#uri-1)
-- [identity](#identity)
-- [getSetoid](#getsetoid)
+- [URI (type alias)](#uri-type-alias)
+- [Identity (class)](#identity-class)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+  - [reduce (method)](#reduce-method)
+  - [alt (method)](#alt-method)
+  - [orElse (method)](#orelse-method)
+  - [extract (method)](#extract-method)
+  - [extend (method)](#extend-method)
+  - [fold (method)](#fold-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+- [URI (constant)](#uri-constant)
+- [identity (constant)](#identity-constant)
+- [getSetoid (function)](#getsetoid-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Identity
+# Identity (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Identity<A> {
@@ -48,61 +42,61 @@ export class Identity<A> {
 
 Added in v1.0.0
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Identity<B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: Identity<(a: A) => B>): Identity<B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
 Flipped version of `ap`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C> { ... }
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => Identity<B>): Identity<B> { ... }
 ```
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
 ```
 
-## alt
+## alt (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 alt(fx: Identity<A>): Identity<A> { ... }
 ```
 
-## orElse
+## orElse (method)
 
 Lazy version of `alt`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 orElse(fx: Lazy<Identity<A>>): Identity<A> { ... }
@@ -119,57 +113,57 @@ assert.deepStrictEqual(a.orElse(() => new Identity(2)), a)
 
 Added in v1.6.0
 
-## extract
+## extract (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extract(): A { ... }
 ```
 
-## extend
+## extend (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extend<B>(f: (ea: Identity<A>) => B): Identity<B> { ... }
 ```
 
-## fold
+## fold (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<B>(f: (a: A) => B): B { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# identity
+# identity (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const identity: Monad1<URI> &
@@ -182,9 +176,9 @@ export const identity: Monad1<URI> &
 
 Added in v1.0.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => ...

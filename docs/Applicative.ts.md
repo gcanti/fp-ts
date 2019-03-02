@@ -21,34 +21,28 @@ Instances must satisfy the following laws in addition to the `Apply` laws:
 
 Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Applicative](#applicative)
-- [Applicative1](#applicative1)
-- [Applicative2](#applicative2)
-- [Applicative2C](#applicative2c)
-- [Applicative3](#applicative3)
-- [Applicative3C](#applicative3c)
-- [ApplicativeComposition](#applicativecomposition)
-- [ApplicativeComposition11](#applicativecomposition11)
-- [ApplicativeComposition12](#applicativecomposition12)
-- [ApplicativeComposition12C](#applicativecomposition12c)
-- [ApplicativeComposition21](#applicativecomposition21)
-- [ApplicativeComposition22](#applicativecomposition22)
-- [ApplicativeComposition22C](#applicativecomposition22c)
-- [ApplicativeComposition2C1](#applicativecomposition2c1)
-- [ApplicativeComposition3C1](#applicativecomposition3c1)
-- [getApplicativeComposition](#getapplicativecomposition)
-- [getMonoid](#getmonoid)
-- [when](#when)
+- [Applicative (interface)](#applicative-interface)
+- [Applicative1 (interface)](#applicative1-interface)
+- [Applicative2 (interface)](#applicative2-interface)
+- [Applicative2C (interface)](#applicative2c-interface)
+- [Applicative3 (interface)](#applicative3-interface)
+- [Applicative3C (interface)](#applicative3c-interface)
+- [ApplicativeComposition (interface)](#applicativecomposition-interface)
+- [ApplicativeComposition11 (interface)](#applicativecomposition11-interface)
+- [ApplicativeComposition12 (interface)](#applicativecomposition12-interface)
+- [ApplicativeComposition12C (interface)](#applicativecomposition12c-interface)
+- [ApplicativeComposition21 (interface)](#applicativecomposition21-interface)
+- [ApplicativeComposition22 (interface)](#applicativecomposition22-interface)
+- [ApplicativeComposition22C (interface)](#applicativecomposition22c-interface)
+- [ApplicativeComposition2C1 (interface)](#applicativecomposition2c1-interface)
+- [ApplicativeComposition3C1 (interface)](#applicativecomposition3c1-interface)
+- [getApplicativeComposition (function)](#getapplicativecomposition-function)
+- [getMonoid (function)](#getmonoid-function)
+- [when (function)](#when-function)# Applicative (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Applicative
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Applicative<F> extends Apply<F> {
@@ -58,9 +52,9 @@ export interface Applicative<F> extends Apply<F> {
 
 Added in v1.0.0
 
-# Applicative1
+# Applicative1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Applicative1<F extends URIS> extends Apply1<F> {
@@ -68,9 +62,9 @@ export interface Applicative1<F extends URIS> extends Apply1<F> {
 }
 ```
 
-# Applicative2
+# Applicative2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Applicative2<F extends URIS2> extends Apply2<F> {
@@ -78,9 +72,9 @@ export interface Applicative2<F extends URIS2> extends Apply2<F> {
 }
 ```
 
-# Applicative2C
+# Applicative2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Applicative2C<F extends URIS2, L> extends Apply2C<F, L> {
@@ -88,9 +82,9 @@ export interface Applicative2C<F extends URIS2, L> extends Apply2C<F, L> {
 }
 ```
 
-# Applicative3
+# Applicative3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Applicative3<F extends URIS3> extends Apply3<F> {
@@ -98,9 +92,9 @@ export interface Applicative3<F extends URIS3> extends Apply3<F> {
 }
 ```
 
-# Applicative3C
+# Applicative3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Applicative3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
@@ -108,9 +102,9 @@ export interface Applicative3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
 }
 ```
 
-# ApplicativeComposition
+# ApplicativeComposition (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
@@ -119,9 +113,9 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
 }
 ```
 
-# ApplicativeComposition11
+# ApplicativeComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ApplicativeComposition11<F extends URIS, G extends URIS> extends FunctorComposition11<F, G> {
@@ -130,9 +124,9 @@ export interface ApplicativeComposition11<F extends URIS, G extends URIS> extend
 }
 ```
 
-# ApplicativeComposition12
+# ApplicativeComposition12 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ApplicativeComposition12<F extends URIS, G extends URIS2> extends FunctorComposition12<F, G> {
@@ -144,9 +138,9 @@ export interface ApplicativeComposition12<F extends URIS, G extends URIS2> exten
 }
 ```
 
-# ApplicativeComposition12C
+# ApplicativeComposition12C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, LG>
@@ -159,9 +153,9 @@ export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, LG>
 }
 ```
 
-# ApplicativeComposition21
+# ApplicativeComposition21 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ApplicativeComposition21<F extends URIS2, G extends URIS> extends FunctorComposition21<F, G> {
@@ -173,9 +167,9 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
 }
 ```
 
-# ApplicativeComposition22
+# ApplicativeComposition22 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> extends FunctorComposition22<F, G> {
@@ -187,9 +181,9 @@ export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> exte
 }
 ```
 
-# ApplicativeComposition22C
+# ApplicativeComposition22C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, LG>
@@ -202,9 +196,9 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, LG>
 }
 ```
 
-# ApplicativeComposition2C1
+# ApplicativeComposition2C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, LF>
@@ -217,9 +211,9 @@ export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, LF>
 }
 ```
 
-# ApplicativeComposition3C1
+# ApplicativeComposition3C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, LF>
@@ -232,11 +226,11 @@ export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, 
 }
 ```
 
-# getApplicativeComposition
+# getApplicativeComposition (function)
 
 Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getApplicativeComposition<F extends URIS3, G extends URIS, UF, LF>(
@@ -303,12 +297,12 @@ A.ap(A.map(x, sum), y)
 
 Added in v1.0.0
 
-# getMonoid
+# getMonoid (function)
 
 If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
 Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getMonoid<F extends URIS3, A>(
@@ -342,11 +336,11 @@ assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
 
 Added in v1.4.0
 
-# when
+# when (function)
 
 Perform a applicative action when a condition is true
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function when<F extends URIS3>(

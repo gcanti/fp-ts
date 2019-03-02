@@ -7,22 +7,16 @@ nav_order: 86
 
 Adapted from https://github.com/garyb/purescript-debug
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [spy](#spy)
-- [trace](#trace)
-- [traceA](#tracea)
-- [traceM](#tracem)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# spy
+- [spy (function)](#spy-function)
+- [trace (function)](#trace-function)
+- [traceA (function)](#tracea-function)
+- [traceM (function)](#tracem-function)# spy (function)
 
 Log any value and return it
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const spy = <A>(a: A): A => ...
@@ -30,12 +24,12 @@ export const spy = <A>(a: A): A => ...
 
 Added in v1.0.0
 
-# trace
+# trace (function)
 
 Log any value to the console for debugging purposes and then return a value. This will log the value's underlying
 representation for low-level debugging
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const trace = <A>(message: any, out: Lazy<A>): A => ...
@@ -43,11 +37,11 @@ export const trace = <A>(message: any, out: Lazy<A>): A => ...
 
 Added in v1.0.0
 
-# traceA
+# traceA (function)
 
 Log a message to the console for debugging purposes and then return the unit value of the Applicative `F`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: any) => Type3<F, U, L, void>
@@ -60,11 +54,11 @@ export function traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void> { .
 
 Added in v1.0.0
 
-# traceM
+# traceM (function)
 
 Log any value to the console and return it in `Monad` useful when one has monadic chains
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function traceM<F extends URIS3>(F: Monad3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>

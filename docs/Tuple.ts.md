@@ -7,47 +7,41 @@ nav_order: 91
 
 Adapted from https://github.com/purescript/purescript-tuples
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [Tuple](#tuple)
-  - [compose](#compose)
-  - [map](#map)
-  - [bimap](#bimap)
-  - [extract](#extract)
-  - [extend](#extend)
-  - [reduce](#reduce)
-  - [swap](#swap)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-  - [toTuple](#totuple)
-- [URI](#uri-1)
-- [tuple](#tuple)
-- [getApplicative](#getapplicative)
-- [getApply](#getapply)
-- [getChain](#getchain)
-- [getChainRec](#getchainrec)
-- [getMonad](#getmonad)
-- [getMonoid](#getmonoid)
-- [getOrd](#getord)
-- [getSemigroup](#getsemigroup)
-- [getSetoid](#getsetoid)
+- [URI (type alias)](#uri-type-alias)
+- [Tuple (class)](#tuple-class)
+  - [compose (method)](#compose-method)
+  - [map (method)](#map-method)
+  - [bimap (method)](#bimap-method)
+  - [extract (method)](#extract-method)
+  - [extend (method)](#extend-method)
+  - [reduce (method)](#reduce-method)
+  - [swap (method)](#swap-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+  - [toTuple (method)](#totuple-method)
+- [URI (constant)](#uri-constant)
+- [tuple (constant)](#tuple-constant)
+- [getApplicative (function)](#getapplicative-function)
+- [getApply (function)](#getapply-function)
+- [getChain (function)](#getchain-function)
+- [getChainRec (function)](#getchainrec-function)
+- [getMonad (function)](#getmonad-function)
+- [getMonoid (function)](#getmonoid-function)
+- [getOrd (function)](#getord-function)
+- [getSemigroup (function)](#getsemigroup-function)
+- [getSetoid (function)](#getsetoid-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Tuple
+# Tuple (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Tuple<L, A> {
@@ -58,99 +52,99 @@ export class Tuple<L, A> {
 
 Added in v1.0.0
 
-## compose
+## compose (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 compose<B>(ab: Tuple<A, B>): Tuple<L, B> { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Tuple<L, B> { ... }
 ```
 
-## bimap
+## bimap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 bimap<M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B> { ... }
 ```
 
-## extract
+## extract (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extract(): A { ... }
 ```
 
-## extend
+## extend (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extend<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B> { ... }
 ```
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
 ```
 
-## swap
+## swap (method)
 
 Exchange the first and second components of a tuple
 
-**Signature** (method)
+**Signature**
 
 ```ts
 swap(): Tuple<A, L> { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-## toTuple
+## toTuple (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toTuple(): [L, A] { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# tuple
+# tuple (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = ...
@@ -158,9 +152,9 @@ export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Folda
 
 Added in v1.0.0
 
-# getApplicative
+# getApplicative (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
@@ -168,9 +162,9 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
 
 Added in v1.0.0
 
-# getApply
+# getApply (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
@@ -178,9 +172,9 @@ export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
 
 Added in v1.0.0
 
-# getChain
+# getChain (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => ...
@@ -188,9 +182,9 @@ export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => ...
 
 Added in v1.0.0
 
-# getChainRec
+# getChainRec (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => ...
@@ -198,9 +192,9 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => ...
 
 Added in v1.0.0
 
-# getMonad
+# getMonad (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => ...
@@ -208,9 +202,9 @@ export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => ...
 
 Added in v1.0.0
 
-# getMonoid
+# getMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => ...
@@ -218,12 +212,12 @@ export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A
 
 Added in v1.0.0
 
-# getOrd
+# getOrd (function)
 
 To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
 `snd`s are `compare`d.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => ...
@@ -231,9 +225,9 @@ export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => ...
 
 Added in v1.0.0
 
-# getSemigroup
+# getSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => ...
@@ -241,9 +235,9 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
 
 Added in v1.0.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => ...

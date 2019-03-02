@@ -8,38 +8,32 @@ nav_order: 45
 `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent a synchronous computation that may fail, please see `IOEither`.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [IO](#io)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [applyFirst](#applyfirst)
-  - [applySecond](#applysecond)
-  - [chain](#chain)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-- [URI](#uri-1)
-- [io](#io)
-- [getMonoid](#getmonoid)
-- [getSemigroup](#getsemigroup)
+- [URI (type alias)](#uri-type-alias)
+- [IO (class)](#io-class)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [applyFirst (method)](#applyfirst-method)
+  - [applySecond (method)](#applysecond-method)
+  - [chain (method)](#chain-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+- [URI (constant)](#uri-constant)
+- [io (constant)](#io-constant)
+- [getMonoid (function)](#getmonoid-function)
+- [getSemigroup (function)](#getsemigroup-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# IO
+# IO (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class IO<A> {
@@ -50,37 +44,37 @@ export class IO<A> {
 
 Added in v1.0.0
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): IO<B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: IO<(a: A) => B>): IO<B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
 Flipped version of `ap`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C> { ... }
 ```
 
-## applyFirst
+## applyFirst (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-**Signature** (method)
+**Signature**
 
 ```ts
 applyFirst<B>(fb: IO<B>): IO<A> { ... }
@@ -88,11 +82,11 @@ applyFirst<B>(fb: IO<B>): IO<A> { ... }
 
 Added in v1.6.0
 
-## applySecond
+## applySecond (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-**Signature** (method)
+**Signature**
 
 ```ts
 applySecond<B>(fb: IO<B>): IO<B> { ... }
@@ -100,41 +94,41 @@ applySecond<B>(fb: IO<B>): IO<B> { ... }
 
 Added in v1.5.0
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => IO<B>): IO<B> { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# io
+# io (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const io: Monad1<URI> & MonadIO1<URI> = ...
@@ -142,9 +136,9 @@ export const io: Monad1<URI> & MonadIO1<URI> = ...
 
 Added in v1.0.0
 
-# getMonoid
+# getMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => ...
@@ -152,9 +146,9 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => ...
 
 Added in v1.0.0
 
-# getSemigroup
+# getSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => ...

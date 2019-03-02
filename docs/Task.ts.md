@@ -8,43 +8,37 @@ nav_order: 83
 `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [Task](#task)
-  - [map](#map)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [applyFirst](#applyfirst)
-  - [applySecond](#applysecond)
-  - [chain](#chain)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-- [URI](#uri-1)
-- [task](#task)
-- [taskSeq](#taskseq)
-- [delay](#delay)
-- [fromIO](#fromio)
-- [getMonoid](#getmonoid)
-- [getRaceMonoid](#getracemonoid)
-- [getSemigroup](#getsemigroup)
-- [tryCatch](#trycatch)
+- [URI (type alias)](#uri-type-alias)
+- [Task (class)](#task-class)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [applyFirst (method)](#applyfirst-method)
+  - [applySecond (method)](#applysecond-method)
+  - [chain (method)](#chain-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+- [URI (constant)](#uri-constant)
+- [task (constant)](#task-constant)
+- [taskSeq (constant)](#taskseq-constant)
+- [delay (function)](#delay-function)
+- [fromIO (function)](#fromio-function)
+- [getMonoid (function)](#getmonoid-function)
+- [getRaceMonoid (function)](#getracemonoid-function)
+- [getSemigroup (function)](#getsemigroup-function)
+- [tryCatch (function)](#trycatch-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Task
+# Task (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Task<A> {
@@ -55,37 +49,37 @@ export class Task<A> {
 
 Added in v1.0.0
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Task<B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: Task<(a: A) => B>): Task<B> { ... }
 ```
 
-## ap\_
+## ap\_ (method)
 
 Flipped version of `ap`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C> { ... }
 ```
 
-## applyFirst
+## applyFirst (method)
 
 Combine two effectful actions, keeping only the result of the first
 
-**Signature** (method)
+**Signature**
 
 ```ts
 applyFirst<B>(fb: Task<B>): Task<A> { ... }
@@ -93,11 +87,11 @@ applyFirst<B>(fb: Task<B>): Task<A> { ... }
 
 Added in v1.6.0
 
-## applySecond
+## applySecond (method)
 
 Combine two effectful actions, keeping only the result of the second
 
-**Signature** (method)
+**Signature**
 
 ```ts
 applySecond<B>(fb: Task<B>): Task<B> { ... }
@@ -105,41 +99,41 @@ applySecond<B>(fb: Task<B>): Task<B> { ... }
 
 Added in v1.5.0
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => Task<B>): Task<B> { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# task
+# task (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = ...
@@ -147,11 +141,11 @@ export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = ...
 
 Added in v1.0.0
 
-# taskSeq
+# taskSeq (constant)
 
 Like `Task` but `ap` is sequential
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const taskSeq: typeof task = ...
@@ -159,9 +153,9 @@ export const taskSeq: typeof task = ...
 
 Added in v1.10.0
 
-# delay
+# delay (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const delay = <A>(millis: number, a: A): Task<A> => ...
@@ -169,11 +163,11 @@ export const delay = <A>(millis: number, a: A): Task<A> => ...
 
 Added in v1.7.0
 
-# fromIO
+# fromIO (function)
 
 Lifts an IO action into a Task
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromIO = <A>(io: IO<A>): Task<A> => ...
@@ -181,9 +175,9 @@ export const fromIO = <A>(io: IO<A>): Task<A> => ...
 
 Added in v1.0.0
 
-# getMonoid
+# getMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => ...
@@ -191,9 +185,9 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => ...
 
 Added in v1.0.0
 
-# getRaceMonoid
+# getRaceMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ...
@@ -201,9 +195,9 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ...
 
 Added in v1.0.0
 
-# getSemigroup
+# getSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => ...
@@ -211,9 +205,9 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => ...
 
 Added in v1.0.0
 
-# tryCatch
+# tryCatch (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> => ...

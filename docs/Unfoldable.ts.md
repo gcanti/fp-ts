@@ -7,26 +7,20 @@ nav_order: 92
 
 This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Unfoldable](#unfoldable)
-- [Unfoldable1](#unfoldable1)
-- [Unfoldable2](#unfoldable2)
-- [Unfoldable2C](#unfoldable2c)
-- [Unfoldable3](#unfoldable3)
-- [Unfoldable3C](#unfoldable3c)
-- [empty](#empty)
-- [replicate](#replicate)
-- [replicateA](#replicatea)
-- [singleton](#singleton)
+- [Unfoldable (interface)](#unfoldable-interface)
+- [Unfoldable1 (interface)](#unfoldable1-interface)
+- [Unfoldable2 (interface)](#unfoldable2-interface)
+- [Unfoldable2C (interface)](#unfoldable2c-interface)
+- [Unfoldable3 (interface)](#unfoldable3-interface)
+- [Unfoldable3C (interface)](#unfoldable3c-interface)
+- [empty (function)](#empty-function)
+- [replicate (function)](#replicate-function)
+- [replicateA (function)](#replicatea-function)
+- [singleton (function)](#singleton-function)# Unfoldable (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Unfoldable
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Unfoldable<F> {
@@ -37,9 +31,9 @@ export interface Unfoldable<F> {
 
 Added in v1.0.0
 
-# Unfoldable1
+# Unfoldable1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Unfoldable1<F extends URIS> {
@@ -48,9 +42,9 @@ export interface Unfoldable1<F extends URIS> {
 }
 ```
 
-# Unfoldable2
+# Unfoldable2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Unfoldable2<F extends URIS2> {
@@ -59,9 +53,9 @@ export interface Unfoldable2<F extends URIS2> {
 }
 ```
 
-# Unfoldable2C
+# Unfoldable2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Unfoldable2C<F extends URIS2, L> {
@@ -71,9 +65,9 @@ export interface Unfoldable2C<F extends URIS2, L> {
 }
 ```
 
-# Unfoldable3
+# Unfoldable3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Unfoldable3<F extends URIS3> {
@@ -82,9 +76,9 @@ export interface Unfoldable3<F extends URIS3> {
 }
 ```
 
-# Unfoldable3C
+# Unfoldable3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Unfoldable3C<F extends URIS3, U, L> {
@@ -95,11 +89,11 @@ export interface Unfoldable3C<F extends URIS3, U, L> {
 }
 ```
 
-# empty
+# empty (function)
 
 The container with no elements - unfolded with zero iterations.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function empty<F extends URIS3, U, L, A>(U: Unfoldable3<F> | Unfoldable3C<F, U, L>): Type3<F, U, L, A>
@@ -120,11 +114,11 @@ assert.deepStrictEqual(empty(array), [])
 
 Added in v1.0.0
 
-# replicate
+# replicate (function)
 
 Replicate a value some natural number of times.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function replicate<F extends URIS3>(U: Unfoldable3<F>): <U, L, A>(a: A, n: number) => Type3<F, U, L, A>
@@ -147,11 +141,11 @@ assert.deepStrictEqual(replicate(array)('s', 2), ['s', 's'])
 
 Added in v1.0.0
 
-# replicateA
+# replicateA (function)
 
 Perform an Applicative action `n` times, and accumulate all the results
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function replicateA<F extends URIS3, T extends URIS>(
@@ -194,11 +188,11 @@ assert.deepStrictEqual(replicateA(option, array)(2, none), none)
 
 Added in v1.0.0
 
-# singleton
+# singleton (function)
 
 Contain a single value
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function singleton<F extends URIS3>(U: Unfoldable3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>

@@ -15,33 +15,27 @@ Instances must satisfy the following laws:
 1. Identity: `F.mapWithIndex(fa, (_i, a) => a) = fa`
 2. Composition: `F.mapWithIndex(fa, (_i, a) => bc(ab(a))) = F.mapWithIndex(F.mapWithIndex(fa, ab), bc)`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [FunctorWithIndex](#functorwithindex)
-- [FunctorWithIndex1](#functorwithindex1)
-- [FunctorWithIndex2](#functorwithindex2)
-- [FunctorWithIndex2C](#functorwithindex2c)
-- [FunctorWithIndex3](#functorwithindex3)
-- [FunctorWithIndex3C](#functorwithindex3c)
-- [FunctorWithIndex4](#functorwithindex4)
-- [FunctorWithIndexComposition](#functorwithindexcomposition)
-- [FunctorWithIndexComposition11](#functorwithindexcomposition11)
-- [FunctorWithIndexComposition12](#functorwithindexcomposition12)
-- [FunctorWithIndexComposition12C](#functorwithindexcomposition12c)
-- [FunctorWithIndexComposition21](#functorwithindexcomposition21)
-- [FunctorWithIndexComposition22](#functorwithindexcomposition22)
-- [FunctorWithIndexComposition22C](#functorwithindexcomposition22c)
-- [FunctorWithIndexComposition2C1](#functorwithindexcomposition2c1)
-- [FunctorWithIndexComposition3C1](#functorwithindexcomposition3c1)
-- [getFunctorWithIndexComposition](#getfunctorwithindexcomposition)
+- [FunctorWithIndex (interface)](#functorwithindex-interface)
+- [FunctorWithIndex1 (interface)](#functorwithindex1-interface)
+- [FunctorWithIndex2 (interface)](#functorwithindex2-interface)
+- [FunctorWithIndex2C (interface)](#functorwithindex2c-interface)
+- [FunctorWithIndex3 (interface)](#functorwithindex3-interface)
+- [FunctorWithIndex3C (interface)](#functorwithindex3c-interface)
+- [FunctorWithIndex4 (interface)](#functorwithindex4-interface)
+- [FunctorWithIndexComposition (interface)](#functorwithindexcomposition-interface)
+- [FunctorWithIndexComposition11 (interface)](#functorwithindexcomposition11-interface)
+- [FunctorWithIndexComposition12 (interface)](#functorwithindexcomposition12-interface)
+- [FunctorWithIndexComposition12C (interface)](#functorwithindexcomposition12c-interface)
+- [FunctorWithIndexComposition21 (interface)](#functorwithindexcomposition21-interface)
+- [FunctorWithIndexComposition22 (interface)](#functorwithindexcomposition22-interface)
+- [FunctorWithIndexComposition22C (interface)](#functorwithindexcomposition22c-interface)
+- [FunctorWithIndexComposition2C1 (interface)](#functorwithindexcomposition2c1-interface)
+- [FunctorWithIndexComposition3C1 (interface)](#functorwithindexcomposition3c1-interface)
+- [getFunctorWithIndexComposition (function)](#getfunctorwithindexcomposition-function)# FunctorWithIndex (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# FunctorWithIndex
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndex<F, I> extends Functor<F> {
@@ -51,9 +45,9 @@ export interface FunctorWithIndex<F, I> extends Functor<F> {
 
 Added in v1.12.0
 
-# FunctorWithIndex1
+# FunctorWithIndex1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
@@ -61,9 +55,9 @@ export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
 }
 ```
 
-# FunctorWithIndex2
+# FunctorWithIndex2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
@@ -71,9 +65,9 @@ export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
 }
 ```
 
-# FunctorWithIndex2C
+# FunctorWithIndex2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndex2C<F extends URIS2, I, L> extends Functor2C<F, L> {
@@ -81,9 +75,9 @@ export interface FunctorWithIndex2C<F extends URIS2, I, L> extends Functor2C<F, 
 }
 ```
 
-# FunctorWithIndex3
+# FunctorWithIndex3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
@@ -91,9 +85,9 @@ export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
 }
 ```
 
-# FunctorWithIndex3C
+# FunctorWithIndex3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndex3C<F extends URIS3, I, U, L> extends Functor3C<F, U, L> {
@@ -101,9 +95,9 @@ export interface FunctorWithIndex3C<F extends URIS3, I, U, L> extends Functor3C<
 }
 ```
 
-# FunctorWithIndex4
+# FunctorWithIndex4 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
@@ -111,9 +105,9 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
 }
 ```
 
-# FunctorWithIndexComposition
+# FunctorWithIndexComposition (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndexComposition<F, FI, G, GI> extends FunctorComposition<F, G> {
@@ -121,9 +115,9 @@ export interface FunctorWithIndexComposition<F, FI, G, GI> extends FunctorCompos
 }
 ```
 
-# FunctorWithIndexComposition11
+# FunctorWithIndexComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndexComposition11<F extends URIS, FI, G extends URIS, GI>
@@ -132,9 +126,9 @@ export interface FunctorWithIndexComposition11<F extends URIS, FI, G extends URI
 }
 ```
 
-# FunctorWithIndexComposition12
+# FunctorWithIndexComposition12 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>
@@ -143,9 +137,9 @@ export interface FunctorWithIndexComposition12<F extends URIS, FI, G extends URI
 }
 ```
 
-# FunctorWithIndexComposition12C
+# FunctorWithIndexComposition12C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, L>
@@ -154,9 +148,9 @@ export interface FunctorWithIndexComposition12C<F extends URIS, FI, G extends UR
 }
 ```
 
-# FunctorWithIndexComposition21
+# FunctorWithIndexComposition21 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>
@@ -165,9 +159,9 @@ export interface FunctorWithIndexComposition21<F extends URIS2, FI, G extends UR
 }
 ```
 
-# FunctorWithIndexComposition22
+# FunctorWithIndexComposition22 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends URIS2, GI>
@@ -179,9 +173,9 @@ export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends UR
 }
 ```
 
-# FunctorWithIndexComposition22C
+# FunctorWithIndexComposition22C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, LG>
@@ -193,9 +187,9 @@ export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends U
 }
 ```
 
-# FunctorWithIndexComposition2C1
+# FunctorWithIndexComposition2C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, L>
@@ -204,9 +198,9 @@ export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends U
 }
 ```
 
-# FunctorWithIndexComposition3C1
+# FunctorWithIndexComposition3C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorWithIndexComposition3C1<F extends URIS3, FI, G extends URIS, GI, UF, LF>
@@ -218,9 +212,9 @@ export interface FunctorWithIndexComposition3C1<F extends URIS3, FI, G extends U
 }
 ```
 
-# getFunctorWithIndexComposition
+# getFunctorWithIndexComposition (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getFunctorWithIndexComposition<F extends URIS3, FI, G extends URIS, GI, U, L>(

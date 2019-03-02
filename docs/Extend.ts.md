@@ -3,23 +3,17 @@ title: Extend.ts
 nav_order: 27
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Extend](#extend)
-- [Extend1](#extend1)
-- [Extend2](#extend2)
-- [Extend2C](#extend2c)
-- [Extend3](#extend3)
-- [Extend3C](#extend3c)
-- [duplicate](#duplicate)
+- [Extend (interface)](#extend-interface)
+- [Extend1 (interface)](#extend1-interface)
+- [Extend2 (interface)](#extend2-interface)
+- [Extend2C (interface)](#extend2c-interface)
+- [Extend3 (interface)](#extend3-interface)
+- [Extend3C (interface)](#extend3c-interface)
+- [duplicate (function)](#duplicate-function)# Extend (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Extend
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Extend<F> extends Functor<F> {
@@ -29,9 +23,9 @@ export interface Extend<F> extends Functor<F> {
 
 Added in v1.0.0
 
-# Extend1
+# Extend1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Extend1<F extends URIS> extends Functor1<F> {
@@ -39,9 +33,9 @@ export interface Extend1<F extends URIS> extends Functor1<F> {
 }
 ```
 
-# Extend2
+# Extend2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Extend2<F extends URIS2> extends Functor2<F> {
@@ -49,9 +43,9 @@ export interface Extend2<F extends URIS2> extends Functor2<F> {
 }
 ```
 
-# Extend2C
+# Extend2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Extend2C<F extends URIS2, L> extends Functor2C<F, L> {
@@ -59,9 +53,9 @@ export interface Extend2C<F extends URIS2, L> extends Functor2C<F, L> {
 }
 ```
 
-# Extend3
+# Extend3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Extend3<F extends URIS3> extends Functor3<F> {
@@ -69,9 +63,9 @@ export interface Extend3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
-# Extend3C
+# Extend3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Extend3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
@@ -79,9 +73,9 @@ export interface Extend3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 }
 ```
 
-# duplicate
+# duplicate (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function duplicate<F extends URIS3>(

@@ -31,22 +31,16 @@ to the first element of a tuple, and `second` applies it to the second element (
 
 Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Strong](#strong)
-- [Strong2](#strong2)
-- [Strong3](#strong3)
-- [Strong4](#strong4)
-- [fanout](#fanout)
-- [splitStrong](#splitstrong)
+- [Strong (interface)](#strong-interface)
+- [Strong2 (interface)](#strong2-interface)
+- [Strong3 (interface)](#strong3-interface)
+- [Strong4 (interface)](#strong4-interface)
+- [fanout (function)](#fanout-function)
+- [splitStrong (function)](#splitstrong-function)# Strong (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Strong
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Strong<F> extends Profunctor<F> {
@@ -57,9 +51,9 @@ export interface Strong<F> extends Profunctor<F> {
 
 Added in v1.11.0
 
-# Strong2
+# Strong2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Strong2<F extends URIS2> extends Profunctor2<F> {
@@ -68,9 +62,9 @@ export interface Strong2<F extends URIS2> extends Profunctor2<F> {
 }
 ```
 
-# Strong3
+# Strong3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Strong3<F extends URIS3> extends Profunctor3<F> {
@@ -79,9 +73,9 @@ export interface Strong3<F extends URIS3> extends Profunctor3<F> {
 }
 ```
 
-# Strong4
+# Strong4 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Strong4<F extends URIS4> extends Profunctor4<F> {
@@ -90,7 +84,7 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
 }
 ```
 
-# fanout
+# fanout (function)
 
 Compose a value which introduces a tuple from two values, each introducing one side of the tuple.
 
@@ -107,7 +101,7 @@ We take two functions, `f` and `g`, with the same parameter type and we transfor
 takes one parameter and returns a tuple of the results of running `f` and `g` on the parameter, respectively. This
 allows us to run two parallel computations on the same input and return both results in a tuple.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fanout<F extends URIS4>(
@@ -129,7 +123,7 @@ export function fanout<F>(
 
 Added in v1.11.0
 
-# splitStrong
+# splitStrong (function)
 
 Compose a value acting on a tuple from two values, each acting on one of the components of the tuple.
 
@@ -142,7 +136,7 @@ Specializing `(***)` to function application would look like this:
 We take two functions, `f` and `g`, and we transform them into a single function which takes a tuple and maps `f`
 over the first element and `g` over the second. Just like `bi-map` would do for the `bi-functor` instance of tuple.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function splitStrong<F extends URIS4>(

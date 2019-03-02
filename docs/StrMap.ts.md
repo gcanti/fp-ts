@@ -7,65 +7,59 @@ nav_order: 81
 
 Adapted from https://github.com/purescript/purescript-maps
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [StrMap](#strmap)
-  - [mapWithKey](#mapwithkey)
-  - [map](#map)
-  - [reduce](#reduce)
-  - [foldr](#foldr)
-  - [reduceWithKey](#reducewithkey)
-  - [foldrWithKey](#foldrwithkey)
-  - [filter](#filter)
-  - [filterMap](#filtermap)
-  - [partition](#partition)
-  - [partitionMap](#partitionmap)
-  - [separate](#separate)
-  - [~~partitionMapWithIndex~~](#partitionmapwithindex)
-  - [partitionMapWithKey](#partitionmapwithkey)
-  - [~~partitionWithIndex~~](#partitionwithindex)
-  - [partitionWithKey](#partitionwithkey)
-  - [~~filterMapWithIndex~~](#filtermapwithindex)
-  - [filterMapWithKey](#filtermapwithkey)
-  - [~~filterWithIndex~~](#filterwithindex)
-  - [filterWithKey](#filterwithkey)
-  - [every](#every)
-  - [some](#some)
-- [URI](#uri-1)
-- [strmap](#strmap)
-- [collect](#collect)
-- [elem](#elem)
-- [fromFoldable](#fromfoldable)
-- [getMonoid](#getmonoid)
-- [getSetoid](#getsetoid)
-- [insert](#insert)
-- [isEmpty](#isempty)
-- [isSubdictionary](#issubdictionary)
-- [lookup](#lookup)
-- [pop](#pop)
-- [remove](#remove)
-- [singleton](#singleton)
-- [size](#size)
-- [toArray](#toarray)
-- [toUnfoldable](#tounfoldable)
-- [~~traverseWithKey~~](#traversewithkey)
+- [URI (type alias)](#uri-type-alias)
+- [StrMap (class)](#strmap-class)
+  - [mapWithKey (method)](#mapwithkey-method)
+  - [map (method)](#map-method)
+  - [reduce (method)](#reduce-method)
+  - [foldr (method)](#foldr-method)
+  - [reduceWithKey (method)](#reducewithkey-method)
+  - [foldrWithKey (method)](#foldrwithkey-method)
+  - [filter (method)](#filter-method)
+  - [filterMap (method)](#filtermap-method)
+  - [partition (method)](#partition-method)
+  - [partitionMap (method)](#partitionmap-method)
+  - [separate (method)](#separate-method)
+  - [~~partitionMapWithIndex~~ (method)](#partitionmapwithindex-method)
+  - [partitionMapWithKey (method)](#partitionmapwithkey-method)
+  - [~~partitionWithIndex~~ (method)](#partitionwithindex-method)
+  - [partitionWithKey (method)](#partitionwithkey-method)
+  - [~~filterMapWithIndex~~ (method)](#filtermapwithindex-method)
+  - [filterMapWithKey (method)](#filtermapwithkey-method)
+  - [~~filterWithIndex~~ (method)](#filterwithindex-method)
+  - [filterWithKey (method)](#filterwithkey-method)
+  - [every (method)](#every-method)
+  - [some (method)](#some-method)
+- [URI (constant)](#uri-constant)
+- [strmap (constant)](#strmap-constant)
+- [collect (function)](#collect-function)
+- [elem (function)](#elem-function)
+- [fromFoldable (function)](#fromfoldable-function)
+- [getMonoid (function)](#getmonoid-function)
+- [getSetoid (function)](#getsetoid-function)
+- [insert (function)](#insert-function)
+- [isEmpty (function)](#isempty-function)
+- [isSubdictionary (function)](#issubdictionary-function)
+- [lookup (function)](#lookup-function)
+- [pop (function)](#pop-function)
+- [remove (function)](#remove-function)
+- [singleton (function)](#singleton-function)
+- [size (function)](#size-function)
+- [toArray (function)](#toarray-function)
+- [toUnfoldable (function)](#tounfoldable-function)
+- [~~traverseWithKey~~ (function)](#traversewithkey-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# StrMap
+# StrMap (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class StrMap<A> {
@@ -76,33 +70,33 @@ export class StrMap<A> {
 
 Added in v1.0.0
 
-## mapWithKey
+## mapWithKey (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 mapWithKey<B>(f: (k: string, a: A) => B): StrMap<B> { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): StrMap<B> { ... }
 ```
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
 ```
 
-## foldr
+## foldr (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 foldr<B>(b: B, f: (a: A, b: B) => B): B { ... }
@@ -110,9 +104,9 @@ foldr<B>(b: B, f: (a: A, b: B) => B): B { ... }
 
 Added in v1.12.0
 
-## reduceWithKey
+## reduceWithKey (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduceWithKey<B>(b: B, f: (k: string, b: B, a: A) => B): B { ... }
@@ -120,9 +114,9 @@ reduceWithKey<B>(b: B, f: (k: string, b: B, a: A) => B): B { ... }
 
 Added in v1.12.0
 
-## foldrWithKey
+## foldrWithKey (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 foldrWithKey<B>(b: B, f: (k: string, a: A, b: B) => B): B { ... }
@@ -130,9 +124,9 @@ foldrWithKey<B>(b: B, f: (k: string, a: A, b: B) => B): B { ... }
 
 Added in v1.12.0
 
-## filter
+## filter (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 filter<B extends A>(p: Refinement<A, B>): StrMap<B>
@@ -142,9 +136,9 @@ filter(p: Predicate<A>): StrMap<A> { ... }
 
 Added in v1.4.0
 
-## filterMap
+## filterMap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 filterMap<B>(f: (a: A) => Option<B>): StrMap<B> { ... }
@@ -152,9 +146,9 @@ filterMap<B>(f: (a: A) => Option<B>): StrMap<B> { ... }
 
 Added in v1.12.0
 
-## partition
+## partition (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 partition(p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> { ... }
@@ -162,9 +156,9 @@ partition(p: Predicate<A>): Separated<StrMap<A>, StrMap<A>> { ... }
 
 Added in v1.12.0
 
-## partitionMap
+## partitionMap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> { ... }
@@ -172,9 +166,9 @@ partitionMap<RL, RR>(f: (a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<
 
 Added in v1.12.0
 
-## separate
+## separate (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 separate<RL, RR>(this: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>> { ... }
@@ -182,11 +176,11 @@ separate<RL, RR>(this: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>
 
 Added in v1.12.0
 
-## ~~partitionMapWithIndex~~
+## ~~partitionMapWithIndex~~ (method)
 
 Use `partitionMapWithKey` instead
 
-**Signature** (method)
+**Signature**
 
 ```ts
 partitionMapWithIndex<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> { ... }
@@ -194,9 +188,9 @@ partitionMapWithIndex<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated
 
 Added in v1.12.0
 
-## partitionMapWithKey
+## partitionMapWithKey (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 partitionMapWithKey<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> { ... }
@@ -204,11 +198,11 @@ partitionMapWithKey<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<S
 
 Added in v1.14.0
 
-## ~~partitionWithIndex~~
+## ~~partitionWithIndex~~ (method)
 
 Use `partitionWithKey` instead
 
-**Signature** (method)
+**Signature**
 
 ```ts
 partitionWithIndex(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> { ... }
@@ -216,9 +210,9 @@ partitionWithIndex(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap
 
 Added in v1.12.0
 
-## partitionWithKey
+## partitionWithKey (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 partitionWithKey(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> { ... }
@@ -226,11 +220,11 @@ partitionWithKey(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A
 
 Added in v1.14.0
 
-## ~~filterMapWithIndex~~
+## ~~filterMapWithIndex~~ (method)
 
 Use `filterMapWithKey` instead
 
-**Signature** (method)
+**Signature**
 
 ```ts
 filterMapWithIndex<B>(f: (i: string, a: A) => Option<B>): StrMap<B> { ... }
@@ -238,9 +232,9 @@ filterMapWithIndex<B>(f: (i: string, a: A) => Option<B>): StrMap<B> { ... }
 
 Added in v1.12.0
 
-## filterMapWithKey
+## filterMapWithKey (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 filterMapWithKey<B>(f: (i: string, a: A) => Option<B>): StrMap<B> { ... }
@@ -248,11 +242,11 @@ filterMapWithKey<B>(f: (i: string, a: A) => Option<B>): StrMap<B> { ... }
 
 Added in v1.14.0
 
-## ~~filterWithIndex~~
+## ~~filterWithIndex~~ (method)
 
 Use `filterWithKey` instead
 
-**Signature** (method)
+**Signature**
 
 ```ts
 filterWithIndex(p: (i: string, a: A) => boolean): StrMap<A> { ... }
@@ -260,9 +254,9 @@ filterWithIndex(p: (i: string, a: A) => boolean): StrMap<A> { ... }
 
 Added in v1.12.0
 
-## filterWithKey
+## filterWithKey (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 filterWithKey(p: (i: string, a: A) => boolean): StrMap<A> { ... }
@@ -270,9 +264,9 @@ filterWithKey(p: (i: string, a: A) => boolean): StrMap<A> { ... }
 
 Added in v1.14.0
 
-## every
+## every (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 every(predicate: (a: A) => boolean): boolean { ... }
@@ -280,9 +274,9 @@ every(predicate: (a: A) => boolean): boolean { ... }
 
 Added in v1.14.0
 
-## some
+## some (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 some(predicate: (a: A) => boolean): boolean { ... }
@@ -290,17 +284,17 @@ some(predicate: (a: A) => boolean): boolean { ... }
 
 Added in v1.14.0
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# strmap
+# strmap (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const strmap: FunctorWithIndex1<URI, string> &
@@ -314,9 +308,9 @@ export const strmap: FunctorWithIndex1<URI, string> &
 
 Added in v1.0.0
 
-# collect
+# collect (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B> => ...
@@ -324,9 +318,9 @@ export const collect = <A, B>(d: StrMap<A>, f: (k: string, a: A) => B): Array<B>
 
 Added in v1.0.0
 
-# elem
+# elem (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function elem<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean { ... }
@@ -334,12 +328,12 @@ export function elem<A>(S: Setoid<A>): (a: A, fa: StrMap<A>) => boolean { ... }
 
 Added in v1.14.0
 
-# fromFoldable
+# fromFoldable (function)
 
 Create a dictionary from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fromFoldable<F extends URIS3>(
@@ -360,9 +354,9 @@ export function fromFoldable<F>(
 
 Added in v1.0.0
 
-# getMonoid
+# getMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonoid = <A = never>(S: Semigroup<A> = getLastSemigroup()): Monoid<StrMap<A>> => ...
@@ -370,9 +364,9 @@ export const getMonoid = <A = never>(S: Semigroup<A> = getLastSemigroup()): Mono
 
 Added in v1.0.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => ...
@@ -380,11 +374,11 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => ...
 
 Added in v1.0.0
 
-# insert
+# insert (function)
 
 Insert or replace a key/value pair in a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => ...
@@ -392,11 +386,11 @@ export const insert = <A>(k: string, a: A, d: StrMap<A>): StrMap<A> => ...
 
 Added in v1.0.0
 
-# isEmpty
+# isEmpty (function)
 
 Test whether a dictionary is empty
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const isEmpty = <A>(d: StrMap<A>): boolean => ...
@@ -404,11 +398,11 @@ export const isEmpty = <A>(d: StrMap<A>): boolean => ...
 
 Added in v1.0.0
 
-# isSubdictionary
+# isSubdictionary (function)
 
 Test whether one dictionary contains all of the keys and values contained in another dictionary
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>) => boolean) => ...
@@ -416,11 +410,11 @@ export const isSubdictionary = <A>(S: Setoid<A>): ((d1: StrMap<A>, d2: StrMap<A>
 
 Added in v1.0.0
 
-# lookup
+# lookup (function)
 
 Lookup the value for a key in a dictionary
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => ...
@@ -428,11 +422,11 @@ export const lookup = <A>(k: string, d: StrMap<A>): Option<A> => ...
 
 Added in v1.0.0
 
-# pop
+# pop (function)
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => ...
@@ -440,11 +434,11 @@ export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => ...
 
 Added in v1.0.0
 
-# remove
+# remove (function)
 
 Delete a key and value from a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => ...
@@ -452,11 +446,11 @@ export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => ...
 
 Added in v1.0.0
 
-# singleton
+# singleton (function)
 
 Create a dictionary with one key/value pair
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const singleton = <A>(k: string, a: A): StrMap<A> => ...
@@ -464,11 +458,11 @@ export const singleton = <A>(k: string, a: A): StrMap<A> => ...
 
 Added in v1.0.0
 
-# size
+# size (function)
 
 Calculate the number of key/value pairs in a dictionary
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const size = <A>(d: StrMap<A>): number => ...
@@ -476,9 +470,9 @@ export const size = <A>(d: StrMap<A>): number => ...
 
 Added in v1.0.0
 
-# toArray
+# toArray (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => ...
@@ -486,11 +480,11 @@ export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => ...
 
 Added in v1.0.0
 
-# toUnfoldable
+# toUnfoldable (function)
 
 Unfolds a dictionary into a list of key/value pairs
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): (<A>(d: StrMap<A>) => Type<F, [string, A]>)
@@ -500,11 +494,11 @@ export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, 
 
 Added in v1.0.0
 
-# ~~traverseWithKey~~
+# ~~traverseWithKey~~ (function)
 
 Use `strmap.traverseWithIndex` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function traverseWithKey<F extends URIS3>(

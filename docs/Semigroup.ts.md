@@ -3,37 +3,31 @@ title: Semigroup.ts
 nav_order: 73
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Semigroup](#semigroup)
-- [semigroupAll](#semigroupall)
-- [semigroupAny](#semigroupany)
-- [semigroupProduct](#semigroupproduct)
-- [semigroupString](#semigroupstring)
-- [semigroupSum](#semigroupsum)
-- [semigroupVoid](#semigroupvoid)
-- [fold](#fold)
-- [~~getArraySemigroup~~](#getarraysemigroup)
-- [~~getDictionarySemigroup~~](#getdictionarysemigroup)
-- [getDualSemigroup](#getdualsemigroup)
-- [getFirstSemigroup](#getfirstsemigroup)
-- [getFunctionSemigroup](#getfunctionsemigroup)
-- [getJoinSemigroup](#getjoinsemigroup)
-- [getLastSemigroup](#getlastsemigroup)
-- [getMeetSemigroup](#getmeetsemigroup)
-- [getObjectSemigroup](#getobjectsemigroup)
-- [~~getProductSemigroup~~](#getproductsemigroup)
-- [~~getRecordSemigroup~~](#getrecordsemigroup)
-- [getStructSemigroup](#getstructsemigroup)
-- [getTupleSemigroup](#gettuplesemigroup)
+- [Semigroup (interface)](#semigroup-interface)
+- [semigroupAll (constant)](#semigroupall-constant)
+- [semigroupAny (constant)](#semigroupany-constant)
+- [semigroupProduct (constant)](#semigroupproduct-constant)
+- [semigroupString (constant)](#semigroupstring-constant)
+- [semigroupSum (constant)](#semigroupsum-constant)
+- [semigroupVoid (constant)](#semigroupvoid-constant)
+- [fold (function)](#fold-function)
+- [~~getArraySemigroup~~ (function)](#getarraysemigroup-function)
+- [~~getDictionarySemigroup~~ (function)](#getdictionarysemigroup-function)
+- [getDualSemigroup (function)](#getdualsemigroup-function)
+- [getFirstSemigroup (function)](#getfirstsemigroup-function)
+- [getFunctionSemigroup (function)](#getfunctionsemigroup-function)
+- [getJoinSemigroup (function)](#getjoinsemigroup-function)
+- [getLastSemigroup (function)](#getlastsemigroup-function)
+- [getMeetSemigroup (function)](#getmeetsemigroup-function)
+- [getObjectSemigroup (function)](#getobjectsemigroup-function)
+- [~~getProductSemigroup~~ (function)](#getproductsemigroup-function)
+- [~~getRecordSemigroup~~ (function)](#getrecordsemigroup-function)
+- [getStructSemigroup (function)](#getstructsemigroup-function)
+- [getTupleSemigroup (function)](#gettuplesemigroup-function)# Semigroup (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Semigroup
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Semigroup<A> {
@@ -43,11 +37,11 @@ export interface Semigroup<A> {
 
 Added in v1.0.0
 
-# semigroupAll
+# semigroupAll (constant)
 
 Boolean semigroup under conjunction
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const semigroupAll: Semigroup<boolean> = ...
@@ -55,11 +49,11 @@ export const semigroupAll: Semigroup<boolean> = ...
 
 Added in v1.0.0
 
-# semigroupAny
+# semigroupAny (constant)
 
 Boolean semigroup under disjunction
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const semigroupAny: Semigroup<boolean> = ...
@@ -67,11 +61,11 @@ export const semigroupAny: Semigroup<boolean> = ...
 
 Added in v1.0.0
 
-# semigroupProduct
+# semigroupProduct (constant)
 
 Number `Semigroup` under multiplication
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const semigroupProduct: Semigroup<number> = ...
@@ -79,9 +73,9 @@ export const semigroupProduct: Semigroup<number> = ...
 
 Added in v1.0.0
 
-# semigroupString
+# semigroupString (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const semigroupString: Semigroup<string> = ...
@@ -89,11 +83,11 @@ export const semigroupString: Semigroup<string> = ...
 
 Added in v1.0.0
 
-# semigroupSum
+# semigroupSum (constant)
 
 Number `Semigroup` under addition
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const semigroupSum: Semigroup<number> = ...
@@ -101,9 +95,9 @@ export const semigroupSum: Semigroup<number> = ...
 
 Added in v1.0.0
 
-# semigroupVoid
+# semigroupVoid (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const semigroupVoid: Semigroup<void> = ...
@@ -111,9 +105,9 @@ export const semigroupVoid: Semigroup<void> = ...
 
 Added in v1.0.0
 
-# fold
+# fold (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => ...
@@ -121,11 +115,11 @@ export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => ...
 
 Added in v1.0.0
 
-# ~~getArraySemigroup~~
+# ~~getArraySemigroup~~ (function)
 
 Use `Monoid`'s `getArrayMonoid` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => ...
@@ -133,11 +127,11 @@ export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => ...
 
 Added in v1.0.0
 
-# ~~getDictionarySemigroup~~
+# ~~getDictionarySemigroup~~ (function)
 
 Use `Record`'s `getMonoid`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getDictionarySemigroup<K extends string, A>(S: Semigroup<A>): Semigroup<Record<K, A>>
@@ -147,9 +141,9 @@ export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup< { ... }
 
 Added in v1.4.0
 
-# getDualSemigroup
+# getDualSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ...
@@ -157,9 +151,9 @@ export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ...
 
 Added in v1.0.0
 
-# getFirstSemigroup
+# getFirstSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getFirstSemigroup = <A = never>(): Semigroup<A> => ...
@@ -167,9 +161,9 @@ export const getFirstSemigroup = <A = never>(): Semigroup<A> => ...
 
 Added in v1.0.0
 
-# getFunctionSemigroup
+# getFunctionSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ...
@@ -177,9 +171,9 @@ export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semig
 
 Added in v1.0.0
 
-# getJoinSemigroup
+# getJoinSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ...
@@ -187,9 +181,9 @@ export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ...
 
 Added in v1.0.0
 
-# getLastSemigroup
+# getLastSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getLastSemigroup = <A = never>(): Semigroup<A> => ...
@@ -197,9 +191,9 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => ...
 
 Added in v1.0.0
 
-# getMeetSemigroup
+# getMeetSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ...
@@ -207,11 +201,11 @@ export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ...
 
 Added in v1.0.0
 
-# getObjectSemigroup
+# getObjectSemigroup (function)
 
 Returns a `Semigroup` instance for objects preserving their type
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => ...
@@ -233,11 +227,11 @@ assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 
 
 Added in v1.4.0
 
-# ~~getProductSemigroup~~
+# ~~getProductSemigroup~~ (function)
 
 Use `getTupleSemigroup` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => ...
@@ -245,11 +239,11 @@ export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): S
 
 Added in v1.0.0
 
-# ~~getRecordSemigroup~~
+# ~~getRecordSemigroup~~ (function)
 
 Use `getStructSemigroup` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getRecordSemigroup = <O extends { [key: string]: any }>(
@@ -259,9 +253,9 @@ export const getRecordSemigroup = <O extends { [key: string]: any }>(
 
 Added in v1.0.0
 
-# getStructSemigroup
+# getStructSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getStructSemigroup = <O extends { [key: string]: any }>(
@@ -271,9 +265,9 @@ export const getStructSemigroup = <O extends { [key: string]: any }>(
 
 Added in v1.14.0
 
-# getTupleSemigroup
+# getTupleSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getTupleSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => ...

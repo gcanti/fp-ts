@@ -14,23 +14,17 @@ Instances must satisfy the following law in addition to the `Apply` laws:
 
 Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa))`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Chain](#chain)
-- [Chain1](#chain1)
-- [Chain2](#chain2)
-- [Chain2C](#chain2c)
-- [Chain3](#chain3)
-- [Chain3C](#chain3c)
-- [flatten](#flatten)
+- [Chain (interface)](#chain-interface)
+- [Chain1 (interface)](#chain1-interface)
+- [Chain2 (interface)](#chain2-interface)
+- [Chain2C (interface)](#chain2c-interface)
+- [Chain3 (interface)](#chain3-interface)
+- [Chain3C (interface)](#chain3c-interface)
+- [flatten (function)](#flatten-function)# Chain (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Chain
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Chain<F> extends Apply<F> {
@@ -40,9 +34,9 @@ export interface Chain<F> extends Apply<F> {
 
 Added in v1.0.0
 
-# Chain1
+# Chain1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Chain1<F extends URIS> extends Apply1<F> {
@@ -50,9 +44,9 @@ export interface Chain1<F extends URIS> extends Apply1<F> {
 }
 ```
 
-# Chain2
+# Chain2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Chain2<F extends URIS2> extends Apply2<F> {
@@ -60,9 +54,9 @@ export interface Chain2<F extends URIS2> extends Apply2<F> {
 }
 ```
 
-# Chain2C
+# Chain2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Chain2C<F extends URIS2, L> extends Apply2C<F, L> {
@@ -70,9 +64,9 @@ export interface Chain2C<F extends URIS2, L> extends Apply2C<F, L> {
 }
 ```
 
-# Chain3
+# Chain3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Chain3<F extends URIS3> extends Apply3<F> {
@@ -80,9 +74,9 @@ export interface Chain3<F extends URIS3> extends Apply3<F> {
 }
 ```
 
-# Chain3C
+# Chain3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Chain3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
@@ -90,9 +84,9 @@ export interface Chain3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
 }
 ```
 
-# flatten
+# flatten (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function flatten<F extends URIS3>(

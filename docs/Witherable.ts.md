@@ -3,34 +3,28 @@ title: Witherable.ts
 nav_order: 94
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Wilt](#wilt)
-- [Wilt1](#wilt1)
-- [Wilt2](#wilt2)
-- [Wilt2C](#wilt2c)
-- [Wilt3](#wilt3)
-- [Wilt3C](#wilt3c)
-- [Wither](#wither)
-- [Wither1](#wither1)
-- [Wither2](#wither2)
-- [Wither2C](#wither2c)
-- [Wither3](#wither3)
-- [Wither3C](#wither3c)
-- [Witherable](#witherable)
-- [Witherable1](#witherable1)
-- [Witherable2](#witherable2)
-- [Witherable2C](#witherable2c)
-- [Witherable3](#witherable3)
-- [Witherable3C](#witherable3c)
+- [Wilt (interface)](#wilt-interface)
+- [Wilt1 (interface)](#wilt1-interface)
+- [Wilt2 (interface)](#wilt2-interface)
+- [Wilt2C (interface)](#wilt2c-interface)
+- [Wilt3 (interface)](#wilt3-interface)
+- [Wilt3C (interface)](#wilt3c-interface)
+- [Wither (interface)](#wither-interface)
+- [Wither1 (interface)](#wither1-interface)
+- [Wither2 (interface)](#wither2-interface)
+- [Wither2C (interface)](#wither2c-interface)
+- [Wither3 (interface)](#wither3-interface)
+- [Wither3C (interface)](#wither3c-interface)
+- [Witherable (interface)](#witherable-interface)
+- [Witherable1 (interface)](#witherable1-interface)
+- [Witherable2 (interface)](#witherable2-interface)
+- [Witherable2C (interface)](#witherable2c-interface)
+- [Witherable3 (interface)](#witherable3-interface)
+- [Witherable3C (interface)](#witherable3c-interface)# Wilt (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Wilt
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wilt<W> {
@@ -63,9 +57,9 @@ export interface Wilt<W> {
 
 Added in v1.7.0
 
-# Wilt1
+# Wilt1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wilt1<W extends URIS> {
@@ -98,9 +92,9 @@ export interface Wilt1<W extends URIS> {
 
 Added in v1.7.0
 
-# Wilt2
+# Wilt2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wilt2<W extends URIS2> {
@@ -133,9 +127,9 @@ export interface Wilt2<W extends URIS2> {
 
 Added in v1.7.0
 
-# Wilt2C
+# Wilt2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wilt2C<W extends URIS2, WL> {
@@ -168,9 +162,9 @@ export interface Wilt2C<W extends URIS2, WL> {
 
 Added in v1.7.0
 
-# Wilt3
+# Wilt3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wilt3<W extends URIS3> {
@@ -203,9 +197,9 @@ export interface Wilt3<W extends URIS3> {
 
 Added in v1.7.0
 
-# Wilt3C
+# Wilt3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wilt3C<W extends URIS3, WU, WL> {
@@ -238,9 +232,9 @@ export interface Wilt3C<W extends URIS3, WU, WL> {
 
 Added in v1.7.0
 
-# Wither
+# Wither (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wither<W> {
@@ -267,9 +261,9 @@ export interface Wither<W> {
 
 Added in v1.7.0
 
-# Wither1
+# Wither1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wither1<W extends URIS> {
@@ -296,9 +290,9 @@ export interface Wither1<W extends URIS> {
 
 Added in v1.7.0
 
-# Wither2
+# Wither2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wither2<W extends URIS2> {
@@ -328,9 +322,9 @@ export interface Wither2<W extends URIS2> {
 
 Added in v1.7.0
 
-# Wither2C
+# Wither2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wither2C<W extends URIS2, WL> {
@@ -360,9 +354,9 @@ export interface Wither2C<W extends URIS2, WL> {
 
 Added in v1.7.0
 
-# Wither3
+# Wither3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wither3<W extends URIS3> {
@@ -395,9 +389,9 @@ export interface Wither3<W extends URIS3> {
 
 Added in v1.7.0
 
-# Wither3C
+# Wither3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Wither3C<W extends URIS3, WU, WL> {
@@ -427,9 +421,9 @@ export interface Wither3C<W extends URIS3, WU, WL> {
 
 Added in v1.7.0
 
-# Witherable
+# Witherable (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Witherable<T> extends Traversable<T>, Filterable<T> {
@@ -447,9 +441,9 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
 
 Added in v1.7.0
 
-# Witherable1
+# Witherable1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
@@ -460,9 +454,9 @@ export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable
 
 Added in v1.7.0
 
-# Witherable2
+# Witherable2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
@@ -473,9 +467,9 @@ export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterabl
 
 Added in v1.7.0
 
-# Witherable2C
+# Witherable2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
@@ -486,9 +480,9 @@ export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>,
 
 Added in v1.7.0
 
-# Witherable3
+# Witherable3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
@@ -499,9 +493,9 @@ export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterabl
 
 Added in v1.7.0
 
-# Witherable3C
+# Witherable3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, TU, TL>, Filterable3C<T, TU, TL> {

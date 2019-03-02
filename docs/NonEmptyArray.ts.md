@@ -7,69 +7,63 @@ nav_order: 59
 
 Data structure which represents non-empty arrays
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [NonEmptyArray](#nonemptyarray)
-  - [toArray](#toarray)
-  - [toArrayMap](#toarraymap)
-  - [concatArray](#concatarray)
-  - [map](#map)
-  - [mapWithIndex](#mapwithindex)
-  - [ap](#ap)
-  - [ap\_](#ap%5C_)
-  - [chain](#chain)
-  - [concat](#concat)
-  - [reduce](#reduce)
-  - [reduceWithIndex](#reducewithindex)
-  - [foldr](#foldr)
-  - [foldrWithIndex](#foldrwithindex)
-  - [extend](#extend)
-  - [extract](#extract)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-  - [min](#min)
-  - [max](#max)
-  - [last](#last)
-  - [sort](#sort)
-  - [reverse](#reverse)
-  - [length](#length)
-  - [lookup](#lookup)
-  - [~~index~~](#index)
-  - [findFirst](#findfirst)
-  - [findLast](#findlast)
-  - [findIndex](#findindex)
-  - [findLastIndex](#findlastindex)
-  - [insertAt](#insertat)
-  - [updateAt](#updateat)
-  - [filter](#filter)
-  - [filterWithIndex](#filterwithindex)
-  - [some](#some)
-  - [every](#every)
-- [URI](#uri-1)
-- [nonEmptyArray](#nonemptyarray)
-- [fromArray](#fromarray)
-- [getSemigroup](#getsemigroup)
-- [getSetoid](#getsetoid)
-- [group](#group)
-- [groupBy](#groupby)
-- [groupSort](#groupsort)
+- [URI (type alias)](#uri-type-alias)
+- [NonEmptyArray (class)](#nonemptyarray-class)
+  - [toArray (method)](#toarray-method)
+  - [toArrayMap (method)](#toarraymap-method)
+  - [concatArray (method)](#concatarray-method)
+  - [map (method)](#map-method)
+  - [mapWithIndex (method)](#mapwithindex-method)
+  - [ap (method)](#ap-method)
+  - [ap\_ (method)](#ap_-method)
+  - [chain (method)](#chain-method)
+  - [concat (method)](#concat-method)
+  - [reduce (method)](#reduce-method)
+  - [reduceWithIndex (method)](#reducewithindex-method)
+  - [foldr (method)](#foldr-method)
+  - [foldrWithIndex (method)](#foldrwithindex-method)
+  - [extend (method)](#extend-method)
+  - [extract (method)](#extract-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+  - [min (method)](#min-method)
+  - [max (method)](#max-method)
+  - [last (method)](#last-method)
+  - [sort (method)](#sort-method)
+  - [reverse (method)](#reverse-method)
+  - [length (method)](#length-method)
+  - [lookup (method)](#lookup-method)
+  - [~~index~~ (method)](#index-method)
+  - [findFirst (method)](#findfirst-method)
+  - [findLast (method)](#findlast-method)
+  - [findIndex (method)](#findindex-method)
+  - [findLastIndex (method)](#findlastindex-method)
+  - [insertAt (method)](#insertat-method)
+  - [updateAt (method)](#updateat-method)
+  - [filter (method)](#filter-method)
+  - [filterWithIndex (method)](#filterwithindex-method)
+  - [some (method)](#some-method)
+  - [every (method)](#every-method)
+- [URI (constant)](#uri-constant)
+- [nonEmptyArray (constant)](#nonemptyarray-constant)
+- [fromArray (function)](#fromarray-function)
+- [getSemigroup (function)](#getsemigroup-function)
+- [getSetoid (function)](#getsetoid-function)
+- [group (function)](#group-function)
+- [groupBy (function)](#groupby-function)
+- [groupSort (function)](#groupsort-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# NonEmptyArray
+# NonEmptyArray (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class NonEmptyArray<A> {
@@ -80,11 +74,11 @@ export class NonEmptyArray<A> {
 
 Added in v1.0.0
 
-## toArray
+## toArray (method)
 
 Converts this `NonEmptyArray` to a plain `Array`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toArray(): Array<A> { ... }
@@ -98,11 +92,11 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).toArray(), [1, 2, 3])
 ```
 
-## toArrayMap
+## toArrayMap (method)
 
 Converts this `NonEmptyArray` to a plain `Array` using the given map function
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toArrayMap<B>(f: (a: A) => B): Array<B> { ... }
@@ -118,11 +112,11 @@ assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).toArrayMap(s => s.l
 
 Added in v1.14.0
 
-## concatArray
+## concatArray (method)
 
 Concatenates this `NonEmptyArray` and passed `Array`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 concatArray(as: Array<A>): NonEmptyArray<A> { ... }
@@ -136,9 +130,9 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 assert.deepStrictEqual(new NonEmptyArray<number>(1, []).concatArray([2]), new NonEmptyArray(1, [2]))
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): NonEmptyArray<B> { ... }
@@ -153,17 +147,17 @@ const double = (n: number): number => n * 2
 assert.deepStrictEqual(new NonEmptyArray(1, [2]).map(double), new NonEmptyArray(2, [4]))
 ```
 
-## mapWithIndex
+## mapWithIndex (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 mapWithIndex<B>(f: (i: number, a: A) => B): NonEmptyArray<B> { ... }
 ```
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: NonEmptyArray<(a: A) => B>): NonEmptyArray<B> { ... }
@@ -179,11 +173,11 @@ const double = (n: number): number => n * 2
 assert.deepStrictEqual(x.ap(new NonEmptyArray(double, [double])).toArray(), [2, 4, 2, 4])
 ```
 
-## ap\_
+## ap\_ (method)
 
 Flipped version of `ap`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap_<B, C>(this: NonEmptyArray<(b: B) => C>, fb: NonEmptyArray<B>): NonEmptyArray<C> { ... }
@@ -199,9 +193,9 @@ const double = (n: number) => n * 2
 assert.deepStrictEqual(new NonEmptyArray(double, [double]).ap_(x).toArray(), [2, 4, 2, 4])
 ```
 
-## chain
+## chain (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 chain<B>(f: (a: A) => NonEmptyArray<B>): NonEmptyArray<B> { ... }
@@ -217,9 +211,9 @@ const f = (a: number) => new NonEmptyArray(a, [4])
 assert.deepStrictEqual(x.chain(f).toArray(), [1, 4, 2, 4])
 ```
 
-## concat
+## concat (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 concat(y: NonEmptyArray<A>): NonEmptyArray<A> { ... }
@@ -235,9 +229,9 @@ const y = new NonEmptyArray(3, [4])
 assert.deepStrictEqual(x.concat(y).toArray(), [1, 2, 3, 4])
 ```
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
@@ -252,9 +246,9 @@ const x = new NonEmptyArray('a', ['b'])
 assert.strictEqual(x.reduce('', (b, a) => b + a), 'ab')
 ```
 
-## reduceWithIndex
+## reduceWithIndex (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduceWithIndex<B>(b: B, f: (i: number, b: B, a: A) => B): B { ... }
@@ -262,9 +256,9 @@ reduceWithIndex<B>(b: B, f: (i: number, b: B, a: A) => B): B { ... }
 
 Added in v1.12.0
 
-## foldr
+## foldr (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 foldr<B>(b: B, f: (a: A, b: B) => B): B { ... }
@@ -272,9 +266,9 @@ foldr<B>(b: B, f: (a: A, b: B) => B): B { ... }
 
 Added in v1.12.0
 
-## foldrWithIndex
+## foldrWithIndex (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 foldrWithIndex<B>(b: B, f: (i: number, a: A, b: B) => B): B { ... }
@@ -282,9 +276,9 @@ foldrWithIndex<B>(b: B, f: (i: number, a: A, b: B) => B): B { ... }
 
 Added in v1.12.0
 
-## extend
+## extend (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extend<B>(f: (fa: NonEmptyArray<A>) => B): NonEmptyArray<B> { ... }
@@ -300,9 +294,9 @@ const sum = (as: NonEmptyArray<number>) => fold(monoidSum)(as.toArray())
 assert.deepStrictEqual(new NonEmptyArray(1, [2, 3, 4]).extend(sum), new NonEmptyArray(10, [9, 7, 4]))
 ```
 
-## extract
+## extract (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extract(): A { ... }
@@ -316,31 +310,31 @@ import { NonEmptyArray } from 'fp-ts/lib/NonEmptyArray'
 assert.strictEqual(new NonEmptyArray(1, [2, 3]).extract(), 1)
 ```
 
-## inspect
+## inspect (method)
 
 Same as `toString`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
 Return stringified representation of this `NonEmptyArray`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-## min
+## min (method)
 
 Gets minimum of this `NonEmptyArray` using specified `Ord` instance
 
-**Signature** (method)
+**Signature**
 
 ```ts
 min(ord: Ord<A>): A { ... }
@@ -357,11 +351,11 @@ assert.strictEqual(new NonEmptyArray(1, [2, 3]).min(ordNumber), 1)
 
 Added in v1.3.0
 
-## max
+## max (method)
 
 Gets maximum of this `NonEmptyArray` using specified `Ord` instance
 
-**Signature** (method)
+**Signature**
 
 ```ts
 max(ord: Ord<A>): A { ... }
@@ -378,11 +372,11 @@ assert.strictEqual(new NonEmptyArray(1, [2, 3]).max(ordNumber), 3)
 
 Added in v1.3.0
 
-## last
+## last (method)
 
 Gets last element of this `NonEmptyArray`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 last(): A { ... }
@@ -399,11 +393,11 @@ assert.strictEqual(new NonEmptyArray(1, []).last(), 1)
 
 Added in v1.6.0
 
-## sort
+## sort (method)
 
 Sorts this `NonEmptyArray` using specified `Ord` instance
 
-**Signature** (method)
+**Signature**
 
 ```ts
 sort(ord: Ord<A>): NonEmptyArray<A> { ... }
@@ -420,11 +414,11 @@ assert.deepStrictEqual(new NonEmptyArray(3, [2, 1]).sort(ordNumber), new NonEmpt
 
 Added in v1.6.0
 
-## reverse
+## reverse (method)
 
 Reverts this `NonEmptyArray`
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reverse(): NonEmptyArray<A> { ... }
@@ -440,9 +434,9 @@ assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).reverse(), new NonEmptyArray
 
 Added in v1.6.0
 
-## length
+## length (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 length(): number { ... }
@@ -450,11 +444,11 @@ length(): number { ... }
 
 Added in v1.10.0
 
-## lookup
+## lookup (method)
 
 This function provides a safe way to read a value at a particular index from an NonEmptyArray
 
-**Signature** (method)
+**Signature**
 
 ```ts
 lookup(i: number): Option<A> { ... }
@@ -472,9 +466,9 @@ assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).lookup(3), none)
 
 Added in v1.14.0
 
-## ~~index~~
+## ~~index~~ (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 index(i: number): Option<A> { ... }
@@ -482,11 +476,11 @@ index(i: number): Option<A> { ... }
 
 Added in v1.11.0
 
-## findFirst
+## findFirst (method)
 
 Find the first element which satisfies a predicate (or a refinement) function
 
-**Signature** (method)
+**Signature**
 
 ```ts
 findFirst<B extends A>(predicate: Refinement<A, B>): Option<B>
@@ -508,11 +502,11 @@ assert.deepStrictEqual(
 
 Added in v1.11.0
 
-## findLast
+## findLast (method)
 
 Find the last element which satisfies a predicate function
 
-**Signature** (method)
+**Signature**
 
 ```ts
 findLast<B extends A>(predicate: Refinement<A, B>): Option<B>
@@ -534,11 +528,11 @@ assert.deepStrictEqual(
 
 Added in v1.11.0
 
-## findIndex
+## findIndex (method)
 
 Find the first index for which a predicate holds
 
-**Signature** (method)
+**Signature**
 
 ```ts
 findIndex(predicate: Predicate<A>): Option<number> { ... }
@@ -556,11 +550,11 @@ assert.deepStrictEqual(new NonEmptyArray<number>(1, []).findIndex(x => x === 2),
 
 Added in v1.11.0
 
-## findLastIndex
+## findLastIndex (method)
 
 Returns the index of the last element of the list which matches the predicate
 
-**Signature** (method)
+**Signature**
 
 ```ts
 findLastIndex(predicate: Predicate<A>): Option<number> { ... }
@@ -583,11 +577,11 @@ assert.deepStrictEqual(xs.findLastIndex(x => x.a === 4), none)
 
 Added in v1.11.0
 
-## insertAt
+## insertAt (method)
 
 Insert an element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
 
-**Signature** (method)
+**Signature**
 
 ```ts
 insertAt(i: number, a: A): Option<NonEmptyArray<A>> { ... }
@@ -604,11 +598,11 @@ assert.deepStrictEqual(new NonEmptyArray(1, [2, 3, 4]).insertAt(2, 5), some(new 
 
 Added in v1.11.0
 
-## updateAt
+## updateAt (method)
 
 Change the element at the specified index, creating a new NonEmptyArray, or returning `None` if the index is out of bounds
 
-**Signature** (method)
+**Signature**
 
 ```ts
 updateAt(i: number, a: A): Option<NonEmptyArray<A>> { ... }
@@ -626,11 +620,11 @@ assert.deepStrictEqual(new NonEmptyArray(1, []).updateAt(1, 1), none)
 
 Added in v1.11.0
 
-## filter
+## filter (method)
 
 Filter an NonEmptyArray, keeping the elements which satisfy a predicate function, creating a new NonEmptyArray or returning `None` in case the resulting NonEmptyArray would have no remaining elements.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 filter<B extends A>(predicate: Refinement<A, B>): Option<NonEmptyArray<B>>
@@ -640,9 +634,9 @@ filter(predicate: Predicate<A>): Option<NonEmptyArray<A>> { ... }
 
 Added in v1.11.0
 
-## filterWithIndex
+## filterWithIndex (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 filterWithIndex(predicate: (i: number, a: A) => boolean): Option<NonEmptyArray<A>> { ... }
@@ -650,9 +644,9 @@ filterWithIndex(predicate: (i: number, a: A) => boolean): Option<NonEmptyArray<A
 
 Added in v1.12.0
 
-## some
+## some (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 some(predicate: Predicate<A>): boolean { ... }
@@ -660,9 +654,9 @@ some(predicate: Predicate<A>): boolean { ... }
 
 Added in v1.14.0
 
-## every
+## every (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 every(predicate: Predicate<A>): boolean { ... }
@@ -670,17 +664,17 @@ every(predicate: Predicate<A>): boolean { ... }
 
 Added in v1.14.0
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# nonEmptyArray
+# nonEmptyArray (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const nonEmptyArray: Monad1<URI> &
@@ -693,11 +687,11 @@ export const nonEmptyArray: Monad1<URI> &
 
 Added in v1.0.0
 
-# fromArray
+# fromArray (function)
 
 Builds `NonEmptyArray` from `Array` returning `Option.none` or `Option.some` depending on amount of values in passed array
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => ...
@@ -705,11 +699,11 @@ export const fromArray = <A>(as: Array<A>): Option<NonEmptyArray<A>> => ...
 
 Added in v1.0.0
 
-# getSemigroup
+# getSemigroup (function)
 
 Builds `Semigroup` instance for `NonEmptyArray` of specified type arument
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ...
@@ -717,9 +711,9 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ...
 
 Added in v1.0.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> => ...
@@ -738,11 +732,11 @@ assert.strictEqual(S.equals(new NonEmptyArray(1, []), new NonEmptyArray(1, [2]))
 
 Added in v1.14.0
 
-# group
+# group (function)
 
 Group equal, consecutive elements of an array into non empty arrays.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => ...
@@ -763,12 +757,12 @@ assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
 
 Added in v1.7.0
 
-# groupBy
+# groupBy (function)
 
 Splits an array into sub-non-empty-arrays stored in an object, based on the result of calling a `string`-returning
 function on each element, and grouping the results according to values returned
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => ...
@@ -787,11 +781,11 @@ assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)),
 
 Added in v1.10.0
 
-# groupSort
+# groupSort (function)
 
 Sort and then group the elements of an array into non empty arrays.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) => ...

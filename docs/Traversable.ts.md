@@ -3,36 +3,30 @@ title: Traversable.ts
 nav_order: 87
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [~~Traversable~~](#traversable)
-- [Traversable1](#traversable1)
-- [Traversable2](#traversable2)
-- [Traversable2C](#traversable2c)
-- [Traversable3](#traversable3)
-- [Traversable3C](#traversable3c)
-- [TraversableComposition](#traversablecomposition)
-- [TraversableComposition11](#traversablecomposition11)
-- [Traverse](#traverse)
-- [Traverse1](#traverse1)
-- [Traverse2](#traverse2)
-- [Traverse2C](#traverse2c)
-- [Traverse3](#traverse3)
-- [Traverse3C](#traverse3c)
-- [TraverseComposition11](#traversecomposition11)
-- [~~getTraversableComposition~~](#gettraversablecomposition)
-- [~~sequence~~](#sequence)
-- [~~traverse~~](#traverse)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# ~~Traversable~~
+- [~~Traversable~~ (interface)](#traversable-interface)
+- [Traversable1 (interface)](#traversable1-interface)
+- [Traversable2 (interface)](#traversable2-interface)
+- [Traversable2C (interface)](#traversable2c-interface)
+- [Traversable3 (interface)](#traversable3-interface)
+- [Traversable3C (interface)](#traversable3c-interface)
+- [TraversableComposition (interface)](#traversablecomposition-interface)
+- [TraversableComposition11 (interface)](#traversablecomposition11-interface)
+- [Traverse (interface)](#traverse-interface)
+- [Traverse1 (interface)](#traverse1-interface)
+- [Traverse2 (interface)](#traverse2-interface)
+- [Traverse2C (interface)](#traverse2c-interface)
+- [Traverse3 (interface)](#traverse3-interface)
+- [Traverse3C (interface)](#traverse3c-interface)
+- [TraverseComposition11 (interface)](#traversecomposition11-interface)
+- [~~getTraversableComposition~~ (function)](#gettraversablecomposition-function)
+- [~~sequence~~ (function)](#sequence-function)
+- [~~traverse~~ (function)](#traverse-function)# ~~Traversable~~ (interface)
 
 Use `Traversable2v` instead
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traversable<T> extends Functor<T>, Foldable<T> {
@@ -43,9 +37,9 @@ export interface Traversable<T> extends Functor<T>, Foldable<T> {
 }
 ```
 
-# Traversable1
+# Traversable1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
@@ -53,9 +47,9 @@ export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> 
 }
 ```
 
-# Traversable2
+# Traversable2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
@@ -63,9 +57,9 @@ export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T>
 }
 ```
 
-# Traversable2C
+# Traversable2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Foldable2C<T, TL> {
@@ -73,9 +67,9 @@ export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Fo
 }
 ```
 
-# Traversable3
+# Traversable3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
@@ -83,9 +77,9 @@ export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T>
 }
 ```
 
-# Traversable3C
+# Traversable3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU, TL>, Foldable3C<T, TU, TL> {
@@ -93,9 +87,9 @@ export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU,
 }
 ```
 
-# TraversableComposition
+# TraversableComposition (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
@@ -105,9 +99,9 @@ export interface TraversableComposition<F, G> extends FoldableComposition<F, G>,
 }
 ```
 
-# TraversableComposition11
+# TraversableComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraversableComposition11<F extends URIS, G extends URIS>
@@ -117,9 +111,9 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
 }
 ```
 
-# Traverse
+# Traverse (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traverse<T> {
@@ -146,9 +140,9 @@ export interface Traverse<T> {
 
 Added in v1.7.0
 
-# Traverse1
+# Traverse1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traverse1<T extends URIS> {
@@ -175,9 +169,9 @@ export interface Traverse1<T extends URIS> {
 
 Added in v1.7.0
 
-# Traverse2
+# Traverse2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traverse2<T extends URIS2> {
@@ -207,9 +201,9 @@ export interface Traverse2<T extends URIS2> {
 
 Added in v1.7.0
 
-# Traverse2C
+# Traverse2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traverse2C<T extends URIS2, TL> {
@@ -236,9 +230,9 @@ export interface Traverse2C<T extends URIS2, TL> {
 
 Added in v1.7.0
 
-# Traverse3
+# Traverse3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traverse3<T extends URIS3> {
@@ -268,9 +262,9 @@ export interface Traverse3<T extends URIS3> {
 
 Added in v1.7.0
 
-# Traverse3C
+# Traverse3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Traverse3C<T extends URIS3, TU, TL> {
@@ -300,9 +294,9 @@ export interface Traverse3C<T extends URIS3, TU, TL> {
 
 Added in v1.7.0
 
-# TraverseComposition11
+# TraverseComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraverseComposition11<F extends URIS, G extends URIS> {
@@ -330,11 +324,11 @@ export interface TraverseComposition11<F extends URIS, G extends URIS> {
 }
 ```
 
-# ~~getTraversableComposition~~
+# ~~getTraversableComposition~~ (function)
 
 Use `Traversable2v`'s `getTraversableComposition` instead.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getTraversableComposition<F extends URIS, G extends URIS>(
@@ -347,11 +341,11 @@ export function getTraversableComposition<F, G>(F: Traversable<F>, G: Traversabl
 
 Added in v1.0.0
 
-# ~~sequence~~
+# ~~sequence~~ (function)
 
 Use `sequence` contained in each traversable data structure instead.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function sequence<F extends URIS2, T extends URIS2>(
@@ -406,11 +400,11 @@ assert.deepStrictEqual(array.sequence(option)([none, some(2), some(3)]), none)
 
 Added in v1.0.0
 
-# ~~traverse~~
+# ~~traverse~~ (function)
 
 Use `traverse` contained in each traversable data structure instead.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function traverse<F extends URIS3, T extends URIS2>(

@@ -3,46 +3,40 @@ title: Foldable2v.ts
 nav_order: 32
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Foldable2v](#foldable2v)
-- [Foldable2v1](#foldable2v1)
-- [Foldable2v2](#foldable2v2)
-- [Foldable2v2C](#foldable2v2c)
-- [Foldable2v3](#foldable2v3)
-- [Foldable2v3C](#foldable2v3c)
-- [Foldable2vComposition](#foldable2vcomposition)
-- [Foldable2vComposition11](#foldable2vcomposition11)
-- [Foldable2vComposition12](#foldable2vcomposition12)
-- [Foldable2vComposition12C](#foldable2vcomposition12c)
-- [Foldable2vComposition21](#foldable2vcomposition21)
-- [Foldable2vComposition22](#foldable2vcomposition22)
-- [Foldable2vComposition22C](#foldable2vcomposition22c)
-- [Foldable2vComposition2C1](#foldable2vcomposition2c1)
-- [Foldable2vComposition3C1](#foldable2vcomposition3c1)
-- [elem](#elem)
-- [findFirst](#findfirst)
-- [fold](#fold)
-- [foldM](#foldm)
-- [getFoldableComposition](#getfoldablecomposition)
-- [intercalate](#intercalate)
-- [max](#max)
-- [~~member~~](#member)
-- [min](#min)
-- [oneOf](#oneof)
-- [product](#product)
-- [sequence\_](#sequence%5C_)
-- [sum](#sum)
-- [toArray](#toarray)
-- [traverse\_](#traverse%5C_)
+- [Foldable2v (interface)](#foldable2v-interface)
+- [Foldable2v1 (interface)](#foldable2v1-interface)
+- [Foldable2v2 (interface)](#foldable2v2-interface)
+- [Foldable2v2C (interface)](#foldable2v2c-interface)
+- [Foldable2v3 (interface)](#foldable2v3-interface)
+- [Foldable2v3C (interface)](#foldable2v3c-interface)
+- [Foldable2vComposition (interface)](#foldable2vcomposition-interface)
+- [Foldable2vComposition11 (interface)](#foldable2vcomposition11-interface)
+- [Foldable2vComposition12 (interface)](#foldable2vcomposition12-interface)
+- [Foldable2vComposition12C (interface)](#foldable2vcomposition12c-interface)
+- [Foldable2vComposition21 (interface)](#foldable2vcomposition21-interface)
+- [Foldable2vComposition22 (interface)](#foldable2vcomposition22-interface)
+- [Foldable2vComposition22C (interface)](#foldable2vcomposition22c-interface)
+- [Foldable2vComposition2C1 (interface)](#foldable2vcomposition2c1-interface)
+- [Foldable2vComposition3C1 (interface)](#foldable2vcomposition3c1-interface)
+- [elem (function)](#elem-function)
+- [findFirst (function)](#findfirst-function)
+- [fold (function)](#fold-function)
+- [foldM (function)](#foldm-function)
+- [getFoldableComposition (function)](#getfoldablecomposition-function)
+- [intercalate (function)](#intercalate-function)
+- [max (function)](#max-function)
+- [~~member~~ (function)](#member-function)
+- [min (function)](#min-function)
+- [oneOf (function)](#oneof-function)
+- [product (function)](#product-function)
+- [sequence\_ (function)](#sequence_-function)
+- [sum (function)](#sum-function)
+- [toArray (function)](#toarray-function)
+- [traverse\_ (function)](#traverse_-function)# Foldable2v (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Foldable2v
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2v<F> extends Foldable<F> {
@@ -53,9 +47,9 @@ export interface Foldable2v<F> extends Foldable<F> {
 
 Added in v1.10.0
 
-# Foldable2v1
+# Foldable2v1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2v1<F extends URIS> extends Foldable1<F> {
@@ -64,9 +58,9 @@ export interface Foldable2v1<F extends URIS> extends Foldable1<F> {
 }
 ```
 
-# Foldable2v2
+# Foldable2v2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2v2<F extends URIS2> extends Foldable2<F> {
@@ -75,9 +69,9 @@ export interface Foldable2v2<F extends URIS2> extends Foldable2<F> {
 }
 ```
 
-# Foldable2v2C
+# Foldable2v2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2v2C<F extends URIS2, L> extends Foldable2C<F, L> {
@@ -86,9 +80,9 @@ export interface Foldable2v2C<F extends URIS2, L> extends Foldable2C<F, L> {
 }
 ```
 
-# Foldable2v3
+# Foldable2v3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2v3<F extends URIS3> extends Foldable3<F> {
@@ -97,9 +91,9 @@ export interface Foldable2v3<F extends URIS3> extends Foldable3<F> {
 }
 ```
 
-# Foldable2v3C
+# Foldable2v3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2v3C<F extends URIS3, U, L> extends Foldable3C<F, U, L> {
@@ -108,9 +102,9 @@ export interface Foldable2v3C<F extends URIS3, U, L> extends Foldable3C<F, U, L>
 }
 ```
 
-# Foldable2vComposition
+# Foldable2vComposition (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2vComposition<F, G> extends FoldableComposition<F, G> {
@@ -119,9 +113,9 @@ export interface Foldable2vComposition<F, G> extends FoldableComposition<F, G> {
 }
 ```
 
-# Foldable2vComposition11
+# Foldable2vComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2vComposition11<F extends URIS, G extends URIS> extends FoldableComposition11<F, G> {
@@ -130,9 +124,9 @@ export interface Foldable2vComposition11<F extends URIS, G extends URIS> extends
 }
 ```
 
-# Foldable2vComposition12
+# Foldable2vComposition12 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2vComposition12<F extends URIS, G extends URIS2> extends FoldableComposition12<F, G> {
@@ -141,9 +135,9 @@ export interface Foldable2vComposition12<F extends URIS, G extends URIS2> extend
 }
 ```
 
-# Foldable2vComposition12C
+# Foldable2vComposition12C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2vComposition12C<F extends URIS, G extends URIS2, LG>
@@ -153,9 +147,9 @@ export interface Foldable2vComposition12C<F extends URIS, G extends URIS2, LG>
 }
 ```
 
-# Foldable2vComposition21
+# Foldable2vComposition21 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2vComposition21<F extends URIS2, G extends URIS> extends FoldableComposition21<F, G> {
@@ -164,9 +158,9 @@ export interface Foldable2vComposition21<F extends URIS2, G extends URIS> extend
 }
 ```
 
-# Foldable2vComposition22
+# Foldable2vComposition22 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2vComposition22<F extends URIS2, G extends URIS2> extends FoldableComposition22<F, G> {
@@ -175,9 +169,9 @@ export interface Foldable2vComposition22<F extends URIS2, G extends URIS2> exten
 }
 ```
 
-# Foldable2vComposition22C
+# Foldable2vComposition22C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2vComposition22C<F extends URIS2, G extends URIS2, LG>
@@ -187,9 +181,9 @@ export interface Foldable2vComposition22C<F extends URIS2, G extends URIS2, LG>
 }
 ```
 
-# Foldable2vComposition2C1
+# Foldable2vComposition2C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2vComposition2C1<F extends URIS2, G extends URIS, LF>
@@ -199,9 +193,9 @@ export interface Foldable2vComposition2C1<F extends URIS2, G extends URIS, LF>
 }
 ```
 
-# Foldable2vComposition3C1
+# Foldable2vComposition3C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Foldable2vComposition3C1<F extends URIS3, G extends URIS, UF, LF>
@@ -211,11 +205,11 @@ export interface Foldable2vComposition3C1<F extends URIS3, G extends URIS, UF, L
 }
 ```
 
-# elem
+# elem (function)
 
 Test whether a value is an element of a data structure
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function elem<F extends URIS3, A>(
@@ -247,11 +241,11 @@ assert.strictEqual(elem(setoidNumber, tree)(5, t), false)
 
 Added in v1.14.0
 
-# findFirst
+# findFirst (function)
 
 Find the first element which satisfies a predicate function
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function findFirst<F extends URIS3>(
@@ -282,11 +276,11 @@ assert.deepStrictEqual(findFirst(tree)(t, a => a > 2), some(3))
 
 Added in v1.10.0
 
-# fold
+# fold (function)
 
 A generalization of monoidal `fold`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fold<M, F extends URIS3>(M: Monoid<M>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, M>) => M
@@ -311,13 +305,13 @@ assert.strictEqual(fold(monoidSum, tree)(t), 10)
 
 Added in v1.10.0
 
-# foldM
+# foldM (function)
 
 Similar to 'reduce', but the result is encapsulated in a monad.
 
 Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function foldM<M extends URIS3, F extends URIS>(
@@ -363,11 +357,11 @@ assert.deepStrictEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) 
 
 Added in v1.10.0
 
-# getFoldableComposition
+# getFoldableComposition (function)
 
 Returns the composition of two foldables
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getFoldableComposition<F extends URIS3, G extends URIS, UF, LF>(
@@ -421,11 +415,11 @@ assert.strictEqual(F.reduce([some('a'), none, some('c')], '', monoidString.conca
 
 Added in v1.10.0
 
-# intercalate
+# intercalate (function)
 
 Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function intercalate<M, F extends URIS3>(
@@ -459,11 +453,11 @@ assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
 
 Added in v1.10.0
 
-# max
+# max (function)
 
 Find the largest element of a structure, according to its `Ord` instance
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function max<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
@@ -489,11 +483,11 @@ assert.deepStrictEqual(max(ordNumber, tree)(t), some(4))
 
 Added in v1.10.0
 
-# ~~member~~
+# ~~member~~ (function)
 
 Use `elem` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function member<F extends URIS3, A>(
@@ -516,11 +510,11 @@ export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, 
 
 Added in v1.10.0
 
-# min
+# min (function)
 
 Find the smallest element of a structure, according to its `Ord` instance
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function min<F extends URIS3, A>(O: Ord<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
@@ -546,11 +540,11 @@ assert.deepStrictEqual(min(ordNumber, tree)(t), some(1))
 
 Added in v1.10.0
 
-# oneOf
+# oneOf (function)
 
 Combines a collection of elements using the `Alt` operation
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function oneOf<P extends URIS3, F extends URIS>(
@@ -589,11 +583,11 @@ assert.deepStrictEqual(oneOf(option, array)([some(2), some(1)]), some(2))
 
 Added in v1.10.0
 
-# product
+# product (function)
 
 Find the product of the numeric values in a data structure
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function product<F extends URIS3, A>(S: Semiring<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => A
@@ -621,11 +615,11 @@ assert.strictEqual(product(fieldNumber, tree)(t), 24)
 
 Added in v1.10.0
 
-# sequence\_
+# sequence\_ (function)
 
 Perform all of the effects in some data structure in the order given by the `Foldable2v` instance, ignoring the final result.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function sequence_<M extends URIS3, F extends URIS>(
@@ -667,11 +661,11 @@ assert.strictEqual(log, 'abc')
 
 Added in v1.10.0
 
-# sum
+# sum (function)
 
 Find the sum of the numeric values in a data structure
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function sum<F extends URIS3, A>(S: Semiring<A>, F: Foldable2v3<F>): <U, L>(fa: Type3<F, U, L, A>) => A
@@ -696,11 +690,11 @@ assert.strictEqual(sum(fieldNumber, tree)(t), 10)
 
 Added in v1.10.0
 
-# toArray
+# toArray (function)
 
 Transforms a foldable into an array
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function toArray<F extends URIS3>(F: Foldable2v3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => Array<A>
@@ -724,12 +718,12 @@ assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
 
 Added in v1.10.0
 
-# traverse\_
+# traverse\_ (function)
 
 Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
 final result.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function traverse_<M extends URIS3, F extends URIS>(

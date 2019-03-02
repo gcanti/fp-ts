@@ -9,17 +9,11 @@ A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinS
 
 - `a ∨ 0 == a`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [BoundedJoinSemilattice](#boundedjoinsemilattice)
+- [BoundedJoinSemilattice (interface)](#boundedjoinsemilattice-interface)# BoundedJoinSemilattice (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# BoundedJoinSemilattice
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface BoundedJoinSemilattice<A> extends JoinSemilattice<A> {

@@ -7,18 +7,12 @@ nav_order: 9
 
 A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [BoundedDistributiveLattice](#boundeddistributivelattice)
-- [getMinMaxBoundedDistributiveLattice](#getminmaxboundeddistributivelattice)
+- [BoundedDistributiveLattice (interface)](#boundeddistributivelattice-interface)
+- [getMinMaxBoundedDistributiveLattice (function)](#getminmaxboundeddistributivelattice-function)# BoundedDistributiveLattice (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# BoundedDistributiveLattice
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, DistributiveLattice<A> {}
@@ -26,9 +20,9 @@ export interface BoundedDistributiveLattice<A> extends BoundedLattice<A>, Distri
 
 Added in v1.4.0
 
-# getMinMaxBoundedDistributiveLattice
+# getMinMaxBoundedDistributiveLattice (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMinMaxBoundedDistributiveLattice = <A>(O: Ord<A>) => (

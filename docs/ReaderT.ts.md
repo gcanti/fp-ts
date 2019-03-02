@@ -3,33 +3,27 @@ title: ReaderT.ts
 nav_order: 69
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [~~ReaderT~~](#readert)
-- [~~ReaderT1~~](#readert1)
-- [~~ReaderT2~~](#readert2)
-- [ReaderT2v](#readert2v)
-- [ReaderT2v1](#readert2v1)
-- [ReaderT2v2](#readert2v2)
-- [ReaderT2v3](#readert2v3)
-- [~~ReaderT3~~](#readert3)
-- [~~ap~~](#ap)
-- [~~ask~~](#ask)
-- [~~asks~~](#asks)
-- [~~chain~~](#chain)
-- [fromReader](#fromreader)
-- [~~getReaderT~~](#getreadert)
-- [getReaderT2v](#getreadert2v)
-- [~~map~~](#map)
-- [~~of~~](#of)
+- [~~ReaderT~~ (interface)](#readert-interface)
+- [~~ReaderT1~~ (interface)](#readert1-interface)
+- [~~ReaderT2~~ (interface)](#readert2-interface)
+- [ReaderT2v (interface)](#readert2v-interface)
+- [ReaderT2v1 (interface)](#readert2v1-interface)
+- [ReaderT2v2 (interface)](#readert2v2-interface)
+- [ReaderT2v3 (interface)](#readert2v3-interface)
+- [~~ReaderT3~~ (interface)](#readert3-interface)
+- [~~ap~~ (function)](#ap-function)
+- [~~ask~~ (function)](#ask-function)
+- [~~asks~~ (function)](#asks-function)
+- [~~chain~~ (function)](#chain-function)
+- [fromReader (function)](#fromreader-function)
+- [~~getReaderT~~ (function)](#getreadert-function)
+- [getReaderT2v (function)](#getreadert2v-function)
+- [~~map~~ (function)](#map-function)
+- [~~of~~ (function)](#of-function)# ~~ReaderT~~ (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# ~~ReaderT~~
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ReaderT<M> {
@@ -40,9 +34,9 @@ export interface ReaderT<M> {
 }
 ```
 
-# ~~ReaderT1~~
+# ~~ReaderT1~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ReaderT1<M extends URIS> {
@@ -53,9 +47,9 @@ export interface ReaderT1<M extends URIS> {
 }
 ```
 
-# ~~ReaderT2~~
+# ~~ReaderT2~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ReaderT2<M extends URIS2> {
@@ -72,9 +66,9 @@ export interface ReaderT2<M extends URIS2> {
 }
 ```
 
-# ReaderT2v
+# ReaderT2v (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ReaderT2v<M> {
@@ -85,9 +79,9 @@ export interface ReaderT2v<M> {
 }
 ```
 
-# ReaderT2v1
+# ReaderT2v1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ReaderT2v1<M extends URIS> {
@@ -98,9 +92,9 @@ export interface ReaderT2v1<M extends URIS> {
 }
 ```
 
-# ReaderT2v2
+# ReaderT2v2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ReaderT2v2<M extends URIS2> {
@@ -117,9 +111,9 @@ export interface ReaderT2v2<M extends URIS2> {
 }
 ```
 
-# ReaderT2v3
+# ReaderT2v3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ReaderT2v3<M extends URIS3> {
@@ -136,9 +130,9 @@ export interface ReaderT2v3<M extends URIS3> {
 }
 ```
 
-# ~~ReaderT3~~
+# ~~ReaderT3~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ReaderT3<M extends URIS3> {
@@ -155,9 +149,9 @@ export interface ReaderT3<M extends URIS3> {
 }
 ```
 
-# ~~ap~~
+# ~~ap~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function ap<F extends URIS3>(
@@ -182,9 +176,9 @@ export function ap<F>(
 
 Added in v1.0.0
 
-# ~~ask~~
+# ~~ask~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function ask<F extends URIS3>(F: Applicative3<F>): <U, L, E>() => (e: E) => Type3<F, U, L, E>
@@ -196,9 +190,9 @@ export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E> { ... }
 
 Added in v1.0.0
 
-# ~~asks~~
+# ~~asks~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function asks<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(f: (e: E) => A) => (e: E) => Type3<F, U, L, A>
@@ -210,11 +204,11 @@ export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => 
 
 Added in v1.0.0
 
-# ~~chain~~
+# ~~chain~~ (function)
 
 Use `getReaderT2v` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function chain<F extends URIS3>(
@@ -239,9 +233,9 @@ export function chain<F>(
 
 Added in v1.0.0
 
-# fromReader
+# fromReader (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fromReader<F extends URIS3>(
@@ -255,11 +249,11 @@ export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e
 
 Added in v1.2.0
 
-# ~~getReaderT~~
+# ~~getReaderT~~ (function)
 
 Use `getReaderT2v` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getReaderT<M extends URIS3>(M: Monad3<M>): ReaderT3<M>
@@ -271,9 +265,9 @@ export function getReaderT<M>(M: Monad<M>): ReaderT<M> { ... }
 
 Added in v1.0.0
 
-# getReaderT2v
+# getReaderT2v (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getReaderT2v<M extends URIS3>(M: Monad3<M>): ReaderT2v3<M>
@@ -285,11 +279,11 @@ export function getReaderT2v<M>(M: Monad<M>): ReaderT2v<M> { ... }
 
 Added in v1.14.0
 
-# ~~map~~
+# ~~map~~ (function)
 
 Use `map2v` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function map<F extends URIS3>(
@@ -307,9 +301,9 @@ export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => H
 
 Added in v1.0.0
 
-# ~~of~~
+# ~~of~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function of<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(a: A) => (e: E) => Type3<F, U, L, A>

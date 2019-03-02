@@ -32,22 +32,16 @@ left side of an `Either`, and `right` maps it over the right side (same as `map`
 
 Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Choice.purs
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Choice](#choice)
-- [Choice2](#choice2)
-- [Choice3](#choice3)
-- [Choice4](#choice4)
-- [fanin](#fanin)
-- [splitChoice](#splitchoice)
+- [Choice (interface)](#choice-interface)
+- [Choice2 (interface)](#choice2-interface)
+- [Choice3 (interface)](#choice3-interface)
+- [Choice4 (interface)](#choice4-interface)
+- [fanin (function)](#fanin-function)
+- [splitChoice (function)](#splitchoice-function)# Choice (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Choice
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Choice<F> extends Profunctor<F> {
@@ -58,9 +52,9 @@ export interface Choice<F> extends Profunctor<F> {
 
 Added in v1.11.0
 
-# Choice2
+# Choice2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Choice2<F extends URIS2> extends Profunctor2<F> {
@@ -69,9 +63,9 @@ export interface Choice2<F extends URIS2> extends Profunctor2<F> {
 }
 ```
 
-# Choice3
+# Choice3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Choice3<F extends URIS3> extends Profunctor3<F> {
@@ -80,9 +74,9 @@ export interface Choice3<F extends URIS3> extends Profunctor3<F> {
 }
 ```
 
-# Choice4
+# Choice4 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Choice4<F extends URIS4> extends Profunctor4<F> {
@@ -91,7 +85,7 @@ export interface Choice4<F extends URIS4> extends Profunctor4<F> {
 }
 ```
 
-# fanin
+# fanin (function)
 
 Compose a value which eliminates a sum from two values, each eliminating
 one side of the sum.
@@ -112,7 +106,7 @@ whether the `Either` value is a `Left` or a `Right`.
 This allows us to bundle two different computations which both have the same result type into one
 function which will run the approriate computation based on the parameter supplied in the `Either` value.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fanin<F extends URIS3>(
@@ -131,7 +125,7 @@ export function fanin<F>(
 
 Added in v1.11.0
 
-# splitChoice
+# splitChoice (function)
 
 Compose a value acting on a sum from two values, each acting on one of
 the components of the sum.
@@ -146,7 +140,7 @@ We take two functions, `f` and `g`, and we transform them into a single function
 takes an `Either`and maps `f` over the left side and `g` over the right side. Just like
 `bi-map` would do for the `bi-functor` instance of `Either`.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function splitChoice<F extends URIS3>(

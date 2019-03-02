@@ -14,22 +14,16 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 1. Associativity: `A.alt(A.alt(fa, ga), ha) = A.alt(fa, A.alt(ga, ha))`
 2. Distributivity: `A.map(A.alt(fa, ga), ab) = A.alt(A.map(fa, ab), A.map(ga, ab))`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Alt](#alt)
-- [Alt1](#alt1)
-- [Alt2](#alt2)
-- [Alt2C](#alt2c)
-- [Alt3](#alt3)
-- [Alt3C](#alt3c)
+- [Alt (interface)](#alt-interface)
+- [Alt1 (interface)](#alt1-interface)
+- [Alt2 (interface)](#alt2-interface)
+- [Alt2C (interface)](#alt2c-interface)
+- [Alt3 (interface)](#alt3-interface)
+- [Alt3C (interface)](#alt3c-interface)# Alt (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Alt
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Alt<F> extends Functor<F> {
@@ -39,9 +33,9 @@ export interface Alt<F> extends Functor<F> {
 
 Added in v1.0.0
 
-# Alt1
+# Alt1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Alt1<F extends URIS> extends Functor1<F> {
@@ -49,9 +43,9 @@ export interface Alt1<F extends URIS> extends Functor1<F> {
 }
 ```
 
-# Alt2
+# Alt2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Alt2<F extends URIS2> extends Functor2<F> {
@@ -59,9 +53,9 @@ export interface Alt2<F extends URIS2> extends Functor2<F> {
 }
 ```
 
-# Alt2C
+# Alt2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
@@ -69,9 +63,9 @@ export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
 }
 ```
 
-# Alt3
+# Alt3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Alt3<F extends URIS3> extends Functor3<F> {
@@ -79,9 +73,9 @@ export interface Alt3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
-# Alt3C
+# Alt3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Alt3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {

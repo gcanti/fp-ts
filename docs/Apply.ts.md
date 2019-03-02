@@ -16,35 +16,29 @@ Instances must satisfy the following law in addition to the `Functor` laws:
 
 Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Apply](#apply)
-- [Apply1](#apply1)
-- [Apply2](#apply2)
-- [Apply2C](#apply2c)
-- [Apply3](#apply3)
-- [Apply3C](#apply3c)
-- [SequenceT](#sequencet)
-- [SequenceT1](#sequencet1)
-- [SequenceT2](#sequencet2)
-- [SequenceT2C](#sequencet2c)
-- [SequenceT3](#sequencet3)
-- [SequenceT3C](#sequencet3c)
-- [applyFirst](#applyfirst)
-- [applySecond](#applysecond)
-- [getSemigroup](#getsemigroup)
-- [liftA2](#lifta2)
-- [liftA3](#lifta3)
-- [liftA4](#lifta4)
-- [sequenceT](#sequencet)
+- [Apply (interface)](#apply-interface)
+- [Apply1 (interface)](#apply1-interface)
+- [Apply2 (interface)](#apply2-interface)
+- [Apply2C (interface)](#apply2c-interface)
+- [Apply3 (interface)](#apply3-interface)
+- [Apply3C (interface)](#apply3c-interface)
+- [SequenceT (interface)](#sequencet-interface)
+- [SequenceT1 (interface)](#sequencet1-interface)
+- [SequenceT2 (interface)](#sequencet2-interface)
+- [SequenceT2C (interface)](#sequencet2c-interface)
+- [SequenceT3 (interface)](#sequencet3-interface)
+- [SequenceT3C (interface)](#sequencet3c-interface)
+- [applyFirst (function)](#applyfirst-function)
+- [applySecond (function)](#applysecond-function)
+- [getSemigroup (function)](#getsemigroup-function)
+- [liftA2 (function)](#lifta2-function)
+- [liftA3 (function)](#lifta3-function)
+- [liftA4 (function)](#lifta4-function)
+- [sequenceT (function)](#sequencet-function)# Apply (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Apply
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Apply<F> extends Functor<F> {
@@ -54,9 +48,9 @@ export interface Apply<F> extends Functor<F> {
 
 Added in v1.0.0
 
-# Apply1
+# Apply1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Apply1<F extends URIS> extends Functor1<F> {
@@ -64,9 +58,9 @@ export interface Apply1<F extends URIS> extends Functor1<F> {
 }
 ```
 
-# Apply2
+# Apply2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Apply2<F extends URIS2> extends Functor2<F> {
@@ -74,9 +68,9 @@ export interface Apply2<F extends URIS2> extends Functor2<F> {
 }
 ```
 
-# Apply2C
+# Apply2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Apply2C<F extends URIS2, L> extends Functor2C<F, L> {
@@ -84,9 +78,9 @@ export interface Apply2C<F extends URIS2, L> extends Functor2C<F, L> {
 }
 ```
 
-# Apply3
+# Apply3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Apply3<F extends URIS3> extends Functor3<F> {
@@ -94,9 +88,9 @@ export interface Apply3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
-# Apply3C
+# Apply3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
@@ -104,9 +98,9 @@ export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 }
 ```
 
-# SequenceT
+# SequenceT (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface SequenceT<F> {
@@ -118,9 +112,9 @@ export interface SequenceT<F> {
 }
 ```
 
-# SequenceT1
+# SequenceT1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface SequenceT1<F extends URIS> {
@@ -132,9 +126,9 @@ export interface SequenceT1<F extends URIS> {
 }
 ```
 
-# SequenceT2
+# SequenceT2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface SequenceT2<F extends URIS2> {
@@ -152,9 +146,9 @@ export interface SequenceT2<F extends URIS2> {
 }
 ```
 
-# SequenceT2C
+# SequenceT2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface SequenceT2C<F extends URIS2, L> {
@@ -170,9 +164,9 @@ export interface SequenceT2C<F extends URIS2, L> {
 }
 ```
 
-# SequenceT3
+# SequenceT3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface SequenceT3<F extends URIS3> {
@@ -195,9 +189,9 @@ export interface SequenceT3<F extends URIS3> {
 }
 ```
 
-# SequenceT3C
+# SequenceT3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface SequenceT3C<F extends URIS3, U, L> {
@@ -220,11 +214,11 @@ export interface SequenceT3C<F extends URIS3, U, L> {
 }
 ```
 
-# applyFirst
+# applyFirst (function)
 
 Combine two effectful actions, keeping only the result of the first
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function applyFirst<F extends URIS3>(
@@ -246,11 +240,11 @@ export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>)
 
 Added in v1.0.0
 
-# applySecond
+# applySecond (function)
 
 Combine two effectful actions, keeping only the result of the second
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function applySecond<F extends URIS3>(
@@ -272,11 +266,11 @@ export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>
 
 Added in v1.0.0
 
-# getSemigroup
+# getSemigroup (function)
 
 If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Semigroup` over `A` as well
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getSemigroup<F extends URIS3, A>(
@@ -313,11 +307,11 @@ assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
 
 Added in v1.4.0
 
-# liftA2
+# liftA2 (function)
 
 Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function liftA2<F extends URIS3>(
@@ -341,12 +335,12 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
 
 Added in v1.0.0
 
-# liftA3
+# liftA3 (function)
 
 Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
 `F`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function liftA3<F extends URIS3>(
@@ -382,12 +376,12 @@ export function liftA3<F>(
 
 Added in v1.0.0
 
-# liftA4
+# liftA4 (function)
 
 Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
 `F`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function liftA4<F extends URIS3>(
@@ -427,11 +421,11 @@ export function liftA4<F>(
 
 Added in v1.0.0
 
-# sequenceT
+# sequenceT (function)
 
 Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function sequenceT<F extends URIS3, U, L>(F: Apply3<F>): SequenceT3<F>

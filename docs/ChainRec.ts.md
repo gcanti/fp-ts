@@ -3,23 +3,17 @@ title: ChainRec.ts
 nav_order: 15
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [ChainRec](#chainrec)
-- [ChainRec1](#chainrec1)
-- [ChainRec2](#chainrec2)
-- [ChainRec2C](#chainrec2c)
-- [ChainRec3](#chainrec3)
-- [ChainRec3C](#chainrec3c)
-- [tailRec](#tailrec)
+- [ChainRec (interface)](#chainrec-interface)
+- [ChainRec1 (interface)](#chainrec1-interface)
+- [ChainRec2 (interface)](#chainrec2-interface)
+- [ChainRec2C (interface)](#chainrec2c-interface)
+- [ChainRec3 (interface)](#chainrec3-interface)
+- [ChainRec3C (interface)](#chainrec3c-interface)
+- [tailRec (function)](#tailrec-function)# ChainRec (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# ChainRec
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ChainRec<F> extends Chain<F> {
@@ -29,9 +23,9 @@ export interface ChainRec<F> extends Chain<F> {
 
 Added in v1.0.0
 
-# ChainRec1
+# ChainRec1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ChainRec1<F extends URIS> extends Chain1<F> {
@@ -39,9 +33,9 @@ export interface ChainRec1<F extends URIS> extends Chain1<F> {
 }
 ```
 
-# ChainRec2
+# ChainRec2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ChainRec2<F extends URIS2> extends Chain2<F> {
@@ -49,9 +43,9 @@ export interface ChainRec2<F extends URIS2> extends Chain2<F> {
 }
 ```
 
-# ChainRec2C
+# ChainRec2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ChainRec2C<F extends URIS2, L> extends Chain2C<F, L> {
@@ -59,9 +53,9 @@ export interface ChainRec2C<F extends URIS2, L> extends Chain2C<F, L> {
 }
 ```
 
-# ChainRec3
+# ChainRec3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ChainRec3<F extends URIS3> extends Chain3<F> {
@@ -69,9 +63,9 @@ export interface ChainRec3<F extends URIS3> extends Chain3<F> {
 }
 ```
 
-# ChainRec3C
+# ChainRec3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
@@ -79,9 +73,9 @@ export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
 }
 ```
 
-# tailRec
+# tailRec (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const tailRec = <A, B>(f: (a: A) => Either<A, B>, a: A): B => ...

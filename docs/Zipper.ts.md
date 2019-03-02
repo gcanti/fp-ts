@@ -16,50 +16,44 @@ Adapted from
 - https://github.com/thunklife/purescript-zipper
 - https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [Zipper](#zipper)
-  - [update](#update)
-  - [modify](#modify)
-  - [toArray](#toarray)
-  - [isOutOfBound](#isoutofbound)
-  - [move](#move)
-  - [up](#up)
-  - [down](#down)
-  - [start](#start)
-  - [end](#end)
-  - [insertLeft](#insertleft)
-  - [insertRight](#insertright)
-  - [deleteLeft](#deleteleft)
-  - [deleteRight](#deleteright)
-  - [map](#map)
-  - [ap](#ap)
-  - [reduce](#reduce)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-- [URI](#uri-1)
-- [zipper](#zipper)
-- [fromArray](#fromarray)
-- [fromNonEmptyArray](#fromnonemptyarray)
-- [getMonoid](#getmonoid)
-- [getSemigroup](#getsemigroup)
+- [URI (type alias)](#uri-type-alias)
+- [Zipper (class)](#zipper-class)
+  - [update (method)](#update-method)
+  - [modify (method)](#modify-method)
+  - [toArray (method)](#toarray-method)
+  - [isOutOfBound (method)](#isoutofbound-method)
+  - [move (method)](#move-method)
+  - [up (method)](#up-method)
+  - [down (method)](#down-method)
+  - [start (method)](#start-method)
+  - [end (method)](#end-method)
+  - [insertLeft (method)](#insertleft-method)
+  - [insertRight (method)](#insertright-method)
+  - [deleteLeft (method)](#deleteleft-method)
+  - [deleteRight (method)](#deleteright-method)
+  - [map (method)](#map-method)
+  - [ap (method)](#ap-method)
+  - [reduce (method)](#reduce-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+- [URI (constant)](#uri-constant)
+- [zipper (constant)](#zipper-constant)
+- [fromArray (function)](#fromarray-function)
+- [fromNonEmptyArray (function)](#fromnonemptyarray-function)
+- [getMonoid (function)](#getmonoid-function)
+- [getSemigroup (function)](#getsemigroup-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Zipper
+# Zipper (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Zipper<A> {
@@ -70,11 +64,11 @@ export class Zipper<A> {
 
 Added in v1.9.0
 
-## update
+## update (method)
 
 Update the focus in this zipper.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 update(a: A): Zipper<A> { ... }
@@ -82,11 +76,11 @@ update(a: A): Zipper<A> { ... }
 
 Added in v1.9.0
 
-## modify
+## modify (method)
 
 Apply `f` to the focus and update with the result.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 modify(f: (a: A) => A): Zipper<A> { ... }
@@ -94,9 +88,9 @@ modify(f: (a: A) => A): Zipper<A> { ... }
 
 Added in v1.9.0
 
-## toArray
+## toArray (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toArray(): Array<A> { ... }
@@ -104,9 +98,9 @@ toArray(): Array<A> { ... }
 
 Added in v1.9.0
 
-## isOutOfBound
+## isOutOfBound (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isOutOfBound(index: number): boolean { ... }
@@ -114,11 +108,11 @@ isOutOfBound(index: number): boolean { ... }
 
 Added in v1.9.0
 
-## move
+## move (method)
 
 Moves focus in the zipper, or `None` if there is no such element.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 move(f: (currentIndex: number) => number): Option<Zipper<A>> { ... }
@@ -126,9 +120,9 @@ move(f: (currentIndex: number) => number): Option<Zipper<A>> { ... }
 
 Added in v1.9.0
 
-## up
+## up (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 up(): Option<Zipper<A>> { ... }
@@ -136,9 +130,9 @@ up(): Option<Zipper<A>> { ... }
 
 Added in v1.9.0
 
-## down
+## down (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 down(): Option<Zipper<A>> { ... }
@@ -146,11 +140,11 @@ down(): Option<Zipper<A>> { ... }
 
 Added in v1.9.0
 
-## start
+## start (method)
 
 Moves focus to the start of the zipper.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 start(): Zipper<A> { ... }
@@ -158,11 +152,11 @@ start(): Zipper<A> { ... }
 
 Added in v1.9.0
 
-## end
+## end (method)
 
 Moves focus to the end of the zipper.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 end(): Zipper<A> { ... }
@@ -170,11 +164,11 @@ end(): Zipper<A> { ... }
 
 Added in v1.9.0
 
-## insertLeft
+## insertLeft (method)
 
 Inserts an element to the left of focus and focuses on the new element.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 insertLeft(a: A): Zipper<A> { ... }
@@ -182,11 +176,11 @@ insertLeft(a: A): Zipper<A> { ... }
 
 Added in v1.9.0
 
-## insertRight
+## insertRight (method)
 
 Inserts an element to the right of focus and focuses on the new element.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 insertRight(a: A): Zipper<A> { ... }
@@ -194,12 +188,12 @@ insertRight(a: A): Zipper<A> { ... }
 
 Added in v1.9.0
 
-## deleteLeft
+## deleteLeft (method)
 
 Deletes the element at focus and moves the focus to the left. If there is no element on the left,
 focus is moved to the right.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 deleteLeft(): Option<Zipper<A>> { ... }
@@ -207,12 +201,12 @@ deleteLeft(): Option<Zipper<A>> { ... }
 
 Added in v1.9.0
 
-## deleteRight
+## deleteRight (method)
 
 Deletes the element at focus and moves the focus to the right. If there is no element on the right,
 focus is moved to the left.
 
-**Signature** (method)
+**Signature**
 
 ```ts
 deleteRight(): Option<Zipper<A>> { ... }
@@ -220,9 +214,9 @@ deleteRight(): Option<Zipper<A>> { ... }
 
 Added in v1.9.0
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Zipper<B> { ... }
@@ -230,9 +224,9 @@ map<B>(f: (a: A) => B): Zipper<B> { ... }
 
 Added in v1.9.0
 
-## ap
+## ap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 ap<B>(fab: Zipper<(a: A) => B>): Zipper<B> { ... }
@@ -240,9 +234,9 @@ ap<B>(fab: Zipper<(a: A) => B>): Zipper<B> { ... }
 
 Added in v1.9.0
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
@@ -250,33 +244,33 @@ reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
 
 Added in v1.9.0
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# zipper
+# zipper (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
@@ -284,9 +278,9 @@ export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> 
 
 Added in v1.9.0
 
-# fromArray
+# fromArray (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zipper<A>> => ...
@@ -294,9 +288,9 @@ export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
 
 Added in v1.9.0
 
-# fromNonEmptyArray
+# fromNonEmptyArray (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => ...
@@ -304,9 +298,9 @@ export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => ...
 
 Added in v1.9.0
 
-# getMonoid
+# getMonoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => ...
@@ -314,9 +308,9 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => ...
 
 Added in v1.9.0
 
-# getSemigroup
+# getSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => ...

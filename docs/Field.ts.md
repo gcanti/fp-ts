@@ -7,20 +7,14 @@ nav_order: 28
 
 Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Field](#field)
-- [fieldNumber](#fieldnumber)
-- [gcd](#gcd)
-- [lcm](#lcm)
+- [Field (interface)](#field-interface)
+- [fieldNumber (constant)](#fieldnumber-constant)
+- [gcd (function)](#gcd-function)
+- [lcm (function)](#lcm-function)# Field (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Field
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Field<A> extends Ring<A> {
@@ -32,9 +26,9 @@ export interface Field<A> extends Ring<A> {
 
 Added in v1.0.0
 
-# fieldNumber
+# fieldNumber (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const fieldNumber: Field<number> = ...
@@ -42,11 +36,11 @@ export const fieldNumber: Field<number> = ...
 
 Added in v1.0.0
 
-# gcd
+# gcd (function)
 
 The _greatest common divisor_ of two values
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => ...
@@ -54,11 +48,11 @@ export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => ..
 
 Added in v1.0.0
 
-# lcm
+# lcm (function)
 
 The _least common multiple_ of two values
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const lcm = <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A) => ...

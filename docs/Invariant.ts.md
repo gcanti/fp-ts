@@ -3,22 +3,16 @@ title: Invariant.ts
 nav_order: 44
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Invariant](#invariant)
-- [Invariant1](#invariant1)
-- [Invariant2](#invariant2)
-- [Invariant2C](#invariant2c)
-- [Invariant3](#invariant3)
-- [Invariant3C](#invariant3c)
+- [Invariant (interface)](#invariant-interface)
+- [Invariant1 (interface)](#invariant1-interface)
+- [Invariant2 (interface)](#invariant2-interface)
+- [Invariant2C (interface)](#invariant2c-interface)
+- [Invariant3 (interface)](#invariant3-interface)
+- [Invariant3C (interface)](#invariant3c-interface)# Invariant (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Invariant
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Invariant<F> {
@@ -29,9 +23,9 @@ export interface Invariant<F> {
 
 Added in v1.0.0
 
-# Invariant1
+# Invariant1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Invariant1<F extends URIS> {
@@ -40,9 +34,9 @@ export interface Invariant1<F extends URIS> {
 }
 ```
 
-# Invariant2
+# Invariant2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Invariant2<F extends URIS2> {
@@ -51,9 +45,9 @@ export interface Invariant2<F extends URIS2> {
 }
 ```
 
-# Invariant2C
+# Invariant2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Invariant2C<F extends URIS2, L> {
@@ -63,9 +57,9 @@ export interface Invariant2C<F extends URIS2, L> {
 }
 ```
 
-# Invariant3
+# Invariant3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Invariant3<F extends URIS3> {
@@ -74,9 +68,9 @@ export interface Invariant3<F extends URIS3> {
 }
 ```
 
-# Invariant3C
+# Invariant3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Invariant3C<F extends URIS3, U, L> {

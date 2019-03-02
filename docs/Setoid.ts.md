@@ -13,29 +13,23 @@ Instances must satisfy the following laws:
 2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
 3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Setoid](#setoid)
-- [setoidBoolean](#setoidboolean)
-- [setoidDate](#setoiddate)
-- [setoidNumber](#setoidnumber)
-- [setoidString](#setoidstring)
-- [contramap](#contramap)
-- [fromEquals](#fromequals)
-- [getArraySetoid](#getarraysetoid)
-- [~~getProductSetoid~~](#getproductsetoid)
-- [~~getRecordSetoid~~](#getrecordsetoid)
-- [getStructSetoid](#getstructsetoid)
-- [getTupleSetoid](#gettuplesetoid)
-- [strictEqual](#strictequal)
+- [Setoid (interface)](#setoid-interface)
+- [setoidBoolean (constant)](#setoidboolean-constant)
+- [setoidDate (constant)](#setoiddate-constant)
+- [setoidNumber (constant)](#setoidnumber-constant)
+- [setoidString (constant)](#setoidstring-constant)
+- [contramap (function)](#contramap-function)
+- [fromEquals (function)](#fromequals-function)
+- [getArraySetoid (function)](#getarraysetoid-function)
+- [~~getProductSetoid~~ (function)](#getproductsetoid-function)
+- [~~getRecordSetoid~~ (function)](#getrecordsetoid-function)
+- [getStructSetoid (function)](#getstructsetoid-function)
+- [getTupleSetoid (function)](#gettuplesetoid-function)
+- [strictEqual (function)](#strictequal-function)# Setoid (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Setoid
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Setoid<A> {
@@ -45,9 +39,9 @@ export interface Setoid<A> {
 
 Added in v1.0.0
 
-# setoidBoolean
+# setoidBoolean (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const setoidBoolean: Setoid<boolean> = ...
@@ -55,9 +49,9 @@ export const setoidBoolean: Setoid<boolean> = ...
 
 Added in v1.0.0
 
-# setoidDate
+# setoidDate (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const setoidDate: Setoid<Date> = ...
@@ -65,9 +59,9 @@ export const setoidDate: Setoid<Date> = ...
 
 Added in v1.4.0
 
-# setoidNumber
+# setoidNumber (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const setoidNumber: Setoid<number> = ...
@@ -75,9 +69,9 @@ export const setoidNumber: Setoid<number> = ...
 
 Added in v1.0.0
 
-# setoidString
+# setoidString (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const setoidString: Setoid<string> = ...
@@ -85,11 +79,11 @@ export const setoidString: Setoid<string> = ...
 
 Added in v1.0.0
 
-# contramap
+# contramap (function)
 
 Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => ...
@@ -97,9 +91,9 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => ...
 
 Added in v1.2.0
 
-# fromEquals
+# fromEquals (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => ...
@@ -107,9 +101,9 @@ export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => ...
 
 Added in v1.14.0
 
-# getArraySetoid
+# getArraySetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => ...
@@ -117,11 +111,11 @@ export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => ...
 
 Added in v1.0.0
 
-# ~~getProductSetoid~~
+# ~~getProductSetoid~~ (function)
 
 Use `getTupleSetoid` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => ...
@@ -129,11 +123,11 @@ export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A,
 
 Added in v1.0.0
 
-# ~~getRecordSetoid~~
+# ~~getRecordSetoid~~ (function)
 
 Use `getStructSetoid` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getRecordSetoid = <O extends { [key: string]: any }>(
@@ -143,9 +137,9 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
 
 Added in v1.0.0
 
-# getStructSetoid
+# getStructSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getStructSetoid = <O extends { [key: string]: any }>(
@@ -155,9 +149,9 @@ export const getStructSetoid = <O extends { [key: string]: any }>(
 
 Added in v1.14.2
 
-# getTupleSetoid
+# getTupleSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getTupleSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => ...
@@ -165,9 +159,9 @@ export const getTupleSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B
 
 Added in v1.14.2
 
-# strictEqual
+# strictEqual (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const strictEqual = <A>(a: A, b: A): boolean => ...

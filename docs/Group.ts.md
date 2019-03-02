@@ -9,17 +9,11 @@ A `Group` is a `Monoid` with inverses. Instances must satisfy the following law 
 
 - Inverse: `concat(inverse(a), a) = empty = concat(a, inverse(a))`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Group](#group)
+- [Group (interface)](#group-interface)# Group (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Group
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Group<A> extends Monoid<A> {

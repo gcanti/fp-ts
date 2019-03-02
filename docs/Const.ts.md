@@ -3,36 +3,30 @@ title: Const.ts
 nav_order: 20
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [Const](#const)
-  - [map](#map)
-  - [contramap](#contramap)
-  - [fold](#fold)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-- [URI](#uri-1)
-- [const\_](#const%5C_)
-- [getApplicative](#getapplicative)
-- [getApply](#getapply)
-- [getSetoid](#getsetoid)
+- [URI (type alias)](#uri-type-alias)
+- [Const (class)](#const-class)
+  - [map (method)](#map-method)
+  - [contramap (method)](#contramap-method)
+  - [fold (method)](#fold-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+- [URI (constant)](#uri-constant)
+- [const\_ (constant)](#const_-constant)
+- [getApplicative (function)](#getapplicative-function)
+- [getApply (function)](#getapply-function)
+- [getSetoid (function)](#getsetoid-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Const
+# Const (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Const<L, A> {
@@ -43,57 +37,57 @@ export class Const<L, A> {
 
 Added in v1.0.0
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Const<L, B> { ... }
 ```
 
-## contramap
+## contramap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 contramap<B>(f: (b: B) => A): Const<L, B> { ... }
 ```
 
-## fold
+## fold (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<B>(f: (l: L) => B): B { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# const\_
+# const\_ (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const const_: Functor2<URI> & Contravariant2<URI> = ...
@@ -101,9 +95,9 @@ export const const_: Functor2<URI> & Contravariant2<URI> = ...
 
 Added in v1.0.0
 
-# getApplicative
+# getApplicative (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
@@ -111,9 +105,9 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
 
 Added in v1.0.0
 
-# getApply
+# getApply (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
@@ -121,9 +115,9 @@ export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
 
 Added in v1.0.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ...

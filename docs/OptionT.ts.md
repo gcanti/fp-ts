@@ -3,35 +3,29 @@ title: OptionT.ts
 nav_order: 61
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [~~OptionT~~](#optiont)
-- [~~OptionT1~~](#optiont1)
-- [~~OptionT2~~](#optiont2)
-- [~~OptionT2C~~](#optiont2c)
-- [OptionT2v](#optiont2v)
-- [OptionT2v1](#optiont2v1)
-- [OptionT2v2](#optiont2v2)
-- [OptionT2v2C](#optiont2v2c)
-- [OptionT2v3C](#optiont2v3c)
-- [~~OptionT3C~~](#optiont3c)
-- [~~chain~~](#chain)
-- [fold](#fold)
-- [~~fromOption~~](#fromoption)
-- [~~getOptionT~~](#getoptiont)
-- [getOptionT2v](#getoptiont2v)
-- [~~getOrElse~~](#getorelse)
-- [~~liftF~~](#liftf)
-- [~~none~~](#none)
-- [~~some~~](#some)
+- [~~OptionT~~ (interface)](#optiont-interface)
+- [~~OptionT1~~ (interface)](#optiont1-interface)
+- [~~OptionT2~~ (interface)](#optiont2-interface)
+- [~~OptionT2C~~ (interface)](#optiont2c-interface)
+- [OptionT2v (interface)](#optiont2v-interface)
+- [OptionT2v1 (interface)](#optiont2v1-interface)
+- [OptionT2v2 (interface)](#optiont2v2-interface)
+- [OptionT2v2C (interface)](#optiont2v2c-interface)
+- [OptionT2v3C (interface)](#optiont2v3c-interface)
+- [~~OptionT3C~~ (interface)](#optiont3c-interface)
+- [~~chain~~ (function)](#chain-function)
+- [fold (function)](#fold-function)
+- [~~fromOption~~ (function)](#fromoption-function)
+- [~~getOptionT~~ (function)](#getoptiont-function)
+- [getOptionT2v (function)](#getoptiont2v-function)
+- [~~getOrElse~~ (function)](#getorelse-function)
+- [~~liftF~~ (function)](#liftf-function)
+- [~~none~~ (function)](#none-function)
+- [~~some~~ (function)](#some-function)# ~~OptionT~~ (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# ~~OptionT~~
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT<M> extends ApplicativeComposition<M, URI> {
@@ -39,9 +33,9 @@ export interface OptionT<M> extends ApplicativeComposition<M, URI> {
 }
 ```
 
-# ~~OptionT1~~
+# ~~OptionT1~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT1<M extends URIS> extends ApplicativeComposition11<M, URI> {
@@ -49,9 +43,9 @@ export interface OptionT1<M extends URIS> extends ApplicativeComposition11<M, UR
 }
 ```
 
-# ~~OptionT2~~
+# ~~OptionT2~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT2<M extends URIS2> extends ApplicativeComposition21<M, URI> {
@@ -59,9 +53,9 @@ export interface OptionT2<M extends URIS2> extends ApplicativeComposition21<M, U
 }
 ```
 
-# ~~OptionT2C~~
+# ~~OptionT2C~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT2C<M extends URIS2, L> extends ApplicativeComposition2C1<M, URI, L> {
@@ -69,9 +63,9 @@ export interface OptionT2C<M extends URIS2, L> extends ApplicativeComposition2C1
 }
 ```
 
-# OptionT2v
+# OptionT2v (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT2v<M> extends ApplicativeComposition<M, URI> {
@@ -79,9 +73,9 @@ export interface OptionT2v<M> extends ApplicativeComposition<M, URI> {
 }
 ```
 
-# OptionT2v1
+# OptionT2v1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT2v1<M extends URIS> extends ApplicativeComposition11<M, URI> {
@@ -89,9 +83,9 @@ export interface OptionT2v1<M extends URIS> extends ApplicativeComposition11<M, 
 }
 ```
 
-# OptionT2v2
+# OptionT2v2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT2v2<M extends URIS2> extends ApplicativeComposition21<M, URI> {
@@ -99,9 +93,9 @@ export interface OptionT2v2<M extends URIS2> extends ApplicativeComposition21<M,
 }
 ```
 
-# OptionT2v2C
+# OptionT2v2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT2v2C<M extends URIS2, L> extends ApplicativeComposition2C1<M, URI, L> {
@@ -109,9 +103,9 @@ export interface OptionT2v2C<M extends URIS2, L> extends ApplicativeComposition2
 }
 ```
 
-# OptionT2v3C
+# OptionT2v3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT2v3C<M extends URIS3, U, L> extends ApplicativeComposition3C1<M, URI, U, L> {
@@ -122,9 +116,9 @@ export interface OptionT2v3C<M extends URIS3, U, L> extends ApplicativeCompositi
 }
 ```
 
-# ~~OptionT3C~~
+# ~~OptionT3C~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface OptionT3C<M extends URIS3, U, L> extends ApplicativeComposition3C1<M, URI, U, L> {
@@ -135,11 +129,11 @@ export interface OptionT3C<M extends URIS3, U, L> extends ApplicativeComposition
 }
 ```
 
-# ~~chain~~
+# ~~chain~~ (function)
 
 Use `getOptionT2v` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function chain<F extends URIS3, U, L>(F: Monad3C<F, U, L>): OptionT3C<F, U, L>['chain']
@@ -152,9 +146,9 @@ export function chain<F>(F: Monad<F>): OptionT<F>['chain'] { ... }
 
 Added in v1.0.0
 
-# fold
+# fold (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fold<F extends URIS3, U, L>(
@@ -175,9 +169,9 @@ export function fold<F>(F: Functor<F>): <R, A>(onNone: R, onSome: (a: A) => R, f
 
 Added in v1.0.0
 
-# ~~fromOption~~
+# ~~fromOption~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fromOption<F extends URIS3, U, L>(
@@ -192,11 +186,11 @@ export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, O
 
 Added in v1.0.0
 
-# ~~getOptionT~~
+# ~~getOptionT~~ (function)
 
 Use `getOptionT2v` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getOptionT<M extends URIS3, U, L>(M: Monad3C<M, U, L>): OptionT3C<M, U, L>
@@ -209,9 +203,9 @@ export function getOptionT<M>(M: Monad<M>): OptionT<M> { ... }
 
 Added in v1.0.0
 
-# getOptionT2v
+# getOptionT2v (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getOptionT2v<M extends URIS3, U, L>(M: Monad3C<M, U, L>): OptionT2v3C<M, U, L>
@@ -224,9 +218,9 @@ export function getOptionT2v<M>(M: Monad<M>): OptionT2v<M> { ... }
 
 Added in v1.14.0
 
-# ~~getOrElse~~
+# ~~getOrElse~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getOrElse<F extends URIS3, U, L>(
@@ -245,9 +239,9 @@ export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>
 
 Added in v1.0.0
 
-# ~~liftF~~
+# ~~liftF~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function liftF<F extends URIS3, U, L>(
@@ -262,9 +256,9 @@ export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
 
 Added in v1.0.0
 
-# ~~none~~
+# ~~none~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function none<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): () => Type3<F, U, L, Option<never>>
@@ -277,9 +271,9 @@ export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>> { ... }
 
 Added in v1.0.0
 
-# ~~some~~
+# ~~some~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function some<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): <A>(a: A) => Type3<F, U, L, Option<A>>

@@ -10,18 +10,12 @@ A `DistributiveLattice` must satisfy the following laws in addition to `Lattice`
 - Distributivity for meet: `a ∨ (b ∧ c) = (a ∨ b) ∧ (a ∨ c)`
 - Distributivity for join: `a ∧ (b ∨ c) = (a ∧ b) ∨ (a ∧ c)`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [DistributiveLattice](#distributivelattice)
-- [getMinMaxDistributiveLattice](#getminmaxdistributivelattice)
+- [DistributiveLattice (interface)](#distributivelattice-interface)
+- [getMinMaxDistributiveLattice (function)](#getminmaxdistributivelattice-function)# DistributiveLattice (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# DistributiveLattice
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface DistributiveLattice<A> extends Lattice<A> {}
@@ -29,9 +23,9 @@ export interface DistributiveLattice<A> extends Lattice<A> {}
 
 Added in v1.4.0
 
-# getMinMaxDistributiveLattice
+# getMinMaxDistributiveLattice (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMinMaxDistributiveLattice = <A>(O: Ord<A>): DistributiveLattice<A> => ...

@@ -7,20 +7,14 @@ nav_order: 19
 
 Adapted from https://github.com/purescript/purescript-console
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [error](#error)
-- [info](#info)
-- [log](#log)
-- [warn](#warn)
+- [error (function)](#error-function)
+- [info (function)](#info-function)
+- [log (function)](#log-function)
+- [warn (function)](#warn-function)# error (function)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# error
-
-**Signature** (function)
+**Signature**
 
 ```ts
 export const error = (s: any): IO<void> => ...
@@ -28,9 +22,9 @@ export const error = (s: any): IO<void> => ...
 
 Added in v1.0.0
 
-# info
+# info (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const info = (s: any): IO<void> => ...
@@ -38,9 +32,9 @@ export const info = (s: any): IO<void> => ...
 
 Added in v1.0.0
 
-# log
+# log (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const log = (s: any): IO<void> => ...
@@ -48,9 +42,9 @@ export const log = (s: any): IO<void> => ...
 
 Added in v1.0.0
 
-# warn
+# warn (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const warn = (s: any): IO<void> => ...

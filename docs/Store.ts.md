@@ -3,37 +3,31 @@ title: Store.ts
 nav_order: 80
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [Store](#store)
-  - [seek](#seek)
-  - [map](#map)
-  - [extract](#extract)
-  - [extend](#extend)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-- [URI](#uri-1)
-- [store](#store)
-- [experiment](#experiment)
-- [peeks](#peeks)
-- [seeks](#seeks)
+- [URI (type alias)](#uri-type-alias)
+- [Store (class)](#store-class)
+  - [seek (method)](#seek-method)
+  - [map (method)](#map-method)
+  - [extract (method)](#extract-method)
+  - [extend (method)](#extend-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+- [URI (constant)](#uri-constant)
+- [store (constant)](#store-constant)
+- [experiment (function)](#experiment-function)
+- [peeks (function)](#peeks-function)
+- [seeks (function)](#seeks-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Store
+# Store (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Store<S, A> {
@@ -44,67 +38,67 @@ export class Store<S, A> {
 
 Added in v1.0.0
 
-## seek
+## seek (method)
 
 Reposition the focus at the specified position
 
-**Signature** (method)
+**Signature**
 
 ```ts
 seek(s: S): Store<S, A> { ... }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): Store<S, B> { ... }
 ```
 
-## extract
+## extract (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extract(): A { ... }
 ```
 
-## extend
+## extend (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# store
+# store (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const store: Comonad2<URI> = ...
@@ -112,11 +106,11 @@ export const store: Comonad2<URI> = ...
 
 Added in v1.0.0
 
-# experiment
+# experiment (function)
 
 Extract a collection of values from positions which depend on the current position
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function experiment<F extends URIS3>(
@@ -134,11 +128,11 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
 
 Added in v1.0.0
 
-# peeks
+# peeks (function)
 
 Extract a value from a position which depends on the current position
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => ...
@@ -146,11 +140,11 @@ export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): 
 
 Added in v1.0.0
 
-# seeks
+# seeks (function)
 
 Reposition the focus at the specified position, which depends on the current position
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => ...

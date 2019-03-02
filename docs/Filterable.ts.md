@@ -9,32 +9,26 @@ nav_order: 29
 
 Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Filterable.purs
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Filterable](#filterable)
-- [Filterable1](#filterable1)
-- [Filterable2](#filterable2)
-- [Filterable2C](#filterable2c)
-- [Filterable3](#filterable3)
-- [Filterable3C](#filterable3c)
-- [FilterableComposition](#filterablecomposition)
-- [FilterableComposition11](#filterablecomposition11)
-- [FilterableComposition12](#filterablecomposition12)
-- [FilterableComposition12C](#filterablecomposition12c)
-- [FilterableComposition21](#filterablecomposition21)
-- [FilterableComposition22](#filterablecomposition22)
-- [FilterableComposition22C](#filterablecomposition22c)
-- [FilterableComposition2C1](#filterablecomposition2c1)
-- [FilterableComposition3C1](#filterablecomposition3c1)
-- [getFilterableComposition](#getfilterablecomposition)
+- [Filterable (interface)](#filterable-interface)
+- [Filterable1 (interface)](#filterable1-interface)
+- [Filterable2 (interface)](#filterable2-interface)
+- [Filterable2C (interface)](#filterable2c-interface)
+- [Filterable3 (interface)](#filterable3-interface)
+- [Filterable3C (interface)](#filterable3c-interface)
+- [FilterableComposition (interface)](#filterablecomposition-interface)
+- [FilterableComposition11 (interface)](#filterablecomposition11-interface)
+- [FilterableComposition12 (interface)](#filterablecomposition12-interface)
+- [FilterableComposition12C (interface)](#filterablecomposition12c-interface)
+- [FilterableComposition21 (interface)](#filterablecomposition21-interface)
+- [FilterableComposition22 (interface)](#filterablecomposition22-interface)
+- [FilterableComposition22C (interface)](#filterablecomposition22c-interface)
+- [FilterableComposition2C1 (interface)](#filterablecomposition2c1-interface)
+- [FilterableComposition3C1 (interface)](#filterablecomposition3c1-interface)
+- [getFilterableComposition (function)](#getfilterablecomposition-function)# Filterable (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Filterable
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Filterable<F> extends Functor<F>, Compactable<F> {
@@ -59,9 +53,9 @@ export interface Filterable<F> extends Functor<F>, Compactable<F> {
 
 Added in v1.7.0
 
-# Filterable1
+# Filterable1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F> {
@@ -74,9 +68,9 @@ export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F
 
 Added in v1.7.0
 
-# Filterable2
+# Filterable2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<F> {
@@ -92,9 +86,9 @@ export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<
 
 Added in v1.7.0
 
-# Filterable2C
+# Filterable2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Filterable2C<F extends URIS2, L> extends Functor2C<F, L>, Compactable2C<F, L> {
@@ -110,9 +104,9 @@ export interface Filterable2C<F extends URIS2, L> extends Functor2C<F, L>, Compa
 
 Added in v1.7.0
 
-# Filterable3
+# Filterable3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<F> {
@@ -131,9 +125,9 @@ export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<
 
 Added in v1.7.0
 
-# Filterable3C
+# Filterable3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>, Compactable3C<F, U, L> {
@@ -149,9 +143,9 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
 
 Added in v1.7.0
 
-# FilterableComposition
+# FilterableComposition (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, CompactableComposition<F, G> {
@@ -165,9 +159,9 @@ export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, C
 }
 ```
 
-# FilterableComposition11
+# FilterableComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableComposition11<F extends URIS, G extends URIS>
@@ -186,9 +180,9 @@ export interface FilterableComposition11<F extends URIS, G extends URIS>
 }
 ```
 
-# FilterableComposition12
+# FilterableComposition12 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableComposition12<F extends URIS, G extends URIS2>
@@ -207,9 +201,9 @@ export interface FilterableComposition12<F extends URIS, G extends URIS2>
 }
 ```
 
-# FilterableComposition12C
+# FilterableComposition12C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableComposition12C<F extends URIS, G extends URIS2, LG>
@@ -228,9 +222,9 @@ export interface FilterableComposition12C<F extends URIS, G extends URIS2, LG>
 }
 ```
 
-# FilterableComposition21
+# FilterableComposition21 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableComposition21<F extends URIS2, G extends URIS>
@@ -249,9 +243,9 @@ export interface FilterableComposition21<F extends URIS2, G extends URIS>
 }
 ```
 
-# FilterableComposition22
+# FilterableComposition22 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableComposition22<F extends URIS2, G extends URIS2>
@@ -273,9 +267,9 @@ export interface FilterableComposition22<F extends URIS2, G extends URIS2>
 }
 ```
 
-# FilterableComposition22C
+# FilterableComposition22C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableComposition22C<F extends URIS2, G extends URIS2, LG>
@@ -297,9 +291,9 @@ export interface FilterableComposition22C<F extends URIS2, G extends URIS2, LG>
 }
 ```
 
-# FilterableComposition2C1
+# FilterableComposition2C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableComposition2C1<F extends URIS2, G extends URIS, LF>
@@ -318,9 +312,9 @@ export interface FilterableComposition2C1<F extends URIS2, G extends URIS, LF>
 }
 ```
 
-# FilterableComposition3C1
+# FilterableComposition3C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableComposition3C1<F extends URIS3, G extends URIS, UF, LF>
@@ -339,9 +333,9 @@ export interface FilterableComposition3C1<F extends URIS3, G extends URIS, UF, L
 }
 ```
 
-# getFilterableComposition
+# getFilterableComposition (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getFilterableComposition<F extends URIS3, G extends URIS, UF, LF>(

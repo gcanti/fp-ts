@@ -17,22 +17,16 @@ Instances must satisfy the following laws in addition to the `Applicative` and `
 
 Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Monad](#monad)
-- [Monad1](#monad1)
-- [Monad2](#monad2)
-- [Monad2C](#monad2c)
-- [Monad3](#monad3)
-- [Monad3C](#monad3c)
+- [Monad (interface)](#monad-interface)
+- [Monad1 (interface)](#monad1-interface)
+- [Monad2 (interface)](#monad2-interface)
+- [Monad2C (interface)](#monad2c-interface)
+- [Monad3 (interface)](#monad3-interface)
+- [Monad3C (interface)](#monad3c-interface)# Monad (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Monad
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Monad<F> extends Applicative<F>, Chain<F> {}
@@ -40,41 +34,41 @@ export interface Monad<F> extends Applicative<F>, Chain<F> {}
 
 Added in v1.0.0
 
-# Monad1
+# Monad1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Monad1<F extends URIS> extends Applicative1<F>, Chain1<F> {}
 ```
 
-# Monad2
+# Monad2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Monad2<M extends URIS2> extends Applicative2<M>, Chain2<M> {}
 ```
 
-# Monad2C
+# Monad2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2C<M, L> {}
 ```
 
-# Monad3
+# Monad3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
 ```
 
-# Monad3C
+# Monad3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Monad3C<M extends URIS3, U, L> extends Applicative3C<M, U, L>, Chain3C<M, U, L> {}

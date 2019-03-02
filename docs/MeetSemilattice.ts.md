@@ -14,17 +14,11 @@ A `MeetSemilattice` must satisfy the following laws:
 - Commutativity: `a ∧ b = b ∧ a`
 - Idempotency: `a ∧ a = a`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [MeetSemilattice](#meetsemilattice)
+- [MeetSemilattice (interface)](#meetsemilattice-interface)# MeetSemilattice (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# MeetSemilattice
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MeetSemilattice<A> {

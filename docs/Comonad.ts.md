@@ -3,22 +3,16 @@ title: Comonad.ts
 nav_order: 17
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Comonad](#comonad)
-- [Comonad1](#comonad1)
-- [Comonad2](#comonad2)
-- [Comonad2C](#comonad2c)
-- [Comonad3](#comonad3)
-- [Comonad3C](#comonad3c)
+- [Comonad (interface)](#comonad-interface)
+- [Comonad1 (interface)](#comonad1-interface)
+- [Comonad2 (interface)](#comonad2-interface)
+- [Comonad2C (interface)](#comonad2c-interface)
+- [Comonad3 (interface)](#comonad3-interface)
+- [Comonad3C (interface)](#comonad3c-interface)# Comonad (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Comonad
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Comonad<F> extends Extend<F> {
@@ -28,9 +22,9 @@ export interface Comonad<F> extends Extend<F> {
 
 Added in v1.0.0
 
-# Comonad1
+# Comonad1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Comonad1<F extends URIS> extends Extend1<F> {
@@ -38,9 +32,9 @@ export interface Comonad1<F extends URIS> extends Extend1<F> {
 }
 ```
 
-# Comonad2
+# Comonad2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Comonad2<F extends URIS2> extends Extend2<F> {
@@ -48,9 +42,9 @@ export interface Comonad2<F extends URIS2> extends Extend2<F> {
 }
 ```
 
-# Comonad2C
+# Comonad2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Comonad2C<F extends URIS2, L> extends Extend2C<F, L> {
@@ -58,9 +52,9 @@ export interface Comonad2C<F extends URIS2, L> extends Extend2C<F, L> {
 }
 ```
 
-# Comonad3
+# Comonad3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Comonad3<F extends URIS3> extends Extend3<F> {
@@ -68,9 +62,9 @@ export interface Comonad3<F extends URIS3> extends Extend3<F> {
 }
 ```
 
-# Comonad3C
+# Comonad3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Comonad3C<F extends URIS3, U, L> extends Extend3C<F, U, L> {

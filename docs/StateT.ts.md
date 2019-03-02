@@ -3,37 +3,31 @@ title: StateT.ts
 nav_order: 79
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [~~StateT~~](#statet)
-- [~~StateT1~~](#statet1)
-- [~~StateT2~~](#statet2)
-- [StateT2v](#statet2v)
-- [StateT2v1](#statet2v1)
-- [StateT2v2](#statet2v2)
-- [StateT2v3](#statet2v3)
-- [~~StateT3~~](#statet3)
-- [~~ap~~](#ap)
-- [~~chain~~](#chain)
-- [fromState](#fromstate)
-- [~~get~~](#get)
-- [get2v](#get2v)
-- [~~getStateT~~](#getstatet)
-- [getStateT2v](#getstatet2v)
-- [gets](#gets)
-- [liftF](#liftf)
-- [~~map~~](#map)
-- [modify](#modify)
-- [~~of~~](#of)
-- [put](#put)
+- [~~StateT~~ (interface)](#statet-interface)
+- [~~StateT1~~ (interface)](#statet1-interface)
+- [~~StateT2~~ (interface)](#statet2-interface)
+- [StateT2v (interface)](#statet2v-interface)
+- [StateT2v1 (interface)](#statet2v1-interface)
+- [StateT2v2 (interface)](#statet2v2-interface)
+- [StateT2v3 (interface)](#statet2v3-interface)
+- [~~StateT3~~ (interface)](#statet3-interface)
+- [~~ap~~ (function)](#ap-function)
+- [~~chain~~ (function)](#chain-function)
+- [fromState (function)](#fromstate-function)
+- [~~get~~ (function)](#get-function)
+- [get2v (function)](#get2v-function)
+- [~~getStateT~~ (function)](#getstatet-function)
+- [getStateT2v (function)](#getstatet2v-function)
+- [gets (function)](#gets-function)
+- [liftF (function)](#liftf-function)
+- [~~map~~ (function)](#map-function)
+- [modify (function)](#modify-function)
+- [~~of~~ (function)](#of-function)
+- [put (function)](#put-function)# ~~StateT~~ (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# ~~StateT~~
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface StateT<M> {
@@ -50,9 +44,9 @@ export interface StateT<M> {
 }
 ```
 
-# ~~StateT1~~
+# ~~StateT1~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface StateT1<M extends URIS> {
@@ -69,9 +63,9 @@ export interface StateT1<M extends URIS> {
 }
 ```
 
-# ~~StateT2~~
+# ~~StateT2~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface StateT2<M extends URIS2> {
@@ -88,9 +82,9 @@ export interface StateT2<M extends URIS2> {
 }
 ```
 
-# StateT2v
+# StateT2v (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface StateT2v<M> {
@@ -107,9 +101,9 @@ export interface StateT2v<M> {
 }
 ```
 
-# StateT2v1
+# StateT2v1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface StateT2v1<M extends URIS> {
@@ -126,9 +120,9 @@ export interface StateT2v1<M extends URIS> {
 }
 ```
 
-# StateT2v2
+# StateT2v2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface StateT2v2<M extends URIS2> {
@@ -145,9 +139,9 @@ export interface StateT2v2<M extends URIS2> {
 }
 ```
 
-# StateT2v3
+# StateT2v3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface StateT2v3<M extends URIS3> {
@@ -167,9 +161,9 @@ export interface StateT2v3<M extends URIS3> {
 }
 ```
 
-# ~~StateT3~~
+# ~~StateT3~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface StateT3<M extends URIS3> {
@@ -189,9 +183,9 @@ export interface StateT3<M extends URIS3> {
 }
 ```
 
-# ~~ap~~
+# ~~ap~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function ap<F extends URIS3>(
@@ -219,9 +213,9 @@ export function ap<F>(
 
 Added in v1.0.0
 
-# ~~chain~~
+# ~~chain~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function chain<F extends URIS3>(
@@ -249,9 +243,9 @@ export function chain<F>(
 
 Added in v1.0.0
 
-# fromState
+# fromState (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fromState<F extends URIS3>(
@@ -267,9 +261,9 @@ export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: 
 
 Added in v1.2.0
 
-# ~~get~~
+# ~~get~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function get<F extends URIS3>(F: Applicative3<F>): <S>() => <U, L>(s: S) => Type3<F, U, L, [S, S]>
@@ -281,9 +275,9 @@ export function get<F>(F: Applicative<F>): <S>() => (s: S) => HKT<F, [S, S]> { .
 
 Added in v1.0.0
 
-# get2v
+# get2v (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function get2v<F extends URIS3>(F: Applicative3<F>): <S, U, L>(s: S) => Type3<F, U, L, [S, S]>
@@ -295,11 +289,11 @@ export function get2v<F>(F: Applicative<F>): <S>(s: S) => HKT<F, [S, S]> { ... }
 
 Added in v1.14.0
 
-# ~~getStateT~~
+# ~~getStateT~~ (function)
 
 Use `getStateT2v` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getStateT<M extends URIS3>(M: Monad3<M>): StateT3<M>
@@ -311,9 +305,9 @@ export function getStateT<M>(M: Monad<M>): StateT<M> { ... }
 
 Added in v1.0.0
 
-# getStateT2v
+# getStateT2v (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getStateT2v<M extends URIS3>(M: Monad3<M>): StateT2v3<M>
@@ -325,9 +319,9 @@ export function getStateT2v<M>(M: Monad<M>): StateT2v<M> { ... }
 
 Added in v1.14.0
 
-# gets
+# gets (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function gets<F extends URIS3>(
@@ -341,9 +335,9 @@ export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => 
 
 Added in v1.0.0
 
-# liftF
+# liftF (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function liftF<F extends URIS3>(
@@ -357,9 +351,9 @@ export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<
 
 Added in v1.2.0
 
-# ~~map~~
+# ~~map~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function map<F extends URIS3>(
@@ -381,9 +375,9 @@ export function map<F>(
 
 Added in v1.0.0
 
-# modify
+# modify (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function modify<F extends URIS3>(
@@ -399,9 +393,9 @@ export function modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) 
 
 Added in v1.0.0
 
-# ~~of~~
+# ~~of~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function of<F extends URIS3>(F: Applicative3<F>): <U, L, S, A>(a: A) => (s: S) => Type3<F, U, L, [A, S]>
@@ -413,9 +407,9 @@ export function of<F>(F: Applicative<F>): <S, A>(a: A) => (s: S) => HKT<F, [A, S
 
 Added in v1.0.0
 
-# put
+# put (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function put<F extends URIS3>(F: Applicative3<F>): <S>(s: S) => <U, L>() => Type3<F, U, L, [void, S]>

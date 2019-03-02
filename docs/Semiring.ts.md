@@ -25,18 +25,12 @@ Instances must satisfy the following laws:
 for arithmetic overflows, and the presence of `NaN` and `Infinity` values. The behaviour is
 unspecified in these cases.
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Semiring](#semiring)
-- [getFunctionSemiring](#getfunctionsemiring)
+- [Semiring (interface)](#semiring-interface)
+- [getFunctionSemiring (function)](#getfunctionsemiring-function)# Semiring (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Semiring
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Semiring<A> {
@@ -49,9 +43,9 @@ export interface Semiring<A> {
 
 Added in v1.0.0
 
-# getFunctionSemiring
+# getFunctionSemiring (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => ...

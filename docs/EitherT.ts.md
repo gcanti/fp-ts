@@ -3,31 +3,25 @@ title: EitherT.ts
 nav_order: 25
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [~~EitherT~~](#eithert)
-- [~~EitherT1~~](#eithert1)
-- [~~EitherT2~~](#eithert2)
-- [EitherT2v](#eithert2v)
-- [EitherT2v1](#eithert2v1)
-- [EitherT2v2](#eithert2v2)
-- [~~bimap~~](#bimap)
-- [~~chain~~](#chain)
-- [fold](#fold)
-- [~~fromEither~~](#fromeither)
-- [~~getEitherT~~](#geteithert)
-- [getEitherT2v](#geteithert2v)
-- [~~left~~](#left)
-- [~~mapLeft~~](#mapleft)
-- [~~right~~](#right)
+- [~~EitherT~~ (interface)](#eithert-interface)
+- [~~EitherT1~~ (interface)](#eithert1-interface)
+- [~~EitherT2~~ (interface)](#eithert2-interface)
+- [EitherT2v (interface)](#eithert2v-interface)
+- [EitherT2v1 (interface)](#eithert2v1-interface)
+- [EitherT2v2 (interface)](#eithert2v2-interface)
+- [~~bimap~~ (function)](#bimap-function)
+- [~~chain~~ (function)](#chain-function)
+- [fold (function)](#fold-function)
+- [~~fromEither~~ (function)](#fromeither-function)
+- [~~getEitherT~~ (function)](#geteithert-function)
+- [getEitherT2v (function)](#geteithert2v-function)
+- [~~left~~ (function)](#left-function)
+- [~~mapLeft~~ (function)](#mapleft-function)
+- [~~right~~ (function)](#right-function)# ~~EitherT~~ (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# ~~EitherT~~
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface EitherT<F> extends ApplicativeComposition<F, URI> {
@@ -35,9 +29,9 @@ export interface EitherT<F> extends ApplicativeComposition<F, URI> {
 }
 ```
 
-# ~~EitherT1~~
+# ~~EitherT1~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface EitherT1<F extends URIS> extends ApplicativeComposition12<F, URI> {
@@ -45,9 +39,9 @@ export interface EitherT1<F extends URIS> extends ApplicativeComposition12<F, UR
 }
 ```
 
-# ~~EitherT2~~
+# ~~EitherT2~~ (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, URI> {
@@ -58,9 +52,9 @@ export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, U
 }
 ```
 
-# EitherT2v
+# EitherT2v (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface EitherT2v<F> extends ApplicativeComposition<F, URI> {
@@ -68,9 +62,9 @@ export interface EitherT2v<F> extends ApplicativeComposition<F, URI> {
 }
 ```
 
-# EitherT2v1
+# EitherT2v1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface EitherT2v1<F extends URIS> extends ApplicativeComposition12<F, URI> {
@@ -78,9 +72,9 @@ export interface EitherT2v1<F extends URIS> extends ApplicativeComposition12<F, 
 }
 ```
 
-# EitherT2v2
+# EitherT2v2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface EitherT2v2<F extends URIS2> extends ApplicativeComposition22<F, URI> {
@@ -91,9 +85,9 @@ export interface EitherT2v2<F extends URIS2> extends ApplicativeComposition22<F,
 }
 ```
 
-# ~~bimap~~
+# ~~bimap~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function bimap<F extends URIS2>(
@@ -112,11 +106,11 @@ export function bimap<F>(
 
 Added in v1.2.0
 
-# ~~chain~~
+# ~~chain~~ (function)
 
 Use `getEitherT2v` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function chain<F extends URIS2>(F: Monad2<F>): EitherT2<F>['chain']
@@ -127,9 +121,9 @@ export function chain<F>(F: Monad<F>): EitherT<F>['chain'] { ... }
 
 Added in v1.0.0
 
-# fold
+# fold (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fold<F extends URIS2>(
@@ -148,9 +142,9 @@ export function fold<F>(
 
 Added in v1.0.0
 
-# ~~fromEither~~
+# ~~fromEither~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fromEither<F extends URIS2>(
@@ -163,11 +157,11 @@ export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HK
 
 Added in v1.0.0
 
-# ~~getEitherT~~
+# ~~getEitherT~~ (function)
 
 Use `getEitherT2v` instead
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getEitherT<M extends URIS2>(M: Monad2<M>): EitherT2<M>
@@ -178,9 +172,9 @@ export function getEitherT<M>(M: Monad<M>): EitherT<M> { ... }
 
 Added in v1.0.0
 
-# getEitherT2v
+# getEitherT2v (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getEitherT2v<M extends URIS2>(M: Monad2<M>): EitherT2v2<M>
@@ -191,9 +185,9 @@ export function getEitherT2v<M>(M: Monad<M>): EitherT2v<M> { ... }
 
 Added in v1.14.0
 
-# ~~left~~
+# ~~left~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function left<F extends URIS2>(F: Functor2<F>): <L, M, A>(fl: Type2<F, M, L>) => Type2<F, M, Either<L, A>>
@@ -204,9 +198,9 @@ export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L
 
 Added in v1.0.0
 
-# ~~mapLeft~~
+# ~~mapLeft~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function mapLeft<F extends URIS2>(
@@ -225,9 +219,9 @@ export function mapLeft<F>(
 
 Added in v1.0.0
 
-# ~~right~~
+# ~~right~~ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function right<F extends URIS2>(F: Functor2<F>): <L, M, A>(fa: Type2<F, M, A>) => Type2<F, M, Either<L, A>>

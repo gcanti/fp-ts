@@ -7,22 +7,16 @@ nav_order: 56
 
 Lift a computation from the `Task` monad
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [MonadTask](#monadtask)
-- [MonadTask1](#monadtask1)
-- [MonadTask2](#monadtask2)
-- [MonadTask2C](#monadtask2c)
-- [MonadTask3](#monadtask3)
-- [MonadTask3C](#monadtask3c)
+- [MonadTask (interface)](#monadtask-interface)
+- [MonadTask1 (interface)](#monadtask1-interface)
+- [MonadTask2 (interface)](#monadtask2-interface)
+- [MonadTask2C (interface)](#monadtask2c-interface)
+- [MonadTask3 (interface)](#monadtask3-interface)
+- [MonadTask3C (interface)](#monadtask3c-interface)# MonadTask (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# MonadTask
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadTask<M> extends Monad<M> {
@@ -32,9 +26,9 @@ export interface MonadTask<M> extends Monad<M> {
 
 Added in v1.10.0
 
-# MonadTask1
+# MonadTask1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadTask1<M extends URIS> extends Monad1<M> {
@@ -42,9 +36,9 @@ export interface MonadTask1<M extends URIS> extends Monad1<M> {
 }
 ```
 
-# MonadTask2
+# MonadTask2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadTask2<M extends URIS2> extends Monad2<M> {
@@ -52,9 +46,9 @@ export interface MonadTask2<M extends URIS2> extends Monad2<M> {
 }
 ```
 
-# MonadTask2C
+# MonadTask2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadTask2C<M extends URIS2, L> extends Monad2C<M, L> {
@@ -62,9 +56,9 @@ export interface MonadTask2C<M extends URIS2, L> extends Monad2C<M, L> {
 }
 ```
 
-# MonadTask3
+# MonadTask3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadTask3<M extends URIS3> extends Monad3<M> {
@@ -72,9 +66,9 @@ export interface MonadTask3<M extends URIS3> extends Monad3<M> {
 }
 ```
 
-# MonadTask3C
+# MonadTask3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadTask3C<M extends URIS3, U, L> extends Monad3C<M, U, L> {

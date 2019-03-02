@@ -14,32 +14,26 @@ foldMap(M)(fa, f) = foldMapWithIndex(M)(fa, (_, a) => f(a))
 foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
 ```
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [FoldableWithIndex](#foldablewithindex)
-- [FoldableWithIndex1](#foldablewithindex1)
-- [FoldableWithIndex2](#foldablewithindex2)
-- [FoldableWithIndex2C](#foldablewithindex2c)
-- [FoldableWithIndex3](#foldablewithindex3)
-- [FoldableWithIndex3C](#foldablewithindex3c)
-- [FoldableWithIndexComposition](#foldablewithindexcomposition)
-- [FoldableWithIndexComposition11](#foldablewithindexcomposition11)
-- [FoldableWithIndexComposition12](#foldablewithindexcomposition12)
-- [FoldableWithIndexComposition12C](#foldablewithindexcomposition12c)
-- [FoldableWithIndexComposition21](#foldablewithindexcomposition21)
-- [FoldableWithIndexComposition22](#foldablewithindexcomposition22)
-- [FoldableWithIndexComposition22C](#foldablewithindexcomposition22c)
-- [FoldableWithIndexComposition2C1](#foldablewithindexcomposition2c1)
-- [FoldableWithIndexComposition3C1](#foldablewithindexcomposition3c1)
-- [getFoldableWithIndexComposition](#getfoldablewithindexcomposition)
+- [FoldableWithIndex (interface)](#foldablewithindex-interface)
+- [FoldableWithIndex1 (interface)](#foldablewithindex1-interface)
+- [FoldableWithIndex2 (interface)](#foldablewithindex2-interface)
+- [FoldableWithIndex2C (interface)](#foldablewithindex2c-interface)
+- [FoldableWithIndex3 (interface)](#foldablewithindex3-interface)
+- [FoldableWithIndex3C (interface)](#foldablewithindex3c-interface)
+- [FoldableWithIndexComposition (interface)](#foldablewithindexcomposition-interface)
+- [FoldableWithIndexComposition11 (interface)](#foldablewithindexcomposition11-interface)
+- [FoldableWithIndexComposition12 (interface)](#foldablewithindexcomposition12-interface)
+- [FoldableWithIndexComposition12C (interface)](#foldablewithindexcomposition12c-interface)
+- [FoldableWithIndexComposition21 (interface)](#foldablewithindexcomposition21-interface)
+- [FoldableWithIndexComposition22 (interface)](#foldablewithindexcomposition22-interface)
+- [FoldableWithIndexComposition22C (interface)](#foldablewithindexcomposition22c-interface)
+- [FoldableWithIndexComposition2C1 (interface)](#foldablewithindexcomposition2c1-interface)
+- [FoldableWithIndexComposition3C1 (interface)](#foldablewithindexcomposition3c1-interface)
+- [getFoldableWithIndexComposition (function)](#getfoldablewithindexcomposition-function)# FoldableWithIndex (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# FoldableWithIndex
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndex<F, I> extends Foldable2v<F> {
@@ -51,9 +45,9 @@ export interface FoldableWithIndex<F, I> extends Foldable2v<F> {
 
 Added in v1.12.0
 
-# FoldableWithIndex1
+# FoldableWithIndex1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndex1<F extends URIS, I> extends Foldable2v1<F> {
@@ -63,9 +57,9 @@ export interface FoldableWithIndex1<F extends URIS, I> extends Foldable2v1<F> {
 }
 ```
 
-# FoldableWithIndex2
+# FoldableWithIndex2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2v2<F> {
@@ -75,9 +69,9 @@ export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2v2<F> {
 }
 ```
 
-# FoldableWithIndex2C
+# FoldableWithIndex2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndex2C<F extends URIS2, I, L> extends Foldable2v2C<F, L> {
@@ -87,9 +81,9 @@ export interface FoldableWithIndex2C<F extends URIS2, I, L> extends Foldable2v2C
 }
 ```
 
-# FoldableWithIndex3
+# FoldableWithIndex3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable2v3<F> {
@@ -99,9 +93,9 @@ export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable2v3<F> {
 }
 ```
 
-# FoldableWithIndex3C
+# FoldableWithIndex3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndex3C<F extends URIS3, I, U, L> extends Foldable2v3C<F, U, L> {
@@ -111,9 +105,9 @@ export interface FoldableWithIndex3C<F extends URIS3, I, U, L> extends Foldable2
 }
 ```
 
-# FoldableWithIndexComposition
+# FoldableWithIndexComposition (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndexComposition<F, FI, G, GI> extends Foldable2vComposition<F, G> {
@@ -123,9 +117,9 @@ export interface FoldableWithIndexComposition<F, FI, G, GI> extends Foldable2vCo
 }
 ```
 
-# FoldableWithIndexComposition11
+# FoldableWithIndexComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndexComposition11<F extends URIS, FI, G extends URIS, GI>
@@ -136,9 +130,9 @@ export interface FoldableWithIndexComposition11<F extends URIS, FI, G extends UR
 }
 ```
 
-# FoldableWithIndexComposition12
+# FoldableWithIndexComposition12 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>
@@ -151,9 +145,9 @@ export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends UR
 }
 ```
 
-# FoldableWithIndexComposition12C
+# FoldableWithIndexComposition12C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, LG>
@@ -164,9 +158,9 @@ export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends U
 }
 ```
 
-# FoldableWithIndexComposition21
+# FoldableWithIndexComposition21 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>
@@ -179,9 +173,9 @@ export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends U
 }
 ```
 
-# FoldableWithIndexComposition22
+# FoldableWithIndexComposition22 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends URIS2, GI>
@@ -202,9 +196,9 @@ export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends U
 }
 ```
 
-# FoldableWithIndexComposition22C
+# FoldableWithIndexComposition22C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, LG>
@@ -217,9 +211,9 @@ export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends 
 }
 ```
 
-# FoldableWithIndexComposition2C1
+# FoldableWithIndexComposition2C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, LF>
@@ -230,9 +224,9 @@ export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends 
 }
 ```
 
-# FoldableWithIndexComposition3C1
+# FoldableWithIndexComposition3C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FoldableWithIndexComposition3C1<F extends URIS3, FI, G extends URIS, GI, UF, LF>
@@ -245,9 +239,9 @@ export interface FoldableWithIndexComposition3C1<F extends URIS3, FI, G extends 
 }
 ```
 
-# getFoldableWithIndexComposition
+# getFoldableWithIndexComposition (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getFoldableWithIndexComposition<F extends URIS3, FI, G extends URIS, GI, UF, LF>(

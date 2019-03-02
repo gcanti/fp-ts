@@ -14,17 +14,11 @@ A `JoinSemilattice` must satisfy the following laws:
 - Commutativity: `a ∨ b = b ∨ a`
 - Idempotency: `a ∨ a = a`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [JoinSemilattice](#joinsemilattice)
+- [JoinSemilattice (interface)](#joinsemilattice-interface)# JoinSemilattice (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# JoinSemilattice
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface JoinSemilattice<A> {

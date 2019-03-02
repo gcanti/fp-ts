@@ -3,22 +3,16 @@ title: FilterableWithIndex.ts
 nav_order: 30
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [FilterableWithIndex](#filterablewithindex)
-- [FilterableWithIndex1](#filterablewithindex1)
-- [FilterableWithIndex2](#filterablewithindex2)
-- [FilterableWithIndex2C](#filterablewithindex2c)
-- [FilterableWithIndex3](#filterablewithindex3)
-- [FilterableWithIndex3C](#filterablewithindex3c)
+- [FilterableWithIndex (interface)](#filterablewithindex-interface)
+- [FilterableWithIndex1 (interface)](#filterablewithindex1-interface)
+- [FilterableWithIndex2 (interface)](#filterablewithindex2-interface)
+- [FilterableWithIndex2C (interface)](#filterablewithindex2c-interface)
+- [FilterableWithIndex3 (interface)](#filterablewithindex3-interface)
+- [FilterableWithIndex3C (interface)](#filterablewithindex3c-interface)# FilterableWithIndex (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# FilterableWithIndex
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {
@@ -34,9 +28,9 @@ export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filte
 
 Added in v1.12.0
 
-# FilterableWithIndex1
+# FilterableWithIndex1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableWithIndex1<F extends URIS, I> extends FunctorWithIndex1<F, I>, Filterable1<F> {
@@ -50,9 +44,9 @@ export interface FilterableWithIndex1<F extends URIS, I> extends FunctorWithInde
 }
 ```
 
-# FilterableWithIndex2
+# FilterableWithIndex2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableWithIndex2<F extends URIS2, I> extends FunctorWithIndex2<F, I>, Filterable2<F> {
@@ -69,9 +63,9 @@ export interface FilterableWithIndex2<F extends URIS2, I> extends FunctorWithInd
 }
 ```
 
-# FilterableWithIndex2C
+# FilterableWithIndex2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableWithIndex2C<F extends URIS2, I, L> extends FunctorWithIndex2C<F, I, L>, Filterable2C<F, L> {
@@ -88,9 +82,9 @@ export interface FilterableWithIndex2C<F extends URIS2, I, L> extends FunctorWit
 }
 ```
 
-# FilterableWithIndex3
+# FilterableWithIndex3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithIndex3<F, I>, Filterable3<F> {
@@ -107,9 +101,9 @@ export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithInd
 }
 ```
 
-# FilterableWithIndex3C
+# FilterableWithIndex3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FilterableWithIndex3C<F extends URIS3, I, U, L>

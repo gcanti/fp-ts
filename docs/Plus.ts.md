@@ -16,22 +16,16 @@ concrete types like `string` or `number`.
 2. Right identity: `A.alt(fa, zero) == fa`
 3. Annihilation: `A.map(zero, fa) == zero`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Plus](#plus)
-- [Plus1](#plus1)
-- [Plus2](#plus2)
-- [Plus2C](#plus2c)
-- [Plus3](#plus3)
-- [Plus3C](#plus3c)
+- [Plus (interface)](#plus-interface)
+- [Plus1 (interface)](#plus1-interface)
+- [Plus2 (interface)](#plus2-interface)
+- [Plus2C (interface)](#plus2c-interface)
+- [Plus3 (interface)](#plus3-interface)
+- [Plus3C (interface)](#plus3c-interface)# Plus (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Plus
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Plus<F> extends Alt<F> {
@@ -41,9 +35,9 @@ export interface Plus<F> extends Alt<F> {
 
 Added in v1.0.0
 
-# Plus1
+# Plus1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Plus1<F extends URIS> extends Alt1<F> {
@@ -51,9 +45,9 @@ export interface Plus1<F extends URIS> extends Alt1<F> {
 }
 ```
 
-# Plus2
+# Plus2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Plus2<F extends URIS2> extends Alt2<F> {
@@ -61,9 +55,9 @@ export interface Plus2<F extends URIS2> extends Alt2<F> {
 }
 ```
 
-# Plus2C
+# Plus2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Plus2C<F extends URIS2, L> extends Alt2C<F, L> {
@@ -71,9 +65,9 @@ export interface Plus2C<F extends URIS2, L> extends Alt2C<F, L> {
 }
 ```
 
-# Plus3
+# Plus3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Plus3<F extends URIS3> extends Alt3<F> {
@@ -81,9 +75,9 @@ export interface Plus3<F extends URIS3> extends Alt3<F> {
 }
 ```
 
-# Plus3C
+# Plus3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Plus3C<F extends URIS3, U, L> extends Alt3C<F, U, L> {

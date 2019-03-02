@@ -3,23 +3,17 @@ title: Contravariant.ts
 nav_order: 21
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Contravariant](#contravariant)
-- [Contravariant1](#contravariant1)
-- [Contravariant2](#contravariant2)
-- [Contravariant2C](#contravariant2c)
-- [Contravariant3](#contravariant3)
-- [Contravariant3C](#contravariant3c)
-- [lift](#lift)
+- [Contravariant (interface)](#contravariant-interface)
+- [Contravariant1 (interface)](#contravariant1-interface)
+- [Contravariant2 (interface)](#contravariant2-interface)
+- [Contravariant2C (interface)](#contravariant2c-interface)
+- [Contravariant3 (interface)](#contravariant3-interface)
+- [Contravariant3C (interface)](#contravariant3c-interface)
+- [lift (function)](#lift-function)# Contravariant (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Contravariant
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Contravariant<F> {
@@ -30,9 +24,9 @@ export interface Contravariant<F> {
 
 Added in v1.0.0
 
-# Contravariant1
+# Contravariant1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Contravariant1<F extends URIS> {
@@ -41,9 +35,9 @@ export interface Contravariant1<F extends URIS> {
 }
 ```
 
-# Contravariant2
+# Contravariant2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Contravariant2<F extends URIS2> {
@@ -52,9 +46,9 @@ export interface Contravariant2<F extends URIS2> {
 }
 ```
 
-# Contravariant2C
+# Contravariant2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Contravariant2C<F extends URIS2, L> {
@@ -64,9 +58,9 @@ export interface Contravariant2C<F extends URIS2, L> {
 }
 ```
 
-# Contravariant3
+# Contravariant3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Contravariant3<F extends URIS3> {
@@ -75,9 +69,9 @@ export interface Contravariant3<F extends URIS3> {
 }
 ```
 
-# Contravariant3C
+# Contravariant3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Contravariant3C<F extends URIS3, U, L> {
@@ -88,9 +82,9 @@ export interface Contravariant3C<F extends URIS3, U, L> {
 }
 ```
 
-# lift
+# lift (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function lift<F extends URIS3>(

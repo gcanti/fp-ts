@@ -7,24 +7,18 @@ nav_order: 26
 
 Adapted from https://github.com/purescript/purescript-exceptions
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [catchError](#catcherror)
-- [error](#error)
-- [message](#message)
-- [stack](#stack)
-- [throwError](#throwerror)
-- [tryCatch](#trycatch)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# catchError
+- [catchError (function)](#catcherror-function)
+- [error (function)](#error-function)
+- [message (function)](#message-function)
+- [stack (function)](#stack-function)
+- [throwError (function)](#throwerror-function)
+- [tryCatch (function)](#trycatch-function)# catchError (function)
 
 Catch an exception by providing an exception handler
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> => ...
@@ -32,11 +26,11 @@ export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> =>
 
 Added in v1.0.0
 
-# error
+# error (function)
 
 Create a JavaScript error, specifying a message
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const error = (message: string): Error => ...
@@ -44,11 +38,11 @@ export const error = (message: string): Error => ...
 
 Added in v1.0.0
 
-# message
+# message (function)
 
 Get the error message from a JavaScript error
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const message = (e: Error): string => ...
@@ -56,11 +50,11 @@ export const message = (e: Error): string => ...
 
 Added in v1.0.0
 
-# stack
+# stack (function)
 
 Get the stack trace from a JavaScript error
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const stack = (e: Error): Option<string> => ...
@@ -68,11 +62,11 @@ export const stack = (e: Error): Option<string> => ...
 
 Added in v1.0.0
 
-# throwError
+# throwError (function)
 
 Throw an exception
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const throwError = <A>(e: Error): IO<A> => ...
@@ -80,12 +74,12 @@ export const throwError = <A>(e: Error): IO<A> => ...
 
 Added in v1.0.0
 
-# tryCatch
+# tryCatch (function)
 
 Runs an IO and returns eventual Exceptions as a `Left` value. If the computation succeeds the result gets wrapped in
 a `Right`.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const tryCatch = <A>(ma: IO<A>): IO<Either<Error, A>> => ...

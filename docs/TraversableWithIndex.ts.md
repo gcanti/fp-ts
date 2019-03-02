@@ -24,24 +24,18 @@ and with its `FunctorWithIndex` instance
 mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value
 ```
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [TraversableWithIndex](#traversablewithindex)
-- [TraversableWithIndex1](#traversablewithindex1)
-- [TraversableWithIndex2](#traversablewithindex2)
-- [TraversableWithIndex2C](#traversablewithindex2c)
-- [TraverseWithIndex](#traversewithindex)
-- [TraverseWithIndex1](#traversewithindex1)
-- [TraverseWithIndex2](#traversewithindex2)
-- [TraverseWithIndex2C](#traversewithindex2c)
+- [TraversableWithIndex (interface)](#traversablewithindex-interface)
+- [TraversableWithIndex1 (interface)](#traversablewithindex1-interface)
+- [TraversableWithIndex2 (interface)](#traversablewithindex2-interface)
+- [TraversableWithIndex2C (interface)](#traversablewithindex2c-interface)
+- [TraverseWithIndex (interface)](#traversewithindex-interface)
+- [TraverseWithIndex1 (interface)](#traversewithindex1-interface)
+- [TraverseWithIndex2 (interface)](#traversewithindex2-interface)
+- [TraverseWithIndex2C (interface)](#traversewithindex2c-interface)# TraversableWithIndex (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# TraversableWithIndex
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, FoldableWithIndex<T, I>, Traversable2v<T> {
@@ -51,9 +45,9 @@ export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, Fold
 
 Added in v1.12.0
 
-# TraversableWithIndex1
+# TraversableWithIndex1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraversableWithIndex1<T extends URIS, I>
@@ -64,9 +58,9 @@ export interface TraversableWithIndex1<T extends URIS, I>
 }
 ```
 
-# TraversableWithIndex2
+# TraversableWithIndex2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraversableWithIndex2<T extends URIS2, I>
@@ -77,9 +71,9 @@ export interface TraversableWithIndex2<T extends URIS2, I>
 }
 ```
 
-# TraversableWithIndex2C
+# TraversableWithIndex2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraversableWithIndex2C<T extends URIS2, I, L>
@@ -90,9 +84,9 @@ export interface TraversableWithIndex2C<T extends URIS2, I, L>
 }
 ```
 
-# TraverseWithIndex
+# TraverseWithIndex (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraverseWithIndex<T, I> {
@@ -117,9 +111,9 @@ export interface TraverseWithIndex<T, I> {
 }
 ```
 
-# TraverseWithIndex1
+# TraverseWithIndex1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraverseWithIndex1<T extends URIS, I> {
@@ -144,9 +138,9 @@ export interface TraverseWithIndex1<T extends URIS, I> {
 }
 ```
 
-# TraverseWithIndex2
+# TraverseWithIndex2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraverseWithIndex2<T extends URIS2, I> {
@@ -174,9 +168,9 @@ export interface TraverseWithIndex2<T extends URIS2, I> {
 }
 ```
 
-# TraverseWithIndex2C
+# TraverseWithIndex2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface TraverseWithIndex2C<T extends URIS2, I, FL> {

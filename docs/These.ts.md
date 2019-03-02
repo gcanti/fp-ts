@@ -23,68 +23,62 @@ both `L` and `A` kind of data at the same time. This is particularly useful when
 
 Adapted from https://github.com/purescript-contrib/purescript-these
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [These](#these)
-- [URI](#uri)
-- [Both](#both)
-  - [map](#map)
-  - [bimap](#bimap)
-  - [reduce](#reduce)
-  - [fold](#fold)
-  - [inspect](#inspect)
-  - [toString](#tostring)
-  - [isThis](#isthis)
-  - [isThat](#isthat)
-  - [isBoth](#isboth)
-- [That](#that)
-  - [map](#map-1)
-  - [bimap](#bimap-1)
-  - [reduce](#reduce-1)
-  - [fold](#fold-1)
-  - [inspect](#inspect-1)
-  - [toString](#tostring-1)
-  - [isThis](#isthis-1)
-  - [isThat](#isthat-1)
-  - [isBoth](#isboth-1)
-- [This](#this)
-  - [map](#map-2)
-  - [bimap](#bimap-2)
-  - [reduce](#reduce-2)
-  - [fold](#fold-2)
-  - [inspect](#inspect-2)
-  - [toString](#tostring-2)
-  - [isThis](#isthis-2)
-  - [isThat](#isthat-2)
-  - [isBoth](#isboth-2)
-- [URI](#uri-1)
-- [these](#these)
-- [both](#both)
-- [fromEither](#fromeither)
-- [fromOptions](#fromoptions)
-- [fromThese](#fromthese)
-- [getMonad](#getmonad)
-- [getSemigroup](#getsemigroup)
-- [getSetoid](#getsetoid)
-- [isBoth](#isboth-3)
-- [isThat](#isthat-3)
-- [isThis](#isthis-3)
-- [that](#that)
-- [thatOrBoth](#thatorboth)
-- [theseLeft](#theseleft)
-- [theseRight](#theseright)
-- [theseThat](#thesethat)
-- [theseThis](#thesethis)
-- [thisOrBoth](#thisorboth)
-- [this\_](#this%5C_)
+- [These (type alias)](#these-type-alias)
+- [URI (type alias)](#uri-type-alias)
+- [Both (class)](#both-class)
+  - [map (method)](#map-method)
+  - [bimap (method)](#bimap-method)
+  - [reduce (method)](#reduce-method)
+  - [fold (method)](#fold-method)
+  - [inspect (method)](#inspect-method)
+  - [toString (method)](#tostring-method)
+  - [isThis (method)](#isthis-method)
+  - [isThat (method)](#isthat-method)
+  - [isBoth (method)](#isboth-method)
+- [That (class)](#that-class)
+  - [map (method)](#map-method-1)
+  - [bimap (method)](#bimap-method-1)
+  - [reduce (method)](#reduce-method-1)
+  - [fold (method)](#fold-method-1)
+  - [inspect (method)](#inspect-method-1)
+  - [toString (method)](#tostring-method-1)
+  - [isThis (method)](#isthis-method-1)
+  - [isThat (method)](#isthat-method-1)
+  - [isBoth (method)](#isboth-method-1)
+- [This (class)](#this-class)
+  - [map (method)](#map-method-2)
+  - [bimap (method)](#bimap-method-2)
+  - [reduce (method)](#reduce-method-2)
+  - [fold (method)](#fold-method-2)
+  - [inspect (method)](#inspect-method-2)
+  - [toString (method)](#tostring-method-2)
+  - [isThis (method)](#isthis-method-2)
+  - [isThat (method)](#isthat-method-2)
+  - [isBoth (method)](#isboth-method-2)
+- [URI (constant)](#uri-constant)
+- [these (constant)](#these-constant)
+- [both (function)](#both-function)
+- [fromEither (function)](#fromeither-function)
+- [fromOptions (function)](#fromoptions-function)
+- [fromThese (function)](#fromthese-function)
+- [getMonad (function)](#getmonad-function)
+- [getSemigroup (function)](#getsemigroup-function)
+- [getSetoid (function)](#getsetoid-function)
+- [isBoth (function)](#isboth-function)
+- [isThat (function)](#isthat-function)
+- [isThis (function)](#isthis-function)
+- [that (function)](#that-function)
+- [thatOrBoth (function)](#thatorboth-function)
+- [theseLeft (function)](#theseleft-function)
+- [theseRight (function)](#theseright-function)
+- [theseThat (function)](#thesethat-function)
+- [theseThis (function)](#thesethis-function)
+- [thisOrBoth (function)](#thisorboth-function)
+- [this\_ (function)](#this_-function)# These (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# These
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
@@ -92,17 +86,17 @@ export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 
 Added in v1.0.0
 
-# URI
+# URI (type alias)
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# Both
+# Both (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class Both<L, A> {
@@ -111,81 +105,81 @@ export class Both<L, A> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): These<L, B> { ... }
 ```
 
-## bimap
+## bimap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> { ... }
 ```
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
 ```
 
-## fold
+## fold (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-## isThis
+## isThis (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isThis(): this is This<L, A> { ... }
 ```
 
-## isThat
+## isThat (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isThat(): this is That<L, A> { ... }
 ```
 
-## isBoth
+## isBoth (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isBoth(): this is Both<L, A> { ... }
 ```
 
-# That
+# That (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class That<L, A> {
@@ -194,81 +188,81 @@ export class That<L, A> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): These<L, B> { ... }
 ```
 
-## bimap
+## bimap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> { ... }
 ```
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
 ```
 
-## fold
+## fold (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-## isThis
+## isThis (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isThis(): this is This<L, A> { ... }
 ```
 
-## isThat
+## isThat (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isThat(): this is That<L, A> { ... }
 ```
 
-## isBoth
+## isBoth (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isBoth(): this is Both<L, A> { ... }
 ```
 
-# This
+# This (class)
 
-**Signature** (class)
+**Signature**
 
 ```ts
 export class This<L, A> {
@@ -277,97 +271,97 @@ export class This<L, A> {
 }
 ```
 
-## map
+## map (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 map<B>(f: (a: A) => B): These<L, B> { ... }
 ```
 
-## bimap
+## bimap (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> { ... }
 ```
 
-## reduce
+## reduce (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
 ```
 
-## fold
+## fold (method)
 
 Applies a function to each case in the data structure
 
-**Signature** (method)
+**Signature**
 
 ```ts
 fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B { ... }
 ```
 
-## inspect
+## inspect (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 inspect(): string { ... }
 ```
 
-## toString
+## toString (method)
 
-**Signature** (method)
+**Signature**
 
 ```ts
 toString(): string { ... }
 ```
 
-## isThis
+## isThis (method)
 
 Returns `true` if the these is `This`, `false` otherwise
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isThis(): this is This<L, A> { ... }
 ```
 
-## isThat
+## isThat (method)
 
 Returns `true` if the these is `That`, `false` otherwise
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isThat(): this is That<L, A> { ... }
 ```
 
-## isBoth
+## isBoth (method)
 
 Returns `true` if the these is `Both`, `false` otherwise
 
-**Signature** (method)
+**Signature**
 
 ```ts
 isBoth(): this is Both<L, A> { ... }
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# these
+# these (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = ...
@@ -375,9 +369,9 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Travers
 
 Added in v1.0.0
 
-# both
+# both (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const both = <L, A>(l: L, a: A): These<L, A> => ...
@@ -385,9 +379,9 @@ export const both = <L, A>(l: L, a: A): These<L, A> => ...
 
 Added in v1.0.0
 
-# fromEither
+# fromEither (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => ...
@@ -405,11 +399,11 @@ assert.deepStrictEqual(fromEither(right(1)), that(1))
 
 Added in v1.13.0
 
-# fromOptions
+# fromOptions (function)
 
 Takes a pair of `Option`s and attempts to create a `These` from them
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> => ...
@@ -429,9 +423,9 @@ assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 
 Added in v1.13.0
 
-# fromThese
+# fromThese (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A] => ...
@@ -450,9 +444,9 @@ assert.deepStrictEqual(from(both('b', 2)), ['b', 2])
 
 Added in v1.0.0
 
-# getMonad
+# getMonad (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => ...
@@ -460,9 +454,9 @@ export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => ...
 
 Added in v1.0.0
 
-# getSemigroup
+# getSemigroup (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => ...
@@ -470,9 +464,9 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
 
 Added in v1.0.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => ...
@@ -480,11 +474,11 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A
 
 Added in v1.0.0
 
-# isBoth
+# isBoth (function)
 
 Returns `true` if the these is an instance of `Both`, `false` otherwise
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => ...
@@ -492,11 +486,11 @@ export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => ...
 
 Added in v1.0.0
 
-# isThat
+# isThat (function)
 
 Returns `true` if the these is an instance of `That`, `false` otherwise
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => ...
@@ -504,11 +498,11 @@ export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => ...
 
 Added in v1.0.0
 
-# isThis
+# isThis (function)
 
 Returns `true` if the these is an instance of `This`, `false` otherwise
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => ...
@@ -516,9 +510,9 @@ export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => ...
 
 Added in v1.0.0
 
-# that
+# that (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const that = <L, A>(a: A): These<L, A> => ...
@@ -526,9 +520,9 @@ export const that = <L, A>(a: A): These<L, A> => ...
 
 Added in v1.0.0
 
-# thatOrBoth
+# thatOrBoth (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const thatOrBoth = <L, A>(defaultThat: A, ml: Option<L>): These<L, A> => ...
@@ -546,11 +540,11 @@ assert.deepStrictEqual(thatOrBoth(1, some('a')), both('a', 1))
 
 Added in v1.13.0
 
-# theseLeft
+# theseLeft (function)
 
 Returns an `L` value if possible
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => ...
@@ -569,11 +563,11 @@ assert.deepStrictEqual(theseLeft(both('a', 1)), some('a'))
 
 Added in v1.0.0
 
-# theseRight
+# theseRight (function)
 
 Returns an `A` value if possible
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const theseRight = <L, A>(fa: These<L, A>): Option<A> => ...
@@ -592,11 +586,11 @@ assert.deepStrictEqual(theseRight(both('a', 1)), some(1))
 
 Added in v1.0.0
 
-# theseThat
+# theseThat (function)
 
 Returns the `A` value if and only if the value is constructed with `That`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const theseThat = <L, A>(fa: These<L, A>): Option<A> => ...
@@ -615,11 +609,11 @@ assert.deepStrictEqual(theseThat(both('a', 1)), none)
 
 Added in v1.13.0
 
-# theseThis
+# theseThis (function)
 
 Returns the `L` value if and only if the value is constructed with `This`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const theseThis = <L, A>(fa: These<L, A>): Option<L> => ...
@@ -638,9 +632,9 @@ assert.deepStrictEqual(theseThis(both('a', 1)), none)
 
 Added in v1.13.0
 
-# thisOrBoth
+# thisOrBoth (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const thisOrBoth = <L, A>(defaultThis: L, ma: Option<A>): These<L, A> => ...
@@ -658,9 +652,9 @@ assert.deepStrictEqual(thisOrBoth('a', some(1)), both('a', 1))
 
 Added in v1.13.0
 
-# this\_
+# this\_ (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const this_ = <L, A>(l: L): These<L, A> => ...

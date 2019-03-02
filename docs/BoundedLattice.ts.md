@@ -10,17 +10,11 @@ A `BoundedLattice` must satisfy the following in addition to `BoundedMeetSemilat
 - Absorbtion law for meet: `a ∧ (a ∨ b) == a`
 - Absorbtion law for join: `a ∨ (a ∧ b) == a`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [BoundedLattice](#boundedlattice)
+- [BoundedLattice (interface)](#boundedlattice-interface)# BoundedLattice (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# BoundedLattice
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface BoundedLattice<A> extends BoundedJoinSemilattice<A>, BoundedMeetSemilattice<A> {}

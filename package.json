@@ -20,8 +20,7 @@
     "doctoc": "doctoc README.md code-conventions.md docs --title \"**Table of contents**\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
     "dtslint": "dtslint dtslint",
-    "clean-docs": "rimraf rm -rf \"docs/!(index.md|_config.yml)\"",
-    "docs": "npm run clean-docs && ts-node docs.ts && npm run doctoc"
+    "docs": "docs-ts"
   },
   "repository": {
     "type": "git",

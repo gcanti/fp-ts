@@ -7,32 +7,26 @@ nav_order: 41
 
 Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf))
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [HKT](#hkt)
-- [HKT2](#hkt2)
-- [HKT3](#hkt3)
-- [HKT4](#hkt4)
-- [URI2HKT](#uri2hkt)
-- [URI2HKT2](#uri2hkt2)
-- [URI2HKT3](#uri2hkt3)
-- [URI2HKT4](#uri2hkt4)
-- [Type](#type)
-- [Type2](#type2)
-- [Type3](#type3)
-- [Type4](#type4)
-- [URIS](#uris)
-- [URIS2](#uris2)
-- [URIS3](#uris3)
-- [URIS4](#uris4)
+- [HKT (interface)](#hkt-interface)
+- [HKT2 (interface)](#hkt2-interface)
+- [HKT3 (interface)](#hkt3-interface)
+- [HKT4 (interface)](#hkt4-interface)
+- [URI2HKT (interface)](#uri2hkt-interface)
+- [URI2HKT2 (interface)](#uri2hkt2-interface)
+- [URI2HKT3 (interface)](#uri2hkt3-interface)
+- [URI2HKT4 (interface)](#uri2hkt4-interface)
+- [Type (type alias)](#type-type-alias)
+- [Type2 (type alias)](#type2-type-alias)
+- [Type3 (type alias)](#type3-type-alias)
+- [Type4 (type alias)](#type4-type-alias)
+- [URIS (type alias)](#uris-type-alias)
+- [URIS2 (type alias)](#uris2-type-alias)
+- [URIS3 (type alias)](#uris3-type-alias)
+- [URIS4 (type alias)](#uris4-type-alias)# HKT (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# HKT
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface HKT<URI, A> {
@@ -41,11 +35,11 @@ export interface HKT<URI, A> {
 }
 ```
 
-# HKT2
+# HKT2 (interface)
 
 `* -> * -> *` constructors
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface HKT2<URI, L, A> extends HKT<URI, A> {
@@ -53,11 +47,11 @@ export interface HKT2<URI, L, A> extends HKT<URI, A> {
 }
 ```
 
-# HKT3
+# HKT3 (interface)
 
 `* -> * -> * -> *` constructors
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface HKT3<URI, U, L, A> extends HKT2<URI, L, A> {
@@ -65,11 +59,11 @@ export interface HKT3<URI, U, L, A> extends HKT2<URI, L, A> {
 }
 ```
 
-# HKT4
+# HKT4 (interface)
 
 `* -> * -> * -> * -> *` constructors
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface HKT4<URI, X, U, L, A> extends HKT3<URI, U, L, A> {
@@ -77,121 +71,121 @@ export interface HKT4<URI, X, U, L, A> extends HKT3<URI, U, L, A> {
 }
 ```
 
-# URI2HKT
+# URI2HKT (interface)
 
 `* -> *` constructors
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface URI2HKT<A> {}
 ```
 
-# URI2HKT2
+# URI2HKT2 (interface)
 
 `* -> * -> *` constructors
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface URI2HKT2<L, A> {}
 ```
 
-# URI2HKT3
+# URI2HKT3 (interface)
 
 `* -> * -> * -> *` constructors
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface URI2HKT3<U, L, A> {}
 ```
 
-# URI2HKT4
+# URI2HKT4 (interface)
 
 `* -> * -> * -> * -> *` constructors
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface URI2HKT4<X, U, L, A> {}
 ```
 
-# Type
+# Type (type alias)
 
 `* -> *` constructors
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type Type<URI extends URIS, A> = {} & URI2HKT<A>[URI]
 ```
 
-# Type2
+# Type2 (type alias)
 
 `* -> * -> *` constructors
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type Type2<URI extends URIS2, L, A> = {} & URI2HKT2<L, A>[URI]
 ```
 
-# Type3
+# Type3 (type alias)
 
 `* -> * -> * -> *` constructors
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type Type3<URI extends URIS3, U, L, A> = {} & URI2HKT3<U, L, A>[URI]
 ```
 
-# Type4
+# Type4 (type alias)
 
 `* -> * -> * -> * -> *` constructors
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type Type4<URI extends URIS4, X, U, L, A> = {} & URI2HKT4<X, U, L, A>[URI]
 ```
 
-# URIS
+# URIS (type alias)
 
 `* -> *` constructors
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URIS = keyof URI2HKT<any>
 ```
 
-# URIS2
+# URIS2 (type alias)
 
 `* -> * -> *` constructors
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URIS2 = keyof URI2HKT2<any, any>
 ```
 
-# URIS3
+# URIS3 (type alias)
 
 `* -> * -> * -> *` constructors
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URIS3 = keyof URI2HKT3<any, any, any>
 ```
 
-# URIS4
+# URIS4 (type alias)
 
 `* -> * -> * -> * -> *` constructors
 
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URIS4 = keyof URI2HKT4<any, any, any, any>

@@ -7,22 +7,16 @@ nav_order: 55
 
 Lift a computation from the `IO` monad
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [MonadIO](#monadio)
-- [MonadIO1](#monadio1)
-- [MonadIO2](#monadio2)
-- [MonadIO2C](#monadio2c)
-- [MonadIO3](#monadio3)
-- [MonadIO3C](#monadio3c)
+- [MonadIO (interface)](#monadio-interface)
+- [MonadIO1 (interface)](#monadio1-interface)
+- [MonadIO2 (interface)](#monadio2-interface)
+- [MonadIO2C (interface)](#monadio2c-interface)
+- [MonadIO3 (interface)](#monadio3-interface)
+- [MonadIO3C (interface)](#monadio3c-interface)# MonadIO (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# MonadIO
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadIO<M> extends Monad<M> {
@@ -32,9 +26,9 @@ export interface MonadIO<M> extends Monad<M> {
 
 Added in v1.10.0
 
-# MonadIO1
+# MonadIO1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadIO1<M extends URIS> extends Monad1<M> {
@@ -42,9 +36,9 @@ export interface MonadIO1<M extends URIS> extends Monad1<M> {
 }
 ```
 
-# MonadIO2
+# MonadIO2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadIO2<M extends URIS2> extends Monad2<M> {
@@ -52,9 +46,9 @@ export interface MonadIO2<M extends URIS2> extends Monad2<M> {
 }
 ```
 
-# MonadIO2C
+# MonadIO2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadIO2C<M extends URIS2, L> extends Monad2C<M, L> {
@@ -62,9 +56,9 @@ export interface MonadIO2C<M extends URIS2, L> extends Monad2C<M, L> {
 }
 ```
 
-# MonadIO3
+# MonadIO3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadIO3<M extends URIS3> extends Monad3<M> {
@@ -72,9 +66,9 @@ export interface MonadIO3<M extends URIS3> extends Monad3<M> {
 }
 ```
 
-# MonadIO3C
+# MonadIO3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface MonadIO3C<M extends URIS3, U, L> extends Monad3C<M, U, L> {

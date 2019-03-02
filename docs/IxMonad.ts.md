@@ -3,20 +3,14 @@ title: IxMonad.ts
 nav_order: 49
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [IxMonad](#ixmonad)
-- [IxMonad3](#ixmonad3)
-- [iapplyFirst](#iapplyfirst)
-- [iapplySecond](#iapplysecond)
+- [IxMonad (interface)](#ixmonad-interface)
+- [IxMonad3 (interface)](#ixmonad3-interface)
+- [iapplyFirst (function)](#iapplyfirst-function)
+- [iapplySecond (function)](#iapplysecond-function)# IxMonad (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# IxMonad
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface IxMonad<F> {
@@ -28,9 +22,9 @@ export interface IxMonad<F> {
 
 Added in v1.0.0
 
-# IxMonad3
+# IxMonad3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface IxMonad3<F extends URIS3> {
@@ -40,9 +34,9 @@ export interface IxMonad3<F extends URIS3> {
 }
 ```
 
-# iapplyFirst
+# iapplyFirst (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function iapplyFirst<F extends URIS3>(
@@ -58,9 +52,9 @@ export function iapplyFirst<F>(
 
 Added in v1.0.0
 
-# iapplySecond
+# iapplySecond (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function iapplySecond<F extends URIS3>(

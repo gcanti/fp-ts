@@ -7,23 +7,17 @@ nav_order: 67
 
 Adapted from https://github.com/purescript/purescript-random
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [random](#random)
-- [randomBool](#randombool)
-- [randomInt](#randomint)
-- [randomRange](#randomrange)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# random
+- [random (constant)](#random-constant)
+- [randomBool (constant)](#randombool-constant)
+- [randomInt (function)](#randomint-function)
+- [randomRange (function)](#randomrange-function)# random (constant)
 
 Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
 `Math.random()`.
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const random: IO<number> = ...
@@ -31,11 +25,11 @@ export const random: IO<number> = ...
 
 Added in v1.0.0
 
-# randomBool
+# randomBool (constant)
 
 Returns a random boolean value with an equal chance of being `true` or `false`
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const randomBool: IO<boolean> = ...
@@ -43,13 +37,13 @@ export const randomBool: IO<boolean> = ...
 
 Added in v1.0.0
 
-# randomInt
+# randomInt (function)
 
 Takes a range specified by `low` (the first argument) and `high` (the second), and returns a random integer uniformly
 distributed in the closed interval `[low, high]`. It is unspecified what happens if `low > high`, or if either of
 `low` or `high` is not an integer.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const randomInt = (low: number, high: number): IO<number> => ...
@@ -57,12 +51,12 @@ export const randomInt = (low: number, high: number): IO<number> => ...
 
 Added in v1.0.0
 
-# randomRange
+# randomRange (function)
 
 Returns a random number between a minimum value (inclusive) and a maximum value (exclusive). It is unspecified what
 happens if `maximum < minimum`.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const randomRange = (min: number, max: number): IO<number> => ...

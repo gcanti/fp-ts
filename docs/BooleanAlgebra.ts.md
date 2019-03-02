@@ -14,21 +14,15 @@ Instances should satisfy the following laws in addition to the `HeytingAlgebra` 
 
 Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [BooleanAlgebra](#booleanalgebra)
-- [booleanAlgebraBoolean](#booleanalgebraboolean)
-- [booleanAlgebraVoid](#booleanalgebravoid)
-- [getDualBooleanAlgebra](#getdualbooleanalgebra)
-- [getFunctionBooleanAlgebra](#getfunctionbooleanalgebra)
+- [BooleanAlgebra (interface)](#booleanalgebra-interface)
+- [booleanAlgebraBoolean (constant)](#booleanalgebraboolean-constant)
+- [booleanAlgebraVoid (constant)](#booleanalgebravoid-constant)
+- [getDualBooleanAlgebra (function)](#getdualbooleanalgebra-function)
+- [getFunctionBooleanAlgebra (function)](#getfunctionbooleanalgebra-function)# BooleanAlgebra (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# BooleanAlgebra
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
@@ -36,9 +30,9 @@ export interface BooleanAlgebra<A> extends HeytingAlgebra<A> {}
 
 Added in v1.4.0
 
-# booleanAlgebraBoolean
+# booleanAlgebraBoolean (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = ...
@@ -46,9 +40,9 @@ export const booleanAlgebraBoolean: BooleanAlgebra<boolean> = ...
 
 Added in v1.4.0
 
-# booleanAlgebraVoid
+# booleanAlgebraVoid (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const booleanAlgebraVoid: BooleanAlgebra<void> = ...
@@ -56,11 +50,11 @@ export const booleanAlgebraVoid: BooleanAlgebra<void> = ...
 
 Added in v1.4.0
 
-# getDualBooleanAlgebra
+# getDualBooleanAlgebra (function)
 
 Every boolean algebras has a dual algebra, which involves reversing one/zero as well as join/meet.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A> => ...
@@ -68,9 +62,9 @@ export const getDualBooleanAlgebra = <A>(B: BooleanAlgebra<A>): BooleanAlgebra<A
 
 Added in v1.4.0
 
-# getFunctionBooleanAlgebra
+# getFunctionBooleanAlgebra (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getFunctionBooleanAlgebra = <B>(B: BooleanAlgebra<B>) => <A = never>(): BooleanAlgebra<(a: A) => B> => ...

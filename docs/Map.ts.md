@@ -3,58 +3,52 @@ title: Map.ts
 nav_order: 52
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [URI](#uri)
-- [URI](#uri-1)
-- [empty](#empty)
-- [map](#map)
-- [collect](#collect)
-- [elem](#elem)
-- [fromFoldable](#fromfoldable)
-- [getFilterableWithIndex](#getfilterablewithindex)
-- [getMonoid](#getmonoid)
-- [getSetoid](#getsetoid)
-- [getTraversableWithIndex](#gettraversablewithindex)
-- [getWitherable](#getwitherable)
-- [insert](#insert)
-- [isEmpty](#isempty)
-- [isSubmap](#issubmap)
-- [keys](#keys)
-- [lookup](#lookup)
-- [lookupWithKey](#lookupwithkey)
-- [member](#member)
-- [pop](#pop)
-- [remove](#remove)
-- [singleton](#singleton)
-- [size](#size)
-- [toArray](#toarray)
-- [toUnfoldable](#tounfoldable)
-- [values](#values)
+- [URI (type alias)](#uri-type-alias)
+- [URI (constant)](#uri-constant)
+- [empty (constant)](#empty-constant)
+- [map (constant)](#map-constant)
+- [collect (function)](#collect-function)
+- [elem (function)](#elem-function)
+- [fromFoldable (function)](#fromfoldable-function)
+- [getFilterableWithIndex (function)](#getfilterablewithindex-function)
+- [getMonoid (function)](#getmonoid-function)
+- [getSetoid (function)](#getsetoid-function)
+- [getTraversableWithIndex (function)](#gettraversablewithindex-function)
+- [getWitherable (function)](#getwitherable-function)
+- [insert (function)](#insert-function)
+- [isEmpty (function)](#isempty-function)
+- [isSubmap (function)](#issubmap-function)
+- [keys (function)](#keys-function)
+- [lookup (function)](#lookup-function)
+- [lookupWithKey (function)](#lookupwithkey-function)
+- [member (function)](#member-function)
+- [pop (function)](#pop-function)
+- [remove (function)](#remove-function)
+- [singleton (function)](#singleton-function)
+- [size (function)](#size-function)
+- [toArray (function)](#toarray-function)
+- [toUnfoldable (function)](#tounfoldable-function)
+- [values (function)](#values-function)# URI (type alias)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# URI
-
-**Signature** (type alias)
+**Signature**
 
 ```ts
 export type URI = typeof URI
 ```
 
-# URI
+# URI (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const URI = ...
 ```
 
-# empty
+# empty (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const empty = ...
@@ -62,9 +56,9 @@ export const empty = ...
 
 Added in v1.14.0
 
-# map
+# map (constant)
 
-**Signature** (constant)
+**Signature**
 
 ```ts
 export const map: Filterable2<URI> = ...
@@ -72,9 +66,9 @@ export const map: Filterable2<URI> = ...
 
 Added in v1.14.0
 
-# collect
+# collect (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B>) => ...
@@ -82,11 +76,11 @@ export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => 
 
 Added in v1.14.0
 
-# elem
+# elem (function)
 
 Test whether or not a value is a member of a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const elem = <A>(S: Setoid<A>) => <K>(a: A, m: Map<K, A>): boolean => ...
@@ -94,12 +88,12 @@ export const elem = <A>(S: Setoid<A>) => <K>(a: A, m: Map<K, A>): boolean => ...
 
 Added in v1.14.0
 
-# fromFoldable
+# fromFoldable (function)
 
 Create a map from a foldable collection of key/value pairs, using the
 specified function to combine values for duplicate keys.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function fromFoldable<K, F extends URIS3>(
@@ -126,9 +120,9 @@ export function fromFoldable<K, F>(
 
 Added in v1.14.0
 
-# getFilterableWithIndex
+# getFilterableWithIndex (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> => ...
@@ -136,11 +130,11 @@ export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> =>
 
 Added in v1.14.0
 
-# getMonoid
+# getMonoid (function)
 
 Gets `Monoid` instance for Maps given `Semigroup` instance for their values
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => ...
@@ -148,9 +142,9 @@ export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, 
 
 Added in v1.14.0
 
-# getSetoid
+# getSetoid (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>> => ...
@@ -158,9 +152,9 @@ export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>>
 
 Added in v1.14.0
 
-# getTraversableWithIndex
+# getTraversableWithIndex (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => ...
@@ -168,9 +162,9 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<UR
 
 Added in v1.14.0
 
-# getWitherable
+# getWitherable (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => ...
@@ -178,11 +172,11 @@ export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => ...
 
 Added in v1.14.0
 
-# insert
+# insert (function)
 
 Insert or replace a key/value pair in a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => ...
@@ -190,11 +184,11 @@ export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K
 
 Added in v1.14.0
 
-# isEmpty
+# isEmpty (function)
 
 Test whether or not a map is empty
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const isEmpty = <K, A>(d: Map<K, A>): boolean => ...
@@ -202,11 +196,11 @@ export const isEmpty = <K, A>(d: Map<K, A>): boolean => ...
 
 Added in v1.14.0
 
-# isSubmap
+# isSubmap (function)
 
 Test whether or not one Map contains all of the keys and values contained in another Map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => ...
@@ -214,11 +208,11 @@ export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d
 
 Added in v1.14.0
 
-# keys
+# keys (function)
 
 Get a sorted array of the keys contained in a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => ...
@@ -226,11 +220,11 @@ export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => ...
 
 Added in v1.14.0
 
-# lookup
+# lookup (function)
 
 Lookup the value for a key in a `Map`.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => ...
@@ -238,12 +232,12 @@ export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) 
 
 Added in v1.14.0
 
-# lookupWithKey
+# lookupWithKey (function)
 
 Lookup the value for a key in a `Map`.
 If the result is a `Some`, the existing key is also returned.
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => ...
@@ -251,11 +245,11 @@ export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Optio
 
 Added in v1.14.0
 
-# member
+# member (function)
 
 Test whether or not a key exists in a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => ...
@@ -263,11 +257,11 @@ export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) =>
 
 Added in v1.14.0
 
-# pop
+# pop (function)
 
 Delete a key and value from a map, returning the value as well as the subsequent map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => ...
@@ -275,11 +269,11 @@ export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map
 
 Added in v1.14.0
 
-# remove
+# remove (function)
 
 Delete a key and value from a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => ...
@@ -287,11 +281,11 @@ export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) 
 
 Added in v1.14.0
 
-# singleton
+# singleton (function)
 
 Create a map with one key/value pair
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const singleton = <K, A>(k: K, a: A): Map<K, A> => ...
@@ -299,11 +293,11 @@ export const singleton = <K, A>(k: K, a: A): Map<K, A> => ...
 
 Added in v1.14.0
 
-# size
+# size (function)
 
 Calculate the number of key/value pairs in a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const size = <K, A>(d: Map<K, A>): number => ...
@@ -311,11 +305,11 @@ export const size = <K, A>(d: Map<K, A>): number => ...
 
 Added in v1.14.0
 
-# toArray
+# toArray (function)
 
 Get a sorted of the key/value pairs contained in a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => ...
@@ -323,11 +317,11 @@ export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => .
 
 Added in v1.14.0
 
-# toUnfoldable
+# toUnfoldable (function)
 
 Unfolds a map into a list of key/value pairs
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function toUnfoldable<K, F extends URIS>(
@@ -340,11 +334,11 @@ export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d:
 
 Added in v1.14.0
 
-# values
+# values (function)
 
 Get a sorted array of the values contained in a map
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export const values = <A>(O: Ord<A>): (<K>(m: Map<K, A>) => Array<A>) => m => ...

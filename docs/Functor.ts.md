@@ -15,37 +15,31 @@ Instances must satisfy the following laws:
 1. Identity: `F.map(fa, a => a) = fa`
 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of contents**
 
-- [Functor](#functor)
-- [Functor1](#functor1)
-- [Functor2](#functor2)
-- [Functor2C](#functor2c)
-- [Functor3](#functor3)
-- [Functor3C](#functor3c)
-- [Functor4](#functor4)
-- [FunctorComposition](#functorcomposition)
-- [FunctorComposition11](#functorcomposition11)
-- [FunctorComposition12](#functorcomposition12)
-- [FunctorComposition12C](#functorcomposition12c)
-- [FunctorComposition21](#functorcomposition21)
-- [FunctorComposition22](#functorcomposition22)
-- [FunctorComposition22C](#functorcomposition22c)
-- [FunctorComposition2C1](#functorcomposition2c1)
-- [FunctorComposition3C1](#functorcomposition3c1)
-- [flap](#flap)
-- [getFunctorComposition](#getfunctorcomposition)
-- [lift](#lift)
-- [voidLeft](#voidleft)
-- [voidRight](#voidright)
+- [Functor (interface)](#functor-interface)
+- [Functor1 (interface)](#functor1-interface)
+- [Functor2 (interface)](#functor2-interface)
+- [Functor2C (interface)](#functor2c-interface)
+- [Functor3 (interface)](#functor3-interface)
+- [Functor3C (interface)](#functor3c-interface)
+- [Functor4 (interface)](#functor4-interface)
+- [FunctorComposition (interface)](#functorcomposition-interface)
+- [FunctorComposition11 (interface)](#functorcomposition11-interface)
+- [FunctorComposition12 (interface)](#functorcomposition12-interface)
+- [FunctorComposition12C (interface)](#functorcomposition12c-interface)
+- [FunctorComposition21 (interface)](#functorcomposition21-interface)
+- [FunctorComposition22 (interface)](#functorcomposition22-interface)
+- [FunctorComposition22C (interface)](#functorcomposition22c-interface)
+- [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
+- [FunctorComposition3C1 (interface)](#functorcomposition3c1-interface)
+- [flap (function)](#flap-function)
+- [getFunctorComposition (function)](#getfunctorcomposition-function)
+- [lift (function)](#lift-function)
+- [voidLeft (function)](#voidleft-function)
+- [voidRight (function)](#voidright-function)# Functor (interface)
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Functor
-
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Functor<F> {
@@ -56,9 +50,9 @@ export interface Functor<F> {
 
 Added in v1.0.0
 
-# Functor1
+# Functor1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Functor1<F extends URIS> {
@@ -67,9 +61,9 @@ export interface Functor1<F extends URIS> {
 }
 ```
 
-# Functor2
+# Functor2 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Functor2<F extends URIS2> {
@@ -78,9 +72,9 @@ export interface Functor2<F extends URIS2> {
 }
 ```
 
-# Functor2C
+# Functor2C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Functor2C<F extends URIS2, L> {
@@ -90,9 +84,9 @@ export interface Functor2C<F extends URIS2, L> {
 }
 ```
 
-# Functor3
+# Functor3 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Functor3<F extends URIS3> {
@@ -101,9 +95,9 @@ export interface Functor3<F extends URIS3> {
 }
 ```
 
-# Functor3C
+# Functor3C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Functor3C<F extends URIS3, U, L> {
@@ -114,9 +108,9 @@ export interface Functor3C<F extends URIS3, U, L> {
 }
 ```
 
-# Functor4
+# Functor4 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface Functor4<F extends URIS4> {
@@ -125,9 +119,9 @@ export interface Functor4<F extends URIS4> {
 }
 ```
 
-# FunctorComposition
+# FunctorComposition (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorComposition<F, G> {
@@ -135,9 +129,9 @@ export interface FunctorComposition<F, G> {
 }
 ```
 
-# FunctorComposition11
+# FunctorComposition11 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorComposition11<F extends URIS, G extends URIS> {
@@ -145,9 +139,9 @@ export interface FunctorComposition11<F extends URIS, G extends URIS> {
 }
 ```
 
-# FunctorComposition12
+# FunctorComposition12 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorComposition12<F extends URIS, G extends URIS2> {
@@ -155,9 +149,9 @@ export interface FunctorComposition12<F extends URIS, G extends URIS2> {
 }
 ```
 
-# FunctorComposition12C
+# FunctorComposition12C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorComposition12C<F extends URIS, G extends URIS2, LG> {
@@ -165,9 +159,9 @@ export interface FunctorComposition12C<F extends URIS, G extends URIS2, LG> {
 }
 ```
 
-# FunctorComposition21
+# FunctorComposition21 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorComposition21<F extends URIS2, G extends URIS> {
@@ -175,9 +169,9 @@ export interface FunctorComposition21<F extends URIS2, G extends URIS> {
 }
 ```
 
-# FunctorComposition22
+# FunctorComposition22 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
@@ -185,9 +179,9 @@ export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
 }
 ```
 
-# FunctorComposition22C
+# FunctorComposition22C (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorComposition22C<F extends URIS2, G extends URIS2, LG> {
@@ -195,9 +189,9 @@ export interface FunctorComposition22C<F extends URIS2, G extends URIS2, LG> {
 }
 ```
 
-# FunctorComposition2C1
+# FunctorComposition2C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorComposition2C1<F extends URIS2, G extends URIS, LF> {
@@ -205,9 +199,9 @@ export interface FunctorComposition2C1<F extends URIS2, G extends URIS, LF> {
 }
 ```
 
-# FunctorComposition3C1
+# FunctorComposition3C1 (interface)
 
-**Signature** (interface)
+**Signature**
 
 ```ts
 export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> {
@@ -215,11 +209,11 @@ export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> 
 }
 ```
 
-# flap
+# flap (function)
 
 Apply a value in a computational context to a value in no context. Generalizes `flip`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function flap<F extends URIS3>(
@@ -241,9 +235,9 @@ export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => 
 
 Added in v1.0.0
 
-# getFunctorComposition
+# getFunctorComposition (function)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function getFunctorComposition<F extends URIS3, G extends URIS, UF, LF>(
@@ -284,11 +278,11 @@ export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): Funct
 
 Added in v1.0.0
 
-# lift
+# lift (function)
 
 Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function lift<F extends URIS3>(
@@ -310,11 +304,11 @@ export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>
 
 Added in v1.0.0
 
-# voidLeft
+# voidLeft (function)
 
 A version of `voidRight` with its arguments flipped (`$>`)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function voidLeft<F extends URIS3>(
@@ -332,11 +326,11 @@ export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F
 
 Added in v1.0.0
 
-# voidRight
+# voidRight (function)
 
 Ignore the return value of a computation, using the specified return value instead (`<$`)
 
-**Signature** (function)
+**Signature**
 
 ```ts
 export function voidRight<F extends URIS3>(
