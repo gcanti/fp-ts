@@ -4,6 +4,8 @@ nav_order: 21
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Contravariant (interface)](#contravariant-interface)
@@ -13,6 +15,8 @@ parent: Modules
 - [Contravariant3 (interface)](#contravariant3-interface)
 - [Contravariant3C (interface)](#contravariant3c-interface)
 - [lift (function)](#lift-function)
+
+---
 
 # Contravariant (interface)
 

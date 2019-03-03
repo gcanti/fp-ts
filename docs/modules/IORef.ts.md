@@ -8,12 +8,16 @@ parent: Modules
 
 Mutable references in the `IO` monad
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [IORef (class)](#ioref-class)
   - [write (method)](#write-method)
   - [modify (method)](#modify-method)
 - [newIORef (function)](#newioref-function)
+
+---
 
 # IORef (class)
 

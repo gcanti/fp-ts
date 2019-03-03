@@ -4,6 +4,8 @@ nav_order: 57
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Monoid (interface)](#monoid-interface)
@@ -26,6 +28,8 @@ parent: Modules
 - [~~getRecordMonoid~~ (function)](#getrecordmonoid-function)
 - [getStructMonoid (function)](#getstructmonoid-function)
 - [getTupleMonoid (function)](#gettuplemonoid-function)
+
+---
 
 # Monoid (interface)
 

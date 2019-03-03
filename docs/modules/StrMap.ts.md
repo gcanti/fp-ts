@@ -8,6 +8,8 @@ parent: Modules
 
 Adapted from https://github.com/purescript/purescript-maps
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -51,6 +53,8 @@ Adapted from https://github.com/purescript/purescript-maps
 - [toArray (function)](#toarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
 - [~~traverseWithKey~~ (function)](#traversewithkey-function)
+
+---
 
 # URI (type alias)
 

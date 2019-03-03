@@ -9,6 +9,8 @@ parent: Modules
 `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent a synchronous computation that may fail, please see `IOEither`.
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -25,6 +27,8 @@ If you want to represent a synchronous computation that may fail, please see `IO
 - [io (constant)](#io-constant)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
+
+---
 
 # URI (type alias)
 

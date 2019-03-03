@@ -8,6 +8,8 @@ parent: Modules
 
 Data structure which represents non-empty arrays
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -55,6 +57,8 @@ Data structure which represents non-empty arrays
 - [group (function)](#group-function)
 - [groupBy (function)](#groupby-function)
 - [groupSort (function)](#groupsort-function)
+
+---
 
 # URI (type alias)
 

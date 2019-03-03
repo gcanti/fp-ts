@@ -8,6 +8,8 @@ parent: Modules
 
 Adapted from https://github.com/parsonsmatt/purescript-pair
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -27,6 +29,8 @@ Adapted from https://github.com/parsonsmatt/purescript-pair
 - [getOrd (function)](#getord-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
+
+---
 
 # URI (type alias)
 

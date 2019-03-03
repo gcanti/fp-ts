@@ -4,6 +4,8 @@ nav_order: 87
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [~~Traversable~~ (interface)](#traversable-interface)
@@ -24,6 +26,8 @@ parent: Modules
 - [~~getTraversableComposition~~ (function)](#gettraversablecomposition-function)
 - [~~sequence~~ (function)](#sequence-function)
 - [~~traverse~~ (function)](#traverse-function)
+
+---
 
 # ~~Traversable~~ (interface)
 

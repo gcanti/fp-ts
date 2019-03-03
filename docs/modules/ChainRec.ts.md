@@ -4,6 +4,8 @@ nav_order: 15
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [ChainRec (interface)](#chainrec-interface)
@@ -13,6 +15,8 @@ parent: Modules
 - [ChainRec3 (interface)](#chainrec3-interface)
 - [ChainRec3C (interface)](#chainrec3c-interface)
 - [tailRec (function)](#tailrec-function)
+
+---
 
 # ChainRec (interface)
 

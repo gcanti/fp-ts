@@ -4,6 +4,8 @@ nav_order: 61
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [~~OptionT~~ (interface)](#optiont-interface)
@@ -25,6 +27,8 @@ parent: Modules
 - [~~liftF~~ (function)](#liftf-function)
 - [~~none~~ (function)](#none-function)
 - [~~some~~ (function)](#some-function)
+
+---
 
 # ~~OptionT~~ (interface)
 

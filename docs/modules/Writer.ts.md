@@ -4,6 +4,8 @@ nav_order: 95
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -19,6 +21,8 @@ parent: Modules
 - [listens (function)](#listens-function)
 - [pass (function)](#pass-function)
 - [tell (function)](#tell-function)
+
+---
 
 # URI (type alias)
 

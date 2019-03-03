@@ -4,12 +4,16 @@ nav_order: 49
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [IxMonad (interface)](#ixmonad-interface)
 - [IxMonad3 (interface)](#ixmonad3-interface)
 - [iapplyFirst (function)](#iapplyfirst-function)
 - [iapplySecond (function)](#iapplysecond-function)
+
+---
 
 # IxMonad (interface)
 

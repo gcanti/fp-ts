@@ -11,10 +11,14 @@ A `DistributiveLattice` must satisfy the following laws in addition to `Lattice`
 - Distributivity for meet: `a ∨ (b ∧ c) = (a ∨ b) ∧ (a ∨ c)`
 - Distributivity for join: `a ∧ (b ∨ c) = (a ∧ b) ∨ (a ∧ c)`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [DistributiveLattice (interface)](#distributivelattice-interface)
 - [getMinMaxDistributiveLattice (function)](#getminmaxdistributivelattice-function)
+
+---
 
 # DistributiveLattice (interface)
 

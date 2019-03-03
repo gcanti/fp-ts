@@ -4,6 +4,8 @@ nav_order: 17
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Comonad (interface)](#comonad-interface)
@@ -12,6 +14,8 @@ parent: Modules
 - [Comonad2C (interface)](#comonad2c-interface)
 - [Comonad3 (interface)](#comonad3-interface)
 - [Comonad3C (interface)](#comonad3c-interface)
+
+---
 
 # Comonad (interface)
 

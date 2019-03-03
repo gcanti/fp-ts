@@ -10,9 +10,13 @@ A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinS
 
 - `a ∨ 0 == a`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [BoundedJoinSemilattice (interface)](#boundedjoinsemilattice-interface)
+
+---
 
 # BoundedJoinSemilattice (interface)
 

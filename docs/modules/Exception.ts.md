@@ -8,6 +8,8 @@ parent: Modules
 
 Adapted from https://github.com/purescript/purescript-exceptions
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [catchError (function)](#catcherror-function)
@@ -16,6 +18,8 @@ Adapted from https://github.com/purescript/purescript-exceptions
 - [stack (function)](#stack-function)
 - [throwError (function)](#throwerror-function)
 - [tryCatch (function)](#trycatch-function)
+
+---
 
 # catchError (function)
 

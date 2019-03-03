@@ -4,6 +4,8 @@ nav_order: 25
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [~~EitherT~~ (interface)](#eithert-interface)
@@ -21,6 +23,8 @@ parent: Modules
 - [~~left~~ (function)](#left-function)
 - [~~mapLeft~~ (function)](#mapleft-function)
 - [~~right~~ (function)](#right-function)
+
+---
 
 # ~~EitherT~~ (interface)
 

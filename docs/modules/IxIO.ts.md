@@ -4,6 +4,8 @@ nav_order: 48
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -17,6 +19,8 @@ parent: Modules
 - [ixIO (constant)](#ixio-constant)
 - [getMonad (function)](#getmonad-function)
 - [iof (function)](#iof-function)
+
+---
 
 # URI (type alias)
 

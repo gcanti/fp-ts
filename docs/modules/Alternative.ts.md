@@ -14,6 +14,8 @@ Types which have `Alternative` instances should also satisfy the following laws:
 1. Distributivity: `A.ap(A.alt(fab, gab), fa) = A.alt(A.ap(fab, fa), A.ap(gab, fa))`
 2. Annihilation: `A.ap(zero, fa) = zero`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Alternative (interface)](#alternative-interface)
@@ -22,6 +24,8 @@ Types which have `Alternative` instances should also satisfy the following laws:
 - [Alternative2C (interface)](#alternative2c-interface)
 - [Alternative3 (interface)](#alternative3-interface)
 - [Alternative3C (interface)](#alternative3c-interface)
+
+---
 
 # Alternative (interface)
 

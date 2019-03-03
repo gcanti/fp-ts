@@ -8,6 +8,8 @@ parent: Modules
 
 Adapted from https://github.com/purescript/purescript-arrays
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -83,6 +85,8 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [updateAt (function)](#updateat-function)
 - [zip (function)](#zip-function)
 - [zipWith (function)](#zipwith-function)
+
+---
 
 # URI (type alias)
 

@@ -15,6 +15,8 @@ foldMap(M)(fa, f) = foldMapWithIndex(M)(fa, (_, a) => f(a))
 foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
 ```
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [FoldableWithIndex (interface)](#foldablewithindex-interface)
@@ -33,6 +35,8 @@ foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
 - [FoldableWithIndexComposition2C1 (interface)](#foldablewithindexcomposition2c1-interface)
 - [FoldableWithIndexComposition3C1 (interface)](#foldablewithindexcomposition3c1-interface)
 - [getFoldableWithIndexComposition (function)](#getfoldablewithindexcomposition-function)
+
+---
 
 # FoldableWithIndex (interface)
 

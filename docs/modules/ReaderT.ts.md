@@ -4,6 +4,8 @@ nav_order: 69
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [~~ReaderT~~ (interface)](#readert-interface)
@@ -23,6 +25,8 @@ parent: Modules
 - [getReaderT2v (function)](#getreadert2v-function)
 - [~~map~~ (function)](#map-function)
 - [~~of~~ (function)](#of-function)
+
+---
 
 # ~~ReaderT~~ (interface)
 

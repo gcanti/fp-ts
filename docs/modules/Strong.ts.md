@@ -32,6 +32,8 @@ to the first element of a tuple, and `second` applies it to the second element (
 
 Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Strong (interface)](#strong-interface)
@@ -40,6 +42,8 @@ Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src
 - [Strong4 (interface)](#strong4-interface)
 - [fanout (function)](#fanout-function)
 - [splitStrong (function)](#splitstrong-function)
+
+---
 
 # Strong (interface)
 

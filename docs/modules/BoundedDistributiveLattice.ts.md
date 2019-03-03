@@ -8,10 +8,14 @@ parent: Modules
 
 A `BoundedDistributiveLattice` is a lattice that is both bounded and distributive
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [BoundedDistributiveLattice (interface)](#boundeddistributivelattice-interface)
 - [getMinMaxBoundedDistributiveLattice (function)](#getminmaxboundeddistributivelattice-function)
+
+---
 
 # BoundedDistributiveLattice (interface)
 

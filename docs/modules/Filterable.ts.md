@@ -10,6 +10,8 @@ parent: Modules
 
 Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Filterable.purs
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Filterable (interface)](#filterable-interface)
@@ -28,6 +30,8 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [FilterableComposition2C1 (interface)](#filterablecomposition2c1-interface)
 - [FilterableComposition3C1 (interface)](#filterablecomposition3c1-interface)
 - [getFilterableComposition (function)](#getfilterablecomposition-function)
+
+---
 
 # Filterable (interface)
 

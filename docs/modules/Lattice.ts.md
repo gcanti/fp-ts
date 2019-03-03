@@ -11,9 +11,13 @@ A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `Mee
 - Absorbtion law for meet: `a ∧ (a ∨ b) == a`
 - Absorbtion law for join: `a ∨ (a ∧ b) == a`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Lattice (interface)](#lattice-interface)
+
+---
 
 # Lattice (interface)
 

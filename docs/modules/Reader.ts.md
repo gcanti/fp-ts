@@ -4,6 +4,8 @@ nav_order: 68
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -20,6 +22,8 @@ parent: Modules
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [local (function)](#local-function)
+
+---
 
 # URI (type alias)
 

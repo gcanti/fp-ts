@@ -17,6 +17,8 @@ concrete types like `string` or `number`.
 2. Right identity: `A.alt(fa, zero) == fa`
 3. Annihilation: `A.map(zero, fa) == zero`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Plus (interface)](#plus-interface)
@@ -25,6 +27,8 @@ concrete types like `string` or `number`.
 - [Plus2C (interface)](#plus2c-interface)
 - [Plus3 (interface)](#plus3-interface)
 - [Plus3C (interface)](#plus3c-interface)
+
+---
 
 # Plus (interface)
 

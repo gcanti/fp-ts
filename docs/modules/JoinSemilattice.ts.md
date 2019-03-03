@@ -15,9 +15,13 @@ A `JoinSemilattice` must satisfy the following laws:
 - Commutativity: `a ∨ b = b ∨ a`
 - Idempotency: `a ∨ a = a`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [JoinSemilattice (interface)](#joinsemilattice-interface)
+
+---
 
 # JoinSemilattice (interface)
 

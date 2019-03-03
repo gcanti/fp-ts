@@ -4,6 +4,8 @@ nav_order: 32
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Foldable2v (interface)](#foldable2v-interface)
@@ -36,6 +38,8 @@ parent: Modules
 - [sum (function)](#sum-function)
 - [toArray (function)](#toarray-function)
 - [traverse\_ (function)](#traverse_-function)
+
+---
 
 # Foldable2v (interface)
 

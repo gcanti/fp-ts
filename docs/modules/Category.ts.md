@@ -4,6 +4,8 @@ nav_order: 13
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Category (interface)](#category-interface)
@@ -11,6 +13,8 @@ parent: Modules
 - [Category3 (interface)](#category3-interface)
 - [Category3C (interface)](#category3c-interface)
 - [Category4 (interface)](#category4-interface)
+
+---
 
 # Category (interface)
 

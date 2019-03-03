@@ -4,6 +4,8 @@ nav_order: 44
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Invariant (interface)](#invariant-interface)
@@ -12,6 +14,8 @@ parent: Modules
 - [Invariant2C (interface)](#invariant2c-interface)
 - [Invariant3 (interface)](#invariant3-interface)
 - [Invariant3C (interface)](#invariant3c-interface)
+
+---
 
 # Invariant (interface)
 

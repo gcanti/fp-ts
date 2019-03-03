@@ -4,6 +4,8 @@ nav_order: 20
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -18,6 +20,8 @@ parent: Modules
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
 - [getSetoid (function)](#getsetoid-function)
+
+---
 
 # URI (type alias)
 

@@ -4,6 +4,8 @@ nav_order: 52
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -32,6 +34,8 @@ parent: Modules
 - [toArray (function)](#toarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
 - [values (function)](#values-function)
+
+---
 
 # URI (type alias)
 

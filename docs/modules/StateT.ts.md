@@ -4,6 +4,8 @@ nav_order: 79
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [~~StateT~~ (interface)](#statet-interface)
@@ -27,6 +29,8 @@ parent: Modules
 - [modify (function)](#modify-function)
 - [~~of~~ (function)](#of-function)
 - [put (function)](#put-function)
+
+---
 
 # ~~StateT~~ (interface)
 

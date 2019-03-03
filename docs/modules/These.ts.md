@@ -24,6 +24,8 @@ both `L` and `A` kind of data at the same time. This is particularly useful when
 
 Adapted from https://github.com/purescript-contrib/purescript-these
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [These (type alias)](#these-type-alias)
@@ -78,6 +80,8 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 - [theseThis (function)](#thesethis-function)
 - [thisOrBoth (function)](#thisorboth-function)
 - [this\_ (function)](#this_-function)
+
+---
 
 # These (type alias)
 

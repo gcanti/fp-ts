@@ -25,6 +25,8 @@ and with its `FunctorWithIndex` instance
 mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value
 ```
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [TraversableWithIndex (interface)](#traversablewithindex-interface)
@@ -35,6 +37,8 @@ mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i
 - [TraverseWithIndex1 (interface)](#traversewithindex1-interface)
 - [TraverseWithIndex2 (interface)](#traversewithindex2-interface)
 - [TraverseWithIndex2C (interface)](#traversewithindex2c-interface)
+
+---
 
 # TraversableWithIndex (interface)
 

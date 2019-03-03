@@ -17,6 +17,8 @@ Instances must satisfy the following law in addition to the `Functor` laws:
 
 Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Apply (interface)](#apply-interface)
@@ -38,6 +40,8 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [liftA3 (function)](#lifta3-function)
 - [liftA4 (function)](#lifta4-function)
 - [sequenceT (function)](#sequencet-function)
+
+---
 
 # Apply (interface)
 

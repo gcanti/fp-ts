@@ -12,6 +12,8 @@ after being reduced to "canonical form", i.e., cancelling adjacent inverses.
 
 Adapted from https://hackage.haskell.org/package/free-algebras-0.0.7.0/docs/Data-Group-Free.html
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -27,6 +29,8 @@ Adapted from https://hackage.haskell.org/package/free-algebras-0.0.7.0/docs/Data
 - [getGroup (function)](#getgroup-function)
 - [getSetoid (function)](#getsetoid-function)
 - [normalize (function)](#normalize-function)
+
+---
 
 # URI (type alias)
 

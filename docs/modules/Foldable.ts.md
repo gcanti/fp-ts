@@ -4,6 +4,8 @@ nav_order: 31
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [~~Foldable~~ (interface)](#foldable-interface)
@@ -38,6 +40,8 @@ parent: Modules
 - [toArray (function)](#toarray-function)
 - [traverse (function)](#traverse-function)
 - [~~traverse\_~~ (function)](#traverse_-function)
+
+---
 
 # ~~Foldable~~ (interface)
 

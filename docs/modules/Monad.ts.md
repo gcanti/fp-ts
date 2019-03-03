@@ -18,6 +18,8 @@ Instances must satisfy the following laws in addition to the `Applicative` and `
 
 Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.of(f(a)))`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Monad (interface)](#monad-interface)
@@ -26,6 +28,8 @@ Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.o
 - [Monad2C (interface)](#monad2c-interface)
 - [Monad3 (interface)](#monad3-interface)
 - [Monad3C (interface)](#monad3c-interface)
+
+---
 
 # Monad (interface)
 

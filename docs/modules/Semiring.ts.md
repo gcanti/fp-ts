@@ -26,10 +26,14 @@ Instances must satisfy the following laws:
 for arithmetic overflows, and the presence of `NaN` and `Infinity` values. The behaviour is
 unspecified in these cases.
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Semiring (interface)](#semiring-interface)
 - [getFunctionSemiring (function)](#getfunctionsemiring-function)
+
+---
 
 # Semiring (interface)
 

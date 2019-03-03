@@ -4,6 +4,8 @@ nav_order: 30
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [FilterableWithIndex (interface)](#filterablewithindex-interface)
@@ -12,6 +14,8 @@ parent: Modules
 - [FilterableWithIndex2C (interface)](#filterablewithindex2c-interface)
 - [FilterableWithIndex3 (interface)](#filterablewithindex3-interface)
 - [FilterableWithIndex3C (interface)](#filterablewithindex3c-interface)
+
+---
 
 # FilterableWithIndex (interface)
 

@@ -87,6 +87,8 @@ sumLifted(some(1), some(2)) // some(3)
 sumLifted(some(1), none) // none
 ```
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Option (type alias)](#option-type-alias)
@@ -158,6 +160,8 @@ sumLifted(some(1), none) // none
 - [isSome (function)](#issome-function)
 - [some (function)](#some-function)
 - [tryCatch (function)](#trycatch-function)
+
+---
 
 # Option (type alias)
 

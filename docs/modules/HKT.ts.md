@@ -8,6 +8,8 @@ parent: Modules
 
 Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf))
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [HKT (interface)](#hkt-interface)
@@ -26,6 +28,8 @@ Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism
 - [URIS2 (type alias)](#uris2-type-alias)
 - [URIS3 (type alias)](#uris3-type-alias)
 - [URIS4 (type alias)](#uris4-type-alias)
+
+---
 
 # HKT (interface)
 

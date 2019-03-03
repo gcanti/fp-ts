@@ -16,6 +16,8 @@ Instances must satisfy the following laws:
 1. Identity: `F.mapWithIndex(fa, (_i, a) => a) = fa`
 2. Composition: `F.mapWithIndex(fa, (_i, a) => bc(ab(a))) = F.mapWithIndex(F.mapWithIndex(fa, ab), bc)`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [FunctorWithIndex (interface)](#functorwithindex-interface)
@@ -35,6 +37,8 @@ Instances must satisfy the following laws:
 - [FunctorWithIndexComposition2C1 (interface)](#functorwithindexcomposition2c1-interface)
 - [FunctorWithIndexComposition3C1 (interface)](#functorwithindexcomposition3c1-interface)
 - [getFunctorWithIndexComposition (function)](#getfunctorwithindexcomposition-function)
+
+---
 
 # FunctorWithIndex (interface)
 

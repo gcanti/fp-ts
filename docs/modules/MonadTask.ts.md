@@ -8,6 +8,8 @@ parent: Modules
 
 Lift a computation from the `Task` monad
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [MonadTask (interface)](#monadtask-interface)
@@ -16,6 +18,8 @@ Lift a computation from the `Task` monad
 - [MonadTask2C (interface)](#monadtask2c-interface)
 - [MonadTask3 (interface)](#monadtask3-interface)
 - [MonadTask3C (interface)](#monadtask3c-interface)
+
+---
 
 # MonadTask (interface)
 

@@ -4,6 +4,8 @@ nav_order: 63
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Ordering (type alias)](#ordering-type-alias)
@@ -11,6 +13,8 @@ parent: Modules
 - [setoidOrdering (constant)](#setoidordering-constant)
 - [invert (function)](#invert-function)
 - [sign (function)](#sign-function)
+
+---
 
 # Ordering (type alias)
 

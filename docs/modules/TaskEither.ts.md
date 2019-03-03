@@ -9,6 +9,8 @@ parent: Modules
 `TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
 error of type `L`. If you want to represent an asynchronous computation that never fails, please see `Task`.
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -48,6 +50,8 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [right (function)](#right-function)
 - [taskify (function)](#taskify-function)
 - [tryCatch (function)](#trycatch-function)
+
+---
 
 # URI (type alias)
 

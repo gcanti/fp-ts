@@ -26,9 +26,13 @@ A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistri
 - Complemented
   - `¬a = a → 0`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [HeytingAlgebra (interface)](#heytingalgebra-interface)
+
+---
 
 # HeytingAlgebra (interface)
 

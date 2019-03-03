@@ -15,9 +15,13 @@ A `MeetSemilattice` must satisfy the following laws:
 - Commutativity: `a ∧ b = b ∧ a`
 - Idempotency: `a ∧ a = a`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [MeetSemilattice (interface)](#meetsemilattice-interface)
+
+---
 
 # MeetSemilattice (interface)
 

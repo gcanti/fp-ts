@@ -8,12 +8,16 @@ parent: Modules
 
 Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Field (interface)](#field-interface)
 - [fieldNumber (constant)](#fieldnumber-constant)
 - [gcd (function)](#gcd-function)
 - [lcm (function)](#lcm-function)
+
+---
 
 # Field (interface)
 

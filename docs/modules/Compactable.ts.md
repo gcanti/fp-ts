@@ -14,6 +14,8 @@ values, or failure.
 
 Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/src/Data/Compactable.purs
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Compactable (interface)](#compactable-interface)
@@ -33,6 +35,8 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [CompactableComposition3C1 (interface)](#compactablecomposition3c1-interface)
 - [Separated (interface)](#separated-interface)
 - [getCompactableComposition (function)](#getcompactablecomposition-function)
+
+---
 
 # Compactable (interface)
 

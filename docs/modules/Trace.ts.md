@@ -8,12 +8,16 @@ parent: Modules
 
 Adapted from https://github.com/garyb/purescript-debug
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [spy (function)](#spy-function)
 - [trace (function)](#trace-function)
 - [traceA (function)](#tracea-function)
 - [traceM (function)](#tracem-function)
+
+---
 
 # spy (function)
 

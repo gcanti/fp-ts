@@ -31,6 +31,8 @@ right(12).map(double) // right(24)
 left(23).map(double) // left(23)
 ```
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Either (type alias)](#either-type-alias)
@@ -103,6 +105,8 @@ left(23).map(double) // left(23)
 - [toError (function)](#toerror-function)
 - [~~tryCatch~~ (function)](#trycatch-function)
 - [tryCatch2v (function)](#trycatch2v-function)
+
+---
 
 # Either (type alias)
 

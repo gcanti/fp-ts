@@ -15,6 +15,8 @@ Instances should satisfy the following laws in addition to the `HeytingAlgebra` 
 
 Boolean algebras generalize classical logic: one is equivalent to "true" and zero is equivalent to "false".
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [BooleanAlgebra (interface)](#booleanalgebra-interface)
@@ -22,6 +24,8 @@ Boolean algebras generalize classical logic: one is equivalent to "true" and zer
 - [booleanAlgebraVoid (constant)](#booleanalgebravoid-constant)
 - [getDualBooleanAlgebra (function)](#getdualbooleanalgebra-function)
 - [getFunctionBooleanAlgebra (function)](#getfunctionbooleanalgebra-function)
+
+---
 
 # BooleanAlgebra (interface)
 

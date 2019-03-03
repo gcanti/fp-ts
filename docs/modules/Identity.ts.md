@@ -4,6 +4,8 @@ nav_order: 42
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -23,6 +25,8 @@ parent: Modules
 - [URI (constant)](#uri-constant)
 - [identity (constant)](#identity-constant)
 - [getSetoid (function)](#getsetoid-function)
+
+---
 
 # URI (type alias)
 

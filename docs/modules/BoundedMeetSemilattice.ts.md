@@ -10,9 +10,13 @@ A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetS
 
 - `a ∧ 1 = a`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [BoundedMeetSemilattice (interface)](#boundedmeetsemilattice-interface)
+
+---
 
 # BoundedMeetSemilattice (interface)
 

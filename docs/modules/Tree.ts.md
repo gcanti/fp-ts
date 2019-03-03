@@ -12,6 +12,8 @@ Multi-way trees (aka rose trees) and forests, where a forest is
 type Forest<A> = Array<Tree<A>>
 ```
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Forest (type alias)](#forest-type-alias)
@@ -36,6 +38,8 @@ type Forest<A> = Array<Tree<A>>
 - [unfoldForestM (function)](#unfoldforestm-function)
 - [unfoldTree (function)](#unfoldtree-function)
 - [unfoldTreeM (function)](#unfoldtreem-function)
+
+---
 
 # Forest (type alias)
 

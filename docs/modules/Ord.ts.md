@@ -14,6 +14,8 @@ Instances should satisfy the laws of total orderings:
 2. Antisymmetry: if `S.compare(a, b) <= 0` and `S.compare(b, a) <= 0` then `a <-> b`
 3. Transitivity: if `S.compare(a, b) <= 0` and `S.compare(b, c) <= 0` then `S.compare(a, c) <= 0`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Ord (interface)](#ord-interface)
@@ -36,6 +38,8 @@ Instances should satisfy the laws of total orderings:
 - [max (function)](#max-function)
 - [min (function)](#min-function)
 - [unsafeCompare (function)](#unsafecompare-function)
+
+---
 
 # Ord (interface)
 

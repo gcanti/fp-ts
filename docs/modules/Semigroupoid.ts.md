@@ -4,6 +4,8 @@ nav_order: 74
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Semigroupoid (interface)](#semigroupoid-interface)
@@ -11,6 +13,8 @@ parent: Modules
 - [Semigroupoid3 (interface)](#semigroupoid3-interface)
 - [Semigroupoid3C (interface)](#semigroupoid3c-interface)
 - [Semigroupoid4 (interface)](#semigroupoid4-interface)
+
+---
 
 # Semigroupoid (interface)
 

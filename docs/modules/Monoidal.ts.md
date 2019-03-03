@@ -11,6 +11,8 @@ parent: Modules
 - https://wiki.haskell.org/Typeclassopedia#Alternative_formulation
 - https://bartoszmilewski.com/2017/02/06/applicative-functors/
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Monoidal (interface)](#monoidal-interface)
@@ -21,6 +23,8 @@ parent: Modules
 - [Monoidal3C (interface)](#monoidal3c-interface)
 - [fromApplicative (function)](#fromapplicative-function)
 - [toApplicative (function)](#toapplicative-function)
+
+---
 
 # Monoidal (interface)
 

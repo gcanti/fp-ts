@@ -14,6 +14,8 @@ Instances must satisfy the following law in addition to the `Semiring` laws:
 
 Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Ring.purs
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Ring (interface)](#ring-interface)
@@ -21,6 +23,8 @@ Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Da
 - [~~getProductRing~~ (function)](#getproductring-function)
 - [getTupleRing (function)](#gettuplering-function)
 - [negate (function)](#negate-function)
+
+---
 
 # Ring (interface)
 

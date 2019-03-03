@@ -10,9 +10,13 @@ A `Group` is a `Monoid` with inverses. Instances must satisfy the following law 
 
 - Inverse: `concat(inverse(a), a) = empty = concat(a, inverse(a))`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Group (interface)](#group-interface)
+
+---
 
 # Group (interface)
 

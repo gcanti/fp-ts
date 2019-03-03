@@ -4,6 +4,8 @@ nav_order: 27
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Extend (interface)](#extend-interface)
@@ -13,6 +15,8 @@ parent: Modules
 - [Extend3 (interface)](#extend3-interface)
 - [Extend3C (interface)](#extend3c-interface)
 - [duplicate (function)](#duplicate-function)
+
+---
 
 # Extend (interface)
 

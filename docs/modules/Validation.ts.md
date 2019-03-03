@@ -12,6 +12,8 @@ The `Applicative` instance collects multiple failures in an arbitrary `Semigroup
 
 Adapted from https://github.com/purescript/purescript-validation
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -59,6 +61,8 @@ Adapted from https://github.com/purescript/purescript-validation
 - [isFailure (function)](#isfailure-function)
 - [isSuccess (function)](#issuccess-function)
 - [success (function)](#success-function)
+
+---
 
 # URI (type alias)
 

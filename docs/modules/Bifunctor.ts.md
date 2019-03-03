@@ -4,12 +4,16 @@ nav_order: 6
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Bifunctor (interface)](#bifunctor-interface)
 - [Bifunctor2 (interface)](#bifunctor2-interface)
 - [Bifunctor3 (interface)](#bifunctor3-interface)
 - [Bifunctor3C (interface)](#bifunctor3c-interface)
+
+---
 
 # Bifunctor (interface)
 

@@ -8,6 +8,8 @@ parent: Modules
 
 Lift a computation from the `IO` monad
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [MonadIO (interface)](#monadio-interface)
@@ -16,6 +18,8 @@ Lift a computation from the `IO` monad
 - [MonadIO2C (interface)](#monadio2c-interface)
 - [MonadIO3 (interface)](#monadio3-interface)
 - [MonadIO3C (interface)](#monadio3c-interface)
+
+---
 
 # MonadIO (interface)
 

@@ -8,6 +8,8 @@ parent: Modules
 
 Adapted from http://okmij.org/ftp/Computation/free-monad.html and https://github.com/purescript/purescript-free
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [FoldFree2 (interface)](#foldfree2-interface)
@@ -39,6 +41,8 @@ Adapted from http://okmij.org/ftp/Computation/free-monad.html and https://github
 - [hoistFree (function)](#hoistfree-function)
 - [liftF (function)](#liftf-function)
 - [of (function)](#of-function)
+
+---
 
 # FoldFree2 (interface)
 

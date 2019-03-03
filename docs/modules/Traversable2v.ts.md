@@ -21,6 +21,8 @@ parent: Modules
 <F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 ```
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Sequence (interface)](#sequence-interface)
@@ -40,6 +42,8 @@ parent: Modules
 - [Traversable2vComposition11 (interface)](#traversable2vcomposition11-interface)
 - [TraverseComposition11 (interface)](#traversecomposition11-interface)
 - [getTraversableComposition (function)](#gettraversablecomposition-function)
+
+---
 
 # Sequence (interface)
 

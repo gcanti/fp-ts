@@ -14,6 +14,8 @@ Instances must satisfy the following laws:
 2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
 3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Setoid (interface)](#setoid-interface)
@@ -29,6 +31,8 @@ Instances must satisfy the following laws:
 - [getStructSetoid (function)](#getstructsetoid-function)
 - [getTupleSetoid (function)](#gettuplesetoid-function)
 - [strictEqual (function)](#strictequal-function)
+
+---
 
 # Setoid (interface)
 

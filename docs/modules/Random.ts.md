@@ -8,12 +8,16 @@ parent: Modules
 
 Adapted from https://github.com/purescript/purescript-random
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [random (constant)](#random-constant)
 - [randomBool (constant)](#randombool-constant)
 - [randomInt (function)](#randomint-function)
 - [randomRange (function)](#randomrange-function)
+
+---
 
 # random (constant)
 

@@ -33,6 +33,8 @@ left side of an `Either`, and `right` maps it over the right side (same as `map`
 
 Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Choice.purs
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Choice (interface)](#choice-interface)
@@ -41,6 +43,8 @@ Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src
 - [Choice4 (interface)](#choice4-interface)
 - [fanin (function)](#fanin-function)
 - [splitChoice (function)](#splitchoice-function)
+
+---
 
 # Choice (interface)
 

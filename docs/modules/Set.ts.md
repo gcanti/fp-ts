@@ -4,6 +4,8 @@ nav_order: 76
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [empty (constant)](#empty-constant)
@@ -34,6 +36,8 @@ parent: Modules
 - [subset (function)](#subset-function)
 - [toArray (function)](#toarray-function)
 - [union (function)](#union-function)
+
+---
 
 # empty (constant)
 

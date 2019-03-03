@@ -4,6 +4,8 @@ nav_order: 73
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Semigroup (interface)](#semigroup-interface)
@@ -27,6 +29,8 @@ parent: Modules
 - [~~getRecordSemigroup~~ (function)](#getrecordsemigroup-function)
 - [getStructSemigroup (function)](#getstructsemigroup-function)
 - [getTupleSemigroup (function)](#gettuplesemigroup-function)
+
+---
 
 # Semigroup (interface)
 

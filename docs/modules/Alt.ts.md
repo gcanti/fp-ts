@@ -15,6 +15,8 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 1. Associativity: `A.alt(A.alt(fa, ga), ha) = A.alt(fa, A.alt(ga, ha))`
 2. Distributivity: `A.map(A.alt(fa, ga), ab) = A.alt(A.map(fa, ab), A.map(ga, ab))`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Alt (interface)](#alt-interface)
@@ -23,6 +25,8 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 - [Alt2C (interface)](#alt2c-interface)
 - [Alt3 (interface)](#alt3-interface)
 - [Alt3C (interface)](#alt3c-interface)
+
+---
 
 # Alt (interface)
 

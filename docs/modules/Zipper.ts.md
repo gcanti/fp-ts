@@ -17,6 +17,8 @@ Adapted from
 - https://github.com/thunklife/purescript-zipper
 - https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -45,6 +47,8 @@ Adapted from
 - [fromNonEmptyArray (function)](#fromnonemptyarray-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
+
+---
 
 # URI (type alias)
 

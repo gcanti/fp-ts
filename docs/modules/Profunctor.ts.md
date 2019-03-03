@@ -4,6 +4,8 @@ nav_order: 66
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Profunctor (interface)](#profunctor-interface)
@@ -12,6 +14,8 @@ parent: Modules
 - [Profunctor4 (interface)](#profunctor4-interface)
 - [lmap (function)](#lmap-function)
 - [rmap (function)](#rmap-function)
+
+---
 
 # Profunctor (interface)
 

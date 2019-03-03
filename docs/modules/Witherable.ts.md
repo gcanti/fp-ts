@@ -4,6 +4,8 @@ nav_order: 94
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Wilt (interface)](#wilt-interface)
@@ -24,6 +26,8 @@ parent: Modules
 - [Witherable2C (interface)](#witherable2c-interface)
 - [Witherable3 (interface)](#witherable3-interface)
 - [Witherable3C (interface)](#witherable3c-interface)
+
+---
 
 # Wilt (interface)
 

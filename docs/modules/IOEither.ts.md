@@ -9,6 +9,8 @@ parent: Modules
 `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
 error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -33,6 +35,8 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [right (function)](#right-function)
 - [~~tryCatch~~ (function)](#trycatch-function)
 - [tryCatch2v (function)](#trycatch2v-function)
+
+---
 
 # URI (type alias)
 

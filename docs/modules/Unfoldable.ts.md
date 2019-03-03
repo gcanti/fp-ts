@@ -8,6 +8,8 @@ parent: Modules
 
 This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Unfoldable (interface)](#unfoldable-interface)
@@ -20,6 +22,8 @@ This class identifies data structures which can be _unfolded_, generalizing `unf
 - [replicate (function)](#replicate-function)
 - [replicateA (function)](#replicatea-function)
 - [singleton (function)](#singleton-function)
+
+---
 
 # Unfoldable (interface)
 

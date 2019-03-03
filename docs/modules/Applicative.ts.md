@@ -22,6 +22,8 @@ Instances must satisfy the following laws in addition to the `Apply` laws:
 
 Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Applicative (interface)](#applicative-interface)
@@ -42,6 +44,8 @@ Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 - [getApplicativeComposition (function)](#getapplicativecomposition-function)
 - [getMonoid (function)](#getmonoid-function)
 - [when (function)](#when-function)
+
+---
 
 # Applicative (interface)
 

@@ -8,12 +8,16 @@ parent: Modules
 
 Adapted from https://github.com/purescript/purescript-console
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [error (function)](#error-function)
 - [info (function)](#info-function)
 - [log (function)](#log-function)
 - [warn (function)](#warn-function)
+
+---
 
 # error (function)
 

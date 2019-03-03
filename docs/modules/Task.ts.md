@@ -9,6 +9,8 @@ parent: Modules
 `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
 If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [URI (type alias)](#uri-type-alias)
@@ -30,6 +32,8 @@ If you want to represent an asynchronous computation that may fail, please see `
 - [getRaceMonoid (function)](#getracemonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [tryCatch (function)](#trycatch-function)
+
+---
 
 # URI (type alias)
 

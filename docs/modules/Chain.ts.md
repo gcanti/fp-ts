@@ -15,6 +15,8 @@ Instances must satisfy the following law in addition to the `Apply` laws:
 
 Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa))`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Chain (interface)](#chain-interface)
@@ -24,6 +26,8 @@ Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa
 - [Chain3 (interface)](#chain3-interface)
 - [Chain3C (interface)](#chain3c-interface)
 - [flatten (function)](#flatten-function)
+
+---
 
 # Chain (interface)
 

@@ -16,6 +16,8 @@ Instances must satisfy the following laws:
 1. Identity: `F.map(fa, a => a) = fa`
 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [Functor (interface)](#functor-interface)
@@ -39,6 +41,8 @@ Instances must satisfy the following laws:
 - [lift (function)](#lift-function)
 - [voidLeft (function)](#voidleft-function)
 - [voidRight (function)](#voidright-function)
+
+---
 
 # Functor (interface)
 

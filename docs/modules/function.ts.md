@@ -4,6 +4,8 @@ nav_order: 36
 parent: Modules
 ---
 
+---
+
 <h2 class="text-delta">Table of contents</h2>
 
 - [BinaryOperation (type alias)](#binaryoperation-type-alias)
@@ -57,6 +59,8 @@ parent: Modules
 - [toString (function)](#tostring-function)
 - [tuple (function)](#tuple-function)
 - [tupleCurried (function)](#tuplecurried-function)
+
+---
 
 # BinaryOperation (type alias)
 
