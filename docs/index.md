@@ -2,41 +2,26 @@
 title: Home
 ---
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of contents**
+<img alt="fp-ts logo" src="/fp-ts-logo.png" style="display: block; width: 200px; margin-bottom: 2em;">
 
-- [What is fp-ts?](#what-is-fp-ts)
-- [Table of Contents](#table-of-contents)
-- [Installation and TypeScript compatibility](#installation-and-typescript-compatibility)
-- [Getting started](#getting-started)
-- [Documentation](#documentation)
-  - [Blog posts](#blog-posts)
-  - [Tutorials](#tutorials)
-- [Ecosystem](#ecosystem)
-  - [Libraries](#libraries)
-  - [Bindings](#bindings)
-- [License](#license)
+# Typed functional programming in TypeScript
 
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+fp-ts provides developers with popular patterns and reliable abstractions from typed functional languages in TypeScript.
+{: .fs-6 .fw-300 }
 
-# What is fp-ts?
+[Get started now](#getting-started){: .btn .btn-primary .fs-5 .mb-4 .mb-md-0 .mr-2 } [Take the tutorial](#tutorials){: .btn .fs-5 .mb-4 .mb-md-0 }
 
-`fp-ts` is a library for **typed functional programming** in TypeScript.
+---
 
-`fp-ts` aims to allow developers to use **popular patterns and abstractions** that are available in most functional languages. For this, it includes the most popular data types, type classes and abstractions such as `Option`, `Either`, `IO`, `Task`, `Functor`, `Applicative`, `Monad` to empower users to write pure FP apps and libraries built atop higher order abstractions.
+## Introduction
 
-A distinctive feature of `fp-ts` with respect to other functional libraries is its implementation of [Higher Kinded Types](<https://en.wikipedia.org/wiki/Kind_(type_theory)>) (TypeScript doesn't support HKT natively).
+`fp-ts` includes the most popular data types, type classes, and abstractions such as `Option`, `Either`, `IO`, `Task`, `Functor`, `Applicative`, `Monad` to empower users to write pure FP apps and libraries built atop higher order abstractions.
 
-The idea (faking higher kinded types in TypeScript) is based on [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf)
+A distinctive feature of `fp-ts` with respect to other functional libraries is its implementation of [Higher Kinded Types](<https://en.wikipedia.org/wiki/Kind_(type_theory)>), which TypeScript doesn't support natively. The idea for emulating higher kinded types in TypeScript is based on [Lightweight higher-kinded polymorphism](https://www.cl.cam.ac.uk/~jdy22/papers/lightweight-higher-kinded-polymorphism.pdf).
 
-**Inspired by**
+`fp-ts` takes inspiration from [Haskell](https://haskell-lang.org), [PureScript](http://www.purescript.org), and [Scala](https://www.scala-lang.org/), among others.
 
-- [Haskell](https://haskell-lang.org)
-- [PureScript](http://www.purescript.org)
-- [Scala](https://www.scala-lang.org/)
-
-# Table of Contents
+## Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
