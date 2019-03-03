@@ -20,7 +20,9 @@ Types which have `Alternative` instances should also satisfy the following laws:
 - [Alternative2 (interface)](#alternative2-interface)
 - [Alternative2C (interface)](#alternative2c-interface)
 - [Alternative3 (interface)](#alternative3-interface)
-- [Alternative3C (interface)](#alternative3c-interface)# Alternative (interface)
+- [Alternative3C (interface)](#alternative3c-interface)
+
+# Alternative (interface)
 
 **Signature**
 

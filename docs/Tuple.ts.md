@@ -31,7 +31,9 @@ Adapted from https://github.com/purescript/purescript-tuples
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)# URI (type alias)
+- [getSetoid (function)](#getsetoid-function)
+
+# URI (type alias)
 
 **Signature**
 

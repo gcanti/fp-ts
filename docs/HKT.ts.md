@@ -24,7 +24,9 @@ Type defunctionalization (as describe in [Lightweight higher-kinded polymorphism
 - [URIS (type alias)](#uris-type-alias)
 - [URIS2 (type alias)](#uris2-type-alias)
 - [URIS3 (type alias)](#uris3-type-alias)
-- [URIS4 (type alias)](#uris4-type-alias)# HKT (interface)
+- [URIS4 (type alias)](#uris4-type-alias)
+
+# HKT (interface)
 
 **Signature**
 

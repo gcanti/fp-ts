@@ -21,7 +21,9 @@ nav_order: 69
 - [~~getReaderT~~ (function)](#getreadert-function)
 - [getReaderT2v (function)](#getreadert2v-function)
 - [~~map~~ (function)](#map-function)
-- [~~of~~ (function)](#of-function)# ~~ReaderT~~ (interface)
+- [~~of~~ (function)](#of-function)
+
+# ~~ReaderT~~ (interface)
 
 **Signature**
 

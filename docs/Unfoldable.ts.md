@@ -18,7 +18,9 @@ This class identifies data structures which can be _unfolded_, generalizing `unf
 - [empty (function)](#empty-function)
 - [replicate (function)](#replicate-function)
 - [replicateA (function)](#replicatea-function)
-- [singleton (function)](#singleton-function)# Unfoldable (interface)
+- [singleton (function)](#singleton-function)
+
+# Unfoldable (interface)
 
 **Signature**
 

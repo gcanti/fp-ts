@@ -16,7 +16,9 @@ A `JoinSemilattice` must satisfy the following laws:
 
 **Table of contents**
 
-- [JoinSemilattice (interface)](#joinsemilattice-interface)# JoinSemilattice (interface)
+- [JoinSemilattice (interface)](#joinsemilattice-interface)
+
+# JoinSemilattice (interface)
 
 **Signature**
 

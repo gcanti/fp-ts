@@ -26,7 +26,9 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [FilterableComposition22C (interface)](#filterablecomposition22c-interface)
 - [FilterableComposition2C1 (interface)](#filterablecomposition2c1-interface)
 - [FilterableComposition3C1 (interface)](#filterablecomposition3c1-interface)
-- [getFilterableComposition (function)](#getfilterablecomposition-function)# Filterable (interface)
+- [getFilterableComposition (function)](#getfilterablecomposition-function)
+
+# Filterable (interface)
 
 **Signature**
 

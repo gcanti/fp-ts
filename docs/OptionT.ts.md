@@ -23,7 +23,9 @@ nav_order: 61
 - [~~getOrElse~~ (function)](#getorelse-function)
 - [~~liftF~~ (function)](#liftf-function)
 - [~~none~~ (function)](#none-function)
-- [~~some~~ (function)](#some-function)# ~~OptionT~~ (interface)
+- [~~some~~ (function)](#some-function)
+
+# ~~OptionT~~ (interface)
 
 **Signature**
 

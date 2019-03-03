@@ -24,7 +24,9 @@ Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.o
 - [Monad2 (interface)](#monad2-interface)
 - [Monad2C (interface)](#monad2c-interface)
 - [Monad3 (interface)](#monad3-interface)
-- [Monad3C (interface)](#monad3c-interface)# Monad (interface)
+- [Monad3C (interface)](#monad3c-interface)
+
+# Monad (interface)
 
 **Signature**
 

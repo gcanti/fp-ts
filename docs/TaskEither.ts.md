@@ -46,7 +46,9 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [left (function)](#left-function)
 - [right (function)](#right-function)
 - [taskify (function)](#taskify-function)
-- [tryCatch (function)](#trycatch-function)# URI (type alias)
+- [tryCatch (function)](#trycatch-function)
+
+# URI (type alias)
 
 **Signature**
 

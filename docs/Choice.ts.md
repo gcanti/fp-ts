@@ -39,7 +39,9 @@ Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src
 - [Choice3 (interface)](#choice3-interface)
 - [Choice4 (interface)](#choice4-interface)
 - [fanin (function)](#fanin-function)
-- [splitChoice (function)](#splitchoice-function)# Choice (interface)
+- [splitChoice (function)](#splitchoice-function)
+
+# Choice (interface)
 
 **Signature**
 

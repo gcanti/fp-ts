@@ -55,7 +55,9 @@ nav_order: 36
 - [pipe (function)](#pipe-function)
 - [toString (function)](#tostring-function)
 - [tuple (function)](#tuple-function)
-- [tupleCurried (function)](#tuplecurried-function)# BinaryOperation (type alias)
+- [tupleCurried (function)](#tuplecurried-function)
+
+# BinaryOperation (type alias)
 
 **Signature**
 

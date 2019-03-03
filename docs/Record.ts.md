@@ -50,7 +50,9 @@ nav_order: 71
 - [traverse (function)](#traverse-function)
 - [traverseWithKey (function)](#traversewithkey-function)
 - [wilt (function)](#wilt-function)
-- [wither (function)](#wither-function)# empty (constant)
+- [wither (function)](#wither-function)
+
+# empty (constant)
 
 **Signature**
 

@@ -28,7 +28,9 @@ unspecified in these cases.
 **Table of contents**
 
 - [Semiring (interface)](#semiring-interface)
-- [getFunctionSemiring (function)](#getfunctionsemiring-function)# Semiring (interface)
+- [getFunctionSemiring (function)](#getfunctionsemiring-function)
+
+# Semiring (interface)
 
 **Signature**
 

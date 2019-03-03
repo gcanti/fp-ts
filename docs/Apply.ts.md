@@ -36,7 +36,9 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [liftA2 (function)](#lifta2-function)
 - [liftA3 (function)](#lifta3-function)
 - [liftA4 (function)](#lifta4-function)
-- [sequenceT (function)](#sequencet-function)# Apply (interface)
+- [sequenceT (function)](#sequencet-function)
+
+# Apply (interface)
 
 **Signature**
 

@@ -9,7 +9,9 @@ nav_order: 13
 - [Category2 (interface)](#category2-interface)
 - [Category3 (interface)](#category3-interface)
 - [Category3C (interface)](#category3c-interface)
-- [Category4 (interface)](#category4-interface)# Category (interface)
+- [Category4 (interface)](#category4-interface)
+
+# Category (interface)
 
 **Signature**
 

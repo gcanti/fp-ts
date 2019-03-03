@@ -9,7 +9,9 @@ nav_order: 63
 - [semigroupOrdering (constant)](#semigroupordering-constant)
 - [setoidOrdering (constant)](#setoidordering-constant)
 - [invert (function)](#invert-function)
-- [sign (function)](#sign-function)# Ordering (type alias)
+- [sign (function)](#sign-function)
+
+# Ordering (type alias)
 
 **Signature**
 

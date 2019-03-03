@@ -156,7 +156,9 @@ sumLifted(some(1), none) // none
 - [isNone (function)](#isnone-function)
 - [isSome (function)](#issome-function)
 - [some (function)](#some-function)
-- [tryCatch (function)](#trycatch-function)# Option (type alias)
+- [tryCatch (function)](#trycatch-function)
+
+# Option (type alias)
 
 **Signature**
 

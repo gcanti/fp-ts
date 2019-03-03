@@ -23,7 +23,9 @@ If you want to represent a synchronous computation that may fail, please see `IO
 - [URI (constant)](#uri-constant)
 - [io (constant)](#io-constant)
 - [getMonoid (function)](#getmonoid-function)
-- [getSemigroup (function)](#getsemigroup-function)# URI (type alias)
+- [getSemigroup (function)](#getsemigroup-function)
+
+# URI (type alias)
 
 **Signature**
 

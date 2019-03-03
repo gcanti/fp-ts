@@ -12,7 +12,9 @@ Adapted from https://github.com/purescript/purescript-console
 - [error (function)](#error-function)
 - [info (function)](#info-function)
 - [log (function)](#log-function)
-- [warn (function)](#warn-function)# error (function)
+- [warn (function)](#warn-function)
+
+# error (function)
 
 **Signature**
 

@@ -10,7 +10,9 @@ nav_order: 17
 - [Comonad2 (interface)](#comonad2-interface)
 - [Comonad2C (interface)](#comonad2c-interface)
 - [Comonad3 (interface)](#comonad3-interface)
-- [Comonad3C (interface)](#comonad3c-interface)# Comonad (interface)
+- [Comonad3C (interface)](#comonad3c-interface)
+
+# Comonad (interface)
 
 **Signature**
 

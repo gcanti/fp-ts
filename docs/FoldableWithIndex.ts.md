@@ -31,7 +31,9 @@ foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
 - [FoldableWithIndexComposition22C (interface)](#foldablewithindexcomposition22c-interface)
 - [FoldableWithIndexComposition2C1 (interface)](#foldablewithindexcomposition2c1-interface)
 - [FoldableWithIndexComposition3C1 (interface)](#foldablewithindexcomposition3c1-interface)
-- [getFoldableWithIndexComposition (function)](#getfoldablewithindexcomposition-function)# FoldableWithIndex (interface)
+- [getFoldableWithIndexComposition (function)](#getfoldablewithindexcomposition-function)
+
+# FoldableWithIndex (interface)
 
 **Signature**
 

@@ -11,7 +11,9 @@ nav_order: 21
 - [Contravariant2C (interface)](#contravariant2c-interface)
 - [Contravariant3 (interface)](#contravariant3-interface)
 - [Contravariant3C (interface)](#contravariant3c-interface)
-- [lift (function)](#lift-function)# Contravariant (interface)
+- [lift (function)](#lift-function)
+
+# Contravariant (interface)
 
 **Signature**
 

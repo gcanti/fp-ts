@@ -25,7 +25,9 @@ nav_order: 73
 - [~~getProductSemigroup~~ (function)](#getproductsemigroup-function)
 - [~~getRecordSemigroup~~ (function)](#getrecordsemigroup-function)
 - [getStructSemigroup (function)](#getstructsemigroup-function)
-- [getTupleSemigroup (function)](#gettuplesemigroup-function)# Semigroup (interface)
+- [getTupleSemigroup (function)](#gettuplesemigroup-function)
+
+# Semigroup (interface)
 
 **Signature**
 

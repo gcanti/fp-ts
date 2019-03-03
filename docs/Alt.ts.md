@@ -21,7 +21,9 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 - [Alt2 (interface)](#alt2-interface)
 - [Alt2C (interface)](#alt2c-interface)
 - [Alt3 (interface)](#alt3-interface)
-- [Alt3C (interface)](#alt3c-interface)# Alt (interface)
+- [Alt3C (interface)](#alt3c-interface)
+
+# Alt (interface)
 
 **Signature**
 

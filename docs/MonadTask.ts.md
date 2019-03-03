@@ -14,7 +14,9 @@ Lift a computation from the `Task` monad
 - [MonadTask2 (interface)](#monadtask2-interface)
 - [MonadTask2C (interface)](#monadtask2c-interface)
 - [MonadTask3 (interface)](#monadtask3-interface)
-- [MonadTask3C (interface)](#monadtask3c-interface)# MonadTask (interface)
+- [MonadTask3C (interface)](#monadtask3c-interface)
+
+# MonadTask (interface)
 
 **Signature**
 

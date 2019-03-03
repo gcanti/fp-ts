@@ -35,7 +35,9 @@ nav_order: 70
 - [left (function)](#left-function)
 - [local (function)](#local-function)
 - [right (function)](#right-function)
-- [tryCatch (function)](#trycatch-function)# URI (type alias)
+- [tryCatch (function)](#trycatch-function)
+
+# URI (type alias)
 
 **Signature**
 

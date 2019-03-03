@@ -38,7 +38,9 @@ nav_order: 88
 - [Traversable2vComposition (interface)](#traversable2vcomposition-interface)
 - [Traversable2vComposition11 (interface)](#traversable2vcomposition11-interface)
 - [TraverseComposition11 (interface)](#traversecomposition11-interface)
-- [getTraversableComposition (function)](#gettraversablecomposition-function)# Sequence (interface)
+- [getTraversableComposition (function)](#gettraversablecomposition-function)
+
+# Sequence (interface)
 
 **Signature**
 

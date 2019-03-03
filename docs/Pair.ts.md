@@ -25,7 +25,9 @@ Adapted from https://github.com/parsonsmatt/purescript-pair
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)# URI (type alias)
+- [getSetoid (function)](#getsetoid-function)
+
+# URI (type alias)
 
 **Signature**
 

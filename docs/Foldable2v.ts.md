@@ -34,7 +34,9 @@ nav_order: 32
 - [sequence\_ (function)](#sequence_-function)
 - [sum (function)](#sum-function)
 - [toArray (function)](#toarray-function)
-- [traverse\_ (function)](#traverse_-function)# Foldable2v (interface)
+- [traverse\_ (function)](#traverse_-function)
+
+# Foldable2v (interface)
 
 **Signature**
 

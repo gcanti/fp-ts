@@ -40,7 +40,9 @@ Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 - [ApplicativeComposition3C1 (interface)](#applicativecomposition3c1-interface)
 - [getApplicativeComposition (function)](#getapplicativecomposition-function)
 - [getMonoid (function)](#getmonoid-function)
-- [when (function)](#when-function)# Applicative (interface)
+- [when (function)](#when-function)
+
+# Applicative (interface)
 
 **Signature**
 

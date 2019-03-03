@@ -19,7 +19,9 @@ Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Da
 - [getFunctionRing (function)](#getfunctionring-function)
 - [~~getProductRing~~ (function)](#getproductring-function)
 - [getTupleRing (function)](#gettuplering-function)
-- [negate (function)](#negate-function)# Ring (interface)
+- [negate (function)](#negate-function)
+
+# Ring (interface)
 
 **Signature**
 

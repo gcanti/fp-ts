@@ -12,7 +12,9 @@ Adapted from https://github.com/purescript/purescript-random
 - [random (constant)](#random-constant)
 - [randomBool (constant)](#randombool-constant)
 - [randomInt (function)](#randomint-function)
-- [randomRange (function)](#randomrange-function)# random (constant)
+- [randomRange (function)](#randomrange-function)
+
+# random (constant)
 
 Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
 `Math.random()`.

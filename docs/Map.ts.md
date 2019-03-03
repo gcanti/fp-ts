@@ -30,7 +30,9 @@ nav_order: 52
 - [size (function)](#size-function)
 - [toArray (function)](#toarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
-- [values (function)](#values-function)# URI (type alias)
+- [values (function)](#values-function)
+
+# URI (type alias)
 
 **Signature**
 

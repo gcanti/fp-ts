@@ -10,7 +10,9 @@ nav_order: 44
 - [Invariant2 (interface)](#invariant2-interface)
 - [Invariant2C (interface)](#invariant2c-interface)
 - [Invariant3 (interface)](#invariant3-interface)
-- [Invariant3C (interface)](#invariant3c-interface)# Invariant (interface)
+- [Invariant3C (interface)](#invariant3c-interface)
+
+# Invariant (interface)
 
 **Signature**
 

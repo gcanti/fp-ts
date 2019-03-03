@@ -22,7 +22,9 @@ nav_order: 94
 - [Witherable2 (interface)](#witherable2-interface)
 - [Witherable2C (interface)](#witherable2c-interface)
 - [Witherable3 (interface)](#witherable3-interface)
-- [Witherable3C (interface)](#witherable3c-interface)# Wilt (interface)
+- [Witherable3C (interface)](#witherable3c-interface)
+
+# Wilt (interface)
 
 **Signature**
 

@@ -22,7 +22,9 @@ nav_order: 87
 - [TraverseComposition11 (interface)](#traversecomposition11-interface)
 - [~~getTraversableComposition~~ (function)](#gettraversablecomposition-function)
 - [~~sequence~~ (function)](#sequence-function)
-- [~~traverse~~ (function)](#traverse-function)# ~~Traversable~~ (interface)
+- [~~traverse~~ (function)](#traverse-function)
+
+# ~~Traversable~~ (interface)
 
 Use `Traversable2v` instead
 

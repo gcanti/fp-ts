@@ -17,7 +17,9 @@ nav_order: 80
 - [store (constant)](#store-constant)
 - [experiment (function)](#experiment-function)
 - [peeks (function)](#peeks-function)
-- [seeks (function)](#seeks-function)# URI (type alias)
+- [seeks (function)](#seeks-function)
+
+# URI (type alias)
 
 **Signature**
 

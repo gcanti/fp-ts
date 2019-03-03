@@ -10,7 +10,9 @@ nav_order: 66
 - [Profunctor3 (interface)](#profunctor3-interface)
 - [Profunctor4 (interface)](#profunctor4-interface)
 - [lmap (function)](#lmap-function)
-- [rmap (function)](#rmap-function)# Profunctor (interface)
+- [rmap (function)](#rmap-function)
+
+# Profunctor (interface)
 
 **Signature**
 

@@ -37,7 +37,9 @@ Instances must satisfy the following laws:
 - [getFunctorComposition (function)](#getfunctorcomposition-function)
 - [lift (function)](#lift-function)
 - [voidLeft (function)](#voidleft-function)
-- [voidRight (function)](#voidright-function)# Functor (interface)
+- [voidRight (function)](#voidright-function)
+
+# Functor (interface)
 
 **Signature**
 

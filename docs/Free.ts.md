@@ -37,7 +37,9 @@ Adapted from http://okmij.org/ftp/Computation/free-monad.html and https://github
 - [foldFree (function)](#foldfree-function)
 - [hoistFree (function)](#hoistfree-function)
 - [liftF (function)](#liftf-function)
-- [of (function)](#of-function)# FoldFree2 (interface)
+- [of (function)](#of-function)
+
+# FoldFree2 (interface)
 
 **Signature**
 

@@ -38,7 +38,9 @@ Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src
 - [Strong3 (interface)](#strong3-interface)
 - [Strong4 (interface)](#strong4-interface)
 - [fanout (function)](#fanout-function)
-- [splitStrong (function)](#splitstrong-function)# Strong (interface)
+- [splitStrong (function)](#splitstrong-function)
+
+# Strong (interface)
 
 **Signature**
 

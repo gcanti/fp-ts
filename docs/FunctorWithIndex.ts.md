@@ -33,7 +33,9 @@ Instances must satisfy the following laws:
 - [FunctorWithIndexComposition22C (interface)](#functorwithindexcomposition22c-interface)
 - [FunctorWithIndexComposition2C1 (interface)](#functorwithindexcomposition2c1-interface)
 - [FunctorWithIndexComposition3C1 (interface)](#functorwithindexcomposition3c1-interface)
-- [getFunctorWithIndexComposition (function)](#getfunctorwithindexcomposition-function)# FunctorWithIndex (interface)
+- [getFunctorWithIndexComposition (function)](#getfunctorwithindexcomposition-function)
+
+# FunctorWithIndex (interface)
 
 **Signature**
 

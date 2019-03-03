@@ -34,7 +34,9 @@ Instances should satisfy the laws of total orderings:
 - [lessThanOrEq (function)](#lessthanoreq-function)
 - [max (function)](#max-function)
 - [min (function)](#min-function)
-- [unsafeCompare (function)](#unsafecompare-function)# Ord (interface)
+- [unsafeCompare (function)](#unsafecompare-function)
+
+# Ord (interface)
 
 **Signature**
 

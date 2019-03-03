@@ -6,7 +6,9 @@ nav_order: 22
 **Table of contents**
 
 - [create (constant)](#create-constant)
-- [now (constant)](#now-constant)# create (constant)
+- [now (constant)](#now-constant)
+
+# create (constant)
 
 Returns the current `Date`
 

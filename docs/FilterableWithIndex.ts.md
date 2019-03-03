@@ -10,7 +10,9 @@ nav_order: 30
 - [FilterableWithIndex2 (interface)](#filterablewithindex2-interface)
 - [FilterableWithIndex2C (interface)](#filterablewithindex2c-interface)
 - [FilterableWithIndex3 (interface)](#filterablewithindex3-interface)
-- [FilterableWithIndex3C (interface)](#filterablewithindex3c-interface)# FilterableWithIndex (interface)
+- [FilterableWithIndex3C (interface)](#filterablewithindex3c-interface)
+
+# FilterableWithIndex (interface)
 
 **Signature**
 

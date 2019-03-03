@@ -57,7 +57,9 @@ Adapted from https://github.com/purescript/purescript-validation
 - [getWitherable (function)](#getwitherable-function)
 - [isFailure (function)](#isfailure-function)
 - [isSuccess (function)](#issuccess-function)
-- [success (function)](#success-function)# URI (type alias)
+- [success (function)](#success-function)
+
+# URI (type alias)
 
 **Signature**
 

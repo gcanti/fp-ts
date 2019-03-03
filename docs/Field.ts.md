@@ -12,7 +12,9 @@ Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Da
 - [Field (interface)](#field-interface)
 - [fieldNumber (constant)](#fieldnumber-constant)
 - [gcd (function)](#gcd-function)
-- [lcm (function)](#lcm-function)# Field (interface)
+- [lcm (function)](#lcm-function)
+
+# Field (interface)
 
 **Signature**
 

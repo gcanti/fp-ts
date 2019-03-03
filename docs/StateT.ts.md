@@ -25,7 +25,9 @@ nav_order: 79
 - [~~map~~ (function)](#map-function)
 - [modify (function)](#modify-function)
 - [~~of~~ (function)](#of-function)
-- [put (function)](#put-function)# ~~StateT~~ (interface)
+- [put (function)](#put-function)
+
+# ~~StateT~~ (interface)
 
 **Signature**
 

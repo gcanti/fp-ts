@@ -15,7 +15,9 @@ nav_order: 48
 - [URI (constant)](#uri-constant)
 - [ixIO (constant)](#ixio-constant)
 - [getMonad (function)](#getmonad-function)
-- [iof (function)](#iof-function)# URI (type alias)
+- [iof (function)](#iof-function)
+
+# URI (type alias)
 
 **Signature**
 

@@ -20,7 +20,9 @@ Boolean algebras generalize classical logic: one is equivalent to "true" and zer
 - [booleanAlgebraBoolean (constant)](#booleanalgebraboolean-constant)
 - [booleanAlgebraVoid (constant)](#booleanalgebravoid-constant)
 - [getDualBooleanAlgebra (function)](#getdualbooleanalgebra-function)
-- [getFunctionBooleanAlgebra (function)](#getfunctionbooleanalgebra-function)# BooleanAlgebra (interface)
+- [getFunctionBooleanAlgebra (function)](#getfunctionbooleanalgebra-function)
+
+# BooleanAlgebra (interface)
 
 **Signature**
 

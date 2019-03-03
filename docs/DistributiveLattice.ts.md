@@ -13,7 +13,9 @@ A `DistributiveLattice` must satisfy the following laws in addition to `Lattice`
 **Table of contents**
 
 - [DistributiveLattice (interface)](#distributivelattice-interface)
-- [getMinMaxDistributiveLattice (function)](#getminmaxdistributivelattice-function)# DistributiveLattice (interface)
+- [getMinMaxDistributiveLattice (function)](#getminmaxdistributivelattice-function)
+
+# DistributiveLattice (interface)
 
 **Signature**
 

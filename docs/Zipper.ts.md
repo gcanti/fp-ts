@@ -43,7 +43,9 @@ Adapted from
 - [fromArray (function)](#fromarray-function)
 - [fromNonEmptyArray (function)](#fromnonemptyarray-function)
 - [getMonoid (function)](#getmonoid-function)
-- [getSemigroup (function)](#getsemigroup-function)# URI (type alias)
+- [getSemigroup (function)](#getsemigroup-function)
+
+# URI (type alias)
 
 **Signature**
 

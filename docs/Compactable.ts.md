@@ -31,7 +31,9 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [CompactableComposition2C1 (interface)](#compactablecomposition2c1-interface)
 - [CompactableComposition3C1 (interface)](#compactablecomposition3c1-interface)
 - [Separated (interface)](#separated-interface)
-- [getCompactableComposition (function)](#getcompactablecomposition-function)# Compactable (interface)
+- [getCompactableComposition (function)](#getcompactablecomposition-function)
+
+# Compactable (interface)
 
 **Signature**
 

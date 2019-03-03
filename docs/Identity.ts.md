@@ -21,7 +21,9 @@ nav_order: 42
   - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
 - [identity (constant)](#identity-constant)
-- [getSetoid (function)](#getsetoid-function)# URI (type alias)
+- [getSetoid (function)](#getsetoid-function)
+
+# URI (type alias)
 
 **Signature**
 

@@ -18,7 +18,9 @@ nav_order: 68
 - [asks (function)](#asks-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [local (function)](#local-function)# URI (type alias)
+- [local (function)](#local-function)
+
+# URI (type alias)
 
 **Signature**
 

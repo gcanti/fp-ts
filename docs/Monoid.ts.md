@@ -24,7 +24,9 @@ nav_order: 57
 - [~~getProductMonoid~~ (function)](#getproductmonoid-function)
 - [~~getRecordMonoid~~ (function)](#getrecordmonoid-function)
 - [getStructMonoid (function)](#getstructmonoid-function)
-- [getTupleMonoid (function)](#gettuplemonoid-function)# Monoid (interface)
+- [getTupleMonoid (function)](#gettuplemonoid-function)
+
+# Monoid (interface)
 
 **Signature**
 

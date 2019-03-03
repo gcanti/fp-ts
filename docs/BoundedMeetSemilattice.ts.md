@@ -11,7 +11,9 @@ A `BoundedMeetSemilattice` must satisfy the following laws in addition to `MeetS
 
 **Table of contents**
 
-- [BoundedMeetSemilattice (interface)](#boundedmeetsemilattice-interface)# BoundedMeetSemilattice (interface)
+- [BoundedMeetSemilattice (interface)](#boundedmeetsemilattice-interface)
+
+# BoundedMeetSemilattice (interface)
 
 **Signature**
 

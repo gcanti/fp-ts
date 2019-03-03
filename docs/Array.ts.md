@@ -81,7 +81,9 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [unzip (function)](#unzip-function)
 - [updateAt (function)](#updateat-function)
 - [zip (function)](#zip-function)
-- [zipWith (function)](#zipwith-function)# URI (type alias)
+- [zipWith (function)](#zipwith-function)
+
+# URI (type alias)
 
 **Signature**
 

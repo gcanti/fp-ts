@@ -12,7 +12,9 @@ A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `Mee
 
 **Table of contents**
 
-- [Lattice (interface)](#lattice-interface)# Lattice (interface)
+- [Lattice (interface)](#lattice-interface)
+
+# Lattice (interface)
 
 **Signature**
 

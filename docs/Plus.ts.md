@@ -23,7 +23,9 @@ concrete types like `string` or `number`.
 - [Plus2 (interface)](#plus2-interface)
 - [Plus2C (interface)](#plus2c-interface)
 - [Plus3 (interface)](#plus3-interface)
-- [Plus3C (interface)](#plus3c-interface)# Plus (interface)
+- [Plus3C (interface)](#plus3c-interface)
+
+# Plus (interface)
 
 **Signature**
 

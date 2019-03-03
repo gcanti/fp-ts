@@ -49,7 +49,9 @@ Adapted from https://github.com/purescript/purescript-maps
 - [size (function)](#size-function)
 - [toArray (function)](#toarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
-- [~~traverseWithKey~~ (function)](#traversewithkey-function)# URI (type alias)
+- [~~traverseWithKey~~ (function)](#traversewithkey-function)
+
+# URI (type alias)
 
 **Signature**
 

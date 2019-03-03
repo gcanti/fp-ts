@@ -11,7 +11,9 @@ nav_order: 27
 - [Extend2C (interface)](#extend2c-interface)
 - [Extend3 (interface)](#extend3-interface)
 - [Extend3C (interface)](#extend3c-interface)
-- [duplicate (function)](#duplicate-function)# Extend (interface)
+- [duplicate (function)](#duplicate-function)
+
+# Extend (interface)
 
 **Signature**
 

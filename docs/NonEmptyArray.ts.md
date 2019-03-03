@@ -53,7 +53,9 @@ Data structure which represents non-empty arrays
 - [getSetoid (function)](#getsetoid-function)
 - [group (function)](#group-function)
 - [groupBy (function)](#groupby-function)
-- [groupSort (function)](#groupsort-function)# URI (type alias)
+- [groupSort (function)](#groupsort-function)
+
+# URI (type alias)
 
 **Signature**
 

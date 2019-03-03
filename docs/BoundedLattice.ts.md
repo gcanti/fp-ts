@@ -12,7 +12,9 @@ A `BoundedLattice` must satisfy the following in addition to `BoundedMeetSemilat
 
 **Table of contents**
 
-- [BoundedLattice (interface)](#boundedlattice-interface)# BoundedLattice (interface)
+- [BoundedLattice (interface)](#boundedlattice-interface)
+
+# BoundedLattice (interface)
 
 **Signature**
 

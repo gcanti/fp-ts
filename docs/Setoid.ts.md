@@ -27,7 +27,9 @@ Instances must satisfy the following laws:
 - [~~getRecordSetoid~~ (function)](#getrecordsetoid-function)
 - [getStructSetoid (function)](#getstructsetoid-function)
 - [getTupleSetoid (function)](#gettuplesetoid-function)
-- [strictEqual (function)](#strictequal-function)# Setoid (interface)
+- [strictEqual (function)](#strictequal-function)
+
+# Setoid (interface)
 
 **Signature**
 

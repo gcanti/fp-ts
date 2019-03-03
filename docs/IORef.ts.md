@@ -12,7 +12,9 @@ Mutable references in the `IO` monad
 - [IORef (class)](#ioref-class)
   - [write (method)](#write-method)
   - [modify (method)](#modify-method)
-- [newIORef (function)](#newioref-function)# IORef (class)
+- [newIORef (function)](#newioref-function)
+
+# IORef (class)
 
 **Signature**
 

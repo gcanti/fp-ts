@@ -76,7 +76,9 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 - [theseThat (function)](#thesethat-function)
 - [theseThis (function)](#thesethis-function)
 - [thisOrBoth (function)](#thisorboth-function)
-- [this\_ (function)](#this_-function)# These (type alias)
+- [this\_ (function)](#this_-function)
+
+# These (type alias)
 
 **Signature**
 

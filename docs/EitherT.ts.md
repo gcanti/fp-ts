@@ -19,7 +19,9 @@ nav_order: 25
 - [getEitherT2v (function)](#geteithert2v-function)
 - [~~left~~ (function)](#left-function)
 - [~~mapLeft~~ (function)](#mapleft-function)
-- [~~right~~ (function)](#right-function)# ~~EitherT~~ (interface)
+- [~~right~~ (function)](#right-function)
+
+# ~~EitherT~~ (interface)
 
 **Signature**
 

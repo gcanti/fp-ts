@@ -12,7 +12,9 @@ Adapted from https://github.com/garyb/purescript-debug
 - [spy (function)](#spy-function)
 - [trace (function)](#trace-function)
 - [traceA (function)](#tracea-function)
-- [traceM (function)](#tracem-function)# spy (function)
+- [traceM (function)](#tracem-function)
+
+# spy (function)
 
 Log any value and return it
 

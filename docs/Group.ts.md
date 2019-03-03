@@ -11,7 +11,9 @@ A `Group` is a `Monoid` with inverses. Instances must satisfy the following law 
 
 **Table of contents**
 
-- [Group (interface)](#group-interface)# Group (interface)
+- [Group (interface)](#group-interface)
+
+# Group (interface)
 
 **Signature**
 

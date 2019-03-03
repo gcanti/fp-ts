@@ -19,7 +19,9 @@ nav_order: 58
 - [Monoidal3 (interface)](#monoidal3-interface)
 - [Monoidal3C (interface)](#monoidal3c-interface)
 - [fromApplicative (function)](#fromapplicative-function)
-- [toApplicative (function)](#toapplicative-function)# Monoidal (interface)
+- [toApplicative (function)](#toapplicative-function)
+
+# Monoidal (interface)
 
 **Signature**
 

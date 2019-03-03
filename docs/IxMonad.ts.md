@@ -8,7 +8,9 @@ nav_order: 49
 - [IxMonad (interface)](#ixmonad-interface)
 - [IxMonad3 (interface)](#ixmonad3-interface)
 - [iapplyFirst (function)](#iapplyfirst-function)
-- [iapplySecond (function)](#iapplysecond-function)# IxMonad (interface)
+- [iapplySecond (function)](#iapplysecond-function)
+
+# IxMonad (interface)
 
 **Signature**
 

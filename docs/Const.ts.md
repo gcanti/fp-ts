@@ -16,7 +16,9 @@ nav_order: 20
 - [const\_ (constant)](#const_-constant)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
-- [getSetoid (function)](#getsetoid-function)# URI (type alias)
+- [getSetoid (function)](#getsetoid-function)
+
+# URI (type alias)
 
 **Signature**
 

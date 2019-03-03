@@ -16,7 +16,9 @@ A `MeetSemilattice` must satisfy the following laws:
 
 **Table of contents**
 
-- [MeetSemilattice (interface)](#meetsemilattice-interface)# MeetSemilattice (interface)
+- [MeetSemilattice (interface)](#meetsemilattice-interface)
+
+# MeetSemilattice (interface)
 
 **Signature**
 

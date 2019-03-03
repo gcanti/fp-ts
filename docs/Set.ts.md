@@ -32,7 +32,9 @@ nav_order: 76
 - [some (function)](#some-function)
 - [subset (function)](#subset-function)
 - [toArray (function)](#toarray-function)
-- [union (function)](#union-function)# empty (constant)
+- [union (function)](#union-function)
+
+# empty (constant)
 
 **Signature**
 

@@ -11,7 +11,9 @@ A `BoundedJoinSemilattice` must satisfy the following laws in addition to `JoinS
 
 **Table of contents**
 
-- [BoundedJoinSemilattice (interface)](#boundedjoinsemilattice-interface)# BoundedJoinSemilattice (interface)
+- [BoundedJoinSemilattice (interface)](#boundedjoinsemilattice-interface)
+
+# BoundedJoinSemilattice (interface)
 
 **Signature**
 

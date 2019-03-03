@@ -22,7 +22,9 @@ Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa
 - [Chain2C (interface)](#chain2c-interface)
 - [Chain3 (interface)](#chain3-interface)
 - [Chain3C (interface)](#chain3c-interface)
-- [flatten (function)](#flatten-function)# Chain (interface)
+- [flatten (function)](#flatten-function)
+
+# Chain (interface)
 
 **Signature**
 

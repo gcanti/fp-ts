@@ -14,7 +14,9 @@ Instances should satisfy the following law in addition to the `Ord` laws:
 **Table of contents**
 
 - [Bounded (interface)](#bounded-interface)
-- [boundedNumber (constant)](#boundednumber-constant)# Bounded (interface)
+- [boundedNumber (constant)](#boundednumber-constant)
+
+# Bounded (interface)
 
 **Signature**
 

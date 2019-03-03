@@ -25,7 +25,9 @@ Adapted from https://hackage.haskell.org/package/free-algebras-0.0.7.0/docs/Data
 - [fromArray (function)](#fromarray-function)
 - [getGroup (function)](#getgroup-function)
 - [getSetoid (function)](#getsetoid-function)
-- [normalize (function)](#normalize-function)# URI (type alias)
+- [normalize (function)](#normalize-function)
+
+# URI (type alias)
 
 **Signature**
 

@@ -28,7 +28,9 @@ If you want to represent an asynchronous computation that may fail, please see `
 - [getMonoid (function)](#getmonoid-function)
 - [getRaceMonoid (function)](#getracemonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [tryCatch (function)](#trycatch-function)# URI (type alias)
+- [tryCatch (function)](#trycatch-function)
+
+# URI (type alias)
 
 **Signature**
 

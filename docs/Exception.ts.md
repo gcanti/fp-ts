@@ -14,7 +14,9 @@ Adapted from https://github.com/purescript/purescript-exceptions
 - [message (function)](#message-function)
 - [stack (function)](#stack-function)
 - [throwError (function)](#throwerror-function)
-- [tryCatch (function)](#trycatch-function)# catchError (function)
+- [tryCatch (function)](#trycatch-function)
+
+# catchError (function)
 
 Catch an exception by providing an exception handler
 

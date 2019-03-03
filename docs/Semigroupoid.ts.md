@@ -9,7 +9,9 @@ nav_order: 74
 - [Semigroupoid2 (interface)](#semigroupoid2-interface)
 - [Semigroupoid3 (interface)](#semigroupoid3-interface)
 - [Semigroupoid3C (interface)](#semigroupoid3c-interface)
-- [Semigroupoid4 (interface)](#semigroupoid4-interface)# Semigroupoid (interface)
+- [Semigroupoid4 (interface)](#semigroupoid4-interface)
+
+# Semigroupoid (interface)
 
 **Signature**
 

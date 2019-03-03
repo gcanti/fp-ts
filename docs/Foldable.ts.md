@@ -36,7 +36,9 @@ nav_order: 31
 - [sum (function)](#sum-function)
 - [toArray (function)](#toarray-function)
 - [traverse (function)](#traverse-function)
-- [~~traverse\_~~ (function)](#traverse_-function)# ~~Foldable~~ (interface)
+- [~~traverse\_~~ (function)](#traverse_-function)
+
+# ~~Foldable~~ (interface)
 
 Use `Foldable2v`
 

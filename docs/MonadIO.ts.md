@@ -14,7 +14,9 @@ Lift a computation from the `IO` monad
 - [MonadIO2 (interface)](#monadio2-interface)
 - [MonadIO2C (interface)](#monadio2c-interface)
 - [MonadIO3 (interface)](#monadio3-interface)
-- [MonadIO3C (interface)](#monadio3c-interface)# MonadIO (interface)
+- [MonadIO3C (interface)](#monadio3c-interface)
+
+# MonadIO (interface)
 
 **Signature**
 

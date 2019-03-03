@@ -34,7 +34,9 @@ type Forest<A> = Array<Tree<A>>
 - [unfoldForest (function)](#unfoldforest-function)
 - [unfoldForestM (function)](#unfoldforestm-function)
 - [unfoldTree (function)](#unfoldtree-function)
-- [unfoldTreeM (function)](#unfoldtreem-function)# Forest (type alias)
+- [unfoldTreeM (function)](#unfoldtreem-function)
+
+# Forest (type alias)
 
 **Signature**
 

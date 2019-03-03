@@ -10,7 +10,9 @@ A `BoundedDistributiveLattice` is a lattice that is both bounded and distributiv
 **Table of contents**
 
 - [BoundedDistributiveLattice (interface)](#boundeddistributivelattice-interface)
-- [getMinMaxBoundedDistributiveLattice (function)](#getminmaxboundeddistributivelattice-function)# BoundedDistributiveLattice (interface)
+- [getMinMaxBoundedDistributiveLattice (function)](#getminmaxboundeddistributivelattice-function)
+
+# BoundedDistributiveLattice (interface)
 
 **Signature**
 

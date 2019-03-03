@@ -27,7 +27,9 @@ A `HeytingAlgebra` must satisfy the following laws in addition to `BoundedDistri
 
 **Table of contents**
 
-- [HeytingAlgebra (interface)](#heytingalgebra-interface)# HeytingAlgebra (interface)
+- [HeytingAlgebra (interface)](#heytingalgebra-interface)
+
+# HeytingAlgebra (interface)
 
 **Signature**
 

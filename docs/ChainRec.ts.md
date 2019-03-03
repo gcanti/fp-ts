@@ -11,7 +11,9 @@ nav_order: 15
 - [ChainRec2C (interface)](#chainrec2c-interface)
 - [ChainRec3 (interface)](#chainrec3-interface)
 - [ChainRec3C (interface)](#chainrec3c-interface)
-- [tailRec (function)](#tailrec-function)# ChainRec (interface)
+- [tailRec (function)](#tailrec-function)
+
+# ChainRec (interface)
 
 **Signature**
 

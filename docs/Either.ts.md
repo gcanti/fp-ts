@@ -101,7 +101,9 @@ left(23).map(double) // left(23)
 - [right (function)](#right-function)
 - [toError (function)](#toerror-function)
 - [~~tryCatch~~ (function)](#trycatch-function)
-- [tryCatch2v (function)](#trycatch2v-function)# Either (type alias)
+- [tryCatch2v (function)](#trycatch2v-function)
+
+# Either (type alias)
 
 **Signature**
 
