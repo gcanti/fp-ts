@@ -5,3 +5,9 @@ dev
 .idea
 coverage
 docs-examples
+
+# Ruby/Jekyll artefacts (used by GitHub Pages documentation)
+.bundle
+.sass-cache
+_site
+vendor

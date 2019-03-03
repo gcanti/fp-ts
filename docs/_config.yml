@@ -1,3 +1,26 @@
+# GitHub Pages configuration
+#
+# _config.yml configures [Jekyll](https://jekyllrb.com/) to generate and deploy
+# documentation to [GitHub Pages](https://pages.github.com/).
+#
+# To view and edit documentation on your own machine, you need to have Ruby and
+# Jekyll installed. With these you can then run
+#
+#     jekyll serve
+#
+# in the /docs folder to start a local documentation server
+
+title: fp-ts
+url: "//gcanti.github.io/fp-ts/"
+plugins:
+  # Allows using remote themes when developing on local machine
+  - jekyll-remote-theme
+  # Sets the default layout for all pages without the "layout" frontmatter config
+  - jekyll-default-layout
+
+#
+# Theme configuration
+#
 remote_theme: pmarsceill/just-the-docs
 
 # Enable or disable the site search

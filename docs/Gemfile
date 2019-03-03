@@ -1,0 +1,18 @@
+# Gemfile
+#
+# This file describes the Ruby dependencies of this project. The sole purpose of
+# these dependencies is to generate documentation for GitHub Pages using Jekyll.
+#
+# If you make changes to this file, follow this procedure:
+#   1. Edit this file to add/remove a gem
+#   2. Run `bundle install --path vendor` to install and update "Gemfile.lock"
+#
+# For more information refer to https://bundler.io/
+
+source "http://rubygems.org"
+
+gem "rake"
+gem "github-pages"
+gem "jekyll-default-layout"
+gem "jekyll-remote-theme"
+
