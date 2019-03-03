@@ -24,7 +24,7 @@ nav_order: 43
 - [comonad (export)](#comonad-export)
 - [compactable (export)](#compactable-export)
 - [console (export)](#console-export)
-- [const\_ as const (export)](#const_-as-const-export)
+- [const (export)](#const-export)
 - [contravariant (export)](#contravariant-export)
 - [date (export)](#date-export)
 - [distributiveLattice (export)](#distributivelattice-export)
@@ -40,7 +40,7 @@ nav_order: 43
 - [foldableWithIndex (export)](#foldablewithindex-export)
 - [free (export)](#free-export)
 - [freeGroup (export)](#freegroup-export)
-- [function\_ as function (export)](#function_-as-function-export)
+- [function (export)](#function-export)
 - [functor (export)](#functor-export)
 - [functorWithIndex (export)](#functorwithindex-export)
 - [group (export)](#group-export)
@@ -253,7 +253,7 @@ export { compactable }
 export { console }
 ```
 
-# const\_ as const (export)
+# const (export)
 
 **Signature**
 
@@ -381,7 +381,7 @@ export { free }
 export { freeGroup }
 ```
 
-# function\_ as function (export)
+# function (export)
 
 **Signature**
 
