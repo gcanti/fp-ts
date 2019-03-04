@@ -2,7 +2,7 @@
 title: Home
 ---
 
-<img alt="fp-ts logo" src="/fp-ts-logo.png" style="display: block; width: 200px; margin-bottom: 2em;">
+<img alt="fp-ts logo" src="./fp-ts-logo.png" style="display: block; width: 200px; margin-bottom: 2em;">
 
 # Typed functional programming in TypeScript
 
