@@ -118,10 +118,6 @@ export function fromFoldable<K, F extends URIS>(
 export function fromFoldable<K, F>(
   S: Setoid<K>,
   F: Foldable2v<F>
-): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F>(
-  S: Setoid<K>,
-  F: Foldable2v<F>
 ): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> { ... }
 ```
 
@@ -335,7 +331,6 @@ export function toUnfoldable<K, F extends URIS>(
   O: Ord<K>,
   unfoldable: Unfoldable1<F>
 ): <A>(d: Map<K, A>) => Type<F, [K, A]>
-export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
 export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> { ... }
 ```
 

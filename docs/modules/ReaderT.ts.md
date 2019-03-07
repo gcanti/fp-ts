@@ -175,9 +175,6 @@ export function ap<F extends URIS>(
 ): <E, A, B>(fab: (e: E) => Type<F, (a: A) => B>, fa: (e: E) => Type<F, A>) => (e: E) => Type<F, B>
 export function ap<F>(
   F: Applicative<F>
-): <E, A, B>(fab: (e: E) => HKT<F, (a: A) => B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
-export function ap<F>(
-  F: Applicative<F>
 ): <E, A, B>(fab: (e: E) => HKT<F, (a: A) => B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B> { ... }
 ```
 
@@ -191,7 +188,6 @@ Added in v1.0.0
 export function ask<F extends URIS3>(F: Applicative3<F>): <U, L, E>() => (e: E) => Type3<F, U, L, E>
 export function ask<F extends URIS2>(F: Applicative2<F>): <L, E>() => (e: E) => Type2<F, L, E>
 export function ask<F extends URIS>(F: Applicative1<F>): <E>() => (e: E) => Type<F, E>
-export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E>
 export function ask<F>(F: Applicative<F>): <E>() => (e: E) => HKT<F, E> { ... }
 ```
 
@@ -205,7 +201,6 @@ Added in v1.0.0
 export function asks<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(f: (e: E) => A) => (e: E) => Type3<F, U, L, A>
 export function asks<F extends URIS2>(F: Applicative2<F>): <L, E, A>(f: (e: E) => A) => (e: E) => Type2<F, L, A>
 export function asks<F extends URIS>(F: Applicative1<F>): <E, A>(f: (e: E) => A) => (e: E) => Type<F, A>
-export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A>
 export function asks<F>(F: Applicative<F>): <E, A>(f: (e: E) => A) => (e: E) => HKT<F, A> { ... }
 ```
 
@@ -232,9 +227,6 @@ export function chain<F extends URIS>(
 ): <E, A, B>(f: (a: A) => (e: E) => Type<F, B>, fa: (e: E) => Type<F, A>) => (e: E) => Type<F, B>
 export function chain<F>(
   F: Chain<F>
-): <E, A, B>(f: (a: A) => (e: E) => HKT<F, B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
-export function chain<F>(
-  F: Chain<F>
 ): <E, A, B>(f: (a: A) => (e: E) => HKT<F, B>, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B> { ... }
 ```
 
@@ -250,7 +242,6 @@ export function fromReader<F extends URIS3>(
 ): <E, U, L, A>(fa: Reader<E, A>) => (e: E) => Type3<F, U, L, A>
 export function fromReader<F extends URIS2>(F: Applicative2<F>): <E, L, A>(fa: Reader<E, A>) => (e: E) => Type2<F, L, A>
 export function fromReader<F extends URIS>(F: Applicative1<F>): <E, A>(fa: Reader<E, A>) => (e: E) => Type<F, A>
-export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A>
 export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A> { ... }
 ```
 
@@ -266,7 +257,6 @@ Use `getReaderT2v` instead
 export function getReaderT<M extends URIS3>(M: Monad3<M>): ReaderT3<M>
 export function getReaderT<M extends URIS2>(M: Monad2<M>): ReaderT2<M>
 export function getReaderT<M extends URIS>(M: Monad1<M>): ReaderT1<M>
-export function getReaderT<M>(M: Monad<M>): ReaderT<M>
 export function getReaderT<M>(M: Monad<M>): ReaderT<M> { ... }
 ```
 
@@ -280,7 +270,6 @@ Added in v1.0.0
 export function getReaderT2v<M extends URIS3>(M: Monad3<M>): ReaderT2v3<M>
 export function getReaderT2v<M extends URIS2>(M: Monad2<M>): ReaderT2v2<M>
 export function getReaderT2v<M extends URIS>(M: Monad1<M>): ReaderT2v1<M>
-export function getReaderT2v<M>(M: Monad<M>): ReaderT2v<M>
 export function getReaderT2v<M>(M: Monad<M>): ReaderT2v<M> { ... }
 ```
 
@@ -302,7 +291,6 @@ export function map<F extends URIS2>(
 export function map<F extends URIS>(
   F: Functor1<F>
 ): <E, A, B>(f: (a: A) => B, fa: (e: E) => Type<F, A>) => (e: E) => Type<F, B>
-export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B>
 export function map<F>(F: Functor<F>): <E, A, B>(f: (a: A) => B, fa: (e: E) => HKT<F, A>) => (e: E) => HKT<F, B> { ... }
 ```
 
@@ -316,7 +304,6 @@ Added in v1.0.0
 export function of<F extends URIS3>(F: Applicative3<F>): <U, L, E, A>(a: A) => (e: E) => Type3<F, U, L, A>
 export function of<F extends URIS2>(F: Applicative2<F>): <L, E, A>(a: A) => (e: E) => Type2<F, L, A>
 export function of<F extends URIS>(F: Applicative1<F>): <E, A>(a: A) => (e: E) => Type<F, A>
-export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A>
 export function of<F>(F: Applicative<F>): <E, A>(a: A) => (e: E) => HKT<F, A> { ... }
 ```
 

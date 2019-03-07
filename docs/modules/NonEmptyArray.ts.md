@@ -491,7 +491,6 @@ Find the first element which satisfies a predicate (or a refinement) function
 
 ```ts
 findFirst<B extends A>(predicate: Refinement<A, B>): Option<B>
-findFirst(predicate: Predicate<A>): Option<A>
 findFirst(predicate: Predicate<A>): Option<A> { ... }
 ```
 
@@ -517,7 +516,6 @@ Find the last element which satisfies a predicate function
 
 ```ts
 findLast<B extends A>(predicate: Refinement<A, B>): Option<B>
-findLast(predicate: Predicate<A>): Option<A>
 findLast(predicate: Predicate<A>): Option<A> { ... }
 ```
 
@@ -635,7 +633,6 @@ Filter an NonEmptyArray, keeping the elements which satisfy a predicate function
 
 ```ts
 filter<B extends A>(predicate: Refinement<A, B>): Option<NonEmptyArray<B>>
-filter(predicate: Predicate<A>): Option<NonEmptyArray<A>>
 filter(predicate: Predicate<A>): Option<NonEmptyArray<A>> { ... }
 ```
 

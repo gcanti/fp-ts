@@ -124,9 +124,6 @@ export function fanin<F extends URIS2>(
 ): <A, B, C>(pac: Type2<F, A, C>, pbc: Type2<F, B, C>) => Type2<F, Either<A, B>, C>
 export function fanin<F>(
   F: Category<F> & Choice<F>
-): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C>
-export function fanin<F>(
-  F: Category<F> & Choice<F>
 ): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C> { ... }
 ```
 
@@ -156,9 +153,6 @@ export function splitChoice<F extends URIS3>(
 export function splitChoice<F extends URIS2>(
   F: Category2<F> & Choice2<F>
 ): <A, B, C, D>(pab: Type2<F, A, B>, pcd: Type2<F, C, D>) => Type2<F, Either<A, C>, Either<B, D>>
-export function splitChoice<F>(
-  F: Category<F> & Choice<F>
-): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>>
 export function splitChoice<F>(
   F: Category<F> & Choice<F>
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>> { ... }

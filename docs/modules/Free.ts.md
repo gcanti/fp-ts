@@ -280,8 +280,7 @@ export function foldFree<M extends URIS2, L>(M: Monad2C<M, L>): FoldFree2C<M, L>
 export function foldFree<M extends URIS>(
   M: Monad1<M>
 ): <F extends URIS, A>(nt: <X>(fa: Type<F, X>) => Type<M, X>, fa: Free<F, A>) => Type<M, A>
-export function foldFree<M>(M: Monad<M>): <F, A>(nt: <X>(fa: HKT<F, X>) => HKT<M, X>, fa: Free<F, A>) => HKT<M, A>
-export function foldFree<M>(M: Monad<M>): <F, A>(nt: any, fa: Free<F, A>) => HKT<M, A> { ... }
+export function foldFree<M>(M: Monad<M>): <F, A>(nt: <X>(fa: HKT<F, X>) => HKT<M, X>, fa: Free<F, A>) => HKT<M, A> { ... }
 ```
 
 Added in v1.0.0
@@ -302,7 +301,6 @@ export function hoistFree<F extends URIS2 = never, G extends URIS2 = never>(
 export function hoistFree<F extends URIS = never, G extends URIS = never>(
   nt: <A>(fa: Type<F, A>) => Type<G, A>
 ): (<A>(fa: Free<F, A>) => Free<G, A>)
-export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>)
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>) { ... }
 ```
 

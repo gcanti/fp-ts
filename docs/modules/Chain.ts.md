@@ -107,7 +107,6 @@ export function flatten<F extends URIS2, L>(
   chain: Chain2C<F, L>
 ): <A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
 export function flatten<F extends URIS>(chain: Chain1<F>): <A>(mma: Type<F, Type<F, A>>) => Type<F, A>
-export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A> { ... }
 ```
 

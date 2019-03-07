@@ -293,10 +293,6 @@ export function getCompactableComposition<F extends URIS, G extends URIS>(
 export function getCompactableComposition<F, G>(
   F: Functor<F>,
   G: Compactable<G> & Functor<G>
-): CompactableComposition<F, G>
-export function getCompactableComposition<F, G>(
-  F: Functor<F>,
-  G: Compactable<G> & Functor<G>
 ): CompactableComposition<F, G> { ... }
 ```
 

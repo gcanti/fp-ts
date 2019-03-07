@@ -262,9 +262,6 @@ export function unfoldForestM<M extends URIS>(
 ): <A, B>(bs: Array<B>, f: (b: B) => Type<M, [A, Array<B>]>) => Type<M, Forest<A>>
 export function unfoldForestM<M>(
   M: Monad<M>
-): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>>
-export function unfoldForestM<M>(
-  M: Monad<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> { ... }
 ```
 
@@ -304,7 +301,6 @@ export function unfoldTreeM<M extends URIS2, L>(
 export function unfoldTreeM<M extends URIS>(
   M: Monad1<M>
 ): <A, B>(b: B, f: (b: B) => Type<M, [A, Array<B>]>) => Type<M, Tree<A>>
-export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>> { ... }
 ```
 

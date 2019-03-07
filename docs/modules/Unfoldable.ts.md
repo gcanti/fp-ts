@@ -106,7 +106,6 @@ The container with no elements - unfolded with zero iterations.
 export function empty<F extends URIS3, U, L, A>(U: Unfoldable3<F> | Unfoldable3C<F, U, L>): Type3<F, U, L, A>
 export function empty<F extends URIS2, L, A>(U: Unfoldable2<F> | Unfoldable2C<F, L>): Type2<F, L, A>
 export function empty<F extends URIS, A>(U: Unfoldable1<F>): Type<F, A>
-export function empty<F, A>(U: Unfoldable<F>): HKT<F, A>
 export function empty<F, A>(U: Unfoldable<F>): HKT<F, A> { ... }
 ```
 
@@ -133,7 +132,6 @@ export function replicate<F extends URIS3, U, L>(U: Unfoldable3C<F, U, L>): <A>(
 export function replicate<F extends URIS2>(U: Unfoldable2<F>): <L, A>(a: A, n: number) => Type2<F, L, A>
 export function replicate<F extends URIS2, L>(U: Unfoldable2C<F, L>): <A>(a: A, n: number) => Type2<F, L, A>
 export function replicate<F extends URIS>(U: Unfoldable1<F>): <A>(a: A, n: number) => Type<F, A>
-export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
 export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A> { ... }
 ```
 
@@ -174,12 +172,7 @@ export function replicateA<F extends URIS2, T extends URIS, L>(
 export function replicateA<F extends URIS, T extends URIS>(
   F: Applicative1<F>,
   UT: Unfoldable1<T> & Traversable1<T>
-): <A>(n: number, ma: Type<F, A>) => Type<F, Type<T, A>>
-export function replicateA<F, T>(
-  F: Applicative<F>,
-  // tslint:disable-next-line: deprecation
-  UT: Unfoldable<T> & Traversable<T>
-): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>> { ... }
+): <A>(n: number, ma: Type<F, A>) => Type<F, Type<T, A>> { ... }
 ```
 
 **Example**
@@ -207,7 +200,6 @@ export function singleton<F extends URIS3, U, L>(U: Unfoldable3C<F, U, L>): <A>(
 export function singleton<F extends URIS2>(U: Unfoldable2<F>): <L, A>(a: A) => Type2<F, L, A>
 export function singleton<F extends URIS2, L>(U: Unfoldable2C<F, L>): <A>(a: A) => Type2<F, L, A>
 export function singleton<F extends URIS>(U: Unfoldable1<F>): <A>(a: A) => Type<F, A>
-export function singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A>
 export function singleton<F>(U: Unfoldable<F>): <A>(a: A) => HKT<F, A> { ... }
 ```
 

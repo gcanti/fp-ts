@@ -230,7 +230,6 @@ export function elem<F extends URIS3, A, U, L>(
 export function elem<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
 export function elem<F extends URIS2, A, L>(S: Setoid<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
 export function elem<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
-export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
 export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean { ... }
 ```
 
@@ -266,7 +265,6 @@ export function findFirst<F extends URIS2, L>(
   F: Foldable2v2C<F, L>
 ): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
 export function findFirst<F extends URIS>(F: Foldable2v1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Option<A>
-export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>
 export function findFirst<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A> { ... }
 ```
 
@@ -295,7 +293,6 @@ export function fold<M, F extends URIS3, U, L>(M: Monoid<M>, F: Foldable2v3C<F, 
 export function fold<M, F extends URIS2>(M: Monoid<M>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, M>) => M
 export function fold<M, F extends URIS2, L>(M: Monoid<M>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, M>) => M
 export function fold<M, F extends URIS>(M: Monoid<M>, F: Foldable2v1<F>): (fa: Type<F, M>) => M
-export function fold<M, F>(M: Monoid<M>, F: Foldable2v<F>): (fa: HKT<F, M>) => M
 export function fold<M, F>(M: Monoid<M>, F: Foldable2v<F>): (fa: HKT<F, M>) => M { ... }
 ```
 
@@ -341,10 +338,6 @@ export function foldM<M extends URIS, F extends URIS>(
   M: Monad1<M>,
   F: Foldable2v1<F>
 ): <A, B>(fa: Type<F, A>, b: B, f: (b: B, a: A) => Type<M, B>) => Type<M, B>
-export function foldM<M, F>(
-  M: Monad<M>,
-  F: Foldable2v<F>
-): <A, B>(fa: HKT<F, A>, b: B, f: (b: B, a: A) => HKT<M, B>) => HKT<M, B>
 export function foldM<M, F>(
   M: Monad<M>,
   F: Foldable2v<F>
@@ -403,7 +396,6 @@ export function getFoldableComposition<F extends URIS, G extends URIS>(
   F: Foldable2v1<F>,
   G: Foldable2v1<G>
 ): Foldable2vComposition11<F, G>
-export function getFoldableComposition<F, G>(F: Foldable2v<F>, G: Foldable2v<G>): Foldable2vComposition<F, G>
 export function getFoldableComposition<F, G>(F: Foldable2v<F>, G: Foldable2v<G>): Foldable2vComposition<F, G> { ... }
 ```
 
@@ -443,7 +435,6 @@ export function intercalate<M, F extends URIS2, L>(
   F: Foldable2v2C<F, L>
 ): (sep: M, fm: Type2<F, L, M>) => M
 export function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable2v1<F>): (sep: M, fm: Type<F, M>) => M
-export function intercalate<M, F>(M: Monoid<M>, F: Foldable2v<F>): (sep: M, fm: HKT<F, M>) => M
 export function intercalate<M, F>(M: Monoid<M>, F: Foldable2v<F>): (sep: M, fm: HKT<F, M>) => M { ... }
 ```
 
@@ -472,7 +463,6 @@ export function max<F extends URIS3, A, U, L>(O: Ord<A>, F: Foldable2v3C<F, U, L
 export function max<F extends URIS2, A>(O: Ord<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
 export function max<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
 export function max<F extends URIS, A>(O: Ord<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => Option<A>
-export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
 export function max<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A> { ... }
 ```
 
@@ -511,7 +501,6 @@ export function member<F extends URIS2, A, L>(
   F: Foldable2v2C<F, L>
 ): (a: A, fa: Type2<F, L, A>) => boolean
 export function member<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
-export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean
 export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean { ... }
 ```
 
@@ -529,7 +518,6 @@ export function min<F extends URIS3, A, U, L>(O: Ord<A>, F: Foldable2v3C<F, U, L
 export function min<F extends URIS2, A>(O: Ord<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
 export function min<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
 export function min<F extends URIS, A>(O: Ord<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => Option<A>
-export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A>
 export function min<F, A>(O: Ord<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => Option<A> { ... }
 ```
 
@@ -574,7 +562,6 @@ export function oneOf<P extends URIS, F extends URIS>(
   P: Plus1<P>,
   F: Foldable2v1<F>
 ): <A>(fga: Type<F, Type<P, A>>) => Type<P, A>
-export function oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>
 export function oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> { ... }
 ```
 
@@ -605,7 +592,6 @@ export function product<F extends URIS3, A, U, L>(
 export function product<F extends URIS2, A>(S: Semiring<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => A
 export function product<F extends URIS2, A, L>(S: Semiring<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => A
 export function product<F extends URIS, A>(S: Semiring<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => A
-export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A
 export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A { ... }
 ```
 
@@ -649,7 +635,6 @@ export function sequence_<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable2v1<F>
 ): <A>(fa: Type<F, Type<M, A>>) => Type<M, void>
-export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
 export function sequence_<M, F>(M: Applicative<M>, F: Foldable2v<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> { ... }
 ```
 
@@ -680,7 +665,6 @@ export function sum<F extends URIS3, A, U, L>(S: Semiring<A>, F: Foldable2v3C<F,
 export function sum<F extends URIS2, A>(S: Semiring<A>, F: Foldable2v2<F>): <L>(fa: Type2<F, L, A>) => A
 export function sum<F extends URIS2, A, L>(S: Semiring<A>, F: Foldable2v2C<F, L>): (fa: Type2<F, L, A>) => A
 export function sum<F extends URIS, A>(S: Semiring<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => A
-export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A
 export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A { ... }
 ```
 
@@ -709,7 +693,6 @@ export function toArray<F extends URIS3, U, L>(F: Foldable2v3C<F, U, L>): <A>(fa
 export function toArray<F extends URIS2>(F: Foldable2v2<F>): <L, A>(fa: Type2<F, L, A>) => Array<A>
 export function toArray<F extends URIS2, L>(F: Foldable2v2C<F, L>): <A>(fa: Type2<F, L, A>) => Array<A>
 export function toArray<F extends URIS>(F: Foldable2v1<F>): <A>(fa: Type<F, A>) => Array<A>
-export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A>
 export function toArray<F>(F: Foldable2v<F>): <A>(fa: HKT<F, A>) => Array<A> { ... }
 ```
 
@@ -753,10 +736,6 @@ export function traverse_<M extends URIS, F extends URIS>(
   M: Applicative1<M>,
   F: Foldable2v1<F>
 ): <A, B>(fa: Type<F, A>, f: (a: A) => Type<M, B>) => Type<M, void>
-export function traverse_<M, F>(
-  M: Applicative<M>,
-  F: Foldable2v<F>
-): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void>
 export function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable2v<F>

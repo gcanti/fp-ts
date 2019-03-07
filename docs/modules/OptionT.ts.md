@@ -147,7 +147,6 @@ export function chain<F extends URIS3, U, L>(F: Monad3C<F, U, L>): OptionT3C<F, 
 export function chain<F extends URIS2>(F: Monad2<F>): OptionT2<F>['chain']
 export function chain<F extends URIS2, L>(F: Monad2C<F, L>): OptionT2C<F, L>['chain']
 export function chain<F extends URIS>(F: Monad1<F>): OptionT1<F>['chain']
-export function chain<F>(F: Monad<F>): OptionT<F>['chain']
 export function chain<F>(F: Monad<F>): OptionT<F>['chain'] { ... }
 ```
 
@@ -170,7 +169,6 @@ export function fold<F extends URIS2, L>(
 export function fold<F extends URIS>(
   F: Functor1<F>
 ): <R, A>(onNone: R, onSome: (a: A) => R, fa: Type<F, Option<A>>) => Type<F, R>
-export function fold<F>(F: Functor<F>): <R, A>(onNone: R, onSome: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
 export function fold<F>(F: Functor<F>): <R, A>(onNone: R, onSome: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> { ... }
 ```
 
@@ -187,7 +185,6 @@ export function fromOption<F extends URIS3, U, L>(
 export function fromOption<F extends URIS2>(F: Applicative2<F>): <L, A>(fa: Option<A>) => Type2<F, L, Option<A>>
 export function fromOption<F extends URIS2, L>(F: Applicative2C<F, L>): <A>(fa: Option<A>) => Type2<F, L, Option<A>>
 export function fromOption<F extends URIS>(F: Applicative1<F>): <A>(fa: Option<A>) => Type<F, Option<A>>
-export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>>
 export function fromOption<F>(F: Applicative<F>): <A>(fa: Option<A>) => HKT<F, Option<A>> { ... }
 ```
 
@@ -204,7 +201,6 @@ export function getOptionT<M extends URIS3, U, L>(M: Monad3C<M, U, L>): OptionT3
 export function getOptionT<M extends URIS2>(M: Monad2<M>): OptionT2<M>
 export function getOptionT<M extends URIS2, L>(M: Monad2C<M, L>): OptionT2C<M, L>
 export function getOptionT<M extends URIS>(M: Monad1<M>): OptionT1<M>
-export function getOptionT<M>(M: Monad<M>): OptionT<M>
 export function getOptionT<M>(M: Monad<M>): OptionT<M> { ... }
 ```
 
@@ -219,7 +215,6 @@ export function getOptionT2v<M extends URIS3, U, L>(M: Monad3C<M, U, L>): Option
 export function getOptionT2v<M extends URIS2>(M: Monad2<M>): OptionT2v2<M>
 export function getOptionT2v<M extends URIS2, L>(M: Monad2C<M, L>): OptionT2v2C<M, L>
 export function getOptionT2v<M extends URIS>(M: Monad1<M>): OptionT2v1<M>
-export function getOptionT2v<M>(M: Monad<M>): OptionT2v<M>
 export function getOptionT2v<M>(M: Monad<M>): OptionT2v<M> { ... }
 ```
 
@@ -240,7 +235,6 @@ export function getOrElse<F extends URIS2, L>(
   F: Functor2C<F, L>
 ): <A>(a: A) => (fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
 export function getOrElse<F extends URIS>(F: Functor1<F>): <A>(a: A) => (fa: Type<F, Option<A>>) => Type<F, A>
-export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A>
 export function getOrElse<F>(F: Functor<F>): <A>(a: A) => (fa: HKT<F, Option<A>>) => HKT<F, A> { ... }
 ```
 
@@ -257,7 +251,6 @@ export function liftF<F extends URIS3, U, L>(
 export function liftF<F extends URIS2>(F: Functor2<F>): <L, A>(fa: Type2<F, L, A>) => Type2<F, L, Option<A>>
 export function liftF<F extends URIS2, L>(F: Functor2C<F, L>): <A>(fa: Type2<F, L, A>) => Type2<F, L, Option<A>>
 export function liftF<F extends URIS>(F: Functor1<F>): <A>(fa: Type<F, A>) => Type<F, Option<A>>
-export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>>
 export function liftF<F>(F: Functor<F>): <A>(fa: HKT<F, A>) => HKT<F, Option<A>> { ... }
 ```
 
@@ -272,7 +265,6 @@ export function none<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): () => Ty
 export function none<F extends URIS2>(F: Applicative2<F>): <L>() => Type2<F, L, Option<never>>
 export function none<F extends URIS2, L>(F: Applicative2C<F, L>): () => Type2<F, L, Option<never>>
 export function none<F extends URIS>(F: Applicative1<F>): () => Type<F, Option<never>>
-export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>>
 export function none<F>(F: Applicative<F>): () => HKT<F, Option<never>> { ... }
 ```
 
@@ -287,7 +279,6 @@ export function some<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): <A>(a: A
 export function some<F extends URIS2>(F: Applicative2<F>): <L, A>(a: A) => Type2<F, L, Option<A>>
 export function some<F extends URIS2, L>(F: Applicative2C<F, L>): <A>(a: A) => Type2<F, L, Option<A>>
 export function some<F extends URIS>(F: Applicative1<F>): <A>(a: A) => Type<F, Option<A>>
-export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>>
 export function some<F>(F: Applicative<F>): <A>(a: A) => HKT<F, Option<A>> { ... }
 ```
 

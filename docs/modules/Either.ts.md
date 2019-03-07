@@ -325,8 +325,7 @@ value, returns `Left` with the existing value of `Left` if this is a `Left`.
 
 ```ts
 filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
-filterOrElse(p: Predicate<A>, zero: L): Either<L, A>
-filterOrElse(_: Predicate<A>, zero: L): Either<L, A> { ... }
+filterOrElse(p: Predicate<A>, zero: L): Either<L, A> { ... }
 ```
 
 **Example**
@@ -349,8 +348,7 @@ Lazy version of `filterOrElse`
 
 ```ts
 filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
-filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A>
-filterOrElseL(_: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
+filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
 ```
 
 Added in v1.3.0
@@ -543,7 +541,6 @@ swap(): Either<A, L> { ... }
 
 ```ts
 filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
-filterOrElse(p: Predicate<A>, zero: L): Either<L, A>
 filterOrElse(p: Predicate<A>, zero: L): Either<L, A> { ... }
 ```
 
@@ -553,7 +550,6 @@ filterOrElse(p: Predicate<A>, zero: L): Either<L, A> { ... }
 
 ```ts
 filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
-filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A>
 filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
 ```
 
@@ -644,7 +640,6 @@ export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
   onFalse: (a: A) => L
 ): (a: A) => Either<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A> { ... }
 ```
 

@@ -70,7 +70,7 @@ export type URI = typeof URI
 
 ```ts
 export class StrMap<A> {
-  constructor(readonly value: { ... }
+  constructor(readonly value: { [key: string]: A }) { ... }
   ...
 }
 ```
@@ -137,7 +137,6 @@ Added in v1.12.0
 
 ```ts
 filter<B extends A>(p: Refinement<A, B>): StrMap<B>
-filter(p: Predicate<A>): StrMap<A>
 filter(p: Predicate<A>): StrMap<A> { ... }
 ```
 
@@ -352,11 +351,7 @@ export function fromFoldable<F extends URIS2>(
 export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
 ): <A>(ta: Type<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
-export function fromFoldable<F>(F: Foldable<F>): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
-export function fromFoldable<F>(
-  // tslint:disable-next-line: deprecation
-  F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A> { ... }
+export function fromFoldable<F>(F: Foldable<F>): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A> { ... }
 ```
 
 Added in v1.0.0
@@ -495,7 +490,6 @@ Unfolds a dictionary into a list of key/value pairs
 
 ```ts
 export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): (<A>(d: StrMap<A>) => Type<F, [string, A]>)
-export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>)
 export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) { ... }
 ```
 
@@ -517,9 +511,6 @@ export function traverseWithKey<F extends URIS2>(
 export function traverseWithKey<F extends URIS>(
   F: Applicative1<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type<F, B>) => Type<F, StrMap<B>>
-export function traverseWithKey<F>(
-  F: Applicative<F>
-): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> { ... }

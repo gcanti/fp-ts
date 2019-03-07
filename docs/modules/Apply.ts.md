@@ -241,7 +241,6 @@ export function applyFirst<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, A>
 export function applyFirst<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, A>
-export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
 export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> { ... }
 ```
 
@@ -267,7 +266,6 @@ export function applySecond<F extends URIS2, L>(
   F: Apply2C<F, L>
 ): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, B>
 export function applySecond<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, B>
-export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> { ... }
 ```
 
@@ -294,7 +292,6 @@ export function getSemigroup<F extends URIS2, A>(
 ): <L = never>() => Semigroup<Type2<F, L, A>>
 export function getSemigroup<F extends URIS2, L, A>(F: Apply2C<F, L>, S: Semigroup<A>): () => Semigroup<Type2<F, L, A>>
 export function getSemigroup<F extends URIS, A>(F: Apply1<F>, S: Semigroup<A>): () => Semigroup<Type<F, A>>
-export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>>
 export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>> { ... }
 ```
 
@@ -336,7 +333,6 @@ export function liftA2<F extends URIS2, L>(
 export function liftA2<F extends URIS>(
   F: Apply1<F>
 ): <A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
-export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> { ... }
 ```
 
@@ -373,9 +369,6 @@ export function liftA3<F extends URIS2, L>(
 export function liftA3<F extends URIS>(
   F: Apply1<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>>
-export function liftA3<F>(
-  F: Apply<F>
-): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
 export function liftA3<F>(
   F: Apply<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> { ... }
@@ -420,9 +413,6 @@ export function liftA4<F extends URIS>(
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>, Type<F, E>>
 export function liftA4<F>(
   F: Apply<F>
-): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
-export function liftA4<F>(
-  F: Apply<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> { ... }
 ```
 
@@ -440,7 +430,6 @@ export function sequenceT<F extends URIS3, U, L>(F: Apply3C<F, U, L>): SequenceT
 export function sequenceT<F extends URIS2>(F: Apply2<F>): SequenceT2<F>
 export function sequenceT<F extends URIS2, L>(F: Apply2C<F, L>): SequenceT2C<F, L>
 export function sequenceT<F extends URIS>(F: Apply1<F>): SequenceT1<F>
-export function sequenceT<F>(F: Apply<F>): SequenceT<F>
 export function sequenceT<F>(F: Apply<F>): SequenceT<F> { ... }
 ```
 

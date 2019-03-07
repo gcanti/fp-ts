@@ -87,7 +87,6 @@ Added in v1.10.0
 
 ```ts
 export function collect<K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B>
-export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B>
 export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B> { ... }
 ```
 
@@ -108,7 +107,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A, fa: { ... }
+export function elem<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boolean { ... }
 ```
 
 Added in v1.14.0
@@ -118,7 +117,7 @@ Added in v1.14.0
 **Signature**
 
 ```ts
-export function every<A>(fa: { ... }
+export function every<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean): boolean { ... }
 ```
 
 Added in v1.14.0
@@ -129,7 +128,6 @@ Added in v1.14.0
 
 ```ts
 export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
-export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A>
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> { ... }
 ```
 
@@ -156,11 +154,7 @@ export function filterMapWithIndex<K extends string, A, B>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Option<B>
 ): Record<string, B>
-export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>
-export function filterMapWithIndex<A, B>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Option<B>
-): Record<string, B> { ... }
+export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B> { ... }
 ```
 
 Added in v1.12.0
@@ -174,7 +168,6 @@ export function filterMapWithKey<K extends string, A, B>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Option<B>
 ): Record<string, B>
-export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>
 export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B> { ... }
 ```
 
@@ -188,7 +181,6 @@ Use `filterWithKey` instead
 
 ```ts
 export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
-export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> { ... }
 ```
 
@@ -200,7 +192,6 @@ Added in v1.12.0
 
 ```ts
 export function filterWithKey<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
-export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
 export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> { ... }
 ```
 
@@ -242,7 +233,6 @@ Added in v1.10.0
 
 ```ts
 export function foldrWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B
-export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B
 export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B { ... }
 ```
 
@@ -268,11 +258,7 @@ export function fromFoldable<F extends URIS>(
 export function fromFoldable<F>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <K extends string, A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A>
-export function fromFoldable<F>(
-  // tslint:disable-next-line: deprecation
-  F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A> { ... }
+): <K extends string, A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A> { ... }
 ```
 
 Added in v1.10.0
@@ -285,7 +271,6 @@ Returns a `Semigroup` instance for records given a `Semigroup` instance for thei
 
 ```ts
 export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
-export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> { ... }
 ```
 
@@ -307,7 +292,6 @@ Added in v1.10.0
 
 ```ts
 export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
-export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>>
 export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> { ... }
 ```
 
@@ -321,7 +305,6 @@ Insert or replace a key/value pair in a map
 
 ```ts
 export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A>
-export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A>
 export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A> { ... }
 ```
 
@@ -369,7 +352,6 @@ Added in v1.10.0
 
 ```ts
 export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B>
-export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B>
 export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B> { ... }
 ```
 
@@ -381,7 +363,6 @@ Added in v1.10.0
 
 ```ts
 export function mapWithKey<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B>
-export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B>
 export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B> { ... }
 ```
 
@@ -427,10 +408,6 @@ export function partitionMapWithIndex<K extends string, RL, RR, A>(
 export function partitionMapWithIndex<RL, RR, A>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithIndex<RL, RR, A>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>> { ... }
 ```
 
@@ -444,10 +421,6 @@ Added in v1.12.0
 export function partitionMapWithKey<K extends string, RL, RR, A>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithKey<RL, RR, A>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>>
 export function partitionMapWithKey<RL, RR, A>(
   fa: Record<string, A>,
@@ -471,10 +444,6 @@ export function partitionWithIndex<K extends string, A>(
 export function partitionWithIndex<A>(
   fa: Record<string, A>,
   p: (key: string, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithIndex<A>(
-  fa: Record<string, A>,
-  p: (key: string, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>> { ... }
 ```
 
@@ -488,10 +457,6 @@ Added in v1.12.0
 export function partitionWithKey<K extends string, A>(
   fa: Record<K, A>,
   p: (key: K, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithKey<A>(
-  fa: Record<string, A>,
-  p: (key: string, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>>
 export function partitionWithKey<A>(
   fa: Record<string, A>,
@@ -529,7 +494,6 @@ Added in v1.10.0
 
 ```ts
 export function reduceWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B
-export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B
 export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B { ... }
 ```
 
@@ -546,7 +510,6 @@ export function remove<KS extends string, K extends string, A>(
   k: K,
   d: Record<KS, A>
 ): Record<string extends K ? string : Exclude<KS, K>, A>
-export function remove<A>(k: string, d: Record<string, A>): Record<string, A>
 export function remove<A>(k: string, d: Record<string, A>): Record<string, A> { ... }
 ```
 
@@ -584,7 +547,6 @@ export function sequence<F extends URIS2, L>(
 export function sequence<F extends URIS>(
   F: Applicative1<F>
 ): <A>(ta: Record<string, Type<F, A>>) => Type<F, Record<string, A>>
-export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>>
 export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>> { ... }
 ```
 
@@ -619,7 +581,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export function some<A>(fa: { ... }
+export function some<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean): boolean { ... }
 ```
 
 Added in v1.14.0
@@ -630,7 +592,6 @@ Added in v1.14.0
 
 ```ts
 export function toArray<K extends string, A>(d: Record<K, A>): Array<[K, A]>
-export function toArray<A>(d: Record<string, A>): Array<[string, A]>
 export function toArray<A>(d: Record<string, A>): Array<[string, A]> { ... }
 ```
 
@@ -646,8 +607,7 @@ Unfolds a record into a list of key/value pairs
 export function toUnfoldable<F extends URIS>(
   unfoldable: Unfoldable1<F>
 ): <K extends string, A>(d: Record<K, A>) => Type<F, [K, A]>
-export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A>(d: Record<K, A>) => HKT<F, [K, A]>
-export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string, A>) => HKT<F, [string, A]> { ... }
+export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A>(d: Record<K, A>) => HKT<F, [K, A]> { ... }
 ```
 
 Added in v1.10.0
@@ -674,9 +634,6 @@ export function traverse<F extends URIS>(
 ): <A, B>(ta: Record<string, A>, f: (a: A) => Type<F, B>) => Type<F, Record<string, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>>
-export function traverse<F>(
-  F: Applicative<F>
 ): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>> { ... }
 ```
 
@@ -696,9 +653,6 @@ export function traverseWithKey<F extends URIS2>(
 export function traverseWithKey<F extends URIS>(
   F: Applicative1<F>
 ): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type<F, B>) => Type<F, Record<string, B>>
-export function traverseWithKey<F>(
-  F: Applicative<F>
-): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>>
 export function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>> { ... }
@@ -746,12 +700,6 @@ export function wilt<F>(
 ): (<RL, RR, A>(
   wa: Record<string, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
-) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>)
-export function wilt<F>(
-  F: Applicative<F>
-): (<RL, RR, A>(
-  wa: Record<string, A>,
-  f: (a: A) => HKT<F, Either<RL, RR>>
 ) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>) { ... }
 ```
 
@@ -777,9 +725,6 @@ export function wither<F extends URIS2, L>(
 export function wither<F extends URIS>(
   F: Applicative1<F>
 ): (<A, B>(wa: Record<string, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Record<string, B>>)
-export function wither<F>(
-  F: Applicative<F>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>)
 export function wither<F>(
   F: Applicative<F>
 ): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>) { ... }

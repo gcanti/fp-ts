@@ -244,12 +244,7 @@ export function comprehension<A, B, R>(
   f: (a: A, b: B) => boolean,
   g: (a: A, b: B) => R
 ): Array<R>
-export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g: (a: A) => R): Array<R>
-export function comprehension<R>(
-  input: Array<Array<any>>,
-  f: (...xs: Array<any>) => boolean,
-  g: (...xs: Array<any>) => R
-): Array<R> { ... }
+export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g: (a: A) => R): Array<R> { ... }
 ```
 
 **Example**
@@ -434,7 +429,6 @@ Filter an array, keeping the elements which satisfy a predicate function, creati
 
 ```ts
 export function filter<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
-export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
 export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A> { ... }
 ```
 
@@ -448,7 +442,6 @@ Find the first element which satisfies a predicate (or a refinement) function
 
 ```ts
 export function findFirst<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
-export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
 export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> { ... }
 ```
 
@@ -493,7 +486,6 @@ Find the last element which satisfies a predicate function
 
 ```ts
 export function findLast<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
-export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
 export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> { ... }
 ```
 
@@ -966,7 +958,6 @@ Added in v1.0.0
 
 ```ts
 export function partition<A, B extends A>(fa: Array<A>, p: Refinement<A, B>): Separated<Array<A>, Array<B>>
-export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>>
 export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>> { ... }
 ```
 
@@ -1273,8 +1264,7 @@ Split an array into two parts:
 
 ```ts
 export function span<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): { init: Array<B>; rest: Array<A> }
-export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> }
-export function span<A>(as: Array<A>, predicate: Predicate<A>): { ... }
+export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> } { ... }
 ```
 
 **Example**
@@ -1379,7 +1369,6 @@ Calculate the longest initial subarray for which all element satisfy the specifi
 
 ```ts
 export function takeWhile<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
-export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
 export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A> { ... }
 ```
 
@@ -1415,7 +1404,6 @@ export function traverse<F extends URIS2, L>(
 export function traverse<F extends URIS>(
   F: Applicative1<F>
 ): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
 export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> { ... }
 ```
 

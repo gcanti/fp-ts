@@ -286,10 +286,6 @@ export function getFoldableWithIndexComposition<F extends URIS, FI, G extends UR
 export function getFoldableWithIndexComposition<F, FI, G, GI>(
   F: FoldableWithIndex<F, FI>,
   G: FoldableWithIndex<G, GI>
-): FoldableWithIndexComposition<F, FI, G, GI>
-export function getFoldableWithIndexComposition<F, FI, G, GI>(
-  F: FoldableWithIndex<F, FI>,
-  G: FoldableWithIndex<G, GI>
 ): FoldableWithIndexComposition<F, FI, G, GI> { ... }
 ```
 

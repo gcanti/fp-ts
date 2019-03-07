@@ -281,10 +281,6 @@ export function fromPredicate<E, L, A, B extends A>(
 export function fromPredicate<E, L, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => L
-): ((a: A) => ReaderTaskEither<E, L, A>)
-export function fromPredicate<E, L, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => L
 ): ((a: A) => ReaderTaskEither<E, L, A>) { ... }
 ```
 

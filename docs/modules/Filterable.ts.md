@@ -377,7 +377,6 @@ export function getFilterableComposition<F extends URIS, G extends URIS>(
   F: Functor1<F>,
   G: Filterable1<G>
 ): FilterableComposition11<F, G>
-export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G>
 export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G> { ... }
 ```
 

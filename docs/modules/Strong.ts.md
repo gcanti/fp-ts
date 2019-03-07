@@ -122,9 +122,6 @@ export function fanout<F extends URIS2>(
 ): <A, B, C>(pab: Type2<F, A, B>, pac: Type2<F, A, C>) => Type2<F, A, [B, C]>
 export function fanout<F>(
   F: Category<F> & Strong<F>
-): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]>
-export function fanout<F>(
-  F: Category<F> & Strong<F>
 ): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]> { ... }
 ```
 
@@ -155,9 +152,6 @@ export function splitStrong<F extends URIS3>(
 export function splitStrong<F extends URIS2>(
   F: Category2<F> & Strong2<F>
 ): <A, B, C, D>(pab: Type2<F, A, B>, pcd: Type2<F, C, D>) => Type2<F, [A, C], [B, D]>
-export function splitStrong<F>(
-  F: Category<F> & Strong<F>
-): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]>
 export function splitStrong<F>(
   F: Category<F> & Strong<F>
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]> { ... }

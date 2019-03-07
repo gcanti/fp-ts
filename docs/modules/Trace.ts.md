@@ -55,8 +55,7 @@ export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: any
 export function traceA<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): (message: any) => Type3<F, U, L, void>
 export function traceA<F extends URIS2>(F: Applicative2<F>): <L>(message: any) => Type2<F, L, void>
 export function traceA<F extends URIS2, L>(F: Applicative2C<F, L>): (message: any) => Type2<F, L, void>
-export function traceA<F extends URIS>(F: Applicative1<F>): (message: any) => Type<F, void>
-export function traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void> { ... }
+export function traceA<F extends URIS>(F: Applicative1<F>): (message: any) => Type<F, void> { ... }
 ```
 
 Added in v1.0.0
@@ -72,8 +71,7 @@ export function traceM<F extends URIS3>(F: Monad3<F>): <U, L, A>(a: A) => Type3<
 export function traceM<F extends URIS3, U, L>(F: Monad3C<F, U, L>): <A>(a: A) => Type3<F, U, L, A>
 export function traceM<F extends URIS2>(F: Monad2<F>): <L, A>(a: A) => Type2<F, L, A>
 export function traceM<F extends URIS2, L>(F: Monad2C<F, L>): <A>(a: A) => Type2<F, L, A>
-export function traceM<F extends URIS>(F: Monad1<F>): <A>(a: A) => Type<F, A>
-export function traceM<F>(F: Monad<F>): <A>(a: A) => HKT<F, A> { ... }
+export function traceM<F extends URIS>(F: Monad1<F>): <A>(a: A) => Type<F, A> { ... }
 ```
 
 Added in v1.0.0

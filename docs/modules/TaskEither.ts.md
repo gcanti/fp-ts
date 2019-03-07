@@ -254,7 +254,6 @@ Added in v1.10.0
 
 ```ts
 filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): TaskEither<L, B>
-filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A>
 filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A> { ... }
 ```
 
@@ -266,7 +265,6 @@ Added in v1.11.0
 
 ```ts
 filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): TaskEither<L, B>
-filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>
 filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> { ... }
 ```
 
@@ -369,7 +367,6 @@ export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
   onFalse: (a: A) => L
 ): ((a: A) => TaskEither<L, B>)
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>) { ... }
 ```
 
@@ -461,8 +458,7 @@ export function taskify<A, B, C, D, L, R>(
 ): (a: A, b: B, c: C, d: D) => TaskEither<L, R>
 export function taskify<A, B, C, D, E, L, R>(
   f: (a: A, b: B, c: C, d: D, e: E, cb: (e: L | null | undefined, r?: R) => void) => void
-): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R>
-export function taskify<L, R>(f: Function): () => TaskEither<L, R> { ... }
+): (a: A, b: B, c: C, d: D, e: E) => TaskEither<L, R> { ... }
 ```
 
 **Example**

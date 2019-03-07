@@ -353,10 +353,6 @@ export function getTraversableComposition<F extends URIS, G extends URIS>(
 export function getTraversableComposition<F, G>(
   F: Traversable2v<F>,
   G: Traversable2v<G>
-): Traversable2vComposition<F, G>
-export function getTraversableComposition<F, G>(
-  F: Traversable2v<F>,
-  G: Traversable2v<G>
 ): Traversable2vComposition<F, G> { ... }
 ```
 

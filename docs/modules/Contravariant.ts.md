@@ -109,7 +109,6 @@ export function lift<F extends URIS2, L>(
 export function lift<F extends URIS>(
   contravariant: Contravariant1<F>
 ): <A, B>(f: (b: B) => A) => (fa: Type<F, A>) => Type<F, B>
-export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
 export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B> { ... }
 ```
 

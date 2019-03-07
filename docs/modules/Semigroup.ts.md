@@ -142,8 +142,7 @@ Use `Record`'s `getMonoid`
 
 ```ts
 export function getDictionarySemigroup<K extends string, A>(S: Semigroup<A>): Semigroup<Record<K, A>>
-export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }>
-export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup< { ... }
+export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> { ... }
 ```
 
 Added in v1.4.0

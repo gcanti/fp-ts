@@ -105,9 +105,6 @@ export function bimap<F extends URIS>(
 ): <L, V, A, B>(fa: Type<F, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => Type<F, Either<V, B>>
 export function bimap<F>(
   F: Functor<F>
-): <L, V, A, B>(fa: HKT<F, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => HKT<F, Either<V, B>>
-export function bimap<F>(
-  F: Functor<F>
 ): <L, V, A, B>(fa: HKT<F, Either<L, A>>, f: (l: L) => V, g: (a: A) => B) => HKT<F, Either<V, B>> { ... }
 ```
 
@@ -122,7 +119,6 @@ Use `getEitherT2v` instead
 ```ts
 export function chain<F extends URIS2>(F: Monad2<F>): EitherT2<F>['chain']
 export function chain<F extends URIS>(F: Monad1<F>): EitherT1<F>['chain']
-export function chain<F>(F: Monad<F>): EitherT<F>['chain']
 export function chain<F>(F: Monad<F>): EitherT<F>['chain'] { ... }
 ```
 
@@ -141,9 +137,6 @@ export function fold<F extends URIS>(
 ): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: Type<F, Either<L, A>>) => Type<F, R>
 export function fold<F>(
   F: Functor<F>
-): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R>
-export function fold<F>(
-  F: Functor<F>
 ): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R> { ... }
 ```
 
@@ -158,7 +151,6 @@ export function fromEither<F extends URIS2>(
   F: Applicative2<F>
 ): <L, M, A>(fa: Either<L, A>) => Type2<F, M, Either<L, A>>
 export function fromEither<F extends URIS>(F: Applicative1<F>): <L, A>(fa: Either<L, A>) => Type<F, Either<L, A>>
-export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>>
 export function fromEither<F>(F: Applicative<F>): <L, A>(fa: Either<L, A>) => HKT<F, Either<L, A>> { ... }
 ```
 
@@ -173,7 +165,6 @@ Use `getEitherT2v` instead
 ```ts
 export function getEitherT<M extends URIS2>(M: Monad2<M>): EitherT2<M>
 export function getEitherT<M extends URIS>(M: Monad1<M>): EitherT1<M>
-export function getEitherT<M>(M: Monad<M>): EitherT<M>
 export function getEitherT<M>(M: Monad<M>): EitherT<M> { ... }
 ```
 
@@ -186,7 +177,6 @@ Added in v1.0.0
 ```ts
 export function getEitherT2v<M extends URIS2>(M: Monad2<M>): EitherT2v2<M>
 export function getEitherT2v<M extends URIS>(M: Monad1<M>): EitherT2v1<M>
-export function getEitherT2v<M>(M: Monad<M>): EitherT2v<M>
 export function getEitherT2v<M>(M: Monad<M>): EitherT2v<M> { ... }
 ```
 
@@ -199,7 +189,6 @@ Added in v1.14.0
 ```ts
 export function left<F extends URIS2>(F: Functor2<F>): <L, M, A>(fl: Type2<F, M, L>) => Type2<F, M, Either<L, A>>
 export function left<F extends URIS>(F: Functor1<F>): <L, A>(fl: Type<F, L>) => Type<F, Either<L, A>>
-export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>> { ... }
 ```
 
@@ -218,9 +207,6 @@ export function mapLeft<F extends URIS>(
 ): <N, L>(f: (l: L) => N) => <A>(fa: Type<F, Either<L, A>>) => Type<F, Either<N, A>>
 export function mapLeft<F>(
   F: Functor<F>
-): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>>
-export function mapLeft<F>(
-  F: Functor<F>
 ): <N, L>(f: (l: L) => N) => <A>(fa: HKT<F, Either<L, A>>) => HKT<F, Either<N, A>> { ... }
 ```
 
@@ -233,7 +219,6 @@ Added in v1.0.0
 ```ts
 export function right<F extends URIS2>(F: Functor2<F>): <L, M, A>(fa: Type2<F, M, A>) => Type2<F, M, Either<L, A>>
 export function right<F extends URIS>(F: Functor1<F>): <L, A>(fa: Type<F, A>) => Type<F, Either<L, A>>
-export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>> { ... }
 ```
 

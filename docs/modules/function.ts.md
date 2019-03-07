@@ -368,8 +368,7 @@ export function compose<A, B, C, D, E, F, G, H, I, J>(
   cd: (c: C) => D,
   bc: (b: B) => C,
   ab: (a: A) => B
-): (a: A) => J
-export function compose(...fns: Array<Function>): Function { ... }
+): (a: A) => J { ... }
 ```
 
 Added in v1.0.0
@@ -493,8 +492,7 @@ export function curry<A, B, C, D, E, F, G, H, I>(
 ): Curried8<A, B, C, D, E, F, G, H, I>
 export function curry<A, B, C, D, E, F, G, H, I, J>(
   f: Function9<A, B, C, D, E, F, G, H, I, J>
-): Curried9<A, B, C, D, E, F, G, H, I, J>
-export function curry(f: Function) { ... }
+): Curried9<A, B, C, D, E, F, G, H, I, J> { ... }
 ```
 
 Added in v1.0.0
@@ -569,7 +567,6 @@ Added in v1.0.0
 
 ```ts
 export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
-export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> { ... }
 ```
 
@@ -627,8 +624,7 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
   gh: (g: G) => H,
   hi: (h: H) => I,
   ij: (i: I) => J
-): (a: A) => J
-export function pipe(...fns: Array<Function>): Function { ... }
+): (a: A) => J { ... }
 ```
 
 Added in v1.0.0

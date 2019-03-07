@@ -259,10 +259,6 @@ export function getFunctorWithIndexComposition<F extends URIS, FI, G extends URI
 export function getFunctorWithIndexComposition<F, FI, G, GI>(
   F: FunctorWithIndex<F, FI>,
   G: FunctorWithIndex<G, GI>
-): FunctorWithIndexComposition<F, FI, G, GI>
-export function getFunctorWithIndexComposition<F, FI, G, GI>(
-  F: FunctorWithIndex<F, FI>,
-  G: FunctorWithIndex<G, GI>
 ): FunctorWithIndexComposition<F, FI, G, GI> { ... }
 ```
 

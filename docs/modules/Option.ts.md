@@ -504,7 +504,6 @@ Otherwise returns `None`
 
 ```ts
 filter<B extends A>(p: Refinement<A, B>): Option<B>
-filter(p: Predicate<A>): Option<A>
 filter(p: Predicate<A>): Option<A> { ... }
 ```
 
@@ -707,7 +706,6 @@ exists(p: (a: A) => boolean): boolean { ... }
 
 ```ts
 filter<B extends A>(p: Refinement<A, B>): Option<B>
-filter(p: Predicate<A>): Option<A>
 filter(p: Predicate<A>): Option<A> { ... }
 ```
 
@@ -807,7 +805,6 @@ Added in v1.0.0
 
 ```ts
 export function fromPredicate<A, B extends A>(predicate: Refinement<A, B>): (a: A) => Option<B>
-export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> { ... }
 ```
 

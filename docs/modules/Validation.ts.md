@@ -392,7 +392,6 @@ export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
   f: (a: A) => L
 ): (a: A) => Validation<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a: A) => Validation<L, A>
 export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a: A) => Validation<L, A> { ... }
 ```
 
