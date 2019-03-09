@@ -1,3 +1,5 @@
+import * as align from './Align'
+export { align }
 import * as alt from './Alt'
 export { alt }
 import * as alternative from './Alternative'
