@@ -28,6 +28,7 @@ import { setoidNumber } from '../src/Setoid'
 import { identity } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
 import { monoidSum, monoidString } from '../src/Monoid'
+import { These, both, this_, that } from '../src/These'
 import * as F from '../src/Foldable'
 
 const p = (n: number): boolean => n > 2
@@ -425,5 +426,20 @@ describe('Option', () => {
     const isA = getRefinement<C, A>(c => (c.type === 'A' ? some(c) : none))
     assert.strictEqual(isA({ type: 'A' }), true)
     assert.strictEqual(isA({ type: 'B' }), false)
+  })
+
+  it('align', () => {
+    assert.deepStrictEqual(option.align(some(1), some('a')), some(both(1, 'a')))
+    assert.deepStrictEqual(option.align(some(1), option.nil<string>()), some(this_(1)))
+    assert.deepStrictEqual(option.align(option.nil<number>(), some('a')), some(that('a')))
+    assert.deepStrictEqual(option.align(option.nil<number>(), option.nil<string>()), none)
+  })
+
+  it('alignWith', () => {
+    const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => b + a)
+    assert.deepStrictEqual(option.alignWith(some(1), some('a'), f), some('a1'))
+    assert.deepStrictEqual(option.alignWith(some(1), option.nil<string>(), f), some('1'))
+    assert.deepStrictEqual(option.alignWith(option.nil<number>(), some('a'), f), some('a'))
+    assert.deepStrictEqual(option.alignWith(option.nil<number>(), option.nil<string>(), f), none)
   })
 })

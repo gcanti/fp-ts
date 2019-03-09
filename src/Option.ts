@@ -98,6 +98,8 @@ import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 import { Witherable1 } from './Witherable'
+import { These, this_, that, both } from './These'
+import { Align1 } from './Align'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -320,6 +322,46 @@ export class None<A> {
   refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
     return none
   }
+
+  /**
+   * Takes two Option's and returns an Option with a value coresponding to the inputs combined unsing the `These` data type.
+   *
+   * @example
+   * import { some, none } from 'fp-ts/lib/Option'
+   * import { both, this_, that } from 'fp-ts/lib/These'
+   *
+   * assert.deepStrictEqual(some(1).align(some('a')), some(both(1, 'a')))
+   * assert.deepStrictEqual(some(1).align(none), some(this_(1)))
+   * assert.deepStrictEqual(none.align(some('a')), some(that('a')))
+   * assert.deepStrictEqual(none.align(none), none)
+   *
+   * @since 1.15.0
+   */
+  align<B>(fb: Option<B>): Option<These<A, B>> {
+    return this.alignWith<B, These<A, B>>(fb, identity)
+  }
+
+  /**
+   * Apply a function to the values of two Option's, returning an Option with the result. Uses the `These` data type
+   * to handle the posibility of non existing values.
+   *
+   * @example
+   * import { some, none } from 'fp-ts/lib/Option'
+   * import { These } from 'fp-ts/lib/These'
+   * import { identity } from 'fp-ts/lib/function'
+   *
+   * const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => a + b)
+   *
+   * assert.deepStrictEqual(some(1).alignWith(some('a'), f), some('1a'))
+   * assert.deepStrictEqual(some(1).alignWith(none, f), some('1'))
+   * assert.deepStrictEqual(none.alignWith(some('a'), f), some('a'))
+   * assert.deepStrictEqual(none.alignWith(none, f), none)
+   *
+   * @since 1.15.0
+   */
+  alignWith<B, C>(fb: Option<B>, f: (x: These<A, B>) => C): Option<C> {
+    return fb.map(b => f(that<A, B>(b)))
+  }
 }
 
 /**
@@ -403,6 +445,12 @@ export class Some<A> {
   }
   refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
     return this.filter(refinement)
+  }
+  align<B>(fb: Option<B>): Option<These<A, B>> {
+    return this.alignWith<B, These<A, B>>(fb, identity)
+  }
+  alignWith<B, C>(fb: Option<B>, f: (x: These<A, B>) => C): Option<C> {
+    return fb.isNone() ? this.map(a => f(this_<A, B>(a))) : new Some(f(both(this.value, fb.value)))
   }
 }
 
@@ -806,6 +854,16 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
   })
 }
 
+const align = <A, B>(fa: Option<A>, fb: Option<B>): Option<These<A, B>> => {
+  return fa.align(fb)
+}
+
+const alignWith = <A, B, C>(fa: Option<A>, fb: Option<B>, f: (x: These<A, B>) => C): Option<C> => {
+  return fa.alignWith(fb, f)
+}
+
+const nil = <A>(): Option<A> => none
+
 /**
  * @since 1.0.0
  */
@@ -817,7 +875,8 @@ export const option: Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = {
+  Witherable1<URI> &
+  Align1<URI> = {
   URI,
   map,
   of,
@@ -838,5 +897,8 @@ export const option: Monad1<URI> &
   partition,
   partitionMap,
   wither,
-  wilt
+  wilt,
+  align,
+  alignWith,
+  nil
 }
