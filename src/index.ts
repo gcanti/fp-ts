@@ -138,6 +138,8 @@ import * as record from './Record'
 export { record }
 import * as ring from './Ring'
 export { ring }
+import * as semialign from './Semialign'
+export { semialign }
 import * as semigroup from './Semigroup'
 export { semigroup }
 import * as semigroupoid from './Semigroupoid'
