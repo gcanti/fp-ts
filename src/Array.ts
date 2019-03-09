@@ -1,6 +1,7 @@
 /**
  * @file Adapted from https://github.com/purescript/purescript-arrays
  */
+import { Align1 } from './Align'
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
@@ -19,6 +20,7 @@ import { getSemigroup, Ord, ordNumber, fromCompare } from './Ord'
 import { Plus1 } from './Plus'
 import { getArraySetoid, Setoid } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { These, this_, that, both } from './These'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 
@@ -1543,6 +1545,32 @@ const filterWithIndex = <A>(fa: Array<A>, p: (i: number, a: A) => boolean): Arra
   return fa.filter((a, i) => p(i, a))
 }
 
+const align = <A, B>(fa: Array<A>, fb: Array<B>): Array<These<A, B>> => {
+  return alignWith<A, B, These<A, B>>(fa, fb, identity)
+}
+
+const alignWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (x: These<A, B>) => C): Array<C> => {
+  const fc = []
+  const aLen = fa.length
+  const bLen = fb.length
+  const len = Math.min(aLen, bLen)
+  for (let i = 0; i < len; i++) {
+    fc[i] = f(both(fa[i], fb[i]))
+  }
+  if (aLen > bLen) {
+    for (let i = bLen; i < aLen; i++) {
+      fc[i] = f(this_<A, B>(fa[i]))
+    }
+  } else {
+    for (let i = aLen; i < bLen; i++) {
+      fc[i] = f(that<A, B>(fb[i]))
+    }
+  }
+  return fc
+}
+
+const nil = <A>(): Array<A> => empty
+
 /**
  * @since 1.0.0
  */
@@ -1557,7 +1585,8 @@ export const array: Monad1<URI> &
   FilterableWithIndex1<URI, number> &
   Witherable1<URI> &
   FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> = {
+  FoldableWithIndex1<URI, number> &
+  Align1<URI> = {
   URI,
   map,
   mapWithIndex,
@@ -1588,5 +1617,8 @@ export const array: Monad1<URI> &
   partitionMapWithIndex,
   partitionWithIndex,
   filterMapWithIndex,
-  filterWithIndex
+  filterWithIndex,
+  align,
+  alignWith,
+  nil
 }

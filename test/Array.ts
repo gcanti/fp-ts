@@ -70,6 +70,7 @@ import { option, Option, none, some, isSome } from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString, Setoid } from '../src/Setoid'
 import { identity, tuple, constTrue } from '../src/function'
+import { These, both, this_, that } from '../src/These'
 import * as I from '../src/Identity'
 import * as F from '../src/Foldable'
 import * as C from '../src/Const'
@@ -749,5 +750,24 @@ describe('Array', () => {
     const f = (a: number, x?: Foo) => (x !== undefined ? `${a}${x.bar()}` : `${a}`)
     const res = array.map([1, 2], f)
     assert.deepStrictEqual(res, ['1', '2'])
+  })
+
+  it('align', () => {
+    assert.deepStrictEqual(array.align([1, 2], ['a', 'b']), [both(1, 'a'), both(2, 'b')])
+    assert.deepStrictEqual(array.align([1, 2], ['a']), [both(1, 'a'), this_(2)])
+    assert.deepStrictEqual(array.align([1], ['a', 'b']), [both(1, 'a'), that('b')])
+    assert.deepStrictEqual(array.align([], []), [])
+    assert.deepStrictEqual(array.align([1], array.nil<string>()), [this_(1)])
+    assert.deepStrictEqual(array.align(array.nil<number>(), ['a']), [that('a')])
+  })
+
+  it('alignWith', () => {
+    const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => b + a)
+    assert.deepStrictEqual(array.alignWith([1, 2], ['a', 'b'], f), ['a1', 'b2'])
+    assert.deepStrictEqual(array.alignWith([1, 2], ['a'], f), ['a1', '2'])
+    assert.deepStrictEqual(array.alignWith([1], ['a', 'b'], f), ['a1', 'b'])
+    assert.deepStrictEqual(array.alignWith([], [], f), [])
+    assert.deepStrictEqual(array.alignWith([1], array.nil<string>(), f), ['1'])
+    assert.deepStrictEqual(array.alignWith(array.nil<number>(), ['a'], f), ['a'])
   })
 })
