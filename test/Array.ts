@@ -62,7 +62,11 @@ import {
   union,
   intersection,
   difference,
-  unsafeUpdateAt
+  unsafeUpdateAt,
+  lpadZip,
+  lpadZipWith,
+  rpadZip,
+  rpadZipWith
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -769,5 +773,35 @@ describe('Array', () => {
     assert.deepStrictEqual(array.alignWith([], [], f), [])
     assert.deepStrictEqual(array.alignWith([1], array.nil<string>(), f), ['1'])
     assert.deepStrictEqual(array.alignWith(array.nil<number>(), ['a'], f), ['a'])
+  })
+
+  it('lpadZip', () => {
+    assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b']), [[some(1), 'a'], [some(2), 'b']])
+    assert.deepStrictEqual(lpadZip([1, 2], ['a']), [[some(1), 'a']])
+    assert.deepStrictEqual(lpadZip([1], ['a', 'b']), [[some(1), 'a'], [none, 'b']])
+    assert.deepStrictEqual(lpadZip([], []), [])
+  })
+
+  it('lpadZipWith', () => {
+    const f = (ma: Option<number>, b: string) => b + ma.fold('*', a => a.toString())
+    assert.deepStrictEqual(lpadZipWith([1, 2], ['a', 'b'], f), ['a1', 'b2'])
+    assert.deepStrictEqual(lpadZipWith([1, 2], ['a'], f), ['a1'])
+    assert.deepStrictEqual(lpadZipWith([1], ['a', 'b'], f), ['a1', 'b*'])
+    assert.deepStrictEqual(lpadZipWith([], [], f), [])
+  })
+
+  it('rpadZip', () => {
+    assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b']), [[1, some('a')], [2, some('b')]])
+    assert.deepStrictEqual(rpadZip([1, 2], ['a']), [[1, some('a')], [2, none]])
+    assert.deepStrictEqual(rpadZip([1], ['a', 'b']), [[1, some('a')]])
+    assert.deepStrictEqual(rpadZip([], []), [])
+  })
+
+  it('rpadZipWith', () => {
+    const f = (a: number, mb: Option<string>) => mb.getOrElse('*') + a.toString()
+    assert.deepStrictEqual(rpadZipWith([1, 2], ['a', 'b'], f), ['a1', 'b2'])
+    assert.deepStrictEqual(rpadZipWith([1, 2], ['a'], f), ['a1', '*2'])
+    assert.deepStrictEqual(rpadZipWith([1], ['a', 'b'], f), ['a1'])
+    assert.deepStrictEqual(rpadZipWith([], [], f), [])
   })
 })

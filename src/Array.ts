@@ -1,7 +1,7 @@
 /**
  * @file Adapted from https://github.com/purescript/purescript-arrays
  */
-import { Align1 } from './Align'
+import { Align1, padZipWith } from './Align'
 import { Alternative1 } from './Alternative'
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
@@ -1570,6 +1570,84 @@ const alignWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (x: These<A, B>) => C
 }
 
 const nil = <A>(): Array<A> => empty
+
+/**
+ * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If the
+ * left input array is short, it will be padded using `none`.
+ *
+ * It is similar to `zipWith`, but it doesn't discard elements when the left input array is shorter than the right.
+ *
+ * @example
+ * import { lpadZipWith } from 'fp-ts/lib/Array'
+ * import { Option } from 'fp-ts/lib/Option'
+ *
+ * const f = (ma: Option<number>, b: string) => ma.fold('*', a => a.toString()) + b
+ * assert.deepStrictEqual(lpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c', '*d'])
+ * assert.deepStrictEqual(lpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c'])
+ *
+ * @since 1.15.0
+ */
+export function lpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: Option<A>, b: B) => C): Array<C> {
+  return catOptions(padZipWith(array)(xs, ys, (ma, mb) => mb.map(b => f(ma, b))))
+}
+
+/**
+ * Takes two arrays and returns an array of corresponding pairs. If the left input array is short, it will be
+ * padded using `none`.
+ *
+ * It is similar to `zip`, but it doesn't discard elements when the left input array is shorter than the right.
+ *
+ * @example
+ * import { lpadZip } from 'fp-ts/lib/Array'
+ * import { some, none } from 'fp-ts/lib/Option'
+ *
+ * assert.deepStrictEqual(lpadZip([1, 2], ['a', 'b', 'c']), [[some(1), 'a'], [some(2), 'b'], [none, 'c']])
+ * assert.deepStrictEqual(lpadZip([1, 2, 3], ['a', 'b']), [[some(1), 'a'], [some(2), 'b']])
+ *
+ * @since 1.15.0
+ */
+export function lpadZip<A, B, C>(xs: Array<A>, ys: Array<B>): Array<[Option<A>, B]> {
+  return lpadZipWith(xs, ys, (a, b) => tuple(a, b))
+}
+
+/**
+ * Apply a function to pairs of elements at the same index in two arrays, collecting the results in a new array. If the
+ * right input array is short, it will be padded using `none`.
+ *
+ * It is similar to `zipWith`, but it doesn't discard elements when the right input array is shorter than the left.
+ *
+ * @example
+ * import { rpadZipWith } from 'fp-ts/lib/Array'
+ * import { Option } from 'fp-ts/lib/Option'
+ *
+ * const f = (a: number, mb: Option<string>) => a.toString() + mb.getOrElse('*')
+ * assert.deepStrictEqual(rpadZipWith([1, 2, 3, 4], ['a', 'b', 'c'], f), ['1a', '2b', '3c', '4*'])
+ * assert.deepStrictEqual(rpadZipWith([1, 2, 3], ['a', 'b', 'c', 'd'], f), ['1a', '2b', '3c'])
+ *
+ * @since 1.15.0
+ */
+export function rpadZipWith<A, B, C>(xs: Array<A>, ys: Array<B>, f: (a: A, b: Option<B>) => C): Array<C> {
+  return lpadZipWith(ys, xs, (a, b) => f(b, a))
+}
+
+/**
+ * Takes two arrays and returns an array of corresponding pairs. If the right input array is short, it will be
+ * padded using `none`.
+ *
+ * It is similar to `zip`, but it doesn't discard elements when the right input array is shorter than the left.
+ *
+ * @example
+ * import { rpadZip } from 'fp-ts/lib/Array'
+ * import { some, none } from 'fp-ts/lib/Option'
+ *
+ * assert.deepStrictEqual(rpadZip([1, 2, 3], ['a', 'b']), [[1, some('a')], [2, some('b')], [3, none]])
+ * assert.deepStrictEqual(rpadZip([1, 2], ['a', 'b', 'c']), [[1, some('a')], [2, some('b')]])
+ *
+ * @since 1.15.0
+ */
+export function rpadZip<A, B, C>(xs: Array<A>, ys: Array<B>): Array<[A, Option<B>]> {
+  return rpadZipWith(xs, ys, (a, b) => tuple(a, b))
+}
 
 /**
  * @since 1.0.0
