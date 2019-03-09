@@ -18,6 +18,7 @@ import * as T from '../src/Traversable'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
 import { setoidNumber } from '../src/Setoid'
+import { These, both, this_, that } from '../src/These'
 
 describe('NonEmptyArray', () => {
   it('concat', () => {
@@ -394,5 +395,44 @@ describe('NonEmptyArray', () => {
     assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).every(s => s.length >= 1), true)
     assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).every(s => s.length >= 2), false)
     assert.deepStrictEqual(new NonEmptyArray('a', ['bb', 'ccc']).every(s => s.length >= 1 && s.length < 3), false)
+  })
+
+  it('align', () => {
+    assert.deepStrictEqual(
+      nonEmptyArray.align(new NonEmptyArray(1, [2, 3]), new NonEmptyArray('a', ['b', 'c'])),
+      new NonEmptyArray(both(1, 'a'), [both(2, 'b'), both(3, 'c')])
+    )
+    assert.deepStrictEqual(
+      nonEmptyArray.align(new NonEmptyArray(1, [2, 3]), new NonEmptyArray('a', ['b'])),
+      new NonEmptyArray(both(1, 'a'), [both(2, 'b'), this_(3)])
+    )
+    assert.deepStrictEqual(
+      nonEmptyArray.align(new NonEmptyArray(1, [2]), new NonEmptyArray('a', ['b', 'c'])),
+      new NonEmptyArray(both(1, 'a'), [both(2, 'b'), that('c')])
+    )
+    assert.deepStrictEqual(
+      nonEmptyArray.align(new NonEmptyArray(1, []), new NonEmptyArray('a', [])),
+      new NonEmptyArray(both(1, 'a'), [])
+    )
+  })
+
+  it('alignWith', () => {
+    const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => b + a)
+    assert.deepStrictEqual(
+      nonEmptyArray.alignWith(new NonEmptyArray(1, [2, 3]), new NonEmptyArray('a', ['b', 'c']), f),
+      new NonEmptyArray('a1', ['b2', 'c3'])
+    )
+    assert.deepStrictEqual(
+      nonEmptyArray.alignWith(new NonEmptyArray(1, [2, 3]), new NonEmptyArray('a', ['b']), f),
+      new NonEmptyArray('a1', ['b2', '3'])
+    )
+    assert.deepStrictEqual(
+      nonEmptyArray.alignWith(new NonEmptyArray(1, [2]), new NonEmptyArray('a', ['b', 'c']), f),
+      new NonEmptyArray('a1', ['b2', 'c'])
+    )
+    assert.deepStrictEqual(
+      nonEmptyArray.alignWith(new NonEmptyArray(1, []), new NonEmptyArray('a', []), f),
+      new NonEmptyArray('a1', [])
+    )
   })
 })

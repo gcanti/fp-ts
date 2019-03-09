@@ -28,6 +28,8 @@ import { Setoid, getArraySetoid, fromEquals } from './Setoid'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { These, both } from './These'
+import { Semialign1 } from './Semialign'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -475,6 +477,20 @@ export class NonEmptyArray<A> {
   every(predicate: Predicate<A>): boolean {
     return predicate(this.head) && this.tail.every(a => predicate(a))
   }
+
+  /**
+   * @since 1.15.0
+   */
+  align<B>(fb: NonEmptyArray<B>): NonEmptyArray<These<A, B>> {
+    return new NonEmptyArray(both(this.head, fb.head), array.align(this.tail, fb.tail))
+  }
+
+  /**
+   * @since 1.15.0
+   */
+  alignWith<B, C>(fb: NonEmptyArray<B>, f: (x: These<A, B>) => C): NonEmptyArray<C> {
+    return new NonEmptyArray(f(both(this.head, fb.head)), array.alignWith(this.tail, fb.tail, f))
+  }
 }
 
 const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
@@ -678,6 +694,14 @@ const traverseWithIndex = <F>(
   }
 }
 
+const align = <A, B>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>): NonEmptyArray<These<A, B>> => {
+  return fa.align(fb)
+}
+
+const alignWith = <A, B, C>(fa: NonEmptyArray<A>, fb: NonEmptyArray<B>, f: (x: These<A, B>) => C): NonEmptyArray<C> => {
+  return fa.alignWith(fb, f)
+}
+
 /**
  * @since 1.0.0
  */
@@ -686,7 +710,8 @@ export const nonEmptyArray: Monad1<URI> &
   Foldable2v1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
-  FoldableWithIndex1<URI, number> = {
+  FoldableWithIndex1<URI, number> &
+  Semialign1<URI> = {
   URI,
   extend,
   extract,
@@ -703,5 +728,7 @@ export const nonEmptyArray: Monad1<URI> &
   reduceWithIndex,
   foldMapWithIndex,
   foldrWithIndex,
-  traverseWithIndex
+  traverseWithIndex,
+  align,
+  alignWith
 }
