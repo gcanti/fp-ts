@@ -98,6 +98,7 @@ import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 import { Witherable1 } from './Witherable'
+import { Selective1 } from './Selective'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -192,6 +193,9 @@ export class None<A> {
    */
   ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> {
     return fb.ap(this)
+  }
+  select<A, B>(this: Option<Either<A, B>>, fab: Option<(a: A) => B>): Option<B> {
+    return none
   }
   /**
    * Returns the result of applying f to this `Option`'s value if this `Option` is nonempty. Returns `None` if this
@@ -345,6 +349,9 @@ export class Some<A> {
   ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> {
     return fb.ap(this)
   }
+  select<A, B>(this: Option<Either<A, B>>, fab: Option<(a: A) => B>): Option<B> {
+    return this.chain(e => e.fold(a => fab.map(f => f(a)), b => some(b)))
+  }
   chain<B>(f: (a: A) => Option<B>): Option<B> {
     return f(this.value)
   }
@@ -465,6 +472,8 @@ const of = some
 const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => {
   return fa.ap(fab)
 }
+
+const select: <A, B>(fa: Option<Either<A, B>>, f: Option<(a: A) => B>) => Option<B> = (fa, f) => fa.select(f)
 
 const chain = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => {
   return fa.chain(f)
@@ -810,6 +819,7 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
  * @since 1.0.0
  */
 export const option: Monad1<URI> &
+  Selective1<URI> &
   Foldable2v1<URI> &
   Plus1<URI> &
   Traversable2v1<URI> &
@@ -838,5 +848,6 @@ export const option: Monad1<URI> &
   partition,
   partitionMap,
   wither,
-  wilt
+  wilt,
+  select
 }
