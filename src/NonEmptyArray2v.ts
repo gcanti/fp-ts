@@ -103,12 +103,12 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
 
 /**
  * @example
- * import { NonEmptyArray, getSetoid, make } from 'fp-ts/lib/NonEmptyArray2v'
+ * import { fromNonEmptyArray, getSetoid, make } from 'fp-ts/lib/NonEmptyArray2v'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
  * const S = getSetoid(setoidNumber)
- * assert.strictEqual(S.equals(make(1, [2]), new NonEmptyArray(1, [2])), true)
- * assert.strictEqual(S.equals(make(1, [2]), new NonEmptyArray(1, [3])), false)
+ * assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
+ * assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
  *
  * @since 1.14.4
  */
