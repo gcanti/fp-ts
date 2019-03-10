@@ -127,18 +127,18 @@ export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>
     return r
   }
   let head: A = as[0]
-  let tail: Array<A> = []
+  let newNE: NonEmptyArray<A> = make(head, [])
   for (let i = 1; i < len; i++) {
     const x = as[i]
     if (S.equals(x, head)) {
-      tail.push(x)
+      newNE.push(x)
     } else {
-      r.push(make(head, tail))
+      r.push(newNE)
       head = x
-      tail = []
+      newNE = make(head, [])
     }
   }
-  r.push(make(head, tail))
+  r.push(newNE)
   return r
 }
 
