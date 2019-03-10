@@ -268,6 +268,10 @@ declare const array1: Array<string>
 
 const nea2v1make1 = NEA2v.make<number>(1, []) // $ExpectType NonEmptyArray<number>
 
+const nea2vValid = NEA2v.fromNonEmptyArray([1]) // $ExpectType NonEmptyArray<number>
+// $ExpectError
+const nea2vInvalid = NEA2v.fromNonEmptyArray([])
+
 const nea2v1map1 = nea2v1.map(len) // $ExpectType NonEmptyArray<number>
 
 const nea2v1concat1 = nea2v1.concat(nea2v2) // $ExpectType NonEmptyArray<string>

@@ -81,6 +81,10 @@ export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
   return as.length > 0 ? some(as as any) : none
 }
 
+export function fromNonEmptyArray<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> {
+  return as as any
+}
+
 /**
  * Builds a `Semigroup` instance for `NonEmptyArray`
  *
