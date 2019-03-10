@@ -40,7 +40,7 @@ describe('NonEmptyArray', () => {
     assert.deepStrictEqual(nonEmptyArray.mapWithIndex(x, add).toArray(), [1, 3])
   })
 
-  it('ap', () => {
+  it('of', () => {
     assert.deepStrictEqual(nonEmptyArray.of(1), new NonEmptyArray(1, []))
   })
 
@@ -93,7 +93,7 @@ describe('NonEmptyArray', () => {
   })
 
   it('min', () => {
-    assert.deepStrictEqual(new NonEmptyArray(1, [2, 3]).min(ordNumber), 1)
+    assert.deepStrictEqual(new NonEmptyArray(2, [1, 3]).min(ordNumber), 1)
     assert.deepStrictEqual(new NonEmptyArray(3, []).min(ordNumber), 3)
   })
 

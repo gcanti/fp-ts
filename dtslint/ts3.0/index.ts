@@ -22,8 +22,10 @@ import * as Mon from '../../src/Monoid'
 import * as Se from '../../src/Setoid'
 import * as SM from '../../src/StrMap'
 import * as Fo from '../../src/Foldable'
+import * as Or from '../../src/Ord'
 
-const double = (n: number) => n * 2
+const double = (n: number): number => n * 2
+const len = (s: string): number => s.length
 
 //
 // Functor
@@ -253,3 +255,25 @@ const Mon4 = Mon.getDictionaryMonoid<Keys, number>(S.semigroupSum) // $ExpectTyp
 //
 
 const toUnfoldable3 = SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $ExpectType [string, number][]
+
+//
+// NonEmptyArray2v
+//
+
+import * as NEA2v from '../../src/NonEmptyArray2v'
+
+declare const nea2v1: NEA2v.NonEmptyArray<string>
+declare const nea2v2: NEA2v.NonEmptyArray<string>
+declare const array1: Array<string>
+
+const nea2v1make1 = NEA2v.make<number>(1, []) // $ExpectType NonEmptyArray<number>
+
+const nea2v1map1 = nea2v1.map(len) // $ExpectType NonEmptyArray<number>
+
+const nea2v1concat1 = nea2v1.concat(nea2v2) // $ExpectType NonEmptyArray<string>
+const nea2v1concat2 = nea2v1.concat(array1) // $ExpectType NonEmptyArray<string>
+const nea2v1concat3 = array1.concat(nea2v1) // $ExpectType string[]
+
+const nea2v1sort1 = nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
+
+const nea2v1reverse1 = nea2v1.reverse() // $ExpectType NonEmptyArray<string>

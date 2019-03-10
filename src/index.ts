@@ -112,6 +112,8 @@ import * as monoidal from './Monoidal'
 export { monoidal }
 import * as nonEmptyArray from './NonEmptyArray'
 export { nonEmptyArray }
+import * as nonEmptyArray2v from './NonEmptyArray2v'
+export { nonEmptyArray2v }
 import * as option from './Option'
 export { option }
 import * as optionT from './OptionT'
