@@ -81,6 +81,11 @@ export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
   return as.length > 0 ? some(as as any) : none
 }
 
+/**
+ * Builds a `NonEmptyArray` from a provably (compile time) non empty `Array`.
+ *
+ * @since 1.14.4
+ */
 export function fromNonEmptyArray<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> {
   return as as any
 }
