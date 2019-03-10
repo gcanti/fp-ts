@@ -4,29 +4,27 @@
 import { Applicative } from './Applicative'
 import {
   array,
-  last,
-  sort,
-  lookup,
   findFirst as arrayFindFirst,
   findIndex as arrayFindIndex,
-  insertAt as arrayInsertAt,
-  updateAt as arrayUpdateAt,
   findLast as arrayFindLast,
-  findLastIndex as arrayFindLastIndex
+  findLastIndex as arrayFindLastIndex,
+  insertAt as arrayInsertAt,
+  last,
+  lookup,
+  sort,
+  updateAt as arrayUpdateAt
 } from './Array'
-
 import { Comonad1 } from './Comonad'
-import { Foldable2v1 } from './Foldable2v'
-import { compose, toString, Refinement, Predicate } from './function'
+import { FoldableWithIndex1 } from './FoldableWithIndex'
+import { compose, Predicate, Refinement, toString } from './function'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { Ord } from './Ord'
 import { fold, getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
-import { Setoid, getArraySetoid, fromEquals } from './Setoid'
-import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { FoldableWithIndex1 } from './FoldableWithIndex'
+import { fromEquals, getArraySetoid, Setoid } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 
 declare module './HKT' {
@@ -317,6 +315,7 @@ export class NonEmptyArray<A> {
   }
 
   /**
+   * Use `lookup` instead
    * @since 1.11.0
    * @deprecated
    */
@@ -335,7 +334,7 @@ export class NonEmptyArray<A> {
    *
    * @since 1.11.0
    */
-  findFirst<B extends A>(predicate: Refinement<A, B>): Option<B>
+  findFirst<B extends A>(refinement: Refinement<A, B>): Option<B>
   findFirst(predicate: Predicate<A>): Option<A>
   findFirst(predicate: Predicate<A>): Option<A> {
     return predicate(this.head) ? some(this.head) : arrayFindFirst(this.tail, predicate)
@@ -482,7 +481,7 @@ const unsafeFromArray = <A>(as: Array<A>): NonEmptyArray<A> => {
 }
 
 /**
- * Builds `NonEmptyArray` from `Array` returning `Option.none` or `Option.some` depending on amount of values in passed array
+ * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
  *
  * @since 1.0.0
  */
@@ -515,7 +514,7 @@ const concat = <A>(fx: NonEmptyArray<A>, fy: NonEmptyArray<A>): NonEmptyArray<A>
 }
 
 /**
- * Builds `Semigroup` instance for `NonEmptyArray` of specified type arument
+ * Builds a `Semigroup` instance for `NonEmptyArray`
  *
  * @since 1.0.0
  */
@@ -524,7 +523,6 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
 }
 
 /**
- *
  * @example
  * import { NonEmptyArray, getSetoid } from 'fp-ts/lib/NonEmptyArray'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
@@ -683,7 +681,6 @@ const traverseWithIndex = <F>(
  */
 export const nonEmptyArray: Monad1<URI> &
   Comonad1<URI> &
-  Foldable2v1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> = {
