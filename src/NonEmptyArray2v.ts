@@ -5,13 +5,15 @@ import { Monad1 } from './Monad'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { TraversableWithIndex1, TraverseWithIndex1 } from './TraversableWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Ord } from './Ord'
 import { fold, getMeetSemigroup, getJoinSemigroup, Semigroup } from './Semigroup'
 import { Option, some, none } from './Option'
 import { Setoid } from './Setoid'
 import { compose, Predicate, Refinement } from './function'
+import { Traverse1 } from './Traversable'
+import { Sequence1 } from './Traversable2v'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -286,20 +288,20 @@ export const nonEmptyArray: Monad1<URI> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> = {
   URI,
-  map: A.array.map as any,
+  map: A.array.map as <A, B>(fa: NonEmptyArray<A>, f: (a: A) => B) => any,
   mapWithIndex,
-  of: A.array.of as any,
-  ap: A.array.ap as any,
-  chain: A.array.chain as any,
-  extend: A.array.extend as any,
+  of: A.array.of as <A>(a: A) => NonEmptyArray<A>,
+  ap: A.array.ap as <A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>) => any,
+  chain: A.array.chain as <A, B>(fa: NonEmptyArray<A>, f: (a: A) => NonEmptyArray<B>) => any,
+  extend: A.array.extend as <A, B>(ea: any, f: (fa: NonEmptyArray<A>) => B) => NonEmptyArray<B>,
   extract: head,
   reduce: A.array.reduce,
   foldMap: A.array.foldMap,
   foldr: A.array.foldr,
-  traverse: A.array.traverse as any,
-  sequence: A.array.sequence as any,
+  traverse: A.array.traverse as Traverse1<any>,
+  sequence: A.array.sequence as Sequence1<any>,
   reduceWithIndex: A.array.reduceWithIndex,
   foldMapWithIndex: A.array.foldMapWithIndex,
   foldrWithIndex: A.array.foldrWithIndex,
-  traverseWithIndex: A.array.traverseWithIndex as any
+  traverseWithIndex: A.array.traverseWithIndex as TraverseWithIndex1<any, number>
 }
