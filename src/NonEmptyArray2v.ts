@@ -59,7 +59,7 @@ export function tail<A>(nea: NonEmptyArray<A>): Array<A> {
  */
 export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
   const foldO = fold(getMeetSemigroup(ord))
-  return nea => foldO(nea[0])(nea.slice(1))
+  return nea => foldO(nea[0])(nea)
 }
 
 /**
@@ -67,7 +67,7 @@ export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
  */
 export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
   const foldO = fold(getJoinSemigroup(ord))
-  return nea => foldO(nea[0])(nea.slice(1))
+  return nea => foldO(nea[0])(nea)
 }
 
 /**
@@ -205,7 +205,7 @@ export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> 
  * @since 1.14.4
  */
 export function lookup<A>(i: number, nea: NonEmptyArray<A>): Option<A> {
-  return i === 0 ? some(nea[0]) : A.lookup(i - 1, nea.slice(1))
+  return i >= 0 && i < nea.length ? some(nea[i]) : none
 }
 
 /**
