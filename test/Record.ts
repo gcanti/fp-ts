@@ -7,6 +7,7 @@ import { option, some, none, Option } from '../src/Option'
 import { setoidNumber } from '../src/Setoid'
 import { array } from '../src/Array'
 import { left, right } from '../src/Either'
+import { These, both, this_, that } from '../src/These'
 import * as I from '../src/Identity'
 
 const p = (n: number) => n > 2
@@ -273,5 +274,24 @@ describe('Record', () => {
     const expected = { a: 'a' }
     // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(R.filterWithIndex(x, f), expected)
+  })
+
+  it('align', () => {
+    assert.deepStrictEqual(R.align({ a: 1, b: 2 }, { a: 'a', b: 'b' }), { a: both(1, 'a'), b: both(2, 'b') })
+    assert.deepStrictEqual(R.align({ a: 1, b: 2 }, { a: 'a' }), { a: both(1, 'a'), b: this_(2) })
+    assert.deepStrictEqual(R.align({ a: 1 }, { a: 'a', b: 'b' }), { a: both(1, 'a'), b: that('b') })
+    assert.deepStrictEqual(R.align({}, {}), {})
+    assert.deepStrictEqual(R.align({ a: 1 }, R.nil<string>()), { a: this_(1) })
+    assert.deepStrictEqual(R.align(R.nil<number>(), { a: 'a' }), { a: that('a') })
+  })
+
+  it('alignWith', () => {
+    const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => b + a)
+    assert.deepStrictEqual(R.alignWith({ a: 1, b: 2 }, { a: 'a', b: 'b' }, f), { a: 'a1', b: 'b2' })
+    assert.deepStrictEqual(R.alignWith({ a: 1, b: 2 }, { a: 'a' }, f), { a: 'a1', b: '2' })
+    assert.deepStrictEqual(R.alignWith({ a: 1 }, { a: 'a', b: 'b' }, f), { a: 'a1', b: 'b' })
+    assert.deepStrictEqual(R.alignWith({}, {}, f), {})
+    assert.deepStrictEqual(R.alignWith({ a: 1 }, R.nil<string>(), f), { a: '1' })
+    assert.deepStrictEqual(R.alignWith(R.nil<number>(), { a: 'a' }, f), { a: 'a' })
   })
 })

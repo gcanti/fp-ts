@@ -2,13 +2,14 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { Separated } from './Compactable'
 import { Either } from './Either'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Predicate, tuple, Refinement } from './function'
+import { Predicate, tuple, Refinement, identity } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getDictionaryMonoid, Monoid } from './Monoid'
 import { none, Option, some as optionSome } from './Option'
 import { Setoid, fromEquals } from './Setoid'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
+import { These, this_, that, both } from './These'
 
 /**
  * Calculate the number of key/value pairs in a record
@@ -752,3 +753,73 @@ export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A)
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
   return filterWithKey(fa, p)
 }
+
+/**
+ * Takes two records and returns a record that corresponds to the union of those records.
+ *
+ * @example
+ * import * as R from 'fp-ts/lib/Record'
+ * import { both, this_, that } from 'fp-ts/lib/These'
+ *
+ * assert.deepStrictEqual(R.align({ a: 1, b: 2 }, { a: 'a', b: 'b' }), { a: both(1, 'a'), b: both(2, 'b') })
+ * assert.deepStrictEqual(R.align({ a: 1, b: 2 }, { a: 'a' }), { a: both(1, 'a'), b: this_(2) })
+ * assert.deepStrictEqual(R.align({ a: 1 }, { a: 'a', b: 'b' }), { a: both(1, 'a'), b: that('b') })
+ *
+ * @since 1.15.0
+ */
+export function align<K extends string, P extends string, A, B>(
+  fa: Record<K, A>,
+  fb: Record<P, B>
+): Record<K | P, These<A, B>>
+export function align<A, B>(fa: Record<string, A>, fb: Record<string, B>): Record<string, These<A, B>>
+export function align<A, B>(fa: Record<string, A>, fb: Record<string, B>): Record<string, These<A, B>> {
+  return alignWith<A, B, These<A, B>>(fa, fb, identity)
+}
+
+/**
+ * Creates a union of two records by combining the elements at each key using the provided function.
+ *
+ * @example
+ * import * as R from 'fp-ts/lib/Record'
+ * import { These } from 'fp-ts/lib/These'
+ * import { identity } from 'fp-ts/lib/function'
+ *
+ * const f = (x: These<number, string>) => x.fold(a => a.toString(), identity, (a, b) => a + b)
+ * assert.deepStrictEqual(R.alignWith({ a: 1, b: 2 }, { a: 'a', b: 'b' }, f), { a: '1a', b: '2b' })
+ * assert.deepStrictEqual(R.alignWith({ a: 1, b: 2 }, { a: 'a' }, f), { a: '1a', b: '2' })
+ * assert.deepStrictEqual(R.alignWith({ a: 1 }, { a: 'a', b: 'b' }, f), { a: '1a', b: 'b' })
+ *
+ * @since 1.15.0
+ */
+export function alignWith<K extends string, P extends string, A, B, C>(
+  fa: Record<K, A>,
+  fb: Record<P, B>,
+  f: (x: These<A, B>) => C
+): Record<K | P, C>
+export function alignWith<A, B, C>(
+  fa: Record<string, A>,
+  fb: Record<string, B>,
+  f: (x: These<A, B>) => C
+): Record<string, C>
+export function alignWith<A, B, C>(
+  fa: Record<string, A>,
+  fb: Record<string, B>,
+  f: (x: These<A, B>) => C
+): Record<string, C> {
+  const r: Record<string, C> = {}
+  for (const key of Object.keys(fa)) {
+    if (fb.hasOwnProperty(key)) {
+      r[key] = f(both(fa[key], fb[key]))
+    } else {
+      r[key] = f(this_(fa[key]))
+    }
+  }
+  for (const key of Object.keys(fb)) {
+    if (!fa.hasOwnProperty(key)) {
+      r[key] = f(that(fb[key]))
+    }
+  }
+  return r
+}
+
+export const nil = <A>(): Record<string, A> => empty

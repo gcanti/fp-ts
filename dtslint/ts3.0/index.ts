@@ -234,6 +234,15 @@ declare const fromFoldableF1: Fo.Foldable<'Test'>
 declare const fromFoldableInput1: H.HKT<'Test', ['a' | 'b', number]>
 const fromFoldable1 = R.fromFoldable(fromFoldableF1)(fromFoldableInput1, a => a) // $ExpectType Record<"a" | "b", number>
 
+declare const d2: Record<string, string>
+declare const r2: Record<'a', number>
+declare const r3: Record<'b', string>
+R.align(d1, d2) // $ExpectType Record<string, These<number, string>>
+R.align(r2, r3) // $ExpectType Record<"a" | "b", These<number, string>>
+
+R.alignWith(d1, d2, (x: Th.These<number, string>) => 'Test') // $ExpectType Record<string, string>
+R.alignWith(r2, r3, (x: Th.These<number, string>) => 'Test') // $ExpectType Record<"a" | "b", string>
+
 //
 // Semigroup
 //
