@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.14.4
+
+- **Polish**
+  - Add overloads to `sequenceT` to allow more arguments (up to 8) (@cdimitroulas)
+
 # 1.14.3
 
 - **Deprecation**
