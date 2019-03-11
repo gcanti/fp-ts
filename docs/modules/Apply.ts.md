@@ -39,6 +39,7 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [liftA2 (function)](#lifta2-function)
 - [liftA3 (function)](#lifta3-function)
 - [liftA4 (function)](#lifta4-function)
+- [sequenceS (function)](#sequences-function)
 - [sequenceT (function)](#sequencet-function)
 
 ---
@@ -571,6 +572,67 @@ export function liftA4<F>(
 ```
 
 Added in v1.0.0
+
+# sequenceS (function)
+
+Like `Apply.sequenceT` but works with structs instead of tuples.
+
+**Signature**
+
+```ts
+export function sequenceS<F extends URIS3>(
+  F: Apply3<F>
+): <U, L, R extends Record<string, Type3<F, U, L, any>>>(
+  r: EnforceNonEmptyRecord<R> & Record<string, Type3<F, U, L, any>>
+) => Type3<F, U, L, { [K in keyof R]: R[K] extends Type3<F, any, any, infer A> ? A : never }>
+export function sequenceS<F extends URIS3, U, L>(
+  F: Apply3C<F, U, L>
+): <R extends Record<string, Type3<F, U, L, any>>>(
+  r: EnforceNonEmptyRecord<R>
+) => Type3<F, U, L, { [K in keyof R]: R[K] extends Type3<F, any, any, infer A> ? A : never }>
+export function sequenceS<F extends URIS2>(
+  F: Apply2<F>
+): <L, R extends Record<string, Type2<F, L, any>>>(
+  r: EnforceNonEmptyRecord<R> & Record<string, Type2<F, L, any>>
+) => Type2<F, L, { [K in keyof R]: R[K] extends Type2<F, any, infer A> ? A : never }>
+export function sequenceS<F extends URIS2, L>(
+  F: Apply2C<F, L>
+): <R extends Record<string, Type2<F, L, any>>>(
+  r: EnforceNonEmptyRecord<R>
+) => Type2<F, L, { [K in keyof R]: R[K] extends Type2<F, any, infer A> ? A : never }>
+export function sequenceS<F extends URIS>(
+  F: Apply1<F>
+): <R extends Record<string, Type<F, any>>>(
+  r: EnforceNonEmptyRecord<R>
+) => Type<F, { [K in keyof R]: R[K] extends Type<F, infer A> ? A : never }>
+export function sequenceS<F>(F: Apply<F>): (r: Record<string, HKT<F, any>>) => HKT<F, Record<string, any>> { ... }
+```
+
+**Example**
+
+```ts
+import { either, right, left } from 'fp-ts/lib/Either'
+import { sequenceS } from 'fp-ts/lib/Apply'
+
+const ado = sequenceS(either)
+
+assert.deepStrictEqual(
+  ado({
+    a: right<string, number>(1),
+    b: right<string, boolean>(true)
+  }),
+  right({ a: 1, b: true })
+)
+assert.deepStrictEqual(
+  ado({
+    a: right<string, number>(1),
+    b: left<string, number>('error')
+  }),
+  left('error')
+)
+```
+
+Added in v1.15.0
 
 # sequenceT (function)
 
