@@ -348,8 +348,8 @@ export const toString = (x: any): string => {
 /**
  * @since 1.0.0
  */
-export const tuple = <A, B>(a: A, b: B): [A, B] => {
-  return [a, b]
+export const tuple = <T extends Array<any>>(...t: T): T => {
+  return t
 }
 
 /**

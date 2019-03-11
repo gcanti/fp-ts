@@ -23,6 +23,7 @@ import * as Se from '../../src/Setoid'
 import * as SM from '../../src/StrMap'
 import * as Fo from '../../src/Foldable'
 import * as Or from '../../src/Ord'
+import * as Fu from '../../src/function'
 
 const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
@@ -311,3 +312,14 @@ const nea2v1concat3 = array1.concat(nea2v1) // $ExpectType string[]
 const nea2v1sort1 = nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
 
 const nea2v1reverse1 = nea2v1.reverse() // $ExpectType NonEmptyArray<string>
+
+//
+// function
+//
+
+// tuple
+
+Fu.tuple() // $ExpectType []
+Fu.tuple(1) // $ExpectType [number]
+Fu.tuple(1, 'a') // $ExpectType [number, string]
+Fu.tuple(1, 'a', true) // $ExpectType [number, string, boolean]
