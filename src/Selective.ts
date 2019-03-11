@@ -17,6 +17,7 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { URIS, URIS2, URIS3, HKT, Type, Type2, Type3 } from './HKT'
 import { Either, left, right } from './Either'
 import { constant } from './function'
+import { Setoid } from './Setoid'
 
 /**
  * @since 1.15.0
@@ -93,5 +94,42 @@ export function ifS<F extends URIS>(S: Selective<F>) {
       S.map(t, constant),
       S.map(e, constant)
     )
+  }
+}
+
+function eliminateMatch<A>(Sa: Setoid<A>) {
+  return (a: A) => <B>(b: Either<A, B>): Either<void, Either<A, B>> =>
+    b.fold(
+      y => (Sa.equals(a, y) ? left<void, Either<A, B>>(undefined) : right<void, Either<A, B>>(left(y))),
+      y => right<void, Either<A, B>>(right<A, B>(y))
+    )
+}
+
+// eliminate :: (Eq a, Selective f) => a -> f b -> f (Either a b) -> f (Either a b)
+export function eliminate<F extends URIS3, A>(
+  S: Selective3<F>,
+  Sa: Setoid<A>
+): <U, L, B>(x: A, fb: Type3<F, U, L, B>, fa: Type3<F, U, L, Either<A, B>>) => Type3<F, U, L, Either<A, B>>
+export function eliminate<F extends URIS2, A>(
+  S: Selective2<F>,
+  Sa: Setoid<A>
+): <L, B>(x: A, fb: Type2<F, L, B>, fa: Type2<F, L, Either<A, B>>) => Type2<F, L, Either<A, B>>
+export function eliminate<F extends URIS, A>(
+  S: Selective1<F>,
+  Sa: Setoid<A>
+): <B>(x: A, fb: Type<F, B>, fa: Type<F, Either<A, B>>) => Type<F, Either<A, B>>
+export function eliminate<F extends URIS, A>(
+  S: Selective<F>,
+  Sa: Setoid<A>
+): <B>(x: A, fb: HKT<F, B>, fa: HKT<F, Either<A, B>>) => HKT<F, Either<A, B>>
+export function eliminate<F extends URIS, A>(S: Selective<F>, Sa: Setoid<A>) {
+  const match = eliminateMatch(Sa)
+  return <B>(x: A, fb: HKT<F, B>, fa: HKT<F, Either<A, B>>): HKT<F, Either<A, B>> => {
+    // eliminate x fb fa = select (match x <$> fa) (const . Right <$> fb)
+    //   where
+    //     match _ (Right y) = Right (Right y)
+    //     match x (Left  y) = if x == y then Left () else Right (Left y)
+    //
+    return S.select(S.map(fa, match(x)), S.map(fb, b => constant(right<A, B>(b))))
   }
 }
