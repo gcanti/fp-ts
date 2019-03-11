@@ -318,7 +318,7 @@ export interface SequenceT3C<F extends URIS3, U, L> {
     e: Type3<F, U, L, E>,
     g: Type3<F, U, L, G>,
     h: Type3<F, U, L, H>,
-    i: Type3<F, U, L, H>
+    i: Type3<F, U, L, I>
   ): Type3<F, U, L, [A, B, C, D, E, G, H, I]>
 }
 export interface SequenceT2<F extends URIS2> {
