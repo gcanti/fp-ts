@@ -116,6 +116,29 @@ export interface SequenceT<F> {
   <A, B, C>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>): HKT<F, [A, B, C]>
   <A, B, C, D>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>, d: HKT<F, D>): HKT<F, [A, B, C, D]>
   <A, B, C, D, E>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>, d: HKT<F, D>, e: HKT<F, E>): HKT<F, [A, B, C, D, E]>
+  <A, B, C, D, E, G>(a: HKT<F, A>, b: HKT<F, B>, c: HKT<F, C>, d: HKT<F, D>, e: HKT<F, E>, g: HKT<F, G>): HKT<
+    F,
+    [A, B, C, D, E, G]
+  >
+  <A, B, C, D, E, G, H>(
+    a: HKT<F, A>,
+    b: HKT<F, B>,
+    c: HKT<F, C>,
+    d: HKT<F, D>,
+    e: HKT<F, E>,
+    g: HKT<F, G>,
+    h: HKT<F, H>
+  ): HKT<F, [A, B, C, D, E, G, H]>
+  <A, B, C, D, E, G, H, I>(
+    a: HKT<F, A>,
+    b: HKT<F, B>,
+    c: HKT<F, C>,
+    d: HKT<F, D>,
+    e: HKT<F, E>,
+    g: HKT<F, G>,
+    h: HKT<F, H>,
+    i: HKT<F, I>
+  ): HKT<F, [A, B, C, D, E, G, H, I]>
 }
 ```
 
@@ -130,6 +153,29 @@ export interface SequenceT1<F extends URIS> {
   <A, B, C>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>): Type<F, [A, B, C]>
   <A, B, C, D>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>, d: Type<F, D>): Type<F, [A, B, C, D]>
   <A, B, C, D, E>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>, d: Type<F, D>, e: Type<F, E>): Type<F, [A, B, C, D, E]>
+  <A, B, C, D, E, G>(a: Type<F, A>, b: Type<F, B>, c: Type<F, C>, d: Type<F, D>, e: Type<F, E>, g: Type<F, G>): Type<
+    F,
+    [A, B, C, D, E, G]
+  >
+  <A, B, C, D, E, G, H>(
+    a: Type<F, A>,
+    b: Type<F, B>,
+    c: Type<F, C>,
+    d: Type<F, D>,
+    e: Type<F, E>,
+    g: Type<F, G>,
+    h: Type<F, H>
+  ): Type<F, [A, B, C, D, E, G, H]>
+  <A, B, C, D, E, G, H, I>(
+    a: Type<F, A>,
+    b: Type<F, B>,
+    c: Type<F, C>,
+    d: Type<F, D>,
+    e: Type<F, E>,
+    g: Type<F, G>,
+    h: Type<F, H>,
+    i: Type<F, I>
+  ): Type<F, [A, B, C, D, E, G, H, I]>
 }
 ```
 
@@ -150,6 +196,33 @@ export interface SequenceT2<F extends URIS2> {
     d: Type2<F, L, D>,
     e: Type2<F, L, E>
   ): Type2<F, L, [A, B, C, D, E]>
+  <L, A, B, C, D, E, G>(
+    a: Type2<F, L, A>,
+    b: Type2<F, L, B>,
+    c: Type2<F, L, C>,
+    d: Type2<F, L, D>,
+    e: Type2<F, L, E>,
+    g: Type2<F, L, G>
+  ): Type2<F, L, [A, B, C, D, E, G]>
+  <L, A, B, C, D, E, G, H>(
+    a: Type2<F, L, A>,
+    b: Type2<F, L, B>,
+    c: Type2<F, L, C>,
+    d: Type2<F, L, D>,
+    e: Type2<F, L, E>,
+    g: Type2<F, L, G>,
+    h: Type2<F, L, H>
+  ): Type2<F, L, [A, B, C, D, E, G, H]>
+  <L, A, B, C, D, E, G, H, I>(
+    a: Type2<F, L, A>,
+    b: Type2<F, L, B>,
+    c: Type2<F, L, C>,
+    d: Type2<F, L, D>,
+    e: Type2<F, L, E>,
+    g: Type2<F, L, G>,
+    h: Type2<F, L, H>,
+    i: Type2<F, L, I>
+  ): Type2<F, L, [A, B, C, D, E, G, H, I]>
 }
 ```
 
@@ -168,6 +241,33 @@ export interface SequenceT2C<F extends URIS2, L> {
     L,
     [A, B, C, D, E]
   >
+  <A, B, C, D, E, G>(
+    a: Type2<F, L, A>,
+    b: Type2<F, L, B>,
+    c: Type2<F, L, C>,
+    d: Type2<F, L, D>,
+    e: Type2<F, L, E>,
+    g: Type2<F, L, G>
+  ): Type2<F, L, [A, B, C, D, E, G]>
+  <A, B, C, D, E, G, H>(
+    a: Type2<F, L, A>,
+    b: Type2<F, L, B>,
+    c: Type2<F, L, C>,
+    d: Type2<F, L, D>,
+    e: Type2<F, L, E>,
+    g: Type2<F, L, G>,
+    h: Type2<F, L, H>
+  ): Type2<F, L, [A, B, C, D, E, G, H]>
+  <A, B, C, D, E, G, H, I>(
+    a: Type2<F, L, A>,
+    b: Type2<F, L, B>,
+    c: Type2<F, L, C>,
+    d: Type2<F, L, D>,
+    e: Type2<F, L, E>,
+    g: Type2<F, L, G>,
+    h: Type2<F, L, H>,
+    i: Type2<F, L, I>
+  ): Type2<F, L, [A, B, C, D, E, G, H, I]>
 }
 ```
 
@@ -193,6 +293,33 @@ export interface SequenceT3<F extends URIS3> {
     d: Type3<F, U, L, D>,
     e: Type3<F, U, L, E>
   ): Type3<F, U, L, [A, B, C, D, E]>
+  <U, L, A, B, C, D, E, G>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>,
+    g: Type3<F, U, L, G>
+  ): Type3<F, U, L, [A, B, C, D, E, G]>
+  <U, L, A, B, C, D, E, G, H>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>,
+    g: Type3<F, U, L, G>,
+    h: Type3<F, U, L, H>
+  ): Type3<F, U, L, [A, B, C, D, E, G, H]>
+  <U, L, A, B, C, D, E, G, H, I>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>,
+    g: Type3<F, U, L, G>,
+    h: Type3<F, U, L, H>,
+    i: Type3<F, U, L, I>
+  ): Type3<F, U, L, [A, B, C, D, E, G, H, I]>
 }
 ```
 
@@ -218,6 +345,33 @@ export interface SequenceT3C<F extends URIS3, U, L> {
     d: Type3<F, U, L, D>,
     e: Type3<F, U, L, E>
   ): Type3<F, U, L, [A, B, C, D, E]>
+  <A, B, C, D, E, G>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>,
+    g: Type3<F, U, L, G>
+  ): Type3<F, U, L, [A, B, C, D, E, G]>
+  <A, B, C, D, E, G, H>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>,
+    g: Type3<F, U, L, G>,
+    h: Type3<F, U, L, H>
+  ): Type3<F, U, L, [A, B, C, D, E, G, H]>
+  <A, B, C, D, E, G, H, I>(
+    a: Type3<F, U, L, A>,
+    b: Type3<F, U, L, B>,
+    c: Type3<F, U, L, C>,
+    d: Type3<F, U, L, D>,
+    e: Type3<F, U, L, E>,
+    g: Type3<F, U, L, G>,
+    h: Type3<F, U, L, H>,
+    i: Type3<F, U, L, I>
+  ): Type3<F, U, L, [A, B, C, D, E, G, H, I]>
 }
 ```
 
