@@ -10,6 +10,7 @@ import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
+import { Selective1 } from './Selective'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -39,6 +40,9 @@ export class Task<A> {
    */
   ap_<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C> {
     return fb.ap(this)
+  }
+  select<A, B>(this: Task<Either<A, B>>, fab: Task<(a: A) => B>): Task<B> {
+    return this.chain(e => fab.map(f => e.fold(f, identity)))
   }
   /**
    * Combine two effectful actions, keeping only the result of the first
@@ -76,6 +80,8 @@ const of = <A>(a: A): Task<A> => {
 const ap = <A, B>(fab: Task<(a: A) => B>, fa: Task<A>): Task<B> => {
   return fa.ap(fab)
 }
+
+const select: <A, B>(fa: Task<Either<A, B>>, f: Task<(a: A) => B>) => Task<B> = (fa, f) => fa.select(f)
 
 const chain = <A, B>(fa: Task<A>, f: (a: A) => Task<B>): Task<B> => {
   return fa.chain(f)
@@ -167,11 +173,12 @@ const fromTask = identity
 /**
  * @since 1.0.0
  */
-export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
+export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> & Selective1<URI> = {
   URI,
   map,
   of,
   ap,
+  select,
   chain,
   fromIO,
   fromTask

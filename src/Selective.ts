@@ -16,7 +16,7 @@
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { URIS, URIS2, URIS3, HKT, Type, Type2, Type3 } from './HKT'
 import { Either, left, right } from './Either'
-import { constant } from './function'
+import { constant, Lazy } from './function'
 import { Setoid } from './Setoid'
 
 /**
@@ -74,6 +74,9 @@ export function branch<F extends URIS>(S: Selective<F>) {
   }
 }
 
+const leftUnit = left<void, void>(undefined)
+const rightUnit = right<void, void>(undefined)
+
 // ifS :: Selective f => f Bool -> f a -> f a -> f a
 export function ifS<F extends URIS3>(
   S: Selective3<F>
@@ -89,11 +92,7 @@ export function ifS<F extends URIS>(S: Selective<F>) {
   const branchF = branch(S)
   return <A>(x: HKT<F, boolean>, t: HKT<F, A>, e: HKT<F, A>): HKT<F, A> => {
     // ifS x t e = branch (bool (Right ()) (Left ()) <$> x) (const <$> t) (const <$> e)
-    return branchF(
-      S.map(x, x => (x ? left<void, void>(undefined) : right<void, void>(undefined))),
-      S.map(t, constant),
-      S.map(e, constant)
-    )
+    return branchF(S.map(x, x => (x ? leftUnit : rightUnit)), S.map(t, constant), S.map(e, constant))
   }
 }
 
@@ -131,5 +130,21 @@ export function eliminate<F extends URIS, A>(S: Selective<F>, Sa: Setoid<A>) {
     //     match x (Left  y) = if x == y then Left () else Right (Left y)
     //
     return S.select(S.map(fa, match(x)), S.map(fb, b => constant(right<A, B>(b))))
+  }
+}
+
+// whenS :: Selective f => f Bool -> f () -> f ()
+export function whenS<F extends URIS3>(
+  S: Selective3<F>
+): <U, L>(x: Type3<F, U, L, boolean>, y: Type3<F, U, L, Lazy<void>>) => Type3<F, U, L, void>
+export function whenS<F extends URIS2>(
+  S: Selective2<F>
+): <L>(x: Type2<F, L, boolean>, y: Type2<F, L, Lazy<void>>) => Type2<F, L, void>
+export function whenS<F extends URIS>(S: Selective1<F>): (x: Type<F, boolean>, y: Type<F, Lazy<void>>) => Type<F, void>
+export function whenS<F extends URIS>(S: Selective<F>): (x: HKT<F, boolean>, y: HKT<F, Lazy<void>>) => HKT<F, void>
+export function whenS<F extends URIS>(S: Selective<F>) {
+  return (x: HKT<F, boolean>, y: HKT<F, Lazy<void>>): HKT<F, void> => {
+    // whenS x y = select (bool (Right ()) (Left ()) <$> x) (const <$> y)
+    return S.select(S.map(x, x => (x ? leftUnit : rightUnit)), y)
   }
 }
