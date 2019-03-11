@@ -341,16 +341,23 @@ export interface SequenceT2C<H extends URIS2, L> {
     L,
     [A, B, C, D, E]
   >
-  <A, B, C, D, E, F>(a: Type2<H, L, A>, b: Type2<H, L, B>, c: Type2<H, L, C>, d: Type2<H, L, D>, e: Type2<H, L, E>, f: Type2<H, L, F>): Type2<
-    H,
-    L,
-    [A, B, C, D, E, F]
-  >
-  <A, B, C, D, E, F, G>(a: Type2<H, L, A>, b: Type2<H, L, B>, c: Type2<H, L, C>, d: Type2<H, L, D>, e: Type2<H, L, E>, f: Type2<H, L, F>, g: Type2<H, L, G>): Type2<
-    H,
-    L,
-    [A, B, C, D, E, F, G]
-  >
+  <A, B, C, D, E, F>(
+    a: Type2<H, L, A>,
+    b: Type2<H, L, B>,
+    c: Type2<H, L, C>,
+    d: Type2<H, L, D>,
+    e: Type2<H, L, E>,
+    f: Type2<H, L, F>
+  ): Type2<H, L, [A, B, C, D, E, F]>
+  <A, B, C, D, E, F, G>(
+    a: Type2<H, L, A>,
+    b: Type2<H, L, B>,
+    c: Type2<H, L, C>,
+    d: Type2<H, L, D>,
+    e: Type2<H, L, E>,
+    f: Type2<H, L, F>,
+    g: Type2<H, L, G>
+  ): Type2<H, L, [A, B, C, D, E, F, G]>
 }
 export interface SequenceT1<H extends URIS> {
   <A>(a: Type<H, A>): Type<H, [A]>
@@ -358,8 +365,19 @@ export interface SequenceT1<H extends URIS> {
   <A, B, C>(a: Type<H, A>, b: Type<H, B>, c: Type<H, C>): Type<H, [A, B, C]>
   <A, B, C, D>(a: Type<H, A>, b: Type<H, B>, c: Type<H, C>, d: Type<H, D>): Type<H, [A, B, C, D]>
   <A, B, C, D, E>(a: Type<H, A>, b: Type<H, B>, c: Type<H, C>, d: Type<H, D>, e: Type<H, E>): Type<H, [A, B, C, D, E]>
-  <A, B, C, D, E, F>(a: Type<H, A>, b: Type<H, B>, c: Type<H, C>, d: Type<H, D>, e: Type<H, E>, f: Type<H, F>): Type<H, [A, B, C, D, E, F]>
-  <A, B, C, D, E, F, G>(a: Type<H, A>, b: Type<H, B>, c: Type<H, C>, d: Type<H, D>, e: Type<H, E>, f: Type<H, F>, g: Type<H, G>): Type<H, [A, B, C, D, E, F, G]>
+  <A, B, C, D, E, F>(a: Type<H, A>, b: Type<H, B>, c: Type<H, C>, d: Type<H, D>, e: Type<H, E>, f: Type<H, F>): Type<
+    H,
+    [A, B, C, D, E, F]
+  >
+  <A, B, C, D, E, F, G>(
+    a: Type<H, A>,
+    b: Type<H, B>,
+    c: Type<H, C>,
+    d: Type<H, D>,
+    e: Type<H, E>,
+    f: Type<H, F>,
+    g: Type<H, G>
+  ): Type<H, [A, B, C, D, E, F, G]>
 }
 export interface SequenceT<H> {
   <A>(a: HKT<H, A>): HKT<H, [A]>
@@ -367,8 +385,19 @@ export interface SequenceT<H> {
   <A, B, C>(a: HKT<H, A>, b: HKT<H, B>, c: HKT<H, C>): HKT<H, [A, B, C]>
   <A, B, C, D>(a: HKT<H, A>, b: HKT<H, B>, c: HKT<H, C>, d: HKT<H, D>): HKT<H, [A, B, C, D]>
   <A, B, C, D, E>(a: HKT<H, A>, b: HKT<H, B>, c: HKT<H, C>, d: HKT<H, D>, e: HKT<H, E>): HKT<H, [A, B, C, D, E]>
-  <A, B, C, D, E, F>(a: HKT<H, A>, b: HKT<H, B>, c: HKT<H, C>, d: HKT<H, D>, e: HKT<H, E>, f: HKT<H, F>): HKT<H, [A, B, C, D, E, F]>
-  <A, B, C, D, E, F, G>(a: HKT<H, A>, b: HKT<H, B>, c: HKT<H, C>, d: HKT<H, D>, e: HKT<H, E>, f: HKT<H, F>, g: HKT<H, G>): HKT<H, [A, B, C, D, E, F, G]>
+  <A, B, C, D, E, F>(a: HKT<H, A>, b: HKT<H, B>, c: HKT<H, C>, d: HKT<H, D>, e: HKT<H, E>, f: HKT<H, F>): HKT<
+    H,
+    [A, B, C, D, E, F]
+  >
+  <A, B, C, D, E, F, G>(
+    a: HKT<H, A>,
+    b: HKT<H, B>,
+    c: HKT<H, C>,
+    d: HKT<H, D>,
+    e: HKT<H, E>,
+    f: HKT<H, F>,
+    g: HKT<H, G>
+  ): HKT<H, [A, B, C, D, E, F, G]>
 }
 
 const tupleConstructors: { [key: string]: Function1<any, any> } = {}
