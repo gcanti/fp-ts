@@ -61,6 +61,36 @@ Tr.sequence(V.getApplicative(S.semigroupString), E.either) // $ExpectType <LT, A
 const applicativeValidation = V.getApplicative(S.semigroupString)
 Apy.liftA2(applicativeValidation) // $ExpectType <A, B, C>(f: Curried2<A, B, C>) => (fa: Validation<string, A>) => (fb: Validation<string, B>) => Validation<string, C>
 
+// sequenceS
+
+declare const sequenceS1: E.Either<string, number>
+declare const sequenceS2: E.Either<string, string>
+declare const sequenceS3: E.Either<string, boolean>
+declare const sequenceS4: E.Either<boolean, void>
+
+const sequenceSf1 = Apy.sequenceS(E.either)
+
+// $ExpectError
+sequenceSf1({})
+// $ExpectError
+sequenceSf1({ sequenceS1, sequenceS4 })
+
+sequenceSf1({ sequenceS1, sequenceS2, sequenceS3 }) // $ExpectType Either<string, { sequenceS1: number; sequenceS2: string; sequenceS3: boolean; }>
+
+const sequenceSf2 = Apy.sequenceS(RTE.readerTaskEither)
+declare const sequenceS5: RTE.ReaderTaskEither<{ a: number }, string, number>
+declare const sequenceS6: RTE.ReaderTaskEither<{ a: number }, string, string>
+declare const sequenceS7: RTE.ReaderTaskEither<{ a: number }, string, boolean>
+declare const sequenceS8: RTE.ReaderTaskEither<{ a: number }, boolean, void>
+declare const sequenceS9: RTE.ReaderTaskEither<{ a: string }, string, void>
+
+// $ExpectError
+sequenceSf2({ sequenceS5, sequenceS8 })
+// $ExpectError
+sequenceSf2({ sequenceS5, sequenceS9 })
+
+sequenceSf2({ sequenceS5, sequenceS6, sequenceS7 }) // $ExpectType ReaderTaskEither<{ a: number; }, string, { sequenceS5: number; sequenceS6: string; sequenceS7: boolean; }>
+
 //
 // Unfoldable
 //

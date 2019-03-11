@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { applyFirst, applySecond, liftA2, liftA3, liftA4, sequenceT } from '../src/Apply'
+import { applyFirst, applySecond, liftA2, liftA3, liftA4, sequenceT, sequenceS } from '../src/Apply'
 import { either, left, right } from '../src/Either'
 import { none, option, some } from '../src/Option'
 
@@ -71,5 +71,17 @@ describe('Apply', () => {
     assert.deepStrictEqual(sequenceTEither(right(1)), right([1]))
     assert.deepStrictEqual(sequenceTEither(right(1), right('2')), right([1, '2']))
     assert.deepStrictEqual(sequenceTEither(right(1), right('2'), left('foo')), left('foo'))
+  })
+
+  it('sequenceS', () => {
+    const adoOption = sequenceS(option)
+    assert.deepStrictEqual(adoOption({ a: some(1) }), some({ a: 1 }))
+    assert.deepStrictEqual(adoOption({ a: some(1), b: some(2) }), some({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoOption({ a: some(1), b: none }), none)
+
+    const adoEither = sequenceS(either)
+    assert.deepStrictEqual(adoEither({ a: right(1) }), right({ a: 1 }))
+    assert.deepStrictEqual(adoEither({ a: right(1), b: right(2) }), right({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoEither({ a: right(1), b: left('error') }), left('error'))
   })
 })
