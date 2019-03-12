@@ -4,6 +4,8 @@ import * as alternative from './Alternative'
 export { alternative }
 import * as applicative from './Applicative'
 export { applicative }
+import * as selective from './Selective'
+export { selective }
 import * as apply from './Apply'
 export { apply }
 import * as array from './Array'
