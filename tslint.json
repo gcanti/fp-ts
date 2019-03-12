@@ -10,6 +10,7 @@
     "forin": true,
     "no-console": true,
     "array-type": [true, "generic"],
-    "deprecation": true
+    "deprecation": true,
+    "no-inferred-empty-object-type": true
   }
 }

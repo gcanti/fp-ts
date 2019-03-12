@@ -711,10 +711,10 @@ describe('Array', () => {
 
     // FoldableWithIndex compatibility
     const M = monoidString
-    const f = (i: number, s: string) => s + i
+    const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
       array.foldMapWithIndex(M)(ta, f),
-      array.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => new C.Const(f(i, a))).value
+      array.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => new C.Const<string, unknown>(f(i, a))).value
     )
 
     // FunctorWithIndex compatibility

@@ -54,7 +54,7 @@ describe('ReaderTaskEither', () => {
     const double = (n: number): number => n * 2
     return readerTaskEither
       .of<{}, number, number>(1)
-      .chain(() => new ReaderTaskEither(() => taskEitherLeft(task.of(2))))
+      .chain(() => new ReaderTaskEither<{}, number, unknown>(() => taskEitherLeft(task.of(2))))
       .mapLeft(double)
       .run({})
       .then(e => {
@@ -108,7 +108,7 @@ describe('ReaderTaskEither', () => {
   it('local', () => {
     const double = (n: number): number => n * 2
     const doubleLocal = local<number>(double)
-    const rte1 = doubleLocal(new ReaderTaskEither(taskEither.of))
+    const rte1 = doubleLocal(new ReaderTaskEither<number, unknown, number>(taskEither.of))
     type E = string
     interface E2 {
       name: string
@@ -179,8 +179,8 @@ describe('ReaderTaskEither', () => {
   })
 
   it('fromIOEither', () => {
-    const x1 = fromIOEither(new IOEither(new IO(() => eitherRight(1))))
-    const x2 = fromIOEither(new IOEither(new IO(() => eitherLeft('foo'))))
+    const x1 = fromIOEither(new IOEither<unknown, number>(new IO(() => eitherRight(1))))
+    const x2 = fromIOEither(new IOEither<string, unknown>(new IO(() => eitherLeft('foo'))))
     return Promise.all([x1.run({}), x2.run({})]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, eitherRight(1))
       assert.deepStrictEqual(e2, eitherLeft('foo'))

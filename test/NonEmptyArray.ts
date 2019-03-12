@@ -367,10 +367,10 @@ describe('NonEmptyArray', () => {
 
     // FoldableWithIndex compatibility
     const M = monoidString
-    const f = (i: number, s: string) => s + i
+    const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
       nonEmptyArray.foldMapWithIndex(M)(ta, f),
-      nonEmptyArray.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => new C.Const(f(i, a))).value
+      nonEmptyArray.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => new C.Const<string, unknown>(f(i, a))).value
     )
 
     // FunctorWithIndex compatibility

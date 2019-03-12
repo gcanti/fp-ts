@@ -44,6 +44,6 @@ describe('Const', () => {
   it('getApplicative', () => {
     const F = getApply(semigroupString)
     const fa = new Const<string, (n: number) => number>('foo')
-    assert.deepStrictEqual(F.ap(fa, new Const('bar')), new Const('foobar'))
+    assert.deepStrictEqual(F.ap(fa, new Const('bar')), new Const<string, unknown>('foobar'))
   })
 })

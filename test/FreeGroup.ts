@@ -32,7 +32,7 @@ describe('FreeGroup', () => {
   })
 
   it('of', () => {
-    assert.deepStrictEqual(freeGroup.of(1), new FreeGroup([right(1)]))
+    assert.deepStrictEqual(freeGroup.of(1), new FreeGroup([right<number, number>(1)]))
   })
 
   it('map', () => {
@@ -48,14 +48,14 @@ describe('FreeGroup', () => {
     assert.deepStrictEqual(
       freeGroup.ap(fab, fa),
       new FreeGroup([
-        left(false),
-        right(false),
-        left(true),
-        right(true),
-        left(true),
-        right(true),
-        left(false),
-        right(false)
+        left<boolean, boolean>(false),
+        right<boolean, boolean>(false),
+        left<boolean, boolean>(true),
+        right<boolean, boolean>(true),
+        left<boolean, boolean>(true),
+        right<boolean, boolean>(true),
+        left<boolean, boolean>(false),
+        right<boolean, boolean>(false)
       ])
     )
     assert.deepStrictEqual(fab.ap_(fa), fa.ap(fab))
@@ -63,26 +63,32 @@ describe('FreeGroup', () => {
 
   it('chain', () => {
     const fa = new FreeGroup<number>([left(1), right(1), left(2), right(2)])
-    const f = (n: number) => new FreeGroup([left(n > 1), right(n > 1), left(n < 2), right(n < 2)])
+    const f = (n: number) =>
+      new FreeGroup([
+        left<boolean, boolean>(n > 1),
+        right<boolean, boolean>(n > 1),
+        left<boolean, boolean>(n < 2),
+        right<boolean, boolean>(n < 2)
+      ])
     assert.deepStrictEqual(
       freeGroup.chain(fa, f),
       new FreeGroup([
-        left(false),
-        right(false),
-        left(true),
-        right(true),
-        left(false),
-        right(false),
-        left(true),
-        right(true),
-        left(true),
-        right(true),
-        left(false),
-        right(false),
-        left(true),
-        right(true),
-        left(false),
-        right(false)
+        left<boolean, boolean>(false),
+        right<boolean, boolean>(false),
+        left<boolean, boolean>(true),
+        right<boolean, boolean>(true),
+        left<boolean, boolean>(false),
+        right<boolean, boolean>(false),
+        left<boolean, boolean>(true),
+        right<boolean, boolean>(true),
+        left<boolean, boolean>(true),
+        right<boolean, boolean>(true),
+        left<boolean, boolean>(false),
+        right<boolean, boolean>(false),
+        left<boolean, boolean>(true),
+        right<boolean, boolean>(true),
+        left<boolean, boolean>(false),
+        right<boolean, boolean>(false)
       ])
     )
   })

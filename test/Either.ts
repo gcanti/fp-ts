@@ -149,13 +149,13 @@ describe('Either', () => {
 
   it('getOrElse', () => {
     assert.deepStrictEqual(right(12).getOrElse(17), 12)
-    assert.deepStrictEqual(left(12).getOrElse(17), 17)
+    assert.deepStrictEqual(left<string, number>('a').getOrElse(17), 17)
   })
 
   it('getOrElseL', () => {
     assert.deepStrictEqual(right(12).getOrElseL(() => 17), 12)
-    assert.deepStrictEqual(left(12).getOrElseL(() => 17), 17)
-    assert.deepStrictEqual(left(12).getOrElseL((l: number) => l + 1), 13)
+    assert.deepStrictEqual(left<string, number>('a').getOrElseL(() => 17), 17)
+    assert.deepStrictEqual(left<string, number>('a').getOrElseL((l: string) => l.length + 1), 2)
   })
 
   it('fromOption', () => {

@@ -300,8 +300,8 @@ describe('TaskEither', () => {
   })
 
   it('fromIOEither', () => {
-    const x1 = fromIOEither(new IOEither(new IO(() => eitherRight(1))))
-    const x2 = fromIOEither(new IOEither(new IO(() => eitherLeft('foo'))))
+    const x1 = fromIOEither(new IOEither<string, number>(new IO(() => eitherRight(1))))
+    const x2 = fromIOEither(new IOEither<string, number>(new IO(() => eitherLeft('foo'))))
     return Promise.all([x1.run(), x2.run()]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, eitherRight(1))
       assert.deepStrictEqual(e2, eitherLeft('foo'))
