@@ -21,16 +21,16 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
 
 `fp-ts` takes inspiration from [Haskell](https://haskell-lang.org), [PureScript](http://www.purescript.org), and [Scala](https://www.scala-lang.org/), among others.
 
-## Table of Contents
-
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of contents**
 
 - [Installation and TypeScript compatibility](#installation-and-typescript-compatibility)
 - [Getting started](#getting-started)
 - [Documentation](#documentation)
   - [Blog posts](#blog-posts)
   - [Tutorials](#tutorials)
+  - [Internals](#internals)
 - [Ecosystem](#ecosystem)
   - [Libraries](#libraries)
   - [Bindings](#bindings)
@@ -62,13 +62,9 @@ If you are coming from JavaScript:
 - read [Mostly adequate guide to FP](https://github.com/MostlyAdequate/mostly-adequate-guide) by [@DrBoolean](https://github.com/DrBoolean)
 - read this [blog series](http://www.tomharding.me/2017/03/03/fantas-eel-and-specification) on functional programming in JavaScript by Tom Harding, and then check out [the code](fantas-eel-and-specification) translated to TypeScript (there's a file for each blog post)
 
-If you are using `ramda`
+If you are using `ramda`:
 
 - [Comparison with ramda](https://github.com/gcanti/fp-ts/blob/master/ramda.md)
-
-If you are coming from TypeScript:
-
-- [How to write type class instances for your data structures](https://github.com/gcanti/fp-ts/blob/master/HKT.md)
 
 If you are coming from Haskell or Purescript:
 
@@ -76,10 +72,12 @@ If you are coming from Haskell or Purescript:
 
 # Documentation
 
-- [API Reference](https://github.com/gcanti/fp-ts/docs/index.md)
+- [API Reference](https://gcanti.github.io/fp-ts)
+- [How to write type class instances for your data structures](https://github.com/gcanti/fp-ts/blob/master/HKT.md)
 
 ## Blog posts
 
+- [Getting started with fp-ts: Setoid](https://dev.to/gcanti/getting-started-with-fp-ts-setoid-39f3)
 - [Interoperability with non functional code using fp-ts](https://dev.to/gcanti/interoperability-with-non-functional-code-using-fp-ts-432e)
 - [Functional design: combinators](https://dev.to/gcanti/functional-design-combinators-14pn)
 - [Functional design: how to make the `time` combinator more general](https://dev.to/gcanti/functional-design-how-to-make-the-time-combinator-more-general-3fge)
@@ -93,9 +91,16 @@ If you are coming from Haskell or Purescript:
 
 **Advanced**
 
+- "`fp-ts` to the max" (TypeScript port of John De Goes's ["FP to the max"](https://www.youtube.com/watch?v=sxudIMiOo68) in Scala)
+  - [Part I](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-I.ts)
+  - [Part II](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-II.ts)
 - [Free monad and `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/Free.ts)
-- [MTL-style in `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/mtl.ts)
+- [MTL-style in `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/mtl.ts)
 - [Type safe finite state machines with `IxIO` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/ixIO.ts)
+
+## Internals
+
+- [Code conventions](https://github.com/gcanti/fp-ts/blob/master/code-conventions.md)
 
 # Ecosystem
 
@@ -113,6 +118,7 @@ If you are coming from Haskell or Purescript:
 - [retry-ts](https://github.com/gcanti/retry-ts) - Retry combinators for monadic actions that may fail
 - [fp-ts-local-storage](https://github.com/gcanti/fp-ts-local-storage) - fp-ts bindings for LocalStorage
 - [circuit-breaker-monad](https://github.com/YBogomolov/circuit-breaker-monad) - Circuit Breaker pattern as a monad
+- [waveguide](https://github.com/rzeigler/waveguide) - Bifunctor effect type and concurrent data structures.
 
 ## Bindings
 
@@ -120,6 +126,3 @@ If you are coming from Haskell or Purescript:
 - [fp-ts-fluture](https://github.com/gcanti/fp-ts-fluture) - fp-ts bindings for Fluture
 - [fp-ts-most](https://github.com/joshburgess/fp-ts-most) - fp-ts bindings for @most/core
 
-# License
-
-The MIT License (MIT)
