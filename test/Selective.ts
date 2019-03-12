@@ -1,20 +1,35 @@
 import * as assert from 'assert'
-import { constant } from '../src/function'
-import { ifS, whenS } from '../src/Selective'
+import { constant, Function1 } from '../src/function'
+import { ifS, whenS, branch } from '../src/Selective'
 import { option, some } from '../src/Option'
 import { task } from '../src/Task'
+import { left, right } from '../src/Either'
 
 describe('Selective', () => {
   it('branch', () => {
-    const one = some(constant(1))
-    const two = some(constant(2))
-    assert.deepStrictEqual(ifS(option)(some(true), one, two), 1)
+    const add: Function1<number, number> = a => a + a
+    const length: Function1<string, number> = a => a.length
+    const addSpy = jest.fn(add)
+    const lengthSpy = jest.fn(length)
+    assert.deepStrictEqual(branch(option)(some(left<string, number>('foo')), some(lengthSpy), some(addSpy)), some(3))
+    assert.deepStrictEqual(addSpy.mock.calls.length, 0)
+    assert.deepStrictEqual(lengthSpy.mock.calls.length, 1)
+    assert.deepStrictEqual(branch(option)(some(right<string, number>(2)), some(lengthSpy), some(addSpy)), some(4))
+    assert.deepStrictEqual(addSpy.mock.calls.length, 1)
+    assert.deepStrictEqual(lengthSpy.mock.calls.length, 1)
   })
 
   it('ifS', () => {
-    const one = some(constant(1))
-    const two = some(constant(2))
-    assert.deepStrictEqual(ifS(option)(some(true), one, two), 1)
+    const one = constant(1)
+    const two = constant(2)
+    const oneSpy = jest.fn(one)
+    const twoSpy = jest.fn(two)
+    assert.deepStrictEqual(ifS(option)(some(true), some(oneSpy), some(twoSpy)).map(f => f()), some(one).map(f => f()))
+    assert.deepStrictEqual(oneSpy.mock.calls.length, 1)
+    assert.deepStrictEqual(twoSpy.mock.calls.length, 0)
+    assert.deepStrictEqual(ifS(option)(some(false), some(oneSpy), some(twoSpy)).map(f => f()), some(two).map(f => f()))
+    assert.deepStrictEqual(oneSpy.mock.calls.length, 1)
+    assert.deepStrictEqual(twoSpy.mock.calls.length, 1)
   })
 
   it('whenS', () => {

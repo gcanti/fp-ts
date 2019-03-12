@@ -70,7 +70,11 @@ export function branch<F extends URIS>(
 export function branch<F extends URIS>(S: Selective<F>) {
   return <A, B, C>(x: HKT<F, Either<A, B>>, l: HKT<F, (a: A) => C>, r: HKT<F, (b: B) => C>): HKT<F, C> => {
     // branch x l r = fmap (fmap Left) x <*? fmap (fmap Right) l <*? r
-    throw new Error('unimplemented')
+    const xx: HKT<F, Either<A, Either<B, C>>> = S.map(x, x =>
+      x.fold(a => left<A, Either<B, C>>(a), b => right<A, Either<B, C>>(left<B, C>(b)))
+    )
+    const ll: HKT<F, (a: A) => Either<B, C>> = S.map(l, l => (a: A) => right<B, C>(l(a)))
+    return S.select(S.select(xx, ll), r)
   }
 }
 
