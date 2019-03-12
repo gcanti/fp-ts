@@ -3,11 +3,11 @@ import { State, get, gets, modify, put, state } from '../src/State'
 
 describe('State', () => {
   it('eval', () => {
-    assert.deepStrictEqual(state.of(1).eval(0), 1)
+    assert.deepStrictEqual(state.of<number, string>('a').eval(0), 'a')
   })
 
   it('exec', () => {
-    assert.deepStrictEqual(state.of(1).exec(0), 0)
+    assert.deepStrictEqual(state.of<number, string>('a').exec(0), 0)
   })
 
   it('put', () => {

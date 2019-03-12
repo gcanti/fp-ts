@@ -93,13 +93,13 @@ describe('Validation', () => {
 
   it('getOrElse', () => {
     assert.strictEqual(success(12).getOrElse(17), 12)
-    assert.strictEqual(failure(12).getOrElse(17), 17)
-    assert.strictEqual(failure(12).getOrElseL((l: number) => l + 1), 13)
+    assert.strictEqual(failure<string, number>('a').getOrElse(17), 17)
+    assert.strictEqual(failure<string, number>('a').getOrElseL((l: string) => l.length + 1), 2)
   })
 
   it('getOrElseL', () => {
     assert.strictEqual(success(12).getOrElseL(() => 17), 12)
-    assert.strictEqual(failure(12).getOrElseL(() => 17), 17)
+    assert.strictEqual(failure<string, number>('a').getOrElseL(() => 17), 17)
   })
 
   it('mapFailure', () => {

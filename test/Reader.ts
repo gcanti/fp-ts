@@ -6,7 +6,7 @@ import { monoidSum } from '../src/Monoid'
 describe('Reader', () => {
   it('map', () => {
     const double = (n: number): number => n * 2
-    const x = new Reader(() => 1)
+    const x = new Reader<{}, number>(() => 1)
     assert.strictEqual(x.map(double).run({}), 2)
     assert.strictEqual(reader.map(x, double).run({}), 2)
   })
@@ -32,7 +32,7 @@ describe('Reader', () => {
   })
 
   it('ask', () => {
-    const x = ask()
+    const x = ask<number>()
     assert.strictEqual(x.run(1), 1)
   })
 

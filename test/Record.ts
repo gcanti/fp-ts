@@ -188,7 +188,7 @@ describe('Record', () => {
   it('wither', () => {
     const witherIdentity = R.wither(I.identity)
     const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(witherIdentity({}, f), new I.Identity({}))
+    assert.deepStrictEqual(witherIdentity({}, f), new I.Identity<Record<string, number>>({}))
     assert.deepStrictEqual(witherIdentity({ a: 1, b: 3 }, f), new I.Identity({ b: 4 }))
   })
 

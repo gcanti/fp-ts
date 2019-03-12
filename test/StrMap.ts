@@ -150,12 +150,12 @@ describe('StrMap', () => {
   })
 
   it('size', () => {
-    assert.strictEqual(size(new StrMap({})), 0)
+    assert.strictEqual(size(new StrMap<number>({})), 0)
     assert.strictEqual(size(new StrMap({ a: 1 })), 1)
   })
 
   it('isEmpty', () => {
-    assert.strictEqual(isEmpty(new StrMap({})), true)
+    assert.strictEqual(isEmpty(new StrMap<number>({})), true)
     assert.strictEqual(isEmpty(new StrMap({ a: 1 })), false)
   })
 
@@ -216,7 +216,7 @@ describe('StrMap', () => {
 
   it('filterMap', () => {
     const f = (n: number) => (p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(strmap.filterMap(new StrMap<number>({}), f), new StrMap({}))
+    assert.deepStrictEqual(strmap.filterMap(new StrMap<number>({}), f), new StrMap<number>({}))
     assert.deepStrictEqual(strmap.filterMap(new StrMap({ a: 1, b: 3 }), f), new StrMap({ b: 4 }))
   })
 
@@ -232,7 +232,10 @@ describe('StrMap', () => {
   })
 
   it('partition', () => {
-    assert.deepStrictEqual(strmap.partition(new StrMap<number>({}), p), { left: new StrMap({}), right: new StrMap({}) })
+    assert.deepStrictEqual(strmap.partition(new StrMap<number>({}), p), {
+      left: new StrMap<number>({}),
+      right: new StrMap<number>({})
+    })
     assert.deepStrictEqual(strmap.partition(new StrMap<number>({ a: 1, b: 3 }), p), {
       left: new StrMap({ a: 1 }),
       right: new StrMap({ b: 3 })
@@ -254,8 +257,8 @@ describe('StrMap', () => {
   it('partitionMap', () => {
     const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
     assert.deepStrictEqual(strmap.partitionMap(new StrMap<number>({}), f), {
-      left: new StrMap({}),
-      right: new StrMap({})
+      left: new StrMap<number>({}),
+      right: new StrMap<number>({})
     })
     assert.deepStrictEqual(strmap.partitionMap(new StrMap<number>({ a: 1, b: 3 }), f), {
       left: new StrMap({ a: 0 }),
@@ -278,7 +281,7 @@ describe('StrMap', () => {
   it('wither', () => {
     const witherIdentity = strmap.wither(I.identity)
     const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(witherIdentity(new StrMap<number>({}), f), new I.Identity(new StrMap({})))
+    assert.deepStrictEqual(witherIdentity(new StrMap<number>({}), f), new I.Identity(new StrMap<number>({})))
     assert.deepStrictEqual(witherIdentity(new StrMap({ a: 1, b: 3 }), f), new I.Identity(new StrMap({ b: 4 })))
   })
 
@@ -287,7 +290,7 @@ describe('StrMap', () => {
     const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
     assert.deepStrictEqual(
       wiltIdentity(new StrMap<number>({}), f),
-      new I.Identity({ left: new StrMap({}), right: new StrMap({}) })
+      new I.Identity({ left: new StrMap<number>({}), right: new StrMap<number>({}) })
     )
     assert.deepStrictEqual(
       wiltIdentity(new StrMap({ a: 1, b: 3 }), f),
