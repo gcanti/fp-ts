@@ -18,6 +18,7 @@ import { URIS, URIS2, URIS3, HKT, Type, Type2, Type3 } from './HKT'
 import { Either, left, right } from './Either'
 import { constant, Lazy } from './function'
 import { Setoid } from './Setoid'
+import { array } from './Array'
 
 /**
  * @since 1.15.0
@@ -150,5 +151,77 @@ export function when<F extends URIS>(S: Selective<F>) {
   return (x: HKT<F, boolean>, y: HKT<F, Lazy<void>>): HKT<F, void> => {
     // whenS x y = select (bool (Right ()) (Left ()) <$> x) (const <$> y)
     return S.select(S.map(x, x => (x ? leftUnit : rightUnit)), y)
+  }
+}
+
+// (<||>) :: Selective f => f Bool -> f Bool -> f Bool
+export function or<F extends URIS3>(
+  S: Selective3<F>
+): <U, L>(x: Type3<F, U, L, boolean>, y: Type3<F, U, L, boolean>) => Type3<F, U, L, boolean>
+export function or<F extends URIS2>(
+  S: Selective2<F>
+): <L>(x: Type2<F, L, boolean>, y: Type2<F, L, boolean>) => Type2<F, L, boolean>
+export function or<F extends URIS>(S: Selective1<F>): (x: Type<F, boolean>, y: Type<F, boolean>) => Type<F, boolean>
+export function or<F extends URIS>(S: Selective<F>): (x: HKT<F, boolean>, y: HKT<F, boolean>) => HKT<F, boolean>
+export function or<F extends URIS>(S: Selective<F>) {
+  const orIf = ifS(S)
+  return (x: HKT<F, boolean>, y: HKT<F, boolean>): HKT<F, boolean> => {
+    // x <||> y = ifS x (pure True) y
+    return orIf(x, S.of(true), y)
+  }
+}
+
+// (<&&>) :: Selective f => f Bool -> f Bool -> f Bool
+export function and<F extends URIS3>(
+  S: Selective3<F>
+): <U, L>(x: Type3<F, U, L, boolean>, y: Type3<F, U, L, boolean>) => Type3<F, U, L, boolean>
+export function and<F extends URIS2>(
+  S: Selective2<F>
+): <L>(x: Type2<F, L, boolean>, y: Type2<F, L, boolean>) => Type2<F, L, boolean>
+export function and<F extends URIS>(S: Selective1<F>): (x: Type<F, boolean>, y: Type<F, boolean>) => Type<F, boolean>
+export function and<F extends URIS>(S: Selective<F>): (x: HKT<F, boolean>, y: HKT<F, boolean>) => HKT<F, boolean>
+export function and<F extends URIS>(S: Selective<F>) {
+  const ifS_ = ifS(S)
+  return (x: HKT<F, boolean>, y: HKT<F, boolean>): HKT<F, boolean> => {
+    // x <&&> y = ifS x y (pure False)
+    return ifS_(x, y, S.of(false))
+  }
+}
+
+// anyS :: Selective f => (a -> f Bool) -> [a] -> f Bool
+export function any<F extends URIS3>(
+  S: Selective3<F>
+): <U, L, A>(as: Array<A>, p: (a: A) => Type3<F, U, L, boolean>) => Type3<F, U, L, boolean>
+export function any<F extends URIS2>(
+  S: Selective2<F>
+): <L, A>(as: Array<A>, p: (a: A) => Type2<F, L, boolean>) => Type2<F, L, boolean>
+export function any<F extends URIS>(
+  S: Selective1<F>
+): <A>(as: Array<A>, p: (a: A) => Type<F, boolean>) => Type<F, boolean>
+export function any<F extends URIS>(S: Selective<F>): <A>(as: Array<A>, p: (a: A) => HKT<F, boolean>) => HKT<F, boolean>
+export function any<F extends URIS>(S: Selective<F>) {
+  const orS = or(S)
+  return <A>(as: Array<A>, p: (a: A) => HKT<F, boolean>): HKT<F, boolean> => {
+    // anyS p = foldr ((<||>) . p) (pure False)
+    return array.foldr(as, S.of(false), (a, b) => orS(b, p(a)))
+  }
+}
+
+// allS :: Selective f => (a -> f Bool) -> [a] -> f Bool
+export function all<F extends URIS3>(
+  S: Selective3<F>
+): <U, L, A>(as: Array<A>, p: (a: A) => Type3<F, U, L, boolean>) => Type3<F, U, L, boolean>
+export function all<F extends URIS2>(
+  S: Selective2<F>
+): <L, A>(as: Array<A>, p: (a: A) => Type2<F, L, boolean>) => Type2<F, L, boolean>
+export function all<F extends URIS>(
+  S: Selective1<F>
+): <A>(as: Array<A>, p: (a: A) => Type<F, boolean>) => Type<F, boolean>
+export function all<F extends URIS>(S: Selective<F>): <A>(as: Array<A>, p: (a: A) => HKT<F, boolean>) => HKT<F, boolean>
+export function all<F extends URIS>(S: Selective<F>) {
+  const andS = and(S)
+  return <A>(as: Array<A>, p: (a: A) => HKT<F, boolean>): HKT<F, boolean> => {
+    // allS p = foldr ((<&&>) . p) (pure True)
+    return array.foldr(as, S.of(true), (a, b) => andS(b, p(a)))
   }
 }
