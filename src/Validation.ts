@@ -22,6 +22,7 @@ import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 import { Witherable2C } from './Witherable'
+import { Selective2C } from './Selective'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -234,6 +235,19 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
     map,
     of,
     ap
+  }
+}
+
+export const getSelective = <L>(S: Semigroup<L>): Selective2C<URI, L> => {
+  // instance Semigroup e => Selective (Validation e) where
+  //   select (Success (Right b)) _ = Success b
+  //   select (Success (Left  a)) f = ($a) <$> f
+  //   select (Failure e        ) _ = Failure e
+  const select: <A, B>(fa: Validation<L, Either<A, B>>, f: Validation<L, (a: A) => B>) => Validation<L, B> = (fa, f) =>
+    fa.fold(e => failure(e), e => e.fold(a => f.map(ab => ab(a)), b => success(b)))
+  return {
+    ...getApplicative(S),
+    select
   }
 }
 

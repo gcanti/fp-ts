@@ -1,9 +1,14 @@
 import * as assert from 'assert'
 import { constant, Function1 } from '../src/function'
-import { ifS, when, branch, or, and, any, all } from '../src/Selective'
+import { ifS, when, branch, or, and, any, all, Selective2C } from '../src/Selective'
 import { option, some } from '../src/Option'
 import { task } from '../src/Task'
 import { left, right } from '../src/Either'
+import { URIS2, Type2 } from '../src/HKT'
+import { getSelective, success, failure } from '../src/Validation'
+import { getArraySemigroup } from '../src/Semigroup'
+import { liftA2 } from '../src/Apply'
+import { tuple } from '../src/function'
 
 describe('Selective', () => {
   it('branch', () => {
@@ -75,5 +80,68 @@ describe('Selective', () => {
     assert.deepStrictEqual(all(option)([false, false], option.of), some(false))
     assert.deepStrictEqual(all(option)([false, true], option.of), some(false))
     assert.deepStrictEqual(all(option)([true, true], option.of), some(true))
+  })
+
+  it('Validation', () => {
+    // type Radius = Word; type Width = Word; type Height = Word
+    // data Shape = Circle Radius | Rectangle Width Height
+    // shape :: Selective f => f Bool -> f Radius -> f Width -> f Height -> f Shape
+    // shape x r w h = ifS x (Circle <$> r) (Rectangle <$> w <*> h)
+    type Radius = number
+    type Width = number
+    type Height = number
+    type Shape = { type: 'Circle'; radius: Radius } | { type: 'Square'; width: Width; height: Height }
+    const circle = (radius: Radius): Shape => ({ type: 'Circle', radius })
+    const square = (width: Width): ((height: Height) => Shape) => height => ({ type: 'Square', width, height })
+    function shape<F extends URIS2>(S: Selective2C<F, Array<string>>) {
+      const ifS_ = ifS(S)
+      return (
+        x: Type2<F, Array<string>, boolean>,
+        r: Type2<F, Array<string>, Radius>,
+        w: Type2<F, Array<string>, Width>,
+        h: Type2<F, Array<string>, Height>
+      ): Type2<F, Array<string>, Shape> => ifS_(x, S.map(r, circle), liftA2(S)(square)(w)(h))
+    }
+
+    // λ> shape (Success True) (Success 1) (Failure ["width?"]) (Failure ["height?"])
+    // Success (Circle 1)
+    // λ> shape (Success False) (Failure ["radius?"]) (Success 2) (Success 3)
+    // Success (Rectangle 2 3)
+    // λ> shape (Success False) (Success 1) (Failure ["width?"]) (Failure ["height?"])
+    // Failure ["width?", "height?"]
+    // λ> shape (Failure ["choice?"]) (Failure ["radius?"]) (Success 2) (Failure ["height?"])
+    // Failure ["choice?"]
+    const validationS = getSelective(getArraySemigroup<string>())
+    const vShape = shape(validationS)
+    assert.deepStrictEqual(
+      vShape(success(true), success(1), failure(['width?']), failure(['height?'])),
+      success(circle(1))
+    )
+    assert.deepStrictEqual(vShape(success(false), failure(['radius?']), success(2), success(3)), success(square(2)(3)))
+    assert.deepStrictEqual(
+      vShape(success(false), success(1), failure(['width?']), failure(['height?'])),
+      failure(['width?', 'height?'])
+    )
+    assert.deepStrictEqual(
+      vShape(failure(['choice?']), failure(['radius?']), success(2), failure(['height?'])),
+      failure(['choice?'])
+    )
+
+    // twoShapes :: Selective f => f Shape -> f Shape -> f (Shape, Shape)
+    // twoShapes s1 s2 = (,) <$> s1 <*> s2
+    function twoShapes<F extends URIS2>(S: Selective2C<F, Array<string>>) {
+      return (
+        s1: Type2<F, Array<string>, Shape>,
+        s2: Type2<F, Array<string>, Shape>
+      ): Type2<F, Array<string>, [Shape, Shape]> => S.ap(S.map(s1, (s1: Shape) => (s2: Shape) => tuple(s1, s2)), s2)
+    }
+
+    // λ> s1 = shape (Failure ["choice 1?"]) (Success 1) (Failure ["width 1?"]) (Success 3)
+    // λ> s2 = shape (Success False) (Success 1) (Success 2) (Failure ["height 2?"])
+    // λ> twoShapes s1 s2
+    // Failure ["choice 1?","height 2?"]
+    const s1 = vShape(failure(['choice 1?']), success(1), failure(['width 1?']), success(3))
+    const s2 = vShape(success(false), success(1), success(2), failure(['height 2?']))
+    assert.deepStrictEqual(twoShapes(validationS)(s1, s2), failure(['choice 1?', 'height 2?']))
   })
 })

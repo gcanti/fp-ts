@@ -89,6 +89,9 @@ export function ifS<F extends URIS3>(
 export function ifS<F extends URIS2>(
   S: Selective2<F>
 ): <L, A>(x: Type2<F, L, boolean>, t: Type2<F, L, A>, e: Type2<F, L, A>) => Type2<F, L, A>
+export function ifS<F extends URIS2, L>(
+  S: Selective2C<F, L>
+): <L, A>(x: Type2<F, L, boolean>, t: Type2<F, L, A>, e: Type2<F, L, A>) => Type2<F, L, A>
 export function ifS<F extends URIS>(
   S: Selective1<F>
 ): <A>(x: Type<F, boolean>, t: Type<F, A>, e: Type<F, A>) => Type<F, A>
