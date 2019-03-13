@@ -1,14 +1,13 @@
 import * as assert from 'assert'
-import { constant, Function1 } from '../src/function'
+import { constant, Function1, tuple } from '../src/function'
 import { ifS, when, branch, or, and, any, all, Selective2C } from '../src/Selective'
 import { option, some } from '../src/Option'
 import { task } from '../src/Task'
 import { left, right } from '../src/Either'
 import { URIS2, Type2 } from '../src/HKT'
 import { getSelective, success, failure } from '../src/Validation'
-import { getArraySemigroup } from '../src/Semigroup'
 import { liftA2 } from '../src/Apply'
-import { tuple } from '../src/function'
+import { getArrayMonoid } from '../src/Monoid'
 
 describe('Selective', () => {
   it('branch', () => {
@@ -111,7 +110,7 @@ describe('Selective', () => {
     // Failure ["width?", "height?"]
     // λ> shape (Failure ["choice?"]) (Failure ["radius?"]) (Success 2) (Failure ["height?"])
     // Failure ["choice?"]
-    const validationS = getSelective(getArraySemigroup<string>())
+    const validationS = getSelective(getArrayMonoid<string>())
     const vShape = shape(validationS)
     assert.deepStrictEqual(
       vShape(success(true), success(1), failure(['width?']), failure(['height?'])),
