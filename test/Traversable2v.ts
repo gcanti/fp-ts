@@ -22,13 +22,12 @@ describe('Traversable2v', () => {
 
   it('flatTraverse', () => {
     const f = flatTraverse(array, option)
-    assert.deepStrictEqual(
-      f(some(1), (n: number) => [some(2), some(3), none, some(5)]),
-      [some(2), some(3), none, some(5)]
-    )
-    assert.deepStrictEqual(
-      f(none, (n: number) => [some(2), some(3)]),
-      []
-    )
+    assert.deepStrictEqual(f(some(1), (n: number) => [some(2), some(3), none, some(5)]), [
+      some(2),
+      some(3),
+      none,
+      some(5)
+    ])
+    assert.deepStrictEqual(f(none, (n: number) => [some(2), some(3)]), [])
   })
 })
