@@ -77,13 +77,15 @@ If you are coming from Haskell or Purescript:
 
 ## Blog posts
 
+- [Interoperability with non functional code using fp-ts](https://dev.to/gcanti/interoperability-with-non-functional-code-using-fp-ts-432e)
 - "Getting started with fp-ts" series
   - [Setoid](https://dev.to/gcanti/getting-started-with-fp-ts-setoid-39f3)
   - [Ord](https://dev.to/gcanti/getting-started-with-fp-ts-ord-5f1e)
-- [Interoperability with non functional code using fp-ts](https://dev.to/gcanti/interoperability-with-non-functional-code-using-fp-ts-432e)
-- [Functional design: combinators](https://dev.to/gcanti/functional-design-combinators-14pn)
-- [Functional design: how to make the `time` combinator more general](https://dev.to/gcanti/functional-design-how-to-make-the-time-combinator-more-general-3fge)
-- [Functional design: tagless final](https://dev.to/gcanti/functional-design-tagless-final-332k)
+- "Functional design" series
+- [combinators](https://dev.to/gcanti/functional-design-combinators-14pn)
+- [how to make the `time` combinator more general](https://dev.to/gcanti/functional-design-how-to-make-the-time-combinator-more-general-3fge)
+- [tagless final](https://dev.to/gcanti/functional-design-tagless-final-332k)
+- [smart constructors](https://dev.to/gcanti/functional-design-smart-constructors-14nb)
 
 ## Tutorials
 

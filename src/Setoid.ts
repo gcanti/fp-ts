@@ -6,6 +6,8 @@
  * 1. Reflexivity: `S.equals(a, a) === true`
  * 2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
  * 3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
+ *
+ * See [Getting started with fp-ts: Setoid](https://dev.to/gcanti/getting-started-with-fp-ts-setoid-39f3)
  */
 
 /**
