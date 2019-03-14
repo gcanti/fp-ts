@@ -15,6 +15,7 @@
  * ```
  */
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Chain, Chain1, Chain2, Chain3, flatten } from './Chain'
 import {
   Foldable2v,
   Foldable2v1,
@@ -296,4 +297,17 @@ export function getTraversableComposition<F, G>(
       return fgha => sequenceF(F.map(fgha, sequenceG))
     }
   }
+}
+
+/**
+ * A traverse followed by flattening the inner result.
+ *
+ * @since 1.14.5
+ */
+export function flatTraverse<F extends URIS3, G extends URIS3>(F: Applicative3<F>, G: Traversable2v3<G> & Chain3<G>): <U, L, A, B>(ta: Type3<G, U, L, A>, f: (a: A) => Type3<F, U, L, Type3<G, U, L, B>>) => Type3<F, U, L, Type3<G, U, L, B>>
+export function flatTraverse<F extends URIS2, G extends URIS2>(F: Applicative2<F>, G: Traversable2v2<G> & Chain2<G>): <L, A, B>(ta: Type2<G, L, A>, f: (a: A) => Type2<F, L, Type2<G, L, B>>) => Type2<F, L, Type2<G, L, B>>
+export function flatTraverse<F extends URIS, G extends URIS>(F: Applicative1<F>, G: Traversable2v1<G> & Chain1<G>): <A, B>(ta: Type<G, A>, f: (a: A) => Type<F, Type<G, B>>) => Type<F, Type<G, B>>
+export function flatTraverse<F, G>(F: Applicative<F>, G: Traversable2v<G> & Chain<G>): <A, B>(ta: HKT<G, A>, f: (a: A) => HKT<F, HKT<G, B>>) => HKT<F, HKT<G, B>>
+export function flatTraverse<F, G>(F: Applicative<F>, G: Traversable2v<G> & Chain<G>): <A, B>(ta: HKT<G, A>, f: (a: A) => HKT<F, HKT<G, B>>) => HKT<F, HKT<G, B>> {
+  return (ta, f) => F.map(G.traverse(F)(ta, f), flatten(G))
 }

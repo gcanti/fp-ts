@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
 import { none, option, some } from '../src/Option'
-import { getTraversableComposition } from '../src/Traversable2v'
+import { flatTraverse, getTraversableComposition } from '../src/Traversable2v'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -18,5 +18,17 @@ describe('Traversable2v', () => {
     assert.deepStrictEqual(T.sequence(option)([some(some(1)), some(some(2))]), some([some(1), some(2)]))
     assert.deepStrictEqual(T.sequence(option)([some(some(1)), none]), some([some(1), none]))
     assert.deepStrictEqual(T.sequence(option)([some(some(1)), some(none)]), none)
+  })
+
+  it('flatTraverse', () => {
+    const f = flatTraverse(array, option)
+    assert.deepStrictEqual(
+      f(some(1), (n: number) => [some(2), some(3), none, some(5)]),
+      [some(2), some(3), none, some(5)]
+    )
+    assert.deepStrictEqual(
+      f(none, (n: number) => [some(2), some(3)]),
+      []
+    )
   })
 })
