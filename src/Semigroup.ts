@@ -1,3 +1,6 @@
+/**
+ * @file See [Getting started with fp-ts: Semigroup](https://dev.to/gcanti/getting-started-with-fp-ts-semigroup-2mf7)
+ */
 import { Ord, max, min } from './Ord'
 import { concat, identity } from './function'
 
