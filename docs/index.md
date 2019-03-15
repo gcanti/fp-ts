@@ -83,10 +83,10 @@ If you are coming from Haskell or Purescript:
   - [Ord](https://dev.to/gcanti/getting-started-with-fp-ts-ord-5f1e)
   - [Semigroup](https://dev.to/gcanti/getting-started-with-fp-ts-semigroup-2mf7)
 - "Functional design" series
-- [combinators](https://dev.to/gcanti/functional-design-combinators-14pn)
-- [how to make the `time` combinator more general](https://dev.to/gcanti/functional-design-how-to-make-the-time-combinator-more-general-3fge)
-- [tagless final](https://dev.to/gcanti/functional-design-tagless-final-332k)
-- [smart constructors](https://dev.to/gcanti/functional-design-smart-constructors-14nb)
+  - [combinators](https://dev.to/gcanti/functional-design-combinators-14pn)
+  - [how to make the `time` combinator more general](https://dev.to/gcanti/functional-design-how-to-make-the-time-combinator-more-general-3fge)
+  - [tagless final](https://dev.to/gcanti/functional-design-tagless-final-332k)
+  - [smart constructors](https://dev.to/gcanti/functional-design-smart-constructors-14nb)
 
 ## Tutorials
 
@@ -111,6 +111,7 @@ If you are coming from Haskell or Purescript:
 
 ## Libraries
 
+- [fp-ts-contrib](https://github.com/gcanti/fp-ts-contrib) - A community driven utility package for fp-ts
 - [fp-ts-codegen](https://github.com/gcanti/fp-ts-codegen) - TypeScript code generation from a haskell-like syntax for ADT
 - [io-ts](https://github.com/gcanti/io-ts) - TypeScript compatible runtime type system for IO validation
 - [monocle-ts](https://github.com/gcanti/monocle-ts) - Functional optics: a (partial) porting of scala monocle to
