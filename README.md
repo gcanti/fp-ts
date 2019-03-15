@@ -97,6 +97,7 @@ If you are coming from Haskell or Purescript:
 - "Getting started with fp-ts" series
   - [Setoid](https://dev.to/gcanti/getting-started-with-fp-ts-setoid-39f3)
   - [Ord](https://dev.to/gcanti/getting-started-with-fp-ts-ord-5f1e)
+  - [Semigroup](https://dev.to/gcanti/getting-started-with-fp-ts-semigroup-2mf7)
 - "Functional design" series
 - [combinators](https://dev.to/gcanti/functional-design-combinators-14pn)
 - [how to make the `time` combinator more general](https://dev.to/gcanti/functional-design-how-to-make-the-time-combinator-more-general-3fge)
