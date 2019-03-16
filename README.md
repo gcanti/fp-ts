@@ -36,19 +36,12 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 **Table of contents**
 
-- [Installation and TypeScript compatibility](#installation-and-typescript-compatibility)
-- [Getting started](#getting-started)
+- [Installation](#installation)
+  - [TypeScript compatibility](#typescript-compatibility)
 - [Documentation](#documentation)
-  - [Blog posts](#blog-posts)
-  - [Tutorials](#tutorials)
-  - [Internals](#internals)
-- [Ecosystem](#ecosystem)
-  - [Libraries](#libraries)
-  - [Bindings](#bindings)
-- [Type Classes Diagram](#type-classes-diagram)
+- [Development](#development)
 - [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
