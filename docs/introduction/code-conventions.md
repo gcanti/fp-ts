@@ -1,4 +1,11 @@
-# Code conventions
+---
+title: Code Conventions
+parent: Introduction
+nav_order: 5
+has_toc: false
+---
+
+# Code Conventions
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
