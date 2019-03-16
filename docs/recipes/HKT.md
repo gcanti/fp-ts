@@ -1,4 +1,10 @@
-# How to write type class instances for your data structure
+---
+title: Write type class instances
+parent: Recipes
+nav_order: 2
+---
+
+# How to write type class instances for your data type
 
 Let's start from a simple data structure: `Identity`
 

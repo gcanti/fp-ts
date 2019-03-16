@@ -1,8 +1,17 @@
 ---
-title: `fp-ts` for `PureScript`ers / `Haskell`ers
+title: Migrate from PureScript/Haskell
+parent: Recipes
+nav_order: 4
 ---
 
-# Do notation
+# Migrate from PureScript/Haskell
+
+This guide shows you how to use fp-ts concepts if you have prior experience with [PureScript](http://www.purescript.org/) or [Haskell](https://www.haskell.org/).
+{: .fs-6 .fw-300 }
+
+---
+
+## Do notation
 
 PureScript
 
@@ -26,7 +35,7 @@ print('foo')
   .chain(print)
 ```
 
-# Data
+## Data
 
 PureScript
 
@@ -48,7 +57,7 @@ const Bar = (value: string): Foo => ({ type: 'Bar', value })
 const Baz = (value: boolean): Foo => ({ type: 'Baz', value })
 ```
 
-# Polymorphic data
+## Polymorphic data
 
 PureScript
 
@@ -91,7 +100,7 @@ const none = None.value
 const some = <A>(a: A): Option<A> => new Some(a)
 ```
 
-# Pattern matching
+## Pattern matching
 
 PureScript
 
@@ -114,7 +123,7 @@ const maybe = <A, B>(whenNone: B, whenSome: (a: A) => B, fa: Option<A>): B => {
 }
 ```
 
-# Type classes
+## Type classes
 
 PureScript
 
@@ -160,7 +169,7 @@ export interface Functor3C<F extends URIS3, U, L> {
 }
 ```
 
-# Instances
+## Instances
 
 PureScript
 
@@ -178,7 +187,7 @@ const functorOption: Functor1<'Option'> = {
 }
 ```
 
-# Type constraints
+## Type constraints
 
 PureScript
 
@@ -212,15 +221,15 @@ const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
 }
 ```
 
-# Newtypes
+## Newtypes
 
 See [newtype-ts](https://github.com/gcanti/newtype-ts)
 
-# Functional optics
+## Functional optics
 
 See [monocle-ts](https://github.com/gcanti/monocle-ts)
 
-# Where's my `f <$> fa <*> fb`?
+## Where's my `f <$> fa <*> fb`?
 
 A few options
 
