@@ -8,7 +8,7 @@ has_toc: false
 
 # Basic Tutorial
 
-The basic tutorial is a work in progress. It will be directed towards beginners once its ready.
+The basic tutorial is a work in progress. It will be directed towards beginners once it's ready.
 {: .fs-6 .fw-300 }
 
 In the meantime, check out the [learning resources](../introduction/learning-resources) and the following code example:

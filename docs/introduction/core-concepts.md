@@ -36,7 +36,7 @@ const liftA2Option = apply.liftA2(option.option)
 
 Here's a small list of some commonly used data types, you can find more in the [API reference](../modules/).
 
-* [Option](../modules/Option.ts) – is used to explicitely express that a value can be absent.
+* [Option](../modules/Option.ts) – is used to explicitly express that a value can be absent.
 * [Either](../modules/Either.ts) – represents a value of one of two possible types: `Left<A>` and `Right<B>`.
 * [NonEmptyArray](../modules/NonEmptyArray.ts) – an array that is guaranteed to contain at least one element.
 * [Task](../modules/Task.ts) – represents an asynchronous computation that yields a value and _never fails_.

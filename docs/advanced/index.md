@@ -8,7 +8,7 @@ has_toc: false
 
 # Advanced Tutorial
 
-The advanced tutorial is a work in progress. It will be directed towards developers who are comfortable in using fp-ts and want to take it furher.
+The advanced tutorial is a work in progress. It will be directed towards developers who are comfortable in using fp-ts and want to take it further.
 {: .fs-6 .fw-300 }
 
 In the meantime, check out the [learning resources](../introduction/learning-resources) and the following resources:
@@ -17,5 +17,5 @@ In the meantime, check out the [learning resources](../introduction/learning-res
   - [Part I](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-I.ts)
   - [Part II](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-II.ts)
 - [Free monad and `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/Free.ts)
-- [MTL-style in `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/mtl.ts)
+- [MTL-style in `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/mtl.ts)
 - [Type safe finite state machines with `IxIO` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/ixIO.ts)
