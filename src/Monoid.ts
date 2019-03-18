@@ -33,13 +33,26 @@ export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => {
 }
 
 /**
+ * Given a tuple of monoids returns a monoid for the tuple
+ *
+ * @example
+ * import { getTupleMonoid, monoidString, monoidSum, monoidAll } from 'fp-ts/lib/Monoid'
+ *
+ * const M1 = getTupleMonoid(monoidString, monoidSum)
+ * assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
+ *
+ * const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
+ * assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+ *
  * @since 1.0.0
  */
-export const getTupleMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => {
+export const getTupleMonoid = <T extends Array<Monoid<any>>>(
+  ...monoids: T
+): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> => {
   return {
-    ...getTupleSemigroup(MA, MB),
-    empty: [MA.empty, MB.empty]
-  }
+    ...getTupleSemigroup(...monoids),
+    empty: monoids.map(m => m.empty)
+  } as any
 }
 
 /**
