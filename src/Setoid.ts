@@ -85,10 +85,23 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
 }
 
 /**
+ * Given a tuple of `Setoid`s returns a `Setoid` for the tuple
+ *
+ * @example
+ * import { getTupleSetoid, setoidString, setoidNumber, setoidBoolean } from 'fp-ts/lib/Setoid'
+ *
+ * const S = getTupleSetoid(setoidString, setoidNumber, setoidBoolean)
+ * assert.strictEqual(S.equals(['a', 1, true], ['a', 1, true]), true)
+ * assert.strictEqual(S.equals(['a', 1, true], ['b', 1, true]), false)
+ * assert.strictEqual(S.equals(['a', 1, true], ['a', 2, true]), false)
+ * assert.strictEqual(S.equals(['a', 1, true], ['a', 1, false]), false)
+ *
  * @since 1.14.2
  */
-export const getTupleSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
-  return fromEquals((a, b) => SA.equals(a[0], b[0]) && SB.equals(a[1], b[1]))
+export const getTupleSetoid = <T extends Array<Setoid<any>>>(
+  ...setoids: T
+): Setoid<{ [K in keyof T]: T[K] extends Setoid<infer A> ? A : never }> => {
+  return fromEquals((x, y) => setoids.every((S, i) => S.equals(x[i], y[i])))
 }
 
 /**
