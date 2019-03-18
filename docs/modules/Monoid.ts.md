@@ -246,10 +246,26 @@ Added in v1.14.0
 
 # getTupleMonoid (function)
 
+Given a tuple of monoids returns a monoid for the tuple
+
 **Signature**
 
 ```ts
-export const getTupleMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => ...
+export const getTupleMonoid = <T extends Array<Monoid<any>>>(
+  ...monoids: T
+): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> => ...
+```
+
+**Example**
+
+```ts
+import { getTupleMonoid, monoidString, monoidSum, monoidAll } from 'fp-ts/lib/Monoid'
+
+const M1 = getTupleMonoid(monoidString, monoidSum)
+assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
+
+const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
+assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
 ```
 
 Added in v1.0.0

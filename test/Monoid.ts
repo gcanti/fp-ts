@@ -13,12 +13,20 @@ import {
   monoidSum,
   getProductMonoid,
   getMeetMonoid,
-  getJoinMonoid
+  getJoinMonoid,
+  getTupleMonoid
 } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
 import { boundedNumber } from '../src/Bounded'
 
 describe('Monoid', () => {
+  it('getTupleMonoid', () => {
+    const M1 = getTupleMonoid(monoidString, monoidSum)
+    assert.deepStrictEqual(M1.concat(['a', 1], ['b', 2]), ['ab', 3])
+    const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
+    assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+  })
+
   it('fold', () => {
     assert.strictEqual(fold(monoidSum)([1, 2, 3]), 6)
   })
