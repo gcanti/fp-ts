@@ -36,16 +36,31 @@ export const negate = <A>(ring: Ring<A>) => (a: A): A => {
 }
 
 /**
+ * Given a tuple of `Ring`s returns a `Ring` for the tuple
+ *
+ * @example
+ * import { getTupleRing } from 'fp-ts/lib/Ring'
+ * import { fieldNumber } from 'fp-ts/lib/Field'
+ *
+ * const R = getTupleRing(fieldNumber, fieldNumber, fieldNumber)
+ * assert.deepStrictEqual(R.add([1, 2, 3], [4, 5, 6]), [5, 7, 9])
+ * assert.deepStrictEqual(R.mul([1, 2, 3], [4, 5, 6]), [4, 10, 18])
+ * assert.deepStrictEqual(R.one, [1, 1, 1])
+ * assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
+ * assert.deepStrictEqual(R.zero, [0, 0, 0])
+ *
  * @since 1.14.3
  */
-export const getTupleRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => {
+export const getTupleRing = <T extends Array<Ring<any>>>(
+  ...rings: T
+): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> => {
   return {
-    add: ([a1, b1], [a2, b2]) => [RA.add(a1, a2), RB.add(b1, b2)],
-    zero: [RA.zero, RB.zero],
-    mul: ([a1, b1], [a2, b2]) => [RA.mul(a1, a2), RB.mul(b1, b2)],
-    one: [RA.one, RB.one],
-    sub: ([a1, b1], [a2, b2]) => [RA.sub(a1, a2), RB.sub(b1, b2)]
-  }
+    add: (x: any, y: any) => rings.map((R, i) => R.add(x[i], y[i])),
+    zero: rings.map(R => R.zero),
+    mul: (x: any, y: any) => rings.map((R, i) => R.mul(x[i], y[i])),
+    one: rings.map(R => R.one),
+    sub: (x: any, y: any) => rings.map((R, i) => R.sub(x[i], y[i]))
+  } as any
 }
 
 /**
