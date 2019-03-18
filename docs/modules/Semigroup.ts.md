@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 73
+nav_order: 74
 parent: Modules
 ---
 
@@ -277,10 +277,26 @@ Added in v1.14.0
 
 # getTupleSemigroup (function)
 
+Given a tuple of semigroups returns a semigroup for the tuple
+
 **Signature**
 
 ```ts
-export const getTupleSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => ...
+export const getTupleSemigroup = <T extends Array<Semigroup<any>>>(
+  ...semigroups: T
+): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> => ...
+```
+
+**Example**
+
+```ts
+import { getTupleSemigroup, semigroupString, semigroupSum, semigroupAll } from 'fp-ts/lib/Semigroup'
+
+const S1 = getTupleSemigroup(semigroupString, semigroupSum)
+assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
+
+const S2 = getTupleSemigroup(semigroupString, semigroupSum, semigroupAll)
+assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
 ```
 
 Added in v1.14.0

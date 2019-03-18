@@ -644,7 +644,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const tuple = <A, B>(a: A, b: B): [A, B] => ...
+export const tuple = <T extends Array<any>>(...t: T): T => ...
 ```
 
 Added in v1.0.0
