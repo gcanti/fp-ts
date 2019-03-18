@@ -15,7 +15,6 @@ import {
   groupBy,
   last,
   sort,
-  lookup,
   findFirst,
   findLast,
   findIndex,
@@ -217,14 +216,6 @@ describe.only('NonEmptyArray2v', () => {
       '3': fromNonEmptyArray(['foo', 'bar']),
       '6': fromNonEmptyArray(['foobar'])
     })
-  })
-
-  it('lookup', () => {
-    const arr = fromNonEmptyArray([1, 2, 3])
-    assert.deepStrictEqual(lookup(-1, arr), none)
-    assert.deepStrictEqual(lookup(0, arr), some(1))
-    assert.deepStrictEqual(lookup(3, arr), none)
-    assert.deepStrictEqual(lookup(1, arr), some(2))
   })
 
   it('findFirst', () => {
