@@ -6,10 +6,20 @@ import {
   setoidDate,
   setoidNumber,
   setoidString,
-  fromEquals
+  fromEquals,
+  getTupleSetoid,
+  setoidBoolean
 } from '../src/Setoid'
 
 describe('Setoid', () => {
+  it('getTupleSetoid', () => {
+    const S = getTupleSetoid(setoidString, setoidNumber, setoidBoolean)
+    assert.strictEqual(S.equals(['a', 1, true], ['a', 1, true]), true)
+    assert.strictEqual(S.equals(['a', 1, true], ['b', 1, true]), false)
+    assert.strictEqual(S.equals(['a', 1, true], ['a', 2, true]), false)
+    assert.strictEqual(S.equals(['a', 1, true], ['a', 1, false]), false)
+  })
+
   interface Person {
     name: string
     age: number

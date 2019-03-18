@@ -160,10 +160,26 @@ Added in v1.14.2
 
 # getTupleSetoid (function)
 
+Given a tuple of `Setoid`s returns a `Setoid` for the tuple
+
 **Signature**
 
 ```ts
-export const getTupleSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => ...
+export const getTupleSetoid = <T extends Array<Setoid<any>>>(
+  ...setoids: T
+): Setoid<{ [K in keyof T]: T[K] extends Setoid<infer A> ? A : never }> => ...
+```
+
+**Example**
+
+```ts
+import { getTupleSetoid, setoidString, setoidNumber, setoidBoolean } from 'fp-ts/lib/Setoid'
+
+const S = getTupleSetoid(setoidString, setoidNumber, setoidBoolean)
+assert.strictEqual(S.equals(['a', 1, true], ['a', 1, true]), true)
+assert.strictEqual(S.equals(['a', 1, true], ['b', 1, true]), false)
+assert.strictEqual(S.equals(['a', 1, true], ['a', 2, true]), false)
+assert.strictEqual(S.equals(['a', 1, true], ['a', 1, false]), false)
 ```
 
 Added in v1.14.2
