@@ -62,10 +62,28 @@ Added in v1.0.0
 
 # getTupleRing (function)
 
+Given a tuple of `Ring`s returns a `Ring` for the tuple
+
 **Signature**
 
 ```ts
-export const getTupleRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => ...
+export const getTupleRing = <T extends Array<Ring<any>>>(
+  ...rings: T
+): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> => ...
+```
+
+**Example**
+
+```ts
+import { getTupleRing } from 'fp-ts/lib/Ring'
+import { fieldNumber } from 'fp-ts/lib/Field'
+
+const R = getTupleRing(fieldNumber, fieldNumber, fieldNumber)
+assert.deepStrictEqual(R.add([1, 2, 3], [4, 5, 6]), [5, 7, 9])
+assert.deepStrictEqual(R.mul([1, 2, 3], [4, 5, 6]), [4, 10, 18])
+assert.deepStrictEqual(R.one, [1, 1, 1])
+assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
+assert.deepStrictEqual(R.zero, [0, 0, 0])
 ```
 
 Added in v1.14.3
