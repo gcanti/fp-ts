@@ -94,6 +94,26 @@ sequenceSf2({ sequenceS5, sequenceS9 })
 
 sequenceSf2({ sequenceS5, sequenceS6, sequenceS7 }) // $ExpectType ReaderTaskEither<{ a: number; }, string, { sequenceS5: number; sequenceS6: string; sequenceS7: boolean; }>
 
+// sequenceT
+
+const sequenceTf1 = Apy.sequenceT(E.either)
+
+// $ExpectError
+sequenceTf1([])
+// $ExpectError
+sequenceTf1(sequenceS1, sequenceS4)
+
+sequenceTf1(sequenceS1, sequenceS2, sequenceS3) // $ExpectType Either<string, [number, string, boolean]>
+
+const sequenceTf2 = Apy.sequenceT(RTE.readerTaskEither)
+
+// $ExpectError
+sequenceTf2(sequenceS5, sequenceS8)
+// $ExpectError
+sequenceTf2(sequenceS5, sequenceS9)
+
+sequenceTf2(sequenceS5, sequenceS6, sequenceS7) // $ExpectType ReaderTaskEither<{ a: number; }, string, [number, string, boolean]>
+
 //
 // Unfoldable
 //
