@@ -24,6 +24,8 @@ import * as SM from '../../src/StrMap'
 import * as Fo from '../../src/Foldable'
 import * as Or from '../../src/Ord'
 import * as Fu from '../../src/function'
+import * as Ring from '../../src/Ring'
+import * as Field from '../../src/Field'
 
 const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
@@ -268,11 +270,25 @@ declare const fromFoldableInput1: H.HKT<'Test', ['a' | 'b', number]>
 const fromFoldable1 = R.fromFoldable(fromFoldableF1)(fromFoldableInput1, a => a) // $ExpectType Record<"a" | "b", number>
 
 //
+// Setoid
+//
+
+const Setoid1 = Se.getTupleSetoid(Se.setoidString, Se.setoidNumber, Se.setoidBoolean) // $ExpectType Setoid<[string, number, boolean]>
+
+//
+// Ord
+//
+
+const Ord1 = Or.getTupleOrd(Or.ordString, Or.ordNumber, Or.ordBoolean) // $ExpectType Ord<[string, number, boolean]>
+
+//
 // Semigroup
 //
 
 const Sem1 = S.getDictionarySemigroup(S.semigroupSum) // $ExpectType Semigroup<Record<string, number>>
 const Sem2 = S.getDictionarySemigroup<Keys, number>(S.semigroupSum) // $ExpectType Semigroup<Record<Keys, number>>
+
+const Sem3 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll) // $ExpectType Semigroup<[string, number, boolean]>
 
 //
 // Monoid
@@ -280,6 +296,14 @@ const Sem2 = S.getDictionarySemigroup<Keys, number>(S.semigroupSum) // $ExpectTy
 
 const Mon3 = Mon.getDictionaryMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
 const Mon4 = Mon.getDictionaryMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+
+const Mon5 = Mon.getTupleMonoid(Mon.monoidString, Mon.monoidSum, Mon.monoidAll) // $ExpectType Monoid<[string, number, boolean]>
+
+//
+// Ring
+//
+
+const Ring1 = Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fieldNumber) // $ExpectType Ring<[number, number, number]>
 
 //
 // StrMap
