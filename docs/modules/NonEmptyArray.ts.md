@@ -475,6 +475,8 @@ Added in v1.14.0
 
 ## ~~index~~ (method)
 
+Use `lookup` instead
+
 **Signature**
 
 ```ts
@@ -490,7 +492,7 @@ Find the first element which satisfies a predicate (or a refinement) function
 **Signature**
 
 ```ts
-findFirst<B extends A>(predicate: Refinement<A, B>): Option<B>
+findFirst<B extends A>(refinement: Refinement<A, B>): Option<B>
 findFirst(predicate: Predicate<A>): Option<A> { ... }
 ```
 
@@ -683,7 +685,6 @@ export const URI = ...
 ```ts
 export const nonEmptyArray: Monad1<URI> &
   Comonad1<URI> &
-  Foldable2v1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> = ...
@@ -693,7 +694,7 @@ Added in v1.0.0
 
 # fromArray (function)
 
-Builds `NonEmptyArray` from `Array` returning `Option.none` or `Option.some` depending on amount of values in passed array
+Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
 
 **Signature**
 
@@ -705,7 +706,7 @@ Added in v1.0.0
 
 # getSemigroup (function)
 
-Builds `Semigroup` instance for `NonEmptyArray` of specified type arument
+Builds a `Semigroup` instance for `NonEmptyArray`
 
 **Signature**
 

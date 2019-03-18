@@ -66,6 +66,7 @@ parent: Modules
 - [monoid (export)](#monoid-export)
 - [monoidal (export)](#monoidal-export)
 - [nonEmptyArray (export)](#nonemptyarray-export)
+- [nonEmptyArray2v (export)](#nonemptyarray2v-export)
 - [option (export)](#option-export)
 - [optionT (export)](#optiont-export)
 - [ord (export)](#ord-export)
@@ -568,6 +569,14 @@ export { monoidal }
 
 ```ts
 export { nonEmptyArray }
+```
+
+# nonEmptyArray2v (export)
+
+**Signature**
+
+```ts
+export { nonEmptyArray2v }
 ```
 
 # option (export)

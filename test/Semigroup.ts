@@ -13,10 +13,20 @@ import {
   getRecordSemigroup,
   semigroupProduct,
   semigroupSum,
-  semigroupVoid
+  semigroupVoid,
+  getTupleSemigroup,
+  semigroupString,
+  semigroupAll
 } from '../src/Semigroup'
 
 describe('Semigroup', () => {
+  it('getTupleSemigroup', () => {
+    const S1 = getTupleSemigroup(semigroupString, semigroupSum)
+    assert.deepStrictEqual(S1.concat(['a', 1], ['b', 2]), ['ab', 3])
+    const S2 = getTupleSemigroup(semigroupString, semigroupSum, semigroupAll)
+    assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
+  })
+
   it('fold', () => {
     assert.strictEqual(fold(monoidString)('')(['a', 'b', 'c']), 'abc')
   })
