@@ -1,6 +1,6 @@
 <h3 align="center">
   <a href="https://gcanti.github.io/fp-ts/">
-    <img src="fp-ts-logo.png">
+    <img src="./docs/fp-ts-logo.png">
   </a>
 </h3>
 
@@ -36,6 +36,7 @@ A distinctive feature of `fp-ts` with respect to other functional libraries is i
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 **Table of contents**
 
 - [Installation](#installation)
@@ -67,12 +68,12 @@ The stable version is tested against **TypeScript 3.3.3**, but should run with T
 
 - [Docs](https://gcanti.github.io/fp-ts)
 - [Tutorial](https://gcanti.github.io/fp-ts/basics/)
-- [Ecosystem](https://gcanti.github.io/fp-ts/introduction/ecosystem/)
+- [Ecosystem](https://gcanti.github.io/fp-ts/introduction/ecosystem)
 - [API Reference](https://gcanti.github.io/fp-ts/modules/)
 
 # Development
 
-- [Code conventions](https://github.com/gcanti/fp-ts/introduction/code-conventions)
+- [Code conventions](https://gcanti.github.io/fp-ts/introduction/code-conventions)
 
 # License
 
