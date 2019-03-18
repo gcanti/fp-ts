@@ -12,10 +12,19 @@ import {
   ordString,
   lessThanOrEq,
   greaterThanOrEq,
-  fromCompare
+  fromCompare,
+  getTupleOrd,
+  ordBoolean
 } from '../src/Ord'
 
 describe('Ord', () => {
+  it('getTupleOrd', () => {
+    const O = getTupleOrd(ordString, ordNumber, ordBoolean)
+    assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
+    assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
+    assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
+  })
+
   it('getSemigroup', () => {
     type T = [number, string]
     const tuples: Array<T> = [[2, 'c'], [1, 'b'], [2, 'a'], [1, 'c']]

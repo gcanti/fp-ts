@@ -156,12 +156,31 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
 }
 
 /**
+ * Given a tuple of `Ord`s returns an `Ord` for the tuple
+ *
+ * @example
+ * import { getTupleOrd, ordString, ordNumber, ordBoolean } from 'fp-ts/lib/Ord'
+ *
+ * const O = getTupleOrd(ordString, ordNumber, ordBoolean)
+ * assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
+ * assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
+ * assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
+ *
  * @since 1.14.3
  */
-export const getTupleOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
-  return fromCompare(([xa, xb], [ya, yb]) => {
-    const r = OA.compare(xa, ya)
-    return r === 0 ? OB.compare(xb, yb) : r
+export const getTupleOrd = <T extends Array<Ord<any>>>(
+  ...ords: T
+): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> => {
+  const len = ords.length
+  return fromCompare((x, y) => {
+    let i = 0
+    for (; i < len - 1; i++) {
+      const r = ords[i].compare(x[i], y[i])
+      if (r !== 0) {
+        return r
+      }
+    }
+    return ords[i].compare(x[i], y[i])
   })
 }
 

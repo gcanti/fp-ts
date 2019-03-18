@@ -173,10 +173,25 @@ Added in v1.0.0
 
 # getTupleOrd (function)
 
+Given a tuple of `Ord`s returns an `Ord` for the tuple
+
 **Signature**
 
 ```ts
-export const getTupleOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => ...
+export const getTupleOrd = <T extends Array<Ord<any>>>(
+  ...ords: T
+): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> => ...
+```
+
+**Example**
+
+```ts
+import { getTupleOrd, ordString, ordNumber, ordBoolean } from 'fp-ts/lib/Ord'
+
+const O = getTupleOrd(ordString, ordNumber, ordBoolean)
+assert.strictEqual(O.compare(['a', 1, true], ['b', 2, true]), -1)
+assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
+assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 ```
 
 Added in v1.14.3
