@@ -15,5 +15,6 @@ module.exports = {
       lines: 100,
       statements: 100
     }
-  }
+  },
+  modulePathIgnorePatterns: ['property-test']
 }
