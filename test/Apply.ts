@@ -1,7 +1,12 @@
 import * as assert from 'assert'
 import { applyFirst, applySecond, liftA2, liftA3, liftA4, sequenceT, sequenceS } from '../src/Apply'
 import { either, left, right } from '../src/Either'
-import { none, option, some } from '../src/Option'
+import { none, option, some, isSome, isNone } from '../src/Option'
+import * as fc from 'fast-check'
+import { getSome } from './property-test/Option'
+import { nonEmptyArray } from './property-test/NonEmptyArray2v'
+import { catOptions, getSetoid } from '../src/Array'
+import { fromEquals } from '../src/Setoid'
 
 describe('Apply', () => {
   const r1 = right<string, number>(1)
@@ -64,13 +69,24 @@ describe('Apply', () => {
 
   it('sequenceT', () => {
     const sequenceTOption = sequenceT(option)
-    const sequenceTEither = sequenceT(either)
     assert.deepStrictEqual(sequenceTOption(some(1)), some([1]))
     assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
     assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
-    assert.deepStrictEqual(sequenceTEither(right(1)), right([1]))
-    assert.deepStrictEqual(sequenceTEither(right(1), right('2')), right([1, '2']))
-    assert.deepStrictEqual(sequenceTEither(right(1), right('2'), left('foo')), left('foo'))
+
+    const S = getSetoid(fromEquals((x, y) => x === y))
+    const somes = getSome(fc.oneof<string | number>(fc.string(), fc.integer()))
+    const allSomesInput = nonEmptyArray(somes)
+    const maybeNoneInput = nonEmptyArray(fc.oneof(fc.constant(none), somes))
+    const input = fc.oneof(allSomesInput, maybeNoneInput)
+    fc.assert(
+      fc.property(input, options => {
+        const x = sequenceTOption(...(options as any))
+        return (
+          (options.every(isSome) && x.isSome() && S.equals(x.value as any, catOptions(options))) ||
+          (options.some(isNone) && x.isNone())
+        )
+      })
+    )
   })
 
   it('sequenceS', () => {
