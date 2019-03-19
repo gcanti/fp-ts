@@ -59,10 +59,14 @@ Make sure to always have a single version of `fp-ts` installed in your project. 
 
 ## TypeScript compatibility
 
-The stable version is tested against **TypeScript 3.3.3**, but should run with TypeScript 2.8.0+ too.
+**Strictness** – This library is conceived, tested and is supposed to be consumed by TypeScript with the `strict` flag turned on.
 
-- **Strictness** – This library is conceived, tested and is supposed to be consumed by TypeScript with the `strict` flag turned on.
-- **Compatibility** – If you are running `< typescript@3.0.1` you have to polyfill the `unknown` type. You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
+| `fp-ts` version | required `typescript` version |
+| --------------- | ----------------------------- |
+| 1.15.x+         | 3.1+                          |
+| <= 1.14.4       | 2.8+ (\*)                     |
+
+(\*) If you are running `< typescript@3.0.1` you have to polyfill the `unknown` type. You can use [unknown-ts](https://github.com/gcanti/unknown-ts) as a polyfill.
 
 # Documentation
 
