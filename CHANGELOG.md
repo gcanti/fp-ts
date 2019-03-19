@@ -16,7 +16,7 @@ high state of flux, you're at risk of it changing without notice.
 
 # 1.15.0
 
-**Note**. This version requires `typescript@3.0.1+` (mapped tuples)
+**Note**. This version requires `typescript@3.1+` (mapped tuples)
 
 - **New Feature**
   - add `Apply.sequenceS`, closes #688 (@gcanti)
