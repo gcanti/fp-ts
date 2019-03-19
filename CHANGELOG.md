@@ -14,6 +14,22 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.15.0
+
+**Note**. This version requires `typescript@3.0.1+` (mapped tuples)
+
+- **New Feature**
+  - add `Apply.sequenceS`, closes #688 (@gcanti)
+  - make `function.tuple` variadic (@gcanti)
+  - make `Semigroup.getTupleSemigroup` variadic (@gcanti)
+  - make `Monoid.getTupleMonoid` variadic (@gcanti)
+  - make `Ord.getTupleOrd` variadic (@gcanti)
+  - make `Setoid.getTupleSetoid` variadic (@gcanti)
+  - make `Ring.getTupleRing` variadic (@gcanti)
+  - make `Apply.sequenceT` variadic (@gcanti)
+- **Experimental**
+  - add `NonEmptyArray2v` module (type level non empty arrays), closes #735 (@gcanti)
+
 # 1.14.4
 
 - **Polish**

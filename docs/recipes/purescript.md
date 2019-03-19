@@ -235,7 +235,7 @@ A few options
 
 ```ts
 import { some, option } from 'fp-ts/lib/Option'
-import { liftA2, sequenceT } from 'fp-ts/lib/Apply'
+import { liftA2, sequenceT, sequenceS } from 'fp-ts/lib/Apply'
 
 const fa = some(1)
 const fb = some('foo')
@@ -248,4 +248,5 @@ const fc2 = fb.ap(fa.ap(some(f)))
 const fc3 = fb.ap(fa.map(f))
 const fc4 = liftA2(option)(f)(fa)(fb)
 const fc5 = sequenceT(option)(fa, fb).map(([a, b]) => f(a)(b))
+const fc6 = sequenceS(option)({ fa, fb }).map(({ fa: a, fb: b }) => f(a)(b))
 ```
