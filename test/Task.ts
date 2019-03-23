@@ -164,6 +164,8 @@ describe('Task', () => {
 
   it('all', () => {
     const ts = [new Task(async () => 1), new Task(async () => 2)]
-    all(ts).run().then(ns => assert.deepStrictEqual(ns, [1, 2]))
+    all(ts)
+      .run()
+      .then(ns => assert.deepStrictEqual(ns, [1, 2]))
   })
 })

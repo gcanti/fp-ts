@@ -380,7 +380,7 @@ export const bracket = <L, A, B>(
   )
 }
 
-export const all = <L, A>(ts: Array<TaskEither<L,A>>): TaskEither<L,Array<A>> => {
+export const all = <L, A>(ts: Array<TaskEither<L, A>>): TaskEither<L, Array<A>> => {
   return ts.reduce((prevTask, curTask) => {
     return prevTask.chain(prev => {
       return curTask.map(cur => prev.concat([cur]))
