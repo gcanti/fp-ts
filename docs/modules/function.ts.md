@@ -19,6 +19,7 @@ parent: Modules
 - [Curried8 (type alias)](#curried8-type-alias)
 - [Curried9 (type alias)](#curried9-type-alias)
 - [Endomorphism (type alias)](#endomorphism-type-alias)
+- [Function (type alias)](#function-type-alias)
 - [Function1 (type alias)](#function1-type-alias)
 - [Function2 (type alias)](#function2-type-alias)
 - [Function3 (type alias)](#function3-type-alias)
@@ -152,6 +153,14 @@ export type Curried9<A, B, C, D, E, F, G, H, I, J> = (
 
 ```ts
 export type Endomorphism<A> = (a: A) => A
+```
+
+# Function (type alias)
+
+**Signature**
+
+```ts
+export type Function<A extends Array<any> = Array<any>, B = any> = (...args: A) => B
 ```
 
 # Function1 (type alias)
