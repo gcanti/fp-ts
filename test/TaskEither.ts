@@ -118,7 +118,7 @@ describe('TaskEither', () => {
     const ts = [right(new Task(async () => 1)), right(new Task(async () => 2))]
     all(ts)
       .run()
-      .then(ts => assert.deepStrictEqual(ts, [1, 2]))
+      .then(ts => assert.deepStrictEqual(ts.getOrElse([]), [1, 2]))
   })
 
   it('ap', () => {
