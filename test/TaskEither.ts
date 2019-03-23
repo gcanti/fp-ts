@@ -3,6 +3,7 @@ import { left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO } from '../src/IO'
 import { Task, task, delay } from '../src/Task'
 import {
+  all,
   bracket,
   TaskEither,
   fromIO,
@@ -111,6 +112,11 @@ describe('TaskEither', () => {
           assert.deepStrictEqual(e, eitherLeft('release failure'))
         })
     })
+  })
+
+  it('all', () => {
+    const ts = [right(new Task(async () => 1)), right(new Task(async () => 2))]
+    all(ts).run().then(ts => assert.deepStrictEqual(ts, [1, 2]))
   })
 
   it('ap', () => {

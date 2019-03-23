@@ -164,6 +164,14 @@ export const delay = <A>(millis: number, a: A): Task<A> => {
 
 const fromTask = identity
 
+export const all = <A>(ts: Array<Task<A>>): Task<Array<A>> => {
+  return ts.reduce((prevTask, curTask) => {
+    return prevTask.chain(prev => {
+      return curTask.map(cur => prev.concat([cur]))
+    })
+  }, new Task(async () => new Array<A>()))
+}
+
 /**
  * @since 1.0.0
  */

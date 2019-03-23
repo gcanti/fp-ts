@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { IO } from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { Task, fromIO, getMonoid, getRaceMonoid, task, tryCatch, delay, taskSeq } from '../src/Task'
+import { Task, fromIO, getMonoid, getRaceMonoid, task, tryCatch, delay, taskSeq, all } from '../src/Task'
 import { sequence } from '../src/Traversable'
 import { array } from '../src/Array'
 
@@ -160,5 +160,10 @@ describe('Task', () => {
         assert.deepStrictEqual(ns, [2, 4])
         assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
       })
+  })
+
+  it('all', () => {
+    const ts = [new Task(async () => 1), new Task(async () => 2)]
+    all(ts).run().then(ns => assert.deepStrictEqual(ns, [1, 2]))
   })
 })

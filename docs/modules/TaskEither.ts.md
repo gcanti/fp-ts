@@ -37,6 +37,7 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [URI (constant)](#uri-constant)
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
+- [all (function)](#all-function)
 - [bracket (function)](#bracket-function)
 - [fromEither (function)](#fromeither-function)
 - [fromIO (function)](#fromio-function)
@@ -299,6 +300,14 @@ export const taskEitherSeq: typeof taskEither = ...
 ```
 
 Added in v1.10.0
+
+# all (function)
+
+**Signature**
+
+```ts
+export const all = <L, A>(ts: Array<TaskEither<L,A>>): TaskEither<L,Array<A>> => ...
+```
 
 # bracket (function)
 

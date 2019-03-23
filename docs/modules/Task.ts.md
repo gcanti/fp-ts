@@ -26,6 +26,7 @@ If you want to represent an asynchronous computation that may fail, please see `
 - [URI (constant)](#uri-constant)
 - [task (constant)](#task-constant)
 - [taskSeq (constant)](#taskseq-constant)
+- [all (function)](#all-function)
 - [delay (function)](#delay-function)
 - [fromIO (function)](#fromio-function)
 - [getMonoid (function)](#getmonoid-function)
@@ -159,6 +160,14 @@ export const taskSeq: typeof task = ...
 ```
 
 Added in v1.10.0
+
+# all (function)
+
+**Signature**
+
+```ts
+export const all = <A>(ts: Array<Task<A>>): Task<Array<A>> => ...
+```
 
 # delay (function)
 
