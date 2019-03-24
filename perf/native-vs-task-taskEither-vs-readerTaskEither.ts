@@ -1,15 +1,19 @@
 import * as Benchmark from 'benchmark'
+import { Either, left, right } from '../src/Either'
+import { readerTaskEither } from '../src/ReaderTaskEither'
+import { taskEither } from '../src/TaskEither'
 
 const suite = new Benchmark.Suite()
 
-import { taskEither } from 'fp-ts/lib/TaskEither'
-import { right, left } from 'fp-ts/lib/Either'
-import { readerTaskEither } from 'fp-ts/lib/ReaderTaskEither'
+const f = (e: Either<string, string>): Promise<Either<string, number>> =>
+  e.fold(err => Promise.resolve(left(err)), s => Promise.resolve(right(s.length)))
+const g = (e: Either<string, number>): Promise<Either<string, boolean>> =>
+  e.fold(err => Promise.resolve(left(err)), n => Promise.resolve(right(n > 2)))
 
 const native = () =>
-  Promise.resolve(right('foo'))
-    .then(e => e.fold(err => Promise.resolve(left(err)), s => Promise.resolve(right(s.length))))
-    .then(e => e.fold(err => Promise.resolve(left(err)), n => Promise.resolve(right(n > 2))))
+  Promise.resolve(right<string, string>('foo'))
+    .then(f)
+    .then(g)
 
 const te = taskEither
   .of('foo')
