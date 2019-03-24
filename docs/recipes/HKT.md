@@ -1,7 +1,7 @@
 ---
 title: Write type class instances
 parent: Recipes
-nav_order: 5
+nav_order: 6
 ---
 
 # How to write type class instances for your data type

@@ -1,7 +1,7 @@
 ---
 title: Migrate from PureScript/Haskell
 parent: Recipes
-nav_order: 7
+nav_order: 8
 ---
 
 # Migrate from PureScript/Haskell
