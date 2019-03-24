@@ -117,8 +117,8 @@ setoidUserId.equals({ userId: 1, name: 'Giulio' }, { userId: 2, name: 'Giulio' }
 Many data types provide `Setoid` instances. Here's [Option](../modules/Option.ts):
 
 ```ts
-import { getSetoid, none, some } from '../lib/Option'
-import { setoidNumber } from '../lib/Setoid'
+import { getSetoid, none, some } from 'fp-ts/lib/Option'
+import { setoidNumber } from 'fp-ts/lib/Setoid'
 
 const O = getSetoid(setoidNumber)
 
@@ -130,8 +130,8 @@ O.equals(none, none) // true
 It works similarly for [Either](../modules/Either.ts) and other types where it is possible to determine equality:
 
 ```ts
-import { getSetoid, left, right } from '../lib/Either'
-import { setoidNumber, setoidString } from '../lib/Setoid'
+import { getSetoid, left, right } from 'fp-ts/lib/Either'
+import { setoidNumber, setoidString } from 'fp-ts/lib/Setoid'
 
 const O = getSetoid(setoidString, setoidNumber)
 

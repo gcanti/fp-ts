@@ -143,7 +143,7 @@ O.compare(some(1), some(2)) // -1
 O.compare(some(1), some(1)) // 0
 ```
 
-It works similarly for [Tuple](../modules/Tuple.ts)`s and other types where it is possible to determine order:
+It works similarly for [Tuple](../modules/Tuple.ts)s and other types where it is possible to determine order:
 
 ```ts
 import { ordNumber, ordString } from 'fp-ts/lib/Ord'
