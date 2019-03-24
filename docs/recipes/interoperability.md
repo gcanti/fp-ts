@@ -1,7 +1,7 @@
 ---
 title: Work with non-functional code
 parent: Recipes
-nav_order: 1
+nav_order: 4
 ---
 
 # How to work with non-functional code using fp-ts
@@ -13,7 +13,7 @@ Sometimes you are forced to interoperate with code not written in a functional s
 <dl>
   <dt>Use case</dt><dd>an API that may fail and returns a special value of the codomain.</dd>
   <dt>Example</dt><dd><code>Array.prototype.findIndex</code></dd>
-  <dt>Solution</dt><dd><a href="../modules/Option.ts.html">Option</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/Option.ts">Option</a></dd>
 </dl>
 
 ```ts
@@ -30,7 +30,7 @@ function findIndex<A>(as: Array<A>, predicate: (a: A) => boolean): Option<number
 <dl>
   <dt>Use case</dt><dd>an API that may fail and returns undefined (or null).</dd>
   <dt>Example</dt><dd><code>Array.prototype.find</code></dd>
-  <dt>Solution</dt><dd><a href="../modules/Option.ts.html">Option</a>, <a href="../modules/Option.ts.html#fromnullable-function">fromNullable</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/Option.ts">Option</a>, <a href="../modules/Option.ts#fromnullable-function">fromNullable</a></dd>
 </dl>
 
 ```ts
@@ -46,7 +46,7 @@ function find<A>(as: Array<A>, predicate: (a: A) => boolean): Option<A> {
 <dl>
   <dt>Use case</dt><dd>an API that may throw.</dd>
   <dt>Example</dt><dd><code>JSON.parse</code></dd>
-  <dt>Solution</dt><dd><a href="../modules/Either.ts.html">Either</a>, <a href="../modules/Either.ts.html#trycatch2v-function">tryCatch2v</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/Either.ts">Either</a>, <a href="../modules/Either.ts#trycatch2v-function">tryCatch2v</a></dd>
 </dl>
 
 ```ts
@@ -62,7 +62,7 @@ function parse(s: string): Either<Error, unknown> {
 <dl>
   <dt>Use case</dt><dd>an API that returns a non deterministic value.</dd>
   <dt>Example</dt><dd><code>Math.random</code></dd>
-  <dt>Solution</dt><dd><a href="../modules/IO.ts.html">IO</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/IO.ts">IO</a></dd>
 </dl>
 
 ```ts
@@ -76,7 +76,7 @@ const random: IO<number> = new IO(() => Math.random())
 <dl>
   <dt>Use case</dt><dd>an API that reads and/or writes to a global state.</dd>
   <dt>Example</dt><dd><code>localStorage.getItem</code></dd>
-  <dt>Solution</dt><dd><a href="../modules/IO.ts.html">IO</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/IO.ts">IO</a></dd>
 </dl>
 
 ```ts
@@ -91,7 +91,7 @@ function getItem(key: string): IO<Option<string>> {
 <dl>
   <dt>Use case</dt><dd>an API that reads and/or writes to a global state and may throw.</dd>
   <dt>Example</dt><dd><code>readFileSync</code></dd>
-  <dt>Solution</dt><dd><a href="../modules/IOEither.ts.html">IOEither</a>, <a href="../modules/IOEither.ts.html#trycatch2v-function">tryCatch2v</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/IOEither.ts">IOEither</a>, <a href="../modules/IOEither.ts#trycatch2v-function">tryCatch2v</a></dd>
 </dl>
 
 ```ts
@@ -108,7 +108,7 @@ function readFileSync(path: string): IOEither<Error, string> {
 <dl>
   <dt>Use case</dt><dd>an API that performs an asynchronous computation.</dd>
   <dt>Example</dt><dd>reading from standard input</dd>
-  <dt>Solution</dt><dd><a href="../modules/Task.ts.html">Task</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/Task.ts">Task</a></dd>
 </dl>
 
 ```ts
@@ -133,7 +133,7 @@ const read: Task<string> = new Task(
 <dl>
   <dt>Use case</dt><dd>an API that performs an asynchronous computation and may reject.</dd>
   <dt>Example</dt><dd>fetch</dd>
-  <dt>Solution</dt><dd><a href="modules/TaskEither.ts.html">TaskEither</a>, <a href="modules/TaskEither.ts.html#trycatch-function">tryCatch</a></dd>
+  <dt>Solution</dt><dd><a href="modules/TaskEither.ts">TaskEither</a>, <a href="modules/TaskEither.ts#trycatch-function">tryCatch</a></dd>
 </dl>
 
 ```ts

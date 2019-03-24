@@ -1,7 +1,7 @@
 ---
 title: Migrate from Ramda
 parent: Recipes
-nav_order: 3
+nav_order: 6
 ---
 
 # Migrate from Ramda
