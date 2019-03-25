@@ -6,9 +6,9 @@ import { taskEither } from '../src/TaskEither'
 const suite = new Benchmark.Suite()
 
 const f = (e: Either<string, string>): Promise<Either<string, number>> =>
-  e.fold(err => Promise.resolve(left(err)), s => Promise.resolve(right(s.length)))
+  e.isLeft() ? Promise.resolve(left(e.value)) : Promise.resolve(right(e.value.length))
 const g = (e: Either<string, number>): Promise<Either<string, boolean>> =>
-  e.fold(err => Promise.resolve(left(err)), n => Promise.resolve(right(n > 2)))
+  e.isLeft() ? Promise.resolve(left(e.value)) : Promise.resolve(right(e.value > 2))
 
 const native = () =>
   Promise.resolve(right<string, string>('foo'))
