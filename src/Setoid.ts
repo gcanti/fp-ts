@@ -1,3 +1,5 @@
+import { constTrue } from './function'
+
 /**
  * @file The `Setoid` type class represents types which support decidable equality.
  *
@@ -51,6 +53,16 @@ export const setoidNumber: Setoid<number> = setoidStrict
 export const setoidBoolean: Setoid<boolean> = setoidStrict
 
 /**
+ * @since 1.16.0
+ */
+export const setoidNull: Setoid<null> = setoidStrict
+
+/**
+ * @since 1.16.0
+ */
+export const setoidUndefined: Setoid<undefined> = setoidStrict
+
+/**
  * @since 1.0.0
  */
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
@@ -82,6 +94,26 @@ export const getRecordSetoid = <O extends { [key: string]: any }>(
   setoids: { [K in keyof O]: Setoid<O[K]> }
 ): Setoid<O> => {
   return getStructSetoid(setoids)
+}
+
+/**
+ * Allows the combination of multiple `Setoid` to one `Setoid`
+ *
+ * @example
+ * import { getUnionSetoid, setoidString, setoidUndefined } from 'fp-ts/lib/Setoid'
+ *
+ * const S = getUnionSetoid(setoidString, setoidUndefined)
+ * assert.strictEqual(S.equals(undefined, undefined), true)
+ * assert.strictEqual(S.equals('a', 'a'), true)
+ * assert.strictEqual(S.equals('a', undefined), false)
+ * assert.strictEqual(S.equals(undefined, 'a'), false)
+ *
+ * @since 1.16.0
+ */
+export const getUnionSetoid = <T extends Array<Setoid<any>>>(
+  ...setoids: T
+): Setoid<{ [K in keyof T]: T[K] extends Setoid<infer A> ? A : never }[number]> => {
+  return fromEquals((x, y) => setoids.some(S => S.equals(x, y)))
 }
 
 /**
@@ -126,3 +158,10 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
  * @since 1.4.0
  */
 export const setoidDate: Setoid<Date> = contramap(date => date.valueOf(), setoidNumber)
+
+/**
+ * @since 1.16.0
+ */
+export const setoidAll: Setoid<any> = {
+  equals: constTrue
+}

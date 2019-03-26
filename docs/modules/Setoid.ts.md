@@ -4,27 +4,18 @@ nav_order: 78
 parent: Modules
 ---
 
-# Overview
-
-The `Setoid` type class represents types which support decidable equality.
-
-Instances must satisfy the following laws:
-
-1. Reflexivity: `S.equals(a, a) === true`
-2. Symmetry: `S.equals(a, b) === S.equals(b, a)`
-3. Transitivity: if `S.equals(a, b) === true` and `S.equals(b, c) === true`, then `S.equals(a, c) === true`
-
-See [Getting started with fp-ts: Setoid](https://dev.to/gcanti/getting-started-with-fp-ts-setoid-39f3)
-
 ---
 
 <h2 class="text-delta">Table of contents</h2>
 
 - [Setoid (interface)](#setoid-interface)
+- [setoidAll (constant)](#setoidall-constant)
 - [setoidBoolean (constant)](#setoidboolean-constant)
 - [setoidDate (constant)](#setoiddate-constant)
+- [setoidNull (constant)](#setoidnull-constant)
 - [setoidNumber (constant)](#setoidnumber-constant)
 - [setoidString (constant)](#setoidstring-constant)
+- [setoidUndefined (constant)](#setoidundefined-constant)
 - [contramap (function)](#contramap-function)
 - [fromEquals (function)](#fromequals-function)
 - [getArraySetoid (function)](#getarraysetoid-function)
@@ -32,6 +23,7 @@ See [Getting started with fp-ts: Setoid](https://dev.to/gcanti/getting-started-w
 - [~~getRecordSetoid~~ (function)](#getrecordsetoid-function)
 - [getStructSetoid (function)](#getstructsetoid-function)
 - [getTupleSetoid (function)](#gettuplesetoid-function)
+- [getUnionSetoid (function)](#getunionsetoid-function)
 - [strictEqual (function)](#strictequal-function)
 
 ---
@@ -47,6 +39,16 @@ export interface Setoid<A> {
 ```
 
 Added in v1.0.0
+
+# setoidAll (constant)
+
+**Signature**
+
+```ts
+export const setoidAll: Setoid<any> = ...
+```
+
+Added in v1.16.0
 
 # setoidBoolean (constant)
 
@@ -68,6 +70,16 @@ export const setoidDate: Setoid<Date> = ...
 
 Added in v1.4.0
 
+# setoidNull (constant)
+
+**Signature**
+
+```ts
+export const setoidNull: Setoid<null> = ...
+```
+
+Added in v1.16.0
+
 # setoidNumber (constant)
 
 **Signature**
@@ -87,6 +99,16 @@ export const setoidString: Setoid<string> = ...
 ```
 
 Added in v1.0.0
+
+# setoidUndefined (constant)
+
+**Signature**
+
+```ts
+export const setoidUndefined: Setoid<undefined> = ...
+```
+
+Added in v1.16.0
 
 # contramap (function)
 
@@ -183,6 +205,32 @@ assert.strictEqual(S.equals(['a', 1, true], ['a', 1, false]), false)
 ```
 
 Added in v1.14.2
+
+# getUnionSetoid (function)
+
+Allows the combination of multiple `Setoid` to one `Setoid`
+
+**Signature**
+
+```ts
+export const getUnionSetoid = <T extends Array<Setoid<any>>>(
+  ...setoids: T
+): Setoid<{ [K in keyof T]: T[K] extends Setoid<infer A> ? A : never }[number]> => ...
+```
+
+**Example**
+
+```ts
+import { getUnionSetoid, setoidString, setoidUndefined } from 'fp-ts/lib/Setoid'
+
+const S = getUnionSetoid(setoidString, setoidUndefined)
+assert.strictEqual(S.equals(undefined, undefined), true)
+assert.strictEqual(S.equals('a', 'a'), true)
+assert.strictEqual(S.equals('a', undefined), false)
+assert.strictEqual(S.equals(undefined, 'a'), false)
+```
+
+Added in v1.16.0
 
 # strictEqual (function)
 
