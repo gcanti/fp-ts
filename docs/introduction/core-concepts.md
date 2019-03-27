@@ -18,7 +18,7 @@ We recommend you take the [basic tutorial](../basics/) to get started with using
 
 ## Functions
 
-Functional programming is all about pure functions and how to compose them into bigger structures. `fp-ts` provides a few general [functions](../modules/functions.ts) to support you with composition, currying, and more.
+Functional programming is all about pure functions and how to compose them into bigger structures. `fp-ts` provides a few general [functions](../modules/function.ts) to support you with composition, currying, and more.
 
 ## Data Types
 

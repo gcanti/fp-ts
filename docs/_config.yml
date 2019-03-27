@@ -6,8 +6,8 @@ search_enabled: true
 # Aux links for the upper right navigation
 aux_links:
   "Docs":
-    - "/"
+    - "//gcanti.github.io/fp-ts/"
   "API Reference":
-    - "/modules/"
+    - "//gcanti.github.io/fp-ts/modules/"
   "GitHub":
     - "//github.com/gcanti/fp-ts"

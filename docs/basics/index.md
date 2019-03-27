@@ -13,4 +13,4 @@ The basic tutorial is a work in progress. It will be directed towards beginners 
 
 In the meantime, check out the [learning resources](../introduction/learning-resources) and the following code example:
 
-- [Debugging using the `Trace` module (code)](../tutorials/debugging-with-Trace.ts)
+- [Debugging using the `Trace` module (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/debugging-with-Trace.ts)

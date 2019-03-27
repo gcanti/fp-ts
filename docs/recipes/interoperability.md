@@ -133,7 +133,7 @@ const read: Task<string> = new Task(
 <dl>
   <dt>Use case</dt><dd>an API that performs an asynchronous computation and may reject.</dd>
   <dt>Example</dt><dd>fetch</dd>
-  <dt>Solution</dt><dd><a href="modules/TaskEither.ts">TaskEither</a>, <a href="modules/TaskEither.ts#trycatch-function">tryCatch</a></dd>
+  <dt>Solution</dt><dd><a href="../modules/TaskEither.ts">TaskEither</a>, <a href="../modules/TaskEither.ts#trycatch-function">tryCatch</a></dd>
 </dl>
 
 ```ts
