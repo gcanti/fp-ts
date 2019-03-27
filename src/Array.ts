@@ -753,6 +753,28 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
 }
 
 /**
+ * Find the first element returned by an option based selector function
+ *
+ * @example
+ * import { findFirstMap } from 'fp-ts/lib/Array'
+ * import { some, none } from 'fp-ts/lib/Option'
+ *
+ * assert.deepStrictEqual(findFirstMap([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1 ? some(x.b) : none), some(1))
+ *
+ * @since 1.16.0
+ */
+export const findFirstMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => {
+  const len = arr.length
+  for (let i = 0; i < len; i++) {
+    const v = f(arr[i])
+    if (v.isSome()) {
+      return v
+    }
+  }
+  return none
+}
+
+/**
  * Find the last element which satisfies a predicate function
  *
  * @example
@@ -770,6 +792,28 @@ export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
   for (let i = len - 1; i >= 0; i--) {
     if (predicate(as[i])) {
       return some(as[i])
+    }
+  }
+  return none
+}
+
+/**
+ * Find the last element returned by an option based selector function
+ *
+ * @example
+ * import { findLastMap } from 'fp-ts/lib/Array'
+ * import { some, none } from 'fp-ts/lib/Option'
+ *
+ * assert.deepStrictEqual(findLastMap([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1 ? some(x.b) : none), some(2))
+ *
+ * @since 1.16.0
+ */
+export const findLastMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => {
+  const len = arr.length
+  for (let i = len - 1; i >= 0; i--) {
+    const v = f(arr[i])
+    if (v.isSome()) {
+      return v
     }
   }
   return none

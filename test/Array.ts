@@ -1,4 +1,5 @@
 import * as assert from 'assert'
+import * as fc from 'fast-check'
 import {
   array,
   catOptions,
@@ -62,14 +63,16 @@ import {
   union,
   intersection,
   difference,
-  unsafeUpdateAt
+  unsafeUpdateAt,
+  findFirstMap,
+  findLastMap
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
-import { option, Option, none, some, isSome } from '../src/Option'
+import { option, Option, none, some, isSome, getSetoid, fromPredicate } from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString, Setoid } from '../src/Setoid'
-import { identity, tuple, constTrue } from '../src/function'
+import { identity, tuple, constTrue, Predicate } from '../src/function'
 import * as I from '../src/Identity'
 import * as F from '../src/Foldable'
 import * as C from '../src/Const'
@@ -271,11 +274,31 @@ describe('Array', () => {
     assert.deepStrictEqual(findFirst([null, 'a'], x => x === null), some(null))
   })
 
+  const optionStringSetoid = getSetoid(setoidString)
+  const multipleOf3: Predicate<number> = (x: number) => x % 3 === 0
+  const multipleOf3AsString = (x: number) => fromPredicate(multipleOf3)(x).map(x => `${x}`)
+
+  it('`findFirstMap(arr, fun)` is equivalent to map and `head(mapOption(arr, fun)`', () => {
+    fc.assert(
+      fc.property(fc.array(fc.integer()), arr =>
+        optionStringSetoid.equals(findFirstMap(arr, multipleOf3AsString), head(mapOption(arr, multipleOf3AsString)))
+      )
+    )
+  })
+
   it('findLast', () => {
     assert.deepStrictEqual(findLast([], x => x === 2), none)
     assert.deepStrictEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
     assert.deepStrictEqual(findLast([{ a: 1, b: 2 }, { a: 2, b: 1 }], x => x.a === 1), some({ a: 1, b: 2 }))
     assert.deepStrictEqual(findLast(['a', null], x => x === null), some(null))
+  })
+
+  it('`findLastMap(arr, fun)` is equivalent to `last(mapOption(arr, fun))`', () => {
+    fc.assert(
+      fc.property(fc.array(fc.integer()), arr =>
+        optionStringSetoid.equals(findLastMap(arr, multipleOf3AsString), last(mapOption(arr, multipleOf3AsString)))
+      )
+    )
   })
 
   it('findLastIndex', () => {
