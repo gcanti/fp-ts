@@ -30,9 +30,11 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [elem (function)](#elem-function)
 - [filter (function)](#filter-function)
 - [findFirst (function)](#findfirst-function)
+- [findFirstMap (function)](#findfirstmap-function)
 - [findIndex (function)](#findindex-function)
 - [findLast (function)](#findlast-function)
 - [findLastIndex (function)](#findlastindex-function)
+- [findLastMap (function)](#findlastmap-function)
 - [flatten (function)](#flatten-function)
 - [fold (function)](#fold-function)
 - [foldL (function)](#foldl-function)
@@ -456,6 +458,27 @@ assert.deepStrictEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 
 
 Added in v1.0.0
 
+# findFirstMap (function)
+
+Find the first element returned by an option based selector function
+
+**Signature**
+
+```ts
+export const findFirstMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => ...
+```
+
+**Example**
+
+```ts
+import { findFirstMap } from 'fp-ts/lib/Array'
+import { some, none } from 'fp-ts/lib/Option'
+
+assert.deepStrictEqual(findFirstMap([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => (x.a === 1 ? some(x.b) : none)), some(1))
+```
+
+Added in v1.16.0
+
 # findIndex (function)
 
 Find the first index for which a predicate holds
@@ -526,6 +549,27 @@ assert.deepStrictEqual(findLastIndex(xs, x => x.a === 4), none)
 ```
 
 Added in v1.10.0
+
+# findLastMap (function)
+
+Find the last element returned by an option based selector function
+
+**Signature**
+
+```ts
+export const findLastMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => ...
+```
+
+**Example**
+
+```ts
+import { findLastMap } from 'fp-ts/lib/Array'
+import { some, none } from 'fp-ts/lib/Option'
+
+assert.deepStrictEqual(findLastMap([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => (x.a === 1 ? some(x.b) : none)), some(2))
+```
+
+Added in v1.16.0
 
 # flatten (function)
 
