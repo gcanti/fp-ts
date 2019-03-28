@@ -474,7 +474,15 @@ export const findFirstMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Optio
 import { findFirstMap } from 'fp-ts/lib/Array'
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(findFirstMap([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => (x.a === 1 ? some(x.b) : none)), some(1))
+interface Person {
+  name: string
+  age?: number
+}
+
+const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
+
+// returns the name of the first person that has an age
+assert.deepStrictEqual(findFirstMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Mary'))
 ```
 
 Added in v1.16.0
@@ -566,7 +574,15 @@ export const findLastMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option
 import { findLastMap } from 'fp-ts/lib/Array'
 import { some, none } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(findLastMap([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => (x.a === 1 ? some(x.b) : none)), some(2))
+interface Person {
+  name: string
+  age?: number
+}
+
+const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
+
+// returns the name of the last person that has an age
+assert.deepStrictEqual(findLastMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Joey'))
 ```
 
 Added in v1.16.0
