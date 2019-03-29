@@ -23,7 +23,9 @@ import {
   updateAt,
   filter,
   filterWithIndex,
-  fromNonEmptyArray
+  fromNonEmptyArray,
+  cons,
+  snoc
 } from '../src/NonEmptyArray2v'
 import { none, option, some, isSome } from '../src/Option'
 import { ordNumber } from '../src/Ord'
@@ -378,5 +380,13 @@ describe.only('NonEmptyArray2v', () => {
       nonEmptyArray.mapWithIndex(ta, f),
       nonEmptyArray.traverseWithIndex(I.identity)(ta, (i, a) => new I.Identity(f(i, a))).value
     )
+  })
+
+  it('cons', () => {
+    assert.deepStrictEqual(cons(1, fromNonEmptyArray([2, 3, 4])), [1, 2, 3, 4])
+  })
+
+  it('snoc', () => {
+    assert.deepStrictEqual(snoc(fromNonEmptyArray([1, 2, 3]), 4), [1, 2, 3, 4])
   })
 })

@@ -14,6 +14,7 @@ import { Setoid } from './Setoid'
 import { compose, Predicate, Refinement } from './function'
 import { Traverse1 } from './Traversable'
 import { Sequence1 } from './Traversable2v'
+import { array } from '.'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -280,6 +281,30 @@ export function filterWithIndex<A>(
 const mapWithIndex = <A, B>(fa: NonEmptyArray<A>, f: (i: number, a: A) => B): NonEmptyArray<B> => {
   return fa.map((a, i) => f(i, a))
 }
+
+/**
+ * Append an element to the end of an non empty array, creating a new non empty array
+ *
+ * @example
+ * import { snoc } from 'fp-ts/lib/NonEmptyArray2v'
+ *
+ * assert.deepStrictEqual(snoc(fromNonEmptyArray([1, 2, 3]), 4), [1, 2, 3, 4])
+ *
+ * @since 1.16.0
+ */
+export const snoc: <A>(as: NonEmptyArray<A>, a: A) => NonEmptyArray<A> = array.snoc as any
+
+/**
+ * Append an element to the front of an non empty array, creating a new non empty array
+ *
+ * @example
+ * import { cons } from 'fp-ts/lib/NonEmptyArray2v'
+ *
+ * assert.deepStrictEqual(cons(1, fromNonEmptyArray([2, 3, 4])), [1, 2, 3, 4])
+ *
+ * @since 1.16.0
+ */
+export const cons: <A>(a: A, as: NonEmptyArray<A>) => NonEmptyArray<A> = array.cons as any
 
 /**
  * @since 1.15.0
