@@ -94,6 +94,7 @@ parent: Modules
 - [taskEither (export)](#taskeither-export)
 - [these (export)](#these-export)
 - [trace (export)](#trace-export)
+- [traced (export)](#traced-export)
 - [traversable (export)](#traversable-export)
 - [traversable2v (export)](#traversable2v-export)
 - [traversableWithIndex (export)](#traversablewithindex-export)
@@ -793,6 +794,14 @@ export { these }
 
 ```ts
 export { trace }
+```
+
+# traced (export)
+
+**Signature**
+
+```ts
+export { traced }
 ```
 
 # traversable (export)

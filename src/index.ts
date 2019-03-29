@@ -168,6 +168,8 @@ import * as these from './These'
 export { these }
 import * as trace from './Trace'
 export { trace }
+import * as traced from './Traced'
+export { traced }
 import * as traversable from './Traversable'
 export { traversable }
 import * as traversable2v from './Traversable2v'
