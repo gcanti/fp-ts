@@ -21,6 +21,7 @@ import { getArraySetoid, Setoid } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+import { NonEmptyArray } from './NonEmptyArray2v'
 
 declare global {
   interface Array<T> {
@@ -463,7 +464,7 @@ export const index = <A>(i: number, as: Array<A>): Option<A> => {
 }
 
 /**
- * Attaches an element to the front of an array, creating a new array
+ * Attaches an element to the front of an array, creating a new non empty array
  *
  * @example
  * import { cons } from 'fp-ts/lib/Array'
@@ -472,18 +473,18 @@ export const index = <A>(i: number, as: Array<A>): Option<A> => {
  *
  * @since 1.0.0
  */
-export const cons = <A>(a: A, as: Array<A>): Array<A> => {
+export const cons = <A>(a: A, as: Array<A>): NonEmptyArray<A> => {
   const len = as.length
   const r = Array(len + 1)
   for (let i = 0; i < len; i++) {
     r[i + 1] = as[i]
   }
   r[0] = a
-  return r
+  return r as NonEmptyArray<A>
 }
 
 /**
- * Append an element to the end of an array, creating a new array
+ * Append an element to the end of an array, creating a new non empty array
  *
  * @example
  * import { snoc } from 'fp-ts/lib/Array'
@@ -492,14 +493,14 @@ export const cons = <A>(a: A, as: Array<A>): Array<A> => {
  *
  * @since 1.0.0
  */
-export const snoc = <A>(as: Array<A>, a: A): Array<A> => {
+export const snoc = <A>(as: Array<A>, a: A): NonEmptyArray<A> => {
   const len = as.length
   const r = Array(len + 1)
   for (let i = 0; i < len; i++) {
     r[i] = as[i]
   }
   r[len] = a
-  return r
+  return r as NonEmptyArray<A>
 }
 
 /**

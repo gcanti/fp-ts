@@ -383,10 +383,10 @@ describe.only('NonEmptyArray2v', () => {
   })
 
   it('cons', () => {
-    assert.deepStrictEqual(cons(1, fromNonEmptyArray([2, 3, 4])), [1, 2, 3, 4])
+    assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
   })
 
   it('snoc', () => {
-    assert.deepStrictEqual(snoc(fromNonEmptyArray([1, 2, 3]), 4), [1, 2, 3, 4])
+    assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
   })
 })
