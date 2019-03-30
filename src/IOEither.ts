@@ -109,14 +109,14 @@ const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): 
  * @since 1.6.0
  */
 export const right = <L, A>(fa: IO<A>): IOEither<L, A> => {
-  return new IOEither(fa.map(a => eitherRight(a)))
+  return new IOEither(fa.map<Either<L, A>>(eitherRight))
 }
 
 /**
  * @since 1.6.0
  */
 export const left = <L, A>(fa: IO<L>): IOEither<L, A> => {
-  return new IOEither(fa.map(a => eitherLeft(a)))
+  return new IOEither(fa.map<Either<L, A>>(eitherLeft))
 }
 
 /**

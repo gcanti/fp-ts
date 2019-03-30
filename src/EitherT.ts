@@ -133,7 +133,7 @@ export function right<F extends URIS>(F: Functor1<F>): <L, A>(fa: Type<F, A>) =>
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>>
 /** @deprecated */
 export function right<F>(F: Functor<F>): <L, A>(fa: HKT<F, A>) => HKT<F, Either<L, A>> {
-  return ma => F.map(ma, a => eitherRight(a))
+  return <L, A>(fa: HKT<F, A>) => F.map<A, Either<L, A>>(fa, eitherRight)
 }
 
 /**
@@ -147,7 +147,7 @@ export function left<F extends URIS>(F: Functor1<F>): <L, A>(fl: Type<F, L>) => 
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>>
 /** @deprecated */
 export function left<F>(F: Functor<F>): <L, A>(fl: HKT<F, L>) => HKT<F, Either<L, A>> {
-  return ml => F.map(ml, l => eitherLeft(l))
+  return <L, A>(fl: HKT<F, L>) => F.map<L, Either<L, A>>(fl, eitherLeft)
 }
 
 /**

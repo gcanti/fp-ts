@@ -182,14 +182,14 @@ const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B)
  * @since 1.0.0
  */
 export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
-  return new TaskEither(fa.map(a => eitherRight(a)))
+  return new TaskEither(fa.map<Either<L, A>>(eitherRight))
 }
 
 /**
  * @since 1.0.0
  */
 export const left = <L, A>(fl: Task<L>): TaskEither<L, A> => {
-  return new TaskEither(fl.map(l => eitherLeft(l)))
+  return new TaskEither(fl.map<Either<L, A>>(eitherLeft))
 }
 
 /**
