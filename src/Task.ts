@@ -136,7 +136,7 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => {
  * @since 1.0.0
  */
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> => {
-  return new Task(() => f().then(a => right<L, A>(a), reason => left<L, A>(onrejected(reason))))
+  return new Task(() => f().then<Either<L, A>, Either<L, A>>(right, reason => left(onrejected(reason))))
 }
 
 /**

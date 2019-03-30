@@ -69,5 +69,5 @@ export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> =>
  * @since 1.0.0
  */
 export const tryCatch = <A>(ma: IO<A>): IO<Either<Error, A>> => {
-  return catchError(ma.map(a => right(a)), e => io.of(left<Error, A>(e)))
+  return catchError(ma.map<Either<Error, A>>(right), e => io.of(left<Error, A>(e)))
 }
