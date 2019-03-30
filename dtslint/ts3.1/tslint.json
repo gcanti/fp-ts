@@ -14,6 +14,7 @@
     "object-literal-shorthand": false,
     "prefer-object-spread": false,
     "whitespace": false,
-    "use-default-type-parameter": false
+    "use-default-type-parameter": false,
+    "no-relative-import-in-test": false
   }
 }
