@@ -1,5 +1,5 @@
 import { Category2 } from './Category'
-import { identity, tuple } from './function'
+import { identity } from './function'
 import { Monad2 } from './Monad'
 import { Profunctor2 } from './Profunctor'
 import { Strong2 } from './Strong'
@@ -105,11 +105,11 @@ const id = <A>(): Reader<A, A> => {
 }
 
 const first = <A, B, C>(pab: Reader<A, B>): Reader<[A, C], [B, C]> => {
-  return new Reader(([a, c]) => tuple(pab.run(a), c))
+  return new Reader(([a, c]) => [pab.run(a), c])
 }
 
 const second = <A, B, C>(pbc: Reader<B, C>): Reader<[A, B], [A, C]> => {
-  return new Reader(([a, b]) => tuple(a, pbc.run(b)))
+  return new Reader(([a, b]) => [a, pbc.run(b)])
 }
 
 const left = <A, B, C>(pab: Reader<A, B>): Reader<Either<A, C>, Either<B, C>> => {

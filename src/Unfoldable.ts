@@ -5,7 +5,6 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Option, none, option } from './Option'
 import { Traversable, Traversable1, sequence } from './Traversable'
-import { constant, tuple } from './function'
 
 /**
  * @since 1.0.0
@@ -61,9 +60,9 @@ export function replicate<F extends URIS2, L>(U: Unfoldable2C<F, L>): <A>(a: A, 
 export function replicate<F extends URIS>(U: Unfoldable1<F>): <A>(a: A, n: number) => Type<F, A>
 export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A>
 export function replicate<F>(U: Unfoldable<F>): <A>(a: A, n: number) => HKT<F, A> {
-  return (a, n) => {
-    function step(n: number) {
-      return n <= 0 ? none : option.of(tuple(a, n - 1))
+  return <A>(a: A, n: number) => {
+    function step(n: number): Option<[A, number]> {
+      return n <= 0 ? none : option.of([a, n - 1])
     }
     return U.unfoldr(n, step)
   }
@@ -85,7 +84,7 @@ export function empty<F extends URIS2, L, A>(U: Unfoldable2<F> | Unfoldable2C<F,
 export function empty<F extends URIS, A>(U: Unfoldable1<F>): Type<F, A>
 export function empty<F, A>(U: Unfoldable<F>): HKT<F, A>
 export function empty<F, A>(U: Unfoldable<F>): HKT<F, A> {
-  return U.unfoldr(undefined, constant(none))
+  return U.unfoldr(undefined, () => none)
 }
 
 /**

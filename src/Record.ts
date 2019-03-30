@@ -2,7 +2,7 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { Separated } from './Compactable'
 import { Either } from './Either'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Predicate, tuple, Refinement } from './function'
+import { Predicate, Refinement } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getDictionaryMonoid, Monoid } from './Monoid'
 import { none, Option, some as optionSome } from './Option'
@@ -48,7 +48,7 @@ export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): 
 export function toArray<K extends string, A>(d: Record<K, A>): Array<[K, A]>
 export function toArray<A>(d: Record<string, A>): Array<[string, A]>
 export function toArray<A>(d: Record<string, A>): Array<[string, A]> {
-  return collect(d, (k, a: A) => tuple(k, a))
+  return collect(d, (k, a: A) => [k, a])
 }
 
 /**
@@ -64,7 +64,7 @@ export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string
   return d => {
     const arr = toArray(d)
     const len = arr.length
-    return unfoldable.unfoldr(0, b => (b < len ? optionSome(tuple(arr[b], b + 1)) : none))
+    return unfoldable.unfoldr(0, b => (b < len ? optionSome([arr[b], b + 1]) : none))
   }
 }
 
@@ -110,7 +110,7 @@ export function remove<A>(k: string, d: Record<string, A>): Record<string, A> {
  */
 export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> => {
   const a = lookup(k, d)
-  return a.isNone() ? none : optionSome(tuple(a.value, remove(k, d)))
+  return a.isNone() ? none : optionSome([a.value, remove(k, d)])
 }
 
 /**

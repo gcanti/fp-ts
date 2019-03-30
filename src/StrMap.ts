@@ -8,7 +8,7 @@ import { FilterableWithIndex1 } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Foldable2v1 } from './Foldable2v'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Predicate, Refinement, tuple } from './function'
+import { Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
@@ -398,7 +398,7 @@ export const remove = <A>(k: string, d: StrMap<A>): StrMap<A> => {
  * @since 1.0.0
  */
 export const pop = <A>(k: string, d: StrMap<A>): Option<[A, StrMap<A>]> => {
-  return R.pop(k, d.value).map(([a, d]) => tuple(a, new StrMap(d)))
+  return R.pop(k, d.value).map(([a, d]) => [a, new StrMap(d)])
 }
 
 /**

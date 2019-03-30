@@ -146,7 +146,7 @@ describe('Array', () => {
   })
 
   it('unfoldr', () => {
-    const as = array.unfoldr(5, n => (n > 0 ? some(tuple(n, n - 1)) : none))
+    const as = array.unfoldr(5, n => (n > 0 ? some([n, n - 1]) : none))
     assert.deepStrictEqual(as, [5, 4, 3, 2, 1])
   })
 
