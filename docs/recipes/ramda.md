@@ -19,7 +19,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | all                     |                                                                                                              |
 | allPass                 |                                                                                                              |
 | always                  | [function.constant](../modules/function.ts#constant)                                                            |
-| and                     | [Semigroup.semigroupAll]../modulesdocs/Semigroup.ts#semigroupall)                                                  |
+| and                     | [Semigroup.semigroupAll](../modules/Semigroup.ts#semigroupall)                                                  |
 | any                     |                                                                                                              |
 | anyPass                 |                                                                                                              |
 | ap                      | [Apply](../modules/Apply.ts)                                                                                    |
@@ -27,9 +27,9 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | append                  | [Array.snoc](../modules/Array.ts#snoc)                                                                          |
 | apply                   | [function.apply](../modules/function.ts#apply)                                                                  |
 | applySpec               |                                                                                                              |
-| applyTo                 | [function.applyFlipped]../modulesdocs/function.ts#applyflipped)                                                    |
+| applyTo                 | [function.applyFlipped](../modules/function.ts#applyflipped)                                                    |
 | ascend                  | [Ord.contramap](../modules/Ord.ts#contramap)                                                                    |
-| assoc                   | [Semigroup.getObjectSemigroup]../modulesdocs/Semigroup.ts#getobjectsemigroup)                                      |
+| assoc                   | [Semigroup.getObjectSemigroup](../modules/Semigroup.ts#getobjectsemigroup)                                      |
 | assocPath               |                                                                                                              |
 | binary                  |                                                                                                              |
 | bind                    |                                                                                                              |
@@ -84,7 +84,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | forEach                 |                                                                                                              |
 | forEachObjIndexed       |                                                                                                              |
 | fromPairs               | [Record.fromFoldable](../modules/Record.ts#fromfoldable)                                                        |
-| groupBy                 | [NonEmptyArray.groupBy]../modulesdocs/NonEmptyArray.ts#groupby)                                                    |
+| groupBy                 | [NonEmptyArray.groupBy](../modules/NonEmptyArray.ts#groupby)                                                    |
 | groupWith               | [NonEmptyArray.group](../modules/NonEmptyArray.ts#group), [NonEmptyArray.groupSort](../modules/Array.ts#groupsort) |
 | gt                      | [Ord.greaterThan](../modules/Ord.ts#greaterthan)                                                                |
 | gte                     | [Ord.greaterThanOrEq](../modules/Ord.ts#greaterthanoreq)                                                        |
@@ -95,7 +95,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | identity                | [function.identity](../modules/function.ts#identity)                                                            |
 | ifElse                  |                                                                                                              |
 | inc                     | [function.increment](../modules/function.ts#increment)                                                          |
-| indexBy                 | [NonEmptyArray.groupBy]../modulesdocs/NonEmptyArray.ts#groupby)                                                    |
+| indexBy                 | [NonEmptyArray.groupBy](../modules/NonEmptyArray.ts#groupby)                                                    |
 | indexOf                 | [Array.findIndex](../modules/Array.ts#findindex)                                                                |
 | init                    | [Array.init](../modules/Array.ts#init)                                                                          |
 | innerJoin               |                                                                                                              |
@@ -160,7 +160,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | of                      | [Array.array.of](../modules/Array.ts#of)                                                                        |
 | omit                    |                                                                                                              |
 | once                    |                                                                                                              |
-| or                      | [Semigroup.semigroupAny]../modulesdocs/Semigroup.ts#semigroupany)                                                  |
+| or                      | [Semigroup.semigroupAny](../modules/Semigroup.ts#semigroupany)                                                  |
 | over                    | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                       |
 | pair                    | [function.tuple](../modules/function.ts#tuple), [function.tupleCurried](../modules/function.ts#tuplecurried)       |
 | partial                 |                                                                                                              |
