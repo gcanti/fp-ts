@@ -180,7 +180,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | prepend                 | [Array.cons](../modules/Array.ts#cons)                                                                          |
 | product                 | [Foldable.product](../modules/Foldable.ts#product)                                                              |
 | project                 |                                                                                                              |
-| prop                    |                                                                                                              |
+| prop                    | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                       |
 | propEq                  |                                                                                                              |
 | propIs                  |                                                                                                              |
 | propOr                  |                                                                                                              |
