@@ -2,7 +2,7 @@ import { Functor2 } from './Functor'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { phantom, tuple } from './function'
+import { phantom } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -77,7 +77,7 @@ export const tell = <W>(w: W): Writer<W, void> => {
 export const listen = <W, A>(fa: Writer<W, A>): Writer<W, [A, W]> => {
   return new Writer(() => {
     const [a, w] = fa.run()
-    return [tuple(a, w), w]
+    return [[a, w], w]
   })
 }
 
@@ -101,7 +101,7 @@ export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => {
 export const listens = <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]> => {
   return new Writer(() => {
     const [a, w] = fa.run()
-    return [tuple(a, f(w)), w]
+    return [[a, f(w)], w]
   })
 }
 

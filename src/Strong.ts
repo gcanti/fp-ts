@@ -26,7 +26,7 @@
  * Adapted from https://github.com/purescript/purescript-profunctor/blob/master/src/Data/Profunctor/Strong.purs
  */
 import { Category, Category2, Category3, Category4 } from './Category'
-import { identity, tuple } from './function'
+import { identity } from './function'
 import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
 import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
 
@@ -124,7 +124,7 @@ export function fanout<F>(
 ): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]> {
   const splitStrongF = splitStrong(F)
   return <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>): HKT2<F, A, [B, C]> => {
-    const split: HKT2<F, A, [A, A]> = F.promap(F.id<A>(), identity, a => tuple(a, a))
+    const split: HKT2<F, A, [A, A]> = F.promap(F.id<A>(), identity, a => [a, a])
     return F.compose(
       splitStrongF(pab, pac),
       split

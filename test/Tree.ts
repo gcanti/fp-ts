@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as F from '../src/Foldable'
-import { identity, tuple } from '../src/function'
+import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { setoidNumber, Setoid, contramap } from '../src/Setoid'
@@ -158,13 +158,13 @@ describe('Tree', () => {
   })
 
   it('unfoldTree', () => {
-    const fa = unfoldTree(1, b => tuple(b, b < 3 ? [b + 1, b + 2] : []))
+    const fa = unfoldTree(1, b => [b, b < 3 ? [b + 1, b + 2] : []])
     const expected = new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])])
     assert.deepStrictEqual(fa, expected)
   })
 
   it('unfoldTreeM', () => {
-    const fa = unfoldTreeM(I.identity)(1, b => I.identity.of(tuple(b, b < 3 ? [b + 1, b + 2] : [])))
+    const fa = unfoldTreeM(I.identity)(1, b => I.identity.of([b, b < 3 ? [b + 1, b + 2] : []]))
     const expected = I.identity.of(new Tree(1, [new Tree(2, [new Tree(3, []), new Tree(4, [])]), new Tree(3, [])]))
     assert.deepStrictEqual(fa, expected)
   })

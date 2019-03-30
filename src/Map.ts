@@ -4,7 +4,7 @@ import { Either } from './Either'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable2v2C, Foldable2v3, Foldable2v2, Foldable2v1, Foldable2v } from './Foldable2v'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
-import { Predicate, phantom, tuple } from './function'
+import { Predicate, phantom } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
@@ -106,7 +106,7 @@ export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => 
  */
 export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => {
   const collectO = collect(O)
-  return <A>(m: Map<K, A>): Array<[K, A]> => collectO(m, (k, a: A) => tuple(k, a))
+  return m => collectO(m, (k, a) => [k, a])
 }
 
 /**
@@ -124,7 +124,7 @@ export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d:
   return d => {
     const arr = toArrayO(d)
     const len = arr.length
-    return unfoldable.unfoldr(0, b => (b < len ? some(tuple(arr[b], b + 1)) : none))
+    return unfoldable.unfoldr(0, b => (b < len ? some([arr[b], b + 1]) : none))
   }
 }
 
@@ -176,7 +176,7 @@ export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) 
 export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => {
   const lookupS = lookup(S)
   const removeS = remove(S)
-  return (k, m) => lookupS(k, m).map(a => tuple(a, removeS(k, m)))
+  return (k, m) => lookupS(k, m).map(a => [a, removeS(k, m)])
 }
 
 /**
@@ -191,7 +191,7 @@ export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Optio
   while (!(e = entries.next()).done) {
     const [ka, a] = e.value
     if (S.equals(ka, k)) {
-      return some(tuple(ka, a))
+      return some([ka, a])
     }
   }
   return none
