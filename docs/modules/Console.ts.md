@@ -24,7 +24,7 @@ Adapted from https://github.com/purescript/purescript-console
 **Signature**
 
 ```ts
-export const error = (s: any): IO<void> => ...
+export const error = (s: unknown): IO<void> => ...
 ```
 
 Added in v1.0.0
@@ -34,7 +34,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const info = (s: any): IO<void> => ...
+export const info = (s: unknown): IO<void> => ...
 ```
 
 Added in v1.0.0
@@ -44,7 +44,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const log = (s: any): IO<void> => ...
+export const log = (s: unknown): IO<void> => ...
 ```
 
 Added in v1.0.0
@@ -54,7 +54,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const warn = (s: any): IO<void> => ...
+export const warn = (s: unknown): IO<void> => ...
 ```
 
 Added in v1.0.0
