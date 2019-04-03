@@ -12,7 +12,7 @@ import { Compactable2C, Separated } from './Compactable'
 import { Either } from './Either'
 import { Filterable2C } from './Filterable'
 import { Foldable2v2 } from './Foldable2v'
-import { phantom, Predicate, toString, Refinement } from './function'
+import { phantom, Predicate, toString, Refinement, Lazy } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -304,6 +304,37 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a
  */
 export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => {
   return e.isLeft() ? failure(e.value) : success(e.value)
+}
+
+/**
+ * Constructs a new `Validation` from a function that might throw
+ *
+ * @example
+ * import { Validation, failure, success, tryCatch } from 'fp-ts/lib/Validation'
+ *
+ * const unsafeHead = <A>(as: Array<A>): A => {
+ *   if (as.length > 0) {
+ *     return as[0]
+ *   } else {
+ *     throw new Error('empty array')
+ *   }
+ * }
+ *
+ * const head = <A>(as: Array<A>): Validation<Error, A> => {
+ *   return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+ * }
+ *
+ * assert.deepStrictEqual(head([]), failure(new Error('empty array')))
+ * assert.deepStrictEqual(head([1, 2, 3]), success(1))
+ *
+ * @since 1.16.0
+ */
+export const tryCatch = <L, A>(f: Lazy<A>, onError: (e: unknown) => L): Validation<L, A> => {
+  try {
+    return success(f())
+  } catch (e) {
+    return failure(onError(e))
+  }
 }
 
 /**

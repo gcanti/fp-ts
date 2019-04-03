@@ -23,7 +23,8 @@ import {
   isFailure,
   isSuccess,
   success,
-  validation
+  validation,
+  tryCatch
 } from '../src/Validation'
 
 const p = (n: number): boolean => n > 2
@@ -322,5 +323,22 @@ describe('Validation', () => {
         })
       )
     })
+  })
+
+  it('tryCatch', () => {
+    const v1 = tryCatch(
+      () => {
+        throw new Error('foo')
+      },
+      () => 'error'
+    )
+    assert.deepStrictEqual(v1, failure('error'))
+    const v2 = tryCatch(
+      () => {
+        return 1
+      },
+      () => 'error'
+    )
+    assert.deepStrictEqual(v2, success(1))
   })
 })
