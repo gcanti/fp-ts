@@ -488,4 +488,15 @@ describe('Either', () => {
     assert.deepStrictEqual(S.concat(right(1), S.empty), right(1))
     assert.deepStrictEqual(S.concat(S.empty, right(2)), right(2))
   })
+
+  describe('MonadThrow', () => {
+    it('should obey the law', () => {
+      assert.deepStrictEqual(either.chain(either.throwError('error'), a => either.of(a)), either.throwError('error'))
+    })
+
+    it('fromOption', () => {
+      assert.deepStrictEqual(either.fromOption(none, 'error'), left('error'))
+      assert.deepStrictEqual(either.fromOption(some(1), 'error'), right(1))
+    })
+  })
 })

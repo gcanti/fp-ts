@@ -2,13 +2,14 @@
  * @file `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
  * error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
  */
-import { Bifunctor2 } from './Bifunctor'
-import { Either, left as eitherLeft, right as eitherRight, tryCatch2v as eitherTryCatch2v, toError } from './Either'
-import * as eitherT from './EitherT'
-import { Monad2 } from './Monad'
-import { IO, io } from './IO'
-import { Lazy, constIdentity, constant } from './function'
 import { Alt2 } from './Alt'
+import { Bifunctor2 } from './Bifunctor'
+import { Either, left as eitherLeft, right as eitherRight, toError, tryCatch2v as eitherTryCatch2v } from './Either'
+import * as eitherT from './EitherT'
+import { constant, constIdentity, Lazy } from './function'
+import { IO, io } from './IO'
+import { Monad2 } from './Monad'
+import { MonadThrow2 } from './MonadThrow'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -150,15 +151,20 @@ export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): I
   return new IOEither(new IO(() => eitherTryCatch2v(f, onerror)))
 }
 
+const throwError = fromLeft
+
 /**
  * @since 1.6.0
  */
-export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> = {
+export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<URI> = {
   URI,
   bimap,
   map,
   of,
   ap,
   chain,
-  alt
+  alt,
+  throwError,
+  fromEither,
+  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
 }

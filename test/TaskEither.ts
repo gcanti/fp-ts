@@ -23,6 +23,7 @@ import { monoidString } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
 import { sequence } from '../src/Traversable'
 import { array } from '../src/Array'
+import { none, some } from '../src/Option'
 
 describe('TaskEither', () => {
   it('attempt', () => {
@@ -504,6 +505,27 @@ describe('TaskEither', () => {
       assert.deepStrictEqual(r3, eitherLeft('foo'))
       assert.deepStrictEqual(r4, eitherLeft('invalid 7'))
       assert.deepStrictEqual(r5, eitherRight(12))
+    })
+  })
+
+  describe('MonadThrow', () => {
+    it('should obey the law', () => {
+      return Promise.all([
+        taskEither.chain(taskEither.throwError('error'), a => taskEither.of(a)).run(),
+        taskEither.throwError('error').run()
+      ]).then(([e1, e2]) => {
+        assert.deepStrictEqual(e1, e2)
+      })
+    })
+
+    it('fromOption', () => {
+      return Promise.all([
+        taskEither.fromOption(none, 'error').run(),
+        taskEither.fromOption(some(1), 'error').run()
+      ]).then(([e1, e2]) => {
+        assert.deepStrictEqual(e1, eitherLeft('error'))
+        assert.deepStrictEqual(e2, eitherRight(1))
+      })
     })
   })
 })

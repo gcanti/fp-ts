@@ -24,7 +24,8 @@ import {
   isSuccess,
   success,
   validation,
-  tryCatch
+  tryCatch,
+  getMonadThrow
 } from '../src/Validation'
 
 const p = (n: number): boolean => n > 2
@@ -340,5 +341,18 @@ describe('Validation', () => {
       () => 'error'
     )
     assert.deepStrictEqual(v2, success(1))
+  })
+
+  describe('getMonadThrow', () => {
+    const M = getMonadThrow(monoidString)
+
+    it('should obey the law', () => {
+      assert.deepStrictEqual(M.chain(M.throwError('error'), a => M.of(a)), M.throwError('error'))
+    })
+
+    it('fromOption', () => {
+      assert.deepStrictEqual(M.fromOption(none, 'error'), failure('error'))
+      assert.deepStrictEqual(M.fromOption(some(1), 'error'), success(1))
+    })
   })
 })

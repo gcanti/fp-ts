@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO, io } from '../src/IO'
 import { IOEither, fromLeft, left, right, ioEither, tryCatch } from '../src/IOEither'
+import { none, some } from '../src/Option'
 
 describe('IOEither', () => {
   it('ap', () => {
@@ -155,5 +156,19 @@ describe('IOEither', () => {
 
     assert.deepStrictEqual(e, eitherRight(1))
     assert.deepStrictEqual(log, ['a', 'b'])
+  })
+
+  describe('MonadThrow', () => {
+    it('should obey the law', () => {
+      assert.deepStrictEqual(
+        ioEither.chain(ioEither.throwError('error'), a => ioEither.of(a)).run(),
+        ioEither.throwError('error').run()
+      )
+    })
+
+    it('fromOption', () => {
+      assert.deepStrictEqual(ioEither.fromOption(none, 'error').run(), eitherLeft('error'))
+      assert.deepStrictEqual(ioEither.fromOption(some(1), 'error').run(), eitherRight(1))
+    })
   })
 })

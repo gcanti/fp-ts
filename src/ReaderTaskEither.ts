@@ -12,6 +12,7 @@ import { Task } from './Task'
 import * as taskEither from './TaskEither'
 import TaskEither = taskEither.TaskEither
 import { MonadTask3 } from './MonadTask'
+import { MonadThrow3 } from './MonadThrow'
 
 const readerTTaskEither = readerT.getReaderT2v(taskEither.taskEither)
 
@@ -236,10 +237,17 @@ export const tryCatch = <E, L, A>(
 
 const fromTask = right
 
+const throwError = fromLeft
+
 /**
  * @since 1.6.0
  */
-export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI> = {
+export const readerTaskEither: Monad3<URI> &
+  Bifunctor3<URI> &
+  Alt3<URI> &
+  MonadIO3<URI> &
+  MonadTask3<URI> &
+  MonadThrow3<URI> = {
   URI,
   map,
   of,
@@ -248,7 +256,10 @@ export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & Monad
   alt,
   bimap,
   fromIO,
-  fromTask
+  fromTask,
+  throwError,
+  fromEither,
+  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
 }
 
 /**
