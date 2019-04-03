@@ -11,6 +11,5 @@ has_toc: false
 The basic tutorial is a work in progress. It will be directed towards beginners once it's ready.
 {: .fs-6 .fw-300 }
 
-In the meantime, check out the [learning resources](../introduction/learning-resources) and the following code example:
+In the meantime, check out the [learning resources](../introduction/learning-resources).
 
-- [Debugging using the `Trace` module (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/debugging-with-Trace.ts)
