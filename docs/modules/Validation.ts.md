@@ -61,6 +61,7 @@ Adapted from https://github.com/purescript/purescript-validation
 - [isFailure (function)](#isfailure-function)
 - [isSuccess (function)](#issuccess-function)
 - [success (function)](#success-function)
+- [tryCatch (function)](#trycatch-function)
 
 ---
 
@@ -557,3 +558,36 @@ export const success = <L, A>(a: A): Validation<L, A> => ...
 ```
 
 Added in v1.0.0
+
+# tryCatch (function)
+
+Constructs a new `Validation` from a function that might throw
+
+**Signature**
+
+```ts
+export const tryCatch = <L, A>(f: Lazy<A>, onError: (e: unknown) => L): Validation<L, A> => ...
+```
+
+**Example**
+
+```ts
+import { Validation, failure, success, tryCatch } from 'fp-ts/lib/Validation'
+
+const unsafeHead = <A>(as: Array<A>): A => {
+  if (as.length > 0) {
+    return as[0]
+  } else {
+    throw new Error('empty array')
+  }
+}
+
+const head = <A>(as: Array<A>): Validation<Error, A> => {
+  return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+}
+
+assert.deepStrictEqual(head([]), failure(new Error('empty array')))
+assert.deepStrictEqual(head([1, 2, 3]), success(1))
+```
+
+Added in v1.16.0
