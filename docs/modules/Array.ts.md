@@ -267,12 +267,12 @@ Added in v1.10.0
 
 # cons (function)
 
-Attaches an element to the front of an array, creating a new array
+Attaches an element to the front of an array, creating a new non empty array
 
 **Signature**
 
 ```ts
-export const cons = <A>(a: A, as: Array<A>): Array<A> => ...
+export const cons = <A>(a: A, as: Array<A>): NonEmptyArray<A> => ...
 ```
 
 **Example**
@@ -1199,12 +1199,12 @@ Added in v1.1.0
 
 # snoc (function)
 
-Append an element to the end of an array, creating a new array
+Append an element to the end of an array, creating a new non empty array
 
 **Signature**
 
 ```ts
-export const snoc = <A>(as: Array<A>, a: A): Array<A> => ...
+export const snoc = <A>(as: Array<A>, a: A): NonEmptyArray<A> => ...
 ```
 
 **Example**

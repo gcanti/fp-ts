@@ -291,7 +291,7 @@ const mapWithIndex = <A, B>(fa: NonEmptyArray<A>, f: (i: number, a: A) => B): No
  *
  * @since 1.16.0
  */
-export const snoc = A.snoc
+export const snoc: <A>(as: Array<A>, a: A) => NonEmptyArray<A> = A.snoc
 
 /**
  * Append an element to the front of an array, creating a new non empty array
@@ -303,7 +303,7 @@ export const snoc = A.snoc
  *
  * @since 1.16.0
  */
-export const cons = A.cons
+export const cons: <A>(a: A, as: Array<A>) => NonEmptyArray<A> = A.cons
 
 /**
  * @since 1.15.0

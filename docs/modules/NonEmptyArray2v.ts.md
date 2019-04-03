@@ -15,7 +15,9 @@ Data structure which represents non-empty arrays
 - [NonEmptyArray (interface)](#nonemptyarray-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [cons (constant)](#cons-constant)
 - [nonEmptyArray (constant)](#nonemptyarray-constant)
+- [snoc (constant)](#snoc-constant)
 - [filter (function)](#filter-function)
 - [filterWithIndex (function)](#filterwithindex-function)
 - [findFirst (function)](#findfirst-function)
@@ -72,6 +74,26 @@ export type URI = typeof URI
 export const URI = ...
 ```
 
+# cons (constant)
+
+Append an element to the front of an array, creating a new non empty array
+
+**Signature**
+
+```ts
+export const cons: <A>(a: A, as: Array<A>) => NonEmptyArray<A> = ...
+```
+
+**Example**
+
+```ts
+import { cons } from 'fp-ts/lib/NonEmptyArray2v'
+
+assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
+```
+
+Added in v1.16.0
+
 # nonEmptyArray (constant)
 
 **Signature**
@@ -85,6 +107,26 @@ export const nonEmptyArray: Monad1<URI> &
 ```
 
 Added in v1.15.0
+
+# snoc (constant)
+
+Append an element to the end of an array, creating a new non empty array
+
+**Signature**
+
+```ts
+export const snoc: <A>(as: Array<A>, a: A) => NonEmptyArray<A> = ...
+```
+
+**Example**
+
+```ts
+import { snoc } from 'fp-ts/lib/NonEmptyArray2v'
+
+assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+```
+
+Added in v1.16.0
 
 # filter (function)
 
