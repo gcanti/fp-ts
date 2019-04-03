@@ -22,6 +22,7 @@ import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 import { Witherable2C } from './Witherable'
+import { MonadThrow2C } from './MonadThrow'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -548,6 +549,20 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
     reduce,
     wither,
     wilt
+  }
+}
+
+const throwError = failure
+
+/**
+ * @since 1.16.0
+ */
+export const getMonadThrow = <L>(S: Semigroup<L>): MonadThrow2C<URI, L> => {
+  return {
+    ...getMonad(S),
+    throwError,
+    fromEither,
+    fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
   }
 }
 

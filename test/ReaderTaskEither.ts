@@ -25,6 +25,7 @@ import { IO } from '../src/IO'
 import { IOEither } from '../src/IOEither'
 import { sequence } from '../src/Traversable'
 import { array } from '../src/Array'
+import { none, some } from '../src/Option'
 
 describe('ReaderTaskEither', () => {
   it('ap', () => {
@@ -304,5 +305,26 @@ describe('ReaderTaskEither', () => {
         assert.deepStrictEqual(ns, eitherRight([2, 4]))
         assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
       })
+  })
+
+  describe('MonadThrow', () => {
+    it('should obey the law', () => {
+      return Promise.all([
+        readerTaskEither.chain(readerTaskEither.throwError('error'), a => readerTaskEither.of(a)).run({}),
+        readerTaskEither.throwError('error').run({})
+      ]).then(([e1, e2]) => {
+        assert.deepStrictEqual(e1, e2)
+      })
+    })
+
+    it('fromOption', () => {
+      return Promise.all([
+        readerTaskEither.fromOption(none, 'error').run({}),
+        readerTaskEither.fromOption(some(1), 'error').run({})
+      ]).then(([e1, e2]) => {
+        assert.deepStrictEqual(e1, eitherLeft('error'))
+        assert.deepStrictEqual(e2, eitherRight(1))
+      })
+    })
   })
 })

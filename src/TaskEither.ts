@@ -18,10 +18,11 @@ import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
+import { MonadTask2 } from './MonadTask'
+import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { fromIO as taskFromIO, getSemigroup as taskGetSemigroup, Task, task, tryCatch as taskTryCatch } from './Task'
-import { MonadTask2 } from './MonadTask'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -380,10 +381,17 @@ export const bracket = <L, A, B>(
   )
 }
 
+const throwError = fromLeft
+
 /**
  * @since 1.0.0
  */
-export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = {
+export const taskEither: Monad2<URI> &
+  Bifunctor2<URI> &
+  Alt2<URI> &
+  MonadIO2<URI> &
+  MonadTask2<URI> &
+  MonadThrow2<URI> = {
   URI,
   bimap,
   map,
@@ -392,7 +400,10 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<UR
   chain,
   alt,
   fromIO,
-  fromTask
+  fromTask,
+  throwError,
+  fromEither,
+  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
 }
 
 /**

@@ -33,7 +33,7 @@ import { Compactable2C, Separated } from './Compactable'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2v2 } from './Foldable2v'
-import { Lazy, phantom, Predicate, Refinement, toString } from './function'
+import { Lazy, phantom, Predicate, Refinement, toString, identity } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
@@ -43,6 +43,7 @@ import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 import { Validation } from './Validation'
 import { Witherable2C } from './Witherable'
+import { MonadThrow2 } from './MonadThrow'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -281,6 +282,7 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
     (x, y) => (x.isLeft() ? y.isLeft() && SL.equals(x.value, y.value) : y.isRight() && SA.equals(x.value, y.value))
   )
 }
+
 /**
  * Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
  * appended using the provided `Semigroup`
@@ -692,6 +694,10 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
   }
 }
 
+const throwError = left
+
+const fromEither = identity
+
 /**
  * @since 1.0.0
  */
@@ -701,7 +707,8 @@ export const either: Monad2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
-  ChainRec2<URI> = {
+  ChainRec2<URI> &
+  MonadThrow2<URI> = {
   URI,
   map,
   of,
@@ -715,5 +722,8 @@ export const either: Monad2<URI> &
   bimap,
   alt,
   extend,
-  chainRec
+  chainRec,
+  throwError,
+  fromEither,
+  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
 }
