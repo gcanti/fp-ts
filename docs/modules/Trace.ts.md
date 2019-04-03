@@ -39,7 +39,7 @@ representation for low-level debugging
 **Signature**
 
 ```ts
-export const trace = <A>(message: any, out: Lazy<A>): A => ...
+export const trace = <A>(message: unknown, out: Lazy<A>): A => ...
 ```
 
 Added in v1.0.0
@@ -51,11 +51,11 @@ Log a message to the console for debugging purposes and then return the unit val
 **Signature**
 
 ```ts
-export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: any) => Type3<F, U, L, void>
-export function traceA<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): (message: any) => Type3<F, U, L, void>
-export function traceA<F extends URIS2>(F: Applicative2<F>): <L>(message: any) => Type2<F, L, void>
-export function traceA<F extends URIS2, L>(F: Applicative2C<F, L>): (message: any) => Type2<F, L, void>
-export function traceA<F extends URIS>(F: Applicative1<F>): (message: any) => Type<F, void> { ... }
+export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: unknown) => Type3<F, U, L, void>
+export function traceA<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): (message: unknown) => Type3<F, U, L, void>
+export function traceA<F extends URIS2>(F: Applicative2<F>): <L>(message: unknown) => Type2<F, L, void>
+export function traceA<F extends URIS2, L>(F: Applicative2C<F, L>): (message: unknown) => Type2<F, L, void>
+export function traceA<F extends URIS>(F: Applicative1<F>): (message: unknown) => Type<F, void> { ... }
 ```
 
 Added in v1.0.0

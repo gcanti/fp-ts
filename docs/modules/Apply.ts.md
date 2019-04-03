@@ -360,7 +360,7 @@ Added in v1.15.0
 
 # sequenceT (function)
 
-Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
+Tuple sequencing, i.e., take a tuple of actions and do them from left-to-right, returning the resulting tuple.
 
 **Signature**
 

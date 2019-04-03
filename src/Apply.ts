@@ -234,7 +234,7 @@ export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigrou
 const tupleConstructors: { [key: string]: Function1<any, any> } = {}
 
 /**
- * Tuple sequencing, i.e., take a tuple of monadic actions and do them from left-to-right, returning the resulting tuple.
+ * Tuple sequencing, i.e., take a tuple of actions and do them from left-to-right, returning the resulting tuple.
  *
  * @example
  * import { sequenceT } from 'fp-ts/lib/Apply'
