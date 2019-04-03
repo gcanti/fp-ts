@@ -12,7 +12,7 @@ import { Lazy } from './function'
  *
  * @since 1.0.0
  */
-export const trace = <A>(message: any, out: Lazy<A>): A => {
+export const trace = <A>(message: unknown, out: Lazy<A>): A => {
   console.log(message) // tslint:disable-line:no-console
   return out()
 }
@@ -31,12 +31,12 @@ export const spy = <A>(a: A): A => {
  *
  * @since 1.0.0
  */
-export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: any) => Type3<F, U, L, void>
-export function traceA<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): (message: any) => Type3<F, U, L, void>
-export function traceA<F extends URIS2>(F: Applicative2<F>): <L>(message: any) => Type2<F, L, void>
-export function traceA<F extends URIS2, L>(F: Applicative2C<F, L>): (message: any) => Type2<F, L, void>
-export function traceA<F extends URIS>(F: Applicative1<F>): (message: any) => Type<F, void>
-export function traceA<F>(F: Applicative<F>): (message: any) => HKT<F, void> {
+export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: unknown) => Type3<F, U, L, void>
+export function traceA<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): (message: unknown) => Type3<F, U, L, void>
+export function traceA<F extends URIS2>(F: Applicative2<F>): <L>(message: unknown) => Type2<F, L, void>
+export function traceA<F extends URIS2, L>(F: Applicative2C<F, L>): (message: unknown) => Type2<F, L, void>
+export function traceA<F extends URIS>(F: Applicative1<F>): (message: unknown) => Type<F, void>
+export function traceA<F>(F: Applicative<F>): (message: unknown) => HKT<F, void> {
   return x => trace(x, () => F.of(undefined))
 }
 
