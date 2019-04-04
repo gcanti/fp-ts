@@ -3,10 +3,13 @@
   "version": "1.15.0",
   "description": "Functional programming in TypeScript",
   "files": [
-    "lib"
+    "lib",
+    "es6"
   ],
   "main": "lib/index.js",
+  "module": "es6/index.js",
   "typings": "lib/index.d.ts",
+  "sideEffects": false,
   "scripts": {
     "lint": "tslint -p tsconfig.tslint.json src/**/*.ts test/**/*.ts",
     "jest-clear-cache": "jest --clearCache",
@@ -14,8 +17,8 @@
     "prettier": "prettier --list-different \"./{src,test,examples,tutorial}/**/*.ts\"",
     "fix-prettier": "prettier --write \"./{src,test,examples,tutorial}/**/*.ts\"",
     "test": "npm run lint && npm run prettier && npm run dtslint && npm run jest-clear-cache && npm run jest && npm run docs",
-    "clean": "rimraf lib/*",
-    "build": "npm run clean && tsc",
+    "clean": "rimraf lib/* es6/*",
+    "build": "npm run clean && tsc && tsc -p tsconfig.es6.json",
     "prepublish": "npm run build",
     "doctoc": "doctoc README.md docs/introduction/code-conventions.md --title \"**Table of contents**\"",
     "mocha": "mocha -r ts-node/register test/*.ts",
