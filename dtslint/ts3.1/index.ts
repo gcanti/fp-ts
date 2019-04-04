@@ -66,6 +66,35 @@ Apy.liftA2(applicativeValidation) // $ExpectType <A, B, C>(f: Curried2<A, B, C>)
 
 // sequenceS
 
+declare function functionForfactoryS(
+  a1: string,
+  a2: number,
+  a3: boolean,
+  a4: string,
+  a5: number,
+  a6: boolean,
+  a7: string,
+  a8: number,
+  a9: boolean
+): boolean
+
+export function factoryS<F extends H.URIS>(
+  F: Apy.Apply1<F>,
+  a1: H.Type<F, string>,
+  a2: H.Type<F, number>,
+  a3: H.Type<F, boolean>,
+  a4: H.Type<F, string>,
+  a5: H.Type<F, number>,
+  a6: H.Type<F, boolean>,
+  a7: H.Type<F, string>,
+  a8: H.Type<F, number>,
+  a9: H.Type<F, boolean>
+): H.Type<F, boolean> {
+  return F.map(Apy.sequenceS(F)({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }), ({ a1, a2, a3, a4, a5, a6, a7, a8, a9 }) =>
+    functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+  )
+}
+
 declare const sequenceS1: E.Either<string, number>
 declare const sequenceS2: E.Either<string, string>
 declare const sequenceS3: E.Either<string, boolean>
@@ -95,6 +124,23 @@ sequenceSf2({ sequenceS5, sequenceS9 })
 sequenceSf2({ sequenceS5, sequenceS6, sequenceS7 }) // $ExpectType ReaderTaskEither<{ a: number; }, string, { sequenceS5: number; sequenceS6: string; sequenceS7: boolean; }>
 
 // sequenceT
+
+export function factoryT<F extends H.URIS>(
+  F: Apy.Apply1<F>,
+  f1: H.Type<F, string>,
+  f2: H.Type<F, number>,
+  f3: H.Type<F, boolean>,
+  f4: H.Type<F, string>,
+  f5: H.Type<F, number>,
+  f6: H.Type<F, boolean>,
+  f7: H.Type<F, string>,
+  f8: H.Type<F, number>,
+  f9: H.Type<F, boolean>
+): H.Type<F, boolean> {
+  return F.map(Apy.sequenceT(F)(f1, f2, f3, f4, f5, f6, f7, f8, f9), ([a1, a2, a3, a4, a5, a6, a7, a8, a9]) =>
+    functionForfactoryS(a1, a2, a3, a4, a5, a6, a7, a8, a9)
+  )
+}
 
 const sequenceTf1 = Apy.sequenceT(E.either)
 
