@@ -17,6 +17,14 @@ export const unsafeCoerce: <A, B>(a: A) => B = identity as any
  */
 export type Lazy<A> = () => A
 
+/**
+ * @example
+ * import { FunctionN } from 'fp-ts/lib/function'
+ *
+ * export const sum: FunctionN<[number, number], number> = (a, b) => a + b
+ *
+ * @since 1.16.0
+ */
 export type FunctionN<A extends Array<any>, B> = (...args: A) => B
 
 export type Function1<A, B> = (a: A) => B

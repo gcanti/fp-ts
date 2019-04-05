@@ -1,6 +1,6 @@
 ---
 title: Validation.ts
-nav_order: 95
+nav_order: 96
 parent: Modules
 ---
 
@@ -54,6 +54,7 @@ Adapted from https://github.com/purescript/purescript-validation
 - [getCompactable (function)](#getcompactable-function)
 - [getFilterable (function)](#getfilterable-function)
 - [getMonad (function)](#getmonad-function)
+- [getMonadThrow (function)](#getmonadthrow-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
@@ -482,6 +483,16 @@ export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => ...
 ```
 
 Added in v1.0.0
+
+# getMonadThrow (function)
+
+**Signature**
+
+```ts
+export const getMonadThrow = <L>(S: Semigroup<L>): MonadThrow2C<URI, L> => ...
+```
+
+Added in v1.16.0
 
 # getMonoid (function)
 

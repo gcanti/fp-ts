@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 85
+nav_order: 86
 parent: Modules
 ---
 
@@ -283,7 +283,12 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = ...
+export const taskEither: Monad2<URI> &
+  Bifunctor2<URI> &
+  Alt2<URI> &
+  MonadIO2<URI> &
+  MonadTask2<URI> &
+  MonadThrow2<URI> = ...
 ```
 
 Added in v1.0.0

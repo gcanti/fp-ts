@@ -588,7 +588,8 @@ export const either: Monad2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
-  ChainRec2<URI> = ...
+  ChainRec2<URI> &
+  MonadThrow2<URI> = ...
 ```
 
 Added in v1.0.0

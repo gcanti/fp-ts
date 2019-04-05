@@ -235,6 +235,16 @@ export type Function9<A, B, C, D, E, F, G, H, I, J> = (a: A, b: B, c: C, d: D, e
 export type FunctionN<A extends Array<any>, B> = (...args: A) => B
 ```
 
+**Example**
+
+```ts
+import { FunctionN } from 'fp-ts/lib/function'
+
+export const sum: FunctionN<[number, number], number> = (a, b) => a + b
+```
+
+Added in v1.16.0
+
 # Kleisli (type alias)
 
 **Signature**
