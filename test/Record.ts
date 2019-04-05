@@ -5,7 +5,7 @@ import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
 import { option, some, none, Option } from '../src/Option'
 import { setoidNumber } from '../src/Setoid'
-import { array } from '../src/Array'
+import { array, zip } from '../src/Array'
 import { left, right } from '../src/Either'
 import * as I from '../src/Identity'
 
@@ -273,5 +273,28 @@ describe('Record', () => {
     const expected = { a: 'a' }
     // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(R.filterWithIndex(x, f), expected)
+  })
+
+  it('fromFoldableMap', () => {
+    const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
+      R.fromFoldableMap(array)(zip(keys, values), identity, (_, b) => b)
+
+    assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
+
+    interface User {
+      id: string
+      name: string
+    }
+
+    const users: Array<User> = [
+      { id: 'id1', name: 'name1' },
+      { id: 'id2', name: 'name2' },
+      { id: 'id1', name: 'name3' }
+    ]
+
+    assert.deepStrictEqual(R.fromFoldableMap(array)(users, user => [user.id, user], (_, b) => b), {
+      id1: { id: 'id1', name: 'name3' },
+      id2: { id: 'id2', name: 'name2' }
+    })
   })
 })
