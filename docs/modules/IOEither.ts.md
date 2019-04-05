@@ -32,7 +32,9 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [fromEither (function)](#fromeither-function)
 - [fromLeft (function)](#fromleft-function)
 - [left (function)](#left-function)
+- [parseJSON (function)](#parsejson-function)
 - [right (function)](#right-function)
+- [stringifyJSON (function)](#stringifyjson-function)
 - [~~tryCatch~~ (function)](#trycatch-function)
 - [tryCatch2v (function)](#trycatch2v-function)
 
@@ -211,6 +213,27 @@ export const left = <L, A>(fa: IO<L>): IOEither<L, A> => ...
 
 Added in v1.6.0
 
+# parseJSON (function)
+
+Converts a JavaScript Object Notation (JSON) string into an object.
+
+**Signature**
+
+```ts
+export const parseJSON = (s: string): IOEither<Error, unknown> => ...
+```
+
+**Example**
+
+```ts
+import { parseJSON } from 'fp-ts/lib/IOEither'
+
+assert.deepStrictEqual(parseJSON('{"a":1}').run().value, { a: 1 })
+assert.deepStrictEqual(parseJSON('{"a":}').run().value, new SyntaxError('Unexpected token } in JSON at position 5'))
+```
+
+Added in v1.16.0
+
 # right (function)
 
 **Signature**
@@ -220,6 +243,29 @@ export const right = <L, A>(fa: IO<A>): IOEither<L, A> => ...
 ```
 
 Added in v1.6.0
+
+# stringifyJSON (function)
+
+Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+
+**Signature**
+
+```ts
+export const stringifyJSON = (u: unknown): IOEither<Error, string> => ...
+```
+
+**Example**
+
+```ts
+import { stringifyJSON } from 'fp-ts/lib/IOEither'
+
+assert.deepStrictEqual(stringifyJSON({ a: 1 }).run().value, '{"a":1}')
+const circular: any = { ref: null }
+circular.ref = circular
+assert.deepStrictEqual(stringifyJSON(circular).run().value, new TypeError('Converting circular structure to JSON'))
+```
+
+Added in v1.16.0
 
 # ~~tryCatch~~ (function)
 

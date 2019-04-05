@@ -151,6 +151,38 @@ export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): I
   return new IOEither(new IO(() => eitherTryCatch2v(f, onerror)))
 }
 
+/**
+ * Converts a JavaScript Object Notation (JSON) string into an object.
+ *
+ * @example
+ * import { parseJSON } from 'fp-ts/lib/IOEither'
+ *
+ * assert.deepStrictEqual(parseJSON('{"a":1}').run().value, { a: 1 })
+ * assert.deepStrictEqual(parseJSON('{"a":}').run().value, new SyntaxError('Unexpected token } in JSON at position 5'))
+ *
+ * @since 1.16.0
+ */
+export const parseJSON = (s: string): IOEither<Error, unknown> => {
+  return tryCatch2v(() => JSON.parse(s), toError)
+}
+
+/**
+ * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+ *
+ * @example
+ * import { stringifyJSON } from 'fp-ts/lib/IOEither'
+ *
+ * assert.deepStrictEqual(stringifyJSON({ a: 1 }).run().value, '{"a":1}')
+ * const circular: any = { ref: null }
+ * circular.ref = circular
+ * assert.deepStrictEqual(stringifyJSON(circular).run().value, new TypeError('Converting circular structure to JSON'))
+ *
+ * @since 1.16.0
+ */
+export const stringifyJSON = (u: unknown): IOEither<Error, string> => {
+  return tryCatch2v(() => JSON.stringify(u), toError)
+}
+
 const throwError = fromLeft
 
 /**
