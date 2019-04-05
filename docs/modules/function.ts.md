@@ -28,6 +28,7 @@ parent: Modules
 - [Function7 (type alias)](#function7-type-alias)
 - [Function8 (type alias)](#function8-type-alias)
 - [Function9 (type alias)](#function9-type-alias)
+- [FunctionN (type alias)](#functionn-type-alias)
 - [Kleisli (type alias)](#kleisli-type-alias)
 - [Lazy (type alias)](#lazy-type-alias)
 - [Predicate (type alias)](#predicate-type-alias)
@@ -224,6 +225,14 @@ export type Function8<A, B, C, D, E, F, G, H, I> = (a: A, b: B, c: C, d: D, e: E
 
 ```ts
 export type Function9<A, B, C, D, E, F, G, H, I, J> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I) => J
+```
+
+# FunctionN (type alias)
+
+**Signature**
+
+```ts
+export type FunctionN<A extends Array<any>, B> = (...args: A) => B
 ```
 
 # Kleisli (type alias)

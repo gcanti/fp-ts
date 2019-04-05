@@ -17,6 +17,8 @@ export const unsafeCoerce: <A, B>(a: A) => B = identity as any
  */
 export type Lazy<A> = () => A
 
+export type FunctionN<A extends Array<any>, B> = (...args: A) => B
+
 export type Function1<A, B> = (a: A) => B
 export type Function2<A, B, C> = (a: A, b: B) => C
 export type Function3<A, B, C, D> = (a: A, b: B, c: C) => D
