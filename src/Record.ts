@@ -2,7 +2,7 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { Separated } from './Compactable'
 import { Either } from './Either'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Predicate, Refinement } from './function'
+import { Predicate, Refinement, identity } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getDictionaryMonoid, Monoid } from './Monoid'
 import { none, Option, some as optionSome } from './Option'
@@ -166,7 +166,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
 }
 
 /**
- * Lookup the value for a key in a dictionary
+ * Lookup the value for a key in a record
  * @since 1.10.0
  */
 export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => {
@@ -279,7 +279,7 @@ export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a
 }
 
 /**
- * Create a dictionary with one key/value pair
+ * Create a record with one key/value pair
  *
  * @since 1.10.0
  */
@@ -624,32 +624,98 @@ export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) =
 }
 
 /**
- * Create a dictionary from a foldable collection of key/value pairs, using the
+ * Create a record from a foldable collection of key/value pairs, using the
  * specified function to combine values for duplicate keys.
  *
  * @since 1.10.0
  */
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <K extends string, U, L, A>(ta: Type3<F, U, L, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, U, L, A>(ta: Type3<F, U, L, [K, A]>, concat: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <K extends string, L, A>(ta: Type2<F, L, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, L, A>(ta: Type2<F, L, [K, A]>, concat: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): <K extends string, A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, A>(ta: Type<F, [K, A]>, concat: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <K extends string, A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, A>(ta: HKT<F, [K, A]>, concat: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => Record<string, A> {
-  return <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => {
-    return F.reduce<[string, A], Record<string, A>>(ta, {}, (b, [k, a]) => {
-      b[k] = b.hasOwnProperty(k) ? f(b[k], a) : a
-      return b
+): <A>(ta: HKT<F, [string, A]>, concat: (existing: A, a: A) => A) => Record<string, A> {
+  const fromFoldableMapF = fromFoldableMap(F)
+  return (ta, concat) => fromFoldableMapF(ta, identity, concat)
+}
+
+/**
+ * Create a record from a foldable collection using the specified functions to
+ *
+ * - map to key/value pairs
+ * - combine values for duplicate keys.
+ *
+ * @example
+ * import { array, zip } from 'fp-ts/lib/Array'
+ * import { identity } from 'fp-ts/lib/function'
+ * import { fromFoldableMap } from 'fp-ts/lib/Record'
+ *
+ * // like lodash `zipObject` or ramda `zipObj`
+ * export const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
+ *   fromFoldableMap(array)(zip(keys, values), identity, (_, b) => b)
+ *
+ * assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
+ *
+ * // build a map from a field
+ * interface User {
+ *   id: string
+ *   name: string
+ * }
+ *
+ * const users: Array<User> = [
+ *   { id: 'id1', name: 'name1' },
+ *   { id: 'id2', name: 'name2' },
+ *   { id: 'id1', name: 'name3' }
+ * ]
+ *
+ * assert.deepStrictEqual(fromFoldableMap(array)(users, user => [user.id, user], (_, b) => b), {
+ *   id1: { id: 'id1', name: 'name3' },
+ *   id2: { id: 'id2', name: 'name2' }
+ * })
+ *
+ * @since 1.16.0
+ */
+export function fromFoldableMap<F extends URIS3>(
+  F: Foldable3<F>
+): <U, L, A, K extends string, B>(
+  ta: Type3<F, U, L, A>,
+  f: (a: A) => [K, B],
+  concat: (existing: B, a: B) => B
+) => Record<K, B>
+export function fromFoldableMap<F extends URIS2>(
+  F: Foldable2<F>
+): <L, A, K extends string, B>(
+  ta: Type2<F, L, A>,
+  f: (a: A) => [K, B],
+  concat: (existing: B, a: B) => B
+) => Record<K, B>
+export function fromFoldableMap<F extends URIS>(
+  F: Foldable1<F>
+): <A, K extends string, B>(ta: Type<F, A>, f: (a: A) => [K, B], concat: (existing: B, a: B) => B) => Record<K, B>
+export function fromFoldableMap<F>(
+  // tslint:disable-next-line: deprecation
+  F: Foldable<F>
+): <A, K extends string, B>(ta: HKT<F, A>, f: (a: A) => [K, B], concat: (existing: B, a: B) => B) => Record<K, B>
+export function fromFoldableMap<F>(
+  // tslint:disable-next-line: deprecation
+  F: Foldable<F>
+): <A, B>(ta: HKT<F, A>, f: (a: A) => [string, B], concat: (existing: B, a: B) => B) => Record<string, B> {
+  return <A, B>(ta: HKT<F, A>, f: (a: A) => [string, B], concat: (existing: B, a: B) => B) => {
+    return F.reduce<A, Record<string, B>>(ta, {}, (r, a) => {
+      const [k, b] = f(a)
+      r[k] = r.hasOwnProperty(k) ? concat(r[k], b) : b
+      return r
     })
   }
 }
