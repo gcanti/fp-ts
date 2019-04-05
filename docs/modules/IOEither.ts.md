@@ -220,16 +220,20 @@ Converts a JavaScript Object Notation (JSON) string into an object.
 **Signature**
 
 ```ts
-export const parseJSON = (s: string): IOEither<Error, unknown> => ...
+export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): IOEither<L, unknown> => ...
 ```
 
 **Example**
 
 ```ts
 import { parseJSON } from 'fp-ts/lib/IOEither'
+import { toError } from 'fp-ts/lib/Either'
 
-assert.deepStrictEqual(parseJSON('{"a":1}').run().value, { a: 1 })
-assert.deepStrictEqual(parseJSON('{"a":}').run().value, new SyntaxError('Unexpected token } in JSON at position 5'))
+assert.deepStrictEqual(parseJSON('{"a":1}', toError).run().value, { a: 1 })
+assert.deepStrictEqual(
+  parseJSON('{"a":}', toError).run().value,
+  new SyntaxError('Unexpected token } in JSON at position 5')
+)
 ```
 
 Added in v1.16.0
@@ -251,18 +255,22 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export const stringifyJSON = (u: unknown): IOEither<Error, string> => ...
+export const stringifyJSON = <L>(u: unknown, onError: (reason: unknown) => L): IOEither<L, string> => ...
 ```
 
 **Example**
 
 ```ts
 import { stringifyJSON } from 'fp-ts/lib/IOEither'
+import { toError } from 'fp-ts/lib/Either'
 
-assert.deepStrictEqual(stringifyJSON({ a: 1 }).run().value, '{"a":1}')
+assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError).run().value, '{"a":1}')
 const circular: any = { ref: null }
 circular.ref = circular
-assert.deepStrictEqual(stringifyJSON(circular).run().value, new TypeError('Converting circular structure to JSON'))
+assert.deepStrictEqual(
+  stringifyJSON(circular, toError).run().value,
+  new TypeError('Converting circular structure to JSON')
+)
 ```
 
 Added in v1.16.0
