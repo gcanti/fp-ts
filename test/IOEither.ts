@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { left as eitherLeft, right as eitherRight } from '../src/Either'
+import { left as eitherLeft, right as eitherRight, toError } from '../src/Either'
 import { IO, io } from '../src/IO'
 import { IOEither, fromLeft, left, right, ioEither, tryCatch, parseJSON, stringifyJSON } from '../src/IOEither'
 import { none, some } from '../src/Option'
@@ -173,20 +173,26 @@ describe('IOEither', () => {
   })
 
   it('parseJSON', () => {
-    assert.deepStrictEqual(parseJSON('{"a":1}').run().value, { a: 1 })
-    assert.deepStrictEqual(parseJSON('{"a":}').run().value, new SyntaxError('Unexpected token } in JSON at position 5'))
+    assert.deepStrictEqual(parseJSON('{"a":1}', toError).run().value, { a: 1 })
+    assert.deepStrictEqual(
+      parseJSON('{"a":}', toError).run().value,
+      new SyntaxError('Unexpected token } in JSON at position 5')
+    )
   })
 
   it('stringifyJSON', () => {
-    assert.deepStrictEqual(stringifyJSON({ a: 1 }).run().value, '{"a":1}')
+    assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError).run().value, '{"a":1}')
     const circular: any = { ref: null }
     circular.ref = circular
-    assert.deepStrictEqual(stringifyJSON(circular).run().value, new TypeError('Converting circular structure to JSON'))
+    assert.deepStrictEqual(
+      stringifyJSON(circular, toError).run().value,
+      new TypeError('Converting circular structure to JSON')
+    )
     interface Person {
       name: string
       age: number
     }
     const person: Person = { name: 'Giulio', age: 45 }
-    assert.deepStrictEqual(stringifyJSON(person).run().value, '{"name":"Giulio","age":45}')
+    assert.deepStrictEqual(stringifyJSON(person, toError).run().value, '{"name":"Giulio","age":45}')
   })
 })

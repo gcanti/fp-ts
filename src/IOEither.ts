@@ -156,14 +156,15 @@ export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): I
  *
  * @example
  * import { parseJSON } from 'fp-ts/lib/IOEither'
+ * import { toError } from 'fp-ts/lib/Either'
  *
- * assert.deepStrictEqual(parseJSON('{"a":1}').run().value, { a: 1 })
- * assert.deepStrictEqual(parseJSON('{"a":}').run().value, new SyntaxError('Unexpected token } in JSON at position 5'))
+ * assert.deepStrictEqual(parseJSON('{"a":1}', toError).run().value, { a: 1 })
+ * assert.deepStrictEqual(parseJSON('{"a":}', toError).run().value, new SyntaxError('Unexpected token } in JSON at position 5'))
  *
  * @since 1.16.0
  */
-export const parseJSON = (s: string): IOEither<Error, unknown> => {
-  return tryCatch2v(() => JSON.parse(s), toError)
+export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): IOEither<L, unknown> => {
+  return tryCatch2v(() => JSON.parse(s), onError)
 }
 
 /**
@@ -171,16 +172,17 @@ export const parseJSON = (s: string): IOEither<Error, unknown> => {
  *
  * @example
  * import { stringifyJSON } from 'fp-ts/lib/IOEither'
+ * import { toError } from 'fp-ts/lib/Either'
  *
- * assert.deepStrictEqual(stringifyJSON({ a: 1 }).run().value, '{"a":1}')
+ * assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError).run().value, '{"a":1}')
  * const circular: any = { ref: null }
  * circular.ref = circular
- * assert.deepStrictEqual(stringifyJSON(circular).run().value, new TypeError('Converting circular structure to JSON'))
+ * assert.deepStrictEqual(stringifyJSON(circular, toError).run().value, new TypeError('Converting circular structure to JSON'))
  *
  * @since 1.16.0
  */
-export const stringifyJSON = (u: unknown): IOEither<Error, string> => {
-  return tryCatch2v(() => JSON.stringify(u), toError)
+export const stringifyJSON = <L>(u: unknown, onError: (reason: unknown) => L): IOEither<L, string> => {
+  return tryCatch2v(() => JSON.stringify(u), onError)
 }
 
 const throwError = fromLeft
