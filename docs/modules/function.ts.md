@@ -19,7 +19,6 @@ parent: Modules
 - [Curried8 (type alias)](#curried8-type-alias)
 - [Curried9 (type alias)](#curried9-type-alias)
 - [Endomorphism (type alias)](#endomorphism-type-alias)
-- [Function (type alias)](#function-type-alias)
 - [Function1 (type alias)](#function1-type-alias)
 - [Function2 (type alias)](#function2-type-alias)
 - [Function3 (type alias)](#function3-type-alias)
@@ -29,6 +28,7 @@ parent: Modules
 - [Function7 (type alias)](#function7-type-alias)
 - [Function8 (type alias)](#function8-type-alias)
 - [Function9 (type alias)](#function9-type-alias)
+- [FunctionN (type alias)](#functionn-type-alias)
 - [Kleisli (type alias)](#kleisli-type-alias)
 - [Lazy (type alias)](#lazy-type-alias)
 - [Predicate (type alias)](#predicate-type-alias)
@@ -155,14 +155,6 @@ export type Curried9<A, B, C, D, E, F, G, H, I, J> = (
 export type Endomorphism<A> = (a: A) => A
 ```
 
-# Function (type alias)
-
-**Signature**
-
-```ts
-export type Function<A extends Array<any> = Array<any>, B = any> = (...args: A) => B
-```
-
 # Function1 (type alias)
 
 **Signature**
@@ -233,6 +225,14 @@ export type Function8<A, B, C, D, E, F, G, H, I> = (a: A, b: B, c: C, d: D, e: E
 
 ```ts
 export type Function9<A, B, C, D, E, F, G, H, I, J> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I) => J
+```
+
+# FunctionN (type alias)
+
+**Signature**
+
+```ts
+export type FunctionN<A extends Array<any>, B> = (...args: A) => B
 ```
 
 # Kleisli (type alias)
