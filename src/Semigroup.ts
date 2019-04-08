@@ -3,13 +3,16 @@
  */
 import { Ord, max, min } from './Ord'
 import { concat, identity } from './function'
+import { Magma } from './Magma'
 
 /**
+ * A `Semigroup` is a `Magma` where `concat` is associative, that is:
+ *
+ * Associativiy: `concat(concat(x, y), z) = concat(x, concat(y, z))`
+ *
  * @since 1.0.0
  */
-export interface Semigroup<A> {
-  readonly concat: (x: A, y: A) => A
-}
+export interface Semigroup<A> extends Magma<A> {}
 
 /**
  * @since 1.0.0

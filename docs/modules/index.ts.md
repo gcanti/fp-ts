@@ -58,6 +58,7 @@ parent: Modules
 - [ixMonad (export)](#ixmonad-export)
 - [joinSemilattice (export)](#joinsemilattice-export)
 - [lattice (export)](#lattice-export)
+- [magma (export)](#magma-export)
 - [map (export)](#map-export)
 - [meetSemilattice (export)](#meetsemilattice-export)
 - [monad (export)](#monad-export)
@@ -507,6 +508,14 @@ export { joinSemilattice }
 
 ```ts
 export { lattice }
+```
+
+# magma (export)
+
+**Signature**
+
+```ts
+export { magma }
 ```
 
 # map (export)
