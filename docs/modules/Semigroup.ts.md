@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 75
+nav_order: 76
 parent: Modules
 ---
 
@@ -38,12 +38,14 @@ See [Getting started with fp-ts: Semigroup](https://dev.to/gcanti/getting-starte
 
 # Semigroup (interface)
 
+A `Semigroup` is a `Magma` where `concat` is associative, that is:
+
+Associativiy: `concat(concat(x, y), z) = concat(x, concat(y, z))`
+
 **Signature**
 
 ```ts
-export interface Semigroup<A> {
-  readonly concat: (x: A, y: A) => A
-}
+export interface Semigroup<A> extends Magma<A> {}
 ```
 
 Added in v1.0.0
