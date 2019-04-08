@@ -2,13 +2,14 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { Separated } from './Compactable'
 import { Either } from './Either'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Predicate, Refinement, identity } from './function'
+import { Predicate, Refinement } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Magma } from './Magma'
 import { getDictionaryMonoid, Monoid } from './Monoid'
 import { none, Option, some as optionSome } from './Option'
-import { Setoid, fromEquals } from './Setoid'
-import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
+import { fromEquals, Setoid } from './Setoid'
+import { Unfoldable, Unfoldable1 } from './Unfoldable'
 
 /**
  * Calculate the number of key/value pairs in a record
@@ -646,8 +647,12 @@ export function fromFoldable<F>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
 ): <A>(ta: HKT<F, [string, A]>, onConflict: (existing: A, a: A) => A) => Record<string, A> {
-  const fromFoldableMapF = fromFoldableMap(F)
-  return (ta, concat) => fromFoldableMapF(ta, identity, concat)
+  return <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => {
+    return F.reduce<[string, A], Record<string, A>>(ta, {}, (b, [k, a]) => {
+      b[k] = b.hasOwnProperty(k) ? f(b[k], a) : a
+      return b
+    })
+  }
 }
 
 /**
@@ -657,17 +662,18 @@ export function fromFoldable<F>(
  * - combine values for duplicate keys.
  *
  * @example
+ * import { getLastSemigroup } from 'fp-ts/lib/Semigroup'
  * import { array, zip } from 'fp-ts/lib/Array'
  * import { identity } from 'fp-ts/lib/function'
  * import { fromFoldableMap } from 'fp-ts/lib/Record'
  *
  * // like lodash `zipObject` or ramda `zipObj`
  * export const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
- *   fromFoldableMap(array)(zip(keys, values), identity, (_, b) => b)
+ *   fromFoldableMap(getLastSemigroup<A>(), array)(zip(keys, values), identity)
  *
  * assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
  *
- * // build a map from a field
+ * // build a record from a field
  * interface User {
  *   id: string
  *   name: string
@@ -679,42 +685,39 @@ export function fromFoldable<F>(
  *   { id: 'id1', name: 'name3' }
  * ]
  *
- * assert.deepStrictEqual(fromFoldableMap(array)(users, user => [user.id, user], (_, b) => b), {
+ * assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), array)(users, user => [user.id, user]), {
  *   id1: { id: 'id1', name: 'name3' },
  *   id2: { id: 'id2', name: 'name2' }
  * })
  *
  * @since 1.16.0
  */
-export function fromFoldableMap<F extends URIS3>(
+export function fromFoldableMap<F extends URIS3, B>(
+  M: Magma<B>,
   F: Foldable3<F>
-): <U, L, A, K extends string, B>(
-  ta: Type3<F, U, L, A>,
-  f: (a: A) => [K, B],
-  onConflict: (existing: B, a: B) => B
-) => Record<K, B>
-export function fromFoldableMap<F extends URIS2>(
+): <U, L, A, K extends string>(ta: Type3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+export function fromFoldableMap<F extends URIS2, B>(
+  M: Magma<B>,
   F: Foldable2<F>
-): <L, A, K extends string, B>(
-  ta: Type2<F, L, A>,
-  f: (a: A) => [K, B],
-  onConflict: (existing: B, a: B) => B
-) => Record<K, B>
-export function fromFoldableMap<F extends URIS>(
+): <L, A, K extends string>(ta: Type2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+export function fromFoldableMap<F extends URIS, B>(
+  M: Magma<B>,
   F: Foldable1<F>
-): <A, K extends string, B>(ta: Type<F, A>, f: (a: A) => [K, B], onConflict: (existing: B, a: B) => B) => Record<K, B>
-export function fromFoldableMap<F>(
+): <A, K extends string>(ta: Type<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+export function fromFoldableMap<F, B>(
+  M: Magma<B>,
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <A, K extends string, B>(ta: HKT<F, A>, f: (a: A) => [K, B], onConflict: (existing: B, a: B) => B) => Record<K, B>
-export function fromFoldableMap<F>(
+): <A, K extends string>(ta: HKT<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+export function fromFoldableMap<F, B>(
+  M: Magma<B>,
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <A, B>(ta: HKT<F, A>, f: (a: A) => [string, B], onConflict: (existing: B, a: B) => B) => Record<string, B> {
-  return <A, B>(ta: HKT<F, A>, f: (a: A) => [string, B], onConflict: (existing: B, a: B) => B) => {
+): <A>(ta: HKT<F, A>, f: (a: A) => [string, B]) => Record<string, B> {
+  return <A>(ta: HKT<F, A>, f: (a: A) => [string, B]) => {
     return F.reduce<A, Record<string, B>>(ta, {}, (r, a) => {
       const [k, b] = f(a)
-      r[k] = r.hasOwnProperty(k) ? onConflict(r[k], b) : b
+      r[k] = r.hasOwnProperty(k) ? M.concat(r[k], b) : b
       return r
     })
   }
