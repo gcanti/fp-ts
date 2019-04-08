@@ -106,19 +106,19 @@ specified function to combine values for duplicate keys.
 export function fromFoldable<K, F extends URIS3>(
   S: Setoid<K>,
   F: Foldable2v3<F>
-): <U, L, A>(ta: Type3<F, U, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+): <U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS2>(
   S: Setoid<K>,
   F: Foldable2v2<F>
-): <L, A>(ta: Type2<F, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+): <L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS>(
   S: Setoid<K>,
   F: Foldable2v1<F>
-): <A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+): <A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
   S: Setoid<K>,
   F: Foldable2v<F>
-): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> { ... }
+): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> { ... }
 ```
 
 Added in v1.14.0

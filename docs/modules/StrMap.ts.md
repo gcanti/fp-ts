@@ -344,14 +344,17 @@ specified function to combine values for duplicate keys.
 ```ts
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <U, L, A>(ta: Type3<F, U, L, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
+): <U, L, A>(ta: Type3<F, U, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <L, A>(ta: Type2<F, L, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
+): <L, A>(ta: Type2<F, L, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
 export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): <A>(ta: Type<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A>
-export function fromFoldable<F>(F: Foldable<F>): <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => StrMap<A> { ... }
+): <A>(ta: Type<F, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A>
+export function fromFoldable<F>(
+  // tslint:disable-next-line: deprecation
+  F: Foldable<F>
+): <A>(ta: HKT<F, [string, A]>, onConflict: (existing: A, a: A) => A) => StrMap<A> { ... }
 ```
 
 Added in v1.0.0

@@ -249,17 +249,17 @@ specified function to combine values for duplicate keys.
 ```ts
 export function fromFoldable<F extends URIS3>(
   F: Foldable3<F>
-): <K extends string, U, L, A>(ta: Type3<F, U, L, [K, A]>, concat: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F extends URIS2>(
   F: Foldable2<F>
-): <K extends string, L, A>(ta: Type2<F, L, [K, A]>, concat: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F extends URIS>(
   F: Foldable1<F>
-): <K extends string, A>(ta: Type<F, [K, A]>, concat: (existing: A, a: A) => A) => Record<K, A>
+): <K extends string, A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
 export function fromFoldable<F>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <K extends string, A>(ta: HKT<F, [K, A]>, concat: (existing: A, a: A) => A) => Record<K, A> { ... }
+): <K extends string, A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A> { ... }
 ```
 
 Added in v1.10.0
@@ -279,22 +279,22 @@ export function fromFoldableMap<F extends URIS3>(
 ): <U, L, A, K extends string, B>(
   ta: Type3<F, U, L, A>,
   f: (a: A) => [K, B],
-  concat: (existing: B, a: B) => B
+  onConflict: (existing: B, a: B) => B
 ) => Record<K, B>
 export function fromFoldableMap<F extends URIS2>(
   F: Foldable2<F>
 ): <L, A, K extends string, B>(
   ta: Type2<F, L, A>,
   f: (a: A) => [K, B],
-  concat: (existing: B, a: B) => B
+  onConflict: (existing: B, a: B) => B
 ) => Record<K, B>
 export function fromFoldableMap<F extends URIS>(
   F: Foldable1<F>
-): <A, K extends string, B>(ta: Type<F, A>, f: (a: A) => [K, B], concat: (existing: B, a: B) => B) => Record<K, B>
+): <A, K extends string, B>(ta: Type<F, A>, f: (a: A) => [K, B], onConflict: (existing: B, a: B) => B) => Record<K, B>
 export function fromFoldableMap<F>(
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <A, K extends string, B>(ta: HKT<F, A>, f: (a: A) => [K, B], concat: (existing: B, a: B) => B) => Record<K, B> { ... }
+): <A, K extends string, B>(ta: HKT<F, A>, f: (a: A) => [K, B], onConflict: (existing: B, a: B) => B) => Record<K, B> { ... }
 ```
 
 **Example**

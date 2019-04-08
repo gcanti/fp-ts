@@ -580,29 +580,29 @@ const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K
 export function fromFoldable<K, F extends URIS3>(
   S: Setoid<K>,
   F: Foldable2v3<F>
-): <U, L, A>(ta: Type3<F, U, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+): <U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS2>(
   S: Setoid<K>,
   F: Foldable2v2<F>
-): <L, A>(ta: Type2<F, L, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+): <L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS>(
   S: Setoid<K>,
   F: Foldable2v1<F>
-): <A>(ta: Type<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+): <A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
   S: Setoid<K>,
   F: Foldable2v<F>
-): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A>
+): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
   S: Setoid<K>,
   F: Foldable2v<F>
-): <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => Map<K, A> {
-  return <A>(ta: HKT<F, [K, A]>, f: (existing: A, a: A) => A) => {
+): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> {
+  return <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => {
     const lookupWithKeyS = lookupWithKey(S)
     return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
       const bOpt = lookupWithKeyS(k, b)
       if (bOpt.isSome()) {
-        b.set(bOpt.value[0], f(bOpt.value[1], a))
+        b.set(bOpt.value[0], onConflict(bOpt.value[1], a))
       } else {
         b.set(k, a)
       }
