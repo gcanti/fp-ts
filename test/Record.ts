@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as R from '../src/Record'
-import { semigroupSum } from '../src/Semigroup'
+import { semigroupSum, getLastSemigroup } from '../src/Semigroup'
 import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
 import { option, some, none, Option } from '../src/Option'
@@ -277,7 +277,7 @@ describe('Record', () => {
 
   it('fromFoldableMap', () => {
     const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
-      R.fromFoldableMap(array)(zip(keys, values), identity, (_, b) => b)
+      R.fromFoldableMap(getLastSemigroup<A>(), array)(zip(keys, values), identity)
 
     assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
@@ -292,7 +292,7 @@ describe('Record', () => {
       { id: 'id1', name: 'name3' }
     ]
 
-    assert.deepStrictEqual(R.fromFoldableMap(array)(users, user => [user.id, user], (_, b) => b), {
+    assert.deepStrictEqual(R.fromFoldableMap(getLastSemigroup<User>(), array)(users, user => [user.id, user]), {
       id1: { id: 'id1', name: 'name3' },
       id2: { id: 'id2', name: 'name2' }
     })

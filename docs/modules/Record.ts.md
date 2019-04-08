@@ -274,43 +274,40 @@ Create a record from a foldable collection using the specified functions to
 **Signature**
 
 ```ts
-export function fromFoldableMap<F extends URIS3>(
+export function fromFoldableMap<F extends URIS3, B>(
+  M: Magma<B>,
   F: Foldable3<F>
-): <U, L, A, K extends string, B>(
-  ta: Type3<F, U, L, A>,
-  f: (a: A) => [K, B],
-  onConflict: (existing: B, a: B) => B
-) => Record<K, B>
-export function fromFoldableMap<F extends URIS2>(
+): <U, L, A, K extends string>(ta: Type3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+export function fromFoldableMap<F extends URIS2, B>(
+  M: Magma<B>,
   F: Foldable2<F>
-): <L, A, K extends string, B>(
-  ta: Type2<F, L, A>,
-  f: (a: A) => [K, B],
-  onConflict: (existing: B, a: B) => B
-) => Record<K, B>
-export function fromFoldableMap<F extends URIS>(
+): <L, A, K extends string>(ta: Type2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+export function fromFoldableMap<F extends URIS, B>(
+  M: Magma<B>,
   F: Foldable1<F>
-): <A, K extends string, B>(ta: Type<F, A>, f: (a: A) => [K, B], onConflict: (existing: B, a: B) => B) => Record<K, B>
-export function fromFoldableMap<F>(
+): <A, K extends string>(ta: Type<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+export function fromFoldableMap<F, B>(
+  M: Magma<B>,
   // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <A, K extends string, B>(ta: HKT<F, A>, f: (a: A) => [K, B], onConflict: (existing: B, a: B) => B) => Record<K, B> { ... }
+): <A, K extends string>(ta: HKT<F, A>, f: (a: A) => [K, B]) => Record<K, B> { ... }
 ```
 
 **Example**
 
 ```ts
+import { getLastSemigroup } from 'fp-ts/lib/Semigroup'
 import { array, zip } from 'fp-ts/lib/Array'
 import { identity } from 'fp-ts/lib/function'
 import { fromFoldableMap } from 'fp-ts/lib/Record'
 
 // like lodash `zipObject` or ramda `zipObj`
 export const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
-  fromFoldableMap(array)(zip(keys, values), identity, (_, b) => b)
+  fromFoldableMap(getLastSemigroup<A>(), array)(zip(keys, values), identity)
 
 assert.deepStrictEqual(zipObject(['a', 'b'], [1, 2, 3]), { a: 1, b: 2 })
 
-// build a map from a field
+// build a record from a field
 interface User {
   id: string
   name: string
@@ -318,7 +315,7 @@ interface User {
 
 const users: Array<User> = [{ id: 'id1', name: 'name1' }, { id: 'id2', name: 'name2' }, { id: 'id1', name: 'name3' }]
 
-assert.deepStrictEqual(fromFoldableMap(array)(users, user => [user.id, user], (_, b) => b), {
+assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), array)(users, user => [user.id, user]), {
   id1: { id: 'id1', name: 'name3' },
   id2: { id: 'id2', name: 'name2' }
 })
