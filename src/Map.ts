@@ -18,6 +18,7 @@ import { FunctorWithIndex2C } from './FunctorWithIndex'
 import { Functor2 } from './Functor'
 import { Traversable2v2C } from './Traversable2v'
 import { Filterable2 } from './Filterable'
+import { Magma } from './Magma'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -572,9 +573,7 @@ const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K
 }
 
 /**
- * Create a map from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
- *
+ * @deprecated - Use {@link fromFoldable2v}
  * @since 1.14.0
  */
 export function fromFoldable<K, F extends URIS3>(
@@ -597,12 +596,43 @@ export function fromFoldable<K, F>(
   S: Setoid<K>,
   F: Foldable2v<F>
 ): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> {
-  return <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => {
+  return <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) =>
+    fromFoldable2v(S, F, { concat: onConflict })(ta)
+}
+
+/**
+ * Create a map from a foldable collection of key/value pairs, using the
+ * specified function to combine values for duplicate keys.
+ *
+ * @since 1.16.1
+ */
+export function fromFoldable2v<A, K, F extends URIS3>(
+  S: Setoid<K>,
+  F: Foldable2v3<F>,
+  M: Magma<A>
+): <U, L>(ta: Type3<F, U, L, [K, A]>) => Map<K, A>
+export function fromFoldable2v<A, K, F extends URIS2>(
+  S: Setoid<K>,
+  F: Foldable2v2<F>,
+  M: Magma<A>
+): <L>(ta: Type2<F, L, [K, A]>) => Map<K, A>
+export function fromFoldable2v<A, K, F extends URIS>(
+  S: Setoid<K>,
+  F: Foldable2v1<F>,
+  M: Magma<A>
+): (ta: Type<F, [K, A]>) => Map<K, A>
+export function fromFoldable2v<A, K, F>(S: Setoid<K>, F: Foldable2v<F>, M: Magma<A>): (ta: HKT<F, [K, A]>) => Map<K, A>
+export function fromFoldable2v<A, K, F>(
+  S: Setoid<K>,
+  F: Foldable2v<F>,
+  M: Magma<A>
+): (ta: HKT<F, [K, A]>) => Map<K, A> {
+  return (ta: HKT<F, [K, A]>) => {
     const lookupWithKeyS = lookupWithKey(S)
     return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
       const bOpt = lookupWithKeyS(k, b)
       if (bOpt.isSome()) {
-        b.set(bOpt.value[0], onConflict(bOpt.value[1], a))
+        b.set(bOpt.value[0], M.concat(bOpt.value[1], a))
       } else {
         b.set(k, a)
       }
