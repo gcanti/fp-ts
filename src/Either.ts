@@ -694,6 +694,38 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
   }
 }
 
+/**
+ * Converts a JavaScript Object Notation (JSON) string into an object.
+ *
+ * @example
+ * import { parseJSON, toError } from 'fp-ts/lib/Either'
+ *
+ * assert.deepStrictEqual(parseJSON('{"a":1}', toError).value, { a: 1 })
+ * assert.deepStrictEqual(parseJSON('{"a":}', toError).value, new SyntaxError('Unexpected token } in JSON at position 5'))
+ *
+ * @since 1.16.0
+ */
+export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either<L, unknown> => {
+  return tryCatch2v(() => JSON.parse(s), onError)
+}
+
+/**
+ * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+ *
+ * @example
+ * import { stringifyJSON, toError } from 'fp-ts/lib/Either'
+ *
+ * assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError).value, '{"a":1}')
+ * const circular: any = { ref: null }
+ * circular.ref = circular
+ * assert.deepStrictEqual(stringifyJSON(circular, toError).value, new TypeError('Converting circular structure to JSON'))
+ *
+ * @since 1.16.0
+ */
+export const stringifyJSON = <L>(u: unknown, onError: (reason: unknown) => L): Either<L, string> => {
+  return tryCatch2v(() => JSON.stringify(u), onError)
+}
+
 const throwError = left
 
 const fromEither = identity

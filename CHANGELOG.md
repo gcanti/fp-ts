@@ -14,7 +14,7 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
-# 1.16.0
+# 1.16.1
 
 - **New Feature**
   - add `findFistMap` and `findLastMap` to `Array` module, closes #788 (@sledorze)
@@ -24,7 +24,7 @@ high state of flux, you're at risk of it changing without notice.
   - add `FunctionN` type alias (@ta2gch)
   - add `MonadThrow` and related instances (@gcanti)
   - add es6 module step to build for tree-shaking support (@FruitieX)
-  - add `parseJSON` / `stringifyJSON` to `IOEither` module (@gcanti)
+  - add `parseJSON` / `stringifyJSON` to `Either` module (@gcanti)
   - add `Magma` (@gcanti)
   - add `fromFoldableMap` to `Record` module (@gcanti)
 - **Polish**

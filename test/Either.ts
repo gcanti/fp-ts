@@ -21,7 +21,9 @@ import {
   right,
   tryCatch,
   tryCatch2v,
-  toError
+  toError,
+  parseJSON,
+  stringifyJSON
 } from '../src/Either'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
@@ -498,5 +500,29 @@ describe('Either', () => {
       assert.deepStrictEqual(either.fromOption(none, 'error'), left('error'))
       assert.deepStrictEqual(either.fromOption(some(1), 'error'), right(1))
     })
+  })
+
+  it('parseJSON', () => {
+    assert.deepStrictEqual(parseJSON('{"a":1}', toError).value, { a: 1 })
+    assert.deepStrictEqual(
+      parseJSON('{"a":}', toError).value,
+      new SyntaxError('Unexpected token } in JSON at position 5')
+    )
+  })
+
+  it('stringifyJSON', () => {
+    assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError).value, '{"a":1}')
+    const circular: any = { ref: null }
+    circular.ref = circular
+    assert.deepStrictEqual(
+      stringifyJSON(circular, toError).value,
+      new TypeError('Converting circular structure to JSON')
+    )
+    interface Person {
+      name: string
+      age: number
+    }
+    const person: Person = { name: 'Giulio', age: 45 }
+    assert.deepStrictEqual(stringifyJSON(person, toError).value, '{"name":"Giulio","age":45}')
   })
 })

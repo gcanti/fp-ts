@@ -101,7 +101,9 @@ left(23).map(double) // left(23)
 - [isLeft (function)](#isleft-function)
 - [isRight (function)](#isright-function)
 - [left (function)](#left-function)
+- [parseJSON (function)](#parsejson-function)
 - [right (function)](#right-function)
+- [stringifyJSON (function)](#stringifyjson-function)
 - [toError (function)](#toerror-function)
 - [~~tryCatch~~ (function)](#trycatch-function)
 - [tryCatch2v (function)](#trycatch2v-function)
@@ -814,6 +816,27 @@ export const left = <L, A>(l: L): Either<L, A> => ...
 
 Added in v1.0.0
 
+# parseJSON (function)
+
+Converts a JavaScript Object Notation (JSON) string into an object.
+
+**Signature**
+
+```ts
+export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either<L, unknown> => ...
+```
+
+**Example**
+
+```ts
+import { parseJSON, toError } from 'fp-ts/lib/Either'
+
+assert.deepStrictEqual(parseJSON('{"a":1}', toError).value, { a: 1 })
+assert.deepStrictEqual(parseJSON('{"a":}', toError).value, new SyntaxError('Unexpected token } in JSON at position 5'))
+```
+
+Added in v1.16.0
+
 # right (function)
 
 Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
@@ -826,6 +849,29 @@ export const right = <L, A>(a: A): Either<L, A> => ...
 ```
 
 Added in v1.0.0
+
+# stringifyJSON (function)
+
+Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
+
+**Signature**
+
+```ts
+export const stringifyJSON = <L>(u: unknown, onError: (reason: unknown) => L): Either<L, string> => ...
+```
+
+**Example**
+
+```ts
+import { stringifyJSON, toError } from 'fp-ts/lib/Either'
+
+assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError).value, '{"a":1}')
+const circular: any = { ref: null }
+circular.ref = circular
+assert.deepStrictEqual(stringifyJSON(circular, toError).value, new TypeError('Converting circular structure to JSON'))
+```
+
+Added in v1.16.0
 
 # toError (function)
 
