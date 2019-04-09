@@ -14,6 +14,24 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.16.0
+
+- **New Feature**
+  - add `findFistMap` and `findLastMap` to `Array` module, closes #788 (@sledorze)
+  - add `cons` / `snoc` to `NonEmptyArray2v` module, closes #800 (@sledorze)
+  - add `Traced` comonad, closes #798 (@gcanti)
+  - add `tryCatch` to `Validation` module (@gcanti)
+  - add `FunctionN` type alias (@ta2gch)
+  - add `MonadThrow` and related instances (@gcanti)
+  - add es6 module step to build for tree-shaking support (@FruitieX)
+  - add `parseJSON` / `stringifyJSON` to `IOEither` module (@gcanti)
+  - add `Magma` (@gcanti)
+  - add `fromFoldableMap` to `Record` module (@gcanti)
+- **Polish**
+  - `snoc` / `cons` in `Array` now return a `NonEmptyArray` (@sledorze)
+  - replace `any` with `unknown` in `Console` module (@gcanti)
+  - replace `any` with `unknown` in `Trace` module (@gcanti)
+
 # 1.15.1
 
 - **Regression**
