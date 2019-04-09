@@ -601,8 +601,8 @@ export function fromFoldable<K, F>(
 }
 
 /**
- * Create a map from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
+ * Create a map from a {@link Foldable2v} collection of key/value pairs, using the
+ * specified {@link Magma} instance to combine values for duplicate keys.
  *
  * @since 1.16.1
  */
