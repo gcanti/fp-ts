@@ -45,6 +45,7 @@ Adapted from
 - [zipper (constant)](#zipper-constant)
 - [fromArray (function)](#fromarray-function)
 - [fromNonEmptyArray (function)](#fromnonemptyarray-function)
+- [fromNonEmptyArray2v (function)](#fromnonemptyarray2v-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 
@@ -304,6 +305,16 @@ export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => ...
 ```
 
 Added in v1.9.0
+
+# fromNonEmptyArray2v (function)
+
+**Signature**
+
+```ts
+export const fromNonEmptyArray2v = <A>(nea: NonEmptyArray2v<A>): Zipper<A> => ...
+```
+
+Added in v1.17.0
 
 # getMonoid (function)
 
