@@ -82,7 +82,7 @@ export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
 }
 
 /**
- * Builds a `NonEmptyArray` from a provably (compile time) non empty `Array`.
+ * Builds a `NonEmptyArray` from a probably (compile time) non empty `Array`.
  *
  * @since 1.15.0
  */
