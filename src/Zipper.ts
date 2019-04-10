@@ -18,6 +18,7 @@ import { decrement, increment, toString } from './function'
 import { HKT } from './HKT'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
+import { NonEmptyArray as NonEmptyArray2v, tail, head } from './NonEmptyArray2v'
 import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Traversable2v1 } from './Traversable2v'
@@ -191,6 +192,13 @@ export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
  */
 export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => {
   return new Zipper(empty, nea.head, nea.tail)
+}
+
+/**
+ * @since 1.17.0
+ */
+export const fromNonEmptyArray2v = <A>(nea: NonEmptyArray2v<A>): Zipper<A> => {
+  return new Zipper(empty, head(nea), tail(nea))
 }
 
 const map = <A, B>(fa: Zipper<A>, f: (a: A) => B): Zipper<B> => {

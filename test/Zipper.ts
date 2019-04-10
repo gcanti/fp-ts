@@ -3,10 +3,19 @@ import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { NonEmptyArray } from '../src/NonEmptyArray'
+import { fromNonEmptyArray } from '../src/NonEmptyArray2v'
 import { none, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Traversable'
-import { fromArray, fromNonEmptyArray, getMonoid, getSemigroup, Zipper, zipper } from '../src/Zipper'
+import {
+  fromArray,
+  fromNonEmptyArray as zipperFromNonEmptyArray,
+  getMonoid,
+  getSemigroup,
+  Zipper,
+  zipper,
+  fromNonEmptyArray2v
+} from '../src/Zipper'
 
 const len = (s: string): number => s.length
 const prepend = (a: string) => (s: string): string => a + s
@@ -126,8 +135,13 @@ describe('Zipper', () => {
   })
 
   it('fromNonEmptyArray', () => {
-    assert.deepStrictEqual(fromNonEmptyArray(new NonEmptyArray(1, [])), new Zipper([], 1, []))
-    assert.deepStrictEqual(fromNonEmptyArray(new NonEmptyArray(1, [2, 3])), new Zipper([], 1, [2, 3]))
+    assert.deepStrictEqual(zipperFromNonEmptyArray(new NonEmptyArray(1, [])), new Zipper([], 1, []))
+    assert.deepStrictEqual(zipperFromNonEmptyArray(new NonEmptyArray(1, [2, 3])), new Zipper([], 1, [2, 3]))
+  })
+
+  it('fromNonEmptyArray2v', () => {
+    assert.deepStrictEqual(fromNonEmptyArray2v(fromNonEmptyArray([1])), new Zipper([], 1, []))
+    assert.deepStrictEqual(fromNonEmptyArray2v(fromNonEmptyArray([1, 2, 3])), new Zipper([], 1, [2, 3]))
   })
 
   it('toString', () => {
