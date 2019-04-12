@@ -172,6 +172,16 @@ describe('TaskEither', () => {
     })
   })
 
+  it('getOrElse', () => {
+    const v: number = 42
+    const te1 = taskEither.of<string, number>(1).getOrElse(v)
+    const te2 = fromLeft<string, number>('foo').getOrElse(v)
+    return Promise.all([te1.run(), te2.run()]).then(([b1, b2]) => {
+      assert.strictEqual(b1, 1)
+      assert.strictEqual(b2, 42)
+    })
+  })
+
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2

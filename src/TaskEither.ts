@@ -13,7 +13,7 @@ import {
   right as eitherRight
 } from './Either'
 import * as eitherT from './EitherT'
-import { constant, constIdentity, Lazy, Predicate, Refinement } from './function'
+import { constant, constIdentity, Lazy, Predicate, Refinement, identity } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2 } from './Monad'
@@ -108,6 +108,19 @@ export class TaskEither<L, A> {
    */
   foldTaskEither<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
     return new TaskEither(this.value.chain(e => e.fold(onLeft, onRight).value))
+  }
+  /**
+   * Similar to `fold`, return the value from Right or the given argument if Left.
+   * @since 1.17.0
+   */
+  getOrElse(a: A): Task<A> {
+    return this.getOrElseL(() => a)
+  }
+  /**
+   * @since 1.17.0
+   */
+  getOrElseL(f: (l: L) => A): Task<A> {
+    return this.fold(f, identity)
   }
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
     return new TaskEither(this.value.map(e => e.mapLeft(f)))

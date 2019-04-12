@@ -27,6 +27,8 @@ error of type `L`. If you want to represent an asynchronous computation that nev
   - [fold (method)](#fold-method)
   - [foldTask (method)](#foldtask-method)
   - [foldTaskEither (method)](#foldtaskeither-method)
+  - [getOrElse (method)](#getorelse-method)
+  - [getOrElseL (method)](#getorelsel-method)
   - [mapLeft (method)](#mapleft-method)
   - [orElse (method)](#orelse-method)
   - [alt (method)](#alt-method)
@@ -197,6 +199,28 @@ foldTaskEither<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => Task
 ```
 
 Added in v1.10.0
+
+## getOrElse (method)
+
+Similar to `fold`, return the value from Right or the given argument if Left.
+
+**Signature**
+
+```ts
+getOrElse(a: A): Task<A> { ... }
+```
+
+Added in v1.17.0
+
+## getOrElseL (method)
+
+**Signature**
+
+```ts
+getOrElseL(f: (l: L) => A): Task<A> { ... }
+```
+
+Added in v1.17.0
 
 ## mapLeft (method)
 
