@@ -110,12 +110,15 @@ export class TaskEither<L, A> {
     return new TaskEither(this.value.chain(e => e.fold(onLeft, onRight).value))
   }
   /**
-   * Similar to `fold`, return the value from Right or the given argument if Left .
+   * Similar to `fold`, return the value from Right or the given argument if Left.
    * @since 1.17.0
    */
   getOrElse(a: A): Task<A> {
     return this.getOrElseL(() => a)
   }
+  /**
+   * @since 1.17.0
+   */
   getOrElseL(f: (l: L) => A): Task<A> {
     return this.fold(f, identity)
   }

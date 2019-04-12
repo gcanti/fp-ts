@@ -202,7 +202,7 @@ Added in v1.10.0
 
 ## getOrElse (method)
 
-Similar to `fold`, return the value from Right or the given argument if Left .
+Similar to `fold`, return the value from Right or the given argument if Left.
 
 **Signature**
 
@@ -219,6 +219,8 @@ Added in v1.17.0
 ```ts
 getOrElseL(f: (l: L) => A): Task<A> { ... }
 ```
+
+Added in v1.17.0
 
 ## mapLeft (method)
 
