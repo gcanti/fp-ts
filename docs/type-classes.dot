@@ -12,11 +12,13 @@ digraph G {
 
   node [style=filled,color=black,fillcolor="#FC81BF"];
   "Group" [URL="./modules/Group.ts.html"];
+  "Magma" [URL="./modules/Magma.ts.html"];
   "Monoid" [URL="./modules/Monoid.ts.html"];
   "Semigroup" [URL="./modules/Semigroup.ts.html"];
 
   "Group" -> "Monoid"
   "Monoid" -> "Semigroup"
+  "Semigroup" -> "Magma"
 
   node [style=filled,color=black,fillcolor="#FDF4AA"];
   "Field" [URL="./modules/Field.ts.html"];
