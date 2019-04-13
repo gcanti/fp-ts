@@ -120,6 +120,7 @@ Type classes describe what you can do with your data. Implementations are provid
 * [IxMonad](./IxMonad.ts.html)
 * [JoinSemilattice](./JoinSemilattice.ts.html)
 * [Lattice](./Lattice.ts.html)
+* [Magma](./Magma.ts.html)
 * [MeetSemilattice](./MeetSemilattice.ts.html)
 * [Monad](./Monad.ts.html)
 * [Monoid](./Monoid.ts.html)
