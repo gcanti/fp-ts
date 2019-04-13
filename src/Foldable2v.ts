@@ -315,7 +315,7 @@ export function oneOf<P extends URIS, F extends URIS>(
 ): <A>(fga: Type<F, Type<P, A>>) => Type<P, A>
 export function oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>
 export function oneOf<P, F>(P: Plus<P>, F: Foldable2v<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> {
-  return fga => F.reduce(fga, P.zero(), (acc, a) => P.alt(acc, a))
+  return fga => F.reduce(fga, P.zero(), P.alt)
 }
 
 interface Acc<M> {
@@ -379,7 +379,7 @@ export function sum<F extends URIS2, A, L>(S: Semiring<A>, F: Foldable2v2C<F, L>
 export function sum<F extends URIS, A>(S: Semiring<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => A
 export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A
 export function sum<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A {
-  return fa => F.reduce(fa, S.zero, (b, a) => S.add(b, a))
+  return fa => F.reduce(fa, S.zero, S.add)
 }
 
 /**
@@ -405,7 +405,7 @@ export function product<F extends URIS2, A, L>(S: Semiring<A>, F: Foldable2v2C<F
 export function product<F extends URIS, A>(S: Semiring<A>, F: Foldable2v1<F>): (fa: Type<F, A>) => A
 export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A
 export function product<F, A>(S: Semiring<A>, F: Foldable2v<F>): (fa: HKT<F, A>) => A {
-  return fa => F.reduce(fa, S.one, (b, a) => S.mul(b, a))
+  return fa => F.reduce(fa, S.one, S.mul)
 }
 
 /**
