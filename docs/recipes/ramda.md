@@ -88,7 +88,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | groupWith               | [NonEmptyArray.group](../modules/NonEmptyArray.ts#group), [NonEmptyArray.groupSort](../modules/Array.ts#groupsort) |
 | gt                      | [Ord.greaterThan](../modules/Ord.ts#greaterthan)                                                             |
 | gte                     | [Ord.greaterThanOrEq](../modules/Ord.ts#greaterthanoreq)                                                     |
-| has                     |                                                                                                              |
+| has                     | [Map.member](../modules/Map.ts#member-function)                                                              |
 | hasIn                   |                                                                                                              |
 | head                    | [Array.head](../modules/Array.ts#head)                                                                       |
 | identical               | [Setoid](../modules/Setoid.ts)                                                                               |
@@ -109,9 +109,10 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | invoker                 |                                                                                                              |
 | is                      |                                                                                                              |
 | isEmpty                 |                                                                                                              |
-| isNil                   |                                                                                                              |
+| isNil                   | [Option.fromNullable](../modules/Option.ts#fromnullable-function)                                            |
 | join                    |                                                                                                              |
 | juxt                    |                                                                                                              |
+| keys                    | [Map.keys](../modules/Map.ts#keys-function)                                                                  |
 | keysIn                  |                                                                                                              |
 | last                    | [Array.last](../modules/Array.ts#last)                                                                       |
 | lastIndexOf             | [Array.findLastIndex](../modules/Array.ts#findlastindex)                                                     |
@@ -130,7 +131,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | mapObjIndexed           |                                                                                                              |
 | match                   |                                                                                                              |
 | mathMod                 |                                                                                                              |
-| max                     | [Ord.max](../modules/Ord.ts#max)                                                                             |
+| max                     | [Ord.max](../modules/Ord.ts#max), [numbers recipe](../recipes/numbers)                                       |
 | maxBy                   |                                                                                                              |
 | mean                    |                                                                                                              |
 | median                  |                                                                                                              |
@@ -144,9 +145,8 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | mergeDeepWithKey        |                                                                                                              |
 | mergeWith               | [Record.getMonoid](../modules/Record.ts#getmonoid)                                                           |
 | mergeWithKey            |                                                                                                              |
-| min                     | [Ord.min](../modules/Ord.ts#min)                                                                             |
+| min                     | [Ord.min](../modules/Ord.ts#min), [numbers recipe](../recipes/numbers)                                       |
 | minBy                   |                                                                                                              |
-| module.exports          |                                                                                                              |
 | modulo                  |                                                                                                              |
 | multiply                | [Field](../modules/Field.ts)                                                                                 |
 | nAry                    |                                                                                                              |
@@ -166,7 +166,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | partial                 |                                                                                                              |
 | partialRight            |                                                                                                              |
 | partition               | [Filterable](../modules/Filterable.ts)                                                                       |
-| path                    |                                                                                                              |
+| path                    | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                       |
 | pathEq                  |                                                                                                              |
 | pathOr                  |                                                                                                              |
 | pathSatisfies           |                                                                                                              |
@@ -210,7 +210,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | splitWhen               |                                                                                                              |
 | startsWith              |                                                                                                              |
 | subtract                | [Ring](../modules/Ring.ts)                                                                                   |
-| sum                     |                                                                                                              |
+| sum                     | see [numbers recipe](../recipes/numbers)                                                                     |
 | symmetricDifference     |                                                                                                              |
 | symmetricDifferenceWith |                                                                                                              |
 | T                       | [function.constTrue](../modules/function.ts#consttrue)                                                       |
@@ -222,8 +222,8 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | tap                     |                                                                                                              |
 | test                    |                                                                                                              |
 | times                   | [Array.makeBy](../modules/Array.ts#makeby)                                                                   |
-| toLower                 | [Record.toUnfoldable](../modules/Record.ts#tounfoldable)                                                     |
-| toPairs                 |                                                                                                              |
+| toLower                 |                                                                                                              |
+| toPairs                 | [Record.toUnfoldable](../modules/Record.ts#tounfoldable)                                                     |
 | toPairsIn               |                                                                                                              |
 | toString                | [function.toString](../modules/function.ts#tostring)                                                         |
 | toUpper                 |                                                                                                              |
@@ -246,7 +246,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | until                   |                                                                                                              |
 | update                  | [Array.updateAt](../modules/Array.ts#updateat), [Array.unsafeUpdateAt](../modules/Array.ts#unsafeupdateat)   |
 | useWith                 |                                                                                                              |
-| values                  |                                                                                                              |
+| values                  | [Map.values](../modules/Map.ts#values-function)                                                              |
 | valuesIn                |                                                                                                              |
 | view                    | see [monocle-ts](https://github.com/gcanti/monocle-ts)                                                       |
 | when                    |                                                                                                              |
