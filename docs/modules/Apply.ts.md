@@ -36,9 +36,9 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [applyFirst (function)](#applyfirst-function)
 - [applySecond (function)](#applysecond-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [liftA2 (function)](#lifta2-function)
-- [liftA3 (function)](#lifta3-function)
-- [liftA4 (function)](#lifta4-function)
+- [~~liftA2~~ (function)](#lifta2-function)
+- [~~liftA3~~ (function)](#lifta3-function)
+- [~~liftA4~~ (function)](#lifta4-function)
 - [sequenceS (function)](#sequences-function)
 - [sequenceT (function)](#sequencet-function)
 
@@ -280,9 +280,11 @@ assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
 
 Added in v1.4.0
 
-# liftA2 (function)
+# ~~liftA2~~ (function)
 
 Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
+
+Use `sequenceT` / `sequenceS` instead.
 
 **Signature**
 
@@ -307,10 +309,12 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
 
 Added in v1.0.0
 
-# liftA3 (function)
+# ~~liftA3~~ (function)
 
 Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
 `F`
+
+Use `sequenceT` / `sequenceS` instead.
 
 **Signature**
 
@@ -345,10 +349,12 @@ export function liftA3<F>(
 
 Added in v1.0.0
 
-# liftA4 (function)
+# ~~liftA4~~ (function)
 
 Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
 `F`
+
+Use `sequenceT` / `sequenceS` instead.
 
 **Signature**
 
