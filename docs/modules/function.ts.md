@@ -59,7 +59,7 @@ parent: Modules
 - [pipe (function)](#pipe-function)
 - [toString (function)](#tostring-function)
 - [tuple (function)](#tuple-function)
-- [tupleCurried (function)](#tuplecurried-function)
+- [~~tupleCurried~~ (function)](#tuplecurried-function)
 
 ---
 
@@ -668,7 +668,7 @@ export const tuple = <T extends Array<any>>(...t: T): T => ...
 
 Added in v1.0.0
 
-# tupleCurried (function)
+# ~~tupleCurried~~ (function)
 
 **Signature**
 

@@ -91,7 +91,10 @@ export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>
 /**
  * Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
  *
+ * Use `sequenceT` / `sequenceS` instead.
+ *
  * @since 1.0.0
+ * @deprecated
  */
 export function liftA2<F extends URIS3>(
   F: Apply3<F>
@@ -108,6 +111,7 @@ export function liftA2<F extends URIS2, L>(
 export function liftA2<F extends URIS>(
   F: Apply1<F>
 ): <A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
+/** @deprecated */
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
 export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> {
   return f => fa => fb => F.ap(F.map(fa, f), fb)
@@ -117,7 +121,10 @@ export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curri
  * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
  * `F`
  *
+ * Use `sequenceT` / `sequenceS` instead.
+ *
  * @since 1.0.0
+ * @deprecated
  */
 export function liftA3<F extends URIS3>(
   F: Apply3<F>
@@ -142,6 +149,7 @@ export function liftA3<F extends URIS2, L>(
 export function liftA3<F extends URIS>(
   F: Apply1<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>>
+/** @deprecated */
 export function liftA3<F>(
   F: Apply<F>
 ): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
@@ -155,7 +163,10 @@ export function liftA3<F>(
  * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
  * `F`
  *
+ * Use `sequenceT` / `sequenceS` instead.
+ *
  * @since 1.0.0
+ * @deprecated
  */
 export function liftA4<F extends URIS3>(
   F: Apply3<F>
@@ -184,6 +195,7 @@ export function liftA4<F extends URIS2, L>(
 export function liftA4<F extends URIS>(
   F: Apply1<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>, Type<F, E>>
+/** @deprecated */
 export function liftA4<F>(
   F: Apply<F>
 ): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
@@ -225,9 +237,9 @@ export function getSemigroup<F extends URIS2, L, A>(F: Apply2C<F, L>, S: Semigro
 export function getSemigroup<F extends URIS, A>(F: Apply1<F>, S: Semigroup<A>): () => Semigroup<Type<F, A>>
 export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>>
 export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>> {
-  const concatLifted = liftA2(F)((a: A) => (b: A) => S.concat(a, b))
+  const f = (a: A) => (b: A) => S.concat(a, b)
   return () => ({
-    concat: (x, y) => concatLifted(x)(y)
+    concat: (x, y) => F.ap(F.map(x, f), y)
   })
 }
 

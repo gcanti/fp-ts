@@ -5,10 +5,9 @@
  * - https://bartoszmilewski.com/2017/02/06/applicative-functors/
  */
 import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
-import { liftA2 } from './Apply'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { constant, tupleCurried } from './function'
+import { constant } from './function'
 
 /**
  * @since 1.0.0
@@ -46,31 +45,32 @@ export interface Monoidal3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 /**
  * @since 1.0.0
  */
-export function fromApplicative<F extends URIS3>(applicative: Applicative3<F>): Monoidal3<F>
-export function fromApplicative<F extends URIS2>(applicative: Applicative2<F>): Monoidal2<F>
-export function fromApplicative<F extends URIS>(applicative: Applicative1<F>): Monoidal1<F>
-export function fromApplicative<F>(applicative: Applicative<F>): Monoidal<F>
-export function fromApplicative<F>(applicative: Applicative<F>): Monoidal<F> {
+export function fromApplicative<F extends URIS3>(F: Applicative3<F>): Monoidal3<F>
+export function fromApplicative<F extends URIS2>(F: Applicative2<F>): Monoidal2<F>
+export function fromApplicative<F extends URIS>(F: Applicative1<F>): Monoidal1<F>
+export function fromApplicative<F>(F: Applicative<F>): Monoidal<F>
+export function fromApplicative<F>(F: Applicative<F>): Monoidal<F> {
+  const f = <A>(a: A) => <B>(b: B): [A, B] => [a, b]
   return {
-    URI: applicative.URI,
-    map: applicative.map,
-    unit: () => applicative.of(undefined),
-    mult: <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => liftA2(applicative)<A, B, [A, B]>(tupleCurried)(fa)(fb)
+    URI: F.URI,
+    map: F.map,
+    unit: () => F.of(undefined),
+    mult: <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => F.ap(F.map<A, (b: B) => [A, B]>(fa, f), fb)
   }
 }
 
 /**
  * @since 1.0.0
  */
-export function toApplicative<F extends URIS3>(monoidal: Monoidal3<F>): Applicative3<F>
-export function toApplicative<F extends URIS2>(monoidal: Monoidal2<F>): Applicative2<F>
-export function toApplicative<F extends URIS>(monoidal: Monoidal1<F>): Applicative1<F>
-export function toApplicative<F>(monoidal: Monoidal<F>): Applicative<F>
-export function toApplicative<F>(monoidal: Monoidal<F>): Applicative<F> {
+export function toApplicative<F extends URIS3>(M: Monoidal3<F>): Applicative3<F>
+export function toApplicative<F extends URIS2>(M: Monoidal2<F>): Applicative2<F>
+export function toApplicative<F extends URIS>(M: Monoidal1<F>): Applicative1<F>
+export function toApplicative<F>(M: Monoidal<F>): Applicative<F>
+export function toApplicative<F>(M: Monoidal<F>): Applicative<F> {
   return {
-    URI: monoidal.URI,
-    map: monoidal.map,
-    of: a => monoidal.map(monoidal.unit(), constant(a)),
-    ap: (fab, fa) => monoidal.map(monoidal.mult(fab, fa), ([f, a]) => f(a))
+    URI: M.URI,
+    map: M.map,
+    of: a => M.map(M.unit(), constant(a)),
+    ap: (fab, fa) => M.map(M.mult(fab, fa), ([f, a]) => f(a))
   }
 }
