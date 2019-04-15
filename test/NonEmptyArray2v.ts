@@ -25,7 +25,8 @@ import {
   filterWithIndex,
   fromNonEmptyArray,
   cons,
-  snoc
+  snoc,
+  modifyAt
 } from '../src/NonEmptyArray2v'
 import { none, option, some, isSome } from '../src/Option'
 import { ordNumber } from '../src/Ord'
@@ -302,6 +303,12 @@ describe.only('NonEmptyArray2v', () => {
     } else {
       assert.fail('is not a Some')
     }
+  })
+
+  it('modifyAt', () => {
+    const double = (n: number): number => n * 2
+    assert.deepStrictEqual(modifyAt(make<number>(1, []), 1, double), none)
+    assert.deepStrictEqual(modifyAt(make<number>(1, [2]), 1, double), some(make(1, [4])))
   })
 
   it('filter', () => {

@@ -259,6 +259,13 @@ export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonE
 }
 
 /**
+ * @since 1.17.0
+ */
+export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> {
+  return A.modifyAt(nea, i, f) as any
+}
+
+/**
  * @since 1.15.0
  */
 export function filter<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<NonEmptyArray<A>>
