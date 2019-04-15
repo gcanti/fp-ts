@@ -43,6 +43,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 - [head (function)](#head-function)
 - [~~index~~ (function)](#index-function)
 - [init (function)](#init-function)
@@ -734,6 +735,16 @@ assert.strictEqual(O.equals(['a'], []), false)
 ```
 
 Added in v1.0.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <L, A>(S: Show<A>): Show<Array<A>> => ...
+```
+
+Added in v1.17.0
 
 # head (function)
 

@@ -12,6 +12,7 @@ import { semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -64,6 +65,15 @@ export class Pair<A> {
   }
   extend<B>(f: (fb: Pair<A>) => B): Pair<B> {
     return new Pair(f(this), f(this.swap()))
+  }
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <L, A>(S: Show<A>): Show<Pair<A>> => {
+  return {
+    show: p => `new Pair(${S.show(p.fst)}, ${S.show(p.snd)})`
   }
 }
 

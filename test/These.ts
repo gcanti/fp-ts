@@ -24,10 +24,12 @@ import {
   theseThis,
   theseThat,
   fromOptions,
-  fromEither
+  fromEither,
+  getShow
 } from '../src/These'
 import * as T from '../src/Traversable'
 import { left, right } from '../src/Either'
+import { showString } from '../src/Show'
 
 describe('These', () => {
   it('getSetoid', () => {
@@ -266,5 +268,12 @@ describe('These', () => {
     const x3 = both<number, string>(1, 'a')
     assert.strictEqual(foldr(x3, init1, f1), 'a')
     assert.strictEqual(foldr(x3, init1, f1), old(x3, init1, f1))
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString, showString)
+    assert.strictEqual(S.show(this_('a')), `this_("a")`)
+    assert.strictEqual(S.show(that('a')), `that("a")`)
+    assert.strictEqual(S.show(both('a', 'b')), `both("a", "b")`)
   })
 })

@@ -18,8 +18,10 @@ import {
   getSemigroup,
   getSetoid,
   Tuple,
-  tuple
+  tuple,
+  getShow
 } from '../src/Tuple'
+import { showString } from '../src/Show'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -210,5 +212,10 @@ describe('Tuple', () => {
     assert.strictEqual(S.equals(new Tuple(1, true), new Tuple(1, true)), true)
     assert.strictEqual(S.equals(new Tuple(1, true), new Tuple(2, true)), false)
     assert.strictEqual(S.equals(new Tuple(1, true), new Tuple(1, false)), false)
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString, showString)
+    assert.strictEqual(S.show(new Tuple('a', 'b')), `new Tuple("a", "b")`)
   })
 })

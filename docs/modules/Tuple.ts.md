@@ -1,6 +1,6 @@
 ---
 title: Tuple.ts
-nav_order: 95
+nav_order: 96
 parent: Modules
 ---
 
@@ -35,6 +35,7 @@ Adapted from https://github.com/purescript/purescript-tuples
 - [getOrd (function)](#getord-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 
 ---
 
@@ -251,3 +252,13 @@ export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A
 ```
 
 Added in v1.0.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => ...
+```
+
+Added in v1.17.0

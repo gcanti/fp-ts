@@ -10,6 +10,7 @@ import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -82,10 +83,19 @@ export class Identity<A> {
 }
 
 /**
+ * @since 1.17.0
+ */
+export const getShow = <A>(S: Show<A>): Show<Identity<A>> => {
+  return {
+    show: i => `new Identity(${S.show(i.value)})`
+  }
+}
+
+/**
  * @since 1.0.0
  */
-export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => {
-  return fromEquals((x, y) => setoid.equals(x.value, y.value))
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => {
+  return fromEquals((x, y) => S.equals(x.value, y.value))
 }
 
 const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {

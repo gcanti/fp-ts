@@ -21,6 +21,7 @@ parent: Modules
 - [fromArray (function)](#fromarray-function)
 - [getIntersectionSemigroup (function)](#getintersectionsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 - [getUnionMonoid (function)](#getunionmonoid-function)
 - [insert (function)](#insert-function)
 - [intersection (function)](#intersection-function)
@@ -186,6 +187,16 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => ...
 ```
 
 Added in v1.0.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <A>(SA: Show<A>): Show<Set<A>> => ...
+```
+
+Added in v1.17.0
 
 # getUnionMonoid (function)
 

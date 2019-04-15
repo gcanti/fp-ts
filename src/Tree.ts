@@ -15,6 +15,7 @@ import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -71,6 +72,18 @@ export class Tree<A> {
   }
   toString(): string {
     return `new Tree(${toString(this.value)}, ${toString(this.forest)})`
+  }
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
+  const show = (t: Tree<A>): string => {
+    return `new Tree(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
+  }
+  return {
+    show
   }
 }
 

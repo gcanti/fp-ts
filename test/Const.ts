@@ -1,8 +1,9 @@
 import * as assert from 'assert'
-import { Const, getApply, getSetoid, const_, getApplicative } from '../src/Const'
+import { Const, getApply, getSetoid, const_, getApplicative, getShow } from '../src/Const'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { monoidString } from '../src/Monoid'
+import { showString } from '../src/Show'
 
 describe('Const', () => {
   it('map', () => {
@@ -45,5 +46,10 @@ describe('Const', () => {
     const F = getApply(semigroupString)
     const fa = new Const<string, (n: number) => number>('foo')
     assert.deepStrictEqual(F.ap(fa, new Const('bar')), new Const<string, unknown>('foobar'))
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString)
+    assert.strictEqual(S.show(new Const<string, number>('a')), `new Const("a")`)
   })
 })

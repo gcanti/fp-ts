@@ -10,6 +10,19 @@ import { none, Option, some as optionSome } from './Option'
 import { Semigroup } from './Semigroup'
 import { fromEquals, Setoid } from './Setoid'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
+import { Show, showString } from './Show'
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <A>(S: Show<A>): Show<Record<string, A>> => {
+  return {
+    show: r => {
+      const elements = collect(r, (k, a) => `${showString.show(k)}: ${S.show(a)}`).join(', ')
+      return elements === '' ? '{}' : `{ ${elements} }`
+    }
+  }
+}
 
 /**
  * Calculate the number of key/value pairs in a record

@@ -6,6 +6,25 @@ import { Setoid, fromEquals } from './Setoid'
 import { Predicate, not, Refinement, identity } from './function'
 import { Separated } from './Compactable'
 import { Option } from './Option'
+import { Show } from './Show'
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <A>(SA: Show<A>): Show<Set<A>> => {
+  return {
+    show: s => {
+      let elements = ''
+      s.forEach(a => {
+        elements += SA.show(a) + ', '
+      })
+      if (elements !== '') {
+        elements = elements.substring(0, elements.length - 2)
+      }
+      return `new Set([${elements}])`
+    }
+  }
+}
 
 /**
  * @since 1.14.0

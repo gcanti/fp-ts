@@ -14,6 +14,7 @@ import { Setoid } from './Setoid'
 import { compose, Predicate, Refinement } from './function'
 import { Traverse1 } from './Traversable'
 import { Sequence1 } from './Traversable2v'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -33,6 +34,16 @@ export interface NonEmptyArray<A> extends Array<A> {
   map: <B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B) => NonEmptyArray<B>
   concat: (as: Array<A>) => NonEmptyArray<A>
   reverse: () => NonEmptyArray<A>
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => {
+  const SA = A.getShow(S)
+  return {
+    show: arr => `make(${S.show(arr[0])}, ${SA.show(arr.slice(1))})`
+  }
 }
 
 /**

@@ -14,8 +14,10 @@ import {
   getSemigroup,
   Zipper,
   zipper,
-  fromNonEmptyArray2v
+  fromNonEmptyArray2v,
+  getShow
 } from '../src/Zipper'
+import { showString } from '../src/Show'
 
 const len = (s: string): number => s.length
 const prepend = (a: string) => (s: string): string => a + s
@@ -220,5 +222,14 @@ describe('Zipper', () => {
         ['new Zipper(["a", "b", "c"], "d", ["e"])', 'new Zipper(["a", "b", "c", "d"], "e", [])']
       )
     )
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString)
+    assert.strictEqual(S.show(new Zipper([], 'a', [])), 'new Zipper([], "a", [])')
+    assert.strictEqual(S.show(new Zipper(['b'], 'a', [])), 'new Zipper(["b"], "a", [])')
+    assert.strictEqual(S.show(new Zipper(['b', 'c'], 'a', [])), 'new Zipper(["b", "c"], "a", [])')
+    assert.strictEqual(S.show(new Zipper(['b', 'c'], 'a', ['d'])), 'new Zipper(["b", "c"], "a", ["d"])')
+    assert.strictEqual(S.show(new Zipper(['b', 'c'], 'a', ['d', 'e'])), 'new Zipper(["b", "c"], "a", ["d", "e"])')
   })
 })

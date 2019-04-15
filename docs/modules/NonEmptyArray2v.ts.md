@@ -18,6 +18,7 @@ Data structure which represents non-empty arrays
 - [cons (constant)](#cons-constant)
 - [nonEmptyArray (constant)](#nonemptyarray-constant)
 - [snoc (constant)](#snoc-constant)
+- [copy (function)](#copy-function)
 - [filter (function)](#filter-function)
 - [filterWithIndex (function)](#filterwithindex-function)
 - [findFirst (function)](#findfirst-function)
@@ -28,6 +29,7 @@ Data structure which represents non-empty arrays
 - [fromNonEmptyArray (function)](#fromnonemptyarray-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 - [group (function)](#group-function)
 - [groupBy (function)](#groupby-function)
 - [groupSort (function)](#groupsort-function)
@@ -37,6 +39,7 @@ Data structure which represents non-empty arrays
 - [make (function)](#make-function)
 - [max (function)](#max-function)
 - [min (function)](#min-function)
+- [modifyAt (function)](#modifyat-function)
 - [sort (function)](#sort-function)
 - [tail (function)](#tail-function)
 - [updateAt (function)](#updateat-function)
@@ -127,6 +130,16 @@ assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
 
 Added in v1.16.0
+
+# copy (function)
+
+**Signature**
+
+```ts
+export const copy = <A>(nea: NonEmptyArray<A>): NonEmptyArray<A> => ...
+```
+
+Added in v1.17.0
 
 # filter (function)
 
@@ -250,6 +263,16 @@ assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
 ```
 
 Added in v1.15.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => ...
+```
+
+Added in v1.17.0
 
 # group (function)
 
@@ -376,6 +399,16 @@ export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A { ... }
 ```
 
 Added in v1.15.0
+
+# modifyAt (function)
+
+**Signature**
+
+```ts
+export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> { ... }
+```
+
+Added in v1.17.0
 
 # sort (function)
 

@@ -5,7 +5,8 @@ import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { setoidNumber, Setoid, contramap } from '../src/Setoid'
 import * as T from '../src/Traversable'
-import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM, elem } from '../src/Tree'
+import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM, elem, getShow } from '../src/Tree'
+import { showString } from '../src/Show'
 
 describe('Tree', () => {
   it('map', () => {
@@ -181,5 +182,13 @@ describe('Tree', () => {
     assert.strictEqual(elem(S)({ id: 1 }, users), true)
     assert.strictEqual(elem(S)({ id: 4 }, users), true)
     assert.strictEqual(elem(S)({ id: 5 }, users), false)
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString)
+    const t1 = new Tree('a', [])
+    assert.strictEqual(S.show(t1), `new Tree("a", [])`)
+    const t2 = new Tree('a', [new Tree('b', []), new Tree('c', [])])
+    assert.strictEqual(S.show(t2), `new Tree("a", [new Tree("b", []), new Tree("c", [])])`)
   })
 })

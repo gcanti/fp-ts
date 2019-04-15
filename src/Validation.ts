@@ -23,6 +23,7 @@ import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
 import { Witherable2C } from './Witherable'
 import { MonadThrow2C } from './MonadThrow'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -163,6 +164,15 @@ export class Success<L, A> {
   }
   isSuccess(): this is Success<L, A> {
     return true
+  }
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Validation<L, A>> => {
+  return {
+    show: e => e.fold(l => `failure(${SL.show(l)})`, a => `success(${SA.show(a)})`)
   }
 }
 

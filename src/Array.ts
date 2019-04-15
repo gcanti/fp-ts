@@ -22,6 +22,7 @@ import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
 import { NonEmptyArray } from './NonEmptyArray2v'
+import { Show } from './Show'
 
 declare global {
   interface Array<T> {
@@ -41,6 +42,15 @@ declare module './HKT' {
 export const URI = 'Array'
 
 export type URI = typeof URI
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <L, A>(S: Show<A>): Show<Array<A>> => {
+  return {
+    show: arr => `[${arr.map(S.show).join(', ')}]`
+  }
+}
 
 /**
  *

@@ -1,6 +1,6 @@
 ---
 title: StrMap.ts
-nav_order: 84
+nav_order: 85
 parent: Modules
 ---
 
@@ -42,6 +42,7 @@ Adapted from https://github.com/purescript/purescript-maps
 - [fromFoldable (function)](#fromfoldable-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 - [insert (function)](#insert-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubdictionary (function)](#issubdictionary-function)
@@ -378,6 +379,16 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<StrMap<A>> => ...
 ```
 
 Added in v1.0.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <A>(S: Show<A>): Show<StrMap<A>> => ...
+```
+
+Added in v1.17.0
 
 # insert (function)
 

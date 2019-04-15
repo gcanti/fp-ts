@@ -30,6 +30,7 @@ import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -152,6 +153,16 @@ export class Both<L, A> {
   }
   isBoth(): this is Both<L, A> {
     return true
+  }
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> => {
+  return {
+    show: t =>
+      t.fold(l => `this_(${SL.show(l)})`, a => `that(${SA.show(a)})`, (l, a) => `both(${SL.show(l)}, ${SA.show(a)})`)
   }
 }
 

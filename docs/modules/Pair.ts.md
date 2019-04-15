@@ -29,6 +29,7 @@ Adapted from https://github.com/parsonsmatt/purescript-pair
 - [getOrd (function)](#getord-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 
 ---
 
@@ -190,3 +191,13 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Pair<A>> => ...
 ```
 
 Added in v1.0.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <L, A>(S: Show<A>): Show<Pair<A>> => ...
+```
+
+Added in v1.17.0
