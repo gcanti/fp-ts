@@ -18,6 +18,7 @@ import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v2 } from './Traversable2v'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -67,6 +68,15 @@ export class Tuple<L, A> {
   }
   toTuple(): [L, A] {
     return [this.fst, this.snd]
+  }
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => {
+  return {
+    show: t => `new Tuple(${SL.show(t.fst)}, ${SA.show(t.snd)})`
   }
 }
 

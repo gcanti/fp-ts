@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 94
+nav_order: 95
 parent: Modules
 ---
 
@@ -34,6 +34,7 @@ type Forest<A> = Array<Tree<A>>
 - [drawTree (function)](#drawtree-function)
 - [elem (function)](#elem-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 - [unfoldForest (function)](#unfoldforest-function)
 - [unfoldForestM (function)](#unfoldforestm-function)
 - [unfoldTree (function)](#unfoldtree-function)
@@ -225,6 +226,16 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => ...
 ```
 
 Added in v1.6.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <A>(S: Show<A>): Show<Tree<A>> => ...
+```
+
+Added in v1.17.0
 
 # unfoldForest (function)
 

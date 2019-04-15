@@ -65,7 +65,8 @@ import {
   difference,
   unsafeUpdateAt,
   findFirstMap,
-  findLastMap
+  findLastMap,
+  getShow
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -76,6 +77,7 @@ import { identity, tuple, constTrue, Predicate } from '../src/function'
 import * as I from '../src/Identity'
 import * as F from '../src/Foldable'
 import * as C from '../src/Const'
+import { showString } from '../src/Show'
 
 const p = (n: number) => n > 2
 
@@ -772,5 +774,12 @@ describe('Array', () => {
     const f = (a: number, x?: Foo) => (x !== undefined ? `${a}${x.bar()}` : `${a}`)
     const res = array.map([1, 2], f)
     assert.deepStrictEqual(res, ['1', '2'])
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString)
+    assert.strictEqual(S.show([]), `[]`)
+    assert.strictEqual(S.show(['a']), `["a"]`)
+    assert.strictEqual(S.show(['a', 'b']), `["a", "b"]`)
   })
 })

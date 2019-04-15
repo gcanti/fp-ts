@@ -87,6 +87,7 @@ parent: Modules
 - [semiring (export)](#semiring-export)
 - [set (export)](#set-export)
 - [setoid (export)](#setoid-export)
+- [show (export)](#show-export)
 - [state (export)](#state-export)
 - [stateT (export)](#statet-export)
 - [store (export)](#store-export)
@@ -740,6 +741,14 @@ export { set }
 
 ```ts
 export { setoid }
+```
+
+# show (export)
+
+**Signature**
+
+```ts
+export { show }
 ```
 
 # state (export)

@@ -6,6 +6,7 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { phantom, toString } from './function'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -41,6 +42,15 @@ export class Const<L, A> {
   }
   toString(): string {
     return `new Const(${toString(this.value)})`
+  }
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
+  return {
+    show: c => `new Const(${S.show(c.value)})`
   }
 }
 

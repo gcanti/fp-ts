@@ -98,6 +98,7 @@ import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 import { Witherable1 } from './Witherable'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -407,7 +408,15 @@ export class Some<A> {
 }
 
 /**
- *
+ * @since 1.17.0
+ */
+export const getShow = <A>(S: Show<A>): Show<Option<A>> => {
+  return {
+    show: oa => oa.fold('none', a => `some(${S.show(a)})`)
+  }
+}
+
+/**
  * @example
  * import { none, some, getSetoid } from 'fp-ts/lib/Option'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'

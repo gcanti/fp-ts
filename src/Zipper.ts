@@ -11,7 +11,7 @@
  * - https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
  */
 import { Applicative, Applicative1 } from './Applicative'
-import { array, cons, drop, empty, isEmpty, isOutOfBound, snoc, take } from './Array'
+import { array, cons, drop, empty, isEmpty, isOutOfBound, snoc, take, getShow as getArrayShow } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
 import { decrement, increment, toString } from './function'
@@ -22,6 +22,7 @@ import { NonEmptyArray as NonEmptyArray2v } from './NonEmptyArray2v'
 import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Traversable2v1 } from './Traversable2v'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -173,6 +174,16 @@ export class Zipper<A> {
   }
   toString(): string {
     return `new Zipper(${toString(this.lefts)}, ${toString(this.focus)}, ${toString(this.rights)})`
+  }
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <A>(S: Show<A>): Show<Zipper<A>> => {
+  const SA = getArrayShow(S)
+  return {
+    show: z => `new Zipper(${SA.show(z.lefts)}, ${S.show(z.focus)}, ${SA.show(z.rights)})`
   }
 }
 

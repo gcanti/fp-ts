@@ -154,6 +154,8 @@ import * as set from './Set'
 export { set }
 import * as setoid from './Setoid'
 export { setoid }
+import * as show from './Show'
+export { show }
 import * as state from './State'
 export { state }
 import * as stateT from './StateT'

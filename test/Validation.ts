@@ -25,8 +25,10 @@ import {
   success,
   validation,
   tryCatch,
-  getMonadThrow
+  getMonadThrow,
+  getShow
 } from '../src/Validation'
+import { showString } from '../src/Show'
 
 const p = (n: number): boolean => n > 2
 
@@ -354,5 +356,11 @@ describe('Validation', () => {
       assert.deepStrictEqual(M.fromOption(none, 'error'), failure('error'))
       assert.deepStrictEqual(M.fromOption(some(1), 'error'), success(1))
     })
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString, showString)
+    assert.strictEqual(S.show(failure('a')), `failure("a")`)
+    assert.strictEqual(S.show(success('a')), `success("a")`)
   })
 })

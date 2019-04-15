@@ -156,6 +156,7 @@ sumLifted(some(1), none) // none
 - [getOrd (function)](#getord-function)
 - [getRefinement (function)](#getrefinement-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 - [isNone (function)](#isnone-function)
 - [isSome (function)](#issome-function)
 - [some (function)](#some-function)
@@ -1048,6 +1049,16 @@ assert.strictEqual(S.equals(some(1), some(1)), true)
 ```
 
 Added in v1.0.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <A>(S: Show<A>): Show<Option<A>> => ...
+```
+
+Added in v1.17.0
 
 # isNone (function)
 

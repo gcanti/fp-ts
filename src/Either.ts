@@ -44,6 +44,7 @@ import { Traversable2v2 } from './Traversable2v'
 import { Validation } from './Validation'
 import { Witherable2C } from './Witherable'
 import { MonadThrow2 } from './MonadThrow'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -271,6 +272,15 @@ export class Right<L, A> {
   }
   refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> {
     return p(this.value) ? (this as any) : left(zero(this.value))
+  }
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => {
+  return {
+    show: e => e.fold(l => `left(${SL.show(l)})`, a => `right(${SA.show(a)})`)
   }
 }
 

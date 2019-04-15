@@ -20,6 +20,7 @@ parent: Modules
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 
 ---
 
@@ -131,3 +132,13 @@ export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ...
 ```
 
 Added in v1.0.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => ...
+```
+
+Added in v1.17.0

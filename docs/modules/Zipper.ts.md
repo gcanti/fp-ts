@@ -1,6 +1,6 @@
 ---
 title: Zipper.ts
-nav_order: 100
+nav_order: 101
 parent: Modules
 ---
 
@@ -48,6 +48,7 @@ Adapted from
 - [fromNonEmptyArray2v (function)](#fromnonemptyarray2v-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [getShow (function)](#getshow-function)
 
 ---
 
@@ -335,3 +336,13 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Zipper<A>> => ...
 ```
 
 Added in v1.9.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <A>(S: Show<A>): Show<Zipper<A>> => ...
+```
+
+Added in v1.17.0

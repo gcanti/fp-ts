@@ -19,6 +19,7 @@ import { Setoid, fromEquals } from './Setoid'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -175,6 +176,16 @@ export class StrMap<A> {
    */
   some(predicate: (a: A) => boolean): boolean {
     return R.some(this.value, predicate)
+  }
+}
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <A>(S: Show<A>): Show<StrMap<A>> => {
+  const SR = R.getShow(S)
+  return {
+    show: s => `new StrMap(${SR.show(s.value)})`
   }
 }
 

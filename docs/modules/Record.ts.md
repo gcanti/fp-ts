@@ -28,6 +28,7 @@ parent: Modules
 - [fromFoldableMap (function)](#fromfoldablemap-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 - [insert (function)](#insert-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubrecord (function)](#issubrecord-function)
@@ -356,6 +357,16 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> { ... }
 ```
 
 Added in v1.10.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <A>(S: Show<A>): Show<Record<string, A>> => ...
+```
+
+Added in v1.17.0
 
 # insert (function)
 

@@ -18,6 +18,7 @@ import { FunctorWithIndex2C } from './FunctorWithIndex'
 import { Functor2 } from './Functor'
 import { Traversable2v2C } from './Traversable2v'
 import { Filterable2 } from './Filterable'
+import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -28,6 +29,24 @@ declare module './HKT' {
 export const URI = 'Map'
 
 export type URI = typeof URI
+
+/**
+ * @since 1.17.0
+ */
+export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> => {
+  return {
+    show: m => {
+      let elements = ''
+      m.forEach((a, k) => {
+        elements += `[${SK.show(k)}, ${SA.show(a)}], `
+      })
+      if (elements !== '') {
+        elements = elements.substring(0, elements.length - 2)
+      }
+      return `new Map([${elements}])`
+    }
+  }
+}
 
 /**
  * Calculate the number of key/value pairs in a map

@@ -25,6 +25,7 @@ parent: Modules
 - [URI (constant)](#uri-constant)
 - [identity (constant)](#identity-constant)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 
 ---
 
@@ -188,7 +189,17 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const getSetoid = <A>(setoid: Setoid<A>): Setoid<Identity<A>> => ...
+export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => ...
 ```
 
 Added in v1.0.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <A>(S: Show<A>): Show<Identity<A>> => ...
+```
+
+Added in v1.17.0

@@ -26,9 +26,11 @@ import {
   singleton,
   isSubdictionary,
   collect,
-  elem
+  elem,
+  getShow
 } from '../src/StrMap'
 import * as T from '../src/Traversable'
+import { showString } from '../src/Show'
 
 const p = (n: number) => n > 2
 
@@ -343,5 +345,15 @@ describe('StrMap', () => {
     const x = new StrMap({ a: 1, b: 2 })
     assert.strictEqual(elem(setoidNumber)(1, x), true)
     assert.strictEqual(elem(setoidNumber)(3, x), false)
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString)
+    const s1 = new StrMap<string>({})
+    assert.strictEqual(S.show(s1), `new StrMap({})`)
+    const s2 = new StrMap({ a: 'a' })
+    assert.strictEqual(S.show(s2), `new StrMap({ "a": "a" })`)
+    const s3 = new StrMap({ a: 'a', b: 'b' })
+    assert.strictEqual(S.show(s3), `new StrMap({ "a": "a", "b": "b" })`)
   })
 })

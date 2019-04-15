@@ -18,6 +18,7 @@ parent: Modules
 - [getFilterableWithIndex (function)](#getfilterablewithindex-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 - [getTraversableWithIndex (function)](#gettraversablewithindex-function)
 - [getWitherable (function)](#getwitherable-function)
 - [insert (function)](#insert-function)
@@ -154,6 +155,16 @@ export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>>
 ```
 
 Added in v1.14.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> => ...
+```
+
+Added in v1.17.0
 
 # getTraversableWithIndex (function)
 

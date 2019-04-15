@@ -97,6 +97,7 @@ left(23).map(double) // left(23)
 - [getFilterable (function)](#getfilterable-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
+- [getShow (function)](#getshow-function)
 - [getWitherable (function)](#getwitherable-function)
 - [isLeft (function)](#isleft-function)
 - [isRight (function)](#isright-function)
@@ -766,6 +767,16 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
 ```
 
 Added in v1.0.0
+
+# getShow (function)
+
+**Signature**
+
+```ts
+export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => ...
+```
+
+Added in v1.17.0
 
 # getWitherable (function)
 

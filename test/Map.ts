@@ -9,6 +9,7 @@ import { array } from '../src/Array'
 import { Either, left, right } from '../src/Either'
 import * as I from '../src/Identity'
 import { contramap, ordString, fromCompare, ordNumber } from '../src/Ord'
+import { showString, getStructShow, Show } from '../src/Show'
 
 interface User {
   id: string
@@ -583,5 +584,16 @@ describe('Map', () => {
     assert.deepStrictEqual(fromFoldableS([[{ id: 'a' }, 1]], (existing, _) => existing), a1)
     assert.deepStrictEqual(fromFoldableS([[{ id: 'a' }, 1], [{ id: 'a' }, 2]], (existing, _) => existing), a1)
     assert.deepStrictEqual(fromFoldableS([[{ id: 'a' }, 1], [{ id: 'a' }, 2]], (_, a) => a), a2)
+  })
+
+  it('getShow', () => {
+    const showUser: Show<User> = getStructShow({ id: showString })
+    const S = M.getShow(showUser, showString)
+    const m1 = new Map<User, string>([])
+    assert.strictEqual(S.show(m1), `new Map([])`)
+    const m2 = new Map<User, string>([[{ id: 'a' }, 'b']])
+    assert.strictEqual(S.show(m2), `new Map([[{ id: "a" }, "b"]])`)
+    const m3 = new Map<User, string>([[{ id: 'a' }, 'b'], [{ id: 'c' }, 'd']])
+    assert.strictEqual(S.show(m3), `new Map([[{ id: "a" }, "b"], [{ id: "c" }, "d"]])`)
   })
 })

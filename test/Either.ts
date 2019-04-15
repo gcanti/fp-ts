@@ -23,7 +23,8 @@ import {
   tryCatch2v,
   toError,
   parseJSON,
-  stringifyJSON
+  stringifyJSON,
+  getShow
 } from '../src/Either'
 import * as F from '../src/Foldable'
 import { identity } from '../src/function'
@@ -34,6 +35,7 @@ import { semigroupSum } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import * as T from '../src/Traversable'
 import { failure, success } from '../src/Validation'
+import { showString } from '../src/Show'
 
 describe('Either', () => {
   it('fold', () => {
@@ -524,5 +526,11 @@ describe('Either', () => {
     }
     const person: Person = { name: 'Giulio', age: 45 }
     assert.deepStrictEqual(stringifyJSON(person, toError).value, '{"name":"Giulio","age":45}')
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString, showString)
+    assert.strictEqual(S.show(left('a')), `left("a")`)
+    assert.strictEqual(S.show(right('a')), `right("a")`)
   })
 })

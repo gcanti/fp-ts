@@ -20,7 +20,8 @@ import {
   tryCatch,
   getRefinement,
   getApplySemigroup,
-  getApplyMonoid
+  getApplyMonoid,
+  getShow
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
@@ -29,6 +30,7 @@ import { identity } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
 import { monoidSum, monoidString } from '../src/Monoid'
 import * as F from '../src/Foldable'
+import { showString } from '../src/Show'
 
 const p = (n: number): boolean => n > 2
 
@@ -425,5 +427,11 @@ describe('Option', () => {
     const isA = getRefinement<C, A>(c => (c.type === 'A' ? some(c) : none))
     assert.strictEqual(isA({ type: 'A' }), true)
     assert.strictEqual(isA({ type: 'B' }), false)
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString)
+    assert.strictEqual(S.show(some('a')), `some("a")`)
+    assert.strictEqual(S.show(none), `none`)
   })
 })

@@ -8,6 +8,7 @@ import { setoidNumber } from '../src/Setoid'
 import { array, zip } from '../src/Array'
 import { left, right } from '../src/Either'
 import * as I from '../src/Identity'
+import { showString } from '../src/Show'
 
 const p = (n: number) => n > 2
 
@@ -296,5 +297,12 @@ describe('Record', () => {
       id1: { id: 'id1', name: 'name3' },
       id2: { id: 'id2', name: 'name2' }
     })
+  })
+
+  it('getShow', () => {
+    const S = R.getShow(showString)
+    assert.strictEqual(S.show({}), `{}`)
+    assert.strictEqual(S.show({ a: 'a' }), `{ "a": "a" }`)
+    assert.strictEqual(S.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
   })
 })

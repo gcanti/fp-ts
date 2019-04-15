@@ -7,6 +7,7 @@ import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { setoidNumber } from '../src/Setoid'
 import * as T from '../src/Traversable'
+import { showString } from '../src/Show'
 
 describe('Identity', () => {
   it('map', () => {
@@ -124,5 +125,10 @@ describe('Identity', () => {
 
   it('orElse', () => {
     assert.deepStrictEqual(I.identity.of(123).orElse(() => I.identity.of(456)), I.identity.of(123))
+  })
+
+  it('getShow', () => {
+    const S = I.getShow(showString)
+    assert.strictEqual(S.show(new I.Identity('a')), `new Identity("a")`)
   })
 })

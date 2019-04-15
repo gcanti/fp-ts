@@ -27,11 +27,13 @@ import {
   compact,
   separate,
   filterMap,
-  foldMap
+  foldMap,
+  getShow
 } from '../src/Set'
 import { Setoid, setoidNumber, setoidString, contramap, getStructSetoid } from '../src/Setoid'
 import { none, some as optionSome } from '../src/Option'
 import { getArrayMonoid } from '../src/Monoid'
+import { showString } from '../src/Show'
 
 const gte2 = (n: number) => n >= 2
 
@@ -264,5 +266,15 @@ describe('Set', () => {
     type R = { id: string }
     const S: Setoid<R> = contramap(x => x.id, setoidString)
     assert.deepStrictEqual(filterMap(S)(new Set([{ id: 'a' }, { id: 'a' }]), optionSome), new Set([{ id: 'a' }]))
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString)
+    const s1 = new Set<string>([])
+    assert.strictEqual(S.show(s1), `new Set([])`)
+    const s2 = new Set<string>(['a'])
+    assert.strictEqual(S.show(s2), `new Set(["a"])`)
+    const s3 = new Set<string>(['a', 'b'])
+    assert.strictEqual(S.show(s3), `new Set(["a", "b"])`)
   })
 })

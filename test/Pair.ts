@@ -4,10 +4,11 @@ import { identity } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { getMonoid, getOrd, getSemigroup, getSetoid, Pair, pair } from '../src/Pair'
+import { getMonoid, getOrd, getSemigroup, getSetoid, Pair, pair, getShow } from '../src/Pair'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import * as T from '../src/Traversable'
+import { showString } from '../src/Show'
 
 describe('Pair', () => {
   it('first', () => {
@@ -114,5 +115,10 @@ describe('Pair', () => {
     const S = getMonoid(monoidString)
     assert.deepStrictEqual(S.concat(new Pair('a', 'b'), new Pair('', '')), new Pair('a', 'b'))
     assert.deepStrictEqual(S.concat(new Pair('', ''), new Pair('a', 'b')), new Pair('a', 'b'))
+  })
+
+  it('getShow', () => {
+    const S = getShow(showString)
+    assert.strictEqual(S.show(new Pair('a', 'b')), `new Pair("a", "b")`)
   })
 })
