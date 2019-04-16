@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 42
+nav_order: 41
 parent: Modules
 ---
 
@@ -174,12 +174,7 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const identity: Monad1<URI> &
-  Foldable2v1<URI> &
-  Traversable2v1<URI> &
-  Alt1<URI> &
-  Comonad1<URI> &
-  ChainRec1<URI> = ...
+export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = ...
 ```
 
 Added in v1.0.0

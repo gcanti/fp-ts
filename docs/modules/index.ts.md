@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 43
+nav_order: 42
 parent: Modules
 ---
 
@@ -39,7 +39,6 @@ parent: Modules
 - [filterable (export)](#filterable-export)
 - [filterableWithIndex (export)](#filterablewithindex-export)
 - [foldable (export)](#foldable-export)
-- [foldable2v (export)](#foldable2v-export)
 - [foldableWithIndex (export)](#foldablewithindex-export)
 - [free (export)](#free-export)
 - [freeGroup (export)](#freegroup-export)
@@ -68,7 +67,6 @@ parent: Modules
 - [monoid (export)](#monoid-export)
 - [monoidal (export)](#monoidal-export)
 - [nonEmptyArray (export)](#nonemptyarray-export)
-- [nonEmptyArray2v (export)](#nonemptyarray2v-export)
 - [option (export)](#option-export)
 - [optionT (export)](#optiont-export)
 - [ord (export)](#ord-export)
@@ -99,7 +97,6 @@ parent: Modules
 - [trace (export)](#trace-export)
 - [traced (export)](#traced-export)
 - [traversable (export)](#traversable-export)
-- [traversable2v (export)](#traversable2v-export)
 - [traversableWithIndex (export)](#traversablewithindex-export)
 - [tree (export)](#tree-export)
 - [tuple (export)](#tuple-export)
@@ -359,14 +356,6 @@ export { filterableWithIndex }
 export { foldable }
 ```
 
-# foldable2v (export)
-
-**Signature**
-
-```ts
-export { foldable2v }
-```
-
 # foldableWithIndex (export)
 
 **Signature**
@@ -589,14 +578,6 @@ export { monoidal }
 
 ```ts
 export { nonEmptyArray }
-```
-
-# nonEmptyArray2v (export)
-
-**Signature**
-
-```ts
-export { nonEmptyArray2v }
 ```
 
 # option (export)
@@ -837,14 +818,6 @@ export { traced }
 
 ```ts
 export { traversable }
-```
-
-# traversable2v (export)
-
-**Signature**
-
-```ts
-export { traversable2v }
 ```
 
 # traversableWithIndex (export)

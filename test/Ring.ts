@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { fieldNumber } from '../src/Field'
-import { getProductRing, negate, getFunctionRing, getTupleRing } from '../src/Ring'
+import { negate, getFunctionRing, getTupleRing } from '../src/Ring'
 
 describe('Ring', () => {
   it('getTupleRing', () => {
@@ -10,16 +10,6 @@ describe('Ring', () => {
     assert.deepStrictEqual(R.one, [1, 1, 1])
     assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
     assert.deepStrictEqual(R.zero, [0, 0, 0])
-  })
-
-  it('getProductRing', () => {
-    // tslint:disable-next-line: deprecation
-    const R = getProductRing(fieldNumber, fieldNumber)
-    assert.deepStrictEqual(R.add([1, 2], [3, 4]), [4, 6])
-    assert.deepStrictEqual(R.mul([1, 2], [3, 4]), [3, 8])
-    assert.deepStrictEqual(R.one, [1, 1])
-    assert.deepStrictEqual(R.sub([1, 2], [3, 4]), [-2, -2])
-    assert.deepStrictEqual(R.zero, [0, 0])
   })
 
   it('negate', () => {

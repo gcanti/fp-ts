@@ -1,13 +1,12 @@
 import * as assert from 'assert'
 import { sort } from '../src/Array'
 import { left, right } from '../src/Either'
-import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { setoidBoolean, setoidNumber } from '../src/Setoid'
-import * as T from '../src/Traversable'
+import { showString } from '../src/Show'
 import {
   getApplicative,
   getApply,
@@ -17,11 +16,10 @@ import {
   getOrd,
   getSemigroup,
   getSetoid,
+  getShow,
   Tuple,
-  tuple,
-  getShow
+  tuple
 } from '../src/Tuple'
-import { showString } from '../src/Show'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -111,22 +109,18 @@ describe('Tuple', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(tuple, monoidString)
     const foldMap = tuple.foldMap(monoidString)
     const x1 = new Tuple(1, 'a')
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'a')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(tuple)
     const foldr = tuple.foldr
     const x1 = new Tuple(1, 'a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'a')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('swap', () => {
@@ -193,14 +187,11 @@ describe('Tuple', () => {
   })
 
   it('sequence', () => {
-    const old = T.sequence(option, tuple)
     const sequence = tuple.sequence(option)
     const x1 = new Tuple('a', some(2))
     assert.deepStrictEqual(sequence(x1), some(new Tuple('a', 2)))
-    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = new Tuple('a', none)
     assert.deepStrictEqual(sequence(x2), none)
-    assert.deepStrictEqual(sequence(x2), old(x2))
   })
 
   it('toString', () => {

@@ -21,7 +21,6 @@ import {
 import { IOEither } from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
-import { sequence } from '../src/Traversable'
 import { array } from '../src/Array'
 import { none, some } from '../src/Option'
 
@@ -409,7 +408,7 @@ describe('TaskEither', () => {
       right(new Task(() => Promise.resolve(log.push(message))))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceParallel = sequence(taskEither, array)
+    const sequenceParallel = array.sequence(taskEither)
     return sequenceParallel([t1, t2])
       .run()
       .then(ns => {
@@ -424,7 +423,7 @@ describe('TaskEither', () => {
       right(new Task(() => Promise.resolve(log.push(message))))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceSeries = sequence(taskEitherSeq, array)
+    const sequenceSeries = array.sequence(taskEitherSeq)
     return sequenceSeries([t1, t2])
       .run()
       .then(ns => {

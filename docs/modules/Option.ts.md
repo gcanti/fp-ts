@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 62
+nav_order: 61
 parent: Modules
 ---
 
@@ -116,7 +116,6 @@ sumLifted(some(1), none) // none
   - [isSome (method)](#issome-method)
   - [exists (method)](#exists-method)
   - [filter (method)](#filter-method)
-  - [~~refine~~ (method)](#refine-method)
 - [Some (class)](#some-class)
   - [map (method)](#map-method-1)
   - [mapNullable (method)](#mapnullable-method-1)
@@ -140,14 +139,12 @@ sumLifted(some(1), none) // none
   - [isSome (method)](#issome-method-1)
   - [exists (method)](#exists-method-1)
   - [filter (method)](#filter-method-1)
-  - [refine (method)](#refine-method)
 - [URI (constant)](#uri-constant)
 - [none (constant)](#none-constant)
 - [option (constant)](#option-constant)
 - [fromEither (function)](#fromeither-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromPredicate (function)](#frompredicate-function)
-- [~~fromRefinement~~ (function)](#fromrefinement-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getFirstMonoid (function)](#getfirstmonoid-function)
@@ -508,20 +505,6 @@ filter<B extends A>(p: Refinement<A, B>): Option<B>
 filter(p: Predicate<A>): Option<A> { ... }
 ```
 
-## ~~refine~~ (method)
-
-Use `filter` instead.
-Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
-this Option's value. Otherwise returns `None`
-
-**Signature**
-
-```ts
-refine<B extends A>(refinement: Refinement<A, B>): Option<B> { ... }
-```
-
-Added in v1.3.0
-
 # Some (class)
 
 **Signature**
@@ -710,14 +693,6 @@ filter<B extends A>(p: Refinement<A, B>): Option<B>
 filter(p: Predicate<A>): Option<A> { ... }
 ```
 
-## refine (method)
-
-**Signature**
-
-```ts
-refine<B extends A>(refinement: Refinement<A, B>): Option<B> { ... }
-```
-
 # URI (constant)
 
 **Signature**
@@ -742,9 +717,9 @@ Added in v1.0.0
 
 ```ts
 export const option: Monad1<URI> &
-  Foldable2v1<URI> &
+  Foldable1<URI> &
   Plus1<URI> &
-  Traversable2v1<URI> &
+  Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
@@ -821,19 +796,6 @@ assert.deepStrictEqual(positive(1), some(1))
 ```
 
 Added in v1.0.0
-
-# ~~fromRefinement~~ (function)
-
-Use `fromPredicate` instead.
-Refinement version of `fromPredicate`
-
-**Signature**
-
-```ts
-export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => ...
-```
-
-Added in v1.3.0
 
 # getApplyMonoid (function)
 

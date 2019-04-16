@@ -6,7 +6,6 @@ import {
   fromEither,
   fromNullable,
   fromPredicate,
-  fromRefinement,
   getFirstMonoid,
   getLastMonoid,
   getMonoid,
@@ -29,7 +28,6 @@ import { setoidNumber } from '../src/Setoid'
 import { identity } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
 import { monoidSum, monoidString } from '../src/Monoid'
-import * as F from '../src/Foldable'
 import { showString } from '../src/Show'
 
 const p = (n: number): boolean => n > 2
@@ -194,8 +192,7 @@ describe('Option', () => {
     assert.deepStrictEqual(f(3), some(3))
 
     type Direction = 'asc' | 'desc'
-    // tslint:disable-next-line: deprecation
-    const parseDirection = fromRefinement((s: string): s is Direction => s === 'asc' || s === 'desc')
+    const parseDirection = fromPredicate((s: string): s is Direction => s === 'asc' || s === 'desc')
     assert.deepStrictEqual(parseDirection('asc'), some('asc'))
     assert.deepStrictEqual(parseDirection('foo'), none)
   })
@@ -217,28 +214,22 @@ describe('Option', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(option, monoidString)
     const foldMap = option.foldMap(monoidString)
     const x1 = some('a')
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'a')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
     const x2: Option<string> = none
     assert.strictEqual(foldMap(x2, f1), '')
-    assert.strictEqual(foldMap(x2, f1), old(x2, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(option)
     const foldr = option.foldr
     const x1 = some('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'a')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
     const x2: Option<string> = none
     assert.strictEqual(foldr(x2, init1, f1), '')
-    assert.strictEqual(foldr(x2, init1, f1), old(x2, init1, f1))
   })
 
   it('getApplySemigroup', () => {
@@ -303,22 +294,6 @@ describe('Option', () => {
     assert.deepStrictEqual(some(2).exists(is2), true)
   })
 
-  it('refine', () => {
-    const y: Option<number | string> = none
-    const isString = (a: any): a is string => typeof a === 'string'
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(y.refine(isString), y)
-    const some1 = some<number | string>(1)
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(some1.refine(isString), none)
-    const someHello = some<number | string>('hello')
-    // explicitly type refinedOption as Option<string> to prove typings work
-    // typing as Option<number> will cause typescript to error
-    // tslint:disable-next-line: deprecation
-    const refinedOption: Option<string> = someHello.refine(isString)
-    assert.deepStrictEqual(refinedOption, someHello)
-  })
-
   it('tryCatch', () => {
     assert.deepStrictEqual(tryCatch(() => JSON.parse('2')), some(2))
     assert.deepStrictEqual(tryCatch(() => JSON.parse('(')), none)
@@ -332,14 +307,6 @@ describe('Option', () => {
   it('toString', () => {
     assert.strictEqual(some(2).toString(), 'some(2)')
     assert.strictEqual(some({ a: 1 }).toString(), 'some({\n  "a": 1\n})')
-  })
-
-  it('fromRefinement', () => {
-    type Direction = 'asc' | 'desc'
-    // tslint:disable-next-line: deprecation
-    const parseDirection = fromRefinement((s: string): s is Direction => s === 'asc' || s === 'desc')
-    assert.deepStrictEqual(parseDirection('asc'), some('asc'))
-    assert.deepStrictEqual(parseDirection('foo'), none)
   })
 
   it('compact', () => {
@@ -364,20 +331,6 @@ describe('Option', () => {
     const some2 = some(2)
     assert.deepStrictEqual(some2.filter(is2), some2)
     assert.deepStrictEqual(option.filter(some2, is2), some2)
-
-    const y: Option<number | string> = none
-    const isString = (a: any): a is string => typeof a === 'string'
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(y.refine(isString), y)
-    const some1 = some<number | string>(1)
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(some1.refine(isString), none)
-    const someHello = some<number | string>('hello')
-    // explicitly type refinedOption as Option<string> to prove typings work
-    // typing as Option<number> will cause typescript to error
-    // tslint:disable-next-line: deprecation
-    const refinedOption: Option<string> = someHello.refine(isString)
-    assert.deepStrictEqual(refinedOption, someHello)
   })
 
   it('filterMap', () => {

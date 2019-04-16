@@ -1,6 +1,6 @@
 ---
 title: Tuple.ts
-nav_order: 95
+nav_order: 93
 parent: Modules
 ---
 
@@ -155,7 +155,7 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = ...
+export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = ...
 ```
 
 Added in v1.0.0

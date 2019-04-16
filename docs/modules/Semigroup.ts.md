@@ -1,6 +1,6 @@
 ---
 title: Semigroup.ts
-nav_order: 75
+nav_order: 74
 parent: Modules
 ---
 
@@ -20,8 +20,6 @@ See [Getting started with fp-ts: Semigroup](https://dev.to/gcanti/getting-starte
 - [semigroupSum (constant)](#semigroupsum-constant)
 - [semigroupVoid (constant)](#semigroupvoid-constant)
 - [fold (function)](#fold-function)
-- [~~getArraySemigroup~~ (function)](#getarraysemigroup-function)
-- [~~getDictionarySemigroup~~ (function)](#getdictionarysemigroup-function)
 - [getDualSemigroup (function)](#getdualsemigroup-function)
 - [getFirstSemigroup (function)](#getfirstsemigroup-function)
 - [getFunctionSemigroup (function)](#getfunctionsemigroup-function)
@@ -29,8 +27,6 @@ See [Getting started with fp-ts: Semigroup](https://dev.to/gcanti/getting-starte
 - [getLastSemigroup (function)](#getlastsemigroup-function)
 - [getMeetSemigroup (function)](#getmeetsemigroup-function)
 - [getObjectSemigroup (function)](#getobjectsemigroup-function)
-- [~~getProductSemigroup~~ (function)](#getproductsemigroup-function)
-- [~~getRecordSemigroup~~ (function)](#getrecordsemigroup-function)
 - [getStructSemigroup (function)](#getstructsemigroup-function)
 - [getTupleSemigroup (function)](#gettuplesemigroup-function)
 
@@ -128,31 +124,6 @@ export const fold = <A>(S: Semigroup<A>) => (a: A) => (as: Array<A>): A => ...
 
 Added in v1.0.0
 
-# ~~getArraySemigroup~~ (function)
-
-Use `Monoid`'s `getArrayMonoid` instead
-
-**Signature**
-
-```ts
-export const getArraySemigroup = <A = never>(): Semigroup<Array<A>> => ...
-```
-
-Added in v1.0.0
-
-# ~~getDictionarySemigroup~~ (function)
-
-Use `Record`'s `getMonoid`
-
-**Signature**
-
-```ts
-export function getDictionarySemigroup<K extends string, A>(S: Semigroup<A>): Semigroup<Record<K, A>>
-export function getDictionarySemigroup<A>(S: Semigroup<A>): Semigroup<{ [key: string]: A }> { ... }
-```
-
-Added in v1.4.0
-
 # getDualSemigroup (function)
 
 **Signature**
@@ -238,32 +209,6 @@ assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 
 ```
 
 Added in v1.4.0
-
-# ~~getProductSemigroup~~ (function)
-
-Use `getTupleSemigroup` instead
-
-**Signature**
-
-```ts
-export const getProductSemigroup = <A, B>(SA: Semigroup<A>, SB: Semigroup<B>): Semigroup<[A, B]> => ...
-```
-
-Added in v1.0.0
-
-# ~~getRecordSemigroup~~ (function)
-
-Use `getStructSemigroup` instead
-
-**Signature**
-
-```ts
-export const getRecordSemigroup = <O extends { [key: string]: any }>(
-  semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<O> => ...
-```
-
-Added in v1.0.0
 
 # getStructSemigroup (function)
 

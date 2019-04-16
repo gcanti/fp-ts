@@ -1,6 +1,6 @@
 ---
 title: Pair.ts
-nav_order: 66
+nav_order: 65
 parent: Modules
 ---
 
@@ -147,7 +147,7 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
+export const pair: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
 ```
 
 Added in v1.0.0

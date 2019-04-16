@@ -58,8 +58,6 @@ import * as filterableWithIndex from './FilterableWithIndex'
 export { filterableWithIndex }
 import * as foldable from './Foldable'
 export { foldable }
-import * as foldable2v from './Foldable2v'
-export { foldable2v }
 import * as foldableWithIndex from './FoldableWithIndex'
 export { foldableWithIndex }
 import * as free from './Free'
@@ -116,8 +114,6 @@ import * as monoidal from './Monoidal'
 export { monoidal }
 import * as nonEmptyArray from './NonEmptyArray'
 export { nonEmptyArray }
-import * as nonEmptyArray2v from './NonEmptyArray2v'
-export { nonEmptyArray2v }
 import * as option from './Option'
 export { option }
 import * as optionT from './OptionT'
@@ -178,8 +174,6 @@ import * as traced from './Traced'
 export { traced }
 import * as traversable from './Traversable'
 export { traversable }
-import * as traversable2v from './Traversable2v'
-export { traversable2v }
 import * as traversableWithIndex from './TraversableWithIndex'
 export { traversableWithIndex }
 import * as tree from './Tree'

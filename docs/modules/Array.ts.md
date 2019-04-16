@@ -45,7 +45,6 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [head (function)](#head-function)
-- [~~index~~ (function)](#index-function)
 - [init (function)](#init-function)
 - [insertAt (function)](#insertat-function)
 - [intersection (function)](#intersection-function)
@@ -56,12 +55,10 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [lookup (function)](#lookup-function)
 - [makeBy (function)](#makeby-function)
 - [mapOption (function)](#mapoption-function)
-- [~~member~~ (function)](#member-function)
 - [modifyAt (function)](#modifyat-function)
 - [partition (function)](#partition-function)
 - [partitionMap (function)](#partitionmap-function)
 - [range (function)](#range-function)
-- [~~refine~~ (function)](#refine-function)
 - [replicate (function)](#replicate-function)
 - [reverse (function)](#reverse-function)
 - [rights (function)](#rights-function)
@@ -78,7 +75,6 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [take (function)](#take-function)
 - [takeEnd (function)](#takeend-function)
 - [takeWhile (function)](#takewhile-function)
-- [~~traverse~~ (function)](#traverse-function)
 - [union (function)](#union-function)
 - [uniq (function)](#uniq-function)
 - [unsafeDeleteAt (function)](#unsafedeleteat-function)
@@ -113,7 +109,7 @@ export const URI = ...
 
 ```ts
 export const array: Monad1<URI> &
-  Foldable2v1<URI> &
+  Foldable1<URI> &
   Unfoldable1<URI> &
   TraversableWithIndex1<URI, number> &
   Alternative1<URI> &
@@ -768,18 +764,6 @@ assert.deepStrictEqual(head([]), none)
 
 Added in v1.0.0
 
-# ~~index~~ (function)
-
-Use `lookup` instead
-
-**Signature**
-
-```ts
-export const index = <A>(i: number, as: Array<A>): Option<A> => ...
-```
-
-Added in v1.0.0
-
 # init (function)
 
 Get all but the last element of an array, creating a new array, or `None` if the array is empty
@@ -987,18 +971,6 @@ assert.deepStrictEqual(mapOption([1, 2, 3], f), [1, 3])
 
 Added in v1.0.0
 
-# ~~member~~ (function)
-
-Use `elem` instead
-
-**Signature**
-
-```ts
-export const member = <A>(S: Setoid<A>): ((as: Array<A>, a: A) => boolean) => ...
-```
-
-Added in v1.3.0
-
 # modifyAt (function)
 
 Apply a function to the element at the specified index, creating a new array, or returning `None` if the index is out
@@ -1076,18 +1048,6 @@ assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
 ```
 
 Added in v1.10.0
-
-# ~~refine~~ (function)
-
-Use `filter` instead
-
-**Signature**
-
-```ts
-export const refine = <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B> => ...
-```
-
-Added in v1.0.0
 
 # replicate (function)
 
@@ -1449,33 +1409,6 @@ export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A> { 
 import { takeWhile } from 'fp-ts/lib/Array'
 
 assert.deepStrictEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
-```
-
-Added in v1.0.0
-
-# ~~traverse~~ (function)
-
-Use `array.traverse` instead
-
-**Signature**
-
-```ts
-export function traverse<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
-export function traverse<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
-export function traverse<F extends URIS2>(
-  F: Applicative2<F>
-): <L, A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>
-export function traverse<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>
-export function traverse<F extends URIS>(
-  F: Applicative1<F>
-): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> { ... }
 ```
 
 Added in v1.0.0
