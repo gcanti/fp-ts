@@ -29,9 +29,9 @@ Many functions in `fp-ts` use [ad hoc polymorphism](https://en.wikipedia.org/wik
 ```ts
 import { option, apply } from 'fp-ts'
 
-// liftA2 is an ad hoc polymorphic function and requires an Option instance.
+// sequenceS is an ad hoc polymorphic function and requires an Option instance.
 // This is what option.option provides.
-const liftA2Option = apply.liftA2(option.option)
+const sequenceSOption = apply.sequenceS(option.option)
 ```
 
 Here's a small list of some commonly used data types, you can find more in the [API reference](../modules/).
