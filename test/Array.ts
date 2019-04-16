@@ -18,18 +18,14 @@ import {
   getMonoid,
   getOrd,
   head,
-  index,
   init,
   insertAt,
   isEmpty,
   last,
   lefts,
   mapOption,
-  member,
   modifyAt,
   partitionMap,
-  refine,
-  reverse,
   rights,
   rotate,
   scanLeft,
@@ -66,7 +62,8 @@ import {
   unsafeUpdateAt,
   findFirstMap,
   findLastMap,
-  getShow
+  getShow,
+  reverse
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
@@ -75,7 +72,6 @@ import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString, Setoid } from '../src/Setoid'
 import { identity, tuple, constTrue, Predicate } from '../src/function'
 import * as I from '../src/Identity'
-import * as F from '../src/Foldable'
 import * as C from '../src/Const'
 import { showString } from '../src/Show'
 
@@ -155,13 +151,6 @@ describe('Array', () => {
   it('isEmpty', () => {
     assert.strictEqual(isEmpty(as), false)
     assert.strictEqual(isEmpty([]), true)
-  })
-
-  it('index', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(index(1, as), some(2))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(index(3, as), none)
   })
 
   it('cons', () => {
@@ -348,15 +337,6 @@ describe('Array', () => {
     assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
   })
 
-  it('refine', () => {
-    // tslint:disable-next-line: deprecation
-    const x = refine([some(3), some(2), some(1)], (o): o is Option<number> => o.isSome())
-    assert.deepStrictEqual(x, [some(3), some(2), some(1)])
-    // tslint:disable-next-line: deprecation
-    const y = refine([some(3), none, some(1)], (o): o is Option<number> => o.isSome())
-    assert.deepStrictEqual(y, [some(3), some(1)])
-  })
-
   it('extend', () => {
     const sum = (as: Array<number>) => foldMonoid(monoidSum)(as)
     assert.deepStrictEqual(array.extend([1, 2, 3, 4], sum), [10, 9, 7, 4])
@@ -433,28 +413,22 @@ describe('Array', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(array, monoidString)
     const foldMap = array.foldMap(monoidString)
     const x1 = ['a', 'b', 'c']
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'abc')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
     const x2: Array<string> = []
     assert.strictEqual(foldMap(x2, f1), '')
-    assert.strictEqual(foldMap(x2, f1), old(x2, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(array)
     const foldr = array.foldr
     const x1 = ['a', 'b', 'c']
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'cba')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
     const x2: Array<string> = []
     assert.strictEqual(foldr(x2, init1, f1), '')
-    assert.strictEqual(foldr(x2, init1, f1), old(x2, init1, f1))
   })
 
   it('fold', () => {
@@ -489,15 +463,6 @@ describe('Array', () => {
     assert.deepStrictEqual(scanRight([1, 2, 3], 10, f), [-8, 9, -7, 10])
     assert.deepStrictEqual(scanRight([0], 10, f), [-10, 10])
     assert.deepStrictEqual(scanRight([], 10, f), [10])
-  })
-
-  it('member', () => {
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(member(setoidNumber)([1, 2, 3], 1), true)
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(member(setoidNumber)([1, 2, 3], 4), false)
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(member(setoidNumber)([], 4), false)
   })
 
   it('uniq', () => {

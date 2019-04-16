@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { left as eitherLeft, right as eitherRight } from '../src/Either'
+import { left as eitherLeft, right as eitherRight, toError } from '../src/Either'
 import { IO, io } from '../src/IO'
 import { IOEither, fromLeft, left, right, ioEither, tryCatch } from '../src/IOEither'
 import { none, some } from '../src/Option'
@@ -106,15 +106,10 @@ describe('IOEither', () => {
   })
 
   it('tryCatch', () => {
-    // tslint:disable-next-line: deprecation
-    const ok = tryCatch(() => 1)
-    // tslint:disable-next-line: deprecation
-    const ko = tryCatch(
-      () => {
-        throw new Error()
-      },
-      () => new Error('error')
-    )
+    const ok = tryCatch(() => 1, toError)
+    const ko = tryCatch(() => {
+      throw new Error('error')
+    }, toError)
 
     const eok = ok.run()
     const eko = ko.run()

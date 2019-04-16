@@ -74,17 +74,6 @@ export const getStructSetoid = <O extends { [key: string]: any }>(
 }
 
 /**
- * Use `getStructSetoid` instead
- * @since 1.0.0
- * @deprecated
- */
-export const getRecordSetoid = <O extends { [key: string]: any }>(
-  setoids: { [K in keyof O]: Setoid<O[K]> }
-): Setoid<O> => {
-  return getStructSetoid(setoids)
-}
-
-/**
  * Given a tuple of `Setoid`s returns a `Setoid` for the tuple
  *
  * @example
@@ -102,15 +91,6 @@ export const getTupleSetoid = <T extends Array<Setoid<any>>>(
   ...setoids: T
 ): Setoid<{ [K in keyof T]: T[K] extends Setoid<infer A> ? A : never }> => {
   return fromEquals((x, y) => setoids.every((S, i) => S.equals(x[i], y[i])))
-}
-
-/**
- * Use `getTupleSetoid` instead
- * @since 1.0.0
- * @deprecated
- */
-export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => {
-  return getTupleSetoid(SA, SB)
 }
 
 /**

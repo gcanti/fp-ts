@@ -58,8 +58,6 @@ left(23).map(double) // left(23)
   - [swap (method)](#swap-method)
   - [filterOrElse (method)](#filterorelse-method)
   - [filterOrElseL (method)](#filterorelsel-method)
-  - [~~refineOrElse~~ (method)](#refineorelse-method)
-  - [~~refineOrElseL~~ (method)](#refineorelsel-method)
 - [Right (class)](#right-class)
   - [map (method)](#map-method-1)
   - [ap (method)](#ap-method-1)
@@ -81,15 +79,12 @@ left(23).map(double) // left(23)
   - [swap (method)](#swap-method-1)
   - [filterOrElse (method)](#filterorelse-method-1)
   - [filterOrElseL (method)](#filterorelsel-method-1)
-  - [refineOrElse (method)](#refineorelse-method)
-  - [refineOrElseL (method)](#refineorelsel-method)
 - [URI (constant)](#uri-constant)
 - [either (constant)](#either-constant)
 - [fromNullable (function)](#fromnullable-function)
 - [fromOption (function)](#fromoption-function)
 - [fromOptionL (function)](#fromoptionl-function)
 - [fromPredicate (function)](#frompredicate-function)
-- [~~fromRefinement~~ (function)](#fromrefinement-function)
 - [fromValidation (function)](#fromvalidation-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
@@ -106,8 +101,7 @@ left(23).map(double) // left(23)
 - [right (function)](#right-function)
 - [stringifyJSON (function)](#stringifyjson-function)
 - [toError (function)](#toerror-function)
-- [~~tryCatch~~ (function)](#trycatch-function)
-- [tryCatch2v (function)](#trycatch2v-function)
+- [tryCatch (function)](#trycatch-function)
 
 ---
 
@@ -356,31 +350,6 @@ filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
 
 Added in v1.3.0
 
-## ~~refineOrElse~~ (method)
-
-Use `filterOrElse` instead
-
-**Signature**
-
-```ts
-refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B> { ... }
-```
-
-Added in v1.6.0
-
-## ~~refineOrElseL~~ (method)
-
-Lazy version of `refineOrElse`
-Use `filterOrElseL` instead
-
-**Signature**
-
-```ts
-refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> { ... }
-```
-
-Added in v1.6.0
-
 # Right (class)
 
 Right side of `Either`
@@ -556,22 +525,6 @@ filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
 filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
 ```
 
-## refineOrElse (method)
-
-**Signature**
-
-```ts
-refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B> { ... }
-```
-
-## refineOrElseL (method)
-
-**Signature**
-
-```ts
-refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> { ... }
-```
-
 # URI (constant)
 
 **Signature**
@@ -586,8 +539,8 @@ export const URI = ...
 
 ```ts
 export const either: Monad2<URI> &
-  Foldable2v2<URI> &
-  Traversable2v2<URI> &
+  Foldable2<URI> &
+  Traversable2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
@@ -648,20 +601,6 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 ```
 
 Added in v1.0.0
-
-# ~~fromRefinement~~ (function)
-
-Use `fromPredicate` instead
-
-**Signature**
-
-```ts
-export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => L) => (
-  a: A
-): Either<L, B> => ...
-```
-
-Added in v1.6.0
 
 # fromValidation (function)
 
@@ -896,32 +835,20 @@ export const toError = (e: unknown): Error => ...
 
 Added in v1.0.0
 
-# ~~tryCatch~~ (function)
-
-Use `tryCatch2v` instead
-
-**Signature**
-
-```ts
-export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A> => ...
-```
-
-Added in v1.0.0
-
-# tryCatch2v (function)
+# tryCatch (function)
 
 Constructs a new `Either` from a function that might throw
 
 **Signature**
 
 ```ts
-export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => ...
+export const tryCatch = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => ...
 ```
 
 **Example**
 
 ```ts
-import { Either, left, right, tryCatch2v } from 'fp-ts/lib/Either'
+import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
 
 const unsafeHead = <A>(as: Array<A>): A => {
   if (as.length > 0) {
@@ -932,7 +859,7 @@ const unsafeHead = <A>(as: Array<A>): A => {
 }
 
 const head = <A>(as: Array<A>): Either<Error, A> => {
-  return tryCatch2v(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+  return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
 }
 
 assert.deepStrictEqual(head([]), left(new Error('empty array')))

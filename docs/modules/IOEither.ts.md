@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 46
+nav_order: 45
 parent: Modules
 ---
 
@@ -33,8 +33,7 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [fromLeft (function)](#fromleft-function)
 - [left (function)](#left-function)
 - [right (function)](#right-function)
-- [~~tryCatch~~ (function)](#trycatch-function)
-- [tryCatch2v (function)](#trycatch2v-function)
+- [tryCatch (function)](#trycatch-function)
 
 ---
 
@@ -221,24 +220,12 @@ export const right = <L, A>(fa: IO<A>): IOEither<L, A> => ...
 
 Added in v1.6.0
 
-# ~~tryCatch~~ (function)
-
-Use `tryCatch2v` instead
+# tryCatch (function)
 
 **Signature**
 
 ```ts
-export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: unknown) => Error = toError): IOEither<Error, A> => ...
-```
-
-Added in v1.6.0
-
-# tryCatch2v (function)
-
-**Signature**
-
-```ts
-export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => ...
+export const tryCatch = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => ...
 ```
 
 Added in v1.11.0

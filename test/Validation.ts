@@ -1,13 +1,12 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
-import { monoidString, monoidSum, getArrayMonoid } from '../src/Monoid'
+import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
-import * as T from '../src/Traversable'
+import { showString } from '../src/Show'
 import {
   failure,
   fromEither,
@@ -16,19 +15,18 @@ import {
   getCompactable,
   getFilterable,
   getMonad,
+  getMonadThrow,
   getMonoid,
   getSemigroup,
   getSetoid,
+  getShow,
   getWitherable,
   isFailure,
   isSuccess,
   success,
-  validation,
   tryCatch,
-  getMonadThrow,
-  getShow
+  validation
 } from '../src/Validation'
-import { showString } from '../src/Show'
 
 const p = (n: number): boolean => n > 2
 
@@ -57,17 +55,13 @@ describe('Validation', () => {
   })
 
   it('sequence', () => {
-    const old = T.sequence(option, validation)
     const sequence = validation.sequence(option)
     const x1 = failure<string, Option<number>>('foo')
     assert.deepStrictEqual(sequence(x1), some(failure('foo')))
-    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = success<string, Option<number>>(some(1))
     assert.deepStrictEqual(sequence(x2), some(success(1)))
-    assert.deepStrictEqual(sequence(x2), old(x2))
     const x3 = success<string, Option<number>>(none)
     assert.deepStrictEqual(sequence(x3), none)
-    assert.deepStrictEqual(sequence(x3), old(x3))
   })
 
   it('fromEither', () => {
@@ -125,28 +119,22 @@ describe('Validation', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(validation, monoidString)
     const foldMap = validation.foldMap(monoidString)
     const x1 = success<number, string>('a')
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'a')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
     const x2 = failure<number, string>(1)
     assert.strictEqual(foldMap(x2, f1), '')
-    assert.strictEqual(foldMap(x2, f1), old(x2, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(validation)
     const foldr = validation.foldr
     const x1 = success<number, string>('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'a')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
     const x2 = failure<number, string>(1)
     assert.strictEqual(foldr(x2, init1, f1), '')
-    assert.strictEqual(foldr(x2, init1, f1), old(x2, init1, f1))
   })
 
   it('mapFailure', () => {

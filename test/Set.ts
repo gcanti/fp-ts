@@ -3,7 +3,6 @@ import { left, right } from '../src/Either'
 import { ordNumber } from '../src/Ord'
 import {
   chain,
-  difference,
   every,
   filter,
   fromArray,
@@ -13,7 +12,6 @@ import {
   insert,
   intersection,
   map,
-  member,
   partition,
   partitionMap,
   reduce,
@@ -23,7 +21,7 @@ import {
   subset,
   toArray,
   union,
-  difference2v,
+  difference,
   compact,
   separate,
   filterMap,
@@ -119,15 +117,6 @@ describe('Set', () => {
     })
   })
 
-  it('member', () => {
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(member(setoidNumber)(new Set([1, 2, 3]))(1), true)
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(member(setoidNumber)(new Set([1, 2, 3]))(4), false)
-    // tslint:disable-next-line: deprecation
-    assert.strictEqual(member(setoidNumber)(new Set<number>([]))(4), false)
-  })
-
   it('union', () => {
     assert.deepStrictEqual(union(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([1, 2, 3]))
   })
@@ -175,12 +164,7 @@ describe('Set', () => {
   })
 
   it('difference', () => {
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(difference(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([3]))
-  })
-
-  it('difference2v', () => {
-    assert.deepStrictEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+    assert.deepStrictEqual(difference(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
   })
 
   it('reduce', () => {

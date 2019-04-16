@@ -1,23 +1,11 @@
 import * as assert from 'assert'
-import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { NonEmptyArray } from '../src/NonEmptyArray'
-import { fromNonEmptyArray } from '../src/NonEmptyArray2v'
+import { fromNonEmptyArray as neafromNonEmptyArray } from '../src/NonEmptyArray'
 import { none, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
-import * as T from '../src/Traversable'
-import {
-  fromArray,
-  fromNonEmptyArray as zipperFromNonEmptyArray,
-  getMonoid,
-  getSemigroup,
-  Zipper,
-  zipper,
-  fromNonEmptyArray2v,
-  getShow
-} from '../src/Zipper'
 import { showString } from '../src/Show'
+import { fromArray, getMonoid, getSemigroup, getShow, Zipper, zipper, fromNonEmptyArray } from '../src/Zipper'
 
 const len = (s: string): number => s.length
 const prepend = (a: string) => (s: string): string => a + s
@@ -137,13 +125,8 @@ describe('Zipper', () => {
   })
 
   it('fromNonEmptyArray', () => {
-    assert.deepStrictEqual(zipperFromNonEmptyArray(new NonEmptyArray(1, [])), new Zipper([], 1, []))
-    assert.deepStrictEqual(zipperFromNonEmptyArray(new NonEmptyArray(1, [2, 3])), new Zipper([], 1, [2, 3]))
-  })
-
-  it('fromNonEmptyArray2v', () => {
-    assert.deepStrictEqual(fromNonEmptyArray2v(fromNonEmptyArray([1])), new Zipper([], 1, []))
-    assert.deepStrictEqual(fromNonEmptyArray2v(fromNonEmptyArray([1, 2, 3])), new Zipper([], 1, [2, 3]))
+    assert.deepStrictEqual(fromNonEmptyArray(neafromNonEmptyArray([1])), new Zipper([], 1, []))
+    assert.deepStrictEqual(fromNonEmptyArray(neafromNonEmptyArray([1, 2, 3])), new Zipper([], 1, [2, 3]))
   })
 
   it('toString', () => {
@@ -171,22 +154,18 @@ describe('Zipper', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(zipper, monoidString)
     const foldMap = zipper.foldMap(monoidString)
     const x1 = new Zipper(['a'], 'b', ['c'])
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'abc')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(zipper)
     const foldr = zipper.foldr
     const x1 = new Zipper(['a'], 'b', ['c'])
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'cba')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('traverse', () => {
@@ -196,14 +175,11 @@ describe('Zipper', () => {
   })
 
   it('sequence', () => {
-    const old = T.sequence(option, zipper)
     const sequence = zipper.sequence(option)
     const x1 = new Zipper([some('a'), some('b')], some('c'), [some('d')])
     assert.deepStrictEqual(sequence(x1), some(new Zipper(['a', 'b'], 'c', ['d'])))
-    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = new Zipper([some('a'), some('b')], none, [some('d')])
     assert.deepStrictEqual(sequence(x2), none)
-    assert.deepStrictEqual(sequence(x2), old(x2))
   })
 
   it('extract', () => {

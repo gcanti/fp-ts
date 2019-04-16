@@ -62,12 +62,3 @@ export const getTupleRing = <T extends Array<Ring<any>>>(
     sub: (x: any, y: any) => rings.map((R, i) => R.sub(x[i], y[i]))
   } as any
 }
-
-/**
- * Use `getTupleRing` instead
- * @since 1.0.0
- * @deprecated
- */
-export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => {
-  return getTupleRing(RA, RB)
-}

@@ -87,7 +87,7 @@ import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
-import { Foldable2v1 } from './Foldable2v'
+import { Foldable1 } from './Foldable'
 import { identity, Lazy, not, Predicate, Refinement, toString } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -96,7 +96,7 @@ import { Ord, fromCompare } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v1 } from './Traversable2v'
+import { Traversable1 } from './Traversable'
 import { Witherable1 } from './Witherable'
 import { Show } from './Show'
 
@@ -311,16 +311,6 @@ export class None<A> {
   filter(p: Predicate<A>): Option<A> {
     return none
   }
-  /**
-   * Use `filter` instead.
-   * Returns this option refined as `Option<B>` if it is non empty and the `refinement` returns `true` when applied to
-   * this Option's value. Otherwise returns `None`
-   * @since 1.3.0
-   * @deprecated
-   */
-  refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
-    return none
-  }
 }
 
 /**
@@ -401,9 +391,6 @@ export class Some<A> {
   filter(p: Predicate<A>): Option<A>
   filter(p: Predicate<A>): Option<A> {
     return this.exists(p) ? this : none
-  }
-  refine<B extends A>(refinement: Refinement<A, B>): Option<B> {
-    return this.filter(refinement)
   }
 }
 
@@ -727,17 +714,6 @@ export const isNone = <A>(fa: Option<A>): fa is None<A> => {
 }
 
 /**
- * Use `fromPredicate` instead.
- * Refinement version of `fromPredicate`
- *
- * @since 1.3.0
- * @deprecated
- */
-export const fromRefinement = <A, B extends A>(refinement: Refinement<A, B>) => (a: A): Option<B> => {
-  return refinement(a) ? some(a) : none
-}
-
-/**
  * Returns a refinement from a prism.
  * This function ensures that a custom type guard definition is type-safe.
  *
@@ -819,9 +795,9 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
  * @since 1.0.0
  */
 export const option: Monad1<URI> &
-  Foldable2v1<URI> &
+  Foldable1<URI> &
   Plus1<URI> &
-  Traversable2v1<URI> &
+  Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
   Compactable1<URI> &

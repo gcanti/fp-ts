@@ -1,31 +1,31 @@
-import * as Apv from '../../lib/Applicative'
-import * as Apy from '../../lib/Apply'
-import * as A from '../../lib/Array'
-import * as C from '../../lib/Const'
-import * as E from '../../lib/Either'
-import * as F from '../../lib/Functor'
-import * as H from '../../lib/HKT'
-import * as Ix from '../../lib/IxIO'
-import * as O from '../../lib/Option'
-import * as OT from '../../lib/OptionT'
-import * as Re from '../../lib/Reader'
-import * as RTE from '../../lib/ReaderTaskEither'
-import * as R from '../../lib/Record'
-import * as S from '../../lib/Semigroup'
-import * as T from '../../lib/Task'
-import * as TE from '../../lib/TaskEither'
-import * as Th from '../../lib/These'
-import * as Tr from '../../lib/Traversable'
-import * as U from '../../lib/Unfoldable'
-import * as V from '../../lib/Validation'
-import * as Mon from '../../lib/Monoid'
-import * as Se from '../../lib/Setoid'
-import * as SM from '../../lib/StrMap'
-import * as Fo from '../../lib/Foldable'
-import * as Or from '../../lib/Ord'
-import * as Fu from '../../lib/function'
-import * as Ring from '../../lib/Ring'
-import * as Field from '../../lib/Field'
+import * as Apv from '../../src/Applicative'
+import * as Apy from '../../src/Apply'
+import * as A from '../../src/Array'
+import * as C from '../../src/Const'
+import * as E from '../../src/Either'
+import * as F from '../../src/Functor'
+import * as H from '../../src/HKT'
+import * as Ix from '../../src/IxIO'
+import * as O from '../../src/Option'
+import * as OT from '../../src/OptionT'
+import * as Re from '../../src/Reader'
+import * as RTE from '../../src/ReaderTaskEither'
+import * as R from '../../src/Record'
+import * as S from '../../src/Semigroup'
+import * as T from '../../src/Task'
+import * as TE from '../../src/TaskEither'
+import * as Th from '../../src/These'
+import * as Tr from '../../src/Traversable'
+import * as U from '../../src/Unfoldable'
+import * as V from '../../src/Validation'
+import * as Mon from '../../src/Monoid'
+import * as Se from '../../src/Setoid'
+import * as SM from '../../src/StrMap'
+import * as Fo from '../../src/Foldable'
+import * as Or from '../../src/Ord'
+import * as Fu from '../../src/function'
+import * as Ring from '../../src/Ring'
+import * as Field from '../../src/Field'
 
 const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
@@ -45,24 +45,8 @@ declare const ReaderTaskEitherFunctor3C: F.Functor3C<'ReaderTaskEither', string,
 F.lift(ReaderTaskEitherFunctor3C)(double) // $ExpectType (fa: ReaderTaskEither<string, boolean, number>) => ReaderTaskEither<string, boolean, number>
 
 //
-// Traversable
-//
-
-// sequence
-
-Tr.sequence(E.either, A.array) // $ExpectType <L, A>(tfa: Either<L, A>[]) => Either<L, A[]>
-Tr.sequence(T.task, V.validation) // $ExpectType <L, A>(tfa: Validation<L, Task<A>>) => Task<Validation<L, A>>
-Tr.sequence(E.either, V.validation) // $ExpectType <LF, LT, A>(tfa: Validation<LT, Either<LF, A>>) => Either<LF, Validation<LT, A>>
-Tr.sequence(V.getApplicative(S.semigroupString), E.either) // $ExpectType <LT, A>(tfa: Either<LT, Validation<string, A>>) => Validation<string, Either<LT, A>>
-
-//
 // Apply
 //
-
-// liftA2
-
-const applicativeValidation = V.getApplicative(S.semigroupString)
-Apy.liftA2(applicativeValidation) // $ExpectType <A, B, C>(f: Curried2<A, B, C>) => (fa: Validation<string, A>) => (fb: Validation<string, B>) => Validation<string, C>
 
 // sequenceS
 
@@ -166,6 +150,8 @@ sequenceTf2(sequenceS5, sequenceS6, sequenceS7) // $ExpectType ReaderTaskEither<
 
 // replicateA
 
+const applicativeValidation = V.getApplicative(S.semigroupString)
+
 U.replicateA(applicativeValidation, A.array) // $ExpectType <A>(n: number, ma: Validation<string, A>) => Validation<string, A[]>
 
 //
@@ -190,7 +176,7 @@ C.const_.contramap(new C.Const<boolean, number>(true), (s: string) => s.length) 
 
 // Monad2C
 
-OT.getOptionT(Th.getMonad(S.getArraySemigroup<string>())) // $ExpectType OptionT2C<"These", string[]>
+OT.getOptionT(Th.getMonad(Mon.getArrayMonoid<string>())) // $ExpectType OptionT2C<"These", string[]>
 
 // Monad3C
 
@@ -303,17 +289,17 @@ R.sequence(O.option)(do1) // $ExpectType Option<Record<string, number>>
 
 R.compact(do1) // $ExpectType Record<string, number>
 
-R.partitionMapWithIndex(d1, (_k: string, n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
-R.partitionMapWithIndex(r1, (_k: 'a' | 'b', n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+R.partitionMapWithKey(d1, (_k: string, n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+R.partitionMapWithKey(r1, (_k: 'a' | 'b', n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
 
-R.partitionWithIndex(d1, (_k: string, n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>
-R.partitionWithIndex(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>
+R.partitionWithKey(d1, (_k: string, n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>
+R.partitionWithKey(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>
 
-R.filterMapWithIndex(d1, (_k: string, n) => O.some(n)) // $ExpectType Record<string, number>
-R.filterMapWithIndex(r1, (_k: 'a' | 'b', n) => O.some(n)) // $ExpectType Record<string, number>
+R.filterMapWithKey(d1, (_k: string, n) => O.some(n)) // $ExpectType Record<string, number>
+R.filterMapWithKey(r1, (_k: 'a' | 'b', n) => O.some(n)) // $ExpectType Record<string, number>
 
-R.filterWithIndex(d1, (_k: string, n) => n > 2) // $ExpectType Record<string, number>
-R.filterWithIndex(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Record<string, number>
+R.filterWithKey(d1, (_k: string, n) => n > 2) // $ExpectType Record<string, number>
+R.filterWithKey(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Record<string, number>
 
 declare const arr1: Array<[string, number]>
 declare const arr2: Array<['a' | 'b', number]>
@@ -351,17 +337,14 @@ const Ord1 = Or.getTupleOrd(Or.ordString, Or.ordNumber, Or.ordBoolean) // $Expec
 // Semigroup
 //
 
-const Sem1 = S.getDictionarySemigroup(S.semigroupSum) // $ExpectType Semigroup<Record<string, number>>
-const Sem2 = S.getDictionarySemigroup<Keys, number>(S.semigroupSum) // $ExpectType Semigroup<Record<Keys, number>>
-
-const Sem3 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll) // $ExpectType Semigroup<[string, number, boolean]>
+const Sem1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll) // $ExpectType Semigroup<[string, number, boolean]>
 
 //
 // Monoid
 //
 
-const Mon3 = Mon.getDictionaryMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
-const Mon4 = Mon.getDictionaryMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+const Mon3 = R.getMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
+const Mon4 = R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
 
 const Mon5 = Mon.getTupleMonoid(Mon.monoidString, Mon.monoidSum, Mon.monoidAll) // $ExpectType Monoid<[string, number, boolean]>
 
@@ -378,20 +361,20 @@ const Ring1 = Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fiel
 const toUnfoldable3 = SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $ExpectType [string, number][]
 
 //
-// NonEmptyArray2v
+// NonEmptyArray
 //
 
-import * as NEA2v from '../../lib/NonEmptyArray2v'
+import * as NEA from '../../src/NonEmptyArray'
 
-declare const nea2v1: NEA2v.NonEmptyArray<string>
-declare const nea2v2: NEA2v.NonEmptyArray<string>
+declare const nea2v1: NEA.NonEmptyArray<string>
+declare const nea2v2: NEA.NonEmptyArray<string>
 declare const array1: Array<string>
 
-const nea2v1make1 = NEA2v.make<number>(1, []) // $ExpectType NonEmptyArray<number>
+const nea2v1make1 = NEA.make<number>(1, []) // $ExpectType NonEmptyArray<number>
 
-const nea2vValid = NEA2v.fromNonEmptyArray([1]) // $ExpectType NonEmptyArray<number>
+const nea2vValid = NEA.fromNonEmptyArray([1]) // $ExpectType NonEmptyArray<number>
 // $ExpectError
-const nea2vInvalid = NEA2v.fromNonEmptyArray([])
+const nea2vInvalid = NEA.fromNonEmptyArray([])
 
 const nea2v1map1 = nea2v1.map(len) // $ExpectType NonEmptyArray<number>
 

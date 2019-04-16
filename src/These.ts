@@ -20,7 +20,7 @@
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Either } from './Either'
-import { Foldable2v2 } from './Foldable2v'
+import { Foldable2 } from './Foldable'
 import { phantom, toString } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
@@ -29,7 +29,7 @@ import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v2 } from './Traversable2v'
+import { Traversable2 } from './Traversable'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -476,7 +476,7 @@ export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => {
 /**
  * @since 1.0.0
  */
-export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = {
+export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   map,
   bimap,

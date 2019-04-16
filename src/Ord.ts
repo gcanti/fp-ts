@@ -185,15 +185,6 @@ export const getTupleOrd = <T extends Array<Ord<any>>>(
 }
 
 /**
- * Use `getTupleOrd` instead
- * @since 1.0.0
- * @deprecated
- */
-export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => {
-  return getTupleOrd(OA, OB)
-}
-
-/**
  * @since 1.3.0
  */
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {

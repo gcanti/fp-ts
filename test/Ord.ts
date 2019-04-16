@@ -5,7 +5,6 @@ import {
   clamp,
   contramap,
   getDualOrd,
-  getProductOrd,
   getSemigroup,
   ordDate,
   ordNumber,
@@ -35,14 +34,6 @@ describe('Ord', () => {
     assert.deepStrictEqual(sort(O1)(tuples), [[1, 'b'], [1, 'c'], [2, 'a'], [2, 'c']])
     const O2 = S.concat(sortBySnd, sortByFst)
     assert.deepStrictEqual(sort(O2)(tuples), [[2, 'a'], [1, 'b'], [1, 'c'], [2, 'c']])
-  })
-
-  it('getProductOrd', () => {
-    // tslint:disable-next-line: deprecation
-    const O = getProductOrd(ordString, ordNumber)
-    assert.strictEqual(O.compare(['a', 1], ['b', 2]), -1)
-    assert.strictEqual(O.compare(['a', 1], ['a', 2]), -1)
-    assert.strictEqual(O.compare(['a', 1], ['a', 1]), 0)
   })
 
   it('ordNumber', () => {

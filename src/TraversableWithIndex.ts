@@ -22,33 +22,33 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { FoldableWithIndex, FoldableWithIndex1, FoldableWithIndex2, FoldableWithIndex2C } from './FoldableWithIndex'
 import { FunctorWithIndex, FunctorWithIndex1, FunctorWithIndex2, FunctorWithIndex2C } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Traversable2v, Traversable2v1, Traversable2v2, Traversable2v2C } from './Traversable2v'
+import { Traversable, Traversable1, Traversable2, Traversable2C } from './Traversable'
 
 /**
  * @since 1.12.0
  */
-export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, FoldableWithIndex<T, I>, Traversable2v<T> {
+export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, FoldableWithIndex<T, I>, Traversable<T> {
   readonly traverseWithIndex: TraverseWithIndex<T, I>
 }
 
 export interface TraversableWithIndex1<T extends URIS, I>
   extends FunctorWithIndex1<T, I>,
     FoldableWithIndex1<T, I>,
-    Traversable2v1<T> {
+    Traversable1<T> {
   readonly traverseWithIndex: TraverseWithIndex1<T, I>
 }
 
 export interface TraversableWithIndex2<T extends URIS2, I>
   extends FunctorWithIndex2<T, I>,
     FoldableWithIndex2<T, I>,
-    Traversable2v2<T> {
+    Traversable2<T> {
   readonly traverseWithIndex: TraverseWithIndex2<T, I>
 }
 
 export interface TraversableWithIndex2C<T extends URIS2, I, L>
   extends FunctorWithIndex2C<T, I, L>,
     FoldableWithIndex2C<T, I, L>,
-    Traversable2v2C<T, L> {
+    Traversable2C<T, L> {
   readonly traverseWithIndex: TraverseWithIndex2C<T, I, L>
 }
 

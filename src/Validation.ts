@@ -11,7 +11,7 @@ import { Bifunctor2 } from './Bifunctor'
 import { Compactable2C, Separated } from './Compactable'
 import { Either } from './Either'
 import { Filterable2C } from './Filterable'
-import { Foldable2v2 } from './Foldable2v'
+import { Foldable2 } from './Foldable'
 import { phantom, Predicate, toString, Refinement, Lazy } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
@@ -20,7 +20,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v2 } from './Traversable2v'
+import { Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
 import { MonadThrow2C } from './MonadThrow'
 import { Show } from './Show'
@@ -38,7 +38,7 @@ export type URI = typeof URI
 /**
  * @example
  * import { Validation, getApplicative, success, failure } from 'fp-ts/lib/Validation'
- * import { NonEmptyArray, getSemigroup } from 'fp-ts/lib/NonEmptyArray'
+ * import { NonEmptyArray, getSemigroup, make } from 'fp-ts/lib/NonEmptyArray'
  *
  * interface Person {
  *   readonly name: string
@@ -50,14 +50,14 @@ export type URI = typeof URI
  *
  * // validators
  * function validateName(input: string): Validation<NonEmptyArray<string>, string> {
- *   return input.length === 0 ? failure(new NonEmptyArray('Invalid name: empty string', [])) : success(input)
+ *   return input.length === 0 ? failure(make<string>('Invalid name: empty string', [])) : success(input)
  * }
  * function validateAge(input: string): Validation<NonEmptyArray<string>, number> {
  *   const n = parseFloat(input)
  *   if (isNaN(n)) {
- *     return failure(new NonEmptyArray(`Invalid age: not a number ${input}`, []))
+ *     return failure(make<string>(`Invalid age: not a number ${input}`, []))
  *   }
- *   return n % 1 !== 0 ? failure(new NonEmptyArray(`Invalid age: not an integer ${n}`, [])) : success(n)
+ *   return n % 1 !== 0 ? failure(make<string>(`Invalid age: not an integer ${n}`, [])) : success(n)
  * }
  *
  * // get an `Applicative` instance for Validation<NonEmptyArray<string>, ?>
@@ -67,7 +67,7 @@ export type URI = typeof URI
  *   return A.ap(validateName(input['name']).map(person), validateAge(input['age']))
  * }
  *
- * assert.deepStrictEqual(validatePerson({ name: '', age: '1.2' }), failure(new NonEmptyArray("Invalid name: empty string", ["Invalid age: not an integer 1.2"])))
+ * assert.deepStrictEqual(validatePerson({ name: '', age: '1.2' }), failure(make<string>("Invalid name: empty string", ["Invalid age: not an integer 1.2"])))
  *
  * assert.deepStrictEqual(validatePerson({ name: 'Giulio', age: '44' }), success({ "name": "Giulio", "age": 44 }))
  *
@@ -202,7 +202,7 @@ const of = success
 /**
  * @example
  * import { Validation, success, failure, getApplicative } from 'fp-ts/lib/Validation'
- * import { getArraySemigroup } from 'fp-ts/lib/Semigroup'
+ * import { getArrayMonoid } from 'fp-ts/lib/Monoid'
  *
  * interface Person {
  *   name: string
@@ -217,7 +217,7 @@ const of = success
  * const validateAge = (age: number): Validation<string[], number> =>
  *   age > 0 && age % 1 === 0 ? success(age) : failure(['invalid age'])
  *
- * const A = getApplicative(getArraySemigroup<string>())
+ * const A = getApplicative(getArrayMonoid<string>())
  *
  * const validatePerson = (name: string, age: number): Validation<string[], Person> =>
  *   A.ap(A.map(validateName(name), person), validateAge(age))
@@ -556,7 +556,10 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
   return {
     ...filterableValidation,
     traverse,
+    sequence,
     reduce,
+    foldMap,
+    foldr,
     wither,
     wilt
   }
@@ -579,7 +582,7 @@ export const getMonadThrow = <L>(S: Semigroup<L>): MonadThrow2C<URI, L> => {
 /**
  * @since 1.0.0
  */
-export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = {
+export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   map,
   bimap,
