@@ -266,6 +266,13 @@ export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): O
 }
 
 /**
+ * @since 1.17.0
+ */
+export const copy = <A>(nea: NonEmptyArray<A>): NonEmptyArray<A> => {
+  return A.copy(nea) as any
+}
+
+/**
  * @since 1.15.0
  */
 export function filter<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<NonEmptyArray<A>>

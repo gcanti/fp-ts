@@ -26,7 +26,8 @@ import {
   fromNonEmptyArray,
   cons,
   snoc,
-  modifyAt
+  modifyAt,
+  copy
 } from '../src/NonEmptyArray2v'
 import { none, option, some, isSome } from '../src/Option'
 import { ordNumber } from '../src/Ord'
@@ -309,6 +310,13 @@ describe.only('NonEmptyArray2v', () => {
     const double = (n: number): number => n * 2
     assert.deepStrictEqual(modifyAt(make<number>(1, []), 1, double), none)
     assert.deepStrictEqual(modifyAt(make<number>(1, [2]), 1, double), some(make(1, [4])))
+  })
+
+  it('copy', () => {
+    const nea1 = make<number>(1, [])
+    const nea2 = copy(nea1)
+    assert.deepStrictEqual(nea2, nea1)
+    assert.strictEqual(nea2 === nea1, false)
   })
 
   it('filter', () => {

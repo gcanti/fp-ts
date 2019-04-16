@@ -875,7 +875,6 @@ export const refine = <A, B extends A>(as: Array<A>, refinement: Refinement<A, B
 }
 
 /**
- *
  * @since 1.0.0
  */
 export const copy = <A>(as: Array<A>): Array<A> => {
