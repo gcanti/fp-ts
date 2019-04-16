@@ -4,7 +4,7 @@
  */
 import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
-import { Either, left as eitherLeft, right as eitherRight, toError, tryCatch2v as eitherTryCatch2v } from './Either'
+import { Either, left as eitherLeft, right as eitherRight, tryCatch as eitherTryCatch } from './Either'
 import * as eitherT from './EitherT'
 import { constant, constIdentity, Lazy } from './function'
 import { IO, io } from './IO'
@@ -21,7 +21,7 @@ export const URI = 'IOEither'
 
 export type URI = typeof URI
 
-const T = eitherT.getEitherT2v(io)
+const T = eitherT.getEitherT(io)
 const foldT = eitherT.fold(io)
 
 /**
@@ -135,20 +135,10 @@ export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
 }
 
 /**
- * Use `tryCatch2v` instead
- *
- * @since 1.6.0
- * @deprecated
- */
-export const tryCatch = <A>(f: Lazy<A>, onerror: (reason: unknown) => Error = toError): IOEither<Error, A> => {
-  return tryCatch2v(f, onerror)
-}
-
-/**
  * @since 1.11.0
  */
-export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => {
-  return new IOEither(new IO(() => eitherTryCatch2v(f, onerror)))
+export const tryCatch = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => {
+  return new IOEither(new IO(() => eitherTryCatch(f, onerror)))
 }
 
 const throwError = fromLeft

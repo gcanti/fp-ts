@@ -9,80 +9,80 @@
  * ```
  */
 import {
-  Foldable2v,
-  Foldable2v1,
-  Foldable2v2,
-  Foldable2v2C,
-  Foldable2v3,
-  Foldable2v3C,
-  Foldable2vComposition,
+  Foldable,
+  Foldable1,
+  Foldable2,
+  Foldable2C,
+  Foldable3,
+  Foldable3C,
+  FoldableComposition,
   getFoldableComposition,
-  Foldable2vComposition11,
-  Foldable2vComposition12,
-  Foldable2vComposition12C,
-  Foldable2vComposition21,
-  Foldable2vComposition2C1,
-  Foldable2vComposition22,
-  Foldable2vComposition22C,
-  Foldable2vComposition3C1
-} from './Foldable2v'
+  FoldableComposition11,
+  FoldableComposition12,
+  FoldableComposition12C,
+  FoldableComposition21,
+  FoldableComposition2C1,
+  FoldableComposition22,
+  FoldableComposition22C,
+  FoldableComposition3C1
+} from './Foldable'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 
 /**
  * @since 1.12.0
  */
-export interface FoldableWithIndex<F, I> extends Foldable2v<F> {
+export interface FoldableWithIndex<F, I> extends Foldable<F> {
   readonly reduceWithIndex: <A, B>(fa: HKT<F, A>, b: B, f: (i: I, b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fa: HKT<F, A>, f: (i: I, a: A) => M) => M
   readonly foldrWithIndex: <A, B>(fa: HKT<F, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 
-export interface FoldableWithIndex1<F extends URIS, I> extends Foldable2v1<F> {
+export interface FoldableWithIndex1<F extends URIS, I> extends Foldable1<F> {
   readonly reduceWithIndex: <A, B>(fa: Type<F, A>, b: B, f: (i: I, b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fa: Type<F, A>, f: (i: I, a: A) => M) => M
   readonly foldrWithIndex: <A, B>(fa: Type<F, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 
-export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2v2<F> {
+export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2<F> {
   readonly reduceWithIndex: <L, A, B>(fa: Type2<F, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <L, A>(fa: Type2<F, L, A>, f: (i: I, a: A) => M) => M
   readonly foldrWithIndex: <L, A, B>(fa: Type2<F, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 
-export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable2v3<F> {
+export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable3<F> {
   readonly reduceWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <U, L, A>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => M) => M
   readonly foldrWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 
-export interface FoldableWithIndex2C<F extends URIS2, I, L> extends Foldable2v2C<F, L> {
+export interface FoldableWithIndex2C<F extends URIS2, I, L> extends Foldable2C<F, L> {
   readonly reduceWithIndex: <A, B>(fa: Type2<F, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fa: Type2<F, L, A>, f: (i: I, a: A) => M) => M
   readonly foldrWithIndex: <A, B>(fa: Type2<F, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 
-export interface FoldableWithIndex3C<F extends URIS3, I, U, L> extends Foldable2v3C<F, U, L> {
+export interface FoldableWithIndex3C<F extends URIS3, I, U, L> extends Foldable3C<F, U, L> {
   readonly reduceWithIndex: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => M) => M
   readonly foldrWithIndex: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 
-export interface FoldableWithIndexComposition<F, FI, G, GI> extends Foldable2vComposition<F, G> {
+export interface FoldableWithIndexComposition<F, FI, G, GI> extends FoldableComposition<F, G> {
   readonly reduceWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: HKT<F, HKT<G, A>>, f: (i: [FI, GI], a: A) => M) => M
   readonly foldrWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 
 export interface FoldableWithIndexComposition11<F extends URIS, FI, G extends URIS, GI>
-  extends Foldable2vComposition11<F, G> {
+  extends FoldableComposition11<F, G> {
   readonly reduceWithIndex: <A, B>(fga: Type<F, Type<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Type<F, Type<G, A>>, f: (i: [FI, GI], a: A) => M) => M
   readonly foldrWithIndex: <A, B>(fga: Type<F, Type<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 
 export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>
-  extends Foldable2vComposition12<F, G> {
+  extends FoldableComposition12<F, G> {
   readonly reduceWithIndex: <LG, A, B>(fga: Type<F, Type2<G, LG, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
@@ -91,14 +91,14 @@ export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends UR
 }
 
 export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, LG>
-  extends Foldable2vComposition12C<F, G, LG> {
+  extends FoldableComposition12C<F, G, LG> {
   readonly reduceWithIndex: <A, B>(fga: Type<F, Type2<G, LG, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Type<F, Type2<G, LG, A>>, f: (i: [FI, GI], a: A) => M) => M
   readonly foldrWithIndex: <A, B>(fga: Type<F, Type2<G, LG, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 
 export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>
-  extends Foldable2vComposition21<F, G> {
+  extends FoldableComposition21<F, G> {
   readonly reduceWithIndex: <LF, A, B>(fga: Type2<F, LF, Type<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
@@ -107,14 +107,14 @@ export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends U
 }
 
 export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, LF>
-  extends Foldable2vComposition2C1<F, G, LF> {
+  extends FoldableComposition2C1<F, G, LF> {
   readonly reduceWithIndex: <A, B>(fga: Type2<F, LF, Type<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fga: Type2<F, LF, Type<G, A>>, f: (i: [FI, GI], a: A) => M) => M
   readonly foldrWithIndex: <A, B>(fga: Type2<F, LF, Type<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 
 export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends URIS2, GI>
-  extends Foldable2vComposition22<F, G> {
+  extends FoldableComposition22<F, G> {
   readonly reduceWithIndex: <LF, LG, A, B>(
     fga: Type2<F, LF, Type2<G, LG, A>>,
     b: B,
@@ -131,7 +131,7 @@ export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends U
 }
 
 export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, LG>
-  extends Foldable2vComposition22C<F, G, LG> {
+  extends FoldableComposition22C<F, G, LG> {
   readonly reduceWithIndex: <LF, A, B>(fga: Type2<F, LF, Type2<G, LG, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>
@@ -140,7 +140,7 @@ export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends 
 }
 
 export interface FoldableWithIndexComposition3C1<F extends URIS3, FI, G extends URIS, GI, UF, LF>
-  extends Foldable2vComposition3C1<F, G, UF, LF> {
+  extends FoldableComposition3C1<F, G, UF, LF> {
   readonly reduceWithIndex: <A, B>(fga: Type3<F, UF, LF, Type<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(
     M: Monoid<M>

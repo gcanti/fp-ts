@@ -34,7 +34,7 @@ export const URI = 'TaskEither'
 
 export type URI = typeof URI
 
-const T = eitherT.getEitherT2v(task)
+const T = eitherT.getEitherT(task)
 const foldT = eitherT.fold(task)
 
 /**

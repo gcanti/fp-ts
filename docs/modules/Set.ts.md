@@ -1,6 +1,6 @@
 ---
 title: Set.ts
-nav_order: 78
+nav_order: 77
 parent: Modules
 ---
 
@@ -11,8 +11,7 @@ parent: Modules
 - [empty (constant)](#empty-constant)
 - [chain (function)](#chain-function)
 - [compact (function)](#compact-function)
-- [~~difference~~ (function)](#difference-function)
-- [difference2v (function)](#difference2v-function)
+- [difference (function)](#difference-function)
 - [elem (function)](#elem-function)
 - [every (function)](#every-function)
 - [filter (function)](#filter-function)
@@ -26,7 +25,6 @@ parent: Modules
 - [insert (function)](#insert-function)
 - [intersection (function)](#intersection-function)
 - [map (function)](#map-function)
-- [~~member~~ (function)](#member-function)
 - [partition (function)](#partition-function)
 - [partitionMap (function)](#partitionmap-function)
 - [reduce (function)](#reduce-function)
@@ -70,9 +68,9 @@ export const compact = <A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>) => ..
 
 Added in v1.12.0
 
-# ~~difference~~ (function)
+# difference (function)
 
-Use `difference2v` instead
+Form the set difference (`x` - `y`)
 
 **Signature**
 
@@ -80,25 +78,13 @@ Use `difference2v` instead
 export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => ...
 ```
 
-Added in v1.0.0
-
-# difference2v (function)
-
-Form the set difference (`x` - `y`)
-
-**Signature**
-
-```ts
-export const difference2v = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => ...
-```
-
 **Example**
 
 ```ts
-import { difference2v } from 'fp-ts/lib/Set'
+import { difference } from 'fp-ts/lib/Set'
 import { setoidNumber } from 'fp-ts/lib/Setoid'
 
-assert.deepStrictEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+assert.deepStrictEqual(difference(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
 ```
 
 Added in v1.12.0
@@ -243,18 +229,6 @@ export const map = <B>(S: Setoid<B>): (<A>(set: Set<A>, f: (x: A) => B) => Set<B
 ```
 
 Added in v1.2.0
-
-# ~~member~~ (function)
-
-Use `elem` instead
-
-**Signature**
-
-```ts
-export const member = <A>(S: Setoid<A>): ((set: Set<A>) => (a: A) => boolean) => ...
-```
-
-Added in v1.0.0
 
 # partition (function)
 

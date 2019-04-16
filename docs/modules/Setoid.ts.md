@@ -1,6 +1,6 @@
 ---
 title: Setoid.ts
-nav_order: 79
+nav_order: 78
 parent: Modules
 ---
 
@@ -28,8 +28,6 @@ See [Getting started with fp-ts: Setoid](https://dev.to/gcanti/getting-started-w
 - [contramap (function)](#contramap-function)
 - [fromEquals (function)](#fromequals-function)
 - [getArraySetoid (function)](#getarraysetoid-function)
-- [~~getProductSetoid~~ (function)](#getproductsetoid-function)
-- [~~getRecordSetoid~~ (function)](#getrecordsetoid-function)
 - [getStructSetoid (function)](#getstructsetoid-function)
 - [getTupleSetoid (function)](#gettuplesetoid-function)
 - [strictEqual (function)](#strictequal-function)
@@ -116,32 +114,6 @@ Added in v1.14.0
 
 ```ts
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => ...
-```
-
-Added in v1.0.0
-
-# ~~getProductSetoid~~ (function)
-
-Use `getTupleSetoid` instead
-
-**Signature**
-
-```ts
-export const getProductSetoid = <A, B>(SA: Setoid<A>, SB: Setoid<B>): Setoid<[A, B]> => ...
-```
-
-Added in v1.0.0
-
-# ~~getRecordSetoid~~ (function)
-
-Use `getStructSetoid` instead
-
-**Signature**
-
-```ts
-export const getRecordSetoid = <O extends { [key: string]: any }>(
-  setoids: { [K in keyof O]: Setoid<O[K]> }
-): Setoid<O> => ...
 ```
 
 Added in v1.0.0

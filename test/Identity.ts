@@ -1,12 +1,10 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { setoidNumber } from '../src/Setoid'
-import * as T from '../src/Traversable'
 import { showString } from '../src/Show'
 
 describe('Identity', () => {
@@ -44,22 +42,18 @@ describe('Identity', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(I.identity, monoidString)
     const foldMap = I.identity.foldMap(monoidString)
     const x1 = I.identity.of('a')
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'a')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(I.identity)
     const foldr = I.identity.foldr
     const x1 = I.identity.of('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'a')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('alt', () => {
@@ -116,11 +110,9 @@ describe('Identity', () => {
   })
 
   it('sequence', () => {
-    const old = T.sequence(option, I.identity)
     const sequence = I.identity.sequence(option)
     const x1 = I.identity.of(some('a'))
     assert.deepStrictEqual(sequence(x1), some(I.identity.of('a')))
-    assert.deepStrictEqual(sequence(x1), old(x1))
   })
 
   it('orElse', () => {

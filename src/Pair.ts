@@ -3,7 +3,7 @@
  */
 import { Applicative, Applicative1 } from './Applicative'
 import { Comonad1 } from './Comonad'
-import { Foldable2v1 } from './Foldable2v'
+import { Foldable1 } from './Foldable'
 import { Endomorphism } from './function'
 import { HKT } from './HKT'
 import { Monoid } from './Monoid'
@@ -11,7 +11,7 @@ import { Ord, fromCompare } from './Ord'
 import { semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v1 } from './Traversable2v'
+import { Traversable1 } from './Traversable'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -153,7 +153,7 @@ const sequence = <F>(F: Applicative<F>) => <A>(ta: Pair<HKT<F, A>>): HKT<F, Pair
 /**
  * @since 1.0.0
  */
-export const pair: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = {
+export const pair: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map,
   of,

@@ -32,7 +32,7 @@ import { ChainRec2, tailRec } from './ChainRec'
 import { Compactable2C, Separated } from './Compactable'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
-import { Foldable2v2 } from './Foldable2v'
+import { Foldable2 } from './Foldable'
 import { Lazy, phantom, Predicate, Refinement, toString, identity } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
@@ -40,7 +40,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v2 } from './Traversable2v'
+import { Traversable2 } from './Traversable'
 import { Validation } from './Validation'
 import { Witherable2C } from './Witherable'
 import { MonadThrow2 } from './MonadThrow'
@@ -175,23 +175,6 @@ export class Left<L, A> {
   filterOrElseL(_: Predicate<A>, zero: (a: A) => L): Either<L, A> {
     return this
   }
-  /**
-   * Use `filterOrElse` instead
-   * @since 1.6.0
-   * @deprecated
-   */
-  refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B> {
-    return this as any
-  }
-  /**
-   * Lazy version of `refineOrElse`
-   * Use `filterOrElseL` instead
-   * @since 1.6.0
-   * @deprecated
-   */
-  refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> {
-    return this as any
-  }
 }
 
 /**
@@ -266,12 +249,6 @@ export class Right<L, A> {
   filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A>
   filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> {
     return p(this.value) ? this : left(zero(this.value))
-  }
-  refineOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B> {
-    return p(this.value) ? (this as any) : left(zero)
-  }
-  refineOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B> {
-    return p(this.value) ? (this as any) : left(zero(this.value))
   }
 }
 
@@ -441,18 +418,6 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 }
 
 /**
- * Use `fromPredicate` instead
- *
- * @since 1.6.0
- * @deprecated
- */
-export const fromRefinement = <L, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => L) => (
-  a: A
-): Either<L, B> => {
-  return refinement(a) ? right(a) : left(onFalse(a))
-}
-
-/**
  * Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
  * the provided default as a `Left`
  *
@@ -495,20 +460,10 @@ export const toError = (e: unknown): Error => {
 }
 
 /**
- * Use `tryCatch2v` instead
- *
- * @since 1.0.0
- * @deprecated
- */
-export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError): Either<Error, A> => {
-  return tryCatch2v(f, onerror)
-}
-
-/**
  * Constructs a new `Either` from a function that might throw
  *
  * @example
- * import { Either, left, right, tryCatch2v } from 'fp-ts/lib/Either'
+ * import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
  *
  * const unsafeHead = <A>(as: Array<A>): A => {
  *   if (as.length > 0) {
@@ -519,7 +474,7 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError
  * }
  *
  * const head = <A>(as: Array<A>): Either<Error, A> => {
- *   return tryCatch2v(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+ *   return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
  * }
  *
  * assert.deepStrictEqual(head([]), left(new Error('empty array')))
@@ -527,7 +482,7 @@ export const tryCatch = <A>(f: Lazy<A>, onerror: (e: unknown) => Error = toError
  *
  * @since 1.11.0
  */
-export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => {
+export const tryCatch = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => {
   try {
     return right(f())
   } catch (e) {
@@ -698,7 +653,10 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
   return {
     ...filterableEither,
     traverse,
+    sequence,
     reduce,
+    foldMap,
+    foldr,
     wither,
     wilt
   }
@@ -716,7 +674,7 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
  * @since 1.16.0
  */
 export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either<L, unknown> => {
-  return tryCatch2v(() => JSON.parse(s), onError)
+  return tryCatch(() => JSON.parse(s), onError)
 }
 
 /**
@@ -733,7 +691,7 @@ export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either
  * @since 1.16.0
  */
 export const stringifyJSON = <L>(u: unknown, onError: (reason: unknown) => L): Either<L, string> => {
-  return tryCatch2v(() => JSON.stringify(u), onError)
+  return tryCatch(() => JSON.stringify(u), onError)
 }
 
 const throwError = left
@@ -744,8 +702,8 @@ const fromEither = identity
  * @since 1.0.0
  */
 export const either: Monad2<URI> &
-  Foldable2v2<URI> &
-  Traversable2v2<URI> &
+  Foldable2<URI> &
+  Traversable2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &

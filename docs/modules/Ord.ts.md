@@ -1,6 +1,6 @@
 ---
 title: Ord.ts
-nav_order: 64
+nav_order: 63
 parent: Modules
 ---
 
@@ -30,7 +30,6 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 - [contramap (function)](#contramap-function)
 - [fromCompare (function)](#fromcompare-function)
 - [getDualOrd (function)](#getdualord-function)
-- [~~getProductOrd~~ (function)](#getproductord-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getTupleOrd (function)](#gettupleord-function)
 - [greaterThan (function)](#greaterthan-function)
@@ -148,18 +147,6 @@ export const getDualOrd = <A>(O: Ord<A>): Ord<A> => ...
 ```
 
 Added in v1.3.0
-
-# ~~getProductOrd~~ (function)
-
-Use `getTupleOrd` instead
-
-**Signature**
-
-```ts
-export const getProductOrd = <A, B>(OA: Ord<A>, OB: Ord<B>): Ord<[A, B]> => ...
-```
-
-Added in v1.0.0
 
 # getSemigroup (function)
 

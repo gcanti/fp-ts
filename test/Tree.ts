@@ -1,12 +1,10 @@
 import * as assert from 'assert'
-import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
-import { setoidNumber, Setoid, contramap } from '../src/Setoid'
-import * as T from '../src/Traversable'
-import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM, elem, getShow } from '../src/Tree'
+import { contramap, Setoid, setoidNumber } from '../src/Setoid'
 import { showString } from '../src/Show'
+import { drawTree, elem, getSetoid, getShow, Tree, tree, unfoldTree, unfoldTreeM } from '../src/Tree'
 
 describe('Tree', () => {
   it('map', () => {
@@ -55,22 +53,18 @@ describe('Tree', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(tree, monoidString)
     const foldMap = tree.foldMap(monoidString)
     const x1 = new Tree('a', [new Tree('b', []), new Tree('c', [])])
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'abc')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(tree)
     const foldr = tree.foldr
     const x1 = new Tree('a', [new Tree('b', []), new Tree('c', [])])
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'cba')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('traverse', () => {
@@ -79,11 +73,9 @@ describe('Tree', () => {
   })
 
   it('sequence', () => {
-    const old = T.sequence(I.identity, tree)
     const sequence = tree.sequence(I.identity)
     const x1 = new Tree(I.identity.of('a'), [new Tree(I.identity.of('b'), []), new Tree(I.identity.of('c'), [])])
     assert.deepStrictEqual(sequence(x1), I.identity.of(new Tree('a', [new Tree('b', []), new Tree('c', [])])))
-    assert.deepStrictEqual(sequence(x1), old(x1))
   })
 
   it('drawTree', () => {

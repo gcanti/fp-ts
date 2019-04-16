@@ -1,6 +1,6 @@
 ---
 title: Map.ts
-nav_order: 53
+nav_order: 52
 parent: Modules
 ---
 
@@ -106,19 +106,19 @@ specified function to combine values for duplicate keys.
 ```ts
 export function fromFoldable<K, F extends URIS3>(
   S: Setoid<K>,
-  F: Foldable2v3<F>
+  F: Foldable3<F>
 ): <U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS2>(
   S: Setoid<K>,
-  F: Foldable2v2<F>
+  F: Foldable2<F>
 ): <L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS>(
   S: Setoid<K>,
-  F: Foldable2v1<F>
+  F: Foldable1<F>
 ): <A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
   S: Setoid<K>,
-  F: Foldable2v<F>
+  F: Foldable<F>
 ): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> { ... }
 ```
 

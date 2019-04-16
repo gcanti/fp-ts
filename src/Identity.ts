@@ -3,13 +3,13 @@ import { Applicative } from './Applicative'
 import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Either } from './Either'
-import { Foldable2v1 } from './Foldable2v'
+import { Foldable1 } from './Foldable'
 import { Lazy, toString } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v1 } from './Traversable2v'
+import { Traversable1 } from './Traversable'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -153,12 +153,7 @@ const sequence = <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, 
 /**
  * @since 1.0.0
  */
-export const identity: Monad1<URI> &
-  Foldable2v1<URI> &
-  Traversable2v1<URI> &
-  Alt1<URI> &
-  Comonad1<URI> &
-  ChainRec1<URI> = {
+export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
   URI,
   map,
   of,

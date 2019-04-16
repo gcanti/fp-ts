@@ -5,7 +5,7 @@ import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Predicate, Refinement } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
-import { getDictionaryMonoid, Monoid } from './Monoid'
+import { Monoid } from './Monoid'
 import { none, Option, some as optionSome } from './Option'
 import { Semigroup } from './Semigroup'
 import { fromEquals, Setoid } from './Setoid'
@@ -142,15 +142,6 @@ export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Reco
 }
 
 /**
- * Use `isSubrecord` instead
- * @since 1.10.0
- * @deprecated
- */
-export const isSubdictionary: <A>(
-  S: Setoid<A>
-) => (d1: Record<string, A>, d2: Record<string, A>) => boolean = isSubrecord
-
-/**
  * @since 1.10.0
  */
 export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
@@ -159,6 +150,8 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> {
   const isSubrecordS = isSubrecord(S)
   return fromEquals((x, y) => isSubrecordS(x, y) && isSubrecordS(y, x))
 }
+
+const emptyObject = {}
 
 /**
  * Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
@@ -175,8 +168,19 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> {
 export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>>
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
-  // tslint:disable-next-line: deprecation
-  return getDictionaryMonoid(S)
+  return {
+    concat: (x, y) => {
+      const r: { [key: string]: A } = { ...x }
+      const keys = Object.keys(y)
+      const len = keys.length
+      for (let i = 0; i < len; i++) {
+        const k = keys[i]
+        r[k] = x.hasOwnProperty(k) ? S.concat(x[k], y[k]) : y[k]
+      }
+      return r
+    },
+    empty: emptyObject
+  }
 }
 
 /**
@@ -765,72 +769,4 @@ export function some<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean):
  */
 export function elem<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boolean {
   return (a, fa) => some(fa, x => S.equals(x, a))
-}
-
-/**
- * Use `partitionMapWithKey` instead
- * @since 1.12.0
- * @deprecated
- */
-export function partitionMapWithIndex<K extends string, RL, RR, A>(
-  fa: Record<K, A>,
-  f: (key: K, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithIndex<RL, RR, A>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithIndex<RL, RR, A>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>> {
-  return partitionMapWithKey(fa, f)
-}
-
-/**
- * Use `partitionWithKey` instead
- * @since 1.12.0
- * @deprecated
- */
-export function partitionWithIndex<K extends string, A>(
-  fa: Record<K, A>,
-  p: (key: K, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithIndex<A>(
-  fa: Record<string, A>,
-  p: (key: string, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithIndex<A>(
-  fa: Record<string, A>,
-  p: (key: string, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>> {
-  return partitionWithKey(fa, p)
-}
-
-/**
- * Use `filterMapWithKey` instead
- * @since 1.12.0
- * @deprecated
- */
-export function filterMapWithIndex<K extends string, A, B>(
-  fa: Record<K, A>,
-  f: (key: K, a: A) => Option<B>
-): Record<string, B>
-export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>
-export function filterMapWithIndex<A, B>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Option<B>
-): Record<string, B> {
-  return filterMapWithKey(fa, f)
-}
-
-/**
- * Use `filterWithKey` instead
- * @since 1.12.0
- * @deprecated
- */
-export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
-export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
-export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
-  return filterWithKey(fa, p)
 }

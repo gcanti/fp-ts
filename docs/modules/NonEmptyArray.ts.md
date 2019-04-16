@@ -1,6 +1,6 @@
 ---
-title: NonEmptyArray2v.ts
-nav_order: 61
+title: NonEmptyArray.ts
+nav_order: 60
 parent: Modules
 ---
 
@@ -90,7 +90,7 @@ export const cons: <A>(a: A, as: Array<A>) => NonEmptyArray<A> = ...
 **Example**
 
 ```ts
-import { cons } from 'fp-ts/lib/NonEmptyArray2v'
+import { cons } from 'fp-ts/lib/NonEmptyArray'
 
 assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
 ```
@@ -124,7 +124,7 @@ export const snoc: <A>(as: Array<A>, a: A) => NonEmptyArray<A> = ...
 **Example**
 
 ```ts
-import { snoc } from 'fp-ts/lib/NonEmptyArray2v'
+import { snoc } from 'fp-ts/lib/NonEmptyArray'
 
 assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
@@ -254,7 +254,7 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> { ... }
 **Example**
 
 ```ts
-import { fromNonEmptyArray, getSetoid, make } from 'fp-ts/lib/NonEmptyArray2v'
+import { fromNonEmptyArray, getSetoid, make } from 'fp-ts/lib/NonEmptyArray'
 import { setoidNumber } from 'fp-ts/lib/Setoid'
 
 const S = getSetoid(setoidNumber)
@@ -287,7 +287,7 @@ export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>
 **Example**
 
 ```ts
-import { make, group } from 'fp-ts/lib/NonEmptyArray2v'
+import { make, group } from 'fp-ts/lib/NonEmptyArray'
 import { ordNumber } from 'fp-ts/lib/Ord'
 
 assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [make(1, []), make(2, []), make(1, [1])])
@@ -309,7 +309,7 @@ export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
 **Example**
 
 ```ts
-import { make, groupBy } from 'fp-ts/lib/NonEmptyArray2v'
+import { make, groupBy } from 'fp-ts/lib/NonEmptyArray'
 
 assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
   '3': make('foo', ['bar']),
@@ -332,7 +332,7 @@ export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<
 **Example**
 
 ```ts
-import { make, groupSort } from 'fp-ts/lib/NonEmptyArray2v'
+import { make, groupSort } from 'fp-ts/lib/NonEmptyArray'
 import { ordNumber } from 'fp-ts/lib/Ord'
 
 assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [make(1, [1, 1]), make(2, [])])

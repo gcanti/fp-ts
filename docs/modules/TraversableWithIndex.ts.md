@@ -1,6 +1,6 @@
 ---
 title: TraversableWithIndex.ts
-nav_order: 93
+nav_order: 91
 parent: Modules
 ---
 
@@ -45,7 +45,7 @@ mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i
 **Signature**
 
 ```ts
-export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, FoldableWithIndex<T, I>, Traversable2v<T> {
+export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, FoldableWithIndex<T, I>, Traversable<T> {
   readonly traverseWithIndex: TraverseWithIndex<T, I>
 }
 ```
@@ -60,7 +60,7 @@ Added in v1.12.0
 export interface TraversableWithIndex1<T extends URIS, I>
   extends FunctorWithIndex1<T, I>,
     FoldableWithIndex1<T, I>,
-    Traversable2v1<T> {
+    Traversable1<T> {
   readonly traverseWithIndex: TraverseWithIndex1<T, I>
 }
 ```
@@ -73,7 +73,7 @@ export interface TraversableWithIndex1<T extends URIS, I>
 export interface TraversableWithIndex2<T extends URIS2, I>
   extends FunctorWithIndex2<T, I>,
     FoldableWithIndex2<T, I>,
-    Traversable2v2<T> {
+    Traversable2<T> {
   readonly traverseWithIndex: TraverseWithIndex2<T, I>
 }
 ```
@@ -86,7 +86,7 @@ export interface TraversableWithIndex2<T extends URIS2, I>
 export interface TraversableWithIndex2C<T extends URIS2, I, L>
   extends FunctorWithIndex2C<T, I, L>,
     FoldableWithIndex2C<T, I, L>,
-    Traversable2v2C<T, L> {
+    Traversable2C<T, L> {
   readonly traverseWithIndex: TraverseWithIndex2C<T, I, L>
 }
 ```

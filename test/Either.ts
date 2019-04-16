@@ -6,7 +6,6 @@ import {
   fromOption,
   fromOptionL,
   fromPredicate,
-  fromRefinement,
   fromValidation,
   getApplyMonoid,
   getApplySemigroup,
@@ -14,28 +13,25 @@ import {
   getFilterable,
   getSemigroup,
   getSetoid,
+  getShow,
   getWitherable,
   isLeft,
   isRight,
   left,
-  right,
-  tryCatch,
-  tryCatch2v,
-  toError,
   parseJSON,
+  right,
   stringifyJSON,
-  getShow
+  toError,
+  tryCatch
 } from '../src/Either'
-import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
-import * as T from '../src/Traversable'
-import { failure, success } from '../src/Validation'
 import { showString } from '../src/Show'
+import { failure, success } from '../src/Validation'
 
 describe('Either', () => {
   it('fold', () => {
@@ -106,49 +102,16 @@ describe('Either', () => {
     assert.deepStrictEqual(from('foo'), left('invalid color foo'))
   })
 
-  it('tryCatch2v', () => {
-    // tslint:disable-next-line: deprecation
+  it('tryCatch', () => {
     const e1 = tryCatch(() => {
-      return JSON.parse(`{}`)
-    })
-    assert.deepStrictEqual(e1, right({}))
-
-    // tslint:disable-next-line: deprecation
-    const e2 = tryCatch(() => {
-      return JSON.parse(``)
-    })
-    assert.deepStrictEqual(e2, left(new SyntaxError('Unexpected end of JSON input')))
-
-    // tslint:disable-next-line: deprecation
-    const e3 = tryCatch(() => {
-      throw 'a string' // tslint:disable-line no-string-throw
-    })
-    assert.deepStrictEqual(e3, left(new Error('a string')))
-
-    // tslint:disable-next-line: deprecation
-    const e4 = tryCatch(() => {
-      throw new Error('foo')
+      return 1
     }, toError)
-    assert.deepStrictEqual(e4, left(new Error('foo')))
-
-    type ObjectWithStatusCode = { statusCode: number }
-    const thrownIsObjectWithStatusCode = (thrown: unknown): thrown is ObjectWithStatusCode => {
-      // tslint:disable-next-line:strict-type-predicates (upstream bug: https://github.com/palantir/tslint/issues/4107)
-      return typeof thrown === 'object' && thrown !== null && 'statusCode' in thrown
-    }
-    const onerror = (thrown: unknown): Error => {
-      if (thrownIsObjectWithStatusCode(thrown)) {
-        return new Error(`Bad response: ${thrown.statusCode}`)
-      } else if (thrown instanceof Error) {
-        return thrown
-      } else {
-        return new Error('Unexpected error')
-      }
-    }
-    const e5 = tryCatch2v(() => {
-      throw { statusCode: 404 }
-    }, onerror)
-    assert.deepStrictEqual(e5, left(new Error('Bad response: 404')))
+    assert.deepStrictEqual(e1, right(1))
+    const e2 = tryCatch(() => {
+      // tslint:disable-next-line: no-string-throw
+      throw 'string error'
+    }, toError)
+    assert.deepStrictEqual(e2, left(new Error('string error')))
   })
 
   it('getOrElse', () => {
@@ -195,17 +158,13 @@ describe('Either', () => {
   })
 
   it('sequence', () => {
-    const old = T.sequence(option, either)
     const sequence = either.sequence(option)
     const x1 = right<number, Option<string>>(some('a'))
     assert.deepStrictEqual(sequence(x1), some(right('a')))
-    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = left<number, Option<string>>(1)
     assert.deepStrictEqual(sequence(x2), some(left(1)))
-    assert.deepStrictEqual(sequence(x2), old(x2))
     const x3 = right<number, Option<string>>(none)
     assert.deepStrictEqual(sequence(x3), none)
-    assert.deepStrictEqual(sequence(x3), old(x3))
   })
 
   it('chainRec', () => {
@@ -298,28 +257,22 @@ describe('Either', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(either, monoidString)
     const foldMap = either.foldMap(monoidString)
     const x1 = right<number, string>('a')
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'a')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
     const x2 = left<number, string>(1)
     assert.strictEqual(foldMap(x2, f1), '')
-    assert.strictEqual(foldMap(x2, f1), old(x2, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(either)
     const foldr = either.foldr
     const x1 = right<number, string>('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'a')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
     const x2 = left<number, string>(1)
     assert.strictEqual(foldr(x2, init1, f1), '')
-    assert.strictEqual(foldr(x2, init1, f1), old(x2, init1, f1))
   })
 
   it('mapLeft', () => {
@@ -338,38 +291,6 @@ describe('Either', () => {
   it('swap', () => {
     assert.deepStrictEqual(right('bar').swap(), left('bar'))
     assert.deepStrictEqual(left('bar').swap(), right('bar'))
-  })
-
-  it('refineOrElse', () => {
-    type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(right('red').refineOrElse(isColor, -1), right('red'))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(right('foo').refineOrElse(isColor, -1), left(-1))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(left<number, string>(12).refineOrElse(isColor, -1), left(12))
-  })
-
-  it('refineOrElseL', () => {
-    type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
-    const errorHandler = (s: string) => `invalid color ${s}`
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(right('red').refineOrElseL(isColor, errorHandler), right('red'))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(right('foo').refineOrElseL(isColor, errorHandler), left('invalid color foo'))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(left<string, string>('error').refineOrElseL(isColor, errorHandler), left('error'))
-  })
-
-  it('fromRefinement', () => {
-    type Color = 'red' | 'blue'
-    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
-    // tslint:disable-next-line: deprecation
-    const from = fromRefinement(isColor, s => `invalid color ${s}`)
-    assert.deepStrictEqual(from('red'), right('red'))
-    assert.deepStrictEqual(from('foo'), left('invalid color foo'))
   })
 
   describe('getCompactable', () => {

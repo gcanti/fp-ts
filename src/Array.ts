@@ -2,27 +2,27 @@
  * @file Adapted from https://github.com/purescript/purescript-arrays
  */
 import { Alternative1 } from './Alternative'
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Applicative } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { Extend1 } from './Extend'
 import { FilterableWithIndex1 } from './FilterableWithIndex'
-import { Foldable2v1 } from './Foldable2v'
+import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { concat, Endomorphism, identity, Predicate, Refinement, tuple } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
+import { NonEmptyArray } from './NonEmptyArray'
 import { none, Option, some } from './Option'
-import { getSemigroup, Ord, ordNumber, fromCompare } from './Ord'
+import { fromCompare, getSemigroup, Ord, ordNumber } from './Ord'
 import { Plus1 } from './Plus'
 import { getArraySetoid, Setoid } from './Setoid'
+import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-import { NonEmptyArray } from './NonEmptyArray2v'
-import { Show } from './Show'
 
 declare global {
   interface Array<T> {
@@ -192,29 +192,7 @@ const foldrWithIndex = <A, B>(fa: Array<A>, b: B, f: (i: number, a: A, b: B) => 
   return fa.reduceRight((b, a, i) => f(i, a, b), b)
 }
 
-/**
- * Use `array.traverse` instead
- *
- * @since 1.0.0
- * @deprecated
- */
-export function traverse<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
-export function traverse<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>
-export function traverse<F extends URIS2>(
-  F: Applicative2<F>
-): <L, A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>
-export function traverse<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): <A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>
-export function traverse<F extends URIS>(
-  F: Applicative1<F>
-): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>
-export function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
+function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>> {
   const traverseWithIndexF = traverseWithIndex(F)
   return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
 }
@@ -462,15 +440,6 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
  */
 export const lookup = <A>(i: number, as: Array<A>): Option<A> => {
   return isOutOfBound(i, as) ? none : some(as[i])
-}
-
-/**
- * Use `lookup` instead
- * @since 1.0.0
- * @deprecated
- */
-export const index = <A>(i: number, as: Array<A>): Option<A> => {
-  return lookup(i, as)
 }
 
 /**
@@ -875,16 +844,6 @@ export const findLastIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<
 }
 
 /**
- * Use `filter` instead
- *
- * @since 1.0.0
- * @deprecated
- */
-export const refine = <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B> => {
-  return filter(as, refinement)
-}
-
-/**
  * @since 1.0.0
  */
 export const copy = <A>(as: Array<A>): Array<A> => {
@@ -1173,16 +1132,6 @@ export const elem = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
     }
   }
   return false
-}
-
-/**
- * Use `elem` instead
- * @since 1.3.0
- * @deprecated
- */
-export const member = <A>(S: Setoid<A>): ((as: Array<A>, a: A) => boolean) => {
-  const has = elem(S)
-  return (as, a) => has(a, as)
 }
 
 /**
@@ -1617,7 +1566,7 @@ const filterWithIndex = <A>(fa: Array<A>, p: (i: number, a: A) => boolean): Arra
  * @since 1.0.0
  */
 export const array: Monad1<URI> &
-  Foldable2v1<URI> &
+  Foldable1<URI> &
   Unfoldable1<URI> &
   TraversableWithIndex1<URI, number> &
   Alternative1<URI> &

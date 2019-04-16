@@ -1,6 +1,6 @@
 ---
 title: Validation.ts
-nav_order: 97
+nav_order: 95
 parent: Modules
 ---
 
@@ -87,7 +87,7 @@ export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
 ```ts
 import { Validation, getApplicative, success, failure } from 'fp-ts/lib/Validation'
-import { NonEmptyArray, getSemigroup } from 'fp-ts/lib/NonEmptyArray'
+import { NonEmptyArray, getSemigroup, make } from 'fp-ts/lib/NonEmptyArray'
 
 interface Person {
   readonly name: string
@@ -99,14 +99,14 @@ const person = (name: string) => (age: number): Person => ({ name, age })
 
 // validators
 function validateName(input: string): Validation<NonEmptyArray<string>, string> {
-  return input.length === 0 ? failure(new NonEmptyArray('Invalid name: empty string', [])) : success(input)
+  return input.length === 0 ? failure(make<string>('Invalid name: empty string', [])) : success(input)
 }
 function validateAge(input: string): Validation<NonEmptyArray<string>, number> {
   const n = parseFloat(input)
   if (isNaN(n)) {
-    return failure(new NonEmptyArray(`Invalid age: not a number ${input}`, []))
+    return failure(make<string>(`Invalid age: not a number ${input}`, []))
   }
-  return n % 1 !== 0 ? failure(new NonEmptyArray(`Invalid age: not an integer ${n}`, [])) : success(n)
+  return n % 1 !== 0 ? failure(make<string>(`Invalid age: not an integer ${n}`, [])) : success(n)
 }
 
 // get an `Applicative` instance for Validation<NonEmptyArray<string>, ?>
@@ -118,7 +118,7 @@ function validatePerson(input: Record<string, string>): Validation<NonEmptyArray
 
 assert.deepStrictEqual(
   validatePerson({ name: '', age: '1.2' }),
-  failure(new NonEmptyArray('Invalid name: empty string', ['Invalid age: not an integer 1.2']))
+  failure(make<string>('Invalid name: empty string', ['Invalid age: not an integer 1.2']))
 )
 
 assert.deepStrictEqual(validatePerson({ name: 'Giulio', age: '44' }), success({ name: 'Giulio', age: 44 }))
@@ -361,7 +361,7 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = ...
+export const validation: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = ...
 ```
 
 Added in v1.0.0
@@ -422,7 +422,7 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => ...
 
 ```ts
 import { Validation, success, failure, getApplicative } from 'fp-ts/lib/Validation'
-import { getArraySemigroup } from 'fp-ts/lib/Semigroup'
+import { getArrayMonoid } from 'fp-ts/lib/Monoid'
 
 interface Person {
   name: string
@@ -437,7 +437,7 @@ const validateName = (name: string): Validation<string[], string> =>
 const validateAge = (age: number): Validation<string[], number> =>
   age > 0 && age % 1 === 0 ? success(age) : failure(['invalid age'])
 
-const A = getApplicative(getArraySemigroup<string>())
+const A = getApplicative(getArrayMonoid<string>())
 
 const validatePerson = (name: string, age: number): Validation<string[], Person> =>
   A.ap(A.map(validateName(name), person), validateAge(age))

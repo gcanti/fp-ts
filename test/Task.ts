@@ -3,7 +3,6 @@ import { left, right } from '../src/Either'
 import { IO } from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import { Task, fromIO, getMonoid, getRaceMonoid, task, tryCatch, delay, taskSeq } from '../src/Task'
-import { sequence } from '../src/Traversable'
 import { array } from '../src/Array'
 
 const delayReject = <A>(n: number, a: A): Task<A> =>
@@ -139,7 +138,7 @@ describe('Task', () => {
     const append = (message: string): Task<number> => new Task(() => Promise.resolve(log.push(message)))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceParallel = sequence(task, array)
+    const sequenceParallel = array.sequence(task)
     return sequenceParallel([t1, t2])
       .run()
       .then(ns => {
@@ -153,7 +152,7 @@ describe('Task', () => {
     const append = (message: string): Task<number> => new Task(() => Promise.resolve(log.push(message)))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceSeries = sequence(taskSeq, array)
+    const sequenceSeries = array.sequence(taskSeq)
     return sequenceSeries([t1, t2])
       .run()
       .then(ns => {

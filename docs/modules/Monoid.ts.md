@@ -1,6 +1,6 @@
 ---
 title: Monoid.ts
-nav_order: 59
+nav_order: 58
 parent: Modules
 ---
 
@@ -18,14 +18,11 @@ parent: Modules
 - [unsafeMonoidArray (constant)](#unsafemonoidarray-constant)
 - [fold (function)](#fold-function)
 - [getArrayMonoid (function)](#getarraymonoid-function)
-- [~~getDictionaryMonoid~~ (function)](#getdictionarymonoid-function)
 - [getDualMonoid (function)](#getdualmonoid-function)
 - [getEndomorphismMonoid (function)](#getendomorphismmonoid-function)
 - [getFunctionMonoid (function)](#getfunctionmonoid-function)
 - [getJoinMonoid (function)](#getjoinmonoid-function)
 - [getMeetMonoid (function)](#getmeetmonoid-function)
-- [~~getProductMonoid~~ (function)](#getproductmonoid-function)
-- [~~getRecordMonoid~~ (function)](#getrecordmonoid-function)
 - [getStructMonoid (function)](#getstructmonoid-function)
 - [getTupleMonoid (function)](#gettuplemonoid-function)
 
@@ -143,19 +140,6 @@ export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => ...
 
 Added in v1.0.0
 
-# ~~getDictionaryMonoid~~ (function)
-
-Use `Record`'s `getMonoid`
-
-**Signature**
-
-```ts
-export function getDictionaryMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
-export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> { ... }
-```
-
-Added in v1.4.0
-
 # getDualMonoid (function)
 
 **Signature**
@@ -205,32 +189,6 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ...
 ```
 
 Added in v1.9.0
-
-# ~~getProductMonoid~~ (function)
-
-Use `getTupleMonoid` instead
-
-**Signature**
-
-```ts
-export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => ...
-```
-
-Added in v1.0.0
-
-# ~~getRecordMonoid~~ (function)
-
-Use `getStructMonoid` instead
-
-**Signature**
-
-```ts
-export const getRecordMonoid = <O extends { [key: string]: any }>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O> => ...
-```
-
-Added in v1.0.0
 
 # getStructMonoid (function)
 

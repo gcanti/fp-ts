@@ -8,7 +8,7 @@ import { Chain2C } from './Chain'
 import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
 import { Either } from './Either'
-import { Foldable2v2 } from './Foldable2v'
+import { Foldable2 } from './Foldable'
 import { phantom, toString } from './function'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -17,7 +17,7 @@ import { contramap as contramapOrd, getSemigroup as getOrdSemigroup, Ord } from 
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
 import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v2 } from './Traversable2v'
+import { Traversable2 } from './Traversable'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -239,7 +239,7 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Tuple<L, HKT<F, A>>): HKT<
 /**
  * @since 1.0.0
  */
-export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2v2<URI> & Traversable2v2<URI> = {
+export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
   compose,
   map,
