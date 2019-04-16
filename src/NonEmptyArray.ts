@@ -1,5 +1,9 @@
 /**
  * @file Data structure which represents non-empty arrays
+ *
+ * Use `NonEmptyArray2v` module instead.
+ *
+ * @deprecated
  */
 import { Applicative } from './Applicative'
 import {
