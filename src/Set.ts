@@ -155,16 +155,6 @@ export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<
 }
 
 /**
- * Use `elem` instead
- * @since 1.0.0
- * @deprecated
- */
-export const member = <A>(S: Setoid<A>): ((set: Set<A>) => (a: A) => boolean) => {
-  const has = elem(S)
-  return set => a => has(a, set)
-}
-
-/**
  * Test if a value is a member of a set
  *
  * @since 1.14.0
@@ -238,29 +228,18 @@ export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
 }
 
 /**
- * Use `difference2v` instead
- *
- * @since 1.0.0
- * @deprecated
- */
-export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const d = difference2v(S)
-  return (x, y) => d(y, x)
-}
-
-/**
  * Form the set difference (`x` - `y`)
  *
  * @example
- * import { difference2v } from 'fp-ts/lib/Set'
+ * import { difference } from 'fp-ts/lib/Set'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
  *
- * assert.deepStrictEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+ * assert.deepStrictEqual(difference(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
  *
  *
  * @since 1.12.0
  */
-export const difference2v = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
+export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
   const has = elem(S)
   return (x, y) => filter(x, a => !has(a, y))
 }

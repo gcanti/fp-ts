@@ -363,14 +363,6 @@ export const tuple = <T extends Array<any>>(...t: T): T => {
 }
 
 /**
- * @since 1.0.0
- * @deprecated
- */
-export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => {
-  return [a, b]
-}
-
-/**
  * Applies a function to an argument ($)
  *
  * @since 1.0.0

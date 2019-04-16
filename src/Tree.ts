@@ -6,15 +6,15 @@
  * ```
  */
 import { Applicative } from './Applicative'
-import { getSetoid as getArraySetoid, traverse as arrayTraverse, empty } from './Array'
+import { getSetoid as getArraySetoid, empty, array } from './Array'
 import { Comonad1 } from './Comonad'
-import { Foldable2v1 } from './Foldable2v'
+import { Foldable1 } from './Foldable'
 import { concat, identity, toString } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
 import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v1 } from './Traversable2v'
+import { Traversable1 } from './Traversable'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -129,7 +129,7 @@ const foldr = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
 }
 
 function traverse<F>(F: Applicative<F>): <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>> {
-  const traverseF = arrayTraverse(F)
+  const traverseF = array.traverse(F)
   const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
     F.ap(
       F.map(f(ta.value), (value: B) => (forest: Forest<B>) => new Tree(value, forest)),
@@ -156,7 +156,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => {
 /**
  * @since 1.6.0
  */
-export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = {
+export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map,
   of,
@@ -290,7 +290,7 @@ export function unfoldForestM<M>(
 export function unfoldForestM<M>(
   M: Monad<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> {
-  const traverseM = arrayTraverse(M)
+  const traverseM = array.traverse(M)
   let unfoldTree: <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
   return (bs, f) => {
     // tslint:disable-next-line

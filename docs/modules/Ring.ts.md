@@ -1,6 +1,6 @@
 ---
 title: Ring.ts
-nav_order: 74
+nav_order: 73
 parent: Modules
 ---
 
@@ -20,7 +20,6 @@ Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Da
 
 - [Ring (interface)](#ring-interface)
 - [getFunctionRing (function)](#getfunctionring-function)
-- [~~getProductRing~~ (function)](#getproductring-function)
 - [getTupleRing (function)](#gettuplering-function)
 - [negate (function)](#negate-function)
 
@@ -44,18 +43,6 @@ Added in v1.0.0
 
 ```ts
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => ...
-```
-
-Added in v1.0.0
-
-# ~~getProductRing~~ (function)
-
-Use `getTupleRing` instead
-
-**Signature**
-
-```ts
-export const getProductRing = <A, B>(RA: Ring<A>, RB: Ring<B>): Ring<[A, B]> => ...
 ```
 
 Added in v1.0.0

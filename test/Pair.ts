@@ -1,5 +1,4 @@
 import * as assert from 'assert'
-import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import { monoidString } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
@@ -7,7 +6,6 @@ import { ordNumber } from '../src/Ord'
 import { getMonoid, getOrd, getSemigroup, getSetoid, Pair, pair, getShow } from '../src/Pair'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
-import * as T from '../src/Traversable'
 import { showString } from '../src/Show'
 
 describe('Pair', () => {
@@ -45,22 +43,18 @@ describe('Pair', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(pair, monoidString)
     const foldMap = pair.foldMap(monoidString)
     const x1 = new Pair('a', 'b')
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'ab')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(pair)
     const foldr = pair.foldr
     const x1 = new Pair('a', 'b')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'ba')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('extract', () => {
@@ -80,14 +74,11 @@ describe('Pair', () => {
   })
 
   it('sequence', () => {
-    const old = T.sequence(option, pair)
     const sequence = pair.sequence(option)
     const x1 = new Pair(some(0), some(1))
     assert.deepStrictEqual(sequence(x1), some(new Pair(0, 1)))
-    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = new Pair(none, some(1))
     assert.deepStrictEqual(sequence(x2), none)
-    assert.deepStrictEqual(sequence(x2), old(x2))
   })
 
   it('getSetoid', () => {

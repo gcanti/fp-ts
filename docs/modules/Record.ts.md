@@ -1,6 +1,6 @@
 ---
 title: Record.ts
-nav_order: 73
+nav_order: 72
 parent: Modules
 ---
 
@@ -9,16 +9,13 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [empty (constant)](#empty-constant)
-- [~~isSubdictionary~~ (constant)](#issubdictionary-constant)
 - [collect (function)](#collect-function)
 - [compact (function)](#compact-function)
 - [elem (function)](#elem-function)
 - [every (function)](#every-function)
 - [filter (function)](#filter-function)
 - [filterMap (function)](#filtermap-function)
-- [~~filterMapWithIndex~~ (function)](#filtermapwithindex-function)
 - [filterMapWithKey (function)](#filtermapwithkey-function)
-- [~~filterWithIndex~~ (function)](#filterwithindex-function)
 - [filterWithKey (function)](#filterwithkey-function)
 - [foldMap (function)](#foldmap-function)
 - [foldMapWithKey (function)](#foldmapwithkey-function)
@@ -37,9 +34,7 @@ parent: Modules
 - [mapWithKey (function)](#mapwithkey-function)
 - [partition (function)](#partition-function)
 - [partitionMap (function)](#partitionmap-function)
-- [~~partitionMapWithIndex~~ (function)](#partitionmapwithindex-function)
 - [partitionMapWithKey (function)](#partitionmapwithkey-function)
-- [~~partitionWithIndex~~ (function)](#partitionwithindex-function)
 - [partitionWithKey (function)](#partitionwithkey-function)
 - [pop (function)](#pop-function)
 - [reduce (function)](#reduce-function)
@@ -65,20 +60,6 @@ parent: Modules
 
 ```ts
 export const empty: Record<string, never> = ...
-```
-
-Added in v1.10.0
-
-# ~~isSubdictionary~~ (constant)
-
-Use `isSubrecord` instead
-
-**Signature**
-
-```ts
-export const isSubdictionary: <A>(
-  S: Setoid<A>
-) => (d1: Record<string, A>, d2: Record<string, A>) => boolean = ...
 ```
 
 Added in v1.10.0
@@ -145,22 +126,6 @@ export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): 
 
 Added in v1.10.0
 
-# ~~filterMapWithIndex~~ (function)
-
-Use `filterMapWithKey` instead
-
-**Signature**
-
-```ts
-export function filterMapWithIndex<K extends string, A, B>(
-  fa: Record<K, A>,
-  f: (key: K, a: A) => Option<B>
-): Record<string, B>
-export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B> { ... }
-```
-
-Added in v1.12.0
-
 # filterMapWithKey (function)
 
 **Signature**
@@ -174,19 +139,6 @@ export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a
 ```
 
 Added in v1.14.0
-
-# ~~filterWithIndex~~ (function)
-
-Use `filterWithKey` instead
-
-**Signature**
-
-```ts
-export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
-export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> { ... }
-```
-
-Added in v1.12.0
 
 # filterWithKey (function)
 
@@ -465,25 +417,6 @@ export const partitionMap = <RL, RR, A>(
 
 Added in v1.10.0
 
-# ~~partitionMapWithIndex~~ (function)
-
-Use `partitionMapWithKey` instead
-
-**Signature**
-
-```ts
-export function partitionMapWithIndex<K extends string, RL, RR, A>(
-  fa: Record<K, A>,
-  f: (key: K, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithIndex<RL, RR, A>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>> { ... }
-```
-
-Added in v1.12.0
-
 # partitionMapWithKey (function)
 
 **Signature**
@@ -500,25 +433,6 @@ export function partitionMapWithKey<RL, RR, A>(
 ```
 
 Added in v1.14.0
-
-# ~~partitionWithIndex~~ (function)
-
-Use `partitionWithKey` instead
-
-**Signature**
-
-```ts
-export function partitionWithIndex<K extends string, A>(
-  fa: Record<K, A>,
-  p: (key: K, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithIndex<A>(
-  fa: Record<string, A>,
-  p: (key: string, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>> { ... }
-```
-
-Added in v1.12.0
 
 # partitionWithKey (function)
 

@@ -2,7 +2,7 @@ import { Applicative } from './Applicative'
 import { Compactable2, Separated } from './Compactable'
 import { Either } from './Either'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
-import { Foldable2v2C, Foldable2v3, Foldable2v2, Foldable2v1, Foldable2v } from './Foldable2v'
+import { Foldable2C, Foldable3, Foldable2, Foldable1, Foldable } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { Predicate, phantom } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
@@ -16,7 +16,7 @@ import { Semigroup } from './Semigroup'
 import { Witherable2C } from './Witherable'
 import { FunctorWithIndex2C } from './FunctorWithIndex'
 import { Functor2 } from './Functor'
-import { Traversable2v2C } from './Traversable2v'
+import { Traversable2C } from './Traversable'
 import { Filterable2 } from './Filterable'
 import { Show } from './Show'
 
@@ -598,23 +598,23 @@ const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K
  */
 export function fromFoldable<K, F extends URIS3>(
   S: Setoid<K>,
-  F: Foldable2v3<F>
+  F: Foldable3<F>
 ): <U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS2>(
   S: Setoid<K>,
-  F: Foldable2v2<F>
+  F: Foldable2<F>
 ): <L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS>(
   S: Setoid<K>,
-  F: Foldable2v1<F>
+  F: Foldable1<F>
 ): <A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
   S: Setoid<K>,
-  F: Foldable2v<F>
+  F: Foldable<F>
 ): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
   S: Setoid<K>,
-  F: Foldable2v<F>
+  F: Foldable<F>
 ): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> {
   return <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => {
     const lookupWithKeyS = lookupWithKey(S)
@@ -661,7 +661,7 @@ const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => {
 /**
  * @since 1.14.0
  */
-const getFoldable = <K>(O: Ord<K>): Foldable2v2C<URI, K> => {
+const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
   return {
     URI,
     _L: phantom,
@@ -712,7 +712,7 @@ export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> =>
 /**
  * @since 1.14.0
  */
-const getTraversable = <K>(O: Ord<K>): Traversable2v2C<URI, K> => {
+const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
   return {
     _L: phantom,
     ...getFoldable(O),

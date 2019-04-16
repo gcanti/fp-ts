@@ -1,6 +1,6 @@
 ---
 title: function.ts
-nav_order: 36
+nav_order: 35
 parent: Modules
 ---
 
@@ -59,7 +59,6 @@ parent: Modules
 - [pipe (function)](#pipe-function)
 - [toString (function)](#tostring-function)
 - [tuple (function)](#tuple-function)
-- [~~tupleCurried~~ (function)](#tuplecurried-function)
 
 ---
 
@@ -664,16 +663,6 @@ Added in v1.0.0
 
 ```ts
 export const tuple = <T extends Array<any>>(...t: T): T => ...
-```
-
-Added in v1.0.0
-
-# ~~tupleCurried~~ (function)
-
-**Signature**
-
-```ts
-export const tupleCurried = <A>(a: A) => <B>(b: B): [A, B] => ...
 ```
 
 Added in v1.0.0

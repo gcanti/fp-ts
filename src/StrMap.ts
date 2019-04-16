@@ -1,12 +1,11 @@
 /**
  * @file Adapted from https://github.com/purescript/purescript-maps
  */
-import { Applicative, Applicative1, Applicative2, Applicative3 } from './Applicative'
+import { Applicative } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { FilterableWithIndex1 } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
-import { Foldable2v1 } from './Foldable2v'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
@@ -15,11 +14,11 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import * as R from './Record'
 import { getLastSemigroup, Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { fromEquals, Setoid } from './Setoid'
+import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -110,26 +109,10 @@ export class StrMap<A> {
     return liftSeparated(R.separate(this.value))
   }
   /**
-   * Use `partitionMapWithKey` instead
-   * @since 1.12.0
-   * @deprecated
-   */
-  partitionMapWithIndex<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
-    return this.partitionMapWithKey(f)
-  }
-  /**
    * @since 1.14.0
    */
   partitionMapWithKey<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> {
     return liftSeparated(R.partitionMapWithKey(this.value, f))
-  }
-  /**
-   * Use `partitionWithKey` instead
-   * @since 1.12.0
-   * @deprecated
-   */
-  partitionWithIndex(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> {
-    return this.partitionWithKey(p)
   }
   /**
    * @since 1.14.0
@@ -138,26 +121,10 @@ export class StrMap<A> {
     return liftSeparated(R.partitionWithKey(this.value, p))
   }
   /**
-   * Use `filterMapWithKey` instead
-   * @since 1.12.0
-   * @deprecated
-   */
-  filterMapWithIndex<B>(f: (i: string, a: A) => Option<B>): StrMap<B> {
-    return this.filterMapWithKey(f)
-  }
-  /**
    * @since 1.14.0
    */
   filterMapWithKey<B>(f: (i: string, a: A) => Option<B>): StrMap<B> {
     return new StrMap(R.filterMapWithKey(this.value, f))
-  }
-  /**
-   * Use `filterWithKey` instead
-   * @since 1.12.0
-   * @deprecated
-   */
-  filterWithIndex(p: (i: string, a: A) => boolean): StrMap<A> {
-    return this.filterWithKey(p)
   }
   /**
    * @since 1.14.0
@@ -241,24 +208,7 @@ const foldrWithIndex = <A, B>(fa: StrMap<A>, b: B, f: (k: string, a: A, b: B) =>
   return fa.foldrWithKey(b, f)
 }
 
-/**
- * Use `strmap.traverseWithIndex` instead
- * @since 1.0.0
- * @deprecated
- */
-export function traverseWithKey<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
-export function traverseWithKey<F extends URIS2>(
-  F: Applicative2<F>
-): <L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type2<F, L, B>) => Type2<F, L, StrMap<B>>
-export function traverseWithKey<F extends URIS>(
-  F: Applicative1<F>
-): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type<F, B>) => Type<F, StrMap<B>>
-export function traverseWithKey<F>(
-  F: Applicative<F>
-): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>>
-export function traverseWithKey<F>(
+function traverseWithKey<F>(
   F: Applicative<F>
 ): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> {
   const traverseWithKeyF = R.traverseWithKey(F)
@@ -487,7 +437,7 @@ const filterWithIndex = <A>(fa: StrMap<A>, p: (i: string, a: A) => boolean): Str
  * @since 1.0.0
  */
 export const strmap: FunctorWithIndex1<URI, string> &
-  Foldable2v1<URI> &
+  Foldable1<URI> &
   TraversableWithIndex1<URI, string> &
   Compactable1<URI> &
   FilterableWithIndex1<URI, string> &

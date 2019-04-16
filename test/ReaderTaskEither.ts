@@ -23,7 +23,6 @@ import { task, Task } from '../src/Task'
 import { reader, Reader } from '../src/Reader'
 import { IO } from '../src/IO'
 import { IOEither } from '../src/IOEither'
-import { sequence } from '../src/Traversable'
 import { array } from '../src/Array'
 import { none, some } from '../src/Option'
 
@@ -283,7 +282,7 @@ describe('ReaderTaskEither', () => {
       right(new Task(() => Promise.resolve(log.push(message))))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceParallel = sequence(readerTaskEither, array)
+    const sequenceParallel = array.sequence(readerTaskEither)
     return sequenceParallel([t1, t2])
       .run({})
       .then(ns => {
@@ -298,7 +297,7 @@ describe('ReaderTaskEither', () => {
       right(new Task(() => Promise.resolve(log.push(message))))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceSeries = sequence(readerTaskEitherSeq, array)
+    const sequenceSeries = array.sequence(readerTaskEitherSeq)
     return sequenceSeries([t1, t2])
       .run({})
       .then(ns => {

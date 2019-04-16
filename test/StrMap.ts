@@ -1,36 +1,33 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
 import { left, right } from '../src/Either'
-import * as F from '../src/Foldable'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
-import { none, Option, option, some } from '../src/Option'
+import { none, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
+import { showString } from '../src/Show'
 import {
+  collect,
+  elem,
   fromFoldable,
   getMonoid,
   getSetoid,
+  getShow,
   insert,
   isEmpty,
+  isSubdictionary,
   lookup,
   pop,
   remove,
+  singleton,
   size,
   StrMap,
   strmap,
   toArray,
-  toUnfoldable,
-  traverseWithKey,
-  singleton,
-  isSubdictionary,
-  collect,
-  elem,
-  getShow
+  toUnfoldable
 } from '../src/StrMap'
-import * as T from '../src/Traversable'
-import { showString } from '../src/Show'
 
 const p = (n: number) => n > 2
 
@@ -61,22 +58,18 @@ describe('StrMap', () => {
   })
 
   it('foldMap', () => {
-    const old = F.foldMap(strmap, monoidString)
     const foldMap = strmap.foldMap(monoidString)
     const x1 = new StrMap({ a: 'a', b: 'b' })
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'ab')
-    assert.strictEqual(foldMap(x1, f1), old(x1, f1))
   })
 
   it('foldr', () => {
-    const old = F.foldr(strmap)
     const foldr = strmap.foldr
     const x1 = new StrMap({ a: 'a', b: 'b' })
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'ba')
-    assert.strictEqual(foldr(x1, init1, f1), old(x1, init1, f1))
   })
 
   it('traverse', () => {
@@ -91,14 +84,11 @@ describe('StrMap', () => {
   })
 
   it('sequence', () => {
-    const old = T.sequence(option, strmap)
     const sequence = strmap.sequence(option)
     const x1 = new StrMap({ k1: some(1), k2: some(2) })
     assert.deepStrictEqual(sequence(x1), some(new StrMap({ k1: 1, k2: 2 })))
-    assert.deepStrictEqual(sequence(x1), old(x1))
     const x2 = new StrMap({ k1: none, k2: some(2) })
     assert.deepStrictEqual(sequence(x2), none)
-    assert.deepStrictEqual(sequence(x2), old(x2))
   })
 
   it('getSetoid', () => {
@@ -140,15 +130,6 @@ describe('StrMap', () => {
   it('mapWithKey', () => {
     assert.deepStrictEqual(new StrMap({ aa: 1 }).mapWithKey((k, a) => a + k.length), new StrMap({ aa: 3 }))
     assert.deepStrictEqual(strmap.mapWithIndex(new StrMap({ aa: 1 }), (k, a) => a + k.length), new StrMap({ aa: 3 }))
-  })
-
-  it('traverseWithKey', () => {
-    const d1 = new StrMap({ k1: 1, k2: 2 })
-    const t1 = traverseWithKey(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
-    assert.deepStrictEqual(t1, none)
-    const d2 = new StrMap({ k1: 2, k2: 3 })
-    const t2 = traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
-    assert.deepStrictEqual(t2, some(new StrMap<number>({ k1: 2, k2: 3 })))
   })
 
   it('size', () => {
@@ -212,8 +193,6 @@ describe('StrMap', () => {
     const f = (k: string) => k === 'a'
     const expected = new StrMap({ a: 'a' })
     assert.deepStrictEqual(strmap.filterWithIndex(x, f), expected)
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(x.filterWithIndex(f), expected)
   })
 
   it('filterMap', () => {
@@ -229,8 +208,6 @@ describe('StrMap', () => {
       a: 1
     })
     assert.deepStrictEqual(strmap.filterMapWithIndex(x, f), expected)
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(x.filterMapWithIndex(f), expected)
   })
 
   it('partition', () => {
@@ -252,8 +229,6 @@ describe('StrMap', () => {
       right: new StrMap({ a: 'a' })
     }
     assert.deepStrictEqual(strmap.partitionWithIndex(x, f), expected)
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(x.partitionWithIndex(f), expected)
   })
 
   it('partitionMap', () => {
@@ -276,8 +251,6 @@ describe('StrMap', () => {
     }
     const f = (k: string, a: string) => (k === 'a' ? right(a.length) : left(a))
     assert.deepStrictEqual(strmap.partitionMapWithIndex(x, f), expected)
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(x.partitionMapWithIndex(f), expected)
   })
 
   it('wither', () => {

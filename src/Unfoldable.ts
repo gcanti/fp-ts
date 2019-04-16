@@ -4,7 +4,7 @@
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Option, none, option } from './Option'
-import { Traversable, Traversable1, sequence } from './Traversable'
+import { Traversable, Traversable1 } from './Traversable'
 
 /**
  * @since 1.0.0
@@ -147,7 +147,7 @@ export function replicateA<F, T>(
   // tslint:disable-next-line: deprecation
   UT: Unfoldable<T> & Traversable<T>
 ): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>> {
-  const sequenceFUT = sequence(F, UT)
+  const sequenceF = UT.sequence(F)
   const replicateUT = replicate(UT)
-  return (n, ma) => sequenceFUT(replicateUT(ma, n))
+  return (n, ma) => sequenceF(replicateUT(ma, n))
 }

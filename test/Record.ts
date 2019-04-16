@@ -236,46 +236,6 @@ describe('Record', () => {
     assert.strictEqual(R.elem(setoidNumber)(3, { a: 1, b: 2 }), false)
   })
 
-  it('partitionMapWithIndex', () => {
-    const x = { a: 'a', b: 'b' }
-    const expected = {
-      left: { b: 'b' },
-      right: { a: 1 }
-    }
-    const f = (k: string, a: string) => (k === 'a' ? right(a.length) : left(a))
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.partitionMapWithIndex(x, f), expected)
-  })
-
-  it('partitionWithIndex', () => {
-    const x = { a: 'a', b: 'b' }
-    const f = (k: string) => k === 'a'
-    const expected = {
-      left: { b: 'b' },
-      right: { a: 'a' }
-    }
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.partitionWithIndex(x, f), expected)
-  })
-
-  it('filterMapWithIndex', () => {
-    const x = { a: 'a', b: 'b' }
-    const f = (k: string, a: string) => (k === 'a' ? some(a.length) : none)
-    const expected = {
-      a: 1
-    }
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.filterMapWithIndex(x, f), expected)
-  })
-
-  it('filterWithIndex', () => {
-    const x = { a: 'a', b: 'b' }
-    const f = (k: string) => k === 'a'
-    const expected = { a: 'a' }
-    // tslint:disable-next-line: deprecation
-    assert.deepStrictEqual(R.filterWithIndex(x, f), expected)
-  })
-
   it('fromFoldableMap', () => {
     const zipObject = <K extends string, A>(keys: Array<K>, values: Array<A>): Record<K, A> =>
       R.fromFoldableMap(getLastSemigroup<A>(), array)(zip(keys, values), identity)

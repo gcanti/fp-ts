@@ -2,7 +2,6 @@ import { Bounded } from './Bounded'
 import { compose, Endomorphism, identity, concat } from './function'
 import {
   fold as foldSemigroup,
-  getDictionarySemigroup,
   getDualSemigroup,
   getFunctionSemigroup,
   getJoinSemigroup,
@@ -56,15 +55,6 @@ export const getTupleMonoid = <T extends Array<Monoid<any>>>(
 }
 
 /**
- * Use `getTupleMonoid` instead
- * @since 1.0.0
- * @deprecated
- */
-export const getProductMonoid = <A, B>(MA: Monoid<A>, MB: Monoid<B>): Monoid<[A, B]> => {
-  return getTupleMonoid(MA, MB)
-}
-
-/**
  * @since 1.0.0
  */
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
@@ -109,23 +99,6 @@ export const unsafeMonoidArray: Monoid<Array<any>> = {
  */
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
   return unsafeMonoidArray
-}
-
-const emptyObject = {}
-
-/**
- * Use `Record`'s `getMonoid`
- * @since 1.4.0
- * @deprecated
- */
-export function getDictionaryMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
-export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }>
-export function getDictionaryMonoid<A>(S: Semigroup<A>): Monoid<{ [key: string]: A }> {
-  return {
-    // tslint:disable-next-line: deprecation
-    ...getDictionarySemigroup(S),
-    empty: emptyObject
-  }
 }
 
 /**
@@ -196,17 +169,6 @@ export const getStructMonoid = <O extends { [key: string]: any }>(
     ...getStructSemigroup<O>(monoids),
     empty
   }
-}
-
-/**
- * Use `getStructMonoid` instead
- * @since 1.0.0
- * @deprecated
- */
-export const getRecordMonoid = <O extends { [key: string]: any }>(
-  monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O> => {
-  return getStructMonoid(monoids)
 }
 
 /**

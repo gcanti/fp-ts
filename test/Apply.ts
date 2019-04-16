@@ -1,10 +1,10 @@
 import * as assert from 'assert'
-import { applyFirst, applySecond, liftA2, liftA3, liftA4, sequenceT, sequenceS } from '../src/Apply'
+import { applyFirst, applySecond, sequenceT, sequenceS } from '../src/Apply'
 import { either, left, right } from '../src/Either'
 import { none, option, some, isSome, isNone } from '../src/Option'
 import * as fc from 'fast-check'
 import { getSome } from './property-test/Option'
-import { nonEmptyArray } from './property-test/NonEmptyArray2v'
+import { nonEmptyArray } from './property-test/NonEmptyArray'
 import { catOptions, getSetoid } from '../src/Array'
 import { fromEquals } from '../src/Setoid'
 
@@ -34,26 +34,6 @@ describe('Apply', () => {
     assert.deepStrictEqual(applySecond(either)(foo, r1), foo)
     assert.deepStrictEqual(applySecond(either)(r1, foo), foo)
     assert.deepStrictEqual(applySecond(either)(foo, bar), foo)
-  })
-
-  it('liftA2', () => {
-    const f = (a: number) => (b: number) => a + b
-    assert.deepStrictEqual(liftA2(option)(f)(some(2))(some(3)), some(5))
-    assert.deepStrictEqual(liftA2(either)(f)(r2)(right(3)), right(5))
-  })
-
-  it('liftA3', () => {
-    const f = (a: number) => (b: number) => (c: number) => a + b + c
-    assert.deepStrictEqual(liftA3(option)(f)(some(2))(some(3))(some(4)), some(9))
-    assert.deepStrictEqual(liftA3(either)(f)(r2)(right(3))(right(4)), right(9))
-  })
-
-  it('liftA4', () => {
-    const f = (a: number) => (b: number) => (c: number) => (d: number) => a + b + c + d
-    const optionf = liftA4(option)(f)
-    assert.deepStrictEqual(optionf(some(2))(some(3))(some(4))(some(5)), some(14))
-    const eitherf = liftA4(either)(f)
-    assert.deepStrictEqual(eitherf(r2)(right(3))(right(4))(right(5)), right(14))
   })
 
   it('ap_', () => {

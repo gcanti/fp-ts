@@ -1,5 +1,5 @@
 import * as fc from 'fast-check'
-import { NonEmptyArray } from '../../src/NonEmptyArray2v'
+import { NonEmptyArray } from '../../src/NonEmptyArray'
 
 /**
  * Returns an `Arbitrary` that yelds a non empty array

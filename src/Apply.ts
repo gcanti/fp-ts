@@ -10,10 +10,10 @@
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  */
+import { constant, curried, Function1 } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Semigroup } from './Semigroup'
-import { Curried2, Curried3, Curried4, constant, curried, Function1 } from './function'
 
 /**
  * @since 1.0.0
@@ -86,123 +86,6 @@ export function applySecond<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
 export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
   return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => F.ap(F.map(fa, () => (b: B) => b), fb)
-}
-
-/**
- * Lift a function of two arguments to a function which accepts and returns values wrapped with the type constructor `F`
- *
- * Use `sequenceT` / `sequenceS` instead.
- *
- * @since 1.0.0
- * @deprecated
- */
-export function liftA2<F extends URIS3>(
-  F: Apply3<F>
-): <A, B, C>(f: Curried2<A, B, C>) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
-export function liftA2<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <A, B, C>(f: Curried2<A, B, C>) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => Type3<F, U, L, C>
-export function liftA2<F extends URIS2>(
-  F: Apply2<F>
-): <A, B, C>(f: Curried2<A, B, C>) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
-export function liftA2<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <A, B, C>(f: Curried2<A, B, C>) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => Type2<F, L, C>
-export function liftA2<F extends URIS>(
-  F: Apply1<F>
-): <A, B, C>(f: Curried2<A, B, C>) => Curried2<Type<F, A>, Type<F, B>, Type<F, C>>
-/** @deprecated */
-export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>>
-export function liftA2<F>(F: Apply<F>): <A, B, C>(f: Curried2<A, B, C>) => Curried2<HKT<F, A>, HKT<F, B>, HKT<F, C>> {
-  return f => fa => fb => F.ap(F.map(fa, f), fb)
-}
-
-/**
- * Lift a function of three arguments to a function which accepts and returns values wrapped with the type constructor
- * `F`
- *
- * Use `sequenceT` / `sequenceS` instead.
- *
- * @since 1.0.0
- * @deprecated
- */
-export function liftA3<F extends URIS3>(
-  F: Apply3<F>
-): <A, B, C, D>(
-  f: Curried3<A, B, C, D>
-) => <U, L>(fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => Type3<F, U, L, D>
-export function liftA3<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <A, B, C, D>(
-  f: Curried3<A, B, C, D>
-) => (fa: Type3<F, U, L, A>) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => Type3<F, U, L, D>
-export function liftA3<F extends URIS2>(
-  F: Apply2<F>
-): <A, B, C, D>(
-  f: Curried3<A, B, C, D>
-) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => Type2<F, L, D>
-export function liftA3<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <A, B, C, D>(
-  f: Curried3<A, B, C, D>
-) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => Type2<F, L, D>
-export function liftA3<F extends URIS>(
-  F: Apply1<F>
-): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>>
-/** @deprecated */
-export function liftA3<F>(
-  F: Apply<F>
-): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>>
-export function liftA3<F>(
-  F: Apply<F>
-): <A, B, C, D>(f: Curried3<A, B, C, D>) => Curried3<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>> {
-  return f => fa => fb => fc => F.ap(F.ap(F.map(fa, f), fb), fc)
-}
-
-/**
- * Lift a function of four arguments to a function which accepts and returns values wrapped with the type constructor
- * `F`
- *
- * Use `sequenceT` / `sequenceS` instead.
- *
- * @since 1.0.0
- * @deprecated
- */
-export function liftA4<F extends URIS3>(
-  F: Apply3<F>
-): <A, B, C, D, E>(
-  f: Curried4<A, B, C, D, E>
-) => <U, L>(
-  fa: Type3<F, U, L, A>
-) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => (fd: Type3<F, U, L, D>) => Type3<F, U, L, E>
-export function liftA4<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <A, B, C, D, E>(
-  f: Curried4<A, B, C, D, E>
-) => (
-  fa: Type3<F, U, L, A>
-) => (fb: Type3<F, U, L, B>) => (fc: Type3<F, U, L, C>) => (fd: Type3<F, U, L, D>) => Type3<F, U, L, E>
-export function liftA4<F extends URIS2>(
-  F: Apply2<F>
-): <A, B, C, D, E>(
-  f: Curried4<A, B, C, D, E>
-) => <L>(fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => (fd: Type2<F, L, D>) => Type2<F, L, E>
-export function liftA4<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <A, B, C, D, E>(
-  f: Curried4<A, B, C, D, E>
-) => (fa: Type2<F, L, A>) => (fb: Type2<F, L, B>) => (fc: Type2<F, L, C>) => (fd: Type2<F, L, D>) => Type2<F, L, E>
-export function liftA4<F extends URIS>(
-  F: Apply1<F>
-): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<Type<F, A>, Type<F, B>, Type<F, C>, Type<F, D>, Type<F, E>>
-/** @deprecated */
-export function liftA4<F>(
-  F: Apply<F>
-): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>>
-export function liftA4<F>(
-  F: Apply<F>
-): <A, B, C, D, E>(f: Curried4<A, B, C, D, E>) => Curried4<HKT<F, A>, HKT<F, B>, HKT<F, C>, HKT<F, D>, HKT<F, E>> {
-  return f => fa => fb => fc => fd => F.ap(F.ap(F.ap(F.map(fa, f), fb), fc), fd)
 }
 
 /**

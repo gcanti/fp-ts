@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 94
+nav_order: 92
 parent: Modules
 ---
 
@@ -160,7 +160,7 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
+export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
 ```
 
 Added in v1.6.0

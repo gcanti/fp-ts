@@ -1,6 +1,6 @@
 ---
 title: Zipper.ts
-nav_order: 100
+nav_order: 98
 parent: Modules
 ---
 
@@ -45,7 +45,6 @@ Adapted from
 - [zipper (constant)](#zipper-constant)
 - [fromArray (function)](#fromarray-function)
 - [fromNonEmptyArray (function)](#fromnonemptyarray-function)
-- [fromNonEmptyArray2v (function)](#fromnonemptyarray2v-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getShow (function)](#getshow-function)
@@ -282,7 +281,7 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = ...
+export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
 ```
 
 Added in v1.9.0
@@ -303,16 +302,6 @@ Added in v1.9.0
 
 ```ts
 export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => ...
-```
-
-Added in v1.9.0
-
-# fromNonEmptyArray2v (function)
-
-**Signature**
-
-```ts
-export const fromNonEmptyArray2v = <A>(nea: NonEmptyArray2v<A>): Zipper<A> => ...
 ```
 
 Added in v1.17.0

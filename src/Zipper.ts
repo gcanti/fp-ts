@@ -13,15 +13,14 @@
 import { Applicative, Applicative1 } from './Applicative'
 import { array, cons, drop, empty, isEmpty, isOutOfBound, snoc, take, getShow as getArrayShow } from './Array'
 import { Comonad1 } from './Comonad'
-import { Foldable2v1 } from './Foldable2v'
+import { Foldable1 } from './Foldable'
 import { decrement, increment, toString } from './function'
 import { HKT } from './HKT'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
-import { NonEmptyArray as NonEmptyArray2v } from './NonEmptyArray2v'
 import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
-import { Traversable2v1 } from './Traversable2v'
+import { Traversable1 } from './Traversable'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -199,16 +198,9 @@ export const fromArray = <A>(as: Array<A>, focusIndex: number = 0): Option<Zippe
 }
 
 /**
- * @since 1.9.0
- */
-export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => {
-  return new Zipper(empty, nea.head, nea.tail)
-}
-
-/**
  * @since 1.17.0
  */
-export const fromNonEmptyArray2v = <A>(nea: NonEmptyArray2v<A>): Zipper<A> => {
+export const fromNonEmptyArray = <A>(nea: NonEmptyArray<A>): Zipper<A> => {
   return new Zipper(empty, nea[0], nea.slice(1))
 }
 
@@ -300,7 +292,7 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<Zipper<A>> => {
 /**
  * @since 1.9.0
  */
-export const zipper: Applicative1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = {
+export const zipper: Applicative1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map,
   of,

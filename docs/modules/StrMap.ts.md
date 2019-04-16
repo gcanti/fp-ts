@@ -1,6 +1,6 @@
 ---
 title: StrMap.ts
-nav_order: 84
+nav_order: 83
 parent: Modules
 ---
 
@@ -25,13 +25,9 @@ Adapted from https://github.com/purescript/purescript-maps
   - [partition (method)](#partition-method)
   - [partitionMap (method)](#partitionmap-method)
   - [separate (method)](#separate-method)
-  - [~~partitionMapWithIndex~~ (method)](#partitionmapwithindex-method)
   - [partitionMapWithKey (method)](#partitionmapwithkey-method)
-  - [~~partitionWithIndex~~ (method)](#partitionwithindex-method)
   - [partitionWithKey (method)](#partitionwithkey-method)
-  - [~~filterMapWithIndex~~ (method)](#filtermapwithindex-method)
   - [filterMapWithKey (method)](#filtermapwithkey-method)
-  - [~~filterWithIndex~~ (method)](#filterwithindex-method)
   - [filterWithKey (method)](#filterwithkey-method)
   - [every (method)](#every-method)
   - [some (method)](#some-method)
@@ -53,7 +49,6 @@ Adapted from https://github.com/purescript/purescript-maps
 - [size (function)](#size-function)
 - [toArray (function)](#toarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
-- [~~traverseWithKey~~ (function)](#traversewithkey-function)
 
 ---
 
@@ -183,18 +178,6 @@ separate<RL, RR>(this: StrMap<Either<RL, RR>>): Separated<StrMap<RL>, StrMap<RR>
 
 Added in v1.12.0
 
-## ~~partitionMapWithIndex~~ (method)
-
-Use `partitionMapWithKey` instead
-
-**Signature**
-
-```ts
-partitionMapWithIndex<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<StrMap<RL>, StrMap<RR>> { ... }
-```
-
-Added in v1.12.0
-
 ## partitionMapWithKey (method)
 
 **Signature**
@@ -204,18 +187,6 @@ partitionMapWithKey<RL, RR>(f: (i: string, a: A) => Either<RL, RR>): Separated<S
 ```
 
 Added in v1.14.0
-
-## ~~partitionWithIndex~~ (method)
-
-Use `partitionWithKey` instead
-
-**Signature**
-
-```ts
-partitionWithIndex(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A>> { ... }
-```
-
-Added in v1.12.0
 
 ## partitionWithKey (method)
 
@@ -227,18 +198,6 @@ partitionWithKey(p: (i: string, a: A) => boolean): Separated<StrMap<A>, StrMap<A
 
 Added in v1.14.0
 
-## ~~filterMapWithIndex~~ (method)
-
-Use `filterMapWithKey` instead
-
-**Signature**
-
-```ts
-filterMapWithIndex<B>(f: (i: string, a: A) => Option<B>): StrMap<B> { ... }
-```
-
-Added in v1.12.0
-
 ## filterMapWithKey (method)
 
 **Signature**
@@ -248,18 +207,6 @@ filterMapWithKey<B>(f: (i: string, a: A) => Option<B>): StrMap<B> { ... }
 ```
 
 Added in v1.14.0
-
-## ~~filterWithIndex~~ (method)
-
-Use `filterWithKey` instead
-
-**Signature**
-
-```ts
-filterWithIndex(p: (i: string, a: A) => boolean): StrMap<A> { ... }
-```
-
-Added in v1.12.0
 
 ## filterWithKey (method)
 
@@ -305,7 +252,7 @@ export const URI = ...
 
 ```ts
 export const strmap: FunctorWithIndex1<URI, string> &
-  Foldable2v1<URI> &
+  Foldable1<URI> &
   TraversableWithIndex1<URI, string> &
   Compactable1<URI> &
   FilterableWithIndex1<URI, string> &
@@ -505,29 +452,6 @@ Unfolds a dictionary into a list of key/value pairs
 ```ts
 export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): (<A>(d: StrMap<A>) => Type<F, [string, A]>)
 export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) { ... }
-```
-
-Added in v1.0.0
-
-# ~~traverseWithKey~~ (function)
-
-Use `strmap.traverseWithIndex` instead
-
-**Signature**
-
-```ts
-export function traverseWithKey<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, StrMap<B>>
-export function traverseWithKey<F extends URIS2>(
-  F: Applicative2<F>
-): <L, A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type2<F, L, B>) => Type2<F, L, StrMap<B>>
-export function traverseWithKey<F extends URIS>(
-  F: Applicative1<F>
-): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => Type<F, B>) => Type<F, StrMap<B>>
-export function traverseWithKey<F>(
-  F: Applicative<F>
-): <A, B>(ta: StrMap<A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, StrMap<B>> { ... }
 ```
 
 Added in v1.0.0
