@@ -14,6 +14,20 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.17.0
+
+- **New Feature**
+  - add `Show` type class and related instances (@gcanti)
+  - add `fromNonEmptyArray2v` to `Zipper` module (@DenisFrezzato)
+  - add `getOrElse` / `getOrElseL` to `TaskEither` (@zanza00)
+  - `NonEmptyArray2v` module
+    - add `modifyAt` (@gcanti)
+    - add `copy` (@gcanti)
+  - mark `NonEmptyArray2v` as official module
+- **Deprecations**
+  - deprecate `liftA<n>` functions (@gcanti)
+  - deprecate `NonEmptyArray` module (@gcanti)
+
 # 1.16.1
 
 - **New Feature**
