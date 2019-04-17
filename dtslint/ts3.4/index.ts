@@ -51,7 +51,6 @@ import * as U from '../../src/Unfoldable'
 import * as V from '../../src/Validation'
 import * as Mon from '../../src/Monoid'
 import * as Se from '../../src/Setoid'
-import * as SM from '../../src/StrMap'
 import * as Fo from '../../src/Foldable'
 import * as Or from '../../src/Ord'
 import * as Fu from '../../src/function'
@@ -262,7 +261,7 @@ type HKT1 = H.Type<'a', string>
 declare const d1: { [key: string]: number }
 declare const do1: { [key: string]: O.Option<number> }
 declare const r1: Record<'a' | 'b', number>
-// declare const ro1: Record<'a' | 'b', O.Option<number>>
+declare const ro1: Record<'a' | 'b', O.Option<number>>
 declare const stringKey: string
 const l1 = { a: 1 }
 
@@ -306,27 +305,23 @@ R.reduceWithKey(d1, '', (k: string, _n) => k) // $ExpectType string
 R.reduceWithKey(r1, '', (k: 'a' | 'b', _n) => k) // $ExpectType string
 
 R.foldMapWithKey(Mon.monoidString)(d1, (k: string, _n) => k) // $ExpectType string
-// the following test requires https://github.com/Microsoft/TypeScript/issues/29246
-// R.foldMapWithKey(Mon.monoidString)(r1, (k: 'a' | 'b', _n) => k) // $ExpectType string
+R.foldMapWithKey(Mon.monoidString)(r1, (k: 'a' | 'b', _n) => k) // $ExpectType string
 
 R.foldrWithKey(d1, '', (k: string, _n, _b) => k) // $ExpectType string
 R.foldrWithKey(r1, '', (k: 'a' | 'b', _n, _b) => k) // $ExpectType string
 
 R.singleton('a', 1) // $ExpectType Record<"a", number>
 
-R.traverseWithKey(O.option)(d1, (_k: string, n) => O.some(n)) // $ExpectType Option<Record<string, number>>
-// the following test requires https://github.com/Microsoft/TypeScript/issues/29246
-// R.traverseWithKey(O.option)(r1, (k: 'a' | 'b', n) => O.some(n)) // $ExpectType Option<Record<"a" | "b", number>>
+R.traverseWithKey(O.option)(d1, (_k, n) => O.some(n)) // $ExpectType Option<Record<string, number>>
+R.traverseWithKey(O.option)(r1, (_k, n) => O.some(n)) // $ExpectType Option<Record<"a" | "b", number>>
 
 R.traverse(O.option)(d1, O.some) // $ExpectType Option<Record<string, number>>
-// the following test requires https://github.com/Microsoft/TypeScript/issues/29246
-// R.traverse(O.option)(r1, O.some) // $ExpectType Option<Record<"a" | "b", number>>
+R.traverse(O.option)(r1, O.some) // $ExpectType Option<Record<"a" | "b", number>>
 
 R.sequence(O.option)(do1) // $ExpectType Option<Record<string, number>>
-// the following test requires https://github.com/Microsoft/TypeScript/issues/29246
-// R.sequence(O.option)(ro1) // $ExpectType Option<Record<"a" | "b", number>>
+R.sequence(O.option)(ro1) // $ExpectType Option<Record<"a" | "b", number>>
 
-R.compact(do1) // $ExpectType Record<string, number>
+R.record.compact(do1) // $ExpectType Record<string, number>
 
 R.partitionMapWithKey(d1, (_k: string, n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
 R.partitionMapWithKey(r1, (_k: 'a' | 'b', n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
@@ -392,12 +387,6 @@ const Mon5 = Mon.getTupleMonoid(Mon.monoidString, Mon.monoidSum, Mon.monoidAll) 
 //
 
 const Ring1 = Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fieldNumber) // $ExpectType Ring<[number, number, number]>
-
-//
-// StrMap
-//
-
-const toUnfoldable3 = SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $ExpectType [string, number][]
 
 //
 // NonEmptyArray

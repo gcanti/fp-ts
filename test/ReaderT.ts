@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { none, option, some } from '../src/Option'
 import { reader } from '../src/Reader'
 import * as readerT from '../src/ReaderT'
-import { StrMap, lookup } from '../src/StrMap'
+import { lookup } from '../src/Record'
 
 describe('ReaderT', () => {
   it('fromReader', () => {
@@ -14,7 +14,7 @@ describe('ReaderT', () => {
     const readerOption = readerT.getReaderT(option)
 
     function configure(key: string) {
-      return (e: StrMap<string>) => lookup(key, e)
+      return (e: Record<string, string>) => lookup(key, e)
     }
 
     const setupConnection = readerOption.chain(configure('host'), host => {
@@ -23,18 +23,18 @@ describe('ReaderT', () => {
       })
     })
 
-    const goodConfig = new StrMap({
+    const goodConfig = {
       host: 'myhost',
       user: 'giulio',
       password: 'password'
-    })
+    }
 
     assert.deepStrictEqual(setupConnection(goodConfig), some(['myhost', 'giulio', 'password']))
 
-    const badConfig = new StrMap({
+    const badConfig = {
       host: 'myhost',
       user: 'giulio'
-    })
+    }
 
     assert.deepStrictEqual(setupConnection(badConfig), none)
   })
