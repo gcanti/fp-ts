@@ -28,20 +28,20 @@ describe('Record', () => {
 
   it('reduce', () => {
     const d1 = { k1: 'a', k2: 'b' }
-    assert.strictEqual(R.reduce(d1, '', (b, a) => b + a), 'ab')
+    assert.strictEqual(R.record.reduce(d1, '', (b, a) => b + a), 'ab')
     const d2 = { k2: 'b', k1: 'a' }
-    assert.strictEqual(R.reduce(d2, '', (b, a) => b + a), 'ab')
+    assert.strictEqual(R.record.reduce(d2, '', (b, a) => b + a), 'ab')
   })
 
   it('foldMap', () => {
-    const foldMap = R.foldMap(monoidString)
+    const foldMap = R.record.foldMap(monoidString)
     const x1 = { a: 'a', b: 'b' }
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'ab')
   })
 
   it('foldr', () => {
-    const foldr = R.foldr
+    const foldr = R.record.foldr
     const x1 = { a: 'a', b: 'b' }
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
@@ -99,11 +99,8 @@ describe('Record', () => {
     const d1 = { k1: 1, k2: 2 }
     const t1 = R.traverseWithKey(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
     assert.deepStrictEqual(t1, none)
-    const d2 = { k1: 2, k2: 3 }
-    const t2 = R.traverseWithKey(option)(d2, (k, n): Option<number> => (k !== 'k3' ? some(n) : none))
-    assert.deepStrictEqual(t2, some({ k1: 2, k2: 3 }))
-    const t3 = R.traverseWithKey(option)({}, (k, n): Option<number> => none)
-    assert.strictEqual(t3.getOrElse({}), R.empty)
+    const t2 = R.traverseWithKey(option)({}, (): Option<number> => none)
+    assert.strictEqual(t2.getOrElse({}), R.empty)
   })
 
   it('size', () => {
@@ -137,11 +134,11 @@ describe('Record', () => {
   })
 
   it('compact', () => {
-    assert.deepStrictEqual(R.compact({ foo: none, bar: some(123) }), { bar: 123 })
+    assert.deepStrictEqual(R.record.compact({ foo: none, bar: some(123) }), { bar: 123 })
   })
 
   it('separate', () => {
-    assert.deepStrictEqual(R.separate({ foo: left(123), bar: right(123) }), {
+    assert.deepStrictEqual(R.record.separate({ foo: left(123), bar: right(123) }), {
       left: { foo: 123 },
       right: { bar: 123 }
     })
@@ -165,13 +162,13 @@ describe('Record', () => {
 
   it('filterMap', () => {
     const f = (n: number) => (p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(R.filterMap({}, f), {})
-    assert.deepStrictEqual(R.filterMap({ a: 1, b: 3 }, f), { b: 4 })
+    assert.deepStrictEqual(R.record.filterMap({}, f), {})
+    assert.deepStrictEqual(R.record.filterMap({ a: 1, b: 3 }, f), { b: 4 })
   })
 
   it('partition', () => {
-    assert.deepStrictEqual(R.partition({}, p), { left: {}, right: {} })
-    assert.deepStrictEqual(R.partition({ a: 1, b: 3 }, p), {
+    assert.deepStrictEqual(R.record.partition({}, p), { left: {}, right: {} })
+    assert.deepStrictEqual(R.record.partition({ a: 1, b: 3 }, p), {
       left: { a: 1 },
       right: { b: 3 }
     })
@@ -179,22 +176,22 @@ describe('Record', () => {
 
   it('partitionMap', () => {
     const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(R.partitionMap({}, f), { left: {}, right: {} })
-    assert.deepStrictEqual(R.partitionMap({ a: 1, b: 3 }, f), {
+    assert.deepStrictEqual(R.record.partitionMap({}, f), { left: {}, right: {} })
+    assert.deepStrictEqual(R.record.partitionMap({ a: 1, b: 3 }, f), {
       left: { a: 0 },
       right: { b: 4 }
     })
   })
 
   it('wither', () => {
-    const witherIdentity = R.wither(I.identity)
+    const witherIdentity = R.record.wither(I.identity)
     const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
     assert.deepStrictEqual(witherIdentity({}, f), new I.Identity<Record<string, number>>({}))
     assert.deepStrictEqual(witherIdentity({ a: 1, b: 3 }, f), new I.Identity({ b: 4 }))
   })
 
   it('wilt', () => {
-    const wiltIdentity = R.wilt(I.identity)
+    const wiltIdentity = R.record.wilt(I.identity)
     const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
     assert.deepStrictEqual(wiltIdentity({}, f), new I.Identity({ left: {}, right: {} }))
     assert.deepStrictEqual(wiltIdentity({ a: 1, b: 3 }, f), new I.Identity({ left: { a: 0 }, right: { b: 4 } }))
@@ -264,5 +261,9 @@ describe('Record', () => {
     assert.strictEqual(S.show({}), `{}`)
     assert.strictEqual(S.show({ a: 'a' }), `{ "a": "a" }`)
     assert.strictEqual(S.show({ a: 'a', b: 'b' }), `{ "a": "a", "b": "b" }`)
+  })
+
+  it('singleton', () => {
+    assert.deepStrictEqual(R.singleton('a', 1), { a: 1 })
   })
 })
