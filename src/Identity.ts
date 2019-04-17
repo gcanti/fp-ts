@@ -4,13 +4,13 @@ import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Either } from './Either'
 import { Foldable1 } from './Foldable'
-import { Lazy, toString } from './function'
+import { Lazy } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { Setoid, fromEquals } from './Setoid'
-import { Traversable1 } from './Traversable'
+import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
+import { Traversable1 } from './Traversable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -73,12 +73,6 @@ export class Identity<A> {
   }
   fold<B>(f: (a: A) => B): B {
     return f(this.value)
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new Identity(${toString(this.value)})`
   }
 }
 

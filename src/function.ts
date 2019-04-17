@@ -323,38 +323,6 @@ export function curry(f: Function) {
   return curried(f, f.length - 1, [])
 }
 
-/* tslint:disable-next-line */
-const getFunctionName = (f: Function): string => (f as any).displayName || f.name || `<function${f.length}>`
-
-/**
- * @since 1.0.0
- */
-export const toString = (x: any): string => {
-  if (typeof x === 'string') {
-    return JSON.stringify(x)
-  }
-  if (x instanceof Date) {
-    return `new Date('${x.toISOString()}')`
-  }
-  if (Array.isArray(x)) {
-    return `[${x.map(toString).join(', ')}]`
-  }
-  if (typeof x === 'function') {
-    return getFunctionName(x)
-  }
-  if (x == null) {
-    return String(x)
-  }
-  if (typeof x.toString === 'function' && x.toString !== Object.prototype.toString) {
-    return x.toString()
-  }
-  try {
-    return JSON.stringify(x, null, 2)
-  } catch (e) {
-    return String(x)
-  }
-}
-
 /**
  * @since 1.0.0
  */

@@ -12,18 +12,18 @@ import { Compactable2C, Separated } from './Compactable'
 import { Either } from './Either'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { phantom, Predicate, toString, Refinement, Lazy } from './function'
+import { Lazy, phantom, Predicate, Refinement } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
+import { MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { fromEquals, Setoid } from './Setoid'
+import { Show } from './Show'
 import { Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
-import { MonadThrow2C } from './MonadThrow'
-import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -107,12 +107,6 @@ export class Failure<L, A> {
   swap(): Validation<A, L> {
     return new Success(this.value)
   }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `failure(${toString(this.value)})`
-  }
   /** Returns `true` if the validation is an instance of `Failure`, `false` otherwise */
   isFailure(): this is Failure<L, A> {
     return true
@@ -152,12 +146,6 @@ export class Success<L, A> {
   }
   swap(): Validation<A, L> {
     return new Failure(this.value)
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `success(${toString(this.value)})`
   }
   isFailure(): this is Failure<L, A> {
     return false

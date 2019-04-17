@@ -11,17 +11,17 @@
  * - https://github.com/scalaz/scalaz/blob/series/7.3.x/core/src/main/scala/scalaz/Zipper.scala
  */
 import { Applicative, Applicative1 } from './Applicative'
-import { array, cons, drop, empty, isEmpty, isOutOfBound, snoc, take, getShow as getArrayShow } from './Array'
+import { array, cons, drop, empty, getShow as getArrayShow, isEmpty, isOutOfBound, snoc, take } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable1 } from './Foldable'
-import { decrement, increment, toString } from './function'
+import { decrement, increment } from './function'
 import { HKT } from './HKT'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
-import { Traversable1 } from './Traversable'
 import { Show } from './Show'
+import { Traversable1 } from './Traversable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -167,12 +167,6 @@ export class Zipper<A> {
    */
   reduce<B>(b: B, f: (b: B, a: A) => B): B {
     return this.rights.reduce(f, f(this.lefts.reduce(f, b), this.focus))
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new Zipper(${toString(this.lefts)}, ${toString(this.focus)}, ${toString(this.rights)})`
   }
 }
 

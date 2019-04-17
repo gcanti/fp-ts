@@ -88,17 +88,17 @@ import { Either } from './Either'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { identity, Lazy, not, Predicate, Refinement, toString } from './function'
+import { identity, Lazy, not, Predicate, Refinement } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { getDualMonoid, Monoid } from './Monoid'
-import { Ord, fromCompare } from './Ord'
+import { fromCompare, Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { fromEquals, Setoid } from './Setoid'
+import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { Witherable1 } from './Witherable'
-import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -278,12 +278,6 @@ export class None<A> {
   toUndefined(): A | undefined {
     return undefined
   }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return 'none'
-  }
   /** Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise */
   contains(S: Setoid<A>, a: A): boolean {
     return false
@@ -368,12 +362,6 @@ export class Some<A> {
   }
   toUndefined(): A | undefined {
     return this.value
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `some(${toString(this.value)})`
   }
   contains(S: Setoid<A>, a: A): boolean {
     return S.equals(this.value, a)

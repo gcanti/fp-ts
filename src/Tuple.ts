@@ -9,16 +9,16 @@ import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
 import { Either } from './Either'
 import { Foldable2 } from './Foldable'
-import { phantom, toString } from './function'
+import { phantom } from './function'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { contramap as contramapOrd, getSemigroup as getOrdSemigroup, Ord } from './Ord'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { Setoid, fromEquals } from './Setoid'
-import { Traversable2 } from './Traversable'
+import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
+import { Traversable2 } from './Traversable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -59,12 +59,6 @@ export class Tuple<L, A> {
   /** Exchange the first and second components of a tuple */
   swap(): Tuple<A, L> {
     return new Tuple(this.snd, this.fst)
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new Tuple(${toString(this.fst)}, ${toString(this.snd)})`
   }
   toTuple(): [L, A] {
     return [this.fst, this.snd]

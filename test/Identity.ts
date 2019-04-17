@@ -83,12 +83,6 @@ describe('Identity', () => {
     assert.strictEqual(x.fold(len), 3)
   })
 
-  it('toString', () => {
-    const x = I.identity.of(1)
-    assert.strictEqual(x.toString(), 'new Identity(1)')
-    assert.strictEqual(x.inspect(), 'new Identity(1)')
-  })
-
   it('getSetoid', () => {
     const S = I.getSetoid(setoidNumber)
     assert.strictEqual(S.equals(I.identity.of(1), I.identity.of(1)), true)
