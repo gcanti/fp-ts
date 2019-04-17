@@ -15,9 +15,6 @@ export type URI = typeof URI
  * @since 1.0.0
  */
 export class State<S, A> {
-  readonly _A!: A
-  readonly _L!: S
-  readonly _URI!: URI
   constructor(readonly run: (s: S) => [A, S]) {}
   eval(s: S): A {
     return this.run(s)[0]

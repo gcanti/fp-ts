@@ -46,8 +46,6 @@ const liftSeparated = <L, R>({
  * @since 1.0.0
  */
 export class StrMap<A> {
-  readonly _A!: A
-  readonly _URI!: URI
   constructor(readonly value: { [key: string]: A }) {}
   mapWithKey<B>(f: (k: string, a: A) => B): StrMap<B> {
     return new StrMap(R.mapWithKey(this.value, f))

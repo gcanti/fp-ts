@@ -33,8 +33,6 @@ export type Forest<A> = Array<Tree<A>>
  * @since 1.6.0
  */
 export class Tree<A> {
-  readonly _A!: A
-  readonly _URI!: URI
   constructor(readonly value: A, readonly forest: Forest<A>) {}
   map<B>(f: (a: A) => B): Tree<B> {
     return new Tree(f(this.value), this.forest.map(tree => tree.map(f)))
