@@ -5,7 +5,6 @@ import * as C from '../../src/Const'
 import * as E from '../../src/Either'
 import * as F from '../../src/Functor'
 import * as H from '../../src/HKT'
-import * as Ix from '../../src/IxIO'
 import * as O from '../../src/Option'
 import * as OT from '../../src/OptionT'
 import * as Re from '../../src/Reader'
@@ -177,10 +176,6 @@ C.const_.contramap(new C.Const<boolean, number>(true), (s: string) => s.length) 
 // Monad2C
 
 OT.getOptionT(Th.getMonad(Mon.getArrayMonoid<string>())) // $ExpectType OptionT2C<"These", string[]>
-
-// Monad3C
-
-OT.getOptionT(Ix.getMonad<string>()) // $ExpectType OptionT3C<"IxIO", string, string>
 
 //
 // TaskEither
