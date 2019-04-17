@@ -129,11 +129,6 @@ describe('Zipper', () => {
     assert.deepStrictEqual(fromNonEmptyArray(neafromNonEmptyArray([1, 2, 3])), new Zipper([], 1, [2, 3]))
   })
 
-  it('toString', () => {
-    assert.strictEqual(new Zipper([], 1, []).toString(), 'new Zipper([], 1, [])')
-    assert.strictEqual(new Zipper([], 1, []).inspect(), 'new Zipper([], 1, [])')
-  })
-
   it('getSemigroup', () => {
     const S = getSemigroup(semigroupSum)
     const x = new Zipper([1, 2], 3, [4])
@@ -188,16 +183,10 @@ describe('Zipper', () => {
   })
 
   it('extend', () => {
-    const fa = new Zipper(['a', 'b'], 'c', ['d', 'e'])
-    const f = (fa: Zipper<string>) => fa.toString()
-    assert.deepStrictEqual(
-      zipper.extend(fa, f),
-      new Zipper(
-        ['new Zipper([], "a", ["b", "c", "d", "e"])', 'new Zipper(["a"], "b", ["c", "d", "e"])'],
-        'new Zipper(["a", "b"], "c", ["d", "e"])',
-        ['new Zipper(["a", "b", "c"], "d", ["e"])', 'new Zipper(["a", "b", "c", "d"], "e", [])']
-      )
-    )
+    const fa = new Zipper(['a', 'bb'], 'ccc', ['dddd', 'eeeee'])
+    const reducer = (a: number, b: string): number => a + b.length
+    const f = (fa: Zipper<string>) => fa.lefts.reduce(reducer, 0) + fa.rights.reduce(reducer, 0)
+    assert.deepStrictEqual(zipper.extend(fa, f), new Zipper([14, 13], 12, [11, 10]))
   })
 
   it('getShow', () => {

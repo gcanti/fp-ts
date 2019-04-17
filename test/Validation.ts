@@ -143,13 +143,6 @@ describe('Validation', () => {
     assert.deepStrictEqual(failure<number, string>(2).mapFailure(double), failure(4))
   })
 
-  it('toString', () => {
-    assert.strictEqual(success('bar').toString(), 'success("bar")')
-    assert.strictEqual(success('bar').inspect(), 'success("bar")')
-    assert.strictEqual(failure('bar').toString(), 'failure("bar")')
-    assert.strictEqual(failure('bar').inspect(), 'failure("bar")')
-  })
-
   it('swap', () => {
     assert.deepStrictEqual(success('bar').swap(), failure('bar'))
     assert.deepStrictEqual(failure('bar').swap(), success('bar'))

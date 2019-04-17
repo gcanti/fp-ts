@@ -16,7 +16,6 @@ import {
   constFalse,
   constNull,
   constUndefined,
-  toString,
   constVoid
 } from '../src/function'
 
@@ -298,25 +297,5 @@ describe('function', () => {
 
   it('constVoid', () => {
     assert.strictEqual(constVoid(), undefined)
-  })
-
-  it('toString', () => {
-    assert.strictEqual(toString('a'), '"a"')
-    const date = new Date()
-    assert.strictEqual(toString(date), `new Date('${date.toISOString()}')`)
-    assert.deepStrictEqual(toString(['a', 'b']), '["a", "b"]')
-    assert.deepStrictEqual(toString(() => 1), '<function0>')
-    assert.deepStrictEqual(
-      toString(function f() {
-        return 1
-      }),
-      'f'
-    )
-    const nonStringifyable: { a?: any } = {}
-    nonStringifyable.a = nonStringifyable
-    assert.deepStrictEqual(toString(nonStringifyable), '[object Object]')
-    assert.strictEqual(toString(undefined), 'undefined')
-    assert.strictEqual(toString(null), 'null')
-    assert.strictEqual(toString(Object.create(null)), '{}')
   })
 })

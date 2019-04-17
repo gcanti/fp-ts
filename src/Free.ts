@@ -3,7 +3,6 @@
  */
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
-import { toString } from './function'
 
 export const URI = 'Free'
 
@@ -44,12 +43,6 @@ export class Pure<F, A> {
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return f(this.value)
   }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new Pure(${toString(this.value)})`
-  }
   isPure(): this is Pure<F, A> {
     return true
   }
@@ -75,12 +68,6 @@ export class Impure<F, A, X> {
   }
   chain<B>(f: (a: A) => Free<F, B>): Free<F, B> {
     return new Impure(this.fx, x => this.f(x).chain(f))
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new Impure(${(toString(this.fx), toString(this.f))})`
   }
   isPure(): this is Pure<F, A> {
     return false

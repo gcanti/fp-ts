@@ -33,18 +33,18 @@ import { Compactable2C, Separated } from './Compactable'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { Lazy, phantom, Predicate, Refinement, toString, identity } from './function'
+import { identity, Lazy, phantom, Predicate, Refinement } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
+import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { fromEquals, Setoid } from './Setoid'
+import { Show } from './Show'
 import { Traversable2 } from './Traversable'
 import { Validation } from './Validation'
 import { Witherable2C } from './Witherable'
-import { MonadThrow2 } from './MonadThrow'
-import { Show } from './Show'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -128,12 +128,6 @@ export class Left<L, A> {
   /** Maps the left side of the disjunction */
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return new Left(f(this.value))
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `left(${toString(this.value)})`
   }
   /** Returns `true` if the either is an instance of `Left`, `false` otherwise */
   isLeft(): this is Left<L, A> {
@@ -224,12 +218,6 @@ export class Right<L, A> {
   }
   mapLeft<M>(f: (l: L) => M): Either<M, A> {
     return new Right(this.value)
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `right(${toString(this.value)})`
   }
   isLeft(): this is Left<L, A> {
     return false

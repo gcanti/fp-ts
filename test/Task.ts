@@ -116,11 +116,6 @@ describe('Task', () => {
       })
   })
 
-  it('toString', () => {
-    assert.strictEqual(task.of(1).toString(), 'new Task(<function0>)')
-    assert.strictEqual(task.of(1).inspect(), 'new Task(<function0>)')
-  })
-
   it('applyFirst', () => {
     const log: Array<string> = []
     const append = (message: string): Task<number> => new Task(() => Promise.resolve(log.push(message)))

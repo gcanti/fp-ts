@@ -1,11 +1,11 @@
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Contravariant2 } from './Contravariant'
+import { phantom } from './function'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
-import { phantom, toString } from './function'
+import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -36,12 +36,6 @@ export class Const<L, A> {
   }
   fold<B>(f: (l: L) => B): B {
     return f(this.value)
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new Const(${toString(this.value)})`
   }
 }
 
