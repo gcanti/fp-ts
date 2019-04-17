@@ -17,10 +17,6 @@ export type URI = typeof URI
  * @since 1.0.0
  */
 export class IxIO<I, O, A> {
-  readonly _A!: A
-  readonly _L!: O
-  readonly _U!: I
-  readonly _URI!: URI
   constructor(readonly value: IO<A>) {}
   run(): A {
     return this.value.run()

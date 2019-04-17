@@ -77,9 +77,6 @@ export type Validation<L, A> = Failure<L, A> | Success<L, A>
 
 export class Failure<L, A> {
   readonly _tag: 'Failure' = 'Failure'
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return this as any
@@ -119,9 +116,6 @@ export class Failure<L, A> {
 
 export class Success<L, A> {
   readonly _tag: 'Success' = 'Success'
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): Validation<L, B> {
     return new Success(f(this.value))

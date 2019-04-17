@@ -30,10 +30,6 @@ export type URI = typeof URI
  * @since 1.6.0
  */
 export class ReaderTaskEither<E, L, A> {
-  readonly _A!: A
-  readonly _L!: L
-  readonly _U!: E
-  readonly _URI!: URI
   constructor(readonly value: (e: E) => TaskEither<L, A>) {}
   /** Runs the inner `TaskEither` */
   run(e: E): Promise<Either<L, A>> {
