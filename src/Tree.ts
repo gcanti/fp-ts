@@ -6,16 +6,16 @@
  * ```
  */
 import { Applicative } from './Applicative'
-import { getSetoid as getArraySetoid, empty, array } from './Array'
+import { array, empty, getSetoid as getArraySetoid } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable1 } from './Foldable'
-import { concat, identity, toString } from './function'
+import { concat, identity } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
-import { Setoid, fromEquals } from './Setoid'
-import { Traversable1 } from './Traversable'
+import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
+import { Traversable1 } from './Traversable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -66,12 +66,6 @@ export class Tree<A> {
       r = this.forest[i].reduce(r, f)
     }
     return r
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new Tree(${toString(this.value)}, ${toString(this.forest)})`
   }
 }
 

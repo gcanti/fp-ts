@@ -3,7 +3,7 @@
  * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
  */
 import { Either, left, right } from './Either'
-import { constant, constIdentity, identity, Lazy, toString } from './function'
+import { constant, constIdentity, identity, Lazy } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
@@ -56,12 +56,6 @@ export class Task<A> {
   }
   chain<B>(f: (a: A) => Task<B>): Task<B> {
     return new Task(() => this.run().then(a => f(a).run()))
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new Task(${toString(this.run)})`
   }
 }
 

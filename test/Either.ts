@@ -281,13 +281,6 @@ describe('Either', () => {
     assert.deepStrictEqual(left<number, string>(2).mapLeft(double), left(4))
   })
 
-  it('toString', () => {
-    assert.strictEqual(right('bar').toString(), 'right("bar")')
-    assert.strictEqual(right('bar').inspect(), 'right("bar")')
-    assert.strictEqual(left('bar').toString(), 'left("bar")')
-    assert.strictEqual(left('bar').inspect(), 'left("bar")')
-  })
-
   it('swap', () => {
     assert.deepStrictEqual(right('bar').swap(), left('bar'))
     assert.deepStrictEqual(left('bar').swap(), right('bar'))

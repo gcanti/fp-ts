@@ -30,12 +30,6 @@ describe('Const', () => {
     assert.deepStrictEqual(F.of(1), new Const<string, number>(''))
   })
 
-  it('toString', () => {
-    const fa = new Const<string, number>('foo')
-    assert.strictEqual(fa.toString(), 'new Const("foo")')
-    assert.strictEqual(fa.inspect(), 'new Const("foo")')
-  })
-
   it('getSetoid', () => {
     const S = getSetoid<number, string>(setoidNumber)
     assert.strictEqual(S.equals(new Const(1), new Const(1)), true)
