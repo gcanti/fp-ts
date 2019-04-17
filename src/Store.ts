@@ -17,9 +17,6 @@ export type URI = typeof URI
  * @since 1.0.0
  */
 export class Store<S, A> {
-  readonly _A!: A
-  readonly _L!: S
-  readonly _URI!: URI
   constructor(readonly peek: (s: S) => A, readonly pos: S) {}
   /** Reposition the focus at the specified position */
   seek(s: S): Store<S, A> {

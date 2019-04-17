@@ -34,9 +34,6 @@ export type URI = typeof URI
  * @since 1.0.0
  */
 export class Tuple<L, A> {
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
   constructor(readonly fst: L, readonly snd: A) {}
   compose<B>(ab: Tuple<A, B>): Tuple<L, B> {
     return new Tuple(this.fst, ab.snd)

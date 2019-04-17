@@ -25,8 +25,6 @@ export type URI = typeof URI
  * @since 1.0.0
  */
 export class Task<A> {
-  readonly _A!: A
-  readonly _URI!: URI
   constructor(readonly run: Lazy<Promise<A>>) {}
   map<B>(f: (a: A) => B): Task<B> {
     return new Task(() => this.run().then(f))

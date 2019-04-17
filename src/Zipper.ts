@@ -37,8 +37,6 @@ export type URI = typeof URI
  * @since 1.9.0
  */
 export class Zipper<A> {
-  readonly _A!: A
-  readonly _URI!: URI
   length: number
   constructor(readonly lefts: Array<A>, readonly focus: A, readonly rights: Array<A>) {
     this.length = lefts.length + 1 + rights.length

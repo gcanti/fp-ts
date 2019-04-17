@@ -22,8 +22,6 @@ export type URI = typeof URI
  * @since 1.0.0
  */
 export class IO<A> {
-  readonly _A!: A
-  readonly _URI!: URI
   constructor(readonly run: Lazy<A>) {}
   map<B>(f: (a: A) => B): IO<B> {
     return new IO(() => f(this.run()))
