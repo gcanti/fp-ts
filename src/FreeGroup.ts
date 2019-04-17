@@ -25,8 +25,6 @@ export type URI = typeof URI
  * @since 1.13.0
  */
 export class FreeGroup<A> {
-  readonly _A!: A
-  readonly _URI!: URI
   constructor(readonly value: Array<Either<A, A>>) {}
   map<B>(f: (a: A) => B): FreeGroup<B> {
     return new FreeGroup(this.value.map(e => e.bimap(f, f)))

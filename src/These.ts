@@ -49,9 +49,6 @@ export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
 
 export class This<L, A> {
   readonly _tag: 'This' = 'This'
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return this as any
@@ -82,9 +79,6 @@ export class This<L, A> {
 
 export class That<L, A> {
   readonly _tag: 'That' = 'That'
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
   constructor(readonly value: A) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return new That(f(this.value))
@@ -111,9 +105,6 @@ export class That<L, A> {
 
 export class Both<L, A> {
   readonly _tag: 'Both' = 'Both'
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
   constructor(readonly l: L, readonly a: A) {}
   map<B>(f: (a: A) => B): These<L, B> {
     return new Both(this.l, f(this.a))

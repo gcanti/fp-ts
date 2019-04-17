@@ -18,9 +18,6 @@ export type URI = typeof URI
  * @since 1.0.0
  */
 export class Writer<W, A> {
-  readonly _A!: A
-  readonly _L!: W
-  readonly _URI!: URI
   constructor(readonly run: () => [A, W]) {}
   eval(): A {
     return this.run()[0]

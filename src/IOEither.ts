@@ -28,9 +28,6 @@ const foldT = eitherT.fold(io)
  * @since 1.6.0
  */
 export class IOEither<L, A> {
-  readonly _A!: A
-  readonly _L!: L
-  readonly _URI!: URI
   constructor(readonly value: IO<Either<L, A>>) {}
   /**
    * Runs the inner io

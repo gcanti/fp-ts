@@ -17,9 +17,6 @@ export type URI = typeof URI
  * @since 1.16.0
  */
 export class Traced<P, A> {
-  readonly _A!: A
-  readonly _L!: P
-  readonly _URI!: URI
   constructor(readonly run: (p: P) => A) {}
   map<B>(f: (a: A) => B): Traced<P, B> {
     return new Traced((p: P) => f(this.run(p)))
