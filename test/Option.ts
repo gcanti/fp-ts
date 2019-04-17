@@ -57,13 +57,6 @@ describe('Option', () => {
     assert.strictEqual(some(1).toUndefined(), 1)
   })
 
-  it('toString', () => {
-    assert.strictEqual(none.toString(), 'none')
-    assert.strictEqual(some(1).toString(), 'some(1)')
-    assert.strictEqual(none.inspect(), 'none')
-    assert.strictEqual(some(1).inspect(), 'some(1)')
-  })
-
   it('getOrElse', () => {
     const x: Option<number> = some(1)
     assert.strictEqual(x.getOrElse(0), 1)
@@ -302,11 +295,6 @@ describe('Option', () => {
   it('fromEither', () => {
     assert.deepStrictEqual(fromEither(left('foo')), none)
     assert.deepStrictEqual(fromEither(right(1)), some(1))
-  })
-
-  it('toString', () => {
-    assert.strictEqual(some(2).toString(), 'some(2)')
-    assert.strictEqual(some({ a: 1 }).toString(), 'some({\n  "a": 1\n})')
   })
 
   it('compact', () => {

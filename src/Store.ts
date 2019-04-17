@@ -1,7 +1,7 @@
 import { Comonad2 } from './Comonad'
+import { Endomorphism } from './function'
 import { Functor, Functor2, Functor3 } from './Functor'
 import { HKT, HKT2, HKT3, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Endomorphism, toString } from './function'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -33,12 +33,6 @@ export class Store<S, A> {
   }
   extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> {
     return new Store(s => f(this.seek(s)), this.pos)
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new Store(${toString(this.peek)}, ${toString(this.pos)})`
   }
 }
 

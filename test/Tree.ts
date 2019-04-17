@@ -133,13 +133,6 @@ describe('Tree', () => {
     )
   })
 
-  it('toString', () => {
-    const fa = new Tree('a', [new Tree('b', [])])
-    const expected = 'new Tree("a", [new Tree("b", [])])'
-    assert.strictEqual(fa.toString(), expected)
-    assert.strictEqual(fa.inspect(), expected)
-  })
-
   it('getSetoid', () => {
     const S = getSetoid(setoidNumber)
     const x = new Tree(1, [new Tree(2, [])])

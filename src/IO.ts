@@ -2,11 +2,11 @@
  * @file `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
  * If you want to represent a synchronous computation that may fail, please see `IOEither`.
  */
+import { constant, constIdentity, identity, Lazy } from './function'
 import { Monad1 } from './Monad'
+import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Lazy, constIdentity, toString, constant, identity } from './function'
-import { MonadIO1 } from './MonadIO'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -53,12 +53,6 @@ export class IO<A> {
   }
   chain<B>(f: (a: A) => IO<B>): IO<B> {
     return new IO(() => f(this.run()).run())
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `new IO(${toString(this.run)})`
   }
 }
 

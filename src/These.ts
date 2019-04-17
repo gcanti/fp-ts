@@ -21,16 +21,16 @@ import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Either } from './Either'
 import { Foldable2 } from './Foldable'
-import { phantom, toString } from './function'
+import { phantom } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
-import { Traversable2 } from './Traversable'
+import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
+import { Traversable2 } from './Traversable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -66,12 +66,6 @@ export class This<L, A> {
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return this_(this.value)
   }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `this_(${toString(this.value)})`
-  }
   /** Returns `true` if the these is `This`, `false` otherwise */
   isThis(): this is This<L, A> {
     return true
@@ -104,12 +98,6 @@ export class That<L, A> {
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return that(this.value)
   }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `that(${toString(this.value)})`
-  }
   isThis(): this is This<L, A> {
     return false
   }
@@ -138,12 +126,6 @@ export class Both<L, A> {
   }
   fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
     return both(this.l, this.a)
-  }
-  inspect(): string {
-    return this.toString()
-  }
-  toString(): string {
-    return `both(${toString(this.l)}, ${toString(this.a)})`
   }
   isThis(): this is This<L, A> {
     return false

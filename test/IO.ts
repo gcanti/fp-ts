@@ -41,11 +41,6 @@ describe('IO', () => {
     assert.deepStrictEqual(log, ['a', 'b'])
   })
 
-  it('toString', () => {
-    assert.strictEqual(io.of(1).toString(), 'new IO(<function0>)')
-    assert.strictEqual(io.of(1).inspect(), 'new IO(<function0>)')
-  })
-
   it('applyFirst', () => {
     const log: Array<string> = []
     const append = (message: string): IO<number> => new IO(() => log.push(message))

@@ -97,11 +97,6 @@ describe('Tuple', () => {
     assert.deepStrictEqual(semigroup.concat(new Tuple('a', 1), new Tuple('b', 2)), new Tuple('ab', 3))
   })
 
-  it('toString', () => {
-    assert.strictEqual(new Tuple('a', 1).toString(), `new Tuple("a", 1)`)
-    assert.strictEqual(new Tuple('a', 1).inspect(), `new Tuple("a", 1)`)
-  })
-
   it('reduce', () => {
     const x = new Tuple(1, 'b')
     assert.strictEqual(x.reduce('a', (b, a) => b + a), 'ab')
@@ -192,10 +187,6 @@ describe('Tuple', () => {
     assert.deepStrictEqual(sequence(x1), some(new Tuple('a', 2)))
     const x2 = new Tuple('a', none)
     assert.deepStrictEqual(sequence(x2), none)
-  })
-
-  it('toString', () => {
-    assert.strictEqual(new Tuple(1, 2).toString(), 'new Tuple(1, 2)')
   })
 
   it('getSetoid', () => {

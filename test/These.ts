@@ -186,15 +186,6 @@ describe('These', () => {
     assert.deepStrictEqual(fromEither(right(1)), that(1))
   })
 
-  it('toString', () => {
-    assert.strictEqual(this_(1).toString(), 'this_(1)')
-    assert.strictEqual(this_(1).inspect(), 'this_(1)')
-    assert.strictEqual(that(1).toString(), 'that(1)')
-    assert.strictEqual(that(1).inspect(), 'that(1)')
-    assert.strictEqual(both('a', 1).toString(), 'both("a", 1)')
-    assert.strictEqual(both('a', 1).inspect(), 'both("a", 1)')
-  })
-
   it('isThis', () => {
     assert.strictEqual(this_(1).isThis(), true)
     assert.strictEqual(that(1).isThis(), false)
