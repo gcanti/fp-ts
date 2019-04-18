@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as M from '../src/Map'
-import { semigroupSum, getStructSemigroup } from '../src/Semigroup'
+import { semigroupSum, getStructSemigroup, getFirstSemigroup, getLastSemigroup } from '../src/Semigroup'
 import { monoidString } from '../src/Monoid'
 import { Refinement, identity } from '../src/function'
 import { option, some, none, Option } from '../src/Option'
@@ -580,10 +580,11 @@ describe('Map', () => {
   it('fromFoldable', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const a2 = new Map<User, number>([[{ id: 'a' }, 2]])
-    const fromFoldableS = M.fromFoldable(setoidUser, array)
-    assert.deepStrictEqual(fromFoldableS([[{ id: 'a' }, 1]], (existing, _) => existing), a1)
-    assert.deepStrictEqual(fromFoldableS([[{ id: 'a' }, 1], [{ id: 'a' }, 2]], (existing, _) => existing), a1)
-    assert.deepStrictEqual(fromFoldableS([[{ id: 'a' }, 1], [{ id: 'a' }, 2]], (_, a) => a), a2)
+    const fromFoldableS1 = M.fromFoldable(setoidUser, getFirstSemigroup<number>(), array)
+    assert.deepStrictEqual(fromFoldableS1([[{ id: 'a' }, 1]]), a1)
+    assert.deepStrictEqual(fromFoldableS1([[{ id: 'a' }, 1], [{ id: 'a' }, 2]]), a1)
+    const fromFoldableS2 = M.fromFoldable(setoidUser, getLastSemigroup<number>(), array)
+    assert.deepStrictEqual(fromFoldableS2([[{ id: 'a' }, 1], [{ id: 'a' }, 2]]), a2)
   })
 
   it('getShow', () => {
