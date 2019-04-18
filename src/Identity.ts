@@ -131,7 +131,7 @@ const extract = <A>(fa: Identity<A>): A => {
 }
 
 const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> => {
-  return new Identity(tailRec(a => f(a).value, a))
+  return new Identity(tailRec(a, a => f(a).value))
 }
 
 const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
