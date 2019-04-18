@@ -1,7 +1,7 @@
 import * as Benchmark from 'benchmark'
 import { Either, left, right } from '../src/Either'
 import { readerTaskEither } from '../src/ReaderTaskEither'
-import { taskEither } from '../src/TaskEither'
+import { taskEither, TaskEither } from '../src/TaskEither'
 
 const suite = new Benchmark.Suite()
 
@@ -25,6 +25,19 @@ const rte = readerTaskEither
   .chain(s => readerTaskEither.of(s.length))
   .chain(n => readerTaskEither.of(n > 2))
 
+type ReaderTaskEither2<E, L, A> = (e: E) => TaskEither<L, A>
+
+const of = <A>(a: A): ReaderTaskEither2<unknown, never, A> => () => taskEither.of(a)
+
+const chain = <E, L, A, B>(
+  fa: ReaderTaskEither2<E, L, A>,
+  f: (a: A) => ReaderTaskEither2<E, L, B>
+): ReaderTaskEither2<E, L, B> => {
+  return e => fa(e).chain(a => f(a)(e))
+}
+
+const rte2: ReaderTaskEither2<{}, {}, boolean> = chain(chain(of('foo'), s => of(s.length)), n => of(n > 2))
+
 // // tslint:disable-next-line
 // native().then(e => console.log('native', e))
 // // tslint:disable-next-line
@@ -44,6 +57,10 @@ suite
   .add('ReaderTaskEither', function() {
     // tslint:disable-next-line: no-floating-promises
     rte.run({})
+  })
+  .add('ReaderTaskEither', function() {
+    // tslint:disable-next-line: no-floating-promises
+    rte2({}).run()
   })
   .on('cycle', function(event: any) {
     // tslint:disable-next-line: no-console
