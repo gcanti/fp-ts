@@ -37,6 +37,21 @@ export type Function7<A, B, C, D, E, F, G, H> = (a: A, b: B, c: C, d: D, e: E, f
 export type Function8<A, B, C, D, E, F, G, H, I> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H) => I
 export type Function9<A, B, C, D, E, F, G, H, I, J> = (a: A, b: B, c: C, d: D, e: E, f: F, g: G, h: H, i: I) => J
 
+/**
+ * @example
+ * import { CurriedN } from 'fp-ts/lib/function'
+ *
+ * export const sum: CurriedN<[number, number], number> = (a) => (b) => a + b
+ */
+export type CurriedN<A extends unknown[], B> =
+    A extends []
+    ? () => B
+    : A extends [unknown]
+    ? ((...args: A) => unknown)
+    : ((...args: A) => unknown) extends ((head: infer H, ...tail: infer T) => unknown)
+    ? ((...args: [H]) => CurriedN<T, B>)
+    : never;
+
 export type Curried2<A, B, C> = (a: A) => (b: B) => C
 export type Curried3<A, B, C, D> = (a: A) => (b: B) => (c: C) => D
 export type Curried4<A, B, C, D, E> = (a: A) => (b: B) => (c: C) => (d: D) => E
