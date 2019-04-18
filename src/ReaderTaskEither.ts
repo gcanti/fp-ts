@@ -92,7 +92,10 @@ const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderT
   return fa.map(f)
 }
 
-const of = <E, L, A>(a: A): ReaderTaskEither<E, L, A> => {
+/**
+ * @since 2.0.0
+ */
+export const of = <E, A>(a: A): ReaderTaskEither<E, never, A> => {
   return new ReaderTaskEither(readerTTaskEither.of(a))
 }
 
@@ -148,14 +151,14 @@ export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
 /**
  * @since 1.6.0
  */
-export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => {
+export const right = <E, A>(fa: Task<A>): ReaderTaskEither<E, never, A> => {
   return new ReaderTaskEither(() => taskEither.right(fa))
 }
 
 /**
  * @since 1.6.0
  */
-export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => {
+export const left = <E, L>(fa: Task<L>): ReaderTaskEither<E, L, never> => {
   return new ReaderTaskEither(() => taskEither.left(fa))
 }
 
@@ -170,7 +173,7 @@ const readerTfromReader = readerT.fromReader(taskEither.taskEither)
 /**
  * @since 1.6.0
  */
-export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A> => {
+export const fromReader = <E, A>(fa: Reader<E, A>): ReaderTaskEither<E, never, A> => {
   return new ReaderTaskEither(readerTfromReader(fa))
 }
 
@@ -184,14 +187,14 @@ export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A>
 /**
  * @since 1.6.0
  */
-export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => {
+export const fromIO = <E, A>(fa: IO<A>): ReaderTaskEither<E, never, A> => {
   return fromTaskEither(taskEither.fromIO(fa))
 }
 
 /**
  * @since 1.6.0
  */
-export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => {
+export const fromLeft = <E, L>(l: L): ReaderTaskEither<E, L, never> => {
   return fromTaskEither(taskEither.fromLeft(l))
 }
 
@@ -226,9 +229,9 @@ export function fromPredicate<E, L, A>(
  */
 export const tryCatch = <E, L, A>(
   f: (e: E) => Promise<A>,
-  onrejected: (reason: unknown, e: E) => L
+  onError: (reason: unknown, e: E) => L
 ): ReaderTaskEither<E, L, A> => {
-  return new ReaderTaskEither(e => taskEither.tryCatch(() => f(e), (reason: unknown) => onrejected(reason, e)))
+  return new ReaderTaskEither(e => taskEither.tryCatch(() => f(e), (reason: unknown) => onError(reason, e)))
 }
 
 const fromTask = right
