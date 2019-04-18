@@ -83,7 +83,10 @@ const map = <L, A, B>(fa: IOEither<L, A>, f: (a: A) => B): IOEither<L, B> => {
   return fa.map(f)
 }
 
-const of = <L, A>(a: A): IOEither<L, A> => {
+/**
+ * @since 2.0.0
+ */
+export const of = <A>(a: A): IOEither<never, A> => {
   return new IOEither(T.of(a))
 }
 
@@ -106,15 +109,15 @@ const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): 
 /**
  * @since 1.6.0
  */
-export const right = <L, A>(fa: IO<A>): IOEither<L, A> => {
-  return new IOEither(fa.map<Either<L, A>>(eitherRight))
+export const right = <A>(fa: IO<A>): IOEither<never, A> => {
+  return new IOEither(fa.map(eitherRight))
 }
 
 /**
  * @since 1.6.0
  */
-export const left = <L, A>(fa: IO<L>): IOEither<L, A> => {
-  return new IOEither(fa.map<Either<L, A>>(eitherLeft))
+export const left = <L>(fa: IO<L>): IOEither<L, never> => {
+  return new IOEither(fa.map(eitherLeft))
 }
 
 /**
@@ -127,7 +130,7 @@ export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
 /**
  * @since 1.6.0
  */
-export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
+export const fromLeft = <L>(l: L): IOEither<L, never> => {
   return fromEither(eitherLeft(l))
 }
 

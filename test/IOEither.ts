@@ -1,14 +1,14 @@
 import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight, toError } from '../src/Either'
 import { IO, io } from '../src/IO'
-import { IOEither, fromLeft, left, right, ioEither, tryCatch } from '../src/IOEither'
+import { IOEither, fromLeft, left, right, ioEither, tryCatch, of } from '../src/IOEither'
 import { none, some } from '../src/Option'
 
 describe('IOEither', () => {
   it('ap', () => {
     const double = (n: number): number => n * 2
-    const fab = ioEither.of(double)
-    const fa = ioEither.of(1)
+    const fab = of(double)
+    const fa = of(1)
 
     const e1 = fa.ap(fab).run()
     const e2 = fab.ap_(fa).run()
@@ -21,7 +21,7 @@ describe('IOEither', () => {
 
   it('map', () => {
     const double = (n: number): number => n * 2
-    const e = ioEither.map(ioEither.of(1), double).run()
+    const e = ioEither.map(of(1), double).run()
 
     assert.deepStrictEqual(e, eitherRight(2))
   })
@@ -35,14 +35,8 @@ describe('IOEither', () => {
   })
 
   it('chain', () => {
-    const te1 = ioEither.chain(
-      ioEither.of<string, string>('foo'),
-      a => (a.length > 2 ? ioEither.of<string, number>(a.length) : fromLeft<string, number>('foo'))
-    )
-    const te2 = ioEither.chain(
-      ioEither.of<string, string>('a'),
-      a => (a.length > 2 ? ioEither.of<string, number>(a.length) : fromLeft<string, number>('foo'))
-    )
+    const te1 = ioEither.chain(of('foo'), a => (a.length > 2 ? of(a.length) : fromLeft('foo')))
+    const te2 = ioEither.chain(of('a'), a => (a.length > 2 ? of(a.length) : fromLeft('foo')))
     const e1 = te1.run()
     const e2 = te2.run()
 
@@ -53,8 +47,8 @@ describe('IOEither', () => {
   it('fold', () => {
     const f = (s: string): boolean => s.length > 2
     const g = (n: number): boolean => n > 2
-    const te1 = ioEither.of<string, number>(1).fold(f, g)
-    const te2 = fromLeft<string, number>('foo').fold(f, g)
+    const te1 = of(1).fold(f, g)
+    const te2 = fromLeft('foo').fold(f, g)
     const b1 = te1.run()
     const b2 = te2.run()
 
@@ -65,8 +59,8 @@ describe('IOEither', () => {
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    const teRight = ioEither.of<string, number>(1)
-    const teLeft = fromLeft<string, number>('foo')
+    const teRight = of(1)
+    const teLeft = fromLeft('foo')
     const e1 = teRight.bimap(f, g).run()
     const e2 = teLeft.bimap(f, g).run()
     const e3 = ioEither.bimap(teRight, f, g).run()
@@ -77,10 +71,10 @@ describe('IOEither', () => {
   })
 
   it('orElse', () => {
-    const l = fromLeft<string, number>('foo')
-    const r = ioEither.of<string, number>(1)
-    const tl = l.orElse(l => ioEither.of<number, number>(l.length))
-    const tr = r.orElse(() => ioEither.of<number, number>(2))
+    const l: IOEither<string, number> = fromLeft('foo')
+    const r = of(1)
+    const tl = l.orElse(l => of(l.length))
+    const tr = r.orElse(() => of(2))
     const el = tl.run()
     const er = tr.run()
 
@@ -119,10 +113,10 @@ describe('IOEither', () => {
   })
 
   it('alt', () => {
-    const l1 = fromLeft<string, number>('foo')
-    const l2 = fromLeft<string, number>('bar')
-    const r1 = ioEither.of<string, number>(1)
-    const r2 = ioEither.of<string, number>(2)
+    const l1: IOEither<string, number> = fromLeft('foo')
+    const l2 = fromLeft('bar')
+    const r1: IOEither<string, number> = of(1)
+    const r2 = of(2)
     const x1 = l1.alt(l2)
     const x2 = l1.alt(r1)
     const x3 = r1.alt(l1)
@@ -156,7 +150,7 @@ describe('IOEither', () => {
   describe('MonadThrow', () => {
     it('should obey the law', () => {
       assert.deepStrictEqual(
-        ioEither.chain(ioEither.throwError('error'), a => ioEither.of(a)).run(),
+        ioEither.chain(ioEither.throwError('error'), a => of(a)).run(),
         ioEither.throwError('error').run()
       )
     })
