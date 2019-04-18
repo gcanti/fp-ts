@@ -357,7 +357,7 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Either<L, HKT<F, A>>): HKT
 const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
   return tailRec(f(a), e => {
     if (e.isLeft()) {
-      return right(left(e.value))
+      return right<Either<L, B>>(left(e.value))
     } else {
       const r = e.value
       return r.isLeft() ? left(f(r.value)) : right(right(r.value))
@@ -371,7 +371,7 @@ const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L
  *
  * @since 1.0.0
  */
-export const left = <L, A>(l: L): Either<L, A> => {
+export const left = <L>(l: L): Either<L, never> => {
   return new Left(l)
 }
 
@@ -381,8 +381,8 @@ export const left = <L, A>(l: L): Either<L, A> => {
  *
  * @since 1.0.0
  */
-export const right = <L, A>(a: A): Either<L, A> => {
-  return new Right<L, A>(a)
+export const right = <A>(a: A): Either<never, A> => {
+  return new Right(a)
 }
 
 const of = right

@@ -8,7 +8,7 @@ describe('EitherT', () => {
     const { chain, of } = eitherT.getEitherT(task)
     const f = (n: number) => of(n * 2)
     const x = of(1)
-    const y = task.of(left<string, number>('foo'))
+    const y = task.of(left('foo'))
     return Promise.all([chain(x, f).run(), chain(y, f).run()]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, right(2))
       assert.deepStrictEqual(e2, left('foo'))
