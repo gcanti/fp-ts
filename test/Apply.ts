@@ -9,10 +9,10 @@ import { catOptions, getSetoid } from '../src/Array'
 import { fromEquals } from '../src/Setoid'
 
 describe('Apply', () => {
-  const r1 = right<string, number>(1)
-  const r2 = right<string, number>(2)
-  const foo = left<string, number>('foo')
-  const bar = left<string, number>('bar')
+  const r1 = right(1)
+  const r2 = right(2)
+  const foo = left('foo')
+  const bar = left('bar')
 
   it('applyFirst', () => {
     assert.deepStrictEqual(applyFirst(option)(some(5), some(6)), some(5))

@@ -361,8 +361,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
       new Task(
         () =>
           new Promise(resolve => {
-            const cbResolver = (e: L, r: R) =>
-              e != null ? resolve(eitherLeft<L, R>(e)) : resolve(eitherRight<L, R>(r))
+            const cbResolver = (e: L, r: R) => (e != null ? resolve(eitherLeft(e)) : resolve(eitherRight(r)))
             f.apply(null, args.concat(cbResolver))
           })
       )
