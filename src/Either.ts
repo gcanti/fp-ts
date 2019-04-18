@@ -355,14 +355,14 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Either<L, HKT<F, A>>): HKT
 }
 
 const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
-  return tailRec(e => {
+  return tailRec(f(a), e => {
     if (e.isLeft()) {
       return right(left(e.value))
     } else {
       const r = e.value
       return r.isLeft() ? left(f(r.value)) : right(right(r.value))
     }
-  }, f(a))
+  })
 }
 
 /**
