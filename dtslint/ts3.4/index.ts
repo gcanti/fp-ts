@@ -294,8 +294,8 @@ R.filterWithKey(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Record<string, n
 declare const arr1: Array<[string, number]>
 declare const arr2: Array<['a' | 'b', number]>
 
-R.fromFoldable(A.array)(arr1, a => a) // $ExpectType Record<string, number>
-R.fromFoldable(A.array)(arr2, a => a) // $ExpectType Record<"a" | "b", number>
+R.fromFoldable(S.getFirstSemigroup<number>(), A.array)(arr1) // $ExpectType Record<string, number>
+R.fromFoldable(S.getFirstSemigroup<number>(), A.array)(arr2) // $ExpectType Record<"a" | "b", number>
 
 type Keys = 'key1' | 'key2'
 const Mon1 = R.getMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
@@ -309,7 +309,7 @@ const toUnfoldable2 = R.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a
 
 declare const fromFoldableF1: Fo.Foldable<'Test'>
 declare const fromFoldableInput1: H.HKT<'Test', ['a' | 'b', number]>
-const fromFoldable1 = R.fromFoldable(fromFoldableF1)(fromFoldableInput1, a => a) // $ExpectType Record<"a" | "b", number>
+const fromFoldable1 = R.fromFoldable(S.getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) // $ExpectType Record<"a" | "b", number>
 
 //
 // Setoid
