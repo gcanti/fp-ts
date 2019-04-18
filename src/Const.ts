@@ -60,24 +60,20 @@ const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
   return fa.contramap(f)
 }
 
-const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
-  return new Const(S.concat(fab.value, fa.value))
-}
-
 /**
  * @since 1.0.0
  */
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
+  const ap = <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
+    return new Const(S.concat(fab.value, fa.value))
+  }
+
   return {
     URI,
     _L: phantom,
     map,
-    ap: ap(S)
+    ap
   }
-}
-
-const of = <L>(M: Monoid<L>) => <A>(a: A): Const<L, A> => {
-  return new Const(M.empty)
 }
 
 /**
@@ -86,7 +82,7 @@ const of = <L>(M: Monoid<L>) => <A>(a: A): Const<L, A> => {
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
   return {
     ...getApply(M),
-    of: of(M)
+    of: () => new Const(M.empty)
   }
 }
 
