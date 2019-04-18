@@ -144,7 +144,6 @@ export function replicateA<F extends URIS, T extends URIS>(
 ): <A>(n: number, ma: Type<F, A>) => Type<F, Type<T, A>>
 export function replicateA<F, T>(
   F: Applicative<F>,
-  // tslint:disable-next-line: deprecation
   UT: Unfoldable<T> & Traversable<T>
 ): <A>(n: number, ma: HKT<F, A>) => HKT<F, HKT<T, A>> {
   const sequenceF = UT.sequence(F)

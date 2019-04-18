@@ -26,7 +26,6 @@ import { Separated } from './Compactable'
 /**
  * @since 1.7.0
  */
-// tslint:disable-next-line: deprecation
 export interface Witherable<T> extends Traversable<T>, Filterable<T> {
   /**
    * Partition a structure with effects

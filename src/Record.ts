@@ -4,7 +4,7 @@ import { Either } from './Either'
 import { FilterableWithIndex1 } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Predicate, Refinement } from './function'
+import { Predicate, Refinement, identity } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
@@ -575,33 +575,26 @@ export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) =
 
 /**
  * Create a record from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
+ * specified `Magma` to combine values for duplicate keys.
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
-export function fromFoldable<F extends URIS3>(
+export function fromFoldable<F extends URIS3, A>(
+  M: Magma<A>,
   F: Foldable3<F>
-): <K extends string, U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
-export function fromFoldable<F extends URIS2>(
+): <K extends string, U, L>(fka: Type3<F, U, L, [K, A]>) => Record<K, A>
+export function fromFoldable<F extends URIS2, A>(
+  M: Magma<A>,
   F: Foldable2<F>
-): <K extends string, L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
-export function fromFoldable<F extends URIS>(
+): <K extends string, L>(fka: Type2<F, L, [K, A]>) => Record<K, A>
+export function fromFoldable<F extends URIS, A>(
+  M: Magma<A>,
   F: Foldable1<F>
-): <K extends string, A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
-export function fromFoldable<F>(
-  // tslint:disable-next-line: deprecation
-  F: Foldable<F>
-): <K extends string, A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
-export function fromFoldable<F>(
-  // tslint:disable-next-line: deprecation
-  F: Foldable<F>
-): <A>(ta: HKT<F, [string, A]>, onConflict: (existing: A, a: A) => A) => Record<string, A> {
-  return <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => {
-    return F.reduce<[string, A], Record<string, A>>(ta, {}, (b, [k, a]) => {
-      b[k] = b.hasOwnProperty(k) ? f(b[k], a) : a
-      return b
-    })
-  }
+): <K extends string>(fka: Type<F, [K, A]>) => Record<K, A>
+export function fromFoldable<F, A>(M: Magma<A>, F: Foldable<F>): <K extends string>(fka: HKT<F, [K, A]>) => Record<K, A>
+export function fromFoldable<F, A>(M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [string, A]>) => Record<string, A> {
+  const fromFoldableMapM = fromFoldableMap(M, F)
+  return fka => fromFoldableMapM(fka, identity)
 }
 
 /**
@@ -644,25 +637,23 @@ export function fromFoldable<F>(
 export function fromFoldableMap<F extends URIS3, B>(
   M: Magma<B>,
   F: Foldable3<F>
-): <U, L, A, K extends string>(ta: Type3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <U, L, A, K extends string>(fa: Type3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS2, B>(
   M: Magma<B>,
   F: Foldable2<F>
-): <L, A, K extends string>(ta: Type2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <L, A, K extends string>(fa: Type2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS, B>(
   M: Magma<B>,
   F: Foldable1<F>
-): <A, K extends string>(ta: Type<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <A, K extends string>(fa: Type<F, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
-  // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <A, K extends string>(ta: HKT<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
-  // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <A>(ta: HKT<F, A>, f: (a: A) => [string, B]) => Record<string, B> {
+): <A>(fa: HKT<F, A>, f: (a: A) => [string, B]) => Record<string, B> {
   return <A>(ta: HKT<F, A>, f: (a: A) => [string, B]) => {
     return F.reduce<A, Record<string, B>>(ta, {}, (r, a) => {
       const [k, b] = f(a)

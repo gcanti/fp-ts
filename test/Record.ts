@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as R from '../src/Record'
-import { semigroupSum, getLastSemigroup } from '../src/Semigroup'
+import { semigroupSum, getLastSemigroup, getFirstSemigroup } from '../src/Semigroup'
 import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
 import { option, some, none, Option } from '../src/Option'
@@ -73,11 +73,13 @@ describe('Record', () => {
   })
 
   it('fromFoldable', () => {
-    assert.deepStrictEqual(R.fromFoldable(array)([['a', 1]], (existing, _) => existing), { a: 1 })
-    assert.deepStrictEqual(R.fromFoldable(array)([['a', 1], ['a', 2]], (existing, _) => existing), {
+    const First = getFirstSemigroup<number>()
+    assert.deepStrictEqual(R.fromFoldable(First, array)([['a', 1]]), { a: 1 })
+    assert.deepStrictEqual(R.fromFoldable(First, array)([['a', 1], ['a', 2]]), {
       a: 1
     })
-    assert.deepStrictEqual(R.fromFoldable(array)([['a', 1], ['a', 2]], (_, a) => a), {
+    const Last = getLastSemigroup<number>()
+    assert.deepStrictEqual(R.fromFoldable(Last, array)([['a', 1], ['a', 2]]), {
       a: 2
     })
   })
