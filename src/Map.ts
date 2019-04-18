@@ -19,6 +19,7 @@ import { Functor2 } from './Functor'
 import { Traversable2C } from './Traversable'
 import { Filterable2 } from './Filterable'
 import { Show } from './Show'
+import { Magma } from './Magma'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -592,36 +593,33 @@ const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K
 
 /**
  * Create a map from a foldable collection of key/value pairs, using the
- * specified function to combine values for duplicate keys.
+ * specified `Magma` to combine values for duplicate keys.
  *
  * @since 1.14.0
  */
-export function fromFoldable<K, F extends URIS3>(
+export function fromFoldable<F extends URIS3, K, A>(
   S: Setoid<K>,
+  M: Magma<A>,
   F: Foldable3<F>
-): <U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F extends URIS2>(
+): <U, L>(fka: Type3<F, U, L, [K, A]>) => Map<K, A>
+export function fromFoldable<F extends URIS2, K, A>(
   S: Setoid<K>,
+  M: Magma<A>,
   F: Foldable2<F>
-): <L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F extends URIS>(
+): <L>(fka: Type2<F, L, [K, A]>) => Map<K, A>
+export function fromFoldable<F extends URIS, K, A>(
   S: Setoid<K>,
+  M: Magma<A>,
   F: Foldable1<F>
-): <A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F>(
-  S: Setoid<K>,
-  F: Foldable<F>
-): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F>(
-  S: Setoid<K>,
-  F: Foldable<F>
-): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> {
-  return <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => {
+): (fka: Type<F, [K, A]>) => Map<K, A>
+export function fromFoldable<F, K, A>(S: Setoid<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A>
+export function fromFoldable<F, K, A>(S: Setoid<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> {
+  return (fka: HKT<F, [K, A]>) => {
     const lookupWithKeyS = lookupWithKey(S)
-    return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
+    return F.reduce<[K, A], Map<K, A>>(fka, new Map<K, A>(), (b, [k, a]) => {
       const bOpt = lookupWithKeyS(k, b)
       if (bOpt.isSome()) {
-        b.set(bOpt.value[0], onConflict(bOpt.value[1], a))
+        b.set(bOpt.value[0], M.concat(bOpt.value[1], a))
       } else {
         b.set(k, a)
       }
