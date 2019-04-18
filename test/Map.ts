@@ -365,10 +365,7 @@ describe('Map', () => {
 
       it('separate', () => {
         const separate = M.map.separate
-        const fooBar = new Map<string, Either<number, number>>([
-          ['foo', left<number, number>(123)],
-          ['bar', right<number, number>(123)]
-        ])
+        const fooBar = new Map<string, Either<number, number>>([['foo', left(123)], ['bar', right(123)]])
         const foo = new Map<string, number>([['foo', 123]])
         const bar = new Map<string, number>([['bar', 123]])
         assert.deepStrictEqual(separate(fooBar), {

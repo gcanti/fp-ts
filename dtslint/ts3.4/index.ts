@@ -323,8 +323,8 @@ R.sequence(O.option)(ro1) // $ExpectType Option<Record<"a" | "b", number>>
 
 R.record.compact(do1) // $ExpectType Record<string, number>
 
-R.partitionMapWithKey(d1, (_k: string, n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
-R.partitionMapWithKey(r1, (_k: 'a' | 'b', n) => E.right<string, number>(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+R.partitionMapWithKey(d1, (_k: string, n): E.Either<string, number> => E.right(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+R.partitionMapWithKey(r1, (_k: 'a' | 'b', n): E.Either<string, number> => E.right(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
 
 R.partitionWithKey(d1, (_k: string, n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>
 R.partitionWithKey(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>

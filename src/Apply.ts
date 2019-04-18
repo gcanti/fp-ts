@@ -201,15 +201,15 @@ type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
  *
  * assert.deepStrictEqual(
  *   ado({
- *     a: right<string, number>(1),
- *     b: right<string, boolean>(true)
+ *     a: right(1),
+ *     b: right(true)
  *   }),
  *   right({ a: 1, b: true })
  * )
  * assert.deepStrictEqual(
  *   ado({
- *     a: right<string, number>(1),
- *     b: left<string, number>('error')
+ *     a: right(1),
+ *     b: left('error')
  *   }),
  *   left('error')
  * )

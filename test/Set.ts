@@ -213,27 +213,17 @@ describe('Set', () => {
   })
 
   it('separate', () => {
-    assert.deepStrictEqual(
-      separate(setoidString, setoidNumber)(
-        new Set([right<string, number>(1), left<string, number>('a'), right<string, number>(2)])
-      ),
-      {
-        left: new Set(['a']),
-        right: new Set([1, 2])
-      }
-    )
+    assert.deepStrictEqual(separate(setoidString, setoidNumber)(new Set([right(1), left('a'), right(2)])), {
+      left: new Set(['a']),
+      right: new Set([1, 2])
+    })
     type L = { error: string }
     type R = { id: string }
     const SL: Setoid<L> = contramap(x => x.error, setoidString)
     const SR: Setoid<R> = contramap(x => x.id, setoidString)
     assert.deepStrictEqual(
       separate(SL, SR)(
-        new Set([
-          right<L, R>({ id: 'a' }),
-          left<L, R>({ error: 'error' }),
-          right<L, R>({ id: 'a' }),
-          left<L, R>({ error: 'error' })
-        ])
+        new Set([right({ id: 'a' }), left({ error: 'error' }), right({ id: 'a' }), left({ error: 'error' })])
       ),
       {
         left: new Set([{ error: 'error' }]),
