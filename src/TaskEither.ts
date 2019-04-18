@@ -169,7 +169,10 @@ const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> =>
   return fa.map(f)
 }
 
-const of = <L, A>(a: A): TaskEither<L, A> => {
+/**
+ * @since 2.0.0
+ */
+export const of = <A>(a: A): TaskEither<never, A> => {
   return new TaskEither(T.of(a))
 }
 
@@ -192,15 +195,15 @@ const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B)
 /**
  * @since 1.0.0
  */
-export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
-  return new TaskEither(fa.map<Either<L, A>>(eitherRight))
+export const right = <A>(fa: Task<A>): TaskEither<never, A> => {
+  return new TaskEither(fa.map(eitherRight))
 }
 
 /**
  * @since 1.0.0
  */
-export const left = <L, A>(fl: Task<L>): TaskEither<L, A> => {
-  return new TaskEither(fl.map<Either<L, A>>(eitherLeft))
+export const left = <L>(fl: Task<L>): TaskEither<L, never> => {
+  return new TaskEither(fl.map(eitherLeft))
 }
 
 /**
@@ -213,14 +216,14 @@ export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
 /**
  * @since 1.5.0
  */
-export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => {
+export const fromIO = <A>(fa: IO<A>): TaskEither<never, A> => {
   return right(taskFromIO(fa))
 }
 
 /**
  * @since 1.3.0
  */
-export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
+export const fromLeft = <L>(l: L): TaskEither<L, never> => {
   return fromEither(eitherLeft(l))
 }
 
