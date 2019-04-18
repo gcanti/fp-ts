@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { left, right } from '../src/Either'
 import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { none, option, Option, some } from '../src/Option'
+import { none, option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { showString } from '../src/Show'
@@ -60,8 +60,8 @@ describe('These', () => {
 
   it('map', () => {
     const double = (n: number) => n * 2
-    assert.deepStrictEqual(this_<number, number>(2).map(double), this_(2))
-    assert.deepStrictEqual(that<number, number>(2).map(double), that(4))
+    assert.deepStrictEqual(this_(2).map(double), this_(2))
+    assert.deepStrictEqual(that(2).map(double), that(4))
     assert.deepStrictEqual(both(1, 2).map(double), both(1, 4))
     assert.deepStrictEqual(these.map(both(1, 2), double), both(1, 4))
   })
@@ -78,9 +78,9 @@ describe('These', () => {
     const double = (n: number) => n * 2
     const len = (s: string) => s.length
     const f = (s: string, n: number) => len(s) + double(n)
-    assert.strictEqual(this_<string, number>('foo').fold(len, double, f), 3)
-    assert.strictEqual(that<string, number>(1).fold(len, double, f), 2)
-    assert.strictEqual(both<string, number>('foo', 1).fold(len, double, f), 5)
+    assert.strictEqual(this_('foo').fold(len, double, f), 3)
+    assert.strictEqual(that(1).fold(len, double, f), 2)
+    assert.strictEqual(both('foo', 1).fold(len, double, f), 5)
   })
 
   it('bimap', () => {
@@ -101,8 +101,8 @@ describe('These', () => {
     const { equals } = getSetoid(setoidNumber, setoidNumber)
     const double = (n: number) => n * 2
     const len = (s: string) => s.length
-    assert.strictEqual(equals(this_<string, number>('a').bimap(len, double), this_(1)), true)
-    assert.strictEqual(equals(that<string, number>(2).bimap(len, double), that(4)), true)
+    assert.strictEqual(equals(this_('a').bimap(len, double), this_(1)), true)
+    assert.strictEqual(equals(that(2).bimap(len, double), that(4)), true)
   })
 
   it('traverse', () => {
@@ -115,29 +115,28 @@ describe('These', () => {
 
   it('sequence', () => {
     const sequence = these.sequence(option)
-    const x1 = this_<string, Option<number>>('a')
+    const x1 = this_('a')
     assert.deepStrictEqual(sequence(x1), some(this_('a')))
-    const x2 = that<string, Option<number>>(some(1))
+    const x2 = that(some(1))
     assert.deepStrictEqual(sequence(x2), some(that(1)))
-    const x3 = that<string, Option<number>>(none)
+    const x3 = that(none)
     assert.deepStrictEqual(sequence(x3), none)
-    const x4 = both<string, Option<number>>('a', some(1))
+    const x4 = both('a', some(1))
     assert.deepStrictEqual(sequence(x4), some(both('a', 1)))
-    const x5 = both<string, Option<number>>('a', none)
+    const x5 = both('a', none)
     assert.deepStrictEqual(sequence(x5), none)
   })
 
   it('chain', () => {
     const M = getMonad(monoidString)
-    const f = (n: number) =>
-      n >= 2 ? (n <= 5 ? that<string, number>(n * 2) : both('bar', n)) : this_<string, number>('bar')
-    assert.deepStrictEqual(M.chain(this_<string, number>('foo'), f), this_('foo'))
-    assert.deepStrictEqual(M.chain(that<string, number>(2), f), that(4))
-    assert.deepStrictEqual(M.chain(that<string, number>(1), f), this_('bar'))
-    assert.deepStrictEqual(M.chain(that<string, number>(6), f), both('bar', 6))
-    assert.deepStrictEqual(M.chain(both<string, number>('foo', 2), f), both('foo', 4))
-    assert.deepStrictEqual(M.chain(both<string, number>('foo', 1), f), this_('foobar'))
-    assert.deepStrictEqual(M.chain(both<string, number>('foo', 6), f), both('foobar', 6))
+    const f = (n: number) => (n >= 2 ? (n <= 5 ? that(n * 2) : both('bar', n)) : this_('bar'))
+    assert.deepStrictEqual(M.chain(this_('foo'), f), this_('foo'))
+    assert.deepStrictEqual(M.chain(that(2), f), that(4))
+    assert.deepStrictEqual(M.chain(that(1), f), this_('bar'))
+    assert.deepStrictEqual(M.chain(that(6), f), both('bar', 6))
+    assert.deepStrictEqual(M.chain(both('foo', 2), f), both('foo', 4))
+    assert.deepStrictEqual(M.chain(both('foo', 1), f), this_('foobar'))
+    assert.deepStrictEqual(M.chain(both('foo', 6), f), both('foobar', 6))
   })
 
   it('theseLeft', () => {
@@ -224,24 +223,24 @@ describe('These', () => {
 
   it('foldMap', () => {
     const foldMap = these.foldMap(monoidString)
-    const x1 = that<number, string>('a')
+    const x1 = that('a')
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'a')
-    const x2 = this_<number, string>(1)
+    const x2 = this_(1)
     assert.strictEqual(foldMap(x2, f1), '')
-    const x3 = both<number, string>(1, 'a')
+    const x3 = both(1, 'a')
     assert.strictEqual(foldMap(x3, f1), 'a')
   })
 
   it('foldr', () => {
     const foldr = these.foldr
-    const x1 = that<number, string>('a')
+    const x1 = that('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'a')
-    const x2 = this_<number, string>(1)
+    const x2 = this_(1)
     assert.strictEqual(foldr(x2, init1, f1), '')
-    const x3 = both<number, string>(1, 'a')
+    const x3 = both(1, 'a')
     assert.strictEqual(foldr(x3, init1, f1), 'a')
   })
 
