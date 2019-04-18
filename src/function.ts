@@ -43,14 +43,14 @@ export type Function9<A, B, C, D, E, F, G, H, I, J> = (a: A, b: B, c: C, d: D, e
  *
  * export const sum: CurriedN<[number, number], number> = (a) => (b) => a + b
  */
-export type CurriedN<A extends unknown[], B> =
+export type CurriedN<A extends Array<unknown>, B> =
     A extends []
     ? () => B
     : A extends [unknown]
     ? ((...args: A) => unknown)
     : ((...args: A) => unknown) extends ((head: infer H, ...tail: infer T) => unknown)
     ? ((...args: [H]) => CurriedN<T, B>)
-    : never;
+    : never
 
 export type Curried2<A, B, C> = (a: A) => (b: B) => C
 export type Curried3<A, B, C, D> = (a: A) => (b: B) => (c: C) => D
