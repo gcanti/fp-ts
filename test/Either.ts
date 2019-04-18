@@ -1,6 +1,5 @@
 import * as assert from 'assert'
 import {
-  Either,
   either,
   fromNullable,
   fromOption,
@@ -22,12 +21,13 @@ import {
   right,
   stringifyJSON,
   toError,
-  tryCatch
+  tryCatch,
+  Either
 } from '../src/Either'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { none, option, Option, some } from '../src/Option'
+import { none, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { showString } from '../src/Show'
@@ -37,54 +37,43 @@ describe('Either', () => {
   it('fold', () => {
     const f = (s: string) => `left${s.length}`
     const g = (s: string) => `right${s.length}`
-    assert.strictEqual(left<string, string>('abc').fold(f, g), 'left3')
-    assert.strictEqual(right<string, string>('abc').fold(f, g), 'right3')
+    assert.strictEqual(left('abc').fold(f, g), 'left3')
+    assert.strictEqual(right('abc').fold(f, g), 'right3')
   })
 
   it('map', () => {
     const f = (s: string): number => s.length
     assert.deepStrictEqual(right('abc').map(f), right(3))
-    assert.deepStrictEqual(left<string, string>('s').map(f), left('s'))
+    assert.deepStrictEqual(left('s').map(f), left('s'))
     assert.deepStrictEqual(either.map(right('abc'), f), right(3))
-    assert.deepStrictEqual(either.map(left<string, string>('s'), f), left('s'))
+    assert.deepStrictEqual(either.map(left('s'), f), left('s'))
   })
 
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    assert.deepStrictEqual(right<string, number>(1).bimap(f, g), right(false))
-    assert.deepStrictEqual(left<string, number>('foo').bimap(f, g), left(3))
-    assert.deepStrictEqual(either.bimap(right<string, number>(1), f, g), right(false))
+    assert.deepStrictEqual(right(1).bimap(f, g), right(false))
+    assert.deepStrictEqual(left('foo').bimap(f, g), left(3))
+    assert.deepStrictEqual(either.bimap(right(1), f, g), right(false))
   })
 
   it('ap', () => {
     const f = (s: string): number => s.length
-    assert.deepStrictEqual(right<string, string>('abc').ap(right<string, (s: string) => number>(f)), right(3))
-    assert.deepStrictEqual(
-      left<string, string>('a').ap(right<string, (s: string) => number>(f)),
-      left<string, number>('a')
-    )
-    assert.deepStrictEqual(
-      right<string, string>('abc').ap(left<string, (s: string) => number>('a')),
-      left<string, number>('a')
-    )
-    assert.deepStrictEqual(
-      left<string, string>('b').ap(left<string, (s: string) => number>('a')),
-      left<string, number>('a')
-    )
+    const abc: Either<string, string> = right('abc')
+    assert.deepStrictEqual(right('abc').ap(right(f)), right(3))
+    assert.deepStrictEqual(left('a').ap(right(f)), left('a'))
+    assert.deepStrictEqual(abc.ap(left('a')), left('a'))
+    assert.deepStrictEqual(left('b').ap(left('a')), left('a'))
 
-    assert.deepStrictEqual(right<string, (s: string) => number>(f).ap_(right<string, string>('abc')), right(3))
-    assert.deepStrictEqual(
-      left<string, (s: string) => number>('a').ap_(right<string, string>('abc')),
-      left<string, number>('a')
-    )
+    assert.deepStrictEqual(right(f).ap_(right('abc')), right(3))
+    assert.deepStrictEqual(left('a').ap_(right('abc')), left('a'))
   })
 
   it('chain', () => {
-    const f = (s: string) => right<string, number>(s.length)
-    assert.deepStrictEqual(right<string, string>('abc').chain(f), right(3))
-    assert.deepStrictEqual(left<string, string>('a').chain(f), left('a'))
-    assert.deepStrictEqual(either.chain(right<string, string>('abc'), f), right(3))
+    const f = (s: string) => right(s.length)
+    assert.deepStrictEqual(right('abc').chain(f), right(3))
+    assert.deepStrictEqual(left('a').chain(f), left('a'))
+    assert.deepStrictEqual(either.chain(right('abc'), f), right(3))
   })
 
   it('fromPredicate', () => {
@@ -116,13 +105,15 @@ describe('Either', () => {
 
   it('getOrElse', () => {
     assert.deepStrictEqual(right(12).getOrElse(17), 12)
-    assert.deepStrictEqual(left<string, number>('a').getOrElse(17), 17)
+    const l: Either<string, number> = left('a')
+    assert.deepStrictEqual(l.getOrElse(17), 17)
   })
 
   it('getOrElseL', () => {
     assert.deepStrictEqual(right(12).getOrElseL(() => 17), 12)
-    assert.deepStrictEqual(left<string, number>('a').getOrElseL(() => 17), 17)
-    assert.deepStrictEqual(left<string, number>('a').getOrElseL((l: string) => l.length + 1), 2)
+    const l: Either<string, number> = left('a')
+    assert.deepStrictEqual(l.getOrElseL(() => 17), 17)
+    assert.deepStrictEqual(l.getOrElseL((l: string) => l.length + 1), 2)
   })
 
   it('fromOption', () => {
@@ -159,24 +150,24 @@ describe('Either', () => {
 
   it('sequence', () => {
     const sequence = either.sequence(option)
-    const x1 = right<number, Option<string>>(some('a'))
+    const x1 = right(some('a'))
     assert.deepStrictEqual(sequence(x1), some(right('a')))
-    const x2 = left<number, Option<string>>(1)
+    const x2 = left(1)
     assert.deepStrictEqual(sequence(x2), some(left(1)))
-    const x3 = right<number, Option<string>>(none)
+    const x3 = right(none)
     assert.deepStrictEqual(sequence(x3), none)
   })
 
   it('chainRec', () => {
     const chainRec = either.chainRec
-    assert.deepStrictEqual(chainRec(1, () => left<string, Either<number, number>>('foo')), left('foo'))
-    assert.deepStrictEqual(chainRec(1, () => right<string, Either<number, number>>(right(1))), right(1))
+    assert.deepStrictEqual(chainRec(1, () => left('foo')), left('foo'))
+    assert.deepStrictEqual(chainRec(1, () => right(right(1))), right(1))
     assert.deepStrictEqual(
       chainRec(1, a => {
         if (a < 5) {
-          return right<string, Either<number, number>>(left(a + 1))
+          return right(left(a + 1))
         } else {
-          return right<string, Either<number, number>>(right(a))
+          return right(right(a))
         }
       }),
       right(5)
@@ -189,27 +180,36 @@ describe('Either', () => {
   })
 
   it('filterOrElse', () => {
-    assert.deepStrictEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
-    assert.deepStrictEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
+    const r1: Either<number, number> = right(12)
+    assert.deepStrictEqual(r1.filterOrElse(n => n > 10, -1), right(12))
+    const r2: Either<number, number> = right(7)
+    assert.deepStrictEqual(r2.filterOrElse(n => n > 10, -1), left(-1))
     assert.deepStrictEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
     type Color = 'red' | 'blue'
     const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
-    assert.deepStrictEqual(right('red').filterOrElse(isColor, -1), right('red'))
-    assert.deepStrictEqual(right('foo').filterOrElse(isColor, -1), left(-1))
-    assert.deepStrictEqual(left<number, string>(12).filterOrElse(isColor, -1), left(12))
+    const r3: Either<number, string> = right('red')
+    assert.deepStrictEqual(r3.filterOrElse(isColor, -1), right('red'))
+    const r4: Either<number, string> = right('foo')
+    assert.deepStrictEqual(r4.filterOrElse(isColor, -1), left(-1))
+    assert.deepStrictEqual(left(12).filterOrElse(isColor, -1), left(12))
   })
 
   it('filterOrElseL', () => {
-    assert.deepStrictEqual(right(12).filterOrElseL(n => n > 10, () => -1), right(12))
-    assert.deepStrictEqual(right(7).filterOrElseL(n => n > 10, () => -1), left(-1))
+    const r1: Either<number, number> = right(12)
+    assert.deepStrictEqual(r1.filterOrElseL(n => n > 10, () => -1), right(12))
+    const r2: Either<number, number> = right(7)
+    assert.deepStrictEqual(r2.filterOrElseL(n => n > 10, () => -1), left(-1))
     assert.deepStrictEqual(left(12).filterOrElseL(n => n > 10, () => -1), left(12))
-    assert.deepStrictEqual(right(7).filterOrElseL(n => n > 10, n => `invalid ${n}`), left('invalid 7'))
+    const r3: Either<string, number> = right(7)
+    assert.deepStrictEqual(r3.filterOrElseL(n => n > 10, n => `invalid ${n}`), left('invalid 7'))
     type Color = 'red' | 'blue'
     const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     const errorHandler = (s: string) => `invalid color ${s}`
-    assert.deepStrictEqual(right('red').filterOrElseL(isColor, errorHandler), right('red'))
-    assert.deepStrictEqual(right('foo').filterOrElseL(isColor, errorHandler), left('invalid color foo'))
-    assert.deepStrictEqual(left<string, string>('error').filterOrElseL(isColor, errorHandler), left('error'))
+    const r4: Either<string, string> = right('red')
+    assert.deepStrictEqual(r4.filterOrElseL(isColor, errorHandler), right('red'))
+    const r5: Either<string, string> = right('foo')
+    assert.deepStrictEqual(r5.filterOrElseL(isColor, errorHandler), left('invalid color foo'))
+    assert.deepStrictEqual(left('error').filterOrElseL(isColor, errorHandler), left('error'))
   })
 
   it('isLeft', () => {
@@ -227,21 +227,21 @@ describe('Either', () => {
   })
 
   it('alt', () => {
-    assert.deepStrictEqual(right<string, number>(1).alt(right<string, number>(2)), right<string, number>(1))
-    assert.deepStrictEqual(right<string, number>(1).alt(left<string, number>('foo')), right<string, number>(1))
-    assert.deepStrictEqual(left<string, number>('foo').alt(right<string, number>(1)), right<string, number>(1))
-    assert.deepStrictEqual(left<string, number>('foo').alt(left<string, number>('bar')), left<string, number>('bar'))
-    assert.deepStrictEqual(either.alt(right<string, number>(1), right<string, number>(2)), right<string, number>(1))
+    assert.deepStrictEqual(right(1).alt(right(2)), right(1))
+    const r1: Either<string, number> = right(1)
+    assert.deepStrictEqual(r1.alt(left('foo')), right(1))
+    const l1: Either<string, number> = left('foo')
+    assert.deepStrictEqual(l1.alt(right(1)), right(1))
+    assert.deepStrictEqual(left('foo').alt(left('bar')), left('bar'))
+    assert.deepStrictEqual(either.alt(right(1), right(2)), right(1))
   })
 
   it('orElse', () => {
-    assert.deepStrictEqual(right<string, number>(1).orElse(() => right<string, number>(2)), right<string, number>(1))
-    assert.deepStrictEqual(right<string, number>(1).orElse(() => left<string, number>('foo')), right<string, number>(1))
-    assert.deepStrictEqual(left<string, number>('foo').orElse(() => right<string, number>(1)), right<string, number>(1))
-    assert.deepStrictEqual(
-      left<string, number>('foo').orElse(() => left<string, number>('bar')),
-      left<string, number>('bar')
-    )
+    assert.deepStrictEqual(right(1).orElse(() => right(2)), right(1))
+    assert.deepStrictEqual(right(1).orElse(() => left('foo')), right(1))
+    const l1: Either<string, number> = left('foo')
+    assert.deepStrictEqual(l1.orElse(() => right(1)), right(1))
+    assert.deepStrictEqual(left('foo').orElse(() => left('bar')), left('bar'))
   })
 
   it('extend', () => {
@@ -258,27 +258,27 @@ describe('Either', () => {
 
   it('foldMap', () => {
     const foldMap = either.foldMap(monoidString)
-    const x1 = right<number, string>('a')
+    const x1 = right('a')
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'a')
-    const x2 = left<number, string>(1)
+    const x2 = left(1)
     assert.strictEqual(foldMap(x2, f1), '')
   })
 
   it('foldr', () => {
     const foldr = either.foldr
-    const x1 = right<number, string>('a')
+    const x1 = right('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(foldr(x1, init1, f1), 'a')
-    const x2 = left<number, string>(1)
+    const x2 = left(1)
     assert.strictEqual(foldr(x2, init1, f1), '')
   })
 
   it('mapLeft', () => {
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(right<number, string>('bar').mapLeft(double), right('bar'))
-    assert.deepStrictEqual(left<number, string>(2).mapLeft(double), left(4))
+    assert.deepStrictEqual(right('bar').mapLeft(double), right('bar'))
+    assert.deepStrictEqual(left(2).mapLeft(double), left(4))
   })
 
   it('swap', () => {
@@ -305,44 +305,44 @@ describe('Either', () => {
     const F = getFilterable(monoidString)
     const p = (n: number) => n > 2
     it('partition', () => {
-      assert.deepStrictEqual(F.partition(left<string, number>('123'), p), {
+      assert.deepStrictEqual(F.partition(left('123'), p), {
         left: left('123'),
         right: left('123')
       })
-      assert.deepStrictEqual(F.partition(right<string, number>(1), p), {
+      assert.deepStrictEqual(F.partition(right(1), p), {
         left: right(1),
         right: left(monoidString.empty)
       })
-      assert.deepStrictEqual(F.partition(right<string, number>(3), p), {
+      assert.deepStrictEqual(F.partition(right(3), p), {
         left: left(monoidString.empty),
         right: right(3)
       })
     })
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(F.partitionMap(left<string, number>('123'), f), {
+      assert.deepStrictEqual(F.partitionMap(left('123'), f), {
         left: left('123'),
         right: left('123')
       })
-      assert.deepStrictEqual(F.partitionMap(right<string, number>(1), f), {
+      assert.deepStrictEqual(F.partitionMap(right(1), f), {
         left: right(0),
         right: left(monoidString.empty)
       })
-      assert.deepStrictEqual(F.partitionMap(right<string, number>(3), f), {
+      assert.deepStrictEqual(F.partitionMap(right(3), f), {
         left: left(monoidString.empty),
         right: right(4)
       })
     })
     it('filter', () => {
-      assert.deepStrictEqual(F.filter(left<string, number>('123'), p), left('123'))
-      assert.deepStrictEqual(F.filter(right<string, number>(1), p), left(monoidString.empty))
-      assert.deepStrictEqual(F.filter(right<string, number>(3), p), right(3))
+      assert.deepStrictEqual(F.filter(left('123'), p), left('123'))
+      assert.deepStrictEqual(F.filter(right(1), p), left(monoidString.empty))
+      assert.deepStrictEqual(F.filter(right(3), p), right(3))
     })
     it('filterMap', () => {
       const f = (n: number) => (p(n) ? some(n + 1) : none)
-      assert.deepStrictEqual(F.filterMap(left<string, number>('123'), f), left('123'))
-      assert.deepStrictEqual(F.filterMap(right<string, number>(1), f), left(monoidString.empty))
-      assert.deepStrictEqual(F.filterMap(right<string, number>(3), f), right(4))
+      assert.deepStrictEqual(F.filterMap(left('123'), f), left('123'))
+      assert.deepStrictEqual(F.filterMap(right(1), f), left(monoidString.empty))
+      assert.deepStrictEqual(F.filterMap(right(3), f), right(4))
     })
   })
 
@@ -352,29 +352,29 @@ describe('Either', () => {
     it('wither', () => {
       const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
       const witherIdentity = W.wither(I.identity)
-      assert.deepStrictEqual(witherIdentity(left<string, number>('foo'), f), new I.Identity(left('foo')))
-      assert.deepStrictEqual(witherIdentity(right<string, number>(1), f), new I.Identity(left(monoidString.empty)))
-      assert.deepStrictEqual(witherIdentity(right<string, number>(3), f), new I.Identity(right(4)))
+      assert.deepStrictEqual(witherIdentity(left('foo'), f), new I.Identity(left('foo')))
+      assert.deepStrictEqual(witherIdentity(right(1), f), new I.Identity(left(monoidString.empty)))
+      assert.deepStrictEqual(witherIdentity(right(3), f), new I.Identity(right(4)))
     })
     it('wilt', () => {
       const wiltIdentity = W.wilt(I.identity)
       const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
       assert.deepStrictEqual(
-        wiltIdentity(left<string, number>('foo'), f),
+        wiltIdentity(left('foo'), f),
         new I.Identity({
           left: left('foo'),
           right: left('foo')
         })
       )
       assert.deepStrictEqual(
-        wiltIdentity(right<string, number>(1), f),
+        wiltIdentity(right(1), f),
         new I.Identity({
           left: right(0),
           right: left(monoidString.empty)
         })
       )
       assert.deepStrictEqual(
-        wiltIdentity(right<string, number>(3), f),
+        wiltIdentity(right(3), f),
         new I.Identity({
           left: left(monoidString.empty),
           right: right(4)
@@ -384,7 +384,7 @@ describe('Either', () => {
   })
 
   it('getSemigroup', () => {
-    const S = getSemigroup<string, number>(semigroupSum)
+    const S = getSemigroup(semigroupSum)
     assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
     assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
     assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
@@ -392,7 +392,7 @@ describe('Either', () => {
   })
 
   it('getApplySemigroup', () => {
-    const S = getApplySemigroup<string, number>(semigroupSum)
+    const S = getApplySemigroup(semigroupSum)
     assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
     assert.deepStrictEqual(S.concat(left('a'), right(2)), left('a'))
     assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
@@ -400,7 +400,7 @@ describe('Either', () => {
   })
 
   it('getApplyMonoid', () => {
-    const S = getApplyMonoid<string, number>(monoidSum)
+    const S = getApplyMonoid(monoidSum)
     assert.deepStrictEqual(S.concat(left('a'), S.empty), left('a'))
     assert.deepStrictEqual(S.concat(S.empty, left('b')), left('b'))
     assert.deepStrictEqual(S.concat(right(1), S.empty), right(1))

@@ -65,8 +65,8 @@ describe('Validation', () => {
   })
 
   it('fromEither', () => {
-    assert.deepStrictEqual(fromEither(right<string, number>(1)), success(1))
-    assert.deepStrictEqual(fromEither(left<string, number>('error')), failure('error'))
+    assert.deepStrictEqual(fromEither(right(1)), success(1))
+    assert.deepStrictEqual(fromEither(left('error')), failure('error'))
   })
 
   it('getSetoid', () => {
