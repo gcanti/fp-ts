@@ -186,8 +186,8 @@ const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
 /**
  * @since 1.0.0
  */
-export const that = <L, A>(a: A): These<L, A> => {
-  return new That<L, A>(a)
+export const that = <A>(a: A): These<never, A> => {
+  return new That(a)
 }
 
 const of = that
@@ -260,7 +260,7 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ta: These<L, HKT<F, A>>): HKT<
 /**
  * @since 1.0.0
  */
-export const this_ = <L, A>(l: L): These<L, A> => {
+export const this_ = <L>(l: L): These<L, never> => {
   return new This(l)
 }
 
@@ -426,10 +426,7 @@ export const theseThat = <L, A>(fa: These<L, A>): Option<A> => {
  * @since 1.13.0
  */
 export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> => {
-  return fl.foldL(
-    () => fa.fold(none, a => some(that<L, A>(a))),
-    l => fa.foldL(() => some(this_(l)), a => some(both(l, a)))
-  )
+  return fl.foldL(() => fa.fold(none, a => some(that(a))), l => fa.foldL(() => some(this_(l)), a => some(both(l, a))))
 }
 
 /**
