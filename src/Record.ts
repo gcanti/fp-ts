@@ -9,7 +9,7 @@ import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
-import { none, Option, some as optionSome } from './Option'
+import { none, Option, some as optionSome, isNone, isSome } from './Option'
 import { Semigroup } from './Semigroup'
 import { fromEquals, Setoid } from './Setoid'
 import { Show, showString } from './Show'
@@ -145,7 +145,7 @@ export function pop<K extends string, KS extends string, A>(
 ): Option<[A, Record<Exclude<KS, K>, A>]>
 export function pop<A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> {
   const a = lookup(k, d)
-  return a.isNone() ? none : optionSome([a.value, remove(k, d)])
+  return isNone(a) ? none : optionSome([a.value, remove(k, d)])
 }
 
 /**
@@ -411,7 +411,7 @@ const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => {
   const keys = Object.keys(fa)
   for (const key of keys) {
     const optionA = fa[key]
-    if (optionA.isSome()) {
+    if (isSome(optionA)) {
       r[key] = optionA.value
     }
   }
@@ -551,7 +551,7 @@ export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a
   const keys = Object.keys(fa)
   for (const key of keys) {
     const optionB = f(key, fa[key])
-    if (optionB.isSome()) {
+    if (isSome(optionB)) {
       r[key] = optionB.value
     }
   }

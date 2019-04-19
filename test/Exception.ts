@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import { catchError, error, message, stack, throwError, tryCatch } from '../src/Exception'
 import { IO } from '../src/IO'
+import * as O from '../src/Option'
 
 describe('Exception', () => {
   it('error', () => {
@@ -20,16 +21,11 @@ describe('Exception', () => {
     try {
       throw new Error('bum!')
     } catch (e) {
-      assert.strictEqual(
-        stack(e)
-          .filter(s => s.startsWith('Error: bum!'))
-          .isSome(),
-        true
-      )
+      assert.strictEqual(O.isSome(O.option.filter(stack(e), s => s.startsWith('Error: bum!'))), true)
     }
     const e = new Error('bum!')
     delete e.stack
-    assert.strictEqual(stack(e).isNone(), true)
+    assert.strictEqual(O.isNone(stack(e)), true)
   })
 
   it('throwError', () => {

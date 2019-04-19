@@ -15,7 +15,7 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
-import { none, Option, some } from './Option'
+import { none, Option, some, isSome } from './Option'
 import { fromCompare, getSemigroup, Ord, ordNumber } from './Ord'
 import { Plus1 } from './Plus'
 import { getArraySetoid, Setoid } from './Setoid'
@@ -209,7 +209,7 @@ const unfoldr = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
   let bb = b
   while (true) {
     const mt = f(bb)
-    if (mt.isSome()) {
+    if (isSome(mt)) {
       const [a, b] = mt.value
       ret.push(a)
       bb = b
@@ -746,7 +746,7 @@ export const findFirstMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Optio
   const len = arr.length
   for (let i = 0; i < len; i++) {
     const v = f(arr[i])
-    if (v.isSome()) {
+    if (isSome(v)) {
       return v
     }
   }
@@ -799,7 +799,7 @@ export const findLastMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option
   const len = arr.length
   for (let i = len - 1; i >= 0; i--) {
     const v = f(arr[i])
-    if (v.isSome()) {
+    if (isSome(v)) {
       return v
     }
   }
@@ -1545,7 +1545,7 @@ const filterMapWithIndex = <A, B>(fa: Array<A>, f: (i: number, a: A) => Option<B
   const result: Array<B> = []
   for (let i = 0; i < fa.length; i++) {
     const optionB = f(i, fa[i])
-    if (optionB.isSome()) {
+    if (isSome(optionB)) {
       result.push(optionB.value)
     }
   }

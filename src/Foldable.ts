@@ -2,7 +2,7 @@ import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, A
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid, unsafeMonoidArray } from './Monoid'
-import { Option, none, some } from './Option'
+import { Option, none, some, isNone } from './Option'
 import { Ord, max as maxOrd, min as minOrd } from './Ord'
 import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 import { Semiring } from './Semiring'
@@ -458,7 +458,7 @@ export function findFirst<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>
 export function findFirst<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A> {
   return <A>(fa: HKT<F, A>, p: Predicate<A>) =>
     F.reduce<A, Option<A>>(fa, none, (b, a) => {
-      if (b.isNone() && p(a)) {
+      if (isNone(b) && p(a)) {
         return some(a)
       } else {
         return b
@@ -488,7 +488,7 @@ export function min<F extends URIS, A>(O: Ord<A>, F: Foldable1<F>): (fa: Type<F,
 export function min<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<A>
 export function min<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<A> {
   const minO = minOrd(O)
-  return fa => F.reduce(fa, none, (b: Option<A>, a) => (b.isNone() ? some(a) : some(minO(b.value, a))))
+  return fa => F.reduce(fa, none, (b: Option<A>, a) => (isNone(b) ? some(a) : some(minO(b.value, a))))
 }
 
 /**
@@ -513,7 +513,7 @@ export function max<F extends URIS, A>(O: Ord<A>, F: Foldable1<F>): (fa: Type<F,
 export function max<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<A>
 export function max<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<A> {
   const maxO = maxOrd(O)
-  return fa => F.reduce(fa, none, (b: Option<A>, a) => (b.isNone() ? some(a) : some(maxO(b.value, a))))
+  return fa => F.reduce(fa, none, (b: Option<A>, a) => (isNone(b) ? some(a) : some(maxO(b.value, a))))
 }
 
 /**

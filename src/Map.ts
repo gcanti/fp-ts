@@ -7,7 +7,7 @@ import { FoldableWithIndex2C } from './FoldableWithIndex'
 import { Predicate, phantom } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
-import { Option, none, some } from './Option'
+import { Option, none, some, isSome, isNone, option } from './Option'
 import { Ord } from './Ord'
 import { Setoid, fromEquals } from './Setoid'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
@@ -70,7 +70,7 @@ export const isEmpty = <K, A>(d: Map<K, A>): boolean => d.size === 0
  */
 export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
   const lookupS = lookup(S)
-  return (k, m) => lookupS(k, m).isSome()
+  return (k, m) => isSome(lookupS(k, m))
 }
 
 /**
@@ -157,7 +157,7 @@ export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K
   const lookupS = lookupWithKey(S)
   return (k, a, m) => {
     const found = lookupS(k, m)
-    if (found.isNone()) {
+    if (isNone(found)) {
       const r = new Map(m)
       r.set(k, a)
       return r
@@ -179,7 +179,7 @@ export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) 
   const lookupS = lookupWithKey(S)
   return (k, m) => {
     const found = lookupS(k, m)
-    if (found.isSome()) {
+    if (isSome(found)) {
       const r = new Map(m)
       r.delete(found.value[0])
       return r
@@ -196,7 +196,7 @@ export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) 
 export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => {
   const lookupS = lookup(S)
   const removeS = remove(S)
-  return (k, m) => lookupS(k, m).map(a => [a, removeS(k, m)])
+  return (k, m) => option.map(lookupS(k, m), a => [a, removeS(k, m)])
 }
 
 /**
@@ -224,7 +224,7 @@ export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Optio
  */
 export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => {
   const lookupWithKeyS = lookupWithKey(S)
-  return (k, m) => lookupWithKeyS(k, m).map(([_, a]) => a)
+  return (k, m) => option.map(lookupWithKeyS(k, m), ([_, a]) => a)
 }
 
 /**
@@ -240,7 +240,7 @@ export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
       const d2OptA = lookupWithKeyS(k, d2)
-      if (d2OptA.isNone() || !SK.equals(k, d2OptA.value[0]) || !SA.equals(a, d2OptA.value[1])) {
+      if (isNone(d2OptA) || !SK.equals(k, d2OptA.value[0]) || !SA.equals(a, d2OptA.value[1])) {
         return false
       }
     }
@@ -276,7 +276,7 @@ export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, 
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
         const mxOptA = lookupWithKeyS(k, mx)
-        if (mxOptA.isSome()) {
+        if (isSome(mxOptA)) {
           r.set(mxOptA.value[0], SA.concat(mxOptA.value[1], a))
         } else {
           r.set(k, a)
@@ -439,7 +439,7 @@ const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
   let e: IteratorResult<[K, Option<A>]>
   while (!(e = entries.next()).done) {
     const [k, oa] = e.value
-    if (oa.isSome()) {
+    if (isSome(oa)) {
       m.set(k, oa.value)
     }
   }
@@ -568,7 +568,7 @@ const filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const o = f(k, a)
-    if (o.isSome()) {
+    if (isSome(o)) {
       m.set(k, o.value)
     }
   }
@@ -618,7 +618,7 @@ export function fromFoldable<F, K, A>(S: Setoid<K>, M: Magma<A>, F: Foldable<F>)
     const lookupWithKeyS = lookupWithKey(S)
     return F.reduce<[K, A], Map<K, A>>(fka, new Map<K, A>(), (b, [k, a]) => {
       const bOpt = lookupWithKeyS(k, b)
-      if (bOpt.isSome()) {
+      if (isSome(bOpt)) {
         b.set(bOpt.value[0], M.concat(bOpt.value[1], a))
       } else {
         b.set(k, a)

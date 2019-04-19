@@ -340,7 +340,7 @@ export const taskEither: Monad2<URI> &
   fromTask,
   throwError,
   fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : make(o.value))
+  fromOption: (o, e) => (o._tag === 'None' ? throwError(e) : make(o.value))
 }
 
 /**

@@ -26,7 +26,7 @@ import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { none, Option, some } from './Option'
+import * as O from './Option'
 import { Semigroup } from './Semigroup'
 import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
@@ -300,8 +300,8 @@ export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L,
  *
  * @since 1.0.0
  */
-export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => {
-  return fa.isThis() ? some(fa.value) : fa.isThat() ? none : some(fa.l)
+export const theseLeft = <L, A>(fa: These<L, A>): O.Option<L> => {
+  return fa.isThis() ? O.some(fa.value) : fa.isThat() ? O.none : O.some(fa.l)
 }
 
 /**
@@ -317,8 +317,8 @@ export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => {
  *
  * @since 1.0.0
  */
-export const theseRight = <L, A>(fa: These<L, A>): Option<A> => {
-  return fa.isThis() ? none : fa.isThat() ? some(fa.value) : some(fa.a)
+export const theseRight = <L, A>(fa: These<L, A>): O.Option<A> => {
+  return fa.isThis() ? O.none : fa.isThat() ? O.some(fa.value) : O.some(fa.a)
 }
 
 /**
@@ -358,8 +358,8 @@ export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
  *
  * @since 1.13.0
  */
-export const thisOrBoth = <L, A>(defaultThis: L, ma: Option<A>): These<L, A> => {
-  return ma.isNone() ? this_(defaultThis) : both(defaultThis, ma.value)
+export const thisOrBoth = <L, A>(defaultThis: L, ma: O.Option<A>): These<L, A> => {
+  return O.isNone(ma) ? this_(defaultThis) : both(defaultThis, ma.value)
 }
 
 /**
@@ -372,8 +372,8 @@ export const thisOrBoth = <L, A>(defaultThis: L, ma: Option<A>): These<L, A> => 
  *
  * @since 1.13.0
  */
-export const thatOrBoth = <L, A>(defaultThat: A, ml: Option<L>): These<L, A> => {
-  return ml.isNone() ? that(defaultThat) : both(ml.value, defaultThat)
+export const thatOrBoth = <L, A>(defaultThat: A, ml: O.Option<L>): These<L, A> => {
+  return O.isNone(ml) ? that(defaultThat) : both(ml.value, defaultThat)
 }
 
 /**
@@ -389,8 +389,8 @@ export const thatOrBoth = <L, A>(defaultThat: A, ml: Option<L>): These<L, A> => 
  *
  * @since 1.13.0
  */
-export const theseThis = <L, A>(fa: These<L, A>): Option<L> => {
-  return fa.isThis() ? some(fa.value) : none
+export const theseThis = <L, A>(fa: These<L, A>): O.Option<L> => {
+  return fa.isThis() ? O.some(fa.value) : O.none
 }
 
 /**
@@ -407,8 +407,8 @@ export const theseThis = <L, A>(fa: These<L, A>): Option<L> => {
  *
  * @since 1.13.0
  */
-export const theseThat = <L, A>(fa: These<L, A>): Option<A> => {
-  return fa.isThat() ? some(fa.value) : none
+export const theseThat = <L, A>(fa: These<L, A>): O.Option<A> => {
+  return fa.isThat() ? O.some(fa.value) : O.none
 }
 
 /**
@@ -425,8 +425,12 @@ export const theseThat = <L, A>(fa: These<L, A>): Option<A> => {
  *
  * @since 1.13.0
  */
-export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> => {
-  return fl.foldL(() => fa.fold(none, a => some(that(a))), l => fa.foldL(() => some(this_(l)), a => some(both(l, a))))
+export const fromOptions = <L, A>(fl: O.Option<L>, fa: O.Option<A>): O.Option<These<L, A>> => {
+  return O.foldL(
+    fl,
+    () => O.fold(fa, O.none, a => O.some(that(a))),
+    l => O.foldL(fa, () => O.some(this_(l)), a => O.some(both(l, a)))
+  )
 }
 
 /**
