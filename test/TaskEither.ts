@@ -17,7 +17,7 @@ import {
   getApplyMonoid,
   getSemigroup,
   taskEitherSeq,
-  of
+  make
 } from '../src/TaskEither'
 import { IOEither } from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
@@ -28,7 +28,7 @@ import { none, some } from '../src/Option'
 describe('TaskEither', () => {
   it('attempt', () => {
     return Promise.all([
-      of(1)
+      make(1)
         .attempt()
         .run(),
       fromLeft('foo')
@@ -44,8 +44,8 @@ describe('TaskEither', () => {
     let log: Array<string> = []
 
     const acquireFailure = fromLeft('acquire failure')
-    const acquireSuccess = of({ res: 'acquire success' })
-    const useSuccess = () => of('use success')
+    const acquireSuccess = make({ res: 'acquire success' })
+    const useSuccess = () => make('use success')
     const useFailure = () => fromLeft('use failure')
     const releaseSuccess = () =>
       fromIO(
@@ -112,8 +112,8 @@ describe('TaskEither', () => {
 
   it('ap', () => {
     const double = (n: number): number => n * 2
-    const fab = of(double)
-    const fa = of(1)
+    const fab = make(double)
+    const fa = make(1)
     return Promise.all([fa.ap(fab).run(), fab.ap_(fa).run(), taskEither.ap(fab, fa).run()]).then(([e1, e2, e3]) => {
       assert.deepStrictEqual(e1, eitherRight(2))
       assert.deepStrictEqual(e1, e2)
@@ -124,7 +124,7 @@ describe('TaskEither', () => {
   it('map', () => {
     const double = (n: number): number => n * 2
     return taskEither
-      .map(of(1), double)
+      .map(make(1), double)
       .run()
       .then(e => {
         assert.deepStrictEqual(e, eitherRight(2))
@@ -143,8 +143,8 @@ describe('TaskEither', () => {
   })
 
   it('chain', () => {
-    const te1 = taskEither.chain(of('foo'), a => (a.length > 2 ? of(a.length) : fromLeft('foo')))
-    const te2 = taskEither.chain(of('a'), a => (a.length > 2 ? of(a.length) : fromLeft('foo')))
+    const te1 = taskEither.chain(make('foo'), a => (a.length > 2 ? make(a.length) : fromLeft('foo')))
+    const te2 = taskEither.chain(make('a'), a => (a.length > 2 ? make(a.length) : fromLeft('foo')))
     return Promise.all([te1.run(), te2.run()]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, eitherRight(3))
       assert.deepStrictEqual(e2, eitherLeft('foo'))
@@ -154,7 +154,7 @@ describe('TaskEither', () => {
   it('fold', () => {
     const f = (s: string): boolean => s.length > 2
     const g = (n: number): boolean => n > 2
-    const te1 = of(1).fold(f, g)
+    const te1 = make(1).fold(f, g)
     const te2 = fromLeft('foo').fold(f, g)
     return Promise.all([te1.run(), te2.run()]).then(([b1, b2]) => {
       assert.strictEqual(b1, false)
@@ -163,7 +163,7 @@ describe('TaskEither', () => {
   })
 
   it('getOrElse', () => {
-    const te1 = of(1).getOrElse(42)
+    const te1 = make(1).getOrElse(42)
     const te2 = (fromLeft('foo') as TaskEither<string, number>).getOrElse(42)
     return Promise.all([te1.run(), te2.run()]).then(([b1, b2]) => {
       assert.strictEqual(b1, 1)
@@ -174,7 +174,7 @@ describe('TaskEither', () => {
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    const teRight = of(1)
+    const teRight = make(1)
     const teLeft = fromLeft('foo')
     return Promise.all([
       teRight.bimap(f, g).run(),
@@ -189,9 +189,9 @@ describe('TaskEither', () => {
 
   it('orElse', () => {
     const l: TaskEither<string, number> = fromLeft('foo')
-    const r = of(1)
-    const tl = l.orElse(l => of(l.length))
-    const tr = r.orElse(() => of(2))
+    const r = make(1)
+    const tl = l.orElse(l => make(l.length))
+    const tr = r.orElse(() => make(2))
     return Promise.all([tl.run(), tr.run()]).then(([el, er]) => {
       assert.deepStrictEqual(el, eitherRight(3))
       assert.deepStrictEqual(er, eitherRight(1))
@@ -283,8 +283,8 @@ describe('TaskEither', () => {
   it('alt', () => {
     const l1: TaskEither<string, number> = fromLeft('foo')
     const l2 = fromLeft('bar')
-    const r1: TaskEither<string, number> = of(1)
-    const r2 = of(2)
+    const r1: TaskEither<string, number> = make(1)
+    const r2 = make(2)
     const x1 = l1.alt(l2)
     const x2 = l1.alt(r1)
     const x3 = r1.alt(l1)
@@ -423,8 +423,8 @@ describe('TaskEither', () => {
   })
 
   it('foldTaskEither', () => {
-    const whenLeft = (s: string) => (s.length >= 2 ? of('okleft') : fromLeft(false))
-    const whenRight = (n: number) => (n >= 2 ? of('okright') : fromLeft(true))
+    const whenLeft = (s: string) => (s.length >= 2 ? make('okleft') : fromLeft(false))
+    const whenRight = (n: number) => (n >= 2 ? make('okright') : fromLeft(true))
 
     const tasks = [
       fromLeft('a')
@@ -433,10 +433,10 @@ describe('TaskEither', () => {
       fromLeft('aa')
         .foldTaskEither(whenLeft, whenRight)
         .run(),
-      of(1)
+      make(1)
         .foldTaskEither(whenLeft, whenRight)
         .run(),
-      of(2)
+      make(2)
         .foldTaskEither(whenLeft, whenRight)
         .run()
     ]
@@ -456,7 +456,7 @@ describe('TaskEither', () => {
       fromLeft('a')
         .foldTask(whenLeft, whenRight)
         .run(),
-      of(1)
+      make(1)
         .foldTask(whenLeft, whenRight)
         .run()
     ]
@@ -468,10 +468,10 @@ describe('TaskEither', () => {
 
   it('filterOrElse', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const actual = (of(12) as TaskEither<string, number>).filterOrElse(isNumber, 'not a number')
+    const actual = (make(12) as TaskEither<string, number>).filterOrElse(isNumber, 'not a number')
     const tasks = [
-      (of(12) as TaskEither<string, number>).filterOrElse(n => n > 10, 'bar'),
-      (of(7) as TaskEither<string, number>).filterOrElse(n => n > 10, 'bar'),
+      (make(12) as TaskEither<string, number>).filterOrElse(n => n > 10, 'bar'),
+      (make(7) as TaskEither<string, number>).filterOrElse(n => n > 10, 'bar'),
       fromLeft('foo').filterOrElse(n => n > 10, 'bar'),
       actual
     ]
@@ -485,12 +485,12 @@ describe('TaskEither', () => {
 
   it('filterOrElseL', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const actual = (of(12) as TaskEither<string, number>).filterOrElseL(isNumber, () => 'not a number')
+    const actual = (make(12) as TaskEither<string, number>).filterOrElseL(isNumber, () => 'not a number')
     const tasks = [
-      (of(12) as TaskEither<string, number>).filterOrElseL(n => n > 10, () => 'bar'),
-      (of(7) as TaskEither<string, number>).filterOrElseL(n => n > 10, () => 'bar'),
+      (make(12) as TaskEither<string, number>).filterOrElseL(n => n > 10, () => 'bar'),
+      (make(7) as TaskEither<string, number>).filterOrElseL(n => n > 10, () => 'bar'),
       fromLeft('foo').filterOrElseL(n => n > 10, () => 'bar'),
-      (of(7) as TaskEither<string, number>).filterOrElseL(n => n > 10, n => `invalid ${n}`),
+      (make(7) as TaskEither<string, number>).filterOrElseL(n => n > 10, n => `invalid ${n}`),
       actual
     ]
     return Promise.all(tasks.map(te => te.run())).then(([r1, r2, r3, r4, r5]) => {
@@ -505,7 +505,7 @@ describe('TaskEither', () => {
   describe('MonadThrow', () => {
     it('should obey the law', () => {
       return Promise.all([
-        taskEither.chain(taskEither.throwError('error'), a => of(a)).run(),
+        taskEither.chain(taskEither.throwError('error'), a => make(a)).run(),
         taskEither.throwError('error').run()
       ]).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, e2)

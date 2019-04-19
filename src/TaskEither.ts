@@ -172,7 +172,7 @@ const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> =>
 /**
  * @since 2.0.0
  */
-export const of = <A>(a: A): TaskEither<never, A> => {
+export const make = <A>(a: A): TaskEither<never, A> => {
   return new TaskEither(T.of(a))
 }
 
@@ -273,7 +273,7 @@ export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L
 export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => {
   return {
     ...getApplySemigroup(M),
-    empty: of(M.empty)
+    empty: make(M.empty)
   }
 }
 
@@ -407,7 +407,7 @@ export const taskEither: Monad2<URI> &
   URI,
   bimap,
   map,
-  of,
+  of: make,
   ap,
   chain,
   alt,
@@ -415,7 +415,7 @@ export const taskEither: Monad2<URI> &
   fromTask,
   throwError,
   fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
+  fromOption: (o, e) => (o.isNone() ? throwError(e) : make(o.value))
 }
 
 /**
