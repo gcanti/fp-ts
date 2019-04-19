@@ -6,7 +6,7 @@
  * Adapted from https://hackage.haskell.org/package/free-algebras-0.0.7.0/docs/Data-Group-Free.html
  */
 import { empty as emptyArray, getMonoid as getArrayMonoid, getSetoid as getArraySetoid, array } from './Array'
-import { Either, getSetoid as getEitherSetoid, left, right } from './Either'
+import { Either, getSetoid as getEitherSetoid, left, right, either, isLeft } from './Either'
 import { Group } from './Group'
 import { Setoid, fromEquals } from './Setoid'
 import { Monad1 } from './Monad'
@@ -27,7 +27,7 @@ export type URI = typeof URI
 export class FreeGroup<A> {
   constructor(readonly value: Array<Either<A, A>>) {}
   map<B>(f: (a: A) => B): FreeGroup<B> {
-    return new FreeGroup(this.value.map(e => e.bimap(f, f)))
+    return new FreeGroup(this.value.map(e => either.bimap(e, f, f)))
   }
   ap<B>(fab: FreeGroup<(a: A) => B>): FreeGroup<B> {
     return fab.chain(f => this.map(f)) // <- derived
@@ -36,7 +36,7 @@ export class FreeGroup<A> {
     return fb.ap(this)
   }
   chain<B>(f: (a: A) => FreeGroup<B>): FreeGroup<B> {
-    return new FreeGroup(array.chain(this.value, e => e.bimap(f, f).value.value))
+    return new FreeGroup(array.chain(this.value, e => either.bimap(e, f, f).value.value))
   }
 }
 
@@ -108,7 +108,7 @@ export const getGroup = <A>(S: Setoid<A>): Group<FreeGroup<A>> => {
   return {
     concat: (x, y) => new FreeGroup(normalizeS(M.concat(x.value, y.value))),
     empty,
-    inverse: x => new FreeGroup(x.value.reverse().map(s => (s.isLeft() ? right(s.value) : left(s.value))))
+    inverse: x => new FreeGroup(x.value.reverse().map(s => (isLeft(s) ? right(s.value) : left(s.value))))
   }
 }
 

@@ -369,8 +369,24 @@ export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>):
   const FC: FilterableComposition<F, G> = {
     ...getCompactableComposition(F, G),
     partitionMap: (fga, f) => {
-      const left = FC.filterMap(fga, a => f(a).fold(some, () => none))
-      const right = FC.filterMap(fga, a => f(a).fold(() => none, some))
+      const left = FC.filterMap(fga, a => {
+        const e = f(a)
+        switch (e._tag) {
+          case 'Left':
+            return some(e.value)
+          case 'Right':
+            return none
+        }
+      })
+      const right = FC.filterMap(fga, a => {
+        const e = f(a)
+        switch (e._tag) {
+          case 'Left':
+            return none
+          case 'Right':
+            return some(e.value)
+        }
+      })
       return { left, right }
     },
     partition: (fga, p) => {

@@ -197,7 +197,16 @@ export function getCompactableComposition<F, G>(
     ...FC,
     compact: fga => F.map(fga, G.compact),
     separate: fge => {
-      const left = CC.compact(FC.map(fge, e => e.fold(some, () => none)))
+      const left = CC.compact(
+        FC.map(fge, e => {
+          switch (e._tag) {
+            case 'Left':
+              return some(e.value)
+            case 'Right':
+              return none
+          }
+        })
+      )
       const right = CC.compact(FC.map(fge, fromEither))
       return { left, right }
     }

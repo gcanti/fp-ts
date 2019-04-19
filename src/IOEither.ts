@@ -4,7 +4,7 @@
  */
 import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
-import { Either, left as eitherLeft, right as eitherRight, tryCatch as eitherTryCatch } from './Either'
+import * as E from './Either'
 import * as eitherT from './EitherT'
 import { constant, constIdentity, Lazy } from './function'
 import { IO, io } from './IO'
@@ -28,11 +28,11 @@ const foldT = eitherT.fold(io)
  * @since 1.6.0
  */
 export class IOEither<L, A> {
-  constructor(readonly value: IO<Either<L, A>>) {}
+  constructor(readonly value: IO<E.Either<L, A>>) {}
   /**
    * Runs the inner io
    */
-  run(): Either<L, A> {
+  run(): E.Either<L, A> {
     return this.value.run()
   }
   map<B>(f: (a: A) => B): IOEither<L, B> {
@@ -66,16 +66,16 @@ export class IOEither<L, A> {
     return foldT(left, right, this.value)
   }
   mapLeft<M>(f: (l: L) => M): IOEither<M, A> {
-    return new IOEither(this.value.map(e => e.mapLeft(f)))
+    return new IOEither(this.value.map(e => E.mapLeft(e, f)))
   }
   orElse<M>(f: (l: L) => IOEither<M, A>): IOEither<M, A> {
-    return new IOEither(this.value.chain(e => e.fold(l => f(l).value, a => T.of(a))))
+    return new IOEither(this.value.chain(e => E.fold(e, l => f(l).value, a => T.of(a))))
   }
   alt(fy: IOEither<L, A>): IOEither<L, A> {
     return this.orElse(() => fy)
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): IOEither<V, B> {
-    return new IOEither(this.value.map(e => e.bimap(f, g)))
+    return new IOEither(this.value.map(e => E.either.bimap(e, f, g)))
   }
 }
 
@@ -110,20 +110,20 @@ const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): 
  * @since 1.6.0
  */
 export const right = <A>(fa: IO<A>): IOEither<never, A> => {
-  return new IOEither(fa.map(eitherRight))
+  return new IOEither(fa.map(E.right))
 }
 
 /**
  * @since 1.6.0
  */
 export const left = <L>(fa: IO<L>): IOEither<L, never> => {
-  return new IOEither(fa.map(eitherLeft))
+  return new IOEither(fa.map(E.left))
 }
 
 /**
  * @since 1.6.0
  */
-export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
+export const fromEither = <L, A>(fa: E.Either<L, A>): IOEither<L, A> => {
   return new IOEither(io.of(fa))
 }
 
@@ -131,14 +131,14 @@ export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
  * @since 1.6.0
  */
 export const fromLeft = <L>(l: L): IOEither<L, never> => {
-  return fromEither(eitherLeft(l))
+  return fromEither(E.left(l))
 }
 
 /**
  * @since 1.11.0
  */
 export const tryCatch = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => {
-  return new IOEither(new IO(() => eitherTryCatch(f, onerror)))
+  return new IOEither(new IO(() => E.tryCatch(f, onerror)))
 }
 
 const throwError = fromLeft
