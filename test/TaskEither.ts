@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO } from '../src/IO'
-import { Task, task, delay } from '../src/Task'
+import * as T from '../src/Task'
 import {
   bracket,
   TaskEither,
@@ -156,7 +156,7 @@ describe('TaskEither', () => {
     const g = (n: number): boolean => n > 2
     const te1 = make(1).fold(f, g)
     const te2 = fromLeft('foo').fold(f, g)
-    return Promise.all([te1.run(), te2.run()]).then(([b1, b2]) => {
+    return Promise.all([te1(), te2()]).then(([b1, b2]) => {
       assert.strictEqual(b1, false)
       assert.strictEqual(b2, true)
     })
@@ -165,7 +165,7 @@ describe('TaskEither', () => {
   it('getOrElse', () => {
     const te1 = make(1).getOrElse(42)
     const te2 = (fromLeft('foo') as TaskEither<string, number>).getOrElse(42)
-    return Promise.all([te1.run(), te2.run()]).then(([b1, b2]) => {
+    return Promise.all([te1(), te2()]).then(([b1, b2]) => {
       assert.strictEqual(b1, 1)
       assert.strictEqual(b2, 42)
     })
@@ -199,7 +199,7 @@ describe('TaskEither', () => {
   })
 
   it('left', () => {
-    return left(task.of(1))
+    return left(T.task.of(1))
       .run()
       .then(e => {
         assert.deepStrictEqual(e, eitherLeft(1))
@@ -209,7 +209,7 @@ describe('TaskEither', () => {
   it('applySecond', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      right(delay(millis, undefined).map(() => log.push(message)))
+      right(T.task.map(T.delay(millis, undefined), () => log.push(message)))
     return append('a', 10)
       .applySecond(append('b', 0))
       .run()
@@ -222,7 +222,7 @@ describe('TaskEither', () => {
   it('ChainSecond', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      right(delay(millis, undefined).map(() => log.push(message)))
+      right(T.task.map(T.delay(millis, undefined), () => log.push(message)))
     return append('a', 10)
       .chainSecond(append('b', 0))
       .run()
@@ -311,7 +311,7 @@ describe('TaskEither', () => {
   it('applyFirst', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      right(delay(millis, undefined).map(() => log.push(message)))
+      right(T.task.map(T.delay(millis, undefined), () => log.push(message)))
     return append('a', 10)
       .applyFirst(append('b', 0))
       .run()
@@ -324,7 +324,7 @@ describe('TaskEither', () => {
   it('chainFirst', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      right(delay(millis, undefined).map(() => log.push(message)))
+      right(T.task.map(T.delay(millis, undefined), () => log.push(message)))
     return append('a', 10)
       .chainFirst(append('b', 0))
       .run()
@@ -352,16 +352,16 @@ describe('TaskEither', () => {
   it('getSemigroup', () => {
     const S = getSemigroup<string, number>(semigroupSum)
     return Promise.all([
-      S.concat(left(delay(10, 'a')), left(delay(10, 'b')))
+      S.concat(left(T.delay(10, 'a')), left(T.delay(10, 'b')))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherLeft('a'))),
-      S.concat(left(delay(10, 'a')), right(delay(10, 2)))
+      S.concat(left(T.delay(10, 'a')), right(T.delay(10, 2)))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight(2))),
-      S.concat(right(delay(10, 1)), left(delay(10, 'b')))
+      S.concat(right(T.delay(10, 1)), left(T.delay(10, 'b')))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight(1))),
-      S.concat(right(delay(10, 1)), right(delay(10, 2)))
+      S.concat(right(T.delay(10, 1)), right(T.delay(10, 2)))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight(3)))
     ])
@@ -371,22 +371,22 @@ describe('TaskEither', () => {
     const M = getApplyMonoid(monoidString)
 
     it('concat (right)', () => {
-      return M.concat(right(delay(10, 'a')), right(delay(10, 'b')))
+      return M.concat(right(T.delay(10, 'a')), right(T.delay(10, 'b')))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight('ab')))
     })
     it('concat (left)', () => {
-      return M.concat(right(delay(10, 'a')), left(delay(10, 'b')))
+      return M.concat(right(T.delay(10, 'a')), left(T.delay(10, 'b')))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherLeft('b')))
     })
     it('empty (right)', () => {
-      return M.concat(right(delay(10, 'a')), M.empty)
+      return M.concat(right(T.delay(10, 'a')), M.empty)
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight('a')))
     })
     it('empty (left)', () => {
-      return M.concat(M.empty, right(delay(10, 'a')))
+      return M.concat(M.empty, right(T.delay(10, 'a')))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight('a')))
     })
@@ -394,8 +394,7 @@ describe('TaskEither', () => {
 
   it('sequence parallel', () => {
     const log: Array<string> = []
-    const append = (message: string): TaskEither<void, number> =>
-      right(new Task(() => Promise.resolve(log.push(message))))
+    const append = (message: string): TaskEither<void, number> => right(() => Promise.resolve(log.push(message)))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
     const sequenceParallel = array.sequence(taskEither)
@@ -409,8 +408,7 @@ describe('TaskEither', () => {
 
   it('sequence series', () => {
     const log: Array<string> = []
-    const append = (message: string): TaskEither<void, number> =>
-      right(new Task(() => Promise.resolve(log.push(message))))
+    const append = (message: string): TaskEither<void, number> => right(() => Promise.resolve(log.push(message)))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
     const sequenceSeries = array.sequence(taskEitherSeq)
@@ -449,17 +447,10 @@ describe('TaskEither', () => {
   })
 
   it('foldTask', () => {
-    const whenLeft = () => task.of('left')
-    const whenRight = () => task.of('right')
+    const whenLeft = () => T.task.of('left')
+    const whenRight = () => T.task.of('right')
 
-    const tasks = [
-      fromLeft('a')
-        .foldTask(whenLeft, whenRight)
-        .run(),
-      make(1)
-        .foldTask(whenLeft, whenRight)
-        .run()
-    ]
+    const tasks = [fromLeft('a').foldTask(whenLeft, whenRight)(), make(1).foldTask(whenLeft, whenRight)()]
     return Promise.all(tasks).then(([r1, r2]) => {
       assert.deepStrictEqual(r1, 'left')
       assert.deepStrictEqual(r2, 'right')

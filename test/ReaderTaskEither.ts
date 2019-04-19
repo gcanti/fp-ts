@@ -1,31 +1,31 @@
 import * as assert from 'assert'
-import {
-  readerTaskEither,
-  fromTaskEither,
-  left,
-  right,
-  fromEither,
-  fromReader,
-  tryCatch,
-  ask,
-  asks,
-  local,
-  ReaderTaskEither,
-  fromLeft,
-  fromIO,
-  fromIOEither,
-  fromPredicate,
-  readerTaskEitherSeq,
-  make
-} from '../src/ReaderTaskEither'
-import { left as eitherLeft, right as eitherRight, either } from '../src/Either'
-import { left as taskEitherLeft, taskEither } from '../src/TaskEither'
-import { task, Task } from '../src/Task'
-import { reader, Reader } from '../src/Reader'
+import { array } from '../src/Array'
+import { either, left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO } from '../src/IO'
 import { IOEither } from '../src/IOEither'
-import { array } from '../src/Array'
 import { none, some } from '../src/Option'
+import { reader, Reader } from '../src/Reader'
+import {
+  ask,
+  asks,
+  fromEither,
+  fromIO,
+  fromIOEither,
+  fromLeft,
+  fromPredicate,
+  fromReader,
+  fromTaskEither,
+  left,
+  local,
+  make,
+  readerTaskEither,
+  ReaderTaskEither,
+  readerTaskEitherSeq,
+  right,
+  tryCatch
+} from '../src/ReaderTaskEither'
+import { task } from '../src/Task'
+import { left as taskEitherLeft, taskEither } from '../src/TaskEither'
 
 describe('ReaderTaskEither', () => {
   it('ap', () => {
@@ -77,7 +77,7 @@ describe('ReaderTaskEither', () => {
     const g = (n: number): boolean => n > 2
     const rte1 = make(1).fold(f, g)
     const rte2 = fromLeft('foo').fold(f, g)
-    return Promise.all([rte1.run({}).run(), rte2.run({}).run()]).then(([b1, b2]) => {
+    return Promise.all([rte1.run({})(), rte2.run({})()]).then(([b1, b2]) => {
       assert.strictEqual(b1, false)
       assert.strictEqual(b2, true)
     })
@@ -185,7 +185,7 @@ describe('ReaderTaskEither', () => {
   it('applyFirst', () => {
     const log: Array<string> = []
     const append = (message: string): ReaderTaskEither<{}, string, number> =>
-      right(new Task(() => Promise.resolve(log.push(message))))
+      right(() => Promise.resolve(log.push(message)))
     return append('a')
       .applyFirst(append('b'))
       .run({})
@@ -198,7 +198,7 @@ describe('ReaderTaskEither', () => {
   it('applySecond', () => {
     const log: Array<string> = []
     const append = (message: string): ReaderTaskEither<{}, string, number> =>
-      right(new Task(() => Promise.resolve(log.push(message))))
+      right(() => Promise.resolve(log.push(message)))
     return append('a')
       .applySecond(append('b'))
       .run({})
@@ -274,7 +274,7 @@ describe('ReaderTaskEither', () => {
   it('sequence parallel', () => {
     const log: Array<string> = []
     const append = (message: string): ReaderTaskEither<{}, void, number> =>
-      right(new Task(() => Promise.resolve(log.push(message))))
+      right(() => Promise.resolve(log.push(message)))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
     const sequenceParallel = array.sequence(readerTaskEither)
@@ -289,7 +289,7 @@ describe('ReaderTaskEither', () => {
   it('sequence series', () => {
     const log: Array<string> = []
     const append = (message: string): ReaderTaskEither<{}, void, number> =>
-      right(new Task(() => Promise.resolve(log.push(message))))
+      right(() => Promise.resolve(log.push(message)))
     const t1 = append('start 1').chain(() => append('end 1'))
     const t2 = append('start 2').chain(() => append('end 2'))
     const sequenceSeries = array.sequence(readerTaskEitherSeq)
