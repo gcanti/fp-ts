@@ -122,7 +122,7 @@ export function fromState<F extends URIS2>(
 export function fromState<F extends URIS>(F: Applicative1<F>): <S, A>(fa: State<S, A>) => (s: S) => Type<F, [A, S]>
 export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]>
 export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]> {
-  return fa => s => F.of(fa.run(s))
+  return fa => s => F.of(fa(s))
 }
 
 /**
