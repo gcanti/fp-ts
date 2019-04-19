@@ -501,9 +501,9 @@ describe('Map', () => {
       const a1b3 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 3]])
       const b4 = new Map<User, number>([[{ id: 'b' }, 4]])
       const witherIdentity = M.getWitherable(ordUser).wither(I.identity)
-      const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
-      assert.deepStrictEqual(witherIdentity(emptyMap, f), new I.Identity(emptyMap))
-      assert.deepStrictEqual(witherIdentity(a1b3, f), new I.Identity(b4))
+      const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)
+      assert.deepStrictEqual(witherIdentity(emptyMap, f), I.identity.of(emptyMap))
+      assert.deepStrictEqual(witherIdentity(a1b3, f), I.identity.of(b4))
     })
 
     it('wilt', () => {
@@ -512,9 +512,9 @@ describe('Map', () => {
       const a0 = new Map<User, number>([[{ id: 'a' }, 0]])
       const b4 = new Map<User, number>([[{ id: 'b' }, 4]])
       const wiltIdentity = M.getWitherable(ordUser).wilt(I.identity)
-      const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
-      assert.deepStrictEqual(wiltIdentity(emptyMap, f), new I.Identity({ left: emptyMap, right: emptyMap }))
-      assert.deepStrictEqual(wiltIdentity(a1b3, f), new I.Identity({ left: a0, right: b4 }))
+      const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
+      assert.deepStrictEqual(wiltIdentity(emptyMap, f), I.identity.of({ left: emptyMap, right: emptyMap }))
+      assert.deepStrictEqual(wiltIdentity(a1b3, f), I.identity.of({ left: a0, right: b4 }))
     })
   })
 

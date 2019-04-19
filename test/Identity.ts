@@ -12,7 +12,6 @@ describe('Identity', () => {
     const double = (n: number): number => n * 2
     const x = I.identity.of(1)
     const expected = I.identity.of(2)
-    assert.deepStrictEqual(x.map(double), expected)
     assert.deepStrictEqual(I.identity.map(x, double), expected)
   })
 
@@ -21,8 +20,6 @@ describe('Identity', () => {
     const fab = I.identity.of(double)
     const fa = I.identity.of(1)
     const expected = I.identity.of(2)
-    assert.deepStrictEqual(fa.ap(fab), expected)
-    assert.deepStrictEqual(fab.ap_(fa), expected)
     assert.deepStrictEqual(I.identity.ap(fab, fa), expected)
   })
 
@@ -30,14 +27,12 @@ describe('Identity', () => {
     const f = (n: number) => I.identity.of(n * 2)
     const x = I.identity.of(1)
     const expected = I.identity.of(2)
-    assert.deepStrictEqual(x.chain(f), expected)
     assert.deepStrictEqual(I.identity.chain(x, f), expected)
   })
 
   it('reduce', () => {
     const x = I.identity.of('b')
     const expected = 'ab'
-    assert.deepStrictEqual(x.reduce('a', (b, a) => b + a), expected)
     assert.deepStrictEqual(I.identity.reduce(x, 'a', (b, a) => b + a), expected)
   })
 
@@ -59,28 +54,19 @@ describe('Identity', () => {
   it('alt', () => {
     const x = I.identity.of(1)
     const y = I.identity.of(2)
-    assert.strictEqual(x.alt(y), x)
     assert.strictEqual(I.identity.alt(x, y), x)
   })
 
   it('extract', () => {
     const x = I.identity.of(1)
-    assert.strictEqual(x.extract(), 1)
     assert.strictEqual(I.identity.extract(x), 1)
   })
 
   it('extend', () => {
-    const f = (fa: I.Identity<string>): number => fa.value.length
+    const f = (fa: I.Identity<string>): number => fa.length
     const x = I.identity.of('foo')
     const expected = I.identity.of(3)
-    assert.deepStrictEqual(x.extend(f), expected)
     assert.deepStrictEqual(I.identity.extend(x, f), expected)
-  })
-
-  it('fold', () => {
-    const len = (a: string): number => a.length
-    const x = I.identity.of('foo')
-    assert.strictEqual(x.fold(len), 3)
   })
 
   it('getSetoid', () => {
@@ -109,12 +95,8 @@ describe('Identity', () => {
     assert.deepStrictEqual(sequence(x1), some(I.identity.of('a')))
   })
 
-  it('orElse', () => {
-    assert.deepStrictEqual(I.identity.of(123).orElse(() => I.identity.of(456)), I.identity.of(123))
-  })
-
   it('getShow', () => {
     const S = I.getShow(showString)
-    assert.strictEqual(S.show(new I.Identity('a')), `new Identity("a")`)
+    assert.strictEqual(S.show(I.identity.of('a')), `"a"`)
   })
 })
