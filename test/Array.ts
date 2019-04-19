@@ -599,16 +599,16 @@ describe('Array', () => {
 
   it('wither', () => {
     const witherIdentity = array.wither(I.identity)
-    const f = (n: number) => new I.Identity(p(n) ? O.some(n + 1) : O.none)
-    assert.deepStrictEqual(witherIdentity([], f), new I.Identity([]))
-    assert.deepStrictEqual(witherIdentity([1, 3], f), new I.Identity([4]))
+    const f = (n: number) => I.identity.of(p(n) ? O.some(n + 1) : O.none)
+    assert.deepStrictEqual(witherIdentity([], f), I.identity.of([]))
+    assert.deepStrictEqual(witherIdentity([1, 3], f), I.identity.of([4]))
   })
 
   it('wilt', () => {
     const wiltIdentity = array.wilt(I.identity)
-    const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(wiltIdentity([], f), new I.Identity({ left: [], right: [] }))
-    assert.deepStrictEqual(wiltIdentity([1, 3], f), new I.Identity({ left: [0], right: [4] }))
+    const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
+    assert.deepStrictEqual(wiltIdentity([], f), I.identity.of({ left: [], right: [] }))
+    assert.deepStrictEqual(wiltIdentity([1, 3], f), I.identity.of({ left: [0], right: [4] }))
   })
 
   it('chop', () => {
@@ -713,7 +713,7 @@ describe('Array', () => {
     // FunctorWithIndex compatibility
     assert.deepStrictEqual(
       array.mapWithIndex(ta, f),
-      array.traverseWithIndex(I.identity)(ta, (i, a) => new I.Identity(f(i, a))).value
+      array.traverseWithIndex(I.identity)(ta, (i, a) => I.identity.of(f(i, a)))
     )
   })
 

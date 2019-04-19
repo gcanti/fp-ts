@@ -6,7 +6,7 @@ import { ordString } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
 import { identity } from '../src/function'
-import { Identity, identity as I } from '../src/Identity'
+import * as I from '../src/Identity'
 import { monoidSum, monoidString } from '../src/Monoid'
 import { showString } from '../src/Show'
 
@@ -304,19 +304,19 @@ describe('Option', () => {
   })
 
   it('wither', () => {
-    const witherIdentity = O.option.wither(I)
-    const f = (n: number) => new Identity(p(n) ? O.some(n + 1) : O.none)
-    assert.deepStrictEqual(witherIdentity(O.none, f), new Identity(O.none))
-    assert.deepStrictEqual(witherIdentity(O.some(1), f), new Identity(O.none))
-    assert.deepStrictEqual(witherIdentity(O.some(3), f), new Identity(O.some(4)))
+    const witherIdentity = O.option.wither(I.identity)
+    const f = (n: number) => I.identity.of(p(n) ? O.some(n + 1) : O.none)
+    assert.deepStrictEqual(witherIdentity(O.none, f), I.identity.of(O.none))
+    assert.deepStrictEqual(witherIdentity(O.some(1), f), I.identity.of(O.none))
+    assert.deepStrictEqual(witherIdentity(O.some(3), f), I.identity.of(O.some(4)))
   })
 
   it('wilt', () => {
-    const wiltIdentity = O.option.wilt(I)
-    const f = (n: number) => new Identity(p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(wiltIdentity(O.none, f), new Identity({ left: O.none, right: O.none }))
-    assert.deepStrictEqual(wiltIdentity(O.some(1), f), new Identity({ left: O.some(0), right: O.none }))
-    assert.deepStrictEqual(wiltIdentity(O.some(3), f), new Identity({ left: O.none, right: O.some(4) }))
+    const wiltIdentity = O.option.wilt(I.identity)
+    const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
+    assert.deepStrictEqual(wiltIdentity(O.none, f), I.identity.of({ left: O.none, right: O.none }))
+    assert.deepStrictEqual(wiltIdentity(O.some(1), f), I.identity.of({ left: O.some(0), right: O.none }))
+    assert.deepStrictEqual(wiltIdentity(O.some(3), f), I.identity.of({ left: O.none, right: O.some(4) }))
   })
 
   it('getRefinement', () => {
