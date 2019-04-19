@@ -15,10 +15,9 @@ const native = () =>
     .then(f)
     .then(g)
 
-const te = taskEither
-  .of('foo')
-  .chain(s => taskEither.of(s.length))
-  .chain(n => taskEither.of(n > 2))
+const te = taskEither.chain(taskEither.chain(taskEither.of('foo'), s => taskEither.of(s.length)), n =>
+  taskEither.of(n > 2)
+)
 
 const rte = readerTaskEither
   .of('foo')
@@ -35,7 +34,7 @@ const rte = readerTaskEither
 suite
   .add('TaskEither', function() {
     // tslint:disable-next-line: no-floating-promises
-    te.run()
+    te()
   })
   .add('native', function() {
     // tslint:disable-next-line: no-floating-promises
