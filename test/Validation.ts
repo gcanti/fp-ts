@@ -280,32 +280,32 @@ describe('Validation', () => {
     const W = getWitherable(monoidString)
     const p = (n: number) => n > 2
     it('wither', () => {
-      const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
+      const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)
       const witherIdentity = W.wither(I.identity)
-      assert.deepStrictEqual(witherIdentity(failure('foo'), f), new I.Identity(failure('foo')))
-      assert.deepStrictEqual(witherIdentity(success(1), f), new I.Identity(failure(monoidString.empty)))
-      assert.deepStrictEqual(witherIdentity(success(3), f), new I.Identity(success(4)))
+      assert.deepStrictEqual(witherIdentity(failure('foo'), f), I.identity.of(failure('foo')))
+      assert.deepStrictEqual(witherIdentity(success(1), f), I.identity.of(failure(monoidString.empty)))
+      assert.deepStrictEqual(witherIdentity(success(3), f), I.identity.of(success(4)))
     })
     it('wilt', () => {
       const wiltIdentity = W.wilt(I.identity)
-      const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
+      const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
       assert.deepStrictEqual(
         wiltIdentity(failure('foo'), f),
-        new I.Identity({
+        I.identity.of({
           left: failure('foo'),
           right: failure('foo')
         })
       )
       assert.deepStrictEqual(
         wiltIdentity(success(1), f),
-        new I.Identity({
+        I.identity.of({
           left: success(0),
           right: failure(monoidString.empty)
         })
       )
       assert.deepStrictEqual(
         wiltIdentity(success(3), f),
-        new I.Identity({
+        I.identity.of({
           left: failure(monoidString.empty),
           right: success(4)
         })

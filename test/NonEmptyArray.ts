@@ -386,7 +386,7 @@ describe.only('NonEmptyArray', () => {
     // FunctorWithIndex compatibility
     assert.deepStrictEqual(
       nonEmptyArray.mapWithIndex(ta, f),
-      nonEmptyArray.traverseWithIndex(I.identity)(ta, (i, a) => new I.Identity(f(i, a))).value
+      nonEmptyArray.traverseWithIndex(I.identity)(ta, (i, a) => I.identity.of(f(i, a)))
     )
   })
 

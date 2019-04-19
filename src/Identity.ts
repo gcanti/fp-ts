@@ -4,7 +4,6 @@ import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Either } from './Either'
 import { Foldable1 } from './Foldable'
-import { Lazy } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -22,64 +21,14 @@ export const URI = 'Identity'
 
 export type URI = typeof URI
 
-/**
- * @since 1.0.0
- */
-export class Identity<A> {
-  constructor(readonly value: A) {}
-  map<B>(f: (a: A) => B): Identity<B> {
-    return new Identity(f(this.value))
-  }
-  ap<B>(fab: Identity<(a: A) => B>): Identity<B> {
-    return this.map(fab.value)
-  }
-  /**
-   * Flipped version of `ap`
-   */
-  ap_<B, C>(this: Identity<(b: B) => C>, fb: Identity<B>): Identity<C> {
-    return fb.ap(this)
-  }
-  chain<B>(f: (a: A) => Identity<B>): Identity<B> {
-    return f(this.value)
-  }
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return f(b, this.value)
-  }
-  alt(fx: Identity<A>): Identity<A> {
-    return this
-  }
-
-  /**
-   * Lazy version of `alt`
-   *
-   * @example
-   * import { Identity } from 'fp-ts/lib/Identity'
-   *
-   * const a = new Identity(1)
-   * assert.deepStrictEqual(a.orElse(() => new Identity(2)), a)
-   *
-   * @since 1.6.0
-   */
-  orElse(fx: Lazy<Identity<A>>): Identity<A> {
-    return this
-  }
-  extract(): A {
-    return this.value
-  }
-  extend<B>(f: (ea: Identity<A>) => B): Identity<B> {
-    return of(f(this))
-  }
-  fold<B>(f: (a: A) => B): B {
-    return f(this.value)
-  }
-}
+export type Identity<A> = A
 
 /**
  * @since 1.17.0
  */
 export const getShow = <A>(S: Show<A>): Show<Identity<A>> => {
   return {
-    show: i => `new Identity(${S.show(i.value)})`
+    show: a => S.show(a)
   }
 }
 
@@ -87,59 +36,59 @@ export const getShow = <A>(S: Show<A>): Show<Identity<A>> => {
  * @since 1.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => {
-  return fromEquals((x, y) => S.equals(x.value, y.value))
+  return fromEquals((x, y) => S.equals(x, y))
 }
 
 const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {
-  return fa.map(f)
+  return f(fa)
 }
 
 const of = <A>(a: A): Identity<A> => {
-  return new Identity(a)
+  return a
 }
 
 const ap = <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>): Identity<B> => {
-  return fa.ap(fab)
+  return fab(fa)
 }
 
 const chain = <A, B>(fa: Identity<A>, f: (a: A) => Identity<B>): Identity<B> => {
-  return fa.chain(f)
+  return f(fa)
 }
 
 const reduce = <A, B>(fa: Identity<A>, b: B, f: (b: B, a: A) => B): B => {
-  return fa.reduce(b, f)
+  return f(b, fa)
 }
 
 const foldMap = <M>(M: Monoid<M>) => <A>(fa: Identity<A>, f: (a: A) => M): M => {
-  return f(fa.value)
+  return f(fa)
 }
 
 const foldr = <A, B>(fa: Identity<A>, b: B, f: (a: A, b: B) => B): B => {
-  return f(fa.value, b)
+  return f(fa, b)
 }
 
 const alt = <A>(fx: Identity<A>, fy: Identity<A>): Identity<A> => {
-  return fx.alt(fy)
+  return fx
 }
 
 const extend = <A, B>(ea: Identity<A>, f: (ea: Identity<A>) => B): Identity<B> => {
-  return ea.extend(f)
+  return f(ea)
 }
 
 const extract = <A>(fa: Identity<A>): A => {
-  return fa.value
+  return fa
 }
 
 const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> => {
-  return new Identity(tailRec(a, a => f(a).value))
+  return tailRec(a, a => f(a))
 }
 
 const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
-  return F.map(f(ta.value), of)
+  return F.map(f(ta), of)
 }
 
 const sequence = <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
-  return F.map(ta.value, of)
+  return F.map(ta, of)
 }
 
 /**

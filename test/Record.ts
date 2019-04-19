@@ -187,16 +187,16 @@ describe('Record', () => {
 
   it('wither', () => {
     const witherIdentity = R.record.wither(I.identity)
-    const f = (n: number) => new I.Identity(p(n) ? some(n + 1) : none)
-    assert.deepStrictEqual(witherIdentity({}, f), new I.Identity<Record<string, number>>({}))
-    assert.deepStrictEqual(witherIdentity({ a: 1, b: 3 }, f), new I.Identity({ b: 4 }))
+    const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)
+    assert.deepStrictEqual(witherIdentity({}, f), I.identity.of<Record<string, number>>({}))
+    assert.deepStrictEqual(witherIdentity({ a: 1, b: 3 }, f), I.identity.of({ b: 4 }))
   })
 
   it('wilt', () => {
     const wiltIdentity = R.record.wilt(I.identity)
-    const f = (n: number) => new I.Identity(p(n) ? right(n + 1) : left(n - 1))
-    assert.deepStrictEqual(wiltIdentity({}, f), new I.Identity({ left: {}, right: {} }))
-    assert.deepStrictEqual(wiltIdentity({ a: 1, b: 3 }, f), new I.Identity({ left: { a: 0 }, right: { b: 4 } }))
+    const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
+    assert.deepStrictEqual(wiltIdentity({}, f), I.identity.of({ left: {}, right: {} }))
+    assert.deepStrictEqual(wiltIdentity({ a: 1, b: 3 }, f), I.identity.of({ left: { a: 0 }, right: { b: 4 } }))
   })
 
   it('reduceWithKey', () => {
