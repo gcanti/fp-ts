@@ -19,17 +19,17 @@ const te = taskEither.chain(taskEither.chain(taskEither.of('foo'), s => taskEith
   taskEither.of(n > 2)
 )
 
-const rte = readerTaskEither
-  .of('foo')
-  .chain(s => readerTaskEither.of(s.length))
-  .chain(n => readerTaskEither.of(n > 2))
+const rte = readerTaskEither.chain(
+  readerTaskEither.chain(readerTaskEither.of('foo'), s => readerTaskEither.of(s.length)),
+  n => readerTaskEither.of(n > 2)
+)
 
 // // tslint:disable-next-line
 // native().then(e => console.log('native', e))
 // // tslint:disable-next-line
-// te.run().then(e => console.log('TaskEither', e))
+// te().then(e => console.log('TaskEither', e))
 // // tslint:disable-next-line
-// rte.run({}).then(e => console.log('ReaderTaskEither', e))
+// rte({})().then(e => console.log('ReaderTaskEither', e))
 
 suite
   .add('TaskEither', function() {
@@ -42,7 +42,7 @@ suite
   })
   .add('ReaderTaskEither', function() {
     // tslint:disable-next-line: no-floating-promises
-    rte.run({})
+    rte({})()
   })
   .on('cycle', function(event: any) {
     // tslint:disable-next-line: no-console
