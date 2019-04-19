@@ -144,19 +144,19 @@ export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A
   }
 }
 
-const ap = <L>(S: Semigroup<L>) => <A, B>(fab: Tuple<L, (a: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
-  return new Tuple(S.concat(fab.fst, fa.fst), fab.snd(fa.snd))
-}
-
 /**
  * @since 1.0.0
  */
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
+  const ap = <A, B>(fab: Tuple<L, (a: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
+    return new Tuple(S.concat(fab.fst, fa.fst), fab.snd(fa.snd))
+  }
+
   return {
     URI,
     _L: phantom,
     map,
-    ap: ap(S)
+    ap
   }
 }
 
@@ -174,18 +174,18 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
   }
 }
 
-const chain = <L>(S: Semigroup<L>) => <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
-  const { fst, snd } = f(fa.snd)
-  return new Tuple(S.concat(fa.fst, fst), snd)
-}
-
 /**
  * @since 1.0.0
  */
 export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => {
+  const chain = <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
+    const { fst, snd } = f(fa.snd)
+    return new Tuple(S.concat(fa.fst, fst), snd)
+  }
+
   return {
     ...getApply(S),
-    chain: chain(S)
+    chain
   }
 }
 
@@ -199,23 +199,23 @@ export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => {
   }
 }
 
-const chainRec = <L>(M: Monoid<L>) => <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
-  let result = f(a)
-  let acc = M.empty
-  while (result.snd.isLeft()) {
-    acc = M.concat(acc, result.fst)
-    result = f(result.snd.value)
-  }
-  return new Tuple(M.concat(acc, result.fst), result.snd.value)
-}
-
 /**
  * @since 1.0.0
  */
 export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
+  const chainRec = <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
+    let result = f(a)
+    let acc = M.empty
+    while (result.snd.isLeft()) {
+      acc = M.concat(acc, result.fst)
+      result = f(result.snd.value)
+    }
+    return new Tuple(M.concat(acc, result.fst), result.snd.value)
+  }
+
   return {
     ...getChain(M),
-    chainRec: chainRec(M)
+    chainRec
   }
 }
 
