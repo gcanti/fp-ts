@@ -53,7 +53,7 @@ export function fromReader<F extends URIS2>(F: Applicative2<F>): <E, L, A>(fa: R
 export function fromReader<F extends URIS>(F: Applicative1<F>): <E, A>(fa: Reader<E, A>) => (e: E) => Type<F, A>
 export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A>
 export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A> {
-  return fa => e => F.of(fa.run(e))
+  return fa => e => F.of(fa(e))
 }
 
 /**

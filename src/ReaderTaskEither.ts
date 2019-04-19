@@ -91,7 +91,7 @@ export function fold<E, L, A, R>(
   onLeft: (l: L) => R,
   onRight: (a: A) => R
 ): Reader<E, Task<R>> {
-  return new Reader(e => TE.fold(ma(e), onLeft, onRight))
+  return e => TE.fold(ma(e), onLeft, onRight)
 }
 
 const alt = <E, L, A>(fx: ReaderTaskEither<E, L, A>, fy: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> => {

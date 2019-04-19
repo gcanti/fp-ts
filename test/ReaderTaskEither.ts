@@ -48,7 +48,7 @@ describe('ReaderTaskEither', () => {
     const f = (s: string): boolean => s.length > 2
     const g = (n: number): boolean => n > 2
     const rtes = [RTE.make(1), RTE.fromLeft('foo')].map(rte => RTE.fold(rte, f, g))
-    return Promise.all(rtes.map(rte => rte.run({})())).then(([b1, b2]) => {
+    return Promise.all(rtes.map(rte => rte({})())).then(([b1, b2]) => {
       assert.strictEqual(b1, false)
       assert.strictEqual(b2, true)
     })
