@@ -1,4 +1,3 @@
-import { constant, constIdentity } from './function'
 import { Monad2 } from './Monad'
 
 declare module './HKT' {
@@ -14,65 +13,51 @@ export type URI = typeof URI
 /**
  * @since 1.0.0
  */
-export class State<S, A> {
-  constructor(readonly run: (s: S) => [A, S]) {}
-  eval(s: S): A {
-    return this.run(s)[0]
-  }
-  exec(s: S): S {
-    return this.run(s)[1]
-  }
-  map<B>(f: (a: A) => B): State<S, B> {
-    return new State(s => {
-      const [a, s1] = this.run(s)
-      return [f(a), s1]
-    })
-  }
-  ap<B>(fab: State<S, (a: A) => B>): State<S, B> {
-    return fab.chain(f => this.map(f)) // <= derived
-  }
-  /**
-   * Flipped version of `ap`
-   */
-  ap_<B, C>(this: State<S, (b: B) => C>, fb: State<S, B>): State<S, C> {
-    return fb.ap(this)
-  }
-  /**
-   * Combine two effectful actions, keeping only the result of the first
-   * @since 1.7.0
-   */
-  applyFirst<B>(fb: State<S, B>): State<S, A> {
-    return fb.ap(this.map(constant))
-  }
-  /**
-   * Combine two effectful actions, keeping only the result of the second
-   * @since 1.7.0
-   */
-  applySecond<B>(fb: State<S, B>): State<S, B> {
-    return fb.ap(this.map(constIdentity as () => (b: B) => B))
-  }
-  chain<B>(f: (a: A) => State<S, B>): State<S, B> {
-    return new State(s => {
-      const [a, s1] = this.run(s)
-      return f(a).run(s1)
-    })
-  }
+export interface State<S, A> {
+  (s: S): [A, S]
+}
+
+/**
+ * @since 2.0.0
+ */
+export function run<S, A>(ma: State<S, A>, s: S): [A, S] {
+  return ma(s)
+}
+
+/**
+ * @since 2.0.0
+ */
+export function evalState<S, A>(ma: State<S, A>, s: S): A {
+  return ma(s)[0]
+}
+
+/**
+ * @since 2.0.0
+ */
+export function execState<S, A>(ma: State<S, A>, s: S): S {
+  return ma(s)[1]
 }
 
 const map = <S, A, B>(fa: State<S, A>, f: (a: A) => B): State<S, B> => {
-  return fa.map(f)
+  return s => {
+    const [a, s1] = fa(s)
+    return [f(a), s1]
+  }
 }
 
 const of = <S, A>(a: A): State<S, A> => {
-  return new State(s => [a, s])
+  return s => [a, s]
 }
 
 const ap = <S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<S, B> => {
-  return fa.ap(fab)
+  return chain(fab, f => map(fa, f)) // <= derived
 }
 
 const chain = <S, A, B>(fa: State<S, A>, f: (a: A) => State<S, B>): State<S, B> => {
-  return fa.chain(f)
+  return s => {
+    const [a, s1] = fa(s)
+    return f(a)(s1)
+  }
 }
 
 /**
@@ -81,7 +66,7 @@ const chain = <S, A, B>(fa: State<S, A>, f: (a: A) => State<S, B>): State<S, B> 
  * @since 1.0.0
  */
 export const get = <S>(): State<S, S> => {
-  return new State(s => [s, s])
+  return s => [s, s]
 }
 
 /**
@@ -90,7 +75,7 @@ export const get = <S>(): State<S, S> => {
  * @since 1.0.0
  */
 export const put = <S>(s: S): State<S, void> => {
-  return new State(() => [undefined, s])
+  return () => [undefined, s]
 }
 
 /**
@@ -99,7 +84,7 @@ export const put = <S>(s: S): State<S, void> => {
  * @since 1.0.0
  */
 export const modify = <S>(f: (s: S) => S): State<S, undefined> => {
-  return new State(s => [undefined, f(s)])
+  return s => [undefined, f(s)]
 }
 
 /**
@@ -108,7 +93,7 @@ export const modify = <S>(f: (s: S) => S): State<S, undefined> => {
  * @since 1.0.0
  */
 export const gets = <S, A>(f: (s: S) => A): State<S, A> => {
-  return new State(s => [f(s), s])
+  return s => [f(s), s]
 }
 
 /**
