@@ -253,7 +253,7 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
  * @since 1.0.0
  */
 export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa.isNone() ? left(defaultValue) : right(fa.value)
+  return fa._tag === 'None' ? left(defaultValue) : right(fa.value)
 }
 
 /**
@@ -262,7 +262,7 @@ export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, 
  * @since 1.3.0
  */
 export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa.isNone() ? left(defaultValue()) : right(fa.value)
+  return fa._tag === 'None' ? left(defaultValue()) : right(fa.value)
 }
 
 /**
@@ -355,7 +355,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
     if (isLeft(fa)) {
       return fa
     }
-    if (fa.value.isNone()) {
+    if (fa.value._tag === 'None') {
       return left(ML.empty)
     }
     return right(fa.value.value)
@@ -496,7 +496,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
       return fa
     }
     const optionB = f(fa.value)
-    if (optionB.isSome()) {
+    if (optionB._tag === 'Some') {
       return right(optionB.value)
     }
     return left(ML.empty)
@@ -612,5 +612,5 @@ export const either: Monad2<URI> &
   chainRec,
   throwError,
   fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
+  fromOption: (o, e) => (o._tag === 'None' ? throwError(e) : of(o.value))
 }

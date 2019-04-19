@@ -221,7 +221,7 @@ describe.only('NonEmptyArray', () => {
     const a2 = make2(1)
     const a3 = make2(2)
     const arr = fromNonEmptyArray([a1, a2, a3])
-    assert.deepStrictEqual(findFirst(arr, ({ x }) => x === 1).map(x => x === a1), some(true))
+    assert.deepStrictEqual(option.map(findFirst(arr, ({ x }) => x === 1), x => x === a1), some(true))
     assert.deepStrictEqual(findFirst(arr, ({ x }) => x === 2), some(a3))
     assert.deepStrictEqual(findFirst(arr, ({ x }) => x === 10), none)
   })
@@ -232,7 +232,7 @@ describe.only('NonEmptyArray', () => {
     const a2 = make2(1)
     const a3 = make2(2)
     const arr = fromNonEmptyArray([a1, a2, a3])
-    assert.deepStrictEqual(findLast(arr, ({ x }) => x === 1).map(x => x === a2), some(true))
+    assert.deepStrictEqual(option.map(findLast(arr, ({ x }) => x === 1), x => x === a2), some(true))
     assert.deepStrictEqual(findLast(arr, ({ x }) => x === 2), some(a3))
     assert.deepStrictEqual(findLast(arr, ({ x }) => x === 10), none)
   })
@@ -286,13 +286,13 @@ describe.only('NonEmptyArray', () => {
     assert.deepStrictEqual(updateAt(1, a4, arr), some(fromNonEmptyArray([a1, a4, a3])))
     // should return the same reference if nothing changed
     const r1 = updateAt(0, a1, arr)
-    if (r1.isSome()) {
+    if (isSome(r1)) {
       assert.strictEqual(r1.value, arr)
     } else {
       assert.fail('is not a Some')
     }
     const r2 = updateAt(2, a3, arr)
-    if (r2.isSome()) {
+    if (isSome(r2)) {
       assert.strictEqual(r2.value, arr)
     } else {
       assert.fail('is not a Some')
