@@ -63,7 +63,7 @@ export class IOEither<L, A> {
     return new IOEither(T.chain(this.value, a => f(a).value))
   }
   fold<R>(left: (l: L) => R, right: (a: A) => R): IO<R> {
-    return foldT(left, right, this.value)
+    return foldT(this.value, left, right)
   }
   mapLeft<M>(f: (l: L) => M): IOEither<M, A> {
     return new IOEither(this.value.map(e => E.mapLeft(e, f)))

@@ -29,17 +29,17 @@ export interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, U
  */
 export function fold<F extends URIS2>(
   F: Functor2<F>
-): <R, L, M, A>(left: (l: L) => R, right: (a: A) => R, fa: Type2<F, M, Either<L, A>>) => Type2<F, M, R>
+): <R, L, M, A>(fa: Type2<F, M, Either<L, A>>, left: (l: L) => R, right: (a: A) => R) => Type2<F, M, R>
 export function fold<F extends URIS>(
   F: Functor1<F>
-): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: Type<F, Either<L, A>>) => Type<F, R>
+): <R, L, A>(fa: Type<F, Either<L, A>>, left: (l: L) => R, right: (a: A) => R) => Type<F, R>
 export function fold<F>(
   F: Functor<F>
-): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R>
+): <R, L, A>(fa: HKT<F, Either<L, A>>, left: (l: L) => R, right: (a: A) => R) => HKT<F, R>
 export function fold<F>(
   F: Functor<F>
-): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R> {
-  return (left, right, fa) => F.map(fa, e => (isLeft(e) ? left(e.value) : right(e.value)))
+): <R, L, A>(fa: HKT<F, Either<L, A>>, left: (l: L) => R, right: (a: A) => R) => HKT<F, R> {
+  return (fa, left, right) => F.map(fa, e => (isLeft(e) ? left(e.value) : right(e.value)))
 }
 
 /**
