@@ -12,11 +12,11 @@ import { Foldable2 } from './Foldable'
 import { phantom } from './function'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
-import { Monoid } from './Monoid'
+import { Monoid, getTupleMonoid } from './Monoid'
 import { contramap as contramapOrd, getSemigroup as getOrdSemigroup, Ord } from './Ord'
-import { Semigroup } from './Semigroup'
+import { Semigroup, getTupleSemigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { fromEquals, Setoid } from './Setoid'
+import { Setoid, getTupleSetoid } from './Setoid'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
 
@@ -33,87 +33,73 @@ export type URI = typeof URI
 /**
  * @since 1.0.0
  */
-export class Tuple<L, A> {
-  constructor(readonly fst: L, readonly snd: A) {}
-  compose<B>(ab: Tuple<A, B>): Tuple<L, B> {
-    return new Tuple(this.fst, ab.snd)
-  }
-  map<B>(f: (a: A) => B): Tuple<L, B> {
-    return new Tuple(this.fst, f(this.snd))
-  }
-  bimap<M, B>(f: (l: L) => M, g: (a: A) => B): Tuple<M, B> {
-    return new Tuple(f(this.fst), g(this.snd))
-  }
-  extract(): A {
-    return this.snd
-  }
-  extend<B>(f: (fa: Tuple<L, A>) => B): Tuple<L, B> {
-    return new Tuple(this.fst, f(this))
-  }
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return f(b, this.snd)
-  }
-  /** Exchange the first and second components of a tuple */
-  swap(): Tuple<A, L> {
-    return new Tuple(this.snd, this.fst)
-  }
-  toTuple(): [L, A] {
-    return [this.fst, this.snd]
-  }
-}
+export type Tuple<L, A> = [L, A]
 
 /**
  * @since 1.17.0
  */
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => {
   return {
-    show: t => `new Tuple(${SL.show(t.fst)}, ${SA.show(t.snd)})`
+    show: t => `[${SL.show(fst(t))}, ${SA.show(snd(t))}]`
   }
 }
 
-const fst = <L, A>(fa: Tuple<L, A>): L => {
-  return fa.fst
+/**
+ * @since 2.0.0
+ */
+export const fst = <L, A>(fa: Tuple<L, A>): L => {
+  return fa[0]
 }
 
-const snd = <L, A>(fa: Tuple<L, A>): A => {
-  return fa.snd
+/**
+ * @since 2.0.0
+ */
+export const snd = <L, A>(fa: Tuple<L, A>): A => {
+  return fa[1]
+}
+
+/**
+ * @since 2.0.0
+ */
+export const swap = <L, A>(fa: Tuple<L, A>): Tuple<A, L> => {
+  return [snd(fa), fst(fa)]
 }
 
 const compose = <L, A, B>(bc: Tuple<A, B>, fa: Tuple<L, A>): Tuple<L, B> => {
-  return fa.compose(bc)
+  return [fst(fa), snd(bc)]
 }
 
 const map = <L, A, B>(fa: Tuple<L, A>, f: (a: A) => B): Tuple<L, B> => {
-  return fa.map(f)
+  return [fst(fa), f(snd(fa))]
 }
 
-const bimap = <L, A, M, B>(fla: Tuple<L, A>, f: (l: L) => M, g: (a: A) => B): Tuple<M, B> => {
-  return fla.bimap(f, g)
+const bimap = <L, A, M, B>(fa: Tuple<L, A>, f: (l: L) => M, g: (a: A) => B): Tuple<M, B> => {
+  return [f(fst(fa)), g(snd(fa))]
 }
 
 const extract = snd
 
 const extend = <L, A, B>(fa: Tuple<L, A>, f: (fa: Tuple<L, A>) => B): Tuple<L, B> => {
-  return fa.extend(f)
+  return [fst(fa), f(fa)]
 }
 
 const reduce = <L, A, B>(fa: Tuple<L, A>, b: B, f: (b: B, a: A) => B): B => {
-  return fa.reduce(b, f)
+  return f(b, snd(fa))
 }
 
 const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Tuple<L, A>, f: (a: A) => M): M => {
-  return f(fa.snd)
+  return f(snd(fa))
 }
 
 const foldr = <L, A, B>(fa: Tuple<L, A>, b: B, f: (a: A, b: B) => B): B => {
-  return f(fa.snd, b)
+  return f(snd(fa), b)
 }
 
 /**
  * @since 1.0.0
  */
 export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => {
-  return fromEquals((x, y) => SA.equals(x.fst, y.fst) && SB.equals(x.snd, y.snd))
+  return getTupleSetoid(SA, SB)
 }
 /**
  * To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
@@ -129,19 +115,14 @@ export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => {
  * @since 1.0.0
  */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => {
-  return {
-    concat: (x, y) => new Tuple(SL.concat(x.fst, y.fst), SA.concat(x.snd, y.snd))
-  }
+  return getTupleSemigroup(SL, SA)
 }
 
 /**
  * @since 1.0.0
  */
 export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => {
-  return {
-    ...getSemigroup(ML, MA),
-    empty: new Tuple(ML.empty, MA.empty)
-  }
+  return getTupleMonoid(ML, MA)
 }
 
 /**
@@ -149,7 +130,7 @@ export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A
  */
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   const ap = <A, B>(fab: Tuple<L, (a: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
-    return new Tuple(S.concat(fab.fst, fa.fst), fab.snd(fa.snd))
+    return [S.concat(fst(fab), fst(fa)), snd(fab)(snd(fa))]
   }
 
   return {
@@ -161,7 +142,7 @@ export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
 }
 
 const of = <L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A> => {
-  return new Tuple(M.empty, a)
+  return [M.empty, a]
 }
 
 /**
@@ -179,8 +160,8 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
  */
 export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => {
   const chain = <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
-    const { fst, snd } = f(fa.snd)
-    return new Tuple(S.concat(fa.fst, fst), snd)
+    const [fs, s] = f(snd(fa))
+    return [S.concat(fst(fa), fs), s]
   }
 
   return {
@@ -204,13 +185,15 @@ export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => {
  */
 export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
   const chainRec = <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
-    let result = f(a)
-    let acc = M.empty
-    while (result.snd._tag === 'Left') {
-      acc = M.concat(acc, result.fst)
-      result = f(result.snd.value)
+    let result: Tuple<L, Either<A, B>> = f(a)
+    let acc: L = M.empty
+    let s: Either<A, B> = snd(result)
+    while (s._tag === 'Left') {
+      acc = M.concat(acc, fst(result))
+      result = f(s.value)
+      s = snd(result)
     }
-    return new Tuple(M.concat(acc, result.fst), result.snd.value)
+    return [M.concat(acc, fst(result)), s.value]
   }
 
   return {
@@ -220,11 +203,11 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
 }
 
 const traverse = <F>(F: Applicative<F>) => <L, A, B>(ta: Tuple<L, A>, f: (a: A) => HKT<F, B>): HKT<F, Tuple<L, B>> => {
-  return F.map(f(ta.snd), b => new Tuple(ta.fst, b))
+  return F.map(f(snd(ta)), b => [fst(ta), b])
 }
 
 const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Tuple<L, HKT<F, A>>): HKT<F, Tuple<L, A>> => {
-  return F.map(ta.snd, b => new Tuple(ta.fst, b))
+  return F.map(snd(ta), b => [fst(ta), b])
 }
 
 /**
