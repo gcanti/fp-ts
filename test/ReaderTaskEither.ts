@@ -16,7 +16,7 @@ import {
   fromIOEither,
   fromPredicate,
   readerTaskEitherSeq,
-  of
+  make
 } from '../src/ReaderTaskEither'
 import { left as eitherLeft, right as eitherRight, either } from '../src/Either'
 import { left as taskEitherLeft, taskEither } from '../src/TaskEither'
@@ -30,8 +30,8 @@ import { none, some } from '../src/Option'
 describe('ReaderTaskEither', () => {
   it('ap', () => {
     const double = (n: number): number => n * 2
-    const fab = of(double)
-    const fa = of(1)
+    const fab = make(double)
+    const fa = make(1)
     return Promise.all([fa.ap(fab).run({}), fab.ap_(fa).run({}), readerTaskEither.ap(fab, fa).run({})]).then(
       ([e1, e2, e3]) => {
         assert.deepStrictEqual(e1, eitherRight(2))
@@ -44,7 +44,7 @@ describe('ReaderTaskEither', () => {
   it('map', () => {
     const double = (n: number): number => n * 2
     return readerTaskEither
-      .map(of(1), double)
+      .map(make(1), double)
       .run({})
       .then(e => {
         assert.deepStrictEqual(e, eitherRight(2))
@@ -64,8 +64,8 @@ describe('ReaderTaskEither', () => {
   })
 
   it('chain', () => {
-    const rte1 = readerTaskEither.chain(of('foo'), a => (a.length > 2 ? of(a.length) : fromLeft('foo')))
-    const rte2 = readerTaskEither.chain(of('a'), a => (a.length > 2 ? of(a.length) : fromLeft('foo')))
+    const rte1 = readerTaskEither.chain(make('foo'), a => (a.length > 2 ? make(a.length) : fromLeft('foo')))
+    const rte2 = readerTaskEither.chain(make('a'), a => (a.length > 2 ? make(a.length) : fromLeft('foo')))
     return Promise.all([rte1.run({}), rte2.run({})]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, eitherRight(3))
       assert.deepStrictEqual(e2, eitherLeft('foo'))
@@ -75,7 +75,7 @@ describe('ReaderTaskEither', () => {
   it('fold', () => {
     const f = (s: string): boolean => s.length > 2
     const g = (n: number): boolean => n > 2
-    const rte1 = of(1).fold(f, g)
+    const rte1 = make(1).fold(f, g)
     const rte2 = fromLeft('foo').fold(f, g)
     return Promise.all([rte1.run({}).run(), rte2.run({}).run()]).then(([b1, b2]) => {
       assert.strictEqual(b1, false)
@@ -211,7 +211,7 @@ describe('ReaderTaskEither', () => {
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    const teRight = of(1)
+    const teRight = make(1)
     const teLeft = fromLeft('foo')
     return Promise.all([
       teRight.bimap(f, g).run({}),
@@ -226,9 +226,9 @@ describe('ReaderTaskEither', () => {
 
   it('orElse', () => {
     const l: ReaderTaskEither<unknown, string, number> = fromLeft('foo')
-    const r = of(1)
-    const tl = l.orElse(l => of(l.length))
-    const tr = r.orElse(() => of(2))
+    const r = make(1)
+    const tl = l.orElse(l => make(l.length))
+    const tr = r.orElse(() => make(2))
     return Promise.all([tl.run({}), tr.run({})]).then(([el, er]) => {
       assert.deepStrictEqual(el, eitherRight(3))
       assert.deepStrictEqual(er, eitherRight(1))
@@ -238,8 +238,8 @@ describe('ReaderTaskEither', () => {
   it('alt', () => {
     const l1: ReaderTaskEither<unknown, string, number> = fromLeft('foo')
     const l2: ReaderTaskEither<unknown, string, number> = fromLeft('bar')
-    const r1: ReaderTaskEither<unknown, string, number> = of(1)
-    const r2: ReaderTaskEither<unknown, string, number> = of(2)
+    const r1: ReaderTaskEither<unknown, string, number> = make(1)
+    const r2: ReaderTaskEither<unknown, string, number> = make(2)
     const x1 = l1.alt(l2)
     const x2 = l1.alt(r1)
     const x3 = r1.alt(l1)
@@ -304,7 +304,7 @@ describe('ReaderTaskEither', () => {
   describe('MonadThrow', () => {
     it('should obey the law', () => {
       return Promise.all([
-        readerTaskEither.chain(readerTaskEither.throwError('error'), a => of(a)).run({}),
+        readerTaskEither.chain(readerTaskEither.throwError('error'), a => make(a)).run({}),
         readerTaskEither.throwError('error').run({})
       ]).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, e2)

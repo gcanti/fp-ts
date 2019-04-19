@@ -86,7 +86,7 @@ const map = <L, A, B>(fa: IOEither<L, A>, f: (a: A) => B): IOEither<L, B> => {
 /**
  * @since 2.0.0
  */
-export const of = <A>(a: A): IOEither<never, A> => {
+export const make = <A>(a: A): IOEither<never, A> => {
   return new IOEither(T.of(a))
 }
 
@@ -150,11 +150,11 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<U
   URI,
   bimap,
   map,
-  of,
+  of: make,
   ap,
   chain,
   alt,
   throwError,
   fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
+  fromOption: (o, e) => (o.isNone() ? throwError(e) : make(o.value))
 }

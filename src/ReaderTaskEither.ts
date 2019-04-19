@@ -95,7 +95,7 @@ const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderT
 /**
  * @since 2.0.0
  */
-export const of = <E, A>(a: A): ReaderTaskEither<E, never, A> => {
+export const make = <E, A>(a: A): ReaderTaskEither<E, never, A> => {
   return new ReaderTaskEither(readerTTaskEither.of(a))
 }
 
@@ -249,7 +249,7 @@ export const readerTaskEither: Monad3<URI> &
   MonadThrow3<URI> = {
   URI,
   map,
-  of,
+  of: make,
   ap,
   chain,
   alt,
@@ -258,7 +258,7 @@ export const readerTaskEither: Monad3<URI> &
   fromTask,
   throwError,
   fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
+  fromOption: (o, e) => (o.isNone() ? throwError(e) : make(o.value))
 }
 
 /**
