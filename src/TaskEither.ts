@@ -6,7 +6,7 @@ import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import * as eitherT from './EitherT'
-import { constant, constIdentity, Lazy, Predicate, Refinement, identity } from './function'
+import { constant, constIdentity, identity, Lazy, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2 } from './Monad'
@@ -15,7 +15,10 @@ import { MonadTask2 } from './MonadTask'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { fromIO as taskFromIO, getSemigroup as taskGetSemigroup, Task, task, tryCatch as taskTryCatch } from './Task'
+import * as T from './Task'
+
+type Task<A> = T.Task<A>
+const task = T.task
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -27,7 +30,7 @@ export const URI = 'TaskEither'
 
 export type URI = typeof URI
 
-const T = eitherT.getEitherT(task)
+const EitherT = eitherT.getEitherT(task)
 const foldT = eitherT.fold(task)
 
 /**
@@ -37,13 +40,13 @@ export class TaskEither<L, A> {
   constructor(readonly value: Task<E.Either<L, A>>) {}
   /** Runs the inner `Task` */
   run(): Promise<E.Either<L, A>> {
-    return this.value.run()
+    return this.value()
   }
   map<B>(f: (a: A) => B): TaskEither<L, B> {
-    return new TaskEither(T.map(this.value, f))
+    return new TaskEither(EitherT.map(this.value, f))
   }
   ap<B>(fab: TaskEither<L, (a: A) => B>): TaskEither<L, B> {
-    return new TaskEither(T.ap(fab.value, this.value))
+    return new TaskEither(EitherT.ap(fab.value, this.value))
   }
   /**
    * Flipped version of `ap`
@@ -80,7 +83,7 @@ export class TaskEither<L, A> {
     return this.chain(() => fb)
   }
   chain<B>(f: (a: A) => TaskEither<L, B>): TaskEither<L, B> {
-    return new TaskEither(T.chain(this.value, a => f(a).value))
+    return new TaskEither(EitherT.chain(this.value, a => f(a).value))
   }
   fold<R>(onLeft: (l: L) => R, onRight: (a: A) => R): Task<R> {
     return foldT(onLeft, onRight, this.value)
@@ -90,14 +93,14 @@ export class TaskEither<L, A> {
    * @since 1.10.0
    */
   foldTask<R>(onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>): Task<R> {
-    return this.value.chain(e => E.fold(e, onLeft, onRight))
+    return T.task.chain(this.value, e => E.fold(e, onLeft, onRight))
   }
   /**
    * Similar to `fold`, but the result is flattened.
    * @since 1.10.0
    */
   foldTaskEither<M, B>(onLeft: (l: L) => TaskEither<M, B>, onRight: (a: A) => TaskEither<M, B>): TaskEither<M, B> {
-    return new TaskEither(this.value.chain(e => E.fold(e, onLeft, onRight).value))
+    return new TaskEither(task.chain(this.value, e => E.fold(e, onLeft, onRight).value))
   }
   /**
    * Similar to `fold`, return the value from Right or the given argument if Left.
@@ -113,13 +116,15 @@ export class TaskEither<L, A> {
     return this.fold(f, identity)
   }
   mapLeft<M>(f: (l: L) => M): TaskEither<M, A> {
-    return new TaskEither(this.value.map(e => E.mapLeft(e, f)))
+    return new TaskEither(task.map(this.value, e => E.mapLeft(e, f)))
   }
   /**
    * Transforms the failure value of the `TaskEither` into a new `TaskEither`
    */
   orElse<M>(f: (l: L) => TaskEither<M, A>): TaskEither<M, A> {
-    return new TaskEither(this.value.chain(e => E.fold<L, A, Task<E.Either<M, A>>>(e, l => f(l).value, T.of)))
+    return new TaskEither(
+      task.chain(this.value, e => E.fold<L, A, Task<E.Either<M, A>>>(e, l => f(l).value, EitherT.of))
+    )
   }
   /**
    * @since 1.6.0
@@ -131,14 +136,14 @@ export class TaskEither<L, A> {
    * @since 1.2.0
    */
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> {
-    return new TaskEither(this.value.map(e => E.either.bimap(e, f, g)))
+    return new TaskEither(task.map(this.value, e => E.either.bimap(e, f, g)))
   }
   /**
    * Return `Right` if the given action succeeds, `Left` if it throws
    * @since 1.10.0
    */
   attempt<M = L>(): TaskEither<M, E.Either<L, A>> {
-    return new TaskEither(this.value.map<E.Either<M, E.Either<L, A>>>(E.right))
+    return new TaskEither(task.map(this.value, E.right))
   }
   /**
    * @since 1.11.0
@@ -146,7 +151,7 @@ export class TaskEither<L, A> {
   filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): TaskEither<L, B>
   filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A>
   filterOrElse(p: Predicate<A>, zero: L): TaskEither<L, A> {
-    return new TaskEither(this.value.map(e => E.filterOrElse(e, p, zero)))
+    return new TaskEither(task.map(this.value, e => E.filterOrElse(e, p, zero)))
   }
   /**
    * @since 1.11.0
@@ -154,7 +159,7 @@ export class TaskEither<L, A> {
   filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): TaskEither<L, B>
   filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>
   filterOrElseL(p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> {
-    return new TaskEither(this.value.map(e => E.filterOrElseL(e, p, zero)))
+    return new TaskEither(task.map(this.value, e => E.filterOrElseL(e, p, zero)))
   }
 }
 
@@ -166,7 +171,7 @@ const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> =>
  * @since 2.0.0
  */
 export const make = <A>(a: A): TaskEither<never, A> => {
-  return new TaskEither(T.of(a))
+  return new TaskEither(EitherT.of(a))
 }
 
 const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): TaskEither<L, B> => {
@@ -189,14 +194,14 @@ const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B)
  * @since 1.0.0
  */
 export const right = <A>(fa: Task<A>): TaskEither<never, A> => {
-  return new TaskEither(fa.map(E.right))
+  return new TaskEither(task.map(fa, E.right))
 }
 
 /**
  * @since 1.0.0
  */
 export const left = <L>(fl: Task<L>): TaskEither<L, never> => {
-  return new TaskEither(fl.map(E.left))
+  return new TaskEither(task.map(fl, E.left))
 }
 
 /**
@@ -210,7 +215,7 @@ export const fromEither = <L, A>(fa: E.Either<L, A>): TaskEither<L, A> => {
  * @since 1.5.0
  */
 export const fromIO = <A>(fa: IO<A>): TaskEither<never, A> => {
-  return right(taskFromIO(fa))
+  return right(T.fromIO(fa))
 }
 
 /**
@@ -224,7 +229,7 @@ export const fromLeft = <L>(l: L): TaskEither<L, never> => {
  * @since 1.6.0
  */
 export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
-  return new TaskEither(taskFromIO(fa.value))
+  return new TaskEither(T.fromIO(fa.value))
 }
 
 /**
@@ -244,7 +249,7 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
  * @since 1.9.0
  */
 export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => {
-  const S2 = taskGetSemigroup(E.getSemigroup<L, A>(S))
+  const S2 = T.getSemigroup(E.getSemigroup<L, A>(S))
   return {
     concat: (x, y) => new TaskEither<L, A>(S2.concat(x.value, y.value))
   }
@@ -254,7 +259,7 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
  * @since 1.9.0
  */
 export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => {
-  const S2 = taskGetSemigroup(E.getApplySemigroup<L, A>(S))
+  const S2 = T.getSemigroup(E.getApplySemigroup<L, A>(S))
   return {
     concat: (x, y) => new TaskEither<L, A>(S2.concat(x.value, y.value))
   }
@@ -302,8 +307,8 @@ export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => 
  *
  * @since 1.0.0
  */
-export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): TaskEither<L, A> => {
-  return new TaskEither(taskTryCatch(f, onrejected))
+export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => L): TaskEither<L, A> => {
+  return new TaskEither(T.tryCatch(f, onRejected))
 }
 
 /**
@@ -354,13 +359,11 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
   return function() {
     const args = Array.prototype.slice.call(arguments)
     return new TaskEither(
-      new Task(
-        () =>
-          new Promise(resolve => {
-            const cbResolver = (e: L, r: R) => (e != null ? resolve(E.left(e)) : resolve(E.right(r)))
-            f.apply(null, args.concat(cbResolver))
-          })
-      )
+      () =>
+        new Promise(resolve => {
+          const cbResolver = (e: L, r: R) => (e != null ? resolve(E.left(e)) : resolve(E.right(r)))
+          f.apply(null, args.concat(cbResolver))
+        })
     )
   }
 }
