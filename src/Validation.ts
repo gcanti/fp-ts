@@ -18,7 +18,7 @@ import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
+import { Option, isNone, isSome } from './Option'
 import { Semigroup } from './Semigroup'
 import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
@@ -406,7 +406,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
     if (fa.isFailure()) {
       return fa as any
     }
-    if (fa.value.isNone()) {
+    if (isNone(fa.value)) {
       return failure(ML.empty)
     }
     return success(fa.value.value)
@@ -494,7 +494,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
       return fa as any
     }
     const optionB = f(fa.value)
-    if (optionB.isSome()) {
+    if (isSome(optionB)) {
       return success(optionB.value)
     }
     return failure(ML.empty)
@@ -566,7 +566,7 @@ export const getMonadThrow = <L>(S: Semigroup<L>): MonadThrow2C<URI, L> => {
     ...getMonad(S),
     throwError,
     fromEither,
-    fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
+    fromOption: (o, e) => (isNone(o) ? throwError(e) : of(o.value))
   }
 }
 

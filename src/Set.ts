@@ -378,7 +378,7 @@ export const filterMap = <B>(S: Setoid<B>): (<A>(fa: Set<A>, f: (a: A) => Option
     const r: Set<B> = new Set()
     fa.forEach(a => {
       const ob = f(a)
-      if (ob.isSome() && !has(ob.value, r)) {
+      if (ob._tag === 'Some' && !has(ob.value, r)) {
         r.add(ob.value)
       }
     })

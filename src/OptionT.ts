@@ -9,7 +9,7 @@ import {
 import { Functor, Functor1, Functor2, Functor2C, Functor3C } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3C } from './Monad'
-import { none as optionNone, Option, option, URI } from './Option'
+import { none as optionNone, Option, option, URI, isNone } from './Option'
 
 export interface OptionT<M> extends ApplicativeComposition<M, URI> {
   readonly chain: <A, B>(fa: HKT<M, Option<A>>, f: (a: A) => HKT<M, Option<B>>) => HKT<M, Option<B>>
@@ -51,7 +51,7 @@ export function fold<F extends URIS>(
 ): <R, A>(onNone: R, onSome: (a: A) => R, fa: Type<F, Option<A>>) => Type<F, R>
 export function fold<F>(F: Functor<F>): <R, A>(onNone: R, onSome: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R>
 export function fold<F>(F: Functor<F>): <R, A>(onNone: R, onSome: (a: A) => R, fa: HKT<F, Option<A>>) => HKT<F, R> {
-  return (onNone, onSome, fa) => F.map(fa, o => (o.isNone() ? onNone : onSome(o.value)))
+  return (onNone, onSome, fa) => F.map(fa, o => (isNone(o) ? onNone : onSome(o.value)))
 }
 
 /**
@@ -67,6 +67,6 @@ export function getOptionT<M>(M: Monad<M>): OptionT<M> {
 
   return {
     ...applicativeComposition,
-    chain: (fa, f) => M.chain(fa, o => (o.isNone() ? M.of(optionNone) : f(o.value)))
+    chain: (fa, f) => M.chain(fa, o => (isNone(o) ? M.of(optionNone) : f(o.value)))
   }
 }

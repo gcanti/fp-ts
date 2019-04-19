@@ -36,17 +36,6 @@ describe('Apply', () => {
     assert.deepStrictEqual(applySecond(either)(foo, bar), foo)
   })
 
-  it('ap_', () => {
-    const f = (a: number) => (b: number) => a + b
-    assert.deepStrictEqual(
-      option
-        .of(f)
-        .ap_(some(2))
-        .ap_(some(3)),
-      some(5)
-    )
-  })
-
   it('sequenceT', () => {
     const sequenceTOption = sequenceT(option)
     assert.deepStrictEqual(sequenceTOption(some(1)), some([1]))
@@ -62,8 +51,8 @@ describe('Apply', () => {
       fc.property(input, options => {
         const x = sequenceTOption(...(options as any))
         return (
-          (options.every(isSome) && x.isSome() && S.equals(x.value as any, catOptions(options))) ||
-          (options.some(isNone) && x.isNone())
+          (options.every(isSome) && isSome(x) && S.equals(x.value as any, catOptions(options))) ||
+          (options.some(isNone) && isNone(x))
         )
       })
     )
