@@ -60,8 +60,8 @@ describe('Exception', () => {
 
   it('tryCatch', () => {
     const eiol = tryCatch(throwError<number>(new Error('bum!')))
-    assert.strictEqual(eiol.run().isLeft(), true)
+    assert.strictEqual(eiol.run()._tag, 'Left')
     const eior = tryCatch(new IO(() => 1))
-    assert.strictEqual(eior.run().isRight(), true)
+    assert.strictEqual(eior.run()._tag, 'Right')
   })
 })

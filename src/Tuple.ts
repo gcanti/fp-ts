@@ -206,7 +206,7 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
   const chainRec = <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
     let result = f(a)
     let acc = M.empty
-    while (result.snd.isLeft()) {
+    while (result.snd._tag === 'Left') {
       acc = M.concat(acc, result.fst)
       result = f(result.snd.value)
     }

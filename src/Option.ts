@@ -675,8 +675,13 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
  *
  * @since 1.0.0
  */
-export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => {
-  return fa.isLeft() ? none : some(fa.value)
+export const fromEither = <L, A>(ma: Either<L, A>): Option<A> => {
+  switch (ma._tag) {
+    case 'Left':
+      return none
+    case 'Right':
+      return some(ma.value)
+  }
 }
 
 /**
@@ -727,15 +732,17 @@ const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Opt
     }
   }
   const e = fa.value
-  if (e.isLeft()) {
-    return {
-      left: some(e.value),
-      right: none
-    }
-  }
-  return {
-    left: none,
-    right: some(e.value)
+  switch (e._tag) {
+    case 'Left':
+      return {
+        left: some(e.value),
+        right: none
+      }
+    case 'Right':
+      return {
+        left: none,
+        right: some(e.value)
+      }
   }
 }
 
@@ -762,15 +769,17 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
     })
   }
   return F.map(f(fa.value), e => {
-    if (e.isLeft()) {
-      return {
-        left: some(e.value),
-        right: none
-      }
-    }
-    return {
-      left: none,
-      right: some(e.value)
+    switch (e._tag) {
+      case 'Left':
+        return {
+          left: some(e.value),
+          right: none
+        }
+      case 'Right':
+        return {
+          left: none,
+          right: some(e.value)
+        }
     }
   })
 }

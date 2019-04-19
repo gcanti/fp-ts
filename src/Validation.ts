@@ -296,7 +296,12 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a
  * @since 1.0.0
  */
 export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => {
-  return e.isLeft() ? failure(e.value) : success(e.value)
+  switch (e._tag) {
+    case 'Left':
+      return failure(e.value)
+    case 'Right':
+      return success(e.value)
+  }
 }
 
 /**
@@ -414,15 +419,17 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
         right: fa as any
       }
     }
-    if (fa.value.isLeft()) {
-      return {
-        left: success(fa.value.value),
-        right: failure(ML.empty)
-      }
-    }
-    return {
-      left: failure(ML.empty),
-      right: success(fa.value.value)
+    switch (fa.value._tag) {
+      case 'Left':
+        return {
+          left: success(fa.value.value),
+          right: failure(ML.empty)
+        }
+      case 'Right':
+        return {
+          left: failure(ML.empty),
+          right: success(fa.value.value)
+        }
     }
   }
   return {
@@ -451,15 +458,17 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
       }
     }
     const e = f(fa.value)
-    if (e.isLeft()) {
-      return {
-        left: success(e.value),
-        right: failure(ML.empty)
-      }
-    }
-    return {
-      left: failure(ML.empty),
-      right: success(e.value)
+    switch (e._tag) {
+      case 'Left':
+        return {
+          left: success(e.value),
+          right: failure(ML.empty)
+        }
+      case 'Right':
+        return {
+          left: failure(ML.empty),
+          right: success(e.value)
+        }
     }
   }
   const partition = <A>(fa: Validation<L, A>, p: Predicate<A>): Separated<Validation<L, A>, Validation<L, A>> => {
