@@ -1,323 +1,228 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import { either, left as eitherLeft, right as eitherRight } from '../src/Either'
+import * as E from '../src/Either'
 import { IO } from '../src/IO'
 import { IOEither } from '../src/IOEither'
 import { none, some } from '../src/Option'
-import { reader, Reader } from '../src/Reader'
-import {
-  ask,
-  asks,
-  fromEither,
-  fromIO,
-  fromIOEither,
-  fromLeft,
-  fromPredicate,
-  fromReader,
-  fromTaskEither,
-  left,
-  local,
-  make,
-  readerTaskEither,
-  ReaderTaskEither,
-  readerTaskEitherSeq,
-  right,
-  tryCatch
-} from '../src/ReaderTaskEither'
+import { reader } from '../src/Reader'
+import * as RTE from '../src/ReaderTaskEither'
 import { task } from '../src/Task'
-import { left as taskEitherLeft, taskEither } from '../src/TaskEither'
+import { taskEither } from '../src/TaskEither'
 
 describe('ReaderTaskEither', () => {
   it('ap', () => {
     const double = (n: number): number => n * 2
-    const fab = make(double)
-    const fa = make(1)
-    return Promise.all([fa.ap(fab).run({}), fab.ap_(fa).run({}), readerTaskEither.ap(fab, fa).run({})]).then(
-      ([e1, e2, e3]) => {
-        assert.deepStrictEqual(e1, eitherRight(2))
-        assert.deepStrictEqual(e1, e2)
-        assert.deepStrictEqual(e1, e3)
-      }
-    )
+    const fab = RTE.make(double)
+    const fa = RTE.make(1)
+    return RTE.run(RTE.readerTaskEither.ap(fab, fa), {}).then(x => {
+      assert.deepStrictEqual(x, E.right(2))
+    })
   })
 
   it('map', () => {
     const double = (n: number): number => n * 2
-    return readerTaskEither
-      .map(make(1), double)
-      .run({})
-      .then(e => {
-        assert.deepStrictEqual(e, eitherRight(2))
-      })
+    return RTE.run(RTE.readerTaskEither.map(RTE.make(1), double), {}).then(x => {
+      assert.deepStrictEqual(x, E.right(2))
+    })
   })
 
   it('mapLeft', () => {
-    const double = (n: number): number => n * 2
-    return readerTaskEither
-      .of<{}, number, number>(1)
-      .chain(() => new ReaderTaskEither<{}, number, unknown>(() => taskEitherLeft(task.of(2))))
-      .mapLeft(double)
-      .run({})
-      .then(e => {
-        assert.deepStrictEqual(e, eitherLeft(4))
-      })
+    const len = (s: string): number => s.length
+    const rtes = [RTE.make(1), RTE.fromLeft('err')].map(rte => RTE.mapLeft(rte, len))
+    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
+      assert.deepStrictEqual(e1, E.right(1))
+      assert.deepStrictEqual(e2, E.left(3))
+    })
   })
 
   it('chain', () => {
-    const rte1 = readerTaskEither.chain(make('foo'), a => (a.length > 2 ? make(a.length) : fromLeft('foo')))
-    const rte2 = readerTaskEither.chain(make('a'), a => (a.length > 2 ? make(a.length) : fromLeft('foo')))
-    return Promise.all([rte1.run({}), rte2.run({})]).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, eitherRight(3))
-      assert.deepStrictEqual(e2, eitherLeft('foo'))
+    const f = (a: string) => (a.length > 2 ? RTE.make(a.length) : RTE.fromLeft('foo'))
+    const rtes = [RTE.readerTaskEither.chain(RTE.make('foo'), f), RTE.readerTaskEither.chain(RTE.make('a'), f)]
+    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
+      assert.deepStrictEqual(e1, E.right(3))
+      assert.deepStrictEqual(e2, E.left('foo'))
     })
   })
 
   it('fold', () => {
     const f = (s: string): boolean => s.length > 2
     const g = (n: number): boolean => n > 2
-    const rte1 = make(1).fold(f, g)
-    const rte2 = fromLeft('foo').fold(f, g)
-    return Promise.all([rte1.run({})(), rte2.run({})()]).then(([b1, b2]) => {
+    const rtes = [RTE.make(1), RTE.fromLeft('foo')].map(rte => RTE.fold(rte, f, g))
+    return Promise.all(rtes.map(rte => rte.run({})())).then(([b1, b2]) => {
       assert.strictEqual(b1, false)
       assert.strictEqual(b2, true)
     })
   })
 
-  it('of', () => {
-    return readerTaskEither
-      .of(1)
-      .run({})
-      .then(e => assert.deepStrictEqual(e, eitherRight(1)))
+  it('make', () => {
+    return RTE.run(RTE.make(1), {}).then(e => assert.deepStrictEqual(e, E.right(1)))
   })
 
   it('ask', () => {
-    const x = ask<number, {}>()
-    return x.run(1).then(e => assert.deepStrictEqual(e, eitherRight(1)))
+    return RTE.run(RTE.ask<number>(), 1).then(e => assert.deepStrictEqual(e, E.right(1)))
   })
 
   it('asks', () => {
-    const x = asks((s: string) => s.length)
-    return x.run('foo').then(e => assert.deepStrictEqual(e, eitherRight(3)))
+    return RTE.run(RTE.asks((s: string) => s.length), 'foo').then(e => assert.deepStrictEqual(e, E.right(3)))
   })
 
   it('local', () => {
-    const double = (n: number): number => n * 2
-    const doubleLocal = local<number>(double)
-    const rte1 = doubleLocal(new ReaderTaskEither<number, unknown, number>(taskEither.of))
-    type E = string
-    interface E2 {
-      name: string
-    }
-    const rte3 = local((e2: E2) => e2.name)(fromReader(new Reader((e: E) => e.length)))
-    return Promise.all([rte1.run(1), rte3.run({ name: 'foo' })]).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, eitherRight(2))
-      assert.deepStrictEqual(e2, eitherRight(3))
+    const len = (s: string): number => s.length
+    const rte = RTE.local(RTE.asks((n: number) => n + 1), len)
+    return RTE.run(rte, 'foo').then(e => {
+      assert.deepStrictEqual(e, E.right(4))
     })
   })
 
   it('left', () => {
-    return left(task.of(1))
-      .run({})
-      .then(e => {
-        assert.deepStrictEqual(e, eitherLeft(1))
-      })
+    return RTE.run(RTE.left(task.of(1)), {}).then(e => {
+      assert.deepStrictEqual(e, E.left(1))
+    })
   })
 
   it('right', () => {
-    return right(task.of(1))
-      .run({})
-      .then(e => {
-        assert.deepStrictEqual(e, eitherRight(1))
-      })
+    return RTE.run(RTE.right(task.of(1)), {}).then(e => {
+      assert.deepStrictEqual(e, E.right(1))
+    })
   })
 
   it('fromEither', () => {
-    const fa = fromEither(either.of(1))
-    return fa.run({}).then(e => {
-      assert.deepStrictEqual(e, eitherRight(1))
+    return RTE.run(RTE.fromEither(E.right(1)), {}).then(e => {
+      assert.deepStrictEqual(e, E.right(1))
     })
   })
 
   it('fromReader', () => {
-    const fa = fromReader(reader.of(1))
-    return fa.run({}).then(e => {
-      assert.deepStrictEqual(e, eitherRight(1))
+    return RTE.run(RTE.fromReader(reader.of(1)), {}).then(e => {
+      assert.deepStrictEqual(e, E.right(1))
     })
   })
 
   it('fromTaskEither', () => {
-    const fa = fromTaskEither(taskEither.of(1))
-    return fa.run({}).then(e => {
-      assert.deepStrictEqual(e, eitherRight(1))
+    return RTE.run(RTE.fromTaskEither(taskEither.of(1)), {}).then(e => {
+      assert.deepStrictEqual(e, E.right(1))
     })
   })
 
   it('tryCatch', () => {
-    const ok = tryCatch(() => Promise.resolve(1), () => 'error')
-    const ko = tryCatch(() => Promise.reject(undefined), () => 'error')
-    const koWithE = tryCatch(() => Promise.reject(undefined), (_, e: { defaultError: string }) => e.defaultError)
-    return Promise.all([ok.run({}), ko.run({}), koWithE.run({ defaultError: 'defaultError' })]).then(
-      ([eok, eko, ekoWithE]) => {
-        assert.deepStrictEqual(eok, eitherRight(1))
-        assert.deepStrictEqual(eko, eitherLeft('error'))
-        assert.deepStrictEqual(ekoWithE, eitherLeft('defaultError'))
-      }
-    )
+    const toError = () => 'error'
+    const rtes = [
+      RTE.tryCatch(() => Promise.resolve(1), toError),
+      RTE.tryCatch(() => Promise.reject(undefined), toError)
+    ]
+    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
+      assert.deepStrictEqual(e1, E.right(1))
+      assert.deepStrictEqual(e2, E.left('error'))
+    })
   })
 
   it('fromIO', () => {
-    const io = new IO(() => 1)
-    const fa = fromIO(io)
-    return fa.run({}).then(e => {
-      assert.deepStrictEqual(e, eitherRight(1))
+    return RTE.run(RTE.fromIO(new IO(() => 1)), {}).then(e => {
+      assert.deepStrictEqual(e, E.right(1))
     })
   })
 
   it('fromIOEither', () => {
-    const x1 = fromIOEither(new IOEither<unknown, number>(new IO(() => eitherRight(1))))
-    const x2 = fromIOEither(new IOEither<string, unknown>(new IO(() => eitherLeft('foo'))))
-    return Promise.all([x1.run({}), x2.run({})]).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, eitherRight(1))
-      assert.deepStrictEqual(e2, eitherLeft('foo'))
+    const rtes = [
+      RTE.fromIOEither(new IOEither<unknown, number>(new IO(() => E.right(1)))),
+      RTE.fromIOEither(new IOEither<string, unknown>(new IO(() => E.left('error'))))
+    ]
+    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
+      assert.deepStrictEqual(e1, E.right(1))
+      assert.deepStrictEqual(e2, E.left('error'))
     })
-  })
-
-  it('applyFirst', () => {
-    const log: Array<string> = []
-    const append = (message: string): ReaderTaskEither<{}, string, number> =>
-      right(() => Promise.resolve(log.push(message)))
-    return append('a')
-      .applyFirst(append('b'))
-      .run({})
-      .then(e => {
-        assert.deepStrictEqual(e, eitherRight(1))
-        assert.deepStrictEqual(log, ['a', 'b'])
-      })
-  })
-
-  it('applySecond', () => {
-    const log: Array<string> = []
-    const append = (message: string): ReaderTaskEither<{}, string, number> =>
-      right(() => Promise.resolve(log.push(message)))
-    return append('a')
-      .applySecond(append('b'))
-      .run({})
-      .then(e => {
-        assert.deepStrictEqual(e, eitherRight(2))
-        assert.deepStrictEqual(log, ['a', 'b'])
-      })
   })
 
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    const teRight = make(1)
-    const teLeft = fromLeft('foo')
-    return Promise.all([
-      teRight.bimap(f, g).run({}),
-      teLeft.bimap(f, g).run({}),
-      readerTaskEither.bimap(teRight, f, g).run({})
-    ]).then(([e1, e2, e3]) => {
-      assert.deepStrictEqual(e1, eitherRight(false))
-      assert.deepStrictEqual(e2, eitherLeft(3))
-      assert.deepStrictEqual(e1, e3)
+    const rtes = [RTE.make(1), RTE.fromLeft('error')].map(rte => RTE.readerTaskEither.bimap(rte, f, g))
+    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
+      assert.deepStrictEqual(e1, E.right(false))
+      assert.deepStrictEqual(e2, E.left(5))
     })
   })
 
   it('orElse', () => {
-    const l: ReaderTaskEither<unknown, string, number> = fromLeft('foo')
-    const r = make(1)
-    const tl = l.orElse(l => make(l.length))
-    const tr = r.orElse(() => make(2))
-    return Promise.all([tl.run({}), tr.run({})]).then(([el, er]) => {
-      assert.deepStrictEqual(el, eitherRight(3))
-      assert.deepStrictEqual(er, eitherRight(1))
+    const rtes = [RTE.make(1), RTE.fromLeft('error')].map(rte => RTE.orElse(rte, s => RTE.make(s.length)))
+    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
+      assert.deepStrictEqual(e1, E.right(1))
+      assert.deepStrictEqual(e2, E.right(5))
     })
   })
 
   it('alt', () => {
-    const l1: ReaderTaskEither<unknown, string, number> = fromLeft('foo')
-    const l2: ReaderTaskEither<unknown, string, number> = fromLeft('bar')
-    const r1: ReaderTaskEither<unknown, string, number> = make(1)
-    const r2: ReaderTaskEither<unknown, string, number> = make(2)
-    const x1 = l1.alt(l2)
-    const x2 = l1.alt(r1)
-    const x3 = r1.alt(l1)
-    const x4 = r1.alt(r2)
-    const x5 = readerTaskEither.alt(r1, r2)
-    return Promise.all([x1.run({}), x2.run({}), x3.run({}), x4.run({}), x5.run({})]).then(([e1, e2, e3, e4, e5]) => {
-      assert.deepStrictEqual(e1, eitherLeft('bar'))
-      assert.deepStrictEqual(e2, eitherRight(1))
-      assert.deepStrictEqual(e3, eitherRight(1))
-      assert.deepStrictEqual(e4, eitherRight(1))
-      assert.deepStrictEqual(e4, e5)
+    const rtes = [
+      RTE.readerTaskEither.alt(RTE.make(1), RTE.make(2)),
+      RTE.readerTaskEither.alt(RTE.make(1), RTE.fromLeft('error')),
+      RTE.readerTaskEither.alt(RTE.fromLeft('error'), RTE.make(2)),
+      RTE.readerTaskEither.alt(RTE.fromLeft('error1'), RTE.fromLeft('error2'))
+    ]
+    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2, e3, e4]) => {
+      assert.deepStrictEqual(e1, E.right(1))
+      assert.deepStrictEqual(e2, E.right(1))
+      assert.deepStrictEqual(e3, E.right(2))
+      assert.deepStrictEqual(e4, E.left('error2'))
     })
   })
 
   it('fromPredicate', () => {
     const predicate = (n: number) => n >= 2
-    const handleError = (n: number) => `Invalid number ${n}`
-    const gt2 = fromPredicate(predicate, handleError)
+    const gt2 = RTE.fromPredicate(predicate, n => `Invalid number ${n}`)
 
-    // refinements
-    const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const is = fromPredicate(isNumber, u => `Invalid number ${String(u)}`)
-    const actual = is(4)
+    const refinement = (u: string | number): u is number => typeof u === 'number'
+    const isNumber = RTE.fromPredicate(refinement, u => `Invalid number ${String(u)}`)
 
-    return Promise.all([gt2(3).run({}), gt2(1).run({}), actual.run({})]).then(([e1, e2, e3]) => {
-      assert.deepStrictEqual(e1, eitherRight(3))
-      assert.deepStrictEqual(e2, eitherLeft('Invalid number 1'))
-      assert.deepStrictEqual(e3, eitherRight(4))
+    const rtes = [gt2(3), gt2(1), isNumber(4)]
+    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2, e3]) => {
+      assert.deepStrictEqual(e1, E.right(3))
+      assert.deepStrictEqual(e2, E.left('Invalid number 1'))
+      assert.deepStrictEqual(e3, E.right(4))
     })
   })
 
   it('sequence parallel', () => {
     const log: Array<string> = []
-    const append = (message: string): ReaderTaskEither<{}, void, number> =>
-      right(() => Promise.resolve(log.push(message)))
-    const t1 = append('start 1').chain(() => append('end 1'))
-    const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceParallel = array.sequence(readerTaskEither)
-    return sequenceParallel([t1, t2])
-      .run({})
-      .then(ns => {
-        assert.deepStrictEqual(ns, eitherRight([3, 4]))
-        assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
-      })
+    const append = (message: string): RTE.ReaderTaskEither<{}, void, number> =>
+      RTE.right(() => Promise.resolve(log.push(message)))
+    const t1 = RTE.readerTaskEither.chain(append('start 1'), () => append('end 1'))
+    const t2 = RTE.readerTaskEither.chain(append('start 2'), () => append('end 2'))
+    const sequenceParallel = array.sequence(RTE.readerTaskEither)
+    return RTE.run(sequenceParallel([t1, t2]), {}).then(ns => {
+      assert.deepStrictEqual(ns, E.right([3, 4]))
+      assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
+    })
   })
 
   it('sequence series', () => {
     const log: Array<string> = []
-    const append = (message: string): ReaderTaskEither<{}, void, number> =>
-      right(() => Promise.resolve(log.push(message)))
-    const t1 = append('start 1').chain(() => append('end 1'))
-    const t2 = append('start 2').chain(() => append('end 2'))
-    const sequenceSeries = array.sequence(readerTaskEitherSeq)
-    return sequenceSeries([t1, t2])
-      .run({})
-      .then(ns => {
-        assert.deepStrictEqual(ns, eitherRight([2, 4]))
-        assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
-      })
+    const append = (message: string): RTE.ReaderTaskEither<{}, void, number> =>
+      RTE.right(() => Promise.resolve(log.push(message)))
+    const t1 = RTE.readerTaskEither.chain(append('start 1'), () => append('end 1'))
+    const t2 = RTE.readerTaskEither.chain(append('start 2'), () => append('end 2'))
+    const sequenceSeries = array.sequence(RTE.readerTaskEitherSeq)
+    return RTE.run(sequenceSeries([t1, t2]), {}).then(ns => {
+      assert.deepStrictEqual(ns, E.right([2, 4]))
+      assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
+    })
   })
 
   describe('MonadThrow', () => {
     it('should obey the law', () => {
-      return Promise.all([
-        readerTaskEither.chain(readerTaskEither.throwError('error'), a => make(a)).run({}),
-        readerTaskEither.throwError('error').run({})
-      ]).then(([e1, e2]) => {
+      const rtes = [
+        RTE.readerTaskEither.chain(RTE.readerTaskEither.throwError('error'), a => RTE.make(a)),
+        RTE.readerTaskEither.throwError('error')
+      ]
+      return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, e2)
       })
     })
 
     it('fromOption', () => {
-      return Promise.all([
-        readerTaskEither.fromOption(none, 'error').run({}),
-        readerTaskEither.fromOption(some(1), 'error').run({})
-      ]).then(([e1, e2]) => {
-        assert.deepStrictEqual(e1, eitherLeft('error'))
-        assert.deepStrictEqual(e2, eitherRight(1))
+      const rtes = [RTE.readerTaskEither.fromOption(none, 'error'), RTE.readerTaskEither.fromOption(some(1), 'error')]
+      return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
+        assert.deepStrictEqual(e1, E.left('error'))
+        assert.deepStrictEqual(e2, E.right(1))
       })
     })
   })
