@@ -4,7 +4,7 @@ import { Monad2 } from './Monad'
 import { Profunctor2 } from './Profunctor'
 import { Strong2 } from './Strong'
 import { Choice2 } from './Choice'
-import { Either, left as eitherLeft, right as eitherRight } from './Either'
+import * as E from './Either'
 import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
 
@@ -109,12 +109,12 @@ const second = <A, B, C>(pbc: Reader<B, C>): Reader<[A, B], [A, C]> => {
   return new Reader(([a, b]) => [a, pbc.run(b)])
 }
 
-const left = <A, B, C>(pab: Reader<A, B>): Reader<Either<A, C>, Either<B, C>> => {
-  return new Reader(e => e.fold<Either<B, C>>(a => eitherLeft(pab.run(a)), eitherRight))
+const left = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> => {
+  return new Reader(e => E.fold<A, C, E.Either<B, C>>(e, a => E.left(pab.run(a)), E.right))
 }
 
-const right = <A, B, C>(pbc: Reader<B, C>): Reader<Either<A, B>, Either<A, C>> => {
-  return new Reader(e => e.fold<Either<A, C>>(eitherLeft, b => eitherRight(pbc.run(b))))
+const right = <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> => {
+  return new Reader(e => E.fold<A, B, E.Either<A, C>>(e, E.left, b => E.right(pbc.run(b))))
 }
 
 /**

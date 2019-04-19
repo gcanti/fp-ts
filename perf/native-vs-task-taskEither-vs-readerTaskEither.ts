@@ -1,17 +1,17 @@
 import * as Benchmark from 'benchmark'
-import { Either, left, right } from '../src/Either'
+import { Either, left, right, isLeft } from '../src/Either'
 import { readerTaskEither } from '../src/ReaderTaskEither'
 import { taskEither } from '../src/TaskEither'
 
 const suite = new Benchmark.Suite()
 
 const f = (e: Either<string, string>): Promise<Either<string, number>> =>
-  e.isLeft() ? Promise.resolve(left(e.value)) : Promise.resolve(right(e.value.length))
+  isLeft(e) ? Promise.resolve(left(e.value)) : Promise.resolve(right(e.value.length))
 const g = (e: Either<string, number>): Promise<Either<string, boolean>> =>
-  e.isLeft() ? Promise.resolve(left(e.value)) : Promise.resolve(right(e.value > 2))
+  isLeft(e) ? Promise.resolve(left(e.value)) : Promise.resolve(right(e.value > 2))
 
 const native = () =>
-  Promise.resolve(right<string, string>('foo'))
+  Promise.resolve(right('foo'))
     .then(f)
     .then(g)
 

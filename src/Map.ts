@@ -1,6 +1,6 @@
 import { Applicative } from './Applicative'
 import { Compactable2, Separated } from './Compactable'
-import { Either } from './Either'
+import { Either, isLeft } from './Either'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable2C, Foldable3, Foldable2, Foldable1, Foldable } from './Foldable'
 import { FoldableWithIndex2C } from './FoldableWithIndex'
@@ -468,7 +468,7 @@ const separate = <K, RL, RR>(fa: Map<K, Either<RL, RR>>): Separated<Map<K, RL>, 
   let e: IteratorResult<[K, Either<RL, RR>]>
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
-    if (ei.isLeft()) {
+    if (isLeft(ei)) {
       left.set(k, ei.value)
     } else {
       right.set(k, ei.value)
@@ -524,7 +524,7 @@ const partitionMapWithIndex = <K, RL, RR, A>(
   while (!(e = entries.next()).done) {
     const [k, a] = e.value
     const ei = f(k, a)
-    if (ei.isLeft()) {
+    if (isLeft(ei)) {
       left.set(k, ei.value)
     } else {
       right.set(k, ei.value)

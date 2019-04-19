@@ -4,7 +4,7 @@ import {
   ApplicativeComposition22,
   getApplicativeComposition
 } from './Applicative'
-import { Either, either, left as eitherLeft, URI } from './Either'
+import { Either, either, left as eitherLeft, URI, isLeft } from './Either'
 import { Functor, Functor1, Functor2 } from './Functor'
 import { HKT, Type, Type2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
@@ -39,7 +39,7 @@ export function fold<F>(
 export function fold<F>(
   F: Functor<F>
 ): <R, L, A>(left: (l: L) => R, right: (a: A) => R, fa: HKT<F, Either<L, A>>) => HKT<F, R> {
-  return (left, right, fa) => F.map(fa, e => (e.isLeft() ? left(e.value) : right(e.value)))
+  return (left, right, fa) => F.map(fa, e => (isLeft(e) ? left(e.value) : right(e.value)))
 }
 
 /**
@@ -53,6 +53,6 @@ export function getEitherT<M>(M: Monad<M>): EitherT<M> {
 
   return {
     ...applicativeComposition,
-    chain: (fa, f) => M.chain(fa, e => (e.isLeft() ? M.of(eitherLeft(e.value)) : f(e.value)))
+    chain: (fa, f) => M.chain(fa, e => (isLeft(e) ? M.of(eitherLeft(e.value)) : f(e.value)))
   }
 }

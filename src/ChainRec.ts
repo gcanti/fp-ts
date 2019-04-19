@@ -34,7 +34,7 @@ export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
  */
 export const tailRec = <A, B>(a: A, f: (a: A) => Either<A, B>): B => {
   let v = f(a)
-  while (v.isLeft()) {
+  while (v._tag === 'Left') {
     v = f(v.value)
   }
   return v.value

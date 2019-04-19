@@ -440,7 +440,12 @@ export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L,
  * @since 1.13.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => {
-  return fa.isLeft() ? this_(fa.value) : that(fa.value)
+  switch (fa._tag) {
+    case 'Left':
+      return this_(fa.value)
+    case 'Right':
+      return that(fa.value)
+  }
 }
 
 /**
