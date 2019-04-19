@@ -24,6 +24,7 @@ export type URI = typeof URI
  * @since 1.0.0
  */
 export class Const<L, A> {
+  readonly _A!: A
   constructor(readonly value: L) {}
   map<B>(f: (a: A) => B): Const<L, B> {
     return this as any
@@ -37,11 +38,18 @@ export class Const<L, A> {
 }
 
 /**
+ * @since 2.0.0
+ */
+export const make = <L>(l: L): Const<L, never> => {
+  return new Const(l)
+}
+
+/**
  * @since 1.17.0
  */
 export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
   return {
-    show: c => `new Const(${S.show(c.value)})`
+    show: c => `make(${S.show(c.value)})`
   }
 }
 
@@ -65,7 +73,7 @@ const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
  */
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   const ap = <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
-    return new Const(S.concat(fab.value, fa.value))
+    return make(S.concat(fab.value, fa.value))
   }
 
   return {
@@ -82,7 +90,7 @@ export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
   return {
     ...getApply(M),
-    of: () => new Const(M.empty)
+    of: () => make(M.empty)
   }
 }
 
