@@ -1,6 +1,6 @@
 import * as free from '../src/Free'
 import { Identity, identity } from '../src/Identity'
-import * as option from '../src/Option'
+import * as O from '../src/Option'
 
 export class Degree {
   readonly value: number
@@ -110,21 +110,21 @@ const result1 = free.foldFree(identity)(interpretIdentity, program1(start)) // i
 // tslint:disable-next-line: no-console
 console.log(result1.value) // undefined
 
-const nonNegative = (position: Position): option.Option<Position> =>
-  position.x >= 0 && position.y >= 0 ? option.some(position) : option.none
+const nonNegative = (position: Position): O.Option<Position> =>
+  position.x >= 0 && position.y >= 0 ? O.some(position) : O.none
 
-export function interpretOption<A>(fa: InstructionF<A>): option.Option<A> {
+export function interpretOption<A>(fa: InstructionF<A>): O.Option<A> {
   switch (fa._tag) {
     case 'Forward':
-      return nonNegative(computation.forward(fa.position, fa.length)).map(fa.more)
+      return O.option.map(nonNegative(computation.forward(fa.position, fa.length)), fa.more)
     case 'Backward':
-      return nonNegative(computation.backward(fa.position, fa.length)).map(fa.more)
+      return O.option.map(nonNegative(computation.backward(fa.position, fa.length)), fa.more)
     case 'RotateRight':
-      return nonNegative(computation.right(fa.position, fa.degree)).map(fa.more)
+      return O.option.map(nonNegative(computation.right(fa.position, fa.degree)), fa.more)
     case 'Show':
       // tslint:disable-next-line: no-console
       console.log('interpretOption', fa.position)
-      return option.some(fa.more)
+      return O.some(fa.more)
   }
 }
 
@@ -139,7 +139,7 @@ const program2 = (start: Position) => {
 
 // tslint:disable-next-line: no-console
 console.log('--program2--')
-const result2 = free.foldFree(option.option)(interpretOption, program2(start))
+const result2 = free.foldFree(O.option)(interpretOption, program2(start))
 // tslint:disable-next-line: no-console
 console.log(result2) // none
 
