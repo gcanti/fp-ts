@@ -16,7 +16,9 @@ import {
   constFalse,
   constNull,
   constUndefined,
-  constVoid
+  constVoid,
+  increment,
+  decrement
 } from '../src/function'
 
 const f = (n: number) => n + 1
@@ -297,5 +299,13 @@ describe('function', () => {
 
   it('constVoid', () => {
     assert.strictEqual(constVoid(), undefined)
+  })
+
+  it('increment', () => {
+    assert.strictEqual(increment(2), 3)
+  })
+
+  it('decrement', () => {
+    assert.strictEqual(decrement(2), 1)
   })
 })

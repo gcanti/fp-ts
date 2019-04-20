@@ -43,10 +43,8 @@ import * as Re from '../../src/Reader'
 import * as RTE from '../../src/ReaderTaskEither'
 import * as R from '../../src/Record'
 import * as S from '../../src/Semigroup'
-import * as T from '../../src/Task'
 import * as TE from '../../src/TaskEither'
 import * as Th from '../../src/These'
-import * as Tr from '../../src/Traversable'
 import * as U from '../../src/Unfoldable'
 import * as V from '../../src/Validation'
 import * as Mon from '../../src/Monoid'
@@ -199,7 +197,7 @@ Apv.getApplicativeComposition(Re.reader, applicativeValidation).map // $ExpectTy
 
 // contramap
 
-C.const_.contramap(new C.Const<boolean, number>(true), (s: string) => s.length) // $ExpectType Const<boolean, string>
+C.const_.contramap(C.make<boolean>(true), (s: string) => s.length) // $ExpectType Const<boolean, string>
 
 //
 // OptionT
