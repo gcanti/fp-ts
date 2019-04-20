@@ -16,33 +16,26 @@ export type URI = typeof URI
 /**
  * @since 1.0.0
  */
-export class Store<S, A> {
-  constructor(readonly peek: (s: S) => A, readonly pos: S) {}
-  /** Reposition the focus at the specified position */
-  seek(s: S): Store<S, A> {
-    return new Store(this.peek, s)
-  }
-  map<B>(f: (a: A) => B): Store<S, B> {
-    return new Store(s => f(this.peek(s)), this.pos)
-  }
-  extract(): A {
-    return this.peek(this.pos)
-  }
-  extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> {
-    return new Store(s => f(this.seek(s)), this.pos)
-  }
+export interface Store<S, A> {
+  readonly peek: (s: S) => A
+  readonly pos: S
 }
 
 const map = <S, A, B>(sa: Store<S, A>, f: (a: A) => B): Store<S, B> => {
-  return sa.map(f)
+  return { peek: s => f(sa.peek(s)), pos: sa.pos }
 }
 
 const extract = <S, A>(sa: Store<S, A>): A => {
-  return sa.extract()
+  return sa.peek(sa.pos)
+}
+
+/** Reposition the focus at the specified position */
+export function seek<S, A>(sa: Store<S, A>, s: S): Store<S, A> {
+  return { peek: sa.peek, pos: s }
 }
 
 const extend = <S, A, B>(sa: Store<S, A>, f: (sa: Store<S, A>) => B): Store<S, B> => {
-  return sa.extend(f)
+  return { peek: s => f(seek(sa, s)), pos: sa.pos }
 }
 
 /**
@@ -60,7 +53,7 @@ export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): 
  * @since 1.0.0
  */
 export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => {
-  return new Store(sa.peek, f(sa.pos))
+  return { peek: sa.peek, pos: f(sa.pos) }
 }
 
 /**
