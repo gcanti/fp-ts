@@ -120,8 +120,6 @@ import * as ord from './Ord'
 export { ord }
 import * as ordering from './Ordering'
 export { ordering }
-import * as pair from './Pair'
-export { pair }
 import * as plus from './Plus'
 export { plus }
 import * as profunctor from './Profunctor'
