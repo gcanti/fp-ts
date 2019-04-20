@@ -1,6 +1,5 @@
 import * as assert from 'assert'
 import { catchError, error, message, stack, throwError, tryCatch } from '../src/Exception'
-import { IO } from '../src/IO'
 import * as O from '../src/Option'
 
 describe('Exception', () => {
@@ -30,34 +29,34 @@ describe('Exception', () => {
 
   it('throwError', () => {
     const eio = throwError<number>(new Error('bum!'))
-    assert.throws(() => eio.run())
+    assert.throws(() => eio())
   })
 
   it('catchError', () => {
     assert.strictEqual(
       catchError(
-        new IO(() => {
+        () => {
           throw new Error('bum!')
-        }),
-        () => new IO(() => 1)
-      ).run(),
+        },
+        () => () => 1
+      )(),
       1
     )
     assert.strictEqual(
       catchError(
-        new IO(() => {
+        () => {
           throw 'bum!' // tslint:disable-line no-string-throw
-        }),
-        () => new IO(() => 1)
-      ).run(),
+        },
+        () => () => 1
+      )(),
       1
     )
   })
 
   it('tryCatch', () => {
     const eiol = tryCatch(throwError<number>(new Error('bum!')))
-    assert.strictEqual(eiol.run()._tag, 'Left')
-    const eior = tryCatch(new IO(() => 1))
-    assert.strictEqual(eior.run()._tag, 'Right')
+    assert.strictEqual(eiol()._tag, 'Left')
+    const eior = tryCatch(() => 1)
+    assert.strictEqual(eior()._tag, 'Right')
   })
 })

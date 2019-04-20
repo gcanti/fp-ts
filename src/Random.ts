@@ -1,7 +1,7 @@
 /**
  * @file Adapted from https://github.com/purescript/purescript-random
  */
-import { IO } from './IO'
+import { IO, io } from './IO'
 
 /**
  * Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
@@ -9,7 +9,7 @@ import { IO } from './IO'
  *
  * @since 1.0.0
  */
-export const random: IO<number> = new IO(() => Math.random())
+export const random: IO<number> = () => Math.random()
 
 /**
  * Takes a range specified by `low` (the first argument) and `high` (the second), and returns a random integer uniformly
@@ -19,7 +19,7 @@ export const random: IO<number> = new IO(() => Math.random())
  * @since 1.0.0
  */
 export const randomInt = (low: number, high: number): IO<number> => {
-  return random.map(n => Math.floor((high - low + 1) * n + low))
+  return io.map(random, n => Math.floor((high - low + 1) * n + low))
 }
 
 /**
@@ -29,7 +29,7 @@ export const randomInt = (low: number, high: number): IO<number> => {
  * @since 1.0.0
  */
 export const randomRange = (min: number, max: number): IO<number> => {
-  return random.map(n => (max - min) * n + min)
+  return io.map(random, n => (max - min) * n + min)
 }
 
 /**
@@ -37,4 +37,4 @@ export const randomRange = (min: number, max: number): IO<number> => {
  *
  * @since 1.0.0
  */
-export const randomBool: IO<boolean> = random.map(n => n < 0.5)
+export const randomBool: IO<boolean> = io.map(random, n => n < 0.5)

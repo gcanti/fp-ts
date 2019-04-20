@@ -33,7 +33,7 @@ export class IOEither<L, A> {
    * Runs the inner io
    */
   run(): E.Either<L, A> {
-    return this.value.run()
+    return this.value()
   }
   map<B>(f: (a: A) => B): IOEither<L, B> {
     return new IOEither(T.map(this.value, f))
@@ -66,16 +66,16 @@ export class IOEither<L, A> {
     return foldT(this.value, left, right)
   }
   mapLeft<M>(f: (l: L) => M): IOEither<M, A> {
-    return new IOEither(this.value.map(e => E.mapLeft(e, f)))
+    return new IOEither(io.map(this.value, e => E.mapLeft(e, f)))
   }
   orElse<M>(f: (l: L) => IOEither<M, A>): IOEither<M, A> {
-    return new IOEither(this.value.chain(e => E.fold(e, l => f(l).value, a => T.of(a))))
+    return new IOEither(io.chain(this.value, e => E.fold(e, l => f(l).value, a => T.of(a))))
   }
   alt(fy: IOEither<L, A>): IOEither<L, A> {
     return this.orElse(() => fy)
   }
   bimap<V, B>(f: (l: L) => V, g: (a: A) => B): IOEither<V, B> {
-    return new IOEither(this.value.map(e => E.either.bimap(e, f, g)))
+    return new IOEither(io.map(this.value, e => E.either.bimap(e, f, g)))
   }
 }
 
@@ -110,14 +110,14 @@ const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): 
  * @since 1.6.0
  */
 export const right = <A>(fa: IO<A>): IOEither<never, A> => {
-  return new IOEither(fa.map(E.right))
+  return new IOEither(io.map(fa, E.right))
 }
 
 /**
  * @since 1.6.0
  */
 export const left = <L>(fa: IO<L>): IOEither<L, never> => {
-  return new IOEither(fa.map(E.left))
+  return new IOEither(io.map(fa, E.left))
 }
 
 /**
@@ -137,8 +137,8 @@ export const fromLeft = <L>(l: L): IOEither<L, never> => {
 /**
  * @since 1.11.0
  */
-export const tryCatch = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => {
-  return new IOEither(new IO(() => E.tryCatch(f, onerror)))
+export const tryCatch = <L, A>(f: Lazy<A>, onError: (reason: unknown) => L): IOEither<L, A> => {
+  return new IOEither(() => E.tryCatch(f, onError))
 }
 
 const throwError = fromLeft

@@ -24,7 +24,7 @@ const iof = <I, A>(a: A): IxIO<I, I, A> => {
 }
 
 const ichain = <I, O, Z, A, B>(fa: IxIO<I, O, A>, f: (a: A) => IxIO<O, Z, B>): IxIO<I, Z, B> => {
-  return lift(fa.chain(f))
+  return lift(io.chain(fa, f))
 }
 
 const ixIO: IxMonad3<URI> = {
@@ -35,31 +35,27 @@ const ixIO: IxMonad3<URI> = {
 
 let log: Array<string> = []
 
-const open: IxIO<'Closed', 'Open', number> = lift(
-  new IO(() => {
-    log.push('Opening the door')
-    return 1
-  })
-)
+const open: IxIO<'Closed', 'Open', number> = lift(() => {
+  log.push('Opening the door')
+  return 1
+})
 
-const close: IxIO<'Open', 'Closed', void> = lift(
-  new IO(() => {
-    log.push('Closing the door')
-  })
-)
+const close: IxIO<'Open', 'Closed', void> = lift(() => {
+  log.push('Closing the door')
+})
 
 describe('IxIO', () => {
   it('iapplyFirst', () => {
     log = []
     const action = iapplyFirst(ixIO)(open, close)
-    assert.strictEqual(action.run(), 1)
+    assert.strictEqual(action(), 1)
     assert.deepStrictEqual(log, ['Opening the door', 'Closing the door'])
   })
 
   it('iapplySecond', () => {
     log = []
     const action = iapplySecond(ixIO)(open, close)
-    assert.strictEqual(action.run(), undefined)
+    assert.strictEqual(action(), undefined)
     assert.deepStrictEqual(log, ['Opening the door', 'Closing the door'])
   })
 })
