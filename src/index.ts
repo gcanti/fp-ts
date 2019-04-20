@@ -184,5 +184,3 @@ import * as compactable from './Compactable'
 export { compactable }
 import * as witherable from './Witherable'
 export { witherable }
-import * as zipper from './Zipper'
-export { zipper }
