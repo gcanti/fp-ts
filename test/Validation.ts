@@ -26,7 +26,15 @@ import {
   success,
   tryCatch,
   validation,
-  Validation
+  Validation,
+  getOrElse,
+  getOrElseL,
+  mapFailure,
+  swap,
+  fold,
+  orElse,
+  filterOrElse,
+  filterOrElseL
 } from '../src/Validation'
 
 const p = (n: number): boolean => n > 2
@@ -91,22 +99,20 @@ describe('Validation', () => {
   })
 
   it('getOrElse', () => {
-    assert.strictEqual(success(12).getOrElse(17), 12)
-    const f1: Validation<string, number> = failure('a')
-    assert.strictEqual(f1.getOrElse(17), 17)
-    assert.strictEqual(f1.getOrElseL((l: string) => l.length + 1), 2)
+    assert.strictEqual(getOrElse(success(12), 17), 12)
+    assert.strictEqual(getOrElse(failure('a'), 17), 17)
   })
 
   it('getOrElseL', () => {
-    assert.strictEqual(success(12).getOrElseL(() => 17), 12)
-    const f1: Validation<string, number> = failure('a')
-    assert.strictEqual(f1.getOrElseL(() => 17), 17)
+    assert.deepStrictEqual(getOrElseL(success(12), () => 17), 12)
+    assert.deepStrictEqual(getOrElseL(failure('a'), () => 17), 17)
+    assert.deepStrictEqual(getOrElseL(failure('a'), (l: string) => l.length + 1), 2)
   })
 
   it('mapFailure', () => {
     const s1: Validation<string, number> = success(12)
-    assert.deepStrictEqual(s1.mapFailure(s => s.length), success(12))
-    assert.deepStrictEqual(failure('foo').mapFailure(s => s.length), failure(3))
+    assert.deepStrictEqual(mapFailure(s1, s => s.length), success(12))
+    assert.deepStrictEqual(mapFailure(failure('foo'), s => s.length), failure(3))
   })
 
   it('getAlt', () => {
@@ -117,9 +123,8 @@ describe('Validation', () => {
   })
 
   it('reduce', () => {
-    assert.deepStrictEqual(success('bar').reduce('foo', (b, a) => b + a), 'foobar')
-    assert.deepStrictEqual(failure('bar').reduce('foo', (b, a) => b + a), 'foo')
     assert.deepStrictEqual(validation.reduce(success('bar'), 'foo', (b, a) => b + a), 'foobar')
+    assert.deepStrictEqual(validation.reduce(failure('bar'), 'foo', (b, a) => b + a), 'foo')
   })
 
   it('foldMap', () => {
@@ -141,27 +146,17 @@ describe('Validation', () => {
     assert.strictEqual(foldr(x2, init1, f1), '')
   })
 
-  it('mapFailure', () => {
-    const double = (n: number): number => n * 2
-    assert.deepStrictEqual(success('bar').mapFailure(double), success('bar'))
-    assert.deepStrictEqual(failure(2).mapFailure(double), failure(4))
-  })
-
   it('swap', () => {
-    assert.deepStrictEqual(success('bar').swap(), failure('bar'))
-    assert.deepStrictEqual(failure('bar').swap(), success('bar'))
+    assert.deepStrictEqual(swap(success('bar')), failure('bar'))
+    assert.deepStrictEqual(swap(failure('bar')), success('bar'))
   })
 
   it('isFailure', () => {
-    assert.strictEqual(success(1).isFailure(), false)
-    assert.strictEqual(failure(1).isFailure(), true)
     assert.strictEqual(isFailure(success(1)), false)
     assert.strictEqual(isFailure(failure(1)), true)
   })
 
   it('isSuccess', () => {
-    assert.strictEqual(success(1).isSuccess(), true)
-    assert.strictEqual(failure(1).isSuccess(), false)
     assert.strictEqual(isSuccess(success(1)), true)
     assert.strictEqual(isSuccess(failure(1)), false)
   })
@@ -169,15 +164,14 @@ describe('Validation', () => {
   it('fold', () => {
     const f = (s: string) => `failure${s.length}`
     const g = (s: string) => `success${s.length}`
-    assert.strictEqual(failure('abc').fold(f, g), 'failure3')
-    assert.strictEqual(success('abc').fold(f, g), 'success3')
+    assert.strictEqual(fold(failure('abc'), f, g), 'failure3')
+    assert.strictEqual(fold(success('abc'), f, g), 'success3')
   })
 
   it('bimap', () => {
     const f = (s: string): number => s.length
-    assert.deepStrictEqual(success(1).bimap(f, p), success(false))
-    assert.deepStrictEqual(failure('foo').bimap(f, p), failure(3))
     assert.deepStrictEqual(validation.bimap(success(1), f, p), success(false))
+    assert.deepStrictEqual(validation.bimap(failure('foo'), f, p), failure(3))
   })
 
   it('fromPredicate', () => {
@@ -347,5 +341,42 @@ describe('Validation', () => {
     const S = getShow(showString, showString)
     assert.strictEqual(S.show(failure('a')), `failure("a")`)
     assert.strictEqual(S.show(success('a')), `success("a")`)
+  })
+
+  it('orElse', () => {
+    assert.deepStrictEqual(orElse(success(1), () => success(2)), success(1))
+    assert.deepStrictEqual(orElse(success(1), () => failure('foo')), success(1))
+    assert.deepStrictEqual(orElse(failure('foo'), () => success(1)), success(1))
+    assert.deepStrictEqual(orElse(failure('foo'), () => failure('bar')), failure('bar'))
+  })
+
+  it('filterOrElse', () => {
+    const gt10 = (n: number): boolean => n > 10
+    assert.deepStrictEqual(filterOrElse(success(12), gt10, -1), success(12))
+    assert.deepStrictEqual(filterOrElse(success(7), gt10, -1), failure(-1))
+    assert.deepStrictEqual(filterOrElse(failure(12), gt10, -1), failure(12))
+
+    type Color = 'red' | 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
+
+    assert.deepStrictEqual(filterOrElse(success('red'), isColor, -1), success('red'))
+    assert.deepStrictEqual(filterOrElse(success('foo'), isColor, -1), failure(-1))
+    assert.deepStrictEqual(filterOrElse(failure(12), isColor, -1), failure(12))
+  })
+
+  it('filterOrElseL', () => {
+    const gt10 = (n: number): boolean => n > 10
+    assert.deepStrictEqual(filterOrElseL(success(12), gt10, () => -1), success(12))
+    assert.deepStrictEqual(filterOrElseL(success(7), gt10, () => -1), failure(-1))
+    assert.deepStrictEqual(filterOrElseL(failure(12), gt10, () => -1), failure(12))
+    assert.deepStrictEqual(filterOrElseL(success(7), gt10, n => `invalid ${n}`), failure('invalid 7'))
+
+    type Color = 'red' | 'blue'
+    const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
+    const errorHandler = (s: string) => `invalid color ${s}`
+
+    assert.deepStrictEqual(filterOrElseL(success('red'), isColor, errorHandler), success('red'))
+    assert.deepStrictEqual(filterOrElseL(success('foo'), isColor, errorHandler), failure('invalid color foo'))
+    assert.deepStrictEqual(filterOrElseL(failure('err'), isColor, errorHandler), failure('err'))
   })
 })

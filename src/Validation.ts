@@ -35,6 +35,16 @@ export const URI = 'Validation'
 
 export type URI = typeof URI
 
+export interface Failure<L> {
+  readonly _tag: 'Failure'
+  readonly value: L
+}
+
+export interface Success<A> {
+  readonly _tag: 'Success'
+  readonly value: A
+}
+
 /**
  * @example
  * import { Validation, getApplicative, success, failure } from 'fp-ts/lib/Validation'
@@ -73,80 +83,78 @@ export type URI = typeof URI
  *
  * @since 1.0.0
  */
-export type Validation<L, A> = Failure<L, A> | Success<L, A>
+export type Validation<L, A> = Failure<L> | Success<A>
 
-export class Failure<L, A> {
-  readonly _tag: 'Failure' = 'Failure'
-  constructor(readonly value: L) {}
-  map<B>(f: (a: A) => B): Validation<L, B> {
-    return this as any
-  }
-  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> {
-    return new Failure(f(this.value))
-  }
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return b
-  }
-  fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
-    return failure(this.value)
-  }
-  /** Returns the value from this `Success` or the given argument if this is a `Failure` */
-  getOrElse(a: A): A {
-    return a
-  }
-  /** Returns the value from this `Success` or the result of given argument if this is a `Failure` */
-  getOrElseL(f: (l: L) => A): A {
-    return f(this.value)
-  }
-  mapFailure<M>(f: (l: L) => M): Validation<M, A> {
-    return new Failure(f(this.value))
-  }
-  swap(): Validation<A, L> {
-    return new Success(this.value)
-  }
-  /** Returns `true` if the validation is an instance of `Failure`, `false` otherwise */
-  isFailure(): this is Failure<L, A> {
-    return true
-  }
-  /** Returns `true` if the validation is an instance of `Success`, `false` otherwise */
-  isSuccess(): this is Success<L, A> {
-    return false
-  }
+/**
+ * @since 2.0.0
+ */
+export function fold<L, A, R>(ma: Validation<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): R {
+  return isFailure(ma) ? onLeft(ma.value) : onRight(ma.value)
 }
 
-export class Success<L, A> {
-  readonly _tag: 'Success' = 'Success'
-  constructor(readonly value: A) {}
-  map<B>(f: (a: A) => B): Validation<L, B> {
-    return new Success(f(this.value))
-  }
-  bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> {
-    return new Success(g(this.value))
-  }
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return f(b, this.value)
-  }
-  fold<B>(failure: (l: L) => B, success: (a: A) => B): B {
-    return success(this.value)
-  }
-  getOrElse(a: A): A {
-    return this.value
-  }
-  getOrElseL(f: (l: L) => A): A {
-    return this.value
-  }
-  mapFailure<M>(f: (l: L) => M): Validation<M, A> {
-    return this as any
-  }
-  swap(): Validation<A, L> {
-    return new Failure(this.value)
-  }
-  isFailure(): this is Failure<L, A> {
-    return false
-  }
-  isSuccess(): this is Success<L, A> {
-    return true
-  }
+/**
+ * @since 2.0.0
+ */
+export function mapFailure<L, A, M>(ma: Validation<L, A>, f: (l: L) => M): Validation<M, A> {
+  return isFailure(ma) ? failure(f(ma.value)) : ma
+}
+
+/**
+ * @since 2.0.0
+ */
+export function swap<L, A>(ma: Validation<L, A>): Validation<A, L> {
+  return isFailure(ma) ? success(ma.value) : failure(ma.value)
+}
+
+/**
+ * @since 2.0.0
+ */
+export function orElse<L, A, M>(ma: Validation<L, A>, f: (l: L) => Validation<M, A>): Validation<M, A> {
+  return isFailure(ma) ? f(ma.value) : ma
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getOrElse<L, A>(ma: Validation<L, A>, a: A): A {
+  return isFailure(ma) ? a : ma.value
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getOrElseL<L, A>(ma: Validation<L, A>, f: (l: L) => A): A {
+  return isFailure(ma) ? f(ma.value) : ma.value
+}
+
+/**
+ * @since 2.0.0
+ */
+export function filterOrElse<L, A, B extends A>(
+  ma: Validation<L, A>,
+  refinement: Refinement<A, B>,
+  zero: L
+): Validation<L, B>
+export function filterOrElse<L, A>(ma: Validation<L, A>, predicate: Predicate<A>, zero: L): Validation<L, A>
+export function filterOrElse<L, A>(ma: Validation<L, A>, predicate: Predicate<A>, zero: L): Validation<L, A> {
+  return isFailure(ma) ? ma : predicate(ma.value) ? ma : failure(zero)
+}
+
+/**
+ * @since 2.0.0
+ */
+export function filterOrElseL<L, A, B extends A>(
+  ma: Validation<L, A>,
+  refinement: Refinement<A, B>,
+  zero: (a: A) => L
+): Validation<L, B>
+export function filterOrElseL<L, A>(ma: Validation<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Validation<L, A>
+export function filterOrElseL<L, A>(
+  ma: Validation<L, A>,
+  predicate: Predicate<A>,
+  zero: (a: A) => L
+): Validation<L, A> {
+  return isFailure(ma) ? ma : predicate(ma.value) ? ma : failure(zero(ma.value))
 }
 
 /**
@@ -154,7 +162,7 @@ export class Success<L, A> {
  */
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Validation<L, A>> => {
   return {
-    show: e => e.fold(l => `failure(${SL.show(l)})`, a => `success(${SA.show(a)})`)
+    show: e => fold(e, l => `failure(${SL.show(l)})`, a => `success(${SA.show(a)})`)
   }
 }
 
@@ -163,20 +171,19 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Validation<L, A>> 
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
   return fromEquals(
-    (x, y) =>
-      x.isFailure() ? y.isFailure() && SL.equals(x.value, y.value) : y.isSuccess() && SA.equals(x.value, y.value)
+    (x, y) => (isFailure(x) ? isFailure(y) && SL.equals(x.value, y.value) : isSuccess(y) && SA.equals(x.value, y.value))
   )
 }
 
-const map = <L, A, B>(fa: Validation<L, A>, f: (a: A) => B): Validation<L, B> => {
-  return fa.map(f)
+const map = <L, A, B>(ma: Validation<L, A>, f: (a: A) => B): Validation<L, B> => {
+  return isFailure(ma) ? ma : success(f(ma.value))
 }
 
 /**
  * @since 1.0.0
  */
 export const success = <A>(a: A): Validation<never, A> => {
-  return new Success(a)
+  return { _tag: 'Success', value: a }
 }
 
 const of = success
@@ -212,11 +219,11 @@ const of = success
  */
 export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
   const ap = <A, B>(fab: Validation<L, (a: A) => B>, fa: Validation<L, A>): Validation<L, B> => {
-    return fab.isFailure()
-      ? fa.isFailure()
+    return isFailure(fab)
+      ? isFailure(fa)
         ? failure(S.concat(fab.value, fa.value))
         : failure(fab.value)
-      : fa.isFailure()
+      : isFailure(fa)
         ? failure(fa.value)
         : success(fab.value(fa.value))
   }
@@ -237,7 +244,7 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
  */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
   const chain = <A, B>(fa: Validation<L, A>, f: (a: A) => Validation<L, B>): Validation<L, B> => {
-    return fa.isFailure() ? failure(fa.value) : f(fa.value)
+    return isFailure(fa) ? failure(fa.value) : f(fa.value)
   }
 
   return {
@@ -246,38 +253,38 @@ export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
   }
 }
 
-const reduce = <L, A, B>(fa: Validation<L, A>, b: B, f: (b: B, a: A) => B): B => {
-  return fa.reduce(b, f)
+const reduce = <L, A, B>(ma: Validation<L, A>, b: B, f: (b: B, a: A) => B): B => {
+  return isFailure(ma) ? b : f(b, ma.value)
 }
 
 const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Validation<L, A>, f: (a: A) => M): M => {
-  return fa.isFailure() ? M.empty : f(fa.value)
+  return isFailure(fa) ? M.empty : f(fa.value)
 }
 
 const foldr = <L, A, B>(fa: Validation<L, A>, b: B, f: (a: A, b: B) => B): B => {
-  return fa.isFailure() ? b : f(fa.value, b)
+  return isFailure(fa) ? b : f(fa.value, b)
 }
 
 const traverse = <F>(F: Applicative<F>) => <L, A, B>(
   ta: Validation<L, A>,
   f: (a: A) => HKT<F, B>
 ): HKT<F, Validation<L, B>> => {
-  return ta.isFailure() ? F.of(failure(ta.value)) : F.map<B, Validation<L, B>>(f(ta.value), of)
+  return isFailure(ta) ? F.of(failure(ta.value)) : F.map(f(ta.value), of)
 }
 
 const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Validation<L, HKT<F, A>>): HKT<F, Validation<L, A>> => {
-  return ta.isFailure() ? F.of(failure(ta.value)) : F.map<A, Validation<L, A>>(ta.value, of)
+  return isFailure(ta) ? F.of(failure(ta.value)) : F.map(ta.value, of)
 }
 
-const bimap = <L, V, A, B>(fla: Validation<L, A>, f: (u: L) => V, g: (a: A) => B): Validation<V, B> => {
-  return fla.bimap(f, g)
+const bimap = <L, V, A, B>(ma: Validation<L, A>, f: (u: L) => V, g: (a: A) => B): Validation<V, B> => {
+  return isFailure(ma) ? failure(f(ma.value)) : success(g(ma.value))
 }
 
 /**
  * @since 1.0.0
  */
 export const failure = <L>(l: L): Validation<L, never> => {
-  return new Failure(l)
+  return { _tag: 'Failure', value: l }
 }
 
 /**
@@ -340,11 +347,11 @@ export const tryCatch = <L, A>(f: Lazy<A>, onError: (e: unknown) => L): Validati
  */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>> => {
   const concat = (fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
-    return fx.isFailure()
-      ? fy.isFailure()
+    return isFailure(fx)
+      ? isFailure(fy)
         ? failure(SL.concat(fx.value, fy.value))
         : failure(fx.value)
-      : fy.isFailure()
+      : isFailure(fy)
         ? failure(fy.value)
         : success(SA.concat(fx.value, fy.value))
   }
@@ -368,7 +375,7 @@ export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validat
  */
 export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
   const alt = <A>(fx: Validation<L, A>, fy: Validation<L, A>): Validation<L, A> => {
-    return fx.isFailure() ? (fy.isFailure() ? failure(S.concat(fx.value, fy.value)) : fy) : fx
+    return isFailure(fx) ? (isFailure(fy) ? failure(S.concat(fx.value, fy.value)) : fy) : fx
   }
   return {
     URI,
@@ -383,8 +390,8 @@ export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
  *
  * @since 1.0.0
  */
-export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
-  return fa.isFailure()
+export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L> => {
+  return fa._tag === 'Failure'
 }
 
 /**
@@ -392,8 +399,8 @@ export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => {
  *
  * @since 1.0.0
  */
-export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
-  return fa.isSuccess()
+export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<A> => {
+  return fa._tag === 'Success'
 }
 
 /**
@@ -403,8 +410,8 @@ export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => {
  */
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
   const compact = <A>(fa: Validation<L, Option<A>>): Validation<L, A> => {
-    if (fa.isFailure()) {
-      return fa as any
+    if (isFailure(fa)) {
+      return fa
     }
     if (isNone(fa.value)) {
       return failure(ML.empty)
@@ -413,10 +420,10 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
   }
 
   const separate = <RL, RR, A>(fa: Validation<L, Either<RL, RR>>): Separated<Validation<L, RL>, Validation<L, RR>> => {
-    if (fa.isFailure()) {
+    if (isFailure(fa)) {
       return {
-        left: fa as any,
-        right: fa as any
+        left: fa,
+        right: fa
       }
     }
     switch (fa.value._tag) {
@@ -451,10 +458,10 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
     fa: Validation<L, A>,
     f: (a: A) => Either<RL, RR>
   ): Separated<Validation<L, RL>, Validation<L, RR>> => {
-    if (fa.isFailure()) {
+    if (isFailure(fa)) {
       return {
-        left: fa as any,
-        right: fa as any
+        left: fa,
+        right: fa
       }
     }
     const e = f(fa.value)
@@ -472,7 +479,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
     }
   }
   const partition = <A>(fa: Validation<L, A>, p: Predicate<A>): Separated<Validation<L, A>, Validation<L, A>> => {
-    if (fa.isFailure()) {
+    if (isFailure(fa)) {
       return {
         left: fa,
         right: fa
@@ -490,8 +497,8 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
     }
   }
   const filterMap = <A, B>(fa: Validation<L, A>, f: (a: A) => Option<B>): Validation<L, B> => {
-    if (fa.isFailure()) {
-      return fa as any
+    if (isFailure(fa)) {
+      return fa
     }
     const optionB = f(fa.value)
     if (isSome(optionB)) {
@@ -500,7 +507,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
     return failure(ML.empty)
   }
   const filter = <A>(fa: Validation<L, A>, p: Predicate<A>): Validation<L, A> => {
-    if (fa.isFailure()) {
+    if (isFailure(fa)) {
       return fa
     }
     const a = fa.value

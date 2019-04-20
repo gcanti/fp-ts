@@ -319,7 +319,7 @@ export const tryCatch = <L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L
  * @since 1.0.0
  */
 export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
-  return fa.isFailure() ? left(fa.value) : right(fa.value)
+  return fa._tag === 'Failure' ? left(fa.value) : right(fa.value)
 }
 
 /**
