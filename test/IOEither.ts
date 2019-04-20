@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight, toError } from '../src/Either'
-import { IO, io } from '../src/IO'
+import { io } from '../src/IO'
 import { IOEither, fromLeft, left, right, ioEither, tryCatch, make } from '../src/IOEither'
 import { none, some } from '../src/Option'
 
@@ -47,10 +47,10 @@ describe('IOEither', () => {
   it('fold', () => {
     const f = (s: string): boolean => s.length > 2
     const g = (n: number): boolean => n > 2
-    const te1 = make(1).fold(f, g)
-    const te2 = fromLeft('foo').fold(f, g)
-    const b1 = te1.run()
-    const b2 = te2.run()
+    const io1 = make(1).fold(f, g)
+    const io2 = fromLeft('foo').fold(f, g)
+    const b1 = io1()
+    const b2 = io2()
 
     assert.strictEqual(b1, false)
     assert.strictEqual(b2, true)
@@ -90,7 +90,7 @@ describe('IOEither', () => {
 
   it('applySecond', () => {
     const log: Array<string> = []
-    const append = (message: string): IOEither<string, number> => right(new IO(() => log.push(message)))
+    const append = (message: string): IOEither<string, number> => right(() => log.push(message))
     const e = append('a')
       .applySecond(append('b'))
       .run()
@@ -138,7 +138,7 @@ describe('IOEither', () => {
 
   it('applyFirst', () => {
     const log: Array<string> = []
-    const append = (message: string): IOEither<string, number> => right(new IO(() => log.push(message)))
+    const append = (message: string): IOEither<string, number> => right(() => log.push(message))
     const e = append('a')
       .applyFirst(append('b'))
       .run()

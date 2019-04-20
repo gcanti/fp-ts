@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { getApplicativeComposition, getMonoid, when } from '../src/Applicative'
 import { array } from '../src/Array'
 import { either, left, right } from '../src/Either'
-import { IO, io } from '../src/IO'
+import { io } from '../src/IO'
 import { monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
@@ -24,12 +24,12 @@ describe('Applicative', () => {
 
   it('when', () => {
     const log: Array<string> = []
-    const action = new IO(() => {
+    const action = () => {
       log.push('action called')
-    })
-    when(io)(false, action).run()
+    }
+    when(io)(false, action)()
     assert.deepStrictEqual(log, [])
-    when(io)(true, action).run()
+    when(io)(true, action)()
     assert.deepStrictEqual(log, ['action called'])
   })
 

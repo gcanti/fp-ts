@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
 import * as E from '../src/Either'
-import { IO } from '../src/IO'
 import { IOEither } from '../src/IOEither'
 import { none, some } from '../src/Option'
 import { reader } from '../src/Reader'
@@ -117,15 +116,15 @@ describe('ReaderTaskEither', () => {
   })
 
   it('fromIO', () => {
-    return RTE.run(RTE.fromIO(new IO(() => 1)), {}).then(e => {
+    return RTE.run(RTE.fromIO(() => 1), {}).then(e => {
       assert.deepStrictEqual(e, E.right(1))
     })
   })
 
   it('fromIOEither', () => {
     const rtes = [
-      RTE.fromIOEither(new IOEither<unknown, number>(new IO(() => E.right(1)))),
-      RTE.fromIOEither(new IOEither<string, unknown>(new IO(() => E.left('error'))))
+      RTE.fromIOEither(new IOEither<unknown, number>(() => E.right(1))),
+      RTE.fromIOEither(new IOEither<string, unknown>(() => E.left('error')))
     ]
     return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, E.right(1))

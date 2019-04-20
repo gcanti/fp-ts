@@ -38,9 +38,9 @@ export const stack = (e: Error): Option<string> => {
  * @since 1.0.0
  */
 export const throwError = <A>(e: Error): IO<A> => {
-  return new IO(() => {
+  return () => {
     throw e
-  })
+  }
 }
 
 /**
@@ -49,17 +49,17 @@ export const throwError = <A>(e: Error): IO<A> => {
  * @since 1.0.0
  */
 export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> => {
-  return new IO(() => {
+  return () => {
     try {
-      return ma.run()
+      return ma()
     } catch (e) {
       if (e instanceof Error) {
-        return handler(e).run()
+        return handler(e)()
       } else {
-        return handler(new Error(e.toString())).run()
+        return handler(new Error(e.toString()))()
       }
     }
-  })
+  }
 }
 
 /**
@@ -69,5 +69,5 @@ export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> =>
  * @since 1.0.0
  */
 export const tryCatch = <A>(ma: IO<A>): IO<Either<Error, A>> => {
-  return catchError(ma.map<Either<Error, A>>(right), e => io.of(left(e)))
+  return catchError(io.map<A, Either<Error, A>>(ma, right), e => io.of(left(e)))
 }

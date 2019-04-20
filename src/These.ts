@@ -159,36 +159,36 @@ const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
 
 const of = right
 
-const ap = <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => {
-  return chain(S)(fab, f => map(fa, f))
-}
-
-const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These<L, B>): These<L, B> => {
-  if (isLeft(fa)) {
-    return fa
-  } else if (isRight(fa)) {
-    return f(fa.right)
-  } else {
-    const fb = f(fa.right)
-    return isLeft(fb)
-      ? left(S.concat(fa.left, fb.left))
-      : isRight(fb)
-        ? both(fa.left, fb.right)
-        : both(S.concat(fa.left, fb.left), fb.right)
-  }
-}
-
 /**
  * @since 1.0.0
  */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
+  const ap = <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => {
+    return chain(fab, f => map(fa, f))
+  }
+
+  const chain = <A, B>(fa: These<L, A>, f: (a: A) => These<L, B>): These<L, B> => {
+    if (isLeft(fa)) {
+      return fa
+    } else if (isRight(fa)) {
+      return f(fa.right)
+    } else {
+      const fb = f(fa.right)
+      return isLeft(fb)
+        ? left(S.concat(fa.left, fb.left))
+        : isRight(fb)
+          ? both(fa.left, fb.right)
+          : both(S.concat(fa.left, fb.left), fb.right)
+    }
+  }
+
   return {
     URI,
     _L: phantom,
     map,
     of,
-    ap: ap(S),
-    chain: chain(S)
+    ap,
+    chain
   }
 }
 

@@ -1,6 +1,5 @@
 import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight } from '../src/Either'
-import { IO } from '../src/IO'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 import { IOEither } from '../src/IOEither'
@@ -25,11 +24,9 @@ describe('TaskEither', () => {
     const useSuccess = () => TE.make('use success')
     const useFailure = () => TE.fromLeft('use failure')
     const releaseSuccess = () =>
-      TE.fromIO(
-        new IO(() => {
-          log.push('release success')
-        })
-      )
+      TE.fromIO(() => {
+        log.push('release success')
+      })
     const releaseFailure = () => TE.fromLeft('release failure')
 
     beforeEach(() => {
@@ -173,7 +170,7 @@ describe('TaskEither', () => {
   })
 
   it('fromIO', () => {
-    const io = new IO(() => 1)
+    const io = () => 1
     const fa = TE.fromIO(io)
     return fa().then(e => {
       assert.deepStrictEqual(e, eitherRight(1))
@@ -229,8 +226,8 @@ describe('TaskEither', () => {
   })
 
   it('fromIOEither', () => {
-    const x1 = TE.fromIOEither(new IOEither<string, number>(new IO(() => eitherRight(1))))
-    const x2 = TE.fromIOEither(new IOEither<string, number>(new IO(() => eitherLeft('foo'))))
+    const x1 = TE.fromIOEither(new IOEither<string, number>(() => eitherRight(1)))
+    const x2 = TE.fromIOEither(new IOEither<string, number>(() => eitherLeft('foo')))
     return Promise.all([x1(), x2()]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, eitherRight(1))
       assert.deepStrictEqual(e2, eitherLeft('foo'))
