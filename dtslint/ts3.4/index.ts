@@ -22,6 +22,7 @@ import * as Or from '../../src/Ord'
 import * as Fu from '../../src/function'
 import * as Ring from '../../src/Ring'
 import * as Field from '../../src/Field'
+import * as T from '../../src/Task'
 
 const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
