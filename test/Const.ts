@@ -9,20 +9,13 @@ describe('Const', () => {
   it('map', () => {
     const fa = make('foo')
     const double = (n: number): number => n * 2
-    assert.strictEqual(fa.map(double), fa)
     assert.strictEqual(const_.map(fa, double), fa)
   })
 
   it('contramap', () => {
     const fa: Const<string, number> = make('foo')
     const double = (n: number): number => n * 2
-    assert.strictEqual(fa.contramap(double), fa)
     assert.strictEqual(const_.contramap(fa, double), fa)
-  })
-
-  it('fold', () => {
-    const fa = make('foo')
-    assert.strictEqual(fa.fold(s => s.length), 3)
   })
 
   it('getApplicative', () => {

@@ -702,7 +702,7 @@ describe('Array', () => {
     const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
       array.foldMapWithIndex(M)(ta, f),
-      array.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => new C.Const<string, unknown>(f(i, a))).value
+      array.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => C.make(f(i, a)))
     )
 
     // FunctorWithIndex compatibility
