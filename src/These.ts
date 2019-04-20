@@ -42,90 +42,64 @@ export const URI = 'These'
 
 export type URI = typeof URI
 
+export interface Left<L> {
+  readonly _tag: 'Left'
+  readonly left: L
+}
+
+export interface Right<A> {
+  readonly _tag: 'Right'
+  readonly right: A
+}
+
+export interface Both<L, A> {
+  readonly _tag: 'Both'
+  readonly left: L
+  readonly right: A
+}
+
 /**
  * @since 1.0.0
  */
-export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
+export type These<L, A> = Left<L> | Right<A> | Both<L, A>
 
-export class This<L, A> {
-  readonly _tag: 'This' = 'This'
-  constructor(readonly value: L) {}
-  map<B>(f: (a: A) => B): These<L, B> {
-    return this as any
-  }
-  bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
-    return new This(f(this.value))
-  }
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return b
-  }
-  /** Applies a function to each case in the data structure */
-  fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
-    return this_(this.value)
-  }
-  /** Returns `true` if the these is `This`, `false` otherwise */
-  isThis(): this is This<L, A> {
-    return true
-  }
-  /** Returns `true` if the these is `That`, `false` otherwise */
-  isThat(): this is That<L, A> {
-    return false
-  }
-  /** Returns `true` if the these is `Both`, `false` otherwise */
-  isBoth(): this is Both<L, A> {
-    return false
-  }
+/**
+ * @since 1.0.0
+ */
+export const left = <L>(left: L): These<L, never> => {
+  return { _tag: 'Left', left }
 }
 
-export class That<L, A> {
-  readonly _tag: 'That' = 'That'
-  constructor(readonly value: A) {}
-  map<B>(f: (a: A) => B): These<L, B> {
-    return new That(f(this.value))
-  }
-  bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
-    return new That(g(this.value))
-  }
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return f(b, this.value)
-  }
-  fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
-    return that(this.value)
-  }
-  isThis(): this is This<L, A> {
-    return false
-  }
-  isThat(): this is That<L, A> {
-    return true
-  }
-  isBoth(): this is Both<L, A> {
-    return false
-  }
+/**
+ * @since 1.0.0
+ */
+export const right = <A>(right: A): These<never, A> => {
+  return { _tag: 'Right', right }
 }
 
-export class Both<L, A> {
-  readonly _tag: 'Both' = 'Both'
-  constructor(readonly l: L, readonly a: A) {}
-  map<B>(f: (a: A) => B): These<L, B> {
-    return new Both(this.l, f(this.a))
-  }
-  bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> {
-    return new Both(f(this.l), g(this.a))
-  }
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    return f(b, this.a)
-  }
-  fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B {
-    return both(this.l, this.a)
-  }
-  isThis(): this is This<L, A> {
-    return false
-  }
-  isThat(): this is That<L, A> {
-    return false
-  }
-  isBoth(): this is Both<L, A> {
-    return true
+/**
+ * @since 1.0.0
+ */
+export const both = <L, A>(left: L, right: A): These<L, A> => {
+  return { _tag: 'Both', left, right }
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fold<L, A, R>(
+  fa: These<L, A>,
+  onLeft: (l: L) => R,
+  onRight: (a: A) => R,
+  onBoth: (l: L, a: A) => R
+): R {
+  switch (fa._tag) {
+    case 'Left':
+      return onLeft(fa.left)
+    case 'Right':
+      return onRight(fa.right)
+    case 'Both':
+      return onBoth(fa.left, fa.right)
   }
 }
 
@@ -134,8 +108,8 @@ export class Both<L, A> {
  */
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> => {
   return {
-    show: t =>
-      t.fold(l => `this_(${SL.show(l)})`, a => `that(${SA.show(a)})`, (l, a) => `both(${SL.show(l)}, ${SA.show(a)})`)
+    show: fa =>
+      fold(fa, l => `left(${SL.show(l)})`, a => `right(${SA.show(a)})`, (l, a) => `both(${SL.show(l)}, ${SA.show(a)})`)
   }
 }
 
@@ -145,11 +119,11 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> => {
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
   return fromEquals(
     (x, y) =>
-      x.isThis()
-        ? y.isThis() && SL.equals(x.value, y.value)
-        : x.isThat()
-          ? y.isThat() && SA.equals(x.value, y.value)
-          : y.isBoth() && SL.equals(x.l, y.l) && SA.equals(x.a, y.a)
+      isLeft(x)
+        ? isLeft(y) && SL.equals(x.left, y.left)
+        : isRight(x)
+          ? isRight(y) && SA.equals(x.right, y.right)
+          : isBoth(y) && SL.equals(x.left, y.left) && SA.equals(x.right, y.right)
   )
 }
 
@@ -159,55 +133,48 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => {
   return {
     concat: (x, y) =>
-      x.isThis()
-        ? y.isThis()
-          ? this_(SL.concat(x.value, y.value))
-          : y.isThat()
-            ? both(x.value, y.value)
-            : both(SL.concat(x.value, y.l), y.a)
-        : x.isThat()
-          ? y.isThis()
-            ? both(y.value, x.value)
-            : y.isThat()
-              ? that(SA.concat(x.value, y.value))
-              : both(y.l, SA.concat(x.value, y.a))
-          : y.isThis()
-            ? both(SL.concat(x.l, y.value), x.a)
-            : y.isThat()
-              ? both(x.l, SA.concat(x.a, y.value))
-              : both(SL.concat(x.l, y.l), SA.concat(x.a, y.a))
+      isLeft(x)
+        ? isLeft(y)
+          ? left(SL.concat(x.left, y.left))
+          : isRight(y)
+            ? both(x.left, y.right)
+            : both(SL.concat(x.left, y.left), y.right)
+        : isRight(x)
+          ? isLeft(y)
+            ? both(y.left, x.right)
+            : isRight(y)
+              ? right(SA.concat(x.right, y.right))
+              : both(y.left, SA.concat(x.right, y.right))
+          : isLeft(y)
+            ? both(SL.concat(x.left, y.left), x.right)
+            : isRight(y)
+              ? both(x.left, SA.concat(x.right, y.right))
+              : both(SL.concat(x.left, y.left), SA.concat(x.right, y.right))
   }
 }
 
 const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
-  return fa.map(f)
+  return isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
 }
 
-/**
- * @since 1.0.0
- */
-export const that = <A>(a: A): These<never, A> => {
-  return new That(a)
-}
-
-const of = that
+const of = right
 
 const ap = <L>(S: Semigroup<L>) => <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => {
   return chain(S)(fab, f => map(fa, f))
 }
 
 const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These<L, B>): These<L, B> => {
-  if (fa.isThis()) {
-    return this_(fa.value)
-  } else if (fa.isThat()) {
-    return f(fa.value)
+  if (isLeft(fa)) {
+    return fa
+  } else if (isRight(fa)) {
+    return f(fa.right)
   } else {
-    const fb = f(fa.a)
-    return fb.isThis()
-      ? this_(S.concat(fa.l, fb.value))
-      : fb.isThat()
-        ? both(fa.l, fb.value)
-        : both(S.concat(fa.l, fb.l), fb.a)
+    const fb = f(fa.right)
+    return isLeft(fb)
+      ? left(S.concat(fa.left, fb.left))
+      : isRight(fb)
+        ? both(fa.left, fb.right)
+        : both(S.concat(fa.left, fb.left), fb.right)
   }
 }
 
@@ -225,118 +192,96 @@ export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
   }
 }
 
-const bimap = <L, M, A, B>(fla: These<L, A>, f: (l: L) => M, g: (a: A) => B): These<M, B> => {
-  return fla.bimap(f, g)
+const bimap = <L, M, A, B>(fa: These<L, A>, f: (l: L) => M, g: (a: A) => B): These<M, B> => {
+  return isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
 }
 
 const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
-  return fa.reduce(b, f)
+  return isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
 }
 
 const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: These<L, A>, f: (a: A) => M): M => {
-  return fa.isThis() ? M.empty : fa.isThat() ? f(fa.value) : f(fa.a)
+  return isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
 }
 
 const foldr = <L, A, B>(fa: These<L, A>, b: B, f: (a: A, b: B) => B): B => {
-  return fa.isThis() ? b : fa.isThat() ? f(fa.value, b) : f(fa.a, b)
+  return isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
 }
 
 const traverse = <F>(F: Applicative<F>) => <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>): HKT<F, These<L, B>> => {
-  return ta.isThis()
-    ? F.of(this_(ta.value))
-    : ta.isThat()
-      ? F.map(f(ta.value), that as (b: B) => These<L, B>)
-      : F.map(f(ta.a), b => both(ta.l, b))
+  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), b => both(ta.left, b))
 }
 
 const sequence = <F>(F: Applicative<F>) => <L, A>(ta: These<L, HKT<F, A>>): HKT<F, These<L, A>> => {
-  return ta.isThis()
-    ? F.of(this_(ta.value))
-    : ta.isThat()
-      ? F.map(ta.value, that as (a: A) => These<L, A>)
-      : F.map(ta.a, b => both(ta.l, b))
-}
-
-/**
- * @since 1.0.0
- */
-export const this_ = <L>(l: L): These<L, never> => {
-  return new This(l)
-}
-
-/**
- * @since 1.0.0
- */
-export const both = <L, A>(l: L, a: A): These<L, A> => {
-  return new Both(l, a)
+  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, b => both(ta.left, b))
 }
 
 /**
  *
  * @example
- * import { fromThese, this_, that, both } from 'fp-ts/lib/These'
+ * import { toTuple, left, right, both } from 'fp-ts/lib/These'
  *
- * const from = fromThese('a', 1)
- * assert.deepStrictEqual(from(this_('b')), ['b', 1])
- * assert.deepStrictEqual(from(that(2)), ['a', 2])
- * assert.deepStrictEqual(from(both('b', 2)), ['b', 2])
+ * const to = toTuple('a', 1)
+ * assert.deepStrictEqual(to(left('b')), ['b', 1])
+ * assert.deepStrictEqual(to(right(2)), ['a', 2])
+ * assert.deepStrictEqual(to(both('b', 2)), ['b', 2])
  *
  * @since 1.0.0
  */
-export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A] => {
-  return fa.isThis() ? [fa.value, defaultThat] : fa.isThat() ? [defaultThis, fa.value] : [fa.l, fa.a]
+export const toTuple = <L, A>(defaultLeft: L, defaultRight: A) => (fa: These<L, A>): [L, A] => {
+  return isLeft(fa) ? [fa.left, defaultRight] : isRight(fa) ? [defaultLeft, fa.right] : [fa.left, fa.right]
 }
 
 /**
  * Returns an `L` value if possible
  *
  * @example
- * import { theseLeft, this_, that, both } from 'fp-ts/lib/These'
+ * import { getLeft, left, right, both } from 'fp-ts/lib/These'
  * import { none, some } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(theseLeft(this_('a')), some('a'))
- * assert.deepStrictEqual(theseLeft(that(1)), none)
- * assert.deepStrictEqual(theseLeft(both('a', 1)), some('a'))
+ * assert.deepStrictEqual(getLeft(left('a')), some('a'))
+ * assert.deepStrictEqual(getLeft(right(1)), none)
+ * assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
  *
  * @since 1.0.0
  */
-export const theseLeft = <L, A>(fa: These<L, A>): O.Option<L> => {
-  return fa.isThis() ? O.some(fa.value) : fa.isThat() ? O.none : O.some(fa.l)
+export const getLeft = <L, A>(fa: These<L, A>): O.Option<L> => {
+  return isLeft(fa) ? O.some(fa.left) : isRight(fa) ? O.none : O.some(fa.left)
 }
 
 /**
  * Returns an `A` value if possible
  *
  * @example
- * import { theseRight, this_, that, both } from 'fp-ts/lib/These'
+ * import { getRight, left, right, both } from 'fp-ts/lib/These'
  * import { none, some } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(theseRight(this_('a')), none)
- * assert.deepStrictEqual(theseRight(that(1)), some(1))
- * assert.deepStrictEqual(theseRight(both('a', 1)), some(1))
+ * assert.deepStrictEqual(getRight(left('a')), none)
+ * assert.deepStrictEqual(getRight(right(1)), some(1))
+ * assert.deepStrictEqual(getRight(both('a', 1)), some(1))
  *
  * @since 1.0.0
  */
-export const theseRight = <L, A>(fa: These<L, A>): O.Option<A> => {
-  return fa.isThis() ? O.none : fa.isThat() ? O.some(fa.value) : O.some(fa.a)
+export const getRight = <L, A>(fa: These<L, A>): O.Option<A> => {
+  return isLeft(fa) ? O.none : isRight(fa) ? O.some(fa.right) : O.some(fa.right)
 }
 
 /**
- * Returns `true` if the these is an instance of `This`, `false` otherwise
+ * Returns `true` if the these is an instance of `Left`, `false` otherwise
  *
  * @since 1.0.0
  */
-export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => {
-  return fa.isThis()
+export const isLeft = <L, A>(fa: These<L, A>): fa is Left<L> => {
+  return fa._tag === 'Left'
 }
 
 /**
- * Returns `true` if the these is an instance of `That`, `false` otherwise
+ * Returns `true` if the these is an instance of `Right`, `false` otherwise
  *
  * @since 1.0.0
  */
-export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
-  return fa.isThat()
+export const isRight = <L, A>(fa: These<L, A>): fa is Right<A> => {
+  return fa._tag === 'Right'
 }
 
 /**
@@ -345,82 +290,82 @@ export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => {
  * @since 1.0.0
  */
 export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
-  return fa.isBoth()
+  return fa._tag === 'Both'
 }
 
 /**
  * @example
- * import { thisOrBoth, this_, both } from 'fp-ts/lib/These'
+ * import { leftOrBoth, left, both } from 'fp-ts/lib/These'
  * import { none, some } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(thisOrBoth('a', none), this_('a'))
- * assert.deepStrictEqual(thisOrBoth('a', some(1)), both('a', 1))
+ * assert.deepStrictEqual(leftOrBoth('a', none), left('a'))
+ * assert.deepStrictEqual(leftOrBoth('a', some(1)), both('a', 1))
  *
  * @since 1.13.0
  */
-export const thisOrBoth = <L, A>(defaultThis: L, ma: O.Option<A>): These<L, A> => {
-  return O.isNone(ma) ? this_(defaultThis) : both(defaultThis, ma.value)
+export const leftOrBoth = <L, A>(defaultLeft: L, ma: O.Option<A>): These<L, A> => {
+  return O.isNone(ma) ? left(defaultLeft) : both(defaultLeft, ma.value)
 }
 
 /**
  * @example
- * import { thatOrBoth, that, both } from 'fp-ts/lib/These'
+ * import { rightOrBoth, right, both } from 'fp-ts/lib/These'
  * import { none, some } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(thatOrBoth(1, none), that(1))
- * assert.deepStrictEqual(thatOrBoth(1, some('a')), both('a', 1))
+ * assert.deepStrictEqual(rightOrBoth(1, none), right(1))
+ * assert.deepStrictEqual(rightOrBoth(1, some('a')), both('a', 1))
  *
  * @since 1.13.0
  */
-export const thatOrBoth = <L, A>(defaultThat: A, ml: O.Option<L>): These<L, A> => {
-  return O.isNone(ml) ? that(defaultThat) : both(ml.value, defaultThat)
+export const rightOrBoth = <L, A>(defaultRight: A, ml: O.Option<L>): These<L, A> => {
+  return O.isNone(ml) ? right(defaultRight) : both(ml.value, defaultRight)
 }
 
 /**
- * Returns the `L` value if and only if the value is constructed with `This`
+ * Returns the `L` value if and only if the value is constructed with `Left`
  *
  * @example
- * import { theseThis, this_, that, both } from 'fp-ts/lib/These'
+ * import { getLeftOnly, left, right, both } from 'fp-ts/lib/These'
  * import { none, some } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(theseThis(this_('a')), some('a'))
- * assert.deepStrictEqual(theseThis(that(1)), none)
- * assert.deepStrictEqual(theseThis(both('a', 1)), none)
+ * assert.deepStrictEqual(getLeftOnly(left('a')), some('a'))
+ * assert.deepStrictEqual(getLeftOnly(right(1)), none)
+ * assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
  *
  * @since 1.13.0
  */
-export const theseThis = <L, A>(fa: These<L, A>): O.Option<L> => {
-  return fa.isThis() ? O.some(fa.value) : O.none
+export const getLeftOnly = <L, A>(fa: These<L, A>): O.Option<L> => {
+  return isLeft(fa) ? O.some(fa.left) : O.none
 }
 
 /**
- * Returns the `A` value if and only if the value is constructed with `That`
+ * Returns the `A` value if and only if the value is constructed with `Right`
  *
  * @example
- * import { theseThat, this_, that, both } from 'fp-ts/lib/These'
+ * import { getRightOnly, left, right, both } from 'fp-ts/lib/These'
  * import { none, some } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(theseThat(this_('a')), none)
- * assert.deepStrictEqual(theseThat(that(1)), some(1))
- * assert.deepStrictEqual(theseThat(both('a', 1)), none)
+ * assert.deepStrictEqual(getRightOnly(left('a')), none)
+ * assert.deepStrictEqual(getRightOnly(right(1)), some(1))
+ * assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
  *
  *
  * @since 1.13.0
  */
-export const theseThat = <L, A>(fa: These<L, A>): O.Option<A> => {
-  return fa.isThat() ? O.some(fa.value) : O.none
+export const getRightOnly = <L, A>(fa: These<L, A>): O.Option<A> => {
+  return isRight(fa) ? O.some(fa.right) : O.none
 }
 
 /**
  * Takes a pair of `Option`s and attempts to create a `These` from them
  *
  * @example
- * import { fromOptions, this_, that, both } from 'fp-ts/lib/These'
+ * import { fromOptions, left, right, both } from 'fp-ts/lib/These'
  * import { none, some } from 'fp-ts/lib/Option'
  *
  * assert.deepStrictEqual(fromOptions(none, none), none)
- * assert.deepStrictEqual(fromOptions(some('a'), none), some(this_('a')))
- * assert.deepStrictEqual(fromOptions(none, some(1)), some(that(1)))
+ * assert.deepStrictEqual(fromOptions(some('a'), none), some(left('a')))
+ * assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
  * assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
  *
  * @since 1.13.0
@@ -428,27 +373,27 @@ export const theseThat = <L, A>(fa: These<L, A>): O.Option<A> => {
 export const fromOptions = <L, A>(fl: O.Option<L>, fa: O.Option<A>): O.Option<These<L, A>> => {
   return O.foldL(
     fl,
-    () => O.fold(fa, O.none, a => O.some(that(a))),
-    l => O.foldL(fa, () => O.some(this_(l)), a => O.some(both(l, a)))
+    () => O.fold(fa, O.none, a => O.some(right(a))),
+    l => O.foldL(fa, () => O.some(left(l)), a => O.some(both(l, a)))
   )
 }
 
 /**
  * @example
- * import { fromEither, this_, that } from 'fp-ts/lib/These'
- * import { left, right } from 'fp-ts/lib/Either'
+ * import { fromEither, left, right } from 'fp-ts/lib/These'
+ * import * as E from 'fp-ts/lib/Either'
  *
- * assert.deepStrictEqual(fromEither(left('a')), this_('a'))
- * assert.deepStrictEqual(fromEither(right(1)), that(1))
+ * assert.deepStrictEqual(fromEither(E.left('a')), left('a'))
+ * assert.deepStrictEqual(fromEither(E.right(1)), right(1))
  *
  * @since 1.13.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => {
   switch (fa._tag) {
     case 'Left':
-      return this_(fa.value)
+      return left(fa.value)
     case 'Right':
-      return that(fa.value)
+      return right(fa.value)
   }
 }
 
