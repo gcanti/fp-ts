@@ -32,38 +32,18 @@ export type Forest<A> = Array<Tree<A>>
 /**
  * @since 1.6.0
  */
-export class Tree<A> {
-  constructor(readonly value: A, readonly forest: Forest<A>) {}
-  map<B>(f: (a: A) => B): Tree<B> {
-    return new Tree(f(this.value), this.forest.map(tree => tree.map(f)))
-  }
-  ap<B>(fab: Tree<(a: A) => B>): Tree<B> {
-    return fab.chain(f => this.map(f)) // <- derived
-  }
-  /**
-   * Flipped version of `ap`
-   * @since 1.6.0
-   */
-  ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C> {
-    return fb.ap(this)
-  }
-  chain<B>(f: (a: A) => Tree<B>): Tree<B> {
-    const { value, forest } = f(this.value)
-    return new Tree(value, concat(forest, this.forest.map(t => t.chain(f))))
-  }
-  extract(): A {
-    return this.value
-  }
-  extend<B>(f: (fa: Tree<A>) => B): Tree<B> {
-    return new Tree(f(this), this.forest.map(t => t.extend(f)))
-  }
-  reduce<B>(b: B, f: (b: B, a: A) => B): B {
-    let r: B = f(b, this.value)
-    const len = this.forest.length
-    for (let i = 0; i < len; i++) {
-      r = this.forest[i].reduce(r, f)
-    }
-    return r
+export interface Tree<A> {
+  readonly value: A
+  readonly forest: Forest<A>
+}
+
+/**
+ * @since 2.0.0
+ */
+export const make = <A>(value: A, forest: Forest<A>): Tree<A> => {
+  return {
+    value,
+    forest
   }
 }
 
@@ -72,7 +52,7 @@ export class Tree<A> {
  */
 export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
   const show = (t: Tree<A>): string => {
-    return `new Tree(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
+    return `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
   }
   return {
     show
@@ -80,35 +60,41 @@ export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
 }
 
 const map = <A, B>(fa: Tree<A>, f: (a: A) => B): Tree<B> => {
-  return fa.map(f)
+  return { value: f(fa.value), forest: fa.forest.map(tree => map(tree, f)) }
 }
 
 const of = <A>(a: A): Tree<A> => {
-  return new Tree(a, empty)
+  return { value: a, forest: empty }
 }
 
 const ap = <A, B>(fab: Tree<(a: A) => B>, fa: Tree<A>): Tree<B> => {
-  return fa.ap(fab)
+  return chain(fab, f => map(fa, f)) // <- derived
 }
 
 const chain = <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
-  return fa.chain(f)
+  const { value, forest } = f(fa.value)
+  return { value, forest: concat(forest, fa.forest.map(t => chain(t, f))) }
 }
 
 const extract = <A>(fa: Tree<A>): A => {
-  return fa.extract()
+  return fa.value
 }
 
 const extend = <A, B>(fa: Tree<A>, f: (fa: Tree<A>) => B): Tree<B> => {
-  return fa.extend(f)
+  return { value: f(fa), forest: fa.forest.map(t => extend(t, f)) }
 }
 
 const reduce = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
-  return fa.reduce(b, f)
+  let r: B = f(b, fa.value)
+  const len = fa.forest.length
+  for (let i = 0; i < len; i++) {
+    r = reduce(fa.forest[i], r, f)
+  }
+  return r
 }
 
 const foldMap = <M>(M: Monoid<M>) => <A>(fa: Tree<A>, f: (a: A) => M): M => {
-  return fa.reduce(M.empty, (acc, a) => M.concat(acc, f(a)))
+  return reduce(fa, M.empty, (acc, a) => M.concat(acc, f(a)))
 }
 
 const foldr = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
@@ -124,7 +110,10 @@ function traverse<F>(F: Applicative<F>): <A, B>(ta: Tree<A>, f: (a: A) => HKT<F,
   const traverseF = array.traverse(F)
   const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
     F.ap(
-      F.map(f(ta.value), (value: B) => (forest: Forest<B>) => new Tree(value, forest)),
+      F.map(f(ta.value), (value: B) => (forest: Forest<B>) => ({
+        value,
+        forest
+      })),
       traverseF(ta.forest, t => r(t, f))
     )
   return r
@@ -218,7 +207,7 @@ export const drawTree = (tree: Tree<string>): string => {
  */
 export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => {
   const [a, bs] = f(b)
-  return new Tree(a, unfoldForest(bs, f))
+  return { value: a, forest: unfoldForest(bs, f) }
 }
 
 /**
@@ -253,7 +242,7 @@ export function unfoldTreeM<M extends URIS>(
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>> {
   const unfoldForestMM = unfoldForestM(M)
-  return (b, f) => M.chain(f(b), ([a, bs]) => M.chain(unfoldForestMM(bs, f), ts => M.of(new Tree(a, ts))))
+  return (b, f) => M.chain(f(b), ([a, bs]) => M.chain(unfoldForestMM(bs, f), ts => M.of({ value: a, forest: ts })))
 }
 
 /**
