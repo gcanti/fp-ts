@@ -74,7 +74,10 @@ describe('Tree', () => {
 
   it('sequence', () => {
     const sequence = tree.sequence(I.identity)
-    const x1 = new Tree(I.identity.of('a'), [new Tree(I.identity.of('b'), []), new Tree(I.identity.of('c'), [])])
+    const x1 = new Tree(I.identity.of<string>('a'), [
+      new Tree(I.identity.of('b'), []),
+      new Tree(I.identity.of('c'), [])
+    ])
     assert.deepStrictEqual(sequence(x1), I.identity.of(new Tree('a', [new Tree('b', []), new Tree('c', [])])))
   })
 
