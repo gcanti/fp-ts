@@ -157,7 +157,7 @@ export const fromLeft = <L>(l: L): TaskEither<L, never> => {
  * @since 1.6.0
  */
 export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => {
-  return T.fromIO(fa.value)
+  return T.fromIO(fa)
 }
 
 /**
