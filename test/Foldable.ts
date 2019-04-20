@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import { array } from '../src/Array'
 import { fieldNumber } from '../src/Field'
 import {
+  elem,
   findFirst,
   fold,
   foldM,
@@ -14,10 +15,9 @@ import {
   sequence_,
   sum,
   toArray,
-  traverse_,
-  elem
+  traverse_
 } from '../src/Foldable'
-import { IO, io } from '../src/IO'
+import { io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as option from '../src/Option'
 import { ordNumber } from '../src/Ord'
@@ -57,15 +57,15 @@ describe('Foldable', () => {
 
   it('traverse_', () => {
     let log = ''
-    const append = (s: String) => new IO(() => (log += s))
-    traverse_(io, array)(['a', 'b', 'c'], append).run()
+    const append = (s: String) => () => (log += s)
+    traverse_(io, array)(['a', 'b', 'c'], append)()
     assert.strictEqual(log, 'abc')
   })
 
   it('sequence_', () => {
     let log = ''
-    const append = (s: String) => new IO(() => (log += s))
-    sequence_(io, array)([append('a'), append('b'), append('c')]).run()
+    const append = (s: String) => () => (log += s)
+    sequence_(io, array)([append('a'), append('b'), append('c')])()
     assert.strictEqual(log, 'abc')
   })
 

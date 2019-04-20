@@ -2,7 +2,7 @@
  * @file `IO<A>` represents a synchronous computation that yields a value of type `A` and **never fails**.
  * If you want to represent a synchronous computation that may fail, please see `IOEither`.
  */
-import { constant, constIdentity, identity, Lazy } from './function'
+import { identity } from './function'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
@@ -18,56 +18,31 @@ export const URI = 'IO'
 
 export type URI = typeof URI
 
+export interface IO<A> {
+  (): A
+}
+
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
-export class IO<A> {
-  constructor(readonly run: Lazy<A>) {}
-  map<B>(f: (a: A) => B): IO<B> {
-    return new IO(() => f(this.run()))
-  }
-  ap<B>(fab: IO<(a: A) => B>): IO<B> {
-    return new IO(() => fab.run()(this.run()))
-  }
-  /**
-   * Flipped version of `ap`
-   */
-  ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C> {
-    return fb.ap(this)
-  }
-  /**
-   * Combine two effectful actions, keeping only the result of the first
-   * @since 1.6.0
-   */
-  applyFirst<B>(fb: IO<B>): IO<A> {
-    return fb.ap(this.map(constant))
-  }
-  /**
-   * Combine two effectful actions, keeping only the result of the second
-   * @since 1.5.0
-   */
-  applySecond<B>(fb: IO<B>): IO<B> {
-    return fb.ap(this.map(constIdentity as () => (b: B) => B))
-  }
-  chain<B>(f: (a: A) => IO<B>): IO<B> {
-    return new IO(() => f(this.run()).run())
-  }
+export const run = <A>(fa: IO<A>): A => {
+  return fa()
 }
 
 const map = <A, B>(fa: IO<A>, f: (a: A) => B): IO<B> => {
-  return fa.map(f)
+  return () => f(fa())
 }
 
 const of = <A>(a: A): IO<A> => {
-  return new IO(() => a)
+  return () => a
 }
 
 const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => {
-  return fa.ap(fab)
+  return () => fab()(fa())
 }
 
 const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
-  return fa.chain(f)
+  return () => f(fa())()
 }
 
 /**
@@ -75,12 +50,7 @@ const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
  */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
   return {
-    concat: (x, y) =>
-      new IO(() => {
-        const xr = x.run()
-        const yr = y.run()
-        return S.concat(xr, yr)
-      })
+    concat: (x, y) => () => S.concat(x(), y())
   }
 }
 

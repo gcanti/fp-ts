@@ -1,6 +1,5 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import { IO } from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as T from '../src/Task'
 import { array } from '../src/Array'
@@ -78,7 +77,7 @@ describe('Task', () => {
   })
 
   it('fromIO', () => {
-    const io = new IO(() => 1)
+    const io = () => 1
     const task = T.fromIO(io)
     return task().then(a => {
       assert.strictEqual(a, 1)

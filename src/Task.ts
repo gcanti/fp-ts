@@ -138,7 +138,7 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown
  * @since 1.0.0
  */
 export const fromIO = <A>(io: IO<A>): Task<A> => {
-  return () => Promise.resolve(io.run())
+  return () => Promise.resolve(io())
 }
 
 /**
