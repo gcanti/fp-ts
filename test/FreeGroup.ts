@@ -1,9 +1,9 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import { empty, freeGroup, FreeGroup, fromArray, getGroup, getSetoid, normalize } from '../src/FreeGroup'
+import { empty, freeGroup, getGroup, getSetoid, normalize } from '../src/FreeGroup'
 import { setoidNumber } from '../src/Setoid'
 
-const fromArrayS = fromArray(setoidNumber)
+const fromArrayS = normalize(setoidNumber)
 
 describe('FreeGroup', () => {
   it('normalize', () => {
@@ -32,7 +32,7 @@ describe('FreeGroup', () => {
   })
 
   it('of', () => {
-    assert.deepStrictEqual(freeGroup.of(1), new FreeGroup([right(1)]))
+    assert.deepStrictEqual(freeGroup.of(1), [right(1)])
   })
 
   it('map', () => {
@@ -43,47 +43,40 @@ describe('FreeGroup', () => {
   it('ap', () => {
     const gt1 = (n: number): boolean => n > 1
     const lt2 = (n: number): boolean => n < 2
-    const fab = new FreeGroup<(n: number) => boolean>([left(gt1), right(lt2)])
-    const fa = new FreeGroup<number>([left(1), right(1), left(2), right(2)])
-    assert.deepStrictEqual(
-      freeGroup.ap(fab, fa),
-      new FreeGroup([
-        left(false),
-        right(false),
-        left(true),
-        right(true),
-        left(true),
-        right(true),
-        left(false),
-        right(false)
-      ])
-    )
-    assert.deepStrictEqual(fab.ap_(fa), fa.ap(fab))
+    const fab = [left(gt1), right(lt2)]
+    const fa = [left(1), right(1), left(2), right(2)]
+    assert.deepStrictEqual(freeGroup.ap(fab, fa), [
+      left(false),
+      right(false),
+      left(true),
+      right(true),
+      left(true),
+      right(true),
+      left(false),
+      right(false)
+    ])
   })
 
   it('chain', () => {
-    const fa = new FreeGroup<number>([left(1), right(1), left(2), right(2)])
-    const f = (n: number) => new FreeGroup([left(n > 1), right(n > 1), left(n < 2), right(n < 2)])
-    assert.deepStrictEqual(
-      freeGroup.chain(fa, f),
-      new FreeGroup([
-        left(false),
-        right(false),
-        left(true),
-        right(true),
-        left(false),
-        right(false),
-        left(true),
-        right(true),
-        left(true),
-        right(true),
-        left(false),
-        right(false),
-        left(true),
-        right(true),
-        left(false),
-        right(false)
-      ])
-    )
+    const fa = [left(1), right(1), left(2), right(2)]
+    const f = (n: number) => [left(n > 1), right(n > 1), left(n < 2), right(n < 2)]
+    assert.deepStrictEqual(freeGroup.chain(fa, f), [
+      left(false),
+      right(false),
+      left(true),
+      right(true),
+      left(false),
+      right(false),
+      left(true),
+      right(true),
+      left(true),
+      right(true),
+      left(false),
+      right(false),
+      left(true),
+      right(true),
+      left(false),
+      right(false)
+    ])
   })
 })
