@@ -1,6 +1,6 @@
 ---
 title: Validation.ts
-nav_order: 95
+nav_order: 92
 parent: Modules
 ---
 
@@ -16,37 +16,16 @@ Adapted from https://github.com/purescript/purescript-validation
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Failure (interface)](#failure-interface)
+- [Success (interface)](#success-interface)
 - [URI (type alias)](#uri-type-alias)
 - [Validation (type alias)](#validation-type-alias)
-- [Failure (class)](#failure-class)
-  - [map (method)](#map-method)
-  - [bimap (method)](#bimap-method)
-  - [reduce (method)](#reduce-method)
-  - [fold (method)](#fold-method)
-  - [getOrElse (method)](#getorelse-method)
-  - [getOrElseL (method)](#getorelsel-method)
-  - [mapFailure (method)](#mapfailure-method)
-  - [swap (method)](#swap-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
-  - [isFailure (method)](#isfailure-method)
-  - [isSuccess (method)](#issuccess-method)
-- [Success (class)](#success-class)
-  - [map (method)](#map-method-1)
-  - [bimap (method)](#bimap-method-1)
-  - [reduce (method)](#reduce-method-1)
-  - [fold (method)](#fold-method-1)
-  - [getOrElse (method)](#getorelse-method-1)
-  - [getOrElseL (method)](#getorelsel-method-1)
-  - [mapFailure (method)](#mapfailure-method-1)
-  - [swap (method)](#swap-method-1)
-  - [inspect (method)](#inspect-method-1)
-  - [toString (method)](#tostring-method-1)
-  - [isFailure (method)](#isfailure-method-1)
-  - [isSuccess (method)](#issuccess-method-1)
 - [URI (constant)](#uri-constant)
 - [validation (constant)](#validation-constant)
 - [failure (function)](#failure-function)
+- [filterOrElse (function)](#filterorelse-function)
+- [filterOrElseL (function)](#filterorelsel-function)
+- [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getAlt (function)](#getalt-function)
@@ -56,16 +35,43 @@ Adapted from https://github.com/purescript/purescript-validation
 - [getMonad (function)](#getmonad-function)
 - [getMonadThrow (function)](#getmonadthrow-function)
 - [getMonoid (function)](#getmonoid-function)
+- [getOrElse (function)](#getorelse-function)
+- [getOrElseL (function)](#getorelsel-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [getWitherable (function)](#getwitherable-function)
 - [isFailure (function)](#isfailure-function)
 - [isSuccess (function)](#issuccess-function)
+- [mapFailure (function)](#mapfailure-function)
+- [orElse (function)](#orelse-function)
 - [success (function)](#success-function)
+- [swap (function)](#swap-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
+
+# Failure (interface)
+
+**Signature**
+
+```ts
+export interface Failure<L> {
+  readonly _tag: 'Failure'
+  readonly value: L
+}
+```
+
+# Success (interface)
+
+**Signature**
+
+```ts
+export interface Success<A> {
+  readonly _tag: 'Success'
+  readonly value: A
+}
+```
 
 # URI (type alias)
 
@@ -80,7 +86,7 @@ export type URI = typeof URI
 **Signature**
 
 ```ts
-export type Validation<L, A> = Failure<L, A> | Success<L, A>
+export type Validation<L, A> = Failure<L> | Success<A>
 ```
 
 **Example**
@@ -113,7 +119,7 @@ function validateAge(input: string): Validation<NonEmptyArray<string>, number> {
 const A = getApplicative(getSemigroup<string>())
 
 function validatePerson(input: Record<string, string>): Validation<NonEmptyArray<string>, Person> {
-  return A.ap(validateName(input['name']).map(person), validateAge(input['age']))
+  return A.ap(A.map(validateName(input['name']), person), validateAge(input['age']))
 }
 
 assert.deepStrictEqual(
@@ -125,228 +131,6 @@ assert.deepStrictEqual(validatePerson({ name: 'Giulio', age: '44' }), success({ 
 ```
 
 Added in v1.0.0
-
-# Failure (class)
-
-**Signature**
-
-```ts
-export class Failure<L, A> {
-  constructor(readonly value: L) { ... }
-  ...
-}
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Validation<L, B> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<B>(failure: (l: L) => B, success: (a: A) => B): B { ... }
-```
-
-## getOrElse (method)
-
-Returns the value from this `Success` or the given argument if this is a `Failure`
-
-**Signature**
-
-```ts
-getOrElse(a: A): A { ... }
-```
-
-## getOrElseL (method)
-
-Returns the value from this `Success` or the result of given argument if this is a `Failure`
-
-**Signature**
-
-```ts
-getOrElseL(f: (l: L) => A): A { ... }
-```
-
-## mapFailure (method)
-
-**Signature**
-
-```ts
-mapFailure<M>(f: (l: L) => M): Validation<M, A> { ... }
-```
-
-## swap (method)
-
-**Signature**
-
-```ts
-swap(): Validation<A, L> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## isFailure (method)
-
-Returns `true` if the validation is an instance of `Failure`, `false` otherwise
-
-**Signature**
-
-```ts
-isFailure(): this is Failure<L, A> { ... }
-```
-
-## isSuccess (method)
-
-Returns `true` if the validation is an instance of `Success`, `false` otherwise
-
-**Signature**
-
-```ts
-isSuccess(): this is Success<L, A> { ... }
-```
-
-# Success (class)
-
-**Signature**
-
-```ts
-export class Success<L, A> {
-  constructor(readonly value: A) { ... }
-  ...
-}
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Validation<L, B> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Validation<V, B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<B>(failure: (l: L) => B, success: (a: A) => B): B { ... }
-```
-
-## getOrElse (method)
-
-**Signature**
-
-```ts
-getOrElse(a: A): A { ... }
-```
-
-## getOrElseL (method)
-
-**Signature**
-
-```ts
-getOrElseL(f: (l: L) => A): A { ... }
-```
-
-## mapFailure (method)
-
-**Signature**
-
-```ts
-mapFailure<M>(f: (l: L) => M): Validation<M, A> { ... }
-```
-
-## swap (method)
-
-**Signature**
-
-```ts
-swap(): Validation<A, L> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## isFailure (method)
-
-**Signature**
-
-```ts
-isFailure(): this is Failure<L, A> { ... }
-```
-
-## isSuccess (method)
-
-**Signature**
-
-```ts
-isSuccess(): this is Success<L, A> { ... }
-```
 
 # URI (constant)
 
@@ -371,10 +155,50 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const failure = <L, A>(l: L): Validation<L, A> => ...
+export const failure = <L>(l: L): Validation<L, never> => ...
 ```
 
 Added in v1.0.0
+
+# filterOrElse (function)
+
+**Signature**
+
+```ts
+export function filterOrElse<L, A, B extends A>(
+  ma: Validation<L, A>,
+  refinement: Refinement<A, B>,
+  zero: L
+): Validation<L, B>
+export function filterOrElse<L, A>(ma: Validation<L, A>, predicate: Predicate<A>, zero: L): Validation<L, A> { ... }
+```
+
+Added in v2.0.0
+
+# filterOrElseL (function)
+
+**Signature**
+
+```ts
+export function filterOrElseL<L, A, B extends A>(
+  ma: Validation<L, A>,
+  refinement: Refinement<A, B>,
+  zero: (a: A) => L
+): Validation<L, B>
+export function filterOrElseL<L, A>(ma: Validation<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Validation<L, A> { ... }
+```
+
+Added in v2.0.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<L, A, R>(ma: Validation<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): R { ... }
+```
+
+Added in v2.0.0
 
 # fromEither (function)
 
@@ -505,6 +329,26 @@ export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Validat
 
 Added in v1.0.0
 
+# getOrElse (function)
+
+**Signature**
+
+```ts
+export function getOrElse<L, A>(ma: Validation<L, A>, a: A): A { ... }
+```
+
+Added in v2.0.0
+
+# getOrElseL (function)
+
+**Signature**
+
+```ts
+export function getOrElseL<L, A>(ma: Validation<L, A>, f: (l: L) => A): A { ... }
+```
+
+Added in v2.0.0
+
 # getSemigroup (function)
 
 **Signature**
@@ -554,7 +398,7 @@ Returns `true` if the validation is an instance of `Failure`, `false` otherwise
 **Signature**
 
 ```ts
-export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L, A> => ...
+export const isFailure = <L, A>(fa: Validation<L, A>): fa is Failure<L> => ...
 ```
 
 Added in v1.0.0
@@ -566,20 +410,50 @@ Returns `true` if the validation is an instance of `Success`, `false` otherwise
 **Signature**
 
 ```ts
-export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<L, A> => ...
+export const isSuccess = <L, A>(fa: Validation<L, A>): fa is Success<A> => ...
 ```
 
 Added in v1.0.0
+
+# mapFailure (function)
+
+**Signature**
+
+```ts
+export function mapFailure<L, A, M>(ma: Validation<L, A>, f: (l: L) => M): Validation<M, A> { ... }
+```
+
+Added in v2.0.0
+
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<L, A, M>(ma: Validation<L, A>, f: (l: L) => Validation<M, A>): Validation<M, A> { ... }
+```
+
+Added in v2.0.0
 
 # success (function)
 
 **Signature**
 
 ```ts
-export const success = <L, A>(a: A): Validation<L, A> => ...
+export const success = <A>(a: A): Validation<never, A> => ...
 ```
 
 Added in v1.0.0
+
+# swap (function)
+
+**Signature**
+
+```ts
+export function swap<L, A>(ma: Validation<L, A>): Validation<A, L> { ... }
+```
+
+Added in v2.0.0
 
 # tryCatch (function)
 

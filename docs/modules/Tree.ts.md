@@ -1,6 +1,6 @@
 ---
 title: Tree.ts
-nav_order: 92
+nav_order: 89
 parent: Modules
 ---
 
@@ -16,18 +16,9 @@ type Forest<A> = Array<Tree<A>>
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Tree (interface)](#tree-interface)
 - [Forest (type alias)](#forest-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [Tree (class)](#tree-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
-  - [extract (method)](#extract-method)
-  - [extend (method)](#extend-method)
-  - [reduce (method)](#reduce-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
 - [tree (constant)](#tree-constant)
 - [drawForest (function)](#drawforest-function)
@@ -35,12 +26,26 @@ type Forest<A> = Array<Tree<A>>
 - [elem (function)](#elem-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
+- [make (function)](#make-function)
 - [unfoldForest (function)](#unfoldforest-function)
 - [unfoldForestM (function)](#unfoldforestm-function)
 - [unfoldTree (function)](#unfoldtree-function)
 - [unfoldTreeM (function)](#unfoldtreem-function)
 
 ---
+
+# Tree (interface)
+
+**Signature**
+
+```ts
+export interface Tree<A> {
+  readonly value: A
+  readonly forest: Forest<A>
+}
+```
+
+Added in v1.6.0
 
 # Forest (type alias)
 
@@ -56,95 +61,6 @@ export type Forest<A> = Array<Tree<A>>
 
 ```ts
 export type URI = typeof URI
-```
-
-# Tree (class)
-
-**Signature**
-
-```ts
-export class Tree<A> {
-  constructor(readonly value: A, readonly forest: Forest<A>) { ... }
-  ...
-}
-```
-
-Added in v1.6.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Tree<B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: Tree<(a: A) => B>): Tree<B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Tree<(b: B) => C>, fb: Tree<B>): Tree<C> { ... }
-```
-
-Added in v1.6.0
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Tree<B>): Tree<B> { ... }
-```
-
-## extract (method)
-
-**Signature**
-
-```ts
-extract(): A { ... }
-```
-
-## extend (method)
-
-**Signature**
-
-```ts
-extend<B>(f: (fa: Tree<A>) => B): Tree<B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
 ```
 
 # URI (constant)
@@ -190,9 +106,9 @@ export const drawTree = (tree: Tree<string>): string => ...
 **Example**
 
 ```ts
-import { Tree, drawTree, tree } from 'fp-ts/lib/Tree'
+import { make, drawTree, tree } from 'fp-ts/lib/Tree'
 
-const fa = new Tree('a', [tree.of('b'), tree.of('c'), new Tree('d', [tree.of('e'), tree.of('f')])])
+const fa = make('a', [tree.of('b'), tree.of('c'), make('d', [tree.of('e'), tree.of('f')])])
 
 assert.strictEqual(
   drawTree(fa),
@@ -236,6 +152,16 @@ export const getShow = <A>(S: Show<A>): Show<Tree<A>> => ...
 ```
 
 Added in v1.17.0
+
+# make (function)
+
+**Signature**
+
+```ts
+export const make = <A>(value: A, forest: Forest<A>): Tree<A> => ...
+```
+
+Added in v2.0.0
 
 # unfoldForest (function)
 

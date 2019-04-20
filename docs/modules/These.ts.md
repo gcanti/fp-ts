@@ -1,6 +1,6 @@
 ---
 title: These.ts
-nav_order: 87
+nav_order: 84
 parent: Modules
 ---
 
@@ -28,68 +28,76 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Both (interface)](#both-interface)
+- [Left (interface)](#left-interface)
+- [Right (interface)](#right-interface)
 - [These (type alias)](#these-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [Both (class)](#both-class)
-  - [map (method)](#map-method)
-  - [bimap (method)](#bimap-method)
-  - [reduce (method)](#reduce-method)
-  - [fold (method)](#fold-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
-  - [isThis (method)](#isthis-method)
-  - [isThat (method)](#isthat-method)
-  - [isBoth (method)](#isboth-method)
-- [That (class)](#that-class)
-  - [map (method)](#map-method-1)
-  - [bimap (method)](#bimap-method-1)
-  - [reduce (method)](#reduce-method-1)
-  - [fold (method)](#fold-method-1)
-  - [inspect (method)](#inspect-method-1)
-  - [toString (method)](#tostring-method-1)
-  - [isThis (method)](#isthis-method-1)
-  - [isThat (method)](#isthat-method-1)
-  - [isBoth (method)](#isboth-method-1)
-- [This (class)](#this-class)
-  - [map (method)](#map-method-2)
-  - [bimap (method)](#bimap-method-2)
-  - [reduce (method)](#reduce-method-2)
-  - [fold (method)](#fold-method-2)
-  - [inspect (method)](#inspect-method-2)
-  - [toString (method)](#tostring-method-2)
-  - [isThis (method)](#isthis-method-2)
-  - [isThat (method)](#isthat-method-2)
-  - [isBoth (method)](#isboth-method-2)
 - [URI (constant)](#uri-constant)
 - [these (constant)](#these-constant)
 - [both (function)](#both-function)
+- [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
 - [fromOptions (function)](#fromoptions-function)
-- [fromThese (function)](#fromthese-function)
+- [getLeft (function)](#getleft-function)
+- [getLeftOnly (function)](#getleftonly-function)
 - [getMonad (function)](#getmonad-function)
+- [getRight (function)](#getright-function)
+- [getRightOnly (function)](#getrightonly-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [isBoth (function)](#isboth-function)
-- [isThat (function)](#isthat-function)
-- [isThis (function)](#isthis-function)
-- [that (function)](#that-function)
-- [thatOrBoth (function)](#thatorboth-function)
-- [theseLeft (function)](#theseleft-function)
-- [theseRight (function)](#theseright-function)
-- [theseThat (function)](#thesethat-function)
-- [theseThis (function)](#thesethis-function)
-- [thisOrBoth (function)](#thisorboth-function)
-- [this\_ (function)](#this_-function)
+- [isLeft (function)](#isleft-function)
+- [isRight (function)](#isright-function)
+- [left (function)](#left-function)
+- [leftOrBoth (function)](#leftorboth-function)
+- [right (function)](#right-function)
+- [rightOrBoth (function)](#rightorboth-function)
+- [toTuple (function)](#totuple-function)
 
 ---
+
+# Both (interface)
+
+**Signature**
+
+```ts
+export interface Both<L, A> {
+  readonly _tag: 'Both'
+  readonly left: L
+  readonly right: A
+}
+```
+
+# Left (interface)
+
+**Signature**
+
+```ts
+export interface Left<L> {
+  readonly _tag: 'Left'
+  readonly left: L
+}
+```
+
+# Right (interface)
+
+**Signature**
+
+```ts
+export interface Right<A> {
+  readonly _tag: 'Right'
+  readonly right: A
+}
+```
 
 # These (type alias)
 
 **Signature**
 
 ```ts
-export type These<L, A> = This<L, A> | That<L, A> | Both<L, A>
+export type These<L, A> = Left<L> | Right<A> | Both<L, A>
 ```
 
 Added in v1.0.0
@@ -100,263 +108,6 @@ Added in v1.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-# Both (class)
-
-**Signature**
-
-```ts
-export class Both<L, A> {
-  constructor(readonly l: L, readonly a: A) { ... }
-  ...
-}
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): These<L, B> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## isThis (method)
-
-**Signature**
-
-```ts
-isThis(): this is This<L, A> { ... }
-```
-
-## isThat (method)
-
-**Signature**
-
-```ts
-isThat(): this is That<L, A> { ... }
-```
-
-## isBoth (method)
-
-**Signature**
-
-```ts
-isBoth(): this is Both<L, A> { ... }
-```
-
-# That (class)
-
-**Signature**
-
-```ts
-export class That<L, A> {
-  constructor(readonly value: A) { ... }
-  ...
-}
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): These<L, B> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## isThis (method)
-
-**Signature**
-
-```ts
-isThis(): this is This<L, A> { ... }
-```
-
-## isThat (method)
-
-**Signature**
-
-```ts
-isThat(): this is That<L, A> { ... }
-```
-
-## isBoth (method)
-
-**Signature**
-
-```ts
-isBoth(): this is Both<L, A> { ... }
-```
-
-# This (class)
-
-**Signature**
-
-```ts
-export class This<L, A> {
-  constructor(readonly value: L) { ... }
-  ...
-}
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): These<L, B> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<M, B>(f: (l: L) => M, g: (a: A) => B): These<M, B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## fold (method)
-
-Applies a function to each case in the data structure
-
-**Signature**
-
-```ts
-fold<B>(this_: (l: L) => B, that: (a: A) => B, both: (l: L, a: A) => B): B { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## isThis (method)
-
-Returns `true` if the these is `This`, `false` otherwise
-
-**Signature**
-
-```ts
-isThis(): this is This<L, A> { ... }
-```
-
-## isThat (method)
-
-Returns `true` if the these is `That`, `false` otherwise
-
-**Signature**
-
-```ts
-isThat(): this is That<L, A> { ... }
-```
-
-## isBoth (method)
-
-Returns `true` if the these is `Both`, `false` otherwise
-
-**Signature**
-
-```ts
-isBoth(): this is Both<L, A> { ... }
 ```
 
 # URI (constant)
@@ -382,10 +133,25 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const both = <L, A>(l: L, a: A): These<L, A> => ...
+export const both = <L, A>(left: L, right: A): These<L, A> => ...
 ```
 
 Added in v1.0.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<L, A, R>(
+  fa: These<L, A>,
+  onLeft: (l: L) => R,
+  onRight: (a: A) => R,
+  onBoth: (l: L, a: A) => R
+): R { ... }
+```
+
+Added in v2.0.0
 
 # fromEither (function)
 
@@ -398,11 +164,11 @@ export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => ...
 **Example**
 
 ```ts
-import { fromEither, this_, that } from 'fp-ts/lib/These'
-import { left, right } from 'fp-ts/lib/Either'
+import { fromEither, left, right } from 'fp-ts/lib/These'
+import * as E from 'fp-ts/lib/Either'
 
-assert.deepStrictEqual(fromEither(left('a')), this_('a'))
-assert.deepStrictEqual(fromEither(right(1)), that(1))
+assert.deepStrictEqual(fromEither(E.left('a')), left('a'))
+assert.deepStrictEqual(fromEither(E.right(1)), right(1))
 ```
 
 Added in v1.13.0
@@ -414,43 +180,68 @@ Takes a pair of `Option`s and attempts to create a `These` from them
 **Signature**
 
 ```ts
-export const fromOptions = <L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> => ...
+export const fromOptions = <L, A>(fl: O.Option<L>, fa: O.Option<A>): O.Option<These<L, A>> => ...
 ```
 
 **Example**
 
 ```ts
-import { fromOptions, this_, that, both } from 'fp-ts/lib/These'
+import { fromOptions, left, right, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
 assert.deepStrictEqual(fromOptions(none, none), none)
-assert.deepStrictEqual(fromOptions(some('a'), none), some(this_('a')))
-assert.deepStrictEqual(fromOptions(none, some(1)), some(that(1)))
+assert.deepStrictEqual(fromOptions(some('a'), none), some(left('a')))
+assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
 assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 ```
 
 Added in v1.13.0
 
-# fromThese (function)
+# getLeft (function)
+
+Returns an `L` value if possible
 
 **Signature**
 
 ```ts
-export const fromThese = <L, A>(defaultThis: L, defaultThat: A) => (fa: These<L, A>): [L, A] => ...
+export const getLeft = <L, A>(fa: These<L, A>): O.Option<L> => ...
 ```
 
 **Example**
 
 ```ts
-import { fromThese, this_, that, both } from 'fp-ts/lib/These'
+import { getLeft, left, right, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
 
-const from = fromThese('a', 1)
-assert.deepStrictEqual(from(this_('b')), ['b', 1])
-assert.deepStrictEqual(from(that(2)), ['a', 2])
-assert.deepStrictEqual(from(both('b', 2)), ['b', 2])
+assert.deepStrictEqual(getLeft(left('a')), some('a'))
+assert.deepStrictEqual(getLeft(right(1)), none)
+assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
 ```
 
 Added in v1.0.0
+
+# getLeftOnly (function)
+
+Returns the `L` value if and only if the value is constructed with `Left`
+
+**Signature**
+
+```ts
+export const getLeftOnly = <L, A>(fa: These<L, A>): O.Option<L> => ...
+```
+
+**Example**
+
+```ts
+import { getLeftOnly, left, right, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepStrictEqual(getLeftOnly(left('a')), some('a'))
+assert.deepStrictEqual(getLeftOnly(right(1)), none)
+assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
+```
+
+Added in v1.13.0
 
 # getMonad (function)
 
@@ -461,6 +252,52 @@ export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => ...
 ```
 
 Added in v1.0.0
+
+# getRight (function)
+
+Returns an `A` value if possible
+
+**Signature**
+
+```ts
+export const getRight = <L, A>(fa: These<L, A>): O.Option<A> => ...
+```
+
+**Example**
+
+```ts
+import { getRight, left, right, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepStrictEqual(getRight(left('a')), none)
+assert.deepStrictEqual(getRight(right(1)), some(1))
+assert.deepStrictEqual(getRight(both('a', 1)), some(1))
+```
+
+Added in v1.0.0
+
+# getRightOnly (function)
+
+Returns the `A` value if and only if the value is constructed with `Right`
+
+**Signature**
+
+```ts
+export const getRightOnly = <L, A>(fa: These<L, A>): O.Option<A> => ...
+```
+
+**Example**
+
+```ts
+import { getRightOnly, left, right, both } from 'fp-ts/lib/These'
+import { none, some } from 'fp-ts/lib/Option'
+
+assert.deepStrictEqual(getRightOnly(left('a')), none)
+assert.deepStrictEqual(getRightOnly(right(1)), some(1))
+assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
+```
+
+Added in v1.13.0
 
 # getSemigroup (function)
 
@@ -504,178 +341,107 @@ export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => ...
 
 Added in v1.0.0
 
-# isThat (function)
+# isLeft (function)
 
-Returns `true` if the these is an instance of `That`, `false` otherwise
+Returns `true` if the these is an instance of `Left`, `false` otherwise
 
 **Signature**
 
 ```ts
-export const isThat = <L, A>(fa: These<L, A>): fa is That<L, A> => ...
+export const isLeft = <L, A>(fa: These<L, A>): fa is Left<L> => ...
 ```
 
 Added in v1.0.0
 
-# isThis (function)
+# isRight (function)
 
-Returns `true` if the these is an instance of `This`, `false` otherwise
+Returns `true` if the these is an instance of `Right`, `false` otherwise
 
 **Signature**
 
 ```ts
-export const isThis = <L, A>(fa: These<L, A>): fa is This<L, A> => ...
+export const isRight = <L, A>(fa: These<L, A>): fa is Right<A> => ...
 ```
 
 Added in v1.0.0
 
-# that (function)
+# left (function)
 
 **Signature**
 
 ```ts
-export const that = <L, A>(a: A): These<L, A> => ...
+export const left = <L>(left: L): These<L, never> => ...
 ```
 
 Added in v1.0.0
 
-# thatOrBoth (function)
+# leftOrBoth (function)
 
 **Signature**
 
 ```ts
-export const thatOrBoth = <L, A>(defaultThat: A, ml: Option<L>): These<L, A> => ...
+export const leftOrBoth = <L, A>(defaultLeft: L, ma: O.Option<A>): These<L, A> => ...
 ```
 
 **Example**
 
 ```ts
-import { thatOrBoth, that, both } from 'fp-ts/lib/These'
+import { leftOrBoth, left, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(thatOrBoth(1, none), that(1))
-assert.deepStrictEqual(thatOrBoth(1, some('a')), both('a', 1))
+assert.deepStrictEqual(leftOrBoth('a', none), left('a'))
+assert.deepStrictEqual(leftOrBoth('a', some(1)), both('a', 1))
 ```
 
 Added in v1.13.0
 
-# theseLeft (function)
-
-Returns an `L` value if possible
+# right (function)
 
 **Signature**
 
 ```ts
-export const theseLeft = <L, A>(fa: These<L, A>): Option<L> => ...
-```
-
-**Example**
-
-```ts
-import { theseLeft, this_, that, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(theseLeft(this_('a')), some('a'))
-assert.deepStrictEqual(theseLeft(that(1)), none)
-assert.deepStrictEqual(theseLeft(both('a', 1)), some('a'))
+export const right = <A>(right: A): These<never, A> => ...
 ```
 
 Added in v1.0.0
 
-# theseRight (function)
-
-Returns an `A` value if possible
+# rightOrBoth (function)
 
 **Signature**
 
 ```ts
-export const theseRight = <L, A>(fa: These<L, A>): Option<A> => ...
+export const rightOrBoth = <L, A>(defaultRight: A, ml: O.Option<L>): These<L, A> => ...
 ```
 
 **Example**
 
 ```ts
-import { theseRight, this_, that, both } from 'fp-ts/lib/These'
+import { rightOrBoth, right, both } from 'fp-ts/lib/These'
 import { none, some } from 'fp-ts/lib/Option'
 
-assert.deepStrictEqual(theseRight(this_('a')), none)
-assert.deepStrictEqual(theseRight(that(1)), some(1))
-assert.deepStrictEqual(theseRight(both('a', 1)), some(1))
-```
-
-Added in v1.0.0
-
-# theseThat (function)
-
-Returns the `A` value if and only if the value is constructed with `That`
-
-**Signature**
-
-```ts
-export const theseThat = <L, A>(fa: These<L, A>): Option<A> => ...
-```
-
-**Example**
-
-```ts
-import { theseThat, this_, that, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(theseThat(this_('a')), none)
-assert.deepStrictEqual(theseThat(that(1)), some(1))
-assert.deepStrictEqual(theseThat(both('a', 1)), none)
+assert.deepStrictEqual(rightOrBoth(1, none), right(1))
+assert.deepStrictEqual(rightOrBoth(1, some('a')), both('a', 1))
 ```
 
 Added in v1.13.0
 
-# theseThis (function)
-
-Returns the `L` value if and only if the value is constructed with `This`
+# toTuple (function)
 
 **Signature**
 
 ```ts
-export const theseThis = <L, A>(fa: These<L, A>): Option<L> => ...
+export const toTuple = <L, A>(defaultLeft: L, defaultRight: A) => (fa: These<L, A>): [L, A] => ...
 ```
 
 **Example**
 
 ```ts
-import { theseThis, this_, that, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
+import { toTuple, left, right, both } from 'fp-ts/lib/These'
 
-assert.deepStrictEqual(theseThis(this_('a')), some('a'))
-assert.deepStrictEqual(theseThis(that(1)), none)
-assert.deepStrictEqual(theseThis(both('a', 1)), none)
-```
-
-Added in v1.13.0
-
-# thisOrBoth (function)
-
-**Signature**
-
-```ts
-export const thisOrBoth = <L, A>(defaultThis: L, ma: Option<A>): These<L, A> => ...
-```
-
-**Example**
-
-```ts
-import { thisOrBoth, this_, both } from 'fp-ts/lib/These'
-import { none, some } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(thisOrBoth('a', none), this_('a'))
-assert.deepStrictEqual(thisOrBoth('a', some(1)), both('a', 1))
-```
-
-Added in v1.13.0
-
-# this\_ (function)
-
-**Signature**
-
-```ts
-export const this_ = <L, A>(l: L): These<L, A> => ...
+const to = toTuple('a', 1)
+assert.deepStrictEqual(to(left('b')), ['b', 1])
+assert.deepStrictEqual(to(right(2)), ['a', 2])
+assert.deepStrictEqual(to(both('b', 2)), ['b', 2])
 ```
 
 Added in v1.0.0

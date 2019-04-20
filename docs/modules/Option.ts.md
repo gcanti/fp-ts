@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 61
+nav_order: 60
 parent: Modules
 ---
 
@@ -91,57 +91,17 @@ sumLifted(some(1), none) // none
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [None (interface)](#none-interface)
+- [Some (interface)](#some-interface)
 - [Option (type alias)](#option-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [None (class)](#none-class)
-  - [map (method)](#map-method)
-  - [mapNullable (method)](#mapnullable-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
-  - [reduce (method)](#reduce-method)
-  - [alt (method)](#alt-method)
-  - [orElse (method)](#orelse-method)
-  - [extend (method)](#extend-method)
-  - [fold (method)](#fold-method)
-  - [foldL (method)](#foldl-method)
-  - [getOrElse (method)](#getorelse-method)
-  - [getOrElseL (method)](#getorelsel-method)
-  - [toNullable (method)](#tonullable-method)
-  - [toUndefined (method)](#toundefined-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
-  - [contains (method)](#contains-method)
-  - [isNone (method)](#isnone-method)
-  - [isSome (method)](#issome-method)
-  - [exists (method)](#exists-method)
-  - [filter (method)](#filter-method)
-- [Some (class)](#some-class)
-  - [map (method)](#map-method-1)
-  - [mapNullable (method)](#mapnullable-method-1)
-  - [ap (method)](#ap-method-1)
-  - [ap\_ (method)](#ap_-method-1)
-  - [chain (method)](#chain-method-1)
-  - [reduce (method)](#reduce-method-1)
-  - [alt (method)](#alt-method-1)
-  - [orElse (method)](#orelse-method-1)
-  - [extend (method)](#extend-method-1)
-  - [fold (method)](#fold-method-1)
-  - [foldL (method)](#foldl-method-1)
-  - [getOrElse (method)](#getorelse-method-1)
-  - [getOrElseL (method)](#getorelsel-method-1)
-  - [toNullable (method)](#tonullable-method-1)
-  - [toUndefined (method)](#toundefined-method-1)
-  - [inspect (method)](#inspect-method-1)
-  - [toString (method)](#tostring-method-1)
-  - [contains (method)](#contains-method-1)
-  - [isNone (method)](#isnone-method-1)
-  - [isSome (method)](#issome-method-1)
-  - [exists (method)](#exists-method-1)
-  - [filter (method)](#filter-method-1)
 - [URI (constant)](#uri-constant)
 - [none (constant)](#none-constant)
 - [option (constant)](#option-constant)
+- [contains (function)](#contains-function)
+- [exists (function)](#exists-function)
+- [fold (function)](#fold-function)
+- [foldL (function)](#foldl-function)
 - [fromEither (function)](#fromeither-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromPredicate (function)](#frompredicate-function)
@@ -150,23 +110,50 @@ sumLifted(some(1), none) // none
 - [getFirstMonoid (function)](#getfirstmonoid-function)
 - [getLastMonoid (function)](#getlastmonoid-function)
 - [getMonoid (function)](#getmonoid-function)
+- [getOrElse (function)](#getorelse-function)
+- [getOrElseL (function)](#getorelsel-function)
 - [getOrd (function)](#getord-function)
 - [getRefinement (function)](#getrefinement-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [isNone (function)](#isnone-function)
 - [isSome (function)](#issome-function)
+- [mapNullable (function)](#mapnullable-function)
+- [orElse (function)](#orelse-function)
 - [some (function)](#some-function)
+- [toNullable (function)](#tonullable-function)
+- [toUndefined (function)](#toundefined-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
+
+# None (interface)
+
+**Signature**
+
+```ts
+export interface None {
+  readonly _tag: 'None'
+}
+```
+
+# Some (interface)
+
+**Signature**
+
+```ts
+export interface Some<A> {
+  readonly _tag: 'Some'
+  readonly value: A
+}
+```
 
 # Option (type alias)
 
 **Signature**
 
 ```ts
-export type Option<A> = None<A> | Some<A>
+export type Option<A> = None | Some<A>
 ```
 
 Added in v1.0.0
@@ -177,520 +164,6 @@ Added in v1.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-# None (class)
-
-**Signature**
-
-```ts
-export class None<A> {
-  private constructor() { ... }
-  ...
-}
-```
-
-## map (method)
-
-Takes a function `f` and an `Option` of `A`. Maps `f` either on `None` or `Some`, Option's data constructors. If it
-maps on `Some` then it will apply the `f` on `Some`'s value, if it maps on `None` it will return `None`.
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Option<B> { ... }
-```
-
-**Example**
-
-```ts
-import { some } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(some(1).map(n => n * 2), some(2))
-```
-
-## mapNullable (method)
-
-Maps `f` over this `Option`'s value. If the value returned from `f` is null or undefined, returns `None`
-
-**Signature**
-
-```ts
-mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> { ... }
-```
-
-**Example**
-
-```ts
-import { none, some } from 'fp-ts/lib/Option'
-
-interface Foo {
-  bar?: {
-    baz?: string
-  }
-}
-
-assert.deepStrictEqual(
-  some<Foo>({ bar: { baz: 'quux' } })
-    .mapNullable(foo => foo.bar)
-    .mapNullable(bar => bar.baz),
-  some('quux')
-)
-assert.deepStrictEqual(
-  some<Foo>({ bar: {} })
-    .mapNullable(foo => foo.bar)
-    .mapNullable(bar => bar.baz),
-  none
-)
-assert.deepStrictEqual(
-  some<Foo>({})
-    .mapNullable(foo => foo.bar)
-    .mapNullable(bar => bar.baz),
-  none
-)
-```
-
-## ap (method)
-
-`ap`, some may also call it "apply". Takes a function `fab` that is in the context of `Option`, and applies that
-function to this `Option`'s value. If the `Option` calling `ap` is `none` it will return `none`.
-
-**Signature**
-
-```ts
-ap<B>(fab: Option<(a: A) => B>): Option<B> { ... }
-```
-
-**Example**
-
-```ts
-import { some, none } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(some(2).ap(some((x: number) => x + 1)), some(3))
-assert.deepStrictEqual(none.ap(some((x: number) => x + 1)), none)
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> { ... }
-```
-
-**Example**
-
-```ts
-import { some, none } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(some((x: number) => x + 1).ap_(some(2)), some(3))
-assert.deepStrictEqual(none.ap_(some(2)), none)
-```
-
-## chain (method)
-
-Returns the result of applying f to this `Option`'s value if this `Option` is nonempty. Returns `None` if this
-`Option` is empty. Slightly different from `map` in that `f` is expected to return an `Option` (which could be
-`None`)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Option<B>): Option<B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## alt (method)
-
-`alt` short for alternative, takes another `Option`. If this `Option` is a `Some` type then it will be returned, if
-it is a `None` then it will return the next `Some` if it exist. If both are `None` then it will return `none`.
-
-**Signature**
-
-```ts
-alt(fa: Option<A>): Option<A> { ... }
-```
-
-**Example**
-
-```ts
-import { Option, some, none } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(some(2).alt(some(4)), some(2))
-const fa: Option<number> = none
-assert.deepStrictEqual(fa.alt(some(4)), some(4))
-```
-
-## orElse (method)
-
-Lazy version of `alt`
-
-**Signature**
-
-```ts
-orElse(fa: Lazy<Option<A>>): Option<A> { ... }
-```
-
-**Example**
-
-```ts
-import { some } from 'fp-ts/lib/Option'
-
-assert.deepStrictEqual(some(1).orElse(() => some(2)), some(1))
-```
-
-Added in v1.6.0
-
-## extend (method)
-
-**Signature**
-
-```ts
-extend<B>(f: (ea: Option<A>) => B): Option<B> { ... }
-```
-
-## fold (method)
-
-Applies a function to each case in the data structure
-
-**Signature**
-
-```ts
-fold<B>(b: B, onSome: (a: A) => B): B { ... }
-```
-
-**Example**
-
-```ts
-import { none, some } from 'fp-ts/lib/Option'
-
-assert.strictEqual(some(1).fold('none', a => `some: ${a}`), 'some: 1')
-assert.strictEqual(none.fold('none', a => `some: ${a}`), 'none')
-```
-
-## foldL (method)
-
-Lazy version of `fold`
-
-**Signature**
-
-```ts
-foldL<B>(onNone: () => B, onSome: (a: A) => B): B { ... }
-```
-
-## getOrElse (method)
-
-Returns the value from this `Some` or the given argument if this is a `None`
-
-**Signature**
-
-```ts
-getOrElse(a: A): A { ... }
-```
-
-**Example**
-
-```ts
-import { Option, none, some } from 'fp-ts/lib/Option'
-
-assert.strictEqual(some(1).getOrElse(0), 1)
-const fa: Option<number> = none
-assert.strictEqual(fa.getOrElse(0), 0)
-```
-
-## getOrElseL (method)
-
-Lazy version of `getOrElse`
-
-**Signature**
-
-```ts
-getOrElseL(f: () => A): A { ... }
-```
-
-## toNullable (method)
-
-Returns the value from this `Some` or `null` if this is a `None`
-
-**Signature**
-
-```ts
-toNullable(): A | null { ... }
-```
-
-## toUndefined (method)
-
-Returns the value from this `Some` or `undefined` if this is a `None`
-
-**Signature**
-
-```ts
-toUndefined(): A | undefined { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## contains (method)
-
-Returns `true` if the option has an element that is equal (as determined by `S`) to `a`, `false` otherwise
-
-**Signature**
-
-```ts
-contains(S: Setoid<A>, a: A): boolean { ... }
-```
-
-## isNone (method)
-
-Returns `true` if the option is `None`, `false` otherwise
-
-**Signature**
-
-```ts
-isNone(): this is None<A> { ... }
-```
-
-## isSome (method)
-
-Returns `true` if the option is an instance of `Some`, `false` otherwise
-
-**Signature**
-
-```ts
-isSome(): this is Some<A> { ... }
-```
-
-## exists (method)
-
-Returns `true` if this option is non empty and the predicate `p` returns `true` when applied to this Option's value
-
-**Signature**
-
-```ts
-exists(p: (a: A) => boolean): boolean { ... }
-```
-
-## filter (method)
-
-Returns this option if it is non empty and the predicate `p` return `true` when applied to this Option's value.
-Otherwise returns `None`
-
-**Signature**
-
-```ts
-filter<B extends A>(p: Refinement<A, B>): Option<B>
-filter(p: Predicate<A>): Option<A> { ... }
-```
-
-# Some (class)
-
-**Signature**
-
-```ts
-export class Some<A> {
-  constructor(readonly value: A) { ... }
-  ...
-}
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Option<B> { ... }
-```
-
-## mapNullable (method)
-
-**Signature**
-
-```ts
-mapNullable<B>(f: (a: A) => B | null | undefined): Option<B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: Option<(a: A) => B>): Option<B> { ... }
-```
-
-## ap\_ (method)
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Option<(b: B) => C>, fb: Option<B>): Option<C> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Option<B>): Option<B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## alt (method)
-
-**Signature**
-
-```ts
-alt(fa: Option<A>): Option<A> { ... }
-```
-
-## orElse (method)
-
-**Signature**
-
-```ts
-orElse(fa: Lazy<Option<A>>): Option<A> { ... }
-```
-
-## extend (method)
-
-**Signature**
-
-```ts
-extend<B>(f: (ea: Option<A>) => B): Option<B> { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<B>(b: B, onSome: (a: A) => B): B { ... }
-```
-
-## foldL (method)
-
-**Signature**
-
-```ts
-foldL<B>(onNone: () => B, onSome: (a: A) => B): B { ... }
-```
-
-## getOrElse (method)
-
-**Signature**
-
-```ts
-getOrElse(a: A): A { ... }
-```
-
-## getOrElseL (method)
-
-**Signature**
-
-```ts
-getOrElseL(f: () => A): A { ... }
-```
-
-## toNullable (method)
-
-**Signature**
-
-```ts
-toNullable(): A | null { ... }
-```
-
-## toUndefined (method)
-
-**Signature**
-
-```ts
-toUndefined(): A | undefined { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## contains (method)
-
-**Signature**
-
-```ts
-contains(S: Setoid<A>, a: A): boolean { ... }
-```
-
-## isNone (method)
-
-**Signature**
-
-```ts
-isNone(): this is None<A> { ... }
-```
-
-## isSome (method)
-
-**Signature**
-
-```ts
-isSome(): this is Some<A> { ... }
-```
-
-## exists (method)
-
-**Signature**
-
-```ts
-exists(p: (a: A) => boolean): boolean { ... }
-```
-
-## filter (method)
-
-**Signature**
-
-```ts
-filter<B extends A>(p: Refinement<A, B>): Option<B>
-filter(p: Predicate<A>): Option<A> { ... }
 ```
 
 # URI (constant)
@@ -729,6 +202,46 @@ export const option: Monad1<URI> &
 
 Added in v1.0.0
 
+# contains (function)
+
+**Signature**
+
+```ts
+export function contains<A>(S: Setoid<A>): (ma: Option<A>, a: A) => boolean { ... }
+```
+
+Added in v2.0.0
+
+# exists (function)
+
+**Signature**
+
+```ts
+export function exists<A>(ma: Option<A>, predicate: (a: A) => boolean): boolean { ... }
+```
+
+Added in v2.0.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<A, R>(ma: Option<A>, onNone: R, onSome: (a: A) => R): R { ... }
+```
+
+Added in v2.0.0
+
+# foldL (function)
+
+**Signature**
+
+```ts
+export function foldL<A, R>(ma: Option<A>, onNone: () => R, onSome: (a: A) => R): R { ... }
+```
+
+Added in v2.0.0
+
 # fromEither (function)
 
 Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
@@ -737,7 +250,7 @@ value wrapped in a `Some`
 **Signature**
 
 ```ts
-export const fromEither = <L, A>(fa: Either<L, A>): Option<A> => ...
+export const fromEither = <L, A>(ma: Either<L, A>): Option<A> => ...
 ```
 
 **Example**
@@ -934,6 +447,26 @@ assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
 
 Added in v1.0.0
 
+# getOrElse (function)
+
+**Signature**
+
+```ts
+export function getOrElse<A>(ma: Option<A>, a: A): A { ... }
+```
+
+Added in v2.0.0
+
+# getOrElseL (function)
+
+**Signature**
+
+```ts
+export function getOrElseL<A>(ma: Option<A>, f: () => A): A { ... }
+```
+
+Added in v2.0.0
+
 # getOrd (function)
 
 The `Ord` instance allows `Option` values to be compared with
@@ -1029,7 +562,7 @@ Returns `true` if the option is `None`, `false` otherwise
 **Signature**
 
 ```ts
-export const isNone = <A>(fa: Option<A>): fa is None<A> => ...
+export const isNone = <A>(fa: Option<A>): fa is None => ...
 ```
 
 Added in v1.0.0
@@ -1046,6 +579,26 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => ...
 
 Added in v1.0.0
 
+# mapNullable (function)
+
+**Signature**
+
+```ts
+export function mapNullable<A, B>(ma: Option<A>, f: (a: A) => B | null | undefined): Option<B> { ... }
+```
+
+Added in v2.0.0
+
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<A>(ma: Option<A>, f: () => Option<A>): Option<A> { ... }
+```
+
+Added in v2.0.0
+
 # some (function)
 
 **Signature**
@@ -1055,6 +608,26 @@ export const some = <A>(a: A): Option<A> => ...
 ```
 
 Added in v1.0.0
+
+# toNullable (function)
+
+**Signature**
+
+```ts
+export function toNullable<A>(ma: Option<A>): A | null { ... }
+```
+
+Added in v2.0.0
+
+# toUndefined (function)
+
+**Signature**
+
+```ts
+export function toUndefined<A>(ma: Option<A>): A | undefined { ... }
+```
+
+Added in v2.0.0
 
 # tryCatch (function)
 

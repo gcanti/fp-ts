@@ -132,16 +132,16 @@ export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, 
  * Perform a applicative action when a condition is true
  *
  * @example
- * import { IO, io } from 'fp-ts/lib/IO'
+ * import { io } from 'fp-ts/lib/IO'
  * import { when } from 'fp-ts/lib/Applicative'
  *
  * const log: Array<string> = []
- * const action = new IO(() => {
+ * const action = () => {
  *   log.push('action called')
- * })
- * when(io)(false, action).run()
+ * }
+ * when(io)(false, action)()
  * assert.deepStrictEqual(log, [])
- * when(io)(true, action).run()
+ * when(io)(true, action)()
  * assert.deepStrictEqual(log, ['action called'])
  *
  * @since 1.0.0
@@ -178,8 +178,7 @@ export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void
  * const A = getApplicativeComposition(task, option)
  *
  * const sum = (a: number) => (b: number): number => a + b
- * A.ap(A.map(x, sum), y)
- *   .run()
+ * A.ap(A.map(x, sum), y)()
  *   .then(result => assert.deepStrictEqual(result, some(3)))
  *
  * @since 1.0.0

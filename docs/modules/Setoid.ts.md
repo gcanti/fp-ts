@@ -1,6 +1,6 @@
 ---
 title: Setoid.ts
-nav_order: 78
+nav_order: 76
 parent: Modules
 ---
 

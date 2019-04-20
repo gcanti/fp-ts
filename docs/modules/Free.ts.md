@@ -23,8 +23,6 @@ Adapted from http://okmij.org/ftp/Computation/free-monad.html and https://github
   - [ap (method)](#ap-method)
   - [ap\_ (method)](#ap_-method)
   - [chain (method)](#chain-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
   - [isPure (method)](#ispure-method)
   - [isImpure (method)](#isimpure-method)
 - [Pure (class)](#pure-class)
@@ -32,8 +30,6 @@ Adapted from http://okmij.org/ftp/Computation/free-monad.html and https://github
   - [ap (method)](#ap-method-1)
   - [ap\_ (method)](#ap_-method-1)
   - [chain (method)](#chain-method-1)
-  - [inspect (method)](#inspect-method-1)
-  - [toString (method)](#tostring-method-1)
   - [isPure (method)](#ispure-method-1)
   - [isImpure (method)](#isimpure-method-1)
 - [URI (constant)](#uri-constant)
@@ -151,22 +147,6 @@ ap_<B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C> { ... }
 chain<B>(f: (a: A) => Free<F, B>): Free<F, B> { ... }
 ```
 
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
 ## isPure (method)
 
 **Signature**
@@ -226,22 +206,6 @@ ap_<B, C>(this: Free<F, (b: B) => C>, fb: Free<F, B>): Free<F, C> { ... }
 
 ```ts
 chain<B>(f: (a: A) => Free<F, B>): Free<F, B> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
 ```
 
 ## isPure (method)

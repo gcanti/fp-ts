@@ -1,6 +1,6 @@
 ---
 title: Random.ts
-nav_order: 68
+nav_order: 66
 parent: Modules
 ---
 
@@ -12,25 +12,12 @@ Adapted from https://github.com/purescript/purescript-random
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [random (constant)](#random-constant)
 - [randomBool (constant)](#randombool-constant)
+- [random (function)](#random-function)
 - [randomInt (function)](#randomint-function)
 - [randomRange (function)](#randomrange-function)
 
 ---
-
-# random (constant)
-
-Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
-`Math.random()`.
-
-**Signature**
-
-```ts
-export const random: IO<number> = ...
-```
-
-Added in v1.0.0
 
 # randomBool (constant)
 
@@ -40,6 +27,19 @@ Returns a random boolean value with an equal chance of being `true` or `false`
 
 ```ts
 export const randomBool: IO<boolean> = ...
+```
+
+Added in v1.0.0
+
+# random (function)
+
+Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direct wrapper around JavaScript's
+`Math.random()`.
+
+**Signature**
+
+```ts
+export const random: IO<number> = () => ...
 ```
 
 Added in v1.0.0

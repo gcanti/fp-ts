@@ -176,10 +176,10 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
  *
  * @example
  * import { fold } from 'fp-ts/lib/Foldable'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  * import { monoidSum } from 'fp-ts/lib/Monoid'
  *
- * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.strictEqual(fold(monoidSum, tree)(t), 10)
  *
  * @since 1.10.0
@@ -202,9 +202,9 @@ export function fold<M, F>(M: Monoid<M>, F: Foldable<F>): (fa: HKT<F, M>) => M {
  * @example
  * import { foldM } from 'fp-ts/lib/Foldable'
  * import { option, some } from 'fp-ts/lib/Option'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  *
- * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
  *
  * @since 1.10.0
@@ -246,11 +246,11 @@ export function foldM<M, F>(
  * @example
  * import { array } from 'fp-ts/lib/Array'
  * import { sequence_ } from 'fp-ts/lib/Foldable'
- * import { io, IO } from 'fp-ts/lib/IO'
+ * import { io } from 'fp-ts/lib/IO'
  *
  * let log = ''
- * const append = (s: string) => new IO(() => (log += s))
- * sequence_(io, array)([append('a'), append('b'), append('c')]).run()
+ * const append = (s: string) => () => (log += s)
+ * sequence_(io, array)([append('a'), append('b'), append('c')])()
  * assert.strictEqual(log, 'abc')
  *
  * @since 1.10.0
@@ -329,9 +329,9 @@ interface Acc<M> {
  * @example
  * import { intercalate } from 'fp-ts/lib/Foldable'
  * import { monoidString } from 'fp-ts/lib/Monoid'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  *
- * const t = new Tree('a', [new Tree('b', []), new Tree('c', []), new Tree('d', [])])
+ * const t = make('a', [make('b', []), make('c', []), make('d', [])])
  * assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
  *
  * @since 1.10.0
@@ -362,9 +362,9 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HK
  * @example
  * import { fieldNumber } from 'fp-ts/lib/Field'
  * import { sum } from 'fp-ts/lib/Foldable'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  *
- * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.strictEqual(sum(fieldNumber, tree)(t), 10)
  *
  * @since 1.10.0
@@ -385,9 +385,9 @@ export function sum<F, A>(S: Semiring<A>, F: Foldable<F>): (fa: HKT<F, A>) => A 
  * @example
  * import { fieldNumber } from 'fp-ts/lib/Field'
  * import { product } from 'fp-ts/lib/Foldable'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  *
- * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.strictEqual(product(fieldNumber, tree)(t), 24)
  *
  * @since 1.10.0
@@ -408,9 +408,9 @@ export function product<F, A>(S: Semiring<A>, F: Foldable<F>): (fa: HKT<F, A>) =
  * @example
  * import { elem } from 'fp-ts/lib/Foldable'
  * import { setoidNumber } from 'fp-ts/lib/Setoid'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  *
- * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.strictEqual(elem(setoidNumber, tree)(2, t), true)
  * assert.strictEqual(elem(setoidNumber, tree)(5, t), false)
  *
@@ -435,10 +435,10 @@ export function elem<F, A>(S: Setoid<A>, F: Foldable<F>): (a: A, fa: HKT<F, A>) 
  *
  * @example
  * import { findFirst } from 'fp-ts/lib/Foldable'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  * import { some } from 'fp-ts/lib/Option'
  *
- * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(findFirst(tree)(t, a => a > 2), some(3))
  *
  * @since 1.10.0
@@ -473,9 +473,9 @@ export function findFirst<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>
  * import { min } from 'fp-ts/lib/Foldable'
  * import { some } from 'fp-ts/lib/Option'
  * import { ordNumber } from 'fp-ts/lib/Ord'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  *
- * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(min(ordNumber, tree)(t), some(1))
  *
  * @since 1.10.0
@@ -498,9 +498,9 @@ export function min<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<
  * import { max } from 'fp-ts/lib/Foldable'
  * import { some } from 'fp-ts/lib/Option'
  * import { ordNumber } from 'fp-ts/lib/Ord'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  *
- * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(max(ordNumber, tree)(t), some(4))
  *
  * @since 1.10.0
@@ -521,9 +521,9 @@ export function max<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<
  *
  * @example
  * import { toArray } from 'fp-ts/lib/Foldable'
- * import { Tree, tree } from 'fp-ts/lib/Tree'
+ * import { make, tree } from 'fp-ts/lib/Tree'
  *
- * const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
+ * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
  *
  * @since 1.10.0
@@ -546,11 +546,11 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
  * @example
  * import { array } from 'fp-ts/lib/Array'
  * import { traverse_ } from 'fp-ts/lib/Foldable'
- * import { io, IO } from 'fp-ts/lib/IO'
+ * import { io } from 'fp-ts/lib/IO'
  *
  * let log = ''
- * const append = (s: string) => new IO(() => (log += s))
- * traverse_(io, array)(['a', 'b', 'c'], append).run()
+ * const append = (s: string) => () => (log += s)
+ * traverse_(io, array)(['a', 'b', 'c'], append)()
  * assert.strictEqual(log, 'abc')
  *
  * @since 1.10.0

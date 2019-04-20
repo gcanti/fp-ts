@@ -13,29 +13,32 @@ error of type `L`. If you want to represent a synchronous computation that never
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [IOEither (interface)](#ioeither-interface)
 - [URI (type alias)](#uri-type-alias)
-- [IOEither (class)](#ioeither-class)
-  - [run (method)](#run-method)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [applyFirst (method)](#applyfirst-method)
-  - [applySecond (method)](#applysecond-method)
-  - [chain (method)](#chain-method)
-  - [fold (method)](#fold-method)
-  - [mapLeft (method)](#mapleft-method)
-  - [orElse (method)](#orelse-method)
-  - [alt (method)](#alt-method)
-  - [bimap (method)](#bimap-method)
 - [URI (constant)](#uri-constant)
 - [ioEither (constant)](#ioeither-constant)
+- [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
 - [fromLeft (function)](#fromleft-function)
 - [left (function)](#left-function)
+- [make (function)](#make-function)
+- [mapLeft (function)](#mapleft-function)
+- [orElse (function)](#orelse-function)
 - [right (function)](#right-function)
+- [run (function)](#run-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
+
+# IOEither (interface)
+
+**Signature**
+
+```ts
+export interface IOEither<L, A> extends IO<E.Either<L, A>> {}
+```
+
+Added in v1.6.0
 
 # URI (type alias)
 
@@ -43,123 +46,6 @@ error of type `L`. If you want to represent a synchronous computation that never
 
 ```ts
 export type URI = typeof URI
-```
-
-# IOEither (class)
-
-**Signature**
-
-```ts
-export class IOEither<L, A> {
-  constructor(readonly value: IO<Either<L, A>>) { ... }
-  ...
-}
-```
-
-Added in v1.6.0
-
-## run (method)
-
-Runs the inner io
-
-**Signature**
-
-```ts
-run(): Either<L, A> { ... }
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): IOEither<L, B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: IOEither<L, (a: A) => B>): IOEither<L, B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: IOEither<L, (b: B) => C>, fb: IOEither<L, B>): IOEither<L, C> { ... }
-```
-
-## applyFirst (method)
-
-Combine two effectful actions, keeping only the result of the first
-
-**Signature**
-
-```ts
-applyFirst<B>(fb: IOEither<L, B>): IOEither<L, A> { ... }
-```
-
-## applySecond (method)
-
-Combine two effectful actions, keeping only the result of the second
-
-**Signature**
-
-```ts
-applySecond<B>(fb: IOEither<L, B>): IOEither<L, B> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => IOEither<L, B>): IOEither<L, B> { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<R>(left: (l: L) => R, right: (a: A) => R): IO<R> { ... }
-```
-
-## mapLeft (method)
-
-**Signature**
-
-```ts
-mapLeft<M>(f: (l: L) => M): IOEither<M, A> { ... }
-```
-
-## orElse (method)
-
-**Signature**
-
-```ts
-orElse<M>(f: (l: L) => IOEither<M, A>): IOEither<M, A> { ... }
-```
-
-## alt (method)
-
-**Signature**
-
-```ts
-alt(fy: IOEither<L, A>): IOEither<L, A> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<V, B>(f: (l: L) => V, g: (a: A) => B): IOEither<V, B> { ... }
 ```
 
 # URI (constant)
@@ -180,12 +66,22 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<U
 
 Added in v1.6.0
 
+# fold (function)
+
+**Signature**
+
+```ts
+export const fold = <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): IO<R> => ...
+```
+
+Added in v2.0.0
+
 # fromEither (function)
 
 **Signature**
 
 ```ts
-export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => ...
+export const fromEither = <L, A>(fa: E.Either<L, A>): IOEither<L, A> => ...
 ```
 
 Added in v1.6.0
@@ -195,7 +91,7 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const fromLeft = <L, A>(l: L): IOEither<L, A> => ...
+export const fromLeft = <L>(l: L): IOEither<L, never> => ...
 ```
 
 Added in v1.6.0
@@ -205,27 +101,67 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const left = <L, A>(fa: IO<L>): IOEither<L, A> => ...
+export const left = <L>(fa: IO<L>): IOEither<L, never> => ...
 ```
 
 Added in v1.6.0
+
+# make (function)
+
+**Signature**
+
+```ts
+export const make = <A>(a: A): IOEither<never, A> => ...
+```
+
+Added in v2.0.0
+
+# mapLeft (function)
+
+**Signature**
+
+```ts
+export const mapLeft = <L, A, M>(ma: IOEither<L, A>, f: (l: L) => M): IOEither<M, A> => ...
+```
+
+Added in v2.0.0
+
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<L, A, M>(fa: IOEither<L, A>, f: (l: L) => IOEither<M, A>): IOEither<M, A> { ... }
+```
+
+Added in v2.0.0
 
 # right (function)
 
 **Signature**
 
 ```ts
-export const right = <L, A>(fa: IO<A>): IOEither<L, A> => ...
+export const right = <A>(fa: IO<A>): IOEither<never, A> => ...
 ```
 
 Added in v1.6.0
+
+# run (function)
+
+**Signature**
+
+```ts
+export const run = <L, A>(fa: IOEither<L, A>): E.Either<L, A> => ...
+```
+
+Added in v2.0.0
 
 # tryCatch (function)
 
 **Signature**
 
 ```ts
-export const tryCatch = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): IOEither<L, A> => ...
+export const tryCatch = <L, A>(f: Lazy<A>, onError: (reason: unknown) => L): IOEither<L, A> => ...
 ```
 
 Added in v1.11.0

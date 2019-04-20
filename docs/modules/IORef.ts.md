@@ -33,14 +33,10 @@ export class IORef<A> {
 **Example**
 
 ```ts
+import { io, run } from 'fp-ts/lib/IO'
 import { newIORef } from 'fp-ts/lib/IORef'
 
-assert.strictEqual(
-  newIORef(1)
-    .chain(ref => ref.write(2).chain(() => ref.read))
-    .run(),
-  2
-)
+assert.strictEqual(run(io.chain(newIORef(1), ref => io.chain(ref.write(2), () => ref.read))), 2)
 ```
 
 Added in v1.8.0

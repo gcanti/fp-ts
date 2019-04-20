@@ -41,7 +41,6 @@ parent: Modules
 - [compose (function)](#compose-function)
 - [concat (function)](#concat-function)
 - [constFalse (function)](#constfalse-function)
-- [constIdentity (function)](#constidentity-function)
 - [constNull (function)](#constnull-function)
 - [constTrue (function)](#consttrue-function)
 - [constUndefined (function)](#constundefined-function)
@@ -57,7 +56,6 @@ parent: Modules
 - [on (function)](#on-function)
 - [or (function)](#or-function)
 - [pipe (function)](#pipe-function)
-- [toString (function)](#tostring-function)
 - [tuple (function)](#tuple-function)
 
 ---
@@ -413,19 +411,6 @@ export const constFalse = (): boolean => ...
 
 Added in v1.0.0
 
-# constIdentity (function)
-
-A thunk that returns always the `identity` function.
-For use with `applySecond` methods.
-
-**Signature**
-
-```ts
-export const constIdentity = (): (<A>(a: A) => A) => ...
-```
-
-Added in v1.5.0
-
 # constNull (function)
 
 A thunk that returns always `null`
@@ -643,16 +628,6 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): (a: A) => J { ... }
-```
-
-Added in v1.0.0
-
-# toString (function)
-
-**Signature**
-
-```ts
-export const toString = (x: any): string => ...
 ```
 
 Added in v1.0.0

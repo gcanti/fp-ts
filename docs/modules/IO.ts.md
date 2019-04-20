@@ -13,22 +13,25 @@ If you want to represent a synchronous computation that may fail, please see `IO
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [IO (interface)](#io-interface)
 - [URI (type alias)](#uri-type-alias)
-- [IO (class)](#io-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [applyFirst (method)](#applyfirst-method)
-  - [applySecond (method)](#applysecond-method)
-  - [chain (method)](#chain-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
 - [io (constant)](#io-constant)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [run (function)](#run-function)
 
 ---
+
+# IO (interface)
+
+**Signature**
+
+```ts
+export interface IO<A> {
+  (): A
+}
+```
 
 # URI (type alias)
 
@@ -36,93 +39,6 @@ If you want to represent a synchronous computation that may fail, please see `IO
 
 ```ts
 export type URI = typeof URI
-```
-
-# IO (class)
-
-**Signature**
-
-```ts
-export class IO<A> {
-  constructor(readonly run: Lazy<A>) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): IO<B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: IO<(a: A) => B>): IO<B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: IO<(b: B) => C>, fb: IO<B>): IO<C> { ... }
-```
-
-## applyFirst (method)
-
-Combine two effectful actions, keeping only the result of the first
-
-**Signature**
-
-```ts
-applyFirst<B>(fb: IO<B>): IO<A> { ... }
-```
-
-Added in v1.6.0
-
-## applySecond (method)
-
-Combine two effectful actions, keeping only the result of the second
-
-**Signature**
-
-```ts
-applySecond<B>(fb: IO<B>): IO<B> { ... }
-```
-
-Added in v1.5.0
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => IO<B>): IO<B> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
 ```
 
 # URI (constant)
@@ -162,3 +78,13 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => ...
 ```
 
 Added in v1.0.0
+
+# run (function)
+
+**Signature**
+
+```ts
+export const run = <A>(fa: IO<A>): A => ...
+```
+
+Added in v2.0.0

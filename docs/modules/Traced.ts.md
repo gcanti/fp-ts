@@ -1,6 +1,6 @@
 ---
 title: Traced.ts
-nav_order: 89
+nav_order: 86
 parent: Modules
 ---
 
@@ -8,9 +8,8 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Traced (interface)](#traced-interface)
 - [URI (type alias)](#uri-type-alias)
-- [Traced (class)](#traced-class)
-  - [map (method)](#map-method)
 - [URI (constant)](#uri-constant)
 - [traced (constant)](#traced-constant)
 - [censor (function)](#censor-function)
@@ -21,33 +20,24 @@ parent: Modules
 
 ---
 
+# Traced (interface)
+
+**Signature**
+
+```ts
+export interface Traced<P, A> {
+  (p: P): A
+}
+```
+
+Added in v1.16.0
+
 # URI (type alias)
 
 **Signature**
 
 ```ts
 export type URI = typeof URI
-```
-
-# Traced (class)
-
-**Signature**
-
-```ts
-export class Traced<P, A> {
-  constructor(readonly run: (p: P) => A) { ... }
-  ...
-}
-```
-
-Added in v1.16.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Traced<P, B> { ... }
 ```
 
 # URI (constant)
