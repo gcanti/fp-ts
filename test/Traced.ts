@@ -27,22 +27,21 @@ interface Project {
 
 interface ProjectBuilder extends Traced<Settings, Project> {}
 
-const buildProject = (projectName: string): ProjectBuilder =>
-  new Traced(settings => ({
-    projectName,
-    projectHasLibrary: settings.settingsHasLibrary,
-    projectGitHub: settings.settingsGitHub,
-    projectTravis: settings.settingsTravis
-  }))
+const buildProject = (projectName: string): ProjectBuilder => settings => ({
+  projectName,
+  projectHasLibrary: settings.settingsHasLibrary,
+  projectGitHub: settings.settingsGitHub,
+  projectTravis: settings.settingsTravis
+})
 
 const hasLibraryB = (wa: ProjectBuilder): Project => {
   const p = { ...M.empty, settingsHasLibrary: true }
-  return wa.run(p)
+  return wa(p)
 }
 
 const gitHubB = (wa: ProjectBuilder): Project => {
   const p = { ...M.empty, settingsGitHub: true }
-  return wa.run(p)
+  return wa(p)
 }
 
 const getProjectName = (project: Project): string => project.projectName
@@ -50,7 +49,7 @@ const getProjectName = (project: Project): string => project.projectName
 describe('Traced', () => {
   it('map', () => {
     const wa = buildProject('myproject')
-    assert.deepStrictEqual(traced.map(wa, getProjectName).run(M.empty), 'myproject')
+    assert.deepStrictEqual(traced.map(wa, getProjectName)(M.empty), 'myproject')
   })
 
   it('getComonad', () => {

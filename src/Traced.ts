@@ -16,11 +16,8 @@ export type URI = typeof URI
 /**
  * @since 1.16.0
  */
-export class Traced<P, A> {
-  constructor(readonly run: (p: P) => A) {}
-  map<B>(f: (a: A) => B): Traced<P, B> {
-    return new Traced((p: P) => f(this.run(p)))
-  }
+export interface Traced<P, A> {
+  (p: P): A
 }
 
 /**
@@ -28,7 +25,7 @@ export class Traced<P, A> {
  * @since 1.16.0
  */
 export const tracks = <P, A>(M: Monoid<P>, f: (a: A) => P) => (wa: Traced<P, A>): A => {
-  return wa.run(f(wa.run(M.empty)))
+  return wa(f(wa(M.empty)))
 }
 
 /**
@@ -36,7 +33,7 @@ export const tracks = <P, A>(M: Monoid<P>, f: (a: A) => P) => (wa: Traced<P, A>)
  * @since 1.16.0
  */
 export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => {
-  return new Traced(e => tuple(wa.run(e), e))
+  return e => tuple(wa(e), e)
 }
 
 /**
@@ -44,7 +41,7 @@ export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => {
  * @since 1.16.0
  */
 export const listens = <P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> => {
-  return new Traced(e => tuple(wa.run(e), f(e)))
+  return e => tuple(wa(e), f(e))
 }
 
 /**
@@ -52,7 +49,7 @@ export const listens = <P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A
  * @since 1.16.0
  */
 export const censor = <P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> => {
-  return new Traced(e => wa.run(f(e)))
+  return e => wa(f(e))
 }
 
 /**
@@ -60,11 +57,11 @@ export const censor = <P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> => 
  */
 export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   function extend<A, B>(wa: Traced<P, A>, f: (wa: Traced<P, A>) => B): Traced<P, B> {
-    return new Traced((p1: P) => f(new Traced((p2: P) => wa.run(monoid.concat(p1, p2)))))
+    return p1 => f(p2 => wa(monoid.concat(p1, p2)))
   }
 
   function extract<A>(wa: Traced<P, A>): A {
-    return wa.run(monoid.empty)
+    return wa(monoid.empty)
   }
 
   return {
@@ -77,7 +74,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
 }
 
 function map<P, A, B>(wa: Traced<P, A>, f: (a: A) => B): Traced<P, B> {
-  return wa.map(f)
+  return p => f(wa(p))
 }
 
 /**
