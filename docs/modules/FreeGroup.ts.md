@@ -16,21 +16,26 @@ Adapted from https://hackage.haskell.org/package/free-algebras-0.0.7.0/docs/Data
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [FreeGroup (interface)](#freegroup-interface)
 - [URI (type alias)](#uri-type-alias)
-- [FreeGroup (class)](#freegroup-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
 - [URI (constant)](#uri-constant)
 - [empty (constant)](#empty-constant)
 - [freeGroup (constant)](#freegroup-constant)
-- [fromArray (function)](#fromarray-function)
 - [getGroup (function)](#getgroup-function)
 - [getSetoid (function)](#getsetoid-function)
 - [normalize (function)](#normalize-function)
 
 ---
+
+# FreeGroup (interface)
+
+**Signature**
+
+```ts
+export interface FreeGroup<A> extends Array<Either<A, A>> {}
+```
+
+Added in v1.13.0
 
 # URI (type alias)
 
@@ -38,51 +43,6 @@ Adapted from https://hackage.haskell.org/package/free-algebras-0.0.7.0/docs/Data
 
 ```ts
 export type URI = typeof URI
-```
-
-# FreeGroup (class)
-
-**Signature**
-
-```ts
-export class FreeGroup<A> {
-  constructor(readonly value: Array<Either<A, A>>) { ... }
-  ...
-}
-```
-
-Added in v1.13.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): FreeGroup<B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: FreeGroup<(a: A) => B>): FreeGroup<B> { ... }
-```
-
-## ap\_ (method)
-
-**Signature**
-
-```ts
-ap_<B, C>(this: FreeGroup<(b: B) => C>, fb: FreeGroup<B>): FreeGroup<C> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => FreeGroup<B>): FreeGroup<B> { ... }
 ```
 
 # URI (constant)
@@ -109,18 +69,6 @@ Added in v1.13.0
 
 ```ts
 export const freeGroup: Monad1<URI> = ...
-```
-
-Added in v1.13.0
-
-# fromArray (function)
-
-Smart constructor which normalizes an array
-
-**Signature**
-
-```ts
-export const fromArray = <A>(S: Setoid<A>): ((as: Array<Either<A, A>>) => FreeGroup<A>) => ...
 ```
 
 Added in v1.13.0

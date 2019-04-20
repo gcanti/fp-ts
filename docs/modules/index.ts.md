@@ -53,7 +53,6 @@ parent: Modules
 - [io (export)](#io-export)
 - [ioEither (export)](#ioeither-export)
 - [ioRef (export)](#ioref-export)
-- [ixIO (export)](#ixio-export)
 - [ixMonad (export)](#ixmonad-export)
 - [joinSemilattice (export)](#joinsemilattice-export)
 - [lattice (export)](#lattice-export)
@@ -71,7 +70,6 @@ parent: Modules
 - [optionT (export)](#optiont-export)
 - [ord (export)](#ord-export)
 - [ordering (export)](#ordering-export)
-- [pair (export)](#pair-export)
 - [plus (export)](#plus-export)
 - [profunctor (export)](#profunctor-export)
 - [random (export)](#random-export)
@@ -89,7 +87,6 @@ parent: Modules
 - [state (export)](#state-export)
 - [stateT (export)](#statet-export)
 - [store (export)](#store-export)
-- [strmap (export)](#strmap-export)
 - [strong (export)](#strong-export)
 - [task (export)](#task-export)
 - [taskEither (export)](#taskeither-export)
@@ -104,7 +101,6 @@ parent: Modules
 - [validation (export)](#validation-export)
 - [witherable (export)](#witherable-export)
 - [writer (export)](#writer-export)
-- [zipper (export)](#zipper-export)
 
 ---
 
@@ -468,14 +464,6 @@ export { ioEither }
 export { ioRef }
 ```
 
-# ixIO (export)
-
-**Signature**
-
-```ts
-export { ixIO }
-```
-
 # ixMonad (export)
 
 **Signature**
@@ -610,14 +598,6 @@ export { ord }
 
 ```ts
 export { ordering }
-```
-
-# pair (export)
-
-**Signature**
-
-```ts
-export { pair }
 ```
 
 # plus (export)
@@ -756,14 +736,6 @@ export { stateT }
 export { store }
 ```
 
-# strmap (export)
-
-**Signature**
-
-```ts
-export { strmap }
-```
-
 # strong (export)
 
 **Signature**
@@ -874,12 +846,4 @@ export { witherable }
 
 ```ts
 export { writer }
-```
-
-# zipper (export)
-
-**Signature**
-
-```ts
-export { zipper }
 ```

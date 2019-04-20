@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 71
+nav_order: 69
 parent: Modules
 ---
 
@@ -8,26 +8,14 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [ReaderTaskEither (interface)](#readertaskeither-interface)
 - [URI (type alias)](#uri-type-alias)
-- [ReaderTaskEither (class)](#readertaskeither-class)
-  - [run (method)](#run-method)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [applyFirst (method)](#applyfirst-method)
-  - [applySecond (method)](#applysecond-method)
-  - [chain (method)](#chain-method)
-  - [fold (method)](#fold-method)
-  - [mapLeft (method)](#mapleft-method)
-  - [orElse (method)](#orelse-method)
-  - [alt (method)](#alt-method)
-  - [bimap (method)](#bimap-method)
-  - [local (method)](#local-method)
 - [URI (constant)](#uri-constant)
 - [readerTaskEither (constant)](#readertaskeither-constant)
 - [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
 - [ask (function)](#ask-function)
 - [asks (function)](#asks-function)
+- [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
 - [fromIO (function)](#fromio-function)
 - [fromIOEither (function)](#fromioeither-function)
@@ -37,10 +25,26 @@ parent: Modules
 - [fromTaskEither (function)](#fromtaskeither-function)
 - [left (function)](#left-function)
 - [local (function)](#local-function)
+- [make (function)](#make-function)
+- [mapLeft (function)](#mapleft-function)
+- [orElse (function)](#orelse-function)
 - [right (function)](#right-function)
+- [run (function)](#run-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
+
+# ReaderTaskEither (interface)
+
+**Signature**
+
+```ts
+export interface ReaderTaskEither<E, L, A> {
+  (e: E): TaskEither<L, A>
+}
+```
+
+Added in v1.6.0
 
 # URI (type alias)
 
@@ -49,135 +53,6 @@ parent: Modules
 ```ts
 export type URI = typeof URI
 ```
-
-# ReaderTaskEither (class)
-
-**Signature**
-
-```ts
-export class ReaderTaskEither<E, L, A> {
-  constructor(readonly value: (e: E) => TaskEither<L, A>) { ... }
-  ...
-}
-```
-
-Added in v1.6.0
-
-## run (method)
-
-Runs the inner `TaskEither`
-
-**Signature**
-
-```ts
-run(e: E): Promise<Either<L, A>> { ... }
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): ReaderTaskEither<E, L, B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: ReaderTaskEither<E, L, (a: A) => B>): ReaderTaskEither<E, L, B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: ReaderTaskEither<E, L, (b: B) => C>, fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, C> { ... }
-```
-
-## applyFirst (method)
-
-Combine two effectful actions, keeping only the result of the first
-
-**Signature**
-
-```ts
-applyFirst<B>(fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, A> { ... }
-```
-
-## applySecond (method)
-
-Combine two effectful actions, keeping only the result of the second
-
-**Signature**
-
-```ts
-applySecond<B>(fb: ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => ReaderTaskEither<E, L, B>): ReaderTaskEither<E, L, B> { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<R>(left: (l: L) => R, right: (a: A) => R): Reader<E, Task<R>> { ... }
-```
-
-## mapLeft (method)
-
-**Signature**
-
-```ts
-mapLeft<M>(f: (l: L) => M): ReaderTaskEither<E, M, A> { ... }
-```
-
-## orElse (method)
-
-Transforms the failure value of the `ReaderTaskEither` into a new `ReaderTaskEither`
-
-**Signature**
-
-```ts
-orElse<M>(f: (l: L) => ReaderTaskEither<E, M, A>): ReaderTaskEither<E, M, A> { ... }
-```
-
-## alt (method)
-
-**Signature**
-
-```ts
-alt(fy: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<V, B>(f: (l: L) => V, g: (a: A) => B): ReaderTaskEither<E, V, B> { ... }
-```
-
-## local (method)
-
-**Signature**
-
-```ts
-local<E2 = E>(f: (e: E2) => E): ReaderTaskEither<E2, L, A> { ... }
-```
-
-Added in v1.6.1
 
 # URI (constant)
 
@@ -219,7 +94,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export const ask = <E, L>(): ReaderTaskEither<E, L, E> => ...
+export const ask = <E>(): ReaderTaskEither<E, never, E> => ...
 ```
 
 Added in v1.6.0
@@ -229,17 +104,31 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const asks = <E, L, A>(f: (e: E) => A): ReaderTaskEither<E, L, A> => ...
+export const asks = <E, A>(f: (e: E) => A): ReaderTaskEither<E, never, A> => ...
 ```
 
 Added in v1.6.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<E, L, A, R>(
+  ma: ReaderTaskEither<E, L, A>,
+  onLeft: (l: L) => R,
+  onRight: (a: A) => R
+): Reader<E, Task<R>> { ... }
+```
+
+Added in v2.0.0
 
 # fromEither (function)
 
 **Signature**
 
 ```ts
-export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A> => ...
+export const fromEither = <L, A>(fa: Either<L, A>): ReaderTaskEither<unknown, L, A> => ...
 ```
 
 Added in v1.6.0
@@ -249,7 +138,7 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => ...
+export const fromIO = <A>(fa: IO<A>): ReaderTaskEither<unknown, never, A> => ...
 ```
 
 Added in v1.6.0
@@ -259,7 +148,7 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L, A> => ...
+export const fromIOEither = <L, A>(fa: IOEither<L, A>): ReaderTaskEither<unknown, L, A> => ...
 ```
 
 Added in v1.6.0
@@ -269,7 +158,7 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => ...
+export const fromLeft = <L>(l: L): ReaderTaskEither<unknown, L, never> => ...
 ```
 
 Added in v1.6.0
@@ -279,14 +168,14 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export function fromPredicate<E, L, A, B extends A>(
+export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
   onFalse: (a: A) => L
-): ((a: A) => ReaderTaskEither<E, L, B>)
-export function fromPredicate<E, L, A>(
+): ((a: A) => ReaderTaskEither<unknown, L, B>)
+export function fromPredicate<L, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => L
-): ((a: A) => ReaderTaskEither<E, L, A>) { ... }
+): ((a: A) => ReaderTaskEither<unknown, L, A>) { ... }
 ```
 
 Added in v1.6.0
@@ -296,7 +185,7 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A> => ...
+export const fromReader = <E, A>(fa: Reader<E, A>): ReaderTaskEither<E, never, A> => ...
 ```
 
 Added in v1.6.0
@@ -316,7 +205,7 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => ...
+export const left = <E, L>(fa: Task<L>): ReaderTaskEither<E, L, never> => ...
 ```
 
 Added in v1.6.0
@@ -326,22 +215,63 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
-  fa: ReaderTaskEither<E, L, A>
-): ReaderTaskEither<E2, L, A> => ...
+export const local = <E, L, A, F>(ma: ReaderTaskEither<E, L, A>, f: (f: F) => E): ReaderTaskEither<F, L, A> => ...
 ```
 
 Added in v1.6.0
+
+# make (function)
+
+**Signature**
+
+```ts
+export const make = <A>(a: A): ReaderTaskEither<unknown, never, A> => ...
+```
+
+Added in v2.0.0
+
+# mapLeft (function)
+
+**Signature**
+
+```ts
+export function mapLeft<E, L, A, M>(ma: ReaderTaskEither<E, L, A>, f: (l: L) => M): ReaderTaskEither<E, M, A> { ... }
+```
+
+Added in v2.0.0
+
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<E, L, A, M>(
+  ma: ReaderTaskEither<E, L, A>,
+  f: (l: L) => ReaderTaskEither<E, M, A>
+): ReaderTaskEither<E, M, A> { ... }
+```
+
+Added in v2.0.0
 
 # right (function)
 
 **Signature**
 
 ```ts
-export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => ...
+export const right = <E, A>(fa: Task<A>): ReaderTaskEither<E, never, A> => ...
 ```
 
 Added in v1.6.0
+
+# run (function)
+
+**Signature**
+
+```ts
+export const run = <E, L, A>(ma: ReaderTaskEither<E, L, A>, e: E): Promise<Either<L, A>> => ...
+```
+
+Added in v2.0.0
 
 # tryCatch (function)
 
@@ -350,7 +280,7 @@ Added in v1.6.0
 ```ts
 export const tryCatch = <E, L, A>(
   f: (e: E) => Promise<A>,
-  onrejected: (reason: unknown, e: E) => L
+  onError: (reason: unknown, e: E) => L
 ): ReaderTaskEither<E, L, A> => ...
 ```
 

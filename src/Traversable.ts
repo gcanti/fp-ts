@@ -407,7 +407,7 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
  *
  * @example
  * import { array } from 'fp-ts/lib/Array'
- * import { io, IO } from 'fp-ts/lib/IO'
+ * import { io } from 'fp-ts/lib/IO'
  * import { none, option, some } from 'fp-ts/lib/Option'
  * import { getTraversableComposition } from 'fp-ts/lib/Traversable'
  *
@@ -416,9 +416,9 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
  *   a: 1,
  *   b: 2
  * }
- * const read = (s: string) => new IO(() => state[s])
+ * const read = (s: string) => () => state[s]
  * const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
- * assert.deepStrictEqual(x.run(), [some(1), none, some(2), some(undefined)])
+ * assert.deepStrictEqual(x(), [some(1), none, some(2), some(undefined)])
  *
  * @since 1.10.0
  */

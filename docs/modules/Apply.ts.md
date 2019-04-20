@@ -27,12 +27,6 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [Apply2C (interface)](#apply2c-interface)
 - [Apply3 (interface)](#apply3-interface)
 - [Apply3C (interface)](#apply3c-interface)
-- [SequenceT (interface)](#sequencet-interface)
-- [SequenceT1 (interface)](#sequencet1-interface)
-- [SequenceT2 (interface)](#sequencet2-interface)
-- [SequenceT2C (interface)](#sequencet2c-interface)
-- [SequenceT3 (interface)](#sequencet3-interface)
-- [SequenceT3C (interface)](#sequencet3c-interface)
 - [applyFirst (function)](#applyfirst-function)
 - [applySecond (function)](#applysecond-function)
 - [getSemigroup (function)](#getsemigroup-function)
@@ -100,90 +94,6 @@ export interface Apply3<F extends URIS3> extends Functor3<F> {
 ```ts
 export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
   readonly ap: <A, B>(fab: Type3<F, U, L, (a: A) => B>, fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-}
-```
-
-# SequenceT (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT<F> {
-  <T extends Array<HKT<F, any>>>(...t: T & { 0: HKT<F, any> }): HKT<
-    F,
-    { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT1 (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT1<F extends URIS> {
-  <T extends Array<Type<F, any>>>(...t: T & { 0: Type<F, any> }): Type<
-    F,
-    { [K in keyof T]: [T[K]] extends [Type<F, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT2 (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT2<F extends URIS2> {
-  <L, T extends Array<Type2<F, L, any>>>(...t: T & { 0: Type2<F, L, any> }): Type2<
-    F,
-    L,
-    { [K in keyof T]: [T[K]] extends [Type2<F, L, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT2C (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT2C<F extends URIS2, L> {
-  <T extends Array<Type2<F, L, any>>>(...t: T & { 0: Type2<F, L, any> }): Type2<
-    F,
-    L,
-    { [K in keyof T]: [T[K]] extends [Type2<F, L, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT3 (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT3<F extends URIS3> {
-  <U, L, T extends Array<Type3<F, U, L, any>>>(...t: T & { 0: Type3<F, U, L, any> }): Type3<
-    F,
-    U,
-    L,
-    { [K in keyof T]: [T[K]] extends [Type3<F, U, L, infer A>] ? A : never }
-  >
-}
-```
-
-# SequenceT3C (interface)
-
-**Signature**
-
-```ts
-export interface SequenceT3C<F extends URIS3, U, L> {
-  <T extends Array<Type3<F, U, L, any>>>(...t: T & { 0: Type3<F, U, L, any> }): Type3<
-    F,
-    U,
-    L,
-    { [K in keyof T]: [T[K]] extends [Type3<F, U, L, infer A>] ? A : never }
-  >
 }
 ```
 
@@ -326,15 +236,15 @@ const ado = sequenceS(either)
 
 assert.deepStrictEqual(
   ado({
-    a: right<string, number>(1),
-    b: right<string, boolean>(true)
+    a: right(1),
+    b: right(true)
   }),
   right({ a: 1, b: true })
 )
 assert.deepStrictEqual(
   ado({
-    a: right<string, number>(1),
-    b: left<string, number>('error')
+    a: right(1),
+    b: left('error')
   }),
   left('error')
 )
@@ -349,12 +259,36 @@ Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-
 **Signature**
 
 ```ts
-export function sequenceT<F extends URIS3>(F: Apply3<F>): SequenceT3<F>
-export function sequenceT<F extends URIS3, U, L>(F: Apply3C<F, U, L>): SequenceT3C<F, U, L>
-export function sequenceT<F extends URIS2>(F: Apply2<F>): SequenceT2<F>
-export function sequenceT<F extends URIS2, L>(F: Apply2C<F, L>): SequenceT2C<F, L>
-export function sequenceT<F extends URIS>(F: Apply1<F>): SequenceT1<F>
-export function sequenceT<F>(F: Apply<F>): SequenceT<F> { ... }
+export function sequenceT<F extends URIS3>(
+  F: Apply3<F>
+): <U, L, T extends Array<Type3<F, U, L, any>>>(
+  ...t: T & { 0: Type3<F, U, L, any> }
+) => Type3<F, U, L, { [K in keyof T]: [T[K]] extends [Type3<F, U, L, infer A>] ? A : never }>
+export function sequenceT<F extends URIS3, U, L>(
+  F: Apply3C<F, U, L>
+): <T extends Array<Type3<F, U, L, any>>>(
+  ...t: T & { 0: Type3<F, U, L, any> }
+) => Type3<F, U, L, { [K in keyof T]: [T[K]] extends [Type3<F, U, L, infer A>] ? A : never }>
+export function sequenceT<F extends URIS2>(
+  F: Apply2<F>
+): <L, T extends Array<Type2<F, L, any>>>(
+  ...t: T & { 0: Type2<F, L, any> }
+) => Type2<F, L, { [K in keyof T]: [T[K]] extends [Type2<F, L, infer A>] ? A : never }>
+export function sequenceT<F extends URIS2, L>(
+  F: Apply2C<F, L>
+): <T extends Array<Type2<F, L, any>>>(
+  ...t: T & { 0: Type2<F, L, any> }
+) => Type2<F, L, { [K in keyof T]: [T[K]] extends [Type2<F, L, infer A>] ? A : never }>
+export function sequenceT<F extends URIS>(
+  F: Apply1<F>
+): <T extends Array<Type<F, any>>>(
+  ...t: T & { 0: Type<F, any> }
+) => Type<F, { [K in keyof T]: [T[K]] extends [Type<F, infer A>] ? A : never }>
+export function sequenceT<F>(
+  F: Apply<F>
+): <T extends Array<HKT<F, any>>>(
+  ...t: T & { 0: HKT<F, any> }
+) => HKT<F, { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }> { ... }
 ```
 
 **Example**

@@ -27,60 +27,25 @@ const parse = (errorMessage: string) => (input: string): Either<string, number> 
 operations like `map`, `chain`, ... return the `Left` value unchanged:
 
 ```ts
-right(12).map(double) // right(24)
-left(23).map(double) // left(23)
+import { either } from 'fp-ts/lib/Either'
+
+either.map(right(12, double) // right(24)
+either.map(left(23, double)  // left(23)
 ```
 
 ---
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Left (interface)](#left-interface)
+- [Right (interface)](#right-interface)
 - [Either (type alias)](#either-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [Left (class)](#left-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
-  - [bimap (method)](#bimap-method)
-  - [alt (method)](#alt-method)
-  - [orElse (method)](#orelse-method)
-  - [extend (method)](#extend-method)
-  - [reduce (method)](#reduce-method)
-  - [fold (method)](#fold-method)
-  - [getOrElse (method)](#getorelse-method)
-  - [getOrElseL (method)](#getorelsel-method)
-  - [mapLeft (method)](#mapleft-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
-  - [isLeft (method)](#isleft-method)
-  - [isRight (method)](#isright-method)
-  - [swap (method)](#swap-method)
-  - [filterOrElse (method)](#filterorelse-method)
-  - [filterOrElseL (method)](#filterorelsel-method)
-- [Right (class)](#right-class)
-  - [map (method)](#map-method-1)
-  - [ap (method)](#ap-method-1)
-  - [ap\_ (method)](#ap_-method-1)
-  - [chain (method)](#chain-method-1)
-  - [bimap (method)](#bimap-method-1)
-  - [alt (method)](#alt-method-1)
-  - [orElse (method)](#orelse-method-1)
-  - [extend (method)](#extend-method-1)
-  - [reduce (method)](#reduce-method-1)
-  - [fold (method)](#fold-method-1)
-  - [getOrElse (method)](#getorelse-method-1)
-  - [getOrElseL (method)](#getorelsel-method-1)
-  - [mapLeft (method)](#mapleft-method-1)
-  - [inspect (method)](#inspect-method-1)
-  - [toString (method)](#tostring-method-1)
-  - [isLeft (method)](#isleft-method-1)
-  - [isRight (method)](#isright-method-1)
-  - [swap (method)](#swap-method-1)
-  - [filterOrElse (method)](#filterorelse-method-1)
-  - [filterOrElseL (method)](#filterorelsel-method-1)
 - [URI (constant)](#uri-constant)
 - [either (constant)](#either-constant)
+- [filterOrElse (function)](#filterorelse-function)
+- [filterOrElseL (function)](#filterorelsel-function)
+- [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromOption (function)](#fromoption-function)
 - [fromOptionL (function)](#fromoptionl-function)
@@ -90,6 +55,8 @@ left(23).map(double) // left(23)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getCompactable (function)](#getcompactable-function)
 - [getFilterable (function)](#getfilterable-function)
+- [getOrElse (function)](#getorelse-function)
+- [getOrElseL (function)](#getorelsel-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
@@ -97,20 +64,45 @@ left(23).map(double) // left(23)
 - [isLeft (function)](#isleft-function)
 - [isRight (function)](#isright-function)
 - [left (function)](#left-function)
+- [mapLeft (function)](#mapleft-function)
+- [orElse (function)](#orelse-function)
 - [parseJSON (function)](#parsejson-function)
 - [right (function)](#right-function)
 - [stringifyJSON (function)](#stringifyjson-function)
+- [swap (function)](#swap-function)
 - [toError (function)](#toerror-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
+
+# Left (interface)
+
+**Signature**
+
+```ts
+export interface Left<L> {
+  readonly _tag: 'Left'
+  readonly value: L
+}
+```
+
+# Right (interface)
+
+**Signature**
+
+```ts
+export interface Right<A> {
+  readonly _tag: 'Right'
+  readonly value: A
+}
+```
 
 # Either (type alias)
 
 **Signature**
 
 ```ts
-export type Either<L, A> = Left<L, A> | Right<L, A>
+export type Either<L, A> = Left<L> | Right<A>
 ```
 
 Added in v1.0.0
@@ -121,408 +113,6 @@ Added in v1.0.0
 
 ```ts
 export type URI = typeof URI
-```
-
-# Left (class)
-
-Left side of `Either`
-
-**Signature**
-
-```ts
-export class Left<L, A> {
-  constructor(readonly value: L) { ... }
-  ...
-}
-```
-
-## map (method)
-
-The given function is applied if this is a `Right`
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Either<L, B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> { ... }
-```
-
-## chain (method)
-
-Binds the given function across `Right`
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Either<L, B>): Either<L, B> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B> { ... }
-```
-
-## alt (method)
-
-**Signature**
-
-```ts
-alt(fy: Either<L, A>): Either<L, A> { ... }
-```
-
-## orElse (method)
-
-Lazy version of `alt`
-
-**Signature**
-
-```ts
-orElse<M>(fy: (l: L) => Either<M, A>): Either<M, A> { ... }
-```
-
-**Example**
-
-```ts
-import { right } from 'fp-ts/lib/Either'
-
-assert.deepStrictEqual(right(1).orElse(() => right(2)), right(1))
-```
-
-Added in v1.6.0
-
-## extend (method)
-
-**Signature**
-
-```ts
-extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## fold (method)
-
-Applies a function to each case in the data structure
-
-**Signature**
-
-```ts
-fold<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B { ... }
-```
-
-## getOrElse (method)
-
-Returns the value from this `Right` or the given argument if this is a `Left`
-
-**Signature**
-
-```ts
-getOrElse(a: A): A { ... }
-```
-
-## getOrElseL (method)
-
-Returns the value from this `Right` or the result of given argument if this is a `Left`
-
-**Signature**
-
-```ts
-getOrElseL(f: (l: L) => A): A { ... }
-```
-
-## mapLeft (method)
-
-Maps the left side of the disjunction
-
-**Signature**
-
-```ts
-mapLeft<M>(f: (l: L) => M): Either<M, A> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## isLeft (method)
-
-Returns `true` if the either is an instance of `Left`, `false` otherwise
-
-**Signature**
-
-```ts
-isLeft(): this is Left<L, A> { ... }
-```
-
-## isRight (method)
-
-Returns `true` if the either is an instance of `Right`, `false` otherwise
-
-**Signature**
-
-```ts
-isRight(): this is Right<L, A> { ... }
-```
-
-## swap (method)
-
-Swaps the disjunction values
-
-**Signature**
-
-```ts
-swap(): Either<A, L> { ... }
-```
-
-## filterOrElse (method)
-
-Returns `Right` with the existing value of `Right` if this is a `Right` and the given predicate `p` holds for the
-right value, returns `Left(zero)` if this is a `Right` and the given predicate `p` does not hold for the right
-value, returns `Left` with the existing value of `Left` if this is a `Left`.
-
-**Signature**
-
-```ts
-filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
-filterOrElse(p: Predicate<A>, zero: L): Either<L, A> { ... }
-```
-
-**Example**
-
-```ts
-import { right, left } from 'fp-ts/lib/Either'
-
-assert.deepStrictEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
-assert.deepStrictEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
-assert.deepStrictEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
-```
-
-Added in v1.3.0
-
-## filterOrElseL (method)
-
-Lazy version of `filterOrElse`
-
-**Signature**
-
-```ts
-filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
-filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
-```
-
-Added in v1.3.0
-
-# Right (class)
-
-Right side of `Either`
-
-**Signature**
-
-```ts
-export class Right<L, A> {
-  constructor(readonly value: A) { ... }
-  ...
-}
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Either<L, B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: Either<L, (a: A) => B>): Either<L, B> { ... }
-```
-
-## ap\_ (method)
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Either<L, (b: B) => C>, fb: Either<L, B>): Either<L, C> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Either<L, B>): Either<L, B> { ... }
-```
-
-## bimap (method)
-
-**Signature**
-
-```ts
-bimap<V, B>(f: (l: L) => V, g: (a: A) => B): Either<V, B> { ... }
-```
-
-## alt (method)
-
-**Signature**
-
-```ts
-alt(fy: Either<L, A>): Either<L, A> { ... }
-```
-
-## orElse (method)
-
-**Signature**
-
-```ts
-orElse<M>(fy: (l: L) => Either<M, A>): Either<M, A> { ... }
-```
-
-## extend (method)
-
-**Signature**
-
-```ts
-extend<B>(f: (ea: Either<L, A>) => B): Either<L, B> { ... }
-```
-
-## reduce (method)
-
-**Signature**
-
-```ts
-reduce<B>(b: B, f: (b: B, a: A) => B): B { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<B>(onLeft: (l: L) => B, onRight: (a: A) => B): B { ... }
-```
-
-## getOrElse (method)
-
-**Signature**
-
-```ts
-getOrElse(a: A): A { ... }
-```
-
-## getOrElseL (method)
-
-**Signature**
-
-```ts
-getOrElseL(f: (l: L) => A): A { ... }
-```
-
-## mapLeft (method)
-
-**Signature**
-
-```ts
-mapLeft<M>(f: (l: L) => M): Either<M, A> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
-```
-
-## isLeft (method)
-
-**Signature**
-
-```ts
-isLeft(): this is Left<L, A> { ... }
-```
-
-## isRight (method)
-
-**Signature**
-
-```ts
-isRight(): this is Right<L, A> { ... }
-```
-
-## swap (method)
-
-**Signature**
-
-```ts
-swap(): Either<A, L> { ... }
-```
-
-## filterOrElse (method)
-
-**Signature**
-
-```ts
-filterOrElse<B extends A>(p: Refinement<A, B>, zero: L): Either<L, B>
-filterOrElse(p: Predicate<A>, zero: L): Either<L, A> { ... }
-```
-
-## filterOrElseL (method)
-
-**Signature**
-
-```ts
-filterOrElseL<B extends A>(p: Refinement<A, B>, zero: (a: A) => L): Either<L, B>
-filterOrElseL(p: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
 ```
 
 # URI (constant)
@@ -549,6 +139,42 @@ export const either: Monad2<URI> &
 ```
 
 Added in v1.0.0
+
+# filterOrElse (function)
+
+**Signature**
+
+```ts
+export function filterOrElse<L, A, B extends A>(ma: Either<L, A>, refinement: Refinement<A, B>, zero: L): Either<L, B>
+export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: L): Either<L, A> { ... }
+```
+
+Added in v2.0.0
+
+# filterOrElseL (function)
+
+**Signature**
+
+```ts
+export function filterOrElseL<L, A, B extends A>(
+  ma: Either<L, A>,
+  refinement: Refinement<A, B>,
+  zero: (a: A) => L
+): Either<L, B>
+export function filterOrElseL<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
+```
+
+Added in v2.0.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<L, A, R>(ma: Either<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): R { ... }
+```
+
+Added in v2.0.0
 
 # fromNullable (function)
 
@@ -671,6 +297,26 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> { ... }
 
 Added in v1.7.0
 
+# getOrElse (function)
+
+**Signature**
+
+```ts
+export function getOrElse<L, A>(ma: Either<L, A>, a: A): A { ... }
+```
+
+Added in v2.0.0
+
+# getOrElseL (function)
+
+**Signature**
+
+```ts
+export function getOrElseL<L, A>(ma: Either<L, A>, f: (l: L) => A): A { ... }
+```
+
+Added in v2.0.0
+
 # getSemigroup (function)
 
 Semigroup returning the left-most non-`Left` value. If both operands are `Right`s then the inner values are
@@ -736,7 +382,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export const isLeft = <L, A>(fa: Either<L, A>): fa is Left<L, A> => ...
+export const isLeft = <L, A>(ma: Either<L, A>): ma is Left<L> => ...
 ```
 
 Added in v1.0.0
@@ -748,7 +394,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => ...
+export const isRight = <L, A>(ma: Either<L, A>): ma is Right<A> => ...
 ```
 
 Added in v1.0.0
@@ -761,10 +407,30 @@ structure
 **Signature**
 
 ```ts
-export const left = <L, A>(l: L): Either<L, A> => ...
+export const left = <L>(l: L): Either<L, never> => ...
 ```
 
 Added in v1.0.0
+
+# mapLeft (function)
+
+**Signature**
+
+```ts
+export function mapLeft<L, A, M>(ma: Either<L, A>, f: (l: L) => M): Either<M, A> { ... }
+```
+
+Added in v2.0.0
+
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<L, A, M>(ma: Either<L, A>, f: (l: L) => Either<M, A>): Either<M, A> { ... }
+```
+
+Added in v2.0.0
 
 # parseJSON (function)
 
@@ -795,7 +461,7 @@ of this structure
 **Signature**
 
 ```ts
-export const right = <L, A>(a: A): Either<L, A> => ...
+export const right = <A>(a: A): Either<never, A> => ...
 ```
 
 Added in v1.0.0
@@ -823,9 +489,19 @@ assert.deepStrictEqual(stringifyJSON(circular, toError).value, new TypeError('Co
 
 Added in v1.16.0
 
+# swap (function)
+
+**Signature**
+
+```ts
+export function swap<L, A>(ma: Either<L, A>): Either<A, L> { ... }
+```
+
+Added in v2.0.0
+
 # toError (function)
 
-Default value for the optional `onerror` argument of `tryCatch`
+Default value for the `onError` argument of `tryCatch`
 
 **Signature**
 
@@ -842,7 +518,7 @@ Constructs a new `Either` from a function that might throw
 **Signature**
 
 ```ts
-export const tryCatch = <L, A>(f: Lazy<A>, onerror: (e: unknown) => L): Either<L, A> => ...
+export const tryCatch = <L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L, A> => ...
 ```
 
 **Example**

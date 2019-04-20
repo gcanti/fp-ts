@@ -1,6 +1,6 @@
 ---
 title: Store.ts
-nav_order: 82
+nav_order: 80
 parent: Modules
 ---
 
@@ -8,21 +8,29 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Store (interface)](#store-interface)
 - [URI (type alias)](#uri-type-alias)
-- [Store (class)](#store-class)
-  - [seek (method)](#seek-method)
-  - [map (method)](#map-method)
-  - [extract (method)](#extract-method)
-  - [extend (method)](#extend-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
 - [store (constant)](#store-constant)
 - [experiment (function)](#experiment-function)
 - [peeks (function)](#peeks-function)
+- [seek (function)](#seek-function)
 - [seeks (function)](#seeks-function)
 
 ---
+
+# Store (interface)
+
+**Signature**
+
+```ts
+export interface Store<S, A> {
+  readonly peek: (s: S) => A
+  readonly pos: S
+}
+```
+
+Added in v1.0.0
 
 # URI (type alias)
 
@@ -30,69 +38,6 @@ parent: Modules
 
 ```ts
 export type URI = typeof URI
-```
-
-# Store (class)
-
-**Signature**
-
-```ts
-export class Store<S, A> {
-  constructor(readonly peek: (s: S) => A, readonly pos: S) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## seek (method)
-
-Reposition the focus at the specified position
-
-**Signature**
-
-```ts
-seek(s: S): Store<S, A> { ... }
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Store<S, B> { ... }
-```
-
-## extract (method)
-
-**Signature**
-
-```ts
-extract(): A { ... }
-```
-
-## extend (method)
-
-**Signature**
-
-```ts
-extend<B>(f: (sa: Store<S, A>) => B): Store<S, B> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
 ```
 
 # URI (constant)
@@ -145,6 +90,16 @@ export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): 
 ```
 
 Added in v1.0.0
+
+# seek (function)
+
+Reposition the focus at the specified position
+
+**Signature**
+
+```ts
+export function seek<S, A>(sa: Store<S, A>, s: S): Store<S, A> { ... }
+```
 
 # seeks (function)
 

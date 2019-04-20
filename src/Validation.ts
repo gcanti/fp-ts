@@ -74,7 +74,7 @@ export interface Success<A> {
  * const A = getApplicative(getSemigroup<string>())
  *
  * function validatePerson(input: Record<string, string>): Validation<NonEmptyArray<string>, Person> {
- *   return A.ap(validateName(input['name']).map(person), validateAge(input['age']))
+ *   return A.ap(A.map(validateName(input['name']), person), validateAge(input['age']))
  * }
  *
  * assert.deepStrictEqual(validatePerson({ name: '', age: '1.2' }), failure(make<string>("Invalid name: empty string", ["Invalid age: not an integer 1.2"])))

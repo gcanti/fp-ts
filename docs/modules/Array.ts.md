@@ -1223,6 +1223,7 @@ export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> =
 **Example**
 
 ```ts
+import { isSome } from 'fp-ts/lib/Option'
 import { sortBy } from 'fp-ts/lib/Array'
 import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
 
@@ -1235,7 +1236,7 @@ const byAge = contramap((p: Person) => p.age, ordNumber)
 
 const sortByNameByAge = sortBy([byName, byAge])
 
-if (sortByNameByAge.isSome()) {
+if (isSome(sortByNameByAge)) {
   const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
   assert.deepStrictEqual(sortByNameByAge.value(persons), [
     { name: 'a', age: 1 },

@@ -1,6 +1,6 @@
 ---
 title: Writer.ts
-nav_order: 97
+nav_order: 94
 parent: Modules
 ---
 
@@ -8,21 +8,33 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Writer (interface)](#writer-interface)
 - [URI (type alias)](#uri-type-alias)
-- [Writer (class)](#writer-class)
-  - [eval (method)](#eval-method)
-  - [exec (method)](#exec-method)
-  - [map (method)](#map-method)
 - [URI (constant)](#uri-constant)
 - [writer (constant)](#writer-constant)
 - [censor (function)](#censor-function)
+- [evalWriter (function)](#evalwriter-function)
+- [execWriter (function)](#execwriter-function)
 - [getMonad (function)](#getmonad-function)
 - [listen (function)](#listen-function)
 - [listens (function)](#listens-function)
 - [pass (function)](#pass-function)
+- [run (function)](#run-function)
 - [tell (function)](#tell-function)
 
 ---
+
+# Writer (interface)
+
+**Signature**
+
+```ts
+export interface Writer<W, A> {
+  (): [A, W]
+}
+```
+
+Added in v1.0.0
 
 # URI (type alias)
 
@@ -30,43 +42,6 @@ parent: Modules
 
 ```ts
 export type URI = typeof URI
-```
-
-# Writer (class)
-
-**Signature**
-
-```ts
-export class Writer<W, A> {
-  constructor(readonly run: () => [A, W]) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## eval (method)
-
-**Signature**
-
-```ts
-eval(): A { ... }
-```
-
-## exec (method)
-
-**Signature**
-
-```ts
-exec(): W { ... }
-```
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Writer<W, B> { ... }
 ```
 
 # URI (constant)
@@ -98,6 +73,26 @@ export const censor = <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> => 
 ```
 
 Added in v1.3.0
+
+# evalWriter (function)
+
+**Signature**
+
+```ts
+export const evalWriter = <W, A>(fa: Writer<W, A>): A => ...
+```
+
+Added in v2.0.0
+
+# execWriter (function)
+
+**Signature**
+
+```ts
+export const execWriter = <W, A>(fa: Writer<W, A>): W => ...
+```
+
+Added in v2.0.0
 
 # getMonad (function)
 
@@ -144,6 +139,16 @@ export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => ...
 ```
 
 Added in v1.3.0
+
+# run (function)
+
+**Signature**
+
+```ts
+export const run = <W, A>(fa: Writer<W, A>): [A, W] => ...
+```
+
+Added in v2.0.0
 
 # tell (function)
 

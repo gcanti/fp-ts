@@ -8,21 +8,25 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Const (type alias)](#const-type-alias)
 - [URI (type alias)](#uri-type-alias)
-- [Const (class)](#const-class)
-  - [map (method)](#map-method)
-  - [contramap (method)](#contramap-method)
-  - [fold (method)](#fold-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
 - [const\_ (constant)](#const_-constant)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
+- [make (function)](#make-function)
 
 ---
+
+# Const (type alias)
+
+**Signature**
+
+```ts
+export type Const<L, A> = L & { A: A }
+```
 
 # URI (type alias)
 
@@ -30,59 +34,6 @@ parent: Modules
 
 ```ts
 export type URI = typeof URI
-```
-
-# Const (class)
-
-**Signature**
-
-```ts
-export class Const<L, A> {
-  constructor(readonly value: L) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Const<L, B> { ... }
-```
-
-## contramap (method)
-
-**Signature**
-
-```ts
-contramap<B>(f: (b: B) => A): Const<L, B> { ... }
-```
-
-## fold (method)
-
-**Signature**
-
-```ts
-fold<B>(f: (l: L) => B): B { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
 ```
 
 # URI (constant)
@@ -142,3 +93,13 @@ export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => ...
 ```
 
 Added in v1.17.0
+
+# make (function)
+
+**Signature**
+
+```ts
+export const make = <L>(l: L): Const<L, never> => ...
+```
+
+Added in v2.0.0
