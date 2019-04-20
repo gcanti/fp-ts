@@ -37,6 +37,7 @@ function likePost<M>(M: MonadApp<M>): (token: string) => (url: string) => HKT<M,
   return token => url => {
     const mToken = M.chain(M.validateUser(token), uid => M.facebookToken(uid))
     const mPost = M.findPost(url)
+    // tslint:disable-next-line: deprecation
     const mmResult = liftA2(M)(M.sendLike)(mToken)(mPost)
     return flatten(M)(mmResult)
   }

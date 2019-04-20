@@ -80,16 +80,16 @@ export type URIS4 = keyof URI2HKT4<any, any, any, any>
 /**
  * `* -> *` constructors
  */
-export type Type<URI extends URIS, A> = {} & URI2HKT<A>[URI]
+export type Type<URI extends URIS, A> = URI extends URIS ? URI2HKT<A>[URI] : any
 /**
  * `* -> * -> *` constructors
  */
-export type Type2<URI extends URIS2, L, A> = {} & URI2HKT2<L, A>[URI]
+export type Type2<URI extends URIS2, L, A> = URI extends URIS2 ? URI2HKT2<L, A>[URI] : any
 /**
  * `* -> * -> * -> *` constructors
  */
-export type Type3<URI extends URIS3, U, L, A> = {} & URI2HKT3<U, L, A>[URI]
+export type Type3<URI extends URIS3, U, L, A> = URI extends URIS3 ? URI2HKT3<U, L, A>[URI] : any
 /**
  * `* -> * -> * -> * -> *` constructors
  */
-export type Type4<URI extends URIS4, X, U, L, A> = {} & URI2HKT4<X, U, L, A>[URI]
+export type Type4<URI extends URIS4, X, U, L, A> = URI extends URIS4 ? URI2HKT4<X, U, L, A>[URI] : any

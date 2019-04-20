@@ -26,6 +26,7 @@ import * as Or from '../../lib/Ord'
 import * as Fu from '../../lib/function'
 import * as Ring from '../../lib/Ring'
 import * as Field from '../../lib/Field'
+import * as NEA2v from '../../lib/NonEmptyArray2v'
 
 const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
@@ -227,6 +228,17 @@ O.getRefinement<C, A>(c => (c.type === 'B' ? O.some(c) : O.none))
 // HKT
 //
 
+// isssue #536
+function testIssue536<F extends H.URIS, G extends H.URIS, A>(x: H.Type<F, A>): H.Type<G, A> {
+  // $ExpectError
+  return x
+}
+
+const testURI = <F extends H.URIS>(ma: T.Task<number>): H.Type<F, number> => {
+  // $ExpectError
+  return ma
+}
+
 // $ExpectError
 type HKT1 = H.Type<'a', string>
 
@@ -380,8 +392,6 @@ const toUnfoldable3 = SM.toUnfoldable(A.array)(new SM.StrMap({ a: 1 })) // $Expe
 //
 // NonEmptyArray2v
 //
-
-import * as NEA2v from '../../lib/NonEmptyArray2v'
 
 declare const nea2v1: NEA2v.NonEmptyArray<string>
 declare const nea2v2: NEA2v.NonEmptyArray<string>
