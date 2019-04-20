@@ -22,6 +22,7 @@ import * as Or from '../../src/Ord'
 import * as Fu from '../../src/function'
 import * as Ring from '../../src/Ring'
 import * as Field from '../../src/Field'
+import * as T from '../../src/Task'
 
 const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
@@ -204,6 +205,17 @@ O.getRefinement<C, A>(c => (c.type === 'B' ? O.some(c) : O.none))
 //
 // HKT
 //
+
+// isssue #536
+function testIssue536<F extends H.URIS, G extends H.URIS, A>(x: H.Type<F, A>): H.Type<G, A> {
+  // $ExpectError
+  return x
+}
+
+const testURI = <F extends H.URIS>(ma: T.Task<number>): H.Type<F, number> => {
+  // $ExpectError
+  return ma
+}
 
 // $ExpectError
 type HKT1 = H.Type<'a', string>
