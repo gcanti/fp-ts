@@ -1,7 +1,6 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
 import * as E from '../src/Either'
-import { IOEither } from '../src/IOEither'
 import { none, some } from '../src/Option'
 import { reader } from '../src/Reader'
 import * as RTE from '../src/ReaderTaskEither'
@@ -122,10 +121,7 @@ describe('ReaderTaskEither', () => {
   })
 
   it('fromIOEither', () => {
-    const rtes = [
-      RTE.fromIOEither(new IOEither<unknown, number>(() => E.right(1))),
-      RTE.fromIOEither(new IOEither<string, unknown>(() => E.left('error')))
-    ]
+    const rtes = [RTE.fromIOEither(() => E.right(1)), RTE.fromIOEither(() => E.left('error'))]
     return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, E.right(1))
       assert.deepStrictEqual(e2, E.left('error'))

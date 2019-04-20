@@ -1,12 +1,11 @@
 import * as assert from 'assert'
+import { array } from '../src/Array'
 import { left as eitherLeft, right as eitherRight } from '../src/Either'
+import { monoidString } from '../src/Monoid'
+import { none, some } from '../src/Option'
+import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
-import { IOEither } from '../src/IOEither'
-import { monoidString } from '../src/Monoid'
-import { semigroupSum } from '../src/Semigroup'
-import { array } from '../src/Array'
-import { none, some } from '../src/Option'
 
 describe('TaskEither', () => {
   it('attempt', () => {
@@ -226,8 +225,8 @@ describe('TaskEither', () => {
   })
 
   it('fromIOEither', () => {
-    const x1 = TE.fromIOEither(new IOEither<string, number>(() => eitherRight(1)))
-    const x2 = TE.fromIOEither(new IOEither<string, number>(() => eitherLeft('foo')))
+    const x1 = TE.fromIOEither(() => eitherRight(1))
+    const x2 = TE.fromIOEither(() => eitherLeft('foo'))
     return Promise.all([x1(), x2()]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, eitherRight(1))
       assert.deepStrictEqual(e2, eitherLeft('foo'))

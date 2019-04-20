@@ -4,21 +4,21 @@ import {
   apply,
   applyFlipped,
   compose,
-  curry,
-  flip,
-  identity,
-  on,
-  not,
-  or,
-  pipe,
-  unsafeCoerce,
-  constTrue,
   constFalse,
   constNull,
+  constTrue,
   constUndefined,
   constVoid,
+  curry,
+  decrement,
+  flip,
+  identity,
   increment,
-  decrement
+  not,
+  on,
+  or,
+  pipe,
+  unsafeCoerce
 } from '../src/function'
 
 const f = (n: number) => n + 1
