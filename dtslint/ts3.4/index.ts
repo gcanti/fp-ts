@@ -1,35 +1,3 @@
-<<<<<<< HEAD:dtslint/ts3.1/index.ts
-import * as Apv from '../../lib/Applicative'
-import * as Apy from '../../lib/Apply'
-import * as A from '../../lib/Array'
-import * as C from '../../lib/Const'
-import * as E from '../../lib/Either'
-import * as F from '../../lib/Functor'
-import * as H from '../../lib/HKT'
-import * as Ix from '../../lib/IxIO'
-import * as O from '../../lib/Option'
-import * as OT from '../../lib/OptionT'
-import * as Re from '../../lib/Reader'
-import * as RTE from '../../lib/ReaderTaskEither'
-import * as R from '../../lib/Record'
-import * as S from '../../lib/Semigroup'
-import * as T from '../../lib/Task'
-import * as TE from '../../lib/TaskEither'
-import * as Th from '../../lib/These'
-import * as Tr from '../../lib/Traversable'
-import * as U from '../../lib/Unfoldable'
-import * as V from '../../lib/Validation'
-import * as Mon from '../../lib/Monoid'
-import * as Se from '../../lib/Setoid'
-import * as SM from '../../lib/StrMap'
-import * as Fo from '../../lib/Foldable'
-import * as Or from '../../lib/Ord'
-import * as Fu from '../../lib/function'
-import * as Ring from '../../lib/Ring'
-import * as Field from '../../lib/Field'
-import * as NEA2v from '../../lib/NonEmptyArray2v'
-import * as Map from '../../lib/Map'
-=======
 import * as Apv from '../../src/Applicative'
 import * as Apy from '../../src/Apply'
 import * as A from '../../src/Array'
@@ -54,7 +22,9 @@ import * as Or from '../../src/Ord'
 import * as Fu from '../../src/function'
 import * as Ring from '../../src/Ring'
 import * as Field from '../../src/Field'
->>>>>>> remove deprecated APIs:dtslint/ts3.4/index.ts
+import * as T from '../../src/Task'
+import * as Map from '../../src/Map'
+import * as NEA from '../../src/NonEmptyArray'
 
 const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
@@ -390,15 +360,8 @@ const Ring1 = Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fiel
 // NonEmptyArray
 //
 
-<<<<<<< HEAD:dtslint/ts3.1/index.ts
-declare const nea2v1: NEA2v.NonEmptyArray<string>
-declare const nea2v2: NEA2v.NonEmptyArray<string>
-=======
-import * as NEA from '../../src/NonEmptyArray'
-
 declare const nea2v1: NEA.NonEmptyArray<string>
 declare const nea2v2: NEA.NonEmptyArray<string>
->>>>>>> remove deprecated APIs:dtslint/ts3.4/index.ts
 declare const array1: Array<string>
 
 const nea2v1make1 = NEA.make<number>(1, []) // $ExpectType NonEmptyArray<number>
@@ -439,8 +402,8 @@ O.option.partition(O.some<string | number>('a'), isString) // $ExpectType Separa
 
 const filterableEither = E.getFilterable(Mon.monoidAll)
 
-filterableEither.filter(E.right<boolean, string | number>(1), isString) // $ExpectType Either<boolean, string>
-filterableEither.partition(E.right<boolean, string | number>(1), isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>
+filterableEither.filter(E.right(1) as E.Either<boolean, string | number>, isString) // $ExpectType Either<boolean, string>
+filterableEither.partition(E.right(1) as E.Either<boolean, string | number>, isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>
 
 declare function isStringWithIndex(i: number, x: unknown): x is string
 
