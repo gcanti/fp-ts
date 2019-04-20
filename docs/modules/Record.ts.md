@@ -1,6 +1,6 @@
 ---
 title: Record.ts
-nav_order: 72
+nav_order: 70
 parent: Modules
 ---
 
@@ -8,18 +8,17 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [URI (type alias)](#uri-type-alias)
+- [URI (constant)](#uri-constant)
 - [empty (constant)](#empty-constant)
+- [record (constant)](#record-constant)
 - [collect (function)](#collect-function)
-- [compact (function)](#compact-function)
 - [elem (function)](#elem-function)
 - [every (function)](#every-function)
 - [filter (function)](#filter-function)
-- [filterMap (function)](#filtermap-function)
 - [filterMapWithKey (function)](#filtermapwithkey-function)
 - [filterWithKey (function)](#filterwithkey-function)
-- [foldMap (function)](#foldmap-function)
 - [foldMapWithKey (function)](#foldmapwithkey-function)
-- [foldr (function)](#foldr-function)
 - [foldrWithKey (function)](#foldrwithkey-function)
 - [fromFoldable (function)](#fromfoldable-function)
 - [fromFoldableMap (function)](#fromfoldablemap-function)
@@ -29,18 +28,15 @@ parent: Modules
 - [insert (function)](#insert-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubrecord (function)](#issubrecord-function)
+- [keys (function)](#keys-function)
 - [lookup (function)](#lookup-function)
 - [map (function)](#map-function)
 - [mapWithKey (function)](#mapwithkey-function)
-- [partition (function)](#partition-function)
-- [partitionMap (function)](#partitionmap-function)
 - [partitionMapWithKey (function)](#partitionmapwithkey-function)
 - [partitionWithKey (function)](#partitionwithkey-function)
 - [pop (function)](#pop-function)
-- [reduce (function)](#reduce-function)
 - [reduceWithKey (function)](#reducewithkey-function)
 - [remove (function)](#remove-function)
-- [separate (function)](#separate-function)
 - [sequence (function)](#sequence-function)
 - [singleton (function)](#singleton-function)
 - [size (function)](#size-function)
@@ -49,10 +45,24 @@ parent: Modules
 - [toUnfoldable (function)](#tounfoldable-function)
 - [traverse (function)](#traverse-function)
 - [traverseWithKey (function)](#traversewithkey-function)
-- [wilt (function)](#wilt-function)
-- [wither (function)](#wither-function)
 
 ---
+
+# URI (type alias)
+
+**Signature**
+
+```ts
+export type URI = typeof URI
+```
+
+# URI (constant)
+
+**Signature**
+
+```ts
+export const URI = ...
+```
 
 # empty (constant)
 
@@ -64,23 +74,28 @@ export const empty: Record<string, never> = ...
 
 Added in v1.10.0
 
+# record (constant)
+
+**Signature**
+
+```ts
+export const record: FunctorWithIndex1<URI, string> &
+  Foldable1<URI> &
+  TraversableWithIndex1<URI, string> &
+  Compactable1<URI> &
+  FilterableWithIndex1<URI, string> &
+  Witherable1<URI> &
+  FoldableWithIndex1<URI, string> = ...
+```
+
+Added in v2.0.0
+
 # collect (function)
 
 **Signature**
 
 ```ts
-export function collect<K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B>
-export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B> { ... }
-```
-
-Added in v1.10.0
-
-# compact (function)
-
-**Signature**
-
-```ts
-export const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => ...
+export function collect<K extends string, A, B>(r: Record<K, A>, f: (k: K, a: A) => B): Array<B> { ... }
 ```
 
 Added in v1.10.0
@@ -90,7 +105,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boolean { ... }
+export function elem<A>(S: Setoid<A>): (a: A, fa: Record<string, A>) => boolean { ... }
 ```
 
 Added in v1.14.0
@@ -100,7 +115,7 @@ Added in v1.14.0
 **Signature**
 
 ```ts
-export function every<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean): boolean { ... }
+export function every<A>(fa: Record<string, A>, predicate: (a: A) => boolean): boolean { ... }
 ```
 
 Added in v1.14.0
@@ -112,16 +127,6 @@ Added in v1.14.0
 ```ts
 export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> { ... }
-```
-
-Added in v1.10.0
-
-# filterMap (function)
-
-**Signature**
-
-```ts
-export const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => ...
 ```
 
 Added in v1.10.0
@@ -151,43 +156,22 @@ export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) =
 
 Added in v1.14.0
 
-# foldMap (function)
-
-**Signature**
-
-```ts
-export const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M) => ...
-```
-
-Added in v1.10.0
-
 # foldMapWithKey (function)
 
 **Signature**
 
 ```ts
-export const foldMapWithKey = <M>(M: Monoid<M>) => <A>(fa: Record<string, A>, f: (k: string, a: A) => M): M => ...
+export function foldMapWithKey<M>(M: Monoid<M>): <K extends string, A>(fa: Record<K, A>, f: (k: K, a: A) => M) => M { ... }
 ```
 
 Added in v1.12.0
-
-# foldr (function)
-
-**Signature**
-
-```ts
-export const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => ...
-```
-
-Added in v1.10.0
 
 # foldrWithKey (function)
 
 **Signature**
 
 ```ts
-export function foldrWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B
-export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B { ... }
+export function foldrWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B { ... }
 ```
 
 Added in v1.12.0
@@ -195,27 +179,27 @@ Added in v1.12.0
 # fromFoldable (function)
 
 Create a record from a foldable collection of key/value pairs, using the
-specified function to combine values for duplicate keys.
+specified `Magma` to combine values for duplicate keys.
 
 **Signature**
 
 ```ts
-export function fromFoldable<F extends URIS3>(
+export function fromFoldable<F extends URIS3, A>(
+  M: Magma<A>,
   F: Foldable3<F>
-): <K extends string, U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
-export function fromFoldable<F extends URIS2>(
+): <K extends string, U, L>(fka: Type3<F, U, L, [K, A]>) => Record<K, A>
+export function fromFoldable<F extends URIS2, A>(
+  M: Magma<A>,
   F: Foldable2<F>
-): <K extends string, L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
-export function fromFoldable<F extends URIS>(
+): <K extends string, L>(fka: Type2<F, L, [K, A]>) => Record<K, A>
+export function fromFoldable<F extends URIS, A>(
+  M: Magma<A>,
   F: Foldable1<F>
-): <K extends string, A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A>
-export function fromFoldable<F>(
-  // tslint:disable-next-line: deprecation
-  F: Foldable<F>
-): <K extends string, A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Record<K, A> { ... }
+): <K extends string>(fka: Type<F, [K, A]>) => Record<K, A>
+export function fromFoldable<F, A>(M: Magma<A>, F: Foldable<F>): <K extends string>(fka: HKT<F, [K, A]>) => Record<K, A> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # fromFoldableMap (function)
 
@@ -230,20 +214,19 @@ Create a record from a foldable collection using the specified functions to
 export function fromFoldableMap<F extends URIS3, B>(
   M: Magma<B>,
   F: Foldable3<F>
-): <U, L, A, K extends string>(ta: Type3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <U, L, A, K extends string>(fa: Type3<F, U, L, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS2, B>(
   M: Magma<B>,
   F: Foldable2<F>
-): <L, A, K extends string>(ta: Type2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <L, A, K extends string>(fa: Type2<F, L, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F extends URIS, B>(
   M: Magma<B>,
   F: Foldable1<F>
-): <A, K extends string>(ta: Type<F, A>, f: (a: A) => [K, B]) => Record<K, B>
+): <A, K extends string>(fa: Type<F, A>, f: (a: A) => [K, B]) => Record<K, B>
 export function fromFoldableMap<F, B>(
   M: Magma<B>,
-  // tslint:disable-next-line: deprecation
   F: Foldable<F>
-): <A, K extends string>(ta: HKT<F, A>, f: (a: A) => [K, B]) => Record<K, B> { ... }
+): <A, K extends string>(fa: HKT<F, A>, f: (a: A) => [K, B]) => Record<K, B> { ... }
 ```
 
 **Example**
@@ -283,8 +266,7 @@ Returns a `Semigroup` instance for records given a `Semigroup` instance for thei
 **Signature**
 
 ```ts
-export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>>
-export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> { ... }
+export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K, A>> { ... }
 ```
 
 **Example**
@@ -304,8 +286,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
-export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> { ... }
+export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>> { ... }
 ```
 
 Added in v1.10.0
@@ -327,8 +308,7 @@ Insert or replace a key/value pair in a map
 **Signature**
 
 ```ts
-export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A>
-export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string, A> { ... }
+export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A> { ... }
 ```
 
 Added in v1.10.0
@@ -340,7 +320,7 @@ Test whether a record is empty
 **Signature**
 
 ```ts
-export const isEmpty = <A>(d: Record<string, A>): boolean => ...
+export const isEmpty = (r: Record<string, unknown>): boolean => ...
 ```
 
 Added in v1.10.0
@@ -356,6 +336,16 @@ export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Reco
 ```
 
 Added in v1.14.0
+
+# keys (function)
+
+**Signature**
+
+```ts
+export function keys<K extends string>(r: Record<K, unknown>): Array<K> { ... }
+```
+
+Added in v2.0.0
 
 # lookup (function)
 
@@ -374,8 +364,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B>
-export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B> { ... }
+export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B> { ... }
 ```
 
 Added in v1.10.0
@@ -385,34 +374,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export function mapWithKey<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B>
-export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B> { ... }
-```
-
-Added in v1.10.0
-
-# partition (function)
-
-**Signature**
-
-```ts
-export const partition = <A>(
-  fa: Record<string, A>,
-  p: Predicate<A>
-): Separated<Record<string, A>, Record<string, A>> => ...
-```
-
-Added in v1.10.0
-
-# partitionMap (function)
-
-**Signature**
-
-```ts
-export const partitionMap = <RL, RR, A>(
-  fa: Record<string, A>,
-  f: (a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>> => ...
+export function mapWithKey<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B> { ... }
 ```
 
 Added in v1.10.0
@@ -458,17 +420,10 @@ Delete a key and value from a map, returning the value as well as the subsequent
 **Signature**
 
 ```ts
-export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<string, A>]> => ...
-```
-
-Added in v1.10.0
-
-# reduce (function)
-
-**Signature**
-
-```ts
-export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => ...
+export function pop<K extends string, KS extends string, A>(
+  k: K,
+  d: Record<KS, A>
+): Option<[A, Record<Exclude<KS, K>, A>]> { ... }
 ```
 
 Added in v1.10.0
@@ -478,8 +433,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export function reduceWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B
-export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B { ... }
+export function reduceWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B { ... }
 ```
 
 Added in v1.12.0
@@ -491,23 +445,10 @@ Delete a key and value from a map
 **Signature**
 
 ```ts
-export function remove<KS extends string, K extends string, A>(
+export function remove<K extends string, KS extends string, A>(
   k: K,
   d: Record<KS, A>
-): Record<string extends K ? string : Exclude<KS, K>, A>
-export function remove<A>(k: string, d: Record<string, A>): Record<string, A> { ... }
-```
-
-Added in v1.10.0
-
-# separate (function)
-
-**Signature**
-
-```ts
-export const separate = <RL, RR>(
-  fa: Record<string, Either<RL, RR>>
-): Separated<Record<string, RL>, Record<string, RR>> => ...
+): Record<string extends K ? string : Exclude<KS, K>, A> { ... }
 ```
 
 Added in v1.10.0
@@ -519,20 +460,20 @@ Added in v1.10.0
 ```ts
 export function sequence<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A>(ta: Record<string, Type3<F, U, L, A>>) => Type3<F, U, L, Record<string, A>>
+): <K extends string, U, L, A>(ta: Record<K, Type3<F, U, L, A>>) => Type3<F, U, L, Record<K, A>>
 export function sequence<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): <A>(ta: Record<string, Type3<F, U, L, A>>) => Type3<F, U, L, Record<string, A>>
+): <K extends string, A>(ta: Record<K, Type3<F, U, L, A>>) => Type3<F, U, L, Record<K, A>>
 export function sequence<F extends URIS2>(
   F: Applicative2<F>
-): <L, A>(ta: Record<string, Type2<F, L, A>>) => Type2<F, L, Record<string, A>>
+): <K extends string, L, A>(ta: Record<K, Type2<F, L, A>>) => Type2<F, L, Record<K, A>>
 export function sequence<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <A>(ta: Record<string, Type2<F, L, A>>) => Type2<F, L, Record<string, A>>
+): <K extends string, A>(ta: Record<K, Type2<F, L, A>>) => Type2<F, L, Record<K, A>>
 export function sequence<F extends URIS>(
   F: Applicative1<F>
-): <A>(ta: Record<string, Type<F, A>>) => Type<F, Record<string, A>>
-export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>> { ... }
+): <K extends string, A>(ta: Record<K, Type<F, A>>) => Type<F, Record<K, A>>
+export function sequence<F>(F: Applicative<F>): <K extends string, A>(ta: Record<K, HKT<F, A>>) => HKT<F, Record<K, A>> { ... }
 ```
 
 Added in v1.10.0
@@ -556,7 +497,7 @@ Calculate the number of key/value pairs in a record
 **Signature**
 
 ```ts
-export const size = <A>(d: Record<string, A>): number => ...
+export const size = (r: Record<string, unknown>): number => ...
 ```
 
 Added in v1.10.0
@@ -566,7 +507,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export function some<A>(fa: { [key: string]: A }, predicate: (a: A) => boolean): boolean { ... }
+export function some<A>(fa: Record<string, A>, predicate: (a: A) => boolean): boolean { ... }
 ```
 
 Added in v1.14.0
@@ -576,8 +517,7 @@ Added in v1.14.0
 **Signature**
 
 ```ts
-export function toArray<K extends string, A>(d: Record<K, A>): Array<[K, A]>
-export function toArray<A>(d: Record<string, A>): Array<[string, A]> { ... }
+export function toArray<K extends string, A>(d: Record<K, A>): Array<[K, A]> { ... }
 ```
 
 Added in v1.10.0
@@ -604,22 +544,22 @@ Added in v1.10.0
 ```ts
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(ta: Record<string, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<string, B>>
+): <K extends string, U, L, A, B>(ta: Record<K, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<K, B>>
 export function traverse<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): <A, B>(ta: Record<string, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<string, B>>
+): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<K, B>>
 export function traverse<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(ta: Record<string, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<string, B>>
+): <K extends string, L, A, B>(ta: Record<K, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>
 export function traverse<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <A, B>(ta: Record<string, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<string, B>>
+): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>
 export function traverse<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(ta: Record<string, A>, f: (a: A) => Type<F, B>) => Type<F, Record<string, B>>
+): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => Type<F, B>) => Type<F, Record<K, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>> { ... }
+): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<K, B>> { ... }
 ```
 
 Added in v1.10.0
@@ -631,88 +571,19 @@ Added in v1.10.0
 ```ts
 export function traverseWithKey<F extends URIS3>(
   F: Applicative3<F>
-): <U, L, A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<string, B>>
+): <K extends string, U, L, A, B>(
+  ta: Record<K, A>,
+  f: (k: K, a: A) => Type3<F, U, L, B>
+) => Type3<F, U, L, Record<K, B>>
 export function traverseWithKey<F extends URIS2>(
   F: Applicative2<F>
-): <L, A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type2<F, L, B>) => Type2<F, L, Record<string, B>>
+): <K extends string, L, A, B>(ta: Record<K, A>, f: (k: K, a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>
 export function traverseWithKey<F extends URIS>(
   F: Applicative1<F>
-): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => Type<F, B>) => Type<F, Record<string, B>>
+): <K extends string, A, B>(ta: Record<K, A>, f: (k: K, a: A) => Type<F, B>) => Type<F, Record<K, B>>
 export function traverseWithKey<F>(
   F: Applicative<F>
-): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>> { ... }
-```
-
-Added in v1.10.0
-
-# wilt (function)
-
-**Signature**
-
-```ts
-export function wilt<F extends URIS3>(
-  F: Applicative3<F>
-): (<U, L, RL, RR, A>(
-  wa: Record<string, A>,
-  f: (a: A) => Type3<F, U, L, Either<RL, RR>>
-) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>)
-export function wilt<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): (<RL, RR, A>(
-  wa: Record<string, A>,
-  f: (a: A) => Type3<F, U, L, Either<RL, RR>>
-) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>)
-export function wilt<F extends URIS2>(
-  F: Applicative2<F>
-): (<L, RL, RR, A>(
-  wa: Record<string, A>,
-  f: (a: A) => Type2<F, L, Either<RL, RR>>
-) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>)
-export function wilt<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): (<RL, RR, A>(
-  wa: Record<string, A>,
-  f: (a: A) => Type2<F, L, Either<RL, RR>>
-) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>)
-export function wilt<F extends URIS>(
-  F: Applicative1<F>
-): (<RL, RR, A>(
-  wa: Record<string, A>,
-  f: (a: A) => Type<F, Either<RL, RR>>
-) => Type<F, Separated<Record<string, RL>, Record<string, RR>>>)
-export function wilt<F>(
-  F: Applicative<F>
-): (<RL, RR, A>(
-  wa: Record<string, A>,
-  f: (a: A) => HKT<F, Either<RL, RR>>
-) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>) { ... }
-```
-
-Added in v1.10.0
-
-# wither (function)
-
-**Signature**
-
-```ts
-export function wither<F extends URIS3>(
-  F: Applicative3<F>
-): (<U, L, A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>)
-export function wither<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>)
-export function wither<F extends URIS2>(
-  F: Applicative2<F>
-): (<L, A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>)
-export function wither<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>)
-export function wither<F extends URIS>(
-  F: Applicative1<F>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Record<string, B>>)
-export function wither<F>(
-  F: Applicative<F>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>) { ... }
+): <K extends string, A, B>(ta: Record<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Record<K, B>> { ... }
 ```
 
 Added in v1.10.0

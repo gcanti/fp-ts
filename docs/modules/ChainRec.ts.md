@@ -85,7 +85,7 @@ export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
 **Signature**
 
 ```ts
-export const tailRec = <A, B>(f: (a: A) => Either<A, B>, a: A): B => ...
+export const tailRec = <A, B>(a: A, f: (a: A) => Either<A, B>): B => ...
 ```
 
 Added in v1.0.0

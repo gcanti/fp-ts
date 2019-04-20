@@ -1,6 +1,6 @@
 ---
 title: Map.ts
-nav_order: 52
+nav_order: 51
 parent: Modules
 ---
 
@@ -99,27 +99,27 @@ Added in v1.14.0
 # fromFoldable (function)
 
 Create a map from a foldable collection of key/value pairs, using the
-specified function to combine values for duplicate keys.
+specified `Magma` to combine values for duplicate keys.
 
 **Signature**
 
 ```ts
-export function fromFoldable<K, F extends URIS3>(
+export function fromFoldable<F extends URIS3, K, A>(
   S: Setoid<K>,
+  M: Magma<A>,
   F: Foldable3<F>
-): <U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F extends URIS2>(
+): <U, L>(fka: Type3<F, U, L, [K, A]>) => Map<K, A>
+export function fromFoldable<F extends URIS2, K, A>(
   S: Setoid<K>,
+  M: Magma<A>,
   F: Foldable2<F>
-): <L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F extends URIS>(
+): <L>(fka: Type2<F, L, [K, A]>) => Map<K, A>
+export function fromFoldable<F extends URIS, K, A>(
   S: Setoid<K>,
+  M: Magma<A>,
   F: Foldable1<F>
-): <A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
-export function fromFoldable<K, F>(
-  S: Setoid<K>,
-  F: Foldable<F>
-): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> { ... }
+): (fka: Type<F, [K, A]>) => Map<K, A>
+export function fromFoldable<F, K, A>(S: Setoid<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> { ... }
 ```
 
 Added in v1.14.0

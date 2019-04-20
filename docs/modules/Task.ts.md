@@ -1,6 +1,6 @@
 ---
 title: Task.ts
-nav_order: 85
+nav_order: 82
 parent: Modules
 ---
 
@@ -13,16 +13,8 @@ If you want to represent an asynchronous computation that may fail, please see `
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Task (interface)](#task-interface)
 - [URI (type alias)](#uri-type-alias)
-- [Task (class)](#task-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [applyFirst (method)](#applyfirst-method)
-  - [applySecond (method)](#applysecond-method)
-  - [chain (method)](#chain-method)
-  - [inspect (method)](#inspect-method)
-  - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
 - [task (constant)](#task-constant)
 - [taskSeq (constant)](#taskseq-constant)
@@ -35,99 +27,22 @@ If you want to represent an asynchronous computation that may fail, please see `
 
 ---
 
+# Task (interface)
+
+**Signature**
+
+```ts
+export interface Task<A> {
+  (): Promise<A>
+}
+```
+
 # URI (type alias)
 
 **Signature**
 
 ```ts
 export type URI = typeof URI
-```
-
-# Task (class)
-
-**Signature**
-
-```ts
-export class Task<A> {
-  constructor(readonly run: Lazy<Promise<A>>) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Task<B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: Task<(a: A) => B>): Task<B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Task<(b: B) => C>, fb: Task<B>): Task<C> { ... }
-```
-
-## applyFirst (method)
-
-Combine two effectful actions, keeping only the result of the first
-
-**Signature**
-
-```ts
-applyFirst<B>(fb: Task<B>): Task<A> { ... }
-```
-
-Added in v1.6.0
-
-## applySecond (method)
-
-Combine two effectful actions, keeping only the result of the second
-
-**Signature**
-
-```ts
-applySecond<B>(fb: Task<B>): Task<B> { ... }
-```
-
-Added in v1.5.0
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Task<B>): Task<B> { ... }
-```
-
-## inspect (method)
-
-**Signature**
-
-```ts
-inspect(): string { ... }
-```
-
-## toString (method)
-
-**Signature**
-
-```ts
-toString(): string { ... }
 ```
 
 # URI (constant)

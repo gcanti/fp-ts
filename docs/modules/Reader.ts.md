@@ -1,6 +1,6 @@
 ---
 title: Reader.ts
-nav_order: 69
+nav_order: 67
 parent: Modules
 ---
 
@@ -8,13 +8,8 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Reader (interface)](#reader-interface)
 - [URI (type alias)](#uri-type-alias)
-- [Reader (class)](#reader-class)
-  - [map (method)](#map-method)
-  - [ap (method)](#ap-method)
-  - [ap\_ (method)](#ap_-method)
-  - [chain (method)](#chain-method)
-  - [local (method)](#local-method)
 - [URI (constant)](#uri-constant)
 - [reader (constant)](#reader-constant)
 - [ask (function)](#ask-function)
@@ -22,8 +17,21 @@ parent: Modules
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [local (function)](#local-function)
+- [run (function)](#run-function)
 
 ---
+
+# Reader (interface)
+
+**Signature**
+
+```ts
+export interface Reader<E, A> {
+  (e: E): A
+}
+```
+
+Added in v1.0.0
 
 # URI (type alias)
 
@@ -32,63 +40,6 @@ parent: Modules
 ```ts
 export type URI = typeof URI
 ```
-
-# Reader (class)
-
-**Signature**
-
-```ts
-export class Reader<E, A> {
-  constructor(readonly run: (e: E) => A) { ... }
-  ...
-}
-```
-
-Added in v1.0.0
-
-## map (method)
-
-**Signature**
-
-```ts
-map<B>(f: (a: A) => B): Reader<E, B> { ... }
-```
-
-## ap (method)
-
-**Signature**
-
-```ts
-ap<B>(fab: Reader<E, (a: A) => B>): Reader<E, B> { ... }
-```
-
-## ap\_ (method)
-
-Flipped version of `ap`
-
-**Signature**
-
-```ts
-ap_<B, C>(this: Reader<E, (b: B) => C>, fb: Reader<E, B>): Reader<E, C> { ... }
-```
-
-## chain (method)
-
-**Signature**
-
-```ts
-chain<B>(f: (a: A) => Reader<E, B>): Reader<E, B> { ... }
-```
-
-## local (method)
-
-**Signature**
-
-```ts
-local<E2 = E>(f: (e: E2) => E): Reader<E2, A> { ... }
-```
-
-Added in v1.6.1
 
 # URI (constant)
 
@@ -159,7 +110,17 @@ changes the value of the local context during the execution of the action `fa`
 **Signature**
 
 ```ts
-export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Reader<E2, A> => ...
+export const local = <E, A, D>(fa: Reader<E, A>, f: (d: D) => E): Reader<D, A> => ...
 ```
 
 Added in v1.0.0
+
+# run (function)
+
+**Signature**
+
+```ts
+export const run = <E, A>(fa: Reader<E, A>, e: E): A => ...
+```
+
+Added in v2.0.0

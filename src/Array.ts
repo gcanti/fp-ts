@@ -1158,6 +1158,7 @@ export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
  * etc...
  *
  * @example
+ * import { isSome } from 'fp-ts/lib/Option'
  * import { sortBy } from 'fp-ts/lib/Array'
  * import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
  *
@@ -1170,7 +1171,7 @@ export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *
- * if (sortByNameByAge.isSome()) {
+ * if (isSome(sortByNameByAge)) {
  *   const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
  *   assert.deepStrictEqual(sortByNameByAge.value(persons), [
  *     { name: 'a', age: 1 },
