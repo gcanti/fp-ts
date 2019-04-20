@@ -5,7 +5,7 @@ import { phantom } from './function'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Setoid } from './Setoid'
+import { Setoid } from './Setoid'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -18,30 +18,13 @@ export const URI = 'Const'
 
 export type URI = typeof URI
 
-/**
- * @data
- * @constructor Const
- * @since 1.0.0
- */
-export class Const<L, A> {
-  readonly _A!: A
-  constructor(readonly value: L) {}
-  map<B>(f: (a: A) => B): Const<L, B> {
-    return this as any
-  }
-  contramap<B>(f: (b: B) => A): Const<L, B> {
-    return this as any
-  }
-  fold<B>(f: (l: L) => B): B {
-    return f(this.value)
-  }
-}
+export type Const<L, A> = L & { A: A }
 
 /**
  * @since 2.0.0
  */
 export const make = <L>(l: L): Const<L, never> => {
-  return new Const(l)
+  return l as any
 }
 
 /**
@@ -49,7 +32,7 @@ export const make = <L>(l: L): Const<L, never> => {
  */
 export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
   return {
-    show: c => `make(${S.show(c.value)})`
+    show: c => `make(${S.show(c)})`
   }
 }
 
@@ -57,15 +40,15 @@ export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
  * @since 1.0.0
  */
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => {
-  return fromEquals((x, y) => S.equals(x.value, y.value))
+  return S
 }
 
 const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
-  return fa.map(f)
+  return fa as any
 }
 
 const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
-  return fa.contramap(f)
+  return fa as any
 }
 
 /**
@@ -73,7 +56,7 @@ const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
  */
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   const ap = <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
-    return make(S.concat(fab.value, fa.value))
+    return make(S.concat(fab, fa))
   }
 
   return {
