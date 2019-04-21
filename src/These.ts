@@ -389,12 +389,7 @@ export const fromOptions = <L, A>(fl: O.Option<L>, fa: O.Option<A>): O.Option<Th
  * @since 1.13.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => {
-  switch (fa._tag) {
-    case 'Left':
-      return left(fa.left)
-    case 'Right':
-      return right(fa.right)
-  }
+  return fa
 }
 
 /**

@@ -50,7 +50,6 @@ either.map(left(23, double)  // left(23)
 - [fromOption (function)](#fromoption-function)
 - [fromOptionL (function)](#fromoptionl-function)
 - [fromPredicate (function)](#frompredicate-function)
-- [fromValidation (function)](#fromvalidation-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getCompactable (function)](#getcompactable-function)
@@ -82,7 +81,7 @@ either.map(left(23, double)  // left(23)
 ```ts
 export interface Left<L> {
   readonly _tag: 'Left'
-  readonly value: L
+  readonly left: L
 }
 ```
 
@@ -93,7 +92,7 @@ export interface Left<L> {
 ```ts
 export interface Right<A> {
   readonly _tag: 'Right'
-  readonly value: A
+  readonly right: A
 }
 ```
 
@@ -224,16 +223,6 @@ export function fromPredicate<L, A, B extends A>(
   onFalse: (a: A) => L
 ): (a: A) => Either<L, B>
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A> { ... }
-```
-
-Added in v1.0.0
-
-# fromValidation (function)
-
-**Signature**
-
-```ts
-export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => ...
 ```
 
 Added in v1.0.0
@@ -445,10 +434,10 @@ export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either
 **Example**
 
 ```ts
-import { parseJSON, toError } from 'fp-ts/lib/Either'
+import { parseJSON, toError, right, left } from 'fp-ts/lib/Either'
 
-assert.deepStrictEqual(parseJSON('{"a":1}', toError).value, { a: 1 })
-assert.deepStrictEqual(parseJSON('{"a":}', toError).value, new SyntaxError('Unexpected token } in JSON at position 5'))
+assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
+assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
 ```
 
 Added in v1.16.0
@@ -479,12 +468,12 @@ export const stringifyJSON = <L>(u: unknown, onError: (reason: unknown) => L): E
 **Example**
 
 ```ts
-import { stringifyJSON, toError } from 'fp-ts/lib/Either'
+import { stringifyJSON, toError, right, left } from 'fp-ts/lib/Either'
 
-assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError).value, '{"a":1}')
+assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError), right('{"a":1}'))
 const circular: any = { ref: null }
 circular.ref = circular
-assert.deepStrictEqual(stringifyJSON(circular, toError).value, new TypeError('Converting circular structure to JSON'))
+assert.deepStrictEqual(stringifyJSON(circular, toError), left(new TypeError('Converting circular structure to JSON')))
 ```
 
 Added in v1.16.0

@@ -100,7 +100,7 @@ Reduce a term of a free group to canonical form, i.e. cancelling adjacent invers
 **Signature**
 
 ```ts
-export const normalize = <A>(S: Setoid<A>) => (g: Array<Either<A, A>>): Array<Either<A, A>> => ...
+export const normalize = <A>(S: Setoid<A>) => (g: Array<Either<A, A>>): FreeGroup<A> => ...
 ```
 
 Added in v1.13.0
