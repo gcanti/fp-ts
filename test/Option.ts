@@ -13,6 +13,10 @@ import { showString } from '../src/Show'
 const p = (n: number): boolean => n > 2
 
 describe('Option', () => {
+  it('zero', () => {
+    assert.strictEqual(O.option.zero(), O.none)
+  })
+
   it('fold', () => {
     const f = 'none'
     const g = (s: string) => `some${s.length}`
