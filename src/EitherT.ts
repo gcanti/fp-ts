@@ -26,7 +26,7 @@ interface EitherT2<F extends URIS2> extends ApplicativeComposition22<F, URI> {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export function getEitherT<M extends URIS2>(M: Monad2<M>): EitherT2<M>
 export function getEitherT<M extends URIS>(M: Monad1<M>): EitherT1<M>

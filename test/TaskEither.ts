@@ -9,7 +9,7 @@ import * as TE from '../src/TaskEither'
 
 describe('TaskEither', () => {
   it('attempt', () => {
-    return Promise.all([TE.attempt(TE.make(1))(), TE.attempt(TE.fromLeft('foo'))()]).then(([x, y]) => {
+    return Promise.all([TE.attempt(TE.fromRight(1))(), TE.attempt(TE.fromLeft('foo'))()]).then(([x, y]) => {
       assert.deepStrictEqual(x, eitherRight(eitherRight(1)))
       assert.deepStrictEqual(y, eitherRight(eitherLeft('foo')))
     })
@@ -19,8 +19,8 @@ describe('TaskEither', () => {
     let log: Array<string> = []
 
     const acquireFailure = TE.fromLeft('acquire failure')
-    const acquireSuccess = TE.make({ res: 'acquire success' })
-    const useSuccess = () => TE.make('use success')
+    const acquireSuccess = TE.fromRight({ res: 'acquire success' })
+    const useSuccess = () => TE.fromRight('use success')
     const useFailure = () => TE.fromLeft('use failure')
     const releaseSuccess = () =>
       TE.fromIO(() => {
@@ -71,8 +71,8 @@ describe('TaskEither', () => {
 
   it('ap', () => {
     const double = (n: number): number => n * 2
-    const fab = TE.make(double)
-    const fa = TE.make(1)
+    const fab = TE.fromRight(double)
+    const fa = TE.fromRight(1)
     return TE.taskEither
       .ap(fab, fa)()
       .then(x => {
@@ -83,7 +83,7 @@ describe('TaskEither', () => {
   it('map', () => {
     const double = (n: number): number => n * 2
     return TE.taskEither
-      .map(TE.make(1), double)()
+      .map(TE.fromRight(1), double)()
       .then(e => {
         assert.deepStrictEqual(e, eitherRight(2))
       })
@@ -98,8 +98,14 @@ describe('TaskEither', () => {
   })
 
   it('chain', () => {
-    const te1 = TE.taskEither.chain(TE.make('foo'), a => (a.length > 2 ? TE.make(a.length) : TE.fromLeft('foo')))
-    const te2 = TE.taskEither.chain(TE.make('a'), a => (a.length > 2 ? TE.make(a.length) : TE.fromLeft('foo')))
+    const te1 = TE.taskEither.chain(
+      TE.fromRight('foo'),
+      a => (a.length > 2 ? TE.fromRight(a.length) : TE.fromLeft('foo'))
+    )
+    const te2 = TE.taskEither.chain(
+      TE.fromRight('a'),
+      a => (a.length > 2 ? TE.fromRight(a.length) : TE.fromLeft('foo'))
+    )
     return Promise.all([te1(), te2()]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, eitherRight(3))
       assert.deepStrictEqual(e2, eitherLeft('foo'))
@@ -109,7 +115,7 @@ describe('TaskEither', () => {
   it('fold', () => {
     const f = (s: string): boolean => s.length > 2
     const g = (n: number): boolean => n > 2
-    const te1 = TE.fold(TE.make(1), f, g)
+    const te1 = TE.fold(TE.fromRight(1), f, g)
     const te2 = TE.fold(TE.fromLeft('foo'), f, g)
     return Promise.all([te1(), te2()]).then(([b1, b2]) => {
       assert.strictEqual(b1, false)
@@ -118,7 +124,7 @@ describe('TaskEither', () => {
   })
 
   it('getOrElse', () => {
-    const te1 = TE.getOrElse(TE.make(1), 42)
+    const te1 = TE.getOrElse(TE.fromRight(1), 42)
     const te2 = TE.getOrElse(TE.fromLeft('foo'), 42)
     return Promise.all([te1(), te2()]).then(([b1, b2]) => {
       assert.strictEqual(b1, 1)
@@ -129,7 +135,7 @@ describe('TaskEither', () => {
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
-    const teRight = TE.make(1)
+    const teRight = TE.fromRight(1)
     const teLeft = TE.fromLeft('foo')
     return Promise.all([
       TE.taskEither.bimap(teRight, f, g)(),
@@ -144,9 +150,9 @@ describe('TaskEither', () => {
 
   it('orElse', () => {
     const l: TE.TaskEither<string, number> = TE.fromLeft('foo')
-    const r = TE.make(1)
-    const tl = TE.orElse(l, l => TE.make(l.length))
-    const tr = TE.orElse(r, () => TE.make(2))
+    const r = TE.fromRight(1)
+    const tl = TE.orElse(l, l => TE.fromRight(l.length))
+    const tr = TE.orElse(r, () => TE.fromRight(2))
     return Promise.all([tl(), tr()]).then(([el, er]) => {
       assert.deepStrictEqual(el, eitherRight(3))
       assert.deepStrictEqual(er, eitherRight(1))
@@ -210,8 +216,8 @@ describe('TaskEither', () => {
   it('alt', () => {
     const l1: TE.TaskEither<string, number> = TE.fromLeft('foo')
     const l2 = TE.fromLeft('bar')
-    const r1: TE.TaskEither<string, number> = TE.make(1)
-    const r2 = TE.make(2)
+    const r1: TE.TaskEither<string, number> = TE.fromRight(1)
+    const r2 = TE.fromRight(2)
     const x1 = TE.taskEither.alt(l1, l2)
     const x2 = TE.taskEither.alt(l1, r1)
     const x3 = TE.taskEither.alt(r1, l1)
@@ -315,7 +321,10 @@ describe('TaskEither', () => {
     const whenLeft = () => T.task.of('left')
     const whenRight = () => T.task.of('right')
 
-    const tasks = [TE.foldTask(TE.fromLeft('a'), whenLeft, whenRight)(), TE.foldTask(TE.make(1), whenLeft, whenRight)()]
+    const tasks = [
+      TE.foldTask(TE.fromLeft('a'), whenLeft, whenRight)(),
+      TE.foldTask(TE.fromRight(1), whenLeft, whenRight)()
+    ]
     return Promise.all(tasks).then(([r1, r2]) => {
       assert.deepStrictEqual(r1, 'left')
       assert.deepStrictEqual(r2, 'right')
@@ -325,10 +334,10 @@ describe('TaskEither', () => {
   it('filterOrElse', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const tasks: Array<TE.TaskEither<string, number>> = [
-      TE.filterOrElse(TE.make(12), n => n > 10, 'bar'),
-      TE.filterOrElse(TE.make(7), n => n > 10, 'bar'),
+      TE.filterOrElse(TE.fromRight(12), n => n > 10, 'bar'),
+      TE.filterOrElse(TE.fromRight(7), n => n > 10, 'bar'),
       TE.filterOrElse(TE.fromLeft('foo'), n => n > 10, 'bar'),
-      TE.filterOrElse(TE.make(12), isNumber, 'not a number')
+      TE.filterOrElse(TE.fromRight(12), isNumber, 'not a number')
     ]
     return Promise.all(tasks.map(te => te())).then(([r1, r2, r3, r4]) => {
       assert.deepStrictEqual(r1, eitherRight(12))
@@ -341,11 +350,11 @@ describe('TaskEither', () => {
   it('filterOrElseL', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const tasks: Array<TE.TaskEither<string, number>> = [
-      TE.filterOrElseL(TE.make(12), n => n > 10, () => 'bar'),
-      TE.filterOrElseL(TE.make(7), n => n > 10, () => 'bar'),
+      TE.filterOrElseL(TE.fromRight(12), n => n > 10, () => 'bar'),
+      TE.filterOrElseL(TE.fromRight(7), n => n > 10, () => 'bar'),
       TE.filterOrElseL(TE.fromLeft('foo'), n => n > 10, () => 'bar'),
-      TE.filterOrElseL(TE.make(7), n => n > 10, n => `invalid ${n}`),
-      TE.filterOrElseL(TE.make(12), isNumber, () => 'not a number')
+      TE.filterOrElseL(TE.fromRight(7), n => n > 10, n => `invalid ${n}`),
+      TE.filterOrElseL(TE.fromRight(12), isNumber, () => 'not a number')
     ]
     return Promise.all(tasks.map(te => te())).then(([r1, r2, r3, r4, r5]) => {
       assert.deepStrictEqual(r1, eitherRight(12))
@@ -359,7 +368,7 @@ describe('TaskEither', () => {
   describe('MonadThrow', () => {
     it('should obey the law', () => {
       return Promise.all([
-        TE.taskEither.chain(TE.taskEither.throwError('error'), a => TE.make(a))(),
+        TE.taskEither.chain(TE.taskEither.throwError('error'), a => TE.fromRight(a))(),
         TE.taskEither.throwError('error')()
       ]).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, e2)
