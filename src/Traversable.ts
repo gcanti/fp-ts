@@ -40,9 +40,57 @@ import {
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
-export interface Traverse<T> {
+export interface Traversable<T> extends Functor<T>, Foldable<T> {
+  /**
+   * Runs an action for every element in a data structure and accumulates the results
+   */
+  readonly traverse: Traverse<T>
+  readonly sequence: Sequence<T>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
+  readonly traverse: Traverse1<T>
+  readonly sequence: Sequence1<T>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
+  readonly traverse: Traverse2<T>
+  readonly sequence: Sequence2<T>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Foldable2C<T, TL> {
+  readonly traverse: Traverse2C<T, TL>
+  readonly sequence: Sequence2C<T, TL>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
+  readonly traverse: Traverse3<T>
+  readonly sequence: Sequence3<T>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU, TL>, Foldable3C<T, TU, TL> {
+  readonly traverse: Traverse3C<T, TU, TL>
+  readonly sequence: Sequence3C<T, TU, TL>
+}
+
+interface Traverse<T> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: HKT<T, A>,
     f: (a: A) => Type3<F, FU, FL, B>
@@ -63,10 +111,7 @@ export interface Traverse<T> {
   <F>(F: Applicative<F>): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 }
 
-/**
- * @since 1.7.0
- */
-export interface Traverse1<T extends URIS> {
+interface Traverse1<T extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type<T, A>,
     f: (a: A) => Type3<F, FU, FL, B>
@@ -87,10 +132,7 @@ export interface Traverse1<T extends URIS> {
   <F>(F: Applicative<F>): <A, B>(ta: Type<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type<T, B>>
 }
 
-/**
- * @since 1.7.0
- */
-export interface Traverse2<T extends URIS2> {
+interface Traverse2<T extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <TL, FU, FL, A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
@@ -114,10 +156,7 @@ export interface Traverse2<T extends URIS2> {
   <F>(F: Applicative<F>): <TL, A, B>(ta: Type2<T, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, TL, B>>
 }
 
-/**
- * @since 1.7.0
- */
-export interface Traverse2C<T extends URIS2, TL> {
+interface Traverse2C<T extends URIS2, TL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
@@ -138,10 +177,7 @@ export interface Traverse2C<T extends URIS2, TL> {
   <F>(F: Applicative<F>): <A, B>(ta: Type2<T, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, TL, B>>
 }
 
-/**
- * @since 1.7.0
- */
-export interface Traverse3<T extends URIS3> {
+interface Traverse3<T extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <TU, TL, FU, FL, A, B>(
     ta: Type3<T, TU, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
@@ -165,10 +201,7 @@ export interface Traverse3<T extends URIS3> {
   <F>(F: Applicative<F>): <TU, TL, A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
 }
 
-/**
- * @since 1.7.0
- */
-export interface Traverse3C<T extends URIS3, TU, TL> {
+interface Traverse3C<T extends URIS3, TU, TL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type3<T, TU, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
@@ -192,61 +225,7 @@ export interface Traverse3C<T extends URIS3, TU, TL> {
   <F>(F: Applicative<F>): <A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
 }
 
-/**
- * @since 1.10.0
- */
-export interface Traversable<T> extends Functor<T>, Foldable<T> {
-  /**
-   * Runs an action for every element in a data structure and accumulates the results
-   */
-  readonly traverse: Traverse<T>
-  readonly sequence: Sequence<T>
-}
-
-/**
- * @since 1.10.0
- */
-export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> {
-  readonly traverse: Traverse1<T>
-  readonly sequence: Sequence1<T>
-}
-
-/**
- * @since 1.10.0
- */
-export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T> {
-  readonly traverse: Traverse2<T>
-  readonly sequence: Sequence2<T>
-}
-
-/**
- * @since 1.10.0
- */
-export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Foldable2C<T, TL> {
-  readonly traverse: Traverse2C<T, TL>
-  readonly sequence: Sequence2C<T, TL>
-}
-
-/**
- * @since 1.10.0
- */
-export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
-  readonly traverse: Traverse3<T>
-  readonly sequence: Sequence3<T>
-}
-
-/**
- * @since 1.10.0
- */
-export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU, TL>, Foldable3C<T, TU, TL> {
-  readonly traverse: Traverse3C<T, TU, TL>
-  readonly sequence: Sequence3C<T, TU, TL>
-}
-
-/**
- * @since 1.10.0
- */
-export interface Sequence<T> {
+interface Sequence<T> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(ta: HKT<T, Type3<F, FU, FL, A>>) => Type3<F, FU, FL, HKT<T, A>>
   <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
     ta: HKT<T, Type3<F, FU, FL, A>>
@@ -257,10 +236,7 @@ export interface Sequence<T> {
   <F>(F: Applicative<F>): <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
 }
 
-/**
- * @since 1.10.0
- */
-export interface Sequence1<T extends URIS> {
+interface Sequence1<T extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(ta: Type<T, Type3<F, FU, FL, A>>) => Type3<F, FU, FL, Type<T, A>>
   <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
     ta: Type<T, Type3<F, FU, FL, A>>
@@ -271,10 +247,7 @@ export interface Sequence1<T extends URIS> {
   <F>(F: Applicative<F>): <A>(ta: Type<T, HKT<F, A>>) => HKT<F, Type<T, A>>
 }
 
-/**
- * @since 1.10.0
- */
-export interface Sequence2<T extends URIS2> {
+interface Sequence2<T extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <TL, FU, FL, A>(
     ta: Type2<T, TL, Type3<F, FU, FL, A>>
   ) => Type3<F, FU, FL, Type2<T, TL, A>>
@@ -289,10 +262,7 @@ export interface Sequence2<T extends URIS2> {
   <F>(F: Applicative<F>): <TL, A>(ta: Type2<T, TL, HKT<F, A>>) => HKT<F, Type2<T, TL, A>>
 }
 
-/**
- * @since 1.10.0
- */
-export interface Sequence2C<T extends URIS2, TL> {
+interface Sequence2C<T extends URIS2, TL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(
     ta: Type2<T, TL, Type3<F, FU, FL, A>>
   ) => Type3<F, FU, FL, Type2<T, TL, A>>
@@ -307,10 +277,7 @@ export interface Sequence2C<T extends URIS2, TL> {
   <F>(F: Applicative<F>): <A>(ta: Type2<T, TL, HKT<F, A>>) => HKT<F, Type2<T, TL, A>>
 }
 
-/**
- * @since 1.10.0
- */
-export interface Sequence3<T extends URIS3> {
+interface Sequence3<T extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <TU, TL, FU, FL, A>(
     ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
   ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
@@ -327,10 +294,7 @@ export interface Sequence3<T extends URIS3> {
   <F>(F: Applicative<F>): <TU, TL, A>(ta: Type3<T, TU, TL, HKT<F, A>>) => HKT<F, Type3<T, TU, TL, A>>
 }
 
-/**
- * @since 1.10.0
- */
-export interface Sequence3C<T extends URIS3, TU, TL> {
+interface Sequence3C<T extends URIS3, TU, TL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(
     ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
   ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
@@ -420,7 +384,7 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
  * const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c'))])
  * assert.deepStrictEqual(x(), [some(1), none, some(2), some(undefined)])
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export function getTraversableComposition<F extends URIS, G extends URIS>(
   F: Traversable1<F>,

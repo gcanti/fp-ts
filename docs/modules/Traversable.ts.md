@@ -25,12 +25,6 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Sequence (interface)](#sequence-interface)
-- [Sequence1 (interface)](#sequence1-interface)
-- [Sequence2 (interface)](#sequence2-interface)
-- [Sequence2C (interface)](#sequence2c-interface)
-- [Sequence3 (interface)](#sequence3-interface)
-- [Sequence3C (interface)](#sequence3c-interface)
 - [SequenceComposition11 (interface)](#sequencecomposition11-interface)
 - [Traversable (interface)](#traversable-interface)
 - [Traversable1 (interface)](#traversable1-interface)
@@ -40,150 +34,10 @@ parent: Modules
 - [Traversable3C (interface)](#traversable3c-interface)
 - [TraversableComposition (interface)](#traversablecomposition-interface)
 - [TraversableComposition11 (interface)](#traversablecomposition11-interface)
-- [Traverse (interface)](#traverse-interface)
-- [Traverse1 (interface)](#traverse1-interface)
-- [Traverse2 (interface)](#traverse2-interface)
-- [Traverse2C (interface)](#traverse2c-interface)
-- [Traverse3 (interface)](#traverse3-interface)
-- [Traverse3C (interface)](#traverse3c-interface)
 - [TraverseComposition11 (interface)](#traversecomposition11-interface)
 - [getTraversableComposition (function)](#gettraversablecomposition-function)
 
 ---
-
-# Sequence (interface)
-
-**Signature**
-
-```ts
-export interface Sequence<T> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(ta: HKT<T, Type3<F, FU, FL, A>>) => Type3<F, FU, FL, HKT<T, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
-    ta: HKT<T, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, HKT<T, A>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A>(ta: HKT<T, Type2<F, FL, A>>) => Type2<F, FL, HKT<T, A>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A>(ta: HKT<T, Type2<F, FL, A>>) => Type2<F, FL, HKT<T, A>>
-  <F extends URIS>(F: Applicative1<F>): <A>(ta: HKT<T, Type<F, A>>) => Type<F, HKT<T, A>>
-  <F>(F: Applicative<F>): <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
-}
-```
-
-Added in v1.10.0
-
-# Sequence1 (interface)
-
-**Signature**
-
-```ts
-export interface Sequence1<T extends URIS> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(ta: Type<T, Type3<F, FU, FL, A>>) => Type3<F, FU, FL, Type<T, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
-    ta: Type<T, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type<T, A>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A>(ta: Type<T, Type2<F, FL, A>>) => Type2<F, FL, Type<T, A>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A>(ta: Type<T, Type2<F, FL, A>>) => Type2<F, FL, Type<T, A>>
-  <F extends URIS>(F: Applicative1<F>): <A>(ta: Type<T, Type<F, A>>) => Type<F, Type<T, A>>
-  <F>(F: Applicative<F>): <A>(ta: Type<T, HKT<F, A>>) => HKT<F, Type<T, A>>
-}
-```
-
-Added in v1.10.0
-
-# Sequence2 (interface)
-
-**Signature**
-
-```ts
-export interface Sequence2<T extends URIS2> {
-  <F extends URIS3>(F: Applicative3<F>): <TL, FU, FL, A>(
-    ta: Type2<T, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type2<T, TL, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TL, A>(
-    ta: Type2<T, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type2<T, TL, A>>
-  <F extends URIS2>(F: Applicative2<F>): <TL, FL, A>(ta: Type2<T, TL, Type2<F, FL, A>>) => Type2<F, FL, Type2<T, TL, A>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TL, A>(
-    ta: Type2<T, TL, Type2<F, FL, A>>
-  ) => Type2<F, FL, Type2<T, TL, A>>
-  <F extends URIS>(F: Applicative1<F>): <TL, A>(ta: Type2<T, TL, Type<F, A>>) => Type<F, Type2<T, TL, A>>
-  <F>(F: Applicative<F>): <TL, A>(ta: Type2<T, TL, HKT<F, A>>) => HKT<F, Type2<T, TL, A>>
-}
-```
-
-Added in v1.10.0
-
-# Sequence2C (interface)
-
-**Signature**
-
-```ts
-export interface Sequence2C<T extends URIS2, TL> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(
-    ta: Type2<T, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type2<T, TL, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
-    ta: Type2<T, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type2<T, TL, A>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A>(ta: Type2<T, TL, Type2<F, FL, A>>) => Type2<F, FL, Type2<T, TL, A>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A>(
-    ta: Type2<T, TL, Type2<F, FL, A>>
-  ) => Type2<F, FL, Type2<T, TL, A>>
-  <F extends URIS>(F: Applicative1<F>): <A>(ta: Type2<T, TL, Type<F, A>>) => Type<F, Type2<T, TL, A>>
-  <F>(F: Applicative<F>): <A>(ta: Type2<T, TL, HKT<F, A>>) => HKT<F, Type2<T, TL, A>>
-}
-```
-
-Added in v1.10.0
-
-# Sequence3 (interface)
-
-**Signature**
-
-```ts
-export interface Sequence3<T extends URIS3> {
-  <F extends URIS3>(F: Applicative3<F>): <TU, TL, FU, FL, A>(
-    ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TU, TL, A>(
-    ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
-  <F extends URIS2>(F: Applicative2<F>): <TU, TL, FL, A>(
-    ta: Type3<T, TU, TL, Type2<F, FL, A>>
-  ) => Type2<F, FL, Type3<T, TU, TL, A>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TU, TL, A>(
-    ta: Type3<T, TU, TL, Type2<F, FL, A>>
-  ) => Type2<F, FL, Type3<T, TU, TL, A>>
-  <F extends URIS>(F: Applicative1<F>): <TU, TL, A>(ta: Type3<T, TU, TL, Type<F, A>>) => Type<F, Type3<T, TU, TL, A>>
-  <F>(F: Applicative<F>): <TU, TL, A>(ta: Type3<T, TU, TL, HKT<F, A>>) => HKT<F, Type3<T, TU, TL, A>>
-}
-```
-
-Added in v1.10.0
-
-# Sequence3C (interface)
-
-**Signature**
-
-```ts
-export interface Sequence3C<T extends URIS3, TU, TL> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(
-    ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
-    ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A>(
-    ta: Type3<T, TU, TL, Type2<F, FL, A>>
-  ) => Type2<F, FL, Type3<T, TU, TL, A>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A>(
-    ta: Type3<T, TU, TL, Type2<F, FL, A>>
-  ) => Type2<F, FL, Type3<T, TU, TL, A>>
-  <F extends URIS>(F: Applicative1<F>): <A>(ta: Type3<T, TU, TL, Type<F, A>>) => Type<F, Type3<T, TU, TL, A>>
-  <F>(F: Applicative<F>): <A>(ta: Type3<T, TU, TL, HKT<F, A>>) => HKT<F, Type3<T, TU, TL, A>>
-}
-```
-
-Added in v1.10.0
 
 # SequenceComposition11 (interface)
 
@@ -222,7 +76,7 @@ export interface Traversable<T> extends Functor<T>, Foldable<T> {
 }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # Traversable1 (interface)
 
@@ -235,7 +89,7 @@ export interface Traversable1<T extends URIS> extends Functor1<T>, Foldable1<T> 
 }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # Traversable2 (interface)
 
@@ -248,7 +102,7 @@ export interface Traversable2<T extends URIS2> extends Functor2<T>, Foldable2<T>
 }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # Traversable2C (interface)
 
@@ -261,7 +115,7 @@ export interface Traversable2C<T extends URIS2, TL> extends Functor2C<T, TL>, Fo
 }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # Traversable3 (interface)
 
@@ -274,7 +128,7 @@ export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T>
 }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # Traversable3C (interface)
 
@@ -287,7 +141,7 @@ export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU,
 }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # TraversableComposition (interface)
 
@@ -314,189 +168,6 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
   readonly sequence: SequenceComposition11<F, G>
 }
 ```
-
-# Traverse (interface)
-
-**Signature**
-
-```ts
-export interface Traverse<T> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, HKT<T, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, HKT<T, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, HKT<T, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, HKT<T, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(ta: HKT<T, A>, f: (a: A) => Type<F, B>) => Type<F, HKT<T, B>>
-  <F>(F: Applicative<F>): <A, B>(ta: HKT<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
-}
-```
-
-Added in v1.7.0
-
-# Traverse1 (interface)
-
-**Signature**
-
-```ts
-export interface Traverse1<T extends URIS> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type<T, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type<T, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type<T, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type<T, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(ta: Type<T, A>, f: (a: A) => Type<F, B>) => Type<F, Type<T, B>>
-  <F>(F: Applicative<F>): <A, B>(ta: Type<T, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type<T, B>>
-}
-```
-
-Added in v1.7.0
-
-# Traverse2 (interface)
-
-**Signature**
-
-```ts
-export interface Traverse2<T extends URIS2> {
-  <F extends URIS3>(F: Applicative3<F>): <TL, FU, FL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <TL, FL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS>(F: Applicative1<F>): <TL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type<F, B>
-  ) => Type<F, Type2<T, TL, B>>
-  <F>(F: Applicative<F>): <TL, A, B>(ta: Type2<T, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, TL, B>>
-}
-```
-
-Added in v1.7.0
-
-# Traverse2C (interface)
-
-**Signature**
-
-```ts
-export interface Traverse2C<T extends URIS2, TL> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type2<T, TL, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(ta: Type2<T, TL, A>, f: (a: A) => Type<F, B>) => Type<F, Type2<T, TL, B>>
-  <F>(F: Applicative<F>): <A, B>(ta: Type2<T, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type2<T, TL, B>>
-}
-```
-
-Added in v1.7.0
-
-# Traverse3 (interface)
-
-**Signature**
-
-```ts
-export interface Traverse3<T extends URIS3> {
-  <F extends URIS3>(F: Applicative3<F>): <TU, TL, FU, FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TU, TL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <TU, TL, FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <TU, TL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS>(F: Applicative1<F>): <TU, TL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type<F, B>
-  ) => Type<F, Type3<T, TU, TL, B>>
-  <F>(F: Applicative<F>): <TU, TL, A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
-}
-```
-
-Added in v1.7.0
-
-# Traverse3C (interface)
-
-**Signature**
-
-```ts
-export interface Traverse3C<T extends URIS3, TU, TL> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type<F, B>
-  ) => Type<F, Type3<T, TU, TL, B>>
-  <F>(F: Applicative<F>): <A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
-}
-```
-
-Added in v1.7.0
 
 # TraverseComposition11 (interface)
 
@@ -560,4 +231,4 @@ const x = T.sequence(io)([some(read('a')), none, some(read('b')), some(read('c')
 assert.deepStrictEqual(x(), [some(1), none, some(2), some(undefined)])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
