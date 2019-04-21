@@ -1,37 +1,15 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import { fieldNumber } from '../src/Field'
-import {
-  elem,
-  findFirst,
-  fold,
-  foldM,
-  getFoldableComposition,
-  intercalate,
-  max,
-  min,
-  oneOf,
-  product,
-  sequence_,
-  sum,
-  toArray,
-  traverse_
-} from '../src/Foldable'
+import { foldM, getFoldableComposition, intercalate, traverse_ } from '../src/Foldable'
 import { io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as option from '../src/Option'
-import { ordNumber } from '../src/Ord'
-import { setoidNumber } from '../src/Setoid'
 
 export const ArrayOptionURI = 'ArrayOption'
 
 export type ArrayOptionURI = typeof ArrayOptionURI
 
 describe('Foldable', () => {
-  it('toArray', () => {
-    assert.deepStrictEqual(toArray(array)([1, 2, 3]), [1, 2, 3])
-  })
-
   it('getFoldableComposition', () => {
     const F = getFoldableComposition(array, option.option)
     // reduce
@@ -62,55 +40,9 @@ describe('Foldable', () => {
     assert.strictEqual(log, 'abc')
   })
 
-  it('sequence_', () => {
-    let log = ''
-    const append = (s: String) => () => (log += s)
-    sequence_(io, array)([append('a'), append('b'), append('c')])()
-    assert.strictEqual(log, 'abc')
-  })
-
-  it('min', () => {
-    assert.deepStrictEqual(min(ordNumber, array)([]), option.none)
-    assert.deepStrictEqual(min(ordNumber, array)([1, 2, 3, 4, 5]), option.some(1))
-  })
-
-  it('max', () => {
-    assert.deepStrictEqual(max(ordNumber, array)([]), option.none)
-    assert.deepStrictEqual(max(ordNumber, array)([1, 2, 3, 4, 5]), option.some(5))
-  })
-
-  it('sum', () => {
-    assert.strictEqual(sum(fieldNumber, array)([1, 2, 3, 4, 5]), 15)
-  })
-
-  it('product', () => {
-    assert.strictEqual(product(fieldNumber, array)([1, 2, 3, 4, 5]), 120)
-  })
-
   it('foldM', () => {
     assert.deepStrictEqual(foldM(option.option, array)([], 1, () => option.none), option.some(1))
     assert.deepStrictEqual(foldM(option.option, array)([2], 1, () => option.none), option.none)
     assert.deepStrictEqual(foldM(option.option, array)([2], 1, (b, a) => option.some(b + a)), option.some(3))
-  })
-
-  it('oneOf', () => {
-    assert.deepStrictEqual(oneOf(option.option, array)([]), option.none)
-    assert.deepStrictEqual(oneOf(option.option, array)([option.none]), option.none)
-    assert.deepStrictEqual(oneOf(option.option, array)([option.none, option.some(1)]), option.some(1))
-    assert.deepStrictEqual(oneOf(option.option, array)([option.some(2), option.some(1)]), option.some(2))
-  })
-
-  it('findFirst', () => {
-    assert.deepStrictEqual(findFirst(array)([1, 2, 3], a => a > 4), option.none)
-    assert.deepStrictEqual(findFirst(array)([1, 2, 3, 5], a => a > 4), option.some(5))
-  })
-
-  it('fold', () => {
-    assert.deepStrictEqual(fold(monoidString, array)(['a', 'b', 'c']), 'abc')
-  })
-
-  it('elem', () => {
-    assert.strictEqual(elem(setoidNumber, array)(1, [1, 2, 3]), true)
-    assert.strictEqual(elem(setoidNumber, array)(4, [1, 2, 3]), false)
   })
 })
