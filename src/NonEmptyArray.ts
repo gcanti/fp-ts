@@ -5,14 +5,13 @@ import { Monad1 } from './Monad'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { TraversableWithIndex1, TraverseWithIndex1 } from './TraversableWithIndex'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Ord } from './Ord'
 import { getMeetSemigroup, getJoinSemigroup, Semigroup } from './Semigroup'
 import { Option, some, none } from './Option'
 import { Setoid } from './Setoid'
 import { compose, Predicate, Refinement } from './function'
-import { Traverse1, Sequence1 } from './Traversable'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -338,20 +337,20 @@ export const nonEmptyArray: Monad1<URI> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> = {
   URI,
-  map: A.array.map as <A, B>(fa: NonEmptyArray<A>, f: (a: A) => B) => any,
+  map: A.array.map as any,
   mapWithIndex,
-  of: A.array.of as <A>(a: A) => NonEmptyArray<A>,
-  ap: A.array.ap as <A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>) => any,
-  chain: A.array.chain as <A, B>(fa: NonEmptyArray<A>, f: (a: A) => NonEmptyArray<B>) => any,
-  extend: A.array.extend as <A, B>(ea: any, f: (fa: NonEmptyArray<A>) => B) => NonEmptyArray<B>,
+  of: A.array.of as any,
+  ap: A.array.ap as any,
+  chain: A.array.chain as any,
+  extend: A.array.extend as any,
   extract: head,
   reduce: A.array.reduce,
   foldMap: A.array.foldMap,
   foldr: A.array.foldr,
-  traverse: A.array.traverse as Traverse1<any>,
-  sequence: A.array.sequence as Sequence1<any>,
+  traverse: A.array.traverse,
+  sequence: A.array.sequence,
   reduceWithIndex: A.array.reduceWithIndex,
   foldMapWithIndex: A.array.foldMapWithIndex,
   foldrWithIndex: A.array.foldrWithIndex,
-  traverseWithIndex: A.array.traverseWithIndex as TraverseWithIndex1<any, number>
+  traverseWithIndex: A.array.traverseWithIndex as any
 }
