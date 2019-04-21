@@ -16,17 +16,18 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [TaskEither (interface)](#taskeither-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [fold (constant)](#fold-constant)
+- [fromEither (constant)](#fromeither-constant)
+- [fromIOEither (constant)](#fromioeither-constant)
+- [fromRight (constant)](#fromright-constant)
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
 - [attempt (function)](#attempt-function)
 - [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
 - [filterOrElseL (function)](#filterorelsel-function)
-- [fold (function)](#fold-function)
 - [foldTask (function)](#foldtask-function)
-- [fromEither (function)](#fromeither-function)
 - [fromIO (function)](#fromio-function)
-- [fromIOEither (function)](#fromioeither-function)
 - [fromLeft (function)](#fromleft-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
@@ -35,7 +36,6 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [getOrElseL (function)](#getorelsel-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [left (function)](#left-function)
-- [make (function)](#make-function)
 - [mapLeft (function)](#mapleft-function)
 - [orElse (function)](#orelse-function)
 - [right (function)](#right-function)
@@ -67,6 +67,46 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+# fold (constant)
+
+**Signature**
+
+```ts
+export const fold: <L, A, R>(ma: TaskEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R) => Task<R> = ...
+```
+
+Added in v2.0.0
+
+# fromEither (constant)
+
+**Signature**
+
+```ts
+export const fromEither: <L, A>(fa: E.Either<L, A>) => TaskEither<L, A> = ...
+```
+
+Added in v1.0.0
+
+# fromIOEither (constant)
+
+**Signature**
+
+```ts
+export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = ...
+```
+
+Added in v1.6.0
+
+# fromRight (constant)
+
+**Signature**
+
+```ts
+export const fromRight: <A>(a: A) => TaskEither<never, A> = ...
+```
+
+Added in v2.0.0
 
 # taskEither (constant)
 
@@ -114,11 +154,11 @@ returns.
 **Signature**
 
 ```ts
-export const bracket = <L, A, B>(
+export function bracket<L, A, B>(
   acquire: TaskEither<L, A>,
   use: (a: A) => TaskEither<L, B>,
   release: (a: A, e: E.Either<L, B>) => TaskEither<L, void>
-): TaskEither<L, B> => ...
+): TaskEither<L, B> { ... }
 ```
 
 Added in v1.10.0
@@ -149,66 +189,36 @@ export function filterOrElseL<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero:
 
 Added in v2.0.0
 
-# fold (function)
-
-**Signature**
-
-```ts
-export const fold = <L, A, R>(ma: TaskEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): Task<R> => ...
-```
-
-Added in v2.0.0
-
 # foldTask (function)
 
 **Signature**
 
 ```ts
-export const foldTask = <L, A, R>(
+export function foldTask<L, A, R>(
   ma: TaskEither<L, A>,
   onLeft: (l: L) => Task<R>,
   onRight: (a: A) => Task<R>
-): Task<R> => ...
+): Task<R> { ... }
 ```
 
 Added in v2.0.0
-
-# fromEither (function)
-
-**Signature**
-
-```ts
-export const fromEither = <L, A>(fa: E.Either<L, A>): TaskEither<L, A> => ...
-```
-
-Added in v1.0.0
 
 # fromIO (function)
 
 **Signature**
 
 ```ts
-export const fromIO = <A>(fa: IO<A>): TaskEither<never, A> => ...
+export function fromIO<A>(fa: IO<A>): TaskEither<never, A> { ... }
 ```
 
 Added in v1.5.0
-
-# fromIOEither (function)
-
-**Signature**
-
-```ts
-export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => ...
-```
-
-Added in v1.6.0
 
 # fromLeft (function)
 
 **Signature**
 
 ```ts
-export const fromLeft = <L>(l: L): TaskEither<L, never> => ...
+export function fromLeft<L>(l: L): TaskEither<L, never> { ... }
 ```
 
 Added in v1.3.0
@@ -232,7 +242,7 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => ...
+export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> { ... }
 ```
 
 Added in v1.9.0
@@ -242,7 +252,7 @@ Added in v1.9.0
 **Signature**
 
 ```ts
-export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => ...
+export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> { ... }
 ```
 
 Added in v1.9.0
@@ -252,7 +262,7 @@ Added in v1.9.0
 **Signature**
 
 ```ts
-export const getOrElse = <L, A>(ma: TaskEither<L, A>, a: A): Task<A> => ...
+export function getOrElse<L, A>(ma: TaskEither<L, A>, a: A): Task<A> { ... }
 ```
 
 Added in v2.0.0
@@ -262,7 +272,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getOrElseL = <L, A>(ma: TaskEither<L, A>, f: (l: L) => A): Task<A> => ...
+export function getOrElseL<L, A>(ma: TaskEither<L, A>, f: (l: L) => A): Task<A> { ... }
 ```
 
 Added in v2.0.0
@@ -272,7 +282,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> => ...
+export function getSemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> { ... }
 ```
 
 Added in v1.9.0
@@ -282,27 +292,17 @@ Added in v1.9.0
 **Signature**
 
 ```ts
-export const left = <L>(fl: Task<L>): TaskEither<L, never> => ...
+export function left<L>(fl: Task<L>): TaskEither<L, never> { ... }
 ```
 
 Added in v1.0.0
-
-# make (function)
-
-**Signature**
-
-```ts
-export const make = <A>(a: A): TaskEither<never, A> => ...
-```
-
-Added in v2.0.0
 
 # mapLeft (function)
 
 **Signature**
 
 ```ts
-export const mapLeft = <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => M): TaskEither<M, A> => ...
+export function mapLeft<L, A, M>(ma: TaskEither<L, A>, f: (l: L) => M): TaskEither<M, A> { ... }
 ```
 
 Added in v2.0.0
@@ -312,7 +312,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const orElse = <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M, A>): TaskEither<M, A> => ...
+export function orElse<L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M, A>): TaskEither<M, A> { ... }
 ```
 
 Added in v2.0.0
@@ -322,7 +322,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right = <A>(fa: Task<A>): TaskEither<never, A> => ...
+export function right<A>(fa: Task<A>): TaskEither<never, A> { ... }
 ```
 
 Added in v1.0.0
@@ -386,7 +386,7 @@ Transforms a `Promise` into a `TaskEither`, catching the possible error.
 **Signature**
 
 ```ts
-export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => L): TaskEither<L, A> => ...
+export function tryCatch<L, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => L): TaskEither<L, A> { ... }
 ```
 
 **Example**
@@ -397,16 +397,14 @@ import { TaskEither, tryCatch } from 'fp-ts/lib/TaskEither'
 import { createReadStream } from 'fs'
 import { left } from 'fp-ts/lib/Either'
 
-const md5 = (path: string): TaskEither<string, string> => {
+function md5(path: string): TaskEither<string, string> {
   const mkHash = (p: string) =>
     new Promise<string>((resolve, reject) => {
       const hash = createHash('md5')
       const rs = createReadStream(p)
       rs.on('error', (error: Error) => reject(error.message))
       rs.on('data', (chunk: string) => hash.update(chunk))
-      rs.on('end', () => {
-        return resolve(hash.digest('hex'))
-      })
+      rs.on('end', () => resolve(hash.digest('hex')))
     })
   return tryCatch(() => mkHash(path), message => `cannot create md5 hash: ${String(message)}`)
 }
