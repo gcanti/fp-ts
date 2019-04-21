@@ -15,7 +15,7 @@
  *
  * Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
  */
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, getSemigroup } from './Apply'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C } from './Apply'
 import {
   FunctorComposition,
   FunctorComposition11,
@@ -29,7 +29,6 @@ import {
   getFunctorComposition
 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Monoid } from './Monoid'
 
 /**
  * @since 1.0.0
@@ -231,41 +230,4 @@ export function getApplicativeComposition<F, G>(F: Applicative<F>, G: Applicativ
     ap: <A, B>(fgab: HKT<F, HKT<G, (a: A) => B>>, fga: HKT<F, HKT<G, A>>): HKT<F, HKT<G, B>> =>
       F.ap(F.map(fgab, h => (ga: HKT<G, A>) => G.ap<A, B>(h, ga)), fga)
   }
-}
-
-/**
- * If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
- * Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
- *
- * @example
- * import { getMonoid } from 'fp-ts/lib/Applicative'
- * import { option, some, none } from 'fp-ts/lib/Option'
- * import { monoidSum } from 'fp-ts/lib/Monoid'
- *
- * const M = getMonoid(option, monoidSum)()
- * assert.deepStrictEqual(M.concat(none, none), none)
- * assert.deepStrictEqual(M.concat(some(1), none), none)
- * assert.deepStrictEqual(M.concat(none, some(2)), none)
- * assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
- *
- * @since 1.4.0
- */
-export function getMonoid<F extends URIS3, A>(
-  F: Applicative3<F>,
-  M: Monoid<A>
-): <U = never, L = never>() => Monoid<Type3<F, U, L, A>>
-export function getMonoid<F extends URIS3, U, L, A>(
-  F: Applicative3C<F, U, L>,
-  M: Monoid<A>
-): () => Monoid<Type3<F, U, L, A>>
-export function getMonoid<F extends URIS2, A>(F: Applicative2<F>, M: Monoid<A>): <L = never>() => Monoid<Type2<F, L, A>>
-export function getMonoid<F extends URIS2, L, A>(F: Applicative2C<F, L>, M: Monoid<A>): () => Monoid<Type2<F, L, A>>
-export function getMonoid<F extends URIS, A>(F: Applicative1<F>, M: Monoid<A>): () => Monoid<Type<F, A>>
-export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>>
-export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>> {
-  const S = getSemigroup(F, M)()
-  return () => ({
-    ...S,
-    empty: F.of(M.empty)
-  })
 }
