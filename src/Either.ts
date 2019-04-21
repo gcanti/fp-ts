@@ -545,10 +545,10 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
  * Converts a JavaScript Object Notation (JSON) string into an object.
  *
  * @example
- * import { parseJSON, toError } from 'fp-ts/lib/Either'
+ * import { parseJSON, toError, right, left } from 'fp-ts/lib/Either'
  *
- * assert.deepStrictEqual(parseJSON('{"a":1}', toError).value, { a: 1 })
- * assert.deepStrictEqual(parseJSON('{"a":}', toError).value, new SyntaxError('Unexpected token } in JSON at position 5'))
+ * assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
+ * assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
  *
  * @since 1.16.0
  */
@@ -560,12 +560,12 @@ export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either
  * Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
  *
  * @example
- * import { stringifyJSON, toError } from 'fp-ts/lib/Either'
+ * import { stringifyJSON, toError, right, left } from 'fp-ts/lib/Either'
  *
- * assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError).value, '{"a":1}')
+ * assert.deepStrictEqual(stringifyJSON({ a: 1 }, toError), right('{"a":1}'))
  * const circular: any = { ref: null }
  * circular.ref = circular
- * assert.deepStrictEqual(stringifyJSON(circular, toError).value, new TypeError('Converting circular structure to JSON'))
+ * assert.deepStrictEqual(stringifyJSON(circular, toError), left(new TypeError('Converting circular structure to JSON')))
  *
  * @since 1.16.0
  */
