@@ -42,7 +42,6 @@ Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 - [ApplicativeComposition2C1 (interface)](#applicativecomposition2c1-interface)
 - [ApplicativeComposition3C1 (interface)](#applicativecomposition3c1-interface)
 - [getApplicativeComposition (function)](#getapplicativecomposition-function)
-- [getMonoid (function)](#getmonoid-function)
 - [when (function)](#when-function)
 
 ---
@@ -300,44 +299,6 @@ A.ap(A.map(x, sum), y)().then(result => assert.deepStrictEqual(result, some(3)))
 ```
 
 Added in v1.0.0
-
-# getMonoid (function)
-
-If `F` is a `Applicative` and `M` is a `Monoid` over `A` then `HKT<F, A>` is a `Monoid` over `A` as well.
-Adapted from http://hackage.haskell.org/package/monoids-0.2.0.2/docs/Data-Monoid-Applicative.html
-
-**Signature**
-
-```ts
-export function getMonoid<F extends URIS3, A>(
-  F: Applicative3<F>,
-  M: Monoid<A>
-): <U = never, L = never>() => Monoid<Type3<F, U, L, A>>
-export function getMonoid<F extends URIS3, U, L, A>(
-  F: Applicative3C<F, U, L>,
-  M: Monoid<A>
-): () => Monoid<Type3<F, U, L, A>>
-export function getMonoid<F extends URIS2, A>(F: Applicative2<F>, M: Monoid<A>): <L = never>() => Monoid<Type2<F, L, A>>
-export function getMonoid<F extends URIS2, L, A>(F: Applicative2C<F, L>, M: Monoid<A>): () => Monoid<Type2<F, L, A>>
-export function getMonoid<F extends URIS, A>(F: Applicative1<F>, M: Monoid<A>): () => Monoid<Type<F, A>>
-export function getMonoid<F, A>(F: Applicative<F>, M: Monoid<A>): () => Monoid<HKT<F, A>> { ... }
-```
-
-**Example**
-
-```ts
-import { getMonoid } from 'fp-ts/lib/Applicative'
-import { option, some, none } from 'fp-ts/lib/Option'
-import { monoidSum } from 'fp-ts/lib/Monoid'
-
-const M = getMonoid(option, monoidSum)()
-assert.deepStrictEqual(M.concat(none, none), none)
-assert.deepStrictEqual(M.concat(some(1), none), none)
-assert.deepStrictEqual(M.concat(none, some(2)), none)
-assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
-```
-
-Added in v1.4.0
 
 # when (function)
 

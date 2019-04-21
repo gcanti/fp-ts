@@ -10,10 +10,9 @@
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  */
-import { constant, curried, Function1 } from './function'
+import { curried, Function1 } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Semigroup } from './Semigroup'
 
 /**
  * @since 1.0.0
@@ -40,90 +39,6 @@ export interface Apply2C<F extends URIS2, L> extends Functor2C<F, L> {
 
 export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
   readonly ap: <A, B>(fab: Type3<F, U, L, (a: A) => B>, fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-}
-
-/**
- * Combine two effectful actions, keeping only the result of the first
- *
- * @since 1.0.0
- */
-export function applyFirst<F extends URIS3>(
-  F: Apply3<F>
-): <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
-export function applyFirst<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
-export function applyFirst<F extends URIS2>(
-  F: Apply2<F>
-): <L, A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, A>
-export function applyFirst<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, A>
-export function applyFirst<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, A>
-export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A>
-export function applyFirst<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, A> {
-  return (fa, fb) => F.ap(F.map(fa, constant), fb)
-}
-
-/**
- * Combine two effectful actions, keeping only the result of the second
- *
- * @since 1.0.0
- */
-export function applySecond<F extends URIS3>(
-  F: Apply3<F>
-): <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, B>
-export function applySecond<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, B>
-export function applySecond<F extends URIS2>(
-  F: Apply2<F>
-): <L, A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, B>
-export function applySecond<F extends URIS2, L>(
-  F: Apply2C<F, L>
-): <A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, B>
-export function applySecond<F extends URIS>(F: Apply1<F>): <A, B>(fa: Type<F, A>, fb: Type<F, B>) => Type<F, B>
-export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B>
-export function applySecond<F>(F: Apply<F>): <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => HKT<F, B> {
-  return <A, B>(fa: HKT<F, A>, fb: HKT<F, B>) => F.ap(F.map(fa, () => (b: B) => b), fb)
-}
-
-/**
- * If `F` is a `Apply` and `S` is a `Semigroup` over `A` then `HKT<F, A>` is a `Semigroup` over `A` as well
- *
- * @example
- * import { getSemigroup } from 'fp-ts/lib/Apply'
- * import { option, some, none } from 'fp-ts/lib/Option'
- * import { monoidSum } from 'fp-ts/lib/Monoid'
- *
- * const S = getSemigroup(option, monoidSum)()
- * assert.deepStrictEqual(S.concat(none, none), none)
- * assert.deepStrictEqual(S.concat(some(1), none), none)
- * assert.deepStrictEqual(S.concat(none, some(2)), none)
- * assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
- *
- * @since 1.4.0
- */
-export function getSemigroup<F extends URIS3, A>(
-  F: Apply3<F>,
-  S: Semigroup<A>
-): <U = never, L = never>() => Semigroup<Type3<F, U, L, A>>
-export function getSemigroup<F extends URIS3, U, L, A>(
-  F: Apply3C<F, U, L>,
-  S: Semigroup<A>
-): () => Semigroup<Type3<F, U, L, A>>
-export function getSemigroup<F extends URIS2, A>(
-  F: Apply2<F>,
-  S: Semigroup<A>
-): <L = never>() => Semigroup<Type2<F, L, A>>
-export function getSemigroup<F extends URIS2, L, A>(F: Apply2C<F, L>, S: Semigroup<A>): () => Semigroup<Type2<F, L, A>>
-export function getSemigroup<F extends URIS, A>(F: Apply1<F>, S: Semigroup<A>): () => Semigroup<Type<F, A>>
-export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>>
-export function getSemigroup<F, A>(F: Apply<F>, S: Semigroup<A>): () => Semigroup<HKT<F, A>> {
-  const f = (a: A) => (b: A) => S.concat(a, b)
-  return () => ({
-    concat: (x, y) => F.ap(F.map(x, f), y)
-  })
 }
 
 const tupleConstructors: { [key: string]: Function1<any, any> } = {}

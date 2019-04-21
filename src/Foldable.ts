@@ -7,8 +7,7 @@ import { Ord, max as maxOrd, min as minOrd } from './Ord'
 import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 import { Semiring } from './Semiring'
 import { Setoid } from './Setoid'
-import { Predicate, identity } from './function'
-import { applyFirst } from './Apply'
+import { Predicate, identity, constant } from './function'
 
 /**
  * @since 1.10.0
@@ -584,7 +583,7 @@ export function traverse_<M, F>(
   F: Foldable<F>
 ): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> {
   const toArrayF = toArray(F)
-  const applyFirstM = applyFirst(M)
-  const initialValue = M.of(undefined)
-  return (fa, f) => toArrayF(fa).reduce((mu, a) => applyFirstM(mu, f(a)), initialValue)
+  const applyFirst = <B>(mu: HKT<M, void>, mb: HKT<M, B>): HKT<M, void> => M.ap(M.map(mu, constant), mb)
+  const mu: HKT<M, void> = M.of(undefined)
+  return (fa, f) => toArrayF(fa).reduce((mu, a) => applyFirst(mu, f(a)), mu)
 }
