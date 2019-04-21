@@ -383,27 +383,27 @@ describe('Either', () => {
   })
 
   it('parseJSON', () => {
-    assert.deepStrictEqual(E.parseJSON('{"a":1}', E.toError).value, { a: 1 })
+    assert.deepStrictEqual(E.parseJSON('{"a":1}', E.toError), E.right({ a: 1 }))
     assert.deepStrictEqual(
-      E.parseJSON('{"a":}', E.toError).value,
-      new SyntaxError('Unexpected token } in JSON at position 5')
+      E.parseJSON('{"a":}', E.toError),
+      E.left(new SyntaxError('Unexpected token } in JSON at position 5'))
     )
   })
 
   it('stringifyJSON', () => {
-    assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError).value, '{"a":1}')
+    assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
     const circular: any = { ref: null }
     circular.ref = circular
     assert.deepStrictEqual(
-      E.stringifyJSON(circular, E.toError).value,
-      new TypeError('Converting circular structure to JSON')
+      E.stringifyJSON(circular, E.toError),
+      E.left(new TypeError('Converting circular structure to JSON'))
     )
     interface Person {
       name: string
       age: number
     }
     const person: Person = { name: 'Giulio', age: 45 }
-    assert.deepStrictEqual(E.stringifyJSON(person, E.toError).value, '{"name":"Giulio","age":45}')
+    assert.deepStrictEqual(E.stringifyJSON(person, E.toError), E.right('{"name":"Giulio","age":45}'))
   })
 
   it('getShow', () => {

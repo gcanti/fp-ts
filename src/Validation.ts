@@ -305,9 +305,9 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, f: (a: A) => L): (a
 export const fromEither = <L, A>(e: Either<L, A>): Validation<L, A> => {
   switch (e._tag) {
     case 'Left':
-      return failure(e.value)
+      return failure(e.left)
     case 'Right':
-      return success(e.value)
+      return success(e.right)
   }
 }
 
@@ -429,13 +429,13 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
     switch (fa.value._tag) {
       case 'Left':
         return {
-          left: success(fa.value.value),
+          left: success(fa.value.left),
           right: failure(ML.empty)
         }
       case 'Right':
         return {
           left: failure(ML.empty),
-          right: success(fa.value.value)
+          right: success(fa.value.right)
         }
     }
   }
@@ -468,13 +468,13 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
     switch (e._tag) {
       case 'Left':
         return {
-          left: success(e.value),
+          left: success(e.left),
           right: failure(ML.empty)
         }
       case 'Right':
         return {
           left: failure(ML.empty),
-          right: success(e.value)
+          right: success(e.right)
         }
     }
   }

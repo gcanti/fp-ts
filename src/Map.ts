@@ -469,9 +469,9 @@ const separate = <K, RL, RR>(fa: Map<K, Either<RL, RR>>): Separated<Map<K, RL>, 
   while (!(e = entries.next()).done) {
     const [k, ei] = e.value
     if (isLeft(ei)) {
-      left.set(k, ei.value)
+      left.set(k, ei.left)
     } else {
-      right.set(k, ei.value)
+      right.set(k, ei.right)
     }
   }
   return {
@@ -525,9 +525,9 @@ const partitionMapWithIndex = <K, RL, RR, A>(
     const [k, a] = e.value
     const ei = f(k, a)
     if (isLeft(ei)) {
-      left.set(k, ei.value)
+      left.set(k, ei.left)
     } else {
-      right.set(k, ei.value)
+      right.set(k, ei.right)
     }
   }
   return {

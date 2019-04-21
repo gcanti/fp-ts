@@ -39,7 +39,7 @@ export function fold<F>(
 export function fold<F>(
   F: Functor<F>
 ): <R, L, A>(fa: HKT<F, Either<L, A>>, left: (l: L) => R, right: (a: A) => R) => HKT<F, R> {
-  return (fa, left, right) => F.map(fa, e => (isLeft(e) ? left(e.value) : right(e.value)))
+  return (fa, left, right) => F.map(fa, e => (isLeft(e) ? left(e.left) : right(e.right)))
 }
 
 /**
@@ -53,6 +53,6 @@ export function getEitherT<M>(M: Monad<M>): EitherT<M> {
 
   return {
     ...applicativeComposition,
-    chain: (fa, f) => M.chain(fa, e => (isLeft(e) ? M.of(eitherLeft(e.value)) : f(e.value)))
+    chain: (fa, f) => M.chain(fa, e => (isLeft(e) ? M.of(eitherLeft(e.left)) : f(e.right)))
   }
 }

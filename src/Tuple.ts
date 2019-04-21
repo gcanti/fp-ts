@@ -190,10 +190,10 @@ export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
     let s: Either<A, B> = snd(result)
     while (s._tag === 'Left') {
       acc = M.concat(acc, fst(result))
-      result = f(s.value)
+      result = f(s.left)
       s = snd(result)
     }
-    return [M.concat(acc, fst(result)), s.value]
+    return [M.concat(acc, fst(result)), s.right]
   }
 
   return {
