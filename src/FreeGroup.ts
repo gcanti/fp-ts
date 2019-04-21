@@ -38,8 +38,10 @@ const ap = <A, B>(fab: FreeGroup<(a: A) => B>, fa: FreeGroup<A>): FreeGroup<B> =
   return chain(fab, f => map(fa, f)) // <- derived
 }
 
+const get = <A>(e: Either<A, A>): A => (e._tag === 'Left' ? e.left : e.right)
+
 const chain = <A, B>(fa: FreeGroup<A>, f: (a: A) => FreeGroup<B>): FreeGroup<B> => {
-  return array.chain(fa, e => either.bimap(e, f, f).value)
+  return array.chain(fa, e => f(get(e)))
 }
 
 /**
@@ -47,13 +49,12 @@ const chain = <A, B>(fa: FreeGroup<A>, f: (a: A) => FreeGroup<B>): FreeGroup<B> 
  *
  * @since 1.13.0
  */
-export const normalize = <A>(S: Setoid<A>) => (g: Array<Either<A, A>>): Array<Either<A, A>> => {
-  return g.reduceRight((acc: Array<Either<A, A>>, s) => {
+export const normalize = <A>(S: Setoid<A>) => (g: Array<Either<A, A>>): FreeGroup<A> => {
+  return g.reduceRight((acc: FreeGroup<A>, s) => {
     if (acc.length > 0) {
       const head = acc[0]
-      const tail = acc.slice(1)
-      if (head._tag !== s._tag && S.equals(head.value, s.value)) {
-        return tail
+      if (head._tag !== s._tag && S.equals(get(head), get(s))) {
+        return acc.slice(1)
       }
     }
     acc.unshift(s)
@@ -88,7 +89,7 @@ export const getGroup = <A>(S: Setoid<A>): Group<FreeGroup<A>> => {
       x
         .slice()
         .reverse()
-        .map(s => (isLeft(s) ? right(s.value) : left(s.value)))
+        .map(s => (isLeft(s) ? right(s.left) : left(s.right)))
   }
 }
 

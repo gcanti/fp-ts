@@ -976,7 +976,7 @@ export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
   for (let i = 0; i < len; i++) {
     const a = as[i]
     if (a._tag === 'Right') {
-      r.push(a.value)
+      r.push(a.right)
     }
   }
   return r
@@ -999,7 +999,7 @@ export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
   for (let i = 0; i < len; i++) {
     const a = as[i]
     if (a._tag === 'Left') {
-      r.push(a.value)
+      r.push(a.left)
     }
   }
   return r
@@ -1293,9 +1293,9 @@ const separate = <RL, RR>(fa: Array<Either<RL, RR>>): Separated<Array<RL>, Array
   const right: Array<RR> = []
   for (const e of fa) {
     if (e._tag === 'Left') {
-      left.push(e.value)
+      left.push(e.left)
     } else {
-      right.push(e.value)
+      right.push(e.right)
     }
   }
   return {
@@ -1511,9 +1511,9 @@ const partitionMapWithIndex = <RL, RR, A>(
   for (let i = 0; i < fa.length; i++) {
     const e = f(i, fa[i])
     if (e._tag === 'Left') {
-      left.push(e.value)
+      left.push(e.left)
     } else {
-      right.push(e.value)
+      right.push(e.right)
     }
   }
   return {
