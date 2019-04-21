@@ -7,7 +7,6 @@ import { none, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import { setoidNumber, setoidString } from '../src/Setoid'
 import { showString } from '../src/Show'
-import { failure, success } from '../src/Validation'
 
 describe('Either', () => {
   it('fold', () => {
@@ -100,11 +99,6 @@ describe('Either', () => {
     assert.strictEqual(equals(E.left('foo'), E.left('foo')), true)
     assert.strictEqual(equals(E.left('foo'), E.left('bar')), false)
     assert.strictEqual(equals(E.left('foo'), E.right(1)), false)
-  })
-
-  it('fromValidation', () => {
-    assert.deepStrictEqual(E.fromValidation(success(1)), E.right(1))
-    assert.deepStrictEqual(E.fromValidation(failure('a')), E.left('a'))
   })
 
   it('traverse', () => {

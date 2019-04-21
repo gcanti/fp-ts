@@ -45,7 +45,6 @@ import { Semigroup } from './Semigroup'
 import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
-import { Validation } from './Validation'
 import { Witherable2C } from './Witherable'
 
 declare module './HKT' {
@@ -313,13 +312,6 @@ export const tryCatch = <L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L
   } catch (e) {
     return left(onError(e))
   }
-}
-
-/**
- * @since 1.0.0
- */
-export const fromValidation = <L, A>(fa: Validation<L, A>): Either<L, A> => {
-  return fa._tag === 'Failure' ? left(fa.value) : right(fa.value)
 }
 
 /**

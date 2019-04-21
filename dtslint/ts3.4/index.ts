@@ -149,7 +149,7 @@ sequenceTf2(sequenceS5, sequenceS6, sequenceS7) // $ExpectType ReaderTaskEither<
 
 const applicativeValidation = V.getApplicative(S.semigroupString)
 
-U.replicateA(applicativeValidation, A.array) // $ExpectType <A>(n: number, ma: Validation<string, A>) => Validation<string, A[]>
+U.replicateA(applicativeValidation, A.array) // $ExpectType <A>(n: number, ma: Either<string, A>) => Either<string, A[]>
 
 //
 // Applicative
@@ -157,7 +157,7 @@ U.replicateA(applicativeValidation, A.array) // $ExpectType <A>(n: number, ma: V
 
 // getApplicativeComposition
 
-Apv.getApplicativeComposition(Re.reader, applicativeValidation).map // $ExpectType <LF, A, B>(fa: Reader<LF, Validation<string, A>>, f: (a: A) => B) => Reader<LF, Validation<string, B>>
+Apv.getApplicativeComposition(Re.reader, applicativeValidation).map // $ExpectType <LF, A, B>(fa: Reader<LF, Either<string, A>>, f: (a: A) => B) => Reader<LF, Either<string, B>>
 
 //
 // Const
