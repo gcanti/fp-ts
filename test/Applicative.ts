@@ -6,7 +6,7 @@ import { io } from '../src/IO'
 import { monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
-import { failure, getApplicative, success } from '../src/Validation'
+import { getApplicative } from '../src/Validation'
 
 describe('Applicative', () => {
   it('getApplicativeComposition', () => {
@@ -48,9 +48,9 @@ describe('Applicative', () => {
 
     const validation = getApplicative(semigroupString)
     const MValidation = getMonoid(validation, monoidSum)()
-    assert.deepStrictEqual(MValidation.concat(failure('a'), failure('b')), failure('ab'))
-    assert.deepStrictEqual(MValidation.concat(success(1), failure('b')), failure('b'))
-    assert.deepStrictEqual(MValidation.concat(failure('a'), success(2)), failure('a'))
-    assert.deepStrictEqual(MValidation.concat(success(1), success(2)), success(3))
+    assert.deepStrictEqual(MValidation.concat(left('a'), left('b')), left('ab'))
+    assert.deepStrictEqual(MValidation.concat(right(1), left('b')), left('b'))
+    assert.deepStrictEqual(MValidation.concat(left('a'), right(2)), left('a'))
+    assert.deepStrictEqual(MValidation.concat(right(1), right(2)), right(3))
   })
 })
