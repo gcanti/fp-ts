@@ -373,7 +373,7 @@ export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>):
         const e = f(a)
         switch (e._tag) {
           case 'Left':
-            return some(e.value)
+            return some(e.left)
           case 'Right':
             return none
         }
@@ -384,7 +384,7 @@ export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>):
           case 'Left':
             return none
           case 'Right':
-            return some(e.value)
+            return some(e.right)
         }
       })
       return { left, right }

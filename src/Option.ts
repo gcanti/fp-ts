@@ -501,7 +501,7 @@ export const fromEither = <L, A>(ma: Either<L, A>): Option<A> => {
     case 'Left':
       return none
     case 'Right':
-      return some(ma.value)
+      return some(ma.right)
   }
 }
 
@@ -557,13 +557,13 @@ const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Opt
   switch (e._tag) {
     case 'Left':
       return {
-        left: some(e.value),
+        left: some(e.left),
         right: none
       }
     case 'Right':
       return {
         left: none,
-        right: some(e.value)
+        right: some(e.right)
       }
   }
 }
@@ -597,13 +597,13 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
     switch (e._tag) {
       case 'Left':
         return {
-          left: some(e.value),
+          left: some(e.left),
           right: none
         }
       case 'Right':
         return {
           left: none,
-          right: some(e.value)
+          right: some(e.right)
         }
     }
   })

@@ -437,10 +437,10 @@ const separate = <RL, RR>(fa: Record<string, Either<RL, RR>>): Separated<Record<
     const e = fa[key]
     switch (e._tag) {
       case 'Left':
-        left[key] = e.value
+        left[key] = e.left
         break
       case 'Right':
-        right[key] = e.value
+        right[key] = e.right
         break
     }
   }
@@ -493,10 +493,10 @@ export function partitionMapWithKey<RL, RR, A>(
     const e = f(key, fa[key])
     switch (e._tag) {
       case 'Left':
-        left[key] = e.value
+        left[key] = e.left
         break
       case 'Right':
-        right[key] = e.value
+        right[key] = e.right
         break
     }
   }

@@ -201,7 +201,7 @@ export function getCompactableComposition<F, G>(
         FC.map(fge, e => {
           switch (e._tag) {
             case 'Left':
-              return some(e.value)
+              return some(e.left)
             case 'Right':
               return none
           }

@@ -60,12 +60,12 @@ export type URI = typeof URI
 
 export interface Left<L> {
   readonly _tag: 'Left'
-  readonly value: L
+  readonly left: L
 }
 
 export interface Right<A> {
   readonly _tag: 'Right'
-  readonly value: A
+  readonly right: A
 }
 
 /**
@@ -77,7 +77,7 @@ export type Either<L, A> = Left<L> | Right<A>
  * @since 2.0.0
  */
 export function fold<L, A, R>(ma: Either<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): R {
-  return isLeft(ma) ? onLeft(ma.value) : onRight(ma.value)
+  return isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
 }
 
 /**
@@ -85,7 +85,7 @@ export function fold<L, A, R>(ma: Either<L, A>, onLeft: (l: L) => R, onRight: (a
  */
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => {
   return {
-    show: ma => (isLeft(ma) ? `left(${SL.show(ma.value)})` : `right(${SA.show(ma.value)})`)
+    show: ma => (isLeft(ma) ? `left(${SL.show(ma.left)})` : `right(${SA.show(ma.right)})`)
   }
 }
 
@@ -94,7 +94,7 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => {
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
   return fromEquals(
-    (x, y) => (isLeft(x) ? isLeft(y) && SL.equals(x.value, y.value) : isRight(y) && SA.equals(x.value, y.value))
+    (x, y) => (isLeft(x) ? isLeft(y) && SL.equals(x.left, y.left) : isRight(y) && SA.equals(x.right, y.right))
   )
 }
 
@@ -117,7 +117,7 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
  */
 export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
   return {
-    concat: (x, y) => (isLeft(y) ? x : isLeft(x) ? y : right(S.concat(x.value, y.value)))
+    concat: (x, y) => (isLeft(y) ? x : isLeft(x) ? y : right(S.concat(x.right, y.right)))
   }
 }
 
@@ -139,7 +139,7 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => 
  */
 export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
   return {
-    concat: (x, y) => (isLeft(x) ? x : isLeft(y) ? y : right(S.concat(x.value, y.value)))
+    concat: (x, y) => (isLeft(x) ? x : isLeft(y) ? y : right(S.concat(x.right, y.right)))
   }
 }
 
@@ -154,19 +154,19 @@ export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => {
 }
 
 const map = <L, A, B>(ma: Either<L, A>, f: (a: A) => B): Either<L, B> => {
-  return isLeft(ma) ? ma : right(f(ma.value))
+  return isLeft(ma) ? ma : right(f(ma.right))
 }
 
 const ap = <L, A, B>(mab: Either<L, (a: A) => B>, ma: Either<L, A>): Either<L, B> => {
-  return isLeft(mab) ? mab : fold<L, A, Either<L, B>>(ma, left, a => right(mab.value(a)))
+  return isLeft(mab) ? mab : fold<L, A, Either<L, B>>(ma, left, a => right(mab.right(a)))
 }
 
 const chain = <L, A, B>(ma: Either<L, A>, f: (a: A) => Either<L, B>): Either<L, B> => {
-  return isLeft(ma) ? ma : f(ma.value)
+  return isLeft(ma) ? ma : f(ma.right)
 }
 
 const bimap = <L, V, A, B>(ma: Either<L, A>, f: (u: L) => V, g: (a: A) => B): Either<V, B> => {
-  return isLeft(ma) ? left(f(ma.value)) : right(g(ma.value))
+  return isLeft(ma) ? left(f(ma.left)) : right(g(ma.right))
 }
 
 const alt = <L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => {
@@ -178,26 +178,26 @@ const extend = <L, A, B>(ma: Either<L, A>, f: (ma: Either<L, A>) => B): Either<L
 }
 
 const reduce = <L, A, B>(ma: Either<L, A>, b: B, f: (b: B, a: A) => B): B => {
-  return isLeft(ma) ? b : f(b, ma.value)
+  return isLeft(ma) ? b : f(b, ma.right)
 }
 
 const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Either<L, A>, f: (a: A) => M): M => {
-  return isLeft(fa) ? M.empty : f(fa.value)
+  return isLeft(fa) ? M.empty : f(fa.right)
 }
 
 const foldr = <L, A, B>(fa: Either<L, A>, b: B, f: (a: A, b: B) => B): B => {
-  return isLeft(fa) ? b : f(fa.value, b)
+  return isLeft(fa) ? b : f(fa.right, b)
 }
 
 const traverse = <F>(F: Applicative<F>) => <L, A, B>(
   ma: Either<L, A>,
   f: (a: A) => HKT<F, B>
 ): HKT<F, Either<L, B>> => {
-  return isLeft(ma) ? F.of(left(ma.value)) : F.map<B, Either<L, B>>(f(ma.value), of)
+  return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<L, B>>(f(ma.right), of)
 }
 
 const sequence = <F>(F: Applicative<F>) => <L, A>(ma: Either<L, HKT<F, A>>): HKT<F, Either<L, A>> => {
-  return isLeft(ma) ? F.of(left(ma.value)) : F.map<A, Either<L, A>>(ma.value, right)
+  return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<L, A>>(ma.right, right)
 }
 
 const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
@@ -205,10 +205,10 @@ const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L
     f(a),
     e =>
       isLeft(e)
-        ? right<Either<L, B>>(left(e.value))
-        : isLeft(e.value)
-          ? left(f(e.value.value))
-          : right(right(e.value.value))
+        ? right<Either<L, B>>(left(e.left))
+        : isLeft(e.right)
+          ? left(f(e.right.left))
+          : right(right(e.right.right))
   )
 }
 
@@ -219,7 +219,7 @@ const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L
  * @since 1.0.0
  */
 export const left = <L>(l: L): Either<L, never> => {
-  return { _tag: 'Left', value: l }
+  return { _tag: 'Left', left: l }
 }
 
 /**
@@ -229,7 +229,7 @@ export const left = <L>(l: L): Either<L, never> => {
  * @since 1.0.0
  */
 export const right = <A>(a: A): Either<never, A> => {
-  return { _tag: 'Right', value: a }
+  return { _tag: 'Right', right: a }
 }
 
 const of = right
@@ -355,10 +355,10 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
     if (isLeft(fa)) {
       return fa
     }
-    if (fa.value._tag === 'None') {
+    if (fa.right._tag === 'None') {
       return left(ML.empty)
     }
-    return right(fa.value.value)
+    return right(fa.right.value)
   }
   const separate = <A, B>(fa: Either<L, Either<A, B>>): Separated<Either<L, A>, Either<L, B>> => {
     if (isLeft(fa)) {
@@ -367,15 +367,15 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
         right: fa
       }
     }
-    if (isLeft(fa.value)) {
+    if (isLeft(fa.right)) {
       return {
-        left: right(fa.value.value),
+        left: right(fa.right.left),
         right: left(ML.empty)
       }
     }
     return {
       left: left(ML.empty),
-      right: right(fa.value.value)
+      right: right(fa.right.right)
     }
   }
 
@@ -391,35 +391,35 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
  * @since 2.0.0
  */
 export function mapLeft<L, A, M>(ma: Either<L, A>, f: (l: L) => M): Either<M, A> {
-  return isLeft(ma) ? left(f(ma.value)) : ma
+  return isLeft(ma) ? left(f(ma.left)) : ma
 }
 
 /**
  * @since 2.0.0
  */
 export function swap<L, A>(ma: Either<L, A>): Either<A, L> {
-  return isLeft(ma) ? right(ma.value) : left(ma.value)
+  return isLeft(ma) ? right(ma.left) : left(ma.right)
 }
 
 /**
  * @since 2.0.0
  */
 export function orElse<L, A, M>(ma: Either<L, A>, f: (l: L) => Either<M, A>): Either<M, A> {
-  return isLeft(ma) ? f(ma.value) : ma
+  return isLeft(ma) ? f(ma.left) : ma
 }
 
 /**
  * @since 2.0.0
  */
 export function getOrElse<L, A>(ma: Either<L, A>, a: A): A {
-  return isLeft(ma) ? a : ma.value
+  return isLeft(ma) ? a : ma.right
 }
 
 /**
  * @since 2.0.0
  */
 export function getOrElseL<L, A>(ma: Either<L, A>, f: (l: L) => A): A {
-  return isLeft(ma) ? f(ma.value) : ma.value
+  return isLeft(ma) ? f(ma.left) : ma.right
 }
 
 /**
@@ -428,7 +428,7 @@ export function getOrElseL<L, A>(ma: Either<L, A>, f: (l: L) => A): A {
 export function filterOrElse<L, A, B extends A>(ma: Either<L, A>, refinement: Refinement<A, B>, zero: L): Either<L, B>
 export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: L): Either<L, A>
 export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: L): Either<L, A> {
-  return isLeft(ma) ? ma : predicate(ma.value) ? ma : left(zero)
+  return isLeft(ma) ? ma : predicate(ma.right) ? ma : left(zero)
 }
 
 /**
@@ -441,7 +441,7 @@ export function filterOrElseL<L, A, B extends A>(
 ): Either<L, B>
 export function filterOrElseL<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A>
 export function filterOrElseL<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A> {
-  return isLeft(ma) ? ma : predicate(ma.value) ? ma : left(zero(ma.value))
+  return isLeft(ma) ? ma : predicate(ma.right) ? ma : left(zero(ma.right))
 }
 
 /**
@@ -461,16 +461,16 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
         right: fa
       }
     }
-    const e = f(fa.value)
+    const e = f(fa.right)
     if (isLeft(e)) {
       return {
-        left: right(e.value),
+        left: right(e.left),
         right: left(ML.empty)
       }
     }
     return {
       left: left(ML.empty),
-      right: right(e.value)
+      right: right(e.right)
     }
   }
   const partition = <A>(fa: Either<L, A>, p: Predicate<A>): Separated<Either<L, A>, Either<L, A>> => {
@@ -480,14 +480,14 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
         right: fa
       }
     }
-    if (p(fa.value)) {
+    if (p(fa.right)) {
       return {
         left: left(ML.empty),
-        right: right(fa.value)
+        right: right(fa.right)
       }
     }
     return {
-      left: right(fa.value),
+      left: right(fa.right),
       right: left(ML.empty)
     }
   }
@@ -495,7 +495,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
     if (isLeft(fa)) {
       return fa
     }
-    const optionB = f(fa.value)
+    const optionB = f(fa.right)
     if (optionB._tag === 'Some') {
       return right(optionB.value)
     }

@@ -216,13 +216,13 @@ export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
     const v = f(e.value)
     switch (v._tag) {
       case 'Left':
-        if (!hasL(v.value, left)) {
-          left.add(v.value)
+        if (!hasL(v.left, left)) {
+          left.add(v.left)
         }
         break
       case 'Right':
-        if (!hasR(v.value, right)) {
-          right.add(v.value)
+        if (!hasR(v.right, right)) {
+          right.add(v.right)
         }
         break
     }
@@ -355,13 +355,13 @@ export const separate = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<
   fa.forEach(e => {
     switch (e._tag) {
       case 'Left':
-        if (!hasL(e.value, left)) {
-          left.add(e.value)
+        if (!hasL(e.left, left)) {
+          left.add(e.left)
         }
         break
       case 'Right':
-        if (!hasR(e.value, right)) {
-          right.add(e.value)
+        if (!hasR(e.right, right)) {
+          right.add(e.right)
         }
         break
     }
