@@ -1,16 +1,11 @@
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { constant } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
-import { Monoid, unsafeMonoidArray } from './Monoid'
-import { Option, none, some, isNone } from './Option'
-import { Ord, max as maxOrd, min as minOrd } from './Ord'
-import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
-import { Semiring } from './Semiring'
-import { Setoid } from './Setoid'
-import { Predicate, identity, constant } from './function'
+import { Monoid } from './Monoid'
 
 /**
- * @since 1.10.0
+ * @since 2.0.0
  */
 export interface Foldable<F> {
   readonly URI: F
@@ -123,7 +118,7 @@ export interface FoldableComposition3C1<F extends URIS3, G extends URIS, UF, LF>
  * assert.strictEqual(F.reduce([some('a'), some('b'), some('c')], '', monoidString.concat), 'abc')
  * assert.strictEqual(F.reduce([some('a'), none, some('c')], '', monoidString.concat), 'ac')
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export function getFoldableComposition<F extends URIS3, G extends URIS, UF, LF>(
   F: Foldable3C<F, UF, LF>,
@@ -171,29 +166,6 @@ export function getFoldableComposition<F, G>(F: Foldable<F>, G: Foldable<G>): Fo
 }
 
 /**
- * A generalization of monoidal `fold`
- *
- * @example
- * import { fold } from 'fp-ts/lib/Foldable'
- * import { make, tree } from 'fp-ts/lib/Tree'
- * import { monoidSum } from 'fp-ts/lib/Monoid'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.strictEqual(fold(monoidSum, tree)(t), 10)
- *
- * @since 1.10.0
- */
-export function fold<M, F extends URIS3>(M: Monoid<M>, F: Foldable3<F>): <U, L>(fa: Type3<F, U, L, M>) => M
-export function fold<M, F extends URIS3, U, L>(M: Monoid<M>, F: Foldable3C<F, U, L>): (fa: Type3<F, U, L, M>) => M
-export function fold<M, F extends URIS2>(M: Monoid<M>, F: Foldable2<F>): <L>(fa: Type2<F, L, M>) => M
-export function fold<M, F extends URIS2, L>(M: Monoid<M>, F: Foldable2C<F, L>): (fa: Type2<F, L, M>) => M
-export function fold<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (fa: Type<F, M>) => M
-export function fold<M, F>(M: Monoid<M>, F: Foldable<F>): (fa: HKT<F, M>) => M
-export function fold<M, F>(M: Monoid<M>, F: Foldable<F>): (fa: HKT<F, M>) => M {
-  return fa => F.reduce(fa, M.empty, M.concat)
-}
-
-/**
  * Similar to 'reduce', but the result is encapsulated in a monad.
  *
  * Note: this function is not generally stack-safe, e.g., for monads which build up thunks a la `IO`.
@@ -206,7 +178,7 @@ export function fold<M, F>(M: Monoid<M>, F: Foldable<F>): (fa: HKT<F, M>) => M {
  * const t = make(1, [make(2, []), make(3, []), make(4, [])])
  * assert.deepStrictEqual(foldM(option, tree)(t, 0, (b, a) => (a > 2 ? some(b + a) : some(b))), some(7))
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export function foldM<M extends URIS3, F extends URIS>(
   M: Monad3<M>,
@@ -239,84 +211,6 @@ export function foldM<M, F>(
   return (fa, b, f) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, b => f(b, a)))
 }
 
-/**
- * Perform all of the effects in some data structure in the order given by the `Foldable` instance, ignoring the final result.
- *
- * @example
- * import { array } from 'fp-ts/lib/Array'
- * import { sequence_ } from 'fp-ts/lib/Foldable'
- * import { io } from 'fp-ts/lib/IO'
- *
- * let log = ''
- * const append = (s: string) => () => (log += s)
- * sequence_(io, array)([append('a'), append('b'), append('c')])()
- * assert.strictEqual(log, 'abc')
- *
- * @since 1.10.0
- */
-export function sequence_<M extends URIS3, F extends URIS>(
-  M: Applicative3<M>,
-  F: Foldable1<F>
-): <U, L, A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
-export function sequence_<M extends URIS3, F extends URIS, U, L>(
-  M: Applicative3C<M, U, L>,
-  F: Foldable1<F>
-): <A>(fa: Type<F, Type3<M, U, L, A>>) => Type3<M, U, L, void>
-export function sequence_<M extends URIS2, F extends URIS>(
-  M: Applicative2<M>,
-  F: Foldable1<F>
-): <L, A>(fa: Type<F, Type2<M, L, A>>) => Type2<M, L, void>
-export function sequence_<M extends URIS2, F extends URIS, L>(
-  M: Applicative2C<M, L>,
-  F: Foldable1<F>
-): <A>(fa: Type<F, Type2<M, L, A>>) => Type2<M, L, void>
-export function sequence_<M extends URIS, F extends URIS>(
-  M: Applicative1<M>,
-  F: Foldable1<F>
-): <A>(fa: Type<F, Type<M, A>>) => Type<M, void>
-export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void>
-export function sequence_<M, F>(M: Applicative<M>, F: Foldable<F>): <A>(fa: HKT<F, HKT<M, A>>) => HKT<M, void> {
-  const traverseMF = traverse_(M, F)
-  return fa => traverseMF(fa, identity)
-}
-
-/**
- * Combines a collection of elements using the `Alt` operation
- *
- * @example
- * import { array } from 'fp-ts/lib/Array'
- * import { oneOf } from 'fp-ts/lib/Foldable'
- * import { option, some } from 'fp-ts/lib/Option'
- *
- * assert.deepStrictEqual(oneOf(option, array)([some(2), some(1)]), some(2))
- *
- * @since 1.10.0
- */
-export function oneOf<P extends URIS3, F extends URIS>(
-  P: Plus3<P>,
-  F: Foldable1<F>
-): <U, L, A>(fga: Type<F, Type3<P, U, L, A>>) => Type3<P, U, L, A>
-export function oneOf<P extends URIS3, U, L, F extends URIS>(
-  P: Plus3C<P, U, L>,
-  F: Foldable1<F>
-): <A>(fga: Type<F, Type3<P, U, L, A>>) => Type3<P, U, L, A>
-export function oneOf<P extends URIS2, F extends URIS>(
-  P: Plus2<P>,
-  F: Foldable1<F>
-): <L, A>(fga: Type<F, Type2<P, L, A>>) => Type2<P, L, A>
-export function oneOf<P extends URIS2, F extends URIS, L>(
-  P: Plus2C<P, L>,
-  F: Foldable1<F>
-): <A>(fga: Type<F, Type2<P, L, A>>) => Type2<P, L, A>
-export function oneOf<P extends URIS, F extends URIS>(
-  P: Plus1<P>,
-  F: Foldable1<F>
-): <A>(fga: Type<F, Type<P, A>>) => Type<P, A>
-export function oneOf<P, F>(P: Plus<P>, F: Foldable<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A>
-export function oneOf<P, F>(P: Plus<P>, F: Foldable<F>): <A>(fga: HKT<F, HKT<P, A>>) => HKT<P, A> {
-  return fga => F.reduce(fga, P.zero(), P.alt)
-}
-
 interface Acc<M> {
   init: boolean
   acc: M
@@ -333,7 +227,7 @@ interface Acc<M> {
  * const t = make('a', [make('b', []), make('c', []), make('d', [])])
  * assert.strictEqual(intercalate(monoidString, tree)('|', t), 'a|b|c|d')
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export function intercalate<M, F extends URIS3>(
   M: Monoid<M>,
@@ -356,189 +250,6 @@ export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HK
 }
 
 /**
- * Find the sum of the numeric values in a data structure
- *
- * @example
- * import { fieldNumber } from 'fp-ts/lib/Field'
- * import { sum } from 'fp-ts/lib/Foldable'
- * import { make, tree } from 'fp-ts/lib/Tree'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.strictEqual(sum(fieldNumber, tree)(t), 10)
- *
- * @since 1.10.0
- */
-export function sum<F extends URIS3, A>(S: Semiring<A>, F: Foldable3<F>): <U, L>(fa: Type3<F, U, L, A>) => A
-export function sum<F extends URIS3, A, U, L>(S: Semiring<A>, F: Foldable3C<F, U, L>): (fa: Type3<F, U, L, A>) => A
-export function sum<F extends URIS2, A>(S: Semiring<A>, F: Foldable2<F>): <L>(fa: Type2<F, L, A>) => A
-export function sum<F extends URIS2, A, L>(S: Semiring<A>, F: Foldable2C<F, L>): (fa: Type2<F, L, A>) => A
-export function sum<F extends URIS, A>(S: Semiring<A>, F: Foldable1<F>): (fa: Type<F, A>) => A
-export function sum<F, A>(S: Semiring<A>, F: Foldable<F>): (fa: HKT<F, A>) => A
-export function sum<F, A>(S: Semiring<A>, F: Foldable<F>): (fa: HKT<F, A>) => A {
-  return fa => F.reduce(fa, S.zero, S.add)
-}
-
-/**
- * Find the product of the numeric values in a data structure
- *
- * @example
- * import { fieldNumber } from 'fp-ts/lib/Field'
- * import { product } from 'fp-ts/lib/Foldable'
- * import { make, tree } from 'fp-ts/lib/Tree'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.strictEqual(product(fieldNumber, tree)(t), 24)
- *
- * @since 1.10.0
- */
-export function product<F extends URIS3, A>(S: Semiring<A>, F: Foldable3<F>): <U, L>(fa: Type3<F, U, L, A>) => A
-export function product<F extends URIS3, A, U, L>(S: Semiring<A>, F: Foldable3C<F, U, L>): (fa: Type3<F, U, L, A>) => A
-export function product<F extends URIS2, A>(S: Semiring<A>, F: Foldable2<F>): <L>(fa: Type2<F, L, A>) => A
-export function product<F extends URIS2, A, L>(S: Semiring<A>, F: Foldable2C<F, L>): (fa: Type2<F, L, A>) => A
-export function product<F extends URIS, A>(S: Semiring<A>, F: Foldable1<F>): (fa: Type<F, A>) => A
-export function product<F, A>(S: Semiring<A>, F: Foldable<F>): (fa: HKT<F, A>) => A
-export function product<F, A>(S: Semiring<A>, F: Foldable<F>): (fa: HKT<F, A>) => A {
-  return fa => F.reduce(fa, S.one, S.mul)
-}
-
-/**
- * Test whether a value is an element of a data structure
- *
- * @example
- * import { elem } from 'fp-ts/lib/Foldable'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
- * import { make, tree } from 'fp-ts/lib/Tree'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.strictEqual(elem(setoidNumber, tree)(2, t), true)
- * assert.strictEqual(elem(setoidNumber, tree)(5, t), false)
- *
- * @since 1.14.0
- */
-export function elem<F extends URIS3, A>(S: Setoid<A>, F: Foldable3<F>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
-export function elem<F extends URIS3, A, U, L>(
-  S: Setoid<A>,
-  F: Foldable3C<F, U, L>
-): (a: A, fa: Type3<F, U, L, A>) => boolean
-export function elem<F extends URIS2, A>(S: Setoid<A>, F: Foldable2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS2, A, L>(S: Setoid<A>, F: Foldable2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS, A>(S: Setoid<A>, F: Foldable1<F>): (a: A, fa: Type<F, A>) => boolean
-export function elem<F, A>(S: Setoid<A>, F: Foldable<F>): (a: A, fa: HKT<F, A>) => boolean
-export function elem<F, A>(S: Setoid<A>, F: Foldable<F>): (a: A, fa: HKT<F, A>) => boolean {
-  return (a, fa) => F.reduce<A, boolean>(fa, false, (b, x) => b || S.equals(x, a))
-}
-
-/**
- * Find the first element which satisfies a predicate function
- *
- *
- * @example
- * import { findFirst } from 'fp-ts/lib/Foldable'
- * import { make, tree } from 'fp-ts/lib/Tree'
- * import { some } from 'fp-ts/lib/Option'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.deepStrictEqual(findFirst(tree)(t, a => a > 2), some(3))
- *
- * @since 1.10.0
- */
-export function findFirst<F extends URIS3>(
-  F: Foldable3<F>
-): <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
-export function findFirst<F extends URIS3, U, L>(
-  F: Foldable3C<F, U, L>
-): <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Option<A>
-export function findFirst<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
-export function findFirst<F extends URIS2, L>(
-  F: Foldable2C<F, L>
-): <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Option<A>
-export function findFirst<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>, p: Predicate<A>) => Option<A>
-export function findFirst<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A>
-export function findFirst<F>(F: Foldable<F>): <A>(fa: HKT<F, A>, p: Predicate<A>) => Option<A> {
-  return <A>(fa: HKT<F, A>, p: Predicate<A>) =>
-    F.reduce<A, Option<A>>(fa, none, (b, a) => {
-      if (isNone(b) && p(a)) {
-        return some(a)
-      } else {
-        return b
-      }
-    })
-}
-
-/**
- * Find the smallest element of a structure, according to its `Ord` instance
- *
- * @example
- * import { min } from 'fp-ts/lib/Foldable'
- * import { some } from 'fp-ts/lib/Option'
- * import { ordNumber } from 'fp-ts/lib/Ord'
- * import { make, tree } from 'fp-ts/lib/Tree'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.deepStrictEqual(min(ordNumber, tree)(t), some(1))
- *
- * @since 1.10.0
- */
-export function min<F extends URIS3, A>(O: Ord<A>, F: Foldable3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
-export function min<F extends URIS3, A, U, L>(O: Ord<A>, F: Foldable3C<F, U, L>): (fa: Type3<F, U, L, A>) => Option<A>
-export function min<F extends URIS2, A>(O: Ord<A>, F: Foldable2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
-export function min<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
-export function min<F extends URIS, A>(O: Ord<A>, F: Foldable1<F>): (fa: Type<F, A>) => Option<A>
-export function min<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<A>
-export function min<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<A> {
-  const minO = minOrd(O)
-  return fa => F.reduce(fa, none, (b: Option<A>, a) => (isNone(b) ? some(a) : some(minO(b.value, a))))
-}
-
-/**
- * Find the largest element of a structure, according to its `Ord` instance
- *
- * @example
- * import { max } from 'fp-ts/lib/Foldable'
- * import { some } from 'fp-ts/lib/Option'
- * import { ordNumber } from 'fp-ts/lib/Ord'
- * import { make, tree } from 'fp-ts/lib/Tree'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.deepStrictEqual(max(ordNumber, tree)(t), some(4))
- *
- * @since 1.10.0
- */
-export function max<F extends URIS3, A>(O: Ord<A>, F: Foldable3<F>): <U, L>(fa: Type3<F, U, L, A>) => Option<A>
-export function max<F extends URIS3, A, U, L>(O: Ord<A>, F: Foldable3C<F, U, L>): (fa: Type3<F, U, L, A>) => Option<A>
-export function max<F extends URIS2, A>(O: Ord<A>, F: Foldable2<F>): <L>(fa: Type2<F, L, A>) => Option<A>
-export function max<F extends URIS2, A, L>(O: Ord<A>, F: Foldable2C<F, L>): (fa: Type2<F, L, A>) => Option<A>
-export function max<F extends URIS, A>(O: Ord<A>, F: Foldable1<F>): (fa: Type<F, A>) => Option<A>
-export function max<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<A>
-export function max<F, A>(O: Ord<A>, F: Foldable<F>): (fa: HKT<F, A>) => Option<A> {
-  const maxO = maxOrd(O)
-  return fa => F.reduce(fa, none, (b: Option<A>, a) => (isNone(b) ? some(a) : some(maxO(b.value, a))))
-}
-
-/**
- * Transforms a foldable into an array
- *
- * @example
- * import { toArray } from 'fp-ts/lib/Foldable'
- * import { make, tree } from 'fp-ts/lib/Tree'
- *
- * const t = make(1, [make(2, []), make(3, []), make(4, [])])
- * assert.deepStrictEqual(toArray(tree)(t), [1, 2, 3, 4])
- *
- * @since 1.10.0
- */
-export function toArray<F extends URIS3>(F: Foldable3<F>): <U, L, A>(fa: Type3<F, U, L, A>) => Array<A>
-export function toArray<F extends URIS3, U, L>(F: Foldable3C<F, U, L>): <A>(fa: Type3<F, U, L, A>) => Array<A>
-export function toArray<F extends URIS2>(F: Foldable2<F>): <L, A>(fa: Type2<F, L, A>) => Array<A>
-export function toArray<F extends URIS2, L>(F: Foldable2C<F, L>): <A>(fa: Type2<F, L, A>) => Array<A>
-export function toArray<F extends URIS>(F: Foldable1<F>): <A>(fa: Type<F, A>) => Array<A>
-export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A>
-export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
-  const foldMapF = F.foldMap(unsafeMonoidArray)
-  return fa => foldMapF(fa, a => [a])
-}
-
-/**
  * Traverse a data structure, performing some effects encoded by an `Applicative` functor at each value, ignoring the
  * final result.
  *
@@ -552,7 +263,7 @@ export function toArray<F>(F: Foldable<F>): <A>(fa: HKT<F, A>) => Array<A> {
  * traverse_(io, array)(['a', 'b', 'c'], append)()
  * assert.strictEqual(log, 'abc')
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export function traverse_<M extends URIS3, F extends URIS>(
   M: Applicative3<M>,
@@ -582,8 +293,7 @@ export function traverse_<M, F>(
   M: Applicative<M>,
   F: Foldable<F>
 ): <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<M, B>) => HKT<M, void> {
-  const toArrayF = toArray(F)
   const applyFirst = <B>(mu: HKT<M, void>, mb: HKT<M, B>): HKT<M, void> => M.ap(M.map(mu, constant), mb)
   const mu: HKT<M, void> = M.of(undefined)
-  return (fa, f) => toArrayF(fa).reduce((mu, a) => applyFirst(mu, f(a)), mu)
+  return (fa, f) => F.reduce(fa, mu, (mu, a) => applyFirst(mu, f(a)))
 }
