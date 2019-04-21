@@ -5,7 +5,7 @@
 import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
-import * as eitherT from './EitherT'
+import { getEitherT } from './EitherT'
 import { Lazy } from './function'
 import { IO, io } from './IO'
 import { Monad2 } from './Monad'
@@ -21,8 +21,7 @@ export const URI = 'IOEither'
 
 export type URI = typeof URI
 
-const T = eitherT.getEitherT(io)
-const foldT = eitherT.fold(io)
+const eitherT = getEitherT(io)
 
 /**
  * @since 1.6.0
@@ -37,29 +36,29 @@ export const run = <L, A>(fa: IOEither<L, A>): E.Either<L, A> => {
 }
 
 const map = <L, A, B>(fa: IOEither<L, A>, f: (a: A) => B): IOEither<L, B> => {
-  return T.map(fa, f)
+  return eitherT.map(fa, f)
 }
 
 /**
  * @since 2.0.0
  */
 export const make = <A>(a: A): IOEither<never, A> => {
-  return T.of(a)
+  return eitherT.of(a)
 }
 
 const ap = <L, A, B>(fab: IOEither<L, (a: A) => B>, fa: IOEither<L, A>): IOEither<L, B> => {
-  return T.ap(fab, fa)
+  return eitherT.ap(fab, fa)
 }
 
 const chain = <L, A, B>(fa: IOEither<L, A>, f: (a: A) => IOEither<L, B>): IOEither<L, B> => {
-  return T.chain(fa, f)
+  return eitherT.chain(fa, f)
 }
 
 /**
  * @since 2.0.0
  */
 export function orElse<L, A, M>(fa: IOEither<L, A>, f: (l: L) => IOEither<M, A>): IOEither<M, A> {
-  return io.chain(fa, e => E.fold<L, A, IOEither<M, A>>(e, f, T.of))
+  return io.chain(fa, e => E.fold<L, A, IOEither<M, A>>(e, f, eitherT.of))
 }
 
 /**
@@ -73,7 +72,7 @@ export const mapLeft = <L, A, M>(ma: IOEither<L, A>, f: (l: L) => M): IOEither<M
  * @since 2.0.0
  */
 export const fold = <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): IO<R> => {
-  return foldT(ma, onLeft, onRight)
+  return eitherT.fold(ma, onLeft, onRight)
 }
 
 const alt = <L, A>(fx: IOEither<L, A>, fy: IOEither<L, A>): IOEither<L, A> => {

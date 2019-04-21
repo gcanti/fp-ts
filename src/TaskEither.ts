@@ -5,7 +5,7 @@
 import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
-import * as eitherT from './EitherT'
+import { getEitherT } from './EitherT'
 import { identity, Lazy, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
@@ -16,8 +16,8 @@ import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import * as T from './Task'
-import Task = T.Task
 
+import Task = T.Task
 const task = T.task
 
 declare module './HKT' {
@@ -30,8 +30,7 @@ export const URI = 'TaskEither'
 
 export type URI = typeof URI
 
-const EitherT = eitherT.getEitherT(task)
-const foldT = eitherT.fold(task)
+const eitherT = getEitherT(task)
 
 export interface TaskEither<L, A> extends Task<E.Either<L, A>> {}
 
@@ -39,7 +38,7 @@ export interface TaskEither<L, A> extends Task<E.Either<L, A>> {}
  * @since 2.0.0
  */
 export const fold = <L, A, R>(ma: TaskEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): Task<R> => {
-  return foldT(ma, onLeft, onRight)
+  return eitherT.fold(ma, onLeft, onRight)
 }
 
 /**
@@ -100,14 +99,14 @@ export function filterOrElseL<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero:
  * @since 2.0.0
  */
 export const make = <A>(a: A): TaskEither<never, A> => {
-  return EitherT.of(a)
+  return eitherT.of(a)
 }
 
 /**
  * @since 2.0.0
  */
 export const orElse = <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M, A>): TaskEither<M, A> => {
-  return task.chain(ma, e => E.fold<L, A, Task<E.Either<M, A>>>(e, f, EitherT.of))
+  return task.chain(ma, e => E.fold<L, A, Task<E.Either<M, A>>>(e, f, eitherT.of))
 }
 
 const alt = <L, A>(fx: TaskEither<L, A>, fy: TaskEither<L, A>): TaskEither<L, A> => {
@@ -289,7 +288,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
 
 const fromTask = right
 
-const chain = EitherT.chain
+const chain = eitherT.chain
 
 /**
  * @since 2.0.0
@@ -317,7 +316,7 @@ export const bracket = <L, A, B>(
 
 const throwError = fromLeft
 
-const map = EitherT.map
+const map = eitherT.map
 
 /**
  * @since 1.0.0
@@ -332,7 +331,7 @@ export const taskEither: Monad2<URI> &
   bimap,
   map,
   of: make,
-  ap: EitherT.ap,
+  ap: eitherT.ap,
   chain,
   alt,
   fromIO,
