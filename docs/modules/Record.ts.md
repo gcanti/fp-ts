@@ -16,10 +16,9 @@ parent: Modules
 - [elem (function)](#elem-function)
 - [every (function)](#every-function)
 - [filter (function)](#filter-function)
-- [filterMapWithKey (function)](#filtermapwithkey-function)
-- [filterWithKey (function)](#filterwithkey-function)
-- [foldMapWithKey (function)](#foldmapwithkey-function)
-- [foldrWithKey (function)](#foldrwithkey-function)
+- [filterMapWithIndex (function)](#filtermapwithindex-function)
+- [filterWithIndex (function)](#filterwithindex-function)
+- [foldMapWithIndex (function)](#foldmapwithindex-function)
 - [fromFoldable (function)](#fromfoldable-function)
 - [fromFoldableMap (function)](#fromfoldablemap-function)
 - [getMonoid (function)](#getmonoid-function)
@@ -31,11 +30,12 @@ parent: Modules
 - [keys (function)](#keys-function)
 - [lookup (function)](#lookup-function)
 - [map (function)](#map-function)
-- [mapWithKey (function)](#mapwithkey-function)
-- [partitionMapWithKey (function)](#partitionmapwithkey-function)
-- [partitionWithKey (function)](#partitionwithkey-function)
+- [mapWithIndex (function)](#mapwithindex-function)
+- [partitionMapWithIndex (function)](#partitionmapwithindex-function)
+- [partitionWithIndex (function)](#partitionwithindex-function)
 - [pop (function)](#pop-function)
-- [reduceWithKey (function)](#reducewithkey-function)
+- [reduceRightWithIndex (function)](#reducerightwithindex-function)
+- [reduceWithIndex (function)](#reducewithindex-function)
 - [remove (function)](#remove-function)
 - [sequence (function)](#sequence-function)
 - [singleton (function)](#singleton-function)
@@ -44,7 +44,7 @@ parent: Modules
 - [toArray (function)](#toarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
 - [traverse (function)](#traverse-function)
-- [traverseWithKey (function)](#traversewithkey-function)
+- [traverseWithIndex (function)](#traversewithindex-function)
 
 ---
 
@@ -131,47 +131,37 @@ export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string
 
 Added in v1.10.0
 
-# filterMapWithKey (function)
+# filterMapWithIndex (function)
 
 **Signature**
 
 ```ts
-export function filterMapWithKey<K extends string, A, B>(
+export function filterMapWithIndex<K extends string, A, B>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Option<B>
 ): Record<string, B>
-export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B> { ... }
+export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B> { ... }
 ```
 
 Added in v1.14.0
 
-# filterWithKey (function)
+# filterWithIndex (function)
 
 **Signature**
 
 ```ts
-export function filterWithKey<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
-export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> { ... }
+export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
+export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> { ... }
 ```
 
 Added in v1.14.0
 
-# foldMapWithKey (function)
+# foldMapWithIndex (function)
 
 **Signature**
 
 ```ts
-export function foldMapWithKey<M>(M: Monoid<M>): <K extends string, A>(fa: Record<K, A>, f: (k: K, a: A) => M) => M { ... }
-```
-
-Added in v1.12.0
-
-# foldrWithKey (function)
-
-**Signature**
-
-```ts
-export function foldrWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B { ... }
+export function foldMapWithIndex<M>(M: Monoid<M>): <K extends string, A>(fa: Record<K, A>, f: (k: K, a: A) => M) => M { ... }
 ```
 
 Added in v1.12.0
@@ -369,26 +359,26 @@ export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): R
 
 Added in v1.10.0
 
-# mapWithKey (function)
+# mapWithIndex (function)
 
 **Signature**
 
 ```ts
-export function mapWithKey<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B> { ... }
+export function mapWithIndex<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B> { ... }
 ```
 
 Added in v1.10.0
 
-# partitionMapWithKey (function)
+# partitionMapWithIndex (function)
 
 **Signature**
 
 ```ts
-export function partitionMapWithKey<K extends string, RL, RR, A>(
+export function partitionMapWithIndex<K extends string, RL, RR, A>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithKey<RL, RR, A>(
+export function partitionMapWithIndex<RL, RR, A>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>> { ... }
@@ -396,16 +386,16 @@ export function partitionMapWithKey<RL, RR, A>(
 
 Added in v1.14.0
 
-# partitionWithKey (function)
+# partitionWithIndex (function)
 
 **Signature**
 
 ```ts
-export function partitionWithKey<K extends string, A>(
+export function partitionWithIndex<K extends string, A>(
   fa: Record<K, A>,
   p: (key: K, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithKey<A>(
+export function partitionWithIndex<A>(
   fa: Record<string, A>,
   p: (key: string, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>> { ... }
@@ -428,12 +418,22 @@ export function pop<K extends string, KS extends string, A>(
 
 Added in v1.10.0
 
-# reduceWithKey (function)
+# reduceRightWithIndex (function)
 
 **Signature**
 
 ```ts
-export function reduceWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B { ... }
+export function reduceRightWithIndex<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B { ... }
+```
+
+Added in v1.12.0
+
+# reduceWithIndex (function)
+
+**Signature**
+
+```ts
+export function reduceWithIndex<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B { ... }
 ```
 
 Added in v1.12.0
@@ -564,24 +564,24 @@ export function traverse<F>(
 
 Added in v1.10.0
 
-# traverseWithKey (function)
+# traverseWithIndex (function)
 
 **Signature**
 
 ```ts
-export function traverseWithKey<F extends URIS3>(
+export function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, U, L, A, B>(
   ta: Record<K, A>,
   f: (k: K, a: A) => Type3<F, U, L, B>
 ) => Type3<F, U, L, Record<K, B>>
-export function traverseWithKey<F extends URIS2>(
+export function traverseWithIndex<F extends URIS2>(
   F: Applicative2<F>
 ): <K extends string, L, A, B>(ta: Record<K, A>, f: (k: K, a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>
-export function traverseWithKey<F extends URIS>(
+export function traverseWithIndex<F extends URIS>(
   F: Applicative1<F>
 ): <K extends string, A, B>(ta: Record<K, A>, f: (k: K, a: A) => Type<F, B>) => Type<F, Record<K, B>>
-export function traverseWithKey<F>(
+export function traverseWithIndex<F>(
   F: Applicative<F>
 ): <K extends string, A, B>(ta: Record<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Record<K, B>> { ... }
 ```

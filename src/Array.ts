@@ -331,9 +331,6 @@ export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Ar
  * Break an array into its initial elements and the last element
  *
  * @since 1.7.0
- * @param as
- * @param b
- * @param cons
  */
 export const foldr = <A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) => B): B => {
   return isEmpty(as) ? b : cons(as.slice(0, as.length - 1), as[as.length - 1])
@@ -343,9 +340,6 @@ export const foldr = <A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) 
  * Lazy version of `foldr`
  *
  * @since 1.7.0
- * @param as
- * @param nil
- * @param cons
  */
 export const foldrL = <A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, last: A) => B): B => {
   return isEmpty(as) ? nil() : cons(as.slice(0, as.length - 1), as[as.length - 1])
