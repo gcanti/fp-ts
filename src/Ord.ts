@@ -15,21 +15,21 @@ import { Setoid, setoidBoolean, setoidNumber, setoidString } from './Setoid'
 import { on } from './function'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Ord<A> extends Setoid<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const unsafeCompare = (x: any, y: any): Ordering => {
   return x < y ? -1 : x > y ? 1 : 0
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const ordString: Ord<string> = {
   ...setoidString,
@@ -37,7 +37,7 @@ export const ordString: Ord<string> = {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const ordNumber: Ord<number> = {
   ...setoidNumber,
@@ -45,7 +45,7 @@ export const ordNumber: Ord<number> = {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const ordBoolean: Ord<boolean> = {
   ...setoidBoolean,
@@ -55,7 +55,7 @@ export const ordBoolean: Ord<boolean> = {
 /**
  * Test whether one value is _strictly less than_ another
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) === -1
@@ -64,7 +64,7 @@ export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 /**
  * Test whether one value is _strictly greater than_ another
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) === 1
@@ -73,7 +73,7 @@ export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 /**
  * Test whether one value is _non-strictly less than_ another
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) !== 1
@@ -82,7 +82,7 @@ export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 /**
  * Test whether one value is _non-strictly greater than_ another
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
   return O.compare(x, y) !== -1
@@ -91,7 +91,7 @@ export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
 /**
  * Take the minimum of two values. If they are considered equal, the first argument is chosen
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const min = <A>(O: Ord<A>) => (x: A, y: A): A => {
   return O.compare(x, y) === 1 ? y : x
@@ -100,7 +100,7 @@ export const min = <A>(O: Ord<A>) => (x: A, y: A): A => {
 /**
  * Take the maximum of two values. If they are considered equal, the first argument is chosen
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const max = <A>(O: Ord<A>) => (x: A, y: A): A => {
   return O.compare(x, y) === -1 ? y : x
@@ -109,7 +109,7 @@ export const max = <A>(O: Ord<A>) => (x: A, y: A): A => {
 /**
  * Clamp a value between a minimum and a maximum
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
   const minO = min(O)
@@ -120,7 +120,7 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
 /**
  * Test whether a value is between a minimum and a maximum (inclusive)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => {
   const lessThanO = lessThan(O)
@@ -129,7 +129,7 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) =>
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
   const optimizedCompare = (x: A, y: A): Ordering => (x === y ? 0 : compare(x, y))
@@ -140,14 +140,14 @@ export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
   return fromCompare(on(fa.compare)(f))
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
   return {
@@ -166,7 +166,7 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
  * assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
  *
- * @since 1.14.3
+ * @since 2.0.0
  */
 export const getTupleOrd = <T extends Array<Ord<any>>>(
   ...ords: T
@@ -185,13 +185,13 @@ export const getTupleOrd = <T extends Array<Ord<any>>>(
 }
 
 /**
- * @since 1.3.0
+ * @since 2.0.0
  */
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
   return fromCompare((x, y) => O.compare(y, x))
 }
 
 /**
- * @since 1.4.0
+ * @since 2.0.0
  */
 export const ordDate: Ord<Date> = contramap(date => date.valueOf(), ordNumber)

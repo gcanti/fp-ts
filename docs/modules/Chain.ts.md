@@ -39,7 +39,7 @@ export interface Chain<F> extends Apply<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Chain1 (interface)
 
@@ -110,4 +110,4 @@ export function flatten<F extends URIS>(chain: Chain1<F>): <A>(mma: Type<F, Type
 export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

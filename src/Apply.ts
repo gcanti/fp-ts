@@ -15,7 +15,7 @@ import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './F
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Apply<F> extends Functor<F> {
   readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
@@ -55,7 +55,7 @@ const tupleConstructors: { [key: string]: Function1<any, any> } = {}
  * assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
  * assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
  *
- * @since 1.5.0
+ * @since 2.0.0
  */
 export function sequenceT<F extends URIS3>(
   F: Apply3<F>
@@ -129,7 +129,7 @@ type EnforceNonEmptyRecord<R> = keyof R extends never ? never : R
  *   left('error')
  * )
  *
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function sequenceS<F extends URIS3>(
   F: Apply3<F>

@@ -5,7 +5,7 @@ import { constant } from './function'
 
 /**
  * @typeclass
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface IxMonad<F> {
   readonly URI: F
@@ -20,7 +20,7 @@ export interface IxMonad3<F extends URIS3> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function iapplyFirst<F extends URIS3>(
   ixmonad: IxMonad3<F>
@@ -35,7 +35,7 @@ export function iapplyFirst<F>(
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function iapplySecond<F extends URIS3>(
   ixmonad: IxMonad3<F>

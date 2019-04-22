@@ -56,7 +56,7 @@ export interface Strong<F> extends Profunctor<F> {
 }
 ```
 
-Added in v1.11.0
+Added in v2.0.0
 
 # Strong2 (interface)
 
@@ -125,7 +125,7 @@ export function fanout<F>(
 ): <A, B, C>(pab: HKT2<F, A, B>, pac: HKT2<F, A, C>) => HKT2<F, A, [B, C]> { ... }
 ```
 
-Added in v1.11.0
+Added in v2.0.0
 
 # splitStrong (function)
 
@@ -157,4 +157,4 @@ export function splitStrong<F>(
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, [A, C], [B, D]> { ... }
 ```
 
-Added in v1.11.0
+Added in v2.0.0

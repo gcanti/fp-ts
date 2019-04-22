@@ -29,7 +29,7 @@ Log any value and return it
 export const spy = <A>(a: A): A => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # trace (function)
 
@@ -42,7 +42,7 @@ representation for low-level debugging
 export const trace = <A>(message: unknown, out: Lazy<A>): A => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # traceA (function)
 
@@ -58,7 +58,7 @@ export function traceA<F extends URIS2, L>(F: Applicative2C<F, L>): (message: un
 export function traceA<F extends URIS>(F: Applicative1<F>): (message: unknown) => Type<F, void> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # traceM (function)
 
@@ -74,4 +74,4 @@ export function traceM<F extends URIS2, L>(F: Monad2C<F, L>): <A>(a: A) => Type2
 export function traceM<F extends URIS>(F: Monad1<F>): <A>(a: A) => Type<F, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

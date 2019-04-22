@@ -52,7 +52,7 @@ export interface Ord<A> extends Setoid<A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # ordBoolean (constant)
 
@@ -62,7 +62,7 @@ Added in v1.0.0
 export const ordBoolean: Ord<boolean> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # ordDate (constant)
 
@@ -72,7 +72,7 @@ Added in v1.0.0
 export const ordDate: Ord<Date> = ...
 ```
 
-Added in v1.4.0
+Added in v2.0.0
 
 # ordNumber (constant)
 
@@ -82,7 +82,7 @@ Added in v1.4.0
 export const ordNumber: Ord<number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # ordString (constant)
 
@@ -92,7 +92,7 @@ Added in v1.0.0
 export const ordString: Ord<string> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # between (function)
 
@@ -104,7 +104,7 @@ Test whether a value is between a minimum and a maximum (inclusive)
 export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # clamp (function)
 
@@ -116,7 +116,7 @@ Clamp a value between a minimum and a maximum
 export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # contramap (function)
 
@@ -126,7 +126,7 @@ Added in v1.0.0
 export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fromCompare (function)
 
@@ -136,7 +136,7 @@ Added in v1.0.0
 export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getDualOrd (function)
 
@@ -146,7 +146,7 @@ Added in v1.0.0
 export const getDualOrd = <A>(O: Ord<A>): Ord<A> => ...
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # getSemigroup (function)
 
@@ -156,7 +156,7 @@ Added in v1.3.0
 export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getTupleOrd (function)
 
@@ -181,7 +181,7 @@ assert.strictEqual(O.compare(['a', 1, true], ['a', 2, true]), -1)
 assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 ```
 
-Added in v1.14.3
+Added in v2.0.0
 
 # greaterThan (function)
 
@@ -193,7 +193,7 @@ Test whether one value is _strictly greater than_ another
 export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # greaterThanOrEq (function)
 
@@ -205,7 +205,7 @@ Test whether one value is _non-strictly greater than_ another
 export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # lessThan (function)
 
@@ -217,7 +217,7 @@ Test whether one value is _strictly less than_ another
 export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # lessThanOrEq (function)
 
@@ -229,7 +229,7 @@ Test whether one value is _non-strictly less than_ another
 export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # max (function)
 
@@ -241,7 +241,7 @@ Take the maximum of two values. If they are considered equal, the first argument
 export const max = <A>(O: Ord<A>) => (x: A, y: A): A => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # min (function)
 
@@ -253,7 +253,7 @@ Take the minimum of two values. If they are considered equal, the first argument
 export const min = <A>(O: Ord<A>) => (x: A, y: A): A => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # unsafeCompare (function)
 
@@ -263,4 +263,4 @@ Added in v1.0.0
 export const unsafeCompare = (x: any, y: any): Ordering => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

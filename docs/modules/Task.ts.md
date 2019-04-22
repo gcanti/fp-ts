@@ -61,7 +61,7 @@ export const URI = ...
 export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # taskSeq (constant)
 
@@ -73,7 +73,7 @@ Like `Task` but `ap` is sequential
 export const taskSeq: typeof task = ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # delay (function)
 
@@ -83,7 +83,7 @@ Added in v1.10.0
 export const delay = <A>(millis: number, a: A): Task<A> => ...
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # fromIO (function)
 
@@ -95,7 +95,7 @@ Lifts an IO action into a Task
 export const fromIO = <A>(io: IO<A>): Task<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getMonoid (function)
 
@@ -105,7 +105,7 @@ Added in v1.0.0
 export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getRaceMonoid (function)
 
@@ -115,7 +115,7 @@ Added in v1.0.0
 export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getSemigroup (function)
 
@@ -125,7 +125,7 @@ Added in v1.0.0
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # tryCatch (function)
 
@@ -135,4 +135,4 @@ Added in v1.0.0
 export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

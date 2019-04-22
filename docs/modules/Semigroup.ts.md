@@ -44,7 +44,7 @@ Associativiy: `concat(concat(x, y), z) = concat(x, concat(y, z))`
 export interface Semigroup<A> extends Magma<A> {}
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # semigroupAll (constant)
 
@@ -56,7 +56,7 @@ Boolean semigroup under conjunction
 export const semigroupAll: Semigroup<boolean> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # semigroupAny (constant)
 
@@ -68,7 +68,7 @@ Boolean semigroup under disjunction
 export const semigroupAny: Semigroup<boolean> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # semigroupProduct (constant)
 
@@ -80,7 +80,7 @@ Number `Semigroup` under multiplication
 export const semigroupProduct: Semigroup<number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # semigroupString (constant)
 
@@ -90,7 +90,7 @@ Added in v1.0.0
 export const semigroupString: Semigroup<string> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # semigroupSum (constant)
 
@@ -102,7 +102,7 @@ Number `Semigroup` under addition
 export const semigroupSum: Semigroup<number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # semigroupVoid (constant)
 
@@ -112,7 +112,7 @@ Added in v1.0.0
 export const semigroupVoid: Semigroup<void> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fold (function)
 
@@ -122,7 +122,7 @@ Added in v1.0.0
 export const fold = <A>(S: Semigroup<A>) => (a: A, as: Array<A>): A => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getDualSemigroup (function)
 
@@ -132,7 +132,7 @@ Added in v1.0.0
 export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getFirstSemigroup (function)
 
@@ -142,7 +142,7 @@ Added in v1.0.0
 export const getFirstSemigroup = <A = never>(): Semigroup<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getFunctionSemigroup (function)
 
@@ -152,7 +152,7 @@ Added in v1.0.0
 export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getJoinSemigroup (function)
 
@@ -162,7 +162,7 @@ Added in v1.0.0
 export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getLastSemigroup (function)
 
@@ -172,7 +172,7 @@ Added in v1.0.0
 export const getLastSemigroup = <A = never>(): Semigroup<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getMeetSemigroup (function)
 
@@ -182,7 +182,7 @@ Added in v1.0.0
 export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getObjectSemigroup (function)
 
@@ -208,7 +208,7 @@ const S = getObjectSemigroup<Person>()
 assert.deepStrictEqual(S.concat({ name: 'name', age: 23 }, { name: 'name', age: 24 }), { name: 'name', age: 24 })
 ```
 
-Added in v1.4.0
+Added in v2.0.0
 
 # getStructSemigroup (function)
 
@@ -220,7 +220,7 @@ export const getStructSemigroup = <O extends { [key: string]: any }>(
 ): Semigroup<O> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getTupleSemigroup (function)
 
@@ -246,4 +246,4 @@ const S2 = getTupleSemigroup(semigroupString, semigroupSum, semigroupAll)
 assert.deepStrictEqual(S2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
 ```
 
-Added in v1.14.0
+Added in v2.0.0

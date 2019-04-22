@@ -28,7 +28,7 @@ export interface Contravariant<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Contravariant1 (interface)
 

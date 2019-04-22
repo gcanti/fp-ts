@@ -31,7 +31,7 @@ Catch an exception by providing an exception handler
 export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # error (function)
 
@@ -43,7 +43,7 @@ Create a JavaScript error, specifying a message
 export const error = (message: string): Error => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # message (function)
 
@@ -55,7 +55,7 @@ Get the error message from a JavaScript error
 export const message = (e: Error): string => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # stack (function)
 
@@ -67,7 +67,7 @@ Get the stack trace from a JavaScript error
 export const stack = (e: Error): Option<string> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # throwError (function)
 
@@ -79,7 +79,7 @@ Throw an exception
 export const throwError = <A>(e: Error): IO<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # tryCatch (function)
 
@@ -92,4 +92,4 @@ a `Right`.
 export const tryCatch = <A>(ma: IO<A>): IO<Either<Error, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

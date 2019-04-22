@@ -26,7 +26,7 @@ export interface Bifunctor<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Bifunctor2 (interface)
 

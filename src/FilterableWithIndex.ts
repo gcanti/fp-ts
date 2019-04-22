@@ -13,7 +13,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Option } from './Option'
 
 /**
- * @since 1.12.0
+ * @since 2.0.0
  */
 export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {
   readonly partitionMapWithIndex: <RL, RR, A>(

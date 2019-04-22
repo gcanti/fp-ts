@@ -11,7 +11,7 @@ import { Option } from './Option'
  *
  * - Left zero: `M.chain(M.throwError(e), f) = M.throwError(e)`
  *
- * @since 1.16.0
+ * @since 2.0.0
  */
 export interface MonadThrow<M> {
   readonly URI: M

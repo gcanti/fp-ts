@@ -31,7 +31,7 @@ import { getLeft, getRight, Option } from './Option'
 /**
  * A `Separated` type which holds `left` and `right` parts.
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Separated<A, B> {
   readonly left: A
@@ -39,7 +39,7 @@ export interface Separated<A, B> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Compactable<F> {
   readonly URI: F
@@ -150,7 +150,7 @@ export interface CompactableComposition3C1<F extends URIS3, G extends URIS, UF, 
 }
 
 /**
- * @since 1.12.0
+ * @since 2.0.0
  */
 export function getCompactableComposition<F extends URIS3, G extends URIS, UF, LF>(
   F: Functor3C<F, UF, LF>,

@@ -6,7 +6,7 @@ import { IO } from './IO'
 import { Monad, Monad1, Monad2, Monad3, Monad2C, Monad3C } from './Monad'
 
 /**
- * @since 1.10.0
+ * @since 2.0.0
  */
 export interface MonadIO<M> extends Monad<M> {
   readonly fromIO: <A>(fa: IO<A>) => HKT<M, A>

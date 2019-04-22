@@ -28,7 +28,7 @@ export interface Invariant<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Invariant1 (interface)
 

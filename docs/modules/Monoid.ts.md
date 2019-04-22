@@ -38,7 +38,7 @@ export interface Monoid<A> extends Semigroup<A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # monoidAll (constant)
 
@@ -50,7 +50,7 @@ Boolean monoid under conjunction
 export const monoidAll: Monoid<boolean> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # monoidAny (constant)
 
@@ -62,7 +62,7 @@ Boolean monoid under disjunction
 export const monoidAny: Monoid<boolean> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # monoidProduct (constant)
 
@@ -74,7 +74,7 @@ Number monoid under multiplication
 export const monoidProduct: Monoid<number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # monoidString (constant)
 
@@ -84,7 +84,7 @@ Added in v1.0.0
 export const monoidString: Monoid<string> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # monoidSum (constant)
 
@@ -96,7 +96,7 @@ Number monoid under addition
 export const monoidSum: Monoid<number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # monoidVoid (constant)
 
@@ -106,7 +106,7 @@ Added in v1.0.0
 export const monoidVoid: Monoid<void> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # unsafeMonoidArray (constant)
 
@@ -116,7 +116,7 @@ Added in v1.0.0
 export const unsafeMonoidArray: Monoid<Array<any>> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fold (function)
 
@@ -126,7 +126,7 @@ Added in v1.0.0
 export function fold<A>(M: Monoid<A>): ((as: Array<A>) => A) { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getArrayMonoid (function)
 
@@ -138,7 +138,7 @@ Added in v1.0.0
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getDualMonoid (function)
 
@@ -148,7 +148,7 @@ Added in v1.0.0
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getEndomorphismMonoid (function)
 
@@ -158,7 +158,7 @@ Added in v1.0.0
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getFunctionMonoid (function)
 
@@ -168,7 +168,7 @@ Added in v1.0.0
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getJoinMonoid (function)
 
@@ -178,7 +178,7 @@ Added in v1.0.0
 export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ...
 ```
 
-Added in v1.9.0
+Added in v2.0.0
 
 # getMeetMonoid (function)
 
@@ -188,7 +188,7 @@ Added in v1.9.0
 export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ...
 ```
 
-Added in v1.9.0
+Added in v2.0.0
 
 # getStructMonoid (function)
 
@@ -200,7 +200,7 @@ export const getStructMonoid = <O extends { [key: string]: any }>(
 ): Monoid<O> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getTupleMonoid (function)
 
@@ -226,4 +226,4 @@ const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
 assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
 ```
 
-Added in v1.0.0
+Added in v2.0.0

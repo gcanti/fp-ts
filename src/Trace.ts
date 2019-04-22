@@ -10,7 +10,7 @@ import { Lazy } from './function'
  * Log any value to the console for debugging purposes and then return a value. This will log the value's underlying
  * representation for low-level debugging
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const trace = <A>(message: unknown, out: Lazy<A>): A => {
   console.log(message) // tslint:disable-line:no-console
@@ -20,7 +20,7 @@ export const trace = <A>(message: unknown, out: Lazy<A>): A => {
 /**
  * Log any value and return it
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const spy = <A>(a: A): A => {
   return trace(a, () => a)
@@ -29,7 +29,7 @@ export const spy = <A>(a: A): A => {
 /**
  * Log a message to the console for debugging purposes and then return the unit value of the Applicative `F`
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function traceA<F extends URIS3>(F: Applicative3<F>): <U, L>(message: unknown) => Type3<F, U, L, void>
 export function traceA<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): (message: unknown) => Type3<F, U, L, void>
@@ -43,7 +43,7 @@ export function traceA<F>(F: Applicative<F>): (message: unknown) => HKT<F, void>
 /**
  * Log any value to the console and return it in `Monad` useful when one has monadic chains
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function traceM<F extends URIS3>(F: Monad3<F>): <U, L, A>(a: A) => Type3<F, U, L, A>
 export function traceM<F extends URIS3, U, L>(F: Monad3C<F, U, L>): <A>(a: A) => Type3<F, U, L, A>

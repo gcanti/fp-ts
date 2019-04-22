@@ -14,7 +14,7 @@ export const URI = 'Writer'
 export type URI = typeof URI
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Writer<W, A> {
   (): [A, W]
@@ -51,7 +51,7 @@ const map = <W, A, B>(fa: Writer<W, A>, f: (a: A) => B): Writer<W, B> => {
 /**
  * Appends a value to the accumulator
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const tell = <W>(w: W): Writer<W, void> => {
   return () => [undefined, w]
@@ -60,7 +60,7 @@ export const tell = <W>(w: W): Writer<W, void> => {
 /**
  * Modifies the result to include the changes to the accumulator
  *
- * @since 1.3.0
+ * @since 2.0.0
  */
 export const listen = <W, A>(fa: Writer<W, A>): Writer<W, [A, W]> => {
   return () => {
@@ -72,7 +72,7 @@ export const listen = <W, A>(fa: Writer<W, A>): Writer<W, [A, W]> => {
 /**
  * Applies the returned function to the accumulator
  *
- * @since 1.3.0
+ * @since 2.0.0
  */
 export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => {
   return () => {
@@ -84,7 +84,7 @@ export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => {
 /**
  * Projects a value from modifications made to the accumulator during an action
  *
- * @since 1.3.0
+ * @since 2.0.0
  */
 export const listens = <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]> => {
   return () => {
@@ -96,7 +96,7 @@ export const listens = <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A
 /**
  * Modify the final accumulator value by applying a function
  *
- * @since 1.3.0
+ * @since 2.0.0
  */
 export const censor = <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> => {
   return () => {
@@ -107,7 +107,7 @@ export const censor = <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> => 
 
 /**
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
   const of = <A>(a: A): Writer<W, A> => {
@@ -141,7 +141,7 @@ export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const writer: Functor2<URI> = {
   URI,

@@ -28,7 +28,7 @@ export interface Extend<F> extends Functor<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Extend1 (interface)
 
@@ -97,4 +97,4 @@ export function duplicate<F extends URIS>(E: Extend1<F>): <A>(ma: Type<F, A>) =>
 export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

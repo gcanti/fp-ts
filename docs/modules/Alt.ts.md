@@ -38,7 +38,7 @@ export interface Alt<F> extends Functor<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Alt1 (interface)
 

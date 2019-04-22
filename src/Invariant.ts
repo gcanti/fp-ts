@@ -1,7 +1,7 @@
 import { HKT, HKT2, HKT3, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Invariant<F> {
   readonly URI: F

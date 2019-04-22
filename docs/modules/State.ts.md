@@ -32,7 +32,7 @@ export interface State<S, A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -58,7 +58,7 @@ export const URI = ...
 export const state: Monad2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # evalState (function)
 
@@ -90,7 +90,7 @@ Get the current state
 export const get = <S>(): State<S, S> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # gets (function)
 
@@ -102,7 +102,7 @@ Get a value which depends on the current state
 export const gets = <S, A>(f: (s: S) => A): State<S, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # modify (function)
 
@@ -114,7 +114,7 @@ Modify the state by applying a function to the current state
 export const modify = <S>(f: (s: S) => S): State<S, undefined> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # put (function)
 
@@ -126,7 +126,7 @@ Set the state
 export const put = <S>(s: S): State<S, void> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # run (function)
 

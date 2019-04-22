@@ -31,7 +31,7 @@ import {
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Applicative<F> extends Apply<F> {
   readonly of: <A>(a: A) => HKT<F, A>
@@ -144,7 +144,7 @@ export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, 
  * A.ap(A.map(x, sum), y)()
  *   .then(result => assert.deepStrictEqual(result, some(3)))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function getApplicativeComposition<F extends URIS3, G extends URIS, UF, LF>(
   F: Applicative3C<F, UF, LF>,

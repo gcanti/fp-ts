@@ -28,7 +28,7 @@ export const make = <L>(l: L): Const<L, never> => {
 }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
   return {
@@ -37,7 +37,7 @@ export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => {
   return S
@@ -52,7 +52,7 @@ const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   const ap = <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
@@ -68,7 +68,7 @@ export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
   return {
@@ -78,7 +78,7 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const const_: Functor2<URI> & Contravariant2<URI> = {
   URI,

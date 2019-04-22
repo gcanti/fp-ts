@@ -32,7 +32,7 @@ export type Ordering = -1 | 0 | 1
 export const semigroupOrdering: Semigroup<Ordering> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # setoidOrdering (constant)
 
@@ -42,7 +42,7 @@ Added in v1.0.0
 export const setoidOrdering: Setoid<Ordering> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # invert (function)
 
@@ -52,7 +52,7 @@ Added in v1.0.0
 export const invert = (O: Ordering): Ordering => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # sign (function)
 
@@ -62,4 +62,4 @@ Added in v1.0.0
 export const sign = (n: number): Ordering => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

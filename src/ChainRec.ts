@@ -3,7 +3,7 @@ import { Either } from './Either'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface ChainRec<F> extends Chain<F> {
   readonly chainRec: <A, B>(a: A, f: (a: A) => HKT<F, Either<A, B>>) => HKT<F, B>
@@ -30,7 +30,7 @@ export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const tailRec = <A, B>(a: A, f: (a: A) => Either<A, B>): B => {
   let v = f(a)

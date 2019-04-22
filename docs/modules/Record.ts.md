@@ -72,7 +72,7 @@ export const URI = ...
 export const empty: Record<string, never> = ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # record (constant)
 
@@ -98,7 +98,7 @@ Added in v2.0.0
 export function collect<K extends string, A, B>(r: Record<K, A>, f: (k: K, a: A) => B): Array<B> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # elem (function)
 
@@ -108,7 +108,7 @@ Added in v1.10.0
 export function elem<A>(S: Setoid<A>): (a: A, fa: Record<string, A>) => boolean { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # every (function)
 
@@ -118,7 +118,7 @@ Added in v1.14.0
 export function every<A>(fa: Record<string, A>, predicate: (a: A) => boolean): boolean { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # filter (function)
 
@@ -129,7 +129,7 @@ export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # filterMapWithIndex (function)
 
@@ -143,7 +143,7 @@ export function filterMapWithIndex<K extends string, A, B>(
 export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # filterWithIndex (function)
 
@@ -154,7 +154,7 @@ export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: 
 export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # foldMapWithIndex (function)
 
@@ -164,7 +164,7 @@ Added in v1.14.0
 export function foldMapWithIndex<M>(M: Monoid<M>): <K extends string, A>(fa: Record<K, A>, f: (k: K, a: A) => M) => M { ... }
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # fromFoldable (function)
 
@@ -247,7 +247,7 @@ assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), array)(users, u
 })
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # getMonoid (function)
 
@@ -269,7 +269,7 @@ const M = getMonoid(semigroupSum)
 assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -279,7 +279,7 @@ Added in v1.10.0
 export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -289,7 +289,7 @@ Added in v1.10.0
 export const getShow = <A>(S: Show<A>): Show<Record<string, A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # insert (function)
 
@@ -301,7 +301,7 @@ Insert or replace a key/value pair in a map
 export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # isEmpty (function)
 
@@ -313,7 +313,7 @@ Test whether a record is empty
 export const isEmpty = (r: Record<string, unknown>): boolean => ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # isSubrecord (function)
 
@@ -325,7 +325,7 @@ Test whether one record contains all of the keys and values contained in another
 export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # keys (function)
 
@@ -347,7 +347,7 @@ Lookup the value for a key in a record
 export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # map (function)
 
@@ -357,7 +357,7 @@ Added in v1.10.0
 export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # mapWithIndex (function)
 
@@ -367,7 +367,7 @@ Added in v1.10.0
 export function mapWithIndex<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # partitionMapWithIndex (function)
 
@@ -384,7 +384,7 @@ export function partitionMapWithIndex<RL, RR, A>(
 ): Separated<Record<string, RL>, Record<string, RR>> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # partitionWithIndex (function)
 
@@ -401,7 +401,7 @@ export function partitionWithIndex<A>(
 ): Separated<Record<string, A>, Record<string, A>> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # pop (function)
 
@@ -416,7 +416,7 @@ export function pop<K extends string, KS extends string, A>(
 ): Option<[A, Record<Exclude<KS, K>, A>]> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # reduceRightWithIndex (function)
 
@@ -426,7 +426,7 @@ Added in v1.10.0
 export function reduceRightWithIndex<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B { ... }
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # reduceWithIndex (function)
 
@@ -436,7 +436,7 @@ Added in v1.12.0
 export function reduceWithIndex<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B { ... }
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # remove (function)
 
@@ -451,7 +451,7 @@ export function remove<K extends string, KS extends string, A>(
 ): Record<string extends K ? string : Exclude<KS, K>, A> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # sequence (function)
 
@@ -476,7 +476,7 @@ export function sequence<F extends URIS>(
 export function sequence<F>(F: Applicative<F>): <K extends string, A>(ta: Record<K, HKT<F, A>>) => HKT<F, Record<K, A>> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # singleton (function)
 
@@ -488,7 +488,7 @@ Create a record with one key/value pair
 export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # size (function)
 
@@ -500,7 +500,7 @@ Calculate the number of key/value pairs in a record
 export const size = (r: Record<string, unknown>): number => ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # some (function)
 
@@ -510,7 +510,7 @@ Added in v1.10.0
 export function some<A>(fa: Record<string, A>, predicate: (a: A) => boolean): boolean { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # toArray (function)
 
@@ -520,7 +520,7 @@ Added in v1.14.0
 export function toArray<K extends string, A>(d: Record<K, A>): Array<[K, A]> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # toUnfoldable (function)
 
@@ -535,7 +535,7 @@ export function toUnfoldable<F extends URIS>(
 export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A>(d: Record<K, A>) => HKT<F, [K, A]> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # traverse (function)
 
@@ -562,7 +562,7 @@ export function traverse<F>(
 ): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<K, B>> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # traverseWithIndex (function)
 
@@ -586,4 +586,4 @@ export function traverseWithIndex<F>(
 ): <K extends string, A, B>(ta: Record<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Record<K, B>> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0

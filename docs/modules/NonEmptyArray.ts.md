@@ -59,7 +59,7 @@ export interface NonEmptyArray<A> extends Array<A> {
 }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -95,7 +95,7 @@ import { cons } from 'fp-ts/lib/NonEmptyArray'
 assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # nonEmptyArray (constant)
 
@@ -109,7 +109,7 @@ export const nonEmptyArray: Monad1<URI> &
   FoldableWithIndex1<URI, number> = ...
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # snoc (constant)
 
@@ -129,7 +129,7 @@ import { snoc } from 'fp-ts/lib/NonEmptyArray'
 assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # copy (function)
 
@@ -139,7 +139,7 @@ Added in v1.16.0
 export const copy = <A>(nea: NonEmptyArray<A>): NonEmptyArray<A> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # filter (function)
 
@@ -150,7 +150,7 @@ export function filter<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refine
 export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # filterWithIndex (function)
 
@@ -163,7 +163,7 @@ export function filterWithIndex<A>(
 ): Option<NonEmptyArray<A>> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # findFirst (function)
 
@@ -174,7 +174,7 @@ export function findFirst<A, B extends A>(nea: NonEmptyArray<A>, refinement: Ref
 export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # findIndex (function)
 
@@ -184,7 +184,7 @@ Added in v1.15.0
 export function findIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # findLast (function)
 
@@ -195,7 +195,7 @@ export function findLast<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refi
 export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # findLastIndex (function)
 
@@ -205,7 +205,7 @@ Added in v1.15.0
 export function findLastIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # fromArray (function)
 
@@ -217,7 +217,7 @@ Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty ar
 export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # fromNonEmptyArray (function)
 
@@ -229,7 +229,7 @@ Builds a `NonEmptyArray` from a provably (compile time) non empty `Array`.
 export function fromNonEmptyArray<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # getSemigroup (function)
 
@@ -241,7 +241,7 @@ Builds a `Semigroup` instance for `NonEmptyArray`
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ...
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -262,7 +262,7 @@ assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
 assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -272,7 +272,7 @@ Added in v1.15.0
 export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # group (function)
 
@@ -293,7 +293,7 @@ import { ordNumber } from 'fp-ts/lib/Ord'
 assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [make(1, []), make(2, []), make(1, [1])])
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # groupBy (function)
 
@@ -317,7 +317,7 @@ assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)),
 })
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # groupSort (function)
 
@@ -338,7 +338,7 @@ import { ordNumber } from 'fp-ts/lib/Ord'
 assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [make(1, [1, 1]), make(2, [])])
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # head (function)
 
@@ -348,7 +348,7 @@ Added in v1.15.0
 export function head<A>(nea: NonEmptyArray<A>): A { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # insertAt (function)
 
@@ -358,7 +358,7 @@ Added in v1.15.0
 export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # last (function)
 
@@ -368,7 +368,7 @@ Added in v1.15.0
 export function last<A>(nea: NonEmptyArray<A>): A { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # make (function)
 
@@ -378,7 +378,7 @@ Added in v1.15.0
 export function make<A>(head: A, tail: Array<A>): NonEmptyArray<A> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # max (function)
 
@@ -388,7 +388,7 @@ Added in v1.15.0
 export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # min (function)
 
@@ -398,7 +398,7 @@ Added in v1.15.0
 export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # modifyAt (function)
 
@@ -408,7 +408,7 @@ Added in v1.15.0
 export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> { ... }
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # sort (function)
 
@@ -418,7 +418,7 @@ Added in v1.17.0
 export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # tail (function)
 
@@ -428,7 +428,7 @@ Added in v1.15.0
 export function tail<A>(nea: NonEmptyArray<A>): Array<A> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # updateAt (function)
 
@@ -438,4 +438,4 @@ Added in v1.15.0
 export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> { ... }
 ```
 
-Added in v1.15.0
+Added in v2.0.0

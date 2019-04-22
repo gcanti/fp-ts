@@ -56,7 +56,7 @@ export interface Compactable<F> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Compactable1 (interface)
 
@@ -251,7 +251,7 @@ export interface Separated<A, B> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getCompactableComposition (function)
 
@@ -296,4 +296,4 @@ export function getCompactableComposition<F, G>(
 ): CompactableComposition<F, G> { ... }
 ```
 
-Added in v1.12.0
+Added in v2.0.0

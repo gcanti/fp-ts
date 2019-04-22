@@ -37,7 +37,7 @@ export interface Monoidal<F> extends Functor<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Monoidal1 (interface)
 
@@ -105,7 +105,7 @@ export function fromApplicative<F extends URIS>(F: Applicative1<F>): Monoidal1<F
 export function fromApplicative<F>(F: Applicative<F>): Monoidal<F> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # toApplicative (function)
 
@@ -118,4 +118,4 @@ export function toApplicative<F extends URIS>(M: Monoidal1<F>): Applicative1<F>
 export function toApplicative<F>(M: Monoidal<F>): Applicative<F> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

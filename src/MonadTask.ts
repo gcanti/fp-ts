@@ -6,7 +6,7 @@ import { Task } from './Task'
 import { Monad, Monad1, Monad2, Monad3, Monad2C, Monad3C } from './Monad'
 
 /**
- * @since 1.10.0
+ * @since 2.0.0
  */
 export interface MonadTask<M> extends Monad<M> {
   readonly fromTask: <A>(fa: Task<A>) => HKT<M, A>

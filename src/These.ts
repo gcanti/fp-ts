@@ -59,26 +59,26 @@ export interface Both<L, A> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export type These<L, A> = Left<L> | Right<A> | Both<L, A>
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const left = <L>(left: L): These<L, never> => {
   return { _tag: 'Left', left }
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const right = <A>(right: A): These<never, A> => {
   return { _tag: 'Right', right }
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const both = <L, A>(left: L, right: A): These<L, A> => {
   return { _tag: 'Both', left, right }
@@ -104,7 +104,7 @@ export function fold<L, A, R>(
 }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> => {
   return {
@@ -114,7 +114,7 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
   return fromEquals(
@@ -128,7 +128,7 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => {
   return {
@@ -160,7 +160,7 @@ const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
 const of = right
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
   const ap = <A, B>(fab: These<L, (a: A) => B>, fa: These<L, A>) => {
@@ -226,7 +226,7 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ta: These<L, HKT<F, A>>): HKT<
  * assert.deepStrictEqual(to(right(2)), ['a', 2])
  * assert.deepStrictEqual(to(both('b', 2)), ['b', 2])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const toTuple = <L, A>(defaultLeft: L, defaultRight: A) => (fa: These<L, A>): [L, A] => {
   return isLeft(fa) ? [fa.left, defaultRight] : isRight(fa) ? [defaultLeft, fa.right] : [fa.left, fa.right]
@@ -243,7 +243,7 @@ export const toTuple = <L, A>(defaultLeft: L, defaultRight: A) => (fa: These<L, 
  * assert.deepStrictEqual(getLeft(right(1)), none)
  * assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getLeft = <L, A>(fa: These<L, A>): O.Option<L> => {
   return isLeft(fa) ? O.some(fa.left) : isRight(fa) ? O.none : O.some(fa.left)
@@ -260,7 +260,7 @@ export const getLeft = <L, A>(fa: These<L, A>): O.Option<L> => {
  * assert.deepStrictEqual(getRight(right(1)), some(1))
  * assert.deepStrictEqual(getRight(both('a', 1)), some(1))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getRight = <L, A>(fa: These<L, A>): O.Option<A> => {
   return isLeft(fa) ? O.none : isRight(fa) ? O.some(fa.right) : O.some(fa.right)
@@ -269,7 +269,7 @@ export const getRight = <L, A>(fa: These<L, A>): O.Option<A> => {
 /**
  * Returns `true` if the these is an instance of `Left`, `false` otherwise
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const isLeft = <L, A>(fa: These<L, A>): fa is Left<L> => {
   return fa._tag === 'Left'
@@ -278,7 +278,7 @@ export const isLeft = <L, A>(fa: These<L, A>): fa is Left<L> => {
 /**
  * Returns `true` if the these is an instance of `Right`, `false` otherwise
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const isRight = <L, A>(fa: These<L, A>): fa is Right<A> => {
   return fa._tag === 'Right'
@@ -287,7 +287,7 @@ export const isRight = <L, A>(fa: These<L, A>): fa is Right<A> => {
 /**
  * Returns `true` if the these is an instance of `Both`, `false` otherwise
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
   return fa._tag === 'Both'
@@ -301,7 +301,7 @@ export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => {
  * assert.deepStrictEqual(leftOrBoth('a', none), left('a'))
  * assert.deepStrictEqual(leftOrBoth('a', some(1)), both('a', 1))
  *
- * @since 1.13.0
+ * @since 2.0.0
  */
 export const leftOrBoth = <L, A>(defaultLeft: L, ma: O.Option<A>): These<L, A> => {
   return O.isNone(ma) ? left(defaultLeft) : both(defaultLeft, ma.value)
@@ -315,7 +315,7 @@ export const leftOrBoth = <L, A>(defaultLeft: L, ma: O.Option<A>): These<L, A> =
  * assert.deepStrictEqual(rightOrBoth(1, none), right(1))
  * assert.deepStrictEqual(rightOrBoth(1, some('a')), both('a', 1))
  *
- * @since 1.13.0
+ * @since 2.0.0
  */
 export const rightOrBoth = <L, A>(defaultRight: A, ml: O.Option<L>): These<L, A> => {
   return O.isNone(ml) ? right(defaultRight) : both(ml.value, defaultRight)
@@ -332,7 +332,7 @@ export const rightOrBoth = <L, A>(defaultRight: A, ml: O.Option<L>): These<L, A>
  * assert.deepStrictEqual(getLeftOnly(right(1)), none)
  * assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
  *
- * @since 1.13.0
+ * @since 2.0.0
  */
 export const getLeftOnly = <L, A>(fa: These<L, A>): O.Option<L> => {
   return isLeft(fa) ? O.some(fa.left) : O.none
@@ -350,7 +350,7 @@ export const getLeftOnly = <L, A>(fa: These<L, A>): O.Option<L> => {
  * assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
  *
  *
- * @since 1.13.0
+ * @since 2.0.0
  */
 export const getRightOnly = <L, A>(fa: These<L, A>): O.Option<A> => {
   return isRight(fa) ? O.some(fa.right) : O.none
@@ -368,7 +368,7 @@ export const getRightOnly = <L, A>(fa: These<L, A>): O.Option<A> => {
  * assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
  * assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
  *
- * @since 1.13.0
+ * @since 2.0.0
  */
 export const fromOptions = <L, A>(fl: O.Option<L>, fa: O.Option<A>): O.Option<These<L, A>> => {
   return O.foldL(
@@ -386,14 +386,14 @@ export const fromOptions = <L, A>(fl: O.Option<L>, fa: O.Option<A>): O.Option<Th
  * assert.deepStrictEqual(fromEither(E.left('a')), left('a'))
  * assert.deepStrictEqual(fromEither(E.right(1)), right(1))
  *
- * @since 1.13.0
+ * @since 2.0.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => {
   return fa
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,

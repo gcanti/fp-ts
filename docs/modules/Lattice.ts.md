@@ -27,4 +27,4 @@ A `Lattice` must satisfy the following in addition to `JoinSemilattice` and `Mee
 export interface Lattice<A> extends JoinSemilattice<A>, MeetSemilattice<A> {}
 ```
 
-Added in v1.4.0
+Added in v2.0.0

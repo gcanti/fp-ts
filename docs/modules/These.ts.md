@@ -100,7 +100,7 @@ export interface Right<A> {
 export type These<L, A> = Left<L> | Right<A> | Both<L, A>
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -126,7 +126,7 @@ export const URI = ...
 export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # both (function)
 
@@ -136,7 +136,7 @@ Added in v1.0.0
 export const both = <L, A>(left: L, right: A): These<L, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fold (function)
 
@@ -171,7 +171,7 @@ assert.deepStrictEqual(fromEither(E.left('a')), left('a'))
 assert.deepStrictEqual(fromEither(E.right(1)), right(1))
 ```
 
-Added in v1.13.0
+Added in v2.0.0
 
 # fromOptions (function)
 
@@ -195,7 +195,7 @@ assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
 assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
 ```
 
-Added in v1.13.0
+Added in v2.0.0
 
 # getLeft (function)
 
@@ -218,7 +218,7 @@ assert.deepStrictEqual(getLeft(right(1)), none)
 assert.deepStrictEqual(getLeft(both('a', 1)), some('a'))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getLeftOnly (function)
 
@@ -241,7 +241,7 @@ assert.deepStrictEqual(getLeftOnly(right(1)), none)
 assert.deepStrictEqual(getLeftOnly(both('a', 1)), none)
 ```
 
-Added in v1.13.0
+Added in v2.0.0
 
 # getMonad (function)
 
@@ -251,7 +251,7 @@ Added in v1.13.0
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getRight (function)
 
@@ -274,7 +274,7 @@ assert.deepStrictEqual(getRight(right(1)), some(1))
 assert.deepStrictEqual(getRight(both('a', 1)), some(1))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getRightOnly (function)
 
@@ -297,7 +297,7 @@ assert.deepStrictEqual(getRightOnly(right(1)), some(1))
 assert.deepStrictEqual(getRightOnly(both('a', 1)), none)
 ```
 
-Added in v1.13.0
+Added in v2.0.0
 
 # getSemigroup (function)
 
@@ -307,7 +307,7 @@ Added in v1.13.0
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -317,7 +317,7 @@ Added in v1.0.0
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -327,7 +327,7 @@ Added in v1.0.0
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # isBoth (function)
 
@@ -339,7 +339,7 @@ Returns `true` if the these is an instance of `Both`, `false` otherwise
 export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # isLeft (function)
 
@@ -351,7 +351,7 @@ Returns `true` if the these is an instance of `Left`, `false` otherwise
 export const isLeft = <L, A>(fa: These<L, A>): fa is Left<L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # isRight (function)
 
@@ -363,7 +363,7 @@ Returns `true` if the these is an instance of `Right`, `false` otherwise
 export const isRight = <L, A>(fa: These<L, A>): fa is Right<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # left (function)
 
@@ -373,7 +373,7 @@ Added in v1.0.0
 export const left = <L>(left: L): These<L, never> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # leftOrBoth (function)
 
@@ -393,7 +393,7 @@ assert.deepStrictEqual(leftOrBoth('a', none), left('a'))
 assert.deepStrictEqual(leftOrBoth('a', some(1)), both('a', 1))
 ```
 
-Added in v1.13.0
+Added in v2.0.0
 
 # right (function)
 
@@ -403,7 +403,7 @@ Added in v1.13.0
 export const right = <A>(right: A): These<never, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # rightOrBoth (function)
 
@@ -423,7 +423,7 @@ assert.deepStrictEqual(rightOrBoth(1, none), right(1))
 assert.deepStrictEqual(rightOrBoth(1, some('a')), both('a', 1))
 ```
 
-Added in v1.13.0
+Added in v2.0.0
 
 # toTuple (function)
 
@@ -444,4 +444,4 @@ assert.deepStrictEqual(to(right(2)), ['a', 2])
 assert.deepStrictEqual(to(both('b', 2)), ['b', 2])
 ```
 
-Added in v1.0.0
+Added in v2.0.0

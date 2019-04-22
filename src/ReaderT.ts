@@ -44,7 +44,7 @@ export interface ReaderT3<M extends URIS3> {
 }
 
 /**
- * @since 1.2.0
+ * @since 2.0.0
  */
 export function fromReader<F extends URIS3>(
   F: Applicative3<F>
@@ -57,7 +57,7 @@ export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export function getReaderT<M extends URIS3>(M: Monad3<M>): ReaderT3<M>
 export function getReaderT<M extends URIS2>(M: Monad2<M>): ReaderT2<M>

@@ -39,7 +39,7 @@ import { newIORef } from 'fp-ts/lib/IORef'
 assert.strictEqual(run(io.chain(newIORef(1), ref => io.chain(ref.write(2), () => ref.read))), 2)
 ```
 
-Added in v1.8.0
+Added in v2.0.0
 
 ## write (method)
 
@@ -49,7 +49,7 @@ Added in v1.8.0
 write(a: A): IO<void> { ... }
 ```
 
-Added in v1.8.0
+Added in v2.0.0
 
 ## modify (method)
 
@@ -59,7 +59,7 @@ Added in v1.8.0
 modify(f: (a: A) => A): IO<void> { ... }
 ```
 
-Added in v1.8.0
+Added in v2.0.0
 
 # newIORef (function)
 
@@ -69,4 +69,4 @@ Added in v1.8.0
 export const newIORef = <A>(a: A): IO<IORef<A>> => ...
 ```
 
-Added in v1.8.0
+Added in v2.0.0

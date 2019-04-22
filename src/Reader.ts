@@ -19,7 +19,7 @@ export const URI = 'Reader'
 export type URI = typeof URI
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Reader<E, A> {
   (e: E): A
@@ -51,7 +51,7 @@ const chain = <E, A, B>(fa: Reader<E, A>, f: (a: A) => Reader<E, B>): Reader<E, 
 /**
  * reads the current context
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const ask = <E>(): Reader<E, E> => {
   return identity
@@ -60,7 +60,7 @@ export const ask = <E>(): Reader<E, E> => {
 /**
  * Projects a value from the global context in a Reader
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
   return f
@@ -69,7 +69,7 @@ export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
 /**
  * changes the value of the local context during the execution of the action `fa`
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const local = <E, A, D>(fa: Reader<E, A>, f: (d: D) => E): Reader<D, A> => {
   return e => fa(f(e))
@@ -100,7 +100,7 @@ const right = <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => {
   return {
@@ -109,7 +109,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => 
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => {
   return {
@@ -119,7 +119,7 @@ export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,

@@ -42,7 +42,7 @@ export interface Apply<F> extends Functor<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Apply1 (interface)
 
@@ -157,7 +157,7 @@ assert.deepStrictEqual(
 )
 ```
 
-Added in v1.15.0
+Added in v2.0.0
 
 # sequenceT (function)
 
@@ -210,4 +210,4 @@ assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
 assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
 ```
 
-Added in v1.5.0
+Added in v2.0.0

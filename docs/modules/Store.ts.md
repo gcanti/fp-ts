@@ -30,7 +30,7 @@ export interface Store<S, A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -56,7 +56,7 @@ export const URI = ...
 export const store: Comonad2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # experiment (function)
 
@@ -77,7 +77,7 @@ export function experiment<F extends URIS>(
 export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # peeks (function)
 
@@ -89,7 +89,7 @@ Extract a value from a position which depends on the current position
 export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # seek (function)
 
@@ -111,4 +111,4 @@ Reposition the focus at the specified position, which depends on the current pos
 export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

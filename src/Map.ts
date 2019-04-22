@@ -32,7 +32,7 @@ export const URI = 'Map'
 export type URI = typeof URI
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> => {
   return {
@@ -52,21 +52,21 @@ export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> => {
 /**
  * Calculate the number of key/value pairs in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const size = <K, A>(d: Map<K, A>): number => d.size
 
 /**
  * Test whether or not a map is empty
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const isEmpty = <K, A>(d: Map<K, A>): boolean => d.size === 0
 
 /**
  * Test whether or not a key exists in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
   const lookupS = lookup(S)
@@ -76,7 +76,7 @@ export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) =>
 /**
  * Test whether or not a value is a member of a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const elem = <A>(S: Setoid<A>) => <K>(a: A, m: Map<K, A>): boolean => {
   const values = m.values()
@@ -93,19 +93,19 @@ export const elem = <A>(S: Setoid<A>) => <K>(a: A, m: Map<K, A>): boolean => {
 /**
  * Get a sorted array of the keys contained in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => Array.from(m.keys()).sort(O.compare)
 
 /**
  * Get a sorted array of the values contained in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const values = <A>(O: Ord<A>): (<K>(m: Map<K, A>) => Array<A>) => m => Array.from(m.values()).sort(O.compare)
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B>) => {
   const keysO = keys(O)
@@ -122,7 +122,7 @@ export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => 
 /**
  * Get a sorted of the key/value pairs contained in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => {
   const collectO = collect(O)
@@ -132,7 +132,7 @@ export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => {
 /**
  * Unfolds a map into a list of key/value pairs
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export function toUnfoldable<K, F extends URIS>(
   O: Ord<K>,
@@ -151,7 +151,7 @@ export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d:
 /**
  * Insert or replace a key/value pair in a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => {
   const lookupS = lookupWithKey(S)
@@ -173,7 +173,7 @@ export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K
 /**
  * Delete a key and value from a map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => {
   const lookupS = lookupWithKey(S)
@@ -191,7 +191,7 @@ export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) 
 /**
  * Delete a key and value from a map, returning the value as well as the subsequent map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => {
   const lookupS = lookup(S)
@@ -203,7 +203,7 @@ export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map
  * Lookup the value for a key in a `Map`.
  * If the result is a `Some`, the existing key is also returned.
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => {
   const entries = m.entries()
@@ -220,7 +220,7 @@ export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Optio
 /**
  * Lookup the value for a key in a `Map`.
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => {
   const lookupWithKeyS = lookupWithKey(S)
@@ -230,7 +230,7 @@ export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) 
 /**
  * Test whether or not one Map contains all of the keys and values contained in another Map
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => {
   const lookupWithKeyS = lookupWithKey(SK)
@@ -249,12 +249,12 @@ export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const empty = new Map<never, never>()
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>> => {
   const isSubmap_ = isSubmap(SK, SA)
@@ -264,7 +264,7 @@ export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>>
 /**
  * Gets `Monoid` instance for Maps given `Semigroup` instance for their values
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => {
   const lookupWithKeyS = lookupWithKey(SK)
@@ -289,12 +289,12 @@ export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, 
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const filter = <K, A>(fa: Map<K, A>, p: Predicate<A>): Map<K, A> => filterWithIndex(fa, (_, a) => p(a))
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> => {
   const m = new Map<K, B>()
@@ -308,12 +308,12 @@ const mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> =
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const _map = <K, A, B>(fa: Map<K, A>, f: (a: A) => B): Map<K, B> => mapWithIndex(fa, (_, a) => f(a))
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const reduce = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (b: B, a: A) => B) => B) => {
   const reduceWithIndexO = reduceWithIndex(O)
@@ -321,7 +321,7 @@ const reduce = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (b: B, a: A) => B
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (a: A) => M) => M) => M => {
   const foldMapWithIndexOM = foldMapWithIndex(O)(M)
@@ -329,7 +329,7 @@ const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (a: 
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const reduceRight = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B) => B) => B) => {
   const reduceRightWithIndexO = reduceRightWithIndex(O)
@@ -337,7 +337,7 @@ const reduceRight = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B)
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const reduceWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, b: B, a: A) => B) => B) => {
   const keysO = keys(O)
@@ -354,7 +354,7 @@ const reduceWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, b
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const foldMapWithIndex = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (k: K, a: A) => M) => M) => {
   const keysO = keys(O)
@@ -371,7 +371,7 @@ const foldMapWithIndex = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const reduceRightWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B) => B) => {
   const keysO = keys(O)
@@ -390,14 +390,14 @@ const reduceRightWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k:
 /**
  * Create a map with one key/value pair
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const singleton = <K, A>(k: K, a: A): Map<K, A> => {
   return new Map<K, A>([[k, a]])
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const traverseWithIndex = <F>(
   F: Applicative<F>
@@ -415,7 +415,7 @@ const traverseWithIndex = <F>(
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const traverse = <F>(F: Applicative<F>): (<K, A, B>(ta: Map<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Map<K, B>>) => {
   const traverseWithIndexF = traverseWithIndex(F)
@@ -423,7 +423,7 @@ const traverse = <F>(F: Applicative<F>): (<K, A, B>(ta: Map<K, A>, f: (a: A) => 
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const sequence = <F>(F: Applicative<F>): (<K, A>(ta: Map<K, HKT<F, A>>) => HKT<F, Map<K, A>>) => {
   const traverseWithIndexF = traverseWithIndex(F)
@@ -431,7 +431,7 @@ const sequence = <F>(F: Applicative<F>): (<K, A>(ta: Map<K, HKT<F, A>>) => HKT<F
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
   const m = new Map<K, A>()
@@ -447,19 +447,19 @@ const compact = <K, A>(fa: Map<K, Option<A>>): Map<K, A> => {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const partitionMap = <K, RL, RR, A>(fa: Map<K, A>, f: (a: A) => Either<RL, RR>): Separated<Map<K, RL>, Map<K, RR>> =>
   partitionMapWithIndex(fa, (_, a) => f(a))
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const partition = <K, A>(fa: Map<K, A>, p: Predicate<A>): Separated<Map<K, A>, Map<K, A>> =>
   partitionWithIndex(fa, (_, a) => p(a))
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const separate = <K, RL, RR>(fa: Map<K, Either<RL, RR>>): Separated<Map<K, RL>, Map<K, RR>> => {
   const left = new Map<K, RL>()
@@ -481,7 +481,7 @@ const separate = <K, RL, RR>(fa: Map<K, Either<RL, RR>>): Separated<Map<K, RL>, 
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const wither = <F>(
   F: Applicative<F>
@@ -491,7 +491,7 @@ const wither = <F>(
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const wilt = <F>(
   F: Applicative<F>
@@ -504,14 +504,14 @@ const wilt = <F>(
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const filterMap = <K, A, B>(fa: Map<K, A>, f: (a: A) => Option<B>): Map<K, B> => {
   return filterMapWithIndex(fa, (_, a) => f(a))
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const partitionMapWithIndex = <K, RL, RR, A>(
   fa: Map<K, A>,
@@ -537,7 +537,7 @@ const partitionMapWithIndex = <K, RL, RR, A>(
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const partitionWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Separated<Map<K, A>, Map<K, A>> => {
   const left = new Map<K, A>()
@@ -559,7 +559,7 @@ const partitionWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Se
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>): Map<K, B> => {
   const m = new Map<K, B>()
@@ -576,7 +576,7 @@ const filterMapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => Option<B>
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K, A> => {
   const m = new Map<K, A>()
@@ -595,7 +595,7 @@ const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K
  * Create a map from a foldable collection of key/value pairs, using the
  * specified `Magma` to combine values for duplicate keys.
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export function fromFoldable<F extends URIS3, K, A>(
   S: Setoid<K>,
@@ -629,7 +629,7 @@ export function fromFoldable<F, K, A>(S: Setoid<K>, M: Magma<A>, F: Foldable<F>)
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const compactable: Compactable2<URI> = {
   URI,
@@ -638,7 +638,7 @@ const compactable: Compactable2<URI> = {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const functor: Functor2<URI> = {
   URI,
@@ -646,7 +646,7 @@ const functor: Functor2<URI> = {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => {
   return {
@@ -657,7 +657,7 @@ const getFunctorWithIndex = <K>(): FunctorWithIndex2C<URI, K, K> => {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
   return {
@@ -670,7 +670,7 @@ const getFoldable = <K>(O: Ord<K>): Foldable2C<URI, K> => {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
   return {
@@ -682,7 +682,7 @@ const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const filterable: Filterable2<URI> = {
   ...compactable,
@@ -694,7 +694,7 @@ const filterable: Filterable2<URI> = {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> => {
   return {
@@ -708,7 +708,7 @@ export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> =>
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
   return {
@@ -721,7 +721,7 @@ const getTraversable = <K>(O: Ord<K>): Traversable2C<URI, K> => {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => {
   return {
@@ -733,7 +733,7 @@ export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => {
   return {
@@ -745,7 +745,7 @@ export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<UR
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const map: Filterable2<URI> = {
   URI,

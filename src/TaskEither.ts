@@ -106,45 +106,45 @@ export function orElse<L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M,
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function right<A>(fa: Task<A>): TaskEither<never, A> {
   return task.map(fa, E.right)
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function left<L>(fl: Task<L>): TaskEither<L, never> {
   return task.map(fl, E.left)
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const fromEither: <L, A>(fa: E.Either<L, A>) => TaskEither<L, A> = task.of
 
 /**
- * @since 1.5.0
+ * @since 2.0.0
  */
 export function fromIO<A>(fa: IO<A>): TaskEither<never, A> {
   return right(T.fromIO(fa))
 }
 
 /**
- * @since 1.3.0
+ * @since 2.0.0
  */
 export function fromLeft<L>(l: L): TaskEither<L, never> {
   return fromEither(E.left(l))
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = T.fromIO
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
@@ -157,21 +157,21 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 }
 
 /**
- * @since 1.9.0
+ * @since 2.0.0
  */
 export function getSemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> {
   return T.getSemigroup(E.getSemigroup<L, A>(S))
 }
 
 /**
- * @since 1.9.0
+ * @since 2.0.0
  */
 export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> {
   return T.getSemigroup(E.getApplySemigroup<L, A>(S))
 }
 
 /**
- * @since 1.9.0
+ * @since 2.0.0
  */
 export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> {
   return {
@@ -207,7 +207,7 @@ export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> {
  *   })
  *
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function tryCatch<L, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => L): TaskEither<L, A> {
   return T.tryCatch(f, onRejected)
@@ -239,7 +239,7 @@ export function tryCatch<L, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown
  * assert.strictEqual(stat.length, 0)
  *
  *
- * @since 1.5.0
+ * @since 2.0.0
  */
 export function taskify<L, R>(f: (cb: (e: L | null | undefined, r?: R) => void) => void): () => TaskEither<L, R>
 export function taskify<A, L, R>(
@@ -280,7 +280,7 @@ export function attempt<L, A>(ma: TaskEither<L, A>): TaskEither<L, E.Either<L, A
  * release action is called regardless of whether the body action throws or
  * returns.
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export function bracket<L, A, B>(
   acquire: TaskEither<L, A>,
@@ -295,7 +295,7 @@ export function bracket<L, A, B>(
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const taskEither: Monad2<URI> &
   Bifunctor2<URI> &
@@ -320,7 +320,7 @@ export const taskEither: Monad2<URI> &
 /**
  * Like `TaskEither` but `ap` is sequential
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const taskEitherSeq: typeof taskEither = {
   ...taskEither,

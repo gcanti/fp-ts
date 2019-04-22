@@ -41,7 +41,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Filterable<F> extends Functor<F>, Compactable<F> {
   /**
@@ -63,7 +63,7 @@ export interface Filterable<F> extends Functor<F>, Compactable<F> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F> {
   readonly partitionMap: <RL, RR, A>(fa: Type<F, A>, f: (a: A) => Either<RL, RR>) => Separated<Type<F, RL>, Type<F, RR>>
@@ -73,7 +73,7 @@ export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<F> {
   readonly partitionMap: <RL, RR, L, A>(
@@ -86,7 +86,7 @@ export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Filterable2C<F extends URIS2, L> extends Functor2C<F, L>, Compactable2C<F, L> {
   readonly partitionMap: <RL, RR, A>(
@@ -99,7 +99,7 @@ export interface Filterable2C<F extends URIS2, L> extends Functor2C<F, L>, Compa
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<F> {
   readonly partitionMap: <RL, RR, U, L, A>(
@@ -115,7 +115,7 @@ export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>, Compactable3C<F, U, L> {
   readonly partitionMap: <RL, RR, A>(
@@ -264,7 +264,7 @@ export interface FilterableComposition3C1<F extends URIS3, G extends URIS, UF, L
 }
 
 /**
- * @since 1.12.0
+ * @since 2.0.0
  */
 export function getFilterableComposition<F extends URIS3, G extends URIS, UF, LF>(
   F: Functor3C<F, UF, LF>,

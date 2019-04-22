@@ -104,7 +104,7 @@ export interface Right<A> {
 export type Either<L, A> = Left<L> | Right<A>
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -137,7 +137,7 @@ export const either: Monad2<URI> &
   MonadThrow2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # filterOrElse (function)
 
@@ -225,7 +225,7 @@ export function fromPredicate<L, A, B extends A>(
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getApplyMonoid (function)
 
@@ -235,7 +235,7 @@ Added in v1.0.0
 export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => ...
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getApplySemigroup (function)
 
@@ -260,7 +260,7 @@ assert.deepStrictEqual(S.concat(right(1), left('b')), left('b'))
 assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getCompactable (function)
 
@@ -272,7 +272,7 @@ Builds `Compactable` instance for `Either` given `Monoid` for the left side
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> { ... }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getFilterable (function)
 
@@ -284,7 +284,7 @@ Builds `Filterable` instance for `Either` given `Monoid` for the left side
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> { ... }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getOrElse (function)
 
@@ -330,7 +330,7 @@ assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
 assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -340,7 +340,7 @@ Added in v1.7.0
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -350,7 +350,7 @@ Added in v1.0.0
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # getWitherable (function)
 
@@ -362,7 +362,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> { ... }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # isLeft (function)
 
@@ -374,7 +374,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 export const isLeft = <L, A>(ma: Either<L, A>): ma is Left<L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # isRight (function)
 
@@ -386,7 +386,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 export const isRight = <L, A>(ma: Either<L, A>): ma is Right<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # left (function)
 
@@ -399,7 +399,7 @@ structure
 export const left = <L>(l: L): Either<L, never> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # mapLeft (function)
 
@@ -440,7 +440,7 @@ assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
 assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # right (function)
 
@@ -453,7 +453,7 @@ of this structure
 export const right = <A>(a: A): Either<never, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # stringifyJSON (function)
 
@@ -476,7 +476,7 @@ circular.ref = circular
 assert.deepStrictEqual(stringifyJSON(circular, toError), left(new TypeError('Converting circular structure to JSON')))
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # swap (function)
 
@@ -498,7 +498,7 @@ Default value for the `onError` argument of `tryCatch`
 export const toError = (e: unknown): Error => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # tryCatch (function)
 
@@ -531,4 +531,4 @@ assert.deepStrictEqual(head([]), left(new Error('empty array')))
 assert.deepStrictEqual(head([1, 2, 3]), right(1))
 ```
 
-Added in v1.11.0
+Added in v2.0.0
