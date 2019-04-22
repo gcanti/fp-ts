@@ -183,10 +183,10 @@ the provided default as a `Left`
 **Signature**
 
 ```ts
-export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> => ...
+export const fromNullable = <L, A>(a: A | null | undefined, l: L): Either<L, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fromOption (function)
 
@@ -196,10 +196,10 @@ the provided default as a `Left`
 **Signature**
 
 ```ts
-export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => ...
+export const fromOption = <L, A>(fa: Option<A>, l: L): Either<L, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fromOptionL (function)
 
@@ -208,10 +208,10 @@ Lazy version of `fromOption`
 **Signature**
 
 ```ts
-export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => ...
+export const fromOptionL = <L, A>(fa: Option<A>, f: () => L): Either<L, A> => ...
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # fromPredicate (function)
 
