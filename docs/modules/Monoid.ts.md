@@ -123,7 +123,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const fold = <A>(M: Monoid<A>): ((as: Array<A>) => A) => ...
+export function fold<A>(M: Monoid<A>): ((as: Array<A>) => A) { ... }
 ```
 
 Added in v1.0.0
