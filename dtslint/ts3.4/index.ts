@@ -3,7 +3,6 @@ import * as Apy from '../../src/Apply'
 import * as A from '../../src/Array'
 import * as C from '../../src/Const'
 import * as E from '../../src/Either'
-import * as F from '../../src/Functor'
 import * as H from '../../src/HKT'
 import * as O from '../../src/Option'
 import * as OT from '../../src/OptionT'
@@ -23,22 +22,7 @@ import * as Ring from '../../src/Ring'
 import * as Field from '../../src/Field'
 import * as T from '../../src/Task'
 
-const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
-
-//
-// Functor
-//
-
-// lift
-
-F.lift(O.option)(double) // $ExpectType (fa: Option<number>) => Option<number>
-F.lift(E.either)(double) // $ExpectType <L>(fa: Either<L, number>) => Either<L, number>
-F.lift(RTE.readerTaskEither)(double) // $ExpectType <U, L>(fa: ReaderTaskEither<U, L, number>) => ReaderTaskEither<U, L, number>
-declare const EitherFunctor2C: F.Functor2C<'Either', string>
-F.lift(EitherFunctor2C)(double) // $ExpectType (fa: Either<string, number>) => Either<string, number>
-declare const ReaderTaskEitherFunctor3C: F.Functor3C<'ReaderTaskEither', string, boolean>
-F.lift(ReaderTaskEitherFunctor3C)(double) // $ExpectType (fa: ReaderTaskEither<string, boolean, number>) => ReaderTaskEither<string, boolean, number>
 
 //
 // Apply

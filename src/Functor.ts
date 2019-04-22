@@ -9,7 +9,6 @@
  * 1. Identity: `F.map(fa, a => a) = fa`
  * 2. Composition: `F.map(fa, a => bc(ab(a))) = F.map(F.map(fa, ab), bc)`
  */
-import { constant } from './function'
 import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
@@ -87,90 +86,6 @@ export interface FunctorComposition22C<F extends URIS2, G extends URIS2, LG> {
 
 export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> {
   readonly map: <A, B>(fa: Type3<F, UF, LF, Type<G, A>>, f: (a: A) => B) => Type3<F, UF, LF, Type<G, B>>
-}
-
-/**
- * Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
- *
- * @since 1.0.0
- */
-export function lift<F extends URIS3>(
-  F: Functor3<F>
-): <A, B>(f: (a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-export function lift<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(f: (a: A) => B) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-export function lift<F extends URIS2>(
-  F: Functor2<F>
-): <A, B>(f: (a: A) => B) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
-export function lift<F extends URIS2, L>(
-  F: Functor2C<F, L>
-): <A, B>(f: (a: A) => B) => (fa: Type2<F, L, A>) => Type2<F, L, B>
-export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Type<F, A>) => Type<F, B>
-export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>
-export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => F.map(fa, f)
-}
-
-/**
- * Ignore the return value of a computation, using the specified return value instead (`<$`)
- *
- * @since 1.0.0
- */
-export function voidRight<F extends URIS3>(
-  F: Functor3<F>
-): <U, L, A, B>(a: A, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
-export function voidRight<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(a: A, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
-export function voidRight<F extends URIS2>(F: Functor2<F>): <L, A, B>(a: A, fb: Type2<F, L, B>) => Type2<F, L, A>
-export function voidRight<F extends URIS2, L>(F: Functor2C<F, L>): <A, B>(a: A, fb: Type2<F, L, B>) => Type2<F, L, A>
-export function voidRight<F extends URIS>(F: Functor1<F>): <A, B>(a: A, fb: Type<F, B>) => Type<F, A>
-export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<F, A>
-export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<F, A> {
-  return (a, fb) => F.map(fb, constant(a))
-}
-
-/**
- * A version of `voidRight` with its arguments flipped (`$>`)
- *
- * @since 1.0.0
- */
-export function voidLeft<F extends URIS3>(
-  F: Functor3<F>
-): <U, L, A, B>(fa: Type3<F, U, L, A>, b: B) => Type3<F, U, L, B>
-export function voidLeft<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(fa: Type3<F, U, L, A>, b: B) => Type3<F, U, L, B>
-export function voidLeft<F extends URIS2>(F: Functor2<F>): <L, A, B>(fa: Type2<F, L, A>, b: B) => Type2<F, L, B>
-export function voidLeft<F extends URIS2, L>(F: Functor2C<F, L>): <A, B>(fa: Type2<F, L, A>, b: B) => Type2<F, L, B>
-export function voidLeft<F extends URIS>(F: Functor1<F>): <A, B>(fa: Type<F, A>, b: B) => Type<F, B>
-export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F, B>
-export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F, B> {
-  return (fa, b) => F.map(fa, constant(b))
-}
-
-/**
- * Apply a value in a computational context to a value in no context. Generalizes `flip`
- *
- * @since 1.0.0
- */
-export function flap<F extends URIS3>(
-  functor: Functor3<F>
-): <U, L, A, B>(a: A, ff: Type3<F, U, L, (a: A) => B>) => Type3<F, U, L, B>
-export function flap<F extends URIS3, U, L>(
-  functor: Functor3C<F, U, L>
-): <A, B>(a: A, ff: Type3<F, U, L, (a: A) => B>) => Type3<F, U, L, B>
-export function flap<F extends URIS2>(
-  functor: Functor2<F>
-): <L, A, B>(a: A, ff: Type2<F, L, (a: A) => B>) => Type2<F, L, B>
-export function flap<F extends URIS2, L>(
-  functor: Functor2C<F, L>
-): <A, B>(a: A, ff: Type2<F, L, (a: A) => B>) => Type2<F, L, B>
-export function flap<F extends URIS>(functor: Functor1<F>): <A, B>(a: A, ff: Type<F, (a: A) => B>) => Type<F, B>
-export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => B>) => HKT<F, B>
-export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => B>) => HKT<F, B> {
-  return (a, ff) => functor.map(ff, f => f(a))
 }
 
 /**
