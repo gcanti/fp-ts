@@ -102,18 +102,19 @@ sumLifted(some(1), none) // none
 - [exists (function)](#exists-function)
 - [fold (function)](#fold-function)
 - [foldL (function)](#foldl-function)
-- [fromEither (function)](#fromeither-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getFirstMonoid (function)](#getfirstmonoid-function)
 - [getLastMonoid (function)](#getlastmonoid-function)
+- [getLeft (function)](#getleft-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getOrElse (function)](#getorelse-function)
 - [getOrElseL (function)](#getorelsel-function)
 - [getOrd (function)](#getord-function)
 - [getRefinement (function)](#getrefinement-function)
+- [getRight (function)](#getright-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [isNone (function)](#isnone-function)
@@ -241,29 +242,6 @@ export function foldL<A, R>(ma: Option<A>, onNone: () => R, onSome: (a: A) => R)
 ```
 
 Added in v2.0.0
-
-# fromEither (function)
-
-Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
-value wrapped in a `Some`
-
-**Signature**
-
-```ts
-export const fromEither = <L, A>(ma: Either<L, A>): Option<A> => ...
-```
-
-**Example**
-
-```ts
-import { none, some, fromEither } from 'fp-ts/lib/Option'
-import { left, right } from 'fp-ts/lib/Either'
-
-assert.deepStrictEqual(fromEither(left(1)), none)
-assert.deepStrictEqual(fromEither(right(1)), some(1))
-```
-
-Added in v1.0.0
 
 # fromNullable (function)
 
@@ -414,6 +392,18 @@ assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
 
 Added in v1.0.0
 
+# getLeft (function)
+
+Returns an `L` value if possible
+
+**Signature**
+
+```ts
+export const getLeft = <L, A>(ma: Either<L, A>): Option<L> => ...
+```
+
+Added in v2.0.0
+
 # getMonoid (function)
 
 Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
@@ -520,6 +510,18 @@ export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): R
 ```
 
 Added in v1.7.0
+
+# getRight (function)
+
+Returns an `A` value if possible
+
+**Signature**
+
+```ts
+export const getRight = <L, A>(ma: Either<L, A>): Option<A> => ...
+```
+
+Added in v2.0.0
 
 # getSetoid (function)
 
