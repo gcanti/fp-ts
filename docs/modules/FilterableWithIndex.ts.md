@@ -33,7 +33,7 @@ export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filte
 }
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # FilterableWithIndex1 (interface)
 

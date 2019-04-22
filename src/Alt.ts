@@ -12,7 +12,7 @@ import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './F
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Alt<F> extends Functor<F> {
   readonly alt: <A>(fx: HKT<F, A>, fy: HKT<F, A>) => HKT<F, A>

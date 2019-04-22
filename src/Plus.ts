@@ -14,7 +14,7 @@ import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C } from './Alt'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Plus<F> extends Alt<F> {
   readonly zero: <A>() => HKT<F, A>

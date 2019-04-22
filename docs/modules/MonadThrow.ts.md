@@ -40,7 +40,7 @@ export interface MonadThrow<M> {
 }
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # MonadThrow2 (interface)
 

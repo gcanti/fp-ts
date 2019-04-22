@@ -51,7 +51,7 @@ export interface Functor<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Functor1 (interface)
 
@@ -252,4 +252,4 @@ export function getFunctorComposition<F extends URIS, G extends URIS>(
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

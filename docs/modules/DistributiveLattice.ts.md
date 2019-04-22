@@ -28,7 +28,7 @@ A `DistributiveLattice` must satisfy the following laws in addition to `Lattice`
 export interface DistributiveLattice<A> extends Lattice<A> {}
 ```
 
-Added in v1.4.0
+Added in v2.0.0
 
 # getMinMaxDistributiveLattice (function)
 
@@ -38,4 +38,4 @@ Added in v1.4.0
 export const getMinMaxDistributiveLattice = <A>(O: Ord<A>): DistributiveLattice<A> => ...
 ```
 
-Added in v1.4.0
+Added in v2.0.0

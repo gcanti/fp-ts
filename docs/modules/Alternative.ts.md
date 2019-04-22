@@ -35,7 +35,7 @@ Types which have `Alternative` instances should also satisfy the following laws:
 export interface Alternative<F> extends Applicative<F>, Plus<F> {}
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Alternative1 (interface)
 

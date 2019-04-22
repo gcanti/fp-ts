@@ -1,7 +1,7 @@
 import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Bifunctor<F> {
   readonly URI: F

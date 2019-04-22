@@ -38,7 +38,7 @@ error of type `L`. If you want to represent a synchronous computation that never
 export interface IOEither<L, A> extends IO<E.Either<L, A>> {}
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -74,7 +74,7 @@ Added in v2.0.0
 export const fromEither: <L, A>(fa: E.Either<L, A>) => IOEither<L, A> = ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fromRight (constant)
 
@@ -94,7 +94,7 @@ Added in v2.0.0
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<URI> = ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fromLeft (function)
 
@@ -104,7 +104,7 @@ Added in v1.6.0
 export function fromLeft<L>(l: L): IOEither<L, never> { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # left (function)
 
@@ -114,7 +114,7 @@ Added in v1.6.0
 export function left<L>(fa: IO<L>): IOEither<L, never> { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # mapLeft (function)
 
@@ -144,7 +144,7 @@ Added in v2.0.0
 export function right<A>(fa: IO<A>): IOEither<never, A> { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # run (function)
 
@@ -164,4 +164,4 @@ Added in v2.0.0
 export function tryCatch<L, A>(f: Lazy<A>, onError: (reason: unknown) => L): IOEither<L, A> { ... }
 ```
 
-Added in v1.11.0
+Added in v2.0.0

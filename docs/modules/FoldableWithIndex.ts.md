@@ -50,7 +50,7 @@ export interface FoldableWithIndex<F, I> extends Foldable<F> {
 }
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # FoldableWithIndex1 (interface)
 
@@ -293,4 +293,4 @@ export function getFoldableWithIndexComposition<F, FI, G, GI>(
 ): FoldableWithIndexComposition<F, FI, G, GI> { ... }
 ```
 
-Added in v1.12.0
+Added in v2.0.0

@@ -31,7 +31,7 @@ export interface Reader<E, A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -57,7 +57,7 @@ export const URI = ...
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # ask (function)
 
@@ -69,7 +69,7 @@ reads the current context
 export const ask = <E>(): Reader<E, E> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # asks (function)
 
@@ -81,7 +81,7 @@ Projects a value from the global context in a Reader
 export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getMonoid (function)
 
@@ -91,7 +91,7 @@ Added in v1.0.0
 export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getSemigroup (function)
 
@@ -101,7 +101,7 @@ Added in v1.14.0
 export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # local (function)
 
@@ -113,7 +113,7 @@ changes the value of the local context during the execution of the action `fa`
 export const local = <E, A, D>(fa: Reader<E, A>, f: (d: D) => E): Reader<D, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # run (function)
 

@@ -55,7 +55,7 @@ export interface Applicative<F> extends Apply<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Applicative1 (interface)
 
@@ -297,4 +297,4 @@ const sum = (a: number) => (b: number): number => a + b
 A.ap(A.map(x, sum), y)().then(result => assert.deepStrictEqual(result, some(3)))
 ```
 
-Added in v1.0.0
+Added in v2.0.0

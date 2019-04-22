@@ -30,7 +30,7 @@ export interface Profunctor<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Profunctor2 (interface)
 
@@ -86,7 +86,7 @@ export function lmap<F extends URIS2>(
 export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # rmap (function)
 
@@ -102,4 +102,4 @@ export function rmap<F extends URIS2>(
 export function rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

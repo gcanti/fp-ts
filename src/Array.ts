@@ -35,7 +35,7 @@ export const URI = 'Array'
 export type URI = typeof URI
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <L, A>(S: Show<A>): Show<Array<A>> => {
   return {
@@ -51,7 +51,7 @@ export const getShow = <L, A>(S: Show<A>): Show<Array<A>> => {
  * const M = getMonoid<number>()
  * assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getMonoid = <A = never>(): Monoid<Array<A>> => {
   return {
@@ -74,7 +74,7 @@ export const getMonoid = <A = never>(): Monoid<Array<A>> => {
  * assert.strictEqual(O.equals(['a', 'b'], ['a', 'b']), true)
  * assert.strictEqual(O.equals(['a'], []), false)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
   return getArraySetoid(S)
@@ -97,7 +97,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
  * assert.strictEqual(O.compare(['a'], ['b']), -1)
  *
  *
- * @since 1.2.0
+ * @since 2.0.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Array<A>> => {
   return fromCompare((a, b) => {
@@ -196,7 +196,7 @@ const sequence = <F>(F: Applicative<F>) => <A>(ta: Array<HKT<F, A>>): HKT<F, Arr
  * An empty array
  *
  *
- * @since 1.9.0
+ * @since 2.0.0
  */
 export const empty: Array<never> = []
 
@@ -230,7 +230,7 @@ const unfold = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
  * assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
   const r: Array<A> = []
@@ -249,7 +249,7 @@ export const makeBy = <A>(n: number, f: (i: number) => A): Array<A> => {
  * assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const range = (start: number, end: number): Array<number> => {
   return makeBy(end - start + 1, i => start + i)
@@ -264,7 +264,7 @@ export const range = (start: number, end: number): Array<number> => {
  * assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const replicate = <A>(n: number, a: A): Array<A> => {
   return makeBy(n, () => a)
@@ -282,7 +282,7 @@ const extend = <A, B>(fa: Array<A>, f: (fa: Array<A>) => B): Array<B> => {
  *
  * assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
   let rLen = 0
@@ -312,7 +312,7 @@ export const flatten = <A>(ffa: Array<Array<A>>): Array<A> => {
  * const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const fold = <A, B>(as: Array<A>, b: B, cons: (head: A, tail: Array<A>) => B): B => {
   return isEmpty(as) ? b : cons(as[0], as.slice(1))
@@ -321,7 +321,7 @@ export const fold = <A, B>(as: Array<A>, b: B, cons: (head: A, tail: Array<A>) =
 /**
  * Lazy version of `fold`
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Array<A>) => B): B => {
   return isEmpty(as) ? nil() : cons(as[0], as.slice(1))
@@ -330,7 +330,7 @@ export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Ar
 /**
  * Break an array into its initial elements and the last element
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export const foldr = <A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) => B): B => {
   return isEmpty(as) ? b : cons(as.slice(0, as.length - 1), as[as.length - 1])
@@ -339,7 +339,7 @@ export const foldr = <A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) 
 /**
  * Lazy version of `foldr`
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export const foldrL = <A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, last: A) => B): B => {
   return isEmpty(as) ? nil() : cons(as.slice(0, as.length - 1), as[as.length - 1])
@@ -355,7 +355,7 @@ export const foldrL = <A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, 
  * ```
  *
  *
- * @since 1.1.0
+ * @since 2.0.0
  */
 export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> => {
   const l = as.length
@@ -376,7 +376,7 @@ export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Arra
  * assert.deepStrictEqual(scanRight([1, 2, 3], 10, (a, b) => b - a), [ 4, 5, 7, 10 ])
  *
  *
- * @since 1.1.0
+ * @since 2.0.0
  */
 export const scanRight = <A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array<B> => {
   const l = as.length
@@ -396,7 +396,7 @@ export const scanRight = <A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array
  *
  * assert.strictEqual(isEmpty([]), true)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const isEmpty = <A>(as: Array<A>): boolean => {
   return as.length === 0
@@ -405,7 +405,7 @@ export const isEmpty = <A>(as: Array<A>): boolean => {
 /**
  * Test whether an array contains a particular index
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
   return i < 0 || i >= as.length
@@ -421,7 +421,7 @@ export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => {
  * assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
  * assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const lookup = <A>(i: number, as: Array<A>): Option<A> => {
   return isOutOfBound(i, as) ? none : some(as[i])
@@ -435,7 +435,7 @@ export const lookup = <A>(i: number, as: Array<A>): Option<A> => {
  *
  * assert.deepStrictEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const cons = <A>(a: A, as: Array<A>): NonEmptyArray<A> => {
   const len = as.length
@@ -455,7 +455,7 @@ export const cons = <A>(a: A, as: Array<A>): NonEmptyArray<A> => {
  *
  * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const snoc = <A>(as: Array<A>, a: A): NonEmptyArray<A> => {
   const len = as.length
@@ -477,7 +477,7 @@ export const snoc = <A>(as: Array<A>, a: A): NonEmptyArray<A> => {
  * assert.deepStrictEqual(head([1, 2, 3]), some(1))
  * assert.deepStrictEqual(head([]), none)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const head = <A>(as: Array<A>): Option<A> => {
   return isEmpty(as) ? none : some(as[0])
@@ -493,7 +493,7 @@ export const head = <A>(as: Array<A>): Option<A> => {
  * assert.deepStrictEqual(last([1, 2, 3]), some(3))
  * assert.deepStrictEqual(last([]), none)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const last = <A>(as: Array<A>): Option<A> => {
   return lookup(as.length - 1, as)
@@ -509,7 +509,7 @@ export const last = <A>(as: Array<A>): Option<A> => {
  * assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
  * assert.deepStrictEqual(tail([]), none)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const tail = <A>(as: Array<A>): Option<Array<A>> => {
   return isEmpty(as) ? none : some(as.slice(1))
@@ -525,7 +525,7 @@ export const tail = <A>(as: Array<A>): Option<Array<A>> => {
  * assert.deepStrictEqual(init([1, 2, 3]), some([1, 2]))
  * assert.deepStrictEqual(init([]), none)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const init = <A>(as: Array<A>): Option<Array<A>> => {
   const len = as.length
@@ -541,7 +541,7 @@ export const init = <A>(as: Array<A>): Option<Array<A>> => {
  *
  * assert.deepStrictEqual(take(2, [1, 2, 3]), [1, 2])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const take = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(0, n)
@@ -557,7 +557,7 @@ export const take = <A>(n: number, as: Array<A>): Array<A> => {
  * assert.deepStrictEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const takeEnd = <A>(n: number, as: Array<A>): Array<A> => {
   return n === 0 ? empty : as.slice(-n)
@@ -571,7 +571,7 @@ export const takeEnd = <A>(n: number, as: Array<A>): Array<A> => {
  *
  * assert.deepStrictEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function takeWhile<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
 export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
@@ -605,7 +605,7 @@ const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
  *
  * assert.deepStrictEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function span<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): { init: Array<B>; rest: Array<A> }
 export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> }
@@ -631,7 +631,7 @@ export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>
  *
  * assert.deepStrictEqual(drop(2, [1, 2, 3]), [3])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const drop = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(n, as.length)
@@ -646,7 +646,7 @@ export const drop = <A>(n: number, as: Array<A>): Array<A> => {
  * assert.deepStrictEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const dropEnd = <A>(n: number, as: Array<A>): Array<A> => {
   return as.slice(0, as.length - n)
@@ -660,7 +660,7 @@ export const dropEnd = <A>(n: number, as: Array<A>): Array<A> => {
  *
  * assert.deepStrictEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> => {
   const i = spanIndexUncurry(as, predicate)
@@ -682,7 +682,7 @@ export const dropWhile = <A>(as: Array<A>, predicate: Predicate<A>): Array<A> =>
  * assert.deepStrictEqual(findIndex([1, 2, 3], x => x === 2), some(1))
  * assert.deepStrictEqual(findIndex([], x => x === 2), none)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<number> => {
   const len = as.length
@@ -703,7 +703,7 @@ export const findIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<numb
  *
  * assert.deepStrictEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function findFirst<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
 export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
@@ -734,7 +734,7 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  * // returns the name of the first person that has an age
  * assert.deepStrictEqual(findFirstMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Mary'))
  *
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const findFirstMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => {
   const len = arr.length
@@ -756,7 +756,7 @@ export const findFirstMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Optio
  *
  * assert.deepStrictEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function findLast<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Option<B>
 export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
@@ -787,7 +787,7 @@ export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  * // returns the name of the last person that has an age
  * assert.deepStrictEqual(findLastMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Joey'))
  *
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const findLastMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => {
   const len = arr.length
@@ -816,7 +816,7 @@ export const findLastMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option
  * assert.deepStrictEqual(findLastIndex(xs, x => x.a === 4), none)
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const findLastIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<number> => {
   const len = as.length
@@ -829,7 +829,7 @@ export const findLastIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const copy = <A>(as: Array<A>): Array<A> => {
   const l = as.length
@@ -842,7 +842,7 @@ export const copy = <A>(as: Array<A>): Array<A> => {
 
 /**
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
   const xs = copy(as)
@@ -859,7 +859,7 @@ export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
  *
  * assert.deepStrictEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => {
   return i < 0 || i > as.length ? none : some(unsafeInsertAt(i, a, as))
@@ -867,7 +867,7 @@ export const insertAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => 
 
 /**
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
   if (as[i] === a) {
@@ -889,7 +889,7 @@ export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => {
  * assert.deepStrictEqual(updateAt(1, 1, [1, 2, 3]), some([1, 1, 3]))
  * assert.deepStrictEqual(updateAt(1, 1, []), none)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const updateAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => {
   return isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, a, as))
@@ -897,7 +897,7 @@ export const updateAt = <A>(i: number, a: A, as: Array<A>): Option<Array<A>> => 
 
 /**
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
   const xs = copy(as)
@@ -915,7 +915,7 @@ export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => {
  * assert.deepStrictEqual(deleteAt(0, [1, 2, 3]), some([2, 3]))
  * assert.deepStrictEqual(deleteAt(1, []), none)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
   return isOutOfBound(i, as) ? none : some(unsafeDeleteAt(i, as))
@@ -933,7 +933,7 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
  * assert.deepStrictEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
  * assert.deepStrictEqual(modifyAt([], 1, double), none)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> => {
   return isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, f(as[i]), as))
@@ -947,7 +947,7 @@ export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option
  *
  * assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const reverse = <A>(as: Array<A>): Array<A> => {
   return copy(as).reverse()
@@ -962,7 +962,7 @@ export const reverse = <A>(as: Array<A>): Array<A> => {
  *
  * assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
   const r: Array<A> = []
@@ -985,7 +985,7 @@ export const rights = <L, A>(as: Array<Either<L, A>>): Array<A> => {
  *
  * assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
   const r: Array<L> = []
@@ -1008,7 +1008,7 @@ export const lefts = <L, A>(as: Array<Either<L, A>>): Array<L> => {
  *
  * assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const sort = <A>(O: Ord<A>) => (as: Array<A>): Array<A> => {
   return copy(as).sort(O.compare)
@@ -1023,7 +1023,7 @@ export const sort = <A>(O: Ord<A>) => (as: Array<A>): Array<A> => {
  *
  * assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => C): Array<C> => {
   const fc = []
@@ -1043,7 +1043,7 @@ export const zipWith = <A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
  *
  * assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
   return zipWith(fa, fb, tuple)
@@ -1058,7 +1058,7 @@ export const zip = <A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> => {
  * assert.deepStrictEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
  *
  *
- * @since 1.13.0
+ * @since 2.0.0
  */
 export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => {
   const fa = []
@@ -1080,7 +1080,7 @@ export const unzip = <A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] => {
  *
  * assert.deepStrictEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
   const len = xs.length
@@ -1105,7 +1105,7 @@ export const rotate = <A>(n: number, xs: Array<A>): Array<A> => {
  * assert.strictEqual(elem(setoidNumber)(1, [1, 2, 3]), true)
  * assert.strictEqual(elem(setoidNumber)(4, [1, 2, 3]), false)
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const elem = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
   const predicate = (e: A) => S.equals(e, a)
@@ -1129,7 +1129,7 @@ export const elem = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => {
  * assert.deepStrictEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
  *
  *
- * @since 1.3.0
+ * @since 2.0.0
  */
 export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
   const elemS = elem(S)
@@ -1176,7 +1176,7 @@ export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
  * }
  *
  *
- * @since 1.3.0
+ * @since 2.0.0
  */
 export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> => {
   return fold(ords, none, (head, tail) => some(sortBy1(head, tail)))
@@ -1206,7 +1206,7 @@ export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> =
  * ])
  *
  *
- * @since 1.3.0
+ * @since 2.0.0
  */
 export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Array<A>> => {
   return sort(tail.reduce(getSemigroup<A>().concat, head))
@@ -1220,7 +1220,7 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
  *
  * assert.deepStrictEqual(array.partitionMap([right(1), left('foo'), right(2)], identity), { left: ['foo'], right: [1, 2] })
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): Separated<Array<L>, Array<R>> => {
   return partitionMapWithIndex(fa, (_, a) => f(a))
@@ -1229,8 +1229,7 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
 /**
  * Use `array.filter` instead
  *
- * @since 1.0.0
- * @deprecated
+ * @since 2.0.0
  */
 export function filter<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
 export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
@@ -1241,8 +1240,7 @@ export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A> {
 /**
  * Use `array.partition` instead
  *
- * @since 1.12.0
- * @deprecated
+ * @since 2.0.0
  */
 export function partition<A, B extends A>(fa: Array<A>, p: Refinement<A, B>): Separated<Array<A>, Array<B>>
 export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>>
@@ -1302,7 +1300,7 @@ const wilt = <F>(
  * assert.deepStrictEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const chop = <A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Array<B> => {
   const result: Array<B> = []
@@ -1324,7 +1322,7 @@ export const chop = <A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Ar
  * assert.deepStrictEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const split = <A>(n: number, as: Array<A>): [Array<A>, Array<A>] => {
   return [as.slice(0, n), as.slice(n)]
@@ -1347,7 +1345,7 @@ export const split = <A>(n: number, as: Array<A>): [Array<A>, Array<A>] => {
  * assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => {
   return isOutOfBound(n - 1, as) ? [as] : chop(as, as => split(n, as))
@@ -1372,7 +1370,7 @@ export const chunksOf = <A>(as: Array<A>, n: number): Array<Array<A>> => {
  * ])
  *
  *
- * @since 1.10.0
+ * @since 2.0.0
  */
 export function comprehension<A, B, C, D, R>(
   input: [Array<A>, Array<B>, Array<C>, Array<D>],
@@ -1416,7 +1414,7 @@ export function comprehension<R>(
  * assert.deepStrictEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
  *
  *
- * @since 1.12.0
+ * @since 2.0.0
  */
 export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
   const elemS = elem(S)
@@ -1434,7 +1432,7 @@ export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A
  * assert.deepStrictEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
  *
  *
- * @since 1.12.0
+ * @since 2.0.0
  */
 export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
   const elemS = elem(S)
@@ -1452,7 +1450,7 @@ export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => 
  * assert.deepStrictEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
  *
  *
- * @since 1.12.0
+ * @since 2.0.0
  */
 export const difference = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => {
   const elemS = elem(S)
@@ -1521,7 +1519,7 @@ const filterWithIndex = <A>(fa: Array<A>, p: (i: number, a: A) => boolean): Arra
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const array: Monad1<URI> &
   Foldable1<URI> &

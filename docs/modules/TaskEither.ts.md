@@ -86,7 +86,7 @@ Added in v2.0.0
 export const fromEither: <L, A>(fa: E.Either<L, A>) => TaskEither<L, A> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fromIOEither (constant)
 
@@ -96,7 +96,7 @@ Added in v1.0.0
 export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fromRight (constant)
 
@@ -121,7 +121,7 @@ export const taskEither: Monad2<URI> &
   MonadThrow2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # taskEitherSeq (constant)
 
@@ -133,7 +133,7 @@ Like `TaskEither` but `ap` is sequential
 export const taskEitherSeq: typeof taskEither = ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # attempt (function)
 
@@ -161,7 +161,7 @@ export function bracket<L, A, B>(
 ): TaskEither<L, B> { ... }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # filterOrElse (function)
 
@@ -211,7 +211,7 @@ Added in v2.0.0
 export function fromIO<A>(fa: IO<A>): TaskEither<never, A> { ... }
 ```
 
-Added in v1.5.0
+Added in v2.0.0
 
 # fromLeft (function)
 
@@ -221,7 +221,7 @@ Added in v1.5.0
 export function fromLeft<L>(l: L): TaskEither<L, never> { ... }
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # fromPredicate (function)
 
@@ -235,7 +235,7 @@ export function fromPredicate<L, A, B extends A>(
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>) { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # getApplyMonoid (function)
 
@@ -245,7 +245,7 @@ Added in v1.6.0
 export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> { ... }
 ```
 
-Added in v1.9.0
+Added in v2.0.0
 
 # getApplySemigroup (function)
 
@@ -255,7 +255,7 @@ Added in v1.9.0
 export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> { ... }
 ```
 
-Added in v1.9.0
+Added in v2.0.0
 
 # getOrElse (function)
 
@@ -285,7 +285,7 @@ Added in v2.0.0
 export function getSemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> { ... }
 ```
 
-Added in v1.9.0
+Added in v2.0.0
 
 # left (function)
 
@@ -295,7 +295,7 @@ Added in v1.9.0
 export function left<L>(fl: Task<L>): TaskEither<L, never> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # mapLeft (function)
 
@@ -325,7 +325,7 @@ Added in v2.0.0
 export function right<A>(fa: Task<A>): TaskEither<never, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # taskify (function)
 
@@ -377,7 +377,7 @@ const stat = taskify(fs.stat)
 assert.strictEqual(stat.length, 0)
 ```
 
-Added in v1.5.0
+Added in v2.0.0
 
 # tryCatch (function)
 
@@ -414,4 +414,4 @@ md5('foo')().then(x => {
 })
 ```
 
-Added in v1.0.0
+Added in v2.0.0

@@ -61,7 +61,7 @@ export interface StateT3<M extends URIS3> {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export function get<F extends URIS3>(F: Applicative3<F>): <S, U, L>(s: S) => Type3<F, U, L, [S, S]>
 export function get<F extends URIS2>(F: Applicative2<F>): <S, L>(s: S) => Type2<F, L, [S, S]>
@@ -72,7 +72,7 @@ export function get<F>(F: Applicative<F>): <S>(s: S) => HKT<F, [S, S]> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function put<F extends URIS3>(F: Applicative3<F>): <S>(s: S) => <U, L>() => Type3<F, U, L, [void, S]>
 export function put<F extends URIS2>(F: Applicative2<F>): <S>(s: S) => <L>() => Type2<F, L, [void, S]>
@@ -83,7 +83,7 @@ export function put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]> 
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function modify<F extends URIS3>(
   F: Applicative3<F>
@@ -98,7 +98,7 @@ export function modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) 
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function gets<F extends URIS3>(
   F: Applicative3<F>
@@ -111,7 +111,7 @@ export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => 
 }
 
 /**
- * @since 1.2.0
+ * @since 2.0.0
  */
 export function fromState<F extends URIS3>(
   F: Applicative3<F>
@@ -126,7 +126,7 @@ export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: 
 }
 
 /**
- * @since 1.2.0
+ * @since 2.0.0
  */
 export function liftF<F extends URIS3>(
   F: Functor3<F>
@@ -139,7 +139,7 @@ export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export function getStateT<M extends URIS3>(M: Monad3<M>): StateT3<M>
 export function getStateT<M extends URIS2>(M: Monad2<M>): StateT2<M>

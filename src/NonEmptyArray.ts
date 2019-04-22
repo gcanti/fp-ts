@@ -25,7 +25,7 @@ export const URI = 'NonEmptyArray'
 export type URI = typeof URI
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export interface NonEmptyArray<A> extends Array<A> {
   0: A
@@ -35,7 +35,7 @@ export interface NonEmptyArray<A> extends Array<A> {
 }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => {
   const SA = A.getShow(S)
@@ -45,28 +45,28 @@ export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => {
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function make<A>(head: A, tail: Array<A>): NonEmptyArray<A> {
   return [head, ...tail] as any
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function head<A>(nea: NonEmptyArray<A>): A {
   return nea[0]
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function tail<A>(nea: NonEmptyArray<A>): Array<A> {
   return nea.slice(1)
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
   const S = getMeetSemigroup(ord)
@@ -74,7 +74,7 @@ export function min<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
   const S = getJoinSemigroup(ord)
@@ -84,7 +84,7 @@ export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
 /**
  * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
  *
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
   return as.length > 0 ? some(as as any) : none
@@ -93,7 +93,7 @@ export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
 /**
  * Builds a `NonEmptyArray` from a provably (compile time) non empty `Array`.
  *
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function fromNonEmptyArray<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> {
   return as as any
@@ -102,7 +102,7 @@ export function fromNonEmptyArray<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> 
 /**
  * Builds a `Semigroup` instance for `NonEmptyArray`
  *
- * @since 1.15.0
+ * @since 2.0.0
  */
 export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
   return {
@@ -119,7 +119,7 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
  * assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
  * assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
  *
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function getSetoid<A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> {
   return A.getSetoid(S)
@@ -138,7 +138,7 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> {
  *   make(1, [1])
  * ])
  *
- * @since 1.15.0
+ * @since 2.0.0
  */
 export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
   const len = as.length
@@ -171,7 +171,7 @@ export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>
  *
  * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [make(1, [1, 1]), make(2, [])])
  *
- * @since 1.15.0
+ * @since 2.0.0
  */
 export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) => {
   return compose(
@@ -192,7 +192,7 @@ export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<
  *   '6': make('foobar', [])
  * })
  *
- * @since 1.15.0
+ * @since 2.0.0
  */
 export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => {
   const r: { [key: string]: NonEmptyArray<A> } = {}
@@ -208,21 +208,21 @@ export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function last<A>(nea: NonEmptyArray<A>): A {
   return nea[nea.length - 1]
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> {
   return A.sort(O) as any
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function findFirst<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
 export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
@@ -231,7 +231,7 @@ export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Op
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function findLast<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
 export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
@@ -240,49 +240,49 @@ export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Opt
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function findIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> {
   return A.findIndex(nea, predicate)
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function findLastIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> {
   return A.findLastIndex(nea, predicate)
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
   return A.insertAt(i, a, nea) as any
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
   return A.updateAt(i, a, nea) as any
 }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> {
   return A.modifyAt(nea, i, f) as any
 }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const copy = <A>(nea: NonEmptyArray<A>): NonEmptyArray<A> => {
   return A.copy(nea) as any
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function filter<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<NonEmptyArray<A>>
 export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>>
@@ -291,7 +291,7 @@ export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Optio
 }
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export function filterWithIndex<A>(
   nea: NonEmptyArray<A>,
@@ -312,7 +312,7 @@ const mapWithIndex = <A, B>(fa: NonEmptyArray<A>, f: (i: number, a: A) => B): No
  *
  * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
  *
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const snoc: <A>(as: Array<A>, a: A) => NonEmptyArray<A> = A.snoc
 
@@ -324,12 +324,12 @@ export const snoc: <A>(as: Array<A>, a: A) => NonEmptyArray<A> = A.snoc
  *
  * assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
  *
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const cons: <A>(a: A, as: Array<A>) => NonEmptyArray<A> = A.cons
 
 /**
- * @since 1.15.0
+ * @since 2.0.0
  */
 export const nonEmptyArray: Monad1<URI> &
   Comonad1<URI> &

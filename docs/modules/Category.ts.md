@@ -26,7 +26,7 @@ export interface Category<F> extends Semigroupoid<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Category2 (interface)
 

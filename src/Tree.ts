@@ -30,7 +30,7 @@ export type URI = typeof URI
 export type Forest<A> = Array<Tree<A>>
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export interface Tree<A> {
   readonly value: A
@@ -48,7 +48,7 @@ export const make = <A>(value: A, forest: Forest<A>): Tree<A> => {
 }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
   const show = (t: Tree<A>): string => {
@@ -125,7 +125,7 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => {
   let SA: Setoid<Array<Tree<A>>>
@@ -135,7 +135,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => {
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
@@ -168,7 +168,7 @@ const draw = (indentation: string, forest: Forest<string>): string => {
 /**
  * Neat 2-dimensional drawing of a forest
  *
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const drawForest = (forest: Forest<string>): string => {
   return draw('\n', forest)
@@ -194,7 +194,7 @@ export const drawForest = (forest: Forest<string>): string => {
  *    └─ f`)
  *
  *
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const drawTree = (tree: Tree<string>): string => {
   return tree.value + drawForest(tree.forest)
@@ -203,7 +203,7 @@ export const drawTree = (tree: Tree<string>): string => {
 /**
  * Build a tree from a seed value
  *
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => {
   const [a, bs] = f(b)
@@ -213,7 +213,7 @@ export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => {
 /**
  * Build a tree from a seed value
  *
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> => {
   return bs.map(b => unfoldTree(b, f))
@@ -222,7 +222,7 @@ export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Fo
 /**
  * Monadic tree builder, in depth-first order
  *
- * @since 1.6.0
+ * @since 2.0.0
  */
 export function unfoldTreeM<M extends URIS3>(
   M: Monad3<M>
@@ -248,7 +248,7 @@ export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A
 /**
  * Monadic forest builder, in depth-first order
  *
- * @since 1.6.0
+ * @since 2.0.0
  */
 export function unfoldForestM<M extends URIS3>(
   M: Monad3<M>
@@ -283,7 +283,7 @@ export function unfoldForestM<M>(
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean {
   const go = (a: A, fa: Tree<A>): boolean => {

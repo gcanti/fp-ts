@@ -240,7 +240,7 @@ import { FunctionN } from 'fp-ts/lib/function'
 export const sum: FunctionN<[number, number], number> = (a, b) => a + b
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # Kleisli (type alias)
 
@@ -286,7 +286,7 @@ For use with phantom fields
 export const phantom: any = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # unsafeCoerce (constant)
 
@@ -296,7 +296,7 @@ Added in v1.0.0
 export const unsafeCoerce: <A, B>(a: A) => B = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # and (function)
 
@@ -306,7 +306,7 @@ Added in v1.0.0
 export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # apply (function)
 
@@ -318,7 +318,7 @@ Applies a function to an argument (\$)
 export const apply = <A, B>(f: (a: A) => B) => (a: A): B => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # applyFlipped (function)
 
@@ -330,7 +330,7 @@ Applies an argument to a function (#)
 export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # compose (function)
 
@@ -387,7 +387,7 @@ export function compose<A, B, C, D, E, F, G, H, I, J>(
 ): (a: A) => J { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # concat (function)
 
@@ -397,7 +397,7 @@ Added in v1.0.0
 export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # constFalse (function)
 
@@ -409,7 +409,7 @@ A thunk that returns always `false`
 export const constFalse = (): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # constNull (function)
 
@@ -421,7 +421,7 @@ A thunk that returns always `null`
 export const constNull = (): null => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # constTrue (function)
 
@@ -433,7 +433,7 @@ A thunk that returns always `true`
 export const constTrue = (): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # constUndefined (function)
 
@@ -445,7 +445,7 @@ A thunk that returns always `undefined`
 export const constUndefined = (): undefined => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # constVoid (function)
 
@@ -457,7 +457,7 @@ A thunk that returns always `void`
 export const constVoid = (): void => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # constant (function)
 
@@ -467,7 +467,7 @@ Added in v1.14.0
 export const constant = <A>(a: A): Lazy<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # curried (function)
 
@@ -477,7 +477,7 @@ Added in v1.0.0
 export function curried(f: Function, n: number, acc: Array<any>) { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # curry (function)
 
@@ -498,7 +498,7 @@ export function curry<A, B, C, D, E, F, G, H, I, J>(
 ): Curried9<A, B, C, D, E, F, G, H, I, J> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # decrement (function)
 
@@ -508,7 +508,7 @@ Added in v1.0.0
 export const decrement = (n: number): number => ...
 ```
 
-Added in v1.9.0
+Added in v2.0.0
 
 # flip (function)
 
@@ -520,7 +520,7 @@ Flips the order of the arguments to a function of two arguments.
 export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # identity (function)
 
@@ -530,7 +530,7 @@ Added in v1.0.0
 export const identity = <A>(a: A): A => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # increment (function)
 
@@ -540,7 +540,7 @@ Added in v1.0.0
 export const increment = (n: number): number => ...
 ```
 
-Added in v1.9.0
+Added in v2.0.0
 
 # not (function)
 
@@ -550,7 +550,7 @@ Added in v1.9.0
 export const not = <A>(predicate: Predicate<A>): Predicate<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # on (function)
 
@@ -562,7 +562,7 @@ The `on` function is used to change the domain of a binary operator.
 export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # or (function)
 
@@ -573,7 +573,7 @@ export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Ref
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # pipe (function)
 
@@ -630,7 +630,7 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
 ): (a: A) => J { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # tuple (function)
 
@@ -640,4 +640,4 @@ Added in v1.0.0
 export const tuple = <T extends Array<any>>(...t: T): T => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

@@ -26,7 +26,7 @@ interface PartitionWithIndex<F, I> {
 }
 
 /**
- * @since 1.12.0
+ * @since 2.0.0
  */
 export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {
   readonly partitionMapWithIndex: <RL, RR, A>(

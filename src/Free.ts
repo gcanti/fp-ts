@@ -18,7 +18,7 @@ declare module './HKT' {
  * @data
  * @constructor Pure
  * @constructor Impure
- * @since 1.0.0
+ * @since 2.0.0
  */
 export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 
@@ -72,7 +72,7 @@ export class Impure<F, A, X> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const of = <F, A>(a: A): Free<F, A> => {
   return new Pure(a)
@@ -81,7 +81,7 @@ export const of = <F, A>(a: A): Free<F, A> => {
 /**
  * Lift an impure value described by the generating type constructor `F` into the free monad
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => {
   return new Impure(fa, a => of(a))
@@ -102,7 +102,7 @@ const substFree = <F, G>(f: <A>(fa: HKT<F, A>) => Free<G, A>): (<A>(fa: Free<F, 
 /**
  * Use a natural transformation to change the generating type constructor of a free monad
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function hoistFree<F extends URIS3 = never, G extends URIS3 = never>(
   nt: <U, L, A>(fa: Type3<F, U, L, A>) => Type3<G, U, L, A>
@@ -141,7 +141,7 @@ export interface FoldFree2C<M extends URIS2, L> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function foldFree<M extends URIS3>(M: Monad3<M>): FoldFree3<M>
 export function foldFree<M extends URIS3, U, L>(M: Monad3C<M, U, L>): FoldFree3C<M, U, L>

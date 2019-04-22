@@ -21,7 +21,7 @@
  */
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Semiring<A> {
   readonly add: (x: A, y: A) => A
@@ -31,7 +31,7 @@ export interface Semiring<A> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => {
   return {

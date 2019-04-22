@@ -31,7 +31,7 @@ export interface Field<A> extends Ring<A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fieldNumber (constant)
 
@@ -41,7 +41,7 @@ Added in v1.0.0
 export const fieldNumber: Field<number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # gcd (function)
 
@@ -53,7 +53,7 @@ The _greatest common divisor_ of two values
 export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # lcm (function)
 
@@ -65,4 +65,4 @@ The _least common multiple_ of two values
 export const lcm = <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A) => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

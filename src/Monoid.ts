@@ -18,14 +18,14 @@ import {
 } from './Semigroup'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Monoid<A> extends Semigroup<A> {
   readonly empty: A
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function fold<A>(M: Monoid<A>): ((as: Array<A>) => A) {
   const foldSemigroupM = foldSemigroup(M)
@@ -44,7 +44,7 @@ export function fold<A>(M: Monoid<A>): ((as: Array<A>) => A) {
  * const M2 = getTupleMonoid(monoidString, monoidSum, monoidAll)
  * assert.deepStrictEqual(M2.concat(['a', 1, true], ['b', 2, false]), ['ab', 3, false])
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getTupleMonoid = <T extends Array<Monoid<any>>>(
   ...monoids: T
@@ -56,7 +56,7 @@ export const getTupleMonoid = <T extends Array<Monoid<any>>>(
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
   return {
@@ -67,7 +67,7 @@ export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
 
 /**
  * Boolean monoid under conjunction
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const monoidAll: Monoid<boolean> = {
   ...semigroupAll,
@@ -76,7 +76,7 @@ export const monoidAll: Monoid<boolean> = {
 
 /**
  * Boolean monoid under disjunction
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const monoidAny: Monoid<boolean> = {
   ...semigroupAny,
@@ -86,7 +86,7 @@ export const monoidAny: Monoid<boolean> = {
 const emptyArray: Array<any> = []
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const unsafeMonoidArray: Monoid<Array<any>> = {
   concat,
@@ -96,7 +96,7 @@ export const unsafeMonoidArray: Monoid<Array<any>> = {
 /**
  * `Monoid` under array concatenation
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
   return unsafeMonoidArray
@@ -104,7 +104,7 @@ export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
 
 /**
  * Number monoid under addition
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const monoidSum: Monoid<number> = {
   ...semigroupSum,
@@ -113,7 +113,7 @@ export const monoidSum: Monoid<number> = {
 
 /**
  * Number monoid under multiplication
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const monoidProduct: Monoid<number> = {
   ...semigroupProduct,
@@ -121,7 +121,7 @@ export const monoidProduct: Monoid<number> = {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const monoidString: Monoid<string> = {
   ...semigroupString,
@@ -129,7 +129,7 @@ export const monoidString: Monoid<string> = {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const monoidVoid: Monoid<void> = {
   ...semigroupVoid,
@@ -137,7 +137,7 @@ export const monoidVoid: Monoid<void> = {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => {
   return {
@@ -147,7 +147,7 @@ export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: 
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
   return {
@@ -157,7 +157,7 @@ export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const getStructMonoid = <O extends { [key: string]: any }>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
@@ -173,7 +173,7 @@ export const getStructMonoid = <O extends { [key: string]: any }>(
 }
 
 /**
- * @since 1.9.0
+ * @since 2.0.0
  */
 export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => {
   return {
@@ -183,7 +183,7 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => {
 }
 
 /**
- * @since 1.9.0
+ * @since 2.0.0
  */
 export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => {
   return {

@@ -50,7 +50,7 @@ export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, Fold
 }
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # TraversableWithIndex1 (interface)
 

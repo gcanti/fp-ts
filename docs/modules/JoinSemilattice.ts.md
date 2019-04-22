@@ -33,4 +33,4 @@ export interface JoinSemilattice<A> {
 }
 ```
 
-Added in v1.4.0
+Added in v2.0.0

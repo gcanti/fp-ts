@@ -116,7 +116,7 @@ export function fromState<F extends URIS>(F: Applicative1<F>): <S, A>(fa: State<
 export function fromState<F>(F: Applicative<F>): <S, A>(fa: State<S, A>) => (s: S) => HKT<F, [A, S]> { ... }
 ```
 
-Added in v1.2.0
+Added in v2.0.0
 
 # get (function)
 
@@ -129,7 +129,7 @@ export function get<F extends URIS>(F: Applicative1<F>): <S>(s: S) => Type<F, [S
 export function get<F>(F: Applicative<F>): <S>(s: S) => HKT<F, [S, S]> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getStateT (function)
 
@@ -142,7 +142,7 @@ export function getStateT<M extends URIS>(M: Monad1<M>): StateT1<M>
 export function getStateT<M>(M: Monad<M>): StateT<M> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # gets (function)
 
@@ -157,7 +157,7 @@ export function gets<F extends URIS>(F: Applicative1<F>): <S, A>(f: (s: S) => A)
 export function gets<F>(F: Applicative<F>): <S, A>(f: (s: S) => A) => (s: S) => HKT<F, [A, S]> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # liftF (function)
 
@@ -172,7 +172,7 @@ export function liftF<F extends URIS>(F: Functor1<F>): <S, A>(fa: Type<F, A>) =>
 export function liftF<F>(F: Functor<F>): <S, A>(fa: HKT<F, A>) => (s: S) => HKT<F, [A, S]> { ... }
 ```
 
-Added in v1.2.0
+Added in v2.0.0
 
 # modify (function)
 
@@ -189,7 +189,7 @@ export function modify<F extends URIS>(F: Applicative1<F>): <S>(f: Endomorphism<
 export function modify<F>(F: Applicative<F>): <S>(f: Endomorphism<S>) => (s: S) => HKT<F, [void, S]> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # put (function)
 
@@ -202,4 +202,4 @@ export function put<F extends URIS>(F: Applicative1<F>): <S>(s: S) => () => Type
 export function put<F>(F: Applicative<F>): <S>(s: S) => () => HKT<F, [void, S]> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

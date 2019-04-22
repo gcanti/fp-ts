@@ -44,7 +44,7 @@ export interface ReaderTaskEither<E, L, A> {
 }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -75,7 +75,7 @@ export const readerTaskEither: Monad3<URI> &
   MonadThrow3<URI> = ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # readerTaskEitherSeq (constant)
 
@@ -87,7 +87,7 @@ Like `readerTaskEither` but `ap` is sequential
 export const readerTaskEitherSeq: typeof readerTaskEither = ...
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # ask (function)
 
@@ -97,7 +97,7 @@ Added in v1.10.0
 export const ask = <E>(): ReaderTaskEither<E, never, E> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # asks (function)
 
@@ -107,7 +107,7 @@ Added in v1.6.0
 export const asks = <E, A>(f: (e: E) => A): ReaderTaskEither<E, never, A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fold (function)
 
@@ -131,7 +131,7 @@ Added in v2.0.0
 export const fromEither = <L, A>(fa: Either<L, A>): ReaderTaskEither<unknown, L, A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fromIO (function)
 
@@ -141,7 +141,7 @@ Added in v1.6.0
 export const fromIO = <A>(fa: IO<A>): ReaderTaskEither<unknown, never, A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fromIOEither (function)
 
@@ -151,7 +151,7 @@ Added in v1.6.0
 export const fromIOEither = <L, A>(fa: IOEither<L, A>): ReaderTaskEither<unknown, L, A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fromLeft (function)
 
@@ -161,7 +161,7 @@ Added in v1.6.0
 export const fromLeft = <L>(l: L): ReaderTaskEither<unknown, L, never> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fromPredicate (function)
 
@@ -178,7 +178,7 @@ export function fromPredicate<L, A>(
 ): ((a: A) => ReaderTaskEither<unknown, L, A>) { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fromReader (function)
 
@@ -188,7 +188,7 @@ Added in v1.6.0
 export const fromReader = <E, A>(fa: Reader<E, A>): ReaderTaskEither<E, never, A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # fromTaskEither (function)
 
@@ -198,7 +198,7 @@ Added in v1.6.0
 export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<E, L, A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # left (function)
 
@@ -208,7 +208,7 @@ Added in v1.6.0
 export const left = <E, L>(fa: Task<L>): ReaderTaskEither<E, L, never> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # local (function)
 
@@ -218,7 +218,7 @@ Added in v1.6.0
 export const local = <E, L, A, F>(ma: ReaderTaskEither<E, L, A>, f: (f: F) => E): ReaderTaskEither<F, L, A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # make (function)
 
@@ -261,7 +261,7 @@ Added in v2.0.0
 export const right = <E, A>(fa: Task<A>): ReaderTaskEither<E, never, A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # run (function)
 
@@ -284,4 +284,4 @@ export const tryCatch = <E, L, A>(
 ): ReaderTaskEither<E, L, A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0

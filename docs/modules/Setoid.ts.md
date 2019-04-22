@@ -44,7 +44,7 @@ export interface Setoid<A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # setoidBoolean (constant)
 
@@ -54,7 +54,7 @@ Added in v1.0.0
 export const setoidBoolean: Setoid<boolean> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # setoidDate (constant)
 
@@ -64,7 +64,7 @@ Added in v1.0.0
 export const setoidDate: Setoid<Date> = ...
 ```
 
-Added in v1.4.0
+Added in v2.0.0
 
 # setoidNumber (constant)
 
@@ -74,7 +74,7 @@ Added in v1.4.0
 export const setoidNumber: Setoid<number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # setoidString (constant)
 
@@ -84,7 +84,7 @@ Added in v1.0.0
 export const setoidString: Setoid<string> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # contramap (function)
 
@@ -96,7 +96,7 @@ Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => ...
 ```
 
-Added in v1.2.0
+Added in v2.0.0
 
 # fromEquals (function)
 
@@ -106,7 +106,7 @@ Added in v1.2.0
 export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getArraySetoid (function)
 
@@ -116,7 +116,7 @@ Added in v1.14.0
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getStructSetoid (function)
 
@@ -128,7 +128,7 @@ export const getStructSetoid = <O extends { [key: string]: any }>(
 ): Setoid<O> => ...
 ```
 
-Added in v1.14.2
+Added in v2.0.0
 
 # getTupleSetoid (function)
 
@@ -154,7 +154,7 @@ assert.strictEqual(S.equals(['a', 1, true], ['a', 2, true]), false)
 assert.strictEqual(S.equals(['a', 1, true], ['a', 1, false]), false)
 ```
 
-Added in v1.14.2
+Added in v2.0.0
 
 # strictEqual (function)
 
@@ -164,4 +164,4 @@ Added in v1.14.2
 export const strictEqual = <A>(a: A, b: A): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

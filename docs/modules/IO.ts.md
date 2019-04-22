@@ -57,7 +57,7 @@ export const URI = ...
 export const io: Monad1<URI> & MonadIO1<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getMonoid (function)
 
@@ -67,7 +67,7 @@ Added in v1.0.0
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getSemigroup (function)
 
@@ -77,7 +77,7 @@ Added in v1.0.0
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # run (function)
 

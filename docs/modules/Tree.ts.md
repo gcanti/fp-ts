@@ -45,7 +45,7 @@ export interface Tree<A> {
 }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # Forest (type alias)
 
@@ -79,7 +79,7 @@ export const URI = ...
 export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # drawForest (function)
 
@@ -91,7 +91,7 @@ Neat 2-dimensional drawing of a forest
 export const drawForest = (forest: Forest<string>): string => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # drawTree (function)
 
@@ -121,7 +121,7 @@ assert.strictEqual(
 )
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # elem (function)
 
@@ -131,7 +131,7 @@ Added in v1.6.0
 export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -141,7 +141,7 @@ Added in v1.14.0
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -151,7 +151,7 @@ Added in v1.6.0
 export const getShow = <A>(S: Show<A>): Show<Tree<A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # make (function)
 
@@ -173,7 +173,7 @@ Build a tree from a seed value
 export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # unfoldForestM (function)
 
@@ -202,7 +202,7 @@ export function unfoldForestM<M>(
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # unfoldTree (function)
 
@@ -214,7 +214,7 @@ Build a tree from a seed value
 export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => ...
 ```
 
-Added in v1.6.0
+Added in v2.0.0
 
 # unfoldTreeM (function)
 
@@ -241,4 +241,4 @@ export function unfoldTreeM<M extends URIS>(
 export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>> { ... }
 ```
 
-Added in v1.6.0
+Added in v2.0.0

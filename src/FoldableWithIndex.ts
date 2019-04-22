@@ -30,7 +30,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 
 /**
- * @since 1.12.0
+ * @since 2.0.0
  */
 export interface FoldableWithIndex<F, I> extends Foldable<F> {
   readonly reduceWithIndex: <A, B>(fa: HKT<F, A>, b: B, f: (i: I, b: B, a: A) => B) => B
@@ -153,7 +153,7 @@ export interface FoldableWithIndexComposition3C1<F extends URIS3, FI, G extends 
 }
 
 /**
- * @since 1.12.0
+ * @since 2.0.0
  */
 export function getFoldableWithIndexComposition<F extends URIS3, FI, G extends URIS, GI, UF, LF>(
   F: FoldableWithIndex3C<F, FI, UF, LF>,

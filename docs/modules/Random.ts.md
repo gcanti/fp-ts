@@ -29,7 +29,7 @@ Returns a random boolean value with an equal chance of being `true` or `false`
 export const randomBool: IO<boolean> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # random (function)
 
@@ -42,7 +42,7 @@ Returns a random number between 0 (inclusive) and 1 (exclusive). This is a direc
 export const random: IO<number> = () => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # randomInt (function)
 
@@ -56,7 +56,7 @@ distributed in the closed interval `[low, high]`. It is unspecified what happens
 export const randomInt = (low: number, high: number): IO<number> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # randomRange (function)
 
@@ -69,4 +69,4 @@ happens if `maximum < minimum`.
 export const randomRange = (min: number, max: number): IO<number> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

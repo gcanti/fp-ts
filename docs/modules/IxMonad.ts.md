@@ -27,7 +27,7 @@ export interface IxMonad<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # IxMonad3 (interface)
 
@@ -54,7 +54,7 @@ export function iapplyFirst<F>(
 ): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # iapplySecond (function)
 
@@ -69,4 +69,4 @@ export function iapplySecond<F>(
 ): <I, O, A, Z, B>(fa: HKT3<F, I, O, A>, fb: HKT3<F, O, Z, B>) => HKT3<F, I, Z, B> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0

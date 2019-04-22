@@ -120,7 +120,7 @@ export const array: Monad1<URI> &
   FoldableWithIndex1<URI, number> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # empty (constant)
 
@@ -132,7 +132,7 @@ An empty array
 export const empty: Array<never> = ...
 ```
 
-Added in v1.9.0
+Added in v2.0.0
 
 # chop (function)
 
@@ -161,7 +161,7 @@ const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<Array<A>> => {
 assert.deepStrictEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # chunksOf (function)
 
@@ -189,7 +189,7 @@ import { chunksOf } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # comprehension (function)
 
@@ -235,7 +235,7 @@ assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.l
 ])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # cons (function)
 
@@ -255,7 +255,7 @@ import { cons } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(cons(0, [1, 2, 3]), [0, 1, 2, 3])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # copy (function)
 
@@ -265,7 +265,7 @@ Added in v1.0.0
 export const copy = <A>(as: Array<A>): Array<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # deleteAt (function)
 
@@ -287,7 +287,7 @@ assert.deepStrictEqual(deleteAt(0, [1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(deleteAt(1, []), none)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # difference (function)
 
@@ -309,7 +309,7 @@ import { setoidNumber } from 'fp-ts/lib/Setoid'
 assert.deepStrictEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # drop (function)
 
@@ -329,7 +329,7 @@ import { drop } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(drop(2, [1, 2, 3]), [3])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # dropEnd (function)
 
@@ -349,7 +349,7 @@ import { dropEnd } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # dropWhile (function)
 
@@ -369,7 +369,7 @@ import { dropWhile } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # elem (function)
 
@@ -393,7 +393,7 @@ assert.strictEqual(elem(setoidNumber)(1, [1, 2, 3]), true)
 assert.strictEqual(elem(setoidNumber)(4, [1, 2, 3]), false)
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # ~~filter~~ (function)
 
@@ -406,7 +406,7 @@ export function filter<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>
 export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # findFirst (function)
 
@@ -428,7 +428,7 @@ import { some } from 'fp-ts/lib/Option'
 assert.deepStrictEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # findFirstMap (function)
 
@@ -457,7 +457,7 @@ const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { n
 assert.deepStrictEqual(findFirstMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Mary'))
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # findIndex (function)
 
@@ -479,7 +479,7 @@ assert.deepStrictEqual(findIndex([1, 2, 3], x => x === 2), some(1))
 assert.deepStrictEqual(findIndex([], x => x === 2), none)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # findLast (function)
 
@@ -501,7 +501,7 @@ import { some } from 'fp-ts/lib/Option'
 assert.deepStrictEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # findLastIndex (function)
 
@@ -528,7 +528,7 @@ assert.deepStrictEqual(findLastIndex(xs, x => x.a === 1), some(1))
 assert.deepStrictEqual(findLastIndex(xs, x => x.a === 4), none)
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # findLastMap (function)
 
@@ -557,7 +557,7 @@ const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { n
 assert.deepStrictEqual(findLastMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Joey'))
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # flatten (function)
 
@@ -577,7 +577,7 @@ import { flatten } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fold (function)
 
@@ -598,7 +598,7 @@ const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
 assert.strictEqual(len([1, 2, 3]), 3)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # foldL (function)
 
@@ -610,7 +610,7 @@ Lazy version of `fold`
 export const foldL = <A, B>(as: Array<A>, nil: () => B, cons: (head: A, tail: Array<A>) => B): B => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # foldr (function)
 
@@ -622,7 +622,7 @@ Break an array into its initial elements and the last element
 export const foldr = <A, B>(as: Array<A>, b: B, cons: (init: Array<A>, last: A) => B): B => ...
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # foldrL (function)
 
@@ -634,7 +634,7 @@ Lazy version of `foldr`
 export const foldrL = <A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, last: A) => B): B => ...
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getMonoid (function)
 
@@ -653,7 +653,7 @@ const M = getMonoid<number>()
 assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getOrd (function)
 
@@ -680,7 +680,7 @@ assert.strictEqual(O.compare(['a'], ['a']), 0)
 assert.strictEqual(O.compare(['a'], ['b']), -1)
 ```
 
-Added in v1.2.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -705,7 +705,7 @@ assert.strictEqual(O.equals(['a', 'b'], ['a', 'b']), true)
 assert.strictEqual(O.equals(['a'], []), false)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -715,7 +715,7 @@ Added in v1.0.0
 export const getShow = <L, A>(S: Show<A>): Show<Array<A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # head (function)
 
@@ -737,7 +737,7 @@ assert.deepStrictEqual(head([1, 2, 3]), some(1))
 assert.deepStrictEqual(head([]), none)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # init (function)
 
@@ -759,7 +759,7 @@ assert.deepStrictEqual(init([1, 2, 3]), some([1, 2]))
 assert.deepStrictEqual(init([]), none)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # insertAt (function)
 
@@ -780,7 +780,7 @@ import { some } from 'fp-ts/lib/Option'
 assert.deepStrictEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # intersection (function)
 
@@ -802,7 +802,7 @@ import { setoidNumber } from 'fp-ts/lib/Setoid'
 assert.deepStrictEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # isEmpty (function)
 
@@ -822,7 +822,7 @@ import { isEmpty } from 'fp-ts/lib/Array'
 assert.strictEqual(isEmpty([]), true)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # isOutOfBound (function)
 
@@ -834,7 +834,7 @@ Test whether an array contains a particular index
 export const isOutOfBound = <A>(i: number, as: Array<A>): boolean => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # last (function)
 
@@ -856,7 +856,7 @@ assert.deepStrictEqual(last([1, 2, 3]), some(3))
 assert.deepStrictEqual(last([]), none)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # lefts (function)
 
@@ -877,7 +877,7 @@ import { left, right } from 'fp-ts/lib/Either'
 assert.deepStrictEqual(lefts([right(1), left('foo'), right(2)]), ['foo'])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # lookup (function)
 
@@ -899,7 +899,7 @@ assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
 assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # makeBy (function)
 
@@ -920,7 +920,7 @@ const double = (n: number): number => n * 2
 assert.deepStrictEqual(makeBy(5, double), [0, 2, 4, 6, 8])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # modifyAt (function)
 
@@ -944,7 +944,7 @@ assert.deepStrictEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
 assert.deepStrictEqual(modifyAt([], 1, double), none)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # ~~partition~~ (function)
 
@@ -957,7 +957,7 @@ export function partition<A, B extends A>(fa: Array<A>, p: Refinement<A, B>): Se
 export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>> { ... }
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # partitionMap (function)
 
@@ -980,7 +980,7 @@ assert.deepStrictEqual(array.partitionMap([right(1), left('foo'), right(2)], ide
 })
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # range (function)
 
@@ -1000,7 +1000,7 @@ import { range } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 <<<<<<< HEAD
 # ~~refine~~ (function)
@@ -1035,7 +1035,7 @@ import { replicate } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(replicate(3, 'a'), ['a', 'a', 'a'])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # reverse (function)
 
@@ -1055,7 +1055,7 @@ import { reverse } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(reverse([1, 2, 3]), [3, 2, 1])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # rights (function)
 
@@ -1076,7 +1076,7 @@ import { right, left } from 'fp-ts/lib/Either'
 assert.deepStrictEqual(rights([right(1), left('foo'), right(2)]), [1, 2])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # rotate (function)
 
@@ -1096,7 +1096,7 @@ import { rotate } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # scanLeft (function)
 
@@ -1114,7 +1114,7 @@ assert.deepStrictEqual(scanLeft([1, 2, 3], 10, (b, a) => b - a), [10, 9, 7, 4])
 export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> => ...
 ```
 
-Added in v1.1.0
+Added in v2.0.0
 
 # scanRight (function)
 
@@ -1134,7 +1134,7 @@ import { scanRight } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(scanRight([1, 2, 3], 10, (a, b) => b - a), [4, 5, 7, 10])
 ```
 
-Added in v1.1.0
+Added in v2.0.0
 
 # snoc (function)
 
@@ -1154,7 +1154,7 @@ import { snoc } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # sort (function)
 
@@ -1175,7 +1175,7 @@ import { ordNumber } from 'fp-ts/lib/Ord'
 assert.deepStrictEqual(sort(ordNumber)([3, 2, 1]), [1, 2, 3])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # sortBy (function)
 
@@ -1215,7 +1215,7 @@ if (isSome(sortByNameByAge)) {
 }
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # sortBy1 (function)
 
@@ -1251,7 +1251,7 @@ assert.deepStrictEqual(sortByNameByAge(persons), [
 ])
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # span (function)
 
@@ -1275,7 +1275,7 @@ import { span } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # split (function)
 
@@ -1295,7 +1295,7 @@ import { split } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # tail (function)
 
@@ -1317,7 +1317,7 @@ assert.deepStrictEqual(tail([1, 2, 3]), some([2, 3]))
 assert.deepStrictEqual(tail([]), none)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # take (function)
 
@@ -1338,7 +1338,7 @@ import { take } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(take(2, [1, 2, 3]), [1, 2])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # takeEnd (function)
 
@@ -1359,7 +1359,7 @@ import { takeEnd } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # takeWhile (function)
 
@@ -1380,7 +1380,7 @@ import { takeWhile } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # union (function)
 
@@ -1401,7 +1401,7 @@ import { setoidNumber } from 'fp-ts/lib/Setoid'
 assert.deepStrictEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # uniq (function)
 
@@ -1422,7 +1422,7 @@ import { setoidNumber } from 'fp-ts/lib/Setoid'
 assert.deepStrictEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # unsafeDeleteAt (function)
 
@@ -1432,7 +1432,7 @@ Added in v1.3.0
 export const unsafeDeleteAt = <A>(i: number, as: Array<A>): Array<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # unsafeInsertAt (function)
 
@@ -1442,7 +1442,7 @@ Added in v1.0.0
 export const unsafeInsertAt = <A>(i: number, a: A, as: Array<A>): Array<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # unsafeUpdateAt (function)
 
@@ -1452,7 +1452,7 @@ Added in v1.0.0
 export const unsafeUpdateAt = <A>(i: number, a: A, as: Array<A>): Array<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # unzip (function)
 
@@ -1472,7 +1472,7 @@ import { unzip } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(unzip([[1, 'a'], [2, 'b'], [3, 'c']]), [[1, 2, 3], ['a', 'b', 'c']])
 ```
 
-Added in v1.13.0
+Added in v2.0.0
 
 # updateAt (function)
 
@@ -1494,7 +1494,7 @@ assert.deepStrictEqual(updateAt(1, 1, [1, 2, 3]), some([1, 1, 3]))
 assert.deepStrictEqual(updateAt(1, 1, []), none)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # zip (function)
 
@@ -1515,7 +1515,7 @@ import { zip } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(zip([1, 2, 3], ['a', 'b', 'c', 'd']), [[1, 'a'], [2, 'b'], [3, 'c']])
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # zipWith (function)
 
@@ -1536,4 +1536,4 @@ import { zipWith } from 'fp-ts/lib/Array'
 assert.deepStrictEqual(zipWith([1, 2, 3], ['a', 'b', 'c', 'd'], (n, s) => s + n), ['a1', 'b2', 'c3'])
 ```
 
-Added in v1.0.0
+Added in v2.0.0

@@ -30,7 +30,7 @@ export interface Traced<P, A> {
 }
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -56,7 +56,7 @@ export const URI = ...
 export const traced: Functor2<URI> = ...
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # censor (function)
 
@@ -68,7 +68,7 @@ Apply a function to the current position
 export const censor = <P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> => ...
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # getComonad (function)
 
@@ -78,7 +78,7 @@ Added in v1.16.0
 export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> { ... }
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # listen (function)
 
@@ -90,7 +90,7 @@ Get the current position
 export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => ...
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # listens (function)
 
@@ -102,7 +102,7 @@ Get a value which depends on the current position
 export const listens = <P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> => ...
 ```
 
-Added in v1.16.0
+Added in v2.0.0
 
 # tracks (function)
 
@@ -114,4 +114,4 @@ Extracts a value at a relative position which depends on the current value.
 export const tracks = <P, A>(M: Monoid<P>, f: (a: A) => P) => (wa: Traced<P, A>): A => ...
 ```
 
-Added in v1.16.0
+Added in v2.0.0

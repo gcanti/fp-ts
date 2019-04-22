@@ -24,7 +24,7 @@ export type URI = typeof URI
 export type Identity<A> = A
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <A>(S: Show<A>): Show<Identity<A>> => {
   return {
@@ -33,7 +33,7 @@ export const getShow = <A>(S: Show<A>): Show<Identity<A>> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => {
   return fromEquals((x, y) => S.equals(x, y))
@@ -92,7 +92,7 @@ const sequence = <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, 
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = {
   URI,

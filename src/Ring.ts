@@ -10,14 +10,14 @@
 import { Semiring, getFunctionSemiring } from './Semiring'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Ring<A> extends Semiring<A> {
   readonly sub: (x: A, y: A) => A
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
   return {
@@ -29,7 +29,7 @@ export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
 /**
  * `negate x` can be used as a shorthand for `zero - x`
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const negate = <A>(ring: Ring<A>) => (a: A): A => {
   return ring.sub(ring.zero, a)
@@ -49,7 +49,7 @@ export const negate = <A>(ring: Ring<A>) => (a: A): A => {
  * assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
  * assert.deepStrictEqual(R.zero, [0, 0, 0])
  *
- * @since 1.14.3
+ * @since 2.0.0
  */
 export const getTupleRing = <T extends Array<Ring<any>>>(
   ...rings: T

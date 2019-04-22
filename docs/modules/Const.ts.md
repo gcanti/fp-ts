@@ -52,7 +52,7 @@ export const URI = ...
 export const const_: Functor2<URI> & Contravariant2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getApplicative (function)
 
@@ -62,7 +62,7 @@ Added in v1.0.0
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getApply (function)
 
@@ -72,7 +72,7 @@ Added in v1.0.0
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -82,7 +82,7 @@ Added in v1.0.0
 export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -92,7 +92,7 @@ Added in v1.0.0
 export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # make (function)
 

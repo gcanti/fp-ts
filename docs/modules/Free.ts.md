@@ -94,7 +94,7 @@ export interface FoldFree3C<M extends URIS3, U, L> {
 export type Free<F, A> = Pure<F, A> | Impure<F, A, any>
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -247,7 +247,7 @@ export function foldFree<M extends URIS>(
 export function foldFree<M>(M: Monad<M>): <F, A>(nt: <X>(fa: HKT<F, X>) => HKT<M, X>, fa: Free<F, A>) => HKT<M, A> { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # hoistFree (function)
 
@@ -268,7 +268,7 @@ export function hoistFree<F extends URIS = never, G extends URIS = never>(
 export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>) { ... }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # liftF (function)
 
@@ -280,7 +280,7 @@ Lift an impure value described by the generating type constructor `F` into the f
 export const liftF = <F, A>(fa: HKT<F, A>): Free<F, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # of (function)
 
@@ -290,4 +290,4 @@ Added in v1.0.0
 export const of = <F, A>(a: A): Free<F, A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

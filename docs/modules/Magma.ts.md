@@ -24,4 +24,4 @@ export interface Magma<A> {
 }
 ```
 
-Added in v1.16.0
+Added in v2.0.0
