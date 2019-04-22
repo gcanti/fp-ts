@@ -35,26 +35,3 @@ export interface Contravariant3C<F extends URIS3, U, L> {
   readonly _U: U
   readonly contramap: <A, B>(fa: Type3<F, U, L, A>, f: (b: B) => A) => Type3<F, U, L, B>
 }
-
-/**
- * @since 1.0.0
- */
-export function lift<F extends URIS3>(
-  contravariant: Contravariant3<F>
-): <A, B>(f: (b: B) => A) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-export function lift<F extends URIS3, U, L>(
-  contravariant: Contravariant3C<F, U, L>
-): <A, B>(f: (b: B) => A) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-export function lift<F extends URIS2>(
-  contravariant: Contravariant2<F>
-): <A, B>(f: (b: B) => A) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
-export function lift<F extends URIS2, L>(
-  contravariant: Contravariant2C<F, L>
-): <A, B>(f: (b: B) => A) => (fa: Type2<F, L, A>) => Type2<F, L, B>
-export function lift<F extends URIS>(
-  contravariant: Contravariant1<F>
-): <A, B>(f: (b: B) => A) => (fa: Type<F, A>) => Type<F, B>
-export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
-export function lift<F>(contravariant: Contravariant<F>): <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B> {
-  return f => fa => contravariant.contramap(fa, f)
-}
