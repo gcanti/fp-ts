@@ -10,13 +10,10 @@ parent: Modules
 
 - [getAlt (function)](#getalt-function)
 - [getApplicative (function)](#getapplicative-function)
-- [getCompactable (function)](#getcompactable-function)
-- [getFilterable (function)](#getfilterable-function)
 - [getMonad (function)](#getmonad-function)
 - [getMonadThrow (function)](#getmonadthrow-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getWitherable (function)](#getwitherable-function)
 
 ---
 
@@ -25,7 +22,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => ...
+export function getAlt<L>(S: Semigroup<L>): Alt2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -35,32 +32,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => ...
+export function getApplicative<L>(S: Semigroup<L>): Applicative2C<URI, L> { ... }
 ```
-
-# getCompactable (function)
-
-Builds `Compactable` instance for `Validation` given `Monoid` for the failure side
-
-**Signature**
-
-```ts
-export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> { ... }
-```
-
-Added in v2.0.0
-
-# getFilterable (function)
-
-Builds `Filterable` instance for `Validation` given `Monoid` for the left side
-
-**Signature**
-
-```ts
-export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> { ... }
-```
-
-Added in v2.0.0
 
 # getMonad (function)
 
@@ -69,7 +42,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => ...
+export function getMonad<L>(S: Semigroup<L>): Monad2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -79,7 +52,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonadThrow = <L>(S: Semigroup<L>): MonadThrow2C<URI, L> => ...
+export function getMonadThrow<L>(S: Semigroup<L>): MonadThrow2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -89,7 +62,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Either<L, A>> => ...
+export function getMonoid<L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Either<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -99,19 +72,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Either<L, A>> => ...
-```
-
-Added in v2.0.0
-
-# getWitherable (function)
-
-Builds `Witherable` instance for `Validation` given `Monoid` for the left side
-
-**Signature**
-
-```ts
-export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> { ... }
+export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Either<L, A>> { ... }
 ```
 
 Added in v2.0.0
