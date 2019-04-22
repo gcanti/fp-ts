@@ -12,7 +12,7 @@ A `FoldableWithIndex` instance must be compatible with its `Foldable` instance
 ```ts
 reduce(fa, b, f) = reduceWithIndex(fa, b, (_, b, a) => f(b, a))
 foldMap(M)(fa, f) = foldMapWithIndex(M)(fa, (_, a) => f(a))
-foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
+reduceRight(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
 ```
 
 ---

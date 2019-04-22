@@ -91,7 +91,7 @@ const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Tuple<L, A>, f: (a: A) => M): M 
   return f(snd(fa))
 }
 
-const foldr = <L, A, B>(fa: Tuple<L, A>, b: B, f: (a: A, b: B) => B): B => {
+const reduceRight = <L, A, B>(fa: Tuple<L, A>, b: B, f: (a: A, b: B) => B): B => {
   return f(snd(fa), b)
 }
 
@@ -222,7 +222,7 @@ export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Folda
   extend,
   reduce,
   foldMap,
-  foldr,
+  reduceRight,
   traverse,
   sequence
 }

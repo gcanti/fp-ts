@@ -92,12 +92,12 @@ describe('Tuple', () => {
     assert.strictEqual(foldMap(x1, f1), 'a')
   })
 
-  it('foldr', () => {
-    const foldr = T.tuple.foldr
+  it('reduceRight', () => {
+    const reduceRight = T.tuple.reduceRight
     const x1 = tuple(1, 'a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(foldr(x1, init1, f1), 'a')
+    assert.strictEqual(reduceRight(x1, init1, f1), 'a')
   })
 
   it('swap', () => {
