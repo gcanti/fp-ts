@@ -204,7 +204,7 @@ const zero = <A>(): Array<A> => empty
 
 const alt = concat
 
-const unfoldr = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
+const unfold = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
   const ret: Array<A> = []
   let bb = b
   while (true) {
@@ -1553,7 +1553,7 @@ export const array: Monad1<URI> &
   reduce,
   foldMap,
   reduceRight,
-  unfoldr,
+  unfold,
   traverse,
   sequence,
   zero,

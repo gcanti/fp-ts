@@ -97,7 +97,7 @@ export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <A>(d: Record<string
   return d => {
     const arr = toArray(d)
     const len = arr.length
-    return unfoldable.unfoldr(0, b => (b < len ? optionSome([arr[b], b + 1]) : none))
+    return unfoldable.unfold(0, b => (b < len ? optionSome([arr[b], b + 1]) : none))
   }
 }
 

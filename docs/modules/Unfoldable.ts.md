@@ -6,7 +6,7 @@ parent: Modules
 
 # Overview
 
-This class identifies data structures which can be _unfolded_, generalizing `unfoldr` on arrays.
+This class identifies data structures which can be _unfolded_, generalizing `unfold` on arrays.
 
 ---
 
@@ -28,7 +28,7 @@ This class identifies data structures which can be _unfolded_, generalizing `unf
 ```ts
 export interface Unfoldable<F> {
   readonly URI: F
-  readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => HKT<F, A>
+  readonly unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => HKT<F, A>
 }
 ```
 
@@ -41,7 +41,7 @@ Added in v1.0.0
 ```ts
 export interface Unfoldable1<F extends URIS> {
   readonly URI: F
-  readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type<F, A>
+  readonly unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type<F, A>
 }
 ```
 
@@ -52,7 +52,7 @@ export interface Unfoldable1<F extends URIS> {
 ```ts
 export interface Unfoldable2<F extends URIS2> {
   readonly URI: F
-  readonly unfoldr: <L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
+  readonly unfold: <L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
 }
 ```
 
@@ -64,7 +64,7 @@ export interface Unfoldable2<F extends URIS2> {
 export interface Unfoldable2C<F extends URIS2, L> {
   readonly URI: F
   readonly _L: L
-  readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
+  readonly unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
 }
 ```
 
@@ -75,7 +75,7 @@ export interface Unfoldable2C<F extends URIS2, L> {
 ```ts
 export interface Unfoldable3<F extends URIS3> {
   readonly URI: F
-  readonly unfoldr: <U, L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
+  readonly unfold: <U, L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
 }
 ```
 
@@ -88,6 +88,6 @@ export interface Unfoldable3C<F extends URIS3, U, L> {
   readonly URI: F
   readonly _L: L
   readonly _U: U
-  readonly unfoldr: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
+  readonly unfold: <A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
 }
 ```
