@@ -36,11 +36,7 @@ Instances must satisfy the following laws:
 - [FunctorComposition22C (interface)](#functorcomposition22c-interface)
 - [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
 - [FunctorComposition3C1 (interface)](#functorcomposition3c1-interface)
-- [flap (function)](#flap-function)
 - [getFunctorComposition (function)](#getfunctorcomposition-function)
-- [lift (function)](#lift-function)
-- [voidLeft (function)](#voidleft-function)
-- [voidRight (function)](#voidright-function)
 
 ---
 
@@ -216,31 +212,6 @@ export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> 
 }
 ```
 
-# flap (function)
-
-Apply a value in a computational context to a value in no context. Generalizes `flip`
-
-**Signature**
-
-```ts
-export function flap<F extends URIS3>(
-  functor: Functor3<F>
-): <U, L, A, B>(a: A, ff: Type3<F, U, L, (a: A) => B>) => Type3<F, U, L, B>
-export function flap<F extends URIS3, U, L>(
-  functor: Functor3C<F, U, L>
-): <A, B>(a: A, ff: Type3<F, U, L, (a: A) => B>) => Type3<F, U, L, B>
-export function flap<F extends URIS2>(
-  functor: Functor2<F>
-): <L, A, B>(a: A, ff: Type2<F, L, (a: A) => B>) => Type2<F, L, B>
-export function flap<F extends URIS2, L>(
-  functor: Functor2C<F, L>
-): <A, B>(a: A, ff: Type2<F, L, (a: A) => B>) => Type2<F, L, B>
-export function flap<F extends URIS>(functor: Functor1<F>): <A, B>(a: A, ff: Type<F, (a: A) => B>) => Type<F, B>
-export function flap<F>(functor: Functor<F>): <A, B>(a: A, ff: HKT<F, (a: A) => B>) => HKT<F, B> { ... }
-```
-
-Added in v1.0.0
-
 # getFunctorComposition (function)
 
 **Signature**
@@ -279,73 +250,6 @@ export function getFunctorComposition<F extends URIS, G extends URIS>(
   G: Functor1<G>
 ): FunctorComposition11<F, G>
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> { ... }
-```
-
-Added in v1.0.0
-
-# lift (function)
-
-Lift a function of one argument to a function which accepts and returns values wrapped with the type constructor `F`
-
-**Signature**
-
-```ts
-export function lift<F extends URIS3>(
-  F: Functor3<F>
-): <A, B>(f: (a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-export function lift<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(f: (a: A) => B) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-export function lift<F extends URIS2>(
-  F: Functor2<F>
-): <A, B>(f: (a: A) => B) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
-export function lift<F extends URIS2, L>(
-  F: Functor2C<F, L>
-): <A, B>(f: (a: A) => B) => (fa: Type2<F, L, A>) => Type2<F, L, B>
-export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Type<F, A>) => Type<F, B>
-export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> { ... }
-```
-
-Added in v1.0.0
-
-# voidLeft (function)
-
-A version of `voidRight` with its arguments flipped (`$>`)
-
-**Signature**
-
-```ts
-export function voidLeft<F extends URIS3>(
-  F: Functor3<F>
-): <U, L, A, B>(fa: Type3<F, U, L, A>, b: B) => Type3<F, U, L, B>
-export function voidLeft<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(fa: Type3<F, U, L, A>, b: B) => Type3<F, U, L, B>
-export function voidLeft<F extends URIS2>(F: Functor2<F>): <L, A, B>(fa: Type2<F, L, A>, b: B) => Type2<F, L, B>
-export function voidLeft<F extends URIS2, L>(F: Functor2C<F, L>): <A, B>(fa: Type2<F, L, A>, b: B) => Type2<F, L, B>
-export function voidLeft<F extends URIS>(F: Functor1<F>): <A, B>(fa: Type<F, A>, b: B) => Type<F, B>
-export function voidLeft<F>(F: Functor<F>): <A, B>(fa: HKT<F, A>, b: B) => HKT<F, B> { ... }
-```
-
-Added in v1.0.0
-
-# voidRight (function)
-
-Ignore the return value of a computation, using the specified return value instead (`<$`)
-
-**Signature**
-
-```ts
-export function voidRight<F extends URIS3>(
-  F: Functor3<F>
-): <U, L, A, B>(a: A, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
-export function voidRight<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(a: A, fb: Type3<F, U, L, B>) => Type3<F, U, L, A>
-export function voidRight<F extends URIS2>(F: Functor2<F>): <L, A, B>(a: A, fb: Type2<F, L, B>) => Type2<F, L, A>
-export function voidRight<F extends URIS2, L>(F: Functor2C<F, L>): <A, B>(a: A, fb: Type2<F, L, B>) => Type2<F, L, A>
-export function voidRight<F extends URIS>(F: Functor1<F>): <A, B>(a: A, fb: Type<F, B>) => Type<F, A>
-export function voidRight<F>(F: Functor<F>): <A, B>(a: A, fb: HKT<F, B>) => HKT<F, A> { ... }
 ```
 
 Added in v1.0.0
