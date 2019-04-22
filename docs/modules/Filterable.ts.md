@@ -58,7 +58,7 @@ export interface Filterable<F> extends Functor<F>, Compactable<F> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Filterable1 (interface)
 
@@ -73,7 +73,7 @@ export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Filterable2 (interface)
 
@@ -91,7 +91,7 @@ export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Filterable2C (interface)
 
@@ -109,7 +109,7 @@ export interface Filterable2C<F extends URIS2, L> extends Functor2C<F, L>, Compa
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Filterable3 (interface)
 
@@ -130,7 +130,7 @@ export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Filterable3C (interface)
 
@@ -148,7 +148,7 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # FilterableComposition (interface)
 
@@ -380,4 +380,4 @@ export function getFilterableComposition<F extends URIS, G extends URIS>(
 export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>): FilterableComposition<F, G> { ... }
 ```
 
-Added in v1.12.0
+Added in v2.0.0

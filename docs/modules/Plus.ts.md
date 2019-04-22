@@ -40,7 +40,7 @@ export interface Plus<F> extends Alt<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Plus1 (interface)
 

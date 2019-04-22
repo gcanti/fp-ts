@@ -2,7 +2,7 @@ import { Functor2, Functor2C, Functor3, Functor4 } from './Functor'
 import { HKT2, Type2, Type3, Type4, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Profunctor<F> {
   readonly URI: F
@@ -27,7 +27,7 @@ export interface Profunctor4<F extends URIS4> extends Functor4<F> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function lmap<F extends URIS3>(
   profunctor: Profunctor3<F>
@@ -41,7 +41,7 @@ export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function rmap<F extends URIS3>(
   profunctor: Profunctor3<F>

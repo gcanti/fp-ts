@@ -11,14 +11,14 @@
  */
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Setoid<A> {
   readonly equals: (x: A, y: A) => boolean
 }
 
 /**
- * @since 1.14.0
+ * @since 2.0.0
  */
 export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => {
   return {
@@ -27,7 +27,7 @@ export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const strictEqual = <A>(a: A, b: A): boolean => {
   return a === b
@@ -36,29 +36,29 @@ export const strictEqual = <A>(a: A, b: A): boolean => {
 const setoidStrict = { equals: strictEqual }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const setoidString: Setoid<string> = setoidStrict
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const setoidNumber: Setoid<number> = setoidStrict
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const setoidBoolean: Setoid<boolean> = setoidStrict
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getArraySetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => {
   return fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => S.equals(x, ys[i])))
 }
 
 /**
- * @since 1.14.2
+ * @since 2.0.0
  */
 export const getStructSetoid = <O extends { [key: string]: any }>(
   setoids: { [K in keyof O]: Setoid<O[K]> }
@@ -85,7 +85,7 @@ export const getStructSetoid = <O extends { [key: string]: any }>(
  * assert.strictEqual(S.equals(['a', 1, true], ['a', 2, true]), false)
  * assert.strictEqual(S.equals(['a', 1, true], ['a', 1, false]), false)
  *
- * @since 1.14.2
+ * @since 2.0.0
  */
 export const getTupleSetoid = <T extends Array<Setoid<any>>>(
   ...setoids: T
@@ -96,13 +96,13 @@ export const getTupleSetoid = <T extends Array<Setoid<any>>>(
 /**
  * Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
  *
- * @since 1.2.0
+ * @since 2.0.0
  */
 export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
   return fromEquals((x, y) => fa.equals(f(x), f(y)))
 }
 
 /**
- * @since 1.4.0
+ * @since 2.0.0
  */
 export const setoidDate: Setoid<Date> = contramap(date => date.valueOf(), setoidNumber)

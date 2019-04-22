@@ -50,7 +50,7 @@ export interface FunctorWithIndex<F, I> extends Functor<F> {
 }
 ```
 
-Added in v1.12.0
+Added in v2.0.0
 
 # FunctorWithIndex1 (interface)
 
@@ -262,4 +262,4 @@ export function getFunctorWithIndexComposition<F, FI, G, GI>(
 ): FunctorWithIndexComposition<F, FI, G, GI> { ... }
 ```
 
-Added in v1.12.0
+Added in v2.0.0

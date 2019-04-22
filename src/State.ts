@@ -11,7 +11,7 @@ export const URI = 'State'
 export type URI = typeof URI
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface State<S, A> {
   (s: S): [A, S]
@@ -63,7 +63,7 @@ const chain = <S, A, B>(fa: State<S, A>, f: (a: A) => State<S, B>): State<S, B> 
 /**
  * Get the current state
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const get = <S>(): State<S, S> => {
   return s => [s, s]
@@ -72,7 +72,7 @@ export const get = <S>(): State<S, S> => {
 /**
  * Set the state
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const put = <S>(s: S): State<S, void> => {
   return () => [undefined, s]
@@ -81,7 +81,7 @@ export const put = <S>(s: S): State<S, void> => {
 /**
  * Modify the state by applying a function to the current state
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const modify = <S>(f: (s: S) => S): State<S, undefined> => {
   return s => [undefined, f(s)]
@@ -90,14 +90,14 @@ export const modify = <S>(f: (s: S) => S): State<S, undefined> => {
 /**
  * Get a value which depends on the current state
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const gets = <S, A>(f: (s: S) => A): State<S, A> => {
   return s => [f(s), s]
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const state: Monad2<URI> = {
   URI,

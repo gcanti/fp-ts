@@ -12,7 +12,7 @@ import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C } from './Apply'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Chain<F> extends Apply<F> {
   readonly chain: <A, B>(fa: HKT<F, A>, f: (a: A) => HKT<F, B>) => HKT<F, B>
@@ -39,7 +39,7 @@ export interface Chain3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function flatten<F extends URIS3>(
   chain: Chain3<F>

@@ -12,7 +12,7 @@
 import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Functor<F> {
   readonly URI: F
@@ -89,7 +89,7 @@ export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> 
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function getFunctorComposition<F extends URIS3, G extends URIS, UF, LF>(
   F: Functor3C<F, UF, LF>,

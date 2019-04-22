@@ -48,7 +48,7 @@ export interface Semiring<A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getFunctionSemiring (function)
 
@@ -58,4 +58,4 @@ Added in v1.0.0
 export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

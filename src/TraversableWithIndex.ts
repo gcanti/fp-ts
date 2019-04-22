@@ -25,7 +25,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Traversable, Traversable1, Traversable2, Traversable2C } from './Traversable'
 
 /**
- * @since 1.12.0
+ * @since 2.0.0
  */
 export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, FoldableWithIndex<T, I>, Traversable<T> {
   readonly traverseWithIndex: TraverseWithIndex<T, I>

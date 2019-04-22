@@ -42,7 +42,7 @@ export interface Show<A> {
 export const showBoolean: Show<boolean> = ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # showNumber (constant)
 
@@ -52,7 +52,7 @@ Added in v1.17.0
 export const showNumber: Show<number> = ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # showString (constant)
 
@@ -62,7 +62,7 @@ Added in v1.17.0
 export const showString: Show<string> = ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # getStructShow (function)
 
@@ -72,7 +72,7 @@ Added in v1.17.0
 export const getStructShow = <O extends { [key: string]: any }>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # getTupleShow (function)
 
@@ -84,4 +84,4 @@ export const getTupleShow = <T extends Array<Show<any>>>(
 ): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0

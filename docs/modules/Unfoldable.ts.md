@@ -32,7 +32,7 @@ export interface Unfoldable<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Unfoldable1 (interface)
 

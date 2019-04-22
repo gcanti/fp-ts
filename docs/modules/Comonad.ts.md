@@ -27,7 +27,7 @@ export interface Comonad<F> extends Extend<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Comonad1 (interface)
 

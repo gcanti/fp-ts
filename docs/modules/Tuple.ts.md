@@ -40,7 +40,7 @@ Adapted from https://github.com/purescript/purescript-tuples
 export type Tuple<L, A> = [L, A]
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -66,7 +66,7 @@ export const URI = ...
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fst (function)
 
@@ -86,7 +86,7 @@ Added in v2.0.0
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getApply (function)
 
@@ -96,7 +96,7 @@ Added in v1.0.0
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getChain (function)
 
@@ -106,7 +106,7 @@ Added in v1.0.0
 export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getChainRec (function)
 
@@ -116,7 +116,7 @@ Added in v1.0.0
 export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getMonad (function)
 
@@ -126,7 +126,7 @@ Added in v1.0.0
 export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getMonoid (function)
 
@@ -136,7 +136,7 @@ Added in v1.0.0
 export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getOrd (function)
 
@@ -149,7 +149,7 @@ To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
 export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getSemigroup (function)
 
@@ -159,7 +159,7 @@ Added in v1.0.0
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -169,7 +169,7 @@ Added in v1.0.0
 export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -179,7 +179,7 @@ Added in v1.0.0
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # snd (function)
 

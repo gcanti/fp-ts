@@ -62,7 +62,7 @@ export const URI = ...
 export const empty = ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # map (constant)
 
@@ -72,7 +72,7 @@ Added in v1.14.0
 export const map: Filterable2<URI> = ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # collect (function)
 
@@ -82,7 +82,7 @@ Added in v1.14.0
 export const collect = <K>(O: Ord<K>): (<A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B>) => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # elem (function)
 
@@ -94,7 +94,7 @@ Test whether or not a value is a member of a map
 export const elem = <A>(S: Setoid<A>) => <K>(a: A, m: Map<K, A>): boolean => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # fromFoldable (function)
 
@@ -122,7 +122,7 @@ export function fromFoldable<F extends URIS, K, A>(
 export function fromFoldable<F, K, A>(S: Setoid<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getFilterableWithIndex (function)
 
@@ -132,7 +132,7 @@ Added in v1.14.0
 export const getFilterableWithIndex = <K>(): FilterableWithIndex2C<URI, K, K> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getMonoid (function)
 
@@ -144,7 +144,7 @@ Gets `Monoid` instance for Maps given `Semigroup` instance for their values
 export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -154,7 +154,7 @@ Added in v1.14.0
 export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -164,7 +164,7 @@ Added in v1.14.0
 export const getShow = <K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # getTraversableWithIndex (function)
 
@@ -174,7 +174,7 @@ Added in v1.17.0
 export const getTraversableWithIndex = <K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # getWitherable (function)
 
@@ -184,7 +184,7 @@ Added in v1.14.0
 export const getWitherable = <K>(O: Ord<K>): Witherable2C<URI, K> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # insert (function)
 
@@ -196,7 +196,7 @@ Insert or replace a key/value pair in a map
 export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # isEmpty (function)
 
@@ -208,7 +208,7 @@ Test whether or not a map is empty
 export const isEmpty = <K, A>(d: Map<K, A>): boolean => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # isSubmap (function)
 
@@ -220,7 +220,7 @@ Test whether or not one Map contains all of the keys and values contained in ano
 export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # keys (function)
 
@@ -232,7 +232,7 @@ Get a sorted array of the keys contained in a map
 export const keys = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<K>) => m => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # lookup (function)
 
@@ -244,7 +244,7 @@ Lookup the value for a key in a `Map`.
 export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # lookupWithKey (function)
 
@@ -257,7 +257,7 @@ If the result is a `Some`, the existing key is also returned.
 export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # member (function)
 
@@ -269,7 +269,7 @@ Test whether or not a key exists in a map
 export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # pop (function)
 
@@ -281,7 +281,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # remove (function)
 
@@ -293,7 +293,7 @@ Delete a key and value from a map
 export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # singleton (function)
 
@@ -305,7 +305,7 @@ Create a map with one key/value pair
 export const singleton = <K, A>(k: K, a: A): Map<K, A> => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # size (function)
 
@@ -317,7 +317,7 @@ Calculate the number of key/value pairs in a map
 export const size = <K, A>(d: Map<K, A>): number => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # toArray (function)
 
@@ -329,7 +329,7 @@ Get a sorted of the key/value pairs contained in a map
 export const toArray = <K>(O: Ord<K>): (<A>(m: Map<K, A>) => Array<[K, A]>) => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # toUnfoldable (function)
 
@@ -345,7 +345,7 @@ export function toUnfoldable<K, F extends URIS>(
 export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0
 
 # values (function)
 
@@ -357,4 +357,4 @@ Get a sorted array of the values contained in a map
 export const values = <A>(O: Ord<A>): (<K>(m: Map<K, A>) => Array<A>) => m => ...
 ```
 
-Added in v1.14.0
+Added in v2.0.0

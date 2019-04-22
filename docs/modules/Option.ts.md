@@ -157,7 +157,7 @@ export interface Some<A> {
 export type Option<A> = None | Some<A>
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # URI (type alias)
 
@@ -183,7 +183,7 @@ export const URI = ...
 export const none: Option<never> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # option (constant)
 
@@ -201,7 +201,7 @@ export const option: Monad1<URI> &
   Witherable1<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # contains (function)
 
@@ -264,7 +264,7 @@ assert.deepStrictEqual(fromNullable(null), none)
 assert.deepStrictEqual(fromNullable(1), some(1))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # fromPredicate (function)
 
@@ -286,7 +286,7 @@ assert.deepStrictEqual(positive(-1), none)
 assert.deepStrictEqual(positive(1), some(1))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getApplyMonoid (function)
 
@@ -296,7 +296,7 @@ Added in v1.0.0
 export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => ...
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getApplySemigroup (function)
 
@@ -328,7 +328,7 @@ assert.deepStrictEqual(S.concat(none, some(1)), none)
 assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getFirstMonoid (function)
 
@@ -359,7 +359,7 @@ assert.deepStrictEqual(M.concat(none, some(1)), some(1))
 assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getLastMonoid (function)
 
@@ -390,7 +390,7 @@ assert.deepStrictEqual(M.concat(none, some(1)), some(1))
 assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getLeft (function)
 
@@ -435,7 +435,7 @@ assert.deepStrictEqual(M.concat(none, some(1)), some(1))
 assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getOrElse (function)
 
@@ -485,7 +485,7 @@ assert.strictEqual(O.compare(some(1), some(2)), -1)
 assert.strictEqual(O.compare(some(1), some(1)), 0)
 ```
 
-Added in v1.2.0
+Added in v2.0.0
 
 # getRefinement (function)
 
@@ -509,7 +509,7 @@ const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // stati
 export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => ...
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # getRight (function)
 
@@ -545,7 +545,7 @@ assert.strictEqual(S.equals(some(1), some(2)), false)
 assert.strictEqual(S.equals(some(1), some(1)), true)
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -555,7 +555,7 @@ Added in v1.0.0
 export const getShow = <A>(S: Show<A>): Show<Option<A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0
 
 # isNone (function)
 
@@ -567,7 +567,7 @@ Returns `true` if the option is `None`, `false` otherwise
 export const isNone = <A>(fa: Option<A>): fa is None => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # isSome (function)
 
@@ -579,7 +579,7 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # mapNullable (function)
 
@@ -609,7 +609,7 @@ Added in v2.0.0
 export const some = <A>(a: A): Option<A> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # toNullable (function)
 
@@ -656,4 +656,4 @@ assert.deepStrictEqual(
 assert.deepStrictEqual(tryCatch(() => 1), some(1))
 ```
 
-Added in v1.0.0
+Added in v2.0.0

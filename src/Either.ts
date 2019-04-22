@@ -68,7 +68,7 @@ export interface Right<A> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export type Either<L, A> = Left<L> | Right<A>
 
@@ -80,7 +80,7 @@ export function fold<L, A, R>(ma: Either<L, A>, onLeft: (l: L) => R, onRight: (a
 }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => {
   return {
@@ -89,7 +89,7 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => {
   return fromEquals(
@@ -112,7 +112,7 @@ export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, 
  * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
  *
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
   return {
@@ -134,7 +134,7 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => 
  * assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
  *
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => {
   return {
@@ -143,7 +143,7 @@ export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => {
   return {
@@ -215,7 +215,7 @@ const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L
  * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
  * structure
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const left = <L>(l: L): Either<L, never> => {
   return { _tag: 'Left', left: l }
@@ -225,7 +225,7 @@ export const left = <L>(l: L): Either<L, never> => {
  * Constructs a new `Either` holding a `Right` value. This usually represents a successful value due to the right bias
  * of this structure
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const right = <A>(a: A): Either<never, A> => {
   return { _tag: 'Right', right: a }
@@ -234,7 +234,7 @@ export const right = <A>(a: A): Either<never, A> => {
 const of = right
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
@@ -277,7 +277,7 @@ export const fromNullable = <L, A>(a: A | null | undefined, l: L): Either<L, A> 
 /**
  * Default value for the `onError` argument of `tryCatch`
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const toError = (e: unknown): Error => {
   return e instanceof Error ? e : new Error(String(e))
@@ -304,7 +304,7 @@ export const toError = (e: unknown): Error => {
  * assert.deepStrictEqual(head([]), left(new Error('empty array')))
  * assert.deepStrictEqual(head([1, 2, 3]), right(1))
  *
- * @since 1.11.0
+ * @since 2.0.0
  */
 export const tryCatch = <L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L, A> => {
   try {
@@ -317,7 +317,7 @@ export const tryCatch = <L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L
 /**
  * Returns `true` if the either is an instance of `Left`, `false` otherwise
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const isLeft = <L, A>(ma: Either<L, A>): ma is Left<L> => {
   switch (ma._tag) {
@@ -331,7 +331,7 @@ export const isLeft = <L, A>(ma: Either<L, A>): ma is Left<L> => {
 /**
  * Returns `true` if the either is an instance of `Right`, `false` otherwise
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const isRight = <L, A>(ma: Either<L, A>): ma is Right<A> => {
   return isLeft(ma) ? false : true
@@ -340,7 +340,7 @@ export const isRight = <L, A>(ma: Either<L, A>): ma is Right<A> => {
 /**
  * Builds `Compactable` instance for `Either` given `Monoid` for the left side
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
   const compact = <A>(fa: Either<L, Option<A>>): Either<L, A> => {
@@ -439,7 +439,7 @@ export function filterOrElseL<L, A>(ma: Either<L, A>, predicate: Predicate<A>, z
 /**
  * Builds `Filterable` instance for `Either` given `Monoid` for the left side
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
   const C = getCompactable(ML)
@@ -507,7 +507,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
 /**
  * Builds `Witherable` instance for `Either` given `Monoid` for the left side
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
   const filterableEither = getFilterable(ML)
@@ -550,7 +550,7 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
  * assert.deepStrictEqual(parseJSON('{"a":1}', toError), right({ a: 1 }))
  * assert.deepStrictEqual(parseJSON('{"a":}', toError), left(new SyntaxError('Unexpected token } in JSON at position 5')))
  *
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either<L, unknown> => {
   return tryCatch(() => JSON.parse(s), onError)
@@ -567,7 +567,7 @@ export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either
  * circular.ref = circular
  * assert.deepStrictEqual(stringifyJSON(circular, toError), left(new TypeError('Converting circular structure to JSON')))
  *
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const stringifyJSON = <L>(u: unknown, onError: (reason: unknown) => L): Either<L, string> => {
   return tryCatch(() => JSON.stringify(u), onError)
@@ -578,7 +578,7 @@ const throwError = left
 const fromEither = identity
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const either: Monad2<URI> &
   Foldable2<URI> &

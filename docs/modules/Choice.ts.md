@@ -57,7 +57,7 @@ export interface Choice<F> extends Profunctor<F> {
 }
 ```
 
-Added in v1.11.0
+Added in v2.0.0
 
 # Choice2 (interface)
 
@@ -127,7 +127,7 @@ export function fanin<F>(
 ): <A, B, C>(pac: HKT2<F, A, C>, pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, C> { ... }
 ```
 
-Added in v1.11.0
+Added in v2.0.0
 
 # splitChoice (function)
 
@@ -158,4 +158,4 @@ export function splitChoice<F>(
 ): <A, B, C, D>(pab: HKT2<F, A, B>, pcd: HKT2<F, C, D>) => HKT2<F, Either<A, C>, Either<B, D>> { ... }
 ```
 
-Added in v1.11.0
+Added in v2.0.0

@@ -31,12 +31,12 @@ export const URI = 'Tuple'
 export type URI = typeof URI
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export type Tuple<L, A> = [L, A]
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => {
   return {
@@ -96,7 +96,7 @@ const reduceRight = <L, A, B>(fa: Tuple<L, A>, b: B, f: (a: A, b: B) => B): B =>
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => {
   return getTupleSetoid(SA, SB)
@@ -105,28 +105,28 @@ export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A
  * To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
  * `snd`s are `compare`d.
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => {
   return getOrdSemigroup<Tuple<L, A>>().concat(contramapOrd(fst, OL), contramapOrd(snd, OA))
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => {
   return getTupleSemigroup(SL, SA)
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => {
   return getTupleMonoid(ML, MA)
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
   const ap = <A, B>(fab: Tuple<L, (a: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
@@ -146,7 +146,7 @@ const of = <L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
   return {
@@ -156,7 +156,7 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => {
   const chain = <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
@@ -171,7 +171,7 @@ export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => {
   return {
@@ -181,7 +181,7 @@ export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
   const chainRec = <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
@@ -211,7 +211,7 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Tuple<L, HKT<F, A>>): HKT<
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,

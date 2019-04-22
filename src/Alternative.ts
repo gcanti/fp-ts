@@ -12,7 +12,7 @@ import { URIS, URIS2, URIS3 } from './HKT'
 import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Alternative<F> extends Applicative<F>, Plus<F> {}
 

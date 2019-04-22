@@ -28,7 +28,7 @@ export interface ChainRec<F> extends Chain<F> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # ChainRec1 (interface)
 
@@ -88,4 +88,4 @@ export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
 export const tailRec = <A, B>(a: A, f: (a: A) => Either<A, B>): B => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

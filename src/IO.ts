@@ -46,7 +46,7 @@ const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
   return {
@@ -55,7 +55,7 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
   return { ...getSemigroup(M), empty: of(M.empty) }
@@ -64,7 +64,7 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
 const fromIO = identity
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const io: Monad1<URI> & MonadIO1<URI> = {
   URI,

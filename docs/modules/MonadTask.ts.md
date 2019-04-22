@@ -31,7 +31,7 @@ export interface MonadTask<M> extends Monad<M> {
 }
 ```
 
-Added in v1.10.0
+Added in v2.0.0
 
 # MonadTask1 (interface)
 

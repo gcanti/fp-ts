@@ -49,7 +49,7 @@ export const URI = ...
 export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<URI> & Comonad1<URI> & ChainRec1<URI> = ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getSetoid (function)
 
@@ -59,7 +59,7 @@ Added in v1.0.0
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getShow (function)
 
@@ -69,4 +69,4 @@ Added in v1.0.0
 export const getShow = <A>(S: Show<A>): Show<Identity<A>> => ...
 ```
 
-Added in v1.17.0
+Added in v2.0.0

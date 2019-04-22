@@ -16,7 +16,7 @@ import { Chain, Chain1, Chain2, Chain2C, Chain3, Chain3C } from './Chain'
 import { URIS, URIS2, URIS3 } from './HKT'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Monad<F> extends Applicative<F>, Chain<F> {}
 

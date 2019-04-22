@@ -46,7 +46,7 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
 /**
  * **Note**: This function is here just to avoid switching to / from `Either`
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
   const chain = <A, B>(fa: Either<L, A>, f: (a: A) => Either<L, B>): Either<L, B> => {
@@ -60,7 +60,7 @@ export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Either<L, A>> => {
   const concat = (fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => {
@@ -78,7 +78,7 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Either<L, A>> => {
   return {
@@ -88,7 +88,7 @@ export const getMonoid = <L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Either<
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
   const alt = <A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => {
@@ -105,7 +105,7 @@ export const getAlt = <L>(S: Semigroup<L>): Alt2C<URI, L> => {
 /**
  * Builds `Compactable` instance for `Validation` given `Monoid` for the failure side
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
   const compact = <A>(fa: Either<L, Option<A>>): Either<L, A> => {
@@ -149,7 +149,7 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 /**
  * Builds `Filterable` instance for `Validation` given `Monoid` for the left side
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
   const C = getCompactable(ML)
@@ -228,7 +228,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
 /**
  * Builds `Witherable` instance for `Validation` given `Monoid` for the left side
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
   const filterableValidation = getFilterable(ML)
@@ -263,7 +263,7 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
 }
 
 /**
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const getMonadThrow = <L>(S: Semigroup<L>): MonadThrow2C<URI, L> => {
   return {

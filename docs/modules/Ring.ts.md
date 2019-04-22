@@ -35,7 +35,7 @@ export interface Ring<A> extends Semiring<A> {
 }
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getFunctionRing (function)
 
@@ -45,7 +45,7 @@ Added in v1.0.0
 export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # getTupleRing (function)
 
@@ -73,7 +73,7 @@ assert.deepStrictEqual(R.sub([1, 2, 3], [4, 5, 6]), [-3, -3, -3])
 assert.deepStrictEqual(R.zero, [0, 0, 0])
 ```
 
-Added in v1.14.3
+Added in v2.0.0
 
 # negate (function)
 
@@ -85,4 +85,4 @@ Added in v1.14.3
 export const negate = <A>(ring: Ring<A>) => (a: A): A => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0

@@ -31,7 +31,7 @@ import {
 } from './Functor'
 
 /**
- * @since 1.12.0
+ * @since 2.0.0
  */
 export interface FunctorWithIndex<F, I> extends Functor<F> {
   readonly mapWithIndex: <A, B>(fa: HKT<F, A>, f: (i: I, a: A) => B) => HKT<F, B>
@@ -115,7 +115,7 @@ export interface FunctorWithIndexComposition3C1<F extends URIS3, FI, G extends U
 }
 
 /**
- * @since 1.12.0
+ * @since 2.0.0
  */
 export function getFunctorWithIndexComposition<F extends URIS3, FI, G extends URIS, GI, U, L>(
   F: FunctorWithIndex3C<F, FI, U, L>,

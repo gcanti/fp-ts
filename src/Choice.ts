@@ -33,7 +33,7 @@ import { Category, Category2, Category3 } from './Category'
 import { identity } from './function'
 
 /**
- * @since 1.11.0
+ * @since 2.0.0
  */
 export interface Choice<F> extends Profunctor<F> {
   readonly left: <A, B, C>(pab: HKT2<F, A, B>) => HKT2<F, Either<A, C>, Either<B, C>>
@@ -69,7 +69,7 @@ export interface Choice4<F extends URIS4> extends Profunctor4<F> {
  * takes an `Either`and maps `f` over the left side and `g` over the right side.  Just like
  * `bi-map` would do for the `bi-functor` instance of `Either`.
  *
- * @since 1.11.0
+ * @since 2.0.0
  */
 export function splitChoice<F extends URIS3>(
   F: Category3<F> & Choice3<F>
@@ -110,7 +110,7 @@ export function splitChoice<F>(
  * This allows us to bundle two different computations which both have the same result type into one
  * function which will run the approriate computation based on the parameter supplied in the `Either` value.
  *
- * @since 1.11.0
+ * @since 2.0.0
  */
 export function fanin<F extends URIS3>(
   F: Category3<F> & Choice3<F>

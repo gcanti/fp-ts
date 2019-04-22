@@ -14,7 +14,7 @@ export const URI = 'Traced'
 export type URI = typeof URI
 
 /**
- * @since 1.16.0
+ * @since 2.0.0
  */
 export interface Traced<P, A> {
   (p: P): A
@@ -22,7 +22,7 @@ export interface Traced<P, A> {
 
 /**
  * Extracts a value at a relative position which depends on the current value.
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const tracks = <P, A>(M: Monoid<P>, f: (a: A) => P) => (wa: Traced<P, A>): A => {
   return wa(f(wa(M.empty)))
@@ -30,7 +30,7 @@ export const tracks = <P, A>(M: Monoid<P>, f: (a: A) => P) => (wa: Traced<P, A>)
 
 /**
  * Get the current position
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => {
   return e => tuple(wa(e), e)
@@ -38,7 +38,7 @@ export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => {
 
 /**
  * Get a value which depends on the current position
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const listens = <P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> => {
   return e => tuple(wa(e), f(e))
@@ -46,14 +46,14 @@ export const listens = <P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A
 
 /**
  * Apply a function to the current position
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const censor = <P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> => {
   return e => wa(f(e))
 }
 
 /**
- * @since 1.16.0
+ * @since 2.0.0
  */
 export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   function extend<A, B>(wa: Traced<P, A>, f: (wa: Traced<P, A>) => B): Traced<P, B> {
@@ -78,7 +78,7 @@ function map<P, A, B>(wa: Traced<P, A>, f: (a: A) => B): Traced<P, B> {
 }
 
 /**
- * @since 1.16.0
+ * @since 2.0.0
  */
 export const traced: Functor2<URI> = {
   URI,

@@ -6,7 +6,7 @@
 import { MeetSemilattice } from './MeetSemilattice'
 
 /**
- * @since 1.4.0
+ * @since 2.0.0
  */
 export interface BoundedMeetSemilattice<A> extends MeetSemilattice<A> {
   readonly one: A

@@ -24,7 +24,7 @@ export type URI = typeof URI
 const eitherT = getEitherT(io)
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export interface IOEither<L, A> extends IO<E.Either<L, A>> {}
 
@@ -60,40 +60,40 @@ export function mapLeft<L, A, M>(ma: IOEither<L, A>, f: (l: L) => M): IOEither<M
 export const fold: <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R) => IO<R> = eitherT.fold
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export function right<A>(fa: IO<A>): IOEither<never, A> {
   return io.map(fa, E.right)
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export function left<L>(fa: IO<L>): IOEither<L, never> {
   return io.map(fa, E.left)
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const fromEither: <L, A>(fa: E.Either<L, A>) => IOEither<L, A> = io.of
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export function fromLeft<L>(l: L): IOEither<L, never> {
   return fromEither(E.left(l))
 }
 
 /**
- * @since 1.11.0
+ * @since 2.0.0
  */
 export function tryCatch<L, A>(f: Lazy<A>, onError: (reason: unknown) => L): IOEither<L, A> {
   return () => E.tryCatch(f, onError)
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<URI> = {
   URI,

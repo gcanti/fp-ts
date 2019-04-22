@@ -62,7 +62,7 @@ export interface Wilt<W> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wilt1 (interface)
 
@@ -97,7 +97,7 @@ export interface Wilt1<W extends URIS> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wilt2 (interface)
 
@@ -132,7 +132,7 @@ export interface Wilt2<W extends URIS2> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wilt2C (interface)
 
@@ -167,7 +167,7 @@ export interface Wilt2C<W extends URIS2, WL> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wilt3 (interface)
 
@@ -202,7 +202,7 @@ export interface Wilt3<W extends URIS3> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wilt3C (interface)
 
@@ -237,7 +237,7 @@ export interface Wilt3C<W extends URIS3, WU, WL> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wither (interface)
 
@@ -266,7 +266,7 @@ export interface Wither<W> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wither1 (interface)
 
@@ -295,7 +295,7 @@ export interface Wither1<W extends URIS> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wither2 (interface)
 
@@ -327,7 +327,7 @@ export interface Wither2<W extends URIS2> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wither2C (interface)
 
@@ -359,7 +359,7 @@ export interface Wither2C<W extends URIS2, WL> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wither3 (interface)
 
@@ -394,7 +394,7 @@ export interface Wither3<W extends URIS3> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Wither3C (interface)
 
@@ -426,7 +426,7 @@ export interface Wither3C<W extends URIS3, WU, WL> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Witherable (interface)
 
@@ -446,7 +446,7 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Witherable1 (interface)
 
@@ -459,7 +459,7 @@ export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Witherable2 (interface)
 
@@ -472,7 +472,7 @@ export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterabl
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Witherable2C (interface)
 
@@ -485,7 +485,7 @@ export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>,
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Witherable3 (interface)
 
@@ -498,7 +498,7 @@ export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterabl
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0
 
 # Witherable3C (interface)
 
@@ -511,4 +511,4 @@ export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, 
 }
 ```
 
-Added in v1.7.0
+Added in v2.0.0

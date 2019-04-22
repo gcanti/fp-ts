@@ -10,7 +10,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { constant } from './function'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Monoidal<F> extends Functor<F> {
   readonly unit: () => HKT<F, void>
@@ -43,7 +43,7 @@ export interface Monoidal3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function fromApplicative<F extends URIS3>(F: Applicative3<F>): Monoidal3<F>
 export function fromApplicative<F extends URIS2>(F: Applicative2<F>): Monoidal2<F>
@@ -60,7 +60,7 @@ export function fromApplicative<F>(F: Applicative<F>): Monoidal<F> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function toApplicative<F extends URIS3>(M: Monoidal3<F>): Applicative3<F>
 export function toApplicative<F extends URIS2>(M: Monoidal2<F>): Applicative2<F>

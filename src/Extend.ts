@@ -3,7 +3,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { identity } from './function'
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export interface Extend<F> extends Functor<F> {
   readonly extend: <A, B>(ea: HKT<F, A>, f: (fa: HKT<F, A>) => B) => HKT<F, B>
@@ -30,7 +30,7 @@ export interface Extend3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function duplicate<F extends URIS3>(
   E: Extend3<F>

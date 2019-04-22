@@ -24,7 +24,7 @@ import { Either } from './Either'
 import { Separated } from './Compactable'
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Witherable<T> extends Traversable<T>, Filterable<T> {
   /**
@@ -39,7 +39,7 @@ export interface Witherable<T> extends Traversable<T>, Filterable<T> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable1<T> {
   wilt: Wilt1<T>
@@ -47,7 +47,7 @@ export interface Witherable1<T extends URIS> extends Traversable1<T>, Filterable
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterable2<T> {
   wilt: Wilt2<T>
@@ -55,7 +55,7 @@ export interface Witherable2<T extends URIS2> extends Traversable2<T>, Filterabl
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>, Filterable2C<T, TL> {
   wilt: Wilt2C<T, TL>
@@ -63,7 +63,7 @@ export interface Witherable2C<T extends URIS2, TL> extends Traversable2C<T, TL>,
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
   wilt: Wilt3<T>
@@ -71,7 +71,7 @@ export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterabl
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, TU, TL>, Filterable3C<T, TU, TL> {
   wilt: Wilt3C<T, TU, TL>
@@ -79,7 +79,7 @@ export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, 
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wither<W> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
@@ -103,7 +103,7 @@ export interface Wither<W> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wither1<W extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
@@ -127,7 +127,7 @@ export interface Wither1<W extends URIS> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wither2<W extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <WL, FU, FL, A, B>(
@@ -154,7 +154,7 @@ export interface Wither2<W extends URIS2> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wither2C<W extends URIS2, WL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
@@ -181,7 +181,7 @@ export interface Wither2C<W extends URIS2, WL> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wither3<W extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <WU, WL, FU, FL, A, B>(
@@ -211,7 +211,7 @@ export interface Wither3<W extends URIS3> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wither3C<W extends URIS3, WU, WL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
@@ -238,7 +238,7 @@ export interface Wither3C<W extends URIS3, WU, WL> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wilt<W> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, RL, RR, A>(
@@ -268,7 +268,7 @@ export interface Wilt<W> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wilt1<W extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, RL, RR, A>(
@@ -298,7 +298,7 @@ export interface Wilt1<W extends URIS> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wilt2<W extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <WL, FU, FL, RL, RR, A>(
@@ -328,7 +328,7 @@ export interface Wilt2<W extends URIS2> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wilt2C<W extends URIS2, WL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, RL, RR, A>(
@@ -358,7 +358,7 @@ export interface Wilt2C<W extends URIS2, WL> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wilt3<W extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <WU, WL, FU, FL, RL, RR, A>(
@@ -388,7 +388,7 @@ export interface Wilt3<W extends URIS3> {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export interface Wilt3C<W extends URIS3, WU, WL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, RL, RR, A>(

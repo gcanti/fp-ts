@@ -94,7 +94,7 @@ export function fromReader<F extends URIS>(F: Applicative1<F>): <E, A>(fa: Reade
 export function fromReader<F>(F: Applicative<F>): <E, A>(fa: Reader<E, A>) => (e: E) => HKT<F, A> { ... }
 ```
 
-Added in v1.2.0
+Added in v2.0.0
 
 # getReaderT (function)
 
@@ -107,4 +107,4 @@ export function getReaderT<M extends URIS>(M: Monad1<M>): ReaderT1<M>
 export function getReaderT<M>(M: Monad<M>): ReaderT<M> { ... }
 ```
 
-Added in v1.14.0
+Added in v2.0.0

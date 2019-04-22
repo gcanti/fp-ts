@@ -120,12 +120,12 @@ export interface Some<A> {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export type Option<A> = None | Some<A>
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const none: Option<never> = { _tag: 'None' }
 
@@ -218,7 +218,7 @@ export function mapNullable<A, B>(ma: Option<A>, f: (a: A) => B | null | undefin
 }
 
 /**
- * @since 1.17.0
+ * @since 2.0.0
  */
 export const getShow = <A>(S: Show<A>): Show<Option<A>> => {
   return {
@@ -238,7 +238,7 @@ export const getShow = <A>(S: Show<A>): Show<Option<A>> => {
  * assert.strictEqual(S.equals(some(1), some(2)), false)
  * assert.strictEqual(S.equals(some(1), some(1)), true)
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
   return fromEquals((x, y) => (isNone(x) ? isNone(y) : isNone(y) ? false : S.equals(x.value, y.value)))
@@ -262,7 +262,7 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
  * assert.strictEqual(O.compare(some(1), some(2)), -1)
  * assert.strictEqual(O.compare(some(1), some(1)), 0)
  *
- * @since 1.2.0
+ * @since 2.0.0
  */
 export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
   return fromCompare((x, y) => (isSome(x) ? (isSome(y) ? O.compare(x.value, y.value) : 1) : -1))
@@ -273,7 +273,7 @@ const map = <A, B>(ma: Option<A>, f: (a: A) => B): Option<B> => {
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const some = <A>(a: A): Option<A> => {
   return { _tag: 'Some', value: a }
@@ -341,7 +341,7 @@ const zero = <A>(): Option<A> => {
  * assert.deepStrictEqual(S.concat(none, some(1)), none)
  * assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
   return {
@@ -350,7 +350,7 @@ export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
 }
 
 /**
- * @since 1.7.0
+ * @since 2.0.0
  */
 export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
   return {
@@ -378,7 +378,7 @@ export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
  * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(1))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
   return {
@@ -406,7 +406,7 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
  * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
   return getDualMonoid(getFirstMonoid())
@@ -433,7 +433,7 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
  * assert.deepStrictEqual(M.concat(none, some(1)), some(1))
  * assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
   return {
@@ -453,7 +453,7 @@ export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
  * assert.deepStrictEqual(fromNullable(null), none)
  * assert.deepStrictEqual(fromNullable(1), some(1))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
   return a == null ? none : some(a)
@@ -468,7 +468,7 @@ export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
  * assert.deepStrictEqual(positive(-1), none)
  * assert.deepStrictEqual(positive(1), some(1))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export function fromPredicate<A, B extends A>(predicate: Refinement<A, B>): (a: A) => Option<B>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
@@ -491,7 +491,7 @@ export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
  * )
  * assert.deepStrictEqual(tryCatch(() => 1), some(1))
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
   try {
@@ -504,7 +504,7 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
 /**
  * Returns `true` if the option is an instance of `Some`, `false` otherwise
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
   return fa._tag === 'Some'
@@ -513,7 +513,7 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
 /**
  * Returns `true` if the option is `None`, `false` otherwise
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const isNone = <A>(fa: Option<A>): fa is None => {
   return fa._tag === 'None'
@@ -534,7 +534,7 @@ export const isNone = <A>(fa: Option<A>): fa is None => {
  * const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
  * ```
  *
- * @since 1.7.0
+ * @since 2.0.0
  */
 export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => {
   return (a: A): a is B => isSome(getOption(a))
@@ -589,7 +589,7 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
 }
 
 /**
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const option: Monad1<URI> &
   Foldable1<URI> &

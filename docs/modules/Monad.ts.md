@@ -39,7 +39,7 @@ Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.o
 export interface Monad<F> extends Applicative<F>, Chain<F> {}
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # Monad1 (interface)
 

@@ -31,7 +31,7 @@ import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
 import { Profunctor, Profunctor2, Profunctor3, Profunctor4 } from './Profunctor'
 
 /**
- * @since 1.11.0
+ * @since 2.0.0
  */
 export interface Strong<F> extends Profunctor<F> {
   readonly first: <A, B, C>(pab: HKT2<F, A, B>) => HKT2<F, [A, C], [B, C]>
@@ -65,7 +65,7 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
  * We take two functions, `f` and `g`, and we transform them into a single function which takes a tuple and maps `f`
  * over the first element and `g` over the second.  Just like `bi-map` would do for the `bi-functor` instance of tuple.
  *
- * @since 1.11.0
+ * @since 2.0.0
  */
 export function splitStrong<F extends URIS4>(
   F: Category4<F> & Strong4<F>
@@ -105,7 +105,7 @@ export function splitStrong<F>(
  * takes one parameter and returns a tuple of the results of running `f` and `g` on the parameter, respectively.  This
  * allows us to run two parallel computations on the same input and return both results in a tuple.
  *
- * @since 1.11.0
+ * @since 2.0.0
  */
 export function fanout<F extends URIS4>(
   F: Category4<F> & Strong4<F>

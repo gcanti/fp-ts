@@ -28,7 +28,7 @@ export const URI = 'ReaderTaskEither'
 export type URI = typeof URI
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export interface ReaderTaskEither<E, L, A> {
   (e: E): TaskEither<L, A>
@@ -107,42 +107,42 @@ const bimap = <E, L, V, A, B>(
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const ask = <E>(): ReaderTaskEither<E, never, E> => {
   return e => TE.taskEither.of(e)
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const asks = <E, A>(f: (e: E) => A): ReaderTaskEither<E, never, A> => {
   return e => TE.taskEither.of(f(e))
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const local = <E, L, A, F>(ma: ReaderTaskEither<E, L, A>, f: (f: F) => E): ReaderTaskEither<F, L, A> => {
   return e => ma(f(e))
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const right = <E, A>(fa: Task<A>): ReaderTaskEither<E, never, A> => {
   return () => TE.right(fa)
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const left = <E, L>(fa: Task<L>): ReaderTaskEither<E, L, never> => {
   return () => TE.left(fa)
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<E, L, A> => {
   return () => fa
@@ -150,42 +150,42 @@ export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<
 
 const readerTfromReader = readerT.fromReader(TE.taskEither)
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const fromReader = <E, A>(fa: Reader<E, A>): ReaderTaskEither<E, never, A> => {
   return readerTfromReader(fa)
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const fromEither = <L, A>(fa: Either<L, A>): ReaderTaskEither<unknown, L, A> => {
   return fromTaskEither(TE.fromEither(fa))
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const fromIO = <A>(fa: IO<A>): ReaderTaskEither<unknown, never, A> => {
   return fromTaskEither(TE.fromIO(fa))
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const fromLeft = <L>(l: L): ReaderTaskEither<unknown, L, never> => {
   return fromTaskEither(TE.fromLeft(l))
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const fromIOEither = <L, A>(fa: IOEither<L, A>): ReaderTaskEither<unknown, L, A> => {
   return fromTaskEither(TE.fromIOEither(fa))
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
@@ -204,7 +204,7 @@ export function fromPredicate<L, A>(
 }
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const tryCatch = <E, L, A>(
   f: (e: E) => Promise<A>,
@@ -218,7 +218,7 @@ const fromTask = right
 const throwError = fromLeft
 
 /**
- * @since 1.6.0
+ * @since 2.0.0
  */
 export const readerTaskEither: Monad3<URI> &
   Bifunctor3<URI> &
@@ -242,7 +242,7 @@ export const readerTaskEither: Monad3<URI> &
 
 /**
  * Like `readerTaskEither` but `ap` is sequential
- * @since 1.10.0
+ * @since 2.0.0
  */
 export const readerTaskEitherSeq: typeof readerTaskEither = {
   ...readerTaskEither,

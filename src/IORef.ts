@@ -10,7 +10,7 @@ import { IO } from './IO'
  *
  * assert.strictEqual(run(io.chain(newIORef(1), ref => io.chain(ref.write(2), () => ref.read))), 2)
  *
- * @since 1.8.0
+ * @since 2.0.0
  */
 export class IORef<A> {
   read: IO<A>
@@ -18,7 +18,7 @@ export class IORef<A> {
     this.read = () => this.value
   }
   /**
-   * @since 1.8.0
+   * @since 2.0.0
    */
   write(a: A): IO<void> {
     return () => {
@@ -26,7 +26,7 @@ export class IORef<A> {
     }
   }
   /**
-   * @since 1.8.0
+   * @since 2.0.0
    */
   modify(f: (a: A) => A): IO<void> {
     return () => {
@@ -36,7 +36,7 @@ export class IORef<A> {
 }
 
 /**
- * @since 1.8.0
+ * @since 2.0.0
  */
 export const newIORef = <A>(a: A): IO<IORef<A>> => {
   return () => new IORef(a)

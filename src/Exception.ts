@@ -8,7 +8,7 @@ import { Option, none, some } from './Option'
 /**
  * Create a JavaScript error, specifying a message
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const error = (message: string): Error => {
   return new Error(message)
@@ -17,7 +17,7 @@ export const error = (message: string): Error => {
 /**
  * Get the error message from a JavaScript error
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const message = (e: Error): string => {
   return e.message
@@ -26,7 +26,7 @@ export const message = (e: Error): string => {
 /**
  * Get the stack trace from a JavaScript error
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const stack = (e: Error): Option<string> => {
   return typeof e.stack === 'string' ? some(e.stack) : none
@@ -35,7 +35,7 @@ export const stack = (e: Error): Option<string> => {
 /**
  * Throw an exception
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const throwError = <A>(e: Error): IO<A> => {
   return () => {
@@ -46,7 +46,7 @@ export const throwError = <A>(e: Error): IO<A> => {
 /**
  * Catch an exception by providing an exception handler
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> => {
   return () => {
@@ -66,7 +66,7 @@ export const catchError = <A>(ma: IO<A>, handler: (e: Error) => IO<A>): IO<A> =>
  * Runs an IO and returns eventual Exceptions as a `Left` value. If the computation succeeds the result gets wrapped in
  * a `Right`.
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
 export const tryCatch = <A>(ma: IO<A>): IO<Either<Error, A>> => {
   return catchError(io.map<A, Either<Error, A>>(ma, right), e => io.of(left(e)))

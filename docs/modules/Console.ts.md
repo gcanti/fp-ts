@@ -27,7 +27,7 @@ Adapted from https://github.com/purescript/purescript-console
 export const error = (s: unknown): IO<void> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # info (function)
 
@@ -37,7 +37,7 @@ Added in v1.0.0
 export const info = (s: unknown): IO<void> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # log (function)
 
@@ -47,7 +47,7 @@ Added in v1.0.0
 export const log = (s: unknown): IO<void> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
 
 # warn (function)
 
@@ -57,4 +57,4 @@ Added in v1.0.0
 export const warn = (s: unknown): IO<void> => ...
 ```
 
-Added in v1.0.0
+Added in v2.0.0
