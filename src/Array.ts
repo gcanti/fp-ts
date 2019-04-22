@@ -1555,7 +1555,7 @@ export const array: Monad1<URI> &
   chain,
   reduce,
   foldMap,
-  foldr: reduceRight,
+  reduceRight,
   unfoldr,
   traverse,
   sequence,

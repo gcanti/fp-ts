@@ -297,7 +297,7 @@ const foldMap = <M>(M: Monoid<M>) => <A>(fa: Option<A>, f: (a: A) => M): M => {
   return isNone(fa) ? M.empty : f(fa.value)
 }
 
-const foldr = <A, B>(fa: Option<A>, b: B, f: (a: A, b: B) => B): B => {
+const reduceRight = <A, B>(fa: Option<A>, b: B, f: (a: A, b: B) => B): B => {
   return isNone(fa) ? b : f(fa.value, b)
 }
 
@@ -607,7 +607,7 @@ export const option: Monad1<URI> &
   chain,
   reduce,
   foldMap,
-  foldr,
+  reduceRight,
   traverse,
   sequence,
   zero,

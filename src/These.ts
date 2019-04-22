@@ -204,7 +204,7 @@ const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: These<L, A>, f: (a: A) => M): M 
   return isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
 }
 
-const foldr = <L, A, B>(fa: These<L, A>, b: B, f: (a: A, b: B) => B): B => {
+const reduceRight = <L, A, B>(fa: These<L, A>, b: B, f: (a: A, b: B) => B): B => {
   return isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
 }
 
@@ -401,7 +401,7 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversab
   bimap,
   reduce,
   foldMap,
-  foldr,
+  reduceRight,
   traverse,
   sequence
 }

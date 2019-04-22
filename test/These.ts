@@ -213,16 +213,16 @@ describe('These', () => {
     assert.strictEqual(foldMap(x3, f1), 'a')
   })
 
-  it('foldr', () => {
-    const foldr = these.foldr
+  it('reduceRight', () => {
+    const reduceRight = these.reduceRight
     const x1 = right('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(foldr(x1, init1, f1), 'a')
+    assert.strictEqual(reduceRight(x1, init1, f1), 'a')
     const x2 = left(1)
-    assert.strictEqual(foldr(x2, init1, f1), '')
+    assert.strictEqual(reduceRight(x2, init1, f1), '')
     const x3 = both(1, 'a')
-    assert.strictEqual(foldr(x3, init1, f1), 'a')
+    assert.strictEqual(reduceRight(x3, init1, f1), 'a')
   })
 
   it('getShow', () => {

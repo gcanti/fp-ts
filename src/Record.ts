@@ -254,7 +254,7 @@ const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) =
   return (fa, f) => foldMapWithKeyM(fa, (_, a) => f(a))
 }
 
-const foldr = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => {
+const reduceRight = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => {
   return foldrWithKey(fa, b, (_, a, b) => f(a, b))
 }
 
@@ -714,7 +714,7 @@ export const record: FunctorWithIndex1<URI, string> &
   map,
   reduce,
   foldMap,
-  foldr,
+  reduceRight,
   traverse,
   sequence,
   compact,

@@ -137,12 +137,12 @@ describe.only('NonEmptyArray', () => {
     assert.strictEqual(foldMap(x1, f1), 'abc')
   })
 
-  it('foldr', () => {
-    const foldr = nonEmptyArray.foldr
+  it('reduceRight', () => {
+    const reduceRight = nonEmptyArray.reduceRight
     const x1 = fromNonEmptyArray(['a', 'b', 'c'])
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(foldr(x1, init1, f1), 'cba')
+    assert.strictEqual(reduceRight(x1, init1, f1), 'cba')
   })
 
   it('fromArray', () => {

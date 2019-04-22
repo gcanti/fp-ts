@@ -22,11 +22,14 @@ describe('Foldable', () => {
     assert.strictEqual(F.foldMap(monoidString)([option.none, option.some('b'), option.none], a => a), 'b')
     assert.strictEqual(F.foldMap(monoidString)([option.none, option.none, option.none], a => a), '')
     assert.strictEqual(F.foldMap(monoidString)([], (a: string) => a), '')
-    // foldr
-    assert.strictEqual(F.foldr([option.some('a'), option.some('b'), option.some('c')], '', monoidString.concat), 'abc')
-    assert.strictEqual(F.foldr([option.none, option.some('b'), option.none], '', monoidString.concat), 'b')
-    assert.strictEqual(F.foldr([option.none, option.none, option.none], '', monoidString.concat), '')
-    assert.strictEqual(F.foldr([], '', monoidString.concat), '')
+    // reduceRight
+    assert.strictEqual(
+      F.reduceRight([option.some('a'), option.some('b'), option.some('c')], '', monoidString.concat),
+      'abc'
+    )
+    assert.strictEqual(F.reduceRight([option.none, option.some('b'), option.none], '', monoidString.concat), 'b')
+    assert.strictEqual(F.reduceRight([option.none, option.none, option.none], '', monoidString.concat), '')
+    assert.strictEqual(F.reduceRight([], '', monoidString.concat), '')
   })
 
   it('intercalate', () => {
