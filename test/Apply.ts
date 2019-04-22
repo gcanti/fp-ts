@@ -5,7 +5,7 @@ import { none, option, some, isSome, isNone } from '../src/Option'
 import * as fc from 'fast-check'
 import { getSome } from './property-test/Option'
 import { nonEmptyArray } from './property-test/NonEmptyArray'
-import { catOptions, getSetoid } from '../src/Array'
+import { getSetoid, array } from '../src/Array'
 import { fromEquals } from '../src/Setoid'
 
 describe('Apply', () => {
@@ -24,7 +24,7 @@ describe('Apply', () => {
       fc.property(input, options => {
         const x = sequenceTOption(...(options as any))
         return (
-          (options.every(isSome) && isSome(x) && S.equals(x.value as any, catOptions(options))) ||
+          (options.every(isSome) && isSome(x) && S.equals(x.value as any, array.compact(options))) ||
           (options.some(isNone) && isNone(x))
         )
       })
