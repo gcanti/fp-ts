@@ -25,7 +25,6 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [SequenceComposition11 (interface)](#sequencecomposition11-interface)
 - [Traversable (interface)](#traversable-interface)
 - [Traversable1 (interface)](#traversable1-interface)
 - [Traversable2 (interface)](#traversable2-interface)
@@ -34,33 +33,9 @@ parent: Modules
 - [Traversable3C (interface)](#traversable3c-interface)
 - [TraversableComposition (interface)](#traversablecomposition-interface)
 - [TraversableComposition11 (interface)](#traversablecomposition11-interface)
-- [TraverseComposition11 (interface)](#traversecomposition11-interface)
 - [getTraversableComposition (function)](#gettraversablecomposition-function)
 
 ---
-
-# SequenceComposition11 (interface)
-
-**Signature**
-
-```ts
-export interface SequenceComposition11<F extends URIS, G extends URIS> {
-  <H extends URIS3>(H: Applicative3<H>): <HU, HL, A>(
-    fga: Type<F, Type<G, Type3<H, HU, HL, A>>>
-  ) => Type3<H, HU, HL, Type<F, Type<G, A>>>
-  <H extends URIS3, HU, HL>(H: Applicative3C<H, HU, HL>): <A>(
-    fga: Type<F, Type<G, Type3<H, HU, HL, A>>>
-  ) => Type3<H, HU, HL, Type<F, Type<G, A>>>
-  <H extends URIS2>(H: Applicative2<H>): <HL, A>(
-    fga: Type<F, Type<G, Type2<H, HL, A>>>
-  ) => Type2<H, HL, Type<F, Type<G, A>>>
-  <H extends URIS2, HL>(H: Applicative2C<H, HL>): <A>(
-    fga: Type<F, Type<G, Type2<H, HL, A>>>
-  ) => Type2<H, HL, Type<F, Type<G, A>>>
-  <H extends URIS>(H: Applicative1<H>): <A>(fga: Type<F, Type<G, Type<H, A>>>) => Type<H, Type<F, Type<G, A>>>
-  <H>(H: Applicative<H>): <A>(fga: Type<F, Type<G, HKT<H, A>>>) => HKT<H, Type<F, Type<G, A>>>
-}
-```
 
 # Traversable (interface)
 
@@ -166,36 +141,6 @@ export interface TraversableComposition11<F extends URIS, G extends URIS>
     FunctorComposition11<F, G> {
   readonly traverse: TraverseComposition11<F, G>
   readonly sequence: SequenceComposition11<F, G>
-}
-```
-
-# TraverseComposition11 (interface)
-
-**Signature**
-
-```ts
-export interface TraverseComposition11<F extends URIS, G extends URIS> {
-  <H extends URIS3>(H: Applicative3<H>): <HU, HL, A, B>(
-    fga: Type<F, Type<G, A>>,
-    f: (a: A) => Type3<H, HU, HL, B>
-  ) => Type3<H, HU, HL, Type<F, Type<G, B>>>
-  <H extends URIS3, HU, HL>(H: Applicative3C<H, HU, HL>): <A, B>(
-    fga: Type<F, Type<G, A>>,
-    f: (a: A) => Type3<H, HU, HL, B>
-  ) => Type3<H, HU, HL, Type<F, Type<G, B>>>
-  <H extends URIS2>(H: Applicative2<H>): <HL, A, B>(
-    fga: Type<F, Type<G, A>>,
-    f: (a: A) => Type2<H, HL, B>
-  ) => Type2<H, HL, Type<F, Type<G, B>>>
-  <H extends URIS2, HL>(H: Applicative2C<H, HL>): <A, B>(
-    fga: Type<F, Type<G, A>>,
-    f: (a: A) => Type2<H, HL, B>
-  ) => Type2<H, HL, Type<F, Type<G, B>>>
-  <H extends URIS>(H: Applicative1<H>): <A, B>(
-    fga: Type<F, Type<G, A>>,
-    f: (a: A) => Type<H, B>
-  ) => Type<H, Type<F, Type<G, B>>>
-  <H>(H: Applicative<H>): <A, B>(fga: Type<F, Type<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, Type<F, Type<G, B>>>
 }
 ```
 
