@@ -216,7 +216,7 @@ export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => {
 export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A>
 export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> {
-  return filterWithKey(fa, (_, a) => p(a))
+  return filterWithIndex(fa, (_, a) => p(a))
 }
 
 /**
@@ -227,8 +227,8 @@ export const empty: Record<string, never> = {}
 /**
  * @since 1.10.0
  */
-export function mapWithKey<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B>
-export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B> {
+export function mapWithIndex<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B>
+export function mapWithIndex<A, B>(fa: Record<string, A>, f: (k: string, a: A) => B): Record<string, B> {
   const r: Record<string, B> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
@@ -242,27 +242,27 @@ export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => 
  */
 export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B>
 export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string, B> {
-  return mapWithKey(fa, (_, a) => f(a))
+  return mapWithIndex(fa, (_, a) => f(a))
 }
 
 const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => {
-  return reduceWithKey(fa, b, (_, b, a) => f(b, a))
+  return reduceWithIndex(fa, b, (_, b, a) => f(b, a))
 }
 
 const foldMap = <M>(M: Monoid<M>): (<A>(fa: Record<string, A>, f: (a: A) => M) => M) => {
-  const foldMapWithKeyM = foldMapWithKey(M)
-  return (fa, f) => foldMapWithKeyM(fa, (_, a) => f(a))
+  const foldMapWithIndexM = foldMapWithIndex(M)
+  return (fa, f) => foldMapWithIndexM(fa, (_, a) => f(a))
 }
 
 const reduceRight = <A, B>(fa: Record<string, A>, b: B, f: (a: A, b: B) => B): B => {
-  return foldrWithKey(fa, b, (_, a, b) => f(a, b))
+  return reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
 }
 
 /**
  * @since 1.12.0
  */
-export function reduceWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B
-export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B {
+export function reduceWithIndex<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B
+export function reduceWithIndex<A, B>(fa: Record<string, A>, b: B, f: (k: string, b: B, a: A) => B): B {
   let out: B = b
   const keys = Object.keys(fa).sort()
   const len = keys.length
@@ -276,8 +276,8 @@ export function reduceWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, 
 /**
  * @since 1.12.0
  */
-export function foldMapWithKey<M>(M: Monoid<M>): <K extends string, A>(fa: Record<K, A>, f: (k: K, a: A) => M) => M
-export function foldMapWithKey<M>(M: Monoid<M>): <A>(fa: Record<string, A>, f: (k: string, a: A) => M) => M {
+export function foldMapWithIndex<M>(M: Monoid<M>): <K extends string, A>(fa: Record<K, A>, f: (k: K, a: A) => M) => M
+export function foldMapWithIndex<M>(M: Monoid<M>): <A>(fa: Record<string, A>, f: (k: string, a: A) => M) => M {
   return (fa, f) => {
     let out: M = M.empty
     const keys = Object.keys(fa).sort()
@@ -293,8 +293,8 @@ export function foldMapWithKey<M>(M: Monoid<M>): <A>(fa: Record<string, A>, f: (
 /**
  * @since 1.12.0
  */
-export function foldrWithKey<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B
-export function foldrWithKey<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B {
+export function reduceRightWithIndex<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B
+export function reduceRightWithIndex<A, B>(fa: Record<string, A>, b: B, f: (k: string, a: A, b: B) => B): B {
   let out: B = b
   const keys = Object.keys(fa).sort()
   const len = keys.length
@@ -317,22 +317,22 @@ export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => {
 /**
  * @since 1.10.0
  */
-export function traverseWithKey<F extends URIS3>(
+export function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, U, L, A, B>(
   ta: Record<K, A>,
   f: (k: K, a: A) => Type3<F, U, L, B>
 ) => Type3<F, U, L, Record<K, B>>
-export function traverseWithKey<F extends URIS2>(
+export function traverseWithIndex<F extends URIS2>(
   F: Applicative2<F>
 ): <K extends string, L, A, B>(ta: Record<K, A>, f: (k: K, a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>
-export function traverseWithKey<F extends URIS>(
+export function traverseWithIndex<F extends URIS>(
   F: Applicative1<F>
 ): <K extends string, A, B>(ta: Record<K, A>, f: (k: K, a: A) => Type<F, B>) => Type<F, Record<K, B>>
-export function traverseWithKey<F>(
+export function traverseWithIndex<F>(
   F: Applicative<F>
 ): <K extends string, A, B>(ta: Record<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Record<K, B>>
-export function traverseWithKey<F>(
+export function traverseWithIndex<F>(
   F: Applicative<F>
 ): <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => HKT<F, Record<string, B>> {
   return <A, B>(ta: Record<string, A>, f: (k: string, a: A) => HKT<F, B>) => {
@@ -378,8 +378,8 @@ export function traverse<F>(
 export function traverse<F>(
   F: Applicative<F>
 ): <A, B>(ta: Record<string, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<string, B>> {
-  const traverseWithKeyF = traverseWithKey(F)
-  return (ta, f) => traverseWithKeyF(ta, (_, a) => f(a))
+  const traverseWithIndexF = traverseWithIndex(F)
+  return (ta, f) => traverseWithIndexF(ta, (_, a) => f(a))
 }
 
 /**
@@ -402,8 +402,8 @@ export function sequence<F extends URIS>(
 ): <K extends string, A>(ta: Record<K, Type<F, A>>) => Type<F, Record<K, A>>
 export function sequence<F>(F: Applicative<F>): <K extends string, A>(ta: Record<K, HKT<F, A>>) => HKT<F, Record<K, A>>
 export function sequence<F>(F: Applicative<F>): <A>(ta: Record<string, HKT<F, A>>) => HKT<F, Record<string, A>> {
-  const traverseWithKeyF = traverseWithKey(F)
-  return ta => traverseWithKeyF(ta, (_, a) => a)
+  const traverseWithIndexF = traverseWithIndex(F)
+  return ta => traverseWithIndexF(ta, (_, a) => a)
 }
 
 const compact = <A>(fa: Record<string, Option<A>>): Record<string, A> => {
@@ -422,11 +422,11 @@ const partitionMap = <RL, RR, A>(
   fa: Record<string, A>,
   f: (a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>> => {
-  return partitionMapWithKey(fa, (_, a) => f(a))
+  return partitionMapWithIndex(fa, (_, a) => f(a))
 }
 
 const partition = <A>(fa: Record<string, A>, p: Predicate<A>): Separated<Record<string, A>, Record<string, A>> => {
-  return partitionWithKey(fa, (_, a) => p(a))
+  return partitionWithIndex(fa, (_, a) => p(a))
 }
 
 const separate = <RL, RR>(fa: Record<string, Either<RL, RR>>): Separated<Record<string, RL>, Record<string, RR>> => {
@@ -468,21 +468,21 @@ function wilt<F>(
 }
 
 const filterMap = <A, B>(fa: Record<string, A>, f: (a: A) => Option<B>): Record<string, B> => {
-  return filterMapWithKey(fa, (_, a) => f(a))
+  return filterMapWithIndex(fa, (_, a) => f(a))
 }
 
 /**
  * @since 1.14.0
  */
-export function partitionMapWithKey<K extends string, RL, RR, A>(
+export function partitionMapWithIndex<K extends string, RL, RR, A>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithKey<RL, RR, A>(
+export function partitionMapWithIndex<RL, RR, A>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithKey<RL, RR, A>(
+export function partitionMapWithIndex<RL, RR, A>(
   fa: Record<string, A>,
   f: (key: string, a: A) => Either<RL, RR>
 ): Separated<Record<string, RL>, Record<string, RR>> {
@@ -509,15 +509,15 @@ export function partitionMapWithKey<RL, RR, A>(
 /**
  * @since 1.14.0
  */
-export function partitionWithKey<K extends string, A>(
+export function partitionWithIndex<K extends string, A>(
   fa: Record<K, A>,
   p: (key: K, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithKey<A>(
+export function partitionWithIndex<A>(
   fa: Record<string, A>,
   p: (key: string, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithKey<A>(
+export function partitionWithIndex<A>(
   fa: Record<string, A>,
   p: (key: string, a: A) => boolean
 ): Separated<Record<string, A>, Record<string, A>> {
@@ -541,12 +541,15 @@ export function partitionWithKey<A>(
 /**
  * @since 1.14.0
  */
-export function filterMapWithKey<K extends string, A, B>(
+export function filterMapWithIndex<K extends string, A, B>(
   fa: Record<K, A>,
   f: (key: K, a: A) => Option<B>
 ): Record<string, B>
-export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>
-export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B> {
+export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B>
+export function filterMapWithIndex<A, B>(
+  fa: Record<string, A>,
+  f: (key: string, a: A) => Option<B>
+): Record<string, B> {
   const r: Record<string, B> = {}
   const keys = Object.keys(fa)
   for (const key of keys) {
@@ -561,9 +564,9 @@ export function filterMapWithKey<A, B>(fa: Record<string, A>, f: (key: string, a
 /**
  * @since 1.14.0
  */
-export function filterWithKey<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
-export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
-export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
+export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
+export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A>
+export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> {
   const r: Record<string, A> = {}
   let changed = false
   for (const key in fa) {
@@ -725,13 +728,13 @@ export const record: FunctorWithIndex1<URI, string> &
   partitionMap,
   wither,
   wilt,
-  mapWithIndex: mapWithKey,
-  reduceWithIndex: reduceWithKey,
-  foldMapWithIndex: foldMapWithKey,
-  reduceRightWithIndex: foldrWithKey,
-  traverseWithIndex: traverseWithKey,
-  partitionMapWithIndex: partitionMapWithKey,
-  partitionWithIndex: partitionWithKey,
-  filterMapWithIndex: filterMapWithKey,
-  filterWithIndex: filterWithKey
+  mapWithIndex: mapWithIndex,
+  reduceWithIndex: reduceWithIndex,
+  foldMapWithIndex: foldMapWithIndex,
+  reduceRightWithIndex: reduceRightWithIndex,
+  traverseWithIndex: traverseWithIndex,
+  partitionMapWithIndex: partitionMapWithIndex,
+  partitionWithIndex: partitionWithIndex,
+  filterMapWithIndex: filterMapWithIndex,
+  filterWithIndex: filterWithIndex
 }

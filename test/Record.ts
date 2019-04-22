@@ -93,15 +93,15 @@ describe('Record', () => {
     assert.deepStrictEqual(R.toUnfoldable(array)({ a: 1 }), [['a', 1]])
   })
 
-  it('mapWithKey', () => {
-    assert.deepStrictEqual(R.mapWithKey({ aa: 1 }, (k, a) => a + k.length), { aa: 3 })
+  it('mapWithIndex', () => {
+    assert.deepStrictEqual(R.mapWithIndex({ aa: 1 }, (k, a) => a + k.length), { aa: 3 })
   })
 
-  it('traverseWithKey', () => {
+  it('traverseWithIndex', () => {
     const d1 = { k1: 1, k2: 2 }
-    const t1 = R.traverseWithKey(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
+    const t1 = R.traverseWithIndex(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
     assert.deepStrictEqual(t1, none)
-    const t2 = R.traverseWithKey(option)(R.empty, (): Option<number> => none)
+    const t2 = R.traverseWithIndex(option)(R.empty, (): Option<number> => none)
     assert.strictEqual(getOrElse(t2, R.empty), R.empty)
   })
 
@@ -199,21 +199,21 @@ describe('Record', () => {
     assert.deepStrictEqual(wiltIdentity({ a: 1, b: 3 }, f), I.identity.of({ left: { a: 0 }, right: { b: 4 } }))
   })
 
-  it('reduceWithKey', () => {
+  it('reduceWithIndex', () => {
     const d1 = { k1: 'a', k2: 'b' }
-    assert.strictEqual(R.reduceWithKey(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
+    assert.strictEqual(R.reduceWithIndex(d1, '', (k, b, a) => b + k + a), 'k1ak2b')
     const d2 = { k2: 'b', k1: 'a' }
-    assert.strictEqual(R.reduceWithKey(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
+    assert.strictEqual(R.reduceWithIndex(d2, '', (k, b, a) => b + k + a), 'k1ak2b')
   })
 
-  it('foldMapWithKey', () => {
+  it('foldMapWithIndex', () => {
     const x1 = { k1: 'a', k2: 'b' }
-    assert.strictEqual(R.foldMapWithKey(monoidString)(x1, (k, a) => k + a), 'k1ak2b')
+    assert.strictEqual(R.foldMapWithIndex(monoidString)(x1, (k, a) => k + a), 'k1ak2b')
   })
 
-  it('foldrWithKey', () => {
+  it('reduceRightWithIndex', () => {
     const x1 = { k1: 'a', k2: 'b' }
-    assert.strictEqual(R.foldrWithKey(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
+    assert.strictEqual(R.reduceRightWithIndex(x1, '', (k, a, b) => b + k + a), 'k2bk1a')
   })
 
   it('every', () => {
