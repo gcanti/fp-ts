@@ -38,7 +38,7 @@ import {
   FunctorComposition3C1
 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Option, some, none } from './Option'
+import { Option, some, none, fromEither } from './Option'
 
 /**
  * @since 1.7.0
@@ -312,15 +312,7 @@ export function getFilterableComposition<F, G>(F: Functor<F>, G: Filterable<G>):
             return none
         }
       })
-      const right = FC.filterMap(fga, a => {
-        const e = f(a)
-        switch (e._tag) {
-          case 'Left':
-            return none
-          case 'Right':
-            return some(e.right)
-        }
-      })
+      const right = FC.filterMap(fga, a => fromEither(f(a)))
       return { left, right }
     },
     partition: (fga, p) => {
