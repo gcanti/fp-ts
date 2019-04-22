@@ -479,7 +479,7 @@ describe('Map', () => {
       })
 
       it('foldrWithIndex', () => {
-        const foldrWithIndexO = M.getTraversableWithIndex(ordUser).foldrWithIndex
+        const foldrWithIndexO = M.getTraversableWithIndex(ordUser).reduceRightWithIndex
         const m = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
         assert.strictEqual(foldrWithIndexO(m, '', (k, a, b) => b + k.id + a), 'k2bk1a')
       })

@@ -681,8 +681,8 @@ describe('Array', () => {
     assert.deepStrictEqual(array.foldMapWithIndex(monoidString)(['a', 'b'], (i, a) => i + a), '0a1b')
   })
 
-  it('foldrWithIndex', () => {
-    assert.deepStrictEqual(array.foldrWithIndex(['a', 'b'], '', (i, a, b) => b + i + a), '1b0a')
+  it('reduceRightWithIndex', () => {
+    assert.deepStrictEqual(array.reduceRightWithIndex(['a', 'b'], '', (i, a, b) => b + i + a), '1b0a')
   })
 
   it('traverseWithIndex', () => {

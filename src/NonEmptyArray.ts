@@ -351,6 +351,6 @@ export const nonEmptyArray: Monad1<URI> &
   sequence: A.array.sequence,
   reduceWithIndex: A.array.reduceWithIndex,
   foldMapWithIndex: A.array.foldMapWithIndex,
-  foldrWithIndex: A.array.foldrWithIndex,
+  reduceRightWithIndex: A.array.reduceRightWithIndex,
   traverseWithIndex: A.array.traverseWithIndex as any
 }

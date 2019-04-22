@@ -163,7 +163,7 @@ const foldMap = <M>(M: Monoid<M>): (<A>(fa: Array<A>, f: (a: A) => M) => M) => {
 }
 
 const reduceRight = <A, B>(fa: Array<A>, b: B, f: (a: A, b: B) => B): B => {
-  return foldrWithIndex(fa, b, (_, a, b) => f(a, b))
+  return reduceRightWithIndex(fa, b, (_, a, b) => f(a, b))
 }
 
 const reduceWithIndex = <A, B>(fa: Array<A>, b: B, f: (i: number, b: B, a: A) => B): B => {
@@ -179,7 +179,7 @@ const foldMapWithIndex = <M>(M: Monoid<M>) => <A>(fa: Array<A>, f: (i: number, a
   return fa.reduce((b, a, i) => M.concat(b, f(i, a)), M.empty)
 }
 
-const foldrWithIndex = <A, B>(fa: Array<A>, b: B, f: (i: number, a: A, b: B) => B): B => {
+const reduceRightWithIndex = <A, B>(fa: Array<A>, b: B, f: (i: number, a: A, b: B) => B): B => {
   return fa.reduceRight((b, a, i) => f(i, a, b), b)
 }
 
@@ -1566,7 +1566,7 @@ export const array: Monad1<URI> &
   wilt,
   reduceWithIndex,
   foldMapWithIndex,
-  foldrWithIndex,
+  reduceRightWithIndex,
   traverseWithIndex,
   partitionMapWithIndex,
   partitionWithIndex,
