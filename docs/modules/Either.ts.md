@@ -183,7 +183,7 @@ the provided default as a `Left`
 **Signature**
 
 ```ts
-export const fromNullable = <L, A>(a: A | null | undefined, l: L): Either<L, A> => ...
+export function fromNullable<L, A>(a: A | null | undefined, l: L): Either<L, A> { ... }
 ```
 
 Added in v2.0.0
@@ -196,7 +196,7 @@ the provided default as a `Left`
 **Signature**
 
 ```ts
-export const fromOption = <L, A>(fa: Option<A>, l: L): Either<L, A> => ...
+export function fromOption<L, A>(fa: Option<A>, l: L): Either<L, A> { ... }
 ```
 
 Added in v2.0.0
@@ -208,7 +208,7 @@ Lazy version of `fromOption`
 **Signature**
 
 ```ts
-export const fromOptionL = <L, A>(fa: Option<A>, f: () => L): Either<L, A> => ...
+export function fromOptionL<L, A>(fa: Option<A>, f: () => L): Either<L, A> { ... }
 ```
 
 Added in v2.0.0
@@ -232,7 +232,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => ...
+export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<Either<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -244,7 +244,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => ...
+export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> { ... }
 ```
 
 **Example**
@@ -264,24 +264,24 @@ Added in v2.0.0
 
 # getCompactable (function)
 
-Builds `Compactable` instance for `Either` given `Monoid` for the left side
+Builds `Compactable` instance for `Either` given a `Monoid` for the left side
 
 **Signature**
 
 ```ts
-export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> { ... }
+export function getCompactable<L>(M: Monoid<L>): Compactable2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
 
 # getFilterable (function)
 
-Builds `Filterable` instance for `Either` given `Monoid` for the left side
+Builds `Filterable` instance for `Either` given a `Monoid` for the left side
 
 **Signature**
 
 ```ts
-export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> { ... }
+export function getFilterable<L>(M: Monoid<L>): Filterable2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -314,7 +314,7 @@ appended using the provided `Semigroup`
 **Signature**
 
 ```ts
-export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> => ...
+export function getSemigroup<L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> { ... }
 ```
 
 **Example**
@@ -337,7 +337,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> => ...
+export function getSetoid<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -347,7 +347,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => ...
+export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -359,7 +359,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> { ... }
+export function getWitherable<L>(M: Monoid<L>): Witherable2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -371,7 +371,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export const isLeft = <L, A>(ma: Either<L, A>): ma is Left<L> => ...
+export function isLeft<L, A>(ma: Either<L, A>): ma is Left<L> { ... }
 ```
 
 Added in v2.0.0
@@ -383,7 +383,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export const isRight = <L, A>(ma: Either<L, A>): ma is Right<A> => ...
+export function isRight<L, A>(ma: Either<L, A>): ma is Right<A> { ... }
 ```
 
 Added in v2.0.0
@@ -396,7 +396,7 @@ structure
 **Signature**
 
 ```ts
-export const left = <L>(l: L): Either<L, never> => ...
+export function left<L>(l: L): Either<L, never> { ... }
 ```
 
 Added in v2.0.0
@@ -428,7 +428,7 @@ Converts a JavaScript Object Notation (JSON) string into an object.
 **Signature**
 
 ```ts
-export const parseJSON = <L>(s: string, onError: (reason: unknown) => L): Either<L, unknown> => ...
+export function parseJSON<L>(s: string, onError: (reason: unknown) => L): Either<L, unknown> { ... }
 ```
 
 **Example**
@@ -450,7 +450,7 @@ of this structure
 **Signature**
 
 ```ts
-export const right = <A>(a: A): Either<never, A> => ...
+export function right<A>(a: A): Either<never, A> { ... }
 ```
 
 Added in v2.0.0
@@ -462,7 +462,7 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export const stringifyJSON = <L>(u: unknown, onError: (reason: unknown) => L): Either<L, string> => ...
+export function stringifyJSON<L>(u: unknown, onError: (reason: unknown) => L): Either<L, string> { ... }
 ```
 
 **Example**
@@ -495,7 +495,7 @@ Default value for the `onError` argument of `tryCatch`
 **Signature**
 
 ```ts
-export const toError = (e: unknown): Error => ...
+export function toError(e: unknown): Error { ... }
 ```
 
 Added in v2.0.0
@@ -507,7 +507,7 @@ Constructs a new `Either` from a function that might throw
 **Signature**
 
 ```ts
-export const tryCatch = <L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L, A> => ...
+export function tryCatch<L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L, A> { ... }
 ```
 
 **Example**
