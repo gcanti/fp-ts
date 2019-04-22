@@ -26,7 +26,7 @@ import {
   getFunctorComposition
 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { fromEither, none, Option, some } from './Option'
+import { getLeft, getRight, Option } from './Option'
 
 /**
  * A `Separated` type which holds `left` and `right` parts.
@@ -197,17 +197,8 @@ export function getCompactableComposition<F, G>(
     ...FC,
     compact: fga => F.map(fga, G.compact),
     separate: fge => {
-      const left = CC.compact(
-        FC.map(fge, e => {
-          switch (e._tag) {
-            case 'Left':
-              return some(e.left)
-            case 'Right':
-              return none
-          }
-        })
-      )
-      const right = CC.compact(FC.map(fge, fromEither))
+      const left = CC.compact(FC.map(fge, getLeft))
+      const right = CC.compact(FC.map(fge, getRight))
       return { left, right }
     }
   }

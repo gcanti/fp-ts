@@ -158,6 +158,24 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
 }
 
 /**
+ * Returns an `L` value if possible
+ *
+ * @since 2.0.0
+ */
+export const getLeft = <L, A>(ma: Either<L, A>): Option<L> => {
+  return ma._tag === 'Right' ? none : some(ma.left)
+}
+
+/**
+ * Returns an `A` value if possible
+ *
+ * @since 2.0.0
+ */
+export const getRight = <L, A>(ma: Either<L, A>): Option<A> => {
+  return ma._tag === 'Left' ? none : some(ma.right)
+}
+
+/**
  * @since 2.0.0
  */
 export function getOrElse<A>(ma: Option<A>, a: A): A {
@@ -484,28 +502,6 @@ export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
 }
 
 /**
- * Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
- * value wrapped in a `Some`
- *
- * @example
- * import { none, some, fromEither } from 'fp-ts/lib/Option'
- * import { left, right } from 'fp-ts/lib/Either'
- *
- * assert.deepStrictEqual(fromEither(left(1)), none)
- * assert.deepStrictEqual(fromEither(right(1)), some(1))
- *
- * @since 1.0.0
- */
-export const fromEither = <L, A>(ma: Either<L, A>): Option<A> => {
-  switch (ma._tag) {
-    case 'Left':
-      return none
-    case 'Right':
-      return some(ma.right)
-  }
-}
-
-/**
  * Returns `true` if the option is an instance of `Some`, `false` otherwise
  *
  * @since 1.0.0
@@ -546,26 +542,16 @@ export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): R
 
 const compact = <A>(fa: Option<Option<A>>): Option<A> => chain(fa, identity)
 
+const defaultSeparate = { left: none, right: none }
+
 const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
-  if (isNone(fa)) {
-    return {
-      left: none,
-      right: none
-    }
-  }
-  const e = fa.value
-  switch (e._tag) {
-    case 'Left':
-      return {
-        left: some(e.left),
-        right: none
-      }
-    case 'Right':
-      return {
-        left: none,
-        right: some(e.right)
-      }
-  }
+  return getOrElse(
+    map(fa, e => ({
+      left: getLeft(e),
+      right: getRight(e)
+    })),
+    defaultSeparate
+  )
 }
 
 const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => (isNone(fa) ? fa : p(fa.value) ? fa : none)
@@ -587,26 +573,19 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
   fa: Option<A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
 ): HKT<F, Separated<Option<RL>, Option<RR>>> => {
-  if (isNone(fa)) {
-    return F.of({
-      left: none,
-      right: none
-    })
-  }
-  return F.map(f(fa.value), e => {
-    switch (e._tag) {
-      case 'Left':
-        return {
-          left: some(e.left),
-          right: none
-        }
-      case 'Right':
-        return {
-          left: none,
-          right: some(e.right)
-        }
-    }
-  })
+  return getOrElseL(
+    map(fa, a =>
+      F.map(f(a), e => ({
+        left: getLeft(e),
+        right: getRight(e)
+      }))
+    ),
+    () =>
+      F.of({
+        left: none,
+        right: none
+      })
+  )
 }
 
 /**

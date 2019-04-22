@@ -263,11 +263,6 @@ describe('Option', () => {
     assert.deepStrictEqual(O.tryCatch(() => JSON.parse('(')), O.none)
   })
 
-  it('fromEither', () => {
-    assert.deepStrictEqual(O.fromEither(left('foo')), O.none)
-    assert.deepStrictEqual(O.fromEither(right(1)), O.some(1))
-  })
-
   it('compact', () => {
     assert.deepStrictEqual(O.option.compact(O.none), O.none)
     assert.deepStrictEqual(O.option.compact(O.some(O.none)), O.none)
@@ -340,5 +335,15 @@ describe('Option', () => {
     const S = O.getShow(showString)
     assert.strictEqual(S.show(O.some('a')), `some("a")`)
     assert.strictEqual(S.show(O.none), `none`)
+  })
+
+  it('getLeft', () => {
+    assert.deepStrictEqual(O.getLeft(right(1)), O.none)
+    assert.deepStrictEqual(O.getLeft(left('err')), O.some('err'))
+  })
+
+  it('getRight', () => {
+    assert.deepStrictEqual(O.getRight(right(1)), O.some(1))
+    assert.deepStrictEqual(O.getRight(left('err')), O.none)
   })
 })
