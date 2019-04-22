@@ -128,42 +128,6 @@ export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, 
 }
 
 /**
- * Perform a applicative action when a condition is true
- *
- * @example
- * import { io } from 'fp-ts/lib/IO'
- * import { when } from 'fp-ts/lib/Applicative'
- *
- * const log: Array<string> = []
- * const action = () => {
- *   log.push('action called')
- * }
- * when(io)(false, action)()
- * assert.deepStrictEqual(log, [])
- * when(io)(true, action)()
- * assert.deepStrictEqual(log, ['action called'])
- *
- * @since 1.0.0
- */
-export function when<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L>(condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
-export function when<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): (condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
-export function when<F extends URIS2>(
-  F: Applicative2<F>
-): <L>(condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
-export function when<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): (condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
-export function when<F extends URIS>(F: Applicative1<F>): (condition: boolean, fu: Type<F, void>) => Type<F, void>
-export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void>
-export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> {
-  return (condition, fu) => (condition ? fu : F.of(undefined))
-}
-
-/**
  * Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
  *
  * @example

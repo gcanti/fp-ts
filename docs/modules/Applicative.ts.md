@@ -42,7 +42,6 @@ Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 - [ApplicativeComposition2C1 (interface)](#applicativecomposition2c1-interface)
 - [ApplicativeComposition3C1 (interface)](#applicativecomposition3c1-interface)
 - [getApplicativeComposition (function)](#getapplicativecomposition-function)
-- [when (function)](#when-function)
 
 ---
 
@@ -296,47 +295,6 @@ const A = getApplicativeComposition(task, option)
 
 const sum = (a: number) => (b: number): number => a + b
 A.ap(A.map(x, sum), y)().then(result => assert.deepStrictEqual(result, some(3)))
-```
-
-Added in v1.0.0
-
-# when (function)
-
-Perform a applicative action when a condition is true
-
-**Signature**
-
-```ts
-export function when<F extends URIS3>(
-  F: Applicative3<F>
-): <U, L>(condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
-export function when<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): (condition: boolean, fu: Type3<F, U, L, void>) => Type3<F, U, L, void>
-export function when<F extends URIS2>(
-  F: Applicative2<F>
-): <L>(condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
-export function when<F extends URIS2, L>(
-  F: Applicative2C<F, L>
-): (condition: boolean, fu: Type2<F, L, void>) => Type2<F, L, void>
-export function when<F extends URIS>(F: Applicative1<F>): (condition: boolean, fu: Type<F, void>) => Type<F, void>
-export function when<F>(F: Applicative<F>): (condition: boolean, fu: HKT<F, void>) => HKT<F, void> { ... }
-```
-
-**Example**
-
-```ts
-import { io } from 'fp-ts/lib/IO'
-import { when } from 'fp-ts/lib/Applicative'
-
-const log: Array<string> = []
-const action = () => {
-  log.push('action called')
-}
-when(io)(false, action)()
-assert.deepStrictEqual(log, [])
-when(io)(true, action)()
-assert.deepStrictEqual(log, ['action called'])
 ```
 
 Added in v1.0.0
