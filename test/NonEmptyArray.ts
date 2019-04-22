@@ -357,9 +357,9 @@ describe.only('NonEmptyArray', () => {
     )
   })
 
-  it('foldrWithIndex', () => {
+  it('reduceRightWithIndex', () => {
     assert.deepStrictEqual(
-      nonEmptyArray.foldrWithIndex(fromNonEmptyArray(['a', 'b']), '', (i, a, b) => b + i + a),
+      nonEmptyArray.reduceRightWithIndex(fromNonEmptyArray(['a', 'b']), '', (i, a, b) => b + i + a),
       '1b0a'
     )
   })

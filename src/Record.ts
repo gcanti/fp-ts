@@ -728,7 +728,7 @@ export const record: FunctorWithIndex1<URI, string> &
   mapWithIndex: mapWithKey,
   reduceWithIndex: reduceWithKey,
   foldMapWithIndex: foldMapWithKey,
-  foldrWithIndex: foldrWithKey,
+  reduceRightWithIndex: foldrWithKey,
   traverseWithIndex: traverseWithKey,
   partitionMapWithIndex: partitionMapWithKey,
   partitionWithIndex: partitionWithKey,

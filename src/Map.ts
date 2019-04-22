@@ -332,8 +332,8 @@ const foldMap = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>, f: (a: 
  * @since 1.14.0
  */
 const reduceRight = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (a: A, b: B) => B) => B) => {
-  const foldrWithIndexO = foldrWithIndex(O)
-  return (fa, b, f) => foldrWithIndexO(fa, b, (_, a, b) => f(a, b))
+  const reduceRightWithIndexO = reduceRightWithIndex(O)
+  return (fa, b, f) => reduceRightWithIndexO(fa, b, (_, a, b) => f(a, b))
 }
 
 /**
@@ -373,7 +373,7 @@ const foldMapWithIndex = <K>(O: Ord<K>): (<M>(M: Monoid<M>) => <A>(fa: Map<K, A>
 /**
  * @since 1.14.0
  */
-const foldrWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B) => B) => {
+const reduceRightWithIndex = <K>(O: Ord<K>): (<A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B) => B) => {
   const keysO = keys(O)
   return <A, B>(fa: Map<K, A>, b: B, f: (k: K, a: A, b: B) => B): B => {
     let out: B = b
@@ -677,7 +677,7 @@ const getFoldableWithIndex = <K>(O: Ord<K>): FoldableWithIndex2C<URI, K, K> => {
     ...getFoldable(O),
     reduceWithIndex: reduceWithIndex(O),
     foldMapWithIndex: foldMapWithIndex(O),
-    foldrWithIndex: foldrWithIndex(O)
+    reduceRightWithIndex: reduceRightWithIndex(O)
   }
 }
 
