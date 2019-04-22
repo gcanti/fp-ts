@@ -1219,39 +1219,6 @@ export const sortBy1 = <A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Arra
 }
 
 /**
- * Apply a function to each element in an array, keeping only the results which contain a value, creating a new array.
- *
- * Alias of `Filterable`'s `filterMap`
- *
- * @example
- * import { mapOption } from 'fp-ts/lib/Array'
- * import { Option, some, none } from 'fp-ts/lib/Option'
- *
- * const f = (n: number): Option<number> => (n % 2 === 0 ? none : some(n))
- * assert.deepStrictEqual(mapOption([1, 2, 3], f), [1, 3])
- *
- * @since 1.0.0
- */
-export const mapOption = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
-  return filterMapWithIndex(as, (_, a) => f(a))
-}
-
-/**
- * Filter an array of optional values, keeping only the elements which contain a value, creating a new array.
- *
- * Alias of `Compactable`'s `compact`
- *
- * @example
- * import { catOptions } from 'fp-ts/lib/Array'
- * import { some, none } from 'fp-ts/lib/Option'
- *
- * assert.deepStrictEqual(catOptions([some(1), none, some(3)]), [1, 3])
- *
- * @since 1.0.0
- */
-export const catOptions = <A>(as: Array<Option<A>>): Array<A> => mapOption(as, identity)
-
-/**
  * @example
  * import { array } from 'fp-ts/lib/Array'
  * import { left, right } from 'fp-ts/lib/Either'
@@ -1286,7 +1253,7 @@ export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>,
   return partitionWithIndex(fa, (_, a) => p(a))
 }
 
-const compact = catOptions
+const compact = <A>(as: Array<Option<A>>): Array<A> => filterMap(as, identity)
 
 const separate = <RL, RR>(fa: Array<Either<RL, RR>>): Separated<Array<RL>, Array<RR>> => {
   const left: Array<RL> = []
@@ -1304,7 +1271,9 @@ const separate = <RL, RR>(fa: Array<Either<RL, RR>>): Separated<Array<RL>, Array
   }
 }
 
-const filterMap = mapOption
+const filterMap = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Array<B> => {
+  return filterMapWithIndex(as, (_, a) => f(a))
+}
 
 const wither = <F>(F: Applicative<F>): (<A, B>(ta: Array<A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Array<B>>) => {
   const traverseF = traverse(F)
