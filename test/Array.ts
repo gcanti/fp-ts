@@ -139,8 +139,8 @@ describe('Array', () => {
     assert.deepStrictEqual(array.sequence(O.option)([O.some(1), O.none]), O.none)
   })
 
-  it('unfoldr', () => {
-    const as = array.unfoldr(5, n => (n > 0 ? O.some([n, n - 1]) : O.none))
+  it('unfold', () => {
+    const as = array.unfold(5, n => (n > 0 ? O.some([n, n - 1]) : O.none))
     assert.deepStrictEqual(as, [5, 4, 3, 2, 1])
   })
 

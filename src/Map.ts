@@ -144,7 +144,7 @@ export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d:
   return d => {
     const arr = toArrayO(d)
     const len = arr.length
-    return unfoldable.unfoldr(0, b => (b < len ? some([arr[b], b + 1]) : none))
+    return unfoldable.unfold(0, b => (b < len ? some([arr[b], b + 1]) : none))
   }
 }
 
