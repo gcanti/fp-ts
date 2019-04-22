@@ -81,14 +81,14 @@ describe('Either', () => {
   })
 
   it('fromOption', () => {
-    assert.deepStrictEqual(E.fromOption('default')(none), E.left('default'))
-    assert.deepStrictEqual(E.fromOption('default')(some(1)), E.right(1))
+    assert.deepStrictEqual(E.fromOption(none, 'default'), E.left('default'))
+    assert.deepStrictEqual(E.fromOption(some(1), 'default'), E.right(1))
   })
 
   it('fromNullable', () => {
-    assert.deepStrictEqual(E.fromNullable('default')(null), E.left('default'))
-    assert.deepStrictEqual(E.fromNullable('default')(undefined), E.left('default'))
-    assert.deepStrictEqual(E.fromNullable('default')(1), E.right(1))
+    assert.deepStrictEqual(E.fromNullable(null, 'default'), E.left('default'))
+    assert.deepStrictEqual(E.fromNullable(undefined, 'default'), E.left('default'))
+    assert.deepStrictEqual(E.fromNullable(1, 'default'), E.right(1))
   })
 
   it('getSetoid', () => {
@@ -137,8 +137,8 @@ describe('Either', () => {
   })
 
   it('fromOptionL', () => {
-    assert.deepStrictEqual(E.fromOptionL(() => 'default')(none), E.left('default'))
-    assert.deepStrictEqual(E.fromOptionL(() => 'default')(some(1)), E.right(1))
+    assert.deepStrictEqual(E.fromOptionL(none, () => 'default'), E.left('default'))
+    assert.deepStrictEqual(E.fromOptionL(some(1), () => 'default'), E.right(1))
   })
 
   it('filterOrElse', () => {

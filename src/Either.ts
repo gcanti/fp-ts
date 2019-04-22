@@ -249,29 +249,29 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
  * Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
  * the provided default as a `Left`
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const fromOption = <L>(defaultValue: L) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa._tag === 'None' ? left(defaultValue) : right(fa.value)
+export const fromOption = <L, A>(fa: Option<A>, l: L): Either<L, A> => {
+  return fa._tag === 'None' ? left(l) : right(fa.value)
 }
 
 /**
  * Lazy version of `fromOption`
  *
- * @since 1.3.0
+ * @since 2.0.0
  */
-export const fromOptionL = <L>(defaultValue: Lazy<L>) => <A>(fa: Option<A>): Either<L, A> => {
-  return fa._tag === 'None' ? left(defaultValue()) : right(fa.value)
+export const fromOptionL = <L, A>(fa: Option<A>, f: () => L): Either<L, A> => {
+  return fa._tag === 'None' ? left(f()) : right(fa.value)
 }
 
 /**
  * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
  * the provided default as a `Left`
  *
- * @since 1.0.0
+ * @since 2.0.0
  */
-export const fromNullable = <L>(defaultValue: L) => <A>(a: A | null | undefined): Either<L, A> => {
-  return a == null ? left(defaultValue) : right(a)
+export const fromNullable = <L, A>(a: A | null | undefined, l: L): Either<L, A> => {
+  return a == null ? left(l) : right(a)
 }
 
 /**
