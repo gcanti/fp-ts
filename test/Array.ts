@@ -425,14 +425,14 @@ describe('Array', () => {
     assert.strictEqual(foldMap(x2, f1), '')
   })
 
-  it('foldr', () => {
-    const foldr = array.foldr
+  it('reduceRight', () => {
+    const reduceRight = array.reduceRight
     const x1 = ['a', 'b', 'c']
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(foldr(x1, init1, f1), 'cba')
+    assert.strictEqual(reduceRight(x1, init1, f1), 'cba')
     const x2: Array<string> = []
-    assert.strictEqual(foldr(x2, init1, f1), '')
+    assert.strictEqual(reduceRight(x2, init1, f1), '')
   })
 
   it('fold', () => {

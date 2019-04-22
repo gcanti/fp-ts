@@ -63,7 +63,7 @@ const foldMap = <M>(M: Monoid<M>) => <A>(fa: Identity<A>, f: (a: A) => M): M => 
   return f(fa)
 }
 
-const foldr = <A, B>(fa: Identity<A>, b: B, f: (a: A, b: B) => B): B => {
+const reduceRight = <A, B>(fa: Identity<A>, b: B, f: (a: A, b: B) => B): B => {
   return f(fa, b)
 }
 
@@ -102,7 +102,7 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   chain,
   reduce,
   foldMap,
-  foldr,
+  reduceRight,
   traverse,
   sequence,
   alt,

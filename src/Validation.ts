@@ -18,7 +18,7 @@ const traverse = either.traverse
 const sequence = either.sequence
 const reduce = either.reduce
 const foldMap = either.foldMap
-const foldr = either.foldr
+const reduceRight = either.reduceRight
 const throwError = either.throwError
 const fromEither = either.fromEither
 const fromOption = either.fromOption
@@ -256,7 +256,7 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
     sequence,
     reduce,
     foldMap,
-    foldr,
+    reduceRight,
     wither,
     wilt
   }

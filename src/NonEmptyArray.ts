@@ -346,7 +346,7 @@ export const nonEmptyArray: Monad1<URI> &
   extract: head,
   reduce: A.array.reduce,
   foldMap: A.array.foldMap,
-  foldr: A.array.foldr,
+  reduceRight: A.array.reduceRight,
   traverse: A.array.traverse,
   sequence: A.array.sequence,
   reduceWithIndex: A.array.reduceWithIndex,

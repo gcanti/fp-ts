@@ -97,11 +97,11 @@ const foldMap = <M>(M: Monoid<M>) => <A>(fa: Tree<A>, f: (a: A) => M): M => {
   return reduce(fa, M.empty, (acc, a) => M.concat(acc, f(a)))
 }
 
-const foldr = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
+const reduceRight = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
   let r: B = b
   const len = fa.forest.length
   for (let i = len - 1; i >= 0; i--) {
-    r = foldr(fa.forest[i], r, f)
+    r = reduceRight(fa.forest[i], r, f)
   }
   return f(fa.value, r)
 }
@@ -145,7 +145,7 @@ export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<U
   chain,
   reduce,
   foldMap,
-  foldr,
+  reduceRight,
   traverse,
   sequence,
   extract,

@@ -43,12 +43,12 @@ describe('Identity', () => {
     assert.strictEqual(foldMap(x1, f1), 'a')
   })
 
-  it('foldr', () => {
-    const foldr = I.identity.foldr
+  it('reduceRight', () => {
+    const reduceRight = I.identity.reduceRight
     const x1 = I.identity.of('a')
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(foldr(x1, init1, f1), 'a')
+    assert.strictEqual(reduceRight(x1, init1, f1), 'a')
   })
 
   it('alt', () => {

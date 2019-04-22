@@ -40,12 +40,12 @@ describe('Record', () => {
     assert.strictEqual(foldMap(x1, f1), 'ab')
   })
 
-  it('foldr', () => {
-    const foldr = R.record.foldr
+  it('reduceRight', () => {
+    const reduceRight = R.record.reduceRight
     const x1 = { a: 'a', b: 'b' }
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
-    assert.strictEqual(foldr(x1, init1, f1), 'ba')
+    assert.strictEqual(reduceRight(x1, init1, f1), 'ba')
   })
 
   it('traverse', () => {

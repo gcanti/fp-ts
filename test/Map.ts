@@ -454,12 +454,12 @@ describe('Map', () => {
         assert.strictEqual(foldMapOM(m, identity), 'ab')
       })
 
-      it('foldr', () => {
-        const foldrO = M.getTraversableWithIndex(ordUser).foldr
+      it('reduceRight', () => {
+        const reduceRightO = M.getTraversableWithIndex(ordUser).reduceRight
         const m = new Map<User, string>([[{ id: 'a' }, 'a'], [{ id: 'b' }, 'b']])
         const init = ''
         const f = (a: string, acc: string) => acc + a
-        assert.strictEqual(foldrO(m, init, f), 'ba')
+        assert.strictEqual(reduceRightO(m, init, f), 'ba')
       })
     })
 

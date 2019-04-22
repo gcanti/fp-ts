@@ -184,7 +184,7 @@ const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Either<L, A>, f: (a: A) => M): M
   return isLeft(fa) ? M.empty : f(fa.right)
 }
 
-const foldr = <L, A, B>(fa: Either<L, A>, b: B, f: (a: A, b: B) => B): B => {
+const reduceRight = <L, A, B>(fa: Either<L, A>, b: B, f: (a: A, b: B) => B): B => {
   return isLeft(fa) ? b : f(fa.right, b)
 }
 
@@ -535,7 +535,7 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
     sequence,
     reduce,
     foldMap,
-    foldr,
+    reduceRight,
     wither,
     wilt
   }
@@ -595,7 +595,7 @@ export const either: Monad2<URI> &
   chain,
   reduce,
   foldMap,
-  foldr,
+  reduceRight,
   traverse,
   sequence,
   bimap,
