@@ -1,5 +1,4 @@
 import * as assert from 'assert'
-import * as E from '../src/Either'
 import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
@@ -9,10 +8,12 @@ import { showString } from '../src/Show'
 import {
   both,
   fold,
-  fromEither,
   fromOptions,
-  toTuple,
+  getLeft,
+  getLeftOnly,
   getMonad,
+  getRight,
+  getRightOnly,
   getSemigroup,
   getSetoid,
   getShow,
@@ -20,14 +21,11 @@ import {
   isLeft,
   isRight,
   left,
+  leftOrBoth,
   right,
   rightOrBoth,
   these,
-  getLeft,
-  getRight,
-  getLeftOnly,
-  leftOrBoth,
-  getRightOnly
+  toTuple
 } from '../src/These'
 
 describe('These', () => {
@@ -92,10 +90,9 @@ describe('These', () => {
   })
 
   it('toTuple', () => {
-    const from = toTuple('a', 1)
-    assert.deepStrictEqual(from(left('b')), ['b', 1])
-    assert.deepStrictEqual(from(right(2)), ['a', 2])
-    assert.deepStrictEqual(from(both('b', 2)), ['b', 2])
+    assert.deepStrictEqual(toTuple(left('b'), 'a', 1), ['b', 1])
+    assert.deepStrictEqual(toTuple(right(2), 'a', 1), ['a', 2])
+    assert.deepStrictEqual(toTuple(both('b', 2), 'a', 1), ['b', 2])
   })
 
   it('traverse', () => {
@@ -171,11 +168,6 @@ describe('These', () => {
     assert.deepStrictEqual(fromOptions(some('a'), none), some(left('a')))
     assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
     assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
-  })
-
-  it('fromEither', () => {
-    assert.deepStrictEqual(fromEither(E.left('a')), left('a'))
-    assert.deepStrictEqual(fromEither(E.right(1)), right(1))
   })
 
   it('isLeft', () => {
