@@ -78,10 +78,7 @@ export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, 
   wither: Wither3C<T, TU, TL>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wither<W> {
+interface Wither<W> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: HKT<W, A>,
     f: (a: A) => Type3<F, FU, FL, Option<B>>
@@ -102,10 +99,7 @@ export interface Wither<W> {
   <F>(F: Applicative<F>): <A, B>(ta: HKT<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, HKT<W, B>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wither1<W extends URIS> {
+interface Wither1<W extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type<W, A>,
     f: (a: A) => Type3<F, FU, FL, Option<B>>
@@ -126,10 +120,7 @@ export interface Wither1<W extends URIS> {
   <F>(F: Applicative<F>): <A, B>(ta: Type<W, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type<W, B>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wither2<W extends URIS2> {
+interface Wither2<W extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <WL, FU, FL, A, B>(
     ta: Type2<W, WL, A>,
     f: (a: A) => Type3<F, FU, FL, Option<B>>
@@ -153,10 +144,7 @@ export interface Wither2<W extends URIS2> {
   <F>(F: Applicative<F>): <WL, A, B>(ta: Type2<W, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type2<W, WL, B>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wither2C<W extends URIS2, WL> {
+interface Wither2C<W extends URIS2, WL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type2<W, WL, A>,
     f: (a: A) => Type3<F, FU, FL, Option<B>>
@@ -180,10 +168,7 @@ export interface Wither2C<W extends URIS2, WL> {
   <F>(F: Applicative<F>): <A, B>(ta: Type2<W, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type2<W, WL, B>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wither3<W extends URIS3> {
+interface Wither3<W extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <WU, WL, FU, FL, A, B>(
     ta: Type3<W, WU, WL, A>,
     f: (a: A) => Type3<F, FU, FL, Option<B>>
@@ -210,10 +195,7 @@ export interface Wither3<W extends URIS3> {
   ) => HKT<F, Type3<W, WU, WL, B>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wither3C<W extends URIS3, WU, WL> {
+interface Wither3C<W extends URIS3, WU, WL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type3<W, WU, WL, A>,
     f: (a: A) => Type3<F, FU, FL, Option<B>>
@@ -237,10 +219,7 @@ export interface Wither3C<W extends URIS3, WU, WL> {
   <F>(F: Applicative<F>): <A, B>(ta: Type3<W, WU, WL, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Type3<W, WU, WL, B>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wilt<W> {
+interface Wilt<W> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, RL, RR, A>(
     wa: HKT<W, A>,
     f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
@@ -267,10 +246,7 @@ export interface Wilt<W> {
   ) => HKT<F, Separated<HKT<W, RL>, HKT<W, RR>>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wilt1<W extends URIS> {
+interface Wilt1<W extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, RL, RR, A>(
     wa: Type<W, A>,
     f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
@@ -297,10 +273,7 @@ export interface Wilt1<W extends URIS> {
   ) => HKT<F, Separated<Type<W, RL>, Type<W, RR>>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wilt2<W extends URIS2> {
+interface Wilt2<W extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <WL, FU, FL, RL, RR, A>(
     wa: Type2<W, WL, A>,
     f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
@@ -327,10 +300,7 @@ export interface Wilt2<W extends URIS2> {
   ) => HKT<F, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wilt2C<W extends URIS2, WL> {
+interface Wilt2C<W extends URIS2, WL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, RL, RR, A>(
     wa: Type2<W, WL, A>,
     f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
@@ -357,10 +327,7 @@ export interface Wilt2C<W extends URIS2, WL> {
   ) => HKT<F, Separated<Type2<W, WL, RL>, Type2<W, WL, RR>>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wilt3<W extends URIS3> {
+interface Wilt3<W extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <WU, WL, FU, FL, RL, RR, A>(
     wa: Type3<W, WU, WL, A>,
     f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
@@ -387,10 +354,7 @@ export interface Wilt3<W extends URIS3> {
   ) => HKT<F, Separated<Type3<W, WU, WL, RL>, Type3<W, WU, WL, RR>>>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Wilt3C<W extends URIS3, WU, WL> {
+interface Wilt3C<W extends URIS3, WU, WL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, RL, RR, A>(
     wa: Type3<W, WU, WL, A>,
     f: (a: A) => Type3<F, FU, FL, Either<RL, RR>>
