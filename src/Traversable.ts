@@ -318,7 +318,7 @@ export interface TraversableComposition<F, G> extends FoldableComposition<F, G>,
   readonly sequence: <H>(H: Applicative<H>) => <A>(fga: HKT<F, HKT<G, HKT<H, A>>>) => HKT<H, HKT<F, HKT<G, A>>>
 }
 
-export interface TraverseComposition11<F extends URIS, G extends URIS> {
+interface TraverseComposition11<F extends URIS, G extends URIS> {
   <H extends URIS3>(H: Applicative3<H>): <HU, HL, A, B>(
     fga: Type<F, Type<G, A>>,
     f: (a: A) => Type3<H, HU, HL, B>
@@ -342,7 +342,7 @@ export interface TraverseComposition11<F extends URIS, G extends URIS> {
   <H>(H: Applicative<H>): <A, B>(fga: Type<F, Type<G, A>>, f: (a: A) => HKT<H, B>) => HKT<H, Type<F, Type<G, B>>>
 }
 
-export interface SequenceComposition11<F extends URIS, G extends URIS> {
+interface SequenceComposition11<F extends URIS, G extends URIS> {
   <H extends URIS3>(H: Applicative3<H>): <HU, HL, A>(
     fga: Type<F, Type<G, Type3<H, HU, HL, A>>>
   ) => Type3<H, HU, HL, Type<F, Type<G, A>>>
