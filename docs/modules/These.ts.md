@@ -29,15 +29,12 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 <h2 class="text-delta">Table of contents</h2>
 
 - [Both (interface)](#both-interface)
-- [Left (interface)](#left-interface)
-- [Right (interface)](#right-interface)
 - [These (type alias)](#these-type-alias)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [these (constant)](#these-constant)
 - [both (function)](#both-function)
 - [fold (function)](#fold-function)
-- [fromEither (function)](#fromeither-function)
 - [fromOptions (function)](#fromoptions-function)
 - [getLeft (function)](#getleft-function)
 - [getLeftOnly (function)](#getleftonly-function)
@@ -70,34 +67,12 @@ export interface Both<L, A> {
 }
 ```
 
-# Left (interface)
-
-**Signature**
-
-```ts
-export interface Left<L> {
-  readonly _tag: 'Left'
-  readonly left: L
-}
-```
-
-# Right (interface)
-
-**Signature**
-
-```ts
-export interface Right<A> {
-  readonly _tag: 'Right'
-  readonly right: A
-}
-```
-
 # These (type alias)
 
 **Signature**
 
 ```ts
-export type These<L, A> = Left<L> | Right<A> | Both<L, A>
+export type These<L, A> = Either<L, A> | Both<L, A>
 ```
 
 Added in v2.0.0
@@ -133,7 +108,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const both = <L, A>(left: L, right: A): These<L, A> => ...
+export function both<L, A>(left: L, right: A): These<L, A> { ... }
 ```
 
 Added in v2.0.0
@@ -153,26 +128,6 @@ export function fold<L, A, R>(
 
 Added in v2.0.0
 
-# fromEither (function)
-
-**Signature**
-
-```ts
-export const fromEither = <L, A>(fa: Either<L, A>): These<L, A> => ...
-```
-
-**Example**
-
-```ts
-import { fromEither, left, right } from 'fp-ts/lib/These'
-import * as E from 'fp-ts/lib/Either'
-
-assert.deepStrictEqual(fromEither(E.left('a')), left('a'))
-assert.deepStrictEqual(fromEither(E.right(1)), right(1))
-```
-
-Added in v2.0.0
-
 # fromOptions (function)
 
 Takes a pair of `Option`s and attempts to create a `These` from them
@@ -180,7 +135,7 @@ Takes a pair of `Option`s and attempts to create a `These` from them
 **Signature**
 
 ```ts
-export const fromOptions = <L, A>(fl: O.Option<L>, fa: O.Option<A>): O.Option<These<L, A>> => ...
+export function fromOptions<L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> { ... }
 ```
 
 **Example**
@@ -204,7 +159,7 @@ Returns an `L` value if possible
 **Signature**
 
 ```ts
-export const getLeft = <L, A>(fa: These<L, A>): O.Option<L> => ...
+export function getLeft<L, A>(fa: These<L, A>): Option<L> { ... }
 ```
 
 **Example**
@@ -227,7 +182,7 @@ Returns the `L` value if and only if the value is constructed with `Left`
 **Signature**
 
 ```ts
-export const getLeftOnly = <L, A>(fa: These<L, A>): O.Option<L> => ...
+export function getLeftOnly<L, A>(fa: These<L, A>): Option<L> { ... }
 ```
 
 **Example**
@@ -248,7 +203,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonad = <L>(S: Semigroup<L>): Monad2C<URI, L> => ...
+export function getMonad<L>(S: Semigroup<L>): Monad2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -260,7 +215,7 @@ Returns an `A` value if possible
 **Signature**
 
 ```ts
-export const getRight = <L, A>(fa: These<L, A>): O.Option<A> => ...
+export function getRight<L, A>(fa: These<L, A>): Option<A> { ... }
 ```
 
 **Example**
@@ -283,7 +238,7 @@ Returns the `A` value if and only if the value is constructed with `Right`
 **Signature**
 
 ```ts
-export const getRightOnly = <L, A>(fa: These<L, A>): O.Option<A> => ...
+export function getRightOnly<L, A>(fa: These<L, A>): Option<A> { ... }
 ```
 
 **Example**
@@ -304,7 +259,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> => ...
+export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -314,7 +269,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => ...
+export function getSetoid<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -324,7 +279,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> => ...
+export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -336,7 +291,7 @@ Returns `true` if the these is an instance of `Both`, `false` otherwise
 **Signature**
 
 ```ts
-export const isBoth = <L, A>(fa: These<L, A>): fa is Both<L, A> => ...
+export function isBoth<L, A>(fa: These<L, A>): fa is Both<L, A> { ... }
 ```
 
 Added in v2.0.0
@@ -348,7 +303,7 @@ Returns `true` if the these is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export const isLeft = <L, A>(fa: These<L, A>): fa is Left<L> => ...
+export function isLeft<L, A>(fa: These<L, A>): fa is Left<L> { ... }
 ```
 
 Added in v2.0.0
@@ -360,7 +315,7 @@ Returns `true` if the these is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export const isRight = <L, A>(fa: These<L, A>): fa is Right<A> => ...
+export function isRight<L, A>(fa: These<L, A>): fa is Right<A> { ... }
 ```
 
 Added in v2.0.0
@@ -370,7 +325,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const left = <L>(left: L): These<L, never> => ...
+export function left<L>(left: L): These<L, never> { ... }
 ```
 
 Added in v2.0.0
@@ -380,7 +335,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const leftOrBoth = <L, A>(defaultLeft: L, ma: O.Option<A>): These<L, A> => ...
+export function leftOrBoth<L, A>(defaultLeft: L, ma: Option<A>): These<L, A> { ... }
 ```
 
 **Example**
@@ -400,7 +355,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right = <A>(right: A): These<never, A> => ...
+export function right<A>(right: A): These<never, A> { ... }
 ```
 
 Added in v2.0.0
@@ -410,7 +365,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightOrBoth = <L, A>(defaultRight: A, ml: O.Option<L>): These<L, A> => ...
+export function rightOrBoth<L, A>(defaultRight: A, ml: Option<L>): These<L, A> { ... }
 ```
 
 **Example**
@@ -430,7 +385,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const toTuple = <L, A>(defaultLeft: L, defaultRight: A) => (fa: These<L, A>): [L, A] => ...
+export function toTuple<L, A>(fa: These<L, A>, l: L, a: A): [L, A] { ... }
 ```
 
 **Example**
@@ -438,10 +393,9 @@ export const toTuple = <L, A>(defaultLeft: L, defaultRight: A) => (fa: These<L, 
 ```ts
 import { toTuple, left, right, both } from 'fp-ts/lib/These'
 
-const to = toTuple('a', 1)
-assert.deepStrictEqual(to(left('b')), ['b', 1])
-assert.deepStrictEqual(to(right(2)), ['a', 2])
-assert.deepStrictEqual(to(both('b', 2)), ['b', 2])
+assert.deepStrictEqual(toTuple(left('b'), 'a', 1), ['b', 1])
+assert.deepStrictEqual(toTuple(right(2), 'a', 1), ['a', 2])
+assert.deepStrictEqual(toTuple(both('b', 2), 'a', 1), ['b', 2])
 ```
 
 Added in v2.0.0
