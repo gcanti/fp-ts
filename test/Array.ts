@@ -2,7 +2,6 @@ import * as assert from 'assert'
 import * as fc from 'fast-check'
 import {
   array,
-  catOptions,
   cons,
   copy,
   deleteAt,
@@ -23,7 +22,6 @@ import {
   isEmpty,
   last,
   lefts,
-  mapOption,
   modifyAt,
   partitionMap,
   rights,
@@ -272,7 +270,10 @@ describe('Array', () => {
   it('`findFirstMap(arr, fun)` is equivalent to map and `head(mapOption(arr, fun)`', () => {
     fc.assert(
       fc.property(fc.array(fc.integer()), arr =>
-        optionStringSetoid.equals(findFirstMap(arr, multipleOf3AsString), head(mapOption(arr, multipleOf3AsString)))
+        optionStringSetoid.equals(
+          findFirstMap(arr, multipleOf3AsString),
+          head(array.filterMap(arr, multipleOf3AsString))
+        )
       )
     )
   })
@@ -287,7 +288,10 @@ describe('Array', () => {
   it('`findLastMap(arr, fun)` is equivalent to `last(mapOption(arr, fun))`', () => {
     fc.assert(
       fc.property(fc.array(fc.integer()), arr =>
-        optionStringSetoid.equals(findLastMap(arr, multipleOf3AsString), last(mapOption(arr, multipleOf3AsString)))
+        optionStringSetoid.equals(
+          findLastMap(arr, multipleOf3AsString),
+          last(array.filterMap(arr, multipleOf3AsString))
+        )
       )
     )
   })
@@ -542,13 +546,10 @@ describe('Array', () => {
     ])
   })
 
-  it('compact/catOptions', () => {
+  it('compact', () => {
     assert.deepStrictEqual(array.compact([]), [])
     assert.deepStrictEqual(array.compact([O.some(1), O.some(2), O.some(3)]), [1, 2, 3])
     assert.deepStrictEqual(array.compact([O.some(1), O.none, O.some(3)]), [1, 3])
-    assert.deepStrictEqual(catOptions([]), [])
-    assert.deepStrictEqual(catOptions([O.some(1), O.some(2), O.some(3)]), [1, 2, 3])
-    assert.deepStrictEqual(catOptions([O.some(1), O.none, O.some(3)]), [1, 3])
   })
 
   it('separate', () => {
@@ -569,12 +570,10 @@ describe('Array', () => {
     assert.deepStrictEqual(array.filterWithIndex(['a', 'b', 'c'], n => n % 2 === 0), ['a', 'c'])
   })
 
-  it('filterMap/mapOption', () => {
+  it('filterMap', () => {
     const f = (n: number) => (n % 2 === 0 ? O.none : O.some(n))
-    assert.deepStrictEqual(mapOption(as, f), [1, 3])
-    assert.deepStrictEqual(mapOption([], f), [])
-    assert.deepStrictEqual(array.filterMap([], f), [])
     assert.deepStrictEqual(array.filterMap(as, f), [1, 3])
+    assert.deepStrictEqual(array.filterMap([], f), [])
   })
 
   it('partitionMap', () => {
