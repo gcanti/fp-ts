@@ -98,11 +98,11 @@ export const getTupleSetoid = <T extends Array<Setoid<any>>>(
  *
  * @since 2.0.0
  */
-export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => {
-  return fromEquals((x, y) => fa.equals(f(x), f(y)))
+export const contramap = <A, B>(S: Setoid<A>, f: (b: B) => A): Setoid<B> => {
+  return fromEquals((x, y) => S.equals(f(x), f(y)))
 }
 
 /**
  * @since 2.0.0
  */
-export const setoidDate: Setoid<Date> = contramap(date => date.valueOf(), setoidNumber)
+export const setoidDate: Setoid<Date> = contramap(setoidNumber, date => date.valueOf())
