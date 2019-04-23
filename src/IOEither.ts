@@ -76,13 +76,8 @@ export function left<L>(fa: IO<L>): IOEither<L, never> {
 /**
  * @since 2.0.0
  */
-export const fromEither: <L, A>(fa: E.Either<L, A>) => IOEither<L, A> = io.of
-
-/**
- * @since 2.0.0
- */
 export function fromLeft<L>(l: L): IOEither<L, never> {
-  return fromEither(E.left(l))
+  return io.of(E.left(l))
 }
 
 /**
@@ -104,6 +99,6 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<U
   chain: eitherT.chain,
   alt: (mx, my) => orElse(mx, () => my),
   throwError: fromLeft,
-  fromEither,
+  fromEither: io.of,
   fromOption: (o, onNone) => (o._tag === 'None' ? fromLeft(onNone()) : fromRight(o.value))
 }

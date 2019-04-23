@@ -18,7 +18,6 @@ parent: Modules
 - [ask (function)](#ask-function)
 - [asks (function)](#asks-function)
 - [fold (function)](#fold-function)
-- [fromEither (function)](#fromeither-function)
 - [fromIO (function)](#fromio-function)
 - [fromIOEither (function)](#fromioeither-function)
 - [fromLeft (function)](#fromleft-function)
@@ -139,16 +138,6 @@ export function fold<E, L, A, R>(
   onLeft: (l: L) => R,
   onRight: (a: A) => R
 ): Reader<E, Task<R>> { ... }
-```
-
-Added in v2.0.0
-
-# fromEither (function)
-
-**Signature**
-
-```ts
-export function fromEither<L, A>(ma: Either<L, A>): ReaderTaskEither<unknown, L, A> { ... }
 ```
 
 Added in v2.0.0
