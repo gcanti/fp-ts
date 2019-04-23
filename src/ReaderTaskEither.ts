@@ -34,36 +34,22 @@ export interface ReaderTaskEither<E, L, A> {
   (e: E): TaskEither<L, A>
 }
 
-const map = <E, L, A, B>(ma: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderTaskEither<E, L, B> => {
-  return T.map(ma, f)
-}
-
 /**
  * @since 2.0.0
  */
-export const make = <A>(a: A): ReaderTaskEither<unknown, never, A> => {
-  return T.of(a)
-}
-
-/**
- * @since 2.0.0
- */
-export const run = <E, L, A>(ma: ReaderTaskEither<E, L, A>, e: E): Promise<Either<L, A>> => {
+export function run<E, L, A>(ma: ReaderTaskEither<E, L, A>, e: E): Promise<Either<L, A>> {
   return ma(e)()
 }
 
-const ap = <E, L, A, B>(
-  fab: ReaderTaskEither<E, L, (a: A) => B>,
-  fa: ReaderTaskEither<E, L, A>
-): ReaderTaskEither<E, L, B> => {
-  return T.ap(fab, fa)
-}
-
-const chain = <E, L, A, B>(
-  fa: ReaderTaskEither<E, L, A>,
-  f: (a: A) => ReaderTaskEither<E, L, B>
-): ReaderTaskEither<E, L, B> => {
-  return T.chain(fa, f)
+/**
+ * @since 2.0.0
+ */
+export function fold<E, L, A, R>(
+  ma: ReaderTaskEither<E, L, A>,
+  onLeft: (l: L) => R,
+  onRight: (a: A) => R
+): Reader<E, Task<R>> {
+  return e => TE.fold(ma(e), onLeft, onRight)
 }
 
 /**
@@ -86,102 +72,81 @@ export function mapLeft<E, L, A, M>(ma: ReaderTaskEither<E, L, A>, f: (l: L) => 
 /**
  * @since 2.0.0
  */
-export function fold<E, L, A, R>(
-  ma: ReaderTaskEither<E, L, A>,
-  onLeft: (l: L) => R,
-  onRight: (a: A) => R
-): Reader<E, Task<R>> {
-  return e => TE.fold(ma(e), onLeft, onRight)
-}
-
-const alt = <E, L, A>(fx: ReaderTaskEither<E, L, A>, fy: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> => {
-  return orElse(fx, () => fy)
-}
-
-const bimap = <E, L, V, A, B>(
-  fa: ReaderTaskEither<E, L, A>,
-  f: (l: L) => V,
-  g: (a: A) => B
-): ReaderTaskEither<E, V, B> => {
-  return e => TE.taskEither.bimap(fa(e), f, g)
-}
-
-/**
- * @since 2.0.0
- */
-export const ask = <E>(): ReaderTaskEither<E, never, E> => {
+export function ask<E>(): ReaderTaskEither<E, never, E> {
   return e => TE.taskEither.of(e)
 }
 
 /**
  * @since 2.0.0
  */
-export const asks = <E, A>(f: (e: E) => A): ReaderTaskEither<E, never, A> => {
+export function asks<E, A>(f: (e: E) => A): ReaderTaskEither<E, never, A> {
   return e => TE.taskEither.of(f(e))
 }
 
 /**
  * @since 2.0.0
  */
-export const local = <E, L, A, F>(ma: ReaderTaskEither<E, L, A>, f: (f: F) => E): ReaderTaskEither<F, L, A> => {
+export function local<E, L, A, D>(ma: ReaderTaskEither<E, L, A>, f: (f: D) => E): ReaderTaskEither<D, L, A> {
   return e => ma(f(e))
 }
 
 /**
  * @since 2.0.0
  */
-export const right = <E, A>(fa: Task<A>): ReaderTaskEither<E, never, A> => {
-  return () => TE.right(fa)
+export function right<E, A>(ma: Task<A>): ReaderTaskEither<E, never, A> {
+  return () => TE.right(ma)
 }
 
 /**
  * @since 2.0.0
  */
-export const left = <E, L>(fa: Task<L>): ReaderTaskEither<E, L, never> => {
-  return () => TE.left(fa)
+export function left<E, L>(ma: Task<L>): ReaderTaskEither<E, L, never> {
+  return () => TE.left(ma)
 }
 
 /**
  * @since 2.0.0
  */
-export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<E, L, A> => {
-  return () => fa
-}
-
-const readerTfromReader = readerT.fromReader(TE.taskEither)
-/**
- * @since 2.0.0
- */
-export const fromReader = <E, A>(fa: Reader<E, A>): ReaderTaskEither<E, never, A> => {
-  return readerTfromReader(fa)
+export function fromTaskEither<E, L, A>(ma: TaskEither<L, A>): ReaderTaskEither<E, L, A> {
+  return () => ma
 }
 
 /**
  * @since 2.0.0
  */
-export const fromEither = <L, A>(fa: Either<L, A>): ReaderTaskEither<unknown, L, A> => {
-  return fromTaskEither(TE.fromEither(fa))
+export const fromReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = T.fromReader
+
+/**
+ * @since 2.0.0
+ */
+export function fromEither<L, A>(ma: Either<L, A>): ReaderTaskEither<unknown, L, A> {
+  return fromTaskEither(TE.fromEither(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export const fromIO = <A>(fa: IO<A>): ReaderTaskEither<unknown, never, A> => {
-  return fromTaskEither(TE.fromIO(fa))
+export function fromIO<A>(ma: IO<A>): ReaderTaskEither<unknown, never, A> {
+  return fromTaskEither(TE.fromIO(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export const fromLeft = <L>(l: L): ReaderTaskEither<unknown, L, never> => {
+export function fromLeft<L>(l: L): ReaderTaskEither<unknown, L, never> {
   return fromTaskEither(TE.fromLeft(l))
 }
 
 /**
  * @since 2.0.0
  */
-export const fromIOEither = <L, A>(fa: IOEither<L, A>): ReaderTaskEither<unknown, L, A> => {
-  return fromTaskEither(TE.fromIOEither(fa))
+export const fromRight: <A>(a: A) => ReaderTaskEither<unknown, never, A> = T.of
+
+/**
+ * @since 2.0.0
+ */
+export function fromIOEither<L, A>(ma: IOEither<L, A>): ReaderTaskEither<unknown, L, A> {
+  return fromTaskEither(TE.fromIOEither(ma))
 }
 
 /**
@@ -206,16 +171,12 @@ export function fromPredicate<L, A>(
 /**
  * @since 2.0.0
  */
-export const tryCatch = <E, L, A>(
+export function tryCatch<E, L, A>(
   f: (e: E) => Promise<A>,
   onError: (reason: unknown, e: E) => L
-): ReaderTaskEither<E, L, A> => {
+): ReaderTaskEither<E, L, A> {
   return e => TE.tryCatch(() => f(e), (reason: unknown) => onError(reason, e))
 }
-
-const fromTask = right
-
-const throwError = fromLeft
 
 /**
  * @since 2.0.0
@@ -227,17 +188,17 @@ export const readerTaskEither: Monad3<URI> &
   MonadTask3<URI> &
   MonadThrow3<URI> = {
   URI,
-  map,
-  of: make,
-  ap,
-  chain,
-  alt,
-  bimap,
+  map: T.map,
+  of: fromRight,
+  ap: T.ap,
+  chain: T.chain,
+  alt: (mx, my) => orElse(mx, () => my),
+  bimap: (ma, f, g) => e => TE.taskEither.bimap(ma(e), f, g),
   fromIO,
-  fromTask,
-  throwError,
+  fromTask: right,
+  throwError: fromLeft,
   fromEither,
-  fromOption: (o, e) => (o._tag === 'None' ? throwError(e) : make(o.value))
+  fromOption: (o, e) => (o._tag === 'None' ? fromLeft(e) : fromRight(o.value))
 }
 
 /**
@@ -246,5 +207,5 @@ export const readerTaskEither: Monad3<URI> &
  */
 export const readerTaskEitherSeq: typeof readerTaskEither = {
   ...readerTaskEither,
-  ap: (fab, fa) => chain(fab, f => map(fa, f))
+  ap: (fab, fa) => readerTaskEither.chain(fab, f => readerTaskEither.map(fa, f))
 }
