@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 41
+nav_order: 40
 parent: Modules
 ---
 
@@ -40,7 +40,6 @@ parent: Modules
 - [filterableWithIndex (export)](#filterablewithindex-export)
 - [foldable (export)](#foldable-export)
 - [foldableWithIndex (export)](#foldablewithindex-export)
-- [free (export)](#free-export)
 - [function (export)](#function-export)
 - [functor (export)](#functor-export)
 - [functorWithIndex (export)](#functorwithindex-export)
@@ -357,14 +356,6 @@ export { foldable }
 
 ```ts
 export { foldableWithIndex }
-```
-
-# free (export)
-
-**Signature**
-
-```ts
-export { free }
 ```
 
 # function (export)
