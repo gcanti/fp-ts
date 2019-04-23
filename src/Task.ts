@@ -4,7 +4,6 @@
  */
 import { Either, left, right } from './Either'
 import { identity, Lazy } from './function'
-import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
@@ -97,15 +96,6 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown
 }
 
 /**
- * Lifts an IO action into a Task
- *
- * @since 2.0.0
- */
-export const fromIO = <A>(io: IO<A>): Task<A> => {
-  return () => Promise.resolve(io())
-}
-
-/**
  * @since 2.0.0
  */
 export const delay = <A>(millis: number, a: A): Task<A> => {
@@ -128,7 +118,7 @@ export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
   of,
   ap,
   chain,
-  fromIO,
+  fromIO: ma => () => Promise.resolve(ma()),
   fromTask
 }
 

@@ -23,7 +23,7 @@ describe('TaskEither', () => {
     const useSuccess = () => TE.fromRight('use success')
     const useFailure = () => TE.fromLeft('use failure')
     const releaseSuccess = () =>
-      TE.fromIO(() => {
+      TE.taskEither.fromIO(() => {
         log.push('release success')
       })
     const releaseFailure = () => TE.fromLeft('release failure')
@@ -171,14 +171,6 @@ describe('TaskEither', () => {
     return Promise.all([ok(), ko()]).then(([eok, eko]) => {
       assert.deepStrictEqual(eok, eitherRight(1))
       assert.deepStrictEqual(eko, eitherLeft('error'))
-    })
-  })
-
-  it('fromIO', () => {
-    const io = () => 1
-    const fa = TE.fromIO(io)
-    return fa().then(e => {
-      assert.deepStrictEqual(e, eitherRight(1))
     })
   })
 
@@ -382,6 +374,16 @@ describe('TaskEither', () => {
       ]).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, eitherLeft('error'))
         assert.deepStrictEqual(e2, eitherRight(1))
+      })
+    })
+  })
+
+  describe('MonadIO', () => {
+    it('fromIO', () => {
+      const io = () => 1
+      const fa = TE.taskEither.fromIO(io)
+      return fa().then(e => {
+        assert.deepStrictEqual(e, eitherRight(1))
       })
     })
   })

@@ -76,36 +76,6 @@ describe('Task', () => {
     })
   })
 
-  it('fromIO', () => {
-    const io = () => 1
-    const task = T.fromIO(io)
-    return task().then(a => {
-      assert.strictEqual(a, 1)
-    })
-  })
-
-  // it('applySecond', () => {
-  //   const log: Array<string> = []
-  //   const append = (message: string): T.Task<number> => () => Promise.resolve(log.push(message))
-  //   return append('a')
-  //     .applySecond(append('b'))()
-  //     .then(n => {
-  //       assert.strictEqual(n, 2)
-  //       assert.deepStrictEqual(log, ['a', 'b'])
-  //     })
-  // })
-
-  // it('applyFirst', () => {
-  //   const log: Array<string> = []
-  //   const append = (message: string): T.Task<number> => new Task(() => Promise.resolve(log.push(message)))
-  //   return append('a')
-  //     .applyFirst(append('b'))()
-  //     .then(n => {
-  //       assert.strictEqual(n, 1)
-  //       assert.deepStrictEqual(log, ['a', 'b'])
-  //     })
-  // })
-
   it('sequence parallel', () => {
     const log: Array<string> = []
     const append = (message: string): T.Task<number> => () => Promise.resolve(log.push(message))
@@ -127,6 +97,16 @@ describe('Task', () => {
     return sequenceSeries([t1, t2])().then(ns => {
       assert.deepStrictEqual(ns, [2, 4])
       assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
+    })
+  })
+
+  describe('MonadIO', () => {
+    it('fromIO', () => {
+      const io = () => 1
+      const task = T.task.fromIO(io)
+      return task().then(a => {
+        assert.strictEqual(a, 1)
+      })
     })
   })
 })
