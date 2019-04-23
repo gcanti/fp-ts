@@ -405,7 +405,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> { ... }
+export function modifyAt<A>(i: number, nea: NonEmptyArray<A>, f: (a: A) => A): Option<NonEmptyArray<A>> { ... }
 ```
 
 Added in v2.0.0

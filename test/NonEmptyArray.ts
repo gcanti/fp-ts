@@ -301,8 +301,8 @@ describe.only('NonEmptyArray', () => {
 
   it('modifyAt', () => {
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(modifyAt(make<number>(1, []), 1, double), none)
-    assert.deepStrictEqual(modifyAt(make<number>(1, [2]), 1, double), some(make(1, [4])))
+    assert.deepStrictEqual(modifyAt(1, make<number>(1, []), double), none)
+    assert.deepStrictEqual(modifyAt(1, make<number>(1, [2]), double), some(make(1, [4])))
   })
 
   it('copy', () => {
