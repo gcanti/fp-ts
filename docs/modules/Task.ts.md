@@ -19,7 +19,6 @@ If you want to represent an asynchronous computation that may fail, please see `
 - [task (constant)](#task-constant)
 - [taskSeq (constant)](#taskseq-constant)
 - [delay (function)](#delay-function)
-- [fromIO (function)](#fromio-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getRaceMonoid (function)](#getracemonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
@@ -81,18 +80,6 @@ Added in v2.0.0
 
 ```ts
 export const delay = <A>(millis: number, a: A): Task<A> => ...
-```
-
-Added in v2.0.0
-
-# fromIO (function)
-
-Lifts an IO action into a Task
-
-**Signature**
-
-```ts
-export const fromIO = <A>(io: IO<A>): Task<A> => ...
 ```
 
 Added in v2.0.0

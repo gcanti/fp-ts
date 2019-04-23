@@ -26,7 +26,6 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [filterOrElse (function)](#filterorelse-function)
 - [filterOrElseL (function)](#filterorelsel-function)
 - [foldTask (function)](#foldtask-function)
-- [fromIO (function)](#fromio-function)
 - [fromLeft (function)](#fromleft-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
@@ -188,16 +187,6 @@ export function foldTask<L, A, R>(
   onLeft: (l: L) => Task<R>,
   onRight: (a: A) => Task<R>
 ): Task<R> { ... }
-```
-
-Added in v2.0.0
-
-# fromIO (function)
-
-**Signature**
-
-```ts
-export function fromIO<A>(fa: IO<A>): TaskEither<never, A> { ... }
 ```
 
 Added in v2.0.0
