@@ -171,13 +171,6 @@ describe('Either', () => {
     assert.strictEqual(E.isRight(E.left(1)), false)
   })
 
-  it('alt', () => {
-    assert.deepStrictEqual(E.either.alt(E.right(1), E.right(2)), E.right(1))
-    assert.deepStrictEqual(E.either.alt(E.right(1), E.left('err')), E.right(1))
-    assert.deepStrictEqual(E.either.alt(E.left('err'), E.right(2)), E.right(2))
-    assert.deepStrictEqual(E.either.alt(E.left('err1'), E.left('err2')), E.left('err2'))
-  })
-
   it('orElse', () => {
     assert.deepStrictEqual(E.orElse(E.right(1), () => E.right(2)), E.right(1))
     assert.deepStrictEqual(E.orElse(E.right(1), () => E.left('foo')), E.right(1))

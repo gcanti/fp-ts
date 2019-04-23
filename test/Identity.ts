@@ -54,7 +54,7 @@ describe('Identity', () => {
   it('alt', () => {
     const x = I.identity.of(1)
     const y = I.identity.of(2)
-    assert.strictEqual(I.identity.alt(x, y), x)
+    assert.strictEqual(I.identity.alt(x, () => y), x)
   })
 
   it('extract', () => {

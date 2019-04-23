@@ -370,10 +370,6 @@ const bimap = <L, V, A, B>(ma: Either<L, A>, f: (u: L) => V, g: (a: A) => B): Ei
   return isLeft(ma) ? left(f(ma.left)) : right(g(ma.right))
 }
 
-const alt = <L, A>(mx: Either<L, A>, my: Either<L, A>): Either<L, A> => {
-  return isLeft(mx) ? my : mx
-}
-
 const extend = <L, A, B>(ma: Either<L, A>, f: (ma: Either<L, A>) => B): Either<L, B> => {
   return isLeft(ma) ? ma : right(f(ma))
 }
@@ -548,7 +544,7 @@ export const either: Monad2<URI> &
   traverse,
   sequence,
   bimap,
-  alt,
+  alt: orElse,
   extend,
   chainRec,
   throwError: left,

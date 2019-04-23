@@ -205,23 +205,6 @@ describe('TaskEither', () => {
     })
   })
 
-  it('alt', () => {
-    const l1: TE.TaskEither<string, number> = TE.fromLeft('foo')
-    const l2 = TE.fromLeft('bar')
-    const r1: TE.TaskEither<string, number> = TE.fromRight(1)
-    const r2 = TE.fromRight(2)
-    const x1 = TE.taskEither.alt(l1, l2)
-    const x2 = TE.taskEither.alt(l1, r1)
-    const x3 = TE.taskEither.alt(r1, l1)
-    const x4 = TE.taskEither.alt(r1, r2)
-    return Promise.all([x1(), x2(), x3(), x4()]).then(([e1, e2, e3, e4]) => {
-      assert.deepStrictEqual(e1, eitherLeft('bar'))
-      assert.deepStrictEqual(e2, eitherRight(1))
-      assert.deepStrictEqual(e3, eitherRight(1))
-      assert.deepStrictEqual(e4, eitherRight(1))
-    })
-  })
-
   it('fromIOEither', () => {
     const x1 = TE.fromIOEither(() => eitherRight(1))
     const x2 = TE.fromIOEither(() => eitherLeft('foo'))
