@@ -61,8 +61,6 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
   return { ...getSemigroup(M), empty: of(M.empty) }
 }
 
-const fromIO = identity
-
 /**
  * @since 2.0.0
  */
@@ -72,5 +70,5 @@ export const io: Monad1<URI> & MonadIO1<URI> = {
   of,
   ap,
   chain,
-  fromIO
+  fromIO: identity
 }

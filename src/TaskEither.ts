@@ -7,7 +7,6 @@ import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherT } from './EitherT'
 import { identity, Lazy, Predicate, Refinement } from './function'
-import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
@@ -122,13 +121,6 @@ export function left<L>(fl: Task<L>): TaskEither<L, never> {
 /**
  * @since 2.0.0
  */
-export function fromIO<A>(fa: IO<A>): TaskEither<never, A> {
-  return right(T.fromIO(fa))
-}
-
-/**
- * @since 2.0.0
- */
 export function fromLeft<L>(l: L): TaskEither<L, never> {
   return task.of(E.left(l))
 }
@@ -136,7 +128,7 @@ export function fromLeft<L>(l: L): TaskEither<L, never> {
 /**
  * @since 2.0.0
  */
-export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = T.fromIO
+export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = T.task.fromIO
 
 /**
  * @since 2.0.0
@@ -305,7 +297,7 @@ export const taskEither: Monad2<URI> &
   ap: eitherT.ap,
   chain: eitherT.chain,
   alt: (mx, my) => orElse(mx, () => my),
-  fromIO,
+  fromIO: ma => right(T.task.fromIO(ma)),
   fromTask: right,
   throwError: fromLeft,
   fromEither: task.of,

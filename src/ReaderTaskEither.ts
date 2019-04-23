@@ -2,7 +2,6 @@ import { Alt3 } from './Alt'
 import { Bifunctor3 } from './Bifunctor'
 import { Either } from './Either'
 import { Predicate, Refinement } from './function'
-import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
 import { MonadIO3 } from './MonadIO'
@@ -119,13 +118,6 @@ export const fromReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, 
 /**
  * @since 2.0.0
  */
-export function fromIO<A>(ma: IO<A>): ReaderTaskEither<unknown, never, A> {
-  return fromTaskEither(TE.fromIO(ma))
-}
-
-/**
- * @since 2.0.0
- */
 export function fromLeft<L>(l: L): ReaderTaskEither<unknown, L, never> {
   return fromTaskEither(TE.fromLeft(l))
 }
@@ -187,7 +179,7 @@ export const readerTaskEither: Monad3<URI> &
   chain: T.chain,
   alt: (mx, my) => orElse(mx, () => my),
   bimap: (ma, f, g) => e => TE.taskEither.bimap(ma(e), f, g),
-  fromIO,
+  fromIO: ma => () => TE.taskEither.fromIO(ma),
   fromTask: right,
   throwError: fromLeft,
   fromEither: e => () => task.of(e),

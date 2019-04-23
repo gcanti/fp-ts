@@ -111,12 +111,6 @@ describe('ReaderTaskEither', () => {
     })
   })
 
-  it('fromIO', () => {
-    return RTE.run(RTE.fromIO(() => 1), {}).then(e => {
-      assert.deepStrictEqual(e, E.right(1))
-    })
-  })
-
   it('fromIOEither', () => {
     const rtes = [RTE.fromIOEither(() => E.right(1)), RTE.fromIOEither(() => E.left('error'))]
     return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
@@ -224,6 +218,14 @@ describe('ReaderTaskEither', () => {
       return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, E.left('error'))
         assert.deepStrictEqual(e2, E.right(1))
+      })
+    })
+  })
+
+  describe('MonadIO', () => {
+    it('fromIO', () => {
+      return RTE.run(RTE.readerTaskEither.fromIO(() => 1), {}).then(e => {
+        assert.deepStrictEqual(e, E.right(1))
       })
     })
   })
