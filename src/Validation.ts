@@ -1,6 +1,6 @@
 import { Alt2C } from './Alt'
 import { Applicative2C } from './Applicative'
-import { Either, either, isLeft, left, right, URI } from './Either'
+import { Either, either, isLeft, left, right, URI, isRight } from './Either'
 import { phantom } from './function'
 import { Monad2C } from './Monad'
 import { MonadThrow2C } from './MonadThrow'
@@ -72,7 +72,13 @@ export function getAlt<L>(S: Semigroup<L>): Alt2C<URI, L> {
     URI,
     _L: phantom,
     map,
-    alt: (fx, fy) => (isLeft(fx) ? (isLeft(fy) ? left(S.concat(fx.left, fy.left)) : fy) : fx)
+    alt: (fx, f) => {
+      if (isRight(fx)) {
+        return fx
+      }
+      const fy = f()
+      return isLeft(fy) ? left(S.concat(fx.left, fy.left)) : fy
+    }
   }
 }
 

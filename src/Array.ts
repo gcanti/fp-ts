@@ -202,8 +202,6 @@ export const empty: Array<never> = []
 
 const zero = <A>(): Array<A> => empty
 
-const alt = concat
-
 const unfold = <A, B>(b: B, f: (b: B) => Option<[A, B]>): Array<A> => {
   const ret: Array<A> = []
   let bb = b
@@ -1552,7 +1550,7 @@ export const array: Monad1<URI> &
   traverse,
   sequence,
   zero,
-  alt,
+  alt: (fx, f) => concat(fx, f()),
   extend,
   wither,
   wilt,

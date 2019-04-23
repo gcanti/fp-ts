@@ -137,21 +137,6 @@ describe('ReaderTaskEither', () => {
     })
   })
 
-  it('alt', () => {
-    const rtes = [
-      RTE.readerTaskEither.alt(RTE.fromRight(1), RTE.fromRight(2)),
-      RTE.readerTaskEither.alt(RTE.fromRight(1), RTE.fromLeft('error')),
-      RTE.readerTaskEither.alt(RTE.fromLeft('error'), RTE.fromRight(2)),
-      RTE.readerTaskEither.alt(RTE.fromLeft('error1'), RTE.fromLeft('error2'))
-    ]
-    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2, e3, e4]) => {
-      assert.deepStrictEqual(e1, E.right(1))
-      assert.deepStrictEqual(e2, E.right(1))
-      assert.deepStrictEqual(e3, E.right(2))
-      assert.deepStrictEqual(e4, E.left('error2'))
-    })
-  })
-
   it('fromPredicate', () => {
     const predicate = (n: number) => n >= 2
     const gt2 = RTE.fromPredicate(predicate, n => `Invalid number ${n}`)

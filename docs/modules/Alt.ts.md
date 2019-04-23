@@ -34,7 +34,7 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 
 ```ts
 export interface Alt<F> extends Functor<F> {
-  readonly alt: <A>(fx: HKT<F, A>, fy: HKT<F, A>) => HKT<F, A>
+  readonly alt: <A>(fx: HKT<F, A>, fy: () => HKT<F, A>) => HKT<F, A>
 }
 ```
 
@@ -46,7 +46,7 @@ Added in v2.0.0
 
 ```ts
 export interface Alt1<F extends URIS> extends Functor1<F> {
-  readonly alt: <A>(fx: Type<F, A>, fy: Type<F, A>) => Type<F, A>
+  readonly alt: <A>(fx: Type<F, A>, fy: () => Type<F, A>) => Type<F, A>
 }
 ```
 
@@ -56,7 +56,7 @@ export interface Alt1<F extends URIS> extends Functor1<F> {
 
 ```ts
 export interface Alt2<F extends URIS2> extends Functor2<F> {
-  readonly alt: <L, A>(fx: Type2<F, L, A>, fy: Type2<F, L, A>) => Type2<F, L, A>
+  readonly alt: <L, A>(fx: Type2<F, L, A>, fy: () => Type2<F, L, A>) => Type2<F, L, A>
 }
 ```
 
@@ -66,7 +66,7 @@ export interface Alt2<F extends URIS2> extends Functor2<F> {
 
 ```ts
 export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
-  readonly alt: <A>(fx: Type2<F, L, A>, fy: Type2<F, L, A>) => Type2<F, L, A>
+  readonly alt: <A>(fx: Type2<F, L, A>, fy: () => Type2<F, L, A>) => Type2<F, L, A>
 }
 ```
 
@@ -76,7 +76,7 @@ export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
 
 ```ts
 export interface Alt3<F extends URIS3> extends Functor3<F> {
-  readonly alt: <U, L, A>(fx: Type3<F, U, L, A>, fy: Type3<F, U, L, A>) => Type3<F, U, L, A>
+  readonly alt: <U, L, A>(fx: Type3<F, U, L, A>, fy: () => Type3<F, U, L, A>) => Type3<F, U, L, A>
 }
 ```
 
@@ -86,6 +86,6 @@ export interface Alt3<F extends URIS3> extends Functor3<F> {
 
 ```ts
 export interface Alt3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly alt: <A>(fx: Type3<F, U, L, A>, fy: Type3<F, U, L, A>) => Type3<F, U, L, A>
+  readonly alt: <A>(fx: Type3<F, U, L, A>, fy: () => Type3<F, U, L, A>) => Type3<F, U, L, A>
 }
 ```

@@ -30,9 +30,9 @@ describe('Validation', () => {
 
   it('getAlt', () => {
     const alt = getAlt(getArrayMonoid<number>())
-    assert.deepStrictEqual(alt.alt(left([1]), right('a')), right('a'))
-    assert.deepStrictEqual(alt.alt(right('a'), left([1])), right('a'))
-    assert.deepStrictEqual(alt.alt(left([1]), left([2])), left([1, 2]))
+    assert.deepStrictEqual(alt.alt(left([1]), () => right('a')), right('a'))
+    assert.deepStrictEqual(alt.alt(right('a'), () => left([1])), right('a'))
+    assert.deepStrictEqual(alt.alt(left([1]), () => left([2])), left([1, 2]))
   })
 
   it('getMonoid', () => {

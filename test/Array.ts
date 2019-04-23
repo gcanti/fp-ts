@@ -76,6 +76,10 @@ const p = (n: number) => n > 2
 describe('Array', () => {
   const as = [1, 2, 3]
 
+  it('alt', () => {
+    assert.deepStrictEqual(array.alt([1, 2], () => [3, 4]), [1, 2, 3, 4])
+  })
+
   it('getMonoid', () => {
     const M = getMonoid<number>()
     assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])

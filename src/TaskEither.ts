@@ -296,7 +296,7 @@ export const taskEither: Monad2<URI> &
   of: fromRight,
   ap: eitherT.ap,
   chain: eitherT.chain,
-  alt: (mx, my) => orElse(mx, () => my),
+  alt: orElse,
   fromIO: ma => right(T.task.fromIO(ma)),
   fromTask: right,
   throwError: fromLeft,
