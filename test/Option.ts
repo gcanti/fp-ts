@@ -129,13 +129,6 @@ describe('Option', () => {
     assert.deepStrictEqual(concat(O.some('a'), O.some('b')), O.some('ab'))
   })
 
-  it('alt', () => {
-    assert.deepStrictEqual(O.option.alt(O.some(1), O.some(2)), O.some(1))
-    assert.deepStrictEqual(O.option.alt(O.some(1), O.none), O.some(1))
-    assert.deepStrictEqual(O.option.alt(O.none, O.some(2)), O.some(2))
-    assert.deepStrictEqual(O.option.alt(O.none, O.none), O.none)
-  })
-
   it('orElse', () => {
     assert.deepStrictEqual(O.orElse(O.some(1), () => O.some(2)), O.some(1))
     assert.deepStrictEqual(O.orElse(O.some(2), () => O.none), O.some(2))

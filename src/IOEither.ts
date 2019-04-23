@@ -97,7 +97,7 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<U
   of: fromRight,
   ap: eitherT.ap,
   chain: eitherT.chain,
-  alt: (mx, my) => orElse(mx, () => my),
+  alt: orElse,
   throwError: fromLeft,
   fromEither: io.of,
   fromOption: (o, onNone) => (o._tag === 'None' ? fromLeft(onNone()) : fromRight(o.value))

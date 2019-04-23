@@ -4,6 +4,7 @@ import { ChainRec1, tailRec } from './ChainRec'
 import { Comonad1 } from './Comonad'
 import { Either } from './Either'
 import { Foldable1 } from './Foldable'
+import { identity as id } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
@@ -67,10 +68,6 @@ const reduceRight = <A, B>(fa: Identity<A>, b: B, f: (a: A, b: B) => B): B => {
   return f(fa, b)
 }
 
-const alt = <A>(fx: Identity<A>, fy: Identity<A>): Identity<A> => {
-  return fx
-}
-
 const extend = <A, B>(ea: Identity<A>, f: (ea: Identity<A>) => B): Identity<B> => {
   return f(ea)
 }
@@ -105,7 +102,7 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   reduceRight,
   traverse,
   sequence,
-  alt,
+  alt: id,
   extract,
   extend,
   chainRec

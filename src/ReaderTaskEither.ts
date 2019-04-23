@@ -177,7 +177,7 @@ export const readerTaskEither: Monad3<URI> &
   of: fromRight,
   ap: T.ap,
   chain: T.chain,
-  alt: (mx, my) => orElse(mx, () => my),
+  alt: orElse,
   bimap: (ma, f, g) => e => TE.taskEither.bimap(ma(e), f, g),
   fromIO: ma => () => TE.taskEither.fromIO(ma),
   fromTask: right,

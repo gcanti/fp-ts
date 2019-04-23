@@ -309,10 +309,6 @@ const sequence = <F>(F: Applicative<F>) => <A>(ta: Option<HKT<F, A>>): HKT<F, Op
   return isNone(ta) ? F.of(none) : F.map(ta.value, some)
 }
 
-const alt = <A>(fx: Option<A>, fy: Option<A>): Option<A> => {
-  return isNone(fx) ? fy : fx
-}
-
 const extend = <A, B>(ea: Option<A>, f: (ea: Option<A>) => B): Option<B> => {
   return isNone(ea) ? ea : some(f(ea))
 }
@@ -382,7 +378,7 @@ export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
  */
 export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
   return {
-    concat: alt,
+    concat: (x, y) => (isNone(x) ? y : x),
     empty: none
   }
 }
@@ -611,7 +607,7 @@ export const option: Monad1<URI> &
   traverse,
   sequence,
   zero,
-  alt,
+  alt: orElse,
   extend,
   compact,
   separate,
