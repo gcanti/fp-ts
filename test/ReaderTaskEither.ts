@@ -87,12 +87,6 @@ describe('ReaderTaskEither', () => {
     })
   })
 
-  it('fromEither', () => {
-    return RTE.run(RTE.fromEither(E.right(1)), {}).then(e => {
-      assert.deepStrictEqual(e, E.right(1))
-    })
-  })
-
   it('fromReader', () => {
     return RTE.run(RTE.fromReader(reader.of(1)), {}).then(e => {
       assert.deepStrictEqual(e, E.right(1))
@@ -213,6 +207,12 @@ describe('ReaderTaskEither', () => {
       ]
       return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, e2)
+      })
+    })
+
+    it('fromEither', () => {
+      return RTE.run(RTE.readerTaskEither.fromEither(E.right(1)), {}).then(e => {
+        assert.deepStrictEqual(e, E.right(1))
       })
     })
 
