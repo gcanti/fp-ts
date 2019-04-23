@@ -217,7 +217,10 @@ describe('ReaderTaskEither', () => {
     })
 
     it('fromOption', () => {
-      const rtes = [RTE.readerTaskEither.fromOption(none, 'error'), RTE.readerTaskEither.fromOption(some(1), 'error')]
+      const rtes = [
+        RTE.readerTaskEither.fromOption(none, () => 'error'),
+        RTE.readerTaskEither.fromOption(some(1), () => 'error')
+      ]
       return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, E.left('error'))
         assert.deepStrictEqual(e2, E.right(1))

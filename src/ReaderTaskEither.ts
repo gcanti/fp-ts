@@ -198,7 +198,7 @@ export const readerTaskEither: Monad3<URI> &
   fromTask: right,
   throwError: fromLeft,
   fromEither,
-  fromOption: (o, e) => (o._tag === 'None' ? fromLeft(e) : fromRight(o.value))
+  fromOption: (o, onNone) => (o._tag === 'None' ? fromLeft(onNone()) : fromRight(o.value))
 }
 
 /**

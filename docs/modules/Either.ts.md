@@ -47,8 +47,6 @@ either.map(left(23, double)  // left(23)
 - [filterOrElseL (function)](#filterorelsel-function)
 - [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
-- [fromOption (function)](#fromoption-function)
-- [fromOptionL (function)](#fromoptionl-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
@@ -184,31 +182,6 @@ the provided default as a `Left`
 
 ```ts
 export function fromNullable<L, A>(a: A | null | undefined, l: L): Either<L, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromOption (function)
-
-Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
-the provided default as a `Left`
-
-**Signature**
-
-```ts
-export function fromOption<L, A>(fa: Option<A>, l: L): Either<L, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromOptionL (function)
-
-Lazy version of `fromOption`
-
-**Signature**
-
-```ts
-export function fromOptionL<L, A>(fa: Option<A>, f: () => L): Either<L, A> { ... }
 ```
 
 Added in v2.0.0
