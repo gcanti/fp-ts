@@ -107,8 +107,6 @@ export const delay = <A>(millis: number, a: A): Task<A> => {
     })
 }
 
-const fromTask = identity
-
 /**
  * @since 2.0.0
  */
@@ -119,7 +117,7 @@ export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
   ap,
   chain,
   fromIO: ma => () => Promise.resolve(ma()),
-  fromTask
+  fromTask: identity
 }
 
 /**
