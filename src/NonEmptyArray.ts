@@ -270,8 +270,8 @@ export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonE
 /**
  * @since 2.0.0
  */
-export function modifyAt<A>(nea: NonEmptyArray<A>, i: number, f: (a: A) => A): Option<NonEmptyArray<A>> {
-  return A.modifyAt(nea, i, f) as any
+export function modifyAt<A>(i: number, nea: NonEmptyArray<A>, f: (a: A) => A): Option<NonEmptyArray<A>> {
+  return A.modifyAt(i, nea, f) as any
 }
 
 /**

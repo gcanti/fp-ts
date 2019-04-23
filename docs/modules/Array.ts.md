@@ -437,7 +437,7 @@ Find the first element returned by an option based selector function
 **Signature**
 
 ```ts
-export const findFirstMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => ...
+export const findFirstMap = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Option<B> => ...
 ```
 
 **Example**
@@ -537,7 +537,7 @@ Find the last element returned by an option based selector function
 **Signature**
 
 ```ts
-export const findLastMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => ...
+export const findLastMap = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Option<B> => ...
 ```
 
 **Example**
@@ -930,7 +930,7 @@ of bounds
 **Signature**
 
 ```ts
-export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> => ...
+export const modifyAt = <A>(i: number, as: Array<A>, f: (a: A) => A): Option<Array<A>> => ...
 ```
 
 **Example**
@@ -940,8 +940,8 @@ import { modifyAt } from 'fp-ts/lib/Array'
 import { some, none } from 'fp-ts/lib/Option'
 
 const double = (x: number): number => x * 2
-assert.deepStrictEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
-assert.deepStrictEqual(modifyAt([], 1, double), none)
+assert.deepStrictEqual(modifyAt(1, [1, 2, 3], double), some([1, 4, 3]))
+assert.deepStrictEqual(modifyAt(1, [], double), none)
 ```
 
 Added in v2.0.0

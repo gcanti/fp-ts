@@ -736,10 +736,10 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  *
  * @since 2.0.0
  */
-export const findFirstMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => {
-  const len = arr.length
+export const findFirstMap = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Option<B> => {
+  const len = as.length
   for (let i = 0; i < len; i++) {
-    const v = f(arr[i])
+    const v = f(as[i])
     if (isSome(v)) {
       return v
     }
@@ -789,10 +789,10 @@ export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  *
  * @since 2.0.0
  */
-export const findLastMap = <A, B>(arr: Array<A>, f: (a: A) => Option<B>): Option<B> => {
-  const len = arr.length
+export const findLastMap = <A, B>(as: Array<A>, f: (a: A) => Option<B>): Option<B> => {
+  const len = as.length
   for (let i = len - 1; i >= 0; i--) {
-    const v = f(arr[i])
+    const v = f(as[i])
     if (isSome(v)) {
       return v
     }
@@ -930,12 +930,12 @@ export const deleteAt = <A>(i: number, as: Array<A>): Option<Array<A>> => {
  * import { some, none } from 'fp-ts/lib/Option'
  *
  * const double = (x: number): number => x * 2
- * assert.deepStrictEqual(modifyAt([1, 2, 3], 1, double), some([1, 4, 3]))
- * assert.deepStrictEqual(modifyAt([], 1, double), none)
+ * assert.deepStrictEqual(modifyAt(1, [1, 2, 3], double), some([1, 4, 3]))
+ * assert.deepStrictEqual(modifyAt(1, [], double), none)
  *
  * @since 2.0.0
  */
-export const modifyAt = <A>(as: Array<A>, i: number, f: Endomorphism<A>): Option<Array<A>> => {
+export const modifyAt = <A>(i: number, as: Array<A>, f: (a: A) => A): Option<Array<A>> => {
   return isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, f(as[i]), as))
 }
 
