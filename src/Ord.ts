@@ -12,7 +12,6 @@
 import { Ordering, semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
 import { Setoid, setoidBoolean, setoidNumber, setoidString } from './Setoid'
-import { on } from './function'
 
 /**
  * @since 2.0.0
@@ -142,8 +141,8 @@ export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
 /**
  * @since 2.0.0
  */
-export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => {
-  return fromCompare(on(fa.compare)(f))
+export function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B> {
+  return fromCompare((x, y) => O.compare(f(x), f(y)))
 }
 
 /**
@@ -194,4 +193,4 @@ export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
 /**
  * @since 2.0.0
  */
-export const ordDate: Ord<Date> = contramap(date => date.valueOf(), ordNumber)
+export const ordDate: Ord<Date> = contramap(ordNumber, date => date.valueOf())

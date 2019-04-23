@@ -41,7 +41,7 @@ describe('Setoid', () => {
   })
 
   it('contramap', () => {
-    const S = contramap((p: Person) => p.name, setoidString)
+    const S = contramap(setoidString, (p: Person) => p.name)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 2 }), true)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'a', age: 1 }), true)
     assert.strictEqual(S.equals({ name: 'a', age: 1 }, { name: 'b', age: 1 }), false)

@@ -123,7 +123,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const contramap = <A, B>(f: (b: B) => A, fa: Ord<A>): Ord<B> => ...
+export function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B> { ... }
 ```
 
 Added in v2.0.0

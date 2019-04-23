@@ -93,7 +93,7 @@ Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 **Signature**
 
 ```ts
-export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => ...
+export const contramap = <A, B>(S: Setoid<A>, f: (b: B) => A): Setoid<B> => ...
 ```
 
 Added in v2.0.0

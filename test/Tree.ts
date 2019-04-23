@@ -145,7 +145,7 @@ describe('Tree', () => {
     interface User {
       id: number
     }
-    const S: Setoid<User> = contramap((user: User) => user.id, setoidNumber)
+    const S: Setoid<User> = contramap(setoidNumber, (user: User) => user.id)
     const users = make({ id: 1 }, [make({ id: 1 }, [make({ id: 3 }, []), make({ id: 4 }, [])]), make({ id: 2 }, [])])
     assert.strictEqual(elem(S)({ id: 1 }, users), true)
     assert.strictEqual(elem(S)({ id: 4 }, users), true)
