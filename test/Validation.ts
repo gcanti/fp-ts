@@ -51,8 +51,8 @@ describe('Validation', () => {
     })
 
     it('fromOption', () => {
-      assert.deepStrictEqual(M.fromOption(none, 'error'), left('error'))
-      assert.deepStrictEqual(M.fromOption(some(1), 'error'), right(1))
+      assert.deepStrictEqual(M.fromOption(none, () => 'error'), left('error'))
+      assert.deepStrictEqual(M.fromOption(some(1), () => 'error'), right(1))
     })
   })
 })

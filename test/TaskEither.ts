@@ -377,8 +377,8 @@ describe('TaskEither', () => {
 
     it('fromOption', () => {
       return Promise.all([
-        TE.taskEither.fromOption(none, 'error')(),
-        TE.taskEither.fromOption(some(1), 'error')()
+        TE.taskEither.fromOption(none, () => 'error')(),
+        TE.taskEither.fromOption(some(1), () => 'error')()
       ]).then(([e1, e2]) => {
         assert.deepStrictEqual(e1, eitherLeft('error'))
         assert.deepStrictEqual(e2, eitherRight(1))

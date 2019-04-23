@@ -7,18 +7,14 @@ import { MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 
-const of = either.of
 const map = either.map
-const throwError = either.throwError
-const fromEither = either.fromEither
-const fromOption = either.fromOption
 
 export function getApplicative<L>(S: Semigroup<L>): Applicative2C<URI, L> {
   return {
     URI,
     _L: phantom,
-    map: either.map,
-    of,
+    map,
+    of: either.of,
     ap: (mab, ma) =>
       isLeft(mab)
         ? isLeft(ma)
@@ -86,8 +82,8 @@ export function getAlt<L>(S: Semigroup<L>): Alt2C<URI, L> {
 export function getMonadThrow<L>(S: Semigroup<L>): MonadThrow2C<URI, L> {
   return {
     ...getMonad(S),
-    throwError,
-    fromEither,
-    fromOption
+    throwError: either.throwError,
+    fromEither: either.fromEither,
+    fromOption: either.fromOption
   }
 }

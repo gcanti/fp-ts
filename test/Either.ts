@@ -80,11 +80,6 @@ describe('Either', () => {
     assert.deepStrictEqual(E.getOrElseL(E.left('a'), (l: string) => l.length + 1), 2)
   })
 
-  it('fromOption', () => {
-    assert.deepStrictEqual(E.fromOption(none, 'default'), E.left('default'))
-    assert.deepStrictEqual(E.fromOption(some(1), 'default'), E.right(1))
-  })
-
   it('fromNullable', () => {
     assert.deepStrictEqual(E.fromNullable(null, 'default'), E.left('default'))
     assert.deepStrictEqual(E.fromNullable(undefined, 'default'), E.left('default'))
@@ -134,11 +129,6 @@ describe('Either', () => {
       }),
       E.right(5)
     )
-  })
-
-  it('fromOptionL', () => {
-    assert.deepStrictEqual(E.fromOptionL(none, () => 'default'), E.left('default'))
-    assert.deepStrictEqual(E.fromOptionL(some(1), () => 'default'), E.right(1))
   })
 
   it('filterOrElse', () => {
@@ -371,8 +361,8 @@ describe('Either', () => {
     })
 
     it('fromOption', () => {
-      assert.deepStrictEqual(E.either.fromOption(none, 'error'), E.left('error'))
-      assert.deepStrictEqual(E.either.fromOption(some(1), 'error'), E.right(1))
+      assert.deepStrictEqual(E.either.fromOption(none, () => 'error'), E.left('error'))
+      assert.deepStrictEqual(E.either.fromOption(some(1), () => 'error'), E.right(1))
     })
   })
 

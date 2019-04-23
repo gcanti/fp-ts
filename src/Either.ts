@@ -184,23 +184,8 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
   return a => (predicate(a) ? right(a) : left(onFalse(a)))
 }
 
-/**
- * Takes a default and a `Option` value, if the value is a `Some`, turn it into a `Right`, if the value is a `None` use
- * the provided default as a `Left`
- *
- * @since 2.0.0
- */
-export function fromOption<L, A>(fa: Option<A>, l: L): Either<L, A> {
-  return fa._tag === 'None' ? left(l) : right(fa.value)
-}
-
-/**
- * Lazy version of `fromOption`
- *
- * @since 2.0.0
- */
-export function fromOptionL<L, A>(fa: Option<A>, f: () => L): Either<L, A> {
-  return fa._tag === 'None' ? left(f()) : right(fa.value)
+function fromOption<L, A>(fa: Option<A>, onNone: () => L): Either<L, A> {
+  return fa._tag === 'None' ? left(onNone()) : right(fa.value)
 }
 
 /**
@@ -437,9 +422,10 @@ const of = right
  */
 export function getCompactable<L>(M: Monoid<L>): Compactable2C<URI, L> {
   const empty = left(M.empty)
+  const onNone = () => M.empty
 
   const compact = <A>(ma: Either<L, Option<A>>): Either<L, A> => {
-    return isLeft(ma) ? ma : fromOption(ma.right, M.empty)
+    return isLeft(ma) ? ma : fromOption(ma.right, onNone)
   }
 
   const separate = <A, B>(ma: Either<L, Either<A, B>>): Separated<Either<L, A>, Either<L, B>> => {
@@ -466,6 +452,7 @@ export function getCompactable<L>(M: Monoid<L>): Compactable2C<URI, L> {
 export function getFilterable<L>(M: Monoid<L>): Filterable2C<URI, L> {
   const C = getCompactable(M)
   const empty = left(M.empty)
+  const onNone = () => M.empty
 
   const partitionMap = <RL, RR, A>(
     fa: Either<L, A>,
@@ -487,7 +474,7 @@ export function getFilterable<L>(M: Monoid<L>): Filterable2C<URI, L> {
   }
 
   const filterMap = <A, B>(ma: Either<L, A>, f: (a: A) => Option<B>): Either<L, B> => {
-    return isLeft(ma) ? ma : fromOption(f(ma.right), M.empty)
+    return isLeft(ma) ? ma : fromOption(f(ma.right), onNone)
   }
 
   const filter = <A>(ma: Either<L, A>, p: Predicate<A>): Either<L, A> => filterOrElse(ma, p, M.empty)
