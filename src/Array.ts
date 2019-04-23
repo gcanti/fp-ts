@@ -1160,8 +1160,8 @@ export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => {
  *   name: string
  *   age: number
  * }
- * const byName = contramap((p: Person) => p.name, ordString)
- * const byAge = contramap((p: Person) => p.age, ordNumber)
+ * const byName = contramap(ordString, (p: Person) => p.name)
+ * const byAge = contramap(ordNumber, (p: Person) => p.age)
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *
@@ -1192,8 +1192,8 @@ export const sortBy = <A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> =
  *   name: string
  *   age: number
  * }
- * const byName = contramap((p: Person) => p.name, ordString)
- * const byAge = contramap((p: Person) => p.age, ordNumber)
+ * const byName = contramap(ordString, (p: Person) => p.name)
+ * const byAge = contramap(ordNumber, (p: Person) => p.age)
  *
  * const sortByNameByAge = sortBy1(byName, [byAge])
  *

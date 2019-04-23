@@ -47,10 +47,6 @@ const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
   return fa as any
 }
 
-const contramap = <L, A, B>(fa: Const<L, A>, f: (b: B) => A): Const<L, B> => {
-  return fa as any
-}
-
 /**
  * @since 2.0.0
  */
@@ -83,5 +79,5 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
 export const const_: Functor2<URI> & Contravariant2<URI> = {
   URI,
   map,
-  contramap
+  contramap: fa => fa as any
 }

@@ -205,7 +205,7 @@ describe('Set', () => {
   it('compact', () => {
     assert.deepStrictEqual(compact(setoidNumber)(new Set([optionSome(1), none, optionSome(2)])), new Set([1, 2]))
     type R = { id: string }
-    const S: Setoid<R> = contramap(x => x.id, setoidString)
+    const S: Setoid<R> = contramap(setoidString, x => x.id)
     assert.deepStrictEqual(
       compact(S)(new Set([optionSome({ id: 'a' }), none, optionSome({ id: 'a' })])),
       new Set([{ id: 'a' }])
@@ -219,8 +219,8 @@ describe('Set', () => {
     })
     type L = { error: string }
     type R = { id: string }
-    const SL: Setoid<L> = contramap(x => x.error, setoidString)
-    const SR: Setoid<R> = contramap(x => x.id, setoidString)
+    const SL: Setoid<L> = contramap(setoidString, x => x.error)
+    const SR: Setoid<R> = contramap(setoidString, x => x.id)
     assert.deepStrictEqual(
       separate(SL, SR)(
         new Set([right({ id: 'a' }), left({ error: 'error' }), right({ id: 'a' }), left({ error: 'error' })])
@@ -238,7 +238,7 @@ describe('Set', () => {
       new Set([2, 3])
     )
     type R = { id: string }
-    const S: Setoid<R> = contramap(x => x.id, setoidString)
+    const S: Setoid<R> = contramap(setoidString, x => x.id)
     assert.deepStrictEqual(filterMap(S)(new Set([{ id: 'a' }, { id: 'a' }]), optionSome), new Set([{ id: 'a' }]))
   })
 

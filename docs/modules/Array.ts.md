@@ -1182,8 +1182,8 @@ interface Person {
   name: string
   age: number
 }
-const byName = contramap((p: Person) => p.name, ordString)
-const byAge = contramap((p: Person) => p.age, ordNumber)
+const byName = contramap(ordString, (p: Person) => p.name)
+const byAge = contramap(ordNumber, (p: Person) => p.age)
 
 const sortByNameByAge = sortBy([byName, byAge])
 
@@ -1220,8 +1220,8 @@ interface Person {
   name: string
   age: number
 }
-const byName = contramap((p: Person) => p.name, ordString)
-const byAge = contramap((p: Person) => p.age, ordNumber)
+const byName = contramap(ordString, (p: Person) => p.name)
+const byAge = contramap(ordNumber, (p: Person) => p.age)
 
 const sortByNameByAge = sortBy1(byName, [byAge])
 

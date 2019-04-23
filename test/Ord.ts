@@ -28,8 +28,8 @@ describe('Ord', () => {
     type T = [number, string]
     const tuples: Array<T> = [[2, 'c'], [1, 'b'], [2, 'a'], [1, 'c']]
     const S = getSemigroup<T>()
-    const sortByFst = contramap((x: T) => x[0], ordNumber)
-    const sortBySnd = contramap((x: T) => x[1], ordString)
+    const sortByFst = contramap(ordNumber, (x: T) => x[0])
+    const sortBySnd = contramap(ordString, (x: T) => x[1])
     const O1 = S.concat(sortByFst, sortBySnd)
     assert.deepStrictEqual(sort(O1)(tuples), [[1, 'b'], [1, 'c'], [2, 'a'], [2, 'c']])
     const O2 = S.concat(sortBySnd, sortByFst)
