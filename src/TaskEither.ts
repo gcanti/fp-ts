@@ -122,11 +122,6 @@ export function left<L>(fl: Task<L>): TaskEither<L, never> {
 /**
  * @since 2.0.0
  */
-export const fromEither: <L, A>(fa: E.Either<L, A>) => TaskEither<L, A> = task.of
-
-/**
- * @since 2.0.0
- */
 export function fromIO<A>(fa: IO<A>): TaskEither<never, A> {
   return right(T.fromIO(fa))
 }
@@ -135,7 +130,7 @@ export function fromIO<A>(fa: IO<A>): TaskEither<never, A> {
  * @since 2.0.0
  */
 export function fromLeft<L>(l: L): TaskEither<L, never> {
-  return fromEither(E.left(l))
+  return task.of(E.left(l))
 }
 
 /**
@@ -153,7 +148,7 @@ export function fromPredicate<L, A, B extends A>(
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
 export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>) {
   const f = E.fromPredicate(predicate, onFalse)
-  return a => fromEither(f(a))
+  return a => task.of(f(a))
 }
 
 /**
@@ -313,7 +308,7 @@ export const taskEither: Monad2<URI> &
   fromIO,
   fromTask: right,
   throwError: fromLeft,
-  fromEither,
+  fromEither: task.of,
   fromOption: (o, onNone) => (o._tag === 'None' ? fromLeft(onNone()) : fromRight(o.value))
 }
 

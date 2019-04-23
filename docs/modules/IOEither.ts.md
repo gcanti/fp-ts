@@ -17,7 +17,6 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [fold (constant)](#fold-constant)
-- [fromEither (constant)](#fromeither-constant)
 - [fromRight (constant)](#fromright-constant)
 - [ioEither (constant)](#ioeither-constant)
 - [fromLeft (function)](#fromleft-function)
@@ -62,16 +61,6 @@ export const URI = ...
 
 ```ts
 export const fold: <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R) => IO<R> = ...
-```
-
-Added in v2.0.0
-
-# fromEither (constant)
-
-**Signature**
-
-```ts
-export const fromEither: <L, A>(fa: E.Either<L, A>) => IOEither<L, A> = ...
 ```
 
 Added in v2.0.0

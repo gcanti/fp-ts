@@ -10,7 +10,7 @@ import { MonadTask3 } from './MonadTask'
 import { MonadThrow3 } from './MonadThrow'
 import { Reader } from './Reader'
 import * as readerT from './ReaderT'
-import { Task } from './Task'
+import { Task, task } from './Task'
 import * as TE from './TaskEither'
 
 import TaskEither = TE.TaskEither
@@ -119,13 +119,6 @@ export const fromReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, 
 /**
  * @since 2.0.0
  */
-export function fromEither<L, A>(ma: Either<L, A>): ReaderTaskEither<unknown, L, A> {
-  return fromTaskEither(TE.fromEither(ma))
-}
-
-/**
- * @since 2.0.0
- */
 export function fromIO<A>(ma: IO<A>): ReaderTaskEither<unknown, never, A> {
   return fromTaskEither(TE.fromIO(ma))
 }
@@ -197,7 +190,7 @@ export const readerTaskEither: Monad3<URI> &
   fromIO,
   fromTask: right,
   throwError: fromLeft,
-  fromEither,
+  fromEither: e => () => task.of(e),
   fromOption: (o, onNone) => (o._tag === 'None' ? fromLeft(onNone()) : fromRight(o.value))
 }
 
