@@ -333,8 +333,8 @@ describe('Array', () => {
 
   it('modifyAt', () => {
     const double = (x: number): number => x * 2
-    assert.deepStrictEqual(modifyAt(as, 1, double), O.some([1, 4, 3]))
-    assert.deepStrictEqual(modifyAt([], 1, double), O.none)
+    assert.deepStrictEqual(modifyAt(1, as, double), O.some([1, 4, 3]))
+    assert.deepStrictEqual(modifyAt(1, [], double), O.none)
   })
 
   it('sort', () => {
