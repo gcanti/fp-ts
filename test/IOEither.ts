@@ -141,8 +141,8 @@ describe('IOEither', () => {
     })
 
     it('fromOption', () => {
-      assert.deepStrictEqual(ioEither.fromOption(none, 'error')(), eitherLeft('error'))
-      assert.deepStrictEqual(ioEither.fromOption(some(1), 'error')(), eitherRight(1))
+      assert.deepStrictEqual(ioEither.fromOption(none, () => 'error')(), eitherLeft('error'))
+      assert.deepStrictEqual(ioEither.fromOption(some(1), () => 'error')(), eitherRight(1))
     })
   })
 })
