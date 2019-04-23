@@ -26,21 +26,6 @@ describe('Reader', () => {
     assert.strictEqual(R.reader.chain(x, f)({}), 3)
   })
 
-  it('ask', () => {
-    const x = R.ask<number>()
-    assert.strictEqual(x(1), 1)
-  })
-
-  it('asks', () => {
-    const x = R.asks((s: string) => s.length)
-    assert.strictEqual(x('foo'), 3)
-  })
-
-  it('asks', () => {
-    const x = R.local(R.ask(), (s: string) => s + '!')
-    assert.strictEqual(x('foo'), 'foo!')
-  })
-
   it('local', () => {
     type E = string
     interface E2 {

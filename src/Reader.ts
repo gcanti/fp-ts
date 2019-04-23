@@ -28,81 +28,23 @@ export interface Reader<E, A> {
 /**
  * @since 2.0.0
  */
-export const run = <E, A>(fa: Reader<E, A>, e: E): A => {
-  return fa(e)
-}
-
-const map = <E, A, B>(fa: Reader<E, A>, f: (a: A) => B): Reader<E, B> => {
-  return e => f(fa(e))
-}
-
-const of = <E, A>(a: A): Reader<E, A> => {
-  return () => a
-}
-
-const ap = <E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> => {
-  return e => fab(e)(fa(e))
-}
-
-const chain = <E, A, B>(fa: Reader<E, A>, f: (a: A) => Reader<E, B>): Reader<E, B> => {
-  return e => f(fa(e))(e)
+export function run<E, A>(ma: Reader<E, A>, e: E): A {
+  return ma(e)
 }
 
 /**
- * reads the current context
+ * changes the value of the local context during the execution of the action `ma`
  *
  * @since 2.0.0
  */
-export const ask = <E>(): Reader<E, E> => {
-  return identity
-}
-
-/**
- * Projects a value from the global context in a Reader
- *
- * @since 2.0.0
- */
-export const asks = <E, A>(f: (e: E) => A): Reader<E, A> => {
-  return f
-}
-
-/**
- * changes the value of the local context during the execution of the action `fa`
- *
- * @since 2.0.0
- */
-export const local = <E, A, D>(fa: Reader<E, A>, f: (d: D) => E): Reader<D, A> => {
-  return e => fa(f(e))
-}
-
-const promap = <A, B, C, D>(fbc: Reader<B, C>, f: (a: A) => B, g: (c: C) => D): Reader<A, D> => {
-  return a => g(fbc(f(a)))
-}
-
-const compose = <L, A, B>(ab: Reader<A, B>, la: Reader<L, A>): Reader<L, B> => {
-  return l => ab(la(l))
-}
-
-const first = <A, B, C>(pab: Reader<A, B>): Reader<[A, C], [B, C]> => {
-  return ([a, c]) => [pab(a), c]
-}
-
-const second = <A, B, C>(pbc: Reader<B, C>): Reader<[A, B], [A, C]> => {
-  return ([a, b]) => [a, pbc(b)]
-}
-
-const left = <A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> => {
-  return e => E.fold<A, C, E.Either<B, C>>(e, a => E.left(pab(a)), E.right)
-}
-
-const right = <A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> => {
-  return e => E.fold<A, B, E.Either<A, C>>(e, E.left, b => E.right(pbc(b)))
+export function local<E, A, D>(ma: Reader<E, A>, f: (d: D) => E): Reader<D, A> {
+  return e => ma(f(e))
 }
 
 /**
  * @since 2.0.0
  */
-export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => {
+export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> {
   return {
     concat: (x, y) => e => S.concat(x(e), y(e))
   }
@@ -111,11 +53,19 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => 
 /**
  * @since 2.0.0
  */
-export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => {
+export function getMonoid<E, A>(M: Monoid<A>): Monoid<Reader<E, A>> {
   return {
     ...getSemigroup(M),
-    empty: of(M.empty)
+    empty: () => M.empty
   }
+}
+
+function left<A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> {
+  return e => E.fold<A, C, E.Either<B, C>>(e, a => E.left(pab(a)), E.right)
+}
+
+function right<A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> {
+  return e => E.fold<A, B, E.Either<A, C>>(e, E.left, b => E.right(pbc(b)))
 }
 
 /**
@@ -123,15 +73,15 @@ export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => {
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
-  promap,
-  compose,
-  id: ask,
-  first,
-  second,
+  map: (ma, f) => e => f(ma(e)),
+  of: a => () => a,
+  ap: (mab, ma) => e => mab(e)(ma(e)),
+  chain: (ma, f) => e => f(ma(e))(e),
+  promap: (mbc, f, g) => a => g(mbc(f(a))),
+  compose: (ab, la) => l => ab(la(l)),
+  id: () => identity,
+  first: pab => ([a, c]) => [pab(a), c],
+  second: pbc => ([a, b]) => [a, pbc(b)],
   left,
   right
 }
