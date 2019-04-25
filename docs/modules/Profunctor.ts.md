@@ -13,8 +13,6 @@ parent: Modules
 - [Profunctor2C (interface)](#profunctor2c-interface)
 - [Profunctor3 (interface)](#profunctor3-interface)
 - [Profunctor4 (interface)](#profunctor4-interface)
-- [lmap (function)](#lmap-function)
-- [rmap (function)](#rmap-function)
 
 ---
 
@@ -71,35 +69,3 @@ export interface Profunctor4<F extends URIS4> extends Functor4<F> {
   readonly promap: <X, U, A, B, C, D>(fbc: Type4<F, X, U, B, C>, f: (a: A) => B, g: (c: C) => D) => Type4<F, X, U, A, D>
 }
 ```
-
-# lmap (function)
-
-**Signature**
-
-```ts
-export function lmap<F extends URIS3>(
-  profunctor: Profunctor3<F>
-): <U, A, B, C>(fbc: Type3<F, U, B, C>, f: (a: A) => B) => Type3<F, U, A, C>
-export function lmap<F extends URIS2>(
-  profunctor: Profunctor2<F>
-): <A, B, C>(fbc: Type2<F, B, C>, f: (a: A) => B) => Type2<F, A, C>
-export function lmap<F>(profunctor: Profunctor<F>): <A, B, C>(fbc: HKT2<F, B, C>, f: (a: A) => B) => HKT2<F, A, C> { ... }
-```
-
-Added in v2.0.0
-
-# rmap (function)
-
-**Signature**
-
-```ts
-export function rmap<F extends URIS3>(
-  profunctor: Profunctor3<F>
-): <U, B, C, D>(fbc: Type3<F, U, B, C>, g: (c: C) => D) => Type3<F, U, B, D>
-export function rmap<F extends URIS2>(
-  profunctor: Profunctor2<F>
-): <B, C, D>(fbc: Type2<F, B, C>, g: (c: C) => D) => Type2<F, B, D>
-export function rmap<F>(profunctor: Profunctor<F>): <B, C, D>(fbc: HKT2<F, B, C>, g: (c: C) => D) => HKT2<F, B, D> { ... }
-```
-
-Added in v2.0.0
