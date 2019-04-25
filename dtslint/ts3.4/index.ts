@@ -333,15 +333,10 @@ const Ring1 = Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fiel
 // NonEmptyArray
 //
 
-<<<<<<< HEAD:dtslint/ts3.1/index.ts
-declare const nea2v1: NEA2v.NonEmptyArray<string>
-declare const nea2v2: NEA2v.NonEmptyArray<string>
-=======
 import * as NEA from '../../src/NonEmptyArray'
 
 declare const nea2v1: NEA.NonEmptyArray<string>
 declare const nea2v2: NEA.NonEmptyArray<string>
->>>>>>> remove deprecated APIs:dtslint/ts3.4/index.ts
 declare const array1: Array<string>
 
 const nea2v1make1 = NEA.make<number>(1, []) // $ExpectType NonEmptyArray<number>
