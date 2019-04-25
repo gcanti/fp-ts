@@ -10,7 +10,7 @@
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  */
-import { curried, Function1 } from './function'
+import { curried } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
@@ -41,7 +41,7 @@ export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
   readonly ap: <A, B>(fab: Type3<F, U, L, (a: A) => B>, fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
 }
 
-const tupleConstructors: { [key: string]: Function1<any, any> } = {}
+const tupleConstructors: { [key: string]: (u: any) => any } = {}
 
 /**
  * Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-to-right, returning the resulting tuple.
