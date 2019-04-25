@@ -12,6 +12,8 @@ parent: Modules
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [reader (constant)](#reader-constant)
+- [ask (function)](#ask-function)
+- [asks (function)](#asks-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [local (function)](#local-function)
@@ -53,6 +55,30 @@ export const URI = ...
 
 ```ts
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
+```
+
+Added in v2.0.0
+
+# ask (function)
+
+Reads the current context
+
+**Signature**
+
+```ts
+export function ask<E>(): Reader<E, E> { ... }
+```
+
+Added in v2.0.0
+
+# asks (function)
+
+Projects a value from the global context in a Reader
+
+**Signature**
+
+```ts
+export function asks<E, A>(f: (e: E) => A): Reader<E, A> { ... }
 ```
 
 Added in v2.0.0
