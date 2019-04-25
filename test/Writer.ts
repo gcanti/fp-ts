@@ -4,11 +4,11 @@ import { tuple } from '../src/function'
 import { monoidString } from '../src/Monoid'
 
 describe('Writer', () => {
-  it('eval', () => {
+  it('evalWriter', () => {
     assert.strictEqual(W.evalWriter(() => [1, 'a']), 1)
   })
 
-  it('exec', () => {
+  it('execWriter', () => {
     assert.strictEqual(W.execWriter(() => [1, 'a']), 'a')
   })
 

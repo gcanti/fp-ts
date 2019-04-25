@@ -72,7 +72,7 @@ Modify the final accumulator value by applying a function
 export const censor = <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> => ...
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # evalWriter (function)
 
@@ -114,7 +114,7 @@ Modifies the result to include the changes to the accumulator
 export const listen = <W, A>(fa: Writer<W, A>): Writer<W, [A, W]> => ...
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # listens (function)
 
@@ -126,7 +126,7 @@ Projects a value from modifications made to the accumulator during an action
 export const listens = <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]> => ...
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # pass (function)
 
@@ -138,7 +138,7 @@ Applies the returned function to the accumulator
 export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => ...
 ```
 
-Added in v1.3.0
+Added in v2.0.0
 
 # run (function)
 
