@@ -14,7 +14,6 @@ parent: Modules
 - [Extend2C (interface)](#extend2c-interface)
 - [Extend3 (interface)](#extend3-interface)
 - [Extend3C (interface)](#extend3c-interface)
-- [duplicate (function)](#duplicate-function)
 
 ---
 
@@ -79,22 +78,3 @@ export interface Extend3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
   readonly extend: <A, B>(ea: Type3<F, U, L, A>, f: (fa: Type3<F, U, L, A>) => B) => Type3<F, U, L, B>
 }
 ```
-
-# duplicate (function)
-
-**Signature**
-
-```ts
-export function duplicate<F extends URIS3>(
-  E: Extend3<F>
-): <U, L, A>(ma: Type3<F, U, L, A>) => Type3<F, U, L, Type3<F, U, L, A>>
-export function duplicate<F extends URIS3, U, L>(
-  E: Extend3C<F, U, L>
-): <A>(ma: Type3<F, U, L, A>) => Type3<F, U, L, Type3<F, U, L, A>>
-export function duplicate<F extends URIS2>(E: Extend2<F>): <L, A>(ma: Type2<F, L, A>) => Type2<F, L, Type2<F, L, A>>
-export function duplicate<F extends URIS2, L>(E: Extend2C<F, L>): <A>(ma: Type2<F, L, A>) => Type2<F, L, Type2<F, L, A>>
-export function duplicate<F extends URIS>(E: Extend1<F>): <A>(ma: Type<F, A>) => Type<F, Type<F, A>>
-export function duplicate<F>(E: Extend<F>): <A>(ma: HKT<F, A>) => HKT<F, HKT<F, A>> { ... }
-```
-
-Added in v2.0.0
