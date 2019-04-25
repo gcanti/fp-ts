@@ -29,8 +29,8 @@ operations like `map`, `chain`, ... return the `Left` value unchanged:
 ```ts
 import { either } from 'fp-ts/lib/Either'
 
-either.map(right(12, double) // right(24)
-either.map(left(23, double)  // left(23)
+either.map(right(12), double) // right(24)
+either.map(left(23), double) // left(23)
 ```
 
 ---

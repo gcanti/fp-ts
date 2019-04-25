@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import * as R from '../src/Reader'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
+import { identity } from '../src/function'
 
 describe('Reader', () => {
   it('map', () => {
@@ -67,5 +68,14 @@ describe('Reader', () => {
     const M = R.getMonoid(monoidSum)
     assert.strictEqual(M.concat(R.reader.of(1), M.empty)({}), 1)
     assert.strictEqual(M.concat(M.empty, R.reader.of(1))({}), 1)
+  })
+
+  it('ask', () => {
+    assert.strictEqual(R.ask, identity)
+  })
+
+  it('asks', () => {
+    const f = (e: number) => e + 1
+    assert.strictEqual(R.asks(f), f)
   })
 })

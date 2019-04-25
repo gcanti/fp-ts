@@ -33,6 +33,24 @@ export function run<E, A>(ma: Reader<E, A>, e: E): A {
 }
 
 /**
+ * Reads the current context
+ *
+ * @since 2.0.0
+ */
+export function ask<E>(): Reader<E, E> {
+  return identity
+}
+
+/**
+ * Projects a value from the global context in a Reader
+ *
+ * @since 2.0.0
+ */
+export function asks<E, A>(f: (e: E) => A): Reader<E, A> {
+  return f
+}
+
+/**
  * changes the value of the local context during the execution of the action `ma`
  *
  * @since 2.0.0
