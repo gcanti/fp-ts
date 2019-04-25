@@ -71,7 +71,7 @@ describe('Reader', () => {
   })
 
   it('ask', () => {
-    assert.strictEqual(R.ask, identity)
+    assert.strictEqual(R.ask(), identity)
   })
 
   it('asks', () => {
