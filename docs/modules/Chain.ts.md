@@ -25,7 +25,6 @@ Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa
 - [Chain2C (interface)](#chain2c-interface)
 - [Chain3 (interface)](#chain3-interface)
 - [Chain3C (interface)](#chain3c-interface)
-- [flatten (function)](#flatten-function)
 
 ---
 
@@ -90,24 +89,3 @@ export interface Chain3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
   readonly chain: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, B>
 }
 ```
-
-# flatten (function)
-
-**Signature**
-
-```ts
-export function flatten<F extends URIS3>(
-  chain: Chain3<F>
-): <U, L, A>(mma: Type3<F, U, L, Type3<F, U, L, A>>) => Type3<F, U, L, A>
-export function flatten<F extends URIS3, U, L>(
-  chain: Chain3C<F, U, L>
-): <A>(mma: Type3<F, U, L, Type3<F, U, L, A>>) => Type3<F, U, L, A>
-export function flatten<F extends URIS2>(chain: Chain2<F>): <L, A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
-export function flatten<F extends URIS2, L>(
-  chain: Chain2C<F, L>
-): <A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
-export function flatten<F extends URIS>(chain: Chain1<F>): <A>(mma: Type<F, Type<F, A>>) => Type<F, A>
-export function flatten<F>(chain: Chain<F>): <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A> { ... }
-```
-
-Added in v2.0.0
