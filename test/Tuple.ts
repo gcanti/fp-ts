@@ -5,7 +5,7 @@ import { identity, tuple } from '../src/function'
 import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
-import { setoidBoolean, setoidNumber } from '../src/Setoid'
+import { eqBoolean, eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
 import * as T from '../src/Tuple'
 
@@ -151,8 +151,8 @@ describe('Tuple', () => {
     assert.deepStrictEqual(sequence(x2), none)
   })
 
-  it('getSetoid', () => {
-    const S = T.getSetoid(setoidNumber, setoidBoolean)
+  it('getEq', () => {
+    const S = T.getEq(eqNumber, eqBoolean)
     assert.strictEqual(S.equals(tuple(1, true), tuple(1, true)), true)
     assert.strictEqual(S.equals(tuple(1, true), tuple(2, true)), false)
     assert.strictEqual(S.equals(tuple(1, true), tuple(1, false)), false)

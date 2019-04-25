@@ -1,7 +1,7 @@
 import * as assert from 'assert'
-import { Const, getApply, getSetoid, const_, getApplicative, getShow, make } from '../src/Const'
+import { Const, getApply, getEq, const_, getApplicative, getShow, make } from '../src/Const'
 import { semigroupString } from '../src/Semigroup'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import { monoidString } from '../src/Monoid'
 import { showString } from '../src/Show'
 
@@ -23,8 +23,8 @@ describe('Const', () => {
     assert.deepStrictEqual(F.of(1), make(''))
   })
 
-  it('getSetoid', () => {
-    const S = getSetoid(setoidNumber)
+  it('getEq', () => {
+    const S = getEq(eqNumber)
     assert.strictEqual(S.equals(make(1), make(1)), true)
     assert.strictEqual(S.equals(make(1), make(2)), false)
   })

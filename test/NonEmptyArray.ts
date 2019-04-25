@@ -9,7 +9,7 @@ import {
   max,
   fromArray,
   getSemigroup,
-  getSetoid,
+  getEq,
   group,
   groupSort,
   groupBy,
@@ -35,7 +35,7 @@ import { ordNumber } from '../src/Ord'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
 
 describe.only('NonEmptyArray', () => {
@@ -163,8 +163,8 @@ describe.only('NonEmptyArray', () => {
     )
   })
 
-  it('getSetoid', () => {
-    const S = getSetoid(setoidNumber)
+  it('getEq', () => {
+    const S = getEq(eqNumber)
     assert.strictEqual(S.equals(fromNonEmptyArray<number>([1]), fromNonEmptyArray<number>([1])), true)
     assert.strictEqual(S.equals(fromNonEmptyArray<number>([1]), fromNonEmptyArray([1, 2])), false)
   })

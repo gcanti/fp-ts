@@ -133,7 +133,7 @@ Type classes describe what you can do with your data. Implementations are provid
 * [Semigroup](./Semigroup.ts.html)
 * [Semigroupoid](./Semigroupoid.ts.html)
 * [Semiring](./Semiring.ts.html)
-* [Setoid](./Setoid.ts.html)
+* [Eq](./Eq.ts.html)
 * [Strong](./Strong.ts.html)
 * [Traversable](./Traversable.ts.html)
 * [Traversable2v](./Traversable2v.ts.html)

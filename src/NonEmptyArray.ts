@@ -10,7 +10,7 @@ import { FoldableWithIndex1 } from './FoldableWithIndex'
 import { Ord } from './Ord'
 import { getMeetSemigroup, getJoinSemigroup, Semigroup } from './Semigroup'
 import { Option, some, none } from './Option'
-import { Setoid } from './Setoid'
+import { Eq } from './Eq'
 import { compose, Predicate, Refinement } from './function'
 import { Show } from './Show'
 
@@ -112,18 +112,16 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
 
 /**
  * @example
- * import { fromNonEmptyArray, getSetoid, make } from 'fp-ts/lib/NonEmptyArray'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { fromNonEmptyArray, getEq, make } from 'fp-ts/lib/NonEmptyArray'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * const S = getSetoid(setoidNumber)
- * assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
- * assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
+ * const E = getEq(eqNumber)
+ * assert.strictEqual(E.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
+ * assert.strictEqual(E.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
  *
  * @since 2.0.0
  */
-export function getSetoid<A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> {
-  return A.getSetoid(S)
-}
+export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = A.getEq
 
 /**
  * Group equal, consecutive elements of an array into non empty arrays.
@@ -140,7 +138,7 @@ export function getSetoid<A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> {
  *
  * @since 2.0.0
  */
-export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
+export const group = <A>(E: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
   const len = as.length
   if (len === 0) {
     return A.empty
@@ -150,7 +148,7 @@ export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>
   let nea = fromNonEmptyArray([head])
   for (let i = 1; i < len; i++) {
     const x = as[i]
-    if (S.equals(x, head)) {
+    if (E.equals(x, head)) {
       nea.push(x)
     } else {
       r.push(nea)

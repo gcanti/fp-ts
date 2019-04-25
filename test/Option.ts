@@ -4,7 +4,7 @@ import { left, right } from '../src/Either'
 import * as O from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidSum, monoidString } from '../src/Monoid'
@@ -52,7 +52,7 @@ describe('Option', () => {
   })
 
   it('equals', () => {
-    const { equals } = O.getSetoid(setoidNumber)
+    const { equals } = O.getEq(eqNumber)
     assert.strictEqual(equals(O.none, O.none), true)
     assert.strictEqual(equals(O.none, O.some(1)), false)
     assert.strictEqual(equals(O.some(1), O.none), false)
@@ -67,8 +67,8 @@ describe('Option', () => {
     assert.deepStrictEqual(O.option.map(O.none, f), O.none)
   })
 
-  it('getSetoid', () => {
-    const S = O.getSetoid(ordString)
+  it('getEq', () => {
+    const S = O.getEq(ordString)
     assert.deepStrictEqual(S.equals(O.none, O.none), true)
     assert.deepStrictEqual(S.equals(O.some('a'), O.none), false)
     assert.deepStrictEqual(S.equals(O.none, O.some('a')), false)
@@ -227,7 +227,7 @@ describe('Option', () => {
   })
 
   it('elem', () => {
-    const elem = O.elem(setoidNumber)
+    const elem = O.elem(eqNumber)
     assert.deepStrictEqual(elem(2, O.none), false)
     assert.deepStrictEqual(elem(2, O.some(2)), true)
     assert.deepStrictEqual(elem(1, O.some(2)), false)

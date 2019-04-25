@@ -42,7 +42,7 @@ import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
@@ -111,7 +111,7 @@ export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> {
 /**
  * @since 2.0.0
  */
-export function getSetoid<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> {
+export function getEq<L, A>(SL: Eq<L>, SA: Eq<A>): Eq<Either<L, A>> {
   return fromEquals(
     (x, y) => (isLeft(x) ? isLeft(y) && SL.equals(x.left, y.left) : isRight(y) && SA.equals(x.right, y.right))
   )

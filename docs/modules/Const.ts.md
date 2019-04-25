@@ -14,7 +14,7 @@ parent: Modules
 - [const\_ (constant)](#const_-constant)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
-- [getSetoid (function)](#getsetoid-function)
+- [getEq (function)](#geteq-function)
 - [getShow (function)](#getshow-function)
 - [make (function)](#make-function)
 
@@ -74,12 +74,12 @@ export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
 
 Added in v2.0.0
 
-# getSetoid (function)
+# getEq (function)
 
 **Signature**
 
 ```ts
-export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ...
+export function getEq<L, A>(E: Eq<L>): Eq<Const<L, A>> { ... }
 ```
 
 Added in v2.0.0

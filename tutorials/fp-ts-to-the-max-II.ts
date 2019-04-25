@@ -23,7 +23,7 @@ const getStrLn: T.Task<string> = () =>
     })
   })
 
-const putStrLn = (message: string): T.Task<void> => T.fromIO(log(message))
+const putStrLn = (message: string): T.Task<void> => T.task.fromIO(log(message))
 
 const parse = (s: string): Option<number> => {
   const i = +s
@@ -64,7 +64,7 @@ const consoleTask: Console<T.URI> = {
 }
 
 const randomTask: Random<T.URI> = {
-  nextInt: upper => T.fromIO(randomInt(1, upper))
+  nextInt: upper => T.task.fromIO(randomInt(1, upper))
 }
 
 //

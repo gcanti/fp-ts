@@ -95,7 +95,7 @@ import { getDualMonoid, Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { Witherable1 } from './Witherable'
@@ -192,8 +192,8 @@ export function getOrElseL<A>(ma: Option<A>, f: () => A): A {
 /**
  * @since 2.0.0
  */
-export function elem<A>(S: Setoid<A>): (a: A, ma: Option<A>) => boolean {
-  return (a, ma) => (isNone(ma) ? false : S.equals(a, ma.value))
+export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
+  return (a, ma) => (isNone(ma) ? false : E.equals(a, ma.value))
 }
 
 /**
@@ -221,20 +221,20 @@ export const getShow = <A>(S: Show<A>): Show<Option<A>> => {
 
 /**
  * @example
- * import { none, some, getSetoid } from 'fp-ts/lib/Option'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { none, some, getEq } from 'fp-ts/lib/Option'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * const S = getSetoid(setoidNumber)
- * assert.strictEqual(S.equals(none, none), true)
- * assert.strictEqual(S.equals(none, some(1)), false)
- * assert.strictEqual(S.equals(some(1), none), false)
- * assert.strictEqual(S.equals(some(1), some(2)), false)
- * assert.strictEqual(S.equals(some(1), some(1)), true)
+ * const E = getEq(eqNumber)
+ * assert.strictEqual(E.equals(none, none), true)
+ * assert.strictEqual(E.equals(none, some(1)), false)
+ * assert.strictEqual(E.equals(some(1), none), false)
+ * assert.strictEqual(E.equals(some(1), some(2)), false)
+ * assert.strictEqual(E.equals(some(1), some(1)), true)
  *
  * @since 2.0.0
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => {
-  return fromEquals((x, y) => (isNone(x) ? isNone(y) : isNone(y) ? false : S.equals(x.value, y.value)))
+export const getEq = <A>(E: Eq<A>): Eq<Option<A>> => {
+  return fromEquals((x, y) => (isNone(x) ? isNone(y) : isNone(y) ? false : E.equals(x.value, y.value)))
 }
 /**
  * The `Ord` instance allows `Option` values to be compared with

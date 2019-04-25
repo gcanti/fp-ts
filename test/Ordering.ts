@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { sign, setoidOrdering, semigroupOrdering, invert } from '../src/Ordering'
+import { sign, eqOrdering, semigroupOrdering, invert } from '../src/Ordering'
 
 describe('Ordering', () => {
   it('sign', () => {
@@ -8,16 +8,16 @@ describe('Ordering', () => {
     assert.strictEqual(sign(-10), -1)
   })
 
-  it('setoidOrdering', () => {
-    assert.strictEqual(setoidOrdering.equals(-1, -1), true)
-    assert.strictEqual(setoidOrdering.equals(-1, 0), false)
-    assert.strictEqual(setoidOrdering.equals(-1, 1), false)
-    assert.strictEqual(setoidOrdering.equals(0, -1), false)
-    assert.strictEqual(setoidOrdering.equals(0, 0), true)
-    assert.strictEqual(setoidOrdering.equals(0, 1), false)
-    assert.strictEqual(setoidOrdering.equals(1, -1), false)
-    assert.strictEqual(setoidOrdering.equals(1, 0), false)
-    assert.strictEqual(setoidOrdering.equals(1, 1), true)
+  it('eqOrdering', () => {
+    assert.strictEqual(eqOrdering.equals(-1, -1), true)
+    assert.strictEqual(eqOrdering.equals(-1, 0), false)
+    assert.strictEqual(eqOrdering.equals(-1, 1), false)
+    assert.strictEqual(eqOrdering.equals(0, -1), false)
+    assert.strictEqual(eqOrdering.equals(0, 0), true)
+    assert.strictEqual(eqOrdering.equals(0, 1), false)
+    assert.strictEqual(eqOrdering.equals(1, -1), false)
+    assert.strictEqual(eqOrdering.equals(1, 0), false)
+    assert.strictEqual(eqOrdering.equals(1, 1), true)
   })
 
   it('semigroupOrdering', () => {

@@ -28,7 +28,7 @@ import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Option, some, none, isNone, foldL } from './Option'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
 
@@ -106,7 +106,7 @@ export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> {
 /**
  * @since 2.0.0
  */
-export function getSetoid<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> {
+export function getEq<L, A>(SL: Eq<L>, SA: Eq<A>): Eq<These<L, A>> {
   return fromEquals(
     (x, y) =>
       isLeft(x)

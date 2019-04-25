@@ -56,7 +56,7 @@ Besides `Functor` the following type classes are a good starting point:
 
 * [Apply](../modules/Apply.ts) - allows applying a function to an argument under a type constructor.
 * [Chain](../modules/Chain.ts) - extends the `Apply` type class with a `chain` operation which composes computations in sequence, using the return value of one computation to determine the next computation.
-* [Setoid](../modules/Setoid.ts) - represents types which support decidable equality with the `equals` operation.
+* [Eq](../modules/Eq.ts) - represents types which support decidable equality with the `equals` operation.
 
 If you're interested in learning more about this topic, have a look at the [learning resources](./learning-resources).
 

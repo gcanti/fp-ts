@@ -16,7 +16,7 @@ import { Monoid, getTupleMonoid } from './Monoid'
 import { contramap as contramapOrd, getSemigroup as getOrdSemigroup, Ord } from './Ord'
 import { Semigroup, getTupleSemigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { Setoid, getTupleSetoid } from './Setoid'
+import { Eq, getTupleEq } from './Eq'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
 
@@ -98,8 +98,8 @@ const reduceRight = <L, A, B>(fa: Tuple<L, A>, b: B, f: (a: A, b: B) => B): B =>
 /**
  * @since 2.0.0
  */
-export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => {
-  return getTupleSetoid(SA, SB)
+export const getEq = <L, A>(SA: Eq<L>, SB: Eq<A>): Eq<Tuple<L, A>> => {
+  return getTupleEq(SA, SB)
 }
 /**
  * To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the

@@ -1,6 +1,6 @@
 ---
 title: Field.ts
-nav_order: 28
+nav_order: 29
 parent: Modules
 ---
 
@@ -50,7 +50,7 @@ The _greatest common divisor_ of two values
 **Signature**
 
 ```ts
-export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => ...
+export const gcd = <A>(E: Eq<A>, field: Field<A>): ((x: A, y: A) => A) => ...
 ```
 
 Added in v2.0.0
@@ -62,7 +62,7 @@ The _least common multiple_ of two values
 **Signature**
 
 ```ts
-export const lcm = <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A) => ...
+export const lcm = <A>(E: Eq<A>, F: Field<A>): ((x: A, y: A) => A) => ...
 ```
 
 Added in v2.0.0

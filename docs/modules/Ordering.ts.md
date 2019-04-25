@@ -1,6 +1,6 @@
 ---
 title: Ordering.ts
-nav_order: 61
+nav_order: 62
 parent: Modules
 ---
 
@@ -9,8 +9,8 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [Ordering (type alias)](#ordering-type-alias)
+- [eqOrdering (constant)](#eqordering-constant)
 - [semigroupOrdering (constant)](#semigroupordering-constant)
-- [setoidOrdering (constant)](#setoidordering-constant)
 - [invert (function)](#invert-function)
 - [sign (function)](#sign-function)
 
@@ -24,22 +24,22 @@ parent: Modules
 export type Ordering = -1 | 0 | 1
 ```
 
+# eqOrdering (constant)
+
+**Signature**
+
+```ts
+export const eqOrdering: Eq<Ordering> = ...
+```
+
+Added in v2.0.0
+
 # semigroupOrdering (constant)
 
 **Signature**
 
 ```ts
 export const semigroupOrdering: Semigroup<Ordering> = ...
-```
-
-Added in v2.0.0
-
-# setoidOrdering (constant)
-
-**Signature**
-
-```ts
-export const setoidOrdering: Setoid<Ordering> = ...
 ```
 
 Added in v2.0.0

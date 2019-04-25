@@ -2,9 +2,9 @@ import * as assert from 'assert'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
-import { contramap, Setoid, setoidNumber } from '../src/Setoid'
+import { contramap, Eq, eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
-import { drawTree, elem, getSetoid, getShow, Tree, tree, unfoldTree, unfoldTreeM, make } from '../src/Tree'
+import { drawTree, elem, getEq, getShow, Tree, tree, unfoldTree, unfoldTreeM, make } from '../src/Tree'
 
 describe('Tree', () => {
   it('map', () => {
@@ -119,8 +119,8 @@ describe('Tree', () => {
     )
   })
 
-  it('getSetoid', () => {
-    const S = getSetoid(setoidNumber)
+  it('getEq', () => {
+    const S = getEq(eqNumber)
     const x = make(1, [make(2, [])])
     const y = make(2, [make(2, [])])
     const z = make(1, [make(1, [])])
@@ -145,7 +145,7 @@ describe('Tree', () => {
     interface User {
       id: number
     }
-    const S: Setoid<User> = contramap(setoidNumber, (user: User) => user.id)
+    const S: Eq<User> = contramap(eqNumber, (user: User) => user.id)
     const users = make({ id: 1 }, [make({ id: 1 }, [make({ id: 3 }, []), make({ id: 4 }, [])]), make({ id: 2 }, [])])
     assert.strictEqual(elem(S)({ id: 1 }, users), true)
     assert.strictEqual(elem(S)({ id: 4 }, users), true)

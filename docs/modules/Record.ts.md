@@ -1,6 +1,6 @@
 ---
 title: Record.ts
-nav_order: 68
+nav_order: 69
 parent: Modules
 ---
 
@@ -21,8 +21,8 @@ parent: Modules
 - [foldMapWithIndex (function)](#foldmapwithindex-function)
 - [fromFoldable (function)](#fromfoldable-function)
 - [fromFoldableMap (function)](#fromfoldablemap-function)
+- [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [insert (function)](#insert-function)
 - [isEmpty (function)](#isempty-function)
@@ -105,7 +105,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A, fa: Record<string, A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, fa: Record<string, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -249,6 +249,16 @@ assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), array)(users, u
 
 Added in v2.0.0
 
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<K extends string, A>(E: Eq<A>): Eq<Record<K, A>> { ... }
+```
+
+Added in v2.0.0
+
 # getMonoid (function)
 
 Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
@@ -267,16 +277,6 @@ import { getMonoid } from 'fp-ts/lib/Record'
 
 const M = getMonoid(semigroupSum)
 assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
-```
-
-Added in v2.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -322,7 +322,7 @@ Test whether one record contains all of the keys and values contained in another
 **Signature**
 
 ```ts
-export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => ...
+export const isSubrecord = <A>(E: Eq<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => ...
 ```
 
 Added in v2.0.0

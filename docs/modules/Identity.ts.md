@@ -1,6 +1,6 @@
 ---
 title: Identity.ts
-nav_order: 39
+nav_order: 40
 parent: Modules
 ---
 
@@ -12,7 +12,7 @@ parent: Modules
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [identity (constant)](#identity-constant)
-- [getSetoid (function)](#getsetoid-function)
+- [getEq (function)](#geteq-function)
 - [getShow (function)](#getshow-function)
 
 ---
@@ -51,12 +51,12 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
 
 Added in v2.0.0
 
-# getSetoid (function)
+# getEq (function)
 
 **Signature**
 
 ```ts
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => ...
+export const getEq = <A>(E: Eq<A>): Eq<Identity<A>> => ...
 ```
 
 Added in v2.0.0

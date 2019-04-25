@@ -3,7 +3,7 @@ import { identity } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
 import {
   both,
@@ -15,7 +15,7 @@ import {
   getRight,
   getRightOnly,
   getSemigroup,
-  getSetoid,
+  getEq,
   getShow,
   isBoth,
   isLeft,
@@ -29,8 +29,8 @@ import {
 } from '../src/These'
 
 describe('These', () => {
-  it('getSetoid', () => {
-    const { equals } = getSetoid(setoidNumber, setoidNumber)
+  it('getEq', () => {
+    const { equals } = getEq(eqNumber, eqNumber)
     assert.strictEqual(equals(left(2), left(2)), true)
     assert.strictEqual(equals(left(2), left(3)), false)
     assert.strictEqual(equals(left(3), left(2)), false)

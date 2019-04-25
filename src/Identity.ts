@@ -8,7 +8,7 @@ import { identity as id } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 
@@ -36,8 +36,8 @@ export const getShow = <A>(S: Show<A>): Show<Identity<A>> => {
 /**
  * @since 2.0.0
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => {
-  return fromEquals((x, y) => S.equals(x, y))
+export const getEq = <A>(E: Eq<A>): Eq<Identity<A>> => {
+  return fromEquals((x, y) => E.equals(x, y))
 }
 
 const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {

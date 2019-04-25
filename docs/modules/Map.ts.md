@@ -1,6 +1,6 @@
 ---
 title: Map.ts
-nav_order: 49
+nav_order: 50
 parent: Modules
 ---
 
@@ -15,9 +15,9 @@ parent: Modules
 - [collect (function)](#collect-function)
 - [elem (function)](#elem-function)
 - [fromFoldable (function)](#fromfoldable-function)
+- [getEq (function)](#geteq-function)
 - [getFilterableWithIndex (function)](#getfilterablewithindex-function)
 - [getMonoid (function)](#getmonoid-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [getTraversableWithIndex (function)](#gettraversablewithindex-function)
 - [getWitherable (function)](#getwitherable-function)
@@ -91,7 +91,7 @@ Test whether or not a value is a member of a map
 **Signature**
 
 ```ts
-export const elem = <A>(S: Setoid<A>) => <K>(a: A, m: Map<K, A>): boolean => ...
+export const elem = <A>(E: Eq<A>) => <K>(a: A, m: Map<K, A>): boolean => ...
 ```
 
 Added in v2.0.0
@@ -105,21 +105,31 @@ specified `Magma` to combine values for duplicate keys.
 
 ```ts
 export function fromFoldable<F extends URIS3, K, A>(
-  S: Setoid<K>,
+  E: Eq<K>,
   M: Magma<A>,
   F: Foldable3<F>
 ): <U, L>(fka: Type3<F, U, L, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS2, K, A>(
-  S: Setoid<K>,
+  E: Eq<K>,
   M: Magma<A>,
   F: Foldable2<F>
 ): <L>(fka: Type2<F, L, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS, K, A>(
-  S: Setoid<K>,
+  E: Eq<K>,
   M: Magma<A>,
   F: Foldable1<F>
 ): (fka: Type<F, [K, A]>) => Map<K, A>
-export function fromFoldable<F, K, A>(S: Setoid<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> { ... }
+export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> { ... }
+```
+
+Added in v2.0.0
+
+# getEq (function)
+
+**Signature**
+
+```ts
+export const getEq = <K, A>(SK: Eq<K>, SA: Eq<A>): Eq<Map<K, A>> => ...
 ```
 
 Added in v2.0.0
@@ -141,17 +151,7 @@ Gets `Monoid` instance for Maps given `Semigroup` instance for their values
 **Signature**
 
 ```ts
-export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => ...
-```
-
-Added in v2.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>> => ...
+export const getMonoid = <K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => ...
 ```
 
 Added in v2.0.0
@@ -193,7 +193,7 @@ Insert or replace a key/value pair in a map
 **Signature**
 
 ```ts
-export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => ...
+export const insert = <K>(E: Eq<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => ...
 ```
 
 Added in v2.0.0
@@ -217,7 +217,7 @@ Test whether or not one Map contains all of the keys and values contained in ano
 **Signature**
 
 ```ts
-export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => ...
+export const isSubmap = <K, A>(SK: Eq<K>, SA: Eq<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => ...
 ```
 
 Added in v2.0.0
@@ -241,7 +241,7 @@ Lookup the value for a key in a `Map`.
 **Signature**
 
 ```ts
-export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => ...
+export const lookup = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => ...
 ```
 
 Added in v2.0.0
@@ -254,7 +254,7 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => ...
+export const lookupWithKey = <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => ...
 ```
 
 Added in v2.0.0
@@ -266,7 +266,7 @@ Test whether or not a key exists in a map
 **Signature**
 
 ```ts
-export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => ...
+export const member = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => boolean) => ...
 ```
 
 Added in v2.0.0
@@ -278,7 +278,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 **Signature**
 
 ```ts
-export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => ...
+export const pop = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => ...
 ```
 
 Added in v2.0.0
@@ -290,7 +290,7 @@ Delete a key and value from a map
 **Signature**
 
 ```ts
-export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => ...
+export const remove = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => ...
 ```
 
 Added in v2.0.0

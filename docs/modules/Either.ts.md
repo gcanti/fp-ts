@@ -51,11 +51,11 @@ either.map(left(23), double) // left(23)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getCompactable (function)](#getcompactable-function)
+- [getEq (function)](#geteq-function)
 - [getFilterable (function)](#getfilterable-function)
 - [getOrElse (function)](#getorelse-function)
 - [getOrElseL (function)](#getorelsel-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [getWitherable (function)](#getwitherable-function)
 - [isLeft (function)](#isleft-function)
@@ -247,6 +247,16 @@ export function getCompactable<L>(M: Monoid<L>): Compactable2C<URI, L> { ... }
 
 Added in v2.0.0
 
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<L, A>(SL: Eq<L>, SA: Eq<A>): Eq<Either<L, A>> { ... }
+```
+
+Added in v2.0.0
+
 # getFilterable (function)
 
 Builds `Filterable` instance for `Either` given a `Monoid` for the left side
@@ -301,16 +311,6 @@ assert.deepStrictEqual(S.concat(left('a'), left('b')), left('a'))
 assert.deepStrictEqual(S.concat(left('a'), right(2)), right(2))
 assert.deepStrictEqual(S.concat(right(1), left('b')), right(1))
 assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
-```
-
-Added in v2.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export function getSetoid<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Either<L, A>> { ... }
 ```
 
 Added in v2.0.0
