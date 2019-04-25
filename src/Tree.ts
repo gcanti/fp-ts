@@ -6,14 +6,14 @@
  * ```
  */
 import { Applicative } from './Applicative'
-import { array, empty, getSetoid as getArraySetoid } from './Array'
+import { array, empty, getEq as getArrayEq } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable1 } from './Foldable'
 import { concat, identity } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 
@@ -127,10 +127,10 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree
 /**
  * @since 2.0.0
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => {
-  let SA: Setoid<Array<Tree<A>>>
-  const R: Setoid<Tree<A>> = fromEquals((x, y) => S.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
-  SA = getArraySetoid(R)
+export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
+  let SA: Eq<Array<Tree<A>>>
+  const R: Eq<Tree<A>> = fromEquals((x, y) => E.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
+  SA = getArrayEq(R)
   return R
 }
 
@@ -285,9 +285,9 @@ export function unfoldForestM<M>(
 /**
  * @since 2.0.0
  */
-export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean {
+export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean {
   const go = (a: A, fa: Tree<A>): boolean => {
-    if (S.equals(a, fa.value)) {
+    if (E.equals(a, fa.value)) {
       return true
     }
     return fa.forest.some(tree => go(a, tree))

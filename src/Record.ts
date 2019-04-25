@@ -11,7 +11,7 @@ import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { none, Option, some as optionSome, isNone, isSome } from './Option'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Show, showString } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
@@ -153,9 +153,9 @@ export function pop<A>(k: string, d: Record<string, A>): Option<[A, Record<strin
  *
  * @since 2.0.0
  */
-export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
+export const isSubrecord = <A>(E: Eq<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
   for (let k in d1) {
-    if (!d2.hasOwnProperty(k) || !S.equals(d1[k], d2[k])) {
+    if (!d2.hasOwnProperty(k) || !E.equals(d1[k], d2[k])) {
       return false
     }
   }
@@ -165,10 +165,10 @@ export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Reco
 /**
  * @since 2.0.0
  */
-export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
-export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> {
-  const isSubrecordS = isSubrecord(S)
-  return fromEquals((x, y) => isSubrecordS(x, y) && isSubrecordS(y, x))
+export function getEq<K extends string, A>(E: Eq<A>): Eq<Record<K, A>>
+export function getEq<A>(E: Eq<A>): Eq<Record<string, A>> {
+  const isSubrecordE = isSubrecord(E)
+  return fromEquals((x, y) => isSubrecordE(x, y) && isSubrecordE(y, x))
 }
 
 const emptyObject = {}
@@ -699,8 +699,8 @@ export function some<A>(fa: Record<string, A>, predicate: (a: A) => boolean): bo
 /**
  * @since 2.0.0
  */
-export function elem<A>(S: Setoid<A>): (a: A, fa: Record<string, A>) => boolean {
-  return (a, fa) => some(fa, x => S.equals(x, a))
+export function elem<A>(E: Eq<A>): (a: A, fa: Record<string, A>) => boolean {
+  return (a, fa) => some(fa, x => E.equals(x, a))
 }
 
 /**

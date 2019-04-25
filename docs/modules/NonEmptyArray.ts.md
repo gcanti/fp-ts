@@ -1,6 +1,6 @@
 ---
 title: NonEmptyArray.ts
-nav_order: 57
+nav_order: 58
 parent: Modules
 ---
 
@@ -16,6 +16,7 @@ Data structure which represents non-empty arrays
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [cons (constant)](#cons-constant)
+- [getEq (constant)](#geteq-constant)
 - [nonEmptyArray (constant)](#nonemptyarray-constant)
 - [snoc (constant)](#snoc-constant)
 - [copy (function)](#copy-function)
@@ -28,7 +29,6 @@ Data structure which represents non-empty arrays
 - [fromArray (function)](#fromarray-function)
 - [fromNonEmptyArray (function)](#fromnonemptyarray-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [group (function)](#group-function)
 - [groupBy (function)](#groupby-function)
@@ -93,6 +93,27 @@ export const cons: <A>(a: A, as: Array<A>) => NonEmptyArray<A> = ...
 import { cons } from 'fp-ts/lib/NonEmptyArray'
 
 assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
+```
+
+Added in v2.0.0
+
+# getEq (constant)
+
+**Signature**
+
+```ts
+export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = ...
+```
+
+**Example**
+
+```ts
+import { fromNonEmptyArray, getEq, make } from 'fp-ts/lib/NonEmptyArray'
+import { eqNumber } from 'fp-ts/lib/Eq'
+
+const E = getEq(eqNumber)
+assert.strictEqual(E.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
+assert.strictEqual(E.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
 ```
 
 Added in v2.0.0
@@ -243,27 +264,6 @@ export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ...
 
 Added in v2.0.0
 
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export function getSetoid<A>(S: Setoid<A>): Setoid<NonEmptyArray<A>> { ... }
-```
-
-**Example**
-
-```ts
-import { fromNonEmptyArray, getSetoid, make } from 'fp-ts/lib/NonEmptyArray'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
-
-const S = getSetoid(setoidNumber)
-assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
-assert.strictEqual(S.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
-```
-
-Added in v2.0.0
-
 # getShow (function)
 
 **Signature**
@@ -281,7 +281,7 @@ Group equal, consecutive elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => ...
+export const group = <A>(E: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => ...
 ```
 
 **Example**

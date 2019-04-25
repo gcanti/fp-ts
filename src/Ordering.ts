@@ -1,5 +1,5 @@
 import { Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Eq } from './Eq'
 
 export type Ordering = -1 | 0 | 1
 
@@ -13,7 +13,7 @@ export const sign = (n: number): Ordering => {
 /**
  * @since 2.0.0
  */
-export const setoidOrdering: Setoid<Ordering> = {
+export const eqOrdering: Eq<Ordering> = {
   equals: (x, y) => x === y
 }
 

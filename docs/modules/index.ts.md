@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 40
+nav_order: 41
 parent: Modules
 ---
 
@@ -33,6 +33,7 @@ parent: Modules
 - [distributiveLattice (export)](#distributivelattice-export)
 - [either (export)](#either-export)
 - [eitherT (export)](#eithert-export)
+- [eq (export)](#eq-export)
 - [exception (export)](#exception-export)
 - [extend (export)](#extend-export)
 - [field (export)](#field-export)
@@ -80,7 +81,6 @@ parent: Modules
 - [semigroupoid (export)](#semigroupoid-export)
 - [semiring (export)](#semiring-export)
 - [set (export)](#set-export)
-- [setoid (export)](#setoid-export)
 - [show (export)](#show-export)
 - [state (export)](#state-export)
 - [stateT (export)](#statet-export)
@@ -300,6 +300,14 @@ export { either }
 
 ```ts
 export { eitherT }
+```
+
+# eq (export)
+
+**Signature**
+
+```ts
+export { eq }
 ```
 
 # exception (export)
@@ -676,14 +684,6 @@ export { semiring }
 
 ```ts
 export { set }
-```
-
-# setoid (export)
-
-**Signature**
-
-```ts
-export { setoid }
 ```
 
 # show (export)

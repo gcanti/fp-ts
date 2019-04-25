@@ -24,7 +24,7 @@ type Forest<A> = Array<Tree<A>>
 - [drawForest (function)](#drawforest-function)
 - [drawTree (function)](#drawtree-function)
 - [elem (function)](#elem-function)
-- [getSetoid (function)](#getsetoid-function)
+- [getEq (function)](#geteq-function)
 - [getShow (function)](#getshow-function)
 - [make (function)](#make-function)
 - [unfoldForest (function)](#unfoldforest-function)
@@ -128,17 +128,17 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean { ... }
 ```
 
 Added in v2.0.0
 
-# getSetoid (function)
+# getEq (function)
 
 **Signature**
 
 ```ts
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => ...
+export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => ...
 ```
 
 Added in v2.0.0

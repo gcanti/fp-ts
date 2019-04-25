@@ -5,7 +5,7 @@ import { phantom } from './function'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { Setoid } from './Setoid'
+import { Eq } from './Eq'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -39,8 +39,8 @@ export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
 /**
  * @since 2.0.0
  */
-export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => {
-  return S
+export function getEq<L, A>(E: Eq<L>): Eq<Const<L, A>> {
+  return E
 }
 
 const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {

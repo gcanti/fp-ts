@@ -69,9 +69,9 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | either                  |                                                                                                              |
 | empty                   |                                                                                                              |
 | endWith                 |                                                                                                              |
-| eqBy                    | [Setoid.contramap](../modules/Setoid.ts#contramap-function)                                                  |
+| eqBy                    | [Eq.contramap](../modules/Eq.ts#contramap-function)                                                  |
 | eqProps                 |                                                                                                              |
-| equals                  | [Setoid](../modules/Setoid.ts)                                                                               |
+| equals                  | [Eq](../modules/Eq.ts)                                                                               |
 | evolve                  |                                                                                                              |
 | F                       | [function.constFalse](../modules/function.ts#constfalse-function)                                            |
 | filter                  | [Filterable](../modules/Filterable.ts)                                                                       |
@@ -91,7 +91,7 @@ This guide shows you how to use fp-ts concepts if you have prior experience with
 | has                     | [Map.member](../modules/Map.ts#member-function)                                                              |
 | hasIn                   |                                                                                                              |
 | head                    | [Array.head](../modules/Array.ts#head-function)                                                              |
-| identical               | [Setoid](../modules/Setoid.ts)                                                                               |
+| identical               | [Eq](../modules/Eq.ts)                                                                               |
 | identity                | [function.identity](../modules/function.ts#identity-function)                                                |
 | ifElse                  |                                                                                                              |
 | inc                     | [function.increment](../modules/function.ts#increment-function)                                              |

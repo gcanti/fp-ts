@@ -59,13 +59,14 @@ import {
   findFirstMap,
   findLastMap,
   getShow,
-  reverse
+  reverse,
+  getEq
 } from '../src/Array'
 import { left, right } from '../src/Either'
 import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
-import { contramap, getArraySetoid, setoidBoolean, setoidNumber, setoidString, Setoid } from '../src/Setoid'
+import { contramap, eqBoolean, eqNumber, eqString, Eq } from '../src/Eq'
 import { identity, tuple, constTrue, Predicate } from '../src/function'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
@@ -85,8 +86,8 @@ describe('Array', () => {
     assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
   })
 
-  it('getSetoid', () => {
-    const O = getArraySetoid(ordString)
+  it('getEq', () => {
+    const O = getEq(ordString)
     assert.strictEqual(O.equals([], []), true, '[] ]')
     assert.strictEqual(O.equals(['a'], ['a']), true, '[a], [a]')
     assert.strictEqual(O.equals(['a', 'b'], ['a', 'b']), true, '[a, b], [a, b]')
@@ -260,17 +261,14 @@ describe('Array', () => {
     assert.deepStrictEqual(findFirst([null, 'a'], x => x === null), O.some(null))
   })
 
-  const optionStringSetoid = O.getSetoid(setoidString)
+  const optionStringEq = O.getEq(eqString)
   const multipleOf3: Predicate<number> = (x: number) => x % 3 === 0
   const multipleOf3AsString = (x: number) => O.option.map(O.fromPredicate(multipleOf3)(x), x => `${x}`)
 
   it('`findFirstMap(arr, fun)` is equivalent to map and `head(mapOption(arr, fun)`', () => {
     fc.assert(
       fc.property(fc.array(fc.integer()), arr =>
-        optionStringSetoid.equals(
-          findFirstMap(arr, multipleOf3AsString),
-          head(array.filterMap(arr, multipleOf3AsString))
-        )
+        optionStringEq.equals(findFirstMap(arr, multipleOf3AsString), head(array.filterMap(arr, multipleOf3AsString)))
       )
     )
   })
@@ -285,10 +283,7 @@ describe('Array', () => {
   it('`findLastMap(arr, fun)` is equivalent to `last(mapOption(arr, fun))`', () => {
     fc.assert(
       fc.property(fc.array(fc.integer()), arr =>
-        optionStringSetoid.equals(
-          findLastMap(arr, multipleOf3AsString),
-          last(array.filterMap(arr, multipleOf3AsString))
-        )
+        optionStringEq.equals(findLastMap(arr, multipleOf3AsString), last(array.filterMap(arr, multipleOf3AsString)))
       )
     )
   })
@@ -472,31 +467,31 @@ describe('Array', () => {
       b: number
     }
 
-    const setoidA = contramap(ordNumber, (f: A) => f.b)
+    const eqA = contramap(ordNumber, (f: A) => f.b)
     const arrA: A = { a: 'a', b: 1 }
     const arrB: A = { a: 'b', b: 1 }
     const arrC: A = { a: 'c', b: 2 }
     const arrD: A = { a: 'd', b: 2 }
     const arrUniq = [arrA, arrC]
 
-    assert.deepStrictEqual(uniq(setoidA)(arrUniq), arrUniq, 'Preserve original array')
-    assert.deepStrictEqual(uniq(setoidA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
-    assert.deepStrictEqual(uniq(setoidA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
-    assert.deepStrictEqual(uniq(setoidA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
-    assert.deepStrictEqual(uniq(setoidA)([arrA, arrC]), [arrA, arrC])
-    assert.deepStrictEqual(uniq(setoidA)([arrC, arrA]), [arrC, arrA])
-    assert.deepStrictEqual(uniq(setoidBoolean)([true, false, true, false]), [true, false])
-    assert.deepStrictEqual(uniq(setoidNumber)([]), [])
-    assert.deepStrictEqual(uniq(setoidNumber)([-0, -0]), [-0])
-    assert.deepStrictEqual(uniq(setoidNumber)([0, -0]), [0])
-    assert.deepStrictEqual(uniq(setoidNumber)([1]), [1])
-    assert.deepStrictEqual(uniq(setoidNumber)([2, 1, 2]), [2, 1])
-    assert.deepStrictEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
-    assert.deepStrictEqual(uniq(setoidNumber)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    assert.deepStrictEqual(uniq(setoidNumber)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
-    assert.deepStrictEqual(uniq(setoidNumber)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    assert.deepStrictEqual(uniq(setoidString)(['a', 'b', 'a']), ['a', 'b'])
-    assert.deepStrictEqual(uniq(setoidString)(['a', 'b', 'A']), ['a', 'b', 'A'])
+    assert.deepStrictEqual(uniq(eqA)(arrUniq), arrUniq, 'Preserve original array')
+    assert.deepStrictEqual(uniq(eqA)([arrA, arrB, arrC, arrD]), [arrA, arrC])
+    assert.deepStrictEqual(uniq(eqA)([arrB, arrA, arrC, arrD]), [arrB, arrC])
+    assert.deepStrictEqual(uniq(eqA)([arrA, arrA, arrC, arrD, arrA]), [arrA, arrC])
+    assert.deepStrictEqual(uniq(eqA)([arrA, arrC]), [arrA, arrC])
+    assert.deepStrictEqual(uniq(eqA)([arrC, arrA]), [arrC, arrA])
+    assert.deepStrictEqual(uniq(eqBoolean)([true, false, true, false]), [true, false])
+    assert.deepStrictEqual(uniq(eqNumber)([]), [])
+    assert.deepStrictEqual(uniq(eqNumber)([-0, -0]), [-0])
+    assert.deepStrictEqual(uniq(eqNumber)([0, -0]), [0])
+    assert.deepStrictEqual(uniq(eqNumber)([1]), [1])
+    assert.deepStrictEqual(uniq(eqNumber)([2, 1, 2]), [2, 1])
+    assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
+    assert.deepStrictEqual(uniq(eqNumber)([1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepStrictEqual(uniq(eqNumber)([1, 1, 2, 2, 3, 3, 4, 4, 5, 5]), [1, 2, 3, 4, 5])
+    assert.deepStrictEqual(uniq(eqNumber)([1, 2, 3, 4, 5, 1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepStrictEqual(uniq(eqString)(['a', 'b', 'a']), ['a', 'b'])
+    assert.deepStrictEqual(uniq(eqString)(['a', 'b', 'A']), ['a', 'b', 'A'])
   })
 
   it('sortBy', () => {
@@ -610,13 +605,13 @@ describe('Array', () => {
   })
 
   it('chop', () => {
-    const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<Array<A>> => {
+    const group = <A>(S: Eq<A>) => (as: Array<A>): Array<Array<A>> => {
       return chop(as, as => {
         const { init, rest } = span(as, a => S.equals(a, as[0]))
         return [init, rest]
       })
     }
-    assert.deepStrictEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+    assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
   })
 
   it('split', () => {
@@ -716,21 +711,21 @@ describe('Array', () => {
   })
 
   it('union', () => {
-    assert.deepStrictEqual(union(setoidNumber)([1, 2], [3, 4]), [1, 2, 3, 4])
-    assert.deepStrictEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
-    assert.deepStrictEqual(union(setoidNumber)([1, 2], [1, 2]), [1, 2])
+    assert.deepStrictEqual(union(eqNumber)([1, 2], [3, 4]), [1, 2, 3, 4])
+    assert.deepStrictEqual(union(eqNumber)([1, 2], [2, 3]), [1, 2, 3])
+    assert.deepStrictEqual(union(eqNumber)([1, 2], [1, 2]), [1, 2])
   })
 
   it('intersection', () => {
-    assert.deepStrictEqual(intersection(setoidNumber)([1, 2], [3, 4]), [])
-    assert.deepStrictEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
-    assert.deepStrictEqual(intersection(setoidNumber)([1, 2], [1, 2]), [1, 2])
+    assert.deepStrictEqual(intersection(eqNumber)([1, 2], [3, 4]), [])
+    assert.deepStrictEqual(intersection(eqNumber)([1, 2], [2, 3]), [2])
+    assert.deepStrictEqual(intersection(eqNumber)([1, 2], [1, 2]), [1, 2])
   })
 
   it('difference', () => {
-    assert.deepStrictEqual(difference(setoidNumber)([1, 2], [3, 4]), [1, 2])
-    assert.deepStrictEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
-    assert.deepStrictEqual(difference(setoidNumber)([1, 2], [1, 2]), [])
+    assert.deepStrictEqual(difference(eqNumber)([1, 2], [3, 4]), [1, 2])
+    assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
+    assert.deepStrictEqual(difference(eqNumber)([1, 2], [1, 2]), [])
   })
 
   it('should be safe when calling map with a binary function', () => {

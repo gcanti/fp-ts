@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 58
+nav_order: 59
 parent: Modules
 ---
 
@@ -106,6 +106,7 @@ sumLifted(some(1), none) // none
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
+- [getEq (function)](#geteq-function)
 - [getFirstMonoid (function)](#getfirstmonoid-function)
 - [getLastMonoid (function)](#getlastmonoid-function)
 - [getLeft (function)](#getleft-function)
@@ -115,7 +116,6 @@ sumLifted(some(1), none) // none
 - [getOrd (function)](#getord-function)
 - [getRefinement (function)](#getrefinement-function)
 - [getRight (function)](#getright-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [isNone (function)](#isnone-function)
 - [isSome (function)](#issome-function)
@@ -207,7 +207,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A, ma: Option<A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -325,6 +325,30 @@ assert.deepStrictEqual(S.concat(none, none), none)
 assert.deepStrictEqual(S.concat(some(1), none), none)
 assert.deepStrictEqual(S.concat(none, some(1)), none)
 assert.deepStrictEqual(S.concat(some(1), some(2)), some(3))
+```
+
+Added in v2.0.0
+
+# getEq (function)
+
+**Signature**
+
+```ts
+export const getEq = <A>(E: Eq<A>): Eq<Option<A>> => ...
+```
+
+**Example**
+
+```ts
+import { none, some, getEq } from 'fp-ts/lib/Option'
+import { eqNumber } from 'fp-ts/lib/Eq'
+
+const E = getEq(eqNumber)
+assert.strictEqual(E.equals(none, none), true)
+assert.strictEqual(E.equals(none, some(1)), false)
+assert.strictEqual(E.equals(some(1), none), false)
+assert.strictEqual(E.equals(some(1), some(2)), false)
+assert.strictEqual(E.equals(some(1), some(1)), true)
 ```
 
 Added in v2.0.0
@@ -518,30 +542,6 @@ Returns an `A` value if possible
 
 ```ts
 export const getRight = <L, A>(ma: Either<L, A>): Option<A> => ...
-```
-
-Added in v2.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Option<A>> => ...
-```
-
-**Example**
-
-```ts
-import { none, some, getSetoid } from 'fp-ts/lib/Option'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
-
-const S = getSetoid(setoidNumber)
-assert.strictEqual(S.equals(none, none), true)
-assert.strictEqual(S.equals(none, some(1)), false)
-assert.strictEqual(S.equals(some(1), none), false)
-assert.strictEqual(S.equals(some(1), some(2)), false)
-assert.strictEqual(S.equals(some(1), some(1)), true)
 ```
 
 Added in v2.0.0

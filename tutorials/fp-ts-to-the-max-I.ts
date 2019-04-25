@@ -2,7 +2,7 @@ import { createInterface } from 'readline'
 import { log } from '../src/Console'
 import { none, Option, some, fold } from '../src/Option'
 import { randomInt } from '../src/Random'
-import { fromIO, Task, task } from '../src/Task'
+import { Task, task } from '../src/Task'
 
 //
 // helpers
@@ -20,9 +20,9 @@ const getStrLn: Task<string> = () =>
     })
   })
 
-const putStrLn = (message: string): Task<void> => fromIO(log(message))
+const putStrLn = (message: string): Task<void> => task.fromIO(log(message))
 
-const random = fromIO(randomInt(1, 5))
+const random = task.fromIO(randomInt(1, 5))
 
 const parse = (s: string): Option<number> => {
   const i = +s

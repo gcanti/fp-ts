@@ -5,7 +5,7 @@ import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
-import { setoidNumber, setoidString } from '../src/Setoid'
+import { eqNumber, eqString } from '../src/Eq'
 import { showString } from '../src/Show'
 
 describe('Either', () => {
@@ -86,8 +86,8 @@ describe('Either', () => {
     assert.deepStrictEqual(E.fromNullable(1, 'default'), E.right(1))
   })
 
-  it('getSetoid', () => {
-    const equals = E.getSetoid(setoidString, setoidNumber).equals
+  it('getEq', () => {
+    const equals = E.getEq(eqString, eqNumber).equals
     assert.strictEqual(equals(E.right(1), E.right(1)), true)
     assert.strictEqual(equals(E.right(1), E.right(2)), false)
     assert.strictEqual(equals(E.right(1), E.left('foo')), false)

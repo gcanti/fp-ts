@@ -140,8 +140,8 @@ import * as semiring from './Semiring'
 export { semiring }
 import * as set from './Set'
 export { set }
-import * as setoid from './Setoid'
-export { setoid }
+import * as eq from './Eq'
+export { eq }
 import * as show from './Show'
 export { show }
 import * as state from './State'

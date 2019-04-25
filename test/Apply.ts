@@ -5,8 +5,8 @@ import { none, option, some, isSome, isNone } from '../src/Option'
 import * as fc from 'fast-check'
 import { getSome } from './property-test/Option'
 import { nonEmptyArray } from './property-test/NonEmptyArray'
-import { getSetoid, array } from '../src/Array'
-import { fromEquals } from '../src/Setoid'
+import { getEq, array } from '../src/Array'
+import { fromEquals } from '../src/Eq'
 
 describe('Apply', () => {
   it('sequenceT', () => {
@@ -15,7 +15,7 @@ describe('Apply', () => {
     assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
     assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
 
-    const S = getSetoid(fromEquals((x, y) => x === y))
+    const S = getEq(fromEquals((x, y) => x === y))
     const somes = getSome(fc.oneof<string | number>(fc.string(), fc.integer()))
     const allSomesInput = nonEmptyArray(somes)
     const maybeNoneInput = nonEmptyArray(fc.oneof(fc.constant(none), somes))

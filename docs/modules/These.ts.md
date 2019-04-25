@@ -36,13 +36,13 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 - [both (function)](#both-function)
 - [fold (function)](#fold-function)
 - [fromOptions (function)](#fromoptions-function)
+- [getEq (function)](#geteq-function)
 - [getLeft (function)](#getleft-function)
 - [getLeftOnly (function)](#getleftonly-function)
 - [getMonad (function)](#getmonad-function)
 - [getRight (function)](#getright-function)
 - [getRightOnly (function)](#getrightonly-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [isBoth (function)](#isboth-function)
 - [isLeft (function)](#isleft-function)
@@ -148,6 +148,16 @@ assert.deepStrictEqual(fromOptions(none, none), none)
 assert.deepStrictEqual(fromOptions(some('a'), none), some(left('a')))
 assert.deepStrictEqual(fromOptions(none, some(1)), some(right(1)))
 assert.deepStrictEqual(fromOptions(some('a'), some(1)), some(both('a', 1)))
+```
+
+Added in v2.0.0
+
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<L, A>(SL: Eq<L>, SA: Eq<A>): Eq<These<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -260,16 +270,6 @@ Added in v2.0.0
 
 ```ts
 export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> { ... }
-```
-
-Added in v2.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export function getSetoid<L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> { ... }
 ```
 
 Added in v2.0.0

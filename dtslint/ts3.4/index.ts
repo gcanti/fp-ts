@@ -14,7 +14,7 @@ import * as TE from '../../src/TaskEither'
 import * as Th from '../../src/These'
 import * as V from '../../src/Validation'
 import * as Mon from '../../src/Monoid'
-import * as Se from '../../src/Setoid'
+import * as Eq from '../../src/Eq'
 import * as Fo from '../../src/Foldable'
 import * as Or from '../../src/Ord'
 import * as Fu from '../../src/function'
@@ -288,8 +288,8 @@ type Keys = 'key1' | 'key2'
 const Mon1 = R.getMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
 const Mon2 = R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
 
-const Set1 = R.getSetoid<Keys, number>(Se.setoidNumber) // $ExpectType Setoid<Record<Keys, number>>
-const Set2 = R.getSetoid(Se.setoidNumber) // $ExpectType Setoid<Record<string, number>>
+const Set1 = R.getEq<Keys, number>(Eq.eqNumber) // $ExpectType Eq<Record<Keys, number>>
+const Set2 = R.getEq(Eq.eqNumber) // $ExpectType Eq<Record<string, number>>
 
 const toUnfoldable1 = R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType ["a", number][]
 const toUnfoldable2 = R.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
@@ -299,10 +299,10 @@ declare const fromFoldableInput1: H.HKT<'Test', ['a' | 'b', number]>
 const fromFoldable1 = R.fromFoldable(S.getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) // $ExpectType Record<"a" | "b", number>
 
 //
-// Setoid
+// Eq
 //
 
-const Setoid1 = Se.getTupleSetoid(Se.setoidString, Se.setoidNumber, Se.setoidBoolean) // $ExpectType Setoid<[string, number, boolean]>
+const Eq1 = Eq.getTupleEq(Eq.eqString, Eq.eqNumber, Eq.eqBoolean) // $ExpectType Eq<[string, number, boolean]>
 
 //
 // Ord
