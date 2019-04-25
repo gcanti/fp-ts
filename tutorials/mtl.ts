@@ -1,11 +1,11 @@
 import { sequenceS } from '../src/Apply'
-import { flatten } from '../src/Chain'
 import { HKT, Type, Type3, URIS, URIS3 } from '../src/HKT'
 import { io, URI as IOURI } from '../src/IO'
 import { Monad, Monad1, Monad3C } from '../src/Monad'
 import * as RTE from '../src/ReaderTaskEither'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
+import { identity } from 'fp-ts/lib/function'
 
 // Adapted from https://tech.iheart.com/why-fp-its-the-composition-f585d17b01d3
 
@@ -38,7 +38,7 @@ function likePost<M>(M: MonadApp<M>): (token: string) => (url: string) => HKT<M,
     const mToken = M.chain(M.validateUser(token), uid => M.facebookToken(uid))
     const mPost = M.findPost(url)
     const mmResult = M.map(sequenceS(M)({ token: mToken, post: mPost }), ({ token, post }) => M.sendLike(token, post))
-    return flatten(M)(mmResult)
+    return M.chain(mmResult, identity)
   }
 }
 
