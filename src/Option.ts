@@ -1,7 +1,7 @@
 /**
  * @file If you have worked with JavaScript at all in the past, it is very likely that you have come across a `TypeError` at
  * some time (other languages will throw similarly named errors in such a case). Usually this happens because some
- * method returns `null` or `undefined` when you were not expecting it and thus not dealing with that possibility in
+ * function returns `null` or `undefined` when you were not expecting it and thus not dealing with that possibility in
  * your client code.
  *
  * ```ts
@@ -9,12 +9,12 @@
  * as[0].trim() // throws TypeError: Cannot read property 'trim' of undefined
  * ```
  *
- * fp-ts models the absence of values through the `Option` datatype similar to how Scala, Haskell and other FP languages
+ * `fp-ts` models the absence of values through the `Option` datatype similar to how Scala, Haskell and other FP languages
  * handle optional values. A value of `null` or `undefined` is often abused to represent an absent optional value.
  *
  * `Option<A>` is a container for an optional value of type `A`. If the value of type `A` is present, the `Option<A>` is
  * an instance of `Some<A>`, containing the present value of type `A`. If the value is absent, the `Option<A>` is an
- * instance of `None<A>`.
+ * instance of `None`.
  *
  * An option could be looked at as a collection or foldable structure with either one or zero elements.
  * Another way to look at option is: it represents the effect of a possibly failing computation.
@@ -30,7 +30,7 @@
  *
  *
  * ```ts
- * const head = (as: Array<string>): Option<string> => {
+ * function head(as: Array<string>): Option<string> {
  *   return as.length > 0 ? some(as[0]) : none
  * }
  * ```
@@ -38,47 +38,46 @@
  * Using `getOrElse` we can provide a default value `"No value"` when the optional argument `None` does not exist:
  *
  * ```ts
+ * import { getOrElse } from 'fp-ts/lib/Option'
+ *
  * const value1 = head(['foo', 'bar']) // some('foo)
  * const value2 = head([]) // none
- * value1.getOrElse('No value') // 'foo'
- * value2.getOrElse('No value') // 'No value'
+ * getOrElse(value1, 'No value') // 'foo'
+ * getOrElse(value2, 'No value') // 'No value'
  * ```
  *
  * Checking whether option has value:
  *
  * ```ts
- * value1.isNone() // false
- * value2.isNone() // true
+ * import { isNone } from 'fp-ts/lib/Option'
+ *
+ * isNone(value1) // false
+ * isNone(value2) // true
  * ```
  *
- * We can pattern match using the `fold` method
+ * We can pattern match using the `fold` function
  *
  * ```ts
- * const number: Option<number> = some(3)
- * const noNumber: Option<number> = none
- * number.fold(1, n => n * 3) // 9
- * noNumber.fold(1, n => n * 3) // 1
+ * import { fold } from 'fp-ts/lib/Option'
+ *
+ * const x: Option<number> = some(3)
+ * const y: Option<number> = none
+ * fold(x, 1, n => n * 3) // 9
+ * fold(y, 1, n => n * 3) // 1
  * ```
  *
- * You can chain several possibly failing computations using the `chain` method
+ * You can chain several possibly failing computations using the `chain` function
  *
  * ```ts
- * const inverse = (n: number): Option<number> => {
+ * import { option } from 'fp-ts/lib/Option'
+ *
+ * function inverse(n: number): Option<number> {
  *   return n === 0 ? none : some(1 / n)
  * }
  *
- * number.chain(inverse) // 1/3
- * noNumber.chain(inverse) // none
- * some(0).chain(inverse) // none
- * ```
- *
- * Computing over independent values
- *
- * ```ts
- * const sum = (a: number) => (b: number): number => a + b
- * const sumLifted = (oa: Option<number>, ob: Option<number>): Option<number> => ob.ap(oa.map(sum))
- * sumLifted(some(1), some(2)) // some(3)
- * sumLifted(some(1), none) // none
+ * option.chain(x, inverse) // 1/3
+ * option.chain(y, inverse) // none
+ * option.chain(some(0), inverse) // none
  * ```
  */
 import { Alternative1 } from './Alternative'
@@ -132,15 +131,58 @@ export const none: Option<never> = { _tag: 'None' }
 /**
  * @since 2.0.0
  */
-export function fold<A, R>(ma: Option<A>, onNone: R, onSome: (a: A) => R): R {
-  return isNone(ma) ? onNone : onSome(ma.value)
+export function some<A>(a: A): Option<A> {
+  return { _tag: 'Some', value: a }
+}
+
+/**
+ * Returns `true` if the option is an instance of `Some`, `false` otherwise
+ *
+ * @since 2.0.0
+ */
+export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
+  return fa._tag === 'Some'
+}
+
+/**
+ * Returns `true` if the option is `None`, `false` otherwise
+ *
+ * @since 2.0.0
+ */
+export const isNone = <A>(fa: Option<A>): fa is None => {
+  return fa._tag === 'None'
 }
 
 /**
  * @since 2.0.0
  */
+export function fold<A, R>(ma: Option<A>, onNone: R, onSome: (a: A) => R): R {
+  return isNone(ma) ? onNone : onSome(ma.value)
+}
+
+/**
+ * Lazy version of `fold`
+ * @since 2.0.0
+ */
 export function foldL<A, R>(ma: Option<A>, onNone: () => R, onSome: (a: A) => R): R {
   return isNone(ma) ? onNone() : onSome(ma.value)
+}
+
+/**
+ * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
+ * returns the value wrapped in a `Some`
+ *
+ * @example
+ * import { none, some, fromNullable } from 'fp-ts/lib/Option'
+ *
+ * assert.deepStrictEqual(fromNullable(undefined), none)
+ * assert.deepStrictEqual(fromNullable(null), none)
+ * assert.deepStrictEqual(fromNullable(1), some(1))
+ *
+ * @since 2.0.0
+ */
+export function fromNullable<A>(a: A | null | undefined): Option<A> {
+  return a == null ? none : some(a)
 }
 
 /**
@@ -155,24 +197,6 @@ export function toNullable<A>(ma: Option<A>): A | null {
  */
 export function toUndefined<A>(ma: Option<A>): A | undefined {
   return isNone(ma) ? undefined : ma.value
-}
-
-/**
- * Returns an `L` value if possible
- *
- * @since 2.0.0
- */
-export const getLeft = <L, A>(ma: Either<L, A>): Option<L> => {
-  return ma._tag === 'Right' ? none : some(ma.left)
-}
-
-/**
- * Returns an `A` value if possible
- *
- * @since 2.0.0
- */
-export const getRight = <L, A>(ma: Either<L, A>): Option<A> => {
-  return ma._tag === 'Left' ? none : some(ma.right)
 }
 
 /**
@@ -199,8 +223,89 @@ export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
 /**
  * @since 2.0.0
  */
-export function exists<A>(ma: Option<A>, predicate: (a: A) => boolean): boolean {
+export function exists<A>(ma: Option<A>, predicate: Predicate<A>): boolean {
   return isNone(ma) ? false : predicate(ma.value)
+}
+
+/**
+ * @example
+ * import { none, some, fromPredicate } from 'fp-ts/lib/Option'
+ *
+ * const positive = fromPredicate((n: number) => n >= 0)
+ *
+ * assert.deepStrictEqual(positive(-1), none)
+ * assert.deepStrictEqual(positive(1), some(1))
+ *
+ * @since 2.0.0
+ */
+export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
+export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
+  return a => (predicate(a) ? some(a) : none)
+}
+
+/**
+ * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
+ * `Some`
+ *
+ * @example
+ * import { none, some, tryCatch } from 'fp-ts/lib/Option'
+ *
+ * assert.deepStrictEqual(
+ *   tryCatch(() => {
+ *     throw new Error()
+ *   }),
+ *   none
+ * )
+ * assert.deepStrictEqual(tryCatch(() => 1), some(1))
+ *
+ * @since 2.0.0
+ */
+export function tryCatch<A>(f: Lazy<A>): Option<A> {
+  try {
+    return some(f())
+  } catch (e) {
+    return none
+  }
+}
+
+/**
+ * Returns an `L` value if possible
+ *
+ * @since 2.0.0
+ */
+export function getLeft<L, A>(ma: Either<L, A>): Option<L> {
+  return ma._tag === 'Right' ? none : some(ma.left)
+}
+
+/**
+ * Returns an `A` value if possible
+ *
+ * @since 2.0.0
+ */
+export function getRight<L, A>(ma: Either<L, A>): Option<A> {
+  return ma._tag === 'Left' ? none : some(ma.right)
+}
+
+/**
+ * Returns a refinement from a prism.
+ * This function ensures that a custom type guard definition is type-safe.
+ *
+ * ```ts
+ * import { some, none, getRefinement } from 'fp-ts/lib/Option'
+ *
+ * type A = { type: 'A' }
+ * type B = { type: 'B' }
+ * type C = A | B
+ *
+ * const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
+ * const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
+ * ```
+ *
+ * @since 2.0.0
+ */
+export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> {
+  return (a: A): a is B => isSome(getOption(a))
 }
 
 /**
@@ -213,7 +318,7 @@ export function mapNullable<A, B>(ma: Option<A>, f: (a: A) => B | null | undefin
 /**
  * @since 2.0.0
  */
-export const getShow = <A>(S: Show<A>): Show<Option<A>> => {
+export function getShow<A>(S: Show<A>): Show<Option<A>> {
   return {
     show: ma => (isNone(ma) ? 'none' : `some(${S.show(ma.value)})`)
   }
@@ -233,7 +338,7 @@ export const getShow = <A>(S: Show<A>): Show<Option<A>> => {
  *
  * @since 2.0.0
  */
-export const getEq = <A>(E: Eq<A>): Eq<Option<A>> => {
+export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
   return fromEquals((x, y) => (isNone(x) ? isNone(y) : isNone(y) ? false : E.equals(x.value, y.value)))
 }
 /**
@@ -257,57 +362,8 @@ export const getEq = <A>(E: Eq<A>): Eq<Option<A>> => {
  *
  * @since 2.0.0
  */
-export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
+export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
   return fromCompare((x, y) => (isSome(x) ? (isSome(y) ? O.compare(x.value, y.value) : 1) : -1))
-}
-
-const map = <A, B>(ma: Option<A>, f: (a: A) => B): Option<B> => {
-  return isNone(ma) ? ma : some(f(ma.value))
-}
-
-/**
- * @since 2.0.0
- */
-export const some = <A>(a: A): Option<A> => {
-  return { _tag: 'Some', value: a }
-}
-
-const of = some
-
-const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => {
-  return isNone(fab) ? fab : isNone(fa) ? fa : some(fab.value(fa.value))
-}
-
-const chain = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => {
-  return isNone(fa) ? fa : f(fa.value)
-}
-
-const reduce = <A, B>(fa: Option<A>, b: B, f: (b: B, a: A) => B): B => {
-  return isNone(fa) ? b : f(b, fa.value)
-}
-
-const foldMap = <M>(M: Monoid<M>) => <A>(fa: Option<A>, f: (a: A) => M): M => {
-  return isNone(fa) ? M.empty : f(fa.value)
-}
-
-const reduceRight = <A, B>(fa: Option<A>, b: B, f: (a: A, b: B) => B): B => {
-  return isNone(fa) ? b : f(fa.value, b)
-}
-
-const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
-  return isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
-}
-
-const sequence = <F>(F: Applicative<F>) => <A>(ta: Option<HKT<F, A>>): HKT<F, Option<A>> => {
-  return isNone(ta) ? F.of(none) : F.map(ta.value, some)
-}
-
-const extend = <A, B>(ea: Option<A>, f: (ea: Option<A>) => B): Option<B> => {
-  return isNone(ea) ? ea : some(f(ea))
-}
-
-const zero = <A>(): Option<A> => {
-  return none
 }
 
 /**
@@ -332,7 +388,7 @@ const zero = <A>(): Option<A> => {
  *
  * @since 2.0.0
  */
-export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
+export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> {
   return {
     concat: (x, y) => (isSome(x) && isSome(y) ? some(S.concat(x.value, y.value)) : none)
   }
@@ -341,7 +397,7 @@ export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => {
 /**
  * @since 2.0.0
  */
-export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
+export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> {
   return {
     ...getApplySemigroup(M),
     empty: some(M.empty)
@@ -369,7 +425,7 @@ export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
  *
  * @since 2.0.0
  */
-export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
+export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
   return {
     concat: (x, y) => (isNone(x) ? y : x),
     empty: none
@@ -397,7 +453,7 @@ export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
  *
  * @since 2.0.0
  */
-export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
+export function getLastMonoid<A = never>(): Monoid<Option<A>> {
   return getDualMonoid(getFirstMonoid())
 }
 
@@ -424,118 +480,45 @@ export const getLastMonoid = <A = never>(): Monoid<Option<A>> => {
  *
  * @since 2.0.0
  */
-export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => {
+export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> {
   return {
     concat: (x, y) => (isNone(x) ? y : isNone(y) ? x : some(S.concat(x.value, y.value))),
     empty: none
   }
 }
 
-/**
- * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
- * returns the value wrapped in a `Some`
- *
- * @example
- * import { none, some, fromNullable } from 'fp-ts/lib/Option'
- *
- * assert.deepStrictEqual(fromNullable(undefined), none)
- * assert.deepStrictEqual(fromNullable(null), none)
- * assert.deepStrictEqual(fromNullable(1), some(1))
- *
- * @since 2.0.0
- */
-export const fromNullable = <A>(a: A | null | undefined): Option<A> => {
-  return a == null ? none : some(a)
+const filter = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> => {
+  return isNone(fa) ? none : predicate(fa.value) ? fa : none
 }
 
-/**
- * @example
- * import { none, some, fromPredicate } from 'fp-ts/lib/Option'
- *
- * const positive = fromPredicate((n: number) => n >= 0)
- *
- * assert.deepStrictEqual(positive(-1), none)
- * assert.deepStrictEqual(positive(1), some(1))
- *
- * @since 2.0.0
- */
-export function fromPredicate<A, B extends A>(predicate: Refinement<A, B>): (a: A) => Option<B>
-export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A>
-export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> {
-  return a => (predicate(a) ? some(a) : none)
-}
-
-/**
- * Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwise returns the output wrapped in
- * `Some`
- *
- * @example
- * import { none, some, tryCatch } from 'fp-ts/lib/Option'
- *
- * assert.deepStrictEqual(
- *   tryCatch(() => {
- *     throw new Error()
- *   }),
- *   none
- * )
- * assert.deepStrictEqual(tryCatch(() => 1), some(1))
- *
- * @since 2.0.0
- */
-export const tryCatch = <A>(f: Lazy<A>): Option<A> => {
-  try {
-    return some(f())
-  } catch (e) {
-    return none
+const partition = <A>(fa: Option<A>, predicate: Predicate<A>): Separated<Option<A>, Option<A>> => {
+  return {
+    left: filter(fa, not(predicate)),
+    right: filter(fa, predicate)
   }
 }
 
-/**
- * Returns `true` if the option is an instance of `Some`, `false` otherwise
- *
- * @since 2.0.0
- */
-export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
-  return fa._tag === 'Some'
+const chain = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => {
+  return isNone(fa) ? fa : f(fa.value)
 }
 
-/**
- * Returns `true` if the option is `None`, `false` otherwise
- *
- * @since 2.0.0
- */
-export const isNone = <A>(fa: Option<A>): fa is None => {
-  return fa._tag === 'None'
+const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
+  return isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
 }
 
-/**
- * Returns a refinement from a prism.
- * This function ensures that a custom type guard definition is type-safe.
- *
- * ```ts
- * import { some, none, getRefinement } from 'fp-ts/lib/Option'
- *
- * type A = { type: 'A' }
- * type B = { type: 'B' }
- * type C = A | B
- *
- * const isA = (c: C): c is A => c.type === 'B' // <= typo but typescript doesn't complain
- * const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // static error: Type '"B"' is not assignable to type '"A"'
- * ```
- *
- * @since 2.0.0
- */
-export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => {
-  return (a: A): a is B => isSome(getOption(a))
+const sequence = <F>(F: Applicative<F>) => <A>(ta: Option<HKT<F, A>>): HKT<F, Option<A>> => {
+  return isNone(ta) ? F.of(none) : F.map(ta.value, some)
 }
-
-const compact = <A>(fa: Option<Option<A>>): Option<A> => chain(fa, identity)
 
 const defaultSeparate = { left: none, right: none }
 
-const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
+const map = <A, B>(ma: Option<A>, f: (a: A) => B): Option<B> => {
+  return isNone(ma) ? ma : some(f(ma.value))
+}
+
+const separate = <RL, RR>(ma: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
   return getOrElse(
-    map(fa, e => ({
+    map(ma, e => ({
       left: getLeft(e),
       right: getRight(e)
     })),
@@ -543,20 +526,8 @@ const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Opt
   )
 }
 
-const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => (isNone(fa) ? fa : p(fa.value) ? fa : none)
-
-const filterMap = chain
-
-const partitionMap = <RL, RR, A>(fa: Option<A>, f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> =>
-  separate(map(fa, f))
-
-const partition = <A>(fa: Option<A>, p: Predicate<A>): Separated<Option<A>, Option<A>> => ({
-  left: filter(fa, not(p)),
-  right: filter(fa, p)
-})
-
 const wither = <F>(F: Applicative<F>) => <A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>): HKT<F, Option<B>> =>
-  isNone(fa) ? F.of(fa as any) : f(fa.value)
+  isNone(fa) ? F.of(none) : f(fa.value)
 
 const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
   fa: Option<A>,
@@ -591,23 +562,23 @@ export const option: Monad1<URI> &
   Witherable1<URI> = {
   URI,
   map,
-  of,
-  ap,
+  of: some,
+  ap: (mab, ma) => (isNone(mab) ? mab : isNone(ma) ? ma : some(mab.value(ma.value))),
   chain,
-  reduce,
-  foldMap,
-  reduceRight,
+  reduce: (fa, b, f) => (isNone(fa) ? b : f(b, fa.value)),
+  foldMap: M => (fa, f) => (isNone(fa) ? M.empty : f(fa.value)),
+  reduceRight: (fa, b, f) => (isNone(fa) ? b : f(fa.value, b)),
   traverse,
   sequence,
-  zero,
+  zero: () => none,
   alt: (ma, f) => (isNone(ma) ? f() : ma),
-  extend,
-  compact,
+  extend: (wa, f) => (isNone(wa) ? wa : some(f(wa))),
+  compact: ma => chain(ma, identity),
   separate,
   filter,
-  filterMap,
+  filterMap: chain,
   partition,
-  partitionMap,
+  partitionMap: (fa, f) => separate(map(fa, f)),
   wither,
   wilt
 }

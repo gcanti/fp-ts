@@ -27,7 +27,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [dropEnd (function)](#dropend-function)
 - [dropWhile (function)](#dropwhile-function)
 - [elem (function)](#elem-function)
-- [~~filter~~ (function)](#filter-function)
+- [filter (function)](#filter-function)
 - [findFirst (function)](#findfirst-function)
 - [findFirstMap (function)](#findfirstmap-function)
 - [findIndex (function)](#findindex-function)
@@ -54,7 +54,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [lookup (function)](#lookup-function)
 - [makeBy (function)](#makeby-function)
 - [modifyAt (function)](#modifyat-function)
-- [~~partition~~ (function)](#partition-function)
+- [partition (function)](#partition-function)
 - [partitionMap (function)](#partitionmap-function)
 - [range (function)](#range-function)
 - [replicate (function)](#replicate-function)
@@ -395,7 +395,7 @@ assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
 
 Added in v2.0.0
 
-# ~~filter~~ (function)
+# filter (function)
 
 Use `array.filter` instead
 
@@ -946,7 +946,7 @@ assert.deepStrictEqual(modifyAt(1, [], double), none)
 
 Added in v2.0.0
 
-# ~~partition~~ (function)
+# partition (function)
 
 Use `array.partition` instead
 
@@ -1002,21 +1002,6 @@ assert.deepStrictEqual(range(1, 5), [1, 2, 3, 4, 5])
 
 Added in v2.0.0
 
-<<<<<<< HEAD
-# ~~refine~~ (function)
-
-Use `array.filter` instead
-
-**Signature**
-
-```ts
-export const refine = <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B> => ...
-```
-
-Added in v1.0.0
-
-=======
->>>>>>> remove deprecated APIs
 # replicate (function)
 
 Create an array containing a value repeated the specified number of times

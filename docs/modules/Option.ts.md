@@ -8,7 +8,7 @@ parent: Modules
 
 If you have worked with JavaScript at all in the past, it is very likely that you have come across a `TypeError` at
 some time (other languages will throw similarly named errors in such a case). Usually this happens because some
-method returns `null` or `undefined` when you were not expecting it and thus not dealing with that possibility in
+function returns `null` or `undefined` when you were not expecting it and thus not dealing with that possibility in
 your client code.
 
 ```ts
@@ -16,12 +16,12 @@ const as: Array<string> = []
 as[0].trim() // throws TypeError: Cannot read property 'trim' of undefined
 ```
 
-fp-ts models the absence of values through the `Option` datatype similar to how Scala, Haskell and other FP languages
+`fp-ts` models the absence of values through the `Option` datatype similar to how Scala, Haskell and other FP languages
 handle optional values. A value of `null` or `undefined` is often abused to represent an absent optional value.
 
 `Option<A>` is a container for an optional value of type `A`. If the value of type `A` is present, the `Option<A>` is
 an instance of `Some<A>`, containing the present value of type `A`. If the value is absent, the `Option<A>` is an
-instance of `None<A>`.
+instance of `None`.
 
 An option could be looked at as a collection or foldable structure with either one or zero elements.
 Another way to look at option is: it represents the effect of a possibly failing computation.
@@ -36,7 +36,7 @@ const emptyValue: Option<string> = none
 Let's write a function that may or not give us a string, thus returning `Option<string>`
 
 ```ts
-const head = (as: Array<string>): Option<string> => {
+function head(as: Array<string>): Option<string> {
   return as.length > 0 ? some(as[0]) : none
 }
 ```
@@ -44,47 +44,46 @@ const head = (as: Array<string>): Option<string> => {
 Using `getOrElse` we can provide a default value `"No value"` when the optional argument `None` does not exist:
 
 ```ts
+import { getOrElse } from 'fp-ts/lib/Option'
+
 const value1 = head(['foo', 'bar']) // some('foo)
 const value2 = head([]) // none
-value1.getOrElse('No value') // 'foo'
-value2.getOrElse('No value') // 'No value'
+getOrElse(value1, 'No value') // 'foo'
+getOrElse(value2, 'No value') // 'No value'
 ```
 
 Checking whether option has value:
 
 ```ts
-value1.isNone() // false
-value2.isNone() // true
+import { isNone } from 'fp-ts/lib/Option'
+
+isNone(value1) // false
+isNone(value2) // true
 ```
 
-We can pattern match using the `fold` method
+We can pattern match using the `fold` function
 
 ```ts
-const number: Option<number> = some(3)
-const noNumber: Option<number> = none
-number.fold(1, n => n * 3) // 9
-noNumber.fold(1, n => n * 3) // 1
+import { fold } from 'fp-ts/lib/Option'
+
+const x: Option<number> = some(3)
+const y: Option<number> = none
+fold(x, 1, n => n * 3) // 9
+fold(y, 1, n => n * 3) // 1
 ```
 
-You can chain several possibly failing computations using the `chain` method
+You can chain several possibly failing computations using the `chain` function
 
 ```ts
-const inverse = (n: number): Option<number> => {
+import { option } from 'fp-ts/lib/Option'
+
+function inverse(n: number): Option<number> {
   return n === 0 ? none : some(1 / n)
 }
 
-number.chain(inverse) // 1/3
-noNumber.chain(inverse) // none
-some(0).chain(inverse) // none
-```
-
-Computing over independent values
-
-```ts
-const sum = (a: number) => (b: number): number => a + b
-const sumLifted = (oa: Option<number>, ob: Option<number>): Option<number> => ob.ap(oa.map(sum))
-sumLifted(some(1), some(2)) // some(3)
-sumLifted(some(1), none) // none
+option.chain(x, inverse) // 1/3
+option.chain(y, inverse) // none
+option.chain(some(0), inverse) // none
 ```
 
 ---
@@ -217,7 +216,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function exists<A>(ma: Option<A>, predicate: (a: A) => boolean): boolean { ... }
+export function exists<A>(ma: Option<A>, predicate: Predicate<A>): boolean { ... }
 ```
 
 Added in v2.0.0
@@ -233,6 +232,8 @@ export function fold<A, R>(ma: Option<A>, onNone: R, onSome: (a: A) => R): R { .
 Added in v2.0.0
 
 # foldL (function)
+
+Lazy version of `fold`
 
 **Signature**
 
@@ -250,7 +251,7 @@ returns the value wrapped in a `Some`
 **Signature**
 
 ```ts
-export const fromNullable = <A>(a: A | null | undefined): Option<A> => ...
+export function fromNullable<A>(a: A | null | undefined): Option<A> { ... }
 ```
 
 **Example**
@@ -270,7 +271,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromPredicate<A, B extends A>(predicate: Refinement<A, B>): (a: A) => Option<B>
+export function fromPredicate<A, B extends A>(refinement: Refinement<A, B>): (a: A) => Option<B>
 export function fromPredicate<A>(predicate: Predicate<A>): (a: A) => Option<A> { ... }
 ```
 
@@ -292,7 +293,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => ...
+export function getApplyMonoid<A>(M: Monoid<A>): Monoid<Option<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -311,7 +312,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApplySemigroup = <A>(S: Semigroup<A>): Semigroup<Option<A>> => ...
+export function getApplySemigroup<A>(S: Semigroup<A>): Semigroup<Option<A>> { ... }
 ```
 
 **Example**
@@ -334,7 +335,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getEq = <A>(E: Eq<A>): Eq<Option<A>> => ...
+export function getEq<A>(E: Eq<A>): Eq<Option<A>> { ... }
 ```
 
 **Example**
@@ -367,7 +368,7 @@ Monoid returning the left-most non-`None` value
 **Signature**
 
 ```ts
-export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => ...
+export function getFirstMonoid<A = never>(): Monoid<Option<A>> { ... }
 ```
 
 **Example**
@@ -398,7 +399,7 @@ Monoid returning the right-most non-`None` value
 **Signature**
 
 ```ts
-export const getLastMonoid = <A = never>(): Monoid<Option<A>> => ...
+export function getLastMonoid<A = never>(): Monoid<Option<A>> { ... }
 ```
 
 **Example**
@@ -422,7 +423,7 @@ Returns an `L` value if possible
 **Signature**
 
 ```ts
-export const getLeft = <L, A>(ma: Either<L, A>): Option<L> => ...
+export function getLeft<L, A>(ma: Either<L, A>): Option<L> { ... }
 ```
 
 Added in v2.0.0
@@ -442,7 +443,7 @@ appended using the provided `Semigroup`
 **Signature**
 
 ```ts
-export const getMonoid = <A>(S: Semigroup<A>): Monoid<Option<A>> => ...
+export function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>> { ... }
 ```
 
 **Example**
@@ -491,7 +492,7 @@ the type the `Option` contains.
 **Signature**
 
 ```ts
-export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => ...
+export function getOrd<A>(O: Ord<A>): Ord<Option<A>> { ... }
 ```
 
 **Example**
@@ -529,7 +530,7 @@ const isA = getRefinement<C, A>(c => (c.type === 'B' ? some(c) : none)) // stati
 **Signature**
 
 ```ts
-export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> => ...
+export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): Refinement<A, B> { ... }
 ```
 
 Added in v2.0.0
@@ -541,7 +542,7 @@ Returns an `A` value if possible
 **Signature**
 
 ```ts
-export const getRight = <L, A>(ma: Either<L, A>): Option<A> => ...
+export function getRight<L, A>(ma: Either<L, A>): Option<A> { ... }
 ```
 
 Added in v2.0.0
@@ -551,7 +552,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow = <A>(S: Show<A>): Show<Option<A>> => ...
+export function getShow<A>(S: Show<A>): Show<Option<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -595,7 +596,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const some = <A>(a: A): Option<A> => ...
+export function some<A>(a: A): Option<A> { ... }
 ```
 
 Added in v2.0.0
@@ -628,7 +629,7 @@ Transforms an exception into an `Option`. If `f` throws, returns `None`, otherwi
 **Signature**
 
 ```ts
-export const tryCatch = <A>(f: Lazy<A>): Option<A> => ...
+export function tryCatch<A>(f: Lazy<A>): Option<A> { ... }
 ```
 
 **Example**

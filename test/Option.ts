@@ -244,11 +244,10 @@ describe('Option', () => {
   })
 
   it('exists', () => {
-    const is2 = (a: number) => a === 2
-
-    assert.deepStrictEqual(O.exists(O.none, is2), false)
-    assert.deepStrictEqual(O.exists(O.some(1), is2), false)
-    assert.deepStrictEqual(O.exists(O.some(2), is2), true)
+    const predicate = (a: number) => a === 2
+    assert.deepStrictEqual(O.exists(O.none, predicate), false)
+    assert.deepStrictEqual(O.exists(O.some(1), predicate), false)
+    assert.deepStrictEqual(O.exists(O.some(2), predicate), true)
   })
 
   it('tryCatch', () => {
@@ -269,10 +268,10 @@ describe('Option', () => {
   })
 
   it('filter', () => {
-    const is2 = (a: number) => a === 2
-    assert.deepStrictEqual(O.option.filter(O.none, is2), O.none)
-    assert.deepStrictEqual(O.option.filter(O.some(1), is2), O.none)
-    assert.deepStrictEqual(O.option.filter(O.some(2), is2), O.some(2))
+    const predicate = (a: number) => a === 2
+    assert.deepStrictEqual(O.option.filter(O.none, predicate), O.none)
+    assert.deepStrictEqual(O.option.filter(O.some(1), predicate), O.none)
+    assert.deepStrictEqual(O.option.filter(O.some(2), predicate), O.some(2))
   })
 
   it('filterMap', () => {
