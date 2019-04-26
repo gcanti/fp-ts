@@ -27,6 +27,7 @@ import * as Fu from '../../lib/function'
 import * as Ring from '../../lib/Ring'
 import * as Field from '../../lib/Field'
 import * as NEA2v from '../../lib/NonEmptyArray2v'
+import * as Map from '../../lib/Map'
 
 const double = (n: number): number => n * 2
 const len = (s: string): number => s.length
@@ -437,3 +438,15 @@ const filterableEither = E.getFilterable(Mon.monoidAll)
 
 filterableEither.filter(E.right<boolean, string | number>(1), isString) // $ExpectType Either<boolean, string>
 filterableEither.partition(E.right<boolean, string | number>(1), isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>
+
+declare function isStringWithIndex(i: number, x: unknown): x is string
+
+A.array.filterWithIndex([] as Array<string | number>, isStringWithIndex) // $ExpectType string[]
+A.array.partitionWithIndex([] as Array<string | number>, isStringWithIndex) // $ExpectType Separated<(string | number)[], string[]>
+
+const filterableWithIndexMap = Map.getFilterableWithIndex<'a' | 'b'>()
+
+declare function isStringWithKey(i: 'a' | 'b', x: unknown): x is string
+
+filterableWithIndexMap.filterWithIndex(Map.empty as Map<'a' | 'b', string | number>, isStringWithKey) // $ExpectType Map<"a" | "b", string>
+filterableWithIndexMap.partitionWithIndex(Map.empty as Map<'a' | 'b', string | number>, isStringWithKey) // $ExpectType Separated<Map<"a" | "b", string | number>, Map<"a" | "b", string>>
