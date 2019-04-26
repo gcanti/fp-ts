@@ -875,12 +875,13 @@ export const findLastIndex = <A>(as: Array<A>, predicate: Predicate<A>): Option<
 }
 
 /**
- * Use `filter` instead
+ * Use `array.filter` instead
  *
  * @since 1.0.0
  * @deprecated
  */
 export const refine = <A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B> => {
+  // tslint:disable-next-line: deprecation
   return filter(as, refinement)
 }
 
@@ -1325,9 +1326,10 @@ export const partitionMap = <A, L, R>(fa: Array<A>, f: (a: A) => Either<L, R>): 
 }
 
 /**
- * Filter an array, keeping the elements which satisfy a predicate function, creating a new array
+ * Use `array.filter` instead
  *
  * @since 1.0.0
+ * @deprecated
  */
 export function filter<A, B extends A>(as: Array<A>, predicate: Refinement<A, B>): Array<B>
 export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
@@ -1336,8 +1338,10 @@ export function filter<A>(as: Array<A>, predicate: Predicate<A>): Array<A> {
 }
 
 /**
+ * Use `array.partition` instead
  *
  * @since 1.12.0
+ * @deprecated
  */
 export function partition<A, B extends A>(fa: Array<A>, p: Refinement<A, B>): Separated<Array<A>, Array<B>>
 export function partition<A>(fa: Array<A>, p: Predicate<A>): Separated<Array<A>, Array<A>>

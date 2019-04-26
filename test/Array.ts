@@ -8,7 +8,6 @@ import {
   deleteAt,
   drop,
   dropWhile,
-  filter,
   findFirst,
   findIndex,
   findLast,
@@ -59,7 +58,6 @@ import {
   findLastIndex,
   zipWith,
   comprehension,
-  partition,
   union,
   intersection,
   difference,
@@ -218,11 +216,6 @@ describe('Array', () => {
     assert.deepStrictEqual(takeWhile([], n => n % 2 === 0), [])
     assert.deepStrictEqual(takeWhile([1, 2, 4], n => n % 2 === 0), [])
     assert.deepStrictEqual(takeWhile([2, 4], n => n % 2 === 0), [2, 4])
-
-    // refinements
-    const xs: Array<string | number> = [1, 'a', 3]
-    const isString = (u: string | number): u is string => typeof u === 'string'
-    assert.deepStrictEqual(filter(xs, isString), ['a'])
   })
 
   it('drop', () => {
@@ -592,12 +585,17 @@ describe('Array', () => {
   })
 
   it('filter', () => {
+    const filter = array.filter
     assert.deepStrictEqual(filter([1, 2, 3], n => n % 2 === 1), [1, 3])
     assert.deepStrictEqual(array.filter([1, 2, 3], n => n % 2 === 1), [1, 3])
     const x = filter([some(3), some(2), some(1)], isSome)
     assert.deepStrictEqual(x, [some(3), some(2), some(1)])
     const y = filter([some(3), none, some(1)], isSome)
     assert.deepStrictEqual(y, [some(3), some(1)])
+    // refinements
+    const xs: Array<string | number> = [1, 'a', 3]
+    const isString = (u: string | number): u is string => typeof u === 'string'
+    assert.deepStrictEqual(filter(xs, isString), ['a'])
   })
 
   it('filterWithIndex', () => {
@@ -623,8 +621,9 @@ describe('Array', () => {
   })
 
   it('partition', () => {
-    assert.deepStrictEqual(array.partition([], p), { left: [], right: [] })
-    assert.deepStrictEqual(array.partition([1, 3], p), { left: [1], right: [3] })
+    const partition = array.partition
+    assert.deepStrictEqual(partition([], p), { left: [], right: [] })
+    assert.deepStrictEqual(partition([1, 3], p), { left: [1], right: [3] })
     // refinements
     const xs: Array<string | number> = ['a', 'b', 1]
     const isNumber = (x: string | number): x is number => typeof x === 'number'
