@@ -192,13 +192,6 @@ export function getOrElseL<A>(ma: Option<A>, f: () => A): A {
 /**
  * @since 2.0.0
  */
-export function orElse<A>(ma: Option<A>, f: () => Option<A>): Option<A> {
-  return isNone(ma) ? f() : ma
-}
-
-/**
- * @since 2.0.0
- */
 export function contains<A>(S: Setoid<A>): (ma: Option<A>, a: A) => boolean {
   return (ma, a) => (isNone(ma) ? false : S.equals(a, ma.value))
 }
@@ -607,7 +600,7 @@ export const option: Monad1<URI> &
   traverse,
   sequence,
   zero,
-  alt: orElse,
+  alt: (ma, f) => (isNone(ma) ? f() : ma),
   extend,
   compact,
   separate,
