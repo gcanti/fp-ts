@@ -21,7 +21,7 @@ import {
   Separated
 } from './Compactable'
 import { Either } from './Either'
-import { Predicate } from './function'
+import { Predicate, Refinement } from './function'
 import {
   Functor,
   Functor1,
@@ -40,6 +40,16 @@ import {
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Option, some, none } from './Option'
 
+interface Filter<F> {
+  <A, B extends A>(fa: HKT<F, A>, refinement: Refinement<A, B>): HKT<F, B>
+  <A>(fa: HKT<F, A>, predicate: Predicate<A>): HKT<F, A>
+}
+
+interface Partition<F> {
+  <A, B extends A>(fa: HKT<F, A>, refinement: Refinement<A, B>): Separated<HKT<F, A>, HKT<F, B>>
+  <A>(fa: HKT<F, A>, predicate: Predicate<A>): Separated<HKT<F, A>, HKT<F, A>>
+}
+
 /**
  * @since 1.7.0
  */
@@ -51,7 +61,7 @@ export interface Filterable<F> extends Functor<F>, Compactable<F> {
   /**
    * Partition a data structure based on a boolean predicate.
    */
-  readonly partition: <A>(fa: HKT<F, A>, p: Predicate<A>) => Separated<HKT<F, A>, HKT<F, A>>
+  readonly partition: Partition<F>
   /**
    * Map over a data structure and filter based on an option predicate.
    */
@@ -59,7 +69,17 @@ export interface Filterable<F> extends Functor<F>, Compactable<F> {
   /**
    * Filter a data structure based on a boolean predicate.
    */
-  readonly filter: <A>(fa: HKT<F, A>, p: Predicate<A>) => HKT<F, A>
+  readonly filter: Filter<F>
+}
+
+interface Filter1<F extends URIS> {
+  <A, B extends A>(fa: Type<F, A>, refinement: Refinement<A, B>): Type<F, B>
+  <A>(fa: Type<F, A>, predicate: Predicate<A>): Type<F, A>
+}
+
+interface Partition1<F extends URIS> {
+  <A, B extends A>(fa: Type<F, A>, refinement: Refinement<A, B>): Separated<Type<F, A>, Type<F, B>>
+  <A>(fa: Type<F, A>, predicate: Predicate<A>): Separated<Type<F, A>, Type<F, A>>
 }
 
 /**
@@ -67,9 +87,19 @@ export interface Filterable<F> extends Functor<F>, Compactable<F> {
  */
 export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F> {
   readonly partitionMap: <RL, RR, A>(fa: Type<F, A>, f: (a: A) => Either<RL, RR>) => Separated<Type<F, RL>, Type<F, RR>>
-  readonly partition: <A>(fa: Type<F, A>, p: Predicate<A>) => Separated<Type<F, A>, Type<F, A>>
+  readonly partition: Partition1<F>
   readonly filterMap: <A, B>(fa: Type<F, A>, f: (a: A) => Option<B>) => Type<F, B>
-  readonly filter: <A>(fa: Type<F, A>, p: Predicate<A>) => Type<F, A>
+  readonly filter: Filter1<F>
+}
+
+interface Filter2<F extends URIS2> {
+  <L, A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Type2<F, L, B>
+  <L, A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Type2<F, L, A>
+}
+
+interface Partition2<F extends URIS2> {
+  <L, A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Separated<Type2<F, L, A>, Type2<F, L, B>>
+  <L, A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
 }
 
 /**
@@ -80,9 +110,19 @@ export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<
     fa: Type2<F, L, A>,
     f: (a: A) => Either<RL, RR>
   ) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
-  readonly partition: <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Separated<Type2<F, L, A>, Type2<F, L, A>>
+  readonly partition: Partition2<F>
   readonly filterMap: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => Option<B>) => Type2<F, L, B>
-  readonly filter: <L, A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
+  readonly filter: Filter2<F>
+}
+
+interface Filter2C<F extends URIS2, L> {
+  <A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Type2<F, L, B>
+  <A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Type2<F, L, A>
+}
+
+interface Partition2C<F extends URIS2, L> {
+  <A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Separated<Type2<F, L, A>, Type2<F, L, B>>
+  <A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
 }
 
 /**
@@ -93,9 +133,22 @@ export interface Filterable2C<F extends URIS2, L> extends Functor2C<F, L>, Compa
     fa: Type2<F, L, A>,
     f: (a: A) => Either<RL, RR>
   ) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
-  readonly partition: <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Separated<Type2<F, L, A>, Type2<F, L, A>>
+  readonly partition: Partition2C<F, L>
   readonly filterMap: <A, B>(fa: Type2<F, L, A>, f: (a: A) => Option<B>) => Type2<F, L, B>
-  readonly filter: <A>(fa: Type2<F, L, A>, p: Predicate<A>) => Type2<F, L, A>
+  readonly filter: Filter2C<F, L>
+}
+
+interface Filter3<F extends URIS3> {
+  <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Type3<F, U, L, B>
+  <U, L, A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Type3<F, U, L, A>
+}
+
+interface Partition3<F extends URIS3> {
+  <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Separated<
+    Type3<F, U, L, A>,
+    Type3<F, U, L, B>
+  >
+  <U, L, A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
 }
 
 /**
@@ -106,12 +159,19 @@ export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<
     fa: Type3<F, U, L, A>,
     f: (a: A) => Either<RL, RR>
   ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
-  readonly partition: <U, L, A>(
-    fa: Type3<F, U, L, A>,
-    p: Predicate<A>
-  ) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
+  readonly partition: Partition3<F>
   readonly filterMap: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
-  readonly filter: <U, L, A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
+  readonly filter: Filter3<F>
+}
+
+interface Filter3C<F extends URIS3, U, L> {
+  <A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Type3<F, U, L, B>
+  <A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Type3<F, U, L, A>
+}
+
+interface Partition3C<F extends URIS3, U, L> {
+  <A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
+  <A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
 }
 
 /**
@@ -122,9 +182,9 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
     fa: Type3<F, U, L, A>,
     f: (a: A) => Either<RL, RR>
   ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
-  readonly partition: <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
+  readonly partition: Partition3C<F, U, L>
   readonly filterMap: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
-  readonly filter: <A>(fa: Type3<F, U, L, A>, p: Predicate<A>) => Type3<F, U, L, A>
+  readonly filter: Filter3C<F, U, L>
 }
 
 export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, CompactableComposition<F, G> {
@@ -132,9 +192,12 @@ export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, C
     fa: HKT<F, HKT<G, A>>,
     f: (a: A) => Either<RL, RR>
   ) => Separated<HKT<F, HKT<G, RL>>, HKT<F, HKT<G, RR>>>
-  readonly partition: <A>(fa: HKT<F, HKT<G, A>>, p: Predicate<A>) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
+  readonly partition: <A>(
+    fa: HKT<F, HKT<G, A>>,
+    predicate: Predicate<A>
+  ) => Separated<HKT<F, HKT<G, A>>, HKT<F, HKT<G, A>>>
   readonly filterMap: <A, B>(fa: HKT<F, HKT<G, A>>, f: (a: A) => Option<B>) => HKT<F, HKT<G, B>>
-  readonly filter: <A>(fa: HKT<F, HKT<G, A>>, p: Predicate<A>) => HKT<F, HKT<G, A>>
+  readonly filter: <A>(fa: HKT<F, HKT<G, A>>, predicate: Predicate<A>) => HKT<F, HKT<G, A>>
 }
 
 export interface FilterableComposition11<F extends URIS, G extends URIS>
@@ -146,10 +209,10 @@ export interface FilterableComposition11<F extends URIS, G extends URIS>
   ) => Separated<Type<F, Type<G, RL>>, Type<F, Type<G, RR>>>
   readonly partition: <A>(
     fa: Type<F, Type<G, A>>,
-    p: Predicate<A>
+    predicate: Predicate<A>
   ) => Separated<Type<F, Type<G, A>>, Type<F, Type<G, A>>>
   readonly filterMap: <A, B>(fa: Type<F, Type<G, A>>, f: (a: A) => Option<B>) => Type<F, Type<G, B>>
-  readonly filter: <A>(fa: Type<F, Type<G, A>>, p: Predicate<A>) => Type<F, Type<G, A>>
+  readonly filter: <A>(fa: Type<F, Type<G, A>>, predicate: Predicate<A>) => Type<F, Type<G, A>>
 }
 
 export interface FilterableComposition12<F extends URIS, G extends URIS2>
@@ -161,10 +224,10 @@ export interface FilterableComposition12<F extends URIS, G extends URIS2>
   ) => Separated<Type<F, Type2<G, LG, RL>>, Type<F, Type2<G, LG, RR>>>
   readonly partition: <LG, A>(
     fa: Type<F, Type2<G, LG, A>>,
-    p: Predicate<A>
+    predicate: Predicate<A>
   ) => Separated<Type<F, Type2<G, LG, A>>, Type<F, Type2<G, LG, A>>>
   readonly filterMap: <LG, A, B>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => Option<B>) => Type<F, Type2<G, LG, B>>
-  readonly filter: <LG, A>(fa: Type<F, Type2<G, LG, A>>, p: Predicate<A>) => Type<F, Type2<G, LG, A>>
+  readonly filter: <LG, A>(fa: Type<F, Type2<G, LG, A>>, predicate: Predicate<A>) => Type<F, Type2<G, LG, A>>
 }
 
 export interface FilterableComposition12C<F extends URIS, G extends URIS2, LG>
@@ -176,10 +239,10 @@ export interface FilterableComposition12C<F extends URIS, G extends URIS2, LG>
   ) => Separated<Type<F, Type2<G, LG, RL>>, Type<F, Type2<G, LG, RR>>>
   readonly partition: <A>(
     fa: Type<F, Type2<G, LG, A>>,
-    p: Predicate<A>
+    predicate: Predicate<A>
   ) => Separated<Type<F, Type2<G, LG, A>>, Type<F, Type2<G, LG, A>>>
   readonly filterMap: <A, B>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => Option<B>) => Type<F, Type2<G, LG, B>>
-  readonly filter: <A>(fa: Type<F, Type2<G, LG, A>>, p: Predicate<A>) => Type<F, Type2<G, LG, A>>
+  readonly filter: <A>(fa: Type<F, Type2<G, LG, A>>, predicate: Predicate<A>) => Type<F, Type2<G, LG, A>>
 }
 
 export interface FilterableComposition21<F extends URIS2, G extends URIS>
@@ -191,10 +254,10 @@ export interface FilterableComposition21<F extends URIS2, G extends URIS>
   ) => Separated<Type2<F, LF, Type<G, RL>>, Type2<F, LF, Type<G, RR>>>
   readonly partition: <LF, A>(
     fa: Type2<F, LF, Type<G, A>>,
-    p: Predicate<A>
+    predicate: Predicate<A>
   ) => Separated<Type2<F, LF, Type<G, A>>, Type2<F, LF, Type<G, A>>>
   readonly filterMap: <LF, A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => Option<B>) => Type2<F, LF, Type<G, B>>
-  readonly filter: <LF, A>(fa: Type2<F, LF, Type<G, A>>, p: Predicate<A>) => Type2<F, LF, Type<G, A>>
+  readonly filter: <LF, A>(fa: Type2<F, LF, Type<G, A>>, predicate: Predicate<A>) => Type2<F, LF, Type<G, A>>
 }
 
 export interface FilterableComposition2C1<F extends URIS2, G extends URIS, LF>
@@ -206,10 +269,10 @@ export interface FilterableComposition2C1<F extends URIS2, G extends URIS, LF>
   ) => Separated<Type2<F, LF, Type<G, RL>>, Type2<F, LF, Type<G, RR>>>
   readonly partition: <A>(
     fa: Type2<F, LF, Type<G, A>>,
-    p: Predicate<A>
+    predicate: Predicate<A>
   ) => Separated<Type2<F, LF, Type<G, A>>, Type2<F, LF, Type<G, A>>>
   readonly filterMap: <A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => Option<B>) => Type2<F, LF, Type<G, B>>
-  readonly filter: <A>(fa: Type2<F, LF, Type<G, A>>, p: Predicate<A>) => Type2<F, LF, Type<G, A>>
+  readonly filter: <A>(fa: Type2<F, LF, Type<G, A>>, predicate: Predicate<A>) => Type2<F, LF, Type<G, A>>
 }
 
 export interface FilterableComposition22<F extends URIS2, G extends URIS2>
@@ -221,13 +284,16 @@ export interface FilterableComposition22<F extends URIS2, G extends URIS2>
   ) => Separated<Type2<F, LF, Type2<G, LG, RL>>, Type2<F, LF, Type2<G, LG, RR>>>
   readonly partition: <LF, LG, A>(
     fa: Type2<F, LF, Type2<G, LG, A>>,
-    p: Predicate<A>
+    predicate: Predicate<A>
   ) => Separated<Type2<F, LF, Type2<G, LG, A>>, Type2<F, LF, Type2<G, LG, A>>>
   readonly filterMap: <LF, LG, A, B>(
     fa: Type2<F, LF, Type2<G, LG, A>>,
     f: (a: A) => Option<B>
   ) => Type2<F, LF, Type2<G, LG, B>>
-  readonly filter: <LF, LG, A>(fa: Type2<F, LF, Type2<G, LG, A>>, p: Predicate<A>) => Type2<F, LF, Type2<G, LG, A>>
+  readonly filter: <LF, LG, A>(
+    fa: Type2<F, LF, Type2<G, LG, A>>,
+    predicate: Predicate<A>
+  ) => Type2<F, LF, Type2<G, LG, A>>
 }
 
 export interface FilterableComposition22C<F extends URIS2, G extends URIS2, LG>
@@ -239,13 +305,13 @@ export interface FilterableComposition22C<F extends URIS2, G extends URIS2, LG>
   ) => Separated<Type2<F, LF, Type2<G, LG, RL>>, Type2<F, LF, Type2<G, LG, RR>>>
   readonly partition: <LF, A>(
     fa: Type2<F, LF, Type2<G, LG, A>>,
-    p: Predicate<A>
+    predicate: Predicate<A>
   ) => Separated<Type2<F, LF, Type2<G, LG, A>>, Type2<F, LF, Type2<G, LG, A>>>
   readonly filterMap: <LF, A, B>(
     fa: Type2<F, LF, Type2<G, LG, A>>,
     f: (a: A) => Option<B>
   ) => Type2<F, LF, Type2<G, LG, B>>
-  readonly filter: <LF, A>(fa: Type2<F, LF, Type2<G, LG, A>>, p: Predicate<A>) => Type2<F, LF, Type2<G, LG, A>>
+  readonly filter: <LF, A>(fa: Type2<F, LF, Type2<G, LG, A>>, predicate: Predicate<A>) => Type2<F, LF, Type2<G, LG, A>>
 }
 
 export interface FilterableComposition3C1<F extends URIS3, G extends URIS, UF, LF>
@@ -257,10 +323,10 @@ export interface FilterableComposition3C1<F extends URIS3, G extends URIS, UF, L
   ) => Separated<Type3<F, UF, LF, Type<G, RL>>, Type3<F, UF, LF, Type<G, RR>>>
   readonly partition: <A>(
     fa: Type3<F, UF, LF, Type<G, A>>,
-    p: Predicate<A>
+    predicate: Predicate<A>
   ) => Separated<Type3<F, UF, LF, Type<G, A>>, Type3<F, UF, LF, Type<G, A>>>
   readonly filterMap: <A, B>(fa: Type3<F, UF, LF, Type<G, A>>, f: (a: A) => Option<B>) => Type3<F, UF, LF, Type<G, B>>
-  readonly filter: <A>(fa: Type3<F, UF, LF, Type<G, A>>, p: Predicate<A>) => Type3<F, UF, LF, Type<G, A>>
+  readonly filter: <A>(fa: Type3<F, UF, LF, Type<G, A>>, predicate: Predicate<A>) => Type3<F, UF, LF, Type<G, A>>
 }
 
 /**

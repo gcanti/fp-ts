@@ -27,9 +27,9 @@ export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filte
     fa: HKT<F, A>,
     f: (i: I, a: A) => Either<RL, RR>
   ) => Separated<HKT<F, RL>, HKT<F, RR>>
-  readonly partitionWithIndex: <A>(fa: HKT<F, A>, p: (i: I, a: A) => boolean) => Separated<HKT<F, A>, HKT<F, A>>
+  readonly partitionWithIndex: <A>(fa: HKT<F, A>, predicate: (i: I, a: A) => boolean) => Separated<HKT<F, A>, HKT<F, A>>
   readonly filterMapWithIndex: <A, B>(fa: HKT<F, A>, f: (i: I, a: A) => Option<B>) => HKT<F, B>
-  readonly filterWithIndex: <A>(fa: HKT<F, A>, p: (i: I, a: A) => boolean) => HKT<F, A>
+  readonly filterWithIndex: <A>(fa: HKT<F, A>, predicate: (i: I, a: A) => boolean) => HKT<F, A>
 }
 ```
 
@@ -45,9 +45,12 @@ export interface FilterableWithIndex1<F extends URIS, I> extends FunctorWithInde
     fa: Type<F, A>,
     f: (i: I, a: A) => Either<RL, RR>
   ) => Separated<Type<F, RL>, Type<F, RR>>
-  readonly partitionWithIndex: <A>(fa: Type<F, A>, p: (i: I, a: A) => boolean) => Separated<Type<F, A>, Type<F, A>>
+  readonly partitionWithIndex: <A>(
+    fa: Type<F, A>,
+    predicate: (i: I, a: A) => boolean
+  ) => Separated<Type<F, A>, Type<F, A>>
   readonly filterMapWithIndex: <A, B>(fa: Type<F, A>, f: (i: I, a: A) => Option<B>) => Type<F, B>
-  readonly filterWithIndex: <A>(fa: Type<F, A>, p: (i: I, a: A) => boolean) => Type<F, A>
+  readonly filterWithIndex: <A>(fa: Type<F, A>, predicate: (i: I, a: A) => boolean) => Type<F, A>
 }
 ```
 
@@ -63,10 +66,10 @@ export interface FilterableWithIndex2<F extends URIS2, I> extends FunctorWithInd
   ) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
   readonly partitionWithIndex: <L, A>(
     fa: Type2<F, L, A>,
-    p: (i: I, a: A) => boolean
+    predicate: (i: I, a: A) => boolean
   ) => Separated<Type2<F, L, A>, Type2<F, L, A>>
   readonly filterMapWithIndex: <L, A, B>(fa: Type2<F, L, A>, f: (i: I, a: A) => Option<B>) => Type2<F, L, B>
-  readonly filterWithIndex: <L, A>(fa: Type2<F, L, A>, p: (i: I, a: A) => boolean) => Type2<F, L, A>
+  readonly filterWithIndex: <L, A>(fa: Type2<F, L, A>, predicate: (i: I, a: A) => boolean) => Type2<F, L, A>
 }
 ```
 
@@ -82,10 +85,10 @@ export interface FilterableWithIndex2C<F extends URIS2, I, L> extends FunctorWit
   ) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
   readonly partitionWithIndex: <A>(
     fa: Type2<F, L, A>,
-    p: (i: I, a: A) => boolean
+    predicate: (i: I, a: A) => boolean
   ) => Separated<Type2<F, L, A>, Type2<F, L, A>>
   readonly filterMapWithIndex: <A, B>(fa: Type2<F, L, A>, f: (i: I, a: A) => Option<B>) => Type2<F, L, B>
-  readonly filterWithIndex: <A>(fa: Type2<F, L, A>, p: (i: I, a: A) => boolean) => Type2<F, L, A>
+  readonly filterWithIndex: <A>(fa: Type2<F, L, A>, predicate: (i: I, a: A) => boolean) => Type2<F, L, A>
 }
 ```
 
@@ -101,10 +104,10 @@ export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithInd
   ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
   readonly partitionWithIndex: <U, L, A>(
     fa: Type3<F, U, L, A>,
-    p: (i: I, a: A) => boolean
+    predicate: (i: I, a: A) => boolean
   ) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
   readonly filterMapWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => Option<B>) => Type3<F, U, L, B>
-  readonly filterWithIndex: <U, L, A>(fa: Type3<F, U, L, A>, p: (i: I, a: A) => boolean) => Type3<F, U, L, A>
+  readonly filterWithIndex: <U, L, A>(fa: Type3<F, U, L, A>, predicate: (i: I, a: A) => boolean) => Type3<F, U, L, A>
 }
 ```
 
@@ -122,9 +125,9 @@ export interface FilterableWithIndex3C<F extends URIS3, I, U, L>
   ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
   readonly partitionWithIndex: <A>(
     fa: Type3<F, U, L, A>,
-    p: (i: I, a: A) => boolean
+    predicate: (i: I, a: A) => boolean
   ) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
   readonly filterMapWithIndex: <A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => Option<B>) => Type3<F, U, L, B>
-  readonly filterWithIndex: <A>(fa: Type3<F, U, L, A>, p: (i: I, a: A) => boolean) => Type3<F, U, L, A>
+  readonly filterWithIndex: <A>(fa: Type3<F, U, L, A>, predicate: (i: I, a: A) => boolean) => Type3<F, U, L, A>
 }
 ```
