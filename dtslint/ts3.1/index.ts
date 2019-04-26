@@ -423,3 +423,17 @@ Fu.tuple() // $ExpectType []
 Fu.tuple(1) // $ExpectType [number]
 Fu.tuple(1, 'a') // $ExpectType [number, string]
 Fu.tuple(1, 'a', true) // $ExpectType [number, string, boolean]
+
+//
+// Filterable overloads
+//
+
+declare function isString(x: unknown): x is string
+
+O.option.filter(O.some<string | number>('a'), isString) // $ExpectType Option<string>
+O.option.partition(O.some<string | number>('a'), isString) // $ExpectType Separated<Option<string | number>, Option<string>>
+
+const filterableEither = E.getFilterable(Mon.monoidAll)
+
+filterableEither.filter(E.right<boolean, string | number>(1), isString) // $ExpectType Either<boolean, string>
+filterableEither.partition(E.right<boolean, string | number>(1), isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>

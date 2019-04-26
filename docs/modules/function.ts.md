@@ -232,7 +232,7 @@ export type Function9<A, B, C, D, E, F, G, H, I, J> = (a: A, b: B, c: C, d: D, e
 **Signature**
 
 ```ts
-export type FunctionN<A extends Array<any>, B> = (...args: A) => B
+export type FunctionN<A extends Array<unknown>, B> = (...args: A) => B
 ```
 
 **Example**
