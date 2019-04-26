@@ -28,7 +28,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [dropEnd (function)](#dropend-function)
 - [dropWhile (function)](#dropwhile-function)
 - [elem (function)](#elem-function)
-- [filter (function)](#filter-function)
+- [~~filter~~ (function)](#filter-function)
 - [findFirst (function)](#findfirst-function)
 - [findFirstMap (function)](#findfirstmap-function)
 - [findIndex (function)](#findindex-function)
@@ -58,7 +58,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [mapOption (function)](#mapoption-function)
 - [~~member~~ (function)](#member-function)
 - [modifyAt (function)](#modifyat-function)
-- [partition (function)](#partition-function)
+- [~~partition~~ (function)](#partition-function)
 - [partitionMap (function)](#partitionmap-function)
 - [range (function)](#range-function)
 - [~~refine~~ (function)](#refine-function)
@@ -424,9 +424,9 @@ assert.strictEqual(elem(setoidNumber)(4, [1, 2, 3]), false)
 
 Added in v1.14.0
 
-# filter (function)
+# ~~filter~~ (function)
 
-Filter an array, keeping the elements which satisfy a predicate function, creating a new array
+Use `array.filter` instead
 
 **Signature**
 
@@ -1023,7 +1023,9 @@ assert.deepStrictEqual(modifyAt([], 1, double), none)
 
 Added in v1.0.0
 
-# partition (function)
+# ~~partition~~ (function)
+
+Use `array.partition` instead
 
 **Signature**
 
@@ -1079,7 +1081,7 @@ Added in v1.10.0
 
 # ~~refine~~ (function)
 
-Use `filter` instead
+Use `array.filter` instead
 
 **Signature**
 
