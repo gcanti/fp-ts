@@ -22,7 +22,6 @@ import {
   last,
   lefts,
   modifyAt,
-  partitionMap,
   rights,
   rotate,
   scanLeft,
@@ -43,7 +42,7 @@ import {
   foldr,
   chop,
   chunksOf,
-  split,
+  splitAt,
   takeEnd,
   dropEnd,
   range,
@@ -570,8 +569,6 @@ describe('Array', () => {
   })
 
   it('partitionMap', () => {
-    assert.deepStrictEqual(partitionMap([], identity), { left: [], right: [] })
-    assert.deepStrictEqual(partitionMap([right(1), left('foo'), right(2)], identity), { left: ['foo'], right: [1, 2] })
     assert.deepStrictEqual(array.partitionMap([], identity), { left: [], right: [] })
     assert.deepStrictEqual(array.partitionMap([right(1), left('foo'), right(2)], identity), {
       left: ['foo'],
@@ -614,14 +611,14 @@ describe('Array', () => {
     assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
   })
 
-  it('split', () => {
-    assert.deepStrictEqual(split(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
-    assert.deepStrictEqual(split(2, []), [[], []])
-    assert.deepStrictEqual(split(2, [1]), [[1], []])
-    assert.deepStrictEqual(split(2, [1, 2]), [[1, 2], []])
-    assert.deepStrictEqual(split(-1, [1, 2]), [[1], [2]])
-    assert.deepStrictEqual(split(0, [1, 2]), [[], [1, 2]])
-    assert.deepStrictEqual(split(3, [1, 2]), [[1, 2], []])
+  it('splitAt', () => {
+    assert.deepStrictEqual(splitAt(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
+    assert.deepStrictEqual(splitAt(2, []), [[], []])
+    assert.deepStrictEqual(splitAt(2, [1]), [[1], []])
+    assert.deepStrictEqual(splitAt(2, [1, 2]), [[1, 2], []])
+    assert.deepStrictEqual(splitAt(-1, [1, 2]), [[1], [2]])
+    assert.deepStrictEqual(splitAt(0, [1, 2]), [[], [1, 2]])
+    assert.deepStrictEqual(splitAt(3, [1, 2]), [[1, 2], []])
   })
 
   it('chunksOf', () => {

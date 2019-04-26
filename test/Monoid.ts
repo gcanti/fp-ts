@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { filter } from '../src/Array'
+import { array } from '../src/Array'
 import { boundedNumber } from '../src/Bounded'
 import {
   fold,
@@ -34,13 +34,13 @@ describe('Monoid', () => {
     const isLessThan10 = (n: number) => n <= 10
     const isEven = (n: number) => n % 2 === 0
 
-    assert.deepStrictEqual(filter([1, 2, 3, 40], fold(getPredicateMonoidAll<number>())([isLessThan10, isEven])), [2])
-    assert.deepStrictEqual(filter([1, 2, 3, 40, 41], fold(getPredicateMonoidAny<number>())([isLessThan10, isEven])), [
-      1,
-      2,
-      3,
-      40
+    assert.deepStrictEqual(array.filter([1, 2, 3, 40], fold(getPredicateMonoidAll<number>())([isLessThan10, isEven])), [
+      2
     ])
+    assert.deepStrictEqual(
+      array.filter([1, 2, 3, 40, 41], fold(getPredicateMonoidAny<number>())([isLessThan10, isEven])),
+      [1, 2, 3, 40]
+    )
   })
 
   it('getArrayMonoid', () => {
