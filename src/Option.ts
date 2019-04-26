@@ -192,8 +192,8 @@ export function getOrElseL<A>(ma: Option<A>, f: () => A): A {
 /**
  * @since 2.0.0
  */
-export function contains<A>(S: Setoid<A>): (ma: Option<A>, a: A) => boolean {
-  return (ma, a) => (isNone(ma) ? false : S.equals(a, ma.value))
+export function elem<A>(S: Setoid<A>): (a: A, ma: Option<A>) => boolean {
+  return (a, ma) => (isNone(ma) ? false : S.equals(a, ma.value))
 }
 
 /**

@@ -98,7 +98,7 @@ sumLifted(some(1), none) // none
 - [URI (constant)](#uri-constant)
 - [none (constant)](#none-constant)
 - [option (constant)](#option-constant)
-- [contains (function)](#contains-function)
+- [elem (function)](#elem-function)
 - [exists (function)](#exists-function)
 - [fold (function)](#fold-function)
 - [foldL (function)](#foldl-function)
@@ -202,12 +202,12 @@ export const option: Monad1<URI> &
 
 Added in v2.0.0
 
-# contains (function)
+# elem (function)
 
 **Signature**
 
 ```ts
-export function contains<A>(S: Setoid<A>): (ma: Option<A>, a: A) => boolean { ... }
+export function elem<A>(S: Setoid<A>): (a: A, ma: Option<A>) => boolean { ... }
 ```
 
 Added in v2.0.0
