@@ -226,11 +226,11 @@ describe('Option', () => {
     assert.deepStrictEqual(M.concat(O.some(1), O.some(2)), O.some(2))
   })
 
-  it('contains', () => {
-    const contains = O.contains(setoidNumber)
-    assert.deepStrictEqual(contains(O.none, 2), false)
-    assert.deepStrictEqual(contains(O.some(2), 2), true)
-    assert.deepStrictEqual(contains(O.some(2), 1), false)
+  it('elem', () => {
+    const elem = O.elem(setoidNumber)
+    assert.deepStrictEqual(elem(2, O.none), false)
+    assert.deepStrictEqual(elem(2, O.some(2)), true)
+    assert.deepStrictEqual(elem(1, O.some(2)), false)
   })
 
   it('isNone', () => {
