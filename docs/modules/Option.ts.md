@@ -120,7 +120,6 @@ sumLifted(some(1), none) // none
 - [isNone (function)](#isnone-function)
 - [isSome (function)](#issome-function)
 - [mapNullable (function)](#mapnullable-function)
-- [orElse (function)](#orelse-function)
 - [some (function)](#some-function)
 - [toNullable (function)](#tonullable-function)
 - [toUndefined (function)](#toundefined-function)
@@ -587,16 +586,6 @@ Added in v2.0.0
 
 ```ts
 export function mapNullable<A, B>(ma: Option<A>, f: (a: A) => B | null | undefined): Option<B> { ... }
-```
-
-Added in v2.0.0
-
-# orElse (function)
-
-**Signature**
-
-```ts
-export function orElse<A>(ma: Option<A>, f: () => Option<A>): Option<A> { ... }
 ```
 
 Added in v2.0.0
