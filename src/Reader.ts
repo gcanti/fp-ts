@@ -1,12 +1,16 @@
 import { Category2 } from './Category'
-import { identity } from './function'
-import { Monad2 } from './Monad'
-import { Profunctor2 } from './Profunctor'
-import { Strong2 } from './Strong'
 import { Choice2 } from './Choice'
 import * as E from './Either'
-import { Semigroup } from './Semigroup'
+import { identity as id } from './function'
+import { identity } from './Identity'
+import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
+import { Profunctor2 } from './Profunctor'
+import { getReaderT } from './ReaderT'
+import { Semigroup } from './Semigroup'
+import { Strong2 } from './Strong'
+
+const T = getReaderT(identity)
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -38,7 +42,7 @@ export function run<E, A>(ma: Reader<E, A>, e: E): A {
  * @since 2.0.0
  */
 export function ask<E>(): Reader<E, E> {
-  return identity
+  return id
 }
 
 /**
@@ -92,12 +96,12 @@ function right<A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
   map: (ma, f) => e => f(ma(e)),
-  of: a => () => a,
-  ap: (mab, ma) => e => mab(e)(ma(e)),
-  chain: (ma, f) => e => f(ma(e))(e),
+  of: T.of,
+  ap: T.ap,
+  chain: T.chain,
   promap: (mbc, f, g) => a => g(mbc(f(a))),
   compose: (ab, la) => l => ab(la(l)),
-  id: () => identity,
+  id: () => id,
   first: pab => ([a, c]) => [pab(a), c],
   second: pbc => ([a, b]) => [a, pbc(b)],
   left,
