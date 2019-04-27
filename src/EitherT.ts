@@ -37,6 +37,6 @@ export function getEitherT<M>(M: Monad<M>): EitherT<M> {
   return {
     ...applicativeComposition,
     chain: (fa, f) => M.chain(fa, e => (isLeft(e) ? M.of(eitherLeft(e.left)) : f(e.right))),
-    fold: (fa, left, right) => M.map(fa, e => (isLeft(e) ? left(e.left) : right(e.right)))
+    fold: (fa, onLeft, onRight) => M.map(fa, e => (isLeft(e) ? onLeft(e.left) : onRight(e.right)))
   }
 }
