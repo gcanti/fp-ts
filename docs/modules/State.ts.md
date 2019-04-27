@@ -11,13 +11,13 @@ parent: Modules
 - [State (interface)](#state-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [gets (constant)](#gets-constant)
+- [modify (constant)](#modify-constant)
+- [put (constant)](#put-constant)
 - [state (constant)](#state-constant)
 - [evalState (function)](#evalstate-function)
 - [execState (function)](#execstate-function)
 - [get (function)](#get-function)
-- [gets (function)](#gets-function)
-- [modify (function)](#modify-function)
-- [put (function)](#put-function)
 - [run (function)](#run-function)
 
 ---
@@ -49,6 +49,42 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+# gets (constant)
+
+Get a value which depends on the current state
+
+**Signature**
+
+```ts
+export const gets: <S, A>(f: (s: S) => A) => State<S, A> = ...
+```
+
+Added in v2.0.0
+
+# modify (constant)
+
+Modify the state by applying a function to the current state
+
+**Signature**
+
+```ts
+export const modify: <S>(f: (s: S) => S) => State<S, void> = ...
+```
+
+Added in v2.0.0
+
+# put (constant)
+
+Set the state
+
+**Signature**
+
+```ts
+export const put: <S>(s: S) => State<S, void> = ...
+```
+
+Added in v2.0.0
 
 # state (constant)
 
@@ -87,43 +123,7 @@ Get the current state
 **Signature**
 
 ```ts
-export const get = <S>(): State<S, S> => ...
-```
-
-Added in v2.0.0
-
-# gets (function)
-
-Get a value which depends on the current state
-
-**Signature**
-
-```ts
-export const gets = <S, A>(f: (s: S) => A): State<S, A> => ...
-```
-
-Added in v2.0.0
-
-# modify (function)
-
-Modify the state by applying a function to the current state
-
-**Signature**
-
-```ts
-export const modify = <S>(f: (s: S) => S): State<S, undefined> => ...
-```
-
-Added in v2.0.0
-
-# put (function)
-
-Set the state
-
-**Signature**
-
-```ts
-export const put = <S>(s: S): State<S, void> => ...
+export const get: <S>() => State<S, S> = () => ...
 ```
 
 Added in v2.0.0

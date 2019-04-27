@@ -1,6 +1,8 @@
 import * as assert from 'assert'
 import * as E from '../src/Either'
 import * as SRTE from '../src/StateReaderTaskEither'
+import { State } from '../src/State'
+import * as RTE from '../src/ReaderTaskEither'
 
 describe('StateReaderTaskEither', () => {
   it('map', () => {
@@ -42,6 +44,20 @@ describe('StateReaderTaskEither', () => {
     const s = {}
     return SRTE.execState(ma, s, {}).then(e => {
       assert.deepStrictEqual(e, E.right(s))
+    })
+  })
+
+  it('fromState', () => {
+    const state: State<{}, number> = s => [1, s]
+    return SRTE.evalState(SRTE.fromState(state), {}, {}).then(e => {
+      assert.deepStrictEqual(e, E.right(1))
+    })
+  })
+
+  it('fromReaderTaskEither', () => {
+    const rte: RTE.ReaderTaskEither<{}, string, number> = RTE.fromRight(1)
+    return SRTE.evalState(SRTE.fromReaderTaskEither(rte), {}, {}).then(e => {
+      assert.deepStrictEqual(e, E.right(1))
     })
   })
 })

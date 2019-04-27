@@ -11,7 +11,9 @@ parent: Modules
 - [StateReaderTaskEither (interface)](#statereadertaskeither-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [fromReaderTaskEither (constant)](#fromreadertaskeither-constant)
 - [fromRight (constant)](#fromright-constant)
+- [fromState (constant)](#fromstate-constant)
 - [stateReaderTaskEither (constant)](#statereadertaskeither-constant)
 - [stateReaderTaskEitherSeq (constant)](#statereadertaskeitherseq-constant)
 - [evalState (function)](#evalstate-function)
@@ -48,12 +50,32 @@ export type URI = typeof URI
 export const URI = ...
 ```
 
+# fromReaderTaskEither (constant)
+
+**Signature**
+
+```ts
+export const  = ...
+```
+
+Added in v2.0.0
+
 # fromRight (constant)
 
 **Signature**
 
 ```ts
 export const fromRight: <S, A>(a: A) => StateReaderTaskEither<S, unknown, never, A> = ...
+```
+
+Added in v2.0.0
+
+# fromState (constant)
+
+**Signature**
+
+```ts
+export const fromState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unknown, never, A> = ...
 ```
 
 Added in v2.0.0
