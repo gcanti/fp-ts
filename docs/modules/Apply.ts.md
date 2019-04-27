@@ -27,6 +27,7 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [Apply2C (interface)](#apply2c-interface)
 - [Apply3 (interface)](#apply3-interface)
 - [Apply3C (interface)](#apply3c-interface)
+- [Apply4 (interface)](#apply4-interface)
 - [sequenceS (function)](#sequences-function)
 - [sequenceT (function)](#sequencet-function)
 
@@ -91,6 +92,16 @@ export interface Apply3<F extends URIS3> extends Functor3<F> {
 ```ts
 export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
   readonly ap: <A, B>(fab: Type3<F, U, L, (a: A) => B>, fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+}
+```
+
+# Apply4 (interface)
+
+**Signature**
+
+```ts
+export interface Apply4<F extends URIS4> extends Functor4<F> {
+  readonly ap: <X, U, L, A, B>(fab: Type4<F, X, U, L, (a: A) => B>, fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
 }
 ```
 

@@ -43,7 +43,7 @@ const extend = <S, A, B>(sa: Store<S, A>, f: (sa: Store<S, A>) => B): Store<S, B
  *
  * @since 2.0.0
  */
-export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => {
+export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (_: S): A => {
   return sa.peek(f(sa.pos))
 }
 

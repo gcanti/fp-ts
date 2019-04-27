@@ -32,6 +32,7 @@ Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 - [Applicative2C (interface)](#applicative2c-interface)
 - [Applicative3 (interface)](#applicative3-interface)
 - [Applicative3C (interface)](#applicative3c-interface)
+- [Applicative4 (interface)](#applicative4-interface)
 - [ApplicativeComposition (interface)](#applicativecomposition-interface)
 - [ApplicativeComposition11 (interface)](#applicativecomposition11-interface)
 - [ApplicativeComposition12 (interface)](#applicativecomposition12-interface)
@@ -104,6 +105,16 @@ export interface Applicative3<F extends URIS3> extends Apply3<F> {
 ```ts
 export interface Applicative3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
   readonly of: <A>(a: A) => Type3<F, U, L, A>
+}
+```
+
+# Applicative4 (interface)
+
+**Signature**
+
+```ts
+export interface Applicative4<F extends URIS4> extends Apply4<F> {
+  readonly of: <X, U, L, A>(a: A) => Type4<F, X, U, L, A>
 }
 ```
 

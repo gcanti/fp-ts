@@ -1,6 +1,6 @@
 ---
 title: Store.ts
-nav_order: 78
+nav_order: 79
 parent: Modules
 ---
 
@@ -86,7 +86,7 @@ Extract a value from a position which depends on the current position
 **Signature**
 
 ```ts
-export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (s: S): A => ...
+export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (_: S): A => ...
 ```
 
 Added in v2.0.0

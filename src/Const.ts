@@ -43,7 +43,7 @@ export function getEq<L, A>(E: Eq<L>): Eq<Const<L, A>> {
   return E
 }
 
-const map = <L, A, B>(fa: Const<L, A>, f: (a: A) => B): Const<L, B> => {
+const map = <L, A, B>(fa: Const<L, A>, _: (a: A) => B): Const<L, B> => {
   return fa as any
 }
 

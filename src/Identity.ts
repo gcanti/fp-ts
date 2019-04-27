@@ -60,7 +60,7 @@ const reduce = <A, B>(fa: Identity<A>, b: B, f: (b: B, a: A) => B): B => {
   return f(b, fa)
 }
 
-const foldMap = <M>(M: Monoid<M>) => <A>(fa: Identity<A>, f: (a: A) => M): M => {
+const foldMap = <M>(_: Monoid<M>) => <A>(fa: Identity<A>, f: (a: A) => M): M => {
   return f(fa)
 }
 

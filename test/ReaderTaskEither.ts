@@ -8,15 +8,6 @@ import { task } from '../src/Task'
 import { taskEither } from '../src/TaskEither'
 
 describe('ReaderTaskEither', () => {
-  it('ap', () => {
-    const double = (n: number): number => n * 2
-    const fab = RTE.fromRight(double)
-    const fa = RTE.fromRight(1)
-    return RTE.run(RTE.readerTaskEither.ap(fab, fa), {}).then(x => {
-      assert.deepStrictEqual(x, E.right(2))
-    })
-  })
-
   it('map', () => {
     const double = (n: number): number => n * 2
     return RTE.run(RTE.readerTaskEither.map(RTE.fromRight(1), double), {}).then(x => {
@@ -24,12 +15,12 @@ describe('ReaderTaskEither', () => {
     })
   })
 
-  it('mapLeft', () => {
-    const len = (s: string): number => s.length
-    const rtes = [RTE.fromRight(1), RTE.fromLeft('err')].map(rte => RTE.mapLeft(rte, len))
-    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, E.right(1))
-      assert.deepStrictEqual(e2, E.left(3))
+  it('ap', () => {
+    const double = (n: number): number => n * 2
+    const fab = RTE.fromRight(double)
+    const fa = RTE.fromRight(1)
+    return RTE.run(RTE.readerTaskEither.ap(fab, fa), {}).then(x => {
+      assert.deepStrictEqual(x, E.right(2))
     })
   })
 
@@ -42,6 +33,15 @@ describe('ReaderTaskEither', () => {
     return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, E.right(3))
       assert.deepStrictEqual(e2, E.left('foo'))
+    })
+  })
+
+  it('mapLeft', () => {
+    const len = (s: string): number => s.length
+    const rtes = [RTE.fromRight(1), RTE.fromLeft('err')].map(rte => RTE.mapLeft(rte, len))
+    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
+      assert.deepStrictEqual(e1, E.right(1))
+      assert.deepStrictEqual(e2, E.left(3))
     })
   })
 

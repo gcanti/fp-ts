@@ -696,7 +696,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<L, A>(S: Show<A>): Show<Array<A>> { ... }
+export function getShow<A>(S: Show<A>): Show<Array<A>> { ... }
 ```
 
 Added in v2.0.0

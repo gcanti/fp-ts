@@ -83,6 +83,7 @@ parent: Modules
 - [set (export)](#set-export)
 - [show (export)](#show-export)
 - [state (export)](#state-export)
+- [stateReaderTaskEither (export)](#statereadertaskeither-export)
 - [stateT (export)](#statet-export)
 - [store (export)](#store-export)
 - [strong (export)](#strong-export)
@@ -700,6 +701,14 @@ export { show }
 
 ```ts
 export { state }
+```
+
+# stateReaderTaskEither (export)
+
+**Signature**
+
+```ts
+export { stateReaderTaskEither }
 ```
 
 # stateT (export)

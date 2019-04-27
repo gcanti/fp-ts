@@ -37,9 +37,9 @@ export type URI = typeof URI
 /**
  * @since 2.0.0
  */
-export function getShow<L, A>(S: Show<A>): Show<Array<A>> {
+export function getShow<A>(S: Show<A>): Show<Array<A>> {
   return {
-    show: arr => `[${arr.map(S.show).join(', ')}]`
+    show: as => `[${as.map(S.show).join(', ')}]`
   }
 }
 

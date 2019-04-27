@@ -138,7 +138,7 @@ export function fromIOEither<L, A>(ma: IOEither<L, A>): ReaderTaskEither<unknown
  * @since 2.0.0
  */
 export function fromPredicate<L, A, B extends A>(
-  predicate: Refinement<A, B>,
+  refinement: Refinement<A, B>,
   onFalse: (a: A) => L
 ): ((a: A) => ReaderTaskEither<unknown, L, B>)
 export function fromPredicate<L, A>(

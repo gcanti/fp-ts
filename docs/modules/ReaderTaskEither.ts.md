@@ -167,7 +167,7 @@ Added in v2.0.0
 
 ```ts
 export function fromPredicate<L, A, B extends A>(
-  predicate: Refinement<A, B>,
+  refinement: Refinement<A, B>,
   onFalse: (a: A) => L
 ): ((a: A) => ReaderTaskEither<unknown, L, B>)
 export function fromPredicate<L, A>(

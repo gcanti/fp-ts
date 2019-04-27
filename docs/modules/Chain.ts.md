@@ -25,6 +25,7 @@ Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa
 - [Chain2C (interface)](#chain2c-interface)
 - [Chain3 (interface)](#chain3-interface)
 - [Chain3C (interface)](#chain3c-interface)
+- [Chain4 (interface)](#chain4-interface)
 
 ---
 
@@ -87,5 +88,15 @@ export interface Chain3<F extends URIS3> extends Apply3<F> {
 ```ts
 export interface Chain3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
   readonly chain: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, B>
+}
+```
+
+# Chain4 (interface)
+
+**Signature**
+
+```ts
+export interface Chain4<F extends URIS4> extends Apply4<F> {
+  readonly chain: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => Type4<F, X, U, L, B>) => Type4<F, X, U, L, B>
 }
 ```

@@ -87,7 +87,7 @@ const reduce = <L, A, B>(fa: Tuple<L, A>, b: B, f: (b: B, a: A) => B): B => {
   return f(b, snd(fa))
 }
 
-const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Tuple<L, A>, f: (a: A) => M): M => {
+const foldMap = <M>(_: Monoid<M>) => <L, A>(fa: Tuple<L, A>, f: (a: A) => M): M => {
   return f(snd(fa))
 }
 

@@ -146,6 +146,8 @@ import * as show from './Show'
 export { show }
 import * as state from './State'
 export { state }
+import * as stateReaderTaskEither from './StateReaderTaskEither'
+export { stateReaderTaskEither }
 import * as stateT from './StateT'
 export { stateT }
 import * as store from './Store'

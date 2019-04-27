@@ -8,7 +8,7 @@
     "strict": true,
     "noImplicitReturns": false,
     "noUnusedLocals": true,
-    "noUnusedParameters": false,
+    "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     "lib": ["es6"]
