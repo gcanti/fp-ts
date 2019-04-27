@@ -18,17 +18,10 @@ describe('Option', () => {
   })
 
   it('fold', () => {
-    const f = 'none'
+    const f = () => 'none'
     const g = (s: string) => `some${s.length}`
     assert.strictEqual(O.fold(O.none, f, g), 'none')
     assert.strictEqual(O.fold(O.some('abc'), f, g), 'some3')
-  })
-
-  it('foldL', () => {
-    const f = () => 'none'
-    const g = (s: string) => `some${s.length}`
-    assert.strictEqual(O.foldL(O.none, f, g), 'none')
-    assert.strictEqual(O.foldL(O.some('abc'), f, g), 'some3')
   })
 
   it('toNullable', () => {
@@ -42,13 +35,8 @@ describe('Option', () => {
   })
 
   it('getOrElse', () => {
-    assert.strictEqual(O.getOrElse(O.some(1), 0), 1)
-    assert.strictEqual(O.getOrElse(O.none, 0), 0)
-  })
-
-  it('getOrElseL', () => {
-    assert.strictEqual(O.getOrElseL(O.some(1), () => 0), 1)
-    assert.strictEqual(O.getOrElseL(O.none, () => 0), 0)
+    assert.strictEqual(O.getOrElse(O.some(1), () => 0), 1)
+    assert.strictEqual(O.getOrElse(O.none, () => 0), 0)
   })
 
   it('equals', () => {
@@ -137,7 +125,7 @@ describe('Option', () => {
   })
 
   it('extend', () => {
-    const f = (fa: O.Option<number>) => O.getOrElse(fa, 0)
+    const f = (fa: O.Option<number>) => O.getOrElse(fa, () => 0)
     assert.deepStrictEqual(O.option.extend(O.some(2), f), O.some(2))
     assert.deepStrictEqual(O.option.extend(O.none, f), O.none)
   })

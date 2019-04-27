@@ -225,21 +225,12 @@ export function flatten<A>(mma: Array<Array<A>>): Array<A> {
  * @example
  * import { fold } from 'fp-ts/lib/Array'
  *
- * const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
+ * const len = <A>(as: Array<A>): number => fold(as, () => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
  * @since 2.0.0
  */
-export function fold<A, B>(as: Array<A>, onNil: B, onCons: (head: A, tail: Array<A>) => B): B {
-  return isEmpty(as) ? onNil : onCons(as[0], as.slice(1))
-}
-
-/**
- * Lazy version of `fold`
- *
- * @since 2.0.0
- */
-export function foldL<A, B>(as: Array<A>, onNil: () => B, onCons: (head: A, tail: Array<A>) => B): B {
+export function fold<A, B>(as: Array<A>, onNil: () => B, onCons: (head: A, tail: Array<A>) => B): B {
   return isEmpty(as) ? onNil() : onCons(as[0], as.slice(1))
 }
 
@@ -248,16 +239,7 @@ export function foldL<A, B>(as: Array<A>, onNil: () => B, onCons: (head: A, tail
  *
  * @since 2.0.0
  */
-export function foldr<A, B>(as: Array<A>, onNil: B, onCons: (init: Array<A>, last: A) => B): B {
-  return isEmpty(as) ? onNil : onCons(as.slice(0, as.length - 1), as[as.length - 1])
-}
-
-/**
- * Lazy version of `foldr`
- *
- * @since 2.0.0
- */
-export function foldrL<A, B>(as: Array<A>, onNil: () => B, onCons: (init: Array<A>, last: A) => B): B {
+export function foldr<A, B>(as: Array<A>, onNil: () => B, onCons: (init: Array<A>, last: A) => B): B {
   return isEmpty(as) ? onNil() : onCons(as.slice(0, as.length - 1), as[as.length - 1])
 }
 
@@ -1070,7 +1052,6 @@ export function uniq<A>(E: Eq<A>): ((as: Array<A>) => Array<A>) {
  * etc...
  *
  * @example
- * import { isSome } from 'fp-ts/lib/Option'
  * import { sortBy } from 'fp-ts/lib/Array'
  * import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
  *
@@ -1083,38 +1064,6 @@ export function uniq<A>(E: Eq<A>): ((as: Array<A>) => Array<A>) {
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *
- * if (isSome(sortByNameByAge)) {
- *   const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
- *   assert.deepStrictEqual(sortByNameByAge.value(persons), [
- *     { name: 'a', age: 1 },
- *     { name: 'b', age: 2 },
- *     { name: 'b', age: 3 },
- *     { name: 'c', age: 2 }
- *   ])
- * }
- *
- *
- * @since 2.0.0
- */
-export function sortBy<A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> {
-  return fold(ords, none, (head, tail) => some(sortBy1(head, tail)))
-}
-
-/**
- * Non failing version of `sortBy`
- * @example
- * import { sortBy1 } from 'fp-ts/lib/Array'
- * import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
- *
- * interface Person {
- *   name: string
- *   age: number
- * }
- * const byName = contramap(ordString, (p: Person) => p.name)
- * const byAge = contramap(ordNumber, (p: Person) => p.age)
- *
- * const sortByNameByAge = sortBy1(byName, [byAge])
- *
  * const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
  * assert.deepStrictEqual(sortByNameByAge(persons), [
  *   { name: 'a', age: 1 },
@@ -1123,11 +1072,10 @@ export function sortBy<A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> {
  *   { name: 'c', age: 2 }
  * ])
  *
- *
  * @since 2.0.0
  */
-export function sortBy1<A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Array<A>> {
-  return sort(tail.reduce(getSemigroup<A>().concat, head))
+export function sortBy<A>(ords: Array<Ord<A>>): Endomorphism<Array<A>> {
+  return sort(ords.slice(1).reduce(getSemigroup<A>().concat, ords[0]))
 }
 
 /**

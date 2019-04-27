@@ -44,7 +44,6 @@ either.map(left(23), double) // left(23)
 - [URI (constant)](#uri-constant)
 - [either (constant)](#either-constant)
 - [filterOrElse (function)](#filterorelse-function)
-- [filterOrElseL (function)](#filterorelsel-function)
 - [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromPredicate (function)](#frompredicate-function)
@@ -54,7 +53,6 @@ either.map(left(23), double) // left(23)
 - [getEq (function)](#geteq-function)
 - [getFilterable (function)](#getfilterable-function)
 - [getOrElse (function)](#getorelse-function)
-- [getOrElseL (function)](#getorelsel-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getShow (function)](#getshow-function)
 - [getWitherable (function)](#getwitherable-function)
@@ -142,23 +140,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filterOrElse<L, A, B extends A>(ma: Either<L, A>, refinement: Refinement<A, B>, zero: L): Either<L, B>
-export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: L): Either<L, A> { ... }
-```
-
-Added in v2.0.0
-
-# filterOrElseL (function)
-
-**Signature**
-
-```ts
-export function filterOrElseL<L, A, B extends A>(
+export function filterOrElse<L, A, B extends A>(
   ma: Either<L, A>,
   refinement: Refinement<A, B>,
   zero: (a: A) => L
 ): Either<L, B>
-export function filterOrElseL<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
+export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
 ```
 
 Added in v2.0.0
@@ -274,17 +261,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<L, A>(ma: Either<L, A>, a: A): A { ... }
-```
-
-Added in v2.0.0
-
-# getOrElseL (function)
-
-**Signature**
-
-```ts
-export function getOrElseL<L, A>(ma: Either<L, A>, f: (l: L) => A): A { ... }
+export function getOrElse<L, A>(ma: Either<L, A>, f: (l: L) => A): A { ... }
 ```
 
 Added in v2.0.0

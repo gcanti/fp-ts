@@ -12,7 +12,6 @@ import {
   findLast,
   flatten,
   fold,
-  foldL,
   getMonoid,
   getOrd,
   head,
@@ -29,7 +28,6 @@ import {
   snoc,
   sort,
   sortBy,
-  sortBy1,
   span,
   tail,
   take,
@@ -38,7 +36,6 @@ import {
   updateAt,
   zip,
   unzip,
-  foldrL,
   foldr,
   chop,
   chunksOf,
@@ -427,22 +424,12 @@ describe('Array', () => {
   })
 
   it('fold', () => {
-    const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
-    assert.strictEqual(len([1, 2, 3]), 3)
-  })
-
-  it('foldL', () => {
-    const len = <A>(as: Array<A>): number => foldL(as, () => 0, (_, tail) => 1 + len(tail))
+    const len = <A>(as: Array<A>): number => fold(as, () => 0, (_, tail) => 1 + len(tail))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
   it('foldr', () => {
-    const len = <A>(as: Array<A>): number => foldr(as, 0, (init, _) => 1 + len(init))
-    assert.strictEqual(len([1, 2, 3]), 3)
-  })
-
-  it('foldrL', () => {
-    const len = <A>(as: Array<A>): number => foldrL(as, () => 0, (init, _) => 1 + len(init))
+    const len = <A>(as: Array<A>): number => foldr(as, () => 0, (init, _) => 1 + len(init))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
@@ -501,26 +488,6 @@ describe('Array', () => {
     const byName = contramapOrd(ordString, (p: Person) => p.name)
     const byAge = contramapOrd(ordNumber, (p: Person) => p.age)
     const sortByNameByAge = sortBy([byName, byAge])
-    assert.ok(O.isSome(sortByNameByAge))
-    if (O.isSome(sortByNameByAge)) {
-      const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
-      assert.deepStrictEqual(sortByNameByAge.value(persons), [
-        { name: 'a', age: 1 },
-        { name: 'b', age: 2 },
-        { name: 'b', age: 3 },
-        { name: 'c', age: 2 }
-      ])
-    }
-  })
-
-  it('sortBy1', () => {
-    interface Person {
-      name: string
-      age: number
-    }
-    const byName = contramapOrd(ordString, (p: Person) => p.name)
-    const byAge = contramapOrd(ordNumber, (p: Person) => p.age)
-    const sortByNameByAge = sortBy1(byName, [byAge])
     const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
     assert.deepStrictEqual(sortByNameByAge(persons), [
       { name: 'a', age: 1 },
@@ -528,7 +495,7 @@ describe('Array', () => {
       { name: 'b', age: 3 },
       { name: 'c', age: 2 }
     ])
-    const sortByAgeByName = sortBy1(byAge, [byName])
+    const sortByAgeByName = sortBy([byAge, byName])
     assert.deepStrictEqual(sortByAgeByName(persons), [
       { name: 'a', age: 1 },
       { name: 'b', age: 2 },

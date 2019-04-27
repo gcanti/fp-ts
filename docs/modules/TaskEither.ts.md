@@ -24,14 +24,12 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [attempt (function)](#attempt-function)
 - [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
-- [filterOrElseL (function)](#filterorelsel-function)
 - [foldTask (function)](#foldtask-function)
 - [fromLeft (function)](#fromleft-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getOrElse (function)](#getorelse-function)
-- [getOrElseL (function)](#getorelsel-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [left (function)](#left-function)
 - [mapLeft (function)](#mapleft-function)
@@ -156,23 +154,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filterOrElse<L, A, B extends A>(ma: TaskEither<L, A>, p: Refinement<A, B>, zero: L): TaskEither<L, B>
-export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: L): TaskEither<L, A> { ... }
-```
-
-Added in v2.0.0
-
-# filterOrElseL (function)
-
-**Signature**
-
-```ts
-export function filterOrElseL<L, A, B extends A>(
+export function filterOrElse<L, A, B extends A>(
   ma: TaskEither<L, A>,
   p: Refinement<A, B>,
   zero: (a: A) => L
 ): TaskEither<L, B>
-export function filterOrElseL<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> { ... }
+export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> { ... }
 ```
 
 Added in v2.0.0
@@ -240,17 +227,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<L, A>(ma: TaskEither<L, A>, a: A): Task<A> { ... }
-```
-
-Added in v2.0.0
-
-# getOrElseL (function)
-
-**Signature**
-
-```ts
-export function getOrElseL<L, A>(ma: TaskEither<L, A>, f: (l: L) => A): Task<A> { ... }
+export function getOrElse<L, A>(ma: TaskEither<L, A>, f: (l: L) => A): Task<A> { ... }
 ```
 
 Added in v2.0.0

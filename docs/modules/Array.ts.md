@@ -35,9 +35,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [findLastMap (function)](#findlastmap-function)
 - [flatten (function)](#flatten-function)
 - [fold (function)](#fold-function)
-- [foldL (function)](#foldl-function)
 - [foldr (function)](#foldr-function)
-- [foldrL (function)](#foldrl-function)
 - [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
@@ -63,7 +61,6 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [snoc (function)](#snoc-function)
 - [sort (function)](#sort-function)
 - [sortBy (function)](#sortby-function)
-- [sortBy1 (function)](#sortby1-function)
 - [span (function)](#span-function)
 - [splitAt (function)](#splitat-function)
 - [tail (function)](#tail-function)
@@ -570,7 +567,7 @@ Break an array into its first element and remaining elements
 **Signature**
 
 ```ts
-export function fold<A, B>(as: Array<A>, onNil: B, onCons: (head: A, tail: Array<A>) => B): B { ... }
+export function fold<A, B>(as: Array<A>, onNil: () => B, onCons: (head: A, tail: Array<A>) => B): B { ... }
 ```
 
 **Example**
@@ -578,20 +575,8 @@ export function fold<A, B>(as: Array<A>, onNil: B, onCons: (head: A, tail: Array
 ```ts
 import { fold } from 'fp-ts/lib/Array'
 
-const len = <A>(as: Array<A>): number => fold(as, 0, (_, tail) => 1 + len(tail))
+const len = <A>(as: Array<A>): number => fold(as, () => 0, (_, tail) => 1 + len(tail))
 assert.strictEqual(len([1, 2, 3]), 3)
-```
-
-Added in v2.0.0
-
-# foldL (function)
-
-Lazy version of `fold`
-
-**Signature**
-
-```ts
-export function foldL<A, B>(as: Array<A>, onNil: () => B, onCons: (head: A, tail: Array<A>) => B): B { ... }
 ```
 
 Added in v2.0.0
@@ -603,19 +588,7 @@ Break an array into its initial elements and the last element
 **Signature**
 
 ```ts
-export function foldr<A, B>(as: Array<A>, onNil: B, onCons: (init: Array<A>, last: A) => B): B { ... }
-```
-
-Added in v2.0.0
-
-# foldrL (function)
-
-Lazy version of `foldr`
-
-**Signature**
-
-```ts
-export function foldrL<A, B>(as: Array<A>, onNil: () => B, onCons: (init: Array<A>, last: A) => B): B { ... }
+export function foldr<A, B>(as: Array<A>, onNil: () => B, onCons: (init: Array<A>, last: A) => B): B { ... }
 ```
 
 Added in v2.0.0
@@ -1118,13 +1091,12 @@ etc...
 **Signature**
 
 ```ts
-export function sortBy<A>(ords: Array<Ord<A>>): Option<Endomorphism<Array<A>>> { ... }
+export function sortBy<A>(ords: Array<Ord<A>>): Endomorphism<Array<A>> { ... }
 ```
 
 **Example**
 
 ```ts
-import { isSome } from 'fp-ts/lib/Option'
 import { sortBy } from 'fp-ts/lib/Array'
 import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
 
@@ -1136,44 +1108,6 @@ const byName = contramap(ordString, (p: Person) => p.name)
 const byAge = contramap(ordNumber, (p: Person) => p.age)
 
 const sortByNameByAge = sortBy([byName, byAge])
-
-if (isSome(sortByNameByAge)) {
-  const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
-  assert.deepStrictEqual(sortByNameByAge.value(persons), [
-    { name: 'a', age: 1 },
-    { name: 'b', age: 2 },
-    { name: 'b', age: 3 },
-    { name: 'c', age: 2 }
-  ])
-}
-```
-
-Added in v2.0.0
-
-# sortBy1 (function)
-
-Non failing version of `sortBy`
-
-**Signature**
-
-```ts
-export function sortBy1<A>(head: Ord<A>, tail: Array<Ord<A>>): Endomorphism<Array<A>> { ... }
-```
-
-**Example**
-
-```ts
-import { sortBy1 } from 'fp-ts/lib/Array'
-import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
-
-interface Person {
-  name: string
-  age: number
-}
-const byName = contramap(ordString, (p: Person) => p.name)
-const byAge = contramap(ordNumber, (p: Person) => p.age)
-
-const sortByNameByAge = sortBy1(byName, [byAge])
 
 const persons = [{ name: 'a', age: 1 }, { name: 'b', age: 3 }, { name: 'c', age: 2 }, { name: 'b', age: 2 }]
 assert.deepStrictEqual(sortByNameByAge(persons), [

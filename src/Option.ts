@@ -156,15 +156,7 @@ export const isNone = <A>(fa: Option<A>): fa is None => {
 /**
  * @since 2.0.0
  */
-export function fold<A, R>(ma: Option<A>, onNone: R, onSome: (a: A) => R): R {
-  return isNone(ma) ? onNone : onSome(ma.value)
-}
-
-/**
- * Lazy version of `fold`
- * @since 2.0.0
- */
-export function foldL<A, R>(ma: Option<A>, onNone: () => R, onSome: (a: A) => R): R {
+export function fold<A, R>(ma: Option<A>, onNone: () => R, onSome: (a: A) => R): R {
   return isNone(ma) ? onNone() : onSome(ma.value)
 }
 
@@ -202,14 +194,7 @@ export function toUndefined<A>(ma: Option<A>): A | undefined {
 /**
  * @since 2.0.0
  */
-export function getOrElse<A>(ma: Option<A>, a: A): A {
-  return isNone(ma) ? a : ma.value
-}
-
-/**
- * @since 2.0.0
- */
-export function getOrElseL<A>(ma: Option<A>, f: () => A): A {
+export function getOrElse<A>(ma: Option<A>, f: () => A): A {
   return isNone(ma) ? f() : ma.value
 }
 
@@ -522,7 +507,7 @@ const separate = <RL, RR>(ma: Option<Either<RL, RR>>): Separated<Option<RL>, Opt
       left: getLeft(e),
       right: getRight(e)
     })),
-    defaultSeparate
+    () => defaultSeparate
   )
 }
 
@@ -533,7 +518,7 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
   fa: Option<A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
 ): HKT<F, Separated<Option<RL>, Option<RR>>> => {
-  return getOrElseL(
+  return getOrElse(
     map(fa, a =>
       F.map(f(a), e => ({
         left: getLeft(e),

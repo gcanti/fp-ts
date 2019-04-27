@@ -100,7 +100,6 @@ option.chain(some(0), inverse) // none
 - [elem (function)](#elem-function)
 - [exists (function)](#exists-function)
 - [fold (function)](#fold-function)
-- [foldL (function)](#foldl-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
@@ -111,7 +110,6 @@ option.chain(some(0), inverse) // none
 - [getLeft (function)](#getleft-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getOrElse (function)](#getorelse-function)
-- [getOrElseL (function)](#getorelsel-function)
 - [getOrd (function)](#getord-function)
 - [getRefinement (function)](#getrefinement-function)
 - [getRight (function)](#getright-function)
@@ -226,19 +224,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<A, R>(ma: Option<A>, onNone: R, onSome: (a: A) => R): R { ... }
-```
-
-Added in v2.0.0
-
-# foldL (function)
-
-Lazy version of `fold`
-
-**Signature**
-
-```ts
-export function foldL<A, R>(ma: Option<A>, onNone: () => R, onSome: (a: A) => R): R { ... }
+export function fold<A, R>(ma: Option<A>, onNone: () => R, onSome: (a: A) => R): R { ... }
 ```
 
 Added in v2.0.0
@@ -466,17 +452,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<A>(ma: Option<A>, a: A): A { ... }
-```
-
-Added in v2.0.0
-
-# getOrElseL (function)
-
-**Signature**
-
-```ts
-export function getOrElseL<A>(ma: Option<A>, f: () => A): A { ... }
+export function getOrElse<A>(ma: Option<A>, f: () => A): A { ... }
 ```
 
 Added in v2.0.0

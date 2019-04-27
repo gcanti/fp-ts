@@ -26,7 +26,7 @@ import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { Option, some, none, isNone, foldL } from './Option'
+import { Option, some, none, isNone, fold as foldOption } from './Option'
 import { Semigroup } from './Semigroup'
 import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
@@ -354,10 +354,10 @@ export function getRightOnly<L, A>(fa: These<L, A>): Option<A> {
  * @since 2.0.0
  */
 export function fromOptions<L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> {
-  return foldL(
+  return foldOption(
     fl,
-    () => foldL(fa, () => none, a => some(right(a))),
-    l => foldL(fa, () => some(left(l)), a => some(both(l, a)))
+    () => foldOption(fa, () => none, a => some(right(a))),
+    l => foldOption(fa, () => some(left(l)), a => some(both(l, a)))
   )
 }
 

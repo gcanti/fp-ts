@@ -285,36 +285,20 @@ export function orElse<L, A, M>(ma: Either<L, A>, f: (l: L) => Either<M, A>): Ei
 /**
  * @since 2.0.0
  */
-export function getOrElse<L, A>(ma: Either<L, A>, a: A): A {
-  return isLeft(ma) ? a : ma.right
-}
-
-/**
- * @since 2.0.0
- */
-export function getOrElseL<L, A>(ma: Either<L, A>, f: (l: L) => A): A {
+export function getOrElse<L, A>(ma: Either<L, A>, f: (l: L) => A): A {
   return isLeft(ma) ? f(ma.left) : ma.right
 }
 
 /**
  * @since 2.0.0
  */
-export function filterOrElse<L, A, B extends A>(ma: Either<L, A>, refinement: Refinement<A, B>, zero: L): Either<L, B>
-export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: L): Either<L, A>
-export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: L): Either<L, A> {
-  return isLeft(ma) ? ma : predicate(ma.right) ? ma : left(zero)
-}
-
-/**
- * @since 2.0.0
- */
-export function filterOrElseL<L, A, B extends A>(
+export function filterOrElse<L, A, B extends A>(
   ma: Either<L, A>,
   refinement: Refinement<A, B>,
   zero: (a: A) => L
 ): Either<L, B>
-export function filterOrElseL<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A>
-export function filterOrElseL<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A> {
+export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A>
+export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A> {
   return isLeft(ma) ? ma : predicate(ma.right) ? ma : left(zero(ma.right))
 }
 
@@ -473,7 +457,7 @@ export function getFilterable<L>(M: Monoid<L>): Filterable2C<URI, L> {
     return isLeft(ma) ? ma : fromOption(f(ma.right), onNone)
   }
 
-  const filter = <A>(ma: Either<L, A>, p: Predicate<A>): Either<L, A> => filterOrElse(ma, p, M.empty)
+  const filter = <A>(ma: Either<L, A>, p: Predicate<A>): Either<L, A> => filterOrElse(ma, p, () => M.empty)
 
   return {
     ...C,

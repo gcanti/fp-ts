@@ -124,8 +124,8 @@ describe('TaskEither', () => {
   })
 
   it('getOrElse', () => {
-    const te1 = TE.getOrElse(TE.fromRight(1), 42)
-    const te2 = TE.getOrElse(TE.fromLeft('foo'), 42)
+    const te1 = TE.getOrElse(TE.fromRight(1), () => 42)
+    const te2 = TE.getOrElse(TE.fromLeft('foo'), () => 42)
     return Promise.all([te1(), te2()]).then(([b1, b2]) => {
       assert.strictEqual(b1, 1)
       assert.strictEqual(b2, 42)
@@ -309,27 +309,11 @@ describe('TaskEither', () => {
   it('filterOrElse', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const tasks: Array<TE.TaskEither<string, number>> = [
-      TE.filterOrElse(TE.fromRight(12), n => n > 10, 'bar'),
-      TE.filterOrElse(TE.fromRight(7), n => n > 10, 'bar'),
-      TE.filterOrElse(TE.fromLeft('foo'), n => n > 10, 'bar'),
-      TE.filterOrElse(TE.fromRight(12), isNumber, 'not a number')
-    ]
-    return Promise.all(tasks.map(te => te())).then(([r1, r2, r3, r4]) => {
-      assert.deepStrictEqual(r1, eitherRight(12))
-      assert.deepStrictEqual(r2, eitherLeft('bar'))
-      assert.deepStrictEqual(r3, eitherLeft('foo'))
-      assert.deepStrictEqual(r4, eitherRight(12))
-    })
-  })
-
-  it('filterOrElseL', () => {
-    const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const tasks: Array<TE.TaskEither<string, number>> = [
-      TE.filterOrElseL(TE.fromRight(12), n => n > 10, () => 'bar'),
-      TE.filterOrElseL(TE.fromRight(7), n => n > 10, () => 'bar'),
-      TE.filterOrElseL(TE.fromLeft('foo'), n => n > 10, () => 'bar'),
-      TE.filterOrElseL(TE.fromRight(7), n => n > 10, n => `invalid ${n}`),
-      TE.filterOrElseL(TE.fromRight(12), isNumber, () => 'not a number')
+      TE.filterOrElse(TE.fromRight(12), n => n > 10, () => 'bar'),
+      TE.filterOrElse(TE.fromRight(7), n => n > 10, () => 'bar'),
+      TE.filterOrElse(TE.fromLeft('foo'), n => n > 10, () => 'bar'),
+      TE.filterOrElse(TE.fromRight(7), n => n > 10, n => `invalid ${n}`),
+      TE.filterOrElse(TE.fromRight(12), isNumber, () => 'not a number')
     ]
     return Promise.all(tasks.map(te => te())).then(([r1, r2, r3, r4, r5]) => {
       assert.deepStrictEqual(r1, eitherRight(12))

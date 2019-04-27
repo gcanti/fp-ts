@@ -52,14 +52,7 @@ export function foldTask<L, A, R>(
 /**
  * @since 2.0.0
  */
-export function getOrElse<L, A>(ma: TaskEither<L, A>, a: A): Task<A> {
-  return getOrElseL(ma, () => a)
-}
-
-/**
- * @since 2.0.0
- */
-export function getOrElseL<L, A>(ma: TaskEither<L, A>, f: (l: L) => A): Task<A> {
+export function getOrElse<L, A>(ma: TaskEither<L, A>, f: (l: L) => A): Task<A> {
   return fold(ma, f, identity)
 }
 
@@ -73,23 +66,14 @@ export function mapLeft<L, A, M>(ma: TaskEither<L, A>, f: (l: L) => M): TaskEith
 /**
  * @since 2.0.0
  */
-export function filterOrElse<L, A, B extends A>(ma: TaskEither<L, A>, p: Refinement<A, B>, zero: L): TaskEither<L, B>
-export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: L): TaskEither<L, A>
-export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: L): TaskEither<L, A> {
-  return task.map(ma, e => E.filterOrElse(e, p, zero))
-}
-
-/**
- * @since 2.0.0
- */
-export function filterOrElseL<L, A, B extends A>(
+export function filterOrElse<L, A, B extends A>(
   ma: TaskEither<L, A>,
   p: Refinement<A, B>,
   zero: (a: A) => L
 ): TaskEither<L, B>
-export function filterOrElseL<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>
-export function filterOrElseL<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> {
-  return task.map(ma, e => E.filterOrElseL(e, p, zero))
+export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>
+export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> {
+  return task.map(ma, e => E.filterOrElse(e, p, zero))
 }
 
 /**
