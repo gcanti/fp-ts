@@ -312,7 +312,7 @@ export function getRefinement<A, B extends A>(getOption: (a: A) => Option<B>): R
  * @since 2.0.0
  */
 export function mapNullable<A, B>(ma: Option<A>, f: (a: A) => B | null | undefined): Option<B> {
-  return isNone(ma) ? ma : fromNullable(f(ma.value))
+  return isNone(ma) ? none : fromNullable(f(ma.value))
 }
 
 /**
@@ -499,7 +499,7 @@ const partition = <A>(fa: Option<A>, predicate: Predicate<A>): Separated<Option<
 }
 
 const chain = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => {
-  return isNone(fa) ? fa : f(fa.value)
+  return isNone(fa) ? none : f(fa.value)
 }
 
 const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
@@ -513,7 +513,7 @@ const sequence = <F>(F: Applicative<F>) => <A>(ta: Option<HKT<F, A>>): HKT<F, Op
 const defaultSeparate = { left: none, right: none }
 
 const map = <A, B>(ma: Option<A>, f: (a: A) => B): Option<B> => {
-  return isNone(ma) ? ma : some(f(ma.value))
+  return isNone(ma) ? none : some(f(ma.value))
 }
 
 const separate = <RL, RR>(ma: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
@@ -563,7 +563,7 @@ export const option: Monad1<URI> &
   URI,
   map,
   of: some,
-  ap: (mab, ma) => (isNone(mab) ? mab : isNone(ma) ? ma : some(mab.value(ma.value))),
+  ap: (mab, ma) => (isNone(mab) ? none : isNone(ma) ? none : some(mab.value(ma.value))),
   chain,
   reduce: (fa, b, f) => (isNone(fa) ? b : f(b, fa.value)),
   foldMap: M => (fa, f) => (isNone(fa) ? M.empty : f(fa.value)),
@@ -572,7 +572,7 @@ export const option: Monad1<URI> &
   sequence,
   zero: () => none,
   alt: (ma, f) => (isNone(ma) ? f() : ma),
-  extend: (wa, f) => (isNone(wa) ? wa : some(f(wa))),
+  extend: (wa, f) => (isNone(wa) ? none : some(f(wa))),
   compact: ma => chain(ma, identity),
   separate,
   filter,
