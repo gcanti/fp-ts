@@ -1,7 +1,7 @@
 import { Applicative2C } from './Applicative'
 import { Apply2C } from './Apply'
 import { Contravariant2 } from './Contravariant'
-import { phantom } from './function'
+import { phantom, unsafeCoerce, identity } from './function'
 import { Functor2 } from './Functor'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
@@ -18,19 +18,17 @@ export const URI = 'Const'
 
 export type URI = typeof URI
 
-export type Const<L, A> = L & { A: A }
+export type Const<L, A> = L & { readonly _A: A }
 
 /**
  * @since 2.0.0
  */
-export const make = <L>(l: L): Const<L, never> => {
-  return l as any
-}
+export const make: <L>(l: L) => Const<L, never> = unsafeCoerce
 
 /**
  * @since 2.0.0
  */
-export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
+export function getShow<L, A>(S: Show<L>): Show<Const<L, A>> {
   return {
     show: c => `make(${S.show(c)})`
   }
@@ -39,34 +37,26 @@ export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => {
 /**
  * @since 2.0.0
  */
-export function getEq<L, A>(E: Eq<L>): Eq<Const<L, A>> {
-  return E
-}
+export const getEq: <L, A>(E: Eq<L>) => Eq<Const<L, A>> = identity
 
-const map = <L, A, B>(fa: Const<L, A>, _: (a: A) => B): Const<L, B> => {
-  return fa as any
-}
+const map = unsafeCoerce
 
 /**
  * @since 2.0.0
  */
-export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
-  const ap = <A, B>(fab: Const<L, (a: A) => B>, fa: Const<L, A>): Const<L, B> => {
-    return make(S.concat(fab, fa))
-  }
-
+export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> {
   return {
     URI,
     _L: phantom,
     map,
-    ap
+    ap: (fab, fa) => make(S.concat(fab, fa))
   }
 }
 
 /**
  * @since 2.0.0
  */
-export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
+export function getApplicative<L>(M: Monoid<L>): Applicative2C<URI, L> {
   return {
     ...getApply(M),
     of: () => make(M.empty)
@@ -79,5 +69,5 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
 export const const_: Functor2<URI> & Contravariant2<URI> = {
   URI,
   map,
-  contramap: fa => fa as any
+  contramap: unsafeCoerce
 }

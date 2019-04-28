@@ -12,11 +12,11 @@ parent: Modules
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [const\_ (constant)](#const_-constant)
+- [getEq (constant)](#geteq-constant)
+- [make (constant)](#make-constant)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
-- [getEq (function)](#geteq-function)
 - [getShow (function)](#getshow-function)
-- [make (function)](#make-function)
 
 ---
 
@@ -25,7 +25,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export type Const<L, A> = L & { A: A }
+export type Const<L, A> = L & { readonly _A: A }
 ```
 
 # URI (type alias)
@@ -54,12 +54,32 @@ export const const_: Functor2<URI> & Contravariant2<URI> = ...
 
 Added in v2.0.0
 
+# getEq (constant)
+
+**Signature**
+
+```ts
+export const getEq: <L, A>(E: Eq<L>) => Eq<Const<L, A>> = ...
+```
+
+Added in v2.0.0
+
+# make (constant)
+
+**Signature**
+
+```ts
+export const make: <L>(l: L) => Const<L, never> = ...
+```
+
+Added in v2.0.0
+
 # getApplicative (function)
 
 **Signature**
 
 ```ts
-export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
+export function getApplicative<L>(M: Monoid<L>): Applicative2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -69,17 +89,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
-```
-
-Added in v2.0.0
-
-# getEq (function)
-
-**Signature**
-
-```ts
-export function getEq<L, A>(E: Eq<L>): Eq<Const<L, A>> { ... }
+export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -89,17 +99,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => ...
-```
-
-Added in v2.0.0
-
-# make (function)
-
-**Signature**
-
-```ts
-export const make = <L>(l: L): Const<L, never> => ...
+export function getShow<L, A>(S: Show<L>): Show<Const<L, A>> { ... }
 ```
 
 Added in v2.0.0
