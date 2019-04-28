@@ -155,7 +155,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => ...
+export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> { ... }
 ```
 
 Added in v2.0.0

@@ -147,68 +147,6 @@ export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): Bina
 /**
  * @since 2.0.0
  */
-export function compose<A, B, C>(bc: (b: B) => C, ab: (a: A) => B): (a: A) => C
-export function compose<A, B, C, D>(cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => D
-export function compose<A, B, C, D, E>(de: (d: D) => E, cd: (c: C) => D, bc: (b: B) => C, ab: (a: A) => B): (a: A) => E
-export function compose<A, B, C, D, E, F>(
-  ef: (e: E) => F,
-  de: (d: D) => E,
-  cd: (c: C) => D,
-  bc: (b: B) => C,
-  ab: (a: A) => B
-): (a: A) => F
-export function compose<A, B, C, D, E, F, G>(
-  fg: (f: F) => G,
-  ef: (e: E) => F,
-  de: (d: D) => E,
-  cd: (c: C) => D,
-  bc: (b: B) => C,
-  ab: (a: A) => B
-): (a: A) => G
-export function compose<A, B, C, D, E, F, G, H>(
-  gh: (g: G) => H,
-  fg: (f: F) => G,
-  ef: (e: E) => F,
-  de: (d: D) => E,
-  cd: (c: C) => D,
-  bc: (b: B) => C,
-  ab: (a: A) => B
-): (a: A) => H
-export function compose<A, B, C, D, E, F, G, H, I>(
-  hi: (h: H) => I,
-  gh: (g: G) => H,
-  fg: (f: F) => G,
-  ef: (e: E) => F,
-  de: (d: D) => E,
-  cd: (c: C) => D,
-  bc: (b: B) => C,
-  ab: (a: A) => B
-): (a: A) => I
-export function compose<A, B, C, D, E, F, G, H, I, J>(
-  ij: (i: I) => J,
-  hi: (h: H) => I,
-  gh: (g: G) => H,
-  fg: (f: F) => G,
-  ef: (e: E) => F,
-  de: (d: D) => E,
-  cd: (c: C) => D,
-  bc: (b: B) => C,
-  ab: (a: A) => B
-): (a: A) => J
-export function compose(...fns: Array<Function>): Function {
-  const len = fns.length - 1
-  return function(this: any, x: any) {
-    let y = x
-    for (let i = len; i > -1; i--) {
-      y = fns[i].call(this, y)
-    }
-    return y
-  }
-}
-
-/**
- * @since 2.0.0
- */
 export function pipe<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
 export function pipe<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
 export function pipe<A, B, C, D, E>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): (a: A) => E

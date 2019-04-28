@@ -11,7 +11,7 @@ import { Ord } from './Ord'
 import { getMeetSemigroup, getJoinSemigroup, Semigroup } from './Semigroup'
 import { Option, some, none } from './Option'
 import { Eq } from './Eq'
-import { compose, Predicate, Refinement } from './function'
+import { Predicate, Refinement } from './function'
 import { Show } from './Show'
 
 declare module './HKT' {
@@ -171,11 +171,10 @@ export const group = <A>(E: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> =>
  *
  * @since 2.0.0
  */
-export const groupSort = <A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) => {
-  return compose(
-    group(O),
-    A.sort(O)
-  )
+export function groupSort<A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) {
+  const sortO = A.sort(O)
+  const groupO = group(O)
+  return as => groupO(sortO(as))
 }
 
 /**

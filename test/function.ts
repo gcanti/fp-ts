@@ -3,7 +3,6 @@ import {
   and,
   apply,
   applyFlipped,
-  compose,
   constFalse,
   constNull,
   constTrue,
@@ -33,93 +32,6 @@ describe('function', () => {
   it('on', () => {
     const stringH = on((a: number, b: number) => a - b)((s: string) => s.length)
     assert.strictEqual(stringH('abcde', 'ab'), 3)
-  })
-
-  it('compose', () => {
-    assert.strictEqual(
-      compose(
-        f,
-        g
-      )(2),
-      5
-    )
-    assert.strictEqual(
-      compose(
-        f,
-        g,
-        f
-      )(2),
-      7
-    )
-    assert.strictEqual(
-      compose(
-        f,
-        g,
-        f,
-        g
-      )(2),
-      11
-    )
-    assert.strictEqual(
-      compose(
-        f,
-        g,
-        f,
-        g,
-        f
-      )(2),
-      15
-    )
-    assert.strictEqual(
-      compose(
-        f,
-        g,
-        f,
-        g,
-        f,
-        g
-      )(2),
-      23
-    )
-    assert.strictEqual(
-      compose(
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f
-      )(2),
-      31
-    )
-    assert.strictEqual(
-      compose(
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g
-      )(2),
-      47
-    )
-    assert.strictEqual(
-      compose(
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f
-      )(2),
-      63
-    )
   })
 
   it('pipe', () => {
