@@ -9,26 +9,14 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [BinaryOperation (type alias)](#binaryoperation-type-alias)
-- [Cokleisli (type alias)](#cokleisli-type-alias)
-- [Curried2 (type alias)](#curried2-type-alias)
-- [Curried3 (type alias)](#curried3-type-alias)
-- [Curried4 (type alias)](#curried4-type-alias)
-- [Curried5 (type alias)](#curried5-type-alias)
-- [Curried6 (type alias)](#curried6-type-alias)
-- [Curried7 (type alias)](#curried7-type-alias)
-- [Curried8 (type alias)](#curried8-type-alias)
-- [Curried9 (type alias)](#curried9-type-alias)
 - [Endomorphism (type alias)](#endomorphism-type-alias)
 - [FunctionN (type alias)](#functionn-type-alias)
-- [Kleisli (type alias)](#kleisli-type-alias)
 - [Lazy (type alias)](#lazy-type-alias)
 - [Predicate (type alias)](#predicate-type-alias)
 - [Refinement (type alias)](#refinement-type-alias)
 - [phantom (constant)](#phantom-constant)
 - [unsafeCoerce (constant)](#unsafecoerce-constant)
 - [and (function)](#and-function)
-- [apply (function)](#apply-function)
-- [applyFlipped (function)](#applyflipped-function)
 - [constFalse (function)](#constfalse-function)
 - [constNull (function)](#constnull-function)
 - [constTrue (function)](#consttrue-function)
@@ -53,82 +41,6 @@ parent: Modules
 
 ```ts
 export type BinaryOperation<A, B> = (a1: A, a2: A) => B
-```
-
-# Cokleisli (type alias)
-
-**Signature**
-
-```ts
-export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
-```
-
-# Curried2 (type alias)
-
-**Signature**
-
-```ts
-export type Curried2<A, B, C> = (a: A) => (b: B) => C
-```
-
-# Curried3 (type alias)
-
-**Signature**
-
-```ts
-export type Curried3<A, B, C, D> = (a: A) => (b: B) => (c: C) => D
-```
-
-# Curried4 (type alias)
-
-**Signature**
-
-```ts
-export type Curried4<A, B, C, D, E> = (a: A) => (b: B) => (c: C) => (d: D) => E
-```
-
-# Curried5 (type alias)
-
-**Signature**
-
-```ts
-export type Curried5<A, B, C, D, E, F> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => F
-```
-
-# Curried6 (type alias)
-
-**Signature**
-
-```ts
-export type Curried6<A, B, C, D, E, F, G> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => G
-```
-
-# Curried7 (type alias)
-
-**Signature**
-
-```ts
-export type Curried7<A, B, C, D, E, F, G, H> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => H
-```
-
-# Curried8 (type alias)
-
-**Signature**
-
-```ts
-export type Curried8<A, B, C, D, E, F, G, H, I> = (
-  a: A
-) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => I
-```
-
-# Curried9 (type alias)
-
-**Signature**
-
-```ts
-export type Curried9<A, B, C, D, E, F, G, H, I, J> = (
-  a: A
-) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => (i: I) => J
 ```
 
 # Endomorphism (type alias)
@@ -156,14 +68,6 @@ export const sum: FunctionN<[number, number], number> = (a, b) => a + b
 ```
 
 Added in v2.0.0
-
-# Kleisli (type alias)
-
-**Signature**
-
-```ts
-export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
-```
 
 # Lazy (type alias)
 
@@ -218,31 +122,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => ...
-```
-
-Added in v2.0.0
-
-# apply (function)
-
-Applies a function to an argument (\$)
-
-**Signature**
-
-```ts
-export const apply = <A, B>(f: (a: A) => B) => (a: A): B => ...
-```
-
-Added in v2.0.0
-
-# applyFlipped (function)
-
-Applies an argument to a function (#)
-
-**Signature**
-
-```ts
-export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => ...
+export function and<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> { ... }
 ```
 
 Added in v2.0.0
@@ -312,7 +192,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const constant = <A>(a: A): Lazy<A> => ...
+export function constant<A>(a: A): Lazy<A> { ... }
 ```
 
 Added in v2.0.0
@@ -322,14 +202,14 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const decrement = (n: number): number => ...
+export function decrement(n: number): number { ... }
 ```
 
 Added in v2.0.0
 
 # flip (function)
 
-Flips the order of the arguments of a function of two arguments
+Flips the order of the arguments of a function of two arguments.
 
 **Signature**
 
@@ -344,7 +224,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const identity = <A>(a: A): A => ...
+export function identity<A>(a: A): A { ... }
 ```
 
 Added in v2.0.0
@@ -354,7 +234,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const increment = (n: number): number => ...
+export function increment(n: number): number { ... }
 ```
 
 Added in v2.0.0
@@ -364,19 +244,19 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const not = <A>(predicate: Predicate<A>): Predicate<A> => ...
+export function not<A>(predicate: Predicate<A>): Predicate<A> { ... }
 ```
 
 Added in v2.0.0
 
 # on (function)
 
-The `on` function is used to change the domain of a binary operator
+The `on` function is used to change the domain of a binary operator.
 
 **Signature**
 
 ```ts
-export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => ...
+export function on<A, B, C>(op: BinaryOperation<B, C>, f: (a: A) => B): BinaryOperation<A, C> { ... }
 ```
 
 Added in v2.0.0
@@ -386,7 +266,6 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> { ... }
 ```
 
@@ -454,7 +333,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const tuple = <T extends Array<any>>(...t: T): T => ...
+export function tuple<T extends Array<any>>(...t: T): T { ... }
 ```
 
 Added in v2.0.0

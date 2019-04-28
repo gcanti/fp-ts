@@ -1,21 +1,22 @@
-import { HKT } from './HKT'
-
 /**
+ * For use with phantom fields
+ *
  * @since 2.0.0
  */
-export const identity = <A>(a: A): A => {
-  return a
-}
-
-/**
- * @since 2.0.0
- */
-export const unsafeCoerce: <A, B>(a: A) => B = identity as any
+export const phantom: any = undefined
 
 /**
  * Thunk type
  */
 export type Lazy<A> = () => A
+
+export type Predicate<A> = (a: A) => boolean
+
+export type Refinement<A, B extends A> = (a: A) => a is B
+
+export type Endomorphism<A> = (a: A) => A
+
+export type BinaryOperation<A, B> = (a1: A, a2: A) => B
 
 /**
  * @example
@@ -27,35 +28,28 @@ export type Lazy<A> = () => A
  */
 export type FunctionN<A extends Array<unknown>, B> = (...args: A) => B
 
-export type Curried2<A, B, C> = (a: A) => (b: B) => C
-export type Curried3<A, B, C, D> = (a: A) => (b: B) => (c: C) => D
-export type Curried4<A, B, C, D, E> = (a: A) => (b: B) => (c: C) => (d: D) => E
-export type Curried5<A, B, C, D, E, F> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => F
-export type Curried6<A, B, C, D, E, F, G> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => G
-export type Curried7<A, B, C, D, E, F, G, H> = (a: A) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => H
-export type Curried8<A, B, C, D, E, F, G, H, I> = (
-  a: A
-) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => I
-export type Curried9<A, B, C, D, E, F, G, H, I, J> = (
-  a: A
-) => (b: B) => (c: C) => (d: D) => (e: E) => (f: F) => (g: G) => (h: H) => (i: I) => J
-
-export type Predicate<A> = (a: A) => boolean
-
-export type Refinement<A, B extends A> = (a: A) => a is B
+/**
+ * @since 2.0.0
+ */
+export function identity<A>(a: A): A {
+  return a
+}
 
 /**
  * @since 2.0.0
  */
-export const not = <A>(predicate: Predicate<A>): Predicate<A> => {
+export const unsafeCoerce: <A, B>(a: A) => B = identity as any
+
+/**
+ * @since 2.0.0
+ */
+export function not<A>(predicate: Predicate<A>): Predicate<A> {
   return a => !predicate(a)
 }
 
 /**
  * @since 2.0.0
  */
-export function or<A, B1 extends A, B2 extends A>(p1: Refinement<A, B1>, p2: Refinement<A, B2>): Refinement<A, B1 | B2>
-export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A>
 export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
   return a => p1(a) || p2(a)
 }
@@ -63,21 +57,14 @@ export function or<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
 /**
  * @since 2.0.0
  */
-export const and = <A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> => {
+export function and<A>(p1: Predicate<A>, p2: Predicate<A>): Predicate<A> {
   return a => p1(a) && p2(a)
 }
-
-export type Endomorphism<A> = (a: A) => A
-
-export type BinaryOperation<A, B> = (a1: A, a2: A) => B
-
-export type Kleisli<F, A, B> = (a: A) => HKT<F, B>
-export type Cokleisli<F, A, B> = (fa: HKT<F, A>) => B
 
 /**
  * @since 2.0.0
  */
-export const constant = <A>(a: A): Lazy<A> => {
+export function constant<A>(a: A): Lazy<A> {
   return () => a
 }
 
@@ -127,7 +114,7 @@ export const constVoid = (): void => {
 }
 
 /**
- * Flips the order of the arguments of a function of two arguments
+ * Flips the order of the arguments of a function of two arguments.
  *
  * @since 2.0.0
  */
@@ -136,12 +123,12 @@ export function flip<A, B, C>(f: (a: A, b: B) => C): ((b: B, a: A) => C) {
 }
 
 /**
- * The `on` function is used to change the domain of a binary operator
+ * The `on` function is used to change the domain of a binary operator.
  *
  * @since 2.0.0
  */
-export const on = <B, C>(op: BinaryOperation<B, C>) => <A>(f: (a: A) => B): BinaryOperation<A, C> => {
-  return (x, y) => op(f(x), f(y))
+export function on<A, B, C>(op: BinaryOperation<B, C>, f: (a: A) => B): BinaryOperation<A, C> {
+  return (a1, a2) => op(f(a1), f(a2))
 }
 
 /**
@@ -209,45 +196,20 @@ export function pipe(...fns: Array<Function>): Function {
 /**
  * @since 2.0.0
  */
-export const tuple = <T extends Array<any>>(...t: T): T => {
+export function tuple<T extends Array<any>>(...t: T): T {
   return t
 }
 
 /**
- * Applies a function to an argument ($)
- *
  * @since 2.0.0
  */
-export const apply = <A, B>(f: (a: A) => B) => (a: A): B => {
-  return f(a)
-}
-
-/**
- * Applies an argument to a function (#)
- *
- * @since 2.0.0
- */
-export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => {
-  return f(a)
-}
-
-/**
- * For use with phantom fields
- *
- * @since 2.0.0
- */
-export const phantom: any = undefined
-
-/**
- * @since 2.0.0
- */
-export const increment = (n: number): number => {
+export function increment(n: number): number {
   return n + 1
 }
 
 /**
  * @since 2.0.0
  */
-export const decrement = (n: number): number => {
+export function decrement(n: number): number {
   return n - 1
 }

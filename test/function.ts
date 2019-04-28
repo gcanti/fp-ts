@@ -1,8 +1,6 @@
 import * as assert from 'assert'
 import {
   and,
-  apply,
-  applyFlipped,
   constFalse,
   constNull,
   constTrue,
@@ -29,8 +27,8 @@ describe('function', () => {
   })
 
   it('on', () => {
-    const stringH = on((a: number, b: number) => a - b)((s: string) => s.length)
-    assert.strictEqual(stringH('abcde', 'ab'), 3)
+    const sub = on((a: number, b: number) => a - b, (s: string) => s.length)
+    assert.strictEqual(sub('abcde', 'ab'), 3)
   })
 
   it('pipe', () => {
@@ -166,15 +164,6 @@ describe('function', () => {
     assert.strictEqual(between2and3(1), false)
     assert.strictEqual(between2and3(4), false)
     assert.strictEqual(between2and3(2.5), true)
-  })
-
-  it('apply', () => {
-    const double = (n: number) => n * 2
-    assert.strictEqual(apply(double)(2), 4)
-  })
-
-  it('applyFlipped', () => {
-    assert.strictEqual(applyFlipped(2)(n => n * 2), 4)
   })
 
   it('unsafeCoerce', () => {
