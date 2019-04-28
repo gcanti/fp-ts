@@ -67,7 +67,7 @@
  * logGiraffeThenZebra.run();  // returns undefined and outputs words "giraffe" and "zebra" to console
  * ```
  *
- * We might also have several IO actions that yield some values that we want to capture.  We can combining them by
+ * We might also have several IO actions that yield some values that we want to capture. We can combine them by
  * using `sequenceS(io)` over an object matching the structure of the expected result. This is useful when you care
  * about the results but do not care about the execution order.
  *
