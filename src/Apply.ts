@@ -10,7 +10,6 @@
  *
  * Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
  */
-import { curried } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
 import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
 
@@ -44,8 +43,6 @@ export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
 export interface Apply4<F extends URIS4> extends Functor4<F> {
   readonly ap: <X, U, L, A, B>(fab: Type4<F, X, U, L, (a: A) => B>, fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
 }
-
-const tupleConstructors: { [key: string]: (u: any) => any } = {}
 
 /**
  * Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-to-right, returning the resulting tuple.
@@ -92,18 +89,21 @@ export function sequenceT<F>(
 ): <T extends Array<HKT<F, any>>>(
   ...t: T & { 0: HKT<F, any> }
 ) => HKT<F, { [K in keyof T]: [T[K]] extends [HKT<F, infer A>] ? A : never }>
-export function sequenceT<F>(F: Apply<F>): (...args: Array<any>) => HKT<F, any> {
-  return (...args: Array<any>) => {
-    const len = args.length
-    let f = tupleConstructors[len]
-    if (!Boolean(f)) {
-      f = tupleConstructors[len] = curried((...args: Array<any>): Array<any> => args, len - 1, [])
+export function sequenceT<F>(F: Apply<F>): (...args: Array<HKT<F, any>>) => HKT<F, any> {
+  return (...args: Array<HKT<F, any>>) => {
+    const fst = args[0]
+    const others = args.slice(1)
+    let fas: HKT<F, Array<any>> = F.map(fst, a => [a])
+    for (const fa of others) {
+      fas = F.ap(
+        F.map(fas, as => (a: any) => {
+          as.push(a)
+          return as
+        }),
+        fa
+      )
     }
-    let r = F.map(args[0], f)
-    for (let i = 1; i < len; i++) {
-      r = F.ap(r, args[i])
-    }
-    return r
+    return fas
   }
 }
 
