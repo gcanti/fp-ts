@@ -17,21 +17,21 @@ export interface Semigroup<A> extends Magma<A> {}
 /**
  * @since 2.0.0
  */
-export const fold = <A>(S: Semigroup<A>) => (a: A, as: Array<A>): A => {
-  return as.reduce(S.concat, a)
+export function fold<A>(S: Semigroup<A>): (a: A, as: Array<A>) => A {
+  return (a, as) => as.reduce(S.concat, a)
 }
 
 /**
  * @since 2.0.0
  */
-export const getFirstSemigroup = <A = never>(): Semigroup<A> => {
+export function getFirstSemigroup<A = never>(): Semigroup<A> {
   return { concat: identity }
 }
 
 /**
  * @since 2.0.0
  */
-export const getLastSemigroup = <A = never>(): Semigroup<A> => {
+export function getLastSemigroup<A = never>(): Semigroup<A> {
   return { concat: (_, y) => y }
 }
 
@@ -49,9 +49,9 @@ export const getLastSemigroup = <A = never>(): Semigroup<A> => {
  *
  * @since 2.0.0
  */
-export const getTupleSemigroup = <T extends Array<Semigroup<any>>>(
+export function getTupleSemigroup<T extends Array<Semigroup<any>>>(
   ...semigroups: T
-): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> => {
+): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> {
   return {
     concat: (x, y) => semigroups.map((s, i) => s.concat(x[i], y[i])) as any
   }
@@ -60,7 +60,7 @@ export const getTupleSemigroup = <T extends Array<Semigroup<any>>>(
 /**
  * @since 2.0.0
  */
-export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => {
+export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> {
   return {
     concat: (x, y) => S.concat(y, x)
   }
@@ -69,18 +69,18 @@ export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => {
 /**
  * @since 2.0.0
  */
-export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => {
-  return {
+export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S> {
+  return () => ({
     concat: (f, g) => a => S.concat(f(a), g(a))
-  }
+  })
 }
 
 /**
  * @since 2.0.0
  */
-export const getStructSemigroup = <O extends { [key: string]: any }>(
+export function getStructSemigroup<O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<O> => {
+): Semigroup<O> {
   return {
     concat: (x, y) => {
       const r: any = {}
@@ -95,7 +95,7 @@ export const getStructSemigroup = <O extends { [key: string]: any }>(
 /**
  * @since 2.0.0
  */
-export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
+export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> {
   return {
     concat: min(O)
   }
@@ -104,26 +104,10 @@ export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
 /**
  * @since 2.0.0
  */
-export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => {
+export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> {
   return {
     concat: max(O)
   }
-}
-
-/**
- * Boolean semigroup under conjunction
- * @since 2.0.0
- */
-export const semigroupAll: Semigroup<boolean> = {
-  concat: (x, y) => x && y
-}
-
-/**
- * Boolean semigroup under disjunction
- * @since 2.0.0
- */
-export const semigroupAny: Semigroup<boolean> = {
-  concat: (x, y) => x || y
 }
 
 /**
@@ -142,10 +126,26 @@ export const semigroupAny: Semigroup<boolean> = {
  *
  * @since 2.0.0
  */
-export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => {
+export function getObjectSemigroup<A extends object = never>(): Semigroup<A> {
   return {
     concat: (x, y) => Object.assign({}, x, y)
   }
+}
+
+/**
+ * Boolean semigroup under conjunction
+ * @since 2.0.0
+ */
+export const semigroupAll: Semigroup<boolean> = {
+  concat: (x, y) => x && y
+}
+
+/**
+ * Boolean semigroup under disjunction
+ * @since 2.0.0
+ */
+export const semigroupAny: Semigroup<boolean> = {
+  concat: (x, y) => x || y
 }
 
 /**

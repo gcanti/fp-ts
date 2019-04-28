@@ -119,7 +119,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fold = <A>(S: Semigroup<A>) => (a: A, as: Array<A>): A => ...
+export function fold<A>(S: Semigroup<A>): (a: A, as: Array<A>) => A { ... }
 ```
 
 Added in v2.0.0
@@ -129,7 +129,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getDualSemigroup = <A>(S: Semigroup<A>): Semigroup<A> => ...
+export function getDualSemigroup<A>(S: Semigroup<A>): Semigroup<A> { ... }
 ```
 
 Added in v2.0.0
@@ -139,7 +139,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getFirstSemigroup = <A = never>(): Semigroup<A> => ...
+export function getFirstSemigroup<A = never>(): Semigroup<A> { ... }
 ```
 
 Added in v2.0.0
@@ -149,7 +149,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getFunctionSemigroup = <S>(S: Semigroup<S>) => <A = never>(): Semigroup<(a: A) => S> => ...
+export function getFunctionSemigroup<S>(S: Semigroup<S>): <A = never>() => Semigroup<(a: A) => S> { ... }
 ```
 
 Added in v2.0.0
@@ -159,7 +159,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getJoinSemigroup = <A>(O: Ord<A>): Semigroup<A> => ...
+export function getJoinSemigroup<A>(O: Ord<A>): Semigroup<A> { ... }
 ```
 
 Added in v2.0.0
@@ -169,7 +169,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getLastSemigroup = <A = never>(): Semigroup<A> => ...
+export function getLastSemigroup<A = never>(): Semigroup<A> { ... }
 ```
 
 Added in v2.0.0
@@ -179,7 +179,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMeetSemigroup = <A>(O: Ord<A>): Semigroup<A> => ...
+export function getMeetSemigroup<A>(O: Ord<A>): Semigroup<A> { ... }
 ```
 
 Added in v2.0.0
@@ -191,7 +191,7 @@ Returns a `Semigroup` instance for objects preserving their type
 **Signature**
 
 ```ts
-export const getObjectSemigroup = <A extends object = never>(): Semigroup<A> => ...
+export function getObjectSemigroup<A extends object = never>(): Semigroup<A> { ... }
 ```
 
 **Example**
@@ -215,9 +215,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getStructSemigroup = <O extends { [key: string]: any }>(
+export function getStructSemigroup<O extends { [key: string]: any }>(
   semigroups: { [K in keyof O]: Semigroup<O[K]> }
-): Semigroup<O> => ...
+): Semigroup<O> { ... }
 ```
 
 Added in v2.0.0
@@ -229,9 +229,9 @@ Given a tuple of semigroups returns a semigroup for the tuple
 **Signature**
 
 ```ts
-export const getTupleSemigroup = <T extends Array<Semigroup<any>>>(
+export function getTupleSemigroup<T extends Array<Semigroup<any>>>(
   ...semigroups: T
-): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> => ...
+): Semigroup<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> { ... }
 ```
 
 **Example**
