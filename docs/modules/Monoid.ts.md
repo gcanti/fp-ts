@@ -15,9 +15,7 @@ parent: Modules
 - [monoidString (constant)](#monoidstring-constant)
 - [monoidSum (constant)](#monoidsum-constant)
 - [monoidVoid (constant)](#monoidvoid-constant)
-- [unsafeMonoidArray (constant)](#unsafemonoidarray-constant)
 - [fold (function)](#fold-function)
-- [getArrayMonoid (function)](#getarraymonoid-function)
 - [getDualMonoid (function)](#getdualmonoid-function)
 - [getEndomorphismMonoid (function)](#getendomorphismmonoid-function)
 - [getFunctionMonoid (function)](#getfunctionmonoid-function)
@@ -108,34 +106,12 @@ export const monoidVoid: Monoid<void> = ...
 
 Added in v2.0.0
 
-# unsafeMonoidArray (constant)
-
-**Signature**
-
-```ts
-export const unsafeMonoidArray: Monoid<Array<any>> = ...
-```
-
-Added in v2.0.0
-
 # fold (function)
 
 **Signature**
 
 ```ts
 export function fold<A>(M: Monoid<A>): ((as: Array<A>) => A) { ... }
-```
-
-Added in v2.0.0
-
-# getArrayMonoid (function)
-
-`Monoid` under array concatenation
-
-**Signature**
-
-```ts
-export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => ...
 ```
 
 Added in v2.0.0

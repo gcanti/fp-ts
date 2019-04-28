@@ -1,8 +1,8 @@
 import * as assert from 'assert'
-import { sort } from '../src/Array'
+import { sort, getMonoid } from '../src/Array'
 import { left, right } from '../src/Either'
 import { identity, tuple } from '../src/function'
-import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
+import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
 import { eqBoolean, eqNumber } from '../src/Eq'
@@ -122,7 +122,7 @@ describe('Tuple', () => {
   })
 
   it('chainRec', () => {
-    const { chainRec } = T.getChainRec(getArrayMonoid<number>())
+    const { chainRec } = T.getChainRec(getMonoid<number>())
     function seqReq(upper: number): T.Tuple<Array<number>, number> {
       return chainRec(1, init => tuple([init], init >= upper ? right(init) : left(init + 1)))
     }

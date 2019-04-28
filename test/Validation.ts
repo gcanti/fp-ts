@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import { left, right } from '../src/Either'
-import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
+import { getMonoid as getArrayMonoid } from '../src/Array'
+import { monoidString, monoidSum } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
 import { getAlt, getMonad, getMonadThrow, getMonoid, getSemigroup } from '../src/Validation'

@@ -1,5 +1,5 @@
 import { Bounded } from './Bounded'
-import { Endomorphism, identity, concat } from './function'
+import { Endomorphism, identity } from './function'
 import {
   fold as foldSemigroup,
   getDualSemigroup,
@@ -81,25 +81,6 @@ export const monoidAll: Monoid<boolean> = {
 export const monoidAny: Monoid<boolean> = {
   ...semigroupAny,
   empty: false
-}
-
-const emptyArray: Array<any> = []
-
-/**
- * @since 2.0.0
- */
-export const unsafeMonoidArray: Monoid<Array<any>> = {
-  concat,
-  empty: emptyArray
-}
-
-/**
- * `Monoid` under array concatenation
- *
- * @since 2.0.0
- */
-export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
-  return unsafeMonoidArray
 }
 
 /**

@@ -3,7 +3,6 @@ import { array } from '../src/Array'
 import { boundedNumber } from '../src/Bounded'
 import {
   fold,
-  getArrayMonoid,
   getEndomorphismMonoid,
   getFunctionMonoid,
   getJoinMonoid,
@@ -41,10 +40,6 @@ describe('Monoid', () => {
       array.filter([1, 2, 3, 40, 41], fold(getPredicateMonoidAny<number>())([isLessThan10, isEven])),
       [1, 2, 3, 40]
     )
-  })
-
-  it('getArrayMonoid', () => {
-    assert.deepStrictEqual(getArrayMonoid<number>().concat([1], [2]), [1, 2])
   })
 
   it('getEndomorphismMonoid', () => {
