@@ -209,25 +209,9 @@ export function pipe(...fns: Array<Function>): Function {
 /**
  * @since 2.0.0
  */
-export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
-  const lenx = x.length
-  const leny = y.length
-  const r = Array(lenx + leny)
-  for (let i = 0; i < lenx; i++) {
-    r[i] = x[i]
-  }
-  for (let i = 0; i < leny; i++) {
-    r[i + lenx] = y[i]
-  }
-  return r
-}
-
-/**
- * @since 2.0.0
- */
 export function curried(f: Function, n: number, acc: Array<any>) {
   return function(this: any, x: any) {
-    const combined = concat(acc, [x])
+    const combined = acc.concat([x])
     return n === 0 ? f.apply(this, combined) : curried(f, n - 1, combined)
   }
 }

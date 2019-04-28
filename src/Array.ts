@@ -9,7 +9,7 @@ import { Extend1 } from './Extend'
 import { FilterableWithIndex1 } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { concat, Endomorphism, identity, Predicate, Refinement, tuple } from './function'
+import { Endomorphism, identity, Predicate, Refinement, tuple } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -41,6 +41,19 @@ export function getShow<A>(S: Show<A>): Show<Array<A>> {
   return {
     show: as => `[${as.map(S.show).join(', ')}]`
   }
+}
+
+const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => {
+  const lenx = x.length
+  const leny = y.length
+  const r = Array(lenx + leny)
+  for (let i = 0; i < lenx; i++) {
+    r[i] = x[i]
+  }
+  for (let i = 0; i < leny; i++) {
+    r[i + lenx] = y[i]
+  }
+  return r
 }
 
 /**

@@ -29,7 +29,6 @@ parent: Modules
 - [and (function)](#and-function)
 - [apply (function)](#apply-function)
 - [applyFlipped (function)](#applyflipped-function)
-- [concat (function)](#concat-function)
 - [constFalse (function)](#constfalse-function)
 - [constNull (function)](#constnull-function)
 - [constTrue (function)](#consttrue-function)
@@ -246,16 +245,6 @@ Applies an argument to a function (#)
 
 ```ts
 export const applyFlipped = <A>(a: A) => <B>(f: (a: A) => B): B => ...
-```
-
-Added in v2.0.0
-
-# concat (function)
-
-**Signature**
-
-```ts
-export const concat = <A>(x: Array<A>, y: Array<A>): Array<A> => ...
 ```
 
 Added in v2.0.0

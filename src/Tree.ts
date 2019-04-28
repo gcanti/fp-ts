@@ -6,10 +6,10 @@
  * ```
  */
 import { Applicative } from './Applicative'
-import { array, empty, getEq as getArrayEq } from './Array'
+import { array, empty, getEq as getArrayEq, getMonoid } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable1 } from './Foldable'
-import { concat, identity } from './function'
+import { identity } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid } from './Monoid'
@@ -73,6 +73,7 @@ const ap = <A, B>(fab: Tree<(a: A) => B>, fa: Tree<A>): Tree<B> => {
 
 const chain = <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
   const { value, forest } = f(fa.value)
+  const concat = getMonoid<Tree<B>>().concat
   return { value, forest: concat(forest, fa.forest.map(t => chain(t, f))) }
 }
 
