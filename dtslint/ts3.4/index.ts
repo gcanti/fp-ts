@@ -359,6 +359,11 @@ const nea2v1reverse1 = nea2v1.reverse() // $ExpectType NonEmptyArray<string>
 // function
 //
 
+// flip
+
+// should handle generics
+const consFlipped = Fu.flip(A.cons) // $ExpectType <A>(b: A[], a: A) => NonEmptyArray<A>
+
 // tuple
 
 Fu.tuple() // $ExpectType []

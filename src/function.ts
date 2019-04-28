@@ -127,16 +127,16 @@ export const constVoid = (): void => {
 }
 
 /**
- * Flips the order of the arguments to a function of two arguments.
+ * Flips the order of the arguments of a function of two arguments
  *
  * @since 2.0.0
  */
-export const flip = <A, B, C>(f: Curried2<A, B, C>): Curried2<B, A, C> => {
-  return b => a => f(a)(b)
+export function flip<A, B, C>(f: (a: A, b: B) => C): ((b: B, a: A) => C) {
+  return (b, a) => f(a, b)
 }
 
 /**
- * The `on` function is used to change the domain of a binary operator.
+ * The `on` function is used to change the domain of a binary operator
  *
  * @since 2.0.0
  */

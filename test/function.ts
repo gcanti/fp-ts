@@ -23,11 +23,11 @@ import {
 
 const f = (n: number) => n + 1
 const g = (n: number) => n * 2
-const h = (a: number) => (b: number) => a - b
 
 describe('function', () => {
   it('flip', () => {
-    assert.strictEqual(flip(h)(5)(2), -3)
+    const f = (a: number, b: string) => a - b.length
+    assert.strictEqual(flip(f)('aaa', 2), -1)
   })
 
   it('on', () => {
