@@ -35,8 +35,6 @@ parent: Modules
 - [constUndefined (function)](#constundefined-function)
 - [constVoid (function)](#constvoid-function)
 - [constant (function)](#constant-function)
-- [curried (function)](#curried-function)
-- [curry (function)](#curry-function)
 - [decrement (function)](#decrement-function)
 - [flip (function)](#flip-function)
 - [identity (function)](#identity-function)
@@ -315,37 +313,6 @@ Added in v2.0.0
 
 ```ts
 export const constant = <A>(a: A): Lazy<A> => ...
-```
-
-Added in v2.0.0
-
-# curried (function)
-
-**Signature**
-
-```ts
-export function curried(f: Function, n: number, acc: Array<any>) { ... }
-```
-
-Added in v2.0.0
-
-# curry (function)
-
-**Signature**
-
-```ts
-export function curry<A, B, C>(f: FunctionN<[A, B], C>): Curried2<A, B, C>
-export function curry<A, B, C, D>(f: FunctionN<[A, B, C], D>): Curried3<A, B, C, D>
-export function curry<A, B, C, D, E>(f: FunctionN<[A, B, C, D], E>): Curried4<A, B, C, D, E>
-export function curry<A, B, C, D, E, F>(f: FunctionN<[A, B, C, D, E], F>): Curried5<A, B, C, D, E, F>
-export function curry<A, B, C, D, E, F, G>(f: FunctionN<[A, B, C, D, E, F], G>): Curried6<A, B, C, D, E, F, G>
-export function curry<A, B, C, D, E, F, G, H>(f: FunctionN<[A, B, C, D, E, F, G], H>): Curried7<A, B, C, D, E, F, G, H>
-export function curry<A, B, C, D, E, F, G, H, I>(
-  f: FunctionN<[A, B, C, D, E, F, G, H], I>
-): Curried8<A, B, C, D, E, F, G, H, I>
-export function curry<A, B, C, D, E, F, G, H, I, J>(
-  f: FunctionN<[A, B, C, D, E, F, G, H, I], J>
-): Curried9<A, B, C, D, E, F, G, H, I, J> { ... }
 ```
 
 Added in v2.0.0

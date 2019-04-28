@@ -209,35 +209,6 @@ export function pipe(...fns: Array<Function>): Function {
 /**
  * @since 2.0.0
  */
-export function curried(f: Function, n: number, acc: Array<any>) {
-  return function(this: any, x: any) {
-    const combined = acc.concat([x])
-    return n === 0 ? f.apply(this, combined) : curried(f, n - 1, combined)
-  }
-}
-
-/**
- * @since 2.0.0
- */
-export function curry<A, B, C>(f: FunctionN<[A, B], C>): Curried2<A, B, C>
-export function curry<A, B, C, D>(f: FunctionN<[A, B, C], D>): Curried3<A, B, C, D>
-export function curry<A, B, C, D, E>(f: FunctionN<[A, B, C, D], E>): Curried4<A, B, C, D, E>
-export function curry<A, B, C, D, E, F>(f: FunctionN<[A, B, C, D, E], F>): Curried5<A, B, C, D, E, F>
-export function curry<A, B, C, D, E, F, G>(f: FunctionN<[A, B, C, D, E, F], G>): Curried6<A, B, C, D, E, F, G>
-export function curry<A, B, C, D, E, F, G, H>(f: FunctionN<[A, B, C, D, E, F, G], H>): Curried7<A, B, C, D, E, F, G, H>
-export function curry<A, B, C, D, E, F, G, H, I>(
-  f: FunctionN<[A, B, C, D, E, F, G, H], I>
-): Curried8<A, B, C, D, E, F, G, H, I>
-export function curry<A, B, C, D, E, F, G, H, I, J>(
-  f: FunctionN<[A, B, C, D, E, F, G, H, I], J>
-): Curried9<A, B, C, D, E, F, G, H, I, J>
-export function curry(f: Function) {
-  return curried(f, f.length - 1, [])
-}
-
-/**
- * @since 2.0.0
- */
 export const tuple = <T extends Array<any>>(...t: T): T => {
   return t
 }

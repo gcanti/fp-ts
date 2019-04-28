@@ -8,7 +8,6 @@ import {
   constTrue,
   constUndefined,
   constVoid,
-  curry,
   decrement,
   flip,
   identity,
@@ -119,17 +118,6 @@ describe('function', () => {
       )(2),
       63
     )
-  })
-
-  it('curry', () => {
-    const h2 = curry((a: number, b: number): number => a + b)
-    assert.strictEqual(h2(1)(2), 3)
-    const h3 = curry((a: number, b: number, c: number): number => a + b + c)
-    assert.strictEqual(h3(1)(2)(3), 6)
-    const h5 = curry((a: number, b: number, c: number, d: number, e: number): number => a + b + c + d + e)
-    assert.strictEqual(h5(1)(2)(3)(4)(5), 15)
-    const snoc = (as: Array<number>, a: number) => as.concat(a)
-    assert.deepStrictEqual(curry(snoc)([1, 2, 3])(4), [1, 2, 3, 4])
   })
 
   it('not', () => {
