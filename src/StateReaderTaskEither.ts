@@ -2,8 +2,10 @@ import * as RTE from './ReaderTaskEither'
 import * as stateT from './StateT'
 import ReaderTaskEither = RTE.ReaderTaskEither
 import { Monad4 } from './Monad'
-import { Either, either } from './Either'
+import { Either } from './Either'
 import { State } from './State'
+
+const T = stateT.getStateM(RTE.readerTaskEither)
 
 declare module './HKT' {
   interface URI2HKT4<X, U, L, A> {
@@ -30,20 +32,48 @@ export function run<S, E, L, A>(ma: StateReaderTaskEither<S, E, L, A>, s: S, e: 
 }
 
 /**
+ * Run a computation in the `StateReaderTaskEither` monad, discarding the final state
+ *
  * @since 2.0.0
  */
-export function evalState<S, E, L, A>(ma: StateReaderTaskEither<S, E, L, A>, s: S, e: E): Promise<Either<L, A>> {
-  return run(ma, s, e).then(e => either.map(e, ([a]) => a))
-}
+export const evalState: <S, E, L, A>(ma: StateReaderTaskEither<S, E, L, A>, s: S) => ReaderTaskEither<E, L, A> =
+  T.evalState
 
 /**
+ * Run a computation in the `StateReaderTaskEither` monad discarding the result
+ *
  * @since 2.0.0
  */
-export function execState<S, E, L, A>(ma: StateReaderTaskEither<S, E, L, A>, s: S, e: E): Promise<Either<L, S>> {
-  return run(ma, s, e).then(e => either.map(e, ([_, s]) => s))
-}
+export const execState: <S, E, L, A>(ma: StateReaderTaskEither<S, E, L, A>, s: S) => ReaderTaskEither<E, L, S> =
+  T.execState
 
-const T = stateT.getStateT(RTE.readerTaskEither)
+/**
+ * Get the current state
+ *
+ * @since 2.0.0
+ */
+export const get: <S>() => StateReaderTaskEither<S, unknown, never, S> = T.get
+
+/**
+ * Set the state
+ *
+ * @since 2.0.0
+ */
+export const put: <S>(s: S) => StateReaderTaskEither<S, unknown, never, void> = T.put
+
+/**
+ * Modify the state by applying a function to the current state
+ *
+ * @since 2.0.0
+ */
+export const modify: <S>(f: (s: S) => S) => StateReaderTaskEither<S, unknown, never, void> = T.modify
+
+/**
+ * Get a value which depends on the current state
+ *
+ * @since 2.0.0
+ */
+export const gets: <S, A>(f: (s: S) => A) => StateReaderTaskEither<S, unknown, never, A> = T.gets
 
 /**
  * @since 2.0.0

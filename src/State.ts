@@ -1,8 +1,8 @@
 import { Monad2 } from './Monad'
-import { getStateT } from './StateT'
+import { getStateM } from './StateT'
 import { identity } from './Identity'
 
-const T = getStateT(identity)
+const T = getStateM(identity)
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -29,25 +29,25 @@ export function run<S, A>(ma: State<S, A>, s: S): [A, S] {
 }
 
 /**
+ * Run a computation in the `State` monad, discarding the final state
+ *
  * @since 2.0.0
  */
-export function evalState<S, A>(ma: State<S, A>, s: S): A {
-  return ma(s)[0]
-}
+export const evalState: <S, A>(ma: State<S, A>, s: S) => A = T.evalState
 
 /**
+ * Run a computation in the `State` monad discarding the result
+ *
  * @since 2.0.0
  */
-export function execState<S, A>(ma: State<S, A>, s: S): S {
-  return ma(s)[1]
-}
+export const execState: <S, A>(ma: State<S, A>, s: S) => S = T.execState
 
 /**
  * Get the current state
  *
  * @since 2.0.0
  */
-export const get: <S>() => State<S, S> = () => T.get
+export const get: <S>() => State<S, S> = T.get
 
 /**
  * Set the state
