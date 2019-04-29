@@ -503,8 +503,8 @@ Unfolds a dictionary into a list of key/value pairs
 **Signature**
 
 ```ts
-export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): (<A>(d: StrMap<A>) => Type<F, [string, A]>)
-export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) { ... }
+export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): <A>(d: StrMap<A>) => Type<F, [string, A]>
+export function toUnfoldable<F>(U: Unfoldable<F>): <A>(d: StrMap<A>) => HKT<F, [string, A]> { ... }
 ```
 
 Added in v1.0.0

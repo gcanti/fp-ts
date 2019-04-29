@@ -378,9 +378,9 @@ export const toArray = <A>(d: StrMap<A>): Array<[string, A]> => {
  *
  * @since 1.0.0
  */
-export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): (<A>(d: StrMap<A>) => Type<F, [string, A]>)
-export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>)
-export function toUnfoldable<F>(U: Unfoldable<F>): (<A>(d: StrMap<A>) => HKT<F, [string, A]>) {
+export function toUnfoldable<F extends URIS>(U: Unfoldable1<F>): <A>(d: StrMap<A>) => Type<F, [string, A]>
+export function toUnfoldable<F>(U: Unfoldable<F>): <A>(d: StrMap<A>) => HKT<F, [string, A]>
+export function toUnfoldable<F>(U: Unfoldable<F>): <A>(d: StrMap<A>) => HKT<F, [string, A]> {
   const toUnfoldableU = R.toUnfoldable(U)
   return <A>(d: StrMap<A>) => toUnfoldableU<string, A>(d.value)
 }

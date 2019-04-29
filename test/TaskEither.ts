@@ -147,13 +147,11 @@ describe('TaskEither', () => {
   })
 
   it('chain', () => {
-    const te1 = taskEither.chain(
-      taskEither.of<string, string>('foo'),
-      a => (a.length > 2 ? taskEither.of<string, number>(a.length) : fromLeft<string, number>('foo'))
+    const te1 = taskEither.chain(taskEither.of<string, string>('foo'), a =>
+      a.length > 2 ? taskEither.of<string, number>(a.length) : fromLeft<string, number>('foo')
     )
-    const te2 = taskEither.chain(
-      taskEither.of<string, string>('a'),
-      a => (a.length > 2 ? taskEither.of<string, number>(a.length) : fromLeft<string, number>('foo'))
+    const te2 = taskEither.chain(taskEither.of<string, string>('a'), a =>
+      a.length > 2 ? taskEither.of<string, number>(a.length) : fromLeft<string, number>('foo')
     )
     return Promise.all([te1.run(), te2.run()]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, eitherRight(3))

@@ -170,13 +170,12 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> => {
  * @since 1.0.0
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
-  return fromEquals(
-    (x, y) =>
-      x.isThis()
-        ? y.isThis() && SL.equals(x.value, y.value)
-        : x.isThat()
-          ? y.isThat() && SA.equals(x.value, y.value)
-          : y.isBoth() && SL.equals(x.l, y.l) && SA.equals(x.a, y.a)
+  return fromEquals((x, y) =>
+    x.isThis()
+      ? y.isThis() && SL.equals(x.value, y.value)
+      : x.isThat()
+      ? y.isThat() && SA.equals(x.value, y.value)
+      : y.isBoth() && SL.equals(x.l, y.l) && SA.equals(x.a, y.a)
   )
 }
 
@@ -190,19 +189,19 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
         ? y.isThis()
           ? this_(SL.concat(x.value, y.value))
           : y.isThat()
-            ? both(x.value, y.value)
-            : both(SL.concat(x.value, y.l), y.a)
+          ? both(x.value, y.value)
+          : both(SL.concat(x.value, y.l), y.a)
         : x.isThat()
-          ? y.isThis()
-            ? both(y.value, x.value)
-            : y.isThat()
-              ? that(SA.concat(x.value, y.value))
-              : both(y.l, SA.concat(x.value, y.a))
-          : y.isThis()
-            ? both(SL.concat(x.l, y.value), x.a)
-            : y.isThat()
-              ? both(x.l, SA.concat(x.a, y.value))
-              : both(SL.concat(x.l, y.l), SA.concat(x.a, y.a))
+        ? y.isThis()
+          ? both(y.value, x.value)
+          : y.isThat()
+          ? that(SA.concat(x.value, y.value))
+          : both(y.l, SA.concat(x.value, y.a))
+        : y.isThis()
+        ? both(SL.concat(x.l, y.value), x.a)
+        : y.isThat()
+        ? both(x.l, SA.concat(x.a, y.value))
+        : both(SL.concat(x.l, y.l), SA.concat(x.a, y.a))
   }
 }
 
@@ -233,8 +232,8 @@ const chain = <L>(S: Semigroup<L>) => <A, B>(fa: These<L, A>, f: (a: A) => These
     return fb.isThis()
       ? this_(S.concat(fa.l, fb.value))
       : fb.isThat()
-        ? both(fa.l, fb.value)
-        : both(S.concat(fa.l, fb.l), fb.a)
+      ? both(fa.l, fb.value)
+      : both(S.concat(fa.l, fb.l), fb.a)
   }
 }
 
@@ -272,16 +271,16 @@ const traverse = <F>(F: Applicative<F>) => <L, A, B>(ta: These<L, A>, f: (a: A) 
   return ta.isThis()
     ? F.of(this_(ta.value))
     : ta.isThat()
-      ? F.map(f(ta.value), that as (b: B) => These<L, B>)
-      : F.map(f(ta.a), b => both(ta.l, b))
+    ? F.map(f(ta.value), that as (b: B) => These<L, B>)
+    : F.map(f(ta.a), b => both(ta.l, b))
 }
 
 const sequence = <F>(F: Applicative<F>) => <L, A>(ta: These<L, HKT<F, A>>): HKT<F, These<L, A>> => {
   return ta.isThis()
     ? F.of(this_(ta.value))
     : ta.isThat()
-      ? F.map(ta.value, that as (a: A) => These<L, A>)
-      : F.map(ta.a, b => both(ta.l, b))
+    ? F.map(ta.value, that as (a: A) => These<L, A>)
+    : F.map(ta.a, b => both(ta.l, b))
 }
 
 /**

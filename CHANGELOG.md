@@ -14,11 +14,21 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.17.2
+
+- **Polish**
+  - add `Bifunctor2C` interface (@gcanti)
+  - add `Profunctor2C` interface (@gcanti)
+  - replace `Array<any>` with `Array<unknown>` in `FunctionN` definition (@ta2gch)
+  - add refinement overloads to `filter` / `partition` (`Filterable` type class) (@gcanti)
+  - add refinement overloads to `filterWithIndex` / `partitionWithIndex` (`FilterableWithIndex` type class) (@gcanti)
+- **Deprecation**
+  - deprecate `Array.filter`, `Array.partition` in favour of `Array.array.filter` and `Array.array.partition` (@gcanti)
+
 # 1.17.1
 
-**Polish**
-
-- make `Type<URI1, A>` not assignable to `Type<URI2, A>`, closes #536 (@gcanti)
+- **Polish**
+  - make `Type<URI1, A>` not assignable to `Type<URI2, A>`, closes #536 (@gcanti)
 
 # 1.17.0
 

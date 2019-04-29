@@ -395,8 +395,8 @@ Added in v1.3.0
 export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
   onFalse: (a: A) => L
-): ((a: A) => TaskEither<L, B>)
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>) { ... }
+): (a: A) => TaskEither<L, B>
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A> { ... }
 ```
 
 Added in v1.6.0

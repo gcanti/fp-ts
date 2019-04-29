@@ -738,40 +738,40 @@ Added in v1.10.0
 ```ts
 export function wilt<F extends URIS3>(
   F: Applicative3<F>
-): (<U, L, RL, RR, A>(
+): <U, L, RL, RR, A>(
   wa: Record<string, A>,
   f: (a: A) => Type3<F, U, L, Either<RL, RR>>
-) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>)
+) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): (<RL, RR, A>(
+): <RL, RR, A>(
   wa: Record<string, A>,
   f: (a: A) => Type3<F, U, L, Either<RL, RR>>
-) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>)
+) => Type3<F, U, L, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F extends URIS2>(
   F: Applicative2<F>
-): (<L, RL, RR, A>(
+): <L, RL, RR, A>(
   wa: Record<string, A>,
   f: (a: A) => Type2<F, L, Either<RL, RR>>
-) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>)
+) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): (<RL, RR, A>(
+): <RL, RR, A>(
   wa: Record<string, A>,
   f: (a: A) => Type2<F, L, Either<RL, RR>>
-) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>)
+) => Type2<F, L, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F extends URIS>(
   F: Applicative1<F>
-): (<RL, RR, A>(
+): <RL, RR, A>(
   wa: Record<string, A>,
   f: (a: A) => Type<F, Either<RL, RR>>
-) => Type<F, Separated<Record<string, RL>, Record<string, RR>>>)
+) => Type<F, Separated<Record<string, RL>, Record<string, RR>>>
 export function wilt<F>(
   F: Applicative<F>
-): (<RL, RR, A>(
+): <RL, RR, A>(
   wa: Record<string, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
-) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>) { ... }
+) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>> { ... }
 ```
 
 Added in v1.10.0
@@ -783,22 +783,22 @@ Added in v1.10.0
 ```ts
 export function wither<F extends URIS3>(
   F: Applicative3<F>
-): (<U, L, A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>)
+): <U, L, A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>
 export function wither<F extends URIS3, U, L>(
   F: Applicative3C<F, U, L>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>)
+): <A, B>(wa: Record<string, A>, f: (a: A) => Type3<F, U, L, Option<B>>) => Type3<F, U, L, Record<string, B>>
 export function wither<F extends URIS2>(
   F: Applicative2<F>
-): (<L, A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>)
+): <L, A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>
 export function wither<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>)
+): <A, B>(wa: Record<string, A>, f: (a: A) => Type2<F, L, Option<B>>) => Type2<F, L, Record<string, B>>
 export function wither<F extends URIS>(
   F: Applicative1<F>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Record<string, B>>)
+): <A, B>(wa: Record<string, A>, f: (a: A) => Type<F, Option<B>>) => Type<F, Record<string, B>>
 export function wither<F>(
   F: Applicative<F>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>) { ... }
+): <A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>> { ... }
 ```
 
 Added in v1.10.0
