@@ -20,10 +20,8 @@ export interface Ord<A> extends Eq<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
 
-/**
- * @since 2.0.0
- */
-export const unsafeCompare = (x: any, y: any): Ordering => {
+// default compare for primitive types
+const compare = (x: any, y: any): Ordering => {
   return x < y ? -1 : x > y ? 1 : 0
 }
 
@@ -31,33 +29,38 @@ export const unsafeCompare = (x: any, y: any): Ordering => {
  * @since 2.0.0
  */
 export const ordString: Ord<string> = {
-  ...eqString,
-  compare: unsafeCompare
+  equals: eqString.equals,
+  compare
 }
 
 /**
  * @since 2.0.0
  */
 export const ordNumber: Ord<number> = {
-  ...eqNumber,
-  compare: unsafeCompare
+  equals: eqNumber.equals,
+  compare
 }
 
 /**
  * @since 2.0.0
  */
 export const ordBoolean: Ord<boolean> = {
-  ...eqBoolean,
-  compare: unsafeCompare
+  equals: eqBoolean.equals,
+  compare
 }
+
+/**
+ * @since 2.0.0
+ */
+export const ordDate: Ord<Date> = contramap(ordNumber, date => date.valueOf())
 
 /**
  * Test whether one value is _strictly less than_ another
  *
  * @since 2.0.0
  */
-export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
-  return O.compare(x, y) === -1
+export function lessThan<A>(O: Ord<A>): (x: A, y: A) => boolean {
+  return (x, y) => O.compare(x, y) === -1
 }
 
 /**
@@ -65,8 +68,8 @@ export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
  *
  * @since 2.0.0
  */
-export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
-  return O.compare(x, y) === 1
+export function greaterThan<A>(O: Ord<A>): (x: A, y: A) => boolean {
+  return (x, y) => O.compare(x, y) === 1
 }
 
 /**
@@ -74,8 +77,8 @@ export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
  *
  * @since 2.0.0
  */
-export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
-  return O.compare(x, y) !== 1
+export function lessThanOrEq<A>(O: Ord<A>): (x: A, y: A) => boolean {
+  return (x, y) => O.compare(x, y) !== 1
 }
 
 /**
@@ -83,8 +86,8 @@ export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
  *
  * @since 2.0.0
  */
-export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
-  return O.compare(x, y) !== -1
+export function greaterThanOrEq<A>(O: Ord<A>): (x: A, y: A) => boolean {
+  return (x, y) => O.compare(x, y) !== -1
 }
 
 /**
@@ -92,8 +95,8 @@ export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => {
  *
  * @since 2.0.0
  */
-export const min = <A>(O: Ord<A>) => (x: A, y: A): A => {
-  return O.compare(x, y) === 1 ? y : x
+export function min<A>(O: Ord<A>): (x: A, y: A) => A {
+  return (x, y) => (O.compare(x, y) === 1 ? y : x)
 }
 
 /**
@@ -101,8 +104,8 @@ export const min = <A>(O: Ord<A>) => (x: A, y: A): A => {
  *
  * @since 2.0.0
  */
-export const max = <A>(O: Ord<A>) => (x: A, y: A): A => {
-  return O.compare(x, y) === -1 ? y : x
+export function max<A>(O: Ord<A>): (x: A, y: A) => A {
+  return (x, y) => (O.compare(x, y) === -1 ? y : x)
 }
 
 /**
@@ -110,7 +113,7 @@ export const max = <A>(O: Ord<A>) => (x: A, y: A): A => {
  *
  * @since 2.0.0
  */
-export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
+export function clamp<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) {
   const minO = min(O)
   const maxO = max(O)
   return (low, hi) => x => maxO(minO(x, hi), low)
@@ -121,7 +124,7 @@ export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => {
  *
  * @since 2.0.0
  */
-export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => {
+export function between<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) {
   const lessThanO = lessThan(O)
   const greaterThanO = greaterThan(O)
   return (low, hi) => x => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
@@ -130,7 +133,7 @@ export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) =>
 /**
  * @since 2.0.0
  */
-export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => {
+export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> {
   const optimizedCompare = (x: A, y: A): Ordering => (x === y ? 0 : compare(x, y))
   return {
     equals: (x, y) => optimizedCompare(x, y) === 0,
@@ -148,7 +151,7 @@ export function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B> {
 /**
  * @since 2.0.0
  */
-export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
+export function getSemigroup<A = never>(): Semigroup<Ord<A>> {
   return {
     concat: (x, y) => fromCompare((a, b) => semigroupOrdering.concat(x.compare(a, b), y.compare(a, b)))
   }
@@ -167,9 +170,9 @@ export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => {
  *
  * @since 2.0.0
  */
-export const getTupleOrd = <T extends Array<Ord<any>>>(
+export function getTupleOrd<T extends Array<Ord<any>>>(
   ...ords: T
-): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> => {
+): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> {
   const len = ords.length
   return fromCompare((x, y) => {
     let i = 0
@@ -186,11 +189,6 @@ export const getTupleOrd = <T extends Array<Ord<any>>>(
 /**
  * @since 2.0.0
  */
-export const getDualOrd = <A>(O: Ord<A>): Ord<A> => {
+export function getDualOrd<A>(O: Ord<A>): Ord<A> {
   return fromCompare((x, y) => O.compare(y, x))
 }
-
-/**
- * @since 2.0.0
- */
-export const ordDate: Ord<Date> = contramap(ordNumber, date => date.valueOf())

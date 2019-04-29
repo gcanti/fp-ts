@@ -38,7 +38,6 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 - [lessThanOrEq (function)](#lessthanoreq-function)
 - [max (function)](#max-function)
 - [min (function)](#min-function)
-- [unsafeCompare (function)](#unsafecompare-function)
 
 ---
 
@@ -101,7 +100,7 @@ Test whether a value is between a minimum and a maximum (inclusive)
 **Signature**
 
 ```ts
-export const between = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) => ...
+export function between<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) { ... }
 ```
 
 Added in v2.0.0
@@ -113,7 +112,7 @@ Clamp a value between a minimum and a maximum
 **Signature**
 
 ```ts
-export const clamp = <A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) => ...
+export function clamp<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) { ... }
 ```
 
 Added in v2.0.0
@@ -133,7 +132,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fromCompare = <A>(compare: (x: A, y: A) => Ordering): Ord<A> => ...
+export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> { ... }
 ```
 
 Added in v2.0.0
@@ -143,7 +142,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getDualOrd = <A>(O: Ord<A>): Ord<A> => ...
+export function getDualOrd<A>(O: Ord<A>): Ord<A> { ... }
 ```
 
 Added in v2.0.0
@@ -153,7 +152,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getSemigroup = <A = never>(): Semigroup<Ord<A>> => ...
+export function getSemigroup<A = never>(): Semigroup<Ord<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -165,9 +164,9 @@ Given a tuple of `Ord`s returns an `Ord` for the tuple
 **Signature**
 
 ```ts
-export const getTupleOrd = <T extends Array<Ord<any>>>(
+export function getTupleOrd<T extends Array<Ord<any>>>(
   ...ords: T
-): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> => ...
+): Ord<{ [K in keyof T]: T[K] extends Ord<infer A> ? A : never }> { ... }
 ```
 
 **Example**
@@ -190,7 +189,7 @@ Test whether one value is _strictly greater than_ another
 **Signature**
 
 ```ts
-export const greaterThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
+export function greaterThan<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -202,7 +201,7 @@ Test whether one value is _non-strictly greater than_ another
 **Signature**
 
 ```ts
-export const greaterThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
+export function greaterThanOrEq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -214,7 +213,7 @@ Test whether one value is _strictly less than_ another
 **Signature**
 
 ```ts
-export const lessThan = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
+export function lessThan<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -226,7 +225,7 @@ Test whether one value is _non-strictly less than_ another
 **Signature**
 
 ```ts
-export const lessThanOrEq = <A>(O: Ord<A>) => (x: A, y: A): boolean => ...
+export function lessThanOrEq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -238,7 +237,7 @@ Take the maximum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export const max = <A>(O: Ord<A>) => (x: A, y: A): A => ...
+export function max<A>(O: Ord<A>): (x: A, y: A) => A { ... }
 ```
 
 Added in v2.0.0
@@ -250,17 +249,7 @@ Take the minimum of two values. If they are considered equal, the first argument
 **Signature**
 
 ```ts
-export const min = <A>(O: Ord<A>) => (x: A, y: A): A => ...
-```
-
-Added in v2.0.0
-
-# unsafeCompare (function)
-
-**Signature**
-
-```ts
-export const unsafeCompare = (x: any, y: any): Ordering => ...
+export function min<A>(O: Ord<A>): (x: A, y: A) => A { ... }
 ```
 
 Added in v2.0.0
