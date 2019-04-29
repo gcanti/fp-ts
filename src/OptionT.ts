@@ -1,5 +1,5 @@
 import {
-  ApplicativeComposition,
+  ApplicativeComposition01,
   ApplicativeComposition11,
   ApplicativeComposition21,
   ApplicativeComposition2C1,
@@ -10,7 +10,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3C } from './Monad'
 import { isNone, none, Option, option, URI } from './Option'
 
-interface OptionT<M> extends ApplicativeComposition<M, URI> {
+interface OptionT<M> extends ApplicativeComposition01<M, URI> {
   readonly chain: <A, B>(ma: HKT<M, Option<A>>, f: (a: A) => HKT<M, Option<B>>) => HKT<M, Option<B>>
   readonly fold: <A, R>(ma: HKT<M, Option<A>>, onNone: R, onSome: (a: A) => R) => HKT<M, R>
 }

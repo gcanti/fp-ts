@@ -56,6 +56,14 @@ export interface FunctorComposition<F, G> {
   readonly map: <A, B>(fa: HKT<F, HKT<G, A>>, f: (a: A) => B) => HKT<F, HKT<G, B>>
 }
 
+export interface FunctorComposition01<F, G extends URIS> {
+  readonly map: <A, B>(fa: HKT<F, Type<G, A>>, f: (a: A) => B) => HKT<F, Type<G, B>>
+}
+
+export interface FunctorComposition02<F, G extends URIS2> {
+  readonly map: <LG, A, B>(fa: HKT<F, Type2<G, LG, A>>, f: (a: A) => B) => HKT<F, Type2<G, LG, B>>
+}
+
 export interface FunctorComposition11<F extends URIS, G extends URIS> {
   readonly map: <A, B>(fa: Type<F, Type<G, A>>, f: (a: A) => B) => Type<F, Type<G, B>>
 }

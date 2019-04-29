@@ -5,7 +5,7 @@
 import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
-import { getEitherT } from './EitherT'
+import { getEitherM } from './EitherT'
 import { Lazy } from './function'
 import { IO, io } from './IO'
 import { Monad2 } from './Monad'
@@ -21,7 +21,7 @@ export const URI = 'IOEither'
 
 export type URI = typeof URI
 
-const eitherT = getEitherT(io)
+const eitherT = getEitherM(io)
 
 /**
  * @since 2.0.0

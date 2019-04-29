@@ -17,24 +17,23 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [fold (constant)](#fold-constant)
+- [foldTask (constant)](#foldtask-constant)
 - [fromIOEither (constant)](#fromioeither-constant)
+- [fromLeft (constant)](#fromleft-constant)
 - [fromRight (constant)](#fromright-constant)
+- [getOrElse (constant)](#getorelse-constant)
+- [left (constant)](#left-constant)
+- [mapLeft (constant)](#mapleft-constant)
+- [orElse (constant)](#orelse-constant)
+- [right (constant)](#right-constant)
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
-- [attempt (function)](#attempt-function)
 - [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
-- [foldTask (function)](#foldtask-function)
-- [fromLeft (function)](#fromleft-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
-- [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [left (function)](#left-function)
-- [mapLeft (function)](#mapleft-function)
-- [orElse (function)](#orelse-function)
-- [right (function)](#right-function)
 - [taskify (function)](#taskify-function)
 - [tryCatch (function)](#trycatch-function)
 
@@ -74,6 +73,20 @@ export const fold: <L, A, R>(ma: TaskEither<L, A>, onLeft: (l: L) => R, onRight:
 
 Added in v2.0.0
 
+# foldTask (constant)
+
+**Signature**
+
+```ts
+export const foldTask: <L, A, R>(
+  ma: TaskEither<L, A>,
+  onLeft: (l: L) => Task<R>,
+  onRight: (a: A) => Task<R>
+) => Task<R> = ...
+```
+
+Added in v2.0.0
+
 # fromIOEither (constant)
 
 **Signature**
@@ -84,12 +97,72 @@ export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = ...
 
 Added in v2.0.0
 
+# fromLeft (constant)
+
+**Signature**
+
+```ts
+export const fromLeft: <L>(l: L) => TaskEither<L, never> = ...
+```
+
+Added in v2.0.0
+
 # fromRight (constant)
 
 **Signature**
 
 ```ts
 export const fromRight: <A>(a: A) => TaskEither<never, A> = ...
+```
+
+Added in v2.0.0
+
+# getOrElse (constant)
+
+**Signature**
+
+```ts
+export const getOrElse: <L, A>(ma: TaskEither<L, A>, f: (l: L) => A) => Task<A> = ...
+```
+
+Added in v2.0.0
+
+# left (constant)
+
+**Signature**
+
+```ts
+export const left: <L>(ml: Task<L>) => TaskEither<L, never> = ...
+```
+
+Added in v2.0.0
+
+# mapLeft (constant)
+
+**Signature**
+
+```ts
+export const mapLeft: <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => M) => TaskEither<M, A> = ...
+```
+
+Added in v2.0.0
+
+# orElse (constant)
+
+**Signature**
+
+```ts
+export const orElse: <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M, A>) => TaskEither<M, A> = ...
+```
+
+Added in v2.0.0
+
+# right (constant)
+
+**Signature**
+
+```ts
+export const right: <A>(ma: Task<A>) => TaskEither<never, A> = ...
 ```
 
 Added in v2.0.0
@@ -117,16 +190,6 @@ Like `TaskEither` but `ap` is sequential
 
 ```ts
 export const taskEitherSeq: typeof taskEither = ...
-```
-
-Added in v2.0.0
-
-# attempt (function)
-
-**Signature**
-
-```ts
-export function attempt<L, A>(ma: TaskEither<L, A>): TaskEither<L, E.Either<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -160,30 +223,6 @@ export function filterOrElse<L, A, B extends A>(
   zero: (a: A) => L
 ): TaskEither<L, B>
 export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> { ... }
-```
-
-Added in v2.0.0
-
-# foldTask (function)
-
-**Signature**
-
-```ts
-export function foldTask<L, A, R>(
-  ma: TaskEither<L, A>,
-  onLeft: (l: L) => Task<R>,
-  onRight: (a: A) => Task<R>
-): Task<R> { ... }
-```
-
-Added in v2.0.0
-
-# fromLeft (function)
-
-**Signature**
-
-```ts
-export function fromLeft<L>(l: L): TaskEither<L, never> { ... }
 ```
 
 Added in v2.0.0
@@ -222,62 +261,12 @@ export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L
 
 Added in v2.0.0
 
-# getOrElse (function)
-
-**Signature**
-
-```ts
-export function getOrElse<L, A>(ma: TaskEither<L, A>, f: (l: L) => A): Task<A> { ... }
-```
-
-Added in v2.0.0
-
 # getSemigroup (function)
 
 **Signature**
 
 ```ts
 export function getSemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> { ... }
-```
-
-Added in v2.0.0
-
-# left (function)
-
-**Signature**
-
-```ts
-export function left<L>(fl: Task<L>): TaskEither<L, never> { ... }
-```
-
-Added in v2.0.0
-
-# mapLeft (function)
-
-**Signature**
-
-```ts
-export function mapLeft<L, A, M>(ma: TaskEither<L, A>, f: (l: L) => M): TaskEither<M, A> { ... }
-```
-
-Added in v2.0.0
-
-# orElse (function)
-
-**Signature**
-
-```ts
-export function orElse<L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M, A>): TaskEither<M, A> { ... }
-```
-
-Added in v2.0.0
-
-# right (function)
-
-**Signature**
-
-```ts
-export function right<A>(fa: Task<A>): TaskEither<never, A> { ... }
 ```
 
 Added in v2.0.0

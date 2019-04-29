@@ -8,13 +8,6 @@ import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 
 describe('TaskEither', () => {
-  it('attempt', () => {
-    return Promise.all([TE.attempt(TE.fromRight(1))(), TE.attempt(TE.fromLeft('foo'))()]).then(([x, y]) => {
-      assert.deepStrictEqual(x, eitherRight(eitherRight(1)))
-      assert.deepStrictEqual(y, eitherRight(eitherLeft('foo')))
-    })
-  })
-
   describe('bracket', () => {
     let log: Array<string> = []
 

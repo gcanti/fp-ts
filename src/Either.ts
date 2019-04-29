@@ -184,8 +184,8 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
   return a => (predicate(a) ? right(a) : left(onFalse(a)))
 }
 
-function fromOption<L, A>(fa: Option<A>, onNone: () => L): Either<L, A> {
-  return fa._tag === 'None' ? left(onNone()) : right(fa.value)
+function fromOption<L, A>(ma: Option<A>, onNone: () => L): Either<L, A> {
+  return ma._tag === 'None' ? left(onNone()) : right(ma.value)
 }
 
 /**
@@ -433,13 +433,13 @@ export function getFilterable<L>(M: Monoid<L>): Filterable2C<URI, L> {
   const onNone = () => M.empty
 
   const partitionMap = <RL, RR, A>(
-    fa: Either<L, A>,
+    ma: Either<L, A>,
     f: (a: A) => Either<RL, RR>
   ): Separated<Either<L, RL>, Either<L, RR>> => {
-    if (isLeft(fa)) {
-      return { left: fa, right: fa }
+    if (isLeft(ma)) {
+      return { left: ma, right: ma }
     }
-    const e = f(fa.right)
+    const e = f(ma.right)
     return isLeft(e) ? { left: right(e.left), right: empty } : { left: empty, right: right(e.right) }
   }
 
