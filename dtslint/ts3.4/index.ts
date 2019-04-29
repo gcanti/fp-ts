@@ -150,7 +150,7 @@ C.const_.contramap(C.make<boolean>(true), (s: string) => s.length) // $ExpectTyp
 
 // Monad2C
 
-OT.getOptionT(Th.getMonad(A.getMonoid<string>())) // $ExpectType OptionT2C<"These", string[]>
+OT.getOptionM(Th.getMonad(A.getMonoid<string>())) // $ExpectType OptionM2C<"These", string[]>
 
 //
 // TaskEither

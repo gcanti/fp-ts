@@ -8,51 +8,68 @@ import {
 } from './Applicative'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3C } from './Monad'
-import { isNone, none, Option, option, URI } from './Option'
+import { fold, getOrElse, isNone, none, Option, option, some, URI } from './Option'
 
-interface OptionT<M> extends ApplicativeComposition01<M, URI> {
-  readonly chain: <A, B>(ma: HKT<M, Option<A>>, f: (a: A) => HKT<M, Option<B>>) => HKT<M, Option<B>>
-  readonly fold: <A, R>(ma: HKT<M, Option<A>>, onNone: R, onSome: (a: A) => R) => HKT<M, R>
+export interface OptionT<M, A> extends HKT<M, Option<A>> {}
+
+export interface OptionM<M> extends ApplicativeComposition01<M, URI> {
+  readonly chain: <A, B>(ma: OptionT<M, A>, f: (a: A) => OptionT<M, B>) => OptionT<M, B>
+  readonly fold: <A, R>(ma: OptionT<M, A>, onNone: () => R, onSome: (a: A) => R) => HKT<M, R>
+  readonly getOrElse: <A>(ma: OptionT<M, A>, f: () => A) => HKT<M, A>
+  readonly fromM: <A>(ma: HKT<M, A>) => OptionT<M, A>
 }
 
-interface OptionT1<M extends URIS> extends ApplicativeComposition11<M, URI> {
-  readonly chain: <A, B>(ma: Type<M, Option<A>>, f: (a: A) => Type<M, Option<B>>) => Type<M, Option<B>>
-  readonly fold: <A, R>(ma: Type<M, Option<A>>, onNone: R, onSome: (a: A) => R) => Type<M, R>
+type OptionT1<M extends URIS, A> = Type<M, Option<A>>
+
+interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, URI> {
+  readonly chain: <A, B>(ma: OptionT1<M, A>, f: (a: A) => OptionT1<M, B>) => OptionT1<M, B>
+  readonly fold: <A, R>(ma: OptionT1<M, A>, onNone: () => R, onSome: (a: A) => R) => Type<M, R>
+  readonly getOrElse: <A>(ma: OptionT1<M, A>, f: () => A) => Type<M, A>
+  readonly fromM: <A>(ma: Type<M, A>) => OptionT1<M, A>
 }
 
-interface OptionT2<M extends URIS2> extends ApplicativeComposition21<M, URI> {
-  readonly chain: <L, A, B>(ma: Type2<M, L, Option<A>>, f: (a: A) => Type2<M, L, Option<B>>) => Type2<M, L, Option<B>>
-  readonly fold: <L, A, R>(ma: Type2<M, L, Option<A>>, onNone: R, onSome: (a: A) => R) => Type2<M, L, R>
+type OptionT2<M extends URIS2, L, A> = Type2<M, L, Option<A>>
+
+interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, URI> {
+  readonly chain: <L, A, B>(ma: OptionT2<M, L, A>, f: (a: A) => OptionT2<M, L, B>) => OptionT2<M, L, B>
+  readonly fold: <L, A, R>(ma: OptionT2<M, L, A>, onNone: () => R, onSome: (a: A) => R) => Type2<M, L, R>
+  readonly getOrElse: <L, A>(ma: OptionT2<M, L, A>, f: () => A) => Type2<M, L, A>
+  readonly fromM: <L, A>(ma: Type2<M, L, A>) => OptionT2<M, L, A>
 }
 
-interface OptionT2C<M extends URIS2, L> extends ApplicativeComposition2C1<M, URI, L> {
-  readonly chain: <A, B>(ma: Type2<M, L, Option<A>>, f: (a: A) => Type2<M, L, Option<B>>) => Type2<M, L, Option<B>>
-  readonly fold: <A, R>(ma: Type2<M, L, Option<A>>, onNone: R, onSome: (a: A) => R) => Type2<M, L, R>
+interface OptionM2C<M extends URIS2, L> extends ApplicativeComposition2C1<M, URI, L> {
+  readonly chain: <A, B>(ma: OptionT2<M, L, A>, f: (a: A) => OptionT2<M, L, B>) => OptionT2<M, L, B>
+  readonly fold: <A, R>(ma: OptionT2<M, L, A>, onNone: () => R, onSome: (a: A) => R) => Type2<M, L, R>
+  readonly getOrElse: <A>(ma: OptionT2<M, L, A>, f: () => A) => Type2<M, L, A>
+  readonly fromM: <A>(ma: Type2<M, L, A>) => OptionT2<M, L, A>
 }
 
-interface OptionT3C<M extends URIS3, U, L> extends ApplicativeComposition3C1<M, URI, U, L> {
-  readonly chain: <A, B>(
-    ma: Type3<M, U, L, Option<A>>,
-    f: (a: A) => Type3<M, U, L, Option<B>>
-  ) => Type3<M, U, L, Option<B>>
-  readonly fold: <A, R>(ma: Type3<M, U, L, Option<A>>, onNone: R, onSome: (a: A) => R) => Type3<M, U, L, R>
+type OptionT3<M extends URIS3, U, L, A> = Type3<M, U, L, Option<A>>
+
+interface OptionM3C<M extends URIS3, U, L> extends ApplicativeComposition3C1<M, URI, U, L> {
+  readonly chain: <A, B>(ma: OptionT3<M, U, L, A>, f: (a: A) => OptionT3<M, U, L, B>) => OptionT3<M, U, L, B>
+  readonly fold: <A, R>(ma: OptionT3<M, U, L, A>, onNone: () => R, onSome: (a: A) => R) => Type3<M, U, L, R>
+  readonly getOrElse: <A>(ma: OptionT3<M, U, L, A>, f: () => A) => Type3<M, U, L, A>
+  readonly fromM: <A>(ma: Type3<M, U, L, A>) => OptionT3<M, U, L, A>
 }
 
 /**
  * @since 2.0.0
  */
-export function getOptionT<M extends URIS3, U, L>(M: Monad3C<M, U, L>): OptionT3C<M, U, L>
-export function getOptionT<M extends URIS2>(M: Monad2<M>): OptionT2<M>
-export function getOptionT<M extends URIS2, L>(M: Monad2C<M, L>): OptionT2C<M, L>
-export function getOptionT<M extends URIS>(M: Monad1<M>): OptionT1<M>
-export function getOptionT<M>(M: Monad<M>): OptionT<M>
-export function getOptionT<M>(M: Monad<M>): OptionT<M> {
-  const applicativeComposition = getApplicativeComposition(M, option)
+export function getOptionM<M extends URIS3, U, L>(M: Monad3C<M, U, L>): OptionM3C<M, U, L>
+export function getOptionM<M extends URIS2>(M: Monad2<M>): OptionM2<M>
+export function getOptionM<M extends URIS2, L>(M: Monad2C<M, L>): OptionM2C<M, L>
+export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>
+export function getOptionM<M>(M: Monad<M>): OptionM<M>
+export function getOptionM<M>(M: Monad<M>): OptionM<M> {
+  const A = getApplicativeComposition(M, option)
   const fnone = M.of(none)
 
   return {
-    ...applicativeComposition,
+    ...A,
     chain: (ma, f) => M.chain(ma, o => (isNone(o) ? fnone : f(o.value))),
-    fold: (ma, onNone, onSome) => M.map(ma, o => (isNone(o) ? onNone : onSome(o.value)))
+    fold: (ma, onNone, onSome) => M.map(ma, o => fold(o, onNone, onSome)),
+    getOrElse: (ma, f) => M.map(ma, o => getOrElse(o, f)),
+    fromM: ma => M.map(ma, some)
   }
 }
