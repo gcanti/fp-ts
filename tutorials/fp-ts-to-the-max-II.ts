@@ -93,13 +93,10 @@ const gameLoop = <F extends URIS>(F: Main<F>) => (name: string): Type<F, void> =
   return F.chain(F.nextInt(5), secret => {
     const game = F.chain(F.putStrLn(`Dear ${name}, please guess a number from 1 to 5`), () =>
       F.chain(F.getStrLn, guess =>
-        fold(
-          parse(guess),
-          parseFailureMessage,
-          x =>
-            x === secret
-              ? F.putStrLn(`You guessed right, ${name}!`)
-              : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
+        fold(parse(guess), parseFailureMessage, x =>
+          x === secret
+            ? F.putStrLn(`You guessed right, ${name}!`)
+            : F.putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
         )
       )
     )

@@ -140,9 +140,8 @@ describe('Set', () => {
     const SL = getStructEq({ value: eqNumber })
     const SR = getStructEq({ value: eqString })
     assert.deepStrictEqual(
-      partitionMap(SL, SR)(
-        new Set([{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }]),
-        x => (x.value % 2 === 0 ? left({ value: 2 }) : right({ value: 'odd' }))
+      partitionMap(SL, SR)(new Set([{ value: 1 }, { value: 2 }, { value: 3 }, { value: 4 }]), x =>
+        x.value % 2 === 0 ? left({ value: 2 }) : right({ value: 'odd' })
       ),
       {
         left: new Set([{ value: 2 }]),

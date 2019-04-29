@@ -100,7 +100,7 @@ Test whether a value is between a minimum and a maximum (inclusive)
 **Signature**
 
 ```ts
-export function between<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => boolean) { ... }
+export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -112,7 +112,7 @@ Clamp a value between a minimum and a maximum
 **Signature**
 
 ```ts
-export function clamp<A>(O: Ord<A>): ((low: A, hi: A) => (x: A) => A) { ... }
+export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A { ... }
 ```
 
 Added in v2.0.0

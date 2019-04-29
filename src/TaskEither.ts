@@ -120,9 +120,9 @@ export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = T.ta
 export function fromPredicate<L, A, B extends A>(
   predicate: Refinement<A, B>,
   onFalse: (a: A) => L
-): ((a: A) => TaskEither<L, B>)
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>)
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): ((a: A) => TaskEither<L, A>) {
+): (a: A) => TaskEither<L, B>
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A>
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A> {
   const f = E.fromPredicate(predicate, onFalse)
   return a => task.of(f(a))
 }

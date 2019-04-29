@@ -111,7 +111,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<A>(M: Monoid<A>): ((as: Array<A>) => A) { ... }
+export function fold<A>(M: Monoid<A>): (as: Array<A>) => A { ... }
 ```
 
 Added in v2.0.0

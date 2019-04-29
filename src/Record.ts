@@ -452,17 +452,17 @@ const separate = <RL, RR>(fa: Record<string, Either<RL, RR>>): Separated<Record<
 
 function wither<F>(
   F: Applicative<F>
-): (<A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>>) {
+): <A, B>(wa: Record<string, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Record<string, B>> {
   const traverseF = traverse(F)
   return (wa, f) => F.map(traverseF(wa, f), compact)
 }
 
 function wilt<F>(
   F: Applicative<F>
-): (<RL, RR, A>(
+): <RL, RR, A>(
   wa: Record<string, A>,
   f: (a: A) => HKT<F, Either<RL, RR>>
-) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>>) {
+) => HKT<F, Separated<Record<string, RL>, Record<string, RR>>> {
   const traverseF = traverse(F)
   return (wa, f) => F.map(traverseF(wa, f), separate)
 }

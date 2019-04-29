@@ -112,8 +112,8 @@ export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> {
  * @since 2.0.0
  */
 export function getEq<L, A>(SL: Eq<L>, SA: Eq<A>): Eq<Either<L, A>> {
-  return fromEquals(
-    (x, y) => (isLeft(x) ? isLeft(y) && SL.equals(x.left, y.left) : isRight(y) && SA.equals(x.right, y.right))
+  return fromEquals((x, y) =>
+    isLeft(x) ? isLeft(y) && SL.equals(x.left, y.left) : isRight(y) && SA.equals(x.right, y.right)
   )
 }
 
@@ -382,14 +382,12 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ma: Either<L, HKT<F, A>>): HKT
 }
 
 const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
-  return tailRec(
-    f(a),
-    e =>
-      isLeft(e)
-        ? right<Either<L, B>>(left(e.left))
-        : isLeft(e.right)
-          ? left(f(e.right.left))
-          : right(right(e.right.right))
+  return tailRec(f(a), e =>
+    isLeft(e)
+      ? right<Either<L, B>>(left(e.left))
+      : isLeft(e.right)
+      ? left(f(e.right.left))
+      : right(right(e.right.right))
   )
 }
 
@@ -412,8 +410,8 @@ export function getCompactable<L>(M: Monoid<L>): Compactable2C<URI, L> {
     return isLeft(ma)
       ? { left: ma, right: ma }
       : isLeft(ma.right)
-        ? { left: right(ma.right.left), right: empty }
-        : { left: empty, right: right(ma.right.right) }
+      ? { left: right(ma.right.left), right: empty }
+      : { left: empty, right: right(ma.right.right) }
   }
 
   return {
@@ -449,8 +447,8 @@ export function getFilterable<L>(M: Monoid<L>): Filterable2C<URI, L> {
     return isLeft(ma)
       ? { left: ma, right: ma }
       : p(ma.right)
-        ? { left: empty, right: right(ma.right) }
-        : { left: right(ma.right), right: empty }
+      ? { left: empty, right: right(ma.right) }
+      : { left: right(ma.right), right: empty }
   }
 
   const filterMap = <A, B>(ma: Either<L, A>, f: (a: A) => Option<B>): Either<L, B> => {

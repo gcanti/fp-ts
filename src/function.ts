@@ -118,7 +118,7 @@ export const constVoid = (): void => {
  *
  * @since 2.0.0
  */
-export function flip<A, B, C>(f: (a: A, b: B) => C): ((b: B, a: A) => C) {
+export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C {
   return (b, a) => f(a, b)
 }
 

@@ -291,7 +291,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export function difference<A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) { ... }
+export function difference<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> { ... }
 ```
 
 **Example**
@@ -747,7 +747,7 @@ comparisons. The order and references of result values are determined by the fir
 **Signature**
 
 ```ts
-export function intersection<A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) { ... }
+export function intersection<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> { ... }
 ```
 
 **Example**
@@ -1017,7 +1017,7 @@ assert.deepStrictEqual(scanLeft([1, 2, 3], 10, (b, a) => b - a), [10, 9, 7, 4])
 **Signature**
 
 ```ts
-export function scanLeft<A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> { ... }
+export function scanLeft<A, B>(as: Array<A>, b: B, f: (b: B, a: A) => B): Array<B> { ... }
 ```
 
 Added in v2.0.0
@@ -1256,7 +1256,7 @@ Creates an array of unique values, in order, from all given arrays using a `Eq` 
 **Signature**
 
 ```ts
-export function union<A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) { ... }
+export function union<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> { ... }
 ```
 
 **Example**
@@ -1277,7 +1277,7 @@ Remove duplicates from an array, keeping the first occurance of an element.
 **Signature**
 
 ```ts
-export function uniq<A>(E: Eq<A>): ((as: Array<A>) => Array<A>) { ... }
+export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> { ... }
 ```
 
 **Example**

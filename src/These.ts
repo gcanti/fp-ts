@@ -107,13 +107,12 @@ export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> {
  * @since 2.0.0
  */
 export function getEq<L, A>(SL: Eq<L>, SA: Eq<A>): Eq<These<L, A>> {
-  return fromEquals(
-    (x, y) =>
-      isLeft(x)
-        ? isLeft(y) && SL.equals(x.left, y.left)
-        : isRight(x)
-          ? isRight(y) && SA.equals(x.right, y.right)
-          : isBoth(y) && SL.equals(x.left, y.left) && SA.equals(x.right, y.right)
+  return fromEquals((x, y) =>
+    isLeft(x)
+      ? isLeft(y) && SL.equals(x.left, y.left)
+      : isRight(x)
+      ? isRight(y) && SA.equals(x.right, y.right)
+      : isBoth(y) && SL.equals(x.left, y.left) && SA.equals(x.right, y.right)
   )
 }
 
@@ -127,19 +126,19 @@ export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
         ? isLeft(y)
           ? left(SL.concat(x.left, y.left))
           : isRight(y)
-            ? both(x.left, y.right)
-            : both(SL.concat(x.left, y.left), y.right)
+          ? both(x.left, y.right)
+          : both(SL.concat(x.left, y.left), y.right)
         : isRight(x)
-          ? isLeft(y)
-            ? both(y.left, x.right)
-            : isRight(y)
-              ? right(SA.concat(x.right, y.right))
-              : both(y.left, SA.concat(x.right, y.right))
-          : isLeft(y)
-            ? both(SL.concat(x.left, y.left), x.right)
-            : isRight(y)
-              ? both(x.left, SA.concat(x.right, y.right))
-              : both(SL.concat(x.left, y.left), SA.concat(x.right, y.right))
+        ? isLeft(y)
+          ? both(y.left, x.right)
+          : isRight(y)
+          ? right(SA.concat(x.right, y.right))
+          : both(y.left, SA.concat(x.right, y.right))
+        : isLeft(y)
+        ? both(SL.concat(x.left, y.left), x.right)
+        : isRight(y)
+        ? both(x.left, SA.concat(x.right, y.right))
+        : both(SL.concat(x.left, y.left), SA.concat(x.right, y.right))
   }
 }
 
@@ -162,8 +161,8 @@ export function getMonad<L>(S: Semigroup<L>): Monad2C<URI, L> {
     return isLeft(fb)
       ? left(S.concat(ma.left, fb.left))
       : isRight(fb)
-        ? both(ma.left, fb.right)
-        : both(S.concat(ma.left, fb.left), fb.right)
+      ? both(ma.left, fb.right)
+      : both(S.concat(ma.left, fb.left), fb.right)
   }
 
   return {

@@ -21,8 +21,8 @@ export function getApplicative<L>(S: Semigroup<L>): Applicative2C<URI, L> {
           ? left(S.concat(mab.left, ma.left))
           : mab
         : isLeft(ma)
-          ? ma
-          : right(mab.right(ma.right))
+        ? ma
+        : right(mab.right(ma.right))
   }
 }
 
@@ -49,8 +49,8 @@ export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
           ? left(SL.concat(fx.left, fy.left))
           : fx
         : isLeft(fy)
-          ? fy
-          : right(SA.concat(fx.right, fy.right))
+        ? fy
+        : right(SA.concat(fx.right, fy.right))
   }
 }
 

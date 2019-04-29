@@ -326,7 +326,7 @@ Sort and then group the elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export function groupSort<A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) { ... }
+export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A>> { ... }
 ```
 
 **Example**

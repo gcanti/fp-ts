@@ -214,7 +214,7 @@ Flips the order of the arguments of a function of two arguments.
 **Signature**
 
 ```ts
-export function flip<A, B, C>(f: (a: A, b: B) => C): ((b: B, a: A) => C) { ... }
+export function flip<A, B, C>(f: (a: A, b: B) => C): (b: B, a: A) => C { ... }
 ```
 
 Added in v2.0.0

@@ -171,7 +171,7 @@ export const group = <A>(E: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> =>
  *
  * @since 2.0.0
  */
-export function groupSort<A>(O: Ord<A>): ((as: Array<A>) => Array<NonEmptyArray<A>>) {
+export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
   const sortO = A.sort(O)
   const groupO = group(O)
   return as => groupO(sortO(as))

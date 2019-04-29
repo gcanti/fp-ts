@@ -268,7 +268,7 @@ export function foldr<A, B>(as: Array<A>, onNil: () => B, onCons: (init: Array<A
  *
  * @since 2.0.0
  */
-export function scanLeft<A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> {
+export function scanLeft<A, B>(as: Array<A>, b: B, f: (b: B, a: A) => B): Array<B> {
   const l = as.length
   const r: Array<B> = new Array(l + 1)
   r[0] = b
@@ -1044,7 +1044,7 @@ export function elem<A>(E: Eq<A>): (a: A, as: Array<A>) => boolean {
  *
  * @since 2.0.0
  */
-export function uniq<A>(E: Eq<A>): ((as: Array<A>) => Array<A>) {
+export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> {
   const elemS = elem(E)
   return as => {
     const r: Array<A> = []
@@ -1225,7 +1225,7 @@ export function comprehension<R>(
  *
  * @since 2.0.0
  */
-export function union<A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) {
+export function union<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemS = elem(E)
   return (xs, ys) => concat(xs, ys.filter(a => !elemS(a, xs)))
 }
@@ -1243,7 +1243,7 @@ export function union<A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) {
  *
  * @since 2.0.0
  */
-export function intersection<A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) {
+export function intersection<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemS = elem(E)
   return (xs, ys) => xs.filter(a => elemS(a, ys))
 }
@@ -1261,7 +1261,7 @@ export function intersection<A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Arra
  *
  * @since 2.0.0
  */
-export function difference<A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) {
+export function difference<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemS = elem(E)
   return (xs, ys) => xs.filter(a => !elemS(a, ys))
 }
