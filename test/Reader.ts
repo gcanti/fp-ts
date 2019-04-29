@@ -2,7 +2,10 @@ import * as assert from 'assert'
 import * as R from '../src/Reader'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
-import { identity } from '../src/function'
+
+interface Env {
+  count: number
+}
 
 describe('Reader', () => {
   it('map', () => {
@@ -71,11 +74,13 @@ describe('Reader', () => {
   })
 
   it('ask', () => {
-    assert.strictEqual(R.ask(), identity)
+    const e: Env = { count: 0 }
+    assert.strictEqual(R.ask<Env>()(e), e)
   })
 
   it('asks', () => {
-    const f = (e: number) => e + 1
-    assert.strictEqual(R.asks(f), f)
+    const e: Env = { count: 0 }
+    const f = (e: Env) => e.count + 1
+    assert.strictEqual(R.asks(f)(e), 1)
   })
 })

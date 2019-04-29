@@ -11,12 +11,12 @@ parent: Modules
 - [Reader (interface)](#reader-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [ask (constant)](#ask-constant)
+- [asks (constant)](#asks-constant)
+- [local (constant)](#local-constant)
 - [reader (constant)](#reader-constant)
-- [ask (function)](#ask-function)
-- [asks (function)](#asks-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [local (function)](#local-function)
 - [run (function)](#run-function)
 
 ---
@@ -49,36 +49,48 @@ export type URI = typeof URI
 export const URI = ...
 ```
 
-# reader (constant)
-
-**Signature**
-
-```ts
-export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
-```
-
-Added in v2.0.0
-
-# ask (function)
+# ask (constant)
 
 Reads the current context
 
 **Signature**
 
 ```ts
-export function ask<E>(): Reader<E, E> { ... }
+export const ask: <E>() => Reader<E, E> = ...
 ```
 
 Added in v2.0.0
 
-# asks (function)
+# asks (constant)
 
 Projects a value from the global context in a Reader
 
 **Signature**
 
 ```ts
-export function asks<E, A>(f: (e: E) => A): Reader<E, A> { ... }
+export const asks: <E, A>(f: (e: E) => A) => Reader<E, A> = ...
+```
+
+Added in v2.0.0
+
+# local (constant)
+
+changes the value of the local context during the execution of the action `ma`
+
+**Signature**
+
+```ts
+export const local: <E, A, D>(ma: Reader<E, A>, f: (d: D) => E) => Reader<D, A> = ...
+```
+
+Added in v2.0.0
+
+# reader (constant)
+
+**Signature**
+
+```ts
+export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = ...
 ```
 
 Added in v2.0.0
@@ -99,18 +111,6 @@ Added in v2.0.0
 
 ```ts
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> { ... }
-```
-
-Added in v2.0.0
-
-# local (function)
-
-changes the value of the local context during the execution of the action `ma`
-
-**Signature**
-
-```ts
-export function local<E, A, D>(ma: Reader<E, A>, f: (d: D) => E): Reader<D, A> { ... }
 ```
 
 Added in v2.0.0

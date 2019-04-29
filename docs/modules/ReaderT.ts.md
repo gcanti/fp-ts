@@ -8,91 +8,49 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [ReaderM (interface)](#readerm-interface)
 - [ReaderT (interface)](#readert-interface)
-- [ReaderT1 (interface)](#readert1-interface)
-- [ReaderT2 (interface)](#readert2-interface)
-- [ReaderT3 (interface)](#readert3-interface)
-- [getReaderT (function)](#getreadert-function)
+- [getReaderM (function)](#getreaderm-function)
 
 ---
+
+# ReaderM (interface)
+
+**Signature**
+
+```ts
+export interface ReaderM<M> {
+  readonly map: <E, A, B>(ma: ReaderT<M, E, A>, f: (a: A) => B) => ReaderT<M, E, B>
+  readonly of: <E, A>(a: A) => ReaderT<M, E, A>
+  readonly ap: <E, A, B>(mab: (e: E) => HKT<M, (a: A) => B>, ma: ReaderT<M, E, A>) => ReaderT<M, E, B>
+  readonly chain: <E, A, B>(ma: ReaderT<M, E, A>, f: (a: A) => ReaderT<M, E, B>) => ReaderT<M, E, B>
+  readonly ask: <E>() => ReaderT<M, E, E>
+  readonly asks: <E, A>(f: (e: E) => A) => ReaderT<M, E, A>
+  readonly local: <E, A, D>(ma: ReaderT<M, E, A>, f: (d: D) => E) => ReaderT<M, D, A>
+  readonly fromReader: <E, A>(ma: Reader<E, A>) => ReaderT<M, E, A>
+  readonly fromM: <E, A>(ma: HKT<M, A>) => ReaderT<M, E, A>
+}
+```
 
 # ReaderT (interface)
 
 **Signature**
 
 ```ts
-export interface ReaderT<M> {
-  readonly map: <E, A, B>(ma: (e: E) => HKT<M, A>, f: (a: A) => B) => (e: E) => HKT<M, B>
-  readonly of: <E, A>(a: A) => (e: E) => HKT<M, A>
-  readonly ap: <E, A, B>(mab: (e: E) => HKT<M, (a: A) => B>, ma: (e: E) => HKT<M, A>) => (e: E) => HKT<M, B>
-  readonly chain: <E, A, B>(ma: (e: E) => HKT<M, A>, f: (a: A) => (e: E) => HKT<M, B>) => (e: E) => HKT<M, B>
-  readonly fromReader: <E, A>(ma: Reader<E, A>) => (e: E) => HKT<M, A>
+export interface ReaderT<M, E, A> {
+  (e: E): HKT<M, A>
 }
 ```
 
-# ReaderT1 (interface)
+# getReaderM (function)
 
 **Signature**
 
 ```ts
-export interface ReaderT1<M extends URIS> {
-  readonly map: <E, A, B>(ma: (e: E) => Type<M, A>, f: (a: A) => B) => (e: E) => Type<M, B>
-  readonly of: <E, A>(a: A) => (e: E) => Type<M, A>
-  readonly ap: <E, A, B>(mab: (e: E) => Type<M, (a: A) => B>, ma: (e: E) => Type<M, A>) => (e: E) => Type<M, B>
-  readonly chain: <E, A, B>(ma: (e: E) => Type<M, A>, f: (a: A) => (e: E) => Type<M, B>) => (e: E) => Type<M, B>
-  readonly fromReader: <E, A>(ma: Reader<E, A>) => (e: E) => Type<M, A>
-}
-```
-
-# ReaderT2 (interface)
-
-**Signature**
-
-```ts
-export interface ReaderT2<M extends URIS2> {
-  readonly map: <L, E, A, B>(ma: (e: E) => Type2<M, L, A>, f: (a: A) => B) => (e: E) => Type2<M, L, B>
-  readonly of: <L, E, A>(a: A) => (e: E) => Type2<M, L, A>
-  readonly ap: <L, E, A, B>(
-    mab: (e: E) => Type2<M, L, (a: A) => B>,
-    ma: (e: E) => Type2<M, L, A>
-  ) => (e: E) => Type2<M, L, B>
-  readonly chain: <L, E, A, B>(
-    ma: (e: E) => Type2<M, L, A>,
-    f: (a: A) => (e: E) => Type2<M, L, B>
-  ) => (e: E) => Type2<M, L, B>
-  readonly fromReader: <E, A>(ma: Reader<E, A>) => <L>(e: E) => Type2<M, L, A>
-}
-```
-
-# ReaderT3 (interface)
-
-**Signature**
-
-```ts
-export interface ReaderT3<M extends URIS3> {
-  readonly map: <U, L, E, A, B>(ma: (e: E) => Type3<M, U, L, A>, f: (a: A) => B) => (e: E) => Type3<M, U, L, B>
-  readonly of: <U, L, E, A>(a: A) => (e: E) => Type3<M, U, L, A>
-  readonly ap: <U, L, E, A, B>(
-    mab: (e: E) => Type3<M, U, L, (a: A) => B>,
-    ma: (e: E) => Type3<M, U, L, A>
-  ) => (e: E) => Type3<M, U, L, B>
-  readonly chain: <U, L, E, A, B>(
-    ma: (e: E) => Type3<M, U, L, A>,
-    f: (a: A) => (e: E) => Type3<M, U, L, B>
-  ) => (e: E) => Type3<M, U, L, B>
-  readonly fromReader: <E, A>(ma: Reader<E, A>) => <U, L>(e: E) => Type3<M, U, L, A>
-}
-```
-
-# getReaderT (function)
-
-**Signature**
-
-```ts
-export function getReaderT<M extends URIS3>(M: Monad3<M>): ReaderT3<M>
-export function getReaderT<M extends URIS2>(M: Monad2<M>): ReaderT2<M>
-export function getReaderT<M extends URIS>(M: Monad1<M>): ReaderT1<M>
-export function getReaderT<M>(M: Monad<M>): ReaderT<M> { ... }
+export function getReaderM<M extends URIS3>(M: Monad3<M>): ReaderM3<M>
+export function getReaderM<M extends URIS2>(M: Monad2<M>): ReaderM2<M>
+export function getReaderM<M extends URIS>(M: Monad1<M>): ReaderM1<M>
+export function getReaderM<M>(M: Monad<M>): ReaderM<M> { ... }
 ```
 
 Added in v2.0.0

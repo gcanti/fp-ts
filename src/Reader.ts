@@ -6,11 +6,11 @@ import { identity } from './Identity'
 import { Monad2 } from './Monad'
 import { Monoid } from './Monoid'
 import { Profunctor2 } from './Profunctor'
-import { getReaderT } from './ReaderT'
+import { getReaderM } from './ReaderT'
 import { Semigroup } from './Semigroup'
 import { Strong2 } from './Strong'
 
-const T = getReaderT(identity)
+const T = getReaderM(identity)
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -41,27 +41,21 @@ export function run<E, A>(ma: Reader<E, A>, e: E): A {
  *
  * @since 2.0.0
  */
-export function ask<E>(): Reader<E, E> {
-  return id
-}
+export const ask: <E>() => Reader<E, E> = T.ask
 
 /**
  * Projects a value from the global context in a Reader
  *
  * @since 2.0.0
  */
-export function asks<E, A>(f: (e: E) => A): Reader<E, A> {
-  return f
-}
+export const asks: <E, A>(f: (e: E) => A) => Reader<E, A> = T.asks
 
 /**
  * changes the value of the local context during the execution of the action `ma`
  *
  * @since 2.0.0
  */
-export function local<E, A, D>(ma: Reader<E, A>, f: (d: D) => E): Reader<D, A> {
-  return e => ma(f(e))
-}
+export const local: <E, A, D>(ma: Reader<E, A>, f: (d: D) => E) => Reader<D, A> = T.local
 
 /**
  * @since 2.0.0

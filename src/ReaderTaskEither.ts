@@ -14,7 +14,7 @@ import * as TE from './TaskEither'
 
 import TaskEither = TE.TaskEither
 
-const T = readerT.getReaderT(TE.taskEither)
+const T = readerT.getReaderM(TE.taskEither)
 
 declare module './HKT' {
   interface URI2HKT3<U, L, A> {
@@ -71,23 +71,17 @@ export function mapLeft<E, L, A, M>(ma: ReaderTaskEither<E, L, A>, f: (l: L) => 
 /**
  * @since 2.0.0
  */
-export function ask<E>(): ReaderTaskEither<E, never, E> {
-  return e => TE.taskEither.of(e)
-}
+export const ask: <E>() => ReaderTaskEither<E, never, E> = T.ask
 
 /**
  * @since 2.0.0
  */
-export function asks<E, A>(f: (e: E) => A): ReaderTaskEither<E, never, A> {
-  return e => TE.taskEither.of(f(e))
-}
+export const asks: <E, A>(f: (e: E) => A) => ReaderTaskEither<E, never, A> = T.asks
 
 /**
  * @since 2.0.0
  */
-export function local<E, L, A, D>(ma: ReaderTaskEither<E, L, A>, f: (f: D) => E): ReaderTaskEither<D, L, A> {
-  return e => ma(f(e))
-}
+export const local: <E, L, A, D>(ma: ReaderTaskEither<E, L, A>, f: (f: D) => E) => ReaderTaskEither<D, L, A> = T.local
 
 /**
  * @since 2.0.0
@@ -106,9 +100,7 @@ export function left<E, L>(ma: Task<L>): ReaderTaskEither<E, L, never> {
 /**
  * @since 2.0.0
  */
-export function fromTaskEither<E, L, A>(ma: TaskEither<L, A>): ReaderTaskEither<E, L, A> {
-  return () => ma
-}
+export const fromTaskEither: <E, L, A>(ma: TaskEither<L, A>) => ReaderTaskEither<E, L, A> = T.fromM
 
 /**
  * @since 2.0.0
