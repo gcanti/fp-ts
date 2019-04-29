@@ -25,6 +25,58 @@ export interface Monoid<A> extends Semigroup<A> {
 }
 
 /**
+ * Boolean monoid under conjunction
+ * @since 2.0.0
+ */
+export const monoidAll: Monoid<boolean> = {
+  concat: semigroupAll.concat,
+  empty: true
+}
+
+/**
+ * Boolean monoid under disjunction
+ * @since 2.0.0
+ */
+export const monoidAny: Monoid<boolean> = {
+  concat: semigroupAny.concat,
+  empty: false
+}
+
+/**
+ * Number monoid under addition
+ * @since 2.0.0
+ */
+export const monoidSum: Monoid<number> = {
+  concat: semigroupSum.concat,
+  empty: 0
+}
+
+/**
+ * Number monoid under multiplication
+ * @since 2.0.0
+ */
+export const monoidProduct: Monoid<number> = {
+  concat: semigroupProduct.concat,
+  empty: 1
+}
+
+/**
+ * @since 2.0.0
+ */
+export const monoidString: Monoid<string> = {
+  concat: semigroupString.concat,
+  empty: ''
+}
+
+/**
+ * @since 2.0.0
+ */
+export const monoidVoid: Monoid<void> = {
+  concat: semigroupVoid.concat,
+  empty: undefined
+}
+
+/**
  * @since 2.0.0
  */
 export function fold<A>(M: Monoid<A>): ((as: Array<A>) => A) {
@@ -46,11 +98,11 @@ export function fold<A>(M: Monoid<A>): ((as: Array<A>) => A) {
  *
  * @since 2.0.0
  */
-export const getTupleMonoid = <T extends Array<Monoid<any>>>(
+export function getTupleMonoid<T extends Array<Monoid<any>>>(
   ...monoids: T
-): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> => {
+): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> {
   return {
-    ...getTupleSemigroup(...monoids),
+    concat: getTupleSemigroup(...monoids).concat,
     empty: monoids.map(m => m.empty)
   } as any
 }
@@ -58,63 +110,11 @@ export const getTupleMonoid = <T extends Array<Monoid<any>>>(
 /**
  * @since 2.0.0
  */
-export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => {
+export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> {
   return {
-    ...getDualSemigroup(M),
+    concat: getDualSemigroup(M).concat,
     empty: M.empty
   }
-}
-
-/**
- * Boolean monoid under conjunction
- * @since 2.0.0
- */
-export const monoidAll: Monoid<boolean> = {
-  ...semigroupAll,
-  empty: true
-}
-
-/**
- * Boolean monoid under disjunction
- * @since 2.0.0
- */
-export const monoidAny: Monoid<boolean> = {
-  ...semigroupAny,
-  empty: false
-}
-
-/**
- * Number monoid under addition
- * @since 2.0.0
- */
-export const monoidSum: Monoid<number> = {
-  ...semigroupSum,
-  empty: 0
-}
-
-/**
- * Number monoid under multiplication
- * @since 2.0.0
- */
-export const monoidProduct: Monoid<number> = {
-  ...semigroupProduct,
-  empty: 1
-}
-
-/**
- * @since 2.0.0
- */
-export const monoidString: Monoid<string> = {
-  ...semigroupString,
-  empty: ''
-}
-
-/**
- * @since 2.0.0
- */
-export const monoidVoid: Monoid<void> = {
-  ...semigroupVoid,
-  empty: undefined
 }
 
 /**
@@ -122,7 +122,7 @@ export const monoidVoid: Monoid<void> = {
  */
 export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => {
   return {
-    ...getFunctionSemigroup(M)<A>(),
+    concat: getFunctionSemigroup(M)<A>().concat,
     empty: () => M.empty
   }
 }
@@ -140,15 +140,15 @@ export function getEndomorphismMonoid<A = never>(): Monoid<Endomorphism<A>> {
 /**
  * @since 2.0.0
  */
-export const getStructMonoid = <O extends { [key: string]: any }>(
+export function getStructMonoid<O extends { [key: string]: any }>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O> => {
+): Monoid<O> {
   const empty: any = {}
   for (const key of Object.keys(monoids)) {
     empty[key] = monoids[key].empty
   }
   return {
-    ...getStructSemigroup<O>(monoids),
+    concat: getStructSemigroup<O>(monoids).concat,
     empty
   }
 }
@@ -156,9 +156,9 @@ export const getStructMonoid = <O extends { [key: string]: any }>(
 /**
  * @since 2.0.0
  */
-export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => {
+export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> {
   return {
-    ...getMeetSemigroup(B),
+    concat: getMeetSemigroup(B).concat,
     empty: B.top
   }
 }
@@ -166,9 +166,9 @@ export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => {
 /**
  * @since 2.0.0
  */
-export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => {
+export function getJoinMonoid<A>(B: Bounded<A>): Monoid<A> {
   return {
-    ...getJoinSemigroup(B),
+    concat: getJoinSemigroup(B).concat,
     empty: B.bottom
   }
 }

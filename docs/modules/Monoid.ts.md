@@ -121,7 +121,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getDualMonoid = <A>(M: Monoid<A>): Monoid<A> => ...
+export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> { ... }
 ```
 
 Added in v2.0.0
@@ -151,7 +151,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getJoinMonoid = <A>(B: Bounded<A>): Monoid<A> => ...
+export function getJoinMonoid<A>(B: Bounded<A>): Monoid<A> { ... }
 ```
 
 Added in v2.0.0
@@ -161,7 +161,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMeetMonoid = <A>(B: Bounded<A>): Monoid<A> => ...
+export function getMeetMonoid<A>(B: Bounded<A>): Monoid<A> { ... }
 ```
 
 Added in v2.0.0
@@ -171,9 +171,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getStructMonoid = <O extends { [key: string]: any }>(
+export function getStructMonoid<O extends { [key: string]: any }>(
   monoids: { [K in keyof O]: Monoid<O[K]> }
-): Monoid<O> => ...
+): Monoid<O> { ... }
 ```
 
 Added in v2.0.0
@@ -185,9 +185,9 @@ Given a tuple of monoids returns a monoid for the tuple
 **Signature**
 
 ```ts
-export const getTupleMonoid = <T extends Array<Monoid<any>>>(
+export function getTupleMonoid<T extends Array<Monoid<any>>>(
   ...monoids: T
-): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> => ...
+): Monoid<{ [K in keyof T]: T[K] extends Semigroup<infer A> ? A : never }> { ... }
 ```
 
 **Example**
