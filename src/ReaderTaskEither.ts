@@ -212,15 +212,15 @@ export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L
 export function fromPredicate<E, L, A, B extends A>(
   predicate: Refinement<A, B>,
   onFalse: (a: A) => L
-): ((a: A) => ReaderTaskEither<E, L, B>)
+): (a: A) => ReaderTaskEither<E, L, B>
 export function fromPredicate<E, L, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => L
-): ((a: A) => ReaderTaskEither<E, L, A>)
+): (a: A) => ReaderTaskEither<E, L, A>
 export function fromPredicate<E, L, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => L
-): ((a: A) => ReaderTaskEither<E, L, A>) {
+): (a: A) => ReaderTaskEither<E, L, A> {
   const f = taskEither.fromPredicate(predicate, onFalse)
   return a => fromTaskEither(f(a))
 }

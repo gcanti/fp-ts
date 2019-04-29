@@ -294,14 +294,14 @@ Use a natural transformation to change the generating type constructor of a free
 ```ts
 export function hoistFree<F extends URIS3 = never, G extends URIS3 = never>(
   nt: <U, L, A>(fa: Type3<F, U, L, A>) => Type3<G, U, L, A>
-): (<A>(fa: Free<F, A>) => Free<G, A>)
+): <A>(fa: Free<F, A>) => Free<G, A>
 export function hoistFree<F extends URIS2 = never, G extends URIS2 = never>(
   nt: <L, A>(fa: Type2<F, L, A>) => Type2<G, L, A>
-): (<A>(fa: Free<F, A>) => Free<G, A>)
+): <A>(fa: Free<F, A>) => Free<G, A>
 export function hoistFree<F extends URIS = never, G extends URIS = never>(
   nt: <A>(fa: Type<F, A>) => Type<G, A>
-): (<A>(fa: Free<F, A>) => Free<G, A>)
-export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): (<A>(fa: Free<F, A>) => Free<G, A>) { ... }
+): <A>(fa: Free<F, A>) => Free<G, A>
+export function hoistFree<F, G>(nt: <A>(fa: HKT<F, A>) => HKT<G, A>): <A>(fa: Free<F, A>) => Free<G, A> { ... }
 ```
 
 Added in v1.0.0

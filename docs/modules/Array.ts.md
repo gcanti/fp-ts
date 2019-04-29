@@ -1185,7 +1185,7 @@ assert.deepStrictEqual(scanLeft([1, 2, 3], 10, (b, a) => b - a), [10, 9, 7, 4])
 **Signature**
 
 ```ts
-export const scanLeft = <A, B>(as: Array<A>, b: B, f: ((b: B, a: A) => B)): Array<B> => ...
+export const scanLeft = <A, B>(as: Array<A>, b: B, f: (b: B, a: A) => B): Array<B> => ...
 ```
 
 Added in v1.1.0

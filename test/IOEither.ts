@@ -35,13 +35,11 @@ describe('IOEither', () => {
   })
 
   it('chain', () => {
-    const te1 = ioEither.chain(
-      ioEither.of<string, string>('foo'),
-      a => (a.length > 2 ? ioEither.of<string, number>(a.length) : fromLeft<string, number>('foo'))
+    const te1 = ioEither.chain(ioEither.of<string, string>('foo'), a =>
+      a.length > 2 ? ioEither.of<string, number>(a.length) : fromLeft<string, number>('foo')
     )
-    const te2 = ioEither.chain(
-      ioEither.of<string, string>('a'),
-      a => (a.length > 2 ? ioEither.of<string, number>(a.length) : fromLeft<string, number>('foo'))
+    const te2 = ioEither.chain(ioEither.of<string, string>('a'), a =>
+      a.length > 2 ? ioEither.of<string, number>(a.length) : fromLeft<string, number>('foo')
     )
     const e1 = te1.run()
     const e2 = te2.run()

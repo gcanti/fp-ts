@@ -282,11 +282,11 @@ Added in v1.6.0
 export function fromPredicate<E, L, A, B extends A>(
   predicate: Refinement<A, B>,
   onFalse: (a: A) => L
-): ((a: A) => ReaderTaskEither<E, L, B>)
+): (a: A) => ReaderTaskEither<E, L, B>
 export function fromPredicate<E, L, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => L
-): ((a: A) => ReaderTaskEither<E, L, A>) { ... }
+): (a: A) => ReaderTaskEither<E, L, A> { ... }
 ```
 
 Added in v1.6.0

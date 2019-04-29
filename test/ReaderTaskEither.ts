@@ -64,13 +64,11 @@ describe('ReaderTaskEither', () => {
   })
 
   it('chain', () => {
-    const rte1 = readerTaskEither.chain(
-      readerTaskEither.of<{}, string, string>('foo'),
-      a => (a.length > 2 ? readerTaskEither.of<{}, string, number>(a.length) : fromLeft<{}, string, number>('foo'))
+    const rte1 = readerTaskEither.chain(readerTaskEither.of<{}, string, string>('foo'), a =>
+      a.length > 2 ? readerTaskEither.of<{}, string, number>(a.length) : fromLeft<{}, string, number>('foo')
     )
-    const rte2 = readerTaskEither.chain(
-      readerTaskEither.of<{}, string, string>('a'),
-      a => (a.length > 2 ? readerTaskEither.of<{}, string, number>(a.length) : fromLeft<{}, string, number>('foo'))
+    const rte2 = readerTaskEither.chain(readerTaskEither.of<{}, string, string>('a'), a =>
+      a.length > 2 ? readerTaskEither.of<{}, string, number>(a.length) : fromLeft<{}, string, number>('foo')
     )
     return Promise.all([rte1.run({}), rte2.run({})]).then(([e1, e2]) => {
       assert.deepStrictEqual(e1, eitherRight(3))

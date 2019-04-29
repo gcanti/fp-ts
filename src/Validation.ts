@@ -180,9 +180,8 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Validation<L, A>> 
  * @since 1.0.0
  */
 export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
-  return fromEquals(
-    (x, y) =>
-      x.isFailure() ? y.isFailure() && SL.equals(x.value, y.value) : y.isSuccess() && SA.equals(x.value, y.value)
+  return fromEquals((x, y) =>
+    x.isFailure() ? y.isFailure() && SL.equals(x.value, y.value) : y.isSuccess() && SA.equals(x.value, y.value)
   )
 }
 
@@ -235,8 +234,8 @@ export const getApplicative = <L>(S: Semigroup<L>): Applicative2C<URI, L> => {
         ? failure(S.concat(fab.value, fa.value))
         : failure(fab.value)
       : fa.isFailure()
-        ? failure(fa.value)
-        : success(fab.value(fa.value))
+      ? failure(fa.value)
+      : success(fab.value(fa.value))
   }
 
   return {
@@ -358,8 +357,8 @@ export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
         ? failure(SL.concat(fx.value, fy.value))
         : failure(fx.value)
       : fy.isFailure()
-        ? failure(fy.value)
-        : success(SA.concat(fx.value, fy.value))
+      ? failure(fy.value)
+      : success(SA.concat(fx.value, fy.value))
   }
   return {
     concat
