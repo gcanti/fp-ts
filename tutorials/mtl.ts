@@ -9,6 +9,8 @@ import { identity } from 'fp-ts/lib/function'
 
 // Adapted from https://tech.iheart.com/why-fp-its-the-composition-f585d17b01d3
 
+const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
+
 //
 // type classes
 //
@@ -85,13 +87,13 @@ console.log('IO', likePost(monadAppIO)('session123')('https://me.com/1')())
 // Task
 
 const monadUserTask: MonadUser1<T.URI> = {
-  validateUser: token => T.delay(1000, `string(${token})`),
-  facebookToken: uid => T.delay(500, `FBToken(${uid})`)
+  validateUser: token => delay(1000, `string(${token})`),
+  facebookToken: uid => delay(500, `FBToken(${uid})`)
 }
 
 const monadFBTask: MonadFB1<T.URI> = {
-  findPost: url => T.delay(2000, `FBPost(${url})`),
-  sendLike: () => T.delay(1000, true)
+  findPost: url => delay(2000, `FBPost(${url})`),
+  sendLike: () => delay(1000, true)
 }
 
 const monadAppTask: MonadApp1<T.URI> = {
