@@ -7,6 +7,8 @@ import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as TE from '../src/TaskEither'
 
+const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
+
 describe('TaskEither', () => {
   describe('bracket', () => {
     let log: Array<string> = []
@@ -223,18 +225,12 @@ describe('TaskEither', () => {
   it('getSemigroup', () => {
     const S = TE.getSemigroup<string, number>(semigroupSum)
     return Promise.all([
-      S.concat(TE.left(T.delay(10, 'a')), TE.left(T.delay(10, 'b')))().then(x =>
+      S.concat(TE.left(delay(10, 'a')), TE.left(delay(10, 'b')))().then(x =>
         assert.deepStrictEqual(x, eitherLeft('a'))
       ),
-      S.concat(TE.left(T.delay(10, 'a')), TE.right(T.delay(10, 2)))().then(x =>
-        assert.deepStrictEqual(x, eitherRight(2))
-      ),
-      S.concat(TE.right(T.delay(10, 1)), TE.left(T.delay(10, 'b')))().then(x =>
-        assert.deepStrictEqual(x, eitherRight(1))
-      ),
-      S.concat(TE.right(T.delay(10, 1)), TE.right(T.delay(10, 2)))().then(x =>
-        assert.deepStrictEqual(x, eitherRight(3))
-      )
+      S.concat(TE.left(delay(10, 'a')), TE.right(delay(10, 2)))().then(x => assert.deepStrictEqual(x, eitherRight(2))),
+      S.concat(TE.right(delay(10, 1)), TE.left(delay(10, 'b')))().then(x => assert.deepStrictEqual(x, eitherRight(1))),
+      S.concat(TE.right(delay(10, 1)), TE.right(delay(10, 2)))().then(x => assert.deepStrictEqual(x, eitherRight(3)))
     ])
   })
 
@@ -242,20 +238,20 @@ describe('TaskEither', () => {
     const M = TE.getApplyMonoid(monoidString)
 
     it('concat (right)', () => {
-      return M.concat(TE.right(T.delay(10, 'a')), TE.right(T.delay(10, 'b')))().then(x =>
+      return M.concat(TE.right(delay(10, 'a')), TE.right(delay(10, 'b')))().then(x =>
         assert.deepStrictEqual(x, eitherRight('ab'))
       )
     })
     it('concat (left)', () => {
-      return M.concat(TE.right(T.delay(10, 'a')), TE.left(T.delay(10, 'b')))().then(x =>
+      return M.concat(TE.right(delay(10, 'a')), TE.left(delay(10, 'b')))().then(x =>
         assert.deepStrictEqual(x, eitherLeft('b'))
       )
     })
     it('empty (right)', () => {
-      return M.concat(TE.right(T.delay(10, 'a')), M.empty)().then(x => assert.deepStrictEqual(x, eitherRight('a')))
+      return M.concat(TE.right(delay(10, 'a')), M.empty)().then(x => assert.deepStrictEqual(x, eitherRight('a')))
     })
     it('empty (left)', () => {
-      return M.concat(M.empty, TE.right(T.delay(10, 'a')))().then(x => assert.deepStrictEqual(x, eitherRight('a')))
+      return M.concat(M.empty, TE.right(delay(10, 'a')))().then(x => assert.deepStrictEqual(x, eitherRight('a')))
     })
   })
 

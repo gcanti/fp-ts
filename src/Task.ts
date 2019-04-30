@@ -98,11 +98,12 @@ export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown
 /**
  * @since 2.0.0
  */
-export const delay = <A>(millis: number, a: A): Task<A> => {
+export function delay<A>(millis: number, ma: Task<A>): Task<A> {
   return () =>
     new Promise(resolve => {
       setTimeout(() => {
-        resolve(a)
+        // tslint:disable-next-line: no-floating-promises
+        ma().then(resolve)
       }, millis)
     })
 }

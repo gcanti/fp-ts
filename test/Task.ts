@@ -9,17 +9,19 @@ const delayReject = <A>(n: number, a: A): T.Task<A> => () =>
     setTimeout(() => reject(a), n)
   })
 
+const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
+
 describe('Task', () => {
   describe('getRaceMonoid', () => {
     const M = T.getRaceMonoid<number>()
     it('concat', () => {
-      return M.concat(T.delay(10, 1), T.delay(10, 2))().then(x => assert.strictEqual(x, 1))
+      return M.concat(delay(10, 1), delay(10, 2))().then(x => assert.strictEqual(x, 1))
     })
     it('empty (right)', () => {
-      return M.concat(T.delay(10, 1), M.empty)().then(x => assert.strictEqual(x, 1))
+      return M.concat(delay(10, 1), M.empty)().then(x => assert.strictEqual(x, 1))
     })
     it('empty (left)', () => {
-      return M.concat(M.empty, T.delay(10, 1))().then(x => assert.strictEqual(x, 1))
+      return M.concat(M.empty, delay(10, 1))().then(x => assert.strictEqual(x, 1))
     })
     it('concat (rejected)', () => {
       return M.concat(delayReject(10, 1), delayReject(10, 2))().then(null, x => assert.strictEqual(x, 1))
@@ -29,20 +31,20 @@ describe('Task', () => {
   describe('getMonoid', () => {
     const M = T.getMonoid(monoidString)
     it('concat', () => {
-      return M.concat(T.delay(10, 'a'), T.delay(10, 'b'))().then(x => assert.strictEqual(x, 'ab'))
+      return M.concat(delay(10, 'a'), delay(10, 'b'))().then(x => assert.strictEqual(x, 'ab'))
     })
     it('empty (right)', () => {
-      return M.concat(T.delay(10, 'a'), M.empty)().then(x => assert.strictEqual(x, 'a'))
+      return M.concat(delay(10, 'a'), M.empty)().then(x => assert.strictEqual(x, 'a'))
     })
     it('empty (left)', () => {
-      return M.concat(M.empty, T.delay(10, 'a'))().then(x => assert.strictEqual(x, 'a'))
+      return M.concat(M.empty, delay(10, 'a'))().then(x => assert.strictEqual(x, 'a'))
     })
   })
 
   it('map', () => {
     const double = (n: number): number => n * 2
     return T.task
-      .map(T.delay(0, 1), double)()
+      .map(delay(0, 1), double)()
       .then(x1 => {
         assert.strictEqual(x1, 2)
       })
@@ -51,14 +53,14 @@ describe('Task', () => {
   it('chain', () => {
     const f = (n: number): T.Task<number> => () => Promise.resolve(n * 2)
     return T.task
-      .chain(T.delay(0, 1), f)()
+      .chain(delay(0, 1), f)()
       .then(x => assert.strictEqual(x, 2))
   })
 
   it('ap', () => {
     const double = (n: number): number => n * 2
-    const tab = T.delay(0, double)
-    const ta = T.delay(0, 1)
+    const tab = delay(0, double)
+    const ta = delay(0, 1)
     return T.task
       .ap(tab, ta)()
       .then(x => {

@@ -79,7 +79,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const delay = <A>(millis: number, a: A): Task<A> => ...
+export function delay<A>(millis: number, ma: Task<A>): Task<A> { ... }
 ```
 
 Added in v2.0.0
