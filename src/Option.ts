@@ -180,6 +180,13 @@ export function fromNullable<A>(a: A | null | undefined): Option<A> {
 /**
  * @since 2.0.0
  */
+export function fromEither<L, A>(ma: Either<L, A>): Option<A> {
+  return ma._tag === 'Left' ? none : some(ma.right)
+}
+
+/**
+ * @since 2.0.0
+ */
 export function toNullable<A>(ma: Option<A>): A | null {
   return isNone(ma) ? null : ma.value
 }

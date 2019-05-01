@@ -326,4 +326,9 @@ describe('Option', () => {
     assert.deepStrictEqual(O.getRight(right(1)), O.some(1))
     assert.deepStrictEqual(O.getRight(left('err')), O.none)
   })
+
+  it('fromEither', () => {
+    assert.strictEqual(O.fromEither(left('a')), O.none)
+    assert.deepStrictEqual(O.fromEither(right(1)), O.some(1))
+  })
 })

@@ -100,6 +100,7 @@ option.chain(some(0), inverse) // none
 - [elem (function)](#elem-function)
 - [exists (function)](#exists-function)
 - [fold (function)](#fold-function)
+- [fromEither (function)](#fromeither-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
@@ -225,6 +226,16 @@ Added in v2.0.0
 
 ```ts
 export function fold<A, R>(ma: Option<A>, onNone: () => R, onSome: (a: A) => R): R { ... }
+```
+
+Added in v2.0.0
+
+# fromEither (function)
+
+**Signature**
+
+```ts
+export function fromEither<L, A>(ma: Either<L, A>): Option<A> { ... }
 ```
 
 Added in v2.0.0
