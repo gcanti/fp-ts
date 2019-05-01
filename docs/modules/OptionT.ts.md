@@ -24,6 +24,8 @@ export interface OptionM<M> extends ApplicativeComposition01<M, URI> {
   readonly fold: <A, R>(ma: OptionT<M, A>, onNone: () => R, onSome: (a: A) => R) => HKT<M, R>
   readonly getOrElse: <A>(ma: OptionT<M, A>, f: () => A) => HKT<M, A>
   readonly fromM: <A>(ma: HKT<M, A>) => OptionT<M, A>
+  readonly fromOption: <A>(ma: Option<A>) => OptionT<M, A>
+  readonly none: () => OptionT<M, never>
 }
 ```
 
