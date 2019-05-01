@@ -16,10 +16,11 @@ Data structure which represents non-empty arrays
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [cons (constant)](#cons-constant)
+- [copy (constant)](#copy-constant)
 - [getEq (constant)](#geteq-constant)
 - [nonEmptyArray (constant)](#nonemptyarray-constant)
+- [reverse (constant)](#reverse-constant)
 - [snoc (constant)](#snoc-constant)
-- [copy (function)](#copy-function)
 - [filter (function)](#filter-function)
 - [filterWithIndex (function)](#filterwithindex-function)
 - [findFirst (function)](#findfirst-function)
@@ -55,7 +56,6 @@ export interface NonEmptyArray<A> extends Array<A> {
   0: A
   map: <B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B) => NonEmptyArray<B>
   concat: (as: Array<A>) => NonEmptyArray<A>
-  reverse: () => NonEmptyArray<A>
 }
 ```
 
@@ -97,6 +97,16 @@ assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
 
 Added in v2.0.0
 
+# copy (constant)
+
+**Signature**
+
+```ts
+export const copy: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = ...
+```
+
+Added in v2.0.0
+
 # getEq (constant)
 
 **Signature**
@@ -132,6 +142,16 @@ export const nonEmptyArray: Monad1<URI> &
 
 Added in v2.0.0
 
+# reverse (constant)
+
+**Signature**
+
+```ts
+export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = ...
+```
+
+Added in v2.0.0
+
 # snoc (constant)
 
 Append an element to the end of an array, creating a new non empty array
@@ -148,16 +168,6 @@ export const snoc: <A>(as: Array<A>, a: A) => NonEmptyArray<A> = ...
 import { snoc } from 'fp-ts/lib/NonEmptyArray'
 
 assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
-```
-
-Added in v2.0.0
-
-# copy (function)
-
-**Signature**
-
-```ts
-export const copy = <A>(nea: NonEmptyArray<A>): NonEmptyArray<A> => ...
 ```
 
 Added in v2.0.0
@@ -259,7 +269,7 @@ Builds a `Semigroup` instance for `NonEmptyArray`
 **Signature**
 
 ```ts
-export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => ...
+export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -269,7 +279,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => ...
+export function getShow<A>(S: Show<A>): Show<NonEmptyArray<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -281,7 +291,7 @@ Group equal, consecutive elements of an array into non empty arrays.
 **Signature**
 
 ```ts
-export const group = <A>(E: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => ...
+export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> { ... }
 ```
 
 **Example**
@@ -303,7 +313,7 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => ...
+export function groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } { ... }
 ```
 
 **Example**

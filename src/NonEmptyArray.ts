@@ -31,13 +31,12 @@ export interface NonEmptyArray<A> extends Array<A> {
   0: A
   map: <B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B) => NonEmptyArray<B>
   concat: (as: Array<A>) => NonEmptyArray<A>
-  reverse: () => NonEmptyArray<A>
 }
 
 /**
  * @since 2.0.0
  */
-export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => {
+export function getShow<A>(S: Show<A>): Show<NonEmptyArray<A>> {
   const SA = A.getShow(S)
   return {
     show: arr => `make(${S.show(arr[0])}, ${SA.show(arr.slice(1))})`
@@ -64,6 +63,11 @@ export function head<A>(nea: NonEmptyArray<A>): A {
 export function tail<A>(nea: NonEmptyArray<A>): Array<A> {
   return nea.slice(1)
 }
+
+/**
+ * @since 2.0.0
+ */
+export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = A.reverse as any
 
 /**
  * @since 2.0.0
@@ -104,7 +108,7 @@ export function fromNonEmptyArray<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> 
  *
  * @since 2.0.0
  */
-export const getSemigroup = <A = never>(): Semigroup<NonEmptyArray<A>> => {
+export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> {
   return {
     concat: (x, y) => x.concat(y)
   }
@@ -138,26 +142,28 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = A.getEq
  *
  * @since 2.0.0
  */
-export const group = <A>(E: Eq<A>) => (as: Array<A>): Array<NonEmptyArray<A>> => {
-  const len = as.length
-  if (len === 0) {
-    return A.empty
-  }
-  const r: Array<NonEmptyArray<A>> = []
-  let head: A = as[0]
-  let nea = fromNonEmptyArray([head])
-  for (let i = 1; i < len; i++) {
-    const x = as[i]
-    if (E.equals(x, head)) {
-      nea.push(x)
-    } else {
-      r.push(nea)
-      head = x
-      nea = fromNonEmptyArray([head])
+export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
+  return as => {
+    const len = as.length
+    if (len === 0) {
+      return A.empty
     }
+    const r: Array<NonEmptyArray<A>> = []
+    let head: A = as[0]
+    let nea = fromNonEmptyArray([head])
+    for (let i = 1; i < len; i++) {
+      const x = as[i]
+      if (E.equals(x, head)) {
+        nea.push(x)
+      } else {
+        r.push(nea)
+        head = x
+        nea = fromNonEmptyArray([head])
+      }
+    }
+    r.push(nea)
+    return r
   }
-  r.push(nea)
-  return r
 }
 
 /**
@@ -191,7 +197,7 @@ export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A
  *
  * @since 2.0.0
  */
-export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } => {
+export function groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } {
   const r: { [key: string]: NonEmptyArray<A> } = {}
   for (const a of as) {
     const k = f(a)
@@ -274,9 +280,7 @@ export function modifyAt<A>(i: number, nea: NonEmptyArray<A>, f: (a: A) => A): O
 /**
  * @since 2.0.0
  */
-export const copy = <A>(nea: NonEmptyArray<A>): NonEmptyArray<A> => {
-  return A.copy(nea) as any
-}
+export const copy: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = A.copy as any
 
 /**
  * @since 2.0.0

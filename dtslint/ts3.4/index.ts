@@ -353,8 +353,6 @@ const nea2v1concat3 = array1.concat(nea2v1) // $ExpectType string[]
 
 const nea2v1sort1 = nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
 
-const nea2v1reverse1 = nea2v1.reverse() // $ExpectType NonEmptyArray<string>
-
 //
 // function
 //

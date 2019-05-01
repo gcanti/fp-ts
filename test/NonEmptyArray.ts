@@ -1,41 +1,42 @@
 import * as assert from 'assert'
-import { fold, monoidSum, monoidString } from '../src/Monoid'
-import {
-  nonEmptyArray,
-  make,
-  head,
-  tail,
-  min,
-  max,
-  fromArray,
-  getSemigroup,
-  getEq,
-  group,
-  groupSort,
-  groupBy,
-  last,
-  sort,
-  findFirst,
-  findLast,
-  findIndex,
-  findLastIndex,
-  insertAt,
-  updateAt,
-  filter,
-  filterWithIndex,
-  fromNonEmptyArray,
-  cons,
-  snoc,
-  modifyAt,
-  copy,
-  getShow
-} from '../src/NonEmptyArray'
-import { none, option, some, isSome } from '../src/Option'
-import { ordNumber } from '../src/Ord'
-import { identity } from '../src/function'
-import * as I from '../src/Identity'
 import * as C from '../src/Const'
 import { eqNumber } from '../src/Eq'
+import { identity } from '../src/function'
+import * as I from '../src/Identity'
+import { fold, monoidString, monoidSum } from '../src/Monoid'
+import {
+  cons,
+  copy,
+  filter,
+  filterWithIndex,
+  findFirst,
+  findIndex,
+  findLast,
+  findLastIndex,
+  fromArray,
+  fromNonEmptyArray,
+  getEq,
+  getSemigroup,
+  getShow,
+  group,
+  groupBy,
+  groupSort,
+  head,
+  insertAt,
+  last,
+  make,
+  max,
+  min,
+  modifyAt,
+  nonEmptyArray,
+  reverse,
+  snoc,
+  sort,
+  tail,
+  updateAt
+} from '../src/NonEmptyArray'
+import { isSome, none, option, some } from '../src/Option'
+import { ordNumber } from '../src/Ord'
 import { showString } from '../src/Show'
 
 describe.only('NonEmptyArray', () => {
@@ -201,7 +202,7 @@ describe.only('NonEmptyArray', () => {
   })
 
   it('reverse', () => {
-    const result = fromNonEmptyArray([1, 2, 3]).reverse()
+    const result = reverse(fromNonEmptyArray([1, 2, 3]))
     const expected = fromNonEmptyArray([3, 2, 1])
     assert.deepStrictEqual(result, expected)
   })
