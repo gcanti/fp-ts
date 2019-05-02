@@ -33,7 +33,6 @@ export interface NonEmptyArray<A> extends Array<A> {
   0: A
   map: <B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B) => NonEmptyArray<B>
   concat: (as: Array<A>) => NonEmptyArray<A>
-  reverse: () => NonEmptyArray<A>
 }
 
 /**
@@ -66,6 +65,11 @@ export function head<A>(nea: NonEmptyArray<A>): A {
 export function tail<A>(nea: NonEmptyArray<A>): Array<A> {
   return nea.slice(1)
 }
+
+/**
+ * @since 1.17.3
+ */
+export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = A.reverse as any
 
 /**
  * @since 1.15.0
