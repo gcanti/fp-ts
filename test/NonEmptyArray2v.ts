@@ -209,12 +209,6 @@ describe.only('NonEmptyArray2v', () => {
     assert.deepStrictEqual(sort(ordNumber)(fromNonEmptyArray([3, 2, 1])), fromNonEmptyArray([1, 2, 3]))
   })
 
-  it('reverse', () => {
-    const result = fromNonEmptyArray([1, 2, 3]).reverse()
-    const expected = fromNonEmptyArray([3, 2, 1])
-    assert.deepStrictEqual(result, expected)
-  })
-
   it('groupBy', () => {
     assert.deepStrictEqual(groupBy([], _ => ''), {})
     assert.deepStrictEqual(groupBy([1], String), { '1': fromNonEmptyArray([1]) })

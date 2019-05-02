@@ -17,6 +17,7 @@ Data structure which represents non-empty arrays
 - [URI (constant)](#uri-constant)
 - [cons (constant)](#cons-constant)
 - [nonEmptyArray (constant)](#nonemptyarray-constant)
+- [reverse (constant)](#reverse-constant)
 - [snoc (constant)](#snoc-constant)
 - [copy (function)](#copy-function)
 - [filter (function)](#filter-function)
@@ -55,7 +56,6 @@ export interface NonEmptyArray<A> extends Array<A> {
   0: A
   map: <B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B) => NonEmptyArray<B>
   concat: (as: Array<A>) => NonEmptyArray<A>
-  reverse: () => NonEmptyArray<A>
 }
 ```
 
@@ -110,6 +110,16 @@ export const nonEmptyArray: Monad1<URI> &
 ```
 
 Added in v1.15.0
+
+# reverse (constant)
+
+**Signature**
+
+```ts
+export const reverse: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = ...
+```
+
+Added in v1.17.3
 
 # snoc (constant)
 
