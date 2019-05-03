@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 41
+nav_order: 42
 parent: Modules
 ---
 
@@ -28,6 +28,7 @@ parent: Modules
 - [compactable (export)](#compactable-export)
 - [console (export)](#console-export)
 - [const (export)](#const-export)
+- [cont (export)](#cont-export)
 - [contravariant (export)](#contravariant-export)
 - [date (export)](#date-export)
 - [distributiveLattice (export)](#distributivelattice-export)
@@ -261,6 +262,14 @@ export { console }
 
 ```ts
 export { const_ as const }
+```
+
+# cont (export)
+
+**Signature**
+
+```ts
+export { cont }
 ```
 
 # contravariant (export)

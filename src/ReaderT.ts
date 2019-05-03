@@ -9,7 +9,7 @@ export interface ReaderT<M, E, A> {
 export interface ReaderM<M> {
   readonly map: <E, A, B>(ma: ReaderT<M, E, A>, f: (a: A) => B) => ReaderT<M, E, B>
   readonly of: <E, A>(a: A) => ReaderT<M, E, A>
-  readonly ap: <E, A, B>(mab: (e: E) => HKT<M, (a: A) => B>, ma: ReaderT<M, E, A>) => ReaderT<M, E, B>
+  readonly ap: <E, A, B>(mab: ReaderT<M, E, (a: A) => B>, ma: ReaderT<M, E, A>) => ReaderT<M, E, B>
   readonly chain: <E, A, B>(ma: ReaderT<M, E, A>, f: (a: A) => ReaderT<M, E, B>) => ReaderT<M, E, B>
   readonly ask: <E>() => ReaderT<M, E, E>
   readonly asks: <E, A>(f: (e: E) => A) => ReaderT<M, E, A>
@@ -25,7 +25,7 @@ interface ReaderT1<M extends URIS, E, A> {
 interface ReaderM1<M extends URIS> {
   readonly map: <E, A, B>(ma: ReaderT1<M, E, A>, f: (a: A) => B) => ReaderT1<M, E, B>
   readonly of: <E, A>(a: A) => ReaderT1<M, E, A>
-  readonly ap: <E, A, B>(mab: (e: E) => Type<M, (a: A) => B>, ma: ReaderT1<M, E, A>) => ReaderT1<M, E, B>
+  readonly ap: <E, A, B>(mab: ReaderT1<M, E, (a: A) => B>, ma: ReaderT1<M, E, A>) => ReaderT1<M, E, B>
   readonly chain: <E, A, B>(ma: ReaderT1<M, E, A>, f: (a: A) => ReaderT1<M, E, B>) => ReaderT1<M, E, B>
   readonly ask: <E>() => ReaderT1<M, E, E>
   readonly asks: <E, A>(f: (e: E) => A) => ReaderT1<M, E, A>
@@ -41,7 +41,7 @@ interface ReaderT2<M extends URIS2, E, L, A> {
 interface ReaderM2<M extends URIS2> {
   readonly map: <E, L, A, B>(ma: ReaderT2<M, E, L, A>, f: (a: A) => B) => ReaderT2<M, E, L, B>
   readonly of: <E, L, A>(a: A) => ReaderT2<M, E, L, A>
-  readonly ap: <E, L, A, B>(mab: (e: E) => Type2<M, L, (a: A) => B>, ma: ReaderT2<M, E, L, A>) => ReaderT2<M, E, L, B>
+  readonly ap: <E, L, A, B>(mab: ReaderT2<M, E, L, (a: A) => B>, ma: ReaderT2<M, E, L, A>) => ReaderT2<M, E, L, B>
   readonly chain: <E, L, A, B>(ma: ReaderT2<M, E, L, A>, f: (a: A) => ReaderT2<M, E, L, B>) => ReaderT2<M, E, L, B>
   readonly ask: <E, L>() => ReaderT2<M, E, L, E>
   readonly asks: <E, L, A>(f: (e: E) => A) => ReaderT2<M, E, L, A>
@@ -58,7 +58,7 @@ interface ReaderM3<M extends URIS3> {
   readonly map: <E, U, L, A, B>(ma: ReaderT3<M, E, U, L, A>, f: (a: A) => B) => ReaderT3<M, E, U, L, B>
   readonly of: <E, U, L, A>(a: A) => ReaderT3<M, E, U, L, A>
   readonly ap: <E, U, L, A, B>(
-    mab: (e: E) => Type3<M, U, L, (a: A) => B>,
+    mab: ReaderT3<M, E, U, L, (a: A) => B>,
     ma: ReaderT3<M, E, U, L, A>
   ) => ReaderT3<M, E, U, L, B>
   readonly chain: <E, U, L, A, B>(

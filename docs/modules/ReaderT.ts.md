@@ -1,6 +1,6 @@
 ---
 title: ReaderT.ts
-nav_order: 67
+nav_order: 68
 parent: Modules
 ---
 
@@ -22,7 +22,7 @@ parent: Modules
 export interface ReaderM<M> {
   readonly map: <E, A, B>(ma: ReaderT<M, E, A>, f: (a: A) => B) => ReaderT<M, E, B>
   readonly of: <E, A>(a: A) => ReaderT<M, E, A>
-  readonly ap: <E, A, B>(mab: (e: E) => HKT<M, (a: A) => B>, ma: ReaderT<M, E, A>) => ReaderT<M, E, B>
+  readonly ap: <E, A, B>(mab: ReaderT<M, E, (a: A) => B>, ma: ReaderT<M, E, A>) => ReaderT<M, E, B>
   readonly chain: <E, A, B>(ma: ReaderT<M, E, A>, f: (a: A) => ReaderT<M, E, B>) => ReaderT<M, E, B>
   readonly ask: <E>() => ReaderT<M, E, E>
   readonly asks: <E, A>(f: (e: E) => A) => ReaderT<M, E, A>
