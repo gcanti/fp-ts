@@ -26,6 +26,7 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [mapLeft (constant)](#mapleft-constant)
 - [orElse (constant)](#orelse-constant)
 - [right (constant)](#right-constant)
+- [swap (constant)](#swap-constant)
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
 - [bracket (function)](#bracket-function)
@@ -163,6 +164,16 @@ Added in v2.0.0
 
 ```ts
 export const right: <A>(ma: Task<A>) => TaskEither<never, A> = ...
+```
+
+Added in v2.0.0
+
+# swap (constant)
+
+**Signature**
+
+```ts
+export const swap: <L, A>(ma: TaskEither<L, A>) => TaskEither<A, L> = ...
 ```
 
 Added in v2.0.0

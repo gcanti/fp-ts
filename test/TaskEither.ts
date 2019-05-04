@@ -341,4 +341,11 @@ describe('TaskEither', () => {
       })
     })
   })
+
+  it('swap', () => {
+    return Promise.all([TE.swap(TE.taskEither.of(1))(), TE.swap(TE.taskEither.throwError('a'))()]).then(([e1, e2]) => {
+      assert.deepStrictEqual(e1, eitherLeft(1))
+      assert.deepStrictEqual(e2, eitherRight('a'))
+    })
+  })
 })

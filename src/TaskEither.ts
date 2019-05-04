@@ -80,6 +80,11 @@ export const orElse: <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M, 
 /**
  * @since 2.0.0
  */
+export const swap: <L, A>(ma: TaskEither<L, A>) => TaskEither<A, L> = T.swap
+
+/**
+ * @since 2.0.0
+ */
 export const right: <A>(ma: Task<A>) => TaskEither<never, A> = T.right
 
 /**

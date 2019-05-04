@@ -31,6 +31,7 @@ export interface EitherM<M> extends ApplicativeComposition02<M, URI> {
   readonly mapLeft: <L, A, N>(ma: EitherT<M, L, A>, f: (l: L) => N) => EitherT<M, N, A>
   readonly getOrElse: <L, A>(ma: EitherT<M, L, A>, f: (l: L) => A) => HKT<M, A>
   readonly orElse: <L, A, N>(ma: EitherT<M, L, A>, f: (l: L) => EitherT<M, N, A>) => EitherT<M, N, A>
+  readonly swap: <L, A>(ma: EitherT<M, L, A>) => EitherT<M, A, L>
   readonly right: <L, A>(ma: HKT<M, A>) => EitherT<M, L, A>
   readonly left: <L, A>(ml: HKT<M, L>) => EitherT<M, L, A>
   readonly fromLeft: <L, A>(l: L) => EitherT<M, L, A>
