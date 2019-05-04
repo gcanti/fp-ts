@@ -266,7 +266,7 @@ export const taskEither: Monad2<URI> &
   fromTask: right,
   throwError: fromLeft,
   fromEither: task.of,
-  fromOption: (o, onNone) => (o._tag === 'None' ? fromLeft(onNone()) : fromRight(o.value))
+  fromOption: (o, onNone) => task.of(E.either.fromOption(o, onNone))
 }
 
 /**

@@ -22,6 +22,7 @@ If you want to represent an asynchronous computation that may fail, please see `
 - [getMonoid (function)](#getmonoid-function)
 - [getRaceMonoid (function)](#getracemonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [never (function)](#never-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
@@ -89,7 +90,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonoid = <A>(M: Monoid<A>): Monoid<Task<A>> => ...
+export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -99,7 +100,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => ...
+export function getRaceMonoid<A = never>(): Monoid<Task<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -109,7 +110,17 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => ...
+export function getSemigroup<A>(S: Semigroup<A>): Semigroup<Task<A>> { ... }
+```
+
+Added in v2.0.0
+
+# never (function)
+
+**Signature**
+
+```ts
+export const never: Task<never> = () => new Promise(_ => ...
 ```
 
 Added in v2.0.0
@@ -119,7 +130,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const tryCatch = <L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> => ...
+export function tryCatch<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> { ... }
 ```
 
 Added in v2.0.0

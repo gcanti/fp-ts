@@ -1,6 +1,6 @@
-import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
-import { Monad2, Monad3, Monad2C, Monad3C } from './Monad'
 import { Either } from './Either'
+import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
+import { Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Option } from './Option'
 
 /**
@@ -15,35 +15,35 @@ import { Option } from './Option'
  */
 export interface MonadThrow<M> {
   readonly URI: M
-  readonly map: <L, A, B>(fa: HKT2<M, L, A>, f: (a: A) => B) => HKT2<M, L, B>
-  readonly ap: <L, A, B>(fab: HKT2<M, L, (a: A) => B>, fa: HKT2<M, L, A>) => HKT2<M, L, B>
+  readonly map: <L, A, B>(ma: HKT2<M, L, A>, f: (a: A) => B) => HKT2<M, L, B>
+  readonly ap: <L, A, B>(mab: HKT2<M, L, (a: A) => B>, ma: HKT2<M, L, A>) => HKT2<M, L, B>
   readonly of: <L, A>(a: A) => HKT2<M, L, A>
-  readonly chain: <L, A, B>(fa: HKT2<M, L, A>, f: (a: A) => HKT2<M, L, B>) => HKT2<M, L, B>
-  readonly throwError: <E, A>(e: E) => HKT2<M, E, A>
-  readonly fromEither: <E, A>(e: Either<E, A>) => HKT2<M, E, A>
-  readonly fromOption: <E, A>(o: Option<A>, onNone: () => E) => HKT2<M, E, A>
+  readonly chain: <L, A, B>(ma: HKT2<M, L, A>, f: (a: A) => HKT2<M, L, B>) => HKT2<M, L, B>
+  readonly throwError: <L, A>(e: L) => HKT2<M, L, A>
+  readonly fromEither: <L, A>(e: Either<L, A>) => HKT2<M, L, A>
+  readonly fromOption: <L, A>(o: Option<A>, onNone: () => L) => HKT2<M, L, A>
 }
 
 export interface MonadThrow2<M extends URIS2> extends Monad2<M> {
-  readonly throwError: <E, A>(e: E) => Type2<M, E, A>
-  readonly fromEither: <E, A>(e: Either<E, A>) => Type2<M, E, A>
-  readonly fromOption: <E, A>(o: Option<A>, onNone: () => E) => Type2<M, E, A>
+  readonly throwError: <L, A>(e: L) => Type2<M, L, A>
+  readonly fromEither: <L, A>(e: Either<L, A>) => Type2<M, L, A>
+  readonly fromOption: <L, A>(o: Option<A>, onNone: () => L) => Type2<M, L, A>
 }
 
-export interface MonadThrow2C<M extends URIS2, E> extends Monad2C<M, E> {
-  readonly throwError: <A>(e: E) => Type2<M, E, A>
-  readonly fromEither: <A>(e: Either<E, A>) => Type2<M, E, A>
-  readonly fromOption: <A>(o: Option<A>, onNone: () => E) => Type2<M, E, A>
+export interface MonadThrow2C<M extends URIS2, L> extends Monad2C<M, L> {
+  readonly throwError: <A>(e: L) => Type2<M, L, A>
+  readonly fromEither: <A>(e: Either<L, A>) => Type2<M, L, A>
+  readonly fromOption: <A>(o: Option<A>, onNone: () => L) => Type2<M, L, A>
 }
 
 export interface MonadThrow3<M extends URIS3> extends Monad3<M> {
-  readonly throwError: <U, E, A>(e: E) => Type3<M, U, E, A>
-  readonly fromEither: <U, E, A>(e: Either<E, A>) => Type3<M, U, E, A>
-  readonly fromOption: <U, E, A>(o: Option<A>, onNone: () => E) => Type3<M, U, E, A>
+  readonly throwError: <U, L, A>(e: L) => Type3<M, U, L, A>
+  readonly fromEither: <U, L, A>(e: Either<L, A>) => Type3<M, U, L, A>
+  readonly fromOption: <U, L, A>(o: Option<A>, onNone: () => L) => Type3<M, U, L, A>
 }
 
-export interface MonadThrow3C<M extends URIS3, U, E> extends Monad3C<M, U, E> {
-  readonly throwError: <A>(e: E) => Type3<M, U, E, A>
-  readonly fromEither: <A>(e: Either<E, A>) => Type3<M, U, E, A>
-  readonly fromOption: <A>(o: Option<A>, onNone: () => E) => Type3<M, U, E, A>
+export interface MonadThrow3C<M extends URIS3, U, L> extends Monad3C<M, U, L> {
+  readonly throwError: <A>(e: L) => Type3<M, U, L, A>
+  readonly fromEither: <A>(e: Either<L, A>) => Type3<M, U, L, A>
+  readonly fromOption: <A>(o: Option<A>, onNone: () => L) => Type3<M, U, L, A>
 }
