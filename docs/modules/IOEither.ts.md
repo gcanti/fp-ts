@@ -24,7 +24,6 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [mapLeft (function)](#mapleft-function)
 - [orElse (function)](#orelse-function)
 - [right (function)](#right-function)
-- [run (function)](#run-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
@@ -131,16 +130,6 @@ Added in v2.0.0
 
 ```ts
 export function right<A>(fa: IO<A>): IOEither<never, A> { ... }
-```
-
-Added in v2.0.0
-
-# run (function)
-
-**Signature**
-
-```ts
-export function run<L, A>(fa: IOEither<L, A>): E.Either<L, A> { ... }
 ```
 
 Added in v2.0.0

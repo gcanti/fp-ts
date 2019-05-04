@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { IO, getSemigroup, io, getMonoid, run } from '../src/IO'
+import { IO, getSemigroup, io, getMonoid } from '../src/IO'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
 
@@ -8,7 +8,7 @@ describe('IO', () => {
     const double = (n: number): number => n * 2
     const fab = io.of(double)
     const fa = io.of(1)
-    assert.strictEqual(run(io.ap(fab, fa)), 2)
+    assert.strictEqual(io.ap(fab, fa)(), 2)
   })
 
   it('chain', () => {

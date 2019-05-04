@@ -19,7 +19,6 @@ parent: Modules
 - [listen (function)](#listen-function)
 - [listens (function)](#listens-function)
 - [pass (function)](#pass-function)
-- [run (function)](#run-function)
 - [tell (function)](#tell-function)
 
 ---
@@ -136,16 +135,6 @@ Applies the returned function to the accumulator
 
 ```ts
 export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => ...
-```
-
-Added in v2.0.0
-
-# run (function)
-
-**Signature**
-
-```ts
-export const run = <W, A>(fa: Writer<W, A>): [A, W] => ...
 ```
 
 Added in v2.0.0

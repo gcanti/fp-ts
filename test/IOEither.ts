@@ -1,19 +1,7 @@
 import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight, toError } from '../src/Either'
 import { io } from '../src/IO'
-import {
-  fold,
-  fromLeft,
-  IOEither,
-  ioEither,
-  left,
-  fromRight,
-  mapLeft,
-  orElse,
-  tryCatch,
-  run,
-  right
-} from '../src/IOEither'
+import { fold, fromLeft, IOEither, ioEither, left, fromRight, mapLeft, orElse, tryCatch, right } from '../src/IOEither'
 import { none, some } from '../src/Option'
 
 describe('IOEither', () => {
@@ -29,9 +17,9 @@ describe('IOEither', () => {
 
   it('map', () => {
     const double = (n: number): number => n * 2
-    const e = run(ioEither.map(fromRight(1), double))
+    const e = ioEither.map(fromRight(1), double)
 
-    assert.deepStrictEqual(e, eitherRight(2))
+    assert.deepStrictEqual(e(), eitherRight(2))
   })
 
   it('mapLeft', () => {

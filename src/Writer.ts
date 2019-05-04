@@ -23,13 +23,6 @@ export interface Writer<W, A> {
 /**
  * @since 2.0.0
  */
-export const run = <W, A>(fa: Writer<W, A>): [A, W] => {
-  return fa()
-}
-
-/**
- * @since 2.0.0
- */
 export const evalWriter = <W, A>(fa: Writer<W, A>): A => {
   return fa()[0]
 }

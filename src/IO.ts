@@ -22,13 +22,6 @@ export interface IO<A> {
   (): A
 }
 
-/**
- * @since 2.0.0
- */
-export const run = <A>(fa: IO<A>): A => {
-  return fa()
-}
-
 const map = <A, B>(fa: IO<A>, f: (a: A) => B): IO<B> => {
   return () => f(fa())
 }
