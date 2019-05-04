@@ -63,7 +63,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => ...
+export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -73,7 +73,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => ...
+export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> { ... }
 ```
 
 Added in v2.0.0

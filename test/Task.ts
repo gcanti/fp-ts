@@ -1,8 +1,7 @@
 import * as assert from 'assert'
-import { left, right } from '../src/Either'
+import { array } from '../src/Array'
 import { monoidString } from '../src/Monoid'
 import * as T from '../src/Task'
-import { array } from '../src/Array'
 
 const delayReject = <A>(n: number, a: A): T.Task<A> => () =>
   new Promise<A>((_, reject) => {
@@ -66,16 +65,6 @@ describe('Task', () => {
       .then(x => {
         assert.strictEqual(x, 2)
       })
-  })
-
-  it('tryCatch', () => {
-    const onrejected = (e: any) => `Error is: ${String(e)}`
-    const t1 = T.tryCatch(() => Promise.resolve(1), onrejected)
-    const t2 = T.tryCatch(() => Promise.reject('ouch!'), onrejected)
-    return Promise.all([t1(), t2()]).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, right(1))
-      assert.deepStrictEqual(e2, left('Error is: ouch!'))
-    })
   })
 
   it('sequence parallel', () => {

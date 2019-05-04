@@ -348,4 +348,14 @@ describe('TaskEither', () => {
       assert.deepStrictEqual(e2, eitherRight('a'))
     })
   })
+
+  it('tryCatch', () => {
+    const onrejected = (e: any) => `Error is: ${String(e)}`
+    const t1 = TE.tryCatch(() => Promise.resolve(1), onrejected)
+    const t2 = TE.tryCatch(() => Promise.reject('ouch!'), onrejected)
+    return Promise.all([t1(), t2()]).then(([e1, e2]) => {
+      assert.deepStrictEqual(e1, eitherRight(1))
+      assert.deepStrictEqual(e2, eitherLeft('Error is: ouch!'))
+    })
+  })
 })

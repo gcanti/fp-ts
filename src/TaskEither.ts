@@ -6,7 +6,7 @@ import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
-import { Lazy, Predicate, Refinement } from './function'
+import { Predicate, Refinement, Lazy } from './function'
 import { IOEither } from './IOEither'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
@@ -14,7 +14,7 @@ import { MonadTask2 } from './MonadTask'
 import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
-import { getSemigroup as getTaskSemigroup, Task, task, tryCatch as taskTryCatch } from './Task'
+import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
 
 const T = getEitherM(task)
 
@@ -140,36 +140,29 @@ export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> {
 }
 
 /**
- * Transforms a `Promise` into a `TaskEither`, catching the possible error.
- *
- * @example
- * import { createHash } from 'crypto'
- * import { TaskEither, tryCatch } from 'fp-ts/lib/TaskEither'
- * import { createReadStream } from 'fs'
- * import { left } from 'fp-ts/lib/Either'
- *
- * function md5(path: string): TaskEither<string, string> {
- *   const mkHash = (p: string) =>
- *     new Promise<string>((resolve, reject) => {
- *       const hash = createHash('md5')
- *       const rs = createReadStream(p)
- *       rs.on('error', (error: Error) => reject(error.message))
- *       rs.on('data', (chunk: string) => hash.update(chunk))
- *       rs.on('end', () => resolve(hash.digest('hex')))
- *     })
- *   return tryCatch(() => mkHash(path), message => `cannot create md5 hash: ${String(message)}`)
- * }
- *
- * md5('foo')()
- *   .then(x => {
- *     assert.deepStrictEqual(x, left(`cannot create md5 hash: ENOENT: no such file or directory, open 'foo'`))
- *   })
- *
- *
  * @since 2.0.0
  */
 export function tryCatch<L, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => L): TaskEither<L, A> {
-  return taskTryCatch(f, onRejected)
+  return () => f().then(a => E.right(a), reason => E.left(onRejected(reason)))
+}
+
+/**
+ * Make sure that a resource is cleaned up in the event of an exception. The
+ * release action is called regardless of whether the body action throws or
+ * returns.
+ *
+ * @since 2.0.0
+ */
+export function bracket<L, A, B>(
+  acquire: TaskEither<L, A>,
+  use: (a: A) => TaskEither<L, B>,
+  release: (a: A, e: E.Either<L, B>) => TaskEither<L, void>
+): TaskEither<L, B> {
+  return taskEither.chain(acquire, a =>
+    taskEither.chain(task.map(use(a), E.right), e =>
+      taskEither.chain(release(a, e), () => E.fold<L, B, TaskEither<L, B>>(e, fromLeft, taskEither.of))
+    )
+  )
 }
 
 /**
@@ -225,25 +218,6 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
         f.apply(null, args.concat(cbResolver))
       })
   }
-}
-
-/**
- * Make sure that a resource is cleaned up in the event of an exception. The
- * release action is called regardless of whether the body action throws or
- * returns.
- *
- * @since 2.0.0
- */
-export function bracket<L, A, B>(
-  acquire: TaskEither<L, A>,
-  use: (a: A) => TaskEither<L, B>,
-  release: (a: A, e: E.Either<L, B>) => TaskEither<L, void>
-): TaskEither<L, B> {
-  return taskEither.chain(acquire, a =>
-    taskEither.chain(task.map(use(a), E.right), e =>
-      taskEither.chain(release(a, e), () => E.fold<L, B, TaskEither<L, B>>(e, fromLeft, taskEither.of))
-    )
-  )
 }
 
 /**

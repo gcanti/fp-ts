@@ -28,7 +28,6 @@ parent: Modules
 - [orElse (function)](#orelse-function)
 - [right (function)](#right-function)
 - [run (function)](#run-function)
-- [tryCatch (function)](#trycatch-function)
 
 ---
 
@@ -247,19 +246,6 @@ Added in v2.0.0
 
 ```ts
 export function run<E, L, A>(ma: ReaderTaskEither<E, L, A>, e: E): Promise<Either<L, A>> { ... }
-```
-
-Added in v2.0.0
-
-# tryCatch (function)
-
-**Signature**
-
-```ts
-export function tryCatch<E, L, A>(
-  f: (e: E) => Promise<A>,
-  onError: (reason: unknown, e: E) => L
-): ReaderTaskEither<E, L, A> { ... }
 ```
 
 Added in v2.0.0

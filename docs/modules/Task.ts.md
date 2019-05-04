@@ -23,7 +23,6 @@ If you want to represent an asynchronous computation that may fail, please see `
 - [getRaceMonoid (function)](#getracemonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [never (function)](#never-function)
-- [tryCatch (function)](#trycatch-function)
 
 ---
 
@@ -121,16 +120,6 @@ Added in v2.0.0
 
 ```ts
 export const never: Task<never> = () => new Promise(_ => ...
-```
-
-Added in v2.0.0
-
-# tryCatch (function)
-
-**Signature**
-
-```ts
-export function tryCatch<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> { ... }
 ```
 
 Added in v2.0.0

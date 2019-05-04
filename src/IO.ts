@@ -22,26 +22,10 @@ export interface IO<A> {
   (): A
 }
 
-const map = <A, B>(fa: IO<A>, f: (a: A) => B): IO<B> => {
-  return () => f(fa())
-}
-
-const of = <A>(a: A): IO<A> => {
-  return () => a
-}
-
-const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => {
-  return () => fab()(fa())
-}
-
-const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
-  return () => f(fa())()
-}
-
 /**
  * @since 2.0.0
  */
-export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
+export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> {
   return {
     concat: (x, y) => () => S.concat(x(), y())
   }
@@ -50,8 +34,8 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
 /**
  * @since 2.0.0
  */
-export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
-  return { ...getSemigroup(M), empty: of(M.empty) }
+export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
+  return { ...getSemigroup(M), empty: io.of(M.empty) }
 }
 
 /**
@@ -59,9 +43,9 @@ export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
  */
 export const io: Monad1<URI> & MonadIO1<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
+  map: (ma, f) => () => f(ma()),
+  of: a => () => a,
+  ap: (mab, ma) => () => mab()(ma()),
+  chain: (ma, f) => () => f(ma())(),
   fromIO: identity
 }

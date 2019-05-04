@@ -8,13 +8,13 @@ import { MonadIO3 } from './MonadIO'
 import { MonadTask3 } from './MonadTask'
 import { MonadThrow3 } from './MonadThrow'
 import { Reader } from './Reader'
-import * as readerT from './ReaderT'
-import { Task, task } from './Task'
+import { getReaderM } from './ReaderT'
+import { Task } from './Task'
 import * as TE from './TaskEither'
 
 import TaskEither = TE.TaskEither
 
-const T = readerT.getReaderM(TE.taskEither)
+const T = getReaderM(TE.taskEither)
 
 declare module './HKT' {
   interface URI2HKT3<U, L, A> {
@@ -148,16 +148,6 @@ export function fromPredicate<L, A>(
 /**
  * @since 2.0.0
  */
-export function tryCatch<E, L, A>(
-  f: (e: E) => Promise<A>,
-  onError: (reason: unknown, e: E) => L
-): ReaderTaskEither<E, L, A> {
-  return e => TE.tryCatch(() => f(e), (reason: unknown) => onError(reason, e))
-}
-
-/**
- * @since 2.0.0
- */
 export const readerTaskEither: Monad3<URI> &
   Bifunctor3<URI> &
   Alt3<URI> &
@@ -174,7 +164,7 @@ export const readerTaskEither: Monad3<URI> &
   fromIO: ma => () => TE.taskEither.fromIO(ma),
   fromTask: right,
   throwError: fromLeft,
-  fromEither: e => () => task.of(e),
+  fromEither: e => () => TE.taskEither.fromEither(e),
   fromOption: (o, onNone) => (o._tag === 'None' ? fromLeft(onNone()) : fromRight(o.value))
 }
 

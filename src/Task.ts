@@ -2,8 +2,7 @@
  * @file `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
  * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
  */
-import { Either, left, right } from './Either'
-import { identity, Lazy } from './function'
+import { identity } from './function'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
@@ -22,33 +21,6 @@ export type URI = typeof URI
 
 export interface Task<A> {
   (): Promise<A>
-}
-
-/**
- * @since 2.0.0
- */
-export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
-  return {
-    concat: (x, y) => () =>
-      new Promise((resolve, reject) => {
-        let running = true
-        const resolveFirst = (a: A) => {
-          if (running) {
-            running = false
-            resolve(a)
-          }
-        }
-        const rejectFirst = (e: any) => {
-          if (running) {
-            running = false
-            reject(e)
-          }
-        }
-        x().then(resolveFirst, rejectFirst)
-        y().then(resolveFirst, rejectFirst)
-      }),
-    empty: never
-  }
 }
 
 /**
@@ -78,8 +50,28 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<Task<A>> {
 /**
  * @since 2.0.0
  */
-export function tryCatch<L, A>(f: Lazy<Promise<A>>, onrejected: (reason: unknown) => L): Task<Either<L, A>> {
-  return () => f().then<Either<L, A>, Either<L, A>>(right, reason => left(onrejected(reason)))
+export function getRaceMonoid<A = never>(): Monoid<Task<A>> {
+  return {
+    concat: (x, y) => () =>
+      new Promise((resolve, reject) => {
+        let running = true
+        const resolveFirst = (a: A) => {
+          if (running) {
+            running = false
+            resolve(a)
+          }
+        }
+        const rejectFirst = (e: any) => {
+          if (running) {
+            running = false
+            reject(e)
+          }
+        }
+        x().then(resolveFirst, rejectFirst)
+        y().then(resolveFirst, rejectFirst)
+      }),
+    empty: never
+  }
 }
 
 /**

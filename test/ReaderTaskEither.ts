@@ -99,18 +99,6 @@ describe('ReaderTaskEither', () => {
     })
   })
 
-  it('tryCatch', () => {
-    const toError = () => 'error'
-    const rtes = [
-      RTE.tryCatch(() => Promise.resolve(1), toError),
-      RTE.tryCatch(() => Promise.reject(undefined), toError)
-    ]
-    return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, E.right(1))
-      assert.deepStrictEqual(e2, E.left('error'))
-    })
-  })
-
   it('fromIOEither', () => {
     const rtes = [RTE.fromIOEither(() => E.right(1)), RTE.fromIOEither(() => E.left('error'))]
     return Promise.all(rtes.map(rte => RTE.run(rte, {}))).then(([e1, e2]) => {
