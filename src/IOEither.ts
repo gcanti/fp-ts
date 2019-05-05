@@ -35,22 +35,22 @@ export interface IOEither<L, A> extends IO<E.Either<L, A>> {}
 /**
  * @since 2.0.0
  */
-export const fromLeft: <L>(l: L) => IOEither<L, never> = T.fromLeft
+export const left: <L>(l: L) => IOEither<L, never> = T.left
 
 /**
  * @since 2.0.0
  */
-export const fromRight: <A>(a: A) => IOEither<never, A> = T.of
+export const right: <A>(a: A) => IOEither<never, A> = T.of
 
 /**
  * @since 2.0.0
  */
-export const right: <A>(ma: IO<A>) => IOEither<never, A> = T.right
+export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = T.rightM
 
 /**
  * @since 2.0.0
  */
-export const left: <L>(ml: IO<L>) => IOEither<L, never> = T.left
+export const leftIO: <L>(ml: IO<L>) => IOEither<L, never> = T.leftM
 
 /**
  * @since 2.0.0
@@ -140,7 +140,7 @@ export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<IOEither<L, 
 export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<IOEither<L, A>> {
   return {
     concat: getApplySemigroup<L, A>(M).concat,
-    empty: fromRight(M.empty)
+    empty: right(M.empty)
   }
 }
 
@@ -166,7 +166,7 @@ export function bracket<L, A, B>(
 ): IOEither<L, B> {
   return T.chain(acquire, a =>
     T.chain(io.map(use(a), E.right), e =>
-      T.chain(release(a, e), () => E.fold<L, B, IOEither<L, B>>(e, fromLeft, ioEither.of))
+      T.chain(release(a, e), () => E.fold<L, B, IOEither<L, B>>(e, left, ioEither.of))
     )
   )
 }
@@ -178,12 +178,12 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
   URI,
   bimap: (ma, f, g) => io.map(ma, e => E.either.bimap(e, f, g)),
   map: T.map,
-  of: fromRight,
+  of: right,
   ap: T.ap,
   chain: T.chain,
   alt: orElse,
-  fromIO: right,
-  throwError: fromLeft,
+  fromIO: rightIO,
+  throwError: left,
   fromEither,
   fromOption
 }

@@ -35,22 +35,36 @@ export interface TaskEither<L, A> extends Task<E.Either<L, A>> {}
 /**
  * @since 2.0.0
  */
-export const fromLeft: <L>(l: L) => TaskEither<L, never> = T.fromLeft
+export const left: <L>(l: L) => TaskEither<L, never> = T.left
 
 /**
  * @since 2.0.0
  */
-export const fromRight: <A>(a: A) => TaskEither<never, A> = T.of
+export const right: <A>(a: A) => TaskEither<never, A> = T.of
 
 /**
  * @since 2.0.0
  */
-export const right: <A>(ma: Task<A>) => TaskEither<never, A> = T.right
+export function rightIO<A>(ma: IO<A>): TaskEither<never, A> {
+  return rightTask(task.fromIO(ma))
+}
 
 /**
  * @since 2.0.0
  */
-export const left: <L>(ml: Task<L>) => TaskEither<L, never> = T.left
+export function leftIO<L>(ml: IO<L>): TaskEither<L, never> {
+  return leftTask(task.fromIO(ml))
+}
+
+/**
+ * @since 2.0.0
+ */
+export const rightTask: <A>(ma: Task<A>) => TaskEither<never, A> = T.rightM
+
+/**
+ * @since 2.0.0
+ */
+export const leftTask: <L>(ml: Task<L>) => TaskEither<L, never> = T.leftM
 
 /**
  * @since 2.0.0
@@ -62,13 +76,6 @@ export const fromEither: <L, A>(ma: E.Either<L, A>) => TaskEither<L, A> = task.o
  */
 export function fromOption<L, A>(ma: Option<A>, onNone: () => L): TaskEither<L, A> {
   return fromEither(E.fromOption(ma, onNone))
-}
-
-/**
- * @since 2.0.0
- */
-export function fromIO<A>(ma: IO<A>): TaskEither<never, A> {
-  return right(task.fromIO(ma))
 }
 
 /**
@@ -156,7 +163,7 @@ export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L
 export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> {
   return {
     concat: getApplySemigroup<L, A>(M).concat,
-    empty: fromRight(M.empty)
+    empty: right(M.empty)
   }
 }
 
@@ -181,7 +188,7 @@ export function bracket<L, A, B>(
 ): TaskEither<L, B> {
   return taskEither.chain(acquire, a =>
     taskEither.chain(task.map(use(a), E.right), e =>
-      taskEither.chain(release(a, e), () => E.fold<L, B, TaskEither<L, B>>(e, fromLeft, taskEither.of))
+      taskEither.chain(release(a, e), () => E.fold<L, B, TaskEither<L, B>>(e, left, taskEither.of))
     )
   )
 }
@@ -253,13 +260,13 @@ export const taskEither: Monad2<URI> &
   URI,
   bimap: T.bimap,
   map: T.map,
-  of: fromRight,
+  of: right,
   ap: T.ap,
   chain: T.chain,
   alt: orElse,
-  fromIO,
-  fromTask: right,
-  throwError: fromLeft,
+  fromIO: rightIO,
+  fromTask: rightTask,
+  throwError: left,
   fromEither,
   fromOption
 }

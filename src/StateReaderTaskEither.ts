@@ -56,27 +56,27 @@ export const execState: <S, E, L, A>(ma: StateReaderTaskEither<S, E, L, A>, s: S
 /**
  * @since 2.0.0
  */
-export function fromLeft<S, L>(l: L): StateReaderTaskEither<S, unknown, L, never> {
-  return fromReaderTaskEither(RTE.fromLeft(l))
+export function left<S, L>(l: L): StateReaderTaskEither<S, unknown, L, never> {
+  return fromReaderTaskEither(RTE.left(l))
 }
 
 /**
  * @since 2.0.0
  */
-export const fromRight: <S, A>(a: A) => StateReaderTaskEither<S, unknown, never, A> = T.of
+export const right: <S, A>(a: A) => StateReaderTaskEither<S, unknown, never, A> = T.of
 
 /**
  * @since 2.0.0
  */
-export function right<S, A>(ma: Task<A>): StateReaderTaskEither<S, unknown, never, A> {
-  return fromReaderTaskEither(RTE.right(ma))
+export function rightTask<S, A>(ma: Task<A>): StateReaderTaskEither<S, unknown, never, A> {
+  return fromReaderTaskEither(RTE.rightTask(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function left<S, L>(ma: Task<L>): StateReaderTaskEither<S, unknown, L, never> {
-  return fromReaderTaskEither(RTE.left(ma))
+export function leftTask<S, L>(ma: Task<L>): StateReaderTaskEither<S, unknown, L, never> {
+  return fromReaderTaskEither(RTE.leftTask(ma))
 }
 
 /**
@@ -89,8 +89,15 @@ export function fromTaskEither<S, L, A>(ma: TaskEither<L, A>): StateReaderTaskEi
 /**
  * @since 2.0.0
  */
-export function fromReader<S, E, A>(ma: Reader<E, A>): StateReaderTaskEither<S, E, never, A> {
-  return fromReaderTaskEither(RTE.fromReader(ma))
+export function rightReader<S, E, A>(ma: Reader<E, A>): StateReaderTaskEither<S, E, never, A> {
+  return fromReaderTaskEither(RTE.rightReader(ma))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function leftReader<S, E, L>(ml: Reader<E, L>): StateReaderTaskEither<S, E, L, never> {
+  return fromReaderTaskEither(RTE.leftReader(ml))
 }
 
 /**
@@ -117,14 +124,28 @@ export function fromOption<S, L, A>(ma: Option<A>, onNone: () => L): StateReader
 /**
  * @since 2.0.0
  */
-export function fromIO<S, A>(ma: IO<A>): StateReaderTaskEither<S, unknown, never, A> {
-  return fromReaderTaskEither(RTE.fromIO(ma))
+export function rightIO<S, A>(ma: IO<A>): StateReaderTaskEither<S, unknown, never, A> {
+  return fromReaderTaskEither(RTE.rightIO(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export const fromState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unknown, never, A> = T.fromState
+export function leftIO<S, L>(ml: IO<L>): StateReaderTaskEither<S, unknown, L, never> {
+  return fromReaderTaskEither(RTE.leftIO(ml))
+}
+
+/**
+ * @since 2.0.0
+ */
+export const rightState: <S, A>(ma: State<S, A>) => StateReaderTaskEither<S, unknown, never, A> = T.fromState
+
+/**
+ * @since 2.0.0
+ */
+export function leftState<S, L>(ml: State<S, L>): StateReaderTaskEither<S, unknown, L, never> {
+  return s => RTE.left(ml(s)[0])
+}
 
 /**
  * @since 2.0.0
@@ -166,7 +187,7 @@ export const gets: <S, A>(f: (s: S) => A) => StateReaderTaskEither<S, unknown, n
 export const stateReaderTaskEither: Monad4<URI> = {
   URI,
   map: T.map,
-  of: fromRight,
+  of: right,
   ap: T.ap,
   chain: T.chain
 }

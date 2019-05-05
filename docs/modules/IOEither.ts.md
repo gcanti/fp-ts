@@ -19,14 +19,14 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [fold (constant)](#fold-constant)
 - [foldIO (constant)](#foldio-constant)
 - [fromEither (constant)](#fromeither-constant)
-- [fromLeft (constant)](#fromleft-constant)
-- [fromRight (constant)](#fromright-constant)
 - [getOrElse (constant)](#getorelse-constant)
 - [ioEither (constant)](#ioeither-constant)
 - [left (constant)](#left-constant)
+- [leftIO (constant)](#leftio-constant)
 - [mapLeft (constant)](#mapleft-constant)
 - [orElse (constant)](#orelse-constant)
 - [right (constant)](#right-constant)
+- [rightIO (constant)](#rightio-constant)
 - [swap (constant)](#swap-constant)
 - [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
@@ -95,26 +95,6 @@ export const fromEither: <L, A>(ma: E.Either<L, A>) => IOEither<L, A> = ...
 
 Added in v2.0.0
 
-# fromLeft (constant)
-
-**Signature**
-
-```ts
-export const fromLeft: <L>(l: L) => IOEither<L, never> = ...
-```
-
-Added in v2.0.0
-
-# fromRight (constant)
-
-**Signature**
-
-```ts
-export const fromRight: <A>(a: A) => IOEither<never, A> = ...
-```
-
-Added in v2.0.0
-
 # getOrElse (constant)
 
 **Signature**
@@ -140,7 +120,17 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const left: <L>(ml: IO<L>) => IOEither<L, never> = ...
+export const left: <L>(l: L) => IOEither<L, never> = ...
+```
+
+Added in v2.0.0
+
+# leftIO (constant)
+
+**Signature**
+
+```ts
+export const leftIO: <L>(ml: IO<L>) => IOEither<L, never> = ...
 ```
 
 Added in v2.0.0
@@ -170,7 +160,17 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const right: <A>(ma: IO<A>) => IOEither<never, A> = ...
+export const right: <A>(a: A) => IOEither<never, A> = ...
+```
+
+Added in v2.0.0
+
+# rightIO (constant)
+
+**Signature**
+
+```ts
+export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = ...
 ```
 
 Added in v2.0.0

@@ -13,23 +13,25 @@ parent: Modules
 - [URI (constant)](#uri-constant)
 - [ask (constant)](#ask-constant)
 - [asks (constant)](#asks-constant)
-- [fromReader (constant)](#fromreader-constant)
-- [fromRight (constant)](#fromright-constant)
 - [fromTaskEither (constant)](#fromtaskeither-constant)
 - [local (constant)](#local-constant)
 - [readerTaskEither (constant)](#readertaskeither-constant)
 - [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
+- [right (constant)](#right-constant)
+- [rightReader (constant)](#rightreader-constant)
 - [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
-- [fromIO (function)](#fromio-function)
 - [fromIOEither (function)](#fromioeither-function)
-- [fromLeft (function)](#fromleft-function)
 - [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [left (function)](#left-function)
+- [leftIO (function)](#leftio-function)
+- [leftReader (function)](#leftreader-function)
+- [leftTask (function)](#lefttask-function)
 - [mapLeft (function)](#mapleft-function)
 - [orElse (function)](#orelse-function)
-- [right (function)](#right-function)
+- [rightIO (function)](#rightio-function)
+- [rightTask (function)](#righttask-function)
 - [run (function)](#run-function)
 
 ---
@@ -82,26 +84,6 @@ export const asks: <E, A>(f: (e: E) => A) => ReaderTaskEither<E, never, A> = ...
 
 Added in v2.0.0
 
-# fromReader (constant)
-
-**Signature**
-
-```ts
-export const fromReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = ...
-```
-
-Added in v2.0.0
-
-# fromRight (constant)
-
-**Signature**
-
-```ts
-export const fromRight: <A>(a: A) => ReaderTaskEither<unknown, never, A> = ...
-```
-
-Added in v2.0.0
-
 # fromTaskEither (constant)
 
 **Signature**
@@ -149,6 +131,26 @@ export const readerTaskEitherSeq: typeof readerTaskEither = ...
 
 Added in v2.0.0
 
+# right (constant)
+
+**Signature**
+
+```ts
+export const right: <A>(a: A) => ReaderTaskEither<unknown, never, A> = ...
+```
+
+Added in v2.0.0
+
+# rightReader (constant)
+
+**Signature**
+
+```ts
+export const rightReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = ...
+```
+
+Added in v2.0.0
+
 # fold (function)
 
 **Signature**
@@ -173,32 +175,12 @@ export function fromEither<L, A>(ma: Either<L, A>): ReaderTaskEither<unknown, L,
 
 Added in v2.0.0
 
-# fromIO (function)
-
-**Signature**
-
-```ts
-export function fromIO<A>(ma: IO<A>): ReaderTaskEither<unknown, never, A> { ... }
-```
-
-Added in v2.0.0
-
 # fromIOEither (function)
 
 **Signature**
 
 ```ts
 export function fromIOEither<L, A>(ma: IOEither<L, A>): ReaderTaskEither<unknown, L, A> { ... }
-```
-
-Added in v2.0.0
-
-# fromLeft (function)
-
-**Signature**
-
-```ts
-export function fromLeft<L>(l: L): ReaderTaskEither<unknown, L, never> { ... }
 ```
 
 Added in v2.0.0
@@ -235,7 +217,37 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<L>(ma: Task<L>): ReaderTaskEither<unknown, L, never> { ... }
+export function left<L>(l: L): ReaderTaskEither<unknown, L, never> { ... }
+```
+
+Added in v2.0.0
+
+# leftIO (function)
+
+**Signature**
+
+```ts
+export function leftIO<L>(ml: IO<L>): ReaderTaskEither<unknown, L, never> { ... }
+```
+
+Added in v2.0.0
+
+# leftReader (function)
+
+**Signature**
+
+```ts
+export function leftReader<E, L>(ml: Reader<E, L>): ReaderTaskEither<E, L, never> { ... }
+```
+
+Added in v2.0.0
+
+# leftTask (function)
+
+**Signature**
+
+```ts
+export function leftTask<L>(ma: Task<L>): ReaderTaskEither<unknown, L, never> { ... }
 ```
 
 Added in v2.0.0
@@ -263,12 +275,22 @@ export function orElse<E, L, A, M>(
 
 Added in v2.0.0
 
-# right (function)
+# rightIO (function)
 
 **Signature**
 
 ```ts
-export function right<A>(ma: Task<A>): ReaderTaskEither<unknown, never, A> { ... }
+export function rightIO<A>(ma: IO<A>): ReaderTaskEither<unknown, never, A> { ... }
+```
+
+Added in v2.0.0
+
+# rightTask (function)
+
+**Signature**
+
+```ts
+export function rightTask<A>(ma: Task<A>): ReaderTaskEither<unknown, never, A> { ... }
 ```
 
 Added in v2.0.0

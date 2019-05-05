@@ -6,6 +6,7 @@ import { none, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
+import { io } from '../src/IO'
 
 const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
 
@@ -13,26 +14,22 @@ describe('TaskEither', () => {
   describe('Monad', () => {
     it('map', async () => {
       const double = (n: number): number => n * 2
-      const x = await _.taskEither.map(_.fromRight(1), double)()
+      const x = await _.taskEither.map(_.right(1), double)()
       assert.deepStrictEqual(x, E.right(2))
     })
 
     it('ap', async () => {
       const double = (n: number): number => n * 2
-      const mab = _.fromRight(double)
-      const ma = _.fromRight(1)
+      const mab = _.right(double)
+      const ma = _.right(1)
       const x = await _.taskEither.ap(mab, ma)()
       assert.deepStrictEqual(x, E.right(2))
     })
 
     it('chain', async () => {
-      const e1 = await _.taskEither.chain(_.fromRight('foo'), a =>
-        a.length > 2 ? _.fromRight(a.length) : _.fromLeft('foo')
-      )()
+      const e1 = await _.taskEither.chain(_.right('foo'), a => (a.length > 2 ? _.right(a.length) : _.left('foo')))()
       assert.deepStrictEqual(e1, E.right(3))
-      const e2 = await _.taskEither.chain(_.fromRight('a'), a =>
-        a.length > 2 ? _.fromRight(a.length) : _.fromLeft('foo')
-      )()
+      const e2 = await _.taskEither.chain(_.right('a'), a => (a.length > 2 ? _.right(a.length) : _.left('foo')))()
       assert.deepStrictEqual(e2, E.left('foo'))
     })
   })
@@ -40,15 +37,15 @@ describe('TaskEither', () => {
   describe('bracket', () => {
     let log: Array<string> = []
 
-    const acquireFailure = _.fromLeft('acquire failure')
-    const acquireSuccess = _.fromRight({ res: 'acquire success' })
-    const useSuccess = () => _.fromRight('use success')
-    const useFailure = () => _.fromLeft('use failure')
+    const acquireFailure = _.left('acquire failure')
+    const acquireSuccess = _.right({ res: 'acquire success' })
+    const useSuccess = () => _.right('use success')
+    const useFailure = () => _.left('use failure')
     const releaseSuccess = () =>
       _.taskEither.fromIO(() => {
         log.push('release success')
       })
-    const releaseFailure = () => _.fromLeft('release failure')
+    const releaseFailure = () => _.left('release failure')
 
     beforeEach(() => {
       log = []
@@ -95,15 +92,15 @@ describe('TaskEither', () => {
       const f = (s: string): number => s.length
       const g = (n: number): boolean => n > 2
 
-      const e1 = await _.taskEither.bimap(_.fromRight(1), f, g)()
+      const e1 = await _.taskEither.bimap(_.right(1), f, g)()
       assert.deepStrictEqual(e1, E.right(false))
-      const e2 = await _.taskEither.bimap(_.fromLeft('foo'), f, g)()
+      const e2 = await _.taskEither.bimap(_.left('foo'), f, g)()
       assert.deepStrictEqual(e2, E.left(3))
     })
 
     it('mapLeft', async () => {
       const double = (n: number): number => n * 2
-      const e = await _.mapLeft(_.fromLeft(1), double)()
+      const e = await _.mapLeft(_.left(1), double)()
       assert.deepStrictEqual(e, E.left(2))
     })
   })
@@ -111,28 +108,33 @@ describe('TaskEither', () => {
   it('fold', async () => {
     const f = (s: string): boolean => s.length > 2
     const g = (n: number): boolean => n > 2
-    const b1 = await _.fold(_.fromRight(1), f, g)()
+    const b1 = await _.fold(_.right(1), f, g)()
     assert.strictEqual(b1, false)
-    const b2 = await _.fold(_.fromLeft('foo'), f, g)()
+    const b2 = await _.fold(_.left('foo'), f, g)()
     assert.strictEqual(b2, true)
   })
 
   it('getOrElse', async () => {
-    const b1 = await _.getOrElse(_.fromRight(1), () => 42)()
+    const b1 = await _.getOrElse(_.right(1), () => 42)()
     assert.strictEqual(b1, 1)
-    const b2 = await _.getOrElse(_.fromLeft('foo'), () => 42)()
+    const b2 = await _.getOrElse(_.left('foo'), () => 42)()
     assert.strictEqual(b2, 42)
   })
 
   it('orElse', async () => {
-    const e1 = await _.orElse(_.fromLeft('foo'), l => _.fromRight(l.length))()
-    const e2 = await _.orElse(_.fromRight(1), () => _.fromRight(2))()
+    const e1 = await _.orElse(_.left('foo'), l => _.right(l.length))()
+    const e2 = await _.orElse(_.right(1), () => _.right(2))()
     assert.deepStrictEqual(e1, E.right(3))
     assert.deepStrictEqual(e2, E.right(1))
   })
 
-  it('left', async () => {
-    const e = await _.left(T.task.of(1))()
+  it('leftTask', async () => {
+    const e = await _.leftTask(T.task.of(1))()
+    assert.deepStrictEqual(e, E.left(1))
+  })
+
+  it('leftIO', async () => {
+    const e = await _.leftIO(io.of(1))()
     assert.deepStrictEqual(e, E.left(1))
   })
 
@@ -196,16 +198,16 @@ describe('TaskEither', () => {
   describe('getSemigroup', () => {
     it('concat', async () => {
       const S = _.getSemigroup<string, number>(semigroupSum)
-      const e1 = await S.concat(_.left(delay(10, 'a')), _.left(delay(10, 'b')))()
+      const e1 = await S.concat(_.leftTask(delay(10, 'a')), _.leftTask(delay(10, 'b')))()
       assert.deepStrictEqual(e1, E.left('a'))
 
-      const e2 = await S.concat(_.left(delay(10, 'a')), _.right(delay(10, 2)))()
+      const e2 = await S.concat(_.leftTask(delay(10, 'a')), _.rightTask(delay(10, 2)))()
       assert.deepStrictEqual(e2, E.right(2))
 
-      const e3 = await S.concat(_.right(delay(10, 1)), _.left(delay(10, 'b')))()
+      const e3 = await S.concat(_.rightTask(delay(10, 1)), _.leftTask(delay(10, 'b')))()
       assert.deepStrictEqual(e3, E.right(1))
 
-      const e4 = await S.concat(_.right(delay(10, 1)), _.right(delay(10, 2)))()
+      const e4 = await S.concat(_.rightTask(delay(10, 1)), _.rightTask(delay(10, 2)))()
       assert.deepStrictEqual(e4, E.right(3))
     })
   })
@@ -214,29 +216,30 @@ describe('TaskEither', () => {
     const M = _.getApplyMonoid(monoidString)
 
     it('concat (right)', async () => {
-      const x = await M.concat(_.right(delay(10, 'a')), _.right(delay(10, 'b')))()
+      const x = await M.concat(_.rightTask(delay(10, 'a')), _.rightTask(delay(10, 'b')))()
       return assert.deepStrictEqual(x, E.right('ab'))
     })
 
     it('concat (left)', async () => {
-      const x = await M.concat(_.right(delay(10, 'a')), _.left(delay(10, 'b')))()
+      const x = await M.concat(_.rightTask(delay(10, 'a')), _.leftTask(delay(10, 'b')))()
       return assert.deepStrictEqual(x, E.left('b'))
     })
 
     it('empty (right)', async () => {
-      const x = await M.concat(_.right(delay(10, 'a')), M.empty)()
+      const x = await M.concat(_.rightTask(delay(10, 'a')), M.empty)()
       return assert.deepStrictEqual(x, E.right('a'))
     })
 
     it('empty (left)', async () => {
-      const x = await M.concat(M.empty, _.right(delay(10, 'a')))()
+      const x = await M.concat(M.empty, _.rightTask(delay(10, 'a')))()
       return assert.deepStrictEqual(x, E.right('a'))
     })
   })
 
   it('sequence parallel', async () => {
     const log: Array<string> = []
-    const append = (message: string): _.TaskEither<void, number> => _.right(() => Promise.resolve(log.push(message)))
+    const append = (message: string): _.TaskEither<void, number> =>
+      _.rightTask(() => Promise.resolve(log.push(message)))
     const t1 = _.taskEither.chain(append('start 1'), () => append('end 1'))
     const t2 = _.taskEither.chain(append('start 2'), () => append('end 2'))
     const sequenceParallel = array.sequence(_.taskEither)
@@ -247,7 +250,8 @@ describe('TaskEither', () => {
 
   it('sequence series', async () => {
     const log: Array<string> = []
-    const append = (message: string): _.TaskEither<void, number> => _.right(() => Promise.resolve(log.push(message)))
+    const append = (message: string): _.TaskEither<void, number> =>
+      _.rightTask(() => Promise.resolve(log.push(message)))
     const t1 = _.taskEither.chain(append('start 1'), () => append('end 1'))
     const t2 = _.taskEither.chain(append('start 2'), () => append('end 2'))
     const sequenceSeries = array.sequence(_.taskEitherSeq)
@@ -260,30 +264,30 @@ describe('TaskEither', () => {
     const whenLeft = () => T.task.of('left')
     const whenRight = () => T.task.of('right')
 
-    const s1 = await _.foldTask(_.fromLeft('a'), whenLeft, whenRight)()
+    const s1 = await _.foldTask(_.left('a'), whenLeft, whenRight)()
     assert.deepStrictEqual(s1, 'left')
-    const s2 = await _.foldTask(_.fromRight(1), whenLeft, whenRight)()
+    const s2 = await _.foldTask(_.right(1), whenLeft, whenRight)()
     assert.deepStrictEqual(s2, 'right')
   })
 
   it('filterOrElse', async () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
 
-    const e1 = await _.filterOrElse(_.fromRight(12), n => n > 10, () => 'bar')()
+    const e1 = await _.filterOrElse(_.right(12), n => n > 10, () => 'bar')()
     assert.deepStrictEqual(e1, E.right(12))
-    const e2 = await _.filterOrElse(_.fromRight(7), n => n > 10, () => 'bar')()
+    const e2 = await _.filterOrElse(_.right(7), n => n > 10, () => 'bar')()
     assert.deepStrictEqual(e2, E.left('bar'))
-    const e3 = await _.filterOrElse(_.fromLeft('foo'), n => n > 10, () => 'bar')()
+    const e3 = await _.filterOrElse(_.left('foo'), n => n > 10, () => 'bar')()
     assert.deepStrictEqual(e3, E.left('foo'))
-    const e4 = await _.filterOrElse(_.fromRight(7), n => n > 10, n => `invalid ${n}`)()
+    const e4 = await _.filterOrElse(_.right(7), n => n > 10, n => `invalid ${n}`)()
     assert.deepStrictEqual(e4, E.left('invalid 7'))
-    const e5 = await _.filterOrElse(_.fromRight(12), isNumber, () => 'not a number')()
+    const e5 = await _.filterOrElse(_.right(12), isNumber, () => 'not a number')()
     assert.deepStrictEqual(e5, E.right(12))
   })
 
   describe('MonadThrow', () => {
     it('should obey the law', async () => {
-      const e1 = await _.taskEither.chain(_.taskEither.throwError('error'), a => _.fromRight(a))()
+      const e1 = await _.taskEither.chain(_.taskEither.throwError('error'), a => _.right(a))()
       const e2 = await _.taskEither.throwError('error')()
       assert.deepStrictEqual(e1, e2)
     })
