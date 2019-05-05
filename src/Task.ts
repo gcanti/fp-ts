@@ -3,6 +3,7 @@
  * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
  */
 import { identity } from './function'
+import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
@@ -90,13 +91,20 @@ export function delay<A>(millis: number, ma: Task<A>): Task<A> {
 /**
  * @since 2.0.0
  */
+export function fromIO<A>(ma: IO<A>): Task<A> {
+  return () => Promise.resolve(ma())
+}
+
+/**
+ * @since 2.0.0
+ */
 export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
   URI,
   map: (ma, f) => () => ma().then(f),
   of: a => () => Promise.resolve(a),
   ap: (mab, ma) => () => Promise.all([mab(), ma()]).then(([f, a]) => f(a)),
   chain: (ma, f) => () => ma().then(a => f(a)()),
-  fromIO: ma => () => Promise.resolve(ma()),
+  fromIO,
   fromTask: identity
 }
 
