@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import * as E from '../src/Either'
+import * as _ from '../src/Either'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
@@ -12,97 +12,97 @@ describe('Either', () => {
   it('fold', () => {
     const f = (s: string) => `left${s.length}`
     const g = (s: string) => `right${s.length}`
-    assert.strictEqual(E.fold(E.left('abc'), f, g), 'left3')
-    assert.strictEqual(E.fold(E.right('abc'), f, g), 'right3')
+    assert.strictEqual(_.fold(_.left('abc'), f, g), 'left3')
+    assert.strictEqual(_.fold(_.right('abc'), f, g), 'right3')
   })
 
   it('getOrElse', () => {
-    assert.deepStrictEqual(E.getOrElse(E.right(12), () => 17), 12)
-    assert.deepStrictEqual(E.getOrElse(E.left('a'), () => 17), 17)
-    assert.deepStrictEqual(E.getOrElse(E.left('a'), (l: string) => l.length + 1), 2)
+    assert.deepStrictEqual(_.getOrElse(_.right(12), () => 17), 12)
+    assert.deepStrictEqual(_.getOrElse(_.left('a'), () => 17), 17)
+    assert.deepStrictEqual(_.getOrElse(_.left('a'), (l: string) => l.length + 1), 2)
   })
 
   it('filterOrElse', () => {
     const gt10 = (n: number): boolean => n > 10
-    assert.deepStrictEqual(E.filterOrElse(E.right(12), gt10, () => -1), E.right(12))
-    assert.deepStrictEqual(E.filterOrElse(E.right(7), gt10, () => -1), E.left(-1))
-    assert.deepStrictEqual(E.filterOrElse(E.left(12), gt10, () => -1), E.left(12))
-    assert.deepStrictEqual(E.filterOrElse(E.right(7), gt10, n => `invalid ${n}`), E.left('invalid 7'))
+    assert.deepStrictEqual(_.filterOrElse(_.right(12), gt10, () => -1), _.right(12))
+    assert.deepStrictEqual(_.filterOrElse(_.right(7), gt10, () => -1), _.left(-1))
+    assert.deepStrictEqual(_.filterOrElse(_.left(12), gt10, () => -1), _.left(12))
+    assert.deepStrictEqual(_.filterOrElse(_.right(7), gt10, n => `invalid ${n}`), _.left('invalid 7'))
 
     type Color = 'red' | 'blue'
     const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     const errorHandler = (s: string) => `invalid color ${s}`
 
-    assert.deepStrictEqual(E.filterOrElse(E.right('red'), isColor, errorHandler), E.right('red'))
-    assert.deepStrictEqual(E.filterOrElse(E.right('foo'), isColor, errorHandler), E.left('invalid color foo'))
-    assert.deepStrictEqual(E.filterOrElse(E.left('err'), isColor, errorHandler), E.left('err'))
+    assert.deepStrictEqual(_.filterOrElse(_.right('red'), isColor, errorHandler), _.right('red'))
+    assert.deepStrictEqual(_.filterOrElse(_.right('foo'), isColor, errorHandler), _.left('invalid color foo'))
+    assert.deepStrictEqual(_.filterOrElse(_.left('err'), isColor, errorHandler), _.left('err'))
   })
 
   it('isLeft', () => {
-    assert.strictEqual(E.isLeft(E.right(1)), false)
-    assert.strictEqual(E.isLeft(E.left(1)), true)
+    assert.strictEqual(_.isLeft(_.right(1)), false)
+    assert.strictEqual(_.isLeft(_.left(1)), true)
   })
 
   it('isRight', () => {
-    assert.strictEqual(E.isRight(E.right(1)), true)
-    assert.strictEqual(E.isRight(E.left(1)), false)
+    assert.strictEqual(_.isRight(_.right(1)), true)
+    assert.strictEqual(_.isRight(_.left(1)), false)
   })
 
   it('orElse', () => {
-    assert.deepStrictEqual(E.orElse(E.right(1), () => E.right(2)), E.right(1))
-    assert.deepStrictEqual(E.orElse(E.right(1), () => E.left('foo')), E.right(1))
-    assert.deepStrictEqual(E.orElse(E.left('foo'), () => E.right(1)), E.right(1))
-    assert.deepStrictEqual(E.orElse(E.left('foo'), () => E.left('bar')), E.left('bar'))
+    assert.deepStrictEqual(_.orElse(_.right(1), () => _.right(2)), _.right(1))
+    assert.deepStrictEqual(_.orElse(_.right(1), () => _.left('foo')), _.right(1))
+    assert.deepStrictEqual(_.orElse(_.left('foo'), () => _.right(1)), _.right(1))
+    assert.deepStrictEqual(_.orElse(_.left('foo'), () => _.left('bar')), _.left('bar'))
   })
 
   it('swap', () => {
-    assert.deepStrictEqual(E.swap(E.right('a')), E.left('a'))
-    assert.deepStrictEqual(E.swap(E.left('b')), E.right('b'))
+    assert.deepStrictEqual(_.swap(_.right('a')), _.left('a'))
+    assert.deepStrictEqual(_.swap(_.left('b')), _.right('b'))
   })
 
   it('parseJSON', () => {
-    assert.deepStrictEqual(E.parseJSON('{"a":1}', E.toError), E.right({ a: 1 }))
+    assert.deepStrictEqual(_.parseJSON('{"a":1}', _.toError), _.right({ a: 1 }))
     assert.deepStrictEqual(
-      E.parseJSON('{"a":}', E.toError),
-      E.left(new SyntaxError('Unexpected token } in JSON at position 5'))
+      _.parseJSON('{"a":}', _.toError),
+      _.left(new SyntaxError('Unexpected token } in JSON at position 5'))
     )
   })
 
   it('stringifyJSON', () => {
-    assert.deepStrictEqual(E.stringifyJSON({ a: 1 }, E.toError), E.right('{"a":1}'))
+    assert.deepStrictEqual(_.stringifyJSON({ a: 1 }, _.toError), _.right('{"a":1}'))
     const circular: any = { ref: null }
     circular.ref = circular
     assert.deepStrictEqual(
-      E.stringifyJSON(circular, E.toError),
-      E.left(new TypeError('Converting circular structure to JSON'))
+      _.stringifyJSON(circular, _.toError),
+      _.left(new TypeError('Converting circular structure to JSON'))
     )
     interface Person {
       name: string
       age: number
     }
     const person: Person = { name: 'Giulio', age: 45 }
-    assert.deepStrictEqual(E.stringifyJSON(person, E.toError), E.right('{"name":"Giulio","age":45}'))
+    assert.deepStrictEqual(_.stringifyJSON(person, _.toError), _.right('{"name":"Giulio","age":45}'))
   })
 
   describe('Monad', () => {
     it('map', () => {
       const f = (s: string): number => s.length
-      assert.deepStrictEqual(E.either.map(E.right('abc'), f), E.right(3))
-      assert.deepStrictEqual(E.either.map(E.left('s'), f), E.left('s'))
+      assert.deepStrictEqual(_.either.map(_.right('abc'), f), _.right(3))
+      assert.deepStrictEqual(_.either.map(_.left('s'), f), _.left('s'))
     })
 
     it('ap', () => {
       const f = (s: string): number => s.length
-      assert.deepStrictEqual(E.either.ap(E.right(f), E.right('abc')), E.right(3))
-      assert.deepStrictEqual(E.either.ap(E.right(f), E.left('maError')), E.left('maError'))
-      assert.deepStrictEqual(E.either.ap(E.left('mabError'), E.right('abc')), E.left('mabError'))
-      assert.deepStrictEqual(E.either.ap(E.left('mabError'), E.left('maError')), E.left('mabError'))
+      assert.deepStrictEqual(_.either.ap(_.right(f), _.right('abc')), _.right(3))
+      assert.deepStrictEqual(_.either.ap(_.right(f), _.left('maError')), _.left('maError'))
+      assert.deepStrictEqual(_.either.ap(_.left('mabError'), _.right('abc')), _.left('mabError'))
+      assert.deepStrictEqual(_.either.ap(_.left('mabError'), _.left('maError')), _.left('mabError'))
     })
 
     it('chain', () => {
-      const f = (s: string) => E.right(s.length)
-      assert.deepStrictEqual(E.either.chain(E.right('abc'), f), E.right(3))
-      assert.deepStrictEqual(E.either.chain(E.left('maError'), f), E.left('maError'))
+      const f = (s: string) => _.right(s.length)
+      assert.deepStrictEqual(_.either.chain(_.right('abc'), f), _.right(3))
+      assert.deepStrictEqual(_.either.chain(_.left('maError'), f), _.left('maError'))
     })
   })
 
@@ -110,240 +110,235 @@ describe('Either', () => {
     it('bimap', () => {
       const f = (s: string): number => s.length
       const g = (n: number): boolean => n > 2
-      assert.deepStrictEqual(E.either.bimap(E.right(1), f, g), E.right(false))
+      assert.deepStrictEqual(_.either.bimap(_.right(1), f, g), _.right(false))
     })
 
     it('mapLeft', () => {
       const double = (n: number): number => n * 2
-      assert.deepStrictEqual(E.mapLeft(E.right('bar'), double), E.right('bar'))
-      assert.deepStrictEqual(E.mapLeft(E.left(2), double), E.left(4))
+      assert.deepStrictEqual(_.mapLeft(_.right('bar'), double), _.right('bar'))
+      assert.deepStrictEqual(_.mapLeft(_.left(2), double), _.left(4))
     })
   })
 
   describe('lifting functions', () => {
     it('fromPredicate', () => {
-      const predicate = (n: number) => n >= 2
-      const handleError = (n: number) => `Invalid number ${n}`
-      const gt2 = E.fromPredicate(predicate, handleError)
-      assert.deepStrictEqual(gt2(3), E.right(3))
-      assert.deepStrictEqual(gt2(1), E.left('Invalid number 1'))
+      const gt2 = _.fromPredicate((n: number) => n >= 2, n => `Invalid number ${n}`)
+      assert.deepStrictEqual(gt2(3), _.right(3))
+      assert.deepStrictEqual(gt2(1), _.left('Invalid number 1'))
 
       // refinements
       type Color = 'red' | 'blue'
       const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
-      const from = E.fromPredicate(isColor, s => `invalid color ${s}`)
-      assert.deepStrictEqual(from('red'), E.right('red'))
-      assert.deepStrictEqual(from('foo'), E.left('invalid color foo'))
+      const from = _.fromPredicate(isColor, s => `invalid color ${s}`)
+      assert.deepStrictEqual(from('red'), _.right('red'))
+      assert.deepStrictEqual(from('foo'), _.left('invalid color foo'))
     })
 
     it('fromNullable', () => {
-      assert.deepStrictEqual(E.fromNullable(null, 'default'), E.left('default'))
-      assert.deepStrictEqual(E.fromNullable(undefined, 'default'), E.left('default'))
-      assert.deepStrictEqual(E.fromNullable(1, 'default'), E.right(1))
+      assert.deepStrictEqual(_.fromNullable(null, 'default'), _.left('default'))
+      assert.deepStrictEqual(_.fromNullable(undefined, 'default'), _.left('default'))
+      assert.deepStrictEqual(_.fromNullable(1, 'default'), _.right(1))
     })
 
     it('tryCatch', () => {
-      const e1 = E.tryCatch(() => {
-        return 1
-      }, E.toError)
-      assert.deepStrictEqual(e1, E.right(1))
-      const e2 = E.tryCatch(() => {
-        // tslint:disable-next-line: no-string-throw
-        throw 'string error'
-      }, E.toError)
-      assert.deepStrictEqual(e2, E.left(new Error('string error')))
+      assert.deepStrictEqual(
+        _.tryCatch(() => {
+          return 1
+        }, _.toError),
+        _.right(1)
+      )
+
+      assert.deepStrictEqual(
+        _.tryCatch(() => {
+          // tslint:disable-next-line: no-string-throw
+          throw 'string error'
+        }, _.toError),
+        _.left(new Error('string error'))
+      )
     })
   })
 
   describe('getEq', () => {
     it('equals', () => {
-      const equals = E.getEq(eqString, eqNumber).equals
-      assert.strictEqual(equals(E.right(1), E.right(1)), true)
-      assert.strictEqual(equals(E.right(1), E.right(2)), false)
-      assert.strictEqual(equals(E.right(1), E.left('foo')), false)
-      assert.strictEqual(equals(E.left('foo'), E.left('foo')), true)
-      assert.strictEqual(equals(E.left('foo'), E.left('bar')), false)
-      assert.strictEqual(equals(E.left('foo'), E.right(1)), false)
+      const equals = _.getEq(eqString, eqNumber).equals
+      assert.strictEqual(equals(_.right(1), _.right(1)), true)
+      assert.strictEqual(equals(_.right(1), _.right(2)), false)
+      assert.strictEqual(equals(_.right(1), _.left('foo')), false)
+      assert.strictEqual(equals(_.left('foo'), _.left('foo')), true)
+      assert.strictEqual(equals(_.left('foo'), _.left('bar')), false)
+      assert.strictEqual(equals(_.left('foo'), _.right(1)), false)
     })
   })
 
   describe('Traversable', () => {
     it('traverse', () => {
       assert.deepStrictEqual(
-        E.either.traverse(option)(E.left('foo'), a => (a >= 2 ? some(a) : none)),
-        some(E.left('foo'))
+        _.either.traverse(option)(_.left('foo'), a => (a >= 2 ? some(a) : none)),
+        some(_.left('foo'))
       )
-      assert.deepStrictEqual(E.either.traverse(option)(E.right(1), a => (a >= 2 ? some(a) : none)), none)
-      assert.deepStrictEqual(E.either.traverse(option)(E.right(3), a => (a >= 2 ? some(a) : none)), some(E.right(3)))
+      assert.deepStrictEqual(_.either.traverse(option)(_.right(1), a => (a >= 2 ? some(a) : none)), none)
+      assert.deepStrictEqual(_.either.traverse(option)(_.right(3), a => (a >= 2 ? some(a) : none)), some(_.right(3)))
     })
 
     it('sequence', () => {
-      const sequence = E.either.sequence(option)
-      const x1 = E.right(some('a'))
-      assert.deepStrictEqual(sequence(x1), some(E.right('a')))
-      const x2 = E.left(1)
-      assert.deepStrictEqual(sequence(x2), some(E.left(1)))
-      const x3 = E.right(none)
-      assert.deepStrictEqual(sequence(x3), none)
+      const sequence = _.either.sequence(option)
+      assert.deepStrictEqual(sequence(_.right(some('a'))), some(_.right('a')))
+      assert.deepStrictEqual(sequence(_.left(1)), some(_.left(1)))
+      assert.deepStrictEqual(sequence(_.right(none)), none)
     })
   })
 
   describe('ChainRec', () => {
     it('chainRec', () => {
-      const chainRec = E.either.chainRec
-      assert.deepStrictEqual(chainRec(1, () => E.left('foo')), E.left('foo'))
-      assert.deepStrictEqual(chainRec(1, () => E.right(E.right(1))), E.right(1))
+      const chainRec = _.either.chainRec
+      assert.deepStrictEqual(chainRec(1, () => _.left('foo')), _.left('foo'))
+      assert.deepStrictEqual(chainRec(1, () => _.right(_.right(1))), _.right(1))
       assert.deepStrictEqual(
         chainRec(1, a => {
           if (a < 5) {
-            return E.right(E.left(a + 1))
+            return _.right(_.left(a + 1))
           } else {
-            return E.right(E.right(a))
+            return _.right(_.right(a))
           }
         }),
-        E.right(5)
+        _.right(5)
       )
     })
   })
 
   describe('Extend', () => {
     it('extend', () => {
-      assert.deepStrictEqual(E.either.extend(E.right(1), () => 2), E.right(2))
-      assert.deepStrictEqual(E.either.extend(E.left('err'), () => 2), E.left('err'))
+      assert.deepStrictEqual(_.either.extend(_.right(1), () => 2), _.right(2))
+      assert.deepStrictEqual(_.either.extend(_.left('err'), () => 2), _.left('err'))
     })
   })
 
   describe('Foldable', () => {
     it('reduce', () => {
-      assert.deepStrictEqual(E.either.reduce(E.right('bar'), 'foo', (b, a) => b + a), 'foobar')
-      assert.deepStrictEqual(E.either.reduce(E.left('bar'), 'foo', (b, a) => b + a), 'foo')
+      assert.deepStrictEqual(_.either.reduce(_.right('bar'), 'foo', (b, a) => b + a), 'foobar')
+      assert.deepStrictEqual(_.either.reduce(_.left('bar'), 'foo', (b, a) => b + a), 'foo')
     })
 
     it('foldMap', () => {
-      const foldMap = E.either.foldMap(monoidString)
-      const x1 = E.right('a')
-      const f1 = identity
-      assert.strictEqual(foldMap(x1, f1), 'a')
-      const x2 = E.left(1)
-      assert.strictEqual(foldMap(x2, f1), '')
+      const foldMap = _.either.foldMap(monoidString)
+      assert.strictEqual(foldMap(_.right('a'), identity), 'a')
+      assert.strictEqual(foldMap(_.left(1), identity), '')
     })
 
     it('reduceRight', () => {
-      const reduceRight = E.either.reduceRight
-      const x1 = E.right('a')
-      const init1 = ''
-      const f1 = (a: string, acc: string) => acc + a
-      assert.strictEqual(reduceRight(x1, init1, f1), 'a')
-      const x2 = E.left(1)
-      assert.strictEqual(reduceRight(x2, init1, f1), '')
+      const reduceRight = _.either.reduceRight
+      const init = ''
+      const f = (a: string, acc: string) => acc + a
+      assert.strictEqual(reduceRight(_.right('a'), init, f), 'a')
+      assert.strictEqual(reduceRight(_.left(1), init, f), '')
     })
   })
 
   describe('getCompactable', () => {
-    const C = E.getCompactable(monoidString)
+    const C = _.getCompactable(monoidString)
 
     it('compact', () => {
-      assert.deepStrictEqual(C.compact(E.left('1')), E.left('1'))
-      assert.deepStrictEqual(C.compact(E.right(none)), E.left(monoidString.empty))
-      assert.deepStrictEqual(C.compact(E.right(some(123))), E.right(123))
+      assert.deepStrictEqual(C.compact(_.left('1')), _.left('1'))
+      assert.deepStrictEqual(C.compact(_.right(none)), _.left(monoidString.empty))
+      assert.deepStrictEqual(C.compact(_.right(some(123))), _.right(123))
     })
 
     it('separate', () => {
-      assert.deepStrictEqual(C.separate(E.left('123')), { left: E.left('123'), right: E.left('123') })
-      assert.deepStrictEqual(C.separate(E.right(E.left('123'))), {
-        left: E.right('123'),
-        right: E.left(monoidString.empty)
+      assert.deepStrictEqual(C.separate(_.left('123')), { left: _.left('123'), right: _.left('123') })
+      assert.deepStrictEqual(C.separate(_.right(_.left('123'))), {
+        left: _.right('123'),
+        right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(C.separate(E.right(E.right('123'))), {
-        left: E.left(monoidString.empty),
-        right: E.right('123')
+      assert.deepStrictEqual(C.separate(_.right(_.right('123'))), {
+        left: _.left(monoidString.empty),
+        right: _.right('123')
       })
     })
   })
 
   describe('getFilterable', () => {
-    const F = E.getFilterable(monoidString)
+    const F = _.getFilterable(monoidString)
     const p = (n: number) => n > 2
 
     it('partition', () => {
-      assert.deepStrictEqual(F.partition(E.left('123'), p), {
-        left: E.left('123'),
-        right: E.left('123')
+      assert.deepStrictEqual(F.partition(_.left('123'), p), {
+        left: _.left('123'),
+        right: _.left('123')
       })
-      assert.deepStrictEqual(F.partition(E.right(1), p), {
-        left: E.right(1),
-        right: E.left(monoidString.empty)
+      assert.deepStrictEqual(F.partition(_.right(1), p), {
+        left: _.right(1),
+        right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(F.partition(E.right(3), p), {
-        left: E.left(monoidString.empty),
-        right: E.right(3)
+      assert.deepStrictEqual(F.partition(_.right(3), p), {
+        left: _.left(monoidString.empty),
+        right: _.right(3)
       })
     })
 
     it('partitionMap', () => {
-      const f = (n: number) => (p(n) ? E.right(n + 1) : E.left(n - 1))
-      assert.deepStrictEqual(F.partitionMap(E.left('123'), f), {
-        left: E.left('123'),
-        right: E.left('123')
+      const f = (n: number) => (p(n) ? _.right(n + 1) : _.left(n - 1))
+      assert.deepStrictEqual(F.partitionMap(_.left('123'), f), {
+        left: _.left('123'),
+        right: _.left('123')
       })
-      assert.deepStrictEqual(F.partitionMap(E.right(1), f), {
-        left: E.right(0),
-        right: E.left(monoidString.empty)
+      assert.deepStrictEqual(F.partitionMap(_.right(1), f), {
+        left: _.right(0),
+        right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(F.partitionMap(E.right(3), f), {
-        left: E.left(monoidString.empty),
-        right: E.right(4)
+      assert.deepStrictEqual(F.partitionMap(_.right(3), f), {
+        left: _.left(monoidString.empty),
+        right: _.right(4)
       })
     })
 
     it('filter', () => {
-      assert.deepStrictEqual(F.filter(E.left('123'), p), E.left('123'))
-      assert.deepStrictEqual(F.filter(E.right(1), p), E.left(monoidString.empty))
-      assert.deepStrictEqual(F.filter(E.right(3), p), E.right(3))
+      assert.deepStrictEqual(F.filter(_.left('123'), p), _.left('123'))
+      assert.deepStrictEqual(F.filter(_.right(1), p), _.left(monoidString.empty))
+      assert.deepStrictEqual(F.filter(_.right(3), p), _.right(3))
     })
 
     it('filterMap', () => {
       const f = (n: number) => (p(n) ? some(n + 1) : none)
-      assert.deepStrictEqual(F.filterMap(E.left('123'), f), E.left('123'))
-      assert.deepStrictEqual(F.filterMap(E.right(1), f), E.left(monoidString.empty))
-      assert.deepStrictEqual(F.filterMap(E.right(3), f), E.right(4))
+      assert.deepStrictEqual(F.filterMap(_.left('123'), f), _.left('123'))
+      assert.deepStrictEqual(F.filterMap(_.right(1), f), _.left(monoidString.empty))
+      assert.deepStrictEqual(F.filterMap(_.right(3), f), _.right(4))
     })
   })
 
   describe('getWitherable', () => {
-    const W = E.getWitherable(monoidString)
+    const W = _.getWitherable(monoidString)
     const p = (n: number) => n > 2
 
     it('wither', () => {
       const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)
       const witherIdentity = W.wither(I.identity)
-      assert.deepStrictEqual(witherIdentity(E.left('foo'), f), I.identity.of(E.left('foo')))
-      assert.deepStrictEqual(witherIdentity(E.right(1), f), I.identity.of(E.left(monoidString.empty)))
-      assert.deepStrictEqual(witherIdentity(E.right(3), f), I.identity.of(E.right(4)))
+      assert.deepStrictEqual(witherIdentity(_.left('foo'), f), I.identity.of(_.left('foo')))
+      assert.deepStrictEqual(witherIdentity(_.right(1), f), I.identity.of(_.left(monoidString.empty)))
+      assert.deepStrictEqual(witherIdentity(_.right(3), f), I.identity.of(_.right(4)))
     })
 
     it('wilt', () => {
       const wiltIdentity = W.wilt(I.identity)
-      const f = (n: number) => I.identity.of(p(n) ? E.right(n + 1) : E.left(n - 1))
+      const f = (n: number) => I.identity.of(p(n) ? _.right(n + 1) : _.left(n - 1))
       assert.deepStrictEqual(
-        wiltIdentity(E.left('foo'), f),
+        wiltIdentity(_.left('foo'), f),
         I.identity.of({
-          left: E.left('foo'),
-          right: E.left('foo')
+          left: _.left('foo'),
+          right: _.left('foo')
         })
       )
       assert.deepStrictEqual(
-        wiltIdentity(E.right(1), f),
+        wiltIdentity(_.right(1), f),
         I.identity.of({
-          left: E.right(0),
-          right: E.left(monoidString.empty)
+          left: _.right(0),
+          right: _.left(monoidString.empty)
         })
       )
       assert.deepStrictEqual(
-        wiltIdentity(E.right(3), f),
+        wiltIdentity(_.right(3), f),
         I.identity.of({
-          left: E.left(monoidString.empty),
-          right: E.right(4)
+          left: _.left(monoidString.empty),
+          right: _.right(4)
         })
       )
     })
@@ -351,53 +346,53 @@ describe('Either', () => {
 
   describe('getSemigroup', () => {
     it('concat', () => {
-      const S = E.getSemigroup(semigroupSum)
-      assert.deepStrictEqual(S.concat(E.left('a'), E.left('b')), E.left('a'))
-      assert.deepStrictEqual(S.concat(E.left('a'), E.right(2)), E.right(2))
-      assert.deepStrictEqual(S.concat(E.right(1), E.left('b')), E.right(1))
-      assert.deepStrictEqual(S.concat(E.right(1), E.right(2)), E.right(3))
+      const S = _.getSemigroup(semigroupSum)
+      assert.deepStrictEqual(S.concat(_.left('a'), _.left('b')), _.left('a'))
+      assert.deepStrictEqual(S.concat(_.left('a'), _.right(2)), _.right(2))
+      assert.deepStrictEqual(S.concat(_.right(1), _.left('b')), _.right(1))
+      assert.deepStrictEqual(S.concat(_.right(1), _.right(2)), _.right(3))
     })
   })
 
   describe('getApplySemigroup', () => {
     it('concat', () => {
-      const S = E.getApplySemigroup(semigroupSum)
-      assert.deepStrictEqual(S.concat(E.left('a'), E.left('b')), E.left('a'))
-      assert.deepStrictEqual(S.concat(E.left('a'), E.right(2)), E.left('a'))
-      assert.deepStrictEqual(S.concat(E.right(1), E.left('b')), E.left('b'))
-      assert.deepStrictEqual(S.concat(E.right(1), E.right(2)), E.right(3))
+      const S = _.getApplySemigroup(semigroupSum)
+      assert.deepStrictEqual(S.concat(_.left('a'), _.left('b')), _.left('a'))
+      assert.deepStrictEqual(S.concat(_.left('a'), _.right(2)), _.left('a'))
+      assert.deepStrictEqual(S.concat(_.right(1), _.left('b')), _.left('b'))
+      assert.deepStrictEqual(S.concat(_.right(1), _.right(2)), _.right(3))
     })
   })
 
   describe('getApplyMonoid', () => {
     it('concat', () => {
-      const S = E.getApplyMonoid(monoidSum)
-      assert.deepStrictEqual(S.concat(E.left('a'), S.empty), E.left('a'))
-      assert.deepStrictEqual(S.concat(S.empty, E.left('b')), E.left('b'))
-      assert.deepStrictEqual(S.concat(E.right(1), S.empty), E.right(1))
-      assert.deepStrictEqual(S.concat(S.empty, E.right(2)), E.right(2))
+      const S = _.getApplyMonoid(monoidSum)
+      assert.deepStrictEqual(S.concat(_.left('a'), S.empty), _.left('a'))
+      assert.deepStrictEqual(S.concat(S.empty, _.left('b')), _.left('b'))
+      assert.deepStrictEqual(S.concat(_.right(1), S.empty), _.right(1))
+      assert.deepStrictEqual(S.concat(S.empty, _.right(2)), _.right(2))
     })
   })
 
   describe('MonadThrow', () => {
     it('should obey the law', () => {
       assert.deepStrictEqual(
-        E.either.chain(E.either.throwError('error'), a => E.right(a)),
-        E.either.throwError('error')
+        _.either.chain(_.either.throwError('error'), a => _.right(a)),
+        _.either.throwError('error')
       )
     })
 
     it('fromOption', () => {
-      assert.deepStrictEqual(E.either.fromOption(none, () => 'error'), E.left('error'))
-      assert.deepStrictEqual(E.either.fromOption(some(1), () => 'error'), E.right(1))
+      assert.deepStrictEqual(_.either.fromOption(none, () => 'error'), _.left('error'))
+      assert.deepStrictEqual(_.either.fromOption(some(1), () => 'error'), _.right(1))
     })
   })
 
   describe('getShow', () => {
     it('show', () => {
-      const S = E.getShow(showString, showString)
-      assert.strictEqual(S.show(E.left('a')), `left("a")`)
-      assert.strictEqual(S.show(E.right('a')), `right("a")`)
+      const S = _.getShow(showString, showString)
+      assert.strictEqual(S.show(_.left('a')), `left("a")`)
+      assert.strictEqual(S.show(_.right('a')), `right("a")`)
     })
   })
 })

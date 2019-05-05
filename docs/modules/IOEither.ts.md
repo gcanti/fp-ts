@@ -18,6 +18,7 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [URI (constant)](#uri-constant)
 - [fold (constant)](#fold-constant)
 - [foldIO (constant)](#foldio-constant)
+- [fromEither (constant)](#fromeither-constant)
 - [fromLeft (constant)](#fromleft-constant)
 - [fromRight (constant)](#fromright-constant)
 - [getOrElse (constant)](#getorelse-constant)
@@ -29,6 +30,7 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [swap (constant)](#swap-constant)
 - [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
+- [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
@@ -79,6 +81,16 @@ Added in v2.0.0
 
 ```ts
 export const foldIO: <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => IO<R>, onRight: (a: A) => IO<R>) => IO<R> = ...
+```
+
+Added in v2.0.0
+
+# fromEither (constant)
+
+**Signature**
+
+```ts
+export const fromEither: <L, A>(ma: E.Either<L, A>) => IOEither<L, A> = ...
 ```
 
 Added in v2.0.0
@@ -202,6 +214,16 @@ export function filterOrElse<L, A, B extends A>(
   zero: (a: A) => L
 ): IOEither<L, B>
 export function filterOrElse<L, A>(ma: IOEither<L, A>, p: Predicate<A>, zero: (a: A) => L): IOEither<L, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromOption (function)
+
+**Signature**
+
+```ts
+export function fromOption<L, A>(ma: Option<A>, onNone: () => L): IOEither<L, A> { ... }
 ```
 
 Added in v2.0.0
