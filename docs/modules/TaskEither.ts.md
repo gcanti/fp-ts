@@ -32,6 +32,7 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
 - [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
+- [fromIO (function)](#fromio-function)
 - [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
@@ -246,6 +247,16 @@ export function filterOrElse<L, A, B extends A>(
   zero: (a: A) => L
 ): TaskEither<L, B>
 export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromIO (function)
+
+**Signature**
+
+```ts
+export function fromIO<A>(ma: IO<A>): TaskEither<never, A> { ... }
 ```
 
 Added in v2.0.0

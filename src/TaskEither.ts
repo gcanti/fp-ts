@@ -16,6 +16,7 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
 import { Option } from './Option'
+import { IO } from './IO'
 
 const T = getEitherM(task)
 
@@ -61,6 +62,13 @@ export const fromEither: <L, A>(ma: E.Either<L, A>) => TaskEither<L, A> = task.o
  */
 export function fromOption<L, A>(ma: Option<A>, onNone: () => L): TaskEither<L, A> {
   return fromEither(E.fromOption(ma, onNone))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fromIO<A>(ma: IO<A>): TaskEither<never, A> {
+  return right(task.fromIO(ma))
 }
 
 /**
@@ -249,7 +257,7 @@ export const taskEither: Monad2<URI> &
   ap: T.ap,
   chain: T.chain,
   alt: orElse,
-  fromIO: ma => right(task.fromIO(ma)),
+  fromIO,
   fromTask: right,
   throwError: fromLeft,
   fromEither,
@@ -263,5 +271,5 @@ export const taskEither: Monad2<URI> &
  */
 export const taskEitherSeq: typeof taskEither = {
   ...taskEither,
-  ap: (fab, fa) => taskEither.chain(fab, f => taskEither.map(fa, f))
+  ap: (fab, fa) => T.chain(fab, f => T.map(fa, f))
 }

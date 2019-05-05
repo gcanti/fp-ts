@@ -13,6 +13,8 @@ import { Task } from './Task'
 import * as TE from './TaskEither'
 
 import TaskEither = TE.TaskEither
+import { Option } from './Option'
+import { IO } from './IO'
 
 const T = getReaderM(TE.taskEither)
 
@@ -38,6 +40,89 @@ export interface ReaderTaskEither<E, L, A> {
  */
 export function run<E, L, A>(ma: ReaderTaskEither<E, L, A>, e: E): Promise<Either<L, A>> {
   return ma(e)()
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fromLeft<L>(l: L): ReaderTaskEither<unknown, L, never> {
+  return fromTaskEither(TE.fromLeft(l))
+}
+
+/**
+ * @since 2.0.0
+ */
+export const fromRight: <A>(a: A) => ReaderTaskEither<unknown, never, A> = T.of
+
+/**
+ * @since 2.0.0
+ */
+export function right<E, A>(ma: Task<A>): ReaderTaskEither<E, never, A> {
+  return () => TE.right(ma)
+}
+
+/**
+ * @since 2.0.0
+ */
+export function left<E, L>(ma: Task<L>): ReaderTaskEither<E, L, never> {
+  return () => TE.left(ma)
+}
+
+/**
+ * @since 2.0.0
+ */
+export const fromTaskEither: <L, A>(ma: TaskEither<L, A>) => ReaderTaskEither<unknown, L, A> = T.fromM
+
+/**
+ * @since 2.0.0
+ */
+export const fromReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = T.fromReader
+
+/**
+ * @since 2.0.0
+ */
+export function fromIOEither<L, A>(ma: IOEither<L, A>): ReaderTaskEither<unknown, L, A> {
+  return fromTaskEither(TE.fromIOEither(ma))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fromEither<L, A>(ma: Either<L, A>): ReaderTaskEither<unknown, L, A> {
+  return () => TE.fromEither(ma)
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fromOption<L, A>(ma: Option<A>, onNone: () => L): ReaderTaskEither<unknown, L, A> {
+  return ma._tag === 'None' ? fromLeft(onNone()) : fromRight(ma.value)
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fromIO<A>(ma: IO<A>): ReaderTaskEither<unknown, never, A> {
+  return () => TE.fromIO(ma)
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fromPredicate<L, A, B extends A>(
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => L
+): (a: A) => ReaderTaskEither<unknown, L, B>
+export function fromPredicate<L, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => L
+): (a: A) => ReaderTaskEither<unknown, L, A>
+export function fromPredicate<L, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => L
+): (a: A) => ReaderTaskEither<unknown, L, A> {
+  const f = TE.fromPredicate(predicate, onFalse)
+  return a => fromTaskEither(f(a))
 }
 
 /**
@@ -86,68 +171,6 @@ export const local: <E, L, A, D>(ma: ReaderTaskEither<E, L, A>, f: (f: D) => E) 
 /**
  * @since 2.0.0
  */
-export function right<E, A>(ma: Task<A>): ReaderTaskEither<E, never, A> {
-  return () => TE.right(ma)
-}
-
-/**
- * @since 2.0.0
- */
-export function left<E, L>(ma: Task<L>): ReaderTaskEither<E, L, never> {
-  return () => TE.left(ma)
-}
-
-/**
- * @since 2.0.0
- */
-export const fromTaskEither: <E, L, A>(ma: TaskEither<L, A>) => ReaderTaskEither<E, L, A> = T.fromM
-
-/**
- * @since 2.0.0
- */
-export const fromReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = T.fromReader
-
-/**
- * @since 2.0.0
- */
-export function fromLeft<L>(l: L): ReaderTaskEither<unknown, L, never> {
-  return fromTaskEither(TE.fromLeft(l))
-}
-
-/**
- * @since 2.0.0
- */
-export const fromRight: <A>(a: A) => ReaderTaskEither<unknown, never, A> = T.of
-
-/**
- * @since 2.0.0
- */
-export function fromIOEither<L, A>(ma: IOEither<L, A>): ReaderTaskEither<unknown, L, A> {
-  return fromTaskEither(TE.fromIOEither(ma))
-}
-
-/**
- * @since 2.0.0
- */
-export function fromPredicate<L, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<unknown, L, B>
-export function fromPredicate<L, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<unknown, L, A>
-export function fromPredicate<L, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<unknown, L, A> {
-  const f = TE.fromPredicate(predicate, onFalse)
-  return a => fromTaskEither(f(a))
-}
-
-/**
- * @since 2.0.0
- */
 export const readerTaskEither: Monad3<URI> &
   Bifunctor3<URI> &
   Alt3<URI> &
@@ -161,11 +184,11 @@ export const readerTaskEither: Monad3<URI> &
   chain: T.chain,
   alt: orElse,
   bimap: (ma, f, g) => e => TE.taskEither.bimap(ma(e), f, g),
-  fromIO: ma => () => TE.taskEither.fromIO(ma),
+  fromIO,
   fromTask: right,
   throwError: fromLeft,
-  fromEither: e => () => TE.taskEither.fromEither(e),
-  fromOption: (o, onNone) => (o._tag === 'None' ? fromLeft(onNone()) : fromRight(o.value))
+  fromEither,
+  fromOption
 }
 
 /**
@@ -174,5 +197,5 @@ export const readerTaskEither: Monad3<URI> &
  */
 export const readerTaskEitherSeq: typeof readerTaskEither = {
   ...readerTaskEither,
-  ap: (fab, fa) => readerTaskEither.chain(fab, f => readerTaskEither.map(fa, f))
+  ap: (fab, fa) => T.chain(fab, f => T.map(fa, f))
 }
