@@ -95,6 +95,75 @@ export function right<A>(a: A): Either<never, A> {
 /**
  * @since 2.0.0
  */
+export function fromOption<L, A>(ma: Option<A>, onNone: () => L): Either<L, A> {
+  return ma._tag === 'None' ? left(onNone()) : right(ma.value)
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fromPredicate<L, A, B extends A>(
+  predicate: Refinement<A, B>,
+  onFalse: (a: A) => L
+): (a: A) => Either<L, B>
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A> {
+  return a => (predicate(a) ? right(a) : left(onFalse(a)))
+}
+
+/**
+ * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
+ * the provided default as a `Left`
+ *
+ * @since 2.0.0
+ */
+export function fromNullable<L, A>(a: A | null | undefined, l: L): Either<L, A> {
+  return a == null ? left(l) : right(a)
+}
+
+/**
+ * Default value for the `onError` argument of `tryCatch`
+ *
+ * @since 2.0.0
+ */
+export function toError(e: unknown): Error {
+  return e instanceof Error ? e : new Error(String(e))
+}
+
+/**
+ * Constructs a new `Either` from a function that might throw
+ *
+ * @example
+ * import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
+ *
+ * const unsafeHead = <A>(as: Array<A>): A => {
+ *   if (as.length > 0) {
+ *     return as[0]
+ *   } else {
+ *     throw new Error('empty array')
+ *   }
+ * }
+ *
+ * const head = <A>(as: Array<A>): Either<Error, A> => {
+ *   return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
+ * }
+ *
+ * assert.deepStrictEqual(head([]), left(new Error('empty array')))
+ * assert.deepStrictEqual(head([1, 2, 3]), right(1))
+ *
+ * @since 2.0.0
+ */
+export function tryCatch<L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L, A> {
+  try {
+    return right(f())
+  } catch (e) {
+    return left(onError(e))
+  }
+}
+
+/**
+ * @since 2.0.0
+ */
 export function fold<L, A, R>(ma: Either<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): R {
   return isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
 }
@@ -169,72 +238,6 @@ export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<Either<L, A>> {
   return {
     ...getApplySemigroup(M),
     empty: right(M.empty)
-  }
-}
-
-/**
- * @since 2.0.0
- */
-export function fromPredicate<L, A, B extends A>(
-  predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => Either<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A> {
-  return a => (predicate(a) ? right(a) : left(onFalse(a)))
-}
-
-function fromOption<L, A>(ma: Option<A>, onNone: () => L): Either<L, A> {
-  return ma._tag === 'None' ? left(onNone()) : right(ma.value)
-}
-
-/**
- * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
- * the provided default as a `Left`
- *
- * @since 2.0.0
- */
-export function fromNullable<L, A>(a: A | null | undefined, l: L): Either<L, A> {
-  return a == null ? left(l) : right(a)
-}
-
-/**
- * Default value for the `onError` argument of `tryCatch`
- *
- * @since 2.0.0
- */
-export function toError(e: unknown): Error {
-  return e instanceof Error ? e : new Error(String(e))
-}
-
-/**
- * Constructs a new `Either` from a function that might throw
- *
- * @example
- * import { Either, left, right, tryCatch } from 'fp-ts/lib/Either'
- *
- * const unsafeHead = <A>(as: Array<A>): A => {
- *   if (as.length > 0) {
- *     return as[0]
- *   } else {
- *     throw new Error('empty array')
- *   }
- * }
- *
- * const head = <A>(as: Array<A>): Either<Error, A> => {
- *   return tryCatch(() => unsafeHead(as), e => (e instanceof Error ? e : new Error('unknown error')))
- * }
- *
- * assert.deepStrictEqual(head([]), left(new Error('empty array')))
- * assert.deepStrictEqual(head([1, 2, 3]), right(1))
- *
- * @since 2.0.0
- */
-export function tryCatch<L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L, A> {
-  try {
-    return right(f())
-  } catch (e) {
-    return left(onError(e))
   }
 }
 
