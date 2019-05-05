@@ -15,6 +15,7 @@ import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
+import { Option } from './Option'
 
 const T = getEitherM(task)
 
@@ -29,6 +30,56 @@ export const URI = 'TaskEither'
 export type URI = typeof URI
 
 export interface TaskEither<L, A> extends Task<E.Either<L, A>> {}
+
+/**
+ * @since 2.0.0
+ */
+export const fromLeft: <L>(l: L) => TaskEither<L, never> = T.fromLeft
+
+/**
+ * @since 2.0.0
+ */
+export const fromRight: <A>(a: A) => TaskEither<never, A> = T.of
+
+/**
+ * @since 2.0.0
+ */
+export const right: <A>(ma: Task<A>) => TaskEither<never, A> = T.right
+
+/**
+ * @since 2.0.0
+ */
+export const left: <L>(ml: Task<L>) => TaskEither<L, never> = T.left
+
+/**
+ * @since 2.0.0
+ */
+export const fromEither: <L, A>(ma: E.Either<L, A>) => TaskEither<L, A> = task.of
+
+/**
+ * @since 2.0.0
+ */
+export function fromOption<L, A>(ma: Option<A>, onNone: () => L): TaskEither<L, A> {
+  return fromEither(E.fromOption(ma, onNone))
+}
+
+/**
+ * @since 2.0.0
+ */
+export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = task.fromIO
+
+/**
+ * @since 2.0.0
+ */
+export function fromPredicate<L, A, B extends A>(
+  predicate: Refinement<A, B>,
+  onFalse: (a: A) => L
+): (a: A) => TaskEither<L, B>
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A>
+export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A> {
+  const f = E.fromPredicate(predicate, onFalse)
+  return a => task.of(f(a))
+}
 
 /**
  * @since 2.0.0
@@ -70,50 +121,12 @@ export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: 
 /**
  * @since 2.0.0
  */
-export const fromRight: <A>(a: A) => TaskEither<never, A> = T.of
-
-/**
- * @since 2.0.0
- */
 export const orElse: <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M, A>) => TaskEither<M, A> = T.orElse
 
 /**
  * @since 2.0.0
  */
 export const swap: <L, A>(ma: TaskEither<L, A>) => TaskEither<A, L> = T.swap
-
-/**
- * @since 2.0.0
- */
-export const right: <A>(ma: Task<A>) => TaskEither<never, A> = T.right
-
-/**
- * @since 2.0.0
- */
-export const left: <L>(ml: Task<L>) => TaskEither<L, never> = T.left
-
-/**
- * @since 2.0.0
- */
-export const fromLeft: <L>(l: L) => TaskEither<L, never> = T.fromLeft
-
-/**
- * @since 2.0.0
- */
-export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = task.fromIO
-
-/**
- * @since 2.0.0
- */
-export function fromPredicate<L, A, B extends A>(
-  predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => TaskEither<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A> {
-  const f = E.fromPredicate(predicate, onFalse)
-  return a => task.of(f(a))
-}
 
 /**
  * @since 2.0.0
@@ -239,8 +252,8 @@ export const taskEither: Monad2<URI> &
   fromIO: ma => right(task.fromIO(ma)),
   fromTask: right,
   throwError: fromLeft,
-  fromEither: task.of,
-  fromOption: (o, onNone) => task.of(E.either.fromOption(o, onNone))
+  fromEither,
+  fromOption
 }
 
 /**

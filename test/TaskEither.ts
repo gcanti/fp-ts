@@ -1,173 +1,149 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import { left as eitherLeft, right as eitherRight } from '../src/Either'
+import * as E from '../src/Either'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
-import * as TE from '../src/TaskEither'
+import * as _ from '../src/TaskEither'
 
 const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
 
 describe('TaskEither', () => {
+  describe('Monad', () => {
+    it('map', async () => {
+      const double = (n: number): number => n * 2
+      const x = await _.taskEither.map(_.fromRight(1), double)()
+      assert.deepStrictEqual(x, E.right(2))
+    })
+
+    it('ap', async () => {
+      const double = (n: number): number => n * 2
+      const mab = _.fromRight(double)
+      const ma = _.fromRight(1)
+      const x = await _.taskEither.ap(mab, ma)()
+      assert.deepStrictEqual(x, E.right(2))
+    })
+
+    it('chain', async () => {
+      const e1 = await _.taskEither.chain(_.fromRight('foo'), a =>
+        a.length > 2 ? _.fromRight(a.length) : _.fromLeft('foo')
+      )()
+      assert.deepStrictEqual(e1, E.right(3))
+      const e2 = await _.taskEither.chain(_.fromRight('a'), a =>
+        a.length > 2 ? _.fromRight(a.length) : _.fromLeft('foo')
+      )()
+      assert.deepStrictEqual(e2, E.left('foo'))
+    })
+  })
+
   describe('bracket', () => {
     let log: Array<string> = []
 
-    const acquireFailure = TE.fromLeft('acquire failure')
-    const acquireSuccess = TE.fromRight({ res: 'acquire success' })
-    const useSuccess = () => TE.fromRight('use success')
-    const useFailure = () => TE.fromLeft('use failure')
+    const acquireFailure = _.fromLeft('acquire failure')
+    const acquireSuccess = _.fromRight({ res: 'acquire success' })
+    const useSuccess = () => _.fromRight('use success')
+    const useFailure = () => _.fromLeft('use failure')
     const releaseSuccess = () =>
-      TE.taskEither.fromIO(() => {
+      _.taskEither.fromIO(() => {
         log.push('release success')
       })
-    const releaseFailure = () => TE.fromLeft('release failure')
+    const releaseFailure = () => _.fromLeft('release failure')
 
     beforeEach(() => {
       log = []
     })
 
-    it('should return the acquire error if acquire fails', () => {
-      return TE.bracket(acquireFailure, useSuccess, releaseSuccess)().then(e => {
-        assert.deepStrictEqual(e, eitherLeft('acquire failure'))
-      })
+    it('should return the acquire error if acquire fails', async () => {
+      const e = await _.bracket(acquireFailure, useSuccess, releaseSuccess)()
+      assert.deepStrictEqual(e, E.left('acquire failure'))
     })
-    it('body and release must not be called if acquire fails', () => {
-      return TE.bracket(acquireFailure, useSuccess, releaseSuccess)().then(() => {
-        assert.deepStrictEqual(log, [])
-      })
+
+    it('body and release must not be called if acquire fails', async () => {
+      await _.bracket(acquireFailure, useSuccess, releaseSuccess)()
+      assert.deepStrictEqual(log, [])
     })
-    it('should return the use error if use fails and release does not', () => {
-      return TE.bracket(acquireSuccess, useFailure, releaseSuccess)().then(e => {
-        assert.deepStrictEqual(e, eitherLeft('use failure'))
-      })
+
+    it('should return the use error if use fails and release does not', async () => {
+      const e = await _.bracket(acquireSuccess, useFailure, releaseSuccess)()
+      assert.deepStrictEqual(e, E.left('use failure'))
     })
-    it('should return the release error if both use and release fail', () => {
-      return TE.bracket(acquireSuccess, useFailure, releaseFailure)().then(e => {
-        assert.deepStrictEqual(e, eitherLeft('release failure'))
-      })
+
+    it('should return the release error if both use and release fail', async () => {
+      const e = await _.bracket(acquireSuccess, useFailure, releaseFailure)()
+      assert.deepStrictEqual(e, E.left('release failure'))
     })
-    it('release must be called if the body returns', () => {
-      return TE.bracket(acquireSuccess, useSuccess, releaseSuccess)().then(() => {
-        assert.deepStrictEqual(log, ['release success'])
-      })
+
+    it('release must be called if the body returns', async () => {
+      await _.bracket(acquireSuccess, useSuccess, releaseSuccess)()
+      assert.deepStrictEqual(log, ['release success'])
     })
-    it('release must be called if the body throws', () => {
-      return TE.bracket(acquireSuccess, useFailure, releaseSuccess)().then(() => {
-        assert.deepStrictEqual(log, ['release success'])
-      })
+
+    it('release must be called if the body throws', async () => {
+      await _.bracket(acquireSuccess, useFailure, releaseSuccess)()
+      assert.deepStrictEqual(log, ['release success'])
     })
-    it('should return the release error if release fails', () => {
-      return TE.bracket(acquireSuccess, useSuccess, releaseFailure)().then(e => {
-        assert.deepStrictEqual(e, eitherLeft('release failure'))
-      })
+
+    it('should return the release error if release fails', async () => {
+      const e = await _.bracket(acquireSuccess, useSuccess, releaseFailure)()
+      assert.deepStrictEqual(e, E.left('release failure'))
     })
   })
 
-  it('ap', () => {
-    const double = (n: number): number => n * 2
-    const fab = TE.fromRight(double)
-    const fa = TE.fromRight(1)
-    return TE.taskEither
-      .ap(fab, fa)()
-      .then(x => {
-        assert.deepStrictEqual(x, eitherRight(2))
-      })
-  })
+  describe('Bifunctor', () => {
+    it('bimap', async () => {
+      const f = (s: string): number => s.length
+      const g = (n: number): boolean => n > 2
 
-  it('map', () => {
-    const double = (n: number): number => n * 2
-    return TE.taskEither
-      .map(TE.fromRight(1), double)()
-      .then(e => {
-        assert.deepStrictEqual(e, eitherRight(2))
-      })
-  })
+      const e1 = await _.taskEither.bimap(_.fromRight(1), f, g)()
+      assert.deepStrictEqual(e1, E.right(false))
+      const e2 = await _.taskEither.bimap(_.fromLeft('foo'), f, g)()
+      assert.deepStrictEqual(e2, E.left(3))
+    })
 
-  it('mapLeft', () => {
-    const double = (n: number): number => n * 2
-    const fa = TE.fromLeft(1)
-    return TE.mapLeft(fa, double)().then(e => {
-      assert.deepStrictEqual(e, eitherLeft(2))
+    it('mapLeft', async () => {
+      const double = (n: number): number => n * 2
+      const e = await _.mapLeft(_.fromLeft(1), double)()
+      assert.deepStrictEqual(e, E.left(2))
     })
   })
 
-  it('chain', () => {
-    const te1 = TE.taskEither.chain(TE.fromRight('foo'), a =>
-      a.length > 2 ? TE.fromRight(a.length) : TE.fromLeft('foo')
-    )
-    const te2 = TE.taskEither.chain(TE.fromRight('a'), a =>
-      a.length > 2 ? TE.fromRight(a.length) : TE.fromLeft('foo')
-    )
-    return Promise.all([te1(), te2()]).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, eitherRight(3))
-      assert.deepStrictEqual(e2, eitherLeft('foo'))
-    })
-  })
-
-  it('fold', () => {
+  it('fold', async () => {
     const f = (s: string): boolean => s.length > 2
     const g = (n: number): boolean => n > 2
-    const te1 = TE.fold(TE.fromRight(1), f, g)
-    const te2 = TE.fold(TE.fromLeft('foo'), f, g)
-    return Promise.all([te1(), te2()]).then(([b1, b2]) => {
-      assert.strictEqual(b1, false)
-      assert.strictEqual(b2, true)
-    })
+    const b1 = await _.fold(_.fromRight(1), f, g)()
+    assert.strictEqual(b1, false)
+    const b2 = await _.fold(_.fromLeft('foo'), f, g)()
+    assert.strictEqual(b2, true)
   })
 
-  it('getOrElse', () => {
-    const te1 = TE.getOrElse(TE.fromRight(1), () => 42)
-    const te2 = TE.getOrElse(TE.fromLeft('foo'), () => 42)
-    return Promise.all([te1(), te2()]).then(([b1, b2]) => {
-      assert.strictEqual(b1, 1)
-      assert.strictEqual(b2, 42)
-    })
+  it('getOrElse', async () => {
+    const b1 = await _.getOrElse(_.fromRight(1), () => 42)()
+    assert.strictEqual(b1, 1)
+    const b2 = await _.getOrElse(_.fromLeft('foo'), () => 42)()
+    assert.strictEqual(b2, 42)
   })
 
-  it('bimap', () => {
-    const f = (s: string): number => s.length
-    const g = (n: number): boolean => n > 2
-    const teRight = TE.fromRight(1)
-    const teLeft = TE.fromLeft('foo')
-    return Promise.all([
-      TE.taskEither.bimap(teRight, f, g)(),
-      TE.taskEither.bimap(teLeft, f, g)(),
-      TE.taskEither.bimap(teRight, f, g)()
-    ]).then(([e1, e2, e3]) => {
-      assert.deepStrictEqual(e1, eitherRight(false))
-      assert.deepStrictEqual(e2, eitherLeft(3))
-      assert.deepStrictEqual(e1, e3)
-    })
+  it('orElse', async () => {
+    const e1 = await _.orElse(_.fromLeft('foo'), l => _.fromRight(l.length))()
+    const e2 = await _.orElse(_.fromRight(1), () => _.fromRight(2))()
+    assert.deepStrictEqual(e1, E.right(3))
+    assert.deepStrictEqual(e2, E.right(1))
   })
 
-  it('orElse', () => {
-    const l: TE.TaskEither<string, number> = TE.fromLeft('foo')
-    const r = TE.fromRight(1)
-    const tl = TE.orElse(l, l => TE.fromRight(l.length))
-    const tr = TE.orElse(r, () => TE.fromRight(2))
-    return Promise.all([tl(), tr()]).then(([el, er]) => {
-      assert.deepStrictEqual(el, eitherRight(3))
-      assert.deepStrictEqual(er, eitherRight(1))
-    })
+  it('left', async () => {
+    const e = await _.left(T.task.of(1))()
+    assert.deepStrictEqual(e, E.left(1))
   })
 
-  it('left', () => {
-    return TE.left(T.task.of(1))().then(e => {
-      assert.deepStrictEqual(e, eitherLeft(1))
-    })
+  it('tryCatch', async () => {
+    const e1 = await _.tryCatch(() => Promise.resolve(1), () => 'error')()
+    assert.deepStrictEqual(e1, E.right(1))
+    const e2 = await _.tryCatch(() => Promise.reject(undefined), () => 'error')()
+    assert.deepStrictEqual(e2, E.left('error'))
   })
 
-  it('tryCatch', () => {
-    const ok = TE.tryCatch(() => Promise.resolve(1), () => 'error')
-    const ko = TE.tryCatch(() => Promise.reject(undefined), () => 'error')
-    return Promise.all([ok(), ko()]).then(([eok, eko]) => {
-      assert.deepStrictEqual(eok, eitherRight(1))
-      assert.deepStrictEqual(eko, eitherLeft('error'))
-    })
-  })
-
-  it('taskify', () => {
+  it('taskify', async () => {
     const api1 = (_path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(null, 'ok')
     }
@@ -177,185 +153,170 @@ describe('TaskEither', () => {
     const api3 = (_path: string, callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(new Error('ko'))
     }
-    return Promise.all([TE.taskify(api1)('foo')(), TE.taskify(api2)('foo')(), TE.taskify(api3)('foo')()]).then(
-      ([e1, e2, e3]) => {
-        assert.deepStrictEqual(e1, eitherRight('ok'))
-        assert.deepStrictEqual(e2, eitherRight('ok'))
-        assert.deepStrictEqual(e3, eitherLeft(new Error('ko')))
-      }
-    )
+    const e1 = await _.taskify(api1)('foo')()
+    assert.deepStrictEqual(e1, E.right('ok'))
+    const e2 = await _.taskify(api2)('foo')()
+    assert.deepStrictEqual(e2, E.right('ok'))
+    const e3 = await _.taskify(api3)('foo')()
+    assert.deepStrictEqual(e3, E.left(new Error('ko')))
   })
 
-  it('composed taskify', () => {
+  it('composed taskify', async () => {
     const api = (callback: (err: Error | null | undefined, result?: string) => void): void => {
       callback(null, 'ok')
     }
-    const taskApi = TE.taskify(api)()
+    const taskApi = _.taskify(api)()
 
-    return Promise.all([taskApi(), taskApi()]).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, eitherRight('ok'))
-      assert.deepStrictEqual(e2, eitherRight('ok'))
-    })
+    const e1 = await taskApi()
+    assert.deepStrictEqual(e1, E.right('ok'))
+    const e2 = await taskApi()
+    assert.deepStrictEqual(e2, E.right('ok'))
   })
 
-  it('fromIOEither', () => {
-    const x1 = TE.fromIOEither(() => eitherRight(1))
-    const x2 = TE.fromIOEither(() => eitherLeft('foo'))
-    return Promise.all([x1(), x2()]).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, eitherRight(1))
-      assert.deepStrictEqual(e2, eitherLeft('foo'))
-    })
+  it('fromIOEither', async () => {
+    const e1 = await _.fromIOEither(() => E.right(1))()
+    assert.deepStrictEqual(e1, E.right(1))
+    const e2 = await _.fromIOEither(() => E.left('foo'))()
+    assert.deepStrictEqual(e2, E.left('foo'))
   })
 
-  it('fromPredicate', () => {
-    const predicate = (n: number) => n >= 2
-    const handleError = (n: number) => `Invalid number ${n}`
-    const gt2 = TE.fromPredicate(predicate, handleError)
+  it('fromPredicate', async () => {
+    const gt2 = _.fromPredicate((n: number) => n >= 2, n => `Invalid number ${n}`)
+    const e1 = await gt2(3)()
+    assert.deepStrictEqual(e1, E.right(3))
+    const e2 = await gt2(1)()
+    assert.deepStrictEqual(e2, E.left('Invalid number 1'))
+
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const is = TE.fromPredicate(isNumber, () => 'not a number')
-    const actual = is(4)
-    return Promise.all([gt2(3)(), gt2(1)(), actual()]).then(([e1, e2, e3]) => {
-      assert.deepStrictEqual(e1, eitherRight(3))
-      assert.deepStrictEqual(e2, eitherLeft('Invalid number 1'))
-      assert.deepStrictEqual(e3, eitherRight(4))
-    })
+    const e3 = await _.fromPredicate(isNumber, () => 'not a number')(4)()
+    assert.deepStrictEqual(e3, E.right(4))
   })
 
-  it('getSemigroup', () => {
-    const S = TE.getSemigroup<string, number>(semigroupSum)
-    return Promise.all([
-      S.concat(TE.left(delay(10, 'a')), TE.left(delay(10, 'b')))().then(x =>
-        assert.deepStrictEqual(x, eitherLeft('a'))
-      ),
-      S.concat(TE.left(delay(10, 'a')), TE.right(delay(10, 2)))().then(x => assert.deepStrictEqual(x, eitherRight(2))),
-      S.concat(TE.right(delay(10, 1)), TE.left(delay(10, 'b')))().then(x => assert.deepStrictEqual(x, eitherRight(1))),
-      S.concat(TE.right(delay(10, 1)), TE.right(delay(10, 2)))().then(x => assert.deepStrictEqual(x, eitherRight(3)))
-    ])
+  describe('getSemigroup', () => {
+    it('concat', async () => {
+      const S = _.getSemigroup<string, number>(semigroupSum)
+      const e1 = await S.concat(_.left(delay(10, 'a')), _.left(delay(10, 'b')))()
+      assert.deepStrictEqual(e1, E.left('a'))
+
+      const e2 = await S.concat(_.left(delay(10, 'a')), _.right(delay(10, 2)))()
+      assert.deepStrictEqual(e2, E.right(2))
+
+      const e3 = await S.concat(_.right(delay(10, 1)), _.left(delay(10, 'b')))()
+      assert.deepStrictEqual(e3, E.right(1))
+
+      const e4 = await S.concat(_.right(delay(10, 1)), _.right(delay(10, 2)))()
+      assert.deepStrictEqual(e4, E.right(3))
+    })
   })
 
   describe('getApplyMonoid', () => {
-    const M = TE.getApplyMonoid(monoidString)
+    const M = _.getApplyMonoid(monoidString)
 
-    it('concat (right)', () => {
-      return M.concat(TE.right(delay(10, 'a')), TE.right(delay(10, 'b')))().then(x =>
-        assert.deepStrictEqual(x, eitherRight('ab'))
-      )
+    it('concat (right)', async () => {
+      const x = await M.concat(_.right(delay(10, 'a')), _.right(delay(10, 'b')))()
+      return assert.deepStrictEqual(x, E.right('ab'))
     })
-    it('concat (left)', () => {
-      return M.concat(TE.right(delay(10, 'a')), TE.left(delay(10, 'b')))().then(x =>
-        assert.deepStrictEqual(x, eitherLeft('b'))
-      )
+
+    it('concat (left)', async () => {
+      const x = await M.concat(_.right(delay(10, 'a')), _.left(delay(10, 'b')))()
+      return assert.deepStrictEqual(x, E.left('b'))
     })
-    it('empty (right)', () => {
-      return M.concat(TE.right(delay(10, 'a')), M.empty)().then(x => assert.deepStrictEqual(x, eitherRight('a')))
+
+    it('empty (right)', async () => {
+      const x = await M.concat(_.right(delay(10, 'a')), M.empty)()
+      return assert.deepStrictEqual(x, E.right('a'))
     })
-    it('empty (left)', () => {
-      return M.concat(M.empty, TE.right(delay(10, 'a')))().then(x => assert.deepStrictEqual(x, eitherRight('a')))
+
+    it('empty (left)', async () => {
+      const x = await M.concat(M.empty, _.right(delay(10, 'a')))()
+      return assert.deepStrictEqual(x, E.right('a'))
     })
   })
 
-  it('sequence parallel', () => {
+  it('sequence parallel', async () => {
     const log: Array<string> = []
-    const append = (message: string): TE.TaskEither<void, number> => TE.right(() => Promise.resolve(log.push(message)))
-    const t1 = TE.taskEither.chain(append('start 1'), () => append('end 1'))
-    const t2 = TE.taskEither.chain(append('start 2'), () => append('end 2'))
-    const sequenceParallel = array.sequence(TE.taskEither)
-    return sequenceParallel([t1, t2])().then(ns => {
-      assert.deepStrictEqual(ns, eitherRight([3, 4]))
-      assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
-    })
+    const append = (message: string): _.TaskEither<void, number> => _.right(() => Promise.resolve(log.push(message)))
+    const t1 = _.taskEither.chain(append('start 1'), () => append('end 1'))
+    const t2 = _.taskEither.chain(append('start 2'), () => append('end 2'))
+    const sequenceParallel = array.sequence(_.taskEither)
+    const x = await sequenceParallel([t1, t2])()
+    assert.deepStrictEqual(x, E.right([3, 4]))
+    assert.deepStrictEqual(log, ['start 1', 'start 2', 'end 1', 'end 2'])
   })
 
-  it('sequence series', () => {
+  it('sequence series', async () => {
     const log: Array<string> = []
-    const append = (message: string): TE.TaskEither<void, number> => TE.right(() => Promise.resolve(log.push(message)))
-    const t1 = TE.taskEither.chain(append('start 1'), () => append('end 1'))
-    const t2 = TE.taskEither.chain(append('start 2'), () => append('end 2'))
-    const sequenceSeries = array.sequence(TE.taskEitherSeq)
-    return sequenceSeries([t1, t2])().then(ns => {
-      assert.deepStrictEqual(ns, eitherRight([2, 4]))
-      assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
-    })
+    const append = (message: string): _.TaskEither<void, number> => _.right(() => Promise.resolve(log.push(message)))
+    const t1 = _.taskEither.chain(append('start 1'), () => append('end 1'))
+    const t2 = _.taskEither.chain(append('start 2'), () => append('end 2'))
+    const sequenceSeries = array.sequence(_.taskEitherSeq)
+    const x = await sequenceSeries([t1, t2])()
+    assert.deepStrictEqual(x, E.right([2, 4]))
+    assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
   })
 
-  it('foldTask', () => {
+  it('foldTask', async () => {
     const whenLeft = () => T.task.of('left')
     const whenRight = () => T.task.of('right')
 
-    const tasks = [
-      TE.foldTask(TE.fromLeft('a'), whenLeft, whenRight)(),
-      TE.foldTask(TE.fromRight(1), whenLeft, whenRight)()
-    ]
-    return Promise.all(tasks).then(([r1, r2]) => {
-      assert.deepStrictEqual(r1, 'left')
-      assert.deepStrictEqual(r2, 'right')
-    })
+    const s1 = await _.foldTask(_.fromLeft('a'), whenLeft, whenRight)()
+    assert.deepStrictEqual(s1, 'left')
+    const s2 = await _.foldTask(_.fromRight(1), whenLeft, whenRight)()
+    assert.deepStrictEqual(s2, 'right')
   })
 
-  it('filterOrElse', () => {
+  it('filterOrElse', async () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
-    const tasks: Array<TE.TaskEither<string, number>> = [
-      TE.filterOrElse(TE.fromRight(12), n => n > 10, () => 'bar'),
-      TE.filterOrElse(TE.fromRight(7), n => n > 10, () => 'bar'),
-      TE.filterOrElse(TE.fromLeft('foo'), n => n > 10, () => 'bar'),
-      TE.filterOrElse(TE.fromRight(7), n => n > 10, n => `invalid ${n}`),
-      TE.filterOrElse(TE.fromRight(12), isNumber, () => 'not a number')
-    ]
-    return Promise.all(tasks.map(te => te())).then(([r1, r2, r3, r4, r5]) => {
-      assert.deepStrictEqual(r1, eitherRight(12))
-      assert.deepStrictEqual(r2, eitherLeft('bar'))
-      assert.deepStrictEqual(r3, eitherLeft('foo'))
-      assert.deepStrictEqual(r4, eitherLeft('invalid 7'))
-      assert.deepStrictEqual(r5, eitherRight(12))
-    })
+
+    const e1 = await _.filterOrElse(_.fromRight(12), n => n > 10, () => 'bar')()
+    assert.deepStrictEqual(e1, E.right(12))
+    const e2 = await _.filterOrElse(_.fromRight(7), n => n > 10, () => 'bar')()
+    assert.deepStrictEqual(e2, E.left('bar'))
+    const e3 = await _.filterOrElse(_.fromLeft('foo'), n => n > 10, () => 'bar')()
+    assert.deepStrictEqual(e3, E.left('foo'))
+    const e4 = await _.filterOrElse(_.fromRight(7), n => n > 10, n => `invalid ${n}`)()
+    assert.deepStrictEqual(e4, E.left('invalid 7'))
+    const e5 = await _.filterOrElse(_.fromRight(12), isNumber, () => 'not a number')()
+    assert.deepStrictEqual(e5, E.right(12))
   })
 
   describe('MonadThrow', () => {
-    it('should obey the law', () => {
-      return Promise.all([
-        TE.taskEither.chain(TE.taskEither.throwError('error'), a => TE.fromRight(a))(),
-        TE.taskEither.throwError('error')()
-      ]).then(([e1, e2]) => {
-        assert.deepStrictEqual(e1, e2)
-      })
+    it('should obey the law', async () => {
+      const e1 = await _.taskEither.chain(_.taskEither.throwError('error'), a => _.fromRight(a))()
+      const e2 = await _.taskEither.throwError('error')()
+      assert.deepStrictEqual(e1, e2)
     })
 
-    it('fromOption', () => {
-      return Promise.all([
-        TE.taskEither.fromOption(none, () => 'error')(),
-        TE.taskEither.fromOption(some(1), () => 'error')()
-      ]).then(([e1, e2]) => {
-        assert.deepStrictEqual(e1, eitherLeft('error'))
-        assert.deepStrictEqual(e2, eitherRight(1))
-      })
+    it('fromOption', async () => {
+      const e1 = await _.taskEither.fromOption(none, () => 'error')()
+      assert.deepStrictEqual(e1, E.left('error'))
+      const e2 = await _.taskEither.fromOption(some(1), () => 'error')()
+      assert.deepStrictEqual(e2, E.right(1))
     })
   })
 
   describe('MonadIO', () => {
-    it('fromIO', () => {
+    it('fromIO', async () => {
       const io = () => 1
-      const fa = TE.taskEither.fromIO(io)
-      return fa().then(e => {
-        assert.deepStrictEqual(e, eitherRight(1))
-      })
+      const fa = _.taskEither.fromIO(io)
+      const e = await fa()
+      assert.deepStrictEqual(e, E.right(1))
     })
   })
 
-  it('swap', () => {
-    return Promise.all([TE.swap(TE.taskEither.of(1))(), TE.swap(TE.taskEither.throwError('a'))()]).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, eitherLeft(1))
-      assert.deepStrictEqual(e2, eitherRight('a'))
-    })
+  it('swap', async () => {
+    const e1 = await _.swap(_.taskEither.of(1))()
+    assert.deepStrictEqual(e1, E.left(1))
+    const e2 = await _.swap(_.taskEither.throwError('a'))()
+    assert.deepStrictEqual(e2, E.right('a'))
   })
 
-  it('tryCatch', () => {
+  it('tryCatch', async () => {
     const onrejected = (e: any) => `Error is: ${String(e)}`
-    const t1 = TE.tryCatch(() => Promise.resolve(1), onrejected)
-    const t2 = TE.tryCatch(() => Promise.reject('ouch!'), onrejected)
-    return Promise.all([t1(), t2()]).then(([e1, e2]) => {
-      assert.deepStrictEqual(e1, eitherRight(1))
-      assert.deepStrictEqual(e2, eitherLeft('Error is: ouch!'))
-    })
+    const e1 = await _.tryCatch(() => Promise.resolve(1), onrejected)()
+    assert.deepStrictEqual(e1, E.right(1))
+    const e2 = await _.tryCatch(() => Promise.reject('ouch!'), onrejected)()
+    assert.deepStrictEqual(e2, E.left('Error is: ouch!'))
   })
 })

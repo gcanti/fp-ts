@@ -18,6 +18,7 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [URI (constant)](#uri-constant)
 - [fold (constant)](#fold-constant)
 - [foldTask (constant)](#foldtask-constant)
+- [fromEither (constant)](#fromeither-constant)
 - [fromIOEither (constant)](#fromioeither-constant)
 - [fromLeft (constant)](#fromleft-constant)
 - [fromRight (constant)](#fromright-constant)
@@ -31,6 +32,7 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
 - [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
+- [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
@@ -84,6 +86,16 @@ export const foldTask: <L, A, R>(
   onLeft: (l: L) => Task<R>,
   onRight: (a: A) => Task<R>
 ) => Task<R> = ...
+```
+
+Added in v2.0.0
+
+# fromEither (constant)
+
+**Signature**
+
+```ts
+export const fromEither: <L, A>(ma: E.Either<L, A>) => TaskEither<L, A> = ...
 ```
 
 Added in v2.0.0
@@ -234,6 +246,16 @@ export function filterOrElse<L, A, B extends A>(
   zero: (a: A) => L
 ): TaskEither<L, B>
 export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromOption (function)
+
+**Signature**
+
+```ts
+export function fromOption<L, A>(ma: Option<A>, onNone: () => L): TaskEither<L, A> { ... }
 ```
 
 Added in v2.0.0
