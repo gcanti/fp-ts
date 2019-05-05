@@ -22,6 +22,15 @@ parent: Modules
 - [put (constant)](#put-constant)
 - [stateReaderTaskEither (constant)](#statereadertaskeither-constant)
 - [stateReaderTaskEitherSeq (constant)](#statereadertaskeitherseq-constant)
+- [fromEither (function)](#fromeither-function)
+- [fromIO (function)](#fromio-function)
+- [fromIOEither (function)](#fromioeither-function)
+- [fromLeft (function)](#fromleft-function)
+- [fromOption (function)](#fromoption-function)
+- [fromReader (function)](#fromreader-function)
+- [fromTaskEither (function)](#fromtaskeither-function)
+- [left (function)](#left-function)
+- [right (function)](#right-function)
 - [run (function)](#run-function)
 
 ---
@@ -174,6 +183,96 @@ Like `stateReaderTaskEither` but `ap` is sequential
 
 ```ts
 export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = ...
+```
+
+Added in v2.0.0
+
+# fromEither (function)
+
+**Signature**
+
+```ts
+export function fromEither<S, L, A>(ma: Either<L, A>): StateReaderTaskEither<S, unknown, L, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromIO (function)
+
+**Signature**
+
+```ts
+export function fromIO<S, A>(ma: IO<A>): StateReaderTaskEither<S, unknown, never, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromIOEither (function)
+
+**Signature**
+
+```ts
+export function fromIOEither<S, L, A>(ma: IOEither<L, A>): StateReaderTaskEither<S, unknown, L, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromLeft (function)
+
+**Signature**
+
+```ts
+export function fromLeft<S, L>(l: L): StateReaderTaskEither<S, unknown, L, never> { ... }
+```
+
+Added in v2.0.0
+
+# fromOption (function)
+
+**Signature**
+
+```ts
+export function fromOption<S, L, A>(ma: Option<A>, onNone: () => L): StateReaderTaskEither<S, unknown, L, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromReader (function)
+
+**Signature**
+
+```ts
+export function fromReader<S, E, A>(ma: Reader<E, A>): StateReaderTaskEither<S, E, never, A> { ... }
+```
+
+Added in v2.0.0
+
+# fromTaskEither (function)
+
+**Signature**
+
+```ts
+export function fromTaskEither<S, L, A>(ma: TaskEither<L, A>): StateReaderTaskEither<S, unknown, L, A> { ... }
+```
+
+Added in v2.0.0
+
+# left (function)
+
+**Signature**
+
+```ts
+export function left<S, L>(ma: Task<L>): StateReaderTaskEither<S, unknown, L, never> { ... }
+```
+
+Added in v2.0.0
+
+# right (function)
+
+**Signature**
+
+```ts
+export function right<S, A>(ma: Task<A>): StateReaderTaskEither<S, unknown, never, A> { ... }
 ```
 
 Added in v2.0.0

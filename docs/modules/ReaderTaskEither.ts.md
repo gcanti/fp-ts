@@ -235,7 +235,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<E, L>(ma: Task<L>): ReaderTaskEither<E, L, never> { ... }
+export function left<L>(ma: Task<L>): ReaderTaskEither<unknown, L, never> { ... }
 ```
 
 Added in v2.0.0
@@ -268,7 +268,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function right<E, A>(ma: Task<A>): ReaderTaskEither<E, never, A> { ... }
+export function right<A>(ma: Task<A>): ReaderTaskEither<unknown, never, A> { ... }
 ```
 
 Added in v2.0.0

@@ -57,15 +57,15 @@ export const fromRight: <A>(a: A) => ReaderTaskEither<unknown, never, A> = T.of
 /**
  * @since 2.0.0
  */
-export function right<E, A>(ma: Task<A>): ReaderTaskEither<E, never, A> {
-  return () => TE.right(ma)
+export function right<A>(ma: Task<A>): ReaderTaskEither<unknown, never, A> {
+  return fromTaskEither(TE.right(ma))
 }
 
 /**
  * @since 2.0.0
  */
-export function left<E, L>(ma: Task<L>): ReaderTaskEither<E, L, never> {
-  return () => TE.left(ma)
+export function left<L>(ma: Task<L>): ReaderTaskEither<unknown, L, never> {
+  return fromTaskEither(TE.left(ma))
 }
 
 /**
@@ -89,21 +89,21 @@ export function fromIOEither<L, A>(ma: IOEither<L, A>): ReaderTaskEither<unknown
  * @since 2.0.0
  */
 export function fromEither<L, A>(ma: Either<L, A>): ReaderTaskEither<unknown, L, A> {
-  return () => TE.fromEither(ma)
+  return fromTaskEither(TE.fromEither(ma))
 }
 
 /**
  * @since 2.0.0
  */
 export function fromOption<L, A>(ma: Option<A>, onNone: () => L): ReaderTaskEither<unknown, L, A> {
-  return ma._tag === 'None' ? fromLeft(onNone()) : fromRight(ma.value)
+  return fromTaskEither(TE.fromOption(ma, onNone))
 }
 
 /**
  * @since 2.0.0
  */
 export function fromIO<A>(ma: IO<A>): ReaderTaskEither<unknown, never, A> {
-  return () => TE.fromIO(ma)
+  return fromTaskEither(TE.fromIO(ma))
 }
 
 /**
