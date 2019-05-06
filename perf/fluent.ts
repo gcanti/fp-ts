@@ -1,6 +1,14 @@
 import * as Benchmark from 'benchmark'
-import * as F from './Fluent.def'
+import * as F from '../src/fluent'
 import { option, some, none } from '../src/Option'
+
+/*
+
+fluent x 43,375,050 ops/sec ±0.48% (89 runs sampled)
+static dictionary x 57,296,775 ops/sec ±0.38% (88 runs sampled)
+static dictionary (direct) x 62,190,037 ops/sec ±0.32% (89 runs sampled)
+
+*/
 
 const suite = new Benchmark.Suite()
 

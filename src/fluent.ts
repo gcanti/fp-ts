@@ -412,7 +412,7 @@ class Fluent<F, I, A> {
 }
 
 /**
- * @since 0.0.6
+ * @since 2.0.0
  */
 export function fluent<F extends URIS2, I, L>(I: { URI: F; _L: L } & I): <A>(fa: Type2<F, L, A>) => Fluent2C<F, I, L, A>
 export function fluent<F extends URIS2, I>(I: { URI: F } & I): <L, A>(fa: Type2<F, L, A>) => Fluent2<F, I, L, A>
