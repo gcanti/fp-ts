@@ -424,3 +424,10 @@ export const increment = (n: number): number => {
 export const decrement = (n: number): number => {
   return n - 1
 }
+
+/**
+ * @since 1.18.0
+ */
+export function absurd<A>(_: never): A {
+  throw new Error('absurd')
+}
