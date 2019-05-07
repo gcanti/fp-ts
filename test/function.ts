@@ -18,7 +18,8 @@ import {
   constUndefined,
   toString,
   constVoid,
-  tupleCurried
+  tupleCurried,
+  absurd
 } from '../src/function'
 
 const f = (n: number) => n + 1
@@ -324,5 +325,9 @@ describe('function', () => {
   it('tupleCurried', () => {
     // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(tupleCurried(1)('a'), [1, 'a'])
+  })
+
+  it('absurd', () => {
+    assert.throws(() => absurd<string>((null as any) as never))
   })
 })
