@@ -21,7 +21,7 @@ import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
 import { Foldable2 } from './Foldable'
-import { phantom } from './function'
+import { phantom, identity } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
@@ -367,6 +367,7 @@ export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversab
   URI,
   map,
   bimap,
+  mapLeft: (fla, f) => bimap(fla, f, identity),
   reduce,
   foldMap,
   reduceRight,

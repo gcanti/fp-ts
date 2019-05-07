@@ -267,13 +267,6 @@ export function isRight<L, A>(ma: Either<L, A>): ma is Right<A> {
 /**
  * @since 2.0.0
  */
-export function mapLeft<L, A, M>(ma: Either<L, A>, f: (l: L) => M): Either<M, A> {
-  return isLeft(ma) ? left(f(ma.left)) : ma
-}
-
-/**
- * @since 2.0.0
- */
 export function swap<L, A>(ma: Either<L, A>): Either<A, L> {
   return isLeft(ma) ? right(ma.left) : left(ma.right)
 }
@@ -529,6 +522,7 @@ export const either: Monad2<URI> &
   traverse,
   sequence,
   bimap,
+  mapLeft: (ma, f) => (isLeft(ma) ? left(f(ma.left)) : ma),
   alt: orElse,
   extend,
   chainRec,

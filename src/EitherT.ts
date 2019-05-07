@@ -4,7 +4,7 @@ import {
   ApplicativeComposition22,
   getApplicativeComposition
 } from './Applicative'
-import { Either, either, fold, getOrElse, isLeft, left, mapLeft, right, URI, swap } from './Either'
+import { Either, either, fold, getOrElse, isLeft, left, right, URI, swap } from './Either'
 import { HKT, Type, Type2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 
@@ -83,7 +83,7 @@ export function getEitherM<M>(M: Monad<M>): EitherM<M> {
     fold: (ma, onLeft, onRight) => M.map(ma, e => fold(e, onLeft, onRight)),
     foldM: (ma, onLeft, onRight) => M.chain(ma, e => fold(e, onLeft, onRight)),
     bimap: (ma, f, g) => M.map(ma, e => either.bimap(e, f, g)),
-    mapLeft: (ma, f) => M.map(ma, e => mapLeft(e, f)),
+    mapLeft: (ma, f) => M.map(ma, e => either.mapLeft(e, f)),
     getOrElse: (ma, f) => M.map(ma, e => getOrElse(e, f)),
     orElse: (ma, f) => M.chain(ma, e => fold(e, f, a => A.of(a))),
     swap: ma => M.map(ma, swap),

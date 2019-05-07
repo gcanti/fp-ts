@@ -90,11 +90,6 @@ export const foldIO: <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => IO<R>, onRi
 /**
  * @since 2.0.0
  */
-export const mapLeft: <L, A, M>(ma: IOEither<L, A>, f: (l: L) => M) => IOEither<M, A> = T.mapLeft
-
-/**
- * @since 2.0.0
- */
 export const getOrElse: <L, A>(ma: IOEither<L, A>, f: (l: L) => A) => IO<A> = T.getOrElse
 
 /**
@@ -176,7 +171,8 @@ export function bracket<L, A, B>(
  */
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = {
   URI,
-  bimap: (ma, f, g) => io.map(ma, e => E.either.bimap(e, f, g)),
+  bimap: T.bimap,
+  mapLeft: T.mapLeft,
   map: T.map,
   of: right,
   ap: T.ap,

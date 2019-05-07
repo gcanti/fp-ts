@@ -81,12 +81,21 @@ describe('These', () => {
     assert.strictEqual(fold(both('foo', 1), len, double, f), 5)
   })
 
-  it('bimap', () => {
-    const len = (s: string): number => s.length
-    const double = (n: number): number => n * 2
-    assert.deepStrictEqual(these.bimap(left('a'), len, double), left(1))
-    assert.deepStrictEqual(these.bimap(right(2), len, double), right(4))
-    assert.deepStrictEqual(these.bimap(both('foo', 1), len, double), both(3, 2))
+  describe('Bifunctor', () => {
+    it('bimap', () => {
+      const len = (s: string): number => s.length
+      const double = (n: number): number => n * 2
+      assert.deepStrictEqual(these.bimap(left('a'), len, double), left(1))
+      assert.deepStrictEqual(these.bimap(right(2), len, double), right(4))
+      assert.deepStrictEqual(these.bimap(both('foo', 1), len, double), both(3, 2))
+    })
+
+    it('mapLeft', () => {
+      const len = (s: string): number => s.length
+      assert.deepStrictEqual(these.mapLeft(left('a'), len), left(1))
+      assert.deepStrictEqual(these.mapLeft(right(2), len), right(2))
+      assert.deepStrictEqual(these.mapLeft(both('foo', 1), len), both(3, 1))
+    })
   })
 
   it('toTuple', () => {

@@ -113,11 +113,6 @@ export const foldTask: <L, A, R>(
 /**
  * @since 2.0.0
  */
-export const mapLeft: <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => M) => TaskEither<M, A> = T.mapLeft
-
-/**
- * @since 2.0.0
- */
 export const getOrElse: <L, A>(ma: TaskEither<L, A>, f: (l: L) => A) => Task<A> = T.getOrElse
 
 /**
@@ -259,6 +254,7 @@ export const taskEither: Monad2<URI> &
   MonadThrow2<URI> = {
   URI,
   bimap: T.bimap,
+  mapLeft: T.mapLeft,
   map: T.map,
   of: right,
   ap: T.ap,

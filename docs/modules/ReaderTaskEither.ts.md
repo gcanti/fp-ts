@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 69
+nav_order: 70
 parent: Modules
 ---
 
@@ -28,7 +28,6 @@ parent: Modules
 - [leftIO (function)](#leftio-function)
 - [leftReader (function)](#leftreader-function)
 - [leftTask (function)](#lefttask-function)
-- [mapLeft (function)](#mapleft-function)
 - [orElse (function)](#orelse-function)
 - [rightIO (function)](#rightio-function)
 - [rightTask (function)](#righttask-function)
@@ -248,16 +247,6 @@ Added in v2.0.0
 
 ```ts
 export function leftTask<L>(ma: Task<L>): ReaderTaskEither<unknown, L, never> { ... }
-```
-
-Added in v2.0.0
-
-# mapLeft (function)
-
-**Signature**
-
-```ts
-export function mapLeft<E, L, A, M>(ma: ReaderTaskEither<E, L, A>, f: (l: L) => M): ReaderTaskEither<E, M, A> { ... }
 ```
 
 Added in v2.0.0

@@ -163,13 +163,6 @@ export function orElse<E, L, A, M>(
 /**
  * @since 2.0.0
  */
-export function mapLeft<E, L, A, M>(ma: ReaderTaskEither<E, L, A>, f: (l: L) => M): ReaderTaskEither<E, M, A> {
-  return e => TE.mapLeft(ma(e), f)
-}
-
-/**
- * @since 2.0.0
- */
 export const ask: <E>() => ReaderTaskEither<E, never, E> = T.ask
 
 /**
@@ -198,6 +191,7 @@ export const readerTaskEither: Monad3<URI> &
   chain: T.chain,
   alt: orElse,
   bimap: (ma, f, g) => e => TE.taskEither.bimap(ma(e), f, g),
+  mapLeft: (ma, f) => e => TE.taskEither.mapLeft(ma(e), f),
   fromIO: rightIO,
   fromTask: rightTask,
   throwError: left,

@@ -92,7 +92,7 @@ describe('IOEither', () => {
 
     it('mapLeft', () => {
       const double = (n: number): number => n * 2
-      assert.deepStrictEqual(_.mapLeft(_.left(1), double)(), E.left(2))
+      assert.deepStrictEqual(_.ioEither.mapLeft(_.left(1), double)(), E.left(2))
     })
   })
 

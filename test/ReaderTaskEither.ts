@@ -46,9 +46,9 @@ describe('ReaderTaskEither', () => {
 
     it('mapLeft', async () => {
       const len = (s: string): number => s.length
-      const e1 = await _.run(_.mapLeft(_.right(1), len), {})
+      const e1 = await _.run(_.readerTaskEither.mapLeft(_.right(1), len), {})
       assert.deepStrictEqual(e1, E.right(1))
-      const e2 = await _.run(_.mapLeft(_.left('err'), len), {})
+      const e2 = await _.run(_.readerTaskEither.mapLeft(_.left('err'), len), {})
       assert.deepStrictEqual(e2, E.left(3))
     })
   })

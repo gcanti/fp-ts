@@ -100,7 +100,7 @@ describe('TaskEither', () => {
 
     it('mapLeft', async () => {
       const double = (n: number): number => n * 2
-      const e = await _.mapLeft(_.left(1), double)()
+      const e = await _.taskEither.mapLeft(_.left(1), double)()
       assert.deepStrictEqual(e, E.left(2))
     })
   })

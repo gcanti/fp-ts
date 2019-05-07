@@ -115,8 +115,8 @@ describe('Either', () => {
 
     it('mapLeft', () => {
       const double = (n: number): number => n * 2
-      assert.deepStrictEqual(_.mapLeft(_.right('bar'), double), _.right('bar'))
-      assert.deepStrictEqual(_.mapLeft(_.left(2), double), _.left(4))
+      assert.deepStrictEqual(_.either.mapLeft(_.right('bar'), double), _.right('bar'))
+      assert.deepStrictEqual(_.either.mapLeft(_.left(2), double), _.left(4))
     })
   })
 

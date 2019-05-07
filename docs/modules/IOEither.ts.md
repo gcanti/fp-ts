@@ -1,6 +1,6 @@
 ---
 title: IOEither.ts
-nav_order: 45
+nav_order: 46
 parent: Modules
 ---
 
@@ -23,7 +23,6 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [ioEither (constant)](#ioeither-constant)
 - [left (constant)](#left-constant)
 - [leftIO (constant)](#leftio-constant)
-- [mapLeft (constant)](#mapleft-constant)
 - [orElse (constant)](#orelse-constant)
 - [right (constant)](#right-constant)
 - [rightIO (constant)](#rightio-constant)
@@ -131,16 +130,6 @@ Added in v2.0.0
 
 ```ts
 export const leftIO: <L>(ml: IO<L>) => IOEither<L, never> = ...
-```
-
-Added in v2.0.0
-
-# mapLeft (constant)
-
-**Signature**
-
-```ts
-export const mapLeft: <L, A, M>(ma: IOEither<L, A>, f: (l: L) => M) => IOEither<M, A> = ...
 ```
 
 Added in v2.0.0

@@ -1,6 +1,6 @@
 ---
 title: TaskEither.ts
-nav_order: 83
+nav_order: 84
 parent: Modules
 ---
 
@@ -23,7 +23,6 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [getOrElse (constant)](#getorelse-constant)
 - [left (constant)](#left-constant)
 - [leftTask (constant)](#lefttask-constant)
-- [mapLeft (constant)](#mapleft-constant)
 - [orElse (constant)](#orelse-constant)
 - [right (constant)](#right-constant)
 - [rightTask (constant)](#righttask-constant)
@@ -138,16 +137,6 @@ Added in v2.0.0
 
 ```ts
 export const leftTask: <L>(ml: Task<L>) => TaskEither<L, never> = ...
-```
-
-Added in v2.0.0
-
-# mapLeft (constant)
-
-**Signature**
-
-```ts
-export const mapLeft: <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => M) => TaskEither<M, A> = ...
 ```
 
 Added in v2.0.0

@@ -60,7 +60,6 @@ either.map(left(23), double) // left(23)
 - [isLeft (function)](#isleft-function)
 - [isRight (function)](#isright-function)
 - [left (function)](#left-function)
-- [mapLeft (function)](#mapleft-function)
 - [orElse (function)](#orelse-function)
 - [parseJSON (function)](#parsejson-function)
 - [right (function)](#right-function)
@@ -358,16 +357,6 @@ structure
 
 ```ts
 export function left<L>(l: L): Either<L, never> { ... }
-```
-
-Added in v2.0.0
-
-# mapLeft (function)
-
-**Signature**
-
-```ts
-export function mapLeft<L, A, M>(ma: Either<L, A>, f: (l: L) => M): Either<M, A> { ... }
 ```
 
 Added in v2.0.0

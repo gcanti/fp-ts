@@ -400,7 +400,7 @@ class Fluent<F, I, A> {
     return new Fluent<F, I, B>(this.I, this.I.bimap(this.value, f, g))
   }
   mapLeft<I extends Bifunctor<F>, L, M>(this: { I: I; value: HKT2<F, L, A> }, f: (l: L) => M): Fluent<F, I, A> {
-    return new Fluent<F, I, A>(this.I, this.I.bimap(this.value, f, identity))
+    return new Fluent<F, I, A>(this.I, this.I.mapLeft(this.value, f))
   }
   promap<I extends Profunctor<F>, A, B, C, D>(
     this: { I: I; value: HKT2<F, B, C> },

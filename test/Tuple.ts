@@ -67,12 +67,17 @@ describe('Tuple', () => {
     assert.deepStrictEqual(M.concat(x, y), z)
   })
 
-  it('bimap', () => {
-    const double = (n: number): number => n * 2
-    const len = (s: string): number => s.length
-    const x = tuple('a', 1)
-    const y = tuple(1, 2)
-    assert.deepStrictEqual(T.tuple.bimap(x, len, double), y)
+  describe('Bifunctor', () => {
+    it('bimap', () => {
+      const double = (n: number): number => n * 2
+      const len = (s: string): number => s.length
+      assert.deepStrictEqual(T.tuple.bimap(tuple('a', 1), len, double), tuple(1, 2))
+    })
+
+    it('mapLeft', () => {
+      const len = (s: string): number => s.length
+      assert.deepStrictEqual(T.tuple.mapLeft(tuple('a', 1), len), tuple(1, 1))
+    })
   })
 
   it('getSemigroup', () => {

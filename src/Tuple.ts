@@ -9,7 +9,7 @@ import { ChainRec2C } from './ChainRec'
 import { Comonad2 } from './Comonad'
 import { Either } from './Either'
 import { Foldable2 } from './Foldable'
-import { phantom } from './function'
+import { phantom, identity } from './function'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid, getTupleMonoid } from './Monoid'
@@ -218,6 +218,7 @@ export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Folda
   compose,
   map,
   bimap,
+  mapLeft: (fla, f) => bimap(fla, f, identity),
   extract,
   extend,
   reduce,
