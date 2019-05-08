@@ -1,33 +1,12 @@
 import * as assert from 'assert'
 import * as E from '../src/Either'
-import { io, IO } from '../src/IO'
+import { io } from '../src/IO'
 import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 
 describe('IOEither', () => {
-  it('fold', () => {
-    const f = (s: string): IO<boolean> => io.of(s.length > 2)
-    const g = (n: number): IO<boolean> => io.of(n > 2)
-
-    assert.strictEqual(_.fold(_.right(1), f, g)(), false)
-    assert.strictEqual(_.fold(_.left('foo'), f, g)(), true)
-  })
-
-  it('orElse', () => {
-    assert.deepStrictEqual(_.orElse(_.left('foo'), l => _.right(l.length))(), E.right(3))
-    assert.deepStrictEqual(_.orElse(_.right(1), () => _.right(2))(), E.right(1))
-  })
-
-  it('leftIO', () => {
-    assert.deepStrictEqual(_.leftIO(io.of(1))(), E.left(1))
-  })
-
-  it('rightIO', () => {
-    assert.deepStrictEqual(_.rightIO(io.of(1))(), E.right(1))
-  })
-
   it('tryCatch', () => {
     assert.deepStrictEqual(_.tryCatch(() => 1, E.toError)(), E.right(1))
     assert.deepStrictEqual(
