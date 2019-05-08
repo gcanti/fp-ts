@@ -39,8 +39,8 @@ interface Fluent2C<F extends URIS2, I, L, A> {
     this: Fluent2C<F, FunctorWithIndex2C<F, Ix, L>, L, A>,
     f: (i: Ix, a: A) => B
   ): Fluent2C<F, I, L, B>
-  bimap<L, M, B>(this: Fluent2C<F, Bifunctor2C<F, L>, L, A>, f: (l: L) => M, g: (a: A) => B): Fluent2C<F, I, M, B>
-  mapLeft<L, M>(this: Fluent2C<F, Bifunctor2C<F, L>, L, A>, f: (l: L) => M): Fluent2C<F, I, M, A>
+  bimap<M, B>(this: Fluent2C<F, Bifunctor2C<F, L>, L, A>, f: (l: L) => M, g: (a: A) => B): Fluent2C<F, I, M, B>
+  mapLeft<M>(this: Fluent2C<F, Bifunctor2C<F, L>, L, A>, f: (l: L) => M): Fluent2C<F, I, M, A>
   ap<B>(this: Fluent2C<F, Apply2C<F, L>, L, A>, fab: Type2<F, L, (a: A) => B>): Fluent2C<F, I, L, B>
   apFirst<B>(this: Fluent2C<F, Apply2C<F, L>, L, A>, that: Type2<F, L, B>): Fluent2C<F, I, L, A>
   apSecond<B>(this: Fluent2C<F, Apply2C<F, L>, L, A>, that: Type2<F, L, B>): Fluent2C<F, I, L, B>
@@ -95,7 +95,7 @@ interface Fluent2C<F extends URIS2, I, L, A> {
     this: Fluent2C<F, FilterableWithIndex2C<F, Ix, L>, L, A>,
     f: (i: Ix, a: A) => Either<RL, RR>
   ): Separated<Type2<F, L, RL>, Type2<F, L, RR>>
-  promap<A, C, D>(this: Fluent2C<F, Profunctor2C<F, L>, L, C>, f: (a: A) => L, g: (c: C) => D): Fluent2<F, I, A, D>
+  promap<H, B>(this: Fluent2C<F, Profunctor2C<F, L>, L, A>, f: (h: H) => L, g: (a: A) => B): Fluent2<F, I, H, B>
 }
 
 interface Fluent2<F extends URIS2, I, L, A> {
@@ -107,8 +107,8 @@ interface Fluent2<F extends URIS2, I, L, A> {
   concat(this: Fluent2<F, Magma<Type2<F, L, A>>, L, A>, that: Type2<F, L, A>): Type2<F, L, A>
   map<B>(this: Fluent2<F, Functor2<F>, L, A>, f: (a: A) => B): Fluent2<F, I, L, B>
   mapWithIndex<Ix, B>(this: Fluent2<F, FunctorWithIndex2<F, Ix>, L, A>, f: (i: Ix, a: A) => B): Fluent2<F, I, L, B>
-  bimap<L, M, B>(this: Fluent2<F, Bifunctor2<F>, L, A>, f: (l: L) => M, g: (a: A) => B): Fluent2<F, I, M, B>
-  mapLeft<L, M>(this: Fluent2<F, Bifunctor2<F>, L, A>, f: (l: L) => M): Fluent2<F, I, M, A>
+  bimap<M, B>(this: Fluent2<F, Bifunctor2<F>, L, A>, f: (l: L) => M, g: (a: A) => B): Fluent2<F, I, M, B>
+  mapLeft<M>(this: Fluent2<F, Bifunctor2<F>, L, A>, f: (l: L) => M): Fluent2<F, I, M, A>
   ap<B>(this: Fluent2<F, Apply2<F>, L, A>, fab: Type2<F, L, (a: A) => B>): Fluent2<F, I, L, B>
   apFirst<B>(this: Fluent2<F, Apply2<F>, L, A>, that: Type2<F, L, B>): Fluent2<F, I, L, A>
   apSecond<B>(this: Fluent2<F, Apply2<F>, L, A>, that: Type2<F, L, B>): Fluent2<F, I, L, B>
@@ -153,7 +153,7 @@ interface Fluent2<F extends URIS2, I, L, A> {
     this: Fluent2<F, FilterableWithIndex2<F, Ix>, L, A>,
     f: (i: Ix, a: A) => Either<RL, RR>
   ): Separated<Type2<F, L, RL>, Type2<F, L, RR>>
-  promap<A, B, C, D>(this: Fluent2<F, Profunctor2<F>, B, C>, f: (a: A) => B, g: (c: C) => D): Fluent2<F, I, A, D>
+  promap<H, B>(this: Fluent2<F, Profunctor2<F>, L, A>, f: (h: H) => L, g: (a: A) => B): Fluent2<F, I, H, B>
 }
 
 interface Fluent1<F extends URIS, I, A> {
@@ -217,8 +217,8 @@ interface FluentHKT2<F, I, L, A> {
   concat(this: FluentHKT2<F, Magma<HKT2<F, L, A>>, L, A>, that: HKT2<F, L, A>): HKT2<F, L, A>
   map<B>(this: FluentHKT2<F, Functor<F>, L, A>, f: (a: A) => B): FluentHKT2<F, I, L, B>
   mapWithIndex<Ix, B>(this: FluentHKT2<F, FunctorWithIndex<F, Ix>, L, A>, f: (i: Ix, a: A) => B): FluentHKT2<F, I, L, B>
-  bimap<L, M, B>(this: FluentHKT2<F, Bifunctor<F>, L, A>, f: (l: L) => M, g: (a: A) => B): FluentHKT2<F, I, M, B>
-  mapLeft<L, M>(this: FluentHKT2<F, Bifunctor<F>, L, A>, f: (l: L) => M): FluentHKT2<F, I, M, A>
+  bimap<M, B>(this: FluentHKT2<F, Bifunctor<F>, L, A>, f: (l: L) => M, g: (a: A) => B): FluentHKT2<F, I, M, B>
+  mapLeft<M>(this: FluentHKT2<F, Bifunctor<F>, L, A>, f: (l: L) => M): FluentHKT2<F, I, M, A>
   ap<B>(this: FluentHKT2<F, Apply<F>, L, A>, fab: HKT2<F, L, (a: A) => B>): FluentHKT2<F, I, L, B>
   apFirst<B>(this: FluentHKT2<F, Apply<F>, L, A>, that: HKT2<F, L, B>): FluentHKT2<F, I, L, A>
   apSecond<B>(this: FluentHKT2<F, Apply<F>, L, A>, that: HKT2<F, L, B>): FluentHKT2<F, I, L, B>
@@ -266,7 +266,7 @@ interface FluentHKT2<F, I, L, A> {
     this: FluentHKT2<F, FilterableWithIndex<F, Ix>, L, A>,
     f: (i: Ix, a: A) => Either<RL, RR>
   ): Separated<HKT2<F, L, RL>, HKT2<F, L, RR>>
-  promap<A, B, C, D>(this: FluentHKT2<F, Profunctor<F>, B, C>, f: (a: A) => B, g: (c: C) => D): FluentHKT2<F, I, A, D>
+  promap<H, B>(this: FluentHKT2<F, Profunctor<F>, L, A>, f: (h: H) => L, g: (a: A) => B): FluentHKT2<F, I, H, B>
 }
 
 class Fluent<F, I, A> {
@@ -402,12 +402,12 @@ class Fluent<F, I, A> {
   mapLeft<I extends Bifunctor<F>, L, M>(this: { I: I; value: HKT2<F, L, A> }, f: (l: L) => M): Fluent<F, I, A> {
     return new Fluent<F, I, A>(this.I, this.I.mapLeft(this.value, f))
   }
-  promap<I extends Profunctor<F>, A, B, C, D>(
-    this: { I: I; value: HKT2<F, B, C> },
-    f: (a: A) => B,
-    g: (c: C) => D
-  ): Fluent<F, I, D> {
-    return new Fluent<F, I, D>(this.I, this.I.promap(this.value, f, g))
+  promap<I extends Profunctor<F>, H, L, B>(
+    this: { I: I; value: HKT2<F, L, A> },
+    f: (h: H) => L,
+    g: (a: A) => B
+  ): Fluent<F, I, B> {
+    return new Fluent<F, I, B>(this.I, this.I.promap(this.value, f, g))
   }
 }
 
