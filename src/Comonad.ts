@@ -4,26 +4,26 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 /**
  * @since 2.0.0
  */
-export interface Comonad<F> extends Extend<F> {
-  readonly extract: <A>(ca: HKT<F, A>) => A
+export interface Comonad<W> extends Extend<W> {
+  readonly extract: <A>(wa: HKT<W, A>) => A
 }
 
-export interface Comonad1<F extends URIS> extends Extend1<F> {
-  readonly extract: <A>(ca: Type<F, A>) => A
+export interface Comonad1<W extends URIS> extends Extend1<W> {
+  readonly extract: <A>(wa: Type<W, A>) => A
 }
 
-export interface Comonad2<F extends URIS2> extends Extend2<F> {
-  readonly extract: <L, A>(ca: Type2<F, L, A>) => A
+export interface Comonad2<W extends URIS2> extends Extend2<W> {
+  readonly extract: <L, A>(wa: Type2<W, L, A>) => A
 }
 
-export interface Comonad3<F extends URIS3> extends Extend3<F> {
-  readonly extract: <U, L, A>(ca: Type3<F, U, L, A>) => A
+export interface Comonad3<W extends URIS3> extends Extend3<W> {
+  readonly extract: <U, L, A>(wa: Type3<W, U, L, A>) => A
 }
 
-export interface Comonad2C<F extends URIS2, L> extends Extend2C<F, L> {
-  readonly extract: <A>(ca: Type2<F, L, A>) => A
+export interface Comonad2C<W extends URIS2, L> extends Extend2C<W, L> {
+  readonly extract: <A>(wa: Type2<W, L, A>) => A
 }
 
-export interface Comonad3C<F extends URIS3, U, L> extends Extend3C<F, U, L> {
-  readonly extract: <A>(ca: Type3<F, U, L, A>) => A
+export interface Comonad3C<W extends URIS3, U, L> extends Extend3C<W, U, L> {
+  readonly extract: <A>(wa: Type3<W, U, L, A>) => A
 }
