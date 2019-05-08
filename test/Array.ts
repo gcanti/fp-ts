@@ -80,6 +80,8 @@ describe('Array', () => {
   it('getMonoid', () => {
     const M = getMonoid<number>()
     assert.deepStrictEqual(M.concat([1, 2], [3, 4]), [1, 2, 3, 4])
+    assert.deepStrictEqual(M.concat([1, 2], M.empty), [1, 2])
+    assert.deepStrictEqual(M.concat(M.empty, [1, 2]), [1, 2])
   })
 
   it('getEq', () => {
