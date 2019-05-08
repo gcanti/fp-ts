@@ -63,7 +63,6 @@ parent: Modules
 - [monad (export)](#monad-export)
 - [monadIO (export)](#monadio-export)
 - [monadTask (export)](#monadtask-export)
-- [monadThrow (export)](#monadthrow-export)
 - [monoid (export)](#monoid-export)
 - [monoidal (export)](#monoidal-export)
 - [nonEmptyArray (export)](#nonemptyarray-export)
@@ -543,14 +542,6 @@ export { monadIO }
 
 ```ts
 export { monadTask }
-```
-
-# monadThrow (export)
-
-**Signature**
-
-```ts
-export { monadThrow }
 ```
 
 # monoid (export)

@@ -91,7 +91,6 @@ import { Foldable1 } from './Foldable'
 import { identity, Lazy, not, Predicate, Refinement } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { MonadThrow1 } from './MonadThrow'
 import { getDualMonoid, Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
 import { Plus1 } from './Plus'
@@ -554,8 +553,7 @@ export const option: Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> &
-  MonadThrow1<URI> = {
+  Witherable1<URI> = {
   URI,
   map,
   of: some,
@@ -576,8 +574,5 @@ export const option: Monad1<URI> &
   partition,
   partitionMap: (fa, f) => separate(map(fa, f)),
   wither,
-  wilt,
-  throwError: zero,
-  fromEither,
-  fromOption: identity
+  wilt
 }

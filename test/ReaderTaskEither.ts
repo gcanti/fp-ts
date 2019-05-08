@@ -1,12 +1,11 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
 import * as E from '../src/Either'
-import { none, some } from '../src/Option'
+import { io } from '../src/IO'
 import { reader } from '../src/Reader'
 import * as _ from '../src/ReaderTaskEither'
 import { task } from '../src/Task'
 import { taskEither } from '../src/TaskEither'
-import { io } from '../src/IO'
 
 describe('ReaderTaskEither', () => {
   describe('Monad', () => {
@@ -151,30 +150,6 @@ describe('ReaderTaskEither', () => {
     const ns = await _.run(sequenceSeries([t1, t2]), {})
     assert.deepStrictEqual(ns, E.right([2, 4]))
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
-  })
-
-  describe('MonadThrow', () => {
-    it('should obey the law', () => {
-      const rtes = [
-        _.readerTaskEither.chain(_.readerTaskEither.throwError('error'), a => _.right(a)),
-        _.readerTaskEither.throwError('error')
-      ]
-      return Promise.all(rtes.map(rte => _.run(rte, {}))).then(([e1, e2]) => {
-        assert.deepStrictEqual(e1, e2)
-      })
-    })
-
-    it('fromEither', async () => {
-      const e = await _.run(_.fromEither(E.right(1)), {})
-      assert.deepStrictEqual(e, E.right(1))
-    })
-
-    it('fromOption', async () => {
-      const e1 = await _.run(_.fromOption(none, () => 'error'), {})
-      const e2 = await _.run(_.fromOption(some(1), () => 'error'), {})
-      assert.deepStrictEqual(e1, E.left('error'))
-      assert.deepStrictEqual(e2, E.right(1))
-    })
   })
 
   describe('MonadIO', () => {

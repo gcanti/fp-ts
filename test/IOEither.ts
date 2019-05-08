@@ -3,8 +3,8 @@ import * as E from '../src/Either'
 import { io } from '../src/IO'
 import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
-import { none, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
+import { none, some } from '../src/Option'
 
 describe('IOEither', () => {
   it('tryCatch', () => {
@@ -25,6 +25,11 @@ describe('IOEither', () => {
     assert.deepStrictEqual(_.filterOrElse(_.left('foo'), n => n > 10, () => 'bar')(), E.left('foo'))
     assert.deepStrictEqual(_.filterOrElse(_.right(7), n => n > 10, n => `invalid ${n}`)(), E.left('invalid 7'))
     assert.deepStrictEqual(_.filterOrElse(_.right(12), isNumber, () => 'not a number')(), E.right(12))
+  })
+
+  it('fromOption', () => {
+    assert.deepStrictEqual(_.fromOption(none, () => 'err')(), E.left('err'))
+    assert.deepStrictEqual(_.fromOption(some(1), () => 'err')(), E.right(1))
   })
 
   it('fromPredicate', () => {
@@ -88,20 +93,6 @@ describe('IOEither', () => {
       assert.deepStrictEqual(alt(l1, () => r1)(), E.right(1))
       assert.deepStrictEqual(alt(r1, () => l1)(), E.right(1))
       assert.deepStrictEqual(alt(r1, () => r2)(), E.right(1))
-    })
-  })
-
-  describe('MonadThrow', () => {
-    it('should obey the law', () => {
-      assert.deepStrictEqual(
-        _.ioEither.chain(_.ioEither.throwError('error'), a => _.right(a))(),
-        _.ioEither.throwError('error')()
-      )
-    })
-
-    it('fromOption', () => {
-      assert.deepStrictEqual(_.ioEither.fromOption(none, () => 'error')(), E.left('error'))
-      assert.deepStrictEqual(_.ioEither.fromOption(some(1), () => 'error')(), E.right(1))
     })
   })
 

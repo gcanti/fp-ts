@@ -11,7 +11,6 @@ import { IOEither } from './IOEither'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
-import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
@@ -238,12 +237,7 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
 /**
  * @since 2.0.0
  */
-export const taskEither: Monad2<URI> &
-  Bifunctor2<URI> &
-  Alt2<URI> &
-  MonadIO2<URI> &
-  MonadTask2<URI> &
-  MonadThrow2<URI> = {
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = {
   URI,
   bimap: T.bimap,
   mapLeft: T.mapLeft,
@@ -253,10 +247,7 @@ export const taskEither: Monad2<URI> &
   chain: T.chain,
   alt: orElse,
   fromIO: rightIO,
-  fromTask: rightTask,
-  throwError: left,
-  fromEither,
-  fromOption
+  fromTask: rightTask
 }
 
 /**

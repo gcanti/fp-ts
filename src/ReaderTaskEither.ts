@@ -6,7 +6,6 @@ import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
 import { MonadIO3 } from './MonadIO'
 import { MonadTask3 } from './MonadTask'
-import { MonadThrow3 } from './MonadThrow'
 import { Reader } from './Reader'
 import { getReaderM } from './ReaderT'
 import { Task } from './Task'
@@ -167,12 +166,7 @@ export const local: <E, L, A, D>(ma: ReaderTaskEither<E, L, A>, f: (f: D) => E) 
 /**
  * @since 2.0.0
  */
-export const readerTaskEither: Monad3<URI> &
-  Bifunctor3<URI> &
-  Alt3<URI> &
-  MonadIO3<URI> &
-  MonadTask3<URI> &
-  MonadThrow3<URI> = {
+export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI> = {
   URI,
   map: T.map,
   of: right,
@@ -182,10 +176,7 @@ export const readerTaskEither: Monad3<URI> &
   bimap: (ma, f, g) => e => TE.taskEither.bimap(ma(e), f, g),
   mapLeft: (ma, f) => e => TE.taskEither.mapLeft(ma(e), f),
   fromIO: rightIO,
-  fromTask: rightTask,
-  throwError: left,
-  fromEither,
-  fromOption
+  fromTask: rightTask
 }
 
 /**

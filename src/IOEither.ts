@@ -10,7 +10,6 @@ import { Lazy, Predicate, Refinement } from './function'
 import { getSemigroup as getIOSemigroup, IO, io } from './IO'
 import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
-import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
@@ -164,7 +163,7 @@ export function bracket<L, A, B>(
 /**
  * @since 2.0.0
  */
-export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = {
+export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> = {
   URI,
   bimap: T.bimap,
   mapLeft: T.mapLeft,
@@ -173,8 +172,5 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
   ap: T.ap,
   chain: T.chain,
   alt: orElse,
-  fromIO: rightIO,
-  throwError: left,
-  fromEither,
-  fromOption
+  fromIO: rightIO
 }

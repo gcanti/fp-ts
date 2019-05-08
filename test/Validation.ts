@@ -1,10 +1,9 @@
 import * as assert from 'assert'
-import { left, right } from '../src/Either'
 import { getMonoid as getArrayMonoid } from '../src/Array'
+import { left, right } from '../src/Either'
 import { monoidString, monoidSum } from '../src/Monoid'
-import { none, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
-import { getAlt, getMonad, getMonadThrow, getMonoid, getSemigroup } from '../src/Validation'
+import { getAlt, getMonad, getMonoid, getSemigroup } from '../src/Validation'
 
 describe('Validation', () => {
   it('getMonad', () => {
@@ -42,18 +41,5 @@ describe('Validation', () => {
     assert.deepStrictEqual(M.concat(right(1), left('foo')), left('foo'))
     assert.deepStrictEqual(M.concat(left('foo'), right(1)), left('foo'))
     assert.deepStrictEqual(M.concat(left('foo'), left('bar')), left('foobar'))
-  })
-
-  describe('getMonadThrow', () => {
-    const M = getMonadThrow(monoidString)
-
-    it('should obey the law', () => {
-      assert.deepStrictEqual(M.chain(M.throwError('error'), a => M.of(a)), M.throwError('error'))
-    })
-
-    it('fromOption', () => {
-      assert.deepStrictEqual(M.fromOption(none, () => 'error'), left('error'))
-      assert.deepStrictEqual(M.fromOption(some(1), () => 'error'), right(1))
-    })
   })
 })

@@ -98,7 +98,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI> = ...
+export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> = ...
 ```
 
 Added in v2.0.0

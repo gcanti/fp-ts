@@ -104,8 +104,6 @@ import * as monadIO from './MonadIO'
 export { monadIO }
 import * as monadTask from './MonadTask'
 export { monadTask }
-import * as monadThrow from './MonadThrow'
-export { monadThrow }
 import * as monoid from './Monoid'
 export { monoid }
 import * as monoidal from './Monoidal'

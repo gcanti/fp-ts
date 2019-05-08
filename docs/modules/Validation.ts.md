@@ -1,6 +1,6 @@
 ---
 title: Validation.ts
-nav_order: 93
+nav_order: 92
 parent: Modules
 ---
 
@@ -11,7 +11,6 @@ parent: Modules
 - [getAlt (function)](#getalt-function)
 - [getApplicative (function)](#getapplicative-function)
 - [getMonad (function)](#getmonad-function)
-- [getMonadThrow (function)](#getmonadthrow-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 
@@ -43,16 +42,6 @@ export function getApplicative<L>(S: Semigroup<L>): Applicative2C<URI, L> { ... 
 
 ```ts
 export function getMonad<L>(S: Semigroup<L>): Monad2C<URI, L> { ... }
-```
-
-Added in v2.0.0
-
-# getMonadThrow (function)
-
-**Signature**
-
-```ts
-export function getMonadThrow<L>(S: Semigroup<L>): MonadThrow2C<URI, L> { ... }
 ```
 
 Added in v2.0.0

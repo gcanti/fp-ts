@@ -32,17 +32,16 @@ import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Compactable2C, Separated } from './Compactable'
+import { Eq, fromEquals } from './Eq'
 import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2 } from './Foldable'
-import { identity, Lazy, phantom, Predicate, Refinement } from './function'
+import { Lazy, phantom, Predicate, Refinement } from './function'
 import { HKT } from './HKT'
 import { Monad2 } from './Monad'
-import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
@@ -509,8 +508,7 @@ export const either: Monad2<URI> &
   Bifunctor2<URI> &
   Alt2<URI> &
   Extend2<URI> &
-  ChainRec2<URI> &
-  MonadThrow2<URI> = {
+  ChainRec2<URI> = {
   URI,
   map,
   of,
@@ -525,8 +523,5 @@ export const either: Monad2<URI> &
   mapLeft: (ma, f) => (isLeft(ma) ? left(f(ma.left)) : ma),
   alt: orElse,
   extend,
-  chainRec,
-  throwError: left,
-  fromEither: identity,
-  fromOption
+  chainRec
 }

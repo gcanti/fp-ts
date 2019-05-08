@@ -1,6 +1,6 @@
 ---
 title: ReaderTaskEither.ts
-nav_order: 70
+nav_order: 69
 parent: Modules
 ---
 
@@ -107,12 +107,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const readerTaskEither: Monad3<URI> &
-  Bifunctor3<URI> &
-  Alt3<URI> &
-  MonadIO3<URI> &
-  MonadTask3<URI> &
-  MonadThrow3<URI> = ...
+export const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI> = ...
 ```
 
 Added in v2.0.0

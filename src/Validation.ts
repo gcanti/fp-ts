@@ -3,7 +3,6 @@ import { Applicative2C } from './Applicative'
 import { Either, either, isLeft, left, right, URI, isRight } from './Either'
 import { phantom } from './function'
 import { Monad2C } from './Monad'
-import { MonadThrow2C } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 
@@ -79,17 +78,5 @@ export function getAlt<L>(S: Semigroup<L>): Alt2C<URI, L> {
       const fy = f()
       return isLeft(fy) ? left(S.concat(fx.left, fy.left)) : fy
     }
-  }
-}
-
-/**
- * @since 2.0.0
- */
-export function getMonadThrow<L>(S: Semigroup<L>): MonadThrow2C<URI, L> {
-  return {
-    ...getMonad(S),
-    throwError: either.throwError,
-    fromEither: either.fromEither,
-    fromOption: either.fromOption
   }
 }

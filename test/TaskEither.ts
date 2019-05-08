@@ -1,12 +1,11 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
 import * as E from '../src/Either'
+import { io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
-import { none, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
-import { io } from '../src/IO'
 
 const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
 
@@ -254,21 +253,6 @@ describe('TaskEither', () => {
     assert.deepStrictEqual(e5, E.right(12))
   })
 
-  describe('MonadThrow', () => {
-    it('should obey the law', async () => {
-      const e1 = await _.taskEither.chain(_.taskEither.throwError('error'), a => _.right(a))()
-      const e2 = await _.taskEither.throwError('error')()
-      assert.deepStrictEqual(e1, e2)
-    })
-
-    it('fromOption', async () => {
-      const e1 = await _.taskEither.fromOption(none, () => 'error')()
-      assert.deepStrictEqual(e1, E.left('error'))
-      const e2 = await _.taskEither.fromOption(some(1), () => 'error')()
-      assert.deepStrictEqual(e2, E.right(1))
-    })
-  })
-
   describe('MonadIO', () => {
     it('fromIO', async () => {
       const io = () => 1
@@ -279,9 +263,9 @@ describe('TaskEither', () => {
   })
 
   it('swap', async () => {
-    const e1 = await _.swap(_.taskEither.of(1))()
+    const e1 = await _.swap(_.right(1))()
     assert.deepStrictEqual(e1, E.left(1))
-    const e2 = await _.swap(_.taskEither.throwError('a'))()
+    const e2 = await _.swap(_.left('a'))()
     assert.deepStrictEqual(e2, E.right('a'))
   })
 

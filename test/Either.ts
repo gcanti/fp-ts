@@ -374,20 +374,6 @@ describe('Either', () => {
     })
   })
 
-  describe('MonadThrow', () => {
-    it('should obey the law', () => {
-      assert.deepStrictEqual(
-        _.either.chain(_.either.throwError('error'), a => _.right(a)),
-        _.either.throwError('error')
-      )
-    })
-
-    it('fromOption', () => {
-      assert.deepStrictEqual(_.either.fromOption(none, () => 'error'), _.left('error'))
-      assert.deepStrictEqual(_.either.fromOption(some(1), () => 'error'), _.right(1))
-    })
-  })
-
   describe('getShow', () => {
     it('show', () => {
       const S = _.getShow(showString, showString)
