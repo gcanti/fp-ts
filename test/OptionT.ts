@@ -1,9 +1,9 @@
 import * as assert from 'assert'
 import * as O from '../src/Option'
-import * as optionT from '../src/OptionT'
+import { getOptionM } from '../src/OptionT'
 import { task } from '../src/Task'
 
-const T = optionT.getOptionM(task)
+const T = getOptionM(task)
 
 describe('OptionT', () => {
   it('map', () => {
@@ -23,25 +23,20 @@ describe('OptionT', () => {
     })
   })
 
-  it('fold', () => {
-    const f = () => 'none'
-    const g = (s: string) => `some${s.length}`
-    const p1 = T.fold(task.of(O.none), f, g)().then(s => {
-      assert.strictEqual(s, 'none')
-    })
-    const p2 = T.fold(T.of('s'), f, g)().then(s => {
-      assert.strictEqual(s, 'some1')
-    })
-    return Promise.all([p1, p2])
+  it('fold', async () => {
+    const f = () => task.of('none')
+    const g = (s: string) => task.of(`some${s.length}`)
+    const s1 = await T.fold(task.of(O.none), f, g)()
+    assert.strictEqual(s1, 'none')
+    const s2 = await T.fold(T.of('s'), f, g)()
+    assert.strictEqual(s2, 'some1')
   })
 
-  it('getOrElse', () => {
-    const ma1 = T.getOrElse(task.of(O.some(1)), () => 2)
-    const ma2 = T.getOrElse(task.of(O.none), () => 2)
-    return Promise.all([ma1(), ma2()]).then(([n1, n2]) => {
-      assert.strictEqual(n1, 1)
-      assert.strictEqual(n2, 2)
-    })
+  it('getOrElse', async () => {
+    const n1 = await T.getOrElse(task.of(O.some(1)), () => task.of(2))()
+    const n2 = await T.getOrElse(task.of(O.none), () => task.of(2))()
+    assert.strictEqual(n1, 1)
+    assert.strictEqual(n2, 2)
   })
 
   it('fromM', () => {
