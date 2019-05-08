@@ -9,6 +9,7 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [MonadThrow (interface)](#monadthrow-interface)
+- [MonadThrow1 (interface)](#monadthrow1-interface)
 - [MonadThrow2 (interface)](#monadthrow2-interface)
 - [MonadThrow2C (interface)](#monadthrow2c-interface)
 - [MonadThrow3 (interface)](#monadthrow3-interface)
@@ -41,6 +42,18 @@ export interface MonadThrow<M> {
 ```
 
 Added in v2.0.0
+
+# MonadThrow1 (interface)
+
+**Signature**
+
+```ts
+export interface MonadThrow1<M extends URIS> extends Monad1<M> {
+  readonly throwError: <L, A>(e: L) => Type<M, A>
+  readonly fromEither: <L, A>(e: Either<L, A>) => Type<M, A>
+  readonly fromOption: <L, A>(o: Option<A>, onNone: () => L) => Type<M, A>
+}
+```
 
 # MonadThrow2 (interface)
 

@@ -84,17 +84,18 @@ import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
+import { Eq, fromEquals } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
 import { identity, Lazy, not, Predicate, Refinement } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
+import { MonadThrow1 } from './MonadThrow'
 import { getDualMonoid, Monoid } from './Monoid'
 import { fromCompare, Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { Witherable1 } from './Witherable'
@@ -540,6 +541,8 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
   )
 }
 
+const zero = () => none
+
 /**
  * @since 2.0.0
  */
@@ -551,7 +554,8 @@ export const option: Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = {
+  Witherable1<URI> &
+  MonadThrow1<URI> = {
   URI,
   map,
   of: some,
@@ -562,7 +566,7 @@ export const option: Monad1<URI> &
   reduceRight: (fa, b, f) => (isNone(fa) ? b : f(fa.value, b)),
   traverse,
   sequence,
-  zero: () => none,
+  zero,
   alt: (ma, f) => (isNone(ma) ? f() : ma),
   extend: (wa, f) => (isNone(wa) ? none : some(f(wa))),
   compact: ma => chain(ma, identity),
@@ -572,5 +576,8 @@ export const option: Monad1<URI> &
   partition,
   partitionMap: (fa, f) => separate(map(fa, f)),
   wither,
-  wilt
+  wilt,
+  throwError: zero,
+  fromEither,
+  fromOption: identity
 }

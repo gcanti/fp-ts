@@ -1,6 +1,6 @@
 import { Either } from './Either'
-import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
-import { Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { HKT2, Type2, Type3, URIS2, URIS3, Type, URIS } from './HKT'
+import { Monad2, Monad2C, Monad3, Monad3C, Monad1 } from './Monad'
 import { Option } from './Option'
 
 /**
@@ -22,6 +22,12 @@ export interface MonadThrow<M> {
   readonly throwError: <L, A>(e: L) => HKT2<M, L, A>
   readonly fromEither: <L, A>(e: Either<L, A>) => HKT2<M, L, A>
   readonly fromOption: <L, A>(o: Option<A>, onNone: () => L) => HKT2<M, L, A>
+}
+
+export interface MonadThrow1<M extends URIS> extends Monad1<M> {
+  readonly throwError: <L, A>(e: L) => Type<M, A>
+  readonly fromEither: <L, A>(e: Either<L, A>) => Type<M, A>
+  readonly fromOption: <L, A>(o: Option<A>, onNone: () => L) => Type<M, A>
 }
 
 export interface MonadThrow2<M extends URIS2> extends Monad2<M> {

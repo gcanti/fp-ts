@@ -195,7 +195,8 @@ export const option: Monad1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = ...
+  Witherable1<URI> &
+  MonadThrow1<URI> = ...
 ```
 
 Added in v2.0.0
