@@ -53,15 +53,6 @@ describe('ReaderTaskEither', () => {
     })
   })
 
-  it('fold', async () => {
-    const f = (s: string): boolean => s.length > 2
-    const g = (n: number): boolean => n > 2
-    const b1 = await _.fold(_.right(1), f, g)({})()
-    assert.strictEqual(b1, false)
-    const b2 = await _.fold(_.left('foo'), f, g)({})()
-    assert.strictEqual(b2, true)
-  })
-
   it('ask', async () => {
     const e = await _.run(_.ask<number>(), 1)
     return assert.deepStrictEqual(e, E.right(1))

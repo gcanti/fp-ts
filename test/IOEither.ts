@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as E from '../src/Either'
-import { io } from '../src/IO'
+import { io, IO } from '../src/IO'
 import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { none, some } from '../src/Option'
@@ -8,8 +8,8 @@ import { semigroupSum } from '../src/Semigroup'
 
 describe('IOEither', () => {
   it('fold', () => {
-    const f = (s: string): boolean => s.length > 2
-    const g = (n: number): boolean => n > 2
+    const f = (s: string): IO<boolean> => io.of(s.length > 2)
+    const g = (n: number): IO<boolean> => io.of(n > 2)
 
     assert.strictEqual(_.fold(_.right(1), f, g)(), false)
     assert.strictEqual(_.fold(_.left('foo'), f, g)(), true)

@@ -17,7 +17,6 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [fold (constant)](#fold-constant)
-- [foldIO (constant)](#foldio-constant)
 - [fromEither (constant)](#fromeither-constant)
 - [getOrElse (constant)](#getorelse-constant)
 - [ioEither (constant)](#ioeither-constant)
@@ -69,17 +68,7 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const fold: <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R) => IO<R> = ...
-```
-
-Added in v2.0.0
-
-# foldIO (constant)
-
-**Signature**
-
-```ts
-export const foldIO: <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => IO<R>, onRight: (a: A) => IO<R>) => IO<R> = ...
+export const fold: <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => IO<R>, onRight: (a: A) => IO<R>) => IO<R> = ...
 ```
 
 Added in v2.0.0
@@ -99,7 +88,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getOrElse: <L, A>(ma: IOEither<L, A>, f: (l: L) => A) => IO<A> = ...
+export const getOrElse: <L, A>(ma: IOEither<L, A>, f: (l: L) => IO<A>) => IO<A> = ...
 ```
 
 Added in v2.0.0

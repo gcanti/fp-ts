@@ -21,15 +21,10 @@ parent: Modules
 ```ts
 export interface EitherM<M> extends ApplicativeComposition02<M, URI> {
   readonly chain: <L, A, B>(ma: EitherT<M, L, A>, f: (a: A) => EitherT<M, L, B>) => EitherT<M, L, B>
-  readonly fold: <L, A, R>(ma: EitherT<M, L, A>, onLeft: (l: L) => R, onRight: (a: A) => R) => HKT<M, R>
-  readonly foldM: <L, A, R>(
-    ma: EitherT<M, L, A>,
-    onLeft: (l: L) => HKT<M, R>,
-    onRight: (a: A) => HKT<M, R>
-  ) => HKT<M, R>
+  readonly fold: <L, A, R>(ma: EitherT<M, L, A>, onLeft: (l: L) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => HKT<M, R>
   readonly bimap: <L, A, N, B>(ma: EitherT<M, L, A>, f: (l: L) => N, g: (a: A) => B) => EitherT<M, N, B>
   readonly mapLeft: <L, A, N>(ma: EitherT<M, L, A>, f: (l: L) => N) => EitherT<M, N, A>
-  readonly getOrElse: <L, A>(ma: EitherT<M, L, A>, f: (l: L) => A) => HKT<M, A>
+  readonly getOrElse: <L, A>(ma: EitherT<M, L, A>, f: (l: L) => HKT<M, A>) => HKT<M, A>
   readonly orElse: <L, A, N>(ma: EitherT<M, L, A>, f: (l: L) => EitherT<M, N, A>) => EitherT<M, N, A>
   readonly swap: <L, A>(ma: EitherT<M, L, A>) => EitherT<M, A, L>
   readonly rightM: <L, A>(ma: HKT<M, A>) => EitherT<M, L, A>

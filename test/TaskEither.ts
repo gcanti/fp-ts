@@ -106,8 +106,8 @@ describe('TaskEither', () => {
   })
 
   it('fold', async () => {
-    const f = (s: string): boolean => s.length > 2
-    const g = (n: number): boolean => n > 2
+    const f = (s: string): T.Task<boolean> => T.task.of(s.length > 2)
+    const g = (n: number): T.Task<boolean> => T.task.of(n > 2)
     const b1 = await _.fold(_.right(1), f, g)()
     assert.strictEqual(b1, false)
     const b2 = await _.fold(_.left('foo'), f, g)()
@@ -115,9 +115,9 @@ describe('TaskEither', () => {
   })
 
   it('getOrElse', async () => {
-    const b1 = await _.getOrElse(_.right(1), () => 42)()
+    const b1 = await _.getOrElse(_.right(1), () => T.task.of(42))()
     assert.strictEqual(b1, 1)
-    const b2 = await _.getOrElse(_.left('foo'), () => 42)()
+    const b2 = await _.getOrElse(_.left('foo'), () => T.task.of(42))()
     assert.strictEqual(b2, 42)
   })
 
@@ -258,16 +258,6 @@ describe('TaskEither', () => {
     const x = await sequenceSeries([t1, t2])()
     assert.deepStrictEqual(x, E.right([2, 4]))
     assert.deepStrictEqual(log, ['start 1', 'end 1', 'start 2', 'end 2'])
-  })
-
-  it('foldTask', async () => {
-    const whenLeft = () => T.task.of('left')
-    const whenRight = () => T.task.of('right')
-
-    const s1 = await _.foldTask(_.left('a'), whenLeft, whenRight)()
-    assert.deepStrictEqual(s1, 'left')
-    const s2 = await _.foldTask(_.right(1), whenLeft, whenRight)()
-    assert.deepStrictEqual(s2, 'right')
   })
 
   it('filterOrElse', async () => {

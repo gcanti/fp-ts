@@ -19,7 +19,6 @@ parent: Modules
 - [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
 - [right (constant)](#right-constant)
 - [rightReader (constant)](#rightreader-constant)
-- [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
 - [fromIOEither (function)](#fromioeither-function)
 - [fromOption (function)](#fromoption-function)
@@ -146,20 +145,6 @@ Added in v2.0.0
 
 ```ts
 export const rightReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = ...
-```
-
-Added in v2.0.0
-
-# fold (function)
-
-**Signature**
-
-```ts
-export function fold<E, L, A, R>(
-  ma: ReaderTaskEither<E, L, A>,
-  onLeft: (l: L) => R,
-  onRight: (a: A) => R
-): Reader<E, Task<R>> { ... }
 ```
 
 Added in v2.0.0

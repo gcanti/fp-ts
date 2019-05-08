@@ -99,21 +99,13 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 /**
  * @since 2.0.0
  */
-export const fold: <L, A, R>(ma: TaskEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R) => Task<R> = T.fold
+export const fold: <L, A, R>(ma: TaskEither<L, A>, onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>) => Task<R> =
+  T.fold
 
 /**
  * @since 2.0.0
  */
-export const foldTask: <L, A, R>(
-  ma: TaskEither<L, A>,
-  onLeft: (l: L) => Task<R>,
-  onRight: (a: A) => Task<R>
-) => Task<R> = T.foldM
-
-/**
- * @since 2.0.0
- */
-export const getOrElse: <L, A>(ma: TaskEither<L, A>, f: (l: L) => A) => Task<A> = T.getOrElse
+export const getOrElse: <L, A>(ma: TaskEither<L, A>, f: (l: L) => Task<A>) => Task<A> = T.getOrElse
 
 /**
  * @since 2.0.0

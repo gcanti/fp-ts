@@ -17,7 +17,6 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [fold (constant)](#fold-constant)
-- [foldTask (constant)](#foldtask-constant)
 - [fromEither (constant)](#fromeither-constant)
 - [fromIOEither (constant)](#fromioeither-constant)
 - [getOrElse (constant)](#getorelse-constant)
@@ -72,21 +71,7 @@ export const URI = ...
 **Signature**
 
 ```ts
-export const fold: <L, A, R>(ma: TaskEither<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R) => Task<R> = ...
-```
-
-Added in v2.0.0
-
-# foldTask (constant)
-
-**Signature**
-
-```ts
-export const foldTask: <L, A, R>(
-  ma: TaskEither<L, A>,
-  onLeft: (l: L) => Task<R>,
-  onRight: (a: A) => Task<R>
-) => Task<R> = ...
+export const  = ...
 ```
 
 Added in v2.0.0
@@ -116,7 +101,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getOrElse: <L, A>(ma: TaskEither<L, A>, f: (l: L) => A) => Task<A> = ...
+export const getOrElse: <L, A>(ma: TaskEither<L, A>, f: (l: L) => Task<A>) => Task<A> = ...
 ```
 
 Added in v2.0.0
