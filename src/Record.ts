@@ -43,7 +43,16 @@ export const isEmpty = <A>(d: Record<string, A>): boolean => {
 }
 
 /**
+ * Map a record into an array
  * @since 1.10.0
+ * @example
+ * import {collect} from 'fp-ts/lib/Record'
+ *
+ * const ob: {a: string, b: boolean} = {a: 'foo', b: false}
+ * assert.deepStrictEqual(
+ *   collect(ob, (key, val) => ({key: key, value: val})),
+ *   [{key: 'a', value: 'foo'}, {key: 'b', value: false}]
+ * )
  */
 export function collect<K extends string, A, B>(d: Record<K, A>, f: (k: K, a: A) => B): Array<B>
 export function collect<A, B>(d: Record<string, A>, f: (k: string, a: A) => B): Array<B>
@@ -202,6 +211,7 @@ export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string
 export const empty: Record<string, never> = {}
 
 /**
+ * Map a record passing the keys to the iterating function
  * @since 1.10.0
  */
 export function mapWithKey<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B>
@@ -216,6 +226,7 @@ export function mapWithKey<A, B>(fa: Record<string, A>, f: (k: string, a: A) => 
 }
 
 /**
+ * Map a record passing the values to the iterating function
  * @since 1.10.0
  */
 export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B>
@@ -225,7 +236,15 @@ export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string,
 }
 
 /**
+ * Reduce object by iterating over it's values.
+ *
  * @since 1.10.0
+ *
+ * @example
+ * import {reduce} from 'fp-ts/lib/Record'
+ *
+ * const joinAllVals = (ob: {[k: string]: string}) => reduce(ob, (acc, val) => acc + val, '')
+ * assert.deepStrictEqual(joinAllVals({a: 'foo', b: 'bar'}), 'foobar'))
  */
 export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => {
   return reduceWithKey(fa, b, (_, b, a) => f(b, a))
