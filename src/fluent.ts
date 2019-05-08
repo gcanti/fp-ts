@@ -208,67 +208,6 @@ interface Fluent1<F extends URIS, I, A> {
   ): Separated<Type<F, RL>, Type<F, RR>>
 }
 
-interface FluentHKT2<F, I, L, A> {
-  readonly I: I
-  readonly value: HKT2<F, L, A>
-  show(this: FluentHKT2<F, Show<HKT2<F, L, A>>, L, A>): string
-  equals(this: FluentHKT2<F, Eq<HKT2<F, L, A>>, L, A>, that: HKT2<F, L, A>): boolean
-  compare(this: FluentHKT2<F, Ord<HKT2<F, L, A>>, L, A>, that: HKT2<F, L, A>): Ordering
-  concat(this: FluentHKT2<F, Magma<HKT2<F, L, A>>, L, A>, that: HKT2<F, L, A>): HKT2<F, L, A>
-  map<B>(this: FluentHKT2<F, Functor<F>, L, A>, f: (a: A) => B): FluentHKT2<F, I, L, B>
-  mapWithIndex<Ix, B>(this: FluentHKT2<F, FunctorWithIndex<F, Ix>, L, A>, f: (i: Ix, a: A) => B): FluentHKT2<F, I, L, B>
-  bimap<M, B>(this: FluentHKT2<F, Bifunctor<F>, L, A>, f: (l: L) => M, g: (a: A) => B): FluentHKT2<F, I, M, B>
-  mapLeft<M>(this: FluentHKT2<F, Bifunctor<F>, L, A>, f: (l: L) => M): FluentHKT2<F, I, M, A>
-  ap<B>(this: FluentHKT2<F, Apply<F>, L, A>, fab: HKT2<F, L, (a: A) => B>): FluentHKT2<F, I, L, B>
-  apFirst<B>(this: FluentHKT2<F, Apply<F>, L, A>, that: HKT2<F, L, B>): FluentHKT2<F, I, L, A>
-  apSecond<B>(this: FluentHKT2<F, Apply<F>, L, A>, that: HKT2<F, L, B>): FluentHKT2<F, I, L, B>
-  chain<B>(this: FluentHKT2<F, Chain<F>, L, A>, f: (a: A) => HKT2<F, L, B>): FluentHKT2<F, I, L, B>
-  flatten<A>(this: FluentHKT2<F, Chain<F>, L, HKT2<F, L, A>>): FluentHKT2<F, I, L, A>
-  extend<B>(this: FluentHKT2<F, Extend<F>, L, A>, f: (fa: HKT2<F, L, A>) => B): FluentHKT2<F, I, L, B>
-  duplicate(this: FluentHKT2<F, Extend<F>, L, A>): FluentHKT2<F, I, L, HKT2<F, L, A>>
-  reduce<B>(this: FluentHKT2<F, Foldable<F>, L, A>, b: B, f: (b: B, a: A) => B): B
-  foldMap<M>(this: FluentHKT2<F, Foldable<F>, L, A>, M: Monoid<M>): (f: (a: A) => M) => M
-  reduceRight<B>(this: FluentHKT2<F, Foldable<F>, L, A>, b: B, f: (a: A, b: B) => B): B
-  reduceWithIndex<Ix, B>(this: FluentHKT2<F, FoldableWithIndex<F, Ix>, L, A>, b: B, f: (i: Ix, b: B, a: A) => B): B
-  foldMapWithIndex<Ix, M>(
-    this: FluentHKT2<F, FoldableWithIndex<F, Ix>, L, A>,
-    M: Monoid<M>
-  ): (i: Ix, f: (a: A) => M) => M
-  reduceRightWithIndex<Ix, B>(this: FluentHKT2<F, FoldableWithIndex<F, Ix>, L, A>, b: B, f: (i: Ix, a: A, b: B) => B): B
-  alt(this: FluentHKT2<F, Alt<F>, L, A>, that: () => HKT2<F, L, A>): FluentHKT2<F, I, L, A>
-  compact<A>(this: FluentHKT2<F, Compactable<F>, L, Option<A>>): FluentHKT2<F, I, L, A>
-  separate<A, B>(this: FluentHKT2<F, Compactable<F>, L, Either<A, B>>): Separated<HKT2<F, L, A>, HKT2<F, L, B>>
-  filter<B extends A>(this: FluentHKT2<F, Filterable<F>, L, A>, refinement: Refinement<A, B>): FluentHKT2<F, I, L, B>
-  filter(this: FluentHKT2<F, Filterable<F>, L, A>, predicate: Predicate<A>): FluentHKT2<F, I, L, A>
-  filterMap<B>(this: FluentHKT2<F, Filterable<F>, L, A>, f: (a: A) => Option<B>): FluentHKT2<F, I, L, B>
-  partition<B extends A>(
-    this: FluentHKT2<F, Filterable<F>, L, A>,
-    refinement: Refinement<A, B>
-  ): Separated<HKT2<F, L, A>, HKT2<F, L, B>>
-  partition(this: FluentHKT2<F, Filterable<F>, L, A>, predicate: Predicate<A>): Separated<HKT2<F, L, A>, HKT2<F, L, A>>
-  partitionMap<RL, RR>(
-    this: FluentHKT2<F, Filterable<F>, L, A>,
-    f: (a: A) => Either<RL, RR>
-  ): Separated<HKT2<F, L, RL>, HKT2<F, L, RR>>
-  filterWithIndex<Ix>(
-    this: FluentHKT2<F, FilterableWithIndex<F, Ix>, L, A>,
-    p: (i: Ix, a: A) => boolean
-  ): FluentHKT2<F, I, L, A>
-  filterMapWithIndex<Ix, B>(
-    this: FluentHKT2<F, FilterableWithIndex<F, Ix>, L, A>,
-    f: (i: Ix, a: A) => Option<B>
-  ): FluentHKT2<F, I, L, B>
-  partitionWithIndex<Ix>(
-    this: FluentHKT2<F, FilterableWithIndex<F, Ix>, L, A>,
-    p: (i: Ix, a: A) => boolean
-  ): Separated<HKT2<F, L, A>, HKT2<F, L, A>>
-  partitionMapWithIndex<Ix, RL, RR>(
-    this: FluentHKT2<F, FilterableWithIndex<F, Ix>, L, A>,
-    f: (i: Ix, a: A) => Either<RL, RR>
-  ): Separated<HKT2<F, L, RL>, HKT2<F, L, RR>>
-  promap<H, B>(this: FluentHKT2<F, Profunctor<F>, L, A>, f: (h: H) => L, g: (a: A) => B): FluentHKT2<F, I, H, B>
-}
-
 class Fluent<F, I, A> {
   constructor(readonly I: I, readonly value: HKT<F, A>) {}
   show<I extends Show<HKT<F, A>>>(this: Fluent<F, I, A>): string {
@@ -417,12 +356,7 @@ class Fluent<F, I, A> {
 export function fluent<F extends URIS2, I, L>(I: { URI: F; _L: L } & I): <A>(fa: Type2<F, L, A>) => Fluent2C<F, I, L, A>
 export function fluent<F extends URIS2, I>(I: { URI: F } & I): <L, A>(fa: Type2<F, L, A>) => Fluent2<F, I, L, A>
 export function fluent<F extends URIS, I>(I: { URI: F } & I): <A>(fa: Type<F, A>) => Fluent1<F, I, A>
-export function fluent<F, I>(
-  I: { URI: F } & I
-): {
-  <L, A>(fa: HKT2<F, L, A>): FluentHKT2<F, I, L, A>
-  <A>(fa: HKT<F, A>): Fluent<F, I, A>
-}
+export function fluent<F, I>(I: { URI: F } & I): <A>(fa: HKT<F, A>) => Fluent<F, I, A>
 export function fluent<F, I>(I: { URI: F } & I): <A>(fa: HKT<F, A>) => any {
   return fa => new Fluent(I, fa)
 }
