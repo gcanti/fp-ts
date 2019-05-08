@@ -14,7 +14,8 @@ import {
   on,
   or,
   pipe,
-  unsafeCoerce
+  unsafeCoerce,
+  absurd
 } from '../src/function'
 
 const f = (n: number) => n + 1
@@ -196,5 +197,9 @@ describe('function', () => {
 
   it('decrement', () => {
     assert.strictEqual(decrement(2), 1)
+  })
+
+  it('absurd', () => {
+    assert.throws(() => absurd<string>((null as any) as never))
   })
 })

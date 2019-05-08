@@ -16,6 +16,7 @@ parent: Modules
 - [Refinement (type alias)](#refinement-type-alias)
 - [phantom (constant)](#phantom-constant)
 - [unsafeCoerce (constant)](#unsafecoerce-constant)
+- [absurd (function)](#absurd-function)
 - [and (function)](#and-function)
 - [constFalse (function)](#constfalse-function)
 - [constNull (function)](#constnull-function)
@@ -113,6 +114,16 @@ Added in v2.0.0
 
 ```ts
 export const unsafeCoerce: <A, B>(a: A) => B = ...
+```
+
+Added in v2.0.0
+
+# absurd (function)
+
+**Signature**
+
+```ts
+export function absurd<A>(_: never): A { ... }
 ```
 
 Added in v2.0.0

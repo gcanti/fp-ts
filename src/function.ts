@@ -213,3 +213,10 @@ export function increment(n: number): number {
 export function decrement(n: number): number {
   return n - 1
 }
+
+/**
+ * @since 2.0.0
+ */
+export function absurd<A>(_: never): A {
+  throw new Error('absurd')
+}
