@@ -17,7 +17,6 @@ parent: Modules
 - [reader (constant)](#reader-constant)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [run (function)](#run-function)
 
 ---
 
@@ -111,16 +110,6 @@ Added in v2.0.0
 
 ```ts
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> { ... }
-```
-
-Added in v2.0.0
-
-# run (function)
-
-**Signature**
-
-```ts
-export function run<E, A>(ma: Reader<E, A>, e: E): A { ... }
 ```
 
 Added in v2.0.0

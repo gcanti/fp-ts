@@ -10,7 +10,7 @@ interface Env {
 describe('Reader', () => {
   it('map', () => {
     const double = (n: number): number => n * 2
-    assert.strictEqual(R.run(R.reader.map(() => 1, double), {}), 2)
+    assert.strictEqual(R.reader.map(() => 1, double)({}), 2)
   })
 
   it('of', () => {

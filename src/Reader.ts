@@ -30,13 +30,6 @@ export interface Reader<E, A> {
 }
 
 /**
- * @since 2.0.0
- */
-export function run<E, A>(ma: Reader<E, A>, e: E): A {
-  return ma(e)
-}
-
-/**
  * Reads the current context
  *
  * @since 2.0.0
