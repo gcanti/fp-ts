@@ -26,6 +26,7 @@ Note. `Apply`'s `ap` can be derived: `(fab, fa) => F.chain(fab, f => F.map(f, fa
 - [Chain3 (interface)](#chain3-interface)
 - [Chain3C (interface)](#chain3c-interface)
 - [Chain4 (interface)](#chain4-interface)
+- [flatMap (function)](#flatmap-function)
 
 ---
 
@@ -100,3 +101,26 @@ export interface Chain4<F extends URIS4> extends Apply4<F> {
   readonly chain: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => Type4<F, X, U, L, B>) => Type4<F, X, U, L, B>
 }
 ```
+
+# flatMap (function)
+
+**Signature**
+
+```ts
+export function flatMap<F extends URIS3>(
+  F: Chain3<F>
+): <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+export function flatMap<F extends URIS3, U, L>(
+  F: Chain3C<F, U, L>
+): <A, B>(f: (a: A) => Type3<F, U, L, B>) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+export function flatMap<F extends URIS2>(
+  F: Chain2<F>
+): <L, A, B>(f: (a: A) => Type2<F, L, B>) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+export function flatMap<F extends URIS2, L>(
+  F: Chain2C<F, L>
+): <A, B>(f: (a: A) => Type2<F, L, B>) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+export function flatMap<F extends URIS>(F: Chain1<F>): <A, B>(f: (a: A) => Type<F, B>) => (fa: Type<F, A>) => Type<F, B>
+export function flatMap<F>(F: Chain<F>): <A, B>(f: (a: A) => HKT<F, B>) => (fa: HKT<F, A>) => HKT<F, B> { ... }
+```
+
+Added in v2.0.0
