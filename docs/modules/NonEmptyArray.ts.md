@@ -385,7 +385,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function make<A>(head: A, tail: Array<A>): NonEmptyArray<A> { ... }
+export function make<A>(head: A, tail: Array<A> = A.empty): NonEmptyArray<A> { ... }
 ```
 
 Added in v2.0.0

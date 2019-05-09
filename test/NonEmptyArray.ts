@@ -401,7 +401,7 @@ describe.only('NonEmptyArray', () => {
 
   it('getShow', () => {
     const S = getShow(showString)
-    assert.strictEqual(S.show(make<string>('a', [])), `make("a", [])`)
+    assert.strictEqual(S.show(make<string>('a')), `make("a", [])`)
     assert.strictEqual(S.show(make<string>('a', ['b', 'c'])), `make("a", ["b", "c"])`)
   })
 })

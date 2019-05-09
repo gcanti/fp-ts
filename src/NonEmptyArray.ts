@@ -46,7 +46,7 @@ export function getShow<A>(S: Show<A>): Show<NonEmptyArray<A>> {
 /**
  * @since 2.0.0
  */
-export function make<A>(head: A, tail: Array<A>): NonEmptyArray<A> {
+export function make<A>(head: A, tail: Array<A> = A.empty): NonEmptyArray<A> {
   return [head, ...tail] as any
 }
 
