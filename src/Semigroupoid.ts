@@ -13,6 +13,11 @@ export interface Semigroupoid2<F extends URIS2> {
   readonly compose: <L, A, B>(ab: Type2<F, A, B>, la: Type2<F, L, A>) => Type2<F, L, B>
 }
 
+export interface Semigroupoid2C<F extends URIS2, L> {
+  readonly URI: F
+  readonly compose: <A, B>(ab: Type2<F, A, B>, la: Type2<F, L, A>) => Type2<F, L, B>
+}
+
 export interface Semigroupoid3<F extends URIS3> {
   readonly URI: F
   readonly compose: <U, L, A, B>(ab: Type3<F, U, A, B>, la: Type3<F, U, L, A>) => Type3<F, U, L, B>

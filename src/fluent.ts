@@ -26,6 +26,7 @@ import { Ordering } from './Ordering'
 import { Profunctor, Profunctor2, Profunctor2C } from './Profunctor'
 import { Eq } from './Eq'
 import { Show } from './Show'
+import { Semigroupoid, Semigroupoid2, Semigroupoid2C } from './Semigroupoid'
 
 interface Fluent2C<F extends URIS2, I, L, A> {
   readonly I: I
@@ -96,6 +97,7 @@ interface Fluent2C<F extends URIS2, I, L, A> {
     f: (i: Ix, a: A) => Either<RL, RR>
   ): Separated<Type2<F, L, RL>, Type2<F, L, RR>>
   promap<H, B>(this: Fluent2C<F, Profunctor2C<F, L>, L, A>, f: (h: H) => L, g: (a: A) => B): Fluent2<F, I, H, B>
+  compose<B>(this: Fluent2C<F, Semigroupoid2C<F, L>, L, A>, Type2: HKT2<F, A, B>): Fluent2C<F, I, L, B>
 }
 
 interface Fluent2<F extends URIS2, I, L, A> {
@@ -154,6 +156,7 @@ interface Fluent2<F extends URIS2, I, L, A> {
     f: (i: Ix, a: A) => Either<RL, RR>
   ): Separated<Type2<F, L, RL>, Type2<F, L, RR>>
   promap<H, B>(this: Fluent2<F, Profunctor2<F>, L, A>, f: (h: H) => L, g: (a: A) => B): Fluent2<F, I, H, B>
+  compose<B>(this: Fluent2<F, Semigroupoid2<F>, L, A>, that: Type2<F, A, B>): Fluent2<F, I, L, B>
 }
 
 interface Fluent1<F extends URIS, I, A> {
@@ -347,6 +350,15 @@ class Fluent<F, I, A> {
     g: (a: A) => B
   ): Fluent<F, I, B> {
     return new Fluent<F, I, B>(this.I, this.I.promap(this.value, f, g))
+  }
+  compose<I extends Semigroupoid<F>, L, B>(this: { I: I; value: HKT2<F, L, A> }, that: HKT2<F, A, B>): Fluent<F, I, B> {
+    return new Fluent<F, I, B>(
+      this.I,
+      this.I.compose(
+        that,
+        this.value
+      )
+    )
   }
 }
 
