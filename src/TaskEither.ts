@@ -167,17 +167,11 @@ export function tryCatch<L, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown
  *
  * @since 2.0.0
  */
-export function bracket<L, A, B>(
+export const bracket: <L, A, B>(
   acquire: TaskEither<L, A>,
   use: (a: A) => TaskEither<L, B>,
   release: (a: A, e: E.Either<L, B>) => TaskEither<L, void>
-): TaskEither<L, B> {
-  return taskEither.chain(acquire, a =>
-    taskEither.chain(task.map(use(a), E.right), e =>
-      taskEither.chain(release(a, e), () => E.fold<L, B, TaskEither<L, B>>(e, left, taskEither.of))
-    )
-  )
-}
+) => TaskEither<L, B> = T.bracket
 
 /**
  * Convert a node style callback function to one returning a `TaskEither`

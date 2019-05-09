@@ -16,6 +16,7 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [TaskEither (interface)](#taskeither-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [bracket (constant)](#bracket-constant)
 - [fold (constant)](#fold-constant)
 - [fromEither (constant)](#fromeither-constant)
 - [fromIOEither (constant)](#fromioeither-constant)
@@ -28,7 +29,6 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [swap (constant)](#swap-constant)
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
-- [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
 - [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
@@ -65,6 +65,24 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+# bracket (constant)
+
+Make sure that a resource is cleaned up in the event of an exception. The
+release action is called regardless of whether the body action throws or
+returns.
+
+**Signature**
+
+```ts
+export const bracket: <L, A, B>(
+  acquire: TaskEither<L, A>,
+  use: (a: A) => TaskEither<L, B>,
+  release: (a: A, e: E.Either<L, B>) => TaskEither<L, void>
+) => TaskEither<L, B> = ...
+```
+
+Added in v2.0.0
 
 # fold (constant)
 
@@ -184,24 +202,6 @@ Like `TaskEither` but `ap` is sequential
 
 ```ts
 export const taskEitherSeq: typeof taskEither = ...
-```
-
-Added in v2.0.0
-
-# bracket (function)
-
-Make sure that a resource is cleaned up in the event of an exception. The
-release action is called regardless of whether the body action throws or
-returns.
-
-**Signature**
-
-```ts
-export function bracket<L, A, B>(
-  acquire: TaskEither<L, A>,
-  use: (a: A) => TaskEither<L, B>,
-  release: (a: A, e: E.Either<L, B>) => TaskEither<L, void>
-): TaskEither<L, B> { ... }
 ```
 
 Added in v2.0.0

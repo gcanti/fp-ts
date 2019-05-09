@@ -30,6 +30,11 @@ export interface EitherM<M> extends ApplicativeComposition02<M, URI> {
   readonly rightM: <L, A>(ma: HKT<M, A>) => EitherT<M, L, A>
   readonly leftM: <L, A>(ml: HKT<M, L>) => EitherT<M, L, A>
   readonly left: <L, A>(l: L) => EitherT<M, L, A>
+  readonly bracket: <L, A, B>(
+    acquire: EitherT<M, L, A>,
+    use: (a: A) => EitherT<M, L, B>,
+    release: (a: A, e: Either<L, B>) => EitherT<M, L, void>
+  ) => EitherT<M, L, B>
 }
 ```
 

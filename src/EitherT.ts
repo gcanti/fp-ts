@@ -21,6 +21,11 @@ export interface EitherM<M> extends ApplicativeComposition02<M, URI> {
   readonly rightM: <L, A>(ma: HKT<M, A>) => EitherT<M, L, A>
   readonly leftM: <L, A>(ml: HKT<M, L>) => EitherT<M, L, A>
   readonly left: <L, A>(l: L) => EitherT<M, L, A>
+  readonly bracket: <L, A, B>(
+    acquire: EitherT<M, L, A>,
+    use: (a: A) => EitherT<M, L, B>,
+    release: (a: A, e: Either<L, B>) => EitherT<M, L, void>
+  ) => EitherT<M, L, B>
 }
 
 type EitherT1<M extends URIS, L, A> = Type<M, Either<L, A>>
@@ -40,6 +45,11 @@ interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, URI> {
   readonly rightM: <L, A>(ma: Type<M, A>) => EitherT1<M, L, A>
   readonly leftM: <L, A>(ml: Type<M, L>) => EitherT1<M, L, A>
   readonly left: <L, A>(l: L) => EitherT1<M, L, A>
+  readonly bracket: <L, A, B>(
+    acquire: EitherT1<M, L, A>,
+    use: (a: A) => EitherT1<M, L, B>,
+    release: (a: A, e: Either<L, B>) => EitherT1<M, L, void>
+  ) => EitherT1<M, L, B>
 }
 
 type EitherT2<M extends URIS2, LM, L, A> = Type2<M, LM, Either<L, A>>
@@ -59,6 +69,11 @@ interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, URI> {
   readonly rightM: <LM, L, A>(ma: Type2<M, LM, A>) => EitherT2<M, LM, L, A>
   readonly leftM: <LM, L, A>(ml: Type2<M, LM, L>) => EitherT2<M, LM, L, A>
   readonly left: <LM, L, A>(l: L) => EitherT2<M, LM, L, A>
+  readonly bracket: <LM, L, A, B>(
+    acquire: EitherT2<M, LM, L, A>,
+    use: (a: A) => EitherT2<M, LM, L, B>,
+    release: (a: A, e: Either<L, B>) => EitherT2<M, LM, L, void>
+  ) => EitherT2<M, LM, L, B>
 }
 
 /**
@@ -70,9 +85,14 @@ export function getEitherM<M>(M: Monad<M>): EitherM<M>
 export function getEitherM<M>(M: Monad<M>): EitherM<M> {
   const A = getApplicativeComposition(M, either)
 
+  const chain = <L, A, B>(ma: EitherT<M, L, A>, f: (a: A) => EitherT<M, L, B>): EitherT<M, L, B> =>
+    M.chain(ma, e => (isLeft(e) ? M.of(left(e.left)) : f(e.right)))
+
+  const _left = <L, A>(l: L): EitherT<M, L, A> => M.of(left(l))
+
   return {
     ...A,
-    chain: (ma, f) => M.chain(ma, e => (isLeft(e) ? M.of(left(e.left)) : f(e.right))),
+    chain,
     fold: (ma, onLeft, onRight) => M.chain(ma, e => fold(e, onLeft, onRight)),
     bimap: (ma, f, g) => M.map(ma, e => either.bimap(e, f, g)),
     mapLeft: (ma, f) => M.map(ma, e => either.mapLeft(e, f)),
@@ -81,6 +101,14 @@ export function getEitherM<M>(M: Monad<M>): EitherM<M> {
     swap: ma => M.map(ma, swap),
     rightM: ma => M.map(ma, right),
     leftM: ml => M.map(ml, left),
-    left: l => M.of(left(l))
+    left: _left,
+    bracket: <L, A, B>(
+      acquire: EitherT<M, L, A>,
+      use: (a: A) => EitherT<M, L, B>,
+      release: (a: A, e: Either<L, B>) => EitherT<M, L, void>
+    ): EitherT<M, L, B> =>
+      chain(acquire, a =>
+        chain(M.map(use(a), right), e => chain(release(a, e), () => fold<L, B, EitherT<M, L, B>>(e, _left, A.of)))
+      )
   }
 }

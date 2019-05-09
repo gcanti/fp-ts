@@ -16,6 +16,7 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [IOEither (interface)](#ioeither-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
+- [bracket (constant)](#bracket-constant)
 - [fold (constant)](#fold-constant)
 - [fromEither (constant)](#fromeither-constant)
 - [getOrElse (constant)](#getorelse-constant)
@@ -26,7 +27,6 @@ error of type `L`. If you want to represent a synchronous computation that never
 - [right (constant)](#right-constant)
 - [rightIO (constant)](#rightio-constant)
 - [swap (constant)](#swap-constant)
-- [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
 - [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
@@ -62,6 +62,24 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+# bracket (constant)
+
+Make sure that a resource is cleaned up in the event of an exception. The
+release action is called regardless of whether the body action throws or
+returns.
+
+**Signature**
+
+```ts
+export const bracket: <L, A, B>(
+  acquire: IOEither<L, A>,
+  use: (a: A) => IOEither<L, B>,
+  release: (a: A, e: E.Either<L, B>) => IOEither<L, void>
+) => IOEither<L, B> = ...
+```
+
+Added in v2.0.0
 
 # fold (constant)
 
@@ -159,24 +177,6 @@ Added in v2.0.0
 
 ```ts
 export const swap: <L, A>(ma: IOEither<L, A>) => IOEither<A, L> = ...
-```
-
-Added in v2.0.0
-
-# bracket (function)
-
-Make sure that a resource is cleaned up in the event of an exception. The
-release action is called regardless of whether the body action throws or
-returns.
-
-**Signature**
-
-```ts
-export function bracket<L, A, B>(
-  acquire: IOEither<L, A>,
-  use: (a: A) => IOEither<L, B>,
-  release: (a: A, e: E.Either<L, B>) => IOEither<L, void>
-): IOEither<L, B> { ... }
 ```
 
 Added in v2.0.0
