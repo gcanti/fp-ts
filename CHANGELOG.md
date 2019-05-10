@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.17.4
+
+- **Bug Fix**
+  - Don't set `target: es6` in tsconfig.es6.json, fix #863 (@FruitieX)
+
 # 1.17.3
 
 - **Polish**
