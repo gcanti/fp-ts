@@ -15,7 +15,7 @@
  *
  * Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
  */
-import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply3C, Apply4 } from './Apply'
+import { Apply, Apply1, Apply2, Apply2C, Apply3, Apply4 } from './Apply'
 import {
   FunctorComposition,
   FunctorComposition01,
@@ -27,7 +27,6 @@ import {
   FunctorComposition22,
   FunctorComposition22C,
   FunctorComposition2C1,
-  FunctorComposition3C1,
   getFunctorComposition
 } from './Functor'
 import { HKT, Type, Type2, Type3, Type4, URIS, URIS2, URIS3, URIS4 } from './HKT'
@@ -53,10 +52,6 @@ export interface Applicative3<F extends URIS3> extends Apply3<F> {
 
 export interface Applicative2C<F extends URIS2, L> extends Apply2C<F, L> {
   readonly of: <A>(a: A) => Type2<F, L, A>
-}
-
-export interface Applicative3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
-  readonly of: <A>(a: A) => Type3<F, U, L, A>
 }
 
 export interface Applicative4<F extends URIS4> extends Apply4<F> {
@@ -137,15 +132,6 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, LG>
   ) => Type2<F, LF, Type2<G, LG, B>>
 }
 
-export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, LF>
-  extends FunctorComposition3C1<F, G, UF, LF> {
-  readonly of: <A>(a: A) => Type3<F, UF, LF, Type<G, A>>
-  readonly ap: <A, B>(
-    fgab: Type3<F, UF, LF, Type<G, (a: A) => B>>,
-    fga: Type3<F, UF, LF, Type<G, A>>
-  ) => Type3<F, UF, LF, Type<G, B>>
-}
-
 /**
  * Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
  *
@@ -165,10 +151,6 @@ export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, 
  *
  * @since 2.0.0
  */
-export function getApplicativeComposition<F extends URIS3, G extends URIS, UF, LF>(
-  F: Applicative3C<F, UF, LF>,
-  G: Applicative1<G>
-): ApplicativeComposition3C1<F, G, UF, LF>
 export function getApplicativeComposition<F extends URIS2, G extends URIS2, LG>(
   F: Applicative2<F>,
   G: Applicative2C<G, LG>

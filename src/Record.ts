@@ -1,4 +1,4 @@
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
 import { FilterableWithIndex1 } from './FilterableWithIndex'
@@ -360,9 +360,6 @@ export function traverseWithIndex<F>(
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, U, L, A, B>(ta: Record<K, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<K, B>>
-export function traverse<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<K, B>>
 export function traverse<F extends URIS2>(
   F: Applicative2<F>
 ): <K extends string, L, A, B>(ta: Record<K, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>
@@ -388,9 +385,6 @@ export function traverse<F>(
 export function sequence<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, U, L, A>(ta: Record<K, Type3<F, U, L, A>>) => Type3<F, U, L, Record<K, A>>
-export function sequence<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <K extends string, A>(ta: Record<K, Type3<F, U, L, A>>) => Type3<F, U, L, Record<K, A>>
 export function sequence<F extends URIS2>(
   F: Applicative2<F>
 ): <K extends string, L, A>(ta: Record<K, Type2<F, L, A>>) => Type2<F, L, Record<K, A>>

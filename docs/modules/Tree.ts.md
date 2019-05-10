@@ -185,9 +185,6 @@ Monadic forest builder, in depth-first order
 export function unfoldForestM<M extends URIS3>(
   M: Monad3<M>
 ): <U, L, A, B>(bs: Array<B>, f: (b: B) => Type3<M, U, L, [A, Array<B>]>) => Type3<M, U, L, Forest<A>>
-export function unfoldForestM<M extends URIS3, U, L>(
-  M: Monad3C<M, U, L>
-): <A, B>(bs: Array<B>, f: (b: B) => Type3<M, U, L, [A, Array<B>]>) => Type3<M, U, L, Forest<A>>
 export function unfoldForestM<M extends URIS2>(
   M: Monad2<M>
 ): <L, A, B>(bs: Array<B>, f: (b: B) => Type2<M, L, [A, Array<B>]>) => Type2<M, L, Forest<A>>
@@ -226,9 +223,6 @@ Monadic tree builder, in depth-first order
 export function unfoldTreeM<M extends URIS3>(
   M: Monad3<M>
 ): <U, L, A, B>(b: B, f: (b: B) => Type3<M, U, L, [A, Array<B>]>) => Type3<M, U, L, Tree<A>>
-export function unfoldTreeM<M extends URIS3, U, L>(
-  M: Monad3C<M, U, L>
-): <A, B>(b: B, f: (b: B) => Type3<M, U, L, [A, Array<B>]>) => Type3<M, U, L, Tree<A>>
 export function unfoldTreeM<M extends URIS2>(
   M: Monad2<M>
 ): <L, A, B>(b: B, f: (b: B) => Type2<M, L, [A, Array<B>]>) => Type2<M, L, Tree<A>>

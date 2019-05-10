@@ -18,7 +18,7 @@
  * mapWithIndex(ta, f) = traverseWithIndex(identity)(ta, (i, a) => new Identity(f(i, a))).value
  * ```
  */
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
 import { FoldableWithIndex, FoldableWithIndex1, FoldableWithIndex2, FoldableWithIndex2C } from './FoldableWithIndex'
 import { FunctorWithIndex, FunctorWithIndex1, FunctorWithIndex2, FunctorWithIndex2C } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
@@ -57,10 +57,6 @@ export interface TraverseWithIndex<T, I> {
     ta: HKT<T, A>,
     f: (i: I, a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, HKT<T, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: HKT<T, A>,
-    f: (i: I, a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, HKT<T, B>>
   <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
     ta: HKT<T, A>,
     f: (i: I, a: A) => Type2<F, FL, B>
@@ -75,10 +71,6 @@ export interface TraverseWithIndex<T, I> {
 
 export interface TraverseWithIndex1<T extends URIS, I> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: Type<T, A>,
-    f: (i: I, a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type<T, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
     ta: Type<T, A>,
     f: (i: I, a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type<T, B>>
@@ -99,10 +91,6 @@ export interface TraverseWithIndex2<T extends URIS2, I> {
     ta: Type2<T, FL, A>,
     f: (i: I, a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type2<T, FL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type2<T, FL, A>,
-    f: (i: I, a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, FL, B>>
   <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
     ta: Type2<T, FL, A>,
     f: (i: I, a: A) => Type2<F, FL, B>
@@ -120,10 +108,6 @@ export interface TraverseWithIndex2<T extends URIS2, I> {
 
 export interface TraverseWithIndex2C<T extends URIS2, I, FL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, A, B>(
-    ta: Type2<T, FL, A>,
-    f: (i: I, a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, FL, B>>
-  <F extends URIS3, FU>(F: Applicative3C<F, FU, FL>): <A, B>(
     ta: Type2<T, FL, A>,
     f: (i: I, a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type2<T, FL, B>>

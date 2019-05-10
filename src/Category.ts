@@ -1,5 +1,5 @@
 import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
-import { Semigroupoid, Semigroupoid2, Semigroupoid3, Semigroupoid3C, Semigroupoid4 } from './Semigroupoid'
+import { Semigroupoid, Semigroupoid2, Semigroupoid3, Semigroupoid4 } from './Semigroupoid'
 
 /**
  * @since 2.0.0
@@ -18,8 +18,4 @@ export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
 
 export interface Category4<F extends URIS4> extends Semigroupoid4<F> {
   readonly id: <X, U, A>() => Type4<F, X, U, A, A>
-}
-
-export interface Category3C<F extends URIS3, U> extends Semigroupoid3C<F, U> {
-  readonly id: <A>() => Type3<F, U, A, A>
 }

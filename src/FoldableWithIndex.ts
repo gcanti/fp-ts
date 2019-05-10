@@ -14,7 +14,6 @@ import {
   Foldable2,
   Foldable2C,
   Foldable3,
-  Foldable3C,
   FoldableComposition,
   getFoldableComposition,
   FoldableComposition11,
@@ -23,8 +22,7 @@ import {
   FoldableComposition21,
   FoldableComposition2C1,
   FoldableComposition22,
-  FoldableComposition22C,
-  FoldableComposition3C1
+  FoldableComposition22C
 } from './Foldable'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
@@ -60,12 +58,6 @@ export interface FoldableWithIndex2C<F extends URIS2, I, L> extends Foldable2C<F
   readonly reduceWithIndex: <A, B>(fa: Type2<F, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fa: Type2<F, L, A>, f: (i: I, a: A) => M) => M
   readonly reduceRightWithIndex: <A, B>(fa: Type2<F, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
-}
-
-export interface FoldableWithIndex3C<F extends URIS3, I, U, L> extends Foldable3C<F, U, L> {
-  readonly reduceWithIndex: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 
 export interface FoldableWithIndexComposition<F, FI, G, GI> extends FoldableComposition<F, G> {
@@ -143,22 +135,9 @@ export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends 
   ) => B
 }
 
-export interface FoldableWithIndexComposition3C1<F extends URIS3, FI, G extends URIS, GI, UF, LF>
-  extends FoldableComposition3C1<F, G, UF, LF> {
-  readonly reduceWithIndex: <A, B>(fga: Type3<F, UF, LF, Type<G, A>>, b: B, f: (i: [FI, GI], b: B, a: A) => B) => B
-  readonly foldMapWithIndex: <M>(
-    M: Monoid<M>
-  ) => <A>(fga: Type3<F, UF, LF, Type<G, A>>, f: (i: [FI, GI], a: A) => M) => M
-  readonly reduceRightWithIndex: <A, B>(fga: Type3<F, UF, LF, Type<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
-}
-
 /**
  * @since 2.0.0
  */
-export function getFoldableWithIndexComposition<F extends URIS3, FI, G extends URIS, GI, UF, LF>(
-  F: FoldableWithIndex3C<F, FI, UF, LF>,
-  G: FoldableWithIndex1<G, GI>
-): FoldableWithIndexComposition3C1<F, FI, G, GI, UF, LF>
 export function getFoldableWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, LG>(
   F: FoldableWithIndex2<F, FI>,
   G: FoldableWithIndex2C<G, GI, LG>

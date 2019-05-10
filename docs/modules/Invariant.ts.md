@@ -13,7 +13,6 @@ parent: Modules
 - [Invariant2 (interface)](#invariant2-interface)
 - [Invariant2C (interface)](#invariant2c-interface)
 - [Invariant3 (interface)](#invariant3-interface)
-- [Invariant3C (interface)](#invariant3c-interface)
 
 ---
 
@@ -72,18 +71,5 @@ export interface Invariant2C<F extends URIS2, L> {
 export interface Invariant3<F extends URIS3> {
   readonly URI: F
   readonly imap: <U, L, A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B, g: (b: B) => A) => Type3<F, U, L, B>
-}
-```
-
-# Invariant3C (interface)
-
-**Signature**
-
-```ts
-export interface Invariant3C<F extends URIS3, U, L> {
-  readonly URI: F
-  readonly _L: L
-  readonly _U: U
-  readonly imap: <A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B, g: (b: B) => A) => Type3<F, U, L, B>
 }
 ```

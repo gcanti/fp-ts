@@ -1,13 +1,12 @@
 import { Separated } from './Compactable'
 import { Either } from './Either'
-import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable3C } from './Filterable'
+import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3 } from './Filterable'
 import {
   FunctorWithIndex,
   FunctorWithIndex1,
   FunctorWithIndex2,
   FunctorWithIndex2C,
-  FunctorWithIndex3,
-  FunctorWithIndex3C
+  FunctorWithIndex3
 } from './FunctorWithIndex'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Option } from './Option'
@@ -128,32 +127,4 @@ export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithInd
   readonly partitionWithIndex: PartitionWithIndex3<F, I>
   readonly filterMapWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filterWithIndex: FilterWithIndex3<F, I>
-}
-
-interface FilterWithIndex3C<F extends URIS3, I, U, L> {
-  <A, B extends A>(fa: Type3<F, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Type3<F, U, L, B>
-  <A>(fa: Type3<F, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Type3<F, U, L, A>
-}
-
-interface PartitionWithIndex3C<F extends URIS3, I, U, L> {
-  <A, B extends A>(fa: Type3<F, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
-    Type3<F, U, L, A>,
-    Type3<F, U, L, B>
-  >
-  <A>(fa: Type3<F, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
-    Type3<F, U, L, A>,
-    Type3<F, U, L, A>
-  >
-}
-
-export interface FilterableWithIndex3C<F extends URIS3, I, U, L>
-  extends FunctorWithIndex3C<F, I, U, L>,
-    Filterable3C<F, U, L> {
-  readonly partitionMapWithIndex: <RL, RR, A>(
-    fa: Type3<F, U, L, A>,
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
-  readonly partitionWithIndex: PartitionWithIndex3C<F, I, U, L>
-  readonly filterMapWithIndex: <A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => Option<B>) => Type3<F, U, L, B>
-  readonly filterWithIndex: FilterWithIndex3C<F, I, U, L>
 }

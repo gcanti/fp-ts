@@ -26,7 +26,6 @@ Formally, `Apply` represents a strong lax semi-monoidal endofunctor.
 - [Apply2 (interface)](#apply2-interface)
 - [Apply2C (interface)](#apply2c-interface)
 - [Apply3 (interface)](#apply3-interface)
-- [Apply3C (interface)](#apply3c-interface)
 - [Apply4 (interface)](#apply4-interface)
 - [sequenceS (function)](#sequences-function)
 - [sequenceT (function)](#sequencet-function)
@@ -85,16 +84,6 @@ export interface Apply3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
-# Apply3C (interface)
-
-**Signature**
-
-```ts
-export interface Apply3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly ap: <A, B>(fab: Type3<F, U, L, (a: A) => B>, fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-}
-```
-
 # Apply4 (interface)
 
 **Signature**
@@ -116,11 +105,6 @@ export function sequenceS<F extends URIS3>(
   F: Apply3<F>
 ): <U, L, R extends Record<string, Type3<F, U, L, any>>>(
   r: EnforceNonEmptyRecord<R> & Record<string, Type3<F, U, L, any>>
-) => Type3<F, U, L, { [K in keyof R]: [R[K]] extends [Type3<F, any, any, infer A>] ? A : never }>
-export function sequenceS<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <R extends Record<string, Type3<F, U, L, any>>>(
-  r: EnforceNonEmptyRecord<R>
 ) => Type3<F, U, L, { [K in keyof R]: [R[K]] extends [Type3<F, any, any, infer A>] ? A : never }>
 export function sequenceS<F extends URIS2>(
   F: Apply2<F>
@@ -180,11 +164,6 @@ Tuple sequencing, i.e., take a tuple of monadic actions and does them from left-
 export function sequenceT<F extends URIS3>(
   F: Apply3<F>
 ): <U, L, T extends Array<Type3<F, U, L, any>>>(
-  ...t: T & { 0: Type3<F, U, L, any> }
-) => Type3<F, U, L, { [K in keyof T]: [T[K]] extends [Type3<F, U, L, infer A>] ? A : never }>
-export function sequenceT<F extends URIS3, U, L>(
-  F: Apply3C<F, U, L>
-): <T extends Array<Type3<F, U, L, any>>>(
   ...t: T & { 0: Type3<F, U, L, any> }
 ) => Type3<F, U, L, { [K in keyof T]: [T[K]] extends [Type3<F, U, L, infer A>] ? A : never }>
 export function sequenceT<F extends URIS2>(

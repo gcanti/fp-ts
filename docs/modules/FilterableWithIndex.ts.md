@@ -13,7 +13,6 @@ parent: Modules
 - [FilterableWithIndex2 (interface)](#filterablewithindex2-interface)
 - [FilterableWithIndex2C (interface)](#filterablewithindex2c-interface)
 - [FilterableWithIndex3 (interface)](#filterablewithindex3-interface)
-- [FilterableWithIndex3C (interface)](#filterablewithindex3c-interface)
 
 ---
 
@@ -96,23 +95,5 @@ export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithInd
   readonly partitionWithIndex: PartitionWithIndex3<F, I>
   readonly filterMapWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filterWithIndex: FilterWithIndex3<F, I>
-}
-```
-
-# FilterableWithIndex3C (interface)
-
-**Signature**
-
-```ts
-export interface FilterableWithIndex3C<F extends URIS3, I, U, L>
-  extends FunctorWithIndex3C<F, I, U, L>,
-    Filterable3C<F, U, L> {
-  readonly partitionMapWithIndex: <RL, RR, A>(
-    fa: Type3<F, U, L, A>,
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
-  readonly partitionWithIndex: PartitionWithIndex3C<F, I, U, L>
-  readonly filterMapWithIndex: <A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => Option<B>) => Type3<F, U, L, B>
-  readonly filterWithIndex: FilterWithIndex3C<F, I, U, L>
 }
 ```

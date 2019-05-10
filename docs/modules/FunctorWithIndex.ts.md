@@ -25,7 +25,6 @@ Instances must satisfy the following laws:
 - [FunctorWithIndex2 (interface)](#functorwithindex2-interface)
 - [FunctorWithIndex2C (interface)](#functorwithindex2c-interface)
 - [FunctorWithIndex3 (interface)](#functorwithindex3-interface)
-- [FunctorWithIndex3C (interface)](#functorwithindex3c-interface)
 - [FunctorWithIndex4 (interface)](#functorwithindex4-interface)
 - [FunctorWithIndexComposition (interface)](#functorwithindexcomposition-interface)
 - [FunctorWithIndexComposition11 (interface)](#functorwithindexcomposition11-interface)
@@ -35,7 +34,6 @@ Instances must satisfy the following laws:
 - [FunctorWithIndexComposition22 (interface)](#functorwithindexcomposition22-interface)
 - [FunctorWithIndexComposition22C (interface)](#functorwithindexcomposition22c-interface)
 - [FunctorWithIndexComposition2C1 (interface)](#functorwithindexcomposition2c1-interface)
-- [FunctorWithIndexComposition3C1 (interface)](#functorwithindexcomposition3c1-interface)
 - [getFunctorWithIndexComposition (function)](#getfunctorwithindexcomposition-function)
 
 ---
@@ -89,16 +87,6 @@ export interface FunctorWithIndex2C<F extends URIS2, I, L> extends Functor2C<F, 
 ```ts
 export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
   readonly mapWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => B) => Type3<F, U, L, B>
-}
-```
-
-# FunctorWithIndex3C (interface)
-
-**Signature**
-
-```ts
-export interface FunctorWithIndex3C<F extends URIS3, I, U, L> extends Functor3C<F, U, L> {
-  readonly mapWithIndex: <A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => B) => Type3<F, U, L, B>
 }
 ```
 
@@ -205,29 +193,11 @@ export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends U
 }
 ```
 
-# FunctorWithIndexComposition3C1 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorWithIndexComposition3C1<F extends URIS3, FI, G extends URIS, GI, UF, LF>
-  extends FunctorComposition3C1<F, G, UF, LF> {
-  readonly mapWithIndex: <A, B>(
-    fa: Type3<F, UF, LF, Type<G, A>>,
-    f: (i: [FI, GI], a: A) => B
-  ) => Type3<F, UF, LF, Type<G, B>>
-}
-```
-
 # getFunctorWithIndexComposition (function)
 
 **Signature**
 
 ```ts
-export function getFunctorWithIndexComposition<F extends URIS3, FI, G extends URIS, GI, U, L>(
-  F: FunctorWithIndex3C<F, FI, U, L>,
-  G: FunctorWithIndex1<G, FI>
-): FunctorWithIndexComposition3C1<F, FI, G, GI, U, L>
 export function getFunctorWithIndexComposition<F extends URIS2, FI, G extends URIS2, GI, L>(
   F: FunctorWithIndex2<F, FI>,
   G: FunctorWithIndex2C<G, FI, L>

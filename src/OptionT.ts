@@ -3,11 +3,10 @@ import {
   ApplicativeComposition11,
   ApplicativeComposition21,
   ApplicativeComposition2C1,
-  ApplicativeComposition3C1,
   getApplicativeComposition
 } from './Applicative'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3C } from './Monad'
+import { HKT, Type, Type2, URIS, URIS2 } from './HKT'
+import { Monad, Monad1, Monad2, Monad2C } from './Monad'
 import { fold, isNone, none, Option, option, some, URI } from './Option'
 
 export interface OptionT<M, A> extends HKT<M, Option<A>> {}
@@ -60,25 +59,9 @@ interface OptionM2C<M extends URIS2, L> extends ApplicativeComposition2C1<M, URI
   readonly none: () => OptionT2<M, L, never>
 }
 
-type OptionT3<M extends URIS3, U, L, A> = Type3<M, U, L, Option<A>>
-
-interface OptionM3C<M extends URIS3, U, L> extends ApplicativeComposition3C1<M, URI, U, L> {
-  readonly chain: <A, B>(ma: OptionT3<M, U, L, A>, f: (a: A) => OptionT3<M, U, L, B>) => OptionT3<M, U, L, B>
-  readonly fold: <A, R>(
-    ma: OptionT3<M, U, L, A>,
-    onNone: () => Type3<M, U, L, R>,
-    onSome: (a: A) => Type3<M, U, L, R>
-  ) => Type3<M, U, L, R>
-  readonly getOrElse: <A>(ma: OptionT3<M, U, L, A>, onNone: () => Type3<M, U, L, A>) => Type3<M, U, L, A>
-  readonly fromM: <A>(ma: Type3<M, U, L, A>) => OptionT3<M, U, L, A>
-  readonly fromOption: <A>(ma: Option<A>) => OptionT3<M, U, L, A>
-  readonly none: () => OptionT3<M, U, L, never>
-}
-
 /**
  * @since 2.0.0
  */
-export function getOptionM<M extends URIS3, U, L>(M: Monad3C<M, U, L>): OptionM3C<M, U, L>
 export function getOptionM<M extends URIS2>(M: Monad2<M>): OptionM2<M>
 export function getOptionM<M extends URIS2, L>(M: Monad2C<M, L>): OptionM2C<M, L>
 export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>

@@ -19,7 +19,6 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [Filterable2 (interface)](#filterable2-interface)
 - [Filterable2C (interface)](#filterable2c-interface)
 - [Filterable3 (interface)](#filterable3-interface)
-- [Filterable3C (interface)](#filterable3c-interface)
 - [FilterableComposition (interface)](#filterablecomposition-interface)
 - [FilterableComposition11 (interface)](#filterablecomposition11-interface)
 - [FilterableComposition12 (interface)](#filterablecomposition12-interface)
@@ -28,7 +27,6 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [FilterableComposition22 (interface)](#filterablecomposition22-interface)
 - [FilterableComposition22C (interface)](#filterablecomposition22c-interface)
 - [FilterableComposition2C1 (interface)](#filterablecomposition2c1-interface)
-- [FilterableComposition3C1 (interface)](#filterablecomposition3c1-interface)
 - [getFilterableComposition (function)](#getfilterablecomposition-function)
 
 ---
@@ -124,24 +122,6 @@ export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<
   readonly partition: Partition3<F>
   readonly filterMap: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filter: Filter3<F>
-}
-```
-
-Added in v2.0.0
-
-# Filterable3C (interface)
-
-**Signature**
-
-```ts
-export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>, Compactable3C<F, U, L> {
-  readonly partitionMap: <RL, RR, A>(
-    fa: Type3<F, U, L, A>,
-    f: (a: A) => Either<RL, RR>
-  ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
-  readonly partition: Partition3C<F, U, L>
-  readonly filterMap: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
-  readonly filter: Filter3C<F, U, L>
 }
 ```
 
@@ -322,36 +302,11 @@ export interface FilterableComposition2C1<F extends URIS2, G extends URIS, LF>
 }
 ```
 
-# FilterableComposition3C1 (interface)
-
-**Signature**
-
-```ts
-export interface FilterableComposition3C1<F extends URIS3, G extends URIS, UF, LF>
-  extends FunctorComposition3C1<F, G, UF, LF>,
-    CompactableComposition3C1<F, G, UF, LF> {
-  readonly partitionMap: <RL, RR, A>(
-    fa: Type3<F, UF, LF, Type<G, A>>,
-    f: (a: A) => Either<RL, RR>
-  ) => Separated<Type3<F, UF, LF, Type<G, RL>>, Type3<F, UF, LF, Type<G, RR>>>
-  readonly partition: <A>(
-    fa: Type3<F, UF, LF, Type<G, A>>,
-    predicate: Predicate<A>
-  ) => Separated<Type3<F, UF, LF, Type<G, A>>, Type3<F, UF, LF, Type<G, A>>>
-  readonly filterMap: <A, B>(fa: Type3<F, UF, LF, Type<G, A>>, f: (a: A) => Option<B>) => Type3<F, UF, LF, Type<G, B>>
-  readonly filter: <A>(fa: Type3<F, UF, LF, Type<G, A>>, predicate: Predicate<A>) => Type3<F, UF, LF, Type<G, A>>
-}
-```
-
 # getFilterableComposition (function)
 
 **Signature**
 
 ```ts
-export function getFilterableComposition<F extends URIS3, G extends URIS, UF, LF>(
-  F: Functor3C<F, UF, LF>,
-  G: Filterable1<G>
-): FilterableComposition3C1<F, G, UF, LF>
 export function getFilterableComposition<F extends URIS2, G extends URIS2, LG>(
   F: Functor2<F>,
   G: Filterable2C<G, LG>

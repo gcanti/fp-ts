@@ -42,7 +42,6 @@ export interface OptionT<M, A> extends HKT<M, Option<A>> {}
 **Signature**
 
 ```ts
-export function getOptionM<M extends URIS3, U, L>(M: Monad3C<M, U, L>): OptionM3C<M, U, L>
 export function getOptionM<M extends URIS2>(M: Monad2<M>): OptionM2<M>
 export function getOptionM<M extends URIS2, L>(M: Monad2C<M, L>): OptionM2C<M, L>
 export function getOptionM<M extends URIS>(M: Monad1<M>): OptionM1<M>

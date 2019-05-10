@@ -3,7 +3,7 @@
  */
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { IO } from './IO'
-import { Monad, Monad1, Monad2, Monad3, Monad2C, Monad3C } from './Monad'
+import { Monad, Monad1, Monad2, Monad3, Monad2C } from './Monad'
 
 /**
  * @since 2.0.0
@@ -26,8 +26,4 @@ export interface MonadIO3<M extends URIS3> extends Monad3<M> {
 
 export interface MonadIO2C<M extends URIS2, L> extends Monad2C<M, L> {
   readonly fromIO: <A>(fa: IO<A>) => Type2<M, L, A>
-}
-
-export interface MonadIO3C<M extends URIS3, U, L> extends Monad3C<M, U, L> {
-  readonly fromIO: <A>(fa: IO<A>) => Type3<M, U, L, A>
 }

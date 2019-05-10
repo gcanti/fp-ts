@@ -461,9 +461,6 @@ Added in v2.0.0
 export function sequence<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, U, L, A>(ta: Record<K, Type3<F, U, L, A>>) => Type3<F, U, L, Record<K, A>>
-export function sequence<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <K extends string, A>(ta: Record<K, Type3<F, U, L, A>>) => Type3<F, U, L, Record<K, A>>
 export function sequence<F extends URIS2>(
   F: Applicative2<F>
 ): <K extends string, L, A>(ta: Record<K, Type2<F, L, A>>) => Type2<F, L, Record<K, A>>
@@ -545,9 +542,6 @@ Added in v2.0.0
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, U, L, A, B>(ta: Record<K, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<K, B>>
-export function traverse<F extends URIS3, U, L>(
-  F: Applicative3C<F, U, L>
-): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<K, B>>
 export function traverse<F extends URIS2>(
   F: Applicative2<F>
 ): <K extends string, L, A, B>(ta: Record<K, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>

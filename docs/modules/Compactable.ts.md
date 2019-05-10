@@ -23,7 +23,6 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [Compactable2 (interface)](#compactable2-interface)
 - [Compactable2C (interface)](#compactable2c-interface)
 - [Compactable3 (interface)](#compactable3-interface)
-- [Compactable3C (interface)](#compactable3c-interface)
 - [CompactableComposition (interface)](#compactablecomposition-interface)
 - [CompactableComposition11 (interface)](#compactablecomposition11-interface)
 - [CompactableComposition12 (interface)](#compactablecomposition12-interface)
@@ -32,7 +31,6 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [CompactableComposition22 (interface)](#compactablecomposition22-interface)
 - [CompactableComposition22C (interface)](#compactablecomposition22c-interface)
 - [CompactableComposition2C1 (interface)](#compactablecomposition2c1-interface)
-- [CompactableComposition3C1 (interface)](#compactablecomposition3c1-interface)
 - [Separated (interface)](#separated-interface)
 - [getCompactableComposition (function)](#getcompactablecomposition-function)
 
@@ -104,20 +102,6 @@ export interface Compactable3<F extends URIS3> {
   readonly URI: F
   readonly compact: <U, L, A>(fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, A>
   readonly separate: <U, L, A, B>(fa: Type3<F, U, L, Either<A, B>>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
-}
-```
-
-# Compactable3C (interface)
-
-**Signature**
-
-```ts
-export interface Compactable3C<F extends URIS3, U, L> {
-  readonly URI: F
-  readonly _L: L
-  readonly _U: U
-  readonly compact: <A>(fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, A>
-  readonly separate: <A, B>(fa: Type3<F, U, L, Either<A, B>>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
 }
 ```
 
@@ -224,20 +208,6 @@ export interface CompactableComposition2C1<F extends URIS2, G extends URIS, LF>
 }
 ```
 
-# CompactableComposition3C1 (interface)
-
-**Signature**
-
-```ts
-export interface CompactableComposition3C1<F extends URIS3, G extends URIS, UF, LF>
-  extends FunctorComposition3C1<F, G, UF, LF> {
-  readonly compact: <A>(fga: Type3<F, UF, LF, Type<G, Option<A>>>) => Type3<F, UF, LF, Type<G, A>>
-  readonly separate: <A, B>(
-    fge: Type3<F, UF, LF, Type<G, Either<A, B>>>
-  ) => Separated<Type3<F, UF, LF, Type<G, A>>, Type3<F, UF, LF, Type<G, B>>>
-}
-```
-
 # Separated (interface)
 
 A `Separated` type which holds `left` and `right` parts.
@@ -258,10 +228,6 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getCompactableComposition<F extends URIS3, G extends URIS, UF, LF>(
-  F: Functor3C<F, UF, LF>,
-  G: Compactable1<G> & Functor1<G>
-): CompactableComposition3C1<F, G, UF, LF>
 export function getCompactableComposition<F extends URIS2, G extends URIS2, LG>(
   F: Functor2<F>,
   G: Compactable2C<G, LG> & Functor2C<G, LG>

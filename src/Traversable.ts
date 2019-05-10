@@ -14,14 +14,13 @@
  * <F>(F: Applicative<F>) => <A>(ta: HKT<T, HKT<F, A>>) => HKT<F, HKT<T, A>>
  * ```
  */
-import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
+import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3 } from './Applicative'
 import {
   Foldable,
   Foldable1,
   Foldable2,
   Foldable2C,
   Foldable3,
-  Foldable3C,
   FoldableComposition,
   FoldableComposition11,
   getFoldableComposition
@@ -32,7 +31,6 @@ import {
   Functor2,
   Functor2C,
   Functor3,
-  Functor3C,
   FunctorComposition,
   FunctorComposition11,
   getFunctorComposition
@@ -82,20 +80,8 @@ export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T>
   readonly sequence: Sequence3<T>
 }
 
-/**
- * @since 2.0.0
- */
-export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU, TL>, Foldable3C<T, TU, TL> {
-  readonly traverse: Traverse3C<T, TU, TL>
-  readonly sequence: Sequence3C<T, TU, TL>
-}
-
 interface Traverse<T> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: HKT<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, HKT<T, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
     ta: HKT<T, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, HKT<T, B>>
@@ -116,10 +102,6 @@ interface Traverse1<T extends URIS> {
     ta: Type<T, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type<T, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type<T, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type<T, B>>
   <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
     ta: Type<T, A>,
     f: (a: A) => Type2<F, FL, B>
@@ -134,10 +116,6 @@ interface Traverse1<T extends URIS> {
 
 interface Traverse2<T extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <TL, FU, FL, A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TL, A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type2<T, TL, B>>
@@ -161,10 +139,6 @@ interface Traverse2C<T extends URIS2, TL> {
     ta: Type2<T, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type2<T, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type2<T, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type2<T, TL, B>>
   <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
     ta: Type2<T, TL, A>,
     f: (a: A) => Type2<F, FL, B>
@@ -179,10 +153,6 @@ interface Traverse2C<T extends URIS2, TL> {
 
 interface Traverse3<T extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <TU, TL, FU, FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TU, TL, A, B>(
     ta: Type3<T, TU, TL, A>,
     f: (a: A) => Type3<F, FU, FL, B>
   ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
@@ -201,35 +171,8 @@ interface Traverse3<T extends URIS3> {
   <F>(F: Applicative<F>): <TU, TL, A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
 }
 
-interface Traverse3C<T extends URIS3, TU, TL> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type3<F, FU, FL, B>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type2<F, FL, B>
-  ) => Type2<F, FL, Type3<T, TU, TL, B>>
-  <F extends URIS>(F: Applicative1<F>): <A, B>(
-    ta: Type3<T, TU, TL, A>,
-    f: (a: A) => Type<F, B>
-  ) => Type<F, Type3<T, TU, TL, B>>
-  <F>(F: Applicative<F>): <A, B>(ta: Type3<T, TU, TL, A>, f: (a: A) => HKT<F, B>) => HKT<F, Type3<T, TU, TL, B>>
-}
-
 interface Sequence<T> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(ta: HKT<T, Type3<F, FU, FL, A>>) => Type3<F, FU, FL, HKT<T, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
-    ta: HKT<T, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, HKT<T, A>>
   <F extends URIS2>(F: Applicative2<F>): <FL, A>(ta: HKT<T, Type2<F, FL, A>>) => Type2<F, FL, HKT<T, A>>
   <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A>(ta: HKT<T, Type2<F, FL, A>>) => Type2<F, FL, HKT<T, A>>
   <F extends URIS>(F: Applicative1<F>): <A>(ta: HKT<T, Type<F, A>>) => Type<F, HKT<T, A>>
@@ -238,9 +181,6 @@ interface Sequence<T> {
 
 interface Sequence1<T extends URIS> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(ta: Type<T, Type3<F, FU, FL, A>>) => Type3<F, FU, FL, Type<T, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
-    ta: Type<T, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type<T, A>>
   <F extends URIS2>(F: Applicative2<F>): <FL, A>(ta: Type<T, Type2<F, FL, A>>) => Type2<F, FL, Type<T, A>>
   <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A>(ta: Type<T, Type2<F, FL, A>>) => Type2<F, FL, Type<T, A>>
   <F extends URIS>(F: Applicative1<F>): <A>(ta: Type<T, Type<F, A>>) => Type<F, Type<T, A>>
@@ -249,9 +189,6 @@ interface Sequence1<T extends URIS> {
 
 interface Sequence2<T extends URIS2> {
   <F extends URIS3>(F: Applicative3<F>): <TL, FU, FL, A>(
-    ta: Type2<T, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type2<T, TL, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TL, A>(
     ta: Type2<T, TL, Type3<F, FU, FL, A>>
   ) => Type3<F, FU, FL, Type2<T, TL, A>>
   <F extends URIS2>(F: Applicative2<F>): <TL, FL, A>(ta: Type2<T, TL, Type2<F, FL, A>>) => Type2<F, FL, Type2<T, TL, A>>
@@ -266,9 +203,6 @@ interface Sequence2C<T extends URIS2, TL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(
     ta: Type2<T, TL, Type3<F, FU, FL, A>>
   ) => Type3<F, FU, FL, Type2<T, TL, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
-    ta: Type2<T, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type2<T, TL, A>>
   <F extends URIS2>(F: Applicative2<F>): <FL, A>(ta: Type2<T, TL, Type2<F, FL, A>>) => Type2<F, FL, Type2<T, TL, A>>
   <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A>(
     ta: Type2<T, TL, Type2<F, FL, A>>
@@ -281,9 +215,6 @@ interface Sequence3<T extends URIS3> {
   <F extends URIS3>(F: Applicative3<F>): <TU, TL, FU, FL, A>(
     ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
   ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <TU, TL, A>(
-    ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
   <F extends URIS2>(F: Applicative2<F>): <TU, TL, FL, A>(
     ta: Type3<T, TU, TL, Type2<F, FL, A>>
   ) => Type2<F, FL, Type3<T, TU, TL, A>>
@@ -292,23 +223,6 @@ interface Sequence3<T extends URIS3> {
   ) => Type2<F, FL, Type3<T, TU, TL, A>>
   <F extends URIS>(F: Applicative1<F>): <TU, TL, A>(ta: Type3<T, TU, TL, Type<F, A>>) => Type<F, Type3<T, TU, TL, A>>
   <F>(F: Applicative<F>): <TU, TL, A>(ta: Type3<T, TU, TL, HKT<F, A>>) => HKT<F, Type3<T, TU, TL, A>>
-}
-
-interface Sequence3C<T extends URIS3, TU, TL> {
-  <F extends URIS3>(F: Applicative3<F>): <FU, FL, A>(
-    ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
-  <F extends URIS3, FU, FL>(F: Applicative3C<F, FU, FL>): <A>(
-    ta: Type3<T, TU, TL, Type3<F, FU, FL, A>>
-  ) => Type3<F, FU, FL, Type3<T, TU, TL, A>>
-  <F extends URIS2>(F: Applicative2<F>): <FL, A>(
-    ta: Type3<T, TU, TL, Type2<F, FL, A>>
-  ) => Type2<F, FL, Type3<T, TU, TL, A>>
-  <F extends URIS2, FL>(F: Applicative2C<F, FL>): <A>(
-    ta: Type3<T, TU, TL, Type2<F, FL, A>>
-  ) => Type2<F, FL, Type3<T, TU, TL, A>>
-  <F extends URIS>(F: Applicative1<F>): <A>(ta: Type3<T, TU, TL, Type<F, A>>) => Type<F, Type3<T, TU, TL, A>>
-  <F>(F: Applicative<F>): <A>(ta: Type3<T, TU, TL, HKT<F, A>>) => HKT<F, Type3<T, TU, TL, A>>
 }
 
 export interface TraversableComposition<F, G> extends FoldableComposition<F, G>, FunctorComposition<F, G> {
@@ -320,10 +234,6 @@ export interface TraversableComposition<F, G> extends FoldableComposition<F, G>,
 
 interface TraverseComposition11<F extends URIS, G extends URIS> {
   <H extends URIS3>(H: Applicative3<H>): <HU, HL, A, B>(
-    fga: Type<F, Type<G, A>>,
-    f: (a: A) => Type3<H, HU, HL, B>
-  ) => Type3<H, HU, HL, Type<F, Type<G, B>>>
-  <H extends URIS3, HU, HL>(H: Applicative3C<H, HU, HL>): <A, B>(
     fga: Type<F, Type<G, A>>,
     f: (a: A) => Type3<H, HU, HL, B>
   ) => Type3<H, HU, HL, Type<F, Type<G, B>>>
@@ -344,9 +254,6 @@ interface TraverseComposition11<F extends URIS, G extends URIS> {
 
 interface SequenceComposition11<F extends URIS, G extends URIS> {
   <H extends URIS3>(H: Applicative3<H>): <HU, HL, A>(
-    fga: Type<F, Type<G, Type3<H, HU, HL, A>>>
-  ) => Type3<H, HU, HL, Type<F, Type<G, A>>>
-  <H extends URIS3, HU, HL>(H: Applicative3C<H, HU, HL>): <A>(
     fga: Type<F, Type<G, Type3<H, HU, HL, A>>>
   ) => Type3<H, HU, HL, Type<F, Type<G, A>>>
   <H extends URIS2>(H: Applicative2<H>): <HL, A>(

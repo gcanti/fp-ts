@@ -13,7 +13,6 @@ parent: Modules
 - [Witherable2 (interface)](#witherable2-interface)
 - [Witherable2C (interface)](#witherable2c-interface)
 - [Witherable3 (interface)](#witherable3-interface)
-- [Witherable3C (interface)](#witherable3c-interface)
 
 ---
 
@@ -84,19 +83,6 @@ Added in v2.0.0
 export interface Witherable3<T extends URIS3> extends Traversable3<T>, Filterable3<T> {
   wilt: Wilt3<T>
   wither: Wither3<T>
-}
-```
-
-Added in v2.0.0
-
-# Witherable3C (interface)
-
-**Signature**
-
-```ts
-export interface Witherable3C<T extends URIS3, TU, TL> extends Traversable3C<T, TU, TL>, Filterable3C<T, TU, TL> {
-  wilt: Wilt3C<T, TU, TL>
-  wither: Wither3C<T, TU, TL>
 }
 ```
 

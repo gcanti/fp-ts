@@ -13,7 +13,6 @@ parent: Modules
 - [Comonad2 (interface)](#comonad2-interface)
 - [Comonad2C (interface)](#comonad2c-interface)
 - [Comonad3 (interface)](#comonad3-interface)
-- [Comonad3C (interface)](#comonad3c-interface)
 
 ---
 
@@ -66,15 +65,5 @@ export interface Comonad2C<W extends URIS2, L> extends Extend2C<W, L> {
 ```ts
 export interface Comonad3<W extends URIS3> extends Extend3<W> {
   readonly extract: <U, L, A>(wa: Type3<W, U, L, A>) => A
-}
-```
-
-# Comonad3C (interface)
-
-**Signature**
-
-```ts
-export interface Comonad3C<W extends URIS3, U, L> extends Extend3C<W, U, L> {
-  readonly extract: <A>(wa: Type3<W, U, L, A>) => A
 }
 ```

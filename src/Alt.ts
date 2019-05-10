@@ -8,7 +8,7 @@
  * 1. Associativity: `A.alt(A.alt(fa, ga), ha) = A.alt(fa, A.alt(ga, ha))`
  * 2. Distributivity: `A.map(A.alt(fa, ga), ab) = A.alt(A.map(fa, ab), A.map(ga, ab))`
  */
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
+import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
@@ -32,8 +32,4 @@ export interface Alt3<F extends URIS3> extends Functor3<F> {
 
 export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
   readonly alt: <A>(fx: Type2<F, L, A>, fy: () => Type2<F, L, A>) => Type2<F, L, A>
-}
-
-export interface Alt3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly alt: <A>(fx: Type3<F, U, L, A>, fy: () => Type3<F, U, L, A>) => Type3<F, U, L, A>
 }

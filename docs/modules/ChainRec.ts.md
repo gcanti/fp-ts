@@ -13,7 +13,6 @@ parent: Modules
 - [ChainRec2 (interface)](#chainrec2-interface)
 - [ChainRec2C (interface)](#chainrec2c-interface)
 - [ChainRec3 (interface)](#chainrec3-interface)
-- [ChainRec3C (interface)](#chainrec3c-interface)
 - [tailRec (function)](#tailrec-function)
 
 ---
@@ -67,16 +66,6 @@ export interface ChainRec2C<F extends URIS2, L> extends Chain2C<F, L> {
 ```ts
 export interface ChainRec3<F extends URIS3> extends Chain3<F> {
   readonly chainRec: <U, L, A, B>(a: A, f: (a: A) => Type3<F, U, L, Either<A, B>>) => Type3<F, U, L, B>
-}
-```
-
-# ChainRec3C (interface)
-
-**Signature**
-
-```ts
-export interface ChainRec3C<F extends URIS3, U, L> extends Chain3C<F, U, L> {
-  readonly chainRec: <A, B>(a: A, f: (a: A) => Type3<F, U, L, Either<A, B>>) => Type3<F, U, L, B>
 }
 ```
 

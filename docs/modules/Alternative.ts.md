@@ -23,7 +23,6 @@ Types which have `Alternative` instances should also satisfy the following laws:
 - [Alternative2 (interface)](#alternative2-interface)
 - [Alternative2C (interface)](#alternative2c-interface)
 - [Alternative3 (interface)](#alternative3-interface)
-- [Alternative3C (interface)](#alternative3c-interface)
 
 ---
 
@@ -67,12 +66,4 @@ export interface Alternative2C<F extends URIS2, L> extends Applicative2C<F, L>, 
 
 ```ts
 export interface Alternative3<F extends URIS3> extends Applicative3<F>, Plus3<F> {}
-```
-
-# Alternative3C (interface)
-
-**Signature**
-
-```ts
-export interface Alternative3C<F extends URIS3, U, L> extends Applicative3C<F, U, L>, Plus3C<F, U, L> {}
 ```

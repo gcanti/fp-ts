@@ -30,7 +30,6 @@ parent: Modules
 - [Traversable2 (interface)](#traversable2-interface)
 - [Traversable2C (interface)](#traversable2c-interface)
 - [Traversable3 (interface)](#traversable3-interface)
-- [Traversable3C (interface)](#traversable3c-interface)
 - [TraversableComposition (interface)](#traversablecomposition-interface)
 - [TraversableComposition11 (interface)](#traversablecomposition11-interface)
 - [getTraversableComposition (function)](#gettraversablecomposition-function)
@@ -100,19 +99,6 @@ Added in v2.0.0
 export interface Traversable3<T extends URIS3> extends Functor3<T>, Foldable3<T> {
   readonly traverse: Traverse3<T>
   readonly sequence: Sequence3<T>
-}
-```
-
-Added in v2.0.0
-
-# Traversable3C (interface)
-
-**Signature**
-
-```ts
-export interface Traversable3C<T extends URIS3, TU, TL> extends Functor3C<T, TU, TL>, Foldable3C<T, TU, TL> {
-  readonly traverse: Traverse3C<T, TU, TL>
-  readonly sequence: Sequence3C<T, TU, TL>
 }
 ```
 

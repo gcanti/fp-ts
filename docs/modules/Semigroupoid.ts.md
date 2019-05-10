@@ -12,7 +12,6 @@ parent: Modules
 - [Semigroupoid2 (interface)](#semigroupoid2-interface)
 - [Semigroupoid2C (interface)](#semigroupoid2c-interface)
 - [Semigroupoid3 (interface)](#semigroupoid3-interface)
-- [Semigroupoid3C (interface)](#semigroupoid3c-interface)
 - [Semigroupoid4 (interface)](#semigroupoid4-interface)
 
 ---
@@ -60,18 +59,6 @@ export interface Semigroupoid2C<F extends URIS2, L> {
 export interface Semigroupoid3<F extends URIS3> {
   readonly URI: F
   readonly compose: <U, L, A, B>(ab: Type3<F, U, A, B>, la: Type3<F, U, L, A>) => Type3<F, U, L, B>
-}
-```
-
-# Semigroupoid3C (interface)
-
-**Signature**
-
-```ts
-export interface Semigroupoid3C<F extends URIS3, U> {
-  readonly URI: F
-  readonly _U: U
-  readonly compose: <L, A, B>(ab: Type3<F, U, A, B>, la: Type3<F, U, L, A>) => Type3<F, U, L, B>
 }
 ```
 

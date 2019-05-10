@@ -1,4 +1,4 @@
-import { Extend, Extend1, Extend2, Extend2C, Extend3, Extend3C } from './Extend'
+import { Extend, Extend1, Extend2, Extend2C, Extend3 } from './Extend'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
@@ -22,8 +22,4 @@ export interface Comonad3<W extends URIS3> extends Extend3<W> {
 
 export interface Comonad2C<W extends URIS2, L> extends Extend2C<W, L> {
   readonly extract: <A>(wa: Type2<W, L, A>) => A
-}
-
-export interface Comonad3C<W extends URIS3, U, L> extends Extend3C<W, U, L> {
-  readonly extract: <A>(wa: Type3<W, U, L, A>) => A
 }

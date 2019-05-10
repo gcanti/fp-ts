@@ -27,7 +27,6 @@ Note. `Functor`'s `map` can be derived: `A.map = (fa, f) => A.chain(fa, a => A.o
 - [Monad2 (interface)](#monad2-interface)
 - [Monad2C (interface)](#monad2c-interface)
 - [Monad3 (interface)](#monad3-interface)
-- [Monad3C (interface)](#monad3c-interface)
 - [Monad4 (interface)](#monad4-interface)
 
 ---
@@ -72,14 +71,6 @@ export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2
 
 ```ts
 export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
-```
-
-# Monad3C (interface)
-
-**Signature**
-
-```ts
-export interface Monad3C<M extends URIS3, U, L> extends Applicative3C<M, U, L>, Chain3C<M, U, L> {}
 ```
 
 # Monad4 (interface)

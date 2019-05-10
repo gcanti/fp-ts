@@ -24,7 +24,6 @@ that it applies to types of kind `* -> *`, like `Array` or `Option`, rather than
 - [Alt2 (interface)](#alt2-interface)
 - [Alt2C (interface)](#alt2c-interface)
 - [Alt3 (interface)](#alt3-interface)
-- [Alt3C (interface)](#alt3c-interface)
 
 ---
 
@@ -77,15 +76,5 @@ export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
 ```ts
 export interface Alt3<F extends URIS3> extends Functor3<F> {
   readonly alt: <U, L, A>(fx: Type3<F, U, L, A>, fy: () => Type3<F, U, L, A>) => Type3<F, U, L, A>
-}
-```
-
-# Alt3C (interface)
-
-**Signature**
-
-```ts
-export interface Alt3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly alt: <A>(fx: Type3<F, U, L, A>, fy: () => Type3<F, U, L, A>) => Type3<F, U, L, A>
 }
 ```

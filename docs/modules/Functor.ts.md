@@ -25,7 +25,6 @@ Instances must satisfy the following laws:
 - [Functor2 (interface)](#functor2-interface)
 - [Functor2C (interface)](#functor2c-interface)
 - [Functor3 (interface)](#functor3-interface)
-- [Functor3C (interface)](#functor3c-interface)
 - [Functor4 (interface)](#functor4-interface)
 - [FunctorComposition (interface)](#functorcomposition-interface)
 - [FunctorComposition01 (interface)](#functorcomposition01-interface)
@@ -37,7 +36,6 @@ Instances must satisfy the following laws:
 - [FunctorComposition22 (interface)](#functorcomposition22-interface)
 - [FunctorComposition22C (interface)](#functorcomposition22c-interface)
 - [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
-- [FunctorComposition3C1 (interface)](#functorcomposition3c1-interface)
 - [getFunctorComposition (function)](#getfunctorcomposition-function)
 - [lift (function)](#lift-function)
 
@@ -98,19 +96,6 @@ export interface Functor2C<F extends URIS2, L> {
 export interface Functor3<F extends URIS3> {
   readonly URI: F
   readonly map: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => B) => Type3<F, U, L, B>
-}
-```
-
-# Functor3C (interface)
-
-**Signature**
-
-```ts
-export interface Functor3C<F extends URIS3, U, L> {
-  readonly URI: F
-  readonly _L: L
-  readonly _U: U
-  readonly map: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => B) => Type3<F, U, L, B>
 }
 ```
 
@@ -225,25 +210,11 @@ export interface FunctorComposition2C1<F extends URIS2, G extends URIS, LF> {
 }
 ```
 
-# FunctorComposition3C1 (interface)
-
-**Signature**
-
-```ts
-export interface FunctorComposition3C1<F extends URIS3, G extends URIS, UF, LF> {
-  readonly map: <A, B>(fa: Type3<F, UF, LF, Type<G, A>>, f: (a: A) => B) => Type3<F, UF, LF, Type<G, B>>
-}
-```
-
 # getFunctorComposition (function)
 
 **Signature**
 
 ```ts
-export function getFunctorComposition<F extends URIS3, G extends URIS, UF, LF>(
-  F: Functor3C<F, UF, LF>,
-  G: Functor1<G>
-): FunctorComposition3C1<F, G, UF, LF>
 export function getFunctorComposition<F extends URIS2, G extends URIS2, LG>(
   F: Functor2<F>,
   G: Functor2C<G, LG>
@@ -285,9 +256,6 @@ Added in v2.0.0
 export function lift<F extends URIS3>(
   F: Functor3<F>
 ): <A, B>(f: (a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-export function lift<F extends URIS3, U, L>(
-  F: Functor3C<F, U, L>
-): <A, B>(f: (a: A) => B) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
 export function lift<F extends URIS2>(
   F: Functor2<F>
 ): <A, B>(f: (a: A) => B) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>

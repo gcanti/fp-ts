@@ -10,7 +10,7 @@
  * 2. Right identity: `A.alt(fa, zero) == fa`
  * 3. Annihilation: `A.map(zero, fa) == zero`
  */
-import { Alt, Alt1, Alt2, Alt2C, Alt3, Alt3C } from './Alt'
+import { Alt, Alt1, Alt2, Alt2C, Alt3 } from './Alt'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 
 /**
@@ -34,8 +34,4 @@ export interface Plus3<F extends URIS3> extends Alt3<F> {
 
 export interface Plus2C<F extends URIS2, L> extends Alt2C<F, L> {
   readonly zero: <A>() => Type2<F, L, A>
-}
-
-export interface Plus3C<F extends URIS3, U, L> extends Alt3C<F, U, L> {
-  readonly zero: <A>() => Type3<F, U, L, A>
 }

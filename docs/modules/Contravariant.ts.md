@@ -13,7 +13,6 @@ parent: Modules
 - [Contravariant2 (interface)](#contravariant2-interface)
 - [Contravariant2C (interface)](#contravariant2c-interface)
 - [Contravariant3 (interface)](#contravariant3-interface)
-- [Contravariant3C (interface)](#contravariant3c-interface)
 
 ---
 
@@ -72,18 +71,5 @@ export interface Contravariant2C<F extends URIS2, L> {
 export interface Contravariant3<F extends URIS3> {
   readonly URI: F
   readonly contramap: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (b: B) => A) => Type3<F, U, L, B>
-}
-```
-
-# Contravariant3C (interface)
-
-**Signature**
-
-```ts
-export interface Contravariant3C<F extends URIS3, U, L> {
-  readonly URI: F
-  readonly _L: L
-  readonly _U: U
-  readonly contramap: <A, B>(fa: Type3<F, U, L, A>, f: (b: B) => A) => Type3<F, U, L, B>
 }
 ```

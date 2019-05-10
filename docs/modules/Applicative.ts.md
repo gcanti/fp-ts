@@ -31,7 +31,6 @@ Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 - [Applicative2 (interface)](#applicative2-interface)
 - [Applicative2C (interface)](#applicative2c-interface)
 - [Applicative3 (interface)](#applicative3-interface)
-- [Applicative3C (interface)](#applicative3c-interface)
 - [Applicative4 (interface)](#applicative4-interface)
 - [ApplicativeComposition (interface)](#applicativecomposition-interface)
 - [ApplicativeComposition01 (interface)](#applicativecomposition01-interface)
@@ -43,7 +42,6 @@ Note. `Functor`'s `map` can be derived: `A.map(x, f) = A.ap(A.of(f), x)`
 - [ApplicativeComposition22 (interface)](#applicativecomposition22-interface)
 - [ApplicativeComposition22C (interface)](#applicativecomposition22c-interface)
 - [ApplicativeComposition2C1 (interface)](#applicativecomposition2c1-interface)
-- [ApplicativeComposition3C1 (interface)](#applicativecomposition3c1-interface)
 - [getApplicativeComposition (function)](#getapplicativecomposition-function)
 
 ---
@@ -97,16 +95,6 @@ export interface Applicative2C<F extends URIS2, L> extends Apply2C<F, L> {
 ```ts
 export interface Applicative3<F extends URIS3> extends Apply3<F> {
   readonly of: <U, L, A>(a: A) => Type3<F, U, L, A>
-}
-```
-
-# Applicative3C (interface)
-
-**Signature**
-
-```ts
-export interface Applicative3C<F extends URIS3, U, L> extends Apply3C<F, U, L> {
-  readonly of: <A>(a: A) => Type3<F, U, L, A>
 }
 ```
 
@@ -254,21 +242,6 @@ export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, LF>
 }
 ```
 
-# ApplicativeComposition3C1 (interface)
-
-**Signature**
-
-```ts
-export interface ApplicativeComposition3C1<F extends URIS3, G extends URIS, UF, LF>
-  extends FunctorComposition3C1<F, G, UF, LF> {
-  readonly of: <A>(a: A) => Type3<F, UF, LF, Type<G, A>>
-  readonly ap: <A, B>(
-    fgab: Type3<F, UF, LF, Type<G, (a: A) => B>>,
-    fga: Type3<F, UF, LF, Type<G, A>>
-  ) => Type3<F, UF, LF, Type<G, B>>
-}
-```
-
 # getApplicativeComposition (function)
 
 Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instances, then so does `F<G<_>>`
@@ -276,10 +249,6 @@ Like `Functor`, `Applicative`s compose. If `F` and `G` have `Applicative` instan
 **Signature**
 
 ```ts
-export function getApplicativeComposition<F extends URIS3, G extends URIS, UF, LF>(
-  F: Applicative3C<F, UF, LF>,
-  G: Applicative1<G>
-): ApplicativeComposition3C1<F, G, UF, LF>
 export function getApplicativeComposition<F extends URIS2, G extends URIS2, LG>(
   F: Applicative2<F>,
   G: Applicative2C<G, LG>

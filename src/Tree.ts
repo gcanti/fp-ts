@@ -8,12 +8,12 @@
 import { Applicative } from './Applicative'
 import { array, empty, getEq as getArrayEq, getMonoid } from './Array'
 import { Comonad1 } from './Comonad'
+import { Eq, fromEquals } from './Eq'
 import { Foldable1 } from './Foldable'
 import { identity } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
-import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
+import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
 import { Monoid } from './Monoid'
-import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 
@@ -228,9 +228,6 @@ export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Fo
 export function unfoldTreeM<M extends URIS3>(
   M: Monad3<M>
 ): <U, L, A, B>(b: B, f: (b: B) => Type3<M, U, L, [A, Array<B>]>) => Type3<M, U, L, Tree<A>>
-export function unfoldTreeM<M extends URIS3, U, L>(
-  M: Monad3C<M, U, L>
-): <A, B>(b: B, f: (b: B) => Type3<M, U, L, [A, Array<B>]>) => Type3<M, U, L, Tree<A>>
 export function unfoldTreeM<M extends URIS2>(
   M: Monad2<M>
 ): <L, A, B>(b: B, f: (b: B) => Type2<M, L, [A, Array<B>]>) => Type2<M, L, Tree<A>>
@@ -254,9 +251,6 @@ export function unfoldTreeM<M>(M: Monad<M>): <A, B>(b: B, f: (b: B) => HKT<M, [A
 export function unfoldForestM<M extends URIS3>(
   M: Monad3<M>
 ): <U, L, A, B>(bs: Array<B>, f: (b: B) => Type3<M, U, L, [A, Array<B>]>) => Type3<M, U, L, Forest<A>>
-export function unfoldForestM<M extends URIS3, U, L>(
-  M: Monad3C<M, U, L>
-): <A, B>(bs: Array<B>, f: (b: B) => Type3<M, U, L, [A, Array<B>]>) => Type3<M, U, L, Forest<A>>
 export function unfoldForestM<M extends URIS2>(
   M: Monad2<M>
 ): <L, A, B>(bs: Array<B>, f: (b: B) => Type2<M, L, [A, Array<B>]>) => Type2<M, L, Forest<A>>

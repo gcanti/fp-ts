@@ -26,7 +26,6 @@ concrete types like `string` or `number`.
 - [Plus2 (interface)](#plus2-interface)
 - [Plus2C (interface)](#plus2c-interface)
 - [Plus3 (interface)](#plus3-interface)
-- [Plus3C (interface)](#plus3c-interface)
 
 ---
 
@@ -79,15 +78,5 @@ export interface Plus2C<F extends URIS2, L> extends Alt2C<F, L> {
 ```ts
 export interface Plus3<F extends URIS3> extends Alt3<F> {
   readonly zero: <U, L, A>() => Type3<F, U, L, A>
-}
-```
-
-# Plus3C (interface)
-
-**Signature**
-
-```ts
-export interface Plus3C<F extends URIS3, U, L> extends Alt3C<F, U, L> {
-  readonly zero: <A>() => Type3<F, U, L, A>
 }
 ```

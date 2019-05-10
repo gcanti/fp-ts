@@ -20,7 +20,6 @@ parent: Modules
 - [Monoidal2 (interface)](#monoidal2-interface)
 - [Monoidal2C (interface)](#monoidal2c-interface)
 - [Monoidal3 (interface)](#monoidal3-interface)
-- [Monoidal3C (interface)](#monoidal3c-interface)
 - [fromApplicative (function)](#fromapplicative-function)
 - [toApplicative (function)](#toapplicative-function)
 
@@ -80,17 +79,6 @@ export interface Monoidal2C<F extends URIS2, L> extends Functor2C<F, L> {
 export interface Monoidal3<F extends URIS3> extends Functor3<F> {
   readonly unit: <U, L>() => Type3<F, U, L, void>
   readonly mult: <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, [A, B]>
-}
-```
-
-# Monoidal3C (interface)
-
-**Signature**
-
-```ts
-export interface Monoidal3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
-  readonly unit: () => Type3<F, U, L, void>
-  readonly mult: <A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, [A, B]>
 }
 ```
 
