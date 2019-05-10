@@ -40,6 +40,8 @@ import * as cont from './Cont'
 export { cont }
 import * as contravariant from './Contravariant'
 export { contravariant }
+import * as contT from './ContT'
+export { contT }
 import * as date from './Date'
 export { date }
 import * as distributiveLattice from './DistributiveLattice'

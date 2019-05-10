@@ -1,4 +1,8 @@
+import { getContM } from './ContT'
+import { identity } from './Identity'
 import { Monad2 } from './Monad'
+
+const T = getContM(identity)
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -13,8 +17,8 @@ export type URI = typeof URI
 /**
  * @since 2.0.0
  */
-export interface Cont<L, A> {
-  (c: (a: A) => L): L
+export interface Cont<R, A> {
+  (c: (a: A) => R): R
 }
 
 /**
@@ -22,8 +26,8 @@ export interface Cont<L, A> {
  */
 export const cont: Monad2<URI> = {
   URI,
-  map: (ma, f) => c => ma(a => c(f(a))),
-  of: a => c => c(a),
-  ap: (mab, ma) => c => mab(f => ma(a => c(f(a)))),
-  chain: (ma, f) => c => ma(a => f(a)(c))
+  map: T.map,
+  of: T.of,
+  ap: T.ap,
+  chain: T.chain
 }

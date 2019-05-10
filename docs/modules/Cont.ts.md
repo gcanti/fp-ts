@@ -20,8 +20,8 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface Cont<L, A> {
-  (c: (a: A) => L): L
+export interface Cont<R, A> {
+  (c: (a: A) => R): R
 }
 ```
 
