@@ -423,5 +423,5 @@ export const decrement = (n: number): number => {
  * @since 1.18.0
  */
 export function absurd<A>(_: never): A {
-  throw new Error('absurd')
+  throw new Error('Called `absurd` function which should be uncallable')
 }
