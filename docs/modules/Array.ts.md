@@ -741,7 +741,7 @@ Added in v1.0.0
 **Signature**
 
 ```ts
-export const getShow = <L, A>(S: Show<A>): Show<Array<A>> => ...
+export const getShow = <A>(S: Show<A>): Show<Array<A>> => ...
 ```
 
 Added in v1.17.0

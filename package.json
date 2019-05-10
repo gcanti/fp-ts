@@ -44,7 +44,7 @@
     "@types/prettier": "1.10.0",
     "benchmark": "2.1.4",
     "chalk": "2.2.0",
-    "docs-ts": "github:gcanti/docs-ts",
+    "docs-ts": "0.0.2",
     "doctoc": "^1.4.0",
     "doctrine": "2.0.0",
     "dtslint": "github:gcanti/dtslint",
