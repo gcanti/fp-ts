@@ -55,7 +55,6 @@ parent: Modules
 - [io (export)](#io-export)
 - [ioEither (export)](#ioeither-export)
 - [ioRef (export)](#ioref-export)
-- [ixMonad (export)](#ixmonad-export)
 - [joinSemilattice (export)](#joinsemilattice-export)
 - [lattice (export)](#lattice-export)
 - [magma (export)](#magma-export)
@@ -479,14 +478,6 @@ export { ioEither }
 
 ```ts
 export { ioRef }
-```
-
-# ixMonad (export)
-
-**Signature**
-
-```ts
-export { ixMonad }
 ```
 
 # joinSemilattice (export)

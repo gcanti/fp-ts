@@ -88,8 +88,6 @@ import * as ioEither from './IOEither'
 export { ioEither }
 import * as ioRef from './IORef'
 export { ioRef }
-import * as ixMonad from './IxMonad'
-export { ixMonad }
 import * as joinSemilattice from './JoinSemilattice'
 export { joinSemilattice }
 import * as lattice from './Lattice'
