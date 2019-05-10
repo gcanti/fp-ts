@@ -6,9 +6,9 @@ import { taskEither, TaskEither } from '../src/TaskEither'
 const suite = new Benchmark.Suite()
 
 const f = (e: Either<string, string>): Promise<Either<string, number>> =>
-  isLeft(e) ? Promise.resolve(left(e.value)) : Promise.resolve(right(e.value.length))
+  isLeft(e) ? Promise.resolve(left(e.left)) : Promise.resolve(right(e.right.length))
 const g = (e: Either<string, number>): Promise<Either<string, boolean>> =>
-  isLeft(e) ? Promise.resolve(left(e.value)) : Promise.resolve(right(e.value > 2))
+  isLeft(e) ? Promise.resolve(left(e.left)) : Promise.resolve(right(e.right > 2))
 
 const native = () =>
   Promise.resolve(right('foo'))
@@ -32,7 +32,7 @@ const chain = <E, L, A, B>(
   fa: ReaderTaskEither2<E, L, A>,
   f: (a: A) => ReaderTaskEither2<E, L, B>
 ): ReaderTaskEither2<E, L, B> => {
-  return e => fa(e).chain(a => f(a)(e))
+  return e => taskEither.chain(fa(e), a => f(a)(e))
 }
 
 const rte2: ReaderTaskEither2<{}, {}, boolean> = chain(chain(of('foo'), s => of(s.length)), n => of(n > 2))
@@ -59,7 +59,7 @@ suite
   })
   .add('ReaderTaskEither', function() {
     // tslint:disable-next-line: no-floating-promises
-    rte2({}).run()
+    rte2({})()
   })
   .on('cycle', function(event: any) {
     // tslint:disable-next-line: no-console
