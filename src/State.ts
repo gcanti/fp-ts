@@ -22,13 +22,6 @@ export interface State<S, A> {
 }
 
 /**
- * @since 2.0.0
- */
-export function run<S, A>(ma: State<S, A>, s: S): [A, S] {
-  return ma(s)
-}
-
-/**
  * Run a computation in the `State` monad, discarding the final state
  *
  * @since 2.0.0

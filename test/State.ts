@@ -12,7 +12,7 @@ describe('State', () => {
   })
 
   it('put', () => {
-    assert.deepStrictEqual(S.run(S.put(2), 1), [undefined, 2])
+    assert.deepStrictEqual(S.put(2)(1), [undefined, 2])
   })
 
   it('get', () => {

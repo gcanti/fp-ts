@@ -18,7 +18,6 @@ parent: Modules
 - [modify (constant)](#modify-constant)
 - [put (constant)](#put-constant)
 - [state (constant)](#state-constant)
-- [run (function)](#run-function)
 
 ---
 
@@ -128,16 +127,6 @@ Added in v2.0.0
 
 ```ts
 export const state: Monad2<URI> = ...
-```
-
-Added in v2.0.0
-
-# run (function)
-
-**Signature**
-
-```ts
-export function run<S, A>(ma: State<S, A>, s: S): [A, S] { ... }
 ```
 
 Added in v2.0.0
