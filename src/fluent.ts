@@ -28,7 +28,7 @@ import { Eq } from './Eq'
 import { Show } from './Show'
 import { Semigroupoid, Semigroupoid2, Semigroupoid2C } from './Semigroupoid'
 
-interface Fluent2C<F extends URIS2, I, L, A> {
+export interface Fluent2C<F extends URIS2, I, L, A> {
   readonly I: I
   readonly value: Type2<F, L, A>
   show(this: Fluent2C<F, Show<Type2<F, L, A>>, L, A>): string
@@ -100,7 +100,7 @@ interface Fluent2C<F extends URIS2, I, L, A> {
   compose<B>(this: Fluent2C<F, Semigroupoid2C<F, L>, L, A>, Type2: HKT2<F, A, B>): Fluent2C<F, I, L, B>
 }
 
-interface Fluent2<F extends URIS2, I, L, A> {
+export interface Fluent2<F extends URIS2, I, L, A> {
   readonly I: I
   readonly value: Type2<F, L, A>
   show(this: Fluent2<F, Show<Type2<F, L, A>>, L, A>): string
@@ -159,7 +159,7 @@ interface Fluent2<F extends URIS2, I, L, A> {
   compose<B>(this: Fluent2<F, Semigroupoid2<F>, L, A>, that: Type2<F, A, B>): Fluent2<F, I, L, B>
 }
 
-interface Fluent1<F extends URIS, I, A> {
+export interface Fluent1<F extends URIS, I, A> {
   readonly I: I
   readonly value: Type<F, A>
   show(this: Fluent1<F, Show<Type<F, A>>, A>): string
@@ -211,7 +211,7 @@ interface Fluent1<F extends URIS, I, A> {
   ): Separated<Type<F, RL>, Type<F, RR>>
 }
 
-class Fluent<F, I, A> {
+export class Fluent<F, I, A> {
   constructor(readonly I: I, readonly value: HKT<F, A>) {}
   show<I extends Show<HKT<F, A>>>(this: Fluent<F, I, A>): string {
     return this.I.show(this.value)
