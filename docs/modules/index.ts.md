@@ -1,6 +1,6 @@
 ---
 title: index.ts
-nav_order: 44
+nav_order: 43
 parent: Modules
 ---
 
@@ -36,7 +36,6 @@ parent: Modules
 - [either (export)](#either-export)
 - [eitherT (export)](#eithert-export)
 - [eq (export)](#eq-export)
-- [exception (export)](#exception-export)
 - [extend (export)](#extend-export)
 - [field (export)](#field-export)
 - [filterable (export)](#filterable-export)
@@ -326,14 +325,6 @@ export { eitherT }
 
 ```ts
 export { eq }
-```
-
-# exception (export)
-
-**Signature**
-
-```ts
-export { exception }
 ```
 
 # extend (export)

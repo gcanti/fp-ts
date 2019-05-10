@@ -50,8 +50,6 @@ import * as either from './Either'
 export { either }
 import * as eitherT from './EitherT'
 export { eitherT }
-import * as exception from './Exception'
-export { exception }
 import * as extend from './Extend'
 export { extend }
 import * as field from './Field'
