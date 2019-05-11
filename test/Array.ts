@@ -23,7 +23,7 @@ import {
   modifyAt,
   rights,
   rotate,
-  scanLeft,
+  scan,
   scanRight,
   snoc,
   sort,
@@ -36,12 +36,12 @@ import {
   updateAt,
   zip,
   unzip,
-  foldr,
+  foldRight,
   chop,
   chunksOf,
   splitAt,
-  takeEnd,
-  dropEnd,
+  takeRight,
+  dropRight,
   range,
   makeBy,
   replicate,
@@ -63,7 +63,7 @@ import { fold as foldMonoid, monoidSum, monoidString } from '../src/Monoid'
 import * as O from '../src/Option'
 import { contramap as contramapOrd, ordNumber, ordString } from '../src/Ord'
 import { contramap, eqBoolean, eqNumber, eqString, Eq } from '../src/Eq'
-import { identity, tuple, constTrue, Predicate } from '../src/function'
+import { identity, tuple, Predicate } from '../src/function'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
 import { showString } from '../src/Show'
@@ -183,12 +183,12 @@ describe('Array', () => {
     assert.deepStrictEqual(take(0, [1, 2, 3]), [])
   })
 
-  it('takeEnd', () => {
-    assert.deepStrictEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
-    assert.deepStrictEqual(takeEnd(0, [1, 2, 3, 4, 5]), [])
-    assert.deepStrictEqual(takeEnd(2, []), [])
-    assert.deepStrictEqual(takeEnd(5, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
-    assert.deepStrictEqual(takeEnd(10, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+  it('takeRight', () => {
+    assert.deepStrictEqual(takeRight(2, [1, 2, 3, 4, 5]), [4, 5])
+    assert.deepStrictEqual(takeRight(0, [1, 2, 3, 4, 5]), [])
+    assert.deepStrictEqual(takeRight(2, []), [])
+    assert.deepStrictEqual(takeRight(5, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+    assert.deepStrictEqual(takeRight(10, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
   })
 
   it('span', () => {
@@ -214,10 +214,10 @@ describe('Array', () => {
     assert.deepStrictEqual(drop(0, [1, 2, 3]), [1, 2, 3])
   })
 
-  it('dropEnd', () => {
-    assert.deepStrictEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
-    assert.deepStrictEqual(dropEnd(10, [1, 2, 3, 4, 5]), [])
-    assert.deepStrictEqual(dropEnd(0, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
+  it('dropRight', () => {
+    assert.deepStrictEqual(dropRight(2, [1, 2, 3, 4, 5]), [1, 2, 3])
+    assert.deepStrictEqual(dropRight(10, [1, 2, 3, 4, 5]), [])
+    assert.deepStrictEqual(dropRight(0, [1, 2, 3, 4, 5]), [1, 2, 3, 4, 5])
   })
 
   it('dropWhile', () => {
@@ -430,16 +430,16 @@ describe('Array', () => {
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
-  it('foldr', () => {
-    const len = <A>(as: Array<A>): number => foldr(as, () => 0, (init, _) => 1 + len(init))
+  it('foldRight', () => {
+    const len = <A>(as: Array<A>): number => foldRight(as, () => 0, (init, _) => 1 + len(init))
     assert.strictEqual(len([1, 2, 3]), 3)
   })
 
-  it('scanLeft', () => {
+  it('scan', () => {
     const f = (b: number, a: number) => b - a
-    assert.deepStrictEqual(scanLeft([1, 2, 3], 10, f), [10, 9, 7, 4])
-    assert.deepStrictEqual(scanLeft([0], 10, f), [10, 10])
-    assert.deepStrictEqual(scanLeft([], 10, f), [10])
+    assert.deepStrictEqual(scan([1, 2, 3], 10, f), [10, 9, 7, 4])
+    assert.deepStrictEqual(scan([0], 10, f), [10, 10])
+    assert.deepStrictEqual(scan([], 10, f), [10])
   })
 
   it('scanRight', () => {
@@ -591,17 +591,17 @@ describe('Array', () => {
   })
 
   it('chunksOf', () => {
-    assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
-    assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5, 6], 2), [[1, 2], [3, 4], [5, 6]])
-    assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 5), [[1, 2, 3, 4, 5]])
-    assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 6), [[1, 2, 3, 4, 5]])
-    assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 1), [[1], [2], [3], [4], [5]])
-    assert.deepStrictEqual(chunksOf([], 1), [[]])
-    assert.deepStrictEqual(chunksOf([], 2), [[]])
-    assert.deepStrictEqual(chunksOf([], 0), [[]])
-    assert.deepStrictEqual(chunksOf([1, 2], 0), [[1, 2]])
-    assert.deepStrictEqual(chunksOf([1, 2], 10), [[1, 2]])
-    assert.deepStrictEqual(chunksOf([1, 2], -1), [[1, 2]])
+    assert.deepStrictEqual(chunksOf(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+    assert.deepStrictEqual(chunksOf(2, [1, 2, 3, 4, 5, 6]), [[1, 2], [3, 4], [5, 6]])
+    assert.deepStrictEqual(chunksOf(5, [1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+    assert.deepStrictEqual(chunksOf(6, [1, 2, 3, 4, 5]), [[1, 2, 3, 4, 5]])
+    assert.deepStrictEqual(chunksOf(1, [1, 2, 3, 4, 5]), [[1], [2], [3], [4], [5]])
+    assert.deepStrictEqual(chunksOf(1, []), [[]])
+    assert.deepStrictEqual(chunksOf(2, []), [[]])
+    assert.deepStrictEqual(chunksOf(0, []), [[]])
+    assert.deepStrictEqual(chunksOf(0, [1, 2]), [[1, 2]])
+    assert.deepStrictEqual(chunksOf(10, [1, 2]), [[1, 2]])
+    assert.deepStrictEqual(chunksOf(-1, [1, 2]), [[1, 2]])
   })
 
   it('makeBy', () => {
@@ -621,8 +621,8 @@ describe('Array', () => {
   })
 
   it('comprehension', () => {
-    assert.deepStrictEqual(comprehension([[1, 2, 3]], constTrue, a => a * 2), [2, 4, 6])
-    assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], constTrue, tuple), [
+    assert.deepStrictEqual(comprehension([[1, 2, 3]], a => a * 2), [2, 4, 6])
+    assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple), [
       [1, 'a'],
       [1, 'b'],
       [2, 'a'],
@@ -630,7 +630,7 @@ describe('Array', () => {
       [3, 'a'],
       [3, 'b']
     ])
-    assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.length) % 2 === 0, tuple), [
+    assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
       [1, 'a'],
       [1, 'b'],
       [3, 'a'],

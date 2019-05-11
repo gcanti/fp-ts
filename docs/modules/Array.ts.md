@@ -24,7 +24,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [deleteAt (function)](#deleteat-function)
 - [difference (function)](#difference-function)
 - [drop (function)](#drop-function)
-- [dropEnd (function)](#dropend-function)
+- [dropRight (function)](#dropright-function)
 - [dropWhile (function)](#dropwhile-function)
 - [elem (function)](#elem-function)
 - [findFirst (function)](#findfirst-function)
@@ -35,7 +35,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [findLastMap (function)](#findlastmap-function)
 - [flatten (function)](#flatten-function)
 - [fold (function)](#fold-function)
-- [foldr (function)](#foldr-function)
+- [foldRight (function)](#foldright-function)
 - [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
@@ -56,7 +56,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [reverse (function)](#reverse-function)
 - [rights (function)](#rights-function)
 - [rotate (function)](#rotate-function)
-- [scanLeft (function)](#scanleft-function)
+- [scan (function)](#scan-function)
 - [scanRight (function)](#scanright-function)
 - [snoc (function)](#snoc-function)
 - [sort (function)](#sort-function)
@@ -65,7 +65,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [splitAt (function)](#splitat-function)
 - [tail (function)](#tail-function)
 - [take (function)](#take-function)
-- [takeEnd (function)](#takeend-function)
+- [takeRight (function)](#takeright-function)
 - [takeWhile (function)](#takewhile-function)
 - [union (function)](#union-function)
 - [uniq (function)](#uniq-function)
@@ -172,7 +172,7 @@ whenever `n` evenly divides the length of `xs`.
 **Signature**
 
 ```ts
-export function chunksOf<A>(as: Array<A>, n: number): Array<Array<A>> { ... }
+export function chunksOf<A>(n: number, as: Array<A>): Array<Array<A>> { ... }
 ```
 
 **Example**
@@ -180,7 +180,7 @@ export function chunksOf<A>(as: Array<A>, n: number): Array<Array<A>> { ... }
 ```ts
 import { chunksOf } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(chunksOf([1, 2, 3, 4, 5], 2), [[1, 2], [3, 4], [5]])
+assert.deepStrictEqual(chunksOf(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
 ```
 
 Added in v2.0.0
@@ -190,7 +190,7 @@ Added in v2.0.0
 Array comprehension
 
 ```
-[ g(x, y, ...) | x ← xs, y ← ys, ..., f(x, y, ...) ]
+[ f(x, y, ...) | x ← xs, y ← ys, ..., g(x, y, ...) ]
 ```
 
 **Signature**
@@ -198,21 +198,21 @@ Array comprehension
 ```ts
 export function comprehension<A, B, C, D, R>(
   input: [Array<A>, Array<B>, Array<C>, Array<D>],
-  f: (a: A, b: B, c: C, d: D) => boolean,
-  g: (a: A, b: B, c: C, d: D) => R
+  f: (a: A, b: B, c: C, d: D) => R,
+  g?: (a: A, b: B, c: C, d: D) => boolean
 ): Array<R>
 export function comprehension<A, B, C, R>(
   input: [Array<A>, Array<B>, Array<C>],
-  f: (a: A, b: B, c: C) => boolean,
-  g: (a: A, b: B, c: C) => R
+  f: (a: A, b: B, c: C) => R,
+  g?: (a: A, b: B, c: C) => boolean
 ): Array<R>
-export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g: (a: A) => R): Array<R>
+export function comprehension<A, R>(input: [Array<A>], f: (a: A) => R, g?: (a: A) => boolean): Array<R>
 export function comprehension<A, B, R>(
   input: [Array<A>, Array<B>],
-  f: (a: A, b: B) => boolean,
-  g: (a: A, b: B) => R
+  f: (a: A, b: B) => R,
+  g?: (a: A, b: B) => boolean
 ): Array<R>
-export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g: (a: A) => R): Array<R> { ... }
+export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?: (a: A) => R): Array<R> { ... }
 ```
 
 **Example**
@@ -221,7 +221,7 @@ export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g: 
 import { comprehension } from 'fp-ts/lib/Array'
 import { tuple } from 'fp-ts/lib/function'
 
-assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], (a, b) => (a + b.length) % 2 === 0, tuple), [
+assert.deepStrictEqual(comprehension([[1, 2, 3], ['a', 'b']], tuple, (a, b) => (a + b.length) % 2 === 0), [
   [1, 'a'],
   [1, 'b'],
   [3, 'a'],
@@ -325,22 +325,22 @@ assert.deepStrictEqual(drop(2, [1, 2, 3]), [3])
 
 Added in v2.0.0
 
-# dropEnd (function)
+# dropRight (function)
 
 Drop a number of elements from the end of an array, creating a new array
 
 **Signature**
 
 ```ts
-export function dropEnd<A>(n: number, as: Array<A>): Array<A> { ... }
+export function dropRight<A>(n: number, as: Array<A>): Array<A> { ... }
 ```
 
 **Example**
 
 ```ts
-import { dropEnd } from 'fp-ts/lib/Array'
+import { dropRight } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(dropEnd(2, [1, 2, 3, 4, 5]), [1, 2, 3])
+assert.deepStrictEqual(dropRight(2, [1, 2, 3, 4, 5]), [1, 2, 3])
 ```
 
 Added in v2.0.0
@@ -581,23 +581,23 @@ assert.strictEqual(len([1, 2, 3]), 3)
 
 Added in v2.0.0
 
-# foldr (function)
+# foldRight (function)
 
 Break an array into its initial elements and the last element
 
 **Signature**
 
 ```ts
-export function foldr<A, B>(as: Array<A>, onNil: () => B, onCons: (init: Array<A>, last: A) => B): B { ... }
+export function foldRight<A, B>(as: Array<A>, onNil: () => B, onCons: (init: Array<A>, last: A) => B): B { ... }
 ```
 
 Added in v2.0.0
 
 # getEq (function)
 
-Derives a Eq over the Array of a given element type from the Eq of that type. The derived eq defines two
-arrays as equal if all elements of both arrays are compared equal pairwise with the given eq `S`. In case of
-arrays of different lengths, the result is non equality.
+Derives an `Eq` over the `Array` of a given element type from the `Eq` of that type. The derived `Eq` defines two
+arrays as equal if all elements of both arrays are compared equal pairwise with the given `E`. In case of arrays of
+different lengths, the result is non equality.
 
 **Signature**
 
@@ -620,6 +620,8 @@ Added in v2.0.0
 
 # getMonoid (function)
 
+Returns a `Monoid` for `Array<A>`
+
 **Signature**
 
 ```ts
@@ -639,7 +641,7 @@ Added in v2.0.0
 
 # getOrd (function)
 
-Derives an `Ord` over the Array of a given element type from the `Ord` of that type. The ordering between two such
+Derives an `Ord` over the `Array` of a given element type from the `Ord` of that type. The ordering between two such
 arrays is equal to: the first non equal comparison of each arrays elements taken pairwise in increasing order, in
 case of equality over all the pairwise elements; the longest array is considered the greatest, if both arrays have
 the same length, the result is equality.
@@ -1004,20 +1006,20 @@ assert.deepStrictEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
 
 Added in v2.0.0
 
-# scanLeft (function)
+# scan (function)
 
 Same as `reduce` but it carries over the intermediate steps
 
 ```ts
-import { scanLeft } from 'fp-ts/lib/Array'
+import { scan } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(scanLeft([1, 2, 3], 10, (b, a) => b - a), [10, 9, 7, 4])
+assert.deepStrictEqual(scan([1, 2, 3], 10, (b, a) => b - a), [10, 9, 7, 4])
 ```
 
 **Signature**
 
 ```ts
-export function scanLeft<A, B>(as: Array<A>, b: B, f: (b: B, a: A) => B): Array<B> { ... }
+export function scan<A, B>(as: Array<A>, b: B, f: (b: B, a: A) => B): Array<B> { ... }
 ```
 
 Added in v2.0.0
@@ -1207,7 +1209,7 @@ assert.deepStrictEqual(take(2, [1, 2, 3]), [1, 2])
 
 Added in v2.0.0
 
-# takeEnd (function)
+# takeRight (function)
 
 Keep only a number of elements from the end of an array, creating a new array.
 `n` must be a natural number
@@ -1215,15 +1217,15 @@ Keep only a number of elements from the end of an array, creating a new array.
 **Signature**
 
 ```ts
-export function takeEnd<A>(n: number, as: Array<A>): Array<A> { ... }
+export function takeRight<A>(n: number, as: Array<A>): Array<A> { ... }
 ```
 
 **Example**
 
 ```ts
-import { takeEnd } from 'fp-ts/lib/Array'
+import { takeRight } from 'fp-ts/lib/Array'
 
-assert.deepStrictEqual(takeEnd(2, [1, 2, 3, 4, 5]), [4, 5])
+assert.deepStrictEqual(takeRight(2, [1, 2, 3, 4, 5]), [4, 5])
 ```
 
 Added in v2.0.0

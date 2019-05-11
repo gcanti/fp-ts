@@ -49,6 +49,8 @@ export interface Alt1<F extends URIS> extends Functor1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Alt2 (interface)
 
 **Signature**
@@ -58,6 +60,8 @@ export interface Alt2<F extends URIS2> extends Functor2<F> {
   readonly alt: <L, A>(fx: Type2<F, L, A>, fy: () => Type2<F, L, A>) => Type2<F, L, A>
 }
 ```
+
+Added in v2.0.0
 
 # Alt2C (interface)
 
@@ -69,6 +73,8 @@ export interface Alt2C<F extends URIS2, L> extends Functor2C<F, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Alt3 (interface)
 
 **Signature**
@@ -78,3 +84,5 @@ export interface Alt3<F extends URIS3> extends Functor3<F> {
   readonly alt: <U, L, A>(fx: Type3<F, U, L, A>, fy: () => Type3<F, U, L, A>) => Type3<F, U, L, A>
 }
 ```
+
+Added in v2.0.0

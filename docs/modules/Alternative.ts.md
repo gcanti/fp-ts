@@ -44,6 +44,8 @@ Added in v2.0.0
 export interface Alternative1<F extends URIS> extends Applicative1<F>, Plus1<F> {}
 ```
 
+Added in v2.0.0
+
 # Alternative2 (interface)
 
 **Signature**
@@ -51,6 +53,8 @@ export interface Alternative1<F extends URIS> extends Applicative1<F>, Plus1<F> 
 ```ts
 export interface Alternative2<F extends URIS2> extends Applicative2<F>, Plus2<F> {}
 ```
+
+Added in v2.0.0
 
 # Alternative2C (interface)
 
@@ -60,6 +64,8 @@ export interface Alternative2<F extends URIS2> extends Applicative2<F>, Plus2<F>
 export interface Alternative2C<F extends URIS2, L> extends Applicative2C<F, L>, Plus2C<F, L> {}
 ```
 
+Added in v2.0.0
+
 # Alternative3 (interface)
 
 **Signature**
@@ -67,3 +73,5 @@ export interface Alternative2C<F extends URIS2, L> extends Applicative2C<F, L>, 
 ```ts
 export interface Alternative3<F extends URIS3> extends Applicative3<F>, Plus3<F> {}
 ```
+
+Added in v2.0.0

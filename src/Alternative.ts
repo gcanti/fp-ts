@@ -16,10 +16,22 @@ import { Plus, Plus1, Plus2, Plus2C, Plus3 } from './Plus'
  */
 export interface Alternative<F> extends Applicative<F>, Plus<F> {}
 
+/**
+ * @since 2.0.0
+ */
 export interface Alternative1<F extends URIS> extends Applicative1<F>, Plus1<F> {}
 
+/**
+ * @since 2.0.0
+ */
 export interface Alternative2<F extends URIS2> extends Applicative2<F>, Plus2<F> {}
 
+/**
+ * @since 2.0.0
+ */
 export interface Alternative3<F extends URIS3> extends Applicative3<F>, Plus3<F> {}
 
+/**
+ * @since 2.0.0
+ */
 export interface Alternative2C<F extends URIS2, L> extends Applicative2C<F, L>, Plus2C<F, L> {}

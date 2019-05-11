@@ -68,6 +68,8 @@ export interface Applicative1<F extends URIS> extends Apply1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Applicative2 (interface)
 
 **Signature**
@@ -77,6 +79,8 @@ export interface Applicative2<F extends URIS2> extends Apply2<F> {
   readonly of: <L, A>(a: A) => Type2<F, L, A>
 }
 ```
+
+Added in v2.0.0
 
 # Applicative2C (interface)
 
@@ -88,6 +92,8 @@ export interface Applicative2C<F extends URIS2, L> extends Apply2C<F, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Applicative3 (interface)
 
 **Signature**
@@ -98,6 +104,8 @@ export interface Applicative3<F extends URIS3> extends Apply3<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Applicative4 (interface)
 
 **Signature**
@@ -107,6 +115,8 @@ export interface Applicative4<F extends URIS4> extends Apply4<F> {
   readonly of: <X, U, L, A>(a: A) => Type4<F, X, U, L, A>
 }
 ```
+
+Added in v2.0.0
 
 # ApplicativeComposition (interface)
 
@@ -119,6 +129,8 @@ export interface ApplicativeComposition<F, G> extends FunctorComposition<F, G> {
 }
 ```
 
+Added in v2.0.0
+
 # ApplicativeComposition01 (interface)
 
 **Signature**
@@ -129,6 +141,8 @@ export interface ApplicativeComposition01<F, G extends URIS> extends FunctorComp
   readonly ap: <A, B>(fgab: HKT<F, Type<G, (a: A) => B>>, fga: HKT<F, Type<G, A>>) => HKT<F, Type<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # ApplicativeComposition02 (interface)
 
@@ -144,6 +158,8 @@ export interface ApplicativeComposition02<F, G extends URIS2> extends FunctorCom
 }
 ```
 
+Added in v2.0.0
+
 # ApplicativeComposition11 (interface)
 
 **Signature**
@@ -154,6 +170,8 @@ export interface ApplicativeComposition11<F extends URIS, G extends URIS> extend
   readonly ap: <A, B>(fgab: Type<F, Type<G, (a: A) => B>>, fga: Type<F, Type<G, A>>) => Type<F, Type<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # ApplicativeComposition12 (interface)
 
@@ -168,6 +186,8 @@ export interface ApplicativeComposition12<F extends URIS, G extends URIS2> exten
   ) => Type<F, Type2<G, LG, B>>
 }
 ```
+
+Added in v2.0.0
 
 # ApplicativeComposition12C (interface)
 
@@ -184,6 +204,8 @@ export interface ApplicativeComposition12C<F extends URIS, G extends URIS2, LG>
 }
 ```
 
+Added in v2.0.0
+
 # ApplicativeComposition21 (interface)
 
 **Signature**
@@ -198,6 +220,8 @@ export interface ApplicativeComposition21<F extends URIS2, G extends URIS> exten
 }
 ```
 
+Added in v2.0.0
+
 # ApplicativeComposition22 (interface)
 
 **Signature**
@@ -211,6 +235,8 @@ export interface ApplicativeComposition22<F extends URIS2, G extends URIS2> exte
   ) => Type2<F, L, Type2<G, M, B>>
 }
 ```
+
+Added in v2.0.0
 
 # ApplicativeComposition22C (interface)
 
@@ -227,6 +253,8 @@ export interface ApplicativeComposition22C<F extends URIS2, G extends URIS2, LG>
 }
 ```
 
+Added in v2.0.0
+
 # ApplicativeComposition2C1 (interface)
 
 **Signature**
@@ -241,6 +269,8 @@ export interface ApplicativeComposition2C1<F extends URIS2, G extends URIS, LF>
   ) => Type2<F, LF, Type<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # getApplicativeComposition (function)
 
@@ -295,12 +325,14 @@ import { getApplicativeComposition } from 'fp-ts/lib/Applicative'
 import { option, Option, some } from 'fp-ts/lib/Option'
 import { task, Task } from 'fp-ts/lib/Task'
 
+// an Applicative instance for Task<Option<A>>
+const A = getApplicativeComposition(task, option)
+
 const x: Task<Option<number>> = task.of(some(1))
 const y: Task<Option<number>> = task.of(some(2))
 
-const A = getApplicativeComposition(task, option)
-
 const sum = (a: number) => (b: number): number => a + b
+
 A.ap(A.map(x, sum), y)().then(result => assert.deepStrictEqual(result, some(3)))
 ```
 

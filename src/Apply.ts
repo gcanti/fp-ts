@@ -20,22 +20,37 @@ export interface Apply<F> extends Functor<F> {
   readonly ap: <A, B>(fab: HKT<F, (a: A) => B>, fa: HKT<F, A>) => HKT<F, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Apply1<F extends URIS> extends Functor1<F> {
   readonly ap: <A, B>(fab: Type<F, (a: A) => B>, fa: Type<F, A>) => Type<F, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Apply2<F extends URIS2> extends Functor2<F> {
   readonly ap: <L, A, B>(fab: Type2<F, L, (a: A) => B>, fa: Type2<F, L, A>) => Type2<F, L, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Apply3<F extends URIS3> extends Functor3<F> {
   readonly ap: <U, L, A, B>(fab: Type3<F, U, L, (a: A) => B>, fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Apply2C<F extends URIS2, L> extends Functor2C<F, L> {
   readonly ap: <A, B>(fab: Type2<F, L, (a: A) => B>, fa: Type2<F, L, A>) => Type2<F, L, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Apply4<F extends URIS4> extends Functor4<F> {
   readonly ap: <X, U, L, A, B>(fab: Type4<F, X, U, L, (a: A) => B>, fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
 }
