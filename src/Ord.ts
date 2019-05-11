@@ -59,7 +59,7 @@ export const ordDate: Ord<Date> = contramap(ordNumber, date => date.valueOf())
  *
  * @since 2.0.0
  */
-export function lessThan<A>(O: Ord<A>): (x: A, y: A) => boolean {
+export function lt<A>(O: Ord<A>): (x: A, y: A) => boolean {
   return (x, y) => O.compare(x, y) === -1
 }
 
@@ -68,7 +68,7 @@ export function lessThan<A>(O: Ord<A>): (x: A, y: A) => boolean {
  *
  * @since 2.0.0
  */
-export function greaterThan<A>(O: Ord<A>): (x: A, y: A) => boolean {
+export function gt<A>(O: Ord<A>): (x: A, y: A) => boolean {
   return (x, y) => O.compare(x, y) === 1
 }
 
@@ -77,7 +77,7 @@ export function greaterThan<A>(O: Ord<A>): (x: A, y: A) => boolean {
  *
  * @since 2.0.0
  */
-export function lessThanOrEq<A>(O: Ord<A>): (x: A, y: A) => boolean {
+export function leq<A>(O: Ord<A>): (x: A, y: A) => boolean {
   return (x, y) => O.compare(x, y) !== 1
 }
 
@@ -86,7 +86,7 @@ export function lessThanOrEq<A>(O: Ord<A>): (x: A, y: A) => boolean {
  *
  * @since 2.0.0
  */
-export function greaterThanOrEq<A>(O: Ord<A>): (x: A, y: A) => boolean {
+export function geq<A>(O: Ord<A>): (x: A, y: A) => boolean {
   return (x, y) => O.compare(x, y) !== -1
 }
 
@@ -125,8 +125,8 @@ export function clamp<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => A {
  * @since 2.0.0
  */
 export function between<A>(O: Ord<A>): (low: A, hi: A) => (x: A) => boolean {
-  const lessThanO = lessThan(O)
-  const greaterThanO = greaterThan(O)
+  const lessThanO = lt(O)
+  const greaterThanO = gt(O)
   return (low, hi) => x => (lessThanO(x, low) || greaterThanO(x, hi) ? false : true)
 }
 

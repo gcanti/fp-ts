@@ -108,6 +108,8 @@ export interface Fluent1<F extends URIS, I, A> {
 }
 ```
 
+Added in v2.0.0
+
 # Fluent2 (interface)
 
 **Signature**
@@ -172,6 +174,8 @@ export interface Fluent2<F extends URIS2, I, L, A> {
   compose<B>(this: Fluent2<F, Semigroupoid2<F>, L, A>, that: Type2<F, A, B>): Fluent2<F, I, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # Fluent2C (interface)
 
@@ -251,6 +255,8 @@ export interface Fluent2C<F extends URIS2, I, L, A> {
 }
 ```
 
+Added in v2.0.0
+
 # Fluent (class)
 
 **Signature**
@@ -261,6 +267,8 @@ export class Fluent<F, I, A> {
   ...
 }
 ```
+
+Added in v2.0.0
 
 ## show (method)
 

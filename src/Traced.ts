@@ -9,8 +9,14 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Traced'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
@@ -22,33 +28,37 @@ export interface Traced<P, A> {
 
 /**
  * Extracts a value at a relative position which depends on the current value.
+ *
  * @since 2.0.0
  */
-export const tracks = <P, A>(M: Monoid<P>, f: (a: A) => P) => (wa: Traced<P, A>): A => {
-  return wa(f(wa(M.empty)))
+export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A {
+  return wa => wa(f(wa(M.empty)))
 }
 
 /**
  * Get the current position
+ *
  * @since 2.0.0
  */
-export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => {
+export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> {
   return e => tuple(wa(e), e)
 }
 
 /**
  * Get a value which depends on the current position
+ *
  * @since 2.0.0
  */
-export const listens = <P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> => {
+export function listens<P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> {
   return e => tuple(wa(e), f(e))
 }
 
 /**
  * Apply a function to the current position
+ *
  * @since 2.0.0
  */
-export const censor = <P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> => {
+export function censor<P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> {
   return e => wa(f(e))
 }
 
@@ -73,7 +83,7 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   }
 }
 
-function map<P, A, B>(wa: Traced<P, A>, f: (a: A) => B): Traced<P, B> {
+const map = <P, A, B>(wa: Traced<P, A>, f: (a: A) => B): Traced<P, B> => {
   return p => f(wa(p))
 }
 

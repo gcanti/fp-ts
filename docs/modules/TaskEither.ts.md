@@ -50,6 +50,8 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 export interface TaskEither<L, A> extends Task<E.Either<L, A>> {}
 ```
 
+Added in v2.0.0
+
 # URI (type alias)
 
 **Signature**
@@ -58,6 +60,8 @@ export interface TaskEither<L, A> extends Task<E.Either<L, A>> {}
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -65,6 +69,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # bracket (constant)
 

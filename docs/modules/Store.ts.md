@@ -40,6 +40,8 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -47,6 +49,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # store (constant)
 
@@ -67,14 +71,17 @@ Extract a collection of values from positions which depend on the current positi
 ```ts
 export function experiment<F extends URIS3>(
   F: Functor3<F>
-): <U, L, S>(f: (s: S) => HKT3<F, U, L, S>) => <A>(sa: Store<S, A>) => Type3<F, U, L, A>
+): <U, L, S, A>(wa: Store<S, A>, f: (s: S) => Type3<F, U, L, S>) => Type3<F, U, L, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
-): <L, S>(f: (s: S) => HKT2<F, L, S>) => <A>(sa: Store<S, A>) => Type2<F, L, A>
+): <L, S, A>(wa: Store<S, A>, f: (s: S) => Type2<F, L, S>) => Type2<F, L, A>
+export function experiment<F extends URIS2, L>(
+  F: Functor2C<F, L>
+): <S, A>(wa: Store<S, A>, f: (s: S) => Type2<F, L, S>) => Type2<F, L, A>
 export function experiment<F extends URIS>(
-  F: Functor<F>
-): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => Type<F, A>
-export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(sa: Store<S, A>) => HKT<F, A> { ... }
+  F: Functor1<F>
+): <S, A>(wa: Store<S, A>, f: (s: S) => Type<F, S>) => Type<F, A>
+export function experiment<F>(F: Functor<F>): <S, A>(wa: Store<S, A>, f: (s: S) => HKT<F, S>) => HKT<F, A> { ... }
 ```
 
 Added in v2.0.0
@@ -86,7 +93,7 @@ Extract a value from a position which depends on the current position
 **Signature**
 
 ```ts
-export const peeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => (_: S): A => ...
+export function peeks<S, A>(wa: Store<S, A>, f: Endomorphism<S>): A { ... }
 ```
 
 Added in v2.0.0
@@ -98,8 +105,10 @@ Reposition the focus at the specified position
 **Signature**
 
 ```ts
-export function seek<S, A>(sa: Store<S, A>, s: S): Store<S, A> { ... }
+export function seek<S, A>(wa: Store<S, A>, s: S): Store<S, A> { ... }
 ```
+
+Added in v2.0.0
 
 # seeks (function)
 
@@ -108,7 +117,7 @@ Reposition the focus at the specified position, which depends on the current pos
 **Signature**
 
 ```ts
-export const seeks = <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>): Store<S, A> => ...
+export function seeks<S, A>(wa: Store<S, A>, f: Endomorphism<S>): Store<S, A> { ... }
 ```
 
 Added in v2.0.0

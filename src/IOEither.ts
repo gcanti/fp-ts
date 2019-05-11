@@ -22,8 +22,14 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'IOEither'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
@@ -135,6 +141,7 @@ export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<IOEither<L, A>> {
 
 /**
  * Constructs a new `IOEither` from a function that performs a side effect and might throw
+ *
  * @since 2.0.0
  */
 export function tryCatch<L, A>(f: Lazy<A>, onError: (reason: unknown) => L): IOEither<L, A> {

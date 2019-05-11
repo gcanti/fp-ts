@@ -65,6 +65,8 @@ export interface TraversableWithIndex1<T extends URIS, I>
 }
 ```
 
+Added in v2.0.0
+
 # TraversableWithIndex2 (interface)
 
 **Signature**
@@ -78,6 +80,8 @@ export interface TraversableWithIndex2<T extends URIS2, I>
 }
 ```
 
+Added in v2.0.0
+
 # TraversableWithIndex2C (interface)
 
 **Signature**
@@ -90,6 +94,8 @@ export interface TraversableWithIndex2C<T extends URIS2, I, L>
   readonly traverseWithIndex: TraverseWithIndex2C<T, I, L>
 }
 ```
+
+Added in v2.0.0
 
 # TraverseWithIndex (interface)
 
@@ -114,6 +120,8 @@ export interface TraverseWithIndex<T, I> {
 }
 ```
 
+Added in v2.0.0
+
 # TraverseWithIndex1 (interface)
 
 **Signature**
@@ -136,6 +144,8 @@ export interface TraverseWithIndex1<T extends URIS, I> {
   <F>(F: Applicative<F>): <A, B>(ta: Type<T, A>, f: (i: I, a: A) => HKT<F, B>) => HKT<F, Type<T, B>>
 }
 ```
+
+Added in v2.0.0
 
 # TraverseWithIndex2 (interface)
 
@@ -163,6 +173,8 @@ export interface TraverseWithIndex2<T extends URIS2, I> {
 }
 ```
 
+Added in v2.0.0
+
 # TraverseWithIndex2C (interface)
 
 **Signature**
@@ -188,3 +200,5 @@ export interface TraverseWithIndex2C<T extends URIS2, I, FL> {
   <F>(F: Applicative<F>): <A, B>(ta: Type2<T, FL, A>, f: (i: I, a: A) => HKT<F, B>) => HKT<F, Type2<T, FL, B>>
 }
 ```
+
+Added in v2.0.0

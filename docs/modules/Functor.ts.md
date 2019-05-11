@@ -65,6 +65,8 @@ export interface Functor1<F extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # Functor2 (interface)
 
 **Signature**
@@ -75,6 +77,8 @@ export interface Functor2<F extends URIS2> {
   readonly map: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => B) => Type2<F, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # Functor2C (interface)
 
@@ -88,6 +92,8 @@ export interface Functor2C<F extends URIS2, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Functor3 (interface)
 
 **Signature**
@@ -98,6 +104,8 @@ export interface Functor3<F extends URIS3> {
   readonly map: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => B) => Type3<F, U, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # Functor4 (interface)
 
@@ -110,6 +118,8 @@ export interface Functor4<F extends URIS4> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorComposition (interface)
 
 **Signature**
@@ -119,6 +129,8 @@ export interface FunctorComposition<F, G> {
   readonly map: <A, B>(fa: HKT<F, HKT<G, A>>, f: (a: A) => B) => HKT<F, HKT<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorComposition01 (interface)
 
@@ -130,6 +142,8 @@ export interface FunctorComposition01<F, G extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorComposition02 (interface)
 
 **Signature**
@@ -139,6 +153,8 @@ export interface FunctorComposition02<F, G extends URIS2> {
   readonly map: <LG, A, B>(fa: HKT<F, Type2<G, LG, A>>, f: (a: A) => B) => HKT<F, Type2<G, LG, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorComposition11 (interface)
 
@@ -150,6 +166,8 @@ export interface FunctorComposition11<F extends URIS, G extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorComposition12 (interface)
 
 **Signature**
@@ -159,6 +177,8 @@ export interface FunctorComposition12<F extends URIS, G extends URIS2> {
   readonly map: <LG, A, B>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => B) => Type<F, Type2<G, LG, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorComposition12C (interface)
 
@@ -170,6 +190,8 @@ export interface FunctorComposition12C<F extends URIS, G extends URIS2, LG> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorComposition21 (interface)
 
 **Signature**
@@ -179,6 +201,8 @@ export interface FunctorComposition21<F extends URIS2, G extends URIS> {
   readonly map: <LF, A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => B) => Type2<F, LF, Type<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorComposition22 (interface)
 
@@ -190,6 +214,8 @@ export interface FunctorComposition22<F extends URIS2, G extends URIS2> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorComposition22C (interface)
 
 **Signature**
@@ -200,6 +226,8 @@ export interface FunctorComposition22C<F extends URIS2, G extends URIS2, LG> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorComposition2C1 (interface)
 
 **Signature**
@@ -209,6 +237,8 @@ export interface FunctorComposition2C1<F extends URIS2, G extends URIS, LF> {
   readonly map: <A, B>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => B) => Type2<F, LF, Type<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # getFunctorComposition (function)
 

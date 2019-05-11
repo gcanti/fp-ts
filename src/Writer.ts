@@ -9,8 +9,14 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Writer'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
@@ -23,14 +29,14 @@ export interface Writer<W, A> {
 /**
  * @since 2.0.0
  */
-export const evalWriter = <W, A>(fa: Writer<W, A>): A => {
+export function evalWriter<W, A>(fa: Writer<W, A>): A {
   return fa()[0]
 }
 
 /**
  * @since 2.0.0
  */
-export const execWriter = <W, A>(fa: Writer<W, A>): W => {
+export function execWriter<W, A>(fa: Writer<W, A>): W {
   return fa()[1]
 }
 
@@ -39,7 +45,7 @@ export const execWriter = <W, A>(fa: Writer<W, A>): W => {
  *
  * @since 2.0.0
  */
-export const tell = <W>(w: W): Writer<W, void> => {
+export function tell<W>(w: W): Writer<W, void> {
   return () => [undefined, w]
 }
 
@@ -48,7 +54,7 @@ export const tell = <W>(w: W): Writer<W, void> => {
  *
  * @since 2.0.0
  */
-export const listen = <W, A>(fa: Writer<W, A>): Writer<W, [A, W]> => {
+export function listen<W, A>(fa: Writer<W, A>): Writer<W, [A, W]> {
   return () => {
     const [a, w] = fa()
     return [[a, w], w]
@@ -60,7 +66,7 @@ export const listen = <W, A>(fa: Writer<W, A>): Writer<W, [A, W]> => {
  *
  * @since 2.0.0
  */
-export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => {
+export function pass<W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> {
   return () => {
     const [[a, f], w] = fa()
     return [a, f(w)]
@@ -72,7 +78,7 @@ export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => {
  *
  * @since 2.0.0
  */
-export const listens = <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]> => {
+export function listens<W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]> {
   return () => {
     const [a, w] = fa()
     return [[a, f(w)], w]
@@ -84,14 +90,14 @@ export const listens = <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A
  *
  * @since 2.0.0
  */
-export const censor = <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> => {
+export function censor<W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> {
   return () => {
     const [a, w] = fa()
     return [a, f(w)]
   }
 }
 
-function map<W, A, B>(fa: Writer<W, A>, f: (a: A) => B): Writer<W, B> {
+const map = <W, A, B>(fa: Writer<W, A>, f: (a: A) => B): Writer<W, B> => {
   return () => {
     const [a, w] = fa()
     return [f(a), w]
@@ -99,10 +105,9 @@ function map<W, A, B>(fa: Writer<W, A>, f: (a: A) => B): Writer<W, B> {
 }
 
 /**
- *
  * @since 2.0.0
  */
-export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => {
+export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> {
   return {
     URI,
     _L: phantom,

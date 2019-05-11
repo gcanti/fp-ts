@@ -135,6 +135,8 @@ export interface None {
 }
 ```
 
+Added in v2.0.0
+
 # Some (interface)
 
 **Signature**
@@ -145,6 +147,8 @@ export interface Some<A> {
   readonly value: A
 }
 ```
+
+Added in v2.0.0
 
 # Option (type alias)
 
@@ -164,6 +168,8 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -171,6 +177,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # none (constant)
 
@@ -551,7 +559,7 @@ Returns `true` if the option is `None`, `false` otherwise
 **Signature**
 
 ```ts
-export const isNone = <A>(fa: Option<A>): fa is None => ...
+export function isNone<A>(fa: Option<A>): fa is None { ... }
 ```
 
 Added in v2.0.0
@@ -563,7 +571,7 @@ Returns `true` if the option is an instance of `Some`, `false` otherwise
 **Signature**
 
 ```ts
-export const isSome = <A>(fa: Option<A>): fa is Some<A> => ...
+export function isSome<A>(fa: Option<A>): fa is Some<A> { ... }
 ```
 
 Added in v2.0.0

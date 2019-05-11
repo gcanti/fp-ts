@@ -25,6 +25,8 @@ parent: Modules
 export type Identity<A> = A
 ```
 
+Added in v2.0.0
+
 # URI (type alias)
 
 **Signature**
@@ -33,6 +35,8 @@ export type Identity<A> = A
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -40,6 +44,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # getEq (constant)
 

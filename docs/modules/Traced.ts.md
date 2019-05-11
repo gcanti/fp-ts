@@ -40,6 +40,8 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -47,6 +49,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # traced (constant)
 
@@ -65,7 +69,7 @@ Apply a function to the current position
 **Signature**
 
 ```ts
-export const censor = <P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> => ...
+export function censor<P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> { ... }
 ```
 
 Added in v2.0.0
@@ -87,7 +91,7 @@ Get the current position
 **Signature**
 
 ```ts
-export const listen = <P, A>(wa: Traced<P, A>): Traced<P, [A, P]> => ...
+export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> { ... }
 ```
 
 Added in v2.0.0
@@ -99,7 +103,7 @@ Get a value which depends on the current position
 **Signature**
 
 ```ts
-export const listens = <P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> => ...
+export function listens<P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> { ... }
 ```
 
 Added in v2.0.0
@@ -111,7 +115,7 @@ Extracts a value at a relative position which depends on the current value.
 **Signature**
 
 ```ts
-export const tracks = <P, A>(M: Monoid<P>, f: (a: A) => P) => (wa: Traced<P, A>): A => ...
+export function tracks<P, A>(M: Monoid<P>, f: (a: A) => P): (wa: Traced<P, A>) => A { ... }
 ```
 
 Added in v2.0.0

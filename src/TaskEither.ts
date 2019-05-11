@@ -25,10 +25,19 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'TaskEither'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
+/**
+ * @since 2.0.0
+ */
 export interface TaskEither<L, A> extends Task<E.Either<L, A>> {}
 
 /**

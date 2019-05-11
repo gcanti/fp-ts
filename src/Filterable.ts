@@ -36,12 +36,18 @@ import {
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
 
-interface Filter<F> {
+/**
+ * @since 2.0.0
+ */
+export interface Filter<F> {
   <A, B extends A>(fa: HKT<F, A>, refinement: Refinement<A, B>): HKT<F, B>
   <A>(fa: HKT<F, A>, predicate: Predicate<A>): HKT<F, A>
 }
 
-interface Partition<F> {
+/**
+ * @since 2.0.0
+ */
+export interface Partition<F> {
   <A, B extends A>(fa: HKT<F, A>, refinement: Refinement<A, B>): Separated<HKT<F, A>, HKT<F, B>>
   <A>(fa: HKT<F, A>, predicate: Predicate<A>): Separated<HKT<F, A>, HKT<F, A>>
 }
@@ -68,12 +74,18 @@ export interface Filterable<F> extends Functor<F>, Compactable<F> {
   readonly filter: Filter<F>
 }
 
-interface Filter1<F extends URIS> {
+/**
+ * @since 2.0.0
+ */
+export interface Filter1<F extends URIS> {
   <A, B extends A>(fa: Type<F, A>, refinement: Refinement<A, B>): Type<F, B>
   <A>(fa: Type<F, A>, predicate: Predicate<A>): Type<F, A>
 }
 
-interface Partition1<F extends URIS> {
+/**
+ * @since 2.0.0
+ */
+export interface Partition1<F extends URIS> {
   <A, B extends A>(fa: Type<F, A>, refinement: Refinement<A, B>): Separated<Type<F, A>, Type<F, B>>
   <A>(fa: Type<F, A>, predicate: Predicate<A>): Separated<Type<F, A>, Type<F, A>>
 }
@@ -88,12 +100,18 @@ export interface Filterable1<F extends URIS> extends Functor1<F>, Compactable1<F
   readonly filter: Filter1<F>
 }
 
-interface Filter2<F extends URIS2> {
+/**
+ * @since 2.0.0
+ */
+export interface Filter2<F extends URIS2> {
   <L, A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Type2<F, L, B>
   <L, A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Type2<F, L, A>
 }
 
-interface Partition2<F extends URIS2> {
+/**
+ * @since 2.0.0
+ */
+export interface Partition2<F extends URIS2> {
   <L, A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Separated<Type2<F, L, A>, Type2<F, L, B>>
   <L, A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
 }
@@ -111,12 +129,18 @@ export interface Filterable2<F extends URIS2> extends Functor2<F>, Compactable2<
   readonly filter: Filter2<F>
 }
 
-interface Filter2C<F extends URIS2, L> {
+/**
+ * @since 2.0.0
+ */
+export interface Filter2C<F extends URIS2, L> {
   <A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Type2<F, L, B>
   <A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Type2<F, L, A>
 }
 
-interface Partition2C<F extends URIS2, L> {
+/**
+ * @since 2.0.0
+ */
+export interface Partition2C<F extends URIS2, L> {
   <A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Separated<Type2<F, L, A>, Type2<F, L, B>>
   <A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
 }
@@ -134,12 +158,18 @@ export interface Filterable2C<F extends URIS2, L> extends Functor2C<F, L>, Compa
   readonly filter: Filter2C<F, L>
 }
 
-interface Filter3<F extends URIS3> {
+/**
+ * @since 2.0.0
+ */
+export interface Filter3<F extends URIS3> {
   <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Type3<F, U, L, B>
   <U, L, A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Type3<F, U, L, A>
 }
 
-interface Partition3<F extends URIS3> {
+/**
+ * @since 2.0.0
+ */
+export interface Partition3<F extends URIS3> {
   <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Separated<
     Type3<F, U, L, A>,
     Type3<F, U, L, B>
@@ -160,6 +190,9 @@ export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<
   readonly filter: Filter3<F>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, CompactableComposition<F, G> {
   readonly partitionMap: <RL, RR, A>(
     fa: HKT<F, HKT<G, A>>,
@@ -173,6 +206,9 @@ export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, C
   readonly filter: <A>(fa: HKT<F, HKT<G, A>>, predicate: Predicate<A>) => HKT<F, HKT<G, A>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FilterableComposition11<F extends URIS, G extends URIS>
   extends FunctorComposition11<F, G>,
     CompactableComposition11<F, G> {
@@ -188,6 +224,9 @@ export interface FilterableComposition11<F extends URIS, G extends URIS>
   readonly filter: <A>(fa: Type<F, Type<G, A>>, predicate: Predicate<A>) => Type<F, Type<G, A>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FilterableComposition12<F extends URIS, G extends URIS2>
   extends FunctorComposition12<F, G>,
     CompactableComposition12<F, G> {
@@ -203,6 +242,9 @@ export interface FilterableComposition12<F extends URIS, G extends URIS2>
   readonly filter: <LG, A>(fa: Type<F, Type2<G, LG, A>>, predicate: Predicate<A>) => Type<F, Type2<G, LG, A>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FilterableComposition12C<F extends URIS, G extends URIS2, LG>
   extends FunctorComposition12C<F, G, LG>,
     CompactableComposition12C<F, G, LG> {
@@ -218,6 +260,9 @@ export interface FilterableComposition12C<F extends URIS, G extends URIS2, LG>
   readonly filter: <A>(fa: Type<F, Type2<G, LG, A>>, predicate: Predicate<A>) => Type<F, Type2<G, LG, A>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FilterableComposition21<F extends URIS2, G extends URIS>
   extends FunctorComposition21<F, G>,
     CompactableComposition21<F, G> {
@@ -233,6 +278,9 @@ export interface FilterableComposition21<F extends URIS2, G extends URIS>
   readonly filter: <LF, A>(fa: Type2<F, LF, Type<G, A>>, predicate: Predicate<A>) => Type2<F, LF, Type<G, A>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FilterableComposition2C1<F extends URIS2, G extends URIS, LF>
   extends FunctorComposition21<F, G>,
     CompactableComposition21<F, G> {
@@ -248,6 +296,9 @@ export interface FilterableComposition2C1<F extends URIS2, G extends URIS, LF>
   readonly filter: <A>(fa: Type2<F, LF, Type<G, A>>, predicate: Predicate<A>) => Type2<F, LF, Type<G, A>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FilterableComposition22<F extends URIS2, G extends URIS2>
   extends FunctorComposition22<F, G>,
     CompactableComposition22<F, G> {
@@ -269,6 +320,9 @@ export interface FilterableComposition22<F extends URIS2, G extends URIS2>
   ) => Type2<F, LF, Type2<G, LG, A>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FilterableComposition22C<F extends URIS2, G extends URIS2, LG>
   extends FunctorComposition22<F, G>,
     CompactableComposition22<F, G> {

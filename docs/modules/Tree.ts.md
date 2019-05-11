@@ -55,6 +55,8 @@ Added in v2.0.0
 export type Forest<A> = Array<Tree<A>>
 ```
 
+Added in v2.0.0
+
 # URI (type alias)
 
 **Signature**
@@ -63,6 +65,8 @@ export type Forest<A> = Array<Tree<A>>
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -70,6 +74,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # tree (constant)
 
@@ -138,7 +144,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => ...
+export function getEq<A>(E: Eq<A>): Eq<Tree<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -148,7 +154,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow = <A>(S: Show<A>): Show<Tree<A>> => ...
+export function getShow<A>(S: Show<A>): Show<Tree<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -158,7 +164,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const make = <A>(value: A, forest: Forest<A>): Tree<A> => ...
+export function make<A>(value: A, forest: Forest<A>): Tree<A> { ... }
 ```
 
 Added in v2.0.0

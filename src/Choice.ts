@@ -40,16 +40,25 @@ export interface Choice<F> extends Profunctor<F> {
   readonly right: <A, B, C>(pbc: HKT2<F, B, C>) => HKT2<F, Either<A, B>, Either<A, C>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Choice2<F extends URIS2> extends Profunctor2<F> {
   readonly left: <A, B, C>(pab: Type2<F, A, B>) => Type2<F, Either<A, C>, Either<B, C>>
   readonly right: <A, B, C>(pbc: Type2<F, B, C>) => Type2<F, Either<A, B>, Either<A, C>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Choice3<F extends URIS3> extends Profunctor3<F> {
   readonly left: <U, A, B, C>(pab: Type3<F, U, A, B>) => Type3<F, U, Either<A, C>, Either<B, C>>
   readonly right: <U, A, B, C>(pbc: Type3<F, U, B, C>) => Type3<F, U, Either<A, B>, Either<A, C>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Choice4<F extends URIS4> extends Profunctor4<F> {
   readonly left: <X, U, A, B, C>(pab: Type4<F, X, U, A, B>) => Type4<F, X, U, Either<A, C>, Either<B, C>>
   readonly right: <X, U, A, B, C>(pbc: Type4<F, X, U, B, C>) => Type4<F, X, U, Either<A, B>, Either<A, C>>

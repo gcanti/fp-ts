@@ -20,18 +20,30 @@ export interface Plus<F> extends Alt<F> {
   readonly zero: <A>() => HKT<F, A>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Plus1<F extends URIS> extends Alt1<F> {
   readonly zero: <A>() => Type<F, A>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Plus2<F extends URIS2> extends Alt2<F> {
   readonly zero: <L, A>() => Type2<F, L, A>
 }
 
-export interface Plus3<F extends URIS3> extends Alt3<F> {
-  readonly zero: <U, L, A>() => Type3<F, U, L, A>
-}
-
+/**
+ * @since 2.0.0
+ */
 export interface Plus2C<F extends URIS2, L> extends Alt2C<F, L> {
   readonly zero: <A>() => Type2<F, L, A>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface Plus3<F extends URIS3> extends Alt3<F> {
+  readonly zero: <U, L, A>() => Type3<F, U, L, A>
 }

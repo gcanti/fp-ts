@@ -51,6 +51,8 @@ export interface Plus1<F extends URIS> extends Alt1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Plus2 (interface)
 
 **Signature**
@@ -60,6 +62,8 @@ export interface Plus2<F extends URIS2> extends Alt2<F> {
   readonly zero: <L, A>() => Type2<F, L, A>
 }
 ```
+
+Added in v2.0.0
 
 # Plus2C (interface)
 
@@ -71,6 +75,8 @@ export interface Plus2C<F extends URIS2, L> extends Alt2C<F, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Plus3 (interface)
 
 **Signature**
@@ -80,3 +86,5 @@ export interface Plus3<F extends URIS3> extends Alt3<F> {
   readonly zero: <U, L, A>() => Type3<F, U, L, A>
 }
 ```
+
+Added in v2.0.0

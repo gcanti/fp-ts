@@ -26,7 +26,7 @@ Log any value and return it
 **Signature**
 
 ```ts
-export const spy = <A>(a: A): A => ...
+export function spy<A>(a: A): A { ... }
 ```
 
 Added in v2.0.0
@@ -39,7 +39,7 @@ representation for low-level debugging
 **Signature**
 
 ```ts
-export const trace = <A>(message: unknown, out: Lazy<A>): A => ...
+export function trace<A>(message: unknown, out: Lazy<A>): A { ... }
 ```
 
 Added in v2.0.0

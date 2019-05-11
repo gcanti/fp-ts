@@ -20,7 +20,7 @@ export interface Eq<A> {
 /**
  * @since 2.0.0
  */
-export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Eq<A> => {
+export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> {
   return {
     equals: (x, y) => x === y || equals(x, y)
   }
@@ -29,7 +29,7 @@ export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Eq<A> => {
 /**
  * @since 2.0.0
  */
-export const strictEqual = <A>(a: A, b: A): boolean => {
+export function strictEqual<A>(a: A, b: A): boolean {
   return a === b
 }
 
@@ -53,7 +53,7 @@ export const eqBoolean: Eq<boolean> = eqStrict
 /**
  * @since 2.0.0
  */
-export const getStructEq = <O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> => {
+export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> {
   return fromEquals((x, y) => {
     for (const k in eqs) {
       if (!eqs[k].equals(x[k], y[k])) {
@@ -78,9 +78,9 @@ export const getStructEq = <O extends { [key: string]: any }>(eqs: { [K in keyof
  *
  * @since 2.0.0
  */
-export const getTupleEq = <T extends Array<Eq<any>>>(
+export function getTupleEq<T extends Array<Eq<any>>>(
   ...eqs: T
-): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> => {
+): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> {
   return fromEquals((x, y) => eqs.every((E, i) => E.equals(x[i], y[i])))
 }
 
@@ -89,7 +89,7 @@ export const getTupleEq = <T extends Array<Eq<any>>>(
  *
  * @since 2.0.0
  */
-export const contramap = <A, B>(E: Eq<A>, f: (b: B) => A): Eq<B> => {
+export function contramap<A, B>(E: Eq<A>, f: (b: B) => A): Eq<B> {
   return fromEquals((x, y) => E.equals(f(x), f(y)))
 }
 

@@ -62,6 +62,8 @@ export interface FoldableWithIndex1<F extends URIS, I> extends Foldable1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # FoldableWithIndex2 (interface)
 
 **Signature**
@@ -73,6 +75,8 @@ export interface FoldableWithIndex2<F extends URIS2, I> extends Foldable2<F> {
   readonly reduceRightWithIndex: <L, A, B>(fa: Type2<F, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # FoldableWithIndex2C (interface)
 
@@ -86,6 +90,8 @@ export interface FoldableWithIndex2C<F extends URIS2, I, L> extends Foldable2C<F
 }
 ```
 
+Added in v2.0.0
+
 # FoldableWithIndex3 (interface)
 
 **Signature**
@@ -97,6 +103,8 @@ export interface FoldableWithIndex3<F extends URIS3, I> extends Foldable3<F> {
   readonly reduceRightWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # FoldableWithIndexComposition (interface)
 
@@ -110,6 +118,8 @@ export interface FoldableWithIndexComposition<F, FI, G, GI> extends FoldableComp
 }
 ```
 
+Added in v2.0.0
+
 # FoldableWithIndexComposition11 (interface)
 
 **Signature**
@@ -122,6 +132,8 @@ export interface FoldableWithIndexComposition11<F extends URIS, FI, G extends UR
   readonly reduceRightWithIndex: <A, B>(fga: Type<F, Type<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # FoldableWithIndexComposition12 (interface)
 
@@ -138,6 +150,8 @@ export interface FoldableWithIndexComposition12<F extends URIS, FI, G extends UR
 }
 ```
 
+Added in v2.0.0
+
 # FoldableWithIndexComposition12C (interface)
 
 **Signature**
@@ -150,6 +164,8 @@ export interface FoldableWithIndexComposition12C<F extends URIS, FI, G extends U
   readonly reduceRightWithIndex: <A, B>(fga: Type<F, Type2<G, LG, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # FoldableWithIndexComposition21 (interface)
 
@@ -165,6 +181,8 @@ export interface FoldableWithIndexComposition21<F extends URIS2, FI, G extends U
   readonly reduceRightWithIndex: <LF, A, B>(fga: Type2<F, LF, Type<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # FoldableWithIndexComposition22 (interface)
 
@@ -189,6 +207,8 @@ export interface FoldableWithIndexComposition22<F extends URIS2, FI, G extends U
 }
 ```
 
+Added in v2.0.0
+
 # FoldableWithIndexComposition22C (interface)
 
 **Signature**
@@ -208,6 +228,8 @@ export interface FoldableWithIndexComposition22C<F extends URIS2, FI, G extends 
 }
 ```
 
+Added in v2.0.0
+
 # FoldableWithIndexComposition2C1 (interface)
 
 **Signature**
@@ -220,6 +242,8 @@ export interface FoldableWithIndexComposition2C1<F extends URIS2, FI, G extends 
   readonly reduceRightWithIndex: <A, B>(fga: Type2<F, LF, Type<G, A>>, b: B, f: (i: [FI, GI], a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # getFoldableWithIndexComposition (function)
 

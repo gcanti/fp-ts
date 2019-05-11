@@ -14,10 +14,19 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Const'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
+/**
+ * @since 2.0.0
+ */
 export type Const<L, A> = L & { readonly _A: A }
 
 /**

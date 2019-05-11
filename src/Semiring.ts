@@ -33,7 +33,7 @@ export interface Semiring<A> {
 /**
  * @since 2.0.0
  */
-export const getFunctionSemiring = <A, B>(S: Semiring<B>): Semiring<(a: A) => B> => {
+export function getFunctionSemiring<A, B>(S: Semiring<B>): Semiring<(a: A) => B> {
   return {
     add: (f, g) => x => S.add(f(x), g(x)),
     zero: () => S.zero,

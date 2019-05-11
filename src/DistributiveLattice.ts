@@ -15,7 +15,7 @@ export interface DistributiveLattice<A> extends Lattice<A> {}
 /**
  * @since 2.0.0
  */
-export const getMinMaxDistributiveLattice = <A>(O: Ord<A>): DistributiveLattice<A> => {
+export function getMinMaxDistributiveLattice<A>(O: Ord<A>): DistributiveLattice<A> {
   return {
     meet: min(O),
     join: max(O)

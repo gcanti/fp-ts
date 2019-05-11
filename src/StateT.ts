@@ -2,10 +2,16 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { State } from './State'
 
+/**
+ * @since 2.0.0
+ */
 export interface StateT<M, S, A> {
   (s: S): HKT<M, [A, S]>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface StateM<M> {
   readonly map: <S, A, B>(fa: StateT<M, S, A>, f: (a: A) => B) => StateT<M, S, B>
   readonly of: <S, A>(a: A) => StateT<M, S, A>
@@ -21,11 +27,17 @@ export interface StateM<M> {
   readonly execState: <S, A>(ma: StateT<M, S, A>, s: S) => HKT<M, S>
 }
 
-interface StateT1<M extends URIS, S, A> {
+/**
+ * @since 2.0.0
+ */
+export interface StateT1<M extends URIS, S, A> {
   (s: S): Type<M, [A, S]>
 }
 
-interface StateM1<M extends URIS> {
+/**
+ * @since 2.0.0
+ */
+export interface StateM1<M extends URIS> {
   readonly map: <S, A, B>(fa: StateT1<M, S, A>, f: (a: A) => B) => StateT1<M, S, B>
   readonly of: <S, A>(a: A) => StateT1<M, S, A>
   readonly ap: <S, A, B>(fab: StateT1<M, S, (a: A) => B>, fa: StateT1<M, S, A>) => StateT1<M, S, B>
@@ -40,11 +52,17 @@ interface StateM1<M extends URIS> {
   readonly execState: <S, A>(ma: StateT1<M, S, A>, s: S) => Type<M, S>
 }
 
-interface StateT2<M extends URIS2, S, L, A> {
+/**
+ * @since 2.0.0
+ */
+export interface StateT2<M extends URIS2, S, L, A> {
   (s: S): Type2<M, L, [A, S]>
 }
 
-interface StateM2<M extends URIS2> {
+/**
+ * @since 2.0.0
+ */
+export interface StateM2<M extends URIS2> {
   readonly map: <S, L, A, B>(fa: StateT2<M, S, L, A>, f: (a: A) => B) => StateT2<M, S, L, B>
   readonly of: <S, L, A>(a: A) => StateT2<M, S, L, A>
   readonly ap: <S, L, A, B>(fab: StateT2<M, S, L, (a: A) => B>, fa: StateT2<M, S, L, A>) => StateT2<M, S, L, B>
@@ -59,11 +77,17 @@ interface StateM2<M extends URIS2> {
   readonly execState: <S, L, A>(ma: StateT2<M, S, L, A>, s: S) => Type2<M, L, S>
 }
 
-interface StateT3<M extends URIS3, S, U, L, A> {
+/**
+ * @since 2.0.0
+ */
+export interface StateT3<M extends URIS3, S, U, L, A> {
   (s: S): Type3<M, U, L, [A, S]>
 }
 
-interface StateM3<M extends URIS3> {
+/**
+ * @since 2.0.0
+ */
+export interface StateM3<M extends URIS3> {
   readonly map: <S, U, L, A, B>(fa: StateT3<M, S, U, L, A>, f: (a: A) => B) => StateT3<M, S, U, L, B>
   readonly of: <S, U, L, A>(a: A) => StateT3<M, S, U, L, A>
   readonly ap: <S, U, L, A, B>(

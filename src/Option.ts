@@ -105,14 +105,26 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Option'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
+/**
+ * @since 2.0.0
+ */
 export interface None {
   readonly _tag: 'None'
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Some<A> {
   readonly _tag: 'Some'
   readonly value: A
@@ -140,7 +152,7 @@ export function some<A>(a: A): Option<A> {
  *
  * @since 2.0.0
  */
-export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
+export function isSome<A>(fa: Option<A>): fa is Some<A> {
   return fa._tag === 'Some'
 }
 
@@ -149,7 +161,7 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => {
  *
  * @since 2.0.0
  */
-export const isNone = <A>(fa: Option<A>): fa is None => {
+export function isNone<A>(fa: Option<A>): fa is None {
   return fa._tag === 'None'
 }
 

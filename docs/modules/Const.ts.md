@@ -28,6 +28,8 @@ parent: Modules
 export type Const<L, A> = L & { readonly _A: A }
 ```
 
+Added in v2.0.0
+
 # URI (type alias)
 
 **Signature**
@@ -36,6 +38,8 @@ export type Const<L, A> = L & { readonly _A: A }
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -43,6 +47,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # const\_ (constant)
 

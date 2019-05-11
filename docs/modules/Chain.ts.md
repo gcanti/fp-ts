@@ -51,6 +51,8 @@ export interface Chain1<F extends URIS> extends Apply1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Chain2 (interface)
 
 **Signature**
@@ -60,6 +62,8 @@ export interface Chain2<F extends URIS2> extends Apply2<F> {
   readonly chain: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # Chain2C (interface)
 
@@ -71,6 +75,8 @@ export interface Chain2C<F extends URIS2, L> extends Apply2C<F, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Chain3 (interface)
 
 **Signature**
@@ -81,6 +87,8 @@ export interface Chain3<F extends URIS3> extends Apply3<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Chain4 (interface)
 
 **Signature**
@@ -90,6 +98,8 @@ export interface Chain4<F extends URIS4> extends Apply4<F> {
   readonly chain: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => Type4<F, X, U, L, B>) => Type4<F, X, U, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # flatMap (function)
 

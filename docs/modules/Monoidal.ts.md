@@ -49,6 +49,8 @@ export interface Monoidal1<F extends URIS> extends Functor1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Monoidal2 (interface)
 
 **Signature**
@@ -59,6 +61,8 @@ export interface Monoidal2<F extends URIS2> extends Functor2<F> {
   readonly mult: <L, A, B>(fa: Type2<F, L, A>, fb: Type2<F, L, B>) => Type2<F, L, [A, B]>
 }
 ```
+
+Added in v2.0.0
 
 # Monoidal2C (interface)
 
@@ -71,6 +75,8 @@ export interface Monoidal2C<F extends URIS2, L> extends Functor2C<F, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Monoidal3 (interface)
 
 **Signature**
@@ -81,6 +87,8 @@ export interface Monoidal3<F extends URIS3> extends Functor3<F> {
   readonly mult: <U, L, A, B>(fa: Type3<F, U, L, A>, fb: Type3<F, U, L, B>) => Type3<F, U, L, [A, B]>
 }
 ```
+
+Added in v2.0.0
 
 # fromApplicative (function)
 

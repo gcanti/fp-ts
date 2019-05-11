@@ -23,14 +23,20 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Record'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
  * @since 2.0.0
  */
-export const getShow = <A>(S: Show<A>): Show<Record<string, A>> => {
+export function getShow<A>(S: Show<A>): Show<Record<string, A>> {
   return {
     show: r => {
       const elements = collect(r, (k, a) => `${showString.show(k)}: ${S.show(a)}`).join(', ')
@@ -44,7 +50,7 @@ export const getShow = <A>(S: Show<A>): Show<Record<string, A>> => {
  *
  * @since 2.0.0
  */
-export const size = (r: Record<string, unknown>): number => {
+export function size(r: Record<string, unknown>): number {
   return Object.keys(r).length
 }
 
@@ -53,7 +59,7 @@ export const size = (r: Record<string, unknown>): number => {
  *
  * @since 2.0.0
  */
-export const isEmpty = (r: Record<string, unknown>): boolean => {
+export function isEmpty(r: Record<string, unknown>): boolean {
   return Object.keys(r).length === 0
 }
 
@@ -153,13 +159,15 @@ export function pop<A>(k: string, d: Record<string, A>): Option<[A, Record<strin
  *
  * @since 2.0.0
  */
-export const isSubrecord = <A>(E: Eq<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
-  for (let k in d1) {
-    if (!d2.hasOwnProperty(k) || !E.equals(d1[k], d2[k])) {
-      return false
+export function isSubrecord<A>(E: Eq<A>): (d1: Record<string, A>, d2: Record<string, A>) => boolean {
+  return (d1, d2) => {
+    for (let k in d1) {
+      if (!d2.hasOwnProperty(k) || !E.equals(d1[k], d2[k])) {
+        return false
+      }
     }
+    return true
   }
-  return true
 }
 
 /**
@@ -204,9 +212,10 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
 
 /**
  * Lookup the value for a key in a record
+ *
  * @since 2.0.0
  */
-export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => {
+export function lookup<A>(key: string, fa: Record<string, A>): Option<A> {
   return fa.hasOwnProperty(key) ? optionSome(fa[key]) : none
 }
 
@@ -310,7 +319,7 @@ export function reduceRightWithIndex<A, B>(fa: Record<string, A>, b: B, f: (k: s
  *
  * @since 2.0.0
  */
-export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => {
+export function singleton<K extends string, A>(k: K, a: A): Record<K, A> {
   return { [k]: a } as any
 }
 

@@ -18,7 +18,7 @@ export const random: IO<number> = () => Math.random()
  *
  * @since 2.0.0
  */
-export const randomInt = (low: number, high: number): IO<number> => {
+export function randomInt(low: number, high: number): IO<number> {
   return io.map(random, n => Math.floor((high - low + 1) * n + low))
 }
 
@@ -28,7 +28,7 @@ export const randomInt = (low: number, high: number): IO<number> => {
  *
  * @since 2.0.0
  */
-export const randomRange = (min: number, max: number): IO<number> => {
+export function randomRange(min: number, max: number): IO<number> {
   return io.map(random, n => (max - min) * n + min)
 }
 

@@ -41,6 +41,8 @@ export interface Bifunctor2<F extends URIS2> {
 }
 ```
 
+Added in v2.0.0
+
 # Bifunctor2C (interface)
 
 **Signature**
@@ -54,6 +56,8 @@ export interface Bifunctor2C<F extends URIS2, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Bifunctor3 (interface)
 
 **Signature**
@@ -65,3 +69,5 @@ export interface Bifunctor3<F extends URIS3> {
   readonly mapLeft: <U, L, A, M>(fla: Type3<F, U, L, A>, f: (l: L) => M) => Type3<F, U, M, A>
 }
 ```
+
+Added in v2.0.0

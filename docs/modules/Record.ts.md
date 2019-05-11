@@ -56,6 +56,8 @@ parent: Modules
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -63,6 +65,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # empty (constant)
 
@@ -286,7 +290,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow = <A>(S: Show<A>): Show<Record<string, A>> => ...
+export function getShow<A>(S: Show<A>): Show<Record<string, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -310,7 +314,7 @@ Test whether a record is empty
 **Signature**
 
 ```ts
-export const isEmpty = (r: Record<string, unknown>): boolean => ...
+export function isEmpty(r: Record<string, unknown>): boolean { ... }
 ```
 
 Added in v2.0.0
@@ -322,7 +326,7 @@ Test whether one record contains all of the keys and values contained in another
 **Signature**
 
 ```ts
-export const isSubrecord = <A>(E: Eq<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => ...
+export function isSubrecord<A>(E: Eq<A>): (d1: Record<string, A>, d2: Record<string, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -344,7 +348,7 @@ Lookup the value for a key in a record
 **Signature**
 
 ```ts
-export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => ...
+export function lookup<A>(key: string, fa: Record<string, A>): Option<A> { ... }
 ```
 
 Added in v2.0.0
@@ -482,7 +486,7 @@ Create a record with one key/value pair
 **Signature**
 
 ```ts
-export const singleton = <K extends string, A>(k: K, a: A): Record<K, A> => ...
+export function singleton<K extends string, A>(k: K, a: A): Record<K, A> { ... }
 ```
 
 Added in v2.0.0
@@ -494,7 +498,7 @@ Calculate the number of key/value pairs in a record
 **Signature**
 
 ```ts
-export const size = (r: Record<string, unknown>): number => ...
+export function size(r: Record<string, unknown>): number { ... }
 ```
 
 Added in v2.0.0

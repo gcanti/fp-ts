@@ -56,6 +56,8 @@ export interface Foldable1<F extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # Foldable2 (interface)
 
 **Signature**
@@ -68,6 +70,8 @@ export interface Foldable2<F extends URIS2> {
   readonly reduceRight: <L, A, B>(fa: Type2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # Foldable2C (interface)
 
@@ -83,6 +87,8 @@ export interface Foldable2C<F extends URIS2, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Foldable3 (interface)
 
 **Signature**
@@ -96,6 +102,8 @@ export interface Foldable3<F extends URIS3> {
 }
 ```
 
+Added in v2.0.0
+
 # FoldableComposition (interface)
 
 **Signature**
@@ -107,6 +115,8 @@ export interface FoldableComposition<F, G> {
   readonly reduceRight: <A, B>(fa: HKT<F, HKT<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # FoldableComposition11 (interface)
 
@@ -120,6 +130,8 @@ export interface FoldableComposition11<F extends URIS, G extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # FoldableComposition12 (interface)
 
 **Signature**
@@ -131,6 +143,8 @@ export interface FoldableComposition12<F extends URIS, G extends URIS2> {
   readonly reduceRight: <LG, A, B>(fa: Type<F, Type2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # FoldableComposition12C (interface)
 
@@ -144,6 +158,8 @@ export interface FoldableComposition12C<F extends URIS, G extends URIS2, LG> {
 }
 ```
 
+Added in v2.0.0
+
 # FoldableComposition21 (interface)
 
 **Signature**
@@ -155,6 +171,8 @@ export interface FoldableComposition21<F extends URIS2, G extends URIS> {
   readonly reduceRight: <LF, A, B>(fa: Type2<F, LF, Type<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # FoldableComposition22 (interface)
 
@@ -168,6 +186,8 @@ export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
 }
 ```
 
+Added in v2.0.0
+
 # FoldableComposition22C (interface)
 
 **Signature**
@@ -180,6 +200,8 @@ export interface FoldableComposition22C<F extends URIS2, G extends URIS2, LG> {
 }
 ```
 
+Added in v2.0.0
+
 # FoldableComposition2C1 (interface)
 
 **Signature**
@@ -190,6 +212,8 @@ export interface FoldableComposition2C1<F extends URIS2, G extends URIS, LF> {
   readonly reduceRight: <A, B>(fa: Type2<F, LF, Type<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 ```
+
+Added in v2.0.0
 
 # foldM (function)
 

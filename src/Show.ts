@@ -34,7 +34,7 @@ export const showBoolean: Show<boolean> = {
 /**
  * @since 2.0.0
  */
-export const getStructShow = <O extends { [key: string]: any }>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> => {
+export function getStructShow<O extends { [key: string]: any }>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> {
   return {
     show: s =>
       `{ ${Object.keys(shows)
@@ -46,9 +46,9 @@ export const getStructShow = <O extends { [key: string]: any }>(shows: { [K in k
 /**
  * @since 2.0.0
  */
-export const getTupleShow = <T extends Array<Show<any>>>(
+export function getTupleShow<T extends Array<Show<any>>>(
   ...shows: T
-): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> => {
+): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> {
   return {
     show: t => `[${t.map((a, i) => shows[i].show(a)).join(', ')}]`
   }

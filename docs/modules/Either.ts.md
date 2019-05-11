@@ -81,6 +81,8 @@ export interface Left<L> {
 }
 ```
 
+Added in v2.0.0
+
 # Right (interface)
 
 **Signature**
@@ -91,6 +93,8 @@ export interface Right<A> {
   readonly right: A
 }
 ```
+
+Added in v2.0.0
 
 # Either (type alias)
 
@@ -110,6 +114,8 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -117,6 +123,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # either (constant)
 

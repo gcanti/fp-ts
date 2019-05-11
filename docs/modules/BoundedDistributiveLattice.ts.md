@@ -32,10 +32,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMinMaxBoundedDistributiveLattice = <A>(O: Ord<A>) => (
-  min: A,
-  max: A
-): BoundedDistributiveLattice<A> => ...
+export function getMinMaxBoundedDistributiveLattice<A>(O: Ord<A>): (min: A, max: A) => BoundedDistributiveLattice<A> { ... }
 ```
 
 Added in v2.0.0

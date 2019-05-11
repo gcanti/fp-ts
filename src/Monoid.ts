@@ -120,11 +120,11 @@ export function getDualMonoid<A>(M: Monoid<A>): Monoid<A> {
 /**
  * @since 2.0.0
  */
-export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: A) => M> => {
-  return {
-    concat: getFunctionSemigroup(M)<A>().concat,
+export function getFunctionMonoid<M>(M: Monoid<M>): <A = never>() => Monoid<(a: A) => M> {
+  return () => ({
+    concat: getFunctionSemigroup(M)<any>().concat,
     empty: () => M.empty
-  }
+  })
 }
 
 /**

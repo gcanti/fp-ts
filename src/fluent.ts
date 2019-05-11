@@ -28,6 +28,9 @@ import { Eq } from './Eq'
 import { Show } from './Show'
 import { Semigroupoid, Semigroupoid2, Semigroupoid2C } from './Semigroupoid'
 
+/**
+ * @since 2.0.0
+ */
 export interface Fluent2C<F extends URIS2, I, L, A> {
   readonly I: I
   readonly value: Type2<F, L, A>
@@ -100,6 +103,9 @@ export interface Fluent2C<F extends URIS2, I, L, A> {
   compose<B>(this: Fluent2C<F, Semigroupoid2C<F, L>, L, A>, Type2: HKT2<F, A, B>): Fluent2C<F, I, L, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Fluent2<F extends URIS2, I, L, A> {
   readonly I: I
   readonly value: Type2<F, L, A>
@@ -159,6 +165,9 @@ export interface Fluent2<F extends URIS2, I, L, A> {
   compose<B>(this: Fluent2<F, Semigroupoid2<F>, L, A>, that: Type2<F, A, B>): Fluent2<F, I, L, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Fluent1<F extends URIS, I, A> {
   readonly I: I
   readonly value: Type<F, A>
@@ -211,6 +220,9 @@ export interface Fluent1<F extends URIS, I, A> {
   ): Separated<Type<F, RL>, Type<F, RR>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export class Fluent<F, I, A> {
   constructor(readonly I: I, readonly value: HKT<F, A>) {}
   show<I extends Show<HKT<F, A>>>(this: Fluent<F, I, A>): string {

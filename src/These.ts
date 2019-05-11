@@ -38,10 +38,19 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'These'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
+/**
+ * @since 2.0.0
+ */
 export interface Both<L, A> {
   readonly _tag: 'Both'
   readonly left: L

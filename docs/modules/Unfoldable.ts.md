@@ -44,6 +44,8 @@ export interface Unfoldable1<F extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # Unfoldable2 (interface)
 
 **Signature**
@@ -54,6 +56,8 @@ export interface Unfoldable2<F extends URIS2> {
   readonly unfold: <L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type2<F, L, A>
 }
 ```
+
+Added in v2.0.0
 
 # Unfoldable2C (interface)
 
@@ -67,6 +71,8 @@ export interface Unfoldable2C<F extends URIS2, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Unfoldable3 (interface)
 
 **Signature**
@@ -77,3 +83,5 @@ export interface Unfoldable3<F extends URIS3> {
   readonly unfold: <U, L, A, B>(b: B, f: (b: B) => Option<[A, B]>) => Type3<F, U, L, A>
 }
 ```
+
+Added in v2.0.0

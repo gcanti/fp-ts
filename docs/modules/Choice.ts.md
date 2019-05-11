@@ -70,6 +70,8 @@ export interface Choice2<F extends URIS2> extends Profunctor2<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Choice3 (interface)
 
 **Signature**
@@ -81,6 +83,8 @@ export interface Choice3<F extends URIS3> extends Profunctor3<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Choice4 (interface)
 
 **Signature**
@@ -91,6 +95,8 @@ export interface Choice4<F extends URIS4> extends Profunctor4<F> {
   readonly right: <X, U, A, B, C>(pbc: Type4<F, X, U, B, C>) => Type4<F, X, U, Either<A, B>, Either<A, C>>
 }
 ```
+
+Added in v2.0.0
 
 # fanin (function)
 

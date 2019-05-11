@@ -38,6 +38,8 @@ export interface Extend1<W extends URIS> extends Functor1<W> {
 }
 ```
 
+Added in v2.0.0
+
 # Extend2 (interface)
 
 **Signature**
@@ -47,6 +49,8 @@ export interface Extend2<W extends URIS2> extends Functor2<W> {
   readonly extend: <L, A, B>(wa: Type2<W, L, A>, f: (fa: Type2<W, L, A>) => B) => Type2<W, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # Extend2C (interface)
 
@@ -58,6 +62,8 @@ export interface Extend2C<W extends URIS2, L> extends Functor2C<W, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Extend3 (interface)
 
 **Signature**
@@ -67,3 +73,5 @@ export interface Extend3<W extends URIS3> extends Functor3<W> {
   readonly extend: <U, L, A, B>(wa: Type3<W, U, L, A>, f: (fa: Type3<W, U, L, A>) => B) => Type3<W, U, L, B>
 }
 ```
+
+Added in v2.0.0

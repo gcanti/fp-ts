@@ -26,8 +26,14 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Tuple'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
 /**
@@ -38,7 +44,7 @@ export type Tuple<L, A> = [L, A]
 /**
  * @since 2.0.0
  */
-export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => {
+export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> {
   return {
     show: t => `[${SL.show(fst(t))}, ${SA.show(snd(t))}]`
   }
@@ -47,21 +53,21 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => {
 /**
  * @since 2.0.0
  */
-export const fst = <L, A>(fa: Tuple<L, A>): L => {
+export function fst<L, A>(fa: Tuple<L, A>): L {
   return fa[0]
 }
 
 /**
  * @since 2.0.0
  */
-export const snd = <L, A>(fa: Tuple<L, A>): A => {
+export function snd<L, A>(fa: Tuple<L, A>): A {
   return fa[1]
 }
 
 /**
  * @since 2.0.0
  */
-export const swap = <L, A>(fa: Tuple<L, A>): Tuple<A, L> => {
+export function swap<L, A>(fa: Tuple<L, A>): Tuple<A, L> {
   return [snd(fa), fst(fa)]
 }
 
@@ -98,8 +104,8 @@ const reduceRight = <L, A, B>(fa: Tuple<L, A>, b: B, f: (a: A, b: B) => B): B =>
 /**
  * @since 2.0.0
  */
-export const getEq = <L, A>(SA: Eq<L>, SB: Eq<A>): Eq<Tuple<L, A>> => {
-  return getTupleEq(SA, SB)
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Tuple<L, A>> {
+  return getTupleEq(EL, EA)
 }
 /**
  * To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
@@ -107,37 +113,33 @@ export const getEq = <L, A>(SA: Eq<L>, SB: Eq<A>): Eq<Tuple<L, A>> => {
  *
  * @since 2.0.0
  */
-export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => {
+export function getOrd<L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> {
   return getOrdSemigroup<Tuple<L, A>>().concat(contramapOrd(OL, fst), contramapOrd(OA, snd))
 }
 
 /**
  * @since 2.0.0
  */
-export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => {
+export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> {
   return getTupleSemigroup(SL, SA)
 }
 
 /**
  * @since 2.0.0
  */
-export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => {
+export function getMonoid<L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> {
   return getTupleMonoid(ML, MA)
 }
 
 /**
  * @since 2.0.0
  */
-export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => {
-  const ap = <A, B>(fab: Tuple<L, (a: A) => B>, fa: Tuple<L, A>): Tuple<L, B> => {
-    return [S.concat(fst(fab), fst(fa)), snd(fab)(snd(fa))]
-  }
-
+export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> {
   return {
     URI,
     _L: phantom,
     map,
-    ap
+    ap: (fab, fa) => [S.concat(fst(fab), fst(fa)), snd(fab)(snd(fa))]
   }
 }
 
@@ -148,7 +150,7 @@ const of = <L>(M: Monoid<L>) => <A>(a: A): Tuple<L, A> => {
 /**
  * @since 2.0.0
  */
-export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
+export function getApplicative<L>(M: Monoid<L>): Applicative2C<URI, L> {
   return {
     ...getApply(M),
     of: of(M)
@@ -158,22 +160,20 @@ export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => {
 /**
  * @since 2.0.0
  */
-export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => {
-  const chain = <A, B>(fa: Tuple<L, A>, f: (b: A) => Tuple<L, B>): Tuple<L, B> => {
-    const [fs, s] = f(snd(fa))
-    return [S.concat(fst(fa), fs), s]
-  }
-
+export function getChain<L>(S: Semigroup<L>): Chain2C<URI, L> {
   return {
     ...getApply(S),
-    chain
+    chain: (fa, f) => {
+      const [fs, s] = f(snd(fa))
+      return [S.concat(fst(fa), fs), s]
+    }
   }
 }
 
 /**
  * @since 2.0.0
  */
-export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => {
+export function getMonad<L>(M: Monoid<L>): Monad2C<URI, L> {
   return {
     ...getChain(M),
     of: of(M)
@@ -183,7 +183,7 @@ export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => {
 /**
  * @since 2.0.0
  */
-export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => {
+export function getChainRec<L>(M: Monoid<L>): ChainRec2C<URI, L> {
   const chainRec = <A, B>(a: A, f: (a: A) => Tuple<L, Either<A, B>>): Tuple<L, B> => {
     let result: Tuple<L, Either<A, B>> = f(a)
     let acc: L = M.empty

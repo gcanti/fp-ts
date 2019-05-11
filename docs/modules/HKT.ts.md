@@ -42,6 +42,8 @@ export interface HKT<URI, A> {
 }
 ```
 
+Added in v2.0.0
+
 # HKT2 (interface)
 
 `* -> * -> *` constructors
@@ -53,6 +55,8 @@ export interface HKT2<URI, L, A> extends HKT<URI, A> {
   readonly _L: L
 }
 ```
+
+Added in v2.0.0
 
 # HKT3 (interface)
 
@@ -66,6 +70,8 @@ export interface HKT3<URI, U, L, A> extends HKT2<URI, L, A> {
 }
 ```
 
+Added in v2.0.0
+
 # HKT4 (interface)
 
 `* -> * -> * -> * -> *` constructors
@@ -78,6 +84,8 @@ export interface HKT4<URI, X, U, L, A> extends HKT3<URI, U, L, A> {
 }
 ```
 
+Added in v2.0.0
+
 # URI2HKT (interface)
 
 `* -> *` constructors
@@ -87,6 +95,8 @@ export interface HKT4<URI, X, U, L, A> extends HKT3<URI, U, L, A> {
 ```ts
 export interface URI2HKT<A> {}
 ```
+
+Added in v2.0.0
 
 # URI2HKT2 (interface)
 
@@ -98,6 +108,8 @@ export interface URI2HKT<A> {}
 export interface URI2HKT2<L, A> {}
 ```
 
+Added in v2.0.0
+
 # URI2HKT3 (interface)
 
 `* -> * -> * -> *` constructors
@@ -107,6 +119,8 @@ export interface URI2HKT2<L, A> {}
 ```ts
 export interface URI2HKT3<U, L, A> {}
 ```
+
+Added in v2.0.0
 
 # URI2HKT4 (interface)
 
@@ -118,6 +132,8 @@ export interface URI2HKT3<U, L, A> {}
 export interface URI2HKT4<X, U, L, A> {}
 ```
 
+Added in v2.0.0
+
 # Type (type alias)
 
 `* -> *` constructors
@@ -127,6 +143,8 @@ export interface URI2HKT4<X, U, L, A> {}
 ```ts
 export type Type<URI extends URIS, A> = URI extends URIS ? URI2HKT<A>[URI] : any
 ```
+
+Added in v2.0.0
 
 # Type2 (type alias)
 
@@ -138,6 +156,8 @@ export type Type<URI extends URIS, A> = URI extends URIS ? URI2HKT<A>[URI] : any
 export type Type2<URI extends URIS2, L, A> = URI extends URIS2 ? URI2HKT2<L, A>[URI] : any
 ```
 
+Added in v2.0.0
+
 # Type3 (type alias)
 
 `* -> * -> * -> *` constructors
@@ -147,6 +167,8 @@ export type Type2<URI extends URIS2, L, A> = URI extends URIS2 ? URI2HKT2<L, A>[
 ```ts
 export type Type3<URI extends URIS3, U, L, A> = URI extends URIS3 ? URI2HKT3<U, L, A>[URI] : any
 ```
+
+Added in v2.0.0
 
 # Type4 (type alias)
 
@@ -158,6 +180,8 @@ export type Type3<URI extends URIS3, U, L, A> = URI extends URIS3 ? URI2HKT3<U, 
 export type Type4<URI extends URIS4, X, U, L, A> = URI extends URIS4 ? URI2HKT4<X, U, L, A>[URI] : any
 ```
 
+Added in v2.0.0
+
 # URIS (type alias)
 
 `* -> *` constructors
@@ -167,6 +191,8 @@ export type Type4<URI extends URIS4, X, U, L, A> = URI extends URIS4 ? URI2HKT4<
 ```ts
 export type URIS = keyof URI2HKT<any>
 ```
+
+Added in v2.0.0
 
 # URIS2 (type alias)
 
@@ -178,6 +204,8 @@ export type URIS = keyof URI2HKT<any>
 export type URIS2 = keyof URI2HKT2<any, any>
 ```
 
+Added in v2.0.0
+
 # URIS3 (type alias)
 
 `* -> * -> * -> *` constructors
@@ -188,6 +216,8 @@ export type URIS2 = keyof URI2HKT2<any, any>
 export type URIS3 = keyof URI2HKT3<any, any, any>
 ```
 
+Added in v2.0.0
+
 # URIS4 (type alias)
 
 `* -> * -> * -> * -> *` constructors
@@ -197,3 +227,5 @@ export type URIS3 = keyof URI2HKT3<any, any, any>
 ```ts
 export type URIS4 = keyof URI2HKT4<any, any, any, any>
 ```
+
+Added in v2.0.0

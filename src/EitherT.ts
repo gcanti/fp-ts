@@ -8,8 +8,14 @@ import { Either, either, isLeft, left, right, URI, swap, fold } from './Either'
 import { HKT, Type, Type2, URIS, URIS2 } from './HKT'
 import { Monad, Monad1, Monad2 } from './Monad'
 
+/**
+ * @since 2.0.0
+ */
 export interface EitherT<M, L, A> extends HKT<M, Either<L, A>> {}
 
+/**
+ * @since 2.0.0
+ */
 export interface EitherM<M> extends ApplicativeComposition02<M, URI> {
   readonly chain: <L, A, B>(ma: EitherT<M, L, A>, f: (a: A) => EitherT<M, L, B>) => EitherT<M, L, B>
   readonly fold: <L, A, R>(ma: EitherT<M, L, A>, onLeft: (l: L) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => HKT<M, R>
@@ -28,9 +34,15 @@ export interface EitherM<M> extends ApplicativeComposition02<M, URI> {
   ) => EitherT<M, L, B>
 }
 
-type EitherT1<M extends URIS, L, A> = Type<M, Either<L, A>>
+/**
+ * @since 2.0.0
+ */
+export type EitherT1<M extends URIS, L, A> = Type<M, Either<L, A>>
 
-interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, URI> {
+/**
+ * @since 2.0.0
+ */
+export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, URI> {
   readonly chain: <L, A, B>(ma: EitherT1<M, L, A>, f: (a: A) => EitherT1<M, L, B>) => EitherT1<M, L, B>
   readonly fold: <L, A, R>(
     ma: EitherT1<M, L, A>,
@@ -52,9 +64,15 @@ interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, URI> {
   ) => EitherT1<M, L, B>
 }
 
-type EitherT2<M extends URIS2, LM, L, A> = Type2<M, LM, Either<L, A>>
+/**
+ * @since 2.0.0
+ */
+export type EitherT2<M extends URIS2, LM, L, A> = Type2<M, LM, Either<L, A>>
 
-interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, URI> {
+/**
+ * @since 2.0.0
+ */
+export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, URI> {
   readonly chain: <LM, L, A, B>(ma: EitherT2<M, LM, L, A>, f: (a: A) => EitherT2<M, LM, L, B>) => EitherT2<M, LM, L, B>
   readonly fold: <LM, L, A, R>(
     ma: EitherT2<M, LM, L, A>,

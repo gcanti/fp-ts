@@ -39,6 +39,8 @@ export interface ChainRec1<F extends URIS> extends Chain1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # ChainRec2 (interface)
 
 **Signature**
@@ -48,6 +50,8 @@ export interface ChainRec2<F extends URIS2> extends Chain2<F> {
   readonly chainRec: <L, A, B>(a: A, f: (a: A) => Type2<F, L, Either<A, B>>) => Type2<F, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # ChainRec2C (interface)
 
@@ -59,6 +63,8 @@ export interface ChainRec2C<F extends URIS2, L> extends Chain2C<F, L> {
 }
 ```
 
+Added in v2.0.0
+
 # ChainRec3 (interface)
 
 **Signature**
@@ -69,12 +75,14 @@ export interface ChainRec3<F extends URIS3> extends Chain3<F> {
 }
 ```
 
+Added in v2.0.0
+
 # tailRec (function)
 
 **Signature**
 
 ```ts
-export const tailRec = <A, B>(a: A, f: (a: A) => Either<A, B>): B => ...
+export function tailRec<A, B>(a: A, f: (a: A) => Either<A, B>): B { ... }
 ```
 
 Added in v2.0.0

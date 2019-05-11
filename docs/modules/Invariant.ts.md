@@ -40,6 +40,8 @@ export interface Invariant1<F extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # Invariant2 (interface)
 
 **Signature**
@@ -50,6 +52,8 @@ export interface Invariant2<F extends URIS2> {
   readonly imap: <L, A, B>(fa: HKT2<F, L, A>, f: (a: A) => B, g: (b: B) => A) => Type2<F, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # Invariant2C (interface)
 
@@ -63,6 +67,8 @@ export interface Invariant2C<F extends URIS2, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Invariant3 (interface)
 
 **Signature**
@@ -73,3 +79,5 @@ export interface Invariant3<F extends URIS3> {
   readonly imap: <U, L, A, B>(fa: HKT3<F, U, L, A>, f: (a: A) => B, g: (b: B) => A) => Type3<F, U, L, B>
 }
 ```
+
+Added in v2.0.0

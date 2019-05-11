@@ -29,13 +29,13 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 - [clamp (function)](#clamp-function)
 - [contramap (function)](#contramap-function)
 - [fromCompare (function)](#fromcompare-function)
+- [geq (function)](#geq-function)
 - [getDualOrd (function)](#getdualord-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getTupleOrd (function)](#gettupleord-function)
-- [greaterThan (function)](#greaterthan-function)
-- [greaterThanOrEq (function)](#greaterthanoreq-function)
-- [lessThan (function)](#lessthan-function)
-- [lessThanOrEq (function)](#lessthanoreq-function)
+- [gt (function)](#gt-function)
+- [leq (function)](#leq-function)
+- [lt (function)](#lt-function)
 - [max (function)](#max-function)
 - [min (function)](#min-function)
 
@@ -137,6 +137,18 @@ export function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A> { ... 
 
 Added in v2.0.0
 
+# geq (function)
+
+Test whether one value is _non-strictly greater than_ another
+
+**Signature**
+
+```ts
+export function geq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
+```
+
+Added in v2.0.0
+
 # getDualOrd (function)
 
 **Signature**
@@ -182,50 +194,38 @@ assert.strictEqual(O.compare(['a', 1, true], ['a', 1, false]), 1)
 
 Added in v2.0.0
 
-# greaterThan (function)
+# gt (function)
 
 Test whether one value is _strictly greater than_ another
 
 **Signature**
 
 ```ts
-export function greaterThan<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
+export function gt<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 ```
 
 Added in v2.0.0
 
-# greaterThanOrEq (function)
-
-Test whether one value is _non-strictly greater than_ another
-
-**Signature**
-
-```ts
-export function greaterThanOrEq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
-```
-
-Added in v2.0.0
-
-# lessThan (function)
-
-Test whether one value is _strictly less than_ another
-
-**Signature**
-
-```ts
-export function lessThan<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
-```
-
-Added in v2.0.0
-
-# lessThanOrEq (function)
+# leq (function)
 
 Test whether one value is _non-strictly less than_ another
 
 **Signature**
 
 ```ts
-export function lessThanOrEq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
+export function leq<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
+```
+
+Added in v2.0.0
+
+# lt (function)
+
+Test whether one value is _strictly less than_ another
+
+**Signature**
+
+```ts
+export function lt<A>(O: Ord<A>): (x: A, y: A) => boolean { ... }
 ```
 
 Added in v2.0.0

@@ -35,55 +35,91 @@ export interface FunctorWithIndex<F, I> extends Functor<F> {
   readonly mapWithIndex: <A, B>(fa: HKT<F, A>, f: (i: I, a: A) => B) => HKT<F, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
   readonly mapWithIndex: <A, B>(fa: Type<F, A>, f: (i: I, a: A) => B) => Type<F, B>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
   readonly mapWithIndex: <L, A, B>(fa: Type2<F, L, A>, f: (i: I, a: A) => B) => Type2<F, L, B>
 }
 
-export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
-  readonly mapWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => B) => Type3<F, U, L, B>
-}
-
-export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
-  readonly mapWithIndex: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (i: I, a: A) => B) => Type4<F, X, U, L, B>
-}
-
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndex2C<F extends URIS2, I, L> extends Functor2C<F, L> {
   readonly mapWithIndex: <A, B>(fa: Type2<F, L, A>, f: (i: I, a: A) => B) => Type2<F, L, B>
 }
 
+/**
+ * @since 2.0.0
+ */
+export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
+  readonly mapWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => B) => Type3<F, U, L, B>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
+  readonly mapWithIndex: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (i: I, a: A) => B) => Type4<F, X, U, L, B>
+}
+
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndexComposition<F, FI, G, GI> extends FunctorComposition<F, G> {
   readonly mapWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, f: (i: [FI, GI], a: A) => B) => HKT<F, HKT<G, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndexComposition11<F extends URIS, FI, G extends URIS, GI>
   extends FunctorComposition11<F, G> {
   readonly mapWithIndex: <A, B>(fa: Type<F, Type<G, A>>, f: (i: [FI, GI], a: A) => B) => Type<F, Type<G, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndexComposition12<F extends URIS, FI, G extends URIS2, GI>
   extends FunctorComposition12<F, G> {
   readonly mapWithIndex: <L, A, B>(fa: Type<F, Type2<G, L, A>>, f: (i: [FI, GI], a: A) => B) => Type<F, Type2<G, L, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndexComposition12C<F extends URIS, FI, G extends URIS2, GI, L>
   extends FunctorComposition12C<F, G, L> {
   readonly mapWithIndex: <A, B>(fa: Type<F, Type2<G, L, A>>, f: (i: [FI, GI], a: A) => B) => Type<F, Type2<G, L, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndexComposition21<F extends URIS2, FI, G extends URIS, GI>
   extends FunctorComposition21<F, G> {
   readonly mapWithIndex: <L, A, B>(fa: Type2<F, L, Type<G, A>>, f: (i: [FI, GI], a: A) => B) => Type2<F, L, Type<G, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends URIS, GI, L>
   extends FunctorComposition2C1<F, G, L> {
   readonly mapWithIndex: <A, B>(fa: Type2<F, L, Type<G, A>>, f: (i: [FI, GI], a: A) => B) => Type2<F, L, Type<G, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends URIS2, GI>
   extends FunctorComposition22<F, G> {
   readonly mapWithIndex: <L, M, A, B>(
@@ -92,6 +128,9 @@ export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends UR
   ) => Type2<F, L, Type2<G, M, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends URIS2, GI, LG>
   extends FunctorComposition22C<F, G, LG> {
   readonly mapWithIndex: <L, A, B>(

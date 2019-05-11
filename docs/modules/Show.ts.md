@@ -69,7 +69,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getStructShow = <O extends { [key: string]: any }>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> => ...
+export function getStructShow<O extends { [key: string]: any }>(shows: { [K in keyof O]: Show<O[K]> }): Show<O> { ... }
 ```
 
 Added in v2.0.0
@@ -79,9 +79,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getTupleShow = <T extends Array<Show<any>>>(
+export function getTupleShow<T extends Array<Show<any>>>(
   ...shows: T
-): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> => ...
+): Show<{ [K in keyof T]: T[K] extends Show<infer A> ? A : never }> { ... }
 ```
 
 Added in v2.0.0

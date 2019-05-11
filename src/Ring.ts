@@ -19,7 +19,7 @@ export interface Ring<A> extends Semiring<A> {
 /**
  * @since 2.0.0
  */
-export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
+export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> {
   return {
     ...getFunctionSemiring(ring),
     sub: (f, g) => x => ring.sub(f(x), g(x))
@@ -31,8 +31,8 @@ export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => {
  *
  * @since 2.0.0
  */
-export const negate = <A>(ring: Ring<A>) => (a: A): A => {
-  return ring.sub(ring.zero, a)
+export function negate<A>(ring: Ring<A>): (a: A) => A {
+  return a => ring.sub(ring.zero, a)
 }
 
 /**
@@ -51,9 +51,9 @@ export const negate = <A>(ring: Ring<A>) => (a: A): A => {
  *
  * @since 2.0.0
  */
-export const getTupleRing = <T extends Array<Ring<any>>>(
+export function getTupleRing<T extends Array<Ring<any>>>(
   ...rings: T
-): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> => {
+): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> {
   return {
     add: (x: any, y: any) => rings.map((R, i) => R.add(x[i], y[i])),
     zero: rings.map(R => R.zero),

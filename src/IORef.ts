@@ -38,6 +38,6 @@ export class IORef<A> {
 /**
  * @since 2.0.0
  */
-export const newIORef = <A>(a: A): IO<IORef<A>> => {
+export function newIORef<A>(a: A): IO<IORef<A>> {
   return () => new IORef(a)
 }

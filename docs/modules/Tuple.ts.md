@@ -50,6 +50,8 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -57,6 +59,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # tuple (constant)
 
@@ -73,7 +77,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fst = <L, A>(fa: Tuple<L, A>): L => ...
+export function fst<L, A>(fa: Tuple<L, A>): L { ... }
 ```
 
 Added in v2.0.0
@@ -83,7 +87,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApplicative = <L>(M: Monoid<L>): Applicative2C<URI, L> => ...
+export function getApplicative<L>(M: Monoid<L>): Applicative2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -93,7 +97,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
+export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -103,7 +107,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getChain = <L>(S: Semigroup<L>): Chain2C<URI, L> => ...
+export function getChain<L>(S: Semigroup<L>): Chain2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -113,7 +117,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getChainRec = <L>(M: Monoid<L>): ChainRec2C<URI, L> => ...
+export function getChainRec<L>(M: Monoid<L>): ChainRec2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -123,7 +127,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getEq = <L, A>(SA: Eq<L>, SB: Eq<A>): Eq<Tuple<L, A>> => ...
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Tuple<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -133,7 +137,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonad = <L>(M: Monoid<L>): Monad2C<URI, L> => ...
+export function getMonad<L>(M: Monoid<L>): Monad2C<URI, L> { ... }
 ```
 
 Added in v2.0.0
@@ -143,7 +147,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonoid = <L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> => ...
+export function getMonoid<L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -156,7 +160,7 @@ To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
 **Signature**
 
 ```ts
-export const getOrd = <L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> => ...
+export function getOrd<L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -166,7 +170,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> => ...
+export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -176,7 +180,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => ...
+export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -186,7 +190,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const snd = <L, A>(fa: Tuple<L, A>): A => ...
+export function snd<L, A>(fa: Tuple<L, A>): A { ... }
 ```
 
 Added in v2.0.0
@@ -196,7 +200,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const swap = <L, A>(fa: Tuple<L, A>): Tuple<A, L> => ...
+export function swap<L, A>(fa: Tuple<L, A>): Tuple<A, L> { ... }
 ```
 
 Added in v2.0.0

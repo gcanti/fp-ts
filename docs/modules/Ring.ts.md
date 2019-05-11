@@ -42,7 +42,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getFunctionRing = <A, B>(ring: Ring<B>): Ring<(a: A) => B> => ...
+export function getFunctionRing<A, B>(ring: Ring<B>): Ring<(a: A) => B> { ... }
 ```
 
 Added in v2.0.0
@@ -54,9 +54,9 @@ Given a tuple of `Ring`s returns a `Ring` for the tuple
 **Signature**
 
 ```ts
-export const getTupleRing = <T extends Array<Ring<any>>>(
+export function getTupleRing<T extends Array<Ring<any>>>(
   ...rings: T
-): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> => ...
+): Ring<{ [K in keyof T]: T[K] extends Ring<infer A> ? A : never }> { ... }
 ```
 
 **Example**
@@ -82,7 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const negate = <A>(ring: Ring<A>) => (a: A): A => ...
+export function negate<A>(ring: Ring<A>): (a: A) => A { ... }
 ```
 
 Added in v2.0.0

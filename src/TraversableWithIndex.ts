@@ -31,6 +31,9 @@ export interface TraversableWithIndex<T, I> extends FunctorWithIndex<T, I>, Fold
   readonly traverseWithIndex: TraverseWithIndex<T, I>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface TraversableWithIndex1<T extends URIS, I>
   extends FunctorWithIndex1<T, I>,
     FoldableWithIndex1<T, I>,
@@ -38,6 +41,9 @@ export interface TraversableWithIndex1<T extends URIS, I>
   readonly traverseWithIndex: TraverseWithIndex1<T, I>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface TraversableWithIndex2<T extends URIS2, I>
   extends FunctorWithIndex2<T, I>,
     FoldableWithIndex2<T, I>,
@@ -45,6 +51,9 @@ export interface TraversableWithIndex2<T extends URIS2, I>
   readonly traverseWithIndex: TraverseWithIndex2<T, I>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface TraversableWithIndex2C<T extends URIS2, I, L>
   extends FunctorWithIndex2C<T, I, L>,
     FoldableWithIndex2C<T, I, L>,
@@ -52,6 +61,9 @@ export interface TraversableWithIndex2C<T extends URIS2, I, L>
   readonly traverseWithIndex: TraverseWithIndex2C<T, I, L>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface TraverseWithIndex<T, I> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: HKT<T, A>,
@@ -69,6 +81,9 @@ export interface TraverseWithIndex<T, I> {
   <F>(F: Applicative<F>): <A, B>(ta: HKT<T, A>, f: (i: I, a: A) => HKT<F, B>) => HKT<F, HKT<T, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface TraverseWithIndex1<T extends URIS, I> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type<T, A>,
@@ -86,6 +101,9 @@ export interface TraverseWithIndex1<T extends URIS, I> {
   <F>(F: Applicative<F>): <A, B>(ta: Type<T, A>, f: (i: I, a: A) => HKT<F, B>) => HKT<F, Type<T, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface TraverseWithIndex2<T extends URIS2, I> {
   <F extends URIS3>(F: Applicative3<F>): <FU, FL, A, B>(
     ta: Type2<T, FL, A>,
@@ -106,6 +124,9 @@ export interface TraverseWithIndex2<T extends URIS2, I> {
   <F>(F: Applicative<F>): <FL, A, B>(ta: Type2<T, FL, A>, f: (i: I, a: A) => HKT<F, B>) => HKT<F, Type2<T, FL, B>>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface TraverseWithIndex2C<T extends URIS2, I, FL> {
   <F extends URIS3>(F: Applicative3<F>): <FU, A, B>(
     ta: Type2<T, FL, A>,

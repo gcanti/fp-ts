@@ -52,15 +52,27 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Either'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
+/**
+ * @since 2.0.0
+ */
 export interface Left<L> {
   readonly _tag: 'Left'
   readonly left: L
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Right<A> {
   readonly _tag: 'Right'
   readonly right: A

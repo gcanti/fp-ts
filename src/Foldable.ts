@@ -14,6 +14,9 @@ export interface Foldable<F> {
   readonly reduceRight: <A, B>(fa: HKT<F, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Foldable1<F extends URIS> {
   readonly URI: F
   readonly reduce: <A, B>(fa: Type<F, A>, b: B, f: (b: B, a: A) => B) => B
@@ -21,6 +24,9 @@ export interface Foldable1<F extends URIS> {
   readonly reduceRight: <A, B>(fa: Type<F, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Foldable2<F extends URIS2> {
   readonly URI: F
   readonly reduce: <L, A, B>(fa: Type2<F, L, A>, b: B, f: (b: B, a: A) => B) => B
@@ -28,13 +34,9 @@ export interface Foldable2<F extends URIS2> {
   readonly reduceRight: <L, A, B>(fa: Type2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
-export interface Foldable3<F extends URIS3> {
-  readonly URI: F
-  readonly reduce: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <U, L, A>(fa: Type3<F, U, L, A>, f: (a: A) => M) => M
-  readonly reduceRight: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
-}
-
+/**
+ * @since 2.0.0
+ */
 export interface Foldable2C<F extends URIS2, L> {
   readonly URI: F
   readonly _L: L
@@ -43,47 +45,81 @@ export interface Foldable2C<F extends URIS2, L> {
   readonly reduceRight: <A, B>(fa: Type2<F, L, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
+export interface Foldable3<F extends URIS3> {
+  readonly URI: F
+  readonly reduce: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <U, L, A>(fa: Type3<F, U, L, A>, f: (a: A) => M) => M
+  readonly reduceRight: <U, L, A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
+}
+
+/**
+ * @since 2.0.0
+ */
 export interface FoldableComposition<F, G> {
   readonly reduce: <A, B>(fga: HKT<F, HKT<G, A>>, b: B, f: (b: B, a: A) => B) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: HKT<F, HKT<G, A>>, f: (a: A) => M) => M
   readonly reduceRight: <A, B>(fa: HKT<F, HKT<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FoldableComposition11<F extends URIS, G extends URIS> {
   readonly reduce: <A, B>(fga: Type<F, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Type<F, Type<G, A>>, f: (a: A) => M) => M
   readonly reduceRight: <A, B>(fa: Type<F, Type<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FoldableComposition12<F extends URIS, G extends URIS2> {
   readonly reduce: <LG, A, B>(fga: Type<F, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
   readonly foldMap: <M>(M: Monoid<M>) => <L, A>(fa: Type<F, Type2<G, L, A>>, f: (a: A) => M) => M
   readonly reduceRight: <LG, A, B>(fa: Type<F, Type2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FoldableComposition12C<F extends URIS, G extends URIS2, LG> {
   readonly reduce: <A, B>(fga: Type<F, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Type<F, Type2<G, LG, A>>, f: (a: A) => M) => M
   readonly reduceRight: <A, B>(fa: Type<F, Type2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FoldableComposition21<F extends URIS2, G extends URIS> {
   readonly reduce: <LF, A, B>(fga: Type2<F, LF, Type<G, A>>, b: B, f: (b: B, a: A) => B) => B
   readonly foldMap: <M>(M: Monoid<M>) => <L, A>(fa: Type2<F, L, Type<G, A>>, f: (a: A) => M) => M
   readonly reduceRight: <LF, A, B>(fa: Type2<F, LF, Type<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FoldableComposition2C1<F extends URIS2, G extends URIS, LF> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Type2<F, LF, Type<G, A>>, f: (a: A) => M) => M
   readonly reduceRight: <A, B>(fa: Type2<F, LF, Type<G, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FoldableComposition22<F extends URIS2, G extends URIS2> {
   readonly reduce: <LF, LG, A, B>(fga: Type2<F, LF, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
   readonly foldMap: <M>(M: Monoid<M>) => <LF, LG, A>(fa: Type2<F, LF, Type2<G, LG, A>>, f: (a: A) => M) => M
   readonly reduceRight: <LF, LG, A, B>(fa: Type2<F, LF, Type2<G, LG, A>>, b: B, f: (a: A, b: B) => B) => B
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface FoldableComposition22C<F extends URIS2, G extends URIS2, LG> {
   readonly reduce: <LF, A, B>(fga: Type2<F, LF, Type2<G, LG, A>>, b: B, f: (b: B, a: A) => B) => B
   readonly foldMap: <M>(M: Monoid<M>) => <LF, A>(fa: Type2<F, LF, Type2<G, LG, A>>, f: (a: A) => M) => M
@@ -188,11 +224,6 @@ export function foldM<M, F>(
   return (fa, b, f) => F.reduce(fa, M.of(b), (mb, a) => M.chain(mb, b => f(b, a)))
 }
 
-interface Acc<M> {
-  init: boolean
-  acc: M
-}
-
 /**
  * Fold a data structure, accumulating values in some `Monoid`, combining adjacent elements using the specified separator
  *
@@ -215,6 +246,10 @@ export function intercalate<M, F extends URIS2, L>(M: Monoid<M>, F: Foldable2C<F
 export function intercalate<M, F extends URIS>(M: Monoid<M>, F: Foldable1<F>): (sep: M, fm: Type<F, M>) => M
 export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M
 export function intercalate<M, F>(M: Monoid<M>, F: Foldable<F>): (sep: M, fm: HKT<F, M>) => M {
+  interface Acc<M> {
+    init: boolean
+    acc: M
+  }
   return (sep, fm) => {
     const go = ({ init, acc }: Acc<M>, x: M): Acc<M> =>
       init ? { init: false, acc: x } : { init: false, acc: M.concat(M.concat(acc, sep), x) }

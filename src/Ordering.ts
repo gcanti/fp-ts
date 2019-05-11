@@ -1,12 +1,15 @@
 import { Semigroup } from './Semigroup'
 import { Eq } from './Eq'
 
+/**
+ * @since 2.0.0
+ */
 export type Ordering = -1 | 0 | 1
 
 /**
  * @since 2.0.0
  */
-export const sign = (n: number): Ordering => {
+export function sign(n: number): Ordering {
   return n <= -1 ? -1 : n >= 1 ? 1 : 0
 }
 
@@ -27,7 +30,7 @@ export const semigroupOrdering: Semigroup<Ordering> = {
 /**
  * @since 2.0.0
  */
-export const invert = (O: Ordering): Ordering => {
+export function invert(O: Ordering): Ordering {
   switch (O) {
     case -1:
       return 1

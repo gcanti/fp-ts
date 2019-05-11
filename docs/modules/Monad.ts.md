@@ -49,6 +49,8 @@ Added in v2.0.0
 export interface Monad1<F extends URIS> extends Applicative1<F>, Chain1<F> {}
 ```
 
+Added in v2.0.0
+
 # Monad2 (interface)
 
 **Signature**
@@ -56,6 +58,8 @@ export interface Monad1<F extends URIS> extends Applicative1<F>, Chain1<F> {}
 ```ts
 export interface Monad2<M extends URIS2> extends Applicative2<M>, Chain2<M> {}
 ```
+
+Added in v2.0.0
 
 # Monad2C (interface)
 
@@ -65,6 +69,8 @@ export interface Monad2<M extends URIS2> extends Applicative2<M>, Chain2<M> {}
 export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2C<M, L> {}
 ```
 
+Added in v2.0.0
+
 # Monad3 (interface)
 
 **Signature**
@@ -73,6 +79,8 @@ export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2
 export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
 ```
 
+Added in v2.0.0
+
 # Monad4 (interface)
 
 **Signature**
@@ -80,3 +88,5 @@ export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
 ```ts
 export interface Monad4<M extends URIS4> extends Applicative4<M>, Chain4<M> {}
 ```
+
+Added in v2.0.0

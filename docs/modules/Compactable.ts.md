@@ -68,6 +68,8 @@ export interface Compactable1<F extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # Compactable2 (interface)
 
 **Signature**
@@ -79,6 +81,8 @@ export interface Compactable2<F extends URIS2> {
   readonly separate: <L, A, B>(fa: Type2<F, L, Either<A, B>>) => Separated<Type2<F, L, A>, Type2<F, L, B>>
 }
 ```
+
+Added in v2.0.0
 
 # Compactable2C (interface)
 
@@ -93,6 +97,8 @@ export interface Compactable2C<F extends URIS2, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Compactable3 (interface)
 
 **Signature**
@@ -105,6 +111,8 @@ export interface Compactable3<F extends URIS3> {
 }
 ```
 
+Added in v2.0.0
+
 # CompactableComposition (interface)
 
 **Signature**
@@ -116,6 +124,8 @@ export interface CompactableComposition<F, G> extends FunctorComposition<F, G> {
 }
 ```
 
+Added in v2.0.0
+
 # CompactableComposition11 (interface)
 
 **Signature**
@@ -126,6 +136,8 @@ export interface CompactableComposition11<F extends URIS, G extends URIS> extend
   readonly separate: <A, B>(fge: Type<F, Type<G, Either<A, B>>>) => Separated<Type<F, Type<G, A>>, Type<F, Type<G, B>>>
 }
 ```
+
+Added in v2.0.0
 
 # CompactableComposition12 (interface)
 
@@ -139,6 +151,8 @@ export interface CompactableComposition12<F extends URIS, G extends URIS2> exten
   ) => Separated<Type<F, Type2<G, LG, A>>, Type<F, Type2<G, LG, B>>>
 }
 ```
+
+Added in v2.0.0
 
 # CompactableComposition12C (interface)
 
@@ -154,6 +168,8 @@ export interface CompactableComposition12C<F extends URIS, G extends URIS2, LG>
 }
 ```
 
+Added in v2.0.0
+
 # CompactableComposition21 (interface)
 
 **Signature**
@@ -167,6 +183,8 @@ export interface CompactableComposition21<F extends URIS2, G extends URIS> exten
 }
 ```
 
+Added in v2.0.0
+
 # CompactableComposition22 (interface)
 
 **Signature**
@@ -179,6 +197,8 @@ export interface CompactableComposition22<F extends URIS2, G extends URIS2> exte
   ) => Separated<Type2<F, LF, Type2<G, LG, A>>, Type2<F, LF, Type2<G, LG, B>>>
 }
 ```
+
+Added in v2.0.0
 
 # CompactableComposition22C (interface)
 
@@ -194,6 +214,8 @@ export interface CompactableComposition22C<F extends URIS2, G extends URIS2, LG>
 }
 ```
 
+Added in v2.0.0
+
 # CompactableComposition2C1 (interface)
 
 **Signature**
@@ -207,6 +229,8 @@ export interface CompactableComposition2C1<F extends URIS2, G extends URIS, LF>
   ) => Separated<Type2<F, LF, Type<G, A>>, Type2<F, LF, Type<G, B>>>
 }
 ```
+
+Added in v2.0.0
 
 # Separated (interface)
 

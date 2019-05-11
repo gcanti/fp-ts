@@ -12,7 +12,7 @@ import { Lazy } from './function'
  *
  * @since 2.0.0
  */
-export const trace = <A>(message: unknown, out: Lazy<A>): A => {
+export function trace<A>(message: unknown, out: Lazy<A>): A {
   console.log(message) // tslint:disable-line:no-console
   return out()
 }
@@ -22,7 +22,7 @@ export const trace = <A>(message: unknown, out: Lazy<A>): A => {
  *
  * @since 2.0.0
  */
-export const spy = <A>(a: A): A => {
+export function spy<A>(a: A): A {
   return trace(a, () => a)
 }
 

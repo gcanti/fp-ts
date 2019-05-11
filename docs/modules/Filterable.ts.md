@@ -14,6 +14,11 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [Filter (interface)](#filter-interface)
+- [Filter1 (interface)](#filter1-interface)
+- [Filter2 (interface)](#filter2-interface)
+- [Filter2C (interface)](#filter2c-interface)
+- [Filter3 (interface)](#filter3-interface)
 - [Filterable (interface)](#filterable-interface)
 - [Filterable1 (interface)](#filterable1-interface)
 - [Filterable2 (interface)](#filterable2-interface)
@@ -27,9 +32,79 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [FilterableComposition22 (interface)](#filterablecomposition22-interface)
 - [FilterableComposition22C (interface)](#filterablecomposition22c-interface)
 - [FilterableComposition2C1 (interface)](#filterablecomposition2c1-interface)
+- [Partition (interface)](#partition-interface)
+- [Partition1 (interface)](#partition1-interface)
+- [Partition2 (interface)](#partition2-interface)
+- [Partition2C (interface)](#partition2c-interface)
+- [Partition3 (interface)](#partition3-interface)
 - [getFilterableComposition (function)](#getfilterablecomposition-function)
 
 ---
+
+# Filter (interface)
+
+**Signature**
+
+```ts
+export interface Filter<F> {
+  <A, B extends A>(fa: HKT<F, A>, refinement: Refinement<A, B>): HKT<F, B>
+  <A>(fa: HKT<F, A>, predicate: Predicate<A>): HKT<F, A>
+}
+```
+
+Added in v2.0.0
+
+# Filter1 (interface)
+
+**Signature**
+
+```ts
+export interface Filter1<F extends URIS> {
+  <A, B extends A>(fa: Type<F, A>, refinement: Refinement<A, B>): Type<F, B>
+  <A>(fa: Type<F, A>, predicate: Predicate<A>): Type<F, A>
+}
+```
+
+Added in v2.0.0
+
+# Filter2 (interface)
+
+**Signature**
+
+```ts
+export interface Filter2<F extends URIS2> {
+  <L, A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Type2<F, L, B>
+  <L, A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Type2<F, L, A>
+}
+```
+
+Added in v2.0.0
+
+# Filter2C (interface)
+
+**Signature**
+
+```ts
+export interface Filter2C<F extends URIS2, L> {
+  <A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Type2<F, L, B>
+  <A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Type2<F, L, A>
+}
+```
+
+Added in v2.0.0
+
+# Filter3 (interface)
+
+**Signature**
+
+```ts
+export interface Filter3<F extends URIS3> {
+  <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Type3<F, U, L, B>
+  <U, L, A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Type3<F, U, L, A>
+}
+```
+
+Added in v2.0.0
 
 # Filterable (interface)
 
@@ -146,6 +221,8 @@ export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, C
 }
 ```
 
+Added in v2.0.0
+
 # FilterableComposition11 (interface)
 
 **Signature**
@@ -166,6 +243,8 @@ export interface FilterableComposition11<F extends URIS, G extends URIS>
   readonly filter: <A>(fa: Type<F, Type<G, A>>, predicate: Predicate<A>) => Type<F, Type<G, A>>
 }
 ```
+
+Added in v2.0.0
 
 # FilterableComposition12 (interface)
 
@@ -188,6 +267,8 @@ export interface FilterableComposition12<F extends URIS, G extends URIS2>
 }
 ```
 
+Added in v2.0.0
+
 # FilterableComposition12C (interface)
 
 **Signature**
@@ -209,6 +290,8 @@ export interface FilterableComposition12C<F extends URIS, G extends URIS2, LG>
 }
 ```
 
+Added in v2.0.0
+
 # FilterableComposition21 (interface)
 
 **Signature**
@@ -229,6 +312,8 @@ export interface FilterableComposition21<F extends URIS2, G extends URIS>
   readonly filter: <LF, A>(fa: Type2<F, LF, Type<G, A>>, predicate: Predicate<A>) => Type2<F, LF, Type<G, A>>
 }
 ```
+
+Added in v2.0.0
 
 # FilterableComposition22 (interface)
 
@@ -257,6 +342,8 @@ export interface FilterableComposition22<F extends URIS2, G extends URIS2>
 }
 ```
 
+Added in v2.0.0
+
 # FilterableComposition22C (interface)
 
 **Signature**
@@ -281,6 +368,8 @@ export interface FilterableComposition22C<F extends URIS2, G extends URIS2, LG>
 }
 ```
 
+Added in v2.0.0
+
 # FilterableComposition2C1 (interface)
 
 **Signature**
@@ -301,6 +390,76 @@ export interface FilterableComposition2C1<F extends URIS2, G extends URIS, LF>
   readonly filter: <A>(fa: Type2<F, LF, Type<G, A>>, predicate: Predicate<A>) => Type2<F, LF, Type<G, A>>
 }
 ```
+
+Added in v2.0.0
+
+# Partition (interface)
+
+**Signature**
+
+```ts
+export interface Partition<F> {
+  <A, B extends A>(fa: HKT<F, A>, refinement: Refinement<A, B>): Separated<HKT<F, A>, HKT<F, B>>
+  <A>(fa: HKT<F, A>, predicate: Predicate<A>): Separated<HKT<F, A>, HKT<F, A>>
+}
+```
+
+Added in v2.0.0
+
+# Partition1 (interface)
+
+**Signature**
+
+```ts
+export interface Partition1<F extends URIS> {
+  <A, B extends A>(fa: Type<F, A>, refinement: Refinement<A, B>): Separated<Type<F, A>, Type<F, B>>
+  <A>(fa: Type<F, A>, predicate: Predicate<A>): Separated<Type<F, A>, Type<F, A>>
+}
+```
+
+Added in v2.0.0
+
+# Partition2 (interface)
+
+**Signature**
+
+```ts
+export interface Partition2<F extends URIS2> {
+  <L, A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Separated<Type2<F, L, A>, Type2<F, L, B>>
+  <L, A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
+}
+```
+
+Added in v2.0.0
+
+# Partition2C (interface)
+
+**Signature**
+
+```ts
+export interface Partition2C<F extends URIS2, L> {
+  <A, B extends A>(fa: Type2<F, L, A>, refinement: Refinement<A, B>): Separated<Type2<F, L, A>, Type2<F, L, B>>
+  <A>(fa: Type2<F, L, A>, predicate: Predicate<A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
+}
+```
+
+Added in v2.0.0
+
+# Partition3 (interface)
+
+**Signature**
+
+```ts
+export interface Partition3<F extends URIS3> {
+  <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Separated<
+    Type3<F, U, L, A>,
+    Type3<F, U, L, B>
+  >
+  <U, L, A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
+}
+```
+
+Added in v2.0.0
 
 # getFilterableComposition (function)
 

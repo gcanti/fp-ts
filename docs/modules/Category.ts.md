@@ -37,6 +37,8 @@ export interface Category2<F extends URIS2> extends Semigroupoid2<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Category3 (interface)
 
 **Signature**
@@ -47,6 +49,8 @@ export interface Category3<F extends URIS3> extends Semigroupoid3<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Category4 (interface)
 
 **Signature**
@@ -56,3 +60,5 @@ export interface Category4<F extends URIS4> extends Semigroupoid4<F> {
   readonly id: <X, U, A>() => Type4<F, X, U, A, A>
 }
 ```
+
+Added in v2.0.0

@@ -38,6 +38,8 @@ export interface Comonad1<W extends URIS> extends Extend1<W> {
 }
 ```
 
+Added in v2.0.0
+
 # Comonad2 (interface)
 
 **Signature**
@@ -47,6 +49,8 @@ export interface Comonad2<W extends URIS2> extends Extend2<W> {
   readonly extract: <L, A>(wa: Type2<W, L, A>) => A
 }
 ```
+
+Added in v2.0.0
 
 # Comonad2C (interface)
 
@@ -58,6 +62,8 @@ export interface Comonad2C<W extends URIS2, L> extends Extend2C<W, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Comonad3 (interface)
 
 **Signature**
@@ -67,3 +73,5 @@ export interface Comonad3<W extends URIS3> extends Extend3<W> {
   readonly extract: <U, L, A>(wa: Type3<W, U, L, A>) => A
 }
 ```
+
+Added in v2.0.0

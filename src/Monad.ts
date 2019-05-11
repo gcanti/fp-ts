@@ -20,12 +20,27 @@ import { URIS, URIS2, URIS3, URIS4 } from './HKT'
  */
 export interface Monad<F> extends Applicative<F>, Chain<F> {}
 
+/**
+ * @since 2.0.0
+ */
 export interface Monad1<F extends URIS> extends Applicative1<F>, Chain1<F> {}
 
+/**
+ * @since 2.0.0
+ */
 export interface Monad2<M extends URIS2> extends Applicative2<M>, Chain2<M> {}
 
-export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
-
+/**
+ * @since 2.0.0
+ */
 export interface Monad2C<M extends URIS2, L> extends Applicative2C<M, L>, Chain2C<M, L> {}
 
+/**
+ * @since 2.0.0
+ */
+export interface Monad3<M extends URIS3> extends Applicative3<M>, Chain3<M> {}
+
+/**
+ * @since 2.0.0
+ */
 export interface Monad4<M extends URIS4> extends Applicative4<M>, Chain4<M> {}

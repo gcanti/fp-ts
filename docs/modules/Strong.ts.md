@@ -69,6 +69,8 @@ export interface Strong2<F extends URIS2> extends Profunctor2<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Strong3 (interface)
 
 **Signature**
@@ -80,6 +82,8 @@ export interface Strong3<F extends URIS3> extends Profunctor3<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Strong4 (interface)
 
 **Signature**
@@ -90,6 +94,8 @@ export interface Strong4<F extends URIS4> extends Profunctor4<F> {
   readonly second: <X, U, A, B, C>(pab: Type4<F, X, U, B, C>) => Type4<F, X, U, [A, B], [A, C]>
 }
 ```
+
+Added in v2.0.0
 
 # fanout (function)
 

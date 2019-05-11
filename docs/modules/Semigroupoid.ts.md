@@ -40,6 +40,8 @@ export interface Semigroupoid2<F extends URIS2> {
 }
 ```
 
+Added in v2.0.0
+
 # Semigroupoid2C (interface)
 
 **Signature**
@@ -50,6 +52,8 @@ export interface Semigroupoid2C<F extends URIS2, L> {
   readonly compose: <A, B>(ab: Type2<F, A, B>, la: Type2<F, L, A>) => Type2<F, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # Semigroupoid3 (interface)
 
@@ -62,6 +66,8 @@ export interface Semigroupoid3<F extends URIS3> {
 }
 ```
 
+Added in v2.0.0
+
 # Semigroupoid4 (interface)
 
 **Signature**
@@ -72,3 +78,5 @@ export interface Semigroupoid4<F extends URIS4> {
   readonly compose: <X, U, L, A, B>(ab: Type4<F, X, U, A, B>, la: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
 }
 ```
+
+Added in v2.0.0

@@ -92,7 +92,7 @@ Returns the `Eq` corresponding to the partitions of `B` induced by `f`
 **Signature**
 
 ```ts
-export const contramap = <A, B>(E: Eq<A>, f: (b: B) => A): Eq<B> => ...
+export function contramap<A, B>(E: Eq<A>, f: (b: B) => A): Eq<B> { ... }
 ```
 
 Added in v2.0.0
@@ -102,7 +102,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Eq<A> => ...
+export function fromEquals<A>(equals: (x: A, y: A) => boolean): Eq<A> { ... }
 ```
 
 Added in v2.0.0
@@ -112,7 +112,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getStructEq = <O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> => ...
+export function getStructEq<O extends { [key: string]: any }>(eqs: { [K in keyof O]: Eq<O[K]> }): Eq<O> { ... }
 ```
 
 Added in v2.0.0
@@ -124,9 +124,9 @@ Given a tuple of `Eq`s returns a `Eq` for the tuple
 **Signature**
 
 ```ts
-export const getTupleEq = <T extends Array<Eq<any>>>(
+export function getTupleEq<T extends Array<Eq<any>>>(
   ...eqs: T
-): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> => ...
+): Eq<{ [K in keyof T]: T[K] extends Eq<infer A> ? A : never }> { ... }
 ```
 
 **Example**
@@ -148,7 +148,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const strictEqual = <A>(a: A, b: A): boolean => ...
+export function strictEqual<A>(a: A, b: A): boolean { ... }
 ```
 
 Added in v2.0.0

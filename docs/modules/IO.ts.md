@@ -32,6 +32,8 @@ export interface IO<A> {
 }
 ```
 
+Added in v2.0.0
+
 # URI (type alias)
 
 **Signature**
@@ -40,6 +42,8 @@ export interface IO<A> {
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -47,6 +51,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # io (constant)
 

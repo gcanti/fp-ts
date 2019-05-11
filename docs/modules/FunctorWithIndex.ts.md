@@ -60,6 +60,8 @@ export interface FunctorWithIndex1<F extends URIS, I> extends Functor1<F> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorWithIndex2 (interface)
 
 **Signature**
@@ -69,6 +71,8 @@ export interface FunctorWithIndex2<F extends URIS2, I> extends Functor2<F> {
   readonly mapWithIndex: <L, A, B>(fa: Type2<F, L, A>, f: (i: I, a: A) => B) => Type2<F, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorWithIndex2C (interface)
 
@@ -80,6 +84,8 @@ export interface FunctorWithIndex2C<F extends URIS2, I, L> extends Functor2C<F, 
 }
 ```
 
+Added in v2.0.0
+
 # FunctorWithIndex3 (interface)
 
 **Signature**
@@ -89,6 +95,8 @@ export interface FunctorWithIndex3<F extends URIS3, I> extends Functor3<F> {
   readonly mapWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => B) => Type3<F, U, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorWithIndex4 (interface)
 
@@ -100,6 +108,8 @@ export interface FunctorWithIndex4<F extends URIS4, I> extends Functor4<F> {
 }
 ```
 
+Added in v2.0.0
+
 # FunctorWithIndexComposition (interface)
 
 **Signature**
@@ -109,6 +119,8 @@ export interface FunctorWithIndexComposition<F, FI, G, GI> extends FunctorCompos
   readonly mapWithIndex: <A, B>(fga: HKT<F, HKT<G, A>>, f: (i: [FI, GI], a: A) => B) => HKT<F, HKT<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorWithIndexComposition11 (interface)
 
@@ -121,6 +133,8 @@ export interface FunctorWithIndexComposition11<F extends URIS, FI, G extends URI
 }
 ```
 
+Added in v2.0.0
+
 # FunctorWithIndexComposition12 (interface)
 
 **Signature**
@@ -131,6 +145,8 @@ export interface FunctorWithIndexComposition12<F extends URIS, FI, G extends URI
   readonly mapWithIndex: <L, A, B>(fa: Type<F, Type2<G, L, A>>, f: (i: [FI, GI], a: A) => B) => Type<F, Type2<G, L, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorWithIndexComposition12C (interface)
 
@@ -143,6 +159,8 @@ export interface FunctorWithIndexComposition12C<F extends URIS, FI, G extends UR
 }
 ```
 
+Added in v2.0.0
+
 # FunctorWithIndexComposition21 (interface)
 
 **Signature**
@@ -153,6 +171,8 @@ export interface FunctorWithIndexComposition21<F extends URIS2, FI, G extends UR
   readonly mapWithIndex: <L, A, B>(fa: Type2<F, L, Type<G, A>>, f: (i: [FI, GI], a: A) => B) => Type2<F, L, Type<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # FunctorWithIndexComposition22 (interface)
 
@@ -168,6 +188,8 @@ export interface FunctorWithIndexComposition22<F extends URIS2, FI, G extends UR
 }
 ```
 
+Added in v2.0.0
+
 # FunctorWithIndexComposition22C (interface)
 
 **Signature**
@@ -182,6 +204,8 @@ export interface FunctorWithIndexComposition22C<F extends URIS2, FI, G extends U
 }
 ```
 
+Added in v2.0.0
+
 # FunctorWithIndexComposition2C1 (interface)
 
 **Signature**
@@ -192,6 +216,8 @@ export interface FunctorWithIndexComposition2C1<F extends URIS2, FI, G extends U
   readonly mapWithIndex: <A, B>(fa: Type2<F, L, Type<G, A>>, f: (i: [FI, GI], a: A) => B) => Type2<F, L, Type<G, B>>
 }
 ```
+
+Added in v2.0.0
 
 # getFunctorWithIndexComposition (function)
 

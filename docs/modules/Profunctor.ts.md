@@ -40,6 +40,8 @@ export interface Profunctor2<F extends URIS2> extends Functor2<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Profunctor2C (interface)
 
 **Signature**
@@ -49,6 +51,8 @@ export interface Profunctor2C<F extends URIS2, L> extends Functor2C<F, L> {
   readonly promap: <A, C, D>(flc: Type2<F, L, C>, f: (a: A) => L, g: (c: C) => D) => Type2<F, A, D>
 }
 ```
+
+Added in v2.0.0
 
 # Profunctor3 (interface)
 
@@ -60,6 +64,8 @@ export interface Profunctor3<F extends URIS3> extends Functor3<F> {
 }
 ```
 
+Added in v2.0.0
+
 # Profunctor4 (interface)
 
 **Signature**
@@ -69,3 +75,5 @@ export interface Profunctor4<F extends URIS4> extends Functor4<F> {
   readonly promap: <X, U, A, B, C, D>(fbc: Type4<F, X, U, B, C>, f: (a: A) => B, g: (c: C) => D) => Type4<F, X, U, A, D>
 }
 ```
+
+Added in v2.0.0

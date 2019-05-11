@@ -23,10 +23,19 @@ declare module './HKT' {
   }
 }
 
+/**
+ * @since 2.0.0
+ */
 export const URI = 'Tree'
 
+/**
+ * @since 2.0.0
+ */
 export type URI = typeof URI
 
+/**
+ * @since 2.0.0
+ */
 export type Forest<A> = Array<Tree<A>>
 
 /**
@@ -40,7 +49,7 @@ export interface Tree<A> {
 /**
  * @since 2.0.0
  */
-export const make = <A>(value: A, forest: Forest<A>): Tree<A> => {
+export function make<A>(value: A, forest: Forest<A>): Tree<A> {
   return {
     value,
     forest
@@ -50,7 +59,7 @@ export const make = <A>(value: A, forest: Forest<A>): Tree<A> => {
 /**
  * @since 2.0.0
  */
-export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
+export function getShow<A>(S: Show<A>): Show<Tree<A>> {
   const show = (t: Tree<A>): string => {
     return `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
   }
@@ -128,7 +137,7 @@ function sequence<F>(F: Applicative<F>): <A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree
 /**
  * @since 2.0.0
  */
-export const getEq = <A>(E: Eq<A>): Eq<Tree<A>> => {
+export function getEq<A>(E: Eq<A>): Eq<Tree<A>> {
   let SA: Eq<Array<Tree<A>>>
   const R: Eq<Tree<A>> = fromEquals((x, y) => E.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
   SA = getArrayEq(R)

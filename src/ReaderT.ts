@@ -2,10 +2,16 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad3 } from './Monad'
 import { Reader } from './Reader'
 
+/**
+ * @since 2.0.0
+ */
 export interface ReaderT<M, E, A> {
   (e: E): HKT<M, A>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface ReaderM<M> {
   readonly map: <E, A, B>(ma: ReaderT<M, E, A>, f: (a: A) => B) => ReaderT<M, E, B>
   readonly of: <E, A>(a: A) => ReaderT<M, E, A>
@@ -18,11 +24,17 @@ export interface ReaderM<M> {
   readonly fromM: <E, A>(ma: HKT<M, A>) => ReaderT<M, E, A>
 }
 
-interface ReaderT1<M extends URIS, E, A> {
+/**
+ * @since 2.0.0
+ */
+export interface ReaderT1<M extends URIS, E, A> {
   (e: E): Type<M, A>
 }
 
-interface ReaderM1<M extends URIS> {
+/**
+ * @since 2.0.0
+ */
+export interface ReaderM1<M extends URIS> {
   readonly map: <E, A, B>(ma: ReaderT1<M, E, A>, f: (a: A) => B) => ReaderT1<M, E, B>
   readonly of: <E, A>(a: A) => ReaderT1<M, E, A>
   readonly ap: <E, A, B>(mab: ReaderT1<M, E, (a: A) => B>, ma: ReaderT1<M, E, A>) => ReaderT1<M, E, B>
@@ -34,11 +46,17 @@ interface ReaderM1<M extends URIS> {
   readonly fromM: <E, A>(ma: Type<M, A>) => ReaderT1<M, E, A>
 }
 
-interface ReaderT2<M extends URIS2, E, L, A> {
+/**
+ * @since 2.0.0
+ */
+export interface ReaderT2<M extends URIS2, E, L, A> {
   (e: E): Type2<M, L, A>
 }
 
-interface ReaderM2<M extends URIS2> {
+/**
+ * @since 2.0.0
+ */
+export interface ReaderM2<M extends URIS2> {
   readonly map: <E, L, A, B>(ma: ReaderT2<M, E, L, A>, f: (a: A) => B) => ReaderT2<M, E, L, B>
   readonly of: <E, L, A>(a: A) => ReaderT2<M, E, L, A>
   readonly ap: <E, L, A, B>(mab: ReaderT2<M, E, L, (a: A) => B>, ma: ReaderT2<M, E, L, A>) => ReaderT2<M, E, L, B>
@@ -50,11 +68,17 @@ interface ReaderM2<M extends URIS2> {
   readonly fromM: <E, L, A>(ma: Type2<M, L, A>) => ReaderT2<M, E, L, A>
 }
 
-interface ReaderT3<M extends URIS3, E, U, L, A> {
+/**
+ * @since 2.0.0
+ */
+export interface ReaderT3<M extends URIS3, E, U, L, A> {
   (e: E): Type3<M, U, L, A>
 }
 
-interface ReaderM3<M extends URIS3> {
+/**
+ * @since 2.0.0
+ */
+export interface ReaderM3<M extends URIS3> {
   readonly map: <E, U, L, A, B>(ma: ReaderT3<M, E, U, L, A>, f: (a: A) => B) => ReaderT3<M, E, U, L, B>
   readonly of: <E, U, L, A>(a: A) => ReaderT3<M, E, U, L, A>
   readonly ap: <E, U, L, A, B>(

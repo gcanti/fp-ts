@@ -9,8 +9,8 @@ import {
   ordDate,
   ordNumber,
   ordString,
-  lessThanOrEq,
-  greaterThanOrEq,
+  leq,
+  geq,
   fromCompare,
   getTupleOrd,
   ordBoolean
@@ -73,18 +73,16 @@ describe('Ord', () => {
     assert.strictEqual(ordDate.compare(new Date(1), new Date(0)), 1)
   })
 
-  it('lessThanOrEq', () => {
-    const leq = lessThanOrEq(ordNumber)
-    assert.strictEqual(leq(0, 1), true)
-    assert.strictEqual(leq(1, 1), true)
-    assert.strictEqual(leq(2, 1), false)
+  it('leq', () => {
+    assert.strictEqual(leq(ordNumber)(0, 1), true)
+    assert.strictEqual(leq(ordNumber)(1, 1), true)
+    assert.strictEqual(leq(ordNumber)(2, 1), false)
   })
 
   it('greaterThanOrEq', () => {
-    const geq = greaterThanOrEq(ordNumber)
-    assert.strictEqual(geq(0, 1), false)
-    assert.strictEqual(geq(1, 1), true)
-    assert.strictEqual(geq(2, 1), true)
+    assert.strictEqual(geq(ordNumber)(0, 1), false)
+    assert.strictEqual(geq(ordNumber)(1, 1), true)
+    assert.strictEqual(geq(ordNumber)(2, 1), true)
   })
 
   it('fromCompare', () => {

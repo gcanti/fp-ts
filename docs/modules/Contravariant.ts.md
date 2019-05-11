@@ -40,6 +40,8 @@ export interface Contravariant1<F extends URIS> {
 }
 ```
 
+Added in v2.0.0
+
 # Contravariant2 (interface)
 
 **Signature**
@@ -50,6 +52,8 @@ export interface Contravariant2<F extends URIS2> {
   readonly contramap: <L, A, B>(fa: Type2<F, L, A>, f: (b: B) => A) => Type2<F, L, B>
 }
 ```
+
+Added in v2.0.0
 
 # Contravariant2C (interface)
 
@@ -63,6 +67,8 @@ export interface Contravariant2C<F extends URIS2, L> {
 }
 ```
 
+Added in v2.0.0
+
 # Contravariant3 (interface)
 
 **Signature**
@@ -73,3 +79,5 @@ export interface Contravariant3<F extends URIS3> {
   readonly contramap: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (b: B) => A) => Type3<F, U, L, B>
 }
 ```
+
+Added in v2.0.0

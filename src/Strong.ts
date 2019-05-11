@@ -38,16 +38,25 @@ export interface Strong<F> extends Profunctor<F> {
   readonly second: <A, B, C>(pab: HKT2<F, B, C>) => HKT2<F, [A, B], [A, C]>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Strong2<F extends URIS2> extends Profunctor2<F> {
   readonly first: <A, B, C>(pab: Type2<F, A, B>) => Type2<F, [A, C], [B, C]>
   readonly second: <A, B, C>(pab: Type2<F, B, C>) => Type2<F, [A, B], [A, C]>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Strong3<F extends URIS3> extends Profunctor3<F> {
   readonly first: <U, A, B, C>(pab: Type3<F, U, A, B>) => Type3<F, U, [A, C], [B, C]>
   readonly second: <U, A, B, C>(pab: Type3<F, U, B, C>) => Type3<F, U, [A, B], [A, C]>
 }
 
+/**
+ * @since 2.0.0
+ */
 export interface Strong4<F extends URIS4> extends Profunctor4<F> {
   readonly first: <X, U, A, B, C>(pab: Type4<F, X, U, A, B>) => Type4<F, X, U, [A, C], [B, C]>
   readonly second: <X, U, A, B, C>(pab: Type4<F, X, U, B, C>) => Type4<F, X, U, [A, B], [A, C]>

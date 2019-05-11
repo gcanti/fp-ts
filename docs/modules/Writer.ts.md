@@ -43,6 +43,8 @@ Added in v2.0.0
 export type URI = typeof URI
 ```
 
+Added in v2.0.0
+
 # URI (constant)
 
 **Signature**
@@ -50,6 +52,8 @@ export type URI = typeof URI
 ```ts
 export const URI = ...
 ```
+
+Added in v2.0.0
 
 # writer (constant)
 
@@ -68,7 +72,7 @@ Modify the final accumulator value by applying a function
 **Signature**
 
 ```ts
-export const censor = <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> => ...
+export function censor<W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> { ... }
 ```
 
 Added in v2.0.0
@@ -78,7 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const evalWriter = <W, A>(fa: Writer<W, A>): A => ...
+export function evalWriter<W, A>(fa: Writer<W, A>): A { ... }
 ```
 
 Added in v2.0.0
@@ -88,7 +92,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const execWriter = <W, A>(fa: Writer<W, A>): W => ...
+export function execWriter<W, A>(fa: Writer<W, A>): W { ... }
 ```
 
 Added in v2.0.0
@@ -98,7 +102,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getMonad = <W>(M: Monoid<W>): Monad2C<URI, W> => ...
+export function getMonad<W>(M: Monoid<W>): Monad2C<URI, W> { ... }
 ```
 
 Added in v2.0.0
@@ -110,7 +114,7 @@ Modifies the result to include the changes to the accumulator
 **Signature**
 
 ```ts
-export const listen = <W, A>(fa: Writer<W, A>): Writer<W, [A, W]> => ...
+export function listen<W, A>(fa: Writer<W, A>): Writer<W, [A, W]> { ... }
 ```
 
 Added in v2.0.0
@@ -122,7 +126,7 @@ Projects a value from modifications made to the accumulator during an action
 **Signature**
 
 ```ts
-export const listens = <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]> => ...
+export function listens<W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]> { ... }
 ```
 
 Added in v2.0.0
@@ -134,7 +138,7 @@ Applies the returned function to the accumulator
 **Signature**
 
 ```ts
-export const pass = <W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> => ...
+export function pass<W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> { ... }
 ```
 
 Added in v2.0.0
@@ -146,7 +150,7 @@ Appends a value to the accumulator
 **Signature**
 
 ```ts
-export const tell = <W>(w: W): Writer<W, void> => ...
+export function tell<W>(w: W): Writer<W, void> { ... }
 ```
 
 Added in v2.0.0
