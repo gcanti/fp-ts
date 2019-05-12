@@ -173,6 +173,12 @@ export function elem<A>(E: Eq<A>): (a: A, x: Set<A>) => boolean {
 export function union<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
   const elemE = elem(E)
   return (x, y) => {
+    if (x === empty) {
+      return y
+    }
+    if (y === empty) {
+      return x
+    }
     const r = new Set(x)
     y.forEach(e => {
       if (!elemE(e, r)) {
