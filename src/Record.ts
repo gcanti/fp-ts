@@ -179,8 +179,6 @@ export function getEq<A>(E: Eq<A>): Eq<Record<string, A>> {
   return fromEquals((x, y) => isSubrecordE(x, y) && isSubrecordE(y, x))
 }
 
-const emptyObject = {}
-
 /**
  * Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
  *
@@ -197,6 +195,12 @@ export function getMonoid<K extends string, A>(S: Semigroup<A>): Monoid<Record<K
 export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
   return {
     concat: (x, y) => {
+      if (x === empty) {
+        return y
+      }
+      if (y === empty) {
+        return x
+      }
       const r: Record<string, A> = { ...x }
       const keys = Object.keys(y)
       const len = keys.length
@@ -206,7 +210,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
       }
       return r
     },
-    empty: emptyObject
+    empty
   }
 }
 

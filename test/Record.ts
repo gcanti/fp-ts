@@ -16,8 +16,10 @@ describe('Record', () => {
   it('getMonoid', () => {
     const d1 = { k1: 1, k2: 3 }
     const d2 = { k2: 2, k3: 4 }
-    const S2 = R.getMonoid(semigroupSum)
-    assert.deepStrictEqual(S2.concat(d1, d2), { k1: 1, k2: 5, k3: 4 })
+    const M = R.getMonoid(semigroupSum)
+    assert.deepStrictEqual(M.concat(d1, d2), { k1: 1, k2: 5, k3: 4 })
+    assert.deepStrictEqual(M.concat(d1, M.empty), d1)
+    assert.deepStrictEqual(M.concat(M.empty, d2), d2)
   })
 
   it('map', () => {
