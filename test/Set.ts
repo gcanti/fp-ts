@@ -26,7 +26,8 @@ import {
   separate,
   filterMap,
   foldMap,
-  getShow
+  getShow,
+  empty
 } from '../src/Set'
 import { Eq, eqNumber, eqString, contramap, getStructEq } from '../src/Eq'
 import { none, some as optionSome } from '../src/Option'
@@ -160,6 +161,8 @@ describe('Set', () => {
   it('getIntersectionSemigroup', () => {
     const S = getIntersectionSemigroup(eqNumber)
     assert.deepStrictEqual(S.concat(new Set([1, 2]), new Set([1, 3])), new Set([1]))
+    assert.deepStrictEqual(S.concat(new Set([1, 2]), empty), empty)
+    assert.deepStrictEqual(S.concat(empty, new Set([1, 3])), empty)
   })
 
   it('difference', () => {

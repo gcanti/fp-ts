@@ -197,6 +197,9 @@ export function union<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
 export function intersection<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
   const elemE = elem(E)
   return (x, y) => {
+    if (x === empty || y === empty) {
+      return empty
+    }
     const r = new Set()
     x.forEach(e => {
       if (elemE(e, y)) {
