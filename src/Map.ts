@@ -285,6 +285,12 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> 
   const lookupWithKeyS = lookupWithKey(SK)
   return {
     concat: (mx, my) => {
+      if (mx === empty) {
+        return my
+      }
+      if (my === empty) {
+        return mx
+      }
       const r = new Map(mx)
       const entries = my.entries()
       let e: IteratorResult<[K, A]>

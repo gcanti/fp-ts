@@ -1,11 +1,11 @@
 import * as assert from 'assert'
 import * as _ from '../src/Either'
+import { eqNumber, eqString } from '../src/Eq'
 import { identity } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
-import { eqNumber, eqString } from '../src/Eq'
 import { showString } from '../src/Show'
 
 describe('Either', () => {
@@ -366,11 +366,11 @@ describe('Either', () => {
 
   describe('getApplyMonoid', () => {
     it('concat', () => {
-      const S = _.getApplyMonoid(monoidSum)
-      assert.deepStrictEqual(S.concat(_.left('a'), S.empty), _.left('a'))
-      assert.deepStrictEqual(S.concat(S.empty, _.left('b')), _.left('b'))
-      assert.deepStrictEqual(S.concat(_.right(1), S.empty), _.right(1))
-      assert.deepStrictEqual(S.concat(S.empty, _.right(2)), _.right(2))
+      const M = _.getApplyMonoid(monoidSum)
+      assert.deepStrictEqual(M.concat(_.left('a'), M.empty), _.left('a'))
+      assert.deepStrictEqual(M.concat(M.empty, _.left('b')), _.left('b'))
+      assert.deepStrictEqual(M.concat(_.right(1), M.empty), _.right(1))
+      assert.deepStrictEqual(M.concat(M.empty, _.right(2)), _.right(2))
     })
   })
 
