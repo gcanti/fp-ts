@@ -45,7 +45,7 @@ export interface NonEmptyArray<A> extends Array<A> {
 export function getShow<A>(S: Show<A>): Show<NonEmptyArray<A>> {
   const SA = A.getShow(S)
   return {
-    show: arr => `make(${S.show(arr[0])}, ${SA.show(arr.slice(1))})`
+    show: arr => (arr.length === 1 ? `make(${S.show(arr[0])})` : `make(${S.show(arr[0])}, ${SA.show(arr.slice(1))})`)
   }
 }
 
