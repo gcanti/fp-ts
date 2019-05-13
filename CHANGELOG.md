@@ -14,6 +14,11 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.18.0
+
+- **New Feature**
+  - add `absurd` function, closes #847 (@gcanti)
+
 # 1.17.4
 
 - **Bug Fix**
