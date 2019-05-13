@@ -49,7 +49,7 @@ export interface Tree<A> {
 /**
  * @since 2.0.0
  */
-export function make<A>(value: A, forest: Forest<A>): Tree<A> {
+export function make<A>(value: A, forest: Forest<A> = empty): Tree<A> {
   return {
     value,
     forest
@@ -61,7 +61,9 @@ export function make<A>(value: A, forest: Forest<A>): Tree<A> {
  */
 export function getShow<A>(S: Show<A>): Show<Tree<A>> {
   const show = (t: Tree<A>): string => {
-    return `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
+    return t.forest === empty
+      ? `make(${S.show(t.value)})`
+      : `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
   }
   return {
     show
