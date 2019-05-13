@@ -241,10 +241,11 @@ export function map<A, B>(fa: Record<string, A>, f: (a: A) => B): Record<string,
  * @since 1.10.0
  *
  * @example
- * import {reduce} from 'fp-ts/lib/Record'
+ * import { reduce } from 'fp-ts/lib/Record'
  *
- * const joinAllVals = (ob: {[k: string]: string}) => reduce(ob, (acc, val) => acc + val, '')
- * assert.deepStrictEqual(joinAllVals({a: 'foo', b: 'bar'}), 'foobar'))
+ * const joinAllVals = (ob: {[k: string]: string}) => reduce(ob, '', (acc, val) => acc + val)
+ *
+ * assert.deepStrictEqual(joinAllVals({a: 'foo', b: 'bar'}), 'foobar')
  */
 export const reduce = <A, B>(fa: Record<string, A>, b: B, f: (b: B, a: A) => B): B => {
   return reduceWithKey(fa, b, (_, b, a) => f(b, a))
