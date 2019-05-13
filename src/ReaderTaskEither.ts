@@ -2,18 +2,18 @@ import { Alt3 } from './Alt'
 import { Bifunctor3 } from './Bifunctor'
 import { Either } from './Either'
 import { Predicate, Refinement } from './function'
+import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
 import { MonadIO3 } from './MonadIO'
 import { MonadTask3 } from './MonadTask'
+import { Option } from './Option'
 import { Reader } from './Reader'
 import { getReaderM } from './ReaderT'
 import { Task } from './Task'
 import * as TE from './TaskEither'
 
 import TaskEither = TE.TaskEither
-import { Option } from './Option'
-import { IO } from './IO'
 
 const T = getReaderM(TE.taskEither)
 
@@ -142,6 +142,27 @@ export function fromPredicate<L, A>(
 ): (a: A) => ReaderTaskEither<unknown, L, A> {
   const f = TE.fromPredicate(predicate, onFalse)
   return a => fromTaskEither(f(a))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function fold<E, L, A, R>(
+  ma: ReaderTaskEither<E, L, A>,
+  onLeft: (l: L) => Reader<E, Task<R>>,
+  onRight: (a: A) => Reader<E, Task<R>>
+): Reader<E, Task<R>> {
+  return e => TE.fold(ma(e), l => onLeft(l)(e), a => onRight(a)(e))
+}
+
+/**
+ * @since 2.0.0
+ */
+export function getOrElse<E, L, A>(
+  ma: ReaderTaskEither<E, L, A>,
+  onLeft: (l: L) => Reader<E, Task<A>>
+): Reader<E, Task<A>> {
+  return e => TE.getOrElse(ma(e), l => onLeft(l)(e))
 }
 
 /**

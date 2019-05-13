@@ -19,10 +19,12 @@ parent: Modules
 - [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
 - [right (constant)](#right-constant)
 - [rightReader (constant)](#rightreader-constant)
+- [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
 - [fromIOEither (function)](#fromioeither-function)
 - [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
+- [getOrElse (function)](#getorelse-function)
 - [left (function)](#left-function)
 - [leftIO (function)](#leftio-function)
 - [leftReader (function)](#leftreader-function)
@@ -148,6 +150,20 @@ export const rightReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never,
 
 Added in v2.0.0
 
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<E, L, A, R>(
+  ma: ReaderTaskEither<E, L, A>,
+  onLeft: (l: L) => Reader<E, Task<R>>,
+  onRight: (a: A) => Reader<E, Task<R>>
+): Reader<E, Task<R>> { ... }
+```
+
+Added in v2.0.0
+
 # fromEither (function)
 
 **Signature**
@@ -191,6 +207,19 @@ export function fromPredicate<L, A>(
   predicate: Predicate<A>,
   onFalse: (a: A) => L
 ): (a: A) => ReaderTaskEither<unknown, L, A> { ... }
+```
+
+Added in v2.0.0
+
+# getOrElse (function)
+
+**Signature**
+
+```ts
+export function getOrElse<E, L, A>(
+  ma: ReaderTaskEither<E, L, A>,
+  onLeft: (l: L) => Reader<E, Task<A>>
+): Reader<E, Task<A>> { ... }
 ```
 
 Added in v2.0.0

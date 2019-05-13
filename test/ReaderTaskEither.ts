@@ -106,6 +106,24 @@ describe('ReaderTaskEither', () => {
     assert.deepStrictEqual(e2, E.left('error'))
   })
 
+  it('fold', async () => {
+    const e1 = await _.fold(_.right(1), (l: string) => reader.of(task.of(l.length)), a => reader.of(task.of(a * 2)))(
+      {}
+    )()
+    assert.deepStrictEqual(e1, 2)
+    const e2 = await _.fold(_.left('err'), (l: string) => reader.of(task.of(l.length)), a => reader.of(task.of(a * 2)))(
+      {}
+    )()
+    assert.deepStrictEqual(e2, 3)
+  })
+
+  it('getOrElse', async () => {
+    const e1 = await _.getOrElse(_.right(1), (l: string) => reader.of(task.of(l.length)))({})()
+    assert.deepStrictEqual(e1, 1)
+    const e2 = await _.getOrElse(_.left('err'), (l: string) => reader.of(task.of(l.length)))({})()
+    assert.deepStrictEqual(e2, 3)
+  })
+
   it('orElse', async () => {
     const e1 = await _.run(_.orElse(_.right(1), (s: string) => _.right(s.length)), {})
     assert.deepStrictEqual(e1, E.right(1))
