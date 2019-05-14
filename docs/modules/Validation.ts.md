@@ -31,7 +31,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplicative<L>(S: Semigroup<L>): Applicative2C<URI, L> { ... }
+export function getApplicative<L>(
+  S: Semigroup<L>
+): Applicative2C<URI, L> & Foldable2C<URI, L> & Traversable2C<URI, L> & Bifunctor2C<URI, L> & Extend2C<URI, L> { ... }
 ```
 
 # getMonad (function)
@@ -41,7 +43,9 @@ export function getApplicative<L>(S: Semigroup<L>): Applicative2C<URI, L> { ... 
 **Signature**
 
 ```ts
-export function getMonad<L>(S: Semigroup<L>): Monad2C<URI, L> { ... }
+export function getMonad<L>(
+  S: Semigroup<L>
+): Monad2C<URI, L> & Foldable2C<URI, L> & Traversable2C<URI, L> & Bifunctor2C<URI, L> & Extend2C<URI, L> { ... }
 ```
 
 Added in v2.0.0

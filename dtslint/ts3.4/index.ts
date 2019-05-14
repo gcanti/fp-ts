@@ -23,6 +23,7 @@ import * as Field from '../../src/Field'
 import * as T from '../../src/Task'
 import * as Map from '../../src/Map'
 import * as NEA from '../../src/NonEmptyArray'
+import { fluent } from '../../src/fluent'
 
 const len = (s: string): number => s.length
 
@@ -394,3 +395,19 @@ declare function isStringWithKey(i: 'a' | 'b', x: unknown): x is string
 
 filterableWithIndexMap.filterWithIndex(Map.empty as Map<'a' | 'b', string | number>, isStringWithKey) // $ExpectType Map<"a" | "b", string>
 filterableWithIndexMap.partitionWithIndex(Map.empty as Map<'a' | 'b', string | number>, isStringWithKey) // $ExpectType Separated<Map<"a" | "b", string | number>, Map<"a" | "b", string>>
+
+//
+// fluent
+//
+
+const wrap1 = fluent(A.array)
+
+// $ExpectError
+wrap1([1]).compact()
+wrap1([O.some(1)]).compact().value // $ExpectType number[]
+// $ExpectError
+wrap1([1]).separate()
+wrap1<E.Either<string, number>>([E.right(1), E.left('a')]).separate() // $ExpectType Separated<string[], number[]>
+// $ExpectError
+wrap1([1]).flatten()
+wrap1([[1]]).flatten().value // $ExpectType number[]
