@@ -96,10 +96,24 @@ Added in v2.0.0
 
 # collect (function)
 
+Map a record into an array
+
 **Signature**
 
 ```ts
 export function collect<K extends string, A, B>(r: Record<K, A>, f: (k: K, a: A) => B): Array<B> { ... }
+```
+
+**Example**
+
+```ts
+import { collect } from 'fp-ts/lib/Record'
+
+const ob: { a: string; b: boolean } = { a: 'foo', b: false }
+assert.deepStrictEqual(collect(ob, (key, val) => ({ key: key, value: val })), [
+  { key: 'a', value: 'foo' },
+  { key: 'b', value: false }
+])
 ```
 
 Added in v2.0.0
@@ -355,6 +369,8 @@ Added in v2.0.0
 
 # map (function)
 
+Map a record passing the values to the iterating function
+
 **Signature**
 
 ```ts
@@ -364,6 +380,8 @@ export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): R
 Added in v2.0.0
 
 # mapWithIndex (function)
+
+Map a record passing the keys to the iterating function
 
 **Signature**
 
