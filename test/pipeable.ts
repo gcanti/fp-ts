@@ -1,12 +1,16 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import { pipeable } from '../src/pipeable'
+import { pipeable, apply } from '../src/pipeable'
 import { either, right, left } from '../src/Either'
 import { monoidSum, fold } from '../src/Monoid'
 import { some, none, isSome, Option, option } from '../src/Option'
 import { reader } from '../src/Reader'
 
 describe('pipeable', () => {
+  it('apply', () => {
+    assert.deepStrictEqual(apply(1, n => n + 1), 2)
+  })
+
   it('{}', () => {
     const r = pipeable<'{}', {}>({ URI: '{}' })
     assert.deepStrictEqual(r, {})
