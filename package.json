@@ -1,6 +1,6 @@
 {
   "name": "fp-ts",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "description": "Functional programming in TypeScript",
   "files": [
     "lib",
@@ -59,7 +59,7 @@
     "ts-simple-ast": "17.1.1",
     "tslint": "5.11.0",
     "tslint-config-standard": "8.0.1",
-    "typescript": "^3.4.4"
+    "typescript": "^3.4.5"
   },
   "tags": [
     "typescript",
