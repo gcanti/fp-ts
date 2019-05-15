@@ -37,7 +37,6 @@ Instances must satisfy the following laws:
 - [FunctorComposition22C (interface)](#functorcomposition22c-interface)
 - [FunctorComposition2C1 (interface)](#functorcomposition2c1-interface)
 - [getFunctorComposition (function)](#getfunctorcomposition-function)
-- [lift (function)](#lift-function)
 
 ---
 
@@ -274,26 +273,6 @@ export function getFunctorComposition<F extends URIS, G extends URIS>(
   G: Functor1<G>
 ): FunctorComposition11<F, G>
 export function getFunctorComposition<F, G>(F: Functor<F>, G: Functor<G>): FunctorComposition<F, G> { ... }
-```
-
-Added in v2.0.0
-
-# lift (function)
-
-**Signature**
-
-```ts
-export function lift<F extends URIS3>(
-  F: Functor3<F>
-): <A, B>(f: (a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-export function lift<F extends URIS2>(
-  F: Functor2<F>
-): <A, B>(f: (a: A) => B) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
-export function lift<F extends URIS2, L>(
-  F: Functor2C<F, L>
-): <A, B>(f: (a: A) => B) => (fa: Type2<F, L, A>) => Type2<F, L, B>
-export function lift<F extends URIS>(F: Functor1<F>): <A, B>(f: (a: A) => B) => (fa: Type<F, A>) => Type<F, B>
-export function lift<F>(F: Functor<F>): <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B> { ... }
 ```
 
 Added in v2.0.0

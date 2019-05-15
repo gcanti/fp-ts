@@ -69,6 +69,7 @@ parent: Modules
 - [optionT (export)](#optiont-export)
 - [ord (export)](#ord-export)
 - [ordering (export)](#ordering-export)
+- [pipeable (export)](#pipeable-export)
 - [plus (export)](#plus-export)
 - [profunctor (export)](#profunctor-export)
 - [random (export)](#random-export)
@@ -589,6 +590,14 @@ export { ord }
 
 ```ts
 export { ordering }
+```
+
+# pipeable (export)
+
+**Signature**
+
+```ts
+export { pipeable }
 ```
 
 # plus (export)
