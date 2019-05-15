@@ -1,5 +1,5 @@
 import { Bounded } from './Bounded'
-import { compose, Endomorphism, identity, concat } from './function'
+import { Endomorphism, identity, concat } from './function'
 import {
   fold as foldSemigroup,
   getDictionarySemigroup,
@@ -177,7 +177,7 @@ export const getFunctionMonoid = <M>(M: Monoid<M>) => <A = never>(): Monoid<(a: 
  */
 export const getEndomorphismMonoid = <A = never>(): Monoid<Endomorphism<A>> => {
   return {
-    concat: compose,
+    concat: (x, y) => a => x(y(a)),
     empty: identity
   }
 }
