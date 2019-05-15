@@ -60,6 +60,49 @@ describe('IOEither', () => {
     assert.strictEqual(b2, true)
   })
 
+  it('foldIO', () => {
+    const whenLeft = () => io.of('left')
+    const whenRight = () => io.of('right')
+
+    const r1 = fromLeft<string, number>('a')
+      .foldIO(whenLeft, whenRight)
+      .run()
+    const r2 = ioEither
+      .of<string, number>(1)
+      .foldIO(whenLeft, whenRight)
+      .run()
+
+    assert.deepStrictEqual(r1, 'left')
+    assert.deepStrictEqual(r2, 'right')
+  })
+
+  it('foldIOEither', () => {
+    const whenLeft = (s: string) =>
+      s.length >= 2 ? ioEither.of<boolean, string>('okleft') : fromLeft<boolean, string>(false)
+    const whenRight = (n: number) =>
+      n >= 2 ? ioEither.of<boolean, string>('okright') : fromLeft<boolean, string>(true)
+
+    const r1 = fromLeft<string, number>('a')
+      .foldIOEither(whenLeft, whenRight)
+      .run()
+    const r2 = fromLeft<string, number>('aa')
+      .foldIOEither(whenLeft, whenRight)
+      .run()
+    const r3 = ioEither
+      .of<string, number>(1)
+      .foldIOEither(whenLeft, whenRight)
+      .run()
+    const r4 = ioEither
+      .of<string, number>(2)
+      .foldIOEither(whenLeft, whenRight)
+      .run()
+
+    assert.deepStrictEqual(r1, eitherLeft(false))
+    assert.deepStrictEqual(r2, eitherRight('okleft'))
+    assert.deepStrictEqual(r3, eitherLeft(true))
+    assert.deepStrictEqual(r4, eitherRight('okright'))
+  })
+
   it('bimap', () => {
     const f = (s: string): number => s.length
     const g = (n: number): boolean => n > 2
