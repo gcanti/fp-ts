@@ -23,7 +23,7 @@ import {
   FoldableWithIndex2C,
   FoldableWithIndex3
 } from './FoldableWithIndex'
-import { identity, Predicate, Refinement } from './function'
+import { identity, Predicate, Refinement, pipe as p } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
 import {
   FunctorWithIndex,
@@ -37,6 +37,19 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Profunctor, Profunctor2, Profunctor2C, Profunctor3 } from './Profunctor'
 import { Semigroupoid, Semigroupoid2, Semigroupoid2C, Semigroupoid3 } from './Semigroupoid'
+
+/**
+ * @since 2.0.0
+ */
+export function apply<A, B>(a: A, f: (a: A) => B): B {
+  return f(a)
+}
+
+/**
+ * A re-export of `function`'s `pipe`
+ * @since 2.0.0
+ */
+export const pipe = p
 
 export interface PipeableFunctor<F> {
   readonly map: <A, B>(f: (a: A) => B) => (fa: HKT<F, A>) => HKT<F, B>

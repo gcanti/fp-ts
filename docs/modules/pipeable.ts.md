@@ -74,6 +74,8 @@ parent: Modules
 - [PipeableSemigroupoid2 (interface)](#pipeablesemigroupoid2-interface)
 - [PipeableSemigroupoid2C (interface)](#pipeablesemigroupoid2c-interface)
 - [PipeableSemigroupoid3 (interface)](#pipeablesemigroupoid3-interface)
+- [pipe (constant)](#pipe-constant)
+- [apply (function)](#apply-function)
 - [pipeable (function)](#pipeable-function)
 
 ---
@@ -908,6 +910,28 @@ export interface PipeableSemigroupoid3<F extends URIS3> {
   readonly compose: <U, L, A>(la: Type3<F, U, L, A>) => <B>(ab: Type3<F, U, A, B>) => Type3<F, U, L, B>
 }
 ```
+
+# pipe (constant)
+
+A re-export of `function`'s `pipe`
+
+**Signature**
+
+```ts
+export const pipe = ...
+```
+
+Added in v2.0.0
+
+# apply (function)
+
+**Signature**
+
+```ts
+export function apply<A, B>(a: A, f: (a: A) => B): B { ... }
+```
+
+Added in v2.0.0
 
 # pipeable (function)
 
