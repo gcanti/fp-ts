@@ -4,9 +4,22 @@ import { either, Either, left, right } from '../src/Either'
 import { eqNumber } from '../src/Eq'
 import * as F from '../src/fluent'
 import { IO, io } from '../src/IO'
-import { fold, monoidSum } from '../src/Monoid'
+import * as M from '../src/Monoid'
 import { fromNonEmptyArray, nonEmptyArray } from '../src/NonEmptyArray'
-import { getEq, getMonoid, getOrd, getShow, none, option, Option, some, URI } from '../src/Option'
+import {
+  getEq,
+  getMonoid,
+  getOrd,
+  getShow,
+  none,
+  option,
+  Option,
+  some,
+  URI,
+  fold,
+  mapNullable,
+  fromNullable
+} from '../src/Option'
 import { ordNumber } from '../src/Ord'
 import { reader } from '../src/Reader'
 import { semigroupSum } from '../src/Semigroup'
@@ -16,6 +29,29 @@ import { tuple } from '../src/Tuple'
 const fluent = F.fluent(option)
 
 describe('fluent', () => {
+  it('apply', () => {
+    const fluent = F.fluent(option)
+    assert.strictEqual(fluent(some(1)).apply(o => fold(o, () => 'none', a => `some(${a})`)), 'some(1)')
+  })
+
+  it('pipe', () => {
+    const fluent = F.fluent(option)
+    interface X {
+      a?: {
+        b?: {
+          c?: number
+        }
+      }
+    }
+    const x: X = { a: { b: { c: 1 } } }
+    assert.deepStrictEqual(
+      fluent(fromNullable(x.a))
+        .pipe(o => mapNullable(o, x => x.b))
+        .apply(o => mapNullable(o, x => x.c)),
+      some(1)
+    )
+  })
+
   it('show', () => {
     const S = getShow(showNumber)
     const fluent = F.fluent({ ...S, URI })
@@ -120,7 +156,7 @@ describe('fluent', () => {
 
   it('extend', () => {
     const fluent = F.fluent(nonEmptyArray)
-    const sum = fold(monoidSum)
+    const sum = M.fold(M.monoidSum)
     assert.deepStrictEqual(fluent(fromNonEmptyArray([1, 2, 3, 4])).extend(sum).value, fromNonEmptyArray([10, 9, 7, 4]))
   })
 
@@ -138,8 +174,8 @@ describe('fluent', () => {
 
   it('foldMap', () => {
     assert.strictEqual(
-      fluent(some('aaa')).foldMap(monoidSum)(a => a.length),
-      option.foldMap(monoidSum)(some('aaa'), a => a.length)
+      fluent(some('aaa')).foldMap(M.monoidSum)(a => a.length),
+      option.foldMap(M.monoidSum)(some('aaa'), a => a.length)
     )
   })
 
@@ -161,8 +197,8 @@ describe('fluent', () => {
   it('foldMapWithIndex', () => {
     const fluent = F.fluent(array)
     assert.strictEqual(
-      fluent([1, 2, 3]).foldMapWithIndex(monoidSum)((i, a) => i + a),
-      array.foldMapWithIndex(monoidSum)([1, 2, 3], (i, a) => i + a)
+      fluent([1, 2, 3]).foldMapWithIndex(M.monoidSum)((i, a) => i + a),
+      array.foldMapWithIndex(M.monoidSum)([1, 2, 3], (i, a) => i + a)
     )
   })
 
