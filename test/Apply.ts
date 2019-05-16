@@ -5,8 +5,9 @@ import { none, option, some, isSome, isNone } from '../src/Option'
 import * as fc from 'fast-check'
 import { getSome } from './property-test/Option'
 import { nonEmptyArray } from './property-test/NonEmptyArray'
-import { getEq, array } from '../src/Array'
+import { getEq, array, getMonoid } from '../src/Array'
 import { fromEquals } from '../src/Eq'
+import { getApplicative } from '../src/Validation'
 
 describe('Apply', () => {
   it('sequenceT', () => {
@@ -41,5 +42,11 @@ describe('Apply', () => {
     assert.deepStrictEqual(adoEither({ a: right(1) }), right({ a: 1 }))
     assert.deepStrictEqual(adoEither({ a: right(1), b: right(2) }), right({ a: 1, b: 2 }))
     assert.deepStrictEqual(adoEither({ a: right(1), b: left('error') }), left('error'))
+
+    const adoValidation = sequenceS(getApplicative(getMonoid<string>()))
+    assert.deepStrictEqual(adoValidation({ a: right(1) }), right({ a: 1 }))
+    assert.deepStrictEqual(adoValidation({ a: right(1), b: right(2) }), right({ a: 1, b: 2 }))
+    assert.deepStrictEqual(adoValidation({ a: right(1), b: left(['error']) }), left(['error']))
+    assert.deepStrictEqual(adoValidation({ a: left(['error1']), b: left(['error2']) }), left(['error1', 'error2']))
   })
 })
