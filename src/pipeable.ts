@@ -38,24 +38,11 @@ import { Option } from './Option'
 import { Profunctor, Profunctor2, Profunctor2C, Profunctor3 } from './Profunctor'
 import { Semigroupoid, Semigroupoid2, Semigroupoid2C, Semigroupoid3 } from './Semigroupoid'
 
-/**
- * @since 2.0.0
- */
-export function apply<A, B>(a: A, f: (a: A) => B): B {
-  return f(a)
-}
-
-/**
- * A re-export of `function`'s `pipe`
- * @since 2.0.0
- */
-export const pipe = p
-
-export function pipeOf<A, B>(a: A, ab: (a: A) => B): B
-export function pipeOf<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C
-export function pipeOf<A, B, C, D>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): D
-export function pipeOf<A, B, C, D, E>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): E
-export function pipeOf<A, B, C, D, E, F>(
+export function pipe<A, B>(a: A, ab: (a: A) => B): B
+export function pipe<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C
+export function pipe<A, B, C, D>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): D
+export function pipe<A, B, C, D, E>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): E
+export function pipe<A, B, C, D, E, F>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -63,7 +50,7 @@ export function pipeOf<A, B, C, D, E, F>(
   de: (d: D) => E,
   ef: (e: E) => F
 ): F
-export function pipeOf<A, B, C, D, E, F, G>(
+export function pipe<A, B, C, D, E, F, G>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -72,7 +59,7 @@ export function pipeOf<A, B, C, D, E, F, G>(
   ef: (e: E) => F,
   fg: (f: F) => G
 ): G
-export function pipeOf<A, B, C, D, E, F, G, H>(
+export function pipe<A, B, C, D, E, F, G, H>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -82,7 +69,7 @@ export function pipeOf<A, B, C, D, E, F, G, H>(
   fg: (f: F) => G,
   gh: (g: G) => H
 ): H
-export function pipeOf<A, B, C, D, E, F, G, H, I>(
+export function pipe<A, B, C, D, E, F, G, H, I>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -93,7 +80,7 @@ export function pipeOf<A, B, C, D, E, F, G, H, I>(
   gh: (g: G) => H,
   hi: (h: H) => I
 ): I
-export function pipeOf<A, B, C, D, E, F, G, H, I, J>(
+export function pipe<A, B, C, D, E, F, G, H, I, J>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -105,8 +92,8 @@ export function pipeOf<A, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): J
-export function pipeOf(a: any, ...fns: Array<Function>): Function {
-  return (pipe as any)(...fns)(a)
+export function pipe(a: any, ...fns: Array<Function>): Function {
+  return (p as any)(...fns)(a)
 }
 
 export interface PipeableFunctor<F> {

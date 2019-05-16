@@ -74,9 +74,7 @@ parent: Modules
 - [PipeableSemigroupoid2 (interface)](#pipeablesemigroupoid2-interface)
 - [PipeableSemigroupoid2C (interface)](#pipeablesemigroupoid2c-interface)
 - [PipeableSemigroupoid3 (interface)](#pipeablesemigroupoid3-interface)
-- [pipe (constant)](#pipe-constant)
-- [apply (function)](#apply-function)
-- [pipeOf (function)](#pipeof-function)
+- [pipe (function)](#pipe-function)
 - [pipeable (function)](#pipeable-function)
 
 ---
@@ -912,38 +910,16 @@ export interface PipeableSemigroupoid3<F extends URIS3> {
 }
 ```
 
-# pipe (constant)
-
-A re-export of `function`'s `pipe`
+# pipe (function)
 
 **Signature**
 
 ```ts
-export const pipe = ...
-```
-
-Added in v2.0.0
-
-# apply (function)
-
-**Signature**
-
-```ts
-export function apply<A, B>(a: A, f: (a: A) => B): B { ... }
-```
-
-Added in v2.0.0
-
-# pipeOf (function)
-
-**Signature**
-
-```ts
-export function pipeOf<A, B>(a: A, ab: (a: A) => B): B
-export function pipeOf<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C
-export function pipeOf<A, B, C, D>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): D
-export function pipeOf<A, B, C, D, E>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): E
-export function pipeOf<A, B, C, D, E, F>(
+export function pipe<A, B>(a: A, ab: (a: A) => B): B
+export function pipe<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C
+export function pipe<A, B, C, D>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): D
+export function pipe<A, B, C, D, E>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): E
+export function pipe<A, B, C, D, E, F>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -951,7 +927,7 @@ export function pipeOf<A, B, C, D, E, F>(
   de: (d: D) => E,
   ef: (e: E) => F
 ): F
-export function pipeOf<A, B, C, D, E, F, G>(
+export function pipe<A, B, C, D, E, F, G>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -960,7 +936,7 @@ export function pipeOf<A, B, C, D, E, F, G>(
   ef: (e: E) => F,
   fg: (f: F) => G
 ): G
-export function pipeOf<A, B, C, D, E, F, G, H>(
+export function pipe<A, B, C, D, E, F, G, H>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -970,7 +946,7 @@ export function pipeOf<A, B, C, D, E, F, G, H>(
   fg: (f: F) => G,
   gh: (g: G) => H
 ): H
-export function pipeOf<A, B, C, D, E, F, G, H, I>(
+export function pipe<A, B, C, D, E, F, G, H, I>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,
@@ -981,7 +957,7 @@ export function pipeOf<A, B, C, D, E, F, G, H, I>(
   gh: (g: G) => H,
   hi: (h: H) => I
 ): I
-export function pipeOf<A, B, C, D, E, F, G, H, I, J>(
+export function pipe<A, B, C, D, E, F, G, H, I, J>(
   a: A,
   ab: (a: A) => B,
   bc: (b: B) => C,

@@ -1,29 +1,115 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import { pipeable, apply, pipeOf } from '../src/pipeable'
+import { pipeable, pipe } from '../src/pipeable'
 import { either, right, left } from '../src/Either'
 import { monoidSum, fold } from '../src/Monoid'
 import { some, none, isSome, Option, option } from '../src/Option'
 import { reader } from '../src/Reader'
 
 describe('pipeable', () => {
-  it('apply', () => {
-    assert.deepStrictEqual(apply(1, n => n + 1), 2)
-  })
-
   it('pipe', () => {
     const f = (n: number) => n + 1
     const g = (n: number) => n * 2
 
-    assert.strictEqual(pipeOf(2, f), 3)
-    assert.strictEqual(pipeOf(2, f, g), 6)
-    assert.strictEqual(pipeOf(2, f, g, f), 7)
-    assert.strictEqual(pipeOf(2, f, g, f, g), 14)
-    assert.strictEqual(pipeOf(2, f, g, f, g, f), 15)
-    assert.strictEqual(pipeOf(2, f, g, f, g, f, g), 30)
-    assert.strictEqual(pipeOf(2, f, g, f, g, f, g, f), 31)
-    assert.strictEqual(pipeOf(2, f, g, f, g, f, g, f, g), 62)
-    assert.strictEqual(pipeOf(2, f, g, f, g, f, g, f, g, f), 63)
+    assert.strictEqual(
+      pipe(
+        2,
+        f
+      ),
+      3
+    )
+    assert.strictEqual(
+      pipe(
+        2,
+        f,
+        g
+      ),
+      6
+    )
+    assert.strictEqual(
+      pipe(
+        2,
+        f,
+        g,
+        f
+      ),
+      7
+    )
+    assert.strictEqual(
+      pipe(
+        2,
+        f,
+        g,
+        f,
+        g
+      ),
+      14
+    )
+    assert.strictEqual(
+      pipe(
+        2,
+        f,
+        g,
+        f,
+        g,
+        f
+      ),
+      15
+    )
+    assert.strictEqual(
+      pipe(
+        2,
+        f,
+        g,
+        f,
+        g,
+        f,
+        g
+      ),
+      30
+    )
+    assert.strictEqual(
+      pipe(
+        2,
+        f,
+        g,
+        f,
+        g,
+        f,
+        g,
+        f
+      ),
+      31
+    )
+    assert.strictEqual(
+      pipe(
+        2,
+        f,
+        g,
+        f,
+        g,
+        f,
+        g,
+        f,
+        g
+      ),
+      62
+    )
+    assert.strictEqual(
+      pipe(
+        2,
+        f,
+        g,
+        f,
+        g,
+        f,
+        g,
+        f,
+        g,
+        f
+      ),
+      63
+    )
   })
 
   it('{}', () => {
