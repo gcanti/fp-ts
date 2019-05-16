@@ -33,6 +33,7 @@ describe('function', () => {
   })
 
   it('pipe', () => {
+    assert.strictEqual(pipe(f)(2), 3)
     assert.strictEqual(
       pipe(
         f,

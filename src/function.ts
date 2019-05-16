@@ -134,6 +134,7 @@ export function on<A, B, C>(op: BinaryOperation<B, C>, f: (a: A) => B): BinaryOp
 /**
  * @since 2.0.0
  */
+export function pipe<A, B>(ab: (a: A) => B): (a: A) => B
 export function pipe<A, B, C>(ab: (a: A) => B, bc: (b: B) => C): (a: A) => C
 export function pipe<A, B, C, D>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): (a: A) => D
 export function pipe<A, B, C, D, E>(ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): (a: A) => E
