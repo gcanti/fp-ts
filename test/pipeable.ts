@@ -1,117 +1,12 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
-import { pipeable, pipe } from '../src/pipeable'
+import { pipeable } from '../src/pipeable'
 import { either, right, left } from '../src/Either'
 import { monoidSum, fold } from '../src/Monoid'
 import { some, none, isSome, Option, option } from '../src/Option'
 import { reader } from '../src/Reader'
 
 describe('pipeable', () => {
-  it('pipe', () => {
-    const f = (n: number) => n + 1
-    const g = (n: number) => n * 2
-
-    assert.strictEqual(
-      pipe(
-        2,
-        f
-      ),
-      3
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g
-      ),
-      6
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f
-      ),
-      7
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g
-      ),
-      14
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f
-      ),
-      15
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g
-      ),
-      30
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f
-      ),
-      31
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g
-      ),
-      62
-    )
-    assert.strictEqual(
-      pipe(
-        2,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f,
-        g,
-        f
-      ),
-      63
-    )
-  })
-
   it('{}', () => {
     const r = pipeable<'{}', {}>({ URI: '{}' })
     assert.deepStrictEqual(r, {})

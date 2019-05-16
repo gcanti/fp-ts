@@ -32,6 +32,7 @@ parent: Modules
 - [on (function)](#on-function)
 - [or (function)](#or-function)
 - [pipe (function)](#pipe-function)
+- [pipeOp (function)](#pipeop-function)
 - [tuple (function)](#tuple-function)
 
 ---
@@ -336,6 +337,69 @@ export function pipe<A, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): (a: A) => J { ... }
+```
+
+Added in v2.0.0
+
+# pipeOp (function)
+
+**Signature**
+
+```ts
+export function pipeOp<A, B>(a: A, ab: (a: A) => B): B
+export function pipeOp<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C
+export function pipeOp<A, B, C, D>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): D
+export function pipeOp<A, B, C, D, E>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D, de: (d: D) => E): E
+export function pipeOp<A, B, C, D, E, F>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F
+): F
+export function pipeOp<A, B, C, D, E, F, G>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G
+): G
+export function pipeOp<A, B, C, D, E, F, G, H>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H
+): H
+export function pipeOp<A, B, C, D, E, F, G, H, I>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H,
+  hi: (h: H) => I
+): I
+export function pipeOp<A, B, C, D, E, F, G, H, I, J>(
+  a: A,
+  ab: (a: A) => B,
+  bc: (b: B) => C,
+  cd: (c: C) => D,
+  de: (d: D) => E,
+  ef: (e: E) => F,
+  fg: (f: F) => G,
+  gh: (g: G) => H,
+  hi: (h: H) => I,
+  ij: (i: I) => J
+): J { ... }
 ```
 
 Added in v2.0.0
