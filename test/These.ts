@@ -1,5 +1,5 @@
 import * as assert from 'assert'
-import { identity } from '../src/function'
+import { identity, pipeOp as pipe } from '../src/function'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
@@ -79,9 +79,27 @@ describe('These', () => {
   })
 
   it('toTuple', () => {
-    assert.deepStrictEqual(_.toTuple(_.left('b'), 'a', 1), ['b', 1])
-    assert.deepStrictEqual(_.toTuple(_.right(2), 'a', 1), ['a', 2])
-    assert.deepStrictEqual(_.toTuple(_.both('b', 2), 'a', 1), ['b', 2])
+    assert.deepStrictEqual(
+      pipe(
+        _.left('b'),
+        _.toTuple('a', 1)
+      ),
+      ['b', 1]
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.right(2),
+        _.toTuple('a', 1)
+      ),
+      ['a', 2]
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.both('b', 2),
+        _.toTuple('a', 1)
+      ),
+      ['b', 2]
+    )
   })
 
   it('traverse', () => {
