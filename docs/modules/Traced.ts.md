@@ -69,7 +69,7 @@ Apply a function to the current position
 **Signature**
 
 ```ts
-export function censor<P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> { ... }
+export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A> { ... }
 ```
 
 Added in v2.0.0
@@ -103,7 +103,7 @@ Get a value which depends on the current position
 **Signature**
 
 ```ts
-export function listens<P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> { ... }
+export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, [A, B]> { ... }
 ```
 
 Added in v2.0.0
