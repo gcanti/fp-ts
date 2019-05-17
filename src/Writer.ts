@@ -78,8 +78,8 @@ export function pass<W, A>(fa: Writer<W, [A, (w: W) => W]>): Writer<W, A> {
  *
  * @since 2.0.0
  */
-export function listens<W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A, B]> {
-  return () => {
+export function listens<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W, [A, B]> {
+  return fa => () => {
     const [a, w] = fa()
     return [[a, f(w)], w]
   }
@@ -90,8 +90,8 @@ export function listens<W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A
  *
  * @since 2.0.0
  */
-export function censor<W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> {
-  return () => {
+export function censor<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A> {
+  return fa => () => {
     const [a, w] = fa()
     return [a, f(w)]
   }

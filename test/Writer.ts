@@ -1,6 +1,6 @@
 import * as assert from 'assert'
 import * as W from '../src/Writer'
-import { tuple } from '../src/function'
+import { tuple, pipeOp as pipe } from '../src/function'
 import { monoidString } from '../src/Monoid'
 
 describe('Writer', () => {
@@ -30,11 +30,25 @@ describe('Writer', () => {
   })
 
   it('listens', () => {
-    assert.deepStrictEqual(W.listens(() => [1, 'a'], w => w.length)(), [[1, 1], 'a'])
+    const fa: W.Writer<string, number> = () => [1, 'a']
+    assert.deepStrictEqual(
+      pipe(
+        fa,
+        W.listens(w => w.length)
+      )(),
+      [[1, 1], 'a']
+    )
   })
 
   it('censor', () => {
-    assert.deepStrictEqual(W.censor(() => [1, ['a', 'b']], w => w.filter(a => a !== 'a'))(), [1, ['b']])
+    const fa: W.Writer<Array<string>, number> = () => [1, ['a', 'b']]
+    assert.deepStrictEqual(
+      pipe(
+        fa,
+        W.censor(w => w.filter(a => a !== 'a'))
+      )(),
+      [1, ['b']]
+    )
   })
 
   it('getMonad', () => {
