@@ -94,7 +94,7 @@ Neat 2-dimensional drawing of a forest
 **Signature**
 
 ```ts
-export const drawForest = (forest: Forest<string>): string => ...
+export function drawForest(forest: Forest<string>): string { ... }
 ```
 
 Added in v2.0.0
@@ -106,7 +106,7 @@ Neat 2-dimensional drawing of a tree
 **Signature**
 
 ```ts
-export const drawTree = (tree: Tree<string>): string => ...
+export function drawTree(tree: Tree<string>): string { ... }
 ```
 
 **Example**
@@ -176,7 +176,7 @@ Build a tree from a seed value
 **Signature**
 
 ```ts
-export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> => ...
+export function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> { ... }
 ```
 
 Added in v2.0.0
@@ -214,7 +214,7 @@ Build a tree from a seed value
 **Signature**
 
 ```ts
-export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => ...
+export function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> { ... }
 ```
 
 Added in v2.0.0

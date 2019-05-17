@@ -182,7 +182,7 @@ const draw = (indentation: string, forest: Forest<string>): string => {
  *
  * @since 2.0.0
  */
-export const drawForest = (forest: Forest<string>): string => {
+export function drawForest(forest: Forest<string>): string {
   return draw('\n', forest)
 }
 
@@ -208,7 +208,7 @@ export const drawForest = (forest: Forest<string>): string => {
  *
  * @since 2.0.0
  */
-export const drawTree = (tree: Tree<string>): string => {
+export function drawTree(tree: Tree<string>): string {
   return tree.value + drawForest(tree.forest)
 }
 
@@ -217,7 +217,7 @@ export const drawTree = (tree: Tree<string>): string => {
  *
  * @since 2.0.0
  */
-export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => {
+export function unfoldTree<A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> {
   const [a, bs] = f(b)
   return { value: a, forest: unfoldForest(bs, f) }
 }
@@ -227,7 +227,7 @@ export const unfoldTree = <A, B>(b: B, f: (b: B) => [A, Array<B>]): Tree<A> => {
  *
  * @since 2.0.0
  */
-export const unfoldForest = <A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> => {
+export function unfoldForest<A, B>(bs: Array<B>, f: (b: B) => [A, Array<B>]): Forest<A> {
   return bs.map(b => unfoldTree(b, f))
 }
 
@@ -278,6 +278,7 @@ export function unfoldForestM<M>(
   M: Monad<M>
 ): <A, B>(bs: Array<B>, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Forest<A>> {
   const traverseM = array.traverse(M)
+  // to avoid Maximum call stack size exceeded
   let unfoldTree: <A, B>(b: B, f: (b: B) => HKT<M, [A, Array<B>]>) => HKT<M, Tree<A>>
   return (bs, f) => {
     // tslint:disable-next-line
