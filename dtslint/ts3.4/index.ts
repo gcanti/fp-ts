@@ -12,7 +12,6 @@ import * as R from '../../src/Record'
 import * as S from '../../src/Semigroup'
 import * as TE from '../../src/TaskEither'
 import * as Th from '../../src/These'
-import * as V from '../../src/Validation'
 import * as Mon from '../../src/Monoid'
 import * as Eq from '../../src/Eq'
 import * as Fo from '../../src/Foldable'
@@ -133,7 +132,7 @@ sequenceTf2(sequenceS5, sequenceS6, sequenceS7) // $ExpectType ReaderTaskEither<
 
 // getApplicativeComposition
 
-const applicativeValidation = V.getApplicative(S.semigroupString)
+const applicativeValidation = E.getValidationApplicative(S.semigroupString)
 
 Apv.getApplicativeComposition(Re.reader, applicativeValidation).map // $ExpectType <LF, A, B>(fa: Reader<LF, Either<string, A>>, f: (a: A) => B) => Reader<LF, Either<string, B>>
 
