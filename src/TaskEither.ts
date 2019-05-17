@@ -115,7 +115,7 @@ export const fold: <L, A, R>(
 /**
  * @since 2.0.0
  */
-export const getOrElse: <L, A>(ma: TaskEither<L, A>, f: (l: L) => Task<A>) => Task<A> = T.getOrElse
+export const getOrElse: <L, A>(f: (l: L) => Task<A>) => (ma: TaskEither<L, A>) => Task<A> = T.getOrElse
 
 /**
  * @since 2.0.0
@@ -133,7 +133,7 @@ export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: 
 /**
  * @since 2.0.0
  */
-export const orElse: <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M, A>) => TaskEither<M, A> = T.orElse
+export const orElse: <L, A, M>(f: (l: L) => TaskEither<M, A>) => (ma: TaskEither<L, A>) => TaskEither<M, A> = T.orElse
 
 /**
  * @since 2.0.0
@@ -250,7 +250,7 @@ export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<UR
   of: right,
   ap: T.ap,
   chain: T.chain,
-  alt: orElse,
+  alt: T.alt,
   fromIO: rightIO,
   fromTask: rightTask
 }

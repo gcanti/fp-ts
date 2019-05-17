@@ -110,7 +110,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getOrElse: <L, A>(ma: IOEither<L, A>, f: (l: L) => IO<A>) => IO<A> = ...
+export const getOrElse: <L, A>(f: (l: L) => IO<A>) => (ma: IOEither<L, A>) => IO<A> = ...
 ```
 
 Added in v2.0.0
@@ -150,7 +150,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const orElse: <L, A, M>(ma: IOEither<L, A>, f: (l: L) => IOEither<M, A>) => IOEither<M, A> = ...
+export const orElse: <L, A, M>(f: (l: L) => IOEither<M, A>) => (ma: IOEither<L, A>) => IOEither<M, A> = ...
 ```
 
 Added in v2.0.0
