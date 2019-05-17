@@ -1,6 +1,7 @@
 import * as assert from 'assert'
 import { Store, store, seek, seeks, peeks, experiment } from '../src/Store'
 import { array } from '../src/Array'
+import { pipeOp as pipe } from '../src/function'
 
 const len = (s: string): number => s.length
 
@@ -17,21 +18,49 @@ describe('Store', () => {
 
   it('seek', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(store.extract(seek(wa, 'aa')), 2)
+    assert.strictEqual(
+      store.extract(
+        pipe(
+          wa,
+          seek('aa')
+        )
+      ),
+      2
+    )
   })
 
   it('seeks', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(store.extract(seeks(wa, s => s + 'a')), 2)
+    assert.strictEqual(
+      store.extract(
+        pipe(
+          wa,
+          seeks(s => s + 'a')
+        )
+      ),
+      2
+    )
   })
 
   it('peeks', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.strictEqual(peeks(wa, s => s + 'a'), 2)
+    assert.strictEqual(
+      pipe(
+        wa,
+        peeks(s => s + 'a')
+      ),
+      2
+    )
   })
 
   it('experiment', () => {
     const wa: Store<string, number> = { peek: len, pos: 'a' }
-    assert.deepStrictEqual(experiment(array)(wa, s => [s, s + 'a']), [1, 2])
+    assert.deepStrictEqual(
+      pipe(
+        wa,
+        experiment(array)(s => [s, s + 'a'])
+      ),
+      [1, 2]
+    )
   })
 })
