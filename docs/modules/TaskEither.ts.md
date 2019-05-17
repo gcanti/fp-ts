@@ -221,11 +221,13 @@ Added in v2.0.0
 
 ```ts
 export function filterOrElse<L, A, B extends A>(
-  ma: TaskEither<L, A>,
-  p: Refinement<A, B>,
+  predicate: Refinement<A, B>,
   zero: (a: A) => L
-): TaskEither<L, B>
-export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> { ... }
+): (ma: TaskEither<L, A>) => TaskEither<L, B>
+export function filterOrElse<L, A>(
+  predicate: Predicate<A>,
+  zero: (a: A) => L
+): (ma: TaskEither<L, A>) => TaskEither<L, A> { ... }
 ```
 
 Added in v2.0.0
