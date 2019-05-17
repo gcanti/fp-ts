@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import * as R from '../src/Reader'
 import { semigroupSum } from '../src/Semigroup'
 import { monoidSum } from '../src/Monoid'
+import { pipeOp as pipe } from '../src/function'
 
 interface Env {
   count: number
@@ -31,11 +32,13 @@ describe('Reader', () => {
   })
 
   it('local', () => {
-    type E = string
-    interface E2 {
+    interface E {
       name: string
     }
-    const x = R.local((e: E) => e.length, (e2: E2) => e2.name)
+    const x = pipe(
+      (s: string) => s.length,
+      R.local((e: E) => e.name)
+    )
     assert.strictEqual(x({ name: 'foo' }), 3)
   })
 

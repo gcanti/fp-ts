@@ -65,9 +65,14 @@ describe('ReaderTaskEither', () => {
 
   it('local', async () => {
     const len = (s: string): number => s.length
-    const rte = _.local(_.asks((n: number) => n + 1), len)
-    const e_1 = await _.run(rte, 'foo')
-    assert.deepStrictEqual(e_1, E.right(4))
+    const e = await _.run(
+      pipe(
+        _.asks((n: number) => n + 1),
+        _.local(len)
+      ),
+      'aaa'
+    )
+    assert.deepStrictEqual(e, E.right(4))
   })
 
   it('leftTask', async () => {

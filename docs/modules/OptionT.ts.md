@@ -25,8 +25,9 @@ parent: Modules
 ```ts
 export interface OptionM<M> extends ApplicativeComposition01<M, URI> {
   readonly chain: <A, B>(ma: OptionT<M, A>, f: (a: A) => OptionT<M, B>) => OptionT<M, B>
+  readonly alt: <A>(fx: OptionT<M, A>, fy: () => OptionT<M, A>) => OptionT<M, A>
   readonly fold: <A, R>(onNone: () => HKT<M, R>, onSome: (a: A) => HKT<M, R>) => (ma: OptionT<M, A>) => HKT<M, R>
-  readonly getOrElse: <A>(ma: OptionT<M, A>, onNone: () => HKT<M, A>) => HKT<M, A>
+  readonly getOrElse: <A>(onNone: () => HKT<M, A>) => (ma: OptionT<M, A>) => HKT<M, A>
   readonly fromM: <A>(ma: HKT<M, A>) => OptionT<M, A>
   readonly fromOption: <A>(ma: Option<A>) => OptionT<M, A>
   readonly none: () => OptionT<M, never>
@@ -42,8 +43,9 @@ Added in v2.0.0
 ```ts
 export interface OptionM1<M extends URIS> extends ApplicativeComposition11<M, URI> {
   readonly chain: <A, B>(ma: OptionT1<M, A>, f: (a: A) => OptionT1<M, B>) => OptionT1<M, B>
+  readonly alt: <A>(fx: OptionT1<M, A>, fy: () => OptionT1<M, A>) => OptionT1<M, A>
   readonly fold: <A, R>(onNone: () => Type<M, R>, onSome: (a: A) => Type<M, R>) => (ma: OptionT1<M, A>) => Type<M, R>
-  readonly getOrElse: <A>(ma: OptionT1<M, A>, onNone: () => Type<M, A>) => Type<M, A>
+  readonly getOrElse: <A>(onNone: () => Type<M, A>) => (ma: OptionT1<M, A>) => Type<M, A>
   readonly fromM: <A>(ma: Type<M, A>) => OptionT1<M, A>
   readonly fromOption: <A>(ma: Option<A>) => OptionT1<M, A>
   readonly none: () => OptionT1<M, never>
@@ -59,11 +61,12 @@ Added in v2.0.0
 ```ts
 export interface OptionM2<M extends URIS2> extends ApplicativeComposition21<M, URI> {
   readonly chain: <L, A, B>(ma: OptionT2<M, L, A>, f: (a: A) => OptionT2<M, L, B>) => OptionT2<M, L, B>
+  readonly alt: <L, A>(fx: OptionT2<M, L, A>, fy: () => OptionT2<M, L, A>) => OptionT2<M, L, A>
   readonly fold: <L, A, R>(
     onNone: () => Type2<M, L, R>,
     onSome: (a: A) => Type2<M, L, R>
   ) => (ma: OptionT2<M, L, A>) => Type2<M, L, R>
-  readonly getOrElse: <L, A>(ma: OptionT2<M, L, A>, onNone: () => Type2<M, L, A>) => Type2<M, L, A>
+  readonly getOrElse: <L, A>(onNone: () => Type2<M, L, A>) => (ma: OptionT2<M, L, A>) => Type2<M, L, A>
   readonly fromM: <L, A>(ma: Type2<M, L, A>) => OptionT2<M, L, A>
   readonly fromOption: <L, A>(ma: Option<A>) => OptionT2<M, L, A>
   readonly none: <L>() => OptionT2<M, L, never>

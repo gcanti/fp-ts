@@ -54,7 +54,7 @@ export const asks: <E, A>(f: (e: E) => A) => Reader<E, A> = T.asks
  *
  * @since 2.0.0
  */
-export const local: <E, A, D>(ma: Reader<E, A>, f: (d: D) => E) => Reader<D, A> = T.local
+export const local: <D, E>(f: (d: D) => E) => <A>(ma: Reader<E, A>) => Reader<D, A> = T.local
 
 /**
  * @since 2.0.0

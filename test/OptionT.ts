@@ -2,6 +2,7 @@ import * as assert from 'assert'
 import * as O from '../src/Option'
 import { getOptionM } from '../src/OptionT'
 import { task } from '../src/Task'
+import { pipeOp as pipe } from '../src/function'
 
 const T = getOptionM(task)
 
@@ -33,10 +34,23 @@ describe('OptionT', () => {
     assert.strictEqual(s2, 'some1')
   })
 
+  it('alt', async () => {
+    const o1 = await T.alt(task.of(O.some(1)), () => task.of(O.some(2)))()
+    assert.deepStrictEqual(o1, O.some(1))
+    const o2 = await T.alt(task.of(O.none), () => task.of(O.some(2)))()
+    assert.deepStrictEqual(o2, O.some(2))
+  })
+
   it('getOrElse', async () => {
-    const n1 = await T.getOrElse(task.of(O.some(1)), () => task.of(2))()
-    const n2 = await T.getOrElse(task.of(O.none), () => task.of(2))()
+    const n1 = await pipe(
+      task.of(O.some(1)),
+      T.getOrElse(() => task.of(2))
+    )()
     assert.strictEqual(n1, 1)
+    const n2 = await pipe(
+      task.of(O.none),
+      T.getOrElse(() => task.of(2))
+    )()
     assert.strictEqual(n2, 2)
   })
 

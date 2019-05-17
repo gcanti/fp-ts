@@ -103,7 +103,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const local: <E, L, A, D>(ma: ReaderTaskEither<E, L, A>, f: (f: D) => E) => ReaderTaskEither<D, L, A> = ...
+export const  = ...
 ```
 
 Added in v2.0.0
