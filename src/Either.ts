@@ -175,8 +175,8 @@ export function tryCatch<L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L
 /**
  * @since 2.0.0
  */
-export function fold<L, A, R>(ma: Either<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): R {
-  return isLeft(ma) ? onLeft(ma.left) : onRight(ma.right)
+export function fold<L, A, R>(onLeft: (l: L) => R, onRight: (a: A) => R): (ma: Either<L, A>) => R {
+  return ma => (isLeft(ma) ? onLeft(ma.left) : onRight(ma.right))
 }
 
 /**
@@ -350,7 +350,7 @@ const map = <L, A, B>(ma: Either<L, A>, f: (a: A) => B): Either<L, B> => {
 }
 
 const ap = <L, A, B>(mab: Either<L, (a: A) => B>, ma: Either<L, A>): Either<L, B> => {
-  return isLeft(mab) ? mab : fold<L, A, Either<L, B>>(ma, left, a => right(mab.right(a)))
+  return isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))
 }
 
 const chain = <L, A, B>(ma: Either<L, A>, f: (a: A) => Either<L, B>): Either<L, B> => {

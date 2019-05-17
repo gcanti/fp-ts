@@ -9,8 +9,9 @@ describe('EitherT', () => {
   it('fold', () => {
     const onLeft = (s: string) => io.of(`left(${s})`)
     const onRight = (n: number) => io.of(`right(${n})`)
-    assert.strictEqual(T.fold(io.of(E.right(1)), onLeft, onRight)(), 'right(1)')
-    assert.strictEqual(T.fold(io.of(E.left('bb')), onLeft, onRight)(), 'left(bb)')
+    const fold = T.fold(onLeft, onRight)
+    assert.strictEqual(fold(io.of(E.right(1)))(), 'right(1)')
+    assert.strictEqual(fold(io.of(E.left('bb')))(), 'left(bb)')
   })
 
   it('getOrElse', () => {

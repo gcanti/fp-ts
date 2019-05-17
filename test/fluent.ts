@@ -31,7 +31,7 @@ const fluent = F.fluent(option)
 describe('fluent', () => {
   it('apply', () => {
     const fluent = F.fluent(option)
-    assert.strictEqual(fluent(some(1)).apply(o => fold(o, () => 'none', a => `some(${a})`)), 'some(1)')
+    assert.strictEqual(fluent(some(1)).apply(fold(() => 'none', a => `some(${a})`)), 'some(1)')
   })
 
   it('pipe', () => {

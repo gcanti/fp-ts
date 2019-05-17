@@ -76,11 +76,11 @@ export function getMonoid<E, A>(M: Monoid<A>): Monoid<Reader<E, A>> {
 }
 
 function left<A, B, C>(pab: Reader<A, B>): Reader<E.Either<A, C>, E.Either<B, C>> {
-  return e => E.fold<A, C, E.Either<B, C>>(e, a => E.left(pab(a)), E.right)
+  return E.fold<A, C, E.Either<B, C>>(a => E.left(pab(a)), E.right)
 }
 
 function right<A, B, C>(pbc: Reader<B, C>): Reader<E.Either<A, B>, E.Either<A, C>> {
-  return e => E.fold<A, B, E.Either<A, C>>(e, E.left, b => E.right(pbc(b)))
+  return E.fold<A, B, E.Either<A, C>>(E.left, b => E.right(pbc(b)))
 }
 
 /**

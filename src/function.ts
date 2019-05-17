@@ -251,8 +251,8 @@ export function pipeOp<A, B, C, D, E, F, G, H, I, J>(
   hi: (h: H) => I,
   ij: (i: I) => J
 ): J
-export function pipeOp(a: any, ...fns: Array<Function>): any {
-  let r: any = a
+export function pipeOp(a: unknown, ...fns: Array<Function>): unknown {
+  let r: unknown = a
   for (let i = 0; i < fns.length; i++) {
     r = fns[i](r)
   }

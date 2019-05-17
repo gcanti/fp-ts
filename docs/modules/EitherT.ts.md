@@ -25,7 +25,10 @@ parent: Modules
 ```ts
 export interface EitherM<M> extends ApplicativeComposition02<M, URI> {
   readonly chain: <L, A, B>(ma: EitherT<M, L, A>, f: (a: A) => EitherT<M, L, B>) => EitherT<M, L, B>
-  readonly fold: <L, A, R>(ma: EitherT<M, L, A>, onLeft: (l: L) => HKT<M, R>, onRight: (a: A) => HKT<M, R>) => HKT<M, R>
+  readonly fold: <L, A, R>(
+    onLeft: (l: L) => HKT<M, R>,
+    onRight: (a: A) => HKT<M, R>
+  ) => (ma: EitherT<M, L, A>) => HKT<M, R>
   readonly bimap: <L, A, N, B>(ma: EitherT<M, L, A>, f: (l: L) => N, g: (a: A) => B) => EitherT<M, N, B>
   readonly mapLeft: <L, A, N>(ma: EitherT<M, L, A>, f: (l: L) => N) => EitherT<M, N, A>
   readonly getOrElse: <L, A>(ma: EitherT<M, L, A>, f: (l: L) => HKT<M, A>) => HKT<M, A>
@@ -52,10 +55,9 @@ Added in v2.0.0
 export interface EitherM1<M extends URIS> extends ApplicativeComposition12<M, URI> {
   readonly chain: <L, A, B>(ma: EitherT1<M, L, A>, f: (a: A) => EitherT1<M, L, B>) => EitherT1<M, L, B>
   readonly fold: <L, A, R>(
-    ma: EitherT1<M, L, A>,
     onLeft: (l: L) => Type<M, R>,
     onRight: (a: A) => Type<M, R>
-  ) => Type<M, R>
+  ) => (ma: EitherT1<M, L, A>) => Type<M, R>
   readonly bimap: <L, A, N, B>(ma: EitherT1<M, L, A>, f: (l: L) => N, g: (a: A) => B) => EitherT1<M, N, B>
   readonly mapLeft: <L, A, N>(ma: EitherT1<M, L, A>, f: (l: L) => N) => EitherT1<M, N, A>
   readonly getOrElse: <L, A>(ma: EitherT1<M, L, A>, f: (l: L) => Type<M, A>) => Type<M, A>
@@ -82,10 +84,9 @@ Added in v2.0.0
 export interface EitherM2<M extends URIS2> extends ApplicativeComposition22<M, URI> {
   readonly chain: <LM, L, A, B>(ma: EitherT2<M, LM, L, A>, f: (a: A) => EitherT2<M, LM, L, B>) => EitherT2<M, LM, L, B>
   readonly fold: <LM, L, A, R>(
-    ma: EitherT2<M, LM, L, A>,
     onLeft: (l: L) => Type2<M, LM, R>,
     onRight: (a: A) => Type2<M, LM, R>
-  ) => Type2<M, LM, R>
+  ) => (ma: EitherT2<M, LM, L, A>) => Type2<M, LM, R>
   readonly bimap: <LM, L, A, N, B>(ma: EitherT2<M, LM, L, A>, f: (l: L) => N, g: (a: A) => B) => EitherT2<M, LM, N, B>
   readonly mapLeft: <LM, L, A, N>(ma: EitherT2<M, LM, L, A>, f: (l: L) => N) => EitherT2<M, LM, N, A>
   readonly getOrElse: <LM, L, A>(ma: EitherT2<M, LM, L, A>, f: (l: L) => Type2<M, LM, A>) => Type2<M, LM, A>

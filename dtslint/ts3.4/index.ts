@@ -146,14 +146,6 @@ Apv.getApplicativeComposition(Re.reader, applicativeValidation).map // $ExpectTy
 C.const_.contramap(C.make<boolean>(true), (s: string) => s.length) // $ExpectType Const<boolean, string>
 
 //
-// OptionT
-//
-
-// Monad2C
-
-OT.getOptionM(Th.getMonad(A.getMonoid<string>())) // $ExpectType OptionM2C<"These", string[]>
-
-//
 // TaskEither
 //
 

@@ -1,7 +1,7 @@
 import { Alt3 } from './Alt'
 import { Bifunctor3 } from './Bifunctor'
 import { Either } from './Either'
-import { Predicate, Refinement } from './function'
+import { pipeOp, Predicate, Refinement } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad3 } from './Monad'
@@ -148,11 +148,10 @@ export function fromPredicate<L, A>(
  * @since 2.0.0
  */
 export function fold<E, L, A, R>(
-  ma: ReaderTaskEither<E, L, A>,
   onLeft: (l: L) => Reader<E, Task<R>>,
   onRight: (a: A) => Reader<E, Task<R>>
-): Reader<E, Task<R>> {
-  return e => TE.fold(ma(e), l => onLeft(l)(e), a => onRight(a)(e))
+): (ma: ReaderTaskEither<E, L, A>) => Reader<E, Task<R>> {
+  return ma => e => pipeOp(ma(e), TE.fold(l => onLeft(l)(e), a => onRight(a)(e)))
 }
 
 /**

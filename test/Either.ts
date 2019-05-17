@@ -12,8 +12,9 @@ describe('Either', () => {
   it('fold', () => {
     const f = (s: string) => `left${s.length}`
     const g = (s: string) => `right${s.length}`
-    assert.strictEqual(_.fold(_.left('abc'), f, g), 'left3')
-    assert.strictEqual(_.fold(_.right('abc'), f, g), 'right3')
+    const fold = _.fold(f, g)
+    assert.strictEqual(fold(_.left('abc')), 'left3')
+    assert.strictEqual(fold(_.right('abc')), 'right3')
   })
 
   it('getOrElse', () => {
