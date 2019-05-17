@@ -40,8 +40,8 @@ const extract = <S, A>(wa: Store<S, A>): A => {
  *
  * @since 2.0.0
  */
-export function seek<S, A>(wa: Store<S, A>, s: S): Store<S, A> {
-  return { peek: wa.peek, pos: s }
+export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> {
+  return wa => ({ peek: wa.peek, pos: s })
 }
 
 /**
@@ -49,8 +49,8 @@ export function seek<S, A>(wa: Store<S, A>, s: S): Store<S, A> {
  *
  * @since 2.0.0
  */
-export function seeks<S, A>(wa: Store<S, A>, f: Endomorphism<S>): Store<S, A> {
-  return seek(wa, f(wa.pos))
+export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A> {
+  return wa => ({ peek: wa.peek, pos: f(wa.pos) })
 }
 
 /**
@@ -58,8 +58,8 @@ export function seeks<S, A>(wa: Store<S, A>, f: Endomorphism<S>): Store<S, A> {
  *
  * @since 2.0.0
  */
-export function peeks<S, A>(wa: Store<S, A>, f: Endomorphism<S>): A {
-  return wa.peek(f(wa.pos))
+export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A {
+  return wa => wa.peek(f(wa.pos))
 }
 
 /**
@@ -69,23 +69,23 @@ export function peeks<S, A>(wa: Store<S, A>, f: Endomorphism<S>): A {
  */
 export function experiment<F extends URIS3>(
   F: Functor3<F>
-): <U, L, S, A>(wa: Store<S, A>, f: (s: S) => Type3<F, U, L, S>) => Type3<F, U, L, A>
+): <U, L, S>(f: (s: S) => Type3<F, U, L, S>) => <A>(wa: Store<S, A>) => Type3<F, U, L, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
-): <L, S, A>(wa: Store<S, A>, f: (s: S) => Type2<F, L, S>) => Type2<F, L, A>
+): <L, S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>
 export function experiment<F extends URIS2, L>(
   F: Functor2C<F, L>
-): <S, A>(wa: Store<S, A>, f: (s: S) => Type2<F, L, S>) => Type2<F, L, A>
+): <S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>
 export function experiment<F extends URIS>(
   F: Functor1<F>
-): <S, A>(wa: Store<S, A>, f: (s: S) => Type<F, S>) => Type<F, A>
-export function experiment<F>(F: Functor<F>): <S, A>(wa: Store<S, A>, f: (s: S) => HKT<F, S>) => HKT<F, A>
-export function experiment<F>(F: Functor<F>): <S, A>(wa: Store<S, A>, f: (s: S) => HKT<F, S>) => HKT<F, A> {
-  return (sa, f) => F.map(f(sa.pos), s => sa.peek(s))
+): <S>(f: (s: S) => Type<F, S>) => <A>(wa: Store<S, A>) => Type<F, A>
+export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>
+export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> {
+  return f => wa => F.map(f(wa.pos), s => wa.peek(s))
 }
 
 const extend = <S, A, B>(wa: Store<S, A>, f: (wa: Store<S, A>) => B): Store<S, B> => {
-  return { peek: s => f(seek(wa, s)), pos: wa.pos }
+  return { peek: s => f({ peek: wa.peek, pos: s }), pos: wa.pos }
 }
 
 /**

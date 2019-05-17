@@ -71,17 +71,17 @@ Extract a collection of values from positions which depend on the current positi
 ```ts
 export function experiment<F extends URIS3>(
   F: Functor3<F>
-): <U, L, S, A>(wa: Store<S, A>, f: (s: S) => Type3<F, U, L, S>) => Type3<F, U, L, A>
+): <U, L, S>(f: (s: S) => Type3<F, U, L, S>) => <A>(wa: Store<S, A>) => Type3<F, U, L, A>
 export function experiment<F extends URIS2>(
   F: Functor2<F>
-): <L, S, A>(wa: Store<S, A>, f: (s: S) => Type2<F, L, S>) => Type2<F, L, A>
+): <L, S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>
 export function experiment<F extends URIS2, L>(
   F: Functor2C<F, L>
-): <S, A>(wa: Store<S, A>, f: (s: S) => Type2<F, L, S>) => Type2<F, L, A>
+): <S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>
 export function experiment<F extends URIS>(
   F: Functor1<F>
-): <S, A>(wa: Store<S, A>, f: (s: S) => Type<F, S>) => Type<F, A>
-export function experiment<F>(F: Functor<F>): <S, A>(wa: Store<S, A>, f: (s: S) => HKT<F, S>) => HKT<F, A> { ... }
+): <S>(f: (s: S) => Type<F, S>) => <A>(wa: Store<S, A>) => Type<F, A>
+export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A> { ... }
 ```
 
 Added in v2.0.0
@@ -93,7 +93,7 @@ Extract a value from a position which depends on the current position
 **Signature**
 
 ```ts
-export function peeks<S, A>(wa: Store<S, A>, f: Endomorphism<S>): A { ... }
+export function peeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => A { ... }
 ```
 
 Added in v2.0.0
@@ -105,7 +105,7 @@ Reposition the focus at the specified position
 **Signature**
 
 ```ts
-export function seek<S, A>(wa: Store<S, A>, s: S): Store<S, A> { ... }
+export function seek<S>(s: S): <A>(wa: Store<S, A>) => Store<S, A> { ... }
 ```
 
 Added in v2.0.0
@@ -117,7 +117,7 @@ Reposition the focus at the specified position, which depends on the current pos
 **Signature**
 
 ```ts
-export function seeks<S, A>(wa: Store<S, A>, f: Endomorphism<S>): Store<S, A> { ... }
+export function seeks<S>(f: Endomorphism<S>): <A>(wa: Store<S, A>) => Store<S, A> { ... }
 ```
 
 Added in v2.0.0
