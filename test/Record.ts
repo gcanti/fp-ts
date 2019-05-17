@@ -104,7 +104,7 @@ describe('Record', () => {
     const t1 = R.traverseWithIndex(option)(d1, (k, n): Option<number> => (k !== 'k1' ? some(n) : none))
     assert.deepStrictEqual(t1, none)
     const t2 = R.traverseWithIndex(option)(R.empty, (): Option<number> => none)
-    assert.strictEqual(getOrElse(t2, () => R.empty), R.empty)
+    assert.strictEqual(getOrElse((): Record<string, number> => R.empty)(t2), R.empty)
   })
 
   it('size', () => {

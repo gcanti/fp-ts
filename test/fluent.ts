@@ -46,8 +46,8 @@ describe('fluent', () => {
     const x: X = { a: { b: { c: 1 } } }
     assert.deepStrictEqual(
       fluent(fromNullable(x.a))
-        .pipe(o => mapNullable(o, x => x.b))
-        .apply(o => mapNullable(o, x => x.c)),
+        .pipe(mapNullable(x => x.b))
+        .apply(mapNullable(x => x.c)),
       some(1)
     )
   })

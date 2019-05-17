@@ -1,13 +1,13 @@
 import * as assert from 'assert'
 import { array } from '../src/Array'
 import { left, right } from '../src/Either'
+import { eqNumber } from '../src/Eq'
+import { identity, pipeOp as pipe } from '../src/function'
+import * as I from '../src/Identity'
+import { monoidString, monoidSum } from '../src/Monoid'
 import * as O from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
-import { eqNumber } from '../src/Eq'
-import { identity } from '../src/function'
-import * as I from '../src/Identity'
-import { monoidSum, monoidString } from '../src/Monoid'
 import { showString } from '../src/Show'
 
 const p = (n: number): boolean => n > 2
@@ -36,8 +36,20 @@ describe('Option', () => {
   })
 
   it('getOrElse', () => {
-    assert.strictEqual(O.getOrElse(O.some(1), () => 0), 1)
-    assert.strictEqual(O.getOrElse(O.none, () => 0), 0)
+    assert.strictEqual(
+      pipe(
+        O.some(1),
+        O.getOrElse(() => 0)
+      ),
+      1
+    )
+    assert.strictEqual(
+      pipe(
+        O.none,
+        O.getOrElse(() => 0)
+      ),
+      0
+    )
   })
 
   it('equals', () => {
@@ -76,20 +88,45 @@ describe('Option', () => {
   })
 
   it('mapNullable', () => {
-    type Nested = {
-      foo?: number
-      foo2: {
-        bar2?: string
+    interface X {
+      a?: {
+        b?: {
+          c?: {
+            d: number
+          }
+        }
       }
     }
-    const nested: Nested = {
-      foo2: {}
-    }
-    const nestedOption = O.some(nested)
-    assert.deepStrictEqual(O.mapNullable(nestedOption, value => value.foo), O.none)
-    assert.deepStrictEqual(O.mapNullable(nestedOption, value => value.foo2), O.some(nested.foo2))
-    assert.deepStrictEqual(O.mapNullable(nestedOption, value => value.foo2.bar2), O.none)
-    assert.deepStrictEqual(O.mapNullable(O.none, identity), O.none)
+    const x1: X = { a: {} }
+    const x2: X = { a: { b: {} } }
+    const x3: X = { a: { b: { c: { d: 1 } } } }
+    assert.deepStrictEqual(
+      pipe(
+        O.fromNullable(x1.a),
+        O.mapNullable(x => x.b),
+        O.mapNullable(x => x.c),
+        O.mapNullable(x => x.d)
+      ),
+      O.none
+    )
+    assert.deepStrictEqual(
+      pipe(
+        O.fromNullable(x2.a),
+        O.mapNullable(x => x.b),
+        O.mapNullable(x => x.c),
+        O.mapNullable(x => x.d)
+      ),
+      O.none
+    )
+    assert.deepStrictEqual(
+      pipe(
+        O.fromNullable(x3.a),
+        O.mapNullable(x => x.b),
+        O.mapNullable(x => x.c),
+        O.mapNullable(x => x.d)
+      ),
+      O.some(1)
+    )
   })
 
   it('ap', () => {
@@ -126,7 +163,7 @@ describe('Option', () => {
   })
 
   it('extend', () => {
-    const f = (fa: O.Option<number>) => O.getOrElse(fa, () => 0)
+    const f = O.getOrElse(() => 0)
     assert.deepStrictEqual(O.option.extend(O.some(2), f), O.some(2))
     assert.deepStrictEqual(O.option.extend(O.none, f), O.none)
   })
@@ -216,10 +253,27 @@ describe('Option', () => {
   })
 
   it('elem', () => {
-    const elem = O.elem(eqNumber)
-    assert.deepStrictEqual(elem(2, O.none), false)
-    assert.deepStrictEqual(elem(2, O.some(2)), true)
-    assert.deepStrictEqual(elem(1, O.some(2)), false)
+    assert.deepStrictEqual(
+      pipe(
+        O.none,
+        O.elem(eqNumber)(2)
+      ),
+      false
+    )
+    assert.deepStrictEqual(
+      pipe(
+        O.some(2),
+        O.elem(eqNumber)(2)
+      ),
+      true
+    )
+    assert.deepStrictEqual(
+      pipe(
+        O.some(2),
+        O.elem(eqNumber)(1)
+      ),
+      false
+    )
   })
 
   it('isNone', () => {
@@ -234,9 +288,27 @@ describe('Option', () => {
 
   it('exists', () => {
     const predicate = (a: number) => a === 2
-    assert.deepStrictEqual(O.exists(O.none, predicate), false)
-    assert.deepStrictEqual(O.exists(O.some(1), predicate), false)
-    assert.deepStrictEqual(O.exists(O.some(2), predicate), true)
+    assert.deepStrictEqual(
+      pipe(
+        O.none,
+        O.exists(predicate)
+      ),
+      false
+    )
+    assert.deepStrictEqual(
+      pipe(
+        O.some(1),
+        O.exists(predicate)
+      ),
+      false
+    )
+    assert.deepStrictEqual(
+      pipe(
+        O.some(2),
+        O.exists(predicate)
+      ),
+      true
+    )
   })
 
   it('tryCatch', () => {
