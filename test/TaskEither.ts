@@ -248,15 +248,30 @@ describe('TaskEither', () => {
   it('filterOrElse', async () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
 
-    const e1 = await _.filterOrElse(_.right(12), n => n > 10, () => 'bar')()
+    const e1 = await pipe(
+      _.right(12),
+      _.filterOrElse(n => n > 10, () => 'bar')
+    )()
     assert.deepStrictEqual(e1, E.right(12))
-    const e2 = await _.filterOrElse(_.right(7), n => n > 10, () => 'bar')()
+    const e2 = await pipe(
+      _.right(7),
+      _.filterOrElse(n => n > 10, () => 'bar')
+    )()
     assert.deepStrictEqual(e2, E.left('bar'))
-    const e3 = await _.filterOrElse(_.left('foo'), n => n > 10, () => 'bar')()
+    const e3 = await pipe(
+      _.left('foo'),
+      _.filterOrElse(n => n > 10, () => 'bar')
+    )()
     assert.deepStrictEqual(e3, E.left('foo'))
-    const e4 = await _.filterOrElse(_.right(7), n => n > 10, n => `invalid ${n}`)()
+    const e4 = await pipe(
+      _.right(7),
+      _.filterOrElse(n => n > 10, n => `invalid ${n}`)
+    )()
     assert.deepStrictEqual(e4, E.left('invalid 7'))
-    const e5 = await _.filterOrElse(_.right(12), isNumber, () => 'not a number')()
+    const e5 = await pipe(
+      _.right(12),
+      _.filterOrElse(isNumber, () => 'not a number')
+    )()
     assert.deepStrictEqual(e5, E.right(12))
   })
 
