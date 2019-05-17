@@ -6,6 +6,7 @@ import { reader } from '../src/Reader'
 import * as _ from '../src/ReaderTaskEither'
 import { task } from '../src/Task'
 import { taskEither } from '../src/TaskEither'
+import { pipeOp as pipe } from '../src/function'
 
 describe('ReaderTaskEither', () => {
   describe('Monad', () => {
@@ -115,17 +116,44 @@ describe('ReaderTaskEither', () => {
   })
 
   it('getOrElse', async () => {
-    const e1 = await _.getOrElse(_.right(1), (l: string) => reader.of(task.of(l.length)))({})()
+    const e1 = await pipe(
+      _.right(1),
+      _.getOrElse((l: string) => reader.of(task.of(l.length)))
+    )({})()
     assert.deepStrictEqual(e1, 1)
-    const e2 = await _.getOrElse(_.left('err'), (l: string) => reader.of(task.of(l.length)))({})()
+    const e2 = await pipe(
+      _.left('err'),
+      _.getOrElse((l: string) => reader.of(task.of(l.length)))
+    )({})()
     assert.deepStrictEqual(e2, 3)
   })
 
   it('orElse', async () => {
-    const e1 = await _.run(_.orElse(_.right(1), (s: string) => _.right(s.length)), {})
+    const e1 = await _.run(
+      pipe(
+        _.right(1),
+        _.orElse((s: string) => _.right(s.length))
+      ),
+      {}
+    )
     assert.deepStrictEqual(e1, E.right(1))
-    const e2 = await _.run(_.orElse(_.left('error'), s => _.right(s.length)), {})
+    const e2 = await _.run(
+      pipe(
+        _.left('error'),
+        _.orElse(s => _.right(s.length))
+      ),
+      {}
+    )
     assert.deepStrictEqual(e2, E.right(5))
+  })
+
+  it('alt', async () => {
+    const e1 = await _.run(_.readerTaskEither.alt(_.right(1), () => _.right(2)), {})
+    assert.deepStrictEqual(e1, E.right(1))
+    const e2 = await _.run(_.readerTaskEither.alt(_.left('a'), () => _.right(2)), {})
+    assert.deepStrictEqual(e2, E.right(2))
+    const e3 = await _.run(_.readerTaskEither.alt(_.left('a'), () => _.left('b')), {})
+    assert.deepStrictEqual(e3, E.left('b'))
   })
 
   it('fromPredicate', () => {

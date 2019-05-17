@@ -128,7 +128,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getOrElse: <L, A>(ma: TaskEither<L, A>, f: (l: L) => Task<A>) => Task<A> = ...
+export const getOrElse: <L, A>(f: (l: L) => Task<A>) => (ma: TaskEither<L, A>) => Task<A> = ...
 ```
 
 Added in v2.0.0
@@ -158,7 +158,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const orElse: <L, A, M>(ma: TaskEither<L, A>, f: (l: L) => TaskEither<M, A>) => TaskEither<M, A> = ...
+export const orElse: <L, A, M>(f: (l: L) => TaskEither<M, A>) => (ma: TaskEither<L, A>) => TaskEither<M, A> = ...
 ```
 
 Added in v2.0.0

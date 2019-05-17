@@ -6,6 +6,7 @@ import { monoidString } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
 import * as T from '../src/Task'
 import * as _ from '../src/TaskEither'
+import { pipeOp as pipe } from '../src/function'
 
 const delay = <A>(millis: number, a: A): T.Task<A> => T.delay(millis, T.task.of(a))
 
@@ -105,9 +106,15 @@ describe('TaskEither', () => {
   })
 
   it('orElse', async () => {
-    const e1 = await _.orElse(_.left('foo'), l => _.right(l.length))()
-    const e2 = await _.orElse(_.right(1), () => _.right(2))()
+    const e1 = await pipe(
+      _.left('foo'),
+      _.orElse(l => _.right(l.length))
+    )()
     assert.deepStrictEqual(e1, E.right(3))
+    const e2 = await pipe(
+      _.right(1),
+      _.orElse(() => _.right(2))
+    )()
     assert.deepStrictEqual(e2, E.right(1))
   })
 
