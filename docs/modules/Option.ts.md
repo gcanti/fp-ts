@@ -213,7 +213,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A) => (ma: Option<A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean { ... }
 ```
 
 Added in v2.0.0
