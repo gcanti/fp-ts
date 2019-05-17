@@ -8,84 +8,61 @@ nav_order: 9
 
 The module `'fp-ts/lib/Trace'` contains a bunch of helpers which make `console` based debugging a lot easier.
 
-## How to log a value to the console
+## How to log a value
 
 Say you want to log the value of `s` in the following snippet
 
 ```ts
 import { head } from 'fp-ts/lib/Array'
+import { option } from 'fp-ts/lib/Option'
+import { pipe, pipeable } from 'fp-ts/lib/pipeable'
 
-export const len = (s: string): number => s.length
+const O = pipeable(option)
 
-export const x = head(['a', 'bb', 'ccc']).map(s => len(s))
+export const x = pipe(
+  head(['a', 'bb', 'ccc']),
+  O.map(s => s.length)
+)
 ```
 
 You can use the `spy` helper
 
 ```ts
 import { head } from 'fp-ts/lib/Array'
+import { option } from 'fp-ts/lib/Option'
+import { pipe, pipeable } from 'fp-ts/lib/pipeable'
 import { spy } from 'fp-ts/lib/Trace'
 
-const len = (s: string): number => s.length
+const O = pipeable(option)
 
-const x = head(['a', 'bb', 'ccc']).map(s => len(spy(s)))
-// => 'a'
+const x = pipe(
+  head(['a', 'bb', 'ccc']),
+  spy,
+  O.map(spy),
+  O.map(s => s.length)
+)
+// => { _tag: 'Some', value: 'a' }
+// => a
 ```
 
-## How to log a value before returning another value
+## How to log a message
 
 You can use the `trace` helper
 
 ```ts
 import { head } from 'fp-ts/lib/Array'
-import { spy, trace } from 'fp-ts/lib/Trace'
+import { option, isSome } from 'fp-ts/lib/Option'
+import { pipe, pipeable } from 'fp-ts/lib/pipeable'
+import { trace } from 'fp-ts/lib/Trace'
 
-const len = (s: string): number => spy(s.length)
+const O = pipeable(option)
 
-const x = head(['a', 'bb', 'ccc']).map(s =>
-  trace('The value before calling `len` is: ' + s, () => len(s))
+const x = pipe(
+  head(['a', 'bb', 'ccc']),
+  trace(h => `The head is a some? ${isSome(h)}`),
+  O.map(trace(s => `The value before calling .length is: ${s}`)),
+  O.map(s => s.length)
 )
-// => The value before calling `len` is: a
-// => 1
-```
-
-The first message is from `trace`, the second message is from `spy`.
-
-## How to log a value in an `Applicative` context
-
-You can use the `traceA` helper
-
-```ts
-import { option, some } from 'fp-ts/lib/Option'
-import { traceA } from 'fp-ts/lib/Trace'
-
-// debug returns an `Option<void>`
-const debug = traceA(option)
-
-debug('start computation')
-  .chain(() => some(1))
-  .chain(() => debug('end computation'))
-// => start computation
-// => end computation
-```
-
-## How to log a value in a `Monad` context
-
-This is especially useful when one has monadic chains.
-
-You can use the `traceM` helper
-
-```ts
-import { head } from 'fp-ts/lib/Array'
-import { option, some } from 'fp-ts/lib/Option'
-import { traceM } from 'fp-ts/lib/Trace'
-
-const debug = traceM(option)
-
-some([1, 2, 3])
-  .chain(debug)
-  .chain(head)
-  .chain(debug)
-// => [1, 2, 3]
-// => 1
+// => The head is a some? true
+// => The value before calling .length is: a
 ```

@@ -1,22 +1,12 @@
 import * as assert from 'assert'
-import { trace, spy, traceA, traceM } from '../src/Trace'
-import { some, option } from '../src/Option'
+import { head } from '../src/Array'
+import { option, some, isSome } from '../src/Option'
+import { pipe, pipeable } from '../src/pipeable'
+import { spy, trace } from '../src/Trace'
+
+const O = pipeable(option)
 
 describe('Trace', () => {
-  it('trace', () => {
-    // tslint:disable-next-line:no-console
-    const log_ = console.log
-    const logger: Array<any> = []
-    // tslint:disable-next-line:no-console
-    console.log = (a: any) => {
-      logger.push(a)
-    }
-    trace('trace', () => 1)
-    assert.deepStrictEqual(logger, ['trace'])
-    // tslint:disable-next-line:no-console
-    console.log = log_
-  })
-
   it('spy', () => {
     // tslint:disable-next-line:no-console
     const log_ = console.log
@@ -25,13 +15,18 @@ describe('Trace', () => {
     console.log = (a: any) => {
       logger.push(a)
     }
-    spy(some(1))
-    assert.deepStrictEqual(logger, [some(1)])
+    pipe(
+      head(['a', 'bb', 'ccc']),
+      spy,
+      O.map(spy),
+      O.map(s => s.length)
+    )
+    assert.deepStrictEqual(logger, [some('a'), 'a'])
     // tslint:disable-next-line:no-console
     console.log = log_
   })
 
-  it('traceA', () => {
+  it('trace', () => {
     // tslint:disable-next-line:no-console
     const log_ = console.log
     const logger: Array<any> = []
@@ -39,24 +34,13 @@ describe('Trace', () => {
     console.log = (a: any) => {
       logger.push(a)
     }
-    const x = traceA(option)('traceA')
-    assert.deepStrictEqual(logger, ['traceA'])
-    assert.deepStrictEqual(x, some(undefined))
-    // tslint:disable-next-line:no-console
-    console.log = log_
-  })
-
-  it('traceM', () => {
-    // tslint:disable-next-line:no-console
-    const log_ = console.log
-    const logger: Array<any> = []
-    // tslint:disable-next-line:no-console
-    console.log = (a: any) => {
-      logger.push(a)
-    }
-    const x = traceM(option)('traceM')
-    assert.deepStrictEqual(logger, ['traceM'])
-    assert.deepStrictEqual(x, some('traceM'))
+    pipe(
+      head(['a', 'bb', 'ccc']),
+      trace(h => `The head is a some? ${isSome(h)}`),
+      O.map(trace(s => `The value before calling .length is: ${s}`)),
+      O.map(s => s.length)
+    )
+    assert.deepStrictEqual(logger, ['The head is a some? true', 'The value before calling .length is: a'])
     // tslint:disable-next-line:no-console
     console.log = log_
   })
