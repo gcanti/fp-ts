@@ -127,7 +127,7 @@ export function filterOrElse<L, A, B extends A>(
 ): TaskEither<L, B>
 export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A>
 export function filterOrElse<L, A>(ma: TaskEither<L, A>, p: Predicate<A>, zero: (a: A) => L): TaskEither<L, A> {
-  return task.map(ma, e => E.filterOrElse(e, p, zero))
+  return task.map(ma, E.filterOrElse(p, zero))
 }
 
 /**
