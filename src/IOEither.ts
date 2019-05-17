@@ -97,13 +97,12 @@ export const getOrElse: <L, A>(f: (l: L) => IO<A>) => (ma: IOEither<L, A>) => IO
  * @since 2.0.0
  */
 export function filterOrElse<L, A, B extends A>(
-  ma: IOEither<L, A>,
   p: Refinement<A, B>,
   zero: (a: A) => L
-): IOEither<L, B>
-export function filterOrElse<L, A>(ma: IOEither<L, A>, p: Predicate<A>, zero: (a: A) => L): IOEither<L, A>
-export function filterOrElse<L, A>(ma: IOEither<L, A>, p: Predicate<A>, zero: (a: A) => L): IOEither<L, A> {
-  return io.map(ma, E.filterOrElse(p, zero))
+): (ma: IOEither<L, A>) => IOEither<L, B>
+export function filterOrElse<L, A>(p: Predicate<A>, zero: (a: A) => L): (ma: IOEither<L, A>) => IOEither<L, A>
+export function filterOrElse<L, A>(p: Predicate<A>, zero: (a: A) => L): (ma: IOEither<L, A>) => IOEither<L, A> {
+  return ma => io.map(ma, E.filterOrElse(p, zero))
 }
 
 /**

@@ -5,6 +5,7 @@ import * as _ from '../src/IOEither'
 import { monoidString } from '../src/Monoid'
 import { semigroupSum } from '../src/Semigroup'
 import { none, some } from '../src/Option'
+import { pipeOp as pipe } from '../src/function'
 
 describe('IOEither', () => {
   it('tryCatch', () => {
@@ -20,11 +21,41 @@ describe('IOEither', () => {
   it('filterOrElse', () => {
     const isNumber = (u: string | number): u is number => typeof u === 'number'
 
-    assert.deepStrictEqual(_.filterOrElse(_.right(12), n => n > 10, () => 'bar')(), E.right(12))
-    assert.deepStrictEqual(_.filterOrElse(_.right(7), n => n > 10, () => 'bar')(), E.left('bar'))
-    assert.deepStrictEqual(_.filterOrElse(_.left('foo'), n => n > 10, () => 'bar')(), E.left('foo'))
-    assert.deepStrictEqual(_.filterOrElse(_.right(7), n => n > 10, n => `invalid ${n}`)(), E.left('invalid 7'))
-    assert.deepStrictEqual(_.filterOrElse(_.right(12), isNumber, () => 'not a number')(), E.right(12))
+    assert.deepStrictEqual(
+      pipe(
+        _.right(12),
+        _.filterOrElse(n => n > 10, () => 'bar')
+      )(),
+      E.right(12)
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.right(7),
+        _.filterOrElse(n => n > 10, () => 'bar')
+      )(),
+      E.left('bar')
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.left('foo'),
+        _.filterOrElse(n => n > 10, () => 'bar')
+      )(),
+      E.left('foo')
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.right(7),
+        _.filterOrElse(n => n > 10, n => `invalid ${n}`)
+      )(),
+      E.left('invalid 7')
+    )
+    assert.deepStrictEqual(
+      pipe(
+        _.right(12),
+        _.filterOrElse(isNumber, () => 'not a number')
+      )(),
+      E.right(12)
+    )
   })
 
   it('fromOption', () => {

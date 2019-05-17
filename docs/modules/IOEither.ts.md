@@ -191,11 +191,10 @@ Added in v2.0.0
 
 ```ts
 export function filterOrElse<L, A, B extends A>(
-  ma: IOEither<L, A>,
   p: Refinement<A, B>,
   zero: (a: A) => L
-): IOEither<L, B>
-export function filterOrElse<L, A>(ma: IOEither<L, A>, p: Predicate<A>, zero: (a: A) => L): IOEither<L, A> { ... }
+): (ma: IOEither<L, A>) => IOEither<L, B>
+export function filterOrElse<L, A>(p: Predicate<A>, zero: (a: A) => L): (ma: IOEither<L, A>) => IOEither<L, A> { ... }
 ```
 
 Added in v2.0.0
