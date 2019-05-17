@@ -49,8 +49,8 @@ export function listen<P, A>(wa: Traced<P, A>): Traced<P, [A, P]> {
  *
  * @since 2.0.0
  */
-export function listens<P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A, B]> {
-  return e => tuple(wa(e), f(e))
+export function listens<P, B>(f: (p: P) => B): <A>(wa: Traced<P, A>) => Traced<P, [A, B]> {
+  return wa => e => tuple(wa(e), f(e))
 }
 
 /**
@@ -58,8 +58,8 @@ export function listens<P, A, B>(wa: Traced<P, A>, f: (p: P) => B): Traced<P, [A
  *
  * @since 2.0.0
  */
-export function censor<P, A>(wa: Traced<P, A>, f: (p: P) => P): Traced<P, A> {
-  return e => wa(f(e))
+export function censor<P>(f: (p: P) => P): <A>(wa: Traced<P, A>) => Traced<P, A> {
+  return wa => e => wa(f(e))
 }
 
 /**
