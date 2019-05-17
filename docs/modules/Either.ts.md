@@ -162,7 +162,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<L, A, R>(ma: Either<L, A>, onLeft: (l: L) => R, onRight: (a: A) => R): R { ... }
+export function fold<L, A, R>(onLeft: (l: L) => R, onRight: (a: A) => R): (ma: Either<L, A>) => R { ... }
 ```
 
 Added in v2.0.0

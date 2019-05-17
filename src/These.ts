@@ -26,7 +26,7 @@ import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
-import { Option, some, none, isNone, fold as foldOption } from './Option'
+import { Option, some, none, isNone } from './Option'
 import { Semigroup } from './Semigroup'
 import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
@@ -87,18 +87,19 @@ export function both<L, A>(left: L, right: A): These<L, A> {
  * @since 2.0.0
  */
 export function fold<L, A, R>(
-  fa: These<L, A>,
   onLeft: (l: L) => R,
   onRight: (a: A) => R,
   onBoth: (l: L, a: A) => R
-): R {
-  switch (fa._tag) {
-    case 'Left':
-      return onLeft(fa.left)
-    case 'Right':
-      return onRight(fa.right)
-    case 'Both':
-      return onBoth(fa.left, fa.right)
+): (fa: These<L, A>) => R {
+  return fa => {
+    switch (fa._tag) {
+      case 'Left':
+        return onLeft(fa.left)
+      case 'Right':
+        return onRight(fa.right)
+      case 'Both':
+        return onBoth(fa.left, fa.right)
+    }
   }
 }
 
@@ -107,8 +108,7 @@ export function fold<L, A, R>(
  */
 export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> {
   return {
-    show: fa =>
-      fold(fa, l => `left(${SL.show(l)})`, a => `right(${SA.show(a)})`, (l, a) => `both(${SL.show(l)}, ${SA.show(a)})`)
+    show: fold(l => `left(${SL.show(l)})`, a => `right(${SA.show(a)})`, (l, a) => `both(${SL.show(l)}, ${SA.show(a)})`)
   }
 }
 
@@ -362,11 +362,13 @@ export function getRightOnly<L, A>(fa: These<L, A>): Option<A> {
  * @since 2.0.0
  */
 export function fromOptions<L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> {
-  return foldOption(
-    fl,
-    () => foldOption(fa, () => none, a => some(right(a))),
-    l => foldOption(fa, () => some(left(l)), a => some(both(l, a)))
-  )
+  return isNone(fl)
+    ? isNone(fa)
+      ? none
+      : some(right(fa.value))
+    : isNone(fa)
+    ? some(left(fl.value))
+    : some(both(fl.value, fa.value))
 }
 
 /**

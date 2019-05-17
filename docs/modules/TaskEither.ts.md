@@ -95,7 +95,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const  = ...
+export const fold: <L, A, R>(
+  onLeft: (l: L) => Task<R>,
+  onRight: (a: A) => Task<R>
+) => (ma: TaskEither<L, A>) => Task<R> = ...
 ```
 
 Added in v2.0.0

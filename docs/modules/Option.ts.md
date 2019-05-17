@@ -68,8 +68,8 @@ import { fold } from 'fp-ts/lib/Option'
 
 const x: Option<number> = some(3)
 const y: Option<number> = none
-fold(x, 1, n => n * 3) // 9
-fold(y, 1, n => n * 3) // 1
+fold(1, n => n * 3)(x) // 9
+fold(1, n => n * 3)(y) // 1
 ```
 
 You can chain several possibly failing computations using the `chain` function
@@ -233,7 +233,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<A, R>(ma: Option<A>, onNone: () => R, onSome: (a: A) => R): R { ... }
+export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>) => R { ... }
 ```
 
 Added in v2.0.0

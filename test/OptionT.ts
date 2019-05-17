@@ -26,9 +26,10 @@ describe('OptionT', () => {
   it('fold', async () => {
     const f = () => task.of('none')
     const g = (s: string) => task.of(`some${s.length}`)
-    const s1 = await T.fold(task.of(O.none), f, g)()
+    const fold = T.fold(f, g)
+    const s1 = await fold(task.of(O.none))()
     assert.strictEqual(s1, 'none')
-    const s2 = await T.fold(T.of('s'), f, g)()
+    const s2 = await fold(T.of('s'))()
     assert.strictEqual(s2, 'some1')
   })
 

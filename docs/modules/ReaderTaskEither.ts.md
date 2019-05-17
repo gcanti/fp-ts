@@ -156,10 +156,9 @@ Added in v2.0.0
 
 ```ts
 export function fold<E, L, A, R>(
-  ma: ReaderTaskEither<E, L, A>,
   onLeft: (l: L) => Reader<E, Task<R>>,
   onRight: (a: A) => Reader<E, Task<R>>
-): Reader<E, Task<R>> { ... }
+): (ma: ReaderTaskEither<E, L, A>) => Reader<E, Task<R>> { ... }
 ```
 
 Added in v2.0.0

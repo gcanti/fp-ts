@@ -107,8 +107,10 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 /**
  * @since 2.0.0
  */
-export const fold: <L, A, R>(ma: TaskEither<L, A>, onLeft: (l: L) => Task<R>, onRight: (a: A) => Task<R>) => Task<R> =
-  T.fold
+export const fold: <L, A, R>(
+  onLeft: (l: L) => Task<R>,
+  onRight: (a: A) => Task<R>
+) => (ma: TaskEither<L, A>) => Task<R> = T.fold
 
 /**
  * @since 2.0.0

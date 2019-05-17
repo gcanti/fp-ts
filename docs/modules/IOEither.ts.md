@@ -90,7 +90,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fold: <L, A, R>(ma: IOEither<L, A>, onLeft: (l: L) => IO<R>, onRight: (a: A) => IO<R>) => IO<R> = ...
+export const  = ...
 ```
 
 Added in v2.0.0

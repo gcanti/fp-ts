@@ -107,13 +107,10 @@ describe('ReaderTaskEither', () => {
   })
 
   it('fold', async () => {
-    const e1 = await _.fold(_.right(1), (l: string) => reader.of(task.of(l.length)), a => reader.of(task.of(a * 2)))(
-      {}
-    )()
+    const fold = _.fold((l: string) => reader.of(task.of(l.length)), (a: number) => reader.of(task.of(a * 2)))
+    const e1 = await fold(_.right(1))({})()
     assert.deepStrictEqual(e1, 2)
-    const e2 = await _.fold(_.left('err'), (l: string) => reader.of(task.of(l.length)), a => reader.of(task.of(a * 2)))(
-      {}
-    )()
+    const e2 = await fold(_.left('err'))({})()
     assert.deepStrictEqual(e2, 3)
   })
 

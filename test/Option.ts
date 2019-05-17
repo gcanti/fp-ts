@@ -20,8 +20,9 @@ describe('Option', () => {
   it('fold', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
-    assert.strictEqual(O.fold(O.none, f, g), 'none')
-    assert.strictEqual(O.fold(O.some('abc'), f, g), 'some3')
+    const fold = O.fold(f, g)
+    assert.strictEqual(fold(O.none), 'none')
+    assert.strictEqual(fold(O.some('abc')), 'some3')
   })
 
   it('toNullable', () => {

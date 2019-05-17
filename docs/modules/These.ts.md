@@ -125,11 +125,10 @@ Added in v2.0.0
 
 ```ts
 export function fold<L, A, R>(
-  fa: These<L, A>,
   onLeft: (l: L) => R,
   onRight: (a: A) => R,
   onBoth: (l: L, a: A) => R
-): R { ... }
+): (fa: These<L, A>) => R { ... }
 ```
 
 Added in v2.0.0
