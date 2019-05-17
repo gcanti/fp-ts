@@ -185,7 +185,8 @@ export const asks: <E, A>(f: (e: E) => A) => ReaderTaskEither<E, never, A> = T.a
 /**
  * @since 2.0.0
  */
-export const local: <E, L, A, D>(ma: ReaderTaskEither<E, L, A>, f: (f: D) => E) => ReaderTaskEither<D, L, A> = T.local
+export const local: <D, E>(f: (f: D) => E) => <L, A>(ma: ReaderTaskEither<E, L, A>) => ReaderTaskEither<D, L, A> =
+  T.local
 
 const alt = <E, L, A>(
   fx: ReaderTaskEither<E, L, A>,

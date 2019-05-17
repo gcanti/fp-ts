@@ -83,7 +83,7 @@ changes the value of the local context during the execution of the action `ma`
 **Signature**
 
 ```ts
-export const local: <E, A, D>(ma: Reader<E, A>, f: (d: D) => E) => Reader<D, A> = ...
+export const local: <D, E>(f: (d: D) => E) => <A>(ma: Reader<E, A>) => Reader<D, A> = ...
 ```
 
 Added in v2.0.0
