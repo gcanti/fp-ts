@@ -59,7 +59,7 @@ describe('Set', () => {
   })
 
   it('some', () => {
-    assert.strictEqual(some(new Set(), (s: string) => s.trim() === ''), false)
+    assert.strictEqual(some(new Set<string>(), (s: string) => s.trim() === ''), false)
     assert.strictEqual(some(new Set([1, 2, 3]), gte2), true)
     assert.strictEqual(some(new Set([1]), gte2), false)
   })

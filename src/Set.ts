@@ -125,7 +125,7 @@ export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A>
 export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A> {
   const values = x.values()
   let e: IteratorResult<A>
-  let r = new Set()
+  let r = new Set<A>()
   while (!(e = values.next()).done) {
     const value = e.value
     if (predicate(value)) {
@@ -143,8 +143,8 @@ export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<
 export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> {
   const values = x.values()
   let e: IteratorResult<A>
-  let right = new Set()
-  let left = new Set()
+  let right = new Set<A>()
+  let left = new Set<A>()
   while (!(e = values.next()).done) {
     const value = e.value
     if (predicate(value)) {
@@ -200,7 +200,7 @@ export function intersection<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
     if (x === empty || y === empty) {
       return empty
     }
-    const r = new Set()
+    const r = new Set<A>()
     x.forEach(e => {
       if (elemE(e, y)) {
         r.add(e)
@@ -220,8 +220,8 @@ export function partitionMap<L, R>(
   return <A>(x: Set<A>, f: (a: A) => Either<L, R>) => {
     const values = x.values()
     let e: IteratorResult<A>
-    let left = new Set()
-    let right = new Set()
+    let left = new Set<L>()
+    let right = new Set<R>()
     const hasL = elem(SL)
     const hasR = elem(SR)
     while (!(e = values.next()).done) {
