@@ -253,27 +253,9 @@ describe('Option', () => {
   })
 
   it('elem', () => {
-    assert.deepStrictEqual(
-      pipe(
-        O.none,
-        O.elem(eqNumber)(2)
-      ),
-      false
-    )
-    assert.deepStrictEqual(
-      pipe(
-        O.some(2),
-        O.elem(eqNumber)(2)
-      ),
-      true
-    )
-    assert.deepStrictEqual(
-      pipe(
-        O.some(2),
-        O.elem(eqNumber)(1)
-      ),
-      false
-    )
+    assert.deepStrictEqual(O.elem(eqNumber)(2, O.none), false)
+    assert.deepStrictEqual(O.elem(eqNumber)(2, O.some(2)), true)
+    assert.deepStrictEqual(O.elem(eqNumber)(1, O.some(2)), false)
   })
 
   it('isNone', () => {

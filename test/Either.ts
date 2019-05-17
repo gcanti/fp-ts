@@ -42,27 +42,9 @@ describe('Either', () => {
   })
 
   it('elem', () => {
-    assert.deepStrictEqual(
-      pipe(
-        _.left('a'),
-        _.elem(eqNumber)(2)
-      ),
-      false
-    )
-    assert.deepStrictEqual(
-      pipe(
-        _.right(2),
-        _.elem(eqNumber)(2)
-      ),
-      true
-    )
-    assert.deepStrictEqual(
-      pipe(
-        _.right(2),
-        _.elem(eqNumber)(1)
-      ),
-      false
-    )
+    assert.deepStrictEqual(_.elem(eqNumber)(2, _.left('a')), false)
+    assert.deepStrictEqual(_.elem(eqNumber)(2, _.right(2)), true)
+    assert.deepStrictEqual(_.elem(eqNumber)(1, _.right(2)), false)
   })
 
   it('filterOrElse', () => {
