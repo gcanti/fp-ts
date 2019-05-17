@@ -103,7 +103,7 @@ export function filterOrElse<L, A, B extends A>(
 ): IOEither<L, B>
 export function filterOrElse<L, A>(ma: IOEither<L, A>, p: Predicate<A>, zero: (a: A) => L): IOEither<L, A>
 export function filterOrElse<L, A>(ma: IOEither<L, A>, p: Predicate<A>, zero: (a: A) => L): IOEither<L, A> {
-  return io.map(ma, e => E.filterOrElse(e, p, zero))
+  return io.map(ma, E.filterOrElse(p, zero))
 }
 
 /**

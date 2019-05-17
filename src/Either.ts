@@ -285,28 +285,34 @@ export function swap<L, A>(ma: Either<L, A>): Either<A, L> {
 /**
  * @since 2.0.0
  */
-export function orElse<L, A, M>(ma: Either<L, A>, f: (l: L) => Either<M, A>): Either<M, A> {
-  return isLeft(ma) ? f(ma.left) : ma
+export function orElse<L, A, M>(f: (l: L) => Either<M, A>): (ma: Either<L, A>) => Either<M, A> {
+  return ma => (isLeft(ma) ? f(ma.left) : ma)
 }
 
 /**
  * @since 2.0.0
  */
-export function getOrElse<L, A>(ma: Either<L, A>, f: (l: L) => A): A {
-  return isLeft(ma) ? f(ma.left) : ma.right
+export function getOrElse<L, A>(f: (l: L) => A): (ma: Either<L, A>) => A {
+  return ma => (isLeft(ma) ? f(ma.left) : ma.right)
+}
+
+/**
+ * @since 2.0.0
+ */
+export function elem<A>(E: Eq<A>): (a: A) => <L>(ma: Either<L, A>) => boolean {
+  return a => ma => (isLeft(ma) ? false : E.equals(a, ma.right))
 }
 
 /**
  * @since 2.0.0
  */
 export function filterOrElse<L, A, B extends A>(
-  ma: Either<L, A>,
   refinement: Refinement<A, B>,
   zero: (a: A) => L
-): Either<L, B>
-export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A>
-export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A> {
-  return isLeft(ma) ? ma : predicate(ma.right) ? ma : left(zero(ma.right))
+): (ma: Either<L, A>) => Either<L, B>
+export function filterOrElse<L, A>(predicate: Predicate<A>, zero: (a: A) => L): (ma: Either<L, A>) => Either<L, A>
+export function filterOrElse<L, A>(predicate: Predicate<A>, zero: (a: A) => L): (ma: Either<L, A>) => Either<L, A> {
+  return ma => (isLeft(ma) ? ma : predicate(ma.right) ? ma : left(zero(ma.right)))
 }
 
 /**
@@ -340,10 +346,6 @@ export function parseJSON<L>(s: string, onError: (reason: unknown) => L): Either
 export function stringifyJSON<L>(u: unknown, onError: (reason: unknown) => L): Either<L, string> {
   return tryCatch(() => JSON.stringify(u), onError)
 }
-
-//
-// instances
-//
 
 const map = <L, A, B>(ma: Either<L, A>, f: (a: A) => B): Either<L, B> => {
   return isLeft(ma) ? ma : right(f(ma.right))
@@ -462,7 +464,8 @@ export function getFilterable<L>(M: Monoid<L>): Filterable2C<URI, L> {
     return isLeft(ma) ? ma : fromOption(f(ma.right), onNone)
   }
 
-  const filter = <A>(ma: Either<L, A>, p: Predicate<A>): Either<L, A> => filterOrElse(ma, p, () => M.empty)
+  const filter = <A>(ma: Either<L, A>, predicate: Predicate<A>): Either<L, A> =>
+    isLeft(ma) ? ma : predicate(ma.right) ? ma : left(M.empty)
 
   return {
     ...C,
@@ -533,7 +536,7 @@ export const either: Monad2<URI> &
   sequence,
   bimap,
   mapLeft: (ma, f) => (isLeft(ma) ? left(f(ma.left)) : ma),
-  alt: orElse,
+  alt: (fx, fy) => (isLeft(fx) ? fy() : fx),
   extend,
   chainRec
 }

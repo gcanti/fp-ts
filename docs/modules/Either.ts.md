@@ -43,6 +43,7 @@ either.map(left(23), double) // left(23)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [either (constant)](#either-constant)
+- [elem (function)](#elem-function)
 - [filterOrElse (function)](#filterorelse-function)
 - [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
@@ -142,17 +143,26 @@ export const either: Monad2<URI> &
 
 Added in v2.0.0
 
+# elem (function)
+
+**Signature**
+
+```ts
+export function elem<A>(E: Eq<A>): (a: A) => <L>(ma: Either<L, A>) => boolean { ... }
+```
+
+Added in v2.0.0
+
 # filterOrElse (function)
 
 **Signature**
 
 ```ts
 export function filterOrElse<L, A, B extends A>(
-  ma: Either<L, A>,
   refinement: Refinement<A, B>,
   zero: (a: A) => L
-): Either<L, B>
-export function filterOrElse<L, A>(ma: Either<L, A>, predicate: Predicate<A>, zero: (a: A) => L): Either<L, A> { ... }
+): (ma: Either<L, A>) => Either<L, B>
+export function filterOrElse<L, A>(predicate: Predicate<A>, zero: (a: A) => L): (ma: Either<L, A>) => Either<L, A> { ... }
 ```
 
 Added in v2.0.0
@@ -278,7 +288,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<L, A>(ma: Either<L, A>, f: (l: L) => A): A { ... }
+export function getOrElse<L, A>(f: (l: L) => A): (ma: Either<L, A>) => A { ... }
 ```
 
 Added in v2.0.0
@@ -373,7 +383,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function orElse<L, A, M>(ma: Either<L, A>, f: (l: L) => Either<M, A>): Either<M, A> { ... }
+export function orElse<L, A, M>(f: (l: L) => Either<M, A>): (ma: Either<L, A>) => Either<M, A> { ... }
 ```
 
 Added in v2.0.0
