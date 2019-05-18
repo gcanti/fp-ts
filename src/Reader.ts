@@ -31,8 +31,8 @@ export type URI = typeof URI
 /**
  * @since 2.0.0
  */
-export interface Reader<E, A> {
-  (e: E): A
+export interface Reader<R, A> {
+  (r: R): A
 }
 
 /**
@@ -40,26 +40,26 @@ export interface Reader<E, A> {
  *
  * @since 2.0.0
  */
-export const ask: <E>() => Reader<E, E> = T.ask
+export const ask: <R>() => Reader<R, R> = T.ask
 
 /**
  * Projects a value from the global context in a Reader
  *
  * @since 2.0.0
  */
-export const asks: <E, A>(f: (e: E) => A) => Reader<E, A> = T.asks
+export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = T.asks
 
 /**
  * changes the value of the local context during the execution of the action `ma`
  *
  * @since 2.0.0
  */
-export const local: <D, E>(f: (d: D) => E) => <A>(ma: Reader<E, A>) => Reader<D, A> = T.local
+export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A> = T.local
 
 /**
  * @since 2.0.0
  */
-export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> {
+export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
   return {
     concat: (x, y) => e => S.concat(x(e), y(e))
   }
@@ -68,7 +68,7 @@ export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> {
 /**
  * @since 2.0.0
  */
-export function getMonoid<E, A>(M: Monoid<A>): Monoid<Reader<E, A>> {
+export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
   return {
     ...getSemigroup(M),
     empty: () => M.empty

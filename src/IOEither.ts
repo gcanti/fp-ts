@@ -1,6 +1,6 @@
 /**
- * @file `IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
- * error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
+ * @file `IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
+ * error of type `E`. If you want to represent a synchronous computation that never fails, please see `IO`.
  */
 import { Alt2 } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
@@ -35,7 +35,7 @@ export type URI = typeof URI
 /**
  * @since 2.0.0
  */
-export interface IOEither<L, A> extends IO<E.Either<L, A>> {}
+export interface IOEither<E, A> extends IO<E.Either<E, A>> {}
 
 /**
  * @since 2.0.0
@@ -55,29 +55,29 @@ export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = T.rightM
 /**
  * @since 2.0.0
  */
-export const leftIO: <L>(ml: IO<L>) => IOEither<L, never> = T.leftM
+export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = T.leftM
 
 /**
  * @since 2.0.0
  */
-export const fromEither: <L, A>(ma: E.Either<L, A>) => IOEither<L, A> = io.of
+export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = io.of
 
 /**
  * @since 2.0.0
  */
-export function fromOption<L, A>(ma: Option<A>, onNone: () => L): IOEither<L, A> {
+export function fromOption<E, A>(ma: Option<A>, onNone: () => E): IOEither<E, A> {
   return fromEither(E.fromOption(ma, onNone))
 }
 
 /**
  * @since 2.0.0
  */
-export function fromPredicate<L, A, B extends A>(
+export function fromPredicate<E, A, B extends A>(
   predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => IOEither<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => IOEither<L, A>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => IOEither<L, A> {
+  onFalse: (a: A) => E
+): (a: A) => IOEither<E, B>
+export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>
+export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A> {
   const f = E.fromPredicate(predicate, onFalse)
   return a => fromEither(f(a))
 }
@@ -85,56 +85,56 @@ export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 /**
  * @since 2.0.0
  */
-export const fold: <L, A, R>(onLeft: (l: L) => IO<R>, onRight: (a: A) => IO<R>) => (ma: IOEither<L, A>) => IO<R> =
+export const fold: <E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>) => (ma: IOEither<E, A>) => IO<R> =
   T.fold
 
 /**
  * @since 2.0.0
  */
-export const getOrElse: <L, A>(f: (l: L) => IO<A>) => (ma: IOEither<L, A>) => IO<A> = T.getOrElse
+export const getOrElse: <E, A>(f: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> = T.getOrElse
 
 /**
  * @since 2.0.0
  */
-export function filterOrElse<L, A, B extends A>(
+export function filterOrElse<E, A, B extends A>(
   p: Refinement<A, B>,
-  zero: (a: A) => L
-): (ma: IOEither<L, A>) => IOEither<L, B>
-export function filterOrElse<L, A>(p: Predicate<A>, zero: (a: A) => L): (ma: IOEither<L, A>) => IOEither<L, A>
-export function filterOrElse<L, A>(p: Predicate<A>, zero: (a: A) => L): (ma: IOEither<L, A>) => IOEither<L, A> {
+  zero: (a: A) => E
+): (ma: IOEither<E, A>) => IOEither<E, B>
+export function filterOrElse<E, A>(p: Predicate<A>, zero: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>
+export function filterOrElse<E, A>(p: Predicate<A>, zero: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A> {
   return ma => io.map(ma, E.filterOrElse(p, zero))
 }
 
 /**
  * @since 2.0.0
  */
-export const orElse: <L, A, M>(f: (l: L) => IOEither<M, A>) => (ma: IOEither<L, A>) => IOEither<M, A> = T.orElse
+export const orElse: <E, A, M>(f: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A> = T.orElse
 
 /**
  * @since 2.0.0
  */
-export const swap: <L, A>(ma: IOEither<L, A>) => IOEither<A, L> = T.swap
+export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = T.swap
 
 /**
  * @since 2.0.0
  */
-export function getSemigroup<L, A>(S: Semigroup<A>): Semigroup<IOEither<L, A>> {
-  return getIOSemigroup(E.getSemigroup<L, A>(S))
+export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
+  return getIOSemigroup(E.getSemigroup<E, A>(S))
 }
 
 /**
  * @since 2.0.0
  */
-export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<IOEither<L, A>> {
-  return getIOSemigroup(E.getApplySemigroup<L, A>(S))
+export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> {
+  return getIOSemigroup(E.getApplySemigroup<E, A>(S))
 }
 
 /**
  * @since 2.0.0
  */
-export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<IOEither<L, A>> {
+export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> {
   return {
-    concat: getApplySemigroup<L, A>(M).concat,
+    concat: getApplySemigroup<E, A>(M).concat,
     empty: right(M.empty)
   }
 }
@@ -144,7 +144,7 @@ export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<IOEither<L, A>> {
  *
  * @since 2.0.0
  */
-export function tryCatch<L, A>(f: Lazy<A>, onError: (reason: unknown) => L): IOEither<L, A> {
+export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A> {
   return () => E.tryCatch(f, onError)
 }
 
@@ -155,11 +155,11 @@ export function tryCatch<L, A>(f: Lazy<A>, onError: (reason: unknown) => L): IOE
  *
  * @since 2.0.0
  */
-export const bracket: <L, A, B>(
-  acquire: IOEither<L, A>,
-  use: (a: A) => IOEither<L, B>,
-  release: (a: A, e: E.Either<L, B>) => IOEither<L, void>
-) => IOEither<L, B> = T.bracket
+export const bracket: <E, A, B>(
+  acquire: IOEither<E, A>,
+  use: (a: A) => IOEither<E, B>,
+  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
+) => IOEither<E, B> = T.bracket
 
 /**
  * @since 2.0.0

@@ -25,8 +25,8 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface Reader<E, A> {
-  (e: E): A
+export interface Reader<R, A> {
+  (r: R): A
 }
 ```
 
@@ -59,7 +59,7 @@ Reads the current context
 **Signature**
 
 ```ts
-export const ask: <E>() => Reader<E, E> = ...
+export const ask: <R>() => Reader<R, R> = ...
 ```
 
 Added in v2.0.0
@@ -71,7 +71,7 @@ Projects a value from the global context in a Reader
 **Signature**
 
 ```ts
-export const asks: <E, A>(f: (e: E) => A) => Reader<E, A> = ...
+export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = ...
 ```
 
 Added in v2.0.0
@@ -83,7 +83,7 @@ changes the value of the local context during the execution of the action `ma`
 **Signature**
 
 ```ts
-export const local: <D, E>(f: (d: D) => E) => <A>(ma: Reader<E, A>) => Reader<D, A> = ...
+export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A> = ...
 ```
 
 Added in v2.0.0
@@ -103,7 +103,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMonoid<E, A>(M: Monoid<A>): Monoid<Reader<E, A>> { ... }
+export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -113,7 +113,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> { ... }
+export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> { ... }
 ```
 
 Added in v2.0.0

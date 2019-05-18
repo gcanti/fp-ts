@@ -41,8 +41,8 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ReaderTaskEither<E, L, A> {
-  (e: E): TaskEither<L, A>
+export interface ReaderTaskEither<R, E, A> {
+  (r: R): TaskEither<E, A>
 }
 ```
 
@@ -73,7 +73,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const ask: <E>() => ReaderTaskEither<E, never, E> = ...
+export const ask: <R>() => ReaderTaskEither<R, never, R> = ...
 ```
 
 Added in v2.0.0
@@ -83,7 +83,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const asks: <E, A>(f: (e: E) => A) => ReaderTaskEither<E, never, A> = ...
+export const asks: <R, A>(f: (r: R) => A) => ReaderTaskEither<R, never, A> = ...
 ```
 
 Added in v2.0.0
@@ -93,7 +93,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fromTaskEither: <L, A>(ma: TaskEither<L, A>) => ReaderTaskEither<unknown, L, A> = ...
+export const fromTaskEither: <E, A>(ma: TaskEither<E, A>) => ReaderTaskEither<unknown, E, A> = ...
 ```
 
 Added in v2.0.0
@@ -145,7 +145,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const rightReader: <E, A>(ma: Reader<E, A>) => ReaderTaskEither<E, never, A> = ...
+export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderTaskEither<R, never, A> = ...
 ```
 
 Added in v2.0.0
@@ -155,10 +155,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<E, L, A, R>(
-  onLeft: (l: L) => Reader<E, Task<R>>,
-  onRight: (a: A) => Reader<E, Task<R>>
-): (ma: ReaderTaskEither<E, L, A>) => Reader<E, Task<R>> { ... }
+export function fold<R, E, A, B>(
+  onLeft: (e: E) => Reader<R, Task<B>>,
+  onRight: (a: A) => Reader<R, Task<B>>
+): (ma: ReaderTaskEither<R, E, A>) => Reader<R, Task<B>> { ... }
 ```
 
 Added in v2.0.0
@@ -168,7 +168,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromEither<L, A>(ma: Either<L, A>): ReaderTaskEither<unknown, L, A> { ... }
+export function fromEither<E, A>(ma: Either<E, A>): ReaderTaskEither<unknown, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -178,7 +178,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIOEither<L, A>(ma: IOEither<L, A>): ReaderTaskEither<unknown, L, A> { ... }
+export function fromIOEither<E, A>(ma: IOEither<E, A>): ReaderTaskEither<unknown, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -188,7 +188,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<L, A>(ma: Option<A>, onNone: () => L): ReaderTaskEither<unknown, L, A> { ... }
+export function fromOption<E, A>(ma: Option<A>, onNone: () => E): ReaderTaskEither<unknown, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -198,14 +198,14 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromPredicate<L, A, B extends A>(
+export function fromPredicate<E, A, B extends A>(
   refinement: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<unknown, L, B>
-export function fromPredicate<L, A>(
+  onFalse: (a: A) => E
+): (a: A) => ReaderTaskEither<unknown, E, B>
+export function fromPredicate<E, A>(
   predicate: Predicate<A>,
-  onFalse: (a: A) => L
-): (a: A) => ReaderTaskEither<unknown, L, A> { ... }
+  onFalse: (a: A) => E
+): (a: A) => ReaderTaskEither<unknown, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -215,9 +215,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<E, L, A>(
-  onLeft: (l: L) => Reader<E, Task<A>>
-): (ma: ReaderTaskEither<E, L, A>) => Reader<E, Task<A>> { ... }
+export function getOrElse<R, E, A>(
+  onLeft: (e: E) => Reader<R, Task<A>>
+): (ma: ReaderTaskEither<R, E, A>) => Reader<R, Task<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -227,7 +227,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<L>(l: L): ReaderTaskEither<unknown, L, never> { ... }
+export function left<E>(e: E): ReaderTaskEither<unknown, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -237,7 +237,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftIO<L>(ml: IO<L>): ReaderTaskEither<unknown, L, never> { ... }
+export function leftIO<E>(me: IO<E>): ReaderTaskEither<unknown, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -247,7 +247,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftReader<E, L>(ml: Reader<E, L>): ReaderTaskEither<E, L, never> { ... }
+export function leftReader<R, E>(me: Reader<R, E>): ReaderTaskEither<R, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -257,7 +257,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftTask<L>(ma: Task<L>): ReaderTaskEither<unknown, L, never> { ... }
+export function leftTask<E>(me: Task<E>): ReaderTaskEither<unknown, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -267,9 +267,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function orElse<E, L, A, M>(
-  f: (l: L) => ReaderTaskEither<E, M, A>
-): (ma: ReaderTaskEither<E, L, A>) => ReaderTaskEither<E, M, A> { ... }
+export function orElse<R, E, A, M>(
+  f: (e: E) => ReaderTaskEither<R, M, A>
+): (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A> { ... }
 ```
 
 Added in v2.0.0
@@ -299,7 +299,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function run<E, L, A>(ma: ReaderTaskEither<E, L, A>, e: E): Promise<Either<L, A>> { ... }
+export function run<R, E, A>(ma: ReaderTaskEither<R, E, A>, r: R): Promise<Either<E, A>> { ... }
 ```
 
 Added in v2.0.0

@@ -81,9 +81,9 @@ either.map(left(23), double) // left(23)
 **Signature**
 
 ```ts
-export interface Left<L> {
+export interface Left<E> {
   readonly _tag: 'Left'
-  readonly left: L
+  readonly left: E
 }
 ```
 
@@ -107,7 +107,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type Either<L, A> = Left<L> | Right<A>
+export type Either<E, A> = Left<E> | Right<A>
 ```
 
 Added in v2.0.0
@@ -153,7 +153,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): <L>(a: A, ma: Either<L, A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -163,11 +163,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filterOrElse<L, A, B extends A>(
+export function filterOrElse<E, A, B extends A>(
   refinement: Refinement<A, B>,
-  zero: (a: A) => L
-): (ma: Either<L, A>) => Either<L, B>
-export function filterOrElse<L, A>(predicate: Predicate<A>, zero: (a: A) => L): (ma: Either<L, A>) => Either<L, A> { ... }
+  zero: (a: A) => E
+): (ma: Either<E, A>) => Either<E, B>
+export function filterOrElse<E, A>(predicate: Predicate<A>, zero: (a: A) => E): (ma: Either<E, A>) => Either<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -177,7 +177,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<L, A, R>(onLeft: (l: L) => R, onRight: (a: A) => R): (ma: Either<L, A>) => R { ... }
+export function fold<E, A, R>(onLeft: (e: E) => R, onRight: (a: A) => R): (ma: Either<E, A>) => R { ... }
 ```
 
 Added in v2.0.0
@@ -190,7 +190,7 @@ the provided default as a `Left`
 **Signature**
 
 ```ts
-export function fromNullable<L, A>(a: A | null | undefined, l: L): Either<L, A> { ... }
+export function fromNullable<E, A>(a: A | null | undefined, e: E): Either<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -200,7 +200,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<L, A>(ma: Option<A>, onNone: () => L): Either<L, A> { ... }
+export function fromOption<E, A>(ma: Option<A>, onNone: () => E): Either<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -210,11 +210,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromPredicate<L, A, B extends A>(
+export function fromPredicate<E, A, B extends A>(
   predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => Either<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A> { ... }
+  onFalse: (a: A) => E
+): (a: A) => Either<E, B>
+export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -224,7 +224,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<Either<L, A>> { ... }
+export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<Either<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -236,7 +236,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> { ... }
+export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> { ... }
 ```
 
 **Example**
@@ -261,7 +261,7 @@ Builds `Compactable` instance for `Either` given a `Monoid` for the left side
 **Signature**
 
 ```ts
-export function getCompactable<L>(M: Monoid<L>): Compactable2C<URI, L> { ... }
+export function getCompactable<E>(M: Monoid<E>): Compactable2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
@@ -271,7 +271,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getEq<L, A>(SL: Eq<L>, SA: Eq<A>): Eq<Either<L, A>> { ... }
+export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -283,7 +283,7 @@ Builds `Filterable` instance for `Either` given a `Monoid` for the left side
 **Signature**
 
 ```ts
-export function getFilterable<L>(M: Monoid<L>): Filterable2C<URI, L> { ... }
+export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
@@ -293,7 +293,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getOrElse<L, A>(f: (l: L) => A): (ma: Either<L, A>) => A { ... }
+export function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A { ... }
 ```
 
 Added in v2.0.0
@@ -306,7 +306,7 @@ appended using the provided `Semigroup`
 **Signature**
 
 ```ts
-export function getSemigroup<L, A>(S: Semigroup<A>): Semigroup<Either<L, A>> { ... }
+export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<Either<E, A>> { ... }
 ```
 
 **Example**
@@ -329,7 +329,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> { ... }
+export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -339,7 +339,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getValidationAlt<L>(S: Semigroup<L>): Alt2C<URI, L> { ... }
+export function getValidationAlt<E>(S: Semigroup<E>): Alt2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
@@ -349,9 +349,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getValidationApplicative<L>(
-  S: Semigroup<L>
-): Applicative2C<URI, L> & Foldable2C<URI, L> & Traversable2C<URI, L> & Bifunctor2C<URI, L> & Extend2C<URI, L> { ... }
+export function getValidationApplicative<E>(
+  S: Semigroup<E>
+): Applicative2C<URI, E> & Foldable2C<URI, E> & Traversable2C<URI, E> & Bifunctor2C<URI, E> & Extend2C<URI, E> { ... }
 ```
 
 # getValidationMonad (function)
@@ -361,9 +361,9 @@ export function getValidationApplicative<L>(
 **Signature**
 
 ```ts
-export function getValidationMonad<L>(
-  S: Semigroup<L>
-): Monad2C<URI, L> & Foldable2C<URI, L> & Traversable2C<URI, L> & Bifunctor2C<URI, L> & Extend2C<URI, L> { ... }
+export function getValidationMonad<E>(
+  S: Semigroup<E>
+): Monad2C<URI, E> & Foldable2C<URI, E> & Traversable2C<URI, E> & Bifunctor2C<URI, E> & Extend2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
@@ -373,7 +373,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getValidationMonoid<L, A>(SL: Semigroup<L>, SA: Monoid<A>): Monoid<Either<L, A>> { ... }
+export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -383,7 +383,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getValidationSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Either<L, A>> { ... }
+export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -395,7 +395,7 @@ Builds `Witherable` instance for `Either` given `Monoid` for the left side
 **Signature**
 
 ```ts
-export function getWitherable<L>(M: Monoid<L>): Witherable2C<URI, L> { ... }
+export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
@@ -407,7 +407,7 @@ Returns `true` if the either is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export function isLeft<L, A>(ma: Either<L, A>): ma is Left<L> { ... }
+export function isLeft<E, A>(ma: Either<E, A>): ma is Left<E> { ... }
 ```
 
 Added in v2.0.0
@@ -419,7 +419,7 @@ Returns `true` if the either is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export function isRight<L, A>(ma: Either<L, A>): ma is Right<A> { ... }
+export function isRight<E, A>(ma: Either<E, A>): ma is Right<A> { ... }
 ```
 
 Added in v2.0.0
@@ -432,7 +432,7 @@ structure
 **Signature**
 
 ```ts
-export function left<L>(l: L): Either<L, never> { ... }
+export function left<E>(e: E): Either<E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -442,7 +442,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function orElse<L, A, M>(f: (l: L) => Either<M, A>): (ma: Either<L, A>) => Either<M, A> { ... }
+export function orElse<E, A, M>(f: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> { ... }
 ```
 
 Added in v2.0.0
@@ -454,7 +454,7 @@ Converts a JavaScript Object Notation (JSON) string into an object.
 **Signature**
 
 ```ts
-export function parseJSON<L>(s: string, onError: (reason: unknown) => L): Either<L, unknown> { ... }
+export function parseJSON<E>(s: string, onError: (reason: unknown) => E): Either<E, unknown> { ... }
 ```
 
 **Example**
@@ -488,7 +488,7 @@ Converts a JavaScript value to a JavaScript Object Notation (JSON) string.
 **Signature**
 
 ```ts
-export function stringifyJSON<L>(u: unknown, onError: (reason: unknown) => L): Either<L, string> { ... }
+export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): Either<E, string> { ... }
 ```
 
 **Example**
@@ -509,7 +509,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function swap<L, A>(ma: Either<L, A>): Either<A, L> { ... }
+export function swap<E, A>(ma: Either<E, A>): Either<A, E> { ... }
 ```
 
 Added in v2.0.0
@@ -533,7 +533,7 @@ Constructs a new `Either` from a function that might throw
 **Signature**
 
 ```ts
-export function tryCatch<L, A>(f: Lazy<A>, onError: (e: unknown) => L): Either<L, A> { ... }
+export function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): Either<E, A> { ... }
 ```
 
 **Example**

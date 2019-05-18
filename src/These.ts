@@ -1,8 +1,8 @@
 /**
  * @file A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
  *
- * If you interpret `Either<L, A>` as suggesting the computation may either fail or succeed (exclusively), then
- * `These<L, A>` may fail, succeed, or do both at the same time.
+ * If you interpret `Either<E, A>` as suggesting the computation may either fail or succeed (exclusively), then
+ * `These<E, A>` may fail, succeed, or do both at the same time.
  *
  * There are a few ways to interpret the both case:
  *
@@ -10,8 +10,8 @@
  * - You can think of a computation that went as far as it could before erroring.
  * - You can think of a computation that keeps track of errors as it completes.
  *
- * Another way you can think of `These<L, A>` is saying that we want to handle `L` kind of data, `A` kind of data, or
- * both `L` and `A` kind of data at the same time. This is particularly useful when it comes to displaying UI's.
+ * Another way you can think of `These<E, A>` is saying that we want to handle `E` kind of data, `A` kind of data, or
+ * both `E` and `A` kind of data at the same time. This is particularly useful when it comes to displaying UI's.
  *
  * (description adapted from https://package.elm-lang.org/packages/joneshf/elm-these)
  *
@@ -51,21 +51,21 @@ export type URI = typeof URI
 /**
  * @since 2.0.0
  */
-export interface Both<L, A> {
+export interface Both<E, A> {
   readonly _tag: 'Both'
-  readonly left: L
+  readonly left: E
   readonly right: A
 }
 
 /**
  * @since 2.0.0
  */
-export type These<L, A> = Either<L, A> | Both<L, A>
+export type These<E, A> = Either<E, A> | Both<E, A>
 
 /**
  * @since 2.0.0
  */
-export function left<L>(left: L): These<L, never> {
+export function left<E>(left: E): These<E, never> {
   return { _tag: 'Left', left }
 }
 
@@ -79,18 +79,18 @@ export function right<A>(right: A): These<never, A> {
 /**
  * @since 2.0.0
  */
-export function both<L, A>(left: L, right: A): These<L, A> {
+export function both<E, A>(left: E, right: A): These<E, A> {
   return { _tag: 'Both', left, right }
 }
 
 /**
  * @since 2.0.0
  */
-export function fold<L, A, R>(
-  onLeft: (l: L) => R,
+export function fold<E, A, R>(
+  onLeft: (e: E) => R,
   onRight: (a: A) => R,
-  onBoth: (l: L, a: A) => R
-): (fa: These<L, A>) => R {
+  onBoth: (e: E, a: A) => R
+): (fa: These<E, A>) => R {
   return fa => {
     switch (fa._tag) {
       case 'Left':
@@ -106,29 +106,29 @@ export function fold<L, A, R>(
 /**
  * @since 2.0.0
  */
-export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> {
+export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> {
   return {
-    show: fold(l => `left(${SL.show(l)})`, a => `right(${SA.show(a)})`, (l, a) => `both(${SL.show(l)}, ${SA.show(a)})`)
+    show: fold(l => `left(${SE.show(l)})`, a => `right(${SA.show(a)})`, (l, a) => `both(${SE.show(l)}, ${SA.show(a)})`)
   }
 }
 
 /**
  * @since 2.0.0
  */
-export function getEq<L, A>(SL: Eq<L>, SA: Eq<A>): Eq<These<L, A>> {
+export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> {
   return fromEquals((x, y) =>
     isLeft(x)
-      ? isLeft(y) && SL.equals(x.left, y.left)
+      ? isLeft(y) && EE.equals(x.left, y.left)
       : isRight(x)
-      ? isRight(y) && SA.equals(x.right, y.right)
-      : isBoth(y) && SL.equals(x.left, y.left) && SA.equals(x.right, y.right)
+      ? isRight(y) && EA.equals(x.right, y.right)
+      : isBoth(y) && EE.equals(x.left, y.left) && EA.equals(x.right, y.right)
   )
 }
 
 /**
  * @since 2.0.0
  */
-export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> {
+export function getSemigroup<E, A>(SL: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> {
   return {
     concat: (x, y) =>
       isLeft(x)
@@ -151,15 +151,15 @@ export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigrou
   }
 }
 
-const map = <L, A, B>(fa: These<L, A>, f: (a: A) => B): These<L, B> => {
+const map = <E, A, B>(fa: These<E, A>, f: (a: A) => B): These<E, B> => {
   return isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
 }
 
 /**
  * @since 2.0.0
  */
-export function getMonad<L>(S: Semigroup<L>): Monad2C<URI, L> {
-  const chain = <A, B>(ma: These<L, A>, f: (a: A) => These<L, B>): These<L, B> => {
+export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
+  const chain = <A, B>(ma: These<E, A>, f: (a: A) => These<E, B>): These<E, B> => {
     if (isLeft(ma)) {
       return ma
     }
@@ -184,27 +184,27 @@ export function getMonad<L>(S: Semigroup<L>): Monad2C<URI, L> {
   }
 }
 
-const bimap = <L, M, A, B>(fa: These<L, A>, f: (l: L) => M, g: (a: A) => B): These<M, B> => {
+const bimap = <E, M, A, B>(fa: These<E, A>, f: (e: E) => M, g: (a: A) => B): These<M, B> => {
   return isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
 }
 
-const reduce = <L, A, B>(fa: These<L, A>, b: B, f: (b: B, a: A) => B): B => {
+const reduce = <E, A, B>(fa: These<E, A>, b: B, f: (b: B, a: A) => B): B => {
   return isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
 }
 
-const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: These<L, A>, f: (a: A) => M): M => {
+const foldMap = <M>(M: Monoid<M>) => <E, A>(fa: These<E, A>, f: (a: A) => M): M => {
   return isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
 }
 
-const reduceRight = <L, A, B>(fa: These<L, A>, b: B, f: (a: A, b: B) => B): B => {
+const reduceRight = <E, A, B>(fa: These<E, A>, b: B, f: (a: A, b: B) => B): B => {
   return isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
 }
 
-const traverse = <F>(F: Applicative<F>) => <L, A, B>(ta: These<L, A>, f: (a: A) => HKT<F, B>): HKT<F, These<L, B>> => {
+const traverse = <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
   return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), b => both(ta.left, b))
 }
 
-const sequence = <F>(F: Applicative<F>) => <L, A>(ta: These<L, HKT<F, A>>): HKT<F, These<L, A>> => {
+const sequence = <F>(F: Applicative<F>) => <E, A>(ta: These<E, HKT<F, A>>): HKT<F, These<E, A>> => {
   return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, b => both(ta.left, b))
 }
 
@@ -219,8 +219,8 @@ const sequence = <F>(F: Applicative<F>) => <L, A>(ta: These<L, HKT<F, A>>): HKT<
  *
  * @since 2.0.0
  */
-export function toTuple<L, A>(l: L, a: A): (fa: These<L, A>) => [L, A] {
-  return fa => (isLeft(fa) ? [fa.left, a] : isRight(fa) ? [l, fa.right] : [fa.left, fa.right])
+export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] {
+  return fa => (isLeft(fa) ? [fa.left, a] : isRight(fa) ? [e, fa.right] : [fa.left, fa.right])
 }
 
 /**
@@ -236,7 +236,7 @@ export function toTuple<L, A>(l: L, a: A): (fa: These<L, A>) => [L, A] {
  *
  * @since 2.0.0
  */
-export function getLeft<L, A>(fa: These<L, A>): Option<L> {
+export function getLeft<E, A>(fa: These<E, A>): Option<E> {
   return isLeft(fa) ? some(fa.left) : isRight(fa) ? none : some(fa.left)
 }
 
@@ -253,7 +253,7 @@ export function getLeft<L, A>(fa: These<L, A>): Option<L> {
  *
  * @since 2.0.0
  */
-export function getRight<L, A>(fa: These<L, A>): Option<A> {
+export function getRight<E, A>(fa: These<E, A>): Option<A> {
   return isLeft(fa) ? none : isRight(fa) ? some(fa.right) : some(fa.right)
 }
 
@@ -262,7 +262,7 @@ export function getRight<L, A>(fa: These<L, A>): Option<A> {
  *
  * @since 2.0.0
  */
-export function isLeft<L, A>(fa: These<L, A>): fa is Left<L> {
+export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> {
   return fa._tag === 'Left'
 }
 
@@ -271,7 +271,7 @@ export function isLeft<L, A>(fa: These<L, A>): fa is Left<L> {
  *
  * @since 2.0.0
  */
-export function isRight<L, A>(fa: These<L, A>): fa is Right<A> {
+export function isRight<E, A>(fa: These<E, A>): fa is Right<A> {
   return fa._tag === 'Right'
 }
 
@@ -280,7 +280,7 @@ export function isRight<L, A>(fa: These<L, A>): fa is Right<A> {
  *
  * @since 2.0.0
  */
-export function isBoth<L, A>(fa: These<L, A>): fa is Both<L, A> {
+export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> {
   return fa._tag === 'Both'
 }
 
@@ -294,7 +294,7 @@ export function isBoth<L, A>(fa: These<L, A>): fa is Both<L, A> {
  *
  * @since 2.0.0
  */
-export function leftOrBoth<L, A>(defaultLeft: L, ma: Option<A>): These<L, A> {
+export function leftOrBoth<E, A>(defaultLeft: E, ma: Option<A>): These<E, A> {
   return isNone(ma) ? left(defaultLeft) : both(defaultLeft, ma.value)
 }
 
@@ -308,8 +308,8 @@ export function leftOrBoth<L, A>(defaultLeft: L, ma: Option<A>): These<L, A> {
  *
  * @since 2.0.0
  */
-export function rightOrBoth<L, A>(defaultRight: A, ml: Option<L>): These<L, A> {
-  return isNone(ml) ? right(defaultRight) : both(ml.value, defaultRight)
+export function rightOrBoth<E, A>(defaultRight: A, me: Option<E>): These<E, A> {
+  return isNone(me) ? right(defaultRight) : both(me.value, defaultRight)
 }
 
 /**
@@ -325,7 +325,7 @@ export function rightOrBoth<L, A>(defaultRight: A, ml: Option<L>): These<L, A> {
  *
  * @since 2.0.0
  */
-export function getLeftOnly<L, A>(fa: These<L, A>): Option<L> {
+export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> {
   return isLeft(fa) ? some(fa.left) : none
 }
 
@@ -343,7 +343,7 @@ export function getLeftOnly<L, A>(fa: These<L, A>): Option<L> {
  *
  * @since 2.0.0
  */
-export function getRightOnly<L, A>(fa: These<L, A>): Option<A> {
+export function getRightOnly<E, A>(fa: These<E, A>): Option<A> {
   return isRight(fa) ? some(fa.right) : none
 }
 
@@ -361,14 +361,14 @@ export function getRightOnly<L, A>(fa: These<L, A>): Option<A> {
  *
  * @since 2.0.0
  */
-export function fromOptions<L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> {
-  return isNone(fl)
+export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> {
+  return isNone(fe)
     ? isNone(fa)
       ? none
       : some(right(fa.value))
     : isNone(fa)
-    ? some(left(fl.value))
-    : some(both(fl.value, fa.value))
+    ? some(left(fe.value))
+    : some(both(fe.value, fa.value))
 }
 
 /**

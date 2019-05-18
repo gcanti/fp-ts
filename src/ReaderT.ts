@@ -5,95 +5,95 @@ import { Reader } from './Reader'
 /**
  * @since 2.0.0
  */
-export interface ReaderT<M, E, A> {
-  (e: E): HKT<M, A>
+export interface ReaderT<M, R, A> {
+  (r: R): HKT<M, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface ReaderM<M> {
-  readonly map: <E, A, B>(ma: ReaderT<M, E, A>, f: (a: A) => B) => ReaderT<M, E, B>
-  readonly of: <E, A>(a: A) => ReaderT<M, E, A>
-  readonly ap: <E, A, B>(mab: ReaderT<M, E, (a: A) => B>, ma: ReaderT<M, E, A>) => ReaderT<M, E, B>
-  readonly chain: <E, A, B>(ma: ReaderT<M, E, A>, f: (a: A) => ReaderT<M, E, B>) => ReaderT<M, E, B>
-  readonly ask: <E>() => ReaderT<M, E, E>
-  readonly asks: <E, A>(f: (e: E) => A) => ReaderT<M, E, A>
-  readonly local: <D, E>(f: (d: D) => E) => <A>(ma: ReaderT<M, E, A>) => ReaderT<M, D, A>
-  readonly fromReader: <E, A>(ma: Reader<E, A>) => ReaderT<M, E, A>
-  readonly fromM: <E, A>(ma: HKT<M, A>) => ReaderT<M, E, A>
+  readonly map: <R, A, B>(ma: ReaderT<M, R, A>, f: (a: A) => B) => ReaderT<M, R, B>
+  readonly of: <R, A>(a: A) => ReaderT<M, R, A>
+  readonly ap: <R, A, B>(mab: ReaderT<M, R, (a: A) => B>, ma: ReaderT<M, R, A>) => ReaderT<M, R, B>
+  readonly chain: <R, A, B>(ma: ReaderT<M, R, A>, f: (a: A) => ReaderT<M, R, B>) => ReaderT<M, R, B>
+  readonly ask: <R>() => ReaderT<M, R, R>
+  readonly asks: <R, A>(f: (r: R) => A) => ReaderT<M, R, A>
+  readonly local: <Q, R>(f: (d: Q) => R) => <A>(ma: ReaderT<M, R, A>) => ReaderT<M, Q, A>
+  readonly fromReader: <R, A>(ma: Reader<R, A>) => ReaderT<M, R, A>
+  readonly fromM: <R, A>(ma: HKT<M, A>) => ReaderT<M, R, A>
 }
 
 /**
  * @since 2.0.0
  */
-export interface ReaderT1<M extends URIS, E, A> {
-  (e: E): Type<M, A>
+export interface ReaderT1<M extends URIS, R, A> {
+  (r: R): Type<M, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface ReaderM1<M extends URIS> {
-  readonly map: <E, A, B>(ma: ReaderT1<M, E, A>, f: (a: A) => B) => ReaderT1<M, E, B>
-  readonly of: <E, A>(a: A) => ReaderT1<M, E, A>
-  readonly ap: <E, A, B>(mab: ReaderT1<M, E, (a: A) => B>, ma: ReaderT1<M, E, A>) => ReaderT1<M, E, B>
-  readonly chain: <E, A, B>(ma: ReaderT1<M, E, A>, f: (a: A) => ReaderT1<M, E, B>) => ReaderT1<M, E, B>
-  readonly ask: <E>() => ReaderT1<M, E, E>
-  readonly asks: <E, A>(f: (e: E) => A) => ReaderT1<M, E, A>
-  readonly local: <D, E>(f: (d: D) => E) => <A>(ma: ReaderT1<M, E, A>) => ReaderT1<M, D, A>
-  readonly fromReader: <E, A>(ma: Reader<E, A>) => ReaderT1<M, E, A>
-  readonly fromM: <E, A>(ma: Type<M, A>) => ReaderT1<M, E, A>
+  readonly map: <R, A, B>(ma: ReaderT1<M, R, A>, f: (a: A) => B) => ReaderT1<M, R, B>
+  readonly of: <R, A>(a: A) => ReaderT1<M, R, A>
+  readonly ap: <R, A, B>(mab: ReaderT1<M, R, (a: A) => B>, ma: ReaderT1<M, R, A>) => ReaderT1<M, R, B>
+  readonly chain: <R, A, B>(ma: ReaderT1<M, R, A>, f: (a: A) => ReaderT1<M, R, B>) => ReaderT1<M, R, B>
+  readonly ask: <R>() => ReaderT1<M, R, R>
+  readonly asks: <R, A>(f: (r: R) => A) => ReaderT1<M, R, A>
+  readonly local: <Q, R>(f: (d: Q) => R) => <A>(ma: ReaderT1<M, R, A>) => ReaderT1<M, Q, A>
+  readonly fromReader: <R, A>(ma: Reader<R, A>) => ReaderT1<M, R, A>
+  readonly fromM: <R, A>(ma: Type<M, A>) => ReaderT1<M, R, A>
 }
 
 /**
  * @since 2.0.0
  */
-export interface ReaderT2<M extends URIS2, E, L, A> {
-  (e: E): Type2<M, L, A>
+export interface ReaderT2<M extends URIS2, R, L, A> {
+  (r: R): Type2<M, L, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface ReaderM2<M extends URIS2> {
-  readonly map: <E, L, A, B>(ma: ReaderT2<M, E, L, A>, f: (a: A) => B) => ReaderT2<M, E, L, B>
-  readonly of: <E, L, A>(a: A) => ReaderT2<M, E, L, A>
-  readonly ap: <E, L, A, B>(mab: ReaderT2<M, E, L, (a: A) => B>, ma: ReaderT2<M, E, L, A>) => ReaderT2<M, E, L, B>
-  readonly chain: <E, L, A, B>(ma: ReaderT2<M, E, L, A>, f: (a: A) => ReaderT2<M, E, L, B>) => ReaderT2<M, E, L, B>
-  readonly ask: <E, L>() => ReaderT2<M, E, L, E>
-  readonly asks: <E, L, A>(f: (e: E) => A) => ReaderT2<M, E, L, A>
-  readonly local: <D, E>(f: (d: D) => E) => <L, A>(ma: ReaderT2<M, E, L, A>) => ReaderT2<M, D, L, A>
-  readonly fromReader: <E, L, A>(ma: Reader<E, A>) => ReaderT2<M, E, L, A>
-  readonly fromM: <E, L, A>(ma: Type2<M, L, A>) => ReaderT2<M, E, L, A>
+  readonly map: <R, L, A, B>(ma: ReaderT2<M, R, L, A>, f: (a: A) => B) => ReaderT2<M, R, L, B>
+  readonly of: <R, L, A>(a: A) => ReaderT2<M, R, L, A>
+  readonly ap: <R, L, A, B>(mab: ReaderT2<M, R, L, (a: A) => B>, ma: ReaderT2<M, R, L, A>) => ReaderT2<M, R, L, B>
+  readonly chain: <R, L, A, B>(ma: ReaderT2<M, R, L, A>, f: (a: A) => ReaderT2<M, R, L, B>) => ReaderT2<M, R, L, B>
+  readonly ask: <R, L>() => ReaderT2<M, R, L, R>
+  readonly asks: <R, L, A>(f: (r: R) => A) => ReaderT2<M, R, L, A>
+  readonly local: <Q, R>(f: (d: Q) => R) => <L, A>(ma: ReaderT2<M, R, L, A>) => ReaderT2<M, Q, L, A>
+  readonly fromReader: <R, L, A>(ma: Reader<R, A>) => ReaderT2<M, R, L, A>
+  readonly fromM: <R, L, A>(ma: Type2<M, L, A>) => ReaderT2<M, R, L, A>
 }
 
 /**
  * @since 2.0.0
  */
-export interface ReaderT3<M extends URIS3, E, U, L, A> {
-  (e: E): Type3<M, U, L, A>
+export interface ReaderT3<M extends URIS3, R, U, L, A> {
+  (r: R): Type3<M, U, L, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface ReaderM3<M extends URIS3> {
-  readonly map: <E, U, L, A, B>(ma: ReaderT3<M, E, U, L, A>, f: (a: A) => B) => ReaderT3<M, E, U, L, B>
-  readonly of: <E, U, L, A>(a: A) => ReaderT3<M, E, U, L, A>
-  readonly ap: <E, U, L, A, B>(
-    mab: ReaderT3<M, E, U, L, (a: A) => B>,
-    ma: ReaderT3<M, E, U, L, A>
-  ) => ReaderT3<M, E, U, L, B>
-  readonly chain: <E, U, L, A, B>(
-    ma: ReaderT3<M, E, U, L, A>,
-    f: (a: A) => ReaderT3<M, E, U, L, B>
-  ) => ReaderT3<M, E, U, L, B>
-  readonly ask: <E, U, L>() => ReaderT3<M, E, U, L, E>
-  readonly asks: <E, U, L, A>(f: (e: E) => A) => ReaderT3<M, E, U, L, A>
-  readonly local: <D, E>(f: (d: D) => E) => <U, L, A>(ma: ReaderT3<M, E, U, L, A>) => ReaderT3<M, D, U, L, A>
-  readonly fromReader: <E, U, L, A>(ma: Reader<E, A>) => ReaderT3<M, E, U, L, A>
-  readonly fromM: <E, U, L, A>(ma: Type3<M, U, L, A>) => ReaderT3<M, E, U, L, A>
+  readonly map: <R, U, L, A, B>(ma: ReaderT3<M, R, U, L, A>, f: (a: A) => B) => ReaderT3<M, R, U, L, B>
+  readonly of: <R, U, L, A>(a: A) => ReaderT3<M, R, U, L, A>
+  readonly ap: <R, U, L, A, B>(
+    mab: ReaderT3<M, R, U, L, (a: A) => B>,
+    ma: ReaderT3<M, R, U, L, A>
+  ) => ReaderT3<M, R, U, L, B>
+  readonly chain: <R, U, L, A, B>(
+    ma: ReaderT3<M, R, U, L, A>,
+    f: (a: A) => ReaderT3<M, R, U, L, B>
+  ) => ReaderT3<M, R, U, L, B>
+  readonly ask: <R, U, L>() => ReaderT3<M, R, U, L, R>
+  readonly asks: <R, U, L, A>(f: (r: R) => A) => ReaderT3<M, R, U, L, A>
+  readonly local: <Q, R>(f: (d: Q) => R) => <U, L, A>(ma: ReaderT3<M, R, U, L, A>) => ReaderT3<M, Q, U, L, A>
+  readonly fromReader: <R, U, L, A>(ma: Reader<R, A>) => ReaderT3<M, R, U, L, A>
+  readonly fromM: <R, U, L, A>(ma: Type3<M, U, L, A>) => ReaderT3<M, R, U, L, A>
 }
 
 /**

@@ -8,8 +8,8 @@ parent: Modules
 
 A data structure providing "inclusive-or" as opposed to `Either`'s "exclusive-or".
 
-If you interpret `Either<L, A>` as suggesting the computation may either fail or succeed (exclusively), then
-`These<L, A>` may fail, succeed, or do both at the same time.
+If you interpret `Either<E, A>` as suggesting the computation may either fail or succeed (exclusively), then
+`These<E, A>` may fail, succeed, or do both at the same time.
 
 There are a few ways to interpret the both case:
 
@@ -17,8 +17,8 @@ There are a few ways to interpret the both case:
 - You can think of a computation that went as far as it could before erroring.
 - You can think of a computation that keeps track of errors as it completes.
 
-Another way you can think of `These<L, A>` is saying that we want to handle `L` kind of data, `A` kind of data, or
-both `L` and `A` kind of data at the same time. This is particularly useful when it comes to displaying UI's.
+Another way you can think of `These<E, A>` is saying that we want to handle `E` kind of data, `A` kind of data, or
+both `E` and `A` kind of data at the same time. This is particularly useful when it comes to displaying UI's.
 
 (description adapted from https://package.elm-lang.org/packages/joneshf/elm-these)
 
@@ -60,9 +60,9 @@ Adapted from https://github.com/purescript-contrib/purescript-these
 **Signature**
 
 ```ts
-export interface Both<L, A> {
+export interface Both<E, A> {
   readonly _tag: 'Both'
-  readonly left: L
+  readonly left: E
   readonly right: A
 }
 ```
@@ -74,7 +74,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type These<L, A> = Either<L, A> | Both<L, A>
+export type These<E, A> = Either<E, A> | Both<E, A>
 ```
 
 Added in v2.0.0
@@ -114,7 +114,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function both<L, A>(left: L, right: A): These<L, A> { ... }
+export function both<E, A>(left: E, right: A): These<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -124,11 +124,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<L, A, R>(
-  onLeft: (l: L) => R,
+export function fold<E, A, R>(
+  onLeft: (e: E) => R,
   onRight: (a: A) => R,
-  onBoth: (l: L, a: A) => R
-): (fa: These<L, A>) => R { ... }
+  onBoth: (e: E, a: A) => R
+): (fa: These<E, A>) => R { ... }
 ```
 
 Added in v2.0.0
@@ -140,7 +140,7 @@ Takes a pair of `Option`s and attempts to create a `These` from them
 **Signature**
 
 ```ts
-export function fromOptions<L, A>(fl: Option<L>, fa: Option<A>): Option<These<L, A>> { ... }
+export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E, A>> { ... }
 ```
 
 **Example**
@@ -162,7 +162,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getEq<L, A>(SL: Eq<L>, SA: Eq<A>): Eq<These<L, A>> { ... }
+export function getEq<E, A>(EE: Eq<E>, EA: Eq<A>): Eq<These<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -174,7 +174,7 @@ Returns an `L` value if possible
 **Signature**
 
 ```ts
-export function getLeft<L, A>(fa: These<L, A>): Option<L> { ... }
+export function getLeft<E, A>(fa: These<E, A>): Option<E> { ... }
 ```
 
 **Example**
@@ -197,7 +197,7 @@ Returns the `L` value if and only if the value is constructed with `Left`
 **Signature**
 
 ```ts
-export function getLeftOnly<L, A>(fa: These<L, A>): Option<L> { ... }
+export function getLeftOnly<E, A>(fa: These<E, A>): Option<E> { ... }
 ```
 
 **Example**
@@ -218,7 +218,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMonad<L>(S: Semigroup<L>): Monad2C<URI, L> { ... }
+export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> { ... }
 ```
 
 Added in v2.0.0
@@ -230,7 +230,7 @@ Returns an `A` value if possible
 **Signature**
 
 ```ts
-export function getRight<L, A>(fa: These<L, A>): Option<A> { ... }
+export function getRight<E, A>(fa: These<E, A>): Option<A> { ... }
 ```
 
 **Example**
@@ -253,7 +253,7 @@ Returns the `A` value if and only if the value is constructed with `Right`
 **Signature**
 
 ```ts
-export function getRightOnly<L, A>(fa: These<L, A>): Option<A> { ... }
+export function getRightOnly<E, A>(fa: These<E, A>): Option<A> { ... }
 ```
 
 **Example**
@@ -274,7 +274,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<These<L, A>> { ... }
+export function getSemigroup<E, A>(SL: Semigroup<E>, SA: Semigroup<A>): Semigroup<These<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -284,7 +284,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> { ... }
+export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<These<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -296,7 +296,7 @@ Returns `true` if the these is an instance of `Both`, `false` otherwise
 **Signature**
 
 ```ts
-export function isBoth<L, A>(fa: These<L, A>): fa is Both<L, A> { ... }
+export function isBoth<E, A>(fa: These<E, A>): fa is Both<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -308,7 +308,7 @@ Returns `true` if the these is an instance of `Left`, `false` otherwise
 **Signature**
 
 ```ts
-export function isLeft<L, A>(fa: These<L, A>): fa is Left<L> { ... }
+export function isLeft<E, A>(fa: These<E, A>): fa is Left<E> { ... }
 ```
 
 Added in v2.0.0
@@ -320,7 +320,7 @@ Returns `true` if the these is an instance of `Right`, `false` otherwise
 **Signature**
 
 ```ts
-export function isRight<L, A>(fa: These<L, A>): fa is Right<A> { ... }
+export function isRight<E, A>(fa: These<E, A>): fa is Right<A> { ... }
 ```
 
 Added in v2.0.0
@@ -330,7 +330,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<L>(left: L): These<L, never> { ... }
+export function left<E>(left: E): These<E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -340,7 +340,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftOrBoth<L, A>(defaultLeft: L, ma: Option<A>): These<L, A> { ... }
+export function leftOrBoth<E, A>(defaultLeft: E, ma: Option<A>): These<E, A> { ... }
 ```
 
 **Example**
@@ -370,7 +370,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightOrBoth<L, A>(defaultRight: A, ml: Option<L>): These<L, A> { ... }
+export function rightOrBoth<E, A>(defaultRight: A, me: Option<E>): These<E, A> { ... }
 ```
 
 **Example**
@@ -390,7 +390,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function toTuple<L, A>(l: L, a: A): (fa: These<L, A>) => [L, A] { ... }
+export function toTuple<E, A>(e: E, a: A): (fa: These<E, A>) => [E, A] { ... }
 ```
 
 **Example**

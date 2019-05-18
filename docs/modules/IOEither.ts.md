@@ -6,8 +6,8 @@ parent: Modules
 
 # Overview
 
-`IOEither<L, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
-error of type `L`. If you want to represent a synchronous computation that never fails, please see `IO`.
+`IOEither<E, A>` represents a synchronous computation that either yields a value of type `A` or fails yielding an
+error of type `E`. If you want to represent a synchronous computation that never fails, please see `IO`.
 
 ---
 
@@ -42,7 +42,7 @@ error of type `L`. If you want to represent a synchronous computation that never
 **Signature**
 
 ```ts
-export interface IOEither<L, A> extends IO<E.Either<L, A>> {}
+export interface IOEither<E, A> extends IO<E.Either<E, A>> {}
 ```
 
 Added in v2.0.0
@@ -76,11 +76,11 @@ returns.
 **Signature**
 
 ```ts
-export const bracket: <L, A, B>(
-  acquire: IOEither<L, A>,
-  use: (a: A) => IOEither<L, B>,
-  release: (a: A, e: E.Either<L, B>) => IOEither<L, void>
-) => IOEither<L, B> = ...
+export const bracket: <E, A, B>(
+  acquire: IOEither<E, A>,
+  use: (a: A) => IOEither<E, B>,
+  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
+) => IOEither<E, B> = ...
 ```
 
 Added in v2.0.0
@@ -100,7 +100,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fromEither: <L, A>(ma: E.Either<L, A>) => IOEither<L, A> = ...
+export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = ...
 ```
 
 Added in v2.0.0
@@ -110,7 +110,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getOrElse: <L, A>(f: (l: L) => IO<A>) => (ma: IOEither<L, A>) => IO<A> = ...
+export const getOrElse: <E, A>(f: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> = ...
 ```
 
 Added in v2.0.0
@@ -140,7 +140,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const leftIO: <L>(ml: IO<L>) => IOEither<L, never> = ...
+export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = ...
 ```
 
 Added in v2.0.0
@@ -150,7 +150,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const orElse: <L, A, M>(f: (l: L) => IOEither<M, A>) => (ma: IOEither<L, A>) => IOEither<M, A> = ...
+export const orElse: <E, A, M>(f: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A> = ...
 ```
 
 Added in v2.0.0
@@ -180,7 +180,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const swap: <L, A>(ma: IOEither<L, A>) => IOEither<A, L> = ...
+export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = ...
 ```
 
 Added in v2.0.0
@@ -190,11 +190,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filterOrElse<L, A, B extends A>(
+export function filterOrElse<E, A, B extends A>(
   p: Refinement<A, B>,
-  zero: (a: A) => L
-): (ma: IOEither<L, A>) => IOEither<L, B>
-export function filterOrElse<L, A>(p: Predicate<A>, zero: (a: A) => L): (ma: IOEither<L, A>) => IOEither<L, A> { ... }
+  zero: (a: A) => E
+): (ma: IOEither<E, A>) => IOEither<E, B>
+export function filterOrElse<E, A>(p: Predicate<A>, zero: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -204,7 +204,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<L, A>(ma: Option<A>, onNone: () => L): IOEither<L, A> { ... }
+export function fromOption<E, A>(ma: Option<A>, onNone: () => E): IOEither<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -214,11 +214,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromPredicate<L, A, B extends A>(
+export function fromPredicate<E, A, B extends A>(
   predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => IOEither<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => IOEither<L, A> { ... }
+  onFalse: (a: A) => E
+): (a: A) => IOEither<E, B>
+export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -228,7 +228,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<IOEither<L, A>> { ... }
+export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<IOEither<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -238,7 +238,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<IOEither<L, A>> { ... }
+export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -248,7 +248,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<L, A>(S: Semigroup<A>): Semigroup<IOEither<L, A>> { ... }
+export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -260,7 +260,7 @@ Constructs a new `IOEither` from a function that performs a side effect and migh
 **Signature**
 
 ```ts
-export function tryCatch<L, A>(f: Lazy<A>, onError: (reason: unknown) => L): IOEither<L, A> { ... }
+export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOEither<E, A> { ... }
 ```
 
 Added in v2.0.0

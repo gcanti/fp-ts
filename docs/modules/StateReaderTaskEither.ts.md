@@ -43,8 +43,8 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface StateReaderTaskEither<S, E, L, A> {
-  (s: S): ReaderTaskEither<E, L, [A, S]>
+export interface StateReaderTaskEither<S, R, E, A> {
+  (s: S): ReaderTaskEither<R, E, [A, S]>
 }
 ```
 
@@ -199,7 +199,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromEither<S, L, A>(ma: Either<L, A>): StateReaderTaskEither<S, unknown, L, A> { ... }
+export function fromEither<S, E, A>(ma: Either<E, A>): StateReaderTaskEither<S, unknown, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -209,7 +209,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromIOEither<S, L, A>(ma: IOEither<L, A>): StateReaderTaskEither<S, unknown, L, A> { ... }
+export function fromIOEither<S, E, A>(ma: IOEither<E, A>): StateReaderTaskEither<S, unknown, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -219,7 +219,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<S, L, A>(ma: Option<A>, onNone: () => L): StateReaderTaskEither<S, unknown, L, A> { ... }
+export function fromOption<S, E, A>(ma: Option<A>, onNone: () => E): StateReaderTaskEither<S, unknown, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -229,7 +229,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromTaskEither<S, L, A>(ma: TaskEither<L, A>): StateReaderTaskEither<S, unknown, L, A> { ... }
+export function fromTaskEither<S, E, A>(ma: TaskEither<E, A>): StateReaderTaskEither<S, unknown, E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -239,7 +239,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function left<S, L>(l: L): StateReaderTaskEither<S, unknown, L, never> { ... }
+export function left<S, E>(e: E): StateReaderTaskEither<S, unknown, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -249,7 +249,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftIO<S, L>(ml: IO<L>): StateReaderTaskEither<S, unknown, L, never> { ... }
+export function leftIO<S, E>(me: IO<E>): StateReaderTaskEither<S, unknown, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -259,7 +259,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftReader<S, E, L>(ml: Reader<E, L>): StateReaderTaskEither<S, E, L, never> { ... }
+export function leftReader<S, R, E>(me: Reader<R, E>): StateReaderTaskEither<S, R, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -269,7 +269,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftState<S, L>(ml: State<S, L>): StateReaderTaskEither<S, unknown, L, never> { ... }
+export function leftState<S, E>(me: State<S, E>): StateReaderTaskEither<S, unknown, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -279,7 +279,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftTask<S, L>(ma: Task<L>): StateReaderTaskEither<S, unknown, L, never> { ... }
+export function leftTask<S, E>(me: Task<E>): StateReaderTaskEither<S, unknown, E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -299,7 +299,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function rightReader<S, E, A>(ma: Reader<E, A>): StateReaderTaskEither<S, E, never, A> { ... }
+export function rightReader<S, R, A>(ma: Reader<R, A>): StateReaderTaskEither<S, R, never, A> { ... }
 ```
 
 Added in v2.0.0
@@ -319,7 +319,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function run<S, E, L, A>(ma: StateReaderTaskEither<S, E, L, A>, s: S, e: E): Promise<Either<L, [A, S]>> { ... }
+export function run<S, R, E, A>(ma: StateReaderTaskEither<S, R, E, A>, s: S, r: R): Promise<Either<E, [A, S]>> { ... }
 ```
 
 Added in v2.0.0

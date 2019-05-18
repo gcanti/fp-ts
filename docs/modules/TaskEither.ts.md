@@ -6,8 +6,8 @@ parent: Modules
 
 # Overview
 
-`TaskEither<L, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
-error of type `L`. If you want to represent an asynchronous computation that never fails, please see `Task`.
+`TaskEither<E, A>` represents an asynchronous computation that either yields a value of type `A` or fails yielding an
+error of type `E`. If you want to represent an asynchronous computation that never fails, please see `Task`.
 
 ---
 
@@ -47,7 +47,7 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 **Signature**
 
 ```ts
-export interface TaskEither<L, A> extends Task<E.Either<L, A>> {}
+export interface TaskEither<E, A> extends Task<E.Either<E, A>> {}
 ```
 
 Added in v2.0.0
@@ -81,11 +81,11 @@ returns.
 **Signature**
 
 ```ts
-export const bracket: <L, A, B>(
-  acquire: TaskEither<L, A>,
-  use: (a: A) => TaskEither<L, B>,
-  release: (a: A, e: E.Either<L, B>) => TaskEither<L, void>
-) => TaskEither<L, B> = ...
+export const bracket: <E, A, B>(
+  acquire: TaskEither<E, A>,
+  use: (a: A) => TaskEither<E, B>,
+  release: (a: A, e: E.Either<E, B>) => TaskEither<E, void>
+) => TaskEither<E, B> = ...
 ```
 
 Added in v2.0.0
@@ -95,10 +95,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fold: <L, A, R>(
-  onLeft: (l: L) => Task<R>,
+export const fold: <E, A, R>(
+  onLeft: (e: E) => Task<R>,
   onRight: (a: A) => Task<R>
-) => (ma: TaskEither<L, A>) => Task<R> = ...
+) => (ma: TaskEither<E, A>) => Task<R> = ...
 ```
 
 Added in v2.0.0
@@ -108,7 +108,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fromEither: <L, A>(ma: E.Either<L, A>) => TaskEither<L, A> = ...
+export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> = ...
 ```
 
 Added in v2.0.0
@@ -118,7 +118,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fromIOEither: <L, A>(fa: IOEither<L, A>) => TaskEither<L, A> = ...
+export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = ...
 ```
 
 Added in v2.0.0
@@ -128,7 +128,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const getOrElse: <L, A>(f: (l: L) => Task<A>) => (ma: TaskEither<L, A>) => Task<A> = ...
+export const getOrElse: <E, A>(f: (e: E) => Task<A>) => (ma: TaskEither<E, A>) => Task<A> = ...
 ```
 
 Added in v2.0.0
@@ -138,7 +138,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const left: <L>(l: L) => TaskEither<L, never> = ...
+export const left: <E>(e: E) => TaskEither<E, never> = ...
 ```
 
 Added in v2.0.0
@@ -148,7 +148,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const leftTask: <L>(ml: Task<L>) => TaskEither<L, never> = ...
+export const leftTask: <E>(me: Task<E>) => TaskEither<E, never> = ...
 ```
 
 Added in v2.0.0
@@ -158,7 +158,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const orElse: <L, A, M>(f: (l: L) => TaskEither<M, A>) => (ma: TaskEither<L, A>) => TaskEither<M, A> = ...
+export const orElse: <E, A, M>(f: (e: E) => TaskEither<M, A>) => (ma: TaskEither<E, A>) => TaskEither<M, A> = ...
 ```
 
 Added in v2.0.0
@@ -188,7 +188,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const swap: <L, A>(ma: TaskEither<L, A>) => TaskEither<A, L> = ...
+export const swap: <E, A>(ma: TaskEither<E, A>) => TaskEither<A, E> = ...
 ```
 
 Added in v2.0.0
@@ -220,14 +220,14 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filterOrElse<L, A, B extends A>(
+export function filterOrElse<E, A, B extends A>(
   predicate: Refinement<A, B>,
-  zero: (a: A) => L
-): (ma: TaskEither<L, A>) => TaskEither<L, B>
-export function filterOrElse<L, A>(
+  zero: (a: A) => E
+): (ma: TaskEither<E, A>) => TaskEither<E, B>
+export function filterOrElse<E, A>(
   predicate: Predicate<A>,
-  zero: (a: A) => L
-): (ma: TaskEither<L, A>) => TaskEither<L, A> { ... }
+  zero: (a: A) => E
+): (ma: TaskEither<E, A>) => TaskEither<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -237,7 +237,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromOption<L, A>(ma: Option<A>, onNone: () => L): TaskEither<L, A> { ... }
+export function fromOption<E, A>(ma: Option<A>, onNone: () => E): TaskEither<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -247,11 +247,11 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fromPredicate<L, A, B extends A>(
+export function fromPredicate<E, A, B extends A>(
   predicate: Refinement<A, B>,
-  onFalse: (a: A) => L
-): (a: A) => TaskEither<L, B>
-export function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => TaskEither<L, A> { ... }
+  onFalse: (a: A) => E
+): (a: A) => TaskEither<E, B>
+export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A> { ... }
 ```
 
 Added in v2.0.0
@@ -261,7 +261,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplyMonoid<L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> { ... }
+export function getApplyMonoid<E, A>(M: Monoid<A>): Monoid<TaskEither<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -271,7 +271,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplySemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> { ... }
+export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -281,7 +281,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getSemigroup<L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>> { ... }
+export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<TaskEither<E, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -291,7 +291,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function leftIO<L>(ml: IO<L>): TaskEither<L, never> { ... }
+export function leftIO<E>(me: IO<E>): TaskEither<E, never> { ... }
 ```
 
 Added in v2.0.0
@@ -363,7 +363,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function tryCatch<L, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => L): TaskEither<L, A> { ... }
+export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown) => E): TaskEither<E, A> { ... }
 ```
 
 Added in v2.0.0
