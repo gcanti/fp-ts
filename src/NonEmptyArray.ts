@@ -35,8 +35,8 @@ export type URI = typeof URI
  */
 export interface NonEmptyArray<A> extends Array<A> {
   0: A
-  map: <B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B) => NonEmptyArray<B>
-  concat: (as: Array<A>) => NonEmptyArray<A>
+  map<B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B): NonEmptyArray<B>
+  concat(as: Array<A>): NonEmptyArray<A>
 }
 
 /**
@@ -45,15 +45,8 @@ export interface NonEmptyArray<A> extends Array<A> {
 export function getShow<A>(S: Show<A>): Show<NonEmptyArray<A>> {
   const SA = A.getShow(S)
   return {
-    show: arr => (arr.length === 1 ? `make(${S.show(arr[0])})` : `make(${S.show(arr[0])}, ${SA.show(arr.slice(1))})`)
+    show: arr => (arr.length === 1 ? `cons(${S.show(arr[0])})` : `cons(${S.show(arr[0])}, ${SA.show(arr.slice(1))})`)
   }
-}
-
-/**
- * @since 2.0.0
- */
-export function make<A>(head: A, tail: Array<A> = A.empty): NonEmptyArray<A> {
-  return [head, ...tail] as any
 }
 
 /**
@@ -122,12 +115,12 @@ export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> {
 
 /**
  * @example
- * import { fromNonEmptyArray, getEq, make } from 'fp-ts/lib/NonEmptyArray'
+ * import { fromNonEmptyArray, getEq, cons } from 'fp-ts/lib/NonEmptyArray'
  * import { eqNumber } from 'fp-ts/lib/Eq'
  *
  * const E = getEq(eqNumber)
- * assert.strictEqual(E.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
- * assert.strictEqual(E.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
+ * assert.strictEqual(E.equals(cons(1, [2]), fromNonEmptyArray([1, 2])), true)
+ * assert.strictEqual(E.equals(cons(1, [2]), fromNonEmptyArray([1, 3])), false)
  *
  * @since 2.0.0
  */
@@ -137,13 +130,13 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = A.getEq
  * Group equal, consecutive elements of an array into non empty arrays.
  *
  * @example
- * import { make, group } from 'fp-ts/lib/NonEmptyArray'
+ * import { cons, group } from 'fp-ts/lib/NonEmptyArray'
  * import { ordNumber } from 'fp-ts/lib/Ord'
  *
  * assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
- *   make(1, []),
- *   make(2, []),
- *   make(1, [1])
+ *   cons(1, []),
+ *   cons(2, []),
+ *   cons(1, [1])
  * ])
  *
  * @since 2.0.0
@@ -176,10 +169,10 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
  * Sort and then group the elements of an array into non empty arrays.
  *
  * @example
- * import { make, groupSort } from 'fp-ts/lib/NonEmptyArray'
+ * import { cons, groupSort } from 'fp-ts/lib/NonEmptyArray'
  * import { ordNumber } from 'fp-ts/lib/Ord'
  *
- * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [make(1, [1, 1]), make(2, [])])
+ * assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
  *
  * @since 2.0.0
  */
@@ -194,11 +187,11 @@ export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A
  * function on each element, and grouping the results according to values returned
  *
  * @example
- * import { make, groupBy } from 'fp-ts/lib/NonEmptyArray'
+ * import { cons, groupBy } from 'fp-ts/lib/NonEmptyArray'
  *
  * assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
- *   '3': make('foo', ['bar']),
- *   '6': make('foobar', [])
+ *   '3': cons('foo', ['bar']),
+ *   '6': cons('foobar', [])
  * })
  *
  * @since 2.0.0
@@ -210,7 +203,7 @@ export function groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
     if (r.hasOwnProperty(k)) {
       r[k].push(a)
     } else {
-      r[k] = make(a, [])
+      r[k] = cons(a, [])
     }
   }
   return r

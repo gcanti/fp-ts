@@ -37,7 +37,6 @@ Data structure which represents non-empty arrays
 - [head (function)](#head-function)
 - [insertAt (function)](#insertat-function)
 - [last (function)](#last-function)
-- [make (function)](#make-function)
 - [max (function)](#max-function)
 - [min (function)](#min-function)
 - [modifyAt (function)](#modifyat-function)
@@ -54,8 +53,8 @@ Data structure which represents non-empty arrays
 ```ts
 export interface NonEmptyArray<A> extends Array<A> {
   0: A
-  map: <B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B) => NonEmptyArray<B>
-  concat: (as: Array<A>) => NonEmptyArray<A>
+  map<B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B): NonEmptyArray<B>
+  concat(as: Array<A>): NonEmptyArray<A>
 }
 ```
 
@@ -122,12 +121,12 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = ...
 **Example**
 
 ```ts
-import { fromNonEmptyArray, getEq, make } from 'fp-ts/lib/NonEmptyArray'
+import { fromNonEmptyArray, getEq, cons } from 'fp-ts/lib/NonEmptyArray'
 import { eqNumber } from 'fp-ts/lib/Eq'
 
 const E = getEq(eqNumber)
-assert.strictEqual(E.equals(make(1, [2]), fromNonEmptyArray([1, 2])), true)
-assert.strictEqual(E.equals(make(1, [2]), fromNonEmptyArray([1, 3])), false)
+assert.strictEqual(E.equals(cons(1, [2]), fromNonEmptyArray([1, 2])), true)
+assert.strictEqual(E.equals(cons(1, [2]), fromNonEmptyArray([1, 3])), false)
 ```
 
 Added in v2.0.0
@@ -301,10 +300,10 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> { 
 **Example**
 
 ```ts
-import { make, group } from 'fp-ts/lib/NonEmptyArray'
+import { cons, group } from 'fp-ts/lib/NonEmptyArray'
 import { ordNumber } from 'fp-ts/lib/Ord'
 
-assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [make(1, []), make(2, []), make(1, [1])])
+assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [cons(1, []), cons(2, []), cons(1, [1])])
 ```
 
 Added in v2.0.0
@@ -323,11 +322,11 @@ export function groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
 **Example**
 
 ```ts
-import { make, groupBy } from 'fp-ts/lib/NonEmptyArray'
+import { cons, groupBy } from 'fp-ts/lib/NonEmptyArray'
 
 assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
-  '3': make('foo', ['bar']),
-  '6': make('foobar', [])
+  '3': cons('foo', ['bar']),
+  '6': cons('foobar', [])
 })
 ```
 
@@ -346,10 +345,10 @@ export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A
 **Example**
 
 ```ts
-import { make, groupSort } from 'fp-ts/lib/NonEmptyArray'
+import { cons, groupSort } from 'fp-ts/lib/NonEmptyArray'
 import { ordNumber } from 'fp-ts/lib/Ord'
 
-assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [make(1, [1, 1]), make(2, [])])
+assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [cons(1, [1, 1]), cons(2, [])])
 ```
 
 Added in v2.0.0
@@ -380,16 +379,6 @@ Added in v2.0.0
 
 ```ts
 export function last<A>(nea: NonEmptyArray<A>): A { ... }
-```
-
-Added in v2.0.0
-
-# make (function)
-
-**Signature**
-
-```ts
-export function make<A>(head: A, tail: Array<A> = A.empty): NonEmptyArray<A> { ... }
 ```
 
 Added in v2.0.0

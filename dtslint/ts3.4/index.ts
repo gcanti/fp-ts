@@ -331,19 +331,19 @@ declare const nea2v1: NEA.NonEmptyArray<string>
 declare const nea2v2: NEA.NonEmptyArray<string>
 declare const array1: Array<string>
 
-const nea2v1make1 = NEA.make<number>(1, []) // $ExpectType NonEmptyArray<number>
+NEA.cons(1, []) // $ExpectType NonEmptyArray<1>
 
-const nea2vValid = NEA.fromNonEmptyArray([1]) // $ExpectType NonEmptyArray<number>
+NEA.fromNonEmptyArray([1]) // $ExpectType NonEmptyArray<number>
 // $ExpectError
-const nea2vInvalid = NEA.fromNonEmptyArray([])
+NEA.fromNonEmptyArray([])
 
-const nea2v1map1 = nea2v1.map(len) // $ExpectType NonEmptyArray<number>
+nea2v1.map(len) // $ExpectType NonEmptyArray<number>
 
-const nea2v1concat1 = nea2v1.concat(nea2v2) // $ExpectType NonEmptyArray<string>
-const nea2v1concat2 = nea2v1.concat(array1) // $ExpectType NonEmptyArray<string>
-const nea2v1concat3 = array1.concat(nea2v1) // $ExpectType string[]
+nea2v1.concat(nea2v2) // $ExpectType NonEmptyArray<string>
+nea2v1.concat(array1) // $ExpectType NonEmptyArray<string>
+array1.concat(nea2v1) // $ExpectType string[]
 
-const nea2v1sort1 = nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
+nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
 
 //
 // function
