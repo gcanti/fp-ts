@@ -115,26 +115,31 @@ export interface PipeableApply3<F extends URIS3> extends PipeableFunctor3<F> {
 
 export interface PipeableChain<F> extends PipeableApply<F> {
   readonly chain: <A, B>(f: (a: A) => HKT<F, B>) => (ma: HKT<F, A>) => HKT<F, B>
+  readonly chainFirst: <A, B>(f: (a: A) => HKT<F, B>) => (ma: HKT<F, A>) => HKT<F, A>
   readonly flatten: <A>(mma: HKT<F, HKT<F, A>>) => HKT<F, A>
 }
 
 export interface PipeableChain1<F extends URIS> extends PipeableApply1<F> {
   readonly chain: <A, B>(f: (a: A) => Type<F, B>) => (ma: Type<F, A>) => Type<F, B>
+  readonly chainFirst: <A, B>(f: (a: A) => Type<F, B>) => (ma: Type<F, A>) => Type<F, A>
   readonly flatten: <A>(mma: Type<F, Type<F, A>>) => Type<F, A>
 }
 
 export interface PipeableChain2<F extends URIS2> extends PipeableApply2<F> {
   readonly chain: <L, A, B>(f: (a: A) => Type2<F, L, B>) => (ma: Type2<F, L, A>) => Type2<F, L, B>
+  readonly chainFirst: <L, A, B>(f: (a: A) => Type2<F, L, B>) => (ma: Type2<F, L, A>) => Type2<F, L, A>
   readonly flatten: <L, A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
 }
 
 export interface PipeableChain2C<F extends URIS2, L> extends PipeableApply2C<F, L> {
   readonly chain: <A, B>(f: (a: A) => Type2<F, L, B>) => (ma: Type2<F, L, A>) => Type2<F, L, B>
+  readonly chainFirst: <A, B>(f: (a: A) => Type2<F, L, B>) => (ma: Type2<F, L, A>) => Type2<F, L, A>
   readonly flatten: <A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
 }
 
 export interface PipeableChain3<F extends URIS3> extends PipeableApply3<F> {
   readonly chain: <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => (ma: Type3<F, U, L, A>) => Type3<F, U, L, B>
+  readonly chainFirst: <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => (ma: Type3<F, U, L, A>) => Type3<F, U, L, A>
   readonly flatten: <U, L, A>(mma: Type3<F, U, L, Type3<F, U, L, A>>) => Type3<F, U, L, A>
 }
 
@@ -647,8 +652,10 @@ export function pipeable<F, I>(I: { URI: F } & I): any {
   }
   if (isChain<F>(I)) {
     const chain: PipeableChain<F>['chain'] = f => ma => I.chain(ma, f)
+    const chainFirst: PipeableChain<F>['chainFirst'] = f => ma => I.chain(ma, a => I.map(f(a), () => a))
     const flatten: PipeableChain<F>['flatten'] = mma => I.chain(mma, identity)
     r.chain = chain
+    r.chainFirst = chainFirst
     r.flatten = flatten
   }
   if (isBifunctor<F>(I)) {

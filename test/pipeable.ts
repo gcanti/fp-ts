@@ -30,8 +30,9 @@ describe('pipeable', () => {
   })
 
   it('Chain', () => {
-    const { chain, flatten } = pipeable(array)
+    const { chain, chainFirst, flatten } = pipeable(array)
     assert.deepStrictEqual(chain((n: number) => [n * 2])([1, 2, 3]), [2, 4, 6])
+    assert.deepStrictEqual(chainFirst((n: number) => [n * 2])([1, 2, 3]), [1, 2, 3])
     assert.deepStrictEqual(flatten([[1], [2], [3]]), [1, 2, 3])
   })
 

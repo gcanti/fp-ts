@@ -197,6 +197,7 @@ export function pipe(...fns: Array<Function>): Function {
 /**
  * @since 2.0.0
  */
+export function pipeOp<A>(a: A): A
 export function pipeOp<A, B>(a: A, ab: (a: A) => B): B
 export function pipeOp<A, B, C>(a: A, ab: (a: A) => B, bc: (b: B) => C): C
 export function pipeOp<A, B, C, D>(a: A, ab: (a: A) => B, bc: (b: B) => C, cd: (c: C) => D): D
