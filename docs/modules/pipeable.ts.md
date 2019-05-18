@@ -135,7 +135,7 @@ export interface PipeableAlt3<F extends URIS3> {
 
 ```ts
 export interface PipeableApply<F> extends PipeableFunctor<F> {
-  readonly ap: <A, B>(fab: HKT<F, (a: A) => B>) => (fa: HKT<F, A>) => HKT<F, B>
+  readonly ap: <A>(fa: HKT<F, A>) => <B>(fab: HKT<F, (a: A) => B>) => HKT<F, B>
   readonly apFirst: <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>) => HKT<F, A>
   readonly apSecond: <B>(fb: HKT<F, B>) => <A>(fa: HKT<F, A>) => HKT<F, B>
 }
@@ -147,7 +147,7 @@ export interface PipeableApply<F> extends PipeableFunctor<F> {
 
 ```ts
 export interface PipeableApply1<F extends URIS> extends PipeableFunctor1<F> {
-  readonly ap: <A, B>(fab: Type<F, (a: A) => B>) => (fa: Type<F, A>) => Type<F, B>
+  readonly ap: <A>(fa: Type<F, A>) => <B>(fab: Type<F, (a: A) => B>) => Type<F, B>
   readonly apFirst: <B>(fb: Type<F, B>) => <A>(fa: Type<F, A>) => Type<F, A>
   readonly apSecond: <B>(fb: Type<F, B>) => <A>(fa: Type<F, A>) => Type<F, B>
 }
@@ -159,7 +159,7 @@ export interface PipeableApply1<F extends URIS> extends PipeableFunctor1<F> {
 
 ```ts
 export interface PipeableApply2<F extends URIS2> extends PipeableFunctor2<F> {
-  readonly ap: <L, A, B>(fab: Type2<F, L, (a: A) => B>) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly ap: <L, A>(fa: Type2<F, L, A>) => <B>(fab: Type2<F, L, (a: A) => B>) => Type2<F, L, B>
   readonly apFirst: <L, B>(fb: Type2<F, L, B>) => <A>(fa: Type2<F, L, A>) => Type2<F, L, A>
   readonly apSecond: <L, B>(fb: Type2<F, L, B>) => <A>(fa: Type2<F, L, A>) => Type2<F, L, B>
 }
@@ -171,7 +171,7 @@ export interface PipeableApply2<F extends URIS2> extends PipeableFunctor2<F> {
 
 ```ts
 export interface PipeableApply2C<F extends URIS2, L> extends PipeableFunctor2C<F, L> {
-  readonly ap: <A, B>(fab: Type2<F, L, (a: A) => B>) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly ap: <A>(fa: Type2<F, L, A>) => <B>(fab: Type2<F, L, (a: A) => B>) => Type2<F, L, B>
   readonly apFirst: <A>(fb: Type2<F, L, A>) => <B>(fb: Type2<F, L, B>) => Type2<F, L, A>
   readonly apSecond: <A>(fb: Type2<F, L, A>) => <B>(fb: Type2<F, L, B>) => Type2<F, L, B>
 }
@@ -183,7 +183,7 @@ export interface PipeableApply2C<F extends URIS2, L> extends PipeableFunctor2C<F
 
 ```ts
 export interface PipeableApply3<F extends URIS3> extends PipeableFunctor3<F> {
-  readonly ap: <U, L, A, B>(fab: Type3<F, U, L, (a: A) => B>) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+  readonly ap: <U, L, A>(fa: Type3<F, U, L, A>) => <B>(fab: Type3<F, U, L, (a: A) => B>) => Type3<F, U, L, B>
   readonly apFirst: <U, L, B>(fb: Type3<F, U, L, B>) => <A>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
   readonly apSecond: <U, L, B>(fb: Type3<F, U, L, B>) => <A>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
 }
