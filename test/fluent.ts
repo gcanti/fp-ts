@@ -293,11 +293,17 @@ describe('fluent', () => {
 
   it('compose', () => {
     const fluent1 = F.fluent(tuple)
-    assert.deepStrictEqual(fluent1([1, 'a']).compose([true, 1]).value, [true, 'a'])
+    assert.deepStrictEqual(
+      fluent1([true, 1]).compose([1, 'a']).value,
+      tuple.compose(
+        [true, 1],
+        [1, 'a']
+      )
+    )
     const fluent2 = F.fluent(reader)
     assert.deepStrictEqual(
-      fluent2((s: string) => s.length)
-        .compose(n => n > 2)
+      fluent2((n: number) => n > 2)
+        .compose((s: string) => s.length)
         .value('aaa'),
       true
     )

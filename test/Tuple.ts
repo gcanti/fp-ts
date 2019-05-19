@@ -8,18 +8,15 @@ import { right, left } from '../src/Either'
 import { option, some, none } from '../src/Option'
 
 describe('Tuple', () => {
-  // it('compose', () => {
-  //   const x = tuple(true, 2)
-  //   const y = tuple(1, 's')
-  //   const z = tuple(true, 's')
-  //   assert.deepStrictEqual(
-  //     T.tuple.compose(
-  //       y,
-  //       x
-  //     ),
-  //     z
-  //   )
-  // })
+  it('compose', () => {
+    assert.deepStrictEqual(
+      T.tuple.compose(
+        [true, 2],
+        [1, 'a']
+      ),
+      [true, 'a']
+    )
+  })
 
   it('map', () => {
     const double = (n: number): number => n * 2

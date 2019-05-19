@@ -280,7 +280,7 @@ export interface Fluent2<L, A, F extends URIS2, I> {
     f: (i: Ix, a: A) => Either<RL, RR>
   ) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
   readonly promap: <H, B>(this: { I: Profunctor2<F> }, f: (h: H) => L, g: (a: A) => B) => Fluent2<H, B, F, I>
-  readonly compose: <B>(this: { I: Semigroupoid2<F> }, that: Type2<F, A, B>) => Fluent2<L, B, F, I>
+  readonly compose: <B>(this: { I: Semigroupoid2<F> }, that: Type2<F, B, L>) => Fluent2<B, A, F, I>
 }
 ```
 
@@ -369,7 +369,7 @@ export interface Fluent3<U, L, A, F extends URIS3, I> {
     f: (i: Ix, a: A) => Either<RL, RR>
   ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
   readonly promap: <H, B>(this: { I: Profunctor3<F> }, f: (h: H) => L, g: (a: A) => B) => Fluent3<U, H, B, F, I>
-  readonly compose: <B>(this: { I: Semigroupoid3<F> }, that: Type3<F, U, A, B>) => Fluent3<U, L, B, F, I>
+  readonly compose: <B>(this: { I: Semigroupoid3<F> }, that: Type3<F, U, B, L>) => Fluent3<U, B, A, F, I>
 }
 ```
 
