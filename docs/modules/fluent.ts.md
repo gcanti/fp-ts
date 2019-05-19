@@ -32,7 +32,7 @@ export interface Fluent<A, F, I> {
   readonly concat: (this: { I: Magma<HKT<F, A>> }, that: HKT<F, A>) => HKT<F, A>
   readonly map: <B>(this: { I: Functor<F> }, f: (a: A) => B) => Fluent<F, I, B>
   readonly mapWithIndex: <Ix, B>(this: { I: FunctorWithIndex<F, Ix> }, f: (i: Ix, a: A) => B) => Fluent<F, I, B>
-  readonly ap: <B>(this: { I: Apply<F> }, fab: HKT<F, (a: A) => B>) => Fluent<F, I, B>
+  readonly ap: <A, B>(this: { I: Apply<F>; value: HKT<F, (a: A) => B> }, fa: HKT<F, A>) => Fluent<F, I, B>
   readonly apFirst: <B>(this: { I: Apply<F> }, that: HKT<F, B>) => Fluent<A, F, I>
   readonly apSecond: <B>(this: { I: Apply<F> }, that: HKT<F, B>) => Fluent<F, I, B>
   readonly chain: <B>(this: { I: Chain<F> }, f: (a: A) => HKT<F, B>) => Fluent<F, I, B>
@@ -108,7 +108,7 @@ export interface Fluent1<A, F extends URIS, I> {
   readonly concat: (this: { I: Magma<Type<F, A>> }, that: Type<F, A>) => Type<F, A>
   readonly map: <B>(this: { I: Functor1<F> }, f: (a: A) => B) => Fluent1<B, F, I>
   readonly mapWithIndex: <Ix, B>(this: { I: FunctorWithIndex1<F, Ix> }, f: (i: Ix, a: A) => B) => Fluent1<B, F, I>
-  readonly ap: <B>(this: { I: Apply1<F> }, fab: Type<F, (a: A) => B>) => Fluent1<B, F, I>
+  readonly ap: <A, B>(this: { I: Apply1<F>; value: Type<F, (a: A) => B> }, fa: Type<F, A>) => Fluent1<B, F, I>
   readonly apFirst: <B>(this: { I: Apply1<F> }, that: Type<F, B>) => Fluent1<A, F, I>
   readonly apSecond: <B>(this: { I: Apply1<F> }, that: Type<F, B>) => Fluent1<B, F, I>
   readonly chain: <B>(this: { I: Chain1<F> }, f: (a: A) => Type<F, B>) => Fluent1<B, F, I>
@@ -196,7 +196,10 @@ export interface Fluent2<L, A, F extends URIS2, I> {
     g: (a: A) => B
   ) => Fluent2<M, B, F, I>
   readonly mapLeft: <M>(this: { I: Bifunctor2<F> | Bifunctor2C<F, L> }, f: (l: L) => M) => Fluent2<M, A, F, I>
-  readonly ap: <B>(this: { I: Apply2<F> | Apply2C<F, L> }, fab: Type2<F, L, (a: A) => B>) => Fluent2<L, B, F, I>
+  readonly ap: <A, B>(
+    this: { I: Apply2<F> | Apply2C<F, L>; value: Type2<F, L, (a: A) => B> },
+    fa: Type2<F, L, A>
+  ) => Fluent2<L, B, F, I>
   readonly apFirst: <B>(this: { I: Apply2<F> | Apply2C<F, L> }, that: Type2<F, L, B>) => Fluent2<L, A, F, I>
   readonly apSecond: <B>(this: { I: Apply2<F> | Apply2C<F, L> }, that: Type2<F, L, B>) => Fluent2<L, B, F, I>
   readonly chain: <B>(this: { I: Chain2<F> | Chain2C<F, L> }, f: (a: A) => Type2<F, L, B>) => Fluent2<L, B, F, I>
@@ -302,7 +305,10 @@ export interface Fluent3<U, L, A, F extends URIS3, I> {
   readonly mapWithIndex: <Ix, B>(this: { I: FunctorWithIndex3<F, Ix> }, f: (i: Ix, a: A) => B) => Fluent3<U, L, B, F, I>
   readonly bimap: <M, B>(this: { I: Bifunctor3<F> }, f: (l: L) => M, g: (a: A) => B) => Fluent3<U, M, B, F, I>
   readonly mapLeft: <M>(this: { I: Bifunctor3<F> }, f: (l: L) => M) => Fluent3<U, M, A, F, I>
-  readonly ap: <B>(this: { I: Apply3<F> }, fab: Type3<F, U, L, (a: A) => B>) => Fluent3<U, L, B, F, I>
+  readonly ap: <A, B>(
+    this: { I: Apply3<F>; value: Type3<F, U, L, (a: A) => B> },
+    fa: Type3<F, U, L, A>
+  ) => Fluent3<U, L, B, F, I>
   readonly apFirst: <B>(this: { I: Apply3<F> }, that: Type3<F, U, L, B>) => Fluent3<U, L, A, F, I>
   readonly apSecond: <B>(this: { I: Apply3<F> }, that: Type3<F, U, L, B>) => Fluent3<U, L, B, F, I>
   readonly chain: <B>(this: { I: Chain3<F> }, f: (a: A) => Type3<F, U, L, B>) => Fluent3<U, L, B, F, I>
