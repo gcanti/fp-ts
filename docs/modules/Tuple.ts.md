@@ -12,7 +12,6 @@ Adapted from https://github.com/purescript/purescript-tuples
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Tuple (type alias)](#tuple-type-alias)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [tuple (constant)](#tuple-constant)
@@ -21,26 +20,12 @@ Adapted from https://github.com/purescript/purescript-tuples
 - [getApply (function)](#getapply-function)
 - [getChain (function)](#getchain-function)
 - [getChainRec (function)](#getchainrec-function)
-- [getEq (function)](#geteq-function)
 - [getMonad (function)](#getmonad-function)
-- [getMonoid (function)](#getmonoid-function)
-- [getOrd (function)](#getord-function)
-- [getSemigroup (function)](#getsemigroup-function)
 - [getShow (function)](#getshow-function)
 - [snd (function)](#snd-function)
 - [swap (function)](#swap-function)
 
 ---
-
-# Tuple (type alias)
-
-**Signature**
-
-```ts
-export type Tuple<L, A> = [L, A]
-```
-
-Added in v2.0.0
 
 # URI (type alias)
 
@@ -77,7 +62,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fst<L, A>(fa: Tuple<L, A>): L { ... }
+export function fst<A, S>(sa: [A, S]): A { ... }
 ```
 
 Added in v2.0.0
@@ -87,7 +72,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApplicative<L>(M: Monoid<L>): Applicative2C<URI, L> { ... }
+export function getApplicative<S>(M: Monoid<S>): Applicative2C<URI, S> { ... }
 ```
 
 Added in v2.0.0
@@ -97,7 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> { ... }
+export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> { ... }
 ```
 
 Added in v2.0.0
@@ -107,7 +92,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getChain<L>(S: Semigroup<L>): Chain2C<URI, L> { ... }
+export function getChain<S>(S: Semigroup<S>): Chain2C<URI, S> { ... }
 ```
 
 Added in v2.0.0
@@ -117,17 +102,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getChainRec<L>(M: Monoid<L>): ChainRec2C<URI, L> { ... }
-```
-
-Added in v2.0.0
-
-# getEq (function)
-
-**Signature**
-
-```ts
-export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Tuple<L, A>> { ... }
+export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> { ... }
 ```
 
 Added in v2.0.0
@@ -137,40 +112,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getMonad<L>(M: Monoid<L>): Monad2C<URI, L> { ... }
-```
-
-Added in v2.0.0
-
-# getMonoid (function)
-
-**Signature**
-
-```ts
-export function getMonoid<L, A>(ML: Monoid<L>, MA: Monoid<A>): Monoid<Tuple<L, A>> { ... }
-```
-
-Added in v2.0.0
-
-# getOrd (function)
-
-To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
-`snd`s are `compare`d.
-
-**Signature**
-
-```ts
-export function getOrd<L, A>(OL: Ord<L>, OA: Ord<A>): Ord<Tuple<L, A>> { ... }
-```
-
-Added in v2.0.0
-
-# getSemigroup (function)
-
-**Signature**
-
-```ts
-export function getSemigroup<L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Tuple<L, A>> { ... }
+export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> { ... }
 ```
 
 Added in v2.0.0
@@ -180,7 +122,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getShow<L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> { ... }
+export function getShow<A, S>(SA: Show<A>, SS: Show<S>): Show<[A, S]> { ... }
 ```
 
 Added in v2.0.0
@@ -190,7 +132,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function snd<L, A>(fa: Tuple<L, A>): A { ... }
+export function snd<A, S>(sa: [A, S]): S { ... }
 ```
 
 Added in v2.0.0
@@ -200,7 +142,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function swap<L, A>(fa: Tuple<L, A>): Tuple<A, L> { ... }
+export function swap<A, S>(sa: [A, S]): [S, A] { ... }
 ```
 
 Added in v2.0.0
