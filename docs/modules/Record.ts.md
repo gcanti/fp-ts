@@ -24,6 +24,7 @@ parent: Modules
 - [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getShow (function)](#getshow-function)
+- [hasOwnProperty (function)](#hasownproperty-function)
 - [insert (function)](#insert-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubrecord (function)](#issubrecord-function)
@@ -143,8 +144,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
-export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> { ... }
+export function filter<A, B extends A>(fa: Record<string, A>, refinement: Refinement<A, B>): Record<string, B>
+export function filter<A>(fa: Record<string, A>, predicate: Predicate<A>): Record<string, A> { ... }
 ```
 
 Added in v2.0.0
@@ -309,6 +310,16 @@ export function getShow<A>(S: Show<A>): Show<Record<string, A>> { ... }
 
 Added in v2.0.0
 
+# hasOwnProperty (function)
+
+**Signature**
+
+```ts
+export function hasOwnProperty<K extends string, A>(k: K, d: Record<K, A>): boolean { ... }
+```
+
+Added in v2.0.0
+
 # insert (function)
 
 Insert or replace a key/value pair in a map
@@ -362,7 +373,7 @@ Lookup the value for a key in a record
 **Signature**
 
 ```ts
-export function lookup<A>(key: string, fa: Record<string, A>): Option<A> { ... }
+export function lookup<A>(k: string, fa: Record<string, A>): Option<A> { ... }
 ```
 
 Added in v2.0.0

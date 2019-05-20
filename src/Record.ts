@@ -133,6 +133,15 @@ export function insert<A>(k: string, a: A, d: Record<string, A>): Record<string,
   return r
 }
 
+const _hasOwnProperty = Object.prototype.hasOwnProperty
+
+/**
+ * @since 2.0.0
+ */
+export function hasOwnProperty<K extends string, A>(k: K, d: Record<K, A>): boolean {
+  return _hasOwnProperty.call(d, k)
+}
+
 /**
  * Delete a key and value from a map
  *
@@ -143,7 +152,7 @@ export function remove<K extends string, KS extends string, A>(
   d: Record<KS, A>
 ): Record<string extends K ? string : Exclude<KS, K>, A>
 export function remove<A>(k: string, d: Record<string, A>): Record<string, A> {
-  if (!d.hasOwnProperty(k)) {
+  if (!hasOwnProperty(k, d)) {
     return d
   }
   const r = Object.assign({}, d)
@@ -173,7 +182,7 @@ export function pop<A>(k: string, d: Record<string, A>): Option<[A, Record<strin
 export function isSubrecord<A>(E: Eq<A>): (d1: Record<string, A>, d2: Record<string, A>) => boolean {
   return (d1, d2) => {
     for (let k in d1) {
-      if (!d2.hasOwnProperty(k) || !E.equals(d1[k], d2[k])) {
+      if (!hasOwnProperty(k, d2) || !E.equals(d1[k], d2[k])) {
         return false
       }
     }
@@ -212,12 +221,15 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
       if (y === empty) {
         return x
       }
-      const r: Record<string, A> = { ...x }
       const keys = Object.keys(y)
       const len = keys.length
+      if (len === 0) {
+        return x
+      }
+      const r: Record<string, A> = { ...x }
       for (let i = 0; i < len; i++) {
         const k = keys[i]
-        r[k] = x.hasOwnProperty(k) ? S.concat(x[k], y[k]) : y[k]
+        r[k] = hasOwnProperty(k, x) ? S.concat(x[k], y[k]) : y[k]
       }
       return r
     },
@@ -230,17 +242,17 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
  *
  * @since 2.0.0
  */
-export function lookup<A>(key: string, fa: Record<string, A>): Option<A> {
-  return fa.hasOwnProperty(key) ? optionSome(fa[key]) : none
+export function lookup<A>(k: string, fa: Record<string, A>): Option<A> {
+  return hasOwnProperty(k, fa) ? optionSome(fa[k]) : none
 }
 
 /**
  * @since 2.0.0
  */
-export function filter<A, B extends A>(fa: Record<string, A>, p: Refinement<A, B>): Record<string, B>
-export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A>
-export function filter<A>(fa: Record<string, A>, p: Predicate<A>): Record<string, A> {
-  return filterWithIndex(fa, (_, a) => p(a))
+export function filter<A, B extends A>(fa: Record<string, A>, refinement: Refinement<A, B>): Record<string, B>
+export function filter<A>(fa: Record<string, A>, predicate: Predicate<A>): Record<string, A>
+export function filter<A>(fa: Record<string, A>, predicate: Predicate<A>): Record<string, A> {
+  return filterWithIndex(fa, (_, a) => predicate(a))
 }
 
 /**
@@ -447,8 +459,11 @@ const partitionMap = <RL, RR, A>(
   return partitionMapWithIndex(fa, (_, a) => f(a))
 }
 
-const partition = <A>(fa: Record<string, A>, p: Predicate<A>): Separated<Record<string, A>, Record<string, A>> => {
-  return partitionWithIndex(fa, (_, a) => p(a))
+const partition = <A>(
+  fa: Record<string, A>,
+  predicate: Predicate<A>
+): Separated<Record<string, A>, Record<string, A>> => {
+  return partitionWithIndex(fa, (_, a) => predicate(a))
 }
 
 const separate = <RL, RR>(fa: Record<string, Either<RL, RR>>): Separated<Record<string, RL>, Record<string, RR>> => {
@@ -592,7 +607,7 @@ export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A)
   const r: Record<string, A> = {}
   let changed = false
   for (const key in fa) {
-    if (fa.hasOwnProperty(key)) {
+    if (hasOwnProperty(key, fa)) {
       const a = fa[key]
       if (p(key, a)) {
         r[key] = a
@@ -688,7 +703,7 @@ export function fromFoldableMap<F, B>(
   return <A>(ta: HKT<F, A>, f: (a: A) => [string, B]) => {
     return F.reduce<A, Record<string, B>>(ta, {}, (r, a) => {
       const [k, b] = f(a)
-      r[k] = r.hasOwnProperty(k) ? M.concat(r[k], b) : b
+      r[k] = hasOwnProperty(k, r) ? M.concat(r[k], b) : b
       return r
     })
   }

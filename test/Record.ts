@@ -12,14 +12,17 @@ import { showString } from '../src/Show'
 
 const p = (n: number) => n > 2
 
+const noPrototype = Object.create(null)
+
 describe('Record', () => {
   it('getMonoid', () => {
     const d1 = { k1: 1, k2: 3 }
     const d2 = { k2: 2, k3: 4 }
     const M = R.getMonoid(semigroupSum)
     assert.deepStrictEqual(M.concat(d1, d2), { k1: 1, k2: 5, k3: 4 })
-    assert.deepStrictEqual(M.concat(d1, M.empty), d1)
-    assert.deepStrictEqual(M.concat(M.empty, d2), d2)
+    assert.strictEqual(M.concat(d1, M.empty), d1)
+    assert.strictEqual(M.concat(M.empty, d2), d2)
+    assert.strictEqual(M.concat(d1, {}), d1)
   })
 
   it('map', () => {
@@ -67,11 +70,13 @@ describe('Record', () => {
     assert.strictEqual(R.getEq(eqNumber).equals({ a: 1 }, { a: 1 }), true)
     assert.strictEqual(R.getEq(eqNumber).equals({ a: 1 }, { a: 2 }), false)
     assert.strictEqual(R.getEq(eqNumber).equals({ a: 1 }, { b: 1 }), false)
+    assert.strictEqual(R.getEq(eqNumber).equals(noPrototype, { b: 1 }), false)
   })
 
   it('lookup', () => {
     assert.deepStrictEqual(R.lookup('a', { a: 1 }), some(1))
     assert.deepStrictEqual(R.lookup('b', { a: 1 }), none)
+    assert.deepStrictEqual(R.lookup('b', noPrototype), none)
   })
 
   it('fromFoldable', () => {
@@ -130,6 +135,7 @@ describe('Record', () => {
     // should return the same reference if the key is missing
     const x = { a: 1 }
     assert.strictEqual(R.remove('b', x), x)
+    assert.strictEqual(R.remove('b', noPrototype), noPrototype)
   })
 
   it('pop', () => {
@@ -162,6 +168,8 @@ describe('Record', () => {
 
     const x = Object.assign(Object.create({ c: true }), { a: 1, b: 'foo' })
     assert.deepStrictEqual(R.filter(x, isNumber), { a: 1 })
+
+    assert.strictEqual(R.filter(noPrototype, isNumber), noPrototype)
   })
 
   it('filterMap', () => {
