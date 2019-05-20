@@ -40,12 +40,54 @@ export interface NonEmptyArray<A> extends Array<A> {
 }
 
 /**
+ * Builds a `NonEmptyArray` from a provably (compile time) non empty `Array`.
+ *
+ * @since 2.0.0
+ */
+export function make<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> {
+  return as as any
+}
+
+/**
+ * Append an element to the front of an array, creating a new non empty array
+ *
+ * @example
+ * import { cons } from 'fp-ts/lib/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
+ *
+ * @since 2.0.0
+ */
+export const cons: <A>(head: A, tail: Array<A>) => NonEmptyArray<A> = A.cons
+
+/**
+ * Append an element to the end of an array, creating a new non empty array
+ *
+ * @example
+ * import { snoc } from 'fp-ts/lib/NonEmptyArray'
+ *
+ * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
+ *
+ * @since 2.0.0
+ */
+export const snoc: <A>(init: Array<A>, end: A) => NonEmptyArray<A> = A.snoc
+
+/**
+ * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
+ *
+ * @since 2.0.0
+ */
+export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
+  return as.length > 0 ? some(as as any) : none
+}
+
+/**
  * @since 2.0.0
  */
 export function getShow<A>(S: Show<A>): Show<NonEmptyArray<A>> {
   const SA = A.getShow(S)
   return {
-    show: arr => (arr.length === 1 ? `cons(${S.show(arr[0])})` : `cons(${S.show(arr[0])}, ${SA.show(arr.slice(1))})`)
+    show: arr => `make(${SA.show(arr)})`
   }
 }
 
@@ -85,24 +127,6 @@ export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
 }
 
 /**
- * Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
- *
- * @since 2.0.0
- */
-export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
-  return as.length > 0 ? some(as as any) : none
-}
-
-/**
- * Builds a `NonEmptyArray` from a provably (compile time) non empty `Array`.
- *
- * @since 2.0.0
- */
-export function fromNonEmptyArray<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> {
-  return as as any
-}
-
-/**
  * Builds a `Semigroup` instance for `NonEmptyArray`
  *
  * @since 2.0.0
@@ -115,12 +139,12 @@ export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> {
 
 /**
  * @example
- * import { fromNonEmptyArray, getEq, cons } from 'fp-ts/lib/NonEmptyArray'
+ * import { make, getEq, cons } from 'fp-ts/lib/NonEmptyArray'
  * import { eqNumber } from 'fp-ts/lib/Eq'
  *
  * const E = getEq(eqNumber)
- * assert.strictEqual(E.equals(cons(1, [2]), fromNonEmptyArray([1, 2])), true)
- * assert.strictEqual(E.equals(cons(1, [2]), fromNonEmptyArray([1, 3])), false)
+ * assert.strictEqual(E.equals(cons(1, [2]), make([1, 2])), true)
+ * assert.strictEqual(E.equals(cons(1, [2]), make([1, 3])), false)
  *
  * @since 2.0.0
  */
@@ -149,7 +173,7 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
     }
     const r: Array<NonEmptyArray<A>> = []
     let head: A = as[0]
-    let nea = fromNonEmptyArray([head])
+    let nea = make([head])
     for (let i = 1; i < len; i++) {
       const x = as[i]
       if (E.equals(x, head)) {
@@ -157,7 +181,7 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
       } else {
         r.push(nea)
         head = x
-        nea = fromNonEmptyArray([head])
+        nea = make([head])
       }
     }
     r.push(nea)
@@ -303,30 +327,6 @@ export function filterWithIndex<A>(
 const mapWithIndex = <A, B>(fa: NonEmptyArray<A>, f: (i: number, a: A) => B): NonEmptyArray<B> => {
   return fa.map((a, i) => f(i, a))
 }
-
-/**
- * Append an element to the end of an array, creating a new non empty array
- *
- * @example
- * import { snoc } from 'fp-ts/lib/NonEmptyArray'
- *
- * assert.deepStrictEqual(snoc([1, 2, 3], 4), [1, 2, 3, 4])
- *
- * @since 2.0.0
- */
-export const snoc: <A>(as: Array<A>, a: A) => NonEmptyArray<A> = A.snoc
-
-/**
- * Append an element to the front of an array, creating a new non empty array
- *
- * @example
- * import { cons } from 'fp-ts/lib/NonEmptyArray'
- *
- * assert.deepStrictEqual(cons(1, [2, 3, 4]), [1, 2, 3, 4])
- *
- * @since 2.0.0
- */
-export const cons: <A>(a: A, as: Array<A>) => NonEmptyArray<A> = A.cons
 
 /**
  * @since 2.0.0

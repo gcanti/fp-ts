@@ -14,7 +14,7 @@ import {
   findLast,
   findLastIndex,
   fromArray,
-  fromNonEmptyArray,
+  make,
   getEq,
   getSemigroup,
   getShow,
@@ -40,102 +40,99 @@ import { showString } from '../src/Show'
 
 describe.only('NonEmptyArray', () => {
   it('head', () => {
-    const x = fromNonEmptyArray([1, 2])
+    const x = make([1, 2])
     assert.deepStrictEqual(head(x), 1)
   })
 
   it('tail', () => {
-    const x = fromNonEmptyArray([1, 2])
+    const x = make([1, 2])
     assert.deepStrictEqual(tail(x), [2])
   })
 
   it('concat', () => {
-    const x = fromNonEmptyArray([1, 2])
-    const y = fromNonEmptyArray([3, 4])
+    const x = make([1, 2])
+    const y = make([3, 4])
     assert.deepStrictEqual(x.concat(y), [1, 2, 3, 4])
   })
 
   it('map', () => {
-    const x = fromNonEmptyArray([1, 2])
+    const x = make([1, 2])
     const double = (n: number) => n * 2
     assert.deepStrictEqual(nonEmptyArray.map(x, double), [2, 4])
   })
 
   it('mapWithIndex', () => {
-    const x = fromNonEmptyArray([1, 2])
+    const x = make([1, 2])
     const add = (i: number, n: number) => n + i
     assert.deepStrictEqual(nonEmptyArray.mapWithIndex(x, add), [1, 3])
   })
 
   it('of', () => {
-    assert.deepStrictEqual(nonEmptyArray.of(1), fromNonEmptyArray([1]))
+    assert.deepStrictEqual(nonEmptyArray.of(1), make([1]))
   })
 
   it('ap', () => {
-    const x = fromNonEmptyArray([1, 2])
+    const x = make([1, 2])
     const double = (n: number) => n * 2
-    assert.deepStrictEqual(nonEmptyArray.ap(fromNonEmptyArray([double, double]), x), [2, 4, 2, 4])
+    assert.deepStrictEqual(nonEmptyArray.ap(make([double, double]), x), [2, 4, 2, 4])
   })
 
   it('chain', () => {
-    const x = fromNonEmptyArray([1, 2])
-    const f = (a: number) => fromNonEmptyArray([a, 4])
+    const x = make([1, 2])
+    const f = (a: number) => make([a, 4])
     assert.deepStrictEqual(nonEmptyArray.chain(x, f), [1, 4, 2, 4])
   })
 
   it('extend', () => {
     const sum = fold(monoidSum)
-    assert.deepStrictEqual(nonEmptyArray.extend(fromNonEmptyArray([1, 2, 3, 4]), sum), fromNonEmptyArray([10, 9, 7, 4]))
+    assert.deepStrictEqual(nonEmptyArray.extend(make([1, 2, 3, 4]), sum), make([10, 9, 7, 4]))
   })
 
   it('extract', () => {
-    assert.strictEqual(nonEmptyArray.extract(fromNonEmptyArray([1, 2, 3])), 1)
+    assert.strictEqual(nonEmptyArray.extract(make([1, 2, 3])), 1)
   })
 
   it('traverse', () => {
     assert.deepStrictEqual(
-      nonEmptyArray.traverse(option)(fromNonEmptyArray([1, 2, 3]), n => (n >= 0 ? some(n) : none)),
-      some(fromNonEmptyArray([1, 2, 3]))
+      nonEmptyArray.traverse(option)(make([1, 2, 3]), n => (n >= 0 ? some(n) : none)),
+      some(make([1, 2, 3]))
     )
-    assert.deepStrictEqual(
-      nonEmptyArray.traverse(option)(fromNonEmptyArray([1, 2, 3]), n => (n >= 2 ? some(n) : none)),
-      none
-    )
+    assert.deepStrictEqual(nonEmptyArray.traverse(option)(make([1, 2, 3]), n => (n >= 2 ? some(n) : none)), none)
   })
 
   it('sequence', () => {
     const sequence = nonEmptyArray.sequence(option)
-    const x1 = fromNonEmptyArray([some(1), some(2), some(3)])
-    assert.deepStrictEqual(sequence(x1), some(fromNonEmptyArray([1, 2, 3])))
-    const x2 = fromNonEmptyArray([none, some(2), some(3)])
+    const x1 = make([some(1), some(2), some(3)])
+    assert.deepStrictEqual(sequence(x1), some(make([1, 2, 3])))
+    const x2 = make([none, some(2), some(3)])
     assert.deepStrictEqual(sequence(x2), none)
   })
 
   it('min', () => {
-    assert.deepStrictEqual(min(ordNumber)(fromNonEmptyArray([2, 1, 3])), 1)
-    assert.deepStrictEqual(min(ordNumber)(fromNonEmptyArray<number>([3])), 3)
+    assert.deepStrictEqual(min(ordNumber)(make([2, 1, 3])), 1)
+    assert.deepStrictEqual(min(ordNumber)(make([3])), 3)
   })
 
   it('max', () => {
-    assert.deepStrictEqual(max(ordNumber)(fromNonEmptyArray([1, 2, 3])), 3)
-    assert.deepStrictEqual(max(ordNumber)(fromNonEmptyArray<number>([1])), 1)
+    assert.deepStrictEqual(max(ordNumber)(make([1, 2, 3])), 3)
+    assert.deepStrictEqual(max(ordNumber)(make([1])), 1)
   })
 
   it('reduce', () => {
-    const x = fromNonEmptyArray(['a', 'b'])
+    const x = make(['a', 'b'])
     assert.strictEqual(nonEmptyArray.reduce(x, '', (b, a) => b + a), 'ab')
   })
 
   it('foldMap', () => {
     const foldMap = nonEmptyArray.foldMap(monoidString)
-    const x1 = fromNonEmptyArray(['a', 'b', 'c'])
+    const x1 = make(['a', 'b', 'c'])
     const f1 = identity
     assert.strictEqual(foldMap(x1, f1), 'abc')
   })
 
   it('reduceRight', () => {
     const reduceRight = nonEmptyArray.reduceRight
-    const x1 = fromNonEmptyArray(['a', 'b', 'c'])
+    const x1 = make(['a', 'b', 'c'])
     const init1 = ''
     const f1 = (a: string, acc: string) => acc + a
     assert.strictEqual(reduceRight(x1, init1, f1), 'cba')
@@ -143,71 +140,56 @@ describe.only('NonEmptyArray', () => {
 
   it('fromArray', () => {
     assert.deepStrictEqual(fromArray([]), none)
-    assert.deepStrictEqual(fromArray([1]), some(fromNonEmptyArray([1])))
-    assert.deepStrictEqual(fromArray([1, 2]), some(fromNonEmptyArray([1, 2])))
+    assert.deepStrictEqual(fromArray([1]), some(make([1])))
+    assert.deepStrictEqual(fromArray([1, 2]), some(make([1, 2])))
   })
 
   it('getSemigroup', () => {
     const S = getSemigroup<number>()
-    assert.deepStrictEqual(
-      S.concat(fromNonEmptyArray<number>([1]), fromNonEmptyArray<number>([2])),
-      fromNonEmptyArray([1, 2])
-    )
-    assert.deepStrictEqual(
-      S.concat(fromNonEmptyArray([1, 2]), fromNonEmptyArray([3, 4])),
-      fromNonEmptyArray([1, 2, 3, 4])
-    )
+    assert.deepStrictEqual(S.concat(make([1]), make([2])), make([1, 2]))
+    assert.deepStrictEqual(S.concat(make([1, 2]), make([3, 4])), make([1, 2, 3, 4]))
   })
 
   it('getEq', () => {
     const S = getEq(eqNumber)
-    assert.strictEqual(S.equals(fromNonEmptyArray<number>([1]), fromNonEmptyArray<number>([1])), true)
-    assert.strictEqual(S.equals(fromNonEmptyArray<number>([1]), fromNonEmptyArray([1, 2])), false)
+    assert.strictEqual(S.equals(make([1]), make([1])), true)
+    assert.strictEqual(S.equals(make([1]), make([1, 2])), false)
   })
 
   it('group', () => {
     assert.deepStrictEqual(group(ordNumber)([]), [])
 
-    assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [
-      fromNonEmptyArray([1]),
-      fromNonEmptyArray([2]),
-      fromNonEmptyArray([1, 1])
-    ])
+    assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1]), [make([1]), make([2]), make([1, 1])])
 
-    assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1, 3]), [
-      fromNonEmptyArray([1]),
-      fromNonEmptyArray([2]),
-      fromNonEmptyArray([1, 1]),
-      fromNonEmptyArray([3])
-    ])
+    assert.deepStrictEqual(group(ordNumber)([1, 2, 1, 1, 3]), [make([1]), make([2]), make([1, 1]), make([3])])
   })
 
   it('groupSort', () => {
     assert.deepStrictEqual(groupSort(ordNumber)([]), [])
-    assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [fromNonEmptyArray([1, 1, 1]), fromNonEmptyArray([2])])
+    assert.deepStrictEqual(groupSort(ordNumber)([1, 2, 1, 1]), [make([1, 1, 1]), make([2])])
   })
 
   it('last', () => {
-    assert.deepStrictEqual(last(fromNonEmptyArray([1, 2, 3])), 3)
-    assert.deepStrictEqual(last(fromNonEmptyArray([1])), 1)
+    assert.deepStrictEqual(last(make([1, 2, 3])), 3)
+    assert.deepStrictEqual(last(make([1])), 1)
   })
 
   it('sort', () => {
-    assert.deepStrictEqual(sort(ordNumber)(fromNonEmptyArray([3, 2, 1])), fromNonEmptyArray([1, 2, 3]))
+    assert.deepStrictEqual(sort(ordNumber)(make([3, 2, 1])), make([1, 2, 3]))
   })
 
   it('reverse', () => {
-    const result = reverse(fromNonEmptyArray([1, 2, 3]))
-    const expected = fromNonEmptyArray([3, 2, 1])
+    const result = reverse(make([1, 2, 3]))
+    const expected = make([3, 2, 1])
     assert.deepStrictEqual(result, expected)
   })
 
   it('groupBy', () => {
     assert.deepStrictEqual(groupBy([], _ => ''), {})
-    assert.deepStrictEqual(groupBy([1], String), { '1': fromNonEmptyArray([1]) })
+    assert.deepStrictEqual(groupBy([1], String), { '1': make([1]) })
     assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
-      '3': fromNonEmptyArray(['foo', 'bar']),
-      '6': fromNonEmptyArray(['foobar'])
+      '3': make(['foo', 'bar']),
+      '6': make(['foobar'])
     })
   })
 
@@ -216,7 +198,7 @@ describe.only('NonEmptyArray', () => {
     const a1 = make2(1)
     const a2 = make2(1)
     const a3 = make2(2)
-    const arr = fromNonEmptyArray([a1, a2, a3])
+    const arr = make([a1, a2, a3])
     assert.deepStrictEqual(option.map(findFirst(arr, ({ x }) => x === 1), x => x === a1), some(true))
     assert.deepStrictEqual(findFirst(arr, ({ x }) => x === 2), some(a3))
     assert.deepStrictEqual(findFirst(arr, ({ x }) => x === 10), none)
@@ -227,7 +209,7 @@ describe.only('NonEmptyArray', () => {
     const a1 = make2(1)
     const a2 = make2(1)
     const a3 = make2(2)
-    const arr = fromNonEmptyArray([a1, a2, a3])
+    const arr = make([a1, a2, a3])
     assert.deepStrictEqual(option.map(findLast(arr, ({ x }) => x === 1), x => x === a2), some(true))
     assert.deepStrictEqual(findLast(arr, ({ x }) => x === 2), some(a3))
     assert.deepStrictEqual(findLast(arr, ({ x }) => x === 10), none)
@@ -238,7 +220,7 @@ describe.only('NonEmptyArray', () => {
     const a1 = make2(1)
     const a2 = make2(1)
     const a3 = make2(2)
-    const arr = fromNonEmptyArray([a1, a2, a3])
+    const arr = make([a1, a2, a3])
     assert.deepStrictEqual(findIndex(arr, ({ x }) => x === 1), some(0))
     assert.deepStrictEqual(findIndex(arr, ({ x }) => x === 2), some(2))
     assert.deepStrictEqual(findIndex(arr, ({ x }) => x === 10), none)
@@ -249,7 +231,7 @@ describe.only('NonEmptyArray', () => {
     const a1 = make2(1)
     const a2 = make2(1)
     const a3 = make2(2)
-    const arr = fromNonEmptyArray([a1, a2, a3])
+    const arr = make([a1, a2, a3])
     assert.deepStrictEqual(findLastIndex(arr, ({ x }) => x === 1), some(1))
     assert.deepStrictEqual(findLastIndex(arr, ({ x }) => x === 2), some(2))
     assert.deepStrictEqual(findLastIndex(arr, ({ x }) => x === 10), none)
@@ -261,11 +243,11 @@ describe.only('NonEmptyArray', () => {
     const a2 = make2(1)
     const a3 = make2(2)
     const a4 = make2(3)
-    const arr = fromNonEmptyArray([a1, a2, a3])
-    assert.deepStrictEqual(insertAt(0, a4, arr), some(fromNonEmptyArray([a4, a1, a2, a3])))
+    const arr = make([a1, a2, a3])
+    assert.deepStrictEqual(insertAt(0, a4, arr), some(make([a4, a1, a2, a3])))
     assert.deepStrictEqual(insertAt(-1, a4, arr), none)
-    assert.deepStrictEqual(insertAt(3, a4, arr), some(fromNonEmptyArray([a1, a2, a3, a4])))
-    assert.deepStrictEqual(insertAt(1, a4, arr), some(fromNonEmptyArray([a1, a4, a2, a3])))
+    assert.deepStrictEqual(insertAt(3, a4, arr), some(make([a1, a2, a3, a4])))
+    assert.deepStrictEqual(insertAt(1, a4, arr), some(make([a1, a4, a2, a3])))
     assert.deepStrictEqual(insertAt(4, a4, arr), none)
   })
 
@@ -275,11 +257,11 @@ describe.only('NonEmptyArray', () => {
     const a2 = make2(1)
     const a3 = make2(2)
     const a4 = make2(3)
-    const arr = fromNonEmptyArray([a1, a2, a3])
-    assert.deepStrictEqual(updateAt(0, a4, arr), some(fromNonEmptyArray([a4, a2, a3])))
+    const arr = make([a1, a2, a3])
+    assert.deepStrictEqual(updateAt(0, a4, arr), some(make([a4, a2, a3])))
     assert.deepStrictEqual(updateAt(-1, a4, arr), none)
     assert.deepStrictEqual(updateAt(3, a4, arr), none)
-    assert.deepStrictEqual(updateAt(1, a4, arr), some(fromNonEmptyArray([a1, a4, a3])))
+    assert.deepStrictEqual(updateAt(1, a4, arr), some(make([a1, a4, a3])))
     // should return the same reference if nothing changed
     const r1 = updateAt(0, a1, arr)
     if (isSome(r1)) {
@@ -313,58 +295,46 @@ describe.only('NonEmptyArray', () => {
     const a1 = make2(1)
     const a2 = make2(1)
     const a3 = make2(2)
-    const arr = fromNonEmptyArray([a1, a2, a3])
-    assert.deepStrictEqual(filter(arr, ({ x }) => x !== 1), some(fromNonEmptyArray([a3])))
-    assert.deepStrictEqual(filter(arr, ({ x }) => x !== 2), some(fromNonEmptyArray([a1, a2])))
+    const arr = make([a1, a2, a3])
+    assert.deepStrictEqual(filter(arr, ({ x }) => x !== 1), some(make([a3])))
+    assert.deepStrictEqual(filter(arr, ({ x }) => x !== 2), some(make([a1, a2])))
     assert.deepStrictEqual(
       filter(arr, ({ x }) => {
         return !(x === 1 || x === 2)
       }),
       none
     )
-    assert.deepStrictEqual(filter(arr, ({ x }) => x !== 10), some(fromNonEmptyArray([a1, a2, a3])))
+    assert.deepStrictEqual(filter(arr, ({ x }) => x !== 10), some(make([a1, a2, a3])))
 
     // refinements
-    const actual1 = filter(fromNonEmptyArray([some(3), some(2), some(1)]), isSome)
-    assert.deepStrictEqual(actual1, some(fromNonEmptyArray([some(3), some(2), some(1)])))
-    const actual2 = filter(fromNonEmptyArray([some(3), none, some(1)]), isSome)
-    assert.deepStrictEqual(actual2, some(fromNonEmptyArray([some(3), some(1)])))
+    const actual1 = filter(make([some(3), some(2), some(1)]), isSome)
+    assert.deepStrictEqual(actual1, some(make([some(3), some(2), some(1)])))
+    const actual2 = filter(make([some(3), none, some(1)]), isSome)
+    assert.deepStrictEqual(actual2, some(make([some(3), some(1)])))
   })
 
   it('filterWithIndex', () => {
-    assert.deepStrictEqual(
-      filterWithIndex(fromNonEmptyArray([1, 2, 3]), i => i % 2 === 0),
-      some(fromNonEmptyArray([1, 3]))
-    )
-    assert.deepStrictEqual(filterWithIndex(fromNonEmptyArray([1, 2, 3]), (i, a) => i % 2 === 1 && a > 2), none)
+    assert.deepStrictEqual(filterWithIndex(make([1, 2, 3]), i => i % 2 === 0), some(make([1, 3])))
+    assert.deepStrictEqual(filterWithIndex(make([1, 2, 3]), (i, a) => i % 2 === 1 && a > 2), none)
   })
 
   it('reduceWithIndex', () => {
-    assert.deepStrictEqual(
-      nonEmptyArray.reduceWithIndex(fromNonEmptyArray(['a', 'b']), '', (i, b, a) => b + i + a),
-      '0a1b'
-    )
+    assert.deepStrictEqual(nonEmptyArray.reduceWithIndex(make(['a', 'b']), '', (i, b, a) => b + i + a), '0a1b')
   })
 
   it('foldMapWithIndex', () => {
-    assert.deepStrictEqual(
-      nonEmptyArray.foldMapWithIndex(monoidString)(fromNonEmptyArray(['a', 'b']), (i, a) => i + a),
-      '0a1b'
-    )
+    assert.deepStrictEqual(nonEmptyArray.foldMapWithIndex(monoidString)(make(['a', 'b']), (i, a) => i + a), '0a1b')
   })
 
   it('reduceRightWithIndex', () => {
-    assert.deepStrictEqual(
-      nonEmptyArray.reduceRightWithIndex(fromNonEmptyArray(['a', 'b']), '', (i, a, b) => b + i + a),
-      '1b0a'
-    )
+    assert.deepStrictEqual(nonEmptyArray.reduceRightWithIndex(make(['a', 'b']), '', (i, a, b) => b + i + a), '1b0a')
   })
 
   it('traverseWithIndex', () => {
-    const ta = fromNonEmptyArray(['a', 'bb'])
+    const ta = make(['a', 'bb'])
     assert.deepStrictEqual(
       nonEmptyArray.traverseWithIndex(option)(ta, (i, s) => (s.length >= 1 ? some(s + i) : none)),
-      some(fromNonEmptyArray(['a0', 'bb1']))
+      some(make(['a0', 'bb1']))
     )
     assert.deepStrictEqual(
       nonEmptyArray.traverseWithIndex(option)(ta, (i, s) => (s.length > 1 ? some(s + i) : none)),
@@ -396,7 +366,7 @@ describe.only('NonEmptyArray', () => {
 
   it('getShow', () => {
     const S = getShow(showString)
-    assert.strictEqual(S.show(cons('a', [])), `cons("a")`)
-    assert.strictEqual(S.show(cons('a', ['b', 'c'])), `cons("a", ["b", "c"])`)
+    assert.strictEqual(S.show(make(['a'])), `make(["a"])`)
+    assert.strictEqual(S.show(make(['a', 'b', 'c'])), `make(["a", "b", "c"])`)
   })
 })

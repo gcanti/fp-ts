@@ -333,9 +333,9 @@ declare const array1: Array<string>
 
 NEA.cons(1, []) // $ExpectType NonEmptyArray<1>
 
-NEA.fromNonEmptyArray([1]) // $ExpectType NonEmptyArray<number>
+NEA.make([1]) // $ExpectType NonEmptyArray<number>
 // $ExpectError
-NEA.fromNonEmptyArray([])
+NEA.make([])
 
 nea2v1.map(len) // $ExpectType NonEmptyArray<number>
 

@@ -347,13 +347,13 @@ export function lookup<A>(i: number, as: Array<A>): Option<A> {
  *
  * @since 2.0.0
  */
-export function cons<A>(a: A, as: Array<A>): NonEmptyArray<A> {
-  const len = as.length
+export function cons<A>(head: A, tail: Array<A>): NonEmptyArray<A> {
+  const len = tail.length
   const r = Array(len + 1)
   for (let i = 0; i < len; i++) {
-    r[i + 1] = as[i]
+    r[i + 1] = tail[i]
   }
-  r[0] = a
+  r[0] = head
   return r as NonEmptyArray<A>
 }
 
@@ -367,13 +367,13 @@ export function cons<A>(a: A, as: Array<A>): NonEmptyArray<A> {
  *
  * @since 2.0.0
  */
-export function snoc<A>(as: Array<A>, a: A): NonEmptyArray<A> {
-  const len = as.length
+export function snoc<A>(init: Array<A>, end: A): NonEmptyArray<A> {
+  const len = init.length
   const r = Array(len + 1)
   for (let i = 0; i < len; i++) {
-    r[i] = as[i]
+    r[i] = init[i]
   }
-  r[len] = a
+  r[len] = end
   return r as NonEmptyArray<A>
 }
 

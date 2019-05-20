@@ -5,7 +5,7 @@ import { eqNumber } from '../src/Eq'
 import * as F from '../src/fluent'
 import { IO, io } from '../src/IO'
 import * as M from '../src/Monoid'
-import { fromNonEmptyArray, nonEmptyArray } from '../src/NonEmptyArray'
+import { make, nonEmptyArray } from '../src/NonEmptyArray'
 import {
   getEq,
   getMonoid,
@@ -167,7 +167,7 @@ describe('fluent', () => {
   it('extend', () => {
     const fluent = F.fluent(nonEmptyArray)
     const sum = M.fold(M.monoidSum)
-    assert.deepStrictEqual(fluent(fromNonEmptyArray([1, 2, 3, 4])).extend(sum).value, fromNonEmptyArray([10, 9, 7, 4]))
+    assert.deepStrictEqual(fluent(make([1, 2, 3, 4])).extend(sum).value, make([10, 9, 7, 4]))
   })
 
   it('duplicate', () => {

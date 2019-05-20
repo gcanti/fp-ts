@@ -238,7 +238,7 @@ Attaches an element to the front of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export function cons<A>(a: A, as: Array<A>): NonEmptyArray<A> { ... }
+export function cons<A>(head: A, tail: Array<A>): NonEmptyArray<A> { ... }
 ```
 
 **Example**
@@ -1051,7 +1051,7 @@ Append an element to the end of an array, creating a new non empty array
 **Signature**
 
 ```ts
-export function snoc<A>(as: Array<A>, a: A): NonEmptyArray<A> { ... }
+export function snoc<A>(init: Array<A>, end: A): NonEmptyArray<A> { ... }
 ```
 
 **Example**
