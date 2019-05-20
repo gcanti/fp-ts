@@ -12,6 +12,12 @@ import { fromEquals, Setoid } from './Setoid'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Show, showString } from './Show'
 
+const _hasOwnProperty = Object.prototype.hasOwnProperty
+
+function hasOwnProperty<K extends string, A>(k: K, d: Record<K, A>): boolean {
+  return _hasOwnProperty.call(d, k)
+}
+
 /**
  * @since 1.17.0
  */
@@ -118,7 +124,7 @@ export function remove<KS extends string, K extends string, A>(
 ): Record<string extends K ? string : Exclude<KS, K>, A>
 export function remove<A>(k: string, d: Record<string, A>): Record<string, A>
 export function remove<A>(k: string, d: Record<string, A>): Record<string, A> {
-  if (!d.hasOwnProperty(k)) {
+  if (!hasOwnProperty(k, d)) {
     return d
   }
   const r = Object.assign({}, d)
@@ -143,7 +149,7 @@ export const pop = <A>(k: string, d: Record<string, A>): Option<[A, Record<strin
  */
 export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => {
   for (let k in d1) {
-    if (!d2.hasOwnProperty(k) || !S.equals(d1[k], d2[k])) {
+    if (!hasOwnProperty(k, d2) || !S.equals(d1[k], d2[k])) {
       return false
     }
   }
@@ -193,7 +199,7 @@ export function getMonoid<A>(S: Semigroup<A>): Monoid<Record<string, A>> {
  * @since 1.10.0
  */
 export const lookup = <A>(key: string, fa: Record<string, A>): Option<A> => {
-  return fa.hasOwnProperty(key) ? optionSome(fa[key]) : none
+  return hasOwnProperty(key, fa) ? optionSome(fa[key]) : none
 }
 
 /**
@@ -645,7 +651,7 @@ export function filterWithKey<A>(fa: Record<string, A>, p: (key: string, a: A) =
   const r: Record<string, A> = {}
   let changed = false
   for (const key in fa) {
-    if (fa.hasOwnProperty(key)) {
+    if (hasOwnProperty(key, fa)) {
       const a = fa[key]
       if (p(key, a)) {
         r[key] = a
@@ -682,7 +688,7 @@ export function fromFoldable<F>(
 ): <A>(ta: HKT<F, [string, A]>, onConflict: (existing: A, a: A) => A) => Record<string, A> {
   return <A>(ta: HKT<F, [string, A]>, f: (existing: A, a: A) => A) => {
     return F.reduce<[string, A], Record<string, A>>(ta, {}, (b, [k, a]) => {
-      b[k] = b.hasOwnProperty(k) ? f(b[k], a) : a
+      b[k] = hasOwnProperty(k, b) ? f(b[k], a) : a
       return b
     })
   }
@@ -750,7 +756,7 @@ export function fromFoldableMap<F, B>(
   return <A>(ta: HKT<F, A>, f: (a: A) => [string, B]) => {
     return F.reduce<A, Record<string, B>>(ta, {}, (r, a) => {
       const [k, b] = f(a)
-      r[k] = r.hasOwnProperty(k) ? M.concat(r[k], b) : b
+      r[k] = hasOwnProperty(k, r) ? M.concat(r[k], b) : b
       return r
     })
   }
