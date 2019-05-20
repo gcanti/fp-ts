@@ -56,13 +56,12 @@ const gameLoop = (name: string): Task<void> =>
     const game = task.chain(putStrLn(`Dear ${name}, please guess a number from 1 to 5`), () =>
       task.chain(getStrLn, guess =>
         fold(
-          parse(guess),
           () => parseFailureMessage,
           x =>
             x === secret
               ? putStrLn(`You guessed right, ${name}!`)
               : putStrLn(`You guessed wrong, ${name}! The number was: ${secret}`)
-        )
+        )(parse(guess))
       )
     )
     const doContinue = task.chain(game, () => checkContinue(name))

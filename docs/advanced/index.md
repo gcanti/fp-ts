@@ -17,5 +17,4 @@ In the meantime, check out the [learning resources](../introduction/learning-res
   - [Part I](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-I.ts)
   - [Part II](https://github.com/gcanti/fp-ts/blob/master/tutorials/fp-ts-to-the-max-II.ts)
 - [Free monad and `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/Free.ts)
-- [MTL-style in `fp-ts` (code)](https://github.com/gcanti/fp-ts/blob/master/tutorials/mtl.ts)
 - [Type safe finite state machines with `IxIO` (code)](https://github.com/gcanti/fp-ts/blob/master/examples/ixIO.ts)
