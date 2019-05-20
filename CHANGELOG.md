@@ -14,6 +14,13 @@
 **Note**: Gaps between patch versions are faulty/broken releases. **Note**: A feature tagged as Experimental is in a
 high state of flux, you're at risk of it changing without notice.
 
+# 1.18.2
+
+- **Polish**
+  - fix `NonEmptyArray` definition (@gcanti)
+- **Deprecation**
+  - deprecate `NonEmptyArray.make` in favour of `cons` (@gcanti)
+
 # 1.18.1
 
 - **Bug Fix**

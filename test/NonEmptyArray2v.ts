@@ -42,6 +42,7 @@ import { showString } from '../src/Show'
 
 describe.only('NonEmptyArray2v', () => {
   it('make', () => {
+    // tslint:disable-next-line: deprecation
     assert.deepStrictEqual(make(1, [2]), fromNonEmptyArray([1, 2]))
   })
 
@@ -304,12 +305,12 @@ describe.only('NonEmptyArray2v', () => {
 
   it('modifyAt', () => {
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(modifyAt(make<number>(1, []), 1, double), none)
-    assert.deepStrictEqual(modifyAt(make<number>(1, [2]), 1, double), some(make(1, [4])))
+    assert.deepStrictEqual(modifyAt(cons(1, []), 1, double), none)
+    assert.deepStrictEqual(modifyAt(cons(1, [2]), 1, double), some(cons(1, [4])))
   })
 
   it('copy', () => {
-    const nea1 = make<number>(1, [])
+    const nea1 = cons(1, [])
     const nea2 = copy(nea1)
     assert.deepStrictEqual(nea2, nea1)
     assert.strictEqual(nea2 === nea1, false)
@@ -403,7 +404,7 @@ describe.only('NonEmptyArray2v', () => {
 
   it('getShow', () => {
     const S = getShow(showString)
-    assert.strictEqual(S.show(make<string>('a', [])), `make("a", [])`)
-    assert.strictEqual(S.show(make<string>('a', ['b', 'c'])), `make("a", ["b", "c"])`)
+    assert.strictEqual(S.show(cons('a', [])), `make("a", [])`)
+    assert.strictEqual(S.show(cons('a', ['b', 'c'])), `make("a", ["b", "c"])`)
   })
 })
