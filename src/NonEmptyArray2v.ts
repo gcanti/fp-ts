@@ -31,8 +31,8 @@ export type URI = typeof URI
  */
 export interface NonEmptyArray<A> extends Array<A> {
   0: A
-  map: <B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B) => NonEmptyArray<B>
-  concat: (as: Array<A>) => NonEmptyArray<A>
+  map<B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B): NonEmptyArray<B>
+  concat(as: Array<A>): NonEmptyArray<A>
 }
 
 /**
@@ -46,10 +46,13 @@ export const getShow = <A>(S: Show<A>): Show<NonEmptyArray<A>> => {
 }
 
 /**
+ * Use `cons` instead
+ *
  * @since 1.15.0
+ * @deprecated
  */
 export function make<A>(head: A, tail: Array<A>): NonEmptyArray<A> {
-  return [head, ...tail] as any
+  return A.cons(head, tail)
 }
 
 /**
@@ -207,7 +210,7 @@ export const groupBy = <A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
     if (r.hasOwnProperty(k)) {
       r[k].push(a)
     } else {
-      r[k] = make(a, [])
+      r[k] = cons(a, [])
     }
   }
   return r

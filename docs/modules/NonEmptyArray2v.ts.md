@@ -37,7 +37,7 @@ Data structure which represents non-empty arrays
 - [head (function)](#head-function)
 - [insertAt (function)](#insertat-function)
 - [last (function)](#last-function)
-- [make (function)](#make-function)
+- [~~make~~ (function)](#make-function)
 - [max (function)](#max-function)
 - [min (function)](#min-function)
 - [modifyAt (function)](#modifyat-function)
@@ -54,8 +54,8 @@ Data structure which represents non-empty arrays
 ```ts
 export interface NonEmptyArray<A> extends Array<A> {
   0: A
-  map: <B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B) => NonEmptyArray<B>
-  concat: (as: Array<A>) => NonEmptyArray<A>
+  map<B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B): NonEmptyArray<B>
+  concat(as: Array<A>): NonEmptyArray<A>
 }
 ```
 
@@ -380,7 +380,9 @@ export function last<A>(nea: NonEmptyArray<A>): A { ... }
 
 Added in v1.15.0
 
-# make (function)
+# ~~make~~ (function)
+
+Use `cons` instead
 
 **Signature**
 
