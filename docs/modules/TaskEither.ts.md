@@ -221,12 +221,12 @@ Added in v2.0.0
 
 ```ts
 export function filterOrElse<E, A, B extends A>(
-  predicate: Refinement<A, B>,
-  zero: (a: A) => E
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => E
 ): (ma: TaskEither<E, A>) => TaskEither<E, B>
 export function filterOrElse<E, A>(
   predicate: Predicate<A>,
-  zero: (a: A) => E
+  onFalse: (a: A) => E
 ): (ma: TaskEither<E, A>) => TaskEither<E, A> { ... }
 ```
 

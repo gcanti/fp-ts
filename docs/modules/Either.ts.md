@@ -165,9 +165,9 @@ Added in v2.0.0
 ```ts
 export function filterOrElse<E, A, B extends A>(
   refinement: Refinement<A, B>,
-  zero: (a: A) => E
+  onFalse: (a: A) => E
 ): (ma: Either<E, A>) => Either<E, B>
-export function filterOrElse<E, A>(predicate: Predicate<A>, zero: (a: A) => E): (ma: Either<E, A>) => Either<E, A> { ... }
+export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A> { ... }
 ```
 
 Added in v2.0.0
