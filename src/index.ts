@@ -58,8 +58,6 @@ import * as filterable from './Filterable'
 export { filterable }
 import * as filterableWithIndex from './FilterableWithIndex'
 export { filterableWithIndex }
-import * as fluent from './fluent'
-export { fluent }
 import * as foldable from './Foldable'
 export { foldable }
 import * as foldableWithIndex from './FoldableWithIndex'
