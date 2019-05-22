@@ -111,4 +111,12 @@ describe('Task', () => {
       assert.strictEqual(x, 1)
     })
   })
+
+  describe('MonadTask', () => {
+    it('fromTask', async () => {
+      const io = () => 1
+      const t = T.task.fromIO(io)
+      assert.strictEqual(T.task.fromTask(t), t)
+    })
+  })
 })

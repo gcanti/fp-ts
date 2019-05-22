@@ -2,7 +2,6 @@
  * @file `Task<A>` represents an asynchronous computation that yields a value of type `A` and **never fails**.
  * If you want to represent an asynchronous computation that may fail, please see `TaskEither`.
  */
-import { identity } from './function'
 import { IO } from './IO'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
@@ -103,6 +102,8 @@ export function delay<A>(millis: number, ma: Task<A>): Task<A> {
 export function fromIO<A>(ma: IO<A>): Task<A> {
   return () => Promise.resolve(ma())
 }
+
+const identity = <A>(a: A): A => a
 
 /**
  * @since 2.0.0
