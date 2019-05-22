@@ -32,11 +32,11 @@ import { Applicative, Applicative2C } from './Applicative'
 import { Bifunctor2, Bifunctor2C } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Compactable2C, Separated } from './Compactable'
-import { Eq, fromEquals } from './Eq'
+import { Eq } from './Eq'
 import { Extend2, Extend2C } from './Extend'
 import { Filterable2C } from './Filterable'
 import { Foldable2, Foldable2C } from './Foldable'
-import { Lazy, phantom, Predicate, Refinement } from './function'
+import { Lazy, Predicate, Refinement } from './function'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
 import { Monoid } from './Monoid'
@@ -192,9 +192,10 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> {
  * @since 2.0.0
  */
 export function getEq<E, A>(EL: Eq<E>, EA: Eq<A>): Eq<Either<E, A>> {
-  return fromEquals((x, y) =>
-    isLeft(x) ? isLeft(y) && EL.equals(x.left, y.left) : isRight(y) && EA.equals(x.right, y.right)
-  )
+  return {
+    equals: (x, y) =>
+      x === y || (isLeft(x) ? isLeft(y) && EL.equals(x.left, y.left) : isRight(y) && EA.equals(x.right, y.right))
+  }
 }
 
 /**
@@ -401,6 +402,8 @@ const chainRec = <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>): Either<E
 }
 
 const of = right
+
+const phantom: any = undefined
 
 /**
  * Builds `Compactable` instance for `Either` given a `Monoid` for the left side
