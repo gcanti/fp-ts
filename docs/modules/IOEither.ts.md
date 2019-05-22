@@ -42,7 +42,7 @@ error of type `E`. If you want to represent a synchronous computation that never
 **Signature**
 
 ```ts
-export interface IOEither<E, A> extends IO<E.Either<E, A>> {}
+export interface IOEither<E, A> extends IO<Either<E, A>> {}
 ```
 
 Added in v2.0.0
@@ -79,7 +79,7 @@ returns.
 export const bracket: <E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
+  release: (a: A, e: Either<E, B>) => IOEither<E, void>
 ) => IOEither<E, B> = ...
 ```
 
@@ -100,7 +100,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = ...
+export const fromEither: <E, A>(ma: Either<E, A>) => IOEither<E, A> = ...
 ```
 
 Added in v2.0.0

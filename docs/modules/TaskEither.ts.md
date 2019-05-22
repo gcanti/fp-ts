@@ -47,7 +47,7 @@ error of type `E`. If you want to represent an asynchronous computation that nev
 **Signature**
 
 ```ts
-export interface TaskEither<E, A> extends Task<E.Either<E, A>> {}
+export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 ```
 
 Added in v2.0.0
@@ -84,7 +84,7 @@ returns.
 export const bracket: <E, A, B>(
   acquire: TaskEither<E, A>,
   use: (a: A) => TaskEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => TaskEither<E, void>
+  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
 ) => TaskEither<E, B> = ...
 ```
 
@@ -108,7 +108,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> = ...
+export const fromEither: <E, A>(ma: Either<E, A>) => TaskEither<E, A> = ...
 ```
 
 Added in v2.0.0

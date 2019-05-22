@@ -1,6 +1,5 @@
 import * as RTE from './ReaderTaskEither'
 import { getStateM } from './StateT'
-import ReaderTaskEither = RTE.ReaderTaskEither
 import { Monad4 } from './Monad'
 import { Either } from './Either'
 import { State } from './State'
@@ -10,6 +9,8 @@ import { Reader } from './Reader'
 import { IOEither } from './IOEither'
 import { Option } from './Option'
 import { IO } from './IO'
+
+import ReaderTaskEither = RTE.ReaderTaskEither
 
 const T = getStateM(RTE.readerTaskEither)
 

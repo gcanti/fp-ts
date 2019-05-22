@@ -17,6 +17,8 @@ import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
 import { Option } from './Option'
 import { IO } from './IO'
 
+import Either = E.Either
+
 const T = getEitherM(task)
 
 declare module './HKT' {
@@ -38,7 +40,7 @@ export type URI = typeof URI
 /**
  * @since 2.0.0
  */
-export interface TaskEither<E, A> extends Task<E.Either<E, A>> {}
+export interface TaskEither<E, A> extends Task<Either<E, A>> {}
 
 /**
  * @since 2.0.0
@@ -77,7 +79,7 @@ export const leftTask: <E>(me: Task<E>) => TaskEither<E, never> = T.leftM
 /**
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A> = task.of
+export const fromEither: <E, A>(ma: Either<E, A>) => TaskEither<E, A> = task.of
 
 /**
  * @since 2.0.0
@@ -186,7 +188,7 @@ export function tryCatch<E, A>(f: Lazy<Promise<A>>, onRejected: (reason: unknown
 export const bracket: <E, A, B>(
   acquire: TaskEither<E, A>,
   use: (a: A) => TaskEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => TaskEither<E, void>
+  release: (a: A, e: Either<E, B>) => TaskEither<E, void>
 ) => TaskEither<E, B> = T.bracket
 
 /**

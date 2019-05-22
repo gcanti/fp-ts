@@ -14,6 +14,8 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 
+import Either = E.Either
+
 const T = getEitherM(io)
 
 declare module './HKT' {
@@ -35,7 +37,7 @@ export type URI = typeof URI
 /**
  * @since 2.0.0
  */
-export interface IOEither<E, A> extends IO<E.Either<E, A>> {}
+export interface IOEither<E, A> extends IO<Either<E, A>> {}
 
 /**
  * @since 2.0.0
@@ -60,7 +62,7 @@ export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = T.leftM
 /**
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A> = io.of
+export const fromEither: <E, A>(ma: Either<E, A>) => IOEither<E, A> = io.of
 
 /**
  * @since 2.0.0
@@ -164,7 +166,7 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOE
 export const bracket: <E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: E.Either<E, B>) => IOEither<E, void>
+  release: (a: A, e: Either<E, B>) => IOEither<E, void>
 ) => IOEither<E, B> = T.bracket
 
 /**
