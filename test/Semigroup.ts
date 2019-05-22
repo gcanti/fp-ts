@@ -12,7 +12,8 @@ import {
   semigroupProduct,
   semigroupString,
   semigroupSum,
-  semigroupVoid
+  semigroupVoid,
+  getDualSemigroup
 } from '../src/Semigroup'
 
 describe('Semigroup', () => {
@@ -64,5 +65,10 @@ describe('Semigroup', () => {
 
   it('semigroupVoid', () => {
     assert.deepStrictEqual(semigroupVoid.concat(undefined, undefined), undefined)
+  })
+
+  it('getDualSemigroup', () => {
+    const S = getDualSemigroup(semigroupString)
+    assert.deepStrictEqual(S.concat('a', 'b'), 'ba')
   })
 })

@@ -84,15 +84,15 @@ import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
-import { Eq, fromEquals } from './Eq'
+import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable1 } from './Foldable'
-import { identity, Lazy, not, Predicate, Refinement } from './function'
+import { Lazy, Predicate, Refinement } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { getDualMonoid, Monoid } from './Monoid'
-import { fromCompare, Ord } from './Ord'
+import { Monoid } from './Monoid'
+import { Ord } from './Ord'
 import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
@@ -343,7 +343,9 @@ export function getShow<A>(S: Show<A>): Show<Option<A>> {
  * @since 2.0.0
  */
 export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
-  return fromEquals((x, y) => (isNone(x) ? isNone(y) : isNone(y) ? false : E.equals(x.value, y.value)))
+  return {
+    equals: (x, y) => x === y || (isNone(x) ? isNone(y) : isNone(y) ? false : E.equals(x.value, y.value))
+  }
 }
 /**
  * The `Ord` instance allows `Option` values to be compared with
@@ -367,7 +369,10 @@ export function getEq<A>(E: Eq<A>): Eq<Option<A>> {
  * @since 2.0.0
  */
 export function getOrd<A>(O: Ord<A>): Ord<Option<A>> {
-  return fromCompare((x, y) => (isSome(x) ? (isSome(y) ? O.compare(x.value, y.value) : 1) : -1))
+  return {
+    equals: getEq(O).equals,
+    compare: (x, y) => (x === y ? 0 : isSome(x) ? (isSome(y) ? O.compare(x.value, y.value) : 1) : -1)
+  }
 }
 
 /**
@@ -458,7 +463,10 @@ export function getFirstMonoid<A = never>(): Monoid<Option<A>> {
  * @since 2.0.0
  */
 export function getLastMonoid<A = never>(): Monoid<Option<A>> {
-  return getDualMonoid(getFirstMonoid())
+  return {
+    concat: (x, y) => (isNone(y) ? x : y),
+    empty: none
+  }
 }
 
 /**
@@ -497,7 +505,7 @@ const filter = <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> => {
 
 const partition = <A>(fa: Option<A>, predicate: Predicate<A>): Separated<Option<A>, Option<A>> => {
   return {
-    left: filter(fa, not(predicate)),
+    left: filter(fa, a => !predicate(a)),
     right: filter(fa, predicate)
   }
 }
@@ -550,6 +558,8 @@ const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
 }
 
 const zero = () => none
+
+const identity = <A>(a: A): A => a
 
 /**
  * @since 2.0.0

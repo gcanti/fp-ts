@@ -11,7 +11,8 @@ import {
   monoidAll,
   monoidAny,
   monoidString,
-  monoidSum
+  monoidSum,
+  getDualMonoid
 } from '../src/Monoid'
 
 describe('Monoid', () => {
@@ -62,5 +63,12 @@ describe('Monoid', () => {
     assert.deepStrictEqual(fold(M)([]), -Infinity)
     assert.deepStrictEqual(fold(M)([1]), 1)
     assert.deepStrictEqual(fold(M)([1, -1]), 1)
+  })
+
+  it('getDualMonoid', () => {
+    const M = getDualMonoid(monoidString)
+    assert.deepStrictEqual(M.concat('a', 'b'), 'ba')
+    assert.deepStrictEqual(M.concat('a', M.empty), 'a')
+    assert.deepStrictEqual(M.concat(M.empty, 'a'), 'a')
   })
 })
