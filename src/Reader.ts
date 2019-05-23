@@ -70,7 +70,7 @@ export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> {
  */
 export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
   return {
-    ...getSemigroup(M),
+    concat: getSemigroup<R, A>(M).concat,
     empty: () => M.empty
   }
 }
