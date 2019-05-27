@@ -58,7 +58,7 @@ In your code you will make heavy use of data types to model your domain. Data ty
 * [Map](./Map.ts.html)
 * [MonadIO](./MonadIO.ts.html)
 * [MonadTask](./MonadTask.ts.html)
-* [NonEmptyArray](./NonEmptyArray.ts.html)
+* [NonEmptyArray](./NonEmptyArray2v.ts.html)
 * [Option](./Option.ts.html)
 * [OptionT](./OptionT.ts.html)
 * [Pair](./Pair.ts.html)
