@@ -16,23 +16,23 @@ error of type `E`. If you want to represent a synchronous computation that never
 - [IOEither (interface)](#ioeither-interface)
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
-- [bracket (constant)](#bracket-constant)
-- [fold (constant)](#fold-constant)
 - [fromEither (constant)](#fromeither-constant)
-- [getOrElse (constant)](#getorelse-constant)
 - [ioEither (constant)](#ioeither-constant)
 - [left (constant)](#left-constant)
 - [leftIO (constant)](#leftio-constant)
-- [orElse (constant)](#orelse-constant)
 - [right (constant)](#right-constant)
 - [rightIO (constant)](#rightio-constant)
 - [swap (constant)](#swap-constant)
+- [bracket (function)](#bracket-function)
 - [filterOrElse (function)](#filterorelse-function)
+- [fold (function)](#fold-function)
 - [fromOption (function)](#fromoption-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
+- [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [orElse (function)](#orelse-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
@@ -67,50 +67,12 @@ export const URI = ...
 
 Added in v2.0.0
 
-# bracket (constant)
-
-Make sure that a resource is cleaned up in the event of an exception. The
-release action is called regardless of whether the body action throws or
-returns.
-
-**Signature**
-
-```ts
-export const bracket: <E, A, B>(
-  acquire: IOEither<E, A>,
-  use: (a: A) => IOEither<E, B>,
-  release: (a: A, e: Either<E, B>) => IOEither<E, void>
-) => IOEither<E, B> = ...
-```
-
-Added in v2.0.0
-
-# fold (constant)
-
-**Signature**
-
-```ts
-export const  = ...
-```
-
-Added in v2.0.0
-
 # fromEither (constant)
 
 **Signature**
 
 ```ts
 export const fromEither: <E, A>(ma: Either<E, A>) => IOEither<E, A> = ...
-```
-
-Added in v2.0.0
-
-# getOrElse (constant)
-
-**Signature**
-
-```ts
-export const getOrElse: <E, A>(f: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> = ...
 ```
 
 Added in v2.0.0
@@ -145,16 +107,6 @@ export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = ...
 
 Added in v2.0.0
 
-# orElse (constant)
-
-**Signature**
-
-```ts
-export const orElse: <E, A, M>(f: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A> = ...
-```
-
-Added in v2.0.0
-
 # right (constant)
 
 **Signature**
@@ -185,6 +137,24 @@ export const swap: <E, A>(ma: IOEither<E, A>) => IOEither<A, E> = ...
 
 Added in v2.0.0
 
+# bracket (function)
+
+Make sure that a resource is cleaned up in the event of an exception. The
+release action is called regardless of whether the body action throws or
+returns.
+
+**Signature**
+
+```ts
+export function bracket<E, A, B>(
+  acquire: IOEither<E, A>,
+  use: (a: A) => IOEither<E, B>,
+  release: (a: A, e: Either<E, B>) => IOEither<E, void>
+): IOEither<E, B> { ... }
+```
+
+Added in v2.0.0
+
 # filterOrElse (function)
 
 **Signature**
@@ -198,6 +168,16 @@ export function filterOrElse<E, A>(
   predicate: Predicate<A>,
   zeonFalsero: (a: A) => E
 ): (ma: IOEither<E, A>) => IOEither<E, A> { ... }
+```
+
+Added in v2.0.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>): (ma: IOEither<E, A>) => IO<R> { ... }
 ```
 
 Added in v2.0.0
@@ -246,12 +226,32 @@ export function getApplySemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, 
 
 Added in v2.0.0
 
+# getOrElse (function)
+
+**Signature**
+
+```ts
+export function getOrElse<E, A>(f: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> { ... }
+```
+
+Added in v2.0.0
+
 # getSemigroup (function)
 
 **Signature**
 
 ```ts
 export function getSemigroup<E, A>(S: Semigroup<A>): Semigroup<IOEither<E, A>> { ... }
+```
+
+Added in v2.0.0
+
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<E, A, M>(f: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> { ... }
 ```
 
 Added in v2.0.0

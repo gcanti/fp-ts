@@ -8,6 +8,20 @@ import { none, some } from '../src/Option'
 import { pipeOp as pipe } from '../src/function'
 
 describe('IOEither', () => {
+  it('fold', () => {
+    assert.deepStrictEqual(_.fold(() => io.of('left'), () => io.of('right'))(_.ioEither.of(1))(), 'right')
+    assert.deepStrictEqual(_.fold(() => io.of('left'), () => io.of('right'))(_.left(1))(), 'left')
+  })
+
+  it('getOrElse', () => {
+    assert.deepStrictEqual(_.getOrElse(() => io.of(2))(_.ioEither.of(1))(), 1)
+    assert.deepStrictEqual(_.getOrElse(() => io.of(2))(_.left(1))(), 2)
+  })
+
+  it('orElse', () => {
+    assert.deepStrictEqual(_.orElse(() => _.ioEither.of(2))(_.ioEither.of(1))(), E.right(1))
+  })
+
   it('tryCatch', () => {
     assert.deepStrictEqual(_.tryCatch(() => 1, E.toError)(), E.right(1))
     assert.deepStrictEqual(
@@ -144,6 +158,59 @@ describe('IOEither', () => {
       assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), _.leftIO(io.of('b')))(), E.left('b'))
       assert.deepStrictEqual(M.concat(_.rightIO(io.of('a')), M.empty)(), E.right('a'))
       assert.deepStrictEqual(M.concat(M.empty, _.rightIO(io.of('a')))(), E.right('a'))
+    })
+  })
+
+  describe('bracket', () => {
+    let log: Array<string> = []
+
+    const acquireFailure = _.left('acquire failure')
+    const acquireSuccess = _.right({ res: 'acquire success' })
+    const useSuccess = () => _.right('use success')
+    const useFailure = () => _.left('use failure')
+    const releaseSuccess = () =>
+      _.rightIO(() => {
+        log.push('release success')
+      })
+    const releaseFailure = () => _.left('release failure')
+
+    beforeEach(() => {
+      log = []
+    })
+
+    it('should return the acquire error if acquire fails', () => {
+      const e = _.bracket(acquireFailure, useSuccess, releaseSuccess)()
+      assert.deepStrictEqual(e, E.left('acquire failure'))
+    })
+
+    it('body and release must not be called if acquire fails', () => {
+      _.bracket(acquireFailure, useSuccess, releaseSuccess)()
+      assert.deepStrictEqual(log, [])
+    })
+
+    it('should return the use error if use fails and release does not', () => {
+      const e = _.bracket(acquireSuccess, useFailure, releaseSuccess)()
+      assert.deepStrictEqual(e, E.left('use failure'))
+    })
+
+    it('should return the release error if both use and release fail', () => {
+      const e = _.bracket(acquireSuccess, useFailure, releaseFailure)()
+      assert.deepStrictEqual(e, E.left('release failure'))
+    })
+
+    it('release must be called if the body returns', () => {
+      _.bracket(acquireSuccess, useSuccess, releaseSuccess)()
+      assert.deepStrictEqual(log, ['release success'])
+    })
+
+    it('release must be called if the body throws', () => {
+      _.bracket(acquireSuccess, useFailure, releaseSuccess)()
+      assert.deepStrictEqual(log, ['release success'])
+    })
+
+    it('should return the release error if release fails', () => {
+      const e = _.bracket(acquireSuccess, useSuccess, releaseFailure)()
+      assert.deepStrictEqual(e, E.left('release failure'))
     })
   })
 })

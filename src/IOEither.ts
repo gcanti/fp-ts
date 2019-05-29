@@ -87,13 +87,16 @@ export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => 
 /**
  * @since 2.0.0
  */
-export const fold: <E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>) => (ma: IOEither<E, A>) => IO<R> =
-  T.fold
+export function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>): (ma: IOEither<E, A>) => IO<R> {
+  return ma => T.fold(ma, onLeft, onRight)
+}
 
 /**
  * @since 2.0.0
  */
-export const getOrElse: <E, A>(f: (e: E) => IO<A>) => (ma: IOEither<E, A>) => IO<A> = T.getOrElse
+export function getOrElse<E, A>(f: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A> {
+  return ma => T.getOrElse(ma, f)
+}
 
 /**
  * @since 2.0.0
@@ -116,7 +119,9 @@ export function filterOrElse<E, A>(
 /**
  * @since 2.0.0
  */
-export const orElse: <E, A, M>(f: (e: E) => IOEither<M, A>) => (ma: IOEither<E, A>) => IOEither<M, A> = T.orElse
+export function orElse<E, A, M>(f: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> {
+  return ma => T.orElse(ma, f)
+}
 
 /**
  * @since 2.0.0
@@ -163,11 +168,15 @@ export function tryCatch<E, A>(f: Lazy<A>, onError: (reason: unknown) => E): IOE
  *
  * @since 2.0.0
  */
-export const bracket: <E, A, B>(
+export function bracket<E, A, B>(
   acquire: IOEither<E, A>,
   use: (a: A) => IOEither<E, B>,
   release: (a: A, e: Either<E, B>) => IOEither<E, void>
-) => IOEither<E, B> = T.bracket
+): IOEither<E, B> {
+  return T.chain(acquire, a =>
+    T.chain(io.map(use(a), E.right), e => T.chain(release(a, e), () => (E.isLeft(e) ? T.left(e.left) : T.of(e.right))))
+  )
+}
 
 /**
  * @since 2.0.0

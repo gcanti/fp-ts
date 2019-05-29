@@ -2,7 +2,6 @@ import * as assert from 'assert'
 import * as O from '../src/Option'
 import { getOptionM } from '../src/OptionT'
 import { task } from '../src/Task'
-import { pipeOp as pipe } from '../src/function'
 
 const T = getOptionM(task)
 
@@ -27,10 +26,9 @@ describe('OptionT', () => {
   it('fold', async () => {
     const f = () => task.of('none')
     const g = (s: string) => task.of(`some${s.length}`)
-    const fold = T.fold(f, g)
-    const s1 = await fold(task.of(O.none))()
+    const s1 = await T.fold(task.of(O.none), f, g)()
     assert.strictEqual(s1, 'none')
-    const s2 = await fold(T.of('s'))()
+    const s2 = await T.fold(T.of('s'), f, g)()
     assert.strictEqual(s2, 'some1')
   })
 
@@ -42,15 +40,9 @@ describe('OptionT', () => {
   })
 
   it('getOrElse', async () => {
-    const n1 = await pipe(
-      task.of(O.some(1)),
-      T.getOrElse(() => task.of(2))
-    )()
+    const n1 = await T.getOrElse(task.of(O.some(1)), () => task.of(2))()
     assert.strictEqual(n1, 1)
-    const n2 = await pipe(
-      task.of(O.none),
-      T.getOrElse(() => task.of(2))
-    )()
+    const n2 = await T.getOrElse(task.of(O.none), () => task.of(2))()
     assert.strictEqual(n2, 2)
   })
 
