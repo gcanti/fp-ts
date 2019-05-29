@@ -57,9 +57,7 @@ either.map(left(23), double) // left(23)
 - [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getShow (function)](#getshow-function)
-- [getValidationAlt (function)](#getvalidationalt-function)
-- [getValidationApplicative (function)](#getvalidationapplicative-function)
-- [getValidationMonad (function)](#getvalidationmonad-function)
+- [getValidation (function)](#getvalidation-function)
 - [getValidationMonoid (function)](#getvalidationmonoid-function)
 - [getValidationSemigroup (function)](#getvalidationsemigroup-function)
 - [getWitherable (function)](#getwitherable-function)
@@ -334,36 +332,12 @@ export function getShow<E, A>(SE: Show<E>, SA: Show<A>): Show<Either<E, A>> { ..
 
 Added in v2.0.0
 
-# getValidationAlt (function)
+# getValidation (function)
 
 **Signature**
 
 ```ts
-export function getValidationAlt<E>(S: Semigroup<E>): Alt2C<URI, E> { ... }
-```
-
-Added in v2.0.0
-
-# getValidationApplicative (function)
-
-**Signature**
-
-```ts
-export function getValidationApplicative<E>(
-  S: Semigroup<E>
-): Applicative2C<URI, E> & Foldable2C<URI, E> & Traversable2C<URI, E> & Bifunctor2C<URI, E> & Extend2C<URI, E> { ... }
-```
-
-# getValidationMonad (function)
-
-**Note**: This function is here just to avoid switching to / from `Either`
-
-**Signature**
-
-```ts
-export function getValidationMonad<E>(
-  S: Semigroup<E>
-): Monad2C<URI, E> & Foldable2C<URI, E> & Traversable2C<URI, E> & Bifunctor2C<URI, E> & Extend2C<URI, E> { ... }
+export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> { ... }
 ```
 
 Added in v2.0.0

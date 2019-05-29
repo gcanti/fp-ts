@@ -28,14 +28,14 @@
  */
 
 import { Alt2, Alt2C } from './Alt'
-import { Applicative, Applicative2C } from './Applicative'
-import { Bifunctor2, Bifunctor2C } from './Bifunctor'
+import { Applicative } from './Applicative'
+import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
 import { Compactable2C, Separated } from './Compactable'
 import { Eq } from './Eq'
-import { Extend2, Extend2C } from './Extend'
+import { Extend2 } from './Extend'
 import { Filterable2C } from './Filterable'
-import { Foldable2, Foldable2C } from './Foldable'
+import { Foldable2 } from './Foldable'
 import { Lazy, Predicate, Refinement } from './function'
 import { HKT } from './HKT'
 import { Monad2, Monad2C } from './Monad'
@@ -43,7 +43,7 @@ import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
-import { Traversable2, Traversable2C } from './Traversable'
+import { Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
 
 declare module './HKT' {
@@ -517,13 +517,14 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
   }
 }
 
-export function getValidationApplicative<E>(
-  S: Semigroup<E>
-): Applicative2C<URI, E> & Foldable2C<URI, E> & Traversable2C<URI, E> & Bifunctor2C<URI, E> & Extend2C<URI, E> {
+/**
+ * @since 2.0.0
+ */
+export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
   return {
     URI,
     _L: phantom,
-    map,
+    map: either.map,
     of: either.of,
     ap: (mab, ma) =>
       isLeft(mab)
@@ -533,28 +534,14 @@ export function getValidationApplicative<E>(
         : isLeft(ma)
         ? ma
         : right(mab.right(ma.right)),
-    reduce: either.reduce,
-    foldMap: either.foldMap,
-    reduceRight: either.reduceRight,
-    traverse: either.traverse,
-    sequence: either.sequence,
-    extend: either.extend,
-    bimap: either.bimap,
-    mapLeft: either.mapLeft
-  }
-}
-
-/**
- * **Note**: This function is here just to avoid switching to / from `Either`
- *
- * @since 2.0.0
- */
-export function getValidationMonad<E>(
-  S: Semigroup<E>
-): Monad2C<URI, E> & Foldable2C<URI, E> & Traversable2C<URI, E> & Bifunctor2C<URI, E> & Extend2C<URI, E> {
-  return {
-    ...getValidationApplicative(S),
-    chain: (ma, f) => (isLeft(ma) ? ma : f(ma.right))
+    chain: either.chain,
+    alt: (fx, f) => {
+      if (isRight(fx)) {
+        return fx
+      }
+      const fy = f()
+      return isLeft(fy) ? left(S.concat(fx.left, fy.left)) : fy
+    }
   }
 }
 
@@ -579,26 +566,8 @@ export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>)
  */
 export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>> {
   return {
-    ...getValidationSemigroup(SE, SA),
+    concat: getValidationSemigroup(SE, SA).concat,
     empty: right(SA.empty)
-  }
-}
-
-/**
- * @since 2.0.0
- */
-export function getValidationAlt<E>(S: Semigroup<E>): Alt2C<URI, E> {
-  return {
-    URI,
-    _L: phantom,
-    map,
-    alt: (fx, f) => {
-      if (isRight(fx)) {
-        return fx
-      }
-      const fy = f()
-      return isLeft(fy) ? left(S.concat(fx.left, fy.left)) : fy
-    }
   }
 }
 

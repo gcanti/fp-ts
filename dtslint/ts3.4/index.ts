@@ -131,7 +131,7 @@ sequenceTf2(sequenceS5, sequenceS6, sequenceS7) // $ExpectType ReaderTaskEither<
 
 // getApplicativeComposition
 
-const applicativeValidation = E.getValidationApplicative(S.semigroupString)
+const applicativeValidation = E.getValidation(S.semigroupString)
 
 Apv.getApplicativeComposition(Re.reader, applicativeValidation).map // $ExpectType <LF, A, B>(fa: Reader<LF, Either<string, A>>, f: (a: A) => B) => Reader<LF, Either<string, B>>
 

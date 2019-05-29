@@ -5,9 +5,8 @@ import { identity, pipeOp as pipe } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
-import { semigroupSum, semigroupString } from '../src/Semigroup'
+import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { showString } from '../src/Show'
-import { getMonoid as getArrayMonoid } from '../src/Array'
 
 describe('Either', () => {
   it('fold', () => {
@@ -481,40 +480,38 @@ describe('Either', () => {
     })
   })
 
-  it('getValidationMonad', () => {
-    const M = _.getValidationMonad(monoidString)
-    const f = (s: string) => _.right(s.length)
-    assert.deepStrictEqual(M.chain(_.right('abc'), f), _.right(3))
-    assert.deepStrictEqual(M.chain(_.left('a'), f), _.left('a'))
-    assert.deepStrictEqual(M.chain(_.left('a'), () => _.left('b')), _.left('a'))
-    assert.deepStrictEqual(M.of(1), _.right(1))
-    const double = (n: number) => n * 2
-    assert.deepStrictEqual(M.ap(_.right(double), _.right(1)), _.right(2))
-    assert.deepStrictEqual(M.ap(_.right(double), _.left('foo')), _.left('foo'))
-    assert.deepStrictEqual(M.ap(_.left('foo'), _.right(1)), _.left('foo'))
-    assert.deepStrictEqual(M.ap(_.left('foo'), _.left('bar')), _.left('foobar'))
-  })
+  describe('Validation', () => {
+    it('getValidation', () => {
+      const M = _.getValidation(monoidString)
+      const f = (s: string) => _.right(s.length)
+      assert.deepStrictEqual(M.chain(_.right('abc'), f), _.right(3))
+      assert.deepStrictEqual(M.chain(_.left('a'), f), _.left('a'))
+      assert.deepStrictEqual(M.chain(_.left('a'), () => _.left('b')), _.left('a'))
+      assert.deepStrictEqual(M.of(1), _.right(1))
+      const double = (n: number) => n * 2
+      assert.deepStrictEqual(M.ap(_.right(double), _.right(1)), _.right(2))
+      assert.deepStrictEqual(M.ap(_.right(double), _.left('foo')), _.left('foo'))
+      assert.deepStrictEqual(M.ap(_.left('foo'), _.right(1)), _.left('foo'))
+      assert.deepStrictEqual(M.ap(_.left('foo'), _.left('bar')), _.left('foobar'))
+      assert.deepStrictEqual(M.alt(_.left('a'), () => _.right(1)), _.right(1))
+      assert.deepStrictEqual(M.alt(_.right(1), () => _.left('a')), _.right(1))
+      assert.deepStrictEqual(M.alt(_.left('a'), () => _.left('b')), _.left('ab'))
+    })
 
-  it('getValidationSemigroup', () => {
-    const { concat } = _.getValidationSemigroup(semigroupString, semigroupString)
-    assert.deepStrictEqual(concat(_.right('a'), _.right('b')), _.right('ab'))
-    assert.deepStrictEqual(concat(_.right('a'), _.left('b')), _.left('b'))
-    assert.deepStrictEqual(concat(_.left('b'), _.right('a')), _.left('b'))
-    assert.deepStrictEqual(concat(_.left('a'), _.left('b')), _.left('ab'))
-  })
+    it('getValidationSemigroup', () => {
+      const { concat } = _.getValidationSemigroup(semigroupString, semigroupString)
+      assert.deepStrictEqual(concat(_.right('a'), _.right('b')), _.right('ab'))
+      assert.deepStrictEqual(concat(_.right('a'), _.left('b')), _.left('b'))
+      assert.deepStrictEqual(concat(_.left('b'), _.right('a')), _.left('b'))
+      assert.deepStrictEqual(concat(_.left('a'), _.left('b')), _.left('ab'))
+    })
 
-  it('getValidationAlt', () => {
-    const alt = _.getValidationAlt(getArrayMonoid<number>())
-    assert.deepStrictEqual(alt.alt(_.left([1]), () => _.right('a')), _.right('a'))
-    assert.deepStrictEqual(alt.alt(_.right('a'), () => _.left([1])), _.right('a'))
-    assert.deepStrictEqual(alt.alt(_.left([1]), () => _.left([2])), _.left([1, 2]))
-  })
-
-  it('getValidationMonoid', () => {
-    const M = _.getValidationMonoid(monoidString, monoidSum)
-    assert.deepStrictEqual(M.concat(_.right(1), _.right(2)), _.right(3))
-    assert.deepStrictEqual(M.concat(_.right(1), _.left('foo')), _.left('foo'))
-    assert.deepStrictEqual(M.concat(_.left('foo'), _.right(1)), _.left('foo'))
-    assert.deepStrictEqual(M.concat(_.left('foo'), _.left('bar')), _.left('foobar'))
+    it('getValidationMonoid', () => {
+      const M = _.getValidationMonoid(monoidString, monoidSum)
+      assert.deepStrictEqual(M.concat(_.right(1), _.right(2)), _.right(3))
+      assert.deepStrictEqual(M.concat(_.right(1), _.left('foo')), _.left('foo'))
+      assert.deepStrictEqual(M.concat(_.left('foo'), _.right(1)), _.left('foo'))
+      assert.deepStrictEqual(M.concat(_.left('foo'), _.left('bar')), _.left('foobar'))
+    })
   })
 })
