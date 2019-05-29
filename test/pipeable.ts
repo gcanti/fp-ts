@@ -69,12 +69,6 @@ describe('pipeable', () => {
     assert.deepStrictEqual(alt(() => [4, 5, 6])([1, 2, 3]), [1, 2, 3, 4, 5, 6])
   })
 
-  it('Compactable', () => {
-    const { compact, separate } = pipeable(array)
-    assert.deepStrictEqual(compact([some(1), none, some(2)]), [1, 2])
-    assert.deepStrictEqual(separate([right(1), left('a'), right(2)]), { left: ['a'], right: [1, 2] })
-  })
-
   it('Filterable', () => {
     const { filter, filterMap, partition, partitionMap } = pipeable(array)
     assert.deepStrictEqual(filter(isSome)([some(1), none, some(2)]), [some(1), some(2)])
