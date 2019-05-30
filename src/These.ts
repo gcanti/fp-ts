@@ -20,17 +20,17 @@
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { Either, Left, Right } from './Either'
+import { Eq, fromEquals } from './Eq'
 import { Foldable2 } from './Foldable'
-import { phantom, identity } from './function'
+import { identity, phantom } from './function'
 import { Functor2 } from './Functor'
 import { HKT } from './HKT'
 import { Monad2C } from './Monad'
-import { Monoid } from './Monoid'
-import { Option, some, none, isNone } from './Option'
+import { isNone, none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -151,10 +151,6 @@ export function getSemigroup<E, A>(SL: Semigroup<E>, SA: Semigroup<A>): Semigrou
   }
 }
 
-const map = <E, A, B>(fa: These<E, A>, f: (a: A) => B): These<E, B> => {
-  return isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))
-}
-
 /**
  * @since 2.0.0
  */
@@ -177,35 +173,11 @@ export function getMonad<E>(S: Semigroup<E>): Monad2C<URI, E> {
   return {
     URI,
     _L: phantom,
-    map,
+    map: these.map,
     of: right,
-    ap: (mab, ma) => chain(mab, f => map(ma, f)),
+    ap: (mab, ma) => chain(mab, f => these.map(ma, f)),
     chain
   }
-}
-
-const bimap = <E, M, A, B>(fa: These<E, A>, f: (e: E) => M, g: (a: A) => B): These<M, B> => {
-  return isLeft(fa) ? left(f(fa.left)) : isRight(fa) ? right(g(fa.right)) : both(f(fa.left), g(fa.right))
-}
-
-const reduce = <E, A, B>(fa: These<E, A>, b: B, f: (b: B, a: A) => B): B => {
-  return isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)
-}
-
-const foldMap = <M>(M: Monoid<M>) => <E, A>(fa: These<E, A>, f: (a: A) => M): M => {
-  return isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)
-}
-
-const reduceRight = <E, A, B>(fa: These<E, A>, b: B, f: (a: A, b: B) => B): B => {
-  return isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)
-}
-
-const traverse = <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
-  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), b => both(ta.left, b))
-}
-
-const sequence = <F>(F: Applicative<F>) => <E, A>(ta: These<E, HKT<F, A>>): HKT<F, These<E, A>> => {
-  return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, b => both(ta.left, b))
 }
 
 /**
@@ -376,12 +348,21 @@ export function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<These<E,
  */
 export const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
-  map,
-  bimap,
-  mapLeft: (fla, f) => bimap(fla, f, identity),
-  reduce,
-  foldMap,
-  reduceRight,
-  traverse,
-  sequence
+  map: (fa, f) => (isLeft(fa) ? fa : isRight(fa) ? right(f(fa.right)) : both(fa.left, f(fa.right))),
+  bimap: (fla, f, g) =>
+    isLeft(fla) ? left(f(fla.left)) : isRight(fla) ? right(g(fla.right)) : both(f(fla.left), g(fla.right)),
+  mapLeft: (fla, f) => these.bimap(fla, f, identity),
+  reduce: (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(b, fa.right) : f(b, fa.right)),
+  foldMap: M => (fa, f) => (isLeft(fa) ? M.empty : isRight(fa) ? f(fa.right) : f(fa.right)),
+  reduceRight: (fa, b, f) => (isLeft(fa) ? b : isRight(fa) ? f(fa.right, b) : f(fa.right, b)),
+  traverse: <F>(F: Applicative<F>) => <E, A, B>(ta: These<E, A>, f: (a: A) => HKT<F, B>): HKT<F, These<E, B>> => {
+    return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(f(ta.right), right) : F.map(f(ta.right), b => both(ta.left, b))
+  },
+  sequence: <F>(F: Applicative<F>) => <E, A>(ta: These<E, HKT<F, A>>): HKT<F, These<E, A>> => {
+    return isLeft(ta) ? F.of(ta) : isRight(ta) ? F.map(ta.right, right) : F.map(ta.right, b => both(ta.left, b))
+  }
 }
+
+const { bimap, foldMap, map, mapLeft, reduce, reduceRight } = pipeable(these)
+
+export { bimap, foldMap, map, mapLeft, reduce, reduceRight }
