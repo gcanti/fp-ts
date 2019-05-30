@@ -18,6 +18,7 @@ import { Option } from './Option'
 import { IO } from './IO'
 
 import Either = E.Either
+import { pipeable } from './pipeable'
 
 const T = getEitherM(task)
 
@@ -283,3 +284,7 @@ export const taskEitherSeq: typeof taskEither = {
   ...taskEither,
   ap: (mab, ma) => T.chain(mab, f => T.map(ma, f))
 }
+
+const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(taskEither)
+
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
