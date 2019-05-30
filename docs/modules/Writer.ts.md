@@ -20,6 +20,7 @@ parent: Modules
 - [listens (function)](#listens-function)
 - [pass (function)](#pass-function)
 - [tell (function)](#tell-function)
+- [map (export)](#map-export)
 
 ---
 
@@ -154,3 +155,11 @@ export function tell<W>(w: W): Writer<W, void> { ... }
 ```
 
 Added in v2.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+export { map }
+```

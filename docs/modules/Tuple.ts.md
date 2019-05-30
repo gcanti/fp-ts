@@ -21,7 +21,6 @@ Adapted from https://github.com/purescript/purescript-tuples
 - [getChain (function)](#getchain-function)
 - [getChainRec (function)](#getchainrec-function)
 - [getMonad (function)](#getmonad-function)
-- [getShow (function)](#getshow-function)
 - [snd (function)](#snd-function)
 - [swap (function)](#swap-function)
 
@@ -113,16 +112,6 @@ Added in v2.0.0
 
 ```ts
 export function getMonad<S>(M: Monoid<S>): Monad2C<URI, S> { ... }
-```
-
-Added in v2.0.0
-
-# getShow (function)
-
-**Signature**
-
-```ts
-export function getShow<A, S>(SA: Show<A>, SS: Show<S>): Show<[A, S]> { ... }
 ```
 
 Added in v2.0.0
