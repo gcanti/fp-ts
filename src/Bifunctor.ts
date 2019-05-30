@@ -1,4 +1,4 @@
-import { HKT2, Type2, Type3, URIS2, URIS3 } from './HKT'
+import { HKT2, Type2, Type3, URIS2, URIS3, URIS4, Type4 } from './HKT'
 
 /**
  * @since 2.0.0
@@ -35,4 +35,13 @@ export interface Bifunctor3<F extends URIS3> {
   readonly URI: F
   readonly bimap: <U, L, A, M, B>(fla: Type3<F, U, L, A>, f: (l: L) => M, g: (a: A) => B) => Type3<F, U, M, B>
   readonly mapLeft: <U, L, A, M>(fla: Type3<F, U, L, A>, f: (l: L) => M) => Type3<F, U, M, A>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface Bifunctor4<F extends URIS4> {
+  readonly URI: F
+  readonly bimap: <X, U, L, A, M, B>(fla: Type4<F, X, U, L, A>, f: (l: L) => M, g: (a: A) => B) => Type4<F, X, U, M, B>
+  readonly mapLeft: <X, U, L, A, M>(fla: Type4<F, X, U, L, A>, f: (l: L) => M) => Type4<F, X, U, M, A>
 }

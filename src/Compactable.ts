@@ -23,7 +23,7 @@ import {
   FunctorComposition2C1,
   getFunctorComposition
 } from './Functor'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3, URIS4, Type4 } from './HKT'
 import { getLeft, getRight, Option } from './Option'
 
 /**
@@ -86,6 +86,17 @@ export interface Compactable3<F extends URIS3> {
   readonly URI: F
   readonly compact: <U, L, A>(fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, A>
   readonly separate: <U, L, A, B>(fa: Type3<F, U, L, Either<A, B>>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
+}
+
+/**
+ * @since 2.0.0
+ */
+export interface Compactable4<F extends URIS4> {
+  readonly URI: F
+  readonly compact: <X, U, L, A>(fa: Type4<F, X, U, L, Option<A>>) => Type4<F, X, U, L, A>
+  readonly separate: <X, U, L, A, B>(
+    fa: Type4<F, X, U, L, Either<A, B>>
+  ) => Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, B>>
 }
 
 /**

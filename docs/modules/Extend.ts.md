@@ -13,6 +13,7 @@ parent: Modules
 - [Extend2 (interface)](#extend2-interface)
 - [Extend2C (interface)](#extend2c-interface)
 - [Extend3 (interface)](#extend3-interface)
+- [Extend4 (interface)](#extend4-interface)
 
 ---
 
@@ -71,6 +72,18 @@ Added in v2.0.0
 ```ts
 export interface Extend3<W extends URIS3> extends Functor3<W> {
   readonly extend: <U, L, A, B>(wa: Type3<W, U, L, A>, f: (wa: Type3<W, U, L, A>) => B) => Type3<W, U, L, B>
+}
+```
+
+Added in v2.0.0
+
+# Extend4 (interface)
+
+**Signature**
+
+```ts
+export interface Extend4<W extends URIS4> extends Functor4<W> {
+  readonly extend: <X, U, L, A, B>(wa: Type4<W, X, U, L, A>, f: (wa: Type4<W, X, U, L, A>) => B) => Type4<W, X, U, L, B>
 }
 ```
 

@@ -11,6 +11,7 @@ import { Option } from './Option'
 import { IO } from './IO'
 
 import ReaderTaskEither = RTE.ReaderTaskEither
+import { pipeable } from './pipeable'
 
 const T = getStateM(RTE.readerTaskEither)
 
@@ -207,3 +208,7 @@ export const stateReaderTaskEitherSeq: typeof stateReaderTaskEither = {
   ...stateReaderTaskEither,
   ap: (mab, ma) => stateReaderTaskEither.chain(mab, f => stateReaderTaskEither.map(ma, f))
 }
+
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(stateReaderTaskEither)
+
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }

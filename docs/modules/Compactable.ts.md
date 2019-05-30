@@ -23,6 +23,7 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [Compactable2 (interface)](#compactable2-interface)
 - [Compactable2C (interface)](#compactable2c-interface)
 - [Compactable3 (interface)](#compactable3-interface)
+- [Compactable4 (interface)](#compactable4-interface)
 - [CompactableComposition (interface)](#compactablecomposition-interface)
 - [CompactableComposition11 (interface)](#compactablecomposition11-interface)
 - [CompactableComposition12 (interface)](#compactablecomposition12-interface)
@@ -108,6 +109,22 @@ export interface Compactable3<F extends URIS3> {
   readonly URI: F
   readonly compact: <U, L, A>(fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, A>
   readonly separate: <U, L, A, B>(fa: Type3<F, U, L, Either<A, B>>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
+}
+```
+
+Added in v2.0.0
+
+# Compactable4 (interface)
+
+**Signature**
+
+```ts
+export interface Compactable4<F extends URIS4> {
+  readonly URI: F
+  readonly compact: <X, U, L, A>(fa: Type4<F, X, U, L, Option<A>>) => Type4<F, X, U, L, A>
+  readonly separate: <X, U, L, A, B>(
+    fa: Type4<F, X, U, L, Either<A, B>>
+  ) => Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, B>>
 }
 ```
 

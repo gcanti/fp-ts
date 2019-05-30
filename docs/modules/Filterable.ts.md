@@ -19,11 +19,13 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [Filter2 (interface)](#filter2-interface)
 - [Filter2C (interface)](#filter2c-interface)
 - [Filter3 (interface)](#filter3-interface)
+- [Filter4 (interface)](#filter4-interface)
 - [Filterable (interface)](#filterable-interface)
 - [Filterable1 (interface)](#filterable1-interface)
 - [Filterable2 (interface)](#filterable2-interface)
 - [Filterable2C (interface)](#filterable2c-interface)
 - [Filterable3 (interface)](#filterable3-interface)
+- [Filterable4 (interface)](#filterable4-interface)
 - [FilterableComposition (interface)](#filterablecomposition-interface)
 - [FilterableComposition11 (interface)](#filterablecomposition11-interface)
 - [FilterableComposition12 (interface)](#filterablecomposition12-interface)
@@ -37,6 +39,7 @@ Adapted from https://github.com/LiamGoodacre/purescript-filterable/blob/master/s
 - [Partition2 (interface)](#partition2-interface)
 - [Partition2C (interface)](#partition2c-interface)
 - [Partition3 (interface)](#partition3-interface)
+- [Partition4 (interface)](#partition4-interface)
 - [getFilterableComposition (function)](#getfilterablecomposition-function)
 
 ---
@@ -101,6 +104,19 @@ Added in v2.0.0
 export interface Filter3<F extends URIS3> {
   <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinement: Refinement<A, B>): Type3<F, U, L, B>
   <U, L, A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Type3<F, U, L, A>
+}
+```
+
+Added in v2.0.0
+
+# Filter4 (interface)
+
+**Signature**
+
+```ts
+export interface Filter4<F extends URIS4> {
+  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinement: Refinement<A, B>): Type4<F, X, U, L, B>
+  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicate: Predicate<A>): Type4<F, X, U, L, A>
 }
 ```
 
@@ -197,6 +213,24 @@ export interface Filterable3<F extends URIS3> extends Functor3<F>, Compactable3<
   readonly partition: Partition3<F>
   readonly filterMap: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filter: Filter3<F>
+}
+```
+
+Added in v2.0.0
+
+# Filterable4 (interface)
+
+**Signature**
+
+```ts
+export interface Filterable4<F extends URIS4> extends Functor4<F>, Compactable4<F> {
+  readonly partitionMap: <RL, RR, X, U, L, A>(
+    fa: Type4<F, X, U, L, A>,
+    f: (a: A) => Either<RL, RR>
+  ) => Separated<Type4<F, X, U, L, RL>, Type4<F, X, U, L, RR>>
+  readonly partition: Partition4<F>
+  readonly filterMap: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => Option<B>) => Type4<F, X, U, L, B>
+  readonly filter: Filter4<F>
 }
 ```
 
@@ -456,6 +490,22 @@ export interface Partition3<F extends URIS3> {
     Type3<F, U, L, B>
   >
   <U, L, A>(fa: Type3<F, U, L, A>, predicate: Predicate<A>): Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
+}
+```
+
+Added in v2.0.0
+
+# Partition4 (interface)
+
+**Signature**
+
+```ts
+export interface Partition4<F extends URIS4> {
+  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinement: Refinement<A, B>): Separated<
+    Type4<F, X, U, L, A>,
+    Type4<F, X, U, L, B>
+  >
+  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicate: Predicate<A>): Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, A>>
 }
 ```
 
