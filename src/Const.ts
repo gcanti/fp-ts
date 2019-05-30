@@ -7,6 +7,7 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Eq } from './Eq'
 import { Show } from './Show'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -48,8 +49,6 @@ export function getShow<L, A>(S: Show<L>): Show<Const<L, A>> {
  */
 export const getEq: <L, A>(E: Eq<L>) => Eq<Const<L, A>> = identity
 
-const map = unsafeCoerce
-
 /**
  * @since 2.0.0
  */
@@ -57,7 +56,7 @@ export function getApply<L>(S: Semigroup<L>): Apply2C<URI, L> {
   return {
     URI,
     _L: phantom,
-    map,
+    map: const_.map,
     ap: (fab, fa) => make(S.concat(fab, fa))
   }
 }
@@ -77,6 +76,10 @@ export function getApplicative<L>(M: Monoid<L>): Applicative2C<URI, L> {
  */
 export const const_: Functor2<URI> & Contravariant2<URI> = {
   URI,
-  map,
+  map: unsafeCoerce,
   contramap: unsafeCoerce
 }
+
+const { contramap, map } = pipeable(const_)
+
+export { contramap, map }

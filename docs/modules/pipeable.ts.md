@@ -26,6 +26,11 @@ parent: Modules
 - [PipeableChain2 (interface)](#pipeablechain2-interface)
 - [PipeableChain2C (interface)](#pipeablechain2c-interface)
 - [PipeableChain3 (interface)](#pipeablechain3-interface)
+- [PipeableContravariant (interface)](#pipeablecontravariant-interface)
+- [PipeableContravariant1 (interface)](#pipeablecontravariant1-interface)
+- [PipeableContravariant2 (interface)](#pipeablecontravariant2-interface)
+- [PipeableContravariant2C (interface)](#pipeablecontravariant2c-interface)
+- [PipeableContravariant3 (interface)](#pipeablecontravariant3-interface)
 - [PipeableExtend (interface)](#pipeableextend-interface)
 - [PipeableExtend1 (interface)](#pipeableextend1-interface)
 - [PipeableExtend2 (interface)](#pipeableextend2-interface)
@@ -274,6 +279,56 @@ export interface PipeableChain3<F extends URIS3> extends PipeableApply3<F> {
   readonly chain: <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => (ma: Type3<F, U, L, A>) => Type3<F, U, L, B>
   readonly chainFirst: <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => (ma: Type3<F, U, L, A>) => Type3<F, U, L, A>
   readonly flatten: <U, L, A>(mma: Type3<F, U, L, Type3<F, U, L, A>>) => Type3<F, U, L, A>
+}
+```
+
+# PipeableContravariant (interface)
+
+**Signature**
+
+```ts
+export interface PipeableContravariant<F> {
+  readonly contramap: <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
+}
+```
+
+# PipeableContravariant1 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableContravariant1<F extends URIS> {
+  readonly contramap: <A, B>(f: (b: B) => A) => (fa: Type<F, A>) => Type<F, B>
+}
+```
+
+# PipeableContravariant2 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableContravariant2<F extends URIS2> {
+  readonly contramap: <A, B>(f: (b: B) => A) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
+}
+```
+
+# PipeableContravariant2C (interface)
+
+**Signature**
+
+```ts
+export interface PipeableContravariant2C<F extends URIS2, L> {
+  readonly contramap: <A, B>(f: (b: B) => A) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+}
+```
+
+# PipeableContravariant3 (interface)
+
+**Signature**
+
+```ts
+export interface PipeableContravariant3<F extends URIS3> {
+  readonly contramap: <A, B>(f: (b: B) => A) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
 }
 ```
 
@@ -879,6 +934,7 @@ export function pipeable<F extends URIS3, I>(
   : I extends Functor3<F>
   ? PipeableFunctor3<F>
   : {}) &
+  (I extends Contravariant3<F> ? PipeableContravariant3<F> : {}) &
   (I extends FunctorWithIndex3<F, infer Ix> ? PipeableFunctorWithIndex3<F, Ix> : {}) &
   (I extends Bifunctor3<F> ? PipeableBifunctor3<F> : {}) &
   (I extends Extend3<F> ? PipeableExtend3<F> : {}) &
@@ -904,6 +960,7 @@ export function pipeable<F extends URIS2, I, L>(
   : I extends Functor2C<F, L>
   ? PipeableFunctor2C<F, L>
   : {}) &
+  (I extends Contravariant2C<F, L> ? PipeableContravariant2C<F, L> : {}) &
   (I extends FunctorWithIndex2C<F, infer Ix, L> ? PipeableFunctorWithIndex2C<F, Ix, L> : {}) &
   (I extends Extend2C<F, L> ? PipeableExtend2C<F, L> : {}) &
   (I extends FoldableWithIndex2C<F, infer Ix, L>
@@ -928,6 +985,7 @@ export function pipeable<F extends URIS2, I>(
   : I extends Functor2<F>
   ? PipeableFunctor2<F>
   : {}) &
+  (I extends Contravariant2<F> ? PipeableContravariant2<F> : {}) &
   (I extends FunctorWithIndex2<F, infer Ix> ? PipeableFunctorWithIndex2<F, Ix> : {}) &
   (I extends Bifunctor2<F> ? PipeableBifunctor2<F> : {}) &
   (I extends Extend2<F> ? PipeableExtend2<F> : {}) &
@@ -953,6 +1011,7 @@ export function pipeable<F extends URIS, I>(
   : I extends Functor1<F>
   ? PipeableFunctor1<F>
   : {}) &
+  (I extends Contravariant1<F> ? PipeableContravariant1<F> : {}) &
   (I extends FunctorWithIndex1<F, infer Ix> ? PipeableFunctorWithIndex1<F, Ix> : {}) &
   (I extends Extend1<F> ? PipeableExtend1<F> : {}) &
   (I extends FoldableWithIndex1<F, infer Ix>
@@ -975,6 +1034,7 @@ export function pipeable<F, I>(
   : I extends Functor<F>
   ? PipeableFunctor<F>
   : {}) &
+  (I extends Contravariant<F> ? PipeableContravariant<F> : {}) &
   (I extends FunctorWithIndex<F, infer Ix> ? PipeableFunctorWithIndex<F, Ix> : {}) &
   (I extends Bifunctor<F> ? PipeableBifunctor<F> : {}) &
   (I extends Extend<F> ? PipeableExtend<F> : {}) &

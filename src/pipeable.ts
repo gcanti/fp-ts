@@ -3,6 +3,7 @@ import { Apply, Apply1, Apply2, Apply2C, Apply3 } from './Apply'
 import { Bifunctor, Bifunctor2, Bifunctor3 } from './Bifunctor'
 import { Chain, Chain1, Chain2, Chain2C, Chain3 } from './Chain'
 import { Separated } from './Compactable'
+import { Contravariant, Contravariant1, Contravariant2, Contravariant2C, Contravariant3 } from './Contravariant'
 import { Either } from './Either'
 import { Extend, Extend1, Extend2, Extend2C, Extend3 } from './Extend'
 import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3 } from './Filterable'
@@ -61,6 +62,26 @@ export interface PipeableFunctor2C<F extends URIS2, L> {
 
 export interface PipeableFunctor3<F extends URIS3> {
   readonly map: <A, B>(f: (a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+}
+
+export interface PipeableContravariant<F> {
+  readonly contramap: <A, B>(f: (b: B) => A) => (fa: HKT<F, A>) => HKT<F, B>
+}
+
+export interface PipeableContravariant1<F extends URIS> {
+  readonly contramap: <A, B>(f: (b: B) => A) => (fa: Type<F, A>) => Type<F, B>
+}
+
+export interface PipeableContravariant2<F extends URIS2> {
+  readonly contramap: <A, B>(f: (b: B) => A) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
+}
+
+export interface PipeableContravariant2C<F extends URIS2, L> {
+  readonly contramap: <A, B>(f: (b: B) => A) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+}
+
+export interface PipeableContravariant3<F extends URIS3> {
+  readonly contramap: <A, B>(f: (b: B) => A) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
 }
 
 export interface PipeableFunctorWithIndex<F, I> extends PipeableFunctor<F> {
@@ -459,6 +480,7 @@ export interface PipeableSemigroupoid3<F extends URIS3> {
 }
 
 const isFunctor = <F>(I: any): I is Functor<F> => typeof I.map === 'function'
+const isContravariant = <F>(I: any): I is Contravariant<F> => typeof I.contramap === 'function'
 const isFunctorWithIndex = <F>(I: any): I is FunctorWithIndex<F, unknown> => typeof I.mapWithIndex === 'function'
 const isApply = <F>(I: any): I is Apply<F> => typeof I.ap === 'function'
 const isChain = <F>(I: any): I is Chain<F> => typeof I.chain === 'function'
@@ -485,6 +507,7 @@ export function pipeable<F extends URIS3, I>(
   : I extends Functor3<F>
   ? PipeableFunctor3<F>
   : {}) &
+  (I extends Contravariant3<F> ? PipeableContravariant3<F> : {}) &
   (I extends FunctorWithIndex3<F, infer Ix> ? PipeableFunctorWithIndex3<F, Ix> : {}) &
   (I extends Bifunctor3<F> ? PipeableBifunctor3<F> : {}) &
   (I extends Extend3<F> ? PipeableExtend3<F> : {}) &
@@ -510,6 +533,7 @@ export function pipeable<F extends URIS2, I, L>(
   : I extends Functor2C<F, L>
   ? PipeableFunctor2C<F, L>
   : {}) &
+  (I extends Contravariant2C<F, L> ? PipeableContravariant2C<F, L> : {}) &
   (I extends FunctorWithIndex2C<F, infer Ix, L> ? PipeableFunctorWithIndex2C<F, Ix, L> : {}) &
   (I extends Extend2C<F, L> ? PipeableExtend2C<F, L> : {}) &
   (I extends FoldableWithIndex2C<F, infer Ix, L>
@@ -534,6 +558,7 @@ export function pipeable<F extends URIS2, I>(
   : I extends Functor2<F>
   ? PipeableFunctor2<F>
   : {}) &
+  (I extends Contravariant2<F> ? PipeableContravariant2<F> : {}) &
   (I extends FunctorWithIndex2<F, infer Ix> ? PipeableFunctorWithIndex2<F, Ix> : {}) &
   (I extends Bifunctor2<F> ? PipeableBifunctor2<F> : {}) &
   (I extends Extend2<F> ? PipeableExtend2<F> : {}) &
@@ -559,6 +584,7 @@ export function pipeable<F extends URIS, I>(
   : I extends Functor1<F>
   ? PipeableFunctor1<F>
   : {}) &
+  (I extends Contravariant1<F> ? PipeableContravariant1<F> : {}) &
   (I extends FunctorWithIndex1<F, infer Ix> ? PipeableFunctorWithIndex1<F, Ix> : {}) &
   (I extends Extend1<F> ? PipeableExtend1<F> : {}) &
   (I extends FoldableWithIndex1<F, infer Ix>
@@ -581,6 +607,7 @@ export function pipeable<F, I>(
   : I extends Functor<F>
   ? PipeableFunctor<F>
   : {}) &
+  (I extends Contravariant<F> ? PipeableContravariant<F> : {}) &
   (I extends FunctorWithIndex<F, infer Ix> ? PipeableFunctorWithIndex<F, Ix> : {}) &
   (I extends Bifunctor<F> ? PipeableBifunctor<F> : {}) &
   (I extends Extend<F> ? PipeableExtend<F> : {}) &
@@ -602,6 +629,10 @@ export function pipeable<F, I>(I: { URI: F } & I): any {
   if (isFunctor<F>(I)) {
     const map: PipeableFunctor<F>['map'] = f => fa => I.map(fa, f)
     r.map = map
+  }
+  if (isContravariant<F>(I)) {
+    const contramap: PipeableContravariant<F>['contramap'] = f => fa => I.contramap(fa, f)
+    r.contramap = contramap
   }
   if (isFunctorWithIndex<F>(I)) {
     const mapWithIndex: PipeableFunctorWithIndex<F, unknown>['mapWithIndex'] = f => fa => I.mapWithIndex(fa, f)

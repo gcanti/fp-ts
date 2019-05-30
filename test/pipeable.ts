@@ -5,6 +5,7 @@ import { either, right, left } from '../src/Either'
 import { monoidSum, fold } from '../src/Monoid'
 import { some, none, isSome, Option, option } from '../src/Option'
 import { reader } from '../src/Reader'
+import * as C from '../src/Const'
 
 describe('pipeable', () => {
   it('{}', () => {
@@ -15,6 +16,11 @@ describe('pipeable', () => {
   it('Functor', () => {
     const { map } = pipeable(array)
     assert.deepStrictEqual(map((n: number) => n * 2)([1, 2, 3]), [2, 4, 6])
+  })
+
+  it('Contravariant', () => {
+    const { contramap } = pipeable(C.const_)
+    assert.deepStrictEqual(contramap((s: string) => s.length * 2)(C.make(1)), 1)
   })
 
   it('FunctorWithIndex', () => {
