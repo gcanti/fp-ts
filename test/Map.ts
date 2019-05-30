@@ -273,6 +273,10 @@ describe('Map', () => {
     assert.strictEqual(M.isEmpty(M.empty), true)
   })
 
+  it('singleton', () => {
+    assert.deepStrictEqual(M.singleton('k1', 0), new Map<string, number>([['k1', 0]]))
+  })
+
   it('getEq', () => {
     const a1 = new Map<User, number>([[{ id: 'a' }, 1]])
     const a1_ = new Map<User, number>([[{ id: 'a' }, 1]])
@@ -320,26 +324,27 @@ describe('Map', () => {
     )
   })
 
-  describe('map', () => {
+  describe('map_', () => {
     describe('functor', () => {
       it('map', () => {
-        const map = M.map.map
+        const map = M.map_.map
         const d1 = new Map<string, number>([['k1', 1], ['k2', 2]])
         const expected = new Map<string, number>([['k1', 2], ['k2', 4]])
         const double = (n: number): number => n * 2
         assert.deepStrictEqual(map(d1, double), expected)
       })
     })
+
     describe('filterable', () => {
       it('compact', () => {
-        const compact = M.map.compact
+        const compact = M.map_.compact
         const fooBar = new Map<string, Option<number>>([['foo', none], ['bar', some(123)]])
         const bar = new Map<string, number>([['bar', 123]])
         assert.deepStrictEqual(compact(fooBar), bar)
       })
 
       it('partitionMap', () => {
-        const partitionMap = M.map.partitionMap
+        const partitionMap = M.map_.partitionMap
         const emptyMap = new Map<string, number>()
         const a1b3 = new Map<string, number>([['a', 1], ['b', 3]])
         const a0 = new Map<string, number>([['a', 0]])
@@ -353,7 +358,7 @@ describe('Map', () => {
       })
 
       it('partition', () => {
-        const partition = M.map.partition
+        const partition = M.map_.partition
         const emptyMap = new Map<string, number>()
         const a1b3 = new Map<string, number>([['a', 1], ['b', 3]])
         const a1 = new Map<string, number>([['a', 1]])
@@ -366,7 +371,7 @@ describe('Map', () => {
       })
 
       it('separate', () => {
-        const separate = M.map.separate
+        const separate = M.map_.separate
         const fooBar = new Map<string, Either<number, number>>([['foo', left(123)], ['bar', right(123)]])
         const foo = new Map<string, number>([['foo', 123]])
         const bar = new Map<string, number>([['bar', 123]])
@@ -377,7 +382,7 @@ describe('Map', () => {
       })
 
       it('filter', () => {
-        const filter = M.map.filter
+        const filter = M.map_.filter
         const a1b3 = new Map<string, number>([['a', 1], ['b', 3]])
         const b3 = new Map<string, number>([['b', 3]])
         assert.deepStrictEqual(filter(a1b3, p), b3)
@@ -391,7 +396,7 @@ describe('Map', () => {
       })
 
       it('filterMap', () => {
-        const filterMap = M.map.filterMap
+        const filterMap = M.map_.filterMap
         const emptyMap = new Map<string, number>()
         const a1b3 = new Map<string, number>([['a', 1], ['b', 3]])
         const b4 = new Map<string, number>([['b', 4]])
@@ -402,13 +407,75 @@ describe('Map', () => {
     })
   })
 
-  it('singleton', () => {
-    assert.deepStrictEqual(M.singleton('k1', 0), new Map<string, number>([['k1', 0]]))
-  })
+  describe('getWitherableWithIndex', () => {
+    const W = M.getWitherableWithIndex(ordUser)
 
-  describe('getTraversableWithIndex', () => {
+    it('mapWithIndex', () => {
+      const mapWithIndex = W.mapWithIndex
+      const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
+      const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
+      assert.deepStrictEqual(mapWithIndex(aa1, (k, a) => a + k.id.length), aa3)
+    })
+
+    it('reduce', () => {
+      const d1 = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
+      const reduceO = W.reduce
+      assert.strictEqual(reduceO(d1, '', (b, a) => b + a), 'ab')
+      const d2 = new Map<User, string>([[{ id: 'k2' }, 'b'], [{ id: 'k1' }, 'a']])
+      assert.strictEqual(reduceO(d2, '', (b, a) => b + a), 'ab')
+    })
+
+    it('foldMap', () => {
+      const foldMapOM = W.foldMap(monoidString)
+      const m = new Map<User, string>([[{ id: 'a' }, 'a'], [{ id: 'a' }, 'b']])
+      assert.strictEqual(foldMapOM(m, identity), 'ab')
+    })
+
+    it('reduceRight', () => {
+      const reduceRightO = W.reduceRight
+      const m = new Map<User, string>([[{ id: 'a' }, 'a'], [{ id: 'b' }, 'b']])
+      const init = ''
+      const f = (a: string, acc: string) => acc + a
+      assert.strictEqual(reduceRightO(m, init, f), 'ba')
+    })
+
+    it('reduceWithIndex', () => {
+      const d1 = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
+      const reduceWithIndexO = W.reduceWithIndex
+      assert.strictEqual(reduceWithIndexO(d1, '', (k, b, a) => b + k.id + a), 'k1ak2b')
+      const d2 = new Map<User, string>([[{ id: 'k2' }, 'b'], [{ id: 'k1' }, 'a']])
+      assert.strictEqual(reduceWithIndexO(d2, '', (k, b, a) => b + k.id + a), 'k1ak2b')
+    })
+
+    it('foldMapWithIndex', () => {
+      const foldMapWithIndexOM = W.foldMapWithIndex(monoidString)
+      const m = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
+      assert.strictEqual(foldMapWithIndexOM(m, (k, a) => k.id + a), 'k1ak2b')
+    })
+
+    it('reduceRightWithIndex', () => {
+      const reduceRightWithIndexO = W.reduceRightWithIndex
+      const m = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
+      assert.strictEqual(reduceRightWithIndexO(m, '', (k, a, b) => b + k.id + a), 'k2bk1a')
+    })
+
+    it('traverse', () => {
+      const optionTraverse = W.traverse(option)
+      const x = new Map<User, number>([[{ id: 'k1' }, 1], [{ id: 'k2' }, 2]])
+      assert.deepStrictEqual(optionTraverse(x, n => (n <= 2 ? some(n) : none)), some(x))
+      assert.deepStrictEqual(optionTraverse(x, n => (n >= 2 ? some(n) : none)), none)
+    })
+
+    it('sequence', () => {
+      const optionSequence = W.sequence(option)
+      const m1 = new Map<User, Option<number>>([[{ id: 'k1' }, some(1)], [{ id: 'k2' }, some(2)]])
+      const m2 = new Map<User, Option<number>>([[{ id: 'k1' }, none], [{ id: 'k2' }, some(2)]])
+      assert.deepStrictEqual(optionSequence(m1), some(new Map<User, number>([[{ id: 'k1' }, 1], [{ id: 'k2' }, 2]])))
+      assert.deepStrictEqual(optionSequence(m2), none)
+    })
+
     it('traverseWithIndex', () => {
-      const optionTraverseWithIndex = M.getTraversableWithIndex(ordUser).traverseWithIndex(option)
+      const optionTraverseWithIndex = W.traverseWithIndex(option)
       const d1 = new Map<User, number>([[{ id: 'k1' }, 1], [{ id: 'k2' }, 2]])
       const t1 = optionTraverseWithIndex(
         d1,
@@ -424,85 +491,11 @@ describe('Map', () => {
       assert.deepStrictEqual(t2, some(expected))
     })
 
-    describe('getTraversable', () => {
-      it('traverse', () => {
-        const optionTraverse = M.getTraversableWithIndex(ordUser).traverse(option)
-        const x = new Map<User, number>([[{ id: 'k1' }, 1], [{ id: 'k2' }, 2]])
-        assert.deepStrictEqual(optionTraverse(x, n => (n <= 2 ? some(n) : none)), some(x))
-        assert.deepStrictEqual(optionTraverse(x, n => (n >= 2 ? some(n) : none)), none)
-      })
-
-      it('sequence', () => {
-        const optionSequence = M.getTraversableWithIndex(ordUser).sequence(option)
-        const m1 = new Map<User, Option<number>>([[{ id: 'k1' }, some(1)], [{ id: 'k2' }, some(2)]])
-        const m2 = new Map<User, Option<number>>([[{ id: 'k1' }, none], [{ id: 'k2' }, some(2)]])
-        assert.deepStrictEqual(optionSequence(m1), some(new Map<User, number>([[{ id: 'k1' }, 1], [{ id: 'k2' }, 2]])))
-        assert.deepStrictEqual(optionSequence(m2), none)
-      })
-    })
-
-    describe('getFoldable', () => {
-      it('reduce', () => {
-        const d1 = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
-        const reduceO = M.getTraversableWithIndex(ordUser).reduce
-        assert.strictEqual(reduceO(d1, '', (b, a) => b + a), 'ab')
-        const d2 = new Map<User, string>([[{ id: 'k2' }, 'b'], [{ id: 'k1' }, 'a']])
-        assert.strictEqual(reduceO(d2, '', (b, a) => b + a), 'ab')
-      })
-
-      it('foldMap', () => {
-        const foldMapOM = M.getTraversableWithIndex(ordUser).foldMap(monoidString)
-        const m = new Map<User, string>([[{ id: 'a' }, 'a'], [{ id: 'a' }, 'b']])
-        assert.strictEqual(foldMapOM(m, identity), 'ab')
-      })
-
-      it('reduceRight', () => {
-        const reduceRightO = M.getTraversableWithIndex(ordUser).reduceRight
-        const m = new Map<User, string>([[{ id: 'a' }, 'a'], [{ id: 'b' }, 'b']])
-        const init = ''
-        const f = (a: string, acc: string) => acc + a
-        assert.strictEqual(reduceRightO(m, init, f), 'ba')
-      })
-    })
-
-    describe('getFoldableWithIndex', () => {
-      it('reduceWithIndex', () => {
-        const d1 = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
-        const reduceWithIndexO = M.getTraversableWithIndex(ordUser).reduceWithIndex
-        assert.strictEqual(reduceWithIndexO(d1, '', (k, b, a) => b + k.id + a), 'k1ak2b')
-        const d2 = new Map<User, string>([[{ id: 'k2' }, 'b'], [{ id: 'k1' }, 'a']])
-        assert.strictEqual(reduceWithIndexO(d2, '', (k, b, a) => b + k.id + a), 'k1ak2b')
-      })
-
-      it('foldMapWithIndex', () => {
-        const foldMapWithIndexOM = M.getTraversableWithIndex(ordUser).foldMapWithIndex(monoidString)
-        const m = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
-        assert.strictEqual(foldMapWithIndexOM(m, (k, a) => k.id + a), 'k1ak2b')
-      })
-
-      it('reduceRightWithIndex', () => {
-        const reduceRightWithIndexO = M.getTraversableWithIndex(ordUser).reduceRightWithIndex
-        const m = new Map<User, string>([[{ id: 'k1' }, 'a'], [{ id: 'k2' }, 'b']])
-        assert.strictEqual(reduceRightWithIndexO(m, '', (k, a, b) => b + k.id + a), 'k2bk1a')
-      })
-    })
-
-    describe('getFunctorWithIndex', () => {
-      it('mapWithIndex', () => {
-        const mapWithIndex = M.getTraversableWithIndex(ordUser).mapWithIndex
-        const aa1 = new Map<User, number>([[{ id: 'aa' }, 1]])
-        const aa3 = new Map<User, number>([[{ id: 'aa' }, 3]])
-        assert.deepStrictEqual(mapWithIndex(aa1, (k, a) => a + k.id.length), aa3)
-      })
-    })
-  })
-
-  describe('getWitherable', () => {
     it('wither', () => {
       const emptyMap = new Map<User, number>()
       const a1b3 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 3]])
       const b4 = new Map<User, number>([[{ id: 'b' }, 4]])
-      const witherIdentity = M.getWitherable(ordUser).wither(I.identity)
+      const witherIdentity = W.wither(I.identity)
       const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)
       assert.deepStrictEqual(witherIdentity(emptyMap, f), I.identity.of(emptyMap))
       assert.deepStrictEqual(witherIdentity(a1b3, f), I.identity.of(b4))
@@ -513,7 +506,7 @@ describe('Map', () => {
       const a1b3 = new Map<User, number>([[{ id: 'a' }, 1], [{ id: 'b' }, 3]])
       const a0 = new Map<User, number>([[{ id: 'a' }, 0]])
       const b4 = new Map<User, number>([[{ id: 'b' }, 4]])
-      const wiltIdentity = M.getWitherable(ordUser).wilt(I.identity)
+      const wiltIdentity = W.wilt(I.identity)
       const f = (n: number) => I.identity.of(p(n) ? right(n + 1) : left(n - 1))
       assert.deepStrictEqual(wiltIdentity(emptyMap, f), I.identity.of({ left: emptyMap, right: emptyMap }))
       assert.deepStrictEqual(wiltIdentity(a1b3, f), I.identity.of({ left: a0, right: b4 }))

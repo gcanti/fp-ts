@@ -11,7 +11,7 @@ parent: Modules
 - [URI (type alias)](#uri-type-alias)
 - [URI (constant)](#uri-constant)
 - [empty (constant)](#empty-constant)
-- [map (constant)](#map-constant)
+- [map\_ (constant)](#map_-constant)
 - [collect (function)](#collect-function)
 - [elem (function)](#elem-function)
 - [fromFoldable (function)](#fromfoldable-function)
@@ -19,8 +19,7 @@ parent: Modules
 - [getFilterableWithIndex (function)](#getfilterablewithindex-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getShow (function)](#getshow-function)
-- [getTraversableWithIndex (function)](#gettraversablewithindex-function)
-- [getWitherable (function)](#getwitherable-function)
+- [getWitherableWithIndex (function)](#getwitherablewithindex-function)
 - [insert (function)](#insert-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubmap (function)](#issubmap-function)
@@ -68,12 +67,12 @@ export const empty = ...
 
 Added in v2.0.0
 
-# map (constant)
+# map\_ (constant)
 
 **Signature**
 
 ```ts
-export const map: Filterable2<URI> = ...
+export const map_: Filterable2<URI> = ...
 ```
 
 Added in v2.0.0
@@ -143,7 +142,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function getFilterableWithIndex<K>(): FilterableWithIndex2C<URI, K, K> { ... }
+export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> { ... }
 ```
 
 Added in v2.0.0
@@ -170,22 +169,12 @@ export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> { ... }
 
 Added in v2.0.0
 
-# getTraversableWithIndex (function)
+# getWitherableWithIndex (function)
 
 **Signature**
 
 ```ts
-export function getTraversableWithIndex<K>(O: Ord<K>): TraversableWithIndex2C<URI, K, K> { ... }
-```
-
-Added in v2.0.0
-
-# getWitherable (function)
-
-**Signature**
-
-```ts
-export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> { ... }
+export function getWitherableWithIndex<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> { ... }
 ```
 
 Added in v2.0.0
