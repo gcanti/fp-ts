@@ -3,27 +3,23 @@ import * as Apy from '../../src/Apply'
 import * as A from '../../src/Array'
 import * as C from '../../src/Const'
 import * as E from '../../src/Either'
+import * as Eq from '../../src/Eq'
+import * as Field from '../../src/Field'
+import * as Fo from '../../src/Foldable'
+import * as Fu from '../../src/function'
 import * as H from '../../src/HKT'
+import * as Map from '../../src/Map'
+import * as Mon from '../../src/Monoid'
+import * as NEA from '../../src/NonEmptyArray'
 import * as O from '../../src/Option'
-import * as OT from '../../src/OptionT'
+import * as Or from '../../src/Ord'
 import * as Re from '../../src/Reader'
 import * as RTE from '../../src/ReaderTaskEither'
 import * as R from '../../src/Record'
-import * as S from '../../src/Semigroup'
-import * as TE from '../../src/TaskEither'
-import * as Th from '../../src/These'
-import * as Mon from '../../src/Monoid'
-import * as Eq from '../../src/Eq'
-import * as Fo from '../../src/Foldable'
-import * as Or from '../../src/Ord'
-import * as Fu from '../../src/function'
 import * as Ring from '../../src/Ring'
-import * as Field from '../../src/Field'
+import * as S from '../../src/Semigroup'
 import * as T from '../../src/Task'
-import * as Map from '../../src/Map'
-import * as NEA from '../../src/NonEmptyArray'
-
-const len = (s: string): number => s.length
+import * as TE from '../../src/TaskEither'
 
 //
 // Apply
@@ -276,71 +272,59 @@ R.fromFoldable(S.getFirstSemigroup<number>(), A.array)(arr1) // $ExpectType Reco
 R.fromFoldable(S.getFirstSemigroup<number>(), A.array)(arr2) // $ExpectType Record<"a" | "b", number>
 
 type Keys = 'key1' | 'key2'
-const Mon1 = R.getMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
-const Mon2 = R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+R.getMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
+R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
 
-const Set1 = R.getEq<Keys, number>(Eq.eqNumber) // $ExpectType Eq<Record<Keys, number>>
-const Set2 = R.getEq(Eq.eqNumber) // $ExpectType Eq<Record<string, number>>
+R.getEq<Keys, number>(Eq.eqNumber) // $ExpectType Eq<Record<Keys, number>>
+R.getEq(Eq.eqNumber) // $ExpectType Eq<Record<string, number>>
 
-const toUnfoldable1 = R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType ["a", number][]
-const toUnfoldable2 = R.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
+R.toUnfoldable(A.array)({ a: 1 }) // $ExpectType ["a", number][]
+R.toUnfoldable(A.array)({ a: 1, b: 2 }) // $ExpectType ["a" | "b", number][]
 
 declare const fromFoldableF1: Fo.Foldable<'Test'>
 declare const fromFoldableInput1: H.HKT<'Test', ['a' | 'b', number]>
-const fromFoldable1 = R.fromFoldable(S.getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) // $ExpectType Record<"a" | "b", number>
+R.fromFoldable(S.getFirstSemigroup<number>(), fromFoldableF1)(fromFoldableInput1) // $ExpectType Record<"a" | "b", number>
 
 //
 // Eq
 //
 
-const Eq1 = Eq.getTupleEq(Eq.eqString, Eq.eqNumber, Eq.eqBoolean) // $ExpectType Eq<[string, number, boolean]>
+Eq.getTupleEq(Eq.eqString, Eq.eqNumber, Eq.eqBoolean) // $ExpectType Eq<[string, number, boolean]>
 
 //
 // Ord
 //
 
-const Ord1 = Or.getTupleOrd(Or.ordString, Or.ordNumber, Or.ordBoolean) // $ExpectType Ord<[string, number, boolean]>
+Or.getTupleOrd(Or.ordString, Or.ordNumber, Or.ordBoolean) // $ExpectType Ord<[string, number, boolean]>
 
 //
 // Semigroup
 //
 
-const Sem1 = S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll) // $ExpectType Semigroup<[string, number, boolean]>
+S.getTupleSemigroup(S.semigroupString, S.semigroupSum, S.semigroupAll) // $ExpectType Semigroup<[string, number, boolean]>
 
 //
 // Monoid
 //
 
-const Mon3 = R.getMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
-const Mon4 = R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
+R.getMonoid(S.semigroupSum) // $ExpectType Monoid<Record<string, number>>
+R.getMonoid<Keys, number>(S.semigroupSum) // $ExpectType Monoid<Record<Keys, number>>
 
-const Mon5 = Mon.getTupleMonoid(Mon.monoidString, Mon.monoidSum, Mon.monoidAll) // $ExpectType Monoid<[string, number, boolean]>
+Mon.getTupleMonoid(Mon.monoidString, Mon.monoidSum, Mon.monoidAll) // $ExpectType Monoid<[string, number, boolean]>
 
 //
 // Ring
 //
 
-const Ring1 = Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fieldNumber) // $ExpectType Ring<[number, number, number]>
+Ring.getTupleRing(Field.fieldNumber, Field.fieldNumber, Field.fieldNumber) // $ExpectType Ring<[number, number, number]>
 
 //
 // NonEmptyArray
 //
 
 declare const nea2v1: NEA.NonEmptyArray<string>
-declare const nea2v2: NEA.NonEmptyArray<string>
-declare const array1: Array<string>
 
 NEA.cons(1, []) // $ExpectType NonEmptyArray<1>
-
-NEA.make([1]) // $ExpectType NonEmptyArray<number>
-// $ExpectError
-NEA.make([])
-
-nea2v1.map(len) // $ExpectType NonEmptyArray<number>
-
-nea2v1.concat(nea2v2) // $ExpectType NonEmptyArray<string>
-nea2v1.concat(array1) // $ExpectType NonEmptyArray<string>
-array1.concat(nea2v1) // $ExpectType string[]
 
 nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
 
@@ -351,7 +335,7 @@ nea2v1.sort(Or.ordString.compare) // $ExpectType NonEmptyArray<string>
 // flip
 
 // should handle generics
-const consFlipped = Fu.flip(A.cons) // $ExpectType <A>(b: A[], a: A) => NonEmptyArray<A>
+Fu.flip(A.cons) // $ExpectType <A>(b: A[], a: A) => NonEmptyArray<A>
 
 // tuple
 

@@ -18,6 +18,7 @@ Data structure which represents non-empty arrays
 - [cons (constant)](#cons-constant)
 - [copy (constant)](#copy-constant)
 - [getEq (constant)](#geteq-constant)
+- [getShow (constant)](#getshow-constant)
 - [nonEmptyArray (constant)](#nonemptyarray-constant)
 - [reverse (constant)](#reverse-constant)
 - [snoc (constant)](#snoc-constant)
@@ -29,14 +30,12 @@ Data structure which represents non-empty arrays
 - [findLastIndex (function)](#findlastindex-function)
 - [fromArray (function)](#fromarray-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getShow (function)](#getshow-function)
 - [group (function)](#group-function)
 - [groupBy (function)](#groupby-function)
 - [groupSort (function)](#groupsort-function)
 - [head (function)](#head-function)
 - [insertAt (function)](#insertat-function)
 - [last (function)](#last-function)
-- [make (function)](#make-function)
 - [max (function)](#max-function)
 - [min (function)](#min-function)
 - [modifyAt (function)](#modifyat-function)
@@ -53,8 +52,6 @@ Data structure which represents non-empty arrays
 ```ts
 export interface NonEmptyArray<A> extends Array<A> {
   0: A
-  map<B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B): NonEmptyArray<B>
-  concat(as: Array<A>): NonEmptyArray<A>
 }
 ```
 
@@ -121,12 +118,22 @@ export const getEq: <A>(E: Eq<A>) => Eq<NonEmptyArray<A>> = ...
 **Example**
 
 ```ts
-import { make, getEq, cons } from 'fp-ts/lib/NonEmptyArray'
+import { getEq, cons } from 'fp-ts/lib/NonEmptyArray'
 import { eqNumber } from 'fp-ts/lib/Eq'
 
 const E = getEq(eqNumber)
-assert.strictEqual(E.equals(cons(1, [2]), make([1, 2])), true)
-assert.strictEqual(E.equals(cons(1, [2]), make([1, 3])), false)
+assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
+assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
+```
+
+Added in v2.0.0
+
+# getShow (constant)
+
+**Signature**
+
+```ts
+export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = ...
 ```
 
 Added in v2.0.0
@@ -265,16 +272,6 @@ export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> { ... }
 
 Added in v2.0.0
 
-# getShow (function)
-
-**Signature**
-
-```ts
-export function getShow<A>(S: Show<A>): Show<NonEmptyArray<A>> { ... }
-```
-
-Added in v2.0.0
-
 # group (function)
 
 Group equal, consecutive elements of an array into non empty arrays.
@@ -367,18 +364,6 @@ Added in v2.0.0
 
 ```ts
 export function last<A>(nea: NonEmptyArray<A>): A { ... }
-```
-
-Added in v2.0.0
-
-# make (function)
-
-Builds a `NonEmptyArray` from a provably (compile time) non empty `Array`.
-
-**Signature**
-
-```ts
-export function make<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> { ... }
 ```
 
 Added in v2.0.0

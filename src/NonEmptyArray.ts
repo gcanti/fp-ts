@@ -13,6 +13,7 @@ import { Option, some, none } from './Option'
 import { Eq } from './Eq'
 import { Predicate, Refinement } from './function'
 import { Show } from './Show'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -35,17 +36,6 @@ export type URI = typeof URI
  */
 export interface NonEmptyArray<A> extends Array<A> {
   0: A
-  map<B>(f: (a: A, index: number, nea: NonEmptyArray<A>) => B): NonEmptyArray<B>
-  concat(as: Array<A>): NonEmptyArray<A>
-}
-
-/**
- * Builds a `NonEmptyArray` from a provably (compile time) non empty `Array`.
- *
- * @since 2.0.0
- */
-export function make<A>(as: Array<A> & { 0: A }): NonEmptyArray<A> {
-  return as as any
 }
 
 /**
@@ -84,12 +74,7 @@ export function fromArray<A>(as: Array<A>): Option<NonEmptyArray<A>> {
 /**
  * @since 2.0.0
  */
-export function getShow<A>(S: Show<A>): Show<NonEmptyArray<A>> {
-  const SA = A.getShow(S)
-  return {
-    show: arr => `make(${SA.show(arr)})`
-  }
-}
+export const getShow: <A>(S: Show<A>) => Show<NonEmptyArray<A>> = A.getShow
 
 /**
  * @since 2.0.0
@@ -133,18 +118,18 @@ export function max<A>(ord: Ord<A>): (nea: NonEmptyArray<A>) => A {
  */
 export function getSemigroup<A = never>(): Semigroup<NonEmptyArray<A>> {
   return {
-    concat: (x, y) => x.concat(y)
+    concat: (x, y) => x.concat(y) as any
   }
 }
 
 /**
  * @example
- * import { make, getEq, cons } from 'fp-ts/lib/NonEmptyArray'
+ * import { getEq, cons } from 'fp-ts/lib/NonEmptyArray'
  * import { eqNumber } from 'fp-ts/lib/Eq'
  *
  * const E = getEq(eqNumber)
- * assert.strictEqual(E.equals(cons(1, [2]), make([1, 2])), true)
- * assert.strictEqual(E.equals(cons(1, [2]), make([1, 3])), false)
+ * assert.strictEqual(E.equals(cons(1, [2]), [1, 2]), true)
+ * assert.strictEqual(E.equals(cons(1, [2]), [1, 3]), false)
  *
  * @since 2.0.0
  */
@@ -173,7 +158,7 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
     }
     const r: Array<NonEmptyArray<A>> = []
     let head: A = as[0]
-    let nea = make([head])
+    let nea: NonEmptyArray<A> = [head]
     for (let i = 1; i < len; i++) {
       const x = as[i]
       if (E.equals(x, head)) {
@@ -181,7 +166,7 @@ export function group<A>(E: Eq<A>): (as: Array<A>) => Array<NonEmptyArray<A>> {
       } else {
         r.push(nea)
         head = x
-        nea = make([head])
+        nea = [head]
       }
     }
     r.push(nea)
@@ -324,10 +309,6 @@ export function filterWithIndex<A>(
   return fromArray(nea.filter((a, i) => predicate(i, a)))
 }
 
-const mapWithIndex = <A, B>(fa: NonEmptyArray<A>, f: (i: number, a: A) => B): NonEmptyArray<B> => {
-  return fa.map((a, i) => f(i, a))
-}
-
 /**
  * @since 2.0.0
  */
@@ -338,7 +319,7 @@ export const nonEmptyArray: Monad1<URI> &
   FoldableWithIndex1<URI, number> = {
   URI,
   map: A.array.map as any,
-  mapWithIndex,
+  mapWithIndex: A.array.mapWithIndex as any,
   of: A.array.of as any,
   ap: A.array.ap as any,
   chain: A.array.chain as any,
@@ -353,4 +334,42 @@ export const nonEmptyArray: Monad1<URI> &
   foldMapWithIndex: A.array.foldMapWithIndex,
   reduceRightWithIndex: A.array.reduceRightWithIndex,
   traverseWithIndex: A.array.traverseWithIndex as any
+}
+
+const {
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  foldMapWithIndex,
+  map,
+  mapWithIndex,
+  reduce,
+  reduceRight,
+  reduceRightWithIndex,
+  reduceWithIndex
+} = pipeable(nonEmptyArray)
+
+export {
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  foldMapWithIndex,
+  map,
+  mapWithIndex,
+  reduce,
+  reduceRight,
+  reduceRightWithIndex,
+  reduceWithIndex
 }
