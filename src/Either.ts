@@ -45,6 +45,7 @@ import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable2 } from './Traversable'
 import { Witherable2C } from './Witherable'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -348,61 +349,6 @@ export function stringifyJSON<E>(u: unknown, onError: (reason: unknown) => E): E
   return tryCatch(() => JSON.stringify(u), onError)
 }
 
-const map = <E, A, B>(ma: Either<E, A>, f: (a: A) => B): Either<E, B> => {
-  return isLeft(ma) ? ma : right(f(ma.right))
-}
-
-const ap = <E, A, B>(mab: Either<E, (a: A) => B>, ma: Either<E, A>): Either<E, B> => {
-  return isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))
-}
-
-const chain = <E, A, B>(ma: Either<E, A>, f: (a: A) => Either<E, B>): Either<E, B> => {
-  return isLeft(ma) ? ma : f(ma.right)
-}
-
-const bimap = <E, V, A, B>(ma: Either<E, A>, f: (e: E) => V, g: (a: A) => B): Either<V, B> => {
-  return isLeft(ma) ? left(f(ma.left)) : right(g(ma.right))
-}
-
-const extend = <E, A, B>(ma: Either<E, A>, f: (ma: Either<E, A>) => B): Either<E, B> => {
-  return isLeft(ma) ? ma : right(f(ma))
-}
-
-const reduce = <E, A, B>(ma: Either<E, A>, b: B, f: (b: B, a: A) => B): B => {
-  return isLeft(ma) ? b : f(b, ma.right)
-}
-
-const foldMap = <M>(M: Monoid<M>) => <E, A>(ma: Either<E, A>, f: (a: A) => M): M => {
-  return isLeft(ma) ? M.empty : f(ma.right)
-}
-
-const reduceRight = <E, A, B>(ma: Either<E, A>, b: B, f: (a: A, b: B) => B): B => {
-  return isLeft(ma) ? b : f(ma.right, b)
-}
-
-const traverse = <F>(F: Applicative<F>) => <E, A, B>(
-  ma: Either<E, A>,
-  f: (a: A) => HKT<F, B>
-): HKT<F, Either<E, B>> => {
-  return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), of)
-}
-
-const sequence = <F>(F: Applicative<F>) => <E, A>(ma: Either<E, HKT<F, A>>): HKT<F, Either<E, A>> => {
-  return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
-}
-
-const chainRec = <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>): Either<E, B> => {
-  return tailRec(f(a), e =>
-    isLeft(e)
-      ? right<Either<E, B>>(left(e.left))
-      : isLeft(e.right)
-      ? left(f(e.right.left))
-      : right(right(e.right.right))
-  )
-}
-
-const of = right
-
 const phantom: any = undefined
 
 /**
@@ -472,7 +418,7 @@ export function getFilterable<E>(M: Monoid<E>): Filterable2C<URI, E> {
 
   return {
     ...C,
-    map,
+    map: either.map,
     partitionMap,
     filterMap,
     partition,
@@ -491,7 +437,7 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
   const wither = <F>(
     F: Applicative<F>
   ): (<A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<E, B>>) => {
-    const traverseF = traverse(F)
+    const traverseF = either.traverse(F)
     return (ma, f) => F.map(traverseF(ma, f), filterableM.compact)
   }
 
@@ -501,17 +447,17 @@ export function getWitherable<E>(M: Monoid<E>): Witherable2C<URI, E> {
     ma: Either<E, A>,
     f: (a: A) => HKT<F, Either<RL, RR>>
   ) => HKT<F, Separated<Either<E, RL>, Either<E, RR>>>) => {
-    const traverseF = traverse(F)
+    const traverseF = either.traverse(F)
     return (ma, f) => F.map(traverseF(ma, f), filterableM.separate)
   }
 
   return {
     ...filterableM,
-    traverse,
-    sequence,
-    reduce,
-    foldMap,
-    reduceRight,
+    traverse: either.traverse,
+    sequence: either.sequence,
+    reduce: either.reduce,
+    foldMap: either.foldMap,
+    reduceRight: either.reduceRight,
     wither,
     wilt
   }
@@ -582,18 +528,66 @@ export const either: Monad2<URI> &
   Extend2<URI> &
   ChainRec2<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
-  reduce,
-  foldMap,
-  reduceRight,
-  traverse,
-  sequence,
-  bimap,
-  mapLeft: (ma, f) => (isLeft(ma) ? left(f(ma.left)) : ma),
+  map: (ma, f) => (isLeft(ma) ? ma : right(f(ma.right))),
+  of: right,
+  ap: (mab, ma) => (isLeft(mab) ? mab : isLeft(ma) ? ma : right(mab.right(ma.right))),
+  chain: (ma, f) => (isLeft(ma) ? ma : f(ma.right)),
+  reduce: (fa, b, f) => (isLeft(fa) ? b : f(b, fa.right)),
+  foldMap: M => (fa, f) => (isLeft(fa) ? M.empty : f(fa.right)),
+  reduceRight: (fa, b, f) => (isLeft(fa) ? b : f(fa.right, b)),
+  traverse: <F>(F: Applicative<F>) => <E, A, B>(ma: Either<E, A>, f: (a: A) => HKT<F, B>): HKT<F, Either<E, B>> => {
+    return isLeft(ma) ? F.of(left(ma.left)) : F.map<B, Either<E, B>>(f(ma.right), right)
+  },
+  sequence: <F>(F: Applicative<F>) => <E, A>(ma: Either<E, HKT<F, A>>): HKT<F, Either<E, A>> => {
+    return isLeft(ma) ? F.of(left(ma.left)) : F.map<A, Either<E, A>>(ma.right, right)
+  },
+  bimap: (fla, f, g) => (isLeft(fla) ? left(f(fla.left)) : right(g(fla.right))),
+  mapLeft: (fla, f) => (isLeft(fla) ? left(f(fla.left)) : fla),
   alt: (fx, fy) => (isLeft(fx) ? fy() : fx),
+  extend: (wa, f) => (isLeft(wa) ? wa : right(f(wa))),
+  chainRec: <E, A, B>(a: A, f: (a: A) => Either<E, Either<A, B>>): Either<E, B> => {
+    return tailRec(f(a), e =>
+      isLeft(e)
+        ? right<Either<E, B>>(left(e.left))
+        : isLeft(e.right)
+        ? left(f(e.right.left))
+        : right(right(e.right.right))
+    )
+  }
+}
+
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  duplicate,
   extend,
-  chainRec
+  flatten,
+  foldMap,
+  map,
+  mapLeft,
+  reduce,
+  reduceRight
+} = pipeable(either)
+
+export {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  map,
+  mapLeft,
+  reduce,
+  reduceRight
 }
