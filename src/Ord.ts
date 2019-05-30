@@ -11,7 +11,7 @@
  */
 import { Ordering, semigroupOrdering } from './Ordering'
 import { Semigroup } from './Semigroup'
-import { Eq, eqBoolean, eqNumber, eqString } from './Eq'
+import { Eq } from './Eq'
 
 /**
  * @since 2.0.0
@@ -25,11 +25,15 @@ const compare = (x: any, y: any): Ordering => {
   return x < y ? -1 : x > y ? 1 : 0
 }
 
+function strictEqual<A>(a: A, b: A): boolean {
+  return a === b
+}
+
 /**
  * @since 2.0.0
  */
 export const ordString: Ord<string> = {
-  equals: eqString.equals,
+  equals: strictEqual,
   compare
 }
 
@@ -37,7 +41,7 @@ export const ordString: Ord<string> = {
  * @since 2.0.0
  */
 export const ordNumber: Ord<number> = {
-  equals: eqNumber.equals,
+  equals: strictEqual,
   compare
 }
 
@@ -45,7 +49,7 @@ export const ordNumber: Ord<number> = {
  * @since 2.0.0
  */
 export const ordBoolean: Ord<boolean> = {
-  equals: eqBoolean.equals,
+  equals: strictEqual,
   compare
 }
 

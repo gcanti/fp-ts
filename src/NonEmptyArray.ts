@@ -235,54 +235,22 @@ export function sort<A>(O: Ord<A>): (nea: NonEmptyArray<A>) => NonEmptyArray<A> 
 /**
  * @since 2.0.0
  */
-export function findFirst<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
-export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
-export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> {
-  return A.findFirst(nea, predicate)
+export function insertAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
+  return A.insertAt(i, a) as any
 }
 
 /**
  * @since 2.0.0
  */
-export function findLast<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
-export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A>
-export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> {
-  return A.findLast(nea, predicate)
+export function updateAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
+  return A.updateAt(i, a) as any
 }
 
 /**
  * @since 2.0.0
  */
-export function findIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> {
-  return A.findIndex(nea, predicate)
-}
-
-/**
- * @since 2.0.0
- */
-export function findLastIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> {
-  return A.findLastIndex(nea, predicate)
-}
-
-/**
- * @since 2.0.0
- */
-export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
-  return A.insertAt(i, a, nea) as any
-}
-
-/**
- * @since 2.0.0
- */
-export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> {
-  return A.updateAt(i, a, nea) as any
-}
-
-/**
- * @since 2.0.0
- */
-export function modifyAt<A>(i: number, nea: NonEmptyArray<A>, f: (a: A) => A): Option<NonEmptyArray<A>> {
-  return A.modifyAt(i, nea, f) as any
+export function modifyAt<A>(i: number, f: (a: A) => A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
+  return A.modifyAt(i, f) as any
 }
 
 /**

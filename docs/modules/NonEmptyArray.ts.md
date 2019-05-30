@@ -24,10 +24,6 @@ Data structure which represents non-empty arrays
 - [snoc (constant)](#snoc-constant)
 - [filter (function)](#filter-function)
 - [filterWithIndex (function)](#filterwithindex-function)
-- [findFirst (function)](#findfirst-function)
-- [findIndex (function)](#findindex-function)
-- [findLast (function)](#findlast-function)
-- [findLastIndex (function)](#findlastindex-function)
 - [fromArray (function)](#fromarray-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [group (function)](#group-function)
@@ -206,48 +202,6 @@ export function filterWithIndex<A>(
 
 Added in v2.0.0
 
-# findFirst (function)
-
-**Signature**
-
-```ts
-export function findFirst<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
-export function findFirst<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> { ... }
-```
-
-Added in v2.0.0
-
-# findIndex (function)
-
-**Signature**
-
-```ts
-export function findIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> { ... }
-```
-
-Added in v2.0.0
-
-# findLast (function)
-
-**Signature**
-
-```ts
-export function findLast<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<B>
-export function findLast<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<A> { ... }
-```
-
-Added in v2.0.0
-
-# findLastIndex (function)
-
-**Signature**
-
-```ts
-export function findLastIndex<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<number> { ... }
-```
-
-Added in v2.0.0
-
 # fromArray (function)
 
 Builds a `NonEmptyArray` from an `Array` returning `none` if `as` is an empty array
@@ -353,7 +307,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function insertAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> { ... }
+export function insertAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -393,7 +347,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function modifyAt<A>(i: number, nea: NonEmptyArray<A>, f: (a: A) => A): Option<NonEmptyArray<A>> { ... }
+export function modifyAt<A>(i: number, f: (a: A) => A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -423,7 +377,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function updateAt<A>(i: number, a: A, nea: NonEmptyArray<A>): Option<NonEmptyArray<A>> { ... }
+export function updateAt<A>(i: number, a: A): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
 ```
 
 Added in v2.0.0

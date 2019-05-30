@@ -9,10 +9,6 @@ import {
   copy,
   filter,
   filterWithIndex,
-  findFirst,
-  findIndex,
-  findLast,
-  findLastIndex,
   fromArray,
   getEq,
   getSemigroup,
@@ -172,57 +168,17 @@ describe.only('NonEmptyArray', () => {
     })
   })
 
-  it('findFirst', () => {
-    const make = (x: number) => ({ x })
-    const a1 = make(1)
-    const a2 = make(1)
-    const a3 = make(2)
-    assert.deepStrictEqual(option.map(findFirst([a1, a2, a3], ({ x }) => x === 1), x => x === a1), some(true))
-    assert.deepStrictEqual(findFirst([a1, a2, a3], ({ x }) => x === 2), some(a3))
-    assert.deepStrictEqual(findFirst([a1, a2, a3], ({ x }) => x === 10), none)
-  })
-
-  it('findLast', () => {
-    const make = (x: number) => ({ x })
-    const a1 = make(1)
-    const a2 = make(1)
-    const a3 = make(2)
-    assert.deepStrictEqual(option.map(findLast([a1, a2, a3], ({ x }) => x === 1), x => x === a2), some(true))
-    assert.deepStrictEqual(findLast([a1, a2, a3], ({ x }) => x === 2), some(a3))
-    assert.deepStrictEqual(findLast([a1, a2, a3], ({ x }) => x === 10), none)
-  })
-
-  it('findIndex', () => {
-    const make = (x: number) => ({ x })
-    const a1 = make(1)
-    const a2 = make(1)
-    const a3 = make(2)
-    assert.deepStrictEqual(findIndex([a1, a2, a3], ({ x }) => x === 1), some(0))
-    assert.deepStrictEqual(findIndex([a1, a2, a3], ({ x }) => x === 2), some(2))
-    assert.deepStrictEqual(findIndex([a1, a2, a3], ({ x }) => x === 10), none)
-  })
-
-  it('findLastIndex', () => {
-    const make = (x: number) => ({ x })
-    const a1 = make(1)
-    const a2 = make(1)
-    const a3 = make(2)
-    assert.deepStrictEqual(findLastIndex([a1, a2, a3], ({ x }) => x === 1), some(1))
-    assert.deepStrictEqual(findLastIndex([a1, a2, a3], ({ x }) => x === 2), some(2))
-    assert.deepStrictEqual(findLastIndex([a1, a2, a3], ({ x }) => x === 10), none)
-  })
-
   it('insertAt', () => {
     const make = (x: number) => ({ x })
     const a1 = make(1)
     const a2 = make(1)
     const a3 = make(2)
     const a4 = make(3)
-    assert.deepStrictEqual(insertAt(0, a4, [a1, a2, a3]), some([a4, a1, a2, a3]))
-    assert.deepStrictEqual(insertAt(-1, a4, [a1, a2, a3]), none)
-    assert.deepStrictEqual(insertAt(3, a4, [a1, a2, a3]), some([a1, a2, a3, a4]))
-    assert.deepStrictEqual(insertAt(1, a4, [a1, a2, a3]), some([a1, a4, a2, a3]))
-    assert.deepStrictEqual(insertAt(4, a4, [a1, a2, a3]), none)
+    assert.deepStrictEqual(insertAt(0, a4)([a1, a2, a3]), some([a4, a1, a2, a3]))
+    assert.deepStrictEqual(insertAt(-1, a4)([a1, a2, a3]), none)
+    assert.deepStrictEqual(insertAt(3, a4)([a1, a2, a3]), some([a1, a2, a3, a4]))
+    assert.deepStrictEqual(insertAt(1, a4)([a1, a2, a3]), some([a1, a4, a2, a3]))
+    assert.deepStrictEqual(insertAt(4, a4)([a1, a2, a3]), none)
   })
 
   it('updateAt', () => {
@@ -232,18 +188,18 @@ describe.only('NonEmptyArray', () => {
     const a3 = make2(2)
     const a4 = make2(3)
     const arr: NonEmptyArray<{ x: number }> = [a1, a2, a3]
-    assert.deepStrictEqual(updateAt(0, a4, arr), some([a4, a2, a3]))
-    assert.deepStrictEqual(updateAt(-1, a4, arr), none)
-    assert.deepStrictEqual(updateAt(3, a4, arr), none)
-    assert.deepStrictEqual(updateAt(1, a4, arr), some([a1, a4, a3]))
+    assert.deepStrictEqual(updateAt(0, a4)(arr), some([a4, a2, a3]))
+    assert.deepStrictEqual(updateAt(-1, a4)(arr), none)
+    assert.deepStrictEqual(updateAt(3, a4)(arr), none)
+    assert.deepStrictEqual(updateAt(1, a4)(arr), some([a1, a4, a3]))
     // should return the same reference if nothing changed
-    const r1 = updateAt(0, a1, arr)
+    const r1 = updateAt(0, a1)(arr)
     if (isSome(r1)) {
       assert.strictEqual(r1.value, arr)
     } else {
       assert.fail('is not a Some')
     }
-    const r2 = updateAt(2, a3, arr)
+    const r2 = updateAt(2, a3)(arr)
     if (isSome(r2)) {
       assert.strictEqual(r2.value, arr)
     } else {
@@ -253,8 +209,8 @@ describe.only('NonEmptyArray', () => {
 
   it('modifyAt', () => {
     const double = (n: number): number => n * 2
-    assert.deepStrictEqual(modifyAt(1, cons(1, []), double), none)
-    assert.deepStrictEqual(modifyAt(1, cons(1, [2]), double), some(cons(1, [4])))
+    assert.deepStrictEqual(modifyAt(1, double)(cons(1, [])), none)
+    assert.deepStrictEqual(modifyAt(1, double)(cons(1, [2])), some(cons(1, [4])))
   })
 
   it('copy', () => {

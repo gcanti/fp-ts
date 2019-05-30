@@ -5,12 +5,12 @@ import { Alternative1 } from './Alternative'
 import { Applicative } from './Applicative'
 import { Compactable1, Separated } from './Compactable'
 import { Either } from './Either'
-import { Eq, fromEquals } from './Eq'
+import { Eq } from './Eq'
 import { Extend1 } from './Extend'
 import { FilterableWithIndex1 } from './FilterableWithIndex'
 import { Foldable1 } from './Foldable'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { constTrue, Endomorphism, identity, Predicate, Refinement, tuple } from './function'
+import { Predicate, Refinement } from './function'
 import { FunctorWithIndex1 } from './FunctorWithIndex'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
@@ -18,12 +18,12 @@ import { Monoid } from './Monoid'
 import { NonEmptyArray } from './NonEmptyArray'
 import { isSome, none, Option, some } from './Option'
 import { fromCompare, getSemigroup, Ord, ordNumber } from './Ord'
+import { pipeable } from './pipeable'
 import { Plus1 } from './Plus'
 import { Show } from './Show'
 import { TraversableWithIndex1 } from './TraversableWithIndex'
 import { Unfoldable1 } from './Unfoldable'
 import { Witherable1 } from './Witherable'
-import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -97,7 +97,9 @@ export function getMonoid<A = never>(): Monoid<Array<A>> {
  * @since 2.0.0
  */
 export function getEq<A>(E: Eq<A>): Eq<Array<A>> {
-  return fromEquals((xs, ys) => xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
+  return {
+    equals: (xs, ys) => xs === ys || (xs.length === ys.length && xs.every((x, i) => E.equals(x, ys[i])))
+  }
 }
 
 /**
@@ -222,13 +224,13 @@ export function flatten<A>(mma: Array<Array<A>>): Array<A> {
  * @example
  * import { fold } from 'fp-ts/lib/Array'
  *
- * const len = <A>(as: Array<A>): number => fold(as, () => 0, (_, tail) => 1 + len(tail))
+ * const len: <A>(as: Array<A>) => number = fold(() => 0, (_, tail) => 1 + len(tail))
  * assert.strictEqual(len([1, 2, 3]), 3)
  *
  * @since 2.0.0
  */
-export function fold<A, B>(as: Array<A>, onNil: () => B, onCons: (head: A, tail: Array<A>) => B): B {
-  return isEmpty(as) ? onNil() : onCons(as[0], as.slice(1))
+export function fold<A, B>(onNil: () => B, onCons: (head: A, tail: Array<A>) => B): (as: Array<A>) => B {
+  return as => (isEmpty(as) ? onNil() : onCons(as[0], as.slice(1)))
 }
 
 /**
@@ -236,8 +238,8 @@ export function fold<A, B>(as: Array<A>, onNil: () => B, onCons: (head: A, tail:
  *
  * @since 2.0.0
  */
-export function foldRight<A, B>(as: Array<A>, onNil: () => B, onCons: (init: Array<A>, last: A) => B): B {
-  return isEmpty(as) ? onNil() : onCons(as.slice(0, as.length - 1), as[as.length - 1])
+export function foldRight<A, B>(onNil: () => B, onCons: (init: Array<A>, last: A) => B): (as: Array<A>) => B {
+  return as => (isEmpty(as) ? onNil() : onCons(as.slice(0, as.length - 1), as[as.length - 1]))
 }
 
 /**
@@ -246,19 +248,21 @@ export function foldRight<A, B>(as: Array<A>, onNil: () => B, onCons: (init: Arr
  * ```ts
  * import { scan } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(scan([1, 2, 3], 10, (b, a) => b - a), [ 10, 9, 7, 4 ])
+ * assert.deepStrictEqual(scan(10, (b, a: number) => b - a)([1, 2, 3]), [10, 9, 7, 4])
  * ```
  *
  * @since 2.0.0
  */
-export function scan<A, B>(as: Array<A>, b: B, f: (b: B, a: A) => B): Array<B> {
-  const l = as.length
-  const r: Array<B> = new Array(l + 1)
-  r[0] = b
-  for (let i = 0; i < l; i++) {
-    r[i + 1] = f(r[i], as[i])
+export function scan<A, B>(b: B, f: (b: B, a: A) => B): (as: Array<A>) => Array<B> {
+  return as => {
+    const l = as.length
+    const r: Array<B> = new Array(l + 1)
+    r[0] = b
+    for (let i = 0; i < l; i++) {
+      r[i + 1] = f(r[i], as[i])
+    }
+    return r
   }
-  return r
 }
 
 /**
@@ -267,18 +271,20 @@ export function scan<A, B>(as: Array<A>, b: B, f: (b: B, a: A) => B): Array<B> {
  * @example
  * import { scanRight } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(scanRight([1, 2, 3], 10, (a, b) => b - a), [ 4, 5, 7, 10 ])
+ * assert.deepStrictEqual(scanRight(10, (a: number, b) => b - a)([1, 2, 3]), [4, 5, 7, 10])
  *
  * @since 2.0.0
  */
-export function scanRight<A, B>(as: Array<A>, b: B, f: (a: A, b: B) => B): Array<B> {
-  const l = as.length
-  const r: Array<B> = new Array(l + 1)
-  r[l] = b
-  for (let i = l - 1; i >= 0; i--) {
-    r[i] = f(as[i], r[i + 1])
+export function scanRight<A, B>(b: B, f: (a: A, b: B) => B): (as: Array<A>) => Array<B> {
+  return as => {
+    const l = as.length
+    const r: Array<B> = new Array(l + 1)
+    r[l] = b
+    for (let i = l - 1; i >= 0; i--) {
+      r[i] = f(as[i], r[i + 1])
+    }
+    return r
   }
-  return r
 }
 
 /**
@@ -300,8 +306,8 @@ export function isEmpty<A>(as: Array<A>): boolean {
  *
  * @since 2.0.0
  */
-export function isOutOfBound<A>(i: number, as: Array<A>): boolean {
-  return i < 0 || i >= as.length
+export function isOutOfBound<A>(i: number): (as: Array<A>) => boolean {
+  return as => i < 0 || i >= as.length
 }
 
 /**
@@ -311,13 +317,14 @@ export function isOutOfBound<A>(i: number, as: Array<A>): boolean {
  * import { lookup } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(lookup(1, [1, 2, 3]), some(2))
- * assert.deepStrictEqual(lookup(3, [1, 2, 3]), none)
+ * assert.deepStrictEqual(lookup(1)([1, 2, 3]), some(2))
+ * assert.deepStrictEqual(lookup(3)([1, 2, 3]), none)
  *
  * @since 2.0.0
  */
-export function lookup<A>(i: number, as: Array<A>): Option<A> {
-  return isOutOfBound(i, as) ? none : some(as[i])
+export function lookup(i: number): <A>(as: Array<A>) => Option<A> {
+  const is = isOutOfBound(i)
+  return as => (is(as) ? none : some(as[i]))
 }
 
 /**
@@ -389,7 +396,7 @@ export function head<A>(as: Array<A>): Option<A> {
  * @since 2.0.0
  */
 export function last<A>(as: Array<A>): Option<A> {
-  return lookup(as.length - 1, as)
+  return lookup(as.length - 1)(as)
 }
 
 /**
@@ -432,12 +439,12 @@ export function init<A>(as: Array<A>): Option<Array<A>> {
  * @example
  * import { take } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(take(2, [1, 2, 3]), [1, 2])
+ * assert.deepStrictEqual(take(2)([1, 2, 3]), [1, 2])
  *
  * @since 2.0.0
  */
-export function take<A>(n: number, as: Array<A>): Array<A> {
-  return as.slice(0, n)
+export function take(n: number): <A>(as: Array<A>) => Array<A> {
+  return as => as.slice(0, n)
 }
 
 /**
@@ -447,12 +454,12 @@ export function take<A>(n: number, as: Array<A>): Array<A> {
  * @example
  * import { takeRight } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(takeRight(2, [1, 2, 3, 4, 5]), [4, 5])
+ * assert.deepStrictEqual(takeRight(2)([1, 2, 3, 4, 5]), [4, 5])
  *
  * @since 2.0.0
  */
-export function takeRight<A>(n: number, as: Array<A>): Array<A> {
-  return n === 0 ? empty : as.slice(-n)
+export function takeRight(n: number): <A>(as: Array<A>) => Array<A> {
+  return as => (n === 0 ? empty : as.slice(-n))
 }
 
 /**
@@ -461,19 +468,21 @@ export function takeRight<A>(n: number, as: Array<A>): Array<A> {
  * @example
  * import { takeWhile } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(takeWhile([2, 4, 3, 6], n => n % 2 === 0), [2, 4])
+ * assert.deepStrictEqual(takeWhile((n: number) => n % 2 === 0)([2, 4, 3, 6]), [2, 4])
  *
  * @since 2.0.0
  */
-export function takeWhile<A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Array<B>
-export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A>
-export function takeWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A> {
-  const i = spanIndexUncurry(as, predicate)
-  const init = Array(i)
-  for (let j = 0; j < i; j++) {
-    init[j] = as[j]
+export function takeWhile<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Array<B>
+export function takeWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A>
+export function takeWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> {
+  return as => {
+    const i = spanIndexUncurry(as, predicate)
+    const init = Array(i)
+    for (let j = 0; j < i; j++) {
+      init[j] = as[j]
+    }
+    return init
   }
-  return init
 }
 
 const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
@@ -495,24 +504,26 @@ const spanIndexUncurry = <A>(as: Array<A>, predicate: Predicate<A>): number => {
  * @example
  * import { span } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(span([1, 3, 2, 4, 5], n => n % 2 === 1), { init: [1, 3], rest: [2, 4, 5] })
+ * assert.deepStrictEqual(span((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), { init: [1, 3], rest: [2, 4, 5] })
  *
  * @since 2.0.0
  */
-export function span<A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): { init: Array<B>; rest: Array<A> }
-export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> }
-export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>; rest: Array<A> } {
-  const i = spanIndexUncurry(as, predicate)
-  const init = Array(i)
-  for (let j = 0; j < i; j++) {
-    init[j] = as[j]
+export function span<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => { init: Array<B>; rest: Array<A> }
+export function span<A>(predicate: Predicate<A>): (as: Array<A>) => { init: Array<A>; rest: Array<A> }
+export function span<A>(predicate: Predicate<A>): (as: Array<A>) => { init: Array<A>; rest: Array<A> } {
+  return as => {
+    const i = spanIndexUncurry(as, predicate)
+    const init = Array(i)
+    for (let j = 0; j < i; j++) {
+      init[j] = as[j]
+    }
+    const l = as.length
+    const rest = Array(l - i)
+    for (let j = i; j < l; j++) {
+      rest[j - i] = as[j]
+    }
+    return { init, rest }
   }
-  const l = as.length
-  const rest = Array(l - i)
-  for (let j = i; j < l; j++) {
-    rest[j - i] = as[j]
-  }
-  return { init, rest }
 }
 
 /**
@@ -521,12 +532,12 @@ export function span<A>(as: Array<A>, predicate: Predicate<A>): { init: Array<A>
  * @example
  * import { drop } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(drop(2, [1, 2, 3]), [3])
+ * assert.deepStrictEqual(drop(2)([1, 2, 3]), [3])
  *
  * @since 2.0.0
  */
-export function drop<A>(n: number, as: Array<A>): Array<A> {
-  return as.slice(n, as.length)
+export function drop(n: number): <A>(as: Array<A>) => Array<A> {
+  return as => as.slice(n, as.length)
 }
 
 /**
@@ -535,12 +546,12 @@ export function drop<A>(n: number, as: Array<A>): Array<A> {
  * @example
  * import { dropRight } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(dropRight(2, [1, 2, 3, 4, 5]), [1, 2, 3])
+ * assert.deepStrictEqual(dropRight(2)([1, 2, 3, 4, 5]), [1, 2, 3])
  *
  * @since 2.0.0
  */
-export function dropRight<A>(n: number, as: Array<A>): Array<A> {
-  return as.slice(0, as.length - n)
+export function dropRight(n: number): <A>(as: Array<A>) => Array<A> {
+  return as => as.slice(0, as.length - n)
 }
 
 /**
@@ -549,18 +560,20 @@ export function dropRight<A>(n: number, as: Array<A>): Array<A> {
  * @example
  * import { dropWhile } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(dropWhile([1, 3, 2, 4, 5], n => n % 2 === 1), [2, 4, 5])
+ * assert.deepStrictEqual(dropWhile((n: number) => n % 2 === 1)([1, 3, 2, 4, 5]), [2, 4, 5])
  *
  * @since 2.0.0
  */
-export function dropWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A> {
-  const i = spanIndexUncurry(as, predicate)
-  const l = as.length
-  const rest = Array(l - i)
-  for (let j = i; j < l; j++) {
-    rest[j - i] = as[j]
+export function dropWhile<A>(predicate: Predicate<A>): (as: Array<A>) => Array<A> {
+  return as => {
+    const i = spanIndexUncurry(as, predicate)
+    const l = as.length
+    const rest = Array(l - i)
+    for (let j = i; j < l; j++) {
+      rest[j - i] = as[j]
+    }
+    return rest
   }
-  return rest
 }
 
 /**
@@ -570,19 +583,21 @@ export function dropWhile<A>(as: Array<A>, predicate: Predicate<A>): Array<A> {
  * import { findIndex } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(findIndex([1, 2, 3], x => x === 2), some(1))
- * assert.deepStrictEqual(findIndex([], x => x === 2), none)
+ * assert.deepStrictEqual(findIndex((n: number) => n === 2)([1, 2, 3]), some(1))
+ * assert.deepStrictEqual(findIndex((n: number) => n === 2)([]), none)
  *
  * @since 2.0.0
  */
-export function findIndex<A>(as: Array<A>, predicate: Predicate<A>): Option<number> {
-  const len = as.length
-  for (let i = 0; i < len; i++) {
-    if (predicate(as[i])) {
-      return some(i)
+export function findIndex<A>(predicate: Predicate<A>): (as: Array<A>) => Option<number> {
+  return as => {
+    const len = as.length
+    for (let i = 0; i < len; i++) {
+      if (predicate(as[i])) {
+        return some(i)
+      }
     }
+    return none
   }
-  return none
 }
 
 /**
@@ -592,20 +607,22 @@ export function findIndex<A>(as: Array<A>, predicate: Predicate<A>): Option<numb
  * import { findFirst } from 'fp-ts/lib/Array'
  * import { some } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(findFirst([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 1 }))
+ * assert.deepStrictEqual(findFirst((x: { a: number, b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 1 }))
  *
  * @since 2.0.0
  */
-export function findFirst<A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Option<B>
-export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
-export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
-  const len = as.length
-  for (let i = 0; i < len; i++) {
-    if (predicate(as[i])) {
-      return some(as[i])
+export function findFirst<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
+export function findFirst<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> {
+  return as => {
+    const len = as.length
+    for (let i = 0; i < len; i++) {
+      if (predicate(as[i])) {
+        return some(as[i])
+      }
     }
+    return none
   }
-  return none
 }
 
 /**
@@ -623,19 +640,21 @@ export function findFirst<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  * const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
  *
  * // returns the name of the first person that has an age
- * assert.deepStrictEqual(findFirstMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Mary'))
+ * assert.deepStrictEqual(findFirstMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Mary'))
  *
  * @since 2.0.0
  */
-export function findFirstMap<A, B>(as: Array<A>, f: (a: A) => Option<B>): Option<B> {
-  const len = as.length
-  for (let i = 0; i < len; i++) {
-    const v = f(as[i])
-    if (isSome(v)) {
-      return v
+export function findFirstMap<A, B>(f: (a: A) => Option<B>): (as: Array<A>) => Option<B> {
+  return as => {
+    const len = as.length
+    for (let i = 0; i < len; i++) {
+      const v = f(as[i])
+      if (isSome(v)) {
+        return v
+      }
     }
+    return none
   }
-  return none
 }
 
 /**
@@ -645,20 +664,22 @@ export function findFirstMap<A, B>(as: Array<A>, f: (a: A) => Option<B>): Option
  * import { findLast } from 'fp-ts/lib/Array'
  * import { some } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(findLast([{ a: 1, b: 1 }, { a: 1, b: 2 }], x => x.a === 1), some({ a: 1, b: 2 }))
+ * assert.deepStrictEqual(findLast((x: { a: number, b: number }) => x.a === 1)([{ a: 1, b: 1 }, { a: 1, b: 2 }]), some({ a: 1, b: 2 }))
  *
  * @since 2.0.0
  */
-export function findLast<A, B extends A>(as: Array<A>, refinement: Refinement<A, B>): Option<B>
-export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A>
-export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
-  const len = as.length
-  for (let i = len - 1; i >= 0; i--) {
-    if (predicate(as[i])) {
-      return some(as[i])
+export function findLast<A, B extends A>(refinement: Refinement<A, B>): (as: Array<A>) => Option<B>
+export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A>
+export function findLast<A>(predicate: Predicate<A>): (as: Array<A>) => Option<A> {
+  return as => {
+    const len = as.length
+    for (let i = len - 1; i >= 0; i--) {
+      if (predicate(as[i])) {
+        return some(as[i])
+      }
     }
+    return none
   }
-  return none
 }
 
 /**
@@ -676,19 +697,21 @@ export function findLast<A>(as: Array<A>, predicate: Predicate<A>): Option<A> {
  * const persons: Array<Person> = [{ name: 'John' }, { name: 'Mary', age: 45 }, { name: 'Joey', age: 28 }]
  *
  * // returns the name of the last person that has an age
- * assert.deepStrictEqual(findLastMap(persons, p => (p.age === undefined ? none : some(p.name))), some('Joey'))
+ * assert.deepStrictEqual(findLastMap((p: Person) => (p.age === undefined ? none : some(p.name)))(persons), some('Joey'))
  *
  * @since 2.0.0
  */
-export function findLastMap<A, B>(as: Array<A>, f: (a: A) => Option<B>): Option<B> {
-  const len = as.length
-  for (let i = len - 1; i >= 0; i--) {
-    const v = f(as[i])
-    if (isSome(v)) {
-      return v
+export function findLastMap<A, B>(f: (a: A) => Option<B>): (as: Array<A>) => Option<B> {
+  return as => {
+    const len = as.length
+    for (let i = len - 1; i >= 0; i--) {
+      const v = f(as[i])
+      if (isSome(v)) {
+        return v
+      }
     }
+    return none
   }
-  return none
 }
 
 /**
@@ -703,20 +726,22 @@ export function findLastMap<A, B>(as: Array<A>, f: (a: A) => Option<B>): Option<
  *   b: number
  * }
  * const xs: Array<X> = [{ a: 1, b: 0 }, { a: 1, b: 1 }]
- * assert.deepStrictEqual(findLastIndex(xs, x => x.a === 1), some(1))
- * assert.deepStrictEqual(findLastIndex(xs, x => x.a === 4), none)
+ * assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 1)(xs), some(1))
+ * assert.deepStrictEqual(findLastIndex((x: { a: number }) => x.a === 4)(xs), none)
  *
  *
  * @since 2.0.0
  */
-export function findLastIndex<A>(as: Array<A>, predicate: Predicate<A>): Option<number> {
-  const len = as.length
-  for (let i = len - 1; i >= 0; i--) {
-    if (predicate(as[i])) {
-      return some(i)
+export function findLastIndex<A>(predicate: Predicate<A>): (as: Array<A>) => Option<number> {
+  return as => {
+    const len = as.length
+    for (let i = len - 1; i >= 0; i--) {
+      if (predicate(as[i])) {
+        return some(i)
+      }
     }
+    return none
   }
-  return none
 }
 
 /**
@@ -747,12 +772,12 @@ export function unsafeInsertAt<A>(i: number, a: A, as: Array<A>): Array<A> {
  * import { insertAt } from 'fp-ts/lib/Array'
  * import { some } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(insertAt(2, 5, [1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
+ * assert.deepStrictEqual(insertAt(2, 5)([1, 2, 3, 4]), some([1, 2, 5, 3, 4]))
  *
  * @since 2.0.0
  */
-export function insertAt<A>(i: number, a: A, as: Array<A>): Option<Array<A>> {
-  return i < 0 || i > as.length ? none : some(unsafeInsertAt(i, a, as))
+export function insertAt<A>(i: number, a: A): (as: Array<A>) => Option<Array<A>> {
+  return as => (i < 0 || i > as.length ? none : some(unsafeInsertAt(i, a, as)))
 }
 
 /**
@@ -775,13 +800,14 @@ export function unsafeUpdateAt<A>(i: number, a: A, as: Array<A>): Array<A> {
  * import { updateAt } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(updateAt(1, 1, [1, 2, 3]), some([1, 1, 3]))
- * assert.deepStrictEqual(updateAt(1, 1, []), none)
+ * assert.deepStrictEqual(updateAt(1, 1)([1, 2, 3]), some([1, 1, 3]))
+ * assert.deepStrictEqual(updateAt(1, 1)([]), none)
  *
  * @since 2.0.0
  */
-export function updateAt<A>(i: number, a: A, as: Array<A>): Option<Array<A>> {
-  return isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, a, as))
+export function updateAt<A>(i: number, a: A): (as: Array<A>) => Option<Array<A>> {
+  const is = isOutOfBound(i)
+  return as => (is(as) ? none : some(unsafeUpdateAt(i, a, as)))
 }
 
 /**
@@ -800,13 +826,14 @@ export function unsafeDeleteAt<A>(i: number, as: Array<A>): Array<A> {
  * import { deleteAt } from 'fp-ts/lib/Array'
  * import { some, none } from 'fp-ts/lib/Option'
  *
- * assert.deepStrictEqual(deleteAt(0, [1, 2, 3]), some([2, 3]))
- * assert.deepStrictEqual(deleteAt(1, []), none)
+ * assert.deepStrictEqual(deleteAt(0)([1, 2, 3]), some([2, 3]))
+ * assert.deepStrictEqual(deleteAt(1)([]), none)
  *
  * @since 2.0.0
  */
-export function deleteAt<A>(i: number, as: Array<A>): Option<Array<A>> {
-  return isOutOfBound(i, as) ? none : some(unsafeDeleteAt(i, as))
+export function deleteAt(i: number): <A>(as: Array<A>) => Option<Array<A>> {
+  const is = isOutOfBound(i)
+  return as => (is(as) ? none : some(unsafeDeleteAt(i, as)))
 }
 
 /**
@@ -818,13 +845,14 @@ export function deleteAt<A>(i: number, as: Array<A>): Option<Array<A>> {
  * import { some, none } from 'fp-ts/lib/Option'
  *
  * const double = (x: number): number => x * 2
- * assert.deepStrictEqual(modifyAt(1, [1, 2, 3], double), some([1, 4, 3]))
- * assert.deepStrictEqual(modifyAt(1, [], double), none)
+ * assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
+ * assert.deepStrictEqual(modifyAt(1, double)([]), none)
  *
  * @since 2.0.0
  */
-export function modifyAt<A>(i: number, as: Array<A>, f: (a: A) => A): Option<Array<A>> {
-  return isOutOfBound(i, as) ? none : some(unsafeUpdateAt(i, f(as[i]), as))
+export function modifyAt<A>(i: number, f: (a: A) => A): (as: Array<A>) => Option<Array<A>> {
+  const is = isOutOfBound(i)
+  return as => (is(as) ? none : some(unsafeUpdateAt(i, f(as[i]), as)))
 }
 
 /**
@@ -934,7 +962,7 @@ export function zipWith<A, B, C>(fa: Array<A>, fb: Array<B>, f: (a: A, b: B) => 
  * @since 2.0.0
  */
 export function zip<A, B>(fa: Array<A>, fb: Array<B>): Array<[A, B]> {
-  return zipWith(fa, fb, tuple)
+  return zipWith(fa, fb, (a, b) => [a, b])
 }
 
 /**
@@ -965,18 +993,20 @@ export function unzip<A, B>(as: Array<[A, B]>): [Array<A>, Array<B>] {
  * @example
  * import { rotate } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(rotate(2, [1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
+ * assert.deepStrictEqual(rotate(2)([1, 2, 3, 4, 5]), [4, 5, 1, 2, 3])
  *
  * @since 2.0.0
  */
-export function rotate<A>(n: number, xs: Array<A>): Array<A> {
-  const len = xs.length
-  if (n === 0 || len <= 1 || len === Math.abs(n)) {
-    return xs
-  } else if (n < 0) {
-    return rotate(len + n, xs)
-  } else {
-    return xs.slice(-n).concat(xs.slice(0, len - n))
+export function rotate(n: number): <A>(as: Array<A>) => Array<A> {
+  return as => {
+    const len = as.length
+    if (n === 0 || len <= 1 || len === Math.abs(n)) {
+      return as
+    } else if (n < 0) {
+      return rotate(len + n)(as)
+    } else {
+      return as.slice(-n).concat(as.slice(0, len - n))
+    }
   }
 }
 
@@ -989,13 +1019,13 @@ export function rotate<A>(n: number, xs: Array<A>): Array<A> {
  * import { elem } from 'fp-ts/lib/Array'
  * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * assert.strictEqual(elem(eqNumber)(1, [1, 2, 3]), true)
- * assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
+ * assert.strictEqual(elem(eqNumber)(1)([1, 2, 3]), true)
+ * assert.strictEqual(elem(eqNumber)(4)([1, 2, 3]), false)
  *
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A, as: Array<A>) => boolean {
-  return (a, as) => {
+export function elem<A>(E: Eq<A>): (a: A) => (as: Array<A>) => boolean {
+  return a => as => {
     const predicate = (element: A) => E.equals(element, a)
     let i = 0
     const len = as.length
@@ -1027,7 +1057,7 @@ export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> {
     let i = 0
     for (; i < len; i++) {
       const a = as[i]
-      if (!elemS(a, r)) {
+      if (!elemS(a)(r)) {
         r.push(a)
       }
     }
@@ -1062,7 +1092,7 @@ export function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A> {
  *
  * @since 2.0.0
  */
-export function sortBy<A>(ords: Array<Ord<A>>): Endomorphism<Array<A>> {
+export function sortBy<A>(ords: Array<Ord<A>>): (as: Array<A>) => Array<A> {
   return sort(ords.slice(1).reduce(getSemigroup<A>().concat, ords[0]))
 }
 
@@ -1075,9 +1105,9 @@ export function sortBy<A>(ords: Array<Ord<A>>): Endomorphism<Array<A>> {
  * import { Eq, eqNumber } from 'fp-ts/lib/Eq'
  * import { chop, span } from 'fp-ts/lib/Array'
  *
- * const group = <A>(E: Eq<A>) => (as: Array<A>): Array<Array<A>> => {
- *   return chop(as, as => {
- *     const { init, rest } = span(as, a => E.equals(a, as[0]))
+ * const group = <A>(S: Eq<A>): ((as: Array<A>) => Array<Array<A>>) => {
+ *   return chop(as => {
+ *     const { init, rest } = span((a: A) => S.equals(a, as[0]))(as)
  *     return [init, rest]
  *   })
  * }
@@ -1085,15 +1115,17 @@ export function sortBy<A>(ords: Array<Ord<A>>): Endomorphism<Array<A>> {
  *
  * @since 2.0.0
  */
-export function chop<A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Array<B> {
-  const result: Array<B> = []
-  let cs: Array<A> = as
-  while (cs.length > 0) {
-    const [b, c] = f(cs)
-    result.push(b)
-    cs = c
+export function chop<A, B>(f: (as: Array<A>) => [B, Array<A>]): (as: Array<A>) => Array<B> {
+  return as => {
+    const result: Array<B> = []
+    let cs: Array<A> = as
+    while (cs.length > 0) {
+      const [b, c] = f(cs)
+      result.push(b)
+      cs = c
+    }
+    return result
   }
-  return result
 }
 
 /**
@@ -1102,12 +1134,12 @@ export function chop<A, B>(as: Array<A>, f: (as: Array<A>) => [B, Array<A>]): Ar
  * @example
  * import { splitAt } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(splitAt(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
+ * assert.deepStrictEqual(splitAt(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4, 5]])
  *
  * @since 2.0.0
  */
-export function splitAt<A>(n: number, as: Array<A>): [Array<A>, Array<A>] {
-  return [as.slice(0, n), as.slice(n)]
+export function splitAt(n: number): <A>(as: Array<A>) => [Array<A>, Array<A>] {
+  return as => [as.slice(0, n), as.slice(n)]
 }
 
 /**
@@ -1124,13 +1156,14 @@ export function splitAt<A>(n: number, as: Array<A>): [Array<A>, Array<A>] {
  * @example
  * import { chunksOf } from 'fp-ts/lib/Array'
  *
- * assert.deepStrictEqual(chunksOf(2, [1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
+ * assert.deepStrictEqual(chunksOf(2)([1, 2, 3, 4, 5]), [[1, 2], [3, 4], [5]])
  *
  *
  * @since 2.0.0
  */
-export function chunksOf<A>(n: number, as: Array<A>): Array<Array<A>> {
-  return isOutOfBound(n - 1, as) ? [as] : chop(as, as => splitAt(n, as))
+export function chunksOf(n: number): <A>(as: Array<A>) => Array<Array<A>> {
+  const is = isOutOfBound(n - 1)
+  return as => (is(as) ? [as] : chop(splitAt(n))(as))
 }
 
 /**
@@ -1173,7 +1206,7 @@ export function comprehension<A, R>(input: [Array<A>], f: (a: A) => boolean, g?:
 export function comprehension<R>(
   input: Array<Array<any>>,
   f: (...xs: Array<any>) => R,
-  g: (...xs: Array<any>) => boolean = constTrue
+  g: (...xs: Array<any>) => boolean = () => true
 ): Array<R> {
   const go = (scope: Array<any>, input: Array<Array<any>>): Array<R> => {
     if (input.length === 0) {
@@ -1198,7 +1231,7 @@ export function comprehension<R>(
  */
 export function union<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemE = elem(E)
-  return (xs, ys) => concat(xs, ys.filter(a => !elemE(a, xs)))
+  return (xs, ys) => concat(xs, ys.filter(a => !elemE(a)(xs)))
 }
 
 /**
@@ -1215,7 +1248,7 @@ export function union<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
  */
 export function intersection<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemE = elem(E)
-  return (xs, ys) => xs.filter(a => elemE(a, ys))
+  return (xs, ys) => xs.filter(a => elemE(a)(ys))
 }
 
 /**
@@ -1232,8 +1265,10 @@ export function intersection<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array
  */
 export function difference<A>(E: Eq<A>): (xs: Array<A>, ys: Array<A>) => Array<A> {
   const elemE = elem(E)
-  return (xs, ys) => xs.filter(a => !elemE(a, ys))
+  return (xs, ys) => xs.filter(a => !elemE(a)(ys))
 }
+
+const identity = <A>(a: A): A => a
 
 /**
  * @since 2.0.0
