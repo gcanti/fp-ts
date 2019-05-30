@@ -8,6 +8,7 @@ import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -127,3 +128,7 @@ export const taskSeq: typeof task = {
   ...task,
   ap: (mab, ma) => () => mab().then(f => ma().then(a => f(a)))
 }
+
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(task)
+
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }
