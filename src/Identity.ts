@@ -2,14 +2,14 @@ import { Alt1 } from './Alt'
 import { Applicative } from './Applicative'
 import { ChainRec1 } from './ChainRec'
 import { Comonad1 } from './Comonad'
-import { Either } from './Either'
+import { Eq } from './Eq'
 import { Foldable1 } from './Foldable'
 import { identity as id } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -42,22 +42,6 @@ export const getShow: <A>(S: Show<A>) => Show<Identity<A>> = id
  */
 export const getEq: <A>(E: Eq<A>) => Eq<Identity<A>> = id
 
-const chainRec = <A, B>(a: A, f: (a: A) => Either<A, B>): B => {
-  let v = f(a)
-  while (v._tag === 'Left') {
-    v = f(v.left)
-  }
-  return v.right
-}
-
-const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
-  return F.map(f(ta), id)
-}
-
-const sequence = <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
-  return F.map(ta, id)
-}
-
 /**
  * @since 2.0.0
  */
@@ -70,10 +54,38 @@ export const identity: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alt1<U
   reduce: (fa, b, f) => f(b, fa),
   foldMap: _ => (fa, f) => f(fa),
   reduceRight: (fa, b, f) => f(fa, b),
-  traverse,
-  sequence,
+  traverse: <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
+    return F.map(f(ta), id)
+  },
+  sequence: <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
+    return F.map(ta, id)
+  },
   alt: id,
   extract: id,
   extend: (wa, f) => f(wa),
-  chainRec
+  chainRec: (a, f) => {
+    let v = f(a)
+    while (v._tag === 'Left') {
+      v = f(v.left)
+    }
+    return v.right
+  }
 }
+
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  map,
+  reduce,
+  reduceRight
+} = pipeable(identity)
+
+export { alt, ap, apFirst, apSecond, chain, chainFirst, duplicate, extend, flatten, foldMap, map, reduce, reduceRight }
