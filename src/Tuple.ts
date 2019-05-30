@@ -15,8 +15,8 @@ import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { Show } from './Show'
 import { Traversable2 } from './Traversable'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -33,15 +33,6 @@ export const URI = 'Tuple'
  * @since 2.0.0
  */
 export type URI = typeof URI
-
-/**
- * @since 2.0.0
- */
-export function getShow<A, S>(SA: Show<A>, SS: Show<S>): Show<[A, S]> {
-  return {
-    show: sa => `[${SA.show(fst(sa))}, ${SS.show(snd(sa))}]`
-  }
-}
 
 /**
  * @since 2.0.0
@@ -64,36 +55,6 @@ export function swap<A, S>(sa: [A, S]): [S, A] {
   return [snd(sa), fst(sa)]
 }
 
-const compose = <B, A, S>(bc: [B, A], sa: [A, S]): [B, S] => {
-  return [fst(bc), snd(sa)]
-}
-
-const map = <A, S, B>(sa: [A, S], f: (a: A) => B): [B, S] => {
-  return [f(fst(sa)), snd(sa)]
-}
-
-const bimap = <A, S, T, B>(sa: [A, S], f: (s: S) => T, g: (a: A) => B): [B, T] => {
-  return [g(fst(sa)), f(snd(sa))]
-}
-
-const extract = fst
-
-const extend = <A, S, B>(sa: [A, S], f: (sa: [A, S]) => B): [B, S] => {
-  return [f(sa), snd(sa)]
-}
-
-const reduce = <A, S, B>(sa: [A, S], b: B, f: (b: B, a: A) => B): B => {
-  return f(b, fst(sa))
-}
-
-const foldMap = <M>(_: Monoid<M>) => <A, S>(sa: [A, S], f: (a: A) => M): M => {
-  return f(fst(sa))
-}
-
-const reduceRight = <A, S, B>(sa: [A, S], b: B, f: (a: A, b: B) => B): B => {
-  return f(fst(sa), b)
-}
-
 /**
  * @since 2.0.0
  */
@@ -101,7 +62,7 @@ export function getApply<S>(S: Semigroup<S>): Apply2C<URI, S> {
   return {
     URI,
     _L: phantom,
-    map,
+    map: tuple.map,
     ap: (fab, fa) => [fst(fab)(fst(fa)), S.concat(snd(fab), snd(fa))]
   }
 }
@@ -165,28 +126,28 @@ export function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S> {
   }
 }
 
-const traverse = <F>(F: Applicative<F>) => <A, S, B>(ta: [A, S], f: (a: A) => HKT<F, B>): HKT<F, [B, S]> => {
-  return F.map(f(fst(ta)), b => [b, snd(ta)])
-}
-
-const sequence = <F>(F: Applicative<F>) => <A, S>(ta: [HKT<F, A>, S]): HKT<F, [A, S]> => {
-  return F.map(fst(ta), a => [a, snd(ta)])
-}
-
 /**
  * @since 2.0.0
  */
 export const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI> = {
   URI,
-  compose,
-  map,
-  bimap,
+  compose: (bc, sa) => [fst(bc), snd(sa)],
+  map: (sa, f) => [f(fst(sa)), snd(sa)],
+  bimap: (sa, f, g) => [g(fst(sa)), f(snd(sa))],
   mapLeft: (fla, f) => [fst(fla), f(snd(fla))],
-  extract,
-  extend,
-  reduce,
-  foldMap,
-  reduceRight,
-  traverse,
-  sequence
+  extract: fst,
+  extend: (sa, f) => [f(sa), snd(sa)],
+  reduce: (sa, b, f) => f(b, fst(sa)),
+  foldMap: _ => (sa, f) => f(fst(sa)),
+  reduceRight: (sa, b, f) => f(fst(sa), b),
+  traverse: <F>(F: Applicative<F>) => <A, S, B>(ta: [A, S], f: (a: A) => HKT<F, B>): HKT<F, [B, S]> => {
+    return F.map(f(fst(ta)), b => [b, snd(ta)])
+  },
+  sequence: <F>(F: Applicative<F>) => <A, S>(ta: [HKT<F, A>, S]): HKT<F, [A, S]> => {
+    return F.map(fst(ta), a => [a, snd(ta)])
+  }
 }
+
+const { bimap, compose, duplicate, extend, foldMap, map, mapLeft, reduce, reduceRight } = pipeable(tuple)
+
+export { bimap, compose, duplicate, extend, foldMap, map, mapLeft, reduce, reduceRight }

@@ -1,11 +1,10 @@
 import * as assert from 'assert'
+import { getMonoid } from '../src/Array'
+import { left, right } from '../src/Either'
 import { identity } from '../src/function'
 import { monoidString } from '../src/Monoid'
-import { showString } from '../src/Show'
+import { none, option, some } from '../src/Option'
 import * as T from '../src/Tuple'
-import { getMonoid } from '../src/Array'
-import { right, left } from '../src/Either'
-import { option, some, none } from '../src/Option'
 
 describe('Tuple', () => {
   it('compose', () => {
@@ -114,10 +113,5 @@ describe('Tuple', () => {
     const sequence = T.tuple.sequence(option)
     assert.deepStrictEqual(sequence([some(2), 'a']), some([2, 'a']))
     assert.deepStrictEqual(sequence([none, 'a']), none)
-  })
-
-  it('getShow', () => {
-    const S = T.getShow(showString, showString)
-    assert.strictEqual(S.show(['a', 'b']), `["a", "b"]`)
   })
 })
