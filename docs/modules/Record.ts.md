@@ -15,7 +15,6 @@ parent: Modules
 - [collect (function)](#collect-function)
 - [elem (function)](#elem-function)
 - [every (function)](#every-function)
-- [filter (function)](#filter-function)
 - [filterMapWithIndex (function)](#filtermapwithindex-function)
 - [filterWithIndex (function)](#filterwithindex-function)
 - [foldMapWithIndex (function)](#foldmapwithindex-function)
@@ -135,17 +134,6 @@ Added in v2.0.0
 
 ```ts
 export function every<A>(fa: Record<string, A>, predicate: (a: A) => boolean): boolean { ... }
-```
-
-Added in v2.0.0
-
-# filter (function)
-
-**Signature**
-
-```ts
-export function filter<A, B extends A>(fa: Record<string, A>, refinement: Refinement<A, B>): Record<string, B>
-export function filter<A>(fa: Record<string, A>, predicate: Predicate<A>): Record<string, A> { ... }
 ```
 
 Added in v2.0.0

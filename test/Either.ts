@@ -332,42 +332,38 @@ describe('Either', () => {
     })
   })
 
-  describe('getCompactable', () => {
-    const C = _.getCompactable(monoidString)
+  describe('getWitherable', () => {
+    const W = _.getWitherable(monoidString)
+    const p = (n: number) => n > 2
 
     it('compact', () => {
-      assert.deepStrictEqual(C.compact(_.left('1')), _.left('1'))
-      assert.deepStrictEqual(C.compact(_.right(none)), _.left(monoidString.empty))
-      assert.deepStrictEqual(C.compact(_.right(some(123))), _.right(123))
+      assert.deepStrictEqual(W.compact(_.left('1')), _.left('1'))
+      assert.deepStrictEqual(W.compact(_.right(none)), _.left(monoidString.empty))
+      assert.deepStrictEqual(W.compact(_.right(some(123))), _.right(123))
     })
 
     it('separate', () => {
-      assert.deepStrictEqual(C.separate(_.left('123')), { left: _.left('123'), right: _.left('123') })
-      assert.deepStrictEqual(C.separate(_.right(_.left('123'))), {
+      assert.deepStrictEqual(W.separate(_.left('123')), { left: _.left('123'), right: _.left('123') })
+      assert.deepStrictEqual(W.separate(_.right(_.left('123'))), {
         left: _.right('123'),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(C.separate(_.right(_.right('123'))), {
+      assert.deepStrictEqual(W.separate(_.right(_.right('123'))), {
         left: _.left(monoidString.empty),
         right: _.right('123')
       })
     })
-  })
-
-  describe('getFilterable', () => {
-    const F = _.getFilterable(monoidString)
-    const p = (n: number) => n > 2
 
     it('partition', () => {
-      assert.deepStrictEqual(F.partition(_.left('123'), p), {
+      assert.deepStrictEqual(W.partition(_.left('123'), p), {
         left: _.left('123'),
         right: _.left('123')
       })
-      assert.deepStrictEqual(F.partition(_.right(1), p), {
+      assert.deepStrictEqual(W.partition(_.right(1), p), {
         left: _.right(1),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(F.partition(_.right(3), p), {
+      assert.deepStrictEqual(W.partition(_.right(3), p), {
         left: _.left(monoidString.empty),
         right: _.right(3)
       })
@@ -375,37 +371,32 @@ describe('Either', () => {
 
     it('partitionMap', () => {
       const f = (n: number) => (p(n) ? _.right(n + 1) : _.left(n - 1))
-      assert.deepStrictEqual(F.partitionMap(_.left('123'), f), {
+      assert.deepStrictEqual(W.partitionMap(_.left('123'), f), {
         left: _.left('123'),
         right: _.left('123')
       })
-      assert.deepStrictEqual(F.partitionMap(_.right(1), f), {
+      assert.deepStrictEqual(W.partitionMap(_.right(1), f), {
         left: _.right(0),
         right: _.left(monoidString.empty)
       })
-      assert.deepStrictEqual(F.partitionMap(_.right(3), f), {
+      assert.deepStrictEqual(W.partitionMap(_.right(3), f), {
         left: _.left(monoidString.empty),
         right: _.right(4)
       })
     })
 
     it('filter', () => {
-      assert.deepStrictEqual(F.filter(_.left('123'), p), _.left('123'))
-      assert.deepStrictEqual(F.filter(_.right(1), p), _.left(monoidString.empty))
-      assert.deepStrictEqual(F.filter(_.right(3), p), _.right(3))
+      assert.deepStrictEqual(W.filter(_.left('123'), p), _.left('123'))
+      assert.deepStrictEqual(W.filter(_.right(1), p), _.left(monoidString.empty))
+      assert.deepStrictEqual(W.filter(_.right(3), p), _.right(3))
     })
 
     it('filterMap', () => {
       const f = (n: number) => (p(n) ? some(n + 1) : none)
-      assert.deepStrictEqual(F.filterMap(_.left('123'), f), _.left('123'))
-      assert.deepStrictEqual(F.filterMap(_.right(1), f), _.left(monoidString.empty))
-      assert.deepStrictEqual(F.filterMap(_.right(3), f), _.right(4))
+      assert.deepStrictEqual(W.filterMap(_.left('123'), f), _.left('123'))
+      assert.deepStrictEqual(W.filterMap(_.right(1), f), _.left(monoidString.empty))
+      assert.deepStrictEqual(W.filterMap(_.right(3), f), _.right(4))
     })
-  })
-
-  describe('getWitherable', () => {
-    const W = _.getWitherable(monoidString)
-    const p = (n: number) => n > 2
 
     it('wither', () => {
       const f = (n: number) => I.identity.of(p(n) ? some(n + 1) : none)

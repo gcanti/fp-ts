@@ -353,10 +353,10 @@ declare function isString(x: unknown): x is string
 O.option.filter(O.some<string | number>('a'), isString) // $ExpectType Option<string>
 O.option.partition(O.some<string | number>('a'), isString) // $ExpectType Separated<Option<string | number>, Option<string>>
 
-const filterableEither = E.getFilterable(Mon.monoidAll)
+const witherableEither = E.getWitherable(Mon.monoidAll)
 
-filterableEither.filter(E.right(1) as E.Either<boolean, string | number>, isString) // $ExpectType Either<boolean, string>
-filterableEither.partition(E.right(1) as E.Either<boolean, string | number>, isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>
+witherableEither.filter(E.right(1) as E.Either<boolean, string | number>, isString) // $ExpectType Either<boolean, string>
+witherableEither.partition(E.right(1) as E.Either<boolean, string | number>, isString) // $ExpectType Separated<Either<boolean, string | number>, Either<boolean, string>>
 
 declare function isStringWithIndex(i: number, x: unknown): x is string
 
