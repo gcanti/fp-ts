@@ -1,6 +1,6 @@
 ---
 title: NonEmptyArray.ts
-nav_order: 57
+nav_order: 55
 parent: Modules
 ---
 

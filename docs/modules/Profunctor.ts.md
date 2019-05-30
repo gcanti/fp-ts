@@ -1,6 +1,6 @@
 ---
 title: Profunctor.ts
-nav_order: 64
+nav_order: 62
 parent: Modules
 ---
 

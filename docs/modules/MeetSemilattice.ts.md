@@ -1,6 +1,6 @@
 ---
 title: MeetSemilattice.ts
-nav_order: 51
+nav_order: 49
 parent: Modules
 ---
 

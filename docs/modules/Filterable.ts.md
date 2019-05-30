@@ -1,6 +1,6 @@
 ---
 title: Filterable.ts
-nav_order: 31
+nav_order: 29
 parent: Modules
 ---
 
