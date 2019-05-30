@@ -1,6 +1,7 @@
 import { Monad2 } from './Monad'
 import { getStateM } from './StateT'
 import { identity } from './Identity'
+import { pipeable } from './pipeable'
 
 const T = getStateM(identity)
 
@@ -79,3 +80,7 @@ export const state: Monad2<URI> = {
   ap: T.ap,
   chain: T.chain
 }
+
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(state)
+
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }
