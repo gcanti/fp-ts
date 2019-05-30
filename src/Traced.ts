@@ -2,6 +2,7 @@ import { Comonad2C } from './Comonad'
 import { Monoid } from './Monoid'
 import { Functor2 } from './Functor'
 import { phantom, tuple } from './function'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -77,14 +78,10 @@ export function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P> {
   return {
     URI,
     _L: phantom,
-    map,
+    map: traced.map,
     extend,
     extract
   }
-}
-
-const map = <P, A, B>(wa: Traced<P, A>, f: (a: A) => B): Traced<P, B> => {
-  return p => f(wa(p))
 }
 
 /**
@@ -92,5 +89,9 @@ const map = <P, A, B>(wa: Traced<P, A>, f: (a: A) => B): Traced<P, B> => {
  */
 export const traced: Functor2<URI> = {
   URI,
-  map
+  map: (wa, f) => p => f(wa(p))
 }
+
+const { map } = pipeable(traced)
+
+export { map }
