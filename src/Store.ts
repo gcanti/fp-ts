@@ -2,6 +2,7 @@ import { Comonad2 } from './Comonad'
 import { Endomorphism } from './function'
 import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -25,14 +26,6 @@ export type URI = typeof URI
 export interface Store<S, A> {
   readonly peek: (s: S) => A
   readonly pos: S
-}
-
-const map = <S, A, B>(wa: Store<S, A>, f: (a: A) => B): Store<S, B> => {
-  return { peek: s => f(wa.peek(s)), pos: wa.pos }
-}
-
-const extract = <S, A>(wa: Store<S, A>): A => {
-  return wa.peek(wa.pos)
 }
 
 /**
@@ -84,16 +77,22 @@ export function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>
   return f => wa => F.map(f(wa.pos), s => wa.peek(s))
 }
 
-const extend = <S, A, B>(wa: Store<S, A>, f: (wa: Store<S, A>) => B): Store<S, B> => {
-  return { peek: s => f({ peek: wa.peek, pos: s }), pos: wa.pos }
-}
-
 /**
  * @since 2.0.0
  */
 export const store: Comonad2<URI> = {
   URI,
-  map,
-  extract,
-  extend
+  map: (wa, f) => ({
+    peek: s => f(wa.peek(s)),
+    pos: wa.pos
+  }),
+  extract: wa => wa.peek(wa.pos),
+  extend: (wa, f) => ({
+    peek: s => f({ peek: wa.peek, pos: s }),
+    pos: wa.pos
+  })
 }
+
+const { duplicate, extend, map } = pipeable(store)
+
+export { duplicate, extend, map }
