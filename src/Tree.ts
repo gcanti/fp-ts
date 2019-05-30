@@ -13,9 +13,9 @@ import { Foldable1 } from './Foldable'
 import { identity } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3 } from './Monad'
-import { Monoid } from './Monoid'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -70,72 +70,6 @@ export function getShow<A>(S: Show<A>): Show<Tree<A>> {
   }
 }
 
-const map = <A, B>(fa: Tree<A>, f: (a: A) => B): Tree<B> => {
-  return { value: f(fa.value), forest: fa.forest.map(tree => map(tree, f)) }
-}
-
-const of = <A>(a: A): Tree<A> => {
-  return { value: a, forest: empty }
-}
-
-const ap = <A, B>(fab: Tree<(a: A) => B>, fa: Tree<A>): Tree<B> => {
-  return chain(fab, f => map(fa, f)) // <- derived
-}
-
-const chain = <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
-  const { value, forest } = f(fa.value)
-  const concat = getMonoid<Tree<B>>().concat
-  return { value, forest: concat(forest, fa.forest.map(t => chain(t, f))) }
-}
-
-const extract = <A>(fa: Tree<A>): A => {
-  return fa.value
-}
-
-const extend = <A, B>(fa: Tree<A>, f: (fa: Tree<A>) => B): Tree<B> => {
-  return { value: f(fa), forest: fa.forest.map(t => extend(t, f)) }
-}
-
-const reduce = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
-  let r: B = f(b, fa.value)
-  const len = fa.forest.length
-  for (let i = 0; i < len; i++) {
-    r = reduce(fa.forest[i], r, f)
-  }
-  return r
-}
-
-const foldMap = <M>(M: Monoid<M>) => <A>(fa: Tree<A>, f: (a: A) => M): M => {
-  return reduce(fa, M.empty, (acc, a) => M.concat(acc, f(a)))
-}
-
-const reduceRight = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
-  let r: B = b
-  const len = fa.forest.length
-  for (let i = len - 1; i >= 0; i--) {
-    r = reduceRight(fa.forest[i], r, f)
-  }
-  return f(fa.value, r)
-}
-
-function traverse<F>(F: Applicative<F>): <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>> {
-  const traverseF = array.traverse(F)
-  const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
-    F.ap(
-      F.map(f(ta.value), (value: B) => (forest: Forest<B>) => ({
-        value,
-        forest
-      })),
-      traverseF(ta.forest, t => r(t, f))
-    )
-  return r
-}
-
-function sequence<F>(F: Applicative<F>): <A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>> {
-  const traverseF = traverse(F)
-  return ta => traverseF(ta, identity)
-}
-
 /**
  * @since 2.0.0
  */
@@ -144,24 +78,6 @@ export function getEq<A>(E: Eq<A>): Eq<Tree<A>> {
   const R: Eq<Tree<A>> = fromEquals((x, y) => E.equals(x.value, y.value) && SA.equals(x.forest, y.forest))
   SA = getArrayEq(R)
   return R
-}
-
-/**
- * @since 2.0.0
- */
-export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
-  URI,
-  map,
-  of,
-  ap,
-  chain,
-  reduce,
-  foldMap,
-  reduceRight,
-  traverse,
-  sequence,
-  extract,
-  extend
 }
 
 const draw = (indentation: string, forest: Forest<string>): string => {
@@ -301,3 +217,82 @@ export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean {
   }
   return go
 }
+
+/**
+ * @since 2.0.0
+ */
+export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
+  URI,
+  map: (fa, f) => ({
+    value: f(fa.value),
+    forest: fa.forest.map(t => tree.map(t, f))
+  }),
+  of: a => ({
+    value: a,
+    forest: empty
+  }),
+  ap: (fab, fa) => tree.chain(fab, f => tree.map(fa, f)), // <- derived
+  chain: <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
+    const { value, forest } = f(fa.value)
+    const concat = getMonoid<Tree<B>>().concat
+    return {
+      value,
+      forest: concat(forest, fa.forest.map(t => tree.chain(t, f)))
+    }
+  },
+  reduce: <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
+    let r: B = f(b, fa.value)
+    const len = fa.forest.length
+    for (let i = 0; i < len; i++) {
+      r = tree.reduce(fa.forest[i], r, f)
+    }
+    return r
+  },
+  foldMap: M => (fa, f) => tree.reduce(fa, M.empty, (acc, a) => M.concat(acc, f(a))),
+  reduceRight: <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
+    let r: B = b
+    const len = fa.forest.length
+    for (let i = len - 1; i >= 0; i--) {
+      r = tree.reduceRight(fa.forest[i], r, f)
+    }
+    return f(fa.value, r)
+  },
+  traverse: <F>(F: Applicative<F>): (<A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>) => HKT<F, Tree<B>>) => {
+    const traverseF = array.traverse(F)
+    const r = <A, B>(ta: Tree<A>, f: (a: A) => HKT<F, B>): HKT<F, Tree<B>> =>
+      F.ap(
+        F.map(f(ta.value), (value: B) => (forest: Forest<B>) => ({
+          value,
+          forest
+        })),
+        traverseF(ta.forest, t => r(t, f))
+      )
+    return r
+  },
+  sequence: <F>(F: Applicative<F>): (<A>(ta: Tree<HKT<F, A>>) => HKT<F, Tree<A>>) => {
+    const traverseF = tree.traverse(F)
+    return ta => traverseF(ta, identity)
+  },
+  extract: wa => wa.value,
+  extend: (wa, f) => ({
+    value: f(wa),
+    forest: wa.forest.map(t => tree.extend(t, f))
+  })
+}
+
+const {
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  map,
+  reduce,
+  reduceRight
+} = pipeable(tree)
+
+export { ap, apFirst, apSecond, chain, chainFirst, duplicate, extend, flatten, foldMap, map, reduce, reduceRight }
