@@ -156,20 +156,20 @@ describe('Record', () => {
 
   it('filter', () => {
     const d = { a: 1, b: 3 }
-    assert.deepStrictEqual(R.filter(d, p), { b: 3 })
+    assert.deepStrictEqual(R.record.filter(d, p), { b: 3 })
 
     // refinements
     const isNumber = (u: string | number): u is number => typeof u === 'number'
     const y: Record<string, string | number> = { a: 1, b: 'foo' }
-    const actual = R.filter(y, isNumber)
+    const actual = R.record.filter(y, isNumber)
     assert.deepStrictEqual(actual, { a: 1 })
 
-    assert.strictEqual(R.filter(y, _ => true), y)
+    assert.strictEqual(R.record.filter(y, _ => true), y)
 
     const x = Object.assign(Object.create({ c: true }), { a: 1, b: 'foo' })
-    assert.deepStrictEqual(R.filter(x, isNumber), { a: 1 })
+    assert.deepStrictEqual(R.record.filter(x, isNumber), { a: 1 })
 
-    assert.strictEqual(R.filter(noPrototype, isNumber), noPrototype)
+    assert.strictEqual(R.record.filter(noPrototype, isNumber), noPrototype)
   })
 
   it('filterMap', () => {
