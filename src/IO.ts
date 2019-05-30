@@ -94,8 +94,8 @@ import { identity } from './function'
 import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
-import { Semigroup } from './Semigroup'
 import { pipeable } from './pipeable'
+import { Semigroup } from './Semigroup'
 
 declare module './HKT' {
   interface URI2HKT<A> {

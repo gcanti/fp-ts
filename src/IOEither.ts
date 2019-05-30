@@ -12,6 +12,7 @@ import { Monad2 } from './Monad'
 import { MonadIO2 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
+import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 
 import Either = E.Either
@@ -192,3 +193,7 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>
   alt: T.alt,
   fromIO: rightIO
 }
+
+const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(ioEither)
+
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
