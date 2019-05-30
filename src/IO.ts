@@ -95,6 +95,7 @@ import { Monad1 } from './Monad'
 import { MonadIO1 } from './MonadIO'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -149,3 +150,7 @@ export const io: Monad1<URI> & MonadIO1<URI> = {
   chain: (ma, f) => () => f(ma())(),
   fromIO: identity
 }
+
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(io)
+
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }
