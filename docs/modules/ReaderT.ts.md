@@ -32,7 +32,7 @@ export interface ReaderM<M> {
   readonly chain: <R, A, B>(ma: ReaderT<M, R, A>, f: (a: A) => ReaderT<M, R, B>) => ReaderT<M, R, B>
   readonly ask: <R>() => ReaderT<M, R, R>
   readonly asks: <R, A>(f: (r: R) => A) => ReaderT<M, R, A>
-  readonly local: <Q, R>(f: (d: Q) => R) => <A>(ma: ReaderT<M, R, A>) => ReaderT<M, Q, A>
+  readonly local: <R, A, Q>(ma: ReaderT<M, R, A>, f: (d: Q) => R) => ReaderT<M, Q, A>
   readonly fromReader: <R, A>(ma: Reader<R, A>) => ReaderT<M, R, A>
   readonly fromM: <R, A>(ma: HKT<M, A>) => ReaderT<M, R, A>
 }
@@ -52,7 +52,7 @@ export interface ReaderM1<M extends URIS> {
   readonly chain: <R, A, B>(ma: ReaderT1<M, R, A>, f: (a: A) => ReaderT1<M, R, B>) => ReaderT1<M, R, B>
   readonly ask: <R>() => ReaderT1<M, R, R>
   readonly asks: <R, A>(f: (r: R) => A) => ReaderT1<M, R, A>
-  readonly local: <Q, R>(f: (d: Q) => R) => <A>(ma: ReaderT1<M, R, A>) => ReaderT1<M, Q, A>
+  readonly local: <R, A, Q>(ma: ReaderT1<M, R, A>, f: (d: Q) => R) => ReaderT1<M, Q, A>
   readonly fromReader: <R, A>(ma: Reader<R, A>) => ReaderT1<M, R, A>
   readonly fromM: <R, A>(ma: Type<M, A>) => ReaderT1<M, R, A>
 }
@@ -72,7 +72,7 @@ export interface ReaderM2<M extends URIS2> {
   readonly chain: <R, L, A, B>(ma: ReaderT2<M, R, L, A>, f: (a: A) => ReaderT2<M, R, L, B>) => ReaderT2<M, R, L, B>
   readonly ask: <R, L>() => ReaderT2<M, R, L, R>
   readonly asks: <R, L, A>(f: (r: R) => A) => ReaderT2<M, R, L, A>
-  readonly local: <Q, R>(f: (d: Q) => R) => <L, A>(ma: ReaderT2<M, R, L, A>) => ReaderT2<M, Q, L, A>
+  readonly local: <R, L, A, Q>(ma: ReaderT2<M, R, L, A>, f: (d: Q) => R) => ReaderT2<M, Q, L, A>
   readonly fromReader: <R, L, A>(ma: Reader<R, A>) => ReaderT2<M, R, L, A>
   readonly fromM: <R, L, A>(ma: Type2<M, L, A>) => ReaderT2<M, R, L, A>
 }
@@ -98,7 +98,7 @@ export interface ReaderM3<M extends URIS3> {
   ) => ReaderT3<M, R, U, L, B>
   readonly ask: <R, U, L>() => ReaderT3<M, R, U, L, R>
   readonly asks: <R, U, L, A>(f: (r: R) => A) => ReaderT3<M, R, U, L, A>
-  readonly local: <Q, R>(f: (d: Q) => R) => <U, L, A>(ma: ReaderT3<M, R, U, L, A>) => ReaderT3<M, Q, U, L, A>
+  readonly local: <R, U, L, A, Q>(ma: ReaderT3<M, R, U, L, A>, f: (d: Q) => R) => ReaderT3<M, Q, U, L, A>
   readonly fromReader: <R, U, L, A>(ma: Reader<R, A>) => ReaderT3<M, R, U, L, A>
   readonly fromM: <R, U, L, A>(ma: Type3<M, U, L, A>) => ReaderT3<M, R, U, L, A>
 }

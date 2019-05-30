@@ -14,7 +14,6 @@ parent: Modules
 - [ask (constant)](#ask-constant)
 - [asks (constant)](#asks-constant)
 - [fromTaskEither (constant)](#fromtaskeither-constant)
-- [local (constant)](#local-constant)
 - [readerTaskEither (constant)](#readertaskeither-constant)
 - [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
 - [right (constant)](#right-constant)
@@ -29,6 +28,7 @@ parent: Modules
 - [leftIO (function)](#leftio-function)
 - [leftReader (function)](#leftreader-function)
 - [leftTask (function)](#lefttask-function)
+- [local (function)](#local-function)
 - [orElse (function)](#orelse-function)
 - [rightIO (function)](#rightio-function)
 - [rightTask (function)](#righttask-function)
@@ -94,16 +94,6 @@ Added in v2.0.0
 
 ```ts
 export const fromTaskEither: <E, A>(ma: TaskEither<E, A>) => ReaderTaskEither<unknown, E, A> = ...
-```
-
-Added in v2.0.0
-
-# local (constant)
-
-**Signature**
-
-```ts
-export const  = ...
 ```
 
 Added in v2.0.0
@@ -258,6 +248,16 @@ Added in v2.0.0
 
 ```ts
 export function leftTask<E>(me: Task<E>): ReaderTaskEither<unknown, E, never> { ... }
+```
+
+Added in v2.0.0
+
+# local (function)
+
+**Signature**
+
+```ts
+export function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<Q, E, A> { ... }
 ```
 
 Added in v2.0.0

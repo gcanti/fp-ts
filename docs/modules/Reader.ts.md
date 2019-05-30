@@ -13,10 +13,10 @@ parent: Modules
 - [URI (constant)](#uri-constant)
 - [ask (constant)](#ask-constant)
 - [asks (constant)](#asks-constant)
-- [local (constant)](#local-constant)
 - [reader (constant)](#reader-constant)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [local (function)](#local-function)
 
 ---
 
@@ -76,18 +76,6 @@ export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = ...
 
 Added in v2.0.0
 
-# local (constant)
-
-changes the value of the local context during the execution of the action `ma`
-
-**Signature**
-
-```ts
-export const local: <Q, R>(f: (d: Q) => R) => <A>(ma: Reader<R, A>) => Reader<Q, A> = ...
-```
-
-Added in v2.0.0
-
 # reader (constant)
 
 **Signature**
@@ -114,6 +102,18 @@ Added in v2.0.0
 
 ```ts
 export function getSemigroup<R, A>(S: Semigroup<A>): Semigroup<Reader<R, A>> { ... }
+```
+
+Added in v2.0.0
+
+# local (function)
+
+changes the value of the local context during the execution of the action `ma`
+
+**Signature**
+
+```ts
+export function local<Q, R>(f: (d: Q) => R): <A>(ma: Reader<R, A>) => Reader<Q, A> { ... }
 ```
 
 Added in v2.0.0
