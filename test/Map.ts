@@ -407,8 +407,8 @@ describe('Map', () => {
     })
   })
 
-  describe('getWitherableWithIndex', () => {
-    const W = M.getWitherableWithIndex(ordUser)
+  describe('getWitherable', () => {
+    const W = M.getWitherable(ordUser)
 
     it('mapWithIndex', () => {
       const mapWithIndex = W.mapWithIndex

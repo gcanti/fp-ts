@@ -19,7 +19,7 @@ parent: Modules
 - [getFilterableWithIndex (function)](#getfilterablewithindex-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getShow (function)](#getshow-function)
-- [getWitherableWithIndex (function)](#getwitherablewithindex-function)
+- [getWitherable (function)](#getwitherable-function)
 - [insert (function)](#insert-function)
 - [isEmpty (function)](#isempty-function)
 - [isSubmap (function)](#issubmap-function)
@@ -169,12 +169,12 @@ export function getShow<K, A>(SK: Show<K>, SA: Show<A>): Show<Map<K, A>> { ... }
 
 Added in v2.0.0
 
-# getWitherableWithIndex (function)
+# getWitherable (function)
 
 **Signature**
 
 ```ts
-export function getWitherableWithIndex<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> { ... }
+export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableWithIndex2C<URI, K, K> { ... }
 ```
 
 Added in v2.0.0
