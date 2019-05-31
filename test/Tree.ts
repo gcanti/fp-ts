@@ -147,9 +147,9 @@ describe('Tree', () => {
     }
     const S: Eq<User> = contramap(eqNumber, (user: User) => user.id)
     const users = make({ id: 1 }, [make({ id: 1 }, [make({ id: 3 }), make({ id: 4 })]), make({ id: 2 })])
-    assert.strictEqual(elem(S)({ id: 1 }, users), true)
-    assert.strictEqual(elem(S)({ id: 4 }, users), true)
-    assert.strictEqual(elem(S)({ id: 5 }, users), false)
+    assert.strictEqual(elem(S)({ id: 1 })(users), true)
+    assert.strictEqual(elem(S)({ id: 4 })(users), true)
+    assert.strictEqual(elem(S)({ id: 5 })(users), false)
   })
 
   it('getShow', () => {
