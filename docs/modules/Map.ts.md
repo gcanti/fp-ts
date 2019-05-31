@@ -82,7 +82,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function collect<K>(O: Ord<K>): <A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B> { ... }
+export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B> { ... }
 ```
 
 Added in v2.0.0
@@ -94,7 +94,7 @@ Test whether or not a value is a member of a map
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): <K>(a: A, m: Map<K, A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A) => <K>(m: Map<K, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -186,7 +186,7 @@ Insert or replace a key/value pair in a map
 **Signature**
 
 ```ts
-export function insert<K>(E: Eq<K>): <A>(k: K, a: A, m: Map<K, A>) => Map<K, A> { ... }
+export function insert<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> { ... }
 ```
 
 Added in v2.0.0
@@ -234,7 +234,7 @@ Lookup the value for a key in a `Map`.
 **Signature**
 
 ```ts
-export function lookup<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<A> { ... }
+export function lookup<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<A> { ... }
 ```
 
 Added in v2.0.0
@@ -247,7 +247,7 @@ If the result is a `Some`, the existing key is also returned.
 **Signature**
 
 ```ts
-export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[K, A]> { ... }
+export function lookupWithKey<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[K, A]> { ... }
 ```
 
 Added in v2.0.0
@@ -259,7 +259,7 @@ Test whether or not a key exists in a map
 **Signature**
 
 ```ts
-export function member<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => boolean { ... }
+export function member<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -271,7 +271,7 @@ Delete a key and value from a map, returning the value as well as the subsequent
 **Signature**
 
 ```ts
-export function pop<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]> { ... }
+export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]> { ... }
 ```
 
 Added in v2.0.0
@@ -283,7 +283,7 @@ Delete a key and value from a map
 **Signature**
 
 ```ts
-export function remove<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Map<K, A> { ... }
+export function remove<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> { ... }
 ```
 
 Added in v2.0.0

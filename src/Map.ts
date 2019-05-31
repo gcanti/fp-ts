@@ -75,9 +75,9 @@ export function isEmpty<K, A>(d: Map<K, A>): boolean {
  *
  * @since 2.0.0
  */
-export function member<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => boolean {
+export function member<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => boolean {
   const lookupE = lookup(E)
-  return (k, m) => isSome(lookupE(k, m))
+  return k => m => isSome(lookupE(k)(m))
 }
 
 /**
@@ -85,8 +85,8 @@ export function member<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => boolean {
  *
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): <K>(a: A, m: Map<K, A>) => boolean {
-  return (a, m) => {
+export function elem<A>(E: Eq<A>): (a: A) => <K>(m: Map<K, A>) => boolean {
+  return a => m => {
     const values = m.values()
     let e: IteratorResult<A>
     while (!(e = values.next()).done) {
@@ -120,9 +120,9 @@ export function values<A>(O: Ord<A>): <K>(m: Map<K, A>) => Array<A> {
 /**
  * @since 2.0.0
  */
-export function collect<K>(O: Ord<K>): <A, B>(m: Map<K, A>, f: (k: K, a: A) => B) => Array<B> {
+export function collect<K>(O: Ord<K>): <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>) => Array<B> {
   const keysO = keys(O)
-  return <A, B>(m: Map<K, A>, f: (k: K, a: A) => B): Array<B> => {
+  return <A, B>(f: (k: K, a: A) => B) => (m: Map<K, A>): Array<B> => {
     const out: Array<B> = []
     const ks = keysO(m)
     for (let key of ks) {
@@ -138,8 +138,7 @@ export function collect<K>(O: Ord<K>): <A, B>(m: Map<K, A>, f: (k: K, a: A) => B
  * @since 2.0.0
  */
 export function toArray<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<[K, A]> {
-  const collectO = collect(O)
-  return m => collectO(m, (k, a) => [k, a])
+  return collect(O)((k, a) => [k, a])
 }
 
 /**
@@ -163,10 +162,10 @@ export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A
  *
  * @since 2.0.0
  */
-export function insert<K>(E: Eq<K>): <A>(k: K, a: A, m: Map<K, A>) => Map<K, A> {
+export function insert<K>(E: Eq<K>): <A>(k: K, a: A) => (m: Map<K, A>) => Map<K, A> {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k, a, m) => {
-    const found = lookupWithKeyE(k, m)
+  return (k, a) => m => {
+    const found = lookupWithKeyE(k)(m)
     if (isNone(found)) {
       const r = new Map(m)
       r.set(k, a)
@@ -185,10 +184,10 @@ export function insert<K>(E: Eq<K>): <A>(k: K, a: A, m: Map<K, A>) => Map<K, A> 
  *
  * @since 2.0.0
  */
-export function remove<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Map<K, A> {
+export function remove<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Map<K, A> {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k, m) => {
-    const found = lookupWithKeyE(k, m)
+  return k => m => {
+    const found = lookupWithKeyE(k)(m)
     if (isSome(found)) {
       const r = new Map(m)
       r.delete(found.value[0])
@@ -203,10 +202,10 @@ export function remove<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Map<K, A> {
  *
  * @since 2.0.0
  */
-export function pop<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]> {
+export function pop<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[A, Map<K, A>]> {
   const lookupE = lookup(E)
   const removeE = remove(E)
-  return (k, m) => option.map(lookupE(k, m), a => [a, removeE(k, m)])
+  return k => m => option.map(lookupE(k)(m), a => [a, removeE(k)(m)])
 }
 
 /**
@@ -215,8 +214,8 @@ export function pop<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A
  *
  * @since 2.0.0
  */
-export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[K, A]> {
-  return <A>(k: K, m: Map<K, A>) => {
+export function lookupWithKey<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<[K, A]> {
+  return (k: K) => <A>(m: Map<K, A>) => {
     const entries = m.entries()
     let e: IteratorResult<[K, A]>
     while (!(e = entries.next()).done) {
@@ -234,9 +233,9 @@ export function lookupWithKey<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<[K
  *
  * @since 2.0.0
  */
-export function lookup<K>(E: Eq<K>): <A>(k: K, m: Map<K, A>) => Option<A> {
+export function lookup<K>(E: Eq<K>): (k: K) => <A>(m: Map<K, A>) => Option<A> {
   const lookupWithKeyE = lookupWithKey(E)
-  return (k, m) => option.map(lookupWithKeyE(k, m), ([_, a]) => a)
+  return k => m => option.map(lookupWithKeyE(k)(m), ([_, a]) => a)
 }
 
 /**
@@ -251,7 +250,7 @@ export function isSubmap<K, A>(SK: Eq<K>, SA: Eq<A>): (d1: Map<K, A>, d2: Map<K,
     let e: IteratorResult<[K, A]>
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
-      const d2OptA = lookupWithKeyS(k, d2)
+      const d2OptA = lookupWithKeyS(k)(d2)
       if (isNone(d2OptA) || !SK.equals(k, d2OptA.value[0]) || !SA.equals(a, d2OptA.value[1])) {
         return false
       }
@@ -293,7 +292,7 @@ export function getMonoid<K, A>(SK: Eq<K>, SA: Semigroup<A>): Monoid<Map<K, A>> 
       let e: IteratorResult<[K, A]>
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
-        const mxOptA = lookupWithKeyS(k, mx)
+        const mxOptA = lookupWithKeyS(k)(mx)
         if (isSome(mxOptA)) {
           r.set(mxOptA.value[0], SA.concat(mxOptA.value[1], a))
         } else {
@@ -341,7 +340,7 @@ export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (f
   return (fka: HKT<F, [K, A]>) => {
     const lookupWithKeyE = lookupWithKey(E)
     return F.reduce<[K, A], Map<K, A>>(fka, new Map<K, A>(), (b, [k, a]) => {
-      const bOpt = lookupWithKeyE(k, b)
+      const bOpt = lookupWithKeyE(k)(b)
       if (isSome(bOpt)) {
         b.set(bOpt.value[0], M.concat(bOpt.value[1], a))
       } else {
