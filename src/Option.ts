@@ -221,8 +221,8 @@ export function getOrElse<A>(f: () => A): (ma: Option<A>) => A {
 /**
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A, ma: Option<A>) => boolean {
-  return (a, ma) => (isNone(ma) ? false : E.equals(a, ma.value))
+export function elem<A>(E: Eq<A>): (a: A) => (ma: Option<A>) => boolean {
+  return a => ma => (isNone(ma) ? false : E.equals(a, ma.value))
 }
 
 /**
