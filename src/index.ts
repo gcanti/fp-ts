@@ -98,8 +98,6 @@ import * as monadTask from './MonadTask'
 export { monadTask }
 import * as monoid from './Monoid'
 export { monoid }
-import * as monoidal from './Monoidal'
-export { monoidal }
 import * as nonEmptyArray from './NonEmptyArray'
 export { nonEmptyArray }
 import * as option from './Option'

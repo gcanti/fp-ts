@@ -60,7 +60,6 @@ parent: Modules
 - [monadIO (export)](#monadio-export)
 - [monadTask (export)](#monadtask-export)
 - [monoid (export)](#monoid-export)
-- [monoidal (export)](#monoidal-export)
 - [nonEmptyArray (export)](#nonemptyarray-export)
 - [option (export)](#option-export)
 - [optionT (export)](#optiont-export)
@@ -514,14 +513,6 @@ export { monadTask }
 
 ```ts
 export { monoid }
-```
-
-# monoidal (export)
-
-**Signature**
-
-```ts
-export { monoidal }
 ```
 
 # nonEmptyArray (export)
