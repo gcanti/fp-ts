@@ -183,8 +183,10 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filter<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<NonEmptyArray<A>>
-export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>> { ... }
+export function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -195,9 +197,8 @@ Added in v2.0.0
 
 ```ts
 export function filterWithIndex<A>(
-  nea: NonEmptyArray<A>,
   predicate: (i: number, a: A) => boolean
-): Option<NonEmptyArray<A>> { ... }
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> { ... }
 ```
 
 Added in v2.0.0
@@ -255,7 +256,7 @@ function on each element, and grouping the results according to values returned
 **Signature**
 
 ```ts
-export function groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } { ... }
+export function groupBy<A>(f: (a: A) => string): (as: Array<A>) => Record<string, NonEmptyArray<A>> { ... }
 ```
 
 **Example**
@@ -263,7 +264,7 @@ export function groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: 
 ```ts
 import { cons, groupBy } from 'fp-ts/lib/NonEmptyArray'
 
-assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
+assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
   '3': cons('foo', ['bar']),
   '6': cons('foobar', [])
 })

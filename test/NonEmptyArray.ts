@@ -160,9 +160,9 @@ describe.only('NonEmptyArray', () => {
   })
 
   it('groupBy', () => {
-    assert.deepStrictEqual(groupBy([], _ => ''), {})
-    assert.deepStrictEqual(groupBy([1], String), { '1': [1] })
-    assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
+    assert.deepStrictEqual(groupBy(_ => '')([]), {})
+    assert.deepStrictEqual(groupBy(String)([1]), { '1': [1] })
+    assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
       '3': ['foo', 'bar'],
       '6': ['foobar']
     })
@@ -225,26 +225,26 @@ describe.only('NonEmptyArray', () => {
     const a1 = make(1)
     const a2 = make(1)
     const a3 = make(2)
-    assert.deepStrictEqual(filter([a1, a2, a3], ({ x }) => x !== 1), some([a3]))
-    assert.deepStrictEqual(filter([a1, a2, a3], ({ x }) => x !== 2), some([a1, a2]))
+    assert.deepStrictEqual(filter(({ x }) => x !== 1)([a1, a2, a3]), some([a3]))
+    assert.deepStrictEqual(filter(({ x }) => x !== 2)([a1, a2, a3]), some([a1, a2]))
     assert.deepStrictEqual(
-      filter([a1, a2, a3], ({ x }) => {
+      filter(({ x }) => {
         return !(x === 1 || x === 2)
-      }),
+      })([a1, a2, a3]),
       none
     )
-    assert.deepStrictEqual(filter([a1, a2, a3], ({ x }) => x !== 10), some([a1, a2, a3]))
+    assert.deepStrictEqual(filter(({ x }) => x !== 10)([a1, a2, a3]), some([a1, a2, a3]))
 
     // refinements
-    const actual1 = filter([some(3), some(2), some(1)], isSome)
+    const actual1 = filter(isSome)([some(3), some(2), some(1)])
     assert.deepStrictEqual(actual1, some([some(3), some(2), some(1)]))
-    const actual2 = filter([some(3), none, some(1)], isSome)
+    const actual2 = filter(isSome)([some(3), none, some(1)])
     assert.deepStrictEqual(actual2, some([some(3), some(1)]))
   })
 
   it('filterWithIndex', () => {
-    assert.deepStrictEqual(filterWithIndex([1, 2, 3], i => i % 2 === 0), some([1, 3]))
-    assert.deepStrictEqual(filterWithIndex([1, 2, 3], (i, a) => i % 2 === 1 && a > 2), none)
+    assert.deepStrictEqual(filterWithIndex(i => i % 2 === 0)([1, 2, 3]), some([1, 3]))
+    assert.deepStrictEqual(filterWithIndex((i, a: number) => i % 2 === 1 && a > 2)([1, 2, 3]), none)
   })
 
   it('reduceWithIndex', () => {

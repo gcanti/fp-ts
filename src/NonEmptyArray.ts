@@ -198,24 +198,26 @@ export function groupSort<A>(O: Ord<A>): (as: Array<A>) => Array<NonEmptyArray<A
  * @example
  * import { cons, groupBy } from 'fp-ts/lib/NonEmptyArray'
  *
- * assert.deepStrictEqual(groupBy(['foo', 'bar', 'foobar'], a => String(a.length)), {
+ * assert.deepStrictEqual(groupBy((s: string) => String(s.length))(['foo', 'bar', 'foobar']), {
  *   '3': cons('foo', ['bar']),
  *   '6': cons('foobar', [])
  * })
  *
  * @since 2.0.0
  */
-export function groupBy<A>(as: Array<A>, f: (a: A) => string): { [key: string]: NonEmptyArray<A> } {
-  const r: { [key: string]: NonEmptyArray<A> } = {}
-  for (const a of as) {
-    const k = f(a)
-    if (r.hasOwnProperty(k)) {
-      r[k].push(a)
-    } else {
-      r[k] = cons(a, [])
+export function groupBy<A>(f: (a: A) => string): (as: Array<A>) => Record<string, NonEmptyArray<A>> {
+  return as => {
+    const r: Record<string, NonEmptyArray<A>> = {}
+    for (const a of as) {
+      const k = f(a)
+      if (r.hasOwnProperty(k)) {
+        r[k].push(a)
+      } else {
+        r[k] = cons(a, [])
+      }
     }
+    return r
   }
-  return r
 }
 
 /**
@@ -261,20 +263,21 @@ export const copy: <A>(nea: NonEmptyArray<A>) => NonEmptyArray<A> = A.copy as an
 /**
  * @since 2.0.0
  */
-export function filter<A, B extends A>(nea: NonEmptyArray<A>, refinement: Refinement<A, B>): Option<NonEmptyArray<A>>
-export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>>
-export function filter<A>(nea: NonEmptyArray<A>, predicate: Predicate<A>): Option<NonEmptyArray<A>> {
-  return filterWithIndex(nea, (_, a) => predicate(a))
+export function filter<A, B extends A>(
+  refinement: Refinement<A, B>
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>>
+export function filter<A>(predicate: Predicate<A>): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
+  return filterWithIndex((_, a) => predicate(a))
 }
 
 /**
  * @since 2.0.0
  */
 export function filterWithIndex<A>(
-  nea: NonEmptyArray<A>,
   predicate: (i: number, a: A) => boolean
-): Option<NonEmptyArray<A>> {
-  return fromArray(nea.filter((a, i) => predicate(i, a)))
+): (nea: NonEmptyArray<A>) => Option<NonEmptyArray<A>> {
+  return nea => fromArray(nea.filter((a, i) => predicate(i, a)))
 }
 
 /**
