@@ -12,6 +12,7 @@ parent: Modules
 - [URI (constant)](#uri-constant)
 - [empty (constant)](#empty-constant)
 - [record (constant)](#record-constant)
+- [toArray (constant)](#toarray-constant)
 - [collect (function)](#collect-function)
 - [elem (function)](#elem-function)
 - [every (function)](#every-function)
@@ -41,7 +42,6 @@ parent: Modules
 - [singleton (function)](#singleton-function)
 - [size (function)](#size-function)
 - [some (function)](#some-function)
-- [toArray (function)](#toarray-function)
 - [toUnfoldable (function)](#tounfoldable-function)
 - [traverse (function)](#traverse-function)
 - [traverseWithIndex (function)](#traversewithindex-function)
@@ -94,6 +94,16 @@ export const record: FunctorWithIndex1<URI, string> &
 
 Added in v2.0.0
 
+# toArray (constant)
+
+**Signature**
+
+```ts
+export const toArray: <K extends string, A>(r: Record<K, A>) => Array<[K, A]> = ...
+```
+
+Added in v2.0.0
+
 # collect (function)
 
 Map a record into an array
@@ -101,7 +111,7 @@ Map a record into an array
 **Signature**
 
 ```ts
-export function collect<K extends string, A, B>(r: Record<K, A>, f: (k: K, a: A) => B): Array<B> { ... }
+export function collect<K extends string, A, B>(f: (k: K, a: A) => B): (r: Record<K, A>) => Array<B> { ... }
 ```
 
 **Example**
@@ -109,8 +119,8 @@ export function collect<K extends string, A, B>(r: Record<K, A>, f: (k: K, a: A)
 ```ts
 import { collect } from 'fp-ts/lib/Record'
 
-const ob: { a: string; b: boolean } = { a: 'foo', b: false }
-assert.deepStrictEqual(collect(ob, (key, val) => ({ key: key, value: val })), [
+const x: { a: string; b: boolean } = { a: 'foo', b: false }
+assert.deepStrictEqual(collect((key, val) => ({ key: key, value: val }))(x), [
   { key: 'a', value: 'foo' },
   { key: 'b', value: false }
 ])
@@ -123,7 +133,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): (a: A, fa: Record<string, A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A) => (fa: Record<string, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -133,7 +143,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function every<A>(fa: Record<string, A>, predicate: (a: A) => boolean): boolean { ... }
+export function every<A>(predicate: Predicate<A>): (r: Record<string, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -144,10 +154,8 @@ Added in v2.0.0
 
 ```ts
 export function filterMapWithIndex<K extends string, A, B>(
-  fa: Record<K, A>,
   f: (key: K, a: A) => Option<B>
-): Record<string, B>
-export function filterMapWithIndex<A, B>(fa: Record<string, A>, f: (key: string, a: A) => Option<B>): Record<string, B> { ... }
+): (fa: Record<K, A>) => Record<string, B> { ... }
 ```
 
 Added in v2.0.0
@@ -157,8 +165,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function filterWithIndex<K extends string, A>(fa: Record<K, A>, p: (key: K, a: A) => boolean): Record<string, A>
-export function filterWithIndex<A>(fa: Record<string, A>, p: (key: string, a: A) => boolean): Record<string, A> { ... }
+export function filterWithIndex<K extends string, A, B extends A>(
+  refinementWithIndex: RefinementWithIndex<K, A, B>
+): (fa: Record<K, A>) => Record<string, B>
+export function filterWithIndex<K extends string, A>(
+  predicateWithIndex: PredicateWithIndex<K, A>
+): (fa: Record<K, A>) => Record<string, A> { ... }
 ```
 
 Added in v2.0.0
@@ -168,7 +180,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function foldMapWithIndex<M>(M: Monoid<M>): <K extends string, A>(fa: Record<K, A>, f: (k: K, a: A) => M) => M { ... }
+export function foldMapWithIndex<M>(
+  M: Monoid<M>
+): <K extends string, A>(f: (k: K, a: A) => M) => (fa: Record<K, A>) => M { ... }
 ```
 
 Added in v2.0.0
@@ -303,7 +317,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function hasOwnProperty<K extends string, A>(k: K, d: Record<K, A>): boolean { ... }
+export function hasOwnProperty<K extends string>(k: K): (r: Record<K, unknown>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -315,7 +329,7 @@ Insert or replace a key/value pair in a map
 **Signature**
 
 ```ts
-export function insert<KS extends string, K extends string, A>(k: K, a: A, d: Record<KS, A>): Record<KS | K, A> { ... }
+export function insert<K extends string, A>(k: K, a: A): <KS extends string>(r: Record<KS, A>) => Record<KS | K, A> { ... }
 ```
 
 Added in v2.0.0
@@ -339,7 +353,7 @@ Test whether one record contains all of the keys and values contained in another
 **Signature**
 
 ```ts
-export function isSubrecord<A>(E: Eq<A>): (d1: Record<string, A>, d2: Record<string, A>) => boolean { ... }
+export function isSubrecord<A>(E: Eq<A>): (x: Record<string, A>, y: Record<string, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -361,7 +375,7 @@ Lookup the value for a key in a record
 **Signature**
 
 ```ts
-export function lookup<A>(k: string, fa: Record<string, A>): Option<A> { ... }
+export function lookup(k: string): <A>(r: Record<string, A>) => Option<A> { ... }
 ```
 
 Added in v2.0.0
@@ -373,7 +387,7 @@ Map a record passing the values to the iterating function
 **Signature**
 
 ```ts
-export function map<K extends string, A, B>(fa: Record<K, A>, f: (a: A) => B): Record<K, B> { ... }
+export function map<A, B>(f: (a: A) => B): <K extends string>(fa: Record<K, A>) => Record<K, B> { ... }
 ```
 
 Added in v2.0.0
@@ -385,7 +399,7 @@ Map a record passing the keys to the iterating function
 **Signature**
 
 ```ts
-export function mapWithIndex<K extends string, A, B>(fa: Record<K, A>, f: (k: K, a: A) => B): Record<K, B> { ... }
+export function mapWithIndex<K extends string, A, B>(f: (k: K, a: A) => B): (fa: Record<K, A>) => Record<K, B> { ... }
 ```
 
 Added in v2.0.0
@@ -396,13 +410,8 @@ Added in v2.0.0
 
 ```ts
 export function partitionMapWithIndex<K extends string, RL, RR, A>(
-  fa: Record<K, A>,
   f: (key: K, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>>
-export function partitionMapWithIndex<RL, RR, A>(
-  fa: Record<string, A>,
-  f: (key: string, a: A) => Either<RL, RR>
-): Separated<Record<string, RL>, Record<string, RR>> { ... }
+): (fa: Record<K, A>) => Separated<Record<string, RL>, Record<string, RR>> { ... }
 ```
 
 Added in v2.0.0
@@ -412,14 +421,12 @@ Added in v2.0.0
 **Signature**
 
 ```ts
+export function partitionWithIndex<K extends string, A, B extends A>(
+  refinementWithIndex: RefinementWithIndex<K, A, B>
+): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, B>>
 export function partitionWithIndex<K extends string, A>(
-  fa: Record<K, A>,
-  p: (key: K, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>>
-export function partitionWithIndex<A>(
-  fa: Record<string, A>,
-  p: (key: string, a: A) => boolean
-): Separated<Record<string, A>, Record<string, A>> { ... }
+  predicateWithIndex: PredicateWithIndex<K, A>
+): (fa: Record<K, A>) => Separated<Record<string, A>, Record<string, A>> { ... }
 ```
 
 Added in v2.0.0
@@ -431,10 +438,9 @@ Delete a key and value from a map, returning the value as well as the subsequent
 **Signature**
 
 ```ts
-export function pop<K extends string, KS extends string, A>(
-  k: K,
-  d: Record<KS, A>
-): Option<[A, Record<Exclude<KS, K>, A>]> { ... }
+export function pop<K extends string>(
+  k: K
+): <KS extends string, A>(d: Record<KS, A>) => Option<[A, Record<string extends K ? string : Exclude<KS, K>, A>]> { ... }
 ```
 
 Added in v2.0.0
@@ -444,7 +450,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function reduceRightWithIndex<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, a: A, b: B) => B): B { ... }
+export function reduceRightWithIndex<K extends string, A, B>(b: B, f: (k: K, a: A, b: B) => B): (fa: Record<K, A>) => B { ... }
 ```
 
 Added in v2.0.0
@@ -454,7 +460,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function reduceWithIndex<K extends string, A, B>(fa: Record<K, A>, b: B, f: (k: K, b: B, a: A) => B): B { ... }
+export function reduceWithIndex<K extends string, A, B>(b: B, f: (k: K, b: B, a: A) => B): (fa: Record<K, A>) => B { ... }
 ```
 
 Added in v2.0.0
@@ -466,10 +472,9 @@ Delete a key and value from a map
 **Signature**
 
 ```ts
-export function remove<K extends string, KS extends string, A>(
-  k: K,
-  d: Record<KS, A>
-): Record<string extends K ? string : Exclude<KS, K>, A> { ... }
+export function remove<K extends string>(
+  k: K
+): <KS extends string, A>(d: Record<KS, A>) => Record<string extends K ? string : Exclude<KS, K>, A> { ... }
 ```
 
 Added in v2.0.0
@@ -525,17 +530,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function some<A>(fa: Record<string, A>, predicate: (a: A) => boolean): boolean { ... }
-```
-
-Added in v2.0.0
-
-# toArray (function)
-
-**Signature**
-
-```ts
-export function toArray<K extends string, A>(d: Record<K, A>): Array<[K, A]> { ... }
+export function some<A>(predicate: (a: A) => boolean): (r: Record<string, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
@@ -550,7 +545,7 @@ Unfolds a record into a list of key/value pairs
 export function toUnfoldable<F extends URIS>(
   unfoldable: Unfoldable1<F>
 ): <K extends string, A>(d: Record<K, A>) => Type<F, [K, A]>
-export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A>(d: Record<K, A>) => HKT<F, [K, A]> { ... }
+export function toUnfoldable<F>(unfoldable: Unfoldable<F>): <K extends string, A>(r: Record<K, A>) => HKT<F, [K, A]> { ... }
 ```
 
 Added in v2.0.0
@@ -562,19 +557,19 @@ Added in v2.0.0
 ```ts
 export function traverse<F extends URIS3>(
   F: Applicative3<F>
-): <K extends string, U, L, A, B>(ta: Record<K, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Record<K, B>>
+): <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => <K extends string>(ta: Record<K, A>) => Type3<F, U, L, Record<K, B>>
 export function traverse<F extends URIS2>(
   F: Applicative2<F>
-): <K extends string, L, A, B>(ta: Record<K, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>
+): <L, A, B>(f: (a: A) => Type2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Type2<F, L, Record<K, B>>
 export function traverse<F extends URIS2, L>(
   F: Applicative2C<F, L>
-): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>
+): <A, B>(f: (a: A) => Type2<F, L, B>) => <K extends string>(ta: Record<K, A>) => Type2<F, L, Record<K, B>>
 export function traverse<F extends URIS>(
   F: Applicative1<F>
-): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => Type<F, B>) => Type<F, Record<K, B>>
+): <A, B>(f: (a: A) => Type<F, B>) => <K extends string>(ta: Record<K, A>) => Type<F, Record<K, B>>
 export function traverse<F>(
   F: Applicative<F>
-): <K extends string, A, B>(ta: Record<K, A>, f: (a: A) => HKT<F, B>) => HKT<F, Record<K, B>> { ... }
+): <A, B>(f: (a: A) => HKT<F, B>) => <K extends string>(ta: Record<K, A>) => HKT<F, Record<K, B>> { ... }
 ```
 
 Added in v2.0.0
@@ -587,18 +582,20 @@ Added in v2.0.0
 export function traverseWithIndex<F extends URIS3>(
   F: Applicative3<F>
 ): <K extends string, U, L, A, B>(
-  ta: Record<K, A>,
   f: (k: K, a: A) => Type3<F, U, L, B>
-) => Type3<F, U, L, Record<K, B>>
+) => (ta: Record<K, A>) => Type3<F, U, L, Record<K, B>>
 export function traverseWithIndex<F extends URIS2>(
   F: Applicative2<F>
-): <K extends string, L, A, B>(ta: Record<K, A>, f: (k: K, a: A) => Type2<F, L, B>) => Type2<F, L, Record<K, B>>
+): <K extends string, L, A, B>(f: (k: K, a: A) => Type2<F, L, B>) => (ta: Record<K, A>) => Type2<F, L, Record<K, B>>
+export function traverseWithIndex<F extends URIS2, L>(
+  F: Applicative2C<F, L>
+): <K extends string, A, B>(f: (k: K, a: A) => Type2<F, L, B>) => (ta: Record<K, A>) => Type2<F, L, Record<K, B>>
 export function traverseWithIndex<F extends URIS>(
   F: Applicative1<F>
-): <K extends string, A, B>(ta: Record<K, A>, f: (k: K, a: A) => Type<F, B>) => Type<F, Record<K, B>>
+): <K extends string, A, B>(f: (k: K, a: A) => Type<F, B>) => (ta: Record<K, A>) => Type<F, Record<K, B>>
 export function traverseWithIndex<F>(
   F: Applicative<F>
-): <K extends string, A, B>(ta: Record<K, A>, f: (k: K, a: A) => HKT<F, B>) => HKT<F, Record<K, B>> { ... }
+): <K extends string, A, B>(f: (k: K, a: A) => HKT<F, B>) => (ta: Record<K, A>) => HKT<F, Record<K, B>> { ... }
 ```
 
 Added in v2.0.0

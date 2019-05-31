@@ -195,75 +195,79 @@ declare const ro1: Record<'a' | 'b', O.Option<number>>
 declare const stringKey: string
 const l1 = { a: 1 }
 
-R.collect({ a: 1 }, (_k: 'a', n: number) => n) // $ExpectType number[]
-R.collect(l1, (_k: 'a', n: number) => n) // $ExpectType number[]
-R.collect(d1, (_k, n) => n) // $ExpectType number[]
-R.collect(r1, (_k: 'a' | 'b', n: number) => n) // $ExpectType number[]
+R.pop('a')(r1) // $ExpectType Option<[number, Record<"b", number>]>
+R.pop('a')(d1) // $ExpectType Option<[number, Record<string, number>]>
+R.pop(stringKey)(r1) // $ExpectType Option<[number, Record<string, number>]>
+
+R.collect((_k: 'a', n: number) => n)({ a: 1 }) // $ExpectType number[]
+R.collect((_k: 'a', n: number) => n)(l1) // $ExpectType number[]
+R.collect((_k, n: number) => n)(d1) // $ExpectType number[]
+R.collect((_k: 'a' | 'b', n: number) => n)(r1) // $ExpectType number[]
 
 R.toArray({ a: 1 }) // $ExpectType ["a", number][]
 R.toArray(l1) // $ExpectType ["a", number][]
 R.toArray(d1) // $ExpectType [string, number][]
 R.toArray(r1) // $ExpectType ["a" | "b", number][]
 
-R.insert('b', 0, { a: 1 }) // $ExpectType Record<"a" | "b", number>
-R.insert('b', 0, l1) // $ExpectType Record<"a" | "b", number>
-R.insert('b', 0, d1) // $ExpectType Record<string, number>
-R.insert('b', 0, r1) // $ExpectType Record<"a" | "b", number>
-R.insert(stringKey, 0, r1) // $ExpectType Record<string, number>
-R.insert('c', 0, r1) // $ExpectType Record<"a" | "b" | "c", number>
+R.insert('b', 0)({ a: 1 }) // $ExpectType Record<"a" | "b", number>
+R.insert('b', 0)(l1) // $ExpectType Record<"a" | "b", number>
+R.insert('b', 0)(d1) // $ExpectType Record<string, number>
+R.insert('b', 0)(r1) // $ExpectType Record<"a" | "b", number>
+R.insert(stringKey, 0)(r1) // $ExpectType Record<string, number>
+R.insert('c', 0)(r1) // $ExpectType Record<"a" | "b" | "c", number>
 
-R.remove('a', { a: 1 }) // $ExpectType Record<never, number>
-R.remove('b', { a: 1 }) // $ExpectType Record<"a", number>
-R.remove('a', l1) // $ExpectType Record<never, number>
-R.remove('b', l1) // $ExpectType Record<"a", number>
-R.remove('b', d1) // $ExpectType Record<string, number>
-R.remove('c', r1) // $ExpectType Record<"a" | "b", number>
-R.remove('a', r1) // $ExpectType Record<"b", number>
-R.remove(stringKey, r1) // $ExpectType Record<string, number>
+R.remove('a')({ a: 1 }) // $ExpectType Record<never, number>
+R.remove('b')({ a: 1 }) // $ExpectType Record<"a", number>
+R.remove('a')(l1) // $ExpectType Record<never, number>
+R.remove('b')(l1) // $ExpectType Record<"a", number>
+R.remove('b')(d1) // $ExpectType Record<string, number>
+R.remove('c')(r1) // $ExpectType Record<"a" | "b", number>
+R.remove('a')(r1) // $ExpectType Record<"b", number>
+R.remove(stringKey)(r1) // $ExpectType Record<string, number>
 
-R.mapWithIndex({ a: 1 }, (_k: 'a', n: number) => n > 2) // $ExpectType Record<"a", boolean>
-R.mapWithIndex(l1, (_k: 'a', n: number) => n > 2) // $ExpectType Record<"a", boolean>
-R.mapWithIndex(d1, (_k: string, n: number) => n > 2) // $ExpectType Record<string, boolean>
-R.mapWithIndex(r1, (_k: 'a' | 'b', n: number) => n > 2) // $ExpectType Record<"a" | "b", boolean>
+R.mapWithIndex((_k: 'a', n: number) => n > 2)({ a: 1 }) // $ExpectType Record<"a", boolean>
+R.mapWithIndex((_k: 'a', n: number) => n > 2)(l1) // $ExpectType Record<"a", boolean>
+R.mapWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Record<string, boolean>
+R.mapWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Record<"a" | "b", boolean>
 
-R.map({ a: 1 }, n => n > 2) // $ExpectType Record<"a", boolean>
-R.map(l1, n => n > 2) // $ExpectType Record<"a", boolean>
-R.map(d1, n => n > 2) // $ExpectType Record<string, boolean>
-R.map(r1, n => n > 2) // $ExpectType Record<"a" | "b", boolean>
+R.map((n: number) => n > 2)({ a: 1 }) // $ExpectType Record<"a", boolean>
+R.map((n: number) => n > 2)(l1) // $ExpectType Record<"a", boolean>
+R.map((n: number) => n > 2)(d1) // $ExpectType Record<string, boolean>
+R.map((n: number) => n > 2)(r1) // $ExpectType Record<"a" | "b", boolean>
 
-R.reduceWithIndex(d1, '', (k: string, _n) => k) // $ExpectType string
-R.reduceWithIndex(r1, '', (k: 'a' | 'b', _n) => k) // $ExpectType string
+R.reduceWithIndex('', (k: string, _n) => k)(d1) // $ExpectType string
+R.reduceWithIndex('', (k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
-R.foldMapWithIndex(Mon.monoidString)(d1, (k: string, _n) => k) // $ExpectType string
-R.foldMapWithIndex(Mon.monoidString)(r1, (k: 'a' | 'b', _n) => k) // $ExpectType string
+R.foldMapWithIndex(Mon.monoidString)((k: string, _n) => k)(d1) // $ExpectType string
+R.foldMapWithIndex(Mon.monoidString)((k: 'a' | 'b', _n) => k)(r1) // $ExpectType string
 
-R.reduceRightWithIndex(d1, '', (k: string, _n, _b) => k) // $ExpectType string
-R.reduceRightWithIndex(r1, '', (k: 'a' | 'b', _n, _b) => k) // $ExpectType string
+R.reduceRightWithIndex('', (k: string, _n, _b) => k)(d1) // $ExpectType string
+R.reduceRightWithIndex('', (k: 'a' | 'b', _n, _b) => k)(r1) // $ExpectType string
 
 R.singleton('a', 1) // $ExpectType Record<"a", number>
 
-R.traverseWithIndex(O.option)(d1, (_k, n) => O.some(n)) // $ExpectType Option<Record<string, number>>
-R.traverseWithIndex(O.option)(r1, (_k, n) => O.some(n)) // $ExpectType Option<Record<"a" | "b", number>>
+R.traverseWithIndex(O.option)((_k, n: number) => O.some(n))(d1) // $ExpectType Option<Record<string, number>>
+R.traverseWithIndex(O.option)((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Option<Record<"a" | "b", number>>
 
-R.traverse(O.option)(d1, O.some) // $ExpectType Option<Record<string, number>>
-R.traverse(O.option)(r1, O.some) // $ExpectType Option<Record<"a" | "b", number>>
+R.traverse(O.option)((n: number) => O.some(n))(d1) // $ExpectType Option<Record<string, number>>
+R.traverse(O.option)((n: number) => O.some(n))(r1) // $ExpectType Option<Record<"a" | "b", number>>
 
 R.sequence(O.option)(do1) // $ExpectType Option<Record<string, number>>
 R.sequence(O.option)(ro1) // $ExpectType Option<Record<"a" | "b", number>>
 
 R.record.compact(do1) // $ExpectType Record<string, number>
 
-R.partitionMapWithIndex(d1, (_k: string, n): E.Either<string, number> => E.right(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
-R.partitionMapWithIndex(r1, (_k: 'a' | 'b', n): E.Either<string, number> => E.right(n)) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+R.partitionMapWithIndex((_k: string, n: number): E.Either<string, number> => E.right(n))(d1) // $ExpectType Separated<Record<string, string>, Record<string, number>>
+R.partitionMapWithIndex((_k: 'a' | 'b', n: number): E.Either<string, number> => E.right(n))(r1) // $ExpectType Separated<Record<string, string>, Record<string, number>>
 
-R.partitionWithIndex(d1, (_k: string, n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>
-R.partitionWithIndex(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Separated<Record<string, number>, Record<string, number>>
+R.partitionWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Separated<Record<string, number>, Record<string, number>>
+R.partitionWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Separated<Record<string, number>, Record<string, number>>
 
-R.filterMapWithIndex(d1, (_k: string, n) => O.some(n)) // $ExpectType Record<string, number>
-R.filterMapWithIndex(r1, (_k: 'a' | 'b', n) => O.some(n)) // $ExpectType Record<string, number>
+R.filterMapWithIndex((_k: string, n: number) => O.some(n))(d1) // $ExpectType Record<string, number>
+R.filterMapWithIndex((_k: 'a' | 'b', n: number) => O.some(n))(r1) // $ExpectType Record<string, number>
 
-R.filterWithIndex(d1, (_k: string, n) => n > 2) // $ExpectType Record<string, number>
-R.filterWithIndex(r1, (_k: 'a' | 'b', n) => n > 2) // $ExpectType Record<string, number>
+R.filterWithIndex((_k: string, n: number) => n > 2)(d1) // $ExpectType Record<string, number>
+R.filterWithIndex((_k: 'a' | 'b', n: number) => n > 2)(r1) // $ExpectType Record<string, number>
 
 declare const arr1: Array<[string, number]>
 declare const arr2: Array<['a' | 'b', number]>
