@@ -27,6 +27,7 @@ type Forest<A> = Array<Tree<A>>
 - [getEq (function)](#geteq-function)
 - [getShow (function)](#getshow-function)
 - [make (function)](#make-function)
+- [of (function)](#of-function)
 - [unfoldForest (function)](#unfoldforest-function)
 - [unfoldForestM (function)](#unfoldforestm-function)
 - [unfoldTree (function)](#unfoldtree-function)
@@ -165,6 +166,16 @@ Added in v2.0.0
 
 ```ts
 export function make<A>(value: A, forest: Forest<A> = empty): Tree<A> { ... }
+```
+
+Added in v2.0.0
+
+# of (function)
+
+**Signature**
+
+```ts
+export function of<A>(a: A): Tree<A> { ... }
 ```
 
 Added in v2.0.0

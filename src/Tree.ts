@@ -223,16 +223,23 @@ export function elem<A>(E: Eq<A>): (a: A) => (fa: Tree<A>) => boolean {
 /**
  * @since 2.0.0
  */
+export function of<A>(a: A): Tree<A> {
+  return {
+    value: a,
+    forest: empty
+  }
+}
+
+/**
+ * @since 2.0.0
+ */
 export const tree: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Comonad1<URI> = {
   URI,
   map: (fa, f) => ({
     value: f(fa.value),
     forest: fa.forest.map(t => tree.map(t, f))
   }),
-  of: a => ({
-    value: a,
-    forest: empty
-  }),
+  of,
   ap: (fab, fa) => tree.chain(fab, f => tree.map(fa, f)), // <- derived
   chain: <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
     const { value, forest } = f(fa.value)

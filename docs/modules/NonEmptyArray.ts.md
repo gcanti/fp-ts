@@ -20,6 +20,7 @@ Data structure which represents non-empty arrays
 - [getEq (constant)](#geteq-constant)
 - [getShow (constant)](#getshow-constant)
 - [nonEmptyArray (constant)](#nonemptyarray-constant)
+- [of (constant)](#of-constant)
 - [reverse (constant)](#reverse-constant)
 - [snoc (constant)](#snoc-constant)
 - [filter (function)](#filter-function)
@@ -144,6 +145,16 @@ export const nonEmptyArray: Monad1<URI> &
   TraversableWithIndex1<URI, number> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> = ...
+```
+
+Added in v2.0.0
+
+# of (constant)
+
+**Signature**
+
+```ts
+export const of: <A>(a: A) => NonEmptyArray<A> = ...
 ```
 
 Added in v2.0.0

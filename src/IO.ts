@@ -142,10 +142,15 @@ export function getMonoid<A>(M: Monoid<A>): Monoid<IO<A>> {
 /**
  * @since 2.0.0
  */
+export const of = <A>(a: A): IO<A> => () => a
+
+/**
+ * @since 2.0.0
+ */
 export const io: Monad1<URI> & MonadIO1<URI> = {
   URI,
   map: (ma, f) => () => f(ma()),
-  of: a => () => a,
+  of,
   ap: (mab, ma) => () => mab()(ma()),
   chain: (ma, f) => () => f(ma())(),
   fromIO: identity

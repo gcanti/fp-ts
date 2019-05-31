@@ -109,10 +109,17 @@ const identity = <A>(a: A): A => a
 /**
  * @since 2.0.0
  */
+export function of<A>(a: A): Task<A> {
+  return () => Promise.resolve(a)
+}
+
+/**
+ * @since 2.0.0
+ */
 export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
   URI,
   map: (ma, f) => () => ma().then(f),
-  of: a => () => Promise.resolve(a),
+  of,
   ap: (mab, ma) => () => Promise.all([mab(), ma()]).then(([f, a]) => f(a)),
   chain: (ma, f) => () => ma().then(a => f(a)()),
   fromIO,

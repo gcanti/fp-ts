@@ -81,10 +81,15 @@ export function getMonoid<R, A>(M: Monoid<A>): Monoid<Reader<R, A>> {
 /**
  * @since 2.0.0
  */
+export const of: <A>(a: A) => Reader<unknown, A> = T.of
+
+/**
+ * @since 2.0.0
+ */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
   map: (ma, f) => e => f(ma(e)),
-  of: T.of,
+  of,
   ap: T.ap,
   chain: T.chain,
   promap: (mbc, f, g) => a => g(mbc(f(a))),

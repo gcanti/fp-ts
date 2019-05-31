@@ -51,6 +51,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [lookup (function)](#lookup-function)
 - [makeBy (function)](#makeby-function)
 - [modifyAt (function)](#modifyat-function)
+- [of (function)](#of-function)
 - [range (function)](#range-function)
 - [replicate (function)](#replicate-function)
 - [reverse (function)](#reverse-function)
@@ -907,6 +908,16 @@ import { some, none } from 'fp-ts/lib/Option'
 const double = (x: number): number => x * 2
 assert.deepStrictEqual(modifyAt(1, double)([1, 2, 3]), some([1, 4, 3]))
 assert.deepStrictEqual(modifyAt(1, double)([]), none)
+```
+
+Added in v2.0.0
+
+# of (function)
+
+**Signature**
+
+```ts
+export const of = <A>(a: A): Array<A> => ...
 ```
 
 Added in v2.0.0

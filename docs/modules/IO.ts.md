@@ -105,6 +105,7 @@ computation() // returns { name: 'Aristotle', age: 60 }
 - [io (constant)](#io-constant)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [of (function)](#of-function)
 
 ---
 
@@ -166,6 +167,16 @@ Added in v2.0.0
 
 ```ts
 export function getSemigroup<A>(S: Semigroup<A>): Semigroup<IO<A>> { ... }
+```
+
+Added in v2.0.0
+
+# of (function)
+
+**Signature**
+
+```ts
+export const of = <A>(a: A): IO<A> => () => ...
 ```
 
 Added in v2.0.0

@@ -1273,6 +1273,11 @@ const identity = <A>(a: A): A => a
 /**
  * @since 2.0.0
  */
+export const of = <A>(a: A): Array<A> => [a]
+
+/**
+ * @since 2.0.0
+ */
 export const array: Monad1<URI> &
   Foldable1<URI> &
   Unfoldable1<URI> &
@@ -1312,7 +1317,7 @@ export const array: Monad1<URI> &
     return array.partitionWithIndex(fa, (_, a) => predicate(a))
   },
   partitionMap: (fa, f) => array.partitionMapWithIndex(fa, (_, a) => f(a)),
-  of: a => [a],
+  of,
   ap: (fab, fa) => flatten(array.map(fab, f => array.map(fa, f))),
   chain: (fa, f) => {
     let resLen = 0

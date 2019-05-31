@@ -16,6 +16,7 @@ parent: Modules
 - [get (constant)](#get-constant)
 - [gets (constant)](#gets-constant)
 - [modify (constant)](#modify-constant)
+- [of (constant)](#of-constant)
 - [put (constant)](#put-constant)
 - [state (constant)](#state-constant)
 
@@ -109,6 +110,16 @@ Modify the state by applying a function to the current state
 
 ```ts
 export const modify: <S>(f: (s: S) => S) => State<S, void> = ...
+```
+
+Added in v2.0.0
+
+# of (constant)
+
+**Signature**
+
+```ts
+export const of: <S, A>(a: A) => State<S, A> = ...
 ```
 
 Added in v2.0.0

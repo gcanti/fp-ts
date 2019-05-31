@@ -283,6 +283,11 @@ export function filterWithIndex<A>(
 /**
  * @since 2.0.0
  */
+export const of: <A>(a: A) => NonEmptyArray<A> = A.of as any
+
+/**
+ * @since 2.0.0
+ */
 export const nonEmptyArray: Monad1<URI> &
   Comonad1<URI> &
   TraversableWithIndex1<URI, number> &
@@ -291,7 +296,7 @@ export const nonEmptyArray: Monad1<URI> &
   URI,
   map: A.array.map as any,
   mapWithIndex: A.array.mapWithIndex as any,
-  of: A.array.of as any,
+  of,
   ap: A.array.ap as any,
   chain: A.array.chain as any,
   extend: A.array.extend as any,

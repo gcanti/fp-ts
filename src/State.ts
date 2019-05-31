@@ -73,10 +73,15 @@ export const gets: <S, A>(f: (s: S) => A) => State<S, A> = T.gets
 /**
  * @since 2.0.0
  */
+export const of: <S, A>(a: A) => State<S, A> = T.of
+
+/**
+ * @since 2.0.0
+ */
 export const state: Monad2<URI> = {
   URI,
   map: T.map,
-  of: T.of,
+  of,
   ap: T.ap,
   chain: T.chain
 }

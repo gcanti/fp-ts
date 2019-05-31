@@ -24,6 +24,7 @@ If you want to represent an asynchronous computation that may fail, please see `
 - [getRaceMonoid (function)](#getracemonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [never (function)](#never-function)
+- [of (function)](#of-function)
 
 ---
 
@@ -137,6 +138,16 @@ Added in v2.0.0
 
 ```ts
 export const never: Task<never> = () => new Promise(_ => ...
+```
+
+Added in v2.0.0
+
+# of (function)
+
+**Signature**
+
+```ts
+export function of<A>(a: A): Task<A> { ... }
 ```
 
 Added in v2.0.0

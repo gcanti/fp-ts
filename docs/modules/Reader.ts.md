@@ -13,6 +13,7 @@ parent: Modules
 - [URI (constant)](#uri-constant)
 - [ask (constant)](#ask-constant)
 - [asks (constant)](#asks-constant)
+- [of (constant)](#of-constant)
 - [reader (constant)](#reader-constant)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
@@ -72,6 +73,16 @@ Projects a value from the global context in a Reader
 
 ```ts
 export const asks: <R, A>(f: (r: R) => A) => Reader<R, A> = ...
+```
+
+Added in v2.0.0
+
+# of (constant)
+
+**Signature**
+
+```ts
+export const of: <A>(a: A) => Reader<unknown, A> = ...
 ```
 
 Added in v2.0.0
