@@ -34,7 +34,7 @@ export const empty: Set<never> = new Set()
 /**
  * @since 2.0.0
  */
-export function toArray<A>(O: Ord<A>): (x: Set<A>) => Array<A> {
+export function toArray<A>(O: Ord<A>): (set: Set<A>) => Array<A> {
   return x => {
     const r: Array<A> = []
     x.forEach(e => r.push(e))
@@ -53,14 +53,16 @@ export function getEq<A>(E: Eq<A>): Eq<Set<A>> {
 /**
  * @since 2.0.0
  */
-export function some<A>(x: Set<A>, predicate: Predicate<A>): boolean {
-  const values = x.values()
-  let e: IteratorResult<A>
-  let found = false
-  while (!found && !(e = values.next()).done) {
-    found = predicate(e.value)
+export function some<A>(predicate: Predicate<A>): (set: Set<A>) => boolean {
+  return set => {
+    const values = set.values()
+    let e: IteratorResult<A>
+    let found = false
+    while (!found && !(e = values.next()).done) {
+      found = predicate(e.value)
+    }
+    return found
   }
-  return found
 }
 
 /**
@@ -68,13 +70,13 @@ export function some<A>(x: Set<A>, predicate: Predicate<A>): boolean {
  *
  * @since 2.0.0
  */
-export function map<B>(E: Eq<B>): <A>(set: Set<A>, f: (x: A) => B) => Set<B> {
+export function map<B>(E: Eq<B>): <A>(f: (x: A) => B) => (set: Set<A>) => Set<B> {
   const elemE = elem(E)
-  return (set, f) => {
+  return f => set => {
     const r = new Set<B>()
     set.forEach(e => {
       const v = f(e)
-      if (!elemE(v, r)) {
+      if (!elemE(v)(r)) {
         r.add(v)
       }
     })
@@ -85,20 +87,20 @@ export function map<B>(E: Eq<B>): <A>(set: Set<A>, f: (x: A) => B) => Set<B> {
 /**
  * @since 2.0.0
  */
-export function every<A>(x: Set<A>, predicate: Predicate<A>): boolean {
-  return !some(x, not(predicate))
+export function every<A>(predicate: Predicate<A>): (set: Set<A>) => boolean {
+  return not(some(not(predicate)))
 }
 
 /**
  * @since 2.0.0
  */
-export function chain<B>(E: Eq<B>): <A>(set: Set<A>, f: (x: A) => Set<B>) => Set<B> {
+export function chain<B>(E: Eq<B>): <A>(f: (x: A) => Set<B>) => (set: Set<A>) => Set<B> {
   const elemE = elem(E)
-  return (set, f) => {
+  return f => set => {
     let r = new Set<B>()
     set.forEach(e => {
       f(e).forEach(e => {
-        if (!elemE(e, r)) {
+        if (!elemE(e)(r)) {
           r.add(e)
         }
       })
@@ -114,46 +116,50 @@ export function chain<B>(E: Eq<B>): <A>(set: Set<A>, f: (x: A) => Set<B>) => Set
  */
 export function subset<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => boolean {
   const elemE = elem(E)
-  return (x, y) => every(x, a => elemE(a, y))
+  return (x, y) => every((a: A) => elemE(a)(y))(x)
 }
 
 /**
  * @since 2.0.0
  */
-export function filter<A, B extends A>(x: Set<A>, predicate: Refinement<A, B>): Set<B>
-export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A>
-export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A> {
-  const values = x.values()
-  let e: IteratorResult<A>
-  let r = new Set<A>()
-  while (!(e = values.next()).done) {
-    const value = e.value
-    if (predicate(value)) {
-      r.add(value)
+export function filter<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Set<B>
+export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A>
+export function filter<A>(predicate: Predicate<A>): (set: Set<A>) => Set<A> {
+  return set => {
+    const values = set.values()
+    let e: IteratorResult<A>
+    let r = new Set<A>()
+    while (!(e = values.next()).done) {
+      const value = e.value
+      if (predicate(value)) {
+        r.add(value)
+      }
     }
+    return r
   }
-  return r
 }
 
 /**
  * @since 2.0.0
  */
-export function partition<A, B extends A>(x: Set<A>, predicate: Refinement<A, B>): Separated<Set<A>, Set<B>>
-export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>>
-export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> {
-  const values = x.values()
-  let e: IteratorResult<A>
-  let right = new Set<A>()
-  let left = new Set<A>()
-  while (!(e = values.next()).done) {
-    const value = e.value
-    if (predicate(value)) {
-      right.add(value)
-    } else {
-      left.add(value)
+export function partition<A, B extends A>(refinement: Refinement<A, B>): (set: Set<A>) => Separated<Set<A>, Set<B>>
+export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>>
+export function partition<A>(predicate: Predicate<A>): (set: Set<A>) => Separated<Set<A>, Set<A>> {
+  return set => {
+    const values = set.values()
+    let e: IteratorResult<A>
+    let right = new Set<A>()
+    let left = new Set<A>()
+    while (!(e = values.next()).done) {
+      const value = e.value
+      if (predicate(value)) {
+        right.add(value)
+      } else {
+        left.add(value)
+      }
     }
+    return { left, right }
   }
-  return { left, right }
 }
 
 /**
@@ -161,8 +167,8 @@ export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<
  *
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): (a: A, x: Set<A>) => boolean {
-  return (a, x) => some(x, (ax: A) => E.equals(a, ax))
+export function elem<A>(E: Eq<A>): (a: A) => (set: Set<A>) => boolean {
+  return a => some((ax: A) => E.equals(a, ax))
 }
 
 /**
@@ -170,7 +176,7 @@ export function elem<A>(E: Eq<A>): (a: A, x: Set<A>) => boolean {
  *
  * @since 2.0.0
  */
-export function union<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
+export function union<A>(E: Eq<A>): (set: Set<A>, y: Set<A>) => Set<A> {
   const elemE = elem(E)
   return (x, y) => {
     if (x === empty) {
@@ -181,7 +187,7 @@ export function union<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
     }
     const r = new Set(x)
     y.forEach(e => {
-      if (!elemE(e, r)) {
+      if (!elemE(e)(r)) {
         r.add(e)
       }
     })
@@ -194,7 +200,7 @@ export function union<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
  *
  * @since 2.0.0
  */
-export function intersection<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
+export function intersection<A>(E: Eq<A>): (set: Set<A>, y: Set<A>) => Set<A> {
   const elemE = elem(E)
   return (x, y) => {
     if (x === empty || y === empty) {
@@ -202,7 +208,7 @@ export function intersection<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
     }
     const r = new Set<A>()
     x.forEach(e => {
-      if (elemE(e, y)) {
+      if (elemE(e)(y)) {
         r.add(e)
       }
     })
@@ -216,9 +222,9 @@ export function intersection<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
 export function partitionMap<L, R>(
   SL: Eq<L>,
   SR: Eq<R>
-): <A>(x: Set<A>, f: (a: A) => Either<L, R>) => Separated<Set<L>, Set<R>> {
-  return <A>(x: Set<A>, f: (a: A) => Either<L, R>) => {
-    const values = x.values()
+): <A>(f: (a: A) => Either<L, R>) => (set: Set<A>) => Separated<Set<L>, Set<R>> {
+  return <A>(f: (a: A) => Either<L, R>) => (set: Set<A>) => {
+    const values = set.values()
     let e: IteratorResult<A>
     let left = new Set<L>()
     let right = new Set<R>()
@@ -228,12 +234,12 @@ export function partitionMap<L, R>(
       const v = f(e.value)
       switch (v._tag) {
         case 'Left':
-          if (!hasL(v.left, left)) {
+          if (!hasL(v.left)(left)) {
             left.add(v.left)
           }
           break
         case 'Right':
-          if (!hasR(v.right, right)) {
+          if (!hasR(v.right)(right)) {
             right.add(v.right)
           }
           break
@@ -257,7 +263,7 @@ export function partitionMap<L, R>(
  */
 export function difference<A>(E: Eq<A>): (x: Set<A>, y: Set<A>) => Set<A> {
   const elemE = elem(E)
-  return (x, y) => filter(x, a => !elemE(a, y))
+  return (x, y) => filter((a: A) => !elemE(a)(y))(x)
 }
 
 /**
@@ -282,17 +288,17 @@ export function getIntersectionSemigroup<A>(E: Eq<A>): Semigroup<Set<A>> {
 /**
  * @since 2.0.0
  */
-export function reduce<A>(O: Ord<A>): <B>(fa: Set<A>, b: B, f: (b: B, a: A) => B) => B {
+export function reduce<A>(O: Ord<A>): <B>(b: B, f: (b: B, a: A) => B) => (fa: Set<A>) => B {
   const toArrayO = toArray(O)
-  return (fa, b, f) => toArrayO(fa).reduce(f, b)
+  return (b, f) => fa => toArrayO(fa).reduce(f, b)
 }
 
 /**
  * @since 2.0.0
  */
-export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (fa: Set<A>, f: (a: A) => M) => M {
+export function foldMap<A, M>(O: Ord<A>, M: Monoid<M>): (f: (a: A) => M) => (fa: Set<A>) => M {
   const toArrayO = toArray(O)
-  return (fa, f) => toArrayO(fa).reduce((b, a) => M.concat(b, f(a)), M.empty)
+  return f => fa => toArrayO(fa).reduce((b, a) => M.concat(b, f(a)), M.empty)
 }
 
 /**
@@ -309,15 +315,15 @@ export function singleton<A>(a: A): Set<A> {
  *
  * @since 2.0.0
  */
-export function insert<A>(E: Eq<A>): (a: A, x: Set<A>) => Set<A> {
+export function insert<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
   const elemE = elem(E)
-  return (a, x) => {
-    if (!elemE(a, x)) {
-      const r = new Set(x)
+  return a => set => {
+    if (!elemE(a)(set)) {
+      const r = new Set(set)
       r.add(a)
       return r
     } else {
-      return x
+      return set
     }
   }
 }
@@ -327,8 +333,8 @@ export function insert<A>(E: Eq<A>): (a: A, x: Set<A>) => Set<A> {
  *
  * @since 2.0.0
  */
-export function remove<A>(E: Eq<A>): (a: A, x: Set<A>) => Set<A> {
-  return (a, x) => filter(x, (ax: A) => !E.equals(a, ax))
+export function remove<A>(E: Eq<A>): (a: A) => (set: Set<A>) => Set<A> {
+  return a => set => filter((ax: A) => !E.equals(a, ax))(set)
 }
 
 /**
@@ -343,7 +349,7 @@ export function fromArray<A>(E: Eq<A>): (as: Array<A>) => Set<A> {
     const has = elem(E)
     for (let i = 0; i < len; i++) {
       const a = as[i]
-      if (!has(a, r)) {
+      if (!has(a)(r)) {
         r.add(a)
       }
     }
@@ -355,8 +361,7 @@ export function fromArray<A>(E: Eq<A>): (as: Array<A>) => Set<A> {
  * @since 2.0.0
  */
 export function compact<A>(E: Eq<A>): (fa: Set<Option<A>>) => Set<A> {
-  const filterMapE = filterMap(E)
-  return fa => filterMapE(fa, identity)
+  return filterMap(E)(identity)
 }
 
 /**
@@ -371,12 +376,12 @@ export function separate<L, R>(EL: Eq<L>, ER: Eq<R>): (fa: Set<Either<L, R>>) =>
     fa.forEach(e => {
       switch (e._tag) {
         case 'Left':
-          if (!elemEL(e.left, left)) {
+          if (!elemEL(e.left)(left)) {
             left.add(e.left)
           }
           break
         case 'Right':
-          if (!elemER(e.right, right)) {
+          if (!elemER(e.right)(right)) {
             right.add(e.right)
           }
           break
@@ -389,13 +394,13 @@ export function separate<L, R>(EL: Eq<L>, ER: Eq<R>): (fa: Set<Either<L, R>>) =>
 /**
  * @since 2.0.0
  */
-export function filterMap<B>(E: Eq<B>): <A>(fa: Set<A>, f: (a: A) => Option<B>) => Set<B> {
+export function filterMap<B>(E: Eq<B>): <A>(f: (a: A) => Option<B>) => (fa: Set<A>) => Set<B> {
   const elemE = elem(E)
-  return (fa, f) => {
+  return f => fa => {
     const r: Set<B> = new Set()
     fa.forEach(a => {
       const ob = f(a)
-      if (ob._tag === 'Some' && !elemE(ob.value, r)) {
+      if (ob._tag === 'Some' && !elemE(ob.value)(r)) {
         r.add(ob.value)
       }
     })
