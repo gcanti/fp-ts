@@ -42,9 +42,9 @@ describe('Either', () => {
   })
 
   it('elem', () => {
-    assert.deepStrictEqual(_.elem(eqNumber)(2, _.left('a')), false)
-    assert.deepStrictEqual(_.elem(eqNumber)(2, _.right(2)), true)
-    assert.deepStrictEqual(_.elem(eqNumber)(1, _.right(2)), false)
+    assert.deepStrictEqual(_.elem(eqNumber)(2)(_.left('a')), false)
+    assert.deepStrictEqual(_.elem(eqNumber)(2)(_.right(2)), true)
+    assert.deepStrictEqual(_.elem(eqNumber)(1)(_.right(2)), false)
   })
 
   it('filterOrElse', () => {

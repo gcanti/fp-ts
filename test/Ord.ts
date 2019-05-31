@@ -42,6 +42,12 @@ describe('Ord', () => {
     assert.strictEqual(ordNumber.compare(2, 2), 0)
   })
 
+  it('ordBoolean', () => {
+    assert.strictEqual(ordNumber.compare(1, 2), -1)
+    assert.strictEqual(ordNumber.compare(2, 1), 1)
+    assert.strictEqual(ordNumber.compare(2, 2), 0)
+  })
+
   it('clamp', () => {
     const clampNumber = clamp(ordNumber)
     assert.strictEqual(clampNumber(1, 10)(2), 2)

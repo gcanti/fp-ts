@@ -300,8 +300,8 @@ export function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A {
 /**
  * @since 2.0.0
  */
-export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean {
-  return (a, ma) => (isLeft(ma) ? false : E.equals(a, ma.right))
+export function elem<A>(E: Eq<A>): (a: A) => <E>(ma: Either<E, A>) => boolean {
+  return a => ma => (isLeft(ma) ? false : E.equals(a, ma.right))
 }
 
 /**

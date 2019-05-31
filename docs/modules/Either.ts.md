@@ -149,7 +149,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A) => <E>(ma: Either<E, A>) => boolean { ... }
 ```
 
 Added in v2.0.0
