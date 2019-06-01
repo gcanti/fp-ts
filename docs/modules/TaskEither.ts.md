@@ -40,16 +40,26 @@ error of type `L`. If you want to represent an asynchronous computation that nev
 - [taskEither (constant)](#taskeither-constant)
 - [taskEitherSeq (constant)](#taskeitherseq-constant)
 - [bracket (function)](#bracket-function)
+- [filterOrElse (function)](#filterorelse-function)
+- [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
-- [fromIO (function)](#fromio-function)
+- [~~fromIO~~ (function)](#fromio-function)
 - [fromIOEither (function)](#fromioeither-function)
-- [fromLeft (function)](#fromleft-function)
+- [~~fromLeft~~ (function)](#fromleft-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
+- [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [left (function)](#left-function)
-- [right (function)](#right-function)
+- [~~left~~ (function)](#left-function)
+- [left2v (function)](#left2v-function)
+- [leftIO (function)](#leftio-function)
+- [leftTask (function)](#lefttask-function)
+- [orElse (function)](#orelse-function)
+- [~~right~~ (function)](#right-function)
+- [right2v (function)](#right2v-function)
+- [rightIO (function)](#rightio-function)
+- [rightTask (function)](#righttask-function)
 - [taskify (function)](#taskify-function)
 - [tryCatch (function)](#trycatch-function)
 
@@ -347,6 +357,36 @@ export const bracket = <L, A, B>(
 
 Added in v1.10.0
 
+# filterOrElse (function)
+
+**Signature**
+
+```ts
+export function filterOrElse<E, A, B extends A>(
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => E
+): (ma: TaskEither<E, A>) => TaskEither<E, B>
+export function filterOrElse<E, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E
+): (ma: TaskEither<E, A>) => TaskEither<E, A> { ... }
+```
+
+Added in v1.19.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<E, A, R>(
+  onLeft: (e: E) => Task<R>,
+  onRight: (a: A) => Task<R>
+): (ma: TaskEither<E, A>) => Task<R> { ... }
+```
+
+Added in v1.19.0
+
 # fromEither (function)
 
 **Signature**
@@ -357,7 +397,9 @@ export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => ...
 
 Added in v1.0.0
 
-# fromIO (function)
+# ~~fromIO~~ (function)
+
+Use `rightIO`
 
 **Signature**
 
@@ -377,7 +419,9 @@ export const fromIOEither = <L, A>(fa: IOEither<L, A>): TaskEither<L, A> => ...
 
 Added in v1.6.0
 
-# fromLeft (function)
+# ~~fromLeft~~ (function)
+
+Use `left2v`
 
 **Signature**
 
@@ -421,6 +465,16 @@ export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L
 
 Added in v1.9.0
 
+# getOrElse (function)
+
+**Signature**
+
+```ts
+export function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A> { ... }
+```
+
+Added in v1.19.0
+
 # getSemigroup (function)
 
 **Signature**
@@ -431,7 +485,9 @@ export const getSemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L, A>>
 
 Added in v1.9.0
 
-# left (function)
+# ~~left~~ (function)
+
+Use `leftTask`
 
 **Signature**
 
@@ -441,7 +497,49 @@ export const left = <L, A>(fl: Task<L>): TaskEither<L, A> => ...
 
 Added in v1.0.0
 
-# right (function)
+# left2v (function)
+
+**Signature**
+
+```ts
+export function left2v<L>(l: L): TaskEither<L, never> { ... }
+```
+
+Added in v1.19.0
+
+# leftIO (function)
+
+**Signature**
+
+```ts
+export function leftIO<E>(me: IO<E>): TaskEither<E, never> { ... }
+```
+
+Added in v1.19.0
+
+# leftTask (function)
+
+**Signature**
+
+```ts
+export function leftTask<E>(me: Task<E>): TaskEither<E, never> { ... }
+```
+
+Added in v1.19.0
+
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> { ... }
+```
+
+Added in v1.19.0
+
+# ~~right~~ (function)
+
+Use `rightTask`
 
 **Signature**
 
@@ -450,6 +548,36 @@ export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => ...
 ```
 
 Added in v1.0.0
+
+# right2v (function)
+
+**Signature**
+
+```ts
+export function right2v<A>(a: A): TaskEither<never, A> { ... }
+```
+
+Added in v1.19.0
+
+# rightIO (function)
+
+**Signature**
+
+```ts
+export function rightIO<A>(ma: IO<A>): TaskEither<never, A> { ... }
+```
+
+Added in v1.19.0
+
+# rightTask (function)
+
+**Signature**
+
+```ts
+export function rightTask<A>(ma: Task<A>): TaskEither<never, A> { ... }
+```
+
+Added in v1.19.0
 
 # taskify (function)
 
