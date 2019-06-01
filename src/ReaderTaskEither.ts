@@ -13,6 +13,7 @@ import * as taskEither from './TaskEither'
 import TaskEither = taskEither.TaskEither
 import { MonadTask3 } from './MonadTask'
 import { MonadThrow3 } from './MonadThrow'
+import { pipeable } from './pipeable'
 
 const readerTTaskEither = readerT.getReaderT2v(taskEither.taskEither)
 
@@ -92,40 +93,6 @@ export class ReaderTaskEither<E, L, A> {
   }
 }
 
-const map = <E, L, A, B>(fa: ReaderTaskEither<E, L, A>, f: (a: A) => B): ReaderTaskEither<E, L, B> => {
-  return fa.map(f)
-}
-
-const of = <E, L, A>(a: A): ReaderTaskEither<E, L, A> => {
-  return new ReaderTaskEither(readerTTaskEither.of(a))
-}
-
-const ap = <E, L, A, B>(
-  fab: ReaderTaskEither<E, L, (a: A) => B>,
-  fa: ReaderTaskEither<E, L, A>
-): ReaderTaskEither<E, L, B> => {
-  return fa.ap(fab)
-}
-
-const chain = <E, L, A, B>(
-  fa: ReaderTaskEither<E, L, A>,
-  f: (a: A) => ReaderTaskEither<E, L, B>
-): ReaderTaskEither<E, L, B> => {
-  return fa.chain(f)
-}
-
-const alt = <E, L, A>(fx: ReaderTaskEither<E, L, A>, fy: ReaderTaskEither<E, L, A>): ReaderTaskEither<E, L, A> => {
-  return fx.alt(fy)
-}
-
-const bimap = <E, L, V, A, B>(
-  fa: ReaderTaskEither<E, L, A>,
-  f: (l: L) => V,
-  g: (a: A) => B
-): ReaderTaskEither<E, V, B> => {
-  return fa.bimap(f, g)
-}
-
 /**
  * @since 1.6.0
  */
@@ -150,14 +117,20 @@ export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
 }
 
 /**
+ * Use `rightTask`
+ *
  * @since 1.6.0
+ * @deprecated
  */
 export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => {
   return new ReaderTaskEither(() => taskEither.right(fa))
 }
 
 /**
+ * Use `leftTask`
+ *
  * @since 1.6.0
+ * @deprecated
  */
 export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => {
   return new ReaderTaskEither(() => taskEither.left(fa))
@@ -172,7 +145,10 @@ export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<
 
 const readerTfromReader = readerT.fromReader(taskEither.taskEither)
 /**
+ * Use `rightReader`
+ *
  * @since 1.6.0
+ * @deprecated
  */
 export const fromReader = <E, L, A>(fa: Reader<E, A>): ReaderTaskEither<E, L, A> => {
   return new ReaderTaskEither(readerTfromReader(fa))
@@ -186,14 +162,20 @@ export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A>
 }
 
 /**
+ * Use `rightIO`
+ *
  * @since 1.6.0
+ * @deprecated
  */
 export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => {
   return fromTaskEither(taskEither.fromIO(fa))
 }
 
 /**
+ * Use `left2v`
+ *
  * @since 1.6.0
+ * @deprecated
  */
 export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => {
   return fromTaskEither(taskEither.fromLeft(l))
@@ -235,10 +217,6 @@ export const tryCatch = <E, L, A>(
   return new ReaderTaskEither(e => taskEither.tryCatch(() => f(e), (reason: unknown) => onrejected(reason, e)))
 }
 
-const fromTask = right
-
-const throwError = fromLeft
-
 /**
  * @since 1.6.0
  */
@@ -249,17 +227,20 @@ export const readerTaskEither: Monad3<URI> &
   MonadTask3<URI> &
   MonadThrow3<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
-  alt,
-  bimap,
+  map: (fa, f) => fa.map(f),
+  of: a => new ReaderTaskEither(readerTTaskEither.of(a)),
+  ap: (fab, fa) => fa.ap(fab),
+  chain: (fa, f) => fa.chain(f),
+  alt: (fx, fy) => fx.alt(fy),
+  bimap: (fla, f, g) => fla.bimap(f, g),
   fromIO,
-  fromTask,
-  throwError,
+  // tslint:disable-next-line: deprecation
+  fromTask: right,
+  // tslint:disable-next-line: deprecation
+  throwError: fromLeft,
   fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
+  // tslint:disable-next-line: deprecation
+  fromOption: (o, e) => (o.isNone() ? fromLeft(e) : readerTaskEither.of(o.value))
 }
 
 /**
@@ -270,3 +251,46 @@ export const readerTaskEitherSeq: typeof readerTaskEither = {
   ...readerTaskEither,
   ap: (fab, fa) => fab.chain(f => fa.map(f))
 }
+
+//
+// backporting
+//
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const left2v: <E>(e: E) => ReaderTaskEither<unknown, E, never> = fromLeft
+
+/**
+ * @since 1.19.0
+ */
+export const right2v: <A>(a: A) => ReaderTaskEither<unknown, never, A> = readerTaskEither.of
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderTaskEither<R, never, A> = fromReader
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const rightIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A> = fromIO
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const rightTask: <E, L, A>(fa: Task<A>) => ReaderTaskEither<E, L, A> = right
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const leftTask: <E, L, A>(fa: Task<L>) => ReaderTaskEither<E, L, A> = left
+
+const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(readerTaskEither)
+
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
