@@ -95,6 +95,7 @@ import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { Lazy, constIdentity, toString, constant, identity } from './function'
 import { MonadIO1 } from './MonadIO'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -150,22 +151,6 @@ export class IO<A> {
   }
 }
 
-const map = <A, B>(fa: IO<A>, f: (a: A) => B): IO<B> => {
-  return fa.map(f)
-}
-
-const of = <A>(a: A): IO<A> => {
-  return new IO(() => a)
-}
-
-const ap = <A, B>(fab: IO<(a: A) => B>, fa: IO<A>): IO<B> => {
-  return fa.ap(fab)
-}
-
-const chain = <A, B>(fa: IO<A>, f: (a: A) => IO<B>): IO<B> => {
-  return fa.chain(f)
-}
-
 /**
  * @since 1.0.0
  */
@@ -184,19 +169,25 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<IO<A>> => {
  * @since 1.0.0
  */
 export const getMonoid = <A>(M: Monoid<A>): Monoid<IO<A>> => {
-  return { ...getSemigroup(M), empty: of(M.empty) }
+  return { ...getSemigroup(M), empty: io.of(M.empty) }
 }
-
-const fromIO = identity
 
 /**
  * @since 1.0.0
  */
 export const io: Monad1<URI> & MonadIO1<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
-  fromIO
+  map: (fa, f) => fa.map(f),
+  of: a => new IO(() => a),
+  ap: (fab, fa) => fa.ap(fab),
+  chain: (fa, f) => fa.chain(f),
+  fromIO: identity
 }
+
+//
+// backporting
+//
+
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(io)
+
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }
