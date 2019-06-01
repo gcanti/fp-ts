@@ -24,13 +24,16 @@ If you want to represent an asynchronous computation that may fail, please see `
   - [inspect (method)](#inspect-method)
   - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
+- [never (constant)](#never-constant)
 - [task (constant)](#task-constant)
 - [taskSeq (constant)](#taskseq-constant)
-- [delay (function)](#delay-function)
+- [~~delay~~ (function)](#delay-function)
+- [delay2v (function)](#delay2v-function)
 - [fromIO (function)](#fromio-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getRaceMonoid (function)](#getracemonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
+- [of (function)](#of-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
@@ -138,6 +141,16 @@ toString(): string { ... }
 export const URI = ...
 ```
 
+# never (constant)
+
+**Signature**
+
+```ts
+export const never = ...
+```
+
+Added in v1.19.0
+
 # task (constant)
 
 **Signature**
@@ -160,7 +173,9 @@ export const taskSeq: typeof task = ...
 
 Added in v1.10.0
 
-# delay (function)
+# ~~delay~~ (function)
+
+Use `delay2v`
 
 **Signature**
 
@@ -169,6 +184,16 @@ export const delay = <A>(millis: number, a: A): Task<A> => ...
 ```
 
 Added in v1.7.0
+
+# delay2v (function)
+
+**Signature**
+
+```ts
+export function delay2v<A>(millis: number, ma: Task<A>): Task<A> { ... }
+```
+
+Added in v1.19.0
 
 # fromIO (function)
 
@@ -211,6 +236,16 @@ export const getSemigroup = <A>(S: Semigroup<A>): Semigroup<Task<A>> => ...
 ```
 
 Added in v1.0.0
+
+# of (function)
+
+**Signature**
+
+```ts
+export function of<A>(a: A): Task<A> { ... }
+```
+
+Added in v1.19.0
 
 # tryCatch (function)
 

@@ -10,6 +10,7 @@ import { MonadIO1 } from './MonadIO'
 import { MonadTask1 } from './MonadTask'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -65,22 +66,6 @@ export class Task<A> {
   }
 }
 
-const map = <A, B>(fa: Task<A>, f: (a: A) => B): Task<B> => {
-  return fa.map(f)
-}
-
-const of = <A>(a: A): Task<A> => {
-  return new Task(() => Promise.resolve(a))
-}
-
-const ap = <A, B>(fab: Task<(a: A) => B>, fa: Task<A>): Task<B> => {
-  return fa.ap(fab)
-}
-
-const chain = <A, B>(fa: Task<A>, f: (a: A) => Task<B>): Task<B> => {
-  return fa.chain(f)
-}
-
 /**
  * @since 1.0.0
  */
@@ -110,8 +95,6 @@ export const getRaceMonoid = <A = never>(): Monoid<Task<A>> => {
     empty: never
   }
 }
-
-const never = new Task(() => new Promise<never>(_ => undefined))
 
 /**
  * @since 1.0.0
@@ -149,32 +132,26 @@ export const fromIO = <A>(io: IO<A>): Task<A> => {
 }
 
 /**
+ * Use `delay2v`
+ *
  * @since 1.7.0
+ * @deprecated
  */
 export const delay = <A>(millis: number, a: A): Task<A> => {
-  return new Task(
-    () =>
-      new Promise(resolve => {
-        setTimeout(() => {
-          resolve(a)
-        }, millis)
-      })
-  )
+  return delay2v(millis, of(a))
 }
-
-const fromTask = identity
 
 /**
  * @since 1.0.0
  */
 export const task: Monad1<URI> & MonadIO1<URI> & MonadTask1<URI> = {
   URI,
-  map,
+  map: (fa, f) => fa.map(f),
   of,
-  ap,
-  chain,
+  ap: (fab, fa) => fa.ap(fab),
+  chain: (fa, f) => fa.chain(f),
   fromIO,
-  fromTask
+  fromTask: identity
 }
 
 /**
@@ -186,3 +163,38 @@ export const taskSeq: typeof task = {
   ...task,
   ap: (fab, fa) => fab.chain(f => fa.map(f))
 }
+
+//
+// backporting
+//
+
+/**
+ * @since 1.19.0
+ */
+export function of<A>(a: A): Task<A> {
+  return new Task(() => Promise.resolve(a))
+}
+
+/**
+ * @since 1.19.0
+ */
+export const never = new Task(() => new Promise<never>(_ => undefined))
+
+/**
+ * @since 1.19.0
+ */
+export function delay2v<A>(millis: number, ma: Task<A>): Task<A> {
+  return new Task(
+    () =>
+      new Promise(resolve => {
+        setTimeout(() => {
+          // tslint:disable-next-line: no-floating-promises
+          ma.run().then(resolve)
+        }, millis)
+      })
+  )
+}
+
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(task)
+
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }
