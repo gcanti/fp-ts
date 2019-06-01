@@ -24,20 +24,26 @@ parent: Modules
   - [bimap (method)](#bimap-method)
   - [local (method)](#local-method)
 - [URI (constant)](#uri-constant)
+- [left2v (constant)](#left2v-constant)
+- [leftTask (constant)](#lefttask-constant)
 - [readerTaskEither (constant)](#readertaskeither-constant)
 - [readerTaskEitherSeq (constant)](#readertaskeitherseq-constant)
+- [right2v (constant)](#right2v-constant)
+- [rightIO (constant)](#rightio-constant)
+- [rightReader (constant)](#rightreader-constant)
+- [rightTask (constant)](#righttask-constant)
 - [ask (function)](#ask-function)
 - [asks (function)](#asks-function)
 - [fromEither (function)](#fromeither-function)
-- [fromIO (function)](#fromio-function)
+- [~~fromIO~~ (function)](#fromio-function)
 - [fromIOEither (function)](#fromioeither-function)
-- [fromLeft (function)](#fromleft-function)
+- [~~fromLeft~~ (function)](#fromleft-function)
 - [fromPredicate (function)](#frompredicate-function)
-- [fromReader (function)](#fromreader-function)
+- [~~fromReader~~ (function)](#fromreader-function)
 - [fromTaskEither (function)](#fromtaskeither-function)
-- [left (function)](#left-function)
+- [~~left~~ (function)](#left-function)
 - [local (function)](#local-function)
-- [right (function)](#right-function)
+- [~~right~~ (function)](#right-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
@@ -187,6 +193,26 @@ Added in v1.6.1
 export const URI = ...
 ```
 
+# left2v (constant)
+
+**Signature**
+
+```ts
+export const left2v: <E>(e: E) => ReaderTaskEither<unknown, E, never> = ...
+```
+
+Added in v1.19.0
+
+# leftTask (constant)
+
+**Signature**
+
+```ts
+export const leftTask: <E, L, A>(fa: Task<L>) => ReaderTaskEither<E, L, A> = ...
+```
+
+Added in v1.19.0
+
 # readerTaskEither (constant)
 
 **Signature**
@@ -213,6 +239,46 @@ export const readerTaskEitherSeq: typeof readerTaskEither = ...
 ```
 
 Added in v1.10.0
+
+# right2v (constant)
+
+**Signature**
+
+```ts
+export const right2v: <A>(a: A) => ReaderTaskEither<unknown, never, A> = ...
+```
+
+Added in v1.19.0
+
+# rightIO (constant)
+
+**Signature**
+
+```ts
+export const rightIO: <A>(ma: IO<A>) => ReaderTaskEither<unknown, never, A> = ...
+```
+
+Added in v1.19.0
+
+# rightReader (constant)
+
+**Signature**
+
+```ts
+export const rightReader: <R, A>(ma: Reader<R, A>) => ReaderTaskEither<R, never, A> = ...
+```
+
+Added in v1.19.0
+
+# rightTask (constant)
+
+**Signature**
+
+```ts
+export const rightTask: <E, L, A>(fa: Task<A>) => ReaderTaskEither<E, L, A> = ...
+```
+
+Added in v1.19.0
 
 # ask (function)
 
@@ -244,7 +310,9 @@ export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A>
 
 Added in v1.6.0
 
-# fromIO (function)
+# ~~fromIO~~ (function)
+
+Use `rightIO`
 
 **Signature**
 
@@ -264,7 +332,9 @@ export const fromIOEither = <E, L, A>(fa: IOEither<L, A>): ReaderTaskEither<E, L
 
 Added in v1.6.0
 
-# fromLeft (function)
+# ~~fromLeft~~ (function)
+
+Use `left2v`
 
 **Signature**
 
@@ -291,7 +361,9 @@ export function fromPredicate<E, L, A>(
 
 Added in v1.6.0
 
-# fromReader (function)
+# ~~fromReader~~ (function)
+
+Use `rightReader`
 
 **Signature**
 
@@ -311,7 +383,9 @@ export const fromTaskEither = <E, L, A>(fa: TaskEither<L, A>): ReaderTaskEither<
 
 Added in v1.6.0
 
-# left (function)
+# ~~left~~ (function)
+
+Use `leftTask`
 
 **Signature**
 
@@ -333,7 +407,9 @@ export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
 
 Added in v1.6.0
 
-# right (function)
+# ~~right~~ (function)
+
+Use `rightTask`
 
 **Signature**
 
