@@ -70,12 +70,16 @@ export class IOEither<L, A> {
   }
   /**
    * Similar to `fold`, but the result is flattened.
+   *
+   * @since 1.19.0
    */
   foldIO<R>(left: (l: L) => IO<R>, right: (a: A) => IO<R>): IO<R> {
     return this.value.chain(fa => fa.fold(left, right))
   }
   /**
    * Similar to `fold`, but the result is flattened.
+   *
+   * @since 1.19.0
    */
   foldIOEither<M, B>(onLeft: (l: L) => IOEither<M, B>, onRight: (a: A) => IOEither<M, B>): IOEither<M, B> {
     return new IOEither(this.value.chain(e => e.fold(onLeft, onRight).value))

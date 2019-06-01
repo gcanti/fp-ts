@@ -143,6 +143,8 @@ Similar to `fold`, but the result is flattened.
 foldIO<R>(left: (l: L) => IO<R>, right: (a: A) => IO<R>): IO<R> { ... }
 ```
 
+Added in v1.19.0
+
 ## foldIOEither (method)
 
 Similar to `fold`, but the result is flattened.
@@ -152,6 +154,8 @@ Similar to `fold`, but the result is flattened.
 ```ts
 foldIOEither<M, B>(onLeft: (l: L) => IOEither<M, B>, onRight: (a: A) => IOEither<M, B>): IOEither<M, B> { ... }
 ```
+
+Added in v1.19.0
 
 ## mapLeft (method)
 

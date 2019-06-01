@@ -144,6 +144,9 @@ sumLifted(some(1), none) // none
 - [URI (constant)](#uri-constant)
 - [none (constant)](#none-constant)
 - [option (constant)](#option-constant)
+- [elem (function)](#elem-function)
+- [exists (function)](#exists-function)
+- [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromPredicate (function)](#frompredicate-function)
@@ -152,14 +155,20 @@ sumLifted(some(1), none) // none
 - [getApplySemigroup (function)](#getapplysemigroup-function)
 - [getFirstMonoid (function)](#getfirstmonoid-function)
 - [getLastMonoid (function)](#getlastmonoid-function)
+- [getLeft (function)](#getleft-function)
 - [getMonoid (function)](#getmonoid-function)
+- [getOrElse (function)](#getorelse-function)
 - [getOrd (function)](#getord-function)
 - [getRefinement (function)](#getrefinement-function)
+- [getRight (function)](#getright-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [isNone (function)](#isnone-function)
 - [isSome (function)](#issome-function)
+- [mapNullable (function)](#mapnullable-function)
 - [some (function)](#some-function)
+- [toNullable (function)](#tonullable-function)
+- [toUndefined (function)](#toundefined-function)
 - [tryCatch (function)](#trycatch-function)
 
 ---
@@ -754,6 +763,36 @@ export const option: Monad1<URI> &
 
 Added in v1.0.0
 
+# elem (function)
+
+**Signature**
+
+```ts
+export function elem<A>(S: Setoid<A>): (a: A) => (ma: Option<A>) => boolean { ... }
+```
+
+Added in v1.19.0
+
+# exists (function)
+
+**Signature**
+
+```ts
+export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean { ... }
+```
+
+Added in v1.19.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>) => R { ... }
+```
+
+Added in v1.19.0
+
 # fromEither (function)
 
 Constructs a new `Option` from a `Either`. If the value is a `Left`, returns `None`, otherwise returns the inner
@@ -939,6 +978,18 @@ assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
 
 Added in v1.0.0
 
+# getLeft (function)
+
+Returns an `L` value if possible
+
+**Signature**
+
+```ts
+export function getLeft<L, A>(ma: Either<L, A>): Option<L> { ... }
+```
+
+Added in v1.19.0
+
 # getMonoid (function)
 
 Monoid returning the left-most non-`None` value. If both operands are `Some`s then the inner values are
@@ -971,6 +1022,16 @@ assert.deepStrictEqual(M.concat(some(1), some(2)), some(3))
 ```
 
 Added in v1.0.0
+
+# getOrElse (function)
+
+**Signature**
+
+```ts
+export function getOrElse<A>(f: () => A): (ma: Option<A>) => A { ... }
+```
+
+Added in v1.19.0
 
 # getOrd (function)
 
@@ -1025,6 +1086,18 @@ export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): R
 ```
 
 Added in v1.7.0
+
+# getRight (function)
+
+Returns an `A` value if possible
+
+**Signature**
+
+```ts
+export function getRight<L, A>(ma: Either<L, A>): Option<A> { ... }
+```
+
+Added in v1.19.0
 
 # getSetoid (function)
 
@@ -1084,6 +1157,16 @@ export const isSome = <A>(fa: Option<A>): fa is Some<A> => ...
 
 Added in v1.0.0
 
+# mapNullable (function)
+
+**Signature**
+
+```ts
+export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> { ... }
+```
+
+Added in v1.19.0
+
 # some (function)
 
 **Signature**
@@ -1093,6 +1176,26 @@ export const some = <A>(a: A): Option<A> => ...
 ```
 
 Added in v1.0.0
+
+# toNullable (function)
+
+**Signature**
+
+```ts
+export function toNullable<A>(ma: Option<A>): A | null { ... }
+```
+
+Added in v1.19.0
+
+# toUndefined (function)
+
+**Signature**
+
+```ts
+export function toUndefined<A>(ma: Option<A>): A | undefined { ... }
+```
+
+Added in v1.19.0
 
 # tryCatch (function)
 
