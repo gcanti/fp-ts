@@ -1,20 +1,19 @@
 /**
  * @file Data structure which represents non-empty arrays
  */
-import { Monad1 } from './Monad'
 import * as A from './Array'
 import { Comonad1 } from './Comonad'
-import { FunctorWithIndex1 } from './FunctorWithIndex'
-import { TraversableWithIndex1, TraverseWithIndex1 } from './TraversableWithIndex'
 import { FoldableWithIndex1 } from './FoldableWithIndex'
-import { Ord } from './Ord'
-import { getMeetSemigroup, getJoinSemigroup, Semigroup } from './Semigroup'
-import { Option, some, none } from './Option'
-import { Setoid } from './Setoid'
 import { compose, Predicate, Refinement } from './function'
-import { Traverse1 } from './Traversable'
-import { Sequence1 } from './Traversable2v'
+import { FunctorWithIndex1 } from './FunctorWithIndex'
+import { Monad1 } from './Monad'
+import { none, Option, some } from './Option'
+import { Ord } from './Ord'
+import { getJoinSemigroup, getMeetSemigroup, Semigroup } from './Semigroup'
+import { Setoid } from './Setoid'
 import { Show } from './Show'
+import { TraversableWithIndex1 } from './TraversableWithIndex'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -309,10 +308,6 @@ export function filterWithIndex<A>(
   return fromArray(nea.filter((a, i) => predicate(i, a)))
 }
 
-const mapWithIndex = <A, B>(fa: NonEmptyArray<A>, f: (i: number, a: A) => B): NonEmptyArray<B> => {
-  return fa.map((a, i) => f(i, a))
-}
-
 /**
  * Append an element to the end of an array, creating a new non empty array
  *
@@ -346,20 +341,67 @@ export const nonEmptyArray: Monad1<URI> &
   FunctorWithIndex1<URI, number> &
   FoldableWithIndex1<URI, number> = {
   URI,
-  map: A.array.map as <A, B>(fa: NonEmptyArray<A>, f: (a: A) => B) => any,
-  mapWithIndex,
-  of: A.array.of as <A>(a: A) => NonEmptyArray<A>,
-  ap: A.array.ap as <A, B>(fab: NonEmptyArray<(a: A) => B>, fa: NonEmptyArray<A>) => any,
-  chain: A.array.chain as <A, B>(fa: NonEmptyArray<A>, f: (a: A) => NonEmptyArray<B>) => any,
-  extend: A.array.extend as <A, B>(ea: any, f: (fa: NonEmptyArray<A>) => B) => NonEmptyArray<B>,
+  map: A.array.map as any,
+  mapWithIndex: A.array.mapWithIndex as any,
+  of: A.array.of as any,
+  ap: A.array.ap as any,
+  chain: A.array.chain as any,
+  extend: A.array.extend as any,
   extract: head,
   reduce: A.array.reduce,
   foldMap: A.array.foldMap,
   foldr: A.array.foldr,
-  traverse: A.array.traverse as Traverse1<any>,
-  sequence: A.array.sequence as Sequence1<any>,
+  traverse: A.array.traverse as any,
+  sequence: A.array.sequence as any,
   reduceWithIndex: A.array.reduceWithIndex,
   foldMapWithIndex: A.array.foldMapWithIndex,
   foldrWithIndex: A.array.foldrWithIndex,
-  traverseWithIndex: A.array.traverseWithIndex as TraverseWithIndex1<any, number>
+  traverseWithIndex: A.array.traverseWithIndex as any
+}
+
+//
+// backporting
+//
+
+/**
+ * @since 1.19.0
+ */
+export const of: <A>(a: A) => NonEmptyArray<A> = A.array.of as any
+
+const {
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  foldMapWithIndex,
+  map,
+  mapWithIndex,
+  reduce,
+  reduceRight,
+  reduceRightWithIndex,
+  reduceWithIndex
+} = pipeable(nonEmptyArray)
+
+export {
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  foldMapWithIndex,
+  map,
+  mapWithIndex,
+  reduce,
+  reduceRight,
+  reduceRightWithIndex,
+  reduceWithIndex
 }

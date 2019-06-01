@@ -17,6 +17,7 @@ Data structure which represents non-empty arrays
 - [URI (constant)](#uri-constant)
 - [cons (constant)](#cons-constant)
 - [nonEmptyArray (constant)](#nonemptyarray-constant)
+- [of (constant)](#of-constant)
 - [reverse (constant)](#reverse-constant)
 - [snoc (constant)](#snoc-constant)
 - [copy (function)](#copy-function)
@@ -110,6 +111,16 @@ export const nonEmptyArray: Monad1<URI> &
 ```
 
 Added in v1.15.0
+
+# of (constant)
+
+**Signature**
+
+```ts
+export const of: <A>(a: A) => NonEmptyArray<A> = ...
+```
+
+Added in v1.19.0
 
 # reverse (constant)
 
