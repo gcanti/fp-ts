@@ -21,6 +21,7 @@ parent: Modules
 - [getApply (function)](#getapply-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
+- [make (function)](#make-function)
 
 ---
 
@@ -142,3 +143,13 @@ export const getShow = <L, A>(S: Show<L>): Show<Const<L, A>> => ...
 ```
 
 Added in v1.17.0
+
+# make (function)
+
+**Signature**
+
+```ts
+export function make<L>(l: L): Const<L, never> { ... }
+```
+
+Added in v1.19.0
