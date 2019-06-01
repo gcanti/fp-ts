@@ -45,6 +45,7 @@ import { Validation } from './Validation'
 import { Witherable2C } from './Witherable'
 import { MonadThrow2 } from './MonadThrow'
 import { Show } from './Show'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -348,64 +349,6 @@ export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<Either<L, A>> => {
   }
 }
 
-const map = <L, A, B>(fa: Either<L, A>, f: (a: A) => B): Either<L, B> => {
-  return fa.map(f)
-}
-
-const ap = <L, A, B>(fab: Either<L, (a: A) => B>, fa: Either<L, A>): Either<L, B> => {
-  return fa.ap(fab)
-}
-
-const chain = <L, A, B>(fa: Either<L, A>, f: (a: A) => Either<L, B>): Either<L, B> => {
-  return fa.chain(f)
-}
-
-const bimap = <L, V, A, B>(fla: Either<L, A>, f: (u: L) => V, g: (a: A) => B): Either<V, B> => {
-  return fla.bimap(f, g)
-}
-
-const alt = <L, A>(fx: Either<L, A>, fy: Either<L, A>): Either<L, A> => {
-  return fx.alt(fy)
-}
-
-const extend = <L, A, B>(ea: Either<L, A>, f: (ea: Either<L, A>) => B): Either<L, B> => {
-  return ea.extend(f)
-}
-
-const reduce = <L, A, B>(fa: Either<L, A>, b: B, f: (b: B, a: A) => B): B => {
-  return fa.reduce(b, f)
-}
-
-const foldMap = <M>(M: Monoid<M>) => <L, A>(fa: Either<L, A>, f: (a: A) => M): M => {
-  return fa.isLeft() ? M.empty : f(fa.value)
-}
-
-const foldr = <L, A, B>(fa: Either<L, A>, b: B, f: (a: A, b: B) => B): B => {
-  return fa.isLeft() ? b : f(fa.value, b)
-}
-
-const traverse = <F>(F: Applicative<F>) => <L, A, B>(
-  ta: Either<L, A>,
-  f: (a: A) => HKT<F, B>
-): HKT<F, Either<L, B>> => {
-  return ta.isLeft() ? F.of(left(ta.value)) : F.map<B, Either<L, B>>(f(ta.value), of)
-}
-
-const sequence = <F>(F: Applicative<F>) => <L, A>(ta: Either<L, HKT<F, A>>): HKT<F, Either<L, A>> => {
-  return ta.isLeft() ? F.of(left(ta.value)) : F.map<A, Either<L, A>>(ta.value, right)
-}
-
-const chainRec = <L, A, B>(a: A, f: (a: A) => Either<L, Either<A, B>>): Either<L, B> => {
-  return tailRec(e => {
-    if (e.isLeft()) {
-      return right(left(e.value))
-    } else {
-      const r = e.value
-      return r.isLeft() ? left(f(r.value)) : right(right(r.value))
-    }
-  }, f(a))
-}
-
 /**
  * Constructs a new `Either` holding a `Left` value. This usually represents a failure, due to the right-bias of this
  * structure
@@ -425,8 +368,6 @@ export const left = <L, A>(l: L): Either<L, A> => {
 export const right = <L, A>(a: A): Either<L, A> => {
   return new Right<L, A>(a)
 }
-
-const of = right
 
 /**
  * @since 1.0.0
@@ -561,9 +502,10 @@ export const isRight = <L, A>(fa: Either<L, A>): fa is Right<L, A> => {
 }
 
 /**
- * Builds `Compactable` instance for `Either` given `Monoid` for the left side
+ * Use `getWitherable`
  *
  * @since 1.7.0
+ * @deprecated
  */
 export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
   const compact = <A>(fa: Either<L, Option<A>>): Either<L, A> => {
@@ -603,11 +545,13 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> {
 }
 
 /**
- * Builds `Filterable` instance for `Either` given `Monoid` for the left side
+ * Use `getWitherable`
  *
  * @since 1.7.0
+ * @deprecated
  */
 export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
+  // tslint:disable-next-line: deprecation
   const C = getCompactable(ML)
   const partitionMap = <RL, RR, A>(
     fa: Either<L, A>,
@@ -662,7 +606,7 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
   const filter = <A>(fa: Either<L, A>, p: Predicate<A>): Either<L, A> => fa.filterOrElse(p, ML.empty)
   return {
     ...C,
-    map,
+    map: either.map,
     partitionMap,
     filterMap,
     partition,
@@ -676,12 +620,13 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> {
  * @since 1.7.0
  */
 export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
+  // tslint:disable-next-line: deprecation
   const filterableEither = getFilterable(ML)
 
   const wither = <F>(
     F: Applicative<F>
   ): (<A, B>(wa: Either<L, A>, f: (a: A) => HKT<F, Option<B>>) => HKT<F, Either<L, B>>) => {
-    const traverseF = traverse(F)
+    const traverseF = either.traverse(F)
     return (wa, f) => F.map(traverseF(wa, f), filterableEither.compact)
   }
 
@@ -691,14 +636,14 @@ export function getWitherable<L>(ML: Monoid<L>): Witherable2C<URI, L> {
     wa: Either<L, A>,
     f: (a: A) => HKT<F, Either<RL, RR>>
   ) => HKT<F, Separated<Either<L, RL>, Either<L, RR>>>) => {
-    const traverseF = traverse(F)
+    const traverseF = either.traverse(F)
     return (wa, f) => F.map(traverseF(wa, f), filterableEither.separate)
   }
 
   return {
     ...filterableEither,
-    traverse,
-    reduce,
+    traverse: either.traverse,
+    reduce: either.reduce,
     wither,
     wilt
   }
@@ -752,20 +697,113 @@ export const either: Monad2<URI> &
   ChainRec2<URI> &
   MonadThrow2<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
-  reduce,
-  foldMap,
-  foldr,
-  traverse,
-  sequence,
-  bimap,
-  alt,
-  extend,
-  chainRec,
+  map: (ma, f) => ma.map(f),
+  of: right,
+  ap: (mab, ma) => ma.ap(mab),
+  chain: (ma, f) => ma.chain(f),
+  reduce: (fa, b, f) => fa.reduce(b, f),
+  foldMap: M => (fa, f) => (fa.isLeft() ? M.empty : f(fa.value)),
+  foldr: (fa, b, f) => (fa.isLeft() ? b : f(fa.value, b)),
+  traverse: <F>(F: Applicative<F>) => <L, A, B>(ta: Either<L, A>, f: (a: A) => HKT<F, B>): HKT<F, Either<L, B>> => {
+    return ta.isLeft() ? F.of(left(ta.value)) : F.map<B, Either<L, B>>(f(ta.value), right)
+  },
+  sequence: <F>(F: Applicative<F>) => <L, A>(ta: Either<L, HKT<F, A>>): HKT<F, Either<L, A>> => {
+    return ta.isLeft() ? F.of(left(ta.value)) : F.map<A, Either<L, A>>(ta.value, right)
+  },
+  bimap: (fla, f, g) => fla.bimap(f, g),
+  alt: (mx, my) => mx.alt(my),
+  extend: (wa, f) => wa.extend(f),
+  chainRec: (a, f) => {
+    return tailRec(e => {
+      if (e.isLeft()) {
+        return right(left(e.value))
+      } else {
+        const r = e.value
+        return r.isLeft() ? left(f(r.value)) : right(right(r.value))
+      }
+    }, f(a))
+  },
   throwError,
   fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
+  fromOption: (o, e) => (o.isNone() ? throwError(e) : right(o.value))
+}
+
+//
+// backporting
+//
+
+/**
+ * @since 1.19.0
+ */
+export function fold<E, A, R>(onLeft: (e: E) => R, onRight: (a: A) => R): (ma: Either<E, A>) => R {
+  return ma => ma.fold(onLeft, onRight)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function orElse<E, A, M>(f: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> {
+  return ma => ma.orElse(f)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A {
+  return ma => ma.getOrElseL(f)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function elem<A>(S: Setoid<A>): (a: A) => <E>(ma: Either<E, A>) => boolean {
+  return a => ma => (isLeft(ma) ? false : S.equals(a, ma.value))
+}
+
+/**
+ * @since 1.19.0
+ */
+export function filterOrElse<E, A, B extends A>(
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => E
+): (ma: Either<E, A>) => Either<E, B>
+export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
+export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A> {
+  return ma => ma.filterOrElseL(predicate, onFalse)
+}
+
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  map,
+  mapLeft,
+  reduce,
+  reduceRight
+} = pipeable(either)
+
+export {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  map,
+  mapLeft,
+  reduce,
+  reduceRight
 }
