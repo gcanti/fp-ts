@@ -128,6 +128,8 @@ import * as ordering from './Ordering'
 export { ordering }
 import * as pair from './Pair'
 export { pair }
+import * as pipeable from './pipeable'
+export { pipeable }
 import * as plus from './Plus'
 export { plus }
 import * as profunctor from './Profunctor'

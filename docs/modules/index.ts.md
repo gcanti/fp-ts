@@ -74,6 +74,7 @@ parent: Modules
 - [ord (export)](#ord-export)
 - [ordering (export)](#ordering-export)
 - [pair (export)](#pair-export)
+- [pipeable (export)](#pipeable-export)
 - [plus (export)](#plus-export)
 - [profunctor (export)](#profunctor-export)
 - [random (export)](#random-export)
@@ -637,6 +638,14 @@ export { ordering }
 
 ```ts
 export { pair }
+```
+
+# pipeable (export)
+
+**Signature**
+
+```ts
+export { pipeable }
 ```
 
 # plus (export)

@@ -14,6 +14,7 @@ parent: Modules
 - [Foldable2v2C (interface)](#foldable2v2c-interface)
 - [Foldable2v3 (interface)](#foldable2v3-interface)
 - [Foldable2v3C (interface)](#foldable2v3c-interface)
+- [Foldable2v4 (interface)](#foldable2v4-interface)
 - [Foldable2vComposition (interface)](#foldable2vcomposition-interface)
 - [Foldable2vComposition11 (interface)](#foldable2vcomposition11-interface)
 - [Foldable2vComposition12 (interface)](#foldable2vcomposition12-interface)
@@ -106,6 +107,19 @@ export interface Foldable2v3<F extends URIS3> extends Foldable3<F> {
 export interface Foldable2v3C<F extends URIS3, U, L> extends Foldable3C<F, U, L> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Type3<F, U, L, A>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
+}
+```
+
+# Foldable2v4 (interface)
+
+**Signature**
+
+```ts
+export interface Foldable2v4<F extends URIS4> {
+  readonly URI: F
+  readonly reduce: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <X, U, L, A>(fa: Type4<F, X, U, L, A>, f: (a: A) => M) => M
+  readonly reduceRight: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, b: B, f: (a: A, b: B) => B) => B
 }
 ```
 

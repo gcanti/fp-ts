@@ -8,14 +8,36 @@ parent: Modules
 
 <h2 class="text-delta">Table of contents</h2>
 
+- [FilterWithIndex4 (interface)](#filterwithindex4-interface)
 - [FilterableWithIndex (interface)](#filterablewithindex-interface)
 - [FilterableWithIndex1 (interface)](#filterablewithindex1-interface)
 - [FilterableWithIndex2 (interface)](#filterablewithindex2-interface)
 - [FilterableWithIndex2C (interface)](#filterablewithindex2c-interface)
 - [FilterableWithIndex3 (interface)](#filterablewithindex3-interface)
 - [FilterableWithIndex3C (interface)](#filterablewithindex3c-interface)
+- [FilterableWithIndex4 (interface)](#filterablewithindex4-interface)
+- [PartitionWithIndex4 (interface)](#partitionwithindex4-interface)
+- [PredicateWithIndex (type alias)](#predicatewithindex-type-alias)
+- [RefinementWithIndex (type alias)](#refinementwithindex-type-alias)
 
 ---
+
+# FilterWithIndex4 (interface)
+
+**Signature**
+
+```ts
+export interface FilterWithIndex4<F extends URIS4, I> {
+  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Type4<
+    F,
+    X,
+    U,
+    L,
+    B
+  >
+  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Type4<F, X, U, L, A>
+}
+```
 
 # FilterableWithIndex (interface)
 
@@ -115,4 +137,56 @@ export interface FilterableWithIndex3C<F extends URIS3, I, U, L>
   readonly filterMapWithIndex: <A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filterWithIndex: FilterWithIndex3C<F, I, U, L>
 }
+```
+
+# FilterableWithIndex4 (interface)
+
+**Signature**
+
+```ts
+export interface FilterableWithIndex4<F extends URIS4, I> extends FunctorWithIndex4<F, I>, Filterable4<F> {
+  readonly partitionMapWithIndex: <RL, RR, X, U, L, A>(
+    fa: Type4<F, X, U, L, A>,
+    f: (i: I, a: A) => Either<RL, RR>
+  ) => Separated<Type4<F, X, U, L, RL>, Type4<F, X, U, L, RR>>
+  readonly partitionWithIndex: PartitionWithIndex4<F, I>
+  readonly filterMapWithIndex: <X, U, L, A, B>(
+    fa: Type4<F, X, U, L, A>,
+    f: (i: I, a: A) => Option<B>
+  ) => Type4<F, X, U, L, B>
+  readonly filterWithIndex: FilterWithIndex4<F, I>
+}
+```
+
+# PartitionWithIndex4 (interface)
+
+**Signature**
+
+```ts
+export interface PartitionWithIndex4<F extends URIS4, I> {
+  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
+    Type4<F, X, U, L, A>,
+    Type4<F, X, U, L, B>
+  >
+  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
+    Type4<F, X, U, L, A>,
+    Type4<F, X, U, L, A>
+  >
+}
+```
+
+# PredicateWithIndex (type alias)
+
+**Signature**
+
+```ts
+export type PredicateWithIndex<I, A> = (i: I, a: A) => boolean
+```
+
+# RefinementWithIndex (type alias)
+
+**Signature**
+
+```ts
+export type RefinementWithIndex<I, A, B extends A> = (i: I, a: A) => a is B
 ```

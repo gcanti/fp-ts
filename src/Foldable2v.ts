@@ -1,5 +1,5 @@
 import { Applicative, Applicative1, Applicative2, Applicative2C, Applicative3, Applicative3C } from './Applicative'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3, URIS4, Type4 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
 import { Monoid, unsafeMonoidArray } from './Monoid'
 import { Option, none, some } from './Option'
@@ -60,6 +60,13 @@ export interface Foldable2v2C<F extends URIS2, L> extends Foldable2C<F, L> {
 export interface Foldable2v3C<F extends URIS3, U, L> extends Foldable3C<F, U, L> {
   readonly foldMap: <M>(M: Monoid<M>) => <A>(fa: Type3<F, U, L, A>, f: (a: A) => M) => M
   readonly foldr: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (a: A, b: B) => B) => B
+}
+
+export interface Foldable2v4<F extends URIS4> {
+  readonly URI: F
+  readonly reduce: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, b: B, f: (b: B, a: A) => B) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <X, U, L, A>(fa: Type4<F, X, U, L, A>, f: (a: A) => M) => M
+  readonly reduceRight: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, b: B, f: (a: A, b: B) => B) => B
 }
 
 export interface Foldable2vComposition<F, G> extends FoldableComposition<F, G> {

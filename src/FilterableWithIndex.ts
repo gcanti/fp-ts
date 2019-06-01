@@ -1,19 +1,29 @@
 import { Separated } from './Compactable'
 import { Either } from './Either'
-import { Filterable, Filterable1, Filterable2, Filterable2C, Filterable3, Filterable3C } from './Filterable'
+import {
+  Filterable,
+  Filterable1,
+  Filterable2,
+  Filterable2C,
+  Filterable3,
+  Filterable3C,
+  Filterable4
+} from './Filterable'
 import {
   FunctorWithIndex,
   FunctorWithIndex1,
   FunctorWithIndex2,
   FunctorWithIndex2C,
   FunctorWithIndex3,
-  FunctorWithIndex3C
+  FunctorWithIndex3C,
+  FunctorWithIndex4
 } from './FunctorWithIndex'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3, URIS4, Type4 } from './HKT'
 import { Option } from './Option'
 
-type RefinementWithIndex<I, A, B extends A> = (i: I, a: A) => a is B
-type PredicateWithIndex<I, A> = (i: I, a: A) => boolean
+export type RefinementWithIndex<I, A, B extends A> = (i: I, a: A) => a is B
+
+export type PredicateWithIndex<I, A> = (i: I, a: A) => boolean
 
 interface FilterWithIndex<F, I> {
   <A, B extends A>(fa: HKT<F, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): HKT<F, B>
@@ -156,4 +166,39 @@ export interface FilterableWithIndex3C<F extends URIS3, I, U, L>
   readonly partitionWithIndex: PartitionWithIndex3C<F, I, U, L>
   readonly filterMapWithIndex: <A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filterWithIndex: FilterWithIndex3C<F, I, U, L>
+}
+
+export interface FilterWithIndex4<F extends URIS4, I> {
+  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Type4<
+    F,
+    X,
+    U,
+    L,
+    B
+  >
+  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Type4<F, X, U, L, A>
+}
+
+export interface PartitionWithIndex4<F extends URIS4, I> {
+  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
+    Type4<F, X, U, L, A>,
+    Type4<F, X, U, L, B>
+  >
+  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
+    Type4<F, X, U, L, A>,
+    Type4<F, X, U, L, A>
+  >
+}
+
+export interface FilterableWithIndex4<F extends URIS4, I> extends FunctorWithIndex4<F, I>, Filterable4<F> {
+  readonly partitionMapWithIndex: <RL, RR, X, U, L, A>(
+    fa: Type4<F, X, U, L, A>,
+    f: (i: I, a: A) => Either<RL, RR>
+  ) => Separated<Type4<F, X, U, L, RL>, Type4<F, X, U, L, RR>>
+  readonly partitionWithIndex: PartitionWithIndex4<F, I>
+  readonly filterMapWithIndex: <X, U, L, A, B>(
+    fa: Type4<F, X, U, L, A>,
+    f: (i: I, a: A) => Option<B>
+  ) => Type4<F, X, U, L, B>
+  readonly filterWithIndex: FilterWithIndex4<F, I>
 }
