@@ -7,10 +7,10 @@ import { Foldable2v1 } from './Foldable2v'
 import { Lazy, toString } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { Monoid } from './Monoid'
-import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v1 } from './Traversable2v'
+import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
+import { Traversable2v1 } from './Traversable2v'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -69,7 +69,7 @@ export class Identity<A> {
     return this.value
   }
   extend<B>(f: (ea: Identity<A>) => B): Identity<B> {
-    return of(f(this))
+    return identity.of(f(this))
   }
   fold<B>(f: (a: A) => B): B {
     return f(this.value)
@@ -98,58 +98,6 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => {
   return fromEquals((x, y) => S.equals(x.value, y.value))
 }
 
-const map = <A, B>(fa: Identity<A>, f: (a: A) => B): Identity<B> => {
-  return fa.map(f)
-}
-
-const of = <A>(a: A): Identity<A> => {
-  return new Identity(a)
-}
-
-const ap = <A, B>(fab: Identity<(a: A) => B>, fa: Identity<A>): Identity<B> => {
-  return fa.ap(fab)
-}
-
-const chain = <A, B>(fa: Identity<A>, f: (a: A) => Identity<B>): Identity<B> => {
-  return fa.chain(f)
-}
-
-const reduce = <A, B>(fa: Identity<A>, b: B, f: (b: B, a: A) => B): B => {
-  return fa.reduce(b, f)
-}
-
-const foldMap = <M>(M: Monoid<M>) => <A>(fa: Identity<A>, f: (a: A) => M): M => {
-  return f(fa.value)
-}
-
-const foldr = <A, B>(fa: Identity<A>, b: B, f: (a: A, b: B) => B): B => {
-  return f(fa.value, b)
-}
-
-const alt = <A>(fx: Identity<A>, fy: Identity<A>): Identity<A> => {
-  return fx.alt(fy)
-}
-
-const extend = <A, B>(ea: Identity<A>, f: (ea: Identity<A>) => B): Identity<B> => {
-  return ea.extend(f)
-}
-
-const extract = <A>(fa: Identity<A>): A => {
-  return fa.value
-}
-
-const chainRec = <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> => {
-  return new Identity(tailRec(a => f(a).value, a))
-}
-
-const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
-  return F.map(f(ta.value), of)
-}
-
-const sequence = <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
-  return F.map(ta.value, of)
-}
-
 /**
  * @since 1.0.0
  */
@@ -160,17 +108,45 @@ export const identity: Monad1<URI> &
   Comonad1<URI> &
   ChainRec1<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
-  reduce,
-  foldMap,
-  foldr,
-  traverse,
-  sequence,
-  alt,
-  extract,
-  extend,
-  chainRec
+  map: (fa, f) => fa.map(f),
+  of: a => new Identity(a),
+  ap: (fab, fa) => fa.ap(fab),
+  chain: (fa, f) => fa.chain(f),
+  reduce: (fa, b, f) => fa.reduce(b, f),
+  foldMap: _ => (fa, f) => f(fa.value),
+  foldr: (fa, b, f) => f(fa.value, b),
+  traverse: <F>(F: Applicative<F>) => <A, B>(ta: Identity<A>, f: (a: A) => HKT<F, B>): HKT<F, Identity<B>> => {
+    return F.map(f(ta.value), identity.of)
+  },
+  sequence: <F>(F: Applicative<F>) => <A>(ta: Identity<HKT<F, A>>): HKT<F, Identity<A>> => {
+    return F.map(ta.value, identity.of)
+  },
+  alt: (fx, fy) => fx.alt(fy),
+  extract: wa => wa.extract(),
+  extend: (wa, f) => wa.extend(f),
+  chainRec: <A, B>(a: A, f: (a: A) => Identity<Either<A, B>>): Identity<B> => {
+    return new Identity(tailRec(a => f(a).value, a))
+  }
 }
+
+//
+// backporting
+//
+
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  map,
+  reduce,
+  reduceRight
+} = pipeable(identity)
+
+export { alt, ap, apFirst, apSecond, chain, chainFirst, duplicate, extend, flatten, foldMap, map, reduce, reduceRight }
