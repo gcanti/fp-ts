@@ -1288,4 +1288,4 @@ export function pipeable<F, I>(
   (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {}) { ... }
 ```
 
-Added in v2.0.0
+Added in v1.19.0

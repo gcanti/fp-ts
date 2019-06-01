@@ -88,7 +88,7 @@ import { Either } from './Either'
 import { Extend1 } from './Extend'
 import { Filterable1 } from './Filterable'
 import { Foldable2v1 } from './Foldable2v'
-import { identity, Lazy, not, Predicate, Refinement, toString } from './function'
+import { identity, Lazy, Predicate, Refinement, toString } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { getDualMonoid, Monoid } from './Monoid'
@@ -99,6 +99,7 @@ import { Setoid, fromEquals } from './Setoid'
 import { Traversable2v1 } from './Traversable2v'
 import { Witherable1 } from './Witherable'
 import { Show } from './Show'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -458,57 +459,11 @@ export const getOrd = <A>(O: Ord<A>): Ord<Option<A>> => {
   return fromCompare((x, y) => (x.isSome() ? (y.isSome() ? O.compare(x.value, y.value) : 1) : -1))
 }
 
-const map = <A, B>(fa: Option<A>, f: (a: A) => B): Option<B> => {
-  return fa.map(f)
-}
-
 /**
  * @since 1.0.0
  */
 export const some = <A>(a: A): Option<A> => {
   return new Some(a)
-}
-
-const of = some
-
-const ap = <A, B>(fab: Option<(a: A) => B>, fa: Option<A>): Option<B> => {
-  return fa.ap(fab)
-}
-
-const chain = <A, B>(fa: Option<A>, f: (a: A) => Option<B>): Option<B> => {
-  return fa.chain(f)
-}
-
-const reduce = <A, B>(fa: Option<A>, b: B, f: (b: B, a: A) => B): B => {
-  return fa.reduce(b, f)
-}
-
-const foldMap = <M>(M: Monoid<M>) => <A>(fa: Option<A>, f: (a: A) => M): M => {
-  return fa.isNone() ? M.empty : f(fa.value)
-}
-
-const foldr = <A, B>(fa: Option<A>, b: B, f: (a: A, b: B) => B): B => {
-  return fa.isNone() ? b : f(fa.value, b)
-}
-
-const traverse = <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
-  return ta.isNone() ? F.of(none) : F.map(f(ta.value), some)
-}
-
-const sequence = <F>(F: Applicative<F>) => <A>(ta: Option<HKT<F, A>>): HKT<F, Option<A>> => {
-  return ta.isNone() ? F.of(none) : F.map(ta.value, some)
-}
-
-const alt = <A>(fx: Option<A>, fy: Option<A>): Option<A> => {
-  return fx.alt(fy)
-}
-
-const extend = <A, B>(ea: Option<A>, f: (ea: Option<A>) => B): Option<B> => {
-  return ea.extend(f)
-}
-
-const zero = <A>(): Option<A> => {
-  return none
 }
 
 /**
@@ -572,7 +527,7 @@ export const getApplyMonoid = <A>(M: Monoid<A>): Monoid<Option<A>> => {
  */
 export const getFirstMonoid = <A = never>(): Monoid<Option<A>> => {
   return {
-    concat: alt,
+    concat: option.alt,
     empty: none
   }
 }
@@ -758,62 +713,7 @@ export const getRefinement = <A, B extends A>(getOption: (a: A) => Option<B>): R
   return (a: A): a is B => getOption(a).isSome()
 }
 
-const compact = <A>(fa: Option<Option<A>>): Option<A> => fa.chain(identity)
-const separate = <RL, RR>(fa: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
-  if (fa.isNone()) {
-    return {
-      left: none,
-      right: none
-    }
-  }
-  const e = fa.value
-  if (e.isLeft()) {
-    return {
-      left: some(e.value),
-      right: none
-    }
-  }
-  return {
-    left: none,
-    right: some(e.value)
-  }
-}
-
-const filter = <A>(fa: Option<A>, p: Predicate<A>): Option<A> => fa.filter(p)
-const filterMap = chain
-const partitionMap = <RL, RR, A>(fa: Option<A>, f: (a: A) => Either<RL, RR>): Separated<Option<RL>, Option<RR>> =>
-  separate(fa.map(f))
-const partition = <A>(fa: Option<A>, p: Predicate<A>): Separated<Option<A>, Option<A>> => ({
-  left: fa.filter(not(p)),
-  right: fa.filter(p)
-})
-
-const wither = <F>(F: Applicative<F>) => <A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>): HKT<F, Option<B>> =>
-  fa.isNone() ? F.of(fa as any) : f(fa.value)
-
-const wilt = <F>(F: Applicative<F>) => <RL, RR, A>(
-  fa: Option<A>,
-  f: (a: A) => HKT<F, Either<RL, RR>>
-): HKT<F, Separated<Option<RL>, Option<RR>>> => {
-  if (fa.isNone()) {
-    return F.of({
-      left: none,
-      right: none
-    })
-  }
-  return F.map(f(fa.value), e => {
-    if (e.isLeft()) {
-      return {
-        left: some(e.value),
-        right: none
-      }
-    }
-    return {
-      left: none,
-      right: some(e.value)
-    }
-  })
-}
+const defaultSeparate = { left: none, right: none }
 
 /**
  * @since 1.0.0
@@ -828,24 +728,169 @@ export const option: Monad1<URI> &
   Filterable1<URI> &
   Witherable1<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
-  reduce,
-  foldMap,
-  foldr,
-  traverse,
-  sequence,
-  zero,
+  map: (ma, f) => (isNone(ma) ? none : some(f(ma.value))),
+  of: some,
+  ap: (mab, ma) => (isNone(mab) ? none : isNone(ma) ? none : some(mab.value(ma.value))),
+  chain: (ma, f) => (isNone(ma) ? none : f(ma.value)),
+  reduce: (fa, b, f) => (isNone(fa) ? b : f(b, fa.value)),
+  foldMap: M => (fa, f) => (isNone(fa) ? M.empty : f(fa.value)),
+  foldr: (fa, b, f) => (isNone(fa) ? b : f(fa.value, b)),
+  traverse: <F>(F: Applicative<F>) => <A, B>(ta: Option<A>, f: (a: A) => HKT<F, B>): HKT<F, Option<B>> => {
+    return isNone(ta) ? F.of(none) : F.map(f(ta.value), some)
+  },
+  sequence: <F>(F: Applicative<F>) => <A>(ta: Option<HKT<F, A>>): HKT<F, Option<A>> => {
+    return isNone(ta) ? F.of(none) : F.map(ta.value, some)
+  },
+  zero: () => none,
+  alt: (mx, my) => (isNone(mx) ? my : mx),
+  extend: (wa, f) => (isNone(wa) ? none : some(f(wa))),
+  compact: ma => option.chain(ma, identity),
+  separate: <RL, RR>(ma: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
+    const o = option.map(ma, e => ({
+      left: getLeft(e),
+      right: getRight(e)
+    }))
+    return isNone(o) ? defaultSeparate : o.value
+  },
+  filter: <A>(fa: Option<A>, predicate: Predicate<A>): Option<A> => {
+    return isNone(fa) ? none : predicate(fa.value) ? fa : none
+  },
+  filterMap: (ma, f) => (isNone(ma) ? none : f(ma.value)),
+  partition: <A>(fa: Option<A>, predicate: Predicate<A>): Separated<Option<A>, Option<A>> => {
+    return {
+      left: option.filter(fa, a => !predicate(a)),
+      right: option.filter(fa, predicate)
+    }
+  },
+  partitionMap: (fa, f) => option.separate(option.map(fa, f)),
+  wither: <F>(F: Applicative<F>) => <A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>): HKT<F, Option<B>> =>
+    isNone(fa) ? F.of(none) : f(fa.value),
+  wilt: <F>(F: Applicative<F>) => <RL, RR, A>(
+    fa: Option<A>,
+    f: (a: A) => HKT<F, Either<RL, RR>>
+  ): HKT<F, Separated<Option<RL>, Option<RR>>> => {
+    const o = option.map(fa, a =>
+      F.map(f(a), e => ({
+        left: getLeft(e),
+        right: getRight(e)
+      }))
+    )
+    return isNone(o)
+      ? F.of({
+          left: none,
+          right: none
+        })
+      : o.value
+  }
+}
+
+//
+// backporting
+//
+
+/**
+ * Returns an `L` value if possible
+ *
+ * @since 1.19.0
+ */
+export function getLeft<L, A>(ma: Either<L, A>): Option<L> {
+  return ma._tag === 'Right' ? none : some(ma.value)
+}
+
+/**
+ * Returns an `A` value if possible
+ *
+ * @since 1.19.0
+ */
+export function getRight<L, A>(ma: Either<L, A>): Option<A> {
+  return ma._tag === 'Left' ? none : some(ma.value)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>) => R {
+  return ma => ma.foldL(onNone, onSome)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function toNullable<A>(ma: Option<A>): A | null {
+  return ma.toNullable()
+}
+
+/**
+ * @since 1.19.0
+ */
+export function toUndefined<A>(ma: Option<A>): A | undefined {
+  return ma.toUndefined()
+}
+
+/**
+ * @since 1.19.0
+ */
+export function getOrElse<A>(f: () => A): (ma: Option<A>) => A {
+  return ma => ma.getOrElseL(f)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function elem<A>(S: Setoid<A>): (a: A) => (ma: Option<A>) => boolean {
+  return a => ma => ma.contains(S, a)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function exists<A>(predicate: Predicate<A>): (ma: Option<A>) => boolean {
+  return ma => ma.exists(predicate)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function mapNullable<A, B>(f: (a: A) => B | null | undefined): (ma: Option<A>) => Option<B> {
+  return ma => ma.mapNullable(f)
+}
+
+const {
   alt,
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
   extend,
-  compact,
-  separate,
   filter,
   filterMap,
+  flatten,
+  foldMap,
+  map,
   partition,
   partitionMap,
-  wither,
-  wilt
+  reduce,
+  reduceRight
+} = pipeable(option)
+
+export {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  filter,
+  filterMap,
+  flatten,
+  foldMap,
+  map,
+  partition,
+  partitionMap,
+  reduce,
+  reduceRight
 }

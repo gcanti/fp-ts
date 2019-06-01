@@ -21,12 +21,19 @@ import {
   getRefinement,
   getApplySemigroup,
   getApplyMonoid,
-  getShow
+  getShow,
+  fold,
+  toNullable,
+  toUndefined,
+  getOrElse,
+  exists,
+  mapNullable,
+  elem
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
 import { setoidNumber } from '../src/Setoid'
-import { identity } from '../src/function'
+import { identity, pipeOp } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
 import { monoidSum, monoidString } from '../src/Monoid'
 import * as F from '../src/Foldable'
@@ -45,18 +52,18 @@ describe('Option', () => {
   it('foldL', () => {
     const f = () => 'none'
     const g = (s: string) => `some${s.length}`
-    assert.strictEqual(none.foldL(f, g), 'none')
-    assert.strictEqual(some('abc').foldL(f, g), 'some3')
+    assert.strictEqual(fold(f, g)(none), 'none')
+    assert.strictEqual(fold(f, g)(some('abc')), 'some3')
   })
 
   it('toNullable', () => {
-    assert.strictEqual(none.toNullable(), null)
-    assert.strictEqual(some(1).toNullable(), 1)
+    assert.strictEqual(toNullable(none), null)
+    assert.strictEqual(toNullable(some(1)), 1)
   })
 
   it('toUndefined', () => {
-    assert.strictEqual(none.toUndefined(), undefined)
-    assert.strictEqual(some(1).toUndefined(), 1)
+    assert.strictEqual(toUndefined(none), undefined)
+    assert.strictEqual(toUndefined(some(1)), 1)
   })
 
   it('toString', () => {
@@ -75,9 +82,9 @@ describe('Option', () => {
 
   it('getOrElseL', () => {
     const x: Option<number> = some(1)
-    assert.strictEqual(x.getOrElseL(() => 0), 1)
+    assert.strictEqual(getOrElse(() => 0)(x), 1)
     const y: Option<number> = none
-    assert.strictEqual(y.getOrElseL(() => 0), 0)
+    assert.strictEqual(getOrElse(() => 0)(y), 0)
   })
 
   it('equals', () => {
@@ -127,7 +134,7 @@ describe('Option', () => {
       foo2: {}
     }
     const nestedOption = some(nested)
-    assert.deepStrictEqual(nestedOption.mapNullable(value => value.foo), none)
+    assert.deepStrictEqual(pipeOp(nestedOption, mapNullable(value => value.foo)), none)
     assert.deepStrictEqual(nestedOption.mapNullable(value => value.foo2), some(nested.foo2))
     assert.deepStrictEqual(nestedOption.mapNullable(value => value.foo2.bar2), none)
     assert.deepStrictEqual(none.mapNullable(identity), none)
@@ -273,9 +280,9 @@ describe('Option', () => {
     assert.deepStrictEqual(M.concat(some(1), some(2)), some(2))
   })
 
-  it('contains', () => {
+  it('elem / contains', () => {
     const x: Option<number> = none
-    assert.deepStrictEqual(x.contains(setoidNumber, 2), false)
+    assert.deepStrictEqual(elem(setoidNumber)(2)(x), false)
     assert.deepStrictEqual(some(2).contains(setoidNumber, 2), true)
     assert.deepStrictEqual(some(2).contains(setoidNumber, 1), false)
   })
@@ -298,9 +305,9 @@ describe('Option', () => {
     const x: Option<number> = none
     const is2 = (a: number) => a === 2
 
-    assert.deepStrictEqual(x.exists(is2), false)
-    assert.deepStrictEqual(some(1).exists(is2), false)
-    assert.deepStrictEqual(some(2).exists(is2), true)
+    assert.deepStrictEqual(exists(is2)(x), false)
+    assert.deepStrictEqual(exists(is2)(some(1)), false)
+    assert.deepStrictEqual(exists(is2)(some(2)), true)
   })
 
   it('refine', () => {

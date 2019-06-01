@@ -623,7 +623,7 @@ const isProfunctor = <F>(I: any): I is Profunctor<F> => typeof I.promap === 'fun
 const isSemigroupoid = <F>(I: any): I is Semigroupoid<F> => typeof I.compose === 'function'
 
 /**
- * @since 2.0.0
+ * @since 1.19.0
  */
 export function pipeable<F extends URIS4, I>(
   I: { URI: F } & I
