@@ -1,5 +1,6 @@
 import { constant, constIdentity } from './function'
 import { Monad2 } from './Monad'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -62,22 +63,6 @@ export class State<S, A> {
   }
 }
 
-const map = <S, A, B>(fa: State<S, A>, f: (a: A) => B): State<S, B> => {
-  return fa.map(f)
-}
-
-const of = <S, A>(a: A): State<S, A> => {
-  return new State(s => [a, s])
-}
-
-const ap = <S, A, B>(fab: State<S, (a: A) => B>, fa: State<S, A>): State<S, B> => {
-  return fa.ap(fab)
-}
-
-const chain = <S, A, B>(fa: State<S, A>, f: (a: A) => State<S, B>): State<S, B> => {
-  return fa.chain(f)
-}
-
 /**
  * Get the current state
  *
@@ -119,8 +104,41 @@ export const gets = <S, A>(f: (s: S) => A): State<S, A> => {
  */
 export const state: Monad2<URI> = {
   URI,
-  map,
+  map: (fa, f) => fa.map(f),
   of,
-  ap,
-  chain
+  ap: (fab, fa) => fa.ap(fab),
+  chain: (fa, f) => fa.chain(f)
 }
+
+//
+// backporting
+//
+
+/**
+ * @since 1.19.0
+ */
+export function of<S, A>(a: A): State<S, A> {
+  return new State(s => [a, s])
+}
+
+/**
+ * Run a computation in the `State` monad, discarding the final state
+ *
+ * @since 1.19.0
+ */
+export function evalState<S, A>(ma: State<S, A>, s: S): A {
+  return ma.eval(s)
+}
+
+/**
+ * Run a computation in the `State` monad discarding the result
+ *
+ * @since 1.19.0
+ */
+export function execState<S, A>(ma: State<S, A>, s: S): S {
+  return ma.exec(s)
+}
+
+const { ap, apFirst, apSecond, chain, chainFirst, flatten, map } = pipeable(state)
+
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map }

@@ -20,9 +20,12 @@ parent: Modules
   - [chain (method)](#chain-method)
 - [URI (constant)](#uri-constant)
 - [state (constant)](#state-constant)
+- [evalState (function)](#evalstate-function)
+- [execState (function)](#execstate-function)
 - [get (function)](#get-function)
 - [gets (function)](#gets-function)
 - [modify (function)](#modify-function)
+- [of (function)](#of-function)
 - [put (function)](#put-function)
 
 ---
@@ -140,6 +143,30 @@ export const state: Monad2<URI> = ...
 
 Added in v1.0.0
 
+# evalState (function)
+
+Run a computation in the `State` monad, discarding the final state
+
+**Signature**
+
+```ts
+export function evalState<S, A>(ma: State<S, A>, s: S): A { ... }
+```
+
+Added in v1.19.0
+
+# execState (function)
+
+Run a computation in the `State` monad discarding the result
+
+**Signature**
+
+```ts
+export function execState<S, A>(ma: State<S, A>, s: S): S { ... }
+```
+
+Added in v1.19.0
+
 # get (function)
 
 Get the current state
@@ -175,6 +202,16 @@ export const modify = <S>(f: (s: S) => S): State<S, undefined> => ...
 ```
 
 Added in v1.0.0
+
+# of (function)
+
+**Signature**
+
+```ts
+export function of<S, A>(a: A): State<S, A> { ... }
+```
+
+Added in v1.19.0
 
 # put (function)
 
