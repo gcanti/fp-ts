@@ -18,7 +18,8 @@ import {
   CompactableComposition22,
   CompactableComposition3C1,
   getCompactableComposition,
-  Separated
+  Separated,
+  Compactable4
 } from './Compactable'
 import { Either } from './Either'
 import { Predicate, Refinement } from './function'
@@ -35,9 +36,10 @@ import {
   FunctorComposition12C,
   FunctorComposition21,
   FunctorComposition22,
-  FunctorComposition3C1
+  FunctorComposition3C1,
+  Functor4
 } from './Functor'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3, URIS4, Type4 } from './HKT'
 import { Option, some, none } from './Option'
 
 interface Filter<F> {
@@ -185,6 +187,29 @@ export interface Filterable3C<F extends URIS3, U, L> extends Functor3C<F, U, L>,
   readonly partition: Partition3C<F, U, L>
   readonly filterMap: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Option<B>) => Type3<F, U, L, B>
   readonly filter: Filter3C<F, U, L>
+}
+
+export interface Filter4<F extends URIS4> {
+  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinement: Refinement<A, B>): Type4<F, X, U, L, B>
+  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicate: Predicate<A>): Type4<F, X, U, L, A>
+}
+
+export interface Partition4<F extends URIS4> {
+  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinement: Refinement<A, B>): Separated<
+    Type4<F, X, U, L, A>,
+    Type4<F, X, U, L, B>
+  >
+  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicate: Predicate<A>): Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, A>>
+}
+
+export interface Filterable4<F extends URIS4> extends Functor4<F>, Compactable4<F> {
+  readonly partitionMap: <RL, RR, X, U, L, A>(
+    fa: Type4<F, X, U, L, A>,
+    f: (a: A) => Either<RL, RR>
+  ) => Separated<Type4<F, X, U, L, RL>, Type4<F, X, U, L, RR>>
+  readonly partition: Partition4<F>
+  readonly filterMap: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => Option<B>) => Type4<F, X, U, L, B>
+  readonly filter: Filter4<F>
 }
 
 export interface FilterableComposition<F, G> extends FunctorComposition<F, G>, CompactableComposition<F, G> {

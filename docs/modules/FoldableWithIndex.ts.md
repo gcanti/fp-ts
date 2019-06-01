@@ -25,6 +25,7 @@ foldr(fa, b, f) = foldrWithIndex(fa, b, (_, a, b) => f(a, b))
 - [FoldableWithIndex2C (interface)](#foldablewithindex2c-interface)
 - [FoldableWithIndex3 (interface)](#foldablewithindex3-interface)
 - [FoldableWithIndex3C (interface)](#foldablewithindex3c-interface)
+- [FoldableWithIndex4 (interface)](#foldablewithindex4-interface)
 - [FoldableWithIndexComposition (interface)](#foldablewithindexcomposition-interface)
 - [FoldableWithIndexComposition11 (interface)](#foldablewithindexcomposition11-interface)
 - [FoldableWithIndexComposition12 (interface)](#foldablewithindexcomposition12-interface)
@@ -109,6 +110,18 @@ export interface FoldableWithIndex3C<F extends URIS3, I, U, L> extends Foldable2
   readonly reduceWithIndex: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
   readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => M) => M
   readonly foldrWithIndex: <A, B>(fa: Type3<F, U, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
+}
+```
+
+# FoldableWithIndex4 (interface)
+
+**Signature**
+
+```ts
+export interface FoldableWithIndex4<F extends URIS4, I> extends Foldable2v4<F> {
+  readonly reduceWithIndex: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, b: B, f: (i: I, b: B, a: A) => B) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <X, U, L, A>(fa: Type4<F, X, U, L, A>, f: (i: I, a: A) => M) => M
+  readonly reduceRightWithIndex: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, b: B, f: (i: I, a: A, b: B) => B) => B
 }
 ```
 

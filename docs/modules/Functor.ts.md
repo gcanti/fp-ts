@@ -27,6 +27,7 @@ Instances must satisfy the following laws:
 - [Functor3 (interface)](#functor3-interface)
 - [Functor3C (interface)](#functor3c-interface)
 - [Functor4 (interface)](#functor4-interface)
+- [Functor4 (interface)](#functor4-interface-1)
 - [FunctorComposition (interface)](#functorcomposition-interface)
 - [FunctorComposition11 (interface)](#functorcomposition11-interface)
 - [FunctorComposition12 (interface)](#functorcomposition12-interface)
@@ -112,6 +113,17 @@ export interface Functor3C<F extends URIS3, U, L> {
   readonly _L: L
   readonly _U: U
   readonly map: <A, B>(fa: Type3<F, U, L, A>, f: (a: A) => B) => Type3<F, U, L, B>
+}
+```
+
+# Functor4 (interface)
+
+**Signature**
+
+```ts
+export interface Functor4<F extends URIS4> {
+  readonly URI: F
+  readonly map: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => B) => Type4<F, X, U, L, B>
 }
 ```
 

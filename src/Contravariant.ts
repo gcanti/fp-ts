@@ -1,4 +1,4 @@
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3, URIS4, Type4 } from './HKT'
 
 /**
  * @since 1.0.0
@@ -34,6 +34,11 @@ export interface Contravariant3C<F extends URIS3, U, L> {
   readonly _L: L
   readonly _U: U
   readonly contramap: <A, B>(fa: Type3<F, U, L, A>, f: (b: B) => A) => Type3<F, U, L, B>
+}
+
+export interface Contravariant4<F extends URIS4> {
+  readonly URI: F
+  readonly contramap: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (b: B) => A) => Type4<F, X, U, L, B>
 }
 
 /**

@@ -1,5 +1,5 @@
-import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C } from './Functor'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { Functor, Functor1, Functor2, Functor2C, Functor3, Functor3C, Functor4 } from './Functor'
+import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3, URIS4, Type4 } from './HKT'
 import { identity } from './function'
 
 /**
@@ -27,6 +27,10 @@ export interface Extend2C<F extends URIS2, L> extends Functor2C<F, L> {
 
 export interface Extend3C<F extends URIS3, U, L> extends Functor3C<F, U, L> {
   readonly extend: <A, B>(ea: Type3<F, U, L, A>, f: (fa: Type3<F, U, L, A>) => B) => Type3<F, U, L, B>
+}
+
+export interface Extend4<W extends URIS4> extends Functor4<W> {
+  readonly extend: <X, U, L, A, B>(wa: Type4<W, X, U, L, A>, f: (wa: Type4<W, X, U, L, A>) => B) => Type4<W, X, U, L, B>
 }
 
 /**
