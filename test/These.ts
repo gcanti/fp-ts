@@ -108,11 +108,12 @@ describe('These', () => {
   })
 
   it('traverse', () => {
-    assert.deepStrictEqual(these.traverse(option)(this_('a'), n => (n >= 2 ? some(n) : none)), some(this_('a')))
-    assert.deepStrictEqual(these.traverse(option)(that(2), n => (n >= 2 ? some(n) : none)), some(that(2)))
-    assert.deepStrictEqual(these.traverse(option)(that(1), n => (n >= 2 ? some(n) : none)), none)
-    assert.deepStrictEqual(these.traverse(option)(both('a', 2), n => (n >= 2 ? some(n) : none)), some(both('a', 2)))
-    assert.deepStrictEqual(these.traverse(option)(both('a', 1), n => (n >= 2 ? some(n) : none)), none)
+    const f = (n: number) => (n >= 2 ? some(n) : none)
+    assert.deepStrictEqual(these.traverse(option)(this_<string, number>('a'), f), some(this_('a')))
+    assert.deepStrictEqual(these.traverse(option)(that(2), f), some(that(2)))
+    assert.deepStrictEqual(these.traverse(option)(that(1), f), none)
+    assert.deepStrictEqual(these.traverse(option)(both('a', 2), f), some(both('a', 2)))
+    assert.deepStrictEqual(these.traverse(option)(both('a', 1), f), none)
   })
 
   it('sequence', () => {

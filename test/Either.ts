@@ -189,9 +189,10 @@ describe('Either', () => {
   })
 
   it('traverse', () => {
-    assert.deepStrictEqual(either.traverse(option)(left('foo'), a => (a >= 2 ? some(a) : none)), some(left('foo')))
-    assert.deepStrictEqual(either.traverse(option)(right(1), a => (a >= 2 ? some(a) : none)), none)
-    assert.deepStrictEqual(either.traverse(option)(right(3), a => (a >= 2 ? some(a) : none)), some(right(3)))
+    const f = (n: number) => (n >= 2 ? some(n) : none)
+    assert.deepStrictEqual(either.traverse(option)(left<string, number>('foo'), f), some(left('foo')))
+    assert.deepStrictEqual(either.traverse(option)(right(1), f), none)
+    assert.deepStrictEqual(either.traverse(option)(right(3), f), some(right(3)))
   })
 
   it('sequence', () => {
@@ -232,7 +233,7 @@ describe('Either', () => {
   it('filterOrElse', () => {
     assert.deepStrictEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
     assert.deepStrictEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
-    assert.deepStrictEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
+    assert.deepStrictEqual(left<number, number>(12).filterOrElse(n => n > 10, -1), left(12))
     type Color = 'red' | 'blue'
     const isColor = (s: string): s is Color => s === 'red' || s === 'blue'
     assert.deepStrictEqual(right('red').filterOrElse(isColor, -1), right('red'))
@@ -243,7 +244,7 @@ describe('Either', () => {
   it('filterOrElseL', () => {
     assert.deepStrictEqual(right(12).filterOrElseL(n => n > 10, () => -1), right(12))
     assert.deepStrictEqual(right(7).filterOrElseL(n => n > 10, () => -1), left(-1))
-    assert.deepStrictEqual(left(12).filterOrElseL(n => n > 10, () => -1), left(12))
+    assert.deepStrictEqual(left<number, number>(12).filterOrElseL(n => n > 10, () => -1), left(12))
     assert.deepStrictEqual(right(7).filterOrElseL(n => n > 10, n => `invalid ${n}`), left('invalid 7'))
     type Color = 'red' | 'blue'
     const isColor = (s: string): s is Color => s === 'red' || s === 'blue'

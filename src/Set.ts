@@ -123,7 +123,7 @@ export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A>
 export function filter<A>(x: Set<A>, predicate: Predicate<A>): Set<A> {
   const values = x.values()
   let e: IteratorResult<A>
-  let r = new Set()
+  let r = new Set<A>()
   while (!(e = values.next()).done) {
     const value = e.value
     if (predicate(value)) {
@@ -141,8 +141,8 @@ export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<
 export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<A>, Set<A>> {
   const values = x.values()
   let e: IteratorResult<A>
-  let right = new Set()
-  let left = new Set()
+  let right = new Set<A>()
+  let left = new Set<A>()
   while (!(e = values.next()).done) {
     const value = e.value
     if (predicate(value)) {
@@ -199,7 +199,7 @@ export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
 export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
   const has = elem(S)
   return (x, y) => {
-    const r = new Set()
+    const r = new Set<A>()
     x.forEach(e => {
       if (has(e, y)) {
         r.add(e)
@@ -218,8 +218,8 @@ export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
 ): Separated<Set<L>, Set<R>> => {
   const values = x.values()
   let e: IteratorResult<A>
-  let left = new Set()
-  let right = new Set()
+  let left = new Set<L>()
+  let right = new Set<R>()
   const hasL = elem(SL)
   const hasR = elem(SR)
   while (!(e = values.next()).done) {

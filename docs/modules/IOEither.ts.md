@@ -23,6 +23,8 @@ error of type `L`. If you want to represent a synchronous computation that never
   - [applySecond (method)](#applysecond-method)
   - [chain (method)](#chain-method)
   - [fold (method)](#fold-method)
+  - [foldIO (method)](#foldio-method)
+  - [foldIOEither (method)](#foldioeither-method)
   - [mapLeft (method)](#mapleft-method)
   - [orElse (method)](#orelse-method)
   - [alt (method)](#alt-method)
@@ -129,6 +131,26 @@ chain<B>(f: (a: A) => IOEither<L, B>): IOEither<L, B> { ... }
 
 ```ts
 fold<R>(left: (l: L) => R, right: (a: A) => R): IO<R> { ... }
+```
+
+## foldIO (method)
+
+Similar to `fold`, but the result is flattened.
+
+**Signature**
+
+```ts
+foldIO<R>(left: (l: L) => IO<R>, right: (a: A) => IO<R>): IO<R> { ... }
+```
+
+## foldIOEither (method)
+
+Similar to `fold`, but the result is flattened.
+
+**Signature**
+
+```ts
+foldIOEither<M, B>(onLeft: (l: L) => IOEither<M, B>, onRight: (a: A) => IOEither<M, B>): IOEither<M, B> { ... }
 ```
 
 ## mapLeft (method)
