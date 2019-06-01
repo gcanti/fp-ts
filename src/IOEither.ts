@@ -10,6 +10,7 @@ import { constant, constIdentity, Lazy } from './function'
 import { IO, io } from './IO'
 import { Monad2 } from './Monad'
 import { MonadThrow2 } from './MonadThrow'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -98,39 +99,21 @@ export class IOEither<L, A> {
   }
 }
 
-const map = <L, A, B>(fa: IOEither<L, A>, f: (a: A) => B): IOEither<L, B> => {
-  return fa.map(f)
-}
-
-const of = <L, A>(a: A): IOEither<L, A> => {
-  return new IOEither(T.of(a))
-}
-
-const ap = <L, A, B>(fab: IOEither<L, (a: A) => B>, fa: IOEither<L, A>): IOEither<L, B> => {
-  return fa.ap(fab)
-}
-
-const chain = <L, A, B>(fa: IOEither<L, A>, f: (a: A) => IOEither<L, B>): IOEither<L, B> => {
-  return fa.chain(f)
-}
-
-const alt = <L, A>(fx: IOEither<L, A>, fy: IOEither<L, A>): IOEither<L, A> => {
-  return fx.alt(fy)
-}
-
-const bimap = <L, V, A, B>(fa: IOEither<L, A>, f: (l: L) => V, g: (a: A) => B): IOEither<V, B> => {
-  return fa.bimap(f, g)
-}
-
 /**
+ * Use `rightIO`
+ *
  * @since 1.6.0
+ * @deprecated
  */
 export const right = <L, A>(fa: IO<A>): IOEither<L, A> => {
   return new IOEither(fa.map<Either<L, A>>(eitherRight))
 }
 
 /**
+ * Use `leftIO`
+ *
  * @since 1.6.0
+ * @deprecated
  */
 export const left = <L, A>(fa: IO<L>): IOEither<L, A> => {
   return new IOEither(fa.map<Either<L, A>>(eitherLeft))
@@ -144,7 +127,10 @@ export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => {
 }
 
 /**
+ * Use `left2v`
+ *
  * @since 1.6.0
+ * @deprecated
  */
 export const fromLeft = <L, A>(l: L): IOEither<L, A> => {
   return fromEither(eitherLeft(l))
@@ -167,20 +153,67 @@ export const tryCatch2v = <L, A>(f: Lazy<A>, onerror: (reason: unknown) => L): I
   return new IOEither(new IO(() => eitherTryCatch2v(f, onerror)))
 }
 
-const throwError = fromLeft
-
 /**
  * @since 1.6.0
  */
 export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<URI> = {
   URI,
-  bimap,
-  map,
-  of,
-  ap,
-  chain,
-  alt,
-  throwError,
+  bimap: (fla, f, g) => fla.bimap(f, g),
+  map: (fa, f) => fa.map(f),
+  of: right2v,
+  ap: (fab, fa) => fa.ap(fab),
+  chain: (fa, f) => fa.chain(f),
+  alt: (fx, fy) => fx.alt(fy),
+  // tslint:disable-next-line: deprecation
+  throwError: fromLeft,
   fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
+  // tslint:disable-next-line: deprecation
+  fromOption: (o, e) => (o.isNone() ? fromLeft(e) : ioEither.of(o.value))
 }
+
+//
+// backporting
+//
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const left2v: <L>(l: L) => IOEither<L, never> = fromLeft
+
+/**
+ * @since 1.19.0
+ */
+export function right2v<A>(a: A): IOEither<never, A> {
+  return new IOEither(T.of(a))
+}
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = right
+
+/**
+ * @since 1.19.0
+ */
+// tslint:disable-next-line: deprecation
+export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = left
+
+/**
+ * @since 1.19.0
+ */
+export function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>): (ma: IOEither<E, A>) => IO<R> {
+  return ma => ma.foldIO(onLeft, onRight)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function orElse<E, A, M>(f: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> {
+  return ma => ma.orElse(f)
+}
+
+const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(ioEither)
+
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }

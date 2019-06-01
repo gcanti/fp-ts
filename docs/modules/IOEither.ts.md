@@ -31,10 +31,16 @@ error of type `L`. If you want to represent a synchronous computation that never
   - [bimap (method)](#bimap-method)
 - [URI (constant)](#uri-constant)
 - [ioEither (constant)](#ioeither-constant)
+- [left2v (constant)](#left2v-constant)
+- [leftIO (constant)](#leftio-constant)
+- [rightIO (constant)](#rightio-constant)
+- [fold (function)](#fold-function)
 - [fromEither (function)](#fromeither-function)
-- [fromLeft (function)](#fromleft-function)
-- [left (function)](#left-function)
-- [right (function)](#right-function)
+- [~~fromLeft~~ (function)](#fromleft-function)
+- [~~left~~ (function)](#left-function)
+- [orElse (function)](#orelse-function)
+- [~~right~~ (function)](#right-function)
+- [right2v (function)](#right2v-function)
 - [~~tryCatch~~ (function)](#trycatch-function)
 - [tryCatch2v (function)](#trycatch2v-function)
 
@@ -207,6 +213,46 @@ export const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadThrow2<U
 
 Added in v1.6.0
 
+# left2v (constant)
+
+**Signature**
+
+```ts
+export const left2v: <L>(l: L) => IOEither<L, never> = ...
+```
+
+Added in v1.19.0
+
+# leftIO (constant)
+
+**Signature**
+
+```ts
+export const leftIO: <E>(me: IO<E>) => IOEither<E, never> = ...
+```
+
+Added in v1.19.0
+
+# rightIO (constant)
+
+**Signature**
+
+```ts
+export const rightIO: <A>(ma: IO<A>) => IOEither<never, A> = ...
+```
+
+Added in v1.19.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>): (ma: IOEither<E, A>) => IO<R> { ... }
+```
+
+Added in v1.19.0
+
 # fromEither (function)
 
 **Signature**
@@ -217,7 +263,9 @@ export const fromEither = <L, A>(fa: Either<L, A>): IOEither<L, A> => ...
 
 Added in v1.6.0
 
-# fromLeft (function)
+# ~~fromLeft~~ (function)
+
+Use `left2v`
 
 **Signature**
 
@@ -227,7 +275,9 @@ export const fromLeft = <L, A>(l: L): IOEither<L, A> => ...
 
 Added in v1.6.0
 
-# left (function)
+# ~~left~~ (function)
+
+Use `leftIO`
 
 **Signature**
 
@@ -237,7 +287,19 @@ export const left = <L, A>(fa: IO<L>): IOEither<L, A> => ...
 
 Added in v1.6.0
 
-# right (function)
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<E, A, M>(f: (e: E) => IOEither<M, A>): (ma: IOEither<E, A>) => IOEither<M, A> { ... }
+```
+
+Added in v1.19.0
+
+# ~~right~~ (function)
+
+Use `rightIO`
 
 **Signature**
 
@@ -246,6 +308,16 @@ export const right = <L, A>(fa: IO<A>): IOEither<L, A> => ...
 ```
 
 Added in v1.6.0
+
+# right2v (function)
+
+**Signature**
+
+```ts
+export function right2v<A>(a: A): IOEither<never, A> { ... }
+```
+
+Added in v1.19.0
 
 # ~~tryCatch~~ (function)
 
