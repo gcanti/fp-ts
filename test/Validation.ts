@@ -48,12 +48,10 @@ describe('Validation', () => {
   })
 
   it('traverse', () => {
-    assert.deepStrictEqual(
-      validation.traverse(option)(failure('foo'), a => (a >= 2 ? some(a) : none)),
-      some(failure('foo'))
-    )
-    assert.deepStrictEqual(validation.traverse(option)(success(1), a => (a >= 2 ? some(a) : none)), none)
-    assert.deepStrictEqual(validation.traverse(option)(success(3), a => (a >= 2 ? some(a) : none)), some(success(3)))
+    const f = (n: number) => (n >= 2 ? some(n) : none)
+    assert.deepStrictEqual(validation.traverse(option)(failure<string, number>('foo'), f), some(failure('foo')))
+    assert.deepStrictEqual(validation.traverse(option)(success(1), f), none)
+    assert.deepStrictEqual(validation.traverse(option)(success(3), f), some(success(3)))
   })
 
   it('sequence', () => {
@@ -211,12 +209,10 @@ describe('Validation', () => {
   })
 
   it('traverse', () => {
-    assert.deepStrictEqual(
-      validation.traverse(option)(failure('foo'), a => (a >= 2 ? some(a) : none)),
-      some(failure('foo'))
-    )
-    assert.deepStrictEqual(validation.traverse(option)(success(1), a => (a >= 2 ? some(a) : none)), none)
-    assert.deepStrictEqual(validation.traverse(option)(success(3), a => (a >= 2 ? some(a) : none)), some(success(3)))
+    const f = (n: number) => (n >= 2 ? some(n) : none)
+    assert.deepStrictEqual(validation.traverse(option)(failure<string, number>('foo'), f), some(failure('foo')))
+    assert.deepStrictEqual(validation.traverse(option)(success(1), f), none)
+    assert.deepStrictEqual(validation.traverse(option)(success(3), f), some(success(3)))
   })
 
   it('getMonoid', () => {

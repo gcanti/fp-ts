@@ -338,7 +338,7 @@ import { right, left } from 'fp-ts/lib/Either'
 
 assert.deepStrictEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
 assert.deepStrictEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
-assert.deepStrictEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
+assert.deepStrictEqual(left<number, number>(12).filterOrElse(n => n > 10, -1), left(12))
 ```
 
 Added in v1.3.0

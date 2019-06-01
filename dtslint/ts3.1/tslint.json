@@ -15,6 +15,7 @@
     "prefer-object-spread": false,
     "whitespace": false,
     "use-default-type-parameter": false,
-    "no-relative-import-in-test": false
+    "no-relative-import-in-test": false,
+    "no-null-undefined-union": false
   }
 }

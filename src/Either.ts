@@ -157,7 +157,7 @@ export class Left<L, A> {
    *
    * assert.deepStrictEqual(right(12).filterOrElse(n => n > 10, -1), right(12))
    * assert.deepStrictEqual(right(7).filterOrElse(n => n > 10, -1), left(-1))
-   * assert.deepStrictEqual(left(12).filterOrElse(n => n > 10, -1), left(12))
+   * assert.deepStrictEqual(left<number, number>(12).filterOrElse(n => n > 10, -1), left(12))
    *
    * @since 1.3.0
    */
