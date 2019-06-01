@@ -24,10 +24,15 @@ import {
   toError,
   parseJSON,
   stringifyJSON,
-  getShow
+  getShow,
+  fold,
+  getOrElse,
+  filterOrElse,
+  orElse,
+  elem
 } from '../src/Either'
 import * as F from '../src/Foldable'
-import { identity } from '../src/function'
+import { identity, pipeOp } from '../src/function'
 import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
@@ -41,8 +46,8 @@ describe('Either', () => {
   it('fold', () => {
     const f = (s: string) => `left${s.length}`
     const g = (s: string) => `right${s.length}`
-    assert.strictEqual(left<string, string>('abc').fold(f, g), 'left3')
-    assert.strictEqual(right<string, string>('abc').fold(f, g), 'right3')
+    assert.strictEqual(fold(f, g)(left<string, string>('abc')), 'left3')
+    assert.strictEqual(fold(f, g)(right<string, string>('abc')), 'right3')
   })
 
   it('map', () => {
@@ -157,9 +162,9 @@ describe('Either', () => {
   })
 
   it('getOrElseL', () => {
-    assert.deepStrictEqual(right(12).getOrElseL(() => 17), 12)
-    assert.deepStrictEqual(left<string, number>('a').getOrElseL(() => 17), 17)
-    assert.deepStrictEqual(left<string, number>('a').getOrElseL((l: string) => l.length + 1), 2)
+    assert.deepStrictEqual(getOrElse(() => 17)(right(12)), 12)
+    assert.deepStrictEqual(getOrElse(() => 17)(left<string, number>('a')), 17)
+    assert.deepStrictEqual(getOrElse((l: string) => l.length + 1)(left<string, number>('a')), 2)
   })
 
   it('fromOption', () => {
@@ -242,7 +247,7 @@ describe('Either', () => {
   })
 
   it('filterOrElseL', () => {
-    assert.deepStrictEqual(right(12).filterOrElseL(n => n > 10, () => -1), right(12))
+    assert.deepStrictEqual(pipeOp(right<number, number>(12), filterOrElse(n => n > 10, () => -1)), right(12))
     assert.deepStrictEqual(right(7).filterOrElseL(n => n > 10, () => -1), left(-1))
     assert.deepStrictEqual(left<number, number>(12).filterOrElseL(n => n > 10, () => -1), left(12))
     assert.deepStrictEqual(right(7).filterOrElseL(n => n > 10, n => `invalid ${n}`), left('invalid 7'))
@@ -277,7 +282,10 @@ describe('Either', () => {
   })
 
   it('orElse', () => {
-    assert.deepStrictEqual(right<string, number>(1).orElse(() => right<string, number>(2)), right<string, number>(1))
+    assert.deepStrictEqual(
+      pipeOp(right<string, number>(1), orElse(() => right<string, number>(2))),
+      right<string, number>(1)
+    )
     assert.deepStrictEqual(right<string, number>(1).orElse(() => left<string, number>('foo')), right<string, number>(1))
     assert.deepStrictEqual(left<string, number>('foo').orElse(() => right<string, number>(1)), right<string, number>(1))
     assert.deepStrictEqual(
@@ -374,6 +382,7 @@ describe('Either', () => {
   })
 
   describe('getCompactable', () => {
+    // tslint:disable-next-line: deprecation
     const C = getCompactable(monoidString)
     it('compact', () => {
       assert.deepStrictEqual(C.compact(left('1')), left('1'))
@@ -389,6 +398,7 @@ describe('Either', () => {
   })
 
   describe('getFilterable', () => {
+    // tslint:disable-next-line: deprecation
     const F = getFilterable(monoidString)
     const p = (n: number) => n > 2
     it('partition', () => {
@@ -533,5 +543,11 @@ describe('Either', () => {
     const S = getShow(showString, showString)
     assert.strictEqual(S.show(left('a')), `left("a")`)
     assert.strictEqual(S.show(right('a')), `right("a")`)
+  })
+
+  it('elem', () => {
+    assert.deepStrictEqual(elem(setoidNumber)(1)(right(1)), true)
+    assert.deepStrictEqual(elem(setoidNumber)(1)(right(2)), false)
+    assert.deepStrictEqual(elem(setoidNumber)(1)(left('a')), false)
   })
 })

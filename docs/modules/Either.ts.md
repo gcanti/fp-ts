@@ -85,6 +85,9 @@ left(23).map(double) // left(23)
   - [refineOrElseL (method)](#refineorelsel-method)
 - [URI (constant)](#uri-constant)
 - [either (constant)](#either-constant)
+- [elem (function)](#elem-function)
+- [filterOrElse (function)](#filterorelse-function)
+- [fold (function)](#fold-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromOption (function)](#fromoption-function)
 - [fromOptionL (function)](#fromoptionl-function)
@@ -93,8 +96,9 @@ left(23).map(double) // left(23)
 - [fromValidation (function)](#fromvalidation-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
 - [getApplySemigroup (function)](#getapplysemigroup-function)
-- [getCompactable (function)](#getcompactable-function)
-- [getFilterable (function)](#getfilterable-function)
+- [~~getCompactable~~ (function)](#getcompactable-function)
+- [~~getFilterable~~ (function)](#getfilterable-function)
+- [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
@@ -102,6 +106,7 @@ left(23).map(double) // left(23)
 - [isLeft (function)](#isleft-function)
 - [isRight (function)](#isright-function)
 - [left (function)](#left-function)
+- [orElse (function)](#orelse-function)
 - [parseJSON (function)](#parsejson-function)
 - [right (function)](#right-function)
 - [stringifyJSON (function)](#stringifyjson-function)
@@ -597,6 +602,40 @@ export const either: Monad2<URI> &
 
 Added in v1.0.0
 
+# elem (function)
+
+**Signature**
+
+```ts
+export function elem<A>(S: Setoid<A>): (a: A) => <E>(ma: Either<E, A>) => boolean { ... }
+```
+
+Added in v1.19.0
+
+# filterOrElse (function)
+
+**Signature**
+
+```ts
+export function filterOrElse<E, A, B extends A>(
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => E
+): (ma: Either<E, A>) => Either<E, B>
+export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A> { ... }
+```
+
+Added in v1.19.0
+
+# fold (function)
+
+**Signature**
+
+```ts
+export function fold<E, A, R>(onLeft: (e: E) => R, onRight: (a: A) => R): (ma: Either<E, A>) => R { ... }
+```
+
+Added in v1.19.0
+
 # fromNullable (function)
 
 Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
@@ -708,9 +747,9 @@ assert.deepStrictEqual(S.concat(right(1), right(2)), right(3))
 
 Added in v1.7.0
 
-# getCompactable (function)
+# ~~getCompactable~~ (function)
 
-Builds `Compactable` instance for `Either` given `Monoid` for the left side
+Use `getWitherable`
 
 **Signature**
 
@@ -720,9 +759,9 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> { ... }
 
 Added in v1.7.0
 
-# getFilterable (function)
+# ~~getFilterable~~ (function)
 
-Builds `Filterable` instance for `Either` given `Monoid` for the left side
+Use `getWitherable`
 
 **Signature**
 
@@ -731,6 +770,16 @@ export function getFilterable<L>(ML: Monoid<L>): Filterable2C<URI, L> { ... }
 ```
 
 Added in v1.7.0
+
+# getOrElse (function)
+
+**Signature**
+
+```ts
+export function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A { ... }
+```
+
+Added in v1.19.0
 
 # getSemigroup (function)
 
@@ -826,6 +875,16 @@ export const left = <L, A>(l: L): Either<L, A> => ...
 ```
 
 Added in v1.0.0
+
+# orElse (function)
+
+**Signature**
+
+```ts
+export function orElse<E, A, M>(f: (e: E) => Either<M, A>): (ma: Either<E, A>) => Either<M, A> { ... }
+```
+
+Added in v1.19.0
 
 # parseJSON (function)
 
