@@ -7,6 +7,7 @@ import { Choice2 } from './Choice'
 import { Either, left as eitherLeft, right as eitherRight } from './Either'
 import { Semigroup } from './Semigroup'
 import { Monoid } from './Monoid'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -49,22 +50,6 @@ export class Reader<E, A> {
   }
 }
 
-const map = <E, A, B>(fa: Reader<E, A>, f: (a: A) => B): Reader<E, B> => {
-  return fa.map(f)
-}
-
-const of = <E, A>(a: A): Reader<E, A> => {
-  return new Reader(() => a)
-}
-
-const ap = <E, A, B>(fab: Reader<E, (a: A) => B>, fa: Reader<E, A>): Reader<E, B> => {
-  return fa.ap(fab)
-}
-
-const chain = <E, A, B>(fa: Reader<E, A>, f: (a: A) => Reader<E, B>): Reader<E, B> => {
-  return fa.chain(f)
-}
-
 /**
  * reads the current context
  *
@@ -92,34 +77,6 @@ export const local = <E, E2 = E>(f: (e: E2) => E) => <A>(fa: Reader<E, A>): Read
   return fa.local(f)
 }
 
-const promap = <A, B, C, D>(fbc: Reader<B, C>, f: (a: A) => B, g: (c: C) => D): Reader<A, D> => {
-  return new Reader(a => g(fbc.run(f(a))))
-}
-
-const compose = <L, A, B>(ab: Reader<A, B>, la: Reader<L, A>): Reader<L, B> => {
-  return new Reader(l => ab.run(la.run(l)))
-}
-
-const id = <A>(): Reader<A, A> => {
-  return new Reader(identity)
-}
-
-const first = <A, B, C>(pab: Reader<A, B>): Reader<[A, C], [B, C]> => {
-  return new Reader(([a, c]) => [pab.run(a), c])
-}
-
-const second = <A, B, C>(pbc: Reader<B, C>): Reader<[A, B], [A, C]> => {
-  return new Reader(([a, b]) => [a, pbc.run(b)])
-}
-
-const left = <A, B, C>(pab: Reader<A, B>): Reader<Either<A, C>, Either<B, C>> => {
-  return new Reader(e => e.fold<Either<B, C>>(a => eitherLeft(pab.run(a)), eitherRight))
-}
-
-const right = <A, B, C>(pbc: Reader<B, C>): Reader<Either<A, B>, Either<A, C>> => {
-  return new Reader(e => e.fold<Either<A, C>>(eitherLeft, b => eitherRight(pbc.run(b))))
-}
-
 /**
  * @since 1.14.0
  */
@@ -135,7 +92,7 @@ export const getSemigroup = <E, A>(S: Semigroup<A>): Semigroup<Reader<E, A>> => 
 export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => {
   return {
     ...getSemigroup(M),
-    empty: of(M.empty)
+    empty: reader.of(M.empty)
   }
 }
 
@@ -144,15 +101,32 @@ export const getMonoid = <E, A>(M: Monoid<A>): Monoid<Reader<E, A>> => {
  */
 export const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
-  promap,
-  compose,
-  id,
-  first,
-  second,
-  left,
-  right
+  map: (fa, f) => fa.map(f),
+  of: a => new Reader(() => a),
+  ap: (fab, fa) => fa.ap(fab),
+  chain: (fa, f) => fa.chain(f),
+  promap: (fbc, f, g) => new Reader(a => g(fbc.run(f(a)))),
+  compose: (ab, la) => new Reader(l => ab.run(la.run(l))),
+  id: () => new Reader(identity),
+  first: pab => new Reader(([a, c]) => [pab.run(a), c]),
+  second: pbc => new Reader(([a, b]) => [a, pbc.run(b)]),
+  left: <A, B, C>(pab: Reader<A, B>): Reader<Either<A, C>, Either<B, C>> => {
+    return new Reader(e => e.fold<Either<B, C>>(a => eitherLeft(pab.run(a)), eitherRight))
+  },
+  right: <A, B, C>(pbc: Reader<B, C>): Reader<Either<A, B>, Either<A, C>> => {
+    return new Reader(e => e.fold<Either<A, C>>(eitherLeft, b => eitherRight(pbc.run(b))))
+  }
 }
+
+//
+// backporting
+//
+
+/**
+ * @since 1.19.0
+ */
+export const of: <A>(a: A) => Reader<unknown, A> = reader.of
+
+const { ap, apFirst, apSecond, chain, chainFirst, compose, flatten, map, promap } = pipeable(reader)
+
+export { ap, apFirst, apSecond, chain, chainFirst, compose, flatten, map, promap }
