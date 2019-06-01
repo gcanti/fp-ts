@@ -1,13 +1,13 @@
 import * as assert from 'assert'
-import { State, get, gets, modify, put, state } from '../src/State'
+import { State, get, gets, modify, put, state, of, evalState, execState } from '../src/State'
 
 describe('State', () => {
   it('eval', () => {
-    assert.deepStrictEqual(state.of<number, string>('a').eval(0), 'a')
+    assert.deepStrictEqual(evalState(of<number, string>('a'), 0), 'a')
   })
 
   it('exec', () => {
-    assert.deepStrictEqual(state.of<number, string>('a').exec(0), 0)
+    assert.deepStrictEqual(execState(of<number, string>('a'), 0), 0)
   })
 
   it('put', () => {
