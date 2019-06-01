@@ -123,7 +123,7 @@ export const local = <E, E2 = E>(f: (e: E2) => E) => <L, A>(
  * @deprecated
  */
 export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => {
-  return new ReaderTaskEither(() => taskEither.right(fa))
+  return new ReaderTaskEither(() => taskEither.rightTask(fa))
 }
 
 /**
@@ -133,7 +133,7 @@ export const right = <E, L, A>(fa: Task<A>): ReaderTaskEither<E, L, A> => {
  * @deprecated
  */
 export const left = <E, L, A>(fa: Task<L>): ReaderTaskEither<E, L, A> => {
-  return new ReaderTaskEither(() => taskEither.left(fa))
+  return new ReaderTaskEither(() => taskEither.leftTask(fa))
 }
 
 /**
@@ -168,7 +168,7 @@ export const fromEither = <E, L, A>(fa: Either<L, A>): ReaderTaskEither<E, L, A>
  * @deprecated
  */
 export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => {
-  return fromTaskEither(taskEither.fromIO(fa))
+  return fromTaskEither(taskEither.rightIO(fa))
 }
 
 /**
@@ -178,7 +178,7 @@ export const fromIO = <E, L, A>(fa: IO<A>): ReaderTaskEither<E, L, A> => {
  * @deprecated
  */
 export const fromLeft = <E, L, A>(l: L): ReaderTaskEither<E, L, A> => {
-  return fromTaskEither(taskEither.fromLeft(l))
+  return fromTaskEither(taskEither.left2v(l))
 }
 
 /**

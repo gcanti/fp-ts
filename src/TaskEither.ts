@@ -23,6 +23,7 @@ import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Semigroup } from './Semigroup'
 import { fromIO as taskFromIO, getSemigroup as taskGetSemigroup, Task, task, tryCatch as taskTryCatch } from './Task'
+import { pipeable } from './pipeable'
 
 declare module './HKT' {
   interface URI2HKT2<L, A> {
@@ -168,39 +169,21 @@ export class TaskEither<L, A> {
   }
 }
 
-const map = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => B): TaskEither<L, B> => {
-  return fa.map(f)
-}
-
-const of = <L, A>(a: A): TaskEither<L, A> => {
-  return new TaskEither(T.of(a))
-}
-
-const ap = <L, A, B>(fab: TaskEither<L, (a: A) => B>, fa: TaskEither<L, A>): TaskEither<L, B> => {
-  return fa.ap(fab)
-}
-
-const chain = <L, A, B>(fa: TaskEither<L, A>, f: (a: A) => TaskEither<L, B>): TaskEither<L, B> => {
-  return fa.chain(f)
-}
-
-const alt = <L, A>(fx: TaskEither<L, A>, fy: TaskEither<L, A>): TaskEither<L, A> => {
-  return fx.alt(fy)
-}
-
-const bimap = <L, V, A, B>(fa: TaskEither<L, A>, f: (l: L) => V, g: (a: A) => B): TaskEither<V, B> => {
-  return fa.bimap(f, g)
-}
-
 /**
+ * Use `rightTask`
+ *
  * @since 1.0.0
+ * @deprecated
  */
 export const right = <L, A>(fa: Task<A>): TaskEither<L, A> => {
   return new TaskEither(fa.map<Either<L, A>>(eitherRight))
 }
 
 /**
+ * Use `leftTask`
+ *
  * @since 1.0.0
+ * @deprecated
  */
 export const left = <L, A>(fl: Task<L>): TaskEither<L, A> => {
   return new TaskEither(fl.map<Either<L, A>>(eitherLeft))
@@ -214,14 +197,20 @@ export const fromEither = <L, A>(fa: Either<L, A>): TaskEither<L, A> => {
 }
 
 /**
+ * Use `rightIO`
+ *
  * @since 1.5.0
+ * @deprecated
  */
 export const fromIO = <L, A>(fa: IO<A>): TaskEither<L, A> => {
-  return right(taskFromIO(fa))
+  return rightIO(fa)
 }
 
 /**
+ * Use `left2v`
+ *
  * @since 1.3.0
+ * @deprecated
  */
 export const fromLeft = <L, A>(l: L): TaskEither<L, A> => {
   return fromEither(eitherLeft(l))
@@ -273,7 +262,7 @@ export const getApplySemigroup = <L, A>(S: Semigroup<A>): Semigroup<TaskEither<L
 export const getApplyMonoid = <L, A>(M: Monoid<A>): Monoid<TaskEither<L, A>> => {
   return {
     ...getApplySemigroup(M),
-    empty: of(M.empty)
+    empty: right2v(M.empty)
   }
 }
 
@@ -373,8 +362,6 @@ export function taskify<L, R>(f: Function): () => TaskEither<L, R> {
   }
 }
 
-const fromTask = right
-
 /**
  * Make sure that a resource is cleaned up in the event of an exception. The
  * release action is called regardless of whether the body action throws or
@@ -390,11 +377,9 @@ export const bracket = <L, A, B>(
   return acquire.chain(a =>
     use(a)
       .attempt()
-      .chain(e => release(a, e).chain(() => e.fold<TaskEither<L, B>>(fromLeft, taskEither.of)))
+      .chain(e => release(a, e).chain(() => e.fold<TaskEither<L, B>>(left2v, taskEither.of)))
   )
 }
-
-const throwError = fromLeft
 
 /**
  * @since 1.0.0
@@ -406,17 +391,17 @@ export const taskEither: Monad2<URI> &
   MonadTask2<URI> &
   MonadThrow2<URI> = {
   URI,
-  bimap,
-  map,
-  of,
-  ap,
-  chain,
-  alt,
+  bimap: (fla, f, g) => fla.bimap(f, g),
+  map: (fa, f) => fa.map(f),
+  of: right2v,
+  ap: (fab, fa) => fa.ap(fab),
+  chain: (fa, f) => fa.chain(f),
+  alt: (fx, fy) => fx.alt(fy),
   fromIO,
-  fromTask,
-  throwError,
+  fromTask: rightTask,
+  throwError: left2v,
   fromEither,
-  fromOption: (o, e) => (o.isNone() ? throwError(e) : of(o.value))
+  fromOption: (o, e) => (o.isNone() ? left2v(e) : right2v(o.value))
 }
 
 /**
@@ -428,3 +413,95 @@ export const taskEitherSeq: typeof taskEither = {
   ...taskEither,
   ap: (fab, fa) => fab.chain(f => fa.map(f))
 }
+
+//
+// backporting
+//
+
+/**
+ * @since 1.19.0
+ */
+export function right2v<A>(a: A): TaskEither<never, A> {
+  return new TaskEither(T.of(a))
+}
+
+/**
+ * @since 1.19.0
+ */
+export function left2v<L>(l: L): TaskEither<L, never> {
+  return fromEither(eitherLeft(l))
+}
+
+/**
+ * @since 1.19.0
+ */
+export function rightIO<A>(ma: IO<A>): TaskEither<never, A> {
+  return rightTask(task.fromIO(ma))
+}
+
+/**
+ * @since 1.19.0
+ */
+export function leftIO<E>(me: IO<E>): TaskEither<E, never> {
+  return leftTask(task.fromIO(me))
+}
+
+/**
+ * @since 1.19.0
+ */
+export function rightTask<A>(ma: Task<A>): TaskEither<never, A> {
+  return new TaskEither(ma.map(a => eitherRight(a)))
+}
+
+/**
+ * @since 1.19.0
+ */
+export function leftTask<E>(me: Task<E>): TaskEither<E, never> {
+  return new TaskEither(me.map(e => eitherLeft(e)))
+}
+
+/**
+ * @since 1.19.0
+ */
+export function fold<E, A, R>(
+  onLeft: (e: E) => Task<R>,
+  onRight: (a: A) => Task<R>
+): (ma: TaskEither<E, A>) => Task<R> {
+  return ma => ma.foldTask(onLeft, onRight)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E, A>) => Task<A> {
+  return fold(f, task.of)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function filterOrElse<E, A, B extends A>(
+  refinement: Refinement<A, B>,
+  onFalse: (a: A) => E
+): (ma: TaskEither<E, A>) => TaskEither<E, B>
+export function filterOrElse<E, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E
+): (ma: TaskEither<E, A>) => TaskEither<E, A>
+export function filterOrElse<E, A>(
+  predicate: Predicate<A>,
+  onFalse: (a: A) => E
+): (ma: TaskEither<E, A>) => TaskEither<E, A> {
+  return ma => ma.filterOrElseL(predicate, onFalse)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
+  return ma => ma.orElse(f)
+}
+
+const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(taskEither)
+
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
