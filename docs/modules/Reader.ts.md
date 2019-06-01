@@ -16,6 +16,7 @@ parent: Modules
   - [chain (method)](#chain-method)
   - [local (method)](#local-method)
 - [URI (constant)](#uri-constant)
+- [of (constant)](#of-constant)
 - [reader (constant)](#reader-constant)
 - [ask (function)](#ask-function)
 - [asks (function)](#asks-function)
@@ -97,6 +98,16 @@ Added in v1.6.1
 ```ts
 export const URI = ...
 ```
+
+# of (constant)
+
+**Signature**
+
+```ts
+export const of: <A>(a: A) => Reader<unknown, A> = ...
+```
+
+Added in v1.19.0
 
 # reader (constant)
 
