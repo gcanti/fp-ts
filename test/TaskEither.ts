@@ -1,7 +1,7 @@
 import * as assert from 'assert'
 import { left as eitherLeft, right as eitherRight } from '../src/Either'
 import { IO } from '../src/IO'
-import { Task, task, delay } from '../src/Task'
+import { Task, task, delay2v } from '../src/Task'
 import {
   bracket,
   TaskEither,
@@ -218,7 +218,7 @@ describe('TaskEither', () => {
   it('applySecond', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      right(delay(millis, undefined).map(() => log.push(message)))
+      right(delay2v(millis, task.of(undefined)).map(() => log.push(message)))
     return append('a', 10)
       .applySecond(append('b', 0))
       .run()
@@ -231,7 +231,7 @@ describe('TaskEither', () => {
   it('ChainSecond', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      right(delay(millis, undefined).map(() => log.push(message)))
+      right(delay2v(millis, task.of(undefined)).map(() => log.push(message)))
     return append('a', 10)
       .chainSecond(append('b', 0))
       .run()
@@ -320,7 +320,7 @@ describe('TaskEither', () => {
   it('applyFirst', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      right(delay(millis, undefined).map(() => log.push(message)))
+      right(delay2v(millis, task.of(undefined)).map(() => log.push(message)))
     return append('a', 10)
       .applyFirst(append('b', 0))
       .run()
@@ -333,7 +333,7 @@ describe('TaskEither', () => {
   it('chainFirst', () => {
     const log: Array<string> = []
     const append = (message: string, millis: number): TaskEither<string, number> =>
-      right(delay(millis, undefined).map(() => log.push(message)))
+      right(delay2v(millis, task.of(undefined)).map(() => log.push(message)))
     return append('a', 10)
       .chainFirst(append('b', 0))
       .run()
@@ -361,16 +361,16 @@ describe('TaskEither', () => {
   it('getSemigroup', () => {
     const S = getSemigroup<string, number>(semigroupSum)
     return Promise.all([
-      S.concat(left(delay(10, 'a')), left(delay(10, 'b')))
+      S.concat(left(delay2v(10, task.of('a'))), left(delay2v(10, task.of('b'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherLeft('a'))),
-      S.concat(left(delay(10, 'a')), right(delay(10, 2)))
+      S.concat(left(delay2v(10, task.of('a'))), right(delay2v(10, task.of(2))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight(2))),
-      S.concat(right(delay(10, 1)), left(delay(10, 'b')))
+      S.concat(right(delay2v(10, task.of(1))), left(delay2v(10, task.of('b'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight(1))),
-      S.concat(right(delay(10, 1)), right(delay(10, 2)))
+      S.concat(right(delay2v(10, task.of(1))), right(delay2v(10, task.of(2))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight(3)))
     ])
@@ -380,22 +380,22 @@ describe('TaskEither', () => {
     const M = getApplyMonoid(monoidString)
 
     it('concat (right)', () => {
-      return M.concat(right(delay(10, 'a')), right(delay(10, 'b')))
+      return M.concat(right(delay2v(10, task.of('a'))), right(delay2v(10, task.of('b'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight('ab')))
     })
     it('concat (left)', () => {
-      return M.concat(right(delay(10, 'a')), left(delay(10, 'b')))
+      return M.concat(right(delay2v(10, task.of('a'))), left(delay2v(10, task.of('b'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherLeft('b')))
     })
     it('empty (right)', () => {
-      return M.concat(right(delay(10, 'a')), M.empty)
+      return M.concat(right(delay2v(10, task.of('a'))), M.empty)
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight('a')))
     })
     it('empty (left)', () => {
-      return M.concat(M.empty, right(delay(10, 'a')))
+      return M.concat(M.empty, right(delay2v(10, task.of('a'))))
         .run()
         .then(x => assert.deepStrictEqual(x, eitherRight('a')))
     })
