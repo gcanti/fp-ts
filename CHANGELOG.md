@@ -56,10 +56,16 @@ pipeOp(
   - backport top level data-last functions from v2 (@gcanti)
   - backport `pipeable` module form v2 (@gcanti)
   - backport `pipeOp` function form v2 (@gcanti)
+  - Add `foldIO` and `foldIOEither` to `IOEither` (@bwlt)
 - **Deprecations**
   - deprecate `Setoid` in favour of `Eq` (@gcanti)
   - `Monoid`
     - deprecate `getArrayMonoid` in favour of `Array`'s `getMonoid` (@gcanti)
+  - `Validation`
+    - deprecate `Validation` module in favour of `Either`'s (@gcanti)
+      - `getValidation`
+      - `getValidationSemigroup`
+      - `getValidationMonoid`
   - `Const`
     - deprecate `Const` constructor in favour of `make` (@gcanti)
   - `Either`
