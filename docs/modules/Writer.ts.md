@@ -15,12 +15,17 @@ parent: Modules
   - [map (method)](#map-method)
 - [URI (constant)](#uri-constant)
 - [writer (constant)](#writer-constant)
-- [censor (function)](#censor-function)
+- [~~censor~~ (function)](#censor-function)
+- [censor2v (function)](#censor2v-function)
+- [evalWriter (function)](#evalwriter-function)
+- [execWriter (function)](#execwriter-function)
 - [getMonad (function)](#getmonad-function)
 - [listen (function)](#listen-function)
-- [listens (function)](#listens-function)
+- [~~listens~~ (function)](#listens-function)
+- [listens2v (function)](#listens2v-function)
 - [pass (function)](#pass-function)
 - [tell (function)](#tell-function)
+- [map (export)](#map-export)
 
 ---
 
@@ -87,9 +92,9 @@ export const writer: Functor2<URI> = ...
 
 Added in v1.0.0
 
-# censor (function)
+# ~~censor~~ (function)
 
-Modify the final accumulator value by applying a function
+Use `censor2v`
 
 **Signature**
 
@@ -98,6 +103,38 @@ export const censor = <W, A>(fa: Writer<W, A>, f: (w: W) => W): Writer<W, A> => 
 ```
 
 Added in v1.3.0
+
+# censor2v (function)
+
+Modify the final accumulator value by applying a function
+
+**Signature**
+
+```ts
+export function censor2v<W>(f: (w: W) => W): <A>(fa: Writer<W, A>) => Writer<W, A> { ... }
+```
+
+Added in v1.19.0
+
+# evalWriter (function)
+
+**Signature**
+
+```ts
+export function evalWriter<W, A>(fa: Writer<W, A>): A { ... }
+```
+
+Added in v1.19.0
+
+# execWriter (function)
+
+**Signature**
+
+```ts
+export function execWriter<W, A>(fa: Writer<W, A>): W { ... }
+```
+
+Added in v1.19.0
 
 # getMonad (function)
 
@@ -121,9 +158,9 @@ export const listen = <W, A>(fa: Writer<W, A>): Writer<W, [A, W]> => ...
 
 Added in v1.3.0
 
-# listens (function)
+# ~~listens~~ (function)
 
-Projects a value from modifications made to the accumulator during an action
+Use `listens2v`
 
 **Signature**
 
@@ -132,6 +169,18 @@ export const listens = <W, A, B>(fa: Writer<W, A>, f: (w: W) => B): Writer<W, [A
 ```
 
 Added in v1.3.0
+
+# listens2v (function)
+
+Projects a value from modifications made to the accumulator during an action
+
+**Signature**
+
+```ts
+export function listens2v<W, B>(f: (w: W) => B): <A>(fa: Writer<W, A>) => Writer<W, [A, B]> { ... }
+```
+
+Added in v1.19.0
 
 # pass (function)
 
@@ -156,3 +205,11 @@ export const tell = <W>(w: W): Writer<W, void> => ...
 ```
 
 Added in v1.0.0
+
+# map (export)
+
+**Signature**
+
+```ts
+export { map }
+```
