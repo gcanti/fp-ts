@@ -5,7 +5,7 @@ import * as I from '../src/Identity'
 import { monoidString } from '../src/Monoid'
 import { setoidNumber, Setoid, contramap } from '../src/Setoid'
 import * as T from '../src/Traversable'
-import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM, elem, getShow } from '../src/Tree'
+import { drawTree, getSetoid, Tree, tree, unfoldTree, unfoldTreeM, elem, getShow, make } from '../src/Tree'
 import { showString } from '../src/Show'
 
 describe('Tree', () => {
@@ -142,8 +142,8 @@ describe('Tree', () => {
   })
 
   it('toString', () => {
-    const fa = new Tree('a', [new Tree('b', [])])
-    const expected = 'new Tree("a", [new Tree("b", [])])'
+    const fa = make('a', [make('b')])
+    const expected = 'make("a", [make("b")])'
     assert.strictEqual(fa.toString(), expected)
     assert.strictEqual(fa.inspect(), expected)
   })
@@ -186,9 +186,9 @@ describe('Tree', () => {
 
   it('getShow', () => {
     const S = getShow(showString)
-    const t1 = new Tree('a', [])
-    assert.strictEqual(S.show(t1), `new Tree("a", [])`)
-    const t2 = new Tree('a', [new Tree('b', []), new Tree('c', [])])
-    assert.strictEqual(S.show(t2), `new Tree("a", [new Tree("b", []), new Tree("c", [])])`)
+    const t1 = make('a')
+    assert.strictEqual(S.show(t1), `make("a")`)
+    const t2 = make('a', [make('b'), make('c')])
+    assert.strictEqual(S.show(t2), `make("a", [make("b"), make("c")])`)
   })
 })
