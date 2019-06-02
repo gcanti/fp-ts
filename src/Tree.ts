@@ -6,16 +6,16 @@
  * ```
  */
 import { Applicative } from './Applicative'
-import { getSetoid as getArraySetoid, traverse as arrayTraverse, empty } from './Array'
+import { empty, getSetoid as getArraySetoid, traverse as arrayTraverse } from './Array'
 import { Comonad1 } from './Comonad'
 import { Foldable2v1 } from './Foldable2v'
 import { concat, identity, toString } from './function'
 import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monad, Monad1, Monad2, Monad2C, Monad3, Monad3C } from './Monad'
-import { Monoid } from './Monoid'
-import { Setoid, fromEquals } from './Setoid'
-import { Traversable2v1 } from './Traversable2v'
+import { pipeable } from './pipeable'
+import { fromEquals, Setoid } from './Setoid'
 import { Show } from './Show'
+import { Traversable2v1 } from './Traversable2v'
 
 declare module './HKT' {
   interface URI2HKT<A> {
@@ -71,52 +71,24 @@ export class Tree<A> {
     return this.toString()
   }
   toString(): string {
-    return `new Tree(${toString(this.value)}, ${toString(this.forest)})`
+    return this.forest === empty || this.forest.length === 0
+      ? `make(${toString(this.value)})`
+      : `make(${toString(this.value)}, ${toString(this.forest)})`
   }
 }
 
 /**
  * @since 1.17.0
  */
-export const getShow = <A>(S: Show<A>): Show<Tree<A>> => {
+export function getShow<A>(S: Show<A>): Show<Tree<A>> {
   const show = (t: Tree<A>): string => {
-    return `new Tree(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
+    return t.forest === empty || t.forest.length === 0
+      ? `make(${S.show(t.value)})`
+      : `make(${S.show(t.value)}, [${t.forest.map(show).join(', ')}])`
   }
   return {
     show
   }
-}
-
-const map = <A, B>(fa: Tree<A>, f: (a: A) => B): Tree<B> => {
-  return fa.map(f)
-}
-
-const of = <A>(a: A): Tree<A> => {
-  return new Tree(a, empty)
-}
-
-const ap = <A, B>(fab: Tree<(a: A) => B>, fa: Tree<A>): Tree<B> => {
-  return fa.ap(fab)
-}
-
-const chain = <A, B>(fa: Tree<A>, f: (a: A) => Tree<B>): Tree<B> => {
-  return fa.chain(f)
-}
-
-const extract = <A>(fa: Tree<A>): A => {
-  return fa.extract()
-}
-
-const extend = <A, B>(fa: Tree<A>, f: (fa: Tree<A>) => B): Tree<B> => {
-  return fa.extend(f)
-}
-
-const reduce = <A, B>(fa: Tree<A>, b: B, f: (b: B, a: A) => B): B => {
-  return fa.reduce(b, f)
-}
-
-const foldMap = <M>(M: Monoid<M>) => <A>(fa: Tree<A>, f: (a: A) => M): M => {
-  return fa.reduce(M.empty, (acc, a) => M.concat(acc, f(a)))
 }
 
 const foldr = <A, B>(fa: Tree<A>, b: B, f: (a: A, b: B) => B): B => {
@@ -158,17 +130,17 @@ export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => {
  */
 export const tree: Monad1<URI> & Foldable2v1<URI> & Traversable2v1<URI> & Comonad1<URI> = {
   URI,
-  map,
-  of,
-  ap,
-  chain,
-  reduce,
-  foldMap,
+  map: (fa, f) => fa.map(f),
+  of: a => make(a),
+  ap: (fab, fa) => fa.ap(fab),
+  chain: (fa, f) => fa.chain(f),
+  reduce: (fa, b, f) => fa.reduce(b, f),
+  foldMap: M => (fa, f) => fa.reduce(M.empty, (acc, a) => M.concat(acc, f(a))),
   foldr,
   traverse,
   sequence,
-  extract,
-  extend
+  extract: wa => wa.extract(),
+  extend: (wa, f) => wa.extend(f)
 }
 
 const draw = (indentation: string, forest: Forest<string>): string => {
@@ -313,3 +285,31 @@ export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean {
   }
   return go
 }
+
+//
+// backporting
+//
+
+/**
+ * @since 1.19.0
+ */
+export function make<A>(a: A, forest: Forest<A> = empty): Tree<A> {
+  return new Tree(a, forest)
+}
+
+const {
+  ap,
+  apFirst,
+  apSecond,
+  chain,
+  chainFirst,
+  duplicate,
+  extend,
+  flatten,
+  foldMap,
+  map,
+  reduce,
+  reduceRight
+} = pipeable(tree)
+
+export { ap, apFirst, apSecond, chain, chainFirst, duplicate, extend, flatten, foldMap, map, reduce, reduceRight }
