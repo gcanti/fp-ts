@@ -9,7 +9,7 @@ import {
   max,
   fromArray,
   getSemigroup,
-  getSetoid,
+  getEq,
   group,
   groupSort,
   groupBy,
@@ -37,7 +37,7 @@ import { identity } from '../src/function'
 import * as T from '../src/Traversable'
 import * as I from '../src/Identity'
 import * as C from '../src/Const'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import { showString } from '../src/Show'
 
 describe.only('NonEmptyArray2v', () => {
@@ -173,10 +173,10 @@ describe.only('NonEmptyArray2v', () => {
     )
   })
 
-  it('getSetoid', () => {
-    const S = getSetoid(setoidNumber)
-    assert.strictEqual(S.equals(fromNonEmptyArray<number>([1]), fromNonEmptyArray<number>([1])), true)
-    assert.strictEqual(S.equals(fromNonEmptyArray<number>([1]), fromNonEmptyArray([1, 2])), false)
+  it('getEq', () => {
+    const E = getEq(eqNumber)
+    assert.strictEqual(E.equals(fromNonEmptyArray<number>([1]), fromNonEmptyArray<number>([1])), true)
+    assert.strictEqual(E.equals(fromNonEmptyArray<number>([1]), fromNonEmptyArray([1, 2])), false)
   })
 
   it('group', () => {
@@ -384,7 +384,7 @@ describe.only('NonEmptyArray2v', () => {
     const f = (i: number, s: string): string => s + i
     assert.deepStrictEqual(
       nonEmptyArray.foldMapWithIndex(M)(ta, f),
-      nonEmptyArray.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => new C.Const<string, unknown>(f(i, a))).value
+      nonEmptyArray.traverseWithIndex(C.getApplicative(M))(ta, (i, a) => C.make(f(i, a))).value
     )
 
     // FunctorWithIndex compatibility

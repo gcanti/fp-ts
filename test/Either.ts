@@ -13,7 +13,7 @@ import {
   getCompactable,
   getFilterable,
   getSemigroup,
-  getSetoid,
+  getEq,
   getWitherable,
   isLeft,
   isRight,
@@ -37,7 +37,7 @@ import * as I from '../src/Identity'
 import { monoidString, monoidSum } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
 import { semigroupSum } from '../src/Semigroup'
-import { setoidNumber, setoidString } from '../src/Setoid'
+import { eqNumber, eqString } from '../src/Eq'
 import * as T from '../src/Traversable'
 import { failure, success } from '../src/Validation'
 import { showString } from '../src/Show'
@@ -178,8 +178,8 @@ describe('Either', () => {
     assert.deepStrictEqual(fromNullable('default')(1), right(1))
   })
 
-  it('getSetoid', () => {
-    const equals = getSetoid(setoidString, setoidNumber).equals
+  it('getEq', () => {
+    const equals = getEq(eqString, eqNumber).equals
     assert.strictEqual(equals(right(1), right(1)), true)
     assert.strictEqual(equals(right(1), right(2)), false)
     assert.strictEqual(equals(right(1), left('foo')), false)
@@ -546,8 +546,8 @@ describe('Either', () => {
   })
 
   it('elem', () => {
-    assert.deepStrictEqual(elem(setoidNumber)(1)(right(1)), true)
-    assert.deepStrictEqual(elem(setoidNumber)(1)(right(2)), false)
-    assert.deepStrictEqual(elem(setoidNumber)(1)(left('a')), false)
+    assert.deepStrictEqual(elem(eqNumber)(1)(right(1)), true)
+    assert.deepStrictEqual(elem(eqNumber)(1)(right(2)), false)
+    assert.deepStrictEqual(elem(eqNumber)(1)(left('a')), false)
   })
 })

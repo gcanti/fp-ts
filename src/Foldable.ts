@@ -7,7 +7,7 @@ import { Option, none, some } from './Option'
 import { Ord, max, min } from './Ord'
 import { Plus, Plus1, Plus2, Plus2C, Plus3, Plus3C } from './Plus'
 import { Semiring } from './Semiring'
-import { Setoid } from './Setoid'
+import { Eq } from './Eq'
 import { Predicate } from './function'
 
 /**
@@ -408,19 +408,19 @@ export function product<F, A>(F: Foldable<F>, S: Semiring<A>): (fa: HKT<F, A>) =
  *
  * @since 1.0.0
  */
-export function elem<F extends URIS3, A>(F: Foldable3<F>, S: Setoid<A>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
+export function elem<F extends URIS3, A>(F: Foldable3<F>, E: Eq<A>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
 export function elem<F extends URIS3, A, U, L>(
   F: Foldable3C<F, U, L>,
-  S: Setoid<A>
+  E: Eq<A>
 ): (a: A, fa: Type3<F, U, L, A>) => boolean
-export function elem<F extends URIS2, A>(F: Foldable2<F>, S: Setoid<A>): <L>(a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS2, A, L>(F: Foldable2C<F, L>, S: Setoid<A>): (a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS, A>(F: Foldable1<F>, S: Setoid<A>): (a: A, fa: Type<F, A>) => boolean
+export function elem<F extends URIS2, A>(F: Foldable2<F>, E: Eq<A>): <L>(a: A, fa: Type2<F, L, A>) => boolean
+export function elem<F extends URIS2, A, L>(F: Foldable2C<F, L>, E: Eq<A>): (a: A, fa: Type2<F, L, A>) => boolean
+export function elem<F extends URIS, A>(F: Foldable1<F>, E: Eq<A>): (a: A, fa: Type<F, A>) => boolean
 // tslint:disable-next-line: deprecation
-export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean
+export function elem<F, A>(F: Foldable<F>, E: Eq<A>): (a: A, fa: HKT<F, A>) => boolean
 // tslint:disable-next-line: deprecation
-export function elem<F, A>(F: Foldable<F>, S: Setoid<A>): (a: A, fa: HKT<F, A>) => boolean {
-  return (a, fa) => F.reduce<A, boolean>(fa, false, (b, x) => b || S.equals(x, a))
+export function elem<F, A>(F: Foldable<F>, E: Eq<A>): (a: A, fa: HKT<F, A>) => boolean {
+  return (a, fa) => F.reduce<A, boolean>(fa, false, (b, x) => b || E.equals(x, a))
 }
 
 /**

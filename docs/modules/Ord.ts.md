@@ -48,7 +48,7 @@ See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with
 **Signature**
 
 ```ts
-export interface Ord<A> extends Setoid<A> {
+export interface Ord<A> extends Eq<A> {
   readonly compare: (x: A, y: A) => Ordering
 }
 ```

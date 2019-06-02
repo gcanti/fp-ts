@@ -5,8 +5,8 @@ import { none, option, some, isSome, isNone } from '../src/Option'
 import * as fc from 'fast-check'
 import { getSome } from './property-test/Option'
 import { nonEmptyArray } from './property-test/NonEmptyArray2v'
-import { catOptions, getSetoid } from '../src/Array'
-import { fromEquals } from '../src/Setoid'
+import { catOptions, getEq } from '../src/Array'
+import { fromEquals } from '../src/Eq'
 
 describe('Apply', () => {
   const r1 = right<string, number>(1)
@@ -73,7 +73,7 @@ describe('Apply', () => {
     assert.deepStrictEqual(sequenceTOption(some(1), some('2')), some([1, '2']))
     assert.deepStrictEqual(sequenceTOption(some(1), some('2'), none), none)
 
-    const S = getSetoid(fromEquals((x, y) => x === y))
+    const E = getEq(fromEquals((x, y) => x === y))
     const somes = getSome(fc.oneof<string | number>(fc.string(), fc.integer()))
     const allSomesInput = nonEmptyArray(somes)
     const maybeNoneInput = nonEmptyArray(fc.oneof(fc.constant(none), somes))
@@ -82,7 +82,7 @@ describe('Apply', () => {
       fc.property(input, options => {
         const x = sequenceTOption(...(options as any))
         return (
-          (options.every(isSome) && x.isSome() && S.equals(x.value as any, catOptions(options))) ||
+          (options.every(isSome) && x.isSome() && E.equals(x.value as any, catOptions(options))) ||
           (options.some(isNone) && x.isNone())
         )
       })

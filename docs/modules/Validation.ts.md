@@ -45,6 +45,7 @@ Adapted from https://github.com/purescript/purescript-validation
   - [isFailure (method)](#isfailure-method-1)
   - [isSuccess (method)](#issuccess-method-1)
 - [URI (constant)](#uri-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [validation (constant)](#validation-constant)
 - [failure (function)](#failure-function)
 - [fromEither (function)](#fromeither-function)
@@ -52,12 +53,12 @@ Adapted from https://github.com/purescript/purescript-validation
 - [getAlt (function)](#getalt-function)
 - [getApplicative (function)](#getapplicative-function)
 - [getCompactable (function)](#getcompactable-function)
+- [getEq (function)](#geteq-function)
 - [getFilterable (function)](#getfilterable-function)
 - [getMonad (function)](#getmonad-function)
 - [getMonadThrow (function)](#getmonadthrow-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getSemigroup (function)](#getsemigroup-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [getWitherable (function)](#getwitherable-function)
 - [isFailure (function)](#isfailure-function)
@@ -356,6 +357,18 @@ isSuccess(): this is Success<L, A> { ... }
 export const URI = ...
 ```
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<Validation<L, A>> = ...
+```
+
+Added in v1.0.0
+
 # validation (constant)
 
 **Signature**
@@ -461,6 +474,16 @@ export function getCompactable<L>(ML: Monoid<L>): Compactable2C<URI, L> { ... }
 
 Added in v1.7.0
 
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Validation<L, A>> { ... }
+```
+
+Added in v1.19.0
+
 # getFilterable (function)
 
 Builds `Filterable` instance for `Validation` given `Monoid` for the left side
@@ -511,16 +534,6 @@ Added in v1.0.0
 
 ```ts
 export const getSemigroup = <L, A>(SL: Semigroup<L>, SA: Semigroup<A>): Semigroup<Validation<L, A>> => ...
-```
-
-Added in v1.0.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => ...
 ```
 
 Added in v1.0.0

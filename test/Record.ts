@@ -4,7 +4,7 @@ import { semigroupSum, getLastSemigroup } from '../src/Semigroup'
 import { monoidString } from '../src/Monoid'
 import { identity } from '../src/function'
 import { option, some, none, Option } from '../src/Option'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import { array, zip } from '../src/Array'
 import { left, right } from '../src/Either'
 import * as I from '../src/Identity'
@@ -61,10 +61,10 @@ describe('Record', () => {
     assert.deepStrictEqual(sequence(x2), none)
   })
 
-  it('getSetoid', () => {
-    assert.strictEqual(R.getSetoid(setoidNumber).equals({ a: 1 }, { a: 1 }), true)
-    assert.strictEqual(R.getSetoid(setoidNumber).equals({ a: 1 }, { a: 2 }), false)
-    assert.strictEqual(R.getSetoid(setoidNumber).equals({ a: 1 }, { b: 1 }), false)
+  it('getEq', () => {
+    assert.strictEqual(R.getEq(eqNumber).equals({ a: 1 }, { a: 1 }), true)
+    assert.strictEqual(R.getEq(eqNumber).equals({ a: 1 }, { a: 2 }), false)
+    assert.strictEqual(R.getEq(eqNumber).equals({ a: 1 }, { b: 1 }), false)
   })
 
   it('lookup', () => {
@@ -232,8 +232,8 @@ describe('Record', () => {
   })
 
   it('elem', () => {
-    assert.strictEqual(R.elem(setoidNumber)(1, { a: 1, b: 2 }), true)
-    assert.strictEqual(R.elem(setoidNumber)(3, { a: 1, b: 2 }), false)
+    assert.strictEqual(R.elem(eqNumber)(1, { a: 1, b: 2 }), true)
+    assert.strictEqual(R.elem(eqNumber)(3, { a: 1, b: 2 }), false)
   })
 
   it('partitionMapWithIndex', () => {

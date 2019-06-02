@@ -19,7 +19,7 @@ import { Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { Eq, fromEquals } from './Eq'
 import { Traversable2v2 } from './Traversable2v'
 import { Witherable2C } from './Witherable'
 import { MonadThrow2C } from './MonadThrow'
@@ -177,11 +177,19 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Validation<L, A>> 
 }
 
 /**
+ * Use `getEq`
+ *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<Validation<L, A>> => {
+export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<Validation<L, A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Validation<L, A>> {
   return fromEquals((x, y) =>
-    x.isFailure() ? y.isFailure() && SL.equals(x.value, y.value) : y.isSuccess() && SA.equals(x.value, y.value)
+    x.isFailure() ? y.isFailure() && EL.equals(x.value, y.value) : y.isSuccess() && EA.equals(x.value, y.value)
   )
 }
 

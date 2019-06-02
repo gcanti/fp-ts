@@ -9,6 +9,7 @@ parent: Modules
 <h2 class="text-delta">Table of contents</h2>
 
 - [empty (constant)](#empty-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [~~isSubdictionary~~ (constant)](#issubdictionary-constant)
 - [collect (function)](#collect-function)
 - [compact (function)](#compact-function)
@@ -26,8 +27,8 @@ parent: Modules
 - [foldrWithKey (function)](#foldrwithkey-function)
 - [fromFoldable (function)](#fromfoldable-function)
 - [fromFoldableMap (function)](#fromfoldablemap-function)
+- [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [insert (function)](#insert-function)
 - [isEmpty (function)](#isempty-function)
@@ -69,6 +70,18 @@ export const empty: Record<string, never> = ...
 
 Added in v1.10.0
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: typeof getEq = ...
+```
+
+Added in v1.10.0
+
 # ~~isSubdictionary~~ (constant)
 
 Use `isSubrecord` instead
@@ -76,9 +89,7 @@ Use `isSubrecord` instead
 **Signature**
 
 ```ts
-export const isSubdictionary: <A>(
-  S: Setoid<A>
-) => (d1: Record<string, A>, d2: Record<string, A>) => boolean = ...
+export const isSubdictionary: <A>(E: Eq<A>) => (d1: Record<string, A>, d2: Record<string, A>) => boolean = ...
 ```
 
 Added in v1.10.0
@@ -123,7 +134,7 @@ Added in v1.10.0
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A, fa: { [key: string]: A }) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, fa: { [key: string]: A }) => boolean { ... }
 ```
 
 Added in v1.14.0
@@ -338,6 +349,17 @@ assert.deepStrictEqual(fromFoldableMap(getLastSemigroup<User>(), array)(users, u
 
 Added in v1.16.0
 
+# getEq (function)
+
+**Signature**
+
+```ts
+export function getEq<K extends string, A>(E: Eq<A>): Eq<Record<K, A>>
+export function getEq<A>(E: Eq<A>): Eq<Record<string, A>> { ... }
+```
+
+Added in v1.19.0
+
 # getMonoid (function)
 
 Returns a `Semigroup` instance for records given a `Semigroup` instance for their values
@@ -357,17 +379,6 @@ import { getMonoid } from 'fp-ts/lib/Record'
 
 const M = getMonoid(semigroupSum)
 assert.deepStrictEqual(M.concat({ foo: 123 }, { foo: 456 }), { foo: 579 })
-```
-
-Added in v1.10.0
-
-# getSetoid (function)
-
-**Signature**
-
-```ts
-export function getSetoid<K extends string, A>(S: Setoid<A>): Setoid<Record<K, A>>
-export function getSetoid<A>(S: Setoid<A>): Setoid<Record<string, A>> { ... }
 ```
 
 Added in v1.10.0
@@ -414,7 +425,7 @@ Test whether one record contains all of the keys and values contained in another
 **Signature**
 
 ```ts
-export const isSubrecord = <A>(S: Setoid<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => ...
+export const isSubrecord = <A>(E: Eq<A>) => (d1: Record<string, A>, d2: Record<string, A>): boolean => ...
 ```
 
 Added in v1.14.0

@@ -21,7 +21,7 @@ import { IO, io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as option from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 
 export const ArrayOptionURI = 'ArrayOption'
 
@@ -102,9 +102,9 @@ describe('Foldable2v', () => {
 
   it('member', () => {
     // tslint:disable-next-line: deprecation
-    assert.strictEqual(member(setoidNumber, array)(1, [1, 2, 3]), true)
+    assert.strictEqual(member(eqNumber, array)(1, [1, 2, 3]), true)
     // tslint:disable-next-line: deprecation
-    assert.strictEqual(member(setoidNumber, array)(4, [1, 2, 3]), false)
+    assert.strictEqual(member(eqNumber, array)(4, [1, 2, 3]), false)
   })
 
   it('findFirst', () => {

@@ -20,23 +20,23 @@ See [Getting started with fp-ts: Setoid](https://dev.to/gcanti/getting-started-w
 
 <h2 class="text-delta">Table of contents</h2>
 
-- [Setoid (interface)](#setoid-interface)
-- [setoidBoolean (constant)](#setoidboolean-constant)
-- [setoidDate (constant)](#setoiddate-constant)
-- [setoidNumber (constant)](#setoidnumber-constant)
-- [setoidString (constant)](#setoidstring-constant)
-- [contramap (function)](#contramap-function)
-- [fromEquals (function)](#fromequals-function)
-- [getArraySetoid (function)](#getarraysetoid-function)
+- [~~Setoid~~ (interface)](#setoid-interface)
+- [~~setoidBoolean~~ (constant)](#setoidboolean-constant)
+- [~~setoidDate~~ (constant)](#setoiddate-constant)
+- [~~setoidNumber~~ (constant)](#setoidnumber-constant)
+- [~~setoidString~~ (constant)](#setoidstring-constant)
+- [~~contramap~~ (function)](#contramap-function)
+- [~~fromEquals~~ (function)](#fromequals-function)
+- [~~getArraySetoid~~ (function)](#getarraysetoid-function)
 - [~~getProductSetoid~~ (function)](#getproductsetoid-function)
 - [~~getRecordSetoid~~ (function)](#getrecordsetoid-function)
-- [getStructSetoid (function)](#getstructsetoid-function)
-- [getTupleSetoid (function)](#gettuplesetoid-function)
-- [strictEqual (function)](#strictequal-function)
+- [~~getStructSetoid~~ (function)](#getstructsetoid-function)
+- [~~getTupleSetoid~~ (function)](#gettuplesetoid-function)
+- [~~strictEqual~~ (function)](#strictequal-function)
 
 ---
 
-# Setoid (interface)
+# ~~Setoid~~ (interface)
 
 **Signature**
 
@@ -48,7 +48,7 @@ export interface Setoid<A> {
 
 Added in v1.0.0
 
-# setoidBoolean (constant)
+# ~~setoidBoolean~~ (constant)
 
 **Signature**
 
@@ -58,7 +58,7 @@ export const setoidBoolean: Setoid<boolean> = ...
 
 Added in v1.0.0
 
-# setoidDate (constant)
+# ~~setoidDate~~ (constant)
 
 **Signature**
 
@@ -68,7 +68,7 @@ export const setoidDate: Setoid<Date> = ...
 
 Added in v1.4.0
 
-# setoidNumber (constant)
+# ~~setoidNumber~~ (constant)
 
 **Signature**
 
@@ -78,7 +78,7 @@ export const setoidNumber: Setoid<number> = ...
 
 Added in v1.0.0
 
-# setoidString (constant)
+# ~~setoidString~~ (constant)
 
 **Signature**
 
@@ -88,7 +88,7 @@ export const setoidString: Setoid<string> = ...
 
 Added in v1.0.0
 
-# contramap (function)
+# ~~contramap~~ (function)
 
 Returns the `Setoid` corresponding to the partitions of `B` induced by `f`
 
@@ -100,7 +100,7 @@ export const contramap = <A, B>(f: (b: B) => A, fa: Setoid<A>): Setoid<B> => ...
 
 Added in v1.2.0
 
-# fromEquals (function)
+# ~~fromEquals~~ (function)
 
 **Signature**
 
@@ -110,7 +110,7 @@ export const fromEquals = <A>(equals: (x: A, y: A) => boolean): Setoid<A> => ...
 
 Added in v1.14.0
 
-# getArraySetoid (function)
+# ~~getArraySetoid~~ (function)
 
 **Signature**
 
@@ -140,25 +140,29 @@ Use `getStructSetoid` instead
 
 ```ts
 export const getRecordSetoid = <O extends { [key: string]: any }>(
+  // tslint:disable-next-line: deprecation
   setoids: { [K in keyof O]: Setoid<O[K]> }
+  // tslint:disable-next-line: deprecation
 ): Setoid<O> => ...
 ```
 
 Added in v1.0.0
 
-# getStructSetoid (function)
+# ~~getStructSetoid~~ (function)
 
 **Signature**
 
 ```ts
 export const getStructSetoid = <O extends { [key: string]: any }>(
+  // tslint:disable-next-line: deprecation
   setoids: { [K in keyof O]: Setoid<O[K]> }
+  // tslint:disable-next-line: deprecation
 ): Setoid<O> => ...
 ```
 
 Added in v1.14.2
 
-# getTupleSetoid (function)
+# ~~getTupleSetoid~~ (function)
 
 Given a tuple of `Setoid`s returns a `Setoid` for the tuple
 
@@ -167,7 +171,8 @@ Given a tuple of `Setoid`s returns a `Setoid` for the tuple
 ```ts
 export const getTupleSetoid = <T extends Array<Setoid<any>>>(
   ...setoids: T
-): Setoid<{ [K in keyof T]: T[K] extends Setoid<infer A> ? A : never }> => ...
+): // tslint:disable-next-line: deprecation
+Setoid<{ [K in keyof T]: T[K] extends Setoid<infer A> ? A : never }> => ...
 ```
 
 **Example**
@@ -184,7 +189,7 @@ assert.strictEqual(S.equals(['a', 1, true], ['a', 1, false]), false)
 
 Added in v1.14.2
 
-# strictEqual (function)
+# ~~strictEqual~~ (function)
 
 **Signature**
 

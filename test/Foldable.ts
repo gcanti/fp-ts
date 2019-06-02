@@ -24,7 +24,7 @@ import { IO, io } from '../src/IO'
 import { monoidString } from '../src/Monoid'
 import * as option from '../src/Option'
 import { ordNumber } from '../src/Ord'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import { StrMap, strmap } from '../src/StrMap'
 
 export const ArrayOptionURI = 'ArrayOption'
@@ -104,8 +104,8 @@ describe('Foldable', () => {
   })
 
   it('elem', () => {
-    assert.strictEqual(elem(array, setoidNumber)(1, [1, 2, 3]), true)
-    assert.strictEqual(elem(array, setoidNumber)(4, [1, 2, 3]), false)
+    assert.strictEqual(elem(array, eqNumber)(1, [1, 2, 3]), true)
+    assert.strictEqual(elem(array, eqNumber)(4, [1, 2, 3]), false)
   })
 
   it('find', () => {

@@ -16,6 +16,7 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [URI (constant)](#uri-constant)
 - [array (constant)](#array-constant)
 - [empty (constant)](#empty-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [catOptions (function)](#catoptions-function)
 - [chop (function)](#chop-function)
 - [chunksOf (function)](#chunksof-function)
@@ -40,9 +41,9 @@ Adapted from https://github.com/purescript/purescript-arrays
 - [foldL (function)](#foldl-function)
 - [foldr (function)](#foldr-function)
 - [foldrL (function)](#foldrl-function)
+- [getEq (function)](#geteq-function)
 - [getMonoid (function)](#getmonoid-function)
 - [getOrd (function)](#getord-function)
-- [getSetoid (function)](#getsetoid-function)
 - [getShow (function)](#getshow-function)
 - [head (function)](#head-function)
 - [~~index~~ (function)](#index-function)
@@ -141,6 +142,18 @@ export const empty: Array<never> = ...
 
 Added in v1.9.0
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <A>(E: Eq<A>) => Eq<Array<A>> = ...
+```
+
+Added in v1.0.0
+
 # catOptions (function)
 
 Filter an array of optional values, keeping only the elements which contain a value, creating a new array.
@@ -179,16 +192,16 @@ export const chop = <A, B>(as: Array<A>, f: (as: NonEmptyArray<A>) => [B, Array<
 **Example**
 
 ```ts
-import { Setoid, setoidNumber } from 'fp-ts/lib/Setoid'
+import { Eq, eqNumber } from 'fp-ts/lib/Eq'
 import { chop, span } from 'fp-ts/lib/Array'
 
-const group = <A>(S: Setoid<A>) => (as: Array<A>): Array<Array<A>> => {
+const group = <A>(E: Eq<A>) => (as: Array<A>): Array<Array<A>> => {
   return chop(as, as => {
-    const { init, rest } = span(as, a => S.equals(a, as[0]))
+    const { init, rest } = span(as, a => E.equals(a, as[0]))
     return [init, rest]
   })
 }
-assert.deepStrictEqual(group(setoidNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
+assert.deepStrictEqual(group(eqNumber)([1, 1, 2, 3, 3, 4]), [[1, 1], [2], [3, 3], [4]])
 ```
 
 Added in v1.10.0
@@ -321,22 +334,22 @@ Added in v1.0.0
 
 # difference (function)
 
-Creates an array of array values not included in the other given array using a `Setoid` for equality
+Creates an array of array values not included in the other given array using a `Eq` for equality
 comparisons. The order and references of result values are determined by the first array.
 
 **Signature**
 
 ```ts
-export const difference = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => ...
+export const difference = <A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => ...
 ```
 
 **Example**
 
 ```ts
 import { difference } from 'fp-ts/lib/Array'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
+import { eqNumber } from 'fp-ts/lib/Eq'
 
-assert.deepStrictEqual(difference(setoidNumber)([1, 2], [2, 3]), [1])
+assert.deepStrictEqual(difference(eqNumber)([1, 2], [2, 3]), [1])
 ```
 
 Added in v1.12.0
@@ -403,24 +416,24 @@ Added in v1.0.0
 
 # elem (function)
 
-Test if a value is a member of an array. Takes a `Setoid<A>` as a single
+Test if a value is a member of an array. Takes a `Eq<A>` as a single
 argument which returns the function to use to search for a value of type `A` in
 an array of type `Array<A>`.
 
 **Signature**
 
 ```ts
-export const elem = <A>(S: Setoid<A>) => (a: A, as: Array<A>): boolean => ...
+export const elem = <A>(E: Eq<A>) => (a: A, as: Array<A>): boolean => ...
 ```
 
 **Example**
 
 ```ts
 import { elem } from 'fp-ts/lib/Array'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
+import { eqNumber } from 'fp-ts/lib/Eq'
 
-assert.strictEqual(elem(setoidNumber)(1, [1, 2, 3]), true)
-assert.strictEqual(elem(setoidNumber)(4, [1, 2, 3]), false)
+assert.strictEqual(elem(eqNumber)(1, [1, 2, 3]), true)
+assert.strictEqual(elem(eqNumber)(4, [1, 2, 3]), false)
 ```
 
 Added in v1.14.0
@@ -666,6 +679,31 @@ export const foldrL = <A, B>(as: Array<A>, nil: () => B, cons: (init: Array<A>, 
 
 Added in v1.7.0
 
+# getEq (function)
+
+Derives a `Eq` over the `Array` of a given element type from the `Eq` of that type. The derived eq defines two
+arrays as equal if all elements of both arrays are compared equal pairwise with the given eq `S`. In case of
+arrays of different lengths, the result is non equality.
+
+**Signature**
+
+```ts
+export function getEq<A>(E: Eq<A>): Eq<Array<A>> { ... }
+```
+
+**Example**
+
+```ts
+import { eqString } from 'fp-ts/lib/Eq'
+import { getEq } from 'fp-ts/lib/Array'
+
+const E = getEq(eqString)
+assert.strictEqual(E.equals(['a', 'b'], ['a', 'b']), true)
+assert.strictEqual(E.equals(['a'], []), false)
+```
+
+Added in v1.19.0
+
 # getMonoid (function)
 
 **Signature**
@@ -711,31 +749,6 @@ assert.strictEqual(O.compare(['a'], ['b']), -1)
 ```
 
 Added in v1.2.0
-
-# getSetoid (function)
-
-Derives a Setoid over the Array of a given element type from the Setoid of that type. The derived setoid defines two
-arrays as equal if all elements of both arrays are compared equal pairwise with the given setoid `S`. In case of
-arrays of different lengths, the result is non equality.
-
-**Signature**
-
-```ts
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Array<A>> => ...
-```
-
-**Example**
-
-```ts
-import { ordString } from 'fp-ts/lib/Ord'
-import { getSetoid } from 'fp-ts/lib/Array'
-
-const O = getSetoid(ordString)
-assert.strictEqual(O.equals(['a', 'b'], ['a', 'b']), true)
-assert.strictEqual(O.equals(['a'], []), false)
-```
-
-Added in v1.0.0
 
 # getShow (function)
 
@@ -826,22 +839,22 @@ Added in v1.0.0
 
 # intersection (function)
 
-Creates an array of unique values that are included in all given arrays using a `Setoid` for equality
+Creates an array of unique values that are included in all given arrays using a `Eq` for equality
 comparisons. The order and references of result values are determined by the first array.
 
 **Signature**
 
 ```ts
-export const intersection = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => ...
+export const intersection = <A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => ...
 ```
 
 **Example**
 
 ```ts
 import { intersection } from 'fp-ts/lib/Array'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
+import { eqNumber } from 'fp-ts/lib/Eq'
 
-assert.deepStrictEqual(intersection(setoidNumber)([1, 2], [2, 3]), [2])
+assert.deepStrictEqual(intersection(eqNumber)([1, 2], [2, 3]), [2])
 ```
 
 Added in v1.12.0
@@ -875,6 +888,8 @@ Test whether an array is non empty narrowing down the type to `NonEmptyArray<A>`
 ```ts
 export const isNonEmpty = <A>(as: Array<A>): as is NonEmptyArray<A> => ...
 ```
+
+Added in v1.19.0
 
 # isOutOfBound (function)
 
@@ -1005,7 +1020,7 @@ Use `elem` instead
 **Signature**
 
 ```ts
-export const member = <A>(S: Setoid<A>): ((as: Array<A>, a: A) => boolean) => ...
+export const member = <A>(E: Eq<A>): ((as: Array<A>, a: A) => boolean) => ...
 ```
 
 Added in v1.3.0
@@ -1495,21 +1510,21 @@ Added in v1.0.0
 
 # union (function)
 
-Creates an array of unique values, in order, from all given arrays using a `Setoid` for equality comparisons
+Creates an array of unique values, in order, from all given arrays using a `Eq` for equality comparisons
 
 **Signature**
 
 ```ts
-export const union = <A>(S: Setoid<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => ...
+export const union = <A>(E: Eq<A>): ((xs: Array<A>, ys: Array<A>) => Array<A>) => ...
 ```
 
 **Example**
 
 ```ts
 import { union } from 'fp-ts/lib/Array'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
+import { eqNumber } from 'fp-ts/lib/Eq'
 
-assert.deepStrictEqual(union(setoidNumber)([1, 2], [2, 3]), [1, 2, 3])
+assert.deepStrictEqual(union(eqNumber)([1, 2], [2, 3]), [1, 2, 3])
 ```
 
 Added in v1.12.0
@@ -1521,16 +1536,16 @@ Remove duplicates from an array, keeping the first occurance of an element.
 **Signature**
 
 ```ts
-export const uniq = <A>(S: Setoid<A>): ((as: Array<A>) => Array<A>) => ...
+export const uniq = <A>(E: Eq<A>): ((as: Array<A>) => Array<A>) => ...
 ```
 
 **Example**
 
 ```ts
 import { uniq } from 'fp-ts/lib/Array'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
+import { eqNumber } from 'fp-ts/lib/Eq'
 
-assert.deepStrictEqual(uniq(setoidNumber)([1, 2, 1]), [1, 2])
+assert.deepStrictEqual(uniq(eqNumber)([1, 2, 1]), [1, 2])
 ```
 
 Added in v1.3.0

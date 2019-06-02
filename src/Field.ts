@@ -2,7 +2,7 @@
  * @file Adapted from https://github.com/purescript/purescript-prelude/blob/master/src/Data/Field.purs
  */
 import { Ring } from './Ring'
-import { Setoid } from './Setoid'
+import { Eq } from './Eq'
 
 /**
  * @since 1.0.0
@@ -32,9 +32,9 @@ export const fieldNumber: Field<number> = {
  *
  * @since 1.0.0
  */
-export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => {
+export const gcd = <A>(E: Eq<A>, field: Field<A>): ((x: A, y: A) => A) => {
   const zero = field.zero
-  const f = (x: A, y: A): A => (S.equals(y, zero) ? x : f(y, field.mod(x, y)))
+  const f = (x: A, y: A): A => (E.equals(y, zero) ? x : f(y, field.mod(x, y)))
   return f
 }
 
@@ -43,8 +43,8 @@ export const gcd = <A>(S: Setoid<A>, field: Field<A>): ((x: A, y: A) => A) => {
  *
  * @since 1.0.0
  */
-export const lcm = <A>(S: Setoid<A>, F: Field<A>): ((x: A, y: A) => A) => {
+export const lcm = <A>(E: Eq<A>, F: Field<A>): ((x: A, y: A) => A) => {
   const zero = F.zero
-  const gcdSF = gcd(S, F)
-  return (x, y) => (S.equals(x, zero) || S.equals(y, zero) ? zero : F.div(F.mul(x, y), gcdSF(x, y)))
+  const gcdSF = gcd(E, F)
+  return (x, y) => (E.equals(x, zero) || E.equals(y, zero) ? zero : F.div(F.mul(x, y), gcdSF(x, y)))
 }

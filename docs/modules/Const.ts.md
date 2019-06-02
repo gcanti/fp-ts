@@ -17,9 +17,10 @@ parent: Modules
   - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
 - [const\_ (constant)](#const_-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [getApplicative (function)](#getapplicative-function)
 - [getApply (function)](#getapply-function)
-- [getSetoid (function)](#getsetoid-function)
+- [getEq (function)](#geteq-function)
 - [getShow (function)](#getshow-function)
 - [make (function)](#make-function)
 
@@ -104,6 +105,18 @@ export const const_: Functor2<URI> & Contravariant2<URI> = ...
 
 Added in v1.0.0
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <L, A>(S: Eq<L>) => Eq<Const<L, A>> = ...
+```
+
+Added in v1.0.0
+
 # getApplicative (function)
 
 **Signature**
@@ -124,15 +137,15 @@ export const getApply = <L>(S: Semigroup<L>): Apply2C<URI, L> => ...
 
 Added in v1.0.0
 
-# getSetoid (function)
+# getEq (function)
 
 **Signature**
 
 ```ts
-export const getSetoid = <L, A>(S: Setoid<L>): Setoid<Const<L, A>> => ...
+export function getEq<L, A>(S: Eq<L>): Eq<Const<L, A>> { ... }
 ```
 
-Added in v1.0.0
+Added in v1.19.0
 
 # getShow (function)
 

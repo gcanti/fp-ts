@@ -7,7 +7,7 @@ import { Foldable2v1 } from './Foldable2v'
 import { Lazy, toString } from './function'
 import { HKT } from './HKT'
 import { Monad1 } from './Monad'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable2v1 } from './Traversable2v'
 import { pipeable } from './pipeable'
@@ -92,10 +92,18 @@ export const getShow = <A>(S: Show<A>): Show<Identity<A>> => {
 }
 
 /**
+ * Use `getEq`
+ *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => {
-  return fromEquals((x, y) => S.equals(x.value, y.value))
+export const getSetoid: <A>(E: Eq<A>) => Eq<Identity<A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<A>(E: Eq<A>): Eq<Identity<A>> {
+  return fromEquals((x, y) => E.equals(x.value, y.value))
 }
 
 /**

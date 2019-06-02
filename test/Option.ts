@@ -11,7 +11,7 @@ import {
   getLastMonoid,
   getMonoid,
   getOrd,
-  getSetoid,
+  getEq,
   isNone,
   isSome,
   none,
@@ -32,7 +32,7 @@ import {
 } from '../src/Option'
 import { ordString } from '../src/Ord'
 import { semigroupString, semigroupSum } from '../src/Semigroup'
-import { setoidNumber } from '../src/Setoid'
+import { eqNumber } from '../src/Eq'
 import { identity, pipeOp } from '../src/function'
 import { Identity, identity as I } from '../src/Identity'
 import { monoidSum, monoidString } from '../src/Monoid'
@@ -88,7 +88,7 @@ describe('Option', () => {
   })
 
   it('equals', () => {
-    const { equals } = getSetoid(setoidNumber)
+    const { equals } = getEq(eqNumber)
     assert.strictEqual(equals(none, none), true)
     assert.strictEqual(equals(none, some(1)), false)
     assert.strictEqual(equals(some(1), none), false)
@@ -104,13 +104,13 @@ describe('Option', () => {
     assert.deepStrictEqual(option.map(some(2), f), some(4))
   })
 
-  it('getSetoid', () => {
-    const O = getSetoid(ordString)
-    assert.deepStrictEqual(O.equals(none, none), true)
-    assert.deepStrictEqual(O.equals(some('a'), none), false)
-    assert.deepStrictEqual(O.equals(none, some('a')), false)
-    assert.deepStrictEqual(O.equals(some('a'), some('a')), true)
-    assert.deepStrictEqual(O.equals(some('a'), some('b')), false)
+  it('getEq', () => {
+    const E = getEq(ordString)
+    assert.deepStrictEqual(E.equals(none, none), true)
+    assert.deepStrictEqual(E.equals(some('a'), none), false)
+    assert.deepStrictEqual(E.equals(none, some('a')), false)
+    assert.deepStrictEqual(E.equals(some('a'), some('a')), true)
+    assert.deepStrictEqual(E.equals(some('a'), some('b')), false)
   })
 
   it('getOrd', () => {
@@ -282,9 +282,9 @@ describe('Option', () => {
 
   it('elem / contains', () => {
     const x: Option<number> = none
-    assert.deepStrictEqual(elem(setoidNumber)(2)(x), false)
-    assert.deepStrictEqual(some(2).contains(setoidNumber, 2), true)
-    assert.deepStrictEqual(some(2).contains(setoidNumber, 1), false)
+    assert.deepStrictEqual(elem(eqNumber)(2)(x), false)
+    assert.deepStrictEqual(some(2).contains(eqNumber, 2), true)
+    assert.deepStrictEqual(some(2).contains(eqNumber, 1), false)
   })
 
   it('isNone', () => {

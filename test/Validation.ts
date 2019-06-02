@@ -6,7 +6,7 @@ import * as I from '../src/Identity'
 import { monoidString, monoidSum, getArrayMonoid } from '../src/Monoid'
 import { none, option, Option, some } from '../src/Option'
 import { semigroupString } from '../src/Semigroup'
-import { setoidNumber, setoidString } from '../src/Setoid'
+import { eqNumber, eqString } from '../src/Eq'
 import * as T from '../src/Traversable'
 import {
   failure,
@@ -18,7 +18,7 @@ import {
   getMonad,
   getMonoid,
   getSemigroup,
-  getSetoid,
+  getEq,
   getWitherable,
   isFailure,
   isSuccess,
@@ -73,8 +73,8 @@ describe('Validation', () => {
     assert.deepStrictEqual(fromEither(left<string, number>('error')), failure('error'))
   })
 
-  it('getSetoid', () => {
-    const { equals } = getSetoid(setoidString, setoidNumber)
+  it('getEq', () => {
+    const { equals } = getEq(eqString, eqNumber)
     assert.strictEqual(equals(success(1), success(1)), true)
     assert.strictEqual(equals(success(1), success(2)), false)
     assert.strictEqual(equals(success(2), success(1)), false)

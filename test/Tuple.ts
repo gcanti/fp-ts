@@ -6,7 +6,7 @@ import { identity, pipeOp } from '../src/function'
 import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
-import { setoidBoolean, setoidNumber } from '../src/Setoid'
+import { eqBoolean, eqNumber } from '../src/Eq'
 import * as T from '../src/Traversable'
 import {
   getApplicative,
@@ -16,7 +16,7 @@ import {
   getMonoid,
   getOrd,
   getSemigroup,
-  getSetoid,
+  getEq,
   Tuple,
   tuple,
   getShow,
@@ -208,8 +208,8 @@ describe('Tuple', () => {
     assert.strictEqual(new Tuple(1, 2).toString(), 'new Tuple(1, 2)')
   })
 
-  it('getSetoid', () => {
-    const S = getSetoid(setoidNumber, setoidBoolean)
+  it('getEq', () => {
+    const S = getEq(eqNumber, eqBoolean)
     assert.strictEqual(S.equals(new Tuple(1, true), new Tuple(1, true)), true)
     assert.strictEqual(S.equals(new Tuple(1, true), new Tuple(2, true)), false)
     assert.strictEqual(S.equals(new Tuple(1, true), new Tuple(1, false)), false)

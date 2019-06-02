@@ -27,7 +27,7 @@ import { HKT } from './HKT'
 import { Monad2C } from './Monad'
 import { none, Option, some } from './Option'
 import { Semigroup } from './Semigroup'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable2v2 } from './Traversable2v'
 import { pipeable } from './pipeable'
@@ -167,15 +167,23 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<These<L, A>> => {
 }
 
 /**
+ * Use `getEq`
+ *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <L, A>(SL: Setoid<L>, SA: Setoid<A>): Setoid<These<L, A>> => {
+export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<These<L, A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<These<L, A>> {
   return fromEquals((x, y) =>
     x.isThis()
-      ? y.isThis() && SL.equals(x.value, y.value)
+      ? y.isThis() && EL.equals(x.value, y.value)
       : x.isThat()
-      ? y.isThat() && SA.equals(x.value, y.value)
-      : y.isBoth() && SL.equals(x.l, y.l) && SA.equals(x.a, y.a)
+      ? y.isThat() && EA.equals(x.value, y.value)
+      : y.isBoth() && EL.equals(x.l, y.l) && EA.equals(x.a, y.a)
   )
 }
 

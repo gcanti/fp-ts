@@ -29,11 +29,12 @@ type Forest<A> = Array<Tree<A>>
   - [inspect (method)](#inspect-method)
   - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [tree (constant)](#tree-constant)
 - [drawForest (function)](#drawforest-function)
 - [drawTree (function)](#drawtree-function)
 - [elem (function)](#elem-function)
-- [getSetoid (function)](#getsetoid-function)
+- [getEq (function)](#geteq-function)
 - [getShow (function)](#getshow-function)
 - [make (function)](#make-function)
 - [unfoldForest (function)](#unfoldforest-function)
@@ -156,6 +157,18 @@ toString(): string { ... }
 export const URI = ...
 ```
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <A>(E: Eq<A>) => Eq<Tree<A>> = ...
+```
+
+Added in v1.6.0
+
 # tree (constant)
 
 **Signature**
@@ -213,20 +226,20 @@ Added in v1.6.0
 **Signature**
 
 ```ts
-export function elem<A>(S: Setoid<A>): (a: A, fa: Tree<A>) => boolean { ... }
+export function elem<A>(E: Eq<A>): (a: A, fa: Tree<A>) => boolean { ... }
 ```
 
 Added in v1.14.0
 
-# getSetoid (function)
+# getEq (function)
 
 **Signature**
 
 ```ts
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Tree<A>> => ...
+export function getEq<A>(E: Eq<A>): Eq<Tree<A>> { ... }
 ```
 
-Added in v1.6.0
+Added in v1.19.0
 
 # getShow (function)
 

@@ -23,8 +23,9 @@ parent: Modules
   - [inspect (method)](#inspect-method)
   - [toString (method)](#tostring-method)
 - [URI (constant)](#uri-constant)
+- [~~getSetoid~~ (constant)](#getsetoid-constant)
 - [identity (constant)](#identity-constant)
-- [getSetoid (function)](#getsetoid-function)
+- [getEq (function)](#geteq-function)
 - [getShow (function)](#getshow-function)
 
 ---
@@ -169,6 +170,18 @@ toString(): string { ... }
 export const URI = ...
 ```
 
+# ~~getSetoid~~ (constant)
+
+Use `getEq`
+
+**Signature**
+
+```ts
+export const getSetoid: <A>(E: Eq<A>) => Eq<Identity<A>> = ...
+```
+
+Added in v1.0.0
+
 # identity (constant)
 
 **Signature**
@@ -184,15 +197,15 @@ export const identity: Monad1<URI> &
 
 Added in v1.0.0
 
-# getSetoid (function)
+# getEq (function)
 
 **Signature**
 
 ```ts
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Identity<A>> => ...
+export function getEq<A>(E: Eq<A>): Eq<Identity<A>> { ... }
 ```
 
-Added in v1.0.0
+Added in v1.19.0
 
 # getShow (function)
 

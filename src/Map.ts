@@ -9,7 +9,7 @@ import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
 import { Monoid } from './Monoid'
 import { Option, none, some } from './Option'
 import { Ord } from './Ord'
-import { Setoid, fromEquals } from './Setoid'
+import { Eq, fromEquals } from './Eq'
 import { TraversableWithIndex2C } from './TraversableWithIndex'
 import { Unfoldable, Unfoldable1 } from './Unfoldable'
 import { Semigroup } from './Semigroup'
@@ -67,9 +67,9 @@ export const isEmpty = <K, A>(d: Map<K, A>): boolean => d.size === 0
  *
  * @since 1.14.0
  */
-export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
-  const lookupS = lookup(S)
-  return (k, m) => lookupS(k, m).isSome()
+export const member = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => boolean) => {
+  const lookupE = lookup(E)
+  return (k, m) => lookupE(k, m).isSome()
 }
 
 /**
@@ -77,12 +77,12 @@ export const member = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => boolean) =>
  *
  * @since 1.14.0
  */
-export const elem = <A>(S: Setoid<A>) => <K>(a: A, m: Map<K, A>): boolean => {
+export const elem = <A>(E: Eq<A>) => <K>(a: A, m: Map<K, A>): boolean => {
   const values = m.values()
   let e: IteratorResult<A>
   while (!(e = values.next()).done) {
     const v = e.value
-    if (S.equals(a, v)) {
+    if (E.equals(a, v)) {
       return true
     }
   }
@@ -152,10 +152,10 @@ export function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d:
  *
  * @since 1.14.0
  */
-export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => {
-  const lookupS = lookupWithKey(S)
+export const insert = <K>(E: Eq<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K, A>) => {
+  const lookupE = lookupWithKey(E)
   return (k, a, m) => {
-    const found = lookupS(k, m)
+    const found = lookupE(k, m)
     if (found.isNone()) {
       const r = new Map(m)
       r.set(k, a)
@@ -174,10 +174,10 @@ export const insert = <K>(S: Setoid<K>): (<A>(k: K, a: A, m: Map<K, A>) => Map<K
  *
  * @since 1.14.0
  */
-export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => {
-  const lookupS = lookupWithKey(S)
+export const remove = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) => {
+  const lookupE = lookupWithKey(E)
   return (k, m) => {
-    const found = lookupS(k, m)
+    const found = lookupE(k, m)
     if (found.isSome()) {
       const r = new Map(m)
       r.delete(found.value[0])
@@ -192,10 +192,10 @@ export const remove = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Map<K, A>) 
  *
  * @since 1.14.0
  */
-export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => {
-  const lookupS = lookup(S)
-  const removeS = remove(S)
-  return (k, m) => lookupS(k, m).map(a => [a, removeS(k, m)])
+export const pop = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map<K, A>]>) => {
+  const lookupE = lookup(E)
+  const removeE = remove(E)
+  return (k, m) => lookupE(k, m).map(a => [a, removeE(k, m)])
 }
 
 /**
@@ -204,12 +204,12 @@ export const pop = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<[A, Map
  *
  * @since 1.14.0
  */
-export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => {
+export const lookupWithKey = <K>(E: Eq<K>) => <A>(k: K, m: Map<K, A>): Option<[K, A]> => {
   const entries = m.entries()
   let e: IteratorResult<[K, A]>
   while (!(e = entries.next()).done) {
     const [ka, a] = e.value
-    if (S.equals(ka, k)) {
+    if (E.equals(ka, k)) {
       return some([ka, a])
     }
   }
@@ -221,9 +221,9 @@ export const lookupWithKey = <K>(S: Setoid<K>) => <A>(k: K, m: Map<K, A>): Optio
  *
  * @since 1.14.0
  */
-export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => {
-  const lookupWithKeyS = lookupWithKey(S)
-  return (k, m) => lookupWithKeyS(k, m).map(([_, a]) => a)
+export const lookup = <K>(E: Eq<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) => {
+  const lookupWithKeyE = lookupWithKey(E)
+  return (k, m) => lookupWithKeyE(k, m).map(([_, a]) => a)
 }
 
 /**
@@ -231,15 +231,15 @@ export const lookup = <K>(S: Setoid<K>): (<A>(k: K, m: Map<K, A>) => Option<A>) 
  *
  * @since 1.14.0
  */
-export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => {
-  const lookupWithKeyS = lookupWithKey(SK)
+export const isSubmap = <K, A>(EK: Eq<K>, EA: Eq<A>): ((d1: Map<K, A>, d2: Map<K, A>) => boolean) => {
+  const lookupWithKeyEK = lookupWithKey(EK)
   return (d1: Map<K, A>, d2: Map<K, A>): boolean => {
     const entries = d1.entries()
     let e: IteratorResult<[K, A]>
     while (!(e = entries.next()).done) {
       const [k, a] = e.value
-      const d2OptA = lookupWithKeyS(k, d2)
-      if (d2OptA.isNone() || !SK.equals(k, d2OptA.value[0]) || !SA.equals(a, d2OptA.value[1])) {
+      const d2OptA = lookupWithKeyEK(k, d2)
+      if (d2OptA.isNone() || !EK.equals(k, d2OptA.value[0]) || !EA.equals(a, d2OptA.value[1])) {
         return false
       }
     }
@@ -253,10 +253,18 @@ export const isSubmap = <K, A>(SK: Setoid<K>, SA: Setoid<A>): ((d1: Map<K, A>, d
 export const empty = new Map<never, never>()
 
 /**
+ * Use `getEq`
+ *
  * @since 1.14.0
+ * @deprecated
  */
-export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>> => {
-  const isSubmap_ = isSubmap(SK, SA)
+export const getSetoid: <K, A>(EK: Eq<K>, EA: Eq<A>) => Eq<Map<K, A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<K, A>(EK: Eq<K>, EA: Eq<A>): Eq<Map<K, A>> {
+  const isSubmap_ = isSubmap(EK, EA)
   return fromEquals((x, y) => isSubmap_(x, y) && isSubmap_(y, x))
 }
 
@@ -265,8 +273,8 @@ export const getSetoid = <K, A>(SK: Setoid<K>, SA: Setoid<A>): Setoid<Map<K, A>>
  *
  * @since 1.14.0
  */
-export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, A>> => {
-  const lookupWithKeyS = lookupWithKey(SK)
+export const getMonoid = <K, A>(EK: Eq<K>, EA: Semigroup<A>): Monoid<Map<K, A>> => {
+  const lookupWithKeyEK = lookupWithKey(EK)
   return {
     concat: (mx, my) => {
       const r = new Map(mx)
@@ -274,9 +282,9 @@ export const getMonoid = <K, A>(SK: Setoid<K>, SA: Semigroup<A>): Monoid<Map<K, 
       let e: IteratorResult<[K, A]>
       while (!(e = entries.next()).done) {
         const [k, a] = e.value
-        const mxOptA = lookupWithKeyS(k, mx)
+        const mxOptA = lookupWithKeyEK(k, mx)
         if (mxOptA.isSome()) {
-          r.set(mxOptA.value[0], SA.concat(mxOptA.value[1], a))
+          r.set(mxOptA.value[0], EA.concat(mxOptA.value[1], a))
         } else {
           r.set(k, a)
         }
@@ -597,29 +605,29 @@ const filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<K
  * @since 1.14.0
  */
 export function fromFoldable<K, F extends URIS3>(
-  S: Setoid<K>,
+  E: Eq<K>,
   F: Foldable2v3<F>
 ): <U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS2>(
-  S: Setoid<K>,
+  E: Eq<K>,
   F: Foldable2v2<F>
 ): <L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F extends URIS>(
-  S: Setoid<K>,
+  E: Eq<K>,
   F: Foldable2v1<F>
 ): <A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
-  S: Setoid<K>,
+  E: Eq<K>,
   F: Foldable2v<F>
 ): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>
 export function fromFoldable<K, F>(
-  S: Setoid<K>,
+  E: Eq<K>,
   F: Foldable2v<F>
 ): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A> {
   return <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => {
-    const lookupWithKeyS = lookupWithKey(S)
+    const lookupWithKeyE = lookupWithKey(E)
     return F.reduce<[K, A], Map<K, A>>(ta, new Map<K, A>(), (b, [k, a]) => {
-      const bOpt = lookupWithKeyS(k, b)
+      const bOpt = lookupWithKeyE(k, b)
       if (bOpt.isSome()) {
         b.set(bOpt.value[0], onConflict(bOpt.value[1], a))
       } else {

@@ -16,7 +16,7 @@ import { contramap as contramapOrd, getSemigroup as getOrdSemigroup, Ord } from 
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { Semigroupoid2 } from './Semigroupoid'
-import { fromEquals, Setoid } from './Setoid'
+import { fromEquals, Eq } from './Eq'
 import { Show } from './Show'
 import { Traversable2v2 } from './Traversable2v'
 
@@ -81,11 +81,20 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Tuple<L, A>> => {
 }
 
 /**
+ * Use `getEq`
+ *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <L, A>(SA: Setoid<L>, SB: Setoid<A>): Setoid<Tuple<L, A>> => {
-  return fromEquals((x, y) => SA.equals(x.fst, y.fst) && SB.equals(x.snd, y.snd))
+export const getSetoid: <L, A>(EL: Eq<L>, EA: Eq<A>) => Eq<Tuple<L, A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<L, A>(EL: Eq<L>, EA: Eq<A>): Eq<Tuple<L, A>> {
+  return fromEquals((x, y) => EL.equals(x.fst, y.fst) && EA.equals(x.snd, y.snd))
 }
+
 /**
  * To obtain the result, the `fst`s are `compare`d, and if they are `EQ`ual, the
  * `snd`s are `compare`d.

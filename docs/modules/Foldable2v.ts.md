@@ -233,30 +233,27 @@ Test whether a value is an element of a data structure
 **Signature**
 
 ```ts
-export function elem<F extends URIS3, A>(
-  S: Setoid<A>,
-  F: Foldable2v3<F>
-): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
+export function elem<F extends URIS3, A>(E: Eq<A>, F: Foldable2v3<F>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
 export function elem<F extends URIS3, A, U, L>(
-  S: Setoid<A>,
+  E: Eq<A>,
   F: Foldable2v3C<F, U, L>
 ): (a: A, fa: Type3<F, U, L, A>) => boolean
-export function elem<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS2, A, L>(S: Setoid<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
-export function elem<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
-export function elem<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean { ... }
+export function elem<F extends URIS2, A>(E: Eq<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
+export function elem<F extends URIS2, A, L>(E: Eq<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
+export function elem<F extends URIS, A>(E: Eq<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
+export function elem<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean { ... }
 ```
 
 **Example**
 
 ```ts
 import { elem } from 'fp-ts/lib/Foldable2v'
-import { setoidNumber } from 'fp-ts/lib/Setoid'
+import { eqNumber } from 'fp-ts/lib/Eq'
 import { Tree, tree } from 'fp-ts/lib/Tree'
 
 const t = new Tree(1, [new Tree(2, []), new Tree(3, []), new Tree(4, [])])
-assert.strictEqual(elem(setoidNumber, tree)(2, t), true)
-assert.strictEqual(elem(setoidNumber, tree)(5, t), false)
+assert.strictEqual(elem(eqNumber, tree)(2, t), true)
+assert.strictEqual(elem(eqNumber, tree)(5, t), false)
 ```
 
 Added in v1.14.0
@@ -501,21 +498,15 @@ Use `elem` instead
 **Signature**
 
 ```ts
-export function member<F extends URIS3, A>(
-  S: Setoid<A>,
-  F: Foldable2v3<F>
-): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
+export function member<F extends URIS3, A>(E: Eq<A>, F: Foldable2v3<F>): <U, L>(a: A, fa: Type3<F, U, L, A>) => boolean
 export function member<F extends URIS3, A, U, L>(
-  S: Setoid<A>,
+  E: Eq<A>,
   F: Foldable2v3C<F, U, L>
 ): (a: A, fa: Type3<F, U, L, A>) => boolean
-export function member<F extends URIS2, A>(S: Setoid<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
-export function member<F extends URIS2, A, L>(
-  S: Setoid<A>,
-  F: Foldable2v2C<F, L>
-): (a: A, fa: Type2<F, L, A>) => boolean
-export function member<F extends URIS, A>(S: Setoid<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
-export function member<F, A>(S: Setoid<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean { ... }
+export function member<F extends URIS2, A>(E: Eq<A>, F: Foldable2v2<F>): <L>(a: A, fa: Type2<F, L, A>) => boolean
+export function member<F extends URIS2, A, L>(E: Eq<A>, F: Foldable2v2C<F, L>): (a: A, fa: Type2<F, L, A>) => boolean
+export function member<F extends URIS, A>(E: Eq<A>, F: Foldable2v1<F>): (a: A, fa: Type<F, A>) => boolean
+export function member<F, A>(E: Eq<A>, F: Foldable2v<F>): (a: A, fa: HKT<F, A>) => boolean { ... }
 ```
 
 Added in v1.10.0

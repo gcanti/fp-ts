@@ -2,7 +2,7 @@ import { Either } from './Either'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
 import { Semigroup } from './Semigroup'
-import { Setoid, fromEquals } from './Setoid'
+import { Eq, fromEquals } from './Eq'
 import { Predicate, not, Refinement, identity } from './function'
 import { Separated } from './Compactable'
 import { Option } from './Option'
@@ -41,11 +41,19 @@ export const toArray = <A>(O: Ord<A>) => (x: Set<A>): Array<A> => {
 }
 
 /**
+ * Use `getEq`
+ *
  * @since 1.0.0
+ * @deprecated
  */
-export const getSetoid = <A>(S: Setoid<A>): Setoid<Set<A>> => {
-  const subsetS = subset(S)
-  return fromEquals((x, y) => subsetS(x, y) && subsetS(y, x))
+export const getSetoid: <A>(E: Eq<A>) => Eq<Set<A>> = getEq
+
+/**
+ * @since 1.19.0
+ */
+export function getEq<A>(E: Eq<A>): Eq<Set<A>> {
+  const subsetE = subset(E)
+  return fromEquals((x, y) => subsetE(x, y) && subsetE(y, x))
 }
 
 /**
@@ -66,8 +74,8 @@ export const some = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
  *
  * @since 1.2.0
  */
-export const map = <B>(S: Setoid<B>): (<A>(set: Set<A>, f: (x: A) => B) => Set<B>) => {
-  const has = elem(S)
+export const map = <B>(E: Eq<B>): (<A>(set: Set<A>, f: (x: A) => B) => Set<B>) => {
+  const has = elem(E)
   return (set, f) => {
     const r = new Set<B>()
     set.forEach(e => {
@@ -90,8 +98,8 @@ export const every = <A>(x: Set<A>, predicate: Predicate<A>): boolean => {
 /**
  * @since 1.2.0
  */
-export const chain = <B>(S: Setoid<B>): (<A>(set: Set<A>, f: (x: A) => Set<B>) => Set<B>) => {
-  const has = elem(S)
+export const chain = <B>(E: Eq<B>): (<A>(set: Set<A>, f: (x: A) => Set<B>) => Set<B>) => {
+  const has = elem(E)
   return (set, f) => {
     let r = new Set<B>()
     set.forEach(e => {
@@ -110,8 +118,8 @@ export const chain = <B>(S: Setoid<B>): (<A>(set: Set<A>, f: (x: A) => Set<B>) =
  *
  * @since 1.0.0
  */
-export const subset = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => boolean) => {
-  const has = elem(S)
+export const subset = <A>(E: Eq<A>): ((x: Set<A>, y: Set<A>) => boolean) => {
+  const has = elem(E)
   return (x, y) => every(x, a => has(a, y))
 }
 
@@ -159,8 +167,8 @@ export function partition<A>(x: Set<A>, predicate: Predicate<A>): Separated<Set<
  * @since 1.0.0
  * @deprecated
  */
-export const member = <A>(S: Setoid<A>): ((set: Set<A>) => (a: A) => boolean) => {
-  const has = elem(S)
+export const member = <A>(E: Eq<A>): ((set: Set<A>) => (a: A) => boolean) => {
+  const has = elem(E)
   return set => a => has(a, set)
 }
 
@@ -169,8 +177,8 @@ export const member = <A>(S: Setoid<A>): ((set: Set<A>) => (a: A) => boolean) =>
  *
  * @since 1.14.0
  */
-export const elem = <A>(S: Setoid<A>) => (a: A, x: Set<A>): boolean => {
-  return some(x, (ax: A) => S.equals(a, ax))
+export const elem = <A>(E: Eq<A>) => (a: A, x: Set<A>): boolean => {
+  return some(x, (ax: A) => E.equals(a, ax))
 }
 
 /**
@@ -178,8 +186,8 @@ export const elem = <A>(S: Setoid<A>) => (a: A, x: Set<A>): boolean => {
  *
  * @since 1.0.0
  */
-export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const has = elem(S)
+export const union = <A>(E: Eq<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
+  const has = elem(E)
   return (x, y) => {
     const r = new Set(x)
     y.forEach(e => {
@@ -196,8 +204,8 @@ export const union = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
  *
  * @since 1.0.0
  */
-export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const has = elem(S)
+export const intersection = <A>(E: Eq<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
+  const has = elem(E)
   return (x, y) => {
     const r = new Set<A>()
     x.forEach(e => {
@@ -212,7 +220,7 @@ export const intersection = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>
 /**
  * @since 1.2.0
  */
-export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
+export const partitionMap = <L, R>(EL: Eq<L>, ER: Eq<R>) => <A>(
   x: Set<A>,
   f: (a: A) => Either<L, R>
 ): Separated<Set<L>, Set<R>> => {
@@ -220,8 +228,8 @@ export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
   let e: IteratorResult<A>
   let left = new Set<L>()
   let right = new Set<R>()
-  const hasL = elem(SL)
-  const hasR = elem(SR)
+  const hasL = elem(EL)
+  const hasR = elem(ER)
   while (!(e = values.next()).done) {
     const v = f(e.value)
     if (v.isLeft()) {
@@ -243,8 +251,8 @@ export const partitionMap = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => <A>(
  * @since 1.0.0
  * @deprecated
  */
-export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const d = difference2v(S)
+export const difference = <A>(E: Eq<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
+  const d = difference2v(E)
   return (x, y) => d(y, x)
 }
 
@@ -253,24 +261,24 @@ export const difference = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) 
  *
  * @example
  * import { difference2v } from 'fp-ts/lib/Set'
- * import { setoidNumber } from 'fp-ts/lib/Setoid'
+ * import { eqNumber } from 'fp-ts/lib/Eq'
  *
- * assert.deepStrictEqual(difference2v(setoidNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
+ * assert.deepStrictEqual(difference2v(eqNumber)(new Set([1, 2]), new Set([1, 3])), new Set([2]))
  *
  *
  * @since 1.12.0
  */
-export const difference2v = <A>(S: Setoid<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
-  const has = elem(S)
+export const difference2v = <A>(E: Eq<A>): ((x: Set<A>, y: Set<A>) => Set<A>) => {
+  const has = elem(E)
   return (x, y) => filter(x, a => !has(a, y))
 }
 
 /**
  * @since 1.0.0
  */
-export const getUnionMonoid = <A>(S: Setoid<A>): Monoid<Set<A>> => {
+export const getUnionMonoid = <A>(E: Eq<A>): Monoid<Set<A>> => {
   return {
-    concat: union(S),
+    concat: union(E),
     empty
   }
 }
@@ -278,9 +286,9 @@ export const getUnionMonoid = <A>(S: Setoid<A>): Monoid<Set<A>> => {
 /**
  * @since 1.0.0
  */
-export const getIntersectionSemigroup = <A>(S: Setoid<A>): Semigroup<Set<A>> => {
+export const getIntersectionSemigroup = <A>(E: Eq<A>): Semigroup<Set<A>> => {
   return {
-    concat: intersection(S)
+    concat: intersection(E)
   }
 }
 
@@ -314,8 +322,8 @@ export const singleton = <A>(a: A): Set<A> => {
  *
  * @since 1.0.0
  */
-export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => {
-  const has = elem(S)
+export const insert = <A>(E: Eq<A>): ((a: A, x: Set<A>) => Set<A>) => {
+  const has = elem(E)
   return (a, x) => {
     if (!has(a, x)) {
       const r = new Set(x)
@@ -332,8 +340,8 @@ export const insert = <A>(S: Setoid<A>): ((a: A, x: Set<A>) => Set<A>) => {
  *
  * @since 1.0.0
  */
-export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => {
-  return filter(x, (ax: A) => !S.equals(a, ax))
+export const remove = <A>(E: Eq<A>) => (a: A, x: Set<A>): Set<A> => {
+  return filter(x, (ax: A) => !E.equals(a, ax))
 }
 
 /**
@@ -341,10 +349,10 @@ export const remove = <A>(S: Setoid<A>) => (a: A, x: Set<A>): Set<A> => {
  *
  * @since 1.2.0
  */
-export const fromArray = <A>(S: Setoid<A>) => (as: Array<A>): Set<A> => {
+export const fromArray = <A>(E: Eq<A>) => (as: Array<A>): Set<A> => {
   const len = as.length
   const r = new Set<A>()
-  const has = elem(S)
+  const has = elem(E)
   for (let i = 0; i < len; i++) {
     const a = as[i]
     if (!has(a, r)) {
@@ -357,17 +365,17 @@ export const fromArray = <A>(S: Setoid<A>) => (as: Array<A>): Set<A> => {
 /**
  * @since 1.12.0
  */
-export const compact = <A>(S: Setoid<A>): ((fa: Set<Option<A>>) => Set<A>) => {
-  const filterMapS = filterMap(S)
-  return fa => filterMapS(fa, identity)
+export const compact = <A>(E: Eq<A>): ((fa: Set<Option<A>>) => Set<A>) => {
+  const filterMapE = filterMap(E)
+  return fa => filterMapE(fa, identity)
 }
 
 /**
  * @since 1.12.0
  */
-export const separate = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<L, R>>): Separated<Set<L>, Set<R>> => {
-  const hasL = elem(SL)
-  const hasR = elem(SR)
+export const separate = <L, R>(EL: Eq<L>, ER: Eq<R>) => (fa: Set<Either<L, R>>): Separated<Set<L>, Set<R>> => {
+  const hasL = elem(EL)
+  const hasR = elem(ER)
   const left: Set<L> = new Set()
   const right: Set<R> = new Set()
   fa.forEach(e => {
@@ -387,8 +395,8 @@ export const separate = <L, R>(SL: Setoid<L>, SR: Setoid<R>) => (fa: Set<Either<
 /**
  * @since 1.12.0
  */
-export const filterMap = <B>(S: Setoid<B>): (<A>(fa: Set<A>, f: (a: A) => Option<B>) => Set<B>) => {
-  const has = elem(S)
+export const filterMap = <B>(E: Eq<B>): (<A>(fa: Set<A>, f: (a: A) => Option<B>) => Set<B>) => {
+  const has = elem(E)
   return (fa, f) => {
     const r: Set<B> = new Set()
     fa.forEach(a => {
