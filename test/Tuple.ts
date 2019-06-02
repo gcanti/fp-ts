@@ -2,7 +2,7 @@ import * as assert from 'assert'
 import { sort } from '../src/Array'
 import { left, right } from '../src/Either'
 import * as F from '../src/Foldable'
-import { identity } from '../src/function'
+import { identity, pipeOp } from '../src/function'
 import { getArrayMonoid, monoidString, monoidSum } from '../src/Monoid'
 import { none, option, some } from '../src/Option'
 import { ordNumber, ordString } from '../src/Ord'
@@ -19,7 +19,8 @@ import {
   getSetoid,
   Tuple,
   tuple,
-  getShow
+  getShow,
+  swap
 } from '../src/Tuple'
 import { showString } from '../src/Show'
 
@@ -130,7 +131,7 @@ describe('Tuple', () => {
   })
 
   it('swap', () => {
-    assert.deepStrictEqual(new Tuple('a', 1).swap(), new Tuple(1, 'a'))
+    assert.deepStrictEqual(pipeOp(new Tuple('a', 1), swap), new Tuple(1, 'a'))
   })
 
   it('toTuple', () => {
