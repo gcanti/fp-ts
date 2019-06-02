@@ -25,7 +25,7 @@
  * ```
  */
 
-import { Alt2 } from './Alt'
+import { Alt2, Alt2C } from './Alt'
 import { Applicative } from './Applicative'
 import { Bifunctor2 } from './Bifunctor'
 import { ChainRec2, tailRec } from './ChainRec'
@@ -35,7 +35,7 @@ import { Filterable2C } from './Filterable'
 import { Foldable2v2 } from './Foldable2v'
 import { Lazy, phantom, Predicate, Refinement, toString, identity } from './function'
 import { HKT } from './HKT'
-import { Monad2 } from './Monad'
+import { Monad2, Monad2C } from './Monad'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Semigroup } from './Semigroup'
@@ -778,6 +778,59 @@ export function filterOrElse<E, A, B extends A>(
 export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>
 export function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A> {
   return ma => ma.filterOrElseL(predicate, onFalse)
+}
+
+/**
+ * @since 1.19.0
+ */
+export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> {
+  return {
+    URI,
+    _L: phantom,
+    map: either.map,
+    of: either.of,
+    ap: <A, B>(mab: Either<E, (a: A) => B>, ma: Either<E, A>): Either<E, B> =>
+      isLeft(mab)
+        ? isLeft(ma)
+          ? left(S.concat(mab.value, ma.value))
+          : (mab as any)
+        : isLeft(ma)
+        ? ma
+        : right(mab.value(ma.value)),
+    chain: either.chain,
+    alt: (fx, fy) => {
+      if (isRight(fx)) {
+        return fx
+      }
+      return isLeft(fy) ? left(S.concat(fx.value, fy.value)) : fy
+    }
+  }
+}
+
+/**
+ * @since 1.19.0
+ */
+export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> {
+  return {
+    concat: (fx, fy) =>
+      isLeft(fx)
+        ? isLeft(fy)
+          ? left(SE.concat(fx.value, fy.value))
+          : fx
+        : isLeft(fy)
+        ? fy
+        : right(SA.concat(fx.value, fy.value))
+  }
+}
+
+/**
+ * @since 1.19.0
+ */
+export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>> {
+  return {
+    concat: getValidationSemigroup(SE, SA).concat,
+    empty: right(SA.empty)
+  }
 }
 
 const {

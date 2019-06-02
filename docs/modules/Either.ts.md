@@ -103,6 +103,9 @@ left(23).map(double) // left(23)
 - [getOrElse (function)](#getorelse-function)
 - [getSemigroup (function)](#getsemigroup-function)
 - [getShow (function)](#getshow-function)
+- [getValidation (function)](#getvalidation-function)
+- [getValidationMonoid (function)](#getvalidationmonoid-function)
+- [getValidationSemigroup (function)](#getvalidationsemigroup-function)
 - [getWitherable (function)](#getwitherable-function)
 - [isLeft (function)](#isleft-function)
 - [isRight (function)](#isright-function)
@@ -839,6 +842,36 @@ export const getShow = <L, A>(SL: Show<L>, SA: Show<A>): Show<Either<L, A>> => .
 ```
 
 Added in v1.17.0
+
+# getValidation (function)
+
+**Signature**
+
+```ts
+export function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E> { ... }
+```
+
+Added in v1.19.0
+
+# getValidationMonoid (function)
+
+**Signature**
+
+```ts
+export function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>> { ... }
+```
+
+Added in v1.19.0
+
+# getValidationSemigroup (function)
+
+**Signature**
+
+```ts
+export function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semigroup<A>): Semigroup<Either<E, A>> { ... }
+```
+
+Added in v1.19.0
 
 # getWitherable (function)
 
