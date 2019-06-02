@@ -103,9 +103,10 @@ export const unsafeMonoidArray: Monoid<Array<any>> = {
 }
 
 /**
- * `Monoid` under array concatenation
+ * Use `Array`'s `getMonoid`
  *
  * @since 1.0.0
+ * @deprecated
  */
 export const getArrayMonoid = <A = never>(): Monoid<Array<A>> => {
   return unsafeMonoidArray

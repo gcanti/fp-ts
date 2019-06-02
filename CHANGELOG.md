@@ -58,6 +58,8 @@ pipeOp(
   - backport `pipeOp` function form v2 (@gcanti)
 - **Deprecations**
   - deprecate `Setoid` in favour of `Eq` (@gcanti)
+  - `Monoid`
+    - deprecate `getArrayMonoid` in favour of `Array`'s `getMonoid` (@gcanti)
   - `Const`
     - deprecate `Const` constructor in favour of `make` (@gcanti)
   - `Either`
